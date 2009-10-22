@@ -1,0 +1,702 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xhtml:html xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xforms="http://www.w3.org/2002/xforms" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xhtml:head>
+        <xhtml:title>Rule editor</xhtml:title>
+        <xforms:model id="rules">
+            <xforms:instance>
+                <rules lang="xx" xmlns="">
+                    <!-- tests for phrase syntax -->
+                    <unification feature="case_sensitivity">
+                        <equivalence type="startupper">
+                            <token regexp="yes">\p{Lu}\p{Ll}+</token>
+                        </equivalence>
+                        <equivalence type="lowercase">
+                            <token regexp="yes">\p{Ll}+</token>
+                        </equivalence>
+                    </unification>
+                    <phrases>
+                        <phrase id="UNIFICATION_PHRASE">
+                            <unify feature="case_sensitivity" type="startupper">
+                                <token/>
+                                <token>York</token>
+                            </unify>
+                        </phrase>
+                        <phrase id="NP">
+                            <token>trivial</token>
+                            <token>phrase</token>
+                            <token>demo</token>
+                            <token>
+                                <exception>exception</exception>
+                            </token>
+                        </phrase>
+                        <phrase id="COMPLEX_PHRASE">
+                            <token>complex</token>
+                            <includephrases>
+                                <phraseref idref="NP"/>
+                            </includephrases>
+                            <token>another</token>
+                        </phrase>
+                        <phrase id="DUMMY_VB1">
+                            <token regexp="yes">go|goa</token>
+                        </phrase>
+                        <phrase id="DUMMY_VB2">
+                            <token>goes</token>
+                        </phrase>
+                        <phrase id="DUMMY_VB3">
+                            <token>went</token>
+                        </phrase>
+                        <phrase id="COMPLEX_MULTIPLE">
+                            <token>first</token>
+                            <includephrases>
+                                <phraseref idref="DUMMY_VB1"/>
+                                <phraseref idref="DUMMY_VB2"/>
+                                <phraseref idref="DUMMY_VB3"/>
+                            </includephrases>
+                            <token>last</token>
+                        </phrase>
+                        <phrase id="SINGLE_TOKEN">
+                            <token>single</token>
+                        </phrase>
+                        <phrase id="TEST_INCLUDE">
+                            <token>beginning</token>
+                            <includephrases>
+                                <phraseref idref="COMPLEX_MULTIPLE"/>
+                                <phraseref idref="SINGLE_TOKEN"/>
+                            </includephrases>
+                            <token>end</token>
+                        </phrase>
+                        <phrase id="trivial_include">
+                            <includephrases>
+                                <phraseref idref="DUMMY_VB1"/>
+                            </includephrases>
+                            <includephrases>
+                                <phraseref idref="DUMMY_VB2"/>
+                            </includephrases>
+                        </phrase>
+                    </phrases>
+                    <category name="misc">
+                        <!-- a trivialdemo rule that matches "foo" followed by "bar" -->
+                        <rule id="DEMO_RULE" name="Find 'foo bar'">
+                            <pattern case_sensitive="no" mark_from="0">
+                                <token>foo</token>
+                                <token>bar</token>
+                            </pattern>
+                            <message>Did you mean <suggestion>
+                                    <match no="1"/> fuu bah</suggestion>?</message>
+                            <example type="correct">This is <marker>fuu bah</marker>.</example>
+                            <example correction="foo fuu bah" type="incorrect">This is <marker>foo bar</marker>.</example>
+                        </rule>
+                        <rule id="API_OUTPUT_TEST_RULE" name="Find 'foo bar'">
+                            <pattern case_sensitive="no" mark_from="1">
+                                <token>ach</token>
+                                <token>thosnaíos-sa</token>
+                            </pattern>
+                            <message>Did you mean <suggestion>fuu bah</suggestion>?</message>
+                            <example type="correct">This is ach <marker>fuu bah</marker>.</example>
+                            <example type="incorrect">This is ach <marker>thosnaíos-sa</marker>.</example>
+                        </rule>
+                        <rule id="NEGATION_TOKEN" name="test negation">
+                            <pattern mark_from="1">
+                                <token>small</token>
+                                <token negate="yes">test</token>
+                            </pattern>
+                            <message>test</message>
+                            <example type="correct">a small <marker>test</marker>
+                            </example>
+                            <example type="incorrect">a small <marker>toast</marker>
+                            </example>
+                        </rule>
+                        <rule id="TEST_GO" name="another test of phrases">
+                            <pattern>
+                                <token>foo</token>
+                                <phraseref idref="DUMMY_VB1"/>
+                            </pattern>
+                            <message>Error!</message>
+                            <example type="correct">foo bar</example>
+                            <example type="incorrect">
+                                <marker>foo go</marker>
+                            </example>
+                            <example type="incorrect">
+                                <marker>foo go</marker> bar</example>
+                            <example type="incorrect">
+                                <marker>foo goa</marker> bar</example>
+                        </rule>
+                        <rule id="TEST_PHRASES1" name="test phrases mechanism">
+                            <pattern>
+                                <phraseref idref="COMPLEX_MULTIPLE"/>
+                                <token>there</token>
+                            </pattern>
+                            <message>This is the matched text: <match no="1"/>
+                                <match no="2"/>
+                            </message>
+                            <example type="correct">go here</example>
+                            <example type="incorrect">
+                                <marker>first goes last there</marker>, please!</example>
+                        </rule>
+                        <rule id="test_include" name="test two includeblocks">
+                            <pattern>
+                                <phraseref idref="TEST_INCLUDE"/>
+                            </pattern>
+                            <message>Matched: <suggestion>test <match no="1"/>trala</suggestion>
+                            </message>
+                            <example type="correct">Any string.</example>
+                            <example type="incorrect">Some words, <marker>beginning first go last end</marker>
+                            </example>
+                        </rule>
+                        <rule id="test_include_and_skip" name="test two includeblocks">
+                            <pattern>
+                                <token skip="2">any</token>
+                                <phraseref idref="TEST_INCLUDE"/>
+                                <token>word</token>
+                            </pattern>
+                            <message>Matched: <suggestion>
+                                    <match no="1"/> test</suggestion>
+                            </message>
+                            <example type="correct">Any string.</example>
+                            <example type="incorrect">Some words, <marker>any word beginning first go last end word</marker>
+                            </example>
+                        </rule>
+                        <!--  why should this work this way? two phraserefs generate a logical
+		disjunction for some obscure reason! -->
+                        <rule id="test_two_phrases" name="test two phrases">
+                            <pattern>
+                                <phraseref idref="COMPLEX_MULTIPLE"/>
+                                <phraseref idref="SINGLE_TOKEN"/>
+                            </pattern>
+                            <message>Matched: <match no="1"/>
+                            </message>
+                            <example type="correct">Any string.</example>
+                            <example type="incorrect">First words and <marker>first go last</marker>
+                            </example>
+                        </rule>
+                        <rule id="test_and_operator" name="test logical AND">
+                            <pattern mark_to="-1">
+                                <and>
+                                    <token regexp="yes">A.*</token>
+                                    <token regexp="yes">[A-Z]B.*</token>
+                                    <token negate="yes">ABC</token>
+                                    <token regexp="yes">.*D<exception>ABED</exception>
+                                    </token>
+                                </and>
+                                <token>test</token>
+                            </pattern>
+                            <message>Matched: <match no="1"/>
+                            </message>
+                            <example type="correct">CB test</example>
+                            <example type="correct">ABC test</example>
+                            <example type="incorrect">
+                                <marker>ABCD</marker> test</example>
+                            <example type="incorrect">
+                                <marker>ABEED</marker> test</example>
+                            <example type="correct">
+                                <marker>ABED</marker> test</example>
+                        </rule>
+                        <rule id="test_match_ref" name="testing match element...">
+                            <pattern>
+                                <token/>
+                                <token>by</token>
+                                <token>
+                                    <match no="0"/>
+                                </token>
+                            </pattern>
+                            <message>Found \1 \2 \3.</message>
+                            <example type="incorrect">
+                                <marker>Step by step</marker>.</example>
+                            <example type="correct">blabla</example>
+                            <example type="correct">Steb by step</example>
+                        </rule>
+                        <rule id="test_match_ref_superb" name="testing match element on steroids...">
+                            <pattern>
+                                <token/>
+                                <token>by</token>
+                                <token>
+                                    <match no="0"/>on</token>
+                            </pattern>
+                            <message>Found \1 \2 \3.</message>
+                            <example type="correct">
+                                <marker>Step by step</marker>.</example>
+                            <example type="incorrect">
+                                <marker>Step by stepon</marker>.</example>
+                            <example type="correct">blabla</example>
+                            <example type="correct">Steb by step</example>
+                        </rule>
+                        <rulegroup id="test_matching_tokens" name="test parseInt conversion1">
+                            <rule>
+                                <pattern>
+                                    <token>1</token>
+                                    <token>2</token>
+                                    <token>3</token>
+                                    <token>4</token>
+                                    <token>5</token>
+                                    <token/>
+                                    <token>7</token>
+                                    <token>8</token>
+                                    <token/>
+                                    <token>10</token>
+                                </pattern>
+                                <message>I suggest: <suggestion>
+                                        <match no="10"/> blahblah</suggestion>.</message>
+                                <example type="correct">blah</example>
+                                <example correction="10 blahblah" type="incorrect">
+                                    <marker>1 2 3 4 5 6 7 8 9 10</marker>.</example>
+                            </rule>
+                            <rule>
+                                <pattern>
+                                    <token>1</token>
+                                    <token>2</token>
+                                    <token>3</token>
+                                    <token>4</token>
+                                    <token>5</token>
+                                    <token/>
+                                    <token>7</token>
+                                    <token regexp="yes">8</token>
+                                    <token/>
+                                    <token>10</token>
+                                </pattern>
+                                <message>I suggest: <suggestion>\10 blahblah</suggestion>.</message>
+                                <example type="correct">blah</example>
+                                <example correction="10 blahblah" type="incorrect">
+                                    <marker>1 2 3 4 5 6 7 8 9 10</marker>.</example>
+                            </rule>
+                        </rulegroup>
+                        <rule id="test_match_conv" name="example of case conversion">
+                            <pattern case_sensitive="yes">
+                                <token>new-york</token>
+                                <token>cafe</token>
+                            </pattern>
+                            <message>This name should be uppercase: <suggestion>New <match case_conversion="startupper" no="1" regexp_match="[Nn]ew-(.*)" regexp_replace="$1"/> Cafe</suggestion>
+                            </message>
+                            <example type="correct">New York Cafe</example>
+                            <example correction="New York Cafe" type="incorrect">This is a new coffeshop in the middle of nowhere called <marker>new-york cafe</marker>.</example>
+                        </rule>
+                        <rule id="test_unification" name="Test unification of character case">
+                            <pattern case_sensitive="yes" mark_from="1">
+                                <token>abc</token>
+                                <unify feature="case_sensitivity" type="startupper">
+                                    <token/>
+                                    <token>York</token>
+                                </unify>
+                            </pattern>
+                            <message>Warning: \1 \2 \3!</message>
+                            <example type="incorrect">abc <marker>New York</marker>
+                            </example>
+                            <example type="correct">abc new York</example>
+                        </rule>
+                        <rule id="test_unification_negate" name="Test negated unification of character case">
+                            <pattern case_sensitive="yes" mark_from="1">
+                                <token>abc</token>
+                                <unify feature="case_sensitivity" negate="yes" type="startupper">
+                                    <token/>
+                                    <token regexp="yes">[yY]ork</token>
+                                </unify>
+                            </pattern>
+                            <message>Warning: \1 \2 \3!</message>
+                            <example type="incorrect">abc <marker>new York</marker>
+                            </example>
+                            <example type="incorrect">abc <marker>New york</marker>
+                            </example>
+                            <example type="incorrect">abc <marker>new york</marker>
+                            </example>
+                            <example type="correct">abc New York</example>
+                        </rule>
+                        <rule id="test_unification_phrase" name="Test unification of characters' case via phrase">
+                            <pattern case_sensitive="yes" mark_from="1">
+                                <token>abc</token>
+                                <phraseref idref="UNIFICATION_PHRASE"/>
+                            </pattern>
+                            <message>Warning: \1 \2 \3!</message>
+                            <example type="incorrect">abc <marker>New York</marker>
+                            </example>
+                            <example type="correct">abc new York</example>
+                        </rule>
+                    </category>
+                </rules>
+            </xforms:instance>
+            <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                <!-- 
+ * LanguageTool, a natural language style checker 
+ * Copyright (c) Marcin MiÄąâ€škowski, 2009 (http://www.languagetool.org)
+ * 
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+ * USA
+ 
+ Scheme for rule files
+ -->
+                <xs:annotation>
+                    <xs:documentation xml:lang="en"> Main element
+		</xs:documentation>
+                </xs:annotation>
+                <xs:element name="rules">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element maxOccurs="unbounded" minOccurs="0" ref="unification"/>
+                            <xs:element minOccurs="0" ref="phrases"/>
+                            <xs:element maxOccurs="unbounded" minOccurs="0" ref="category"/>
+                        </xs:sequence>
+                        <xs:attribute name="lang" type="xs:language" use="required"/>
+                    </xs:complexType>
+                </xs:element>
+                <xs:annotation>
+                    <xs:documentation xml:lang="en"> Unification declarations
+		</xs:documentation>
+                </xs:annotation>
+                <xs:element name="unification">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element maxOccurs="unbounded" minOccurs="1" ref="equivalence"/>
+                        </xs:sequence>
+                        <xs:attribute name="feature" type="xs:ID" use="required"/>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="equivalence">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element maxOccurs="unbounded" minOccurs="1" ref="token"/>
+                        </xs:sequence>
+                        <xs:attribute name="type" type="xs:ID" use="required"/>
+                    </xs:complexType>
+                </xs:element>
+                <xs:annotation>
+                    <xs:documentation xml:lang="en"> Phrase-related vocabulary
+		</xs:documentation>
+                </xs:annotation>
+                <xs:annotation>
+                    <xs:documentation xml:lang="en"> Phrase definitions
+		</xs:documentation>
+                </xs:annotation>
+                <xs:element name="phrases">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element maxOccurs="unbounded" minOccurs="1" ref="phrase"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:annotation>
+                    <xs:documentation xml:lang="en"> individual phrase
+			definition </xs:documentation>
+                </xs:annotation>
+                <xs:element name="phrase">
+                    <xs:complexType>
+                        <xs:choice maxOccurs="unbounded" minOccurs="1">
+                            <xs:element ref="unify"/>
+                            <xs:element ref="and"/>
+                            <xs:element ref="token"/>
+                            <xs:element ref="includephrases"/>
+                        </xs:choice>
+                        <xs:attribute name="id" type="xs:ID" use="required"/>
+                    </xs:complexType>
+                </xs:element>
+                <xs:annotation>
+                    <xs:documentation xml:lang="en"> OR operator for phrases
+		</xs:documentation>
+                </xs:annotation>
+                <xs:element name="includephrases">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element maxOccurs="unbounded" minOccurs="1" ref="phraseref"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:annotation>
+                    <xs:documentation xml:lang="en"> element that points to
+			the defined phrase </xs:documentation>
+                </xs:annotation>
+                <xs:element name="phraseref">
+                    <xs:complexType>
+                        <xs:attribute name="idref" type="xs:IDREF" use="required"/>
+                    </xs:complexType>
+                </xs:element>
+                <xs:annotation>
+                    <xs:documentation xml:lang="en"> Use the category element
+			to groups rules/rulegroups. </xs:documentation>
+                    <xs:documentation xml:lang="en"> The attribute name shows
+			the category use, e.g. 'Grammar', 'Spelling', 'Style' etc.
+		</xs:documentation>
+                </xs:annotation>
+                <xs:element name="category">
+                    <xs:complexType>
+                        <xs:choice maxOccurs="unbounded">
+                            <xs:element ref="rule"/>
+                            <xs:element ref="rulegroup"/>
+                        </xs:choice>
+                        <xs:attribute name="default" use="optional">
+                            <xs:simpleType>
+                                <xs:restriction base="xs:NMTOKEN">
+                                    <xs:enumeration value="off"/>
+                                    <xs:enumeration value="on"/>
+                                </xs:restriction>
+                            </xs:simpleType>
+                        </xs:attribute>
+                        <xs:attribute name="name" type="xs:string" use="required"/>
+                    </xs:complexType>
+                </xs:element>
+                <xs:annotation>
+                    <xs:documentation xml:lang="en"> Defines a group of rules
+			to display several
+			rules as one in the configuration user interface. A group has unique ID.
+			The whole rule group can be switched by default off using the
+			attribute 'default'.
+		</xs:documentation>
+                </xs:annotation>
+                <xs:element name="rulegroup">
+                    <xs:complexType>
+                        <xs:sequence minOccurs="1">
+                            <xs:element maxOccurs="unbounded" ref="rule"/>
+                        </xs:sequence>
+                        <xs:attribute name="default" use="optional">
+                            <xs:simpleType>
+                                <xs:restriction base="xs:NMTOKEN">
+                                    <xs:enumeration value="off"/>
+                                    <xs:enumeration value="on"/>
+                                </xs:restriction>
+                            </xs:simpleType>
+                        </xs:attribute>
+                        <xs:attribute name="name" type="xs:string" use="optional"/>
+                        <xs:attribute name="id" type="xs:ID" use="required"/>
+                    </xs:complexType>
+                </xs:element>
+                <xs:annotation>
+                    <xs:documentation xml:lang="en"> The rule element. The
+			unique ID is
+			required only if the rule is not contained in a rule group.
+
+			The rule can be switched by default off (using the default attribute).
+		</xs:documentation>
+                </xs:annotation>
+                <xs:element name="rule">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element ref="pattern"/>
+                            <xs:element ref="message"/>
+                            <xs:element minOccurs="0" ref="short"/>
+                            <xs:element maxOccurs="unbounded" minOccurs="1" ref="example"/>
+                        </xs:sequence>
+                        <xs:attribute name="default" use="optional">
+                            <xs:simpleType>
+                                <xs:restriction base="xs:NMTOKEN">
+                                    <xs:enumeration value="off"/>
+                                    <xs:enumeration value="on"/>
+                                </xs:restriction>
+                            </xs:simpleType>
+                        </xs:attribute>
+                        <xs:attribute name="name" type="xs:string" use="optional"/>
+                        <xs:attribute name="id" type="xs:ID" use="optional"/>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="pattern">
+                    <xs:complexType>
+                        <xs:choice maxOccurs="unbounded" minOccurs="1">
+                            <xs:element ref="token"/>
+                            <xs:element ref="phraseref"/>
+                            <xs:element ref="and"/>
+                            <xs:element ref="unify"/>
+                        </xs:choice>
+                        <xs:attribute name="mark_from" type="xs:nonNegativeInteger" use="optional"/>
+                        <xs:attribute name="mark_to" type="xs:nonPositiveInteger" use="optional"/>
+                        <xs:attribute name="case_sensitive" type="binaryYesNo" use="optional"/>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="token">
+                    <xs:complexType mixed="true">
+                        <xs:choice maxOccurs="unbounded" minOccurs="0">
+                            <xs:element ref="exception"/>
+                            <xs:element ref="match"/>
+                        </xs:choice>
+                        <xs:attribute default="no" name="postag_regexp" type="binaryYesNo" use="optional"/>
+                        <xs:attribute default="no" name="inflected" type="binaryYesNo" use="optional"/>
+                        <xs:attribute default="no" name="negate" type="binaryYesNo" use="optional"/>
+                        <xs:attribute default="no" name="regexp" type="binaryYesNo" use="optional"/>
+                        <xs:attribute default="ignore" name="spacebefore" use="optional">
+                            <xs:simpleType>
+                                <xs:restriction base="xs:NMTOKEN">
+                                    <xs:enumeration value="yes"/>
+                                    <xs:enumeration value="no"/>
+                                    <xs:enumeration value="ignore"/>
+                                </xs:restriction>
+                            </xs:simpleType>
+                        </xs:attribute>
+                        <xs:attribute name="postag" type="xs:token" use="optional"/>
+                        <xs:attribute name="skip" use="optional">
+                            <xs:simpleType>
+                                <xs:restriction base="xs:integer">
+                                    <xs:minInclusive value="-1"/>
+                                </xs:restriction>
+                            </xs:simpleType>
+                        </xs:attribute>
+                        <xs:attribute default="no" name="negate_pos" type="binaryYesNo" use="optional"/>
+                    </xs:complexType>
+                </xs:element>
+                <xs:annotation>
+                    <xs:documentation xml:lang="en"> Enables logical AND
+			between token elements.  </xs:documentation>
+                </xs:annotation>
+                <xs:element name="and">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element maxOccurs="unbounded" minOccurs="1" ref="token"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:annotation>
+                    <xs:documentation xml:lang="en"> Exception to the matched
+			token. </xs:documentation>
+                </xs:annotation>
+                <xs:element name="exception">
+                    <xs:complexType mixed="true">
+                        <xs:attribute default="no" name="postag_regexp" type="binaryYesNo" use="optional"/>
+                        <xs:attribute default="no" name="negate_pos" type="binaryYesNo" use="optional"/>
+                        <xs:attribute name="postag" type="xs:string" use="optional"/>
+                        <xs:attribute default="ignore" name="spacebefore" use="optional">
+                            <xs:simpleType>
+                                <xs:restriction base="xs:NMTOKEN">
+                                    <xs:enumeration value="yes"/>
+                                    <xs:enumeration value="no"/>
+                                    <xs:enumeration value="ignore"/>
+                                </xs:restriction>
+                            </xs:simpleType>
+                        </xs:attribute>
+                        <xs:attribute default="no" name="inflected" type="binaryYesNo" use="optional"/>
+                        <xs:attribute default="current" name="scope" use="optional">
+                            <xs:simpleType>
+                                <xs:restriction base="xs:NMTOKEN">
+                                    <xs:enumeration value="current"/>
+                                    <xs:enumeration value="next"/>
+                                    <xs:enumeration value="previous"/>
+                                </xs:restriction>
+                            </xs:simpleType>
+                        </xs:attribute>
+                        <xs:attribute default="no" name="regexp" type="binaryYesNo" use="optional"/>
+                        <xs:attribute default="no" name="negate" type="binaryYesNo" use="optional"/>
+                    </xs:complexType>
+                </xs:element>
+                <xs:annotation>
+                    <xs:documentation xml:lang="en"> A short description of
+			the error detected by this rule displayed on the
+			context menu in OOo.
+ </xs:documentation>
+                </xs:annotation>
+                <xs:element name="short" type="xs:token"/>
+                <xs:annotation>
+                    <xs:documentation xml:lang="en"> Message shown to the user
+			if a rule matches. </xs:documentation>
+                </xs:annotation>
+                <xs:element name="message" xml:space="preserve">
+    <xs:complexType mixed="true">
+      <xs:choice maxOccurs="unbounded" minOccurs="0">
+        <xs:element
+                                ref="suggestion"/>
+        <xs:element ref="match"/>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+                <xs:annotation>
+                    <xs:documentation xml:lang="en"> Suggestion displayed to
+			the user. </xs:documentation>
+                </xs:annotation>
+                <xs:element name="suggestion">
+                    <xs:complexType mixed="true">
+                        <xs:sequence maxOccurs="unbounded" minOccurs="0">
+                            <xs:element ref="match"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="match">
+                    <xs:complexType mixed="true">
+                        <xs:attribute name="regexp_match" type="xs:string" use="optional"/>
+                        <xs:attribute default="no" name="postag_regexp" type="binaryYesNo" use="optional"/>
+                        <xs:attribute default="no" name="setpos" type="binaryYesNo" use="optional"/>
+                        <xs:attribute name="case_conversion" use="optional">
+                            <xs:simpleType>
+                                <xs:restriction base="xs:NMTOKEN">
+                                    <xs:enumeration value="startlower"/>
+                                    <xs:enumeration value="startupper"/>
+                                    <xs:enumeration value="allupper"/>
+                                    <xs:enumeration value="alllower"/>
+                                </xs:restriction>
+                            </xs:simpleType>
+                        </xs:attribute>
+                        <xs:attribute name="regexp_replace" type="xs:string" use="optional"/>
+                        <xs:attribute name="postag_replace" type="xs:string" use="optional"/>
+                        <xs:attribute name="postag" type="xs:string" use="optional"/>
+                        <xs:attribute name="no" type="xs:nonNegativeInteger" use="required"/>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="unify">
+                    <xs:complexType>
+                        <xs:choice maxOccurs="unbounded" minOccurs="0">
+                            <xs:element ref="and"/>
+                            <xs:element ref="token"/>
+                        </xs:choice>
+                        <xs:attribute name="feature" type="xs:string" use="required"/>
+                        <xs:attribute name="type" type="xs:string" use="optional"/>
+                        <xs:attribute default="no" name="negate" type="binaryYesNo" use="optional"/>
+                    </xs:complexType>
+                </xs:element>
+                <xs:annotation>
+                    <xs:documentation xml:lang="en"> Specifies examples used
+			in JUnit tests and as
+			internal documentation.
+
+			The attribute 'correction' is used to check if the suggested correction
+			is correct; multiple
+			suggestions are joined with "|".
+
+			The attribute triggers_error is not used.
+</xs:documentation>
+                </xs:annotation>
+                <xs:element name="example" xml:space="preserve">
+    <xs:complexType mixed="true">
+      <xs:choice maxOccurs="unbounded" minOccurs="0">
+        <xs:element
+                            ref="marker"/>
+      </xs:choice>
+      <xs:attribute name="correction" type="xs:string" use="optional"/>
+      <xs:attribute name="type"
+                                    use="required">
+        <xs:simpleType>
+          <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="correct"/>
+            <xs:enumeration
+                                        value="incorrect"/>
+            <xs:enumeration
+                            value="triggers_error"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="reason" type="xs:string" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+                <xs:annotation>
+                    <xs:documentation xml:lang="en"> Marks the matched part of
+			the example. </xs:documentation>
+                </xs:annotation>
+                <xs:element name="marker">
+                    <xs:complexType mixed="true"/>
+                </xs:element>
+                <xs:annotation>
+                    <xs:documentation xml:lang="en"> Helper type for binary
+			choices. </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType name="binaryYesNo">
+                    <xs:restriction base="xs:NMTOKEN">
+                        <xs:enumeration value="yes"/>
+                        <xs:enumeration value="no"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:schema>
+        </xforms:model>
+    </xhtml:head>
+    <xhtml:body/>
+</xhtml:html>

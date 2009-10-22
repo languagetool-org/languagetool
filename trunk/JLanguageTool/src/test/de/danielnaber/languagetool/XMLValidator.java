@@ -19,13 +19,20 @@
 package de.danielnaber.languagetool;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.StringReader;
+import java.net.URL;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.xml.XMLConstants;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+import javax.xml.validation.Validator;
 
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -68,7 +75,7 @@ public final class XMLValidator {
   public void validateXMLString(String xml, String dtdFile, String docType) throws SAXException, IOException, ParserConfigurationException {
     validateInternal(xml, dtdFile, docType);
   }
-  
+
   /**
    * Validate XML file with the given DTD. Throws exception on error. 
    */
@@ -76,6 +83,23 @@ public final class XMLValidator {
     try {
       String xml = StringTools.readFile(this.getClass().getResourceAsStream(filename), "utf-8");
       validateInternal(xml, dtdFile, docType);
+    } catch (Exception e) {
+      IOException ioe = new IOException("Cannot load or parse '"+filename+"'");
+      ioe.initCause(e);
+      throw ioe;
+    }
+  }
+
+  /**
+   * Validate XML file using the given XSD. Throws an exception on error  
+   * @param filename File to validate.
+   * @param xmlSchema Schema to use.
+   * @throws IOException Thrown on error.
+   */
+  public final void validate(String filename, String xmlSchema) throws IOException {
+    try {
+      validateInternal(this.getClass().getResourceAsStream(filename), 
+          this.getClass().getResource(xmlSchema));
     } catch (Exception e) {
       IOException ioe = new IOException("Cannot load or parse '"+filename+"'");
       ioe.initCause(e);
@@ -102,20 +126,28 @@ public final class XMLValidator {
     saxParser.parse(is, new ErrorHandler());
   }
 
+  private void validateInternal(InputStream xml, URL xmlSchema) throws SAXException, IOException, ParserConfigurationException {        
+    SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+    Schema schema = sf.newSchema(xmlSchema);
+    Validator validator = schema.newValidator();
+    validator.setErrorHandler(new ErrorHandler());
+    validator.validate(new StreamSource(xml));        
+  }
+
 }
 
 /**
  * XML handler that throws exception on error and warning, does nothing otherwise.
  */
 class ErrorHandler extends DefaultHandler {
-  
+
   public void warning (SAXParseException e) throws SAXException {
     System.err.println(e.getMessage()
         + " Problem found at line " + e.getLineNumber() 
         + ", column " + e.getColumnNumber() + ".");    
     throw e;
   }
-  
+
   public void error (SAXParseException e) throws SAXException {
     System.err.println(e.getMessage()
         + " Problem found at line " + e.getLineNumber() 

@@ -29,7 +29,7 @@ public class ValidateXMLTest extends TestCase {
     for (int i = 0; i < Language.LANGUAGES.length; i++) {
       Language lang = Language.LANGUAGES[i];
       String grammarFile = "/rules/" + lang.getShortName() + "/grammar.xml";
-      validator.validate(grammarFile, "/rules/rules.dtd", "rules");
+      validator.validate(grammarFile, "/rules/rules.xsd");
     }
   }
 

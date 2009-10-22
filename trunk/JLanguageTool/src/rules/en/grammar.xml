@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE rules SYSTEM "../rules.dtd">
 <?xml-stylesheet type="text/xsl" href="../print.xsl" ?>
 <?xml-stylesheet type="text/css" href="../rules.css" 
 title="Easy editing stylesheet" ?>
@@ -7,9 +6,10 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.114 2009-08-29 15:50:51 milek_pl Exp $
+$Id: grammar.xml,v 1.115 2009-10-22 20:02:41 milek_pl Exp $
 -->
-<rules lang="en">
+<rules lang="en" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="../rules.xsd">
   <!-- ====================================================================== -->
 
   <!-- Possible typos -->
@@ -9596,8 +9596,7 @@ $Id: grammar.xml,v 1.114 2009-08-29 15:50:51 milek_pl Exp $
 
       <rule>
         <pattern case_sensitive="yes" mark_from="2">
-          <token skip="0">"</token>
-
+          <token>"</token>
           <and>
             <token inflected="yes" regexp="yes">[A-Z][a-z]+</token>
 

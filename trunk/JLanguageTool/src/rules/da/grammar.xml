@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE rules SYSTEM "../rules.dtd" >
 <?xml-stylesheet type="text/xsl" href="../print.xsl" ?>
 <?xml-stylesheet type="text/css" href="../rules.css" 
 title="Easy editing stylesheet" ?>
@@ -7,9 +6,10 @@ title="Easy editing stylesheet" ?>
 Danish Grammar and Typo Rules for LanguageTool
 See danish_tags.txt for the meaning of the POS tags
 Copyright (C) 2009 Esben Aaberg, Foreningen for frit tilgængelige sprogværktøjer
-$Id: grammar.xml,v 1.2 2009-10-18 14:45:35 dnaber Exp $
+$Id: grammar.xml,v 1.3 2009-10-22 20:02:40 milek_pl Exp $
 -->
-<rules lang="da">
+<rules lang="da" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="../rules.xsd">
   <!-- ====================================================================== -->
   <!-- Diverse - Misc -->
   <!-- ====================================================================== -->
@@ -267,7 +267,7 @@ $Id: grammar.xml,v 1.2 2009-10-18 14:45:35 dnaber Exp $
   <!-- Grammatik - Grammar -->
   <!-- ====================================================================== -->
   <category name="Grammatik">
-    <rule id="adj:ube:sin:utr:pos" name="Tillægsord ental ubestemt i forkert bøjningsform">
+    <rule id="adj-ube-sin-utr-pos" name="Tillægsord ental ubestemt i forkert bøjningsform">
       <pattern mark_from="1" > 
         <token regexp="yes">et|det</token>
         <!-- TODO: Make exception for adverbs, when they becomes available in tagger or analyzes the relationship between adjectives and other parts of speech.  -->

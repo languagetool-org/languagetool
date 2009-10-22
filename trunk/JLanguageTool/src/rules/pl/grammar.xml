@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE rules SYSTEM "../rules.dtd">
 <?xml-stylesheet type="text/xsl" href="../print.xsl" ?>
 <?xml-stylesheet type="text/css" href="../rules.css" 
 title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.207 2009-09-02 18:43:56 milek_pl Exp $
+$Id: grammar.xml,v 1.208 2009-10-22 20:02:40 milek_pl Exp $
 -->
-<rules lang="pl">
+<rules lang="pl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="../rules.xsd">
   <unification feature="number">
     <equivalence type="sg">
       <token postag=".*:sg:.*" postag_regexp="yes"></token>
@@ -83,7 +83,7 @@ $Id: grammar.xml,v 1.207 2009-09-02 18:43:56 milek_pl Exp $
     </phrase>
 
     <phrase id="NIE_INTERPUNKCJA">
-      <token><exception postag="SENT_START" postag_regexp="yes"></exception><exception
+      <token><exception postag="SENT_START"/><exception
           regexp="yes">[\p{Punct}\-–—„«»…’]+|tyle|i|lub|albo|ani|oraz|bądź|czy|a</exception></token>
     </phrase>
 
@@ -1229,9 +1229,8 @@ $Id: grammar.xml,v 1.207 2009-09-02 18:43:56 milek_pl Exp $
         <pattern case_sensitive="no" mark_to="-1">
           <phraseref idref="NIE_INTERPUNKCJA" />
 
-          <token skip="4">zamiast<exception inflected="yes"
-              postag="&lt;ELLIPSIS&gt;" scope="next"></exception><exception
-              postag_regexp="no" regexp="yes" scope="next">[\p{Punct}—–„«»…]+(?&lt;!\.)|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|a|jeśli|jeżeli|gdyby|aby|żeby|ażeby|zanim|dopóki</exception></token>
+          <token skip="4">zamiast<exception postag="&lt;ELLIPSIS&gt;" scope="next"/><exception
+              postag_regexp="no" regexp="yes" scope="next">[\p{Punct}—–„«»…&amp;&amp;[^!\.]]|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|a|jeśli|jeżeli|gdyby|aby|żeby|ażeby|zanim|dopóki</exception></token>
 
           <token postag="verb:inf.*" postag_regexp="yes"></token>
         </pattern>
@@ -1249,11 +1248,11 @@ $Id: grammar.xml,v 1.207 2009-09-02 18:43:56 milek_pl Exp $
         <pattern>
           <token skip="4">zamiast<exception inflected="yes"
               postag="&lt;ELLIPSIS&gt;" scope="next"></exception><exception
-              postag_regexp="no" regexp="yes" scope="next">[\p{Punct}—–„«»…]+(?&lt;!\.)|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|a|jeśli|jeżeli|gdyby|aby|żeby|ażeby|zanim|dopóki</exception></token>
+              postag_regexp="no" regexp="yes" scope="next">[\p{Punct}—–„«»…&amp;&amp;[^!\.]]|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|a|jeśli|jeżeli|gdyby|aby|żeby|ażeby|zanim|dopóki</exception></token>
 
           <token postag="verb:inf.*" postag_regexp="yes" skip="-1"><exception
               regexp="yes" scope="current">może|lecz|jedna|lub</exception><exception
-              inflected="yes" regexp="yes" scope="next">[\p{Punct}—–„«»…]+(?&lt;!\.)|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|a|jeśli|jeżeli|gdyby|aby|żeby|ażeby|zanim|dopóki</exception><exception
+              inflected="yes" regexp="yes" scope="next">[\p{Punct}—–„«»…&amp;&amp;[^!\.]]|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|a|jeśli|jeżeli|gdyby|aby|żeby|ażeby|zanim|dopóki</exception><exception
               postag="&lt;ELLIPSIS&gt;" scope="next"></exception></token>
 
           <token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf|pred"
