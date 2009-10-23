@@ -87,7 +87,9 @@ public class SentenceTokenizer implements Tokenizer {
 
   /**
    * Month names like "Dezember" that should not be considered a sentence
-   * boundary in string like "13. Dezember".
+   * boundary in string like "13. Dezember". May also contain other
+   * words that indicate there's no sentence boundary when preceded
+   * by a number and a dot.
    */
   protected String[] monthNames;
   

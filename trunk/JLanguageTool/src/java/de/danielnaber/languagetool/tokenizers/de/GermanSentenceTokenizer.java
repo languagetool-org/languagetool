@@ -55,7 +55,9 @@ public class GermanSentenceTokenizer extends SentenceTokenizer {
   // einige deutsche Monate, vor denen eine Zahl erscheinen kann,
   // ohne dass eine Satzgrenze erkannt wird (z.B. "am 13. Dezember" -> keine Satzgrenze)
   private static final String[] MONTH_NAMES = { "Januar", "Februar", "März", "April", "Mai",
-      "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember" };
+      "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember",
+      // ähnliche Fälle außerhalb der Monatsnamen:
+      "Jh.", "Jhd.", "Jahrhundert", "Jahrhunderts", "Geburtstag", "Geburtstags", "Platz", "Platzes"};
 
   public GermanSentenceTokenizer() {
     super(ABBREV_LIST);
