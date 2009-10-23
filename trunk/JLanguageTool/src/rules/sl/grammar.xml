@@ -4,10 +4,10 @@
 <!--
 Slovenian Grammar and Typo Rules for LanguageTool
 Copyright (C) 2008, 2009 Martin Srebotnjak
-$Id: grammar.xml,v 1.7 2009-10-23 21:44:46 milek_pl Exp $
+$Id: grammar.xml,v 1.8 2009-10-23 22:19:28 milek_pl Exp $
+Thanks to Marcin Miłkowski.
 -->
-<rules lang="sl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="../rules.xsd">
+<rules lang="sl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../rules.xsd">
 	<unification feature="number">
 		<equivalence type="sg">
 			<token postag=".*:sg:.*" postag_regexp="yes"/>
@@ -61,18 +61,6 @@ $Id: grammar.xml,v 1.7 2009-10-23 21:44:46 milek_pl Exp $
 				<short>Najbrž manjka vejica pred 'toda'</short>
 				<example type="correct">Bilo je vroče<marker>, toda</marker> nisva odnehala.</example>
 				<example type="incorrect">Bilo je vroče<marker> toda</marker> nisva odnehala.</example>
-			</rule>
-		</rulegroup>
-		<rulegroup name="Manjkajoča vejica pred 'ampak'" id="AMPAK_BREZ_VEJICE">
-			<rule>
-				<pattern mark_from="1" case_sensitive="yes">
-					<token regexp="yes" negate="yes">,|\(|;|:|–</token>
-					<token>ampak</token>
-				</pattern>
-				<message>Ponavadi je pred 'ampak' vejica: <suggestion>, ampak</suggestion>!</message>
-				<short>Najbrž manjka vejica pred 'ampak'</short>
-				<example type="correct">Bilo je vroče<marker>, ampak</marker> nama še ni bilo dovolj.</example>
-				<example type="incorrect">Bilo je vroče<marker> ampak</marker> nama še ni bilo dovolj.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup name="Manjkajoča vejica pred 'saj'" id="SAJ_BREZ_VEJICE">
@@ -135,31 +123,30 @@ $Id: grammar.xml,v 1.7 2009-10-23 21:44:46 milek_pl Exp $
 				<example type="incorrect">Bilo je vroče<marker> torej</marker> nič kaj prijetno.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup name="Manjkajoča vejica pred 'to je'" id="TO_JE_BREZ_VEJICE">
+		<rulegroup name="Manjkajoča vejica pred 'to je'" id="TO_JE_BREZ_VEJICE" default="off">
 			<rule>
-				<pattern case_sensitive="yes">					
-					<token>to<exception scope="previous" regexp="yes">,|\(|;|in|:|–</exception></token>
+				<pattern mark_from="1" case_sensitive="yes">
+					<token regexp="yes" negate="yes">,|\(|;|in|:|–</token>
+					<token>to</token>
 					<token>je</token>
 				</pattern>
 				<message>Ponavadi je pred 'to je' vejica: <suggestion>, to je</suggestion>!</message>
 				<short>Najbrž manjka vejica pred 'to je'</short>
-				<example type="correct">Bilo je vroče, <marker>to je</marker> čez trideset stopinj.</example>
-				<example type="incorrect" correction=", to je">Bilo je vroče<marker> to je</marker> čez trideset stopinj.</example>
+				<example type="correct">Bilo je vroče<marker>, to je</marker> čez trideset stopinj.</example>
+				<example type="incorrect">Bilo je vroče<marker> to je</marker> čez trideset stopinj.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup name="Manjkajoča vejica pred 't.j.'" id="TJ_BREZ_VEJICE">
+		<rulegroup name="Manjkajoča vejica pred 'tj.'" id="TJ_BREZ_VEJICE">
 			<rule>
 				<pattern mark_from="1" case_sensitive="yes">
 					<token regexp="yes" negate="yes">,|\(|;|–</token>
-					<token>t</token>
-					<token spacebefore="no">.</token>
-					<token>j</token>
+					<token>tj</token>
 					<token spacebefore="no">.</token>
 				</pattern>
-				<message>Ponavadi je pred 't.j.' vejica: <suggestion>, t.j.</suggestion>!</message>
-				<short>Najbrž manjka vejica pred 't.j.'</short>
-				<example type="correct">Bilo je vroče<marker>, t.j.</marker> čez trideset stopinj.</example>
-				<example type="incorrect">Bilo je vroče<marker> t.j.</marker> čez trideset stopinj.</example>
+				<message>Ponavadi je pred 'tj.' vejica: <suggestion>, tj.</suggestion>!</message>
+				<short>Najbrž manjka vejica pred 'tj.'</short>
+				<example type="correct">Bilo je vroče<marker>, tj.</marker> čez trideset stopinj.</example>
+				<example type="incorrect">Bilo je vroče<marker> tj.</marker> čez trideset stopinj.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup name="Manjkajoča vejica pred 'ampak tudi'" id="AMPAK_TUDI_BREZ_VEJICE">
@@ -186,6 +173,19 @@ $Id: grammar.xml,v 1.7 2009-10-23 21:44:46 milek_pl Exp $
 				<short>Najbrž manjka vejica pred 'temveč tudi'</short>
 				<example type="correct">Ne le vroče<marker>, temveč tudi</marker> vlažno je bilo.</example>
 				<example type="incorrect">Ne le vroče<marker> temveč tudi</marker> vlažno je bilo.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup name="Manjkajoča vejica pred 'ampak'" id="AMPAK_BREZ_VEJICE">
+			<rule>
+				<pattern mark_from="1" mark_to="-1" case_sensitive="yes">
+					<token regexp="yes" negate="yes">,|\(|;|:|–</token>
+					<token>ampak</token>
+					<token negate="yes">tudi</token>
+				</pattern>
+				<message>Ponavadi je pred 'ampak' vejica: <suggestion>, ampak</suggestion>!</message>
+				<short>Najbrž manjka vejica pred 'ampak'</short>
+				<example type="correct">Bilo je vroče<marker>, ampak</marker> nama še ni bilo dovolj.</example>
+				<example type="incorrect">Bilo je vroče<marker> ampak</marker> nama še ni bilo dovolj.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup name="Manjkajoča vejica pred 'ki'" id="KI_BREZ_VEJICE">
@@ -227,7 +227,7 @@ $Id: grammar.xml,v 1.7 2009-10-23 21:44:46 milek_pl Exp $
 		<rulegroup name="Manjkajoča vejica pred 'ker'" id="KER_BREZ_VEJICE">
 			<rule>
 				<pattern mark_from="1" case_sensitive="yes">
-					<token regexp="yes" negate="yes">,|[I|i]n|[A|a]li|[T|t]er|\(|;|:|–</token>
+					<token regexp="yes" negate="yes">,|[I|i]n|[A|a]li|[T|t]er|\(|;|:|–|[A|a]</token>
 					<token>ker</token>
 				</pattern>
 				<message>V podredjih je pred 'ker' vejica: <suggestion>, ker</suggestion>!</message>
@@ -248,10 +248,23 @@ $Id: grammar.xml,v 1.7 2009-10-23 21:44:46 milek_pl Exp $
 				<example type="incorrect">Mislil je<marker> da</marker> je konec sveta.</example>
 			</rule>
 		</rulegroup>
+		<rulegroup name="Manjkajoča vejica pred 'kot'" id="KOT_BREZ_VEJICE">
+			<rule>
+				<pattern mark_from="1" mark_to="-1" case_sensitive="yes">
+					<token regexp="yes" negate="yes">,|\(|;|–</token>
+					<token>kot</token>
+					<token regexp="yes">če|da</token>
+				</pattern>
+				<message>Pred 'kot' je včasih vejica: <suggestion>, kot</suggestion>!</message>
+				<short>Najbrž manjka vejica pred 'kot'</short>
+				<example type="correct">Plesal je<marker>, kot</marker> da je hodil v baletno šolo.</example>
+				<example type="incorrect">Ne le vroče<marker> kot</marker> da je hodil v baletno šolo.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup name="Manjkajoča vejica pred 'če'" id="ČE_BREZ_VEJICE">
 			<rule>
 				<pattern mark_from="1" case_sensitive="yes">
-					<token regexp="yes" negate="yes">,|[I|i]n|[A|a]li|[T|t]er|[L|l]e|[S|s]amo|[T|t]udi|[D|d]a|[Z|z]lasti|[R|r]azen|\(|;|:|–|[A|a]mpak|[A|a]</token>
+					<token regexp="yes" negate="yes">,|[I|i]n|[A|a]li|[T|t]er|[L|l]e|[S|s]amo|[T|t]udi|[D|d]a|[Z|z]lasti|[R|r]azen|\(|;|:|–|[A|a]mpak|[A|a]|[K|k]ot</token>
 					<token>če</token>
 				</pattern>
 				<message>V podredjih je pred 'če' vejica: <suggestion>, če</suggestion>!</message>
@@ -260,7 +273,7 @@ $Id: grammar.xml,v 1.7 2009-10-23 21:44:46 milek_pl Exp $
 				<example type="incorrect">Vprašala naju je<marker> če</marker> sva plačala sladoled.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup name="Manjkajoča vejica pred 'da'" id="DA-BREZ-VEJICE">
+		<rulegroup name="Manjkajoča vejica pred 'da'" id="NE_DA_BI_BREZ_VEJICE">
 			<rule>
 				<pattern mark_from="1" case_sensitive="yes">
 					<token regexp="yes" negate="yes">,|„|"|[I|i]n|[A|a]li|[T|t]er|\(|;|:|–</token>
@@ -466,7 +479,7 @@ $Id: grammar.xml,v 1.7 2009-10-23 21:44:46 milek_pl Exp $
 			<rule id="KATERI" name="Zastarela raba: kateri">
 				<pattern case_sensitive="no" mark_to="-1" >
 					<token regexp="yes">[K|k]ater[i|a|o|ega|emu]</token>
-					<token regexp="yes">je|so|bi</token>					
+					<token regexp="yes">je|so|bi</token>
 				</pattern>
 				<message>Napačna raba besede kateri, pravilno je: <suggestion>ki</suggestion>!</message>
 				<short>Neutemeljen kateri</short>
@@ -475,8 +488,7 @@ $Id: grammar.xml,v 1.7 2009-10-23 21:44:46 milek_pl Exp $
 			</rule>
 		</rulegroup>
 	</category>
-<!--
-	<category name="Slog">
+<!--	<category name="Slog">
 		<rulegroup name="Berljivost, slog" id="BERLJIVO">
 			<rule id="TRIJE_NN" name="Berljivost: trije samostalniki zapored">
 				<pattern>
