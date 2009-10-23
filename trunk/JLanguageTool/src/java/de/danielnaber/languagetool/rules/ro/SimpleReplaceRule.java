@@ -19,6 +19,7 @@
 package de.danielnaber.languagetool.rules.ro;
 
 import java.io.IOException;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 import de.danielnaber.languagetool.rules.AbstractSimpleReplaceRule;
@@ -37,6 +38,8 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
 	public static final String ROMANIAN_SIMPLE_REPLACE_RULE = "RO_SIMPLE_REPLACE";
 	
 	private static final String FILE_NAME = "/rules/ro/replace.txt";
+	// locale used on case-conversion
+	private static Locale roLocale = new Locale("ro");
 
 	public final String getFileName() {
 		return FILE_NAME;
@@ -53,6 +56,20 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
 	public String getDescription() {
 		// TODO: this is a very common rule type; maybe it wold be better to localize {@link AbstractSimpleReplaceRule#getDescription()}
 		return "Cuvinte sau grupuri de cuvinte incorecte";
+	}
+	
+	/**
+	 * use case-insensitive matching.
+	 */
+	public boolean isCaseSensitive() {
+		return false;
+	}
+
+	/**
+	 * locale used on case-conversion
+	 */
+	public Locale getLocale() {
+		return roLocale;
 	}
 
 }
