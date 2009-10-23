@@ -18,6 +18,7 @@
  */
 package de.danielnaber.languagetool.language;
 
+import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
 
@@ -51,7 +52,16 @@ public class Slovenian extends Language {
   }
 
   public Set<String> getRelevantRuleIDs() {
-    return null;
+    final Set<String> ids = new HashSet<String>();
+    ids.add("COMMA_PARENTHESIS_WHITESPACE");
+    ids.add("DOUBLE_PUNCTUATION");
+    ids.add("UNPAIRED_BRACKETS");
+    ids.add("UPPERCASE_SENTENCE_START");
+    ids.add("WORD_REPEAT_RULE");
+    ids.add("WHITESPACE_RULE");
+    // specific to Slovenian: none
+    return ids;
+
   }
 
 }
