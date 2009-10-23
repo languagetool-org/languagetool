@@ -25,6 +25,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -33,6 +34,7 @@ import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.rules.Category;
 import de.danielnaber.languagetool.rules.Rule;
 import de.danielnaber.languagetool.rules.RuleMatch;
+import de.danielnaber.languagetool.tools.StringTools;
 import de.danielnaber.languagetool.tools.Tools;
 
 /**
@@ -52,6 +54,21 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
   
   public String getEncoding() {
     return FILE_ENCODING;
+  }
+  
+  /**
+   * Indicates if the rule is case-sensitive. Default value is <code>true</code>.
+   * @return true if the rule is case-sensitive, false otherwise.
+   */
+  public boolean isCaseSensitive() {
+    return true;  
+  }
+  
+  /**
+   * @return the locale used for case conversion when {@link #isCaseSensitive()} is set to <code>false</code>.
+   */
+  public Locale getLocale() {
+    return Locale.getDefault();
   }
   
   public AbstractSimpleReplaceRule(final ResourceBundle messages) throws IOException {
@@ -77,13 +94,17 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
       final String token = tokens[i].getToken();
 
       final String origToken = token;
-      if (wrongWords.containsKey(token)) {
-        final String replacement = wrongWords.get(token);
-        final String msg = token + " is not valid, use " + replacement;
+      final String replacement = isCaseSensitive()?wrongWords.get(token):wrongWords.get(token.toLowerCase(getLocale()));
+      if (replacement != null) {
+    	final String msg = token + " is not valid, use " + replacement;
         final int pos = tokens[i].getStartPos();
         final RuleMatch potentialRuleMatch = new RuleMatch(this, pos, pos
             + origToken.length(), msg, "Wrong word");
-        potentialRuleMatch.setSuggestedReplacement(replacement);
+        if (!isCaseSensitive() && StringTools.startsWithUppercase(token)) {
+          potentialRuleMatch.setSuggestedReplacement(StringTools.uppercaseFirstChar(replacement));
+        } else {
+          potentialRuleMatch.setSuggestedReplacement(replacement);
+        }
         ruleMatches.add(potentialRuleMatch);
       }
     }
