@@ -52,6 +52,9 @@ public class UnpairedQuotesBracketsRule extends Rule {
   private static final String[] PL_START_SYMBOLS = { "[", "(", "{", "„", "»", "\"" };
   private static final String[] PL_END_SYMBOLS   = { "]", ")", "}", "”", "«", "\"" };
 
+  private static final String[] SL_START_SYMBOLS = { "[", "(", "{", "„", "»", "\"" };
+  private static final String[] SL_END_SYMBOLS   = { "]", ")", "}", "”", "«", "\"" };
+  
   private static final String[] SK_START_SYMBOLS = { "[", "(", "{", "„", "»", "\"" };
   private static final String[] SK_END_SYMBOLS   = { "]", ")", "}", "“", "«", "\"" };
 
@@ -84,6 +87,8 @@ public class UnpairedQuotesBracketsRule extends Rule {
 
   private static final String[] DK_START_SYMBOLS = { "[", "(", "{", "\"", "”" };
   private static final String[] DK_END_SYMBOLS   = { "]", ")", "}", "\"", "”" };
+
+  
 
   /**
    * The stack for pairing symbols.
@@ -119,7 +124,10 @@ public class UnpairedQuotesBracketsRule extends Rule {
       endSymbols = PL_END_SYMBOLS;
     } else if (language.equals(Language.SLOVAK)) {
       startSymbols = SK_START_SYMBOLS;
-      endSymbols = SK_END_SYMBOLS;
+      endSymbols = SK_END_SYMBOLS; }
+      else if (language.equals(Language.SLOVENIAN)) {
+        startSymbols = SL_START_SYMBOLS;
+        endSymbols = SL_END_SYMBOLS;     
     } else if (language.equals(Language.FRENCH)) {
       startSymbols = FR_START_SYMBOLS;
       endSymbols = FR_END_SYMBOLS;
