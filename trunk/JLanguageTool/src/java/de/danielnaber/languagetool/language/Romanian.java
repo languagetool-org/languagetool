@@ -23,6 +23,7 @@ import java.util.Locale;
 import java.util.Set;
 
 import de.danielnaber.languagetool.Language;
+import de.danielnaber.languagetool.rules.ro.SimpleReplaceRule;
 import de.danielnaber.languagetool.synthesis.Synthesizer;
 import de.danielnaber.languagetool.synthesis.ro.RomanianSynthesizer;
 import de.danielnaber.languagetool.tagging.Tagger;
@@ -85,7 +86,8 @@ public class Romanian extends Language {
 		ids.add("UNPAIRED_BRACKETS");
 		ids.add("UPPERCASE_SENTENCE_START");
 		ids.add("WORD_REPEAT_RULE");
-		// specific to romanian: none so far
+		// specific to romanian
+		ids.add(SimpleReplaceRule.ROMANIAN_SIMPLE_REPLACE_RULE);
 
 		return ids;
 	}
