@@ -44,8 +44,17 @@ public final class TestTools {
   }
 
   public static ResourceBundle getEnglishMessages() {
+	  return getMessages("en");
+  }
+  
+  /**
+   * Gets the resource bundle for the specified language.
+   * @param language lowercase two-letter ISO-639 code.
+   * @return the resource bundle for the specified language.
+   */
+  public static ResourceBundle getMessages(String language) {
     final ResourceBundle messages = ResourceBundle.getBundle(
-        "de.danielnaber.languagetool.MessagesBundle", new Locale("en"));
+        "de.danielnaber.languagetool.MessagesBundle", new Locale(language));
     return messages;
   }
 
