@@ -29,43 +29,63 @@ import de.danielnaber.languagetool.rules.RuleMatch;
 
 /**
  * 
- * Simple tests for rules/ro/SimpleReplaceRule class  
+ * Simple tests for rules/ro/SimpleReplaceRule class
  * 
  * @author Ionuț Păduraru
  */
 public class SimpleReplaceRuleTest extends TestCase {
 
-	public void testRule() throws IOException {
-		SimpleReplaceRule rule = new SimpleReplaceRule(TestTools.getMessages("ro"));
+	private SimpleReplaceRule rule;
+	private JLanguageTool langTool;
 
-		RuleMatch[] matches;
-		JLanguageTool langTool = new JLanguageTool(Language.ROMANIAN);
+	protected void setUp() throws Exception {
+		super.setUp();
+		rule = new SimpleReplaceRule(TestTools.getMessages("ro"));
+		langTool = new JLanguageTool(Language.ROMANIAN);
+	}
+
+	public void testRule() throws IOException {
 
 		// correct sentences:
-		matches = rule.match(langTool.getAnalyzedSentence("Paisprezece case."));
-		assertEquals(0, matches.length);
+		assertEquals(0, rule.match(langTool.getAnalyzedSentence("Paisprezece case.")).length);
 
 		// incorrect sentences:
-		// patrusprezece=paisprezece
-		// inside sentence
-		matches = rule.match(langTool.getAnalyzedSentence("Satul are patrusprezece case."));
-		assertEquals(1, matches.length);
-		assertEquals(1, matches[0].getSuggestedReplacements().size());
-		assertEquals("paisprezece", matches[0].getSuggestedReplacements().get(0));
-		// at the beginning of a sentence
-		// TODO:  AbstractSimpleReplaceRule is CASE-SENSITIVE!
-		// fix AbstractSimpleReplaceRule or modify this test case
-		// The word "patrusprezece" exists in the ro/replace.txt file, as shown in the above test.
-		// When used capitalized, as "Patrusprezece", it is no longer recognized by the rule!
-		matches = rule.match(langTool.getAnalyzedSentence("Patrusprezece case."));
-		assertEquals(1, matches.length);
-		assertEquals(1, matches[0].getSuggestedReplacements().size());
-		assertEquals("Paisprezece", matches[0].getSuggestedReplacements().get(0));
-		//șasesprezece=șaisprezece
-		matches = rule.match(langTool.getAnalyzedSentence("El are șasesprezece ani."));
-		assertEquals(1, matches.length);
-		assertEquals(1, matches[0].getSuggestedReplacements().size());
-		assertEquals("șaisprezece", matches[0].getSuggestedReplacements().get(0));
 
+		// at the beginning of a sentence (Romanian replace rule is case-sensitive)
+		checkSimpleReplaceRule("Patrusprezece case.", "Paisprezece");
+		// inside sentence
+		checkSimpleReplaceRule("Satul are patrusprezece case.", "paisprezece");
+		checkSimpleReplaceRule("Satul are (patrusprezece) case.", "paisprezece");
+		checkSimpleReplaceRule("Satul are «patrusprezece» case.", "paisprezece");
+		
+		checkSimpleReplaceRule("El are șasesprezece ani.", "șaisprezece");
+		checkSimpleReplaceRule("El a luptat pentru întâiele cărți.", "întâile");
+		checkSimpleReplaceRule("El are cinsprezece cărți.", "cincisprezece");
+		checkSimpleReplaceRule("El a fost patruzecioptist.", "pașoptist");
+		checkSimpleReplaceRule("M-am adresat întâiei venite.", "întâii");
+		checkSimpleReplaceRule("M-am adresat întâielor venite.", "întâilor");
+		checkSimpleReplaceRule("A ajuns al douăzecelea.", "douăzecilea");
+		checkSimpleReplaceRule("A ajuns al zecilea.", "zecelea");
+	}
+
+	/**
+	 * Check if a specific replace rule applies.
+	 * 
+	 * @param sentence
+	 *            the sentence containing the incorrect/misspeled word.
+	 * @param word
+	 *            the word that is correct (the suggested replacement).
+	 * @throws IOException
+	 */
+	private void checkSimpleReplaceRule(String sentence, String word)
+			throws IOException {
+		RuleMatch[] matches;
+		matches = rule.match(langTool.getAnalyzedSentence(sentence));
+		assertEquals("Invalid matches.length while checking sentence: "
+				+ sentence, 1, matches.length);
+		assertEquals("Invalid replacement count wile checking sentence: "
+				+ sentence, 1, matches[0].getSuggestedReplacements().size());
+		assertEquals("Invalid suggested replacement while checking sentence: "
+				+ sentence, word, matches[0].getSuggestedReplacements().get(0));
 	}
 }
