@@ -66,8 +66,10 @@ public class Galician extends Language {
     return wordTokenizer;
   }
 
-  public final Contributor[] getMaintainers() {
-    return new Contributor[] {new Contributor("Susana Sotelo Docío")};
+  public Contributor[] getMaintainers() {
+    Contributor contributor = new Contributor("Susana Sotelo Docío");
+    contributor.setUrl("http://www.g11n.net/languagetool-gl");
+    return new Contributor[] { contributor };
   }
 
   public final Set<String> getRelevantRuleIDs() {

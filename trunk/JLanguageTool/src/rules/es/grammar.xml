@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Spanish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.10 2009-10-22 20:02:40 milek_pl Exp $
+$Id: grammar.xml,v 1.11 2009-10-23 23:02:30 milek_pl Exp $
 -->
 <rules lang="es" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../rules.xsd">
@@ -66,6 +66,17 @@ $Id: grammar.xml,v 1.10 2009-10-22 20:02:40 milek_pl Exp $
         <short>Error ortográfico.</short>
         <example correction="han" type="incorrect">Los atletas <marker>an</marker> corrido de forma espectacular.</example>
         <example type="correct">Los atletas <marker>han</marker> corrido de forma espectacular.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="ALEGRAR" name="alegrarse que (alegrarse de que)">
+      <rule>
+        <pattern>
+          <token regexp="yes">alegrarse|alegrarme</token>
+          <token>que</token>
+        </pattern>
+        <message>En este contexto, el verbo 'alegrarse' va seguido normalmente de la preposición 'de': <suggestion>\1 de \2</suggestion></message>
+        <example correction="alegrarse de que" type="incorrect">Blanco llama a Rajoy "patriota de pacotilla" por <marker>alegrarse que</marker> suba el paro.</example>
+        <example type="correct">Blanco llama a Rajoy "patriota de pacotilla" por <marker>alegrarse de que</marker> suba el paro.</example>
       </rule>
     </rulegroup>
     <rulegroup id="Y_I_O_O" name="y Italia, o Honduras">
