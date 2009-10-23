@@ -79,8 +79,8 @@ public class UnpairedQuotesBracketsRule extends Rule {
   private static final String[] NL_START_SYMBOLS = { "[", "(", "{", "„", "“", "‘" };
   private static final String[] NL_END_SYMBOLS   = { "]", ")", "}", "”", "”", "’" };
 
-  private static final String[] IT_START_SYMBOLS = { "[", "(", "{", "»", "‘" };
-  private static final String[] IT_END_SYMBOLS   = { "]", ")", "}", "«", "’" };
+  private static final String[] IT_START_SYMBOLS = { "[", "(", "{", "»", /*"‘"*/ };
+  private static final String[] IT_END_SYMBOLS   = { "]", ")", "}", "«", /*"’"*/ };
 
   private static final String[] DK_START_SYMBOLS = { "[", "(", "{", "\"", "”" };
   private static final String[] DK_END_SYMBOLS   = { "]", ")", "}", "\"", "”" };
