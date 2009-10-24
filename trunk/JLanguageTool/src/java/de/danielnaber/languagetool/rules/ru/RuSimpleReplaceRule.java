@@ -19,6 +19,7 @@
 package de.danielnaber.languagetool.rules.ru;
 
 import java.io.IOException;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 import de.danielnaber.languagetool.rules.AbstractSimpleReplaceRule;
@@ -30,13 +31,16 @@ import de.danielnaber.languagetool.rules.AbstractSimpleReplaceRule;
  * Russian implementations. Loads the
  * relevant words from <code>rules/ru/replace.txt</code>.
  * 
- * @author Andriy Rysin
- * Russian implementations - Yakov Reztsov
+ * @author  Yakov Reztsov
  */
 public class RuSimpleReplaceRule extends AbstractSimpleReplaceRule {
 
   private static final String FILE_NAME = "/rules/ru/replace.txt";
 
+  // locale used on case-conversion
+	private static Locale ruLocale = new Locale("ru");
+
+  
   public final String getFileName() {
     return FILE_NAME;
   }
@@ -52,6 +56,25 @@ public class RuSimpleReplaceRule extends AbstractSimpleReplaceRule {
     return "Поиск ошибочных слов/фраз";
   }
 
+public String getShort() {
+	  return "Ошибка?";
+	}
+	
+	public String getSuggestion() {
+	  return " - ошибочное слово/фраза, исправление: ";
+	}
+	
+	/**
+	 * use case-insensitive matching.
+	 */
+	public boolean isCaseSensitive() {
+		return false;
+	}
 
-
+	/**
+	 * locale used on case-conversion
+	 */
+	public Locale getLocale() {
+		return ruLocale;
+	}
 }
