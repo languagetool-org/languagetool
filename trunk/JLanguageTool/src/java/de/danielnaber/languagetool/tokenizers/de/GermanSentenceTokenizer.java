@@ -36,7 +36,7 @@ public class GermanSentenceTokenizer extends SentenceTokenizer {
     "Gen", "germ", "gesch", "ges", "get", "ggf", "Ggs", "ggT",
     "griech", "hebr", "hg", "Hrsg", "Hg", "hist", "hochd", "hochspr",
     "Hptst", "Hr", "Allg", "ill", "inkl", "incl", "Ind", "Inf", "Ing",
-    "ital", "Tr", "Jb", "Jg", "Jh", "jmd", "jmdm", "jmdn", "jmds",
+    "ital", "Tr", "Jb", "Jg", "Jh", "Jhd", "jmd", "jmdm", "jmdn", "jmds",
     "jur", "Kap", "kart", "kath", "kfm", "kaufm", "Kfm", "kgl",
     "Kl", "Konj", "Krs", "Kr", "Kto", "lat", "lfd", "Lit", "lt",
     "Lz", "Mask", "mask", "Mrd", "mdal", "med", "met", "mhd", "Mi",
@@ -57,7 +57,7 @@ public class GermanSentenceTokenizer extends SentenceTokenizer {
   private static final String[] MONTH_NAMES = { "Januar", "Februar", "März", "April", "Mai",
       "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember",
       // ähnliche Fälle außerhalb der Monatsnamen:
-      "Jh.", "Jhd.", "Jahrhundert", "Jahrhunderts", "Geburtstag", "Geburtstags", "Platz", "Platzes"};
+      "Jh", "Jhd", "Jahrhundert", "Jahrhunderts", "Geburtstag", "Geburtstags", "Platz", "Platzes"};
 
   public GermanSentenceTokenizer() {
     super(ABBREV_LIST);
