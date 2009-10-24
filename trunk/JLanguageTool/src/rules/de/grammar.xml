@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 German grammar and typo rules for LanguageTool
 See resource/de/tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.23 2009-10-22 20:02:41 milek_pl Exp $
+$Id: grammar.xml,v 1.24 2009-10-24 20:15:46 dnaber Exp $
 -->
 <rules lang="de" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../rules.xsd">
@@ -618,6 +618,16 @@ $Id: grammar.xml,v 1.23 2009-10-22 20:02:41 milek_pl Exp $
     <example type="incorrect">Da regt er sich zu <marker>recht</marker> auf.</example>
   </rule>
   -->
+    <rule id="DES_NACHTS" name="Groß-/Kleinschreibung: 'des nachts(Nachts), eines nachts(Nachts)'">
+      <pattern case_sensitive="yes" mark_from="1">
+        <token regexp="yes">[Dd]es|[Ee]ines</token>
+        <token>nachts</token>
+      </pattern>
+      <message><suggestion>Nachts</suggestion> in der Wendung 'des Nachts' bzw. 'eines Nachts' wird groß geschrieben.</message>
+      <example type="correct">Des <marker>Nachts</marker> sind alle Katzen blau.</example>
+      <example type="incorrect">Des <marker>nachts</marker> sind alle Katzen blau.</example>
+      <example type="incorrect">Eines <marker>nachts</marker> sind alle Katzen blau.</example>
+    </rule>
     <!-- TODO: Gut und böse; gut und Böse -->
     <rule id="GUT_UND_BOESE" name="Groß-/Kleinschreibung: 'jenseits von gut(Gut) und böse(Böse)'">
       <pattern case_sensitive="yes" mark_from="2">
