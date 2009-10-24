@@ -99,6 +99,7 @@ public class Polish extends Language {
     // specific to Polish:
     ids.add("PL_WORD_REPEAT");
     ids.add("PL_COMPOUNDS");
+    ids.add("PL_SIMPLE_REPLACE");
     return ids;
   }
 

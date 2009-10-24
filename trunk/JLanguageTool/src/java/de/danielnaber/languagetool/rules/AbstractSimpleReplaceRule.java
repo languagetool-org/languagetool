@@ -85,6 +85,14 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
   public String getDescription() {
     return "Checks for wrong words/phrases";
   }
+  
+  public String getSuggestion() {
+    return " is not valid, use ";
+  }
+  
+  public String getShort() {
+    return "Wrong word";
+  }
 
   public final RuleMatch[] match(final AnalyzedSentence text) {
     final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
@@ -96,10 +104,10 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
       final String origToken = token;
       final String replacement = isCaseSensitive()?wrongWords.get(token):wrongWords.get(token.toLowerCase(getLocale()));
       if (replacement != null) {
-    	final String msg = token + " is not valid, use " + replacement;
+    	final String msg = token + getSuggestion() + replacement;
         final int pos = tokens[i].getStartPos();
         final RuleMatch potentialRuleMatch = new RuleMatch(this, pos, pos
-            + origToken.length(), msg, "Wrong word");
+            + origToken.length(), msg, getShort());
         if (!isCaseSensitive() && StringTools.startsWithUppercase(token)) {
           potentialRuleMatch.setSuggestedReplacement(StringTools.uppercaseFirstChar(replacement));
         } else {
