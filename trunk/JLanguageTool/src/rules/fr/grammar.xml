@@ -5,7 +5,7 @@ title="Easy editing stylesheet" ?>
 <!--
 French Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski, Agnes Souque, Hugo Voisard & Myriam Lechelt.
-$Id: grammar.xml,v 1.24 2009-10-24 12:41:17 milek_pl Exp $
+$Id: grammar.xml,v 1.25 2009-10-24 19:09:37 milek_pl Exp $
 -->
 <rules lang="fr" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <phrases>
@@ -79,7 +79,7 @@ though, and has since been slightly modified)-->
     <rulegroup id="JOINDRE_ENSEMBLE" name="joindre ensemble">
       <rule>
         <pattern>
-          <token regexp="yes" skip="6">joindre</token>
+          <token skip="6">joindre</token>
           <token>ensemble</token>
         </pattern>
         <message>« Joindre ensemble » est un pléonasme. Employez <suggestion>\1</suggestion>, <suggestion>mettre ensemble</suggestion>.</message>
@@ -98,7 +98,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="COMME_PAR_EXEMPLE" name="comme par exemple">
       <pattern>
-        <token regexp="yes" skip="1">comme</token>
+        <token skip="1">comme</token>
         <token>par</token>
         <token>exemple</token>
       </pattern>
@@ -1283,7 +1283,7 @@ though, and has since been slightly modified)-->
     <rule id="PILER_SUR_SON_ORGUEIL" name="piler sur son orgueil">
       <pattern>
         <token inflected="yes">piler</token>
-        <token regexp="yes" skip="1">sur</token>
+        <token skip="1">sur</token>
         <token regexp="yes">orgueil|orgueils</token>
       </pattern>
       <message>« Piler sur son orgueil » est un régionalisme (Québec). Employez <suggestion>rabaisser</suggestion>, <suggestion>rabattre son orgueil</suggestion>, <suggestion>mettre son orgueil en poche</suggestion>.</message>
@@ -1293,7 +1293,7 @@ though, and has since been slightly modified)-->
     <rule id="PILER_SUR_LES_PIEDS" name="piler sur les pieds">
       <pattern>
         <token inflected="yes">piler</token>
-        <token regexp="yes" skip="1">sur</token>
+        <token skip="1">sur</token>
         <token regexp="yes">pied|pieds</token>
       </pattern>
       <message>« Piler sur les pieds » est un régionalisme (Québec). Employez <suggestion>marcher sur les pieds</suggestion>.</message>
@@ -1629,12 +1629,12 @@ though, and has since been slightly modified)-->
       <example type="correct"><marker>clause dérogative</marker></example>
     </rule>
     <rule id="FAIRE_ASSEMBLANT" name="faire assemblant">
-      <pattern>
-        <token regexp="yes" skip="5">faire</token>
+      <pattern mark_from="1">
+        <token inflected="yes" skip="5">faire</token>
         <token>assemblant</token>
       </pattern>
-      <message>« Faire assemblant » est un régionalisme (Québec). Employez <suggestion>faire semblant</suggestion>.</message>
-      <example type="incorrect"><marker>faire assemblant</marker></example>
+      <message>« Faire assemblant » est un régionalisme (Québec). Employez <suggestion>semblant</suggestion>.</message>
+      <example correction="semblant" type="incorrect">faire <marker>assemblant</marker></example>
       <example type="correct"><marker>faire semblant</marker></example>
     </rule>
     <rule id="CI-BAS" name="ci-bas">
@@ -2212,7 +2212,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="TROU_DEAU" name="trou d'eau">
       <pattern>
-        <token regexp="yes" skip="2">trou</token>
+        <token skip="2">trou</token>
         <token regexp="yes">eau|eaux|eaus</token>
       </pattern>
       <message>« Trou d'eau » est un régionalisme (Québec). Employez <suggestion>flaque d'eau</suggestion>.</message>
@@ -3429,7 +3429,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token regexp="yes">bal|bals|balle|balles</token>
-          <token regexp="yes" skip="2">de</token>
+          <token skip="2">de</token>
           <token regexp="yes">graduation|graduations</token>
         </pattern>
         <message>« Bal de graduation » est un anglicisme (graduation bal). Employez <suggestion>bal de fin d'études</suggestion>.</message>
@@ -3452,7 +3452,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token>fournaise</token>
-          <token regexp="yes" skip="2">à</token>
+          <token skip="2">à</token>
           <token regexp="yes">huile|huiles</token>
         </pattern>
         <message>« Fournaise à (l')huile » est un anglicisme (oil furnace). Employez <suggestion>chaudière à mazout</suggestion>.</message>
@@ -3792,7 +3792,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="FRAIS_DOPERATION" name="frais d'opération">
       <pattern>
-        <token regexp="yes" skip="3">frais</token>
+        <token skip="3">frais</token>
         <token regexp="yes">opération|opérations</token>
       </pattern>
       <message>« Frais d'opération » est un anglicisme (operation costs). Employez <suggestion>frais d'exploitation</suggestion>.</message>
@@ -3928,7 +3928,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="DEDUCTION_A_LA_SOURCE" name="déduction à la source">
       <pattern>
-        <token regexp="yes" skip="3">déduction</token>
+        <token skip="3">déduction</token>
         <token>source</token>
       </pattern>
       <message>« Déduction à la source » est un anglicisme. Employez <suggestion>retenue à la source</suggestion>.</message>
@@ -3937,7 +3937,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="DEDUCTION_SUR_LE_SALAIRE" name="déduction sur le salaire">
       <pattern>
-        <token regexp="yes" skip="3">déduction</token>
+        <token skip="3">déduction</token>
         <token>salaire</token>
       </pattern>
       <message>« Déduction à la source » est un anglicisme. Employez <suggestion>retenue sur le salaire</suggestion>.</message>
@@ -4898,92 +4898,21 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token>un</token>
-          <token regexp="yes" skip="1">bon|bons</token>
-          <token regexp="yes">minutes|minute</token>
+          <token regexp="yes">bon|bons</token>
+          <token></token>
+          <token regexp="yes">minutes?|semaines?|mois|heures?|secondes?|jours?|journées?|années?|ans?</token>
         </pattern>
-        <message>« Un bon [X] minutes » est un anglicisme. Employez <suggestion>[X] bonnes minutes</suggestion>.</message>
-        <example type="incorrect"><marker>un bon dix minutes</marker></example>
-        <example type="correct"><marker>[X] bonnes minutes</marker></example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>un</token>
-          <token regexp="yes" skip="1">bon|bons</token>
-          <token regexp="yes">semaine|semaines</token>
-        </pattern>
-        <message>« Un bon [X] semaines » est un anglicisme. Employez <suggestion>[X] bonnes semaines</suggestion>.</message>
-        <example type="incorrect"><marker>un bon dix semaines</marker></example>
-        <example type="correct"><marker>[X] bonnes semaines</marker></example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>un</token>
-          <token regexp="yes" skip="1">bon|bons</token>
-          <token>mois</token>
-        </pattern>
-        <message>« Un bon [X] mois » est un anglicisme. Employez <suggestion>[X] bons mois</suggestion>.</message>
-        <example type="incorrect"><marker>un bon dix mois</marker></example>
-        <example type="correct"><marker>[X] bons mois</marker></example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>un</token>
-          <token regexp="yes" skip="1">bon|bons</token>
-          <token regexp="yes">heures|heure</token>
-        </pattern>
-        <message>« Un bon [X] heures » est un anglicisme. Employez <suggestion>[X] bonnes heures</suggestion>.</message>
-        <example type="incorrect"><marker>un bon dix heures</marker></example>
-        <example type="correct"><marker>[X] bonnes heures</marker></example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>un</token>
-          <token regexp="yes" skip="1">bon|bons</token>
-          <token regexp="yes">secondes|seconde</token>
-        </pattern>
-        <message>« Un bon [X] secondes » est un anglicisme. Employez <suggestion>[X] bonnes secondes</suggestion>.</message>
-        <example type="incorrect"><marker>un bon dix secondes</marker></example>
-        <example type="correct"><marker>[X] bonnes secondes</marker></example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>un</token>
-          <token regexp="yes" skip="1">bon|bons</token>
-          <token regexp="yes">jour|jours</token>
-        </pattern>
-        <message>« Un bon [X] jours » est un anglicisme. Employez <suggestion>[X] bons jours</suggestion>.</message>
-        <example type="incorrect"><marker>un bon dix jours</marker></example>
-        <example type="correct"><marker>[X] bons jours</marker></example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>un</token>
-          <token regexp="yes" skip="1">bon|bons</token>
-          <token regexp="yes">journée|journées</token>
-        </pattern>
-        <message>« Un bon [X] journées » est un anglicisme. Employez <suggestion>[X] bons journées</suggestion>.</message>
-        <example type="incorrect"><marker>un bon dix journées</marker></example>
-        <example type="correct"><marker>[X] bonnes journées</marker></example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>un</token>
-          <token regexp="yes" skip="1">bon|bons</token>
-          <token regexp="yes">année|années</token>
-        </pattern>
-        <message>« Un bon [X] années » est un anglicisme. Employez <suggestion>[X] bonnes années</suggestion>.</message>
-        <example type="incorrect"><marker>un bon dix années</marker></example>
-        <example type="correct"><marker>[X] bonnes années</marker></example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>un</token>
-          <token regexp="yes" skip="1">bon|bons</token>
-          <token regexp="yes">an|ans</token>
-        </pattern>
-        <message>« Un bon [X] années » est un anglicisme. Employez <suggestion>[X] bonnes années</suggestion>.</message>
-        <example type="incorrect"><marker>un bon dix ans</marker></example>
-        <example type="correct"><marker>[X] bonnes années</marker></example>
+        <message>« Un bon [X] minutes » est un anglicisme. Employez <suggestion>\3 bonnes \4</suggestion>.</message>
+        <example correction="dix bonnes mois" type="incorrect"><marker>un bon dix mois</marker></example>
+        <example correction="dix bonnes semaines" type="incorrect"><marker>un bon dix semaines</marker></example>
+        <example correction="dix bonnes secondes" type="incorrect"><marker>un bon dix secondes</marker></example>
+        <example correction="dix bonnes heures" type="incorrect"><marker>un bon dix heures</marker></example>
+        <example correction="dix bonnes jours" type="incorrect"><marker>un bon dix jours</marker></example>
+        <example correction="dix bonnes journées" type="incorrect"><marker>un bon dix journées</marker></example>
+        <example correction="dix bonnes minutes" type="incorrect"><marker>un bon dix minutes</marker></example>
+        <example correction="dix bonnes ans" type="incorrect"><marker>un bon dix ans</marker></example>
+        <example correction="dix bonnes années" type="incorrect"><marker>un bon dix années</marker></example>
+        <example type="correct"><marker>dix bonnes minutes</marker></example>
       </rule>
     </rulegroup>
     <rulegroup id="CHANSON_THEME" name="chanson thème">
@@ -5078,7 +5007,7 @@ though, and has since been slightly modified)-->
         <pattern mark_to="-1">
           <token>en</token>
           <token>dedans</token>
-          <token regexp="yes" skip="5">de</token>
+          <token skip="5">de</token>
           <token inflected="yes" regexp="yes">minute|semaine|mois|heure|seconde|jour|journée|année|an</token>
         </pattern>
         <message>« En dedans de [x] minutes » est un anglicisme (within). Employez <suggestion>d'ici</suggestion>, <suggestion>en moins de</suggestion>.</message>
@@ -5140,7 +5069,7 @@ though, and has since been slightly modified)-->
     <rule id="ACCROCHER_SUR_LE_MUR" name="accrocher sur le mur">
       <pattern>
         <token inflected="yes" skip="5">accrocher</token>
-        <token regexp="yes" skip="1">sur</token>
+        <token skip="1">sur</token>
         <token regexp="yes">mur|murs</token>
       </pattern>
       <message>« Accrocher sur le mur » est un anglicisme. Employez <suggestion>accrocher au mur</suggestion>.</message>
@@ -8835,7 +8764,7 @@ though, and has since been slightly modified)-->
     <rule id="PAPILLON_DANS_LESTOMAC" name="avoir des papillons dans l'estomac">
       <pattern>
         <token regexp="yes">papillon|papillons</token>
-        <token regexp="yes" skip="2">dans</token>
+        <token skip="2">dans</token>
         <token regexp="yes">estomac|estomacs</token>
       </pattern>
       <message>« Avoir/ressentir/sentir/ des papillons dans son estomac » est un anglicisme (to have butteflies in the stomach). Employez <suggestion>être nerveux</suggestion>, <suggestion>avoir le trac</suggestion> (familier), <suggestion>avoir l'estomac noué</suggestion> (familier), <suggestion>avoir une boule dans l'estomac</suggestion> (familier).</message>
@@ -9089,7 +9018,7 @@ though, and has since been slightly modified)-->
     <rule id="PLACE_POUR_AMELIORATION" name="place pour (l')amélioration">
       <pattern>
         <token regexp="yes">place|places</token>
-        <token regexp="yes" skip="2">pour</token>
+        <token skip="2">pour</token>
         <token regexp="yes">amélioration|améliorations</token>
       </pattern>
       <message>« Place pour (l')amélioration » est un anglicisme (room for improvement). Employez <suggestion>laisser à désirer</suggestion>.</message>
@@ -15096,7 +15025,7 @@ though, and has since been slightly modified)-->
 -->
     <rule id="PEUT_IMPORTE" name="un espèce de">
       <pattern>
-        <token regexp="yes" skip="2">peut</token>
+        <token skip="2">peut</token>
         <token inflected="yes">importer</token>
       </pattern>
       <message>« Peut importe » est un tour critiqué (impropriété). Employez <suggestion>peu importe</suggestion>.</message>
@@ -15766,54 +15695,54 @@ though, and has since been slightly modified)-->
       <example type="incorrect"><marker>par acquis de conscience</marker></example>
       <example type="correct"><marker>par acquit de conscience</marker>.</example>
     </rule>
-    <rule id="FAIRE_PARTI_DE" name="faire parti de">
-      <pattern>
+    <rule id="FAIRE_PARTI_DE" name="faire/tirer parti de">
+      <pattern mark_from="1">
         <token inflected="yes" skip="4">faire</token>
         <token>parti</token>
         <token regexp="yes">de|d</token>
       </pattern>
-      <message>« Faire parti de » est un tour critiqué (impropriété). Employez <suggestion>\1 partie \3</suggestion>.</message>
-      <example correction="fais partie de" type="incorrect">Tu <marker>fais parti de</marker> ma vie.</example>
+      <message>« Faire parti de » est un tour critiqué (impropriété). Employez <suggestion>partie \3</suggestion>.</message>
+      <example correction="partie de" type="incorrect">Tu fais <marker>parti de</marker> ma vie.</example>
       <example type="correct"><marker>faire partie de</marker></example>
     </rule>
     <rule id="TIRER_PARTIE_DE" name="tirer partie de">
-      <pattern>
+      <pattern mark_from="1">
         <token inflected="yes" skip="4">tirer</token>
         <token>partie</token>
         <token regexp="yes">de|d</token>
       </pattern>
-      <message>« Faire parti de » est un tour critiqué (impropriété). Employez <suggestion>\1 parti \3</suggestion>.</message>
-      <example type="incorrect"><marker>tirer partie de</marker></example>
+      <message>« Tirer partie de » est un tour critiqué (impropriété). Employez <suggestion>parti \3</suggestion>.</message>
+      <example correction="parti de" type="incorrect">tirer <marker>partie de</marker></example>
       <example type="correct"><marker>tirer parti de</marker></example>
     </rule>
     <rule id="PRENDRE_PARTIE_POUR" name="prendre partie pour">
-      <pattern>
+      <pattern mark_from="1">
         <token inflected="yes" skip="4">prendre</token>
         <token>partie</token>
         <token>pour</token>
       </pattern>
-      <message>« Prendre partie pour » est un tour critiqué (impropriété). Employez <suggestion>\1 parti pour</suggestion>.</message>
-      <example type="incorrect"><marker>prendre partie pour</marker></example>
+      <message>« Prendre partie pour » est un tour critiqué (impropriété). Employez <suggestion>parti pour</suggestion>.</message>
+      <example correction="parti pour" type="incorrect">prendre <marker>partie pour</marker></example>
       <example type="correct"><marker>prendre parti pour</marker></example>
     </rule>
     <rule id="FAIRE_AFFAIRES_AVEC" name="faire affaires avec">
-      <pattern>
+      <pattern mark_from="1">
         <token inflected="yes" skip="4">faire</token>
         <token>affaires</token>
         <token>avec</token>
       </pattern>
-      <message>« Faire affaires avec » est un tour critiqué (expression invariable). Employez <suggestion>\1 affaire avec</suggestion>.</message>
-      <example type="incorrect"><marker>faire affaires avec</marker></example>
+      <message>« Faire affaires avec » est un tour critiqué (expression invariable). Employez <suggestion>affaire avec</suggestion>.</message>
+      <example correction="affaire avec" type="incorrect">faire <marker>affaires avec</marker></example>
       <example type="correct"><marker>faire affaire avec</marker></example>
     </rule>
     <rule id="TENIR_POUR_ACQUIT" name="tenir pour acquit">
-      <pattern>
+      <pattern mark_from="1">
         <token inflected="yes" skip="2">tenir</token>
         <token>pour</token>
         <token>acquit</token>
       </pattern>
-      <message>« Tenir pour acquit » est un tour critiqué (impropriété). Employez <suggestion>\1 pour acquis</suggestion>.</message>
-      <example type="incorrect"><marker>tenir pour acquit</marker></example>
+      <message>« Tenir pour acquit » est un tour critiqué (impropriété). Employez <suggestion>pour acquis</suggestion>.</message>
+      <example type="incorrect">tenir <marker>pour acquit</marker></example>
       <example type="correct"><marker>tenir pour acquis</marker></example>
     </rule>
   </category>
@@ -15911,12 +15840,13 @@ though, and has since been slightly modified)-->
   <category name="Règles de base">
     <rule id="FRENCH_WORD_REPEAT_RULE" name="Doublon («pour pour», «je je», etc.)">
       <pattern>
-        <token><exception postag="SENT_START"></exception></token>
-        <token spacebefore="ignore"><exception regexp="yes">vous|nous</exception><match no="0"></match></token>
+        <token regexp="yes">\p{L}+<exception postag="SENT_START"></exception></token>
+        <token spacebefore="yes"><exception regexp="yes">vous|nous</exception><match no="0"></match></token>
       </pattern>
       <message>Faute de frappe possible : un mot est répété: \1 \2. Correction : <suggestion>\1</suggestion>.</message>
       <short>Doublon</short>
       <example correction="Je" type="incorrect"><marker>Je je</marker> suis français.</example>
+      <example type="correct">Oui ...</example>
       <example type="correct">Vous vous parlez.</example>
     </rule>
   </category>
