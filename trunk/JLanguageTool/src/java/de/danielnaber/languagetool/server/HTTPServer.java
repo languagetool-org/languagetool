@@ -115,73 +115,75 @@ public class HTTPServer extends ContentOracle {
   }
 
   public String demultiplex(Request connRequest, Response connResponse) {
-    long timeStart = System.currentTimeMillis();
-    String text = null;
-    try {
-      if (StringTools.isEmpty(connRequest.getLocation())) {
-        connResponse.setStatus(403);
-        throw new RuntimeException("Error: Access to "
-            + connRequest.getLocation() + " denied");
-      }
-      if (allowedIPs.contains(connRequest.getIPAddressString())) {
-    	// TODO: temporary fix until jaminid bug is fixed (it seams that non-asci characters are not handled correctly) 
-    	// see https://sourceforge.net/tracker/?func=detail&aid=2876507&group_id=127764&atid=709370
-	    fixRequestParamMap(connRequest);
-	    
-	    // return content base on request string.
-	    // Refactror this when the number of known request types gets too big.   
+    synchronized(instances){
+      long timeStart = System.currentTimeMillis();
+      String text = null;
+      try {
+        if (StringTools.isEmpty(connRequest.getLocation())) {
+          connResponse.setStatus(403);
+          throw new RuntimeException("Error: Access to "
+              + connRequest.getLocation() + " denied");
+        }
+        if (allowedIPs.contains(connRequest.getIPAddressString())) {
+          // TODO: temporary fix until jaminid bug is fixed (it seams that non-asci characters are not handled correctly) 
+          // see https://sourceforge.net/tracker/?func=detail&aid=2876507&group_id=127764&atid=709370
+	      fixRequestParamMap(connRequest);
+	     
+	      // return content base on request string.
+	      // Refactror this when the number of known request types gets too big.   
 
-	    // request type: list known languages
-	    if (connRequest.getLocation().endsWith("/Languages")) {
-	      connResponse.setHeaderLine(ProtocolResponseHeader.Content_Type, "text/xml");
-	      connResponse.setHeaderLine(ProtocolResponseHeader.Content_Encoding, "UTF-8");
-          return getSupportedLanguagesAsXML();
-	    }
+	      // request type: list known languages
+	      if (connRequest.getLocation().endsWith("/Languages")) {
+	        connResponse.setHeaderLine(ProtocolResponseHeader.Content_Type, "text/xml");
+	        connResponse.setHeaderLine(ProtocolResponseHeader.Content_Encoding, "UTF-8");
+            return getSupportedLanguagesAsXML();
+	      }
 	    
-	    // request type: grammar checking (default type)
-        String langParam = connRequest.getParamOrNull("language");
-        if (langParam == null)
-          throw new IllegalArgumentException("Missing 'language' parameter");
-        Language lang = Language.getLanguageForShortName(langParam);
-        if (lang == null)
-          throw new IllegalArgumentException("Unknown language '" + langParam
-              + "'");
-        String motherTongueParam = connRequest.getParamOrNull("motherTongue");
-		Language motherTongue = null;
-        if (null != motherTongueParam)
-          motherTongue = Language.getLanguageForShortName(motherTongueParam);
-        JLanguageTool lt = getLanguageToolInstance(lang, motherTongue);
-        // TODO: how to take options from the client?
-        // TODO: customize lt here after reading client options
-        text = connRequest.getParamOrNull("text");
-        if (text == null)
-          throw new IllegalArgumentException("Missing 'text' parameter");
-        print("Checking " + text.length() + " characters of text, language "
-            + langParam);
-        List<RuleMatch> matches = lt.check(text);
-        connResponse.setHeaderLine(ProtocolResponseHeader.Content_Type,
-            "text/xml");
-        // TODO: how to set the encoding to utf-8 if we can just return a
-        // String?
-        connResponse.setHeaderLine(ProtocolResponseHeader.Content_Encoding,
-            "UTF-8");
-        String response = StringTools.ruleMatchesToXML(matches, text,
-            CONTEXT_SIZE, StringTools.XmlPrintMode.NORMAL_XML);
-        print("Check done in " + (System.currentTimeMillis() - timeStart)
-            + "ms");
-        return response;
+	      // request type: grammar checking (default type)
+          String langParam = connRequest.getParamOrNull("language");
+          if (langParam == null)
+            throw new IllegalArgumentException("Missing 'language' parameter");
+          Language lang = Language.getLanguageForShortName(langParam);
+          if (lang == null)
+            throw new IllegalArgumentException("Unknown language '" + langParam
+                + "'");
+          String motherTongueParam = connRequest.getParamOrNull("motherTongue");
+		  Language motherTongue = null;
+          if (null != motherTongueParam)
+            motherTongue = Language.getLanguageForShortName(motherTongueParam);
+          JLanguageTool lt = getLanguageToolInstance(lang, motherTongue);
+          // TODO: how to take options from the client?
+          // TODO: customize lt here after reading client options
+          text = connRequest.getParamOrNull("text");
+          if (text == null)
+            throw new IllegalArgumentException("Missing 'text' parameter");
+          print("Checking " + text.length() + " characters of text, language "
+              + langParam);
+          List<RuleMatch> matches = lt.check(text);
+          connResponse.setHeaderLine(ProtocolResponseHeader.Content_Type,
+              "text/xml");
+          // TODO: how to set the encoding to utf-8 if we can just return a
+          // String?
+          connResponse.setHeaderLine(ProtocolResponseHeader.Content_Encoding,
+              "UTF-8");
+          String response = StringTools.ruleMatchesToXML(matches, text,
+              CONTEXT_SIZE, StringTools.XmlPrintMode.NORMAL_XML);
+          print("Check done in " + (System.currentTimeMillis() - timeStart)
+              + "ms");
+          return response;
+        }
+        connResponse.setStatus(403);
+        throw new RuntimeException("Error: Access from "
+            + connRequest.getIPAddressString() + " denied");
+      } catch (Exception e) {
+        if (verbose)
+          print("Exceptions was caused by this text: " + text);
+        e.printStackTrace();
+        connResponse.setStatus(500);
+        // escape input to avoid XSS attacks:
+        return "Error: " + StringTools.escapeXML(e.toString());
       }
-      connResponse.setStatus(403);
-      throw new RuntimeException("Error: Access from "
-          + connRequest.getIPAddressString() + " denied");
-    } catch (Exception e) {
-      if (verbose)
-        print("Exceptions was caused by this text: " + text);
-      e.printStackTrace();
-      connResponse.setStatus(500);
-      // escape input to avoid XSS attacks:
-      return "Error: " + StringTools.escapeXML(e.toString());
-    }
+	}
   }
 
   private void print(String s) {
