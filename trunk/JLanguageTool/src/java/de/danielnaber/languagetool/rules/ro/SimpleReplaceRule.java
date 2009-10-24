@@ -25,7 +25,7 @@ import java.util.ResourceBundle;
 import de.danielnaber.languagetool.rules.AbstractSimpleReplaceRule;
 
 /**
- * A rule that matches words or phrases which should not be used and suggests
+ * A rule that matches words which should not be used and suggests
  * correct ones instead.
  * 
  * Romanian implementations. Loads the list of words from
@@ -54,10 +54,17 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
 	}
 
 	public String getDescription() {
-		// TODO: this is a very common rule type; maybe it wold be better to localize {@link AbstractSimpleReplaceRule#getDescription()}
 		return "Cuvinte sau grupuri de cuvinte incorecte";
 	}
+
+	public String getShort() {
+		return "Cuvânt greșit";
+	}
 	
+	public String getSuggestion() {
+		return " este incorect, folosiți ";
+	}
+
 	/**
 	 * use case-insensitive matching.
 	 */
