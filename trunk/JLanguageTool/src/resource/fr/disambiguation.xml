@@ -491,7 +491,7 @@ RB => Règles Brutes
 		</rule>
 		<rule name="RB : verbes" id="RB:VERBES">
 			<pattern mark="0">
-				<token postag="V ind .*" postag_regexp="yes"/>
+				<token postag="V ind .*" postag_regexp="yes"><exception scope="previous" regexp="yes">\d+</exception></token>				
 			</pattern>
 			<disambig><match no="1" postag_regexp="yes" postag="V ind .*"/></disambig>
 		</rule>
@@ -586,6 +586,19 @@ RB => Règles Brutes
 				<token>sur</token>
 			</pattern>
 			<disambig postag="P"/>
+		</rule>
+		
+		<rule name="Nombres + N" id="NOMBRE:N">
+			<pattern mark="1">
+				<token postag="Y"/>
+				<and>
+				<token postag_regexp="yes" postag="V .* pres 2 s"/>
+				<token postag_regexp="yes" postag="N .* p"/>
+				</and>
+			</pattern>
+			<disambig action="filter"><match no="2" postag="N .* p" postag_regexp="yes"/></disambig>
+			<example type="untouched">Tu minutes.</example>
+			<example type="ambiguous" inputform="minutes[minute/N f p,minuter/V sub pres 2 s,minuter/V ind pres 2 s,&lt;/S&gt;]" outputform="minutes[minute/N f p]">5 <marker>minutes</marker></example>
 		</rule>
 		
 		<!--  based on user reports -->

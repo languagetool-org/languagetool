@@ -5,10 +5,9 @@ title="Easy editing stylesheet" ?>
 <!--
 French Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski, Agnes Souque, Hugo Voisard & Myriam Lechelt.
-$Id: grammar.xml,v 1.23 2009-10-22 20:02:41 milek_pl Exp $
+$Id: grammar.xml,v 1.24 2009-10-24 12:41:17 milek_pl Exp $
 -->
-<rules lang="fr" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="../rules.xsd">
+<rules lang="fr" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <phrases>
     <phrase id="V_NON_N">
       <token postag="V.*" postag_regexp="yes"><exception postag="N.*" postag_regexp="yes"></exception></token>
@@ -38,17 +37,18 @@ though, and has since been slightly modified)-->
       <example type="correct"><marker>mettre au pied du mur</marker></example>
     </rule>
     <rule id="AVOIR_UN_BEL_AVENIR_DEVANT_SOI" name="avoir un bel avenir devant soi">
-      <pattern>
+      <pattern mark_from="1">
         <token inflected="yes" skip="6">avoir</token>
         <token>bel</token>
         <token>avenir</token>
         <token>devant</token>
         <token regexp="yes">soi|lui|moi|eux|vous|nous</token>
       </pattern>
-      <message>« Avoir un bel avenir devant soi » est un pléonasme. Employez <suggestion>avoir un bel avenir</suggestion>.</message>
-      <example type="incorrect"><marker>avoir un bel avenir devant soi</marker></example>
+      <message>« Avoir un bel avenir devant soi » est un pléonasme. Employez \1 un <suggestion>bel avenir</suggestion>.</message>
+      <example correction="bel avenir" type="incorrect">Tu as un <marker>bel avenir devant soi</marker>.</example>
       <example type="correct"><marker>avoir un bel avenir</marker></example>
     </rule>
+    <!--TODO: inflection in the suggestion-->
     <rule id="DESSINER_UN_DESSIN" name="dessiner un dessin">
       <pattern>
         <token inflected="yes" skip="7">dessiner</token>
@@ -63,7 +63,7 @@ though, and has since been slightly modified)-->
         <token inflected="yes" skip="7">suffire</token>
         <token>simplement</token>
       </pattern>
-      <message>« Suffire simplement » est un pléonasme. Employez <suggestion>suffire</suggestion>.</message>
+      <message>« Suffire simplement » est un pléonasme. Employez <suggestion>\1</suggestion>.</message>
       <example type="incorrect"><marker>suffire simplement</marker></example>
       <example type="correct"><marker>suffire</marker></example>
     </rule>
@@ -82,8 +82,8 @@ though, and has since been slightly modified)-->
           <token regexp="yes" skip="6">joindre</token>
           <token>ensemble</token>
         </pattern>
-        <message>« Joindre ensemble » est un pléonasme. Employez <suggestion>joindre</suggestion>, <suggestion>mettre ensemble</suggestion>.</message>
-        <example type="incorrect"><marker>joindre ensemble</marker></example>
+        <message>« Joindre ensemble » est un pléonasme. Employez <suggestion>\1</suggestion>, <suggestion>mettre ensemble</suggestion>.</message>
+        <example correction="" type="incorrect"><marker>joindre ensemble</marker></example>
         <example type="correct"><marker>joindre</marker></example>
       </rule>
     </rulegroup>
@@ -122,7 +122,7 @@ though, and has since been slightly modified)-->
         <token inflected="yes" skip="5">lever</token>
         <token>debout</token>
       </pattern>
-      <message>« Lever debout » est un pléonasme. Employez <suggestion>lever</suggestion>, <suggestion>dresser</suggestion>.</message>
+      <message>« Lever debout » est un pléonasme. Employez <suggestion>\1</suggestion>, <suggestion>dresser</suggestion>.</message>
       <example type="incorrect"><marker>lever debout</marker></example>
       <example type="correct"><marker>lever</marker></example>
     </rule>
@@ -141,7 +141,7 @@ though, and has since been slightly modified)-->
           <token inflected="yes" skip="6">avérer</token>
           <token regexp="yes">vrai|vrai|vraies|vraie</token>
         </pattern>
-        <message>« S'avérer vrai » est un pléonasme. Employez <suggestion>s'avérer exact</suggestion>.</message>
+        <message>« S'avérer vrai » est un pléonasme. Employez <suggestion>s'\1 exact</suggestion>.</message>
         <example type="incorrect">s'<marker>avérer vrai</marker></example>
         <example type="correct"><marker>s'avérer exact</marker></example>
       </rule>
@@ -150,7 +150,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes" skip="6">avérés|avérées|avérée|avéré</token>
           <token regexp="yes">vrai|vrai|vraies|vraie</token>
         </pattern>
-        <message>« S'avérer exact » est un pléonasme. Employez <suggestion>s'avérer exact</suggestion>.</message>
+        <message>« S'avérer exact » est un pléonasme. Employez <suggestion>s'\1 exact</suggestion>.</message>
         <example type="incorrect"><marker>avéré vrai</marker></example>
         <example type="correct"><marker>s'avérer exact</marker></example>
       </rule>
@@ -206,7 +206,7 @@ though, and has since been slightly modified)-->
         <token inflected="yes" skip="2">collaborer</token>
         <token>ensemble</token>
       </pattern>
-      <message>« Collaborer ensemble » est un pléonasme. Employez <suggestion>collaborer</suggestion>.</message>
+      <message>« Collaborer ensemble » est un pléonasme. Employez <suggestion>\1</suggestion>.</message>
       <example type="correct"><marker>collaborer</marker></example>
       <example type="incorrect"><marker>collaborer ensemble</marker></example>
     </rule>
@@ -216,7 +216,7 @@ though, and has since been slightly modified)-->
         <token>entre</token>
         <token>eux</token>
       </pattern>
-      <message>« Comparer entre eux » est un pléonasme. Employez <suggestion>comparer</suggestion>.</message>
+      <message>« Comparer entre eux » est un pléonasme. Employez <suggestion>\1</suggestion>.</message>
       <example type="correct"><marker>comparer</marker></example>
       <example type="incorrect"><marker>comparer entre eux</marker></example>
     </rule>
@@ -229,7 +229,7 @@ though, and has since been slightly modified)-->
         <token>les</token>
         <token>autres</token>
       </pattern>
-      <message>« S'enchevêtrer les uns dans les autres » est un pléonasme. Employez <suggestion>s'enchevêtrer</suggestion>.</message>
+      <message>« S'enchevêtrer les uns dans les autres » est un pléonasme. Employez <suggestion>s'\1</suggestion>.</message>
       <example type="correct"><marker>s'enchevêtrer</marker></example>
       <example type="incorrect">s'<marker>enchevêtrer les uns dans les autres</marker></example>
     </rule>
@@ -238,7 +238,7 @@ though, and has since been slightly modified)-->
         <token inflected="yes" skip="2">entraider</token>
         <token>mutuellement</token>
       </pattern>
-      <message>« S'entraider mutuellement » est un pléonasme. Employez <suggestion>s'entraider</suggestion>.</message>
+      <message>« S'entraider mutuellement » est un pléonasme. Employez <suggestion>s'\1</suggestion>.</message>
       <example type="correct"><marker>s'entraider</marker></example>
       <example type="incorrect">s'<marker>entraider mutuellement</marker></example>
     </rule>
@@ -248,7 +248,7 @@ though, and has since been slightly modified)-->
         <token>malgré</token>
         <token regexp="yes">soi|eux|lui|moi|elle|toi</token>
       </pattern>
-      <message>« Contraint malgré soi » est un pléonasme. Employez <suggestion>contraint</suggestion>.</message>
+      <message>« Contraint malgré soi » est un pléonasme. Employez <suggestion>\1</suggestion>.</message>
       <example type="correct"><marker>contraint</marker></example>
       <example type="incorrect"><marker>contraint malgré soi</marker></example>
     </rule>
@@ -258,7 +258,7 @@ though, and has since been slightly modified)-->
         <token>malgré</token>
         <token regexp="yes">soi|eux|lui|moi|elle|toi</token>
       </pattern>
-      <message>« Contraindre malgré soi » est un pléonasme. Employez <suggestion>contraindre</suggestion>.</message>
+      <message>« Contraindre malgré soi » est un pléonasme. Employez <suggestion>\1</suggestion>.</message>
       <example type="correct"><marker>contraindre</marker></example>
       <example type="incorrect"><marker>contraindre malgré soi</marker></example>
     </rule>
@@ -268,7 +268,7 @@ though, and has since been slightly modified)-->
         <token>de</token>
         <token>sable</token>
       </pattern>
-      <message>« Dune de sable » est un pléonasme. Employez <suggestion>dune</suggestion>.</message>
+      <message>« Dune de sable » est un pléonasme. Employez <suggestion>\1</suggestion>.</message>
       <example type="correct"><marker>dune</marker></example>
       <example type="incorrect"><marker>dune de sable</marker></example>
     </rule>
@@ -277,7 +277,7 @@ though, and has since been slightly modified)-->
         <token regexp="yes">panacée|panacées</token>
         <token regexp="yes">universelle|universelles|universels|universel</token>
       </pattern>
-      <message>« Panacée universelle » est un pléonasme. Employez <suggestion>panacée</suggestion>, <suggestion>remède universel</suggestion>.</message>
+      <message>« Panacée universelle » est un pléonasme. Employez <suggestion>\1</suggestion>, <suggestion>remède universel</suggestion>.</message>
       <example type="incorrect"><marker>panacée universelle</marker></example>
       <example type="correct"><marker>remède universel</marker></example>
     </rule>
@@ -295,7 +295,7 @@ though, and has since been slightly modified)-->
         <token regexp="yes" skip="2">erreur|erreurs</token>
         <token regexp="yes">involontaire|involontaires</token>
       </pattern>
-      <message>« Erreur involontaire » est un pléonasme. Employez <suggestion>erreur</suggestion>.</message>
+      <message>« Erreur involontaire » est un pléonasme. Employez <suggestion>\1</suggestion>.</message>
       <example type="correct"><marker>erreur</marker></example>
       <example type="incorrect"><marker>erreur involontaire</marker></example>
     </rule>
@@ -304,7 +304,7 @@ though, and has since been slightly modified)-->
         <token regexp="yes" skip="2">hasard|hasards</token>
         <token regexp="yes">imprévu|imprévus</token>
       </pattern>
-      <message>« Hasard imprévu » est un pléonasme. Employez <suggestion>hasard</suggestion>.</message>
+      <message>« Hasard imprévu » est un pléonasme. Employez <suggestion>\1</suggestion>.</message>
       <example type="correct"><marker>hasard</marker></example>
       <example type="incorrect"><marker>hasard imprévu</marker></example>
     </rule>
@@ -313,7 +313,7 @@ though, and has since been slightly modified)-->
         <token regexp="yes" skip="2">heure|heures</token>
         <token>temps</token>
       </pattern>
-      <message>« Heure de temps » est un pléonasme. Employez <suggestion>heure</suggestion>.</message>
+      <message>« Heure de temps » est un pléonasme. Employez <suggestion>\1</suggestion>.</message>
       <example type="correct"><marker>heure</marker></example>
       <example type="incorrect"><marker>heure de temps</marker></example>
     </rule>
@@ -323,7 +323,7 @@ though, and has since been slightly modified)-->
         <token>de</token>
         <token>sang</token>
       </pattern>
-      <message>« Hémorragie de sang » est un pléonasme. Employez <suggestion>hémorragie</suggestion>.</message>
+      <message>« Hémorragie de sang » est un pléonasme. Employez <suggestion>\1</suggestion>.</message>
       <example type="correct"><marker>hémorragie</marker></example>
       <example type="incorrect"><marker>hémorragie de sang</marker></example>
     </rule>
@@ -353,7 +353,7 @@ though, and has since been slightly modified)-->
         <token regexp="yes">tunnel|tunnels</token>
         <token regexp="yes">souterrain|souterrains</token>
       </pattern>
-      <message>« Tunnel souterrain » est un pléonasme. Employez <suggestion>tunnel</suggestion>.</message>
+      <message>« Tunnel souterrain » est un pléonasme. Employez <suggestion>\1</suggestion>.</message>
       <example type="incorrect"><marker>tunnel souterrain</marker></example>
       <example type="correct"><marker>tunnel</marker></example>
     </rule>
@@ -363,7 +363,7 @@ though, and has since been slightly modified)-->
         <token>de</token>
         <token>bois</token>
       </pattern>
-      <message>« Planche de bois » est un pléonasme. Employez <suggestion>planche</suggestion>.</message>
+      <message>« Planche de bois » est un pléonasme. Employez <suggestion>\1</suggestion>.</message>
       <example type="incorrect">une <marker>planche de bois</marker></example>
       <example type="correct">une <marker>planche</marker></example>
     </rule>
@@ -372,7 +372,7 @@ though, and has since been slightly modified)-->
         <token regexp="yes">dépense|dépenses</token>
         <token regexp="yes">somptuaire|somptuaires</token>
       </pattern>
-      <message>« Dépenses somptuaires » est un pléonasme. Employez <suggestion>dépenses d'apparat</suggestion>, <suggestion>dépenses excessives</suggestion>. « Somptuaire » signifie « relatif à la dépense ».</message>
+      <message>« Dépenses somptuaires » est un pléonasme. Employez <suggestion>\1 d'apparat</suggestion>, <suggestion>\1 excessives</suggestion>. « Somptuaire » signifie « relatif à la dépense ».</message>
       <example type="incorrect"><marker>dépenses somptuaires</marker></example>
       <example type="correct"><marker>dépenses excessives</marker></example>
     </rule>
@@ -381,7 +381,7 @@ though, and has since been slightly modified)-->
         <token inflected="yes">secousse</token>
         <token inflected="yes">sismique</token>
       </pattern>
-      <message>« Secousse sismique » est un pléonasme. Employez <suggestion>secousse tellurique</suggestion>, <suggestion>tremblement de terre</suggestion>.</message>
+      <message>« Secousse sismique » est un pléonasme. Employez <suggestion>\1 tellurique</suggestion>, <suggestion>tremblement de terre</suggestion>.</message>
       <example type="incorrect"><marker>secousse sismique</marker></example>
       <example type="correct"><marker>tremblement de terre</marker></example>
     </rule>
@@ -514,7 +514,7 @@ though, and has since been slightly modified)-->
         <token>'</token>
         <token>avance</token>
       </pattern>
-      <message>« Réserver d'avance » est un pléonasme. Employez <suggestion>réserver</suggestion>.</message>
+      <message>« Réserver d'avance » est un pléonasme. Employez <suggestion>\1</suggestion>.</message>
       <example type="incorrect"><marker>réserver d'avance</marker></example>
       <example type="correct"><marker>réserver</marker></example>
     </rule>
@@ -526,7 +526,7 @@ though, and has since been slightly modified)-->
         <token>'</token>
         <token>avance</token>
       </pattern>
-      <message>« Réserver à l'avance » est un pléonasme. Employez <suggestion>réserver</suggestion>.</message>
+      <message>« Réserver à l'avance » est un pléonasme. Employez <suggestion>\1</suggestion>.</message>
       <example type="incorrect"><marker>réserver à l'avance</marker></example>
       <example type="correct"><marker>réserver</marker></example>
     </rule>
@@ -682,7 +682,7 @@ though, and has since been slightly modified)-->
         </pattern>
         <message>« \1 » et « \2 » ne semblent pas bien accordés en nombre</message>
         <example type="correct">un canard</example>
-        <example type="correct">des oies dodues </example>
+        <example type="correct">des oies dodues</example>
         <example type="correct">au cours de l'année</example>
         <example type="incorrect"><marker>un vaches</marker> laitières</example>
       </rule>
@@ -750,24 +750,25 @@ though, and has since been slightly modified)-->
       </pattern>
       <message>Après l'auxiliaire « \1 », le verbe devrait être au participe passé</message>
       <example type="correct">Il a signé le contrat</example>
-      <example type="correct">Il a reçu ta lettre </example>
+      <example type="correct">Il a reçu ta lettre</example>
       <example type="incorrect">Il a <marker>signez</marker> le contrat</example>
       <example type="incorrect">Il a <marker>reçut</marker> ta lettre</example>
     </rule>
     <rule id="AVOIR_INF" name="Auxiliaire avoir suivi d'un verbe à l'infinitif">
       <pattern mark_from="1">
-        <token postag="V avoir .*" postag_regexp="yes" skip="1"><exception regexp="yes" scope="next">,|à|beau</exception></token>
+        <token postag="V avoir .*" postag_regexp="yes" skip="1"><exception regexp="yes" scope="next">,|à|beau</exception><exception postag="V ppa .*" postag_regexp="yes" scope="next"></exception></token>
         <token postag="V inf.*" postag_regexp="yes"><exception postag="N .*" postag_regexp="yes"></exception></token>
       </pattern>
       <message>Après l'auxiliaire « \1 », le verbe devrait être au participe passé</message>
       <example type="correct">Il a signé le contrat</example>
       <example type="incorrect">Il a <marker>signer</marker> le contrat</example>
+      <example type="correct">Il a dû manger.</example>
       <example type="correct">Tu as beau pleurer.</example>
       <example type="correct">L'unique prix que tu as à payer est de laisser ce monde derrière.</example>
     </rule>
     <rule id="ETRE_INF" name="Auxiliaire être suivi d'un verbe à l'infinitif">
       <pattern mark_from="1">
-        <token postag="V etre .*" postag_regexp="yes" skip="1"></token>
+        <token postag="V etre .*" postag_regexp="yes" skip="1"><exception postag="V ppa .*" postag_regexp="yes" scope="next"></exception></token>
         <token postag="V inf.*" postag_regexp="yes"><exception regexp="yes" scope="previous">de|à</exception></token>
       </pattern>
       <message>Après l'auxiliaire « \1 », le verbe devrait être au participe passé</message>
@@ -5055,10 +5056,10 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="COMMENCER_AVEC" name="commencer avec">
       <pattern>
-        <token inflected="yes" skip="4">commencer</token>
+        <token inflected="yes" skip="4"><exception>par</exception>commencer</token>
         <token>avec</token>
       </pattern>
-      <message>« Commencer avec » est un anglicisme (to begin with). Employez <suggestion>commencer par</suggestion>.</message>
+      <message>« Commencer avec » est un anglicisme (to begin with). Employez <suggestion>\1 par</suggestion>.</message>
       <example type="incorrect"><marker>commencer avec</marker></example>
       <example type="correct"><marker>commencer par</marker></example>
     </rule>
@@ -5074,103 +5075,15 @@ though, and has since been slightly modified)-->
     </rule>
     <rulegroup id="EN_DEDANS_DE_x_minutes" name="en dedans de [x] minutes">
       <rule>
-        <pattern>
+        <pattern mark_to="-1">
           <token>en</token>
           <token>dedans</token>
           <token regexp="yes" skip="5">de</token>
-          <token regexp="yes">minutes|minute</token>
+          <token inflected="yes" regexp="yes">minute|semaine|mois|heure|seconde|jour|journée|année|an</token>
         </pattern>
-        <message>« En dedans de [x] minutes » est un anglicisme (within). Employez <suggestion>d'ici [x] minutes</suggestion>, <suggestion>en moins de [x] minutes</suggestion>.</message>
-        <example type="incorrect"><marker>en dedans de [x] minutes</marker></example>
+        <message>« En dedans de [x] minutes » est un anglicisme (within). Employez <suggestion>d'ici</suggestion>, <suggestion>en moins de</suggestion>.</message>
+        <example correction="d'ici|en moins de" type="incorrect"><marker>en dedans de</marker> 5 minutes</example>
         <example type="correct"><marker>d'ici [x] minutes</marker></example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>en</token>
-          <token>dedans</token>
-          <token regexp="yes" skip="5">de</token>
-          <token regexp="yes">semaines|semaine</token>
-        </pattern>
-        <message>« En dedans de [x] semaines » est un anglicisme (within). Employez <suggestion>d'ici [x] semaines</suggestion>, <suggestion>en moins de [x] semaines</suggestion>.</message>
-        <example type="incorrect"><marker>en dedans de [x] semaines</marker></example>
-        <example type="correct"><marker>d'ici [x] semaines</marker></example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>en</token>
-          <token>dedans</token>
-          <token regexp="yes" skip="5">de</token>
-          <token>mois</token>
-        </pattern>
-        <message>« En dedans de [x] mois » est un anglicisme (within). Employez <suggestion>d'ici [x] mois</suggestion>, <suggestion>en moins de [x] mois</suggestion>.</message>
-        <example type="incorrect"><marker>en dedans de [x] mois</marker></example>
-        <example type="correct"><marker>d'ici [x] mois</marker></example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>en</token>
-          <token>dedans</token>
-          <token regexp="yes" skip="5">de</token>
-          <token regexp="yes">heure|heures</token>
-        </pattern>
-        <message>« En dedans de [x] heures » est un anglicisme (within). Employez <suggestion>d'ici [x] heures</suggestion>, <suggestion>en moins de [x] heures</suggestion>.</message>
-        <example type="incorrect"><marker>en dedans de [x] heures</marker></example>
-        <example type="correct"><marker>d'ici [x] heures</marker></example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>en</token>
-          <token>dedans</token>
-          <token regexp="yes" skip="5">de</token>
-          <token regexp="yes">seconde|secondes</token>
-        </pattern>
-        <message>« En dedans de [x] secondes » est un anglicisme (within). Employez <suggestion>d'ici [x] secondes</suggestion>, <suggestion>en moins de [x] secondes</suggestion>.</message>
-        <example type="incorrect"><marker>en dedans de [x] secondes</marker></example>
-        <example type="correct"><marker>d'ici [x] secondes</marker></example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>en</token>
-          <token>dedans</token>
-          <token regexp="yes" skip="5">de</token>
-          <token regexp="yes">jour|jours</token>
-        </pattern>
-        <message>« En dedans de [x] jours » est un anglicisme (within). Employez <suggestion>d'ici [x] jours</suggestion>, <suggestion>en moins de [x] jours</suggestion>.</message>
-        <example type="incorrect"><marker>en dedans de [x] jours</marker></example>
-        <example type="correct"><marker>d'ici [x] jours</marker></example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>en</token>
-          <token>dedans</token>
-          <token regexp="yes" skip="5">de</token>
-          <token regexp="yes">journée|journées</token>
-        </pattern>
-        <message>« En dedans de [x] journées » est un anglicisme (within). Employez <suggestion>d'ici [x] journées</suggestion>, <suggestion>en moins de [x] journées</suggestion>.</message>
-        <example type="incorrect"><marker>en dedans de [x] journées</marker></example>
-        <example type="correct"><marker>d'ici [x] journées</marker></example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>en</token>
-          <token>dedans</token>
-          <token regexp="yes" skip="5">de</token>
-          <token regexp="yes">année|années</token>
-        </pattern>
-        <message>« En dedans de [x] années » est un anglicisme (within). Employez <suggestion>d'ici [x] années</suggestion>, <suggestion>en moins de [x] années</suggestion>.</message>
-        <example type="incorrect"><marker>en dedans de [x] années</marker></example>
-        <example type="correct"><marker>d'ici [x] années</marker></example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>en</token>
-          <token>dedans</token>
-          <token regexp="yes" skip="5">de</token>
-          <token regexp="yes">an|ans</token>
-        </pattern>
-        <message>« En dedans de [x] ans » est un anglicisme (within). Employez <suggestion>d'ici [x] ans</suggestion>, <suggestion>en moins de [x] ans</suggestion>.</message>
-        <example type="incorrect"><marker>en dedans de [x] ans</marker></example>
-        <example type="correct"><marker>d'ici [x] ans</marker></example>
       </rule>
     </rulegroup>
     <!--Rule to be implemented later, when the possible mistake feature will be implemented itself
@@ -5190,18 +5103,18 @@ though, and has since been slightly modified)-->
         <token regexp="yes">fichier|fichiers</token>
         <token regexp="yes">attaché|attachés|attachées|attachées</token>
       </pattern>
-      <message>« Fichier attaché » est un anglicisme. Employez <suggestion>fichier joint</suggestion>.</message>
+      <message>« Fichier attaché » est un anglicisme. Employez <suggestion>\1 joint</suggestion>.</message>
       <example type="incorrect"><marker>fichier attaché</marker></example>
       <example type="correct"><marker>fichier joint</marker></example>
     </rule>
     <rule id="ASSIGNER_A_UNE_TACHE" name="assigner à une tâche">
-      <pattern>
+      <pattern mark_to="-2">
         <token inflected="yes" skip="5">assigner</token>
         <token regexp="yes" skip="1">a|à</token>
         <token regexp="yes">tâche|tâches</token>
       </pattern>
-      <message>« Assigner (quelqu'un) à une tâche » est un anglicisme. Employez <suggestion>affecteur à une tâche</suggestion>.</message>
-      <example type="incorrect"><marker>assigner à une tâche</marker></example>
+      <message>« Assigner (quelqu'un) à une tâche » est un anglicisme. Employez <suggestion>affecteur</suggestion>.</message>
+      <example type="incorrect"><marker>assigner</marker> à une tâche</example>
       <example type="correct"><marker>affecter à une tâche</marker></example>
     </rule>
     <rule id="AMI_DE_GARCON" name="ami de garçon/gars">
@@ -8213,7 +8126,7 @@ though, and has since been slightly modified)-->
         <token>à</token>
         <token regexp="yes">déchet|déchets</token>
       </pattern>
-      <message>« Chute à déchets » est un anglicisme (garbage chute). Pour éviter la critique, employez plutôt  <suggestion>vide-ordures</suggestion>.</message>
+      <message>« Chute à déchets » est un anglicisme (garbage chute). Pour éviter la critique, employez plutôt <suggestion>vide-ordures</suggestion>.</message>
       <example type="incorrect"><marker>chute à déchet</marker></example>
       <example type="correct"><marker>vide-ordures</marker></example>
     </rule>
@@ -8223,7 +8136,7 @@ though, and has since been slightly modified)-->
         <token>en</token>
         <token regexp="yes">enfer|enfers</token>
       </pattern>
-      <message>« Chute à déchets » est un anglicisme (fall into hell). Pour éviter la critique, employez plutôt  <suggestion>descente en enfer</suggestion>, <suggestion>descente aux enfers</suggestion>.</message>
+      <message>« Chute à déchets » est un anglicisme (fall into hell). Pour éviter la critique, employez plutôt <suggestion>descente en enfer</suggestion>, <suggestion>descente aux enfers</suggestion>.</message>
       <example type="incorrect"><marker>chute en enfer</marker></example>
       <example type="correct"><marker>descente aux enfers</marker></example>
     </rule>
@@ -8233,7 +8146,7 @@ though, and has since been slightly modified)-->
         <token>à</token>
         <token regexp="yes">courrier|courriers</token>
       </pattern>
-      <message>« Chute à courrier » est un anglicisme (mail chute). Pour éviter la critique, employez plutôt  <suggestion>boîte aux lettres intérieure</suggestion>.</message>
+      <message>« Chute à courrier » est un anglicisme (mail chute). Pour éviter la critique, employez plutôt <suggestion>boîte aux lettres intérieure</suggestion>.</message>
       <example type="incorrect"><marker>chute à courrier</marker></example>
       <example type="correct"><marker>boîte aux lettres intérieure</marker></example>
     </rule>
@@ -8243,7 +8156,7 @@ though, and has since been slightly modified)-->
         <token>à</token>
         <token regexp="yes">linge|linges</token>
       </pattern>
-      <message>« Chute à linge » est un anglicisme (clothes chute). Pour éviter la critique, employez plutôt  <suggestion>vide-linge</suggestion>.</message>
+      <message>« Chute à linge » est un anglicisme (clothes chute). Pour éviter la critique, employez plutôt <suggestion>vide-linge</suggestion>.</message>
       <example type="incorrect"><marker>chute à linge</marker></example>
       <example type="correct"><marker>vide-linge</marker></example>
     </rule>
@@ -8252,7 +8165,7 @@ though, and has since been slightly modified)-->
         <token regexp="yes">directeur|directeurs|directrice|directrices|directeure|directeures</token>
         <token inflected="yes">créatif</token>
       </pattern>
-      <message>« Directeur de la création » est un anglicisme (creative director). Pour éviter la critique, employez plutôt  <suggestion>directeur de la création</suggestion>.</message>
+      <message>« Directeur de la création » est un anglicisme (creative director). Pour éviter la critique, employez plutôt <suggestion>directeur de la création</suggestion>.</message>
       <example type="incorrect"><marker>directeur créatif</marker></example>
       <example type="correct"><marker>directeur de la création</marker></example>
     </rule>
@@ -8262,7 +8175,7 @@ though, and has since been slightly modified)-->
         <token regexp="yes">du|des</token>
         <token inflected="yes">pied</token>
       </pattern>
-      <message>« Arche du pied » est un anglicisme (arch of the foot). Pour éviter la critique, employez plutôt  <suggestion>cambrure du pied</suggestion>.</message>
+      <message>« Arche du pied » est un anglicisme (arch of the foot). Pour éviter la critique, employez plutôt <suggestion>cambrure du pied</suggestion>.</message>
       <example type="correct"><marker>la cambrure du pied</marker></example>
       <example type="incorrect"><marker>arche du pied</marker></example>
     </rule>
@@ -8926,7 +8839,7 @@ though, and has since been slightly modified)-->
         <token regexp="yes">estomac|estomacs</token>
       </pattern>
       <message>« Avoir/ressentir/sentir/ des papillons dans son estomac » est un anglicisme (to have butteflies in the stomach). Employez <suggestion>être nerveux</suggestion>, <suggestion>avoir le trac</suggestion> (familier), <suggestion>avoir l'estomac noué</suggestion> (familier), <suggestion>avoir une boule dans l'estomac</suggestion> (familier).</message>
-      <example type="incorrect"> avoir des <marker>papillons dans l'estomac</marker></example>
+      <example type="incorrect">avoir des <marker>papillons dans l'estomac</marker></example>
       <example type="correct"><marker>être nerveux</marker></example>
     </rule>
     <rule id="VENTE_SEMI-ANNUELLE" name="vente semi-annuelle">
@@ -9664,10 +9577,11 @@ though, and has since been slightly modified)-->
     <rulegroup id="A_CAPACITE" name="à (pleine) capacité">
       <rule>
         <pattern>
-          <token regexp="yes" skip="1">à|a</token>
+          <token skip="1">à</token>
           <token>capacité</token>
         </pattern>
         <message>« À (pleine) capacité » est un anglicisme (to capacity). Employez <suggestion>à 100 % de sa capacité</suggestion>, <suggestion>au maximum de sa capacité</suggestion>, <suggestion>bondé</suggestion> (de gens), <suggestion>complet</suggestion> (hôtel, avion).</message>
+        <example type="correct">Il a la capacité de faire qqch.</example>
         <example type="incorrect"><marker>à capacité</marker></example>
         <example type="correct"><marker>à 100 % de sa capacité</marker></example>
       </rule>
@@ -11074,7 +10988,7 @@ though, and has since been slightly modified)-->
       <pattern>
         <token regexp="yes">coach|coaches|coachs</token>
       </pattern>
-      <message>« Coach » est un anglicisme. Employez <suggestion>entraîneur</suggestion> (sport), <suggestion>accompagnateur</suggestion> (entreprise, etc.),  (un) <suggestion>coupé</suggestion> (automobile à deux portes et quatre places).</message>
+      <message>« Coach » est un anglicisme. Employez <suggestion>entraîneur</suggestion> (sport), <suggestion>accompagnateur</suggestion> (entreprise, etc.), (un) <suggestion>coupé</suggestion> (automobile à deux portes et quatre places).</message>
       <example type="incorrect"><marker>coach</marker></example>
       <example type="correct"><marker>entraîneur</marker></example>
     </rule>
@@ -11172,7 +11086,7 @@ though, and has since been slightly modified)-->
       <pattern>
         <token regexp="yes">fixture|fixtures</token>
       </pattern>
-      <message>« Fixture » est un anglicisme. Employez <suggestion>installations sanitaires</suggestion> (salle de bain),  <suggestion>plomberie</suggestion>, <suggestion>tuyauterie</suggestion>, <suggestion>appareillage électrique</suggestion>, <suggestion>appareils électriques</suggestion>, <suggestion>luminaire</suggestion>, <suggestion>applique</suggestion>, <suggestion>plafonnier</suggestion>, <suggestion>suspension</suggestion>, <suggestion>appareil d'éclairage</suggestion>, <suggestion>installation électrique</suggestion>, <suggestion>accessoire fixe</suggestion>.</message>
+      <message>« Fixture » est un anglicisme. Employez <suggestion>installations sanitaires</suggestion> (salle de bain), <suggestion>plomberie</suggestion>, <suggestion>tuyauterie</suggestion>, <suggestion>appareillage électrique</suggestion>, <suggestion>appareils électriques</suggestion>, <suggestion>luminaire</suggestion>, <suggestion>applique</suggestion>, <suggestion>plafonnier</suggestion>, <suggestion>suspension</suggestion>, <suggestion>appareil d'éclairage</suggestion>, <suggestion>installation électrique</suggestion>, <suggestion>accessoire fixe</suggestion>.</message>
       <example type="incorrect"><marker>fixture</marker></example>
       <example type="correct"><marker>plomberie</marker></example>
     </rule>
@@ -12789,7 +12703,7 @@ though, and has since been slightly modified)-->
           <token>war</token>
           <token regexp="yes">game|games</token>
         </pattern>
-        <message>« Wargame » est un anglicisme. Employez <suggestion>jeu de guerre</suggestion>, <suggestion>jeu de simulation de guerre</suggestion>, <suggestion>jeu de simulation de conflit</suggestion>, <suggestion>simulation de guerre</suggestion>,  <suggestion>simulation de guerre</suggestion>.</message>
+        <message>« Wargame » est un anglicisme. Employez <suggestion>jeu de guerre</suggestion>, <suggestion>jeu de simulation de guerre</suggestion>, <suggestion>jeu de simulation de conflit</suggestion>, <suggestion>simulation de guerre</suggestion>, <suggestion>simulation de guerre</suggestion>.</message>
         <example type="incorrect"><marker>war game</marker></example>
         <example type="correct"><marker>jeu de guerre</marker></example>
       </rule>
@@ -13628,7 +13542,7 @@ though, and has since been slightly modified)-->
         <token>home</token>
         <token regexp="yes">cinema|cinemas|cinémas|cinéma</token>
       </pattern>
-      <message>« Home cinema » est un anglicisme. Employez <suggestion>cinéma  à domicile</suggestion>, <suggestion>cinédom</suggestion>, <suggestion>cinéma maison</suggestion>.</message>
+      <message>« Home cinema » est un anglicisme. Employez <suggestion>cinéma à domicile</suggestion>, <suggestion>cinédom</suggestion>, <suggestion>cinéma maison</suggestion>.</message>
       <example type="incorrect">Le <marker>home cinema</marker> est un phénomène nouveau.</example>
       <example type="correct">Le <marker>cinéma à domicile</marker> est un phénomène nouveau.</example>
     </rule>
@@ -14768,7 +14682,7 @@ though, and has since been slightly modified)-->
       <pattern>
         <token regexp="yes">haddock|haddocks</token>
       </pattern>
-      <message>« Haddock » est un anglicisme. Employez <suggestion>aiglefin</suggestion> ou  <suggestion>églefin</suggestion>.</message>
+      <message>« Haddock » est un anglicisme. Employez <suggestion>aiglefin</suggestion> ou <suggestion>églefin</suggestion>.</message>
       <example type="incorrect"><marker>haddock</marker></example>
       <example type="correct"><marker>aiglefin</marker></example>
     </rule>
@@ -15262,7 +15176,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="LEVEE_DU_RIDEAU" name="levée de rideau">
       <pattern>
-        <token regexp="yes" skip="3">levée</token>
+        <token skip="3">levée</token>
         <token regexp="yes">rideau|rideaux</token>
       </pattern>
       <message>« Levée de rideau » est un tour critiqué. Employez <suggestion>lever de rideau</suggestion>.</message>
@@ -15291,7 +15205,7 @@ though, and has since been slightly modified)-->
         <token inflected="yes">pallier</token>
         <token regexp="yes">à|au|aux</token>
       </pattern>
-      <message>« Pallier à quelque chose » est un tour critiqué. Employez <suggestion>pallier</suggestion> (sans « à »).</message>
+      <message>« Pallier à quelque chose » est un tour critiqué. Employez <suggestion>\1</suggestion> (sans « à »).</message>
       <example type="incorrect"><marker>pallier à</marker> quelque chose</example>
       <example type="correct"><marker>pallier</marker> quelque chose</example>
     </rule>
@@ -15317,12 +15231,12 @@ though, and has since been slightly modified)-->
       <example type="correct"><marker>loin de là</marker></example>
     </rule>
     <rule id="MOUSSER_UNE_CANDIDATURE" name="mousser une candidature">
-      <pattern>
+      <pattern mark_to="-1">
         <token inflected="yes" skip="7">mousser</token>
         <token regexp="yes">candidature|candidatures</token>
       </pattern>
-      <message>« Mousser une candidature » est un tour critiqué. Employez <suggestion>favoriser une candidature</suggestion>.</message>
-      <example type="incorrect"><marker>mousser une candidature</marker></example>
+      <message>« Mousser une candidature » est un tour critiqué. Employez <suggestion>favoriser</suggestion> une candidature.</message>
+      <example type="incorrect"><marker>mousser</marker> une candidature</example>
       <example type="correct"><marker>favoriser une candidature</marker></example>
     </rule>
     <rule id="AUSSI_PIRE" name="aussi pire">
@@ -15335,12 +15249,12 @@ though, and has since been slightly modified)-->
       <example type="correct"><marker>aussi mauvais</marker></example>
     </rule>
     <rule id="ETRE_GRE" name="être gré">
-      <pattern>
+      <pattern mark_to="-1">
         <token inflected="yes" skip="2">être</token>
         <token>gré</token>
       </pattern>
-      <message>« Être gré » est un tour critiqué. Employez <suggestion>savoir gré</suggestion>.</message>
-      <example type="incorrect"><marker>être gré</marker></example>
+      <message>« Être gré » est un tour critiqué. Employez <suggestion>savoir</suggestion>.</message>
+      <example type="incorrect"><marker>être</marker> gré</example>
       <example type="correct"><marker>savoir gré</marker></example>
     </rule>
     <rulegroup id="PIRE_ALLER" name="pire(-)aller">
@@ -15726,7 +15640,7 @@ though, and has since been slightly modified)-->
         <token regexp="yes">des|une</token>
         <token regexp="yes">rebiffade|rebiffades</token>
       </pattern>
-      <message>« Essuyer des rebiffades » est un tour critiqué. Employez <suggestion>essuyer des rebuffades</suggestion>.  La « rebiffade » est l'action de se rebiffer (marquer son refus ou protester contre quelqu'un ou quelque chose) et la « rebuffade » est un refus brutal marqué de paroles dures et méprisantes.</message>
+      <message>« Essuyer des rebiffades » est un tour critiqué. Employez <suggestion>essuyer des rebuffades</suggestion>. La « rebiffade » est l'action de se rebiffer (marquer son refus ou protester contre quelqu'un ou quelque chose) et la « rebuffade » est un refus brutal marqué de paroles dures et méprisantes.</message>
       <example type="incorrect"><marker>essuyer des rebiffades</marker></example>
       <example type="correct"><marker>essuyer des rebuffades</marker></example>
     </rule>
@@ -15746,7 +15660,7 @@ though, and has since been slightly modified)-->
         <token skip="1">comme</token>
         <token>geai</token>
       </pattern>
-      <message>« Noir comme (le) geai » est un tour critiqué. Employez <suggestion>noir comme jais</suggestion>. Le « geai » est un oiseau gris et bleu et le « jais » est une pierre noire. </message>
+      <message>« Noir comme (le) geai » est un tour critiqué. Employez <suggestion>noir comme jais</suggestion>. Le « geai » est un oiseau gris et bleu et le « jais » est une pierre noire.</message>
       <example type="incorrect"><marker>noir comme geai</marker></example>
       <example type="correct"><marker>noir comme jais</marker></example>
     </rule>
@@ -15858,8 +15772,8 @@ though, and has since been slightly modified)-->
         <token>parti</token>
         <token regexp="yes">de|d</token>
       </pattern>
-      <message>« Faire parti de » est un tour critiqué (impropriété). Employez <suggestion>faire partie de</suggestion>.</message>
-      <example type="incorrect"><marker>faire parti de</marker></example>
+      <message>« Faire parti de » est un tour critiqué (impropriété). Employez <suggestion>\1 partie \3</suggestion>.</message>
+      <example correction="fais partie de" type="incorrect">Tu <marker>fais parti de</marker> ma vie.</example>
       <example type="correct"><marker>faire partie de</marker></example>
     </rule>
     <rule id="TIRER_PARTIE_DE" name="tirer partie de">
@@ -15868,7 +15782,7 @@ though, and has since been slightly modified)-->
         <token>partie</token>
         <token regexp="yes">de|d</token>
       </pattern>
-      <message>« Faire parti de » est un tour critiqué (impropriété). Employez <suggestion>tirer parti de</suggestion>.</message>
+      <message>« Faire parti de » est un tour critiqué (impropriété). Employez <suggestion>\1 parti \3</suggestion>.</message>
       <example type="incorrect"><marker>tirer partie de</marker></example>
       <example type="correct"><marker>tirer parti de</marker></example>
     </rule>
@@ -15878,7 +15792,7 @@ though, and has since been slightly modified)-->
         <token>partie</token>
         <token>pour</token>
       </pattern>
-      <message>« Prendre partie pour » est un tour critiqué (impropriété). Employez <suggestion>prendre parti pour</suggestion>.</message>
+      <message>« Prendre partie pour » est un tour critiqué (impropriété). Employez <suggestion>\1 parti pour</suggestion>.</message>
       <example type="incorrect"><marker>prendre partie pour</marker></example>
       <example type="correct"><marker>prendre parti pour</marker></example>
     </rule>
@@ -15888,7 +15802,7 @@ though, and has since been slightly modified)-->
         <token>affaires</token>
         <token>avec</token>
       </pattern>
-      <message>« Faire affaires avec » est un tour critiqué (expression invariable). Employez <suggestion>faire affaire avec</suggestion>.</message>
+      <message>« Faire affaires avec » est un tour critiqué (expression invariable). Employez <suggestion>\1 affaire avec</suggestion>.</message>
       <example type="incorrect"><marker>faire affaires avec</marker></example>
       <example type="correct"><marker>faire affaire avec</marker></example>
     </rule>
@@ -15898,7 +15812,7 @@ though, and has since been slightly modified)-->
         <token>pour</token>
         <token>acquit</token>
       </pattern>
-      <message>« Tenir pour acquit » est un tour critiqué (impropriété). Employez <suggestion>tenir pour acquis</suggestion>.</message>
+      <message>« Tenir pour acquit » est un tour critiqué (impropriété). Employez <suggestion>\1 pour acquis</suggestion>.</message>
       <example type="incorrect"><marker>tenir pour acquit</marker></example>
       <example type="correct"><marker>tenir pour acquis</marker></example>
     </rule>
