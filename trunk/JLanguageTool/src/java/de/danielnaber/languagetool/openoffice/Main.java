@@ -218,8 +218,8 @@ public class Main extends WeakBase implements XJobExecutor,
    *          paraText - paragraph text
    * @param locale
    *          Locale - the text Locale
-   * @param int startOfSentencePos start of sentence position
-   * @param int nSuggestedBehindEndOfSentencePosition end of sentence position
+   * @param startOfSentencePos start of sentence position
+   * @param nSuggestedBehindEndOfSentencePosition end of sentence position
    * @param PropertyValue
    *          [] props - properties
    * @return ProofreadingResult containing the results of the check. *

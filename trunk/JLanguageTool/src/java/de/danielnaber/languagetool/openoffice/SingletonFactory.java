@@ -22,12 +22,11 @@ import com.sun.star.lang.XSingleComponentFactory;
 import com.sun.star.uno.XComponentContext;
 
 /**
- * @author Marcin Miłkowski
- *
  * This class is a factory that creates only a single instance,
  * or a singleton, of the Main class. Used for performance 
  * reasons and to allow various parts of code to interact.
  *
+ * @author Marcin Miłkowski
  */
 public class SingletonFactory implements XSingleComponentFactory {
 
