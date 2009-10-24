@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.115 2009-10-22 20:02:41 milek_pl Exp $
+$Id: grammar.xml,v 1.116 2009-10-24 11:17:48 milek_pl Exp $
 -->
 <rules lang="en" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../rules.xsd">
@@ -4189,7 +4189,7 @@ $Id: grammar.xml,v 1.115 2009-10-22 20:02:41 milek_pl Exp $
 
           <token regexp="yes">go|goes</token>
 
-          <token postag="NN"><exception regexp="yes">hand</exception><exception
+          <token postag="NN"><exception>hand</exception><exception
               postag="DT|WRB|RB|RP|JJ|IN|CC|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS"
               postag_regexp="yes"></exception></token>
 
@@ -4214,7 +4214,7 @@ $Id: grammar.xml,v 1.115 2009-10-22 20:02:41 milek_pl Exp $
 
           <token regexp="yes">falls|fall</token>
 
-          <token postag="NN"><exception regexp="yes">victim</exception><exception
+          <token postag="NN"><exception>victim</exception><exception
               postag="DT|WRB|RB|RP|JJ|IN|CC|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS"
               postag_regexp="yes"></exception></token>
 
@@ -6055,7 +6055,7 @@ $Id: grammar.xml,v 1.115 2009-10-22 20:02:41 milek_pl Exp $
       <rule>
         <pattern mark_from="2">
           <token postag="SENT_START" skip="-1"><exception inflected="yes"
-              postag="V.*" postag_regexp="yes" scope="next">have|be</exception></token>
+              postag="V.*" postag_regexp="yes" regexp="yes" scope="next">have|be</exception></token>
 
           <token postag="PRP"></token>
 
