@@ -40,7 +40,7 @@ public class GermanCompoundTokenizer implements Tokenizer {
   }
   
   public List<String> tokenize(String word) {
-    return (List<String>) wordSplitter.splitWords(word);
+    return (List<String>) wordSplitter.splitWord(word);
   }
 
 }
