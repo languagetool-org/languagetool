@@ -264,7 +264,7 @@ public class ConfigurationDialog implements ActionListener {
       serverPortField = new JTextField(Integer.toString(serverPort));
       serverPortField.setEnabled(serverCheckbox.isSelected());
       // TODO: without this the box is just a few pixels small, but why??:
-      serverPortField.setMinimumSize(new Dimension(200, 15));
+      serverPortField.setMinimumSize(new Dimension(100, 25));
       cons.gridx = 1;
       serverCheckbox.addActionListener(new ActionListener() {
         public void actionPerformed(@SuppressWarnings("unused") ActionEvent e) {
