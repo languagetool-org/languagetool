@@ -2,7 +2,7 @@
 $page = "homepage";
 $title = "LanguageTool";
 $title2 = "Open Source language checker";
-$lastmod = "2009-10-04 14:50:00 CET";
+$lastmod = "2009-10-25 02:17:00 CET";
 include("../include/header.php");
 ?>
 		
@@ -13,6 +13,11 @@ XML configuration files. Rules for more complicated errors can be  written in Ja
 of LanguageTool as a tool to detect errors that a simple spell checker cannot detect, e.g. mixing
 up <em>there/their</em>, <em>no/now</em> etc. It can also detect some
 grammar mistakes. It does not include spell checking.</p>
+
+<p><strong>2009-10-25:</strong> Please help us test
+<?=show_link("LanguageTool 1.0.0-RC1 (for OpenOffice.org 3.0.1 or later, 17MB)", "download/LanguageTool-1.0.0-rc1.oxt", 0) ?></strong>.
+See the <a href="http://languagetool.cvs.sourceforge.net/viewvc/*checkout*/languagetool/JLanguageTool/CHANGES.txt?revision=1.307">changelog</a>
+for a list of changes.</p>
 
 <p><strong>News 2009-10-04:</strong> The LanguageTool maintainers will be giving a workshop
 about extending LanguageTool at the <?=show_link("OpenOffice.org Conference",
