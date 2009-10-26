@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 German grammar and typo rules for LanguageTool
 See resource/de/tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.24 2009-10-24 20:15:46 dnaber Exp $
+$Id: grammar.xml,v 1.25 2009-10-26 11:25:46 dnaber Exp $
 -->
 <rules lang="de" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../rules.xsd">
@@ -618,6 +618,21 @@ $Id: grammar.xml,v 1.24 2009-10-24 20:15:46 dnaber Exp $
     <example type="incorrect">Da regt er sich zu <marker>recht</marker> auf.</example>
   </rule>
   -->
+    <!-- TODO: comment in after code freeze is over
+    <rule id="DES_WEITEREN" name="Groß-/Kleinschreibung: 'des weiteren(Weiteren)'">
+      <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
+        <token regexp="yes">[Dd]es</token>
+        <token>weiteren</token>
+        <token postag="VER:.*" postag_regexp="yes"/>
+      </pattern>
+      <message><suggestion>Weiteren</suggestion> in der Wendung 'des Weiteren' wird groß geschrieben.</message>
+      <example type="correct">Des <marker>Weiteren</marker> sind alle Katzen blau.</example>
+      <example type="correct">Und des <marker>Weiteren</marker> waren alle Katzen blau.</example>
+      <example type="correct">Die Rechtsvorschrift zur Sicherung des <marker>weiteren</marker> Aufenthaltsrechtes.</example>
+      <example type="incorrect">Des <marker>weiteren</marker> sind alle Katzen blau.</example>
+      <example type="incorrect">Und des <marker>weiteren</marker> waren alle Katzen blau.</example>
+    </rule>
+    -->
     <rule id="DES_NACHTS" name="Groß-/Kleinschreibung: 'des nachts(Nachts), eines nachts(Nachts)'">
       <pattern case_sensitive="yes" mark_from="1">
         <token regexp="yes">[Dd]es|[Ee]ines</token>
