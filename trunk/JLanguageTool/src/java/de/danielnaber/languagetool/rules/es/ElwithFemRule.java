@@ -72,7 +72,7 @@ public class ElwithFemRule extends SpanishRule {
 
   @Override
   public String getDescription() {
-    return "Use of 'el' with some feminine nouns";
+    return "Uso de 'el' con sustantivos femeninos que comienzan por a- o ha- t\u00f3nicas";
   }
 
   @Override
