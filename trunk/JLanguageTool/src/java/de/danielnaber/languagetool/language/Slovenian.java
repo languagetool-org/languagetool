@@ -23,8 +23,12 @@ import java.util.Locale;
 import java.util.Set;
 
 import de.danielnaber.languagetool.Language;
+import de.danielnaber.languagetool.tokenizers.SRXSentenceTokenizer;
+import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
 
 public class Slovenian extends Language {
+  
+  private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("sl");  
   
   private static final String[] COUNTRIES = {
     "SI"
@@ -47,6 +51,10 @@ public class Slovenian extends Language {
     return COUNTRIES;
   }
 
+  public SentenceTokenizer getSentenceTokenizer() {
+    return sentenceTokenizer;
+  }
+  
   public Contributor[] getMaintainers() {
     return new Contributor[] {new Contributor("Martin Srebotnjak")};
   }

@@ -163,7 +163,12 @@ public class JLanguageToolTest extends TestCase {
     
   }
   
-	  
+  public void testSlovenian() throws IOException {
+    final JLanguageTool tool = new JLanguageTool(Language.SLOVENIAN);
+    List<RuleMatch> matches = tool.check("Kupil je npr. jajca, moko in mleko.");
+    assertEquals(0, matches.size());
+  }
+  
   public void testCountLines() {
     assertEquals(0, JLanguageTool.countLineBreaks(""));
     assertEquals(1, JLanguageTool.countLineBreaks("Hallo,\nnächste Zeile"));
