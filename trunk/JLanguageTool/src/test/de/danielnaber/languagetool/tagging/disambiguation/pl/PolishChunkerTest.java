@@ -24,20 +24,21 @@ import java.io.IOException;
 import junit.framework.TestCase;
 import de.danielnaber.languagetool.TestTools;
 import de.danielnaber.languagetool.tagging.pl.PolishTagger;
+import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
+import de.danielnaber.languagetool.tokenizers.SRXSentenceTokenizer;
 import de.danielnaber.languagetool.tokenizers.WordTokenizer;
-import de.danielnaber.languagetool.tokenizers.pl.PolishSentenceTokenizer;
 
 public class PolishChunkerTest extends TestCase {
       
     private PolishTagger tagger;
     private WordTokenizer tokenizer;
-    private PolishSentenceTokenizer sentenceTokenizer;
+    private SentenceTokenizer sentenceTokenizer;
     private PolishChunker disambiguator;
       
     public void setUp() {
       tagger = new PolishTagger();
       tokenizer = new WordTokenizer();
-      sentenceTokenizer = new PolishSentenceTokenizer();
+      sentenceTokenizer = new SRXSentenceTokenizer("pl"); 
       disambiguator = new PolishChunker();      
     }
 

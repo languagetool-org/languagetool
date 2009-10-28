@@ -30,7 +30,6 @@ import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
 import de.danielnaber.languagetool.tagging.disambiguation.pl.PolishHybridDisambiguator;
 import de.danielnaber.languagetool.tagging.pl.PolishTagger;
 import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
-//import de.danielnaber.languagetool.tokenizers.pl.PolishSentenceTokenizer;
 import de.danielnaber.languagetool.tokenizers.SRXSentenceTokenizer;
 
 public class Polish extends Language {
