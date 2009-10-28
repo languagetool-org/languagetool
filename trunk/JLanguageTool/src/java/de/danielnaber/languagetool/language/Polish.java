@@ -35,7 +35,7 @@ import de.danielnaber.languagetool.tokenizers.SRXSentenceTokenizer;
 public class Polish extends Language {
 
   private final Tagger tagger = new PolishTagger();
-  private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("pl"); // new PolishSentenceTokenizer(); //;  
+  private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("pl");
   private final Disambiguator disambiguator = new PolishHybridDisambiguator();
   private final Synthesizer synthesizer = new PolishSynthesizer();
   
