@@ -112,7 +112,7 @@ public class JLanguageToolTest extends TestCase {
   }
   
   public void testPolish() throws IOException {
-    final JLanguageTool tool = new JLanguageTool(Language.POLISH);
+    JLanguageTool tool = new JLanguageTool(Language.POLISH);
     assertEquals("[PL]", Arrays.toString(Language.POLISH.getCountryVariants()));
     List<RuleMatch> matches = tool.check("To jest całkowicie prawidłowe zdanie.");
     assertEquals(0, matches.size());
@@ -124,7 +124,7 @@ public class JLanguageToolTest extends TestCase {
     tool.enableDefaultOffRule("PL_WORD_REPEAT");
     matches = tool.check("Był on bowiem pięknym strzelcem bowiem.");
     assertEquals(1, matches.size());
-    final List<PatternRule> rules = tool.loadPatternRules("/rules/pl/grammar.xml");
+    List<PatternRule> rules = tool.loadPatternRules("/rules/pl/grammar.xml");
     for (final PatternRule rule : rules) {
       tool.addRule(rule);
     }
@@ -137,10 +137,30 @@ public class JLanguageToolTest extends TestCase {
     matches = tool.check("This is not a Polish text.");
     assertEquals("[Polish, This, is]", tool.getUnknownWords().toString());
     //check positions relative to sentence ends    
-    matches = tool.check("To jest tekst.\nTo jest linia w której nie ma przecinka.");
-    assertEquals(9, matches.get(0).getColumn());
+    matches = tool.check("To jest tekst.\nTest 1. To jest linia w której nie ma przecinka.");
+    assertEquals(16, matches.get(0).getColumn());
+    //with a space...
+    matches = tool.check("To jest tekst. \nTest 1. To jest linia w której nie ma przecinka.");
+    assertEquals(16, matches.get(0).getColumn());
+    matches = tool.check("To jest tekst. Test 1. To jest linia w której nie ma przecinka.");
+    assertEquals(30, matches.get(0).getColumn());
+    //recheck with the -b mode...
+    final Language lang = Language.POLISH;
+    lang.getSentenceTokenizer().setSingleLineBreaksMarksParagraph(
+        true);
+    tool = new JLanguageTool(lang);
+    rules = tool.loadPatternRules("/rules/pl/grammar.xml");
+    for (final PatternRule rule : rules) {
+      tool.addRule(rule);
+    }
+    matches = tool.check("To jest tekst.\nTest 1. To jest linia w której nie ma przecinka.");
+    assertEquals(16, matches.get(0).getColumn());
+    //with a space...
+    matches = tool.check("To jest tekst. \nTest 1. To jest linia w której nie ma przecinka.");
+    assertEquals(16, matches.get(0).getColumn());
     matches = tool.check("To jest tekst. To jest linia w której nie ma przecinka.");
     assertEquals(23, matches.get(0).getColumn());
+    
   }
   
 	  

@@ -554,10 +554,18 @@ public final class JLanguageTool {
       // calculate matching column:      
       final int linebreakPos = sentence.indexOf('\n');
       if (linebreakPos == -1) {
-        columnCount += sentence.length() -1;
-      } else { 
-        columnCount = 1;
-      } 
+        columnCount += sentence.length() -1;        
+      } else {
+        if (linebreakPos == 0) {
+          columnCount = sentence.length();
+          if (!language.getSentenceTokenizer().
+              singleLineBreaksMarksPara()) {
+            columnCount--;
+          }
+        } else {
+          columnCount = 1;
+        }
+      }      
     }
 
     if (!paraMode.equals(paragraphHandling.ONLYNONPARA)) {
