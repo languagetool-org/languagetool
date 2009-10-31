@@ -294,7 +294,9 @@ help</a>). You may then call <tt><a href="http://ant.apache.org/">ant</a></tt> t
 build LanguageTool (this is optional, it's okay to work only inside Eclipse). Ant should compile
 a file named like <tt>LanguageTool-1.0.0-dev.oxt</tt> in the <tt>dist</tt> directory.</p>
 
-<p><tt>Language.java</tt> contains 
+<ul>
+
+<li><p><tt>Language.java</tt> contains 
 the information about supported languages. You can add a new language by creating
 a new <tt>Language</tt> object in this class and providing a part-of-speech tagger
 for it, similar to <tt>de/danielnaber/languagetool/tagging/en/EnglishTagger.java</tt>. The tagger
@@ -320,11 +322,21 @@ create your own version of <tt>manually_added.txt</tt> and use that to create a 
 then adapt your tagger to use it (e.g. copy <tt>EnglishTagger.java</tt> and change the 
 <tt>RESOURCE_FILENAME</tt> constant). More details about building dictionaries
 are <?=show_link("in the Wiki.", "http://languagetool.wikidot.com/developing-a-tagger-dictionary", 0) ?>
-</p>
+</p></li>
 
-<p>You will also need to adapt <tt>build.xml</tt>. Just search for "/en/"
-in that file and copy those lines, adapting them to your language.
-</p>
+<li>Adapt <tt>ooolocales.properties</tt> by adding the code(s) the new language supports.</li>
+
+<li>Adapt <tt>openoffice/Addons.xcu</tt> and <tt>openoffice/description.xml</tt> to translate the user
+interface of LanguageTool into your language when used in OpenOffice.org.</li>
+
+<li>Adapt <tt>build.xml</tt>. Just search for "/en/"
+in that file and copy those lines, adapting them to your language.</li>
+
+<li>Copy <tt>MessageBundle.properties</tt> to <tt>MessageBundle_xx.properties</tt>,
+whereas <tt>xx</tt> is the code of your new language and translate all values (i.e. the strings
+on the right of the "=" sign).</li>
+
+</ul>
 
 <p><a name="background"><strong>Background</strong></a><br />
 For background information, my diploma thesis 
