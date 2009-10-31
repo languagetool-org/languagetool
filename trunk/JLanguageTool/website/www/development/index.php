@@ -2,7 +2,7 @@
 $page = "development";
 $title = "LanguageTool";
 $title2 = "Development";
-$lastmod = "2008-06-08 20:05:00 CET";
+$lastmod = "2009-10-31 23:05:00 CET";
 include("../../include/header.php");
 include('../../include/geshi/geshi.php');
 ?>
@@ -288,29 +288,16 @@ that's not the case, start LanguageTool with <tt>java -Duser.language=xx -jar La
 </p>
 
 <p><a name="newlanguage"><strong>Adding support for a new language</strong></a><br />
-Adding a new language requires some programming. You should check out
+Adding a new language requires some changes to the Java source files. You should check out
 the "JLanguageTool" module from CVS (see the <a href="http://sourceforge.net/cvs/?group_id=110216">sourceforge 
-help</a>). As not all files are in CVS because of their size, you also need files from the 
-LanguageTool OXT file (which is a ZIP file with a different extension and a description for
-OpenOffice.org Extension Manager):</p>
-
-<ol>
-	<li>Unzip standalone-libs.zip and then copy all <tt>*.jar</tt> files to the subdirectory 
-	<tt>libs</tt> in your checkout directory. </li>
-	<li>Create a directory <tt>libs/build</tt> and put
-	<?=show_link("junit.jar", "http://sourceforge.net/project/showfiles.php?group_id=15278&amp;package_id=12472&amp;release_id=398352", 1)?>
-	in there.</li>
-	<li>Create a directory <tt>libs/ooo</tt> and copy these files from your OpenOffice.org
-	installation to that directory (they are in <tt>program/classes</tt>):
-	<tt>juh.jar</tt>, <tt>jurt.jar</tt>, <tt>ridl.jar</tt>, and <tt>unoil.jar</tt></li>
-	<li>Call <tt>ant</tt> and copy the other missing files from the OXT, if the
-	compiler complains.</li>
-</ol>
+help</a>). You may then call <tt><a href="http://ant.apache.org/">ant</a></tt> to
+build LanguageTool (this is optional, it's okay to work only inside Eclipse). Ant should compile
+a file named like <tt>LanguageTool-1.0.0-dev.oxt</tt> in the <tt>dist</tt> directory.</p>
 
 <p><tt>Language.java</tt> contains 
 the information about supported languages. You can add a new language by creating
 a new <tt>Language</tt> object in this class and providing a part-of-speech tagger
-for it, similar to de/danielnaber/languagetool/tagging/en/EnglishTagger.java. The tagger
+for it, similar to <tt>de/danielnaber/languagetool/tagging/en/EnglishTagger.java</tt>. The tagger
 must implement the <tt>Tagger</tt> interface, any implementation details (i.e. how
 to actually assign tags to words) are up to you -- the easiest thing is probably
 to just copy the English tagger.</p>
@@ -331,10 +318,11 @@ for English. You need the
 package. Install it and add its installation directory to your PATH. Once it works for English,
 create your own version of <tt>manually_added.txt</tt> and use that to create a <tt>.dict</tt> file,
 then adapt your tagger to use it (e.g. copy <tt>EnglishTagger.java</tt> and change the 
-<tt>RESOURCE_FILENAME</tt> constant).
+<tt>RESOURCE_FILENAME</tt> constant). More details about building dictionaries
+are <?=show_link("in the Wiki.", "http://languagetool.wikidot.com/developing-a-tagger-dictionary", 0) ?>
 </p>
 
-<p>Remember that you will also need to adapt <tt>build.xml</tt>. Just search for "/en/"
+<p>You will also need to adapt <tt>build.xml</tt>. Just search for "/en/"
 in that file and copy those lines, adapting them to your language.
 </p>
 
