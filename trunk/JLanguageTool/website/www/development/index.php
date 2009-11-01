@@ -324,8 +324,6 @@ then adapt your tagger to use it (e.g. copy <tt>EnglishTagger.java</tt> and chan
 are <?=show_link("in the Wiki.", "http://languagetool.wikidot.com/developing-a-tagger-dictionary", 0) ?>
 </p></li>
 
-<li>Adapt <tt>ooolocales.properties</tt> by adding the code(s) the new language supports.</li>
-
 <li>Adapt <tt>openoffice/Addons.xcu</tt> and <tt>openoffice/description.xml</tt> to translate the user
 interface of LanguageTool into your language when used in OpenOffice.org.</li>
 
