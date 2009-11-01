@@ -1,6 +1,6 @@
 LanguageTool, a proof-reading tool for English, German, Polish,
-French, Dutch, Russian, Romanian, and Italian with initial support 
-for Galician, Icelandic, Slovak, Spanish, and Swedish
+French, Dutch, Russian, Romanian, Italian, Danish, and Catalan with 
+initial support for Galician, Icelandic, Slovak, Spanish, and Swedish
 
 Copyright (C) 2005-2009 Daniel Naber (naber at danielnaber de)
 Version ###VERSION###, ###DATE###
@@ -63,9 +63,9 @@ Known bugs:
    -for some rules there may be a lot of false alarms, i.e., LanguageTool complains
     about text which is actually correct
  -Java 1.5:
-  - you cannot display the configuration dialog box due to the bug
-  present in GridBagLayout that limits the number of items displayed;
-  the languages affected are currently French and Polish.
+  -you cannot display the configuration dialog box due to the bug
+   present in GridBagLayout that limits the number of items displayed;
+   the languages affected are currently French and Polish.
    
 TODO:
  -see if java.text.RuleBasedBreakIterator would be better for word 
