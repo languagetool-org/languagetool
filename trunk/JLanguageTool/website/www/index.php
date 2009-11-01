@@ -69,7 +69,7 @@ See <?=show_link("the workshop page", "http://conference.services.openoffice.org
  
 <!-- -->
 <p><strong>Try LanguageTool via Java WebStart:</strong> (requires Java 1.6_04 or later)<br />
-<?=show_link("Start LanguageTool (17&nbsp;MB)", "webstart/LanguageTool.jnlp", 0) ?></p>
+<?=show_link("Start LanguageTool (17&nbsp;MB)", "webstart/web/LanguageTool.jnlp", 0) ?></p>
 <!-- -->
 
 <p><strong>Installation and Usage:</strong>
