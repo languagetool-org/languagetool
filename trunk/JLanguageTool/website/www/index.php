@@ -2,7 +2,7 @@
 $page = "homepage";
 $title = "LanguageTool";
 $title2 = "Open Source language checker";
-$lastmod = "2009-10-25 02:17:00 CET";
+$lastmod = "2009-11-01 20:17:00 CET";
 include("../include/header.php");
 ?>
 		
@@ -14,30 +14,24 @@ of LanguageTool as a tool to detect errors that a simple spell checker cannot de
 up <em>there/their</em>, <em>no/now</em> etc. It can also detect some
 grammar mistakes. It does not include spell checking.</p>
 
-<p><strong>2009-10-25:</strong> Please help us test
-<?=show_link("LanguageTool 1.0.0-RC1 (for OpenOffice.org 3.0.1 or later, 17MB)", "download/LanguageTool-1.0.0-rc1.oxt", 0) ?></strong>.
-See the <a href="http://languagetool.cvs.sourceforge.net/viewvc/*checkout*/languagetool/JLanguageTool/CHANGES.txt?revision=1.307">changelog</a>
-for a list of changes.</p>
+
+<p><strong>Update 2009-11-01:</strong> Released version 1.0.0. Changes include:
+<ul>
+	<li>Support for Danish, Catalan, and Galician</li>
+	<li>Rule and dictionary fixes for Dutch, French, Italian, Polish, Spanish, Swedish, and Russian</li>
+	<li>More rules for Dutch, Polish, Russian, Spanish, Slovenian, and English</li>
+	<li>Several bug fixes</li>
+</ul>
+
+<p>For a more detailed list of changes, see
+the <?=show_link("Changelog", "download/CHANGES.txt", 0) ?>.</p>
+
 
 <p><strong>News 2009-10-04:</strong> The LanguageTool maintainers will be giving a workshop
 about extending LanguageTool at the <?=show_link("OpenOffice.org Conference",
 "http://conference.services.openoffice.org/index.php/ooocon/2009", 0)?> (OOoCon 2009) in Italy on 2009-11-06.
 See <?=show_link("the workshop page", "http://conference.services.openoffice.org/index.php/ooocon/2009/paper/view/78", 0)?>
  for more details.</p>
-
-<p><strong>Update 2009-05-22:</strong> Released version 0.9.9. Changes include:
-<ul>
-	<li>Fixed a NullPointerException that could appear when using
-  paragraph-level rules (<a href="https://sourceforge.net/tracker/?func=detail&amp;aid=2787814&amp;group_id=110216&amp;atid=655717">#2787814</a>)</li>
-	<li>Initial support for Icelandic</li>
-	<li>More Dutch, English, Polish, Romanian and Slovenian grammar rules</li>
-	<li>Fixed some bugs with pairing brackets</li>
-	<li>Added sentence tokenizer that uses <a href="http://www.lisa.org/fileadmin/standards/srx20.html">SRX</a> format for 
-  specifying end-of-sentence breaks</li>
-</ul>
-
-<p>For a more detailed list of changes, see
-the <?=show_link("Changelog", "download/CHANGES.txt", 0) ?>.</p>
 
 <div class="outerDownloadSection">
 <strong>Download for OpenOffice.org 3.0.1 or later:</strong><br />
@@ -49,7 +43,7 @@ the <?=show_link("Changelog", "download/CHANGES.txt", 0) ?>.</p>
 	issues (check <a href="http://languagetool.wikidot.com/removing-languagetool-0-9-5-from-openoffice-3-0-1">this
 	page</a> if you forgot to do so).
 	</p>
-	<p><strong><?=show_link("LanguageTool 0.9.9 (for OpenOffice.org 3.0.1 and 3.1)", "download/LanguageTool-0.9.9.oxt", 0) ?></strong>, 13&nbsp;MB,
+	<p><strong><?=show_link("LanguageTool 1.0.0 (for OpenOffice.org 3.0.1 and 3.1)", "download/LanguageTool-1.0.0.oxt", 0) ?></strong>, 17&nbsp;MB,
 	requires <?=show_link("Java", "http://www.java.com/en/download/manual.jsp", 1)?>&nbsp;5.0
 	or later. NOTE: this version <strong>only works with OpenOffice.org 3.0.1 or later</strong> 
 	and you need to <strong>restart OpenOffice.org</strong> after installation of this extension</p>
@@ -75,14 +69,14 @@ the <?=show_link("Changelog", "download/CHANGES.txt", 0) ?>.</p>
  
 <!-- -->
 <p><strong>Try LanguageTool via Java WebStart:</strong> (requires Java 1.6_04 or later)<br />
-<?=show_link("Start LanguageTool (13&nbsp;MB)", "webstart/LanguageTool.jnlp", 0) ?></p>
+<?=show_link("Start LanguageTool (17&nbsp;MB)", "webstart/LanguageTool.jnlp", 0) ?></p>
 <!-- -->
 
 <p><strong>Installation and Usage:</strong>
 
 <ul>
 	<li><strong>In OpenOffice.org</strong>:
-	Double click <tt>LanguageTool-0.9.9.oxt</tt> to install it.
+	Double click <tt>LanguageTool-1.0.0.oxt</tt> to install it.
 	If that doesn't work, call <em>Tools -&gt; Extension Manager -&gt; Add...</em>
 	to install it. Close OpenOffice.org and re-start it. Type some text
 	with an error (e.g. "This is an test." &ndash; make sure the text language is set
