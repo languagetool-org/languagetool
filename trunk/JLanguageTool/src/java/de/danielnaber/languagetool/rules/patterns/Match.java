@@ -116,10 +116,6 @@ public class Match {
 
   /**
    * Sets the token that will be formatted or otherwise used in the class.
-   * 
-   * @param token
-   * @AnalyzedTokenReadings
-   * 
    */
   public final void setToken(final AnalyzedTokenReadings token) {
     if (staticLemma) {
@@ -151,8 +147,7 @@ public class Match {
    * Sets a base form (lemma) that will be formatted, or synthesized, using the
    * specified POS regular expressions.
    * 
-   * @param lemmaString
-   * @String that specifies the base form.
+   * @param lemmaString String that specifies the base form.
    */
   public final void setLemmaString(final String lemmaString) {
     if (!StringTools.isEmpty(lemmaString)) {
@@ -170,8 +165,7 @@ public class Match {
    * Sets a synthesizer used for grammatical synthesis of forms based on
    * formatted POS values.
    * 
-   * @param synth
-   * @Synthesizer class.
+   * @param synth Synthesizer class.
    */
   public final void setSynthesizer(final Synthesizer synth) {
     synthesizer = synth;
@@ -180,8 +174,7 @@ public class Match {
   /**
    * Gets all strings formatted using the match element.
    * 
-   * @return
-   * @String[] array of strings
+   * @return array of strings
    * @throws IOException
    *           in case of synthesizer-related disk problems.
    */
@@ -260,8 +253,7 @@ public class Match {
   /**
    * Format POS tag using parameters already defined in the class.
    * 
-   * @return Formatted POS tag as
-   * @String.
+   * @return Formatted POS tag as String.
    */
   // FIXME: gets only the first POS tag that matches, this can be wrong
   // on the other hand, many POS tags = too many suggestions?
@@ -335,8 +327,7 @@ public class Match {
   /**
    * Sets the token number referenced by the match.
    * 
-   * @param i
-   *          Token number.
+   * @param i Token number.
    */
   public final void setTokenRef(final int i) {
     tokenRef = i;
@@ -354,9 +345,8 @@ public class Match {
   /**
    * Converts case of the string token according to match element attributes.
    * 
-   * @param s
-   * @String Token to be converted.
-   * @return @String Converted string.
+   * @param s Token to be converted.
+   * @return Converted string.
    */
   private String convertCase(final String s) {
     String token = s;
