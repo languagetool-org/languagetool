@@ -18,11 +18,10 @@
  */
 package de.danielnaber.languagetool.dev;
 
-import java.util.Properties;
-import java.io.FileOutputStream;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.File;
+import java.util.Properties;
 
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.tools.StringTools;
@@ -32,7 +31,6 @@ import de.danielnaber.languagetool.tools.StringTools;
  * needed to build Linguistic.xcu. Run internally by the ant build.
  * 
  * @author Marcin Miłkowski
- * 
  */
 public final class PrintLocales {
 
@@ -76,7 +74,6 @@ public final class PrintLocales {
     }
     final String oldLocales = checkPropLoc.getProperty("countryvariants");
     if (!locales.equals(oldLocales)) {
-      final File f = new File("ooolocales.properties");
       final Properties propLoc = new Properties();
       propLoc.setProperty("countryvariants", locales);
       FileOutputStream fOut = null;
@@ -93,4 +90,5 @@ public final class PrintLocales {
       }
     }
   }
+  
 }

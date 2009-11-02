@@ -35,7 +35,6 @@ import de.danielnaber.languagetool.Language;
  * Tag text and display only POS tags to create an n-gram language model.
  * 
  * @author Marcin Milkowski
- * 
  */
 public class POSTagLanguageModel {
 
@@ -51,7 +50,6 @@ public class POSTagLanguageModel {
     } else {
       exitWithUsageMessage();
     }
-
   }
 
   private static Language getLanguageOrExit(final String lang) {
@@ -102,7 +100,6 @@ public class POSTagLanguageModel {
         }
       }
     } finally {
-
       if (sb.length() > 0) {
         tagText(sb.toString(), lt);
       }
@@ -150,4 +147,5 @@ public class POSTagLanguageModel {
     }
     return sb.toString();
   }
+  
 }
