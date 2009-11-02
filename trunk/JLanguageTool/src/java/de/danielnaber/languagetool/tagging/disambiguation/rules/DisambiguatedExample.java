@@ -54,7 +54,6 @@ public class DisambiguatedExample {
   
   /**
    * Return the example that contains the error.
-   * @return
    */
   public String getExample() {
     return example;
@@ -62,7 +61,6 @@ public class DisambiguatedExample {
 
   /**
    * Return the possible corrections. May be null.
-   * @return
    */
   public String getDisambiguated() {
     return outputForms;

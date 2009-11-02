@@ -25,6 +25,12 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
+/**
+ * XML rule handler that loads disambiguation rules from XML and throws
+ * exceptions on errors and warnings.
+ * 
+ * @author Daniel Naber
+ */
 class XMLRuleHandler extends DefaultHandler {
 
   final List<DisambiguationPatternRule> rules = new ArrayList<DisambiguationPatternRule>();
