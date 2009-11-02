@@ -43,7 +43,6 @@ public class IncorrectExample {
   
   /**
    * Return the example that contains the error.
-   * @return
    */
   public String getExample() {
     return example;
@@ -51,7 +50,6 @@ public class IncorrectExample {
 
   /**
    * Return the possible corrections. May be null.
-   * @return
    */
   public List<String> getCorrections() {
     return corrections;

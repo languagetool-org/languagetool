@@ -229,7 +229,7 @@ public class UnpairedQuotesBracketsRule extends Rule {
               }
             }
 
-            if (noException)
+            if (noException) {
               if (symbolStack.isEmpty()) {
                 symbolStack.push(new SymbolLocator(endSymbols[j], i));
               } else {
@@ -239,6 +239,7 @@ public class UnpairedQuotesBracketsRule extends Rule {
                   symbolStack.push(new SymbolLocator(endSymbols[j], i));
                 }                
               }
+            }
           }
         }
       }

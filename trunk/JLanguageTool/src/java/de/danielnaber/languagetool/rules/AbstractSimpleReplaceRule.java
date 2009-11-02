@@ -40,7 +40,7 @@ import de.danielnaber.languagetool.tools.Tools;
 /**
  * A rule that matches words or phrases which should not be used and suggests
  * correct ones instead. Loads the relevant words  from 
- * <code>rules/<XX>/replace.txt</code>, where <XX> is a code of the language.
+ * <code>rules/XX/replace.txt</code>, where XX is a code of the language.
  * 
  * @author Andriy Rysin
  */

@@ -18,6 +18,12 @@
  */
 package de.danielnaber.languagetool.rules;
 
+/**
+ * A rule's category. Categories are used to group rules for
+ * a better overview.
+ * 
+ * @author Daniel Naber
+ */
 public class Category {
 
   private static final int DEFAULT_PRIORITY = 50;
