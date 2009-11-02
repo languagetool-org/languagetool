@@ -195,21 +195,22 @@ class WikiDumpHandler extends DefaultHandler {
     }
   }
   
-  /*
+  /**
    * initialize textFilter field 
    */
   private void initTextFilter() {
-    if (Language.ROMANIAN == lang)
+    if (Language.ROMANIAN == lang) {
       textFilter = new WikipediaTextFilter() {
         @Override
         public String filter(String arg0) {
-    	  final String tmp = super.filter(arg0);  
-    	  // diacritics correction (comma-bellow instead of sedilla for ș and ț)
+          final String tmp = super.filter(arg0);
+          // diacritics correction (comma-bellow instead of sedilla for ș and ț)
           return RomanianDiacriticsModifier.correctDiacritrics(tmp);
-		}
+        }
       };
-    else
+    } else {
       textFilter = new WikipediaTextFilter();
+    }
   }
 
   private String getProperty(Properties prop, String key) {
