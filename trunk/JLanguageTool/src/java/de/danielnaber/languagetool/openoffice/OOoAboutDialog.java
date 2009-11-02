@@ -30,6 +30,11 @@ import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.tools.StringTools;
 
+/**
+ * Dialog that display version and copyright information.
+ * 
+ * @author Marcin Miłkowski
+ */
 public class OOoAboutDialog {
 
   private ResourceBundle messages;
@@ -64,4 +69,5 @@ public class OOoAboutDialog {
                 + Language.getAllMaintainers(messages));
     box.execute();
   }
+  
 }

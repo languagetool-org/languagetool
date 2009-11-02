@@ -25,6 +25,13 @@ import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.gui.Configuration;
 import de.danielnaber.languagetool.gui.ConfigurationDialog;
 
+/**
+ * A thread that shows the configuration dialog which lets the
+ * user enable/disable rules.
+ * 
+ * @author Marcin Miłkowski
+ * @author Daniel Naber
+ */
 class ConfigThread extends Thread {
 
   private Language docLanguage;
