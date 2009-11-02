@@ -656,12 +656,12 @@ public final class Main implements ActionListener {
   class TrayActionListener implements ActionListener, MouseListener {
 
     // for Java 1.5 / Jdic:
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(@SuppressWarnings("unused")ActionEvent e) {
       handleClick();
     }
 
     // Java 1.6:
-    public void mouseClicked(MouseEvent e) {
+    public void mouseClicked(@SuppressWarnings("unused")MouseEvent e) {
       handleClick();
     }
 
@@ -676,42 +676,42 @@ public final class Main implements ActionListener {
       }
     }
 
-    public void mouseEntered(MouseEvent e) {
+    public void mouseEntered(@SuppressWarnings("unused") MouseEvent e) {
     }
 
-    public void mouseExited(MouseEvent e) {
+    public void mouseExited(@SuppressWarnings("unused")MouseEvent e) {
     }
 
-    public void mousePressed(MouseEvent e) {
+    public void mousePressed(@SuppressWarnings("unused")MouseEvent e) {
     }
 
-    public void mouseReleased(MouseEvent e) {
+    public void mouseReleased(@SuppressWarnings("unused")MouseEvent e) {
     }
 
   }
 
   class CloseListener implements WindowListener {
 
-    public void windowClosing(WindowEvent e) {
+    public void windowClosing(@SuppressWarnings("unused")WindowEvent e) {
       quitOrHide();
     }
 
-    public void windowActivated(WindowEvent e) {
+    public void windowActivated(@SuppressWarnings("unused")WindowEvent e) {
     }
 
-    public void windowClosed(WindowEvent e) {
+    public void windowClosed(@SuppressWarnings("unused")WindowEvent e) {
     }
 
-    public void windowDeactivated(WindowEvent e) {
+    public void windowDeactivated(@SuppressWarnings("unused")WindowEvent e) {
     }
 
-    public void windowDeiconified(WindowEvent e) {
+    public void windowDeiconified(@SuppressWarnings("unused")WindowEvent e) {
     }
 
-    public void windowIconified(WindowEvent e) {
+    public void windowIconified(@SuppressWarnings("unused")WindowEvent e) {
     }
 
-    public void windowOpened(WindowEvent e) {
+    public void windowOpened(@SuppressWarnings("unused")WindowEvent e) {
     }
 
   }

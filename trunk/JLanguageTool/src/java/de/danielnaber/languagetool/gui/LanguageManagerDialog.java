@@ -45,6 +45,11 @@ import javax.swing.filechooser.FileFilter;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.language.LanguageBuilder;
 
+/**
+ * Dialog for managing externally loaded rules.
+ * 
+ * @author Daniel Naber
+ */
 public class LanguageManagerDialog implements ActionListener {
 
   private JDialog dialog;

@@ -18,6 +18,11 @@
  */
 package de.danielnaber.languagetool.gui;
 
+/**
+ * Exception thrown with Java 1.5 if the jdoc library cannot be found.
+ * 
+ * @author Daniel Naber
+ */
 public class MissingJdicException extends RuntimeException {
 
   /**

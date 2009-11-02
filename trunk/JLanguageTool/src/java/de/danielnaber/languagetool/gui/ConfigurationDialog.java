@@ -48,9 +48,6 @@ import javax.swing.JRootPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.xml.sax.SAXException;
 
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
@@ -117,7 +114,7 @@ public class ConfigurationDialog implements ActionListener {
     // close dialog when user presses Escape key:
     final KeyStroke stroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
     final ActionListener actionListener = new ActionListener() {
-      public void actionPerformed(ActionEvent actionEvent) {
+      public void actionPerformed(@SuppressWarnings("unused") ActionEvent actionEvent) {
         dialog.setVisible(false);
       }
     };
@@ -470,10 +467,9 @@ public class ConfigurationDialog implements ActionListener {
   }
 
   /**
-   * For internal testing only.
+   * Opens the dialog - for internal testing only.
    */
-  public static void main(String[] args) throws IOException,
-      ParserConfigurationException, SAXException {
+  public static void main(String[] args) throws IOException {
     final ConfigurationDialog dlg = new ConfigurationDialog(null, false);
     final List<Rule> rules = new ArrayList<Rule>();
     final JLanguageTool lt = new JLanguageTool(Language.ENGLISH);

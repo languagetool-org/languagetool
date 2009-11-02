@@ -32,12 +32,13 @@ import javax.swing.KeyStroke;
 
 import de.danielnaber.languagetool.tools.StringTools;
 
+/**
+ * The menu bar of the main dialog.
+ * 
+ * @author Daniel Naber
+ */
 class MainMenuBar extends JMenuBar implements ActionListener {
 
-
-  /**
-   * 
-   */
   private static final long serialVersionUID = -7160998682243081767L;
 
   private ResourceBundle messages;

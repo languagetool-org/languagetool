@@ -26,6 +26,11 @@ import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.tools.StringTools;
 
+/**
+ * A dialog with version and copyright information.
+ * 
+ * @author Daniel Naber
+ */
 public class AboutDialog {
 
   private final ResourceBundle messages;
@@ -45,4 +50,5 @@ public class AboutDialog {
         + Language.getAllMaintainers(messages),
         aboutText, JOptionPane.INFORMATION_MESSAGE);
   }
+
 }
