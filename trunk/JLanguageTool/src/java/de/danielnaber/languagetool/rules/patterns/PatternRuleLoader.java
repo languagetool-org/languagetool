@@ -83,10 +83,7 @@ public class PatternRuleLoader extends DefaultHandler {
 
 class PatternRuleHandler extends XMLRuleHandler {
 
-  /**
-   * Defines "yes" value in XML files.
-   * 
-   * **/
+  /** Defines "yes" value in XML files. */
   private static final String YES = "yes";
   private static final String POSTAG = "postag";
   private static final String POSTAG_REGEXP = "postag_regexp";
@@ -617,13 +614,16 @@ class PatternRuleHandler extends XMLRuleHandler {
   private void checkPositions(final int add) throws SAXException {
     if (startPositionCorrection >= tokenCounter + add) {
       throw new SAXException(
-          "Attemp to mark a token no. ("+ startPositionCorrection +") that is outside the pattern (" + tokenCounter + "). Pattern elements are numbered starting from 0!" + "\n Line: "
+          "Attemp to mark a token no. ("+ startPositionCorrection +") that is outside the pattern ("
+          + tokenCounter + "). Pattern elements are numbered starting from 0!" + "\n Line: "
               + pLocator.getLineNumber() + ", column: "
               + pLocator.getColumnNumber() + ".");
     }
     if (tokenCounter +add - endPositionCorrection < 0) {
       throw new SAXException(
-          "Attemp to mark a token no. ("+ endPositionCorrection +") that is outside the pattern (" + tokenCounter + " elements). End positions should be negative but not larger than the token count!" + "\n Line: "
+          "Attemp to mark a token no. ("+ endPositionCorrection +") that is outside the pattern ("
+          + tokenCounter + " elements). End positions should be negative but not larger than the token count!"
+          + "\n Line: "
               + pLocator.getLineNumber() + ", column: "
               + pLocator.getColumnNumber() + ".");
     } 
@@ -658,8 +658,7 @@ class PatternRuleHandler extends XMLRuleHandler {
    * element has been used in the group.
    * 
    * @param elList
-   *          Element list where the match element was used. It is directly
-   *          changed.
+   *          Element list where the match element was used. It is directly changed.
    */
   private void processElement(final List<Element> elList) {
     int counter = 0;

@@ -27,6 +27,12 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import de.danielnaber.languagetool.rules.IncorrectExample;
 
+/**
+ * XML rule handler that loads rules from XML and throws
+ * exceptions on errors and warnings.
+ * 
+ * @author Daniel Naber
+ */
 class XMLRuleHandler extends DefaultHandler {
 
   List<PatternRule> rules = new ArrayList<PatternRule>();

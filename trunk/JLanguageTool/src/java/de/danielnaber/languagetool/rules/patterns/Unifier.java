@@ -34,7 +34,6 @@ import de.danielnaber.languagetool.tools.StringTools;
  * Implements unification of features over tokens.
  * 
  * @author Marcin Milkowski
- * 
  */
 public class Unifier {
 
@@ -390,6 +389,7 @@ public class Unifier {
 }
 
 class EquivalenceTypeLocator {
+  
   @Override
   public int hashCode() {
     final int prime = 31;
@@ -435,4 +435,5 @@ class EquivalenceTypeLocator {
     this.feature = feature;
     this.type = type;
   }
+  
 }
