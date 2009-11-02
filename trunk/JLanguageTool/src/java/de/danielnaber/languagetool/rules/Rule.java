@@ -108,6 +108,9 @@ public abstract class Rule {
    * public int getFalsePositives() { return -1; }
    */
 
+  /**
+   * Set the examples that are correct and thus do not trigger the rule.
+   */
   public final void setCorrectExamples(final List<String> correctExamples) {
     this.correctExamples = correctExamples;
   }
@@ -119,6 +122,9 @@ public abstract class Rule {
     return correctExamples;
   }
 
+  /**
+   * Set the examples that are incorrect and thus do trigger the rule.
+   */
   public final void setIncorrectExamples(
       final List<IncorrectExample> incorrectExamples) {
     this.incorrectExamples = incorrectExamples;
