@@ -57,7 +57,8 @@ import de.danielnaber.languagetool.rules.RuleMatch;
 /**
  * Check texts from Wikipedia (download "pages-articles.xml.bz2" from
  * http://download.wikimedia.org/backup-index.html, e.g.
- * http://download.wikimedia.org/dewiki/latest/dewiki-latest-pages-articles.xml.bz2).
+ * http://download.wikimedia.org/dewiki/latest/dewiki-latest-pages-articles.xml.bz2)
+ * and stores the result in a database. Used for community.languagetool.org.
  * 
  * @author Daniel Naber
  */
@@ -138,6 +139,10 @@ public class CheckWikipediaDump {
 
 }
 
+/**
+ * Read the Wikipedia XML dump, check texts with LanguageTool, store
+ * check result in database.
+ */
 class WikiDumpHandler extends DefaultHandler {
 
   private static final int CONTEXT_SIZE = 50; 
@@ -290,6 +295,10 @@ class WikiDumpHandler extends DefaultHandler {
 
 }
 
+/**
+ * Convert Wikipedia syntax to HTML using Bliki and then try to clean it up (this is
+ * rather ugly).
+ */
 class WikipediaTextFilter implements TextFilter {
 
   public String filter(String s) {
