@@ -176,6 +176,9 @@ public class PatternRuleTest extends TestCase {
               expectedMatchEnd, matches[0].getToPos());
           // make sure suggestion is what we expect it to be
           if (suggestedCorrection != null && suggestedCorrection.size() > 0) {
+            assertTrue("You specified a correction but your message has no suggestions in rule " + rule,
+              rule.getMessage().contains("<suggestion>")    
+            );
             assertTrue(lang + ": Incorrect suggestions: "
                 + suggestedCorrection.toString() + " != "
                 + matches[0].getSuggestedReplacements() + " for rule " + rule,
