@@ -4,7 +4,7 @@
 <!--
 Slovenian Grammar and Typo Rules for LanguageTool
 Copyright (C) 2008, 2009 Martin Srebotnjak
-$Id: grammar.xml,v 1.8 2009-10-23 22:19:28 milek_pl Exp $
+$Id: grammar.xml,v 1.9 2009-11-11 14:56:52 milek_pl Exp $
 Thanks to Marcin Miłkowski.
 -->
 <rules lang="sl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../rules.xsd">
@@ -200,6 +200,30 @@ Thanks to Marcin Miłkowski.
 				<example type="incorrect">Srečala sva poštarja<marker> ki</marker> je raznašal pokojnine.</example>
 			</rule>
 		</rulegroup>
+		<rulegroup name="Manjkajoča vejica pred 'kateri'" id="KATERI_BREZ_VEJICE">
+			<rule>
+				<pattern mark_from="1" case_sensitive="yes">
+					<token regexp="yes" negate="yes">,|[Ii]n|[Aa]li|[Tt]er|[\(;:\–]|[Vv]|[Nn]a|[Pp]red|[Nn]ad|[Pp]ri|[Oo]b|[Ss]</token>
+					<token regexp="yes">kater(:?i|e|o|ih|ega|emu|im|ima)</token>
+				</pattern>
+				<message>V podredjih je pred 'kateri' vejica: <suggestion>, kateri</suggestion>!</message>
+				<short>Manjka vejica pred 'kateri'</short>
+				<example type="correct">Ni vedel<marker>, kateri</marker> je pravi.</example>
+				<example type="incorrect">Ni vedel<marker> kateri</marker> je pravi.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup name="Manjkajoča vejica pred 'kakršen'" id="KAKRSEN_BREZ_VEJICE">
+			<rule>
+				<pattern mark_from="1" case_sensitive="yes">
+					<token regexp="yes" negate="yes">,|[Ii]n|[Aa]li|[Tt]er|[\(;:\–]</token>
+					<token regexp="yes">kakrš(:?en|ne|no|nih|nega|nemu|nim|nima)</token>
+				</pattern>
+				<message>V podredjih je pred 'kakršen' vejica: <suggestion>, kakršen</suggestion>!</message>
+				<short>Manjka vejica pred 'kakršen'</short>
+				<example type="correct">To so bile magdalenice<marker>, kakršne</marker> je pekla moja mati.</example>
+				<example type="incorrect">To so bile magdalenice<marker> kakršne</marker> je pekla moja mati.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup name="Manjkajoča vejica pred 'ko'" id="KO_BREZ_VEJICE">
 			<rule>
 				<pattern mark_from="1" case_sensitive="yes">
@@ -215,7 +239,7 @@ Thanks to Marcin Miłkowski.
 		<rulegroup name="Manjkajoča vejica pred 'kadar'" id="KADAR_BREZ_VEJICE">
 			<rule>
 				<pattern mark_from="1" case_sensitive="yes">
-					<token regexp="yes" negate="yes">,|[I|i]n|[A|a]li|[T|t]er|[L|l]e|[S|s]amo|[T|t]udi|[P|p]otem|[Z|z]lasti|[C|c]elo|\(|;|:|–</token>
+					<token regexp="yes" negate="yes">,|[I|i]n|[A|a]li|[T|t]er|[L|l]e|[S|s]amo|[T|t]udi|[P|p]otem|[Z|z]lasti|[C|c]elo|[R|r]azen|\(|;|:|–</token>
 					<token>kadar</token>
 				</pattern>
 				<message>V podredjih je pred 'kadar' vejica: <suggestion>, kadar</suggestion>!</message>
@@ -239,7 +263,7 @@ Thanks to Marcin Miłkowski.
 		<rulegroup name="Manjkajoča vejica pred 'da'" id="DA_BREZ_VEJICE">
 			<rule>
 				<pattern mark_from="1" case_sensitive="yes">
-					<token regexp="yes" negate="yes">,|„|"|[I|i]n|[A|a]li|[T|t]er|[T|t]ako|[L|l]e|[S|s]amo|[K|k]ot|[Č|č]eš|[K|k]akor|[K|k]o|[L|l]ahko|\(|;|:|–|[N|n]e|[A|a]mpak|nam|jim|vam|mu|mi|ji|jima|vama</token>
+					<token regexp="yes" negate="yes">,|„|"|[I|i]n|[A|a]li|[T|t]er|[T|t]ako|[L|l]e|[S|s]amo|[K|k]ot|[Č|č]eš|[K|k]akor|[K|k]o|[L|l]ahko|\(|;|:|–|[N|n]e|[A|a]mpak|nam|jim|vam|mu|mi|ji|jima|vama|[N|n]amesto|[A|a]</token>
 					<token>da</token>
 				</pattern>
 				<message>V podredjih je pred 'da' vejica: <suggestion>, da</suggestion>!</message>
@@ -383,7 +407,7 @@ Thanks to Marcin Miłkowski.
 		    <rule id="PREDLOG_K" name="Pravopis: nepravilna raba predloga 'k'">
 				<pattern case_sensitive="no" mark_to="-1">
 					<token>k</token>
-					<token regexp="yes">[k|g].*</token>
+					<token regexp="yes">[kg].*</token>
 				</pattern>
 				<message>Pred besedami, ki se začnejo s črkama k in g, morate uporabiti namesto predloga "k" predlog <suggestion>h</suggestion>.</message>
 				<short>Predlog k namesto h</short>
@@ -395,7 +419,7 @@ Thanks to Marcin Miłkowski.
 			<rule id="PREDLOG_H" name="Pravopis: nepravilna raba predloga 'h'">
 				<pattern case_sensitive="no" mark_to="-1">
 					<token>h</token>
-					<token regexp="yes">[a|b|c|d|e|f|h|i|j|l|m|n|o|p|q|r|s|t|u|v|x|y|z|č|š|ž].*</token>
+					<token regexp="yes">[abcdefhijlmnopqrstuvxyzčšž].*</token>
 				</pattern>
 				<message>Pred besedami, ki se ne začnejo s črko k ali g, morate uporabiti namesto predloga "h" predlog <suggestion>k</suggestion>.</message>
 				<short>Predlog h namesto k</short>
@@ -409,7 +433,7 @@ Thanks to Marcin Miłkowski.
 		    <rule id="PREDLOG_Z" name="Pravopis: nepravilna raba predloga 'z'">
 				<pattern case_sensitive="no" mark_to="-1">
 					<token>z</token>
-					<token regexp="yes">[c|f|h|k|p|s|t|č|š].*</token>
+					<token regexp="yes">[cfhkpstčš].*</token>
 				</pattern>
 				<message>Pred besedami, ki se začnejo s črkami c, f, h, k, p, s, t, č in š, morate uporabiti namesto "z" predlog <suggestion>s</suggestion>.</message>
 				<short>Predlog z namesto s</short>
@@ -421,7 +445,7 @@ Thanks to Marcin Miłkowski.
 			<rule id="PREDLOG_S" name="Pravopis: nepravilna raba predloga 's'">
 				<pattern case_sensitive="no" mark_to="-1">
 					<token>s</token>
-					<token regexp="yes">[a|b|d|e|g|i|j|l|m|n|o|q|r|u|v|x|y|w|z|ž].*</token>
+					<token regexp="yes">[abdegijlmnoqruvxywzž].*</token>
 				</pattern>
 				<message>Pred besedami, ki se ne začnejo s črko c, f, h, k, p, s, t, č ali š, morate uporabiti namesto "s" predlog <suggestion>z</suggestion>.</message>
 				<short>Predlog s namesto z</short>
@@ -477,8 +501,9 @@ Thanks to Marcin Miłkowski.
 				<example correction="čim prej" type="incorrect">Pridi <marker>čimprej</marker>!</example>
 			</rule>
 			<rule id="KATERI" name="Zastarela raba: kateri">
-				<pattern case_sensitive="no" mark_to="-1" >
-					<token regexp="yes">[K|k]ater[i|a|o|ega|emu]</token>
+				<pattern case_sensitive="no" mark_from="1" mark_to="-1" >
+					<token regexp="yes">[,\.\!\?]</token>
+					<token regexp="yes">[Kk]ater(:?i|a|o|ega|emu)</token>
 					<token regexp="yes">je|so|bi</token>
 				</pattern>
 				<message>Napačna raba besede kateri, pravilno je: <suggestion>ki</suggestion>!</message>
