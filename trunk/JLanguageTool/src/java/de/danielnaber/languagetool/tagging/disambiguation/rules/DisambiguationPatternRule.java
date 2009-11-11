@@ -243,9 +243,23 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
       if (newTokenReadings != null) {
         if (newTokenReadings.length == matchingTokens - startPositionCorrection
             + endPositionCorrection) {
-          for (int i = 0; i < newTokenReadings.length; i++) {
+          String lemma = "";
+          String token = "";
+          for (int i = 0; i < newTokenReadings.length; i++) {            
+            if ("".equals(newTokenReadings[i].getToken())) { //empty token 
+              token = whTokens[text.getOriginalPosition(firstMatchToken + correctedStPos
+                  + i)].getToken();
+            } else {
+              token = newTokenReadings[i].getToken();
+            }
+            if (newTokenReadings[i].getLemma() == null) { //empty lemma
+              lemma = token;
+            } else {
+              lemma = newTokenReadings[i].getLemma();
+            }
+            AnalyzedToken newTok = new AnalyzedToken(token, newTokenReadings[i].getPOSTag(), lemma);
             whTokens[text.getOriginalPosition(firstMatchToken + correctedStPos
-                + i)].addReading(newTokenReadings[i]);
+                + i)].addReading(newTok);
           }
         }
       }

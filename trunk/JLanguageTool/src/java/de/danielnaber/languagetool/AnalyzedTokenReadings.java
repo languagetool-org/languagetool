@@ -175,7 +175,7 @@ public class AnalyzedTokenReadings {
       setWhitespaceBefore(isWhitespaceBefore);
     isParaEnd = hasPosTag(JLanguageTool.PARAGRAPH_END_TAGNAME);
     isSentEnd = hasPosTag(JLanguageTool.SENTENCE_END_TAGNAME);     
-  }
+  }   
 
   public final void removeReading(final AnalyzedToken tok) {
     final ArrayList<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
