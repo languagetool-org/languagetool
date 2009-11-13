@@ -4,7 +4,7 @@
 <!--
 Slovenian Grammar and Typo Rules for LanguageTool
 Copyright (C) 2008, 2009 Martin Srebotnjak
-$Id: grammar.xml,v 1.10 2009-11-11 15:09:12 milek_pl Exp $
+$Id: grammar.xml,v 1.11 2009-11-13 11:59:35 milek_pl Exp $
 Thanks to Marcin Miłkowski.
 -->
 <rules lang="sl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../rules.xsd">
@@ -114,7 +114,7 @@ Thanks to Marcin Miłkowski.
 		<rulegroup name="Manjkajoča vejica pred 'torej'" id="TOREJ_BREZ_VEJICE" default="off">
 			<rule>
 				<pattern mark_from="1" case_sensitive="yes">
-					<token regexp="yes" negate="yes">[,\(;:\-]|in|nam|jim|ji|mu|nama|vama|njima|jimawvam|meni|mi|tebi|ti</token>
+					<token regexp="yes" negate="yes">[,\(;:\-]|in|nam|jim|ji|mu|nama|vama|njima|jima|vam|meni|mi|tebi|ti</token>
 					<token>torej</token>
 				</pattern>
 				<message>Ponavadi je pred 'torej' vejica: <suggestion>, torej</suggestion>!</message>
@@ -203,7 +203,7 @@ Thanks to Marcin Miłkowski.
 		<rulegroup name="Manjkajoča vejica pred 'kateri'" id="KATERI_BREZ_VEJICE">
 			<rule>
 				<pattern mark_from="1" case_sensitive="yes">
-					<token regexp="yes" negate="yes">[Ii]n|[Aa]li|[Tt]er|[\(;:\–,]|[Vv]|[Nn]a|[Pp]red|[Nn]ad|[Pp]ri|[Oo]b|[Ss]</token>
+					<token regexp="yes" negate="yes">[Ii]n|[Aa]li|[Tt]er|[\(;:\–,]|[Vv]|[Nn]a|[Pp]red|[Nn]ad|[Pp]ri|[Oo]b|[Ss]|[Zz]a|[Pp]o|[Ii]z</token>
 					<token regexp="yes">kater(:?i|e|o|ih|ega|emu|im|ima)</token>
 				</pattern>
 				<message>V podredjih je pred 'kateri' vejica: <suggestion>, kateri</suggestion>!</message>
@@ -212,11 +212,11 @@ Thanks to Marcin Miłkowski.
 				<example type="incorrect">Ni vedel<marker> kateri</marker> je pravi.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup name="Manjkajoča vejica pred 'kakršen'" id="KAKRSEN_BREZ_VEJICE">
+		<rulegroup name="Manjkajoča vejica pred 'kakršen'" id="KAKRŠEN_BREZ_VEJICE">
 			<rule>
 				<pattern mark_from="1" case_sensitive="yes">
-					<token regexp="yes" negate="yes">[Ii]n|[Aa]li|[Tt]er|[,\(;:\–]</token>
-					<token regexp="yes">kakrš(:?en|ne|no|nih|nega|nemu|nim|nima)</token>
+					<token regexp="yes" negate="yes">[Ii]n|[Aa]li|[Tt]er|[Zz]a|[Pp]o|[Oo]b|[Nn]a|[Pp]red|[Nn]ad|[Pp]ri|[Ss]|[Vv]|[Ii]z|[,\(;:\–]</token>
+					<token regexp="yes">kakrš(:?en|ne|no|nih|nega|nemu|nim|nima|nimi)</token>
 				</pattern>
 				<message>V podredjih je pred 'kakršen' vejica: <suggestion>, kakršen</suggestion>!</message>
 				<short>Manjka vejica pred 'kakršen'</short>
@@ -251,7 +251,7 @@ Thanks to Marcin Miłkowski.
 		<rulegroup name="Manjkajoča vejica pred 'ker'" id="KER_BREZ_VEJICE">
 			<rule>
 				<pattern mark_from="1" case_sensitive="yes">
-					<token regexp="yes" negate="yes">[Ii]n|[Aa]li|[Tt]er|[,\(;:\–]|[Aa]</token>
+					<token regexp="yes" negate="yes">[Ii]n|[Aa]li|[Tt]er|[,\(;:\–]|[Aa]|[Tt]emveč|[Aa]mpak</token>
 					<token>ker</token>
 				</pattern>
 				<message>V podredjih je pred 'ker' vejica: <suggestion>, ker</suggestion>!</message>
@@ -263,7 +263,7 @@ Thanks to Marcin Miłkowski.
 		<rulegroup name="Manjkajoča vejica pred 'da'" id="DA_BREZ_VEJICE">
 			<rule>
 				<pattern mark_from="1" case_sensitive="yes">
-					<token regexp="yes" negate="yes">[,„"]|[Ii]n|[Aa]li|[Tt]er|[Tt]ako|[Ll]e|[Ss]amo|[Kk]ot|[Čč]eš|[Kk]akor|[Kk]o|[Ll]ahko|[\(;:\–]|[Nn]e|[Aa]mpak|nam|jim|vam|mu|mi|ji|jima|vama|[Nn]amesto|[Aa]</token>
+					<token regexp="yes" negate="yes">[,„"]|[Ii]n|[Aa]li|[Tt]er|[Tt]ako|[Ll]e|[Ss]amo|[Kk]ot|[Kk]akor|[Čč]eš|[Kk]akor|[Kk]o|[Ll]ahko|[Tt]emveč|[\(;:\–]|[Nn]e|[Aa]mpak|nam|jim|vam|mu|mi|ji|jima|vama|[Nn]amesto|[Aa]</token>
 					<token>da</token>
 				</pattern>
 				<message>V podredjih je pred 'da' vejica: <suggestion>, da</suggestion>!</message>
@@ -309,6 +309,18 @@ Thanks to Marcin Miłkowski.
 				<short>Manjka vejica pred 'ne da bi'</short>
 				<example type="correct">Udaril je<marker>, ne da bi</marker> prej premislil.</example>
 				<example type="incorrect">Udaril je<marker> ne da bi</marker> prej premislil.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup name="Manjkajoča vejica pred 'preden'" id="PREDEN_BREZ_VEJICE">
+			<rule>
+				<pattern mark_from="1" case_sensitive="yes">
+					<token regexp="yes" negate="yes">[Ii]n|[Aa]li|[Tt]er|[\(;:\–,]</token>
+					<token>preden</token>
+				</pattern>
+				<message>V podredjih je pred 'preden' vejica: <suggestion>, preden</suggestion>!</message>
+				<short>Najbrž manjka vejica pred 'preden'</short>
+				<example type="correct">Gremo<marker>, preden</marker> bo prepozno.</example>
+				<example type="incorrect">Gremo<marker> preden</marker> bo prepozno.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="POMIŠLJAJ_1" name="Zamenjaj vezaj s pomišljajem">
@@ -501,8 +513,8 @@ Thanks to Marcin Miłkowski.
 				<example correction="čim prej" type="incorrect">Pridi <marker>čimprej</marker>!</example>
 			</rule>
 			<rule id="KATERI" name="Zastarela raba: kateri">
-				<pattern case_sensitive="no" mark_from="1" mark_to="-1" >
-					<token regexp="yes">[,\.\!\?]</token>
+				<pattern case_sensitive="yes" mark_from="1" mark_to="-1" >
+					<token regexp="yes">[,\.\!\?]|\.\"</token>
 					<token regexp="yes">[Kk]ater(:?i|a|o|ega|emu)</token>
 					<token regexp="yes">je|so|bi</token>
 				</pattern>
