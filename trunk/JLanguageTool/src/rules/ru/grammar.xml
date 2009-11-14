@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 A Russian rule file for LanguageTool
 Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
 Copyright (C) 2008-2009 Yakov Reztsov
-$Id: grammar.xml,v 1.37 2009-10-29 21:08:17 yakovru Exp $
+$Id: grammar.xml,v 1.38 2009-11-14 11:45:18 yakovru Exp $
 -->
 <rules lang="ru" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../rules.xsd">
@@ -475,6 +475,31 @@ $Id: grammar.xml,v 1.37 2009-10-29 21:08:17 yakovru Exp $
             <example type="correct">Здорово живешь, соседка, - поздоровался Иван.</example>
             <example type="incorrect">Здорово живешь, соседка<marker> -,</marker> поздоровался Иван.</example>
         </rule>
+        
+        <rulegroup default="on"  id="Hyphen_and_spaces" name="Пробелы перед/после дефиса.">
+            <rule> 
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">.*[а-я]</token>
+                    <token spacebefore="yes" regexp="yes">-[а-я].*</token>
+                </pattern>
+                <message>Перед дефисом не должно быть пробела: <suggestion>\1\2</suggestion></message>
+                <short>Лишний пробел.</short>
+                <example type="correct">Кое-кто пошёл в магазин.</example>
+                <example type="incorrect"><marker>Кое -кто</marker> пошёл в магазин.</example>
+            </rule>
+            
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">.*[а-я]-</token>
+                    <token spacebefore="yes" regexp="yes">[а-я].*</token>
+                </pattern>
+                <message>После дефиса не должно быть пробела: <suggestion>\1\2</suggestion></message>
+                <short>Лишний пробел.</short>
+                <example type="correct">Кое-кто пошёл в магазин.</example>
+                <example type="incorrect"><marker>Кое- кто</marker> пошёл в магазин.</example>
+            </rule>
+        </rulegroup>
+        
         
         <rulegroup default="on" id="NO_KAK_POPALO" name="Что угодно, как попало">
             <!--Что угодно, как попало  не выделяются запятыми.
