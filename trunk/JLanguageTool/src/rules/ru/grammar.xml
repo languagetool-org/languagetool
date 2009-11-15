@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 A Russian rule file for LanguageTool
 Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
 Copyright (C) 2008-2009 Yakov Reztsov
-$Id: grammar.xml,v 1.39 2009-11-14 12:41:39 yakovru Exp $
+$Id: grammar.xml,v 1.40 2009-11-15 14:26:12 yakovru Exp $
 -->
 <rules lang="ru" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../rules.xsd">
@@ -1124,7 +1124,7 @@ $Id: grammar.xml,v 1.39 2009-11-14 12:41:39 yakovru Exp $
                 <example type="incorrect">Иван <marker>Иваныч</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup default="on"  id="Unknown_words" name="Неизвестные слова">
+        <rulegroup default="off"  id="Unknown_words" name="Неизвестные слова (проверка орфографии)">
             <rule>  
                 <pattern>
                     <token  postag="UNKNOWN" regexp="yes">[а-я].*</token>
@@ -1135,6 +1135,66 @@ $Id: grammar.xml,v 1.39 2009-11-14 12:41:39 yakovru Exp $
                 <example type="incorrect">Это только <marker>теест</marker>.</example>
             </rule>
         </rulegroup>
+        
+        <rulegroup default="on"  id="Prep_Soglasno" name="Предлог “согласно”">
+            <rule>  
+                <pattern>
+                    <token>согласно</token>
+                    <token  postag="NN:.*:.*:R" postag_regexp="yes"><exception postag="NN:.*:.*:D" postag_regexp="yes"></exception></token>                       
+                </pattern>
+                <message>Предлог “согласно” должен употребляться с дательным падежом (согласно чему), а не с родительным (согласно чего): 
+                    <suggestion><match no="1"/> <match no="2" postag="NN:(.*):(.*):R" postag_regexp="yes" postag_replace="NN:$1:$2:D" ></match></suggestion>
+                </message>
+                <short>Требуется дательный падеж.</short>
+                <example type="correct">Отправление поезда согласно расписанию.</example>
+                <example type="incorrect">Отправление поезда <marker>согласно расписания</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup default="on"  id="Use_prep_O" name="Предлог “о”">
+            <rule>  
+                <pattern>
+                    <token inflected = "yes" regexp="yes">понимать|изучать|выяснять|описывать|объяснить|излагать|подчеркнуть|утверждать|обсудить|подозревать</token>                       
+                    <token regexp="yes">о|об</token>
+                </pattern>
+                <message>Глагол \1 с предлогом “о” не употребляется.</message>
+                <short>С предлогом “о” не употребляется.</short>
+                <example type="correct">Выяснять про событие.</example>
+                <example type="incorrect"><marker>Выяснять о</marker> событии.</example>
+                <example type="incorrect">Он <marker>выясняет о</marker> событии.</example>
+            </rule>
+            <rule>  
+                <pattern>
+                    <token inflected = "yes" regexp="yes">обсуждать|доказывать|отмечать|показать</token>                       
+                    <token regexp="yes">о|об</token>
+                </pattern>
+                <message>Глагол \1 не употребляется с предлогами.</message>
+                <short>Предлог не нужен.</short>
+                <example type="correct">Отмечать событие.</example>
+                <example type="incorrect"><marker>Доказывать об</marker> этом событии.</example>
+            </rule>
+            <rule>  
+                <pattern>
+                    <token inflected = "yes" regexp="yes">сомневаться|упрекнуть</token>                       
+                    <token regexp="yes">о|об</token>
+                </pattern>
+                <message>Глагол \1 с предлогом “о” не употребляется. Возможная замена: <suggestion>\1 в</suggestion></message>
+                <short>С предлогом “о” не употребляется.</short>
+                <example type="correct">Сомневаться в доказательстве.</example>
+                <example type="incorrect"><marker>Сомневаться об</marker> этом выводе.</example>
+            </rule>
+            <rule>  
+                <pattern>
+                    <token inflected = "yes" regexp="yes">указывать|указать</token>                       
+                    <token regexp="yes">о|об</token>
+                    <token  postag="NN:.*:.*:.*" postag_regexp="yes"></token>
+                </pattern>
+                <message>Глагол \1 с предлогом “о” не употребляется. Возможная замена:
+                <suggestion><match no="1"/> на <match no="3" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:V" ></match></suggestion></message>
+                <short>С предлогом “о” не употребляется.</short>
+                <example type="correct">Указать на ошибку.</example>
+                <example type="incorrect"><marker>Указать об ошибке</marker>.</example>
+            </rule>
+        </rulegroup>        
         
         <rule default="on"  id="OPREDELENIA" name="Избыточные придаточные определения">
             <pattern>
