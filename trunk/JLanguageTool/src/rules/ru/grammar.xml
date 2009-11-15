@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 A Russian rule file for LanguageTool
 Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
 Copyright (C) 2008-2009 Yakov Reztsov
-$Id: grammar.xml,v 1.40 2009-11-15 14:26:12 yakovru Exp $
+$Id: grammar.xml,v 1.41 2009-11-15 16:51:17 yakovru Exp $
 -->
 <rules lang="ru" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../rules.xsd">
@@ -1094,6 +1094,39 @@ $Id: grammar.xml,v 1.40 2009-11-15 14:26:12 yakovru Exp $
                 <short>Неправильная форма предлога.</short>
                 <example type="correct">Кошка спрыгнула со шкафа.</example>
                 <example type="incorrect">Кошка спрыгнула <marker>с шкафа</marker>.</example>
+            </rule>
+        </rulegroup>
+        
+        <rulegroup default="on"  id="O_OB_OBO" name="Правописание предлогов о, об, обо">
+            <rule>  
+                <pattern>
+                    <token regexp="yes">обо|о</token>
+                    <token  regexp="yes">[аиоуэ].*<exception>и</exception></token>
+                </pattern>
+                <message>Неправильная форма предлога. Должно быть: <suggestion>об \2</suggestion>.</message>
+                <short>Неправильная форма предлога.</short>
+                <example type="correct">Об интернете.</example>
+                <example type="incorrect"><marker>О интернете</marker>.</example>
+            </rule>
+            <rule>  
+                <pattern>
+                    <token regexp="yes">об|о</token>
+                    <token  regexp="yes">мне|всё|что</token>
+                </pattern>
+                <message>Неправильная форма предлога. Должно быть: <suggestion>обо \2</suggestion>.</message>
+                <short>Неправильная форма предлога.</short>
+                <example type="correct">Они говорили обо мне.</example>
+                <example type="incorrect">Они говорили <marker>об мне</marker>.</example>
+            </rule>
+            <rule>  
+                <pattern>
+                    <token>об</token>
+                    <token  regexp="yes">всём|всей|всех|всем</token>
+                </pattern>
+                <message>Неправильная форма предлога. Должно быть: <suggestion>обо \2</suggestion>  или  <suggestion>о \2</suggestion>.</message>
+                <short>Неправильная форма предлога.</short>
+                <example type="correct">Обо всём.</example>
+                <example type="incorrect"><marker>Об всём</marker>.</example>
             </rule>
         </rulegroup>
         
