@@ -5,7 +5,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.212 2009-11-11 20:38:56 milek_pl Exp $
+$Id: grammar.xml,v 1.213 2009-11-18 16:54:11 milek_pl Exp $
 -->
 <rules lang="pl" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <unification feature="number">
@@ -95,7 +95,7 @@ $Id: grammar.xml,v 1.212 2009-11-11 20:38:56 milek_pl Exp $
     <rulegroup id="ZDANIA_ZLOZONE" name="Brak przecinka w zdaniu złożonym">
       <rule>
         <pattern>
-          <token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:comp|prep.*|qub|indecl|adv.*|conj|&lt;/TO_(ZNACZY|JEST)&gt;|verb:winien.*" postag_regexp="yes" scope="current"/><exception regexp="yes" scope="current">może|jedna</exception><exception postag_regexp="yes" postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" scope="next"/></token>
+          <token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:comp|prep.*|qub|indecl|adv.*|conj|&lt;/TO_(ZNACZY|JEST)&gt;|verb:winien.*" postag_regexp="yes" scope="current"></exception><exception regexp="yes" scope="current">może|jedna</exception><exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"></exception></token>
           <token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:comp|prep.*|qub|indecl|adv.*|conj" postag_regexp="yes" scope="current"></exception><exception regexp="yes" scope="current">może|jedna</exception></token>
           <phraseref idref="INTERPUNKCJA" />
         </pattern>
@@ -116,7 +116,7 @@ $Id: grammar.xml,v 1.212 2009-11-11 20:38:56 milek_pl Exp $
       <rule>
         <pattern>
           <token postag="verb:winien.*" postag_regexp="yes"></token>
-          <token skip="-1"><exception regexp="yes" scope="current">był|była|byłem|byłaś|byłeś|byli|były|byliśmy|byliście</exception><exception postag_regexp="yes" postag="interp:comma|comp:comma" scope="current"/><exception postag_regexp="yes" postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" scope="next"/></token>
+          <token skip="-1"><exception regexp="yes" scope="current">był|była|byłem|byłaś|byłeś|byli|były|byliśmy|byliście</exception><exception postag="interp:comma|comp:comma" postag_regexp="yes" scope="current"></exception><exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"></exception></token>
           <token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:comp|prep.*|qub|indecl|adv.*|conj" postag_regexp="yes" scope="current"></exception><exception regexp="yes" scope="current">może|jedna</exception></token>
           <phraseref idref="INTERPUNKCJA" />
         </pattern>
@@ -130,7 +130,7 @@ $Id: grammar.xml,v 1.212 2009-11-11 20:38:56 milek_pl Exp $
       <rule>
         <pattern>
           <token postag="verb:winien.*" postag_regexp="yes"></token>
-          <token regexp="yes" skip="-1">był|była|byłem|byłaś|byłeś|byli|były|byliśmy|byliście<exception postag_regexp="yes" postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" scope="next"/></token>
+          <token regexp="yes" skip="-1">był|była|byłem|byłaś|byłeś|byli|były|byliśmy|byliście<exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"></exception></token>
           <token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:comp|prep.*|qub|indecl|adv.*|conj" postag_regexp="yes" scope="current"></exception><exception regexp="yes" scope="current">może|jedna</exception></token>
           <phraseref idref="INTERPUNKCJA" />
         </pattern>
@@ -141,7 +141,7 @@ $Id: grammar.xml,v 1.212 2009-11-11 20:38:56 milek_pl Exp $
       </rule>
       <rule>
         <pattern>
-          <token postag="pred" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:.*|prep.*|qub|indecl|conj|&lt;/TO_(ZNACZY|JEST)&gt;" postag_regexp="yes" scope="current"></exception><exception regexp="yes" scope="current">może|jedna</exception><exception postag_regexp="yes" postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" scope="next"/></token>
+          <token postag="pred" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:.*|prep.*|qub|indecl|conj|&lt;/TO_(ZNACZY|JEST)&gt;" postag_regexp="yes" scope="current"></exception><exception regexp="yes" scope="current">może|jedna</exception><exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"></exception></token>
           <token postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.[\.:][mn\.:].*|ppron.*|verb:inf.*|verb:bedzie.*|adv:comp|prep.*|qub|indecl|conj" postag_regexp="yes" scope="current"></exception><exception regexp="yes" scope="current">może|jedna|było|byłoby</exception></token>
           <phraseref idref="INTERPUNKCJA" />
         </pattern>
@@ -155,7 +155,7 @@ $Id: grammar.xml,v 1.212 2009-11-11 20:38:56 milek_pl Exp $
       </rule>
       <rule>
         <pattern>
-          <token postag="verb:bedzie.*|pcon:imperf" postag_regexp="yes" regexp="yes" skip="-1">będ.*<exception postag_regexp="yes" postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" scope="next"/></token>
+          <token postag="verb:bedzie.*|pcon:imperf" postag_regexp="yes" regexp="yes" skip="-1">będ.*<exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"></exception></token>
           <token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|adv:.*|prep.*|qub|indecl|conj|verb:praet.*" postag_regexp="yes" scope="current"></exception><exception regexp="yes" scope="current">jedna|może</exception></token>
           <phraseref idref="INTERPUNKCJA" />
         </pattern>
@@ -169,7 +169,7 @@ $Id: grammar.xml,v 1.212 2009-11-11 20:38:56 milek_pl Exp $
       </rule>
       <rule>
         <pattern>
-          <token postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|adv:.*|prep.*|qub|indecl|conj|verb:praet.*|verb:inf.*|&lt;/TO_(ZNACZY|JEST)&gt;" postag_regexp="yes" scope="current"></exception><exception regexp="yes" scope="current">jedna|może|trzeba|można|wolno</exception><exception postag_regexp="yes" postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" scope="next"/></token>
+          <token postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|adv:.*|prep.*|qub|indecl|conj|verb:praet.*|verb:inf.*|&lt;/TO_(ZNACZY|JEST)&gt;" postag_regexp="yes" scope="current"></exception><exception regexp="yes" scope="current">jedna|może|trzeba|można|wolno</exception><exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"></exception></token>
           <token postag="verb:bedzie.*|pcon:imperf" postag_regexp="yes" regexp="yes" skip="-1">będ.*</token>
           <phraseref idref="INTERPUNKCJA" />
         </pattern>
@@ -182,7 +182,7 @@ $Id: grammar.xml,v 1.212 2009-11-11 20:38:56 milek_pl Exp $
       </rule>
       <rule>
         <pattern>
-          <token inflected="yes" postag="verb:.*(sg|pl).*|verb:irreg|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes" skip="-1">mieć<exception scope="current">miano</exception><exception postag_regexp="yes" postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" scope="next"/></token>
+          <token inflected="yes" postag="verb:.*(sg|pl).*|verb:irreg|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes" skip="-1">mieć<exception scope="current">miano</exception><exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"></exception></token>
           <token postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|adv.*|verb:inf.*|prep.*|qub|indecl|conj" postag_regexp="yes" scope="current"></exception><exception inflected="yes" scope="current">mieć</exception><exception regexp="yes" scope="current">jedna|może|będ.*</exception></token>
           <phraseref idref="INTERPUNKCJA" />
         </pattern>
@@ -194,7 +194,7 @@ $Id: grammar.xml,v 1.212 2009-11-11 20:38:56 milek_pl Exp $
       </rule>
       <rule>
         <pattern>
-          <token postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|adv:.*|conj|prep.*|qub|indecl|adv.*" postag_regexp="yes" scope="current"></exception><exception regexp="yes" scope="current">może|jedna|będ.*</exception><exception postag_regexp="yes" postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" scope="next"/></token>
+          <token postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|adv:.*|conj|prep.*|qub|indecl|adv.*" postag_regexp="yes" scope="current"></exception><exception regexp="yes" scope="current">może|jedna|będ.*</exception><exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"></exception></token>
           <token inflected="yes" postag="verb:.*(sg|pl).*|verb:imps.*|verb:irreg|pcon:imperf|pant:perf" postag_regexp="yes" skip="-1">mieć<exception scope="current">miano</exception></token>
           <phraseref idref="INTERPUNKCJA" />
         </pattern>
@@ -207,7 +207,7 @@ $Id: grammar.xml,v 1.212 2009-11-11 20:38:56 milek_pl Exp $
       <rule>
         <pattern>
           <token skip="-1">może<exception postag="&lt;ELLIPSIS&gt;|verb:(pot|fin|bedzie|praet):(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf|comp:comma|interp:comma" postag_regexp="yes" scope="next"></exception></token>
-          <token postag="verb:inf.*" postag_regexp="yes" skip="-1"><exception postag_regexp="yes" postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" scope="next"/></token>
+          <token postag="verb:inf.*" postag_regexp="yes" skip="-1"><exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"></exception></token>
           <token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|conj|prep.*|qub|indecl|adv.*" postag_regexp="yes" scope="current"></exception><exception regexp="yes" scope="current">może|jedna</exception></token>
           <phraseref idref="INTERPUNKCJA" />
         </pattern>
@@ -218,7 +218,7 @@ $Id: grammar.xml,v 1.212 2009-11-11 20:38:56 milek_pl Exp $
       </rule>
       <rule>
         <pattern>
-          <token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|conj|prep.*|qub|indecl|adv.*" postag_regexp="yes" scope="current"></exception><exception regexp="yes" scope="current">może|jedna</exception><exception postag_regexp="yes" postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" scope="next"/></token>
+          <token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|conj|prep.*|qub|indecl|adv.*" postag_regexp="yes" scope="current"></exception><exception regexp="yes" scope="current">może|jedna</exception><exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"></exception></token>
           <token skip="-1">może<exception postag="&lt;ELLIPSIS&gt;|verb:(pot|fin|bedzie|praet):(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf|comp:comma" postag_regexp="yes" scope="next"></exception></token>
           <token postag="verb:inf.*" postag_regexp="yes" skip="-1"></token>
           <phraseref idref="INTERPUNKCJA" />
@@ -586,7 +586,7 @@ $Id: grammar.xml,v 1.212 2009-11-11 20:38:56 milek_pl Exp $
     <rulegroup id="BRAK_PRZECINKA_JESLI" name="Brak przecinka przed „jeśli”, „jeżeli”, „gdyby” itd.">
       <rule>
         <pattern>
-          <token inflected="yes" negate="yes" regexp="yes">[\p{Punct}–—„«»…]+<exception regexp="yes">który|jaki|zwłaszcza|szczególnie|nawet|niemniej|przecież|wówczas|może</exception><exception postag="SENT_START|conj" postag_regexp="yes"></exception></token>
+          <token inflected="yes" negate="yes" regexp="yes">[\p{Punct}–—„«»…]+<exception regexp="yes">który|jaki|zwłaszcza|szczególnie|nawet|niemniej|przecież|wówczas|może|otóż</exception><exception postag="SENT_START|conj" postag_regexp="yes"></exception></token>
           <token inflected="yes" regexp="yes">jeśli|jeżeli|gdyby|jeżeliby|jeśliby</token>
         </pattern>
         <message>Przed tym spójnikiem stawiamy przecinek:<suggestion>\1, \2</suggestion>.</message>
@@ -644,7 +644,7 @@ $Id: grammar.xml,v 1.212 2009-11-11 20:38:56 milek_pl Exp $
       </rule>
       <rule>
         <pattern mark_to="-1">
-          <token negate="yes" regexp="yes">[\p{Punct}–—„«»…]+|tak|chyba|może|cóż|co|.*kolwiek|próżno|długo<exception postag="SENT_START|conj|pred" postag_regexp="yes"/></token>
+          <token negate="yes" regexp="yes">[\p{Punct}–—„«»…]+|tak|chyba|może|cóż|co|.*kolwiek|próżno|długo<exception postag="SENT_START|conj|pred" postag_regexp="yes"></exception></token>
           <token inflected="yes" skip="-1">by<exception inflected="yes" regexp="yes" scope="next">bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|a|jeśli|jeżeli|gdyby|aby|żeby|ażeby|zanim|dopóki</exception><exception postag="&lt;ELLIPSIS&gt;|verb:praet:.*|interp:comma" postag_regexp="yes" scope="next"></exception></token>
           <token postag="verb:inf.*" postag_regexp="yes"></token>
         </pattern>
@@ -667,7 +667,7 @@ $Id: grammar.xml,v 1.212 2009-11-11 20:38:56 milek_pl Exp $
       </rule>
       <rule>
         <pattern>
-          <token inflected="yes" regexp="yes" skip="-1"><exception postag="interp:comma" scope="next"/>by|żeby|aby|ażeby|iżby</token>
+          <token inflected="yes" regexp="yes" skip="-1"><exception postag="interp:comma" scope="next"></exception>by|żeby|aby|ażeby|iżby</token>
           <token postag="verb:inf.*" postag_regexp="yes" skip="-1"><exception regexp="yes" scope="current">może|lecz|jedna|lub</exception><exception inflected="yes" negate="no" regexp="yes" scope="next">[\p{Punct}—–„«»…&amp;&amp;[^\.]]+|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|a|jeśli|jeżeli|gdyby|aby|żeby|ażeby|zanim|dopóki</exception><exception postag="&lt;ELLIPSIS&gt;" scope="next"></exception></token>
           <token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf|pred" postag_regexp="yes" regexp="no"><exception negate="no" postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:.*|prep.*|qub|indecl|conj" postag_regexp="yes" scope="current"></exception><exception regexp="yes" scope="current">może|jedna</exception></token>
         </pattern>
@@ -682,7 +682,7 @@ $Id: grammar.xml,v 1.212 2009-11-11 20:38:56 milek_pl Exp $
       <rule>
         <pattern case_sensitive="no" mark_to="-1">
           <phraseref idref="NIE_INTERPUNKCJA" />
-          <token skip="4">zamiast<exception postag_regexp="yes" postag="&lt;ELLIPSIS&gt;|interp:comma" scope="next"></exception><exception regexp="yes" scope="next">bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|a|jeśli|jeżeli|gdyby|aby|żeby|ażeby|zanim|dopóki</exception></token>
+          <token skip="4">zamiast<exception postag="&lt;ELLIPSIS&gt;|interp:comma" postag_regexp="yes" scope="next"></exception><exception regexp="yes" scope="next">bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|a|jeśli|jeżeli|gdyby|aby|żeby|ażeby|zanim|dopóki</exception></token>
           <token postag="verb:inf.*" postag_regexp="yes"></token>
         </pattern>
         <message>Prawdopodobnie brak przecinka. Powinno być: <suggestion>\1, \2</suggestion>.</message>
@@ -3849,15 +3849,17 @@ $Id: grammar.xml,v 1.212 2009-11-11 20:38:56 milek_pl Exp $
       <example type="correct">Ten bank jest trzecim do wielkości oszustem na rynku hipotecznym.</example>
     </rule>
     <rule id="MAPA_DROGOWA" name="„mapa drogowa” (harmonogram, plan działań)">
-      <pattern>
+      <pattern case_sensitive="yes" mark_to="-1">
         <unify feature="number,gender,case">
           <token inflected="yes">mapa</token>
           <token inflected="yes">drogowy</token>
         </unify>
+        <token><exception inflected="yes" regexp="yes">\p{Lu}\p{Ll}+</exception></token>
       </pattern>
       <message>To wyrażenie jest częstą i niepoprawną kalką z języka angielskiego (jeśli nie jest użyte dosłownie). Poprawnie: <suggestion>plan działań</suggestion>, <suggestion>harmonogram</suggestion>.</message>
       <short>Błąd leksykalny</short>
       <example correction="plan działań|harmonogram" type="incorrect">Resort zaprezentuje <marker>mapę drogową</marker> prac nad ustawą.</example>
+      <example type="correct">W ofercie mamy mapy drogowe Polski i Europy.</example>
       <example type="correct">Mapy są bardzo ważne do jazdy po drogach.</example>
     </rule>
     <rule id="DYGITALNY" name="„dygitalny” (cyfrowy)">
@@ -7067,7 +7069,7 @@ $Id: grammar.xml,v 1.212 2009-11-11 20:38:56 milek_pl Exp $
     <rulegroup id="W_BRUD" name="„w brud” (w bród)">
       <rule>
         <pattern mark_from="1">
-          <token postag=".*gen.*" postag_regexp="yes" skip="3"><exception postag="interp:comma" scope="next"/></token>
+          <token postag=".*gen.*" postag_regexp="yes" skip="3"><exception postag="interp:comma" scope="next"></exception></token>
           <token>w</token>
           <token>brud</token>
         </pattern>
