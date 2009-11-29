@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 A Russian rule file for LanguageTool
 Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
 Copyright (C) 2008-2009 Yakov Reztsov
-$Id: grammar.xml,v 1.41 2009-11-15 16:51:17 yakovru Exp $
+$Id: grammar.xml,v 1.42 2009-11-29 17:49:19 yakovru Exp $
 -->
 <rules lang="ru" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../rules.xsd">
@@ -1159,13 +1159,14 @@ $Id: grammar.xml,v 1.41 2009-11-15 16:51:17 yakovru Exp $
         </rulegroup>
         <rulegroup default="off"  id="Unknown_words" name="Неизвестные слова (проверка орфографии)">
             <rule>  
-                <pattern>
+                <pattern mark_to="-1">
                     <token  postag="UNKNOWN" regexp="yes">[а-я].*</token>
+                    <token></token>
                 </pattern>
                 <message>Слова нет в словаре LanguageTool.</message>
                 <short>Нет в словаре.</short>
-                <example type="correct">Проверка.</example>
-                <example type="incorrect">Это только <marker>теест</marker>.</example>
+                <example type="correct">Проверка текста.</example>
+                <example type="incorrect">Это только <marker>теест</marker> проверка.</example>
             </rule>
         </rulegroup>
         
