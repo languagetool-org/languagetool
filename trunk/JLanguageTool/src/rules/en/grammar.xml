@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.118 2009-11-01 21:23:10 dnaber Exp $
+$Id: grammar.xml,v 1.119 2009-11-29 21:19:27 dnaber Exp $
 -->
 <rules lang="en" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../rules.xsd">
@@ -3281,6 +3281,24 @@ $Id: grammar.xml,v 1.118 2009-11-01 21:23:10 dnaber Exp $
       <example type="correct">Thank you very much.</example>
     </rule>
 
+    <rule id="VARY_MUCH" name="...you vary (very) much">
+      <pattern mark_from="1" mark_to="-1">
+        <token>you</token>
+
+        <token>vary</token>
+
+        <token>much</token>
+      </pattern>
+
+      <message>Did you mean <suggestion>very</suggestion>?</message>
+
+      <short>Possible typo</short>
+
+      <example correction="very" type="incorrect">Thank you <marker>vary</marker> much.</example>
+
+      <example type="correct">Thank you <marker>very</marker> much.</example>
+    </rule>
+
     <rule id="ZERO-SUM_GAIN" name="zero-sum gain (zero-sum game)">
       <pattern>
         <token>zero-sum</token>
@@ -3296,6 +3314,7 @@ $Id: grammar.xml,v 1.118 2009-11-01 21:23:10 dnaber Exp $
 
       <example type="correct">It is a zero-sum game when wages are held flat...</example>
     </rule>
+        
   </category>
 
   <!-- ====================================================================== -->
