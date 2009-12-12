@@ -48,6 +48,13 @@ public class GermanSentenceTokenizerTest extends TestCase {
     testSplit(new String[] { "Das Schreiben ist auf den 31.1. datiert." });
     testSplit(new String[] { "Das Schreiben ist auf den 3.10.2000 datiert." });
 
+    testSplit(new String[] { "Friedrich I., auch bekannt als Friedrich der Große." });
+    testSplit(new String[] { "Friedrich II., auch bekannt als Friedrich der Große." });
+    testSplit(new String[] { "Friedrich IIXC., auch bekannt als Friedrich der Große." });
+    testSplit(new String[] { "Friedrich II. öfter auch bekannt als Friedrich der Große." });
+    testSplit(new String[] { "Friedrich VII. öfter auch bekannt als Friedrich der Große." });
+    testSplit(new String[] { "Friedrich X. öfter auch bekannt als Friedrich der Zehnte." });
+
     testSplit(new String[] { "Heute ist der 13.12.2004." });
     testSplit(new String[] { "Heute ist der 13. Dezember." });
     testSplit(new String[] { "Heute ist der 1. Januar." });
@@ -67,7 +74,7 @@ public class GermanSentenceTokenizerTest extends TestCase {
     testSplit(new String[] { "Das hier ist ein(???) Satz." });
     testSplit(new String[] { "Das hier ist ein(???) Satz." });
 
-    testSplit(new String[] { "»Der Papagei ist grün.« ",  "Das kam so." });
+    testSplit(new String[] { "»Der Papagei ist grün.« ", "Das kam so." });
     testSplit(new String[] { "»Der Papagei ist grün«, sagte er" });
 
     // TODO: derzeit unterscheiden wir nicht, ob nach dem Doppelpunkt ein

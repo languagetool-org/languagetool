@@ -36,12 +36,12 @@ import de.danielnaber.languagetool.tokenizers.de.GermanSentenceTokenizer;
 public class SentenceTokenizer implements Tokenizer {
 
   // end of sentence marker:
-  private static final String EOS = "\0";
+  protected static final String EOS = "\0";
   //private final static String EOS = "#"; // for testing only
-  private static final String P = "[\\.!?…]"; // PUNCTUATION
-  private static final String AP = "(?:'|«|\"||\\)|\\]|\\})?"; // AFTER PUNCTUATION
-  private static final String PAP = P + AP;
-  private static final String PARENS = "[\\(\\)\\[\\]]"; // parentheses
+  protected static final String P = "[\\.!?…]"; // PUNCTUATION
+  protected static final String AP = "(?:'|«|\"||\\)|\\]|\\})?"; // AFTER PUNCTUATION
+  protected static final String PAP = P + AP;
+  protected static final String PARENS = "[\\(\\)\\[\\]]"; // parentheses
 
   // Check out the private methods for comments and examples about these
   // regular expressions:
@@ -167,7 +167,7 @@ public class SentenceTokenizer implements Tokenizer {
    * Repair some positions that don't require a split, i.e. remove the special break character at
    * those positions.
    */
-  private String removeFalseEndOfSentence(String s) {
+  protected String removeFalseEndOfSentence(String s) {
     // Don't split at e.g. "U. S. A.":
     s = abbrev1.matcher(s).replaceAll("$1");
     // Don't split at e.g. "U.S.A.":    

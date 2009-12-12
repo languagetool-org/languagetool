@@ -18,6 +18,8 @@
  */
 package de.danielnaber.languagetool.tokenizers.de;
 
+import java.util.regex.Pattern;
+
 import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
 
 public class GermanSentenceTokenizer extends SentenceTokenizer {
@@ -59,9 +61,18 @@ public class GermanSentenceTokenizer extends SentenceTokenizer {
       // ähnliche Fälle außerhalb der Monatsnamen:
       "Jh", "Jhd", "Jahrhundert", "Jahrhunderts", "Geburtstag", "Geburtstags", "Platz", "Platzes"};
 
+  /** don't split at cases like "Friedrich II. wird auch..." */
+  private static final Pattern REPAIR_NAME_PATTERN = Pattern.compile("( [IVX]+\\.) " + EOS + "([^A-ZÖÄÜ]+)");
+
   public GermanSentenceTokenizer() {
     super(ABBREV_LIST);
     super.monthNames = MONTH_NAMES;
   }
  
+  protected String removeFalseEndOfSentence(String s) {
+      s = super.removeFalseEndOfSentence(s);
+      s = REPAIR_NAME_PATTERN.matcher(s).replaceAll("$1 $2");
+      return s;
+  }
+  
 }

@@ -160,7 +160,7 @@ public class CzechSentenceTokenizer extends SentenceTokenizer {
    * Repair some positions that don't require a split, i.e. remove the special break character at
    * those positions.
    */
-  private String removeFalseEndOfSentence(String s) {
+  protected String removeFalseEndOfSentence(String s) {
     // Don't split at e.g. "U. S. A.":
     s = abbrev1.matcher(s).replaceAll("$1");
     // Don't split at e.g. "U.S.A.":
