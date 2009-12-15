@@ -29,7 +29,7 @@ public class GermanSentenceTokenizer extends SentenceTokenizer {
     "allg", "alltagsspr", "altdt", "alttest", "amerikan", "Anh",
     "Ank", "Anm", "Art", "Az", "Bat", "bayr", "Bd", "Bde", "Bed",
     "Bem", "bes", "bez", "Bez", "Bhf", "bspw", "btto", "bw", "bzw",
-    "cts", "ct", "ca", "chem", "chin", "Chr", "cresc", "dat", "Dat",
+    "cts", "ct", "Ca", "ca", "chem", "chin", "Chr", "cresc", "dat", "Dat",
     "desgl", "ders", "dgl", "Di", "Dipl", "Dir", "Do", "Doz", "Dr",
     "dt", "ebd", "Ed", "eigtl", "engl", "Erg", "al", "etc", "etw",
     "ev", "evtl", "Evtl", "exkl", "Expl", "Exz", "ff", "Fa", "fachspr", "fam",
