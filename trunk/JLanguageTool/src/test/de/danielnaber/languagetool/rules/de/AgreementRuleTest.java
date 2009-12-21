@@ -19,10 +19,12 @@
 package de.danielnaber.languagetool.rules.de;
 
 import java.io.IOException;
+import java.util.List;
 
 import junit.framework.TestCase;
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
+import de.danielnaber.languagetool.rules.RuleMatch;
 
 /**
  * @author Daniel Naber
@@ -143,6 +145,15 @@ public class AgreementRuleTest extends TestCase {
     //assertBad("Das interessiert der Mann.");
     //assertBad("Das gehört den Mann.");
     //assertBad("Es sind der Frau.");
+  }
+
+  public void testRegression() throws IOException {
+      JLanguageTool gramCheckerEngine = new JLanguageTool(Language.GERMAN);
+      gramCheckerEngine.activateDefaultPatternRules();
+      // used to be not detected > 1.0.1:
+      String str = "Und so.\r\nDie Bier.";
+      List<RuleMatch> matches = gramCheckerEngine.check(str);
+      assertEquals(1, matches.size());
   }
   
   public void testDetAdjNounRule() throws IOException {

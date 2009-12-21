@@ -47,8 +47,8 @@ public class SentenceTokenizer implements Tokenizer {
   // regular expressions:
 
   private Pattern paragraph;
-  private static final Pattern paragraphByTwoLineBreaks = Pattern.compile("(\\n\\s*\\n)");
-  private static final Pattern paragraphByLineBreak = Pattern.compile("(\\n)");
+  private static final Pattern paragraphByTwoLineBreaks = Pattern.compile("([\\n\\r]\\s*[\\n\\r])");
+  private static final Pattern paragraphByLineBreak = Pattern.compile("([\\n\\r])");
 
   // add unbreakable field, for example footnote, if it's at the end of the sentence
   private static final Pattern punctWhitespace = Pattern.compile("(" + PAP + "(\u0002)?\\s)");
