@@ -410,6 +410,28 @@ title="Easy editing stylesheet" ?>
 			<example type="incorrect" correction="bunăstare">A arătat <marker>bună-stare</marker>.</example>
 			<example type="correct">A arătat <marker>bunăstare</marker>.</example>
 		</rule>
+		<rule id="INTRODUCERE_PRELIMINARA" name="introducere preliminară">
+			<pattern>
+				<token inflected="yes">introducere</token>
+				<token inflected="yes">preliminar</token>
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion>\1</suggestion>?</message>
+			<short>Greșeală de scriere</short>
+			<example type="incorrect" correction="introducere">Aș dori să fac o <marker>introducere preliminară</marker>.</example>
+			<example type="incorrect" correction="introducerea">În ceea ce privește <marker>introducerea preliminară</marker> făcută de el, nu sunt de acord.</example>
+			<example type="correct">Aș dori să fac o <marker>introducere</marker>.</example>
+		</rule>
+		<rule id="A_IESI_AFARA" name="a ieși afară">
+			<pattern>
+				<token inflected="yes">ieși</token>
+				<token>afară</token>
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion>\1</suggestion>?</message>
+			<short>Greșeală de scriere</short>
+			<example type="incorrect" correction="ieșind">L-am văzut <marker>ieșind afară</marker>.</example>
+			<example type="incorrect" correction="ieșit">El a <marker>ieșit afară</marker>.</example>
+			<example type="correct">L-am văzut <marker>ieșind</marker>.</example>
+		</rule>
 	</category>
 	<category name="Ghilimele">
 		<rule id="GHILIMELE_DUBLE_INCEPUT" name="Ghilimele duble la început de propoziție: [&quot;] în loc de [„]">
@@ -1456,14 +1478,12 @@ title="Easy editing stylesheet" ?>
 				<example type="incorrect" correction="greu|dificil" reason="pleonasm">Drumul a fost <marker>greu și dificil</marker>.</example>
 				<example type="incorrect" correction="grea|dificilă" reason="pleonasm">Calea a fost <marker>grea și dificilă</marker>.</example>
 				<example type="correct">Drumul a fost<marker>greu</marker>.</example>
-
 				<example type="correct">Drumul a fost<marker>dificil</marker>.</example>
 			</rule>
 			<rule id="FIRESC_SI_NATURAL" name="firesc și natural">
 				<pattern>
 					<token inflected="yes">firesc</token>
 					<token>și</token>
-
 					<token inflected="yes">natural</token>
 				</pattern>
 				<message>Ați vrut să scrieți <suggestion>\1</suggestion> sau <suggestion>\3</suggestion>?</message>
@@ -1487,7 +1507,7 @@ title="Easy editing stylesheet" ?>
 			</rule>				 
 			<rule id="DEOSEBIT_DE" name="deosebit de ...">
 				<pattern>
-					<token inflected="yes" regexp="yes">deosebit|extraordinar|nespus</token>
+					<token inflected="yes" regexp="yes">deosebit|extraordinar|nespus|uluitor|nemaipomenit|incredibil</token>
 					<token>de</token>
 					<phraseref idref="FARA_GRAD_DE_COMPARATIE"/>
 				</pattern>
@@ -1529,6 +1549,30 @@ title="Easy editing stylesheet" ?>
 				<short>Pleonasm</short>
 				<example type="incorrect" correction="superior" reason="pleonasm">El este <marker>destul de superior</marker>.</example>
 				<example type="correct">El este <marker>superior</marker>.</example>
+			</rule>
+			<rule id="DE_MILIOANE" name="de milioane">
+				<pattern>
+					<token regexp="yes">oarecum|mai|foarte|puțin|extra|super|ultra|mult</token>
+					<token>de</token>
+					<token>milioane</token>
+				</pattern>
+				<message>"de milioane" nu are grad de comparație. Ați vrut să scrieți <suggestion>de milioane</suggestion>?</message>
+				<short>Pleonasm</short>
+				<example type="incorrect" correction="de milioane" reason="pleonasm">Meciul a fost <marker>super de milioane</marker>.</example>
+				<example type="correct">Meciul a fost <marker>de milioane</marker>.</example>
+			</rule>
+			<rule id="DIN_CALE_AFARA" name="din cale afară">
+				<pattern>
+					<token regexp="yes">oarecum|mai|foarte|puțin|extra|super|ultra|mult</token>
+					<token>din</token>
+					<token>cale</token>
+					<token>-</token>
+					<token>afară</token>
+				</pattern>
+				<message>"din cale-afară" nu are grad de comparație. Ați vrut să scrieți <suggestion>din cale-afară</suggestion>?</message>
+				<short>Pleonasm</short>
+				<example type="incorrect" correction="din cale-afară" reason="pleonasm">Meciul a fost <marker>super din cale-afară</marker> de interesant.</example>
+				<example type="correct">Meciul a fost <marker>din cale-afară</marker> de interesant.</example>
 			</rule>
 			<rulegroup id="O_PERIOADA_DE_TIMP" name="o perioadă de timp">
 				<rule>
@@ -3886,6 +3930,17 @@ title="Easy editing stylesheet" ?>
 			<example type="incorrect" correction="șoptind">Atunci el, <marker>șoptind încet</marker>, expuse temerile sale.</example>
 			<example type="correct">Atunci el <marker>șopti</marker> temerile sale.</example>
 		</rule>
+		<rule id="SINE_INSUSI" name="sine însuși">
+			<pattern>
+				<token>sine</token>
+				<token regexp="yes">însuși|înseși|însele</token>
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion>\1</suggestion>?</message>
+			<short>Pleonasm</short>
+			<example type="incorrect" correction="sine">A păstrat totul în <marker>sine însuși</marker>.</example>
+			<example type="incorrect" correction="sine">Au păstrat totul în <marker>sine însele</marker>.</example>
+			<example type="correct">A păstrat totul în <marker>sine</marker>.</example>
+		</rule> 	
 		<rule id="CHIAR_EL_INSUSI" name="chiar el însuși">
 			<pattern>
 				<token>chiar</token>
