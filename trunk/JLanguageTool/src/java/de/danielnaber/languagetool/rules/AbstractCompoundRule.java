@@ -56,7 +56,14 @@ public abstract class AbstractCompoundRule extends Rule {
   private String withHyphenOrNot;
 
   private String shortDesc;
-
+  // Compounds with more than maxNoHyphensSize parts should always use hyphens
+  private int maxUnHyphenatedWordCount = 2;
+  // Flag to indicate if the hyphen is ignored in the text entered by the user.
+  // Set this to false if you want the rule to offer suggestions for words like [ro] "câte-și-trei" (with hyphen), not only for "câte și trei" (with spaces)
+  // This is only available for languages with hyphen as a word separator (ie: not available for english, available for Romanian)
+  // See Language.getWordTokenizer()
+  private boolean hyphenIgnored = true;
+  
   public AbstractCompoundRule(final ResourceBundle messages) throws IOException {
     if (messages != null)
       super.setCategory(new Category(messages.getString("category_misc")));    
@@ -74,6 +81,22 @@ public abstract class AbstractCompoundRule extends Rule {
     withHyphen = msg1;
     asOne = msg2;
     withHyphenOrNot = msg3;
+  }
+
+  public boolean isHyphenIgnored() {
+    return hyphenIgnored;
+  }
+
+  public void setHyphenIgnored(boolean ignoreHyphen) {
+    this.hyphenIgnored = ignoreHyphen;
+  }
+
+  public int getMaxUnHyphenatedWordCount() {
+    return maxUnHyphenatedWordCount;
+  }
+
+  public void setMaxUnHyphenatedWordCount(int maxNoHyphensSize) {
+    this.maxUnHyphenatedWordCount = maxNoHyphensSize;
   }
 
   public RuleMatch[] match(final AnalyzedSentence text) {
@@ -127,8 +150,8 @@ public abstract class AbstractCompoundRule extends Rule {
             repl.add(origStringToCheck.replace(' ', '-'));
             msg = withHyphen;
           }
-          // assume that compounds with more than two parts should always use hyphens:
-          if (!hasAllUppercaseParts(origStringToCheck) && countParts(stringToCheck) <= 2
+          // assume that compounds with more than maxUnHyphenatedWordCount (default: two) parts should always use hyphens:
+          if (!hasAllUppercaseParts(origStringToCheck) && countParts(stringToCheck) <= getMaxUnHyphenatedWordCount()
               && !onlyDashSuggestion.contains(stringToCheck)) {
             repl.add(mergeCompound(origStringToCheck));
             msg = asOne;
@@ -162,8 +185,12 @@ public abstract class AbstractCompoundRule extends Rule {
   private String normalize(final String inStr) {
     String str = inStr.trim().toLowerCase();
     if (str.indexOf('-') != -1 && str.indexOf(' ') != -1) {
-      // e.g. "E-Mail Adresse" -> "E Mail Adresse" so the error can be detected:
-      str = str.replace('-', ' ');
+      if (isHyphenIgnored()) {
+        // e.g. "E-Mail Adresse" -> "E Mail Adresse" so the error can be detected:
+        str = str.replace('-', ' ');
+      } else {
+        str = str.replace(" - ", " ");
+      }
     }
     return str;
   }
@@ -171,9 +198,11 @@ public abstract class AbstractCompoundRule extends Rule {
   private boolean hasAllUppercaseParts(final String str) {
     final String[] parts = str.split(" ");
     for (int i = 0; i < parts.length; i++) {
-      if (StringTools.isAllUppercase(parts[i])) {
-        return true;
-      }
+    	if (isHyphenIgnored() || !"-".equals(parts[i])) { // do not treat '-' as an upper-case word
+	      if (StringTools.isAllUppercase(parts[i])) {
+	        return true;
+	      }
+    	}  
     }
     return false;
   }
@@ -186,10 +215,12 @@ public abstract class AbstractCompoundRule extends Rule {
     final String[] stringParts = str.split(" ");
     final StringBuilder sb = new StringBuilder();
     for (int k = 0; k < stringParts.length; k++) {
-      if (k == 0)
-        sb.append(stringParts[k]);
-      else
-        sb.append(stringParts[k].toLowerCase());
+      if (isHyphenIgnored() || !"-".equals(stringParts[k])) {
+        if (k == 0)
+          sb.append(stringParts[k]);
+        else
+          sb.append(stringParts[k].toLowerCase());
+      }  
     }
     return sb.toString();
   }
