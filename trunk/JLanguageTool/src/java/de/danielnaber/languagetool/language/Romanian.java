@@ -23,6 +23,7 @@ import java.util.Locale;
 import java.util.Set;
 
 import de.danielnaber.languagetool.Language;
+import de.danielnaber.languagetool.rules.ro.CompoundRule;
 import de.danielnaber.languagetool.rules.ro.SimpleReplaceRule;
 import de.danielnaber.languagetool.synthesis.Synthesizer;
 import de.danielnaber.languagetool.synthesis.ro.RomanianSynthesizer;
@@ -88,6 +89,7 @@ public class Romanian extends Language {
 		ids.add("WORD_REPEAT_RULE");
 		// specific to romanian
 		ids.add(SimpleReplaceRule.ROMANIAN_SIMPLE_REPLACE_RULE);
+		ids.add(CompoundRule.ROMANIAN_COMPOUND_RULE);
 
 		return ids;
 	}
