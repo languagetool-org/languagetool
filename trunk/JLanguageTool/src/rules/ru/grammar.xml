@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 A Russian rule file for LanguageTool
 Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
 Copyright (C) 2008-2009 Yakov Reztsov
-$Id: grammar.xml,v 1.44 2009-12-11 14:31:21 yakovru Exp $
+$Id: grammar.xml,v 1.45 2010-01-25 20:39:12 yakovru Exp $
 -->
 <rules lang="ru" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../rules.xsd">
@@ -464,6 +464,18 @@ $Id: grammar.xml,v 1.44 2009-12-11 14:31:21 yakovru Exp $
                 <example type="incorrect" correction="поход, за исключением">В <marker>поход за исключением</marker> Ивана пошло ещё пять человек.</example>
             </rule>
         </rulegroup>
+          <rule default="on"  id="V_tom_chisle" name="В том числе">
+                <pattern case_sensitive="yes">
+                    <token negate="yes" regexp="yes">и|[\p{Punct}]|-|—<exception postag="SENT_START"></exception></token>
+                    <token>в</token>
+                    <token>том</token>
+                    <token>числе</token>
+                </pattern>
+                <message>Запятая пропущена здесь:<suggestion>\1, \2 \3 \4</suggestion>.</message>
+                <short>Нет запятой.</short>
+                <example type="correct">В тайге ещё сохранились редкие хищники, в том числе дальневосточный леопард.</example>
+                <example type="incorrect">В тайге ещё сохранились редкие <marker>хищники в том числе</marker> дальневосточный леопард.</example>
+            </rule>
         
         <rule default="on"  id="DEFIS_COMMA" name="Дефис и запятая">
             <pattern>
@@ -1143,14 +1155,14 @@ $Id: grammar.xml,v 1.44 2009-12-11 14:31:21 yakovru Exp $
             <example type="incorrect">Он <marker>в пошёл</marker> лес.</example>
         </rule>   
         
-         <rule default="on"  id="PREP_and_PNN" name="Предлог и местоимения">  
-          
+        <rule default="on"  id="PREP_and_PNN" name="Предлог и местоимения">  
+            
             <pattern>
                 <!--              PREP (его, ему, ей... ) -> PREP (него, нему, ней... )   -->
-                <token  postag="PREP" postag_regexp="yes"><exception negate_pos="yes" postag="PREP" postag_regexp="yes"></exception><exception regexp="yes">благодаря|наперекор|вопреки|согласно|навстречу</exception></token>
+                <token  postag="PREP" postag_regexp="yes"><exception negate_pos="yes" postag="PREP" postag_regexp="yes"></exception><exception regexp="yes">в|благодаря|наперекор|вопреки|согласно|навстречу</exception></token>
                 <and>
-                <token  postag="PNN:.*:P3" postag_regexp="yes"></token>
-                <token regexp="yes" negate="yes" >[н].*</token>
+                    <token  postag="PNN:.*:P3" postag_regexp="yes"></token>
+                    <token regexp="yes" negate="yes" >[н].*</token>
                 </and>
             </pattern>
             <message>У местоимений 3 лица в косвенных падежах пишется начальная н, если эти местоимения употребляются после предлогов: <suggestion>\1 н\2</suggestion>.</message>
