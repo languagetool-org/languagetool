@@ -20,21 +20,17 @@ package de.danielnaber.languagetool.rules.ro;
 
 import java.io.IOException;
 
-import junit.framework.TestCase;
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.TestTools;
-import de.danielnaber.languagetool.rules.RuleMatch;
+import de.danielnaber.languagetool.rules.CompoundRuleTestAbs;
 
 /**
  * Tests for {@link CompoundRule} class.
  * 
  * @author Ionuț Păduraru
  */
-public class CompoundRuleTest extends TestCase {
-
-	private JLanguageTool langTool;
-	private CompoundRule rule;
+public class CompoundRuleTest extends CompoundRuleTestAbs {
 
 	protected void setUp() throws Exception {
 		super.setUp();
@@ -52,31 +48,6 @@ public class CompoundRuleTest extends TestCase {
 		
 		check(1, "tus trei", new String[] { "tustrei" });
 		check(1, "tus-trei", new String[] { "tustrei" });
-	}
-
-	private void check(int expectedErrors, String text) throws IOException {
-		check(expectedErrors, text, null);
-	}
-
-	private void check(int expectedErrors, String text, String[] expSuggestions) throws IOException {
-		final RuleMatch[] ruleMatches = rule.match(langTool.getAnalyzedSentence(text));
-		assertEquals("Error checking: " + text, expectedErrors, ruleMatches.length);
-		if (expSuggestions != null && expectedErrors != 1) {
-			throw new RuntimeException("Sorry, test case can only check suggestion if there's one rule match");
-		}
-		if (expSuggestions != null) {
-			final RuleMatch ruleMatch = ruleMatches[0];
-			assertEquals("Got these suggestions: " + ruleMatch.getSuggestedReplacements() +
-				", expected " + expSuggestions.length,
-				expSuggestions.length, ruleMatch.getSuggestedReplacements().size());
-			int i = 0;
-			for (final Object element : ruleMatch.getSuggestedReplacements()) {
-				final String suggestion = (String) element;
-				// System.err.println(">>"+suggestion);
-				assertEquals("Error checking: " + text, expSuggestions[i], suggestion);
-				i++;
-			}
-		}
 	}
 
 }

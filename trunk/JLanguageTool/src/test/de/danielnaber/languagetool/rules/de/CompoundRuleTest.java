@@ -19,24 +19,23 @@
 package de.danielnaber.languagetool.rules.de;
 
 import java.io.IOException;
-import java.util.Iterator;
 
-import junit.framework.TestCase;
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
-import de.danielnaber.languagetool.rules.RuleMatch;
+import de.danielnaber.languagetool.rules.CompoundRuleTestAbs;
 
 /**
  * @author Daniel Naber
  */
-public class CompoundRuleTest extends TestCase {
+public class CompoundRuleTest extends CompoundRuleTestAbs {
 
-  private JLanguageTool langTool;
-  private CompoundRule rule;
-  
-  public void testRule() throws IOException {
+  protected void setUp() throws Exception {
+    super.setUp();
     langTool = new JLanguageTool(Language.GERMAN);
     rule = new CompoundRule(null);
+  }
+  
+  public void testRule() throws IOException {
     // correct sentences:
     check(0, "Eine tolle CD-ROM");
     check(0, "Eine tolle CD-ROM.");
@@ -84,31 +83,6 @@ public class CompoundRuleTest extends TestCase {
     check(1, "x mal", new String[]{"x-mal"});
     check(0, "y-Achse");
     check(1, "y Achse", new String[]{"y-Achse"});
-  }
-
-  private void check(int expectedErrors, String text) throws IOException {
-    check(expectedErrors, text, null);
-  }
-  
-  private void check(int expectedErrors, String text, String[] expSuggestions) throws IOException {
-    RuleMatch[] ruleMatches = rule.match(langTool.getAnalyzedSentence(text));
-    assertEquals(expectedErrors, ruleMatches.length);
-    if (expSuggestions != null && expectedErrors != 1) {
-      throw new RuntimeException("Sorry, test case can only check suggestion if there's one rule match");
-    }
-    if (expSuggestions != null) {
-      RuleMatch ruleMatch = ruleMatches[0];
-      assertEquals("Got these suggestions: " + ruleMatch.getSuggestedReplacements() + 
-          ", expected " + expSuggestions.length,
-          expSuggestions.length, ruleMatch.getSuggestedReplacements().size());
-      int i = 0;
-      for (Iterator iter = ruleMatch.getSuggestedReplacements().iterator(); iter.hasNext();) {
-        String suggestion = (String) iter.next();
-        //System.err.println(">>"+suggestion);
-        assertEquals(expSuggestions[i], suggestion);
-        i++;
-      }
-    }
   }
   
 }
