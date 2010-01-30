@@ -4,10 +4,11 @@ title="Pretty print" ?>
 <?xml-stylesheet type="text/css" href="../rules.css" 
 title="Easy editing stylesheet" ?>
 <!--
-A Russian rule file for LanguageTool
+LanguageTool.
 Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
-Copyright (C) 2008-2009 Yakov Reztsov
-$Id: grammar.xml,v 1.46 2010-01-29 10:59:36 yakovru Exp $
+A Russian rule file for LanguageTool 
+Copyright (C) 2008-2010 Yakov Reztsov
+$Id: grammar.xml,v 1.47 2010-01-30 19:44:31 yakovru Exp $
 -->
 <rules lang="ru" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../rules.xsd">
@@ -749,7 +750,7 @@ $Id: grammar.xml,v 1.46 2010-01-29 10:59:36 yakovru Exp $
                     <!--           ADJ:.*:P   NN:.*:.*:P    -->
                     <token  postag="SENT_START" skip ="-1"><exception scope="next" postag_regexp="yes" postag="NN:.*:.*:P"></exception></token>
                     <token  postag="ADJ:(.*):.*" postag_regexp="yes"><exception postag="ADJ:.*:P" postag_regexp="yes"></exception><exception negate_pos="yes" postag="ADJ:(.*):.*" postag_regexp="yes"/><exception scope="previous" postag="NN:.*" postag_regexp="yes"></exception></token>
-                    <token  postag="NN:.*:.*:P" skip="-1" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*:.*:P" postag_regexp="yes"></exception></token>                    
+                    <token  postag="NN:.*:.*:P" skip="-1" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*:.*:P" postag_regexp="yes"></exception><exception negate_pos="yes" scope="next" postag="NN:.*:.*:P" postag_regexp="yes"></exception></token>                    
                     <token  regexp="yes">.|;</token>
                 </pattern>
                 
@@ -1266,28 +1267,29 @@ $Id: grammar.xml,v 1.46 2010-01-29 10:59:36 yakovru Exp $
                     <token inflected = "yes">содействовать</token>
                     <token><exception  postag=".*:D" postag_regexp="yes"/><exception  postag="PNN:.*" postag_regexp="yes"/></token>
                 </pattern>
-                <message>Не найдены обязательные зависимые слова: содействовать чему</message>
+                <message>Не найдены обязательные зависимые слова: содействовать чему?</message>
                 <short>содействовать чему?</short>
                 <example type="correct">Содействовать выполнению задания.</example>
                 <example type="incorrect"><marker>Содействовать и</marker> помогать.</example>
                 <example type="incorrect"><marker>Содействовали и</marker> помогали.</example>
             </rule>
             <rule>  
-                <pattern>
+                <pattern mark_from="1">
+                    <token  postag="SENT_START" skip ="-1"><exception scope="next" postag=".*:R" postag_regexp="yes"/><exception scope="next" postag="PNN:.*:R.*" postag_regexp="yes" /></token>   <!--   -->
                     <token inflected = "yes">интересовать</token>
                     <token><exception  postag=".*:R" postag_regexp="yes"/><exception  postag="PNN:.*" postag_regexp="yes"/></token>
                 </pattern>
-                <message>Не найдены обязательные зависимые слова: интересовать кого</message>
+                <message>Не найдены обязательные зависимые слова: интересовать кого?</message>
                 <short>интересовать кого?</short>
                 <example type="correct">Через несколько минут мы ответим на интересующие слушателей вопросы.</example>     
-                <example type="incorrect">Через несколько минут мы ответим на <marker>интересующие вопросы</marker>.</example>
+                <example type="incorrect">Мы ответим на <marker>интересующие вопросы</marker>.</example>
             </rule>
             <rule>  
                 <pattern>
                     <token inflected = "yes">нарушать</token>
                     <token><exception   postag=".*:V" postag_regexp="yes"/><exception  postag="PNN:.*" postag_regexp="yes"/></token>
                 </pattern>
-                <message>Не найдены обязательные зависимые слова: нарушать что</message>
+                <message>Не найдены обязательные зависимые слова: нарушать что?</message>
                 <short>нарушать что?</short>
                 <example type="correct">Вы нарушаете правила.</example>     
                 <example type="incorrect">Вы <marker>нарушаете!</marker></example>
