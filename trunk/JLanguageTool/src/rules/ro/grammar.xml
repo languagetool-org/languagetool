@@ -11,7 +11,7 @@ title="Easy editing stylesheet" ?>
 		If there is an error you want LanguageTool to detect but you do not know how to do it: open an issue
 			there describing the error, give some examples - I'll try to fix it as soon as I can. 
 
-		Version: $Id: grammar.xml,v 1.26 2010-01-30 21:05:20 archeus Exp $		
+		Version: $Id: grammar.xml,v 1.27 2010-01-31 18:20:10 archeus Exp $		
 		
 	-->
 <rules lang="ro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -5512,6 +5512,22 @@ title="Easy editing stylesheet" ?>
 			<example type="correct">Mâine este întâi aprilie.</example>
 			<example type="incorrect" correction="întâi mai">Mâine este <marker>unu mai</marker>.</example>
 			<example type="correct">Am primit cu unu mai mult decât mă așteptam.</example>
+		</rule>
+		<rule id="NEVASTA_DE_AL_DOILEA" name="nevastă de-a doua - nevastă de-al doilea">
+			<pattern>
+				<token regexp="yes" inflected="yes">nevastă|soție</token>
+				<token>de</token>
+				<token>-</token>
+				<token>a</token>
+				<token>doua</token>
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion>\1 de-al doilea</suggestion>?</message>
+			<short>Folosire greșită a numeralului</short>
+			<example type="incorrect" correction="nevastă de-al doilea">Și-a luat <marker>nevastă de-a doua</marker>.</example>
+			<example type="correct">Și-a luat nevastă de-al doilea.</example>
+			<example type="incorrect" correction="soție de-al doilea">Și-a luat <marker>soție de-a doua</marker>.</example>
+			<example type="incorrect" correction="nevestei de-al doilea">Casa este a <marker>nevestei de-a doua</marker>.</example>
+			<example type="correct">Casa este a <marker>nevestei de-aal doilea</marker>.</example>
 		</rule>
 	</category>
 </rules>
