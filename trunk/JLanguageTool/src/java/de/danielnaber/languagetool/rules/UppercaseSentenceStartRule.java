@@ -93,6 +93,13 @@ public class UppercaseSentenceStartRule extends Rule {
             || ",".equals(lastPragraphString) || ",".equals(chklastToken))) {
       noException = true;
     }
+    //fix for comma in last paragraph; note - this will not always work for the last point in OOo,
+    //as OOo might serve paragraphs in any order.
+    if ((language == Language.RUSSIAN || language == Language.ITALIAN)
+        && (",".equals(lastPragraphString))) {
+      noException = true;
+    }
+    
     lastPragraphString = chklastToken;
 
     if (checkToken.length() > 0) {
