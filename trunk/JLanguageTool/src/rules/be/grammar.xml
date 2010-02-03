@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<?xml-stylesheet type="text/xsl" href="../print.xsl" title="Pretty print" ?>
+<?xml-stylesheet type="text/css" href="../rules.css" title="Easy editing stylesheet" ?>
+
+<!--
+  Belarusian rules for LanguageTool
+  Copyright (C) 2010 Alex Buloichik (alex73mail@gmail.com)
+  $Id: grammar.xml,v 1.1 2010-02-03 09:59:45 yakovru Exp $
+-->
+
+<rules lang="be" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="../rules.xsd">
+    
+    <category name="Grammar">
+        <rulegroup name="Правапіс У-Ў" id="U_KAROTKAJE">
+            <rule>
+                <pattern>
+                    <token regexp="yes">.*[уеыаоэяію]у.*</token>
+                </pattern>
+                <message>Пасьля галoсных літараў на месцы у пішацца ў: <suggestion><match no="1" regexp_match="(.*[уеыаоэяію])у(.*)" regexp_replace="$1ў$2" /></suggestion></message>
+                <short>У замест ў</short>
+                <example type="correct">Таўэр</example>
+                <example type="incorrect"><marker>Тауэр</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">.*[уеыаоэяію]</token>
+                    <token regexp="yes">у.*</token>
+                </pattern>
+                <message>Пасьля галoсных літараў на месцы у пішацца ў: <suggestion><match no="1" /> <match no="2" regexp_match="у(.*)" regexp_replace="ў$1" /></suggestion></message>
+                <short>У замест ў</short>
+                <example type="correct">да ўвагі</example>
+                <example type="incorrect"><marker>да увагі</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">.*[^уеыаоэяію]ў.*</token>
+                </pattern>
+                <message>Пасьля зычных літараў, нялітарных знакаў і знакаў прыпынку пішацца літара у: <suggestion><match no="1" regexp_match="(.*[^уеыаоэяію])ў(.*)" regexp_replace="$1у$2" /></suggestion></message>
+                <short>Ў замест у</short>
+                <example type="correct">дзядуля</example>
+                <example type="incorrect"><marker>дзядўля</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">.*[^уеыаоэяію]</token>
+                    <token regexp="yes">ў.*</token>
+                </pattern>
+                <message>Пасьля зычных літараў, нялітарных знакаў і знакаў прыпынку пішацца літара у <suggestion><match no="1" /> <match no="2" regexp_match="ў(.*)" regexp_replace="у$1" /></suggestion></message>
+                <short>Ў замест у</short>
+                <example type="correct">ён у Полацку</example>
+                <example type="incorrect"><marker>ён ў</marker> Полацку</example>
+            </rule>
+        </rulegroup>
+        <rulegroup name="Беларускае і" id="I">
+            <rule>
+                <pattern>
+                    <token regexp="yes">.*и.*</token>
+                </pattern>
+                <message>Павінна быць і замест и: <suggestion><match no="1" regexp_match="(.*)и(.*)" regexp_replace="$1і$2" /></suggestion></message>
+                <short>И замест і</short>
+                <example type="correct">iншыя</example>
+                <example type="incorrect"><marker>иншыя</marker></example>
+            </rule>
+        </rulegroup>
+        <rulegroup name="Щ" id="SCH">
+            <rule>
+                <pattern>
+                    <token regexp="yes">(.*)щ(.*)</token>
+                </pattern>
+                <message>Павінна быць шч замест щ: <suggestion><match no="1" regexp_match="(.*)щ(.*)" regexp_replace="$1шч$2" /></suggestion></message>
+                
+                <short>Щ замест шч</short>
+                <example type="correct">шчавель</example>
+                <example type="incorrect"><marker>щавель</marker></example>
+            </rule>
+        </rulegroup>
+    </category>
+</rules>

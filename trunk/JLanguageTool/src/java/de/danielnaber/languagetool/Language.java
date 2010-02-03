@@ -27,6 +27,7 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.Set;
 
+import de.danielnaber.languagetool.language.Belarusian;
 import de.danielnaber.languagetool.language.Catalan;
 import de.danielnaber.languagetool.language.Contributor;
 import de.danielnaber.languagetool.language.Demo;
@@ -87,6 +88,7 @@ public abstract class Language {
   public static final Language GALICIAN = new Galician();
   public static final Language CATALAN = new Catalan();
   public static final Language MALAYALAM = new Malayalam();
+  public static final Language BELARUSIAN = new Belarusian();
   
   public static final Language DEMO = new Demo();
   
@@ -98,7 +100,7 @@ public abstract class Language {
   public static Language[] LANGUAGES = {
     ENGLISH, GERMAN, POLISH, FRENCH, SPANISH, ITALIAN, DUTCH, LITHUANIAN, UKRAINIAN, RUSSIAN,
     SLOVAK, SLOVENIAN, SWEDISH, ROMANIAN, ICELANDIC, GALICIAN, CATALAN, DANISH,
-    MALAYALAM,
+    MALAYALAM, BELARUSIAN,
     DEMO
     // FIXME: load dynamically from classpath
   };
