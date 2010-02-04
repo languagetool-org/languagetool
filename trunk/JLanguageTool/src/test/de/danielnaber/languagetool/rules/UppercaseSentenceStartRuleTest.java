@@ -48,6 +48,9 @@ public class UppercaseSentenceStartRuleTest extends TestCase {
     assertEquals(0, matches.size());
     matches = langTool.check("'Dies ist ein Satz!'");
     assertEquals(0, matches.size());
+    
+    matches = langTool.check("Sehr geehrte Frau Merkel,\nwie wir Ihnen schon früher mitgeteilt haben...");
+    assertEquals(0, matches.size());
 
     matches = langTool.check("Dies ist ein Satz. und hier kommt noch einer");
     assertEquals(1, matches.size());

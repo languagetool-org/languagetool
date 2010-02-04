@@ -95,7 +95,8 @@ public class UppercaseSentenceStartRule extends Rule {
     }
     //fix for comma in last paragraph; note - this will not always work for the last point in OOo,
     //as OOo might serve paragraphs in any order.
-    if ((language == Language.RUSSIAN || language == Language.ITALIAN)
+    if ((language == Language.RUSSIAN || language == Language.ITALIAN 
+        || language == Language.POLISH || language == Language.GERMAN)
         && (",".equals(lastPragraphString))) {
       noException = true;
     }
