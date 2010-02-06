@@ -66,6 +66,27 @@ public class SimpleReplaceRuleTest extends TestCase {
 		checkSimpleReplaceRule("M-am adresat întâielor venite.", "întâilor");
 		checkSimpleReplaceRule("A ajuns al douăzecelea.", "douăzecilea");
 		checkSimpleReplaceRule("A ajuns al zecilea.", "zecelea");
+		checkSimpleReplaceRule("A primit jumate de litru de lapte.", "jumătate");
+
+		// multiple words / compounds
+		checkSimpleReplaceRule("aqua forte", "acvaforte");
+		checkSimpleReplaceRule("aqua forte.", "acvaforte");
+		checkSimpleReplaceRule("A folosit «aqua forte».", "acvaforte");
+		checkSimpleReplaceRule("Aqua forte.", "Acvaforte");
+		checkSimpleReplaceRule("este aqua forte", "acvaforte");
+		checkSimpleReplaceRule("este aqua forte.", "acvaforte");
+		checkSimpleReplaceRule("este Aqua Forte.", "Acvaforte");
+		checkSimpleReplaceRule("este AquA Forte.", "Acvaforte");
+		checkSimpleReplaceRule("A primit jumate de litru de lapte și este aqua forte.", "jumătate", "acvaforte");
+		
+		// multiple suggestions
+		checkSimpleReplaceRule("A fost adăogită o altă regulă.", "adăugită/adăugată");
+		checkSimpleReplaceRule("A venit adinioarea.", "adineaori/adineauri");
+		
+		// words with multiple wrong forms
+		checkSimpleReplaceRule("A pus axterix.", "asterisc");
+		checkSimpleReplaceRule("A pus axterics.", "asterisc");
+		checkSimpleReplaceRule("A pus asterics.", "asterisc");
 	}
 
 	/**
@@ -73,19 +94,25 @@ public class SimpleReplaceRuleTest extends TestCase {
 	 * 
 	 * @param sentence
 	 *            the sentence containing the incorrect/misspeled word.
-	 * @param word
-	 *            the word that is correct (the suggested replacement).
+	 * @param words
+	 *            the words that are correct (the suggested replacement). Use "/" to separate multiple forms.
 	 * @throws IOException
 	 */
-	private void checkSimpleReplaceRule(String sentence, String word)
+	private void checkSimpleReplaceRule(String sentence, String... words)
 			throws IOException {
 		RuleMatch[] matches;
 		matches = rule.match(langTool.getAnalyzedSentence(sentence));
 		assertEquals("Invalid matches.length while checking sentence: "
-				+ sentence, 1, matches.length);
-		assertEquals("Invalid replacement count wile checking sentence: "
-				+ sentence, 1, matches[0].getSuggestedReplacements().size());
-		assertEquals("Invalid suggested replacement while checking sentence: "
-				+ sentence, word, matches[0].getSuggestedReplacements().get(0));
+				+ sentence, words.length, matches.length);
+		for (int i = 0; i < words.length; i++) {
+			String word = words[i];
+			String[] replacements = word.split("\\/"); 
+			assertEquals("Invalid replacement count wile checking sentence: "
+					+ sentence, replacements.length, matches[i].getSuggestedReplacements().size());
+			for (int j = 0; j < replacements.length; j++) {
+				assertEquals("Invalid suggested replacement while checking sentence: "
+					+ sentence, replacements[j], matches[i].getSuggestedReplacements().get(j));
+			}
+		}
 	}
 }

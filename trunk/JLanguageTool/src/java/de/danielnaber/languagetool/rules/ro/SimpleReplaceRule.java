@@ -18,28 +18,55 @@
  */
 package de.danielnaber.languagetool.rules.ro;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Queue;
 import java.util.ResourceBundle;
+import java.util.StringTokenizer;
+import java.util.concurrent.ArrayBlockingQueue;
 
+import de.danielnaber.languagetool.AnalyzedSentence;
+import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.rules.AbstractSimpleReplaceRule;
+import de.danielnaber.languagetool.rules.Category;
+import de.danielnaber.languagetool.rules.Rule;
+import de.danielnaber.languagetool.rules.RuleMatch;
+import de.danielnaber.languagetool.tools.StringTools;
+import de.danielnaber.languagetool.tools.Tools;
 
 /**
- * A rule that matches words which should not be used and suggests
- * correct ones instead.
- * 
+ * A rule that matches words which should not be used and suggests correct ones instead. <br/> 
  * Romanian implementations. Loads the list of words from
- * <code>rules/ro/replace.txt</code>.
+ * <code>rules/ro/replace.txt</code>.<br/><br/>
+ * 
+ * Unlike AbstractSimpleReplaceRule, supports multiple words (Ex: "aqua forte" => "acvforte").<br/><br/>
+ * 
+ * Note: Merge this into {@link AbstractSimpleReplaceRule} eventually and simply extend from AbstractSimpleReplaceRule.<br/>
  * 
  * @author Ionuț Păduraru
+ * @version $Id: SimpleReplaceRule.java,v 1.4 2010-02-06 20:47:28 archeus Exp $
+ * 
  */
-public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
+public class SimpleReplaceRule extends Rule {
 
 	public static final String ROMANIAN_SIMPLE_REPLACE_RULE = "RO_SIMPLE_REPLACE";
-	
+
 	private static final String FILE_NAME = "/rules/ro/replace.txt";
+	private static final String FILE_ENCODING = "utf-8";
 	// locale used on case-conversion
 	private static Locale roLocale = new Locale("ro");
+
+	// list of maps containing error-corrections pairs.
+	// the n-th map contains key strings of (n+1) words 
+	private List<Map<String, String>> wrongWords;
 
 	public final String getFileName() {
 		return FILE_NAME;
@@ -47,6 +74,10 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
 
 	public SimpleReplaceRule(final ResourceBundle messages) throws IOException {
 		super(messages);
+		if (messages != null) {
+			super.setCategory(new Category(messages.getString("category_misc")));
+		}
+		wrongWords = loadWords(Tools.getStream(getFileName()));
 	}
 
 	public final String getId() {
@@ -54,15 +85,15 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
 	}
 
 	public String getDescription() {
-		return "Cuvinte sau grupuri de cuvinte incorecte";
+		return "Cuvinte sau grupuri de cuvinte incorecte sau ieșite din uz";
 	}
 
 	public String getShort() {
-		return "Cuvânt greșit";
+		return "Cuvânt incorect sau ieșit din uz";
 	}
-	
+
 	public String getSuggestion() {
-		return " este incorect, folosiți ";
+		return " este incorect sau ieșit din uz, folosiți ";
 	}
 
 	/**
@@ -77,6 +108,121 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
 	 */
 	public Locale getLocale() {
 		return roLocale;
+	}
+
+	public String getEncoding() {
+		return FILE_ENCODING;
+	}
+
+	/**
+	 * Load the list of words. <br/>
+	 * Same as {@link AbstractSimpleReplaceRule#loadWords} but allows multiple words.   
+	 * @param file the file to load.
+	 * @return the list of maps containing the error-corrections pairs. <br/>The n-th map contains key strings of (n+1) words.
+	 * @throws IOException when the file contains errors.
+	 */
+	private List<Map<String, String>> loadWords(final InputStream file)
+			throws IOException {
+		final List<Map<String, String>> list = new ArrayList<Map<String, String>>();
+		InputStreamReader isr = null;
+		BufferedReader br = null;
+		try {
+			isr = new InputStreamReader(file, getEncoding());
+			br = new BufferedReader(isr);
+			String line;
+
+			while ((line = br.readLine()) != null) {
+				line = line.trim();
+				if (line.length() < 1 || line.charAt(0) == '#') { // ignore comments
+					continue;
+				}
+				final String[] parts = line.split("=");
+				if (parts.length != 2) {
+					throw new IOException("Format error in file "
+							+ this.getClass().getResource(getFileName())
+							+ ", line: " + line);
+				}
+				final int wordCount = new StringTokenizer(parts[0], " ").countTokens();
+				// grow is necessary
+				for (int i = list.size(); i < wordCount; i++) {
+					list.add(new HashMap<String, String>());
+				}
+				String[] wrongForms = parts[0].split("\\|"); // multiple incorect forms
+				for (String wrongForm : wrongForms) {
+					list.get(wordCount - 1).put(wrongForm, parts[1]);
+				}
+			}
+
+		} finally {
+			if (br != null) {
+				br.close();
+			}
+			if (isr != null) {
+				isr.close();
+			}
+		}
+		return list;
+	}
+
+	private void addToQueue(AnalyzedTokenReadings token,
+			Queue<AnalyzedTokenReadings> prevTokens) {
+		boolean inserted = prevTokens.offer(token);
+		if (!inserted) {
+			prevTokens.poll();
+			prevTokens.offer(token);
+		}
+	}
+
+	public RuleMatch[] match(final AnalyzedSentence text) {
+		final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
+		final AnalyzedTokenReadings[] tokens = text
+				.getTokensWithoutWhitespace();
+
+		Queue<AnalyzedTokenReadings> prevTokens = new ArrayBlockingQueue<AnalyzedTokenReadings>(wrongWords.size());
+
+		for (int i = 1; i < tokens.length; i++) {
+			addToQueue(tokens[i], prevTokens);
+			final StringBuilder sb = new StringBuilder();
+			ArrayList<String> variants = new ArrayList<String>();
+			List<AnalyzedTokenReadings> prevTokensList = Arrays.asList(prevTokens.toArray(new AnalyzedTokenReadings[] {}));
+			for (int j = prevTokensList.size() - 1; j >= 0; j--) {
+				if (j != prevTokensList.size() - 1)
+					sb.insert(0, " ");
+				sb.insert(0, prevTokensList.get(j).getToken());
+				variants.add(0, sb.toString());
+			}
+			int len = variants.size(); // prevTokensList and variants have now the same length  
+			for (int j = 0; j < len; j++) { // longest words first
+				String crt = variants.get(j);
+				int crtWordCount = len - j;
+				final String crtMatch = isCaseSensitive() ? wrongWords.get(crtWordCount - 1).get(crt) : wrongWords.get(crtWordCount- 1).get(crt.toLowerCase(getLocale()));
+				if (crtMatch != null) { 
+					List<String> replacements = Arrays.asList(crtMatch.split("\\|"));
+					String msg = crt + getSuggestion();
+					for (int k = 0; k < replacements.size(); k++) {
+						if (k > 0)
+							msg += ", ";
+						msg += "<suggestion>" + replacements.get(k) + "</suggestion>";
+					}
+					final int startPos = prevTokensList.get(len - crtWordCount).getStartPos();
+					final int endPos = prevTokensList.get(len - 1).getStartPos() + prevTokensList.get(len - 1).getToken().length();
+					final RuleMatch potentialRuleMatch = new RuleMatch(this, startPos, endPos, msg, getShort());
+					
+					if (!isCaseSensitive() && StringTools.startsWithUppercase(crt)) {
+						for (int k = 0; k < replacements.size(); k++) {
+							replacements.set(k, StringTools.uppercaseFirstChar(replacements.get(k)));
+						}
+					}
+					potentialRuleMatch.setSuggestedReplacements(replacements);
+					ruleMatches.add(potentialRuleMatch);
+					break;
+				}
+			}
+		}
+		return toRuleMatchArray(ruleMatches);
+	}
+
+	public void reset() {
 	}
 
 }
