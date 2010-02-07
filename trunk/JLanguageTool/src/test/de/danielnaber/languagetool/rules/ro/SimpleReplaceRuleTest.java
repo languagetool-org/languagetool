@@ -69,6 +69,7 @@ public class SimpleReplaceRuleTest extends TestCase {
 		checkSimpleReplaceRule("A primit jumate de litru de lapte.", "jumătate");
 
 		// multiple words / compounds
+			// space-delimited
 		checkSimpleReplaceRule("aqua forte", "acvaforte");
 		checkSimpleReplaceRule("aqua forte.", "acvaforte");
 		checkSimpleReplaceRule("A folosit «aqua forte».", "acvaforte");
@@ -78,6 +79,17 @@ public class SimpleReplaceRuleTest extends TestCase {
 		checkSimpleReplaceRule("este Aqua Forte.", "Acvaforte");
 		checkSimpleReplaceRule("este AquA Forte.", "Acvaforte");
 		checkSimpleReplaceRule("A primit jumate de litru de lapte și este aqua forte.", "jumătate", "acvaforte");
+			// dash-delimited
+		checkSimpleReplaceRule("cou-boi", "cowboy");
+		checkSimpleReplaceRule("cow-boy", "cowboy");
+		checkSimpleReplaceRule("cau-boi", "cowboy");
+		checkSimpleReplaceRule("Cau-boi", "Cowboy");
+		checkSimpleReplaceRule("cowboy"); // correct, no replacement
+		checkSimpleReplaceRule("Iată un cau-boi", "cowboy");
+		checkSimpleReplaceRule("Iată un cau-boi.", "cowboy");
+		checkSimpleReplaceRule("Iată un (cau-boi).", "cowboy");
+		checkSimpleReplaceRule("văcar=cau-boi", "cowboy");
+		
 		
 		// multiple suggestions
 		checkSimpleReplaceRule("A fost adăogită o altă regulă.", "adăugită/adăugată");

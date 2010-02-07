@@ -30,15 +30,16 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Queue;
 import java.util.ResourceBundle;
-import java.util.StringTokenizer;
 import java.util.concurrent.ArrayBlockingQueue;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
+import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.rules.AbstractSimpleReplaceRule;
 import de.danielnaber.languagetool.rules.Category;
 import de.danielnaber.languagetool.rules.Rule;
 import de.danielnaber.languagetool.rules.RuleMatch;
+import de.danielnaber.languagetool.tokenizers.Tokenizer;
 import de.danielnaber.languagetool.tools.StringTools;
 import de.danielnaber.languagetool.tools.Tools;
 
@@ -52,7 +53,7 @@ import de.danielnaber.languagetool.tools.Tools;
  * Note: Merge this into {@link AbstractSimpleReplaceRule} eventually and simply extend from AbstractSimpleReplaceRule.<br/>
  * 
  * @author Ionuț Păduraru
- * @version $Id: SimpleReplaceRule.java,v 1.4 2010-02-06 20:47:28 archeus Exp $
+ * @version $Id: SimpleReplaceRule.java,v 1.5 2010-02-07 09:36:21 archeus Exp $
  * 
  */
 public class SimpleReplaceRule extends Rule {
@@ -115,11 +116,19 @@ public class SimpleReplaceRule extends Rule {
 	}
 
 	/**
+	 * @return the word tokenizer used for tokenization on loading words.
+	 */
+	protected Tokenizer getWordTokenizer() {
+		return Language.ROMANIAN.getWordTokenizer();
+	}
+	
+	/**
 	 * Load the list of words. <br/>
 	 * Same as {@link AbstractSimpleReplaceRule#loadWords} but allows multiple words.   
 	 * @param file the file to load.
 	 * @return the list of maps containing the error-corrections pairs. <br/>The n-th map contains key strings of (n+1) words.
 	 * @throws IOException when the file contains errors.
+	 * @see #getWordTokenizer
 	 */
 	private List<Map<String, String>> loadWords(final InputStream file)
 			throws IOException {
@@ -142,13 +151,19 @@ public class SimpleReplaceRule extends Rule {
 							+ this.getClass().getResource(getFileName())
 							+ ", line: " + line);
 				}
-				final int wordCount = new StringTokenizer(parts[0], " ").countTokens();
-				// grow is necessary
-				for (int i = list.size(); i < wordCount; i++) {
-					list.add(new HashMap<String, String>());
-				}
-				String[] wrongForms = parts[0].split("\\|"); // multiple incorect forms
+				final String[] wrongForms = parts[0].split("\\|"); // multiple incorect forms
 				for (String wrongForm : wrongForms) {
+					int wordCount = 0;
+					List<String> tokens = getWordTokenizer().tokenize(wrongForm);
+					for (String token : tokens) {
+						if (!StringTools.isWhitespace(token)) {
+							wordCount++;
+						}
+					}
+					// grow if necessary
+					for (int i = list.size(); i < wordCount; i++) {
+						list.add(new HashMap<String, String>());
+					}
 					list.get(wordCount - 1).put(wrongForm, parts[1]);
 				}
 			}
@@ -186,7 +201,7 @@ public class SimpleReplaceRule extends Rule {
 			ArrayList<String> variants = new ArrayList<String>();
 			List<AnalyzedTokenReadings> prevTokensList = Arrays.asList(prevTokens.toArray(new AnalyzedTokenReadings[] {}));
 			for (int j = prevTokensList.size() - 1; j >= 0; j--) {
-				if (j != prevTokensList.size() - 1)
+				if (j != prevTokensList.size() - 1 && prevTokensList.get(j + 1).isWhitespaceBefore())
 					sb.insert(0, " ");
 				sb.insert(0, prevTokensList.get(j).getToken());
 				variants.add(0, sb.toString());
