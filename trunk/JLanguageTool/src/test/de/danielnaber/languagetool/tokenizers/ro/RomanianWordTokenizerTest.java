@@ -19,9 +19,9 @@
 
 package de.danielnaber.languagetool.tokenizers.ro;
 
-import junit.framework.TestCase;
-
 import java.util.List;
+
+import junit.framework.TestCase;
 
 public class RomanianWordTokenizerTest extends TestCase {
 
@@ -92,6 +92,16 @@ public class RomanianWordTokenizerTest extends TestCase {
     testList = w.tokenize("are 30°C");
     assertEquals(testList.size(), 5);
     assertEquals("[are,  , 30, °, C]",
+        testList.toString());
+    // test for "="  
+    testList = w.tokenize("fructe=mere");
+    assertEquals(testList.size(), 3);
+    assertEquals("[fructe, =, mere]",
+        testList.toString());
+    // test for "|"  
+    testList = w.tokenize("pere|mere");
+    assertEquals(testList.size(), 3);
+    assertEquals("[pere, |, mere]",
         testList.toString());
   }
 }
