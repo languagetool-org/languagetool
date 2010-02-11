@@ -53,7 +53,7 @@ import de.danielnaber.languagetool.tools.Tools;
  * Note: Merge this into {@link AbstractSimpleReplaceRule} eventually and simply extend from AbstractSimpleReplaceRule.<br/>
  * 
  * @author Ionuț Păduraru
- * @version $Id: SimpleReplaceRule.java,v 1.5 2010-02-07 09:36:21 archeus Exp $
+ * @version $Id: SimpleReplaceRule.java,v 1.6 2010-02-11 19:35:25 archeus Exp $
  * 
  */
 public class SimpleReplaceRule extends Rule {
@@ -95,6 +95,13 @@ public class SimpleReplaceRule extends Rule {
 
 	public String getSuggestion() {
 		return " este incorect sau ieșit din uz, folosiți ";
+	}
+
+	/**
+	 * @return the word used to separate multiple suggestions; used only before last suggestion, the rest are comma-separated.  
+	 */
+	public String getSuggestionsSeparator() {
+		return " sau ";
 	}
 
 	/**
@@ -215,8 +222,9 @@ public class SimpleReplaceRule extends Rule {
 					List<String> replacements = Arrays.asList(crtMatch.split("\\|"));
 					String msg = crt + getSuggestion();
 					for (int k = 0; k < replacements.size(); k++) {
-						if (k > 0)
-							msg += ", ";
+						if (k > 0) {
+							msg = msg + (k == replacements.size() - 1 ? getSuggestionsSeparator(): ", ");
+						}
 						msg += "<suggestion>" + replacements.get(k) + "</suggestion>";
 					}
 					final int startPos = prevTokensList.get(len - crtWordCount).getStartPos();
