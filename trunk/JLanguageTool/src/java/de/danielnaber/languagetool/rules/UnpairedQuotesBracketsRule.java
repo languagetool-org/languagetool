@@ -110,6 +110,9 @@ public class UnpairedQuotesBracketsRule extends Rule {
   private static final Pattern NUMBER = Pattern.compile("\\d+");
   private static final Pattern NUMERALS = Pattern
       .compile("(?i)\\d{1,2}?[a-z']*|M*(D?C{0,3}|C[DM])(L?X{0,3}|X[LC])(V?I{0,3}|I[VX])$");
+  private static final Pattern NUMERALS_RU = Pattern
+      .compile("(?i)\\d{1,2}?[а-я]*|[а-я]|[А-Я]|[а-я][а-я]|[А-Я][А-Я]");
+  
   private int ruleMatchIndex;
   private List<RuleMatch> ruleMatches;
 
@@ -227,7 +230,12 @@ public class UnpairedQuotesBracketsRule extends Rule {
                   .empty() && "(".equals(symbolStack.peek().symbol)))) {
                 noException = false;
               }
-            }
+             // exception for Russian bullets: а), б), Д)..., ДД), аа) and 1а).  
+             if ((ruleLang.equals(Language.RUSSIAN)) && (NUMERALS_RU.matcher(tokens[i - 1].getToken()).matches() && !(!symbolStack
+                  .empty() && "(".equals(symbolStack.peek().symbol)))) {
+                noException = false;
+              }
+            }     
 
             if (noException) {
               if (symbolStack.isEmpty()) {
