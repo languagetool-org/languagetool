@@ -7,11 +7,25 @@ title="Easy editing stylesheet" ?>
 German grammar and typo rules for LanguageTool
 See resource/de/tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.26 2009-11-01 19:19:06 dnaber Exp $
+$Id: grammar.xml,v 1.27 2010-02-13 12:26:06 dnaber Exp $
 -->
 <rules lang="de" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../rules.xsd">
   <category name="Mögliche Tippfehler">
+    <rulegroup id="ANDERE_SEITEN_AUFZIEHEN" name="Tippfehler: 'andere Seiten(Saiten) aufziehen'">
+      <rule>
+        <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
+          <token>andere</token>
+          <token>Seiten</token>
+          <token regexp="yes">aufziehen|aufgezogen|aufziehst|</token>
+        </pattern>
+        <message>Die Redewendung lautet: andere <suggestion>Saiten</suggestion> aufziehen (= strenger werden)</message>
+        <example type="correct">Die UNO muss andere <marker>Saiten</marker> aufziehen.</example>
+        <example type="correct">Bei der UNO müssen andere <marker>Saiten</marker> aufgezogen werden.</example>
+        <example type="incorrect">Die UNO muss andere <marker>Seiten</marker> aufziehen.</example>
+        <example type="incorrect">Bei der UNO müssen andere <marker>Seiten</marker> aufgezogen werden.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="EINEM_LEIHEN" name="Tippfehler: 'einem Leihen(Laien)'">
       <rule>
         <pattern case_sensitive="yes" mark_from="1">
