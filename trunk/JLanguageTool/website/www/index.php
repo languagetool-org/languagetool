@@ -27,14 +27,8 @@ grammar mistakes. It does not include spell checking.</p>
 the <?=show_link("Changelog", "download/CHANGES.txt", 0) ?>.</p>
 
 
-<p><strong>News 2009-10-04:</strong> The LanguageTool maintainers will be giving a workshop
-about extending LanguageTool at the <?=show_link("OpenOffice.org Conference",
-"http://conference.services.openoffice.org/index.php/ooocon/2009", 0)?> (OOoCon 2009) in Italy on 2009-11-06.
-See <?=show_link("the workshop page", "http://conference.services.openoffice.org/index.php/ooocon/2009/paper/view/78", 0)?>
- for more details.</p>
-
 <div class="outerDownloadSection">
-<strong>Download for OpenOffice.org 3.0.1 or later:</strong><br />
+<h2>Download for OpenOffice.org 3.0.1 or later</h2>
 <div class="downloadSection">
 	<p class="warning">
 	This version works only with OpenOffice.org 3.0.1, 3.1, or later, NOT with 3.0.0.
@@ -51,7 +45,7 @@ See <?=show_link("the workshop page", "http://conference.services.openoffice.org
 </div>
 
 <div class="outerDownloadSection">
-<strong>Download for OpenOffice.org 3.0.0:</strong><br />
+<h2>Download for OpenOffice.org 3.0.0</h2>
 <div class="downloadSection">
 	<p class="warning">
 	This version works only with OpenOffice.org 3.0.0, NOT with 3.0.1 or its beta releases.
@@ -72,7 +66,7 @@ See <?=show_link("the workshop page", "http://conference.services.openoffice.org
 <?=show_link("Start LanguageTool (17&nbsp;MB)", "webstart/web/LanguageTool.jnlp", 0) ?></p>
 <!-- -->
 
-<p><strong>Installation and Usage:</strong>
+<h2>Installation and Usage</h2>
 
 <ul>
 	<li><strong>In OpenOffice.org</strong>:
@@ -85,14 +79,14 @@ See <?=show_link("the workshop page", "http://conference.services.openoffice.org
 	<li>Also see <?=show_link("Usage", "usage/", 0)?> for using LanguageTool outside of OpenOffice.org.</li>
 </ul>
 
-<p><a name="commonproblems"><strong>If integration into OpenOffice.org doesn't work:</strong></a></p>
+<h2><a name="commonproblems"><strong>Common problems with OpenOffice.org integration</strong></a></h2>
 
 <ul>
+<li>Did you restart OpenOffice.org - including the QuickStarter - after installation of LanguageTool? This is required,
+	even if OpenOffice.org doesn't say so. (<a href="http://qa.openoffice.org/issues/show_bug.cgi?id=88692">Issue 88692</a>)</li>
 <li>LanguageTool installation fails if the name of your user account contains
 	special characters. The only workaround so far seems to be to use a different
 	user account. (Issue <a href="http://qa.openoffice.org/issues/show_bug.cgi?id=95162">95162</a>)</li>
-<li>Did you restart OpenOffice.org - including the QuickStarter - after installation of LanguageTool? This is required,
-	even if OpenOffice.org doesn't say so. (<a href="http://qa.openoffice.org/issues/show_bug.cgi?id=88692">Issue 88692</a>)</li>
 <li>Make sure <a href="http://www.java.com/en/download/manual.jsp">Java 5.0 or later from Sun Microsystems</a>
 	is installed on your system. Java versions which are not from Sun Microsystems may not work.</li>
 <li>Make sure this version of Java is selected in OpenOffice.org
@@ -104,16 +98,17 @@ See <?=show_link("the workshop page", "http://conference.services.openoffice.org
 	install the <tt>openoffice.org-java-common</tt> package. See
 	<a href="http://nancib.wordpress.com/2008/05/03/fixing-the-openofficeorg-grammar-glitch-in-ubuntu-hardy/">this blog posting</a>
 	for details.</li>
+<li style="margin-top:8px">If these hints don't help, please email <strong>naber at danielnaber de</strong> describing the problem
+	and letting me know which version of LanguageTool, OpenOffice.org and which operating system you are using.</li>
 </ul>
-
-<p><strong>Source code</strong>: The source is available <?=show_link("at Sourceforge", "http://sourceforge.net/projects/languagetool/", 1) ?>
- via CVS</p>
 
 <p><strong>Known bugs:</strong> Please see the <?=show_link("README", "download/README.txt", 0)?> 
 for a list of known problems.</p>
 
-<p><strong>License:</strong> LanguageTool is freely available under the 
-<?=show_link("LGPL", "http://www.fsf.org/licensing/licenses/lgpl.html#SEC1", 0)?>.</p>
+<h2>License &amp; Source Code</h2>
+
+<p>LanguageTool is freely available under the <?=show_link("LGPL", "http://www.fsf.org/licensing/licenses/lgpl.html#SEC1", 0)?>.
+The source is available <?=show_link("at Sourceforge", "http://sourceforge.net/projects/languagetool/", 1) ?> via CVS</p>
 
 <div style="height:750px"></div>
 
