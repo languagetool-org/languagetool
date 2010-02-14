@@ -85,7 +85,7 @@ See <?=show_link("the workshop page", "http://conference.services.openoffice.org
 	<li>Also see <?=show_link("Usage", "usage/", 0)?> for using LanguageTool outside of OpenOffice.org.</li>
 </ul>
 
-<p><strong>If integration into OpenOffice.org doesn't work:</strong></p>
+<p><a name="commonproblems"><strong>If integration into OpenOffice.org doesn't work:</strong></a></p>
 
 <ul>
 <li>LanguageTool installation fails if the name of your user account contains
@@ -106,7 +106,7 @@ See <?=show_link("the workshop page", "http://conference.services.openoffice.org
 	for details.</li>
 </ul>
 
-<p>The source is available <?=show_link("at Sourceforge", "http://sourceforge.net/projects/languagetool/", 1) ?>
+<p><strong>Source code</strong>: The source is available <?=show_link("at Sourceforge", "http://sourceforge.net/projects/languagetool/", 1) ?>
  via CVS</p>
 
 <p><strong>Known bugs:</strong> Please see the <?=show_link("README", "download/README.txt", 0)?> 
@@ -114,6 +114,8 @@ for a list of known problems.</p>
 
 <p><strong>License:</strong> LanguageTool is freely available under the 
 <?=show_link("LGPL", "http://www.fsf.org/licensing/licenses/lgpl.html#SEC1", 0)?>.</p>
+
+<div style="height:750px"></div>
 
 <?php
 include("../include/footer.php");
