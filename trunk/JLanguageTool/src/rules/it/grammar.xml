@@ -6,15 +6,15 @@ title="Easy editing stylesheet" ?>
 <!--
 Italian Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.7 2009-10-22 20:02:41 milek_pl Exp $
+$Id: grammar.xml,v 1.8 2010-02-18 23:05:33 milek_pl Exp $
 -->
 
 <!-- 
 ================================================================================
  Italian Grammar and Style Rules for Italian
  Paolo Bianchini
- Date: 1/6/2009
- Ver:  0.1
+ Date: 18/2/2010
+ Ver:  0.7
 ================================================================================
  Categorie delle regole
     gruppi delle regole
@@ -61,7 +61,7 @@ Grammatica - Punteggiatura			GR_09
 
  Stile - Espressioni 				ST_01		
    arcaiche					ST_01_001	to do
-   parlato					ST_01_002	add more
+   parlato					ST_01_002	to do
    pleonasmi					ST_01_003	add more
    regionali					ST_01_004	add more					
    straniere					ST_01_005	add more
@@ -79,6 +79,15 @@ Grammatica - Punteggiatura			GR_09
    in cifre se minori di 100			ST_04_002	ok
 
 ================================================================================
+-->
+
+<!--
+================================================================================
+ Fixes
+ ===== =========================================================================
+ PB001 Removed prepositions and two letter words in repetition check
+ PB002 Added some preposition usage checks (moved a gratis rule)
+ ===== =========================================================================
 -->
 
 
@@ -108,7 +117,7 @@ Grammatica - Punteggiatura			GR_09
 			<rule>
 				<pattern >
 					<token regexp="yes">il|lo|i|gli|la</token>
-					<token postag="NOUN-F.p" postag_regexp="yes"><exception postag="NOUN-F.s" postag_regexp="yes"/></token>
+					<token postag="NOUN-F.p" postag_regexp="yes"><exception postag="(NOUN-F.s)|(NOUN-M.p)" postag_regexp="yes"/></token>
 				</pattern>
 				<message>L'articolo non concorda: <suggestion>le <match no="2" /></suggestion>.</message>
 				<example type="incorrect">Vidi <marker>il mucche</marker> pascolare nel campo.</example>
@@ -138,7 +147,7 @@ Grammatica - Punteggiatura			GR_09
 			<rule>
 				<pattern >
 					<token regexp="yes">lo|la|il|gli|le</token>
-					<token postag="NOUN-M.p" postag_regexp="yes" regexp="yes">[bcdfghlmnpqrstv][aeiou].*|[bcdfglmnqrtv][bcdfglmnpqrtv].*<exception postag="NOUN-M.s" postag_regexp="yes"/></token>
+					<token postag="NOUN-M.p" postag_regexp="yes" regexp="yes">[bcdfghlmnpqrstv][aeiou].*|[bcdfglmnqrtv][bcdfglmnpqrtv].*<exception postag="(NOUN-M.s)|(NOUN-F.p)" postag_regexp="yes"/></token>
 				</pattern>
 				<message>L'articolo non concorda: <suggestion>i <match no="2" /></suggestion>.</message>
 				<example type="incorrect">Hai fatto <marker>le compiti</marker>?</example>
@@ -158,7 +167,7 @@ Grammatica - Punteggiatura			GR_09
 			<rule>
 				<pattern >
 					<token regexp="yes">i|la|il|gli|le</token>
-					<token postag="NOUN-M.s" postag_regexp="yes" regexp="yes">[zx].*|s[bcdfghlmnpqrstv].*|p[ns].*|gn.*|[iy][aeiou].*<exception postag="NOUN-M.p" postag_regexp="yes"/></token>
+					<token postag="NOUN-M.s" postag_regexp="yes" regexp="yes">[zx].*|s[bcdfghlmnpqrstv].*|p[ns].*|gn.*|[iy][aeiou].*<exception postag="(NOUN-M.p)|(NOUN-F.s)" postag_regexp="yes"/></token>
 				</pattern>
 				<message>L'articolo non concorda: <suggestion>lo <match no="2" /></suggestion>.</message>
 				<example type="incorrect">Ho forato <marker>il pneumatico</marker>.</example>
@@ -168,7 +177,7 @@ Grammatica - Punteggiatura			GR_09
 			<rule>
 				<pattern >
 					<token regexp="yes">i|la|il|lo|le</token>
-					<token postag="NOUN-M.p" postag_regexp="yes" regexp="yes">[zx].*|s[bcdfghlmnpqrstv].*|p[ns].*|gn.*|[iy][aeiou].*<exception postag="NOUN-M.s" postag_regexp="yes"/></token>
+					<token postag="NOUN-M.p" postag_regexp="yes" regexp="yes">[zx].*|s[bcdfghlmnpqrstv].*|p[ns].*|gn.*|[iy][aeiou].*<exception postag="(NOUN-M.s)|(NOUN-F.p)" postag_regexp="yes"/></token>
 				</pattern>
 				<message>L'articolo non concorda: <suggestion>gli <match no="2" /></suggestion>.</message>
 				<example type="incorrect">Come raccontano <marker>i storici</marker>...</example>
@@ -178,7 +187,7 @@ Grammatica - Punteggiatura			GR_09
 			<rule>
 				<pattern >
 					<token regexp="yes">un|una</token>
-					<token postag="NOUN-M.s" postag_regexp="yes" regexp="yes">[zx].*|s[bcdfghlmnpqrstv].*|p[ns].*|[gn].*|[iy][aeiou].*<exception postag="NOUN-M.p" postag_regexp="yes"/></token>
+					<token postag="NOUN-M.s" postag_regexp="yes" regexp="yes">[zx].*|s[bcdfghlmnpqrstv].*|p[ns].*|[gn].*|[iy][aeiou].*<exception postag="(NOUN-M.p)|(NOUN-F.s)" postag_regexp="yes"/></token>
 				</pattern>
 				<message>L'articolo non concorda: <suggestion>uno <match no="2" /></suggestion>.</message>
 				<example type="incorrect">Devi andare da <marker>un psicologo</marker>.</example>
@@ -301,6 +310,91 @@ Grammatica - Punteggiatura			GR_09
 				<example type="incorrect">Vengo <marker>dà</marker> Roma.</example>
 				<example type="correct">Vengo da Roma.</example>
 			</rule>
+<!-- PB002+ -->
+			<!-- assolvere a... -->			
+			<rule>
+				<pattern mark_from="1">
+					<token regexp="yes">assolv.*|assols.*|assolt.*</token>
+					<token>a</token>
+				</pattern>
+				<message>Non si assolve a qualcosa, si assolve qualcosa. Rimuovere a <suggestion></suggestion></message>
+				<example type="incorrect">Assolvere <marker>a</marker> un compito.</example>
+				<example type="correct">Assolvere<marker></marker> un compito.</example>
+			</rule>
+			<!-- interessarsi a... -->			
+			<rule>
+				<pattern mark_from="2">
+					<token regexp="yes">mi|ti|si|ci|vi</token>
+					<token regexp="yes">interes.*</token>
+					<token>a</token>
+				</pattern>
+				<message>Non ci si interessa a ma ci si interessa <suggestion>di</suggestion>...</message>
+				<example type="incorrect">Mi interesso <marker>a</marker> qualcosa.</example>
+				<example type="correct">Mi interesso di qualcosa.</example>
+			</rule>
+			<rule>
+				<pattern mark_from="1">
+					<token regexp="yes">interessar[mtscv]i</token>
+					<token>a</token>
+				</pattern>
+				<message>Non ci si interessa a ma ci si interessa <suggestion>di</suggestion>...</message>
+				<example type="incorrect">Interessarsi <marker>a</marker> qualcosa.</example>
+				<example type="correct">Interessarsi di qualcosa.</example>
+			</rule>
+			<!-- promuovere a... -->
+			<rule>
+				<pattern mark_from="1">
+					<token regexp="yes">promuov.*|promoss.*</token>
+					<token>a</token>
+				</pattern>
+				<message>Non si promuove a qualcosa, si promuove qualcosa. Rimuovere a <suggestion></suggestion></message>
+				<example type="incorrect">Fui promosso <marker>a</marker> direttore.</example>
+				<example type="correct">Fui promosso<marker></marker> direttore.</example>
+			</rule>
+			<!-- insistere a... -->
+			<rule>
+				<pattern mark_from="1">
+					<token regexp="yes">insist.*</token>
+					<token>a</token>
+				</pattern>
+				<message>Non si insistste a, si insiste <suggestion>nel</suggestion></message>
+				<example type="incorrect">Insisto <marker>a</marker> dire che è così.</example>
+				<example type="correct">Insisto <marker>nel</marker> dire che è così.</example>
+			</rule>
+			<!-- a gratis -->
+			<rule>
+				<pattern mark_from="0" case_sensitive="no">
+					<token>a</token>
+					<token>gratis</token>
+				</pattern>
+				<message>Si scrive <suggestion>gratis</suggestion> (senza la preposizione).</message>
+				<example type="incorrect">Ovviamente... è tutto <marker>a gratis</marker>!</example>
+				<example type="correct">Ovviamente... è tutto <marker>gratis</marker>!</example>
+			</rule>
+			<!-- a nome Giuliano -->
+			<rule>
+				<pattern mark_from="0" mark_to="-1">
+					<token>a</token>
+					<token>nome</token>
+					<token postag_regexp="yes" postag="NPR"/>
+				</pattern>
+				<message>La forma corretta è <suggestion>di nome</suggestion> e non a nome.</message>
+				<example type="incorrect">Una ragazza <marker>a nome</marker> Francesca.</example>
+				<example type="correct">Una ragazza <marker>di nome</marker> Francesca.</example>
+			</rule>
+			<!-- biglietto da visita -->
+			<rule>
+				<pattern mark_from="1" mark_to="-1">
+					<token regexp="yes">bigliett.*</token>
+					<token>di</token>
+					<token>visita</token>
+				</pattern>
+				<message>Biglietto <suggestion>da</suggestion> visita</message>
+				<example type="incorrect">Ecco il mio biglietto <marker>di</marker> visita.</example>
+				<example type="correct">Ecco il mio biglietto <marker>da</marker> visita.</example>
+			</rule>
+
+<!-- PB002- -->
 		</rulegroup>
 	</category>
 
@@ -595,8 +689,14 @@ Grammatica - Punteggiatura			GR_09
 	<category name="Stile - Espressioni"> 
 <!-- TO DO	<rulegroup name="arcaiche" id="ST_01_001">
 		</rulegroup> -->
+<!-- PB002+ -->
+<!--
 		<rulegroup name="parlato" id="ST_01_002">
+-->
+<!-- PB002- -->
 			<!-- a gratis -->
+<!-- PB002+ -->
+<!--
 			<rule>
 				<pattern mark_from="0" case_sensitive="no">
 					<token>a</token>
@@ -607,6 +707,8 @@ Grammatica - Punteggiatura			GR_09
 				<example type="incorrect">Ovviamente... è tutto <marker>a gratis</marker>!</example>
 			</rule>
 		</rulegroup>
+-->
+<!-- PB002- -->
 		<rulegroup name="pleonasmi" id="ST_01_003">
 			<!-- a me mi -->
 			<rule>
@@ -893,12 +995,17 @@ Grammatica - Punteggiatura			GR_09
 		<rulegroup name="ripetizioni" id="ST_03_002">
 			<rule>
 				<pattern>
+<!-- PB001+ -->
+<!--
 					<token skip="-1" regexp="yes">[qwertyuiopasdfghjklzxcvbnm].*<exception postag="ART.*|CON" postag_regexp="yes"/></token>
+-->
+					<token skip="-1" regexp="yes">[qwertyuiopasdfghjklzxcvbnm].*<exception postag="PRE|ARTPRE.*|ART.*|CON|PON" postag_regexp="yes"/><exception regexp="yes">l|dell|all|sull|dall|nell</exception></token>
+<!-- PB001- -->
 					<token><match no="0" /></token>
 				</pattern>
 				<message>Si consiglia di rivedere la frase al fine di elimare la ripetizione della parola: <match no="1" />.</message>
-				<example type="incorrect">Ti suggerisco <marker>di impegnarti di</marker> più.</example>
-				<example type="correct">Ti suggerisco un <marker>maggior impegno</marker>.</example>
+				<example type="incorrect">Il <marker>bambino aveva capito bene l'altro bambino</marker> di fronte a se.</example>
+				<example type="correct">Il bambino aveva capito bene l'altro fanciullo di fronte a se.</example>
 			</rule>			
 		</rulegroup>
 	</category>
