@@ -37,6 +37,13 @@ grammar mistakes. It does not include spell checking.</p>
 
 <h2>News</h2>
 
+<p><strong>2010-02-20:</strong> 
+
+LanguageTool has been integrated into <?=show_link("After the Deadline", "http://open.afterthedeadline.com/", 0)?>,
+a powerful English grammar checker. Thanks to LanguageTool it now also  supports French, German, Portuguese, and Spanish. 
+This means that you can now use LanguageTool for these languages via the
+<?=show_link("After the Deadline Firefox plugin", "http://firefox.afterthedeadline.com/", 0)?>.</p>
+
 <p><strong>2009-11-01:</strong> Released version 1.0.0. Changes include:
 <ul>
 	<li>Support for Danish, Catalan, and Galician</li>
