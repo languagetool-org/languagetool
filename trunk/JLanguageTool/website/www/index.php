@@ -2,7 +2,7 @@
 $page = "homepage";
 $title = "LanguageTool";
 $title2 = "Open Source language checker";
-$lastmod = "2010-02-14 20:17:00 CET";
+$lastmod = "2010-02-21 20:17:00 CET";
 include("../include/header.php");
 ?>
 		
@@ -15,56 +15,37 @@ up <em>there/their</em>, <em>no/now</em> etc. It can also detect some
 grammar mistakes. It does not include spell checking.</p>
 
 
-<p><strong>Update 2009-11-01:</strong> Released version 1.0.0. Changes include:
+<h2>Download</h2>
+<div class="downloadSection">
+	<p class="warning">
+	If you're upgrading from LanguageTool 0.9.5, you must de-install
+	it <strong>before</strong> upgrading to a later version (check
+	<a href="http://languagetool.wikidot.com/removing-languagetool-0-9-5-from-openoffice-3-0-1">this
+	page</a> if you forgot to do so).
+	</p>
+	<h2><?=show_link("Download LanguageTool 1.0.0 (17&nbsp;MB)", "download/LanguageTool-1.0.0.oxt", 0) ?></h2>
+	<p>Requires <?=show_link("Java", "http://www.java.com/en/download/manual.jsp", 1)?>&nbsp;5.0
+	or later. This version only works with OpenOffice.org 3.0.1 or later 
+	and you need to <strong>restart OpenOffice.org</strong> after installation of this extension.</p>
+</div>
+
+<!-- -->
+<p><strong>Try LanguageTool via Java WebStart:</strong> (requires Java 1.6_04 or later)<br />
+<?=show_link("Start LanguageTool (17&nbsp;MB)", "webstart/web/LanguageTool.jnlp", 0) ?></p>
+<!-- -->
+
+
+<h2>News</h2>
+
+<p><strong>2009-11-01:</strong> Released version 1.0.0. Changes include:
 <ul>
 	<li>Support for Danish, Catalan, and Galician</li>
 	<li>Rule and dictionary fixes for Dutch, French, Italian, Polish, Spanish, Swedish, and Russian</li>
 	<li>More rules for Dutch, Polish, Russian, Spanish, Slovenian, and English</li>
 	<li>Several bug fixes</li>
+	<li>For a more detailed list of changes, see the <?=show_link("Changelog", "download/CHANGES.txt", 0) ?>.</li>
 </ul>
 
-<p>For a more detailed list of changes, see
-the <?=show_link("Changelog", "download/CHANGES.txt", 0) ?>.</p>
-
-
-<div class="outerDownloadSection">
-<h2>Download for OpenOffice.org 3.0.1 or later</h2>
-<div class="downloadSection">
-	<p class="warning">
-	This version works only with OpenOffice.org 3.0.1, 3.1, or later, NOT with 3.0.0.
-	Also, you must de-install
-	LanguageTool 0.9.5 <strong>before</strong> upgrading to OpenOffice.org 3.0.1 because of compatibility
-	issues (check <a href="http://languagetool.wikidot.com/removing-languagetool-0-9-5-from-openoffice-3-0-1">this
-	page</a> if you forgot to do so).
-	</p>
-	<p><strong><?=show_link("LanguageTool 1.0.0 (for OpenOffice.org 3.0.1 and 3.1)", "download/LanguageTool-1.0.0.oxt", 0) ?></strong>, 17&nbsp;MB,
-	requires <?=show_link("Java", "http://www.java.com/en/download/manual.jsp", 1)?>&nbsp;5.0
-	or later. NOTE: this version <strong>only works with OpenOffice.org 3.0.1 or later</strong> 
-	and you need to <strong>restart OpenOffice.org</strong> after installation of this extension</p>
-</div>
-</div>
-
-<div class="outerDownloadSection">
-<h2>Download for OpenOffice.org 3.0.0</h2>
-<div class="downloadSection">
-	<p class="warning">
-	This version works only with OpenOffice.org 3.0.0, NOT with 3.0.1 or its beta releases.
-	Also, you must de-install
-	LanguageTool 0.9.5 <strong>before</strong> upgrading to OpenOffice.org 3.0.1 because of compatibility
-	issues (check <a href="http://languagetool.wikidot.com/removing-languagetool-0-9-5-from-openoffice-3-0-1">this
-	page</a> if you forgot to do so).
-	</p>
-	<p><strong><?=show_link("LanguageTool 0.9.5 (for OpenOffice.org 3.0.0)", "download/LanguageTool-0.9.5.oxt", 0) ?></strong>, 10&nbsp;MB,
-	requires <?=show_link("Java", "http://www.java.com/en/download/manual.jsp", 1)?>&nbsp;5.0
-	or later. NOTE: this version currently <strong>only works with OpenOffice.org 3.0.0</strong> 
-	and you need to <strong>restart OpenOffice.org</strong> after installation of this extension</p>
-</div>
-</div>
- 
-<!-- -->
-<p><strong>Try LanguageTool via Java WebStart:</strong> (requires Java 1.6_04 or later)<br />
-<?=show_link("Start LanguageTool (17&nbsp;MB)", "webstart/web/LanguageTool.jnlp", 0) ?></p>
-<!-- -->
 
 <h2>Installation and Usage</h2>
 
