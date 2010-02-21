@@ -40,7 +40,7 @@ grammar mistakes. It does not include spell checking.</p>
 <p><strong>2010-02-20:</strong> 
 
 LanguageTool has been integrated into <?=show_link("After the Deadline", "http://open.afterthedeadline.com/", 0)?>,
-a powerful English grammar checker. Thanks to LanguageTool it now also  supports French, German, Portuguese, and Spanish. 
+a powerful English grammar checker. Thanks to LanguageTool it now also  supports French and German. 
 This means that you can now use LanguageTool for these languages via the
 <?=show_link("After the Deadline Firefox plugin", "http://firefox.afterthedeadline.com/", 0)?>.</p>
 
