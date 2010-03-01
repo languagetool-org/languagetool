@@ -1,14 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
 Disambiguation Russian Rules for LanguageTool (www.languagetool.org)
-Copyright (C) 2009 Yakov Reztsov				
-$Id: disambiguation.xml,v 1.3 2009-09-17 06:44:54 yakovru Exp $
+Copyright (C) 2009-2010 Yakov Reztsov				
+$Id: disambiguation.xml,v 1.4 2010-03-01 20:50:31 yakovru Exp $
 -->
 <rules lang="ru">	
+    <!-- prepositions 
+   R:   
+   без, вместо, вокруг (prep & adv), для, до, из (изо), из-за, из-под, кроме,
+   напротив (prep & adv), около, от, после (prep & adv), посреди (prep & adv),
+   против, с*, со*, среди, у
+   
+   D: 
+   к, ко, по*
+   
+   V:
+   в*, за*, на*, по*, под*, сквозь, через; о*
+   
+   T:
+   за*, между (prep & adv), над, перед, под*, с*
+   
+   P:
+   в*, на*, о*, при; по*
+   
+    -->    
+       
     <!-- disambiguation for nouns' -->
     <rule name="NOUN_V" id="NOUN_V">
         <pattern mark="1">
-            <token regexp="yes" skip="1">в|на</token>
+            <token regexp="yes" skip="1">в|на|сквозь|через</token>
             <and>
                 <token postag="NN:.*:.*:Nom" postag_regexp="yes"/>
                 <token postag="NN:.*:.*:V" postag_regexp="yes"><exception postag="NN:.*:.*:P" postag_regexp="yes" /></token>
@@ -28,8 +48,8 @@ $Id: disambiguation.xml,v 1.3 2009-09-17 06:44:54 yakovru Exp $
     </rule>      
     <rule name="NOUN_R" id="NOUN_R">
         <pattern mark="1">
-<!-- без  - родительный  -->
-            <token skip="1" regexp="yes">без|безо</token>
+            <!-- без  - родительный  -->
+            <token skip="1" regexp="yes">без|безо|вместо|для|до|из|изо|из-за|из-под|кроме|около|от|против|среди|у</token>
             <and>
                 <token postag="NN:.*:.*:V" postag_regexp="yes"/>
                 <token postag="NN:.*:.*:R" postag_regexp="yes"/>
@@ -39,9 +59,9 @@ $Id: disambiguation.xml,v 1.3 2009-09-17 06:44:54 yakovru Exp $
     </rule>
     <rule name="NOUN_D" id="NOUN_D">
         <pattern mark="1">
-            <token  skip="1">к</token>
-<!-- по  - дательный, винительный, предложный -->
-<!-- к  - дательный  -->            
+            <token  regexp="yes" skip="1">к|ко</token>
+            <!-- по  - дательный, винительный, предложный -->
+            <!-- к  - дательный  -->            
             <and>
                 <token postag="NN:.*:.*:P" postag_regexp="yes"/>
                 <token postag="NN:.*:.*:D" postag_regexp="yes"/>
@@ -51,8 +71,8 @@ $Id: disambiguation.xml,v 1.3 2009-09-17 06:44:54 yakovru Exp $
     </rule>
     <rule name="NOUN_P" id="NOUN_P">
         <pattern mark="1">
-<!-- о  - винительный, предложный  -->
-            <token  skip="1">о</token>
+            <!-- о  - винительный, предложный  -->
+            <token regexp="yes" skip="1">о|при</token>
             <and>
                 <token postag="NN:.*:.*:D" postag_regexp="yes"/>
                 <token postag="NN:.*:.*:P" postag_regexp="yes"><exception postag="NN:.*:.*:V" postag_regexp="yes" /></token>
@@ -63,9 +83,9 @@ $Id: disambiguation.xml,v 1.3 2009-09-17 06:44:54 yakovru Exp $
     <!-- disambiguation for adj.' -->
     <rule name="ADJ_T" id="ADJ_T">
         <pattern mark="1">
-<!-- с  - родительный, винительный, творительный -->
-<!-- под  - винительный, творительный   -->
-        <token regexp="yes">под|подо</token>
+            <!-- с  - родительный, винительный, творительный -->
+            <!-- под  - винительный, творительный   -->
+            <token regexp="yes">под|подо|над|перед</token>
             <and>
                 <token postag="ADJ:.*:R" postag_regexp="yes"/>
                 <token postag="ADJ:.*:T" postag_regexp="yes"/>
@@ -75,7 +95,7 @@ $Id: disambiguation.xml,v 1.3 2009-09-17 06:44:54 yakovru Exp $
     </rule>
     <rule name="ADJ_V" id="ADJ_V">
         <pattern mark="1">
-            <token regexp="yes">в|за|на|под</token>
+            <token regexp="yes">в|за|на|под|сквозь|через</token>
             <and>
                 <token postag="ADJ:.*:Nom" postag_regexp="yes"/>
                 <token postag="ADJ:.*:V" postag_regexp="yes"/>
@@ -85,7 +105,7 @@ $Id: disambiguation.xml,v 1.3 2009-09-17 06:44:54 yakovru Exp $
     </rule>
     <rule name="ADJ_R" id="ADJ_R">
         <pattern mark="1">
-            <token regexp="yes">без|безо</token>
+            <token regexp="yes">без|безо|вместо|для|до|из|изо|из-за|из-под|кроме|около|от|против|среди|у</token>
             <and>
                 <token postag="ADJ:.*:D" postag_regexp="yes"/>
                 <token postag="ADJ:.*:R" postag_regexp="yes"/>
@@ -95,7 +115,7 @@ $Id: disambiguation.xml,v 1.3 2009-09-17 06:44:54 yakovru Exp $
     </rule>
     <rule name="ADJ_D" id="ADJ_D">
         <pattern mark="1">
-            <token>к</token>
+            <token regexp="yes">к|ко</token>
             <and>
                 <token postag="ADJ:.*:P" postag_regexp="yes"/>
                 <token postag="ADJ:.*:D" postag_regexp="yes"><exception postag="ADJ:.*:V" postag_regexp="yes" /></token>
@@ -105,7 +125,7 @@ $Id: disambiguation.xml,v 1.3 2009-09-17 06:44:54 yakovru Exp $
     </rule>
     <rule name="ADJ_P" id="ADJ_P">
         <pattern mark="1">
-            <token>о</token>
+            <token regexp="yes">о|при</token>
             <and>
                 <token postag="ADJ:.*:D" postag_regexp="yes"/>
                 <token postag="ADJ:.*:P" postag_regexp="yes"><exception postag="ADJ:.*:V" postag_regexp="yes" /></token>
