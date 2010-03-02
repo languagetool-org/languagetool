@@ -22,12 +22,9 @@
  */
 package de.danielnaber.languagetool.dev;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.*;
+import java.nio.ByteBuffer;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 import morfologik.fsa.FSA;
@@ -46,11 +43,12 @@ public class ExportGermanNouns {
   }
   
   private Set<String> getWords() throws IOException {
-    FSA fsa = FSA.getInstance(this.getClass().getResourceAsStream(DICT_FILENAME), "iso-8859-1");
+    FSA fsa = FSA.getInstance(this.getClass().getResourceAsStream(DICT_FILENAME));
     String lastTerm = null;
     Set<String> set = new HashSet<String>();
-    for (Iterator i = fsa.getTraversalHelper().getAllSubsequences(fsa.getRootNode()); i.hasNext();) {
-      final byte [] sequence = (byte []) i.next();
+    for (ByteBuffer bb : fsa) {
+      final byte [] sequence = new byte [bb.remaining()];
+      bb.get(sequence);
       String output = new String(sequence, "iso-8859-1");
       if (output.indexOf("+SUB:") != -1 && output.indexOf(":ADJ") == -1) {
         String[] parts = output.split("\\+");
