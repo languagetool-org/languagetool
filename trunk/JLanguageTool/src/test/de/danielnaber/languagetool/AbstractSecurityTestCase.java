@@ -45,11 +45,12 @@ public class AbstractSecurityTestCase extends TestCase {
 
   private static class NoExitSecurityManager extends SecurityManager {
      @Override
-     public void checkPermission(Permission perm) {
+     public void checkPermission(@SuppressWarnings("unused") Permission perm) {
         // allow anything.
      }
 
      @Override
+     @SuppressWarnings("unused")
      public void checkPermission(Permission perm, Object context) {
         // allow anything.
      }
