@@ -81,7 +81,6 @@ public class AnalyzedGermanTokenReadings extends AnalyzedTokenReadings {
 
   /**
    * Return true if the analyzed word is a sentence or paragraph end.
-   * @return
    */
   public boolean isSentenceEnd() {
     if (anTokReadings == null) {
