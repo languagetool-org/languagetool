@@ -25,11 +25,11 @@ import java.net.JarURLConnection;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
+import java.util.List;
 import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -65,7 +65,7 @@ public final class ReflectionUtils {
       final String packageName, final String classNameRegEx,
       final int subdirLevel, final Class classExtends,
       final Class interfaceImplements) throws ClassNotFoundException {
-    final Map<Class,String> foundClasses = new HashMap<Class,String>();
+    final List<Class> foundClasses = new ArrayList<Class>();
 
     try {
       final String packagePath = packageName.replace('.', '/');
@@ -73,17 +73,13 @@ public final class ReflectionUtils {
 
       final Set<URI> uniqResources = new HashSet<URI>();
       while (resources_.hasMoreElements()) {
-        final URL url = resources_.nextElement();
-        final URI resource = url.toURI().normalize();
-        System.err.println("resource: " + resource.getPath());
-        System.err.println("resource: " + url.getPath());
-        System.err.println("");
+        final URI resource = resources_.nextElement().toURI();
         uniqResources.add(resource);
       }
 
       for (final URI res : uniqResources) {
         final URL resource = res.toURL();
-        //System.err.println("trying resource: " + resource.nortoString());
+        // System.err.println("trying resource: " + resource);
         // jars and directories are treated differently
         if (resource.getProtocol().startsWith("jar")) {
           findClassesInJar(packageName, classNameRegEx, subdirLevel,
@@ -99,14 +95,13 @@ public final class ReflectionUtils {
           + ex.getMessage(), ex);
     }
 
-    return (Class[]) foundClasses.keySet().toArray(new Class[foundClasses.size()]);
-    //return foundClasses.toArray(new Class[foundClasses.size()]);
+    return foundClasses.toArray(new Class[foundClasses.size()]);
   }
 
   private static void findClassesInDirectory(final ClassLoader classLoader,
       final String packageName, final String classNameRegEx,
       final int subdirLevel, final Class classExtends,
-      final Class interfaceImplements, final Map<Class,String> foundClasses,
+      final Class interfaceImplements, final List<Class> foundClasses,
       final URL resource) throws URISyntaxException, Exception,
       ClassNotFoundException {
     final File directory = new File(resource.toURI());
@@ -123,6 +118,7 @@ public final class ReflectionUtils {
             file.getName().lastIndexOf('.'));
         if (classNameRegEx == null || classShortNm.matches(classNameRegEx)) {
           final Class clazz = Class.forName(packageName + "." + classShortNm);
+
           if (!isMaterial(clazz)) {
             continue;
           }
@@ -131,7 +127,7 @@ public final class ReflectionUtils {
               || isExtending(clazz, classExtends.getName())
               && interfaceImplements == null
               || isImplementing(clazz, interfaceImplements)) {
-            foundClasses.put(clazz, file.getAbsolutePath());
+            foundClasses.add(clazz);
             // System.err.println("Added rule from dir: " + classShortNm);
           }
         }
@@ -145,9 +141,7 @@ public final class ReflectionUtils {
           final Class[] subLevelClasses = findClasses(classLoader, packageName
               + "." + dir.getName(), classNameRegEx, subdirLevel - 1,
               classExtends, interfaceImplements);
-          for (Class class1 : subLevelClasses) {
-              foundClasses.put(class1, "dir:" + dir.getAbsolutePath());
-          }
+          foundClasses.addAll(Arrays.asList(subLevelClasses));
         }
       }
     }
@@ -156,7 +150,7 @@ public final class ReflectionUtils {
   private static void findClassesInJar(final String packageName,
       final String classNameRegEx, final int subdirLevel,
       final Class classExtends, final Class interfaceImplements,
-      final Map<Class,String> foundClasses, final URL resource) throws IOException,
+      final List<Class> foundClasses, final URL resource) throws IOException,
       URISyntaxException, ClassNotFoundException {
     final JarURLConnection conn = (JarURLConnection) resource.openConnection();
     final JarFile currentFile = conn.getJarFile(); // new JarFile(new
@@ -166,7 +160,7 @@ public final class ReflectionUtils {
         .hasMoreElements();) {
       final JarEntry current = e.nextElement();
       final String name = current.getName();
-      //System.err.println(packageName + " jar entry: " + name + ", resource " + resource);
+      // System.err.println("jar entry: " + name);
 
       if (name.endsWith(".class")) {
         final String classNm = name.replaceAll("/", ".").replace(".class", "");
@@ -183,10 +177,9 @@ public final class ReflectionUtils {
           }
 
           final Class clazz = Class.forName(classNm);
-          if (foundClasses.containsKey(clazz)) {
-            continue;
-            //throw new RuntimeException("Duplicate class definition:\n"
-            //    + clazz.getName() + ", found in\n" + currentFile.getName() + " and\n" + foundClasses.get(clazz));
+          if (foundClasses.contains(clazz)) {
+            throw new RuntimeException("Duplicate class definition:\n"
+                + clazz.getName() + ", found in\n" + currentFile.getName());
           }
 
           if (!isMaterial(clazz)) {
@@ -197,7 +190,7 @@ public final class ReflectionUtils {
               || isExtending(clazz, classExtends.getName())
               && interfaceImplements == null
               || isImplementing(clazz, interfaceImplements)) {
-            foundClasses.put(clazz, currentFile.getName());
+            foundClasses.add(clazz);
             // System.err.println("Added class from jar: " + name);
           }
         }
