@@ -72,6 +72,7 @@ public class HTTPServer extends ContentOracle {
     // accept only requests from localhost.
     // TODO: find a cleaner solution
     allowedIPs.add("/0:0:0:0:0:0:0:1"); // Suse Linux IPv6 stuff
+    allowedIPs.add("/0:0:0:0:0:0:0:1%0"); // some(?) Mac OS X
     allowedIPs.add("/127.0.0.1");
   }
 
