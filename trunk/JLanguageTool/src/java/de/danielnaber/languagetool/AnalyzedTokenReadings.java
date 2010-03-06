@@ -200,8 +200,6 @@ public class AnalyzedTokenReadings {
   
   /**
    * Returns true if the token equals \n, \r\n \n\r or \r\n.
-   * 
-   * @return
    */
   public final boolean isLinebreak() {
     return isLinebreak;

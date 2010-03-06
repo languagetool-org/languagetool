@@ -293,7 +293,7 @@ public final class StringTools {
    *          matches
    * @param contextSize
    *          the desired context size in characters
-   * @deprecated Use {@link #ruleMatchesToXML(List<RuleMatch>,String,int,XmlPrintMode)} instead
+   * @deprecated Use {@link #ruleMatchesToXML(List,String,int,XmlPrintMode)} instead
    */
   public static String ruleMatchesToXML(final List<RuleMatch> ruleMatches,
       final String text, final int contextSize) {
@@ -307,7 +307,7 @@ public final class StringTools {
    *          matches
    * @param contextSize
    *          the desired context size in characters
-   * @param xmlMode TODO
+   * @param xmlMode how to print the XML
    */
   public static String ruleMatchesToXML(final List<RuleMatch> ruleMatches,
       final String text, final int contextSize, XmlPrintMode xmlMode) {
