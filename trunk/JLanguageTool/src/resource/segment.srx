@@ -5,7 +5,8 @@
 <formathandle type="end" include="yes"></formathandle>
 <formathandle type="isolated" include="yes"></formathandle>
 <okpsrx:options oneSegmentIncludesAll="no" trimLeadingWhitespaces="no" trimTrailingWhitespaces="no"></okpsrx:options>
-<okpsrx:sample language="en_two" useMappedRules="no">{0>Utopia.&lt;0}
+<okpsrx:sample language="en_two" useMappedRules="no">To jest św. Paweł. W r. 1994 pojechałem do Rygi.
+{0>Utopia.&lt;0}
 Po zakończeniu jego kadencji (pod koniec maja br.) zamierzam ubiegać się o wybór do zarządu. (5 tys.) złotych. Tu jest 5 ww. autorów, np. Józek. Zrobiłem wiele dobrego itd. Współczynniki załamania. On nie. Określone współczynniki załamania itd.Ten proces prowadzi.
 Pochodził z rodziny Roberta E. Po wojnie wyzwolił się. Jerzy W. Urban, doktor psychiatra. Patrz art. 3 ust. 3. To piękne m. st. Warszawa.
 Ik vind dat R. Baars een slechte (!) programmeur is. Als voetballer wordt hij nooit een prof. Maar prof. N.A.W. Th.Ch. Janssen wordt dat wel. Maar of dat zo blijft ... dat weet ik niet. Hij is m.a.w. een beginneling. Ook moet  je rekening houden met af-
@@ -659,6 +660,11 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <beforebreak>\b[Pp]rzyp\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
+<!--msza św. lub św. Paweł; śp. Jadwiga Jagiełłowa-->
+<rule break="no">
+<beforebreak>\b[śŚ][pwW]\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
 <rule break="no">
 <beforebreak>\betc\.\s</beforebreak>
 <afterbreak>\p{Ll}</afterbreak>
@@ -763,6 +769,11 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <rule break="no">
 <beforebreak>\bust\.\s</beforebreak>
 <afterbreak>\d</afterbreak>
+</rule>
+<!--W r. 2005...-->
+<rule break="no">
+<beforebreak>\br\.\s</beforebreak>
+<afterbreak>[1-9]+</afterbreak>
 </rule>
 <rule break="no">
 <beforebreak>\b\d+\.\s</beforebreak>
