@@ -5,7 +5,13 @@
 <formathandle type="end" include="yes"></formathandle>
 <formathandle type="isolated" include="yes"></formathandle>
 <okpsrx:options oneSegmentIncludesAll="no" trimLeadingWhitespaces="no" trimTrailingWhitespaces="no"></okpsrx:options>
-<okpsrx:sample language="en_two" useMappedRules="no">To jest św. Paweł. W r. 1994 pojechałem do Rygi.
+<okpsrx:sample language="en_two" useMappedRules="no">Jestem zły, bo... (wpisz własną odpowiedź) drażni mnie krowa.
+Kierownictwo toleruje pracę z konieczności ("Skąd wezmę innego pracownika?") i jest zadowolone.
+Planowany wzrost przychodów najludniejszych gmin w br. będzie o 2 pkt. proc. wyższy od prognozowanej na br. stopy średniorocznej inflacji (15 proc.) natomiast wzrost wydatków przewyższa o 12 pkt. proc. stopę inflacji (co za dziwota! - przyp. red.) i tak dalej.
+Nie jesteś Rosjaninem? - spytał przedstawiciel okręgu. 11.X.2001 (b. dobra gra).
+Temperatura wody w systemie wynosi 30°C.W skład obiegu..
+H. Spiegel i D. Spiegel uczą pacjenta wchodzenia w autohipnozę na s. 112. Koncert pana Sarasetego skrzypka) ze współudziałem p. Schlozera, profesora konserwatorium warszawskiego.
+To jest św. Paweł. W r. 1994 pojechałem do Rygi. To jest parę spraw itd., ale trzeba to załatwić. (Dz. U. Nr 22 poz. 162).
 {0>Utopia.&lt;0}
 Po zakończeniu jego kadencji (pod koniec maja br.) zamierzam ubiegać się o wybór do zarządu. (5 tys.) złotych. Tu jest 5 ww. autorów, np. Józek. Zrobiłem wiele dobrego itd. Współczynniki załamania. On nie. Określone współczynniki załamania itd.Ten proces prowadzi.
 Pochodził z rodziny Roberta E. Po wojnie wyzwolił się. Jerzy W. Urban, doktor psychiatra. Patrz art. 3 ust. 3. To piękne m. st. Warszawa.
@@ -632,8 +638,13 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <beforebreak>\b[dD]r\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
+<!--p. Nowak-->
 <rule break="no">
-<beforebreak>\b[Rr]ed\.\s</beforebreak>
+<beforebreak>\b[pP]\.\s</beforebreak>
+<afterbreak>\p{Lu}\p{Ll}+</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b[Rr]ed\.\)\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
@@ -675,7 +686,7 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <afterbreak>\p{Ll}</afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\bproc\.\s</beforebreak>
+<beforebreak>\bproc\.\)?\s</beforebreak>
 <afterbreak>\p{Ll}</afterbreak>
 </rule>
 <rule break="no">
@@ -770,9 +781,14 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <beforebreak>\bust\.\s</beforebreak>
 <afterbreak>\d</afterbreak>
 </rule>
-<!--W r. 2005...-->
+<!--pok. 131, poz. 124-->
 <rule break="no">
-<beforebreak>\br\.\s</beforebreak>
+<beforebreak>\bpo[zk]\.\s</beforebreak>
+<afterbreak>\d</afterbreak>
+</rule>
+<!--Na s. 112 jest opis orgii, która odbyła się w r. 2005.-->
+<rule break="no">
+<beforebreak>\b[rs]\.\s</beforebreak>
 <afterbreak>[1-9]+</afterbreak>
 </rule>
 <rule break="no">
@@ -793,7 +809,7 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 </rule>
 <!--single lowercase chars at the end of sentence except for r, w, n-->
 <rule break="no">
-<beforebreak>\s[\p{L}&amp;&amp;[^rwn]]\.\s+</beforebreak>
+<beforebreak>[\s\(\[][\p{L}&amp;&amp;[^rwn]]\.\s+</beforebreak>
 <afterbreak>\p{Ll}\p{Ll}|\p{Lu}[\p{Punct}\p{Lu}]</afterbreak>
 </rule>
 <rule break="no">
@@ -837,7 +853,11 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <afterbreak>\p{Lu}[^\p{Lu}]</afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>[^\.]\s[A-Z]\.\s</beforebreak>
+<beforebreak>[^\.]\s[„"]?[A-Z]\.\s</beforebreak>
+<afterbreak>\p{Ll}|\p{Lu}\p{Ll}\p{Ll}+</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>^[„"]?[A-ZŚĆŻŹ]\.\s</beforebreak>
 <afterbreak>\p{Ll}|\p{Lu}\p{Ll}\p{Ll}+</afterbreak>
 </rule>
 <rule break="no">
@@ -849,13 +869,23 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <beforebreak>[\p{Ll}&amp;&amp;[^aeouiyęąó]][\p{Ll}&amp;&amp;[^aeouiyęąó]]+\.\s</beforebreak>
 <afterbreak>\p{Ll}+</afterbreak>
 </rule>
+<!--Nie jesteś Rosjaninem? - spytał przedstawiciel okręgu.-->
+<rule break="no">
+<beforebreak>[\.!?…]+['"\p{Pe}\u00BB\u2019\u201D\u203A\u0002]*\s</beforebreak>
+<afterbreak>[\p{Ps}-]\s?\p{Ll}</afterbreak>
+</rule>
+<!--This is a text ("with a small remark!") that continues.-->
+<rule break="no">
+<beforebreak>[\.!?…]['"\u00BB\u2019\u201D\u203A\u0002]*\p{Pe}\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
 <rule break="yes">
 <beforebreak>[\.!?…]['"\p{Pe}\u00BB\u2019\u201D\u203A\u0002]*\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="yes">
 <beforebreak>[\.!?…]['»"”\p{Pe}]*</beforebreak>
-<afterbreak>\p{Lu}[^\p{Lu}]</afterbreak>
+<afterbreak>\p{Lu}[^\p{Lu}\.]</afterbreak>
 </rule>
 <rule break="yes">
 <beforebreak>\s\p{L}[\.!?…]\s</beforebreak>
