@@ -104,7 +104,7 @@ public class CommaWhitespaceRule extends Rule {
         ruleMatches.add(ruleMatch);
       }
       prevToken = token;
-      prevWhite = isWhite;
+      prevWhite = isWhite && !tokens[i].isFieldCode(); //OOo code before comma/dot
       prevLen = tokens[i].getToken().length();
     }
 
