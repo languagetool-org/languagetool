@@ -173,7 +173,8 @@ public abstract class AbstractPatternRule extends Rule {
         return false;
       }
       thisMatched = thisMatched || elem.isMatched(matchToken);
-      if (!thisMatched && !elem.isInflected() && elem.getPOStag() == null) {
+      if (!thisMatched && !elem.isInflected() && elem.getPOStag() == null 
+          && (prevElement != null && prevElement.getExceptionList() == null)) {
         return false; // the token is the same, we will not get a match
       }
       if (groupsOrUnification) {
