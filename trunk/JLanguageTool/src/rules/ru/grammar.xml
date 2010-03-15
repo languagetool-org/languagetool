@@ -8,7 +8,7 @@ LanguageTool.
 Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
 A Russian rule file for LanguageTool 
 Copyright (C) 2008-2010 Yakov Reztsov
-$Id: grammar.xml,v 1.48 2010-02-13 19:29:52 yakovru Exp $
+$Id: grammar.xml,v 1.49 2010-03-15 17:45:42 yakovru Exp $
 -->
 <rules lang="ru" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../rules.xsd">
@@ -650,12 +650,13 @@ $Id: grammar.xml,v 1.48 2010-02-13 19:29:52 yakovru Exp $
         
         <rule default="on"  id="PUNKT_KAVITCHKI" name="Кавычки и знаки препинания">
             <pattern>
-                <token  regexp="yes">;|:|-|—</token>
+                <token spacebefore="no" regexp="yes">;|:|-|—</token>                
                 <token regexp="yes">»|\)</token>
             </pattern>
             <message>Знаки препинания должны стоять после закрывающихся кавычек или скобок.  Должно быть: <suggestion>\2\1</suggestion></message>
             <short>Знаки препинания - после кавычек/скобок.</short> 
             <example type="correct">Газета «Правда»: "У нас опубликована сенсационная статья"!</example>
+            <example type="correct">У нас опубликована сенсационная ;) статья.</example>
             <example type="incorrect">Газета «Правда<marker>:»</marker> "У нас опубликована сенсационная статья"!</example>
         </rule>
         
@@ -1201,7 +1202,7 @@ $Id: grammar.xml,v 1.48 2010-02-13 19:29:52 yakovru Exp $
                 <example type="incorrect">Это только <marker>теест</marker> проверка.</example>
             </rule>
         </rulegroup>
-        
+    
         <rulegroup default="on"  id="Prep_Soglasno" name="Предлог “согласно”">
             <rule>  
                 <pattern>
