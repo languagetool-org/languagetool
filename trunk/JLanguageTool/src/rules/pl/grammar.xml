@@ -5,7 +5,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.213 2009-11-18 16:54:11 milek_pl Exp $
+$Id: grammar.xml,v 1.214 2010-03-15 00:32:08 milek_pl Exp $
 -->
 <rules lang="pl" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <unification feature="number">
@@ -223,7 +223,7 @@ $Id: grammar.xml,v 1.213 2009-11-18 16:54:11 milek_pl Exp $
           <token postag="verb:inf.*" postag_regexp="yes" skip="-1"></token>
           <phraseref idref="INTERPUNKCJA" />
         </pattern>
-        <message>W tym zdaniu złożonym brakuje przecinka lub spójnika między jednym zdaniem a drugim.</message>
+        <message>W tym zdaniu złożonym brakuje przecinkaa lub spójnika między jednym zdaniem a drugim.</message>
         <short>Błąd interpunkcyjny</short>
         <example type="correct">Marek nie pomagał ani nie miał pomagać Jurkowi odrabiać lekcje za Romana.</example>
         <example type="incorrect">Marek <marker>pozostając w partii opozycyjnej może być marszałkiem.</marker></example>
@@ -822,7 +822,7 @@ $Id: grammar.xml,v 1.213 2009-11-18 16:54:11 milek_pl Exp $
         <pattern mark_from="1" mark_to="-1">
           <token><exception>,</exception></token>
           <token inflected="yes">ten</token>
-          <token inflected="yes" regexp="yes">kto|co<exception postag="&lt;ADV&gt;"></exception><exception postag="co_innego|czym_innym" postag_regexp="yes"></exception></token>
+          <token inflected="yes" regexp="yes">kto|co<exception postag="&lt;ADV&gt;"></exception><exception postag="co_innego|czym_innym|co_drugi" postag_regexp="yes"></exception></token>
           <token><exception regexp="yes">więcej|gorsza|\?|,</exception><exception postag="SENT_END"></exception></token>
         </pattern>
         <message>Prawdopodobny brak przecinka. Powinno być: <suggestion>\2, \3</suggestion>.</message>
@@ -884,7 +884,7 @@ $Id: grammar.xml,v 1.213 2009-11-18 16:54:11 milek_pl Exp $
         <pattern mark_from="0" mark_to="-2">
           <token negate="yes">,<exception regexp="yes">[\p{Punct}–—„«»…]+</exception><exception postag="conj|SENT_START" postag_regexp="yes"></exception></token>
           <token postag="prep:.*" postag_regexp="yes"><exception postag="&lt;/?ADV&gt;|&lt;/?PREP.*&gt;" postag_regexp="yes"></exception><exception regexp="yes">za|o</exception></token>
-          <token inflected="yes">co<exception postag="&lt;/?ADV&gt;|&lt;/?PREP.*&gt;" postag_regexp="yes"></exception><exception postag="co_innego|czym_innym" postag_regexp="yes"></exception></token>
+          <token inflected="yes">co<exception postag="&lt;/?ADV&gt;|&lt;/?PREP.*&gt;" postag_regexp="yes"></exception><exception postag="co_innego|czym_innym|co_drugi" postag_regexp="yes"></exception></token>
           <token><exception regexp="yes">[\p{Punct}–\-—…]+</exception><exception postag="SENT_END"></exception></token>
         </pattern>
         <message>Prawdopodobnie brak przecinka. Powinno być: <suggestion><match no="1"></match>, <match no="2"></match></suggestion>.</message>
@@ -895,12 +895,13 @@ $Id: grammar.xml,v 1.213 2009-11-18 16:54:11 milek_pl Exp $
         <example type="correct">Problem tkwi w czym innym.</example>
         <example type="correct">Naprawdę nie masz za co dziękować.</example>
         <example correction="Oto, do" type="incorrect"><marker>Oto do</marker> czego doprowadziły rządy ludzi niespełna rozumu.</example>
+        <example type="correct">Spotykamy się w co drugi piątek.</example>
       </rule>
       <rule>
         <pattern mark_from="0" mark_to="-2">
           <token negate="yes">,<exception regexp="yes">[\p{Punct}–—„«»…]+</exception><exception postag="conj|SENT_START" postag_regexp="yes"></exception><exception inflected="yes" regexp="yes">mieć|być</exception></token>
           <token regexp="yes">za|o<exception postag="&lt;/?ADV&gt;|&lt;/?PREP.*&gt;" postag_regexp="yes"></exception></token>
-          <token inflected="yes">co<exception postag="&lt;/?ADV&gt;|&lt;/?PREP.*&gt;" postag_regexp="yes"></exception><exception postag="co_innego|czym_innym" postag_regexp="yes"></exception></token>
+          <token inflected="yes">co<exception postag="&lt;/?ADV&gt;|&lt;/?PREP.*&gt;" postag_regexp="yes"></exception><exception postag="co_innego|czym_innym|co_drugi" postag_regexp="yes"></exception></token>
           <token><exception regexp="yes">[\p{Punct}–\-—…]+</exception><exception postag="SENT_END"></exception><exception postag="verb:inf.*" postag_regexp="yes"></exception></token>
         </pattern>
         <message>Prawdopodobnie brak przecinka. Powinno być: <suggestion><match no="1"></match>, <match no="2"></match></suggestion>.</message>
@@ -1735,7 +1736,7 @@ $Id: grammar.xml,v 1.213 2009-11-18 16:54:11 milek_pl Exp $
     <rulegroup id="BRAK_SPACJI" name="Brak spacji po znakach interpunkcyjnych">
       <rule>
         <pattern case_sensitive="yes" mark_to="-1">
-          <token regexp="yes">[;:]</token>
+          <token negate_pos="yes" postag="SENT_END" regexp="yes">[;:]</token>
           <token negate_pos="yes" postag="SENT_END" spacebefore="no"></token>
         </pattern>
         <message>Brak spacji po tym znaku interpunkcyjnym. Powinno być: <suggestion>\1 </suggestion>.</message>
@@ -1746,7 +1747,7 @@ $Id: grammar.xml,v 1.213 2009-11-18 16:54:11 milek_pl Exp $
       <rule>
         <pattern case_sensitive="yes" mark_to="-1">
           <token regexp="yes"><exception postag="SENT_END"></exception>[\)\]\}”]</token>
-          <token negate_pos="yes" postag="SENT_END" spacebefore="no"><exception regexp="yes">[,;:\)\]\}\.\?!…\u0002\u0001]</exception></token>
+          <token negate_pos="yes" postag="SENT_END" spacebefore="no"><exception regexp="yes">[”",;:\)\]\}\.\?!…\u0002\u0001]</exception></token>
         </pattern>
         <message>Brak spacji po tym znaku. Powinno być: <suggestion>\1 </suggestion>.</message>
         <short>Brak spacji</short>
@@ -1754,6 +1755,7 @@ $Id: grammar.xml,v 1.213 2009-11-18 16:54:11 milek_pl Exp $
         <example type="correct">To jest wiadome (od dawna), więc nie gadaj.</example>
         <example type="correct">Ja to wiem (a ty nie) od dawna.</example>
         <example type="correct">To jest („test”).</example>
+        <example type="correct">Cytuję: „test (dziwny)”.</example>
         <example correction=") " type="incorrect">To jest wiadome (od dawna<marker>)</marker>odpowiednim służbom.</example>
       </rule>
     </rulegroup>
@@ -2825,6 +2827,16 @@ $Id: grammar.xml,v 1.213 2009-11-18 16:54:11 milek_pl Exp $
     </rule>
   </category>
   <category name="Błędy składniowe">
+    <rule id="BEDZIE_POTRAFIC" name="„będzie potrafić” (będzie umieć)">
+      <pattern>
+        <token postag="verb:bedzie.*" postag_regexp="yes"></token>
+        <token inflected="yes">potrafić</token>
+      </pattern>
+      <message>Czasownik „potrafić” jest uznawany przez językoznawców za dokonany, dlatego nie ma czasu przyszłego. Lepiej: <suggestion>\1 umieć</suggestion>.</message>
+      <short>Niepoprawne użycie czasownika</short>
+      <example correction="będzie umieć" type="incorrect">On <marker>będzie potrafił</marker> pisać po angielsku.</example>
+      <example type="correct">On potrafi pisać po angielsku.</example>
+    </rule>
     <rulegroup default="off" id="IMPERF_PERF" name="Czasownik dokonany w użyciu niedokonanym">
       <rule>
         <pattern>
@@ -3675,6 +3687,28 @@ $Id: grammar.xml,v 1.213 2009-11-18 16:54:11 milek_pl Exp $
     </rule>
   </category>
   <category name="Błędy leksykalne">
+    <rule id="DOKONAC_BLEDU" name="„dokonać błędu” (popełnić błąd)">
+      <pattern>
+        <token inflected="yes">dokonać</token>
+        <token>błędu</token>
+      </pattern>
+      <message>Błąd leksykalny. Poprawnie: <suggestion><match no="1" postag=".*" postag_regexp="yes">popełnić</match> błąd</suggestion>.</message>
+      <short>Błąd leksykalny</short>
+      <example correction="popełnili błąd" type="incorrect">Nie chciałbym, żebyśmy <marker>dokonali błędu</marker>.</example>
+      <example type="correct">Nie chciałbym popełnić błędu.</example>
+    </rule>
+    <rule id="PRZERWA_KAWOWA" name="„przerwa kawowa” (przerwa na kawę)">
+      <pattern>
+        <unify feature="case,gender,number">
+          <token inflected="yes">przerwa</token>
+          <token inflected="yes">kawowy</token>
+        </unify>
+      </pattern>
+      <message>Błędny anglicyzm. Poprawnie: <suggestion>\1 na kawę</suggestion>.</message>
+      <short>Anglicyzm</short>
+      <example correction="przerwy na kawę" type="incorrect">Nasza firma oferuje tanie <marker>przerwy kawowe</marker> na wyjazdach integracyjnych.</example>
+      <example type="correct">Przerwa na kawę przewidziana jest w programie.</example>
+    </rule>
     <rule id="BAJONSKIE_CENY" name="„bajońskie ceny/koszty/wydatki” (bajońskie sumy, ogromne ceny...)">
       <pattern>
         <unify feature="case,gender,number">
@@ -7055,6 +7089,38 @@ $Id: grammar.xml,v 1.213 2009-11-18 16:54:11 milek_pl Exp $
     </rulegroup>
   </category>
   <category name="Błędy ortograficzne">
+    <rule id="RZADNY_CZEGO" name="„rządny czego” (żądny)">
+      <pattern mark_to="-1">
+        <token inflected="yes">rządny</token>
+        <token postag=".*[\.:]gen[\.:].*" postag_regexp="yes"></token>
+      </pattern>
+      <message>Prawdopodobny błąd ortograficzny. Czy chodziło o <suggestion><match no="1" postag="adj.*" postag_regexp="yes">żądny</match></suggestion>?</message>
+      <short>Prawdopodobny błąd ortograficzny</short>
+      <example correction="żądny" type="incorrect">Julek jest <marker>rządny</marker> władzy.</example>
+      <example correction="" type="correct">Obyśmy żyli w <marker>rządnej</marker> ojczyźnie.</example>
+    </rule>
+    <rulegroup id="BEZSENSU" name="„bezsensu” (bez sensu)">
+      <rule>
+        <pattern>
+          <token postag="SENT_START"></token>
+          <token>bezsensu</token>
+        </pattern>
+        <message>Prawdopodobny błąd ortograficzny. Czy chodziło o <suggestion>bez sensu</suggestion> („bezsensu” to dopełniacz od słowa „bezsens”)?</message>
+        <short>Prawdopodobny błąd ortograficzny</short>
+        <example correction="Bez sensu" type="incorrect"><marker>Bezsensu</marker>.</example>
+        <example type="correct">Bez sensu</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">jest|będzie|było</token>
+          <token>bezsensu</token>
+        </pattern>
+        <message>Prawdopodobny błąd ortograficzny. Czy chodziło o <suggestion>bez sensu</suggestion> („bezsensu” to dopełniacz od słowa „bezsens”)?</message>
+        <short>Prawdopodobny błąd ortograficzny</short>
+        <example correction="bez sensu" type="incorrect">To jest <marker>bezsensu</marker>.</example>
+        <example type="correct">Otacza nas morze bezsensu.</example>
+      </rule>
+    </rulegroup>
     <rule id="ZA_PEWNE" name="„za pewne” (zapewne)">
       <pattern>
         <token><exception postag="DEP"></exception>za</token>
@@ -9936,6 +10002,84 @@ $Id: grammar.xml,v 1.213 2009-11-18 16:54:11 milek_pl Exp $
     </rule>
   </category>
   <category name="Prawdopodobne literówki">
+    <rule id="W_ZGODNIE_Z" name="„w zgodnie z” (w zgodzie z / zgodnie z)">
+      <pattern>
+        <token>w</token>
+        <token>zgodnie</token>
+        <token>z</token>
+      </pattern>
+      <message>Prawdopodobna literówka. Czy chodziło o <suggestion>w zgodzie z</suggestion> lub <suggestion>zgodnie z</suggestion>?</message>
+      <short>Prawdopodobna literówka</short>
+      <example correction="w zgodzie z|zgodnie z" type="incorrect">Decyzje podjęte zostały <marker>w zgodnie z</marker> długofalowym planem.</example>
+      <example type="correct">Decyzje podjęte zostały zgodnie z długofalowym planem.</example>
+    </rule>
+    <rulegroup id="MOIM_ZADANIEM" name="„moim zadaniem” (moim zdaniem)">
+      <rule>
+        <pattern mark_from="2" mark_to="-1">
+          <token postag="SENT_START"></token>
+          <token regexp="yes">ich|moim|naszym|jego|jej|waszym</token>
+          <token>zadaniem</token>
+          <token>,</token>
+        </pattern>
+        <message>Prawdopodobna literówka. Czy chodziło o <suggestion>zdaniem</suggestion>?</message>
+        <short>Prawdopodobna literówka</short>
+        <example type="incorrect">Moim <marker>zadaniem</marker>, to kompletna bzdura.</example>
+        <example type="correct">Moim zadaniem jest pilnowanie dziewcząt na boisku.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2" mark_to="-1">
+          <token>,</token>
+          <token regexp="yes">ich|moim|naszym|jego|jej|waszym</token>
+          <token>zadaniem</token>
+          <token>,</token>
+        </pattern>
+        <message>Prawdopodobna literówka. Czy chodziło o <suggestion>zdaniem</suggestion>?</message>
+        <short>Prawdopodobna literówka</short>
+        <example type="incorrect">Jest to, moim <marker>zadaniem</marker>, kompletna bzdura.</example>
+        <example type="correct">Moim zadaniem jest pilnowanie dziewcząt na boisku.</example>
+      </rule>
+    </rulegroup>
+    <rule id="ZDAJE_SIE" name="„zdaję się” (zdaje się)">
+      <pattern>
+        <token>zdaję<exception scope="previous">ja</exception></token>
+        <token>się</token>
+      </pattern>
+      <message>Prawdopodobna literówka. Czy chodziło o <suggestion>zdaje się</suggestion>?</message>
+      <short>Prawdopodobna literówka</short>
+      <example correction="Zdaje się" type="incorrect"><marker>Zdaję się</marker>, że tak było.</example>
+      <example type="correct">Ja zdaję się kimś innym niż dawniej.</example>
+    </rule>
+    <rule id="DO_PACY" name="„do pacy” (do pracy)">
+      <pattern mark_from="1">
+        <token><exception inflected="yes" regexp="yes">uchwyt|przykleić|kleić|przywierać</exception></token>
+        <token>do</token>
+        <token>pacy</token>
+      </pattern>
+      <message>Prawdopodobna literówka. Czy chodziło o <suggestion>do pracy</suggestion>?</message>
+      <short>Prawdopodobna literówka</short>
+      <example correction="do pracy" type="incorrect">Dojazdy <marker>do pacy</marker></example>
+      <example type="correct">Sprzedam dwa nowe uchwyty do pacy.</example>
+    </rule>
+    <rule id="CALE_ZYCIE" name="„cale szczęście” (całe szczęście)">
+      <pattern mark_to="-1">
+        <token>cale</token>
+        <token regexp="yes">szczęście|życie|mnóstwo|dnie|społeczeństwo|wakacje|święta</token>
+      </pattern>
+      <message>Prawdopodobna literówka. Czy chodziło o <suggestion>całe</suggestion>?</message>
+      <short>Prawdopodobna literówka</short>
+      <example correction="Całe" type="incorrect"><marker>Cale</marker> życie marzyłem o korektorze gramatycznym.</example>
+      <example type="correct">Całe życie marzyłem o korektorze gramatycznym.</example>
+    </rule>
+    <rule id="NA_OGÓL" name="„na ogól” (na ogół)">
+      <pattern>
+        <token>na</token>
+        <token>ogól</token>
+      </pattern>
+      <message>Prawdopodobna literówka. Czy chodziło o <suggestion>na ogół</suggestion>?</message>
+      <short>Prawdopodobna literówka</short>
+      <example correction="Na ogół" type="incorrect"><marker>Na ogól</marker> jadam sery.</example>
+      <example type="correct">Na ogół jadam sery.</example>
+    </rule>
     <rule id="JA_SIE_OKAZUJE" name="„ja się okazuje” (jak się okazuje)">
       <pattern>
         <token>ja</token>

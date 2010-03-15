@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 	<!--
 		Disambiguation Rules for LanguageTool Copyright (C) 2008				
-$Id: disambiguation.xml,v 1.19 2009-11-11 20:38:56 milek_pl Exp $
+$Id: disambiguation.xml,v 1.20 2010-03-15 00:32:08 milek_pl Exp $
 	-->	
 <rules lang="pl">
   <unification feature="number">
@@ -428,6 +428,16 @@ $Id: disambiguation.xml,v 1.19 2009-11-11 20:38:56 milek_pl Exp $
 		</rule>
 	</rulegroup> 
 	
+	<rule name="co drugi" id="CO_DRUGI">
+		<pattern mark="0">
+			<token>co</token>
+			<token inflected="yes" regexp="yes">drugi|trzeci|czwarty|piąty|szósty|siódmy|ósmy|dziewiąty|dziesiąty</token>
+		</pattern>
+		<disambig action="add"><wd lemma="co" pos="co_drugi">co</wd></disambig>
+		<example type="untouched">To było coś innego.</example>
+		<example type="ambiguous" inputform="co[co/prep:nom.acc.gen,co/subst:sg:nom.acc:n2,ca/subst:sg:voc:m1]" outputform="co[co/prep:nom.acc.gen,co/subst:sg:nom.acc:n2,ca/subst:sg:voc:m1,co/co_drugi]">Spotykamy się w <marker>co</marker> drugi wtorek.</example>
+	</rule>
+	
 	<rulegroup name="To co...? -> conj" id="TO_CO">
 	<rule>
 		<pattern mark="1">
@@ -531,7 +541,7 @@ $Id: disambiguation.xml,v 1.19 2009-11-11 20:38:56 milek_pl Exp $
 	</rule>
 	
 	<!-- conjunctions that take a comma -->
-	<rule name="Spójniki wymagające przecinka" id="COMP_COMMA">
+	<rule name="Spójniki wymagające przecinka lub zastępujące go" id="COMP_COMMA">
 		<pattern mark="0">
 		<token inflected="yes" regexp="yes">aby|acz|aczkolwiek|albo|albowiem|ale|aleć|aliści|ani|azali|ażeby|bo|byleby|bądź|czy|czyli|czyliż|dlaczego|dopóki|dopóty|gdy|gdyby|gdyż|gdyżby|i|ilekolwiek|ilekroć|iż|iżby|jaki|jeśli|jeżeli|kiedy|który|którędy|lecz|lub|oraz|ponieważ|póki|wszelako|zanim|że|żeby</token>
 		</pattern>
