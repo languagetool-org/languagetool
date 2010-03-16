@@ -489,19 +489,22 @@ public class PatternRule extends AbstractPatternRule {
    *           in case disk operations (used in synthesizer) go wrong.
    */
   private String[] concatMatches(final int start, final int index,
-      final int tokenIndex, final AnalyzedTokenReadings[] tokens)
+      final int tokenIndex, final AnalyzedTokenReadings[] tokens,
+      final int nextTokenPos)
   throws IOException {
     String[] finalMatch = null;
     if (suggestionMatches.get(start) != null) {
       final int len = phraseLen(index);
       if (len == 1) {
-        suggestionMatches.get(start).setToken(tokens[tokenIndex - 1]);
+        int skippedTokens = nextTokenPos - tokenIndex;
+        suggestionMatches.get(start).setToken(tokens, tokenIndex - 1, skippedTokens);
         suggestionMatches.get(start).setSynthesizer(language.getSynthesizer());
         finalMatch = suggestionMatches.get(start).toFinalString();
       } else {
         final List<String[]> matchList = new ArrayList<String[]>();
         for (int i = 0; i < len; i++) {
-          suggestionMatches.get(start).setToken(tokens[tokenIndex - 1 + i]);
+          int skippedTokens = nextTokenPos - (tokenIndex + i);
+          suggestionMatches.get(start).setToken(tokens, tokenIndex - 1 + i, skippedTokens);          
           suggestionMatches.get(start)
           .setSynthesizer(language.getSynthesizer());
           matchList.add(suggestionMatches.get(start).toFinalString());
@@ -555,15 +558,19 @@ public class PatternRule extends AbstractPatternRule {
         final int j = Integer.parseInt(errorMessage.substring(ind + 1, ind
             + numLen)) - 1;
         int repTokenPos = 0;
+        int nextTokenPos = 0;
         for (int l = 0; l <= j; l++) {
           repTokenPos += positions[l];
+        }
+        if (j <= positions.length) {
+          nextTokenPos = firstMatchTok + repTokenPos + positions[j + 1];
         }
         if (suggestionMatches != null) {
           if (matchCounter < suggestionMatches.size()) {
             numbersToMatches[j] = matchCounter;
             if (suggestionMatches.get(matchCounter) != null) {
               final String[] matches = concatMatches(matchCounter, j,
-                  firstMatchTok + repTokenPos, toks);
+                  firstMatchTok + repTokenPos, toks, nextTokenPos);
               final String leftSide = errorMessage.substring(0, ind);
               final String rightSide = errorMessage.substring(ind + numLen);
               if (matches.length == 1) {

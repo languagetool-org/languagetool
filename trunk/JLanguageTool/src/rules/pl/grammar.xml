@@ -5,7 +5,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.214 2010-03-15 00:32:08 milek_pl Exp $
+$Id: grammar.xml,v 1.215 2010-03-16 20:09:12 milek_pl Exp $
 -->
 <rules lang="pl" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <unification feature="number">
@@ -1815,28 +1815,16 @@ $Id: grammar.xml,v 1.214 2010-03-15 00:32:08 milek_pl Exp $
       <example correction="…" type="incorrect">To jest problem<marker>….</marker></example>
       <example type="correct">To jest problem…</example>
     </rule>
-    <rulegroup id="ZAGNIEZDZONE_CUDZYSLOWY" name="Cytat w cudzysłowie">
-      <rule>
+    <rule id="ZAGNIEZDZONE_CUDZYSLOWY" name="Cytat w cudzysłowie">      
         <pattern mark_from="1">
-          <token skip="-1">„<exception scope="next">”</exception></token>
-          <token>„</token>
-        </pattern>
-        <message>Początek cytatu wewnątrz innego cytatu zwykle wyróżnia się cudzysłowem ostrokątnym niemieckim: <suggestion>»</suggestion>.</message>
-        <short>Błąd typograficzny</short>
-        <example correction="»" type="incorrect">To jest jak wiadomo „cytat <marker>„</marker>w cytacie”, który jest długi”.</example>
-        <example type="correct">To jest „cytat »w cytacie«, który jest długi”.</example>
-      </rule>
-      <rule>
-        <pattern mark_from="2">
           <token skip="-1">„<exception scope="next">”</exception></token>
           <token skip="-1"><exception scope="next">«</exception>„</token>
           <token>”</token>
         </pattern>
-        <message>Koniec cytatu w cytacie zwykle wyróżnia się cudzysłowem ostrokątnym niemieckim: <suggestion>«</suggestion>.</message>
-        <example correction="«" type="incorrect">To jest jak wiadomo „cytat „w cytacie<marker>”</marker>, który jest długi”.</example>
+        <message>Cytaty w cytacie zwykle wyróżnia się cudzysłowem ostrokątnym niemieckim: <suggestion><match no="2" include_skipped="yes" regexp_match="^„" regexp_replace="»"/>«</suggestion>.</message>       
+        <example correction="»w cytacie«" type="incorrect">To jest jak wiadomo „cytat <marker>„w cytacie”</marker>, który jest długi”.</example>
         <example type="correct">To jest „cytat »w cytacie«, który jest długi”.</example>
       </rule>
-    </rulegroup>
     <rulegroup id="PL_GUILLEMET" name="„&gt;&gt;” i „&lt;&lt;” (» i «)">
       <rule>
         <pattern>
@@ -1988,45 +1976,19 @@ $Id: grammar.xml,v 1.214 2010-03-15 00:32:08 milek_pl Exp $
         <example type="correct">„Test”</example>
       </rule>
     </rulegroup>
-    <rulegroup id="TZW_CUDZYSLOW" name="Cudzysłów po skrócie „tzw.”">
-      <rule>
-        <pattern mark_from="2">
-          <token>tzw</token>
-          <token>.</token>
-          <token regexp="yes">[„"]</token>
-          <token></token>
-        </pattern>
-        <message>Po skrócie „tzw.” nie używa się już cudzysłowu. Poprawnie: <suggestion>\4</suggestion>.</message>
-        <short>Błąd typograficzny</short>
-        <example correction="jednoręki" type="incorrect">To jest tzw. <marker>„jednoręki</marker> bandyta”.</example>
-        <example type="correct">To jest tzw. jednoręki bandyta.</example>
-      </rule>
-      <rule>
-        <pattern mark_from="3">
+    <rule id="TZW_CUDZYSLOW" name="Cudzysłów po skrócie „tzw.”">
+        <pattern mark_from="2" mark_to="-1">
           <token>tzw</token>
           <token>.</token>
           <token regexp="yes" skip="-1">[„"]</token>
           <token regexp="yes">["”]</token>
           <token></token>
         </pattern>
-        <message>Po skrócie „tzw.” nie używa się już cudzysłowu. Poprawnie: <suggestion>\5</suggestion>.</message>
+        <message>Po skrócie „tzw.” nie używa się już cudzysłowu. Poprawnie: <suggestion><match no="3" include_skipped="yes" regexp_match="^[„&quot;]" regexp_replace=""/></suggestion>.</message>
         <short>Błąd typograficzny</short>
-        <example correction="." type="incorrect">To jest tzw. „jednoręki bandyta<marker>”.</marker></example>
+        <example correction="jednoręki bandyta" type="incorrect">To jest tzw. <marker>„jednoręki bandyta”</marker>.</example>
         <example type="correct">To jest tzw. jednoręki bandyta.</example>
-      </rule>
-      <rule>
-        <pattern mark_from="3">
-          <token>tzw</token>
-          <token>.</token>
-          <token regexp="yes" skip="-1">[„"]</token>
-          <token postag="SENT_END" regexp="yes">[”"]</token>
-        </pattern>
-        <message>Po skrócie „tzw.” nie używa się już cudzysłowu. Poprawnie: <suggestion></suggestion>.</message>
-        <short>Błąd typograficzny</short>
-        <example correction="" type="incorrect">Tzw. „jednoręki bandyta<marker>”</marker></example>
-        <example type="correct">Tzw. jednoręki bandyta</example>
-      </rule>
-    </rulegroup>
+    </rule>     
     <rule id="ZBIEG_NAWIASÓW" name="Zbieg nawiasów">
       <pattern>
         <token>)</token>
@@ -2054,7 +2016,7 @@ $Id: grammar.xml,v 1.214 2010-03-15 00:32:08 milek_pl Exp $
     <rule id="KROPKA_W_CUDZYSLOWIE" name="Kropka w cudzysłowie">
       <pattern mark_from="2">
         <token><exception>„</exception></token>
-        <token><exception regexp="yes">proc|r|itd|itp|cdn|jw|n.e|w|nn|n</exception></token>
+        <token><exception regexp="yes">proc|r|itd|itp|cdn|jw|n.e|w|nn|n|red|s</exception></token>
         <token spacebefore="no"><exception postag="&lt;/ELLIPSIS&gt;"></exception>.</token>
         <token spacebefore="no">”</token>
       </pattern>

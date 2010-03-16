@@ -340,6 +340,10 @@
 		</xs:complexType>
 	</xs:element>
 
+	<xs:annotation>
+		<xs:documentation xml:lang="en">Reference to the pattern element.
+		Might be used in a suggestion or in the pattern.</xs:documentation>
+	</xs:annotation>
 	<xs:element name="match">
 		<xs:complexType mixed="true">
 			<xs:attribute name="regexp_match" type="xs:string" use="optional" />
@@ -364,6 +368,8 @@
 			<xs:attribute name="postag" type="xs:string" use="optional" />
 			<xs:attribute name="no" type="xs:nonNegativeInteger"
 				use="required" />
+			<xs:attribute name="include_skipped" type="binaryYesNo" use="optional"
+				default="no"/> 
 		</xs:complexType>
 	</xs:element>
 

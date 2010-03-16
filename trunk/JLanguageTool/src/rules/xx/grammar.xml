@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 A demo rule file for LanguageTool
 Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.16 2009-10-22 20:02:41 milek_pl Exp $
+$Id: grammar.xml,v 1.17 2010-03-16 20:09:12 milek_pl Exp $
 -->
 <rules lang="xx" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../rules.xsd">
@@ -274,6 +274,15 @@ $Id: grammar.xml,v 1.16 2009-10-22 20:02:41 milek_pl Exp $
       <message>Warning: \1 \2 \3!</message>
       <example type="incorrect">abc <marker>New York</marker></example>
       <example type="correct">abc new York</example>
+    </rule>
+    <rule id="test_include_skipped" name="Test inclusion of skipped tokens">
+    	<pattern>
+    		<token skip="-1">abc</token>
+    		<token>end</token>
+    	</pattern>
+    	<message>Warning: <suggestion><match no="1" include_skipped="yes"/> xyz</suggestion></message>
+    	<example type="incorrect" correction="abc def ghi xyz">This is <marker>abc def ghi end</marker>.</example>
+    	<example type="correct">foobar</example>
     </rule>
   </category>
 </rules>

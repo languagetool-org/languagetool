@@ -337,7 +337,8 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
           .getValue("postag_replace"), YES
           .equals(attrs.getValue(POSTAG_REGEXP)), attrs
           .getValue("regexp_match"), attrs.getValue("regexp_replace"),
-          caseConv, YES.equals(attrs.getValue("setpos")));
+          caseConv, YES.equals(attrs.getValue("setpos")),
+          YES.equals(attrs.getValue("include_skipped")));
       if (inDisamb) {
         if (attrs.getValue(NO) != null) {
           final int refNumber = Integer.parseInt(attrs.getValue(NO));

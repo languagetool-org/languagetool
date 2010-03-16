@@ -352,7 +352,8 @@ class PatternRuleHandler extends XMLRuleHandler {
           .getValue("postag_replace"), YES
           .equals(attrs.getValue(POSTAG_REGEXP)), attrs
           .getValue("regexp_match"), attrs.getValue("regexp_replace"),
-          caseConv, YES.equals(attrs.getValue("setpos")));
+          caseConv, YES.equals(attrs.getValue("setpos")),
+          YES.equals(attrs.getValue("include_skipped")));
       if (inMessage) {
         if (suggestionMatches == null) {
           suggestionMatches = new ArrayList<Match>();
@@ -733,7 +734,7 @@ class PatternRuleHandler extends XMLRuleHandler {
         if (Character.isDigit(messageStr.charAt(pos + 1))) {
           if (pos == 1 || messageStr.charAt(pos - 1) != '\u0001') {
             final Match mWorker = new Match(null, null, false, null, 
-                null, Match.CaseConversion.NONE, false);
+                null, Match.CaseConversion.NONE, false, false);
             mWorker.setInMessageOnly(true);
             sugMatch.add(mWorker);
           } else if (messageStr.charAt(pos - 1) == '\u0001') { // real suggestion marker

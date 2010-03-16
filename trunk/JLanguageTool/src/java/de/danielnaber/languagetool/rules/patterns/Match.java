@@ -63,6 +63,9 @@ public class Match {
   private final String regexReplace;
   private final String posTagReplace;
   private final CaseConversion caseConversionType;
+  
+  private final boolean includeSkipped;
+  private String skippedTokens;
 
   /**
    * True if this match element formats a statically defined lemma which is
@@ -97,7 +100,8 @@ public class Match {
   public Match(final String posTag, final String posTagReplace,
       final boolean postagRegexp, final String regexMatch,
       final String regexReplace, final CaseConversion caseConversionType,
-      final boolean setPOS) {
+      final boolean setPOS,
+      final boolean includeSkipped) {
     this.posTag = posTag;
     this.postagRegexp = postagRegexp;
     this.caseConversionType = caseConversionType;
@@ -111,7 +115,8 @@ public class Match {
 
     this.regexReplace = regexReplace;
     this.posTagReplace = posTagReplace;
-    setPos = setPOS;
+    this.setPos = setPOS;
+    this.includeSkipped = includeSkipped;
   }
 
   /**
@@ -125,6 +130,40 @@ public class Match {
     }
   }
 
+  /** 
+   * Sets the token to be formatted etc. and includes the support for
+   * including the skipped tokens.
+   * @param tokens Array of tokens
+   * @param index  Index of the token to be formatted
+   * @param next   Position of the next token (the skipped tokens
+   * are the ones between the tokens[index] and tokens[next]
+   */
+  public final void setToken(final AnalyzedTokenReadings[] tokens, final int index, final int next) {
+    setToken(tokens[index]);
+    if (next > 1 && includeSkipped) {
+      StringBuilder sb = new StringBuilder();
+      for (int k = index + 1; k < index + next; k++) {
+        if (tokens[k].isWhitespaceBefore()) {
+          sb.append(" ");
+        }
+        sb.append(tokens[k].getToken());
+      }
+      skippedTokens = sb.toString();
+    } else {
+      skippedTokens = "";
+    }
+  }
+  
+  /**
+  private String[] addSkipped(final String[] formattedString) {
+    if (skippedTokens != null && !"".equals(skippedTokens)) {
+      String[] finalStrings = new String[formattedString.length];
+      for (int i = 1; i <= formattedString.length; i++)
+    }
+  }
+  
+  **/
+  
   /**
    * Checks if the Match element is used for setting the part of speech Element.
    * 
@@ -246,6 +285,13 @@ public class Match {
           formattedString = wordForms.toArray(new String[wordForms.size()]);
         }
       }
+    }    
+    if (includeSkipped && skippedTokens != null && !"".equals(skippedTokens)) {
+      String[] helper = new String[formattedString.length];
+      for (int i = 0; i < formattedString.length; i++) {
+        helper[i] = formattedString[i] + skippedTokens;  
+      }
+      formattedString = helper;
     }
     return formattedString;
   }
@@ -463,6 +509,17 @@ public class Match {
    */
   public boolean isInMessageOnly() {
     return inMessageOnly;
+  }
+  
+  /**
+   * since 1.0.1
+   * @return includeSkipped - used to denote
+   * matches that include all the following tokens
+   * (in the sentence) that were skipped during 
+   * searching for a complete rule match.
+   */
+  public boolean includesSkipped() {
+    return includeSkipped;
   }
 
 }
