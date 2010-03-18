@@ -35,8 +35,10 @@ LanguageTool Change Log
   the lemma will be set to the matched token.
   
  -It is now possible to include skipped tokens from the sentence when referring
-  to parts of the pattern in suggestions. Use include_skipped="yes" as attribute
-  of the <match> element.
+  to parts of the pattern in suggestions. Use include_skipped as attribute
+  of the <match> element. To include all the tokens, including the one with the
+  skip attribute set, use "all". To include only the skipped sequence, use "following"
+  as the value of include_skipped. To include nothing, use "none". 
   
  -fixed a bug that could raise a false alarm for some unchecked exceptions
   in XML rules

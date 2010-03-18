@@ -58,13 +58,34 @@ public class Match {
     }
   };
 
+  public enum IncludeRange {
+    NONE, FOLLOWING, ALL;
+
+    /**
+     * Converts string to the constant enum.
+     * 
+     * @param str
+     *          String value to be converted.
+     * @return IncludeRange enum.
+     */
+    public static IncludeRange toRange(final String str) {
+      try {
+        return valueOf(str);
+      } catch (final Exception ex) {
+        return NONE;
+      }
+    }
+  };
+
+  
+  
   private final String posTag;
   private boolean postagRegexp;
   private final String regexReplace;
   private final String posTagReplace;
   private final CaseConversion caseConversionType;
   
-  private final boolean includeSkipped;
+  private final IncludeRange includeSkipped;
   private String skippedTokens;
 
   /**
@@ -101,7 +122,7 @@ public class Match {
       final boolean postagRegexp, final String regexMatch,
       final String regexReplace, final CaseConversion caseConversionType,
       final boolean setPOS,
-      final boolean includeSkipped) {
+      final IncludeRange includeSkipped) {
     this.posTag = posTag;
     this.postagRegexp = postagRegexp;
     this.caseConversionType = caseConversionType;
@@ -140,10 +161,14 @@ public class Match {
    */
   public final void setToken(final AnalyzedTokenReadings[] tokens, final int index, final int next) {
     setToken(tokens[index]);
-    if (next > 1 && includeSkipped) {
+    if (next > 1 && includeSkipped != IncludeRange.NONE) {
       StringBuilder sb = new StringBuilder();
+      if (includeSkipped == IncludeRange.FOLLOWING) {
+        formattedToken = null;
+      }
       for (int k = index + 1; k < index + next; k++) {
-        if (tokens[k].isWhitespaceBefore()) {
+        if (k > index + 1 && 
+            tokens[k].isWhitespaceBefore()) {
           sb.append(" ");
         }
         sb.append(tokens[k].getToken());
@@ -286,9 +311,13 @@ public class Match {
         }
       }
     }    
-    if (includeSkipped && skippedTokens != null && !"".equals(skippedTokens)) {
+    if (includeSkipped != IncludeRange.NONE 
+        && skippedTokens != null && !"".equals(skippedTokens)) {      
       String[] helper = new String[formattedString.length];
       for (int i = 0; i < formattedString.length; i++) {
+        if (formattedString[i] == null) {
+          formattedString[i] = "";
+        }
         helper[i] = formattedString[i] + skippedTokens;  
       }
       formattedString = helper;
@@ -509,17 +538,6 @@ public class Match {
    */
   public boolean isInMessageOnly() {
     return inMessageOnly;
-  }
-  
-  /**
-   * since 1.0.1
-   * @return includeSkipped - used to denote
-   * matches that include all the following tokens
-   * (in the sentence) that were skipped during 
-   * searching for a complete rule match.
-   */
-  public boolean includesSkipped() {
-    return includeSkipped;
-  }
+  }  
 
 }

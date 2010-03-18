@@ -348,12 +348,17 @@ class PatternRuleHandler extends XMLRuleHandler {
         caseConv = Match.CaseConversion.toCase(attrs
             .getValue("case_conversion").toUpperCase());
       }
+      Match.IncludeRange includeRange = Match.IncludeRange.NONE;
+      if (attrs.getValue("include_skipped") != null) {
+        includeRange = Match.IncludeRange.toRange(attrs
+            .getValue("include_skipped").toUpperCase());
+      }
       final Match mWorker = new Match(attrs.getValue(POSTAG), attrs
           .getValue("postag_replace"), YES
           .equals(attrs.getValue(POSTAG_REGEXP)), attrs
           .getValue("regexp_match"), attrs.getValue("regexp_replace"),
           caseConv, YES.equals(attrs.getValue("setpos")),
-          YES.equals(attrs.getValue("include_skipped")));
+          includeRange);
       if (inMessage) {
         if (suggestionMatches == null) {
           suggestionMatches = new ArrayList<Match>();
@@ -734,7 +739,7 @@ class PatternRuleHandler extends XMLRuleHandler {
         if (Character.isDigit(messageStr.charAt(pos + 1))) {
           if (pos == 1 || messageStr.charAt(pos - 1) != '\u0001') {
             final Match mWorker = new Match(null, null, false, null, 
-                null, Match.CaseConversion.NONE, false, false);
+                null, Match.CaseConversion.NONE, false, Match.IncludeRange.NONE);
             mWorker.setInMessageOnly(true);
             sugMatch.add(mWorker);
           } else if (messageStr.charAt(pos - 1) == '\u0001') { // real suggestion marker

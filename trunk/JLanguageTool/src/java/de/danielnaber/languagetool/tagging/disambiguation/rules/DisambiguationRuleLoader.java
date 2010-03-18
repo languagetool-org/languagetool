@@ -333,12 +333,17 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
         caseConv = Match.CaseConversion.toCase(attrs
             .getValue("case_conversion").toUpperCase());
       }
+      Match.IncludeRange includeRange = Match.IncludeRange.NONE;
+      if (attrs.getValue("include_skipped") != null) {
+        includeRange = Match.IncludeRange.toRange(attrs
+            .getValue("include_skipped").toUpperCase());
+      }
       final Match mWorker = new Match(attrs.getValue(POSTAG), attrs
           .getValue("postag_replace"), YES
           .equals(attrs.getValue(POSTAG_REGEXP)), attrs
           .getValue("regexp_match"), attrs.getValue("regexp_replace"),
           caseConv, YES.equals(attrs.getValue("setpos")),
-          YES.equals(attrs.getValue("include_skipped")));
+          includeRange);
       if (inDisamb) {
         if (attrs.getValue(NO) != null) {
           final int refNumber = Integer.parseInt(attrs.getValue(NO));

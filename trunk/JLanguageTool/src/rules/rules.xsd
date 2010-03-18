@@ -368,8 +368,8 @@
 			<xs:attribute name="postag" type="xs:string" use="optional" />
 			<xs:attribute name="no" type="xs:nonNegativeInteger"
 				use="required" />
-			<xs:attribute name="include_skipped" type="binaryYesNo" use="optional"
-				default="no"/> 
+			<xs:attribute name="include_skipped" type="includeSelector" use="optional"
+				default="none"/> 
 		</xs:complexType>
 	</xs:element>
 
@@ -440,6 +440,20 @@
 			<xs:enumeration value="no" />
 		</xs:restriction>
 	</xs:simpleType>
+
+	<xs:annotation>
+		<xs:documentation xml:lang="en"> Helper type for match[@include_skipped].
+		</xs:documentation>
+	</xs:annotation>
+
+	<xs:simpleType name="includeSelector">
+		<xs:restriction base="xs:NMTOKEN">
+			<xs:enumeration value="none" />
+			<xs:enumeration value="all" />
+			<xs:enumeration value="following" />
+		</xs:restriction>
+	</xs:simpleType>
+
 
 	<xs:simpleType name="commaSeparated">
 		<xs:restriction base="xs:token">
