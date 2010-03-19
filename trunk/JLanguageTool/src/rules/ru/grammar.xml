@@ -8,7 +8,7 @@ LanguageTool.
 Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
 A Russian rule file for LanguageTool 
 Copyright (C) 2008-2010 Yakov Reztsov
-$Id: grammar.xml,v 1.49 2010-03-15 17:45:42 yakovru Exp $
+$Id: grammar.xml,v 1.50 2010-03-19 18:58:33 yakovru Exp $
 -->
 <rules lang="ru" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../rules.xsd">
@@ -1174,7 +1174,30 @@ $Id: grammar.xml,v 1.49 2010-03-15 17:45:42 yakovru Exp $
             <example type="correct">Дело удалось благодаря его усилиям.</example>
             <example type="incorrect">Он подошёл <marker>к ему</marker>.</example>
         </rule>   
-        
+        <rule default="on"  id="PREP_K_and_Noun" name="Предлог “к” и существительное">          
+            <pattern>
+                <!--              PREP к, ко -> NN:.*:D   -->
+                <token  regexp="yes">к|ко</token>
+                <token  postag="NN:.*:.*:.*" postag_regexp="yes"><exception postag="NN:.*:.*:D" postag_regexp="yes"></exception></token>              
+            </pattern>
+            <message>Предлог “к” предполагает употребление существительного в дательном падеже:
+            <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:D"></match></suggestion> или <suggestion><match no="2"/></suggestion></message> 
+            <short>Требуется дательный падеж.</short>
+            <example type="correct">Он подошёл к дому.</example>
+            <example type="incorrect">Он подошёл <marker>к дом</marker>.</example>
+        </rule>        
+        <rule default="on"  id="PREP_K_and_ADJ" name="Предлог “к” и прилагательное">          
+            <pattern>
+                <!--              PREP к, ко -> ADJ:.*:D   -->
+                <token  regexp="yes">к|ко</token>
+                <token  postag="ADJ:.*:.*" postag_regexp="yes"><exception postag="ADJ:.*:D" postag_regexp="yes"></exception></token>              
+            </pattern>
+            <message>Предлог “к” предполагает употребление прилагательного в дательном падеже:
+            <suggestion><match no="1"></match> <match no="2" postag="ADJ:(.*):.*" postag_regexp="yes" postag_replace="ADJ:$1:D"></match></suggestion> или <suggestion><match no="2"/></suggestion></message>  
+            <short>Требуется дательный падеж.</short>
+            <example type="correct">Он подошёл к зелёному дому.</example>
+            <example type="incorrect">Он подошёл <marker>к зелёный</marker> дому.</example>
+        </rule>        
         
     </category>    
     <category name="Стиль">
@@ -1202,7 +1225,7 @@ $Id: grammar.xml,v 1.49 2010-03-15 17:45:42 yakovru Exp $
                 <example type="incorrect">Это только <marker>теест</marker> проверка.</example>
             </rule>
         </rulegroup>
-    
+        
         <rulegroup default="on"  id="Prep_Soglasno" name="Предлог “согласно”">
             <rule>  
                 <pattern>
