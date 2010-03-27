@@ -2,7 +2,7 @@
 <!--
 Disambiguation Russian Rules for LanguageTool (www.languagetool.org)
 Copyright (C) 2009-2010 Yakov Reztsov				
-$Id: disambiguation.xml,v 1.4 2010-03-01 20:50:31 yakovru Exp $
+$Id: disambiguation.xml,v 1.5 2010-03-27 08:49:35 yakovru Exp $
 -->
 <rules lang="ru">	
     <!-- prepositions 
@@ -98,7 +98,17 @@ $Id: disambiguation.xml,v 1.4 2010-03-01 20:50:31 yakovru Exp $
             <token regexp="yes">в|за|на|под|сквозь|через</token>
             <and>
                 <token postag="ADJ:.*:Nom" postag_regexp="yes"/>
-                <token postag="ADJ:.*:V" postag_regexp="yes"/>
+                <token postag="ADJ:.*:V" postag_regexp="yes" ><exception postag="ADJ:.*:P" postag_regexp="yes" /></token>
+            </and>
+        </pattern>
+        <disambig><match no="2" postag="ADJ:.*:V" postag_regexp="yes"/></disambig>
+    </rule>
+    <rule name="ADJ_V2" id="ADJ_V2">
+        <pattern mark="1">
+            <token regexp="yes">за|под</token>
+            <and>
+                <token postag="ADJ:.*:Nom" postag_regexp="yes"/>
+                <token postag="ADJ:.*:V" postag_regexp="yes" ><exception postag="ADJ:.*:T" postag_regexp="yes" /></token>
             </and>
         </pattern>
         <disambig><match no="2" postag="ADJ:.*:V" postag_regexp="yes"/></disambig>
