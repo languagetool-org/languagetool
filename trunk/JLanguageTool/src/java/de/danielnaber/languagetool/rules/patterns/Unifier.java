@@ -243,16 +243,6 @@ public class Unifier {
   }
 
   /**
-  private String[] getTypes(final String feat, final String type) {
-    if (StringTools.isEmpty(type)) {
-      return equivalenceFeatures.get(feat).toArray(
-          new String[equivalenceFeatures.get(feat).size()]);
-    }
-    return type.split(FEATURE_SEPARATOR);
-  }
-  **/
-
-  /**
    * Call after every complete token (AnalyzedTokenReadings) checked.
    */
   public final void startNextToken() {
@@ -277,10 +267,6 @@ public class Unifier {
 
   public final boolean getNegation() {
     return negation;
-  }
-
-  public final List<String> getAllTypes(final String feat) {
-    return equivalenceFeatures.get(feat);
   }
   
   /**

@@ -610,15 +610,15 @@ class PatternRuleHandler extends XMLRuleHandler {
 
       phraseElementList.clear();
     } else if (qName.equals("includephrases")) {
-      elementList.clear();
+        elementList.clear();
     } else if (qName.equals("phrases") && inPhrases) {
-      inPhrases = false;
-    } else if (qName.equals("unification") && inUnificationDef) {
-      inUnificationDef = false;
-    } else if (qName.equals("feature") && inUnification) {        
+        inPhrases = false;
+    } else if (qName.equals("unification")) {
+        inUnificationDef = false;
+    } else if (qName.equals("feature")) {        
         equivalenceFeatures.put(uFeature, uTypeList);
         uTypeList = new ArrayList<String>();
-    } else if (qName.equals("unify") && inUnification) {      
+    } else if (qName.equals("unify")) {      
       inUnification = false;
       //clear the features...
       equivalenceFeatures = new HashMap<String, List<String>>();

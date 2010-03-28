@@ -765,6 +765,11 @@ public class Element {
     unified = true;
   }
 
+  /** 
+   * Get unification features and types.
+   * @return A map from features to a list of types.
+   * @since 1.0.1
+   */
   public final Map<String, List<String>> getUniFeatures() {
     return unificationFeatures;
   }
