@@ -14,6 +14,23 @@ RB => Règles Brutes
 -->
 
 <rules lang="fr">
+  <unification feature="number">
+    <equivalence type="sg">
+      <token postag=".* sp?" postag_regexp="yes"/>
+    </equivalence>
+    <equivalence type="pl">
+      <token postag=".* s?p" postag_regexp="yes"/>
+    </equivalence>
+  </unification>
+  <unification feature="gender">
+    <equivalence type="masc">
+      <token postag=".* [me] [sp][sp]?" postag_regexp="yes"/>
+    </equivalence>
+    <equivalence type="fem">
+      <token postag=".* [fe] [sp][sp]?" postag_regexp="yes"/>
+    </equivalence>
+  </unification>
+  
 	<rulegroup name="RP : Pronoms personnels objets" id="RP-PRO_PERS_OBJ">
 		<rule name="nous">
 			<pattern mark="1">
@@ -45,7 +62,7 @@ RB => Règles Brutes
 			<token postag="V .* 3 s" postag_regexp="yes"/>
 			</pattern>
 			<disambig action="filter" postag="R pers obj .*"/>
-			<example type="ambiguous" inputform="nous[nous/R pers obj 1 p,nous/R pers suj 1 p]" outputform="nous[nous/R pers obj 1 p]">L'homme <marker>nous</marker> parle de sa vie.</example>
+			<example type="ambiguous" inputform="nous[nous/R pers suj 1 p,nous/R pers obj 1 p]" outputform="nous[nous/R pers obj 1 p]">L'homme <marker>nous</marker> parle de sa vie.</example>
 			<example type="untouched">La plupart du temps nous sommes dans le développement d'une expertise...</example>
 		</rule>
 		<rule name="Les études nous ont...">
@@ -55,7 +72,7 @@ RB => Règles Brutes
 			<token postag="V .* 3 p" postag_regexp="yes"/>
 			</pattern>
 			<disambig action="filter" postag="R pers obj .*"/>
-			<example type="ambiguous" inputform="nous[nous/R pers obj 1 p,nous/R pers suj 1 p]" outputform="nous[nous/R pers obj 1 p]">Les études <marker>nous</marker> ont révélé...</example>
+			<example type="ambiguous" inputform="nous[nous/R pers suj 1 p,nous/R pers obj 1 p]" outputform="nous[nous/R pers obj 1 p]">Les études <marker>nous</marker> ont révélé...</example>
 			<example type="untouched">La plupart du temps nous sommes dans le développement d'une expertise...</example>			
 		</rule>
 		<rule name="vous">
@@ -71,7 +88,7 @@ RB => Règles Brutes
 				<token>qui</token>
 				<token>vous</token>
 			</pattern>
-						<disambig postag="R pers obj 2 p"/>
+			<disambig postag="R pers obj 2 p"/>
 		</rule>
 		<rule name="R ne vous">
 			<pattern mark="2">
@@ -288,22 +305,29 @@ RB => Règles Brutes
 		</rule>
 	</rulegroup>
 
-
 		<rule name="RP : Det + Adj ambigu + Nom" id="RP-D_J_AMBIG_N">
-			<pattern mark="1">
+			<pattern mark_from="0" mark_to="0">
+			<unify>	<feature id="number"/> <feature id="gender"/>
 				<token postag="D.*" postag_regexp="yes"/>
 				<token postag="J.*" postag_regexp="yes"/>
-				<token postag="N.*" postag_regexp="yes"/>
+				<token postag="N.*" postag_regexp="yes"><exception inflected="yes">être</exception></token>
+			</unify>
 			</pattern>
-			<disambig><match no="2" postag_regexp="yes" postag="J.*"/></disambig>
+			<disambig action="unify"/>
 		</rule>
+		
 		<rule name="RP : Det + Nom ambigu" id="RP-D_N_AMBIG">
-			<pattern mark="1">
+			<pattern mark_from="0" mark_to="0">
+				<unify> <feature id="number"/> <feature id="gender"/>
 				<token postag="D.*" postag_regexp="yes"/>
 				<token postag="N.*" postag_regexp="yes"><exception>dans</exception></token>
+				</unify>
 			</pattern>
-			<disambig><match no="2" postag_regexp="yes" postag="N.*"/></disambig>
-		</rule>
+			<disambig action="unify"/>
+			<example type="untouched">Ils sont parti.</example>
+			<example type="ambiguous" inputform="sans-fil[sans-fil/J e s,sans-fil/J e sp,sans-fil/N e s,sans-fil/N e sp]" outputform="sans-fil[sans-fil/N e s,sans-fil/N e sp]">Le <marker>sans-fil</marker> sous Android</example>
+		</rule>		
+		
 	<rulegroup name="RP : Etre/avoir + participe passé ambigu" id="RP-ÊTRE_AVOIR_VPPA_AMBIG">
 		<rule name="ppa masc sing">
 			<pattern mark="1">
@@ -600,7 +624,7 @@ RB => Règles Brutes
 			</pattern>
 			<disambig action="filter"><match no="2" postag="N .* p" postag_regexp="yes"/></disambig>
 			<example type="untouched">Tu minutes.</example>
-			<example type="ambiguous" inputform="minutes[minute/N f p,minuter/V sub pres 2 s,minuter/V ind pres 2 s,&lt;/S&gt;]" outputform="minutes[minute/N f p]">5 <marker>minutes</marker></example>
+			<example type="ambiguous" inputform="minutes[minute/N f p,minuter/V ind pres 2 s,minuter/V sub pres 2 s,&lt;/S&gt;]" outputform="minutes[minute/N f p]">5 <marker>minutes</marker></example>
 		</rule>
 		
 		<!--  based on user reports -->
