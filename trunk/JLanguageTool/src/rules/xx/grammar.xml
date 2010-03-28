@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 A demo rule file for LanguageTool
 Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.19 2010-03-28 02:20:54 milek_pl Exp $
+$Id: grammar.xml,v 1.20 2010-03-28 23:26:04 milek_pl Exp $
 -->
 <rules lang="xx" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../rules.xsd">
@@ -291,6 +291,21 @@ $Id: grammar.xml,v 1.19 2010-03-28 02:20:54 milek_pl Exp $
     	<message>Warning: <suggestion><match no="1" include_skipped="all"/> xyz</suggestion></message>
     	<example type="incorrect" correction="abcdef ghi xyz">This is <marker>abc def ghi end</marker>.</example>
     	<example type="correct">foobar</example>
+    </rule>
+    <rule id="test_unification_skipping" name="Test unification and skipping"> 
+    <pattern case_sensitive="yes">
+    	<token>Test1</token>
+    	<unify>
+    		<feature id="case_sensitivity"/>    			        	
+    		<token skip="-1"><exception scope="next">Ghj</exception></token>
+    		<token regexp="yes">[xX]yz</token> 		
+    	</unify>
+    	<token>end</token>
+    </pattern>
+    <message>This is not visible anyway<suggestion><match no="2" include_skipped="all"/></suggestion>.</message>
+    <example type="incorrect" correction="Abc">This is <marker>Test1 Abc Xyz end</marker>.</example>
+    <example type="incorrect" correction="AbcDef">This is <marker>Test1 Abc Def Xyz end</marker>.</example>
+    <example type="correct">This is Test1 abc Cde End.</example>
     </rule>
   </category>
 </rules>
