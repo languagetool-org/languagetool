@@ -23,6 +23,7 @@ import java.util.Locale;
 import java.util.Set;
 
 import de.danielnaber.languagetool.Language;
+import de.danielnaber.languagetool.rules.patterns.Unifier;
 import de.danielnaber.languagetool.tagging.Tagger;
 import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
 import de.danielnaber.languagetool.tagging.disambiguation.rules.fr.FrenchRuleDisambiguator;
@@ -32,7 +33,8 @@ public class French extends Language {
 
   private Tagger tagger = new FrenchTagger();
   private Disambiguator disambiguator = new FrenchRuleDisambiguator();
-
+  private static final Unifier frenchUnifier = new Unifier();
+  
   private static final String[] COUNTRIES = {"FR", "", "BE", "CH", "CA", 
     "LU", "MC", "CM", "CI", "HI", "ML", "SN", "CD", "MA", "RE"
   };
@@ -53,13 +55,16 @@ public class French extends Language {
     return COUNTRIES;
   }
 
-
   public Tagger getTagger() {
     return tagger;
   }
 
   public Disambiguator getDisambiguator() {
     return disambiguator;
+  }
+  
+  public Unifier getUnifier() {
+    return frenchUnifier;
   }
 
   public Contributor[] getMaintainers() {

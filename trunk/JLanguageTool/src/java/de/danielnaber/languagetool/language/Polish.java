@@ -23,6 +23,7 @@ import java.util.Locale;
 import java.util.Set;
 
 import de.danielnaber.languagetool.Language;
+import de.danielnaber.languagetool.rules.patterns.Unifier;
 import de.danielnaber.languagetool.synthesis.Synthesizer;
 import de.danielnaber.languagetool.synthesis.pl.PolishSynthesizer;
 import de.danielnaber.languagetool.tagging.Tagger;
@@ -38,6 +39,7 @@ public class Polish extends Language {
   private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("pl");
   private final Disambiguator disambiguator = new PolishHybridDisambiguator();
   private final Synthesizer synthesizer = new PolishSynthesizer();
+  private static final Unifier polishUnifier = new Unifier();
   
   private static final String[] COUNTRIES = {"PL"}; 
     
@@ -74,6 +76,10 @@ public class Polish extends Language {
   @Override
   public Disambiguator getDisambiguator() {
     return disambiguator;
+  }
+ 
+  public Unifier getUnifier() {
+    return polishUnifier;
   }
 
   @Override
