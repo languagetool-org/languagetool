@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -129,9 +130,8 @@ public class Element {
   private boolean unified;
   private boolean uniNegation;
 
-  private String unificationFeature;
-  private String unificationType;
-
+  private Map<String, List<String>> unificationFeatures;
+  
   /**
    * Creates Element that is used to match tokens in the text.
    * 
@@ -760,20 +760,15 @@ public class Element {
     return unified;
   }
 
-  public final void setUnification(final String feature, final String type) {
-    unificationFeature = feature;
-    unificationType = type;
+  public final void setUnification(final Map<String, List<String>> uniFeatures) {
+    unificationFeatures = uniFeatures;
     unified = true;
   }
 
-  public final String getUniFeature() {
-    return unificationFeature;
+  public final Map<String, List<String>> getUniFeatures() {
+    return unificationFeatures;
   }
-
-  public final String getUniType() {
-    return unificationType;
-  }
-
+  
   public final void setUniNegation() {
     uniNegation = true;
   }

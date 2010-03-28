@@ -14,7 +14,7 @@ RB => Règles Brutes
 -->
 
 <rules lang="fr">
-	<rulegroup name="RP : Pronoms personnels objets" id="RP:PRO_PERS_OBJ">
+	<rulegroup name="RP : Pronoms personnels objets" id="RP-PRO_PERS_OBJ">
 		<rule name="nous">
 			<pattern mark="1">
 				<token postag="R pers .*" postag_regexp="yes"/>
@@ -138,7 +138,7 @@ RB => Règles Brutes
 	</rulegroup>
 	
 
-	<rulegroup name="RP : Pronoms personnels sujets" id="RP:PRO_PERS_SUJ">
+	<rulegroup name="RP : Pronoms personnels sujets" id="RP-PRO_PERS_SUJ">
 		<rule name="j'">
 			<pattern mark="0">
 				<token>j</token>
@@ -192,7 +192,7 @@ RB => Règles Brutes
 		</rule>
 	</rulegroup>
 		
-	<rulegroup name="RP : étais" id ="RP:ETAIS">
+	<rulegroup name="RP : étais" id ="RP-ETAIS">
 		<rule name="j'étais">
 			<pattern mark="1">
 				<token postag="R pers suj 1 s" skip="1"/>
@@ -210,7 +210,7 @@ RB => Règles Brutes
 	</rulegroup>
 
 
-		<rule name ="RP : En + participe présent" id="RP:EN_VPPR">
+		<rule name ="RP : En + participe présent" id="RP-EN_VPPR">
 			<pattern mark="1">
 				<token>en</token>
 				<token postag="V ppr"/>
@@ -218,7 +218,7 @@ RB => Règles Brutes
 			<disambig><match no="1" postag_regexp="yes" postag="V ppr"/></disambig>
 		</rule>
 
-	<rulegroup name="RP : mon/ton/son" id="RP:MON_TON_SON">
+	<rulegroup name="RP : mon/ton/son" id="RP-MON_TON_SON">
 		<rule name="mon">
 			<pattern mark="0">
 				<token regexp="yes" >mon|ton|son</token>
@@ -228,7 +228,7 @@ RB => Règles Brutes
 	</rulegroup>
 	
 	
-	<rulegroup name="RP : Négation" id="RP:NEGATION">
+	<rulegroup name="RP : Négation" id="RP-NEGATION">
 		<rule name="pas">
 			<pattern mark="1">
 				<token regexp="yes" skip="3">ne|n</token>
@@ -246,7 +246,7 @@ RB => Règles Brutes
 	</rulegroup>
 	
 	
-	<rulegroup name="RP : Infinitif ambigu" id="RP:INFINITIF">
+	<rulegroup name="RP : Infinitif ambigu" id="RP-INFINITIF">
 		<rule name="Infinitifs">
 			<pattern mark="1">
 				<token postag="V.*" postag_regexp="yes"/>
@@ -271,7 +271,7 @@ RB => Règles Brutes
 	</rulegroup>
 	
 	
-	<rulegroup name="RP : Det ambigu + Nom/Adj" id="RP:D_AMBIG_N_J">
+	<rulegroup name="RP : Det ambigu + Nom/Adj" id="RP-D_AMBIG_N_J">
 		<rule name="leur">
 			<pattern mark="0">
 				<token>leur</token>
@@ -289,7 +289,7 @@ RB => Règles Brutes
 	</rulegroup>
 
 
-		<rule name="RP : Det + Adj ambigu + Nom" id="RP:D_J_AMBIG_N">
+		<rule name="RP : Det + Adj ambigu + Nom" id="RP-D_J_AMBIG_N">
 			<pattern mark="1">
 				<token postag="D.*" postag_regexp="yes"/>
 				<token postag="J.*" postag_regexp="yes"/>
@@ -297,14 +297,14 @@ RB => Règles Brutes
 			</pattern>
 			<disambig><match no="2" postag_regexp="yes" postag="J.*"/></disambig>
 		</rule>
-		<rule name="RP : Det + Nom ambigu" id="RP:D_N_AMBIG">
+		<rule name="RP : Det + Nom ambigu" id="RP-D_N_AMBIG">
 			<pattern mark="1">
 				<token postag="D.*" postag_regexp="yes"/>
 				<token postag="N.*" postag_regexp="yes"><exception>dans</exception></token>
 			</pattern>
 			<disambig><match no="2" postag_regexp="yes" postag="N.*"/></disambig>
 		</rule>
-	<rulegroup name="RP : Etre/avoir + participe passé ambigu" id="RP:ÊTRE_AVOIR_VPPA_AMBIG">
+	<rulegroup name="RP : Etre/avoir + participe passé ambigu" id="RP-ÊTRE_AVOIR_VPPA_AMBIG">
 		<rule name="ppa masc sing">
 			<pattern mark="1">
 				<token postag="(V etre .*)|(V avoir .*)" postag_regexp="yes" skip="2"/>
@@ -322,7 +322,7 @@ RB => Règles Brutes
 	</rulegroup>
 	
 		
-	<rulegroup name="RP : Que" id="RP:QUE">
+	<rulegroup name="RP : Que" id="RP-QUE">
 		<rule name="que relatif">
 			<pattern mark="1">
 				<token postag="N.*" postag_regexp="yes"/>
@@ -338,46 +338,46 @@ RB => Règles Brutes
 			<disambig postag="C sub"/>
 		</rule>
 	</rulegroup>
-		<rule name="RP : Indicatif être (suis est sommes)" id="RP:SUIS_EST_SOMMES">
+		<rule name="RP : Indicatif être (suis est sommes)" id="RP-SUIS_EST_SOMMES">
 			<pattern mark="1">
 				<token postag="(R pers suj .*)|(J.*)|(N.*)|A" postag_regexp="yes"/>
 				<token postag="V etre ind pres .*" postag_regexp="yes"/>
 			</pattern>
 			<disambig><match no="2" postag_regexp="yes" postag="V etre ind pres .*"/></disambig>
 		</rule>
-		<rule name="RP : Indicatif avoir (as a ont)" id="RP:AS_A_ONT">
+		<rule name="RP : Indicatif avoir (as a ont)" id="RP-AS_A_ONT">
 			<pattern mark="1">
 				<token postag="(R pers suj .*)|J.*|N.*|A" postag_regexp="yes"/>
 				<token postag="V avoir ind pres .*" postag_regexp="yes"/>
 			</pattern>
 			<disambig><match no="2" postag_regexp="yes" postag="V avoir ind pres .*"/></disambig>
 		</rule>
-		<rule name="RP : Être + adj ambigu" id="RP:ETRE_ADJ_AMBIG">
+		<rule name="RP : Être + adj ambigu" id="RP-ETRE_ADJ_AMBIG">
 			<pattern mark="1">
 				<token postag="V etre .*" postag_regexp="yes" skip="2"/>
 				<token postag="J.*" postag_regexp="yes"/>
 			</pattern>
 			<disambig><match no="2" postag_regexp="yes" postag="J.*"/></disambig>
 		</rule>		
-		<rule name="RB : le la les" id="RB:LE_LA_LES">
+		<rule name="RB : le la les" id="RB-LE_LA_LES">
 			<pattern mark="0">
 				<token postag="D.*" postag_regexp="yes" regexp="yes">l|la|le|les</token>
 			</pattern>
 			<disambig><match no="1" postag_regexp="yes" postag="D.*"/></disambig>
 		</rule>
-		<rule name="RB : Préposition" id="RB:PREPOSITION">
+		<rule name="RB : Préposition" id="RB-PREPOSITION">
 			<pattern mark="0">
 				<token postag="P"/>
 			</pattern>
 			<disambig postag="P"/>
 		</rule>
-		<rule name="RB : Conjonction de subordination" id="RB:CONJ_SUB">
+		<rule name="RB : Conjonction de subordination" id="RB-CONJ_SUB">
 			<pattern mark="0">
 				<token postag="C sub"/>
 			</pattern>
 			<disambig postag="C sub"/>
 		</rule>
-	<rulegroup name="RB : Infinitif" id="RB:INFINITIF">
+	<rulegroup name="RB : Infinitif" id="RB-INFINITIF">
 		<rule name="infinitif">
 			<pattern mark="0">
 				<token postag="V inf"/>
@@ -399,7 +399,7 @@ RB => Règles Brutes
 	</rulegroup>	
 	
 	
-	<rulegroup name="RP : a - est" id="RP:A_EST">
+	<rulegroup name="RP : a - est" id="RP-A_EST">
 		<rule name="a">
 			<pattern mark="0">
 				<token>a</token>
@@ -415,7 +415,7 @@ RB => Règles Brutes
 	</rulegroup>
 	
 	
-	<rule name="RD : ambig Adv/N" id="RD:ADV_NOM">
+	<rule name="RD : ambig Adv/N" id="RD-ADV_NOM">
 		<pattern mark="0">
 			<and>
 				<token postag="A"/>
@@ -426,7 +426,7 @@ RB => Règles Brutes
 	</rule>
 	
 
-	<rulegroup name ="RB : Pro pers + V" id="RB:PRO_PERS_V">
+	<rulegroup name ="RB : Pro pers + V" id="RB-PRO_PERS_V">
 		<rule name="je V ind pres">
 			<pattern mark="1">
 				<token postag="R pers suj 1 s" postag_regexp="yes" skip="3"/>
@@ -480,7 +480,7 @@ RB => Règles Brutes
 			<disambig  postag="V con pres 1 s"/>
 		</rule>
 	</rulegroup>	
-		<rule name="RD : ambig J/N" id="RD:ADJ_NOM">
+		<rule name="RD : ambig J/N" id="RD-ADJ_NOM">
 			<pattern mark="0">
 <and>
 				<token postag="J.*" postag_regexp="yes"/>
@@ -490,7 +490,7 @@ RB => Règles Brutes
 			<disambig><match no="1" postag_regexp="yes" postag="J.*"/></disambig>
 		</rule>
 <!--  this is too greedy 
-		<rule name="RB : verbes" id="RB:VERBES">
+		<rule name="RB : verbes" id="RB-VERBES">
 			<pattern mark="0">
 				<token postag="V ind .*" postag_regexp="yes"><exception scope="previous" regexp="yes">\d+</exception></token>				
 			</pattern>
@@ -499,7 +499,7 @@ RB => Règles Brutes
 -->
 
 <!-- 	Pour test fausses alertes	
-		<rule name="RB : adjectifs" id="RB:ADJECTIFS">
+		<rule name="RB : adjectifs" id="RB-ADJECTIFS">
 			<pattern mark="0">
 				<token postag="J.*" postag_regexp="yes"/>
 			</pattern>
@@ -507,31 +507,31 @@ RB => Règles Brutes
 		</rule>
 -->
 
-		<rule name="RB : adverbes" id="RB:ADVERBES">
+		<rule name="RB : adverbes" id="RB-ADVERBES">
 			<pattern mark="0">
 				<token postag="A"/>
 			</pattern>
 			<disambig postag="A"/>
 		</rule>
-		<rule name="RB : participes passés" id="RB:PPA">
+		<rule name="RB : participes passés" id="RB-PPA">
 			<pattern mark="0">
 				<token postag="V ppa .*"/>
 			</pattern>
 			<disambig><match no="1" postag_regexp="yes" postag="V ppa .*"/></disambig>
 		</rule>
-		<rule name="RB : pronoms relatifs" id="RB:PRO_RELATIFS">
+		<rule name="RB : pronoms relatifs" id="RB-PRO_RELATIFS">
 			<pattern mark="0">
 				<token postag="R rel .*" postag_regexp="yes"/>
 			</pattern>
 			<disambig postag="R rel e sp"/>
 		</rule>
-		<rule name="RB : pronoms démonstratifs" id="RB:PRO_DEMONSTRATIFS">
+		<rule name="RB : pronoms démonstratifs" id="RB-PRO_DEMONSTRATIFS">
 			<pattern mark="0">
 				<token postag="R dem .*" postag_regexp="yes"/>
 			</pattern>
 			<disambig postag="R dem m s"/>
 		</rule>
-	<rulegroup name="RD : nombres" id="RD:NOMBRES">
+	<rulegroup name="RD : nombres" id="RD-NOMBRES">
 		<rule name="nombres 1">
 			<pattern mark="1">
 				<token postag=".*" postag_regexp="yes"/>
@@ -547,50 +547,50 @@ RB => Règles Brutes
 			<disambig postag="Y"/>
 		</rule>
 	</rulegroup>
-		<rule name="RP : gens" id="RP:GENS">
+		<rule name="RP : gens" id="RP-GENS">
 			<pattern mark="0">
 				<token>gens</token>
 			</pattern>
 			<disambig postag="N m p"/>
 		</rule>
-		<rule name="RP : plus" id="RP:PLUS">
+		<rule name="RP : plus" id="RP-PLUS">
 			<pattern mark="0">
 				<token>plus</token>
 			</pattern>
 			<disambig postag="A"/>
 		</rule>
-		<rule name="RP : moins" id="RP:MOINS">
+		<rule name="RP : moins" id="RP-MOINS">
 			<pattern mark="0">
 				<token>moins</token>
 			</pattern>
 			<disambig postag="A"/>
 		</rule>
-		<rule name="RP : dix" id="RP:DIX">
+		<rule name="RP : dix" id="RP-DIX">
 			<pattern mark="0">
 				<token postag="K"/>
 			</pattern>
 			<disambig postag="D e p"/>
 		</rule>
-		<rule name="RP : lettre" id="RP:LETTRE">
+		<rule name="RP : lettre" id="RP-LETTRE">
 			<pattern mark="0">
 				<token>Lettre</token>
 			</pattern>
 			<disambig postag="N f s"/>
 		</rule>
-		<rule name="RP : pour" id="RP:POUR">
+		<rule name="RP : pour" id="RP-POUR">
 			<pattern mark="0">
 				<token>pour</token>
 			</pattern>
 			<disambig postag="P"/>
 		</rule>
-		<rule name="RP : sur" id="RP:SUR">
+		<rule name="RP : sur" id="RP-SUR">
 			<pattern mark="0">
 				<token>sur</token>
 			</pattern>
 			<disambig postag="P"/>
 		</rule>
 		
-		<rule name="Nombres + N" id="NOMBRE:N">
+		<rule name="Nombres + N" id="NOMBRE-N">
 			<pattern mark="1">
 				<token postag="Y"/>
 				<and>

@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 A demo rule file for LanguageTool
 Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.18 2010-03-18 23:03:32 milek_pl Exp $
+$Id: grammar.xml,v 1.19 2010-03-28 02:20:54 milek_pl Exp $
 -->
 <rules lang="xx" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../rules.xsd">
@@ -21,7 +21,10 @@ $Id: grammar.xml,v 1.18 2010-03-18 23:03:32 milek_pl Exp $
   </unification>
   <phrases>
     <phrase id="UNIFICATION_PHRASE">
-      <unify feature="case_sensitivity" type="startupper">
+      <unify>
+      <feature id="case_sensitivity">
+      	<type id="startupper"/>
+      </feature>
         <token/>
         <token>York</token>
       </unify>
@@ -243,7 +246,9 @@ $Id: grammar.xml,v 1.18 2010-03-18 23:03:32 milek_pl Exp $
     <rule id="test_unification" name="Test unification of character case">
       <pattern case_sensitive="yes" mark_from="1">
         <token>abc</token>
-        <unify feature="case_sensitivity" type="startupper">
+        <unify> <feature id="case_sensitivity">
+        		<type id="startupper"/>
+        		</feature>
           <token/>
           <token>York</token>
         </unify>
@@ -255,7 +260,10 @@ $Id: grammar.xml,v 1.18 2010-03-18 23:03:32 milek_pl Exp $
     <rule id="test_unification_negate" name="Test negated unification of character case">
       <pattern case_sensitive="yes" mark_from="1">
         <token>abc</token>
-        <unify negate="yes" feature="case_sensitivity" type="startupper">        
+        <unify negate="yes">
+        	<feature id="case_sensitivity">
+        		<type id="startupper"/>
+        	</feature>        
           <token/>
           <token regexp="yes">[yY]ork</token>
         </unify>

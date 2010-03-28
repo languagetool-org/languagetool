@@ -28,7 +28,6 @@ import java.util.Set;
 
 import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
-import de.danielnaber.languagetool.tools.StringTools;
 
 /**
  * Implements unification of features over tokens.
@@ -36,8 +35,6 @@ import de.danielnaber.languagetool.tools.StringTools;
  * @author Marcin Milkowski
  */
 public class Unifier {
-
-  private static final String FEATURE_SEPARATOR = ",";
 
   //TODO: add a possibility to negate some features but not all
   /**
@@ -145,28 +142,30 @@ public class Unifier {
    *          - type of equivalence relation for the feature
    * @return true if the token shares this type of feature with other tokens
    */
-  public final boolean isSatisfied(final AnalyzedToken aToken,
-      final String feature, final String type) {
+  protected final boolean isSatisfied(final AnalyzedToken aToken,
+      final Map<String, List<String>> uFeatures) {
 
     if (allFeatsIn && equivalencesMatched.isEmpty()) {
       return false;
     }
     // Error: no feature given!
-    if (StringTools.isEmpty(feature)) {
+    if (uFeatures == null) {
       return false; // throw exception??
     }
     boolean unified = true;
-    final String[] features = StringTools.trimWhitespace(feature).split(
-        FEATURE_SEPARATOR);
-    String[] types;
+    //final String[] features = uFeatures.
+    List<String> types;
 
     if (!allFeatsIn) {
       tokCnt++;
       while (equivalencesMatched.size() <= tokCnt) {
         equivalencesMatched.add(new HashMap<String, Set<String>>());
       }
-      for (final String feat : features) {
-        types = getTypes(feat, type);
+      for (final String feat : uFeatures.keySet()) {
+        types = uFeatures.get(feat);
+        if (types == null || types.isEmpty()) {
+          types = equivalenceFeatures.get(feat);
+        }
         for (final String typename : types) {
           final Element testElem = equivalenceTypes
           .get(new EquivalenceTypeLocator(feat, typename));
@@ -196,23 +195,26 @@ public class Unifier {
         }
       }
     } else {
-      unified &= checkNext(aToken, features, type);
+      unified &= checkNext(aToken, uFeatures);
     }
     return unified ^ negation;
   }
 
   private boolean checkNext(final AnalyzedToken aToken,
-      final String[] features, final String type) {
+      final Map<String, List<String>> uFeatures) {
     boolean unifiedNext = true;
     boolean anyFeatUnified = false;    
-    String[] types;
+    List<String> types;
     ArrayList<Boolean> tokenFeaturesFound = new ArrayList<Boolean>(tmpFeaturesFound);
     if (allFeatsIn) {
       for (int i = 0; i <= tokCnt; i++) {
         boolean allFeatsUnified = true;
-        for (final String feat : features) {
+        for (final String feat : uFeatures.keySet()) {
           boolean featUnified = false;
-          types = getTypes(feat, type);
+          types = uFeatures.get(feat);
+          if (types == null || types.isEmpty()) {
+            types = equivalenceFeatures.get(feat);
+          }
           for (final String typename : types) {
             if (featuresFound.get(i)
                 && equivalencesMatched.get(i).containsKey(feat)
@@ -240,6 +242,7 @@ public class Unifier {
     return unifiedNext;
   }
 
+  /**
   private String[] getTypes(final String feat, final String type) {
     if (StringTools.isEmpty(type)) {
       return equivalenceFeatures.get(feat).toArray(
@@ -247,6 +250,7 @@ public class Unifier {
     }
     return type.split(FEATURE_SEPARATOR);
   }
+  **/
 
   /**
    * Call after every complete token (AnalyzedTokenReadings) checked.
@@ -275,6 +279,10 @@ public class Unifier {
     return negation;
   }
 
+  public final List<String> getAllTypes(final String feat) {
+    return equivalenceFeatures.get(feat);
+  }
+  
   /**
    * Resets after use of unification. Required.
    */
@@ -350,10 +358,10 @@ public class Unifier {
    * @return True if the tokens in the sequence are unified.
    */
   public final boolean isUnified(final AnalyzedToken matchToken,
-      final String feature, final String type, final boolean isUniNegated,
+      final Map<String, List<String>> uFeatures, final boolean isUniNegated,
       final boolean lastReading) {
     if (inUnification) {      
-      uniMatched |= isSatisfied(matchToken, feature, type);
+      uniMatched |= isSatisfied(matchToken, uFeatures);
       uniAllMatched = uniMatched;
       if (lastReading) {
         startNextToken();
@@ -365,7 +373,7 @@ public class Unifier {
     if (isUniNegated) {
       setNegation(true);
     }
-    isSatisfied(matchToken, feature, type);
+    isSatisfied(matchToken, uFeatures);
     if (lastReading) {
       inUnification = true;
       uniMatched = false;

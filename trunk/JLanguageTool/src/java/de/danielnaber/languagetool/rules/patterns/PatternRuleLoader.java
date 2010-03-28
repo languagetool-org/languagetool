@@ -174,11 +174,17 @@ class PatternRuleHandler extends XMLRuleHandler {
 
   private String uFeature;
   private String uType = "";
+  
+  private List<String> uTypeList;
+  
+  private Map<String, List<String>> equivalenceFeatures;
 
   private Locator pLocator;
 
   public PatternRuleHandler() {
     elementList = new ArrayList<Element>();
+    equivalenceFeatures = new HashMap<String, List<String>>();
+    uTypeList = new ArrayList<String>();
   }
 
   // ===========================================================
@@ -255,14 +261,13 @@ class PatternRuleHandler extends XMLRuleHandler {
     } else if (qName.equals("and")) {
       inAndGroup = true;
     } else if (qName.equals("unify")) {
-      inUnification = true;
-      uFeature = attrs.getValue("feature");
-      if (attrs.getValue(TYPE) != null) {
-        uType = attrs.getValue(TYPE);
-      } else {
-        uType = "";
-      }
-      uniNegation = YES.equals(attrs.getValue("negate"));
+        inUnification = true;           
+        uniNegation = YES.equals(attrs.getValue("negate"));
+    } else if (qName.equals("feature")) {
+        uFeature = attrs.getValue("id");        
+    } else if (qName.equals(TYPE)) {      
+        uType = attrs.getValue("id");
+        uTypeList.add(uType);
     } else if (qName.equals("token")) {
       inToken = true;
 
@@ -484,8 +489,6 @@ class PatternRuleHandler extends XMLRuleHandler {
       inAndGroup = false;
       andGroupCounter = 0;
       tokenCounter++;
-    } else if (qName.equals("unify")) {
-      inUnification = false;
     } else if (qName.equals("token")) {
       if (!exceptionSet || tokenElement == null) {
         tokenElement = new Element(StringTools.trimWhitespace(elements
@@ -520,7 +523,7 @@ class PatternRuleHandler extends XMLRuleHandler {
       }
 
       if (inUnification) {
-        tokenElement.setUnification(uFeature, uType);
+        tokenElement.setUnification(equivalenceFeatures);
         if (uniNegation) {
           tokenElement.setUniNegation();
         }
@@ -612,8 +615,13 @@ class PatternRuleHandler extends XMLRuleHandler {
       inPhrases = false;
     } else if (qName.equals("unification") && inUnificationDef) {
       inUnificationDef = false;
-    } else if (qName.equals("unify") && inUnification) {
+    } else if (qName.equals("feature") && inUnification) {        
+        equivalenceFeatures.put(uFeature, uTypeList);
+        uTypeList = new ArrayList<String>();
+    } else if (qName.equals("unify") && inUnification) {      
       inUnification = false;
+      //clear the features...
+      equivalenceFeatures = new HashMap<String, List<String>>();
     }
   }
   

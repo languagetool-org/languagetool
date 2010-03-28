@@ -20,6 +20,10 @@
 package de.danielnaber.languagetool.rules.patterns;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
 
 import junit.framework.TestCase;
 import de.danielnaber.languagetool.AnalyzedToken;
@@ -42,39 +46,51 @@ public class TestUnifier extends TestCase {
   AnalyzedToken upperall1 = new AnalyzedToken("JOHN", "NNP", "John");
   AnalyzedToken upperall2 = new AnalyzedToken("JAMES", "NNP", "James");
   
-  boolean satisfied = uni.isSatisfied(lower1, "case-sensitivity", "lowercase");
-  satisfied &= uni.isSatisfied(lower2, "case-sensitivity", "lowercase");
+  Map<String, List<String>> equiv = new HashMap<String, List<String>>();
+  List<String> list1 = new ArrayList<String>();
+  list1.add("lowercase");
+  equiv.put("case-sensitivity", list1);
+  boolean satisfied = uni.isSatisfied(lower1, equiv);
+  satisfied &= uni.isSatisfied(lower2, equiv);
   uni.startUnify();
   assertEquals(true, satisfied);
   uni.reset();
-  satisfied = uni.isSatisfied(upper2, "case-sensitivity", "lowercase");
+  satisfied = uni.isSatisfied(upper2, equiv);
   uni.startUnify();
-  satisfied &= uni.isSatisfied(lower2, "case-sensitivity", "lowercase");
+  satisfied &= uni.isSatisfied(lower2, equiv);
   assertEquals(false, satisfied);
   uni.reset();
-  satisfied = uni.isSatisfied(upper1, "case-sensitivity", "lowercase");
+  satisfied = uni.isSatisfied(upper1, equiv);
   uni.startUnify();
-  satisfied &= uni.isSatisfied(lower1, "case-sensitivity", "lowercase");
+  satisfied &= uni.isSatisfied(lower1, equiv);
   assertEquals(false, satisfied);
   uni.reset();
-  satisfied = uni.isSatisfied(upper2, "case-sensitivity", "lowercase");
+  satisfied = uni.isSatisfied(upper2, equiv);
   uni.startUnify();
-  satisfied &= uni.isSatisfied(upper1, "case-sensitivity", "lowercase");
+  satisfied &= uni.isSatisfied(upper1, equiv);
   assertEquals(false, satisfied);
   uni.reset();
-  satisfied = uni.isSatisfied(upper2, "case-sensitivity", "uppercase");
+  equiv.clear();
+  list1.clear();
+  list1.add("uppercase");
+  equiv.put("case-sensitivity", list1);
+  satisfied = uni.isSatisfied(upper2, equiv);
   uni.startUnify();
-  satisfied &= uni.isSatisfied(upper1, "case-sensitivity", "uppercase");
+  satisfied &= uni.isSatisfied(upper1, equiv);
   assertEquals(true, satisfied);
   uni.reset();
-  satisfied = uni.isSatisfied(upper2, "case-sensitivity", "alluppercase");
+  equiv.clear();
+  list1.clear();
+  list1.add("alluppercase");
+  equiv.put("case-sensitivity", list1);
+  satisfied = uni.isSatisfied(upper2, equiv);
   uni.startUnify();
-  satisfied &= uni.isSatisfied(upper1, "case-sensitivity", "alluppercase");
+  satisfied &= uni.isSatisfied(upper1, equiv);
   assertEquals(false, satisfied);
   uni.reset();
-  satisfied = uni.isSatisfied(upperall2, "case-sensitivity", "alluppercase");
+  satisfied = uni.isSatisfied(upperall2, equiv);
   uni.startUnify();
-  satisfied &= uni.isSatisfied(upperall1, "case-sensitivity", "alluppercase");
+  satisfied &= uni.isSatisfied(upperall1, equiv);
   assertEquals(true, satisfied);
   }
   
@@ -91,43 +107,54 @@ public class TestUnifier extends TestCase {
   
   AnalyzedToken sing1 = new AnalyzedToken("mały", "adj:sg:blahblah", "mały");
   AnalyzedToken sing2 = new AnalyzedToken("człowiek", "subst:sg:blahblah", "człowiek");
-  boolean satisfied = uni.isSatisfied(sing1, "number", "singular");
+  
+  Map<String, List<String>> equiv = new HashMap<String, List<String>>();
+  List<String> list1 = new ArrayList<String>();
+  list1.add("singular");
+  equiv.put("number", list1);
+  
+  boolean satisfied = uni.isSatisfied(sing1, equiv);
   uni.startUnify();
-  satisfied &= uni.isSatisfied(sing2, "number", "singular");  
+  satisfied &= uni.isSatisfied(sing2, equiv);  
   assertEquals(true, satisfied);
   uni.reset();
   
   //for multiple readings - OR for interpretations, AND for tokens
   AnalyzedToken sing1a = new AnalyzedToken("mały", "adj:pl:blahblah", "mały"); 
-  satisfied = uni.isSatisfied(sing1, "number", "singular");
-  satisfied |= uni.isSatisfied(sing1a, "number", "singular");
+  satisfied = uni.isSatisfied(sing1, equiv);
+  satisfied |= uni.isSatisfied(sing1a, equiv);
   uni.startUnify();
-  satisfied &= uni.isSatisfied(sing2, "number", "singular");
+  satisfied &= uni.isSatisfied(sing2, equiv);
   assertEquals(true, satisfied);
   uni.reset();
   
   //check if any of the equivalences is there
+  list1.add("plural");
+  equiv.clear();
+  equiv.put("number", list1);
   sing1a = new AnalyzedToken("mały", "adj:pl:blahblah", "mały"); 
-  satisfied = uni.isSatisfied(sing1, "number", "singular,plural");
-  satisfied |= uni.isSatisfied(sing1a, "number", "singular,plural");
+  satisfied = uni.isSatisfied(sing1, equiv);
+  satisfied |= uni.isSatisfied(sing1a, equiv);
   uni.startUnify();
-  satisfied &= uni.isSatisfied(sing2, "number", "singular,plural");
+  satisfied &= uni.isSatisfied(sing2, equiv);
   assertEquals(true, satisfied);
   uni.reset();
   
 //now test all possible feature equivalences by leaving type blank
-  sing1a = new AnalyzedToken("mały", "adj:pl:blahblah", "mały"); 
-  satisfied = uni.isSatisfied(sing1, "number", "");
-  satisfied |= uni.isSatisfied(sing1a, "number", "");
+  sing1a = new AnalyzedToken("mały", "adj:pl:blahblah", "mały");
+  equiv.clear();
+  equiv.put("number", null);
+  satisfied = uni.isSatisfied(sing1, equiv);
+  satisfied |= uni.isSatisfied(sing1a, equiv);
   uni.startUnify();
-  satisfied &= uni.isSatisfied(sing2, "number", "");
+  satisfied &= uni.isSatisfied(sing2, equiv);
   assertEquals(true, satisfied);
   uni.reset();
 
 //test non-agreeing tokens with blank types   
-  satisfied = uni.isSatisfied(sing1a, "number", "");
+  satisfied = uni.isSatisfied(sing1a, equiv);
   uni.startUnify();
-  satisfied &= uni.isSatisfied(sing2, "number", "");
+  satisfied &= uni.isSatisfied(sing2, equiv);
   assertEquals(false, satisfied);
   uni.reset();    
   }
@@ -156,11 +183,15 @@ public class TestUnifier extends TestCase {
   AnalyzedToken sing1b = new AnalyzedToken("mały", "adj:pl:blahblah:m", "mały");
   AnalyzedToken sing2 = new AnalyzedToken("człowiek", "subst:sg:blahblah:m", "człowiek");
   
-  boolean satisfied = uni.isSatisfied(sing1, "number,gender", "");
-  satisfied |= uni.isSatisfied(sing1a, "number,gender", "");
-  satisfied |= uni.isSatisfied(sing1b, "number,gender", "");
+  Map<String, List<String>> equiv = new HashMap<String, List<String>>();
+  equiv.put("number", null);
+  equiv.put("gender", null);
+  
+  boolean satisfied = uni.isSatisfied(sing1, equiv);
+  satisfied |= uni.isSatisfied(sing1a, equiv);
+  satisfied |= uni.isSatisfied(sing1b, equiv);
   uni.startUnify();
-  satisfied &= uni.isSatisfied(sing2, "number,gender", "");
+  satisfied &= uni.isSatisfied(sing2, equiv);
   uni.startNextToken();
   assertEquals(true, satisfied);
   assertEquals("[mały/adj:sg:blahblah:m, człowiek/subst:sg:blahblah:m]", Arrays.toString(uni.getUnifiedTokens()));
@@ -193,24 +224,28 @@ public class TestUnifier extends TestCase {
   AnalyzedToken sing2 = new AnalyzedToken("zgarbiony", "adj:pl:blahblah:f", "zgarbiony");
   AnalyzedToken sing3 = new AnalyzedToken("człowiek", "subst:sg:blahblah:m", "człowiek");
   
-  boolean satisfied = uni.isSatisfied(sing1, "number,gender", "");
-  satisfied |= uni.isSatisfied(sing1a, "number,gender", "");
-  satisfied |= uni.isSatisfied(sing1b, "number,gender", "");
+  Map<String, List<String>> equiv = new HashMap<String, List<String>>();
+  equiv.put("number", null);
+  equiv.put("gender", null);
+  
+  boolean satisfied = uni.isSatisfied(sing1, equiv);
+  satisfied |= uni.isSatisfied(sing1a, equiv);
+  satisfied |= uni.isSatisfied(sing1b, equiv);
   uni.startUnify();
-  satisfied &= uni.isSatisfied(sing2, "number,gender", "");
+  satisfied &= uni.isSatisfied(sing2, equiv);
   uni.startNextToken();
-  satisfied &= uni.isSatisfied(sing3, "number,gender", "");
+  satisfied &= uni.isSatisfied(sing3, equiv);
   uni.startNextToken();
   assertEquals(false, satisfied);  
   uni.reset();
   
   //now test the simplified interface
   satisfied = true; //this must be true to start with...
-  satisfied &= uni.isUnified(sing1, "number,gender", "", false, false);
-  satisfied &= uni.isUnified(sing1a, "number,gender", "", false, false);
-  satisfied &= uni.isUnified(sing1b, "number,gender", "", false, true);
-  satisfied &= uni.isUnified(sing2, "number,gender", "", false, true);
-  satisfied &= uni.isUnified(sing3, "number,gender", "", false, true);
+  satisfied &= uni.isUnified(sing1, equiv, false, false);
+  satisfied &= uni.isUnified(sing1a, equiv, false, false);
+  satisfied &= uni.isUnified(sing1b, equiv, false, true);
+  satisfied &= uni.isUnified(sing2, equiv, false, true);
+  satisfied &= uni.isUnified(sing3, equiv, false, true);
   assertEquals(false, satisfied);
   uni.reset();
   
@@ -219,9 +254,9 @@ public class TestUnifier extends TestCase {
   sing2 = new AnalyzedToken("godło", "subst:sg:nom.acc.voc:n", "godło");
   
   satisfied = true;
-  satisfied &= uni.isUnified(sing1a, "number,gender", "", false, false);
-  satisfied &= uni.isUnified(sing1b, "number,gender", "", false, true);
-  satisfied &= uni.isUnified(sing2, "number,gender", "", false, true);
+  satisfied &= uni.isUnified(sing1a, equiv, false, false);
+  satisfied &= uni.isUnified(sing1b, equiv, false, true);
+  satisfied &= uni.isUnified(sing2, equiv, false, true);
   assertEquals(true, satisfied);
   assertEquals("[osobisty/adj:sg:nom.acc.voc:n:pos:aff, godło/subst:sg:nom.acc.voc:n]", Arrays.toString(uni.getFinalUnified()));
   uni.reset();
@@ -234,10 +269,10 @@ public class TestUnifier extends TestCase {
   AnalyzedToken sing2b = new AnalyzedToken("godło", "indecl", "godło");
   
   satisfied = true;
-  satisfied &= uni.isUnified(sing1a, "number,gender", "", false, false);
-  satisfied &= uni.isUnified(sing1b, "number,gender", "", false, true);
-  satisfied &= uni.isUnified(sing2a, "number,gender", "", false, false);
-  satisfied &= uni.isUnified(sing2b, "number,gender", "", false, true);
+  satisfied &= uni.isUnified(sing1a, equiv, false, false);
+  satisfied &= uni.isUnified(sing1b, equiv, false, true);
+  satisfied &= uni.isUnified(sing2a, equiv, false, false);
+  satisfied &= uni.isUnified(sing2b, equiv, false, true);
   assertEquals(true, satisfied);
   assertEquals("[osobisty/adj:sg:nom.acc.voc:n:pos:aff, godło/subst:sg:nom.acc.voc:n]", Arrays.toString(uni.getFinalUnified()));
   uni.reset();

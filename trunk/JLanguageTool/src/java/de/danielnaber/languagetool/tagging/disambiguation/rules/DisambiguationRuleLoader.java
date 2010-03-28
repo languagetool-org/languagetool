@@ -21,7 +21,9 @@ package de.danielnaber.languagetool.tagging.disambiguation.rules;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -151,6 +153,10 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
 
   private String uFeature;
   private String uType = "";
+  
+  private List<String> uTypeList;
+  
+  private Map<String, List<String>> equivalenceFeatures;
 
   private int uniCounter;
   
@@ -173,6 +179,8 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
 
   public DisambiguationRuleHandler() {
     elementList = new ArrayList<Element>();
+    equivalenceFeatures = new HashMap<String, List<String>>();
+    uTypeList = new ArrayList<String>();
   }
 
   // ===========================================================
@@ -270,17 +278,14 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
     } else if (qName.equals(AND)) {
       inAndGroup = true;
     } else if (qName.equals(UNIFY)) {
-      inUnification = true;
-      uFeature = attrs.getValue(FEATURE);
-      if (attrs.getValue(TYPE) != null) {
-        uType = attrs.getValue(TYPE);
-      } else {
-        uType = "";
-      }
-      if (attrs.getValue(NEGATE) != null && YES.equals(attrs.getValue(NEGATE))) {
-        uniNegation = true;
-      }
+      inUnification = true;           
+      uniNegation = YES.equals(attrs.getValue("negate"));
       uniCounter = 0;
+    } else if (qName.equals("feature")) {
+      uFeature = attrs.getValue("id");        
+    } else if (qName.equals(TYPE)) {      
+      uType = attrs.getValue("id");
+      uTypeList.add(uType);      
     } else if (qName.equals(TOKEN)) {
       inToken = true;
       if (attrs.getValue(NEGATE) != null) {
@@ -489,8 +494,6 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
       inAndGroup = false;
       andGroupCounter = 0;
       tokenCounter++;            
-    } else if (qName.equals(UNIFY)) {
-      inUnification = false;
     } else if (qName.equals(TOKEN)) {
       if (!exceptionSet || tokenElement == null) {
         tokenElement = new Element(elements.toString(), caseSensitive,
@@ -522,7 +525,7 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
         andGroupCounter++;
       }
       if (inUnification) {
-        tokenElement.setUnification(uFeature, uType);
+        tokenElement.setUnification(equivalenceFeatures);
         if (uniNegation) {
           tokenElement.setUniNegation();
         }
@@ -564,8 +567,12 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
       inRuleGroup = false;
     } else if (qName.equals(UNIFICATION) && inUnificationDef) {
       inUnificationDef = false;
-    } else if (qName.equals(UNIFY) && inUnification) {
+    } else if (qName.equals("feature")) {      
+      equivalenceFeatures.put(uFeature, uTypeList);
+      uTypeList = new ArrayList<String>();
+    } else if (qName.equals(UNIFY)) {
       inUnification = false;
+      equivalenceFeatures = new HashMap<String, List<String>>();
     } else if (qName.equals(WD)) {
       addNewWord(wd.toString(), wdLemma, wdPos);
       inWord = false;

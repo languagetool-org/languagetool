@@ -44,16 +44,16 @@ public class ValidateXMLTest extends TestCase {
     //  Language lang = Language.LANGUAGES[i];
     Language lang = Language.FRENCH;
     String grammarFile = "/resource/" + lang.getShortName() + "/disambiguation.xml";
-    validator.validate(grammarFile, "/resource/disambiguation.dtd", "rules");
+    validator.validate(grammarFile, "/resource/disambiguation.xsd");
     lang = Language.ENGLISH;
     grammarFile = "/resource/" + lang.getShortName() + "/disambiguation.xml";
-    validator.validate(grammarFile, "/resource/disambiguation.dtd", "rules");
+    validator.validate(grammarFile, "/resource/disambiguation.xsd");
     lang = Language.DUTCH;
     grammarFile = "/resource/" + lang.getShortName() + "/disambiguation.xml";
-    validator.validate(grammarFile, "/resource/disambiguation.dtd", "rules");
+    validator.validate(grammarFile, "/resource/disambiguation.xsd");
     lang = Language.POLISH;
     grammarFile = "/resource/" + lang.getShortName() + "/disambiguation.xml";
-    validator.validate(grammarFile, "/resource/disambiguation.dtd", "rules");
+    validator.validate(grammarFile, "/resource/disambiguation.xsd");
     // }
   }
 
