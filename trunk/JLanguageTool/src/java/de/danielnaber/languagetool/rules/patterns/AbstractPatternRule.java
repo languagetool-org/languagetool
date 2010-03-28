@@ -149,6 +149,7 @@ public abstract class AbstractPatternRule extends Rule {
     }    
   }
 
+  //TODO: add .compile for all exceptions of the element?
   protected void setupRef(final int firstMatchToken, final Element elem,
       final AnalyzedTokenReadings[] tokens) throws IOException {
     if (elem.isReferenceElement()) {
