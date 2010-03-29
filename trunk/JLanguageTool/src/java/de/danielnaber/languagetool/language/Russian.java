@@ -23,6 +23,7 @@ import java.util.Locale;
 import java.util.Set;
 
 import de.danielnaber.languagetool.Language;
+import de.danielnaber.languagetool.rules.patterns.Unifier;
 import de.danielnaber.languagetool.synthesis.Synthesizer;
 import de.danielnaber.languagetool.synthesis.ru.RussianSynthesizer;
 import de.danielnaber.languagetool.tagging.Tagger;
@@ -44,7 +45,7 @@ public class Russian extends Language {
   
   private Tagger tagger = new RussianTagger();
   private Disambiguator disambiguator = new RussianRuleDisambiguator();
-  
+  private static final Unifier russianUnifier = new Unifier();  
 //  private Tokenizer wordTokenizer = new RussianWordTokenizer();
   private Synthesizer synthesizer = new RussianSynthesizer();
 //  private SentenceTokenizer sentenceTokenizer = new RussianSentenceTokenizer();   // old Tokenizer
@@ -86,8 +87,11 @@ public class Russian extends Language {
     return sentenceTokenizer;
   }
 
-  
-  
+   
+     public Unifier getUnifier() {
+    return russianUnifier;
+  }
+
   public Contributor[] getMaintainers() {
      return new Contributor[] {new Contributor("Yakov Reztsov")};
   }
