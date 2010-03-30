@@ -7,11 +7,33 @@ title="Easy editing stylesheet" ?>
 German grammar and typo rules for LanguageTool
 See resource/de/tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.27 2010-02-13 12:26:06 dnaber Exp $
+$Id: grammar.xml,v 1.28 2010-03-30 21:25:23 dnaber Exp $
 -->
 <rules lang="de" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../rules.xsd">
   <category name="Mögliche Tippfehler">
+    <rulegroup id="FUER_UND_WIEDER" name="Tippfehler: 'für und wieder(wider)'">
+      <rule>
+        <pattern case_sensitive="yes">
+          <token>für</token>
+          <token>und</token>
+          <token>wieder</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>für und wider</suggestion>?</message>
+        <example type="correct">Die Argumente <marker>für und wider</marker> diese Option halten sich die Waage.</example>
+        <example type="incorrect">Die Argumente <marker>für und wieder</marker> diese Option halten sich die Waage.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token>Für</token>
+          <token>und</token>
+          <token>Wieder</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>Für und Wider</suggestion>?</message>
+        <example type="correct">Das <marker>Für und Wider</marker> sollte gründlich abgewogen werden.</example>
+        <example type="incorrect">Das <marker>Für und Wieder</marker> wird erwogen.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="ANDERE_SEITEN_AUFZIEHEN" name="Tippfehler: 'andere Seiten(Saiten) aufziehen'">
       <rule>
         <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
@@ -353,6 +375,25 @@ $Id: grammar.xml,v 1.27 2010-02-13 12:26:06 dnaber Exp $
       <example type="correct">Hin <marker>und</marker> wieder kann man das machen.</example>
       <example type="incorrect">Hin <marker>uns</marker> wieder kann man das machen.</example>
     </rule>
+    <rule id="HIN_UND_WIDER" name="Möglicher Tippfehler 'hin und wider(wieder)'">
+      <pattern mark_from="2">
+        <token>hin</token>
+        <token>und</token>
+        <token>wider</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>wieder</suggestion>?</message>
+      <example type="correct">Hin und <marker>wieder</marker> kann man das machen.</example>
+      <example type="incorrect">Hin und <marker>wider</marker> kann man das machen.</example>
+    </rule>
+    <rule id="WIEDER_EINMAL" name="Möglicher Tippfehler 'wider(wieder) einmal'">
+      <pattern mark_from="0" mark_to="-1">
+        <token regexp="yes">wider|Widder</token>
+        <token>einmal</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>wieder</suggestion>?</message>
+      <example type="correct">Sie kam <marker>wieder</marker> einmal zu spät.</example>
+      <example type="incorrect">Sie kam <marker>wider</marker> einmal zu spät.</example>
+    </rule>    
     <rule id="SONDER" name="Möglicher Tippfehler 'sonder(sondern)'">
       <!-- "sonder" wird vom Spellchecker akzeptiert, ist aber fast nie richtig -->
       <pattern>
@@ -617,6 +658,107 @@ $Id: grammar.xml,v 1.27 2010-02-13 12:26:06 dnaber Exp $
       <example type="correct">Was lange <marker>währt</marker>...</example>
       <example type="incorrect">Was lange <marker>wehrt</marker>...</example>
     </rule>
+    <!-- 
+    <rule id="VON_BIS" name="Möglicher Tippfehler: 'von ... bis ...'">
+      <pattern mark_from="0">
+        <token regexp="yes">von|vom</token>
+        <token regexp="yes">([0-9]+\.?)\s?(\-|–)\s?([0-9]+\.?)</token>
+      </pattern>
+      <message>Meinten Sie <suggestion><match no="1"/> <match no="2" regexp_match="([0-9]+\.?)\s?(\-|–)\s?([0-9]+\.?)" regexp_replace="$1 bis $3" /></suggestion>?</message>
+      <example type="correct">Von <marker>9 bis 10</marker> Uhr.</example>
+      <example type="incorrect">Von <marker>9–10</marker> Uhr.</example>
+    </rule>
+    -->
+    <!-- 
+    <rule id="BISSTRICH" name="Möglicher Tippfehler beim Bis-Strich">
+      <pattern>
+        <token regexp="yes">[0-9]+(\.)?\s?\-\s?[0-9]+(\.)?</token>
+      </pattern>
+      <message>Meinten Sie <suggestion><match no="1" regexp_match="([0-9]+(\.)?)\-([0-9]+(\.)?)" regexp_replace="$1–$3" /></suggestion>? Als Bis-Strich wird i.a. der Gedankenstrich verwendet.</message>
+      <example type="correct">Er ist 50<marker>–</marker>60 Jahre alt.</example>
+      <example type="incorrect">Er ist 50<marker>-</marker>60 Jahre alt.</example>
+    </rule>
+    -->
+    <rule id="DER_GENUS" name="Möglicher Tippfehler: 'der Genus(Genuss)'">
+      <pattern>
+        <token regexp="yes">der|den</token>
+        <token>Genus</token>
+      </pattern>
+      <message>Meinten Sie '<suggestion>der Genuss</suggestion>' oder '<suggestion>das Genus</suggestion>' (gramm. Geschlecht)?</message>
+      <example type="correct"><marker>Das Genus</marker> bezeichnet das grammatische Geschlecht.</example>
+      <example type="correct"><marker>Der Genuss</marker> von Schokolade.</example>
+      <example type="incorrect"><marker>Der Genus</marker> von Schokolade.</example>
+    </rule>
+  </category>
+  
+  <category name="Zusammen-/Getrenntschreibung">
+    <rule id="STATTFINDEN" name="Zusammen-/Getrenntschreibung: 'statt finden(stattfinden)'">
+      <pattern>
+        <token>statt</token>
+        <token regexp="yes">finden|findet|fand|fanden</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>statt<match no="2" /></suggestion>?</message>
+      <example type="correct">Wo das Fest das <marker>stattfindet</marker>, ist noch nicht klar.</example>
+      <example type="incorrect">Wo das Fest das <marker>statt findet</marker>, ist noch nicht klar.</example>
+    </rule>
+    <rule id="NICHTSDESTOWENIGER" name="Zusammen-/Getrenntschreibung: 'nichts desto weniger(nichtsdestoweniger)'">
+      <pattern>
+        <token>nichts</token>
+        <token>desto</token>
+        <token>weniger</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>nichtsdestoweniger</suggestion>?</message>
+      <example type="correct"><marker>Nichtsdestoweniger</marker> finde ich es einfach ungerecht.</example>
+      <example type="incorrect"><marker>Nichts desto weniger</marker> finde ich es einfach ungerecht.</example>
+    </rule>
+    <rule id="INWIEFERN" name="Zusammen-/Getrenntschreibung: 'in wie fern(inwiefern)'">
+      <pattern>
+        <token>in</token>
+        <token>wie</token>
+        <token>fern</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>inwiefern</suggestion>?</message>
+      <example type="correct"><marker>Inwiefern</marker> das auch für uns gilt, muss geklärt werden.</example>
+      <example type="incorrect"><marker>In wie fern</marker> das auch für uns gilt, muss geklärt werden.</example>
+    </rule>
+    <rule id="SOWIESO" name="Zusammen-/Getrenntschreibung: 'so wie so(sowieso)'">
+      <pattern>
+        <token>so</token>
+        <token>wie</token>
+        <token>so</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>sowieso</suggestion>?</message>
+      <example type="correct">Das geht <marker>sowieso</marker> nicht.</example>
+      <example type="incorrect">Das geht <marker>so wie so</marker> nicht.</example>
+    </rule>
+    <rule id="DURCHEINANDER" name="'durcheinander' usw.">
+      <pattern case_sensitive="no" mark_from="0">
+        <token regexp="yes">durch|von|in|auf|zu|mit|aus</token>
+        <token>einander</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>\1einander</suggestion>?</message>
+      <example type="correct">Sie brachte alles <marker>durcheinander</marker>.</example>
+      <example type="incorrect">Sie brachte alles <marker>durch einander</marker>.</example>
+    </rule>
+  </category>
+  
+  <category name="Stil">
+    <rule id="NICHTSDESTOTROTZ" name="Stil: 'nichtsdestotrotz' ist eine umgangssprachliche Verballhornung von 'nichtsdestoweniger'">
+      <pattern>
+        <token>nichtsdestotrotz</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>nichtsdestoweniger</suggestion>? 'Nichtsdestotrotz' ist eine umgangssprachliche Verballhornung.</message>
+      <example type="correct"><marker>Nichtsdestoweniger</marker> wird einfach weiter geplant.</example>
+      <example type="incorrect"><marker>Nichtsdestotrotz</marker> wird einfach weiter geplant.</example>
+    </rule>
+    <rule id="MAENNER_VS_LEUTE" name="'Kaufleute' usw.">
+      <pattern case_sensitive="no" mark_from="0">
+        <token regexp="yes">(Kauf|See|Feuerwehr)männer(n)?</token>
+      </pattern>
+      <message>Meinten Sie <suggestion><match no="1" regexp_match="(Kauf|See|Feuerwehr)männer(n)?" regexp_replace="$1leute$2" /></suggestion>?</message>
+      <example type="correct">Es waren viele <marker>Feuerwehrleute</marker> im Einsatz.</example>
+      <example type="incorrect">Es waren viele <marker>Feuerwehrmänner</marker> im Einsatz.</example>
+    </rule>
   </category>
   <!--  Rules about upper/lowercase:  -->
   <category name="Groß-/Kleinschreibung">
@@ -681,7 +823,7 @@ $Id: grammar.xml,v 1.27 2010-02-13 12:26:06 dnaber Exp $
       <rule>
         <pattern case_sensitive="yes">
           <token>genüge</token>
-          <token regexp="yes">tun|getan</token>
+          <token regexp="yes">tun|tut|tust|getan</token>
         </pattern>
         <message>'Genüge' wird hier groß geschrieben: <suggestion>Genüge \2</suggestion></message>
         <example type="correct">Der Gerechtigkeit wurde <marker>Genüge getan</marker>.</example>
@@ -823,7 +965,7 @@ $Id: grammar.xml,v 1.27 2010-02-13 12:26:06 dnaber Exp $
       <example type="correct">Er hat sie auf dem <marker>Gewissen</marker>.</example>
       <example type="incorrect">Er hat sie auf dem <marker>gewissen</marker>.</example>
     </rule>
-    <rulegroup id="ODER_FLUSS" name="Groß-/Kleinschreibung: 'oder/Oder(der Fluß)'">
+    <rulegroup id="ODER_FLUSS" name="Groß-/Kleinschreibung: 'oder/Oder(der Fluss)'">
       <rule>
         <pattern case_sensitive="yes">
           <token>Frankfurt</token>
