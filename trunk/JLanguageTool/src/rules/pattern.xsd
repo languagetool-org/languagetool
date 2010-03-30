@@ -105,8 +105,8 @@
 		<xs:documentation xml:lang="en">Reference to the pattern element.
 		Might be used in a suggestion or in the pattern.</xs:documentation>
 	</xs:annotation>
-	<xs:element name="match">
-		<xs:complexType mixed="true">
+	<xs:element name="match">	
+	<xs:complexType mixed="true">
 			<xs:attribute name="regexp_match" type="xs:string" use="optional" />
 			<xs:attribute name="postag_regexp" type="binaryYesNo"
 				use="optional" default="no" />
@@ -134,8 +134,8 @@
 		</xs:complexType>
 	</xs:element>
 
-	<xs:element name="token">
-		<xs:complexType mixed="true">
+	<xs:element name="token">		
+	<xs:complexType mixed="true">
 			<xs:choice minOccurs="0" maxOccurs="unbounded">
 				<xs:element ref="exception" />
 				<xs:element ref="match" />
@@ -170,7 +170,6 @@
 		</xs:complexType>
 	</xs:element>
 
-
 	<xs:annotation>
 		<xs:documentation xml:lang="en"> Enables logical AND
 			between token elements.  </xs:documentation>
@@ -189,7 +188,7 @@
 	</xs:annotation>
 
 	<xs:element name="exception">
-		<xs:complexType mixed="true">
+		<xs:complexType mixed="true">			
 			<xs:attribute name="postag_regexp" type="binaryYesNo" use="optional" default="no" />
 			<xs:attribute name="negate_pos" type="binaryYesNo" use="optional"
 				default="no" />
@@ -275,5 +274,14 @@
 			<xs:enumeration value="following" />
 		</xs:restriction>
 	</xs:simpleType>
+ 
+ 	<xs:annotation>
+		<xs:documentation xml:lang="en"> Marks the matched part of
+			the example. 
+		</xs:documentation>
+	</xs:annotation>
+	<xs:element name="marker">
+		<xs:complexType mixed="true" />
+	</xs:element>
  
 </xs:schema>

@@ -2,7 +2,7 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
 <!-- 
  * LanguageTool, a natural language style checker 
- * Copyright (c) Marcin Miłkowski, 2009 (http://www.languagetool.org)
+ * Copyright (c) Marcin Miłkowski, 2010 (http://www.languagetool.org)
  * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19,10 +19,10 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  
- Schema for rule files
+ Schema for bitext rule files - work in progress
  -->
-
-	<xs:include schemaLocation="pattern.xsd"/>
+ 
+ <xs:include schemaLocation="pattern.xsd"/>
 
 	<xs:annotation>
 		<xs:documentation xml:lang="en"> Main element
@@ -35,14 +35,13 @@
 				<xs:element ref="unification" />
 				<xs:element ref="phrases"/>
 				<xs:element ref="category"/>
-			</xs:choice>
-			<xs:attribute name="lang" type="xs:language" use="required" />
+			</xs:choice>			
 		</xs:complexType>
 	</xs:element>
-
-	<xs:annotation>
+ 
+ 	<xs:annotation>
 		<xs:documentation xml:lang="en"> Use the category element
-			to group rules/rulegroups. </xs:documentation>
+			to group rules. </xs:documentation>
 		<xs:documentation xml:lang="en"> The attribute name shows
 			the category use, e.g. 'Grammar', 'Spelling', 'Style' etc.
 		</xs:documentation>
@@ -50,9 +49,8 @@
 
 	<xs:element name="category">
 		<xs:complexType>
-			<xs:choice maxOccurs="unbounded">
+			<xs:choice maxOccurs="unbounded">				
 				<xs:element ref="rule" />
-				<xs:element ref="rulegroup" />
 			</xs:choice>
 			<xs:attribute name="default" use="optional">
 				<xs:simpleType>
@@ -65,34 +63,8 @@
 			<xs:attribute name="name" type="xs:string" use="required" />
 		</xs:complexType>
 	</xs:element>
-
-	<xs:annotation>
-		<xs:documentation xml:lang="en"> Defines a group of rules
-			to display several
-			rules as one in the configuration user interface. A group has a unique ID.
-			The whole rule group can be switched by default off using the
-			attribute 'default'.
-		</xs:documentation>
-	</xs:annotation>
-	<xs:element name="rulegroup">
-		<xs:complexType>
-			<xs:sequence minOccurs="1">
-				<xs:element ref="rule" maxOccurs="unbounded" />
-			</xs:sequence>
-			<xs:attribute name="default" use="optional">
-				<xs:simpleType>
-					<xs:restriction base="xs:NMTOKEN">
-						<xs:enumeration value="off" />
-						<xs:enumeration value="on" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:attribute>
-			<xs:attribute name="name" type="xs:string" use="optional" />
-			<xs:attribute name="id" type="xs:ID" use="required" />
-		</xs:complexType>
-	</xs:element>
-
-	<xs:annotation>
+ 
+ 	<xs:annotation>
 		<xs:documentation xml:lang="en"> The rule element. The
 			unique ID is
 			required only if the rule is not contained in a rule group.
@@ -101,28 +73,47 @@
 		</xs:documentation>
 	</xs:annotation>
 	<xs:element name="rule">
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element ref="pattern" />
-				<xs:element ref="message" />
-				<xs:element ref="short" minOccurs="0" />								
-				<xs:element ref="example" minOccurs="2" maxOccurs="unbounded" />
-			</xs:sequence>
-			<xs:attribute name="default" use="optional">
+	<xs:complexType>	
+	<xs:attribute name="default" use="optional">
 				<xs:simpleType>
 					<xs:restriction base="xs:NMTOKEN">
 						<xs:enumeration value="off" />
 						<xs:enumeration value="on" />
 					</xs:restriction>
 				</xs:simpleType>
-			</xs:attribute>
-			<xs:attribute name="name" type="xs:string" use="optional" />
-			<xs:attribute name="id" type="xs:ID" use="optional" />
+	</xs:attribute>			
+	<xs:attribute name="name" type="xs:string" use="optional" />
+	<xs:attribute name="id" type="xs:ID" use="required" />
+	</xs:complexType>		
+	</xs:element>
+ 
+ 
+ 	<xs:element name="source">
+ 	<xs:complexType>
+ 			<xs:sequence>
+				<xs:element ref="pattern" />
+				<xs:element ref="example" minOccurs="2" maxOccurs="unbounded" />
+			</xs:sequence>
+			<xs:attribute name="lang" type="xs:language" use="required" />
+ 	</xs:complexType> 	
+ 	</xs:element>
+ 	 	
+ 	<xs:element name="target">
+ 	<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="pattern" />
+				<xs:element ref="message" />							
+				<xs:element ref="example" minOccurs="2" maxOccurs="unbounded" />
+			</xs:sequence>			
 		</xs:complexType>
 	</xs:element>
-
+	
+	<!-- TODO: how to add source="yes" to match element only in
+	the target pattern tokens, but without adding it to the base
+	pattern.xsd? Probably impossible... -->
+ 
  	<xs:element name="pattern">
-		<xs:complexType>
+	<xs:complexType mixed="true">
 			<xs:choice minOccurs="1" maxOccurs="unbounded">
 				<xs:element ref="token" />
 				<xs:element ref="phraseref" />
@@ -135,20 +126,10 @@
 				use="optional" />
 			<xs:attribute name="case_sensitive" type="binaryYesNo"
 				use="optional" />
-		</xs:complexType>
+	</xs:complexType>
 	</xs:element>
-
-
-	<xs:annotation>
-		<xs:documentation xml:lang="en"> A short description of
-			the error detected by this rule displayed on the
-			context menu in OOo.
- 		</xs:documentation>
-	</xs:annotation>
-	<xs:element name="short" type="xs:token" />
-
-
-	<xs:annotation>
+	 	
+ 	<xs:annotation>
 		<xs:documentation xml:lang="en"> Message shown to the user
 			if a rule matches. </xs:documentation>
 	</xs:annotation>
@@ -172,24 +153,13 @@
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
-
-	<xs:annotation>
-		<xs:documentation xml:lang="en"> Specifies examples used
-			in JUnit tests and as internal documentation.
-
-			The attribute 'correction' is used to check if the suggested correction
-			is correct; multiple
-			suggestions are joined with "|".
-
-			The attribute triggers_error is not used.
-		</xs:documentation>
-	</xs:annotation>
-	
-	<xs:element name="example" xml:space="preserve">
+ 
+ 
+ 	<xs:element name="example" xml:space="preserve">
     <xs:complexType mixed="true">
       <xs:choice minOccurs="0" maxOccurs="unbounded">
         <xs:element ref="marker" />
-      </xs:choice>
+      </xs:choice> 
       <xs:attribute name="correction" type="xs:string"
 		use="optional" />
       <xs:attribute name="type" use="required">
@@ -197,12 +167,12 @@
           <xs:restriction base="xs:NMTOKEN">
             <xs:enumeration value="correct" />
             <xs:enumeration value="incorrect" />
-            <xs:enumeration value="triggers_error" />            
+            <xs:enumeration value="triggers_error" />
           </xs:restriction>
         </xs:simpleType>
       </xs:attribute>
       <xs:attribute name="reason" type="xs:string" use="optional" />
     </xs:complexType>
   </xs:element>
-	
-</xs:schema>
+ 
+ </xs:schema>
