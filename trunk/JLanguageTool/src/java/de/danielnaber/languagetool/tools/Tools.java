@@ -27,6 +27,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -34,6 +35,7 @@ import java.util.Locale;
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.rules.RuleMatch;
+import de.danielnaber.languagetool.rules.Rule;
 import de.danielnaber.languagetool.rules.patterns.PatternRule;
 import de.danielnaber.languagetool.tools.StringTools.XmlPrintMode;
 
@@ -164,6 +166,62 @@ public final class Tools {
     }
     return ruleMatches.size();
   }
+  /**
+   * Simple rule profiler - used to run LT on a corpus to see which
+   * rule takes most time.
+   * @param contents - text to check 
+   * @param lt - instance of LanguageTool
+   * @return number of matches
+   * @throws IOException
+   */
+  public static void profileRulesOnText(final String contents, 
+      final JLanguageTool lt) throws IOException {
+    long[] workTime = new long[10];
+    int matchCount = 0;
+    List<Rule> rules = lt.getAllRules();    
+    for (Rule rule : rules) {
+      lt.disableRule(rule.getId());
+    }
+    int ruleCount = rules.size();
+    System.out.printf("Testing %d rules\n", ruleCount);
+    System.out.println("Rule ID\tTime\tSentences\tMatches\tSentences per sec.");
+    for (int i = 0; i<ruleCount; i++) {
+    if (i > 0) {
+      lt.disableRule(rules.get(i - 1).getId());
+    }
+    lt.enableRule(rules.get(i).getId());
+    for (int k = 0; k < 10; k++) {
+      final long startTime = System.currentTimeMillis();
+      matchCount = lt.check(contents).size();        
+      final long endTime = System.currentTimeMillis();
+      workTime[k] = endTime - startTime;    
+    }
+    Arrays.sort(workTime);
+    final long time = median(workTime);
+    final float timeInSeconds = time / 1000.0f;
+    final float sentencesPerSecond = lt.getSentenceCount() / timeInSeconds;    
+    System.out.printf(Locale.ENGLISH,
+          "%s\t%d\t%d\t%d\t%.1f", rules.get(i).getId(), 
+          time, lt.getSentenceCount(), matchCount, sentencesPerSecond);
+      System.out.println();          
+    }    
+  }
+  
+  public static int profileRulesOnLine(final String contents, 
+      final JLanguageTool lt) throws IOException {    
+    int matchCount = 0;                   
+      matchCount = lt.check(contents).size();    
+    return matchCount;        
+  } 
+  
+  public static long median(long[] m) {
+    int middle = m.length/2;  // subscript of middle element
+    if (m.length%2 == 1) {
+        // Odd number of elements -- return the middle one.
+        return m[middle];
+    } 
+      return (m[middle-1] + m[middle]) / 2;
+    }
 
   /**
    *  Automatically applies suggestions to the text.

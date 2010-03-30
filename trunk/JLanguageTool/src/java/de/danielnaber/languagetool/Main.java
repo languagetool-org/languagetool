@@ -52,6 +52,8 @@ class Main {
   private boolean apiFormat;
   private boolean taggerOnly;
   private boolean applySuggestions;
+  private boolean profileRules;
+  long[] workTime = new long[10];  
 
   /* maximum file size to read in a single read */
   private static final int MAXFILESIZE = 64000;
@@ -65,6 +67,7 @@ class Main {
     this.apiFormat = apiFormat;
     this.taggerOnly = taggerOnly;
     this.applySuggestions = applySuggestions;
+    profileRules = false;
     lt = new JLanguageTool(language, motherTongue);
     lt.activateDefaultPatternRules();
     lt.activateDefaultFalseFriendRules();
@@ -92,6 +95,10 @@ class Main {
     lt.setListUnknownWords(listUnknownWords);
   }
 
+  private final void setProfilingMode() {
+    profileRules = true;
+  }
+  
   JLanguageTool getJLanguageTool() {
     return lt;
   }
@@ -107,6 +114,8 @@ class Main {
       final String text = getFilteredText(filename, encoding);
       if (applySuggestions) {
         System.out.print(Tools.correctText(text, lt));
+      } else if (profileRules) {        
+        Tools.profileRulesOnText(text, lt);
       } else if (!taggerOnly) {
         Tools.checkText(text, lt, apiFormat, 0);
       } else {
@@ -126,14 +135,32 @@ class Main {
           System.out.println("Working on STDIN...");
         }
       }
+      int runCount = 1; 
+      List<Rule> rules = lt.getAllRules();
+      if (profileRules) {           
+        for (Rule rule : rules) {
+          lt.disableRule(rule.getId());          
+        }
+        System.out.printf("Testing %d rules\n", rules.size());
+        System.out.println("Rule ID\tTime\tSentences\tMatches\tSentences per sec.");
+        runCount = rules.size();
+      }
       InputStreamReader isr = null;
       BufferedReader br = null;
-      int lineOffset = 0;
-      int matches = 0;
-      long sentences = 0;
+      int lineOffset = 0;           
       List<String> unknownWords = new ArrayList<String>();
-      StringBuilder sb = new StringBuilder();
+      StringBuilder sb = new StringBuilder();      
+      for (int ruleIndex = 0; ruleIndex <=runCount; ruleIndex++) {
+      int matches = 0;
+      long sentences = 0;        
       final long startTime = System.currentTimeMillis();
+        if (profileRules) {
+          //FIXME: this is not exactly OK for rule groups
+          if (ruleIndex > 0) {
+            lt.disableRule(rules.get(ruleIndex - 1).getId());
+          }
+          lt.enableRule(rules.get(ruleIndex).getId());
+        }
       try {
         if (!"-".equals(filename)) {
           final File file = new File(filename);
@@ -199,15 +226,23 @@ class Main {
         if (!applySuggestions) {
           final long endTime = System.currentTimeMillis();
           final long time = endTime - startTime;
-          final float timeInSeconds = time / 1000.0f;
-          final float sentencesPerSecond = sentences / timeInSeconds;
+          final float timeInSeconds = time / 1000.0f;          
+          final float sentencesPerSecond = sentences / timeInSeconds;          
           if (apiFormat) {
             System.out.println("<!--");
           }
-          System.out.printf(Locale.ENGLISH,
+          if (profileRules) {
+            //TODO: run 10 times, line in runOnce mode, and use median
+            System.out.printf(Locale.ENGLISH,
+                "%s\t%d\t%d\t%d\t%.1f", rules.get(ruleIndex).getId(), 
+                time, sentences, matches, sentencesPerSecond);
+            System.out.println();
+          } else {          
+            System.out.printf(Locale.ENGLISH,
               "Time: %dms for %d sentences (%.1f sentences/sec)", time,
               sentences, sentencesPerSecond);
           System.out.println();
+          }
           if (listUnknownWords) {
             Collections.sort(unknownWords);
             System.out.println("Unknown words: " + unknownWords);
@@ -223,6 +258,7 @@ class Main {
           isr.close();
         }
       }
+     }
     }
   }
 
@@ -232,6 +268,9 @@ class Main {
     if (applySuggestions) {
       System.out.print(Tools.correctText(StringTools.filterXML(sb.toString()),
           lt));
+    } else if (profileRules) {
+      matches += Tools.profileRulesOnLine(StringTools.filterXML(sb.toString()), 
+          lt);
     } else if (!taggerOnly) {
       if (matches == 0) {
         matches += Tools.checkText(StringTools.filterXML(sb.toString()), lt,
@@ -309,6 +348,7 @@ class Main {
     boolean apiFormat = false;
     boolean listUnknown = false;
     boolean applySuggestions = false;
+    boolean profile = false;
     Language language = null;
     Language motherTongue = null;
     String encoding = null;
@@ -377,7 +417,21 @@ class Main {
           throw new IllegalArgumentException(
               "API format makes no sense for automatic application of suggestions.");
         }
-      } else if (i == args.length - 1) {
+      } else if (args[i].equals("-p") || args[i].equals("--profile")) {
+        profile = true;        
+        if (apiFormat) {
+          throw new IllegalArgumentException(
+          "API format makes no sense for profiling.");
+        }
+        if (applySuggestions) {
+          throw new IllegalArgumentException(
+          "Applying suggestions makes no sense for profiling.");
+        }
+        if (taggerOnly) {
+          throw new IllegalArgumentException(
+          "Tagging makes no sense for profiling.");
+        }        
+      }  else if (i == args.length - 1) {
         filename = args[i];
       } else {
         System.err.println("Unknown option: " + args[i]);
@@ -400,6 +454,9 @@ class Main {
     final Main prg = new Main(verbose, taggerOnly, language, motherTongue,
         disabledRules, enabledRules, apiFormat, applySuggestions);
     prg.setListUnknownWords(listUnknown);
+    if (profile) {
+      prg.setProfilingMode();
+    }
     if (recursive) {
       prg.runRecursive(filename, encoding, listUnknown);
     } else {
