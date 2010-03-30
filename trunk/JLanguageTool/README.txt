@@ -189,72 +189,15 @@ License:
  http://dsso.se
  
  French:
- The French data for part-of-speech tagging are based on InDICO, created 
- by Myriam Lechelt Laurent Godard and released on LGPL terms. The lemmas 
- were added by Marcin Milkowski using original DICO files (in public domain),
- and manually. It remains LGPL. The following is a copyright notice about DICO.
+ The French data for part-of-speech tagging are from the Dicollecte project. 
+ They are made available here under LGPL. See detailed information in 
+ resource/fr/README_lexique.txt
 
  Galician:
  The Galician data for part-of-speech tagging were created by Susana Sotelo
  Docio based on Freeling dictionary and henceforth licensed under GPL.
 
 ------------------------------------------------ 
-
-License ABU
--=-=-=-=-=-
-Version 1.1, Aout 1999
-
-Copyright (C) 1999 Association de Bibliophiles Universels
-   http://abu.cnam.fr/
-   abu@cnam.fr
-
-La base de textes de l'Association des Bibliophiles Universels (ABU)
-est une oeuvre de compilation, elle peut être copiée, diffusée et
-modifiée dans les conditions suivantes :
-
-1.  Toute copie à des fins privées, à des fins d'illustration de l'enseignement
-    ou de recherche scientifique est autorisée.
-
-2.  Toute diffusion ou inclusion dans une autre oeuvre doit
-
-     a) soit inclure la presente licence s'appliquant a l'ensemble de la
-        diffusion ou de l'oeuvre dérivee.
-
-     b) soit permettre aux bénéficiaires de cette diffusion ou de cette
-        oeuvre dérivée d'en extraire facilement et gratuitement une version
-        numérisée de chaque texte inclu, muni de la présente licence.  Cette
-        possibilité doit être mentionnée explicitement et de façon claire,
-        ainsi que le fait que la présente notice s'applique aux documents
-        extraits.
-
-     c) permettre aux bénéficiaires de cette diffusion ou de cette
-        oeuvre dérivée d'en extraire facilement et gratuitement la version
-        numérisée originale, munie le cas échéant des améliorations visées au
-        paragraphe 6, si elles sont présentent dans la diffusion ou la nouvelle
-        oeuvre. Cette possibilité doit être mentionnée explicitement et de
-        façon claire, ainsi que le fait que la présente notice s'applique aux
-        documents extraits.
-
-   Dans tous les autres cas, la présente licence sera réputée s'appliquer
-   à l'ensemble de la diffusion ou de l'oeuvre dérivée.
-
-
-3. L'en-tête qui accompagne chaque fichier doit être intégralement 
-   conservée au sein de la copie.
-
-4. La mention du producteur original doit être conservée, ainsi
-   que celle des contributeurs ultérieurs.
-
-5. Toute modification ultérieure, par correction d'erreurs,
-   additions de variantes, mise en forme dans un autre format, ou autre,
-   doit être indiquée.  L'indication des diverses contributions devra être
-   aussi précise que possible, et datée.
-
-6. Ce copyright s'applique obligatoirement à toute amélioration
-   par simple correction d'erreurs ou d'oublis mineurs (orthographe,
-   phrase manquante, ...), c'est-à-dire ne correspondant pas à
-   l'adjonction d'une autre variante connue du texte, qui devra donc
-   comporter la présente notice.
  
  English:
  The English data for part-of-speech tagging are based on:
