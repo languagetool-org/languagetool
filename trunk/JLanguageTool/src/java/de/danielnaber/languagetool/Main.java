@@ -150,7 +150,7 @@ class Main {
       int lineOffset = 0;           
       List<String> unknownWords = new ArrayList<String>();
       StringBuilder sb = new StringBuilder();      
-      for (int ruleIndex = 0; ruleIndex <=runCount; ruleIndex++) {
+      for (int ruleIndex = 0; ruleIndex <runCount; ruleIndex++) {
       int matches = 0;
       long sentences = 0;        
       final long startTime = System.currentTimeMillis();
