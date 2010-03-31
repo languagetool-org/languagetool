@@ -57,7 +57,7 @@ public class CommaWhitespaceRule extends Rule {
     int pos = 0;
     int prevLen = 0;
     for (int i = 0; i < tokens.length; i++) {
-      final String token = tokens[i].getToken().trim();
+      final String token = tokens[i].getToken();
       final boolean isWhite = tokens[i].isWhitespace() 
           || tokens[i].isFieldCode();
       pos += token.length();
@@ -77,7 +77,6 @@ public class CommaWhitespaceRule extends Rule {
           && !token.equals("\"") && !token.equals("“")
           && !token.matches(".*\\d.*") && !token.equals("-")) {
         msg = messages.getString("missing_space_after_comma");
-
         suggestionText = ", ";
       } else if (token.equals(",") && prevWhite) {
         msg = messages.getString("space_after_comma");
