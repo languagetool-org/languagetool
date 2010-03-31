@@ -57,81 +57,84 @@ public class QuestionWhitespaceRule extends FrenchRule {
     final AnalyzedTokenReadings[] tokens = text.getTokens();
     String prevToken = "";
     int pos = 0;
-    for (int i = 0; i < tokens.length; i++) {
-      final String token = tokens[i].getToken().trim();
+    for (int i = 1; i < tokens.length; i++) {
+      final String token = tokens[i].getToken();
       final boolean isWhiteBefore = tokens[i].isWhitespaceBefore();
       pos += token.length();
       String msg = null;
       final int fixPos = 0;
       int fixLen = 0;
       String suggestionText = null;
-      if (token.equals("?") && isWhiteBefore) {
-        msg = "Point d'interrogation est précédé d'une espace fine insécable.";
-        // non-breaking space
-        suggestionText = " ?";
-        fixLen = 1;
-      } else if (token.equals("!") && isWhiteBefore) {
-        msg = "Point d'exclamation est précédé d'une espace fine insécable.";
-        // non-breaking space
-        suggestionText = " !";
-        fixLen = 1;
-      } else if (token.equals("»") && isWhiteBefore) {
-        msg = "Le guillemet fermant est précédé d'une espace fine insécable.";
-        // non-breaking space
-        suggestionText = " »";
-        fixLen = 1;
-      } else if (StringTools.isEmpty(token) && prevToken.equals("«")) {
+      if (isWhiteBefore) {
+        if (token.equals("?")) {
+          msg = "Point d'interrogation est précédé d'une espace fine insécable.";
+          // non-breaking space
+          suggestionText = " ?";
+          fixLen = 1;
+        } else if (token.equals("!")) {
+          msg = "Point d'exclamation est précédé d'une espace fine insécable.";
+          // non-breaking space
+          suggestionText = " !";
+          fixLen = 1; 
+        } else if (token.equals("»")) {
+          msg = "Le guillemet fermant est précédé d'une espace fine insécable.";
+          // non-breaking space
+          suggestionText = " »";
+          fixLen = 1;
+        } else if (token.equals(";")) {
+          msg = "Point-virgule est précédé d'une espace fine insécable.";
+          // non-breaking space
+          suggestionText = " ;";
+          fixLen = 1;
+        } else if (token.equals(":")) {
+          msg = "Deux-points sont précédé d'une espace fine insécable.";
+          // non-breaking space
+          suggestionText = " :";
+          fixLen = 1;
+        }        
+      } else {
+        if (token.equals("?") && !prevToken.equals("!")
+            && !prevToken.equals("\u00a0")) {
+          msg = "Point d'interrogation est précédé d'une espace fine insécable.";
+          // non-breaking space
+          suggestionText = prevToken + " ?";
+          fixLen = 1;
+        } else if (token.equals("!") && !prevToken.equals("?")
+            && !prevToken.equals("\u00a0")) {
+          msg = "Point d'exclamation est précédé d'une espace fine insécable.";
+          // non-breaking space
+          suggestionText = prevToken + " !";
+          fixLen = 1;
+        } else if (token.equals(";") && !prevToken.equals("\u00a0")) {
+          msg = "Point-virgule est précédé d'une espace fine insécable.";
+          // non-breaking space
+          suggestionText = prevToken + " ;";
+          fixLen = 1;
+        } else if (token.equals(":") && !prevToken.equals("\u00a0")) {
+          msg = "Deux-points précédés d'une espace fine insécable.";
+          // non-breaking space
+          suggestionText = prevToken + " :";
+          fixLen = 1;
+        } else if (token.equals("»") && !prevToken.equals("\u00a0")) {
+          msg = "Le guillemet fermant est précédé d'une espace fine insécable.";
+          // non-breaking space
+          suggestionText = prevToken + " »";
+          fixLen = 1;
+        }             
+      } 
+      
+      if (StringTools.isEmpty(token) && prevToken.equals("«")) {
         msg = "Le guillemet ouvrant est suivi d'une espace fine insécable.";
         // non-breaking space
         suggestionText = "« ";
         fixLen = 1;
-      } else if (token.equals(";") && isWhiteBefore) {
-        msg = "Point-virgule est précédé d'une espace fine insécable.";
-        // non-breaking space
-        suggestionText = " ;";
-        fixLen = 1;
-      } else if (token.equals(":") && isWhiteBefore) {
-        msg = "Deux-points sont précédé d'une espace fine insécable.";
-        // non-breaking space
-        suggestionText = " :";
-        fixLen = 1;
-      } else if (token.equals("?") && !isWhiteBefore && !prevToken.equals("!")
-          && !prevToken.equals("\u00a0")) {
-        msg = "Point d'interrogation est précédé d'une espace fine insécable.";
-        // non-breaking space
-        suggestionText = prevToken + " ?";
-        fixLen = 1;
-      } else if (token.equals("!") && !isWhiteBefore && !prevToken.equals("?")
-          && !prevToken.equals("\u00a0")) {
-        msg = "Point d'exclamation est précédé d'une espace fine insécable.";
-        // non-breaking space
-        suggestionText = prevToken + " !";
-        fixLen = 1;
-      } else if (token.equals(";") && !isWhiteBefore
-          && !prevToken.equals("\u00a0")) {
-        msg = "Point-virgule est précédé d'une espace fine insécable.";
-        // non-breaking space
-        suggestionText = prevToken + " ;";
-        fixLen = 1;
-      } else if (token.equals(":") && !isWhiteBefore
-          && !prevToken.equals("\u00a0")) {
-        msg = "Deux-points précédés d'une espace fine insécable.";
-        // non-breaking space
-        suggestionText = prevToken + " :";
-        fixLen = 1;
-      } else if (!StringTools.isEmpty(token) && !token.equals("\u00a0")
+      }  else if (!StringTools.isEmpty(token) && !token.equals("\u00a0")
           && prevToken.equals("«")) {
         msg = "Le guillemet ouvrant est suivi d'une espace fine insécable.";
         // non-breaking space
         suggestionText = "« ";
         fixLen = 0;
-      } else if (!isWhiteBefore && !prevToken.equals("\u00a0")
-          && token.equals("»")) {
-        msg = "Le guillemet fermant est précédé d'une espace fine insécable.";
-        // non-breaking space
-        suggestionText = prevToken + " »";
-        fixLen = 1;
-      }
+      } 
 
       if (msg != null) {
         final int fromPos = tokens[i - 1].getStartPos() + fixPos;
