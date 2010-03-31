@@ -52,7 +52,7 @@ public class DoublePunctuationRule extends Rule {
     int dotCount = 0;
     int commaCount = 0;
     for (int i = 0; i < tokens.length; i++) {
-      final String token = tokens[i].getToken().trim();
+      final String token = tokens[i].getToken();
       String nextToken = null;
       if (i < tokens.length - 1) {
         nextToken = tokens[i + 1].getToken();
