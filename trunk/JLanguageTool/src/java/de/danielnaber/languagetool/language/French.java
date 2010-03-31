@@ -83,6 +83,7 @@ public class French extends Language {
     ids.add("UNPAIRED_BRACKETS");
     ids.add("UPPERCASE_SENTENCE_START");    
     ids.add("WHITESPACE_RULE");
+    ids.add("FRENCH_WHITESPACE");
     return ids;
   }
 
