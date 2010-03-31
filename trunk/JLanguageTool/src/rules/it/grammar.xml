@@ -6,15 +6,15 @@ title="Easy editing stylesheet" ?>
 <!--
 Italian Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.8 2010-02-18 23:05:33 milek_pl Exp $
+$Id: grammar.xml,v 1.9 2010-03-31 22:41:50 milek_pl Exp $
 -->
 
 <!-- 
 ================================================================================
  Italian Grammar and Style Rules for Italian
  Paolo Bianchini
- Date: 18/2/2010
- Ver:  0.7
+ Date: 23/2/2010
+ Ver:  0.8
 ================================================================================
  Categorie delle regole
     gruppi delle regole
@@ -84,10 +84,11 @@ Grammatica - Punteggiatura			GR_09
 <!--
 ================================================================================
  Fixes
- ===== =========================================================================
- PB001 Removed prepositions and two letter words in repetition check
- PB002 Added some preposition usage checks (moved a gratis rule)
- ===== =========================================================================
+ ======== =========================================================================
+ PB001    Removed prepositions and two letter words in repetition check
+ PB002    Added some preposition usage checks (moved a gratis rule)
+ 2957133  name/article concordance (un vs uno)
+ ======== =========================================================================
 -->
 
 
@@ -187,7 +188,12 @@ Grammatica - Punteggiatura			GR_09
 			<rule>
 				<pattern >
 					<token regexp="yes">un|una</token>
+<!-- 2957133 + -->
+<!--
 					<token postag="NOUN-M.s" postag_regexp="yes" regexp="yes">[zx].*|s[bcdfghlmnpqrstv].*|p[ns].*|[gn].*|[iy][aeiou].*<exception postag="(NOUN-M.p)|(NOUN-F.s)" postag_regexp="yes"/></token>
+-->
+					<token postag="NOUN-M.s" postag_regexp="yes" regexp="yes">[zx].*|s[bcdfghlmnpqrstv].*|p[ns].*|gn.*|[iy][aeiou].*<exception postag="(NOUN-M.p)|(NOUN-F.s)" postag_regexp="yes"/></token>
+<!-- 2957133 - -->
 				</pattern>
 				<message>L'articolo non concorda: <suggestion>uno <match no="2" /></suggestion>.</message>
 				<example type="incorrect">Devi andare da <marker>un psicologo</marker>.</example>
@@ -1109,3 +1115,6 @@ Grammatica - Punteggiatura			GR_09
 </rules>
 
 
+
+
+ 	  	 
