@@ -53,7 +53,8 @@ class Main {
   private boolean taggerOnly;
   private boolean applySuggestions;
   private boolean profileRules;
-  long[] workTime = new long[10];  
+  long[] workTime = new long[10];
+  private Rule currentRule;
 
   /* maximum file size to read in a single read */
   private static final int MAXFILESIZE = 64000;
@@ -137,10 +138,7 @@ class Main {
       }
       int runCount = 1; 
       List<Rule> rules = lt.getAllRules();
-      if (profileRules) {           
-        for (Rule rule : rules) {
-          lt.disableRule(rule.getId());          
-        }
+      if (profileRules) {                   
         System.out.printf("Testing %d rules\n", rules.size());
         System.out.println("Rule ID\tTime\tSentences\tMatches\tSentences per sec.");
         runCount = rules.size();
@@ -151,16 +149,10 @@ class Main {
       List<String> unknownWords = new ArrayList<String>();
       StringBuilder sb = new StringBuilder();      
       for (int ruleIndex = 0; ruleIndex <runCount; ruleIndex++) {
+      currentRule = rules.get(ruleIndex);
       int matches = 0;
       long sentences = 0;        
-      final long startTime = System.currentTimeMillis();
-        if (profileRules) {
-          //FIXME: this is not exactly OK for rule groups
-          if (ruleIndex > 0) {
-            lt.disableRule(rules.get(ruleIndex - 1).getId());
-          }
-          lt.enableRule(rules.get(ruleIndex).getId());
-        }
+      final long startTime = System.currentTimeMillis();        
       try {
         if (!"-".equals(filename)) {
           final File file = new File(filename);
@@ -188,6 +180,9 @@ class Main {
               .singleLineBreaksMarksPara()) {
             matches = handleLine(matches, lineOffset, sb);
             sentences += lt.getSentenceCount();
+            if (profileRules) {
+              sentences += lt.sentenceTokenize(sb.toString()).size();
+            }
             if (listUnknownWords && !taggerOnly) {
               for (String word : lt.getUnknownWords())
                 if (!unknownWords.contains(word)) {
@@ -199,6 +194,9 @@ class Main {
             if ("".equals(line) || sb.length() >= MAXFILESIZE) {
               matches = handleLine(matches, lineOffset, sb);
               sentences += lt.getSentenceCount();
+              if (profileRules) {
+                sentences += lt.sentenceTokenize(sb.toString()).size();
+              }
               if (listUnknownWords && !taggerOnly) {
                 for (String word : lt.getUnknownWords())
                   if (!unknownWords.contains(word)) {
@@ -215,6 +213,9 @@ class Main {
         if (sb.length() > 0) {
           matches = handleLine(matches, lineOffset - 1, sb);
           sentences += lt.getSentenceCount();
+          if (profileRules) {
+            sentences += lt.sentenceTokenize(sb.toString()).size();
+          }
           if (listUnknownWords && !taggerOnly) {
             for (String word : lt.getUnknownWords())
               if (!unknownWords.contains(word)) {
@@ -270,7 +271,7 @@ class Main {
           lt));
     } else if (profileRules) {
       matches += Tools.profileRulesOnLine(StringTools.filterXML(sb.toString()), 
-          lt);
+          lt, currentRule);
     } else if (!taggerOnly) {
       if (matches == 0) {
         matches += Tools.checkText(StringTools.filterXML(sb.toString()), lt,

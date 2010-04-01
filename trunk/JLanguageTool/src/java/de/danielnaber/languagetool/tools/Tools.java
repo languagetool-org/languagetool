@@ -178,40 +178,40 @@ public final class Tools {
       final JLanguageTool lt) throws IOException {
     long[] workTime = new long[10];
     int matchCount = 0;
-    List<Rule> rules = lt.getAllRules();    
-    for (Rule rule : rules) {
-      lt.disableRule(rule.getId());
-    }
+    List<Rule> rules = lt.getAllRules();        
     int ruleCount = rules.size();
     System.out.printf("Testing %d rules\n", ruleCount);
     System.out.println("Rule ID\tTime\tSentences\tMatches\tSentences per sec.");
-    for (int i = 0; i<ruleCount; i++) {
-    if (i > 0) {
-      lt.disableRule(rules.get(i - 1).getId());
-    }
-    lt.enableRule(rules.get(i).getId());
+    List<String> sentences = lt.sentenceTokenize(contents);
+    for (Rule rule : rules) {
+      matchCount = 0;
     for (int k = 0; k < 10; k++) {
       final long startTime = System.currentTimeMillis();
-      matchCount = lt.check(contents).size();        
+      for (String sentence : sentences) {
+      matchCount += rule.match
+        (lt.getAnalyzedSentence(sentence)).length;
+      }
       final long endTime = System.currentTimeMillis();
       workTime[k] = endTime - startTime;    
     }
     Arrays.sort(workTime);
     final long time = median(workTime);
     final float timeInSeconds = time / 1000.0f;
-    final float sentencesPerSecond = lt.getSentenceCount() / timeInSeconds;    
+    final float sentencesPerSecond = sentences.size() / timeInSeconds;    
     System.out.printf(Locale.ENGLISH,
-          "%s\t%d\t%d\t%d\t%.1f", rules.get(i).getId(), 
-          time, lt.getSentenceCount(), matchCount, sentencesPerSecond);
+          "%s\t%d\t%d\t%d\t%.1f", rule.getId(), 
+          time, sentences.size(), matchCount, sentencesPerSecond);
       System.out.println();          
     }    
   }
   
   public static int profileRulesOnLine(final String contents, 
-      final JLanguageTool lt) throws IOException {    
-    int matchCount = 0;                   
-      matchCount = lt.check(contents).size();    
-    return matchCount;        
+      final JLanguageTool lt, final Rule rule) throws IOException {
+    int count = 0;  
+    for (final String sentence : lt.sentenceTokenize(contents)) {
+      count += rule.match(lt.getAnalyzedSentence(sentence)).length ;
+    }
+    return count;
   } 
   
   public static long median(long[] m) {
