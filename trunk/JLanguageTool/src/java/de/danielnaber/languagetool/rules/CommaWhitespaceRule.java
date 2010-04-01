@@ -32,8 +32,6 @@ import de.danielnaber.languagetool.AnalyzedTokenReadings;
  * @author Daniel Naber
  */
 
-// TODO: add logic to check missing whitespace before ([{
-// and after )}]
 public class CommaWhitespaceRule extends Rule {
 
   public CommaWhitespaceRule(final ResourceBundle messages) {
@@ -59,37 +57,37 @@ public class CommaWhitespaceRule extends Rule {
     for (int i = 0; i < tokens.length; i++) {
       final String token = tokens[i].getToken();
       final boolean isWhite = tokens[i].isWhitespace() 
-          || tokens[i].isFieldCode();
+      || tokens[i].isFieldCode();
       pos += token.length();
       String msg = null;
       int fixLen = 0;
       String suggestionText = null;
-      if (isWhite && prevToken.equals("(")) {
+      if (isWhite && isLeftBracket(prevToken)) {
         msg = messages.getString("no_space_after");
-        suggestionText = "(";
+        suggestionText = prevToken;
         fixLen = 1;
-      } else if (token.equals(")") && prevWhite) {
-        msg = messages.getString("no_space_before");
-        suggestionText = ")";
-        fixLen = 1;
-      } else if (prevToken.equals(",") && !isWhite && !token.equals("'")
-          && !token.equals("&quot") && !token.equals("”") && !token.equals("’")
-          && !token.equals("\"") && !token.equals("“")
-          && !token.matches(".*\\d.*") && !token.equals("-")) {
+      } else if (!isWhite && prevToken.equals(",") 
+          && isNotQuoteOrHyphen(token)) {
         msg = messages.getString("missing_space_after_comma");
         suggestionText = ", ";
-      } else if (token.equals(",") && prevWhite) {
-        msg = messages.getString("space_after_comma");
-        suggestionText = ",";
-        fixLen = 1;
-      } else if (token.equals(".") && prevWhite) {
-        msg = messages.getString("no_space_before_dot");
-        suggestionText = ".";
-        fixLen = 1;
-        // exception case for figures such as ".5" and ellipsis
-        if (i + 1 < tokens.length
-            && tokens[i + 1].getToken().matches("\\d.*|\\.")) {
-          msg = null;
+      } else if (prevWhite) {
+        if (isRightBracket(token)) {
+          msg = messages.getString("no_space_before");
+          suggestionText = token;
+          fixLen = 1;
+        } else if (token.equals(",")) {
+          msg = messages.getString("space_after_comma");
+          suggestionText = ",";
+          fixLen = 1;
+        } else if (token.equals(".")) {
+          msg = messages.getString("no_space_before_dot");
+          suggestionText = ".";
+          fixLen = 1;
+          // exception case for figures such as ".5" and ellipsis
+          if (i + 1 < tokens.length
+              && isNumberOrDot(tokens[i + 1].getToken())) {
+            msg = null;
+          }
         }
       }
       if (msg != null) {
@@ -108,6 +106,52 @@ public class CommaWhitespaceRule extends Rule {
     }
 
     return toRuleMatchArray(ruleMatches);
+  }
+
+  static boolean isNotQuoteOrHyphen(final String str) {
+    if (str.length() == 1) {
+      char c = str.charAt(0);                   
+      if (c =='\'' || c == '-' || c == '”' 
+        || c =='’' || c == '"' || c == '“'){
+        return false;
+      }
+    } else {
+      if ("&quot".equals(str)) {
+        return false;
+      } 
+      return containsNoNumber(str);              
+    }
+    return true;
+  }
+
+  static boolean isNumberOrDot(final String str) {
+    char c = str.charAt(0);
+    return (c == '.' || Character.isDigit(c)); 
+  }
+
+  static boolean isLeftBracket(final String str) {
+    if (str.length() == 0) {
+      return false;
+    }
+    char c = str.charAt(0);
+    return (c == '(' || c == '[' || c == '{');
+  }
+
+  static boolean isRightBracket(final String str) {
+    if (str.length() == 0) {
+      return false;
+    }
+    char c = str.charAt(0);
+    return (c == ')' || c == ']' || c == '}');
+  }
+
+  static boolean containsNoNumber(final String str) {    
+    for (int i = 0; i < str.length(); i++) {
+      if (Character.isDigit(str.charAt(i))) {
+        return false;
+      }
+    }
+    return true;
   }
 
   public void reset() {
