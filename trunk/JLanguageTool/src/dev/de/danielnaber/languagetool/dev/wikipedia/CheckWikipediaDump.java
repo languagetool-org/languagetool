@@ -23,42 +23,26 @@
  */
 package de.danielnaber.languagetool.dev.wikipedia;
 
-import info.bliki.wiki.model.WikiModel;
-
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
-import java.util.Properties;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import org.apache.commons.lang.StringEscapeUtils;
-import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
 
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
-import de.danielnaber.languagetool.TextFilter;
-import de.danielnaber.languagetool.dev.tools.RomanianDiacriticsModifier;
-import de.danielnaber.languagetool.gui.Tools;
-import de.danielnaber.languagetool.rules.RuleMatch;
 
 /**
  * Check texts from Wikipedia (download "pages-articles.xml.bz2" from
  * http://download.wikimedia.org/backup-index.html, e.g.
  * http://download.wikimedia.org/dewiki/latest/dewiki-latest-pages-articles.xml.bz2)
- * and stores the result in a database. Used for community.languagetool.org.
+ * and stores the result in a database.
  * 
  * @author Daniel Naber
  */
@@ -116,7 +100,8 @@ public class CheckWikipediaDump {
     System.err.println("These rules are disabled: " + lt.getDisabledRules());
     Date dumpDate = getDumpDate(file);
     System.out.println("Dump date: " + dumpDate + ", language: " + language);
-    WikiDumpHandler handler = new WikiDumpHandler(lt, maxArticles, dumpDate,
+    //TODO: make this configurable
+    DatabaseDumpHandler handler = new DatabaseDumpHandler(lt, maxArticles, dumpDate,
         language, propFile, lang); 
     SAXParserFactory factory = SAXParserFactory.newInstance();
     SAXParser saxParser = factory.newSAXParser();
@@ -135,190 +120,6 @@ public class CheckWikipediaDump {
     } catch (ParseException e) {
       throw new IOException("Unexpected date format: " + parts[1], e);
     }
-  }
-
-}
-
-/**
- * Read the Wikipedia XML dump, check texts with LanguageTool, store
- * check result in database.
- */
-class WikiDumpHandler extends DefaultHandler {
-
-  private static final int CONTEXT_SIZE = 50; 
-  private static final String MARKER_START = "<err>";
-  private static final String MARKER_END = "</err>";
-  private static final String LANG_MARKER = "XX";
-  private static final String URL_PREFIX = "http://" + LANG_MARKER + ".wikipedia.org/wiki/";
-  
-  private JLanguageTool lt;
-  private int ruleMatchCount = 0;
-  private int articleCount = 0;
-  private int maxArticles = 0;
-
-  private boolean inText = false;
-  private StringBuilder text = new StringBuilder();
-  
-  private TextFilter textFilter = new WikipediaTextFilter();
-
-  private Connection conn;
-  private Date dumpDate;
-  private String langCode;
-  private String title;
-  private Language lang;
-
-  //===========================================================
-  // SAX DocumentHandler methods
-  //===========================================================
-
-  WikiDumpHandler(JLanguageTool lt, int maxArticles, Date dumpDate,
-      String langCode, File propertiesFile, Language lang) throws IOException {
-	this.lang = lang;
-	this.lt = lt;
-    this.maxArticles = maxArticles;
-    this.dumpDate = dumpDate;
-    this.langCode = langCode;
-    initTextFilter();
-    try {
-      Properties dbProperties = new Properties();
-      dbProperties.load(new FileInputStream(propertiesFile));
-      String dbDriver = getProperty(dbProperties, "dbDriver");
-      String dbUrl = getProperty(dbProperties, "dbUrl");
-      String dbUser = getProperty(dbProperties, "dbUser");
-      String dbPassword = getProperty(dbProperties, "dbPassword");
-      Class.forName(dbDriver);
-      conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
-    } catch (ClassNotFoundException e) {
-      throw new RuntimeException(e);
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
-    }
-  }
-  
-  /**
-   * initialize textFilter field 
-   */
-  private void initTextFilter() {
-    if (Language.ROMANIAN == lang) {
-      textFilter = new WikipediaTextFilter() {
-        @Override
-        public String filter(String arg0) {
-          final String tmp = super.filter(arg0);
-          // diacritics correction (comma-bellow instead of sedilla for ș and ț)
-          return RomanianDiacriticsModifier.correctDiacritrics(tmp);
-        }
-      };
-    } else {
-      textFilter = new WikipediaTextFilter();
-    }
-  }
-
-  private String getProperty(Properties prop, String key) {
-    String value = prop.getProperty(key);
-    if (value == null) {
-      throw new RuntimeException("required key '" +key+ "' not found in properties");
-    }
-    return value;
-  }
-
-  @SuppressWarnings("unused")
-  public void startElement(String namespaceURI, String lName, String qName,
-      Attributes attrs) throws SAXException {
-    if (qName.equals("title")) {
-      inText = true;
-    } else if (qName.equals("text")) {
-      inText = true;
-    }
-  }
-
-  @SuppressWarnings("unused")
-  public void endElement(String namespaceURI, String sName, String qName) {
-    if (qName.equals("title")) {
-      title = text.toString();
-      text = new StringBuilder();
-    } else if (qName.equals("text")) {
-      //System.err.println(text.length() + " " + text.substring(0, Math.min(50, text.length())));
-      String textToCheck = textFilter.filter(text.toString());
-      //System.out.println(textToCheck);
-      if (!textToCheck.contains("#REDIRECT")) {
-        //System.err.println("#########################");
-        //System.err.println(textToCheck);
-        try {
-          articleCount++;
-          if (maxArticles > 0 && articleCount > maxArticles) {
-            System.out.printf("Maximum number of articles reached. Found %d matches in %d articles\n",
-                ruleMatchCount, articleCount);
-            System.exit(0);
-          }
-          List<RuleMatch> ruleMatches = lt.check(textToCheck);  
-          System.out.println("Checking article " + articleCount + " (" +
-              textToCheck.length()/1024 + "KB, '" + title + "')" + 
-              ", found " + ruleMatches.size() + " matches");
-          saveResultToDatabase(ruleMatches, textToCheck, lt.getLanguage());
-          ruleMatchCount += ruleMatches.size();
-        } catch (IOException e) {
-          throw new RuntimeException(e);
-        } catch (SQLException e) {
-          throw new RuntimeException(e);
-        }
-      }
-      text = new StringBuilder();
-    }
-    inText = false;
-  }
-
-  public void characters(char buf[], int offset, int len) {
-    String s = new String(buf, offset, len);
-    if (inText) {
-      text.append(s);
-    }
-  }
-  
-  private void saveResultToDatabase(List<RuleMatch> ruleMatches,
-      String text, Language language) throws SQLException {
-    String sql = "INSERT INTO corpus_match " +
-    		"(version, language_code, ruleid, message, error_context, corpus_date, " +
-    		"check_date, sourceuri, is_visible) "+
-    		"VALUES (0, ?, ?, ?, ?, ?, ?, ?, 1)";
-    PreparedStatement prepSt = conn.prepareStatement(sql);
-    for (RuleMatch match : ruleMatches) {
-      prepSt.setString(1, language.getShortName());
-      prepSt.setString(2, match.getRule().getId());
-      prepSt.setString(3, match.getMessage());
-      prepSt.setString(4, Tools.getContext(match.getFromPos(),
-            match.getToPos(), text, CONTEXT_SIZE, MARKER_START, MARKER_END));
-      prepSt.setDate(5, new java.sql.Date(dumpDate.getTime()));
-      prepSt.setDate(6, new java.sql.Date(new Date().getTime()));
-      prepSt.setString(7, URL_PREFIX.replaceAll(LANG_MARKER, langCode) + title);
-      prepSt.executeUpdate();
-    }
-  }
-
-}
-
-/**
- * Convert Wikipedia syntax to HTML using Bliki and then try to clean it up (this is
- * rather ugly).
- */
-class WikipediaTextFilter implements TextFilter {
-
-  public String filter(String s) {
-    // TODO: find general HTML to Text converter?!:
-    WikiModel wikiModel = new WikiModel("${image}", "${title}");
-    s = wikiModel.render(s);
-    //System.out.println("0####"+s);
-    s = s.replaceAll("\\{\\{.*?\\}\\}", "");
-    s = s.replaceAll("</p>", "\n\n");
-    s = s.replaceAll("</dt>", "\n\n");
-    s = s.replaceAll("</dl>", "\n\n");
-    s = s.replaceAll("</h\\d>", "\n\n");
-    s = s.replaceAll("<a href=\"http://[a-zA-Z-]+\\.wikipedia\\.org/wiki/.*?\">.*?</a>", "");
-    s = s.replaceAll("<.*?>", "");
-    s = s.replaceAll("\n\n*", "\n\n");    // single line break isn't detected as paragraph in LT by default
-    s = StringEscapeUtils.unescapeHtml(s);
-    //System.out.println("1############################################\n"+s);
-    //System.out.println("/############################################"+s);
-    return s;
   }
 
 }
