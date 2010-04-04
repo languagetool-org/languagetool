@@ -21,7 +21,7 @@
  *
  * Created on 21.12.2006
  */
-package de.danielnaber.languagetool.dev;
+package de.danielnaber.languagetool.dev.wikipedia;
 
 import info.bliki.wiki.model.WikiModel;
 
