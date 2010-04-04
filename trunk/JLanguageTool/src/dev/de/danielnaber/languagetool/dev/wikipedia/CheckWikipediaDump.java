@@ -39,7 +39,7 @@ import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
 
 /**
- * Check texts from Wikipedia (download "pages-articles.xml.bz2" from
+ * Command-line tool that checks texts from Wikipedia (download "pages-articles.xml.bz2" from
  * http://download.wikimedia.org/backup-index.html, e.g.
  * http://download.wikimedia.org/dewiki/latest/dewiki-latest-pages-articles.xml.bz2)
  * and stores the result in a database.
@@ -56,14 +56,22 @@ public class CheckWikipediaDump {
     CheckWikipediaDump prg = new CheckWikipediaDump();
     if (args.length < 3 || args.length > 4) {
       System.err.println("Usage: CheckWikipediaDump <propertyFile> <language> <filename> [maxArticleCheck]");
+      System.err.println("\tpropertyFile a file to set database access properties. Use '-' to print results to stdout.");
+      System.err.println("\tlanguage languagecode like 'en' or 'de'");
+      System.err.println("\tfilename path to unpacked Wikipedia XML dump");
+      System.err.println("\tmaxArticleCheck optional: maximum number of articles to check");
       System.exit(1);
     }
     int maxArticles = 0;
-    if (args.length == 4)
+    if (args.length == 4) {
       maxArticles = Integer.parseInt(args[3]);
-    File propFile = new File(args[0]);
-    if (!propFile.exists() || propFile.isDirectory()) {
-      throw new IOException("file not found or isn't a file: " + propFile.getAbsolutePath());
+    }
+    File propFile = null;
+    if (!"-".equals(args[0])) {
+      propFile = new File(args[0]);
+      if (!propFile.exists() || propFile.isDirectory()) {
+        throw new IOException("file not found or isn't a file: " + propFile.getAbsolutePath());
+      }
     }
     prg.run(propFile, args[1], args[2], maxArticles);
   }
@@ -100,9 +108,14 @@ public class CheckWikipediaDump {
     System.err.println("These rules are disabled: " + lt.getDisabledRules());
     Date dumpDate = getDumpDate(file);
     System.out.println("Dump date: " + dumpDate + ", language: " + language);
-    //TODO: make this configurable
-    DatabaseDumpHandler handler = new DatabaseDumpHandler(lt, maxArticles, dumpDate,
-        language, propFile, lang); 
+    BaseWikipediaDumpHandler handler;
+    if (propFile != null) {
+      handler = new DatabaseDumpHandler(lt, maxArticles, dumpDate,
+                language, propFile, lang); 
+    } else {
+      handler = new OutputDumpHandler(lt, maxArticles, dumpDate,
+              language, lang); 
+    }
     SAXParserFactory factory = SAXParserFactory.newInstance();
     SAXParser saxParser = factory.newSAXParser();
     saxParser.parse(file, handler);
