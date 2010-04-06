@@ -141,7 +141,9 @@ public final class JLanguageTool {
    * @param language
    *          the language to be used.
    * @param motherTongue
-   *          the user's mother tongue or <code>null</code>
+   *          the user's mother tongue or <code>null</code>. The mother tongue
+   *          may also be used as a source language for checking bilingual texts.
+   *          
    * @throws IOException
    */
   public JLanguageTool(final Language language, final Language motherTongue)
