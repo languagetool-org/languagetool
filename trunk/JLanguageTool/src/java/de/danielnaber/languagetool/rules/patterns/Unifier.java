@@ -156,7 +156,9 @@ public class Unifier {
     //final String[] features = uFeatures.
     List<String> types;
 
-    if (!allFeatsIn) {
+    if (allFeatsIn) {
+      unified &= checkNext(aToken, uFeatures);      
+    } else {
       tokCnt++;
       while (equivalencesMatched.size() <= tokCnt) {
         equivalencesMatched.add(new HashMap<String, Set<String>>());
@@ -194,8 +196,6 @@ public class Unifier {
           tokSequence.get(0).addReading(aToken);
         }
       }
-    } else {
-      unified &= checkNext(aToken, uFeatures);
     }
     return unified ^ negation;
   }
@@ -309,7 +309,7 @@ public class Unifier {
         return null;
       }
       // FIXME: why this happens??
-      int numRead = tokSequence.get(0).getReadingsLength(); 
+      final int numRead = tokSequence.get(0).getReadingsLength(); 
       if (first < numRead) {
         tmpATR = new AnalyzedTokenReadings(tokSequence.get(0).getAnalyzedToken(
             first), 0);

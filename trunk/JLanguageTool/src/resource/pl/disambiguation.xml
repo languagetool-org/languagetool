@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 	<!--
 		Disambiguation Rules for LanguageTool Copyright (C) 2008				
-$Id: disambiguation.xml,v 1.21 2010-03-28 02:20:54 milek_pl Exp $
+$Id: disambiguation.xml,v 1.22 2010-04-08 17:29:56 milek_pl Exp $
 	-->	
-<rules lang="pl">
+<rules lang="pl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="../disambiguation.xsd">
   <unification feature="number">
     <equivalence type="sg">
       <token postag=".*:sg:.*" postag_regexp="yes"/>
@@ -25,25 +26,25 @@ $Id: disambiguation.xml,v 1.21 2010-03-28 02:20:54 milek_pl Exp $
   </unification>
   <unification feature="case">
     <equivalence type="nom">
-      <token postag=".*[\.:]nom[\.:].*" postag_regexp="yes"/>
+      <token postag=".*[\.:]nom([\.:].*)?" postag_regexp="yes"/>
     </equivalence>
     <equivalence type="gen">
-      <token postag=".*[\.:]gen[\.:].*" postag_regexp="yes"/>
+      <token postag=".*[\.:]gen([\.:].*)?" postag_regexp="yes"/>
     </equivalence>
     <equivalence type="dat">
-      <token postag=".*[\.:]dat[\.:].*" postag_regexp="yes"/>
+      <token postag=".*[\.:]dat([\.:].*)?" postag_regexp="yes"/>
     </equivalence>
     <equivalence type="acc">
-      <token postag=".*[\.:]acc[\.:].*" postag_regexp="yes"/>
+      <token postag=".*[\.:]acc([\.:].*)?" postag_regexp="yes"/>
     </equivalence>
     <equivalence type="inst">
-      <token postag=".*[\.:]inst[\.:].*" postag_regexp="yes"/>
+      <token postag=".*[\.:]inst([\.:].*)?" postag_regexp="yes"/>
     </equivalence>
     <equivalence type="loc">
-      <token postag=".*[\.:]loc[\.:].*" postag_regexp="yes"/>
+      <token postag=".*[\.:]loc([\.:].*)?" postag_regexp="yes"/>
     </equivalence>
     <equivalence type="voc">
-      <token postag=".*[\.:]voc[\.:].*" postag_regexp="yes"/>
+      <token postag=".*[\.:]voc([\.:].*)?" postag_regexp="yes"/>
     </equivalence>
   </unification>
 	<rule name="opisany powyżej" id="opisany_powyzej">
@@ -266,16 +267,42 @@ $Id: disambiguation.xml,v 1.21 2010-03-28 02:20:54 milek_pl Exp $
 		<disambig postag="qub"/>
 	</rule>
 	
-	<rule name="prep + czasownik -> ~ czasownik" id="prep_verb">
+	<rulegroup name="prep + czasownik -> ~ czasownik" id="prep_verb">
+	<!--  przyimki zawsze z tym samym przypadkiem -->
+	<rule>
 		<pattern mark="1">		
-			<token regexp="yes">w|do|z|na|ze|przed|przede</token>
+			<!-- 
+			<token regexp="yes">[uwz]|[pd]o|ode?|oprócz|dla|(:?po)?między|(:po)?nade?|na|ze|przede?|pode?|podczas|(:?po)?mimo|(:?po)?przez|pośrodku</token>
+			-->
+			<token postag="prep:[^\.]+" postag_regexp="yes"/>
 			<and>
-			<token postag="verb.*" postag_regexp="yes"/>
-			<token postag="adj.*|adv.*|subst.*|ppron.*" postag_regexp="yes"/>
+			<token><match no="0" postag_regexp="yes" postag="prep:(.*)" postag_replace="(ad[jv]|subst|ppron):[^ ]*$1[^ ]*" setpos="yes"/></token>			
+			<token postag="verb.*" postag_regexp="yes"/>			
 			</and>			
 		</pattern>
 		<disambig action="filter" postag="adj.*|adv.*|subst.*|ppron.*"/>
+		<example type="untouched">Tu mamy piękny przykład sztuki barokowej.</example>
+		<example type="ambiguous" inputform="mamy[mama/subst:pl:nom.acc.voc:f,mama/subst:sg:gen.dat.loc:f,mieć/verb:fin:pl:pri:imperf]" outputform="mamy[mama/subst:pl:nom.acc.voc:f,mama/subst:sg:gen.dat.loc:f]">Spotykaliśmy się u <marker>mamy</marker>.</example>
 	</rule>
+	<!--  inne przyimki-->
+	<rule>
+		<pattern mark="1">		
+			<!-- 
+			<token regexp="yes">[uwz]|[pd]o|ode?|oprócz|dla|(:?po)?między|(:po)?nade?|na|ze|przede?|pode?|podczas|(:?po)?mimo|(:?po)?przez|pośrodku</token>
+			-->
+			<token postag="prep:.*" postag_regexp="yes"><exception postag="prep:[^\.]+" postag_regexp="yes"/></token>
+			<and>
+			<token><match no="0" postag_regexp="yes" postag="prep:(.*)" postag_replace="(ad[jv]|subst|ppron):$1" setpos="yes"/></token>			
+			<token postag="verb.*" postag_regexp="yes"/>			
+			</and>			
+		</pattern>
+		<disambig action="filter" postag="adj.*|adv.*|subst.*|ppron.*"/>
+		<example type="untouched">Tu mamy piękny przykład sztuki barokowej.</example>
+		<example type="ambiguous" inputform="mamy[mama/subst:pl:nom.acc.voc:f,mama/subst:sg:gen.dat.loc:f,mieć/verb:fin:pl:pri:imperf]" outputform="mamy[mama/subst:pl:nom.acc.voc:f,mama/subst:sg:gen.dat.loc:f]">Stanąłem naprzeciw <marker>mamy</marker>.</example>
+	</rule>
+	</rulegroup>
+
+
 
 	<rulegroup name="lecz" id="lecz">
 		<rule>
@@ -315,7 +342,7 @@ $Id: disambiguation.xml,v 1.21 2010-03-28 02:20:54 milek_pl Exp $
 			</pattern>
 			<disambig action="remove"><wd lemma="nica" pos="subst:pl:gen:f">nic</wd></disambig>
 		</rule>
-	</rulegroup>
+	</rulegroup>	
 	
 	<rulegroup name="winny/winien -> przymiotnik" id="winien">
 		<rule>

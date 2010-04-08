@@ -219,12 +219,16 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
       if (unifiedTokens != null) {
         if (unifiedTokens.length == matchingTokens - startPositionCorrection
             + endPositionCorrection) {
+          if (whTokens[text.getOriginalPosition(firstMatchToken + correctedStPos
+                + unifiedTokens.length - 1)].isSentEnd()) {
+            unifiedTokens[unifiedTokens.length - 1].setSentEnd();
+          }
           for (int i = 0; i < unifiedTokens.length; i++) {
             unifiedTokens[i].setStartPos(whTokens[text.getOriginalPosition(firstMatchToken + correctedStPos
                 + i)].getStartPos());
             whTokens[text.getOriginalPosition(firstMatchToken + correctedStPos
-                + i)] = unifiedTokens[i];
-          }
+                + i)] = unifiedTokens[i];            
+          }          
         }
       }
       break;
@@ -269,8 +273,8 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
         final Match tmpMatchToken = new Match(disambiguatedPOS, null, true,
             disambiguatedPOS, null, Match.CaseConversion.NONE, 
             false, Match.IncludeRange.NONE);
-        tmpMatchToken.setToken(whTokens[fromPos]);
-        whTokens[fromPos] = tmpMatchToken.filterReadings();
+        tmpMatchToken.setToken(whTokens[fromPos]);        
+        whTokens[fromPos] = tmpMatchToken.filterReadings();        
         filtered = true;
       }
     case REPLACE:
@@ -293,7 +297,15 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
           final AnalyzedTokenReadings toReplace = new AnalyzedTokenReadings(
               new AnalyzedToken(whTokens[fromPos].getToken(), disambiguatedPOS,
                   lemma), whTokens[fromPos].getStartPos());
+          final boolean isSentEnd = whTokens[fromPos].isSentEnd();
+          final boolean isParaEnd = whTokens[fromPos].isParaEnd();
           whTokens[fromPos] = toReplace;
+          if (isSentEnd) {
+            whTokens[fromPos].setSentEnd();            
+          }
+          if (isParaEnd) {
+            whTokens[fromPos].setParaEnd();
+          }
           whTokens[fromPos].setWhitespaceBefore(spaceBefore);
         } else {
           // using the match element
