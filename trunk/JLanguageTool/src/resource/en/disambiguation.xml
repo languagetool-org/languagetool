@@ -2,7 +2,7 @@
 <!--
 		English Disambiguation Rules for LanguageTool Copyright (C) 2008
 		Marcin Miłkowski		
-$Id: disambiguation.xml,v 1.41 2010-04-08 17:29:56 milek_pl Exp $
+$Id: disambiguation.xml,v 1.42 2010-04-08 22:36:43 milek_pl Exp $
 	-->
 <rules lang="en">
 	<rule name="Modal verb + verb/noun -> modal verb + verb" id="MD_VB">
@@ -829,7 +829,7 @@ $Id: disambiguation.xml,v 1.41 2010-04-08 17:29:56 milek_pl Exp $
 			<token><exception postag_regexp="yes" postag="DT|PRP\$"/></token>
 		</pattern>
 		<disambig postag="DT"/>
-		<example type="ambiguous" inputform="All[all/JJ,all/NN:U,all/DT,all/PDT]" outputform="All[all/DT]"><marker>All</marker> students are happy.</example>
+		<example type="ambiguous" inputform="All[all/PDT,all/NN:U,all/DT,all/JJ]" outputform="All[all/DT]"><marker>All</marker> students are happy.</example>
 		<example type="untouched">All the people.</example>
 	</rule>
 	<rule name="PDT/DT -> PDT" id="PDT_PDT">
@@ -841,7 +841,7 @@ $Id: disambiguation.xml,v 1.41 2010-04-08 17:29:56 milek_pl Exp $
 			<token postag_regexp="yes" postag="DT|PRP\$"/>
 		</pattern>
 		<disambig postag="PDT"/>
-		<example type="ambiguous" inputform="All[all/JJ,all/NN:U,all/DT,all/PDT]" outputform="All[all/PDT]"><marker>All</marker> the people are happy.</example>
+		<example type="ambiguous" inputform="All[all/PDT,all/NN:U,all/DT,all/JJ]" outputform="All[all/PDT]"><marker>All</marker> the people are happy.</example>
 		<example type="untouched">All students are happy.</example>			
 	</rule>
 	<rule name="WDT/WP ->WDT" id="WP_WDT">
@@ -868,6 +868,33 @@ $Id: disambiguation.xml,v 1.41 2010-04-08 17:29:56 milek_pl Exp $
 		<example type="ambiguous" inputform="What[what/WDT,what/WP,what/UH]" outputform="What[what/WP]"><marker>What</marker> are you doing?</example>
 		<example type="untouched">What kind of bread is this?</example>				
 	</rule>
+	<rulegroup name="CD/NN + NNS -> CD" id="CD_NN">
+	<rule>
+		<pattern mark="0">
+		<and>
+		<token postag="CD"/>
+		<token postag="NN"/>
+		</and>
+		<token postag="NNS"/>
+		</pattern>
+		<disambig postag="CD"/>
+		<example type="ambiguous" inputform="two[two/NN,two/CD,two/JJ]" outputform="two[two/CD]">These <marker>two</marker> things are important.</example>
+		<example type="untouched">These are those two.</example>
+	</rule>		
+	<rule>
+	<pattern mark="0">
+		<and>
+		<token postag="CD"/>
+		<token postag="NN"/>
+		</and>
+		<token postag="JJ"/>
+		<token postag="NNS"/>
+		</pattern>
+		<disambig postag="CD"/>
+		<example type="ambiguous" inputform="two[two/NN,two/CD,two/JJ]" outputform="two[two/CD]">These <marker>two</marker> bad things are important.</example>
+		<example type="untouched">These are those bad two.</example>
+	</rule>	
+	</rulegroup> 
 	<rulegroup name="Quotation marks" id="QUOT">
 		<rule>
 			<pattern mark="1">
