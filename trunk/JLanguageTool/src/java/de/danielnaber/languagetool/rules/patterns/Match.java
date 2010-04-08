@@ -495,8 +495,18 @@ public class Match {
         } else {
           for (final AnalyzedToken anaTok : getNewToken(numRead, token)) {
             l.add(anaTok);
-          }
+          }          
         }
+        if (formattedToken.isSentEnd()) {
+          l.add(new AnalyzedToken(formattedToken.getToken(),
+            JLanguageTool.SENTENCE_END_TAGNAME, 
+            formattedToken.getAnalyzedToken(0).getLemma()));
+        }
+        if (formattedToken.isParaEnd()) {
+          l.add(new AnalyzedToken(formattedToken.getToken(),
+              JLanguageTool.PARAGRAPH_END_TAGNAME, 
+              formattedToken.getAnalyzedToken(0).getLemma()));
+          }        
       }
     }
     if (l.isEmpty()) {
