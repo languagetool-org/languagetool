@@ -19,13 +19,20 @@
 
 package de.danielnaber.languagetool.tagging.disambiguation.pl;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
+import de.danielnaber.languagetool.tools.Tools;
 
 /**
  * Multiword tagger-chunker for Polish.
@@ -38,36 +45,12 @@ public class PolishChunker implements Disambiguator {
   private Map<String, String> mStartNoSpace;
   private Map<String, String> mFull;
 
-  /**
-   * Simple formatted static string with multiword tokens. Can be moved to a
-   * local file in the future.
-   */
-
-  private static final String TOKEN_DEFINITIONS = "...|ELLIPSIS\n"
-    + "bez mała|ADV\n" + "to znaczy|TO_ZNACZY\nTo znaczy|TO_ZNACZY\n"
-    + "to jest|TO_JEST\nTo jest|TO_JEST\n" + "z uwagi na|PREP:ACC\n"
-    + "ze względu na|PREP:ACC\n" + "bez względu na|PREP:ACC\n"
-    + "w oparciu o|PREP:ACC\n" + "w związku z|PREP:INST\n"
-    + "w zgodzie z|PREP:INST\n" + "zgodnie z|PREP:INST\n"
-    + "w odróżnieniu od|PREP:GEN\n"
-    + "w zamian za|PREP:ACC\n"
-    + "w zależności od|PREP:GEN\n"    
-    + "w porównaniu z|PREP:INST\n" 
-    + "odnośnie do|PREP:GEN\n"
-    + "za pomocą|PREP:GEN\n" + "na mocy|PREP:GEN\n"
-    + "na podstawie|PREP:GEN\n" + "w braku|PREP:GEN\n" + "w razie|PREP:GEN\n"
-    + "w odniesieniu do|PREP:GEN\n" + "w stosunku do|PREP:GEN\n"
-    + "w relacji do|PREP:GEN\n" + "a także|CONJ\n" + "na co dzień|ADV\n"
-    + "co najmniej|ADV\n" + "co najwyżej|ADV\n" + "co nieco|ADV\n"
-    + "mimo wszystko|ADV\nMimo wszystko|ADV\n" + "do czysta|ADV\n"
-    + "do cna|ADV\n" + "do naga|ADV\n" + "do niedawna|ADV\nDo niedawna|ADV\n"
-    + "do równa|ADV\n" + "do syta|ADV\n" + "do żywa|ADV\n"
-    + "od nowa|ADV\nOd nowa|ADV\n";
-
+  private static final String FILENAME = "/resource/pl/multiwords.txt";
+  
   /*
    * Lazy init, thanks to Artur Trzewik
    */
-  private void lazyInit() {
+  private void lazyInit() throws IOException {
 
     if (mStartSpace != null)
       return;
@@ -75,10 +58,10 @@ public class PolishChunker implements Disambiguator {
     mStartSpace = new HashMap<String, String>();
     mStartNoSpace = new HashMap<String, String>();
     mFull = new HashMap<String, String>();
-
-    final String[] posTokens = TOKEN_DEFINITIONS.split("\n");
+    
+    final List<String> posTokens = loadWords(Tools.getStream(FILENAME));
     for (String posToken : posTokens) {
-      final String[] tokenAndTag = posToken.split("\\|");
+      final String[] tokenAndTag = posToken.split("\t");
       final boolean containsSpace = tokenAndTag[0].indexOf(' ') > 0;
       String firstToken = "";
       String[] firstTokens;
@@ -118,8 +101,9 @@ public class PolishChunker implements Disambiguator {
    * @param input
    *          The tokens to be chunked.
    * @return AnalyzedSentence with additional markers.
+   * @throws IOException 
    */
-  public final AnalyzedSentence disambiguate(final AnalyzedSentence input) {
+  public final AnalyzedSentence disambiguate(final AnalyzedSentence input) throws IOException {
 
     lazyInit();
 
@@ -179,6 +163,37 @@ public class PolishChunker implements Disambiguator {
     }
 
     return new AnalyzedSentence(output);
+  }
+ 
+  private List<String> loadWords(final InputStream file) throws IOException {
+  InputStreamReader isr = null;
+  BufferedReader br = null;
+  List<String> lines = new ArrayList<String>();
+  try {
+    isr = new InputStreamReader(file, "UTF-8");
+    br = new BufferedReader(isr);
+    String line;
+
+    while ((line = br.readLine()) != null) {
+      line = line.trim();
+      if (line.length() < 1) {
+        continue;
+      }
+      if (line.charAt(0) == '#') { // ignore comments
+        continue;
+      }      
+      lines.add(line);
+    }
+
+  } finally {
+    if (br != null) {
+      br.close();
+    }
+    if (isr != null) {
+      isr.close();
+    }
+  }
+  return lines;
   }
   
 }
