@@ -532,7 +532,7 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
         uniCounter++;
       }
       if (inUnificationDef) {
-        language.getUnifier().setEquivalence(uFeature, uType, tokenElement);
+        language.getDisambiguationUnifier().setEquivalence(uFeature, uType, tokenElement);
         elementList.clear();
       }
       if (tokenSpaceBeforeSet) {

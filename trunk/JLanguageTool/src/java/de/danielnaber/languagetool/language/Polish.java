@@ -40,6 +40,7 @@ public class Polish extends Language {
   private final Disambiguator disambiguator = new PolishHybridDisambiguator();
   private final Synthesizer synthesizer = new PolishSynthesizer();
   private static final Unifier polishUnifier = new Unifier();
+  private static final Unifier polishDisambUnifier = new Unifier();
   
   private static final String[] COUNTRIES = {"PL"}; 
     
@@ -82,6 +83,10 @@ public class Polish extends Language {
     return polishUnifier;
   }
 
+  public Unifier getDisambiguationUnifier() {
+    return polishDisambUnifier;
+  }
+  
   @Override
   public Synthesizer getSynthesizer() {
     return synthesizer;

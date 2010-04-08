@@ -47,7 +47,7 @@ public abstract class AbstractPatternRule extends Rule {
 
   protected final List<Element> patternElements;
 
-  protected final Unifier unifier;
+  protected Unifier unifier;
 
   protected final Language language;
 

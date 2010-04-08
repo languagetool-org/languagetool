@@ -216,6 +216,15 @@ public abstract class Language {
   }
   
   /**
+   * Get this language's feature unifier used for disambiguation.
+   * Note: it might be different from the normal rule unifier.
+   * @return Feature unifier for analyzed tokens.
+   */
+  public Unifier getDisambiguationUnifier() {
+    return MATCH_UNIFIER;
+  }
+  
+  /**
    * Get the name of the language translated to the current locale,
    * if available. Otherwise, get the untranslated name.
    */

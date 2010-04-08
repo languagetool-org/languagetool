@@ -110,7 +110,8 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
     }    
     this.disambiguatedPOS = disamb;
     this.matchElement = posSelect;
-    this.disAction = disambAction;       
+    this.disAction = disambAction;
+    this.unifier = language.getDisambiguationUnifier();
   }
   
   /**
