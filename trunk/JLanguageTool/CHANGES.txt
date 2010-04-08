@@ -32,6 +32,11 @@ LanguageTool Change Log
  
  -fixes and additions for Italian, Polish, Russian and Slovenian rules
  
+ -fixes and additions to the Polish disambiguator
+ 
+ -Polish chunker now uses a separate text file for its multiword tokens 
+  (see resource/pl/multiwords.txt)
+ 
  -fix a sourceforge.net #2957133 bug in Italian Rules (thanks to Paolo
   Bianchini)
  
@@ -61,6 +66,13 @@ LanguageTool Change Log
   
  -fixed a bug that could raise a false alarm for some unchecked exceptions
   in XML rules
+  
+ -fixed a bug with the rule disambiguator: sentence end and paragraph end
+  tags no longer get filtered out during disambiguation
+  
+ -fixed a small bug with unification: now unifier used for rules and 
+  disambiguation rules are kept separate, so that you have different sets
+  of unification equivalences, as defined in their files 
   
  -fixed a bug with footnote numbers before a comma that were reported 
   as whitespace
