@@ -202,13 +202,13 @@ public class JLanguageToolTest extends TestCase {
     //run in a paragraph mode - single sentence
     matches = tool.check("(This is an quote.\n It ends in the second sentence.", false, paragraphHandling.ONLYPARA);
     assertEquals(1, matches.size());
-    assertEquals("UNPAIRED_BRACKETS", matches.get(0).getRule().getId());
+    assertEquals("EN_UNPAIRED_BRACKETS", matches.get(0).getRule().getId());
     assertEquals(1, tool.getSentenceCount());
     
     //run in a paragraph mode - many sentences
     matches = tool.check("(This is an quote.\n It ends in the second sentence.", true, paragraphHandling.ONLYPARA);
     assertEquals(1, matches.size());
-    assertEquals("UNPAIRED_BRACKETS", matches.get(0).getRule().getId());
+    assertEquals("EN_UNPAIRED_BRACKETS", matches.get(0).getRule().getId());
     assertEquals(2, tool.getSentenceCount());
   }  
     
