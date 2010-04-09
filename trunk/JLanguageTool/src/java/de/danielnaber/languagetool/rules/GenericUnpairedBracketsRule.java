@@ -41,7 +41,7 @@ public class GenericUnpairedBracketsRule extends Rule {
    * Note that there must be equal length of both arrays, and the sequence of
    * starting symbols must match exactly the sequence of ending symbols.
    */
-  protected static final String[] START_SYMBOLS = { "[", "(", "{", "\"", "'" };
+  private static final String[] START_SYMBOLS = { "[", "(", "{", "\"", "'" };
   private static final String[] END_SYMBOLS   = { "]", ")", "}", "\"", "'" };
 
   protected String[] startSymbols;
