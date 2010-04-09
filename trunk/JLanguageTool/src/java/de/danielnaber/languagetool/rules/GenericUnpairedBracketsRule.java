@@ -28,30 +28,25 @@ import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.tools.UnsyncStack;
+import de.danielnaber.languagetool.tools.SymbolLocator;
 
 /**
  * Rule that finds unpaired quotes, brackets etc.
  * 
  * @author Marcin Miłkowski
  */
-public class UnpairedQuotesBracketsRule extends Rule {
+public class GenericUnpairedBracketsRule extends Rule {
 
   /**
    * Note that there must be equal length of both arrays, and the sequence of
    * starting symbols must match exactly the sequence of ending symbols.
    */
-  private static final String[] START_SYMBOLS = { "[", "(", "{", "\"", "'" };
+  protected static final String[] START_SYMBOLS = { "[", "(", "{", "\"", "'" };
   private static final String[] END_SYMBOLS   = { "]", ")", "}", "\"", "'" };
 
-  private final String[] startSymbols;
-  private final String[] endSymbols;
-
-  private static final String[] EN_START_SYMBOLS = { "[", "(", "{", "“", "\"", "'" };
-  private static final String[] EN_END_SYMBOLS   = { "]", ")", "}", "”", "\"", "'" };
-
-  private static final String[] PL_START_SYMBOLS = { "[", "(", "{", "„", "»", "\"" };
-  private static final String[] PL_END_SYMBOLS   = { "]", ")", "}", "”", "«", "\"" };
-
+  protected String[] startSymbols;
+  protected String[] endSymbols;
+  
   private static final String[] SL_START_SYMBOLS = { "[", "(", "{", "„", "»", "\"" };
   private static final String[] SL_END_SYMBOLS   = { "]", ")", "}", "”", "«", "\"" };
   
@@ -76,9 +71,6 @@ public class UnpairedQuotesBracketsRule extends Rule {
   private static final String[] UK_START_SYMBOLS = { "[", "(", "{", "„", "«" };
   private static final String[] UK_END_SYMBOLS   = { "]", ")", "}", "“", "»" };
 
-  private static final String[] RU_START_SYMBOLS = { "[", "(", "{", "„", "«", "\"", "'" };
-  private static final String[] RU_END_SYMBOLS   = { "]", ")", "}", "“", "»", "\"", "'" };
-
   private static final String[] NL_START_SYMBOLS = { "[", "(", "{", "„", "“", "‘" };
   private static final String[] NL_END_SYMBOLS   = { "]", ")", "}", "”", "”", "’" };
 
@@ -93,7 +85,7 @@ public class UnpairedQuotesBracketsRule extends Rule {
   /**
    * The stack for pairing symbols.
    */
-  private final UnsyncStack<SymbolLocator> symbolStack = new UnsyncStack<SymbolLocator>();
+  protected final UnsyncStack<SymbolLocator> symbolStack = new UnsyncStack<SymbolLocator>();
 
   /**
    * Stack of rule matches.
@@ -106,26 +98,20 @@ public class UnpairedQuotesBracketsRule extends Rule {
 
   private static final Pattern PUNCTUATION = Pattern.compile("\\p{Punct}");
   private static final Pattern PUNCTUATION_NO_DOT = Pattern
-      .compile("[\\p{Punct}&&[^\\.]]");
-  private static final Pattern NUMBER = Pattern.compile("\\d+");
+      .compile("[\\p{Punct}&&[^\\.]]");  
   private static final Pattern NUMERALS = Pattern
       .compile("(?i)\\d{1,2}?[a-z']*|M*(D?C{0,3}|C[DM])(L?X{0,3}|X[LC])(V?I{0,3}|I[VX])$");
-  private static final Pattern NUMERALS_RU = Pattern
-      .compile("(?i)\\d{1,2}?[а-я]*|[а-я]|[А-Я]|[а-я][а-я]|[А-Я][А-Я]");
   
   private int ruleMatchIndex;
   private List<RuleMatch> ruleMatches;
 
-  public UnpairedQuotesBracketsRule(final ResourceBundle messages,
+  public GenericUnpairedBracketsRule(final ResourceBundle messages,
       final Language language) {
     super(messages);
     super.setCategory(new Category(messages.getString("category_misc")));
 
     setParagraphBackTrack(true);
-    if (language.equals(Language.POLISH)) {
-      startSymbols = PL_START_SYMBOLS;
-      endSymbols = PL_END_SYMBOLS;
-    } else if (language.equals(Language.SLOVAK)) {
+    if (language.equals(Language.SLOVAK)) {
       startSymbols = SK_START_SYMBOLS;
       endSymbols = SK_END_SYMBOLS; }
       else if (language.equals(Language.SLOVENIAN)) {
@@ -134,9 +120,6 @@ public class UnpairedQuotesBracketsRule extends Rule {
     } else if (language.equals(Language.FRENCH)) {
       startSymbols = FR_START_SYMBOLS;
       endSymbols = FR_END_SYMBOLS;
-    } else if (language.equals(Language.ENGLISH)) {
-      startSymbols = EN_START_SYMBOLS;
-      endSymbols = EN_END_SYMBOLS;
     } else if (language.equals(Language.GERMAN)) {
       startSymbols = DE_START_SYMBOLS;
       endSymbols = DE_END_SYMBOLS;
@@ -152,9 +135,6 @@ public class UnpairedQuotesBracketsRule extends Rule {
     } else if (language.equals(Language.UKRAINIAN)) {
       startSymbols = UK_START_SYMBOLS;
       endSymbols = UK_END_SYMBOLS;
-    } else if (language.equals(Language.RUSSIAN)) {
-      startSymbols = RU_START_SYMBOLS;
-      endSymbols = RU_END_SYMBOLS;
     } else if (language.equals(Language.ITALIAN)) {
       startSymbols = IT_START_SYMBOLS;
       endSymbols = IT_END_SYMBOLS;
@@ -172,17 +152,36 @@ public class UnpairedQuotesBracketsRule extends Rule {
     ruleLang = language;
   }
 
-  public final String getId() {
+  public String getId() {
     return "UNPAIRED_BRACKETS";
   }
 
-  public final String getDescription() {
+  public String getDescription() {
     return messages.getString("desc_unpaired_brackets");
   }
+  
+  /**
+   * Generic method to specify an exception. For unspecified
+   * language, it simply returns true, which means no exception.
+   * @param token
+   *        String token
+   * @param tokens
+   *        Sentence tokens
+   * @param i
+   *        Current token index
+   * @param precSpace
+   *        boolean: is preceded with space
+   * @param follSpace
+   *        boolean: is followed with space
+   * @return
+   */
+  protected boolean isNoException(final String token,
+      final AnalyzedTokenReadings[] tokens, final int i, 
+      final boolean precSpace,
+      final boolean follSpace) {
+    return true;
+  }
 
-// TODO: make this a generic rule, and extend for every language
-//find a way to easily specify exceptions (abstract method similar
-//  to isEnglishException?)
   public final RuleMatch[] match(final AnalyzedSentence text) {
     ruleMatches = new ArrayList<RuleMatch>();
     final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
@@ -212,11 +211,8 @@ public class UnpairedQuotesBracketsRule extends Rule {
                 || PUNCTUATION.matcher(tokens[i + 1].getToken()).matches();
           }         
 
-          boolean noException = true;
-          if (ruleLang.equals(Language.ENGLISH) && i > 1) {
-            noException = isEnglishException(token, tokens, i,
-                precededByWhitespace, followedByWhitespace);
-          }
+          boolean noException = isNoException(token, tokens, i,
+                precededByWhitespace, followedByWhitespace);          
 
           if (noException && precededByWhitespace
               && token.equals(startSymbols[j])) {
@@ -226,17 +222,12 @@ public class UnpairedQuotesBracketsRule extends Rule {
             if (i > 1 && endSymbols[j].equals(")")) {
               // exception for bullets: 1), 2), 3)...,
               // II), 2') and 1a).
-              if ((NUMERALS.matcher(tokens[i - 1].getToken()).matches() && !(!symbolStack
-                  .empty() && "(".equals(symbolStack.peek().symbol)))) {
+              if ((NUMERALS.matcher(tokens[i - 1].getToken()).matches() 
+                  && !(!symbolStack.empty() 
+                      && "(".equals(symbolStack.peek().symbol)))) {
                 noException = false;
-              }
-             // exception for Russian bullets: а), б), Д)..., ДД), аа) and 1а).  
-             if ((ruleLang.equals(Language.RUSSIAN)) && (NUMERALS_RU.matcher(tokens[i - 1].getToken()).matches() && !(!symbolStack
-                  .empty() && "(".equals(symbolStack.peek().symbol)))) {
-                noException = false;
-              }
+              }             
             }     
-
             if (noException) {
               if (symbolStack.isEmpty()) {
                 symbolStack.push(new SymbolLocator(endSymbols[j], i));
@@ -265,41 +256,6 @@ public class UnpairedQuotesBracketsRule extends Rule {
     }
 
     return toRuleMatchArray(ruleMatches);
-  }
-
-  private boolean isEnglishException(final String token,
-      final AnalyzedTokenReadings[] tokens, final int i, final boolean precSpace,
-      final boolean follSpace) {  
-//TODO: add an', o', 'till, 'tain't, 'cept, 'fore in the disambiguator
-//and mark up as contractions somehow
-// add exception for dates like '52    
-    
-    if (!precSpace && follSpace) {
-      // exception for English inches, e.g., 20"
-      if ("\"".equals(token)
-          && NUMBER.matcher(tokens[i - 1].getToken()).matches()) {
-        return false;
-      }
-      // Exception for English plural Saxon genetive
-      // current disambiguation scheme is a bit too greedy
-      // for adjectives
-      if ("'".equals(token) && tokens[i].hasPosTag("POS")) {
-        return false;
-      }
-      // puttin' on the Ritz
-      if ("'".equals(token) && tokens[i - 1].hasPosTag("VBG")
-          && tokens[i - 1].getToken().endsWith("in")) {
-        return false;
-      }
-    }
-    if (precSpace && !follSpace) {
-      // hold 'em!
-      if ("'".equals(token) && i + 1 < tokens.length
-          && "em".equals(tokens[i + 1].getToken())) {
-        return false;
-      }
-    }
-    return true;
   }
 
   private RuleMatch createMatch(final int startPos, final String symbol) {
@@ -351,16 +307,6 @@ public class UnpairedQuotesBracketsRule extends Rule {
     endOfParagraph = false;
   }
 
-}
-
-class SymbolLocator {
-  public String symbol;
-  public int index;
-
-  SymbolLocator(final String sym, final int ind) {
-    symbol = sym;
-    index = ind;
-  }
 }
 
 class RuleMatchLocator extends SymbolLocator {

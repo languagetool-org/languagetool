@@ -90,7 +90,7 @@ public class English extends Language {
     final Set<String> ids = new HashSet<String>();
     ids.add("COMMA_PARENTHESIS_WHITESPACE");
     ids.add("DOUBLE_PUNCTUATION");
-    ids.add("UNPAIRED_BRACKETS");
+    ids.add("EN_UNPAIRED_BRACKETS");
     ids.add("UPPERCASE_SENTENCE_START");
     ids.add("WORD_REPEAT_RULE");
     ids.add("WHITESPACE_RULE");    

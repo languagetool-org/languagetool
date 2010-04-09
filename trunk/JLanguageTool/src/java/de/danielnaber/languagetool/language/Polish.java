@@ -101,12 +101,12 @@ public class Polish extends Language {
   public Set<String> getRelevantRuleIDs() {
     final Set<String> ids = new HashSet<String>();
     ids.add("COMMA_PARENTHESIS_WHITESPACE");
-    ids.add("DOUBLE_PUNCTUATION");
-    ids.add("UNPAIRED_BRACKETS");
+    ids.add("DOUBLE_PUNCTUATION");    
     ids.add("UPPERCASE_SENTENCE_START");
     ids.add("WORD_REPEAT_RULE");
     ids.add("WHITESPACE_RULE");
     // specific to Polish:
+    ids.add("PL_UNPAIRED_BRACKETS");
     ids.add("PL_WORD_REPEAT");
     ids.add("PL_COMPOUNDS");
     ids.add("PL_SIMPLE_REPLACE");
