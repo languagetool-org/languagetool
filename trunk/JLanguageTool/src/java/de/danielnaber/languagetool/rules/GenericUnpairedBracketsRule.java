@@ -218,18 +218,13 @@ public class GenericUnpairedBracketsRule extends Rule {
               && token.equals(startSymbols[j])) {
             symbolStack.push(new SymbolLocator(startSymbols[j], i));
           } else if (noException && followedByWhitespace
-              && token.equals(endSymbols[j])) {
-            if (i > 1 && endSymbols[j].equals(")")) {
-              // exception for bullets: 1), 2), 3)...,
-              // II), 2') and 1a).
-              if ((NUMERALS.matcher(tokens[i - 1].getToken()).matches() 
-                  && !(!symbolStack.empty() 
-                      && "(".equals(symbolStack.peek().symbol)))) {
-                noException = false;
-              }             
-            }     
-            if (noException) {
-              if (symbolStack.isEmpty()) {
+              && token.equals(endSymbols[j])) {            
+            if (i > 1 && endSymbols[j].equals(")") 
+                && (NUMERALS.matcher(tokens[i - 1].getToken()).matches() 
+                && !(!symbolStack.empty() 
+               && "(".equals(symbolStack.peek().symbol)))) {        
+            } else {
+              if (symbolStack.empty()) {
                 symbolStack.push(new SymbolLocator(endSymbols[j], i));
               } else {
                 if (symbolStack.peek().symbol.equals(startSymbols[j])) {
