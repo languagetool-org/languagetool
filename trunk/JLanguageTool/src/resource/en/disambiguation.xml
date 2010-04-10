@@ -2,9 +2,10 @@
 <!--
 		English Disambiguation Rules for LanguageTool Copyright (C) 2008
 		Marcin Miłkowski		
-$Id: disambiguation.xml,v 1.42 2010-04-08 22:36:43 milek_pl Exp $
+$Id: disambiguation.xml,v 1.43 2010-04-10 11:57:32 milek_pl Exp $
 	-->
-<rules lang="en">
+<rules lang="en" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="../disambiguation.xsd">
 	<rule name="Modal verb + verb/noun -> modal verb + verb" id="MD_VB">
 		<pattern mark="1">
 			<token postag="MD" />
@@ -294,6 +295,16 @@ $Id: disambiguation.xml,v 1.42 2010-04-08 22:36:43 milek_pl Exp $
 			<token spacebefore="no" regexp="yes">"|'</token>
 		</pattern>
 		<disambig postag="NNP"/>
+	</rule>
+	
+	<rule name="A priori / posteriori" id="A_PRIORI">
+		<pattern mark="0">
+		<token>a</token>
+		<token regexp="yes">priori|posteriori</token>		
+		</pattern>
+		<disambig postag="FW"/> <!-- foreign word -->
+		<example type="untouched">This is a dog.</example>
+		<example type="ambiguous" inputform="a[a/DT]" outputform="a[a/FW]">This is an <marker>a</marker> priori truth.</example>
 	</rule>
 	
 	<rule name="'A' before 'and' and 'or'" id="A_AND_OR">
