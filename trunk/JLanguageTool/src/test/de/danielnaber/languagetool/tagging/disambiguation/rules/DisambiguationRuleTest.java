@@ -20,6 +20,7 @@
 package de.danielnaber.languagetool.tagging.disambiguation.rules;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -35,6 +36,7 @@ import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.tagging.disambiguation.xx.DemoDisambiguator;
 import de.danielnaber.languagetool.tagging.disambiguation.xx.TrimDisambiguator;
+import de.danielnaber.languagetool.tools.StringTools;
 
 public class DisambiguationRuleTest extends TestCase {
 
@@ -77,7 +79,33 @@ public class DisambiguationRuleTest extends TestCase {
       }
     }
   }
+  
+  static String combine(String[] s, String glue) {
+    int k=s.length;
+    if (k==0)
+      return null;
+    StringBuilder out=new StringBuilder();
+    out.append(s[0]);
+    for (int x=1;x<k;++x)
+      out.append(glue).append(s[x]);
+    return out.toString();
+  }
 
+  
+  static String sortForms(final String wordForms) {
+    if (",[,]".equals(wordForms)) {
+      return wordForms;
+    }
+    String word = wordForms.substring(0, wordForms.indexOf('[') + 1);
+    String forms = wordForms.substring(wordForms.indexOf('[')
+        + 1, wordForms.length() -1);    
+    String[] formToSort = forms.split(",");
+    Arrays.sort(formToSort);
+    return word + 
+    combine(formToSort, ",")
+    + "]";   
+  }
+  
   private void testDisambiguationRulesFromXML(
       final List<DisambiguationPatternRule> rules,
       final JLanguageTool languageTool, final Language lang) throws IOException {
@@ -150,7 +178,7 @@ public class DisambiguationRuleTest extends TestCase {
           }
           assertTrue("The input form for the rule " + id + " in the example: "
               + example.toString() + " is different than expected (expected "
-              + inputForms + " but got " + reading + ").", reading
+              + inputForms + " but got " + sortForms(reading) + ").", sortForms(reading)
               .equals(inputForms));
           for (final AnalyzedTokenReadings readings : disambiguatedSent
               .getTokens()) {
@@ -167,7 +195,7 @@ public class DisambiguationRuleTest extends TestCase {
           }
           assertTrue("The output form for the rule " + id + " in the example: "
               + example.toString() + " is different than expected (expected "
-              + outputForms + " but got " + reading + ").", reading
+              + outputForms + " but got " + sortForms(reading) + ").", sortForms(reading)
               .equals(outputForms));
         }
       }

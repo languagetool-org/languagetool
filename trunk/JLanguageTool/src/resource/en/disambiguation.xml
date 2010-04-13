@@ -2,7 +2,7 @@
 <!--
 		English Disambiguation Rules for LanguageTool Copyright (C) 2008
 		Marcin Miłkowski		
-$Id: disambiguation.xml,v 1.43 2010-04-10 11:57:32 milek_pl Exp $
+$Id: disambiguation.xml,v 1.44 2010-04-13 23:15:47 milek_pl Exp $
 	-->
 <rules lang="en" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../disambiguation.xsd">
@@ -165,8 +165,8 @@ $Id: disambiguation.xml,v 1.43 2010-04-10 11:57:32 milek_pl Exp $
 		</pattern>
 		<disambig postag="PRP$" />
 		<example type="untouched">This is a gold mine.</example>
-		<example type="ambiguous" inputform="mine[mine/NN,mine/VB,mine/VBP,mine/PRP$]" outputform="mine[mine/PRP$]">This is <marker>mine</marker>.</example>
-		<example type="ambiguous" inputform="mine[mine/NN,mine/VB,mine/VBP,mine/PRP$]" outputform="mine[mine/PRP$]">This is entirely <marker>mine</marker>.</example>
+		<example type="ambiguous" inputform="mine[mine/NN,mine/PRP$,mine/VB,mine/VBP]" outputform="mine[mine/PRP$]">This is <marker>mine</marker>.</example>
+		<example type="ambiguous" inputform="mine[mine/NN,mine/PRP$,mine/VB,mine/VBP]" outputform="mine[mine/PRP$]">This is entirely <marker>mine</marker>.</example>
 	</rule>
 
 <!-- useful for this/these rule, e.g., in this circumstances -->
@@ -342,7 +342,7 @@ $Id: disambiguation.xml,v 1.43 2010-04-10 11:57:32 milek_pl Exp $
 			<token regexp="yes" postag="NN">\p{Lu}\p{Ll}+</token>
 		</pattern>
 		<disambig postag="NNP"/>
-		<example type="ambiguous" inputform="City[city/NN,city/JJ,&lt;/S&gt;]" outputform="City[city/NNP,&lt;/S&gt;]">Kansas <marker>City</marker></example>
+		<example type="ambiguous" inputform="City[&lt;/S&gt;,city/JJ,city/NN]" outputform="City[&lt;/S&gt;,city/NNP]">Kansas <marker>City</marker></example>
 		<example type="untouched">Los Angeles</example>
 	</rule>
 	<rule name="Uppercase word/no tag + 's -> NNP" id="UPPER_UNKNOWN_NNP">
@@ -840,7 +840,7 @@ $Id: disambiguation.xml,v 1.43 2010-04-10 11:57:32 milek_pl Exp $
 			<token><exception postag_regexp="yes" postag="DT|PRP\$"/></token>
 		</pattern>
 		<disambig postag="DT"/>
-		<example type="ambiguous" inputform="All[all/PDT,all/NN:U,all/DT,all/JJ]" outputform="All[all/DT]"><marker>All</marker> students are happy.</example>
+		<example type="ambiguous" inputform="All[all/DT,all/JJ,all/NN:U,all/PDT]" outputform="All[all/DT]"><marker>All</marker> students are happy.</example>
 		<example type="untouched">All the people.</example>
 	</rule>
 	<rule name="PDT/DT -> PDT" id="PDT_PDT">
@@ -852,7 +852,7 @@ $Id: disambiguation.xml,v 1.43 2010-04-10 11:57:32 milek_pl Exp $
 			<token postag_regexp="yes" postag="DT|PRP\$"/>
 		</pattern>
 		<disambig postag="PDT"/>
-		<example type="ambiguous" inputform="All[all/PDT,all/NN:U,all/DT,all/JJ]" outputform="All[all/PDT]"><marker>All</marker> the people are happy.</example>
+		<example type="ambiguous" inputform="All[all/DT,all/JJ,all/NN:U,all/PDT]" outputform="All[all/PDT]"><marker>All</marker> the people are happy.</example>
 		<example type="untouched">All students are happy.</example>			
 	</rule>
 	<rule name="WDT/WP ->WDT" id="WP_WDT">
@@ -864,7 +864,7 @@ $Id: disambiguation.xml,v 1.43 2010-04-10 11:57:32 milek_pl Exp $
 			<token postag_regexp="yes" postag="NN|NN:UN"/>
 		</pattern>
 		<disambig postag="WDT"/>
-		<example type="ambiguous" inputform="What[what/WDT,what/WP,what/UH]" outputform="What[what/WDT]"><marker>What</marker> kind of bread is this?</example>
+		<example type="ambiguous" inputform="What[what/UH,what/WDT,what/WP]" outputform="What[what/WDT]"><marker>What</marker> kind of bread is this?</example>
 		<example type="untouched">What are you doing?</example>		
 	</rule>
 	<rule name="WDT/WP ->WP" id="WDT_WP">
@@ -876,7 +876,7 @@ $Id: disambiguation.xml,v 1.43 2010-04-10 11:57:32 milek_pl Exp $
 			<token><exception postag_regexp="yes" postag="NN|NN:UN"/></token>
 		</pattern>
 		<disambig postag="WP"/>
-		<example type="ambiguous" inputform="What[what/WDT,what/WP,what/UH]" outputform="What[what/WP]"><marker>What</marker> are you doing?</example>
+		<example type="ambiguous" inputform="What[what/UH,what/WDT,what/WP]" outputform="What[what/WP]"><marker>What</marker> are you doing?</example>
 		<example type="untouched">What kind of bread is this?</example>				
 	</rule>
 	<rulegroup name="CD/NN + NNS -> CD" id="CD_NN">
@@ -889,7 +889,7 @@ $Id: disambiguation.xml,v 1.43 2010-04-10 11:57:32 milek_pl Exp $
 		<token postag="NNS"/>
 		</pattern>
 		<disambig postag="CD"/>
-		<example type="ambiguous" inputform="two[two/NN,two/CD,two/JJ]" outputform="two[two/CD]">These <marker>two</marker> things are important.</example>
+		<example type="ambiguous" inputform="two[two/CD,two/JJ,two/NN]" outputform="two[two/CD]">These <marker>two</marker> things are important.</example>
 		<example type="untouched">These are those two.</example>
 	</rule>		
 	<rule>
@@ -902,7 +902,7 @@ $Id: disambiguation.xml,v 1.43 2010-04-10 11:57:32 milek_pl Exp $
 		<token postag="NNS"/>
 		</pattern>
 		<disambig postag="CD"/>
-		<example type="ambiguous" inputform="two[two/NN,two/CD,two/JJ]" outputform="two[two/CD]">These <marker>two</marker> bad things are important.</example>
+		<example type="ambiguous" inputform="two[two/CD,two/JJ,two/NN]" outputform="two[two/CD]">These <marker>two</marker> bad things are important.</example>
 		<example type="untouched">These are those bad two.</example>
 	</rule>	
 	</rulegroup> 
@@ -969,7 +969,7 @@ $Id: disambiguation.xml,v 1.43 2010-04-10 11:57:32 milek_pl Exp $
 		<disambig action="add"><wd lemma="be" pos="VBZ">s</wd></disambig>
 		<example type="untouched">This is Bill's house.</example>
 		<example type="untouched">Let's go!</example>
-		<example type="ambiguous" inputform="s[s/POS]" outputform="s[s/POS,be/VBZ]">Where'<marker>s</marker> Bill?</example>
+		<example type="ambiguous" inputform="s[s/POS]" outputform="s[be/VBZ,s/POS]">Where'<marker>s</marker> Bill?</example>
 	</rule>
 	<!--  remove POS where it doesn't occur after the noun-->	
 	<rule name="Remove possesive ending" id="POS_REMOVE">
@@ -981,7 +981,7 @@ $Id: disambiguation.xml,v 1.43 2010-04-10 11:57:32 milek_pl Exp $
 		</pattern>
 		<disambig action="remove"><wd lemma="s" pos="POS">s</wd></disambig>
 		<example type="untouched">This is Bill's house.</example>
-		<example type="ambiguous" inputform="s[s/POS,be/VBZ]" outputform="s[be/VBZ]">Where'<marker>s</marker> Bill?</example>
+		<example type="ambiguous" inputform="s[be/VBZ,s/POS]" outputform="s[be/VBZ]">Where'<marker>s</marker> Bill?</example>
 	</rule>	
 	<rule> <!--  add to Bill's -->
 		<pattern mark_from="1" mark_to="-1">

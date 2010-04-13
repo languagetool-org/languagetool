@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 	<!--
 		Disambiguation Rules for LanguageTool Copyright (C) 2008				
-$Id: disambiguation.xml,v 1.23 2010-04-08 17:57:46 milek_pl Exp $
+$Id: disambiguation.xml,v 1.24 2010-04-13 23:15:47 milek_pl Exp $
 	-->	
 <rules lang="pl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../disambiguation.xsd">
@@ -142,19 +142,21 @@ $Id: disambiguation.xml,v 1.23 2010-04-08 17:57:46 milek_pl Exp $
         <disambig action="unify"/>
 	</rule>	
 	</rulegroup>		
-	
+
+<!--  too greedy!	
 	<rule name="uzgadniamy dwa przymiotniki" id="ADJ_ADJ_UNIFY">
 	<pattern mark_from="0" mark_to="0">
 		<unify> <feature id="number"/><feature id="gender"/> <feature id="case"/>		
-		<token postag="adj.*|pact.*" postag_regexp="yes"/>
-		<token postag="adj.*|pact.*" postag_regexp="yes"/>
+	      <token postag="(adj|pact).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(adj|pact).*"/></token>
+	      <token postag="(adj|pact).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(adj|pact).*"/></token>
 		</unify>		
 	</pattern>
 	<disambig action="unify"/>
 	<example type="untouched">To jest węgiel kamienny małej wartości</example>
-    <example type="ambiguous" inputform="taki[taki/adj:sg:nom.acc:m3:pos,taki/adj:sg:nom.voc:m1.m2:pos,taka/subst:pl:gen:f,taka/subst:pl:nom.acc.voc:f,taka/subst:sg:gen.dat.loc:f]" outputform="taki[taki/adj:sg:nom.acc:m3:pos,taki/adj:sg:nom.voc:m1.m2:pos]">On wydaje się jakiś <marker>taki</marker> bardziej rozluźniony.</example>
+    <example type="ambiguous" inputform="taki[taki/adj:sg:nom.acc:m3:pos,taki/adj:sg:nom.voc:m1.m2:pos,taka/subst:pl:gen:f,taka/subst:pl:nom.acc.voc:f,taka/subst:sg:gen.dat.loc:f]" outputform="taki[taki/adj:sg:nom.acc:m3:pos,taki/adj:sg:nom.voc:m1.m2:pos]">Ona jest <marker>wierząca</marker> niepraktykująca.</example>
 	</rule>		
-	
+	 -->
+	 
 	<rule name="mają to nie maić" id="MAJA_MAIC">
 		<pattern mark="0">
 			<token>mają</token>
@@ -365,7 +367,7 @@ $Id: disambiguation.xml,v 1.23 2010-04-08 17:57:46 milek_pl Exp $
 			</pattern>
 			<disambig action="filter" postag="adj.*"/>
 			<example type="untouched">Powinien był pójść do lekarza.</example>
-			<example type="ambiguous" inputform="Winni[winny/adj:pl:nom.voc:m1:pos,winny/adj:pl:nom.voc:m1:pos:aff,winien/verb:winien:pl:ter:m1:imperf]" outputform="Winni[winny/adj:pl:nom.voc:m1:pos,winny/adj:pl:nom.voc:m1:pos:aff]"><marker>Winni</marker> są już ukarani.</example>
+			<example type="ambiguous" inputform="Winni[winien/verb:winien:pl:ter:m1:imperf,winny/adj:pl:nom.voc:m1:pos,winny/adj:pl:nom.voc:m1:pos:aff]" outputform="Winni[winny/adj:pl:nom.voc:m1:pos,winny/adj:pl:nom.voc:m1:pos:aff]"><marker>Winni</marker> są już ukarani.</example>
 		</rule>
 		<rule>
 			<pattern mark="1">
@@ -377,7 +379,7 @@ $Id: disambiguation.xml,v 1.23 2010-04-08 17:57:46 milek_pl Exp $
 			<disambig action="filter" postag="adj.*"/>
 			<example type="untouched">Powinien był pójść do lekarza.</example>
 			<example type="untouched">Każdy winien przestrzegać prawa!</example>
-			<example type="ambiguous" inputform="winni[winny/adj:pl:nom.voc:m1:pos,winny/adj:pl:nom.voc:m1:pos:aff,winien/verb:winien:pl:ter:m1:imperf]" outputform="winni[winny/adj:pl:nom.voc:m1:pos,winny/adj:pl:nom.voc:m1:pos:aff]">To oni są <marker>winni</marker>!</example>
+			<example type="ambiguous" inputform="winni[winien/verb:winien:pl:ter:m1:imperf,winny/adj:pl:nom.voc:m1:pos,winny/adj:pl:nom.voc:m1:pos:aff]" outputform="winni[winny/adj:pl:nom.voc:m1:pos,winny/adj:pl:nom.voc:m1:pos:aff]">To oni są <marker>winni</marker>!</example>
 		</rule>		
 	</rulegroup>
 		
@@ -454,7 +456,7 @@ $Id: disambiguation.xml,v 1.23 2010-04-08 17:57:46 milek_pl Exp $
 			</pattern>
 			<disambig action="add"><wd lemma="co" pos="co_innego">co</wd></disambig>
 			<example type="untouched">To było coś innego.</example>
-			<example type="ambiguous" inputform="co[co/prep:nom.acc.gen,co/subst:sg:nom.acc:n2,ca/subst:sg:voc:m1]" outputform="co[co/prep:nom.acc.gen,co/subst:sg:nom.acc:n2,ca/subst:sg:voc:m1,co/co_innego]">To było <marker>co</marker> innego.</example>
+			<example type="ambiguous" inputform="co[ca/subst:sg:voc:m1,co/prep:nom.acc.gen,co/subst:sg:nom.acc:n,co/subst:sg:nom.acc:n2]" outputform="co[ca/subst:sg:voc:m1,co/co_innego,co/prep:nom.acc.gen,co/subst:sg:nom.acc:n,co/subst:sg:nom.acc:n2]">To było <marker>co</marker> innego.</example>
 		</rule>
 		<rule>
 			<pattern mark="0">
@@ -463,7 +465,7 @@ $Id: disambiguation.xml,v 1.23 2010-04-08 17:57:46 milek_pl Exp $
 			</pattern>
 			<disambig action="add"><wd lemma="co" pos="czym_innym">czym</wd></disambig>
 			<example type="untouched">To było coś innego.</example>
-			<example type="ambiguous" inputform="czym[co/subst:sg:inst.loc:n2]" outputform="czym[co/subst:sg:inst.loc:n2,co/czym_innym]">Mowa o <marker>czym</marker> innym.</example>
+			<example type="ambiguous" inputform="czym[co/subst:sg:inst.loc:n,co/subst:sg:inst.loc:n2]" outputform="czym[co/czym_innym,co/subst:sg:inst.loc:n,co/subst:sg:inst.loc:n2]">Mowa o <marker>czym</marker> innym.</example>
 		</rule>
 	</rulegroup> 
 	
@@ -474,7 +476,7 @@ $Id: disambiguation.xml,v 1.23 2010-04-08 17:57:46 milek_pl Exp $
 		</pattern>
 		<disambig action="add"><wd lemma="co" pos="co_drugi">co</wd></disambig>
 		<example type="untouched">To było coś innego.</example>
-		<example type="ambiguous" inputform="co[co/prep:nom.acc.gen,co/subst:sg:nom.acc:n2,ca/subst:sg:voc:m1]" outputform="co[co/prep:nom.acc.gen,co/subst:sg:nom.acc:n2,ca/subst:sg:voc:m1,co/co_drugi]">Spotykamy się w <marker>co</marker> drugi wtorek.</example>
+		<example type="ambiguous" inputform="co[ca/subst:sg:voc:m1,co/prep:nom.acc.gen,co/subst:sg:nom.acc:n,co/subst:sg:nom.acc:n2]" outputform="co[ca/subst:sg:voc:m1,co/co_drugi,co/prep:nom.acc.gen,co/subst:sg:nom.acc:n,co/subst:sg:nom.acc:n2]">Spotykamy się w <marker>co</marker> drugi wtorek.</example>
 	</rule>
 	
 	<rulegroup name="To co...? -> conj" id="TO_CO">
@@ -487,7 +489,7 @@ $Id: disambiguation.xml,v 1.23 2010-04-08 17:57:46 milek_pl Exp $
 		</pattern>
 		<disambig postag="conj"/>
 		<example type="untouched">To co zrobiłeś jest chamstwem.</example>
-		<example type="ambiguous" inputform="To[to/conj,ten/adj:sg:nom.acc.voc:n:pos]" outputform="To[to/conj]"><marker>To</marker> co mam zrobić?</example>
+		<example type="ambiguous" inputform="To[ten/adj:sg:nom.acc.voc:n:pos,to/conj]" outputform="To[to/conj]"><marker>To</marker> co mam zrobić?</example>
 	</rule>	
 	<rule>
 		<pattern mark="2">
@@ -499,7 +501,7 @@ $Id: disambiguation.xml,v 1.23 2010-04-08 17:57:46 milek_pl Exp $
 		</pattern>
 		<disambig postag="conj"/>
 		<example type="untouched">To co zrobiłeś jest chamstwem.</example>
-		<example type="ambiguous" inputform="to[to/conj,ten/adj:sg:nom.acc.voc:n:pos]" outputform="to[to/conj]">No <marker>to</marker> co mam zrobić?</example>
+		<example type="ambiguous" inputform="to[ten/adj:sg:nom.acc.voc:n:pos,to/conj]" outputform="to[to/conj]">No <marker>to</marker> co mam zrobić?</example>
 	</rule>
 	<rule>
 		<pattern mark="1">
@@ -513,7 +515,7 @@ $Id: disambiguation.xml,v 1.23 2010-04-08 17:57:46 milek_pl Exp $
 		</pattern>
 		<disambig postag="conj"/>
 		<example type="untouched">To co zrobiłeś jest chamstwem.</example>
-		<example type="ambiguous" inputform="To[to/conj,ten/adj:sg:nom.acc.voc:n:pos]" outputform="To[to/conj]"><marker>To</marker> co mam zrobić?...</example>
+		<example type="ambiguous" inputform="To[ten/adj:sg:nom.acc.voc:n:pos,to/conj]" outputform="To[to/conj]"><marker>To</marker> co mam zrobić?...</example>
 	</rule>	
 	<rule>
 		<pattern mark="2">
@@ -528,7 +530,7 @@ $Id: disambiguation.xml,v 1.23 2010-04-08 17:57:46 milek_pl Exp $
 		</pattern>
 		<disambig postag="conj"/>
 		<example type="untouched">To co zrobiłeś jest chamstwem.</example>
-		<example type="ambiguous" inputform="to[to/conj,ten/adj:sg:nom.acc.voc:n:pos]" outputform="to[to/conj]">No <marker>to</marker> co mam zrobić?...</example>
+		<example type="ambiguous" inputform="to[ten/adj:sg:nom.acc.voc:n:pos,to/conj]" outputform="to[to/conj]">No <marker>to</marker> co mam zrobić?...</example>
 	</rule>
 	</rulegroup>
 
@@ -539,7 +541,7 @@ $Id: disambiguation.xml,v 1.23 2010-04-08 17:57:46 milek_pl Exp $
 		</pattern>
 		<disambig action="add"><wd lemma="za" pos="DEP">za</wd></disambig>
 		<example type="untouched">Potrwa to za pewne kilka dni.</example>
-		<example type="ambiguous" inputform="za[za/prep:gen.acc.inst]" outputform="za[za/prep:gen.acc.inst,za/DEP]">Chciałbym przeprosić <marker>za</marker> pewne nieporozumienie.</example>  
+		<example type="ambiguous" inputform="za[za/prep:gen.acc.inst]" outputform="za[za/DEP,za/prep:gen.acc.inst]">Chciałbym przeprosić <marker>za</marker> pewne nieporozumienie.</example>  
 	</rule>		
 	
 	<rule name="pewny + rzeczownik" id="PEWNE_UNIFY">
@@ -551,7 +553,7 @@ $Id: disambiguation.xml,v 1.23 2010-04-08 17:57:46 milek_pl Exp $
         </pattern>
         <disambig action="unify"/>
         <example type="untouched">Za pewne tak uważam.</example>
-        <example type="ambiguous" inputform="pewne[pewny/adj:pl:nom.acc.voc:f.n.m2.m3:pos:aff,pewny/adj:sg:nom.acc.voc:n:pos:aff,pewien/qub]" outputform="pewne[pewny/adj:pl:nom.acc.voc:f.n.m2.m3:pos:aff]">Za <marker>pewne</marker> kwoty można kupić nawet krowę.</example>
+        <example type="ambiguous" inputform="pewne[pewien/qub,pewny/adj:pl:nom.acc.voc:f.n.m2.m3:pos:aff,pewny/adj:sg:nom.acc.voc:n:pos:aff]" outputform="pewne[pewny/adj:sg:nom.acc.voc:n:pos:aff]">Za <marker>pewne</marker> kwoty można kupić nawet krowę.</example>
 	</rule>
 	
 	<!--  useful for removing false alarms for non-detected sentence-ends (note: it doesn't break the sentence for real) -->
@@ -586,7 +588,7 @@ $Id: disambiguation.xml,v 1.23 2010-04-08 17:57:46 milek_pl Exp $
 		</pattern>
 		<disambig action="add"><wd pos="comp:comma"/></disambig>
 		<example type="untouched">To jest krowa i liść.</example>
-		<example type="ambiguous" inputform="ale[ale/conj,ala/qub]" outputform="ale[ale/conj,ala/qub,ale/comp:comma]">Lubię go, <marker>ale</marker> kupię mu pistolet.</example>
+		<example type="ambiguous" inputform="ale[ala/qub,ale/conj]" outputform="ale[ala/qub,ale/comp:comma,ale/conj]">Lubię go, <marker>ale</marker> kupię mu pistolet.</example>
 	</rule>
 	
 </rules>

@@ -62,7 +62,7 @@ RB => Règles Brutes
 			<token postag="V .* 3 s" postag_regexp="yes"/>
 			</pattern>
 			<disambig action="filter" postag="R pers obj .*"/>
-			<example type="ambiguous" inputform="nous[nous/R pers suj 1 p,nous/R pers obj 1 p]" outputform="nous[nous/R pers obj 1 p]">L'homme <marker>nous</marker> parle de sa vie.</example>
+			<example type="ambiguous" inputform="nous[nous/R pers obj 1 p,nous/R pers suj 1 p]" outputform="nous[nous/R pers obj 1 p]">L'homme <marker>nous</marker> parle de sa vie.</example>
 			<example type="untouched">La plupart du temps nous sommes dans le développement d'une expertise...</example>
 		</rule>
 		<rule name="Les études nous ont...">
@@ -72,7 +72,7 @@ RB => Règles Brutes
 			<token postag="V .* 3 p" postag_regexp="yes"/>
 			</pattern>
 			<disambig action="filter" postag="R pers obj .*"/>
-			<example type="ambiguous" inputform="nous[nous/R pers suj 1 p,nous/R pers obj 1 p]" outputform="nous[nous/R pers obj 1 p]">Les études <marker>nous</marker> ont révélé...</example>
+			<example type="ambiguous" inputform="nous[nous/R pers obj 1 p,nous/R pers suj 1 p]" outputform="nous[nous/R pers obj 1 p]">Les études <marker>nous</marker> ont révélé...</example>
 			<example type="untouched">La plupart du temps nous sommes dans le développement d'une expertise...</example>			
 		</rule>
 		<rule name="vous">
@@ -624,7 +624,7 @@ RB => Règles Brutes
 			</pattern>
 			<disambig action="filter"><match no="2" postag="N .* p" postag_regexp="yes"/></disambig>
 			<example type="untouched">Tu minutes.</example>
-			<example type="ambiguous" inputform="minutes[minute/N f p,minuter/V ind pres 2 s,minuter/V sub pres 2 s,&lt;/S&gt;]" outputform="minutes[minute/N f p,&lt;/S&gt;]">5 <marker>minutes</marker></example>
+			<example type="ambiguous" inputform="minutes[&lt;/S&gt;,minute/N f p,minuter/V ind pres 2 s,minuter/V sub pres 2 s]" outputform="minutes[&lt;/S&gt;,minute/N f p]">5 <marker>minutes</marker></example>
 		</rule>
 		
 		<!--  based on user reports -->
