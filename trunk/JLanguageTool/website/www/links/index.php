@@ -35,6 +35,8 @@ the mailing list or see my homepage at <a href="http://www.danielnaber.de">www.d
 		corpus-based grammar checker written in Python</li>
 	<li><?=show_link("Queequeg", "http://queequeg.sourceforge.net/index-e.html", 0)?>
 		agreement checker written in Python</li>
+	<li><?=show_link("LanguageTool plugin for OmegaT", "https://sourceforge.net/projects/omegat-plugins/files/OmegaT-LanguageTool/", 1)?>
+		a plugin that enables grammar-checking in computer-aided translation tool OmegaT (open source)</li>
 	<li><?=show_link("LanguageTool integration for LyX", "http://wiki.lyx.org/Tools/LyX-GrammarChecker", 1) ?></li>
 	<li><?=show_link("LanguageTool in Python", "http://tkltrans.sourceforge.net/#r03", 0) ?>, a much older
 		and less powerful version without OpenOffice.org integration but support for Hungarian</li>
