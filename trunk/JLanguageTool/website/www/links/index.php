@@ -27,6 +27,9 @@ the mailing list or see my homepage at <a href="http://www.danielnaber.de">www.d
 <ul style="list-style:none">
 	<li><?=show_link("After the Deadline", "http://open.afterthedeadline.com/", 0)?>,
 		a grammar checker for English which integrates LanguageTool to support German and French</li>
+	<li><?=show_link("LangBot", "http://apoema.net/langbot/en/gc.lb", 0)?>,
+		an on-line grammar checker which uses LanguageTool, and includes integration
+		for Firefox via <?=show_link("Ubiquity", http://ubiquity.mozilla.com/", 0) ?> plugin</li>				
 	<li><?=show_link("An Gramad&oacute;ir", "http://borel.slu.edu/gramadoir/", 0)?>,
 		a grammar checker for the Irish language</li>
 	<li><?=show_link("CoGrOO", "http://cogroo.incubadora.fapesp.br/portal", 0)?>
