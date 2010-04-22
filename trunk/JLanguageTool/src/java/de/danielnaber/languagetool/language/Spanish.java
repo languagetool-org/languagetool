@@ -58,7 +58,7 @@ public class Spanish extends Language {
   }
 
   public Contributor[] getMaintainers() {
-    return null;
+    return new Contributor[] {new Contributor("Juan Martorell")};
   }
 
   public Set<String> getRelevantRuleIDs() {
