@@ -8,21 +8,31 @@ LanguageTool.
 Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
 A Russian rule file for LanguageTool 
 Copyright (C) 2008-2010 Yakov Reztsov
-$Id: grammar.xml,v 1.53 2010-03-24 17:28:57 yakovru Exp $
+$Id: grammar.xml,v 1.54 2010-04-26 15:14:02 yakovru Exp $
 -->
 <rules lang="ru" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../rules.xsd">
     <category name="Пунктуация">
         <rule default="on"  id="ABREV_DOT" name="Точка после сокращений">
             <pattern case_sensitive="yes">
-                <token regexp="yes">млн|млрд|тыс|зам|коп|руб|наб|нач|пер|шт|ед|экз|км|дм|см|мм|просп|пр|пос|кв|тел|Тел|исп|Исп</token>
+                <token regexp="yes">тыс|зам|коп|руб|наб|нач|пер|шт|ед|экз|км|дм|см|мм|просп|пр|пос|кв|тел|Тел|исп|Исп</token>
                 <token negate="yes" regexp="yes">.|/</token>
             </pattern>
             <message>Точка должна стоять после сокращений. Должно быть: <suggestion>\1. \2</suggestion></message>
             <short>Точка после сокращений.</short>
             <example type="correct">Стоимость работ составила 10 тыс. рублей.</example>
             <example type="incorrect">Стоимость работ составила 10 <marker>тыс рублей</marker>.</example>
-        </rule>       
+        </rule>
+        <rule default="off"  id="ABREV_DOT2" name="Точка после сокращений (млн, млрд)">
+            <pattern case_sensitive="yes">
+                <token regexp="yes">млн|млрд</token>
+                <token negate="yes" regexp="yes">.|/</token>
+            </pattern>
+            <message>Точка должна стоять после сокращений. Должно быть: <suggestion>\1. \2</suggestion></message>
+            <short>Точка после сокращений.</short>
+            <example type="correct">Стоимость работ составила 10 млн. рублей.</example>
+            <example type="incorrect">Стоимость работ составила 10 <marker>млн рублей</marker>.</example>
+        </rule> 
         <rulegroup id="POZHALUJSTA" name="«пожалуйста» выделяется запятыми">
             <rule>
                 <pattern case_sensitive="yes" mark_to="0">
