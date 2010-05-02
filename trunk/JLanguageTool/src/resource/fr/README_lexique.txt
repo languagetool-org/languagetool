@@ -1,7 +1,7 @@
 _______________________________________________________________________________
 
    LEXIQUE FRANÇAIS, LISTE DES FORMES FLÉCHIES
-   version 3.6c
+   version 3.7
    
    Olivier R. - dicollecte<at>free<dot>fr
    Dicollecte: http://www.dicollecte.org/
@@ -19,6 +19,7 @@ _______________________________________________________________________________
    - Pierre Poisson et Sylvain P., contrôleurs;
    - Romain Muller et Serge Bibauw, de l’association RENOUVO, grâce à qui
      la nouvelle orthographe et ses anciennes variantes ont pu être établies.
+   - Chantal Contant, pour ses recherches sur la réforme de 1990.
      
    Merci aussi à tous ceux qui ont apporté leur pierre à l’édifice.
 
@@ -27,30 +28,23 @@ _______________________________________________________________________________
    
 _______________________________________________________________________________
 
-   Ce Lexique contient les nouvelles et les anciennes graphies des mots
-   concernés par les rectifications de l’orthographe proposées en 1990 par
-   le Conseil supérieur à la langue française et par l’Académie française.
+   NOTE
+_______________________________________________________________________________
+
+   Ce lexique a été généré à partir de la base de données de Dicollecte.
+   Il contient les nouvelles et les anciennes graphies des mots concernés
+   par les rectifications de l’orthographe proposées en 1990 par le Conseil
+   supérieur à la langue française et par l’Académie française.
    
    À propos de la réforme orthographique de 1990:
    http://www.renouvo.org/regles.php
    http://www.orthographe-recommandee.info/
    
-_______________________________________________________________________________
-
-   NOTE
-_______________________________________________________________________________
-
-   Ce lexique (v3) a été généré à partir du dictionnaire orthographique
-   «Classique & Réforme 1990» de Dicollecte pour Hunspell.
-   
-   Le seconde colonne indique censément la racine du lemme. Mais dans les
-   faits, cette colonne indique l’entrée du dictionnaire à partir de laquelle
-   elle est engendrée.
-   
-   La troisième colonne indique la morphologie du mot. Le système d’affixation
-   des entrées pose des contraintes qui empêchent pour l’instant un étiquetage
-   normé des entrées.
-   
+   En raison des contraintes de la genèse des formes fléchies, la morphologie
+   n’est pas normée.
    Par exemple, un nom féminin peut être étiqueté [nf] ou [nom].fem
    http://www.dicollecte.org/documentation.php?prj=fr#grammaire
+   
+   L’archive contient également une adaptation du lexique pour le correcteur
+   grammatical LanguageTool.
 _______________________________________________________________________________
