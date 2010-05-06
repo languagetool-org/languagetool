@@ -168,7 +168,7 @@ etc as an error:</p>
 	only for the token the exception is specified (scope="current") or for 
 	skipped tokens (scope="next"). Default behavior is scope="current". 
 	Using scopes is useful where several different exceptions should be 
-	applied to avoid false alarms. In some cases, it's usefule to use 
+	applied to avoid false alarms. In some cases, it's useful to use 
 	<tt>scope="previous"</tt> in rules that already have <tt>skip="-1"</tt>.
 	This way, you can set an exception against a single token that immediately
 	preceeds the matched token. For example, we want to match "tak" after "jak"
