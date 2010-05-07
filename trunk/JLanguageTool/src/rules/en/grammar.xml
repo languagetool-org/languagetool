@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.121 2010-04-08 22:36:43 milek_pl Exp $
+$Id: grammar.xml,v 1.122 2010-05-07 21:39:44 milek_pl Exp $
 -->
 <rules lang="en" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <!-- ====================================================================== -->
@@ -906,6 +906,36 @@ $Id: grammar.xml,v 1.121 2010-04-08 22:36:43 milek_pl Exp $
       <short>Possible typo</short>
       <example type="correct">Sorry for my <marker>bad</marker> English.</example>
       <example type="incorrect">Sorry for my <marker>bed</marker> English.</example>
+    </rule>
+    <rule id="PIGEON_ENGLISH" name="pigeon (pidgin) English/...">
+      <pattern mark_to="-1">
+        <token>pigeon</token>
+        <token regexp="yes">[Ee]nglish|[Ff]rench|[Ss]panish|[Cc]hinese|[Rr]ussian</token>
+      </pattern>
+      <message>Did you mean <suggestion>pidgin</suggestion> (=simplified language)?</message>
+      <short>Possible typo</short>
+      <example type="correct"><marker>Pidgin</marker> English is spoken widely across Nigeria.</example>
+      <example type="incorrect"><marker>Pigeon</marker> English is spoken widely across Nigeria.</example>
+    </rule>
+    <rule id="TELEPHONE_POLL" name="telephone/... poll (pole)">
+      <pattern mark_from="1">
+        <token regexp="yes">[Tt]elephone|[Tt]elegraph|[Tt]otem</token>
+        <token>poll</token>
+      </pattern>
+      <message>Did you mean <suggestion>pole</suggestion>?</message>
+      <short>Possible typo</short>
+      <example type="correct">As sort of life crises go, this is low on the totem <marker>pole</marker>.</example>
+      <example type="incorrect">As sort of life crises go, this is low on the totem <marker>poll</marker>.</example>
+    </rule>
+    <rule id="OPINION_POLE" name="opinion/... pole (poll)">
+      <pattern mark_from="1">
+        <token regexp="yes">[Oo]pinion|[Gg]overnment|[Ee]lection|[Ee]xit</token>
+        <token>pole</token>
+      </pattern>
+      <message>Did you mean <suggestion>poll</suggestion>?</message>
+      <short>Possible typo</short>
+      <example type="incorrect">Is it possible to add an opinion <marker>pole</marker> to my Myspace page?</example>
+      <example type="correct">Is it possible to add an opinion <marker>poll</marker> to my Myspace page?</example>
     </rule>
     <rulegroup id="YOUR" name="your (you're)">
       <rule>
