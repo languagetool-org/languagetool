@@ -23,8 +23,19 @@ import java.util.Locale;
 import java.util.Set;
 
 import de.danielnaber.languagetool.Language;
+import de.danielnaber.languagetool.synthesis.Synthesizer;
+import de.danielnaber.languagetool.synthesis.ca.CatalanSynthesizer;
+import de.danielnaber.languagetool.tagging.Tagger;
+import de.danielnaber.languagetool.tagging.ca.CatalanTagger;
+import de.danielnaber.languagetool.tokenizers.SRXSentenceTokenizer;
+import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
+import de.danielnaber.languagetool.tokenizers.Tokenizer;
 
 public class Catalan extends Language {
+
+  private Tagger tagger = new CatalanTagger();
+  private SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("ca");
+  private Synthesizer synthesizer = new CatalanSynthesizer();
 
   private static final String[] COUNTRIES = {
     "ES"
@@ -59,6 +70,18 @@ public class Catalan extends Language {
     ids.add("UPPERCASE_SENTENCE_START");
     ids.add("WHITESPACE_RULE");
     return ids;
+  }
+
+  public final Tagger getTagger() {
+    return tagger;
+  }
+
+  public final Synthesizer getSynthesizer() {
+    return synthesizer;
+  }
+
+  public final SentenceTokenizer getSentenceTokenizer() {
+    return sentenceTokenizer;
   }
 
 }
