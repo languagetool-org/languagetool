@@ -62,6 +62,10 @@ public class GermanSentenceTokenizerTest extends TestCase {
     testSplit(new String[] { "Es geht um ca. 17:00 los." });
     testSplit(new String[] { "Das in Punkt 3.9.1 genannte Verhalten." });
 
+    testSplit(new String[] { "Diese Periode begann im 13. Jahrhundert und damit bla." });
+    testSplit(new String[] { "Diese Periode begann im 13. oder 14. Jahrhundert und damit bla." });
+    testSplit(new String[] { "Diese Periode datiert auf das 13. bis zum 14. Jahrhundert und damit bla." });
+
     testSplit(new String[] { "Das gilt lt. aktuellem Plan." });
     testSplit(new String[] { "Orangen, Äpfel etc. werden gekauft." });
 
