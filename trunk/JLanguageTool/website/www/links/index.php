@@ -32,7 +32,7 @@ the mailing list or see my homepage at <a href="http://www.danielnaber.de">www.d
 		for Firefox via <?=show_link("Ubiquity", "http://ubiquity.mozilla.com/", 0) ?> plugin</li>				
 	<li><?=show_link("An Gramad&oacute;ir", "http://borel.slu.edu/gramadoir/", 0)?>,
 		a grammar checker for the Irish language</li>
-	<li><?=show_link("CoGrOO", "http://cogroo.incubadora.fapesp.br/portal", 0)?>
+	<li><?=show_link("CoGrOO", "http://cogroo.sourceforge.net/", 0)?>
 		a Grammar Checker for Portuguese</li>
 	<li><?=show_link("GRAC", "http://grac.sourceforge.net/", 0)?>
 		corpus-based grammar checker written in Python</li>
