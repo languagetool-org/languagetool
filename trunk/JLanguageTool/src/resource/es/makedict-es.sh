@@ -1,16 +1,19 @@
 #!/bin/bash
 
 ##############################################
-# Script que xera os dicionarios para galego
-# e español
+# Script for generating dictionaries
 #
 # Susana Sotelo Docío
+# Juan Martorell
+#
 ##############################################
 LANG=POSIX
 LOCALE=POSIX
 MYLANG=`echo $0 | sed -e "s/.*makedict-\(..\).sh/\1/"`
-PATHTO="$HOME/proxectos/linguarum/openoffice/languagetool/data/$MYLANG"
-BINPATH="/usr/local/bin"
+#PATHTO="$HOME/proxectos/linguarum/openoffice/languagetool/data/$MYLANG"
+PATHTO=.
+#BINPATH="/usr/local/bin"
+BINPATH=.
 DICTIONARY=$PATHTO/$MYLANG.dicc
 TAGLIST=taglist.txt
 
@@ -19,7 +22,7 @@ _help()
   echo "makedict-$MYLANG.sh type"
   echo
   echo '  where type is one of'
-  echo '       dict: generates the dictionary'
+  echo '       dict: generates the dictionaries'
   echo '       taglist: generates a list of used tags'
   echo '       doc: generates doc files'
   echo '       all: performs all actions'
@@ -29,7 +32,7 @@ _help()
 
 taglist()
 {
-  # Xeramos o listado de etiquetas
+  # POS taglist generating
   echo -n "[$MYLANG] Generating taglist...     "
   gawk '{ print $3 }' < $DICTIONARY | sort -u > $TAGLIST
   echo "[ok]"
@@ -37,12 +40,22 @@ taglist()
 
 dictionary()
 {
-  # Compilamos o dicionario
-  echo -n "[$MYLANG] Compiling dictionary...    "
-  perl $BINPATH/morph_data.pl < $DICTIONARY | sort -u | fsa_build -O -o $LONGNAME.dict >& /dev/null
+  # Dictionary compilation
+  DICT_NAME=$LONGNAME".dict"
+  SYNTH_NAME=$LONGNAME"_synth.dict"
+  TAGS_NAME=$LONGNAME"_tags.txt"
+  echo -n "[$MYLANG] Compiling dictionary  $DICT_NAME...    "
+  perl $BINPATH/morph_data_es.pl < $DICTIONARY | sort -u | $BINPATH/fsa_build -A \* -O -o $DICT_NAME >& /dev/null
   echo "[ok]"
-  echo -n "[$MYLANG] Testing FSA automaton...   "
-  cat test.txt | fsa_morph -d $LONGNAME.dict > /tmp/$$outfile
+  echo -n "[$MYLANG] Compiling synthesizer $SYNTH_NAME...   "
+  gawk -f synthesis.awk $DICTIONARY |gawk -f morph_data_es.awk | sort -u |$BINPATH/fsa_build -A \* -O -o $SYNTH_NAME >& /dev/null
+  echo "[ok]"
+  echo -n "[$MYLANG] Generating tag file   $TAGS_NAME...   "
+  #This is done with taglist option. TODO: consider removing one of both.
+  gawk -f tags.awk $DICTIONARY | sort -u > $TAGS_NAME
+  echo "[ok]"
+  echo -n "[$MYLANG] Testing FSA automation...   "
+  cat test.txt | $BINPATH/fsa_morph -d $LONGNAME.dict > /tmp/$$outfile
   if [ "`diff /tmp/$$outfile test-tagged.txt`" != "" ]; then
     echo "[error]"
   else

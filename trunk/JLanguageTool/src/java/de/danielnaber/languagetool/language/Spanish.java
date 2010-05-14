@@ -23,10 +23,14 @@ import java.util.Locale;
 import java.util.Set;
 
 import de.danielnaber.languagetool.Language;
+import de.danielnaber.languagetool.synthesis.Synthesizer;
+import de.danielnaber.languagetool.synthesis.es.SpanishSynthesizer;
 import de.danielnaber.languagetool.tagging.Tagger;
 import de.danielnaber.languagetool.tagging.es.SpanishTagger;
 
 public class Spanish extends Language {
+	
+  private Synthesizer synthesizer = new SpanishSynthesizer();
   
   private static final String[] COUNTRIES = {
     "ES", "", "MX", "GT", "CR", "PA", "DO",
@@ -56,6 +60,10 @@ public class Spanish extends Language {
   public Tagger getTagger() {
     return tagger;
   }
+  
+  public final Synthesizer getSynthesizer() {
+	    return synthesizer;
+  }
 
   public Contributor[] getMaintainers() {
     return new Contributor[] {new Contributor("Juan Martorell")};
@@ -70,7 +78,7 @@ public class Spanish extends Language {
     ids.add("WORD_REPEAT_RULE");
     ids.add("WHITESPACE_RULE");
     // specific to Spanish:
-    ids.add("EL_WITH_FEM");
+    // ids.add("EL_WITH_FEM");
     return ids;
   }
 
