@@ -8,14 +8,14 @@ LanguageTool.
 Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
 A Russian rule file for LanguageTool 
 Copyright (C) 2008-2010 Yakov Reztsov
-$Id: grammar.xml,v 1.55 2010-05-10 15:47:00 yakovru Exp $
+$Id: grammar.xml,v 1.56 2010-05-17 16:51:49 yakovru Exp $
 -->
 <rules lang="ru" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../rules.xsd">
     <category name="Пунктуация">
         <rule default="on"  id="ABREV_DOT" name="Точка после сокращений">
             <pattern case_sensitive="yes" mark_to="-1">
-                <token regexp="yes">тыс|зам|коп|руб|наб|нач|пер|шт|ед|экз|км|дм|см|мм|просп|пр|пос|кв|тел|Тел|исп|Исп</token>
+                <token regexp="yes">тыс|зам|коп|руб|наб|нач|пер|шт|ед|экз|км|дм|см|мм|просп|пр|пос|кв|Тел|исп|Исп</token>
                 <token negate="yes" regexp="yes">.|/</token>
             </pattern>
             <message>Точка должна стоять после сокращений. Должно быть: <suggestion>\1.</suggestion></message>
@@ -514,7 +514,7 @@ $Id: grammar.xml,v 1.55 2010-05-10 15:47:00 yakovru Exp $
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">.*[а-я]-</token>
-                    <token spacebefore="yes" regexp="yes">[а-я].*</token>
+                    <token spacebefore="yes" regexp="yes">[а-я][а-я].*</token>
                 </pattern>
                 <message>После дефиса не должно быть пробела: <suggestion>\1\2</suggestion></message>
                 <short>Лишний пробел.</short>
@@ -1289,7 +1289,7 @@ $Id: grammar.xml,v 1.55 2010-05-10 15:47:00 yakovru Exp $
             <pattern>
                 <!--  PREP у, без, вместо, для, до, из (изо), из-за, из-под, кроме, около, от, против, среди-> NN:.*:R   -->
                 <token  regexp="yes">у|без|вместо|для|до|из|изо|из-за|из-под|кроме|около|от|против|среди</token>
-                <token  postag="NN:.*:.*:.*" postag_regexp="yes"><exception postag="NN:.*:.*:R" postag_regexp="yes"></exception><exception postag="NN:.*:.*:.*" negate_pos = "yes" postag_regexp="yes"></exception></token>              
+                <token  postag="NN:.*:.*:.*" postag_regexp="yes"><exception postag="NN:.*:.*:R" postag_regexp="yes"></exception><exception postag="NN:.*:.*:.*" negate_pos = "yes" postag_regexp="yes"></exception><exception regexp="yes" >нее|варяг|грек</exception></token>              
             </pattern>
             <message>Предлог \1 предполагает употребление существительного в родительном падеже:
             <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:R"></match></suggestion> или <suggestion><match no="2"/></suggestion></message> 
@@ -1469,7 +1469,7 @@ $Id: grammar.xml,v 1.55 2010-05-10 15:47:00 yakovru Exp $
         
         <rule default="on"  id="Cap_Letters_Name" name="Имя">
             <pattern case_sensitive="yes">
-                <token  postag="NNN:.*" postag_regexp="yes"><exception regexp="yes">\p{Lu}.*</exception><exception>е</exception><exception  negate_pos="yes" postag="NNN:.*" postag_regexp="yes"/></token>
+                <token  postag="NNN:.*" postag_regexp="yes"><exception regexp="yes">\p{Lu}.*</exception><exception regexp="yes">е|мадам|леди|пани|ежи|шоу|обл</exception><exception  negate_pos="yes" postag="NNN:.*" postag_regexp="yes"/></token>
             </pattern>
             <message>Имя пишется с большой буквы: <suggestion><match no="1" case_conversion ="startupper"/></suggestion></message>
             <short>Заглавные буквы.</short>
