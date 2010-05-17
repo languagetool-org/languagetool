@@ -27,10 +27,13 @@ import de.danielnaber.languagetool.synthesis.Synthesizer;
 import de.danielnaber.languagetool.synthesis.es.SpanishSynthesizer;
 import de.danielnaber.languagetool.tagging.Tagger;
 import de.danielnaber.languagetool.tagging.es.SpanishTagger;
+import de.danielnaber.languagetool.tokenizers.SRXSentenceTokenizer;
+import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
 
 public class Spanish extends Language {
 	
-  private Synthesizer synthesizer = new SpanishSynthesizer();
+	private SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("es");
+	private Synthesizer synthesizer = new SpanishSynthesizer();
   
   private static final String[] COUNTRIES = {
     "ES", "", "MX", "GT", "CR", "PA", "DO",
@@ -65,6 +68,10 @@ public class Spanish extends Language {
 	    return synthesizer;
   }
 
+  public final SentenceTokenizer getSentenceTokenizer() {
+	    return sentenceTokenizer;
+  }
+  
   public Contributor[] getMaintainers() {
     return new Contributor[] {new Contributor("Juan Martorell")};
   }
