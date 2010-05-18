@@ -45,7 +45,7 @@ public class EnglishUnpairedBracketsRule extends GenericUnpairedBracketsRule {
   }
   
   protected boolean isNoException(final String token,
-      final AnalyzedTokenReadings[] tokens, final int i, final boolean precSpace,
+      final AnalyzedTokenReadings[] tokens, final int i, final int j, final boolean precSpace,
       final boolean follSpace) {
        
     

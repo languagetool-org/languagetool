@@ -176,7 +176,7 @@ public class GenericUnpairedBracketsRule extends Rule {
    * @return
    */
   protected boolean isNoException(final String token,
-      final AnalyzedTokenReadings[] tokens, final int i, 
+      final AnalyzedTokenReadings[] tokens, final int i, final int j,
       final boolean precSpace,
       final boolean follSpace) {
     return true;
@@ -211,7 +211,7 @@ public class GenericUnpairedBracketsRule extends Rule {
                 || PUNCTUATION.matcher(tokens[i + 1].getToken()).matches();
           }         
 
-          boolean noException = isNoException(token, tokens, i,
+          boolean noException = isNoException(token, tokens, i, j,
                 precededByWhitespace, followedByWhitespace);          
 
           if (noException && precededByWhitespace

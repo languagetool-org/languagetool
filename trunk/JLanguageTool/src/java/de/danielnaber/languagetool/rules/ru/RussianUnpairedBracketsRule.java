@@ -36,11 +36,11 @@ public class RussianUnpairedBracketsRule extends GenericUnpairedBracketsRule {
 
   
   protected boolean isNoException(final String token,
-      final AnalyzedTokenReadings[] tokens, final int i, 
+      final AnalyzedTokenReadings[] tokens, final int i, final int j,
       final boolean precSpace,
       final boolean follSpace) {
  // exception for Russian bullets: а), б), Д)..., ДД), аа) and 1а).  
-    if (i > 1 &&
+    if (i > 1 && endSymbols[j].equals(")") &&
         NUMERALS_RU.matcher(tokens[i - 1].getToken()).matches() && 
         !(!symbolStack.empty() && "(".equals(symbolStack.peek().symbol))) {
        return false;
