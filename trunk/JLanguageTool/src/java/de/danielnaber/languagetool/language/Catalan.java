@@ -29,12 +29,14 @@ import de.danielnaber.languagetool.tagging.Tagger;
 import de.danielnaber.languagetool.tagging.ca.CatalanTagger;
 import de.danielnaber.languagetool.tokenizers.SRXSentenceTokenizer;
 import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
+import de.danielnaber.languagetool.rules.ca.CastellanismesReplaceRule;
 
 public class Catalan extends Language {
 
   private Tagger tagger = new CatalanTagger();
   private SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("ca");
   private Synthesizer synthesizer = new CatalanSynthesizer();
+//  private CastellanismesReplaceRule castella = new CastellanismesReplaceRule();
 
   private static final String[] COUNTRIES = {
     "ES"
@@ -68,6 +70,7 @@ public class Catalan extends Language {
     ids.add("UNPAIRED_BRACKETS");
     ids.add("UPPERCASE_SENTENCE_START");
     ids.add("WHITESPACE_RULE");
+    ids.add(CastellanismesReplaceRule.CATALAN_CASTELLANISMES_REPLACE_RULE);
     return ids;
   }
 
