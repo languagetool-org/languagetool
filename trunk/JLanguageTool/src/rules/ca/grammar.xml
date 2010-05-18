@@ -174,7 +174,7 @@ Copyright (C) 2009 Ricard Roca
     <rule>
       <pattern>
         <token>el</token>
-        <token regexp="yes">[aeiouhàèéíòóú].*</token>
+        <token regexp="yes">[aeiouhàèéíòóú].*<exception regexp="yes">iode|iogurt</exception></token>
       </pattern>
       <message>Cal dir <suggestion>l’<match no="2"></match></suggestion>.</message>
       <short>Error ortogràfic</short>
@@ -184,7 +184,7 @@ Copyright (C) 2009 Ricard Roca
     <rule>
       <pattern>
         <token>del</token>
-        <token regexp="yes">[aeiouhàèéíòóú].*</token>
+        <token regexp="yes">[aeiouhàèéíòóú].*<exception regexp="yes">iode|iogurt</exception></token>
       </pattern>
       <message>Cal dir <suggestion>de l’<match no="2"></match></suggestion>.</message>
       <short>Error ortogràfic</short>
@@ -194,7 +194,7 @@ Copyright (C) 2009 Ricard Roca
     <rule>
       <pattern>
         <token>al</token>
-        <token regexp="yes">[aeiouhàèéíòóú].*</token>
+        <token regexp="yes">[aeiouhàèéíòóú].*<exception regexp="yes">iode|iogurt</exception></token>
       </pattern>
       <message>Cal dir <suggestion>a l’<match no="2"></match></suggestion>.</message>
       <short>Error ortogràfic</short>
@@ -204,7 +204,7 @@ Copyright (C) 2009 Ricard Roca
     <rule>
       <pattern>
         <token>pel</token>
-        <token regexp="yes">[aeiouhàèéíòóú].*</token>
+        <token regexp="yes">[aeiouhàèéíòóú].*<exception regexp="yes">iode|iogurt</exception></token>
       </pattern>
       <message>Cal dir <suggestion>per l’<match no="2"></match></suggestion>.</message>
       <short>Error ortogràfic</short>
@@ -212,9 +212,20 @@ Copyright (C) 2009 Ricard Roca
       <example type="correct"><marker>per l’home</marker></example>
     </rule>
     <rule>
+       <pattern>
+        <token>l</token>
+        <token regexp="yes">'|’</token>
+        <token regexp="yes">iode|iogurt</token>
+      </pattern>
+      <message>Cal dir <suggestion>el <match no="3"></match></suggestion>.</message>
+      <short>Error ortogràfic</short>
+      <example type="incorrect"><marker>l’iogurt</marker></example>
+      <example type="correct"><marker>el iogurt</marker></example>
+    </rule>
+    <rule>
       <pattern>
         <token>la</token>
-        <token regexp="yes">[aeoàèéíòóú].*<exception>host</exception></token>
+        <token regexp="yes">[aeoàèéíòóú].*<exception regexp="yes">host|universitat</exception></token>
       </pattern>
       <message>Cal dir <suggestion>l’<match no="2"></match></suggestion>.</message>
       <short>Error ortogràfic</short>
