@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Ukrainian grammar and typo rules for LanguageTool
 Copyright (C) 2007 Andriy Rysin
-$Id: grammar.xml,v 1.5 2010-04-05 19:22:47 yakovru Exp $
+$Id: grammar.xml,v 1.6 2010-05-18 18:17:03 milek_pl Exp $
 -->
 
 <rules lang="uk" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -85,7 +85,7 @@ $Id: grammar.xml,v 1.5 2010-04-05 19:22:47 yakovru Exp $
 			<rule>
 				<pattern>
 					<token regexp="yes" negate="yes">[\p{Punct}–—\(]<exception postag="SENT_START"/></token>
-					<token regexp="yes">але</token>
+					<token>але</token>
 				</pattern>
 				<message>Відсутня кома перед „але”: <suggestion>\1, \2</suggestion></message>
 				<example type="correct">Вгадав всі літери, але не зміг прочитати слово.</example>
@@ -149,7 +149,7 @@ $Id: grammar.xml,v 1.5 2010-04-05 19:22:47 yakovru Exp $
 			<rule>
 				<pattern>
 					<token regexp="yes">.*[аеєиіїоуюя]</token>
-					<token regexp="yes">у</token>
+					<token>у</token>
 					<token regexp="yes" negate="yes">в.*</token>
 				</pattern>
 				<message>Зіяння <suggestion>\1 в \3</suggestion></message>
@@ -158,7 +158,7 @@ $Id: grammar.xml,v 1.5 2010-04-05 19:22:47 yakovru Exp $
 			</rule>
 			<rule>
 				<pattern>
-					<token regexp="yes">зі</token>
+					<token>зі</token>
 					<token regexp="yes">[аеєиіїоуюя].*</token>
 				</pattern>
 				<message>Зіяння <suggestion>з \2</suggestion></message>

@@ -4,7 +4,7 @@
 <!--
 Dutch Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006,2007,2008 R. J. Baars (ruud.baars@opentaal.org)
-$Id: grammar.xml,v 1.24 2009-10-22 20:02:41 milek_pl Exp $
+$Id: grammar.xml,v 1.25 2010-05-18 18:17:03 milek_pl Exp $
 -->
 <!-- TODO LIST
 * werkwoordvormen
@@ -3160,7 +3160,7 @@ $Id: grammar.xml,v 1.24 2009-10-22 20:02:41 milek_pl Exp $
          <rule id="DE_NN1H_NN1D">
             <pattern case_sensitive="yes">
                <token>de</token>
-               <token postag="NN1h"><exception postag="yes">^[A-Z]|niet</exception><exception postag="AJ.*" postag_regexp="yes"/></token>
+               <token postag="NN1h"><exception regexp="yes">^[A-Z]|niet</exception><exception postag="AJ.*" postag_regexp="yes"/></token>
                <token postag="NN1[dfm]|NN2" postag_regexp="yes"></token>
             </pattern>
             <message>U bedoelt mogelijk <suggestion>het \2</suggestion>, <suggestion>de \2\3</suggestion> of <suggestion>de \2-\3</suggestion></message>
@@ -3171,7 +3171,7 @@ $Id: grammar.xml,v 1.24 2009-10-22 20:02:41 milek_pl Exp $
          
          <rule id="DE_NN1H">
             <pattern case_sensitive="yes" mark_from="1" mark_to="-2">
-               <token><exception postag="VB.*"/><exception regexp="yes">dat</exception></token>
+               <token><exception postag="VB.*"/><exception>dat</exception></token>
                <token>de</token>
                <token postag="NN1h" regexp="yes">^[a-z].*<exception postag="AJ.*|PN.*|VBp.*|NN1[dmf]" postag_regexp="yes"/><exception regexp="yes">meer|iets</exception></token>
                <token><exception regexp="yes">[1-9][0-9]{0,4}|0</exception><exception postag="NM"/></token>
