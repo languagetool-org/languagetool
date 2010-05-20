@@ -65,7 +65,7 @@ public class GermanSentenceTokenizer extends SentenceTokenizer {
   private static final Pattern REPAIR_NAME_PATTERN = Pattern.compile("( [IVX]+\\.) " + EOS + "([^A-ZÖÄÜ]+)");
 
   /** don't split at cases like "im 13. oder 14. Jahrhundert" */
-  private static final Pattern REPAIR_CENTURY_PATTERN = Pattern.compile("(\\d+\\.)(\\s+)" + EOS + "(und|oder|bis|bis zum|bis zur)(\\s+\\d+\\.) ");
+  private static final Pattern REPAIR_NUMBER_PATTERN = Pattern.compile("(\\d+\\.)(\\s+)" + EOS + "(und|oder|bis) ");
 
   public GermanSentenceTokenizer() {
     super(ABBREV_LIST);
@@ -75,7 +75,7 @@ public class GermanSentenceTokenizer extends SentenceTokenizer {
   protected String removeFalseEndOfSentence(String s) {
       s = super.removeFalseEndOfSentence(s);
       s = REPAIR_NAME_PATTERN.matcher(s).replaceAll("$1 $2");
-      s = REPAIR_CENTURY_PATTERN.matcher(s).replaceAll("$1$2$3$4 ");
+      s = REPAIR_NUMBER_PATTERN.matcher(s).replaceAll("$1$2$3 ");
       return s;
   }
   

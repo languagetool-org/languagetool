@@ -47,6 +47,7 @@ public class GermanSentenceTokenizerTest extends TestCase {
     testSplit(new String[] { "Das Schreiben ist auf den 3.10. datiert." });
     testSplit(new String[] { "Das Schreiben ist auf den 31.1. datiert." });
     testSplit(new String[] { "Das Schreiben ist auf den 3.10.2000 datiert." });
+    testSplit(new String[] { "Natürliche Vererbungsprozesse prägten sich erst im 18. und frühen 19. Jahrhundert aus." });
 
     testSplit(new String[] { "Friedrich I., auch bekannt als Friedrich der Große." });
     testSplit(new String[] { "Friedrich II., auch bekannt als Friedrich der Große." });
