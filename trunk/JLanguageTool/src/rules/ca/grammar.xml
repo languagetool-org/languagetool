@@ -224,6 +224,17 @@ Copyright (C) 2009 Ricard Roca
     </rule>
     <rule>
       <pattern>
+        <token>l</token>
+        <token regexp="yes">['’]</token>
+        <token>universitat</token>
+      </pattern>
+      <message>Cal dir <suggestion>la <match no="3"></match></suggestion>.</message>
+      <short>Error ortogràfic</short>
+      <example type="incorrect"><marker>l'universitat</marker></example>
+      <example type="correct"><marker>la universitat</marker></example>
+    </rule>
+    <rule>
+      <pattern>
         <token>la</token>
         <token regexp="yes">[aeoàèéíòóú].*<exception regexp="yes">host|universitat</exception></token>
       </pattern>
@@ -307,7 +318,7 @@ Copyright (C) 2009 Ricard Roca
     </rulegroup>
     <rule id="TREBALLAR_DUR" name="treballar dur">
       <pattern>
-	<token regexp="yes">trebal.*</token>
+	<token inflected="yes">treballar</token>
 	<token>dur</token>
       </pattern>
       <message>Cal dir <suggestion><match no="1" /> de valent</suggestion>.</message>
@@ -315,6 +326,126 @@ Copyright (C) 2009 Ricard Roca
       <example type="incorrect"><marker>treballem dur</marker></example>
       <example type="correct"><marker>treballem de valent</marker></example>
     </rule>
+    <rulegroup id="APOSTROF" name="apòstrof">
+<!-- FIXME - works in the gui, but not in the test?
+    <rule>
+      <pattern mark_to="-1">
+	<token regexp="yes">[mts]e</token>
+	<token>el</token>
+        <token postag="V.*" postag_regexp="yes"><exception regexp="yes">[haeoàèéíòóú].*</exception></token>
+      </pattern>
+      <message>Cal dir <suggestion><match no="1" />'l</suggestion>.</message>
+      <short>Error d'apostrofació</short>
+      <example type="incorrect"><marker>me el dóna</marker></example>
+      <example type="correct"><marker>me'l dóna</marker></example>
+    </rule>
+-->
+    <rule>
+      <pattern mark_to="-1">
+	<token>el</token>
+	<token>hi</token>
+        <token postag="V.*" postag_regexp="yes"><exception regexp="yes">[haeoàèéíòóú].*</exception></token>
+      </pattern>
+      <message>Cal dir <suggestion>l'<match no="2" /></suggestion>.</message>
+      <short>Error d'apostrofació</short>
+      <example type="incorrect"><marker>el hi dóna</marker></example>
+      <example type="correct"><marker>l'hi dóna</marker></example>
+    </rule>
+    <rule>
+      <pattern mark_to="-1">
+	<token>la</token>
+	<token>en</token>
+        <token postag="V.*" postag_regexp="yes"><exception regexp="yes">[haeoàèéíòóú].*</exception></token>
+      </pattern>
+      <message>Cal dir <suggestion><match no="1" />'n</suggestion>.</message>
+      <short>Error d'apostrofació</short>
+      <example type="incorrect"><marker>la en treu</marker></example>
+      <example type="correct"><marker>la'n treu</marker></example>
+    </rule>
+    <rule>
+      <pattern mark_to="-1">
+	<token>se</token>
+	<token>en</token>
+        <token postag="V.*" postag_regexp="yes"><exception regexp="yes">[haeoàèéíòóú].*</exception></token>
+      </pattern>
+      <message>Cal dir <suggestion><match no="1" />'n</suggestion>.</message>
+      <short>Error d'apostrofació</short>
+      <example type="incorrect"><marker>se en treu</marker></example>
+      <example type="correct"><marker>se'n treu</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+        <token postag="V.*" postag_regexp="yes"></token>
+	<token regexp="yes">['’]</token>
+	<token>me</token>
+	<token regexp="yes">['’]</token>
+	<token regexp="yes">h[oi]</token>
+      </pattern>
+      <message>Cal dir <suggestion><match no="1" />-m'<match no="5" /></suggestion>.</message>
+      <short>Error d'apostrofació</short>
+      <example type="incorrect"><marker>dóna'me'ho</marker></example>
+      <example type="correct"><marker>dóna-m'ho</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+        <token postag="V.*" postag_regexp="yes"></token>
+	<token regexp="yes">['’]</token>
+	<token>te</token>
+	<token regexp="yes">['’]</token>
+	<token regexp="yes">h[oi]</token>
+      </pattern>
+      <message>Cal dir <suggestion><match no="1" />-t'<match no="5" /></suggestion>.</message>
+      <short>Error d'apostrofació</short>
+      <example type="incorrect"><marker>dóna'me'ho</marker></example>
+      <example type="correct"><marker>dóna-m'ho</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+        <token postag="V.*" postag_regexp="yes"></token>
+	<token regexp="yes">['’]</token>
+	<token>se</token>
+	<token regexp="yes">['’]</token>
+	<token regexp="yes">h[oi]</token>
+      </pattern>
+      <message>Cal dir <suggestion><match no="1" />-s'<match no="5" /></suggestion>.</message>
+      <short>Error d'apostrofació</short>
+      <example type="incorrect"><marker>dóna'me'ho</marker></example>
+      <example type="correct"><marker>dóna-m'ho</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+        <token postag="V.*" postag_regexp="yes"></token>
+	<token>me</token>
+	<token regexp="yes">h[oi]</token>
+      </pattern>
+      <message>Cal dir <suggestion><match no="1" />-m'<match no="3" /></suggestion>.</message>
+      <short>Error d'apostrofació</short>
+      <example type="incorrect"><marker>dóna me ho</marker></example>
+      <example type="correct"><marker>dóna-m'ho</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+        <token postag="V.*" postag_regexp="yes"></token>
+	<token>te</token>
+	<token regexp="yes">h[oi]</token>
+      </pattern>
+      <message>Cal dir <suggestion><match no="1" />-t'<match no="3" /></suggestion>.</message>
+      <short>Error d'apostrofació</short>
+      <example type="incorrect"><marker>dóna me ho</marker></example>
+      <example type="correct"><marker>dóna-m'ho</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+        <token postag="V.*" postag_regexp="yes"></token>
+	<token>se</token>
+	<token regexp="yes">h[oi]</token>
+      </pattern>
+      <message>Cal dir <suggestion><match no="1" />-s'<match no="3" /></suggestion>.</message>
+      <short>Error d'apostrofació</short>
+      <example type="incorrect"><marker>dóna me ho</marker></example>
+      <example type="correct"><marker>dóna-m'ho</marker></example>
+    </rule>
+    </rulegroup>
     <rule id="A_AQUESTES_ALCADES" name="a aquestes alçades/altures">
       <pattern>
 	<token>a</token>
