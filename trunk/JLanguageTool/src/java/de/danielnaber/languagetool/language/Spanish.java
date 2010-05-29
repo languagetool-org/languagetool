@@ -73,7 +73,9 @@ public class Spanish extends Language {
   }
   
   public Contributor[] getMaintainers() {
-    return new Contributor[] {new Contributor("Juan Martorell")};
+	Contributor contributor = new Contributor("Juan Martorell");
+    contributor.setUrl("http://languagetool-es.blogspot.com/");
+    return new Contributor[] { contributor };
   }
 
   public Set<String> getRelevantRuleIDs() {
