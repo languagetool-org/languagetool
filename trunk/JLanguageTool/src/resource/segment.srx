@@ -4189,77 +4189,74 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 </rule>
 </languagerule>
 <languagerule languagerulename="Catalan">
+<!-- Copied from Spanish rules; includes Spanish acronyms not valid in Catalan, 
+so a warning can be fired about their use later -->
+<!-- Abreviations that cannot finish sentences-->
 <rule break="no">
-<beforebreak>\b(maj|màx|min|aprox)\.</beforebreak>
+<beforebreak>\b([Aa]vda|[Pp][ol]|Pl?za|[Aa]dm|[Dd]pto)\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b(av|adm|esq|dept)\.</beforebreak>
+<beforebreak>\b(Dña|Dr[a]?|Sra|Sto|S(ri)?ta|Ldo|Ing|Prof|Excmo|Ilmo|Mgfco|admdor|admdora)\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b(Dr|Dra|Sr|Sra|St|Sta|Prof|admdor|admdora)\.</beforebreak>
+<beforebreak>\b([Aa]rt|[Cc][óo]d|[Ss]ecc|[Tt]ít)\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b(Dr|Dra|Sr|Sra|St|Sta|Prof|admdor|admdora)\.\s[A-Z]\.</beforebreak>
+<beforebreak>\b([Ee]d(it)?|[Nn]o|n|[Nn]úm|[Pp]ág|p|c|\d+er)|[V\.]gr\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
+<!-- Abreviations that can finish sentences -->
 <rule break="no">
-<beforebreak>\bS\.[AL]\.</beforebreak>
+<beforebreak>\b(Sr|Jr|Admón|Adm|Inc|Co|Hnos|Vda|[VU]d[s]?)\.[\p{Pe}\p{Pf}\p{Pd}"']*\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<!-- Any word in acronyms like U.S.A.F or F. B. I. or C. or c.s.p. or p. e. -->
+<rule break="no">
+<beforebreak>\b(\p{L}\.)+[\p{Pe}\p{Pf}\p{Pd}"']*\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<!-- Any word in acronyms like EE.UU. or BB. DD. -->
+<rule break="no">
+<beforebreak>\b([\p{Lu}]{2}\.)+[\p{Pe}\p{Pf}\p{Pd}"']*\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<!-- max min etc -->
+<rule break="no">
+<beforebreak>\b([Ee]tc|m[aáà]x|m[ií]n|aprox|\d+o)\.[\p{Pe}\p{Pf}\p{Pd}"']*\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<!-- Composed abrev. -->
+<rule break="no">
+<beforebreak>\bet al\.[\p{Pe}\p{Pf}\p{Pd}"']*\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
+<!-- Units -->
 <rule break="no">
-<beforebreak>\b[ip]\. e\.</beforebreak>
-<afterbreak></afterbreak>
+<beforebreak>\b([Pp]ta[s]?|K[gm][s]|[mc]?[gmls]|[Hh](rs)?)\.[\p{Pe}\p{Pf}\p{Pd}"']*\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
 </rule>
+<!-- (enum...) -->
 <rule break="no">
-<beforebreak>\b[ip]\.e\.</beforebreak>
-<afterbreak></afterbreak>
+<beforebreak>\b(\Q...\E|…)\p{Pe}\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
 </rule>
+<!-- pero ¡ah! no estaba
 <rule break="no">
-<beforebreak>\b[pc]\.</beforebreak>
-<afterbreak></afterbreak>
+<beforebreak>\b¡\p{L}+!\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
 </rule>
-<rule break="no">
-<beforebreak>\b(nre|n|núm|pàg|p|c)\.</beforebreak>
-<afterbreak></afterbreak>
-</rule>
-<rule break="no">
-<beforebreak>\b(angl|ca|fra)\.</beforebreak>
-<afterbreak></afterbreak>
-</rule>
-<rule break="no">
-<beforebreak>\bd[jltsgv]\.</beforebreak>
-<afterbreak></afterbreak>
-</rule>
-<rule break="no">
-<beforebreak>\bed\.</beforebreak>
-<afterbreak></afterbreak>
-</rule>
-<rule break="no">
-<beforebreak>\bentl\.</beforebreak>
-<afterbreak></afterbreak>
-</rule>
-<rule break="no">
-<beforebreak>\bet al\.</beforebreak>
-<afterbreak></afterbreak>
-</rule>
-<rule break="no">
-<beforebreak>\bpta\.</beforebreak>
+ -->
+<rule break="yes">
+<!-- Punctuation + closing quotes (removed \p{Pe})-->
+<beforebreak>[\.…][\u00BB\u2019\u201D\u203A"'\u0002]*\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="yes">
-<beforebreak>[\.!?…][\u00BB\u2019\u201D\u203A"'\p{Pe}\u0002]*\s</beforebreak>
-<afterbreak></afterbreak>
-</rule>
-<rule break="yes">
-<beforebreak>[\.!?…]['"\u00BB\u2019\u201D\u203A\p{Pe}\u0002]*</beforebreak>
-<afterbreak>\p{Lu}[^\p{Lu}]</afterbreak>
-</rule>
-<rule break="yes">
-<beforebreak>\s\p{L}[\.!?…]\s</beforebreak>
-<afterbreak>\p{Lu}\p{Ll}</afterbreak>
+<beforebreak>\s\p{L}+[\p{Pf}\p{Pe}\u00BB\u2019\u201D\u203A"'\u0002]*[\.:!?…]+\s*</beforebreak>
+<afterbreak>[¡¿«»"'\p{Ps}]*\p{Lu}\p{L}*</afterbreak>
 </rule>
 </languagerule>
 <languagerule languagerulename="Spanish">

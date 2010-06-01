@@ -30,6 +30,7 @@ import de.danielnaber.languagetool.tagging.ca.CatalanTagger;
 import de.danielnaber.languagetool.tokenizers.SRXSentenceTokenizer;
 import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
 import de.danielnaber.languagetool.rules.ca.CastellanismesReplaceRule;
+import de.danielnaber.languagetool.rules.ca.AccentuacioReplaceRule;
 
 public class Catalan extends Language {
 
@@ -71,6 +72,7 @@ public class Catalan extends Language {
     ids.add("UPPERCASE_SENTENCE_START");
     ids.add("WHITESPACE_RULE");
     ids.add(CastellanismesReplaceRule.CATALAN_CASTELLANISMES_REPLACE_RULE);
+    ids.add(AccentuacioReplaceRule.CATALAN_ACCENTUACIO_REPLACE_RULE);
     return ids;
   }
 
