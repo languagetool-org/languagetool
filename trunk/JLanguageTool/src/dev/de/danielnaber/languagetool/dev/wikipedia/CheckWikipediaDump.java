@@ -99,6 +99,9 @@ public class CheckWikipediaDump {
     lt.disableRule("WHITESPACE_RULE");
     lt.disableRule("EN_QUOTES");        // en
     lt.disableRule("CUDZYSLOW_DRUKARSKI");  // pl
+    lt.disableRule("POMIŠLJAJ_1");  // sl
+    lt.disableRule("POMIŠLJAJ_2");  // sl
+    lt.disableRule("POMIŠLJAJ_3");  // sl
     /*
     List rules = lt.getAllRules();
     for (Iterator iter = rules.iterator(); iter.hasNext();) {
