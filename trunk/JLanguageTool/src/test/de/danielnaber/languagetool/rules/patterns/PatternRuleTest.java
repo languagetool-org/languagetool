@@ -112,7 +112,7 @@ public class PatternRuleTest extends TestCase {
     }
     if (element.isRegularExpression() && "".equals(element.getString())) {
       System.err.println("The " + lang.toString() + " rule: "
-          + ruleId + " contains en empty string element " + "\"" + element
+          + ruleId + " contains an empty string element " + "\"" + element
           + "\" that is marked as regular expression (don't look at the POS tag, it might be OK).");
     } else if (element.isRegularExpression()
         && !PROBABLE_REGEX.matcher(element.getString())
