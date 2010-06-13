@@ -2,7 +2,7 @@
 $page = "homepage";
 $title = "LanguageTool";
 $title2 = "Open Source language checker";
-$lastmod = "2010-02-21 20:17:00 CET";
+$lastmod = "2010-06-13 20:10:00 CET";
 include("../include/header.php");
 ?>
 		
@@ -86,6 +86,9 @@ This means that you can now use LanguageTool for these languages via the
 	install the <tt>openoffice.org-java-common</tt> package. See
 	<a href="http://nancib.wordpress.com/2008/05/03/fixing-the-openofficeorg-grammar-glitch-in-ubuntu-hardy/">this blog posting</a>
 	for details.</li>
+<li>LanguageTool doesn't work together with the <a href="http://extensions.services.openoffice.org/en/project/DeltaXMLODTCompare">DeltaXML 
+	ODT Compare</a> extension, trying to do so makes OpenOffice.org crash. This is a known problem, we're still trying to find
+	out what causes it.</li>
 <li style="margin-top:8px">If these hints don't help, please email <strong>naber at danielnaber de</strong> describing the problem
 	and letting me know which version of LanguageTool, OpenOffice.org and which operating system you are using.</li>
 </ul>

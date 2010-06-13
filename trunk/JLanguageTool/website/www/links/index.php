@@ -2,14 +2,21 @@
 $page = "links";
 $title = "LanguageTool";
 $title2 = "Links";
-$lastmod = "2010-02-21 21:35:00 CET";
+$lastmod = "2010-06-13 19:35:00 CET";
 include("../../include/header.php");
 ?>
 
 <p><strong>Contact:</strong><br />
 LanguageTool was originally written by Daniel Naber and is now maintained by 
-Daniel Naber and Marcin Miłkowski. To contact me, subscribe to 
-the mailing list or see my homepage at <a href="http://www.danielnaber.de">www.danielnaber.de</a>.</p>
+Daniel Naber and Marcin Miłkowski. To contact Daniel, subscribe to 
+the mailing list or mail to <strong>naber <span>a&#116;</span> danielnaber<span>.</span>de</strong>.</p>
+
+<p><strong>Issue tracking:</strong></p>
+
+<ul style="list-style:none">
+	<li><?=show_link("Bug reports", "http://sourceforge.net/tracker/?limit=25&amp;func=&amp;group_id=110216&amp;atid=655717&amp;assignee=&amp;status=&amp;category=&amp;artgroup=&amp;keyword=&amp;submitter=&amp;artifact_id=&amp;assignee=&amp;status=1&amp;category=&amp;artgroup=&amp;submitter=&amp;keyword=&amp;artifact_id=&amp;submit=Filter", 0)?></li>
+	<li><?=show_link("Feature requests", "http://sourceforge.net/tracker/?limit=25&amp;func=&amp;group_id=110216&amp;atid=655720&amp;assignee=&amp;status=&amp;category=&amp;artgroup=&amp;keyword=&amp;submitter=&amp;artifact_id=&amp;assignee=&amp;status=1&amp;category=&amp;artgroup=&amp;submitter=&amp;keyword=&amp;artifact_id=&amp;submit=Filter", 0)?></li>
+</ul>
 
 <p><strong>Mailing lists:</strong></p>
 
