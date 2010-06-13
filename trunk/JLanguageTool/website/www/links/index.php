@@ -2,14 +2,14 @@
 $page = "links";
 $title = "LanguageTool";
 $title2 = "Links";
-$lastmod = "2010-06-13 19:35:00 CET";
+$lastmod = "2010-06-13 22:35:00 CET";
 include("../../include/header.php");
 ?>
 
 <p><strong>Contact:</strong><br />
 LanguageTool was originally written by Daniel Naber and is now maintained by 
-Daniel Naber and Marcin Miłkowski. To contact Daniel, subscribe to 
-the mailing list or mail to <strong>naber <span>a&#116;</span> danielnaber<span>.</span>de</strong>.</p>
+Daniel Naber (<strong>naber <span>a&#116;</span> danielnaber<span>.</span>de</strong>) and Marcin Miłkowski
+(<a href="http://marcinmilkowski.pl/en/Contact/">contact form</a>).</p>
 
 <p><strong>Issue tracking:</strong></p>
 
