@@ -77,14 +77,16 @@ public class Slovak extends Language {
   }
 
   public Set<String> getRelevantRuleIDs() {
-    Set<String> ids = new HashSet<String>();
+    final Set<String> ids = new HashSet<String>();
     ids.add("COMMA_PARENTHESIS_WHITESPACE");
     ids.add("DOUBLE_PUNCTUATION");
     ids.add("UNPAIRED_BRACKETS");
     ids.add("UPPERCASE_SENTENCE_START");
     ids.add("WORD_REPEAT_RULE");
     ids.add("WHITESPACE_RULE");
+    // specific to Slovak:
     ids.add("SK_COMPOUNDS");
+    ids.add("SK_VES");
     return ids;
   }
 
