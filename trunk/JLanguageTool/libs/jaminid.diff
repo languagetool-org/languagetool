@@ -1,7 +1,7 @@
-Index: /home/dnaber/workspace/Jaminid/src/com/prolixtech/jaminid/Connection.java
+Index: src/com/prolixtech/jaminid/Connection.java
 ===================================================================
---- /home/dnaber/workspace/Jaminid/src/com/prolixtech/jaminid/Connection.java	(revision 13)
-+++ /home/dnaber/workspace/Jaminid/src/com/prolixtech/jaminid/Connection.java	(working copy)
+--- src/com/prolixtech/jaminid/Connection.java	(revision 13)
++++ src/com/prolixtech/jaminid/Connection.java	(working copy)
 @@ -3,10 +3,13 @@
  import java.io.IOException;
  import java.io.InputStream;
@@ -34,21 +34,22 @@ Index: /home/dnaber/workspace/Jaminid/src/com/prolixtech/jaminid/Connection.java
                      if (doubleCRLFpassed)
                          bodyCharsParsed++;
  
-@@ -142,10 +145,10 @@
+@@ -142,11 +145,11 @@
                          if ("\n".charAt(0) == (thischar)) {
                              CRLFState++;
                              doubleCRLFpassed = true;
 -                            serviceRequest.addRequestLines(requestInputBuffer
 -                                    .toString());
--
--                            requestInputBuffer = new StringBuffer();
 +                            String inputString = bytesToString(requestInputBuffer);
 +                            serviceRequest.addRequestLines(inputString);
 +                            
 +                            requestInputBuffer = new ArrayList<Byte>();
  
+-                            requestInputBuffer = new StringBuffer();
+-
                              expectedBodySize = serviceRequest.switchToBody();
                          } else {
+                             CRLFState = 0;
 @@ -163,8 +166,9 @@
                      && bodyCharsParsed < expectedBodySize || doubleCRLFpassed
                      && byteIn != -1 && socketInput.available() > 0);
@@ -93,11 +94,11 @@ Index: /home/dnaber/workspace/Jaminid/src/com/prolixtech/jaminid/Connection.java
      }
  
      protected void sendString(byte[] bytes) {
-Index: /home/dnaber/workspace/Jaminid/src/com/prolixtech/jaminid/Protocol.java
+Index: src/com/prolixtech/jaminid/Protocol.java
 ===================================================================
---- /home/dnaber/workspace/Jaminid/src/com/prolixtech/jaminid/Protocol.java	(revision 13)
-+++ /home/dnaber/workspace/Jaminid/src/com/prolixtech/jaminid/Protocol.java	(working copy)
-@@ -280,7 +280,7 @@
+--- src/com/prolixtech/jaminid/Protocol.java	(revision 13)
++++ src/com/prolixtech/jaminid/Protocol.java	(working copy)
+@@ -280,15 +280,16 @@
          MIME.setProperty(".txt", "text/plain");
  
          
@@ -106,20 +107,76 @@ Index: /home/dnaber/workspace/Jaminid/src/com/prolixtech/jaminid/Protocol.java
          try {
              OutputStream nmim = new FileOutputStream(Protocol.MIMEFILE);  
              MIME.storeToXML(nmim, "\nJAMINID MIMETYPES\n\nThese are the default MIME types for the jaminid daemon. If you had a modified but invalid MIME file here, it may have been reverted to this.");
-@@ -287,7 +287,8 @@
          } catch (IOException e) {
              // TODO Auto-generated catch block
              e.printStackTrace();
 -        }
-+
-+        }*/
  
++        }*/
++
      }
  
-Index: /home/dnaber/workspace/Jaminid/src/com/prolixtech/jaminid/Request.java
+ }
+\ No newline at end of file
+Index: src/com/prolixtech/jaminid/Daemon.java
 ===================================================================
---- /home/dnaber/workspace/Jaminid/src/com/prolixtech/jaminid/Request.java	(revision 13)
-+++ /home/dnaber/workspace/Jaminid/src/com/prolixtech/jaminid/Request.java	(working copy)
+--- src/com/prolixtech/jaminid/Daemon.java	(revision 13)
++++ src/com/prolixtech/jaminid/Daemon.java	(working copy)
+@@ -4,6 +4,7 @@
+ import java.net.InetAddress;
+ import java.net.ServerSocket;
+ import java.net.Socket;
++import java.net.SocketException;
+ 
+ import com.prolixtech.utils.SingletonLogger;
+ import com.prolixtech.utils.Suspender;
+@@ -163,12 +164,19 @@
+                 }
+ 
+             } finally {
+-                serverSocket.close();
++                if (!serverSocket.isClosed()) {
++                    serverSocket.close();
++                }
+             }
+ 
+         } catch (Exception e) {
+-            this.printlog("A major error has occured\n" + e);
+-            System.exit(-1);
++            if (RUNNING) {
++                final String message = "A major error has occured\n" + e;
++                System.out.println(message);
++                this.printlog(message);
++            } else {
++                // okay to ignore, happens wehn we call serverSocket.close()
++            }
+         }
+ 
+     }
+@@ -202,6 +210,19 @@
+      */
+     public void tearDown() {
+         RUNNING = false;
++        if (serverSocket != null && !serverSocket.isClosed()) {
++            try {
++                serverSocket.close();
++            } catch (IOException e) {
++                // okay to ignore
++            }
++        }
++        super.stop();
++        try {
++            Thread.sleep(500);
++        } catch (InterruptedException e) {
++            e.printStackTrace();
++        }
+     }
+ 
+     /**
+Index: src/com/prolixtech/jaminid/Request.java
+===================================================================
+--- src/com/prolixtech/jaminid/Request.java	(revision 13)
++++ src/com/prolixtech/jaminid/Request.java	(working copy)
 @@ -321,8 +321,8 @@
                  try {
                      String hex = s.substring(lastIndex + 1, lastIndex + 3);
