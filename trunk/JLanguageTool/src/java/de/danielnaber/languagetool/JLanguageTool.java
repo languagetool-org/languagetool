@@ -259,22 +259,9 @@ public final class JLanguageTool {
   }
 
   /**
-   * Get the File, assuming it's under the base directory.
-   * 
-   * @param relFilename
-   *          a non-absolute file name
-   * 
-   *          public File getAbsoluteFile(final String relFilename) { if
-   *          (basedir == null) return new File(relFilename); return new
-   *          File(basedir, relFilename); }
-   */
-
-  /**
    * Load pattern rules from an XML file. Use {@link #addRule} to add these
    * rules to the checking process.
    * 
-   * @throws ParserConfigurationException
-   * @throws SAXException
    * @throws IOException
    * @return a List of {@link PatternRule} objects
    */
@@ -603,7 +590,7 @@ public final class JLanguageTool {
    * Get the list of unknown words in the last run of the check() method.
    * 
    * @throws IllegalStateException
-   *           listUnknownWords is set to <code>false</code>
+   *           if listUnknownWords is set to <code>false</code>
    */
   public List<String> getUnknownWords() {
     if (!listUnknownWords) {
