@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 German grammar and typo rules for LanguageTool
 See resource/de/tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2010 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.30 2010-07-17 17:17:53 dnaber Exp $
+$Id: grammar.xml,v 1.31 2010-07-17 18:14:28 dnaber Exp $
 -->
 <rules lang="de" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../rules.xsd">
@@ -38,7 +38,8 @@ $Id: grammar.xml,v 1.30 2010-07-17 17:17:53 dnaber Exp $
     </rulegroup>
     <rulegroup id="LIEDER_LEIDER" name="Tippfehler: 'Lieder(Leider) ...'">
       <rule>
-        <pattern mark_to="-1">
+        <pattern mark_from="1" mark_to="-1">
+          <token postag="SENT_START"/>
           <token>Lieder</token>
           <token postag="VER:3:SIN.*" postag_regexp="yes">
             <exception inflected="yes">singen</exception>
@@ -46,10 +47,14 @@ $Id: grammar.xml,v 1.30 2010-07-17 17:17:53 dnaber Exp $
             <exception inflected="yes">machen</exception>
             <exception inflected="yes">schreiben</exception>
             <exception inflected="yes">texten</exception>
+            <exception postag=".*KJ2.*|.*PRT.*" postag_regexp="yes"></exception>
           </token>
         </pattern>
         <message>Meinten Sie <suggestion>Leider</suggestion>?</message>
-        <example type="correct"><marker>Leider</marker> funktioniert es noch immer nicht.</example>        
+        <example type="correct"><marker>Leider</marker> funktioniert es noch immer nicht.</example>
+        <example type="correct">Mehr Instrumente wurden in die Lieder integriert.</example>
+        <example type="correct">Die Klänge, die er in einige seiner Lieder einbaute.</example>
+        <example type="correct">Die CD, auf denen diese Lieder veröffentlicht wurden.</example>
         <example type="incorrect"><marker>Lieder</marker> funktioniert es noch immer nicht.</example>
       </rule>
     </rulegroup>
