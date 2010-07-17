@@ -538,6 +538,15 @@ class PatternRuleHandler extends XMLRuleHandler {
       }
       resetToken();
     } else if (qName.equals("pattern")) {
+      if (phraseElementList == null || phraseElementList.size() == 0) {
+          final int endMarker = elementList.size() + endPositionCorrection;
+          if (endMarker <= startPositionCorrection) {
+              throw new RuntimeException("Invalid combination of mark_from (" + startPositionCorrection
+                      + ") and mark_to (" + endPositionCorrection + ") for rule " + id
+                      + " with " + elementList.size() 
+                      + " tokens: the error position created by mark_from and mark_to is less than one token");
+          }
+      }
       inPattern = false;
       if (lastPhrase) {
         elementList.clear();
