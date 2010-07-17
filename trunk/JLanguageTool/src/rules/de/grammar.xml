@@ -6,12 +6,105 @@ title="Easy editing stylesheet" ?>
 <!--
 German grammar and typo rules for LanguageTool
 See resource/de/tagset.txt for the meaning of the POS tags
-Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.29 2010-06-08 17:03:37 dnaber Exp $
+Copyright (C) 2001-2010 Daniel Naber (http://www.danielnaber.de)
+$Id: grammar.xml,v 1.30 2010-07-17 17:17:53 dnaber Exp $
 -->
 <rules lang="de" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../rules.xsd">
   <category name="Mögliche Tippfehler">
+    <rulegroup id="WAHR_NEHMEN" name="Grammatik: 'nehme ... war'">
+      <rule>
+        <pattern mark_from="1">
+          <token inflected="yes" skip="5">nehmen</token>
+          <token>war</token>
+        </pattern>      
+        <message>Meinten Sie <suggestion>wahr</suggestion> wie in 'wahrnehmen'?</message>
+        <example type="correct">So nehme ich das <marker>wahr</marker>.</example>
+        <example type="correct">So nimmst du das <marker>wahr</marker>.</example>
+        <example type="incorrect">So nehme ich das <marker>war</marker>.</example>      
+        <example type="incorrect">So nimmst du das <marker>war</marker>.</example>      
+      </rule>
+    </rulegroup>
+    <rulegroup id="DAS_AMEN" name="Tippfehler: 'das Armen(Amen)'">
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">ein|das</token>
+          <token>Armen</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>Amen</suggestion>?</message>
+        <example type="correct">So sicher wie das <marker>Amen</marker> in der Kirche.</example>
+        <example type="incorrect">So sicher wie das <marker>Armen</marker> in der Kirche.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="LIEDER_LEIDER" name="Tippfehler: 'Lieder(Leider) ...'">
+      <rule>
+        <pattern mark_to="-1">
+          <token>Lieder</token>
+          <token postag="VER:3:SIN.*" postag_regexp="yes">
+            <exception inflected="yes">singen</exception>
+            <exception inflected="yes">komponieren</exception>
+            <exception inflected="yes">machen</exception>
+            <exception inflected="yes">schreiben</exception>
+            <exception inflected="yes">texten</exception>
+          </token>
+        </pattern>
+        <message>Meinten Sie <suggestion>Leider</suggestion>?</message>
+        <example type="correct"><marker>Leider</marker> funktioniert es noch immer nicht.</example>        
+        <example type="incorrect"><marker>Lieder</marker> funktioniert es noch immer nicht.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="DESWEGEN" name="Tippfehler: 'des wegen(deswegen)'">
+      <rule>
+        <pattern>
+          <token>des</token>
+          <token>wegen</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>deswegen</suggestion>?</message>
+        <example type="correct"><marker>Deswegen</marker> fuhren sie nach Hause.</example>
+        <example type="incorrect"><marker>Des wegen</marker> fuhren sie nach Hause.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="FIELE_UND_VIELE" name="Tippfehler: 'fiele(viele) Grüße'">
+      <rule>
+        <pattern mark_to="-1">
+          <token>Fiele</token>
+          <token>Grüße</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>viele</suggestion>?</message>
+        <example type="correct"><marker>Viele</marker> Grüße</example>
+        <example type="incorrect"><marker>Fiele</marker> Grüße</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="FIEL_UND_VIEL" name="Tippfehler: 'nehmen/geben fiel(viel)'">
+      <rule>
+        <pattern mark_from="1">
+          <token inflected="yes">nehmen</token>
+          <token>fiel</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>viel</suggestion>?</message>
+        <example type="correct">Er nahm <marker>viel</marker> auf seinen Teller.</example>
+        <example type="incorrect">Er nahm <marker>fiel</marker> auf seinen Teller.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token inflected="yes">geben</token>
+          <token>fiel</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>viel</suggestion>?</message>
+        <example type="correct">Er gibt <marker>viel</marker> Geld aus.</example>
+        <example type="incorrect">Er gibt <marker>fiel</marker> Geld aus.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2">
+          <token inflected="yes">geben</token>
+          <token>zu</token>
+          <token>fiel</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>viel</suggestion>?</message>
+        <example type="correct">Er gibt zu <marker>viel</marker> Geld aus.</example>
+        <example type="incorrect">Er gibt zu <marker>fiel</marker> Geld aus.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="FUER_UND_WIEDER" name="Tippfehler: 'für und wieder(wider)'">
       <rule>
         <pattern case_sensitive="yes">
@@ -774,6 +867,53 @@ $Id: grammar.xml,v 1.29 2010-06-08 17:03:37 dnaber Exp $
     <example type="incorrect">Da regt er sich zu <marker>recht</marker> auf.</example>
   </rule>
   -->
+    <rulegroup id="Beichte" name="Tippfehler: 'die beichte(Beichte)'">
+      <rule>
+        <pattern mark_from="1" case_sensitive="yes">
+          <token regexp="yes">eine|die|seine|ihre|meine</token>
+          <token>beichte</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>Beichte</suggestion>?</message>
+        <example type="correct">Er legte die <marker>Beichte</marker> ab.</example>
+        <example type="incorrect">Er legte die <marker>beichte</marker> ab.</example>
+      </rule>
+    </rulegroup>
+    <rule id="DIE_SUCHE" name="Groß-/Kleinschreibung: 'die suche(Suche)'">
+      <pattern mark_from="1" case_sensitive="yes">
+        <token regexp="yes">[dD]er|[dD]ie</token>
+        <token>suche</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>Suche</suggestion>?</message>
+      <example type="correct">Die <marker>Suche</marker> dauerte lange.</example>
+      <example type="correct">Sie waren auf der <marker>Suche</marker> nach Felix.</example>
+      <example type="incorrect">Die <marker>suche</marker> dauerte lange.</example>
+      <example type="incorrect">Sie waren auf der <marker>suche</marker> nach Felix.</example>
+    </rule>
+    <!-- TODO: LT itself uppercases the suggestion so that it's incorrect again: 
+    <rule id="WIR_TREFFEN" name="Groß-/Kleinschreibung: 'wir Treffen(treffen)'">
+      <pattern mark_from="1" case_sensitive="yes">
+        <token regexp="yes">[wW]ir|[sS]ie</token>
+        <token>Treffen</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>treffen</suggestion>?</message>
+      <example type="correct">Wir <marker>treffen</marker> uns später.</example>
+      <example type="correct">Sie <marker>treffen</marker> sich später.</example>
+      <example type="incorrect">Wir <marker>Treffen</marker> uns später.</example>
+      <example type="incorrect">Sie <marker>Treffen</marker> sich später.</example>
+    </rule>
+    -->
+    <rule id="GUTEN_UND_SCHLECHTEN" name="Groß-/Kleinschreibung: 'in Guten(guten) wie in Schlechten(schlechten) Zeiten'">
+      <pattern case_sensitive="yes">
+        <token regexp="yes">[Ii]n</token>
+        <token>Guten</token>
+        <token>wie</token>
+        <token>in</token>
+        <token>Schlechten</token>
+      </pattern>
+      <message><suggestion>in guten wie in schlechten Zeiten</suggestion> wird in dieser Wendung klein geschrieben.</message>
+      <example type="correct"><marker>In guten wie in schlechten</marker> Zeiten.</example>
+      <example type="incorrect"><marker>In Guten wie in Schlechten</marker> Zeiten.</example>
+    </rule>
     <rule id="DES_WEITEREN" name="Groß-/Kleinschreibung: 'des weiteren(Weiteren)'">
       <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
         <token regexp="yes">[Dd]es</token>
@@ -1031,6 +1171,77 @@ $Id: grammar.xml,v 1.29 2010-06-08 17:03:37 dnaber Exp $
     </rule>
   </category>
   <category name="Grammatik">
+    <!-- TODO: make this more general: -->
+    <rulegroup id="ICH_WUENSCHE" name="Grammatik: 'Ich wünschen(wünsche)'">
+      <rule>
+        <pattern case_sensitive="yes" mark_from="1">
+          <token regexp="yes">ich|Ich</token>
+          <token>wünschen</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>wünsche</suggestion> ?</message>
+        <example type="correct">Ich <marker>wünsche</marker> dir viel Spaß.</example>
+        <example type="correct">Viel Spaß <marker>wünsche</marker> ich dir.</example>
+        <example type="incorrect" correction="wünsche">Ich <marker>wünschen</marker> dir viel Spaß.</example>
+      </rule>
+    </rulegroup>
+    <!-- TODO: Fix false alarms like in "Seite zum Suchen von Abkürzungen"
+    <rulegroup id="ZUM_ZUR" name="Grammatik: 'zum(zur) Trennung'">
+      <rule>
+        <pattern case_sensitive="no" mark_to="-1">
+          <token regexp="yes">zum|vom</token>
+          <token postag="SUB:.*FEM" postag_regexp="yes"/>
+        </pattern>
+        <message>Meinten Sie <suggestion>zur</suggestion> ?</message>
+        <example type="correct">Eine einfache Java-Bibliothek Software <marker>zur</marker> Trennung von Komposita.</example>
+        <example type="incorrect">Eine einfache Java-Bibliothek Software <marker>zum</marker> Trennung von Komposita.</example>
+      </rule>
+    </rulegroup>
+    -->
+    <rulegroup id="SPRECH_NICHT" name="Grammatik: 'bitte sprech(sprich)'">
+      <rule>
+        <pattern mark_from="1">
+          <token>bitte</token>
+          <token>sprech</token>
+        </pattern>      
+        <message>Statt 'sprech' sollte hier eventuell <suggestion>sprich</suggestion> benutzt werden.</message>   
+        <example type="correct">Bitte <marker>sprich</marker> nicht so laut.</example>      
+        <example type="incorrect">Bitte <marker>sprech</marker> nicht so laut.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token>sprech</token>
+          <token>bitte</token>
+        </pattern>   
+        <message>Statt 'sprech' sollte hier eventuell <suggestion>sprich</suggestion> benutzt werden.</message>   
+        <example type="incorrect"><marker>Sprech</marker> bitte nicht so laut.</example>
+        <example type="correct"><marker>Sprich</marker> bitte nicht so laut.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-2">
+          <token>sprech</token>
+          <token skip="5"></token>
+          <token>bitte</token>
+        </pattern>
+        <message>Statt 'sprech' sollte hier eventuell <suggestion>sprich</suggestion> benutzt werden.</message>   
+        <example type="incorrect"><marker>Sprech</marker> doch bitte nicht so laut.</example>
+        <example type="correct"><marker>Sprich</marker> doch bitte nicht so laut.</example>
+      </rule>
+    </rulegroup>
+    <!-- TODO: too many false alarams
+    <rulegroup id="SEIT_PREP_TEILGRUPPE_MIT_NACH_ETC" name="Grammatik: 'seit/nach/... des (dem)'">
+      <rule>
+        <pattern case_sensitive="no" mark_from="1">
+          <token regexp="yes">mit|nach|bei|von|aus|zu|seit</token>
+          <token postag=".*:DEF:(GEN|NOM|AKK).*" postag_regexp="yes"/>
+          <token/>
+        </pattern>
+        <message>Meinten Sie den Dativ?</message>
+        <example type="correct">Seit <marker>dem Umzug</marker> auf einen neuen Server...</example>        
+        <example type="correct">Aber nach <marker>einer Warnung</marker> hielt er an.</example>        
+        <example type="incorrect">Seit <marker>des Umzuges</marker> auf einen neuen Server...</example>
+      </rule>
+    </rulegroup>
+    -->
     <rulegroup id="DEN_DEM" name="Grammatik: 'dem/den' (nur für wenige Verben)">
       <!-- TODO: the list of words needs to be extended -->
       <rule>
