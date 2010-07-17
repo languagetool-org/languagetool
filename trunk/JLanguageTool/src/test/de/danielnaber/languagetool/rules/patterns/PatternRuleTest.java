@@ -193,8 +193,16 @@ public class PatternRuleTest extends TestCase {
               final String fixedSentence = badSentence.substring(0, fromPos)
                   + repl + badSentence.substring(toPos);
               matches = getMatches(rule, fixedSentence, languageTool);
-              assertEquals("Corrected sentence for rule " + rule
-                  + " triggered error: " + fixedSentence, 0, matches.length);
+              if (matches.length > 0) {
+                  fail("Incorrect input:\n"
+                          + "  " + badSentence
+                  		  + "\nCorrected sentence:\n"
+                          + "  " + fixedSentence
+                          + "\nBy Rule:\n"
+                          + "  " + rule
+                          + "\nThe correction triggered an error itself:\n"
+                          + "  " + matches[0] + "\n");
+              }
             }
           } else {
             noSuggestionCount++;
