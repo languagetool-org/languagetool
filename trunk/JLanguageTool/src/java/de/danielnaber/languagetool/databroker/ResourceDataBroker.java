@@ -52,6 +52,7 @@ import de.danielnaber.languagetool.JLanguageTool;
  * {@code /resource} directory.
  * 
  * @author PAX
+ * @since 1.0.1
  */
 public interface ResourceDataBroker {
 
