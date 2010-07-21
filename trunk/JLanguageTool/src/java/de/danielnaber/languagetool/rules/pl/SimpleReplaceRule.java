@@ -37,7 +37,7 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
 
 	public static final String POLISH_SIMPLE_REPLACE_RULE = "PL_SIMPLE_REPLACE";
 	
-	private static final String FILE_NAME = "/rules/pl/replace.txt";
+	private static final String FILE_NAME = "/pl/replace.txt";
 	// locale used on case-conversion
 	private static Locale plLocale = new Locale("pl");
 

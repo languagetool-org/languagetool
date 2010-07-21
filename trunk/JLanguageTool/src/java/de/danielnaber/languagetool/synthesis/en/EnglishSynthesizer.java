@@ -27,6 +27,7 @@ import morfologik.stemming.Dictionary;
 import morfologik.stemming.DictionaryLookup;
 import morfologik.stemming.WordData;
 import de.danielnaber.languagetool.AnalyzedToken;
+import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.rules.en.AvsAnRule;
 import de.danielnaber.languagetool.synthesis.BaseSynthesizer;
 
@@ -47,9 +48,9 @@ import de.danielnaber.languagetool.synthesis.BaseSynthesizer;
 
 public class EnglishSynthesizer extends BaseSynthesizer {
 
-  private static final String RESOURCE_FILENAME = "/resource/en/english_synth.dict";
+  private static final String RESOURCE_FILENAME = "/en/english_synth.dict";
 
-  private static final String TAGS_FILE_NAME = "/resource/en/english_tags.txt";
+  private static final String TAGS_FILE_NAME = "/en/english_tags.txt";
 
   /** A special tag to add determiners. **/
   private static final String ADD_DETERMINER = "+DT";
@@ -58,7 +59,8 @@ public class EnglishSynthesizer extends BaseSynthesizer {
   private static final String ADD_IND_DETERMINER = "+INDT";
   
   public EnglishSynthesizer() {
-    super(RESOURCE_FILENAME, TAGS_FILE_NAME);
+    super(JLanguageTool.getDataBroker().getResourceDir() + RESOURCE_FILENAME, 
+    		JLanguageTool.getDataBroker().getResourceDir() + TAGS_FILE_NAME);
   }
 
   /**
@@ -82,7 +84,7 @@ public class EnglishSynthesizer extends BaseSynthesizer {
       return new String[] { rule.suggestAorAn(token.getToken()) };
     } else {
       if (synthesizer == null) {
-        final URL url = this.getClass().getResource(RESOURCE_FILENAME);
+        final URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(RESOURCE_FILENAME);
         synthesizer = new DictionaryLookup(Dictionary.read(url));
       }
       List<WordData> wordData = synthesizer.lookup(token.getLemma() + "|" + posTag);

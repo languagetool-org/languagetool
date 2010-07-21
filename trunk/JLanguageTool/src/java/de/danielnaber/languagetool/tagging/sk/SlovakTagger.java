@@ -20,6 +20,7 @@ package de.danielnaber.languagetool.tagging.sk;
 
 import java.util.Locale;
 
+import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.tagging.BaseTagger;
 
 /** Slovak Part-of-speech tagger based on Russian Part-of-speech tagger.
@@ -29,7 +30,7 @@ import de.danielnaber.languagetool.tagging.BaseTagger;
 public class SlovakTagger extends BaseTagger {
 
   public final String getFileName() {
-    return "/resource/sk/slovak.dict";
+    return JLanguageTool.getDataBroker().getResourceDir() + "/sk/slovak.dict";
   }
 
   public SlovakTagger() {

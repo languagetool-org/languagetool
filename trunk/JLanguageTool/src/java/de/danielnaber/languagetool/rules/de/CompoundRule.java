@@ -21,8 +21,8 @@ package de.danielnaber.languagetool.rules.de;
 import java.io.IOException;
 import java.util.ResourceBundle;
 
+import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.rules.AbstractCompoundRule;
-import de.danielnaber.languagetool.tools.Tools;
 
 /**
  * Checks that compounds (if in the list) are not written as separate words.
@@ -31,11 +31,11 @@ import de.danielnaber.languagetool.tools.Tools;
  */
 public class CompoundRule extends AbstractCompoundRule {
 
-  private static final String FILE_NAME = "/resource/de/compounds.txt";
+  private static final String FILE_NAME = "/de/compounds.txt";
  
   public CompoundRule(final ResourceBundle messages) throws IOException {    
     super(messages);
-    loadCompoundFile(Tools.getStream(FILE_NAME), "UTF-8");
+    loadCompoundFile(JLanguageTool.getDataBroker().getFromResourceDirAsStream(FILE_NAME), "UTF-8");
     super.setShort("Hyphenation problem");
     super.setMsg("Dieses Kompositum wird mit Bindestrich geschrieben.", 
         "Dieses Kompositum wird zusammengeschrieben.", 

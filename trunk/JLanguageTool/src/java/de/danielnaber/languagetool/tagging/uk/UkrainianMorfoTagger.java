@@ -18,6 +18,7 @@
  */
 package de.danielnaber.languagetool.tagging.uk;
 
+import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.tagging.BaseTagger;
 
 /** Ukrainian Part-of-speech tagger.
@@ -26,9 +27,9 @@ import de.danielnaber.languagetool.tagging.BaseTagger;
  */
 public class UkrainianMorfoTagger extends BaseTagger {
 
-  private static final String RESOURCE_FILENAME = "/resource/uk/ukrainian.dict";
+  private static final String RESOURCE_FILENAME = "/uk/ukrainian.dict";
 
   public final String getFileName() {
-    return RESOURCE_FILENAME;    
+    return JLanguageTool.getDataBroker().getResourceDir() + RESOURCE_FILENAME;    
   } 
 }

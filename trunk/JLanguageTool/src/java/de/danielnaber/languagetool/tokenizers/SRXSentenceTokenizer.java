@@ -29,7 +29,7 @@ import net.sourceforge.segment.srx.SrxDocument;
 import net.sourceforge.segment.srx.SrxParser;
 import net.sourceforge.segment.srx.SrxTextIterator;
 import net.sourceforge.segment.srx.io.Srx2Parser;
-import de.danielnaber.languagetool.tools.Tools;
+import de.danielnaber.languagetool.JLanguageTool;
 
 /**
  * Class to tokenize sentences using an SRX file.
@@ -44,13 +44,13 @@ public class SRXSentenceTokenizer extends SentenceTokenizer {
   private final String language;
   private String parCode;
 
-  static final String RULES = "/resource/segment.srx";
+  static final String RULES = "/segment.srx";
 
   public SRXSentenceTokenizer(final String language) {
     this.language = language;
     try {
-      srxReader = new BufferedReader(new InputStreamReader(Tools
-          .getStream(RULES), "utf-8"));    
+      srxReader = new BufferedReader(new InputStreamReader(
+		  JLanguageTool.getDataBroker().getFromResourceDirAsStream(RULES), "utf-8"));    
     } catch (IOException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();

@@ -31,11 +31,8 @@ import java.util.ResourceBundle;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
-import de.danielnaber.languagetool.rules.Category;
-import de.danielnaber.languagetool.rules.Rule;
-import de.danielnaber.languagetool.rules.RuleMatch;
+import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.tools.StringTools;
-import de.danielnaber.languagetool.tools.Tools;
 
 /**
  * A rule that matches words or phrases which should not be used and suggests
@@ -75,7 +72,7 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
     if (messages != null) {
       super.setCategory(new Category(messages.getString("category_misc")));
     }
-    wrongWords = loadWords(Tools.getStream(getFileName()));
+    wrongWords = loadWords(JLanguageTool.getDataBroker().getFromRulesDirAsStream(getFileName()));
   }
 
   public String getId() {
@@ -143,7 +140,7 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
         final String[] parts = line.split("=");
         if (parts.length != 2) {
           throw new IOException("Format error in file "
-              + this.getClass().getResource(getFileName()) + ", line: " + line);
+              + JLanguageTool.getDataBroker().getFromRulesDirAsUrl(getFileName()) + ", line: " + line);
         }
         map.put(parts[0], parts[1]);
       }

@@ -28,14 +28,15 @@ public class ValidateXMLTest extends TestCase {
     XMLValidator validator = new XMLValidator();
     for (int i = 0; i < Language.LANGUAGES.length; i++) {
       Language lang = Language.LANGUAGES[i];
-      String grammarFile = "/rules/" + lang.getShortName() + "/grammar.xml";
-      validator.validate(grammarFile, "/rules/rules.xsd");
+      String grammarFile = JLanguageTool.getDataBroker().getRulesDir() + "/" + lang.getShortName() + "/grammar.xml";
+      validator.validate(grammarFile, JLanguageTool.getDataBroker().getRulesDir() + "/rules.xsd");
     }
   }
 
   public void testFalseFriendsXML() throws IOException {
     XMLValidator validator = new XMLValidator();
-    validator.validate("/rules/false-friends.xml", "/rules/false-friends.dtd", "rules");
+    validator.validate(JLanguageTool.getDataBroker().getRulesDir() + "/false-friends.xml", 
+    		JLanguageTool.getDataBroker().getRulesDir() + "/false-friends.dtd", "rules");
   }
 
   public void testDisambiguationRuleFile() throws IOException {
@@ -43,17 +44,17 @@ public class ValidateXMLTest extends TestCase {
     //for (int i = 0; i < Language.LANGUAGES.length; i++) {
     //  Language lang = Language.LANGUAGES[i];
     Language lang = Language.FRENCH;
-    String grammarFile = "/resource/" + lang.getShortName() + "/disambiguation.xml";
-    validator.validate(grammarFile, "/resource/disambiguation.xsd");
+    String grammarFile = JLanguageTool.getDataBroker().getResourceDir() + "/" + lang.getShortName() + "/disambiguation.xml";
+    validator.validate(grammarFile, JLanguageTool.getDataBroker().getResourceDir() + "/disambiguation.xsd");
     lang = Language.ENGLISH;
-    grammarFile = "/resource/" + lang.getShortName() + "/disambiguation.xml";
-    validator.validate(grammarFile, "/resource/disambiguation.xsd");
+    grammarFile = JLanguageTool.getDataBroker().getResourceDir() + "/" + lang.getShortName() + "/disambiguation.xml";
+    validator.validate(grammarFile, JLanguageTool.getDataBroker().getResourceDir() + "/disambiguation.xsd");
     lang = Language.DUTCH;
-    grammarFile = "/resource/" + lang.getShortName() + "/disambiguation.xml";
-    validator.validate(grammarFile, "/resource/disambiguation.xsd");
+    grammarFile = JLanguageTool.getDataBroker().getResourceDir() + "/" + lang.getShortName() + "/disambiguation.xml";
+    validator.validate(grammarFile, JLanguageTool.getDataBroker().getResourceDir() + "/disambiguation.xsd");
     lang = Language.POLISH;
-    grammarFile = "/resource/" + lang.getShortName() + "/disambiguation.xml";
-    validator.validate(grammarFile, "/resource/disambiguation.xsd");
+    grammarFile = JLanguageTool.getDataBroker().getResourceDir() + "/" + lang.getShortName() + "/disambiguation.xml";
+    validator.validate(grammarFile, JLanguageTool.getDataBroker().getResourceDir() + "/disambiguation.xsd");
     // }
   }
 

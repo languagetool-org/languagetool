@@ -26,6 +26,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
+import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import de.danielnaber.languagetool.tagging.disambiguation.rules.AbstractRuleDisambiguator;
@@ -38,7 +39,7 @@ public class DutchRuleDisambiguator extends AbstractRuleDisambiguator {
     try {
       if (disambiguationRules == null) {
         final String defaultPatternFilename = 
-          "/resource/nl/" + DISAMB_FILE;
+        	JLanguageTool.getDataBroker().getResourceDir() + "/nl/" + DISAMB_FILE;
         disambiguationRules = loadPatternRules(defaultPatternFilename);
       }
       for (final DisambiguationPatternRule dr : disambiguationRules) {

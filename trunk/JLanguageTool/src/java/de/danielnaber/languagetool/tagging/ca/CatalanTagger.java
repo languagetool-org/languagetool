@@ -18,9 +18,9 @@
  */
 package de.danielnaber.languagetool.tagging.ca;
 
-import de.danielnaber.languagetool.tagging.ca.*;
 import java.util.Locale;
 
+import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.tagging.BaseTagger;
 
 /** Catalan Tagger
@@ -32,7 +32,7 @@ import de.danielnaber.languagetool.tagging.BaseTagger;
 public class CatalanTagger extends BaseTagger {
 
   public final String getFileName() {
-    return "/resource/ca/catalan.dict";
+    return JLanguageTool.getDataBroker().getResourceDir() + "/ca/catalan.dict";
   }
   
   public CatalanTagger() {

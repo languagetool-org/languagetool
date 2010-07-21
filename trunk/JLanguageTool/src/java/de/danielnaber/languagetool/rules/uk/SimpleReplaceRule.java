@@ -34,7 +34,7 @@ import de.danielnaber.languagetool.rules.AbstractSimpleReplaceRule;
  */
 public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
 
-  private static final String FILE_NAME = "/rules/uk/replace.txt";
+  private static final String FILE_NAME = "/uk/replace.txt";
 
   public final String getFileName() {
     return FILE_NAME;

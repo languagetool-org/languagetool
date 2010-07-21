@@ -18,6 +18,7 @@
  */
 package de.danielnaber.languagetool.synthesis.ro;
 
+import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.synthesis.BaseSynthesizer;
 
 /**
@@ -28,11 +29,12 @@ import de.danielnaber.languagetool.synthesis.BaseSynthesizer;
 
 public class RomanianSynthesizer extends BaseSynthesizer {
 
-	private static final String RESOURCE_FILENAME = "/resource/ro/romanian_synth.dict";
+	private static final String RESOURCE_FILENAME = "/ro/romanian_synth.dict";
 
-	private static final String TAGS_FILE_NAME = "/resource/ro/romanian_tags.txt";
+	private static final String TAGS_FILE_NAME = "/ro/romanian_tags.txt";
 
 	public RomanianSynthesizer() {
-    super(RESOURCE_FILENAME, TAGS_FILE_NAME);
+    super(JLanguageTool.getDataBroker().getResourceDir() + RESOURCE_FILENAME, 
+    		JLanguageTool.getDataBroker().getResourceDir() + TAGS_FILE_NAME);
   }
 }

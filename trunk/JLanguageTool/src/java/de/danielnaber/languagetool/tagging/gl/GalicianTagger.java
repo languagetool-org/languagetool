@@ -20,6 +20,7 @@ package de.danielnaber.languagetool.tagging.gl;
 
 import java.util.Locale;
 
+import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.tagging.BaseTagger;
 
 /** Galician Part-of-speech tagger.
@@ -32,7 +33,7 @@ import de.danielnaber.languagetool.tagging.BaseTagger;
 public class GalicianTagger extends BaseTagger {
 
   public final String getFileName() {
-    return "/resource/gl/galician.dict";    
+    return JLanguageTool.getDataBroker().getResourceDir() + "/gl/galician.dict";    
   }
   
   public GalicianTagger() {

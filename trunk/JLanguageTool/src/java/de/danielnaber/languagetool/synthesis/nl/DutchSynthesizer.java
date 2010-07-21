@@ -18,6 +18,7 @@
  */
 package de.danielnaber.languagetool.synthesis.nl;
 
+import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.synthesis.BaseSynthesizer;
 
 /**
@@ -28,12 +29,13 @@ import de.danielnaber.languagetool.synthesis.BaseSynthesizer;
 
 public class DutchSynthesizer extends BaseSynthesizer {
 
-  private static final String RESOURCE_FILENAME = "/resource/nl/dutch_synth.dict";
+  private static final String RESOURCE_FILENAME = "/nl/dutch_synth.dict";
 
-  private static final String TAGS_FILE_NAME = "/resource/nl/dutch_tags.txt";
+  private static final String TAGS_FILE_NAME = "/nl/dutch_tags.txt";
 
   public DutchSynthesizer() {
-    super(RESOURCE_FILENAME, TAGS_FILE_NAME);
+    super(JLanguageTool.getDataBroker().getResourceDir() + RESOURCE_FILENAME, 
+    		JLanguageTool.getDataBroker().getResourceDir() + TAGS_FILE_NAME);
   }
   
   

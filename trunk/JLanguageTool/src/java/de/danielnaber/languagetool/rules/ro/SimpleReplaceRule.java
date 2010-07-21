@@ -34,6 +34,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
+import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.rules.AbstractSimpleReplaceRule;
 import de.danielnaber.languagetool.rules.Category;
@@ -41,7 +42,6 @@ import de.danielnaber.languagetool.rules.Rule;
 import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.tokenizers.Tokenizer;
 import de.danielnaber.languagetool.tools.StringTools;
-import de.danielnaber.languagetool.tools.Tools;
 
 /**
  * A rule that matches words which should not be used and suggests correct ones instead. <br/> 
@@ -53,14 +53,14 @@ import de.danielnaber.languagetool.tools.Tools;
  * Note: Merge this into {@link AbstractSimpleReplaceRule} eventually and simply extend from AbstractSimpleReplaceRule.<br/>
  * 
  * @author Ionuț Păduraru
- * @version $Id: SimpleReplaceRule.java,v 1.6 2010-02-11 19:35:25 archeus Exp $
+ * @version $Id: SimpleReplaceRule.java,v 1.7 2010-07-21 21:20:35 dnaber Exp $
  * 
  */
 public class SimpleReplaceRule extends Rule {
 
 	public static final String ROMANIAN_SIMPLE_REPLACE_RULE = "RO_SIMPLE_REPLACE";
 
-	private static final String FILE_NAME = "/rules/ro/replace.txt";
+	private static final String FILE_NAME = "/ro/replace.txt";
 	private static final String FILE_ENCODING = "utf-8";
 	// locale used on case-conversion
 	private static Locale roLocale = new Locale("ro");
@@ -78,7 +78,7 @@ public class SimpleReplaceRule extends Rule {
 		if (messages != null) {
 			super.setCategory(new Category(messages.getString("category_misc")));
 		}
-		wrongWords = loadWords(Tools.getStream(getFileName()));
+		wrongWords = loadWords(JLanguageTool.getDataBroker().getFromRulesDirAsStream(getFileName()));
 	}
 
 	public final String getId() {
@@ -155,7 +155,7 @@ public class SimpleReplaceRule extends Rule {
 				final String[] parts = line.split("=");
 				if (parts.length != 2) {
 					throw new IOException("Format error in file "
-							+ this.getClass().getResource(getFileName())
+							+ JLanguageTool.getDataBroker().getFromRulesDirAsUrl(getFileName())
 							+ ", line: " + line);
 				}
 				final String[] wrongForms = parts[0].split("\\|"); // multiple incorect forms

@@ -20,6 +20,8 @@ package de.danielnaber.languagetool.tagging.de;
 
 import java.io.IOException;
 
+import de.danielnaber.languagetool.JLanguageTool;
+
 import junit.framework.TestCase;
 import morfologik.stemming.Dictionary;
 import morfologik.stemming.DictionaryLookup;
@@ -102,7 +104,7 @@ public class GermanTaggerTest extends TestCase {
   
   public void testDictionary() throws IOException {    
     final Dictionary dictionary = Dictionary.read(
-        this.getClass().getResource("/resource/de/german.dict"));    
+        JLanguageTool.getDataBroker().getFromResourceDirAsUrl("/de/german.dict"));    
     final DictionaryLookup dl = new DictionaryLookup(dictionary);
     for (WordData wd : dl) {
       if (wd.getTag() == null || wd.getTag().length() == 0) {

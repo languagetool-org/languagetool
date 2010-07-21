@@ -59,7 +59,8 @@ public class JLanguageToolTest extends TestCase {
     matches = tool.check("I can give you more a detailed description.");
     assertEquals(0, matches.size());
     assertEquals(8, tool.getAllRules().size());
-    final List<PatternRule> rules = tool.loadPatternRules("/rules/en/grammar.xml");
+    final List<PatternRule> rules = tool.loadPatternRules(JLanguageTool.getDataBroker().getRulesDir()
+    		+ "/en/grammar.xml");
     for (PatternRule patternRule : rules) {
       tool.addRule(patternRule);
     }
@@ -80,7 +81,8 @@ public class JLanguageToolTest extends TestCase {
     assertEquals(0, matches.size());
     matches = tool.check("Ein Test Test, der Fehler geben sollte.");
     assertEquals(1, matches.size());
-    final List<PatternRule> rules = tool.loadPatternRules("/rules/de/grammar.xml");
+    final List<PatternRule> rules = tool.loadPatternRules(JLanguageTool.getDataBroker().getRulesDir()
+    		+ "/de/grammar.xml");
     for (PatternRule patternRule : rules) {
       tool.addRule(patternRule);
     }
@@ -94,7 +96,8 @@ public class JLanguageToolTest extends TestCase {
 
   public void testDutch() throws IOException {
     final JLanguageTool tool = new JLanguageTool(Language.DUTCH);
-    final List<PatternRule> rules = tool.loadPatternRules("/rules/nl/grammar.xml");
+    final List<PatternRule> rules = tool.loadPatternRules(JLanguageTool.getDataBroker().getRulesDir()
+    		+ "/nl/grammar.xml");
     for (PatternRule patternRule : rules) {
       tool.addRule(patternRule);
     }
@@ -124,7 +127,8 @@ public class JLanguageToolTest extends TestCase {
     tool.enableDefaultOffRule("PL_WORD_REPEAT");
     matches = tool.check("Był on bowiem pięknym strzelcem bowiem.");
     assertEquals(1, matches.size());
-    List<PatternRule> rules = tool.loadPatternRules("/rules/pl/grammar.xml");
+    List<PatternRule> rules = tool.loadPatternRules(JLanguageTool.getDataBroker().getRulesDir()
+    		+ "/pl/grammar.xml");
     for (final PatternRule rule : rules) {
       tool.addRule(rule);
     }
@@ -149,7 +153,8 @@ public class JLanguageToolTest extends TestCase {
     lang.getSentenceTokenizer().setSingleLineBreaksMarksParagraph(
         true);
     tool = new JLanguageTool(lang);
-    rules = tool.loadPatternRules("/rules/pl/grammar.xml");
+    rules = tool.loadPatternRules(JLanguageTool.getDataBroker().getRulesDir()
+    		+ "/pl/grammar.xml");
     for (final PatternRule rule : rules) {
       tool.addRule(rule);
     }

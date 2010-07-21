@@ -39,6 +39,8 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
+import de.danielnaber.languagetool.databroker.DefaultResourceDataBroker;
+import de.danielnaber.languagetool.databroker.ResourceDataBroker;
 import de.danielnaber.languagetool.rules.Rule;
 import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.rules.patterns.FalseFriendRuleLoader;
@@ -70,7 +72,7 @@ public final class JLanguageTool {
   public static final String VERSION = "1.0.1-dev"; // keep in sync with
                                                     // build.properties!
 
-  public static final String RULES_DIR = "/rules";
+  private static ResourceDataBroker dataBroker = new DefaultResourceDataBroker();
   public static final String PATTERN_FILE = "grammar.xml";
   public static final String FALSE_FRIEND_FILE = "false-friends.xml";
 
@@ -164,6 +166,48 @@ public final class JLanguageTool {
     tagger = language.getTagger();
     sentenceTokenizer = language.getSentenceTokenizer();
     wordTokenizer = language.getWordTokenizer();
+  }
+  
+  /**
+   * The grammar checker does need resources from following
+   * directories:
+   * 
+   * <ul style="list-type: circle">
+   * <li>{@code /resource}</li>
+   * <li>{@code /rules}</li>
+   * </ul>
+   * 
+   * This method is thread-safe.
+   * 
+   * @return The currently set data broker which allows to obtain
+   * resources from the mentioned directories above. If no
+   * data broker was set, a new {@link DefaultResourceDataBroker} will
+   * be instantiated and returned.
+   * @since 1.0.1
+   */
+  public static synchronized ResourceDataBroker getDataBroker() {
+	  if (JLanguageTool.dataBroker == null) {
+		  JLanguageTool.dataBroker = new DefaultResourceDataBroker();
+	  }
+	  return JLanguageTool.dataBroker;
+  }
+  
+  /**
+   * The grammar checker does need resources from following
+   * directories:
+   * 
+   * <ul style="list-type: circle">
+   * <li>{@code /resource}</li>
+   * <li>{@code /rules}</li>
+   * </ul>
+   * 
+   * This method is thread-safe.
+   * 
+   * @param broker The new resource broker to be used.
+   * @since 1.0.1
+   */
+  public static synchronized void setDataBroker(ResourceDataBroker broker) {
+	  JLanguageTool.dataBroker = broker;
   }
 
   /**
@@ -321,7 +365,7 @@ public final class JLanguageTool {
    */
   public void activateDefaultFalseFriendRules()
       throws ParserConfigurationException, SAXException, IOException {
-    final String falseFriendRulesFilename = RULES_DIR + "/" + FALSE_FRIEND_FILE;
+    final String falseFriendRulesFilename = JLanguageTool.getDataBroker().getRulesDir() + "/" + FALSE_FRIEND_FILE;
     final List<PatternRule> patternRules = loadFalseFriendRules(falseFriendRulesFilename);
     userRules.addAll(patternRules);
   }

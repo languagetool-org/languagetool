@@ -29,6 +29,7 @@ import morfologik.stemming.DictionaryLookup;
 import morfologik.stemming.IStemmer;
 import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
+import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.tagging.BaseTagger;
 import de.danielnaber.languagetool.tools.StringTools;
 
@@ -40,13 +41,13 @@ import de.danielnaber.languagetool.tools.StringTools;
 
 public class PolishTagger extends BaseTagger {
 
-  private static final String RESOURCE_FILENAME = "/resource/pl/polish.dict";
+  private static final String RESOURCE_FILENAME = "/pl/polish.dict";
   private IStemmer morfologik;
   private Locale plLocale = new Locale("pl");
 
   @Override
   public final String getFileName() {
-    return RESOURCE_FILENAME;
+    return JLanguageTool.getDataBroker().getResourceDir() + RESOURCE_FILENAME;
   }
 
   @Override
@@ -59,7 +60,7 @@ public class PolishTagger extends BaseTagger {
     int pos = 0;
     // caching Lametyzator instance - lazy init
     if (morfologik == null) {      
-      final URL url = this.getClass().getResource(RESOURCE_FILENAME);
+      final URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(RESOURCE_FILENAME);
       morfologik = new DictionaryLookup(Dictionary.read(url));
     }
 

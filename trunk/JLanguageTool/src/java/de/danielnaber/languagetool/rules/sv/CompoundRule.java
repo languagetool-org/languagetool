@@ -35,10 +35,10 @@ import java.util.concurrent.ArrayBlockingQueue;
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
+import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.rules.Category;
 import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.tools.StringTools;
-import de.danielnaber.languagetool.tools.Tools;
 
 /**
  * Checks that compounds (if in the list) are not written as separate words.
@@ -48,7 +48,7 @@ import de.danielnaber.languagetool.tools.Tools;
 public class CompoundRule extends SwedishRule {
   //TODO for words with more then one part check if parts of it is compounded.
   //in env. allt-i-genom+ should match "allt i genom", "allt igenom" as well as "allti genom"
-  private static final String FILE_NAME = "/resource/sv/compounds.txt";
+  private static final String FILE_NAME = "/sv/compounds.txt";
 
   private final static int MAX_TERMS = 5;
 
@@ -59,7 +59,7 @@ public class CompoundRule extends SwedishRule {
   public CompoundRule(final ResourceBundle messages) throws IOException {
     if (messages != null)
       super.setCategory(new Category(messages.getString("category_misc")));
-    loadCompoundFile(Tools.getStream(FILE_NAME), "UTF-8");
+    loadCompoundFile(JLanguageTool.getDataBroker().getFromResourceDirAsStream(FILE_NAME), "UTF-8");
   }
 
   public String getId() {

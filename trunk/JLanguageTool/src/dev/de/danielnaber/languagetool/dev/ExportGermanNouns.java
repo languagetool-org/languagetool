@@ -27,6 +27,8 @@ import java.nio.ByteBuffer;
 import java.util.HashSet;
 import java.util.Set;
 
+import de.danielnaber.languagetool.JLanguageTool;
+
 import morfologik.fsa.FSA;
 
 /**
@@ -37,13 +39,13 @@ import morfologik.fsa.FSA;
  */
 public class ExportGermanNouns {
 
-  private static final String DICT_FILENAME = "/resource/de/german.dict";
+  private static final String DICT_FILENAME = "/de/german.dict";
   
   private ExportGermanNouns() {
   }
   
   private Set<String> getWords() throws IOException {
-    FSA fsa = FSA.getInstance(this.getClass().getResourceAsStream(DICT_FILENAME));
+    FSA fsa = FSA.getInstance(JLanguageTool.getDataBroker().getFromResourceDirAsStream(DICT_FILENAME));
     String lastTerm = null;
     Set<String> set = new HashSet<String>();
     for (ByteBuffer bb : fsa) {

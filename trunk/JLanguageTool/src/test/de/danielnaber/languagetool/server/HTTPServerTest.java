@@ -26,6 +26,7 @@ import java.net.URLConnection;
 import java.net.URLEncoder;
 
 import junit.framework.TestCase;
+import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.XMLValidator;
 import de.danielnaber.languagetool.tools.StringTools;
@@ -49,7 +50,7 @@ public class HTTPServerTest extends TestCase {
       assertTrue("Expected special chars, got: '" + result+ "'",
           result.indexOf("\u00f6\u00e4\u00fc\u00df") != -1);   // special chars are intact
       XMLValidator validator = new XMLValidator();
-      validator.validateXMLString(result, "/resource/api-output.dtd", "matches");
+      validator.validateXMLString(result, JLanguageTool.getDataBroker().getResourceDir() + "/api-output.dtd", "matches");
       validator.checkSimpleXMLString(result);
       //System.err.println(result);
       // make sure XML chars are escaped in the result to avoid invalid XML

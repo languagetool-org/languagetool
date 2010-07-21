@@ -29,10 +29,10 @@ import java.util.TreeSet;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
+import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.rules.Category;
 import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.tools.StringTools;
-import de.danielnaber.languagetool.tools.Tools;
 
 /**
  * Check if the determiner (if any) preceding a feminine noun is "el". This
@@ -55,14 +55,14 @@ import de.danielnaber.languagetool.tools.Tools;
  */
 public class ElwithFemRule extends SpanishRule {
 
-  private static final String FILENAME_EL = "/rules/es/el.txt";
+  private static final String FILENAME_EL = "/es/el.txt";
   private TreeSet<String> requiresEl;
   
   public ElwithFemRule(final ResourceBundle messages) throws IOException {
     if (messages != null) {
       super.setCategory(new Category(messages.getString("category_misc")));
     }
-    requiresEl = loadWords(Tools.getStream(FILENAME_EL));
+    requiresEl = loadWords(JLanguageTool.getDataBroker().getFromRulesDirAsStream(FILENAME_EL));
   }
   
   @Override

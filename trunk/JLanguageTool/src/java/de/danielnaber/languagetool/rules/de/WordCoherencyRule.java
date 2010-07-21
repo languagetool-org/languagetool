@@ -31,9 +31,9 @@ import java.util.ResourceBundle;
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
+import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.rules.Category;
 import de.danielnaber.languagetool.rules.RuleMatch;
-import de.danielnaber.languagetool.tools.Tools;
 
 /**
  * A rule that matches words for which two different spellings are used
@@ -48,7 +48,7 @@ import de.danielnaber.languagetool.tools.Tools;
  */
 public class WordCoherencyRule extends GermanRule {
 
-  private static final String FILE_NAME = "/rules/de/coherency.txt";
+  private static final String FILE_NAME = "/de/coherency.txt";
   private static final String FILE_ENCODING = "utf-8";
   
   private Map<String, String> relevantWords;        // e.g. "aufwendig -> aufwändig"
@@ -59,7 +59,7 @@ public class WordCoherencyRule extends GermanRule {
   public WordCoherencyRule(ResourceBundle messages) throws IOException {
     if (messages != null)
       super.setCategory(new Category(messages.getString("category_misc")));
-    relevantWords = loadWords(Tools.getStream(FILE_NAME)); 
+    relevantWords = loadWords(JLanguageTool.getDataBroker().getFromRulesDirAsStream(FILE_NAME)); 
     germanLemmatizer = new GermanLemmatizer();
   }
   
@@ -138,7 +138,7 @@ public class WordCoherencyRule extends GermanRule {
         }
         String[] parts = line.split(";");
         if (parts.length != 2) {
-          throw new IOException("Format error in file " + FILE_NAME + ", line: " + line);
+          throw new IOException("Format error in file " + JLanguageTool.getDataBroker().getFromRulesDirAsUrl(FILE_NAME) + ", line: " + line);
         }
         map.put(parts[0], parts[1]);
         map.put(parts[1], parts[0]);

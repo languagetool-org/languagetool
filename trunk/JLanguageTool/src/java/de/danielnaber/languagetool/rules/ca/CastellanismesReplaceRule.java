@@ -40,7 +40,7 @@ public class CastellanismesReplaceRule extends AbstractSimpleReplaceRule {
 
 	public static final String CATALAN_CASTELLANISMES_REPLACE_RULE = "CA_CASTELLANISMES_REPLACE";
 	
-	private static final String FILE_NAME = "/rules/ca/castellanismes.txt";
+	private static final String FILE_NAME = "/ca/castellanismes.txt";
 	// locale used on case-conversion
 	private static Locale caLocale = new Locale("ca");
 

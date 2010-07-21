@@ -31,6 +31,7 @@ import morfologik.stemming.WordData;
 
 import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
+import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.tagging.BaseTagger;
 
 /**
@@ -40,13 +41,13 @@ import de.danielnaber.languagetool.tagging.BaseTagger;
  */
 public class RomanianTagger extends BaseTagger {
 
-  private String RESOURCE_FILENAME = "/resource/ro/romanian.dict";
+  private String RESOURCE_FILENAME = "/ro/romanian.dict";
 
   private IStemmer morfologik;
   private static Locale roLocale = new Locale("ro");
 
   public final String getFileName() {
-    return RESOURCE_FILENAME;
+    return JLanguageTool.getDataBroker().getResourceDir() + RESOURCE_FILENAME;
   }
 
   public RomanianTagger() {
@@ -69,7 +70,7 @@ public class RomanianTagger extends BaseTagger {
     int pos = 0;
     // caching Lametyzator instance - lazy init
     if (morfologik == null) {      
-      final URL url = this.getClass().getResource(RESOURCE_FILENAME);
+      final URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(RESOURCE_FILENAME);
       morfologik = new DictionaryLookup(Dictionary.read(url));
     }
 

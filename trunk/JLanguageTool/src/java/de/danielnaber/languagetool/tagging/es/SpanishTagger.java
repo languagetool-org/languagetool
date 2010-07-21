@@ -20,6 +20,7 @@ package de.danielnaber.languagetool.tagging.es;
 
 import java.util.Locale;
 
+import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.tagging.BaseTagger;
 
 /** Spanish Tagger
@@ -32,7 +33,7 @@ import de.danielnaber.languagetool.tagging.BaseTagger;
 public class SpanishTagger extends BaseTagger {
 
   public final String getFileName() {
-    return "/resource/es/spanish.dict";    
+    return JLanguageTool.getDataBroker().getResourceDir() + "/es/spanish.dict";    
   }
   
   public SpanishTagger() {

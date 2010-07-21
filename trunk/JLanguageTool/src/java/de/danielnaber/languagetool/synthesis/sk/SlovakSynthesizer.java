@@ -18,6 +18,7 @@
  */
 package de.danielnaber.languagetool.synthesis.sk;
 
+import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.synthesis.BaseSynthesizer;
 
 /**
@@ -28,11 +29,12 @@ import de.danielnaber.languagetool.synthesis.BaseSynthesizer;
 
 public class SlovakSynthesizer extends BaseSynthesizer {
 
-  private static final String RESOURCE_FILENAME = "/resource/sk/slovak_synth.dict";
+  private static final String RESOURCE_FILENAME = "/sk/slovak_synth.dict";
 
-  private static final String TAGS_FILE_NAME = "/resource/sk/slovak_tags.txt";
+  private static final String TAGS_FILE_NAME = "/sk/slovak_tags.txt";
 
   public SlovakSynthesizer() {
-    super(RESOURCE_FILENAME, TAGS_FILE_NAME);
+    super(JLanguageTool.getDataBroker().getResourceDir() + RESOURCE_FILENAME, 
+    		JLanguageTool.getDataBroker().getResourceDir() + TAGS_FILE_NAME);
   }
 }

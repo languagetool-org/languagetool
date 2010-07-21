@@ -20,6 +20,7 @@ package de.danielnaber.languagetool.tagging.en;
 
 import java.util.Locale;
 
+import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.tagging.BaseTagger;
 
 /** English Part-of-speech tagger.
@@ -32,7 +33,7 @@ import de.danielnaber.languagetool.tagging.BaseTagger;
 public class EnglishTagger extends BaseTagger {
 
   public final String getFileName() {
-    return "/resource/en/english.dict";    
+    return JLanguageTool.getDataBroker().getResourceDir() + "/en/english.dict";    
   }
   
   public EnglishTagger() {

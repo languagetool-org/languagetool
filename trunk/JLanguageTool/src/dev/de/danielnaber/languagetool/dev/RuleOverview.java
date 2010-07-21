@@ -75,7 +75,7 @@ public final class RuleOverview {
     Collections.sort(sortedLanguages);
 
     //setup false friends counting
-    final String ffFile = "/rules" + File.separator + "false-friends.xml";
+    final String ffFile = JLanguageTool.getDataBroker().getRulesDir() + File.separator + "false-friends.xml";
     final java.net.URL ffurl = this.getClass().getResource(ffFile);    
     String ffRules = StringTools.readFile(Tools.getStream(ffFile));
     ffRules = ffRules.replaceAll("(?s)<!--.*?-->", "");
@@ -86,7 +86,7 @@ public final class RuleOverview {
       final Language lang = Language.getLanguageForName(langName);
       System.out.print("<tr>");
       System.out.print("<td>" + lang.getName() + "</td>");
-      final String xmlFile = "/rules" + File.separator + lang.getShortName() + File.separator + "grammar.xml";
+      final String xmlFile = JLanguageTool.getDataBroker().getRulesDir() + File.separator + lang.getShortName() + File.separator + "grammar.xml";
       final java.net.URL url = this.getClass().getResource(xmlFile);    
       if (url == null) {
         System.out.println("<td align=\"right\">0</td>");
@@ -123,7 +123,8 @@ public final class RuleOverview {
       System.out.print("<td></td>");
 
       // count Java rules:
-      final File dir = new File("src/java/de/danielnaber/languagetool/rules/" + lang.getShortName());
+      final File dir = new File("src/java/de/danielnaber/languagetool" + 
+    		  JLanguageTool.getDataBroker().getRulesDir() + "/" + lang.getShortName());
       if (!dir.exists()) {
         System.out.print("<td align=\"right\">0</td>");
       } else {

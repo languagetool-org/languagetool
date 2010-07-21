@@ -1,0 +1,290 @@
+/* LanguageTool, a natural language style checker 
+ * Copyright (C) 2006 Daniel Naber (http://www.danielnaber.de)
+ * 
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+ * USA
+ */
+package de.danielnaber.languagetool.databroker;
+
+import java.io.InputStream;
+import java.net.URL;
+
+import de.danielnaber.languagetool.JLanguageTool;
+
+/**
+ * Responsible for getting any items from the grammar checker's resource
+ * directories. This default data broker assumes that they are accessible
+ * directly via class-path and the directory names are like specified in:
+ * 
+ * <ul style="list-type: circle">
+ * <li>{@link ResourceDataBroker#RESOURCE_DIR}</li>
+ * <li>{@link ResourceDataBroker#RULES_DIR}</li>
+ * </ul>
+ * <p>
+ * 
+ * If you'd like to determine another resource directory location this default
+ * data broker provides proper methods.
+ * Assuming your {@code /rules} and {@code /resource} directories are accessible
+ * via class-path with following path information:
+ * 
+ * <ul style="list-type: circle">
+ * <li>{@code /res/grammarchecker/rulesdirname}</li>
+ * <li>{@code /res/grammarchecker/resourcedirname}</li>
+ * </ul>
+ * 
+ * In this case you have to invoke the methods
+ * {@link ResourceDataBroker#setRulesDir(String)} and
+ * {@link ResourceDataBroker#setResourceDir(String)} with following arguments:
+ * 
+ * <ul style="list-type: circle">
+ * <li>{@code /res/grammarchecker/rulesdirname}</li>
+ * <li>{@code /res/grammarchecker/resourcedirname}</li>
+ * </ul>
+ * <p>
+ * 
+ * Make sure that you never obtain any grammar checker resources by calling
+ * {@code Object.class.getResource(String)} or {@code
+ * Object.class.getResourceAsStream(String)} directly. If you would like to
+ * obtain something from these directories do always use
+ * {@link JLanguageTool#getDataBroker()} which provides proper methods for
+ * reading the directories above.
+ * <p>
+ * 
+ * For example, if you want to get the {@link URL} of {@code
+ * /rules/de/grammar.xml} just invoke
+ * {@link ResourceDataBroker#getFromRulesDirAsUrl(String)} and pass {@code
+ * /de/grammar.xml} as a string. Note: The {@code /rules} directory's name isn't
+ * passed, because its name might have changed. The same usage does apply for the
+ * {@code /resource} directory.
+ * 
+ * @see ResourceDataBroker
+ * @author PAX
+ */
+public class DefaultResourceDataBroker implements ResourceDataBroker {
+
+	/**
+	 * The directory's name of the grammar checker's resource directory. The
+	 * default value equals {@link ResourceDataBroker#RESOURCE_DIR}.
+	 */
+	protected String resourceDir;
+
+	/**
+	 * The directory's name of the grammar checker's rules directory. The
+	 * default value equals {@link ResourceDataBroker#RULES_DIR}.
+	 */
+	protected String rulesDir;
+
+	/**
+	 * Instantiates this data broker with the default resource directory names
+	 * as specified in:
+	 * 
+	 * <ul>
+	 * <li>{@link ResourceDataBroker#RESOURCE_DIR}</li>
+	 * <li>{@link ResourceDataBroker#RULES_DIR}</li>
+	 * </ul>
+	 */
+	public DefaultResourceDataBroker() {
+		this(ResourceDataBroker.RESOURCE_DIR, ResourceDataBroker.RULES_DIR);
+	}
+
+	/**
+	 * Instantiates this data broker with the passed resource directory names.
+	 * 
+	 * @param resourceDir
+	 *            The directory's name of the grammar checker's resource
+	 *            directory. The default value equals
+	 *            {@link ResourceDataBroker#RESOURCE_DIR}.
+	 * @param rulesDir
+	 *            The directory's name of the grammar checker's rules directory.
+	 *            The default value equals
+	 *            {@link ResourceDataBroker#RULES_DIR}.
+	 */
+	public DefaultResourceDataBroker(String resourceDir, String rulesDir) {
+		this.setResourceDir(resourceDir);
+		this.setRulesDir(rulesDir);
+	}
+
+	/**
+	 * See:
+	 * {@link ResourceDataBroker#getFromResourceDirAsStream(java.lang.String)}
+	 * <p>
+	 * 
+	 * @param path
+	 *            The relative path to the item inside of the {@code /resource}
+	 *            directory. Please start your path information with {@code /}
+	 *            because it will be concatenated with the directory's name:
+	 *            /resource<b>/yourpath</b>.
+	 * @return An {@link InputStream} object to the requested item or {@code
+	 *         null} if it wasn't found.
+	 */
+	@Override
+	public InputStream getFromResourceDirAsStream(String path) {
+		StringBuffer completePath = new StringBuffer(this.getResourceDir());
+
+		if (!this.getResourceDir().endsWith("/") && !path.startsWith("/")) {
+			completePath.append('/');
+		}
+
+		if (this.getResourceDir().endsWith("/") && path.startsWith("/")
+				&& path.length() > 1) {
+			completePath.append(path.substring(1));
+		} else {
+			completePath.append(path);
+		}
+
+		return ResourceDataBroker.class.getResourceAsStream(completePath
+				.toString());
+	}
+
+	/**
+	 * See:
+	 * {@link ResourceDataBroker#getFromResourceDirAsUrl(java.lang.String)}
+	 * <p>
+	 * 
+	 * @param path
+	 *            The relative path to the item inside of the {@code /resource}
+	 *            directory. Please start your path information with {@code /}
+	 *            because it will be concatenated with the directory's name:
+	 *            /resource<b>/yourpath</b>.
+	 * @return An {@link URL} object to the requested item or {@code null} if it
+	 *         wasn't found.
+	 */
+	@Override
+	public URL getFromResourceDirAsUrl(String path) {
+		StringBuffer completePath = new StringBuffer(this.getResourceDir());
+
+		if (!this.getResourceDir().endsWith("/") && !path.startsWith("/")) {
+			completePath.append('/');
+		}
+
+		if (this.getResourceDir().endsWith("/") && path.startsWith("/")
+				&& path.length() > 1) {
+			completePath.append(path.substring(1));
+		} else {
+			completePath.append(path);
+		}
+
+		return ResourceDataBroker.class.getResource(completePath.toString());
+	}
+
+	/**
+	 * See:
+	 * {@link ResourceDataBroker#getFromRulesDirAsStream(java.lang.String)}
+	 * <p>
+	 * 
+	 * @param path
+	 *            The relative path to the item inside of the {@code /rules}
+	 *            directory. Please start your path information with {@code /}
+	 *            because it will be concatenated with the directory's name:
+	 *            /rules<b>/yourpath</b>.
+	 * @return An {@link InputStream} object to the requested item or {@code
+	 *         null} if it wasn't found.
+	 */
+	@Override
+	public InputStream getFromRulesDirAsStream(String path) {
+		StringBuffer completePath = new StringBuffer(this.getRulesDir());
+
+		if (!this.getRulesDir().endsWith("/") && !path.startsWith("/")) {
+			completePath.append('/');
+		}
+
+		if (this.getRulesDir().endsWith("/") && path.startsWith("/")
+				&& path.length() > 1) {
+			completePath.append(path.substring(1));
+		} else {
+			completePath.append(path);
+		}
+
+		return ResourceDataBroker.class.getResourceAsStream(completePath
+				.toString());
+	}
+
+	/**
+	 * See: {@link ResourceDataBroker#getFromRulesDirAsUrl(java.lang.String)}
+	 * <p>
+	 * 
+	 * @param path
+	 *            The relative path to the item inside of the {@code /rules}
+	 *            directory. Please start your path information with {@code /}
+	 *            because it will be concatenated with the directory's name:
+	 *            /rules<b>/yourpath</b>.
+	 * @return An {@link URL} object to the requested item or {@code null} if it
+	 *         wasn't found.
+	 */
+	@Override
+	public URL getFromRulesDirAsUrl(String path) {
+		StringBuffer completePath = new StringBuffer(this.getRulesDir());
+
+		if (!this.getRulesDir().endsWith("/") && !path.startsWith("/")) {
+			completePath.append('/');
+		}
+
+		if (this.getRulesDir().endsWith("/") && path.startsWith("/")
+				&& path.length() > 1) {
+			completePath.append(path.substring(1));
+		} else {
+			completePath.append(path);
+		}
+
+		return ResourceDataBroker.class.getResource(completePath.toString());
+	}
+
+	/**
+	 * @return The directory's name of the grammar checker's resource directory.
+	 *         The default value equals
+	 *         {@link ResourceDataBroker#RESOURCE_DIR}.
+	 */
+	@Override
+	public String getResourceDir() {
+		return this.resourceDir;
+	}
+
+	/**
+	 * @param resourceDir
+	 *            The directory's name of the grammar checker's resource
+	 *            directory. The default value was
+	 *            {@link ResourceDataBroker#RESOURCE_DIR}. Please let this
+	 *            string start with {@code '/'} and use this character as path
+	 *            separator. Don't set this character to the string's end. Valid
+	 *            example value: {@code /subdir/furtherdir/resourcedir}.
+	 */
+	@Override
+	public void setResourceDir(String resourceDir) {
+		this.resourceDir = (resourceDir == null) ? "" : resourceDir;
+	}
+
+	/**
+	 * @return The directory's name of the grammar checker's rules directory.
+	 *         The default value equals {@link ResourceDataBroker#RULES_DIR}.
+	 */
+	@Override
+	public String getRulesDir() {
+		return this.rulesDir;
+	}
+
+	/**
+	 * @param rulesDir
+	 *            The directory's name of the grammar checker's rules directory.
+	 *            The default value was {@link ResourceDataBroker#RULES_DIR}.
+	 *            Please let this string start with {@code '/'} and use this
+	 *            character as path separator. Don't set this character to the
+	 *            string's end. Valid example value: {@code
+	 *            /subdir/furtherdir/rulesdir}.
+	 */
+	@Override
+	public void setRulesDir(String rulesDir) {
+		this.rulesDir = (rulesDir == null) ? "" : rulesDir;
+	}
+}

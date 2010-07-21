@@ -18,6 +18,7 @@
  */
 package de.danielnaber.languagetool.synthesis.ru;
 
+import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.synthesis.BaseSynthesizer;
 
 /**
@@ -31,12 +32,13 @@ import de.danielnaber.languagetool.synthesis.BaseSynthesizer;
 
 public class RussianSynthesizer extends BaseSynthesizer {
 
-  private static final String RESOURCE_FILENAME = "/resource/ru/russian_synth.dict";
+  private static final String RESOURCE_FILENAME = "/ru/russian_synth.dict";
 
-  private static final String TAGS_FILE_NAME = "/resource/ru/tags_russian.txt";
+  private static final String TAGS_FILE_NAME = "/ru/tags_russian.txt";
 
   public RussianSynthesizer() {
-    super(RESOURCE_FILENAME, TAGS_FILE_NAME);
+    super(JLanguageTool.getDataBroker().getResourceDir() + RESOURCE_FILENAME, 
+    		JLanguageTool.getDataBroker().getResourceDir() + TAGS_FILE_NAME);
   }
   
 }

@@ -20,6 +20,7 @@ package de.danielnaber.languagetool.tagging.ru;
 
 import java.util.Locale;
 
+import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.tagging.BaseTagger;
 
 /**  Part-of-speech tagger.
@@ -31,7 +32,7 @@ import de.danielnaber.languagetool.tagging.BaseTagger;
 public class RussianTagger extends BaseTagger {
 
   public final String getFileName() {
-    return "/resource/ru/russian.dict";    
+    return JLanguageTool.getDataBroker().getResourceDir() + "/ru/russian.dict";    
   }
   
   public RussianTagger() {

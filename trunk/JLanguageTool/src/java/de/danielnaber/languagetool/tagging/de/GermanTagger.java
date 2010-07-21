@@ -27,14 +27,13 @@ import morfologik.stemming.Dictionary;
 import morfologik.stemming.DictionaryLookup;
 import morfologik.stemming.IStemmer;
 import morfologik.stemming.WordData;
-
 import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
+import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.tagging.ManualTagger;
 import de.danielnaber.languagetool.tagging.Tagger;
 import de.danielnaber.languagetool.tokenizers.de.GermanCompoundTokenizer;
 import de.danielnaber.languagetool.tools.StringTools;
-import de.danielnaber.languagetool.tools.Tools;
 
 /**
  * German tagger, requires data file in <code>resource/de/german.dict</code>.
@@ -43,8 +42,8 @@ import de.danielnaber.languagetool.tools.Tools;
  */
 public class GermanTagger implements Tagger {
 
-  private static final String DICT_FILENAME = "/resource/de/german.dict";
-  private static final String USER_DICT_FILENAME = "/resource/de/added.txt";
+  private static final String DICT_FILENAME = "/de/german.dict";
+  private static final String USER_DICT_FILENAME = "/de/added.txt";
 
   private static IStemmer morfologik;
   private static ManualTagger manualTagger;
@@ -74,11 +73,11 @@ public class GermanTagger implements Tagger {
     int pos = 0;
     // caching Lametyzator instance - lazy init
     if (morfologik == null) {      
-      final URL url = this.getClass().getResource(DICT_FILENAME);
+      final URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(DICT_FILENAME);
       morfologik = new DictionaryLookup(Dictionary.read(url));      
     }
     if (manualTagger == null) {
-      manualTagger = new ManualTagger(Tools.getStream(USER_DICT_FILENAME));
+      manualTagger = new ManualTagger(JLanguageTool.getDataBroker().getFromResourceDirAsStream(USER_DICT_FILENAME));
     }
     if (compoundTokenizer == null) {
       compoundTokenizer = new GermanCompoundTokenizer();

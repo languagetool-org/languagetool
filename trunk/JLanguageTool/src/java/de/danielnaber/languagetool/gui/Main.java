@@ -93,8 +93,7 @@ public final class Main implements ActionListener {
   private static final String HTML_FONT_START = "<font face='Arial,Helvetica'>";
   private static final String HTML_FONT_END = "</font>";
 
-  private final Icon SYSTEM_TRAY_ICON = new ImageIcon(this.getClass()
-      .getResource("/resource/TrayIcon.png"));
+  private final static String SYSTEM_TRAY_ICON_NAME = "/TrayIcon.png";
   private static final String SYSTEM_TRAY_TOOLTIP = "LanguageTool";
   private static final String CONFIG_FILE = ".languagetool.cfg";
 
@@ -138,8 +137,8 @@ public final class Main implements ActionListener {
 
     frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
     frame.addWindowListener(new CloseListener());
-    frame.setIconImage(new ImageIcon(this.getClass().getResource(
-        "/resource/TrayIcon.png")).getImage());
+    frame.setIconImage(new ImageIcon(JLanguageTool.getDataBroker().getFromResourceDirAsUrl(
+    	Main.SYSTEM_TRAY_ICON_NAME)).getImage());
     frame.setJMenuBar(new MainMenuBar(this, messages));
 
     textArea = new JTextArea(messages.getString("guiDemoText"));
@@ -272,7 +271,8 @@ public final class Main implements ActionListener {
       // so we don't check for that
       TrayIcon trayIcon = null;
       try {
-        trayIcon = new TrayIcon(SYSTEM_TRAY_ICON);
+    	Icon sysTrayIcon = new ImageIcon(JLanguageTool.getDataBroker().getFromResourceDirAsUrl(Main.SYSTEM_TRAY_ICON_NAME));
+        trayIcon = new TrayIcon(sysTrayIcon);
       } catch (final NoClassDefFoundError e) {
         throw new MissingJdicException(e);
       }
@@ -284,7 +284,7 @@ public final class Main implements ActionListener {
       // Java 1.6 or later
       final java.awt.SystemTray tray = java.awt.SystemTray.getSystemTray();
       final Image img = Toolkit.getDefaultToolkit().getImage(
-          this.getClass().getResource("/resource/TrayIcon.png"));
+    		  JLanguageTool.getDataBroker().getFromResourceDirAsUrl(Main.SYSTEM_TRAY_ICON_NAME));
       final PopupMenu popup = makePopupMenu();
       try {
         final java.awt.TrayIcon trayIcon = new java.awt.TrayIcon(img,

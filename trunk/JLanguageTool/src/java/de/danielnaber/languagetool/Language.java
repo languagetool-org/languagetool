@@ -169,7 +169,7 @@ public abstract class Language {
    * Get the location of the rule file.
    */
   public String getRuleFileName() {
-    return JLanguageTool.RULES_DIR + "/" + getShortName() + "/" + JLanguageTool.PATTERN_FILE;
+    return JLanguageTool.getDataBroker().getRulesDir() + "/" + getShortName() + "/" + JLanguageTool.PATTERN_FILE;
   }
 
   /**

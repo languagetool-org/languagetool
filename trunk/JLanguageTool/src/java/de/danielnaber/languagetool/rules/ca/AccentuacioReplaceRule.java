@@ -45,7 +45,7 @@ public class AccentuacioReplaceRule extends AbstractSimpleReplaceRule {
 
 	public static final String CATALAN_ACCENTUACIO_REPLACE_RULE = "CA_ACCENTUACIO_REPLACE";
 	
-	private static final String FILE_NAME = "/rules/ca/accentuacio.txt";
+	private static final String FILE_NAME = "/ca/accentuacio.txt";
 	// locale used on case-conversion
 	private static Locale caLocale = new Locale("ca");
 

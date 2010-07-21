@@ -29,10 +29,10 @@ import java.util.TreeSet;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
+import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.rules.Category;
 import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.tools.StringTools;
-import de.danielnaber.languagetool.tools.Tools;
 
 /**
  * Check if the determiner (if any) preceding a word is:
@@ -46,8 +46,8 @@ import de.danielnaber.languagetool.tools.Tools;
  */
 public class AvsAnRule extends EnglishRule {
 
-  private static final String FILENAME_A = "/rules/en/det_a.txt";
-  private static final String FILENAME_AN = "/rules/en/det_an.txt";
+  private static final String FILENAME_A = "/en/det_a.txt";
+  private static final String FILENAME_AN = "/en/det_an.txt";
 
   private TreeSet<String> requiresA;
   private TreeSet<String> requiresAn;
@@ -56,8 +56,8 @@ public class AvsAnRule extends EnglishRule {
     if (messages != null) {
       super.setCategory(new Category(messages.getString("category_misc")));
     }
-    requiresA = loadWords(Tools.getStream(FILENAME_A));
-    requiresAn = loadWords(Tools.getStream(FILENAME_AN));
+    requiresA = loadWords(JLanguageTool.getDataBroker().getFromRulesDirAsStream(FILENAME_A));
+    requiresAn = loadWords(JLanguageTool.getDataBroker().getFromRulesDirAsStream(FILENAME_AN));
   }
   
   @Override

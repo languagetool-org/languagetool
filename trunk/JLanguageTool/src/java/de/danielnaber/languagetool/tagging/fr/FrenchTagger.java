@@ -20,6 +20,7 @@ package de.danielnaber.languagetool.tagging.fr;
 
 import java.util.Locale;
 
+import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.tagging.BaseTagger;
 
 /** French Tagger
@@ -31,7 +32,7 @@ import de.danielnaber.languagetool.tagging.BaseTagger;
 public class FrenchTagger extends BaseTagger {
 
   public final String getFileName() {
-    return "/resource/fr/french.dict";    
+    return JLanguageTool.getDataBroker().getResourceDir() + "/fr/french.dict";    
   }
   
   public FrenchTagger() {

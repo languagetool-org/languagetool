@@ -35,7 +35,7 @@ import de.danielnaber.languagetool.rules.AbstractSimpleReplaceRule;
  */
 public class RuSimpleReplaceRule extends AbstractSimpleReplaceRule {
 
-  private static final String FILE_NAME = "/rules/ru/replace.txt";
+  private static final String FILE_NAME = "/ru/replace.txt";
 
   // locale used on case-conversion
 	private static Locale ruLocale = new Locale("ru");

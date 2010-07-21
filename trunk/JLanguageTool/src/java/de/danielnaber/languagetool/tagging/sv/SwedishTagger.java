@@ -20,6 +20,7 @@ package de.danielnaber.languagetool.tagging.sv;
 
 import java.util.Locale;
 
+import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.tagging.BaseTagger;
 
 /** Swedish Part-of-speech tagger.
@@ -28,7 +29,7 @@ import de.danielnaber.languagetool.tagging.BaseTagger;
 public class SwedishTagger extends BaseTagger {
 
   public final String getFileName() {
-    return "/resource/sv/swedish.dict";    
+    return JLanguageTool.getDataBroker().getResourceDir() + "/sv/swedish.dict";    
   }
   
   public SwedishTagger() {

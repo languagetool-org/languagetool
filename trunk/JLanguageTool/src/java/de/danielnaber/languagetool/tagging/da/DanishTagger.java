@@ -20,6 +20,7 @@ package de.danielnaber.languagetool.tagging.da;
 
 import java.util.Locale;
 
+import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.tagging.BaseTagger;
 
 /**
@@ -39,7 +40,7 @@ import de.danielnaber.languagetool.tagging.BaseTagger;
 public class DanishTagger extends BaseTagger {
 
   public final String getFileName() {
-    return "/resource/da/danish.dict";    
+    return JLanguageTool.getDataBroker().getResourceDir() + "/da/danish.dict";    
   }
   
   public DanishTagger() {

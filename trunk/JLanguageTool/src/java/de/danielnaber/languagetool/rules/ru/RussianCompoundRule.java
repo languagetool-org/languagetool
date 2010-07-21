@@ -21,8 +21,8 @@ package de.danielnaber.languagetool.rules.ru;
 import java.io.IOException;
 import java.util.ResourceBundle;
 
+import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.rules.AbstractCompoundRule;
-import de.danielnaber.languagetool.tools.Tools;
 
 /**
  * Checks that compounds (if in the list) are not written as separate words.
@@ -35,11 +35,11 @@ import de.danielnaber.languagetool.tools.Tools;
  */
 public class RussianCompoundRule extends AbstractCompoundRule {
 
-  private static final String FILE_NAME = "/resource/ru/compounds_ru.txt";
+  private static final String FILE_NAME = "/ru/compounds_ru.txt";
     
   public RussianCompoundRule(final ResourceBundle messages) throws IOException {
     super(messages);
-     loadCompoundFile(Tools.getStream(FILE_NAME), "UTF-8");
+     loadCompoundFile(JLanguageTool.getDataBroker().getFromResourceDirAsStream(FILE_NAME), "UTF-8");
      super.setMsg("Эти слова должны быть написаны через дефис.",
          "Эти слова должны быть написаны слитно.",
          "Эти слова могут быть написаны через дефис или слитно.");

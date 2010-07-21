@@ -21,8 +21,8 @@ package de.danielnaber.languagetool.rules.ro;
 import java.io.IOException;
 import java.util.ResourceBundle;
 
+import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.rules.AbstractCompoundRule;
-import de.danielnaber.languagetool.tools.Tools;
 
 /**
  * Checks that compounds (if in the list) are not written as separate words.
@@ -32,11 +32,11 @@ import de.danielnaber.languagetool.tools.Tools;
 public class CompoundRule extends AbstractCompoundRule {
 
 	public static final String ROMANIAN_COMPOUND_RULE = "RO_COMPOUND";
-	private static final String FILE_NAME = "/rules/ro/compounds.txt";
+	private static final String FILE_NAME = "/ro/compounds.txt";
 
 	public CompoundRule(final ResourceBundle messages) throws IOException {
 		super(messages);
-		loadCompoundFile(Tools.getStream(FILE_NAME), "UTF-8");
+		loadCompoundFile(JLanguageTool.getDataBroker().getFromRulesDirAsStream(FILE_NAME), "UTF-8");
 		super.setShort("Problemă de scriere (cratimă, spațiu, etc.)");
 		super.setMsg("Cuvântul se scrie cu cratimă.",
 				"Cuvântul se scrie legat.",

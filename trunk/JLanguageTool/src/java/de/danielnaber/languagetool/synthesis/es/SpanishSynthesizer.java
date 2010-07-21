@@ -18,6 +18,7 @@
  */
 package de.danielnaber.languagetool.synthesis.es;
 
+import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.synthesis.BaseSynthesizer;
 
 /**
@@ -30,12 +31,13 @@ import de.danielnaber.languagetool.synthesis.BaseSynthesizer;
 
 public class SpanishSynthesizer extends BaseSynthesizer {
 
-  private static final String RESOURCE_FILENAME = "/resource/es/spanish_synth.dict";
+  private static final String RESOURCE_FILENAME = "/es/spanish_synth.dict";
 
-  private static final String TAGS_FILE_NAME = "/resource/es/spanish_tags.txt";
+  private static final String TAGS_FILE_NAME = "/es/spanish_tags.txt";
 
   public SpanishSynthesizer() {
-    super(RESOURCE_FILENAME, TAGS_FILE_NAME);
+    super(JLanguageTool.getDataBroker().getResourceDir() + RESOURCE_FILENAME, 
+    		JLanguageTool.getDataBroker().getResourceDir() + TAGS_FILE_NAME);
   }
   
   

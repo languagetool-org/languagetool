@@ -21,6 +21,8 @@ package de.danielnaber.languagetool.tagging;
 import java.io.IOException;
 import java.util.Arrays;
 
+import de.danielnaber.languagetool.JLanguageTool;
+
 import junit.framework.TestCase;
 
 /**
@@ -28,10 +30,10 @@ import junit.framework.TestCase;
  */
 public class ManualTaggerTest extends TestCase {
 
-  private static final String MANUAL_DICT_FILENAME = "/resource/de/added.txt";
+  private static final String MANUAL_DICT_FILENAME = "/de/added.txt";
 
   public void testManualTagger() throws IOException {
-    ManualTagger mt = new ManualTagger(this.getClass().getResourceAsStream(MANUAL_DICT_FILENAME));
+    ManualTagger mt = new ManualTagger(JLanguageTool.getDataBroker().getFromResourceDirAsStream(MANUAL_DICT_FILENAME));
     assertNull(mt.lookup(""));
     assertNull(mt.lookup("gibtsnicht"));
     

@@ -36,7 +36,6 @@ import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.tagging.disambiguation.xx.DemoDisambiguator;
 import de.danielnaber.languagetool.tagging.disambiguation.xx.TrimDisambiguator;
-import de.danielnaber.languagetool.tools.StringTools;
 
 public class DisambiguationRuleTest extends TestCase {
 
@@ -71,7 +70,7 @@ public class DisambiguationRuleTest extends TestCase {
       final JLanguageTool languageTool = new JLanguageTool(lang);
       if (!(languageTool.getLanguage().getDisambiguator() instanceof DemoDisambiguator)
           && !(languageTool.getLanguage().getDisambiguator() instanceof TrimDisambiguator)) {
-        final String name = "/resource/" + lang.getShortName()
+        final String name = JLanguageTool.getDataBroker().getResourceDir() + "/" + lang.getShortName()
             + "/disambiguation.xml";
         final List<DisambiguationPatternRule> rules = ruleLoader
             .getRules(ruleLoader.getClass().getResourceAsStream(name));

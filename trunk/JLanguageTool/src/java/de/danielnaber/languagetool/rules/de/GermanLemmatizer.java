@@ -25,7 +25,7 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
-import de.danielnaber.languagetool.tools.Tools;
+import de.danielnaber.languagetool.JLanguageTool;
 
 /**
  * Trivial German lemmatizer that can simply find the baseforms of
@@ -35,13 +35,13 @@ import de.danielnaber.languagetool.tools.Tools;
  */
 class GermanLemmatizer {
 
-  private static final String FILE_NAME = "/rules/de/fullform2baseform.txt";
+  private static final String FILE_NAME = "/de/fullform2baseform.txt";
   private static final String FILE_ENCODING = "utf-8";
   
   private Map<String, String> fullform2baseform;
   
   GermanLemmatizer() throws IOException {
-    fullform2baseform = loadWords(Tools.getStream(FILE_NAME));
+    fullform2baseform = loadWords(JLanguageTool.getDataBroker().getFromRulesDirAsStream(FILE_NAME));
   }
   
   String getBaseform(final String fullform) {
@@ -66,7 +66,7 @@ class GermanLemmatizer {
         }
         String[] parts = line.split(":");
         if (parts.length != 2) {
-          throw new IOException("Format error in file " +this.getClass().getResource(FILE_NAME)+", line: " + line);
+          throw new IOException("Format error in file " +JLanguageTool.getDataBroker().getFromRulesDirAsUrl(FILE_NAME)+", line: " + line);
         }
         String baseform = parts[0];
         String[] fullforms = parts[1].split(",");

@@ -29,11 +29,10 @@ import morfologik.stemming.Dictionary;
 import morfologik.stemming.DictionaryLookup;
 import morfologik.stemming.IStemmer;
 import morfologik.stemming.WordData;
-
 import de.danielnaber.languagetool.AnalyzedToken;
+import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.synthesis.Synthesizer;
 import de.danielnaber.languagetool.synthesis.SynthesizerTools;
-import de.danielnaber.languagetool.tools.Tools;
 
 /**
  * Polish word form synthesizer. Based on project Morfologik.
@@ -43,9 +42,9 @@ import de.danielnaber.languagetool.tools.Tools;
 
 public class PolishSynthesizer implements Synthesizer {
 
-  private static final String RESOURCE_FILENAME = "/resource/pl/polish_synth.dict";
+  private static final String RESOURCE_FILENAME = "/pl/polish_synth.dict";
 
-  private static final String TAGS_FILE_NAME = "/resource/pl/polish_tags.txt";
+  private static final String TAGS_FILE_NAME = "/pl/polish_tags.txt";
 
   private static final String POTENTIAL_NEGATION_TAG = ":aff";
   private static final String NEGATION_TAG = ":neg";
@@ -62,7 +61,7 @@ public class PolishSynthesizer implements Synthesizer {
       return null;
     }
     if (synthesizer == null) {
-      final URL url = this.getClass().getResource(RESOURCE_FILENAME);
+      final URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(RESOURCE_FILENAME);
       synthesizer = new DictionaryLookup(Dictionary.read(url));      
     }
     boolean isNegated = false;
@@ -86,11 +85,11 @@ public class PolishSynthesizer implements Synthesizer {
     String posTag = pos;
     if (posTagRegExp) {
       if (possibleTags == null) {
-        possibleTags = SynthesizerTools.loadWords(Tools
-            .getStream(TAGS_FILE_NAME));
+        possibleTags = SynthesizerTools.loadWords(JLanguageTool.getDataBroker().
+        		getFromResourceDirAsStream(TAGS_FILE_NAME));
       }
       if (synthesizer == null) {
-        final URL url = this.getClass().getResource(RESOURCE_FILENAME);
+        final URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(RESOURCE_FILENAME);
         synthesizer = new DictionaryLookup(Dictionary.read(url));
       }
       final ArrayList<String> results = new ArrayList<String>();

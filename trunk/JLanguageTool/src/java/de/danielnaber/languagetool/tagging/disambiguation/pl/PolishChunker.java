@@ -21,18 +21,18 @@ package de.danielnaber.languagetool.tagging.disambiguation.pl;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.List;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
+import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
-import de.danielnaber.languagetool.tools.Tools;
 
 /**
  * Multiword tagger-chunker for Polish.
@@ -45,7 +45,7 @@ public class PolishChunker implements Disambiguator {
   private Map<String, String> mStartNoSpace;
   private Map<String, String> mFull;
 
-  private static final String FILENAME = "/resource/pl/multiwords.txt";
+  private static final String FILENAME = "/pl/multiwords.txt";
   
   /*
    * Lazy init, thanks to Artur Trzewik
@@ -59,7 +59,7 @@ public class PolishChunker implements Disambiguator {
     mStartNoSpace = new HashMap<String, String>();
     mFull = new HashMap<String, String>();
     
-    final List<String> posTokens = loadWords(Tools.getStream(FILENAME));
+    final List<String> posTokens = loadWords(JLanguageTool.getDataBroker().getFromResourceDirAsStream(FILENAME));
     for (String posToken : posTokens) {
       final String[] tokenAndTag = posToken.split("\t");
       final boolean containsSpace = tokenAndTag[0].indexOf(' ') > 0;

@@ -30,8 +30,8 @@ import java.util.List;
 
 import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
+import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.tagging.Tagger;
-import de.danielnaber.languagetool.tools.Tools;
 
 /**
  * Ukrainian Part-of-speech tagger. This class uses myspell uk_UA.dic dictionary
@@ -42,7 +42,7 @@ import de.danielnaber.languagetool.tools.Tools;
  */
 public class UkrainianMyspellTagger implements Tagger {
 
-  private static final String RESOURCE_FILENAME = "/resource/uk/ukrainian.dict";
+  private static final String RESOURCE_FILENAME = "/uk/ukrainian.dict";
 
   // private Lametyzator morfologik = null;
   private HashMap<String, String[]> wordsToPos;
@@ -55,14 +55,14 @@ public class UkrainianMyspellTagger implements Tagger {
     int pos = 0;
     // caching Lametyzator instance - lazy init
     // if (morfologik == null) {
-    // File resourceFile = JLanguageTool.getAbsoluteFile(RESOURCE_FILENAME);
+    // File resourceFile = JLanguageTool.getAbsoluteFile(JLanguageTool.getDataBroker().getResourceDir() + RESOURCE_FILENAME);
     // morfologik = new
     // Lametyzator(Tools.getInputStream(resourceFile.getAbsolutePath()),
     // "utf-8", '+');
     // }
     if (wordsToPos == null) {
       wordsToPos = new HashMap<String, String[]>();
-      final InputStream resourceFile = Tools.getStream(RESOURCE_FILENAME);
+      final InputStream resourceFile = JLanguageTool.getDataBroker().getFromResourceDirAsStream(RESOURCE_FILENAME);
       // System.err.println("reading dict: " + resourceFile);
 
       final BufferedReader input = new BufferedReader(new InputStreamReader(

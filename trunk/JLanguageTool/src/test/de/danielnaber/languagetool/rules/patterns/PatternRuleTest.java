@@ -72,9 +72,9 @@ public class PatternRuleTest extends TestCase {
       }
       final PatternRuleLoader ruleLoader = new PatternRuleLoader();
       final JLanguageTool languageTool = new JLanguageTool(lang);
-      final String name = "/rules/" + lang.getShortName() + "/grammar.xml";
-      final List<PatternRule> rules = ruleLoader.getRules(this.getClass()
-          .getResourceAsStream(name), name);
+      final String name = "/" + lang.getShortName() + "/grammar.xml";
+      final List<PatternRule> rules = ruleLoader.getRules(JLanguageTool.getDataBroker().
+    		  getFromRulesDirAsStream(name), name);
       warnIfRegexpSyntax(rules, lang);
       testGrammarRulesFromXML(rules, languageTool, lang);
     }

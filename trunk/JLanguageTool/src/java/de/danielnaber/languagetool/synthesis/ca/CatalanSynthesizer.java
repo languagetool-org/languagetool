@@ -18,7 +18,7 @@
  */
 package de.danielnaber.languagetool.synthesis.ca;
 
-import de.danielnaber.languagetool.synthesis.ca.*;
+import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.synthesis.BaseSynthesizer;
 
 /**
@@ -29,12 +29,13 @@ import de.danielnaber.languagetool.synthesis.BaseSynthesizer;
 
 public class CatalanSynthesizer extends BaseSynthesizer {
 
-  private static final String RESOURCE_FILENAME = "/resource/ca/catalan_synth.dict";
+  private static final String RESOURCE_FILENAME = "/ca/catalan_synth.dict";
 
-  private static final String TAGS_FILE_NAME = "/resource/ca/catalan_tags.txt";
+  private static final String TAGS_FILE_NAME = "/ca/catalan_tags.txt";
 
   public CatalanSynthesizer() {
-    super(RESOURCE_FILENAME, TAGS_FILE_NAME);
+    super(JLanguageTool.getDataBroker().getResourceDir() + RESOURCE_FILENAME, 
+    		JLanguageTool.getDataBroker().getResourceDir() + TAGS_FILE_NAME);
   }
   
   

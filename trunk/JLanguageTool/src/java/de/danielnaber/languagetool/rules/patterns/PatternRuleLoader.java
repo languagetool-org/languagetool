@@ -22,8 +22,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -33,11 +33,11 @@ import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.rules.Category;
 import de.danielnaber.languagetool.rules.IncorrectExample;
 import de.danielnaber.languagetool.tools.StringTools;
-import de.danielnaber.languagetool.tools.Tools;
 
 /**
  * Loads {@link PatternRule}s from an XML file.
@@ -74,8 +74,8 @@ public class PatternRuleLoader extends DefaultHandler {
   /** Testing only. */
   public final void main(final String[] args) throws IOException {
     final PatternRuleLoader prg = new PatternRuleLoader();
-    final String name = "/rules/de/grammar.xml";
-    final List<PatternRule> l = prg.getRules(Tools.getStream(name), name);
+    final String name = "/de/grammar.xml";
+    final List<PatternRule> l = prg.getRules(JLanguageTool.getDataBroker().getFromRulesDirAsStream(name), name);
     System.out.println(l);
   }
 
