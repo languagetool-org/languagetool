@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 German grammar and typo rules for LanguageTool
 See resource/de/tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2010 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.31 2010-07-17 18:14:28 dnaber Exp $
+$Id: grammar.xml,v 1.32 2010-07-23 21:49:53 dnaber Exp $
 -->
 <rules lang="de" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../rules.xsd">
@@ -872,6 +872,17 @@ $Id: grammar.xml,v 1.31 2010-07-17 18:14:28 dnaber Exp $
     <example type="incorrect">Da regt er sich zu <marker>recht</marker> auf.</example>
   </rule>
   -->
+    <rulegroup id="WEITERE_VORGEHEN" name="Tippfehler: 'das weitere vorgehen(Vorgehen)'">
+      <rule>
+        <pattern mark_from="1" case_sensitive="yes">
+          <token regexp="yes">weitere|weiteren</token>
+          <token>vorgehen</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>Vorgehen</suggestion>?</message>
+        <example type="correct">Wir werden das weitere <marker>Vorgehen</marker> zusammen abstimmen.</example>
+        <example type="incorrect">Wir werden das weitere <marker>vorgehen</marker> zusammen abstimmen.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="Beichte" name="Tippfehler: 'die beichte(Beichte)'">
       <rule>
         <pattern mark_from="1" case_sensitive="yes">
