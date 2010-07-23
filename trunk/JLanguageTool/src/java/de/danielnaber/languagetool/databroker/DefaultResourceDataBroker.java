@@ -310,19 +310,19 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
             return url;
         }
 
-        String originalURLProtocol = url.getProtocol();
+        final String originalURLProtocol = url.getProtocol();
         if (!"jar".equalsIgnoreCase(originalURLProtocol)) {
             return url;
         }
 
-        String originalURLString = url.toString();
+        final String originalURLString = url.toString();
         int bangSlashIndex = originalURLString.indexOf("!/");
         if (bangSlashIndex > -1) {
             return url;
         }
 
-        String originalURLPath = url.getPath();
-        URLConnection urlConnection;
+        final String originalURLPath = url.getPath();
+        final URLConnection urlConnection;
         try {
             urlConnection = url.openConnection();
             if (urlConnection == null) {
@@ -332,7 +332,7 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
             return url;
         }
 
-        Permission urlConnectionPermission;
+        final Permission urlConnectionPermission;
         try {
             urlConnectionPermission = urlConnection.getPermission();
             if (urlConnectionPermission == null) {
@@ -342,24 +342,18 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
             return url;
         }
 
-        String urlConnectionPermissionName = urlConnectionPermission.getName();
+        final String urlConnectionPermissionName = urlConnectionPermission.getName();
         if (urlConnectionPermissionName == null) {
             return url;
         }
 
-        File file = new File(urlConnectionPermissionName);
+        final File file = new File(urlConnectionPermissionName);
         if (file.exists() == false) {
             return url;
         }
 
-        String newURLStr;
         try {
-            newURLStr = "jar:" + file.toURI().toURL().toExternalForm() + "!/" + originalURLPath;
-        } catch (MalformedURLException e) {
-            return url;
-        }
-
-        try {
+            final String newURLStr = "jar:" + file.toURI().toURL().toExternalForm() + "!/" + originalURLPath;
             url = new URL(newURLStr);
         } catch (MalformedURLException e) {
             return url;
