@@ -112,7 +112,7 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
 	 *            The default value equals
 	 *            {@link ResourceDataBroker#RULES_DIR}.
 	 */
-	public DefaultResourceDataBroker(String resourceDir, String rulesDir) {
+	public DefaultResourceDataBroker(final String resourceDir, final String rulesDir) {
 		this.setResourceDir(resourceDir);
 		this.setRulesDir(rulesDir);
 	}
@@ -131,9 +131,8 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
 	 *         null} if it wasn't found.
 	 */
 	@Override
-	public InputStream getFromResourceDirAsStream(String path) {
-		StringBuffer completePath = this.getCompleteResourceUrl(path);
-
+	public InputStream getFromResourceDirAsStream(final String path) {
+		final String completePath = this.getCompleteResourceUrl(path);
 		return ResourceDataBroker.class.getResourceAsStream(completePath
 				.toString());
 	}
@@ -152,8 +151,8 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
 	 *         wasn't found.
 	 */
 	@Override
-	public URL getFromResourceDirAsUrl(String path) {
-		final StringBuffer completePath = this.getCompleteResourceUrl(path);
+	public URL getFromResourceDirAsUrl(final String path) {
+		final String completePath = this.getCompleteResourceUrl(path);
 		return ResourceDataBroker.class.getResource(completePath.toString());
 	}
 
@@ -167,8 +166,8 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
 	 * @return The full relative path to the resource including the path to the
 	 *         {@code resource} directory.
 	 */
-	private StringBuffer getCompleteResourceUrl(String path) {
-		StringBuffer completePath = new StringBuffer(this.getResourceDir());
+	private String getCompleteResourceUrl(final String path) {
+		final StringBuffer completePath = new StringBuffer(this.getResourceDir());
 
 		if (!this.getResourceDir().endsWith("/") && !path.startsWith("/")) {
 			completePath.append('/');
@@ -181,7 +180,7 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
 			completePath.append(path);
 		}
 
-		return completePath;
+		return completePath.toString();
 	}
 
 	/**
@@ -198,11 +197,9 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
 	 *         null} if it wasn't found.
 	 */
 	@Override
-	public InputStream getFromRulesDirAsStream(String path) {
-		StringBuffer completePath = this.getCompleteRulesUrl(path);
-
-		return ResourceDataBroker.class.getResourceAsStream(completePath
-				.toString());
+	public InputStream getFromRulesDirAsStream(final String path) {
+		final StringBuffer completePath = this.getCompleteRulesUrl(path);
+		return ResourceDataBroker.class.getResourceAsStream(completePath.toString());
 	}
 
 	/**
@@ -218,13 +215,9 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
 	 *         wasn't found.
 	 */
 	@Override
-	public URL getFromRulesDirAsUrl(String path) {
-		URL result;
-		StringBuffer completePath = this.getCompleteRulesUrl(path);
-
-		result = ResourceDataBroker.class.getResource(completePath.toString());
-
-		return result;
+	public URL getFromRulesDirAsUrl(final String path) {
+		final StringBuffer completePath = this.getCompleteRulesUrl(path);
+		return ResourceDataBroker.class.getResource(completePath.toString());
 	}
 
 	/**
@@ -237,15 +230,14 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
 	 * @return The full relative path to the resource including the path to the
 	 *         {@code rules} directory.
 	 */
-	private StringBuffer getCompleteRulesUrl(String path) {
-		StringBuffer completePath = new StringBuffer(this.getRulesDir());
+	private StringBuffer getCompleteRulesUrl(final String path) {
+	    final StringBuffer completePath = new StringBuffer(this.getRulesDir());
 
 		if (!this.getRulesDir().endsWith("/") && !path.startsWith("/")) {
 			completePath.append('/');
 		}
 
-		if (this.getRulesDir().endsWith("/") && path.startsWith("/")
-				&& path.length() > 1) {
+		if (this.getRulesDir().endsWith("/") && path.startsWith("/") && path.length() > 1) {
 			completePath.append(path.substring(1));
 		} else {
 			completePath.append(path);
@@ -274,7 +266,7 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
 	 *            example value: {@code /subdir/furtherdir/resourcedir}.
 	 */
 	@Override
-	public void setResourceDir(String resourceDir) {
+	public void setResourceDir(final String resourceDir) {
 		this.resourceDir = (resourceDir == null) ? "" : resourceDir;
 	}
 
@@ -297,7 +289,7 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
 	 *            /subdir/furtherdir/rulesdir}.
 	 */
 	@Override
-	public void setRulesDir(String rulesDir) {
+	public void setRulesDir(final String rulesDir) {
 		this.rulesDir = (rulesDir == null) ? "" : rulesDir;
 	}
 
