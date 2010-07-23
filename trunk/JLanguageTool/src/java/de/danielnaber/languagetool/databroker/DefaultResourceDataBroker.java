@@ -18,8 +18,13 @@
  */
 package de.danielnaber.languagetool.databroker;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
+import java.security.Permission;
 
 import de.danielnaber.languagetool.JLanguageTool;
 
@@ -153,7 +158,7 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
 	@Override
 	public URL getFromResourceDirAsUrl(final String path) {
 		final String completePath = this.getCompleteResourceUrl(path);
-		return ResourceDataBroker.class.getResource(completePath.toString());
+		return getFixedJarURL(ResourceDataBroker.class.getResource(completePath.toString()));
 	}
 
 	/**
@@ -217,7 +222,7 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
 	@Override
 	public URL getFromRulesDirAsUrl(final String path) {
 		final StringBuffer completePath = this.getCompleteRulesUrl(path);
-		return ResourceDataBroker.class.getResource(completePath.toString());
+		return getFixedJarURL(ResourceDataBroker.class.getResource(completePath.toString()));
 	}
 
 	/**
@@ -292,5 +297,75 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
 	public void setRulesDir(final String rulesDir) {
 		this.rulesDir = (rulesDir == null) ? "" : rulesDir;
 	}
+
+    /**
+     * Fixes the getResource bug if you want to obtain any resource from a JAR file under Java
+     * 1.5.0_16 Webstart. (Workaround by {@code mevanclark} from http://forums.sun.com)
+     * 
+     * @param url The {@link URL} to be fixed.
+     * @return The fixed version if necessary.
+     */
+    private static URL getFixedJarURL(URL url) {
+        if (url == null) {
+            return url;
+        }
+
+        String originalURLProtocol = url.getProtocol();
+        if (!"jar".equalsIgnoreCase(originalURLProtocol)) {
+            return url;
+        }
+
+        String originalURLString = url.toString();
+        int bangSlashIndex = originalURLString.indexOf("!/");
+        if (bangSlashIndex > -1) {
+            return url;
+        }
+
+        String originalURLPath = url.getPath();
+        URLConnection urlConnection;
+        try {
+            urlConnection = url.openConnection();
+            if (urlConnection == null) {
+                throw new IOException("urlConnection is null");
+            }
+        } catch (IOException e) {
+            return url;
+        }
+
+        Permission urlConnectionPermission;
+        try {
+            urlConnectionPermission = urlConnection.getPermission();
+            if (urlConnectionPermission == null) {
+                throw new IOException("urlConnectionPermission is null");
+            }
+        } catch (IOException e) {
+            return url;
+        }
+
+        String urlConnectionPermissionName = urlConnectionPermission.getName();
+        if (urlConnectionPermissionName == null) {
+            return url;
+        }
+
+        File file = new File(urlConnectionPermissionName);
+        if (file.exists() == false) {
+            return url;
+        }
+
+        String newURLStr;
+        try {
+            newURLStr = "jar:" + file.toURI().toURL().toExternalForm() + "!/" + originalURLPath;
+        } catch (MalformedURLException e) {
+            return url;
+        }
+
+        try {
+            url = new URL(newURLStr);
+        } catch (MalformedURLException e) {
+            return url;
+        }
+
+        return url;
+    }
 
 }
