@@ -135,7 +135,7 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
 	 * @return An {@link InputStream} object to the requested item or {@code
 	 *         null} if it wasn't found.
 	 */
-	
+	@Override
 	public InputStream getFromResourceDirAsStream(final String path) {
 		final String completePath = this.getCompleteResourceUrl(path);
 		return ResourceDataBroker.class.getResourceAsStream(completePath
@@ -155,7 +155,7 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
 	 * @return An {@link URL} object to the requested item or {@code null} if it
 	 *         wasn't found.
 	 */
-	
+	@Override
 	public URL getFromResourceDirAsUrl(final String path) {
 		final String completePath = this.getCompleteResourceUrl(path);
 		return getFixedJarURL(ResourceDataBroker.class.getResource(completePath.toString()));
@@ -201,7 +201,7 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
 	 * @return An {@link InputStream} object to the requested item or {@code
 	 *         null} if it wasn't found.
 	 */
-	
+	@Override
 	public InputStream getFromRulesDirAsStream(final String path) {
 		final StringBuffer completePath = this.getCompleteRulesUrl(path);
 		return ResourceDataBroker.class.getResourceAsStream(completePath.toString());
@@ -219,7 +219,7 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
 	 * @return An {@link URL} object to the requested item or {@code null} if it
 	 *         wasn't found.
 	 */
-	
+	@Override
 	public URL getFromRulesDirAsUrl(final String path) {
 		final StringBuffer completePath = this.getCompleteRulesUrl(path);
 		return getFixedJarURL(ResourceDataBroker.class.getResource(completePath.toString()));
@@ -256,7 +256,7 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
 	 *         The default value equals
 	 *         {@link ResourceDataBroker#RESOURCE_DIR}.
 	 */
-	
+	@Override
 	public String getResourceDir() {
 		return this.resourceDir;
 	}
@@ -270,7 +270,7 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
 	 *            separator. Don't set this character to the string's end. Valid
 	 *            example value: {@code /subdir/furtherdir/resourcedir}.
 	 */
-	
+	@Override
 	public void setResourceDir(final String resourceDir) {
 		this.resourceDir = (resourceDir == null) ? "" : resourceDir;
 	}
@@ -279,7 +279,7 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
 	 * @return The directory's name of the grammar checker's rules directory.
 	 *         The default value equals {@link ResourceDataBroker#RULES_DIR}.
 	 */
-	
+	@Override
 	public String getRulesDir() {
 		return this.rulesDir;
 	}
@@ -293,7 +293,7 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
 	 *            string's end. Valid example value: {@code
 	 *            /subdir/furtherdir/rulesdir}.
 	 */
-	
+	@Override
 	public void setRulesDir(final String rulesDir) {
 		this.rulesDir = (rulesDir == null) ? "" : rulesDir;
 	}
