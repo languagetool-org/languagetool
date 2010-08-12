@@ -25,7 +25,7 @@ grammar mistakes. It does not include spell checking.</p>
 	</p>
 	<h2><?=show_link("Download LanguageTool 1.0.0 (17&nbsp;MB)", "download/LanguageTool-1.0.0.oxt", 0) ?></h2>
 	<p>Requires <?=show_link("Java", "http://www.java.com/en/download/manual.jsp", 1)?>&nbsp;5.0
-	or later. This version only works with OpenOffice.org 3.0.1 or later 
+	or later (Java 6.0 if you want to compile the code yourself). This version only works with OpenOffice.org 3.0.1 or later 
 	and you need to <strong>restart OpenOffice.org</strong> after installation of this extension.</p>
 </div>
 
