@@ -2,17 +2,17 @@
 $page = "homepage";
 $title = "LanguageTool";
 $title2 = "Open Source language checker";
-$lastmod = "2010-06-18 20:10:00 CET";
+$lastmod = "2010-08-14 20:10:00 CET";
 include("../include/header.php");
 ?>
 		
-<p class="firstpara"><strong>An Open Source language checker for English, French, German, Polish, Dutch, Romanian, and
-<?=show_link("other languages", "languages/", 0) ?>.</strong>
-This is a rule-based language checker that will find errors for which a rule is defined in its 
-XML configuration files. Rules for more complicated errors can be  written in Java. You can think 
-of LanguageTool as a tool to detect errors that a simple spell checker cannot detect, e.g. mixing
-up <em>there/their</em>, <em>no/now</em> etc. It can also detect some
-grammar mistakes. It does not include spell checking.</p>
+<p class="firstpara"><strong>An Open Source style and grammar checker for English, French, German, Polish, 
+Dutch, Romanian, and <?=show_link("other languages", "languages/", 0) ?>.</strong>
+You can think of LanguageTool as a software to detect errors that a simple spell checker cannot detect, e.g. mixing
+up <em>there/their</em>, <em>no/now</em> etc. It can also detect some grammar mistakes. It does not include spell checking.</p>
+
+<p>LanguageTool will only find errors for which a rule is defined in its 
+XML configuration files. Rules for more complicated errors can be  written in Java.</p>
 
 
 <h2>Download</h2>
