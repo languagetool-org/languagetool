@@ -2,7 +2,7 @@
 $page = "homepage";
 $title = "LanguageTool";
 $title2 = "Open Source language checker";
-$lastmod = "2010-08-14 20:10:00 CET";
+$lastmod = "2010-08-15 20:10:00 CET";
 include("../include/header.php");
 ?>
 		
@@ -86,13 +86,15 @@ This means that you can now use LanguageTool for these languages via the
 	install the <tt>openoffice.org-java-common</tt> package. See
 	<a href="http://nancib.wordpress.com/2008/05/03/fixing-the-openofficeorg-grammar-glitch-in-ubuntu-hardy/">this blog posting</a>
 	for details.</li>
+<li>The menu items in OpenOffice.org get mixed up when both <a href="http://open.afterthedeadline.com/">After the Deadline</a>
+	and LanguageTool are installed. This issue is tracked as <a href="http://openatd.trac.wordpress.org/ticket/215">ticket #215 at After the Deadline</a>.</li>
 <li>LanguageTool didn't work together with the <a href="http://extensions.services.openoffice.org/en/project/DeltaXMLODTCompare">DeltaXML 
 	ODT Compare</a> extension - use version 1.2.0 of DeltaXML ODT Compare, which fixes the problem.</li>
 <li style="margin-top:8px">If these hints don't help, please email <strong>naber at danielnaber de</strong> describing the problem
 	and letting me know which version of LanguageTool, OpenOffice.org and which operating system you are using.</li>
 </ul>
 
-<p><strong>Known bugs:</strong> Please see the <?=show_link("README", "download/README.txt", 0)?> 
+<p><strong>Known bugs:</strong> Please also see the <?=show_link("README", "download/README.txt", 0)?> 
 for a list of known problems.</p>
 
 <h2>License &amp; Source Code</h2>
