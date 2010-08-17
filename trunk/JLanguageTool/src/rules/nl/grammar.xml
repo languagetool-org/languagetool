@@ -4,7 +4,7 @@
 <!--
 Dutch Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006,2007,2008 R. J. Baars (ruud.baars@opentaal.org)
-$Id: grammar.xml,v 1.26 2010-07-17 17:15:40 dnaber Exp $
+$Id: grammar.xml,v 1.27 2010-08-17 19:59:01 milek_pl Exp $
 -->
 <!-- TODO LIST
 * werkwoordvormen
@@ -2546,7 +2546,7 @@ $Id: grammar.xml,v 1.26 2010-07-17 17:15:40 dnaber Exp $
                <token skip="1">stijl</token>
                <token regexp="yes">berg.*|.*helling.*|weg.*|.*pad.*|straat.*|.*terrein|.*rots.*|ijs</token>
             </pattern>
-            <message>Bedoelt u  <suggestion>steil</suggestion>?</message>
+            <message>Bedoelt u <suggestion>steil</suggestion>?</message>
             <short>steil?  (ID197)</short>
             <example type="incorrect">De weg ging <marker>stijl</marker> de berg op.</example>
             <example type="correct">De weg ging <marker>steil</marker> de berg op.</example>
@@ -2561,6 +2561,26 @@ $Id: grammar.xml,v 1.26 2010-07-17 17:15:40 dnaber Exp $
             <short>steil?  (ID198)</short>
             <example type="incorrect">Is de weg altijd <marker>stijl</marker>?</example>
             <example type="correct">Is de weg altijd <marker>steil</marker>?</example>
+         </rule>
+         <rule id="ID990">
+            <pattern>
+		<token skip="-1">pallet</token>
+		<token regexp="yes">kleur.*</token>
+            </pattern>
+            <message>Bedoelt u <suggestion>(schilders)palet</suggestion>?</message>
+            <short>palet?  (ID198b)</short>
+            <example type="incorrect">Een <marker>pallet aan kleuren</marker>.</example>
+            <example type="correct">Een palet aan kleuren.</example>
+         </rule>
+         <rule id="ID990b">
+            <pattern>
+		<token skip="-1" regexp="yes">kleur.*</token>
+		<token>pallet</token>
+            </pattern>
+            <message>Bedoelt u <suggestion>(schilders)palet</suggestion>?</message>
+            <short>palet?  (ID198b)</short>
+            <example type="incorrect">Veel <marker>kleuren in het pallet</marker>.</example>
+            <example type="correct">Veel kleuren in het palet.</example>
          </rule>
          <rule id="ID199">
             <pattern mark_from="1">
@@ -3171,7 +3191,7 @@ $Id: grammar.xml,v 1.26 2010-07-17 17:15:40 dnaber Exp $
          
          <rule id="DE_NN1H">
             <pattern case_sensitive="yes" mark_from="1" mark_to="-2">
-               <token><exception postag="VB.*"/><exception>dat</exception></token>
+               <token><exception>dat</exception></token>
                <token>de</token>
                <token postag="NN1h" regexp="yes">^[a-z].*<exception postag="AJ.*|PN.*|VBp.*|NN1[dmf]" postag_regexp="yes"/><exception regexp="yes">meer|iets</exception></token>
                <token><exception regexp="yes">[1-9][0-9]{0,4}|0</exception><exception postag="NM"/></token>
@@ -3183,7 +3203,7 @@ $Id: grammar.xml,v 1.26 2010-07-17 17:15:40 dnaber Exp $
          </rule>
          <rule id="HET_NN1D">
             <pattern case_sensitive="yes" mark_from="1" mark_to="-2">
-               <token><exception postag="VB.*"/><exception>dat</exception></token>
+               <token><exception>dat</exception></token>
                <token>het</token>
                <token postag="NN1[dmf]" postag_regexp="yes" regexp="yes">^[a-z].*<exception postag="AJ.*|VBi|VB3|PN.*|VBp.*|VBh.*|NM.*|PPe|PN.*|NN1|NN1h" postag_regexp="yes"/><exception regexp="yes">u|niet|een|voor|bij</exception></token>
                <token><exception postag="VBp"/></token>
