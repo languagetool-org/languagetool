@@ -8,7 +8,7 @@ LanguageTool.
 Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
 A Russian rule file for LanguageTool 
 Copyright (C) 2008-2010 Yakov Reztsov
-$Id: grammar.xml,v 1.56 2010-05-17 16:51:49 yakovru Exp $
+$Id: grammar.xml,v 1.57 2010-08-23 19:49:21 yakovru Exp $
 -->
 <rules lang="ru" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../rules.xsd">
@@ -1402,7 +1402,7 @@ $Id: grammar.xml,v 1.56 2010-05-17 16:51:49 yakovru Exp $
             <rule>  
                 <pattern>
                     <token inflected = "yes">содействовать</token>
-                    <token><exception  postag=".*:D" postag_regexp="yes"/><exception  postag="PNN:.*" postag_regexp="yes"/></token>
+                    <token><exception  postag=".*:D" postag_regexp="yes"/><exception  postag="PNN:.*" postag_regexp="yes"/><exception regexp="yes">также|тоже</exception></token>
                 </pattern>
                 <message>Не найдены обязательные зависимые слова: содействовать чему?</message>
                 <short>содействовать чему?</short>
