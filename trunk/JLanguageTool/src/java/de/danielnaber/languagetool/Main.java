@@ -146,6 +146,7 @@ class Main {
       InputStreamReader isr = null;
       BufferedReader br = null;
       int lineOffset = 0;           
+      int tmpLineOffset = 0;
       List<String> unknownWords = new ArrayList<String>();
       StringBuilder sb = new StringBuilder();      
       for (int ruleIndex = 0; ruleIndex <runCount; ruleIndex++) {
@@ -205,13 +206,14 @@ class Main {
               }
               sb = new StringBuilder();
             }
+            lineOffset = tmpLineOffset;
           }
-          lineOffset++;
+          tmpLineOffset++;
         }
       } finally {
 
         if (sb.length() > 0) {
-          matches = handleLine(matches, lineOffset - 1, sb);
+          matches = handleLine(matches, tmpLineOffset - 1, sb);
           sentences += lt.getSentenceCount();
           if (profileRules) {
             sentences += lt.sentenceTokenize(sb.toString()).size();
