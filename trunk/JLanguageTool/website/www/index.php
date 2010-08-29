@@ -2,7 +2,7 @@
 $page = "homepage";
 $title = "LanguageTool";
 $title2 = "Open Source language checker";
-$lastmod = "2010-08-15 20:10:00 CET";
+$lastmod = "2010-08-29 20:10:00 CET";
 include("../include/header.php");
 ?>
 		
@@ -36,6 +36,10 @@ XML configuration files. Rules for more complicated errors can be  written in Ja
 
 
 <h2>News</h2>
+
+<p><strong>2010-08-29:</strong> 
+
+There's a new <?=show_link("script to use LanguageTool from within vim", "http://www.vim.org/scripts/script.php?script_id=3223", 0)?>.</p>
 
 <p><strong>2010-02-20:</strong> 
 
