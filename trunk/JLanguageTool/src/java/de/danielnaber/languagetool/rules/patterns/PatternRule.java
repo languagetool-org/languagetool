@@ -80,7 +80,7 @@ public class PatternRule extends AbstractPatternRule {
    *          Message to be displayed to the user
    */
 
-  PatternRule(final String id, final Language language,
+  public PatternRule(final String id, final Language language,
       final List<Element> elements, final String description,
       final String message, final String shortMessage) {
     super(id, description, language, elements, false);
@@ -131,7 +131,7 @@ public class PatternRule extends AbstractPatternRule {
     }    
   }  
 
-  PatternRule(final String id, final Language language,
+  public PatternRule(final String id, final Language language,
       final List<Element> elements, final String description,
       final String message, final String shortMessage, final boolean isMember) {
     this(id, language, elements, description, message, shortMessage);

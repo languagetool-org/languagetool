@@ -44,6 +44,8 @@ public abstract class BitextRule extends Rule {
   
   @Override
   public abstract String getDescription();
+    
+  public abstract String getMessage();
 
   @Override
   public abstract String getId();
@@ -66,6 +68,10 @@ public abstract class BitextRule extends Rule {
     sourceLanguage = lang;
   }
  
+  public final Language getSourceLang() {
+    return sourceLanguage;
+  }
+  
   /**
    * Set the examples that are correct and thus do not trigger the rule.
    */  

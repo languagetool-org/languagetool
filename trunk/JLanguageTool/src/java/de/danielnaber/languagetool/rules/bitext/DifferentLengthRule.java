@@ -32,6 +32,8 @@ import de.danielnaber.languagetool.rules.RuleMatch;
  *
  */
 public class DifferentLengthRule extends BitextRule {
+  
+  static final String MSG = "Source and target translation lengths are very different!";
 
   @Override
   public String getDescription() { 
@@ -43,6 +45,10 @@ public class DifferentLengthRule extends BitextRule {
     return "TRANSLATION_LENGTH";
   }
 
+  public String getMessage() {
+    return MSG;
+  }
+  
   /**
    * This method makes no sense for bitext, return null?? 
    */
@@ -62,7 +68,7 @@ public class DifferentLengthRule extends BitextRule {
       AnalyzedTokenReadings[] tokens = targetText.getTokens();      
       int len = tokens[tokens.length - 1].getStartPos() + tokens[tokens.length - 1].getToken().length();
       rm[0] = new RuleMatch(this, 1, len,
-      "Source and target translation lengths are very different!");
+      MSG);
       return rm;
     }
     return new RuleMatch[0];

@@ -16,42 +16,56 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
+
 package de.danielnaber.languagetool.rules.bitext;
 
 import java.io.IOException;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
-import de.danielnaber.languagetool.AnalyzedTokenReadings;
+import de.danielnaber.languagetool.rules.Rule;
 import de.danielnaber.languagetool.rules.RuleMatch;
+import de.danielnaber.languagetool.rules.patterns.PatternRule;
 
 /**
- * Checks if the translation for segments that have more than two words
- * is different.
+ * A bitext pattern rule class. A BitextPatternRule describes a language error and 
+ * can test whether a given pre-analyzed pair of source and target text 
+ * contains that error using the {@link Rule#match} method. It uses the syntax
+ * of XML files similar to normal PatternRules.
  * 
  * @author Marcin Miłkowski
- *
  */
-public class SameTranslationRule extends BitextRule {
+public class BitextPatternRule extends BitextRule {
 
-  static final String MSG = "Source and target translation are the same!"; 
+  private final PatternRule srcRule;
+  private final PatternRule trgRule;
+  
+  BitextPatternRule(final PatternRule src, final PatternRule trg) {    
+    srcRule = src;
+    trgRule = trg;
+  }
+  
+  public PatternRule getSrcRule() {
+    return srcRule;        
+  }
+  
+  public PatternRule getTrgRule() {
+    return trgRule;
+  }
   
   @Override
-  public String getDescription() { 
-    return "Check if translation is the same as source";
+  public String getDescription() {
+    return srcRule.getDescription();
+  }
+
+  public String getMessage() {
+    return trgRule.getMessage();
   }
   
   @Override
   public String getId() {
-    return "SAME_TRANSLATION";
+    return srcRule.getId();
   }
 
-  public String getMessage() {
-    return MSG;
-  }
-  
-  /**
-   * This method makes no sense for bitext, return null?? 
-   */
   @Override
   public RuleMatch[] match(AnalyzedSentence text) throws IOException {
     // TODO Auto-generated method stub
@@ -61,29 +75,16 @@ public class SameTranslationRule extends BitextRule {
   @Override
   public RuleMatch[] match(AnalyzedSentence sourceText,
       AnalyzedSentence targetText) throws IOException {
-
-    //This is just heuristics, checking word count
-    if (sourceText.getTokensWithoutWhitespace().length > 3 
-        && getPureText(sourceText).equals(getPureText(targetText))) {
-      RuleMatch[] rm = new RuleMatch[1];     
-      AnalyzedTokenReadings[] tokens = targetText.getTokens();      
-      int len = tokens[tokens.length - 1].getStartPos() + tokens[tokens.length - 1].getToken().length();
-      rm[0] = new RuleMatch(this, 1, len,
-      MSG);
-      return rm;
+    if (srcRule.match(sourceText) != null)  {    
+      return trgRule.match(targetText);
     }
-    return new RuleMatch[0];
-  }
-  
-  private static String getPureText(AnalyzedSentence text) {
-    StringBuilder sb = new StringBuilder();
-    for (AnalyzedTokenReadings token : text.getTokens()) {
-      sb.append(token.getToken());
-    }
-    return sb.toString();
+    return null;
   }
 
+  @Override
   public void reset() {
+    // TODO Auto-generated method stub
+
   }
 
 }

@@ -281,10 +281,6 @@ public class PatternRuleTest extends TestCase {
       final JLanguageTool languageTool) throws IOException {
     final AnalyzedSentence text = languageTool.getAnalyzedSentence(sentence);
     final RuleMatch[] matches = rule.match(text);
-    /*
-     * for (int i = 0; i < matches.length; i++) {
-     * System.err.println(matches[i]); }
-     */
     return matches.length > 0;
   }
 
