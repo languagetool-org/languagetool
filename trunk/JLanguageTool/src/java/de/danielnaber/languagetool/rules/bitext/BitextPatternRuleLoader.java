@@ -183,8 +183,7 @@ class PatternRuleHandler extends XMLRuleHandler {
   
   private PatternRule srcRule;
   private PatternRule trgRule;
-  
-  private boolean targetExample;
+    
   private IncorrectExample trgExample;
   private IncorrectExample srcExample;
   
@@ -325,10 +324,6 @@ class PatternRuleHandler extends XMLRuleHandler {
         && attrs.getValue(TYPE).equals("correct")) {
       inCorrectExample = true;
       correctExample = new StringBuilder();
-    } else if (qName.equals("trgExample")) {
-      targetExample = true;
-    } else if (qName.equals("srcExample")) {
-      targetExample = false;
     } else if (qName.equals("example")
         && attrs.getValue(TYPE).equals("incorrect")) {
       inIncorrectExample = true;
@@ -687,8 +682,7 @@ class PatternRuleHandler extends XMLRuleHandler {
       phraseElementList.clear();
     }
     startPositionCorrection = 0;
-    endPositionCorrection = 0;
-    targetExample = false;
+    endPositionCorrection = 0;    
     return rule;
   }
   
