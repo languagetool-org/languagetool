@@ -166,6 +166,9 @@ public final class Tools {
     }
     return ruleMatches.size();
   }
+  
+  
+  
   /**
    * Simple rule profiler - used to run LT on a corpus to see which
    * rule takes most time.
