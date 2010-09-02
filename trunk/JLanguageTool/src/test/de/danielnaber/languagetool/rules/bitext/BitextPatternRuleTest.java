@@ -29,6 +29,8 @@ import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.rules.Rule;
 import de.danielnaber.languagetool.rules.RuleMatch;
+import de.danielnaber.languagetool.rules.bitext.pattern.BitextPatternRule;
+import de.danielnaber.languagetool.rules.bitext.pattern.BitextPatternRuleLoader;
 import de.danielnaber.languagetool.rules.patterns.PatternRule;
 import junit.framework.TestCase;
 

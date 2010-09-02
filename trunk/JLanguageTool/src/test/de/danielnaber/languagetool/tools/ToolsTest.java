@@ -3,6 +3,7 @@ package de.danielnaber.languagetool.tools;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -11,6 +12,9 @@ import org.xml.sax.SAXException;
 import junit.framework.TestCase;
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
+import de.danielnaber.languagetool.rules.bitext.BitextRule;
+import de.danielnaber.languagetool.rules.bitext.pattern.BitextPatternRule;
+import de.danielnaber.languagetool.rules.bitext.pattern.FalseFriendsAsBitextLoader;
 
 public class ToolsTest extends TestCase {
 
@@ -74,5 +78,30 @@ public class ToolsTest extends TestCase {
 
     assertEquals("This is a test.", Tools.correctText("This is an test.", tool));
 
+  }
+  
+  public void testbitextCheck() throws IOException, ParserConfigurationException, SAXException {
+    final JLanguageTool srcTool = new JLanguageTool(Language.ENGLISH);    
+    final JLanguageTool trgTool = new JLanguageTool(Language.POLISH);    
+    trgTool.activateDefaultPatternRules();
+    
+    final List<BitextRule> rules = Tools.getBitextRules(Language.ENGLISH, Language.POLISH);            
+    
+    int matches = Tools.checkBitext(
+        "This is a perfectly good sentence.",
+        "To jest całkowicie prawidłowe zdanie.", srcTool, trgTool, rules,
+        false, StringTools.XmlPrintMode.NORMAL_XML);
+    String output = new String(this.out.toByteArray());
+    assertTrue(output.indexOf("Time:") == 0);
+    assertEquals(0, matches);
+
+    matches = Tools.checkBitext(
+        "This is not actual.", 
+        "To nie jest aktualne.", 
+        srcTool, trgTool, 
+        rules, false, StringTools.XmlPrintMode.NORMAL_XML);        
+    output = new String(this.out.toByteArray());
+    assertTrue(output.indexOf("Rule ID: ACTUAL") != -1);
+    assertEquals(1, matches);
   }
 }

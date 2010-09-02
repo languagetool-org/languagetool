@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.rules.bitext;
+package de.danielnaber.languagetool.rules.bitext.pattern;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,7 +37,8 @@ import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.rules.Category;
 import de.danielnaber.languagetool.rules.IncorrectExample;
 import de.danielnaber.languagetool.tools.StringTools;
-import de.danielnaber.languagetool.rules.patterns.PatternRule;
+import de.danielnaber.languagetool.rules.bitext.IncorrectBitextExample;
+import de.danielnaber.languagetool.rules.bitext.StringPair;
 import de.danielnaber.languagetool.rules.patterns.*;
 
 /**

@@ -17,13 +17,14 @@
  * USA
  */
 
-package de.danielnaber.languagetool.rules.bitext;
+package de.danielnaber.languagetool.rules.bitext.pattern;
 
 import java.io.IOException;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.rules.Rule;
 import de.danielnaber.languagetool.rules.RuleMatch;
+import de.danielnaber.languagetool.rules.bitext.BitextRule;
 import de.danielnaber.languagetool.rules.patterns.PatternRule;
 
 /**

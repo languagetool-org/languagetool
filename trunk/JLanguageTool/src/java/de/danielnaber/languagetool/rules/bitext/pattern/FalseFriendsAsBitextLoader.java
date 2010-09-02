@@ -17,7 +17,7 @@
  * USA
  */
 
-package de.danielnaber.languagetool.rules.bitext;
+package de.danielnaber.languagetool.rules.bitext.pattern;
 
 import de.danielnaber.languagetool.rules.patterns.FalseFriendRuleLoader;
 import de.danielnaber.languagetool.rules.patterns.PatternRule;

@@ -25,17 +25,28 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.lang.reflect.Constructor;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.ResourceBundle;
+
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.JLanguageTool;
+import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.rules.Rule;
+import de.danielnaber.languagetool.rules.bitext.BitextRule;
+import de.danielnaber.languagetool.rules.bitext.pattern.BitextPatternRule;
+import de.danielnaber.languagetool.rules.bitext.pattern.BitextPatternRuleLoader;
+import de.danielnaber.languagetool.rules.bitext.pattern.FalseFriendsAsBitextLoader;
 import de.danielnaber.languagetool.rules.patterns.PatternRule;
 import de.danielnaber.languagetool.tools.StringTools.XmlPrintMode;
 
@@ -120,54 +131,204 @@ public final class Tools {
           contextSize, xmlMode);
       System.out.print(xml);
     } else {
-      int i = 1;
-      for (final RuleMatch match : ruleMatches) {
-        String output = i + prevMatches + ".) Line " + (match.getLine() + 1) + ", column "
-        + match.getColumn() + ", Rule ID: " + match.getRule().getId();
-        if (match.getRule() instanceof PatternRule) {
-          final PatternRule pRule = (PatternRule) match.getRule();
-          output += "[" + pRule.getSubId() + "]";
-        }
-        System.out.println(output);
-        String msg = match.getMessage();
-        msg = msg.replaceAll("<suggestion>", "'");
-        msg = msg.replaceAll("</suggestion>", "'");
-        System.out.println("Message: " + msg);
-        final List<String> repl = match.getSuggestedReplacements();
-        if (!repl.isEmpty()) {
-          System.out.println("Suggestion: "
-              + StringTools.listToString(repl, "; "));
-        }
-        System.out.println(StringTools.getContext(match.getFromPos(), match
-            .getToPos(), contents, contextSize));
-        if (i < ruleMatches.size()) {
-          System.out.println();
-        }
-        i++;
-      }
+      printMatches(ruleMatches, prevMatches, contents, contextSize);
     }
 
     //display stats if it's not in a buffered mode
     if (xmlMode == StringTools.XmlPrintMode.NORMAL_XML) {
-      final long endTime = System.currentTimeMillis();
-      final long time = endTime - startTime;
-      final float timeInSeconds = time / 1000.0f;
-      final float sentencesPerSecond = lt.getSentenceCount() / timeInSeconds;
-      if (apiFormat) {
-        System.out.println("<!--");
-      }
-      System.out.printf(Locale.ENGLISH,
-          "Time: %dms for %d sentences (%.1f sentences/sec)", time, lt
-          .getSentenceCount(), sentencesPerSecond);
-      System.out.println();
-      if (apiFormat) {
-        System.out.println("-->");
-      }
+      displayTimeStats(startTime, lt.getSentenceCount(), apiFormat);
     }
     return ruleMatches.size();
   }
   
+  private static void displayTimeStats(final long startTime, 
+      final long sentCount, final boolean apiFormat) {
+    final long endTime = System.currentTimeMillis();
+    final long time = endTime - startTime;
+    final float timeInSeconds = time / 1000.0f;
+    final float sentencesPerSecond = sentCount / timeInSeconds;
+    if (apiFormat) {
+      System.out.println("<!--");
+    }
+    System.out.printf(Locale.ENGLISH,
+        "Time: %dms for %d sentences (%.1f sentences/sec)", time, 
+        sentCount, sentencesPerSecond);
+    System.out.println();
+    if (apiFormat) {
+      System.out.println("-->");
+    }
+  }
   
+  /**
+   * Displays matches in a simple text format.
+   * @param ruleMatches Matches from rules.
+   * @param prevMatches Number of previously found matches.
+   * @param contents  The text that was checked.
+   * @param contextSize The size of contents displayed.
+   * @since 1.0.1
+   */
+  private static void printMatches(final List<RuleMatch> ruleMatches,
+      final int prevMatches, final String contents, final int contextSize) {
+    int i = 1;
+    for (final RuleMatch match : ruleMatches) {
+      String output = i + prevMatches + ".) Line " + (match.getLine() + 1) + ", column "
+      + match.getColumn() + ", Rule ID: " + match.getRule().getId();
+      if (match.getRule() instanceof PatternRule) {
+        final PatternRule pRule = (PatternRule) match.getRule();
+        output += "[" + pRule.getSubId() + "]";
+      }
+      System.out.println(output);
+      String msg = match.getMessage();
+      msg = msg.replaceAll("<suggestion>", "'");
+      msg = msg.replaceAll("</suggestion>", "'");
+      System.out.println("Message: " + msg);
+      final List<String> repl = match.getSuggestedReplacements();
+      if (!repl.isEmpty()) {
+        System.out.println("Suggestion: "
+            + StringTools.listToString(repl, "; "));
+      }
+      System.out.println(StringTools.getContext(match.getFromPos(), match
+          .getToPos(), contents, contextSize));
+      if (i < ruleMatches.size()) {
+        System.out.println();
+      }
+      i++;
+    }
+  }
+  
+  /**
+   * Checks the bilingual input (bitext) and displays the output (considering the target 
+   * language) in API format or in the simple text format.
+   * 
+   * @param src   Source text.
+   * @param trg   Target text.
+   * @param srcLt Source JLanguageTool (used to analyze the text).
+   * @param trgLt Target JLanguageTool (used to analyze the text).
+   * @param bRules  Bilingual rules used in addition to target standard rules.
+   * @param apiFormat Whether API format should be used.
+   * @param xmlMode The mode of XML output display.
+   * @return  The number of rules matched on the bitext.
+   * @throws IOException
+   * @since 1.0.1
+   */
+  public static int checkBitext(final String src, final String trg,
+      final JLanguageTool srcLt, final JLanguageTool trgLt,
+      final List<BitextRule> bRules,
+      final boolean apiFormat, final XmlPrintMode xmlMode) throws IOException {
+    final long startTime = System.currentTimeMillis();
+    int contextSize = DEFAULT_CONTEXT_SIZE;
+    final List<RuleMatch> ruleMatches = srcLt.check(src);    
+    for (BitextRule bRule : bRules) {
+      RuleMatch[] curMatch = bitextMatch(bRule, src, trg, srcLt, trgLt);
+      if (curMatch != null) {
+        for (RuleMatch match : curMatch) {
+          ruleMatches.add(match);
+        }
+      }
+    }
+    if (apiFormat) {
+      final String xml = StringTools.ruleMatchesToXML(ruleMatches, trg,
+          contextSize, xmlMode);
+      System.out.print(xml);
+    } else {
+      printMatches(ruleMatches, 0, trg, contextSize);
+    }
+    //display stats if it's not in a buffered mode
+    if (xmlMode == StringTools.XmlPrintMode.NORMAL_XML) {
+      displayTimeStats(startTime, srcLt.getSentenceCount(), apiFormat);
+    }
+    return ruleMatches.size();
+  }
+  
+  private static RuleMatch[] bitextMatch(final BitextRule rule, final String src, final String trg,
+      final JLanguageTool srcLanguageTool,
+      final JLanguageTool trgLanguageTool) throws IOException {
+    final AnalyzedSentence srcText = srcLanguageTool.getAnalyzedSentence(src);
+    final AnalyzedSentence trgText = trgLanguageTool.getAnalyzedSentence(trg);
+    return rule.match(srcText, trgText);    
+  }
+  
+  /** 
+   * Gets default bitext rules for a given pair of languages
+   * @param source  Source language.
+   * @param target  Target language.
+   * @return  List of Bitext rules
+   * @throws IOException
+   * @throws ParserConfigurationException
+   * @throws SAXException
+   */
+  public static List<BitextRule> getBitextRules(final Language source, 
+      final Language target) throws IOException, ParserConfigurationException, SAXException {
+    List<BitextRule> bRules = new ArrayList<BitextRule>();
+    //try to load the bitext pattern rules for the language...
+    final BitextPatternRuleLoader ruleLoader = new BitextPatternRuleLoader();          
+    final String name = "/" + target.getShortName() + "/bitext.xml";
+    InputStream is = JLanguageTool.getDataBroker().getFromRulesDirAsStream(name);
+    if (is != null) {
+      bRules.addAll(ruleLoader.getRules(is, name));
+    }
+    
+    //load the false friend rules in the bitext mode
+    FalseFriendsAsBitextLoader fRuleLoader = new FalseFriendsAsBitextLoader();
+    final String fName = "/false-friends.xml";
+    bRules.addAll(fRuleLoader.
+    getFalseFriendsAsBitext(        
+        JLanguageTool.getDataBroker().getRulesDir() + fName,
+        source, target));    
+
+    //load Java bitext rules
+    // TODO: get ResourceBundle for possible parameters for rules
+    bRules.addAll(getAllBuiltinBitextRules(source, null));
+    return bRules;
+  }
+  
+  private static List<BitextRule> getAllBuiltinBitextRules(final Language language,
+      final ResourceBundle messages) {
+    // use reflection to get a list of all non-pattern rules under
+    // "de.danielnaber.languagetool.rules.bitext"
+    // generic rules first, then language-specific ones
+    // TODO: the order of loading classes is not guaranteed so we may want to
+    // implement rule
+    // precedence
+
+    final List<BitextRule> rules = new ArrayList<BitextRule>();
+    try {
+      // we pass ".*Rule$" regexp to improve efficiency, see javadoc
+      final Class[] classes = ReflectionUtils.findClasses(Rule.class
+          .getClassLoader(), Rule.class.getPackage().getName()
+          + ".bitext", ".*Rule$", 0,
+          Rule.class, null);
+            
+      for (final Class class1 : classes) {
+        final Constructor[] constructors = class1.getConstructors();
+        for (final Constructor constructor : constructors) {
+          final Class[] paramTypes = constructor.getParameterTypes();
+          if (paramTypes.length == 0) {
+            rules.add((BitextRule) constructor.newInstance());
+            break;
+          }
+          if (paramTypes.length == 1
+              && paramTypes[0].equals(ResourceBundle.class)) {
+            rules.add((BitextRule) constructor.newInstance(messages));
+            break;
+          }
+          if (paramTypes.length == 2
+              && paramTypes[0].equals(ResourceBundle.class)
+              && paramTypes[1].equals(Language.class)) {
+            rules.add((BitextRule) constructor.newInstance(messages, language));
+            break;
+          }
+          throw new RuntimeException("Unknown constructor for rule class: "
+              + class1.getName());
+        }
+      }
+    } catch (final Exception e) {
+      throw new RuntimeException("Failed to load rules: " + e.getMessage(), e);
+    }
+    // System.err.println("Loaded " + rules.size() + " rules");
+    return rules;
+  }
+
   
   /**
    * Simple rule profiler - used to run LT on a corpus to see which

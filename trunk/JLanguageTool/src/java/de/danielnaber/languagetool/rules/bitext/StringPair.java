@@ -31,7 +31,7 @@ public class StringPair {
   
   private final String targetString;
   
-  StringPair(String source, String target) {
+  public StringPair(String source, String target) {
     sourceString = source;
     targetString = target;
   }
