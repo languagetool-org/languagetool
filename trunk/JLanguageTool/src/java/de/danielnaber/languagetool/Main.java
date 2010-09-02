@@ -309,7 +309,7 @@ class Main {
   }
 
   /**
-   * Loads filename, filter out XML and check the result. Note that the XML
+   * Loads filename and filters out XML. Note that the XML
    * filtering can lead to incorrect positions in the list of matching rules.
    * 
    * @param filename
