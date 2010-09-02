@@ -2,6 +2,11 @@ LanguageTool Change Log
 
 1.0.1 (201x-xx-xx)
 
+ -Added preliminary support for checking bilingual texts (bitexts), 
+  including use of false friends rules, bitext pattern rules and 
+  generic Java rules. LanguageTool may be therefore used via API 
+  to check translation quality in computer-aided translation tools. 
+
  -Added a lot of new "false friend" rules (mostly Italian), thanks 
   to Fabio Rainone
 
@@ -26,78 +31,78 @@ LanguageTool Change Log
  -Updated a tager and synthesizer dictionary for Russian.
   Fixed POS tag for Russian.
  
- -added a synthesizer for Spanish, thanks to Juan Martorell.
+ -Added a synthesizer for Spanish, thanks to Juan Martorell.
  
- -fixed Spanish dictionary separator issue, thanks to Juan Martorell.
+ -Fixed Spanish dictionary separator issue, thanks to Juan Martorell.
  
- -fixed several Spanish dictionary POS tag flaws, thanks to Juan Martorell.
+ -Fixed several Spanish dictionary POS tag flaws, thanks to Juan Martorell.
 
- -added a tagger dictionary and synthesizer for Catalan, thanks to
+ -Added a tagger dictionary and synthesizer for Catalan, thanks to
   Jimmy O'Regan.
   
- -added an SRX-based sentence tokenizer for Catalan, thanks to Jimmy
+ -Added an SRX-based sentence tokenizer for Catalan, thanks to Jimmy
   O'Regan, and for Spanish, thanks to Juan Martorell.
   
- -major update of the French dictionary, thanks to Olivier R. The 
+ -Major update of the French dictionary, thanks to Olivier R. The 
   dictionary is now based on data from the Dicollecte project.
 
- -updated the morfologik-stemming library used for tagging dictionaries
+ -Updated the morfologik-stemming library used for tagging dictionaries
   to version 1.4.0 (performance improvements and ability to build the
   binary automata directly from Java)
 
- -fixed a problem with salutation ending with comma and false alarm
+ -Fixed a problem with salutation ending with comma and false alarm
   for a missing uppercase letter (sf.net but #2830181 for German; 
   the problem appeared also for Italian, Polish, and Russian)
   
- -improved the rule that detects wrong space around brackets; it
+ -Improved the rule that detects wrong space around brackets; it
   detects errors concerning curly brackets, parentheses, and
   square brackets. 
 
- -initial support for Malayalam (thanks to Jitesh V. S.)
+ -Initial support for Malayalam (thanks to Jitesh V. S.)
 
- -initial support for Belarusian (thanks to Alex Buloichik)
+ -Initial support for Belarusian (thanks to Alex Buloichik)
 
- -added some German rules (thanks to Jan Schreiber)
+ -Added some German rules (thanks to Jan Schreiber)
 
- -added several German rules (thanks to Felix Sasaki and his students)
+ -Added several German rules (thanks to Felix Sasaki and his students)
  
- -added much more Spanish Rules (thanks to Juan Martorell) 
+ -Added much more Spanish Rules (thanks to Juan Martorell) 
   
- -improved German sentence detection (no sentence split at
+ -Improved German sentence detection (no sentence split at
   "Friedrich II. ist auch...", "13. und 14. Jahrhundert")
  
- -fixed sentence tokenizer to better deal with Windows line
+ -Fixed sentence tokenizer to better deal with Windows line
   breaks (\r\n instead of just \n)
  
- -small fix for English rule ("rather then" -> "rather than"), some 
+ -Small fix for English rule ("rather then" -> "rather than"), some 
   new English rules thanks to Jimmy O'Regan
   
- -new Catalan rule for castellanisms, thanks to Jimmy O'Regan
+ -New Catalan rule for castellanisms, thanks to Jimmy O'Regan
  
- -fixes and additions for Catalan, Dutch, Italian, Polish, Russian, 
+ -Fixes and additions for Catalan, Dutch, Italian, Polish, Russian, 
   Slovak and Slovenian rules
  
- -fixes for Polish tagging and synthesis dictionaries
+ -Fixes for Polish tagging and synthesis dictionaries
  
- -fixes and additions to the Polish disambiguator
+ -Fixes and additions to the Polish disambiguator
  
  -Polish chunker now uses a separate text file for its multiword tokens 
   (see resource/pl/multiwords.txt)
  
- -fix a sourceforge.net #2957133 bug in Italian Rules (thanks to Paolo
+ -Fixed a sourceforge.net #2957133 bug in Italian Rules (thanks to Paolo
   Bianchini)
  
- -added a rule for correct whitespaces around punctuation for French to 
+ -Added a rule for correct whitespaces around punctuation for French to 
   the default set of rules working for French
 
- -updated SRX-based sentence tokenizer rules for Polish, Russian and Slovenian
+ -Updated SRX-based sentence tokenizer rules for Polish, Russian and Slovenian
  
- -fixed sourceforge.net bug #2998138 concerning an incorrect ICU regex in
+ -Fixed sourceforge.net bug #2998138 concerning an incorrect ICU regex in
   SRX file
  
- -updated Slovenian and Russian translation
+ -Updated Slovenian and Russian translation
  
- -added some disambiguation rules to simplify punctuation rules in Polish
+ -Added some disambiguation rules to simplify punctuation rules in Polish
  
  -It is now possible to add just a new POS tag using <wd> element in the
   disambiguator. If you omit the lemma attribute and/or the token, the token and
@@ -114,23 +119,23 @@ LanguageTool Change Log
  
  -DTD for disambiguation rules is now replaced by an XML Schema.  
   
- -fixed a bug that could raise a false alarm for some unchecked exceptions
-  in XML rules
+ -Fixed a bug that could raise a false alarm for some unchecked exceptions
+  in XML rules.
   
- -fixed a bug with the rule disambiguator: sentence end and paragraph end
-  tags no longer get filtered out during disambiguation
+ -Fixed a bug with the rule disambiguator: sentence end and paragraph end
+  tags no longer get filtered out during disambiguation.
   
- -fixed a small bug with unification: now unifier used for rules and 
+ -Fixed a small bug with unification: now unifier used for rules and 
   disambiguation rules are kept separate, so that you have different sets
-  of unification equivalences, as defined in their files 
+  of unification equivalences, as defined in their files. 
   
- -fixed a bug with footnote numbers before a comma that were reported 
-  as whitespace
+ -Fixed a bug with footnote numbers before a comma that were reported 
+  as whitespace.
  
- -fixed sourceforge.net bug #2972055 (LanguageTool menu no longer appears in
-  Calc where it didn't work anyway), (Yakov Reztsov)
+ -Fixed sourceforge.net bug #2972055 (LanguageTool menu no longer appears in
+  Calc where it didn't work anyway), (Yakov Reztsov).
   
- -fix to make HTTP server mode work on more Mac OS X versions  
+ -Fix to make HTTP server mode work on more Mac OS X versions  
 
 
 1.0.0 (2009-11-01)
