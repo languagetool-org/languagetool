@@ -21,6 +21,8 @@ package de.danielnaber.languagetool.rules.bitext;
 import java.util.Arrays;
 import java.util.List;
 
+import de.danielnaber.languagetool.bitext.StringPair;
+
 /**
  * A text, typically a pair of sentences that contains an error.
  * 

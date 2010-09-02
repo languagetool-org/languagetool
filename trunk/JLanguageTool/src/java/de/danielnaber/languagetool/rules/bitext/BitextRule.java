@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.List;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
+import de.danielnaber.languagetool.bitext.StringPair;
 import de.danielnaber.languagetool.rules.Rule;
 import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.Language;

@@ -18,7 +18,7 @@
  */
 
 
-package de.danielnaber.languagetool.rules.bitext;
+package de.danielnaber.languagetool.bitext;
 
 /**
  * A convenience class to work with bitext strings.

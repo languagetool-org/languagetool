@@ -34,11 +34,11 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import de.danielnaber.languagetool.Language;
+import de.danielnaber.languagetool.bitext.StringPair;
 import de.danielnaber.languagetool.rules.Category;
 import de.danielnaber.languagetool.rules.IncorrectExample;
 import de.danielnaber.languagetool.tools.StringTools;
 import de.danielnaber.languagetool.rules.bitext.IncorrectBitextExample;
-import de.danielnaber.languagetool.rules.bitext.StringPair;
 import de.danielnaber.languagetool.rules.patterns.*;
 
 /**

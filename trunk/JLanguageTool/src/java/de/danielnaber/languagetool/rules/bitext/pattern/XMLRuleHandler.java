@@ -25,9 +25,9 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import de.danielnaber.languagetool.bitext.StringPair;
 import de.danielnaber.languagetool.rules.IncorrectExample;
 import de.danielnaber.languagetool.rules.bitext.IncorrectBitextExample;
-import de.danielnaber.languagetool.rules.bitext.StringPair;
 
 /**
  * XML rule handler that loads rules from XML and throws
