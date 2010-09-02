@@ -104,4 +104,17 @@ public class ToolsTest extends TestCase {
     assertTrue(output.indexOf("Rule ID: ACTUAL") != -1);
     assertEquals(1, matches);
   }
+  public void testbitextCorrect() throws IOException, ParserConfigurationException, SAXException {
+    final JLanguageTool srcTool = new JLanguageTool(Language.ENGLISH);    
+    final JLanguageTool trgTool = new JLanguageTool(Language.POLISH);    
+    trgTool.activateDefaultPatternRules();
+    
+    final List<BitextRule> rules = Tools.getBitextRules(Language.ENGLISH, Language.POLISH);            
+    
+    String output = Tools.correctBitext(
+        "There is a dog.",
+        "Nie jest psem.", srcTool, trgTool, rules
+        );    
+    assertEquals("Istnieje psem.", output);
+    }
 }

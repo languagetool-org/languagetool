@@ -67,16 +67,18 @@ public class BitextPatternRule extends BitextRule {
     return srcRule.getId();
   }
 
+  /**
+   * This method always returns an empty array.
+   */
   @Override
   public RuleMatch[] match(AnalyzedSentence text) throws IOException {
-    // TODO Auto-generated method stub
-    return null;
+    return new RuleMatch[0];
   }
 
   @Override
   public RuleMatch[] match(AnalyzedSentence sourceText,
       AnalyzedSentence targetText) throws IOException {
-    if (srcRule.match(sourceText) != null)  {    
+    if (srcRule.match(sourceText).length > 0)  {    
       return trgRule.match(targetText);
     }
     return null;

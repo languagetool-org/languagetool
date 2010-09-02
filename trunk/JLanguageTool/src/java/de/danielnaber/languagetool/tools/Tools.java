@@ -44,7 +44,6 @@ import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.rules.Rule;
 import de.danielnaber.languagetool.rules.bitext.BitextRule;
-import de.danielnaber.languagetool.rules.bitext.pattern.BitextPatternRule;
 import de.danielnaber.languagetool.rules.bitext.pattern.BitextPatternRuleLoader;
 import de.danielnaber.languagetool.rules.bitext.pattern.FalseFriendsAsBitextLoader;
 import de.danielnaber.languagetool.rules.patterns.PatternRule;
@@ -401,36 +400,76 @@ public final class Tools {
    */
   public static String correctText(final String contents, final JLanguageTool lt) throws IOException {
     final List<RuleMatch> ruleMatches = lt.check(contents);
-    if (!ruleMatches.isEmpty()) {
-      final StringBuilder sb = new StringBuilder(contents);
-      //build error list:
-      final List<String> errors = new ArrayList<String>();
-      for (RuleMatch rm : ruleMatches) {
-        final List<String> replacements = rm.getSuggestedReplacements();
-        if (!replacements.isEmpty()) {
-          errors.add(sb.substring(rm.getFromPos(), rm.getToPos()));
+    if (ruleMatches.isEmpty()) {
+      return contents;  
+    }    
+    return correctTextFromMatches(contents, ruleMatches);    
+  }
+  
+  /**
+   *  Automatically applies suggestions to the bilingual text.
+   *  Note: if there is more than one suggestion, always the first
+   *  one is applied, and others ignored silently.
+   *
+   *  @param   
+   *    src - source string to be checked
+   *  @param trg - target string to be checked       *  
+   *  @param
+   *    srcLt - Initialized source JLanguageTool object
+   *  @param
+   *    trgLt - Initialized target JLanguageTool object
+   *  @param
+   *  brules  - List of all BitextRules to use
+   *  @return
+   *    Corrected text as String.
+   */  
+  public static String correctBitext(final String src, final String trg,
+      final JLanguageTool srcLt, final JLanguageTool trgLt,
+      final List<BitextRule> bRules) throws IOException {       
+    final List<RuleMatch> ruleMatches = srcLt.check(src);    
+    for (BitextRule bRule : bRules) {
+      RuleMatch[] curMatch = bitextMatch(bRule, src, trg, srcLt, trgLt);
+      if (curMatch != null) {
+        for (RuleMatch match : curMatch) {
+          ruleMatches.add(match);
         }
       }
-      int offset = 0;
-      int counter = 0;
-      for (RuleMatch rm : ruleMatches) {
-        final List<String> replacements = rm.getSuggestedReplacements();
-        if (!replacements.isEmpty()) {
-          //make sure the error hasn't been already corrected:
-          if (errors.get(counter).equals(sb.substring(rm.getFromPos() - offset, rm.getToPos() - offset))) {
-            sb.replace(rm.getFromPos() - offset,
-                rm.getToPos() - offset, replacements.get(0));
-            offset += (rm.getToPos() - rm.getFromPos())
-            - replacements.get(0).length();
-          }
-          counter++;
-        }
-      }
-      return sb.toString();
     }
-    return contents;
+    if (ruleMatches.isEmpty()) {
+      return trg;
+    }
+    return correctTextFromMatches(trg, ruleMatches);
   }
 
+  private static String correctTextFromMatches(
+      final String contents, final List<RuleMatch> matches) {
+    final StringBuilder sb = new StringBuilder(contents);
+    //build error list:
+    final List<String> errors = new ArrayList<String>();
+    for (RuleMatch rm : matches) {
+      final List<String> replacements = rm.getSuggestedReplacements();
+      if (!replacements.isEmpty()) {
+        errors.add(sb.substring(rm.getFromPos(), rm.getToPos()));
+      }
+    }
+    int offset = 0;
+    int counter = 0;
+    for (RuleMatch rm : matches) {
+      final List<String> replacements = rm.getSuggestedReplacements();
+      if (!replacements.isEmpty()) {
+        //make sure the error hasn't been already corrected:
+        if (errors.get(counter).equals(sb.substring(rm.getFromPos() - offset, rm.getToPos() - offset))) {
+          sb.replace(rm.getFromPos() - offset,
+              rm.getToPos() - offset, replacements.get(0));
+          offset += (rm.getToPos() - rm.getFromPos())
+          - replacements.get(0).length();
+        }
+        counter++;
+      }
+    }
+    return sb.toString();  
+  }
+  
   public static InputStream getInputStream(final String resourcePath)
   throws IOException {
     try {

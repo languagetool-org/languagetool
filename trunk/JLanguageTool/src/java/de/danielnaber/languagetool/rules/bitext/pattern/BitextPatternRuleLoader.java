@@ -463,10 +463,19 @@ class PatternRuleHandler extends XMLRuleHandler {
       }
       trgRule = finalizeRule();
     }  else if (qName.equals("rule")) {
+      trgRule.setMessage(message.toString());
+      if (suggestionMatches != null) {
+        for (final Match m : suggestionMatches) {
+          trgRule.addSuggestionMatch(m);
+        }
+        if (phraseElementList.size() <= 1) {
+          suggestionMatches.clear();
+        }
+      }      
       BitextPatternRule bRule = new BitextPatternRule(srcRule, trgRule);
       bRule.setCorrectBitextExamples(correctExamples);
       bRule.setIncorrectBitextExamples(incorrectExamples);
-      bRule.setSourceLang(srcLang);
+      bRule.setSourceLang(srcLang);      
       rules.add(bRule);
     } else if (qName.equals("exception")) {
       inException = false;
@@ -762,15 +771,7 @@ class PatternRuleHandler extends XMLRuleHandler {
       rule.setSubId(Integer.toString(subId));
     else
       rule.setSubId("1");
-    caseSensitive = false;
-    if (suggestionMatches != null) {
-      for (final Match m : suggestionMatches) {
-        rule.addSuggestionMatch(m);
-      }
-      if (phraseElementList.size() <= 1) {
-        suggestionMatches.clear();
-      }
-    }
+    caseSensitive = false;    
     if (defaultOff) {
       rule.setDefaultOff();
     }
