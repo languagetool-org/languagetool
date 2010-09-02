@@ -13,8 +13,6 @@ import junit.framework.TestCase;
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.rules.bitext.BitextRule;
-import de.danielnaber.languagetool.rules.bitext.pattern.BitextPatternRule;
-import de.danielnaber.languagetool.rules.bitext.pattern.FalseFriendsAsBitextLoader;
 
 public class ToolsTest extends TestCase {
 
