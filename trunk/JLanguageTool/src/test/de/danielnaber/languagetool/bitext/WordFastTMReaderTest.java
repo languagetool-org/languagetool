@@ -40,7 +40,7 @@ public class WordFastTMReaderTest extends TestCase {
     w.println("20100727~051350\tAHLJat\t2\tEN-US\tWhy not?&tA;\tPL-PL\tDlaczego nie?&tA; ");
     w.close();  
 
-    WordFastTMReader reader = new WordFastTMReader(input.getAbsolutePath());
+    WordFastTMReader reader = new WordFastTMReader(input.getAbsolutePath(), "UTF-8");
     int i = 1;
     for (StringPair srcAndTrg : reader) {
       assertTrue(srcAndTrg.getSource() != null);

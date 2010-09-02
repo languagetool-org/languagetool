@@ -216,15 +216,8 @@ public final class Tools {
       final boolean apiFormat, final XmlPrintMode xmlMode) throws IOException {
     final long startTime = System.currentTimeMillis();
     int contextSize = DEFAULT_CONTEXT_SIZE;
-    final List<RuleMatch> ruleMatches = srcLt.check(src);    
-    for (BitextRule bRule : bRules) {
-      RuleMatch[] curMatch = bitextMatch(bRule, src, trg, srcLt, trgLt);
-      if (curMatch != null) {
-        for (RuleMatch match : curMatch) {
-          ruleMatches.add(match);
-        }
-      }
-    }
+    final List<RuleMatch> ruleMatches = 
+      checkBitext(src, trg, srcLt, trgLt, bRules);
     if (apiFormat) {
       final String xml = StringTools.ruleMatchesToXML(ruleMatches, trg,
           contextSize, xmlMode);
@@ -238,6 +231,34 @@ public final class Tools {
     }
     return ruleMatches.size();
   }
+   
+  /**
+  * Checks the bilingual input (bitext) and displays the output (considering the target 
+  * language) in API format or in the simple text format.
+  * 
+  * @param src   Source text.
+  * @param trg   Target text.
+  * @param srcLt Source JLanguageTool (used to analyze the text).
+  * @param trgLt Target JLanguageTool (used to analyze the text).
+  * @param bRules  Bilingual rules used in addition to target standard rules.  
+  * @return  The list of rulematches on the bitext.
+  * @throws IOException
+  * @since 1.0.1
+  */
+  public static List<RuleMatch> checkBitext(final String src, final String trg,
+      final JLanguageTool srcLt, final JLanguageTool trgLt,
+      final List<BitextRule> bRules) throws IOException {
+   final List<RuleMatch> ruleMatches = srcLt.check(src);    
+    for (BitextRule bRule : bRules) {
+      RuleMatch[] curMatch = bitextMatch(bRule, src, trg, srcLt, trgLt);
+      if (curMatch != null) {
+        for (RuleMatch match : curMatch) {
+          ruleMatches.add(match);
+        }
+      }
+    }
+   return ruleMatches;
+  }
   
   private static RuleMatch[] bitextMatch(final BitextRule rule, final String src, final String trg,
       final JLanguageTool srcLanguageTool,
@@ -246,6 +267,7 @@ public final class Tools {
     final AnalyzedSentence trgText = trgLanguageTool.getAnalyzedSentence(trg);
     return rule.match(srcText, trgText);    
   }
+
   
   /** 
    * Gets default bitext rules for a given pair of languages

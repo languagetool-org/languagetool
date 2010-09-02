@@ -20,7 +20,8 @@
 package de.danielnaber.languagetool.bitext;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.InputStreamReader;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Iterator;
 
@@ -36,9 +37,9 @@ public class TabBitextReader implements BitextReader {
   protected BufferedReader in;
   protected StringPair nextline;
 
-  public TabBitextReader(final String filename) {
+  public TabBitextReader(final String filename, final String encoding) {
     try {
-      in = new BufferedReader(new FileReader(filename));
+      in = new BufferedReader(new InputStreamReader(new FileInputStream(filename), encoding));
       nextline = Tab2StringPair(in.readLine());
     } catch(IOException e) { 
       throw new IllegalArgumentException(e); 

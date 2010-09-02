@@ -32,8 +32,8 @@ import java.util.Iterator;
  */
 public class WordFastTMReader extends TabBitextReader {
 
-  public WordFastTMReader(final String filename) throws IOException {
-    super(filename);
+  public WordFastTMReader(final String filename, final String encoding) throws IOException {
+    super(filename, encoding);
     //skip the header (first line)
     if (nextline != null) {
       nextline = Tab2StringPair(in.readLine());

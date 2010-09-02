@@ -40,7 +40,7 @@ public class TabBitextReaderTest extends TestCase {
     w.println("ab\tVery strange data indeed, much longer than input");
     w.close();  
 
-    TabBitextReader reader = new TabBitextReader(input.getAbsolutePath());
+    TabBitextReader reader = new TabBitextReader(input.getAbsolutePath(), "UTF-8");
     int i = 1;
     for (StringPair srcAndTrg : reader) {
       assertTrue(srcAndTrg.getSource() != null);
