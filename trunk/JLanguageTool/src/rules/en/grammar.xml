@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.122 2010-05-07 21:39:44 milek_pl Exp $
+$Id: grammar.xml,v 1.123 2010-09-03 10:08:21 milek_pl Exp $
 -->
 <rules lang="en" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <!-- ====================================================================== -->
@@ -577,7 +577,7 @@ $Id: grammar.xml,v 1.122 2010-05-07 21:39:44 milek_pl Exp $
       <example correction="your|yours" type="incorrect">It's not mine, it's <marker>your's</marker>.</example>
       <example type="correct">It's not mine, it's yours.</example>
     </rule>
-    <rule id="YOURS_APOSTROPHE" name="Possesive pronoun with apostrophe">
+    <rule id="YOURS_APOSTROPHE" name="Possessive pronoun with apostrophe">
       <pattern mark_from="1">
         <token postag="SENT_START" postag_regexp="yes" skip="-1"><exception scope="next">'</exception></token>
         <token postag="PRP$" postag_regexp="yes" regexp="yes">.*s</token>
@@ -1924,7 +1924,7 @@ $Id: grammar.xml,v 1.122 2010-05-07 21:39:44 milek_pl Exp $
         <example correction="presidents'|president's" type="incorrect">This is a transcript of the <marker>presidents</marker> speech.</example>
       </rule>
     </rulegroup>
-    <rulegroup id="APOSTROPHE_PLURAL" name="Possesive form instead of plural">
+    <rulegroup id="APOSTROPHE_PLURAL" name="Possessive form instead of plural">
       <rule>
         <pattern mark_from="1" mark_to="-1">
           <token><exception postag="DT|JJ.*" postag_regexp="yes"></exception></token>
