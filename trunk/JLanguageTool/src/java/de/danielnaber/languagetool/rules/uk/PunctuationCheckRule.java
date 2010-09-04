@@ -46,10 +46,10 @@ public class PunctuationCheckRule extends AbstractPunctuationCheckRule {
    * de.danielnaber.languagetool.rules.AbstractPunctuationCheckRule#isPunctsJoinOk
    * (java.lang.String)
    */
-  protected final boolean isPunctsJoinOk(final String tkns) {
+  protected final boolean isPunctsJoinOk(final String tokens) {
     return // we ignore duplicated spaces - too many errors
-    tkns.matches("([,:] | *- |,- | ) *") // internal puctuation
-        || tkns
+    tokens.matches("([,:] | *- |,- | ) *") // internal puctuation
+        || tokens
             .matches("([.!?]|!!!|\\?\\?\\?|\\?!!|!\\.\\.|\\?\\.\\.|\\.\\.\\.) *");
   }
 

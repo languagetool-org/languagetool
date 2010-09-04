@@ -95,9 +95,7 @@ public class CommaWhitespaceRule extends Rule {
         final int toPos = tokens[i - 1].getStartPos() + fixLen + prevLen;
         // TODO: add some good short comment here
         final RuleMatch ruleMatch = new RuleMatch(this, fromPos, toPos, msg);
-        if (suggestionText != null) {
-          ruleMatch.setSuggestedReplacement(suggestionText);
-        }
+        ruleMatch.setSuggestedReplacement(suggestionText);
         ruleMatches.add(ruleMatch);
       }
       prevToken = token;
@@ -110,7 +108,7 @@ public class CommaWhitespaceRule extends Rule {
 
   static boolean isNotQuoteOrHyphen(final String str) {
     if (str.length() == 1) {
-      char c = str.charAt(0);                   
+      final char c = str.charAt(0);
       if (c =='\'' || c == '-' || c == '”' 
         || c =='’' || c == '"' || c == '“'){
         return false;
@@ -118,14 +116,14 @@ public class CommaWhitespaceRule extends Rule {
     } else {
       if ("&quot".equals(str)) {
         return false;
-      } 
-      return containsNoNumber(str);              
+      }
+      return containsNoNumber(str);
     }
     return true;
   }
 
   static boolean isNumberOrDot(final String str) {
-    char c = str.charAt(0);
+    final char c = str.charAt(0);
     return (c == '.' || Character.isDigit(c)); 
   }
 
@@ -133,7 +131,7 @@ public class CommaWhitespaceRule extends Rule {
     if (str.length() == 0) {
       return false;
     }
-    char c = str.charAt(0);
+    final char c = str.charAt(0);
     return (c == '(' || c == '[' || c == '{');
   }
 
@@ -141,7 +139,7 @@ public class CommaWhitespaceRule extends Rule {
     if (str.length() == 0) {
       return false;
     }
-    char c = str.charAt(0);
+    final char c = str.charAt(0);
     return (c == ')' || c == ']' || c == '}');
   }
 

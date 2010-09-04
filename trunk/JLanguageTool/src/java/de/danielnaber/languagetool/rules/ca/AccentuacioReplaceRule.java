@@ -47,7 +47,7 @@ public class AccentuacioReplaceRule extends AbstractSimpleReplaceRule {
 	
 	private static final String FILE_NAME = "/ca/accentuacio.txt";
 	// locale used on case-conversion
-	private static Locale caLocale = new Locale("ca");
+	private static final Locale caLocale = new Locale("ca");
 
 	public final String getFileName() {
 		return FILE_NAME;

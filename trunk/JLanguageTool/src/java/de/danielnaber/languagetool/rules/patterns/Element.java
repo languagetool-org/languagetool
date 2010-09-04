@@ -117,8 +117,8 @@ public class Element {
   private String phraseName;
 
   /**
-   * This var is used to determine if calling {@link #matchStringToken()} makes
-   * sense. This method takes most time so it's best reduce the number of its
+   * This var is used to determine if calling {@link #setStringElement} makes
+   * sense. This method takes most time so it's best to reduce the number of its
    * calls.
    **/
   private boolean testString;
@@ -218,7 +218,6 @@ public class Element {
         }
       }
     }
-    return;
   }
 
   public final void setupAndGroup() {
@@ -349,7 +348,7 @@ public class Element {
    * Checks whether an exception for a previous token matches all readings of a
    * given token (in case the exception had scope == "previous").
    * 
-   * @param token
+   * @param prevToken
    *          {@link AnalyzedTokenReadings} to check matching against.
    * @return true if any of the exceptions matches.
    */
@@ -411,10 +410,7 @@ public class Element {
 
   public final void setStringElement(final String token) {
     this.stringToken = token;
-    testString = true;
-    if (StringTools.isEmpty(stringToken)) {
-      testString = false;
-    }
+    testString = !StringTools.isEmpty(stringToken);
     if (testString && stringRegExp) {
       regToken = stringToken;
       if (!caseSensitive) {
@@ -525,7 +521,7 @@ public class Element {
         return true;
       }
     }
-    boolean match = false;
+    boolean match;
     if (posRegExp) {
       if (mPos == null) {
         mPos = pPos.matcher(token.getPOSTag());
@@ -548,7 +544,7 @@ public class Element {
    * Tests whether the string token element matches a given token.
    * 
    * @param token
-   *          {@link #AnalyzedToken} to match against.
+   *          {@link AnalyzedToken} to match against.
    * @return True if matches.
    */
   private boolean isStringTokenMatched(final AnalyzedToken token) {
@@ -651,9 +647,9 @@ public class Element {
    * Element is supposed to refer to some other token).
    * 
    * @param token
-   *          the token specified as {@link #AnalyzedTokenReadings}
+   *          the token specified as {@link AnalyzedTokenReadings}
    * @param synth
-   *          the language synthesizer ({@link #Syntesizer})
+   *          the language synthesizer ({@link Synthesizer})
    * 
    */
   public final void compile(final AnalyzedTokenReadings token,

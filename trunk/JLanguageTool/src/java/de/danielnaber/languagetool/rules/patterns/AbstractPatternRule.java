@@ -41,9 +41,9 @@ import de.danielnaber.languagetool.rules.RuleMatch;
 
 public abstract class AbstractPatternRule extends Rule {
 
-  private String id;
+  private final String id;
 
-  private String description;
+  private final String description;
 
   protected final List<Element> patternElements;
 
@@ -59,7 +59,7 @@ public abstract class AbstractPatternRule extends Rule {
 
   protected final boolean testUnification;
 
-  private boolean getUnified;
+  private final boolean getUnified;
 
   private boolean groupsOrUnification;
 

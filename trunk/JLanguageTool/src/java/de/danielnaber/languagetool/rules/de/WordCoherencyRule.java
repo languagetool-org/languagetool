@@ -51,10 +51,10 @@ public class WordCoherencyRule extends GermanRule {
   private static final String FILE_NAME = "/de/coherency.txt";
   private static final String FILE_ENCODING = "utf-8";
   
-  private Map<String, String> relevantWords;        // e.g. "aufwendig -> aufwändig"
+  private final Map<String, String> relevantWords;        // e.g. "aufwendig -> aufwändig"
   private Map<String, RuleMatch> shouldNotAppearWord = new HashMap<String, RuleMatch>();  // e.g. aufwändig -> RuleMatch of aufwendig
 
-  private GermanLemmatizer germanLemmatizer;
+  private final GermanLemmatizer germanLemmatizer;
   
   public WordCoherencyRule(ResourceBundle messages) throws IOException {
     if (messages != null)
@@ -72,56 +72,55 @@ public class WordCoherencyRule extends GermanRule {
   }
 
   public RuleMatch[] match(AnalyzedSentence text) {
-    List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
-    AnalyzedTokenReadings[] tokens = text.getTokens();
+    final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
+    final AnalyzedTokenReadings[] tokens = text.getTokens();
     int pos = 0;
-    for (int i = 0; i < tokens.length; i++) {
-    	//TODO: definitely should be changed
-    	//if the general lemmatizer is working
-    	//defaulting to the first element because the
-    	//general German lemmatizer is not (yet) there
-      String token = tokens[i].getToken();
-      if (tokens[i].isWhitespace()) {
+    for (AnalyzedTokenReadings tmpToken : tokens) {
+      //TODO: definitely should be changed
+      //if the general lemmatizer is working
+      //defaulting to the first element because the
+      //general German lemmatizer is not (yet) there
+      String token = tmpToken.getToken();
+      if (tmpToken.isWhitespace()) {
         // ignore
       } else {
-        String origToken = token;
-        List<AnalyzedToken> readings = tokens[i].getReadings();
+        final String origToken = token;
+        final List<AnalyzedToken> readings = tmpToken.getReadings();
         // TODO: in theory we need to care about the other readings, too:
         if (readings != null && readings.size() > 0) {
-          String baseform = readings.get(0).getLemma();
+          final String baseform = readings.get(0).getLemma();
           if (baseform != null) {
             token = baseform;
           } else {
             // not all words are known by the Tagger (esp. compounds), so use the
             // file lookup:
-            String manualLookup = germanLemmatizer.getBaseform(origToken);
+            final String manualLookup = germanLemmatizer.getBaseform(origToken);
             if (manualLookup != null)
               token = manualLookup;
           }
         }
         if (shouldNotAppearWord.containsKey(token)) {
-          RuleMatch otherMatch = shouldNotAppearWord.get(token);
-          String otherSpelling = otherMatch.getMessage();
-          String msg = "'" +token+ "' und '" +otherSpelling+
-            "' sollten nicht gleichzeitig benutzt werden";
-          RuleMatch ruleMatch = new RuleMatch(this, pos, pos+origToken.length(), msg);
+          final RuleMatch otherMatch = shouldNotAppearWord.get(token);
+          final String otherSpelling = otherMatch.getMessage();
+          final String msg = "'" + token + "' und '" + otherSpelling +
+                  "' sollten nicht gleichzeitig benutzt werden";
+          final RuleMatch ruleMatch = new RuleMatch(this, pos, pos + origToken.length(), msg);
           ruleMatch.setSuggestedReplacement(otherSpelling);
           ruleMatches.add(ruleMatch);
         } else if (relevantWords.containsKey(token)) {
-          String shouldNotAppear = relevantWords.get(token);
+          final String shouldNotAppear = relevantWords.get(token);
           // only used to display this spelling variation if the other one really occurs:
-          String msg = token;
-          RuleMatch potentialRuleMatch = new RuleMatch(this, pos, pos+origToken.length(), msg);
+          final RuleMatch potentialRuleMatch = new RuleMatch(this, pos, pos + origToken.length(), token);
           shouldNotAppearWord.put(shouldNotAppear, potentialRuleMatch);
         }
       }
-      pos += tokens[i].getToken().length();
+      pos += tmpToken.getToken().length();
     }
     return toRuleMatchArray(ruleMatches);
   }
 
   private Map<String, String> loadWords(InputStream file) throws IOException {
-    Map<String, String> map = new HashMap<String, String>();
+    final Map<String, String> map = new HashMap<String, String>();
     InputStreamReader isr = null;
     BufferedReader br = null;
     try {
@@ -136,7 +135,7 @@ public class WordCoherencyRule extends GermanRule {
         if (line.charAt(0) == '#') {      // ignore comments
           continue;
         }
-        String[] parts = line.split(";");
+        final String[] parts = line.split(";");
         if (parts.length != 2) {
           throw new IOException("Format error in file " + JLanguageTool.getDataBroker().getFromRulesDirAsUrl(FILE_NAME) + ", line: " + line);
         }

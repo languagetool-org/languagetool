@@ -20,6 +20,7 @@ package de.danielnaber.languagetool.rules.patterns;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
@@ -179,8 +180,7 @@ public class PatternRule extends AbstractPatternRule {
   }
 
   /**
-   * Return the pattern as an XML string. FIXME: this is not complete,
-   * information might be lost!
+   * Return the pattern as an XML string. FIXME: this is not complete, information might be lost!
    * 
    * @since 0.9.3
    */
@@ -211,7 +211,9 @@ public class PatternRule extends AbstractPatternRule {
         sb.append(" regexp=\"yes\"");
       }
       if (patternElement.getPOStag() != null) {
-        sb.append(" postag=\"" + patternElement.getPOStag() + "\"");
+        sb.append(" postag=\"");
+        sb.append(patternElement.getPOStag());
+        sb.append("\"");
       }
       if (patternElement.getPOSNegation()) {
         sb.append(" negate_pos=\"yes\"");
@@ -259,7 +261,7 @@ public class PatternRule extends AbstractPatternRule {
     final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
     final int[] tokenPositions = new int[tokens.length + 1];
-    int patternSize = patternElements.size();
+    final int patternSize = patternElements.size();
     final int limit = Math.max(0, tokens.length - patternSize + 1);
     Element elem = null;
     int i = 0;
@@ -364,9 +366,8 @@ public class PatternRule extends AbstractPatternRule {
     + tokens[lastMatchToken + correctedEndPos].getToken().length();
     if (fromPos < toPos) { // this can happen with some skip="-1" when the last
       // token is not matched
-      final RuleMatch ruleMatch = new RuleMatch(this, fromPos, toPos,
+      return new RuleMatch(this, fromPos, toPos,
           errMessage, shortMessage, startsWithUppercase);
-      return ruleMatch;
     } // failed to create any rule match...
     return null;
   }
@@ -461,11 +462,8 @@ public class PatternRule extends AbstractPatternRule {
     } else {
       for (int c = 0; c < input[r].length; c++) {
         output[r] = input[r][c];
-        String[] sList;
-        sList = combineLists(input, output, r + 1, lang);
-        for (final String s : sList) {
-          outputList.add(s);
-        }
+        final String[] sList = combineLists(input, output, r + 1, lang);
+        outputList.addAll(Arrays.asList(sList));
       }
     }
     return outputList.toArray(new String[outputList.size()]);
@@ -496,14 +494,14 @@ public class PatternRule extends AbstractPatternRule {
     if (suggestionMatches.get(start) != null) {
       final int len = phraseLen(index);
       if (len == 1) {
-        int skippedTokens = nextTokenPos - tokenIndex;
+        final int skippedTokens = nextTokenPos - tokenIndex;
         suggestionMatches.get(start).setToken(tokens, tokenIndex - 1, skippedTokens);
         suggestionMatches.get(start).setSynthesizer(language.getSynthesizer());
         finalMatch = suggestionMatches.get(start).toFinalString();
       } else {
         final List<String[]> matchList = new ArrayList<String[]>();
         for (int i = 0; i < len; i++) {
-          int skippedTokens = nextTokenPos - (tokenIndex + i);
+          final int skippedTokens = nextTokenPos - (tokenIndex + i);
           suggestionMatches.get(start).setToken(tokens, tokenIndex - 1 + i, skippedTokens);          
           suggestionMatches.get(start)
           .setSynthesizer(language.getSynthesizer());
@@ -520,7 +518,7 @@ public class PatternRule extends AbstractPatternRule {
    * Replace back references generated with &lt;match&gt; and \\1 in message
    * using Match class, and take care of skipping. *
    * 
-   * @param toks
+   * @param tokenReadings
    *          Array of AnalyzedTokenReadings that were matched against the
    *          pattern
    * @param positions
@@ -533,7 +531,7 @@ public class PatternRule extends AbstractPatternRule {
    * @throws IOException
    * 
    **/
-  private String formatMatches(final AnalyzedTokenReadings[] toks,
+  private String formatMatches(final AnalyzedTokenReadings[] tokenReadings,
       final int[] positions, final int firstMatchTok, final String errorMsg)
   throws IOException {
     String errorMessage = errorMsg;
@@ -570,7 +568,7 @@ public class PatternRule extends AbstractPatternRule {
             numbersToMatches[j] = matchCounter;
             if (suggestionMatches.get(matchCounter) != null) {
               final String[] matches = concatMatches(matchCounter, j,
-                  firstMatchTok + repTokenPos, toks, nextTokenPos);
+                  firstMatchTok + repTokenPos, tokenReadings, nextTokenPos);
               final String leftSide = errorMessage.substring(0, ind);
               final String rightSide = errorMessage.substring(ind + numLen);
               if (matches.length == 1) {
@@ -583,8 +581,7 @@ public class PatternRule extends AbstractPatternRule {
               newWay = true;
             }
           } else {
-            // FIXME: is this correct? this is how we deal with multiple
-            // matches
+            // FIXME: is this correct? this is how we deal with multiple matches
             suggestionMatches.add(suggestionMatches.get(numbersToMatches[j]));
           }
         }
@@ -592,7 +589,7 @@ public class PatternRule extends AbstractPatternRule {
         if (!newWay) {
           // in case <match> elements weren't used (yet)
           errorMessage = errorMessage.replace("\\" + (j + 1),
-              toks[firstMatchTok + repTokenPos - 1].getToken());
+              tokenReadings[firstMatchTok + repTokenPos - 1].getToken());
         }
       }
       errMarker = errorMessage.indexOf('\\');

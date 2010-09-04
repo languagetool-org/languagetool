@@ -53,7 +53,7 @@ import de.danielnaber.languagetool.tools.StringTools;
  * Note: Merge this into {@link AbstractSimpleReplaceRule} eventually and simply extend from AbstractSimpleReplaceRule.<br/>
  * 
  * @author Ionuț Păduraru
- * @version $Id: SimpleReplaceRule.java,v 1.7 2010-07-21 21:20:35 dnaber Exp $
+ * @version $Id: SimpleReplaceRule.java,v 1.8 2010-09-04 18:02:54 dnaber Exp $
  * 
  */
 public class SimpleReplaceRule extends Rule {
@@ -161,7 +161,7 @@ public class SimpleReplaceRule extends Rule {
 				final String[] wrongForms = parts[0].split("\\|"); // multiple incorect forms
 				for (String wrongForm : wrongForms) {
 					int wordCount = 0;
-					List<String> tokens = getWordTokenizer().tokenize(wrongForm);
+					final List<String> tokens = getWordTokenizer().tokenize(wrongForm);
 					for (String token : tokens) {
 						if (!StringTools.isWhitespace(token)) {
 							wordCount++;
@@ -188,7 +188,7 @@ public class SimpleReplaceRule extends Rule {
 
 	private void addToQueue(AnalyzedTokenReadings token,
 			Queue<AnalyzedTokenReadings> prevTokens) {
-		boolean inserted = prevTokens.offer(token);
+		final boolean inserted = prevTokens.offer(token);
 		if (!inserted) {
 			prevTokens.poll();
 			prevTokens.offer(token);
@@ -200,26 +200,26 @@ public class SimpleReplaceRule extends Rule {
 		final AnalyzedTokenReadings[] tokens = text
 				.getTokensWithoutWhitespace();
 
-		Queue<AnalyzedTokenReadings> prevTokens = new ArrayBlockingQueue<AnalyzedTokenReadings>(wrongWords.size());
+		final Queue<AnalyzedTokenReadings> prevTokens = new ArrayBlockingQueue<AnalyzedTokenReadings>(wrongWords.size());
 
 		for (int i = 1; i < tokens.length; i++) {
 			addToQueue(tokens[i], prevTokens);
 			final StringBuilder sb = new StringBuilder();
-			ArrayList<String> variants = new ArrayList<String>();
-			List<AnalyzedTokenReadings> prevTokensList = Arrays.asList(prevTokens.toArray(new AnalyzedTokenReadings[] {}));
+			final ArrayList<String> variants = new ArrayList<String>();
+			final List<AnalyzedTokenReadings> prevTokensList = Arrays.asList(prevTokens.toArray(new AnalyzedTokenReadings[] {}));
 			for (int j = prevTokensList.size() - 1; j >= 0; j--) {
 				if (j != prevTokensList.size() - 1 && prevTokensList.get(j + 1).isWhitespaceBefore())
 					sb.insert(0, " ");
 				sb.insert(0, prevTokensList.get(j).getToken());
 				variants.add(0, sb.toString());
 			}
-			int len = variants.size(); // prevTokensList and variants have now the same length  
+			final int len = variants.size(); // prevTokensList and variants have now the same length
 			for (int j = 0; j < len; j++) { // longest words first
-				String crt = variants.get(j);
-				int crtWordCount = len - j;
+				final String crt = variants.get(j);
+				final int crtWordCount = len - j;
 				final String crtMatch = isCaseSensitive() ? wrongWords.get(crtWordCount - 1).get(crt) : wrongWords.get(crtWordCount- 1).get(crt.toLowerCase(getLocale()));
 				if (crtMatch != null) { 
-					List<String> replacements = Arrays.asList(crtMatch.split("\\|"));
+					final List<String> replacements = Arrays.asList(crtMatch.split("\\|"));
 					String msg = crt + getSuggestion();
 					for (int k = 0; k < replacements.size(); k++) {
 						if (k > 0) {

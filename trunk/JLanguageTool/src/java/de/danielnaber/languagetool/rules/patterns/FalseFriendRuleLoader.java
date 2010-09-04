@@ -55,7 +55,6 @@ public class FalseFriendRuleLoader extends DefaultHandler {
   public final List<PatternRule> getRules(final InputStream file,
       final Language textLanguage, final Language motherTongue)
       throws ParserConfigurationException, SAXException, IOException {
-    List<PatternRule> rules;
     final FalseFriendRuleHandler handler = new FalseFriendRuleHandler(
         textLanguage, motherTongue);
     final SAXParserFactory factory = SAXParserFactory.newInstance();
@@ -65,16 +64,16 @@ public class FalseFriendRuleLoader extends DefaultHandler {
             "http://apache.org/xml/features/nonvalidating/load-external-dtd",
             false);
     saxParser.parse(file, handler);
-    rules = handler.getRules();
+    final List<PatternRule> rules = handler.getRules();
     // Add suggestions to each rule:
     final ResourceBundle messages = ResourceBundle.getBundle(
         "de.danielnaber.languagetool.MessagesBundle", motherTongue.getLocale());
     for (final PatternRule rule : rules) {
-      final List<String> sugg = handler.getSuggestionMap().get(rule.getId());
-      if (sugg != null) {
+      final List<String> suggestionMap = handler.getSuggestionMap().get(rule.getId());
+      if (suggestionMap != null) {
         final MessageFormat msgFormat = new MessageFormat(messages
             .getString("false_friend_suggestion"));
-        final Object[] msg = new Object[] { formatSuggestions(sugg) };
+        final Object[] msg = new Object[] { formatSuggestions(suggestionMap) };
         rule.setMessage(rule.getMessage() + " " + msgFormat.format(msg));
       }
     }
@@ -120,10 +119,10 @@ public class FalseFriendRuleLoader extends DefaultHandler {
 
 class FalseFriendRuleHandler extends XMLRuleHandler {
 
-  private ResourceBundle messages;
-  private MessageFormat formatter;
+  private final ResourceBundle messages;
+  private final MessageFormat formatter;
 
-  private Language textLanguage;
+  private final Language textLanguage;
   private final Language motherTongue;
 
   private boolean caseSensitive;
@@ -158,9 +157,9 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
   private String ruleGroupId;
   private List<StringBuilder> translations = new ArrayList<StringBuilder>();
   private StringBuilder translation = new StringBuilder();
-  private List<String> suggestions = new ArrayList<String>();
+  private final List<String> suggestions = new ArrayList<String>();
   // rule ID -> list of translations:
-  private Map<String, List<String>> suggestionMap = new HashMap<String, List<String>>();
+  private final Map<String, List<String>> suggestionMap = new HashMap<String, List<String>>();
 
   private boolean inTranslation;
 

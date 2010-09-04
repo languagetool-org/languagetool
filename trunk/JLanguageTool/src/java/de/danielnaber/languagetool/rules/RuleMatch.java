@@ -193,21 +193,21 @@ public class RuleMatch implements Comparable<RuleMatch> {
   /**
    * @see #getSuggestedReplacements()
    */
-  public void setSuggestedReplacement(String repl) {
-    if (repl == null)
+  public void setSuggestedReplacement(final String replacement) {
+    if (replacement == null)
       throw new NullPointerException("replacement might be empty but not null");
     final List<String> fixes = new ArrayList<String>();
-    fixes.add(repl);
+    fixes.add(replacement);
     setSuggestedReplacements(fixes);
   }
 
   /**
    * @see #getSuggestedReplacements()
    */
-  public void setSuggestedReplacements(List<String> repl) {
-    if (repl == null)
+  public void setSuggestedReplacements(final List<String> replacement) {
+    if (replacement == null)
       throw new NullPointerException("replacement might be empty but not null");
-    this.suggestedReplacements = repl;
+    this.suggestedReplacements = replacement;
   }
 
   /**
@@ -226,13 +226,12 @@ public class RuleMatch implements Comparable<RuleMatch> {
     return rule.getId() + ":" + fromPos + "-" + toPos + ":" + message;
   }
 
-  public int compareTo(RuleMatch other) {
+  public int compareTo(final RuleMatch other) {
     if (other == null)
       throw new ClassCastException();
-    final RuleMatch otherRule = other;
-    if (getFromPos() < otherRule.getFromPos())
+    if (getFromPos() < other.getFromPos())
       return -1;
-    if (getFromPos() > otherRule.getFromPos())
+    if (getFromPos() > other.getFromPos())
       return 1;
     return 0;
   }

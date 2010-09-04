@@ -49,8 +49,8 @@ public class AvsAnRule extends EnglishRule {
   private static final String FILENAME_A = "/en/det_a.txt";
   private static final String FILENAME_AN = "/en/det_an.txt";
 
-  private TreeSet<String> requiresA;
-  private TreeSet<String> requiresAn;
+  private final TreeSet<String> requiresA;
+  private final TreeSet<String> requiresAn;
   
   public AvsAnRule(final ResourceBundle messages) throws IOException {
     if (messages != null) {
@@ -120,19 +120,19 @@ public class AvsAnRule extends EnglishRule {
         //System.err.println(prevToken + " " +token + ", a="+doesRequireA + ", an="+doesRequireAn);
         String msg = null;        
         if (prevToken.equalsIgnoreCase("a") && doesRequireAn) {
-          String repl = "an";
+          String replacement = "an";
           if (prevToken.equals("A")) {
-            repl = "An";
+            replacement = "An";
           }
-          msg = "Use <suggestion>" +repl+ "</suggestion> instead of '" +prevToken+ "' if the following "+
+          msg = "Use <suggestion>" +replacement+ "</suggestion> instead of '" +prevToken+ "' if the following "+
           "word starts with a vowel sound, e.g. 'an article', "
           + "'an hour'";
         } else if (prevToken.equalsIgnoreCase("an") && doesRequireA) {
-          String repl = "a";
+          String replacement = "a";
           if (prevToken.equals("An")) {
-            repl = "A";
+            replacement = "A";
           }
-          msg = "Use <suggestion>" +repl+ "</suggestion> instead of '" +prevToken+ "' if the following "+
+          msg = "Use <suggestion>" +replacement+ "</suggestion> instead of '" +prevToken+ "' if the following "+
           "word doesn't start with a vowel sound, e.g. 'a sentence', "
           + "'a university'";
         }

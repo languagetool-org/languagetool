@@ -103,12 +103,6 @@ public abstract class Rule {
   }
 
   /**
-   * TODO: Return the number of false positives to be expected.
-   * 
-   * public int getFalsePositives() { return -1; }
-   */
-
-  /**
    * Set the examples that are correct and thus do not trigger the rule.
    */
   public final void setCorrectExamples(final List<String> correctExamples) {

@@ -79,7 +79,7 @@ public class DoublePunctuationRule extends Rule {
         final int fromPos = Math.max(0, startPos);
         final RuleMatch ruleMatch = new RuleMatch(this, fromPos, startPos + 1,
             msg, messages.getString("double_commas_short"));
-//TODO: collides with CommaWhitespaceRule:
+        //TODO: collides with CommaWhitespaceRule:
         ruleMatch.setSuggestedReplacement(",");
         ruleMatches.add(ruleMatch);
         commaCount = 0;

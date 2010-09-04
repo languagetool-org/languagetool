@@ -56,7 +56,7 @@ import de.danielnaber.languagetool.tools.StringTools;
 public class ElwithFemRule extends SpanishRule {
 
   private static final String FILENAME_EL = "/es/el.txt";
-  private TreeSet<String> requiresEl;
+  private final TreeSet<String> requiresEl;
   
   public ElwithFemRule(final ResourceBundle messages) throws IOException {
     if (messages != null) {
@@ -100,34 +100,34 @@ public class ElwithFemRule extends SpanishRule {
 	}
 
         String msg = null;        
-        String repl = null;
+        String replacement = null;
         if (prevToken.equalsIgnoreCase("la") && doesRequireEl)
         {
-          repl = "el";
-          if (prevToken.equals("La")) { repl = "El"; }
+          replacement = "el";
+          if (prevToken.equals("La")) { replacement = "El"; }
         }
         else if (prevToken.equalsIgnoreCase("una") && doesRequireEl)
         {
-          repl = "un";
-          if (prevToken.equals("Una")) { repl = "Un"; }
+          replacement = "un";
+          if (prevToken.equals("Una")) { replacement = "Un"; }
         }
         else if (prevToken.equalsIgnoreCase("alguna") && doesRequireEl)
         {
-          repl = "alg\u00fan";
-          if (prevToken.equals("Alguna")) { repl = "Alg\u00fan"; }
+          replacement = "alg\u00fan";
+          if (prevToken.equals("Alguna")) { replacement = "Alg\u00fan"; }
         }
         else if (prevToken.equalsIgnoreCase("ninguna") && doesRequireEl)
         {
-          repl = "ning\u00fan";
-          if (prevToken.equals("Ninguna")) { repl = "Ning\u00fan"; }
+          replacement = "ning\u00fan";
+          if (prevToken.equals("Ninguna")) { replacement = "Ning\u00fan"; }
         }
 
-        msg = "Use <suggestion>" +repl+ "</suggestion> en lugar de '" +prevToken+ "' si la siguiente "+
+        msg = "Use <suggestion>" +replacement+ "</suggestion> en lugar de '" +prevToken+ "' si la siguiente "+
           "palabra comienza por 'a' o 'ha' t\u00f3nicas, por ejemplo 'el hampa', "
           + "'un agua'";
 
 
-        if (repl != null) {         
+        if (replacement != null) {
           final RuleMatch ruleMatch = new RuleMatch(this, prevPos, prevPos+prevToken.length(), msg, "Art\u00edculo incorrecto");
           ruleMatches.add(ruleMatch);
         }

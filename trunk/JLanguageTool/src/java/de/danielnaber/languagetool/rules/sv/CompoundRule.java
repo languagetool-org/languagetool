@@ -52,9 +52,9 @@ public class CompoundRule extends SwedishRule {
 
   private final static int MAX_TERMS = 5;
 
-  private Set<String> incorrectCompounds = new HashSet<String>();
-  private Set<String> noDashSuggestion = new HashSet<String>();
-  private Set<String> onlyDashSuggestion = new HashSet<String>();
+  private final Set<String> incorrectCompounds = new HashSet<String>();
+  private final Set<String> noDashSuggestion = new HashSet<String>();
+  private final Set<String> onlyDashSuggestion = new HashSet<String>();
 
   public CompoundRule(final ResourceBundle messages) throws IOException {
     if (messages != null)
@@ -71,11 +71,11 @@ public class CompoundRule extends SwedishRule {
   }
 
   public RuleMatch[] match(final AnalyzedSentence text) {
-    List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
-    AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
+    final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
+    final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
 
     RuleMatch prevRuleMatch = null;
-    Queue<AnalyzedTokenReadings> prevTokens = new ArrayBlockingQueue<AnalyzedTokenReadings>(MAX_TERMS);
+    final Queue<AnalyzedTokenReadings> prevTokens = new ArrayBlockingQueue<AnalyzedTokenReadings>(MAX_TERMS);
     for (int i = 0; i < tokens.length + MAX_TERMS-1; i++) {
       AnalyzedTokenReadings token = null;
       // we need to extend the token list so we find matches at the end of the original list:
@@ -88,36 +88,36 @@ public class CompoundRule extends SwedishRule {
         continue;
       }
 
-      StringBuilder sb = new StringBuilder();
+      final StringBuilder sb = new StringBuilder();
       int j = 0;
       AnalyzedTokenReadings firstMatchToken = null;
-      List<String> stringsToCheck = new ArrayList<String>();
-      List<String> origStringsToCheck = new ArrayList<String>();    // original upper/lowercase spelling
-      Map<String, AnalyzedTokenReadings> stringToToken = new HashMap<String, AnalyzedTokenReadings>();
+      final List<String> stringsToCheck = new ArrayList<String>();
+      final List<String> origStringsToCheck = new ArrayList<String>();    // original upper/lowercase spelling
+      final Map<String, AnalyzedTokenReadings> stringToToken = new HashMap<String, AnalyzedTokenReadings>();
       for (AnalyzedTokenReadings atr : prevTokens) {
         if (j == 0)
           firstMatchToken = atr;
         sb.append(" ");
         sb.append(atr.getToken());
         if (j >= 1) {
-          String stringtoCheck = normalize(sb.toString());
-          stringsToCheck.add(stringtoCheck);
+          final String stringToCheck = normalize(sb.toString());
+          stringsToCheck.add(stringToCheck);
           origStringsToCheck.add(sb.toString().trim());
-          if (!stringToToken.containsKey(stringtoCheck))
-            stringToToken.put(stringtoCheck, atr);
+          if (!stringToToken.containsKey(stringToCheck))
+            stringToToken.put(stringToCheck, atr);
         }
         j++;
       }
       // iterate backwards over all potentially incorrect strings to make
       // sure we match longer strings first:
       for (int k = stringsToCheck.size()-1; k >= 0; k--) {
-        String stringToCheck = stringsToCheck.get(k);
-        String origStringToCheck = origStringsToCheck.get(k);
+        final String stringToCheck = stringsToCheck.get(k);
+        final String origStringToCheck = origStringsToCheck.get(k);
         //System.err.println("##"+stringtoCheck+"#");
         if (incorrectCompounds.contains(stringToCheck)) {
-          AnalyzedTokenReadings atr = stringToToken.get(stringToCheck);
+          final AnalyzedTokenReadings atr = stringToToken.get(stringToCheck);
           String msg = null;
-          List<String> repl = new ArrayList<String>();
+          final List<String> repl = new ArrayList<String>();
           if (!noDashSuggestion.contains(stringToCheck)) {
             repl.add(origStringToCheck.replace(' ', '-'));
             msg = "Dessa ord skrivs samman med bindesträck.";
@@ -127,7 +127,7 @@ public class CompoundRule extends SwedishRule {
             repl.add(mergeCompound(origStringToCheck));
             msg = "Dessa ord skrivs samman.";
           }
-          String[] parts = stringToCheck.split(" ");
+          final String[] parts = stringToCheck.split(" ");
           if (parts.length > 0) {
             repl.clear();
             repl.add(origStringToCheck.replace(' ', '-'));
@@ -139,7 +139,7 @@ public class CompoundRule extends SwedishRule {
             repl.add(origStringToCheck.replace(' ', '-'));
             repl.add(mergeCompound(origStringToCheck));
           }
-          RuleMatch ruleMatch = new RuleMatch(this, firstMatchToken.getStartPos(), 
+          final RuleMatch ruleMatch = new RuleMatch(this, firstMatchToken.getStartPos(),
               atr.getStartPos() + atr.getToken().length(), msg);
           // avoid duplicate matches:
           if (prevRuleMatch != null && prevRuleMatch.getFromPos() == ruleMatch.getFromPos()) {
@@ -173,9 +173,9 @@ public class CompoundRule extends SwedishRule {
   }
 
   private boolean hasAllUppercaseParts(String str) {
-    String[] parts = str.split(" ");
-    for (int i = 0; i < parts.length; i++) {
-      if (StringTools.isAllUppercase(parts[i])) {
+    final String[] parts = str.split(" ");
+    for (String part : parts) {
+      if (StringTools.isAllUppercase(part)) {
         return true;
       }
     }
@@ -183,8 +183,8 @@ public class CompoundRule extends SwedishRule {
   }
 
   private String mergeCompound(String str) {
-    String[] stringParts = str.split(" ");
-    StringBuilder sb = new StringBuilder();
+    final String[] stringParts = str.split(" ");
+    final StringBuilder sb = new StringBuilder();
     for (int k = 0; k < stringParts.length; k++) {
       if (k == 0)
         sb.append(stringParts[k]);
@@ -195,7 +195,7 @@ public class CompoundRule extends SwedishRule {
   }
 
   private void addToQueue(AnalyzedTokenReadings token, Queue<AnalyzedTokenReadings> prevTokens) {
-    boolean inserted = prevTokens.offer(token);
+    final boolean inserted = prevTokens.offer(token);
     if (!inserted) {
       prevTokens.poll();
       prevTokens.offer(token);
@@ -219,7 +219,7 @@ public class CompoundRule extends SwedishRule {
         }
         // the set contains the incorrect spellings, i.e. the ones without hyphen
         line = line.replace('-', ' ');
-        String[] parts = line.split(" ");
+        final String[] parts = line.split(" ");
         if (parts.length > MAX_TERMS)
           throw new IOException("För många ord sammansatta: " + line + ", max antal tillåtna ord: " + MAX_TERMS);
         if (parts.length == 1)

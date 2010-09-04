@@ -48,12 +48,12 @@ public class DashRule extends GermanRule {
   }
 
   public RuleMatch[] match(final AnalyzedSentence text) {
-    List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
-    AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
+    final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
+    final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
     int pos = 0;
     String prevToken = null;
     for (int i = 0; i < tokens.length; i++) {
-      String token = tokens[i].getToken();
+      final String token = tokens[i].getToken();
       if (tokens[i].isWhitespace()) {
         // ignore
         continue;
@@ -61,11 +61,11 @@ public class DashRule extends GermanRule {
       if (prevToken != null && !prevToken.equals("-") && prevToken.indexOf("--") == -1 
           && prevToken.indexOf("–-") == -1    // first char is some special kind of dash, found in Wikipedia
           && prevToken.endsWith("-")) {
-        char firstChar = token.charAt(0);
+        final char firstChar = token.charAt(0);
         if (Character.isUpperCase(firstChar)) {
-          String msg = "Möglicherweise fehlt ein 'und' oder es wurde nach dem Wort " +
+          final String msg = "Möglicherweise fehlt ein 'und' oder es wurde nach dem Wort " +
           "ein überflüssiges Leerzeichen eingefügt.";
-          RuleMatch ruleMatch = new RuleMatch(this, tokens[i-1].getStartPos(),
+          final RuleMatch ruleMatch = new RuleMatch(this, tokens[i-1].getStartPos(),
               tokens[i-1].getStartPos()+prevToken.length()+1, msg);
           ruleMatch.setSuggestedReplacement(tokens[i-1].getToken());
           ruleMatches.add(ruleMatch);

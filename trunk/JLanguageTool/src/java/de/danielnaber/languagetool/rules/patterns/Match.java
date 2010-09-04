@@ -20,6 +20,7 @@ package de.danielnaber.languagetool.rules.patterns;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.TreeSet;
 import java.util.regex.Pattern;
@@ -56,7 +57,7 @@ public class Match {
         return NONE;
       }
     }
-  };
+  }
 
   public enum IncludeRange {
     NONE, FOLLOWING, ALL;
@@ -75,10 +76,8 @@ public class Match {
         return NONE;
       }
     }
-  };
+  }
 
-  
-  
   private final String posTag;
   private boolean postagRegexp;
   private final String regexReplace;
@@ -162,7 +161,7 @@ public class Match {
   public final void setToken(final AnalyzedTokenReadings[] tokens, final int index, final int next) {
     setToken(tokens[index]);
     if (next > 1 && includeSkipped != IncludeRange.NONE) {
-      StringBuilder sb = new StringBuilder();
+      final StringBuilder sb = new StringBuilder();
       if (includeSkipped == IncludeRange.FOLLOWING) {
         formattedToken = null;
       }
@@ -219,7 +218,7 @@ public class Match {
           posTag, lemmaString), 0);
       staticLemma = true;
       postagRegexp = true;
-      if (postagRegexp && posTag != null) {
+      if (posTag != null) {
         pPosRegexMatch = Pattern.compile(posTag);
       }
     }
@@ -285,9 +284,7 @@ public class Match {
               final String[] possibleWordForms = synthesizer.synthesize(
                   formattedToken.getAnalyzedToken(i), targetPosTag, true);
               if (possibleWordForms != null) {
-                for (final String form : possibleWordForms) {
-                  wordForms.add(form);
-                }
+                wordForms.addAll(Arrays.asList(possibleWordForms));
               }
             }
           }
@@ -302,9 +299,7 @@ public class Match {
             final String[] possibleWordForms = synthesizer.synthesize(
                 formattedToken.getAnalyzedToken(i), posTag);
             if (possibleWordForms != null) {
-              for (final String form : possibleWordForms) {
-                wordForms.add(form);
-              }
+              wordForms.addAll(Arrays.asList(possibleWordForms));
             }
           }
           formattedString = wordForms.toArray(new String[wordForms.size()]);
@@ -313,7 +308,7 @@ public class Match {
     }    
     if (includeSkipped != IncludeRange.NONE 
         && skippedTokens != null && !"".equals(skippedTokens)) {      
-      String[] helper = new String[formattedString.length];
+      final String[] helper = new String[formattedString.length];
       for (int i = 0; i < formattedString.length; i++) {
         if (formattedString[i] == null) {
           formattedString[i] = "";
@@ -452,7 +447,7 @@ public class Match {
    * @return true if match converts the case of the token.
    */
   public final boolean convertsCase() {
-    return caseConversionType.equals(CaseConversion.NONE) ^ true;
+    return !caseConversionType.equals(CaseConversion.NONE);
   }
 
   public final AnalyzedTokenReadings filterReadings() {

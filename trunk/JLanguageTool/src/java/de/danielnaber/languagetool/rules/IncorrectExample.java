@@ -22,7 +22,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * A text, typically a sentence that contains an error.
+ * A text, typically a sentence, that contains an error.
  * 
  * @since 0.9.2
  * @author Daniel Naber

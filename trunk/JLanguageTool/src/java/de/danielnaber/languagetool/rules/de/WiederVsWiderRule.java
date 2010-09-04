@@ -49,29 +49,29 @@ public class WiederVsWiderRule extends GermanRule {
   }
 
   public RuleMatch[] match(AnalyzedSentence text) {
-    List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
-    AnalyzedTokenReadings[] tokens = text.getTokens();
+    final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
+    final AnalyzedTokenReadings[] tokens = text.getTokens();
     int pos = 0;
     boolean foundSpiegelt = false;
     boolean foundWieder = false;
     boolean foundWider = false;
-    for (int i = 0; i < tokens.length; i++) {
-      String token = tokens[i].getToken();
+    for (AnalyzedTokenReadings token1 : tokens) {
+      final String token = token1.getToken();
       if (token.trim().equals("")) {
         // ignore
       } else {
         if (token.equalsIgnoreCase("spiegelt") || token.equalsIgnoreCase("spiegeln") || token.equalsIgnoreCase("spiegelte")
-            || token.equalsIgnoreCase("spiegelten") || token.equalsIgnoreCase("spiegelst")) {
+                || token.equalsIgnoreCase("spiegelten") || token.equalsIgnoreCase("spiegelst")) {
           foundSpiegelt = true;
         } else if (token.equalsIgnoreCase("wieder") && foundSpiegelt) {
           foundWieder = true;
-        } else if (token.equalsIgnoreCase("wider")  && foundSpiegelt) {
+        } else if (token.equalsIgnoreCase("wider") && foundSpiegelt) {
           foundWider = true;
         }
         if (foundSpiegelt && foundWieder && !foundWider) {
-          String msg = "'wider' in 'widerspiegeln' wird mit 'i' statt mit 'ie' "+
-            "geschrieben, z.B. 'Das spiegelt die Situation gut wider.'";
-          RuleMatch ruleMatch = new RuleMatch(this, pos, pos+token.length(), msg);
+          final String msg = "'wider' in 'widerspiegeln' wird mit 'i' statt mit 'ie' " +
+                  "geschrieben, z.B. 'Das spiegelt die Situation gut wider.'";
+          final RuleMatch ruleMatch = new RuleMatch(this, pos, pos + token.length(), msg);
           ruleMatch.setSuggestedReplacement("wider");
           ruleMatches.add(ruleMatch);
           foundSpiegelt = false;

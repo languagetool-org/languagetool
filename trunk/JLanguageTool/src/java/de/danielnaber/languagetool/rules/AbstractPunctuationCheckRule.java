@@ -28,7 +28,7 @@ import de.danielnaber.languagetool.AnalyzedTokenReadings;
 /**
  * A rule that matches "..", "::", "-," but not "...", "!..", "?!!", ",-" etc.
  * Languages will have to subclass it and override <code>isPunctsJoinOk()</code>
- * and <code>isPuctuation()</code> to provide language-specific checking
+ * and <code>isPunctuation()</code> to provide language-specific checking
  * 
  * @author Andriy Rysin
  */
@@ -72,7 +72,7 @@ public abstract class AbstractPunctuationCheckRule extends Rule {
 
       if (tkns.length() >= 2 && !isPunctsJoinOk(tkns)) {
         final String msg = "bad duplication or combination of punctuation signs";
-        RuleMatch ruleMatch = new RuleMatch(this, tokens[startTokenIdx]
+        final RuleMatch ruleMatch = new RuleMatch(this, tokens[startTokenIdx]
             .getStartPos(),
             tokens[startTokenIdx].getStartPos() + tkns.length(), msg,
             "Punctuation problem");

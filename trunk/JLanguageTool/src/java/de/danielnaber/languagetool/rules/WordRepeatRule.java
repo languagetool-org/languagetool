@@ -78,7 +78,7 @@ public class WordRepeatRule extends Rule {
           isWord = false;
         }
       }
-      boolean isException = ignore(tokens, i);
+      final boolean isException = ignore(tokens, i);
       if (isWord && prevToken.toLowerCase().equals(token.toLowerCase()) && !isException) {
         final String msg = messages.getString("repetition");
         final int prevPos = tokens[i - 1].getStartPos();

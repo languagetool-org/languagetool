@@ -60,7 +60,7 @@ public class AgreementRule extends GermanRule {
   /*
    * City names are incoherently tagged in the Morphy data. To avoid
    * false alarms on phrases like "das Berliner Auto" we have to
-   * explicitely add these adjective readings to "Berliner" and to all 
+   * explicitly add these adjective readings to "Berliner" and to all
    * other potential city names:
    */
   private static final String[] ADJ_READINGS = new String[] {
@@ -118,24 +118,24 @@ public class AgreementRule extends GermanRule {
   }
 
   public RuleMatch[] match(final AnalyzedSentence text) {
-    List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
-    AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
+    final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
+    final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
     int pos = 0;
     for (int i = 0; i < tokens.length; i++) {
       //defaulting to the first reading
       //TODO: check for all readings
       //and replace GermanTokenReading
-      String posToken = tokens[i].getAnalyzedToken(0).getPOSTag();
+      final String posToken = tokens[i].getAnalyzedToken(0).getPOSTag();
       if (posToken != null && posToken.equals(JLanguageTool.SENTENCE_START_TAGNAME))
         continue;
       //AnalyzedGermanToken analyzedToken = new AnalyzedGermanToken(tokens[i]);
       
-    	AnalyzedGermanTokenReadings analyzedToken = (AnalyzedGermanTokenReadings)tokens[i];
-      boolean isRelevantPronomen = isRelevantPronoun(tokens, i); 
+    	final AnalyzedGermanTokenReadings analyzedToken = (AnalyzedGermanTokenReadings)tokens[i];
+      final boolean relevantPronoun = isRelevantPronoun(tokens, i);
      
       boolean ignore = couldBeRelativeClause(tokens, i);
       if (i > 0) {
-        String prevToken = tokens[i-1].getToken().toLowerCase();
+        final String prevToken = tokens[i-1].getToken().toLowerCase();
         if ((prevToken.equals("der") || prevToken.equals("die") || prevToken.equals("das"))
             && tokens[i].getToken().equals("eine")) {
           // TODO: "der eine Polizist" -> nicht ignorieren, sondern "der polizist" checken
@@ -143,12 +143,12 @@ public class AgreementRule extends GermanRule {
         }
       }
       
-      // avoid false alaram on "nichts Gutes":
+      // avoid false alarm on "nichts Gutes":
       if (analyzedToken.getToken().equals("nichts")) {
         ignore = true;
       }
 
-      if ((analyzedToken.hasReadingOfType(POSType.DETERMINER) || isRelevantPronomen) && !ignore) {
+      if ((analyzedToken.hasReadingOfType(POSType.DETERMINER) || relevantPronoun) && !ignore) {
         int tokenPos = i + 1; 
         if (tokenPos >= tokens.length)
           break;
@@ -158,18 +158,18 @@ public class AgreementRule extends GermanRule {
           tokenPos = i + 2; 
           if (tokenPos >= tokens.length)
             break;
-          AnalyzedGermanTokenReadings nextNextToken = (AnalyzedGermanTokenReadings)tokens[tokenPos];
+          final AnalyzedGermanTokenReadings nextNextToken = (AnalyzedGermanTokenReadings)tokens[tokenPos];
           if (nextNextToken.hasReadingOfType(POSType.NOMEN)) {
             // TODO: add a case (checkAdjNounAgreement) for special cases like "deren",
             // e.g. "deren komisches Geschenke" isn't yet detected as incorrect
-            RuleMatch ruleMatch = checkDetAdjNounAgreement((AnalyzedGermanTokenReadings)tokens[i],
+            final RuleMatch ruleMatch = checkDetAdjNounAgreement((AnalyzedGermanTokenReadings)tokens[i],
                 nextToken, (AnalyzedGermanTokenReadings)tokens[i+2]);
             if (ruleMatch != null) {
               ruleMatches.add(ruleMatch);
             }
           }
         } else if (nextToken.hasReadingOfType(POSType.NOMEN)) {
-          RuleMatch ruleMatch = checkDetNounAgreement((AnalyzedGermanTokenReadings)tokens[i],
+          final RuleMatch ruleMatch = checkDetNounAgreement((AnalyzedGermanTokenReadings)tokens[i],
               (AnalyzedGermanTokenReadings)tokens[i+1]);
           if (ruleMatch != null) {
             ruleMatches.add(ruleMatch);
@@ -183,59 +183,59 @@ public class AgreementRule extends GermanRule {
   }
 
   private boolean isRelevantPronoun(AnalyzedTokenReadings[] tokens, int pos) {
-    AnalyzedGermanTokenReadings analyzedToken = (AnalyzedGermanTokenReadings)tokens[pos];
-    boolean isRelevantPronomen = analyzedToken.hasReadingOfType(POSType.PRONOMEN);     
+    final AnalyzedGermanTokenReadings analyzedToken = (AnalyzedGermanTokenReadings)tokens[pos];
+    boolean relevantPronoun = analyzedToken.hasReadingOfType(POSType.PRONOMEN);
     // avoid false alarms:
-    String token = tokens[pos].getToken();
+    final String token = tokens[pos].getToken();
     if (pos > 0 && tokens[pos-1].getToken().equalsIgnoreCase("vor") && tokens[pos].getToken().equalsIgnoreCase("allem"))
-      isRelevantPronomen = false;
+      relevantPronoun = false;
     else if (token.equalsIgnoreCase("er") || token.equalsIgnoreCase("sie") || token.equalsIgnoreCase("es"))
-      isRelevantPronomen = false;
+      relevantPronoun = false;
     else if (token.equalsIgnoreCase("ich"))
-      isRelevantPronomen = false;
+      relevantPronoun = false;
     else if (token.equalsIgnoreCase("du"))
-      isRelevantPronomen = false;
+      relevantPronoun = false;
     else if (token.equalsIgnoreCase("dessen"))      // avoid false alarm on: "..., dessen Leiche"
-      isRelevantPronomen = false;
+      relevantPronoun = false;
     else if (token.equalsIgnoreCase("deren"))
-      isRelevantPronomen = false;
+      relevantPronoun = false;
     else if (token.equalsIgnoreCase("sich"))      // avoid false alarm
-      isRelevantPronomen = false;
+      relevantPronoun = false;
     else if (token.equalsIgnoreCase("unser"))      // avoid false alarm "unser Produkt": TODO!
-      isRelevantPronomen = false;
+      relevantPronoun = false;
     else if (token.equalsIgnoreCase("aller"))
-      isRelevantPronomen = false;
+      relevantPronoun = false;
     else if (token.equalsIgnoreCase("man"))
-      isRelevantPronomen = false;
+      relevantPronoun = false;
     else if (token.equalsIgnoreCase("beiden"))
-      isRelevantPronomen = false;
+      relevantPronoun = false;
     else if (token.equalsIgnoreCase("wessen"))
-      isRelevantPronomen = false;
+      relevantPronoun = false;
     else if (token.equalsIgnoreCase("a"))
-      isRelevantPronomen = false;
+      relevantPronoun = false;
     else if (token.equalsIgnoreCase("alle"))
-      isRelevantPronomen = false;
+      relevantPronoun = false;
     else if (token.equalsIgnoreCase("etwas"))    // TODO: doesn't have case -- but don't just ignore
-      isRelevantPronomen = false;
+      relevantPronoun = false;
     else if (token.equalsIgnoreCase("was"))    // TODO: doesn't have case -- but don't just ignore
-      isRelevantPronomen = false;
+      relevantPronoun = false;
     else if (token.equalsIgnoreCase("wer"))
-      isRelevantPronomen = false;
-    return isRelevantPronomen;
+      relevantPronoun = false;
+    return relevantPronoun;
   }
 
   // see the comment at ADJ_READINGS:
   private AnalyzedGermanTokenReadings maybeAddAdjectiveReadings(AnalyzedGermanTokenReadings nextToken,
       AnalyzedTokenReadings[] tokens, int tokenPos) {
-    String nextTerm = nextToken.getToken();
+    final String nextTerm = nextToken.getToken();
     // Just a heuristic: nouns and proper nouns that end with "er" are considered
     // city names:
     if (nextTerm.endsWith("er") && tokens.length > tokenPos+1) {
-      AnalyzedGermanTokenReadings nextNextToken = (AnalyzedGermanTokenReadings)tokens[tokenPos+1];
-      GermanTagger tagger = new GermanTagger();
+      final AnalyzedGermanTokenReadings nextNextToken = (AnalyzedGermanTokenReadings)tokens[tokenPos+1];
+      final GermanTagger tagger = new GermanTagger();
       try {
-        AnalyzedGermanTokenReadings nextATR = tagger.lookup(nextTerm.substring(0, nextTerm.length()-2));
-        AnalyzedGermanTokenReadings nextNextATR = tagger.lookup(nextNextToken.getToken());
+        final AnalyzedGermanTokenReadings nextATR = tagger.lookup(nextTerm.substring(0, nextTerm.length()-2));
+        final AnalyzedGermanTokenReadings nextNextATR = tagger.lookup(nextNextToken.getToken());
         //System.err.println("nextATR: " + nextATR);
         //System.err.println("nextNextATR: " + nextNextATR);
         // "Münchner": special case as cutting off last two characters doesn't produce city name:
@@ -244,7 +244,7 @@ public class AgreementRule extends GermanRule {
             // tagging in Morphy for cities is not coherent:
             (nextATR.hasReadingOfType(POSType.PROPER_NOUN) || nextATR.hasReadingOfType(POSType.NOMEN) &&
             nextNextATR != null && nextNextATR.hasReadingOfType(POSType.NOMEN)))) {
-          AnalyzedGermanToken[] adjReadings = new AnalyzedGermanToken[ADJ_READINGS.length];
+          final AnalyzedGermanToken[] adjReadings = new AnalyzedGermanToken[ADJ_READINGS.length];
           for (int j = 0; j < ADJ_READINGS.length; j++) {
             adjReadings[j] = new AnalyzedGermanToken(nextTerm, ADJ_READINGS[j], null);
           }
@@ -259,12 +259,12 @@ public class AgreementRule extends GermanRule {
 
   // TODO: improve this so it only returns true for real relative clauses
   private boolean couldBeRelativeClause(AnalyzedTokenReadings[] tokens, int pos) {
-    boolean comma = false;
-    boolean relPronoun = false;
+    boolean comma;
+    boolean relPronoun;
     if (pos >= 1) {
       // avoid false alarm: "Das Wahlrecht, das Frauen zugesprochen bekamen." etc:
       comma = tokens[pos-1].getToken().equals(",");
-      String term = tokens[pos].getToken().toLowerCase();
+      final String term = tokens[pos].getToken().toLowerCase();
       relPronoun = REL_PRONOUN.contains(term);
       if (comma && relPronoun)
         return true;
@@ -272,9 +272,9 @@ public class AgreementRule extends GermanRule {
     if (pos >= 2) {
       // avoid false alarm: "Der Mann, in dem quadratische Fische schwammen."
       comma = tokens[pos-2].getToken().equals(",");
-      String term1 = tokens[pos-1].getToken().toLowerCase();
-      String term2 = tokens[pos].getToken().toLowerCase();
-      boolean prep = PREPOSITIONS.contains(term1);
+      final String term1 = tokens[pos-1].getToken().toLowerCase();
+      final String term2 = tokens[pos].getToken().toLowerCase();
+      final boolean prep = PREPOSITIONS.contains(term1);
       relPronoun = REL_PRONOUN.contains(term2);
       return comma && prep && relPronoun;
     }
@@ -287,10 +287,10 @@ public class AgreementRule extends GermanRule {
     if (token1.getToken().equalsIgnoreCase("ihm"))
       return null;
     RuleMatch ruleMatch = null;
-    Set<String> set1 = getAgreementCategories(token1);
+    final Set<String> set1 = getAgreementCategories(token1);
     if (set1 == null)
       return null;  // word not known, assume it's correct
-    Set<String> set2 = getAgreementCategories(token2);
+    final Set<String> set2 = getAgreementCategories(token2);
     if (set2 == null)
       return null;
     /*System.err.println("#"+set1);
@@ -299,7 +299,7 @@ public class AgreementRule extends GermanRule {
     set1.retainAll(set2);
     if (set1.size() == 0) {
       // TODO: better error message than just 'agreement error'
-      String msg = "Möglicherweise fehlende Übereinstimmung (Kongruenz) zwischen Artikel und Nomen " +
+      final String msg = "Möglicherweise fehlende Übereinstimmung (Kongruenz) zwischen Artikel und Nomen " +
             "bezüglich Kasus, Numerus oder Genus. Beispiel: 'meine Haus' statt 'mein Haus'";
       ruleMatch = new RuleMatch(this, token1.getStartPos(), 
           token2.getStartPos()+token2.getToken().length(), msg);
@@ -309,8 +309,8 @@ public class AgreementRule extends GermanRule {
 
   private RuleMatch checkDetAdjNounAgreement(final AnalyzedGermanTokenReadings token1,
       final AnalyzedGermanTokenReadings token2, final AnalyzedGermanTokenReadings token3) {
-    Set<String> relax = new HashSet<String>();
-    Set<String> set = retainCommonCategories(token1, token2, token3, relax);
+    final Set<String> relax = new HashSet<String>();
+    final Set<String> set = retainCommonCategories(token1, token2, token3, relax);
     RuleMatch ruleMatch = null;
     if (set.size() == 0) {
       // TODO: more detailed error message:
@@ -331,7 +331,7 @@ public class AgreementRule extends GermanRule {
       if (set.size() > 0) {
         System.err.println("GENUS!");
       }*/
-      String msg = "Möglicherweise fehlende Übereinstimmung (Kongruenz) zwischen Artikel, Adjektiv und " +
+      final String msg = "Möglicherweise fehlende Übereinstimmung (Kongruenz) zwischen Artikel, Adjektiv und " +
             "Nomen bezüglich Kasus, Numerus oder Genus. Beispiel: 'mein kleiner Haus' " +
             "statt 'mein kleines Haus'";
       ruleMatch = new RuleMatch(this, token1.getStartPos(), 
@@ -343,13 +343,13 @@ public class AgreementRule extends GermanRule {
   private Set<String> retainCommonCategories(final AnalyzedGermanTokenReadings token1, 
       final AnalyzedGermanTokenReadings token2, final AnalyzedGermanTokenReadings token3,
       Set<String> relax) {
-    Set<String> set1 = getAgreementCategories(token1, relax);
+    final Set<String> set1 = getAgreementCategories(token1, relax);
     if (set1 == null)
       return null;  // word not known, assume it's correct
-    Set<String> set2 = getAgreementCategories(token2, relax);
+    final Set<String> set2 = getAgreementCategories(token2, relax);
     if (set2 == null)
       return null;
-    Set<String> set3 = getAgreementCategories(token3, relax);
+    final Set<String> set3 = getAgreementCategories(token3, relax);
     if (set3 == null)
       return null;
     /*System.err.println(token1.getToken()+"#"+set1);
@@ -367,8 +367,8 @@ public class AgreementRule extends GermanRule {
   
   /** Return Kasus, Numerus, Genus. */
   private Set<String> getAgreementCategories(final AnalyzedGermanTokenReadings aToken, Set<String> omit) {
-    Set<String> set = new HashSet<String>();
-    List<AnalyzedGermanToken> readings = aToken.getGermanReadings();
+    final Set<String> set = new HashSet<String>();
+    final List<AnalyzedGermanToken> readings = aToken.getGermanReadings();
     for (AnalyzedGermanToken reading : readings) {
       if (reading.getCasus() == null && reading.getNumerus() == null &&
           reading.getGenus() == null)
@@ -389,7 +389,7 @@ public class AgreementRule extends GermanRule {
 
   private String makeString(GermanToken.Kasus casus, GermanToken.Numerus num, GermanToken.Genus gen,
       Set<String> omit) {
-    List<String> l = new ArrayList<String>();
+    final List<String> l = new ArrayList<String>();
     if (casus != null && !omit.contains(KASUS))
       l.add(casus.toString());
     if (num != null && !omit.contains(NUMERUS))

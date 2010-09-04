@@ -35,7 +35,7 @@ public class UppercaseSentenceStartRule extends Rule {
 
   private final Language language;
 
-  private String lastPragraphString = "";
+  private String lastParagraphString = "";
 
   public UppercaseSentenceStartRule(final ResourceBundle messages,
       final Language language) {
@@ -83,25 +83,25 @@ public class UppercaseSentenceStartRule extends Rule {
       checkToken = secondToken;
     }
 
-    final String chklastToken = tokens[tokens.length - 1].getToken();
+    final String lastToken = tokens[tokens.length - 1].getToken();
 
     boolean noException = false;
     //fix for lists; note - this will not always work for the last point in OOo,
     //as OOo might serve paragraphs in any order.
     if ((language == Language.RUSSIAN || language == Language.POLISH)
-        && (";".equals(lastPragraphString) || ";".equals(chklastToken)
-            || ",".equals(lastPragraphString) || ",".equals(chklastToken))) {
+        && (";".equals(lastParagraphString) || ";".equals(lastToken)
+            || ",".equals(lastParagraphString) || ",".equals(lastToken))) {
       noException = true;
     }
     //fix for comma in last paragraph; note - this will not always work for the last point in OOo,
     //as OOo might serve paragraphs in any order.
     if ((language == Language.RUSSIAN || language == Language.ITALIAN 
         || language == Language.POLISH || language == Language.GERMAN)
-        && (",".equals(lastPragraphString))) {
+        && (",".equals(lastParagraphString))) {
       noException = true;
     }
     
-    lastPragraphString = chklastToken;
+    lastParagraphString = lastToken;
 
     if (checkToken.length() > 0) {
         final char firstChar = checkToken.charAt(0);

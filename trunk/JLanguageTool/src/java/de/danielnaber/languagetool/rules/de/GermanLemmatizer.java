@@ -38,7 +38,7 @@ class GermanLemmatizer {
   private static final String FILE_NAME = "/de/fullform2baseform.txt";
   private static final String FILE_ENCODING = "utf-8";
   
-  private Map<String, String> fullform2baseform;
+  private final Map<String, String> fullform2baseform;
   
   GermanLemmatizer() throws IOException {
     fullform2baseform = loadWords(JLanguageTool.getDataBroker().getFromRulesDirAsStream(FILE_NAME));
@@ -49,7 +49,7 @@ class GermanLemmatizer {
   }
   
   private Map<String, String> loadWords(InputStream file) throws IOException {
-    Map<String, String> map = new HashMap<String, String>();
+    final Map<String, String> map = new HashMap<String, String>();
     InputStreamReader isr = null;
     BufferedReader br = null;
     try {
@@ -64,14 +64,14 @@ class GermanLemmatizer {
         if (line.charAt(0) == '#') {      // ignore comments
           continue;
         }
-        String[] parts = line.split(":");
+        final String[] parts = line.split(":");
         if (parts.length != 2) {
           throw new IOException("Format error in file " +JLanguageTool.getDataBroker().getFromRulesDirAsUrl(FILE_NAME)+", line: " + line);
         }
-        String baseform = parts[0];
-        String[] fullforms = parts[1].split(",");
-        for (int i = 0; i < fullforms.length; i++) {
-          map.put(fullforms[i].trim(), baseform);
+        final String baseform = parts[0];
+        final String[] fullforms = parts[1].split(",");
+        for (String fullform : fullforms) {
+          map.put(fullform.trim(), baseform);
         }
       }
     } finally {
