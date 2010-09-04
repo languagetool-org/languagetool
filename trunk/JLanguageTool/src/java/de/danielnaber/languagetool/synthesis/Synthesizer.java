@@ -35,7 +35,7 @@ public interface Synthesizer {
    * @param token the token to be used for synthesis
    * @param posTag POS tag of the form to be generated.
    **/
-  public String[] synthesize(final AnalyzedToken token, final String posTag) throws IOException;
+  public String[] synthesize(AnalyzedToken token, String posTag) throws IOException;
 
   /** Generates a form of the word with a given POS tag for a given lemma.
    * POS tag can be specified using regular expressions. 
@@ -44,7 +44,7 @@ public interface Synthesizer {
    * @param posTagRegExp Specifies whether the posTag string is a 
    *  regular expression. 
    **/
-  public String[] synthesize(final AnalyzedToken token, final String posTag, boolean posTagRegExp) throws IOException;
+  public String[] synthesize(AnalyzedToken token, String posTag, boolean posTagRegExp) throws IOException;
   
   /**
    * Gets a corrected version of the POS tag used for synthesis.
@@ -54,5 +54,5 @@ public interface Synthesizer {
    * to correct.
    * @return @String Converted POS tag.
    */
-  public String getPosTagCorrection(final String posTag);
+  public String getPosTagCorrection(String posTag);
 }
