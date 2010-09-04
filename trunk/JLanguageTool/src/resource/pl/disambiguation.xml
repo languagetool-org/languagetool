@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 	<!--
 		Disambiguation Rules for LanguageTool Copyright (C) 2008				
-$Id: disambiguation.xml,v 1.25 2010-04-14 00:52:14 milek_pl Exp $
+$Id: disambiguation.xml,v 1.26 2010-09-04 11:56:52 milek_pl Exp $
 	-->	
 <rules lang="pl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../disambiguation.xsd">
@@ -591,4 +591,14 @@ $Id: disambiguation.xml,v 1.25 2010-04-14 00:52:14 milek_pl Exp $
 		<example type="ambiguous" inputform="ale[ala/qub,ale/conj]" outputform="ale[ala/qub,ale/comp:comma,ale/conj]">Lubię go, <marker>ale</marker> kupię mu pistolet.</example>
 	</rule>
 	
+	
+	<rule name="Blokada reguły interpunkcyjnej dla daje vu" id="DAJE_VU_BLOKADA">
+		<pattern mark="0">
+		<token>daje</token>
+		<token>vu</token>
+		</pattern>
+		<disambig action="replace"><match no="1" postag_regexp="yes" postag="verb:fin:sg:ter:imperf" postag_replace="qub"/></disambig>
+		<example type="untouched">On daje mu w ryj.</example>
+		<example type="ambiguous" inputform="daje[dawać/verb:fin:sg:ter:imperf]" outputform="daje[dawać/qub]">On przeżył <marker>daje</marker> vu.</example>
+	</rule>
 </rules>
