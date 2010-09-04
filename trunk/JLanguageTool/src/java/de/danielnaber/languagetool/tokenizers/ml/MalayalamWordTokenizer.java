@@ -35,8 +35,8 @@ public class MalayalamWordTokenizer implements Tokenizer {
   }
   
   public List<String> tokenize(final String text) {
-    List<String> l = new ArrayList<String>();
-    StringTokenizer st = new StringTokenizer(text, 
+    final List<String> tokens = new ArrayList<String>();
+    final StringTokenizer st = new StringTokenizer(text, 
         "\u0020\u00A0\u115f\u1160\u1680" 
         /** 
         + "\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007" 
@@ -47,9 +47,9 @@ public class MalayalamWordTokenizer implements Tokenizer {
         **/  
         + ",.;()[]{}!?:\"'’‘„“”…\\/\t\n", true);
     while (st.hasMoreElements()) {
-      l.add(st.nextToken());
+      tokens.add(st.nextToken());
     }
-    return l;
+    return tokens;
   }
   
 }

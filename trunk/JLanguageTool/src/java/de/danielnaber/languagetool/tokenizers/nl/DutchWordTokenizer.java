@@ -44,7 +44,7 @@ public class DutchWordTokenizer extends WordTokenizer {
     // TODO: find a cleaner implementation, this is a hack
     final List<String> tokenList = super.tokenize(text.replaceAll(
         "([\\p{L}])'([\\p{L}])", "$1##NL_APOS##$2"));
-    String[] tokens = tokenList.toArray(new String[tokenList.size()]);
+    final String[] tokens = tokenList.toArray(new String[tokenList.size()]);
     for (int i = 0; i < tokens.length; i++) {
       tokens[i] = tokens[i].replace("##NL_APOS##", "'");
     }

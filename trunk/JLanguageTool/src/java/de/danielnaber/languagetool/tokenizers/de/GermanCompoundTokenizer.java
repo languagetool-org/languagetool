@@ -31,7 +31,7 @@ import de.danielnaber.languagetool.tokenizers.Tokenizer;
  */
 public class GermanCompoundTokenizer implements Tokenizer {
 
-  private GermanWordSplitter wordSplitter;
+  private final GermanWordSplitter wordSplitter;
   
   public GermanCompoundTokenizer() throws IOException {
     wordSplitter = new GermanWordSplitter(false);

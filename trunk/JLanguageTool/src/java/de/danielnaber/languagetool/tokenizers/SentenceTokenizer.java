@@ -242,9 +242,9 @@ public class SentenceTokenizer implements Tokenizer {
     return s;
   }
   
-  public static void main(final String[] args) {
+  /*public static void main(final String[] args) {
     final SentenceTokenizer st = new GermanSentenceTokenizer();
     st.tokenize("Er sagte (...) und");
-  }
+  }*/
 
 }
