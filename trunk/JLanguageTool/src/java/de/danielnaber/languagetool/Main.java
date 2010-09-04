@@ -109,7 +109,7 @@ class Main {
     profileRules = true;
   }
   
-  private final void setBitextMOde(final Language sourceLang) throws IOException, ParserConfigurationException, SAXException {
+  private final void setBitextMode(final Language sourceLang) throws IOException, ParserConfigurationException, SAXException {
     bitextMode = true;
     Language target = lt.getLanguage();
     lt = new JLanguageTool(target, null);    
@@ -506,7 +506,7 @@ class Main {
         throw new IllegalArgumentException(
         "You have to set the source language (as mother tongue).");
       }
-      prg.setBitextMOde(motherTongue);
+      prg.setBitextMode(motherTongue);
     }
     if (recursive) {
       prg.runRecursive(filename, encoding, listUnknown);
