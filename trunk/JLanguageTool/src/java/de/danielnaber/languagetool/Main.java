@@ -47,17 +47,17 @@ import de.danielnaber.languagetool.tools.Tools;
  */
 class Main {
 
-  private JLanguageTool lt;
-  private boolean verbose;
-  private boolean apiFormat;
-  private boolean taggerOnly;
-  private boolean applySuggestions;
+  private final JLanguageTool lt;
+  private final boolean verbose;
+  private final boolean apiFormat;
+  private final boolean taggerOnly;
+  private final boolean applySuggestions;
   private boolean profileRules;
   long[] workTime = new long[10];
   private Rule currentRule;
 
   /* maximum file size to read in a single read */
-  private static final int MAXFILESIZE = 64000;
+  private static final int MAX_FILE_SIZE = 64000;
 
   Main(final boolean verbose, final boolean taggerOnly,
       final Language language, final Language motherTongue,
@@ -96,7 +96,7 @@ class Main {
     lt.setListUnknownWords(listUnknownWords);
   }
 
-  private final void setProfilingMode() {
+  private void setProfilingMode() {
     profileRules = true;
   }
   
@@ -109,7 +109,7 @@ class Main {
     boolean oneTime = false;
     if (!"-".equals(filename)) {
       final File file = new File(filename);
-      oneTime = file.length() < MAXFILESIZE;
+      oneTime = file.length() < MAX_FILE_SIZE;
     }
     if (oneTime) {
       final String text = getFilteredText(filename, encoding);
@@ -137,7 +137,7 @@ class Main {
         }
       }
       int runCount = 1; 
-      List<Rule> rules = lt.getAllRules();
+      final List<Rule> rules = lt.getAllRules();
       if (profileRules) {                   
         System.out.printf("Testing %d rules\n", rules.size());
         System.out.println("Rule ID\tTime\tSentences\tMatches\tSentences per sec.");
@@ -147,7 +147,7 @@ class Main {
       BufferedReader br = null;
       int lineOffset = 0;           
       int tmpLineOffset = 0;
-      List<String> unknownWords = new ArrayList<String>();
+      final List<String> unknownWords = new ArrayList<String>();
       StringBuilder sb = new StringBuilder();      
       for (int ruleIndex = 0; ruleIndex <runCount; ruleIndex++) {
       currentRule = rules.get(ruleIndex);
@@ -192,7 +192,7 @@ class Main {
             }
             sb = new StringBuilder();
           } else {
-            if ("".equals(line) || sb.length() >= MAXFILESIZE) {
+            if ("".equals(line) || sb.length() >= MAX_FILE_SIZE) {
               matches = handleLine(matches, lineOffset, sb);
               sentences += lt.getSentenceCount();
               if (profileRules) {
@@ -226,34 +226,8 @@ class Main {
           }
         }
 
-        if (!applySuggestions) {
-          final long endTime = System.currentTimeMillis();
-          final long time = endTime - startTime;
-          final float timeInSeconds = time / 1000.0f;          
-          final float sentencesPerSecond = sentences / timeInSeconds;          
-          if (apiFormat) {
-            System.out.println("<!--");
-          }
-          if (profileRules) {
-            //TODO: run 10 times, line in runOnce mode, and use median
-            System.out.printf(Locale.ENGLISH,
-                "%s\t%d\t%d\t%d\t%.1f", rules.get(ruleIndex).getId(), 
-                time, sentences, matches, sentencesPerSecond);
-            System.out.println();
-          } else {          
-            System.out.printf(Locale.ENGLISH,
-              "Time: %dms for %d sentences (%.1f sentences/sec)", time,
-              sentences, sentencesPerSecond);
-          System.out.println();
-          }
-          if (listUnknownWords) {
-            Collections.sort(unknownWords);
-            System.out.println("Unknown words: " + unknownWords);
-          }
-          if (apiFormat) {
-            System.out.println("-->");
-          }
-        }
+        printTimingInformation(listUnknownWords, rules, unknownWords, ruleIndex, matches, sentences, startTime);
+
         if (br != null) {
           br.close();
         }
@@ -262,6 +236,38 @@ class Main {
         }
       }
      }
+    }
+  }
+
+  private void printTimingInformation(final boolean listUnknownWords, final List<Rule> rules,
+      final List<String> unknownWords, final int ruleIndex, final int matches, final long sentences, final long startTime) {
+    if (!applySuggestions) {
+      final long endTime = System.currentTimeMillis();
+      final long time = endTime - startTime;
+      final float timeInSeconds = time / 1000.0f;
+      final float sentencesPerSecond = sentences / timeInSeconds;
+      if (apiFormat) {
+        System.out.println("<!--");
+      }
+      if (profileRules) {
+        //TODO: run 10 times, line in runOnce mode, and use median
+        System.out.printf(Locale.ENGLISH,
+            "%s\t%d\t%d\t%d\t%.1f", rules.get(ruleIndex).getId(),
+            time, sentences, matches, sentencesPerSecond);
+        System.out.println();
+      } else {
+        System.out.printf(Locale.ENGLISH,
+          "Time: %dms for %d sentences (%.1f sentences/sec)", time,
+          sentences, sentencesPerSecond);
+        System.out.println();
+      }
+      if (listUnknownWords) {
+        Collections.sort(unknownWords);
+        System.out.println("Unknown words: " + unknownWords);
+      }
+      if (apiFormat) {
+        System.out.println("-->");
+      }
     }
   }
 

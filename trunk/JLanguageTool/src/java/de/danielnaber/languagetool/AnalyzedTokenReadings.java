@@ -57,7 +57,7 @@ public class AnalyzedTokenReadings {
       return false;
     if (getClass() != obj.getClass())
       return false;
-    AnalyzedTokenReadings other = (AnalyzedTokenReadings) obj;
+    final AnalyzedTokenReadings other = (AnalyzedTokenReadings) obj;
     if (!Arrays.equals(anTokReadings, other.anTokReadings))
       return false;
     if (isLinebreak != other.isLinebreak)
@@ -144,7 +144,7 @@ public class AnalyzedTokenReadings {
     boolean found = false;
     for (final AnalyzedToken reading : anTokReadings) {
       if (reading.getPOSTag() != null) {
-        found |= pos.equals(reading.getPOSTag());
+        found = pos.equals(reading.getPOSTag());
         if (found) {
           break;
         }
@@ -182,9 +182,9 @@ public class AnalyzedTokenReadings {
     final AnalyzedToken tmpTok = new AnalyzedToken(tok.getToken(), tok
         .getPOSTag(), tok.getLemma());
     tmpTok.setWhitespaceBefore(isWhitespaceBefore);
-    for (int i = 0; i < anTokReadings.length; i++) {
-      if (!anTokReadings[i].equals(tmpTok)) {
-        l.add(anTokReadings[i]);
+    for (AnalyzedToken anTokReading : anTokReadings) {
+      if (!anTokReading.equals(tmpTok)) {
+        l.add(anTokReading);
       }
     }
     anTokReadings = l.toArray(new AnalyzedToken[l.size()]);
@@ -223,7 +223,6 @@ public class AnalyzedTokenReadings {
     final AnalyzedToken paragraphEnd = new AnalyzedToken(getToken(),
         JLanguageTool.PARAGRAPH_END_TAGNAME, getAnalyzedToken(0).getLemma());
     addReading(paragraphEnd);    
-    return;
   }
 
   /**
@@ -248,7 +247,6 @@ public class AnalyzedTokenReadings {
     final AnalyzedToken sentenceEnd = new AnalyzedToken(getToken(),
         JLanguageTool.SENTENCE_END_TAGNAME, getAnalyzedToken(0).getLemma());
     addReading(sentenceEnd);    
-    return;
   }
 
   public final int getStartPos() {

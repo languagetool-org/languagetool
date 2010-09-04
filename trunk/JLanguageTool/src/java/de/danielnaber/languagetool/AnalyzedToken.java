@@ -25,19 +25,18 @@ package de.danielnaber.languagetool;
  */
 public class AnalyzedToken {
 
-  private String token;
-  private String posTag;
-  private String lemma;
+  private final String token;
+  private final String posTag;
+  private final String lemma;
 
   /**
    * used only for matching with Elements
    */
-  private String tokenInflected;
+  private final String tokenInflected;
 
   private boolean isWhitespaceBefore;
 
-  public AnalyzedToken(final String token, final String posTag,
-      final String lemma) {
+  public AnalyzedToken(final String token, final String posTag, final String lemma) {
     if (token == null) {
       throw new NullPointerException("Token cannot be null!");
     }
@@ -85,6 +84,7 @@ public class AnalyzedToken {
 
   @Override
   public final int hashCode() {
+    // TODO: use Apache Commons Lang HashCodeBuilder
     final int prime = 31;
     int result = 1;
     result = prime * result + (isWhitespaceBefore ? 1231 : 1237);
@@ -96,6 +96,7 @@ public class AnalyzedToken {
 
   @Override
   public final boolean equals(final Object obj) {
+    // TODO: use Apache Commons Lang EqualsBuilder
     if (this == obj) {
       return true;
     }

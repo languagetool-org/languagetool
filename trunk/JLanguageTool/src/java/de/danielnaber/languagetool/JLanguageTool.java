@@ -67,6 +67,7 @@ import de.danielnaber.languagetool.tools.ReflectionUtils;
  * 
  * @author Daniel Naber
  */
+@SuppressWarnings({"UnusedDeclaration"})
 public final class JLanguageTool {
 
   public static final String VERSION = "1.0.1-dev"; // keep in sync with
@@ -80,13 +81,12 @@ public final class JLanguageTool {
   public static final String SENTENCE_END_TAGNAME = "SENT_END";
   public static final String PARAGRAPH_END_TAGNAME = "PARA_END";
 
-  private List<Rule> builtinRules = new ArrayList<Rule>();
-  private List<Rule> userRules = new ArrayList<Rule>(); // rules added via
-                                                        // addRule() method
-  private Set<String> disabledRules = new HashSet<String>();
-  private Set<String> enabledRules = new HashSet<String>();
+  private final List<Rule> builtinRules = new ArrayList<Rule>();
+  private final List<Rule> userRules = new ArrayList<Rule>(); // rules added via addRule() method
+  private final Set<String> disabledRules = new HashSet<String>();
+  private final Set<String> enabledRules = new HashSet<String>();
 
-  private Set<String> disabledCategories = new HashSet<String>();
+  private final Set<String> disabledCategories = new HashSet<String>();
 
   private Language language;
   private Language motherTongue;
@@ -481,7 +481,7 @@ public final class JLanguageTool {
    */
   public List<RuleMatch> check(final String text, boolean tokenizeText, final paragraphHandling paraMode) throws IOException {
     sentenceCount = 0;
-    List<String> sentences;
+    final List<String> sentences;
     if (tokenizeText) { 
       sentences = sentenceTokenize(text);
     } else {
@@ -520,20 +520,20 @@ public final class JLanguageTool {
         }
         
         switch (paraMode) {
-        case ONLYNONPARA: {
-          if (rule.isParagraphBackTrack()) {
-            continue;
-          } 
-          break;
-        }
-        case ONLYPARA: {
-          if (!rule.isParagraphBackTrack()) {
-            continue;
+          case ONLYNONPARA: {
+            if (rule.isParagraphBackTrack()) {
+              continue;
+            }
+            break;
           }
-         break;
-        }
-        case NORMAL:
-        default:
+          case ONLYPARA: {
+            if (!rule.isParagraphBackTrack()) {
+              continue;
+            }
+           break;
+          }
+          case NORMAL:
+          default:
         }
 
         final RuleMatch[] thisMatches = rule.match(analyzedText);
@@ -551,8 +551,8 @@ public final class JLanguageTool {
           final String sentencePartToEndOfError = sentence.substring(0,
               element1.getToPos());
           final int lastLineBreakPos = sentencePartToError.lastIndexOf('\n');
-          int column = -1;
-          int endColumn = -1;
+          final int column;
+          final int endColumn;
           if (lastLineBreakPos == -1) {
             column = sentencePartToError.length() + columnCount;
           } else {
@@ -585,11 +585,11 @@ public final class JLanguageTool {
       lineCount += countLineBreaks(sentence);
       
       // calculate matching column:      
-      final int linebreakPos = sentence.indexOf('\n');
-      if (linebreakPos == -1) {
+      final int lineBreakPos = sentence.indexOf('\n');
+      if (lineBreakPos == -1) {
         columnCount += sentence.length() -1;        
       } else {
-        if (linebreakPos == 0) {
+        if (lineBreakPos == 0) {
           columnCount = sentence.length();
           if (!language.getSentenceTokenizer().
               singleLineBreaksMarksPara()) {
@@ -686,7 +686,7 @@ public final class JLanguageTool {
     final List<String> tokens = wordTokenizer.tokenize(sentence);
     final Map<Integer, String> softHyphenTokens = new HashMap<Integer, String>();
 
-    //for softhyphens inside words, happens especially in OOo:
+    //for soft hyphens inside words, happens especially in OOo:
     for (int i = 0; i < tokens.size(); i++) {
       if (tokens.get(i).indexOf('\u00ad') != -1) {
         softHyphenTokens.put(i, tokens.get(i));
@@ -712,8 +712,7 @@ public final class JLanguageTool {
         .size() + 1];
     final AnalyzedToken[] startTokenArray = new AnalyzedToken[1];
     int toArrayCount = 0;
-    final AnalyzedToken sentenceStartToken = new AnalyzedToken("",
-        SENTENCE_START_TAGNAME, null);
+    final AnalyzedToken sentenceStartToken = new AnalyzedToken("", SENTENCE_START_TAGNAME, null);
     startTokenArray[0] = sentenceStartToken;
     tokenArray[toArrayCount++] = new AnalyzedTokenReadings(startTokenArray, 0);
     int startPos = 0;

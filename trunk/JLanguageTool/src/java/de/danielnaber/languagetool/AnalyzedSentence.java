@@ -49,7 +49,7 @@ public class AnalyzedSentence {
       return false;
     if (getClass() != obj.getClass())
       return false;
-    AnalyzedSentence other = (AnalyzedSentence) obj;
+    final AnalyzedSentence other = (AnalyzedSentence) obj;
     if (!Arrays.equals(nonBlankTokens, other.nonBlankTokens))
       return false;
     if (!Arrays.equals(tokens, other.tokens))
