@@ -34,11 +34,11 @@ import de.danielnaber.languagetool.gui.ConfigurationDialog;
  */
 class ConfigThread extends Thread {
 
-  private Language docLanguage;
-  private Configuration config;
-  private de.danielnaber.languagetool.openoffice.Main mainThread;
+  private final Language docLanguage;
+  private final Configuration config;
+  private final de.danielnaber.languagetool.openoffice.Main mainThread;
   
-  private ConfigurationDialog cfgDialog;
+  private final ConfigurationDialog cfgDialog;
   
   ConfigThread(final Language docLanguage, final Configuration config,
       final de.danielnaber.languagetool.openoffice.Main main) {
@@ -58,7 +58,7 @@ class ConfigThread extends Thread {
 
   public void run() {    
     try {
-      JLanguageTool langTool = new JLanguageTool(docLanguage, cfgDialog.getMotherTongue());
+      final JLanguageTool langTool = new JLanguageTool(docLanguage, cfgDialog.getMotherTongue());
       langTool.activateDefaultPatternRules();
       langTool.activateDefaultFalseFriendRules();
       cfgDialog.show(langTool.getAllRules());

@@ -37,8 +37,8 @@ import de.danielnaber.languagetool.tools.StringTools;
  */
 public class OOoAboutDialog {
 
-  private ResourceBundle messages;
-  private XWindowPeer winPeer;
+  private final ResourceBundle messages;
+  private final XWindowPeer winPeer;
 
   public OOoAboutDialog(final ResourceBundle messages,
       final XWindowPeer parentWindowPeer) {
@@ -62,7 +62,7 @@ public class OOoAboutDialog {
             "LanguageTool "
                 + JLanguageTool.VERSION
                 + "\n"
-                + "Copyright (C) 2005-2009 Daniel Naber\n"
+                + "Copyright (C) 2005-2010 Daniel Naber\n"
                 + "This software is licensed under the GNU Lesser General Public License.\n"
                 + "LanguageTool Homepage: http://www.languagetool.org/\n\n"
                 + "Maintainers of the language modules:\n"

@@ -144,8 +144,7 @@ public class Main extends WeakBase implements XJobExecutor,
           "com.sun.star.frame.Desktop", xContext);
       final XDesktop xDesktop = (XDesktop) UnoRuntime.queryInterface(
           XDesktop.class, desktop);
-      final XComponent xComponent = xDesktop.getCurrentComponent();
-      return xComponent;
+      return xDesktop.getCurrentComponent();
     } catch (final Throwable t) {
       showError(t);
       return null;
@@ -163,8 +162,8 @@ public class Main extends WeakBase implements XJobExecutor,
     if (xComponent == null) {
       return Language.ENGLISH; // for testing with local main() method only
     }
-    Locale charLocale;
-    XPropertySet xCursorProps;
+    final Locale charLocale;
+    final XPropertySet xCursorProps;
     try {
       final XModel model = (XModel) UnoRuntime.queryInterface(XModel.class,
           xComponent);
@@ -212,17 +211,13 @@ public class Main extends WeakBase implements XJobExecutor,
   /**
    * Runs the grammar checker on paragraph text.
    * 
-   * @param String
-   *          docID - document ID
-   * @param String
-   *          paraText - paragraph text
-   * @param locale
-   *          Locale - the text Locale
+   * @param docID - document ID
+   * @param paraText - paragraph text
+   * @param locale Locale - the text Locale
    * @param startOfSentencePos start of sentence position
    * @param nSuggestedBehindEndOfSentencePosition end of sentence position
-   * @param PropertyValue
-   *          [] props - properties
-   * @return ProofreadingResult containing the results of the check. *
+   * @param props - properties
+   * @return ProofreadingResult containing the results of the check.
    * @throws IllegalArgumentException
    *           (not really, LT simply returns the ProofreadingResult with the
    *           values supplied)
@@ -246,7 +241,7 @@ public class Main extends WeakBase implements XJobExecutor,
     }
   }
 
-  synchronized private final ProofreadingResult doGrammarCheckingInternal(
+  synchronized private ProofreadingResult doGrammarCheckingInternal(
       final String paraText, final Locale locale, final ProofreadingResult paRes) {
 
     if (!StringTools.isEmpty(paraText)
@@ -289,7 +284,7 @@ public class Main extends WeakBase implements XJobExecutor,
           }
         }
         try {
-          String sentence = getSentence(paraText,
+          final String sentence = getSentence(paraText,
               paRes.nStartOfSentencePosition);
           paRes.nStartOfSentencePosition = position;
           paRes.nStartOfNextSentencePosition = position + sentence.length();
@@ -339,7 +334,7 @@ public class Main extends WeakBase implements XJobExecutor,
     return paRes;
   }
 
-  synchronized private final String getSentence(final String paraText,
+  synchronized private String getSentence(final String paraText,
       final int startPos) {
     if (paraText.equals(currentPara) && tokenizedSentences != null) {
       int i = 0;
@@ -366,7 +361,7 @@ public class Main extends WeakBase implements XJobExecutor,
     return "";
   }
 
-  synchronized private final SingleProofreadingError[] checkParaRules(
+  synchronized private SingleProofreadingError[] checkParaRules(
       final String paraText, final Locale locale, final int startPos,
       final int endPos, final String docID) {
     if (startPos == 0) {
@@ -594,8 +589,8 @@ public class Main extends WeakBase implements XJobExecutor,
       if ("configure".equals(sEvent)) {
         runOptionsDialog();
       } else if ("about".equals(sEvent)) {
-        final AboutDialogThread aboutthread = new AboutDialogThread(MESSAGES);
-        aboutthread.start();
+        final AboutDialogThread aboutThread = new AboutDialogThread(MESSAGES);
+        aboutThread.start();
       } else {
         System.err.println("Sorry, don't know what to do, sEvent = " + sEvent);
       }
@@ -632,7 +627,7 @@ public class Main extends WeakBase implements XJobExecutor,
   }
 
   static void showError(final Throwable e) {
-    String metaInfo = "OS: " + System.getProperty("os.name")
+    final String metaInfo = "OS: " + System.getProperty("os.name")
       + " on " + System.getProperty("os.arch") + ", Java version "
       + System.getProperty("java.vm.version")
       + " from " + System.getProperty("java.vm.vendor");
@@ -653,7 +648,8 @@ public class Main extends WeakBase implements XJobExecutor,
   private File getHomeDir() {
     final String homeDir = System.getProperty("user.home");
     if (homeDir == null) {
-      RuntimeException ex = new RuntimeException("Could not get home directory");
+      @SuppressWarnings({"ThrowableInstanceNeverThrown"})
+      final RuntimeException ex = new RuntimeException("Could not get home directory");
       showError(ex);
     }
     return new File(homeDir);
@@ -661,7 +657,7 @@ public class Main extends WeakBase implements XJobExecutor,
 
   private class AboutDialogThread extends Thread {
 
-    private ResourceBundle messages;
+    private final ResourceBundle messages;
 
     AboutDialogThread(final ResourceBundle messages) {
       this.messages = messages;
