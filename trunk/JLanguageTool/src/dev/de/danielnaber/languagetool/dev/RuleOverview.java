@@ -75,13 +75,12 @@ public final class RuleOverview {
     Collections.sort(sortedLanguages);
 
     //setup false friends counting
-    final String ffFile = JLanguageTool.getDataBroker().getRulesDir() + File.separator + "false-friends.xml";
-    final java.net.URL ffurl = this.getClass().getResource(ffFile);    
-    String ffRules = StringTools.readFile(Tools.getStream(ffFile));
-    ffRules = ffRules.replaceAll("(?s)<!--.*?-->", "");
-    ffRules = ffRules.replaceAll("(?s)<rules.*?>", "");
+    final String falseFriendFile = JLanguageTool.getDataBroker().getRulesDir() + File.separator + "false-friends.xml";
+    final java.net.URL falseFriendUrl = this.getClass().getResource(falseFriendFile);
+    final String falseFriendRules = StringTools.readFile(Tools.getStream(falseFriendFile))
+      .replaceAll("(?s)<!--.*?-->", "")
+      .replaceAll("(?s)<rules.*?>", "");
 
-    
     for (final String langName : sortedLanguages) {
       final Language lang = Language.getLanguageForName(langName);
       System.out.print("<tr>");
@@ -97,7 +96,7 @@ public final class RuleOverview {
         xmlRules = xmlRules.replaceAll("(?s)<rules.*?>", "");
         int pos = 0;
         int count = 0;
-        while (pos != -1) {
+        while (true) {
           pos = xmlRules.indexOf("<rule ", pos + 1);          
           if (pos == -1) {
             break;
@@ -105,15 +104,15 @@ public final class RuleOverview {
           count++;
         }
         pos = 0;
-        int countInRulegroup = 0;
-        while (pos != -1) {
+        int countInRuleGroup = 0;
+        while (true) {
           pos = xmlRules.indexOf("<rule>", pos + 1);          
           if (pos == -1) {
             break;
           }          
-          countInRulegroup++;
+          countInRuleGroup++;
         }
-        System.out.print("<td align=\"right\">" + (count + countInRulegroup) + " (" +
+        System.out.print("<td align=\"right\">" + (count + countInRuleGroup) + " (" +
             "<a href=\"http://languagetool.cvs.sourceforge.net/*checkout*/languagetool/" +
             "JLanguageTool/src/rules/" + lang.getShortName() + "/grammar.xml\">show</a>/" +
             "<a href=\"http://community.languagetool.org/rule/list?lang=" +
@@ -135,21 +134,20 @@ public final class RuleOverview {
 
       // false friends
       System.out.println("<td></td>"); 
-      if (ffurl == null) {
+      if (falseFriendUrl == null) {
         System.out.println("<td align=\"right\">0</td>");
       } else {
         // count XML rules:
         int pos = 0;
         int count = 0;
-        while (pos != -1) {
-          pos = ffRules.indexOf("<pattern lang=\""+ lang.getShortName(), pos + 1);          
+        while (true) {
+          pos = falseFriendRules.indexOf("<pattern lang=\""+ lang.getShortName(), pos + 1);
           if (pos == -1) {
             break;
           }          
           count++;
         }
-        System.out.print("<td align=\"right\">" + count +
-          "</td>");
+        System.out.print("<td align=\"right\">" + count + "</td>");
 
         // maintainer information:
         System.out.print("<td></td>");
