@@ -538,40 +538,8 @@ public final class JLanguageTool {
 
         final RuleMatch[] thisMatches = rule.match(analyzedText);
         for (final RuleMatch element1 : thisMatches) {
-          // change positions so they are relative to the complete text,
-          // not just to the sentence:
-          final RuleMatch thisMatch = new RuleMatch(element1.getRule(),
-              element1.getFromPos() + tokenCount, element1.getToPos()
-                  + tokenCount, element1.getMessage(), element1
-                  .getShortMessage());
-          thisMatch.setSuggestedReplacements(element1
-              .getSuggestedReplacements());
-          final String sentencePartToError = sentence.substring(0, element1
-              .getFromPos());
-          final String sentencePartToEndOfError = sentence.substring(0,
-              element1.getToPos());
-          final int lastLineBreakPos = sentencePartToError.lastIndexOf('\n');
-          final int column;
-          final int endColumn;
-          if (lastLineBreakPos == -1) {
-            column = sentencePartToError.length() + columnCount;
-          } else {
-            column = sentencePartToError.length() - lastLineBreakPos;
-          }
-          final int lastLineBreakPosInError = sentencePartToEndOfError
-              .lastIndexOf('\n');
-          if (lastLineBreakPosInError == -1) {
-            endColumn = sentencePartToEndOfError.length() + columnCount + 1;
-          } else {
-            endColumn = sentencePartToEndOfError.length() - lastLineBreakPos;
-          }
-          final int lineBreaksToError = countLineBreaks(sentencePartToError);
-          final int lineBreaksToEndOfError = countLineBreaks(sentencePartToEndOfError);
-          thisMatch.setLine(lineCount + lineBreaksToError);
-          thisMatch.setEndLine(lineCount + lineBreaksToEndOfError);
-          thisMatch.setColumn(column);
-          thisMatch.setEndColumn(endColumn);
-          thisMatch.setOffset(element1.getFromPos() + tokenCount);
+          RuleMatch thisMatch = adjustRuleMatchPos(element1,
+              tokenCount, columnCount, lineCount, sentence);    
           sentenceMatches.add(thisMatch);
           if (rule.isParagraphBackTrack()) {
             rule.addRuleMatch(thisMatch);
@@ -616,6 +584,53 @@ public final class JLanguageTool {
     }
 
     return ruleMatches;
+  }
+
+  /**
+   * Change RuleMatch positions so they are relative to the complete text,
+   * not just to the sentence: 
+   * @param rm  RuleMatch
+   * @param sentLen  Count of tokens
+   * @param columnCount Current column number
+   * @param lineCount Current line number
+   * @param sentence  The text being checked
+   * @return
+   */
+  public RuleMatch adjustRuleMatchPos(final RuleMatch rm, int sentLen,
+      int columnCount, int lineCount, final String sentence) {    
+    final RuleMatch thisMatch = new RuleMatch(rm.getRule(),
+        rm.getFromPos() + sentLen, rm.getToPos()
+            + sentLen, rm.getMessage(), rm
+            .getShortMessage());
+    thisMatch.setSuggestedReplacements(rm
+        .getSuggestedReplacements());
+    final String sentencePartToError = sentence.substring(0, rm
+        .getFromPos());
+    final String sentencePartToEndOfError = sentence.substring(0,
+        rm.getToPos());
+    final int lastLineBreakPos = sentencePartToError.lastIndexOf('\n');
+    final int column;
+    final int endColumn;
+    if (lastLineBreakPos == -1) {
+      column = sentencePartToError.length() + columnCount;
+    } else {
+      column = sentencePartToError.length() - lastLineBreakPos;
+    }
+    final int lastLineBreakPosInError = sentencePartToEndOfError
+        .lastIndexOf('\n');
+    if (lastLineBreakPosInError == -1) {
+      endColumn = sentencePartToEndOfError.length() + columnCount + 1;
+    } else {
+      endColumn = sentencePartToEndOfError.length() - lastLineBreakPos;
+    }
+    final int lineBreaksToError = countLineBreaks(sentencePartToError);
+    final int lineBreaksToEndOfError = countLineBreaks(sentencePartToEndOfError);
+    thisMatch.setLine(lineCount + lineBreaksToError);
+    thisMatch.setEndLine(lineCount + lineBreaksToEndOfError);
+    thisMatch.setColumn(column);
+    thisMatch.setEndColumn(endColumn);
+    thisMatch.setOffset(rm.getFromPos() + sentLen);
+    return thisMatch;
   }
 
   private void rememberUnknownWords(final AnalyzedSentence analyzedText) {

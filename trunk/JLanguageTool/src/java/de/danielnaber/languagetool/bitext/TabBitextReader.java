@@ -38,8 +38,12 @@ public class TabBitextReader implements BitextReader {
   protected StringPair nextline;
 
   public TabBitextReader(final String filename, final String encoding) {
-    try {
-      in = new BufferedReader(new InputStreamReader(new FileInputStream(filename), encoding));
+    try {     
+      if (encoding == null) {
+        in = new BufferedReader(new InputStreamReader(new FileInputStream(filename)));
+      } else {
+        in = new BufferedReader(new InputStreamReader(new FileInputStream(filename), encoding));
+      }
       nextline = Tab2StringPair(in.readLine());
     } catch(IOException e) { 
       throw new IllegalArgumentException(e); 

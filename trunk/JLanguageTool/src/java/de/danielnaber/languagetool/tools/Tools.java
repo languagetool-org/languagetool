@@ -218,6 +218,14 @@ public final class Tools {
     final int contextSize = DEFAULT_CONTEXT_SIZE;
     final List<RuleMatch> ruleMatches = 
       checkBitext(src, trg, srcLt, trgLt, bRules);
+    //FIXME: get current line number, column number etc. from the 
+    //bitext reader, refactor the method to take the bitext reader
+    //instead of pure strings as input
+    for (RuleMatch thisMatch : ruleMatches) {
+      thisMatch = 
+        trgLt.adjustRuleMatchPos(thisMatch, 
+            0, 0, 0, src + "\t" + trg);
+    }
     if (apiFormat) {
       final String xml = StringTools.ruleMatchesToXML(ruleMatches, trg,
           contextSize, xmlMode);

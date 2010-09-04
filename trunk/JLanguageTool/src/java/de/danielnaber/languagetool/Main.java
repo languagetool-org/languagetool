@@ -36,7 +36,10 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
+import de.danielnaber.languagetool.bitext.StringPair;
+import de.danielnaber.languagetool.bitext.TabBitextReader;
 import de.danielnaber.languagetool.rules.Rule;
+import de.danielnaber.languagetool.rules.bitext.BitextRule;
 import de.danielnaber.languagetool.tools.StringTools;
 import de.danielnaber.languagetool.tools.Tools;
 
@@ -47,12 +50,15 @@ import de.danielnaber.languagetool.tools.Tools;
  */
 class Main {
 
-  private final JLanguageTool lt;
+  private JLanguageTool lt;
   private final boolean verbose;
   private final boolean apiFormat;
   private final boolean taggerOnly;
   private final boolean applySuggestions;
   private boolean profileRules;
+  private boolean bitextMode;
+  private JLanguageTool srcLt;
+  List<BitextRule> bRules;
   long[] workTime = new long[10];
   private Rule currentRule;
 
@@ -69,6 +75,9 @@ class Main {
     this.taggerOnly = taggerOnly;
     this.applySuggestions = applySuggestions;
     profileRules = false;
+    bitextMode = false;
+    srcLt = null;
+    bRules = null;
     lt = new JLanguageTool(language, motherTongue);
     lt.activateDefaultPatternRules();
     lt.activateDefaultFalseFriendRules();
@@ -100,6 +109,15 @@ class Main {
     profileRules = true;
   }
   
+  private final void setBitextMOde(final Language sourceLang) throws IOException, ParserConfigurationException, SAXException {
+    bitextMode = true;
+    Language target = lt.getLanguage();
+    lt = new JLanguageTool(target, null);    
+    srcLt = new JLanguageTool(sourceLang);
+    lt.activateDefaultPatternRules();
+    bRules = Tools.getBitextRules(sourceLang, lt.getLanguage());
+  }
+  
   JLanguageTool getJLanguageTool() {
     return lt;
   }
@@ -109,21 +127,33 @@ class Main {
     boolean oneTime = false;
     if (!"-".equals(filename)) {
       final File file = new File(filename);
-      oneTime = file.length() < MAX_FILE_SIZE;
+      // run once on file if the file size < MAXFILESIZE or
+      // when we use the bitext mode (we use a bitext reader
+      // instead of a direct file access)
+      oneTime = file.length() < MAX_FILE_SIZE || bitextMode;
     }
     if (oneTime) {
-      final String text = getFilteredText(filename, encoding);
-      if (applySuggestions) {
-        System.out.print(Tools.correctText(text, lt));
-      } else if (profileRules) {        
-        Tools.profileRulesOnText(text, lt);
-      } else if (!taggerOnly) {
-        Tools.checkText(text, lt, apiFormat, 0);
+      if (bitextMode) {
+        TabBitextReader reader = new TabBitextReader(filename, encoding);
+        for (StringPair srcAndTrg : reader) {
+          Tools.checkBitext(srcAndTrg.getSource(), srcAndTrg.getTarget(),
+              srcLt,lt, bRules,
+              apiFormat, StringTools.XmlPrintMode.NORMAL_XML);
+        }
       } else {
-        Tools.tagText(text, lt);
-      }
-      if (listUnknownWords) {
-        System.out.println("Unknown words: " + lt.getUnknownWords());
+        final String text = getFilteredText(filename, encoding);
+        if (applySuggestions) {
+          System.out.print(Tools.correctText(text, lt));
+        } else if (profileRules) {        
+          Tools.profileRulesOnText(text, lt);
+        } else if (!taggerOnly) {
+          Tools.checkText(text, lt, apiFormat, 0);
+        } else {
+          Tools.tagText(text, lt);
+        }
+        if (listUnknownWords) {
+          System.out.println("Unknown words: " + lt.getUnknownWords());
+        }
       }
     } else {
       if (verbose) {
@@ -338,7 +368,8 @@ class Main {
     System.out
         .println("Usage: java de.danielnaber.languagetool.Main "
             + "[-r|--recursive] [-v|--verbose] [-l|--language LANG] [-m|--mothertongue LANG] [-d|--disable RULES] "
-            + "[-e|--enable RULES] [-c|--encoding] [-u|--list-unknown] [-t|--taggeronly] [-b] [--api] [-a|--apply] <file>");
+            + "[-e|--enable RULES] [-c|--encoding] [-u|--list-unknown] [-t|--taggeronly] [-b] [--api] [-a|--apply] "             
+            +	"[-b2|--bitext] <file>");
     System.exit(1);
   }
 
@@ -358,6 +389,7 @@ class Main {
     boolean listUnknown = false;
     boolean applySuggestions = false;
     boolean profile = false;
+    boolean bitext = false;
     Language language = null;
     Language motherTongue = null;
     String encoding = null;
@@ -382,6 +414,8 @@ class Main {
         }
       } else if (args[i].equals("-r") || args[i].equals("--recursive")) {
         recursive = true;
+      } else if (args[i].equals("-b2") || args[i].equals("--bitext")) {
+          bitext = true;        
       } else if (args[i].equals("-d") || args[i].equals("--disable")) {
         if (enabledRules.length > 0) {
           throw new IllegalArgumentException(
@@ -457,7 +491,7 @@ class Main {
       language = Language.ENGLISH;
     } else if (!apiFormat && !applySuggestions) {
       System.out.println("Expected text language: " + language.getName());
-    }
+    }    
     language.getSentenceTokenizer().setSingleLineBreaksMarksParagraph(
         singleLineBreakMarksParagraph);
     final Main prg = new Main(verbose, taggerOnly, language, motherTongue,
@@ -465,6 +499,13 @@ class Main {
     prg.setListUnknownWords(listUnknown);
     if (profile) {
       prg.setProfilingMode();
+    }
+    if (bitext) {      
+      if (motherTongue == null) {
+        throw new IllegalArgumentException(
+        "You have to set the source language (as mother tongue).");
+      }
+      prg.setBitextMOde(motherTongue);
     }
     if (recursive) {
       prg.runRecursive(filename, encoding, listUnknown);
