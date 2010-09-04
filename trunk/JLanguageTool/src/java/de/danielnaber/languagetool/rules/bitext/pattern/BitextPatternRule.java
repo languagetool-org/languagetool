@@ -81,7 +81,7 @@ public class BitextPatternRule extends BitextRule {
     if (srcRule.match(sourceText).length > 0)  {    
       return trgRule.match(targetText);
     }
-    return null;
+    return new RuleMatch[0];
   }
 
   @Override
