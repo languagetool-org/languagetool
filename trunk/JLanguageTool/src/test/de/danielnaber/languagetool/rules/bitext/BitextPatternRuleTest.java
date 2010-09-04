@@ -167,7 +167,7 @@ public class BitextPatternRuleTest extends TestCase {
       assertFalse(lang + ": Did not expect error in: " + goodSentence
           + " (Rule: " + rule + ")", 
           match(rule, goodSentence.getSource(), goodSentence.getTarget(), 
-              languageTool, srcTool));
+              srcTool, languageTool));
     }
     final List<IncorrectBitextExample> badSentences = rule.getIncorrectBitextExamples();
     for (IncorrectBitextExample origBadExample : badSentences) {
@@ -191,7 +191,7 @@ public class BitextPatternRuleTest extends TestCase {
           suggestedCorrection, expectedSrcMatchStart,
           expectedSrcMatchEnd, rule.getSrcRule(), 
           lang,
-          languageTool);
+          srcTool);
       
       testBadSentence(origBadTrgSentence, 
           suggestedCorrection, expectedTrgMatchStart,
