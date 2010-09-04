@@ -19,7 +19,6 @@
 package de.danielnaber.languagetool;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -313,8 +312,12 @@ public abstract class Language {
     for (final Language lang : Language.LANGUAGES) {
       if (lang != Language.DEMO) {
         if (lang.getMaintainers() != null) {
+          final List<String> names = new ArrayList<String>();
+          for (Contributor contributor : lang.getMaintainers()) {
+            names.add(contributor.getName());
+          }
           toSort.add(messages.getString(lang.getShortName()) +
-              "-" + Arrays.toString(lang.getMaintainers()));
+              ": " + StringTools.listToString(names, ", "));
         }
       }            
     }    

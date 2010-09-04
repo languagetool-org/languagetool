@@ -18,36 +18,34 @@
  */
 package de.danielnaber.languagetool.openoffice;
 
-import java.util.ResourceBundle;
-
 import com.sun.star.awt.Rectangle;
 import com.sun.star.awt.XMessageBox;
 import com.sun.star.awt.XMessageBoxFactory;
 import com.sun.star.awt.XWindowPeer;
 import com.sun.star.uno.UnoRuntime;
-
-import de.danielnaber.languagetool.JLanguageTool;
-import de.danielnaber.languagetool.Language;
+import de.danielnaber.languagetool.gui.AboutDialog;
 import de.danielnaber.languagetool.tools.StringTools;
+
+import java.util.ResourceBundle;
 
 /**
  * Dialog that display version and copyright information.
  * 
  * @author Marcin Miłkowski
  */
-public class OOoAboutDialog {
+public class OOoAboutDialog extends AboutDialog {
 
-  private final ResourceBundle messages;
   private final XWindowPeer winPeer;
 
   public OOoAboutDialog(final ResourceBundle messages,
       final XWindowPeer parentWindowPeer) {
-    this.messages = messages;
+    super(messages);
     winPeer = parentWindowPeer;
   }
 
+  @Override
   public void show() {        
-    final String aboutText = StringTools.getLabel(messages
+    final String aboutDialogTitle = StringTools.getLabel(messages
         .getString("guiMenuAbout"));
     final XMessageBoxFactory messageBoxFactory = (XMessageBoxFactory) UnoRuntime
         .queryInterface(XMessageBoxFactory.class, winPeer.getToolkit());
@@ -58,15 +56,8 @@ public class OOoAboutDialog {
             messageBoxRectangle,
             "infobox",
             0,
-            aboutText,
-            "LanguageTool "
-                + JLanguageTool.VERSION
-                + "\n"
-                + "Copyright (C) 2005-2010 Daniel Naber\n"
-                + "This software is licensed under the GNU Lesser General Public License.\n"
-                + "LanguageTool Homepage: http://www.languagetool.org/\n\n"
-                + "Maintainers of the language modules:\n"
-                + Language.getAllMaintainers(messages));
+            aboutDialogTitle,
+            getAboutText());
     box.execute();
   }
   

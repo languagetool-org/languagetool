@@ -33,22 +33,26 @@ import de.danielnaber.languagetool.tools.StringTools;
  */
 public class AboutDialog {
 
-  private final ResourceBundle messages;
+  protected final ResourceBundle messages;
   
   public AboutDialog(final ResourceBundle messages) {
     this.messages = messages;
   }
   
-  public final void show() {    
+  public void show() {
     final String aboutText = 
       StringTools.getLabel(messages.getString("guiMenuAbout"));
-    JOptionPane.showMessageDialog(null, "LanguageTool " + JLanguageTool.VERSION + "\n" 
-        + "Copyright (C) 2005-2009 Daniel Naber\n" 
+    JOptionPane.showMessageDialog(null, getAboutText(),
+        aboutText, JOptionPane.INFORMATION_MESSAGE);
+  }
+
+  protected String getAboutText() {
+    return "LanguageTool " + JLanguageTool.VERSION + "\n"
+        + "Copyright (C) 2005-2010 Daniel Naber\n"
         + "This software is licensed under the GNU Lesser General Public License.\n"
         + "LanguageTool Homepage: http://www.languagetool.org\n\n"
-        + "Maintainers of the language modules:\n"
-        + Language.getAllMaintainers(messages),
-        aboutText, JOptionPane.INFORMATION_MESSAGE);
+        + "Maintainers of the language modules:\n\n"
+        + Language.getAllMaintainers(messages);
   }
 
 }
