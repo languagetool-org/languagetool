@@ -125,8 +125,7 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
 	/**
 	 * See:
 	 * {@link ResourceDataBroker#getFromResourceDirAsStream(java.lang.String)}
-	 * <p>
-	 * 
+	 *
 	 * @param path
 	 *            The relative path to the item inside of the {@code /resource}
 	 *            directory. Please start your path information with {@code /}
@@ -138,15 +137,13 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
 	@Override
 	public InputStream getFromResourceDirAsStream(final String path) {
 		final String completePath = this.getCompleteResourceUrl(path);
-		return ResourceDataBroker.class.getResourceAsStream(completePath
-				.toString());
+		return ResourceDataBroker.class.getResourceAsStream(completePath);
 	}
 
 	/**
 	 * See:
 	 * {@link ResourceDataBroker#getFromResourceDirAsUrl(java.lang.String)}
-	 * <p>
-	 * 
+	 *
 	 * @param path
 	 *            The relative path to the item inside of the {@code /resource}
 	 *            directory. Please start your path information with {@code /}
@@ -158,7 +155,7 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
 	@Override
 	public URL getFromResourceDirAsUrl(final String path) {
 		final String completePath = this.getCompleteResourceUrl(path);
-		return getFixedJarURL(ResourceDataBroker.class.getResource(completePath.toString()));
+		return getFixedJarURL(ResourceDataBroker.class.getResource(completePath));
 	}
 
 	/**
@@ -191,8 +188,7 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
 	/**
 	 * See:
 	 * {@link ResourceDataBroker#getFromRulesDirAsStream(java.lang.String)}
-	 * <p>
-	 * 
+	 *
 	 * @param path
 	 *            The relative path to the item inside of the {@code /rules}
 	 *            directory. Please start your path information with {@code /}
@@ -209,8 +205,7 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
 
 	/**
 	 * See: {@link ResourceDataBroker#getFromRulesDirAsUrl(java.lang.String)}
-	 * <p>
-	 * 
+	 *
 	 * @param path
 	 *            The relative path to the item inside of the {@code /rules}
 	 *            directory. Please start your path information with {@code /}
@@ -316,7 +311,7 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
         }
 
         final String originalURLString = url.toString();
-        int bangSlashIndex = originalURLString.indexOf("!/");
+        final int bangSlashIndex = originalURLString.indexOf("!/");
         if (bangSlashIndex > -1) {
             return url;
         }
@@ -348,7 +343,7 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
         }
 
         final File file = new File(urlConnectionPermissionName);
-        if (file.exists() == false) {
+        if (!file.exists()) {
             return url;
         }
 
