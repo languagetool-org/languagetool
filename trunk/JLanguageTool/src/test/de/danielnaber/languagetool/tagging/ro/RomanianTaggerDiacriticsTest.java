@@ -70,7 +70,7 @@ public class RomanianTaggerDiacriticsTest extends RomanianTaggerTestAbs {
 	 * @since 08.03.2009 19:25:59
 	 * @throws Exception
 	 */
-	public void testTagger_Merseseram() throws Exception {
+	public void testTaggerMerseseram() throws Exception {
 		// these tests are using "test_diacritics.dict"
 		assertHasLemmaAndPos("făcusem", "face", "004");
 		assertHasLemmaAndPos("cuțitul", "cuțit", "002");
@@ -84,7 +84,7 @@ public class RomanianTaggerDiacriticsTest extends RomanianTaggerTestAbs {
 	 * @since 24.03.2009 21:39:25
 	 * @throws Exception
 	 */
-	public void testTagger_Cusca_Cutit() throws Exception {
+	public void testTaggerCuscaCutit() throws Exception {
 		// these tests are using "test_diacritics.dict"
 		// all these are correct, they are here just to prove that "some" words
 		// are corectly returned
