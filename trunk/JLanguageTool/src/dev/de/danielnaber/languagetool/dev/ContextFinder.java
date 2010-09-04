@@ -42,7 +42,7 @@ public class ContextFinder {
     if (args.length != 4 || !args[3].startsWith("--context")) {
       printUsageAndExit();
     }
-    ContextFinder prg = new ContextFinder();
+    final ContextFinder prg = new ContextFinder();
     if (args[3].endsWith("=right"))
       prg.run(args[0], args[1], args[2], true);
     else if (args[3].endsWith("=left"))
@@ -57,23 +57,23 @@ public class ContextFinder {
   }
   
   private void run(String indexDir, String term1, String term2, boolean rightContext) throws IOException {
-    IndexReader reader = IndexReader.open(indexDir);
-    IndexSearcher searcher = new IndexSearcher(reader);
-    TermEnum termEnum = reader.terms();
+    final IndexReader reader = IndexReader.open(indexDir);
+    final IndexSearcher searcher = new IndexSearcher(reader);
+    final TermEnum termEnum = reader.terms();
     int termCount = 0;
     System.out.println(term1 + ": " + reader.docFreq(new Term(Indexer.BODY_FIELD, term1)) + "x");
     System.out.println(term2 + ": " + reader.docFreq(new Term(Indexer.BODY_FIELD, term2)) + "x");
     while (termEnum.next()) {
-      Term t = termEnum.term();
+      final Term t = termEnum.term();
       if (isPOSTag(t))
         continue;
       // first term:
-      PhraseQuery pq1 = makeQuery(t, term1, rightContext);
-      int hits1 = search(pq1, searcher);
+      final PhraseQuery pq1 = makeQuery(t, term1, rightContext);
+      final int hits1 = search(pq1, searcher);
       // second term:
-      PhraseQuery pq2 = makeQuery(t, term2, rightContext);
-      int hits2 = search(pq2, searcher);
-      float rel = (float)(hits1+1) / (float)(hits2+1);
+      final PhraseQuery pq2 = makeQuery(t, term2, rightContext);
+      final int hits2 = search(pq2, searcher);
+      final float rel = (float)(hits1+1) / (float)(hits2+1);
       if (rel > 1.0f)
         System.out.println("#1: " + rel + ": " + myToString(pq1) + ": " + hits1 + " <-> " + myToString(pq2) + ": " + hits2);
       else if (rel < 1.0f)
@@ -90,7 +90,7 @@ public class ContextFinder {
   }
 
   private PhraseQuery makeQuery(Term t, String term1, boolean rightContext) {
-    PhraseQuery pq = new PhraseQuery();
+    final PhraseQuery pq = new PhraseQuery();
     if (rightContext) {
       pq.add(new Term(Indexer.BODY_FIELD, term1));
       pq.add(new Term(Indexer.BODY_FIELD, t.text()));
@@ -103,7 +103,7 @@ public class ContextFinder {
 
   private int search(PhraseQuery pq, IndexSearcher searcher) throws IOException {
     //long time = System.currentTimeMillis();
-    Hits h = searcher.search(pq);
+    final Hits h = searcher.search(pq);
     //long searchTime = System.currentTimeMillis()-time;
     if (h.length() > 0) {
       //System.err.println(h.length() + " " + pq);
@@ -113,8 +113,9 @@ public class ContextFinder {
   }
 
   private boolean isPOSTag(Term t) {
-    if (t.text().equals(t.text().toUpperCase()))    // e.g. "VER:1:PLU:KJ2:NON:NEB"
+    if (t.text().equals(t.text().toUpperCase())) {    // e.g. "VER:1:PLU:KJ2:NON:NEB"
       return true;
+    }
     return false;
   }
 

@@ -151,7 +151,7 @@ public final class RuleOverview {
 
         // maintainer information:
         System.out.print("<td></td>");
-        StringBuilder maintainerInfo = new StringBuilder();
+        final StringBuilder maintainerInfo = new StringBuilder();
         if (lang.getMaintainers() != null) {
           for (Contributor contributor : lang.getMaintainers()) {
             if (!StringTools.isEmpty(maintainerInfo. toString())) {

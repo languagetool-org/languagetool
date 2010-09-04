@@ -47,7 +47,7 @@ abstract class BaseWikipediaDumpHandler extends DefaultHandler {
   protected Date dumpDate;
   protected String langCode;
 
-  private JLanguageTool lt;
+  private final JLanguageTool languageTool;
   private int ruleMatchCount = 0;
   private int articleCount = 0;
   private int maxArticles = 0;
@@ -58,16 +58,16 @@ abstract class BaseWikipediaDumpHandler extends DefaultHandler {
   private TextFilter textFilter = new WikipediaTextFilter();
 
   private String title;
-  private Language lang;
+  private final Language lang;
 
   //===========================================================
   // SAX DocumentHandler methods
   //===========================================================
 
-  protected BaseWikipediaDumpHandler(JLanguageTool lt, int maxArticles, Date dumpDate,
+  protected BaseWikipediaDumpHandler(JLanguageTool languageTool, int maxArticles, Date dumpDate,
       String langCode, Language lang) {
     this.lang = lang;
-    this.lt = lt;
+    this.languageTool = languageTool;
     this.maxArticles = maxArticles;
     this.dumpDate = dumpDate;
     this.langCode = langCode;
@@ -109,7 +109,7 @@ abstract class BaseWikipediaDumpHandler extends DefaultHandler {
       text = new StringBuilder();
     } else if (qName.equals("text")) {
       //System.err.println(text.length() + " " + text.substring(0, Math.min(50, text.length())));
-      String textToCheck = textFilter.filter(text.toString());
+      final String textToCheck = textFilter.filter(text.toString());
       //System.out.println(textToCheck);
       if (!textToCheck.contains("#REDIRECT")) {
         //System.err.println("#########################");
@@ -121,12 +121,12 @@ abstract class BaseWikipediaDumpHandler extends DefaultHandler {
                 ruleMatchCount, articleCount);
             System.exit(0);
           }
-          List<RuleMatch> ruleMatches = lt.check(textToCheck);  
+          final List<RuleMatch> ruleMatches = languageTool.check(textToCheck);
           System.out.println("Checking article " + articleCount + " (" +
               textToCheck.length()/1024 + "KB, '" + title + "')" + 
               ", found " + ruleMatches.size() + " matches");
           try {
-            handleResult(title, ruleMatches, textToCheck, lt.getLanguage());
+            handleResult(title, ruleMatches, textToCheck, languageTool.getLanguage());
           } catch (Exception e) {
             throw new RuntimeException(e);
           }
@@ -141,7 +141,7 @@ abstract class BaseWikipediaDumpHandler extends DefaultHandler {
   }
 
   public void characters(char buf[], int offset, int len) {
-    String s = new String(buf, offset, len);
+    final String s = new String(buf, offset, len);
     if (inText) {
       text.append(s);
     }

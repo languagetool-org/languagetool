@@ -32,7 +32,7 @@ class WikipediaTextFilter implements TextFilter {
 
   public String filter(String s) {
     // TODO: find general HTML to Text converter?!:
-    WikiModel wikiModel = new WikiModel("${image}", "${title}");
+    final WikiModel wikiModel = new WikiModel("${image}", "${title}");
     s = wikiModel.render(s);
     //System.out.println("0####"+s);
     s = s.replaceAll("\\{\\{.*?\\}\\}", "");

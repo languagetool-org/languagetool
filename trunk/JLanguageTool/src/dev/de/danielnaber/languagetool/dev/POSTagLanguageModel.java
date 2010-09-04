@@ -78,7 +78,7 @@ public class POSTagLanguageModel {
   }
 
   private static void runOnStdIn(final JLanguageTool lt) throws IOException {
-    final int MAXFILESIZE = 64000;
+    final int MAX_FILE_SIZE = 64000;
     InputStreamReader isr = null;
     BufferedReader br = null;
     StringBuilder sb = new StringBuilder();
@@ -93,7 +93,7 @@ public class POSTagLanguageModel {
           tagText(sb.toString(), lt);
           sb = new StringBuilder();
         } else {
-          if ("".equals(line) || sb.length() >= MAXFILESIZE) {
+          if ("".equals(line) || sb.length() >= MAX_FILE_SIZE) {
             tagText(sb.toString(), lt);
             sb = new StringBuilder();
           }
@@ -105,12 +105,8 @@ public class POSTagLanguageModel {
       }
     }
 
-    if (br != null) {
-      br.close();
-    }
-    if (isr != null) {
-      isr.close();
-    }
+    br.close();
+    isr.close();
   }
 
   private static void tagText(final String contents, final JLanguageTool lt)

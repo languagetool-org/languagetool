@@ -53,7 +53,7 @@ public class CheckWikipediaDump {
   }
   
   public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException {
-    CheckWikipediaDump prg = new CheckWikipediaDump();
+    final CheckWikipediaDump prg = new CheckWikipediaDump();
     if (args.length < 3 || args.length > 4) {
       System.err.println("Usage: CheckWikipediaDump <propertyFile> <language> <filename> [maxArticleCheck]");
       System.err.println("\tpropertyFile a file to set database access properties. Use '-' to print results to stdout.");
@@ -78,30 +78,30 @@ public class CheckWikipediaDump {
   
   private void run(File propFile, String language, String textFilename, int maxArticles) 
       throws IOException, SAXException, ParserConfigurationException {
-    File file = new File(textFilename);
+    final File file = new File(textFilename);
     if (!file.exists() || !file.isFile()) {
       throw new IOException("File doesn't exist or isn't a file: " + textFilename);
     }
-    Language lang = Language.getLanguageForShortName(language);
+    final Language lang = Language.getLanguageForShortName(language);
     if (lang == null) {
       System.err.println("Language not supported: " + language);
       System.exit(1);
     }
-    JLanguageTool lt = new JLanguageTool(lang);
-    lt.activateDefaultPatternRules();
+    final JLanguageTool languageTool = new JLanguageTool(lang);
+    languageTool.activateDefaultPatternRules();
     // useful settings (avoid false alarms) because text extraction
     // from Wikipedia isn't clean yet:
-    lt.disableRule("DE_CASE");    // too many false hits
-    lt.disableRule("UNPAIRED_BRACKETS");
-    lt.disableRule("UPPERCASE_SENTENCE_START");
-    lt.disableRule("WORD_REPEAT_RULE");
-    lt.disableRule("COMMA_PARENTHESIS_WHITESPACE");
-    lt.disableRule("WHITESPACE_RULE");
-    lt.disableRule("EN_QUOTES");        // en
-    lt.disableRule("CUDZYSLOW_DRUKARSKI");  // pl
-    lt.disableRule("POMIŠLJAJ_1");  // sl
-    lt.disableRule("POMIŠLJAJ_2");  // sl
-    lt.disableRule("POMIŠLJAJ_3");  // sl
+    languageTool.disableRule("DE_CASE");    // too many false hits
+    languageTool.disableRule("UNPAIRED_BRACKETS");
+    languageTool.disableRule("UPPERCASE_SENTENCE_START");
+    languageTool.disableRule("WORD_REPEAT_RULE");
+    languageTool.disableRule("COMMA_PARENTHESIS_WHITESPACE");
+    languageTool.disableRule("WHITESPACE_RULE");
+    languageTool.disableRule("EN_QUOTES");        // en
+    languageTool.disableRule("CUDZYSLOW_DRUKARSKI");  // pl
+    languageTool.disableRule("POMIŠLJAJ_1");  // sl
+    languageTool.disableRule("POMIŠLJAJ_2");  // sl
+    languageTool.disableRule("POMIŠLJAJ_3");  // sl
     /*
     List rules = lt.getAllRules();
     for (Iterator iter = rules.iterator(); iter.hasNext();) {
@@ -110,29 +110,29 @@ public class CheckWikipediaDump {
     }
     lt.enableRule("DE_AGREEMENT");
     */
-    System.err.println("These rules are disabled: " + lt.getDisabledRules());
-    Date dumpDate = getDumpDate(file);
+    System.err.println("These rules are disabled: " + languageTool.getDisabledRules());
+    final Date dumpDate = getDumpDate(file);
     System.out.println("Dump date: " + dumpDate + ", language: " + language);
-    BaseWikipediaDumpHandler handler;
+    final BaseWikipediaDumpHandler handler;
     if (propFile != null) {
-      handler = new DatabaseDumpHandler(lt, maxArticles, dumpDate,
+      handler = new DatabaseDumpHandler(languageTool, maxArticles, dumpDate,
                 language, propFile, lang); 
     } else {
-      handler = new OutputDumpHandler(lt, maxArticles, dumpDate,
+      handler = new OutputDumpHandler(languageTool, maxArticles, dumpDate,
               language, lang); 
     }
-    SAXParserFactory factory = SAXParserFactory.newInstance();
-    SAXParser saxParser = factory.newSAXParser();
+    final SAXParserFactory factory = SAXParserFactory.newInstance();
+    final SAXParser saxParser = factory.newSAXParser();
     saxParser.parse(file, handler);
   }
 
   private Date getDumpDate(File file) throws IOException {
-    String filename = file.getName();
-    String[] parts = filename.split("-");
+    final String filename = file.getName();
+    final String[] parts = filename.split("-");
     if (parts.length < 3) {
       throw new IOException("Unexpected filename format: " + file.getName());
     }
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+    final SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
     try {
       return sdf.parse(parts[1]);
     } catch (ParseException e) {

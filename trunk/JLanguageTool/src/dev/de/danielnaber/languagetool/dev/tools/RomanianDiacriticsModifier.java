@@ -31,7 +31,7 @@ public final class RomanianDiacriticsModifier {
 					- Character.MIN_VALUE];
 			char c = Character.MIN_VALUE;
 			for (int i = 0; i < Character.MAX_VALUE - Character.MIN_VALUE; i++) {
-				char newC = diac(c);
+				final char newC = diac(c);
 				cCorrectDiacritics[i] = newC;
 				c++;
 			}

@@ -39,7 +39,7 @@ import de.danielnaber.languagetool.tools.Tools;
 public final class CheckBNC {
 
   private JLanguageTool langTool = null;
-  private TextFilter textFilter = new BNCTextFilter();
+  private final TextFilter textFilter = new BNCTextFilter();
 
   static final boolean CHECK_BY_SENTENCE = true;
 
@@ -48,35 +48,35 @@ public final class CheckBNC {
       System.out.println("Usage: CheckBNC <directory>");
       System.exit(1);
     }
-    CheckBNC prg = new CheckBNC();
+    final CheckBNC prg = new CheckBNC();
     prg.run(new File(args[0]));
   }
   
   private CheckBNC() throws IOException {
     langTool = new JLanguageTool(Language.ENGLISH);
     langTool.activateDefaultPatternRules();
-    String[] disRules = new String[] {"UPPERCASE_SENTENCE_START", "COMMA_PARENTHESIS_WHITESPACE",
+    final String[] disRules = new String[] {"UPPERCASE_SENTENCE_START", "COMMA_PARENTHESIS_WHITESPACE",
         "WORD_REPEAT_RULE", "DOUBLE_PUNCTUATION"};
     System.err.println("Note: disabling the following rules:");
-    for (int i = 0; i < disRules.length; i++) {
-      langTool.disableRule(disRules[i]);
-      System.err.println(" " + disRules[i]);
+    for (String disRule : disRules) {
+      langTool.disableRule(disRule);
+      System.err.println(" " + disRule);
     }
   }
 
   private void run(final File file) throws IOException {
     if (file.isDirectory()) {
-      File[] files = file.listFiles();
-      for (int i = 0; i < files.length; i++) {
-        run(new File(file, files[i].getName()));
+      final File[] files = file.listFiles();
+      for (File file1 : files) {
+        run(new File(file, file1.getName()));
       }
     } else {
       System.out.println("Checking " + file.getAbsolutePath());
       String text = StringTools.readFile(new FileInputStream(file.getAbsolutePath()));
       text = textFilter.filter(text);
       if (CHECK_BY_SENTENCE) {
-        SentenceTokenizer st = new SentenceTokenizer();
-        List<String> sentences = st.tokenize(text);
+        final SentenceTokenizer st = new SentenceTokenizer();
+        final List<String> sentences = st.tokenize(text);
         for (String sentence : sentences) {
           Tools.checkText(sentence, langTool, false, 1000);
         }

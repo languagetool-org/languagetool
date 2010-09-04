@@ -26,18 +26,18 @@ import de.danielnaber.languagetool.rules.RuleMatch;
  */
 class DatabaseDumpHandler extends BaseWikipediaDumpHandler {
 
-    private Connection conn;
+    private final Connection conn;
 
     DatabaseDumpHandler(JLanguageTool lt, int maxArticles, Date dumpDate, String langCode,
             File propertiesFile, Language lang) throws IOException {
     super(lt, maxArticles, dumpDate, langCode, lang);
     try {
-        Properties dbProperties = new Properties();
+        final Properties dbProperties = new Properties();
         dbProperties.load(new FileInputStream(propertiesFile));
-        String dbDriver = getProperty(dbProperties, "dbDriver");
-        String dbUrl = getProperty(dbProperties, "dbUrl");
-        String dbUser = getProperty(dbProperties, "dbUser");
-        String dbPassword = getProperty(dbProperties, "dbPassword");
+        final String dbDriver = getProperty(dbProperties, "dbDriver");
+        final String dbUrl = getProperty(dbProperties, "dbUrl");
+        final String dbUser = getProperty(dbProperties, "dbUser");
+        final String dbPassword = getProperty(dbProperties, "dbPassword");
         Class.forName(dbDriver);
         conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
       } catch (ClassNotFoundException e) {
@@ -59,7 +59,7 @@ class DatabaseDumpHandler extends BaseWikipediaDumpHandler {
     }
 
     private String getProperty(Properties prop, String key) {
-      String value = prop.getProperty(key);
+      final String value = prop.getProperty(key);
       if (value == null) {
         throw new RuntimeException("required key '" +key+ "' not found in properties");
       }
@@ -69,11 +69,11 @@ class DatabaseDumpHandler extends BaseWikipediaDumpHandler {
     @Override
     protected void handleResult(String title, List<RuleMatch> ruleMatches,
             String text, Language language) throws SQLException {
-      String sql = "INSERT INTO corpus_match " +
+      final String sql = "INSERT INTO corpus_match " +
               "(version, language_code, ruleid, message, error_context, corpus_date, " +
               "check_date, sourceuri, is_visible) "+
               "VALUES (0, ?, ?, ?, ?, ?, ?, ?, 1)";
-      PreparedStatement prepSt = conn.prepareStatement(sql);
+      final PreparedStatement prepSt = conn.prepareStatement(sql);
       for (RuleMatch match : ruleMatches) {
         prepSt.setString(1, language.getShortName());
         prepSt.setString(2, match.getRule().getId());

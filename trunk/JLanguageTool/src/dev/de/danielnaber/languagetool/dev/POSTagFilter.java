@@ -45,7 +45,7 @@ class POSTagFilter extends TokenFilter {
   private static final String BASEFORM_PREFIX = "B_";
   private static final String TEXTFORM_PREFIX = "T_";
   
-  private Stack<Token> stack = new Stack<Token>();
+  private final Stack<Token> stack = new Stack<Token>();
   private Tagger tagger = null;
   
   public POSTagFilter(TokenStream in, Tagger tagger) {
@@ -59,28 +59,28 @@ class POSTagFilter extends TokenFilter {
       //System.err.println("*"+stack.peek());
       return stack.pop();
     } else {
-      Token t = input.next();
+      final Token t = input.next();
       if (t == null)
         return null;
-      List<String> wordList = new ArrayList<String>();
+      final List<String> wordList = new ArrayList<String>();
       wordList.add(t.termText());
-      List<AnalyzedTokenReadings> atr = tagger.tag(wordList);
-      for (Iterator iter = atr.iterator(); iter.hasNext();) {
-        AnalyzedGermanTokenReadings atrs = (AnalyzedGermanTokenReadings) iter.next();
-        List<AnalyzedToken> ats = atrs.getReadings();
-        for (Iterator iterator = ats.iterator(); iterator.hasNext();) {
-          AnalyzedToken at = (AnalyzedToken) iterator.next();
+      final List<AnalyzedTokenReadings> atr = tagger.tag(wordList);
+      for (Object anAtr : atr) {
+        final AnalyzedGermanTokenReadings atrs = (AnalyzedGermanTokenReadings) anAtr;
+        final List<AnalyzedToken> ats = atrs.getReadings();
+        for (Object at1 : ats) {
+          final AnalyzedToken at = (AnalyzedToken) at1;
           if (at.getPOSTag() != null) {
             //System.err.println(">>>>>"+at.getPOSTag());
-            Token posToken = new Token(at.getPOSTag(), t.startOffset(), t.endOffset());
+            final Token posToken = new Token(at.getPOSTag(), t.startOffset(), t.endOffset());
             posToken.setPositionIncrement(0);
             stack.push(posToken);
           }
-          Set<String> indexLemmas = new HashSet<String>();
+          final Set<String> indexLemmas = new HashSet<String>();
           if (at.getLemma() != null) {
-            String lemma = at.getLemma().toLowerCase();
+            final String lemma = at.getLemma().toLowerCase();
             if (!lemma.equalsIgnoreCase(t.termText()) && !indexLemmas.contains(lemma)) {
-              Token posToken = new Token(BASEFORM_PREFIX + lemma, t.startOffset(), t.endOffset());
+              final Token posToken = new Token(BASEFORM_PREFIX + lemma, t.startOffset(), t.endOffset());
               posToken.setPositionIncrement(0);
               stack.push(posToken);
               indexLemmas.add(lemma);

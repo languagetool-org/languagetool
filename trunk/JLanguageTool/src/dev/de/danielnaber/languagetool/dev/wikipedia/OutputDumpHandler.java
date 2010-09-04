@@ -46,9 +46,9 @@ class OutputDumpHandler extends BaseWikipediaDumpHandler {
           msg = msg.replaceAll("<suggestion>", "'");
           msg = msg.replaceAll("</suggestion>", "'");
           System.out.println("Message: " + msg);
-          final List<String> repl = match.getSuggestedReplacements();
-          if (!repl.isEmpty()) {
-            System.out.println("Suggestion: " + StringTools.listToString(repl, "; "));
+          final List<String> replacements = match.getSuggestedReplacements();
+          if (!replacements.isEmpty()) {
+            System.out.println("Suggestion: " + StringTools.listToString(replacements, "; "));
           }
           System.out.println(StringTools.getContext(match.getFromPos(), match
               .getToPos(), text, CONTEXT_SIZE));

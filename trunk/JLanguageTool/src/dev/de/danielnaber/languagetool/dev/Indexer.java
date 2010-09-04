@@ -44,18 +44,18 @@ public class Indexer  {
   private Indexer() {}
   
   public static void main(String[] args) throws IOException {
-    Indexer prg = new Indexer();
+    final Indexer prg = new Indexer();
     if (args.length != 2) {
       System.err.println("Usage: Indexer <dataDir> <indexDir>");
       System.exit(1);
     }
     // FIXME: make this an option:
-    Language lang = Language.GERMAN;
+    final Language lang = Language.GERMAN;
     prg.run(args[0], args[1], lang);
   }
   
   private void run(String dataDir, String indexDir, Language lang) throws IOException {
-    IndexWriter iw = new IndexWriter(indexDir, new POSTagAnalyzer(lang.getTagger()), true);
+    final IndexWriter iw = new IndexWriter(indexDir, new POSTagAnalyzer(lang.getTagger()), true);
     iw.setMaxBufferedDocs(100);
     index(iw, new File(dataDir), 1);
     System.out.println("Optimizing index...");
@@ -64,17 +64,17 @@ public class Indexer  {
     System.out.println("Done.");
   }
 
-  private void index(IndexWriter iw, File file, int count) throws IOException {
-    if (file.isDirectory()) {
-      File[] files = file.listFiles();
-      for (int i = 0; i < files.length; i++) {
-        index(iw, files[i], ++count);
+  private void index(IndexWriter iw, File dir, int count) throws IOException {
+    if (dir.isDirectory()) {
+      final File[] files = dir.listFiles();
+      for (File file : files) {
+        index(iw, file, ++count);
       }
     } else {
-      Document doc = new Document();
+      final Document doc = new Document();
       if (count % 50 == 0)
         System.out.println("Indexing file #" + count);
-      String s = StringTools.readFile(new FileInputStream(file.getAbsolutePath()), "iso-8859-1");
+      String s = StringTools.readFile(new FileInputStream(dir.getAbsolutePath()), "iso-8859-1");
       // XML data:
       s = getParagraphs(s);
       //s = s.replaceAll("(\\w)([.,?!])", "$1 $2");
@@ -86,9 +86,9 @@ public class Indexer  {
   }
 
   private String getParagraphs(String xml) {
-    StringBuilder sb = new StringBuilder();
-    Pattern pattern = Pattern.compile("<p>(.*?)</p>", Pattern.DOTALL);
-    Matcher matcher = pattern.matcher(xml);
+    final StringBuilder sb = new StringBuilder();
+    final Pattern pattern = Pattern.compile("<p>(.*?)</p>", Pattern.DOTALL);
+    final Matcher matcher = pattern.matcher(xml);
     int pos = 0;
     while (matcher.find(pos)) {
       sb.append(matcher.group(1));

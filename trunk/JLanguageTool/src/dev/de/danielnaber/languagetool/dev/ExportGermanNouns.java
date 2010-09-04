@@ -45,16 +45,16 @@ public class ExportGermanNouns {
   }
   
   private Set<String> getWords() throws IOException {
-    FSA fsa = FSA.getInstance(JLanguageTool.getDataBroker().getFromResourceDirAsStream(DICT_FILENAME));
+    final FSA fsa = FSA.getInstance(JLanguageTool.getDataBroker().getFromResourceDirAsStream(DICT_FILENAME));
     String lastTerm = null;
-    Set<String> set = new HashSet<String>();
+    final Set<String> set = new HashSet<String>();
     for (ByteBuffer bb : fsa) {
       final byte [] sequence = new byte [bb.remaining()];
       bb.get(sequence);
-      String output = new String(sequence, "iso-8859-1");
+      final String output = new String(sequence, "iso-8859-1");
       if (output.indexOf("+SUB:") != -1 && output.indexOf(":ADJ") == -1) {
-        String[] parts = output.split("\\+");
-        String term = parts[0].toLowerCase();
+        final String[] parts = output.split("\\+");
+        final String term = parts[0].toLowerCase();
         if (lastTerm == null || !lastTerm.equals(parts[0])) {
           //System.out.println(parts[0]);
           set.add(term);
@@ -66,8 +66,8 @@ public class ExportGermanNouns {
   }
   
   private void serialize(Set<String> words, File outputFile) throws IOException {
-    FileOutputStream fos = new FileOutputStream(outputFile);
-    ObjectOutputStream oos = new ObjectOutputStream(fos);
+    final FileOutputStream fos = new FileOutputStream(outputFile);
+    final ObjectOutputStream oos = new ObjectOutputStream(fos);
     oos.writeObject(words);
     oos.close();
     fos.close();
@@ -78,8 +78,8 @@ public class ExportGermanNouns {
       System.out.println("Usage: ExportGermanNouns <outputFile>");
       System.exit(1);
     }
-    ExportGermanNouns prg = new ExportGermanNouns();
-    Set<String> words = prg.getWords();
+    final ExportGermanNouns prg = new ExportGermanNouns();
+    final Set<String> words = prg.getWords();
     prg.serialize(words, new File(args[0]));
   }
     
