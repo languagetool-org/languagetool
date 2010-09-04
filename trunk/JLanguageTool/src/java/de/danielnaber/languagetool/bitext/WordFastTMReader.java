@@ -36,11 +36,11 @@ public class WordFastTMReader extends TabBitextReader {
     super(filename, encoding);
     //skip the header (first line)
     if (nextline != null) {
-      nextline = Tab2StringPair(in.readLine());
+      nextline = tab2StringPair(in.readLine());
     }
   }
   
-  protected static StringPair Tab2StringPair(final String line) {
+  protected static StringPair tab2StringPair(final String line) {
     if (line == null) {
       return null;
     }
@@ -64,7 +64,7 @@ public class WordFastTMReader extends TabBitextReader {
         StringPair result = nextline;
 
         if (nextline != null) {  
-          nextline = Tab2StringPair(in.readLine()); 
+          nextline = tab2StringPair(in.readLine()); 
           if (nextline == null) 
             in.close();
         }

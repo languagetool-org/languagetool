@@ -44,13 +44,13 @@ public class TabBitextReader implements BitextReader {
       } else {
         in = new BufferedReader(new InputStreamReader(new FileInputStream(filename), encoding));
       }
-      nextline = Tab2StringPair(in.readLine());
+      nextline = tab2StringPair(in.readLine());
     } catch(IOException e) { 
       throw new IllegalArgumentException(e); 
     }
   }
 
-  protected static StringPair Tab2StringPair(final String line) {
+  protected static StringPair tab2StringPair(final String line) {
     if (line == null) {
       return null;
     }
@@ -74,7 +74,7 @@ public class TabBitextReader implements BitextReader {
         StringPair result = nextline;
 
         if (nextline != null) {  
-          nextline = Tab2StringPair(in.readLine()); 
+          nextline = tab2StringPair(in.readLine()); 
           if (nextline == null) 
             in.close();
         }
