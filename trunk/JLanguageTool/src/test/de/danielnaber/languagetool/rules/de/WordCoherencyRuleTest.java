@@ -24,6 +24,7 @@ import java.util.List;
 import junit.framework.TestCase;
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
+import de.danielnaber.languagetool.rules.RuleMatch;
 
 /**
  * @author Daniel Naber
@@ -49,7 +50,7 @@ public class WordCoherencyRuleTest extends TestCase {
   public void testRuleCompleteTexts() throws IOException {
     JLanguageTool langTool;
     // complete texts:
-    List matches = null;
+    List<RuleMatch> matches = null;
     //matches = langTool.check("Das ist aufwendig. Aber hallo. Es ist wirklich aufwendig.");
     //assertEquals(0, matches.size());
     langTool = new JLanguageTool(Language.GERMAN);
