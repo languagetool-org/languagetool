@@ -24,6 +24,8 @@ import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import de.danielnaber.languagetool.JLanguageTool;
+import de.danielnaber.languagetool.Language;
 import org.xml.sax.SAXException;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
@@ -41,8 +43,27 @@ public abstract class AbstractRuleDisambiguator implements Disambiguator {
 
   protected static final String DISAMB_FILE = "disambiguation.xml";
   protected List<DisambiguationPatternRule> disambiguationRules;
-  
-  public abstract AnalyzedSentence disambiguate(final AnalyzedSentence input) throws IOException; 
+
+  protected abstract Language getLanguage();
+
+  @Override
+  public AnalyzedSentence disambiguate(final AnalyzedSentence input) throws IOException {
+    AnalyzedSentence sentence = input;
+    if (disambiguationRules == null) {
+      final String defaultPatternFilename =
+        JLanguageTool.getDataBroker().getResourceDir() + "/" + getLanguage().getShortName() + "/" + DISAMB_FILE;
+      try {
+        disambiguationRules = loadPatternRules(defaultPatternFilename);
+      } catch (final Exception e) {
+        throw new RuntimeException("Problems with parsing disambiguation file: "
+            + defaultPatternFilename, e);
+      }
+    }
+    for (final DisambiguationPatternRule patternRule : disambiguationRules) {
+      sentence = patternRule.replace(sentence);
+    }
+    return sentence;
+  }
 
   /**
    * Load disambiguation rules from an XML file. Use {@link de.danielnaber.languagetool.JLanguageTool#addRule} to add

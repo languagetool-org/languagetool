@@ -19,39 +19,14 @@
 
 package de.danielnaber.languagetool.tagging.disambiguation.rules.ro;
 
-import java.io.IOException;
-
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.xml.sax.SAXException;
-
-import de.danielnaber.languagetool.AnalyzedSentence;
-import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.tagging.disambiguation.rules.AbstractRuleDisambiguator;
-import de.danielnaber.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 
 public class RomanianRuleDisambiguator extends AbstractRuleDisambiguator {
 
   @Override
-  public final AnalyzedSentence disambiguate(final AnalyzedSentence input) throws IOException {
-    AnalyzedSentence sentence = input;
-    try {
-      if (disambiguationRules == null) {
-        final String defaultPatternFilename = 
-        	JLanguageTool.getDataBroker().getResourceDir() + "/ro/" + DISAMB_FILE;
-        disambiguationRules = loadPatternRules(defaultPatternFilename);
-      }
-      for (final DisambiguationPatternRule dr : disambiguationRules) {
-        sentence = dr.replace(sentence);
-      }
-    } catch (final ParserConfigurationException e) {
-      throw new RuntimeException("Problems with parsing disambiguation file: " 
-          + Language.ROMANIAN.getShortName() + "/" + DISAMB_FILE + e.getMessage(), e);
-    } catch (final SAXException e) {
-      throw new RuntimeException("Problems with parsing disambiguation file: " 
-          + e.getMessage(), e);
-    }
-    return sentence; 
+  protected Language getLanguage() {
+    return Language.ROMANIAN;
   }
+
 }
