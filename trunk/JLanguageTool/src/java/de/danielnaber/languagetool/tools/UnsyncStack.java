@@ -34,7 +34,6 @@ public class UnsyncStack<E> extends ArrayList<E> {
   /**
    * Generated automatically.
    */
-
   private static final long serialVersionUID = -4984830372178073605L;
 
   public UnsyncStack() {

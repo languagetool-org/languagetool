@@ -102,8 +102,7 @@ public final class ReflectionUtils {
       final String packageName, final String classNameRegEx,
       final int subdirLevel, final Class classExtends,
       final Class interfaceImplements, final List<Class> foundClasses,
-      final URL resource) throws URISyntaxException, Exception,
-      ClassNotFoundException {
+      final URL resource) throws Exception {
     final File directory = new File(resource.toURI());
 
     if (!directory.exists() && !directory.isDirectory()) {
@@ -172,7 +171,7 @@ public final class ReflectionUtils {
             && (classNameRegEx == null || classShortNm.matches(classNameRegEx))) {
           final String subName = classNm.substring(packageName.length() + 1);
 
-          if (countOccurences(subName, '.') > subdirLevel) {
+          if (countOccurrences(subName, '.') > subdirLevel) {
             continue;
           }
 
@@ -198,7 +197,7 @@ public final class ReflectionUtils {
     }
   }
 
-  private static int countOccurences(final String str, final char ch) {
+  private static int countOccurrences(final String str, final char ch) {
     int i = 0;
     int pos = str.indexOf(ch, 0);
     while (pos != -1) {
@@ -214,18 +213,16 @@ public final class ReflectionUtils {
   }
 
   /**
-   * @param class1
-   * @param superclassName
-   * @return Returns true if class1 extends
+   * @return Returns true if clazz extends superClassName
    */
-  private static boolean isExtending(final Class class1,
-      final String superclassName) {
-    Class superclass1 = class1.getSuperclass();
-    while (superclass1 != null) {
-      if (superclassName.equals(superclass1.getName())) {
+  private static boolean isExtending(final Class clazz,
+      final String superClassName) {
+    Class tmpSuperClass = clazz.getSuperclass();
+    while (tmpSuperClass != null) {
+      if (superClassName.equals(tmpSuperClass.getName())) {
         return true;
       }
-      superclass1 = superclass1.getSuperclass();
+      tmpSuperClass = tmpSuperClass.getSuperclass();
     }
     return false;
   }

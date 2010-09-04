@@ -225,14 +225,14 @@ public final class StringTools {
 
   public static String readerToString(final Reader reader) throws IOException {
     final StringBuilder sb = new StringBuilder();
-    int readbytes = 0;
+    int readBytes = 0;
     final char[] chars = new char[4000];
-    while (readbytes >= 0) {
-      readbytes = reader.read(chars, 0, 4000);
-      if (readbytes <= 0) {
+    while (readBytes >= 0) {
+      readBytes = reader.read(chars, 0, 4000);
+      if (readBytes <= 0) {
         break;
       }
-      sb.append(new String(chars, 0, readbytes));
+      sb.append(new String(chars, 0, readBytes));
     }
     return sb.toString();
   }
@@ -257,8 +257,7 @@ public final class StringTools {
    * Escapes these characters: less than, bigger than, quote, ampersand.
    */
   public static String escapeHTML(final String s) {
-    // this version is much faster
-    // than using s.replaceAll
+    // this version is much faster than using s.replaceAll
     final StringBuilder sb = new StringBuilder();
     final int n = s.length();
     for (int i = 0; i < n; i++) {
@@ -405,7 +404,8 @@ public final class StringTools {
     sb.append(fileContents.substring(startContent, endContent));
     sb.append(postfix);
     sb.append("\n");
-    sb.append(markerPrefix + marker.substring(startContent, endContent));
+    sb.append(markerPrefix);
+    sb.append(marker.substring(startContent, endContent));
     return sb.toString();
   }
 

@@ -30,8 +30,8 @@ public class SymbolLocator {
   public String symbol;
   public int index;
 
-  public SymbolLocator(final String sym, final int ind) {
-    symbol = sym;
-    index = ind;
+  public SymbolLocator(final String symbol, final int index) {
+    this.symbol = symbol;
+    this.index = index;
   }
 }

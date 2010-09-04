@@ -181,10 +181,10 @@ public final class Tools {
       msg = msg.replaceAll("<suggestion>", "'");
       msg = msg.replaceAll("</suggestion>", "'");
       System.out.println("Message: " + msg);
-      final List<String> repl = match.getSuggestedReplacements();
-      if (!repl.isEmpty()) {
+      final List<String> replacements = match.getSuggestedReplacements();
+      if (!replacements.isEmpty()) {
         System.out.println("Suggestion: "
-            + StringTools.listToString(repl, "; "));
+            + StringTools.listToString(replacements, "; "));
       }
       System.out.println(StringTools.getContext(match.getFromPos(), match
           .getToPos(), contents, contextSize));
@@ -215,7 +215,7 @@ public final class Tools {
       final List<BitextRule> bRules,
       final boolean apiFormat, final XmlPrintMode xmlMode) throws IOException {
     final long startTime = System.currentTimeMillis();
-    int contextSize = DEFAULT_CONTEXT_SIZE;
+    final int contextSize = DEFAULT_CONTEXT_SIZE;
     final List<RuleMatch> ruleMatches = 
       checkBitext(src, trg, srcLt, trgLt, bRules);
     if (apiFormat) {
@@ -241,7 +241,7 @@ public final class Tools {
   * @param srcLt Source JLanguageTool (used to analyze the text).
   * @param trgLt Target JLanguageTool (used to analyze the text).
   * @param bRules  Bilingual rules used in addition to target standard rules.  
-  * @return  The list of rulematches on the bitext.
+  * @return  The list of rule matches on the bitext.
   * @throws IOException
   * @since 1.0.1
   */
@@ -250,11 +250,9 @@ public final class Tools {
       final List<BitextRule> bRules) throws IOException {
    final List<RuleMatch> ruleMatches = srcLt.check(src);    
     for (BitextRule bRule : bRules) {
-      RuleMatch[] curMatch = bitextMatch(bRule, src, trg, srcLt, trgLt);
+      final RuleMatch[] curMatch = bitextMatch(bRule, src, trg, srcLt, trgLt);
       if (curMatch != null) {
-        for (RuleMatch match : curMatch) {
-          ruleMatches.add(match);
-        }
+        ruleMatches.addAll(Arrays.asList(curMatch));
       }
     }
    return ruleMatches;
@@ -280,17 +278,17 @@ public final class Tools {
    */
   public static List<BitextRule> getBitextRules(final Language source, 
       final Language target) throws IOException, ParserConfigurationException, SAXException {
-    List<BitextRule> bRules = new ArrayList<BitextRule>();
+    final List<BitextRule> bRules = new ArrayList<BitextRule>();
     //try to load the bitext pattern rules for the language...
     final BitextPatternRuleLoader ruleLoader = new BitextPatternRuleLoader();          
     final String name = "/" + target.getShortName() + "/bitext.xml";
-    InputStream is = JLanguageTool.getDataBroker().getFromRulesDirAsStream(name);
+    final InputStream is = JLanguageTool.getDataBroker().getFromRulesDirAsStream(name);
     if (is != null) {
       bRules.addAll(ruleLoader.getRules(is, name));
     }
     
     //load the false friend rules in the bitext mode
-    FalseFriendsAsBitextLoader fRuleLoader = new FalseFriendsAsBitextLoader();
+    final FalseFriendsAsBitextLoader fRuleLoader = new FalseFriendsAsBitextLoader();
     final String fName = "/false-friends.xml";
     bRules.addAll(fRuleLoader.
     getFalseFriendsAsBitext(        
@@ -361,13 +359,13 @@ public final class Tools {
    */
   public static void profileRulesOnText(final String contents, 
       final JLanguageTool lt) throws IOException {
-    long[] workTime = new long[10];
+    final long[] workTime = new long[10];
     int matchCount = 0;
-    List<Rule> rules = lt.getAllRules();        
-    int ruleCount = rules.size();
+    final List<Rule> rules = lt.getAllRules();
+    final int ruleCount = rules.size();
     System.out.printf("Testing %d rules\n", ruleCount);
     System.out.println("Rule ID\tTime\tSentences\tMatches\tSentences per sec.");
-    List<String> sentences = lt.sentenceTokenize(contents);
+    final List<String> sentences = lt.sentenceTokenize(contents);
     for (Rule rule : rules) {
       matchCount = 0;
     for (int k = 0; k < 10; k++) {
@@ -400,8 +398,8 @@ public final class Tools {
   } 
   
   public static long median(long[] m) {
-    int middle = m.length/2;  // subscript of middle element
-    if (m.length%2 == 1) {
+    final int middle = m.length / 2;  // subscript of middle element
+    if (m.length % 2 == 1) {
         // Odd number of elements -- return the middle one.
         return m[middle];
     } 
@@ -434,33 +432,31 @@ public final class Tools {
    *  one is applied, and others ignored silently.
    *
    *  @param   
-   *    src - source string to be checked
-   *  @param trg - target string to be checked       *  
+   *    src source string to be checked
+   *  @param target target string to be checked
    *  @param
-   *    srcLt - Initialized source JLanguageTool object
+   *    sourceLanguageTool Initialized source JLanguageTool object
    *  @param
-   *    trgLt - Initialized target JLanguageTool object
+   *    targetLanguageTool Initialized target JLanguageTool object
    *  @param
-   *  brules  - List of all BitextRules to use
+   *    bRules  List of all BitextRules to use
    *  @return
    *    Corrected text as String.
    */  
-  public static String correctBitext(final String src, final String trg,
-      final JLanguageTool srcLt, final JLanguageTool trgLt,
+  public static String correctBitext(final String src, final String target,
+      final JLanguageTool sourceLanguageTool, final JLanguageTool targetLanguageTool,
       final List<BitextRule> bRules) throws IOException {       
-    final List<RuleMatch> ruleMatches = srcLt.check(src);    
+    final List<RuleMatch> ruleMatches = sourceLanguageTool.check(src);
     for (BitextRule bRule : bRules) {
-      RuleMatch[] curMatch = bitextMatch(bRule, src, trg, srcLt, trgLt);
+      final RuleMatch[] curMatch = bitextMatch(bRule, src, target, sourceLanguageTool, targetLanguageTool);
       if (curMatch != null) {
-        for (RuleMatch match : curMatch) {
-          ruleMatches.add(match);
-        }
+        ruleMatches.addAll(Arrays.asList(curMatch));
       }
     }
     if (ruleMatches.isEmpty()) {
-      return trg;
+      return target;
     }
-    return correctTextFromMatches(trg, ruleMatches);
+    return correctTextFromMatches(target, ruleMatches);
   }
 
   private static String correctTextFromMatches(
@@ -492,8 +488,7 @@ public final class Tools {
     return sb.toString();  
   }
   
-  public static InputStream getInputStream(final String resourcePath)
-  throws IOException {
+  public static InputStream getInputStream(final String resourcePath) throws IOException {
     try {
       // try the URL first:
       final URL url = new URL(resourcePath);
