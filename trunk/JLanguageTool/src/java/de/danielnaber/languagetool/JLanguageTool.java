@@ -595,6 +595,7 @@ public final class JLanguageTool {
    * @param lineCount Current line number
    * @param sentence  The text being checked
    * @return
+   * The RuleMatch object with adjustments.
    */
   public RuleMatch adjustRuleMatchPos(final RuleMatch rm, int sentLen,
       int columnCount, int lineCount, final String sentence) {    
