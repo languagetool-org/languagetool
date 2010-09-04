@@ -55,7 +55,7 @@ public class HTTPServer extends ContentOracle {
    * Instances are organized by language and mother language.
    * This is like a tree: first level contain the Languages, next level contains JLanguageTool instances for each mother tongue.
    */
-  private static Map<Language, Map<Language, JLanguageTool>> instances = new HashMap<Language, Map<Language, JLanguageTool>>();
+  private static final Map<Language, Map<Language, JLanguageTool>> instances = new HashMap<Language, Map<Language, JLanguageTool>>();
   /**
    * The default port on which the server is running (8081).
    */
@@ -117,7 +117,7 @@ public class HTTPServer extends ContentOracle {
 
   public String demultiplex(Request connRequest, Response connResponse) {
     synchronized(instances){
-      long timeStart = System.currentTimeMillis();
+      final long timeStart = System.currentTimeMillis();
       String text = null;
       try {
         if (StringTools.isEmpty(connRequest.getLocation())) {
@@ -131,7 +131,7 @@ public class HTTPServer extends ContentOracle {
 	      fixRequestParamMap(connRequest);
 	     
 	      // return content base on request string.
-	      // Refactror this when the number of known request types gets too big.   
+	      // Refactor this when the number of known request types gets too big.
 
 	      // request type: list known languages
 	      if (connRequest.getLocation().endsWith("/Languages")) {
@@ -141,18 +141,18 @@ public class HTTPServer extends ContentOracle {
 	      }
 	    
 	      // request type: grammar checking (default type)
-          String langParam = connRequest.getParamOrNull("language");
+          final String langParam = connRequest.getParamOrNull("language");
           if (langParam == null)
             throw new IllegalArgumentException("Missing 'language' parameter");
-          Language lang = Language.getLanguageForShortName(langParam);
+          final Language lang = Language.getLanguageForShortName(langParam);
           if (lang == null)
             throw new IllegalArgumentException("Unknown language '" + langParam
                 + "'");
-          String motherTongueParam = connRequest.getParamOrNull("motherTongue");
+          final String motherTongueParam = connRequest.getParamOrNull("motherTongue");
 		  Language motherTongue = null;
           if (null != motherTongueParam)
             motherTongue = Language.getLanguageForShortName(motherTongueParam);
-          JLanguageTool lt = getLanguageToolInstance(lang, motherTongue);
+          final JLanguageTool lt = getLanguageToolInstance(lang, motherTongue);
           // TODO: how to take options from the client?
           // TODO: customize lt here after reading client options
           text = connRequest.getParamOrNull("text");
@@ -160,14 +160,14 @@ public class HTTPServer extends ContentOracle {
             throw new IllegalArgumentException("Missing 'text' parameter");
           print("Checking " + text.length() + " characters of text, language "
               + langParam);
-          List<RuleMatch> matches = lt.check(text);
+          final List<RuleMatch> matches = lt.check(text);
           connResponse.setHeaderLine(ProtocolResponseHeader.Content_Type,
               "text/xml");
           // TODO: how to set the encoding to utf-8 if we can just return a
           // String?
           connResponse.setHeaderLine(ProtocolResponseHeader.Content_Encoding,
               "UTF-8");
-          String response = StringTools.ruleMatchesToXML(matches, text,
+          final String response = StringTools.ruleMatchesToXML(matches, text,
               CONTEXT_SIZE, StringTools.XmlPrintMode.NORMAL_XML);
           print("Check done in " + (System.currentTimeMillis() - timeStart)
               + "ms");
@@ -192,7 +192,7 @@ public class HTTPServer extends ContentOracle {
   }
 
   private String getDate() {
-    SimpleDateFormat sdf = new SimpleDateFormat();
+    final SimpleDateFormat sdf = new SimpleDateFormat();
     return sdf.format(new Date());
   }
 
@@ -218,7 +218,7 @@ public class HTTPServer extends ContentOracle {
    * @throws UnsupportedEncodingException If character encoding needs to be consulted, but named character encoding is not supported.
    */
   private void fixRequestParamMap(final Request connRequest) throws UnsupportedEncodingException {
-    Map<String, String> paramMap = getParamMap(connRequest);
+    final Map<String, String> paramMap = getParamMap(connRequest);
     connRequest.getParamMap().clear();
     connRequest.getParamMap().putAll(paramMap);
   }
@@ -233,7 +233,7 @@ public class HTTPServer extends ContentOracle {
    * @throws UnsupportedEncodingException If character encoding needs to be consulted, but named character encoding is not supported
    */
   private Map<String, String> getParamMap(Request connRequest) throws UnsupportedEncodingException {
-    Map<String, String> paramMap = new HashMap<String, String>();
+    final Map<String, String> paramMap = new HashMap<String, String>();
     if (null == connRequest) 
       return paramMap;
     String requestStr = null;
@@ -245,18 +245,18 @@ public class HTTPServer extends ContentOracle {
     if (StringTools.isEmpty(requestStr))
       return paramMap;
 
-    String[] comps = requestStr.split("&");
-    for (int i = 0; i < comps.length; i++) {
-      int equalsLoc = comps[i].indexOf("=");
-        if (equalsLoc > 0) {
-          paramMap.put(comps[i].substring(0, equalsLoc),
-            URLDecoder.decode(comps[i].substring(equalsLoc + 1), "UTF-8"));
-          // TODO: Find some way to determine the encoding used on client-side
-          // maybe "Accept-Charset" request header could be used.
-          // UTF-8 will work on most platforms and browsers.
-        } else {
-          paramMap.put(comps[i], "");
-        }
+    final String[] comps = requestStr.split("&");
+    for (String comp : comps) {
+      final int equalsLoc = comp.indexOf("=");
+      if (equalsLoc > 0) {
+        paramMap.put(comp.substring(0, equalsLoc),
+                URLDecoder.decode(comp.substring(equalsLoc + 1), "UTF-8"));
+        // TODO: Find some way to determine the encoding used on client-side
+        // maybe "Accept-Charset" request header could be used.
+        // UTF-8 will work on most platforms and browsers.
+      } else {
+        paramMap.put(comp, "");
+      }
     }
     return paramMap;	
   }
@@ -279,10 +279,10 @@ public class HTTPServer extends ContentOracle {
       languageTools = new HashMap<Language, JLanguageTool>();
       instances.put(lang, languageTools);
     }
-    JLanguageTool languageTool = languageTools.get(motherTongue);
+    final JLanguageTool languageTool = languageTools.get(motherTongue);
     if (null == languageTool) {
       print("Creating JLanguageTool instance for language " + lang + ((null != motherTongue)?(" and mother tongue " + motherTongue):""));
-      JLanguageTool newLanguageTool = new JLanguageTool(lang, motherTongue);
+      final JLanguageTool newLanguageTool = new JLanguageTool(lang, motherTongue);
       newLanguageTool.activateDefaultPatternRules();
       newLanguageTool.activateDefaultFalseFriendRules();
       languageTools.put(motherTongue, newLanguageTool);
@@ -302,14 +302,14 @@ public class HTTPServer extends ContentOracle {
    * @return an xml string containing all supported languages.
    */
   public static String getSupportedLanguagesAsXML() {
-    List<Language> languages = Arrays.asList(Language.REAL_LANGUAGES);
+    final List<Language> languages = Arrays.asList(Language.REAL_LANGUAGES);
     Collections.sort(languages, 
       new Comparator<Language>() {
         public int compare(Language o1, Language o2) {
 		  return o1.getName().compareTo(o2.getName());
 		}
       });
-    StringBuilder xmlBuffer = new StringBuilder("<?xml version='1.0' encoding='UTF-8'?>\n<languages>\n");
+    final StringBuilder xmlBuffer = new StringBuilder("<?xml version='1.0' encoding='UTF-8'?>\n<languages>\n");
     for (Language lang : languages) {
      xmlBuffer.append(String.format("\t<language name=\"%s\" abbr=\"%s\" /> \n", lang.getName(), lang.getShortName()));
     }
@@ -334,7 +334,7 @@ public class HTTPServer extends ContentOracle {
         verbose = true;
       }
     }
-    HTTPServer server = new HTTPServer(port, verbose);
+    final HTTPServer server = new HTTPServer(port, verbose);
     server.run();
   }
 

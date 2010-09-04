@@ -62,7 +62,7 @@ public class PolishSynthesizer implements Synthesizer {
     }
     if (synthesizer == null) {
       final URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(RESOURCE_FILENAME);
-      synthesizer = new DictionaryLookup(Dictionary.read(url));      
+      synthesizer = new DictionaryLookup(Dictionary.read(url));
     }
     boolean isNegated = false;
     if (token.getPOSTag() != null) {
@@ -73,7 +73,7 @@ public class PolishSynthesizer implements Synthesizer {
     if (posTag.indexOf('+') > 0) {
       return synthesize(token, posTag, true);
     }
-    List<String> forms = getWordForms(token, posTag, isNegated); 
+    final List<String> forms = getWordForms(token, posTag, isNegated);
     return forms.toArray(new String[forms.size()]);
   }
 
@@ -149,8 +149,8 @@ public class PolishSynthesizer implements Synthesizer {
 
   private List<String> getWordForms(final AnalyzedToken token, final String posTag,
       final boolean isNegated) {
-    List<String> forms = new ArrayList<String>();
-    List<WordData> wordForms;
+    final List<String> forms = new ArrayList<String>();
+    final List<WordData> wordForms;
     if (isNegated) {
       wordForms = synthesizer.lookup(token.getLemma() + "|"
           + posTag.replaceFirst(NEGATION_TAG, POTENTIAL_NEGATION_TAG));

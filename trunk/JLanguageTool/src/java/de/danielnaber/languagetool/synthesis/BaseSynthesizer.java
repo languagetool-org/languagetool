@@ -45,8 +45,8 @@ public class BaseSynthesizer implements Synthesizer {
         final URL url = this.getClass().getResource(resourceFileName);
         synthesizer = new DictionaryLookup(Dictionary.read(url));
       }
-      List<WordData> wordData = synthesizer.lookup(token.getLemma() + "|" + posTag);
-      List<String> wordForms = new ArrayList<String>();      
+      final List<WordData> wordData = synthesizer.lookup(token.getLemma() + "|" + posTag);
+      final List<String> wordForms = new ArrayList<String>();
       for (WordData wd : wordData) {
         wordForms.add(wd.getStem().toString());
       }
@@ -69,7 +69,7 @@ public class BaseSynthesizer implements Synthesizer {
       for (final String tag : possibleTags) {
         final Matcher m = p.matcher(tag);
         if (m.matches()) {
-          List<WordData> wordForms = synthesizer.lookup(token.getLemma() + "|" + tag);          
+          final List<WordData> wordForms = synthesizer.lookup(token.getLemma() + "|" + tag);
           for (WordData wd : wordForms)
             results.add(wd.getStem().toString());          
         }

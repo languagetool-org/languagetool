@@ -87,8 +87,8 @@ public class EnglishSynthesizer extends BaseSynthesizer {
         final URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(RESOURCE_FILENAME);
         synthesizer = new DictionaryLookup(Dictionary.read(url));
       }
-      List<WordData> wordData = synthesizer.lookup(token.getLemma() + "|" + posTag);
-      List<String> wordForms = new ArrayList<String>();      
+      final List<WordData> wordData = synthesizer.lookup(token.getLemma() + "|" + posTag);
+      final List<String> wordForms = new ArrayList<String>();
       for (WordData wd : wordData) {
         wordForms.add(wd.getStem().toString());
       }
