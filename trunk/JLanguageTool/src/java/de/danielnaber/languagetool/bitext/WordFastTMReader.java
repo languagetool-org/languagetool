@@ -22,21 +22,19 @@ package de.danielnaber.languagetool.bitext;
 import java.io.IOException;
 import java.util.Iterator;
 
-
 /**
  * Reader of WordFast Translation Memory text files.
  * They are simple tab-delimited text files.
  * 
  * @author Marcin Miłkowski
- *
  */
 public class WordFastTMReader extends TabBitextReader {
 
   public WordFastTMReader(final String filename, final String encoding) throws IOException {
     super(filename, encoding);
     //skip the header (first line)
-    if (nextline != null) {
-      nextline = tab2StringPair(in.readLine());
+    if (nextLine != null) {
+      nextLine = tab2StringPair(in.readLine());
     }
   }
   
@@ -44,7 +42,7 @@ public class WordFastTMReader extends TabBitextReader {
     if (line == null) {
       return null;
     }
-    String[] fields = line.split("\t");
+    final String[] fields = line.split("\t");
     return new StringPair(fields[4], fields[6]);
   }
   
@@ -56,16 +54,16 @@ public class WordFastTMReader extends TabBitextReader {
   class TabReader implements Iterator<StringPair> {
 
     public boolean hasNext() { 
-      return nextline != null; 
+      return nextLine != null;
     }
 
     public StringPair next() {
       try {
-        StringPair result = nextline;
+        final StringPair result = nextLine;
 
-        if (nextline != null) {  
-          nextline = tab2StringPair(in.readLine()); 
-          if (nextline == null) 
+        if (nextLine != null) {
+          nextLine = tab2StringPair(in.readLine());
+          if (nextLine == null)
             in.close();
         }
         return result;

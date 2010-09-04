@@ -25,17 +25,15 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Iterator;
 
-
 /**
  * Reader of simple tab-delimited bilingual files.
  * 
  * @author Marcin Miłkowski
- *
  */
 public class TabBitextReader implements BitextReader {
 
   protected BufferedReader in;
-  protected StringPair nextline;
+  protected StringPair nextLine;
 
   public TabBitextReader(final String filename, final String encoding) {
     try {     
@@ -44,7 +42,7 @@ public class TabBitextReader implements BitextReader {
       } else {
         in = new BufferedReader(new InputStreamReader(new FileInputStream(filename), encoding));
       }
-      nextline = tab2StringPair(in.readLine());
+      nextLine = tab2StringPair(in.readLine());
     } catch(IOException e) { 
       throw new IllegalArgumentException(e); 
     }
@@ -54,7 +52,7 @@ public class TabBitextReader implements BitextReader {
     if (line == null) {
       return null;
     }
-    String[] fields = line.split("\t");
+    final String[] fields = line.split("\t");
     return new StringPair(fields[0], fields[1]);
   }
 
@@ -66,16 +64,16 @@ public class TabBitextReader implements BitextReader {
   class TabReader implements Iterator<StringPair> {
 
     public boolean hasNext() { 
-      return nextline != null; 
+      return nextLine != null;
     }
 
     public StringPair next() {
       try {
-        StringPair result = nextline;
+        final StringPair result = nextLine;
 
-        if (nextline != null) {  
-          nextline = tab2StringPair(in.readLine()); 
-          if (nextline == null) 
+        if (nextLine != null) {
+          nextLine = tab2StringPair(in.readLine());
+          if (nextLine == null)
             in.close();
         }
         return result;

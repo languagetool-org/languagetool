@@ -17,7 +17,6 @@
  * USA
  */
 
-
 package de.danielnaber.languagetool.bitext;
 
 /**
