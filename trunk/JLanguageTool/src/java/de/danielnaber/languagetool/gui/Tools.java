@@ -74,7 +74,7 @@ public class Tools {
    * range, highlighting the range with the given marker strings, not escaping
    * HTML.
    */
-  public static final String getContext(final int fromPos, final int toPos,
+  public static String getContext(final int fromPos, final int toPos,
       final String fileContents, final int contextSize,
       final String markerStart, final String markerEnd) {
     return getContext(fromPos, toPos, fileContents, contextSize, markerStart,
@@ -86,7 +86,7 @@ public class Tools {
    * 
    * @param fromPos
    *          the start position of the error in characters
-   * @param endPos
+   * @param toPos
    *          the end position of the error in characters
    * @param text
    *          the text from which the context should be taken
@@ -99,7 +99,7 @@ public class Tools {
    * @param escapeHTML
    *          whether HTML/XML characters should be escaped
    */
-  public static final String getContext(final int fromPos, final int toPos,
+  public static String getContext(final int fromPos, final int toPos,
       String text, final int contextSize, final String markerStart,
       final String markerEnd, final boolean escapeHTML) {
     text = text.replace('\n', ' ');

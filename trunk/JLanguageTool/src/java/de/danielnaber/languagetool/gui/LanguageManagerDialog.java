@@ -58,9 +58,9 @@ public class LanguageManagerDialog implements ActionListener {
   private JButton addButton;
   private JButton removeButton;
   private JButton closeButton;
-  private List<File> ruleFiles = new ArrayList<File>();
+  private final List<File> ruleFiles = new ArrayList<File>();
   
-  private Frame owner;
+  private final Frame owner;
   //private ResourceBundle messages = null;
   
   public LanguageManagerDialog(Frame owner, List<Language> languages) {
@@ -77,14 +77,14 @@ public class LanguageManagerDialog implements ActionListener {
     
     // close dialog when user presses Escape key:
     // TODO: taken from ConfigurationDialog, avoid duplication:
-    KeyStroke stroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
-    ActionListener actionListener = new ActionListener() {
+    final KeyStroke stroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
+    final ActionListener actionListener = new ActionListener() {
       @SuppressWarnings("unused")
       public void actionPerformed(ActionEvent actionEvent) {
         dialog.setVisible(false); 
       }
     };
-    JRootPane rootPane = dialog.getRootPane();
+    final JRootPane rootPane = dialog.getRootPane();
     rootPane.registerKeyboardAction(actionListener, stroke, JComponent.WHEN_IN_FOCUSED_WINDOW);
 
     final Container contentPane = dialog.getContentPane();
@@ -133,15 +133,15 @@ public class LanguageManagerDialog implements ActionListener {
     dialog.pack();
     dialog.setSize(300, 200);
     // center on screen:
-    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-    Dimension frameSize = dialog.getSize();
+    final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    final Dimension frameSize = dialog.getSize();
     dialog.setLocation(screenSize.width/2 - (frameSize.width/2), screenSize.height/2 - (frameSize.height/2));
     dialog.setVisible(true);
   }
 
   public void actionPerformed(ActionEvent e) {
     if (e.getSource() == addButton) {
-      File ruleFile = Tools.openFileDialog(null, new XMLFileFilter());
+      final File ruleFile = Tools.openFileDialog(null, new XMLFileFilter());
       // TODO: avoid duplicate files!
       ruleFiles.add(ruleFile);
       list.setListData(ruleFiles.toArray(new File[]{}));
@@ -161,18 +161,19 @@ public class LanguageManagerDialog implements ActionListener {
    * Return all external Languages.
    */
   List<Language> getLanguages() {
-    List<Language> langs = new ArrayList<Language>();
+    final List<Language> languages = new ArrayList<Language>();
     for (File ruleFile : ruleFiles) {
       final Language newLanguage = LanguageBuilder.makeLanguage(ruleFile);
-      langs.add(newLanguage);
+      languages.add(newLanguage);
     }
-    return langs;
+    return languages;
   }
   
   static class XMLFileFilter extends FileFilter {
     public boolean accept(final File f) {
-      if (f.getName().toLowerCase().endsWith(".xml") || f.isDirectory())
+      if (f.getName().toLowerCase().endsWith(".xml") || f.isDirectory()) {
         return true;
+      }
       return false;
     }
     public String getDescription() {

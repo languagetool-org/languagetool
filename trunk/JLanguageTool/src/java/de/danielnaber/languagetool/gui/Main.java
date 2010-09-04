@@ -97,7 +97,7 @@ public final class Main implements ActionListener {
   private static final String SYSTEM_TRAY_TOOLTIP = "LanguageTool";
   private static final String CONFIG_FILE = ".languagetool.cfg";
 
-  private Configuration config;
+  private final Configuration config;
 
   private JFrame frame;
   private JTextArea textArea;
@@ -213,7 +213,7 @@ public final class Main implements ActionListener {
   }
 
   private void populateLanguageBox() {
-    List<String> toSort = new ArrayList<String>();
+    final List<String> toSort = new ArrayList<String>();
     langBox.removeAllItems();    
     for (final Language lang : Language.LANGUAGES) {
       if (lang != Language.DEMO) {
@@ -271,7 +271,7 @@ public final class Main implements ActionListener {
       // so we don't check for that
       TrayIcon trayIcon = null;
       try {
-    	Icon sysTrayIcon = new ImageIcon(JLanguageTool.getDataBroker().getFromResourceDirAsUrl(Main.SYSTEM_TRAY_ICON_NAME));
+    	final Icon sysTrayIcon = new ImageIcon(JLanguageTool.getDataBroker().getFromResourceDirAsUrl(Main.SYSTEM_TRAY_ICON_NAME));
         trayIcon = new TrayIcon(sysTrayIcon);
       } catch (final NoClassDefFoundError e) {
         throw new MissingJdicException(e);
@@ -473,7 +473,7 @@ public final class Main implements ActionListener {
   }
 
   private JLanguageTool getCurrentLanguageTool() {
-    JLanguageTool langTool;
+    final JLanguageTool langTool;
     try {
       final ConfigurationDialog configDialog = getCurrentConfigDialog();
       langTool = new JLanguageTool(getCurrentLanguage(), configDialog
@@ -516,13 +516,14 @@ public final class Main implements ActionListener {
       textArea.setText(messages.getString("enterText2"));
     } else {
       final StringBuilder sb = new StringBuilder();
-      final String startChecktext = Tools.makeTexti18n(messages,
+      final String startCheckText = Tools.makeTexti18n(messages,
           "startChecking", new Object[] { lang.getTranslatedName(messages) });
-      resultArea.setText(HTML_FONT_START + startChecktext + "<br>\n"
+      resultArea.setText(HTML_FONT_START + startCheckText + "<br>\n"
           + HTML_FONT_END);
       resultArea.repaint(); // FIXME: why doesn't this work?
       // TODO: resultArea.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-      sb.append(startChecktext + "...<br>\n");
+      sb.append(startCheckText);
+      sb.append("...<br>\n");
       int matches = 0;
       try {
         matches = checkText(langTool, textArea.getText(), sb);
@@ -530,14 +531,16 @@ public final class Main implements ActionListener {
         sb.append("<br><br><b><font color=\"red\">" + ex.toString() + "<br>");
         final StackTraceElement[] elements = ex.getStackTrace();
         for (final StackTraceElement element : elements) {
-          sb.append(element + "<br>");
+          sb.append(element);
+          sb.append("<br>");
         }
         sb.append("</font></b><br>");
         ex.printStackTrace();
       }
       final String checkDone = Tools.makeTexti18n(messages, "checkDone",
-          new Object[] { Integer.valueOf(matches) });
-      sb.append(checkDone + "<br>\n");
+          new Object[] {matches});
+      sb.append(checkDone);
+      sb.append("<br>\n");
       resultArea.setText(HTML_FONT_START + sb.toString() + HTML_FONT_END);
       resultArea.setCaretPosition(0);
     }
@@ -551,17 +554,16 @@ public final class Main implements ActionListener {
     int i = 0;
     for (final RuleMatch match : ruleMatches) {
       final String output = Tools.makeTexti18n(messages, "result1",
-          new Object[] { Integer.valueOf(i + 1),
-              Integer.valueOf(match.getLine() + 1),
-              Integer.valueOf(match.getColumn()) });
+          new Object[] {i + 1,
+                  match.getLine() + 1,
+                  match.getColumn()});
       sb.append(output);
       String msg = match.getMessage();
       msg = msg.replaceAll("<suggestion>", "<b>");
       msg = msg.replaceAll("</suggestion>", "</b>");
       msg = msg.replaceAll("<old>", "<b>");
       msg = msg.replaceAll("</old>", "</b>");
-      sb.append("<b>" + messages.getString("errorMessage") + "</b> " + msg
-          + "<br>\n");
+      sb.append("<b>" + messages.getString("errorMessage") + "</b> " + msg + "<br>\n");
       if (match.getSuggestedReplacements().size() > 0) {
         final String repl = StringTools.listToString(match
             .getSuggestedReplacements(), "; ");
@@ -576,8 +578,8 @@ public final class Main implements ActionListener {
     }
     final long endTime = System.currentTimeMillis();
     sb.append(Tools.makeTexti18n(messages, "resultTime", new Object[] {
-        Long.valueOf(endTime - startTime),
-        Long.valueOf(endTime - startTimeMatching) }));
+            endTime - startTime,
+            endTime - startTimeMatching}));
     return ruleMatches.size();
   }
 

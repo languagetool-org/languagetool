@@ -68,12 +68,11 @@ public class ConfigurationDialog implements ActionListener {
   private JButton okButton;
   private JButton cancelButton;
 
-  private ResourceBundle messages;
+  private final ResourceBundle messages;
   private JDialog dialog;
 
   private JComboBox motherTongueBox;
 
-  private JPanel checkBoxPanel;
   private JCheckBox serverCheckbox;
   private JTextField serverPortField;
 
@@ -92,7 +91,7 @@ public class ConfigurationDialog implements ActionListener {
   private boolean serverMode;
   private int serverPort;
 
-  private Frame owner;
+  private final Frame owner;
   private final boolean insideOOo;
 
   public ConfigurationDialog(Frame owner, boolean insideOOo) {
@@ -123,7 +122,7 @@ public class ConfigurationDialog implements ActionListener {
         JComponent.WHEN_IN_FOCUSED_WINDOW);
 
     // JPanel
-    checkBoxPanel = new JPanel();
+    final JPanel checkBoxPanel = new JPanel();
     checkBoxPanel.setLayout(new GridBagLayout());
     GridBagConstraints cons = new GridBagConstraints();
     cons.anchor = GridBagConstraints.NORTHWEST;

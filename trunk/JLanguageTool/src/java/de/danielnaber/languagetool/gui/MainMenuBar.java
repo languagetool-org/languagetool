@@ -41,7 +41,7 @@ class MainMenuBar extends JMenuBar implements ActionListener {
 
   private static final long serialVersionUID = -7160998682243081767L;
 
-  private ResourceBundle messages;
+  private final ResourceBundle messages;
   
   // File:
   private String openText;
@@ -53,7 +53,7 @@ class MainMenuBar extends JMenuBar implements ActionListener {
   // Help:
   private String aboutText;
 
-  private Main prg;
+  private final Main prg;
   private JMenu fileMenu;
   private JMenu helpMenu;
   
@@ -66,49 +66,49 @@ class MainMenuBar extends JMenuBar implements ActionListener {
     helpMenu.setMnemonic(StringTools.getMnemonic(
         messages.getString("guiMenuHelp")));        
     // "Open":
-    JMenuItem openItem = new JMenuItem(openText);
+    final JMenuItem openItem = new JMenuItem(openText);
     openItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, Event.CTRL_MASK));
     openItem.setMnemonic(StringTools.getMnemonic(
         messages.getString("guiMenuOpen")));
     openItem.addActionListener(this);
     fileMenu.add(openItem);
     // "Check Text in Clipboard":
-    JMenuItem checkClipboardItem = new JMenuItem(checkClipboardText);
+    final JMenuItem checkClipboardItem = new JMenuItem(checkClipboardText);
     checkClipboardItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Y, Event.CTRL_MASK));
     checkClipboardItem.setMnemonic(StringTools.getMnemonic(
         messages.getString("guiMenuCheckClipboard")));
     checkClipboardItem.addActionListener(this);
     fileMenu.add(checkClipboardItem);
     // "Hide to System Tray":
-    JMenuItem dockToTrayItem = new JMenuItem(dockToTrayText);
+    final JMenuItem dockToTrayItem = new JMenuItem(dockToTrayText);
     dockToTrayItem.setMnemonic(StringTools.getMnemonic(
         messages.getString("guiMenuHide")));
     dockToTrayItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, Event.CTRL_MASK));
     dockToTrayItem.addActionListener(this);
     fileMenu.add(dockToTrayItem);
     // "Add Language":
-    JMenuItem addLanguageItem = new JMenuItem(addLanguageText);
+    final JMenuItem addLanguageItem = new JMenuItem(addLanguageText);
     addLanguageItem.setMnemonic(StringTools.getMnemonic(
         messages.getString("guiMenuAddRules")));
     addLanguageItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, Event.CTRL_MASK));
     addLanguageItem.addActionListener(this);
     fileMenu.add(addLanguageItem);
     // "Options":
-    JMenuItem optionsItem = new JMenuItem(optionsText);
+    final JMenuItem optionsItem = new JMenuItem(optionsText);
     optionsItem.setMnemonic(StringTools.getMnemonic(
         messages.getString("guiMenuOptions")));        
     optionsItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Event.CTRL_MASK));
     optionsItem.addActionListener(this);
     fileMenu.add(optionsItem);
     // "Quit":
-    JMenuItem quitItem = new JMenuItem(quitText);
+    final JMenuItem quitItem = new JMenuItem(quitText);
     quitItem.setMnemonic(StringTools.getMnemonic(
         messages.getString("guiMenuQuit")));        
     quitItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, Event.CTRL_MASK));
     quitItem.addActionListener(this);
     fileMenu.add(quitItem);
     // "About":
-    JMenuItem helpItem = new JMenuItem(aboutText);
+    final JMenuItem helpItem = new JMenuItem(aboutText);
     helpItem.addActionListener(this);
     helpItem.setMnemonic(StringTools.getMnemonic(
         messages.getString("guiMenuAbout")));        
@@ -160,7 +160,7 @@ class MainMenuBar extends JMenuBar implements ActionListener {
     } else if (e.getActionCommand().equals(quitText)) {
       prg.quit();
     } else if (e.getActionCommand().equals(aboutText)) {
-      AboutDialog about = new AboutDialog(messages);
+      final AboutDialog about = new AboutDialog(messages);
       about.show();
     } else {
       throw new IllegalArgumentException("Unknown action " + e);

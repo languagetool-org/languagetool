@@ -23,10 +23,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
 
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.server.HTTPServer;
@@ -130,25 +127,19 @@ public class Configuration {
       final String val = (String) props.get(DISABLED_RULES_CONFIG_KEY);
       if (val != null) {
         final String[] ids = val.split(",");
-        for (final String id : ids) {
-          disabledRuleIds.add(id);
-        }
+        disabledRuleIds.addAll(Arrays.asList(ids));
       }
 
       final String enRul = (String) props.get(ENABLED_RULES_CONFIG_KEY);
       if (enRul != null) {
         final String[] ids = enRul.split(",");
-        for (final String id : ids) {
-          enabledRuleIds.add(id);
-        }
+        enabledRuleIds.addAll(Arrays.asList(ids));
       }
 
       final String cat = (String) props.get(DISABLED_CATEGORIES_CONFIG_KEY);
       if (cat != null) {
         final String[] names = cat.split(",");
-        for (final String name : names) {
-          disabledCategoryNames.add(name);
-        }
+        disabledCategoryNames.addAll(Arrays.asList(names));
       }
 
       final String motherTongueStr = (String) props
@@ -196,8 +187,7 @@ public class Configuration {
       props.setProperty(ENABLED_RULES_CONFIG_KEY, "");
     } else {
       final StringBuilder sb = new StringBuilder();
-      for (final Iterator<String> iter = enabledRuleIds.iterator(); iter
-          .hasNext();) {
+      for (final Iterator<String> iter = enabledRuleIds.iterator(); iter.hasNext();) {
         final String id = iter.next();
         sb.append(id);
         if (iter.hasNext()) {
