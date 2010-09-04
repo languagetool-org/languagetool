@@ -134,6 +134,7 @@ class Main {
     }
     if (oneTime) {
       if (bitextMode) {
+//TODO: add parameter to set different readers        
         TabBitextReader reader = new TabBitextReader(filename, encoding);
         for (StringPair srcAndTrg : reader) {
           Tools.checkBitext(srcAndTrg.getSource(), srcAndTrg.getTarget(),
