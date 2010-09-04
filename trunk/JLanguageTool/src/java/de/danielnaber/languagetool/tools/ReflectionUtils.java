@@ -25,12 +25,7 @@ import java.net.JarURLConnection;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Enumeration;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
@@ -65,7 +60,7 @@ public final class ReflectionUtils {
       final String packageName, final String classNameRegEx,
       final int subdirLevel, final Class classExtends,
       final Class interfaceImplements) throws ClassNotFoundException {
-    final List<Class> foundClasses = new ArrayList<Class>();
+    final Map<Class,String> foundClasses = new HashMap<Class,String>();
 
     try {
       final String packagePath = packageName.replace('.', '/');
@@ -95,13 +90,13 @@ public final class ReflectionUtils {
           + ex.getMessage(), ex);
     }
 
-    return foundClasses.toArray(new Class[foundClasses.size()]);
+    return foundClasses.keySet().toArray(new Class[foundClasses.size()]);
   }
 
   private static void findClassesInDirectory(final ClassLoader classLoader,
       final String packageName, final String classNameRegEx,
       final int subdirLevel, final Class classExtends,
-      final Class interfaceImplements, final List<Class> foundClasses,
+      final Class interfaceImplements, final Map<Class,String> foundClasses,
       final URL resource) throws Exception {
     final File directory = new File(resource.toURI());
 
@@ -126,7 +121,7 @@ public final class ReflectionUtils {
               || isExtending(clazz, classExtends.getName())
               && interfaceImplements == null
               || isImplementing(clazz, interfaceImplements)) {
-            foundClasses.add(clazz);
+            foundClasses.put(clazz, file.getAbsolutePath());
             // System.err.println("Added rule from dir: " + classShortNm);
           }
         }
@@ -140,7 +135,9 @@ public final class ReflectionUtils {
           final Class[] subLevelClasses = findClasses(classLoader, packageName
               + "." + dir.getName(), classNameRegEx, subdirLevel - 1,
               classExtends, interfaceImplements);
-          foundClasses.addAll(Arrays.asList(subLevelClasses));
+          for (Class tmpClass : subLevelClasses) {
+              foundClasses.put(tmpClass, "dir:" + dir.getAbsolutePath());
+          }
         }
       }
     }
@@ -149,7 +146,7 @@ public final class ReflectionUtils {
   private static void findClassesInJar(final String packageName,
       final String classNameRegEx, final int subdirLevel,
       final Class classExtends, final Class interfaceImplements,
-      final List<Class> foundClasses, final URL resource) throws IOException,
+      final Map<Class,String> foundClasses, final URL resource) throws IOException,
       URISyntaxException, ClassNotFoundException {
     final JarURLConnection conn = (JarURLConnection) resource.openConnection();
     final JarFile currentFile = conn.getJarFile(); // new JarFile(new
@@ -176,9 +173,10 @@ public final class ReflectionUtils {
           }
 
           final Class clazz = Class.forName(classNm);
-          if (foundClasses.contains(clazz)) {
+          if (foundClasses.containsKey(clazz)) {
             throw new RuntimeException("Duplicate class definition:\n"
-                + clazz.getName() + ", found in\n" + currentFile.getName());
+                + clazz.getName() + ", found in\n" + currentFile.getName() + " and\n"
+                + foundClasses.get(clazz));
           }
 
           if (!isMaterial(clazz)) {
@@ -189,7 +187,7 @@ public final class ReflectionUtils {
               || isExtending(clazz, classExtends.getName())
               && interfaceImplements == null
               || isImplementing(clazz, interfaceImplements)) {
-            foundClasses.add(clazz);
+            foundClasses.put(clazz, currentFile.getName());
             // System.err.println("Added class from jar: " + name);
           }
         }
