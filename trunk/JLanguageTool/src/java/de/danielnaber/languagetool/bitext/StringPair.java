@@ -42,4 +42,8 @@ public class StringPair {
   public String getTarget() {
     return targetString;
   }
+  
+  public String toString() {
+    return sourceString + " & " + targetString;
+  }
 }
