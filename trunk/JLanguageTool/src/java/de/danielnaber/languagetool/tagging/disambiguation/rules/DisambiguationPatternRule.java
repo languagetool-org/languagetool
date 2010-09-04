@@ -56,7 +56,7 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
         return REPLACE;
       }
     }
-  };
+  }
   
   private final String disambiguatedPOS;
 
@@ -130,8 +130,8 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
    * Performs disambiguation on the source sentence.
    * 
    * @param text
-   *          {@link #AnalyzedSentence} Sentence to be disambiguated.
-   * @return {@link #AnalyzedSentence} Disambiguated sentence (might be
+   *          {@link AnalyzedSentence} Sentence to be disambiguated.
+   * @return {@link AnalyzedSentence} Disambiguated sentence (might be
    *         unchanged).
    * @throws IOException
    */
@@ -262,7 +262,7 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
             } else {
               lemma = newTokenReadings[i].getLemma();
             }
-            AnalyzedToken newTok = new AnalyzedToken(token, newTokenReadings[i].getPOSTag(), lemma);
+            final AnalyzedToken newTok = new AnalyzedToken(token, newTokenReadings[i].getPOSTag(), lemma);
             whTokens[text.getOriginalPosition(firstMatchToken + correctedStPos
                 + i)].addReading(newTok);
           }

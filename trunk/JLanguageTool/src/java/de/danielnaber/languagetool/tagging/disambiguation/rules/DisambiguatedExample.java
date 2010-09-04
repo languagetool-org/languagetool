@@ -42,7 +42,7 @@ public class DisambiguatedExample {
    * @param input
    *       Ambiguous forms of a token 
    *       (specify in 'word[lemma/POS]' format)
-   * @param ouput
+   * @param output
    *      Disambiguated forms of a token
    *      (specify in 'word[lemma/POS]' format)  
    */

@@ -118,7 +118,7 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
   private boolean exceptionSpaceBefore;
   private boolean exceptionSpaceBeforeSet;
 
-  private List<Element> elementList;
+  private final List<Element> elementList;
   private boolean posRegExp;
   private int skipPos;
   private Element tokenElement;
@@ -273,7 +273,7 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
       }
       if (attrs.getValue(SPACEBEFORE) != null) {
         exceptionSpaceBefore = YES.equals(attrs.getValue(SPACEBEFORE));
-        exceptionSpaceBeforeSet = IGNORE.equals(attrs.getValue(SPACEBEFORE)) ^ true;
+        exceptionSpaceBeforeSet = !IGNORE.equals(attrs.getValue(SPACEBEFORE));
       }
     } else if (qName.equals(AND)) {
       inAndGroup = true;
@@ -313,13 +313,13 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
       }
       if (attrs.getValue(SPACEBEFORE) != null) {
         tokenSpaceBefore = YES.equals(attrs.getValue(SPACEBEFORE));
-        tokenSpaceBeforeSet = IGNORE.equals(attrs.getValue(SPACEBEFORE)) ^ true;
+        tokenSpaceBeforeSet = !IGNORE.equals(attrs.getValue(SPACEBEFORE));
       }
       if (!inAndGroup) {
         tokenCounter++;
       }
     } else if (qName.equals(DISAMBIG)) {
-      inDisamb = true;
+      inDisambiguation = true;
       disambiguatedPOS = attrs.getValue(POSTAG);
       if (attrs.getValue(ACTION) != null) {
         disambigAction = DisambiguationPatternRule.DisambiguatorAction
@@ -333,9 +333,9 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
     } else if (qName.equals(MATCH)) {
       inMatch = true;
       match = new StringBuilder();
-      Match.CaseConversion caseConv = Match.CaseConversion.NONE;
+      Match.CaseConversion caseConversion = Match.CaseConversion.NONE;
       if (attrs.getValue("case_conversion") != null) {
-        caseConv = Match.CaseConversion.toCase(attrs
+        caseConversion = Match.CaseConversion.toCase(attrs
             .getValue("case_conversion").toUpperCase());
       }
       Match.IncludeRange includeRange = Match.IncludeRange.NONE;
@@ -347,9 +347,9 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
           .getValue("postag_replace"), YES
           .equals(attrs.getValue(POSTAG_REGEXP)), attrs
           .getValue("regexp_match"), attrs.getValue("regexp_replace"),
-          caseConv, YES.equals(attrs.getValue("setpos")),
+          caseConversion, YES.equals(attrs.getValue("setpos")),
           includeRange);
-      if (inDisamb) {
+      if (inDisambiguation) {
         if (attrs.getValue(NO) != null) {
           final int refNumber = Integer.parseInt(attrs.getValue(NO));
           if (refNumber > elementList.size()) {
@@ -376,7 +376,8 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
           }
           mWorker.setTokenRef(refNumber);
           tokenReference = mWorker;
-          elements.append("\\" + refNumber);
+          elements.append("\\");
+          elements.append(refNumber);
         }
       }
     } else if (qName.equals(RULEGROUP)) {
@@ -543,26 +544,26 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
       inPattern = false;
       if (positionCorrection >= tokenCounter) {
         throw new SAXException(
-            "Attemp to mark a token no. ("+ positionCorrection +") that is outside the pattern (" + tokenCounter + "). Pattern elements are numbered starting from 0!" + "\n Line: "
+            "Attempt to mark a token no. ("+ positionCorrection +") that is outside the pattern (" + tokenCounter + "). Pattern elements are numbered starting from 0!" + "\n Line: "
                 + dLocator.getLineNumber() + ", column: "
                 + dLocator.getColumnNumber() + ".");
       }
       if (tokenCounter - endPositionCorrection < 0 ) {
         throw new SAXException(
-            "Attemp to mark a token no. ("+ endPositionCorrection +") that is outside the pattern (" + tokenCounter + "). Pattern elements are numbered starting from 0!" + "\n Line: "
+            "Attempt to mark a token no. ("+ endPositionCorrection +") that is outside the pattern (" + tokenCounter + "). Pattern elements are numbered starting from 0!" + "\n Line: "
                 + dLocator.getLineNumber() + ", column: "
                 + dLocator.getColumnNumber() + ".");
       }
       tokenCounter = 0;
     } else if (qName.equals(MATCH)) {
-      if (inDisamb) {
+      if (inDisambiguation) {
         posSelector.setLemmaString(match.toString());
       } else if (inToken) {
         tokenReference.setLemmaString(match.toString());
       }
       inMatch = false;
     } else if (qName.equals(DISAMBIG)) {
-      inDisamb = false;
+      inDisambiguation = false;
     } else if (qName.equals(RULEGROUP)) {
       inRuleGroup = false;
     } else if (qName.equals(UNIFICATION) && inUnificationDef) {
@@ -635,7 +636,7 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
       match.append(s);
     } else if (inWord) {
       wd.append(s);
-    } else if (inDisamb) {
+    } else if (inDisambiguation) {
       disamb.append(s);
     } else if (inExample) {
       example.append(s);

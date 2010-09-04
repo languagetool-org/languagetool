@@ -39,7 +39,7 @@ class XMLRuleHandler extends DefaultHandler {
   StringBuilder exceptions;    
 
   boolean inPattern;
-  boolean inDisamb;
+  boolean inDisambiguation;
   boolean inMatch;
   boolean inRuleGroup;
   boolean inToken;

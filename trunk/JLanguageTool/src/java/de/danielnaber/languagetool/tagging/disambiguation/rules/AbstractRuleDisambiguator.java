@@ -45,13 +45,13 @@ public abstract class AbstractRuleDisambiguator implements Disambiguator {
   public abstract AnalyzedSentence disambiguate(final AnalyzedSentence input) throws IOException; 
 
   /**
-   * Load disambiguation rules from an XML file. Use {@link #addRule} to add
+   * Load disambiguation rules from an XML file. Use {@link de.danielnaber.languagetool.JLanguageTool#addRule} to add
    * these rules to the checking process.
    * 
    * @throws ParserConfigurationException
    * @throws SAXException
    * @throws IOException
-   * @return a List of {@link PatternRule} objects
+   * @return a List of {@link DisambiguationPatternRule} objects
    */
   protected List<DisambiguationPatternRule> loadPatternRules(final String filename) throws ParserConfigurationException, SAXException, IOException {
     final DisambiguationRuleLoader ruleLoader = new DisambiguationRuleLoader();    
