@@ -44,7 +44,7 @@ public class ToolsTest extends TestCase {
  
     int matches = Tools.checkText("To jest całkowicie prawidłowe zdanie.", tool);
     String output = new String(this.out.toByteArray());
-    assertTrue(output.indexOf("Time:") == 0);
+    assertEquals(0, output.indexOf("Time:"));
     assertEquals(0, matches);
 
     matches = Tools.checkText("To jest jest problem.", tool);
@@ -78,7 +78,7 @@ public class ToolsTest extends TestCase {
 
   }
   
-  public void testbitextCheck() throws IOException, ParserConfigurationException, SAXException {
+  public void testBitextCheck() throws IOException, ParserConfigurationException, SAXException {
     final JLanguageTool srcTool = new JLanguageTool(Language.ENGLISH);    
     final JLanguageTool trgTool = new JLanguageTool(Language.POLISH);    
     trgTool.activateDefaultPatternRules();
@@ -102,7 +102,7 @@ public class ToolsTest extends TestCase {
     assertTrue(output.indexOf("Rule ID: ACTUAL") != -1);
     assertEquals(1, matches);
   }
-  public void testbitextCorrect() throws IOException, ParserConfigurationException, SAXException {
+  public void testBitextCorrect() throws IOException, ParserConfigurationException, SAXException {
     final JLanguageTool srcTool = new JLanguageTool(Language.ENGLISH);    
     final JLanguageTool trgTool = new JLanguageTool(Language.POLISH);    
     trgTool.activateDefaultPatternRules();
