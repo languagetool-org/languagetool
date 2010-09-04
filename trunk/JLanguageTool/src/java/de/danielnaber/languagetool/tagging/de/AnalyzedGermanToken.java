@@ -52,7 +52,7 @@ public class AnalyzedGermanToken extends AnalyzedToken {
     if (posTagString == null) {
       return;
     }
-    String[] parts = posTagString.split(":");
+    final String[] parts = posTagString.split(":");
     if (parts.length < 3) {
       //FIXME ??
       //System.err.println(posTagString);
@@ -60,54 +60,54 @@ public class AnalyzedGermanToken extends AnalyzedToken {
     }
     
     //System.err.println(fullform + " " + posTagString);
-    for (int i = 0; i < parts.length; i++) {
-      if (parts[i].equals("EIG"))
+    for (String part : parts) {
+      if (part.equals("EIG"))
         type = POSType.PROPER_NOUN;
-      else if (parts[i].equals("SUB") && type == null)
+      else if (part.equals("SUB") && type == null)
         type = POSType.NOMEN;
-      else if (parts[i].equals("PA1") || parts[i].equals("PA2"))
+      else if (part.equals("PA1") || part.equals("PA2"))
         type = POSType.PARTIZIP;
-      else if (parts[i].equals("VER") && type == null)
+      else if (part.equals("VER") && type == null)
         type = POSType.VERB;
-      else if (parts[i].equals("ADJ") && type == null)
+      else if (part.equals("ADJ") && type == null)
         type = POSType.ADJEKTIV;
-      else if (parts[i].equals("PRO") && type == null)
+      else if (part.equals("PRO") && type == null)
         type = POSType.PRONOMEN;
-      else if (parts[i].equals("ART") && type == null)
+      else if (part.equals("ART") && type == null)
         type = POSType.DETERMINER;
-      
-      else if (parts[i].equals("AKK"))
+
+      else if (part.equals("AKK"))
         casus = Kasus.AKKUSATIV;
-      else if (parts[i].equals("GEN"))
+      else if (part.equals("GEN"))
         casus = Kasus.GENITIV;
-      else if (parts[i].equals("NOM"))
+      else if (part.equals("NOM"))
         casus = Kasus.NOMINATIV;
-      else if (parts[i].equals("DAT"))
+      else if (part.equals("DAT"))
         casus = Kasus.DATIV;
-      
-      else if (parts[i].equals("PLU"))
+
+      else if (part.equals("PLU"))
         numerus = Numerus.PLURAL;
-      else if (parts[i].equals("SIN"))
+      else if (part.equals("SIN"))
         numerus = Numerus.SINGULAR;
-      
-      else if (parts[i].equals("MAS"))
+
+      else if (part.equals("MAS"))
         genus = Genus.MASKULINUM;
-      else if (parts[i].equals("FEM"))
+      else if (part.equals("FEM"))
         genus = Genus.FEMININUM;
-      else if (parts[i].equals("NEU"))
+      else if (part.equals("NEU"))
         genus = Genus.NEUTRUM;
-      else if (parts[i].equals("NOG"))
+      else if (part.equals("NOG"))
         genus = Genus.FEMININUM;    // NOG = no genus because only used as plural
-      
-      else if (parts[i].equals("DEF"))
+
+      else if (part.equals("DEF"))
         ; // not yet used
-      else if (parts[i].equals("DEM"))    //???
+      else if (part.equals("DEM"))    //???
         ; // not yet used
-      else if (parts[i].equals("PER"))
+      else if (part.equals("PER"))
         ; // not yet used
-      
+
       //else
-        //System.err.println("unknown: " + posTagString + " for fullform " + fullform);
+      //System.err.println("unknown: " + posTagString + " for fullform " + fullform);
       // TODO: add else here that throws execption?!
     }
     

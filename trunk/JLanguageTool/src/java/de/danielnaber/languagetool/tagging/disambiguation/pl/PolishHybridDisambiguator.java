@@ -33,8 +33,8 @@ import de.danielnaber.languagetool.tagging.disambiguation.rules.pl.PolishRuleDis
 
 public class PolishHybridDisambiguator implements Disambiguator {
 
-  private Disambiguator chunker = new PolishChunker();
-  private Disambiguator disambiguator = new PolishRuleDisambiguator();
+  private final Disambiguator chunker = new PolishChunker();
+  private final Disambiguator disambiguator = new PolishRuleDisambiguator();
 
   /**
    * Calls two disambiguator classes: (1) a chunker; (2) a rule-based

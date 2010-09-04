@@ -53,10 +53,10 @@ public class GermanTagger implements Tagger {
   }
 
   public AnalyzedGermanTokenReadings lookup(final String word) throws IOException {
-    List<String> l = new ArrayList<String>();
-    l.add(word);
-    List<AnalyzedTokenReadings> result = tag(l, false);
-    AnalyzedGermanTokenReadings atr = (AnalyzedGermanTokenReadings) result.get(0);
+    final List<String> words = new ArrayList<String>();
+    words.add(word);
+    final List<AnalyzedTokenReadings> result = tag(words, false);
+    final AnalyzedGermanTokenReadings atr = (AnalyzedGermanTokenReadings) result.get(0);
     if (atr.getAnalyzedToken(0).getPOSTag() == null)
       return null;
     return atr;
@@ -69,7 +69,7 @@ public class GermanTagger implements Tagger {
   public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens, final boolean ignoreCase) throws IOException {
     String[] taggerTokens;
     boolean firstWord = true;
-    List<AnalyzedTokenReadings> tokenReadings = new ArrayList<AnalyzedTokenReadings>();
+    final List<AnalyzedTokenReadings> tokenReadings = new ArrayList<AnalyzedTokenReadings>();
     int pos = 0;
     // caching Lametyzator instance - lazy init
     if (morfologik == null) {      
@@ -84,7 +84,7 @@ public class GermanTagger implements Tagger {
     }
 
     for (String word: sentenceTokens) {
-      List<AnalyzedGermanToken> l = new ArrayList<AnalyzedGermanToken>();
+      final List<AnalyzedGermanToken> l = new ArrayList<AnalyzedGermanToken>();
       taggerTokens = lexiconLookup(word);
       if (firstWord && taggerTokens == null && ignoreCase) { // e.g. "Das" -> "das" at start of sentence
         taggerTokens = lexiconLookup(word.toLowerCase());
@@ -95,7 +95,7 @@ public class GermanTagger implements Tagger {
       } else {
         // word not known, try to decompose it and use the last part for POS tagging:
         if (!StringTools.isEmpty(word.trim())) {
-          List<String> compoundParts = compoundTokenizer.tokenize(word);
+          final List<String> compoundParts = compoundTokenizer.tokenize(word);
           if (compoundParts.size() <= 1) {
             l.add(new AnalyzedGermanToken(word, null, null));
           } else {
@@ -139,8 +139,8 @@ public class GermanTagger implements Tagger {
       // first lemma, then annotations
       if (compoundParts != null) {
           // was originally a compound word
-          List<String> allButLastPart = compoundParts.subList(0, compoundParts.size() - 1);
-          String lemma = StringTools.listToString(allButLastPart, "")
+          final List<String> allButLastPart = compoundParts.subList(0, compoundParts.size() - 1);
+          final String lemma = StringTools.listToString(allButLastPart, "")
               + StringTools.lowercaseFirstChar(taggerTokens[i]);
           l.add(new AnalyzedGermanToken(word, taggerTokens[i + 1], lemma));
       } else {
@@ -151,10 +151,10 @@ public class GermanTagger implements Tagger {
   }
   
   private String[] lexiconLookup(final String word) {
-    String[] posTagsFromUserDict = manualTagger.lookup(word);
-    List<WordData> posTagsFromDict = morfologik.lookup(word);
+    final String[] posTagsFromUserDict = manualTagger.lookup(word);
+    final List<WordData> posTagsFromDict = morfologik.lookup(word);
     if (posTagsFromUserDict != null && !posTagsFromDict.isEmpty()) {
-      String[] allPosTags = new String[posTagsFromUserDict.length + posTagsFromDict.size() * 2];
+      final String[] allPosTags = new String[posTagsFromUserDict.length + posTagsFromDict.size() * 2];
       //System.arraycopy(posTagsFromDict, 0, allPosTags, 0, posTagsFromDict.size());
       int i = 0;
       for (WordData wd : posTagsFromDict) {
@@ -165,7 +165,7 @@ public class GermanTagger implements Tagger {
       System.arraycopy(posTagsFromUserDict, 0, allPosTags, posTagsFromDict.size() * 2, posTagsFromUserDict.length);
       return allPosTags;
     } else if (posTagsFromUserDict == null && !posTagsFromDict.isEmpty()) {
-      String[] allPosTags = new String[posTagsFromDict.size() * 2];
+      final String[] allPosTags = new String[posTagsFromDict.size() * 2];
       int i = 0;
       for (WordData wd : posTagsFromDict) {
         allPosTags[i] = wd.getStem().toString();
@@ -190,12 +190,11 @@ public class GermanTagger implements Tagger {
    * Test only
    */
   public static void main(final String[] args) throws IOException {
-    GermanTagger gt = new GermanTagger();
-    List<String> l = new ArrayList<String>();
+    final GermanTagger gt = new GermanTagger();
+    final List<String> l = new ArrayList<String>();
     l.add("Einfacher");
     //System.err.println(gt.lookup("Treffen", 0));
-    
-    List<AnalyzedTokenReadings> res = gt.tag(l);
+    final List<AnalyzedTokenReadings> res = gt.tag(l);
     System.err.println(res);
   }
   

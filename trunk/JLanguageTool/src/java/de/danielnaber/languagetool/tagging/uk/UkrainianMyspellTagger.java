@@ -36,7 +36,7 @@ import de.danielnaber.languagetool.tagging.Tagger;
 /**
  * Ukrainian Part-of-speech tagger. This class uses myspell uk_UA.dic dictionary
  * file to assign tags to words. It only supports lemmas and three main parts of
- * speech: noun, verb and adjetive
+ * speech: noun, verb and adjective
  * 
  * @author Adriy Rysin
  */
@@ -100,13 +100,10 @@ public class UkrainianMyspellTagger implements Tagger {
         }
       }
       // System.err.println("POSed words: " + wordsToPos.size());
-      if (input != null) {
-        input.close();
-      }
+      input.close();
     }
 
-    for (Iterator<String> iter = sentenceTokens.iterator(); iter.hasNext();) {
-      final String word = iter.next();
+    for (final String word : sentenceTokens) {
       final List<AnalyzedToken> analyzedTokens = new ArrayList<AnalyzedToken>();
 
       final String[] posTags = wordsToPos.get(word);
@@ -122,7 +119,7 @@ public class UkrainianMyspellTagger implements Tagger {
           if (lowerPosTags != null) {
             for (String lowerPosTag : lowerPosTags)
               analyzedTokens.add(new AnalyzedToken(lowerWord, lowerPosTag,
-                  lowerWord));
+                      lowerWord));
           }
         }
         // else {
@@ -133,9 +130,9 @@ public class UkrainianMyspellTagger implements Tagger {
       if (posTags == null && lowerPosTags == null) {
         analyzedTokens.add(new AnalyzedToken(word, null, null));
       }
-      
+
       tokenReadings.add(new AnalyzedTokenReadings(analyzedTokens
-          .toArray(new AnalyzedToken[analyzedTokens.size()]), pos));
+              .toArray(new AnalyzedToken[analyzedTokens.size()]), pos));
       pos += word.length();
     }
 

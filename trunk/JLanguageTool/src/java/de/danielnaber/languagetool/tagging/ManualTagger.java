@@ -39,7 +39,7 @@ import java.util.Map;
  */
 public class ManualTagger {
 
-  private Map<String, List<LookedUpTerm>> mapping;
+  private final Map<String, List<LookedUpTerm>> mapping;
 
   public ManualTagger(final InputStream file) throws IOException {
     mapping = loadMapping(file, "utf8");

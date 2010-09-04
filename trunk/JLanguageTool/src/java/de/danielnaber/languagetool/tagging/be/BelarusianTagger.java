@@ -34,28 +34,26 @@ import de.danielnaber.languagetool.tagging.Tagger;
 public class BelarusianTagger implements Tagger {
 
     public List<AnalyzedTokenReadings> tag(List<String> sentenceTokens) {
-
-        List<AnalyzedTokenReadings> tokenReadings = new ArrayList<AnalyzedTokenReadings>();
-        int pos = 0;
-        for (Iterator<String> iter = sentenceTokens.iterator(); iter.hasNext();) {
-            String word = iter.next();
-            List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
-            // a real tagger would need to assign a POS tag
-            // in the next line instead of null:
-            l.add(new AnalyzedToken(word, null, null));
-            pos += word.length();
-            tokenReadings.add(new AnalyzedTokenReadings(l
-                    .toArray(new AnalyzedToken[0]), 0));
-        }
-        return tokenReadings;
+      final List<AnalyzedTokenReadings> tokenReadings = new ArrayList<AnalyzedTokenReadings>();
+      int pos = 0;
+      for (String word : sentenceTokens) {
+        final List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
+        // a real tagger would need to assign a POS tag
+        // in the next line instead of null:
+        l.add(new AnalyzedToken(word, null, null));
+        pos += word.length();
+        tokenReadings.add(new AnalyzedTokenReadings(l
+                .toArray(new AnalyzedToken[0]), 0));
+      }
+      return tokenReadings;
     }
 
     public AnalyzedTokenReadings createNullToken(String token, int startPos) {
-        return new AnalyzedTokenReadings(new AnalyzedToken(token, null, null),
-                startPos);
+      return new AnalyzedTokenReadings(new AnalyzedToken(token, null, null),
+              startPos);
     }
 
     public AnalyzedToken createToken(String token, String posTag) {
-        return new AnalyzedToken(token, posTag, null);
+      return new AnalyzedToken(token, posTag, null);
     }
 }

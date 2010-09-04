@@ -43,7 +43,7 @@ public class CzechTagger extends BaseTagger {
   private static final String RESOURCE_FILENAME = "/cs/czech.dict";
 
   private IStemmer morfologik;
-  private Locale csLocale = new Locale("cs");
+  private final Locale csLocale = new Locale("cs");
 
   public final String getFileName() {
     return JLanguageTool.getDataBroker().getResourceDir() + RESOURCE_FILENAME;
@@ -68,7 +68,7 @@ public class CzechTagger extends BaseTagger {
       final String lowerWord = word.toLowerCase(csLocale);
       taggerTokens = asAnalyzedTokenList(word, morfologik.lookup(word));
       lowerTaggerTokens = asAnalyzedTokenList(word, morfologik.lookup(lowerWord));       
-      boolean isLowercase = word.equals(lowerWord);  
+      final boolean isLowercase = word.equals(lowerWord);
 
       //normal case
       addTokens(taggerTokens, l);

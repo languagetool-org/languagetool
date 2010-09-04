@@ -64,7 +64,7 @@ public class PolishChunker implements Disambiguator {
       final String[] tokenAndTag = posToken.split("\t");
       final boolean containsSpace = tokenAndTag[0].indexOf(' ') > 0;
       String firstToken = "";
-      String[] firstTokens;
+      final String[] firstTokens;
       if (!containsSpace) {
         firstTokens = new String[tokenAndTag[0].length()];
         firstToken = tokenAndTag[0].substring(0, 1);
@@ -108,7 +108,7 @@ public class PolishChunker implements Disambiguator {
     lazyInit();
 
     final AnalyzedTokenReadings[] anTokens = input.getTokens();
-    AnalyzedTokenReadings[] output = anTokens;
+    final AnalyzedTokenReadings[] output = anTokens;
 
     for (int i = 0; i < anTokens.length; i++) {
       final String tok = output[i].getToken();
@@ -168,7 +168,7 @@ public class PolishChunker implements Disambiguator {
   private List<String> loadWords(final InputStream file) throws IOException {
   InputStreamReader isr = null;
   BufferedReader br = null;
-  List<String> lines = new ArrayList<String>();
+  final List<String> lines = new ArrayList<String>();
   try {
     isr = new InputStreamReader(file, "UTF-8");
     br = new BufferedReader(isr);

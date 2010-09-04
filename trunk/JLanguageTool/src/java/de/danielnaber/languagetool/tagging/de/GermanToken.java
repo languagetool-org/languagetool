@@ -39,7 +39,7 @@ public final class GermanToken {
     public static final POSType PROPER_NOUN = new POSType("Eigenname");
     public static final POSType OTHER = new POSType("Other");      // e.g. sentence start
 
-    private String name;
+    private final String name;
     
     private POSType(final String name) {
       this.name = name;
@@ -57,7 +57,7 @@ public final class GermanToken {
     public static final Kasus GENITIV = new Kasus("Genitiv");
     public static final Kasus OTHER = new Kasus("Other");
 
-    private String name;
+    private final String name;
     
     private Kasus(final String name) {
       this.name = name;
@@ -73,7 +73,7 @@ public final class GermanToken {
     public static final Numerus PLURAL = new Numerus("Plural");
     public static final Numerus OTHER = new Numerus("Other");
 
-    private String name;
+    private final String name;
     
     private Numerus(final String name) {
       this.name = name;
@@ -90,7 +90,7 @@ public final class GermanToken {
     public static final Genus FEMININUM = new Genus("Femininum");
     public static final Genus OTHER = new Genus("Other");
 
-    private String name;
+    private final String name;
     
     private Genus(final String name) {
       this.name = name;

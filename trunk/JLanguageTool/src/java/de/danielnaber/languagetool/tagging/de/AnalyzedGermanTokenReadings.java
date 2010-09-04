@@ -49,18 +49,18 @@ public class AnalyzedGermanTokenReadings extends AnalyzedTokenReadings {
    * @return a list of {@link AnalyzedGermanToken}s.
    */
   public List<AnalyzedGermanToken> getGermanReadings() {
-    List<AnalyzedGermanToken> l = new ArrayList<AnalyzedGermanToken>();
+    final List<AnalyzedGermanToken> tokens = new ArrayList<AnalyzedGermanToken>();
     for (AnalyzedToken reading : anTokReadings) {
       if (reading.getPOSTag() != null) {
         if (!reading.getPOSTag().equals(JLanguageTool.SENTENCE_END_TAGNAME) && !reading.getPOSTag().equals(JLanguageTool.PARAGRAPH_END_TAGNAME)) {
-          l.add((AnalyzedGermanToken)reading);
+          tokens.add((AnalyzedGermanToken)reading);
         }
       } else {
-        l.add((AnalyzedGermanToken)reading);
+        tokens.add((AnalyzedGermanToken)reading);
       }
        
     }
-    return l;
+    return tokens;
   }
 
   public boolean hasReadingOfType(POSType type) {
@@ -72,7 +72,7 @@ public class AnalyzedGermanTokenReadings extends AnalyzedTokenReadings {
           return false;
         }
       }
-      AnalyzedGermanToken germanReading = (AnalyzedGermanToken) reading;
+      final AnalyzedGermanToken germanReading = (AnalyzedGermanToken) reading;
       if (germanReading.getType() == type)
         return true;
     }
@@ -100,7 +100,7 @@ public class AnalyzedGermanTokenReadings extends AnalyzedTokenReadings {
     if (anTokReadings == null)
       return false;
     for (AnalyzedToken reading : anTokReadings) {
-      AnalyzedGermanToken germanReading = (AnalyzedGermanToken) reading;
+      final AnalyzedGermanToken germanReading = (AnalyzedGermanToken) reading;
       if (germanReading.getCasus() == kasus)
         return true;
     }
@@ -111,7 +111,7 @@ public class AnalyzedGermanTokenReadings extends AnalyzedTokenReadings {
     if (anTokReadings == null)
       return false;
     for (AnalyzedToken reading : anTokReadings) {
-      AnalyzedGermanToken germanReading = (AnalyzedGermanToken) reading;
+      final AnalyzedGermanToken germanReading = (AnalyzedGermanToken) reading;
       if (germanReading.getNumerus() == numerus)
         return true;
     }
@@ -122,7 +122,7 @@ public class AnalyzedGermanTokenReadings extends AnalyzedTokenReadings {
     if (anTokReadings == null)
       return false;
     for (AnalyzedToken reading : anTokReadings) {
-      AnalyzedGermanToken germanReading = (AnalyzedGermanToken) reading;
+      final AnalyzedGermanToken germanReading = (AnalyzedGermanToken) reading;
       if (germanReading.getGenus() == genus)
         return true;
     }
@@ -133,8 +133,8 @@ public class AnalyzedGermanTokenReadings extends AnalyzedTokenReadings {
     if (anTokReadings == null) {
       return super.getAnalyzedToken(0).getToken() + "[?]";
     } else {
-      StringBuilder sb = new StringBuilder(super.getAnalyzedToken(0).getToken());
-      Set<String> printed = new HashSet<String>();
+      final StringBuilder sb = new StringBuilder(super.getAnalyzedToken(0).getToken());
+      final Set<String> printed = new HashSet<String>();
       sb.append("[");
       for (AnalyzedToken reading : anTokReadings) {
         if (!printed.contains(reading.toString())) {
@@ -157,15 +157,15 @@ public class AnalyzedGermanTokenReadings extends AnalyzedTokenReadings {
     if (anTokReadings == null) {
       return super.getAnalyzedToken(0).getToken() + "[?]";
     } else {
-      StringBuilder sb = new StringBuilder(super.getAnalyzedToken(0).getToken());
-      Set<String> elems = new TreeSet<String>();
+      final StringBuilder sb = new StringBuilder(super.getAnalyzedToken(0).getToken());
+      final Set<String> elements = new TreeSet<String>();
       sb.append("[");
       for (AnalyzedToken reading : anTokReadings) {
-        if (!elems.contains(reading.toString())) {
-          elems.add(reading.toString());
+        if (!elements.contains(reading.toString())) {
+          elements.add(reading.toString());
         }
       }
-      sb.append(StringTools.listToString(elems, ", "));
+      sb.append(StringTools.listToString(elements, ", "));
       sb.append("]");
       return sb.toString();
     }

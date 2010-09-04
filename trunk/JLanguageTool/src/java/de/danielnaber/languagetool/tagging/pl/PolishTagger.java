@@ -43,7 +43,7 @@ public class PolishTagger extends BaseTagger {
 
   private static final String RESOURCE_FILENAME = "/pl/polish.dict";
   private IStemmer morfologik;
-  private Locale plLocale = new Locale("pl");
+  private final Locale plLocale = new Locale("pl");
 
   @Override
   public final String getFileName() {
@@ -69,7 +69,7 @@ public class PolishTagger extends BaseTagger {
       final String lowerWord = word.toLowerCase(plLocale);
       taggerTokens = asAnalyzedTokenList(word, morfologik.lookup(word));
       lowerTaggerTokens = asAnalyzedTokenList(word, morfologik.lookup(lowerWord));       
-      boolean isLowercase = word.equals(lowerWord);  
+      final boolean isLowercase = word.equals(lowerWord);
 
       //normal case
       addTokens(taggerTokens, l);

@@ -44,7 +44,7 @@ public class RomanianTagger extends BaseTagger {
   private String RESOURCE_FILENAME = "/ro/romanian.dict";
 
   private IStemmer morfologik;
-  private static Locale roLocale = new Locale("ro");
+  private static final Locale roLocale = new Locale("ro");
 
   public final String getFileName() {
     return JLanguageTool.getDataBroker().getResourceDir() + RESOURCE_FILENAME;
@@ -55,7 +55,7 @@ public class RomanianTagger extends BaseTagger {
     setLocale(roLocale);
   }
 
-  public RomanianTagger(String fileName) {
+  public RomanianTagger(final String fileName) {
     super();
     RESOURCE_FILENAME = fileName;
     setLocale(roLocale);

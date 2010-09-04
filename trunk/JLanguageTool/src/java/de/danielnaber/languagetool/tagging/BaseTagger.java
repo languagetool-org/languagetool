@@ -56,7 +56,7 @@ public abstract class BaseTagger implements Tagger {
     List<AnalyzedToken> taggerTokens;
     List<AnalyzedToken> lowerTaggerTokens;
     List<AnalyzedToken> upperTaggerTokens;
-    List<AnalyzedTokenReadings> tokenReadings = new ArrayList<AnalyzedTokenReadings>();
+    final List<AnalyzedTokenReadings> tokenReadings = new ArrayList<AnalyzedTokenReadings>();
     int pos = 0;
     // caching IStemmer instance - lazy init
     if (morfologik == null) {      
@@ -69,7 +69,7 @@ public abstract class BaseTagger implements Tagger {
       final String lowerWord = word.toLowerCase(conversionLocale);
       taggerTokens = asAnalyzedTokenList(word, morfologik.lookup(word));
       lowerTaggerTokens = asAnalyzedTokenList(word, morfologik.lookup(lowerWord));       
-      boolean isLowercase = word.equals(lowerWord);  
+      final boolean isLowercase = word.equals(lowerWord);
 
       //normal case
       addTokens(taggerTokens, l);
@@ -103,7 +103,7 @@ public abstract class BaseTagger implements Tagger {
   }
 
   protected List<AnalyzedToken> asAnalyzedTokenList(final String word, final List<WordData> wdList) {
-    List<AnalyzedToken> aTokenList = new ArrayList<AnalyzedToken>();
+    final List<AnalyzedToken> aTokenList = new ArrayList<AnalyzedToken>();
     for (WordData wd : wdList) {
       aTokenList.add(asAnalyzedToken(word, wd));
     }
