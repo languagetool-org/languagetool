@@ -65,18 +65,17 @@ public class SameTranslationRule extends BitextRule {
     //This is just heuristics, checking word count
     if (sourceText.getTokensWithoutWhitespace().length > 3 
         && getPureText(sourceText).equals(getPureText(targetText))) {
-      RuleMatch[] rm = new RuleMatch[1];     
-      AnalyzedTokenReadings[] tokens = targetText.getTokens();      
-      int len = tokens[tokens.length - 1].getStartPos() + tokens[tokens.length - 1].getToken().length();
-      rm[0] = new RuleMatch(this, 1, len,
-      MSG);
+      final RuleMatch[] rm = new RuleMatch[1];
+      final AnalyzedTokenReadings[] tokens = targetText.getTokens();
+      final int len = tokens[tokens.length - 1].getStartPos() + tokens[tokens.length - 1].getToken().length();
+      rm[0] = new RuleMatch(this, 1, len, MSG);
       return rm;
     }
     return new RuleMatch[0];
   }
   
   private static String getPureText(AnalyzedSentence text) {
-    StringBuilder sb = new StringBuilder();
+    final StringBuilder sb = new StringBuilder();
     for (AnalyzedTokenReadings token : text.getTokens()) {
       sb.append(token.getToken());
     }

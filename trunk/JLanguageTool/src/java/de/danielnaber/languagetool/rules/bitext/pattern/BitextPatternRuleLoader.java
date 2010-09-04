@@ -54,7 +54,7 @@ public class BitextPatternRuleLoader extends DefaultHandler {
 
   public final List<BitextPatternRule> getRules(final InputStream is,
       final String filename) throws IOException {
-    List<BitextPatternRule> rules;
+    final List<BitextPatternRule> rules;
     try {
       final PatternRuleHandler handler = new PatternRuleHandler();
       final SAXParserFactory factory = SAXParserFactory.newInstance();
@@ -135,7 +135,7 @@ class PatternRuleHandler extends XMLRuleHandler {
   private boolean lastPhrase;
 
   /** List of elements as specified by tokens. **/
-  private List<Element> elementList;
+  private final List<Element> elementList;
 
   /** Phrase store - elementLists keyed by phraseIds. **/
   private Map<String, List<List<Element>>> phraseMap;
@@ -205,10 +205,10 @@ class PatternRuleHandler extends XMLRuleHandler {
       final String qName, final Attributes attrs) throws SAXException {
     if (qName.equals("category")) {
       final String catName = attrs.getValue("name");
-      final String prioStr = attrs.getValue("priority");
+      final String priorityStr = attrs.getValue("priority");
       // int prio = 0;
-      if (prioStr != null) {
-        category = new Category(catName, Integer.parseInt(prioStr));
+      if (priorityStr != null) {
+        category = new Category(catName, Integer.parseInt(priorityStr));
       } else {
         category = new Category(catName);
       }
@@ -295,7 +295,7 @@ class PatternRuleHandler extends XMLRuleHandler {
       
       if (attrs.getValue(SPACEBEFORE) != null) {
         tokenSpaceBefore = YES.equals(attrs.getValue(SPACEBEFORE));
-        tokenSpaceBeforeSet = "ignore".equals(attrs.getValue(SPACEBEFORE)) ^ true;
+        tokenSpaceBeforeSet = !"ignore".equals(attrs.getValue(SPACEBEFORE));
       }
 
      if (!inAndGroup) {
@@ -319,7 +319,7 @@ class PatternRuleHandler extends XMLRuleHandler {
       exceptionStringRegExp = YES.equals(attrs.getValue(REGEXP));
       if (attrs.getValue(SPACEBEFORE) != null) {
         exceptionSpaceBefore = YES.equals(attrs.getValue(SPACEBEFORE));
-        exceptionSpaceBeforeSet = "ignore".equals(attrs.getValue(SPACEBEFORE)) ^ true;
+        exceptionSpaceBeforeSet = !"ignore".equals(attrs.getValue(SPACEBEFORE));
       }
     } else if (qName.equals("example")
         && attrs.getValue(TYPE).equals("correct")) {
@@ -373,7 +373,8 @@ class PatternRuleHandler extends XMLRuleHandler {
         }
         suggestionMatches.add(mWorker);
         //add incorrect XML character for simplicity
-        message.append("\u0001\\" + attrs.getValue("no"));
+        message.append("\u0001\\");
+        message.append(attrs.getValue("no"));
         if (StringTools.isEmpty(attrs.getValue("no"))) {
           throw new SAXException("References cannot be empty: " + "\n Line: "
               + pLocator.getLineNumber() + ", column: "
@@ -395,7 +396,8 @@ class PatternRuleHandler extends XMLRuleHandler {
         }
         mWorker.setTokenRef(refNumber);
         tokenReference = mWorker;
-        elements.append("\\" + refNumber);
+        elements.append("\\");
+        elements.append(refNumber);
       }
     } else if (qName.equals(MARKER) && inCorrectExample) {
       correctExample.append("<marker>");
@@ -472,7 +474,7 @@ class PatternRuleHandler extends XMLRuleHandler {
           suggestionMatches.clear();
         }
       }      
-      BitextPatternRule bRule = new BitextPatternRule(srcRule, trgRule);
+      final BitextPatternRule bRule = new BitextPatternRule(srcRule, trgRule);
       bRule.setCorrectBitextExamples(correctExamples);
       bRule.setIncorrectBitextExamples(incorrectExamples);
       bRule.setSourceLang(srcLang);      
@@ -699,14 +701,14 @@ class PatternRuleHandler extends XMLRuleHandler {
   private void checkPositions(final int add) throws SAXException {
     if (startPositionCorrection >= tokenCounter + add) {
       throw new SAXException(
-          "Attemp to mark a token no. ("+ startPositionCorrection +") that is outside the pattern ("
+          "Attempt to mark a token no. ("+ startPositionCorrection +") that is outside the pattern ("
           + tokenCounter + "). Pattern elements are numbered starting from 0!" + "\n Line: "
               + pLocator.getLineNumber() + ", column: "
               + pLocator.getColumnNumber() + ".");
     }
     if (tokenCounter +add - endPositionCorrection < 0) {
       throw new SAXException(
-          "Attemp to mark a token no. ("+ endPositionCorrection +") that is outside the pattern ("
+          "Attempt to mark a token no. ("+ endPositionCorrection +") that is outside the pattern ("
           + tokenCounter + " elements). End positions should be negative but not larger than the token count!"
           + "\n Line: "
               + pLocator.getLineNumber() + ", column: "
@@ -797,7 +799,7 @@ class PatternRuleHandler extends XMLRuleHandler {
     if (suggestionMatches == null || suggestionMatches.isEmpty()) {
       return null;
     }
-    List<Match> sugMatch = new ArrayList<Match>();
+    final List<Match> sugMatch = new ArrayList<Match>();
     final String messageStr = message.toString();
     int pos = 0;
     int ind = 0;

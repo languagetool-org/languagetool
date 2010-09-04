@@ -64,9 +64,9 @@ public class DifferentLengthRule extends BitextRule {
    
     if (isLengthDifferent(
         getPureText(sourceText), getPureText(targetText))) {
-      RuleMatch[] rm = new RuleMatch[1];     
-      AnalyzedTokenReadings[] tokens = targetText.getTokens();      
-      int len = tokens[tokens.length - 1].getStartPos() + tokens[tokens.length - 1].getToken().length();
+      final RuleMatch[] rm = new RuleMatch[1];
+      final AnalyzedTokenReadings[] tokens = targetText.getTokens();
+      final int len = tokens[tokens.length - 1].getStartPos() + tokens[tokens.length - 1].getToken().length();
       rm[0] = new RuleMatch(this, 1, len,
       MSG);
       return rm;
@@ -75,12 +75,12 @@ public class DifferentLengthRule extends BitextRule {
   }
   
   static boolean isLengthDifferent(final String src, final String trg) {
-    double skew = (((double) src.length() / (double) trg.length()) * 100.00);
+    final double skew = (((double) src.length() / (double) trg.length()) * 100.00);
     return (skew > 250 || skew < 30);
    }
   
   private static String getPureText(AnalyzedSentence text) {
-    StringBuilder sb = new StringBuilder();
+    final StringBuilder sb = new StringBuilder();
     for (AnalyzedTokenReadings token : text.getTokens()) {
       sb.append(token.getToken());
     }
