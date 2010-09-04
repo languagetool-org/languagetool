@@ -45,11 +45,11 @@ public class Romanian extends Language {
 
 	private static final String[] COUNTRIES = { "RO" };
 
-	private Tagger tagger = new RomanianTagger();
-	private Synthesizer synthesizer = new RomanianSynthesizer();
-	private Disambiguator disambiguator = new RomanianRuleDisambiguator();
-	private Tokenizer wdTokenizer = new RomanianWordTokenizer();
-    private SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("ro"); 
+	private final Tagger tagger = new RomanianTagger();
+	private final Synthesizer synthesizer = new RomanianSynthesizer();
+	private final Disambiguator disambiguator = new RomanianRuleDisambiguator();
+	private final Tokenizer wdTokenizer = new RomanianWordTokenizer();
+  private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("ro");
 
 	public Locale getLocale() {
 		return new Locale(getShortName());
@@ -73,13 +73,13 @@ public class Romanian extends Language {
 	}
 
 	public Contributor[] getMaintainers() {
-		Contributor contributor = new Contributor("Ionuț Păduraru");
+		final Contributor contributor = new Contributor("Ionuț Păduraru");
 		contributor.setUrl("http://www.archeus.ro");
 		return new Contributor[] { contributor };
 	}
 
 	public Set<String> getRelevantRuleIDs() {
-		Set<String> ids = new HashSet<String>();
+		final Set<String> ids = new HashSet<String>();
 		ids.add("COMMA_PARENTHESIS_WHITESPACE");
 		ids.add("DOUBLE_PUNCTUATION");
 		ids.add("UPPERCASE_SENTENCE_START");

@@ -32,9 +32,9 @@ import de.danielnaber.languagetool.tokenizers.Tokenizer;
 
 public class Malayalam extends Language {
 
-  private Tagger tagger = new MalayalamTagger();
-  private SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("en"); 
-  private Tokenizer wordTokenizer = new MalayalamWordTokenizer();
+  private final Tagger tagger = new MalayalamTagger();
+  private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("en");
+  private final Tokenizer wordTokenizer = new MalayalamWordTokenizer();
 
   private static final String[] COUNTRIES = {"IN"};
   

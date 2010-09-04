@@ -34,7 +34,7 @@ import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
 
 public class Icelandic extends Language {
 	
-	private Tagger tagger = new DemoTagger();
+	private final Tagger tagger = new DemoTagger();
 	private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("is");
 	private static final String[] COUNTRIES = { "IS" };
 	

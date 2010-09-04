@@ -58,7 +58,7 @@ public class Lithuanian extends Language {
   }
 
   public Set<String> getRelevantRuleIDs() {
-    Set<String> ids = new HashSet<String>();
+    final Set<String> ids = new HashSet<String>();
     ids.add("COMMA_PARENTHESIS_WHITESPACE");
     ids.add("DOUBLE_PUNCTUATION");
     ids.add("UNPAIRED_BRACKETS");

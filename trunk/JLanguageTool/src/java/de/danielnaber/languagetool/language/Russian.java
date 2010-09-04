@@ -43,13 +43,13 @@ public class Russian extends Language {
     "RU"
   };
   
-  private Tagger tagger = new RussianTagger();
-  private Disambiguator disambiguator = new RussianRuleDisambiguator();
+  private final Tagger tagger = new RussianTagger();
+  private final Disambiguator disambiguator = new RussianRuleDisambiguator();
   private static final Unifier russianUnifier = new Unifier();  
 //  private Tokenizer wordTokenizer = new RussianWordTokenizer();
-  private Synthesizer synthesizer = new RussianSynthesizer();
+  private final Synthesizer synthesizer = new RussianSynthesizer();
 //  private SentenceTokenizer sentenceTokenizer = new RussianSentenceTokenizer();   // old Tokenizer
-  private SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("ru"); // new Tokenizer 
+  private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("ru"); // new Tokenizer
   public Locale getLocale() {
     return new Locale(getShortName());
   }
@@ -97,7 +97,7 @@ public class Russian extends Language {
   }
 
   public Set<String> getRelevantRuleIDs() {
-    Set<String> ids = new HashSet<String>();
+    final Set<String> ids = new HashSet<String>();
     ids.add("COMMA_PARENTHESIS_WHITESPACE");
     ids.add("DOUBLE_PUNCTUATION");    
     ids.add("UPPERCASE_SENTENCE_START");

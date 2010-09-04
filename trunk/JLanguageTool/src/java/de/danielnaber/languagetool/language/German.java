@@ -30,8 +30,8 @@ import de.danielnaber.languagetool.tokenizers.de.GermanSentenceTokenizer;
 
 public class German extends Language {
 
-  private Tagger tagger = new GermanTagger();
-  private SentenceTokenizer sentenceTokenizer = new GermanSentenceTokenizer();
+  private final Tagger tagger = new GermanTagger();
+  private final SentenceTokenizer sentenceTokenizer = new GermanSentenceTokenizer();
 
   private static final String[] COUNTRIES = {
     "DE", "CH", "AT", "LU", "LI", "BE"
@@ -67,7 +67,7 @@ public class German extends Language {
   }
 
   public Set<String> getRelevantRuleIDs() {
-    Set<String> ids = new HashSet<String>();
+    final Set<String> ids = new HashSet<String>();
     ids.add("COMMA_PARENTHESIS_WHITESPACE");
     ids.add("DOUBLE_PUNCTUATION");
     ids.add("UNPAIRED_BRACKETS");

@@ -30,8 +30,8 @@ import de.danielnaber.languagetool.tokenizers.da.DanishSentenceTokenizer;
 
 public class Danish extends Language {
 
-  private Tagger tagger = new DanishTagger();
-  private SentenceTokenizer sentenceTokenizer = new DanishSentenceTokenizer();
+  private final Tagger tagger = new DanishTagger();
+  private final SentenceTokenizer sentenceTokenizer = new DanishSentenceTokenizer();
 
   private static final String[] COUNTRIES = {"DK"};
   
@@ -69,7 +69,7 @@ public class Danish extends Language {
     ids.add("DOUBLE_PUNCTUATION");
     ids.add("UNPAIRED_BRACKETS"); // correction for genitive apostrophes eg. "Lis' hund" made in UnpairedQuotesBracketsRule
     ids.add("UPPERCASE_SENTENCE_START"); // abbreviation exceptions, done in DanishSentenceTokenizer 
-    // "WORD_REPEAT_RULE" implementet in grammar.xml
+    // "WORD_REPEAT_RULE" implemented in grammar.xml
     ids.add("WHITESPACE_RULE");    
     // specific to Danish:
     return ids;

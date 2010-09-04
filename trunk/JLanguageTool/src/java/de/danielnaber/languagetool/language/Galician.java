@@ -32,9 +32,9 @@ import de.danielnaber.languagetool.tokenizers.gl.GalicianWordTokenizer;
 
 public class Galician extends Language {
 
-  private Tagger tagger = new GalicianTagger();
-  private Tokenizer wordTokenizer = new GalicianWordTokenizer();
-  private SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("gl"); 
+  private final Tagger tagger = new GalicianTagger();
+  private final Tokenizer wordTokenizer = new GalicianWordTokenizer();
+  private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("gl");
 
   private static final String[] COUNTRIES = {"ES"};
   
@@ -67,7 +67,7 @@ public class Galician extends Language {
   }
 
   public Contributor[] getMaintainers() {
-    Contributor contributor = new Contributor("Susana Sotelo Docío");
+    final Contributor contributor = new Contributor("Susana Sotelo Docío");
     contributor.setUrl("http://www.g11n.net/languagetool-gl");
     return new Contributor[] { contributor };
   }

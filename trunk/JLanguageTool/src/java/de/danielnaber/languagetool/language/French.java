@@ -31,8 +31,8 @@ import de.danielnaber.languagetool.tagging.fr.FrenchTagger;
 
 public class French extends Language {
 
-  private Tagger tagger = new FrenchTagger();
-  private Disambiguator disambiguator = new FrenchRuleDisambiguator();
+  private final Tagger tagger = new FrenchTagger();
+  private final Disambiguator disambiguator = new FrenchRuleDisambiguator();
   private static final Unifier frenchUnifier = new Unifier();
   
   private static final String[] COUNTRIES = {"FR", "", "BE", "CH", "CA", 
@@ -68,16 +68,16 @@ public class French extends Language {
   }
 
   public Contributor[] getMaintainers() {
-    Contributor hVoisard = new Contributor("Hugo Voisard");
+    final Contributor hVoisard = new Contributor("Hugo Voisard");
     hVoisard.setRemark("2006-2007");
     return new Contributor[] {
         new Contributor("Agnes Souque"),
         hVoisard
-        };
+    };
   }
 
   public Set<String> getRelevantRuleIDs() {
-    Set<String> ids = new HashSet<String>();
+    final Set<String> ids = new HashSet<String>();
     ids.add("COMMA_PARENTHESIS_WHITESPACE");
     ids.add("DOUBLE_PUNCTUATION");
     ids.add("UNPAIRED_BRACKETS");

@@ -36,11 +36,11 @@ import de.danielnaber.languagetool.tokenizers.en.EnglishWordTokenizer;
 
 public class English extends Language {
 
-  private Tagger tagger = new EnglishTagger();
-  private Tokenizer wordTokenizer = new EnglishWordTokenizer();
-  private SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("en"); 
-  private Synthesizer synthesizer = new EnglishSynthesizer();
-  private Disambiguator disambiguator = new EnglishRuleDisambiguator();
+  private final Tagger tagger = new EnglishTagger();
+  private final Tokenizer wordTokenizer = new EnglishWordTokenizer();
+  private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("en");
+  private final Synthesizer synthesizer = new EnglishSynthesizer();
+  private final Disambiguator disambiguator = new EnglishRuleDisambiguator();
 
   private static final String[] COUNTRIES = {"GB", "US", "AU", "CA", "NZ", "ZA" };
   

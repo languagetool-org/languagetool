@@ -32,7 +32,7 @@ public class Ukrainian extends Language {
     "UA"
   };
   
-  private Tagger tagger = new UkrainianTagger();
+  private final Tagger tagger = new UkrainianTagger();
 
   public Locale getLocale() {
     return new Locale(getShortName());
@@ -60,7 +60,7 @@ public class Ukrainian extends Language {
   }
 
   public Set<String> getRelevantRuleIDs() {
-    Set<String> ids = new HashSet<String>();
+    final Set<String> ids = new HashSet<String>();
     ids.add("COMMA_PARENTHESIS_WHITESPACE");
     ids.add("DOUBLE_PUNCTUATION");
     ids.add("UPPERCASE_SENTENCE_START");

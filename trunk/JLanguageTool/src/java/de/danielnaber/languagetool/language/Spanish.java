@@ -32,8 +32,8 @@ import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
 
 public class Spanish extends Language {
 	
-	private SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("es");
-	private Synthesizer synthesizer = new SpanishSynthesizer();
+	private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("es");
+	private final Synthesizer synthesizer = new SpanishSynthesizer();
   
   private static final String[] COUNTRIES = {
     "ES", "", "MX", "GT", "CR", "PA", "DO",
@@ -41,7 +41,7 @@ public class Spanish extends Language {
     "BO", "SV", "HN", "NI", "PR", "US", "CU"
   };
 
-  private Tagger tagger = new SpanishTagger();
+  private final Tagger tagger = new SpanishTagger();
 
   public Locale getLocale() {
     return new Locale(getShortName());
@@ -73,13 +73,13 @@ public class Spanish extends Language {
   }
   
   public Contributor[] getMaintainers() {
-	Contributor contributor = new Contributor("Juan Martorell");
+	  final Contributor contributor = new Contributor("Juan Martorell");
     contributor.setUrl("http://languagetool-es.blogspot.com/");
     return new Contributor[] { contributor };
   }
 
   public Set<String> getRelevantRuleIDs() {
-    Set<String> ids = new HashSet<String>();
+    final Set<String> ids = new HashSet<String>();
     ids.add("COMMA_PARENTHESIS_WHITESPACE");
     ids.add("DOUBLE_PUNCTUATION");
     ids.add("UNPAIRED_BRACKETS");

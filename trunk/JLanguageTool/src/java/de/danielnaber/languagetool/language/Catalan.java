@@ -34,9 +34,9 @@ import de.danielnaber.languagetool.rules.ca.AccentuacioReplaceRule;
 
 public class Catalan extends Language {
 
-  private Tagger tagger = new CatalanTagger();
-  private SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("ca");
-  private Synthesizer synthesizer = new CatalanSynthesizer();
+  private final Tagger tagger = new CatalanTagger();
+  private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("ca");
+  private final Synthesizer synthesizer = new CatalanSynthesizer();
 //  private CastellanismesReplaceRule castella = new CastellanismesReplaceRule();
 
   private static final String[] COUNTRIES = {
@@ -65,7 +65,7 @@ public class Catalan extends Language {
   }
 
   public Set<String> getRelevantRuleIDs() {
-    Set<String> ids = new HashSet<String>();
+    final Set<String> ids = new HashSet<String>();
     ids.add("COMMA_PARENTHESIS_WHITESPACE");
     ids.add("DOUBLE_PUNCTUATION");
     ids.add("UNPAIRED_BRACKETS");

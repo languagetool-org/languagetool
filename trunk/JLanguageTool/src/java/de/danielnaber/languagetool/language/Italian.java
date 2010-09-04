@@ -32,7 +32,7 @@ public class Italian extends Language {
     "IT", "CH"
   };
   
-  private Tagger tagger = new ItalianTagger();
+  private final Tagger tagger = new ItalianTagger();
 
   public Locale getLocale() {
     return new Locale(getShortName());
@@ -61,7 +61,7 @@ public class Italian extends Language {
   }
 
   public Set<String> getRelevantRuleIDs() {
-    Set<String> ids = new HashSet<String>();
+    final Set<String> ids = new HashSet<String>();
     ids.add("COMMA_PARENTHESIS_WHITESPACE");
     ids.add("DOUBLE_PUNCTUATION");
     ids.add("UNPAIRED_BRACKETS");

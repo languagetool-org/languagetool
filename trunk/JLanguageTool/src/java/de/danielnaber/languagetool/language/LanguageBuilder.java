@@ -51,7 +51,7 @@ public class LanguageBuilder {
       throw new RuleFilenameException(file);
     }
     
-    Language newLanguage = new Language() {
+    final Language newLanguage = new Language() {
       public Locale getLocale() {
         return new Locale(getShortName());
       }

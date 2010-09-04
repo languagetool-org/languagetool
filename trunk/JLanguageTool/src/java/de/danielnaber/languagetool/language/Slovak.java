@@ -32,7 +32,7 @@ import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
 
 public class Slovak extends Language {
   
-  private SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("sk");
+  private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("sk");
   private final Tagger tagger = new SlovakTagger();
   private final Synthesizer synthesizer = new SlovakSynthesizer(); 
   
@@ -71,7 +71,7 @@ public class Slovak extends Language {
   }
   
   public Contributor[] getMaintainers() {
-	Contributor contributor = new Contributor("Zdenko Podobný");
+	final Contributor contributor = new Contributor("Zdenko Podobný");
 	contributor.setUrl("http://sk-spell.sk.cx");
 	return new Contributor[] { contributor };
   }

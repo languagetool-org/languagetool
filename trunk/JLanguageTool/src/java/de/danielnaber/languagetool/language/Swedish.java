@@ -32,7 +32,7 @@ public class Swedish extends Language {
     "SE", "FI"
   };
   
-  private Tagger tagger = new SwedishTagger();
+  private final Tagger tagger = new SwedishTagger();
 
   public final Locale getLocale() {
     return new Locale(getShortName());

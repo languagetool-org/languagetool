@@ -27,7 +27,7 @@ import de.danielnaber.languagetool.tagging.xx.DemoTagger;
 
 public class Demo extends Language {
 
-  private Tagger tagger = new DemoTagger();
+  private final Tagger tagger = new DemoTagger();
 
   public Locale getLocale() {
     return new Locale("en");

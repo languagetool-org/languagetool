@@ -36,11 +36,11 @@ import de.danielnaber.languagetool.tokenizers.nl.DutchWordTokenizer;
 
 public class Dutch extends Language {
 
-  private Tagger tagger = new DutchTagger();
-  private SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("nl");
-  private Synthesizer synthesizer = new DutchSynthesizer();
-  private Disambiguator disambiguator = new DutchRuleDisambiguator();
-  private Tokenizer wdTokenizer = new DutchWordTokenizer();
+  private final Tagger tagger = new DutchTagger();
+  private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("nl");
+  private final Synthesizer synthesizer = new DutchSynthesizer();
+  private final Disambiguator disambiguator = new DutchRuleDisambiguator();
+  private final Tokenizer wdTokenizer = new DutchWordTokenizer();
 
   private static final String[] COUNTRIES = { "NL", "BE" };
 

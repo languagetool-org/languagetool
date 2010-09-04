@@ -30,8 +30,8 @@ import de.danielnaber.languagetool.tokenizers.cs.CzechSentenceTokenizer;
 
 public class Czech extends Language {
 
-  private Tagger tagger = new CzechTagger();
-  private SentenceTokenizer sentenceTokenizer = new CzechSentenceTokenizer();
+  private final Tagger tagger = new CzechTagger();
+  private final SentenceTokenizer sentenceTokenizer = new CzechSentenceTokenizer();
 
   private static final String[] COUNTRIES = {"CZ"};
   
@@ -64,7 +64,7 @@ public class Czech extends Language {
   }
 
   public Set<String> getRelevantRuleIDs() {
-    Set<String> ids = new HashSet<String>();
+    final Set<String> ids = new HashSet<String>();
     ids.add("COMMA_PARENTHESIS_WHITESPACE");
     ids.add("DOUBLE_PUNCTUATION");
     return ids;
