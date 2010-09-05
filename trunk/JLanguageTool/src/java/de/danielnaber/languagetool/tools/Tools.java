@@ -512,7 +512,10 @@ public final class Tools {
    */  
   public static String correctBitext(final String src, final String target,
       final JLanguageTool sourceLanguageTool, final JLanguageTool targetLanguageTool,
-      final List<BitextRule> bRules) throws IOException {       
+      final List<BitextRule> bRules) throws IOException {  
+	  //FIXME: adjust positions, use bitextMatch here, and
+	  //use the reader to get the target string to make the 
+	  //replacement
     final List<RuleMatch> ruleMatches = sourceLanguageTool.check(src);
     for (BitextRule bRule : bRules) {
       final RuleMatch[] curMatch = bitextMatch(bRule, src, target, sourceLanguageTool, targetLanguageTool);
