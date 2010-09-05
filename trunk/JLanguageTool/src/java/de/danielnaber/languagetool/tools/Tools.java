@@ -41,6 +41,9 @@ import org.xml.sax.SAXException;
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
+import de.danielnaber.languagetool.bitext.BitextReader;
+import de.danielnaber.languagetool.bitext.StringPair;
+import de.danielnaber.languagetool.bitext.TabBitextReader;
 import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.rules.Rule;
 import de.danielnaber.languagetool.rules.bitext.BitextRule;
@@ -240,6 +243,44 @@ public final class Tools {
     return ruleMatches.size();
   }
    
+  public static int checkBitext(final BitextReader reader,
+      final JLanguageTool srcLt, final JLanguageTool trgLt,
+      final List<BitextRule> bRules,
+      final boolean apiFormat, final XmlPrintMode xmlMode) throws IOException {
+    final long startTime = System.currentTimeMillis();
+    final int contextSize = DEFAULT_CONTEXT_SIZE;
+    final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
+    for (StringPair srcAndTrg : reader) {
+      List<RuleMatch> curMatches = checkBitext(
+          srcAndTrg.getSource(), srcAndTrg.getTarget(), 
+          srcLt, trgLt, bRules);
+      /*
+      for (RuleMatch thisMatch : ruleMatches) {
+        thisMatch = 
+          trgLt.adjustRuleMatchPos(thisMatch, 
+              reader.getSentencePosition(), 
+              reader.getColumnCount(), 
+              reader.getLineCount(), 
+              srcAndTrg.getTarget());
+      }
+      */
+      ruleMatches.addAll(curMatches);
+      if (apiFormat) {
+        final String xml = StringTools.ruleMatchesToXML(ruleMatches, 
+            srcAndTrg.getTarget(),
+            contextSize, xmlMode);
+        System.out.print(xml);
+      } else {
+        printMatches(ruleMatches, 0, srcAndTrg.getTarget(), contextSize);
+      }
+    }       
+    //display stats if it's not in a buffered mode
+    if (xmlMode == StringTools.XmlPrintMode.NORMAL_XML) {
+      displayTimeStats(startTime, srcLt.getSentenceCount(), apiFormat);
+    }
+    return ruleMatches.size();
+  }
+  
   /**
   * Checks the bilingual input (bitext) and displays the output (considering the target 
   * language) in API format or in the simple text format.

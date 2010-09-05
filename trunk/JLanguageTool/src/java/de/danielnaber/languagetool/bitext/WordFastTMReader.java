@@ -38,11 +38,12 @@ public class WordFastTMReader extends TabBitextReader {
     }
   }
   
-  protected static StringPair tab2StringPair(final String line) {
+  protected StringPair tab2StringPair(final String line) {
     if (line == null) {
       return null;
     }
     final String[] fields = line.split("\t");
+    sentencePos = fields[4].length() + 1;
     return new StringPair(fields[4], fields[6]);
   }
   

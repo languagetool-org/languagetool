@@ -135,12 +135,10 @@ class Main {
     if (oneTime) {
       if (bitextMode) {
 //TODO: add parameter to set different readers        
-        TabBitextReader reader = new TabBitextReader(filename, encoding);
-        for (StringPair srcAndTrg : reader) {
-          Tools.checkBitext(srcAndTrg.getSource(), srcAndTrg.getTarget(),
+        TabBitextReader reader = new TabBitextReader(filename, encoding);        
+          Tools.checkBitext(reader,
               srcLt,lt, bRules,
-              apiFormat, StringTools.XmlPrintMode.NORMAL_XML);
-        }
+              apiFormat, StringTools.XmlPrintMode.NORMAL_XML);        
       } else {
         final String text = getFilteredText(filename, encoding);
         if (applySuggestions) {

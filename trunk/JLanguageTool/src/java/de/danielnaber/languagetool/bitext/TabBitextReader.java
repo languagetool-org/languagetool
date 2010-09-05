@@ -34,6 +34,10 @@ public class TabBitextReader implements BitextReader {
 
   protected BufferedReader in;
   protected StringPair nextLine;
+  
+  private int lineCount;
+  private int columnCount;
+  protected int sentencePos;
 
   public TabBitextReader(final String filename, final String encoding) {
     try {     
@@ -43,16 +47,18 @@ public class TabBitextReader implements BitextReader {
         in = new BufferedReader(new InputStreamReader(new FileInputStream(filename), encoding));
       }
       nextLine = tab2StringPair(in.readLine());
+      lineCount++;
     } catch(IOException e) { 
       throw new IllegalArgumentException(e); 
     }
   }
 
-  protected static StringPair tab2StringPair(final String line) {
+  protected StringPair tab2StringPair(final String line) {
     if (line == null) {
       return null;
     }
     final String[] fields = line.split("\t");
+    sentencePos = fields[0].length() + 1;
     return new StringPair(fields[0], fields[1]);
   }
 
@@ -73,6 +79,7 @@ public class TabBitextReader implements BitextReader {
 
         if (nextLine != null) {
           nextLine = tab2StringPair(in.readLine());
+          lineCount++;
           if (nextLine == null)
             in.close();
         }
@@ -86,6 +93,22 @@ public class TabBitextReader implements BitextReader {
     public void remove() { 
       throw new UnsupportedOperationException(); 
     }
+  }
+
+  @Override
+  public int getColumnCount() {
+    columnCount = sentencePos;
+    return columnCount;
+  }
+
+  @Override
+  public int getLineCount() {    
+    return lineCount;
+  }
+
+  @Override
+  public int getSentencePosition() {
+    return sentencePos;
   }
 
 

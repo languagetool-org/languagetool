@@ -28,6 +28,22 @@ package de.danielnaber.languagetool.bitext;
 
 public interface BitextReader extends Iterable<StringPair> {
 
-  //empty: we don't need anything else, the class is just to make 
-  //the naming convention cleaner  
+  /**
+   * Get the current line number in the file.
+   * @return The current line number.
+   */
+  public int getLineCount();
+  
+  /**
+   * Get the current column number in the file.
+   * @return  The current column number.
+   */
+  public int getColumnCount();
+  
+  /**
+   * Get the current target sentence position in the file.
+   * @return  The current sentence position.
+   */
+  public int getSentencePosition();
+  
 }
