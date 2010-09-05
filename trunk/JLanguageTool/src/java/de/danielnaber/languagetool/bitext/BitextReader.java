@@ -46,4 +46,10 @@ public interface BitextReader extends Iterable<StringPair> {
    */
   public int getSentencePosition();
   
+  /**
+   * Get the current line of the bitext input.
+   * @return The complete line (including source, if any).
+   */
+  public String getCurrentLine();
+  
 }

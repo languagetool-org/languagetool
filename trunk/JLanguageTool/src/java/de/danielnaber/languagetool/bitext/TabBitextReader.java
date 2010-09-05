@@ -32,84 +32,91 @@ import java.util.Iterator;
  */
 public class TabBitextReader implements BitextReader {
 
-  protected BufferedReader in;
-  protected StringPair nextLine;
-  
-  private int lineCount;
-  private int columnCount;
-  protected int sentencePos;
+	protected BufferedReader in;
+	protected StringPair nextPair; 
+	protected String nextLine;
+	private String prevLine;
 
-  public TabBitextReader(final String filename, final String encoding) {
-    try {     
-      if (encoding == null) {
-        in = new BufferedReader(new InputStreamReader(new FileInputStream(filename)));
-      } else {
-        in = new BufferedReader(new InputStreamReader(new FileInputStream(filename), encoding));
-      }
-      nextLine = tab2StringPair(in.readLine());
-      lineCount++;
-    } catch(IOException e) { 
-      throw new IllegalArgumentException(e); 
-    }
-  }
+	private int lineCount = -1;
+	protected int sentencePos;
 
-  protected StringPair tab2StringPair(final String line) {
-    if (line == null) {
-      return null;
-    }
-    final String[] fields = line.split("\t");
-    sentencePos = fields[0].length() + 1;
-    return new StringPair(fields[0], fields[1]);
-  }
+	public TabBitextReader(final String filename, final String encoding) {
+		try {     
+			if (encoding == null) {
+				in = new BufferedReader(new InputStreamReader(new FileInputStream(filename)));
+			} else {
+				in = new BufferedReader(new InputStreamReader(new FileInputStream(filename), encoding));
+			}
+			nextLine = in.readLine();
+			prevLine = "";
+			nextPair = tab2StringPair(nextLine);
+		} catch(IOException e) { 
+			throw new IllegalArgumentException(e); 
+		}
+	}
 
-  @Override
-  public Iterator<StringPair> iterator() {
-    return new TabReader();
-  }
+	protected StringPair tab2StringPair(final String line) {
+		if (line == null) {
+			return null;
+		}
+		final String[] fields = line.split("\t");
+		return new StringPair(fields[0], fields[1]);
+	}
 
-  class TabReader implements Iterator<StringPair> {
+	@Override
+	public Iterator<StringPair> iterator() {
+		return new TabReader();
+	}
 
-    public boolean hasNext() { 
-      return nextLine != null;
-    }
+	class TabReader implements Iterator<StringPair> {
 
-    public StringPair next() {
-      try {
-        final StringPair result = nextLine;
+		public boolean hasNext() { 
+			return nextLine != null;
+		}
 
-        if (nextLine != null) {
-          nextLine = tab2StringPair(in.readLine());
-          lineCount++;
-          if (nextLine == null)
-            in.close();
-        }
-        return result;
-      } catch(IOException e) { 
-        throw new IllegalArgumentException(e); 
-      }
-    }
+		public StringPair next() {
+			try {
+				final StringPair result = nextPair;
+				sentencePos = nextPair.getSource().length() + 1;
+				if (nextLine != null) {
+					prevLine = nextLine;
+					nextLine = in.readLine();
+					nextPair = tab2StringPair(nextLine);
+					lineCount++;
+					if (nextLine == null)
+						in.close();
+				}
+				return result;
+			} catch(IOException e) { 
+				throw new IllegalArgumentException(e); 
+			}
+		}
 
-    // The file is read-only.
-    public void remove() { 
-      throw new UnsupportedOperationException(); 
-    }
-  }
+		// The file is read-only.
+		public void remove() { 
+			throw new UnsupportedOperationException(); 
+		}
+	}
 
-  @Override
-  public int getColumnCount() {
-    columnCount = sentencePos;
-    return columnCount;
-  }
+	@Override
+	public int getColumnCount() {
+		return sentencePos;
+	}
 
-  @Override
-  public int getLineCount() {    
-    return lineCount;
-  }
+	@Override
+	public int getLineCount() {    
+		return lineCount;
+	}
 
-  @Override
-  public int getSentencePosition() {
-    return sentencePos;
-  }
+	@Override
+	public int getSentencePosition() {
+		return sentencePos;
+	}
+
+	@Override
+	public String getCurrentLine() {
+		return prevLine;
+	}
 
 
 

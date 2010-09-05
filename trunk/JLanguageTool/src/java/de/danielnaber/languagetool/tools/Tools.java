@@ -28,9 +28,9 @@ import java.io.StringWriter;
 import java.lang.reflect.Constructor;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -43,9 +43,8 @@ import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.bitext.BitextReader;
 import de.danielnaber.languagetool.bitext.StringPair;
-import de.danielnaber.languagetool.bitext.TabBitextReader;
-import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.rules.Rule;
+import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.rules.bitext.BitextRule;
 import de.danielnaber.languagetool.rules.bitext.pattern.BitextPatternRuleLoader;
 import de.danielnaber.languagetool.rules.bitext.pattern.FalseFriendsAsBitextLoader;
@@ -202,6 +201,12 @@ public final class Tools {
    * Checks the bilingual input (bitext) and displays the output (considering the target 
    * language) in API format or in the simple text format.
    * 
+   * NOTE: the positions returned by the rule matches are relative
+   * to the target string only, and always start at the first line 
+   * and first column, no matter how many lines were checked before.
+   * To have multiple lines taken into account, use the checkBitext
+   * method that takes a BitextReader.
+   * 
    * @param src   Source text.
    * @param trg   Target text.
    * @param srcLt Source JLanguageTool (used to analyze the text).
@@ -221,13 +226,10 @@ public final class Tools {
     final int contextSize = DEFAULT_CONTEXT_SIZE;
     final List<RuleMatch> ruleMatches = 
       checkBitext(src, trg, srcLt, trgLt, bRules);
-    //FIXME: get current line number, column number etc. from the 
-    //bitext reader, refactor the method to take the bitext reader
-    //instead of pure strings as input
     for (RuleMatch thisMatch : ruleMatches) {
       thisMatch = 
         trgLt.adjustRuleMatchPos(thisMatch, 
-            0, 0, 0, src + "\t" + trg);
+            0, 1, 1, trg);
     }
     if (apiFormat) {
       final String xml = StringTools.ruleMatchesToXML(ruleMatches, trg,
@@ -242,43 +244,59 @@ public final class Tools {
     }
     return ruleMatches.size();
   }
-   
+  
+  /**
+   * Checks the bilingual input (bitext) and displays the output (considering the target 
+   * language) in API format or in the simple text format.
+   * 
+   * NOTE: the positions returned by the rule matches are adjusted
+   * according to the data returned by the reader.
+   * 
+   * @param reader   Reader of bitext strings.
+   * @param srcLt Source JLanguageTool (used to analyze the text).
+   * @param trgLt Target JLanguageTool (used to analyze the text).
+   * @param bRules  Bilingual rules used in addition to target standard rules.
+   * @param apiFormat Whether API format should be used.
+   * @param xmlMode The mode of XML output display.
+   * @return  The number of rules matched on the bitext.
+   * @throws IOException
+   * @since 1.0.1
+   */
   public static int checkBitext(final BitextReader reader,
-      final JLanguageTool srcLt, final JLanguageTool trgLt,
-      final List<BitextRule> bRules,
-      final boolean apiFormat, final XmlPrintMode xmlMode) throws IOException {
-    final long startTime = System.currentTimeMillis();
-    final int contextSize = DEFAULT_CONTEXT_SIZE;
-    final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
-    for (StringPair srcAndTrg : reader) {
-      List<RuleMatch> curMatches = checkBitext(
-          srcAndTrg.getSource(), srcAndTrg.getTarget(), 
-          srcLt, trgLt, bRules);
-      /*
-      for (RuleMatch thisMatch : ruleMatches) {
-        thisMatch = 
-          trgLt.adjustRuleMatchPos(thisMatch, 
-              reader.getSentencePosition(), 
-              reader.getColumnCount(), 
-              reader.getLineCount(), 
-              srcAndTrg.getTarget());
-      }
-      */
-      ruleMatches.addAll(curMatches);
-      if (apiFormat) {
-        final String xml = StringTools.ruleMatchesToXML(ruleMatches, 
-            srcAndTrg.getTarget(),
-            contextSize, xmlMode);
-        System.out.print(xml);
-      } else {
-        printMatches(ruleMatches, 0, srcAndTrg.getTarget(), contextSize);
-      }
-    }       
-    //display stats if it's not in a buffered mode
-    if (xmlMode == StringTools.XmlPrintMode.NORMAL_XML) {
-      displayTimeStats(startTime, srcLt.getSentenceCount(), apiFormat);
-    }
-    return ruleMatches.size();
+		  final JLanguageTool srcLt, final JLanguageTool trgLt,
+		  final List<BitextRule> bRules,
+		  final boolean apiFormat, final XmlPrintMode xmlMode) throws IOException {
+	  final long startTime = System.currentTimeMillis();
+	  final int contextSize = DEFAULT_CONTEXT_SIZE;
+	  final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
+	  for (StringPair srcAndTrg : reader) {
+		  List<RuleMatch> curMatches = checkBitext(
+				  srcAndTrg.getSource(), srcAndTrg.getTarget(), 
+				  srcLt, trgLt, bRules);
+		  List<RuleMatch> fixedMatches = new ArrayList<RuleMatch>();
+		  for (RuleMatch thisMatch : curMatches) {
+			  fixedMatches.add(  
+					  trgLt.adjustRuleMatchPos(thisMatch, 
+							  reader.getSentencePosition(), 
+							  reader.getColumnCount(), 
+							  reader.getLineCount(), 
+							  reader.getCurrentLine()));
+		  }
+		  ruleMatches.addAll(fixedMatches);
+		  if (apiFormat) {
+			  final String xml = StringTools.ruleMatchesToXML(fixedMatches, 
+					  reader.getCurrentLine(),
+					  contextSize, xmlMode);
+			  System.out.print(xml);
+		  } else {
+			  printMatches(fixedMatches, 0, reader.getCurrentLine(), contextSize);
+		  }
+	  }       
+	  //display stats if it's not in a buffered mode
+	  if (xmlMode == StringTools.XmlPrintMode.NORMAL_XML) {
+		  displayTimeStats(startTime, srcLt.getSentenceCount(), apiFormat);
+	  }
+	  return ruleMatches.size();
   }
   
   /**
@@ -297,7 +315,7 @@ public final class Tools {
   public static List<RuleMatch> checkBitext(final String src, final String trg,
       final JLanguageTool srcLt, final JLanguageTool trgLt,
       final List<BitextRule> bRules) throws IOException {
-   final List<RuleMatch> ruleMatches = srcLt.check(src);    
+   final List<RuleMatch> ruleMatches = trgLt.check(trg);    
     for (BitextRule bRule : bRules) {
       final RuleMatch[] curMatch = bitextMatch(bRule, src, trg, srcLt, trgLt);
       if (curMatch != null) {

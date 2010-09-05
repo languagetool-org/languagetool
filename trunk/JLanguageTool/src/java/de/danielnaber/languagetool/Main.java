@@ -18,8 +18,8 @@
  */
 package de.danielnaber.languagetool;
 
-import java.io.BufferedReader;
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -36,7 +36,6 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import de.danielnaber.languagetool.bitext.StringPair;
 import de.danielnaber.languagetool.bitext.TabBitextReader;
 import de.danielnaber.languagetool.rules.Rule;
 import de.danielnaber.languagetool.rules.bitext.BitextRule;

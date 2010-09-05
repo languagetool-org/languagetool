@@ -322,6 +322,8 @@ public class MainTest extends AbstractSecurityTestCase {
       assertTrue(output.indexOf("Expected text language: Polish") == 0);
       assertTrue(output.indexOf(
           "Message: Hint: \"aktualny\" (Polish) means \"current\", \"(the) latest\", \"up-to-date\" (English). Did you mean 'rzeczywisty'?") != -1);
+      assertTrue(output.indexOf("Line 1, column 32, Rule ID: ACTUAL") != -1);
+      assertTrue(output.indexOf("Line 3, column 4, Rule ID: TRANSLATION_LENGTH") != -1);
     }
     catch (ExitException e) {             
       assertEquals("Exit status", 1, e.status);
