@@ -81,19 +81,6 @@ public class PatternRuleLoader extends DefaultHandler {
 
 class PatternRuleHandler extends XMLRuleHandler {
 
-  /** Defines "yes" value in XML files. */
-  private static final String YES = "yes";
-  private static final String POSTAG = "postag";
-  private static final String POSTAG_REGEXP = "postag_regexp";
-  private static final String REGEXP = "regexp";
-  private static final String NEGATE = "negate";
-  private static final String INFLECTED = "inflected";
-  private static final String NEGATE_POS = "negate_pos";
-  private static final String MARKER = "marker";
-  private static final String DEFAULT = "default";
-  private static final String TYPE = "type";
-  private static final String SPACEBEFORE = "spacebefore";
-
   private String id;
   private int subId;
 
@@ -302,8 +289,8 @@ class PatternRuleHandler extends XMLRuleHandler {
       resetException();
 
       exceptionStringNegation = YES.equals(attrs.getValue(NEGATE));      
-      exceptionValidNext = "next".equals(attrs.getValue("scope"));
-      exceptionValidPrev = "previous".equals(attrs.getValue("scope"));      
+      exceptionValidNext = "next".equals(attrs.getValue(SCOPE));
+      exceptionValidPrev = "previous".equals(attrs.getValue(SCOPE));      
       exceptionStringInflected = YES.equals(attrs.getValue(INFLECTED));
       
       if (attrs.getValue(POSTAG) != null) {
@@ -316,11 +303,11 @@ class PatternRuleHandler extends XMLRuleHandler {
         exceptionSpaceBefore = YES.equals(attrs.getValue(SPACEBEFORE));
         exceptionSpaceBeforeSet = !"ignore".equals(attrs.getValue(SPACEBEFORE));
       }
-    } else if (qName.equals("example")
+    } else if (qName.equals(EXAMPLE)
         && attrs.getValue(TYPE).equals("correct")) {
       inCorrectExample = true;
       correctExample = new StringBuilder();
-    } else if (qName.equals("example")
+    } else if (qName.equals(EXAMPLE)
         && attrs.getValue(TYPE).equals("incorrect")) {
       inIncorrectExample = true;
       incorrectExample = new StringBuilder();
@@ -559,7 +546,7 @@ class PatternRuleHandler extends XMLRuleHandler {
         }
       }
       tokenCounter = 0;
-    } else if (qName.equals("example")) {
+    } else if (qName.equals(EXAMPLE)) {
       if (inCorrectExample) {
         correctExamples.add(correctExample.toString());
       } else if (inIncorrectExample) {

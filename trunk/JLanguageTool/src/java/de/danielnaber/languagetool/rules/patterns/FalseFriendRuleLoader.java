@@ -207,35 +207,35 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
       exceptions = new StringBuilder();
 
       if (attrs.getValue("negate") != null) {
-        exceptionStringNegation = attrs.getValue("negate").equals("yes");
+        exceptionStringNegation = attrs.getValue("negate").equals(YES);
       }
-      if (attrs.getValue("scope") != null) {
-        exceptionValidNext = attrs.getValue("scope").equals("next");
-        exceptionValidPrev = attrs.getValue("scope").equals("previous");
+      if (attrs.getValue(SCOPE) != null) {
+        exceptionValidNext = attrs.getValue(SCOPE).equals("next");
+        exceptionValidPrev = attrs.getValue(SCOPE).equals("previous");
       }
       if (attrs.getValue("inflected") != null) {
-        exceptionStringInflected = attrs.getValue("inflected").equals("yes");
+        exceptionStringInflected = attrs.getValue(INFLECTED).equals(YES);
       }
-      if (attrs.getValue("postag") != null) {
-        exceptionPosToken = attrs.getValue("postag");
-        if (attrs.getValue("postag_regexp") != null) {
-          exceptionPosRegExp = attrs.getValue("postag_regexp").equals("yes");
+      if (attrs.getValue(POSTAG) != null) {
+        exceptionPosToken = attrs.getValue(POSTAG);
+        if (attrs.getValue(POSTAG_REGEXP) != null) {
+          exceptionPosRegExp = attrs.getValue(POSTAG_REGEXP).equals(YES);
         }
-        if (attrs.getValue("negate_pos") != null) {
-          exceptionPosNegation = attrs.getValue("negate_pos").equals("yes");
+        if (attrs.getValue(NEGATE_POS) != null) {
+          exceptionPosNegation = attrs.getValue(NEGATE_POS).equals(YES);
         }
       }
-      if (attrs.getValue("regexp") != null) {
-        exceptionStringRegExp = attrs.getValue("regexp").equals("yes");
+      if (attrs.getValue(REGEXP) != null) {
+        exceptionStringRegExp = attrs.getValue(REGEXP).equals(YES);
       }
 
     } else if (qName.equals("token")) {
       inToken = true;
       if (attrs.getValue("negate") != null) {
-        tokenNegated = attrs.getValue("negate").equals("yes");
+        tokenNegated = attrs.getValue("negate").equals(YES);
       }
       if (attrs.getValue("inflected") != null) {
-        tokenInflected = attrs.getValue("inflected").equals("yes");
+        tokenInflected = attrs.getValue("inflected").equals(YES);
       }
       if (attrs.getValue("skip") != null) {
         skipPos = Integer.parseInt(attrs.getValue("skip"));
@@ -244,21 +244,21 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
       if (elementList == null) {
         elementList = new ArrayList<Element>();
       }
-      if (attrs.getValue("postag") != null) {
-        posToken = attrs.getValue("postag");
-        if (attrs.getValue("postag_regexp") != null) {
-          regular = attrs.getValue("postag_regexp").equals("yes");
+      if (attrs.getValue(POSTAG) != null) {
+        posToken = attrs.getValue(POSTAG);
+        if (attrs.getValue(POSTAG_REGEXP) != null) {
+          regular = attrs.getValue(POSTAG_REGEXP).equals(YES);
         }
-        if (attrs.getValue("negate_pos") != null) {
-          posNegation = attrs.getValue("negate_pos").equals("yes");
+        if (attrs.getValue(NEGATE_POS) != null) {
+          posNegation = attrs.getValue(NEGATE_POS).equals(YES);
         }
 
         if (elementList == null) { // lazy init
           elementList = new ArrayList<Element>();
         }
       }
-      if (attrs.getValue("regexp") != null) {
-        regExpression = attrs.getValue("regexp").equals("yes");
+      if (attrs.getValue(REGEXP) != null) {
+        regExpression = attrs.getValue(REGEXP).equals(YES);
       }
 
     } else if (qName.equals("translation")) {
@@ -272,12 +272,12 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
           throw new SAXException("Unknown language '" + languageStr + "'");
         }
       }
-    } else if (qName.equals("example")
-        && attrs.getValue("type").equals("correct")) {
+    } else if (qName.equals(EXAMPLE)
+        && attrs.getValue(TYPE).equals("correct")) {
       inCorrectExample = true;
       correctExample = new StringBuilder();
-    } else if (qName.equals("example")
-        && attrs.getValue("type").equals("incorrect")) {
+    } else if (qName.equals(EXAMPLE)
+        && attrs.getValue(TYPE).equals("incorrect")) {
       inIncorrectExample = true;
       incorrectExample = new StringBuilder();
     } else if (qName.equals("message")) {
@@ -286,7 +286,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
     } else if (qName.equals("rulegroup")) {
       ruleGroupId = attrs.getValue("id");
       inRuleGroup = true;
-      defaultOff = "off".equals(attrs.getValue("default"));
+      defaultOff = "off".equals(attrs.getValue(DEFAULT));
     }
   }
 
@@ -388,7 +388,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
       translation = new StringBuilder();
       inTranslation = false;
       currentTranslationLanguage = null;
-    } else if (qName.equals("example")) {
+    } else if (qName.equals(EXAMPLE)) {
       if (inCorrectExample) {
         correctExamples.add(correctExample.toString());
       } else if (inIncorrectExample) {

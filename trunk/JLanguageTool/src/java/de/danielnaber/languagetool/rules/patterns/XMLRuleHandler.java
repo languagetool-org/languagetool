@@ -58,6 +58,21 @@ class XMLRuleHandler extends DefaultHandler {
   boolean inException;
   boolean inPhrases;
   boolean inAndGroup;
+
+  /** Defines "yes" value in XML files. */
+  protected static final String YES = "yes";
+  protected static final String POSTAG = "postag";
+  protected static final String POSTAG_REGEXP = "postag_regexp";
+  protected static final String REGEXP = "regexp";
+  protected static final String NEGATE = "negate";
+  protected static final String INFLECTED = "inflected";
+  protected static final String NEGATE_POS = "negate_pos";
+  protected static final String MARKER = "marker";
+  protected static final String DEFAULT = "default";
+  protected static final String TYPE = "type";
+  protected static final String SPACEBEFORE = "spacebefore";
+  protected static final String EXAMPLE = "example";
+  protected static final String SCOPE = "scope";
   
   List<PatternRule> getRules() {
     return rules;
