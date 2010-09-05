@@ -672,7 +672,7 @@ class PatternRuleHandler extends XMLRuleHandler {
     phraseElementInit();
     if (phraseElementList.isEmpty()) {
       rule = new PatternRule(id, language, elementList,
-          description, message.toString(), shortMessage.toString());
+          description, "", shortMessage.toString());
       prepareRule(rule);              
     } else {
       if (!elementList.isEmpty()) {
