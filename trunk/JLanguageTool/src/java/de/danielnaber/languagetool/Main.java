@@ -107,7 +107,7 @@ class Main {
   private void setProfilingMode() {
     profileRules = true;
   }
-  
+
   private final void setBitextMode(final Language sourceLang) throws IOException, ParserConfigurationException, SAXException {
     bitextMode = true;
     Language target = lt.getLanguage();
@@ -116,7 +116,7 @@ class Main {
     lt.activateDefaultPatternRules();
     bRules = Tools.getBitextRules(sourceLang, lt.getLanguage());
   }
-  
+
   JLanguageTool getJLanguageTool() {
     return lt;
   }
@@ -133,11 +133,10 @@ class Main {
     }
     if (oneTime) {
       if (bitextMode) {
-//TODO: add parameter to set different readers        
+        //TODO: add parameter to set different readers        
         TabBitextReader reader = new TabBitextReader(filename, encoding);        
-          Tools.checkBitext(reader,
-              srcLt,lt, bRules,
-              apiFormat, StringTools.XmlPrintMode.NORMAL_XML);        
+        Tools.checkBitext(reader, srcLt, lt, bRules,
+            apiFormat, StringTools.XmlPrintMode.NORMAL_XML);        
       } else {
         final String text = getFilteredText(filename, encoding);
         if (applySuggestions) {
@@ -178,49 +177,35 @@ class Main {
       final List<String> unknownWords = new ArrayList<String>();
       StringBuilder sb = new StringBuilder();      
       for (int ruleIndex = 0; ruleIndex <runCount; ruleIndex++) {
-      currentRule = rules.get(ruleIndex);
-      int matches = 0;
-      long sentences = 0;        
-      final long startTime = System.currentTimeMillis();        
-      try {
-        if (!"-".equals(filename)) {
-          final File file = new File(filename);
-          if (encoding != null) {
-            isr = new InputStreamReader(new BufferedInputStream(
-                new FileInputStream(file.getAbsolutePath())), encoding);
-          } else {
-            isr = new InputStreamReader(new BufferedInputStream(
-                new FileInputStream(file.getAbsolutePath())));
-          }
-        } else {
-          if (encoding != null) {
-            isr = new InputStreamReader(new BufferedInputStream(System.in),
-                encoding);
-          } else {
-            isr = new InputStreamReader(new BufferedInputStream(System.in));
-          }
-        }
-        br = new BufferedReader(isr);
-        String line;
-        while ((line = br.readLine()) != null) {
-          sb.append(line);
-          sb.append("\n");
-          if (lt.getLanguage().getSentenceTokenizer()
-              .singleLineBreaksMarksPara()) {
-            matches = handleLine(matches, lineOffset, sb);
-            sentences += lt.getSentenceCount();
-            if (profileRules) {
-              sentences += lt.sentenceTokenize(sb.toString()).size();
+        currentRule = rules.get(ruleIndex);
+        int matches = 0;
+        long sentences = 0;        
+        final long startTime = System.currentTimeMillis();        
+        try {
+          if (!"-".equals(filename)) {
+            final File file = new File(filename);
+            if (encoding != null) {
+              isr = new InputStreamReader(new BufferedInputStream(
+                  new FileInputStream(file.getAbsolutePath())), encoding);
+            } else {
+              isr = new InputStreamReader(new BufferedInputStream(
+                  new FileInputStream(file.getAbsolutePath())));
             }
-            if (listUnknownWords && !taggerOnly) {
-              for (String word : lt.getUnknownWords())
-                if (!unknownWords.contains(word)) {
-                  unknownWords.add(word);
-                }
-            }
-            sb = new StringBuilder();
           } else {
-            if ("".equals(line) || sb.length() >= MAX_FILE_SIZE) {
+            if (encoding != null) {
+              isr = new InputStreamReader(new BufferedInputStream(System.in),
+                  encoding);
+            } else {
+              isr = new InputStreamReader(new BufferedInputStream(System.in));
+            }
+          }
+          br = new BufferedReader(isr);
+          String line;
+          while ((line = br.readLine()) != null) {
+            sb.append(line);
+            sb.append("\n");
+            if (lt.getLanguage().getSentenceTokenizer()
+                .singleLineBreaksMarksPara()) {
               matches = handleLine(matches, lineOffset, sb);
               sentences += lt.getSentenceCount();
               if (profileRules) {
@@ -233,37 +218,51 @@ class Main {
                   }
               }
               sb = new StringBuilder();
-            }
-            lineOffset = tmpLineOffset;
-          }
-          tmpLineOffset++;
-        }
-      } finally {
-
-        if (sb.length() > 0) {
-          matches = handleLine(matches, tmpLineOffset - 1, sb);
-          sentences += lt.getSentenceCount();
-          if (profileRules) {
-            sentences += lt.sentenceTokenize(sb.toString()).size();
-          }
-          if (listUnknownWords && !taggerOnly) {
-            for (String word : lt.getUnknownWords())
-              if (!unknownWords.contains(word)) {
-                unknownWords.add(word);
+            } else {
+              if ("".equals(line) || sb.length() >= MAX_FILE_SIZE) {
+                matches = handleLine(matches, lineOffset, sb);
+                sentences += lt.getSentenceCount();
+                if (profileRules) {
+                  sentences += lt.sentenceTokenize(sb.toString()).size();
+                }
+                if (listUnknownWords && !taggerOnly) {
+                  for (String word : lt.getUnknownWords())
+                    if (!unknownWords.contains(word)) {
+                      unknownWords.add(word);
+                    }
+                }
+                sb = new StringBuilder();
               }
+              lineOffset = tmpLineOffset;
+            }
+            tmpLineOffset++;
           }
-        }
+        } finally {
 
-        printTimingInformation(listUnknownWords, rules, unknownWords, ruleIndex, matches, sentences, startTime);
+          if (sb.length() > 0) {
+            matches = handleLine(matches, tmpLineOffset - 1, sb);
+            sentences += lt.getSentenceCount();
+            if (profileRules) {
+              sentences += lt.sentenceTokenize(sb.toString()).size();
+            }
+            if (listUnknownWords && !taggerOnly) {
+              for (String word : lt.getUnknownWords())
+                if (!unknownWords.contains(word)) {
+                  unknownWords.add(word);
+                }
+            }
+          }
 
-        if (br != null) {
-          br.close();
-        }
-        if (isr != null) {
-          isr.close();
+          printTimingInformation(listUnknownWords, rules, unknownWords, ruleIndex, matches, sentences, startTime);
+
+          if (br != null) {
+            br.close();
+          }
+          if (isr != null) {
+            isr.close();
+          }
         }
       }
-     }
     }
   }
 
@@ -285,8 +284,8 @@ class Main {
         System.out.println();
       } else {
         System.out.printf(Locale.ENGLISH,
-          "Time: %dms for %d sentences (%.1f sentences/sec)", time,
-          sentences, sentencesPerSecond);
+            "Time: %dms for %d sentences (%.1f sentences/sec)", time,
+            sentences, sentencesPerSecond);
         System.out.println();
       }
       if (listUnknownWords) {
@@ -350,7 +349,7 @@ class Main {
    * @throws IOException
    */
   private String getFilteredText(final String filename, final String encoding)
-      throws IOException {
+  throws IOException {
     if (verbose) {
       lt.setOutput(System.err);
     }
@@ -364,10 +363,10 @@ class Main {
 
   private static void exitWithUsageMessage() {
     System.out
-        .println("Usage: java de.danielnaber.languagetool.Main "
-            + "[-r|--recursive] [-v|--verbose] [-l|--language LANG] [-m|--mothertongue LANG] [-d|--disable RULES] "
-            + "[-e|--enable RULES] [-c|--encoding] [-u|--list-unknown] [-t|--taggeronly] [-b] [--api] [-a|--apply] "             
-            +	"[-b2|--bitext] <file>");
+    .println("Usage: java de.danielnaber.languagetool.Main "
+        + "[-r|--recursive] [-v|--verbose] [-l|--language LANG] [-m|--mothertongue LANG] [-d|--disable RULES] "
+        + "[-e|--enable RULES] [-c|--encoding] [-u|--list-unknown] [-t|--taggeronly] [-b] [--api] [-a|--apply] "             
+        +	"[-b2|--bitext] <file>");
     System.exit(1);
   }
 
@@ -375,7 +374,7 @@ class Main {
    * Command line tool to check plain text files.
    */
   public static void main(final String[] args) throws IOException,
-      ParserConfigurationException, SAXException {
+  ParserConfigurationException, SAXException {
     if (args.length < 1 || args.length > 9) {
       exitWithUsageMessage();
     }
@@ -404,27 +403,27 @@ class Main {
         taggerOnly = true;
         if (listUnknown) {
           throw new IllegalArgumentException(
-              "You cannot list unknown words when tagging only.");
+          "You cannot list unknown words when tagging only.");
         }
         if (applySuggestions) {
           throw new IllegalArgumentException(
-              "You cannot apply suggestions when tagging only.");
+          "You cannot apply suggestions when tagging only.");
         }
       } else if (args[i].equals("-r") || args[i].equals("--recursive")) {
         recursive = true;
       } else if (args[i].equals("-b2") || args[i].equals("--bitext")) {
-          bitext = true;        
+        bitext = true;        
       } else if (args[i].equals("-d") || args[i].equals("--disable")) {
         if (enabledRules.length > 0) {
           throw new IllegalArgumentException(
-              "You cannot specify both enabled and disabled rules");
+          "You cannot specify both enabled and disabled rules");
         }
         final String rules = args[++i];
         disabledRules = rules.split(",");
       } else if (args[i].equals("-e") || args[i].equals("--enable")) {
         if (disabledRules.length > 0) {
           throw new IllegalArgumentException(
-              "You cannot specify both enabled and disabled rules");
+          "You cannot specify both enabled and disabled rules");
         }
         final String rules = args[++i];
         enabledRules = rules.split(",");
@@ -438,7 +437,7 @@ class Main {
         listUnknown = true;
         if (taggerOnly) {
           throw new IllegalArgumentException(
-              "You cannot list unknown words when tagging only.");
+          "You cannot list unknown words when tagging only.");
         }
       } else if (args[i].equals("-b")) {
         singleLineBreakMarksParagraph = true;
@@ -446,17 +445,17 @@ class Main {
         apiFormat = true;
         if (applySuggestions) {
           throw new IllegalArgumentException(
-              "API format makes no sense for automatic application of suggestions.");
+          "API format makes no sense for automatic application of suggestions.");
         }
       } else if (args[i].equals("-a") || args[i].equals("--apply")) {
         applySuggestions = true;
         if (taggerOnly) {
           throw new IllegalArgumentException(
-              "You cannot apply suggestions when tagging only.");
+          "You cannot apply suggestions when tagging only.");
         }
         if (apiFormat) {
           throw new IllegalArgumentException(
-              "API format makes no sense for automatic application of suggestions.");
+          "API format makes no sense for automatic application of suggestions.");
         }
       } else if (args[i].equals("-p") || args[i].equals("--profile")) {
         profile = true;        
