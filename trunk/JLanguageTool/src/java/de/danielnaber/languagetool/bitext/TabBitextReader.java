@@ -20,9 +20,9 @@
 package de.danielnaber.languagetool.bitext;
 
 import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Iterator;
 
 /**
@@ -32,91 +32,91 @@ import java.util.Iterator;
  */
 public class TabBitextReader implements BitextReader {
 
-	protected BufferedReader in;
-	protected StringPair nextPair; 
-	protected String nextLine;
-	private String prevLine;
+  protected BufferedReader in;
+  protected StringPair nextPair; 
+  protected String nextLine;
+  private String prevLine;
 
-	private int lineCount = -1;
-	protected int sentencePos;
+  private int lineCount = -1;
+  protected int sentencePos;
 
-	public TabBitextReader(final String filename, final String encoding) {
-		try {     
-			if (encoding == null) {
-				in = new BufferedReader(new InputStreamReader(new FileInputStream(filename)));
-			} else {
-				in = new BufferedReader(new InputStreamReader(new FileInputStream(filename), encoding));
-			}
-			nextLine = in.readLine();
-			prevLine = "";
-			nextPair = tab2StringPair(nextLine);
-		} catch(IOException e) { 
-			throw new IllegalArgumentException(e); 
-		}
-	}
+  public TabBitextReader(final String filename, final String encoding) {
+    try {     
+      if (encoding == null) {
+        in = new BufferedReader(new InputStreamReader(new FileInputStream(filename)));
+      } else {
+        in = new BufferedReader(new InputStreamReader(new FileInputStream(filename), encoding));
+      }
+      nextLine = in.readLine();
+      prevLine = "";
+      nextPair = tab2StringPair(nextLine);
+    } catch(IOException e) { 
+      throw new IllegalArgumentException(e); 
+    }
+  }
 
-	protected StringPair tab2StringPair(final String line) {
-		if (line == null) {
-			return null;
-		}
-		final String[] fields = line.split("\t");
-		return new StringPair(fields[0], fields[1]);
-	}
+  protected StringPair tab2StringPair(final String line) {
+    if (line == null) {
+      return null;
+    }
+    final String[] fields = line.split("\t");
+    return new StringPair(fields[0], fields[1]);
+  }
 
-	@Override
-	public Iterator<StringPair> iterator() {
-		return new TabReader();
-	}
+  @Override
+  public Iterator<StringPair> iterator() {
+    return new TabReader();
+  }
 
-	class TabReader implements Iterator<StringPair> {
+  class TabReader implements Iterator<StringPair> {
 
-		public boolean hasNext() { 
-			return nextLine != null;
-		}
+    public boolean hasNext() { 
+      return nextLine != null;
+    }
 
-		public StringPair next() {
-			try {
-				final StringPair result = nextPair;
-				sentencePos = nextPair.getSource().length() + 1;
-				if (nextLine != null) {
-					prevLine = nextLine;
-					nextLine = in.readLine();
-					nextPair = tab2StringPair(nextLine);
-					lineCount++;
-					if (nextLine == null)
-						in.close();
-				}
-				return result;
-			} catch(IOException e) { 
-				throw new IllegalArgumentException(e); 
-			}
-		}
+    public StringPair next() {
+      try {
+        final StringPair result = nextPair;
+        sentencePos = nextPair.getSource().length() + 1;
+        if (nextLine != null) {
+          prevLine = nextLine;
+          nextLine = in.readLine();
+          nextPair = tab2StringPair(nextLine);
+          lineCount++;
+          if (nextLine == null)
+            in.close();
+        }
+        return result;
+      } catch(IOException e) { 
+        throw new IllegalArgumentException(e); 
+      }
+    }
 
-		// The file is read-only.
-		public void remove() { 
-			throw new UnsupportedOperationException(); 
-		}
-	}
+    // The file is read-only.
+    public void remove() { 
+      throw new UnsupportedOperationException(); 
+    }
+  }
 
-	@Override
-	public int getColumnCount() {
-		return sentencePos;
-	}
+  @Override
+  public int getColumnCount() {
+    return sentencePos;
+  }
 
-	@Override
-	public int getLineCount() {    
-		return lineCount;
-	}
+  @Override
+  public int getLineCount() {    
+    return lineCount;
+  }
 
-	@Override
-	public int getSentencePosition() {
-		return sentencePos;
-	}
+  @Override
+  public int getSentencePosition() {
+    return sentencePos;
+  }
 
-	@Override
-	public String getCurrentLine() {
-		return prevLine;
-	}
+  @Override
+  public String getCurrentLine() {
+    return prevLine;
+  }
 
 
 
