@@ -7,11 +7,22 @@ title="Easy editing stylesheet" ?>
 German grammar and typo rules for LanguageTool
 See resource/de/tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2010 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.33 2010-07-23 21:51:11 dnaber Exp $
+$Id: grammar.xml,v 1.34 2010-09-10 10:54:17 dnaber Exp $
 -->
 <rules lang="de" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../rules.xsd">
   <category name="Mögliche Tippfehler">
+    <rulegroup id="VATER_MORGANA" name="Tippfehler: Vater(Fata) Morgana'">
+      <rule>
+        <pattern>
+          <token>Vater</token>
+          <token>Morgana</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>Fata Morgana</suggestion> (eine Luftspiegelung)?</message>
+        <example type="correct">Eine <marker>Fata Morgana</marker> entsteht durch Ablenkung des Lichtes.</example>
+        <example type="incorrect">Eine <marker>Vater Morgana</marker> entsteht durch Ablenkung des Lichtes.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="WAHR_NEHMEN" name="Grammatik: 'nehme ... war'">
       <rule>
         <pattern mark_from="1">
