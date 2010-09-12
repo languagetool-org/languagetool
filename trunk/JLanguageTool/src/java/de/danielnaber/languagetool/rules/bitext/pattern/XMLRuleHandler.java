@@ -26,7 +26,6 @@ import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import de.danielnaber.languagetool.bitext.StringPair;
-import de.danielnaber.languagetool.rules.IncorrectExample;
 import de.danielnaber.languagetool.rules.bitext.IncorrectBitextExample;
 
 /**
@@ -54,6 +53,7 @@ class XMLRuleHandler extends DefaultHandler {
   boolean inCorrectExample;
   boolean inIncorrectExample;
   boolean inMessage;
+  boolean inSuggestion;
   boolean inMatch;
   boolean inRuleGroup;
   boolean inToken;

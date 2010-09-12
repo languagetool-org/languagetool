@@ -383,8 +383,8 @@ public class PatternRule extends AbstractPatternRule {
     if (suggestionMatches != null && !suggestionMatches.isEmpty()) {
       final int sugStart = message.indexOf(SUGG_TAG) + SUGG_TAG.length();
       int i = 0;
-      while (i <= suggestionMatches.size()
-          && suggestionMatches.get(i).isInMessageOnly()) {
+      while (i < suggestionMatches.size() - 1
+    		  && suggestionMatches.get(i).isInMessageOnly()) {
         i++;
       }
       convertsCase = suggestionMatches.get(i).convertsCase()

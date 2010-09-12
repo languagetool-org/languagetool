@@ -52,6 +52,7 @@ class XMLRuleHandler extends DefaultHandler {
   boolean inCorrectExample;
   boolean inIncorrectExample;
   boolean inMessage;
+  boolean inSuggestion;
   boolean inMatch;
   boolean inRuleGroup;
   boolean inToken;
