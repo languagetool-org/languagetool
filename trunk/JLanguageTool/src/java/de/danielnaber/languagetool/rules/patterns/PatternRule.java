@@ -379,18 +379,16 @@ public class PatternRule extends AbstractPatternRule {
    * @return true, if the match converts the case of the token.
    */
   private boolean matchConvertsCase() {
-    boolean convertsCase = false;
-    if (suggestionMatches != null && !suggestionMatches.isEmpty()) {
-      final int sugStart = message.indexOf(SUGG_TAG) + SUGG_TAG.length();
-      int i = 0;
-      while (i < suggestionMatches.size() - 1
-    		  && suggestionMatches.get(i).isInMessageOnly()) {
-        i++;
-      }
-      convertsCase = suggestionMatches.get(i).convertsCase()
-      && message.charAt(sugStart) == '\\';
-    }
-    return convertsCase;
+	  if (suggestionMatches != null && !suggestionMatches.isEmpty()) {
+		  final int sugStart = message.indexOf(SUGG_TAG) + SUGG_TAG.length();
+		  for (Match sMatch : suggestionMatches) {
+			  if (!sMatch.isInMessageOnly() && sMatch.convertsCase()
+					  && message.charAt(sugStart) == '\\') {
+				  return true;
+			  }
+		  }
+	  }
+	  return false;
   }
 
   public final void addSuggestionMatch(final Match m) {
