@@ -32,8 +32,8 @@ import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.rules.RuleMatch;
-import de.danielnaber.languagetool.rules.bitext.pattern.BitextPatternRule;
-import de.danielnaber.languagetool.rules.bitext.pattern.FalseFriendsAsBitextLoader;
+import de.danielnaber.languagetool.rules.patterns.bitext.BitextPatternRule;
+import de.danielnaber.languagetool.rules.patterns.bitext.FalseFriendsAsBitextLoader;
 
 /**
  * @author Marcin Miłkowski

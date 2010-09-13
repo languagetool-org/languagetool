@@ -16,17 +16,17 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.rules.bitext.pattern;
+package de.danielnaber.languagetool.rules.patterns.bitext;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
-import org.xml.sax.helpers.DefaultHandler;
 
 import de.danielnaber.languagetool.bitext.StringPair;
 import de.danielnaber.languagetool.rules.bitext.IncorrectBitextExample;
+import de.danielnaber.languagetool.rules.patterns.XMLRuleHandler;
 
 /**
  * XML rule handler that loads rules from XML and throws
@@ -34,34 +34,14 @@ import de.danielnaber.languagetool.rules.bitext.IncorrectBitextExample;
  * 
  * @author Daniel Naber
  */
-class XMLRuleHandler extends DefaultHandler {
+class BitextXMLRuleHandler extends XMLRuleHandler {
 
   List<BitextPatternRule> rules = new ArrayList<BitextPatternRule>();
 
-  StringBuilder correctExample = new StringBuilder();
-  StringBuilder incorrectExample = new StringBuilder();
-  StringBuilder exampleCorrection = new StringBuilder();
-  StringBuilder message = new StringBuilder();
-  StringBuilder match = new StringBuilder();
-  StringBuilder elements;
-  StringBuilder exceptions;
-  
   List<StringPair> correctExamples = new ArrayList<StringPair>();
   List<IncorrectBitextExample> incorrectExamples = new ArrayList<IncorrectBitextExample>();
 
-  boolean inPattern;
-  boolean inCorrectExample;
-  boolean inIncorrectExample;
-  boolean inMessage;
-  boolean inSuggestion;
-  boolean inMatch;
-  boolean inRuleGroup;
-  boolean inToken;
-  boolean inException;
-  boolean inPhrases;
-  boolean inAndGroup;
-  
-  List<BitextPatternRule> getRules() {
+  List<BitextPatternRule> getBitextRules() {
     return rules;
   }
   

@@ -46,9 +46,9 @@ import de.danielnaber.languagetool.bitext.StringPair;
 import de.danielnaber.languagetool.rules.Rule;
 import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.rules.bitext.BitextRule;
-import de.danielnaber.languagetool.rules.bitext.pattern.BitextPatternRuleLoader;
-import de.danielnaber.languagetool.rules.bitext.pattern.FalseFriendsAsBitextLoader;
 import de.danielnaber.languagetool.rules.patterns.PatternRule;
+import de.danielnaber.languagetool.rules.patterns.bitext.BitextPatternRuleLoader;
+import de.danielnaber.languagetool.rules.patterns.bitext.FalseFriendsAsBitextLoader;
 import de.danielnaber.languagetool.tools.StringTools.XmlPrintMode;
 
 public final class Tools {

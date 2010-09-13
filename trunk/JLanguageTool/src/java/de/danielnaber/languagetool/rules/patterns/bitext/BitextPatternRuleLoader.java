@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.rules.bitext.pattern;
+package de.danielnaber.languagetool.rules.patterns.bitext;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,9 +37,11 @@ import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.bitext.StringPair;
 import de.danielnaber.languagetool.rules.Category;
 import de.danielnaber.languagetool.rules.IncorrectExample;
-import de.danielnaber.languagetool.tools.StringTools;
 import de.danielnaber.languagetool.rules.bitext.IncorrectBitextExample;
-import de.danielnaber.languagetool.rules.patterns.*;
+import de.danielnaber.languagetool.rules.patterns.Element;
+import de.danielnaber.languagetool.rules.patterns.Match;
+import de.danielnaber.languagetool.rules.patterns.PatternRule;
+import de.danielnaber.languagetool.tools.StringTools;
 
 /**
  * Loads {@link PatternRule}s from an XML file.
@@ -64,7 +66,7 @@ public class BitextPatternRuleLoader extends DefaultHandler {
           false);
           */
       saxParser.parse(is, handler);
-      rules = handler.getRules();
+      rules = handler.getBitextRules();
       return rules;
     } catch (final Exception e) {
       final IOException ioe = new IOException("Cannot load or parse '"
@@ -76,22 +78,8 @@ public class BitextPatternRuleLoader extends DefaultHandler {
 
 }
 
-class PatternRuleHandler extends XMLRuleHandler {
+class PatternRuleHandler extends BitextXMLRuleHandler {
 
-  /** Defines "yes" value in XML files. */
-  private static final String YES = "yes";
-  private static final String POSTAG = "postag";
-  private static final String POSTAG_REGEXP = "postag_regexp";
-  private static final String REGEXP = "regexp";
-  private static final String NEGATE = "negate";
-  private static final String INFLECTED = "inflected";
-  private static final String NEGATE_POS = "negate_pos";
-  private static final String MARKER = "marker";
-  private static final String DEFAULT = "default";
-  private static final String TYPE = "type";
-  private static final String SPACEBEFORE = "spacebefore";
-
-  private String id;
   private int subId;
 
   /** Current phrase ID. **/
@@ -100,42 +88,16 @@ class PatternRuleHandler extends XMLRuleHandler {
   /** ID reference to the phrase. **/
   private String phraseIdRef;
 
-  private boolean caseSensitive;
-  private boolean stringRegExp;
-  private boolean tokenNegated;
-  private boolean tokenInflected;
-  private boolean tokenSpaceBefore;
-  private boolean tokenSpaceBeforeSet;
-  private String posToken;
-  private boolean posNegation;
-  private boolean posRegExp;
-
   private boolean defaultOff;
   private boolean defaultOn;
 
   private Language language;
   private Category category;
   private String description;
-  private String ruleGroupId;
   private String ruleGroupDescription;
-
-  private String exceptionPosToken;
-  private boolean exceptionStringRegExp;
-  private boolean exceptionStringNegation;
-  private boolean exceptionStringInflected;
-  private boolean exceptionPosNegation;
-  private boolean exceptionPosRegExp;
-  private boolean exceptionValidNext;
-  private boolean exceptionValidPrev;
-  private boolean exceptionSet;
-  private boolean exceptionSpaceBefore;
-  private boolean exceptionSpaceBeforeSet;
 
   /** true when phraseref is the last element in the rule. **/
   private boolean lastPhrase;
-
-  /** List of elements as specified by tokens. **/
-  private final List<Element> elementList;
 
   /** Phrase store - elementLists keyed by phraseIds. **/
   private Map<String, List<List<Element>>> phraseMap;
@@ -146,19 +108,12 @@ class PatternRuleHandler extends XMLRuleHandler {
    **/
   private List<ArrayList<Element>> phraseElementList;
 
-  private List<Match> suggestionMatches;
-
   private int startPositionCorrection;
   private int endPositionCorrection;
-  private int skipPos;
-
-  private Element tokenElement;
 
   private int andGroupCounter;
   
   private int tokenCounter;
-
-  private Match tokenReference;
 
   private StringBuilder shortMessage = new StringBuilder();
   private boolean inShortMessage;
@@ -173,8 +128,6 @@ class PatternRuleHandler extends XMLRuleHandler {
   private List<String> uTypeList;
   
   private Map<String, List<String>> equivalenceFeatures;
-
-  private Locator pLocator;
 
   public PatternRuleHandler() {
     elementList = new ArrayList<Element>();
@@ -291,7 +244,7 @@ class PatternRuleHandler extends XMLRuleHandler {
         posRegExp = YES.equals(attrs.getValue(POSTAG_REGEXP));
         posNegation = YES.equals(attrs.getValue(NEGATE_POS));       
       }
-      stringRegExp = YES.equals(attrs.getValue(REGEXP));
+      regExpression = YES.equals(attrs.getValue(REGEXP));
       
       if (attrs.getValue(SPACEBEFORE) != null) {
         tokenSpaceBefore = YES.equals(attrs.getValue(SPACEBEFORE));
@@ -302,30 +255,12 @@ class PatternRuleHandler extends XMLRuleHandler {
        tokenCounter++;
      }
     } else if (qName.equals("exception")) {
-      inException = true;
-      exceptions = new StringBuilder();
-      resetException();
-
-      exceptionStringNegation = YES.equals(attrs.getValue(NEGATE));      
-      exceptionValidNext = "next".equals(attrs.getValue("scope"));
-      exceptionValidPrev = "previous".equals(attrs.getValue("scope"));      
-      exceptionStringInflected = YES.equals(attrs.getValue(INFLECTED));
-      
-      if (attrs.getValue(POSTAG) != null) {
-        exceptionPosToken = attrs.getValue(POSTAG);
-        exceptionPosRegExp = YES.equals(attrs.getValue(POSTAG_REGEXP));
-        exceptionPosNegation = YES.equals(attrs.getValue(NEGATE_POS));        
-      }
-      exceptionStringRegExp = YES.equals(attrs.getValue(REGEXP));
-      if (attrs.getValue(SPACEBEFORE) != null) {
-        exceptionSpaceBefore = YES.equals(attrs.getValue(SPACEBEFORE));
-        exceptionSpaceBeforeSet = !"ignore".equals(attrs.getValue(SPACEBEFORE));
-      }
-    } else if (qName.equals("example")
+      setExceptions(attrs);
+    } else if (qName.equals(EXAMPLE)
         && attrs.getValue(TYPE).equals("correct")) {
       inCorrectExample = true;
       correctExample = new StringBuilder();
-    } else if (qName.equals("example")
+    } else if (qName.equals(EXAMPLE)
         && attrs.getValue(TYPE).equals("incorrect")) {
       inIncorrectExample = true;
       incorrectExample = new StringBuilder();
@@ -350,57 +285,7 @@ class PatternRuleHandler extends XMLRuleHandler {
       message.append("<suggestion>");
       inSuggestion = true;
     } else if (qName.equals("match")) {
-      inMatch = true;
-      match = new StringBuilder();
-      Match.CaseConversion caseConv = Match.CaseConversion.NONE;
-      if (attrs.getValue("case_conversion") != null) {
-        caseConv = Match.CaseConversion.toCase(attrs
-            .getValue("case_conversion").toUpperCase());
-      }
-      Match.IncludeRange includeRange = Match.IncludeRange.NONE;
-      if (attrs.getValue("include_skipped") != null) {
-        includeRange = Match.IncludeRange.toRange(attrs
-            .getValue("include_skipped").toUpperCase());
-      }
-      final Match mWorker = new Match(attrs.getValue(POSTAG), attrs
-          .getValue("postag_replace"), YES
-          .equals(attrs.getValue(POSTAG_REGEXP)), attrs
-          .getValue("regexp_match"), attrs.getValue("regexp_replace"),
-          caseConv, YES.equals(attrs.getValue("setpos")),
-          includeRange);
-      mWorker.setInMessageOnly(!inSuggestion);
-      if (inMessage) {
-        if (suggestionMatches == null) {
-          suggestionMatches = new ArrayList<Match>();
-        }
-        suggestionMatches.add(mWorker);
-        //add incorrect XML character for simplicity
-        message.append("\u0001\\");
-        message.append(attrs.getValue("no"));
-        if (StringTools.isEmpty(attrs.getValue("no"))) {
-          throw new SAXException("References cannot be empty: " + "\n Line: "
-              + pLocator.getLineNumber() + ", column: "
-              + pLocator.getColumnNumber() + ".");
-        } else if (Integer.parseInt(attrs.getValue("no")) < 1) {
-          throw new SAXException("References must be larger than 0: "
-              + attrs.getValue("no") + "\n Line: " + pLocator.getLineNumber()
-              + ", column: " + pLocator.getColumnNumber() + ".");
-        }
-      } else if (inToken && attrs.getValue("no") != null) {
-        final int refNumber = Integer.parseInt(attrs.getValue("no"));
-        if (refNumber > elementList.size()) {
-          throw new SAXException(
-              "Only backward references in match elements are possible, tried to specify token "
-                  + refNumber
-                  + "\n Line: "
-                  + pLocator.getLineNumber()
-                  + ", column: " + pLocator.getColumnNumber() + ".");
-        }
-        mWorker.setTokenRef(refNumber);
-        tokenReference = mWorker;
-        elements.append("\\");
-        elements.append(refNumber);
-      }
+      setMatchElement(attrs);
     } else if (qName.equals(MARKER) && inCorrectExample) {
       correctExample.append("<marker>");
     } else if (qName.equals(MARKER) && inIncorrectExample) {
@@ -485,7 +370,7 @@ class PatternRuleHandler extends XMLRuleHandler {
       inException = false;
       if (!exceptionSet) {
         tokenElement = new Element(StringTools.trimWhitespace(elements
-            .toString()), caseSensitive, stringRegExp, tokenInflected);
+            .toString()), caseSensitive, regExpression, tokenInflected);
         exceptionSet = true;
       }
       tokenElement.setNegation(tokenNegated);
@@ -510,7 +395,7 @@ class PatternRuleHandler extends XMLRuleHandler {
     } else if (qName.equals("token")) {
       if (!exceptionSet || tokenElement == null) {
         tokenElement = new Element(StringTools.trimWhitespace(elements
-            .toString()), caseSensitive, stringRegExp, tokenInflected);
+            .toString()), caseSensitive, regExpression, tokenInflected);
         tokenElement.setNegation(tokenNegated);
       } else {
         tokenElement.setStringElement(StringTools.trimWhitespace(elements
@@ -719,54 +604,7 @@ class PatternRuleHandler extends XMLRuleHandler {
     } 
   }
 
-  private void resetToken() {
-    posNegation = false;
-    posRegExp = false;
-    inToken = false;
-    tokenSpaceBefore = false;
-    tokenSpaceBeforeSet = false;
-
-    resetException();
-    exceptionSet = false;
-    tokenReference = null;
-  }
-
-  private void resetException() {
-    exceptionStringNegation = false;
-    exceptionStringInflected = false;
-    exceptionPosNegation = false;
-    exceptionPosRegExp = false;
-    exceptionStringRegExp = false;
-    exceptionValidNext = false;
-    exceptionValidPrev = false;
-    exceptionSpaceBefore = false;
-    exceptionSpaceBeforeSet = false;
-  }
-
-  /**
-   * Calculates the offset of the match reference (if any) in case the match
-   * element has been used in the group.
-   * 
-   * @param elList
-   *          Element list where the match element was used. It is directly changed.
-   */
-  private void processElement(final List<Element> elList) {
-    int counter = 0;
-    for (final Element elTest : elList) {
-      if (elTest.getPhraseName() != null && counter > 0) {
-        if (elTest.isReferenceElement()) {
-          final int tokRef = elTest.getMatch().getTokenRef();
-          elTest.getMatch().setTokenRef(tokRef + counter - 1);
-          final String offsetToken = elTest.getString().replace("\\" + tokRef,
-              "\\" + (tokRef + counter - 1));
-          elTest.setStringElement(offsetToken);
-        }
-      }
-      counter++;
-    }
-  }
-
-  private void prepareRule(final PatternRule rule) {
+     private void prepareRule(final PatternRule rule) {
     rule.setStartPositionCorrection(startPositionCorrection);
     rule.setEndPositionCorrection(endPositionCorrection);
     startPositionCorrection = 0;

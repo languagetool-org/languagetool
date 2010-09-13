@@ -125,36 +125,11 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
   private final Language textLanguage;
   private final Language motherTongue;
 
-  private boolean caseSensitive;
-  private boolean regExpression;
-  private boolean tokenNegated;
-  private boolean tokenInflected;
-  private boolean posNegation;
-
   private boolean defaultOff;
 
-  private String posToken;
-
-  private String exceptionPosToken;
-  private boolean exceptionStringRegExp;
-  private boolean exceptionStringNegation;
-  private boolean exceptionStringInflected;
-  private boolean exceptionPosNegation;
-  private boolean exceptionPosRegExp;
-  private boolean exceptionValidNext;
-  private boolean exceptionValidPrev;
-  private boolean exceptionSet;
-
-  private List<Element> elementList;
-  private boolean regular;
-  private int skipPos;
-  private Element stringElement;
-
-  private String id;
   private Language language;
   private Language translationLanguage;
   private Language currentTranslationLanguage;
-  private String ruleGroupId;
   private List<StringBuilder> translations = new ArrayList<StringBuilder>();
   private StringBuilder translation = new StringBuilder();
   private final List<String> suggestions = new ArrayList<String>();
@@ -247,7 +222,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
       if (attrs.getValue(POSTAG) != null) {
         posToken = attrs.getValue(POSTAG);
         if (attrs.getValue(POSTAG_REGEXP) != null) {
-          regular = attrs.getValue(POSTAG_REGEXP).equals(YES);
+          posRegExp = attrs.getValue(POSTAG_REGEXP).equals(YES);
         }
         if (attrs.getValue(NEGATE_POS) != null) {
           posNegation = attrs.getValue(NEGATE_POS).equals(YES);
@@ -325,58 +300,53 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
     } else if (qName.equals("exception")) {
       inException = false;
       if (!exceptionSet) {
-        stringElement = new Element(elements.toString(), caseSensitive,
+        tokenElement = new Element(elements.toString(), caseSensitive,
             regExpression, tokenInflected);
         exceptionSet = true;
       }
-      stringElement.setNegation(tokenNegated);
+      tokenElement.setNegation(tokenNegated);
       if (!StringTools.isEmpty(exceptions.toString())) {
-        stringElement.setStringException(exceptions.toString(),
+        tokenElement.setStringException(exceptions.toString(),
             exceptionStringRegExp, exceptionStringInflected,
             exceptionStringNegation, exceptionValidNext, exceptionValidPrev);
       }
       if (exceptionPosToken != null) {
-        stringElement.setPosException(exceptionPosToken, exceptionPosRegExp,
+        tokenElement.setPosException(exceptionPosToken, exceptionPosRegExp,
             exceptionPosNegation, exceptionValidNext, exceptionValidPrev);
         exceptionPosToken = null;
       }
     } else if (qName.equals("token")) {
       if (inToken) {
-        if (!exceptionSet || stringElement == null) {
-          stringElement = new Element(elements.toString(), caseSensitive,
+        if (!exceptionSet || tokenElement == null) {
+          tokenElement = new Element(elements.toString(), caseSensitive,
               regExpression, tokenInflected);
-          stringElement.setNegation(tokenNegated);
+          tokenElement.setNegation(tokenNegated);
         } else {
-          stringElement.setStringElement(elements.toString());
+          tokenElement.setStringElement(elements.toString());
         }
         if (skipPos != 0) {
-          stringElement.setSkipNext(skipPos);
+          tokenElement.setSkipNext(skipPos);
           skipPos = 0;
         }
         if (posToken != null) {
-          stringElement.setPosElement(posToken, regular, posNegation);
+          tokenElement.setPosElement(posToken, posRegExp, posNegation);
           posToken = null;
         }
 
-        elementList.add(stringElement);
+        elementList.add(tokenElement);
         tokenNegated = false;
         tokenInflected = false;
         posNegation = false;
-        regular = false;
+        posRegExp = false;
         exceptionValidNext = true;
       }
       inToken = false;
       regExpression = false;
 
-      exceptionStringNegation = false;
-      exceptionStringInflected = false;
-      exceptionPosNegation = false;
-      exceptionPosRegExp = false;
-      exceptionStringRegExp = false;
-      exceptionValidNext = true;
-      exceptionSet = false;
-
+      resetException();    
+	      
     } else if (qName.equals("pattern")) {
+	    	  
       inPattern = false;
     } else if (qName.equals("translation")) {
       if (currentTranslationLanguage == motherTongue) {

@@ -17,7 +17,7 @@
  * USA
  */
 
-package de.danielnaber.languagetool.rules.bitext.pattern;
+package de.danielnaber.languagetool.rules.patterns.bitext;
 
 import java.io.IOException;
 

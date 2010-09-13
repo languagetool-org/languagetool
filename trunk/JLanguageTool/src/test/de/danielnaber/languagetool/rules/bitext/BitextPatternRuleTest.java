@@ -30,9 +30,9 @@ import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.bitext.StringPair;
 import de.danielnaber.languagetool.rules.Rule;
 import de.danielnaber.languagetool.rules.RuleMatch;
-import de.danielnaber.languagetool.rules.bitext.pattern.BitextPatternRule;
-import de.danielnaber.languagetool.rules.bitext.pattern.BitextPatternRuleLoader;
 import de.danielnaber.languagetool.rules.patterns.PatternRule;
+import de.danielnaber.languagetool.rules.patterns.bitext.BitextPatternRule;
+import de.danielnaber.languagetool.rules.patterns.bitext.BitextPatternRuleLoader;
 import junit.framework.TestCase;
 
 public class BitextPatternRuleTest extends TestCase {
