@@ -103,6 +103,11 @@ public class XMLRuleHandler extends DefaultHandler {
 
   protected Locator pLocator;
 
+  protected int startPositionCorrection;
+  protected int endPositionCorrection;
+  protected int tokenCounter;
+
+  
   /** Defines "yes" value in XML files. */
   protected static final String YES = "yes";
   protected static final String POSTAG = "postag";
@@ -219,10 +224,10 @@ public class XMLRuleHandler extends DefaultHandler {
       if (refNumber > elementList.size()) {
         throw new SAXException(
             "Only backward references in match elements are possible, tried to specify token "
-                + refNumber
-                + "\n Line: "
-                + pLocator.getLineNumber()
-                + ", column: " + pLocator.getColumnNumber() + ".");
+            + refNumber
+            + "\n Line: "
+            + pLocator.getLineNumber()
+            + ", column: " + pLocator.getColumnNumber() + ".");
       }
       mWorker.setTokenRef(refNumber);
       tokenReference = mWorker;
@@ -240,7 +245,7 @@ public class XMLRuleHandler extends DefaultHandler {
     exceptionValidNext = "next".equals(attrs.getValue(SCOPE));
     exceptionValidPrev = "previous".equals(attrs.getValue(SCOPE));      
     exceptionStringInflected = YES.equals(attrs.getValue(INFLECTED));
-    
+
     if (attrs.getValue(POSTAG) != null) {
       exceptionPosToken = attrs.getValue(POSTAG);
       exceptionPosRegExp = YES.equals(attrs.getValue(POSTAG_REGEXP));
@@ -253,5 +258,60 @@ public class XMLRuleHandler extends DefaultHandler {
     }
   }
 
-  
+  protected void checkPositions(final int add) throws SAXException {
+    if (startPositionCorrection >= tokenCounter + add) {
+      throw new SAXException(
+          "Attempt to mark a token no. ("+ startPositionCorrection +") that is outside the pattern ("
+          + tokenCounter + "). Pattern elements are numbered starting from 0!" + "\n Line: "
+          + pLocator.getLineNumber() + ", column: "
+          + pLocator.getColumnNumber() + ".");
+    }
+    if (tokenCounter +add - endPositionCorrection < 0) {
+      throw new SAXException(
+          "Attempt to mark a token no. ("+ endPositionCorrection +") that is outside the pattern ("
+          + tokenCounter + " elements). End positions should be negative but not larger than the token count!"
+          + "\n Line: "
+          + pLocator.getLineNumber() + ", column: "
+          + pLocator.getColumnNumber() + ".");
+    } 
+  }
+
+  /**
+   * Adds Match objects for all references to tokens
+   * (including '\1' and the like). 
+   */
+  protected List<Match> addLegacyMatches() {
+    if (suggestionMatches == null || suggestionMatches.isEmpty()) {
+      return null;
+    }
+    final List<Match> sugMatch = new ArrayList<Match>();
+    final String messageStr = message.toString();
+    int pos = 0;
+    int ind = 0;
+    int matchCounter = 0;
+    while (pos != -1) {
+      pos = messageStr.indexOf('\\', ind + 1);
+      if (pos != -1 && messageStr.length() > pos) {
+        if (Character.isDigit(messageStr.charAt(pos + 1))) {
+          if (pos == 1 || messageStr.charAt(pos - 1) != '\u0001') {
+            final Match mWorker = new Match(null, null, false, null, 
+                null, Match.CaseConversion.NONE, false, Match.IncludeRange.NONE);
+            mWorker.setInMessageOnly(true);
+            sugMatch.add(mWorker);
+          } else if (messageStr.charAt(pos - 1) == '\u0001') { // real suggestion marker
+            sugMatch.add(suggestionMatches.get(matchCounter));
+            message.deleteCharAt(pos - 1 - matchCounter);
+            matchCounter++;
+          }
+        }
+      }
+      ind = pos;
+    }
+    if (sugMatch.isEmpty()) {
+      return suggestionMatches;
+    }
+    return sugMatch;
+  }
+
+
 }

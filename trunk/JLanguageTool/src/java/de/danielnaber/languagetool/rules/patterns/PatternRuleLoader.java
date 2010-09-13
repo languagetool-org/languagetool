@@ -109,13 +109,8 @@ class PatternRuleHandler extends XMLRuleHandler {
    **/
   private List<ArrayList<Element>> phraseElementList;
 
-  private int startPositionCorrection;
-  private int endPositionCorrection;
-
   private int andGroupCounter;
   
-  private int tokenCounter;
-
   private StringBuilder shortMessage = new StringBuilder();
   private boolean inShortMessage;
 
@@ -523,23 +518,6 @@ class PatternRuleHandler extends XMLRuleHandler {
     }
   }
   
-  private void checkPositions(final int add) throws SAXException {
-    if (startPositionCorrection >= tokenCounter + add) {
-      throw new SAXException(
-          "Attempt to mark a token no. ("+ startPositionCorrection +") that is outside the pattern ("
-          + tokenCounter + "). Pattern elements are numbered starting from 0!" + "\n Line: "
-              + pLocator.getLineNumber() + ", column: "
-              + pLocator.getColumnNumber() + ".");
-    }
-    if (tokenCounter +add - endPositionCorrection < 0) {
-      throw new SAXException(
-          "Attempt to mark a token no. ("+ endPositionCorrection +") that is outside the pattern ("
-          + tokenCounter + " elements). End positions should be negative but not larger than the token count!"
-          + "\n Line: "
-              + pLocator.getLineNumber() + ", column: "
-              + pLocator.getColumnNumber() + ".");
-    } 
-  }
 
     private void prepareRule(final PatternRule rule) {
     rule.setStartPositionCorrection(startPositionCorrection);
@@ -577,43 +555,6 @@ class PatternRuleHandler extends XMLRuleHandler {
     if (phraseElementList == null) {
       phraseElementList = new ArrayList<ArrayList<Element>>();
     }
-  }
-
-  /**
-   * Adds Match objects for all references to tokens
-   * (including '\1' and the like). 
-   */
-  private List<Match> addLegacyMatches() {
-    if (suggestionMatches == null || suggestionMatches.isEmpty()) {
-      return null;
-    }
-    final List<Match> sugMatch = new ArrayList<Match>();
-    final String messageStr = message.toString();
-    int pos = 0;
-    int ind = 0;
-    int matchCounter = 0;
-    while (pos != -1) {
-      pos = messageStr.indexOf('\\', ind + 1);
-      if (pos != -1 && messageStr.length() > pos) {
-        if (Character.isDigit(messageStr.charAt(pos + 1))) {
-          if (pos == 1 || messageStr.charAt(pos - 1) != '\u0001') {
-            final Match mWorker = new Match(null, null, false, null, 
-                null, Match.CaseConversion.NONE, false, Match.IncludeRange.NONE);
-            mWorker.setInMessageOnly(true);
-            sugMatch.add(mWorker);
-          } else if (messageStr.charAt(pos - 1) == '\u0001') { // real suggestion marker
-            sugMatch.add(suggestionMatches.get(matchCounter));
-            message.deleteCharAt(pos - 1 - matchCounter);
-            matchCounter++;
-          }
-        }
-      }
-      ind = pos;
-    }
-    if (sugMatch.isEmpty()) {
-      return suggestionMatches;
-    }
-    return sugMatch;
   }
   
   @Override

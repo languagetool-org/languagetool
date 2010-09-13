@@ -61,10 +61,10 @@ public class BitextPatternRuleLoader extends DefaultHandler {
       final PatternRuleHandler handler = new PatternRuleHandler();
       final SAXParserFactory factory = SAXParserFactory.newInstance();
       final SAXParser saxParser = factory.newSAXParser();
-     /* saxParser.getXMLReader().setFeature(
+      /* saxParser.getXMLReader().setFeature(
           "http://apache.org/xml/features/nonvalidating/load-external-dtd",
           false);
-          */
+       */
       saxParser.parse(is, handler);
       rules = handler.getBitextRules();
       return rules;
@@ -108,12 +108,7 @@ class PatternRuleHandler extends BitextXMLRuleHandler {
    **/
   private List<ArrayList<Element>> phraseElementList;
 
-  private int startPositionCorrection;
-  private int endPositionCorrection;
-
   private int andGroupCounter;
-  
-  private int tokenCounter;
 
   private StringBuilder shortMessage = new StringBuilder();
   private boolean inShortMessage;
@@ -124,9 +119,9 @@ class PatternRuleHandler extends BitextXMLRuleHandler {
 
   private String uFeature;
   private String uType = "";
-  
+
   private List<String> uTypeList;
-  
+
   private Map<String, List<String>> equivalenceFeatures;
 
   public PatternRuleHandler() {
@@ -134,13 +129,13 @@ class PatternRuleHandler extends BitextXMLRuleHandler {
     equivalenceFeatures = new HashMap<String, List<String>>();
     uTypeList = new ArrayList<String>();
   }
-  
+
   private PatternRule srcRule;
   private PatternRule trgRule;
-    
+
   private IncorrectExample trgExample;
   private IncorrectExample srcExample;
-  
+
   private Language srcLang;
 
   // ===========================================================
@@ -217,13 +212,13 @@ class PatternRuleHandler extends BitextXMLRuleHandler {
     } else if (qName.equals("and")) {
       inAndGroup = true;
     } else if (qName.equals("unify")) {
-        inUnification = true;           
-        uniNegation = YES.equals(attrs.getValue("negate"));
+      inUnification = true;           
+      uniNegation = YES.equals(attrs.getValue("negate"));
     } else if (qName.equals("feature")) {
-        uFeature = attrs.getValue("id");        
+      uFeature = attrs.getValue("id");        
     } else if (qName.equals(TYPE)) {      
-        uType = attrs.getValue("id");
-        uTypeList.add(uType);
+      uType = attrs.getValue("id");
+      uTypeList.add(uType);
     } else if (qName.equals("token")) {
       inToken = true;
 
@@ -245,15 +240,15 @@ class PatternRuleHandler extends BitextXMLRuleHandler {
         posNegation = YES.equals(attrs.getValue(NEGATE_POS));       
       }
       regExpression = YES.equals(attrs.getValue(REGEXP));
-      
+
       if (attrs.getValue(SPACEBEFORE) != null) {
         tokenSpaceBefore = YES.equals(attrs.getValue(SPACEBEFORE));
         tokenSpaceBeforeSet = !"ignore".equals(attrs.getValue(SPACEBEFORE));
       }
 
-     if (!inAndGroup) {
-       tokenCounter++;
-     }
+      if (!inAndGroup) {
+        tokenCounter++;
+      }
     } else if (qName.equals("exception")) {
       setExceptions(attrs);
     } else if (qName.equals(EXAMPLE)
@@ -321,7 +316,7 @@ class PatternRuleHandler extends BitextXMLRuleHandler {
         lastPhrase = true;
       }
     } else if (qName.equals("source")) {
-        srcLang = Language.getLanguageForShortName(attrs.getValue("lang"));        
+      srcLang = Language.getLanguageForShortName(attrs.getValue("lang"));        
     }    
   }
 
@@ -333,21 +328,21 @@ class PatternRuleHandler extends BitextXMLRuleHandler {
       if (phraseElementList == null || phraseElementList.size() == 0) {
         final int endMarker = elementList.size() + endPositionCorrection;
         if (endMarker <= startPositionCorrection) {
-            throw new RuntimeException("Invalid combination of mark_from (" + startPositionCorrection
-                    + ") and mark_to (" + endPositionCorrection + ") for rule " + id
-                    + " with " + elementList.size() 
-                    + " tokens: the error position created by mark_from and mark_to is less than one token");
+          throw new RuntimeException("Invalid combination of mark_from (" + startPositionCorrection
+              + ") and mark_to (" + endPositionCorrection + ") for rule " + id
+              + " with " + elementList.size() 
+              + " tokens: the error position created by mark_from and mark_to is less than one token");
         }
-    }
+      }
       srcRule = finalizeRule();      
     } else if (qName.equals("target")) {
       if (phraseElementList == null || phraseElementList.size() == 0) {
         final int endMarker = elementList.size() + endPositionCorrection;
         if (endMarker <= startPositionCorrection) {
-            throw new RuntimeException("Invalid combination of mark_from (" + startPositionCorrection
-                    + ") and mark_to (" + endPositionCorrection + ") for rule " + id
-                    + " with " + elementList.size() 
-                    + " tokens: the error position created by mark_from and mark_to is less than one token");
+          throw new RuntimeException("Invalid combination of mark_from (" + startPositionCorrection
+              + ") and mark_to (" + endPositionCorrection + ") for rule " + id
+              + " with " + elementList.size() 
+              + " tokens: the error position created by mark_from and mark_to is less than one token");
         }
       }
       trgRule = finalizeRule();
@@ -417,7 +412,7 @@ class PatternRuleHandler extends BitextXMLRuleHandler {
 
       if (inAndGroup && andGroupCounter > 0) {
         elementList.get(elementList.size() - 1)
-            .setAndGroupElement(tokenElement);
+        .setAndGroupElement(tokenElement);
       } else {
         elementList.add(tokenElement);
       }
@@ -454,27 +449,27 @@ class PatternRuleHandler extends BitextXMLRuleHandler {
       }
       tokenCounter = 0;
     } else if (qName.equals("trgExample")) {
-        trgExample = setExample();
+      trgExample = setExample();
     } else if (qName.equals("srcExample")) {
-        srcExample = setExample();            
+      srcExample = setExample();            
     } else if (qName.equals("example")) {
       if (inCorrectExample) {
         correctExamples.add(new StringPair(srcExample.getExample(), trgExample.getExample()));
       } else if (inIncorrectExample) {
         if (trgExample.getCorrections() == null) {
-         incorrectExamples.add(
-          new IncorrectBitextExample(
-              new StringPair(
-                  srcExample.getExample(), trgExample.getExample())
-                ));        
+          incorrectExamples.add(
+              new IncorrectBitextExample(
+                  new StringPair(
+                      srcExample.getExample(), trgExample.getExample())
+              ));        
         } else {
           incorrectExamples.add(
-            new IncorrectBitextExample(
-                new StringPair(
-                    srcExample.getExample(), trgExample.getExample())
+              new IncorrectBitextExample(
+                  new StringPair(
+                      srcExample.getExample(), trgExample.getExample())
                   , 
                   (String[]) trgExample.getCorrections().toArray())
-            );  
+          );  
         }
       }
       inCorrectExample = false;
@@ -521,21 +516,21 @@ class PatternRuleHandler extends BitextXMLRuleHandler {
 
       phraseElementList.clear();
     } else if (qName.equals("includephrases")) {
-        elementList.clear();
+      elementList.clear();
     } else if (qName.equals("phrases") && inPhrases) {
-        inPhrases = false;
+      inPhrases = false;
     } else if (qName.equals("unification")) {
-        inUnificationDef = false;
+      inUnificationDef = false;
     } else if (qName.equals("feature")) {        
-        equivalenceFeatures.put(uFeature, uTypeList);
-        uTypeList = new ArrayList<String>();
+      equivalenceFeatures.put(uFeature, uTypeList);
+      uTypeList = new ArrayList<String>();
     } else if (qName.equals("unify")) {      
       inUnification = false;
       //clear the features...
       equivalenceFeatures = new HashMap<String, List<String>>();
     }
   }
-  
+
   private IncorrectExample setExample() {
     IncorrectExample example = null;
     if (inCorrectExample) {
@@ -554,7 +549,7 @@ class PatternRuleHandler extends BitextXMLRuleHandler {
     exampleCorrection = new StringBuilder();
     return example;
   }
-  
+
   private PatternRule finalizeRule() {
     PatternRule rule = null;
     phraseElementInit();
@@ -585,26 +580,7 @@ class PatternRuleHandler extends BitextXMLRuleHandler {
     endPositionCorrection = 0;    
     return rule;
   }
-  
-  private void checkPositions(final int add) throws SAXException {
-    if (startPositionCorrection >= tokenCounter + add) {
-      throw new SAXException(
-          "Attempt to mark a token no. ("+ startPositionCorrection +") that is outside the pattern ("
-          + tokenCounter + "). Pattern elements are numbered starting from 0!" + "\n Line: "
-              + pLocator.getLineNumber() + ", column: "
-              + pLocator.getColumnNumber() + ".");
-    }
-    if (tokenCounter +add - endPositionCorrection < 0) {
-      throw new SAXException(
-          "Attempt to mark a token no. ("+ endPositionCorrection +") that is outside the pattern ("
-          + tokenCounter + " elements). End positions should be negative but not larger than the token count!"
-          + "\n Line: "
-              + pLocator.getLineNumber() + ", column: "
-              + pLocator.getColumnNumber() + ".");
-    } 
-  }
-
-     private void prepareRule(final PatternRule rule) {
+  private void prepareRule(final PatternRule rule) {
     rule.setStartPositionCorrection(startPositionCorrection);
     rule.setEndPositionCorrection(endPositionCorrection);
     startPositionCorrection = 0;
@@ -632,44 +608,7 @@ class PatternRuleHandler extends BitextXMLRuleHandler {
     }
   }
 
-  /**
-   * Adds Match objects for all references to tokens
-   * (including '\1' and the like). 
-   */
-  private List<Match> addLegacyMatches() {
-    if (suggestionMatches == null || suggestionMatches.isEmpty()) {
-      return null;
-    }
-    final List<Match> sugMatch = new ArrayList<Match>();
-    final String messageStr = message.toString();
-    int pos = 0;
-    int ind = 0;
-    int matchCounter = 0;
-    while (pos != -1) {
-      pos = messageStr.indexOf('\\', ind + 1);
-      if (pos != -1 && messageStr.length() > pos) {
-        if (Character.isDigit(messageStr.charAt(pos + 1))) {
-          if (pos == 1 || messageStr.charAt(pos - 1) != '\u0001') {
-            final Match mWorker = new Match(null, null, false, null, 
-                null, Match.CaseConversion.NONE, false, Match.IncludeRange.NONE);
-            mWorker.setInMessageOnly(true);
-            sugMatch.add(mWorker);
-          } else if (messageStr.charAt(pos - 1) == '\u0001') { // real suggestion marker
-            sugMatch.add(suggestionMatches.get(matchCounter));
-            message.deleteCharAt(pos - 1 - matchCounter);
-            matchCounter++;
-          }
-        }
-      }
-      ind = pos;
-    }
-    if (sugMatch.isEmpty()) {
-      return suggestionMatches;
-    }
-    return sugMatch;
-  }
-  
-  @Override
+    @Override
   public void characters(final char[] buf, final int offset, final int len) {
     final String s = new String(buf, offset, len);
     if (inException) {
