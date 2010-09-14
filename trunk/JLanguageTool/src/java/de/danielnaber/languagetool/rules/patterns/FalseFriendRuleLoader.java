@@ -181,14 +181,14 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
       inException = true;
       exceptions = new StringBuilder();
 
-      if (attrs.getValue("negate") != null) {
-        exceptionStringNegation = attrs.getValue("negate").equals(YES);
+      if (attrs.getValue(NEGATE) != null) {
+        exceptionStringNegation = attrs.getValue(NEGATE).equals(YES);
       }
       if (attrs.getValue(SCOPE) != null) {
         exceptionValidNext = attrs.getValue(SCOPE).equals("next");
         exceptionValidPrev = attrs.getValue(SCOPE).equals("previous");
       }
-      if (attrs.getValue("inflected") != null) {
+      if (attrs.getValue(INFLECTED) != null) {
         exceptionStringInflected = attrs.getValue(INFLECTED).equals(YES);
       }
       if (attrs.getValue(POSTAG) != null) {
@@ -204,38 +204,8 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
         exceptionStringRegExp = attrs.getValue(REGEXP).equals(YES);
       }
 
-    } else if (qName.equals("token")) {
-      inToken = true;
-      if (attrs.getValue("negate") != null) {
-        tokenNegated = attrs.getValue("negate").equals(YES);
-      }
-      if (attrs.getValue("inflected") != null) {
-        tokenInflected = attrs.getValue("inflected").equals(YES);
-      }
-      if (attrs.getValue("skip") != null) {
-        skipPos = Integer.parseInt(attrs.getValue("skip"));
-      }
-      elements = new StringBuilder();
-      if (elementList == null) {
-        elementList = new ArrayList<Element>();
-      }
-      if (attrs.getValue(POSTAG) != null) {
-        posToken = attrs.getValue(POSTAG);
-        if (attrs.getValue(POSTAG_REGEXP) != null) {
-          posRegExp = attrs.getValue(POSTAG_REGEXP).equals(YES);
-        }
-        if (attrs.getValue(NEGATE_POS) != null) {
-          posNegation = attrs.getValue(NEGATE_POS).equals(YES);
-        }
-
-        if (elementList == null) { // lazy init
-          elementList = new ArrayList<Element>();
-        }
-      }
-      if (attrs.getValue(REGEXP) != null) {
-        regExpression = attrs.getValue(REGEXP).equals(YES);
-      }
-
+    } else if (qName.equals(TOKEN)) {
+      setToken(attrs);
     } else if (qName.equals("translation")) {
       inTranslation = true;
       final String languageStr = attrs.getValue("lang");
@@ -315,38 +285,9 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
             exceptionPosNegation, exceptionValidNext, exceptionValidPrev);
         exceptionPosToken = null;
       }
-    } else if (qName.equals("token")) {
-      if (inToken) {
-        if (!exceptionSet || tokenElement == null) {
-          tokenElement = new Element(elements.toString(), caseSensitive,
-              regExpression, tokenInflected);
-          tokenElement.setNegation(tokenNegated);
-        } else {
-          tokenElement.setStringElement(elements.toString());
-        }
-        if (skipPos != 0) {
-          tokenElement.setSkipNext(skipPos);
-          skipPos = 0;
-        }
-        if (posToken != null) {
-          tokenElement.setPosElement(posToken, posRegExp, posNegation);
-          posToken = null;
-        }
-
-        elementList.add(tokenElement);
-        tokenNegated = false;
-        tokenInflected = false;
-        posNegation = false;
-        posRegExp = false;
-        exceptionValidNext = true;
-      }
-      inToken = false;
-      regExpression = false;
-
-      resetException();    
-	      
-    } else if (qName.equals("pattern")) {
-	    	  
+    } else if (qName.equals(TOKEN)) {
+      finalizeTokens();
+    } else if (qName.equals("pattern")) {  	  
       inPattern = false;
     } else if (qName.equals("translation")) {
       if (currentTranslationLanguage == motherTongue) {

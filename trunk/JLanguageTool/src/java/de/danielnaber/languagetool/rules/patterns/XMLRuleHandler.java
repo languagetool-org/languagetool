@@ -19,7 +19,9 @@
 package de.danielnaber.languagetool.rules.patterns;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.Locator;
@@ -27,6 +29,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.rules.IncorrectExample;
 import de.danielnaber.languagetool.tools.StringTools;
 
@@ -38,8 +41,16 @@ import de.danielnaber.languagetool.tools.StringTools;
  */
 public class XMLRuleHandler extends DefaultHandler {
 
+  public XMLRuleHandler() {
+    elementList = new ArrayList<Element>();
+    equivalenceFeatures = new HashMap<String, List<String>>();
+    uTypeList = new ArrayList<String>();
+  }
+  
   List<PatternRule> rules = new ArrayList<PatternRule>();
 
+  protected Language language;
+  
   protected StringBuilder correctExample = new StringBuilder();
   protected StringBuilder incorrectExample = new StringBuilder();
   protected StringBuilder exampleCorrection = new StringBuilder();
@@ -109,6 +120,31 @@ public class XMLRuleHandler extends DefaultHandler {
   protected int startPositionCorrection;
   protected int endPositionCorrection;
   protected int tokenCounter;
+
+  /** Phrase store - elementLists keyed by phraseIds. **/
+  protected Map<String, List<List<Element>>> phraseMap;
+
+  /**
+   * Logically forking element list, used for including multiple phrases in the
+   * current one.
+   **/
+  protected List<ArrayList<Element>> phraseElementList;
+
+  protected int andGroupCounter;
+
+  protected StringBuilder shortMessage = new StringBuilder();
+  protected boolean inShortMessage;
+
+  protected boolean inUnification;
+  protected boolean inUnificationDef;
+  protected boolean uniNegation;
+
+  protected String uFeature;
+  protected String uType = "";
+
+  protected List<String> uTypeList;
+
+  protected Map<String, List<String>> equivalenceFeatures;
 
   
   /** Definitions of values in XML files. */
@@ -388,5 +424,54 @@ public class XMLRuleHandler extends DefaultHandler {
     return sugMatch;
   }
 
+  protected void finalizeTokens() {
+    if (!exceptionSet || tokenElement == null) {
+      tokenElement = new Element(StringTools.trimWhitespace(elements
+          .toString()), caseSensitive, regExpression, tokenInflected);
+      tokenElement.setNegation(tokenNegated);
+    } else {
+      tokenElement.setStringElement(StringTools.trimWhitespace(elements
+          .toString()));
+    }
+
+    if (skipPos != 0) {
+      tokenElement.setSkipNext(skipPos);
+      skipPos = 0;
+    }
+    if (posToken != null) {
+      tokenElement.setPosElement(posToken, posRegExp, posNegation);
+      posToken = null;
+    }
+
+    if (tokenReference != null) {
+      tokenElement.setMatch(tokenReference);
+    }
+
+    if (inAndGroup && andGroupCounter > 0) {
+      elementList.get(elementList.size() - 1)
+          .setAndGroupElement(tokenElement);
+    } else {
+      elementList.add(tokenElement);
+    }
+    if (inAndGroup) {
+      andGroupCounter++;
+    }
+
+    if (inUnification) {
+      tokenElement.setUnification(equivalenceFeatures);
+      if (uniNegation) {
+        tokenElement.setUniNegation();
+      }
+    }
+
+    if (inUnificationDef) {
+      language.getUnifier().setEquivalence(uFeature, uType, tokenElement);
+      elementList.clear();
+    }
+    if (tokenSpaceBeforeSet) {
+      tokenElement.setWhitespaceBefore(tokenSpaceBefore);
+    }
+    resetToken();
+  }
 
 }

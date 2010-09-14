@@ -23,7 +23,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -41,7 +40,6 @@ import de.danielnaber.languagetool.rules.bitext.IncorrectBitextExample;
 import de.danielnaber.languagetool.rules.patterns.Element;
 import de.danielnaber.languagetool.rules.patterns.Match;
 import de.danielnaber.languagetool.rules.patterns.PatternRule;
-import de.danielnaber.languagetool.tools.StringTools;
 
 /**
  * Loads {@link PatternRule}s from an XML file.
@@ -91,43 +89,11 @@ class PatternRuleHandler extends BitextXMLRuleHandler {
   private boolean defaultOff;
   private boolean defaultOn;
 
-  private Language language;
   private Category category;
   private String description;
   private String ruleGroupDescription;
 
-  /** true when phraseref is the last element in the rule. **/
-  private boolean lastPhrase;
-
-  /** Phrase store - elementLists keyed by phraseIds. **/
-  private Map<String, List<List<Element>>> phraseMap;
-
-  /**
-   * Logically forking element list, used for including multiple phrases in the
-   * current one.
-   **/
-  private List<ArrayList<Element>> phraseElementList;
-
-  private int andGroupCounter;
-
-  private StringBuilder shortMessage = new StringBuilder();
-  private boolean inShortMessage;
-
-  private boolean inUnification;
-  private boolean inUnificationDef;
-  private boolean uniNegation;
-
-  private String uFeature;
-  private String uType = "";
-
-  private List<String> uTypeList;
-
-  private Map<String, List<String>> equivalenceFeatures;
-
   public PatternRuleHandler() {
-    elementList = new ArrayList<Element>();
-    equivalenceFeatures = new HashMap<String, List<String>>();
-    uTypeList = new ArrayList<String>();
   }
 
   private PatternRule srcRule;
@@ -335,59 +301,13 @@ class PatternRuleHandler extends BitextXMLRuleHandler {
       rules.add(bRule);
     } else if (qName.equals(EXCEPTION)) {
       finalizeExceptions();
-    } else if (qName.equals("and")) {
+    } else if (qName.equals(AND)) {
       inAndGroup = false;
       andGroupCounter = 0;
       tokenCounter++;
-    } else if (qName.equals("token")) {
-      if (!exceptionSet || tokenElement == null) {
-        tokenElement = new Element(StringTools.trimWhitespace(elements
-            .toString()), caseSensitive, regExpression, tokenInflected);
-        tokenElement.setNegation(tokenNegated);
-      } else {
-        tokenElement.setStringElement(StringTools.trimWhitespace(elements
-            .toString()));
-      }
-
-      if (skipPos != 0) {
-        tokenElement.setSkipNext(skipPos);
-        skipPos = 0;
-      }
-      if (posToken != null) {
-        tokenElement.setPosElement(posToken, posRegExp, posNegation);
-        posToken = null;
-      }
-
-      if (tokenReference != null) {
-        tokenElement.setMatch(tokenReference);
-      }
-
-      if (inAndGroup && andGroupCounter > 0) {
-        elementList.get(elementList.size() - 1)
-        .setAndGroupElement(tokenElement);
-      } else {
-        elementList.add(tokenElement);
-      }
-      if (inAndGroup) {
-        andGroupCounter++;
-      }
-
-      if (inUnification) {
-        tokenElement.setUnification(equivalenceFeatures);
-        if (uniNegation) {
-          tokenElement.setUniNegation();
-        }
-      }
-
-      if (inUnificationDef) {
-        language.getUnifier().setEquivalence(uFeature, uType, tokenElement);
-        elementList.clear();
-      }
-      if (tokenSpaceBeforeSet) {
-        tokenElement.setWhitespaceBefore(tokenSpaceBefore);
-      }
-      resetToken();
-    } else if (qName.equals("pattern")) {      
+    } else if (qName.equals(TOKEN)) {
+        finalizeTokens();
+      } else if (qName.equals("pattern")) {      
       inPattern = false;
       if (lastPhrase) {
         elementList.clear();

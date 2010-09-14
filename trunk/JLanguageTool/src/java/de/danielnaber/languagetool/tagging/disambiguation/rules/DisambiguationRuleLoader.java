@@ -23,7 +23,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -71,7 +70,6 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
   private static final String DISAMBIG = "disambig";
 
   private String name;
-  private Language language;
   private String ruleGroupId;
   private String ruleGroupName;
   private StringBuilder disamb = new StringBuilder();
@@ -86,20 +84,7 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
   private int endPositionCorrection;
   private boolean singleTokenCorrection;
 
-  private int andGroupCounter;
-
   private Match posSelector;
-
-  private boolean inUnification;
-  private boolean inUnificationDef;
-  private boolean uniNegation;
-
-  private String uFeature;
-  private String uType = "";
-  
-  private List<String> uTypeList;
-  
-  private Map<String, List<String>> equivalenceFeatures;
 
   private int uniCounter;
   
@@ -116,12 +101,7 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
   
   private DisambiguationPatternRule.DisambiguatorAction disambigAction;
 
-  public DisambiguationRuleHandler() {
-    elementList = new ArrayList<Element>();
-    equivalenceFeatures = new HashMap<String, List<String>>();
-    uTypeList = new ArrayList<String>();
-  }
-
+ 
   // ===========================================================
   // SAX DocumentHandler methods
   // ===========================================================
