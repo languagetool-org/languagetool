@@ -7,11 +7,20 @@ title="Easy editing stylesheet" ?>
 German grammar and typo rules for LanguageTool
 See resource/de/tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2010 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.34 2010-09-10 10:54:17 dnaber Exp $
+$Id: grammar.xml,v 1.35 2010-09-14 21:35:23 dnaber Exp $
 -->
 <rules lang="de" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../rules.xsd">
   <category name="Mögliche Tippfehler">
+    <rule id="VON_HAND" name="Möglicher Tippfehler 'van(von) Hand'">
+      <pattern mark_to="-1">
+        <token>van</token>
+        <token>Hand</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>von</suggestion>?</message>
+      <example type="correct"><marker>von</marker> Hand</example>
+      <example type="incorrect"><marker>van</marker> Hand</example>
+    </rule>
     <rulegroup id="VATER_MORGANA" name="Tippfehler: Vater(Fata) Morgana'">
       <rule>
         <pattern>
@@ -871,7 +880,7 @@ $Id: grammar.xml,v 1.34 2010-09-10 10:54:17 dnaber Exp $
   </category>
   <!--  Rules about upper/lowercase:  -->
   <category name="Groß-/Kleinschreibung">
-    <!-- 
+    <!--
   <rule id="ZU_RECHT" name="Groß-/Kleinschreibung: 'zu recht(Recht)'">
     <pattern case_sensitive="yes">
       <token regexp="yes">[Zz]u</token>
@@ -883,6 +892,28 @@ $Id: grammar.xml,v 1.34 2010-09-10 10:54:17 dnaber Exp $
     <example type="incorrect">Da regt er sich zu <marker>recht</marker> auf.</example>
   </rule>
   -->
+  <!-- TODO: make sure we don't automatically turn the suggestion to uppercase here:
+    <rule id="WIR_TREFFEN" name="Groß-/Kleinschreibung: 'wir Treffen(treffen)'">
+      <pattern mark_from="1" case_sensitive="yes">
+        <token regexp="yes">[Ww]ir|[Ss]ie</token>
+        <token>Treffen</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>treffen</suggestion>?</message>
+      <example type="correct">Wir <marker>treffen</marker> uns später.</example>
+      <example type="correct">Sie <marker>treffen</marker> sich später.</example>
+      <example type="incorrect">Wir <marker>Treffen</marker> uns später.</example>
+      <example type="incorrect">Sie <marker>Treffen</marker> sich später.</example>
+    </rule>
+  -->
+    <rule id="VON_BEGRIFF" name="Groß-/Kleinschreibung: 'von begriff(Begriff) sein'">
+      <pattern mark_from="1" case_sensitive="yes">
+        <token>von</token>
+        <token>begriff</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>Begriff</suggestion> sein?</message>
+      <example type="correct">Schwer von <marker>Begriff</marker> sein</example>
+      <example type="incorrect">Schwer von <marker>begriff</marker> sein</example>
+    </rule>
     <rulegroup id="WEITERE_VORGEHEN" name="Tippfehler: 'das weitere vorgehen(Vorgehen)'">
       <rule>
         <pattern mark_from="1" case_sensitive="yes">
@@ -1198,6 +1229,20 @@ $Id: grammar.xml,v 1.34 2010-09-10 10:54:17 dnaber Exp $
     </rule>
   </category>
   <category name="Grammatik">
+    <!-- TODO: testen!!
+    <rulegroup id="DIE_DER" name="Grammatik: 'der/die' (Genetiv Plural für Substantive)">
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token postag="SUB:.*" postag_regexp="yes"/>
+          <token>die</token>
+          <token postag="SUB:GEN:PLU:.*" postag_regexp="yes"/>
+        </pattern>
+        <message>Kasusfehler: Beim Genetiv Plural braucht man den Artikel <suggestion>der</suggestion>.</message>
+        <example type="incorrect">Die Frau <marker>die</marker> Männer ist schön.</example>
+        <example type="correct">Die Frau <marker>der</marker> Männer ist schön.</example>
+      </rule>
+    </rulegroup>
+    -->
     <!-- TODO: make this more general: -->
     <rulegroup id="ICH_WUENSCHE" name="Grammatik: 'Ich wünschen(wünsche)'">
       <rule>
