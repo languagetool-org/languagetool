@@ -23,7 +23,7 @@ import java.util.List;
 
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
-import org.xml.sax.helpers.DefaultHandler;
+import de.danielnaber.languagetool.rules.patterns.XMLRuleHandler;
 
 /**
  * XML rule handler that loads disambiguation rules from XML and throws
@@ -31,22 +31,13 @@ import org.xml.sax.helpers.DefaultHandler;
  * 
  * @author Daniel Naber
  */
-class XMLRuleHandler extends DefaultHandler {
+class DisambXMLRuleHandler extends XMLRuleHandler {
 
   final List<DisambiguationPatternRule> rules = new ArrayList<DisambiguationPatternRule>();
 
-  StringBuilder elements;
-  StringBuilder exceptions;    
-
-  boolean inPattern;
   boolean inDisambiguation;
-  boolean inMatch;
-  boolean inRuleGroup;
-  boolean inToken;
-  boolean inException;
-  boolean inAndGroup;
   
-  List<DisambiguationPatternRule> getRules() {
+  List<DisambiguationPatternRule> getDisambRules() {
     return rules;
   }
   

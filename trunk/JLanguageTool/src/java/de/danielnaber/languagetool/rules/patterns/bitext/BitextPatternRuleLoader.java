@@ -194,13 +194,13 @@ class PatternRuleHandler extends BitextXMLRuleHandler {
       if (suggestionMatches != null) {
         suggestionMatches.clear();
       }
-    } else if (qName.equals("pattern")) {
+    } else if (qName.equals(PATTERN)) {
       inPattern = true;
-      if (attrs.getValue("mark_from") != null) {
-        startPositionCorrection = Integer.parseInt(attrs.getValue("mark_from"));
+      if (attrs.getValue(MARK_FROM) != null) {
+        startPositionCorrection = Integer.parseInt(attrs.getValue(MARK_FROM));
       }
-      if (attrs.getValue("mark_to") != null) {
-        endPositionCorrection = Integer.parseInt(attrs.getValue("mark_to"));
+      if (attrs.getValue(MARK_TO) != null) {
+        endPositionCorrection = Integer.parseInt(attrs.getValue(MARK_TO));
         if (endPositionCorrection > 0) {
           throw new SAXException("End position correction (mark_to="+ endPositionCorrection
               + ") cannot be larger than 0: " + "\n Line: "
@@ -208,48 +208,20 @@ class PatternRuleHandler extends BitextXMLRuleHandler {
               + pLocator.getColumnNumber() + ".");
         }
       }
-      caseSensitive = YES.equals(attrs.getValue("case_sensitive"));     
-    } else if (qName.equals("and")) {
+      caseSensitive = YES.equals(attrs.getValue(CASE_SENSITIVE));     
+    } else if (qName.equals(AND)) {
       inAndGroup = true;
-    } else if (qName.equals("unify")) {
+    } else if (qName.equals(UNIFY)) {
       inUnification = true;           
-      uniNegation = YES.equals(attrs.getValue("negate"));
+      uniNegation = YES.equals(attrs.getValue(NEGATE));
     } else if (qName.equals("feature")) {
       uFeature = attrs.getValue("id");        
     } else if (qName.equals(TYPE)) {      
       uType = attrs.getValue("id");
       uTypeList.add(uType);
-    } else if (qName.equals("token")) {
-      inToken = true;
-
-      if (lastPhrase) {
-        elementList.clear();
-      }
-
-      lastPhrase = false;
-      tokenNegated = YES.equals(attrs.getValue(NEGATE));
-      tokenInflected = YES.equals(attrs.getValue(INFLECTED));      
-      if (attrs.getValue("skip") != null) {
-        skipPos = Integer.parseInt(attrs.getValue("skip"));
-      }
-      elements = new StringBuilder();
-      // POSElement creation
-      if (attrs.getValue(POSTAG) != null) {
-        posToken = attrs.getValue(POSTAG);
-        posRegExp = YES.equals(attrs.getValue(POSTAG_REGEXP));
-        posNegation = YES.equals(attrs.getValue(NEGATE_POS));       
-      }
-      regExpression = YES.equals(attrs.getValue(REGEXP));
-
-      if (attrs.getValue(SPACEBEFORE) != null) {
-        tokenSpaceBefore = YES.equals(attrs.getValue(SPACEBEFORE));
-        tokenSpaceBeforeSet = !"ignore".equals(attrs.getValue(SPACEBEFORE));
-      }
-
-      if (!inAndGroup) {
-        tokenCounter++;
-      }
-    } else if (qName.equals("exception")) {
+    } else if (qName.equals(TOKEN)) {
+      setToken(attrs);
+    } else if (qName.equals(EXCEPTION)) {
       setExceptions(attrs);
     } else if (qName.equals(EXAMPLE)
         && attrs.getValue(TYPE).equals("correct")) {
@@ -269,7 +241,7 @@ class PatternRuleHandler extends BitextXMLRuleHandler {
     } else if (qName.equals("short")) {
       inShortMessage = true;
       shortMessage = new StringBuilder();
-    } else if (qName.equals("rulegroup")) {
+    } else if (qName.equals(RULEGROUP)) {
       ruleGroupId = attrs.getValue("id");
       ruleGroupDescription = attrs.getValue("name");
       defaultOff = "off".equals(attrs.getValue(DEFAULT));
@@ -361,28 +333,8 @@ class PatternRuleHandler extends BitextXMLRuleHandler {
       bRule.setIncorrectBitextExamples(incorrectExamples);
       bRule.setSourceLang(srcLang);      
       rules.add(bRule);
-    } else if (qName.equals("exception")) {
-      inException = false;
-      if (!exceptionSet) {
-        tokenElement = new Element(StringTools.trimWhitespace(elements
-            .toString()), caseSensitive, regExpression, tokenInflected);
-        exceptionSet = true;
-      }
-      tokenElement.setNegation(tokenNegated);
-      if (!StringTools.isEmpty(exceptions.toString())) {
-        tokenElement.setStringException(StringTools.trimWhitespace(exceptions
-            .toString()), exceptionStringRegExp, exceptionStringInflected,
-            exceptionStringNegation, exceptionValidNext, exceptionValidPrev);
-      }
-      if (exceptionPosToken != null) {
-        tokenElement.setPosException(exceptionPosToken, exceptionPosRegExp,
-            exceptionPosNegation, exceptionValidNext, exceptionValidPrev);
-        exceptionPosToken = null;
-      }
-      if (exceptionSpaceBeforeSet) {
-        tokenElement.setExceptionSpaceBefore(exceptionSpaceBefore);
-      }
-      resetException();
+    } else if (qName.equals(EXCEPTION)) {
+      finalizeExceptions();
     } else if (qName.equals("and")) {
       inAndGroup = false;
       andGroupCounter = 0;
@@ -531,6 +483,7 @@ class PatternRuleHandler extends BitextXMLRuleHandler {
     }
   }
 
+  
   private IncorrectExample setExample() {
     IncorrectExample example = null;
     if (inCorrectExample) {

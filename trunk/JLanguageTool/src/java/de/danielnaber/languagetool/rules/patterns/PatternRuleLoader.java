@@ -97,9 +97,6 @@ class PatternRuleHandler extends XMLRuleHandler {
   private String description;
   private String ruleGroupDescription;
 
-  /** true when phraseref is the last element in the rule. **/
-  private boolean lastPhrase;
-
   /** Phrase store - elementLists keyed by phraseIds. **/
   private Map<String, List<List<Element>>> phraseMap;
 
@@ -212,37 +209,9 @@ class PatternRuleHandler extends XMLRuleHandler {
     } else if (qName.equals(TYPE)) {      
         uType = attrs.getValue("id");
         uTypeList.add(uType);
-    } else if (qName.equals("token")) {
-      inToken = true;
-
-      if (lastPhrase) {
-        elementList.clear();
-      }
-
-      lastPhrase = false;
-      tokenNegated = YES.equals(attrs.getValue(NEGATE));
-      tokenInflected = YES.equals(attrs.getValue(INFLECTED));      
-      if (attrs.getValue("skip") != null) {
-        skipPos = Integer.parseInt(attrs.getValue("skip"));
-      }
-      elements = new StringBuilder();
-      // POSElement creation
-      if (attrs.getValue(POSTAG) != null) {
-        posToken = attrs.getValue(POSTAG);
-        posRegExp = YES.equals(attrs.getValue(POSTAG_REGEXP));
-        posNegation = YES.equals(attrs.getValue(NEGATE_POS));       
-      }
-      regExpression = YES.equals(attrs.getValue(REGEXP));
-      
-      if (attrs.getValue(SPACEBEFORE) != null) {
-        tokenSpaceBefore = YES.equals(attrs.getValue(SPACEBEFORE));
-        tokenSpaceBeforeSet = !"ignore".equals(attrs.getValue(SPACEBEFORE));
-      }
-
-     if (!inAndGroup) {
-       tokenCounter++;
-     }
-    } else if (qName.equals("exception")) {
+    } else if (qName.equals(TOKEN)) {
+      setToken(attrs);
+    } else if (qName.equals(EXCEPTION)) {
       setExceptions(attrs);
     } else if (qName.equals(EXAMPLE)
         && attrs.getValue(TYPE).equals("correct")) {
@@ -312,7 +281,7 @@ class PatternRuleHandler extends XMLRuleHandler {
     }    
   }
 
-
+  
   
   @Override
   public void endElement(final String namespaceURI, final String sName,
@@ -346,29 +315,9 @@ class PatternRuleHandler extends XMLRuleHandler {
         phraseElementList.clear();
       }
 
-    } else if (qName.equals("exception")) {
-      inException = false;
-      if (!exceptionSet) {
-        tokenElement = new Element(StringTools.trimWhitespace(elements
-            .toString()), caseSensitive, regExpression, tokenInflected);
-        exceptionSet = true;
-      }
-      tokenElement.setNegation(tokenNegated);
-      if (!StringTools.isEmpty(exceptions.toString())) {
-        tokenElement.setStringException(StringTools.trimWhitespace(exceptions
-            .toString()), exceptionStringRegExp, exceptionStringInflected,
-            exceptionStringNegation, exceptionValidNext, exceptionValidPrev);
-      }
-      if (exceptionPosToken != null) {
-        tokenElement.setPosException(exceptionPosToken, exceptionPosRegExp,
-            exceptionPosNegation, exceptionValidNext, exceptionValidPrev);
-        exceptionPosToken = null;
-      }
-      if (exceptionSpaceBeforeSet) {
-        tokenElement.setExceptionSpaceBefore(exceptionSpaceBefore);
-      }
-      resetException();
-    } else if (qName.equals("and")) {
+    } else if (qName.equals(EXCEPTION)) {
+      finalizeExceptions();
+    } else if (qName.equals(AND)) {
       inAndGroup = false;
       andGroupCounter = 0;
       tokenCounter++;

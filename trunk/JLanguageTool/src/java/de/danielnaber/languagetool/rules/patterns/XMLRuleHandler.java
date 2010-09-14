@@ -88,6 +88,9 @@ public class XMLRuleHandler extends DefaultHandler {
 
   /** List of elements as specified by tokens. **/
   protected List<Element> elementList;
+  
+  /** true when phraseref is the last element in the rule. **/
+  protected boolean lastPhrase;
 
   protected int skipPos;
 
@@ -108,7 +111,7 @@ public class XMLRuleHandler extends DefaultHandler {
   protected int tokenCounter;
 
   
-  /** Defines "yes" value in XML files. */
+  /** Definitions of values in XML files. */
   protected static final String YES = "yes";
   protected static final String POSTAG = "postag";
   protected static final String POSTAG_REGEXP = "postag_regexp";
@@ -122,6 +125,22 @@ public class XMLRuleHandler extends DefaultHandler {
   protected static final String SPACEBEFORE = "spacebefore";
   protected static final String EXAMPLE = "example";
   protected static final String SCOPE = "scope";
+  protected static final String IGNORE = "ignore";
+  protected static final String SKIP = "skip";
+  protected static final String TOKEN = "token";
+  protected static final String FEATURE = "feature";
+  protected static final String UNIFY = "unify";
+  protected static final String AND = "and";
+  protected static final String EXCEPTION = "exception";
+  protected static final String CASE_SENSITIVE = "case_sensitive";
+  protected static final String PATTERN = "pattern";
+  protected static final String MATCH = "match";
+  protected static final String UNIFICATION = "unification";
+  protected static final String RULEGROUP = "rulegroup";
+  protected static final String NO = "no";
+  protected static final String MARK_TO = "mark_to";
+  protected static final String MARK_FROM = "mark_from";
+
 
   public List<PatternRule> getRules() {
     return rules;
@@ -258,6 +277,62 @@ public class XMLRuleHandler extends DefaultHandler {
     }
   }
 
+  protected void finalizeExceptions() {
+    inException = false;
+    if (!exceptionSet) {
+      tokenElement = new Element(StringTools.trimWhitespace(elements
+          .toString()), caseSensitive, regExpression, tokenInflected);
+      exceptionSet = true;
+    }
+    tokenElement.setNegation(tokenNegated);
+    if (!StringTools.isEmpty(exceptions.toString())) {
+      tokenElement.setStringException(StringTools.trimWhitespace(exceptions
+          .toString()), exceptionStringRegExp, exceptionStringInflected,
+          exceptionStringNegation, exceptionValidNext, exceptionValidPrev);
+    }
+    if (exceptionPosToken != null) {
+      tokenElement.setPosException(exceptionPosToken, exceptionPosRegExp,
+          exceptionPosNegation, exceptionValidNext, exceptionValidPrev);
+      exceptionPosToken = null;
+    }
+    if (exceptionSpaceBeforeSet) {
+      tokenElement.setExceptionSpaceBefore(exceptionSpaceBefore);
+    }
+    resetException();
+  }
+
+  protected void setToken(final Attributes attrs) {
+    inToken = true;
+
+    if (lastPhrase) {
+      elementList.clear();
+    }
+
+    lastPhrase = false;
+    tokenNegated = YES.equals(attrs.getValue(NEGATE));
+    tokenInflected = YES.equals(attrs.getValue(INFLECTED));      
+    if (attrs.getValue("skip") != null) {
+      skipPos = Integer.parseInt(attrs.getValue("skip"));
+    }
+    elements = new StringBuilder();
+    // POSElement creation
+    if (attrs.getValue(POSTAG) != null) {
+      posToken = attrs.getValue(POSTAG);
+      posRegExp = YES.equals(attrs.getValue(POSTAG_REGEXP));
+      posNegation = YES.equals(attrs.getValue(NEGATE_POS));       
+    }
+    regExpression = YES.equals(attrs.getValue(REGEXP));
+    
+    if (attrs.getValue(SPACEBEFORE) != null) {
+      tokenSpaceBefore = YES.equals(attrs.getValue(SPACEBEFORE));
+      tokenSpaceBeforeSet = !"ignore".equals(attrs.getValue(SPACEBEFORE));
+    }
+
+   if (!inAndGroup) {
+     tokenCounter++;
+   }
+  }
+  
   protected void checkPositions(final int add) throws SAXException {
     if (startPositionCorrection >= tokenCounter + add) {
       throw new SAXException(
