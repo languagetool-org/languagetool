@@ -51,6 +51,7 @@ public class CommaWhitespaceRule extends Rule {
     final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     final AnalyzedTokenReadings[] tokens = text.getTokens();
     String prevToken = "";
+    String prevPrevToken = "";
     boolean prevWhite = false;
     int pos = 0;
     int prevLen = 0;
@@ -67,9 +68,11 @@ public class CommaWhitespaceRule extends Rule {
         suggestionText = prevToken;
         fixLen = 1;
       } else if (!isWhite && prevToken.equals(",") 
-          && isNotQuoteOrHyphen(token)) {
+          && isNotQuoteOrHyphen(token) 
+          && containsNoNumber(prevPrevToken) 
+          && containsNoNumber(token)) {                  
         msg = messages.getString("missing_space_after_comma");
-        suggestionText = ", ";
+        suggestionText = ", ";        
       } else if (prevWhite) {
         if (isRightBracket(token)) {
           msg = messages.getString("no_space_before");
@@ -98,6 +101,7 @@ public class CommaWhitespaceRule extends Rule {
         ruleMatch.setSuggestedReplacement(suggestionText);
         ruleMatches.add(ruleMatch);
       }
+      prevPrevToken = prevToken;
       prevToken = token;
       prevWhite = isWhite && !tokens[i].isFieldCode(); //OOo code before comma/dot
       prevLen = tokens[i].getToken().length();
@@ -150,7 +154,7 @@ public class CommaWhitespaceRule extends Rule {
       }
     }
     return true;
-  }
+  }   
 
   public void reset() {
     // nothing

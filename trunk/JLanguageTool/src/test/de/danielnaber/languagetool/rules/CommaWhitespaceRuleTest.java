@@ -46,6 +46,11 @@ public class CommaWhitespaceRuleTest extends TestCase {
     //test OpenOffice field codes:
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("In his book,\u0002 Einstein proved this to be true.")).length);
     
+    //test thousand separators:    
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("This is $1,000,000.")).length);
+    //test numbers:    
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("This is 1,5.")).length);
+    
     // errors:
     matches = rule.match(langTool.getAnalyzedSentence("This,is a test sentence."));
     assertEquals(1, matches.length);
