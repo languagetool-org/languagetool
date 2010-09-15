@@ -7,11 +7,21 @@ title="Easy editing stylesheet" ?>
 German grammar and typo rules for LanguageTool
 See resource/de/tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2010 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.35 2010-09-14 21:35:23 dnaber Exp $
+$Id: grammar.xml,v 1.36 2010-09-15 21:43:32 dnaber Exp $
 -->
 <rules lang="de" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../rules.xsd">
   <category name="Mögliche Tippfehler">
+    <rule id="BIS_BISS" name="Tippfehler: 'biss (bis)'">
+      <pattern mark_from="1">
+        <token inflected="yes" regexp="yes">bleiben|sein</token>
+        <token>biss</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>bis</suggestion>?</message>
+      <example type="correct">Ich bleibe <marker>bis</marker> Ende Juli in Berlin.</example>
+      <example type="correct">Mann <marker>biss</marker> Hund.</example>
+      <example type="incorrect">Ich bleibe <marker>biss</marker> Ende Juli in Berlin.</example>
+    </rule>
     <rule id="VON_HAND" name="Möglicher Tippfehler 'van(von) Hand'">
       <pattern mark_to="-1">
         <token>van</token>
@@ -905,6 +915,27 @@ $Id: grammar.xml,v 1.35 2010-09-14 21:35:23 dnaber Exp $
       <example type="incorrect">Sie <marker>Treffen</marker> sich später.</example>
     </rule>
   -->
+      <!-- TODO: make sure we don't automatically turn the suggestion to uppercase here:
+    <rule id="MIT_FREUNDLICHEN" name="Tippfehler: 'mit Freundlichen(freundlichen)'">
+      <pattern mark_from="1">
+        <token>mit</token>
+        <token>Freundlichen</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>freundlichen</suggestion>?</message>
+      <example type="correct">Mit <marker>freundlichen</marker> Grüßen</example>
+      <example type="incorrect">Mit <marker>Freundlichen</marker> Grüßen</example>
+    </rule>
+  -->
+    <!-- TODO: allgemeiner... -->
+    <rule id="OEFFNEN" name="Tippfehler: 'öffnen (Öffnen)'">
+      <pattern mark_from="1" case_sensitive="yes">
+        <token>dem</token>
+        <token>öffnen</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>Öffnen</suggestion>?</message>
+      <example type="correct">Nach dem <marker>Öffnen</marker> bitte kühl lagern.</example>
+      <example type="incorrect">Nach dem <marker>öffnen</marker> bitte kühl lagern.</example>
+    </rule>
     <rule id="VON_BEGRIFF" name="Groß-/Kleinschreibung: 'von begriff(Begriff) sein'">
       <pattern mark_from="1" case_sensitive="yes">
         <token>von</token>
@@ -1243,6 +1274,33 @@ $Id: grammar.xml,v 1.35 2010-09-14 21:35:23 dnaber Exp $
       </rule>
     </rulegroup>
     -->
+    <!-- TODO: testen!!
+    <rulegroup id="EINER_EINE" name="Grammatik: 'unbestimmter Artikel weiblicher im Akkusativ'">
+      <rule>
+        <pattern mark_from="0">
+          <token>einer</token>
+          <token postag="SUB:AKK:SIN:FEM:.*" />
+        </pattern>
+        <message>Kasusfehler: Beim Akkusativ Plural braucht man den unbestimmten Artikel <suggestion>eine</suggestion>.</message>
+        <example type="correct">Wir möchten gerne <marker>eine</marker> Lizenz erwerben.</example>
+        <example type="incorrect">Wir möchten gerne <marker>einer</marker> Lizenz erwerben.</example>
+      </rule>
+    </rulegroup>
+    -->
+    <!-- TODO: testen!!
+    <rulegroup id="DES_DER" name="Grammatik: 'der/des' (Genitiv Singular für männliche Substantive">
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token postag="SUB:.*" postag_regexp="yes"/>
+          <token regexp="yes">der|dem|den</token>
+          <token postag="SUB:GEN:SIN:MAS:.*" postag_regexp="yes"/>
+        </pattern>
+        <message>Kasusfehler: Beim Genitiv Singular Maskulin braucht man den Artikel <suggestion>des</suggestion>.</message>
+        <example type="correct">Die Tochter <marker>des</marker> Vaters.</example>
+        <example type="incorrect">Die Tochter <marker>dem</marker> Vater</example>
+      </rule>
+    </rulegroup>
+    -->
     <!-- TODO: make this more general: -->
     <rulegroup id="ICH_WUENSCHE" name="Grammatik: 'Ich wünschen(wünsche)'">
       <rule>
@@ -1268,6 +1326,21 @@ $Id: grammar.xml,v 1.35 2010-09-14 21:35:23 dnaber Exp $
         <example type="incorrect">Eine einfache Java-Bibliothek Software <marker>zum</marker> Trennung von Komposita.</example>
       </rule>
     </rulegroup>
+    -->
+    <!-- TODO: make this more generic + avoid false alarm in "helfen ihm zu finden"
+    <rule id="HELFEN_DATIV" name="Grammatik: 'Dativ nach 'helfen'">
+      <pattern mark_from="1">
+        <token regexp="yes">helfen|hilft|helfe|hilfst|helft|half|halfst|halfen|halft</token>
+        <token>ihn</token>
+      </pattern>
+      <message>Kasusfehler: Das Personalpronommen nach 'helfen' muss im Dativ stehen (z.B. 'ihm').</message>
+      <example type="correct">Sie hilft <marker>ihm</marker> gerne.</example>
+      <example type="correct">Sie hilft <marker>ihnen</marker> gerne.</example>
+      <example type="correct">Sie helfen <marker>mir</marker> gerne.</example>
+      <example type="correct">Sie helfen <marker>dir</marker> gerne.</example>
+      <example type="correct">Sie helfen <marker>uns</marker> gerne.</example>
+      <example type="incorrect">Sie hilft <marker>ihn</marker> gerne.</example>
+    </rule>
     -->
     <rulegroup id="SPRECH_NICHT" name="Grammatik: 'bitte sprech(sprich)'">
       <rule>
