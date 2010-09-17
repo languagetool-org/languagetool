@@ -28,7 +28,6 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.xml.sax.Attributes;
-import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
@@ -97,12 +96,6 @@ class PatternRuleHandler extends XMLRuleHandler {
   // ===========================================================
   // SAX DocumentHandler methods
   // ===========================================================
-
-  @Override
-  public void setDocumentLocator(final Locator locator) {
-    pLocator = locator;
-    super.setDocumentLocator(locator);
-  }
 
   @Override
   public void startElement(final String namespaceURI, final String lName,

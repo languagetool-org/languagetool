@@ -190,6 +190,12 @@ public class XMLRuleHandler extends DefaultHandler {
     throw e;
   }
 
+  @Override
+  public void setDocumentLocator(final Locator locator) {
+    pLocator = locator;
+    super.setDocumentLocator(locator);
+  }
+  
   protected void resetToken() {
     posNegation = false;
     posRegExp = false;
