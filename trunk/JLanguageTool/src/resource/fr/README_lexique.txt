@@ -1,7 +1,7 @@
 _______________________________________________________________________________
 
    LEXIQUE FRANÇAIS, LISTE DES FORMES FLÉCHIES
-   version 3.7
+   version 3.8
    
    Olivier R. - dicollecte<at>free<dot>fr
    Dicollecte: http://www.dicollecte.org/
@@ -16,7 +16,7 @@ _______________________________________________________________________________
 
    Principaux contributeurs:
    - Laurent Dubois, administrateur du dictionnaire;
-   - Pierre Poisson et Sylvain P., contrôleurs;
+   - Sylvain P. et Pierre Poisson, contrôleurs;
    - Romain Muller et Serge Bibauw, de l’association RENOUVO, grâce à qui
      la nouvelle orthographe et ses anciennes variantes ont pu être établies.
    - Chantal Contant, pour ses recherches sur la réforme de 1990.

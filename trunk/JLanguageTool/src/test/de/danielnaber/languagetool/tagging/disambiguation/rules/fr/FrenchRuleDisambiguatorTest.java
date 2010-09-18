@@ -66,7 +66,7 @@ public class FrenchRuleDisambiguatorTest extends TestCase {
         "/[null]SENT_START Quand/[quand]C sub  /[null]null j/[je]R pers suj 1 s '/[null]null étais/[être]V etre ind impa 1 s  /[null]null petit/[petit]J m s ,/[null]null  /[null]null je/[je]R pers suj 1 s  /[null]null jouais/[jouer]V ind impa 1 s  /[null]null au/[au]D m s  /[null]null football/[football]N m s ./[null]null", 
         tokenizer, sentenceTokenizer, tagger, disambiguator);
     TestTools.myAssert("Quand j'étais petit, je jouais au football.",
-        "/[null]SENT_START Quand/[quand]C sub  /[null]null j/[je]R pers suj 1 s '/[null]null étais/[étai]N m p|étais/[être]V etre ind impa 1 s|étais/[être]V etre ind impa 2 s  /[null]null petit/[petit]J m s|petit/[petit]N m s ,/[null]null  /[null]null je/[je]R pers suj 1 s  /[null]null jouais/[jouer]V ind impa 1 s|jouais/[jouer]V ind impa 2 s  /[null]null au/[au]D m s  /[null]null football/[football]N m s ./[null]null", 
+        "/[null]SENT_START Quand/[quand]C sub  /[null]null j/[j]N m sp|j/[je]R pers suj 1 s '/[null]null étais/[étai]N m p|étais/[être]V etre ind impa 1 s|étais/[être]V etre ind impa 2 s  /[null]null petit/[petit]J m s|petit/[petit]N m s ,/[null]null  /[null]null je/[je]R pers suj 1 s  /[null]null jouais/[jouer]V ind impa 1 s|jouais/[jouer]V ind impa 2 s  /[null]null au/[au]D m s  /[null]null football/[football]N m s ./[null]null", 
         tokenizer, sentenceTokenizer, tagger, disamb2);
     TestTools.myAssert("Je suis petite.",
         "/[null]SENT_START Je/[je]R pers suj 1 s  /[null]null suis/[être]V etre ind pres 1 s  /[null]null petite/[petit]J f s ./[null]null", 
