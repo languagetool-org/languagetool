@@ -51,6 +51,9 @@ public class CommaWhitespaceRuleTest extends TestCase {
     //test numbers:    
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("This is 1,5.")).length);
     
+    //test two consecutive commas:
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("This is a ,,test''.")).length);
+    
     // errors:
     matches = rule.match(langTool.getAnalyzedSentence("This,is a test sentence."));
     assertEquals(1, matches.length);

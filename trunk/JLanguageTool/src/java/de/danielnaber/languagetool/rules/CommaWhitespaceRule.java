@@ -70,7 +70,8 @@ public class CommaWhitespaceRule extends Rule {
       } else if (!isWhite && prevToken.equals(",") 
           && isNotQuoteOrHyphen(token) 
           && containsNoNumber(prevPrevToken) 
-          && containsNoNumber(token)) {                  
+          && containsNoNumber(token)
+          && !",".equals(prevPrevToken)) {                          
         msg = messages.getString("missing_space_after_comma");
         suggestionText = ", ";        
       } else if (prevWhite) {
@@ -82,6 +83,11 @@ public class CommaWhitespaceRule extends Rule {
           msg = messages.getString("space_after_comma");
           suggestionText = ",";
           fixLen = 1;
+          //exception for duplicated comma (we already have another rule for that)
+          if (i + 1 < tokens.length
+             && ",".equals(tokens[i + 1].getToken())) {
+           msg = null; 
+          }
         } else if (token.equals(".")) {
           msg = messages.getString("no_space_before_dot");
           suggestionText = ".";
@@ -114,7 +120,8 @@ public class CommaWhitespaceRule extends Rule {
     if (str.length() == 1) {
       final char c = str.charAt(0);
       if (c =='\'' || c == '-' || c == '”' 
-        || c =='’' || c == '"' || c == '“'){
+        || c =='’' || c == '"' || c == '“'
+        || c == ',') {
         return false;
       }
     } else {
