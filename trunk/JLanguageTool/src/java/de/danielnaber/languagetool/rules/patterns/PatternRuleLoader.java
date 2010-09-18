@@ -43,10 +43,6 @@ import de.danielnaber.languagetool.rules.IncorrectExample;
  */
 public class PatternRuleLoader extends DefaultHandler {
 
-  public PatternRuleLoader() {
-    super();
-  }
-
   public final List<PatternRule> getRules(final InputStream is,
       final String filename) throws IOException {
     try {
@@ -137,26 +133,13 @@ class PatternRuleHandler extends XMLRuleHandler {
       if (suggestionMatches != null) {
         suggestionMatches.clear();
       }
-    } else if (qName.equals("pattern")) {
-      inPattern = true;
-      if (attrs.getValue("mark_from") != null) {
-        startPositionCorrection = Integer.parseInt(attrs.getValue("mark_from"));
-      }
-      if (attrs.getValue("mark_to") != null) {
-        endPositionCorrection = Integer.parseInt(attrs.getValue("mark_to"));
-        if (endPositionCorrection > 0) {
-          throw new SAXException("End position correction (mark_to="+ endPositionCorrection
-              + ") cannot be larger than 0: " + "\n Line: "
-              + pLocator.getLineNumber() + ", column: "
-              + pLocator.getColumnNumber() + ".");
-        }
-      }
-      caseSensitive = YES.equals(attrs.getValue("case_sensitive"));     
-    } else if (qName.equals("and")) {
+    } else if (qName.equals(PATTERN)) {
+      startPattern(attrs);     
+    } else if (qName.equals(AND)) {
       inAndGroup = true;
     } else if (qName.equals("unify")) {
         inUnification = true;           
-        uniNegation = YES.equals(attrs.getValue("negate"));
+        uniNegation = YES.equals(attrs.getValue(NEGATE));
     } else if (qName.equals("feature")) {
         uFeature = attrs.getValue("id");        
     } else if (qName.equals(TYPE)) {      
@@ -215,8 +198,8 @@ class PatternRuleHandler extends XMLRuleHandler {
     } else if (qName.equals("phraseref") && (attrs.getValue("idref") != null)) {
       preparePhrase(attrs);
     }    
-  }  
-  
+  }
+
   @Override
   public void endElement(final String namespaceURI, final String sName,
       final String qName) throws SAXException {
@@ -256,16 +239,8 @@ class PatternRuleHandler extends XMLRuleHandler {
       tokenCounter++;
     } else if (qName.equals(TOKEN)) {
       finalizeTokens();
-    } else if (qName.equals("pattern")) {
-      if (phraseElementList == null || phraseElementList.size() == 0) {
-          final int endMarker = elementList.size() + endPositionCorrection;
-          if (endMarker <= startPositionCorrection) {
-              throw new RuntimeException("Invalid combination of mark_from (" + startPositionCorrection
-                      + ") and mark_to (" + endPositionCorrection + ") for rule " + id
-                      + " with " + elementList.size() 
-                      + " tokens: the error position created by mark_from and mark_to is less than one token");
-          }
-      }
+    } else if (qName.equals(PATTERN)) {
+      checkMarkPositions();
       inPattern = false;
       if (lastPhrase) {
         elementList.clear();

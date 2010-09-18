@@ -47,10 +47,6 @@ import de.danielnaber.languagetool.rules.patterns.PatternRule;
  */
 public class BitextPatternRuleLoader extends DefaultHandler {
 
-  public BitextPatternRuleLoader() {
-    super();
-  }
-
   public final List<BitextPatternRule> getRules(final InputStream is,
       final String filename) throws IOException {
     final List<BitextPatternRule> rules;
@@ -85,9 +81,6 @@ class PatternRuleHandler extends BitextXMLRuleHandler {
   private Category category;
   private String description;
   private String ruleGroupDescription;
-
-  public PatternRuleHandler() {
-  }
 
   private PatternRule srcRule;
   private PatternRule trgRule;
@@ -148,20 +141,7 @@ class PatternRuleHandler extends BitextXMLRuleHandler {
         suggestionMatches.clear();
       }
     } else if (qName.equals(PATTERN)) {
-      inPattern = true;
-      if (attrs.getValue(MARK_FROM) != null) {
-        startPositionCorrection = Integer.parseInt(attrs.getValue(MARK_FROM));
-      }
-      if (attrs.getValue(MARK_TO) != null) {
-        endPositionCorrection = Integer.parseInt(attrs.getValue(MARK_TO));
-        if (endPositionCorrection > 0) {
-          throw new SAXException("End position correction (mark_to="+ endPositionCorrection
-              + ") cannot be larger than 0: " + "\n Line: "
-              + pLocator.getLineNumber() + ", column: "
-              + pLocator.getColumnNumber() + ".");
-        }
-      }
-      caseSensitive = YES.equals(attrs.getValue(CASE_SENSITIVE));     
+      startPattern(attrs);     
     } else if (qName.equals(AND)) {
       inAndGroup = true;
     } else if (qName.equals(UNIFY)) {
@@ -233,26 +213,10 @@ class PatternRuleHandler extends BitextXMLRuleHandler {
       final String qName) throws SAXException {
 
     if (qName.equals("source")) {
-      if (phraseElementList == null || phraseElementList.size() == 0) {
-        final int endMarker = elementList.size() + endPositionCorrection;
-        if (endMarker <= startPositionCorrection) {
-          throw new RuntimeException("Invalid combination of mark_from (" + startPositionCorrection
-              + ") and mark_to (" + endPositionCorrection + ") for rule " + id
-              + " with " + elementList.size() 
-              + " tokens: the error position created by mark_from and mark_to is less than one token");
-        }
-      }
+      checkMarkPositions();
       srcRule = finalizeRule();      
     } else if (qName.equals("target")) {
-      if (phraseElementList == null || phraseElementList.size() == 0) {
-        final int endMarker = elementList.size() + endPositionCorrection;
-        if (endMarker <= startPositionCorrection) {
-          throw new RuntimeException("Invalid combination of mark_from (" + startPositionCorrection
-              + ") and mark_to (" + endPositionCorrection + ") for rule " + id
-              + " with " + elementList.size() 
-              + " tokens: the error position created by mark_from and mark_to is less than one token");
-        }
-      }
+      checkMarkPositions();
       trgRule = finalizeRule();
     }  else if (qName.equals("rule")) {
       trgRule.setMessage(message.toString());
@@ -277,7 +241,7 @@ class PatternRuleHandler extends BitextXMLRuleHandler {
       tokenCounter++;
     } else if (qName.equals(TOKEN)) {
         finalizeTokens();
-      } else if (qName.equals("pattern")) {      
+      } else if (qName.equals(PATTERN)) {      
       inPattern = false;
       if (lastPhrase) {
         elementList.clear();
@@ -354,8 +318,7 @@ class PatternRuleHandler extends BitextXMLRuleHandler {
       //clear the features...
       equivalenceFeatures = new HashMap<String, List<String>>();
     }
-  }
-
+  }  
   
   private IncorrectExample setExample() {
     IncorrectExample example = null;

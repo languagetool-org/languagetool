@@ -273,7 +273,23 @@ public class XMLRuleHandler extends DefaultHandler {
     phraseElementList.clear();
   }
   
-
+  protected void startPattern(final Attributes attrs) throws SAXException {
+    inPattern = true;
+    if (attrs.getValue(MARK_FROM) != null) {
+      startPositionCorrection = Integer.parseInt(attrs.getValue(MARK_FROM));
+    }
+    if (attrs.getValue(MARK_TO) != null) {
+      endPositionCorrection = Integer.parseInt(attrs.getValue(MARK_TO));
+      if (endPositionCorrection > 0) {
+        throw new SAXException("End position correction (mark_to="+ endPositionCorrection
+            + ") cannot be larger than 0: " + "\n Line: "
+            + pLocator.getLineNumber() + ", column: "
+            + pLocator.getColumnNumber() + ".");
+      }
+    }
+    caseSensitive = YES.equals(attrs.getValue(CASE_SENSITIVE));
+  }  
+  
   
   /**
    * Calculates the offset of the match reference (if any) in case the match
@@ -448,6 +464,18 @@ public class XMLRuleHandler extends DefaultHandler {
     } 
   }
 
+  protected void checkMarkPositions() {
+    if (phraseElementList == null || phraseElementList.size() == 0) {
+      final int endMarker = elementList.size() + endPositionCorrection;
+      if (endMarker <= startPositionCorrection) {
+        throw new RuntimeException("Invalid combination of mark_from (" + startPositionCorrection
+            + ") and mark_to (" + endPositionCorrection + ") for rule " + id
+            + " with " + elementList.size() 
+            + " tokens: the error position created by mark_from and mark_to is less than one token");
+      }
+    }
+  }
+  
   /**
    * Adds Match objects for all references to tokens
    * (including '\1' and the like). 
