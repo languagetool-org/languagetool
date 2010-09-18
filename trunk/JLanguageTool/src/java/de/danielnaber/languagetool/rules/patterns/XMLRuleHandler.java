@@ -103,6 +103,12 @@ public class XMLRuleHandler extends DefaultHandler {
   /** true when phraseref is the last element in the rule. **/
   protected boolean lastPhrase;
 
+  /** ID reference to the phrase. **/
+  protected String phraseIdRef;
+
+  /** Current phrase ID. **/
+  protected String phraseId;
+
   protected int skipPos;
 
   protected String ruleGroupId;
@@ -226,7 +232,48 @@ public class XMLRuleHandler extends DefaultHandler {
       phraseElementList = new ArrayList<ArrayList<Element>>();
     }
   }
+  protected void preparePhrase(final Attributes attrs) {
+    phraseIdRef = attrs.getValue("idref");
+    if (phraseMap.containsKey(phraseIdRef)) {
+      for (final List<Element> curPhrEl : phraseMap.get(phraseIdRef)) {
+        for (final Element e : curPhrEl) {
+          e.setPhraseName(phraseIdRef);
+        }
+        if (elementList.isEmpty()) {
+          phraseElementList.add(new ArrayList<Element>(curPhrEl));
+        } else {
+          final ArrayList<Element> prevList = new ArrayList<Element>(
+              elementList);
+          prevList.addAll(curPhrEl);
+          phraseElementList.add(new ArrayList<Element>(prevList));
+          prevList.clear();
+        }
+      }
+      lastPhrase = true;
+    }
+  }
+
+  protected void finalizePhrase() {
+    // lazy init
+    if (phraseMap == null) {
+      phraseMap = new HashMap<String, List<List<Element>>>();
+    }
+    phraseElementInit();
+    if (phraseElementList.isEmpty()) {
+      phraseElementList.add(new ArrayList<Element>(elementList));
+    } else {
+      for (final ArrayList<Element> ph : phraseElementList) {
+        ph.addAll(new ArrayList<Element>(elementList));
+      }
+    }
+
+    phraseMap.put(phraseId, new ArrayList<List<Element>>(phraseElementList));
+    elementList.clear();
+
+    phraseElementList.clear();
+  }
   
+
   
   /**
    * Calculates the offset of the match reference (if any) in case the match

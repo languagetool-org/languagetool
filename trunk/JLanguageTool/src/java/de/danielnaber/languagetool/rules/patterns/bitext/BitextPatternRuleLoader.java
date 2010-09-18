@@ -79,12 +79,6 @@ class PatternRuleHandler extends BitextXMLRuleHandler {
 
   private int subId;
 
-  /** Current phrase ID. **/
-  private String phraseId;
-
-  /** ID reference to the phrase. **/
-  private String phraseIdRef;
-
   private boolean defaultOff;
   private boolean defaultOn;
 
@@ -228,24 +222,7 @@ class PatternRuleHandler extends BitextXMLRuleHandler {
     } else if (qName.equals("phrase") && inPhrases) {
       phraseId = attrs.getValue("id");
     } else if (qName.equals("phraseref") && (attrs.getValue("idref") != null)) {
-      phraseIdRef = attrs.getValue("idref");
-      if (phraseMap.containsKey(phraseIdRef)) {
-        for (final List<Element> curPhrEl : phraseMap.get(phraseIdRef)) {
-          for (final Element e : curPhrEl) {
-            e.setPhraseName(phraseIdRef);
-          }
-          if (elementList.isEmpty()) {
-            phraseElementList.add(new ArrayList<Element>(curPhrEl));
-          } else {
-            final ArrayList<Element> prevList = new ArrayList<Element>(
-                elementList);
-            prevList.addAll(curPhrEl);
-            phraseElementList.add(new ArrayList<Element>(prevList));
-            prevList.clear();
-          }
-        }
-        lastPhrase = true;
-      }
+      preparePhrase(attrs);
     } else if (qName.equals("source")) {
       srcLang = Language.getLanguageForShortName(attrs.getValue("lang"));        
     }    
@@ -362,24 +339,7 @@ class PatternRuleHandler extends BitextXMLRuleHandler {
     } else if (qName.equals(MARKER) && inIncorrectExample) {
       incorrectExample.append("</marker>");
     } else if (qName.equals("phrase") && inPhrases) {
-      // lazy init
-      if (phraseMap == null) {
-        phraseMap = new HashMap<String, List<List<Element>>>();
-      }
-      phraseElementInit();
-
-      if (phraseElementList.isEmpty()) {
-        phraseElementList.add(new ArrayList<Element>(elementList));
-      } else {
-        for (final ArrayList<Element> ph : phraseElementList) {
-          ph.addAll(new ArrayList<Element>(elementList));
-        }
-      }
-
-      phraseMap.put(phraseId, new ArrayList<List<Element>>(phraseElementList));
-      elementList.clear();
-
-      phraseElementList.clear();
+      finalizePhrase();
     } else if (qName.equals("includephrases")) {
       elementList.clear();
     } else if (qName.equals("phrases") && inPhrases) {
