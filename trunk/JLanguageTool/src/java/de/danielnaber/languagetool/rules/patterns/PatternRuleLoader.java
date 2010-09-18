@@ -412,13 +412,6 @@ class PatternRuleHandler extends XMLRuleHandler {
 
   }
 
-  private void phraseElementInit() {
-    // lazy init
-    if (phraseElementList == null) {
-      phraseElementList = new ArrayList<ArrayList<Element>>();
-    }
-  }
-  
   @Override
   public void characters(final char[] buf, final int offset, final int len) {
     final String s = new String(buf, offset, len);

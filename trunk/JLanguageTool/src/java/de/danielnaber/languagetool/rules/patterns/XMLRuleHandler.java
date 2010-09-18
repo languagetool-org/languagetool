@@ -220,6 +220,14 @@ public class XMLRuleHandler extends DefaultHandler {
     exceptionSpaceBeforeSet = false;
   }
 
+  protected void phraseElementInit() {
+    // lazy init
+    if (phraseElementList == null) {
+      phraseElementList = new ArrayList<ArrayList<Element>>();
+    }
+  }
+  
+  
   /**
    * Calculates the offset of the match reference (if any) in case the match
    * element has been used in the group.
