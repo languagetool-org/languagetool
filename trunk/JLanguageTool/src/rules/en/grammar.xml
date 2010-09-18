@@ -6,13 +6,24 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.123 2010-09-03 10:08:21 milek_pl Exp $
+$Id: grammar.xml,v 1.124 2010-09-18 21:42:22 dnaber Exp $
 -->
 <rules lang="en" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <!-- ====================================================================== -->
   <!-- Possible typos -->
   <!-- ====================================================================== -->
   <category name="Possible Typos">
+    <rule id="SUPPOSED_TO" name="suppose to (supposed to)">
+      <pattern mark_from="0" mark_to="-2">
+        <token inflected="no">suppose</token>
+        <token>to</token>
+        <token inflected="no">be</token>
+      </pattern>
+      <message>Probably you should use a past participle here: <suggestion>supposed</suggestion>.</message>
+      <short>Possible typo</short>
+      <example correction="supposed" type="incorrect">What jar is this <marker>suppose</marker> to be comming from?</example>
+      <example type="correct">What jar is this <marker>supposed</marker> to be comming from?</example>
+    </rule>
     <rule id="ALL_BE_IT" name="all be it (albeit)">
       <pattern>
         <token>all</token>
@@ -2074,6 +2085,18 @@ $Id: grammar.xml,v 1.123 2010-09-03 10:08:21 milek_pl Exp $
   <!-- Grammar -->
   <!-- ====================================================================== -->
   <category name="Grammar">
+    <rule id="HELP_TO_FIND" name="help to find (help find)">
+      <pattern>
+        <token>help</token>
+        <token postag="PRP" postag_regexp="yes"></token>
+        <token>to</token>
+        <token inflected="no">find</token>
+      </pattern>
+      <message>This phrase is probably grammatically incorrect. Write <suggestion>help \2 find</suggestion> instead.</message>
+      <short>Grammatical problem or typo</short>
+      <example type="incorrect">Can any guru <marker>help me to find</marker> the reason?</example>
+      <example type="correct">Can any guru <marker>help me find</marker> the reason?</example>
+    </rule>
     <rulegroup id="WAS_BEEN" name="was been (has been)">
       <rule>
         <pattern>
@@ -4390,6 +4413,18 @@ $Id: grammar.xml,v 1.123 2010-09-03 10:08:21 milek_pl Exp $
      -->
   </category>
   <category name="Commonly Confused Words">
+    <rule id="YOUR_NN" name="your (you're)">
+      <pattern mark_from="0" mark_to="-1">
+        <token inflected="no">you</token>
+        <token>'</token>
+        <token>re</token>
+        <token postag="NN|NN:U|NN:UN|NNP|NNPS|NNS" postag_regexp="yes"></token>
+      </pattern>
+      <message>Did you mean <suggestion>your</suggestion>?</message>
+      <short>Possible typo</short>
+      <example type="correct"><marker>Your</marker> optimization is a good example.</example>
+      <example type="incorrect"><marker>You're</marker> optimization is a good example.</example>
+    </rule>
     <rulegroup id="ACCEPT_EXCEPT" name="accept/except">
       <rule>
         <pattern mark_from="1">
@@ -4588,6 +4623,28 @@ $Id: grammar.xml,v 1.123 2010-09-03 10:08:21 milek_pl Exp $
     </rulegroup>
   </category>
   <category name="Nonstandard Phrases">
+    <rule id="IN_THE_MOMENT" name="in the moment (currently)">
+      <!-- Typical mistake for German native speakers -->
+      <pattern>
+        <token>in</token>
+        <token>the</token>
+        <token>moment</token>
+      </pattern>
+      <message>Did you mean <suggestion>at the moment</suggestion> (=currently)?</message>
+      <short>Nonstandard phrase</short>
+      <example correction="at the moment|currently" type="correct">No, <marker>currently</marker> not.</example>
+      <example type="incorrect">No, <marker>in the moment</marker> not.</example>
+    </rule>
+    <rule id="MAKE_SINCE" name="make since (sense)">
+      <pattern mark_from="1">
+        <token inflected="yes">make</token>
+        <token>since</token>
+      </pattern>
+      <message>Did you mean <suggestion>sense</suggestion>?</message>
+      <short>Nonstandard phrase</short>
+      <example type="incorrect">Something like 90 most likely never makes <marker>since</marker>.</example>
+      <example type="correct">Something like 90 most likely never makes <marker>sense</marker>.</example>
+    </rule>
     <rule id="ALL_AND_ALL" name="all and all (all in all)">
       <pattern>
         <token><exception postag="IN" scope="previous"></exception>all</token>
