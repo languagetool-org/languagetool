@@ -419,6 +419,9 @@ public class Match {
    * @return Converted string.
    */
   private String convertCase(final String s) {
+    if (StringTools.isEmpty(s)) {
+      return s;
+    }
     String token = s;
     switch (caseConversionType) {
     case NONE:
