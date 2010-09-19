@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 German grammar and typo rules for LanguageTool
 See resource/de/tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2010 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.37 2010-09-18 21:57:20 dnaber Exp $
+$Id: grammar.xml,v 1.38 2010-09-19 19:54:22 dnaber Exp $
 -->
 <rules lang="de" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../rules.xsd">
@@ -820,7 +820,9 @@ $Id: grammar.xml,v 1.37 2010-09-18 21:57:20 dnaber Exp $
   </category>
   
   <category name="Zusammen-/Getrenntschreibung">
+    <!-- Jan: TODO - find a rule that can distinguish "indem" from "in dem" -->
     <rule id="STATTFINDEN" name="Zusammen-/Getrenntschreibung: 'statt finden(stattfinden)'">
+    <!-- Jan: TODO: Don't match 'suchen statt finden' -->
       <pattern>
         <token>statt</token>
         <token regexp="yes">finden|findet|fand|fanden</token>
@@ -868,6 +870,128 @@ $Id: grammar.xml,v 1.37 2010-09-18 21:57:20 dnaber Exp $
       <example type="correct">Sie brachte alles <marker>durcheinander</marker>.</example>
       <example type="incorrect">Sie brachte alles <marker>durch einander</marker>.</example>
     </rule>
+    <rulegroup id="INFINITIV_MIT_ZU" name="Zusammen-/Getrenntschreibung: Infinitiv mit 'zu'">
+    <!--
+    Jan: The many exceptions to the first rule below are meant to avoid false alarms on
+    "hört auf zu <verb>", "fängt an zu <verb>", "um zu <verb>", etc.
+    TODO: The rule is very general and will certainly benefit from a field test.
+    -->
+      <rule>
+        <pattern>
+          <token postag=".*PRP:.*" postag_regexp="yes"><exception scope="current">gegenüber</exception><exception scope="current">anstatt</exception><exception scope="current">ohne</exception><exception scope="current">entsprechend</exception><exception scope="current">um</exception><exception scope="current">als</exception><exception scope="current">an</exception><exception scope="current">auf</exception></token>
+          <token>zu</token>
+          <token postag=".*VER:.*INF.*" postag_regexp="yes"><exception regexp="yes" scope="current">einigen|agieren|sieben|weiten|sein</exception></token>
+        </pattern>
+        <message>Meinten Sie <suggestion><match no="1" /><match no="2" /><match no="3" /></suggestion>?</message>
+        <example type="correct"><marker>auszugeben</marker></example>
+        <example type="correct"><marker>unterzugehen</marker></example>
+        <example type="incorrect"><marker>aus zu geben</marker></example>
+        <example type="incorrect"><marker>unter zu gehen</marker></example>
+      </rule>
+      <!-- Now try to catch some errors our first rule missed, mostly because of the exceptions defined above -->
+      <rule>
+        <pattern mark_from="1">
+          <!-- Jan: exceptions - don't match 'hört auf zu atmen' etc. -->
+          <token regexp="yes" negate="yes">hör(e|n|st|t|te|ten|tet|test)</token>
+          <!-- <token postag="ADV:.*" postag_regexp="yes" negate="yes" /> // doesn't work atm -->
+          <token>auf</token>
+          <token>zu</token>
+          <token regexp="yes">arbeiten|atmen|bahren|bauen|begehren|bereiten|bessern|bewahren|bieten|binden|blähen|blasen|blättern|blicken|blinken|bohren|brauchen|brechen|bringen|brummen|bürden|dampfen|decken|drängen|drehen|drücken|erlegen|erwecken|essen|fächern|fahren|fallen|fangen|fassen|finden|fischen|fliegen|fordern|forsten|frischen|führen|füllen|geben|gehen|geilen|gliedern|glühen|greifen|halten|hängen|häufen|heben|heitern|heizen|helfen|hellen|hetzen|heulen|holen|hören|kaufen|klären|klauben|kleben|knöpfen|knüpfen|kommen|kreuzen|kündigen|laden|lassen|lasten|laufen|leben|legen|lehnen|lesen|leuchten|listen|lockern|lösen|machen|mauern|muntern|nehmen|opfern|passen|pfen|pfropfen|picken|polieren|prägen|raffen|rauen|räumen|rechnen|regen|reiben|reißen|reizen|richten|rollen|rücken|rufen|rüsten|rütteln|sammeln|sammelnden|schauen|scheinen|schichten|schieben|schlagen|schließen|schlüsseln|schneiden|schnüren|schrecken|schreiben|schreien|schwingen|sehen|setzen|spalten|sparen|sperren|spielen|spießen|springen|spüren|stacheln|stauen|stecken|stehen|steigen|stellen|stöbern|stocken|stoßen|suchen|summieren|tauchen|teilen|tischen|tragen|treffen|treiben|trennen|treten|tun|wachen|wachsen|wärmen|warten|wecken|weichen|weisen|weiten|werfen|werten|wiegeln|wiegen|wühlen|zählen|zehren|zeichnen|zeigen|ziehen|zwingen</token>
+        </pattern>
+        <message>Meinten Sie <suggestion><match no="2" /><match no="3" /><match no="4" /></suggestion>?</message>
+        <example type="correct">Wir hörten <marker>auf zu bauen</marker>.</example>
+        <example type="correct">Wir begannen <marker>aufzubauen</marker>.</example>
+        <example type="incorrect">Wir begannen damit, den Messestand <marker>auf zu bauen</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <!-- Jan: exceptions - don't match 'fängst an zu beten' etc. -->
+          <token regexp="yes" negate="yes">fing(st|t|et|en)?|fäng(st|t)|fang(e|t|en)?</token>
+          <token>an</token>
+          <token>zu</token>
+          <token regexp="yes">bahnen|bauen|behalten|belangen|beten|betteln|biedern|bieten|binden|blicken|brechen|bringen|dauern|deuten|dichten|dienen|docken|drehen|ecken|eignen|empfehlen|erkennen|fachen|fahren|fallen|fangen|fassen|fechten|fertigen|feuchten|feuern|flehen|fordern|fragen|freunden|fügen|fühlen|führen|geben|gehen|gehören|gewöhnen|gleichen|gliedern|greifen|halten|hängen|häufen|heben|heften|himmeln|hören|kämpfen|kaufen|ketten|klagen|kleiden|klicken|klingeln|klopfen|knüpfen|kommen|kreiden|kündigen|kuppeln|kurbeln|lächeln|lassen|lasten|laufen|legen|lehnen|leiern|leinen|leiten|lernen|liefern|locken|malen|maßen|melden|merken|mieten|nageln|nähen|nähern|nehmen|ordnen|packen|passen|peilen|pflanzen|prangern|preisen|raten|rechnen|reden|regen|reichern|reißen|rempeln|rennen|richten|rufen|rühren|sagen|sammeln|schaffen|schalten|schauen|schicken|schieben|schlagen|schließen|schnallen|schreiben|schreien|sehen|setzen|siedeln|spannen|sparen|spielen|spornen|sprechen|springen|stacheln|starren|stecken|stehen|steigen|stellen|steuern|stimmen|stoßen|streben|streichen|strengen|tasten|tragen|treffen|treiben|treten|vertrauen|visieren|wachsen|wählen|wärmen|weisen|werben|werfen|zapfen|zeichnen|zeigen|zetteln|ziehen|zünden|zweifeln</token>
+        </pattern>
+        <message>Meinten Sie <suggestion><match no="2" /><match no="3" /><match no="4" /></suggestion>?</message>
+        <example type="correct">Wir fingen <marker>an zu heulen</marker>.</example>
+        <example type="correct">Sie begannen, den Mond <marker>anzuheulen</marker>.</example>
+        <example type="incorrect">Wir beschlossen <marker>an zu fangen</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">sich|uns|euch|dich|mich</token>
+          <token>um</token>
+          <token>zu</token>
+          <token regexp="yes">bringen|drehen|ziehen|sehen|schauen|blicken|gucken</token>
+        </pattern>
+        <message>Meinten Sie <suggestion><match no="2" /><match no="3" /><match no="4" /></suggestion>?</message>
+        <example type="correct">Er ergriff die Kurbel, <marker>um zu drehen</marker>.</example>
+        <example type="correct">Sie begannen, sich <marker>umzudrehen</marker>.</example>
+        <example type="incorrect">Sie begannen, sich <marker>um zu drehen</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="0">
+          <token>ein</token>
+          <token>zu</token>
+          <token regexp="yes">arbeiten|atmen|balsamieren|bauen|behalten|berufen|betten|beziehen|biegen|bilden|binden|blenden|brechen|bringen|bürgern|büßen|checken|dämmen|decken|drehen|dringen|drücken|ebnen|engen|fädeln|fahren|fallen|fangen|finden|flechten|fliegen|fließen|flößen|fordern|frieren|fügen|führen|geben|gehen|gestehen|gewöhnen|gießen|gliedern|greifen|grenzen|halten|handeln|hängen|hauchen|holen|hüllen|impfen|kaufen|kehren|kerkern|klagen|kleiden|kochen|kommen|kreisen|laden|lagern|lassen|laufen|leben|legen|leiten|lenken|lesen|loggen|lösen|marschieren|mauern|mischen|nähen|nehmen|nisten|ordnen|packen|passen|pflanzen|planen|prägen|quartieren|räumen|rechnen|reden|reiben|reichen|reihen|reisen|reißen|richten|sammeln|saugen|scannen|schalten|schätzen|schenken|schieben|schiffen|schlafen|schläfern|schlagen|schleusen|schließen|schmeicheln|schmelzen|schmuggeln|schneiden|schränken|schreiben|schreiten|schüchtern|schwenken|schwören|sehen|setzen|sinken|sitzen|spannen|sparen|speisen|sperren|spielen|sprechen|springen|stampfen|stecken|stehen|steigen|stellen|steuern|stimmen|streichen|streuen|studieren|stufen|stürzen|tauchen|tauschen|teilen|tippen|tragen|treffen|treiben|treten|tüten|üben|verleiben|weihen|weisen|werben|werfen|wickeln|willigen|wirken|zahlen|zäunen|zeichnen|ziehen|zwängen</token>
+        </pattern>
+        <message>Meinten Sie <suggestion><match no="1" /><match no="2" /><match no="3" /></suggestion>?</message>
+        <example type="correct">Er versprach, mich bald <marker>einzuarbeiten</marker>.</example>
+        <example type="incorrect">Er versprach, mich bald <marker>ein zu arbeiten</marker>.</example>
+      </rule>
+      <rule>
+      <!-- Jan: This one might turn out too greedy, because 'hinzu' is a word in itself. -->
+        <pattern mark_from="0">
+          <token>hin</token>
+          <token>zu</token>
+          <token regexp="yes">bekommen|biegen|bringen|fahren|fallen|geben|gehen|gucken|halten|hängen|hocken|horchen|hören|langen|legen|nehmen|reißen|rennen|richten|schauen|scheiden|schicken|schlachten|schmeißen|schreiben|schütten|schwimmen|sehen|setzen|sinken|starren|stellen|weisen|werfen|wirken</token>
+        </pattern>
+        <message>Meinten Sie <suggestion><match no="1" /><match no="2" /><match no="3" /></suggestion>?</message>
+        <example type="correct">Er versprach, mich dort <marker>hinzubringen</marker>.</example>
+        <example type="incorrect">Er versprach, mich dort <marker>hin zu bringen</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="0">
+          <token>hinein</token>
+          <token>zu</token>
+          <token regexp="yes">bauen|begeben|begleiten|bekommen|bemühen|beugen|bewegen|biegen|bitten|blasen|blicken|bohren|bringen|deuten|drücken|dürfen|eilen|fahren|finden|fliegen|fließen|flitzen|führen|gehen|gehören|gelangen|gießen|gleiten|greifen|halten|hängen|heben|heiraten|helfen|holen|klettern|kommen|können|kriechen|kriegen|lachen|laufen|leben|legen|leiten|lesen|mischen|nehmen|neigen|packen|passen|pferchen|pfuschen|plumpsen|pumpen|quetschen|rasen|rasseln|reden|reiten|riechen|rollen|sausen|schaffen|schauen|scheinen|schicken|schieben|schleichen|schleifen|schlendern|schleppen|schleudern|schliddern|schlüpfen|schmuggeln|schwingen|sehen|springen|spritzen|spucken|stechen|stecken|stehlen|steigen|stellen|steuern|stoßen|strömen|stürmen|stürzen|taumeln|torkeln|tragen|treiben|tropfen|trudeln|wagen|wälzen|weben|wehen|werfen|wirken|zerren|ziehen|zwängen</token>
+        </pattern>
+        <message>Meinten Sie <suggestion><match no="1" /><match no="2" /><match no="3" /></suggestion>?</message>
+        <example type="correct">Er versprach, mich dort <marker>hineinzubringen</marker>.</example>
+        <example type="incorrect">Er versprach, mich dort <marker>hinein zu bringen</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="0">
+          <token>herein</token>
+          <token>zu</token>
+          <token regexp="yes">begleiten|bekommen|beugen|bewegen|biegen|bitten|blicken|brechen|bringen|drängen|dringen|dürfen|eilen|fahren|fallen|fliegen|fließen|flitzen|führen|geben|gehen|gelangen|gleiten|gucken|helfen|holen|klettern|kommen|können|krabbeln|kriechen|kriegen|lassen|laufen|leiten|locken|müssen|neigen|rasen|rasseln|regnen|reiten|rennen|rieseln|rinnen|rollen|rufen|sausen|schaffen|schallen|schauen|scheinen|schicken|schieben|schleichen|schleifen|schlendern|schleppen|schleudern|schlittern|schlüpfen|schmeißen|schmuggeln|schwingen|sehen|spähen|spielen|springen|stecken|stehlen|steigen|stellen|stoßen|strecken|strömen|stürmen|stürzen|taumeln|torkeln|tragen|tropfen|trudeln|wagen|wälzen|wehen|werfen|wollen|zerren|ziehen|zwängen</token>
+        </pattern>
+        <message>Meinten Sie <suggestion><match no="1" /><match no="2" /><match no="3" /></suggestion>?</message>
+        <example type="correct">Er versprach, mich dort <marker>hereinzubringen</marker>.</example>
+        <example type="incorrect">Er versprach, mich dort <marker>herein zu bringen</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="0">
+          <token regexp="yes">hinunter|herab|hinab|herunter</token>
+          <token>zu</token>
+          <token regexp="yes">baumeln|befördern|begeben|begleiten|bemühen|beugen|bewegen|biegen|bitten|blicken|brechen|brennen|bringen|bücken|drücken|dürfen|eilen|fahren|fallen|finden|fliegen|fließen|flitzen|führen|geben|gehen|gießen|gleiten|greifen|hauen|heben|helfen|holen|kippen|klappen|klettern|knallen|kommen|können|kraxeln|kriechen|kriegen|kugeln|kullern|kurbeln|laden|langen|lassen|laufen|leiern|leiten|machen|müssen|nehmen|neigen|pendeln|putzen|rasen|rasseln|reichen|reißen|reiten|rinnen|rollen|rufen|rutschen|sausen|schaffen|schalten|schauen|schicken|schießen|schlagen|schleichen|schleifen|schlendern|schleppen|schleudern|schlingen|schlucken|schmeißen|schnurren|schütten|schwingen|sehen|senken|setzen|sinken|spielen|springen|spülen|steigen|stoßen|strömen|stufen|stürmen|stürzen|tauchen|taumeln|torkeln|tragen|treiben|tröpfeln|tropfen|trudeln|wälzen|werfen|wollen|würdigen|würgen|zerren|ziehen</token>
+        </pattern>
+        <message>Meinten Sie <suggestion><match no="1" /><match no="2" /><match no="3" /></suggestion>?</message>
+        <example type="correct">Er versuchte, es <marker>hinunterzuziehen</marker>.</example>
+        <example type="incorrect">Er versuchte, es <marker>hinunter zu ziehen</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token>damit</token>
+          <token>um</token>
+          <token>zu</token>
+          <token>gehen</token>
+        </pattern>
+        <message>Meinten Sie <suggestion><match no="2" /><match no="3" /><match no="4" /></suggestion>?</message>
+        <example type="correct">Er griff nach dem Mantel, <marker>um zu gehen</marker>.</example>
+        <example type="correct">Es ist nicht leicht, damit <marker>umzugehen</marker>.</example>
+        <example type="incorrect">Es ist nicht leicht, damit <marker>um zu gehen</marker>.</example>
+      </rule>
+    </rulegroup>
   </category>
   
   <category name="Stil">
@@ -1444,5 +1568,41 @@ $Id: grammar.xml,v 1.37 2010-09-18 21:57:20 dnaber Exp $
       <example correction="Herrn" type="incorrect">Mein Brief an <marker>Herr</marker> Schmidt.</example>
       <example correction="Herrn" type="incorrect">Er ging zu <marker>Herr</marker> Schmidt.</example>
     </rule>
+    <!--
+    <rulegroup id="BISHERIG_SEITHERIG" name="Grammatik: 'bisherig/seitherig'">
+      <rule>
+        <pattern>
+          <token regexp="no">bisherig</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>bisher</suggestion>, <suggestion>bisherige</suggestion> oder eine andere flektierte Form?</message>
+        <example type="correct"><marker>Bisher</marker> ist noch nichts passiert.</example>
+        <example type="incorrect"><marker>Bisherig</marker> ist noch nichts passiert.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="no">seitherig</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>seither</suggestion>, <suggestion>seitherige</suggestion> oder eine andere flektierte Form?</message>
+        <example type="correct"><marker>Seither</marker> ist noch nichts passiert.</example>
+        <example type="incorrect"><marker>Seitherig</marker> ist noch nichts passiert.</example>
+      </rule>
+    </rulegroup>
+    <rule id="OBIG" name="Grammatik: obig">
+      <pattern>
+        <token regexp="no">obig</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>oben</suggestion>, <suggestion>obige</suggestion> oder eine andere flektierte Form?</message>
+      <example type="correct">Wie <marker>oben</marker> ausgeführt, ist noch nichts passiert.</example>
+      <example type="incorrect">Wie <marker>obig</marker> ausgeführt, ist noch nichts passiert.</example>
+    </rule>
+    <rule id="JEWEILIG" name="Grammatik: jeweilig">
+      <pattern>
+        <token regexp="no">jeweilig</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>jeweils</suggestion>, <suggestion>jeweilige</suggestion> oder eine andere flektierte Form?</message>
+      <example type="correct">Das <marker>jeweils</marker> Adäquate wird unternommen.</example>
+      <example type="incorrect">Das <marker>jeweilig</marker> Adäquate wird unternommen.</example>
+    </rule>
+    -->
   </category>
 </rules>
