@@ -71,8 +71,8 @@ public class GenericUnpairedBracketsRule extends Rule {
   private static final String[] UK_START_SYMBOLS = { "[", "(", "{", "„", "«" };
   private static final String[] UK_END_SYMBOLS   = { "]", ")", "}", "“", "»" };
 
-  private static final String[] NL_START_SYMBOLS = { "[", "(", "{", "„", "“", "‘" };
-  private static final String[] NL_END_SYMBOLS   = { "]", ")", "}", "”", "”", "’" };
+  private static final String[] NL_START_SYMBOLS = { "[", "(", "{", "“", "\u2039", "\u201c", "\u201e" };
+  private static final String[] NL_END_SYMBOLS   = { "]", ")", "}", "”", "\u203a", "\u201d", "\u201d" };
 
   private static final String[] IT_START_SYMBOLS = { "[", "(", "{", "»", /*"‘"*/ };
   private static final String[] IT_END_SYMBOLS   = { "]", ")", "}", "«", /*"’"*/ };

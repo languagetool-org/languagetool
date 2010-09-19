@@ -86,7 +86,7 @@ public class GenericUnpairedBracketsRuleTest extends TestCase {
     // incorrect sentences:
     matches = rule
         .match(langTool
-            .getAnalyzedSentence("Het centrale probleem van het werk is de ‘dichterlijke kuischheid."));
+            .getAnalyzedSentence("Het centrale probleem van het werk is de „dichterlijke kuischheid."));
     assertEquals(1, matches.length);
   }
 
