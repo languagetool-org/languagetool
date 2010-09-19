@@ -50,10 +50,10 @@ public class SRXSentenceTokenizer extends SentenceTokenizer {
     this.language = language;
     try {
       srxReader = new BufferedReader(new InputStreamReader(
-		  JLanguageTool.getDataBroker().getFromResourceDirAsStream(RULES), "utf-8"));    
-    } catch (IOException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+  		  JLanguageTool.getDataBroker().getFromResourceDirAsStream(RULES), "utf-8"));
+    } catch (Exception e) {
+      throw new RuntimeException("Could not load rules " + RULES + " from resource dir "
+         + JLanguageTool.getDataBroker().getResourceDir());
     }
     final SrxParser srxParser = new Srx2Parser();
     document = srxParser.parse(srxReader);
