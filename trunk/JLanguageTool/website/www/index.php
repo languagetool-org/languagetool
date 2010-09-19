@@ -2,7 +2,7 @@
 $page = "homepage";
 $title = "LanguageTool";
 $title2 = "Open Source language checker";
-$lastmod = "2010-08-29 20:10:00 CET";
+$lastmod = "2010-09-19 13:10:00 CET";
 include("../include/header.php");
 ?>
 		
@@ -16,26 +16,40 @@ XML configuration files. Rules for more complicated errors can be  written in Ja
 
 
 <h2>Download</h2>
+
 <div class="downloadSection">
-	<p class="warning">
-	If you're upgrading from LanguageTool 0.9.5, you must de-install
-	it <strong>before</strong> upgrading to a later version (check
-	<a href="http://languagetool.wikidot.com/removing-languagetool-0-9-5-from-openoffice-3-0-1">this
-	page</a> if you forgot to do so).
-	</p>
-	<h2><?=show_link("Download LanguageTool 1.0.0 (17&nbsp;MB)", "download/LanguageTool-1.0.0.oxt", 0) ?></h2>
-	<p>Requires <?=show_link("Java", "http://www.java.com/en/download/manual.jsp", 1)?>&nbsp;5.0
-	or later. This version only works with OpenOffice.org 3.0.1 or later 
-	and you need to <strong>restart OpenOffice.org</strong> after installation of this extension.</p>
+	<table>
+	<tr>
+		<td><h2><?=show_link("Download LanguageTool 1.0.0 (17&nbsp;MB)", "download/LanguageTool-1.0.0.oxt", 0) ?></h2></td>
+		<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+		<td><h2><?=show_link("Download LanguageTool 1.1beta (18&nbsp;MB)", "download//LanguageTool-1.1-beta1.oxt", 0) ?></h2></td>
+	</tr>
+	</table>
+	<ul>
+		<li>Requires <?=show_link("Java", "http://www.java.com/en/download/manual.jsp", 1)?>&nbsp;5.0
+			or later. This version only works with OpenOffice.org 3.0.1 or later 
+			and you need to <strong>restart OpenOffice.org</strong> after installation of this extension.</p>
+		<li>If you're upgrading from LanguageTool 0.9.5, you must de-install
+			it <strong>before</strong> upgrading to a later version (check
+			<a href="http://languagetool.wikidot.com/removing-languagetool-0-9-5-from-openoffice-3-0-1">this
+			page</a> if you forgot to do so).</li>
+		<li>Please report bugs to the <?=show_link("Sourceforge bug tracker", "http://sourceforge.net/tracker/?group_id=110216&atid=655717", 1)?>
+			or send an email to naber <i>at</i> danielnaber.de.</li>
+	</ul>
 </div>
 
 <!-- -->
-<p><strong>Try LanguageTool via Java WebStart:</strong> (requires Java 1.6_04 or later)<br />
+<p><strong>Try LanguageTool 1.0.0 via Java WebStart:</strong> (requires Java 1.6_04 or later)<br />
 <?=show_link("Start LanguageTool (17&nbsp;MB)", "webstart/web/LanguageTool.jnlp", 0) ?></p>
 <!-- -->
 
 
 <h2>News</h2>
+
+
+<p><strong>2010-09-18:</strong> 
+
+Released version 1.1beta (see above)
 
 <p><strong>2010-08-29:</strong> 
 
