@@ -21,6 +21,7 @@ package de.danielnaber.languagetool.tagging.disambiguation.rules;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -219,4 +220,20 @@ public class DisambiguationRuleTest extends TestCase {
     return str.replaceAll("<.*?>", "");
   }
 
+  /**
+   * Test XML patterns, as a help for people developing rules that are not
+   * programmers.
+   * @throws SAXException 
+   * @throws ParserConfigurationException 
+   */
+  public static void main(final String[] args) throws IOException, ParserConfigurationException, SAXException {
+    final DisambiguationRuleTest prt = new DisambiguationRuleTest();
+    System.out.println("Running XML pattern tests...");
+    prt.setUp();
+    //final Set<Language> ignoredLanguages = new HashSet<Language>();
+    // ignoredLanguages.add(Language.CZECH); // has no XML rules yet
+    prt.testDisambiguationRulesFromXML();        
+    System.out.println("Tests successful.");
+  }
+  
 }
