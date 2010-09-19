@@ -31,6 +31,7 @@ import java.util.List;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.gui.Tools;
 import de.danielnaber.languagetool.rules.RuleMatch;
+import de.danielnaber.languagetool.rules.patterns.PatternRule;
 
 /**
  * Tools for reading files etc.
@@ -321,11 +322,19 @@ public final class StringTools {
     }
 
     for (final RuleMatch match : ruleMatches) {
+      String subId = "";
+      if (match.getRule() instanceof PatternRule) {
+        final PatternRule pRule = (PatternRule) match.getRule();
+        if (pRule.getSubId() != null) {
+          subId = " subId=\"" + escapeXMLForAPIOutput(pRule.getSubId()) + "\" ";
+        }
+      }
       xml.append("<error" + " fromy=\"" + match.getLine() + "\"" + " fromx=\""
           + (match.getColumn() - 1) + "\"" + " toy=\"" + match.getEndLine() + "\""
           + " tox=\"" + (match.getEndColumn() - 1) + "\"" + " ruleId=\""
           + match.getRule().getId() + "\"");
       final String msg = match.getMessage().replaceAll("</?suggestion>", "'");
+      xml.append(subId);
       xml.append(" msg=\"" + escapeXMLForAPIOutput(msg) + "\"");
       final String START_MARKER = "__languagetool_start_marker";
       String context = Tools.getContext(match.getFromPos(), match.getToPos(),
