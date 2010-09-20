@@ -58,7 +58,6 @@ class Main {
   private boolean bitextMode;
   private JLanguageTool srcLt;
   List<BitextRule> bRules;
-  long[] workTime = new long[10];
   private Rule currentRule;
 
   /* maximum file size to read in a single read */
