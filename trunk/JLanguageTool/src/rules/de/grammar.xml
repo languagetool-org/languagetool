@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 German grammar and typo rules for LanguageTool
 See resource/de/tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2010 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.38 2010-09-19 19:54:22 dnaber Exp $
+$Id: grammar.xml,v 1.39 2010-09-20 20:12:35 dnaber Exp $
 -->
 <rules lang="de" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../rules.xsd">
@@ -1568,13 +1568,13 @@ $Id: grammar.xml,v 1.38 2010-09-19 19:54:22 dnaber Exp $
       <example correction="Herrn" type="incorrect">Mein Brief an <marker>Herr</marker> Schmidt.</example>
       <example correction="Herrn" type="incorrect">Er ging zu <marker>Herr</marker> Schmidt.</example>
     </rule>
-    <!--
-    <rulegroup id="BISHERIG_SEITHERIG" name="Grammatik: 'bisherig/seitherig'">
+    <!-- TODO: test this more and then set default="on" -->
+    <rulegroup id="ADJEKTIVE_ZU_ADVERBIEN" name="Grammatik: 'bisherig, seitherig usw.'" default="off">
       <rule>
         <pattern>
           <token regexp="no">bisherig</token>
         </pattern>
-        <message>Meinten Sie <suggestion>bisher</suggestion>, <suggestion>bisherige</suggestion> oder eine andere flektierte Form?</message>
+        <message>Diese Form des Adjektivs "\1" ist sehr ungebräuchlich. Meinten Sie das Adverb <suggestion>bisher</suggestion> oder das Adjektiv in der Form <suggestion>\1e</suggestion> oder einer anderen flektierten Form?</message>
         <example type="correct"><marker>Bisher</marker> ist noch nichts passiert.</example>
         <example type="incorrect"><marker>Bisherig</marker> ist noch nichts passiert.</example>
       </rule>
@@ -1582,27 +1582,42 @@ $Id: grammar.xml,v 1.38 2010-09-19 19:54:22 dnaber Exp $
         <pattern>
           <token regexp="no">seitherig</token>
         </pattern>
-        <message>Meinten Sie <suggestion>seither</suggestion>, <suggestion>seitherige</suggestion> oder eine andere flektierte Form?</message>
+        <message>Diese Form des Adjektivs "\1" ist sehr ungebräuchlich. Meinten Sie das Adverb <suggestion>seither</suggestion> oder das Adjektiv in der Form <suggestion>\1e</suggestion> oder einer anderen flektierten Form?</message>
         <example type="correct"><marker>Seither</marker> ist noch nichts passiert.</example>
         <example type="incorrect"><marker>Seitherig</marker> ist noch nichts passiert.</example>
       </rule>
+      <rule>
+        <pattern>
+          <token regexp="no">jetzig</token>
+        </pattern>
+        <message>Diese Form des Adjektivs "\1" ist sehr ungebräuchlich. Meinten Sie das Adverb <suggestion>jetzt</suggestion> oder das Adjektiv in der Form <suggestion>\1e</suggestion> oder einer anderen flektierten Form?</message>
+        <example type="correct">Bis <marker>jetzt</marker> ist noch nichts passiert.</example>
+        <example type="incorrect">Bis <marker>jetzig</marker> ist noch nichts passiert.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="no">obig</token>
+        </pattern>
+        <message>Diese Form des Adjektivs "\1" ist sehr ungebräuchlich. Meinten Sie das Adverb <suggestion>oben</suggestion> oder das Adjektiv in der Form <suggestion>\1e</suggestion> oder einer anderen flektierten Form?</message>
+        <example type="correct">Wie <marker>oben</marker> ausgeführt, ist noch nichts passiert.</example>
+        <example type="incorrect">Wie <marker>obig</marker> ausgeführt, ist noch nichts passiert.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="no">jeweilig</token>
+        </pattern>
+        <message>Diese Form des Adjektivs "\1" ist sehr ungebräuchlich. Meinten Sie das Adverb <suggestion>jeweils</suggestion> oder das Adjektiv in der Form <suggestion>\1e</suggestion> oder einer anderen flektierten Form?</message>
+        <example type="correct">Das <marker>jeweils</marker> Adäquate wird unternommen.</example>
+        <example type="incorrect">Das <marker>jeweilig</marker> Adäquate wird unternommen.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="no">sofortig</token>
+        </pattern>
+        <message>Diese Form des Adjektivs "\1" ist sehr ungebräuchlich. Meinten Sie das Adverb <suggestion>sofort</suggestion> oder das Adjektiv in der Form <suggestion>\1e</suggestion> oder einer anderen flektierten Form?</message>
+        <example type="correct">Die Wirkung tritt <marker>sofort</marker> ein.</example>
+        <example type="incorrect">Die Wirkung ist <marker>sofortig</marker>.</example>
+      </rule>
     </rulegroup>
-    <rule id="OBIG" name="Grammatik: obig">
-      <pattern>
-        <token regexp="no">obig</token>
-      </pattern>
-      <message>Meinten Sie <suggestion>oben</suggestion>, <suggestion>obige</suggestion> oder eine andere flektierte Form?</message>
-      <example type="correct">Wie <marker>oben</marker> ausgeführt, ist noch nichts passiert.</example>
-      <example type="incorrect">Wie <marker>obig</marker> ausgeführt, ist noch nichts passiert.</example>
-    </rule>
-    <rule id="JEWEILIG" name="Grammatik: jeweilig">
-      <pattern>
-        <token regexp="no">jeweilig</token>
-      </pattern>
-      <message>Meinten Sie <suggestion>jeweils</suggestion>, <suggestion>jeweilige</suggestion> oder eine andere flektierte Form?</message>
-      <example type="correct">Das <marker>jeweils</marker> Adäquate wird unternommen.</example>
-      <example type="incorrect">Das <marker>jeweilig</marker> Adäquate wird unternommen.</example>
-    </rule>
-    -->
   </category>
 </rules>
