@@ -49,7 +49,7 @@ XML configuration files. Rules for more complicated errors can be  written in Ja
 
 <p><strong>2010-09-18:</strong> 
 
-Released version 1.1beta (see above)
+Released version 1.1beta (see above for download) - <?=show_link("Change log", "http://languagetool.cvs.sourceforge.net/viewvc/languagetool/JLanguageTool/CHANGES.txt?revision=1.366&amp;view=markup", 1)?>
 
 <p><strong>2010-08-29:</strong> 
 
