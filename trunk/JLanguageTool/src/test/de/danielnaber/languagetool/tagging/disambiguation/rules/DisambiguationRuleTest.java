@@ -228,10 +228,8 @@ public class DisambiguationRuleTest extends TestCase {
    */
   public static void main(final String[] args) throws IOException, ParserConfigurationException, SAXException {
     final DisambiguationRuleTest prt = new DisambiguationRuleTest();
-    System.out.println("Running XML pattern tests...");
+    System.out.println("Running disambiguator rule tests...");
     prt.setUp();
-    //final Set<Language> ignoredLanguages = new HashSet<Language>();
-    // ignoredLanguages.add(Language.CZECH); // has no XML rules yet
     prt.testDisambiguationRulesFromXML();        
     System.out.println("Tests successful.");
   }
