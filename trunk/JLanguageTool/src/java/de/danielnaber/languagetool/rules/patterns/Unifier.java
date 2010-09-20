@@ -162,29 +162,29 @@ public class Unifier {
       tokCnt++;
       while (equivalencesMatched.size() <= tokCnt) {
         equivalencesMatched.add(new HashMap<String, Set<String>>());
-      }
-      for (final String feat : uFeatures.keySet()) {
-        types = uFeatures.get(feat);
+      }      
+      for (final Map.Entry<String, List<String>> feat : uFeatures.entrySet()) {        
+        types = feat.getValue();
         if (types == null || types.isEmpty()) {
-          types = equivalenceFeatures.get(feat);
+          types = equivalenceFeatures.get(feat.getKey());
         }
         for (final String typename : types) {
           final Element testElem = equivalenceTypes
-          .get(new EquivalenceTypeLocator(feat, typename));
+          .get(new EquivalenceTypeLocator(feat.getKey(), typename));
           if (testElem == null) {
             return false;
           }
           if (testElem.isMatched(aToken)) {
-            if (!equivalencesMatched.get(tokCnt).containsKey(feat)) {
+            if (!equivalencesMatched.get(tokCnt).containsKey(feat.getKey())) {
               final Set<String> typeSet = new HashSet<String>();
               typeSet.add(typename);
-              equivalencesMatched.get(tokCnt).put(feat, typeSet);
+              equivalencesMatched.get(tokCnt).put(feat.getKey(), typeSet);
             } else {
-              equivalencesMatched.get(tokCnt).get(feat).add(typename);
+              equivalencesMatched.get(tokCnt).get(feat.getKey()).add(typename);
             }
           }
         }
-        unified &= equivalencesMatched.get(tokCnt).containsKey(feat);
+        unified &= equivalencesMatched.get(tokCnt).containsKey(feat.getKey());
         if (!unified) {
           break;
         }
@@ -209,18 +209,18 @@ public class Unifier {
     if (allFeatsIn) {
       for (int i = 0; i <= tokCnt; i++) {
         boolean allFeatsUnified = true;
-        for (final String feat : uFeatures.keySet()) {
+        for (Map.Entry<String, List<String>> feat : uFeatures.entrySet()) {
           boolean featUnified = false;
-          types = uFeatures.get(feat);
+          types = feat.getValue();
           if (types == null || types.isEmpty()) {
-            types = equivalenceFeatures.get(feat);
+            types = equivalenceFeatures.get(feat.getKey());
           }
           for (final String typename : types) {
             if (featuresFound.get(i)
-                && equivalencesMatched.get(i).containsKey(feat)
-                && equivalencesMatched.get(i).get(feat).contains(typename)) {
+                && equivalencesMatched.get(i).containsKey(feat.getKey())
+                && equivalencesMatched.get(i).get(feat.getKey()).contains(typename)) {
               final Element testElem = equivalenceTypes
-              .get(new EquivalenceTypeLocator(feat, typename));
+              .get(new EquivalenceTypeLocator(feat.getKey(), typename));
               featUnified = featUnified || testElem.isMatched(aToken);
             }
           }
