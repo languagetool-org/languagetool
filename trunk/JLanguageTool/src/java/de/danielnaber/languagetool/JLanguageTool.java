@@ -288,7 +288,7 @@ public final class JLanguageTool {
         }
       }
     } catch (final Exception e) {
-      throw new RuntimeException("Failed to load rules: " + e.getMessage(), e);
+      throw new RuntimeException("Failed to load rules for language " + language, e);
     }
     // System.err.println("Loaded " + rules.size() + " rules");
     return rules.toArray(new Rule[rules.size()]);
