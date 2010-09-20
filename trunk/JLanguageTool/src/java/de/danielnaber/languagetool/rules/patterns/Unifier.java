@@ -153,7 +153,6 @@ public class Unifier {
       return false; // throw exception??
     }
     boolean unified = true;
-    //final String[] features = uFeatures.
     List<String> types;
 
     if (allFeatsIn) {
@@ -227,7 +226,7 @@ public class Unifier {
           allFeatsUnified &= featUnified;
         }
         tokenFeaturesFound.set(i, allFeatsUnified);
-        anyFeatUnified |= allFeatsUnified;
+        anyFeatUnified = anyFeatUnified || allFeatsUnified;
       }
       unifiedNext &= anyFeatUnified;
       if (unifiedNext) {
