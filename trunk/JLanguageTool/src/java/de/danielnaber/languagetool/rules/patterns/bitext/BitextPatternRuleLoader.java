@@ -269,12 +269,12 @@ class PatternRuleHandler extends BitextXMLRuleHandler {
                       srcExample.getExample(), trgExample.getExample())
               ));        
         } else {
+          List<String> l = trgExample.getCorrections();
+          String str [] = l.toArray (new String [l.size ()]);
           incorrectExamples.add(
               new IncorrectBitextExample(
-                  new StringPair(
-                      srcExample.getExample(), trgExample.getExample())
-                  , 
-                  (String[]) trgExample.getCorrections().toArray())
+                  new StringPair(srcExample.getExample(), 
+                      trgExample.getExample()), str)
           );  
         }
       }
