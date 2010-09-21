@@ -39,7 +39,7 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
 	
 	private static final String FILE_NAME = "/pl/replace.txt";
 	// locale used on case-conversion
-	private static final Locale plLocale = new Locale("pl");
+	private static final Locale PL_LOCALE = new Locale("pl");
 
 	public final String getFileName() {
 		return FILE_NAME;
@@ -76,7 +76,7 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
 	 * locale used on case-conversion
 	 */
 	public Locale getLocale() {
-		return plLocale;
+		return PL_LOCALE;
 	}
 
 }

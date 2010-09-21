@@ -117,7 +117,7 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
       if (inRuleGroup && name == null) {
         name = ruleGroupName;
       }
-    } else if (qName.equals("rules")) {
+    } else if ("rules".equals(qName)) {
       language = Language.getLanguageForShortName(attrs.getValue("lang"));
     } else if (qName.equals(PATTERN)) {
       inPattern = true;
@@ -140,7 +140,9 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
       if (attrs.getValue(MARK_FROM) != null) {
         positionCorrection = Integer.parseInt(attrs.getValue(MARK_FROM));
       }
-      if (attrs.getValue(MARK_TO) != null) {
+      if (attrs.getValue(MARK_TO) == null) {
+        singleTokenCorrection = true;
+      } else {
         endPositionCorrection = Integer.parseInt(attrs.getValue(MARK_TO));
         if (endPositionCorrection > 0) {
           throw new SAXException("End position correction (mark_to=" 
@@ -150,8 +152,6 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
               + pLocator.getColumnNumber() + ".");
         }        
         singleTokenCorrection = false;
-      } else {
-        singleTokenCorrection = true;
       }
       if (attrs.getValue(CASE_SENSITIVE) != null
           && YES.equals(attrs.getValue(CASE_SENSITIVE))) {
@@ -165,7 +165,7 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
       inUnification = true;           
       uniNegation = YES.equals(attrs.getValue(NEGATE));
       uniCounter = 0;
-    } else if (qName.equals("feature")) {
+    } else if ("feature".equals(qName)) {
       uFeature = attrs.getValue("id");        
     } else if (qName.equals(TYPE)) {      
       uType = attrs.getValue("id");
@@ -175,13 +175,13 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
     } else if (qName.equals(DISAMBIG)) {
       inDisambiguation = true;
       disambiguatedPOS = attrs.getValue(POSTAG);
-      if (attrs.getValue(ACTION) != null) {
-        disambigAction = DisambiguationPatternRule.DisambiguatorAction
-            .toAction(attrs.getValue(ACTION).toUpperCase());
-      } else {
+      if (attrs.getValue(ACTION) == null) {
         // default mode:
         disambigAction = DisambiguationPatternRule.DisambiguatorAction
             .toAction("REPLACE");
+      } else {
+        disambigAction = DisambiguationPatternRule.DisambiguatorAction
+            .toAction(attrs.getValue(ACTION).toUpperCase());
       }
       disamb = new StringBuilder();
     } else if (qName.equals(MATCH)) {
@@ -241,7 +241,7 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
     } else if (qName.equals(UNIFICATION)) {
       uFeature = attrs.getValue(FEATURE);
       inUnificationDef = true;
-    } else if (qName.equals("equivalence")) {
+    } else if ("equivalence".equals(qName)) {
       uType = attrs.getValue(TYPE);
     } else if (qName.equals(WD)) {
       wdLemma = attrs.getValue("lemma");
@@ -262,7 +262,7 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
         output = attrs.getValue("outputform");
       }
       example = new StringBuilder();
-    } else if (qName.equals("marker")) {
+    } else if ("marker".equals(qName)) {
       example.append("<marker>");
     }
   }
@@ -270,15 +270,15 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
   @Override
   public void endElement(final String namespaceURI, final String sName,
       final String qName) throws SAXException {
-    if (qName.equals("rule")) {
+    if ("rule".equals(qName)) {
       final DisambiguationPatternRule rule = new DisambiguationPatternRule(id,
           name, language, elementList, disambiguatedPOS, posSelector,
           disambigAction);
       rule.setStartPositionCorrection(positionCorrection);
-      if (!singleTokenCorrection) {
+      if (singleTokenCorrection) {
+        endPositionCorrection = 1 - (elementList.size() - positionCorrection);
         rule.setEndPositionCorrection(endPositionCorrection);
       } else {
-        endPositionCorrection = 1 - (elementList.size() - positionCorrection);
         rule.setEndPositionCorrection(endPositionCorrection);
       }
       if (newWdList != null) {
@@ -402,7 +402,7 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
       inRuleGroup = false;
     } else if (qName.equals(UNIFICATION) && inUnificationDef) {
       inUnificationDef = false;
-    } else if (qName.equals("feature")) {      
+    } else if ("feature".equals(qName)) {      
       equivalenceFeatures.put(uFeature, uTypeList);
       uTypeList = new ArrayList<String>();
     } else if (qName.equals(UNIFY)) {
@@ -411,14 +411,14 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
     } else if (qName.equals(WD)) {
       addNewWord(wd.toString(), wdLemma, wdPos);
       inWord = false;
-    } else if (qName.equals("example")) {
+    } else if (EXAMPLE.equals(qName)) {
       inExample = false;
       if (untouched) {
         untouchedExamples.add(example.toString());
       } else {
         disambExamples.add(new DisambiguatedExample(example.toString(), input, output));
       }
-    } else if (qName.equals("marker")) {
+    } else if ("marker".equals(qName)) {
       example.append("</marker>");
     }
   }

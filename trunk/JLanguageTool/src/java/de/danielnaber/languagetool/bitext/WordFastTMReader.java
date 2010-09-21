@@ -39,7 +39,7 @@ public class WordFastTMReader extends TabBitextReader {
     }
   }
   
-  protected StringPair tab2StringPair(final String line) {
+  public final StringPair tab2StringPair(final String line) {
     if (line == null) {
       return null;
     }
@@ -66,8 +66,9 @@ public class WordFastTMReader extends TabBitextReader {
         if (nextLine != null) {
           nextLine = in.readLine();
           nextPair = tab2StringPair(nextLine);
-          if (nextLine == null)
+          if (nextLine == null) {
             in.close();
+          }
         }
         return result;
       } catch(IOException e) { 

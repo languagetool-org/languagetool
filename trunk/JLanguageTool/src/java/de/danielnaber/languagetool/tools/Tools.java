@@ -270,10 +270,10 @@ public final class Tools {
 	  final int contextSize = DEFAULT_CONTEXT_SIZE;
 	  final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
 	  for (StringPair srcAndTrg : reader) {
-		  List<RuleMatch> curMatches = checkBitext(
+		  final List<RuleMatch> curMatches = checkBitext(
 				  srcAndTrg.getSource(), srcAndTrg.getTarget(), 
 				  srcLt, trgLt, bRules);
-		  List<RuleMatch> fixedMatches = new ArrayList<RuleMatch>();
+		  final List<RuleMatch> fixedMatches = new ArrayList<RuleMatch>();
 		  for (RuleMatch thisMatch : curMatches) {
 			  fixedMatches.add(  
 					  trgLt.adjustRuleMatchPos(thisMatch, 

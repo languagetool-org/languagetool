@@ -38,7 +38,7 @@ public class RuSimpleReplaceRule extends AbstractSimpleReplaceRule {
   private static final String FILE_NAME = "/ru/replace.txt";
 
   // locale used on case-conversion
-	private static final Locale ruLocale = new Locale("ru");
+	private static final Locale RU_LOCALE = new Locale("ru");
 
   
   public final String getFileName() {
@@ -75,6 +75,6 @@ public String getShort() {
 	 * locale used on case-conversion
 	 */
 	public Locale getLocale() {
-		return ruLocale;
+		return RU_LOCALE;
 	}
 }

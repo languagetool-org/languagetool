@@ -39,8 +39,8 @@ public class Polish extends Language {
   private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("pl");
   private final Disambiguator disambiguator = new PolishHybridDisambiguator();
   private final Synthesizer synthesizer = new PolishSynthesizer();
-  private static final Unifier polishUnifier = new Unifier();
-  private static final Unifier polishDisambUnifier = new Unifier();
+  private static final Unifier POLISH_UNIFIER = new Unifier();
+  private static final Unifier POLISH_DISAMB_UNIFIER = new Unifier();
   
   private static final String[] COUNTRIES = {"PL"}; 
     
@@ -80,11 +80,11 @@ public class Polish extends Language {
   }
  
   public Unifier getUnifier() {
-    return polishUnifier;
+    return POLISH_UNIFIER;
   }
 
   public Unifier getDisambiguationUnifier() {
-    return polishDisambUnifier;
+    return POLISH_DISAMB_UNIFIER;
   }
   
   @Override

@@ -182,6 +182,8 @@ public class XMLRuleHandler extends DefaultHandler {
   protected static final String NO = "no";
   protected static final String MARK_TO = "mark_to";
   protected static final String MARK_FROM = "mark_from";
+  protected static final String PHRASES = "phrases";
+  protected static final String MESSAGE = "message";
 
 
   public List<PatternRule> getRules() {

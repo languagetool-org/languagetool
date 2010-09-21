@@ -111,10 +111,10 @@ public final class StringTools {
     BufferedReader br = null;
     final StringBuilder sb = new StringBuilder();
     try {
-      if (encoding != null) {
-        isr = new InputStreamReader(file, encoding);
-      } else {
+      if (encoding == null) {
         isr = new InputStreamReader(file);
+      } else {
+        isr = new InputStreamReader(file, encoding);
       }
       br = new BufferedReader(isr);
       String line;
@@ -310,7 +310,7 @@ public final class StringTools {
    * @param xmlMode how to print the XML
    */
   public static String ruleMatchesToXML(final List<RuleMatch> ruleMatches,
-      final String text, final int contextSize, XmlPrintMode xmlMode) {
+      final String text, final int contextSize, final XmlPrintMode xmlMode) {
     //
     // IMPORTANT: people rely on this format, don't change it!
     //
@@ -571,9 +571,10 @@ public final class StringTools {
     return s;
   }
 
-  public static String asString(CharSequence s) {
-    if (s == null)
+  public static String asString(final CharSequence s) {
+    if (s == null) {
       return null;
+    }
     return s.toString();
   }
 

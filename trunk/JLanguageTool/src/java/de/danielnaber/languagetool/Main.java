@@ -156,10 +156,10 @@ class Main {
         lt.setOutput(System.err);
       }
       if (!apiFormat && !applySuggestions) {
-        if (!"-".equals(filename)) {
-          System.out.println("Working on " + filename + "...");
+        if ("-".equals(filename)) {
+          System.out.println("Working on STDIN...");          
         } else {
-          System.out.println("Working on STDIN...");
+          System.out.println("Working on " + filename + "...");
         }
       }
       int runCount = 1; 

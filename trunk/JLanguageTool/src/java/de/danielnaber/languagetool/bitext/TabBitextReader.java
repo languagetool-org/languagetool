@@ -83,8 +83,9 @@ public class TabBitextReader implements BitextReader {
           nextLine = in.readLine();
           nextPair = tab2StringPair(nextLine);
           lineCount++;
-          if (nextLine == null)
+          if (nextLine == null) {
             in.close();
+          }
         }
         return result;
       } catch(IOException e) { 

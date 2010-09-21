@@ -45,7 +45,7 @@ public class Russian extends Language {
   
   private final Tagger tagger = new RussianTagger();
   private final Disambiguator disambiguator = new RussianRuleDisambiguator();
-  private static final Unifier russianUnifier = new Unifier();  
+  private static final Unifier RUSSIAN_UNIFIER = new Unifier();  
 //  private Tokenizer wordTokenizer = new RussianWordTokenizer();
   private final Synthesizer synthesizer = new RussianSynthesizer();
 //  private SentenceTokenizer sentenceTokenizer = new RussianSentenceTokenizer();   // old Tokenizer
@@ -89,7 +89,7 @@ public class Russian extends Language {
 
    
      public Unifier getUnifier() {
-    return russianUnifier;
+    return RUSSIAN_UNIFIER;
   }
 
   public Contributor[] getMaintainers() {

@@ -66,7 +66,7 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
    */
   public Locale getLocale() {
     return Locale.getDefault();
-  }
+  }  
   
   public AbstractSimpleReplaceRule(final ResourceBundle messages) throws IOException {
     if (messages != null) {
@@ -116,9 +116,6 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
     return toRuleMatchArray(ruleMatches);
   }
 
-  @Override
-  public void reset() {
-  }
 
   private Map<String, String> loadWords(final InputStream file) throws IOException {
     final Map<String, String> map = new HashMap<String, String>();
@@ -156,4 +153,7 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
     return map;
   }
 
+  public void reset() {
+  }  
+  
 }

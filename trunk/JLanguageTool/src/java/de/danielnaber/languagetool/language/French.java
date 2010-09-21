@@ -33,7 +33,7 @@ public class French extends Language {
 
   private final Tagger tagger = new FrenchTagger();
   private final Disambiguator disambiguator = new FrenchRuleDisambiguator();
-  private static final Unifier frenchUnifier = new Unifier();
+  private static final Unifier FRENCH_UNIFIER = new Unifier();
   
   private static final String[] COUNTRIES = {"FR", "", "BE", "CH", "CA", 
     "LU", "MC", "CM", "CI", "HI", "ML", "SN", "CD", "MA", "RE"
@@ -64,7 +64,7 @@ public class French extends Language {
   }
   
   public Unifier getUnifier() {
-    return frenchUnifier;
+    return FRENCH_UNIFIER;
   }
 
   public Contributor[] getMaintainers() {
