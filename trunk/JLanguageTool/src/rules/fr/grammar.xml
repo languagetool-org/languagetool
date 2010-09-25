@@ -5,7 +5,7 @@ title="Easy editing stylesheet" ?>
 <!--
 French Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski, Agnes Souque, Hugo Voisard & Myriam Lechelt.
-$Id: grammar.xml,v 1.31 2010-09-22 20:46:53 dominikoeo Exp $
+$Id: grammar.xml,v 1.32 2010-09-25 07:08:24 dominikoeo Exp $
 -->
 <rules lang="fr" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <phrases>
@@ -909,12 +909,13 @@ though, and has since been slightly modified)-->
       <rule name="Verbe au pluriel + adjectif ou participe passé singulier">
         <pattern mark_from="1">
           <token postag="SENT_START" skip="3"><exception postag="R pers suj.*" postag_regexp="yes" scope="next"></exception></token>
-          <token postag="V etre .* p" postag_regexp="yes" skip="1"></token>
+          <token postag="V etre .* [13] p" postag_regexp="yes" skip="1"></token>
           <token postag="(V ppa .* s)|(J .* s)" postag_regexp="yes"></token>
         </pattern>
         <message>« \3 » devrait être au pluriel après « \2 ».</message>
         <example type="correct">Les voisins sont <marker>partis</marker></example>
         <example type="incorrect">Les voisins <marker>sont revenu</marker></example>
+        <example type="correct"><marker>Soyez tranquille</marker>.</example>
       </rule>
       <rule name="Verbe au singulier + adjectif ou participe passé pluriel">
         <pattern mark_from="1">
@@ -1791,7 +1792,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="CI-HAUT" name="ci-haut">
       <pattern>
-        <token regexp="yes">ci-haut|ci-haut|ci-hautes</token>
+        <token regexp="yes">ci-haute?s?</token>
       </pattern>
       <message>« Ci-haut » est un régionalisme (Québec). Employez <suggestion>ci-dessus</suggestion>.</message>
       <example type="incorrect"><marker>ci-haut</marker></example>
@@ -2423,7 +2424,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="CASQUE_DE_BAIN" name="casque de bain">
       <pattern>
-        <token regexp="yes">casque|casque</token>
+        <token regexp="yes">casque|casques</token>
         <token>de</token>
         <token regexp="yes">bain|bains</token>
       </pattern>
@@ -2677,7 +2678,7 @@ though, and has since been slightly modified)-->
     <rulegroup id="CHIEN-CHAUD" name="chien-chaud">
       <rule>
         <pattern>
-          <token regexp="yes">chien-chaud|chien-chauds|chiens-chauds|chien-chauds</token>
+          <token regexp="yes">chiens?-chauds?</token>
         </pattern>
         <message>« Chien-chaud » est un régionalisme (Québec) inusité et critiqué comme précieux. Employez <suggestion>hot-dog</suggestion>.</message>
         <example type="incorrect"><marker>chien-chaud</marker></example>
@@ -3788,7 +3789,7 @@ though, and has since been slightly modified)-->
     <rulegroup id="FAMILIER_AVEC" name="familier avec">
       <rule>
         <pattern>
-          <token regexp="yes">familier|familiers|familières|familières</token>
+          <token regexp="yes">familier|familiers|familière|familières</token>
           <token>avec</token>
         </pattern>
         <message>« Familier avec » est un anglicisme (familiar with). Employez <suggestion>familier à</suggestion>, <suggestion>habitué à</suggestion>, <suggestion>au courant de</suggestion>, <suggestion>connaître</suggestion>.</message>
@@ -4584,7 +4585,7 @@ though, and has since been slightly modified)-->
     <rule id="CLAUSE_GRAND-PERE" name="clause grand-père">
       <pattern>
         <token regexp="yes">clause|clauses</token>
-        <token regexp="yes">grand-père|grands-pères|grands-pères|grands-père</token>
+        <token regexp="yes">grands?-pères?</token>
       </pattern>
       <message>« Clause grand-père » est un anglicisme (grandfather's clause). Employez <suggestion>clause de droits acquis</suggestion>.</message>
       <example type="incorrect"><marker>clause grand-père</marker></example>
@@ -4944,9 +4945,9 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="A_CHARGES_RENVERSEES" name="à charges renversées">
       <pattern>
-        <token regexp="yes">a|à</token>
+        <token regexp="yes">[aà]</token>
         <token regexp="yes">charge|charges</token>
-        <token regexp="yes">renversées|renversée|renversés|renversée</token>
+        <token regexp="yes">renversée?s?</token>
       </pattern>
       <message>« À charges renversées » est un anglicisme (reverse-charge call). Employez <suggestion>à frais virés</suggestion>.</message>
       <example type="incorrect"><marker>à charges renversées</marker></example>
@@ -4966,7 +4967,7 @@ though, and has since been slightly modified)-->
       <pattern>
         <token>frais</token>
         <token>de</token>
-        <token regexp="yes">condo|condominium|copropriétés|copropriétés|condos|condominiums</token>
+        <token regexp="yes">condo|condos|condominium|condominiums|copropriété|copropriétés</token>
       </pattern>
       <message>« Frais de condo(minium)/copropriété » est un anglicisme (reverse-charge call). Employez <suggestion>charges de copropriété</suggestion>.</message>
       <example type="incorrect"><marker>frais de condo</marker></example>
@@ -5166,7 +5167,7 @@ though, and has since been slightly modified)-->
     <rule id="FICHIER_ATTACHE" name="fichier attaché">
       <pattern>
         <token regexp="yes">fichier|fichiers</token>
-        <token regexp="yes">attaché|attachés|attachées|attachées</token>
+        <token regexp="yes">attachée?s?</token>
       </pattern>
       <message>« Fichier attaché » est un anglicisme. Employez <suggestion>\1 joint</suggestion>.</message>
       <example type="incorrect"><marker>fichier attaché</marker></example>
@@ -5184,7 +5185,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="AMI_DE_GARCON" name="ami de garçon/gars">
       <pattern>
-        <token regexp="yes">ami|amies|amies|amis</token>
+        <token regexp="yes">amie?s?</token>
         <token>de</token>
         <token regexp="yes">garçon|garçons|gars</token>
       </pattern>
@@ -5194,7 +5195,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="AMI_DE_FILLE" name="amie de fille">
       <pattern>
-        <token regexp="yes">ami|amies|amies|amis</token>
+        <token regexp="yes">amie?s?</token>
         <token>de</token>
         <token regexp="yes">fille|filles</token>
       </pattern>
@@ -5349,7 +5350,7 @@ though, and has since been slightly modified)-->
       <pattern>
         <token inflected="yes" skip="6">frapper</token>
         <token>un</token>
-        <token regexp="yes">noeud|noeud|nœud|nœuds</token>
+        <token regexp="yes">noeud|noeuds|nœud|nœuds</token>
       </pattern>
       <message>« Frapper un nœud » est un anglicisme (to hit a snag). Employez <suggestion>tomber sur un nœud</suggestion> (familier), <suggestion>tomber sur un os</suggestion> (familier), <suggestion>il y a un os</suggestion> (familier), <suggestion>se heurter à un obstacle</suggestion>, <suggestion>avoir un problème</suggestion>.</message>
       <example type="incorrect"><marker>frapper un nœud</marker></example>
@@ -5601,7 +5602,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">assistant|assistante|assistantes|assistante</token>
+          <token regexp="yes">assistante?s?</token>
           <token regexp="yes">cuisinier|cuisiniers|cuisinière|cuisinières</token>
         </pattern>
         <message>« Assistant-cuisinier » est un anglicisme. Employez <suggestion>aide-cuisinier</suggestion>.</message>
@@ -5620,7 +5621,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">assistant|assistante|assistantes|assistante</token>
+          <token regexp="yes">assistante?s?</token>
           <token regexp="yes">directeur|directeurs|directrice|directrices</token>
         </pattern>
         <message>« Assistant-directeur » est un anglicisme. Employez <suggestion>directeur adjoint</suggestion>.</message>
@@ -6028,7 +6029,7 @@ though, and has since been slightly modified)-->
     <rule id="REMPLIR_UNE_ORDONNANCE" name="remplir une ordonnance">
       <pattern>
         <token inflected="yes" skip="3">remplir</token>
-        <token regexp="yes">ordonnance|ordonnance</token>
+        <token regexp="yes">ordonnance|ordonnances</token>
       </pattern>
       <message>« Remplir une ordonnance » est un anglicisme (to fill a prescription). Employez <suggestion>exécuter une ordonnance</suggestion>, <suggestion>préparer une ordonnance</suggestion>.</message>
       <example type="incorrect"><marker>remplir une ordonnance</marker></example>
@@ -6481,7 +6482,7 @@ though, and has since been slightly modified)-->
     <rulegroup id="CENTRE-JARDIN" name="centre-jardin">
       <rule>
         <pattern>
-          <token regexp="yes">centre-jardin|centre-jardins|centres-jardin|centre-jardins</token>
+          <token regexp="yes">centres?-jardins?</token>
         </pattern>
         <message>« Centre-jardin » est un anglicisme (garden center). Employez <suggestion>jardinerie [raison sociale]</suggestion>, <suggestion>[raison sociale] jardinerie</suggestion>.</message>
         <example type="incorrect"><marker>centre-jardin</marker></example>
@@ -6611,7 +6612,7 @@ though, and has since been slightly modified)-->
     <rule id="INFORMATION_PRIVILEGIEE" name="information privilégiée">
       <pattern>
         <token regexp="yes">information|informations</token>
-        <token regexp="yes">privilégiée|privilégiées|privilégiée|privilégiés</token>
+        <token regexp="yes">privilégiée?s?</token>
       </pattern>
       <message>« Information privilégiée » est un anglicisme (privileged information). Employez <suggestion>renseignement exclusif</suggestion>, <suggestion>renseignement confidentiel</suggestion>, <suggestion>information confidentielle</suggestion>, <suggestion>renseignement particulier</suggestion>.</message>
       <example type="incorrect"><marker>information privilégiée</marker></example>
@@ -7284,7 +7285,7 @@ though, and has since been slightly modified)-->
     <rule id="PRESENTATION_FORMELLE" name="présentation formelle">
       <pattern>
         <token regexp="yes">présentation|présentations</token>
-        <token regexp="yes">formel|formelle|formelles|formelle</token>
+        <token regexp="yes">formel|formels|formelle|formelles</token>
       </pattern>
       <message>« Présentation formelle » est un anglicisme (formal presentation). Employez <suggestion>exposé didactique</suggestion>.</message>
       <example type="incorrect"><marker>présentation formelle</marker></example>
@@ -7292,7 +7293,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="JOBINE" name="job(b)ine">
       <pattern>
-        <token inflected="yes" regexp="yes">jobine|jobines|jobbine|jobbine</token>
+        <token regexp="yes">jobb?ines?</token>
       </pattern>
       <message>« Job(b)ine » est un anglicisme (job). Employez <suggestion>petit emploi</suggestion>, <suggestion>petit boulot</suggestion>, <suggestion>petit travail</suggestion>.</message>
       <example type="incorrect"><marker>jobine</marker></example>
@@ -7721,7 +7722,7 @@ though, and has since been slightly modified)-->
     <rule id="ANNONCES_CLASSEES" name="annonces classées">
       <pattern>
         <token regexp="yes">annonce|annonces</token>
-        <token regexp="yes">classé|classées|classée|classé</token>
+        <token regexp="yes">classée?s?</token>
       </pattern>
       <message>« Annonce classée » est un anglicisme (classified ads). Employez <suggestion>petites annonces</suggestion>.</message>
       <example type="incorrect"><marker>annonces classées</marker>.</example>
@@ -9874,7 +9875,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token regexp="yes">photos|photo</token>
-          <token regexp="yes">finish|finish|finishes</token>
+          <token regexp="yes">finish|finishs|finishes</token>
         </pattern>
         <message>« Photo-finish » est un anglicisme. Employez <suggestion>photo d'arrivée</suggestion>.</message>
         <example type="incorrect"><marker>photo finish</marker></example>
@@ -10438,7 +10439,7 @@ though, and has since been slightly modified)-->
     <rulegroup id="MINIVAN" name="minivan">
       <rule>
         <pattern>
-          <token regexp="yes">minivan|minivans|mini-van|minivans</token>
+          <token regexp="yes">mini-?vans?</token>
         </pattern>
         <message>« Minivan » est un anglicisme. Employez <suggestion>monospace</suggestion>. Ce mot se prononce à la française.</message>
         <example type="incorrect"><marker>minivan</marker></example>
@@ -10533,7 +10534,7 @@ though, and has since been slightly modified)-->
     <rulegroup id="LAZY-BOY" name="lazy-boy">
       <rule>
         <pattern>
-          <token regexp="yes">lazy-boy|lazy-boys|lazys-boys|lazys-boy|lazy-boys|lazies-boy|lazyboy|lazyboys</token>
+          <token regexp="yes">lazys?-boys?|lazies-boys?|lazyboys?</token>
         </pattern>
         <message>« Lazy-boy » est un anglicisme. Employez <suggestion>fauteuil de repos</suggestion>.</message>
         <example type="incorrect"><marker>lazy-boy</marker></example>
@@ -10985,7 +10986,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">block-heater|blocks-heaters|blocks-heater|block-heaters|blockheater|blockheater</token>
+          <token regexp="yes">blocks?-?heaters?</token>
         </pattern>
         <message>« Block heater » est un anglicisme. Employez <suggestion>chauffe-moteur</suggestion>.</message>
         <example type="incorrect"><marker>block-heater</marker></example>
@@ -11042,7 +11043,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">all-dressed|all-dress|all-dresseds|all-dress</token>
+          <token regexp="yes">all-dressed|all-dress</token>
         </pattern>
         <message>« All dressed » est un anglicisme. Employez <suggestion>garnie</suggestion> (pizza).</message>
         <example type="incorrect"><marker>all-dressed</marker></example>
@@ -11198,7 +11199,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="JUNKIE" name="junk(ie)">
       <pattern>
-        <token regexp="yes">junkie|junky|junkies|junky|junk|junks</token>
+        <token regexp="yes">junkie|junky|junkies|junkys|junk|junks</token>
       </pattern>
       <message>« Junk(ie) » est un anglicisme. Employez <suggestion>toxicomane</suggestion>, <suggestion>drogué</suggestion>.</message>
       <example type="incorrect"><marker>junkie</marker></example>
@@ -11369,7 +11370,7 @@ though, and has since been slightly modified)-->
     <rulegroup id="JUNK_BOND" name="junk bond">
       <rule>
         <pattern>
-          <token regexp="yes">junk-bond|junk-bonds|junkbond|junkbounds|junkbound|junkbounds|junk-bound|junk-bounds</token>
+          <token regexp="yes">junk-?bou?nds?</token>
         </pattern>
         <message>« Junk bond » est un anglicisme. Employez <suggestion>obligation spéculative</suggestion>, <suggestion>obligation pourrie</suggestion>.</message>
         <example type="incorrect"><marker>junk-bond</marker></example>
@@ -11618,7 +11619,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">bad|bad</token>
+          <token regexp="yes">bad</token>
           <token regexp="yes">man|men|mans</token>
         </pattern>
         <message>« Badman » est un anglicisme. Employez <suggestion>bandit</suggestion>, <suggestion>mauvais garçon</suggestion>, <suggestion>méchant</suggestion>.</message>
@@ -11637,7 +11638,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">bad|bad</token>
+          <token regexp="yes">bad</token>
           <token regexp="yes">luck|lucks</token>
         </pattern>
         <message>« Badluck » est un anglicisme. Employez <suggestion>malchance</suggestion>.</message>
@@ -11992,7 +11993,7 @@ though, and has since been slightly modified)-->
     <rulegroup id="FOLLOW-UP" name="follow-up">
       <rule>
         <pattern>
-          <token regexp="yes">follow-up|followup|follow-ups|followup</token>
+          <token regexp="yes">follow-?ups?</token>
         </pattern>
         <message>« Follow-up » est un anglicisme. Employez <suggestion>suivi</suggestion>, <suggestion>suite</suggestion>.</message>
         <example type="incorrect"><marker>follow-up</marker></example>
@@ -12171,7 +12172,7 @@ though, and has since been slightly modified)-->
     <rulegroup id="JELLY_BEAN" name="jelly bean">
       <rule>
         <pattern>
-          <token regexp="yes">jelly-bean|jelly-beans|jellybean|jellybeans|jellybine|jellybeans</token>
+          <token regexp="yes">jelly-?beans?|jellybine?</token>
         </pattern>
         <message>« Jelly bean » est un anglicisme. Employez <suggestion>jujube</suggestion>, <suggestion>dragées à la gelée de sucre</suggestion>.</message>
         <example type="incorrect"><marker>jellybean</marker></example>
@@ -12872,7 +12873,7 @@ though, and has since been slightly modified)-->
     <rulegroup id="ANGLEDOZER" name="angledozer">
       <rule>
         <pattern>
-          <token regexp="yes">angledozer|angledozer|angle-dozer|angle-dozers</token>
+          <token regexp="yes">angle-?dozers?</token>
         </pattern>
         <message>« Angledozer » est un anglicisme. Employez <suggestion>bouteur biais</suggestion>.</message>
         <example type="incorrect"><marker>angledozer</marker></example>
@@ -13330,7 +13331,7 @@ though, and has since been slightly modified)-->
     <rulegroup id="FREELANCE" name="freelance">
       <rule>
         <pattern>
-          <token regexp="yes">free-lance|free-lance|frees-lances|freelance|freelances</token>
+          <token regexp="yes">free-?lances?</token>
         </pattern>
         <message>« Freelance » est un anglicisme. Employez <suggestion>pigiste</suggestion>, <suggestion>indépendant</suggestion>.</message>
         <example type="incorrect"><marker>free-lance</marker></example>
@@ -13613,7 +13614,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="EBOOK" name="ebook">
       <pattern>
-        <token regexp="yes">ebook|e-books|ebook|ebooks</token>
+        <token regexp="yes">e-?books?</token>
       </pattern>
       <message>« Ebook » est un anglicisme. Employez <suggestion>livre électronique</suggestion>, <suggestion>livrel</suggestion>.</message>
       <example type="incorrect">Les <marker>ebooks</marker> sont difficiles à lire.</example>
@@ -13769,7 +13770,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="SEXY" name="sexy">
       <pattern>
-        <token regexp="yes">sexy|sexies|sexy</token>
+        <token regexp="yes">sexy|sexies|sexys</token>
       </pattern>
       <message>« Sexy » est un anglicisme. Employez <suggestion>attrayant</suggestion>, <suggestion>séduisant</suggestion>, <suggestion>aguichant</suggestion>, <suggestion>suggestif</suggestion>, <suggestion>désirable</suggestion>, <suggestion>érotique</suggestion>.</message>
       <example type="incorrect"><marker>sexy</marker></example>
@@ -14046,7 +14047,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="ZIPPER" name="zipper">
       <pattern>
-        <token regexp="yes">zipper|zippeurs|zippeur|zippeurs</token>
+        <token regexp="yes">zippeu?rs?</token>
       </pattern>
       <message>« Zipper » est un anglicisme. Employez <suggestion>fermeture à glissière</suggestion>, <suggestion>glissière</suggestion>.</message>
       <example type="incorrect"><marker>zipper</marker>.</example>
@@ -14181,7 +14182,7 @@ though, and has since been slightly modified)-->
     <rulegroup id="OFFSHORE" name="offshore">
       <rule>
         <pattern>
-          <token regexp="yes">offshore|offshore|off-shore|off-shores</token>
+          <token regexp="yes">off-?shores?</token>
         </pattern>
         <message>« Offshore » est un anglicisme. Employez <suggestion>en mer</suggestion>, <suggestion>au large</suggestion>, <suggestion>en haute mer</suggestion>, <suggestion>hauturier</suggestion>, <suggestion>pélagique</suggestion></message>
         <example type="incorrect"><marker>offshore</marker></example>
@@ -14670,7 +14671,7 @@ though, and has since been slightly modified)-->
     <rulegroup id="CHECKUP" name="checkup">
       <rule>
         <pattern>
-          <token regexp="yes">check-up|checkup|checkups|checkups</token>
+          <token regexp="yes">check-?ups?</token>
         </pattern>
         <message>« Checkup » est un anglicisme. Employez <suggestion>inspection</suggestion>, <suggestion>révision</suggestion>, <suggestion>bilan de santé</suggestion>, <suggestion>examen périodique</suggestion>, <suggestion>examen de contrôle</suggestion>, <suggestion>examen médical complet</suggestion>.</message>
         <example type="incorrect"><marker>checkup</marker></example>
@@ -16045,13 +16046,14 @@ though, and has since been slightly modified)-->
     <rule id="FRENCH_WORD_REPEAT_RULE" name="Doublon («pour pour», «je je», etc.)">
       <pattern>
         <token regexp="yes">\p{L}+<exception postag="SENT_START"></exception></token>
-        <token spacebefore="yes"><exception regexp="yes">vous|nous</exception><match no="0"></match></token>
+        <token spacebefore="yes"><exception regexp="yes">vous|nous|faire</exception><match no="0"></match></token>
       </pattern>
       <message>Faute de frappe possible : un mot est répété: \1 \2. Correction : <suggestion>\1</suggestion>.</message>
       <short>Doublon</short>
       <example correction="Je" type="incorrect"><marker>Je je</marker> suis français.</example>
       <example type="correct">Oui ...</example>
       <example type="correct">Vous vous parlez.</example>
+      <example type="correct">Il est capable de te <marker>faire faire</marker> des choses surprenantes.</example>
     </rule>
   </category>
 </rules>
