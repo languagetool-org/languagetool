@@ -130,7 +130,25 @@ public class PatternRuleTest extends TestCase {
           + "\" that is marked as inflected"
           + " but is empty, so the attribute is redundant.");
     }
+    
+    if (element.isRegularExpression() && element.getString().contains("|")) {
+      final String[] groups = element.getString().split("\\)");         
+      for (final String group : groups) {        
+        final String[] alt = group.split("\\|");
+        final List<String> partList = new ArrayList<String>(alt.length);
+        for (String part : alt) {
+          if (!partList.contains(part)) {
+            partList.add(part);
+          } else {
+            System.err.println("The " + lang.toString() + " rule: "
+                + ruleId + " contains duplicated disjunction part (" 
+                + part + ") within the element " + "\"" + element + "\".");
+          }    
+        }
+      }
+    }
   }
+  
   
   private void testGrammarRulesFromXML(final List<PatternRule> rules,
       final JLanguageTool languageTool, final Language lang) throws IOException {
