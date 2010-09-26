@@ -42,8 +42,8 @@ XML configuration files. Rules for more complicated errors can be  written in Ja
 </div>
 
 <!-- -->
-<p><strong>Try LanguageTool 1.0.0 via Java WebStart:</strong> (requires Java 1.6_04 or later)<br />
-<?=show_link("Start LanguageTool (17&nbsp;MB)", "webstart/web/LanguageTool.jnlp", 0) ?></p>
+<p><strong>Try LanguageTool 1.1 via Java WebStart:</strong> (requires Java 1.6_04 or later)<br />
+<?=show_link("Start LanguageTool (18&nbsp;MB)", "webstart/web/LanguageTool.jnlp", 0) ?></p>
 <!-- -->
 
 
@@ -79,7 +79,7 @@ This means that you can now use LanguageTool for these languages via the
 
 <ul>
 	<li><strong>In OpenOffice.org</strong>:
-	Double click <tt>LanguageTool-1.0.0.oxt</tt> to install it.
+	Double click <tt>LanguageTool-1.1.oxt</tt> to install it.
 	If that doesn't work, call <em>Tools -&gt; Extension Manager -&gt; Add...</em>
 	to install it. Close OpenOffice.org and re-start it. Type some text
 	with an error (e.g. "This is an test." &ndash; make sure the text language is set
