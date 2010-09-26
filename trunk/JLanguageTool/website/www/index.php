@@ -2,7 +2,7 @@
 $page = "homepage";
 $title = "LanguageTool";
 $title2 = "Open Source language checker";
-$lastmod = "2010-09-19 13:10:00 CET";
+$lastmod = "2010-09-26 16:10:00 CET";
 include("../include/header.php");
 ?>
 		
@@ -18,13 +18,16 @@ XML configuration files. Rules for more complicated errors can be  written in Ja
 <h2>Download</h2>
 
 <div class="downloadSection">
+	<h2><?=show_link("Download LanguageTool 1.1 (18&nbsp;MB)", "download/LanguageTool-1.1.oxt", 0) ?></h2>
+	<!--
 	<table>
 	<tr>
-		<td><h2><?=show_link("Download LanguageTool 1.0.0 (17&nbsp;MB)", "download/LanguageTool-1.0.0.oxt", 0) ?></h2></td>
+		<td><h2><?=show_link("Download LanguageTool 1.0.0 (18&nbsp;MB)", "download/LanguageTool-1.1.oxt", 0) ?></h2></td>
 		<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
 		<td><h2><?=show_link("Download LanguageTool 1.1beta (18&nbsp;MB)", "download//LanguageTool-1.1-beta1.oxt", 0) ?></h2></td>
 	</tr>
 	</table>
+	-->
 	<ul>
 		<li>Requires <?=show_link("Java", "http://www.java.com/en/download/manual.jsp", 1)?>&nbsp;5.0
 			or later. This version only works with OpenOffice.org 3.0.1 or later 
@@ -47,6 +50,15 @@ XML configuration files. Rules for more complicated errors can be  written in Ja
 <h2>News</h2>
 
 
+<p><strong>2010-09-26:</strong> Released version 1.1. Changes include:
+<ul>
+	<li>Many rule updates, e.g. for French, Dutch, German, English, Spanish</li>
+	<li>Preliminary support for checking bilingual texts</li>
+	<li>Initial support for Malayalam and Belarusian</li>
+	<li>Several bug fixes</li>
+	<li>For a more detailed list of changes, see the <?=show_link("Changelog", "download/CHANGES.txt", 0) ?>.</li>
+</ul>
+
 <p><strong>2010-09-18:</strong> 
 
 Released version 1.1beta (see above for download) - <?=show_link("Change log", "http://languagetool.cvs.sourceforge.net/viewvc/languagetool/JLanguageTool/CHANGES.txt?revision=1.366&amp;view=markup", 1)?>
@@ -61,15 +73,6 @@ LanguageTool has been integrated into <?=show_link("After the Deadline", "http:/
 a powerful English grammar checker. Thanks to LanguageTool it now also  supports French and German. 
 This means that you can now use LanguageTool for these languages via the
 <?=show_link("After the Deadline Firefox plugin", "http://firefox.afterthedeadline.com/", 0)?>.</p>
-
-<p><strong>2009-11-01:</strong> Released version 1.0.0. Changes include:
-<ul>
-	<li>Support for Danish, Catalan, and Galician</li>
-	<li>Rule and dictionary fixes for Dutch, French, Italian, Polish, Spanish, Swedish, and Russian</li>
-	<li>More rules for Dutch, Polish, Russian, Spanish, Slovenian, and English</li>
-	<li>Several bug fixes</li>
-	<li>For a more detailed list of changes, see the <?=show_link("Changelog", "download/CHANGES.txt", 0) ?>.</li>
-</ul>
 
 
 <h2>Installation and Usage</h2>
