@@ -28,7 +28,9 @@ Internal documentation on how to make a LanguageTool release
     -dist/*.oxt, dist/README.txt and dist/CHANGES.txt to "download"
     -run "ant javadoc" and upload dist/docs/api/* to "development"
 -run "ant jnlp" (note you need keystore.ks with the certificate to do this;
-	for security reasons it is not in the repository)
+	for security reasons it is not in the repository. We need to ignore the
+	"The signer certificate has expired" warning as no free certificates
+	are available anymore, so the webstart user will get a warning)
 -upload to the server:
     -dist/web/ to www/webstart/web/ (resulting from "ant jnlp")
 -[still needed?] run "ant dist-tgz" and upload the file LanguageTool-X.Y.Z-dev-src.tar.gz
