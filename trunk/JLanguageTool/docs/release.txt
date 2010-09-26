@@ -11,12 +11,10 @@ Internal documentation on how to make a LanguageTool release
  (e.g. using @Override is okay, using methods introduced in Java 1.6 is not)
 -update CHANGES files
 -update README file (e.g. list of supported languages)
--make sure there are no local changes left that are not committed
+-make sure there are no other local changes left that are not committed
 -run "ant test"
--run "ant"
--run "ant jnlp" (note you need keystore.ks with the certificate to do this;
-	for security reasons it is not in the repository)
--test command line application, OOo integration, web-start, and stand-alone version
+-run "ant" 
+-test command line application, OOo integration, and stand-alone GUI version
  with at least these test sentences: 
     I've got allot of questions to you. (en)
     Seit 10 Jahre. (de)
@@ -27,21 +25,25 @@ Internal documentation on how to make a LanguageTool release
     Kupiłem wino chciałem też pić wodę. (pl)
     Стоимость работ составила 10 тыс рублей. (ru)
 -upload to the server:
-    -dist/*.oxt to "download"
-    -README.txt and CHANGES.txt to "download"
+    -dist/*.oxt, dist/README.txt and dist/CHANGES.txt to "download"
     -run "ant javadoc" and upload dist/docs/api/* to "development"
+-run "ant jnlp" (note you need keystore.ks with the certificate to do this;
+	for security reasons it is not in the repository)
+-upload to the server:
     -dist/web/ to www/webstart/web/ (resulting from "ant jnlp")
 -[still needed?] run "ant dist-tgz" and upload the file LanguageTool-X.Y.Z-dev-src.tar.gz
  (this is the source without libraries, needed e.g. for Debian packaging. For
  that, also make sure that the directory which contains the *.tar.gz is browsable)
+-commit local version number changes to CVS
+-tag release as V_x_y_z, e.g. V_0_9_2
+ (Eclipse: 'Team -> Tag as Version' on the JLanguageTool project)
+
 -update website
     -index.php (remember to also set $lastmod)
     -languages/index.php (run de.danielnaber.languagetool.dev.RuleOverview,
      remember to also set $lastmod)
     -languagetool.update.xml (active only if it's linked in description.xml)
     -...
--tag release as V_x_y_z, e.g. V_0_9_2
- (Eclipse: 'Team -> Tag as Version' on the JLanguageTool project)
 
 -build.properties, JLanguageTool.VERSION in JLanguageTool.java:
     -set to next version: x.y.z-dev
