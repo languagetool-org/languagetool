@@ -42,8 +42,9 @@ XML configuration files. Rules for more complicated errors can be  written in Ja
 </div>
 
 <!-- -->
-<p><strong>Try LanguageTool 1.1 via Java WebStart:</strong> (requires Java 1.6_04 or later)<br />
-<?=show_link("Start LanguageTool (18&nbsp;MB)", "webstart/web/LanguageTool.jnlp", 0) ?></p>
+<p><strong>Try LanguageTool 1.1 without local installation, using Java WebStart.</strong> Requires Java 1.6_04 or later. You will get a security warning which you
+need to ignore:<br />
+<strong><?=show_link("Start LanguageTool (18&nbsp;MB)", "webstart/web/LanguageTool.jnlp", 0) ?></strong></p>
 <!-- -->
 
 
