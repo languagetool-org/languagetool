@@ -1,18 +1,15 @@
 LanguageTool, a proof-reading tool for English, German, Polish,
-French, Dutch, Russian, Romanian, Italian, Danish, and Catalan with 
-initial support for Galician, Icelandic, Slovak, Spanish, and Swedish
+French, Dutch, Slovenian, Russian, Romanian, Italian, Danish, and Catalan with 
+initial support for Belarusian, Galician, Icelandic, Lithuanian, Malayalam, 
+Slovak, Spanish, Swedish, and Ukrainian
 
-Copyright (C) 2005-2009 Daniel Naber (naber at danielnaber de)
+Copyright (C) 2005-2010 Daniel Naber (naber at danielnaber de)
 Version ###VERSION###, ###DATE###
 Homepage: http://www.languagetool.org
 
 Requirements:
  -Java 1.5 or later (Sun Java or IcedTea; GIJ is not supported)
  -For OpenOffice.org integration, OpenOffice 3.0.1 or later.
-  For older versions of OpenOffice you will need to use 
-  LanguageTool 0.9.2. Note: for OpenOffice 3.0.0, you should use 
-  only LanguageTool 0.9.5 or later (earlier versions can lead to 
-  a crash).
 
 Usage:
  -To integrate LanguageTool into OpenOffice.org, you
@@ -47,6 +44,9 @@ Usage:
   for your language. Note: you can disable the grammar check without
   uninstalling LanguageTool simply by clearing the check box next to
   LanguageTool in the same dialog.
+  
+  Please see http://www.languagetool.org/#commonproblems if you
+  experience problems
   
  -To use the simple demo GUI, first rename the .oxt file
   to zip, then unzip it to a new directory and double click on 
