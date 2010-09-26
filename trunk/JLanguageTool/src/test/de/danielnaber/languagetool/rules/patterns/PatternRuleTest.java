@@ -133,17 +133,29 @@ public class PatternRuleTest extends TestCase {
     
     if (element.isRegularExpression() && element.getString().contains("|")) {
       final String[] groups = element.getString().split("\\)");         
+      final boolean caseSensitive = element.getCaseSensitive();
       for (final String group : groups) {        
         final String[] alt = group.split("\\|");
-        final List<String> partList = new ArrayList<String>(alt.length);
+        final Set<String> partSet = new HashSet<String>();
+        final Set<String> partSetNoCase = new HashSet<String>();
         for (String part : alt) {
-          if (!partList.contains(part)) {
-            partList.add(part);
-          } else {
-            System.err.println("The " + lang.toString() + " rule: "
-                + ruleId + " contains duplicated disjunction part (" 
-                + part + ") within the element " + "\"" + element + "\".");
+          String partNoCase = caseSensitive ? part : part.toLowerCase();
+          if (partSetNoCase.contains(partNoCase)) {
+            if (partSet.contains(part)) {
+              // Duplicate disjunction parts "foo|foo".
+              System.err.println("The " + lang.toString() + " rule : "
+                  + ruleId + " contains duplicated disjunction part (" 
+                  + part + ") within the element " + "\"" + element + "\".");
+            } else {
+              // Duplicate disjunction parts "Foo|foo" since element ignores case.
+              System.err.println("The " + lang.toString() + " rule : "
+                  + ruleId + " contains duplicated non case sensitive disjunction part (" 
+                  + part + ") within the element " + "\"" + element + "\". Did you "
+                  + "forget case_sensitive=\"yes\"?");
+            }
           }    
+          partSetNoCase.add(partNoCase);
+          partSet.add(part);
         }
       }
     }
