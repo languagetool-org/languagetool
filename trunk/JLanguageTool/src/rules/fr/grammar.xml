@@ -5,7 +5,7 @@ title="Easy editing stylesheet" ?>
 <!--
 French Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski, Agnes Souque, Hugo Voisard & Myriam Lechelt.
-$Id: grammar.xml,v 1.36 2010-09-25 19:43:54 dominikoeo Exp $
+$Id: grammar.xml,v 1.37 2010-09-26 12:04:17 dominikoeo Exp $
 -->
 <rules lang="fr" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <phrases>
@@ -740,7 +740,7 @@ though, and has since been slightly modified)-->
         <pattern mark_from="1">
           <token negate="yes" regexp="yes">de|des</token>
           <token postag="(D m .*)|(J m .*)" postag_regexp="yes"><exception postag="V .*" postag_regexp="yes"></exception></token>
-          <token postag="(J f .*)|(N f .*)" postag_regexp="yes"><exception postag="V .*" postag_regexp="yes"></exception></token>
+          <token postag="(J f .*)|(N f .*)" postag_regexp="yes"><exception postag="(V .*)|(N m .*)" postag_regexp="yes"></exception></token>
         </pattern>
         <message>« \2 » et « \3 » ne semblent pas bien accordés en genre</message>
         <example type="correct">Une <marker>jolie femme</marker>.</example>
@@ -748,12 +748,13 @@ though, and has since been slightly modified)-->
         <example type="correct">Le <marker>français concurrence</marker> le latin.</example>
         <example type="correct">Le rock a <marker>donné naissance</marker> à des groupes légendaires.</example>
         <example type="correct">Une répartition des <marker>revenus judicieuse</marker>.</example>
+        <example type="correct">Ses <marker>premiers malaises</marker>.</example>
       </rule>
       <rule name="nom masculin suivi du féminin">
         <pattern mark_from="1" >
           <token negate="yes" regexp="yes">de|du</token>
           <token postag="N m .*" postag_regexp="yes"><exception postag="N f .*" postag_regexp="yes"></exception></token>
-          <token postag="J f .*" postag_regexp="yes"><exception postag="V .*" postag_regexp="yes"></exception></token>
+          <token postag="(J f .*)|(V .* f .*)" postag_regexp="yes"><exception postag_regexp="yes" postag="V .*(inf|ppr|ind|con|sub).*"></exception></token>
         </pattern>
         <message>« \2 » et « \3 » ne semblent pas bien accordés en genre</message>
         <example type="correct">Un <marker>climat tropical</marker>.</example>
@@ -761,6 +762,9 @@ though, and has since been slightly modified)-->
         <example type="correct">Le <marker>papier continue</marker> d'être employé.</example>
         <example type="correct">L'équipe de <marker>football anglaise</marker></example>
         <example type="correct">Les <marker>cours impériales</marker></example>
+        <example type="correct">Les <marker>dossiers triés</marker> par ordre alphabétique.</example>
+        <example type="incorrect">Les <marker>dossiers triées</marker> par ordre alphabétique.</example>
+        <example type="correct">Les <marker>soldats abasourdis</marker> par le chaos.</example>
       </rule>
       <rule name="féminin suivi du masculin">
         <pattern>
@@ -777,7 +781,7 @@ though, and has since been slightly modified)-->
         <pattern mark_from="1">
           <token negate="yes" regexp="yes">de|des</token>
           <token postag="N f .*" postag_regexp="yes"><exception postag="N m .*" postag_regexp="yes"></exception></token>
-          <token postag="J m .*" postag_regexp="yes"><exception postag="V .*" postag_regexp="yes"></exception></token>
+          <token postag="(J m .*)|(V .* m .*)" postag_regexp="yes"><exception postag_regexp="yes" postag="V .*(inf|ppr|ind|con|sub).*"></exception></token>
         </pattern>
         <message>« \2 » et « \3 » ne semblent pas bien accordés en genre</message>
         <example type="correct">Une <marker>forêt tropicale</marker>.</example>
@@ -785,6 +789,8 @@ though, and has since been slightly modified)-->
         <example type="correct">Cette <marker>définition reste</marker> valable.</example>
         <example type="correct">Le système de <marker>retraites français</marker>.</example>
         <example type="correct">Les <marker>cours magistraux</marker></example>
+        <example type="correct">Les <marker>lettres triées</marker> par ordre alphabétique.</example>
+        <example type="incorrect">Les <marker>lettres triés</marker> par ordre alphabétique.</example>
       </rule>
     </rulegroup>
     <rule id="MON_NFS" name="mon/ton/son suivi d'un nom féminin singulier">
@@ -1015,7 +1021,7 @@ though, and has since been slightly modified)-->
       <example type="incorrect">Les gens <marker>qui étalais</marker> là sont partis.</example>
     </rule>
     <rulegroup id="ACC_SN_V" name="Accord verbe avec groupe nominal">
-      <rule name="test accord pp passé dans une relative">
+      <rule name="test accord pp passé dans une relative avec l'auxiliaire avoir">
         <pattern mark_from="3">
           <token negate="yes" regexp="yes">plus|moins</token>
           <token postag="N .* p" postag_regexp="yes"></token>
@@ -1034,7 +1040,7 @@ though, and has since been slightly modified)-->
           <token postag="V avoir ind.*" postag_regexp="yes" skip="2"></token>
           <token postag="V ppa.* p" postag_regexp="yes"><exception postag="V inf" postag_regexp="yes" scope="next"></exception></token>
         </pattern>
-        <message>Si « \2 » est l'antécédent du relatif « \3 », vérifiez l'accord du participe « \5 » en nombre.</message>
+        <message>Si « \1 » est l'antécédent du relatif « \2 », vérifiez l'accord du participe « \4 » en nombre.</message>
         <example type="correct">Le document qu'ils <marker>ont acheté</marker>.</example>
         <example type="incorrect">Le document qu'ils <marker>ont achetés</marker>.</example>
       </rule>
@@ -1045,7 +1051,7 @@ though, and has since been slightly modified)-->
           <token postag="V avoir ind.*" postag_regexp="yes" skip="2"></token>
           <token postag="V ppa m .*" postag_regexp="yes"><exception postag="V inf" postag_regexp="yes" scope="next"></exception></token>
         </pattern>
-        <message>Si « \2 » est l'antécédent du relatif « \3 », vérifiez l'accord du participe « \5 » en genre.</message>
+        <message>Si « \1 » est l'antécédent du relatif « \2 », vérifiez l'accord du participe « \4 » en genre.</message>
         <example type="correct">La femme que j'<marker>ai aidée</marker>.</example>
         <example type="correct">La femme que j'<marker>ai beaucoup aidée</marker>.</example>
         <example type="correct">La femme que j'<marker>ai un peu aidée</marker>.</example>
@@ -1061,7 +1067,7 @@ though, and has since been slightly modified)-->
           <token postag="V avoir ind.*" postag_regexp="yes" skip="2"></token>
           <token postag="V ppa f .*" postag_regexp="yes"><exception postag="V inf" postag_regexp="yes" scope="next"></exception></token>
         </pattern>
-        <message>Si « \2 » est l'antécédent du relatif « \3 », vérifiez l'accord du participe « \5 » en genre.</message>
+        <message>Si « \1 » est l'antécédent du relatif « \2 », vérifiez l'accord du participe « \4 » en genre.</message>
         <example type="correct">L'homme que j'<marker>ai aidé</marker>.</example>
         <example type="correct">L'homme que j'<marker>ai beaucoup aidé</marker>.</example>
         <example type="correct">L'homme que j'<marker>ai un peu aidé</marker>.</example>
@@ -4191,12 +4197,13 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="PRENDRE_UN_COURS" name="prendre un cours">
       <pattern>
-        <token inflected="yes" skip="6">prendre</token>
-        <token>cours</token>
+        <token inflected="yes" skip="4">prendre</token>
+        <token>cours<exception scope="previous">en</exception></token>
       </pattern>
       <message>« Prendre un cours » est un anglicisme (to take a course). Employez <suggestion>suivre un cours</suggestion>, <suggestion>s'inscrire à un cours</suggestion>.</message>
       <example type="incorrect"><marker>prendre un cours</marker></example>
       <example type="correct"><marker>suivre un cours</marker></example>
+      <example type="correct">J'ai <marker>pris des passagers en cours</marker> de route.</example>
     </rule>
     <rule id="ETRE_A_DATE" name="être à date">
       <pattern>
