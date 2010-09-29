@@ -79,7 +79,11 @@ class Main {
     lt = new JLanguageTool(language, motherTongue);
     lt.activateDefaultPatternRules();
     lt.activateDefaultFalseFriendRules();
-    // disable rules that are disabled explicitly:
+    selectRules(lt, disabledRules, enabledRules);
+  }
+  
+  private void selectRules(final JLanguageTool lt, final String[] disabledRules, final String[] enabledRules) {
+ // disable rules that are disabled explicitly:
     for (final String disabledRule : disabledRules) {
       lt.disableRule(disabledRule);
     }
@@ -107,13 +111,37 @@ class Main {
     profileRules = true;
   }
 
-  private final void setBitextMode(final Language sourceLang) throws IOException, ParserConfigurationException, SAXException {
+  private final void setBitextMode(final Language sourceLang, 
+      final String[] disabledRules, final String[] enabledRules) throws IOException, ParserConfigurationException, SAXException {
     bitextMode = true;
     Language target = lt.getLanguage();
     lt = new JLanguageTool(target, null);    
     srcLt = new JLanguageTool(sourceLang);
     lt.activateDefaultPatternRules();
+    selectRules(lt, disabledRules, enabledRules);
+    selectRules(srcLt, disabledRules, enabledRules);
     bRules = Tools.getBitextRules(sourceLang, lt.getLanguage());
+
+    List<BitextRule> bRuleList = new ArrayList<BitextRule>(bRules);    
+    for (final BitextRule br : bRules) {
+      for (final String disabledRule : disabledRules) {
+        if (br.getId().equals(disabledRule)) {        
+          bRuleList.remove(br);
+        }
+      }
+    }
+    bRules = bRuleList;
+    if (enabledRules.length > 0) {
+      bRuleList = new ArrayList<BitextRule>();
+      for (final String enabledRule : enabledRules) {
+        for (final BitextRule br : bRules) {
+          if (br.getId().equals(enabledRule)) {
+            bRuleList.add(br);
+          }
+        }
+      }
+      bRules = bRuleList;
+    }
   }
 
   JLanguageTool getJLanguageTool() {
@@ -501,7 +529,7 @@ class Main {
         throw new IllegalArgumentException(
         "You have to set the source language (as mother tongue).");
       }
-      prg.setBitextMode(motherTongue);
+      prg.setBitextMode(motherTongue, disabledRules, enabledRules);
     }
     if (recursive) {
       prg.runRecursive(filename, encoding, listUnknown);

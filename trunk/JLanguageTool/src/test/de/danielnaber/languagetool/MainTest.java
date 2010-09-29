@@ -330,6 +330,60 @@ public class MainTest extends AbstractSecurityTestCase {
     }
   }
   
+  public void testBitextModeWithDisabledRule()  throws URISyntaxException, IOException, ParserConfigurationException, SAXException {
+    try {
+      // Create a simple plain text file.
+      File input = File.createTempFile("input", "txt");  
+      input.deleteOnExit();
+
+      // Populate the file with data.
+      PrintWriter w = new PrintWriter(new OutputStreamWriter(new FileOutputStream(input), "UTF-8"));
+      w.println("this is not actual.\tTo nie jest aktualne.");
+      w.println("test\tTest");
+      w.println("ab\tVery strange data indeed, much longer than input");
+      w.close();  
+
+      String[] args = new String[] {"-l", "pl", "--bitext", "-m", "en", "-d", "UPPERCASE_SENTENCE_START,TRANSLATION_LENGTH", input.getAbsolutePath()};
+      Main.main(args);
+      String output = new String(this.out.toByteArray());
+      assertTrue(output.indexOf("Expected text language: Polish") == 0);
+      assertTrue(output.indexOf(
+          "Message: Hint: \"aktualny\" (Polish) means \"current\", \"(the) latest\", \"up-to-date\" (English). Did you mean 'rzeczywisty'?") != -1);
+      assertTrue(output.indexOf("Line 1, column 32, Rule ID: ACTUAL") != -1);
+      assertTrue(output.indexOf("Rule ID: TRANSLATION_LENGTH") == -1);
+    }
+    catch (ExitException e) {             
+      assertEquals("Exit status", 1, e.status);
+    }
+  }
+  
+  public void testBitextModeWithEnabledRule()  throws URISyntaxException, IOException, ParserConfigurationException, SAXException {
+    try {
+      // Create a simple plain text file.
+      File input = File.createTempFile("input", "txt");  
+      input.deleteOnExit();
+
+      // Populate the file with data.
+      PrintWriter w = new PrintWriter(new OutputStreamWriter(new FileOutputStream(input), "UTF-8"));
+      w.println("this is not actual.\tTo nie jest aktualne.");
+      w.println("test\tTest");
+      w.println("ab\tVery strange data indeed, much longer than input");
+      w.close();  
+
+      String[] args = new String[] {"-l", "pl", "--bitext", "-m", "en", "-e", "TRANSLATION_LENGTH", input.getAbsolutePath()};
+      Main.main(args);
+      String output = new String(this.out.toByteArray());
+      assertTrue(output.indexOf("Expected text language: Polish") == 0);
+      assertTrue(output.indexOf(
+          "Message: Hint: \"aktualny\" (Polish) means \"current\", \"(the) latest\", \"up-to-date\" (English). Did you mean 'rzeczywisty'?") == -1);
+      assertTrue(output.indexOf("Line 1, column 32, Rule ID: ACTUAL") == -1);
+      assertTrue(output.indexOf("Rule ID: TRANSLATION_LENGTH") != -1);
+    }
+    catch (ExitException e) {             
+      assertEquals("Exit status", 1, e.status);
+    }
+  }
+  
   public void testListUnknown()  throws URISyntaxException, IOException, ParserConfigurationException, SAXException {
     try {
       final URL url = this.getClass().getResource(ENGLISH_TEST_FILE);
