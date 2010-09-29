@@ -148,7 +148,7 @@ class PatternRuleHandler extends XMLRuleHandler {
         uTypeList.add(uType);
     } else if (qName.equals(TOKEN)) {
       setToken(attrs);
-    } else if (qName.equals(EXCEPTION)) {
+    } else if (EXCEPTION.equals(qName)) {
       setExceptions(attrs);
     } else if (qName.equals(EXAMPLE)
         && attrs.getValue(TYPE).equals("correct")) {
