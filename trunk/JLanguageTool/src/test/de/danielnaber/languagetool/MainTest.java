@@ -288,6 +288,32 @@ public class MainTest extends AbstractSecurityTestCase {
     }
   }
   
+  public void testPolishFileAPI() throws URISyntaxException, IOException, ParserConfigurationException, SAXException {
+    try {
+      // Create a simple plain text file.
+      File input = File.createTempFile("input", "txt");  
+      input.deleteOnExit();
+
+      // Populate the file with data.
+      PrintWriter w = new PrintWriter(new OutputStreamWriter(new FileOutputStream(input), "UTF-8"));
+      w.println("To jest świnia która się ślini.");      
+      w.close();  
+      
+      String[] args = new String[] {"-l", "pl", "--api", input.getAbsolutePath()};
+
+      Main.main(args);
+      String output = new String(this.out.toByteArray());
+      assertTrue(output.indexOf("<?xml version=\"1.0\" encoding=\"UTF-8\"?>") == 0);
+      assertTrue(output.indexOf("<error fromy=\"0\" fromx=\"8\" toy=\"0\" tox=\"21\" ruleId=\"BRAK_PRZECINKA_KTORY\" subId=\"5\"") != -1);
+      //This tests whether XML encoding is actually UTF-8: 
+      assertTrue(output.indexOf("msg=\"Brak przecinka w tym fragmencie zdania. Przecinek prawdopodobnie należy postawić tak: 'świnia, która'.\" replacements=\"świnia, która\" ")  != -1);
+      assertTrue(output.indexOf("context=\"To jest świnia która się ślini. \" contextoffset=\"8\" errorlength=\"12\"/>") != -1);  
+    }
+    catch (ExitException e) {                
+      assertEquals("Exit status", 1, e.status);
+    }
+  }
+  
   public void testEnglishTagger()  throws URISyntaxException, IOException, ParserConfigurationException, SAXException {
     try {
       final URL url = this.getClass().getResource(ENGLISH_TEST_FILE);

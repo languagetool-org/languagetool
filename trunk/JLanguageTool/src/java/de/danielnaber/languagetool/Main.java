@@ -163,7 +163,7 @@ class Main {
         //TODO: add parameter to set different readers        
         TabBitextReader reader = new TabBitextReader(filename, encoding);        
         Tools.checkBitext(reader, srcLt, lt, bRules,
-            apiFormat, StringTools.XmlPrintMode.NORMAL_XML);        
+            apiFormat);        
       } else {
         final String text = getFilteredText(filename, encoding);
         if (applySuggestions) {

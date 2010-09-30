@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.reflect.Constructor;
@@ -130,7 +131,8 @@ public final class Tools {
     if (apiFormat) {
       final String xml = StringTools.ruleMatchesToXML(ruleMatches, contents,
           contextSize, xmlMode);
-      System.out.print(xml);
+      PrintStream out = new PrintStream(System.out, true, "UTF-8");
+      out.print(xml);
     } else {
       printMatches(ruleMatches, prevMatches, contents, contextSize);
     }
@@ -234,7 +236,8 @@ public final class Tools {
     if (apiFormat) {
       final String xml = StringTools.ruleMatchesToXML(ruleMatches, trg,
           contextSize, xmlMode);
-      System.out.print(xml);
+      PrintStream out = new PrintStream(System.out, true, "UTF-8");
+      out.print(xml);
     } else {
       printMatches(ruleMatches, 0, trg, contextSize);
     }
@@ -263,40 +266,48 @@ public final class Tools {
    * @since 1.0.1
    */
   public static int checkBitext(final BitextReader reader,
-		  final JLanguageTool srcLt, final JLanguageTool trgLt,
-		  final List<BitextRule> bRules,
-		  final boolean apiFormat, final XmlPrintMode xmlMode) throws IOException {
-	  final long startTime = System.currentTimeMillis();
-	  final int contextSize = DEFAULT_CONTEXT_SIZE;
-	  final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
-	  for (StringPair srcAndTrg : reader) {
-		  final List<RuleMatch> curMatches = checkBitext(
-				  srcAndTrg.getSource(), srcAndTrg.getTarget(), 
-				  srcLt, trgLt, bRules);
-		  final List<RuleMatch> fixedMatches = new ArrayList<RuleMatch>();
-		  for (RuleMatch thisMatch : curMatches) {
-			  fixedMatches.add(  
-					  trgLt.adjustRuleMatchPos(thisMatch, 
-							  reader.getSentencePosition(), 
-							  reader.getColumnCount(), 
-							  reader.getLineCount(), 
-							  reader.getCurrentLine()));
-		  }
-		  ruleMatches.addAll(fixedMatches);
-		  if (apiFormat) {
-			  final String xml = StringTools.ruleMatchesToXML(fixedMatches, 
-					  reader.getCurrentLine(),
-					  contextSize, xmlMode);
-			  System.out.print(xml);
-		  } else {
-			  printMatches(fixedMatches, 0, reader.getCurrentLine(), contextSize);
-		  }
-	  }       
-	  //display stats if it's not in a buffered mode
-	  if (xmlMode == StringTools.XmlPrintMode.NORMAL_XML) {
-		  displayTimeStats(startTime, srcLt.getSentenceCount(), apiFormat);
-	  }
-	  return ruleMatches.size();
+      final JLanguageTool srcLt, final JLanguageTool trgLt,
+      final List<BitextRule> bRules,
+      final boolean apiFormat) throws IOException {
+    final long startTime = System.currentTimeMillis();
+    final int contextSize = DEFAULT_CONTEXT_SIZE;
+    XmlPrintMode xmlMode = StringTools.XmlPrintMode.START_XML;
+    final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
+    for (StringPair srcAndTrg : reader) {
+      final List<RuleMatch> curMatches = checkBitext(
+          srcAndTrg.getSource(), srcAndTrg.getTarget(), 
+          srcLt, trgLt, bRules);
+      final List<RuleMatch> fixedMatches = new ArrayList<RuleMatch>();
+      for (RuleMatch thisMatch : curMatches) {
+        fixedMatches.add(  
+            trgLt.adjustRuleMatchPos(thisMatch, 
+                reader.getSentencePosition(), 
+                reader.getColumnCount(), 
+                reader.getLineCount(), 
+                reader.getCurrentLine()));
+      }
+      ruleMatches.addAll(fixedMatches);
+      if (fixedMatches.size() > 0) {
+        if (apiFormat) {
+          final String xml = StringTools.ruleMatchesToXML(fixedMatches, 
+              reader.getCurrentLine(),
+              contextSize, xmlMode);
+          if (xmlMode == StringTools.XmlPrintMode.START_XML) {
+            xmlMode = StringTools.XmlPrintMode.CONTINUE_XML;
+          }
+          PrintStream out = new PrintStream(System.out, true, "UTF-8");
+          out.print(xml);          
+        } else {
+          printMatches(fixedMatches, 0, reader.getCurrentLine(), contextSize);
+        }
+      }
+    }       
+    displayTimeStats(startTime, srcLt.getSentenceCount(), apiFormat);
+    if (apiFormat) {
+      PrintStream out = new PrintStream(System.out, true, "UTF-8");
+      out.print("</matches>");
+    }
+    return ruleMatches.size();
   }
   
   /**
