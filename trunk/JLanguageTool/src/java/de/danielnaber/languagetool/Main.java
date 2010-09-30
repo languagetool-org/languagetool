@@ -231,6 +231,7 @@ class Main {
           while ((line = br.readLine()) != null) {
             sb.append(line);
             sb.append("\n");
+            tmpLineOffset++;
             if (lt.getLanguage().getSentenceTokenizer()
                 .singleLineBreaksMarksPara()) {
               matches = handleLine(matches, lineOffset, sb);
@@ -245,6 +246,7 @@ class Main {
                   }
               }
               sb = new StringBuilder();
+              lineOffset = tmpLineOffset;
             } else {
               if ("".equals(line) || sb.length() >= MAX_FILE_SIZE) {
                 matches = handleLine(matches, lineOffset, sb);
@@ -259,10 +261,9 @@ class Main {
                     }
                 }
                 sb = new StringBuilder();
-              }
-              lineOffset = tmpLineOffset;
-            }
-            tmpLineOffset++;
+                lineOffset = tmpLineOffset;
+              }              
+            }            
           }
         } finally {
 

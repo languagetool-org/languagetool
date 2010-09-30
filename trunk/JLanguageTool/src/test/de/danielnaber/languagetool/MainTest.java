@@ -314,6 +314,36 @@ public class MainTest extends AbstractSecurityTestCase {
     }
   }
   
+  public void testPolishLineNumbers() throws URISyntaxException, IOException, ParserConfigurationException, SAXException {
+    try {
+      // Create a simple plain text file.
+      File input = File.createTempFile("input", "txt");  
+      input.deleteOnExit();
+
+      // Populate the file with data.
+      PrintWriter w = new PrintWriter(new OutputStreamWriter(new FileOutputStream(input), "UTF-8"));
+      w.println("Test.");
+      w.println("Test.");
+      w.println("Test.");
+      w.println("Test.");
+      w.println("Test.");
+      w.println("Test.");
+      w.println("");
+      w.println("Test który wykaże błąd.");
+      w.close();  
+      
+      String[] args = new String[] {"-l", "pl", input.getAbsolutePath()};
+
+      Main.main(args);
+      String output = new String(this.out.toByteArray());
+      assertTrue(output.indexOf("Expected text language: Polish") == 0);
+      assertTrue(output.indexOf("Line 8, column 1, Rule ID: BRAK_PRZECINKA_KTORY") != -1);
+    }
+    catch (ExitException e) {                
+      assertEquals("Exit status", 1, e.status);
+    }
+  }
+  
   public void testEnglishTagger()  throws URISyntaxException, IOException, ParserConfigurationException, SAXException {
     try {
       final URL url = this.getClass().getResource(ENGLISH_TEST_FILE);
