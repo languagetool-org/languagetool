@@ -17,7 +17,9 @@
 		<pathelement location="${ext.jdic.lib}" />
 		<pathelement location="${ext.jaminid.lib}" />
 		<pathelement location="${ext.jwordsplitter.lib}" />
-		<pathelement location="${ext.logging.lib}" />		
+        <pathelement location="${ext.logging.lib}" />
+        <pathelement location="${ext.commons.lang.lib}" />
+        <pathelement location="${ext.bliki.lib}" />
 		<pathelement location="${ext.segment.lib}" />
 		<!-- -->
 		<pathelement location="${ext.ooo.juh.lib}" />
@@ -245,6 +247,9 @@
 		<javac encoding="${encoding}" srcdir="${src.java.dir}" includes="de/danielnaber/**/*.java" excludes="de/danielnaber/languagetool/dev/*.java,de/danielnaber/languagetool/openoffice/*.java" destdir="${build.classes}" target="${target}" debug="${debug}">
 			<classpath refid="classpath" />
 		</javac>
+        <javac encoding="${encoding}" srcdir="${src.java.dev.dir}" includes="de/danielnaber/languagetool/dev/wikipedia/*.java" destdir="${build.classes}" target="${target}" debug="${debug}">
+            <classpath refid="classpath" />
+        </javac>
 		<javac encoding="${encoding}" srcdir="${src.test.dir}" includes="de/danielnaber/languagetool/rules/patterns/PatternRuleTest.java
 		de/danielnaber/languagetool/tagging/disambiguation/rules/DisambiguationRuleTest.java
   		de/danielnaber/languagetool/ValidateXMLTest.java
@@ -403,6 +408,8 @@
 <copy file="${ext.jwordsplitter.lib}" todir="${dist.dir}" />
 <copy file="${ext.segment.lib}" todir="${dist.dir}" />
 <copy file="${ext.logging.lib}" todir="${dist.dir}" />
+<copy file="${ext.commons.lang.lib}" todir="${dist.dir}" />
+<copy file="${ext.bliki.lib}" todir="${dist.dir}" />
 <copy file="${ext.junit.lib}" todir="${dist.dir}" />
 <!-- JAXB jars for Java 1.5 -->	
 <copy file="${ext.jaxb-api.lib}" todir="${dist.dir}" />
@@ -427,6 +434,8 @@
 
 <copy file="${src.scripts.dir}/testrules.sh" todir="${dist.dir}" />
 <copy file="${src.scripts.dir}/testrules.bat" todir="${dist.dir}" />
+<copy file="${src.scripts.dir}/testwikipedia.sh" todir="${dist.dir}" />
+<copy file="${src.scripts.dir}/testwikipedia.bat" todir="${dist.dir}" />
 
 <copy file="${resource.dir}/api-output.dtd" todir="${dist.dir}/resource" />
 <copy file="${resource.dir}/disambiguation.xsd" todir="${dist.dir}/resource" />
