@@ -273,11 +273,13 @@ public final class Tools {
     final int contextSize = DEFAULT_CONTEXT_SIZE;
     XmlPrintMode xmlMode = StringTools.XmlPrintMode.START_XML;
     final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
+    int matchCount = 0;
+    int sentCount = 0;
     for (StringPair srcAndTrg : reader) {
       final List<RuleMatch> curMatches = checkBitext(
           srcAndTrg.getSource(), srcAndTrg.getTarget(), 
           srcLt, trgLt, bRules);
-      final List<RuleMatch> fixedMatches = new ArrayList<RuleMatch>();
+      final List<RuleMatch> fixedMatches = new ArrayList<RuleMatch>();      
       for (RuleMatch thisMatch : curMatches) {
         fixedMatches.add(  
             trgLt.adjustRuleMatchPos(thisMatch, 
@@ -298,11 +300,13 @@ public final class Tools {
           PrintStream out = new PrintStream(System.out, true, "UTF-8");
           out.print(xml);          
         } else {
-          printMatches(fixedMatches, 0, reader.getCurrentLine(), contextSize);
+          printMatches(fixedMatches, matchCount, reader.getCurrentLine(), contextSize);
+          matchCount += fixedMatches.size();
         }
       }
+    sentCount++;
     }       
-    displayTimeStats(startTime, srcLt.getSentenceCount(), apiFormat);
+    displayTimeStats(startTime, sentCount, apiFormat);
     if (apiFormat) {
       PrintStream out = new PrintStream(System.out, true, "UTF-8");
       out.print("</matches>");
