@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -19,18 +19,18 @@
 package de.danielnaber.languagetool.tokenizers;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.StringTokenizer;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import de.danielnaber.languagetool.tokenizers.de.GermanSentenceTokenizer;
 
 /**
  * Tokenizes text into sentences by looking for typical end-of-sentence markers,
  * but considering exceptions (e.g. abbreviations).
- * 
+ *
  * @author Daniel Naber
  */
 public class SentenceTokenizer implements Tokenizer {
@@ -68,22 +68,22 @@ public class SentenceTokenizer implements Tokenizer {
   private static final Pattern repair1 = Pattern.compile("('[\\wüöäÜÖÄß]" + P + ")(\\s)");
   private static final Pattern repair2 = Pattern.compile("(\\sno\\.)(\\s+)(?!\\d)");
   private static final Pattern repair3 = Pattern.compile("([ap]\\.m\\.\\s+)([\\p{Lu}])");
-  
+
   private static final Pattern repair10 = Pattern.compile("([\\(\\[])([!?]+)([\\]\\)]) " + EOS);
   private static final Pattern repair11 = Pattern.compile("([!?]+)([\\)\\]]) " + EOS);
   private static final Pattern repair12 = Pattern.compile("(" + PARENS + ") " + EOS);
-  
+
   // some abbreviations:
   private static final String[] ABBREV_LIST = {
       // English -- but these work globally for all languages:
-      "Mr", "Mrs", "No", "pp", "St", "no", 
+      "Mr", "Mrs", "No", "pp", "St", "no",
       "Sr", "Jr", "Bros", "etc", "vs", "esp", "Fig", "fig", "Jan", "Feb", "Mar", "Apr", "Jun", "Jul",
       "Aug", "Sep", "Sept", "Oct", "Okt", "Nov", "Dec", "Ph.D", "PhD",
       "al",  // in "et al."
       "cf", "Inc", "Ms", "Gen", "Sen", "Prof", "Corp", "Co"
   };
 
-  private Set<String> abbreviations = new HashSet<String>();  
+  private Set<Pattern> abbreviationPatterns = new HashSet<Pattern>();
 
   /**
    * Month names like "Dezember" that should not be considered a sentence
@@ -92,15 +92,12 @@ public class SentenceTokenizer implements Tokenizer {
    * by a number and a dot.
    */
   protected String[] monthNames;
-  
+
   /**
    * Create a sentence tokenizer that uses the built-in abbreviations.
    */
   public SentenceTokenizer() {
-    for (String element : ABBREV_LIST) {
-      abbreviations.add(element);
-    }
-    setSingleLineBreaksMarksParagraph(false);
+    this(new String[]{});
   }
 
   /**
@@ -108,10 +105,14 @@ public class SentenceTokenizer implements Tokenizer {
    * additionally to the built-in ones.
    */
   public SentenceTokenizer(final String[] abbrevList) {
-    this();
-    for (String element : abbrevList) {
-      abbreviations.add(element);
+    final List<String> allAbbreviations = new ArrayList<String>();
+    allAbbreviations.addAll(Arrays.asList(abbrevList));
+    allAbbreviations.addAll(Arrays.asList(ABBREV_LIST));
+    for (String element : allAbbreviations) {
+      final Pattern pattern = Pattern.compile("(\\b" + element + PAP + "\\s)" + EOS);
+      abbreviationPatterns.add(pattern);
     }
+    setSingleLineBreaksMarksParagraph(false);
   }
 
   /**
@@ -125,7 +126,7 @@ public class SentenceTokenizer implements Tokenizer {
       paragraph = paragraphByTwoLineBreaks;
     }
   }
-  
+
   public boolean singleLineBreaksMarksPara() {
     return paragraph == paragraphByLineBreak;
   }
@@ -137,7 +138,7 @@ public class SentenceTokenizer implements Tokenizer {
     s = firstSentenceSplitting(s);
     s = removeFalseEndOfSentence(s);
     s = splitUnsplitStuff(s);
-    final StringTokenizer stringTokenizer = 
+    final StringTokenizer stringTokenizer =
       new StringTokenizer(s, EOS);
     final List<String> l = new ArrayList<String>();
     while (stringTokenizer.hasMoreTokens()) {
@@ -170,7 +171,7 @@ public class SentenceTokenizer implements Tokenizer {
   protected String removeFalseEndOfSentence(String s) {
     // Don't split at e.g. "U. S. A.":
     s = abbrev1.matcher(s).replaceAll("$1");
-    // Don't split at e.g. "U.S.A.":    
+    // Don't split at e.g. "U.S.A.":
     s = abbrev2.matcher(s).replaceAll("$1");
     // Don't split after a white-space followed by a single letter followed
     // by a dot followed by another whitespace.
@@ -182,10 +183,9 @@ public class SentenceTokenizer implements Tokenizer {
     s = abbrev5.matcher(s).replaceAll("$1");
 
     // Don't split at abbreviations:
-    for (final String abbrev : abbreviations) {
-      final Pattern pattern = 
-        Pattern.compile("(\\b" + abbrev + PAP + "\\s)" + EOS);
-      s = pattern.matcher(s).replaceAll("$1");
+    for (final Pattern abbrevPattern : abbreviationPatterns) {
+      final Matcher matcher = abbrevPattern.matcher(s);
+      s = matcher.replaceAll("$1");
     }
     // Don't break after quote unless there's a capital letter:
     // e.g.: "That's right!" he said.
@@ -241,7 +241,7 @@ public class SentenceTokenizer implements Tokenizer {
     s = repair3.matcher(s).replaceAll("$1" + EOS + "$2");
     return s;
   }
-  
+
   /*public static void main(final String[] args) {
     final SentenceTokenizer st = new GermanSentenceTokenizer();
     st.tokenize("Er sagte (...) und");
