@@ -20,6 +20,7 @@
 package de.danielnaber.languagetool.rules.bitext;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
@@ -38,30 +39,31 @@ import junit.framework.TestCase;
 public class BitextPatternRuleTest extends TestCase {
 
   public void testBitextRulesFromXML() throws IOException {
-    testBitextRulesFromXML(null, false);
+    testBitextRulesFromXML(null, true);
   }
   
   private void testBitextRulesFromXML(final Set<Language> ignoredLanguages,
       final boolean verbose) throws IOException {
-    /* for (final Language lang : Language.LANGUAGES) {
+     for (final Language lang : Language.LANGUAGES) {
       if (ignoredLanguages != null && ignoredLanguages.contains(lang)) {
         if (verbose) {
           System.out.println("Ignoring tests for " + lang.getName());
         }
         continue;
-      }      
-      if (verbose) {
-        System.out.println("Running tests for " + lang.getName() + "...");
-      }
-      */
-      final BitextPatternRuleLoader ruleLoader = new BitextPatternRuleLoader();      
-      final JLanguageTool languageTool = new JLanguageTool(Language.POLISH);
-      final String name = "/" + Language.POLISH.getShortName() + "/bitext.xml";
-      final List<BitextPatternRule> rules = ruleLoader.getRules(JLanguageTool.getDataBroker().
-          getFromRulesDirAsStream(name), name);   
-      testBitextRulesFromXML(rules, languageTool, Language.POLISH);
+      }                  
+      final BitextPatternRuleLoader ruleLoader = new BitextPatternRuleLoader();
+      final String name = "/" + lang.getShortName() + "/bitext.xml";
+      final InputStream is = JLanguageTool.getDataBroker().getFromRulesDirAsStream(name);
+      if (is != null) {
+        if (verbose) {
+          System.out.println("Running tests for " + lang.getName() + "...");
+        }
+        final JLanguageTool languageTool = new JLanguageTool(lang);
+        final List<BitextPatternRule> rules = ruleLoader.getRules(is, name);
+        testBitextRulesFromXML(rules, languageTool, Language.POLISH);
+      }                           
     }
-  //}
+  }
   
   private void testBitextRulesFromXML(final List<BitextPatternRule> rules,
       final JLanguageTool languageTool, final Language lang) throws IOException {    
@@ -270,4 +272,17 @@ public class BitextPatternRuleTest extends TestCase {
     return matches;
   }
 
+  /**
+   * Test XML patterns, as a help for people developing rules that are not
+   * programmers.
+   */
+  public static void main(final String[] args) throws IOException {
+    final BitextPatternRuleTest prt = new BitextPatternRuleTest();
+    System.out.println("Running XML bitext pattern tests...");   
+    prt.testBitextRulesFromXML();        
+    System.out.println("Tests successful.");
+  }
+
+  
+  
 }
