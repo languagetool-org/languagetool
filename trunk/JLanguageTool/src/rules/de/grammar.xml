@@ -7,11 +7,24 @@ title="Easy editing stylesheet" ?>
 German grammar and typo rules for LanguageTool
 See resource/de/tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2010 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.40 2010-09-24 21:01:43 dnaber Exp $
+$Id: grammar.xml,v 1.41 2010-10-01 22:14:31 dnaber Exp $
 -->
 <rules lang="de" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../rules.xsd">
   <category name="Mögliche Tippfehler">
+    <rule id="DIE_DE" name="Tippfehler: 'de (die)'">
+      <pattern mark_to="-1">
+        <token>de</token>
+        <token postag="SUB:.*" postag_regexp="yes"/>
+      </pattern>
+      <message>Meinten Sie <suggestion>die</suggestion>?</message>
+      <example type="correct"><marker>Die</marker> Programmierung mit Plain Old Java Objects soll einfacher werden.</example>
+      <example type="correct">Und <marker>die</marker> Programmierung mit Plain Old Java Objects soll einfacher werden.</example>
+      <example type="correct"><marker>De</marker> Beukelaer macht in Keksen.</example>
+      <example type="correct">Und <marker>de</marker> Beukelaer macht in Keksen.</example>
+      <example type="incorrect"><marker>De</marker> Programmierung mit Plain Old Java Objects soll einfacher werden.</example>
+      <example type="incorrect">Und <marker>de</marker> Programmierung mit Plain Old Java Objects soll einfacher werden.</example>
+    </rule>
     <rule id="BIS_BISS" name="Tippfehler: 'biss (bis)'">
       <pattern mark_from="1">
         <token inflected="yes" regexp="yes">bleiben|sein</token>
