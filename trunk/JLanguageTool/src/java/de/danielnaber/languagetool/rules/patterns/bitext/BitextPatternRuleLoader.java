@@ -140,11 +140,11 @@ class PatternRuleHandler extends BitextXMLRuleHandler {
       if (suggestionMatches != null) {
         suggestionMatches.clear();
       }
-    } else if (qName.equals(PATTERN)) {
+    } else if (PATTERN.equals(qName) || "target".equals(qName)) {
       startPattern(attrs);     
-    } else if (qName.equals(AND)) {
+    } else if (AND.equals(qName)) {
       inAndGroup = true;
-    } else if (qName.equals(UNIFY)) {
+    } else if (UNIFY.equals(qName)) {
       inUnification = true;           
       uniNegation = YES.equals(attrs.getValue(NEGATE));
     } else if (qName.equals("feature")) {
@@ -160,7 +160,7 @@ class PatternRuleHandler extends BitextXMLRuleHandler {
         && attrs.getValue(TYPE).equals("correct")) {
       inCorrectExample = true;
       correctExample = new StringBuilder();
-    } else if (qName.equals(EXAMPLE)
+    } else if (EXAMPLE.equals(qName)
         && attrs.getValue(TYPE).equals("incorrect")) {
       inIncorrectExample = true;
       incorrectExample = new StringBuilder();
@@ -168,7 +168,7 @@ class PatternRuleHandler extends BitextXMLRuleHandler {
       if (attrs.getValue("correction") != null) {
         exampleCorrection.append(attrs.getValue("correction"));
       }
-    } else if (qName.equals("message")) {
+    } else if (MESSAGE.equals(qName)) {
       inMessage = true;
       message = new StringBuilder();
     } else if (qName.equals("short")) {
@@ -215,10 +215,10 @@ class PatternRuleHandler extends BitextXMLRuleHandler {
     if (qName.equals("source")) {
       checkMarkPositions();
       srcRule = finalizeRule();      
-    } else if (qName.equals("target")) {
+    } else if ("target".equals(qName)) {
       checkMarkPositions();
       trgRule = finalizeRule();
-    }  else if (qName.equals("rule")) {
+    }  else if ("rule".equals(qName)) {
       trgRule.setMessage(message.toString());
       if (suggestionMatches != null) {
         for (final Match m : suggestionMatches) {
