@@ -143,6 +143,7 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
     final int patternSize = patternElements.size();
     final int limit = Math.max(0, tokens.length - patternSize + 1);
     Element elem = null;
+    boolean changed = false;
     for (int i = 0; i < limit && !(sentStart && i > 0); i++) {
       boolean allElementsMatch = false;
       unifiedTokens = null;
@@ -185,9 +186,13 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
       if (allElementsMatch && matchingTokens == patternSize) {
         whTokens = executeAction(text, whTokens, unifiedTokens,
             firstMatchToken, matchingTokens, tokenPositions);
+        changed = true;
       }
     }
-    return new AnalyzedSentence(whTokens, text.getWhPositions());
+    if (changed) {
+      return new AnalyzedSentence(whTokens, text.getWhPositions());
+    }
+    return text;
   }
 
   private AnalyzedTokenReadings[] executeAction(final AnalyzedSentence text,
