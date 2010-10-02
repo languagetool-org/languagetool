@@ -324,7 +324,7 @@ public abstract class Language {
     Collections.sort(toSort);
     for (final String lElem : toSort) {    
       maintainersInfo.append(lElem);    
-      maintainersInfo.append("\n");
+      maintainersInfo.append('\n');
     }
     return maintainersInfo.toString();
   }

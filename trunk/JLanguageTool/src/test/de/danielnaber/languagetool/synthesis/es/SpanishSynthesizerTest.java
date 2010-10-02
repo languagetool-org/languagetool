@@ -24,7 +24,6 @@ import java.util.Arrays;
 
 import junit.framework.TestCase;
 import de.danielnaber.languagetool.AnalyzedToken;
-import de.danielnaber.languagetool.synthesis.es.SpanishSynthesizer;
 
 public class SpanishSynthesizerTest extends TestCase {
 	  private final AnalyzedToken dummyToken(String tokenStr) {

@@ -94,7 +94,7 @@ public final class TestTools {
         readingStr.append(token.getAnalyzedToken(j).getToken());
         readingStr.append("/[");
         readingStr.append(token.getAnalyzedToken(j).getLemma());
-        readingStr.append("]");
+        readingStr.append(']');
         readingStr.append(token.getAnalyzedToken(j).getPOSTag());
         readings.add(readingStr.toString());
       }
@@ -165,7 +165,7 @@ public final class TestTools {
           readingStr.append(token.getAnalyzedToken(j).getToken());
           readingStr.append("/[");
           readingStr.append(token.getAnalyzedToken(j).getLemma());
-          readingStr.append("]");
+          readingStr.append(']');
           readingStr.append(token.getAnalyzedToken(j).getPOSTag());
           readings.add(readingStr.toString());
         }
@@ -174,7 +174,7 @@ public final class TestTools {
         Collections.sort(readings);
         outputStr.append(StringTools.listToString(readings, "|"));
         if (i < output.length - 1) {
-          outputStr.append(" ");
+          outputStr.append(' ');
         }
       }
     }

@@ -80,7 +80,7 @@ public class ManualTagger {
       br = new BufferedReader(isr);
       String line;
       while ((line = br.readLine()) != null) {
-        if (line.startsWith("#")) {
+        if (line.charAt(0)=='#') {
           continue;
         }
         final String[] parts = line.split("\t");

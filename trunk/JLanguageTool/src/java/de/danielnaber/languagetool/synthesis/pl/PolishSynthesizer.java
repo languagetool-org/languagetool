@@ -139,7 +139,7 @@ public class PolishSynthesizer implements Synthesizer {
       final StringBuilder sb = new StringBuilder();
       sb.append(tags[0]);
       for (int i = 1; i < tags.length; i++) {
-        sb.append(":");
+        sb.append(':');
         sb.append(tags[i]);
       }
       return sb.toString();

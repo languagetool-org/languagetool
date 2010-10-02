@@ -120,7 +120,7 @@ public final class StringTools {
       String line;
       while ((line = br.readLine()) != null) {
         sb.append(line);
-        sb.append("\n");
+        sb.append('\n');
       }
     } finally {
       if (br != null) {
@@ -402,9 +402,9 @@ public final class StringTools {
     final StringBuilder marker = new StringBuilder();
     for (int i = 0; i < fileContents.length() + prefix.length(); i++) {
       if (i >= fromPos && i < toPos) {
-        marker.append("^");
+        marker.append('^');
       } else {
-        marker.append(" ");
+        marker.append(' ');
       }
     }
     // now build context string plus marker:
@@ -412,7 +412,7 @@ public final class StringTools {
     sb.append(prefix);
     sb.append(fileContents.substring(startContent, endContent));
     sb.append(postfix);
-    sb.append("\n");
+    sb.append('\n');
     sb.append(markerPrefix);
     sb.append(marker.substring(startContent, endContent));
     return sb.toString();

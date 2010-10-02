@@ -124,9 +124,9 @@ public class Tools {
     final int totalLen = fileLen + prefix.length();
     for (int i = 0; i < totalLen; i++) {
       if (i >= fromPos && i < toPos) {
-        marker.append("^");
+        marker.append('^');
       } else {
-        marker.append(" ");
+        marker.append(' ');
       }
     }
     // now build context string plus marker:

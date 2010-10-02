@@ -97,7 +97,7 @@ public class CompoundRule extends SwedishRule {
       for (AnalyzedTokenReadings atr : prevTokens) {
         if (j == 0)
           firstMatchToken = atr;
-        sb.append(" ");
+        sb.append(' ');
         sb.append(atr.getToken());
         if (j >= 1) {
           final String stringToCheck = normalize(sb.toString());

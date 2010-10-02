@@ -132,21 +132,20 @@ public class AnalyzedGermanTokenReadings extends AnalyzedTokenReadings {
   public String toString() {
     if (anTokReadings == null) {
       return super.getAnalyzedToken(0).getToken() + "[?]";
-    } else {
-      final StringBuilder sb = new StringBuilder(super.getAnalyzedToken(0).getToken());
-      final Set<String> printed = new HashSet<String>();
-      sb.append("[");
-      for (AnalyzedToken reading : anTokReadings) {
-        if (!printed.contains(reading.toString())) {
-          if (printed.size() > 0)
-            sb.append(", ");
-          sb.append(reading.toString());
-        }
-        printed.add(reading.toString());
-      }
-      sb.append("]");
-      return sb.toString();
     }
+    final StringBuilder sb = new StringBuilder(super.getAnalyzedToken(0).getToken());
+    final Set<String> printed = new HashSet<String>();
+    sb.append('[');
+    for (AnalyzedToken reading : anTokReadings) {
+      if (!printed.contains(reading.toString())) {
+        if (printed.size() > 0)
+          sb.append(", ");
+        sb.append(reading.toString());
+      }
+      printed.add(reading.toString());
+    }
+    sb.append(']');
+    return sb.toString();
   }
 
   /**
@@ -156,19 +155,18 @@ public class AnalyzedGermanTokenReadings extends AnalyzedTokenReadings {
   public String toSortedString() {
     if (anTokReadings == null) {
       return super.getAnalyzedToken(0).getToken() + "[?]";
-    } else {
-      final StringBuilder sb = new StringBuilder(super.getAnalyzedToken(0).getToken());
-      final Set<String> elements = new TreeSet<String>();
-      sb.append("[");
-      for (AnalyzedToken reading : anTokReadings) {
-        if (!elements.contains(reading.toString())) {
-          elements.add(reading.toString());
-        }
-      }
-      sb.append(StringTools.listToString(elements, ", "));
-      sb.append("]");
-      return sb.toString();
     }
+    final StringBuilder sb = new StringBuilder(super.getAnalyzedToken(0).getToken());
+    final Set<String> elements = new TreeSet<String>();
+    sb.append('[');
+    for (AnalyzedToken reading : anTokReadings) {
+      if (!elements.contains(reading.toString())) {
+        elements.add(reading.toString());
+      }
+    }
+    sb.append(StringTools.listToString(elements, ", "));
+    sb.append(']');
+    return sb.toString();
   }
 
 }

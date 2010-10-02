@@ -327,9 +327,9 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
     for (final Iterator<StringBuilder> iter = translations.iterator(); iter
         .hasNext();) {
       final StringBuilder trans = iter.next();
-      sb.append("\"");
+      sb.append('"');
       sb.append(trans.toString());
-      sb.append("\"");
+      sb.append('"');
       if (iter.hasNext()) {
         sb.append(", ");
       }

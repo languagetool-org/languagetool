@@ -195,7 +195,7 @@ public class PatternRule extends AbstractPatternRule {
     sb.append(startPositionCorrection);
     sb.append("\" mark_to=\"");
     sb.append(endPositionCorrection);
-    sb.append("\"");
+    sb.append('"');
     // for now, case sensitivity is per pattern, not per element,
     // so just use the setting of the first element:
     if (!patternElements.isEmpty() && patternElements.get(0).getCaseSensitive()) {
@@ -213,7 +213,7 @@ public class PatternRule extends AbstractPatternRule {
       if (patternElement.getPOStag() != null) {
         sb.append(" postag=\"");
         sb.append(patternElement.getPOStag());
-        sb.append("\"");
+        sb.append('"');
       }
       if (patternElement.getPOSNegation()) {
         sb.append(" negate_pos=\"yes\"");
@@ -221,7 +221,7 @@ public class PatternRule extends AbstractPatternRule {
       if (patternElement.isInflected()) {
         sb.append(" inflected=\"yes\"");
       }
-      sb.append(">");
+      sb.append('>');
       if (patternElement.getString() != null) {
         sb.append(StringTools.escapeXML(patternElement.getString()));
       } else {

@@ -138,7 +138,7 @@ public class AnalyzedSentence {
     for (final AnalyzedTokenReadings element : tokens) {
       if (!element.isWhitespace()) {
         sb.append(element.getToken());
-        sb.append("[");
+        sb.append('[');
       }
       for (int j = 0; j < element.getReadingsLength(); j++) {
         final String posTag = element.getAnalyzedToken(j).getPOSTag();
@@ -158,15 +158,15 @@ public class AnalyzedSentence {
           if (!element.isWhitespace()) {
             sb.append(element.getAnalyzedToken(j));
             if (j < element.getReadingsLength() - 1) {
-              sb.append(",");
+              sb.append(',');
             }
           }
         }
       }
       if (!element.isWhitespace()) {
-        sb.append("]");
+        sb.append(']');
       } else {
-        sb.append(" ");
+        sb.append(' ');
       }
 
     }

@@ -230,7 +230,7 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
           }
           mWorker.setTokenRef(refNumber);
           tokenReference = mWorker;
-          elements.append("\\");
+          elements.append('\\');
           elements.append(refNumber);
         }
       }

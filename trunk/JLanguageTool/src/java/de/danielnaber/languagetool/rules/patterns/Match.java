@@ -168,7 +168,7 @@ public class Match {
       for (int k = index + 1; k < index + next; k++) {
         if (k > index + 1 && 
             tokens[k].isWhitespaceBefore()) {
-          sb.append(" ");
+          sb.append(' ');
         }
         sb.append(tokens[k].getToken());
       }
@@ -367,7 +367,7 @@ public class Match {
           }
           sb.append(lposTag);
           if (l < posTagLen) {
-            sb.append("|");
+            sb.append('|');
           }
         }
         targetPosTag = sb.toString();
@@ -388,7 +388,7 @@ public class Match {
     for (int i = 0; i < stringToFormat.length; i++) {
       output.append(stringToFormat[i]);
       if (i + 1 < stringToFormat.length) {
-        output.append("|");
+        output.append('|');
       }
     }
     return output.toString();

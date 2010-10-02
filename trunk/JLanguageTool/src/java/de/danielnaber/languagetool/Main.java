@@ -230,7 +230,7 @@ class Main {
           String line;
           while ((line = br.readLine()) != null) {
             sb.append(line);
-            sb.append("\n");
+            sb.append('\n');
             tmpLineOffset++;
             if (lt.getLanguage().getSentenceTokenizer()
                 .singleLineBreaksMarksPara()) {

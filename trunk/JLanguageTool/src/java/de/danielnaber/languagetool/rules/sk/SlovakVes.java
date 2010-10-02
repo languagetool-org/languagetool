@@ -100,7 +100,7 @@ public class SlovakVes extends SlovakRule {
         tag = true;
       }
 
-      if (tag && (tag2 == false)) {
+      if (tag && !tag2) {
         if (pady && Character.isLowerCase(pomocnik)) {
           tag2 = true;
           //                   premenna = tokens[i].getToken();

@@ -171,11 +171,11 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
 	private String getCompleteResourceUrl(final String path) {
 		final StringBuffer completePath = new StringBuffer(this.getResourceDir());
 
-		if (!this.getResourceDir().endsWith("/") && !path.startsWith("/")) {
+		if (!this.getResourceDir().endsWith("/") && !(path.charAt(0)=='/')) {
 			completePath.append('/');
 		}
 
-		if (this.getResourceDir().endsWith("/") && path.startsWith("/")
+		if (this.getResourceDir().endsWith("/") && (path.charAt(0)=='/')
 				&& path.length() > 1) {
 			completePath.append(path.substring(1));
 		} else {
@@ -233,11 +233,11 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
 	private StringBuffer getCompleteRulesUrl(final String path) {
 	    final StringBuffer completePath = new StringBuffer(this.getRulesDir());
 
-		if (!this.getRulesDir().endsWith("/") && !path.startsWith("/")) {
+		if (!this.getRulesDir().endsWith("/") && !(path.charAt(0)=='/')) {
 			completePath.append('/');
 		}
 
-		if (this.getRulesDir().endsWith("/") && path.startsWith("/") && path.length() > 1) {
+		if (this.getRulesDir().endsWith("/") && (path.charAt(0)=='/') && path.length() > 1) {
 			completePath.append(path.substring(1));
 		} else {
 			completePath.append(path);

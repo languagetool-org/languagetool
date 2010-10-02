@@ -177,7 +177,7 @@ public class Configuration {
         final String id = iter.next();
         sb.append(id);
         if (iter.hasNext()) {
-          sb.append(",");
+          sb.append(',');
         }
       }
       props.setProperty(DISABLED_RULES_CONFIG_KEY, sb.toString());
@@ -191,7 +191,7 @@ public class Configuration {
         final String id = iter.next();
         sb.append(id);
         if (iter.hasNext()) {
-          sb.append(",");
+          sb.append(',');
         }
       }
       props.setProperty(ENABLED_RULES_CONFIG_KEY, sb.toString());
@@ -206,7 +206,7 @@ public class Configuration {
         final String name = iter.next();
         sb.append(name);
         if (iter.hasNext()) {
-          sb.append(",");
+          sb.append(',');
         }
       }
       props.setProperty(DISABLED_CATEGORIES_CONFIG_KEY, sb.toString());

@@ -379,16 +379,16 @@ public class Element {
   public final String toString() {
     final StringBuilder sb = new StringBuilder();
     if (negation) {
-      sb.append("!");
+      sb.append('!');
     }
     sb.append(stringToken);
     if (phraseName != null) {
       sb.append(" {");
       sb.append(phraseName);
-      sb.append("}");
+      sb.append('}');
     }
     if (posToken != null) {
-      sb.append("/");
+      sb.append('/');
       sb.append(posToken);
     }
     return sb.toString();

@@ -79,7 +79,7 @@ public class TranslationTest extends TestCase {
       List<String> lines = loadFile(file);
       for (String line : lines) {
         line = line.trim();
-        if (line.startsWith("#") || StringTools.isEmpty(line))
+        if (StringTools.isEmpty(line) || line.charAt(0)=='#')
           continue;
         String[] parts = line.split("=");
         if (parts.length < 2) {

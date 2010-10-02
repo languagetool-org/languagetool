@@ -88,7 +88,7 @@ public class POSTagLanguageModel {
       String line;
       while ((line = br.readLine()) != null) {
         sb.append(line);
-        sb.append("\n");
+        sb.append('\n');
         if (lt.getLanguage().getSentenceTokenizer().singleLineBreaksMarksPara()) {
           tagText(sb.toString(), lt);
           sb = new StringBuilder();
@@ -124,7 +124,7 @@ public class POSTagLanguageModel {
     sb.append("<S>");
     for (final AnalyzedTokenReadings atr : sent.getTokensWithoutWhitespace()) {
       sb.append(getPOS(atr));
-      sb.append(" ");
+      sb.append(' ');
     }
     sb.append("</S>");
     return sb.toString();
@@ -137,7 +137,7 @@ public class POSTagLanguageModel {
       if (!atr.isWhitespace()) {
         sb.append(atr.getAnalyzedToken(i).getPOSTag());
         if (i != readNum - 1) {
-          sb.append("+");
+          sb.append('+');
         }
       }
     }

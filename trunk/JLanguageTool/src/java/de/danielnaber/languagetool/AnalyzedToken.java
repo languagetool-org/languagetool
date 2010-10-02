@@ -77,7 +77,7 @@ public class AnalyzedToken {
   public String toString() {
     final StringBuilder sb = new StringBuilder();
     sb.append(tokenInflected);    
-    sb.append("/");
+    sb.append('/');
     sb.append(posTag);
     return sb.toString();
   }

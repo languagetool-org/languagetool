@@ -365,7 +365,7 @@ public class XMLRuleHandler extends DefaultHandler {
       }
       mWorker.setTokenRef(refNumber);
       tokenReference = mWorker;
-      elements.append("\\");
+      elements.append('\\');
       elements.append(refNumber);
     }
   }
