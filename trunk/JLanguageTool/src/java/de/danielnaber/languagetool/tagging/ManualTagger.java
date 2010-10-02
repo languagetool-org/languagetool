@@ -27,6 +27,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import de.danielnaber.languagetool.tools.StringTools;
+
+
+
 /**
  * A tagger that reads the POS information from a plain (UTF-8) text file. This
  * makes it possible for the user to edit the text file to let the system know
@@ -80,7 +84,7 @@ public class ManualTagger {
       br = new BufferedReader(isr);
       String line;
       while ((line = br.readLine()) != null) {
-        if (line.charAt(0)=='#') {
+        if (StringTools.isEmpty(line) || line.charAt(0)=='#') {
           continue;
         }
         final String[] parts = line.split("\t");
