@@ -330,6 +330,8 @@ public final class Tools {
   public static List<RuleMatch> checkBitext(final String src, final String trg,
       final JLanguageTool srcLt, final JLanguageTool trgLt,
       final List<BitextRule> bRules) throws IOException {
+    //TODO: refactor check() so that getAnalyzedSentence 
+    // is not called twice for target sentence
    final List<RuleMatch> ruleMatches = trgLt.check(trg);    
     for (BitextRule bRule : bRules) {
       final RuleMatch[] curMatch = bitextMatch(bRule, src, trg, srcLt, trgLt);
