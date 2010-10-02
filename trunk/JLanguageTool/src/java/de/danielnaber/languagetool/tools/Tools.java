@@ -332,24 +332,20 @@ public final class Tools {
       final List<BitextRule> bRules) throws IOException {
     //TODO: refactor check() so that getAnalyzedSentence 
     // is not called twice for target sentence
-   final List<RuleMatch> ruleMatches = trgLt.check(trg);    
-    for (BitextRule bRule : bRules) {
-      final RuleMatch[] curMatch = bitextMatch(bRule, src, trg, srcLt, trgLt);
+   final AnalyzedSentence srcText = srcLt.getAnalyzedSentence(src);
+   final AnalyzedSentence trgText = trgLt.getAnalyzedSentence(trg);
+   final List<RuleMatch> ruleMatches = trgLt.checkAnalyzedSentence
+     (JLanguageTool.paragraphHandling.NORMAL, 
+      trgLt.getAllRules(), 0, 0, 1, trg, trgText);     
+    for (BitextRule bRule : bRules) {     
+      final RuleMatch[] curMatch = bRule.match(srcText, trgText);
       if (curMatch != null) {
         ruleMatches.addAll(Arrays.asList(curMatch));
       }
-    }
+    }   
    return ruleMatches;
   }
-  
-  private static RuleMatch[] bitextMatch(final BitextRule rule, final String src, final String trg,
-      final JLanguageTool srcLanguageTool,
-      final JLanguageTool trgLanguageTool) throws IOException {
-    final AnalyzedSentence srcText = srcLanguageTool.getAnalyzedSentence(src);
-    final AnalyzedSentence trgText = trgLanguageTool.getAnalyzedSentence(trg);
-    return rule.match(srcText, trgText);    
-  }
-
+    
   
   /** 
    * Gets default bitext rules for a given pair of languages
@@ -527,23 +523,27 @@ public final class Tools {
    *  @return
    *    Corrected text as String.
    */  
-  public static String correctBitext(final String src, final String target,
-      final JLanguageTool sourceLanguageTool, final JLanguageTool targetLanguageTool,
+  public static String correctBitext(final String src, final String trg,
+      final JLanguageTool srcLt, final JLanguageTool trgLt,
       final List<BitextRule> bRules) throws IOException {  
 	  //FIXME: adjust positions, use bitextMatch here, and
 	  //use the reader to get the target string to make the 
 	  //replacement
-    final List<RuleMatch> ruleMatches = sourceLanguageTool.check(src);
+    final AnalyzedSentence srcText = srcLt.getAnalyzedSentence(src);
+    final AnalyzedSentence trgText = trgLt.getAnalyzedSentence(trg);
+    final List<RuleMatch> ruleMatches = trgLt.checkAnalyzedSentence
+    (JLanguageTool.paragraphHandling.NORMAL, 
+        trgLt.getAllRules(), 0, 0, 1, trg, trgText);
     for (BitextRule bRule : bRules) {
-      final RuleMatch[] curMatch = bitextMatch(bRule, src, target, sourceLanguageTool, targetLanguageTool);
+      final RuleMatch[] curMatch = bRule.match(srcText, trgText);
       if (curMatch != null) {
         ruleMatches.addAll(Arrays.asList(curMatch));
       }
     }
     if (ruleMatches.isEmpty()) {
-      return target;
+      return trg;
     }
-    return correctTextFromMatches(target, ruleMatches);
+    return correctTextFromMatches(trg, ruleMatches);
   }
 
   private static String correctTextFromMatches(

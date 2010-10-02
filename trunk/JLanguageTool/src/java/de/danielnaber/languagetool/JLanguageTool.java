@@ -492,7 +492,7 @@ public final class JLanguageTool {
     final List<Rule> allRules = getAllRules();
     printIfVerbose(allRules.size() + " rules activated for language "
         + language);
-    int tokenCount = 0;
+    int charCount = 0;
     int lineCount = 0;
     int columnCount = 1;
     unknownWords = new HashSet<String>();
@@ -506,50 +506,15 @@ public final class JLanguageTool {
         anTokens[anTokens.length - 1].setParaEnd();
         analyzedText = new AnalyzedSentence(anTokens);
       }
-
-      final List<RuleMatch> sentenceMatches = new ArrayList<RuleMatch>();
+      
       printIfVerbose(analyzedText.toString());
-      for (final Rule rule : allRules) {
-        if (disabledRules.contains(rule.getId())
-            || (rule.isDefaultOff() && !enabledRules.contains(rule.getId()))) {
-          continue;
-        }
-
-        if (disabledCategories.contains(rule.getCategory().getName())) {
-          continue;
-        }
-        
-        switch (paraMode) {
-          case ONLYNONPARA: {
-            if (rule.isParagraphBackTrack()) {
-              continue;
-            }
-            break;
-          }
-          case ONLYPARA: {
-            if (!rule.isParagraphBackTrack()) {
-              continue;
-            }
-           break;
-          }
-          case NORMAL:
-          default:
-        }
-
-        final RuleMatch[] thisMatches = rule.match(analyzedText);
-        for (final RuleMatch element1 : thisMatches) {
-          RuleMatch thisMatch = adjustRuleMatchPos(element1,
-              tokenCount, columnCount, lineCount, sentence);    
-          sentenceMatches.add(thisMatch);
-          if (rule.isParagraphBackTrack()) {
-            rule.addRuleMatch(thisMatch);
-          }
-        }
-      }
+      final List<RuleMatch> sentenceMatches = 
+      checkAnalyzedSentence(paraMode, allRules, charCount, lineCount,
+          columnCount, sentence, analyzedText);
 
       Collections.sort(sentenceMatches);
       ruleMatches.addAll(sentenceMatches);
-      tokenCount += sentence.length();
+      charCount += sentence.length();
       lineCount += countLineBreaks(sentence);
       
       // calculate matching column:      
@@ -586,11 +551,56 @@ public final class JLanguageTool {
     return ruleMatches;
   }
 
+  public List<RuleMatch> checkAnalyzedSentence(final paragraphHandling paraMode,
+      final List<Rule> allRules, int tokenCount, int lineCount,
+      int columnCount, final String sentence, AnalyzedSentence analyzedText) 
+        throws IOException {
+    final List<RuleMatch> sentenceMatches = new ArrayList<RuleMatch>();
+    for (final Rule rule : allRules) {
+      if (disabledRules.contains(rule.getId())
+          || (rule.isDefaultOff() && !enabledRules.contains(rule.getId()))) {
+        continue;
+      }
+
+      if (disabledCategories.contains(rule.getCategory().getName())) {
+        continue;
+      }
+      
+      switch (paraMode) {
+        case ONLYNONPARA: {
+          if (rule.isParagraphBackTrack()) {
+            continue;
+          }
+          break;
+        }
+        case ONLYPARA: {
+          if (!rule.isParagraphBackTrack()) {
+            continue;
+          }
+         break;
+        }
+        case NORMAL:
+        default:
+      }
+
+      final RuleMatch[] thisMatches = rule.match(analyzedText);
+      for (final RuleMatch element1 : thisMatches) {
+        RuleMatch thisMatch = adjustRuleMatchPos(element1,
+            tokenCount, columnCount, lineCount, sentence);    
+        sentenceMatches.add(thisMatch);
+        if (rule.isParagraphBackTrack()) {
+          rule.addRuleMatch(thisMatch);
+        }
+      }
+    }
+    return sentenceMatches;
+  }
+
   /**
    * Change RuleMatch positions so they are relative to the complete text,
    * not just to the sentence: 
    * @param rm  RuleMatch
-   * @param sentLen  Count of tokens
+   * @param sentLen  Count of characters
    * @param columnCount Current column number
    * @param lineCount Current line number
    * @param sentence  The text being checked
