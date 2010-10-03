@@ -103,5 +103,20 @@ public class RomanianWordTokenizerTest extends TestCase {
     assertEquals(testList.size(), 3);
     assertEquals("[pere, |, mere]",
         testList.toString());
+    // test for "\n"  
+    testList = w.tokenize("pere\nmere");
+    assertEquals(testList.size(), 3);
+    assertEquals("[pere, \n, mere]",
+        testList.toString());
+    // test for "\r"  
+    testList = w.tokenize("pere\rmere");
+    assertEquals(testList.size(), 3);
+    assertEquals("[pere, \r, mere]",
+        testList.toString());
+    // test for "\n\r"  
+    testList = w.tokenize("pere\n\rmere");
+    assertEquals(testList.size(), 4);
+    assertEquals("[pere, \n, \r, mere]",
+        testList.toString());
   }
 }
