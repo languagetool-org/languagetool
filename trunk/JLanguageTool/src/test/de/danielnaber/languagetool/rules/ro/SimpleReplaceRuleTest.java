@@ -79,6 +79,7 @@ public class SimpleReplaceRuleTest extends TestCase {
 		checkSimpleReplaceRule("este Aqua Forte.", "Acvaforte");
 		checkSimpleReplaceRule("este AquA Forte.", "Acvaforte");
 		checkSimpleReplaceRule("A primit jumate de litru de lapte și este aqua forte.", "jumătate", "acvaforte");
+		checkSimpleReplaceRule("du-te vino", "du-te-vino");
 			// dash-delimited
 		checkSimpleReplaceRule("cou-boi", "cowboy");
 		checkSimpleReplaceRule("cow-boy", "cowboy");
