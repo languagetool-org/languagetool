@@ -11,7 +11,7 @@ title="Easy editing stylesheet" ?>
 		If there is an error you want LanguageTool to detect but you do not know how to do it: open an issue
 			there describing the error, give some examples - I'll try to fix it as soon as I can. 
 
-		Version: $Id: grammar.xml,v 1.28 2010-05-18 18:17:03 milek_pl Exp $		
+		Version: $Id: grammar.xml,v 1.29 2010-10-03 12:18:22 archeus Exp $		
 		
 	-->
 <rules lang="ro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -157,7 +157,25 @@ title="Easy editing stylesheet" ?>
 	        <example type="incorrect" correction="mi-au">Nu <marker>miau</marker> spus tot.</example>
 	        <example type="correct">Nu <marker>mi-au</marker> spus tot.</example>
 	     </rule>		
-	     <rule id="CREIAM" name="creiam/creiai/creia/creiați/creiau"> 
+		<rule id="ANUL_NOU" name="Anul nou - Anul Nou"> 
+	        <pattern case_sensitive="yes">
+	          <token>Anul</token>
+	          <token>nou</token>
+	         </pattern>
+	        <message>Ați dorit să scrieți <suggestion>Anul Nou</suggestion>?</message>
+	        <example type="incorrect" correction="Anul Nou">L-am invitat de <marker>Anul nou</marker> la noi.</example>
+	        <example type="correct">L-am invitat de <marker>Anul Nou</marker> la noi.</example>
+		</rule>		
+		<rule id="BUNA_VESTIRE" name="Buna vestire - Buna Vestire"> 
+			<pattern case_sensitive="yes">
+				<token>Buna</token>
+				<token>vestire</token>
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion>Buna Vestire</suggestion>?</message>
+			<example type="incorrect" correction="Buna Vestire">L-am invitat de <marker>Buna vestire</marker> la noi.</example>
+			<example type="correct">L-am invitat de <marker>Buna Vestire</marker> la noi.</example>
+		</rule>    
+		<rule id="CREIAM" name="creiam/creiai/creia/creiați/creiau"> 
 	        <pattern>
 	          <token regexp="yes">crei(am|ai|a|ați|au|ez|ezi|ăm|ați|eze|ai|ași|arăm|arăți|asem|aseși|ase|aserăm|aserăți|aseră)</token>
 	         </pattern>
@@ -208,7 +226,7 @@ title="Easy editing stylesheet" ?>
 	          <token>referit</token>
 	          <token>despre</token>
 	         </pattern>
-	        <message>Ați dorit să scrieți <suggestion>referit la</suggestion> sau <suggestion>referit la modul cum</suggestion> sau <suggestion>referit la modul în care</suggestion>?</message>
+	        <message>Ați dorit să scrieți <suggestion>referit la</suggestion>, <suggestion>referit la modul cum</suggestion> sau <suggestion>referit la modul în care</suggestion>?</message>
 	        <example type="incorrect" correction="referit la|referit la modul cum|referit la modul în care">M-am <marker>referit despre</marker> cum au jucat ei.</example>
 	        <example type="correct">M-am <marker>referit la</marker> cum au jucat ei.</example>
 	     </rule>
