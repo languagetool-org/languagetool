@@ -20,6 +20,10 @@
 package de.danielnaber.languagetool.rules.ro;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 import junit.framework.TestCase;
 import de.danielnaber.languagetool.JLanguageTool;
@@ -44,6 +48,24 @@ public class SimpleReplaceRuleTest extends TestCase {
 		langTool = new JLanguageTool(Language.ROMANIAN);
 	}
 
+	/**
+	 * Make sure that the suggested word is not the same as the wrong word
+	 */
+	public void testInvalidSuggestion()  {
+		List<String> invalidSuggestions = new ArrayList<String>();
+		List<Map<String,String>> wrongWords = rule.getWrongWords();
+		for (Map<String, String> ruleEntry : wrongWords) {
+			for (String fromWord : ruleEntry.keySet()) {
+				String toWord = ruleEntry.get(fromWord);
+				if (toWord == null || fromWord.equals(toWord)) {
+					invalidSuggestions.add(toWord);
+				}
+			}
+		}
+		if (!invalidSuggestions.isEmpty()) {
+			fail("Invalid suggestions found for: " + Arrays.toString(invalidSuggestions.toArray(new String[]{})));
+		}
+	}
 	public void testRule() throws IOException {
 
 		// correct sentences:
