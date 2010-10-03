@@ -24,6 +24,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -46,14 +47,14 @@ import de.danielnaber.languagetool.tools.StringTools;
 /**
  * A rule that matches words which should not be used and suggests correct ones instead. <br/> 
  * Romanian implementations. Loads the list of words from
- * <code>rules/ro/replace.txt</code>.<br/><br/>
+ * <code>/ro/replace.txt</code>.<br/><br/>
  * 
- * Unlike AbstractSimpleReplaceRule, supports multiple words (Ex: "aqua forte" => "acvforte").<br/><br/>
+ * Unlike AbstractSimpleReplaceRule, supports multiple words (Ex: "aqua forte" => "acvaforte").<br/><br/>
  * 
  * Note: Merge this into {@link AbstractSimpleReplaceRule} eventually and simply extend from AbstractSimpleReplaceRule.<br/>
  * 
  * @author Ionuț Păduraru
- * @version $Id: SimpleReplaceRule.java,v 1.8 2010-09-04 18:02:54 dnaber Exp $
+ * @version $Id: SimpleReplaceRule.java,v 1.9 2010-10-03 13:21:16 archeus Exp $
  * 
  */
 public class SimpleReplaceRule extends Rule {
@@ -130,6 +131,13 @@ public class SimpleReplaceRule extends Rule {
 	}
 	
 	/**
+	 * @return the list of wrong words for which this rule can suggest correction. The list cannot be modified.
+	 */
+	public List<Map<String, String>> getWrongWords() {
+		return wrongWords;
+	}
+	
+	/**
 	 * Load the list of words. <br/>
 	 * Same as {@link AbstractSimpleReplaceRule#loadWords} but allows multiple words.   
 	 * @param file the file to load.
@@ -183,7 +191,12 @@ public class SimpleReplaceRule extends Rule {
 				isr.close();
 			}
 		}
-		return list;
+		// seal the result (prevent modification from outside this class)
+		List<Map<String,String>> result = new ArrayList<Map<String, String>>();
+		for (Map<String, String> map : list) {
+			result.add(Collections.unmodifiableMap(map));
+		}
+		return Collections.unmodifiableList(result);
 	}
 
 	private void addToQueue(AnalyzedTokenReadings token,
