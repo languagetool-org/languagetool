@@ -138,7 +138,7 @@ public class DisambiguationRuleTest extends TestCase {
               - "<marker>".length();
           if (expectedMatchStart == -1 || expectedMatchEnd == -1) {
             fail(lang
-                + ": No error position markup ('<marker>...</marker>') in bad example in rule "
+                + ": No position markup ('<marker>...</marker>') in disambiguated example in rule "
                 + rule);
           }
           final String inputForms = example.getAmbiguous();
