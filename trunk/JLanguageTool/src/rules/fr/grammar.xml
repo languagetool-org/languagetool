@@ -5,7 +5,7 @@ title="Easy editing stylesheet" ?>
 <!--
 French Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski, Agnes Souque, Hugo Voisard & Myriam Lechelt.
-$Id: grammar.xml,v 1.41 2010-10-01 19:21:18 dominikoeo Exp $
+$Id: grammar.xml,v 1.42 2010-10-04 18:35:50 dominikoeo Exp $
 -->
 <rules lang="fr" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <phrases>
@@ -658,7 +658,9 @@ though, and has since been slightly modified)-->
     <rule id="CONF_VERBE_NOM" name="Nom au lieu de Verbe">
       <pattern mark_from="1">
         <token postag="R pers suj .*" postag_regexp="yes"></token>
-        <token postag="N.*" postag_regexp="yes"><exception negate_pos="yes" postag="N.*" postag_regexp="yes">n</exception></token>
+        <token postag="N.*" postag_regexp="yes">
+          <exception negate_pos="yes" postag="N.*" postag_regexp="yes">n</exception>
+        </token>
       </pattern>
       <message>Un verbe est attendu après le pronom personnel <suggestion>\1</suggestion>, pas un nom.</message>
       <example type="correct">Je <marker>travaille</marker> tard.</example>
@@ -709,9 +711,14 @@ though, and has since been slightly modified)-->
     <rulegroup id="ACCORD_NOMBRE" name="Accord en nombre">
       <rule name="singulier suivi du pluriel">
         <pattern mark_from="1">
-          <token negate="yes" regexp="yes">de|'|du</token>
-          <token postag="(D .* s)|(J .* s)|(N .* s)" postag_regexp="yes"></token>
-          <token postag="(J .* p)|(N .* p)" postag_regexp="yes"><exception postag="V .*" postag_regexp="yes"></exception></token>
+          <token negate="yes" regexp="yes">de|'|du></token>
+          <token skip="1" postag="[DJN] .* s" postag_regexp="yes">
+            <!-- Following exception skip words both singular/plural as well as adverbs -->
+            <exception scope="next" negate_pos="yes" postag="A|([JN] .* s?p)|SENT_END" postag_regexp="yes"/>
+          </token>
+          <token postag="[JN] .* p" postag_regexp="yes">
+            <exception postag="(V .*)|([JN] .* sp)" postag_regexp="yes"/>
+          </token>
         </pattern>
         <message>« \2 » et « \3 » ne semblent pas bien accordés en nombre</message>
         <example type="correct">un canard</example>
@@ -720,13 +727,22 @@ though, and has since been slightly modified)-->
         <example type="incorrect"><marker>un vaches</marker> laitières</example>
         <example type="incorrect">une <marker>vache laitières</marker></example>
         <example type="correct">Les taux d'<marker>intérêt domestiques</marker>.</example>
-
+        <example type="incorrect"><marker>Un atlas chers</marker>.</example>
+        <example type="correct">Un atlas cher.</example>
+        <example type="incorrect">Un <marker>camion très lourds</marker>.</example>
+        <example type="correct">Un camion très lourd.</example>
+        <example type="correct">Vous êtes bon fils.</example>
       </rule>
       <rule name="pluriel suivi du singulier">
         <pattern mark_from="1" mark_to="-1">
-          <token negate="yes" regexp="yes">de|des</token>
-          <token postag="(D .* p)|(J .* p)|(N .* p)" postag_regexp="yes"></token>
-          <token postag="(J .* s)|(N .* s)" postag_regexp="yes"><exception postag="(V .*)|(.* sp)" postag_regexp="yes"></exception></token>
+          <token negate="yes" regexp="yes">de</token>
+          <token skip="1" postag="[DJN] .* p" postag_regexp="yes">
+            <!-- Following exception skip words both singular/plural as well as adverbs -->
+            <exception scope="next" negate_pos="yes" postag="A|([JN] .* sp?)|SENT_END" postag_regexp="yes"/>
+          </token>
+          <token postag="[JN] .* s" postag_regexp="yes">
+            <exception postag="(V .*)|(.* sp)" postag_regexp="yes"/>
+          </token>
           <token negate="yes">et</token>
         </pattern>
         <message>« \2 » et « \3 » ne semblent pas bien accordés en nombre</message>
@@ -737,18 +753,30 @@ though, and has since been slightly modified)-->
         <example type="correct">Les <marker>voitures verte</marker> et rouge.</example>
         <example type="correct">Des <marker>livres audio</marker></example>
         <example type="correct">L'institut de <marker>recherches brittanique</marker></example>
+        <example type="incorrect">Les <marker>camions très lourd</marker>.</example>
+        <example type="correct">Les <marker>camions très lourds</marker>.</example>
+        <example type="incorrect"><marker>Les atlas cher</marker>.</example>
+        <example type="correct"><marker>Les atlas chers</marker>.</example>
       </rule>
     </rulegroup>
     <rulegroup id="ACCORD_GENRE" name="Accord en genre">
       <rule name="masculin suivi du féminin">
         <pattern mark_from="1">
           <token negate="yes" regexp="yes">de|des</token>
-          <token postag="(D m .*)|(J m .*)" postag_regexp="yes"><exception postag="V .*" postag_regexp="yes"></exception></token>
-          <token postag="(J f .*)|(N f .*)" postag_regexp="yes"><exception postag="(V .*)|(N m .*)" postag_regexp="yes"></exception></token>
+          <token skip="1" postag="[DJ] m .*" postag_regexp="yes">
+            <exception postag="V .*" postag_regexp="yes"/>
+            <!-- Following exception is to skip an adverb or epicene word -->
+            <exception scope="next" negate_pos="yes" postag="A|([JN] [fe] .*)|SENT_END" postag_regexp="yes"/>
+          </token>
+          <token postag="[JN] f .*" postag_regexp="yes">
+            <exception postag="(V .*)|(N m .*)" postag_regexp="yes"/>
+          </token>
         </pattern>
         <message>« \2 » et « \3 » ne semblent pas bien accordés en genre</message>
-        <example type="correct">Une <marker>jolie femme</marker>.</example>
         <example type="incorrect">Une <marker>joli femme</marker>.</example>
+        <example type="correct">Une <marker>jolie femme</marker>.</example>
+        <example type="incorrect"><marker>Un très jolie</marker> femme.</example>
+        <example type="correct">Une très jolie femme.</example>
         <example type="correct">Le <marker>français concurrence</marker> le latin.</example>
         <example type="correct">Le rock a <marker>donné naissance</marker> à des groupes légendaires.</example>
         <example type="correct">Une répartition des <marker>revenus judicieuse</marker>.</example>
@@ -757,12 +785,20 @@ though, and has since been slightly modified)-->
       <rule name="nom masculin suivi du féminin">
         <pattern mark_from="1" >
           <token negate="yes" regexp="yes">de|du</token>
-          <token postag="N m .*" postag_regexp="yes"><exception postag="(N f .*)|(V .*)" postag_regexp="yes"></exception></token>
-          <token postag="(J f .*)|(V .* f .*)" postag_regexp="yes"><exception postag_regexp="yes" postag="V .*(inf|ppr|ind|con|sub).*"></exception></token>
+          <token skip="1" postag="N m .*" postag_regexp="yes">
+            <exception postag="(N f .*)|(V .*)" postag_regexp="yes"/>
+            <!-- Following exception is to skip an adverb -->
+            <exception scope="next" negate_pos="yes" postag="A|(J f .*)|(V .* f .*)|SENT_END" postag_regexp="yes"/>
+          </token>
+          <token postag="(J f .*)|(V .* f .*)" postag_regexp="yes">
+            <exception postag_regexp="yes" postag="V .*(inf|ppr|ind|con|sub).*"/>
+          </token>
         </pattern>
         <message>« \2 » et « \3 » ne semblent pas bien accordés en genre</message>
-        <example type="correct">Un <marker>climat tropical</marker>.</example>
         <example type="incorrect">Un <marker>climat tropicale</marker>.</example>
+        <example type="correct">Un <marker>climat tropical</marker>.</example>
+        <example type="incorrect">Un <marker>climat très tropicale</marker>.</example>
+        <example type="correct">Un <marker>climat très tropical</marker>.</example>
         <example type="correct">Le <marker>papier continue</marker> d'être employé.</example>
         <example type="correct">L'équipe de <marker>football anglaise</marker></example>
         <example type="correct">Les <marker>cours impériales</marker></example>
@@ -773,24 +809,43 @@ though, and has since been slightly modified)-->
       </rule>
       <rule name="féminin suivi du masculin">
         <pattern>
-          <token postag="(D f .*)|(J f .*)" postag_regexp="yes"><exception postag="V .*" postag_regexp="yes"></exception></token>
-          <token postag="(J m .*)|(N m .*)" postag_regexp="yes"><exception postag="(V .*)|(C coor)" postag_regexp="yes"></exception></token>
+          <token skip="1" postag="[DJ] f .*" postag_regexp="yes">
+            <exception postag="V .*" postag_regexp="yes"/>
+            <!-- Following exception is to skip an adverb or epicene word -->
+            <exception scope="next" negate_pos="yes" postag="A|([JN] [me] .*)|SENT_END" postag_regexp="yes"/>
+          </token>
+          <token postag="[JN] m .*" postag_regexp="yes">
+            <exception postag="(V .*)|(C coor)" postag_regexp="yes"/>
+          </token>
         </pattern>
         <message>« \1 » et « \2 » ne semblent pas bien accordés en genre</message>
         <example type="incorrect"><marker>Une pétale</marker>.</example>
         <example type="correct"><marker>Une fleur</marker>.</example>
+        <example type="incorrect"><marker>Une très grand</marker> chien.</example>
+        <example type="correct"><marker>Un très grand</marker> chien.</example>
+        <example type="incorrect"><marker>Une géologue intelligent</marker>.</example>
+        <example type="correct"><marker>Une géologue intelligente</marker>.</example>
+        <example type="correct"><marker>Un très grand</marker> chien.</example>
         <example type="correct">Elle est <marker>grasse car</marker> elle mange beaucoup.</example>
         <example type="correct">Il faudra que je <marker>vive seul</marker>.</example>
       </rule>
       <rule name="nom féminin suivi du masculin">
         <pattern mark_from="1">
           <token negate="yes" regexp="yes">de|des</token>
-          <token postag="N f .*" postag_regexp="yes"><exception postag="N m .*" postag_regexp="yes"></exception></token>
-          <token postag="(J m .*)|(V .* m .*)" postag_regexp="yes"><exception postag_regexp="yes" postag="V .*(inf|ppr|ind|con|sub).*"></exception></token>
+          <token skip="1" postag="N f .*" postag_regexp="yes">
+            <exception postag="N m .*" postag_regexp="yes"/>
+            <!-- Following exception is to skip an adverb -->
+            <exception scope="next" negate_pos="yes" postag="A|(J m .*)|(V .* m .*)|SENT_END" postag_regexp="yes"/>
+          </token>
+          <token postag="(J m .*)|(V .* m .*)" postag_regexp="yes">
+            <exception postag_regexp="yes" postag="V .*(inf|ppr|ind|con|sub).*"/>
+          </token>
         </pattern>
         <message>« \2 » et « \3 » ne semblent pas bien accordés en genre</message>
-        <example type="correct">Une <marker>forêt tropicale</marker>.</example>
         <example type="incorrect">Une <marker>forêt tropical</marker>.</example>
+        <example type="correct">Une <marker>forêt tropicale</marker>.</example>
+        <example type="incorrect">Une <marker>forêt très grand</marker>.</example>
+        <example type="correct">Une <marker>forêt très grande</marker>.</example>
         <example type="correct">Cette <marker>définition reste</marker> valable.</example>
         <example type="correct">Le système de <marker>retraites français</marker>.</example>
         <example type="correct">Les <marker>cours magistraux</marker></example>
@@ -803,7 +858,7 @@ though, and has since been slightly modified)-->
         <token regexp="yes">mon|ton|son</token>
         <and>
           <token negate="yes" postag="N f s" regexp="yes">[ahâeiouéîœ].*</token>
-          <token><exception postag="N m s"></exception></token>
+          <token><exception postag="N m s"/></token>
         </and>
       </pattern>
       <message>« \1 » ne peut pas être suivi du nom féminin « \2 ». Utilisez un déterminant féminin à la place de « \1 ».</message>
@@ -818,8 +873,14 @@ though, and has since been slightly modified)-->
   <category name="SV">
     <rule id="VCONJ_VCONJ" name="Verbe conjugué suivi d'un verbe conjugué">
       <pattern mark_from="1">
-        <token postag="V .*" postag_regexp="yes" skip="1"><exception inflected="yes" postag="(V inf)|(V etre .*)|(V avoir .*)|(N .*)" postag_regexp="yes" regexp="yes">être|paraître|sembler|devenir|demeurer|rester|avoir</exception><exception regexp="yes" scope="next">,|et</exception></token>
-        <token postag="V ppa .*" postag_regexp="yes"><exception postag="(N .*)|(J .*)" postag_regexp="yes" scope="current"></exception><exception inflected="yes" regexp="yes" scope="previous">être|paraître|sembler|devenir|demeurer|rester|avoir</exception></token>
+        <token postag="V .*" postag_regexp="yes" skip="1">
+          <exception inflected="yes" postag="(V inf)|(V etre .*)|(V avoir .*)|(N .*)" postag_regexp="yes" regexp="yes">être|paraître|sembler|devenir|demeurer|rester|avoir</exception>
+          <exception regexp="yes" scope="next">,|et</exception>
+        </token>
+        <token postag="V ppa .*" postag_regexp="yes">
+          <exception postag="(N .*)|(J .*)" postag_regexp="yes" scope="current"/>
+          <exception inflected="yes" regexp="yes" scope="previous">être|paraître|sembler|devenir|demeurer|rester|avoir</exception>
+        </token>
       </pattern>
       <message>L'infinitif est attendu après un verbe conjugué '\1'.</message>
       <example type="correct">Il aime danser</example>
@@ -830,8 +891,13 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="AUX_VCONJ" name="Auxiliaire suivi d'un verbe conjugué">
       <pattern mark_from="1">
-        <token postag="(V etre .*)|(V avoir .*)" postag_regexp="yes" skip="1"><exception scope="current">été</exception><exception regexp="yes" scope="next">,|à|beau</exception></token>
-        <token postag="V .*" postag_regexp="yes"><exception postag="(V ppa .*)|(V etre ppa .*)|(V avoir ppa .*)|(V inf.*)|(V etre inf .*)|(V avoir inf .*)|(N .*)" postag_regexp="yes"></exception></token>
+        <token postag="(V etre .*)|(V avoir .*)" postag_regexp="yes" skip="1">
+          <exception scope="current">été</exception>
+          <exception regexp="yes" scope="next">,|à|beau</exception>
+        </token>
+        <token postag="V .*" postag_regexp="yes">
+          <exception postag="(V ppa .*)|(V etre ppa .*)|(V avoir ppa .*)|(V inf.*)|(V etre inf .*)|(V avoir inf .*)|(N .*)" postag_regexp="yes"></exception>
+        </token>
       </pattern>
       <message>Après l'auxiliaire « \1 », le verbe devrait être au participe passé</message>
       <example type="correct">Il a signé le contrat</example>
@@ -8387,12 +8453,15 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="PARTIR_UNE_DISCUSSION" name="partir une discussion">
       <pattern>
-        <token inflected="yes" skip="5">partir</token>
+        <token inflected="yes" skip="3">partir
+          <exception scope="next" regexp="yes">à|aux</exception>
+        </token>
         <token regexp="yes">discussion|discussions</token>
       </pattern>
       <message>« Partir une discussion » est un anglicisme. Pour éviter la critique en parlant d'une loi, Employez <suggestion>déclencher une discussion</suggestion>, <suggestion>engager une discussion</suggestion>.</message>
       <example type="incorrect"><marker>partir une discussion</marker></example>
       <example type="correct"><marker>déclencher une discussion</marker></example>
+      <example type="correct">prendre part aux discussions</example>
     </rule>
     <rule id="PARTIR_UNE_ENTREPRISE" name="partir une entreprise">
       <pattern>
