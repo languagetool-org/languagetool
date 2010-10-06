@@ -7,11 +7,20 @@ title="Easy editing stylesheet" ?>
 German grammar and typo rules for LanguageTool
 See resource/de/tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2010 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.41 2010-10-01 22:14:31 dnaber Exp $
+$Id: grammar.xml,v 1.42 2010-10-06 20:32:01 dnaber Exp $
 -->
 <rules lang="de" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../rules.xsd">
   <category name="Mögliche Tippfehler">
+    <rule id="WAGE_VAGE" name="Tippfehler: 'wage (vage)'">
+      <pattern mark_to="-1">
+        <token>wage</token>
+        <token postag="SUB:.*|VER:.*" postag_regexp="yes"/>
+      </pattern>
+      <message>Meinten Sie <suggestion>vage</suggestion> (=unklar, unpräsize)?</message>
+      <example type="correct">Eine <marker>vage</marker> Entscheidung</example>
+      <example type="incorrect">Eine <marker>wage</marker> Entscheidung</example>
+    </rule>
     <rule id="DIE_DE" name="Tippfehler: 'de (die)'">
       <pattern mark_to="-1">
         <token>de</token>
