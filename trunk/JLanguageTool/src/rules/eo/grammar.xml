@@ -5,7 +5,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Esperanto Grammar and Typo Rules for LanguageTool
 Copyright (C) 2010 Dominique Pellé
-$Id: grammar.xml,v 1.1 2010-10-08 17:29:59 dominikoeo Exp $
+$Id: grammar.xml,v 1.2 2010-10-08 22:57:52 dominikoeo Exp $
 -->
 <rules lang="eo"
        xsi:noNamespaceSchemaLocation="../rules.xsd" 
@@ -30,6 +30,36 @@ $Id: grammar.xml,v 1.1 2010-10-08 17:29:59 dominikoeo Exp $
       <message>Ĉu vi intencis skribi <suggestion><match no="1" regexp_match="(..)-(.*)" regexp_replace="$1 $2"/></suggestion> sen streketo?</message>
       <example type="incorrect">Mi deziras <marker>ĉi-tiun</marker>.</example>
       <example type="correct">Mi deziras ĉi tiun..</example>
+    </rule>
+
+    <rule id="EK_DE" name="ek de (ekde)">
+      <pattern>
+        <token>ek</token>
+        <token>de</token>
+      </pattern>
+      <message>Ĉu vi intencis skribi <suggestion>ekde</suggestion>?</message>
+      <example type="incorrect">Mi lernis Esperanton <marker>ek de</marker> la jaro 2005.</example>
+      <example type="correct">Mi lernis Esperanton <marker>ekde</marker> la jaro 2005</example>
+    </rule>
+
+    <rule id="JA_JES" name="ja jes (jes ja)">
+      <pattern>
+        <token>ja</token>
+        <token>jes</token>
+      </pattern>
+      <message>Oni ne uzas «\1 \2», ĉu vi intencis skribi <suggestion>\2 \1</suggestion>?</message>
+      <example type="incorrect"><marker>Ja jes</marker>!</example>
+      <example type="correct">Jes ja!</example>
+    </rule>
+
+    <rule id="TRE_O" name="tre + o-vorto">
+      <pattern>
+        <token>tre</token>
+        <token postag="O .*" postag_regexp="yes"/>
+      </pattern>
+      <message>Vorto «\1» ne povas priskribi O-vorton «\2».</message>
+      <example type="incorrect"><marker>Tre multo</marker> estas ankoraŭ farenda.</example>
+      <example type="correct">Tre multe estas ankoraŭ farenda.</example>
     </rule>
 
     <rule id="KIOJ" name="Kioj (Kio)">
@@ -94,6 +124,36 @@ $Id: grammar.xml,v 1.1 2010-10-08 17:29:59 dominikoeo Exp $
       <example type="incorrect">Mi veturis 100 kilometrojn <marker>po horo</marker>.</example>
     </rule>
 
+    <rule id="PRO_VINF" name="pro + verbo inf">
+      <pattern> 
+        <token>pro</token>
+        <token postag="V .. i" postag_regexp="yes"/>
+      </pattern> 
+      <message>Post «\1» ne povas esti infinitiva verbo. Ĉu vi intencis skribi <suggestion>por \2</suggestion>?</message>
+      <example type="incorrect">Mi studas <marker>pro sukcesi</marker>.</example>
+      <example type="correct">Mi studas <marker>por sukcesi</marker>.</example>
+    </rule>
+
+    <rule id="AMBAŬ_SING" name="ambaŭ + sing">
+      <pattern> 
+        <token>ambaŭ</token>
+        <token postag="[ROAT] ... np" postag_regexp="yes"/>
+      </pattern> 
+      <message>La vorto «\1» postulas pluralon.</message>
+      <example type="incorrect"><marker>Ambaŭ teamo</marker> perdis.</example>
+      <example type="correct">Ambaŭ teamoj perdis.</example>
+    </rule>
+
+    <rule id="AMBAŬ_LA" name="ambaŭ + la">
+      <pattern> 
+        <token>ambaŭ</token>
+        <token>la</token>
+      </pattern> 
+      <message>Ne devas esti «\2» post «\1», ĉar «1» estas jam definilo.</message>
+      <example type="incorrect"><marker>Ambaŭ la</marker> teamoj perdis.</example>
+      <example type="correct">Ambaŭ teamoj perdis.</example>
+    </rule>
+
     <rule id="PREPOZICIO_AKU" name="prepozicio + akuzativo">
       <pattern>
         <token postag="P sak"/>
@@ -140,15 +200,16 @@ $Id: grammar.xml,v 1.1 2010-10-08 17:29:59 dominikoeo Exp $
     </rule>
 
     <rule id="NAK_NAK_VTR" name="mankanta akuzativo">
-      <pattern mark_from="2" mark_to="-1">
+      <pattern mark_from="2" mark_to="-2">
         <token skip="2" postag="SENT_START">
           <exception scope="next" negate_pos="yes" postag="([EK].*)|([ROT] nak.*)" postag_regexp="yes"/>
         </token>
-        <token postag="[ROT] nak.*" postag_regexp="yes"/>
-        <token postag="[ROT] nak.*" postag_regexp="yes"/>
+        <token postag="[RT] nak.*" postag_regexp="yes"/>
+        <token postag="[RO] nak.*" postag_regexp="yes"/>
         <token postag="V tr .*" postag_regexp="yes"/>
+        <token postag="SENT_END"/>
       </pattern>
-      <message>Ĉu vi forgesis akuzativon post transitiva verbo «\2»?</message>
+      <message>Ĉu vi forgesis akuzativon antaŭ transitiva verbo «\2»?</message>
       <example type="incorrect">Mi <marker>vi</marker> vidas.</example>
       <example type="correct">Mi <marker>vin</marker> vidas.</example>
       <example type="incorrect">Ĉar hieraŭ mi <marker>vi</marker> vidis.</example>
@@ -187,7 +248,7 @@ $Id: grammar.xml,v 1.1 2010-10-08 17:29:59 dominikoeo Exp $
           </token>
           <token postag="[ROAT] nak pl.*" postag_regexp="yes"/>
         </pattern>
-        <message>Ne kongra pluralr inter «\2» kaj «\4».</message>
+        <message>Ne kongra pluralo inter «\2» kaj «\4».</message>
         <example type="incorrect">Mi estas <marker>lacaj</marker>.</example>
         <example type="correct">Mi estas <marker>laca</marker>.</example>
         <example type="incorrect">Mi estas tre <marker>lacaj</marker>.</example>
@@ -217,6 +278,18 @@ $Id: grammar.xml,v 1.1 2010-10-08 17:29:59 dominikoeo Exp $
       <message>«\1» ne povas stari kune kun pronomo «\2».</message>
       <example type="incorrect"><marker>La mi</marker> libro.</example>
       <example type="correct">Mia ibro.</example>
+    </rule>
+
+    <rule id="ANTAŬ_VINF" name="antaŭ + verbo inf">
+      <pattern>
+        <token>antaŭ</token>
+        <token postag="V .*" postag_regexp="yes"/>
+      </pattern>
+      <message>Inter «\1» kaj verbo «\2», oni devas meti «ol».</message>
+      <example type="incorrect">Ne mangû <marker>antaŭ naĝi</marker>.</example>
+      <example type="correct">Mi manĝŭ antaŭ ol naĝi.</example>
+      <example type="incorrect">Ni alvenos <marker>antaŭ pluvos</marker>.</example>
+      <example type="correct">Ni alvenos antaŭ ol pluvos.</example>
     </rule>
 
     <rulegroup id="DEMANDO_SEN_ĈU" name="demando sen demanda vorto">
@@ -253,6 +326,17 @@ $Id: grammar.xml,v 1.1 2010-10-08 17:29:59 dominikoeo Exp $
       </rule>
 
     </rulegroup>
+
+    <!-- FIX THIS
+    <rule id="JU_SEN_DES" name="Ju sen des">
+      <pattern>
+        <token skip="-1">ju<exception scope="next">des</exception></token>
+      </pattern>
+      <message>Vorteto «ju» ne povas aperi sen vorteto «des».</message>
+      <example type="incorrect"><marker>Ju</marker> pli facile, ju pli bone.</example>
+      <example type="correct">Ju pli facile, des pli bone.</example>
+    </rule>
+    -->
 
   </category>
 </rules>
