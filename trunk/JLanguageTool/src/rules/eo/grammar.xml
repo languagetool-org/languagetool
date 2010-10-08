@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../print.xsl" ?>
+<?xml-stylesheet type="text/css" href="../rules.css" 
+title="Easy editing stylesheet" ?>
+<!--
+Esperanto Grammar and Typo Rules for LanguageTool
+Copyright (C) 2010 Dominique Pellé
+$Id: grammar.xml,v 1.1 2010-10-08 17:29:59 dominikoeo Exp $
+-->
+<rules lang="eo"
+       xsi:noNamespaceSchemaLocation="../rules.xsd" 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <category name="Gramatiko">
+
+    <rule id="ĈI_FOJE" name="ĉi foje (ĉi-foje)">
+      <pattern>
+        <token>ĉi</token>
+        <token postag="E .*" postag_regexp="yes"/>
+      </pattern>
+      <message>Ĉu vi intencis skribi <suggestion>\1-\2</suggestion> kun streketo?</message>
+      <example type="incorrect">Mi vojaĝos <marker>ĉi jare</marker>.</example>
+      <example type="correct">Mi vojaĝos ĉi-jare.</example>
+    </rule>
+
+    <rule id="ĈI-TIU" name="ĉi-tiu (ĉi tiu)">
+      <pattern>
+        <token regexp="yes">ĉi-ti(([aeou]j?n?)|el|am|es|om)</token>
+      </pattern>
+      <message>Ĉu vi intencis skribi <suggestion><match no="1" regexp_match="(..)-(.*)" regexp_replace="$1 $2"/></suggestion> sen streketo?</message>
+      <example type="incorrect">Mi deziras <marker>ĉi-tiun</marker>.</example>
+      <example type="correct">Mi deziras ĉi tiun..</example>
+    </rule>
+
+    <rule id="KIOJ" name="Kioj (Kio)">
+      <pattern>
+        <token regexp="yes">[tk]iojn?</token>
+      </pattern>
+      <message>La tabelvortoj je O ne povas normale ricevi J.</message>
+      <example type="incorrect"><marker>Tiojn</marker> aŭtojn mi vidas.</example>
+      <example type="correct">Tiujn aŭtojn mi vidas?</example>
+    </rule>
+
+    <rule id="PASI_EKZAMENON" name="pasi ekzamenon (trapasi ekzamenon)">
+      <pattern>
+        <token regexp="yes" skip="2">pas(i|u|as|is|us|os|([aoi]n?t[ea]j?n?))</token>
+        <token regexp="yes">ekzamenoj?n?</token>
+      </pattern>
+      <message>«Pasi ekzamenon» evitindas. Preferu «sukcesi akzamenon» aŭ «trapasi ekzamenon» laŭ tion, kion vi intencas.</message>
+      <example type="incorrect">Li ne <marker>pasis la ekzamenon</marker>.</example>
+      <example type="correct">Li ne sukcesis la ekzamenon.</example>
+      <example type="incorrect"><marker>Pasinte la ekzamenon</marker></example>
+      <example type="correct"><marker>Trapasinte la ekzamenon</marker></example>
+      <example type="correct">Morgaŭ mi trapasos gravan ekzamenon.</example>
+    </rule>
+
+    <rule id="NEOFICIALAJ_ROLVORTETOJ" name="neoficialaj rolvortetoj">
+      <pattern>
+        <token regexp="yes">na|far|cis</token>
+      </pattern>
+      <message>«\1» estas neoficiala rolverteto.</message>
+      <example type="incorrect">La libro estis verkita <marker>far</marker> fama aŭtoro.</example>
+      <example type="correct">La libro estis verkita fare de fama aŭtoro.</example>
+    </rule>
+
+    <rule id="KILOGRAMO_DE" name="kilogramo de">
+      <pattern mark_from="1">
+        <token regexp="yes">((kilo)?gramoj?n?)|(litroj?n?)</token>
+        <token>de</token>
+      </pattern>
+      <message>Ĉu vi intencis «\1 da» anstataŭ «\1 de»?</message>
+      <example type="incorrect">Mi aĉetis kilogramon <marker>de</marker> terpomoj.</example>
+      <example type="correct">Mi aĉetis kilogramon da terpomoj.</example>
+    </rule>
+
+    <rule id="BONVOLU_U" name="bonvolu + u-verbo">
+      <pattern mark_from="1">
+        <token>bonvolu</token>
+        <token postag="V .* (u|as|os|is|us)" postag_regexp="yes"/>
+      </pattern>
+      <message>La verbo «\2» devus havi i-finaĵon.</message>
+      <example type="incorrect">Bonvolu <marker>fermu</marker> la fenestron.</example>
+      <example type="correct">Bonvolu <marker>fermi</marker> la fenestron.</example>
+    </rule>
+
+    <rule id="PO" name="misuzo de po">
+      <pattern>
+        <token>po</token>
+        <token regexp="yes">(((kilo)?metr)|((ge)?(person|hom))|(.*ul)|(sekol|jar|monat|semajn|tag|hor|minut|sekond))oj?</token>
+      </pattern>
+      <message>Misuzo de la vorto «po».</message>
+      <example type="incorrect">Kostas du eŭro <marker>po persono</marker>.</example>
+      <example type="correct">Kostas po du eŭro por persono.</example>
+      <example type="incorrect">Mi veturis 100 kilometrojn <marker>po horo</marker>.</example>
+    </rule>
+
+    <rule id="PREPOZICIO_AKU" name="prepozicio + akuzativo">
+      <pattern>
+        <token postag="P sak"/>
+        <token postag=". akz.*" postag_regexp="yes"/>
+      </pattern>
+      <message>Prepozicio «\1» neniam povas esti sekvita de akuzativo.</message>
+      <example type="incorrect">Mi pensas <marker>pri vin</marker>.</example>
+      <example type="incorrect">Mi vojaĝas <marker>sen veturilon</marker>.</example>
+      <example type="correct">Mi pensas <marker>pri vi</marker>.</example>
+    </rule>
+
+    <rule id="VNETR_AKU" name="netransitiva verbo + akuzativo">
+      <pattern mark_from="1">
+        <token postag="V nt .*" postag_regexp="yes" skip="2">
+          <exception scope="next" postag="V.*" postag_regexp="yes"/>
+          <exception scope="next" postag="P kak"/>
+        </token>
+        <token postag="[OA].* akz.*" postag_regexp="yes"/>
+      </pattern>
+      <message>Netransitiva verbo «\1» ne povas havi objekton.</message>
+      <example type="incorrect">Mi volas fariĝi <marker>instruiston</marker>.</example>
+      <example type="correct">Mi volas fariĝi <marker>instruisto</marker>.</example>
+      <example type="incorrect">Mi estas <marker>lacan</marker>.</example>
+      <example type="correct">Mi estas <marker>laca</marker>.</example>
+      <example type="correct">Mi iras en la domon.</example>
+      <example type="correct">Mi iras tien.</example>
+    </rule>
+
+    <rule id="NAK_VTR_NAK" name="mankanta akuzativo">
+      <pattern mark_from="2">
+        <token postag="[ROAT] nak.*" postag_regexp="yes" skip="3">
+          <exception postag="[ROAT] akz.*" postag_regexp="yes" scope="next"/>
+        </token>
+        <token postag="V tr .*" postag_regexp="yes" skip="1">
+          <exception postag="(P .*)|(T .* k .*)" postag_regexp="yes" scope="next"/>
+        </token>
+        <token postag="[ROAT] nak.*" postag_regexp="yes"/>
+      </pattern>
+      <message>Ĉu vi forgesis akuzativon post transitiva verbo «\2»?</message>
+      <example type="incorrect">Mi forgesis la <marker>akuzativo</marker>.</example>
+      <example type="correct">Mi forgesis la <marker>akuzativon</marker>.</example>
+      <example type="correct">Mi kantas kun amiko.</example>
+      <example type="correct">Mi klarigis kial li ne venis.</example>
+    </rule>
+
+    <rule id="NAK_NAK_VTR" name="mankanta akuzativo">
+      <pattern mark_from="2" mark_to="-1">
+        <token skip="2" postag="SENT_START">
+          <exception scope="next" negate_pos="yes" postag="([EK].*)|([ROT] nak.*)" postag_regexp="yes"/>
+        </token>
+        <token postag="[ROT] nak.*" postag_regexp="yes"/>
+        <token postag="[ROT] nak.*" postag_regexp="yes"/>
+        <token postag="V tr .*" postag_regexp="yes"/>
+      </pattern>
+      <message>Ĉu vi forgesis akuzativon post transitiva verbo «\2»?</message>
+      <example type="incorrect">Mi <marker>vi</marker> vidas.</example>
+      <example type="correct">Mi <marker>vin</marker> vidas.</example>
+      <example type="incorrect">Ĉar hieraŭ mi <marker>vi</marker> vidis.</example>
+      <example type="correct">Ĉar hieraŭ mi <marker>vin</marker> vidis.</example>
+    </rule>
+
+    <rulegroup id="NEKONG_NOMBR" name="nekongruaj nombroj">
+      <rule>
+        <pattern mark_from="3">
+          <token skip="3" postag="SENT_START|K" postag_regexp="yes">
+            <exception scope="next" negate_pos="yes" postag="([DE].*)|([ROAT] nak pl.*)" postag_regexp="yes"/>
+          </token>
+          <token postag="[ROAT] nak pl.*" postag_regexp="yes"/>
+          <token skip="1" postag="V nt .*" postag_regexp="yes">
+            <exception scope="next" negate_pos="yes" postag="(E.*)|([ROAT] nak np.*)|SENT_END" postag_regexp="yes"/>
+          </token>
+          <token postag="[ROAT] nak np.*" postag_regexp="yes"/>
+        </pattern>
+        <message>Ne kongrua pluralo inter «\2» kaj «\4».</message>
+        <example type="incorrect">Ni estas <marker>laca</marker>.</example>
+        <example type="correct">Ni estas <marker>lacaj</marker>.</example>
+        <example type="incorrect">Hodiaŭ ni estas tre <marker>laca</marker>.</example>
+        <example type="correct">Hidiaŭ ni estas tre <marker>lacaj</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern mark_from="3">
+          <token skip="3" postag="SENT_START|K" postag_regexp="yes">
+            <exception scope="next" negate_pos="yes" postag="([DE].*)|([ROAT] nak np.*)" postag_regexp="yes"/>
+          </token>
+          <token skip="1" postag="[ROAT] nak np.*" postag_regexp="yes">
+            <exception scope="next" negate_pos="yes" postag="(E.*)|(V nt .*)" postag_regexp="yes"/>
+          </token>
+          <token skip="1" postag="V nt .*" postag_regexp="yes">
+            <exception scope="next" negate_pos="yes" postag="(E.*)|([ROAT] nak pl.*)|SENT_END" postag_regexp="yes"/>
+          </token>
+          <token postag="[ROAT] nak pl.*" postag_regexp="yes"/>
+        </pattern>
+        <message>Ne kongra pluralr inter «\2» kaj «\4».</message>
+        <example type="incorrect">Mi estas <marker>lacaj</marker>.</example>
+        <example type="correct">Mi estas <marker>laca</marker>.</example>
+        <example type="incorrect">Mi estas tre <marker>lacaj</marker>.</example>
+        <example type="correct">Mi estas tre <marker>laca</marker>.</example>
+      </rule>
+
+      <rule name="pronomo kaj pronomo + verbo ntr + singularo">
+        <pattern mark_from="5">
+          <token postag="SENT_START"/>
+          <token postag="[RO].*" postag_regexp="yes"/>
+          <token>kaj</token>
+          <token postag="[RO] nak.*" postag_regexp="yes"/>
+          <token postag="V nt .*" postag_regexp="yes" skip="1"/>
+          <token postag="[ROAT] nak np.*" postag_regexp="yes"/>
+        </pattern>
+        <message>Ne kongrua pluralo inter «\2», «\4» kaj «\6».</message>
+        <example type="incorrect">Mi kaj li estas <marker>viro</marker>.</example>
+        <example type="correct">Mi kaj li estas <marker>viroj</marker>.</example>
+      </rule>
+    </rulegroup>
+
+    <rule id="LA_MIA" name="La + pronomo">
+      <pattern>
+        <token>la</token>
+        <token postag_regexp="yes" postag="R .*"/>
+      </pattern>
+      <message>«\1» ne povas stari kune kun pronomo «\2».</message>
+      <example type="incorrect"><marker>La mi</marker> libro.</example>
+      <example type="correct">Mia ibro.</example>
+    </rule>
+
+    <rulegroup id="DEMANDO_SEN_ĈU" name="demando sen demanda vorto">
+      <rule>
+        <pattern mark_from="3">
+          <token postag="SENT_START"/>
+          <token regexp="yes">.*<exception>Ĉu</exception>
+            <exception postag="[KP].*" postag_regexp="yes"></exception>
+            <exception postag="T .* k .*" postag_regexp="yes"/>
+          </token>
+          <token skip="-1"/>
+          <token postag="M fino dem"/>
+        </pattern>
+        <message>Demando devas komenciĝi per la vorto «Ĉu» aŭ «Ki-» tabelvorto.</message>
+        <example type="incorrect">Vi fartas bone<marker>?</marker></example>
+        <example type="correct">Ĉu vi fartas bone?</example>
+        <example type="correct">Kiel vi fartas?</example>
+        <example type="correct">De kiu lando vi venas?</example>
+      </rule>
+
+      <rule>
+        <pattern mark_from="4">
+          <token postag="SENT_START"/>
+          <token postag="[PK].*" postag_regexp="yes"/>
+          <token regexp="yes">.*<exception>Ĉu</exception>
+            <exception postag="T .* k .*" postag_regexp="yes"/>
+          </token>
+          <token skip="-1"/>
+          <token postag="M fino dem"/>
+        </pattern>
+        <message>Demando devas komenciĝi per la vorto «Ĉu» aŭ «Ki-» tabelvorto.</message>
+        <example type="incorrect">Kaj vi nun fartas bone<marker>?</marker></example>
+        <example type="correct">Kaj ĉu vi nun fartas bone?</example>
+      </rule>
+
+    </rulegroup>
+
+  </category>
+</rules>

@@ -330,7 +330,7 @@ interface of LanguageTool into your language when used in OpenOffice.org.</li>
 <li>Adapt <tt>build.xml</tt>. Just search for "/en/"
 in that file and copy those lines, adapting them to your language.</li>
 
-<li>Copy <tt>MessageBundle.properties</tt> to <tt>MessageBundle_xx.properties</tt>,
+<li>Copy <tt>MessagesBundle.properties</tt> to <tt>MessagesBundle_xx.properties</tt>,
 whereas <tt>xx</tt> is the code of your new language and translate all values (i.e. the strings
 on the right of the "=" sign).</li>
 

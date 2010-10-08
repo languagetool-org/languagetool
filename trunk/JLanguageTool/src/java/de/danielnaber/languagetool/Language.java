@@ -33,6 +33,7 @@ import de.danielnaber.languagetool.language.Demo;
 import de.danielnaber.languagetool.language.Danish;
 import de.danielnaber.languagetool.language.Dutch;
 import de.danielnaber.languagetool.language.English;
+import de.danielnaber.languagetool.language.Esperanto;
 import de.danielnaber.languagetool.language.French;
 import de.danielnaber.languagetool.language.Galician;
 import de.danielnaber.languagetool.language.German;
@@ -71,6 +72,7 @@ public abstract class Language {
   public static final Language DANISH = new Danish();
   public static final Language DUTCH = new Dutch();
   public static final Language ENGLISH = new English();
+  public static final Language ESPERANTO = new Esperanto();
   public static final Language FRENCH = new French();
   public static final Language GERMAN = new German();
   public static final Language ITALIAN = new Italian();
@@ -99,7 +101,7 @@ public abstract class Language {
   public static Language[] LANGUAGES = {
     ENGLISH, GERMAN, POLISH, FRENCH, SPANISH, ITALIAN, DUTCH, LITHUANIAN, UKRAINIAN, RUSSIAN,
     SLOVAK, SLOVENIAN, SWEDISH, ROMANIAN, ICELANDIC, GALICIAN, CATALAN, DANISH,
-    MALAYALAM, BELARUSIAN,
+    MALAYALAM, BELARUSIAN, ESPERANTO,
     DEMO
     // FIXME: load dynamically from classpath
   };
