@@ -282,53 +282,52 @@ public class EsperantoTagger implements Tagger {
       final String lWord = word.toLowerCase();
 
       if (lWord.equals(".")) {
-        l.add(new AnalyzedToken(word, "M fino", null));
+        l.add(new AnalyzedToken(word, "M fino", lWord));
 
       } else if (lWord.equals("?")) {
-        l.add(new AnalyzedToken(word, "M fino dem", null));
+        l.add(new AnalyzedToken(word, "M fino dem", lWord));
 
       } else if (lWord.equals("!")) {
-        l.add(new AnalyzedToken(word, "M fino kri", null));
+        l.add(new AnalyzedToken(word, "M fino kri", lWord));
 
       } else if (lWord.equals("la")) {
-        l.add(new AnalyzedToken(word, "D", null));
-
+        l.add(new AnalyzedToken(word, "D", lWord));
 
       } else if (setAdverbs.contains(lWord)) {
-        l.add(new AnalyzedToken(word, "E nak", null));
+        l.add(new AnalyzedToken(word, "E nak", lWord));
 
       } else if (setWordsNotTagged.contains(lWord)) {
-        l.add(new AnalyzedToken(word, null, null));
+        l.add(new AnalyzedToken(word, null, lWord));
 
       // Pronouns.
       } else if (lWord.equals("mi") || lWord.equals("ci")
               || lWord.equals("li")
               || lWord.equals("ŝi") || lWord.equals("oni")) {
-        l.add(new AnalyzedToken(word, "R nak np", null));
+        l.add(new AnalyzedToken(word, "R nak np", lWord));
       } else if (lWord.equals("min") || lWord.equals("cin")
              ||  lWord.equals("lin") || lWord.equals("ŝin")) {
-        l.add(new AnalyzedToken(word, "R akz np", null));
+        l.add(new AnalyzedToken(word, "R akz np", lWord.substring(0, lWord.length() - 1)));
       } else if (lWord.equals("ni") || lWord.equals("ili")) {
-        l.add(new AnalyzedToken(word, "R nak pl", null));
+        l.add(new AnalyzedToken(word, "R nak pl", lWord));
       } else if (lWord.equals("nin") || lWord.equals("ilin")) {
-        l.add(new AnalyzedToken(word, "R akz pl", null));
+        l.add(new AnalyzedToken(word, "R akz pl", lWord.substring(0, lWord.length() - 1)));
       } else if (lWord.equals("vi")) {
-        l.add(new AnalyzedToken(word, "R nak pn", null));
+        l.add(new AnalyzedToken(word, "R nak pn", lWord));
       } else if (lWord.equals("vin")) {
-        l.add(new AnalyzedToken(word, "R akz pn", null));
+        l.add(new AnalyzedToken(word, "R akz pn", lWord.substring(0, lWord.length() - 1)));
 
       // Conjunctions (kaj, sed, ...)
       } else if (setConjunctions.contains(lWord)) {
-        l.add(new AnalyzedToken(word, "K", null));
+        l.add(new AnalyzedToken(word, "K", lWord));
   
       // Prepositions.
       } else if (setPrepositionsNoAccusative.contains(lWord)) {
-        l.add(new AnalyzedToken(word, "P sak", null));
+        l.add(new AnalyzedToken(word, "P sak", lWord));
       } else if (setPrepositionsAccusative.contains(lWord)) {
-        l.add(new AnalyzedToken(word, "P kak", null));
+        l.add(new AnalyzedToken(word, "P kak", lWord));
 
       } else if (setNumbers.contains(lWord)) {
-        l.add(new AnalyzedToken(word, "B", null));
+        l.add(new AnalyzedToken(word, "N", lWord));
 
       // Tiu, kiu (tabelvortoj).
       } else if ((matcher = patternTabelvorto.matcher(lWord)).find()) {
@@ -358,32 +357,33 @@ public class EsperantoTagger implements Tagger {
 
       // Words ending in .*oj?n? are nouns.
       } else if (lWord.endsWith("o")) {
-        l.add(new AnalyzedToken(word, "O nak np", null));
+        l.add(new AnalyzedToken(word, "O nak np", lWord.substring(0, lWord.length() - 1)));
       } else if (lWord.endsWith("oj")) {
-        l.add(new AnalyzedToken(word, "O nak pl", null));
+        l.add(new AnalyzedToken(word, "O nak pl", lWord.substring(0, lWord.length() - 2)));
       } else if (lWord.endsWith("on")) {
-        l.add(new AnalyzedToken(word, "O akz np", null));
+        l.add(new AnalyzedToken(word, "O akz np", lWord.substring(0, lWord.length() - 2)));
       } else if (lWord.endsWith("ojn")) {
-        l.add(new AnalyzedToken(word, "O akz pl", null));
+        l.add(new AnalyzedToken(word, "O akz pl", lWord.substring(0, lWord.length() - 3)));
 
       // Words ending in .*aj?n? are nouns.
       } else if (lWord.endsWith("a")) {
-        l.add(new AnalyzedToken(word, "A nak np", null));
+        l.add(new AnalyzedToken(word, "A nak np", lWord.substring(0, lWord.length() - 1)));
       } else if (lWord.endsWith("aj")) {
-        l.add(new AnalyzedToken(word, "A nak pl", null));
+        l.add(new AnalyzedToken(word, "A nak pl", lWord.substring(0, lWord.length() - 2)));
       } else if (lWord.endsWith("an")) {
-        l.add(new AnalyzedToken(word, "A akz np", null));
+        l.add(new AnalyzedToken(word, "A akz np", lWord.substring(0, lWord.length() - 2)));
       } else if (lWord.endsWith("ajn")) {
-        l.add(new AnalyzedToken(word, "A akz pl", null));
+        l.add(new AnalyzedToken(word, "A akz pl", lWord.substring(0, lWord.length() - 3)));
 
       // Words ending in .*en? are adverbs.
       } else if (lWord.endsWith("e")) {
-        l.add(new AnalyzedToken(word, "E nak", null));
+        l.add(new AnalyzedToken(word, "E nak", lWord.substring(0, lWord.length() - 1)));
       } else if (lWord.endsWith("en")) {
-        l.add(new AnalyzedToken(word, "E akz", null));
+        l.add(new AnalyzedToken(word, "E akz", lWord.substring(0, lWord.length() - 2)));
 
       // Verbs.
       } else if ((matcher = patternVerb1.matcher(lWord)).find()) {
+        final String verb = matcher.group(1);
         final String tense = matcher.group(2);
         final String transitive;
 
@@ -391,7 +391,6 @@ public class EsperantoTagger implements Tagger {
         if (matcher2.find()) {
           transitive = matcher2.group(1).equals("ig") ? "tr" : "nt";
         } else {
-          final String verb = matcher.group(1);
           final boolean isTransitive   = setTrVerbs .contains(verb);
           final boolean isIntransitive = setNtrVerbs.contains(verb);
 
@@ -401,7 +400,7 @@ public class EsperantoTagger implements Tagger {
             transitive = isIntransitive ? "nt" : "tn";
           }
         }
-        l.add(new AnalyzedToken(word, "V " + transitive + " " + tense, null));
+        l.add(new AnalyzedToken(word, "V " + transitive + " " + tense, verb));
 
       // Irregular word (no tag).
       } else {
@@ -422,5 +421,4 @@ public class EsperantoTagger implements Tagger {
   public AnalyzedToken createToken(String token, String posTag) {
     return new AnalyzedToken(token, posTag, null);
   }
-
 }
