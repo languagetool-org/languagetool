@@ -22,6 +22,10 @@
  */
 package de.danielnaber.languagetool.tagging.eo;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +37,7 @@ import java.util.regex.Pattern;
 
 import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
+import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.tagging.Tagger;
 
 /**
@@ -92,186 +97,77 @@ public class EsperantoTagger implements Tagger {
 
   private final static Set setAdverbs = new HashSet<String>(Arrays.asList(adverbs));
 
-  // Stem of transitive and intransitive verbs.  A few verbs can be both
-  // transitive and intransitive. Such verbs may appear in both ntrVerb[]
-  // and trVerbs[].
-
-  // Intransitive verbs (TODO: this should be stored in a dictionary).
-  // No need to list verbs with suffix iĝ suffix since those are
-  // always intransitive.
-  private final static String ntrVerbs[] = {
-    "abort",
-    "abstin",
-    "ag",
-    "agoni",
-    "aĝi",
-    "akord",
-    "altern",
-    "aparten",
-    "apelaci",
-    "aper",
-    "aspekt",
-    "at",
-    "atut",
-    "aŭdac",
-    "aviad",
-    "balot",
-    "bankrot",
-    "barakt",
-    "batal",
-    "bicikl",
-    "blasfem",
-    "blek",
-    "blov",
-    "boj",
-    "boks",
-    "bol",
-    "bril",
-    "brokant",
-    "bru",
-    "brul",
-    "cirkul",
-    "daŭr",
-    "degel",
-    "dron",
-    "eksplod",
-    "est",
-    "evolu",
-    "fal",
-    "grimp",
-    "halt",
-    "ir",
-    "koler",
-    "kresk",
-    "krev",
-    "labor",
-    "mir",
-    "odor",
-    "okaz",
-    "parol",
-    "pend",
-    "porol",
-    "rid",
-    "sid",
-    "star",
-    "velk",
-    "ven",
-    "vetur",
-    "zorg",
-    "ĉes",
-    "ĝoj",
-    "ŝpruc",
-    "ŝrump",
-    "ŝvel",
-  };
-
-  private final static Set setNtrVerbs = new HashSet<String>(Arrays.asList(ntrVerbs));
+  // Set of transitive verbs and non-transitive verbs.
+  private Set setTransitiveVerbs = null;
+  private Set setNonTransitiveVerbs = null;
 
   // Verbs always end with this pattern.
   private final static Pattern patternVerb1 = Pattern.compile("(.*)(as|os|is|us|u|i)$");
   private final static Pattern patternVerb2 = Pattern.compile(".*(ig|iĝ)(.s|.)$");
 
-  // Transitive verbs (TODO: this should be stored in a dictionary).
-  // No need to list verbs with suffix ig suffix since those are
-  // always transitive.
-  private final static String trVerbs[] = {
-    "balanc",
-    "ban",
-    "bonven",
-    "bukl",
-    "dezir",
-    "difin",
-    "dolor",
-    "duŝ",
-    "enhav",
-    "etend",
-    "far",
-    "fend",
-    "ferm",
-    "fin",
-    "fleks",
-    "forges",
-    "hav",
-    "interes",
-    "kaŝ",
-    "kirl",
-    "klin",
-    "kolekt",
-    "komenc",
-    "komplik",
-    "komunik",
-    "konduk",
-    "korekt",
-    "lav",
-    "lig",
-    "lud",
-    "manĝ",
-    "memor",
-    "mov",
-    "mezur",
-    "miks",
-    "mov",
-    "nask",
-    "naŭz",
-    "pag",
-    "parol",
-    "paŝt",
-    "pes",
-    "perd",
-    "profit",
-    "renkont",
-    "renvers",
-    "romp",
-    "rul",
-    "sci",
-    "send",
-    "sent",
-    "sku",
-    "spekt",
-    "streĉ",
-    "sufok",
-    "sving",
-    "ted",
-    "tim",
-    "tir",
-    "tord",
-    "tranĉ",
-    "translok",
-    "tren",
-    "turn",
-    "uz",
-    "vek",
-    "vend",
-    "venĝ",
-    "verŝ",
-    "vest",
-    "vid",
-    "vind",
-    "vol",
-    "volv",
-    "ŝancel",
-    "ŝanĝ",
-    "ŝlos",
-    "ŝir",
-    "ŝut",
-  };
+  // Particips -ant-, -int, ont-, -it-, -it-, -ot-
+  // TODO: this is not used yet.
+  final Pattern patternParticip =
+    Pattern.compile("(.*)([aio])(n?)t([aoe])(j?)(n?)");
+  // Groups           11  22222  33   44444  55  66
 
-  private final static Set setTrVerbs = new HashSet<String>(Arrays.asList(trVerbs));
+  // Pattern 'tabelvortoj'.
+  final Pattern patternTabelvorto = 
+    Pattern.compile("^(i|ti|ki|ĉi|neni)((([uoae])(j?)(n?))|(am|al|es|el|om))$");
+  // Groups            111111111111111  22222222222222222222222222222222
+  //                                     3333333333333333   77777777777
+  //                                      444444  55  66                  
 
-  public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens) {
+  /**
+   * Load list of words from UTF-8 file (one word per line).
+   */
+  private Set loadWords(final InputStream file) throws IOException {
+    InputStreamReader isr = null;
+    BufferedReader br = null;
+    final Set<String> words = new HashSet<String>();
+    try {
+      isr = new InputStreamReader(file, "UTF-8");
+      br = new BufferedReader(isr);
+      String line;
 
-    // Particips -ant-, -int, ont-, -it-, -it-, -ot-
-    // TODO: this is not used yet.
-    final Pattern patternParticip =
-      Pattern.compile("(.*)([aio])(n?)t([aoe])(j?)(n?)");
-    // Groups           11  22222  33   44444  55  66
+      while ((line = br.readLine()) != null) {
+        line = line.trim();
+        if (line.length() < 1) {
+          continue;
+        }
+        if (line.charAt(0) == '#') { // ignore comments
+          continue;
+        }
+        words.add(line);
+      }
+    } finally {
+      if (br != null) {
+        br.close();
+      }
+      if (isr != null) {
+        isr.close();
+      }
+    }
+    return words;
+  }
 
-    // Pattern 'tabelvortoj'.
-    final Pattern patternTabelvorto = 
-      Pattern.compile("^(i|ti|ki|ĉi|neni)((([uoae])(j?)(n?))|(am|al|es|el|om))$");
-    // Groups            111111111111111  22222222222222222222222222222222
-    //                                     3333333333333333   77777777777
-    //                                      444444  55  66                  
+  private void lazyInit() throws IOException {
+    if (setTransitiveVerbs != null) {
+      return;
+    }
+
+    // Load set of transitive and non-transitive verbs.  Files don't contain
+    // verbs with suffix -iĝ or -ig since transitivity is obvious for those verbs.
+    // They also don't contain verbs with prefixes mal-, ek-, re-, mis- fi- and
+    // suffixes -ad, -aĉ, -et, -eg since these affixes never alter transitivity.
+    setTransitiveVerbs    = loadWords(JLanguageTool.getDataBroker().getFromRulesDirAsStream("/eo/verb-tr.txt"));
+    setNonTransitiveVerbs = loadWords(JLanguageTool.getDataBroker().getFromRulesDirAsStream("/eo/verb-ntr.txt"));
+  }
+
+  public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens) throws IOException {
+
+    lazyInit();
+
     Matcher matcher;
 
     final List<AnalyzedTokenReadings> tokenReadings = 
@@ -305,7 +201,8 @@ public class EsperantoTagger implements Tagger {
               || lWord.equals("ŝi") || lWord.equals("oni")) {
         l.add(new AnalyzedToken(word, "R nak np", lWord));
       } else if (lWord.equals("min") || lWord.equals("cin")
-             ||  lWord.equals("lin") || lWord.equals("ŝin")) {
+              || lWord.equals("lin") || lWord.equals("ŝin") 
+              || lWord.equals("sin")) {
         l.add(new AnalyzedToken(word, "R akz np", lWord.substring(0, lWord.length() - 1)));
       } else if (lWord.equals("ni") || lWord.equals("ili")) {
         l.add(new AnalyzedToken(word, "R nak pl", lWord));
@@ -357,33 +254,33 @@ public class EsperantoTagger implements Tagger {
 
       // Words ending in .*oj?n? are nouns.
       } else if (lWord.endsWith("o")) {
-        l.add(new AnalyzedToken(word, "O nak np", lWord.substring(0, lWord.length() - 1)));
+        l.add(new AnalyzedToken(word, "O nak np", lWord));
       } else if (lWord.endsWith("oj")) {
-        l.add(new AnalyzedToken(word, "O nak pl", lWord.substring(0, lWord.length() - 2)));
+        l.add(new AnalyzedToken(word, "O nak pl", lWord.substring(0, lWord.length() - 1)));
       } else if (lWord.endsWith("on")) {
-        l.add(new AnalyzedToken(word, "O akz np", lWord.substring(0, lWord.length() - 2)));
+        l.add(new AnalyzedToken(word, "O akz np", lWord.substring(0, lWord.length() - 1)));
       } else if (lWord.endsWith("ojn")) {
-        l.add(new AnalyzedToken(word, "O akz pl", lWord.substring(0, lWord.length() - 3)));
+        l.add(new AnalyzedToken(word, "O akz pl", lWord.substring(0, lWord.length() - 2)));
 
       // Words ending in .*aj?n? are nouns.
       } else if (lWord.endsWith("a")) {
-        l.add(new AnalyzedToken(word, "A nak np", lWord.substring(0, lWord.length() - 1)));
+        l.add(new AnalyzedToken(word, "A nak np", lWord));
       } else if (lWord.endsWith("aj")) {
-        l.add(new AnalyzedToken(word, "A nak pl", lWord.substring(0, lWord.length() - 2)));
+        l.add(new AnalyzedToken(word, "A nak pl", lWord.substring(0, lWord.length() - 1)));
       } else if (lWord.endsWith("an")) {
-        l.add(new AnalyzedToken(word, "A akz np", lWord.substring(0, lWord.length() - 2)));
+        l.add(new AnalyzedToken(word, "A akz np", lWord.substring(0, lWord.length() - 1)));
       } else if (lWord.endsWith("ajn")) {
-        l.add(new AnalyzedToken(word, "A akz pl", lWord.substring(0, lWord.length() - 3)));
+        l.add(new AnalyzedToken(word, "A akz pl", lWord.substring(0, lWord.length() - 2)));
 
       // Words ending in .*en? are adverbs.
       } else if (lWord.endsWith("e")) {
-        l.add(new AnalyzedToken(word, "E nak", lWord.substring(0, lWord.length() - 1)));
+        l.add(new AnalyzedToken(word, "E nak", lWord));
       } else if (lWord.endsWith("en")) {
-        l.add(new AnalyzedToken(word, "E akz", lWord.substring(0, lWord.length() - 2)));
+        l.add(new AnalyzedToken(word, "E akz", lWord.substring(0, lWord.length() - 1)));
 
       // Verbs.
       } else if ((matcher = patternVerb1.matcher(lWord)).find()) {
-        final String verb = matcher.group(1);
+        final String verb = matcher.group(1) + "i";
         final String tense = matcher.group(2);
         final String transitive;
 
@@ -391,8 +288,8 @@ public class EsperantoTagger implements Tagger {
         if (matcher2.find()) {
           transitive = matcher2.group(1).equals("ig") ? "tr" : "nt";
         } else {
-          final boolean isTransitive   = setTrVerbs .contains(verb);
-          final boolean isIntransitive = setNtrVerbs.contains(verb);
+          final boolean isTransitive   = setTransitiveVerbs.contains(verb);
+          final boolean isIntransitive = setNonTransitiveVerbs.contains(verb);
 
           if (isTransitive) {
             transitive = isIntransitive ? "tn" : "tr";

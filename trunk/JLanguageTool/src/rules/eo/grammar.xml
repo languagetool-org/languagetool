@@ -5,7 +5,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Esperanto Grammar and Typo Rules for LanguageTool
 Copyright (C) 2010 Dominique Pellé
-$Id: grammar.xml,v 1.3 2010-10-09 23:52:10 dominikoeo Exp $
+$Id: grammar.xml,v 1.4 2010-10-10 20:18:21 dominikoeo Exp $
 -->
 <rules lang="eo"
        xsi:noNamespaceSchemaLocation="../rules.xsd" 
@@ -107,9 +107,9 @@ $Id: grammar.xml,v 1.3 2010-10-09 23:52:10 dominikoeo Exp $
         <token regexp="yes" skip="2">pas(i|u|as|is|us|os|([aoi]n?t[ea]j?n?))</token>
         <token regexp="yes">ekzamenoj?n?</token>
       </pattern>
-      <message>«Pasi ekzamenon» evitindas. Preferu «sukcesi akzamenon» aŭ «trapasi ekzamenon» laŭ tion, kion vi intencas.</message>
+      <message>«Pasi ekzamenon» evitindas. Preferu «sukcesi en ekzameno» aŭ «trapasi ekzamenon» laŭ tion, kion vi intencas.</message>
       <example type="incorrect">Li ne <marker>pasis la ekzamenon</marker>.</example>
-      <example type="correct">Li ne sukcesis la ekzamenon.</example>
+      <example type="correct">Li ne sukcesis en la ekzameno.</example>
       <example type="incorrect"><marker>Pasinte la ekzamenon</marker></example>
       <example type="correct"><marker>Trapasinte la ekzamenon</marker></example>
       <example type="correct">Morgaŭ mi trapasos gravan ekzamenon.</example>
@@ -219,15 +219,20 @@ $Id: grammar.xml,v 1.3 2010-10-09 23:52:10 dominikoeo Exp $
           <exception postag="[ROAT] akz.*" postag_regexp="yes" scope="next"/>
         </token>
         <token postag="V tr .*" postag_regexp="yes" skip="1">
-          <exception postag="(P .*)|(T .* k .*)" postag_regexp="yes" scope="next"/>
+          <exception postag="(P .*)|([RO] akz.*)|(T ,* k .*)" postag_regexp="yes" scope="next"/>
         </token>
-        <token postag="[ROAT] nak.*" postag_regexp="yes"/>
+        <token postag="[ROAT] nak.*" postag_regexp="yes">
+          <exception postag="T .*e" postag_regexp="yes"/>
+        </token>
       </pattern>
       <message>Ĉu vi forgesis akuzativon post transitiva verbo «\2»?</message>
       <example type="incorrect">Mi forgesis la <marker>akuzativo</marker>.</example>
       <example type="correct">Mi forgesis la <marker>akuzativon</marker>.</example>
       <example type="correct">Mi kantas kun amiko.</example>
       <example type="correct">Mi klarigis kial li ne venis.</example>
+      <example type="correct">Mi trovis tie novan veturilon.</example>
+      <example type="correct">Ŝi faris lin idealisto.</example>
+      <example type="correct">Li sentis sin fremdulo.</example>
     </rule>
 
     <rule id="NAK_NAK_VTR" name="mankanta akuzativo">
@@ -383,7 +388,7 @@ $Id: grammar.xml,v 1.3 2010-10-09 23:52:10 dominikoeo Exp $
 
     <rule id="SERĈI_ŜERCI" name="Serĉi (Ŝerci)">
       <pattern>
-        <token inflected="yes">serĉ</token>
+        <token inflected="yes">serĉi</token>
         <token>pri</token>
       </pattern>
       <message>Ĉu vi intencis <suggestion><match no="1" regexp_match=".*([aoiu]s?)" regexp_replace="ŝerc$1"/></suggestion> anstataŭ «\1»?</message>
@@ -393,7 +398,7 @@ $Id: grammar.xml,v 1.3 2010-10-09 23:52:10 dominikoeo Exp $
 
     <rule id="LITERO_LETERO" name="Litero (Letero)">
       <pattern mark_from="1">
-        <token skip="2" inflected="yes" regexp="yes">.*(send|redakt|skrib|leg|ricev)</token>
+        <token skip="2" inflected="yes" regexp="yes">.*(adres|send|redakt|leg|ricev)i</token>
         <token regexp="yes">literoj?n?</token>
       </pattern>
       <message>Ĉu vi intencis <suggestion><match no="2" regexp_match="(.).(.*)" regexp_replace="$1e$2"/></suggestion> anstataŭ «\2»?</message>
