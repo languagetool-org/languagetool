@@ -8,7 +8,7 @@ LanguageTool.
 Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
 A Russian rule file for LanguageTool 
 Copyright (C) 2008-2010 Yakov Reztsov
-$Id: grammar.xml,v 1.57 2010-08-23 19:49:21 yakovru Exp $
+$Id: grammar.xml,v 1.58 2010-10-13 19:14:49 yakovru Exp $
 -->
 <rules lang="ru" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../rules.xsd">
@@ -154,8 +154,8 @@ $Id: grammar.xml,v 1.57 2010-08-23 19:49:21 yakovru Exp $
             <rule>
                 <pattern case_sensitive="yes">
                     <token negate="yes" regexp="yes">[\p{Punct}]|-|—|как|который|которого|которому|
-                        которого|которому|котором|которая|которой|которую|которые|которых|
-                    которыми|которое|которого|которому|которым<exception postag="SENT_START"></exception></token>
+                        котором|которая|которой|которую|которые|которых|
+                    которыми|которое|которым<exception postag="SENT_START"></exception></token>
                     <token regexp="yes">по-видимому|по-моему|по-твоему|впрочем</token>
                     <token negate="yes">,</token>
                 </pattern>
@@ -168,8 +168,8 @@ $Id: grammar.xml,v 1.57 2010-08-23 19:49:21 yakovru Exp $
             <rule>
                 <pattern case_sensitive="yes">
                     <token negate="yes" regexp="yes">[\p{Punct}]|-|—|как|который|которого|которому|
-                        которого|которому|котором|которая|которой|которую|которые|которых|
-                    которыми|которое|которого|которому|которым<exception postag="SENT_START"></exception></token>
+                        котором|которая|которой|которую|которые|которых|
+                    которыми|которое|которым<exception postag="SENT_START"></exception></token>
                     <token regexp="yes">по-видимому|по-моему|по-твоему|впрочем</token>
                     <token>,</token>
                 </pattern>
@@ -1011,7 +1011,46 @@ $Id: grammar.xml,v 1.57 2010-08-23 19:49:21 yakovru Exp $
                 <example type="incorrect"><marker>Какбудто</marker> время остановилось.</example>               
             </rule>
         </rulegroup>        
-        
+        <rulegroup default="on"  id="Pravopisanie_slitno1" name="Правописание слов “наверху”, “внизу” ...">
+            <!--  ввиду 
+вглубь
+вдоль
+взамен
+вместо
+вне
+внизу
+заместо
+наверху
+навстречу
+накануне
+наподобие
+напротив
+насупротив
+насчёт
+невзирая на
+несмотря
+ниже
+поверх
+подо
+помимо
+посередине
+сверх
+свыше
+снизу
+согласно
+-->
+            
+            <rule>
+                <pattern case_sensitive="no">
+                    <token regexp = "yes">на|в|с</token>       
+                    <token regexp = "yes">верху|низу</token>
+                </pattern>
+                <message>Слово пишется слитно: <suggestion>\1\2</suggestion>.</message>
+                <short>"\1\2" пишется слитно.</short>
+                <example type="correct">Он будет <marker>наверху</marker>.</example>
+                <example type="incorrect">Он будет <marker>на верху</marker>.</example>               
+            </rule>
+        </rulegroup>  
         <rulegroup default="on"  id="Vo_chto_by_to_ni_stalo" name="“Во что бы то ни стало”">
             <rule>
                 <pattern case_sensitive="no">
@@ -1438,13 +1477,13 @@ $Id: grammar.xml,v 1.57 2010-08-23 19:49:21 yakovru Exp $
         <rule default="on"  id="OPREDELENIA" name="Избыточные придаточные определения">
             <pattern>
                 <token  skip="-1" regexp="yes">который|которого|которому|
-                    которого|которому|котором|которая|которой|которую|которые|которых|
-                    которыми|которое|которого|которому|которым|котором|чей|чьего|чьему|
-                чьим|чья|чьей|чью|чьей|чье|чьё|чьем|чьём|чьи</token>
-                <token  regexp="yes">который|которого|которому|которого|которому|
+                    котором|которая|которой|которую|которые|которых|
+                    которыми|которое|которым|чей|чьего|чьему|
+                чьим|чья|чьей|чью|чье|чьё|чьем|чьём|чьи</token>
+                <token  regexp="yes">который|которого|которому|
                     котором|которая|которой|которую|которые|которых|которыми|которое|
-                    которого|которому|которым|котором|чей|чьего|чьему|чьим|чья|чьей|
-                чью|чьей|чье|чьё|чьем|чьём|чьи</token>
+                    которым|чей|чьего|чьему|чьим|чья|чьей|
+                чью|чье|чьё|чьем|чьём|чьи</token>
             </pattern>
             <message>Избыточные определения. В правильно составленном предложении не должно быть больше одного придаточного определения.</message>
             <short>Избыточные определения.</short>
