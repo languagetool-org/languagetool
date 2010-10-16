@@ -8,7 +8,7 @@ LanguageTool.
 Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
 A Russian rule file for LanguageTool 
 Copyright (C) 2008-2010 Yakov Reztsov
-$Id: grammar.xml,v 1.58 2010-10-13 19:14:49 yakovru Exp $
+$Id: grammar.xml,v 1.59 2010-10-16 18:59:26 yakovru Exp $
 -->
 <rules lang="ru" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../rules.xsd">
@@ -1012,44 +1012,64 @@ $Id: grammar.xml,v 1.58 2010-10-13 19:14:49 yakovru Exp $
             </rule>
         </rulegroup>        
         <rulegroup default="on"  id="Pravopisanie_slitno1" name="Правописание слов “наверху”, “внизу” ...">
-            <!--  ввиду 
+           <!-- To Do
+ввиду (но: иметь в виду)
 вглубь
 вдоль
 взамен
 вместо
 вне
-внизу
 заместо
-наверху
 навстречу
 накануне
 наподобие
 напротив
-насупротив
 насчёт
-невзирая на
-несмотря
 ниже
-поверх
-подо
-помимо
 посередине
 сверх
 свыше
-снизу
 согласно
 -->
-            
-            <rule>
+         <rule>
+                <!-- внизу, снизу, наверху, вверху, сверху                
+  --> 
                 <pattern case_sensitive="no">
                     <token regexp = "yes">на|в|с</token>       
                     <token regexp = "yes">верху|низу</token>
                 </pattern>
                 <message>Слово пишется слитно: <suggestion>\1\2</suggestion>.</message>
-                <short>"\1\2" пишется слитно.</short>
+                <short>Пишется слитно.</short>
                 <example type="correct">Он будет <marker>наверху</marker>.</example>
                 <example type="incorrect">Он будет <marker>на верху</marker>.</example>               
             </rule>
+            
+                     
+            <rule>
+                <!-- поверх, подо, помимо              
+  --> 
+                <pattern case_sensitive="no">
+                    <token>по</token>       
+                    <token regexp = "yes">верх|до|мимо</token>
+                </pattern>
+                <message>Слово пишется слитно: <suggestion>\1\2</suggestion>.</message>
+                <short>Пишется слитно.</short>
+                <example type="correct"><marker>Помимо</marker> чисто игровых проблем на ситуацию в таблице могут влиять и различные нюансы.</example>
+                <example type="incorrect"><marker>По мимо</marker> чисто игровых проблем на ситуацию в таблице могут влиять и различные нюансы.</example>               
+            </rule>
+<rule>
+                <!-- невзирая на, несмотря на               
+  --> 
+                <pattern case_sensitive="no">
+                    <token>не</token>       
+                    <token regexp = "yes">взирая|смотря</token>
+                    <token>на</token>  
+                </pattern>
+                <message>Слово пишется слитно: <suggestion>\1\2 \3</suggestion>.</message>
+                <short>Пишется слитно.</short>
+                <example type="correct">Премия в этом году состоялась <marker>невзирая на</marker> кризис.</example>
+                <example type="incorrect">Премия в этом году состоялась <marker>не смотря на</marker> кризис.</example>               
+            </rule>      
         </rulegroup>  
         <rulegroup default="on"  id="Vo_chto_by_to_ni_stalo" name="“Во что бы то ни стало”">
             <rule>
