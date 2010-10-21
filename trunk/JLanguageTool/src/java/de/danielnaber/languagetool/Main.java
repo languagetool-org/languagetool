@@ -36,6 +36,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
+import de.danielnaber.languagetool.bitext.StringPair;
 import de.danielnaber.languagetool.bitext.TabBitextReader;
 import de.danielnaber.languagetool.rules.Rule;
 import de.danielnaber.languagetool.rules.bitext.BitextRule;
@@ -161,9 +162,13 @@ class Main {
     if (oneTime) {
       if (bitextMode) {
         //TODO: add parameter to set different readers        
-        TabBitextReader reader = new TabBitextReader(filename, encoding);        
-        Tools.checkBitext(reader, srcLt, lt, bRules,
-            apiFormat);        
+        TabBitextReader reader = new TabBitextReader(filename, encoding);
+        if (applySuggestions) {
+          Tools.correctBitext(reader, srcLt, lt, bRules); 
+        } else {
+          Tools.checkBitext(reader, srcLt, lt, bRules,
+            apiFormat);
+        }
       } else {
         final String text = getFilteredText(filename, encoding);
         if (applySuggestions) {

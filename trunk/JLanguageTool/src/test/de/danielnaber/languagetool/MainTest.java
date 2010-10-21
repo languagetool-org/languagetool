@@ -347,6 +347,22 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue(output.indexOf("Rule ID: TRANSLATION_LENGTH") != -1);
   }
   
+  public void testBitextModeApply()  throws URISyntaxException, IOException, ParserConfigurationException, SAXException {
+    // Create a simple plain text file.
+    File input = File.createTempFile("input", "txt");
+    input.deleteOnExit();
+
+    // Populate the file with data.
+    PrintWriter w = new PrintWriter(new OutputStreamWriter(new FileOutputStream(input), "UTF-8"));
+    w.println("There is a dog.\tNie ma psa.");    
+    w.close();
+
+    String[] args = new String[] {"-l", "pl", "--bitext", "-m", "en", "--apply", input.getAbsolutePath()};
+    Main.main(args);
+    String output = new String(this.out.toByteArray());
+    assertTrue(output.startsWith("Istnieje psa."));
+  }
+  
   public void testListUnknown()  throws URISyntaxException, IOException, ParserConfigurationException, SAXException {
     final URL url = this.getClass().getResource(ENGLISH_TEST_FILE);
     final URI uri = new URI (url.toString());

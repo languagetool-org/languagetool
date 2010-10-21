@@ -38,7 +38,7 @@ public class TabBitextReader implements BitextReader {
   private String prevLine;
 
   private int lineCount = -1;
-  protected int sentencePos;
+  protected int sentencePos;  
 
   public TabBitextReader(final String filename, final String encoding) {
     try {     
@@ -104,6 +104,11 @@ public class TabBitextReader implements BitextReader {
     return sentencePos;
   }
 
+  @Override
+  public int getTargetColumnCount() {
+    return 1;
+  }
+  
   @Override
   public int getLineCount() {    
     return lineCount;

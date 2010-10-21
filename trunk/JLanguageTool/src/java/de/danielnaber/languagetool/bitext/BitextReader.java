@@ -41,6 +41,13 @@ public interface BitextReader extends Iterable<StringPair> {
   public int getColumnCount();
   
   /**
+   * Get the current target column number in the file.
+   * @return  The current target column number.
+   */
+  public int getTargetColumnCount();
+  
+  
+  /**
    * Get the current target sentence position in the file.
    * @return  The current sentence position.
    */

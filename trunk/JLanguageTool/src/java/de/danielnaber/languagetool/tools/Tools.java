@@ -510,38 +510,40 @@ public final class Tools {
    *  one is applied, and others ignored silently.
    *
    *  @param   
-   *    src source string to be checked
-   *  @param target target string to be checked
+   *    reader - a bitext file reader
    *  @param
    *    sourceLanguageTool Initialized source JLanguageTool object
    *  @param
    *    targetLanguageTool Initialized target JLanguageTool object
    *  @param
-   *    bRules  List of all BitextRules to use
-   *  @return
-   *    Corrected text as String.
+   *    bRules  List of all BitextRules to use     
    */  
-  public static String correctBitext(final String src, final String trg,
+  public static void correctBitext(final BitextReader reader,
       final JLanguageTool srcLt, final JLanguageTool trgLt,
       final List<BitextRule> bRules) throws IOException {  
-	  //FIXME: adjust positions, use bitextMatch here, and
-	  //use the reader to get the target string to make the 
-	  //replacement
-    final AnalyzedSentence srcText = srcLt.getAnalyzedSentence(src);
-    final AnalyzedSentence trgText = trgLt.getAnalyzedSentence(trg);
-    final List<RuleMatch> ruleMatches = trgLt.checkAnalyzedSentence
-    (JLanguageTool.paragraphHandling.NORMAL, 
-        trgLt.getAllRules(), 0, 0, 1, trg, trgText);
-    for (BitextRule bRule : bRules) {
-      final RuleMatch[] curMatch = bRule.match(srcText, trgText);
-      if (curMatch != null) {
-        ruleMatches.addAll(Arrays.asList(curMatch));
+    //TODO: implement a bitext writer for XML formats (like XLIFF)
+    final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();        
+    for (StringPair srcAndTrg : reader) {
+      final List<RuleMatch> curMatches = checkBitext(
+          srcAndTrg.getSource(), srcAndTrg.getTarget(), 
+          srcLt, trgLt, bRules);
+      final List<RuleMatch> fixedMatches = new ArrayList<RuleMatch>();      
+      for (RuleMatch thisMatch : curMatches) {
+        fixedMatches.add(  
+            trgLt.adjustRuleMatchPos(thisMatch, 
+                0, //don't need to adjust at all, we have zero offset related to trg sentence 
+                reader.getTargetColumnCount(), 
+                reader.getLineCount(), 
+                reader.getCurrentLine()));
+      }
+      ruleMatches.addAll(fixedMatches);
+      if (fixedMatches.size() > 0) {
+        System.out.println(correctTextFromMatches(srcAndTrg.getTarget(), 
+            fixedMatches));        
+      } else {
+        System.out.println(srcAndTrg.getTarget());
       }
     }
-    if (ruleMatches.isEmpty()) {
-      return trg;
-    }
-    return correctTextFromMatches(trg, ruleMatches);
   }
 
   private static String correctTextFromMatches(
