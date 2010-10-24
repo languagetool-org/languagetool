@@ -198,7 +198,8 @@ public class EsperantoTagger implements Tagger {
       // Pronouns.
       } else if (lWord.equals("mi") || lWord.equals("ci")
               || lWord.equals("li") || lWord.equals("ŝi")
-              || lWord.equals("ĝi") || lWord.equals("oni")) {
+              || lWord.equals("ĝi") || lWord.equals("si")
+              || lWord.equals("oni")) {
         l.add(new AnalyzedToken(word, "R nak np", lWord));
       } else if (lWord.equals("min") || lWord.equals("cin")
               || lWord.equals("lin") || lWord.equals("ŝin") 
