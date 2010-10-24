@@ -5,7 +5,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Esperanto Grammar and Typo Rules for LanguageTool
 Copyright (C) 2010 Dominique Pellé
-$Id: grammar.xml,v 1.6 2010-10-22 21:01:57 dominikoeo Exp $
+$Id: grammar.xml,v 1.7 2010-10-24 15:56:45 dominikoeo Exp $
 -->
 <rules lang="eo"
        xsi:noNamespaceSchemaLocation="../rules.xsd" 
@@ -189,13 +189,14 @@ $Id: grammar.xml,v 1.6 2010-10-22 21:01:57 dominikoeo Exp $
       <pattern mark_to="-1">
         <token postag="P sak"/>
         <token postag=". akz.*" postag_regexp="yes"/>
-        <token negate_pos="yes" postag="(V tr i)|SENT_END" postag_regexp="yes"/>
+        <token negate_pos="yes" postag="(V tr i)|(E.*)|SENT_END" postag_regexp="yes"/>
       </pattern>
       <message>Prepozicio «\1» neniam povas esti sekvita de akuzativo.</message>
       <example type="incorrect">Mi pensas <marker>pri vin</marker>.</example>
       <example type="incorrect">Mi vojaĝas <marker>sen veturilon</marker>.</example>
       <example type="correct">Mi pensas <marker>pri vi</marker>.</example>
       <example type="correct"><marker>Por tion</marker> fari</example>
+      <example type="correct"><marker>Por ĉion</marker> lerte kolekti.</example>
     </rule>
 
     <rule id="VNETR_AKU" name="netransitiva verbo + akuzativo">
@@ -331,40 +332,21 @@ $Id: grammar.xml,v 1.6 2010-10-22 21:01:57 dominikoeo Exp $
       <example type="correct">Ni alvenos antaŭ ol pluvos.</example>
     </rule>
 
-    <rulegroup id="DEMANDO_SEN_ĈU" name="demando sen demanda vorto">
-      <rule>
-        <pattern mark_from="3">
-          <token postag="SENT_START"/>
-          <token regexp="yes">.*<exception>Ĉu</exception>
-            <exception postag="[KP].*" postag_regexp="yes"></exception>
-            <exception postag="T .* k .*" postag_regexp="yes"/>
-          </token>
-          <token skip="-1"/>
-          <token postag="M fino dem"/>
-        </pattern>
-        <message>Demando devas komenciĝi per la vorto «Ĉu» aŭ «Ki-» tabelvorto.</message>
-        <example type="incorrect">Vi fartas bone<marker>?</marker></example>
-        <example type="correct">Ĉu vi fartas bone?</example>
-        <example type="correct">Kiel vi fartas?</example>
-        <example type="correct">De kiu lando vi venas?</example>
-      </rule>
-
-      <rule>
-        <pattern mark_from="4">
-          <token postag="SENT_START"/>
-          <token postag="[PK].*" postag_regexp="yes"/>
-          <token regexp="yes">.*<exception>Ĉu</exception>
-            <exception postag="T .* k .*" postag_regexp="yes"/>
-          </token>
-          <token skip="-1"/>
-          <token postag="M fino dem"/>
-        </pattern>
-        <message>Demando devas komenciĝi per la vorto «Ĉu» aŭ «Ki-» tabelvorto.</message>
-        <example type="incorrect">Kaj vi nun fartas bone<marker>?</marker></example>
-        <example type="correct">Kaj ĉu vi nun fartas bone?</example>
-      </rule>
-
-    </rulegroup>
+    <rule id="DEMANDO_SEN_ĈU" name="demando sen demanda vorto">
+      <pattern mark_from="1">
+        <token postag="SENT_START" skip="-1">
+          <exception scope="next">ĉu</exception>
+          <exception scope="next" postag="T .* k .*" postag_regexp="yes"/>
+        </token>
+        <token postag="M fino dem"/>
+      </pattern>
+      <message>Demando devas komenciĝi per la vorto «Ĉu» aŭ «Ki-» tabelvorto.</message>
+      <example type="incorrect">Vi fartas bone<marker>?</marker></example>
+      <example type="correct">Ĉu vi fartas bone?</example>
+      <example type="correct">Kiel vi fartas?</example>
+      <example type="correct">De kiu lando vi venas?</example>
+      <example type="correct">Vi komprenas min, ĉu ne?</example>
+    </rule>
 
     <rule id="POR_KE_V" name="Por ke + verbo">
       <pattern>
@@ -376,6 +358,18 @@ $Id: grammar.xml,v 1.6 2010-10-22 21:01:57 dominikoeo Exp $
       <message>«por ke» postulas volitivon.</message>
       <example type="incorrect">Mi studas, <marker>por ke mi sukcesos</marker>.</example>
       <example type="correct">Mi studas, por ke mi sukcesu.</example>
+    </rule>
+
+    <rule id="SI_TRIAPERSONA" name="si triapersona">
+      <pattern>
+        <token regexp="yes">[cmnv]i</token>
+        <token postag="V.*" postag_regexp="yes"/>
+        <token postag="P.*" postag_regexp="yes"/>
+        <token regexp="yes">si|sia|siaj</token>
+      </pattern>
+      <message>« Si » ne povas reprezenti la unuajn (mi, ni) aŭ duajn personojn (vi, ci).</message>
+      <example type="incorrect"><marker>Mi venis kun sia</marker> frato.</example>
+      <example type="correct">Mi venis kun mia frato.</example>
     </rule>
 
     <rule id="UNU_DE_ILI" name="Unu de ili">
