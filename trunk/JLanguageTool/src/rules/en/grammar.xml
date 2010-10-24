@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.126 2010-09-25 12:38:20 milek_pl Exp $
+$Id: grammar.xml,v 1.127 2010-10-24 10:47:45 dnaber Exp $
 -->
 <!--suppress CheckTagEmptyBody -->
 <rules lang="en" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
@@ -14,7 +14,21 @@ $Id: grammar.xml,v 1.126 2010-09-25 12:38:20 milek_pl Exp $
   <!-- Possible typos -->
   <!-- ====================================================================== -->
   <category name="Possible Typos">
-    <rule id="SUPPOSED_TO" name="suppose to (supposed to)">
+    <rule id="I_THIN" name="I thin (think)">
+      <pattern mark_from="2">
+        <token regexp="yes" negate="yes">am|do|can|will</token>
+        <token>I</token>
+        <token>thin</token>
+      </pattern>
+      <message>Did you mean <suggestion>think</suggestion>?</message>
+      <short>Possible typo</short>
+      <example correction="think" type="incorrect">I <marker>thin</marker> you are right.</example>
+      <example type="correct">How do I <marker>thin</marker> heavier acrylics for Airbrushing?</example>
+      <example type="correct">I <marker>think</marker> you are right.</example>
+      <example type="correct">How can I <marker>thin</marker> out my face?</example>
+      <example type="correct">Am I <marker>Thin</marker> Enough Yet?</example>
+    </rule>
+    <rule id="SUPPOSE_TO" name="suppose to (supposed to)">
       <pattern mark_from="0" mark_to="-2">
         <token inflected="no">suppose</token>
         <token>to</token>
