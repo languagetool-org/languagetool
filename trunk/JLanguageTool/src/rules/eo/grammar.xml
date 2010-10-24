@@ -5,7 +5,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Esperanto Grammar and Typo Rules for LanguageTool
 Copyright (C) 2010 Dominique Pellé
-$Id: grammar.xml,v 1.7 2010-10-24 15:56:45 dominikoeo Exp $
+$Id: grammar.xml,v 1.8 2010-10-24 17:53:10 dominikoeo Exp $
 -->
 <rules lang="eo"
        xsi:noNamespaceSchemaLocation="../rules.xsd" 
@@ -223,6 +223,7 @@ $Id: grammar.xml,v 1.7 2010-10-24 15:56:45 dominikoeo Exp $
         </token>
         <token postag="V tr .*" postag_regexp="yes" skip="1">
           <exception postag="(P .*)|([RO] akz.*)|(T .* k .*)|(V .* i)" postag_regexp="yes" scope="next"/>
+          <exception scope="next">ke</exception>
         </token>
         <token postag="[ROAT] nak.*" postag_regexp="yes">
           <exception postag="T .*e" postag_regexp="yes"/>
@@ -236,6 +237,7 @@ $Id: grammar.xml,v 1.7 2010-10-24 15:56:45 dominikoeo Exp $
       <example type="correct">Mi trovis tie novan veturilon.</example>
       <example type="correct">Ŝi faris lin idealisto.</example>
       <example type="correct">Li sentis sin fremdulo.</example>
+      <example type="correct">Mi sentas ke li timas.</example>
       <example type="correct">Tiu romano povas esti uzata kiel lernolibro.</example>
     </rule>
 
