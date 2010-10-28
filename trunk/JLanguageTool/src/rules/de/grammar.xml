@@ -7,11 +7,22 @@ title="Easy editing stylesheet" ?>
 German grammar and typo rules for LanguageTool
 See resource/de/tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2010 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.43 2010-10-27 21:21:19 dnaber Exp $
+$Id: grammar.xml,v 1.44 2010-10-28 19:29:16 dnaber Exp $
 -->
 <rules lang="de" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../rules.xsd">
   <category name="Mögliche Tippfehler">
+    <rule id="HARZ_4" name="Tippfehler: 'Harz IV (Hartz IV)'">
+      <pattern>
+        <token>Harz</token>
+        <token regexp="yes">4|IV</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>Hartz IV</suggestion> (Grundsicherung für Arbeitssuchende)?</message>
+      <example type="correct">Er lebt von <marker>Hartz 4</marker>.</example>
+      <example type="incorrect">Er lebt von <marker>Harz 4</marker>.</example>
+      <example type="correct">Er lebt von <marker>Hartz IV</marker>.</example>
+      <example type="incorrect">Er lebt von <marker>Harz IV</marker>.</example>
+    </rule>
     <rule id="WAGE_VAGE" name="Tippfehler: 'wage (vage)'">
       <pattern mark_to="-1">
         <token>wage</token>
