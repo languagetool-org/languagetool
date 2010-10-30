@@ -5,7 +5,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Esperanto Grammar and Typo Rules for LanguageTool
 Copyright (C) 2010 Dominique Pellé
-$Id: grammar.xml,v 1.8 2010-10-24 17:53:10 dominikoeo Exp $
+$Id: grammar.xml,v 1.9 2010-10-30 18:10:17 dominikoeo Exp $
 -->
 <rules lang="eo"
        xsi:noNamespaceSchemaLocation="../rules.xsd" 
@@ -205,7 +205,9 @@ $Id: grammar.xml,v 1.8 2010-10-24 17:53:10 dominikoeo Exp $
           <exception scope="next" postag="V.*" postag_regexp="yes"/>
           <exception scope="next" postag="P kak"/>
         </token>
-        <token postag="[OA].* akz.*" postag_regexp="yes"/>
+        <token postag="[OA].* akz.*" postag_regexp="yes">
+          <exception inflected="yes" regexp="yes">sekolo|jaro|monato|tago|horo|minuto|sekundo|.*metro</exception>
+        </token>
       </pattern>
       <message>Netransitiva verbo «\1» ne povas havi objekton.</message>
       <example type="incorrect">Mi volas fariĝi <marker>instruiston</marker>.</example>
@@ -214,6 +216,7 @@ $Id: grammar.xml,v 1.8 2010-10-24 17:53:10 dominikoeo Exp $
       <example type="correct">Mi estas <marker>laca</marker>.</example>
       <example type="correct">Mi iras en la domon.</example>
       <example type="correct">Mi iras tien.</example>
+      <example type="correct">La festo daŭris ok tagojn.</example>
     </rule>
 
     <rule id="NAK_VTR_NAK" name="mankanta akuzativo">
