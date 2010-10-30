@@ -107,7 +107,7 @@ public class EsperantoTagger implements Tagger {
 
   // Particips -ant-, -int, ont-, -it-, -it-, -ot-
   // TODO: this is not used yet.
-  final Pattern patternParticip =
+  final Pattern patternParticiple =
     Pattern.compile("(.*)([aio])(n?)t([aoe])(j?)(n?)");
   // Groups           11  22222  33   44444  55  66
 
@@ -304,6 +304,35 @@ public class EsperantoTagger implements Tagger {
       } else {
         l.add(new AnalyzedToken(word, null, null));
       }
+
+      // Participle (can be combined with other tags).
+      if ((matcher = patternParticiple.matcher(lWord)).find()) {
+        final String verb = matcher.group(1) + "i";
+        final String aio = matcher.group(2);
+        final String antAt = matcher.group(3).equals("n") ? "n" : "-";
+        final String aoe = matcher.group(4);
+        final String plural = matcher.group(5).equals("j") ? "pl" : "np";
+        final String accusative = matcher.group(6).equals("n") ? "akz" : "nak";
+        final String transitive;
+
+        final Matcher matcher2 = patternVerb2.matcher(lWord);
+        if (matcher2.find()) {
+          transitive = matcher2.group(1).equals("ig") ? "tr" : "nt";
+        } else {
+          final boolean isTransitive   = setTransitiveVerbs.contains(verb);
+          final boolean isIntransitive = setNonTransitiveVerbs.contains(verb);
+
+          if (isTransitive) {
+            transitive = isIntransitive ? "tn" : "tr";
+          } else {
+            transitive = isIntransitive ? "nt" : "tn";
+          }
+        }
+        l.add(new AnalyzedToken(word, "C " + accusative + " " + plural + " " +
+                                transitive + " " + aio + " " + antAt + " " + aoe,
+                                verb));
+      }
+
       pos += word.length();
       tokenReadings.add(new AnalyzedTokenReadings(
         l.toArray(new AnalyzedToken[0]), 0));

@@ -5,7 +5,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Esperanto Grammar and Typo Rules for LanguageTool
 Copyright (C) 2010 Dominique Pellé
-$Id: grammar.xml,v 1.9 2010-10-30 18:10:17 dominikoeo Exp $
+$Id: grammar.xml,v 1.10 2010-10-30 20:14:51 dominikoeo Exp $
 -->
 <rules lang="eo"
        xsi:noNamespaceSchemaLocation="../rules.xsd" 
@@ -419,5 +419,15 @@ $Id: grammar.xml,v 1.9 2010-10-30 18:10:17 dominikoeo Exp $
       <example type="correct">Ju pli facile, des pli bone.</example>
     </rule>
     -->
+
+  <rule id="NTR_ATA" name="Netransitiva verbo + ata">
+    <pattern>
+      <token postag="C ... .. nt . - ." postag_regexp="yes"/>
+    </pattern>
+    <message>Pasiva participo eblas nur kun transitivaj verboj.</message>
+    <example type="incorrect">La <marker>okazota</marker> vesto</example>
+    <example type="correct">La <marker>okazonta</marker> vesto</example>
+  </rule>
+
   </category>
 </rules>
