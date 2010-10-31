@@ -5,7 +5,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Esperanto Grammar and Typo Rules for LanguageTool
 Copyright (C) 2010 Dominique Pellé
-$Id: grammar.xml,v 1.10 2010-10-30 20:14:51 dominikoeo Exp $
+$Id: grammar.xml,v 1.11 2010-10-31 08:28:30 dominikoeo Exp $
 -->
 <rules lang="eo"
        xsi:noNamespaceSchemaLocation="../rules.xsd" 
@@ -377,7 +377,7 @@ $Id: grammar.xml,v 1.10 2010-10-30 20:14:51 dominikoeo Exp $
       <example type="correct">Mi venis kun mia frato.</example>
     </rule>
 
-    <rule id="UNU_DE_ILI" name="Unu de ili">
+    <rule id="UNU_DE_ILI" name="Unu de ili (Unu el ili)">
       <pattern>
         <token postag="N"/>
         <token>de</token>
@@ -386,6 +386,39 @@ $Id: grammar.xml,v 1.10 2010-10-30 20:14:51 dominikoeo Exp $
       <message>Ĉu vi intencis skribi <suggestion>\1 el \3</suggestion>?</message>
       <example type="incorrect"><marker>Tri de ili</marker> scipovis Esperanton.</example>
       <example type="correct">Tri el ili scipovas Esperanton.</example>
+    </rule>
+
+    <rule id="KELKE_DA" name="Kelke da (kelkaj)">
+      <pattern>
+        <token>kelke</token>
+        <token>da</token>
+      </pattern>
+      <message>Ne eblas diri « kelke da », uzu <suggestion>kelkaj</suggestion>.</message>
+      <example type="incorrect">Nur <marker>kelke da</marker> homoj scipovas la klingonan.</example>
+      <example type="correct">Nur kelkaj homoj scipovas la klingonan.</example>
+    </rule>
+
+    <rule id="TIOM_KIOM" name="Tiom kiom (tiel kiom)">
+      <pattern>
+        <token>tiom</token>
+        <token skip="1" postag="[AE].*" postag_regexp="yes"/>
+        <token>kiom</token>
+      </pattern>
+      <message>Ne uzu «tiom kiom», uzu <suggestion>tiel kiel</suggestion>.</message>
+      <example type="incorrect">Mi estas <marker>tiom forta, kiom</marker> vi.</example>
+      <example type="correct">Mi estas tiel forta, kiel vi.</example>
+    </rule>
+
+    <rule id="LA_URBO_DE" name="La urbo de (La urbo)">
+      <pattern mark_from="1" case_sensitive="yes">
+        <token regexp="yes">[Ll]a</token>
+        <token regexp="yes">(urbo|ŝtato|lando)n?</token>
+        <token>de</token>
+        <token regexp="yes">[A-ZĈĜĴĤŜ].*</token>
+      </pattern>
+      <message>Ne uzu «de» antaŭ identiga priskribo. Did you mean <suggestion>\1 \2 \4</suggestion>?</message>
+      <example type="incorrect">Mi loĝas en la <marker>ŝtato de Kalifornio</marker>.</example>
+      <example type="correct">Mi loĝas en la ŝtato Kalifornio.</example>
     </rule>
 
     <rule id="SERĈI_ŜERCI" name="Serĉi (Ŝerci)">
