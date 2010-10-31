@@ -84,7 +84,7 @@ Here are some examples of patterns that can be used in that file:</p>
 		at the beginning of a sentence</li>
 </ul>
 
-<p>A pattern's terms are matched case-insensitively by default, this can be changed
+<p>Pattern's terms are matched case-insensitively by default, this can be changed
 by setting the <tt>case_sensitive</tt> attribute to <tt>yes</tt>.
 
 <p>Here's an example of a complete rule that marks "bed English", "bat attitude"
@@ -93,7 +93,7 @@ etc as an error:</p>
 <?php hl('<rule id="BED_ENGLISH" name="Possible typo &apos;bed/bat(bad) English/...&apos;">
     <pattern mark_from="0" mark_to="-1">
       <token regexp="yes">bed|bat</token>
-      <token regexp="yes">[Ee]nglish|attitude</token>
+      <token regexp="yes">English|attitude</token>
     </pattern>
     <message>Did you mean
       <suggestion>bad</suggestion>?
