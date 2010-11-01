@@ -27,6 +27,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 import junit.framework.TestCase;
 import de.danielnaber.languagetool.AnalyzedSentence;
@@ -45,6 +46,8 @@ public class PatternRuleTest extends TestCase {
   private static JLanguageTool langTool;
 
   private static final Pattern PROBABLE_REGEX = Pattern.compile("[^\\[\\]\\*\\+\\|\\^\\{\\}\\?][\\[\\]\\*\\+\\|\\^\\{\\}\\?]|\\\\[^0-9]|\\(.+\\)|\\..");
+
+  private static final Pattern CASE_REGEX = Pattern.compile("\\[(.)(.)\\]");
 
   
   @Override
@@ -130,7 +133,22 @@ public class PatternRuleTest extends TestCase {
           + "\" that is marked as inflected"
           + " but is empty, so the attribute is redundant.");
     }
-    
+
+    if (element.isRegularExpression() && !element.getCaseSensitive()) {
+      Matcher matcher = CASE_REGEX.matcher(element.getString());
+      if (matcher.find()) {
+        final String letter1 = matcher.group(1);
+        final String letter2 = matcher.group(2);
+
+        if (!letter1.equals(letter2) 
+          && letter1.toLowerCase().equals(letter2.toLowerCase())) {
+          System.err.println("The " + lang.toString() + " rule: "
+             + ruleId + " contains regexp part [" + letter1 + letter2
+             + "] which is useless without case_sensitive=\"yes\".");
+        }
+      }
+    }
+
     if (element.isRegularExpression() && element.getString().contains("|")) {
       final String[] groups = element.getString().split("\\)");         
       final boolean caseSensitive = element.getCaseSensitive();
