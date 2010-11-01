@@ -108,7 +108,7 @@ public class EsperantoTagger implements Tagger {
   // Particips -ant-, -int, ont-, -it-, -it-, -ot-
   // TODO: this is not used yet.
   final Pattern patternParticiple =
-    Pattern.compile("(.*)([aio])(n?)t([aoe])(j?)(n?)");
+    Pattern.compile("(.*)([aio])(n?)t([aoe])(j?)(n?)$");
   // Groups           11  22222  33   44444  55  66
 
   // Pattern 'tabelvortoj'.
