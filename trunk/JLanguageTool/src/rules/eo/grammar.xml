@@ -5,7 +5,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Esperanto Grammar and Typo Rules for LanguageTool
 Copyright (C) 2010 Dominique Pellé
-$Id: grammar.xml,v 1.14 2010-11-05 21:32:52 dominikoeo Exp $
+$Id: grammar.xml,v 1.15 2010-11-05 23:44:33 dominikoeo Exp $
 -->
 <rules lang="eo"
        xsi:noNamespaceSchemaLocation="../rules.xsd" 
@@ -229,10 +229,10 @@ $Id: grammar.xml,v 1.14 2010-11-05 21:32:52 dominikoeo Exp $
       <pattern mark_from="2">
         <token postag="[ROAT] nak.*" postag_regexp="yes" skip="3">
           <exception scope="next" postag="[ROAT] akz.*" postag_regexp="yes"/>
-          <exception scope="next" regexp="yes">[,&quot;]</exception>
+          <exception scope="next" regexp="yes">,|“|&quot;</exception>
         </token>
         <token postag="V tr .*" postag_regexp="yes" skip="1">
-          <exception postag="(P .*)|([RO] akz.*)|(T .* k .*)|(V .* i)" postag_regexp="yes" scope="next"/>
+          <exception scope="next" postag="(P .*)|([RO] akz.*)|(T .* k .*)|(V .* i)|(V nt .*)" postag_regexp="yes"/>
           <exception scope="next" regexp="yes">ke|sed|tamen|,</exception>
         </token>
         <token postag="[ROAT] nak.*" postag_regexp="yes">
@@ -251,6 +251,7 @@ $Id: grammar.xml,v 1.14 2010-11-05 21:32:52 dominikoeo Exp $
       <example type="correct">Tiu romano povas esti uzata kiel lernolibro.</example>
       <example type="correct">Mi venos, diris li.</example>
       <example type="correct">Mi ne scias sed mi kredas.</example>
+      <example type="correct">La lernejo in kiu li instruis estis fermita pro la krizo.</example>
     </rule>
 
     <rule id="NAK_NAK_VTR" name="mankanta akuzativo">
@@ -554,6 +555,27 @@ $Id: grammar.xml,v 1.14 2010-11-05 21:32:52 dominikoeo Exp $
     <message>Anstataŭ «\1 \2», oni uzas int-participon kun e-finaĵo, aŭ «post kiam + plenan subfrazon».</message>
     <example type="incorrect"><marker>Post diri</marker> tiujn vortojn li foriris.</example>
     <example type="correct">Post kiam li diris tiujn vortojn, li foriris.</example>
+  </rule>
+
+  <rule id="LA_TITOLO" name="la + titolo">
+    <pattern mark_to="-2" case_sensitive="yes">
+      <token regexp="yes">[Ll]a</token>
+      <token regexp="yes">([Ff]raŭl|[Dd]oktor|[Ss]injor|[Pp]rofesor|[Bb]aron)(in)?o</token>
+      <token regexp="yes">[A-ZĈĜĴĤŜ].*</token>
+    </pattern>
+    <message>Oni ne uzas «\1» antaŭ titolo sekvita de propra nomo, uzu <suggestion>\2 \3</suggestion></message>
+    <example type="incorrect"><marker>La</marker> doktoro Zamenhof kreis Esperanton.</example>
+    <example type="correct">Doktoro Zamenhof kreis Esperanton.</example>
+  </rule>
+
+  <rule id="V_DA" name="verb + da">
+    <pattern mark_from="1">
+      <token postag="V .*" postag_regexp="yes"/>
+      <token>da</token>
+    </pattern>
+    <message>Oni ne povas uzi «da» memstare.</message>
+    <example type="incorrect">Mi manĝis <marker>da</marker> pano.</example>
+    <example type="correct">Mi manĝis iom da pano.</example>
   </rule>
     
   </category>
