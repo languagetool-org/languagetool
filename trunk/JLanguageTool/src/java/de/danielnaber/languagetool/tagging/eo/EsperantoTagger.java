@@ -56,8 +56,8 @@ public class EsperantoTagger implements Tagger {
 
   // Following preposition are never followed by accusative.
   private final static String prepositionsNoAccusative[] = {
-      "al", "anstataŭ", "apud", "cis", "da", "de", "dum", "el", "far",
-      "ĝis", "je", "kontraŭ", "krom", "kun", "laŭ", "malgraŭ", "na",
+      "al", "apud", "cis", "da", "de", "dum", "el", "far",
+      "ĝis", "je", "kun", "laŭ", "malgraŭ", "na",
       "per", "po", "post", "por", "pri", "pro", "sen", "super", "tra"
   };
 
@@ -66,8 +66,8 @@ public class EsperantoTagger implements Tagger {
 
   // Following preposition may be followed by accusative.
   private final static String prepositionsAccusative[] = {
-    "en", "sur", "sub", "trans", "preter", "ĉirkaŭ", "antaŭ", "ekster",
-    "inter", "ĉe"
+    "anstataŭ", "en", "kontraŭ", "krom", "sur", "sub", "trans", 
+    "preter", "ĉirkaŭ", "antaŭ", "ekster", "inter", "ĉe"
   };
 
   private final Set setPrepositionsAccusative =
