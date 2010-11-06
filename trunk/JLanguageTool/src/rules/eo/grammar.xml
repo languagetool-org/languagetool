@@ -5,7 +5,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Esperanto Grammar and Typo Rules for LanguageTool
 Copyright (C) 2010 Dominique Pellé
-$Id: grammar.xml,v 1.16 2010-11-06 09:12:33 dominikoeo Exp $
+$Id: grammar.xml,v 1.17 2010-11-06 17:51:34 dominikoeo Exp $
 -->
 <rules lang="eo"
        xsi:noNamespaceSchemaLocation="../rules.xsd" 
@@ -153,7 +153,7 @@ $Id: grammar.xml,v 1.16 2010-11-06 09:12:33 dominikoeo Exp $
     <rule id="PO" name="misuzo de po">
       <pattern>
         <token>po</token>
-        <token regexp="yes">(((kilo)?metr)|((ge)?(person|hom))|(.*ul)|(sekol|jar|monat|semajn|tag|hor|minut|sekond))oj?</token>
+        <token regexp="yes">(((kilo)?metr)|((ge)?(person|hom))|(.*ul)|(sekol|jar|jardek|monat|semajn|tag|hor|minut|sekond))oj?</token>
       </pattern>
       <message>Misuzo de la vorto «po».</message>
       <example type="incorrect">Kostas du eŭro <marker>po persono</marker>.</example>
@@ -211,7 +211,8 @@ $Id: grammar.xml,v 1.16 2010-11-06 09:12:33 dominikoeo Exp $
           <exception scope="next" postag="(V.*)|(C .* n .)|(P kak)" postag_regexp="yes"/>
         </token>
         <token postag="[OA].* akz.*" postag_regexp="yes">
-          <exception inflected="yes" regexp="yes">sekolo|jaro|monato|tago|horo|minuto|sekundo|.*metro|mejlo</exception>
+          <exception inflected="yes" regexp="yes">sekolo|jaro|monato|tago|horo|minuto|sekundo|.*metro|mejlo|lundo|mardo|merkredo|ĵaŭdo|vendredo|sabato|dimanĉo</exception>
+          <exception regexp="yes">[0-9]+-?an</exception>
         </token>
       </pattern>
       <message>Netransitiva verbo «\1» ne povas havi objekton.</message>
@@ -223,6 +224,7 @@ $Id: grammar.xml,v 1.16 2010-11-06 09:12:33 dominikoeo Exp $
       <example type="correct">Mi iras tien.</example>
       <example type="correct">La festo daŭris ok tagojn.</example>
       <example type="correct">Dum la milito estis persekutinta esperantisojn.</example>
+      <example type="correct">La kongreso okazos la 2-an de marto.</example>
     </rule>
 
     <rule id="NAK_VTR_NAK" name="mankanta akuzativo">
@@ -318,6 +320,7 @@ $Id: grammar.xml,v 1.16 2010-11-06 09:12:33 dominikoeo Exp $
         <pattern mark_from="3">
           <token skip="3" postag="SENT_START|K" postag_regexp="yes">
             <exception scope="next" negate_pos="yes" postag="([DE].*)|([ROA] nak np.*)|(T nak np . [ua])" postag_regexp="yes"/>
+            <exception scope="current">kaj</exception>
           </token>
           <token skip="1" postag="([ROA] nak np.*)|(T nak np . [ua])" postag_regexp="yes">
             <exception scope="next" negate_pos="yes" postag="(E.*)|(V nt .*)" postag_regexp="yes"/>
@@ -336,9 +339,32 @@ $Id: grammar.xml,v 1.16 2010-11-06 09:12:33 dominikoeo Exp $
         <example type="correct">Tiu estas tre <marker>bona</marker>.</example>
         <example type="correct">Tie estas bona amiko.</example>
         <example type="correct">Tie estas bonaj amikoj.</example>
+        <example type="correct">La aliĝo kaj aneco estas senpagaj.</example>
       </rule>
 
-      <rule name="pronomo kaj pronomo + verbo ntr + singularo">
+      <rule>
+        <pattern mark_from="1">
+          <token postag="N">
+            <exception>unu</exception>
+          </token>
+          <token postag="[OA] .* np" postag_regexp="yes"/>
+        </pattern>
+        <message>Nombro «\1» postulas pluralon. Ĉu vi intencis <suggestion>\1 <match no="2" regexp_match="(.*[^n])(n?)" regexp_replace="$1j$2"/></suggestion>?</message>
+        <example type="incorrect">Mi aĉetis du <marker>panon</marker>.</example>
+        <example type="correct">Mi aĉetis du panojn.</example>
+      </rule>
+
+      <rule>
+        <pattern mark_from="1">
+          <token>unu</token>
+          <token postag="[OA] .* pl" postag_regexp="yes"/>
+        </pattern>
+        <message>Nombro «\1» postulas singularon. Ĉu vi intencis <suggestion>\1 <match no="2" regexp_match="(.*)j(n?)" regexp_replace="$1$2"/></suggestion>?</message>
+        <example type="incorrect">Mi aĉetis unu <marker>panojn</marker>.</example>
+        <example type="correct">Mi aĉetis unu panon.</example>
+      </rule>
+
+      <rule>
         <pattern mark_from="5">
           <token postag="SENT_START"/>
           <token postag="[RO].*" postag_regexp="yes"/>
@@ -350,6 +376,58 @@ $Id: grammar.xml,v 1.16 2010-11-06 09:12:33 dominikoeo Exp $
         <message>Ne kongrua pluralo inter «\2», «\4» kaj «\6».</message>
         <example type="incorrect">Mi kaj li estas <marker>viro</marker>.</example>
         <example type="correct">Mi kaj li estas <marker>viroj</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern mark_to="-1">
+          <token postag="O.* pl" postag_regexp="yes"/>
+          <token postag="A.* np" postag_regexp="yes"/>
+          <token negate="yes">kaj</token>
+        </pattern>
+        <message>.</message>
+        <example type="incorrect">Mi ŝatas <marker>hundojn grandan</marker>.</example>
+        <example type="correct">Mi ŝatas hundojn grandajn.</example>
+        <example type="correct">Mi havas du hundojn grandan kaj malgrandan.</example>
+      </rule>
+
+      <rule>
+        <pattern mark_to="-1">
+          <token postag="A.* pl" postag_regexp="yes">
+            <exception regexp="yes">.*[aio]ntaj</exception>
+          </token>
+          <token postag="O.* np" postag_regexp="yes"/>
+          <token negate="yes">kaj</token>
+        </pattern>
+        <message>Ne kongrua pluralo inter «\1», «\2».</message>
+        <example type="incorrect">Mi ŝatas <marker>grandajn hundon</marker>.</example>
+        <example type="correct">Mi ŝatas grandajn hundojn.</example>
+        <example type="correct">La lingvaj imperiismo kaj diskriminacio</example>
+        <example type="correct">Homoj scipovantaj Esperanton</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token postag="O.* np" postag_regexp="yes"/>
+          <token postag="A.* pl" postag_regexp="yes"/>
+        </pattern>
+        <message>Ne kongrua pluralo inter «\1», «\2».</message>
+        <example type="incorrect">Mi ŝatas <marker>hundon grandajn</marker>.</example>
+        <example type="correct">Mi ŝatas hundojn grandajn.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token postag="A.* np" postag_regexp="yes">
+            <exception scope="previous">kaj</exception>
+            <exception regexp="yes">.*[aio]nta</exception>
+          </token>
+          <token postag="O.* pl" postag_regexp="yes"/>
+        </pattern>
+        <message>Ne kongrua pluralo inter «\1», «\2».</message>
+        <example type="incorrect">Mi ŝatas <marker>grandan hundojn</marker>.</example>
+        <example type="correct">Mi ŝatas grandan hundon.</example>
+        <example type="correct">Mi havas grandan kaj malgrandan hundojn.</example>
+        <example type="correct">Homo scipovanta lingvojn</example>
       </rule>
     </rulegroup>
 
@@ -531,7 +609,7 @@ $Id: grammar.xml,v 1.16 2010-11-06 09:12:33 dominikoeo Exp $
       <token skip="2">nek</token>
       <token postag="O.*" postag_regexp="yes"/>
     </pattern>
-    <message>Ne uzu «nek» por ligi du aferojn post «sen». Uzu <suggestion>\1 \2 kaj \3</suggestion></message>
+    <message>Ne uzu «nek» por ligi du aferojn post «sen». Uzu <suggestion>\1 \2 kaj \4</suggestion></message>
     <example type="incorrect">Tiu virino ne foriru de ŝi <marker>sen konsolo nek</marker> helpo.</example>
     <example type="correct">Tiu virino ne foriru de ŝi sen konsolo kaj helpo.</example>
   </rule>
@@ -539,8 +617,8 @@ $Id: grammar.xml,v 1.16 2010-11-06 09:12:33 dominikoeo Exp $
   <rule id="ĴUS" name="ĵus devas stari antaŭ pasinteco">
     <pattern mark_to="-2">
       <token>ĵus</token>
-      <token negate="yes" regexp="yes">.*is|.*in?t[aoe]j?</token>
-      <token negate="yes" regexp="yes">.*is|.*in?t[aoe]j?</token>
+      <token negate="yes" regexp="yes">(.*is)|(.*in?t[aoe]j?n?)</token>
+      <token negate="yes" regexp="yes">(.*is)|(.*in?t[aoe]j?n?)</token>
     </pattern>
     <message>La vorto «ĵus» devas aperi antaŭ verbo en la pasinteco.</message>
     <example type="incorrect">Li <marker>ĵus</marker> venas.</example>
