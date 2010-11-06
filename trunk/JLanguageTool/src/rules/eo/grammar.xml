@@ -5,7 +5,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Esperanto Grammar and Typo Rules for LanguageTool
 Copyright (C) 2010 Dominique Pellé
-$Id: grammar.xml,v 1.17 2010-11-06 17:51:34 dominikoeo Exp $
+$Id: grammar.xml,v 1.18 2010-11-06 19:52:41 dominikoeo Exp $
 -->
 <rules lang="eo"
        xsi:noNamespaceSchemaLocation="../rules.xsd" 
@@ -14,12 +14,16 @@ $Id: grammar.xml,v 1.17 2010-11-06 17:51:34 dominikoeo Exp $
   <category name="Gramatiko">
 
     <rule id="ESPERANTO" name="esperanto (Esperanto)">
-      <pattern case_sensitive="yes">
+      <pattern mark_from="1" case_sensitive="yes">
+        <token inflected="yes" regexp="yes" skip="1">.*(legi|skribi|paroli|scipovi|lerni|studi|instrui|verki|lingvo|kurso|leciono|libro)</token>
         <token regexp="yes">esperanton?</token>
       </pattern>
-      <message>Se «\1» estas la nomo de lingvo, tiam ĝi bezonas majusklon.</message>
+      <message>Laŭ la kunteksto, ŝajnas, ke «\1» temas pri la lingvo Esperanto, ĝi do bezonas komencan majusklon.</message>
       <example type="incorrect">Mi lernas <marker>esperanton</marker>.</example>
       <example type="correct">Mi lernas <marker>Esperanton</marker>.</example>
+      <example type="incorrect">Tio estas kurso de <marker>esperanto</marker>.</example>
+      <example type="correct">Tio estas kurso de Esperanto.</example>
+      <example type="correct">Iu, kiu esperas, estas esperanto.</example>
     </rule>
 
     <rule id="ĈI_FOJE" name="ĉi foje (ĉi-foje)">
@@ -41,7 +45,7 @@ $Id: grammar.xml,v 1.17 2010-11-06 17:51:34 dominikoeo Exp $
       </pattern>
       <message>Ĉu vi intencis skribi <suggestion><match no="1" regexp_match="(..)-(.*)" regexp_replace="$1 $2"/></suggestion> sen streketo?</message>
       <example type="incorrect">Mi deziras <marker>ĉi-tiun</marker>.</example>
-      <example type="correct">Mi deziras ĉi tiun..</example>
+      <example type="correct">Mi deziras ĉi tiun.</example>
     </rule>
 
     <rule id="EK_DE" name="ek de (ekde)">
@@ -50,8 +54,8 @@ $Id: grammar.xml,v 1.17 2010-11-06 17:51:34 dominikoeo Exp $
         <token>de</token>
       </pattern>
       <message>Ĉu vi intencis skribi <suggestion>ekde</suggestion>?</message>
-      <example type="incorrect">Mi lernis Esperanton <marker>ek de</marker> la jaro 2005.</example>
-      <example type="correct">Mi lernis Esperanton <marker>ekde</marker> la jaro 2005</example>
+      <example type="incorrect">Mi lernas Esperanton <marker>ek de</marker> la jaro 2005.</example>
+      <example type="correct">Mi lernas Esperanton <marker>ekde</marker> la jaro 2005</example>
     </rule>
 
     <rule id="TRE_TRI" name="ek de (ekde)">
@@ -84,17 +88,6 @@ $Id: grammar.xml,v 1.17 2010-11-06 17:51:34 dominikoeo Exp $
       <example type="correct">Tre multe estas ankoraŭ farenda.</example>
     </rule>
 
-    <rule id="KIOJ" name="Kioj (Kio)">
-      <pattern>
-        <token postag="T ... pl . o" postag_regexp="yes"/>
-      </pattern>
-      <message>Tabelvortoj -O ne povas normale ricevi pluralon -J.</message>
-      <example type="incorrect"><marker>Tiojn</marker></example>
-      <example type="correct">Tiujn</example>
-      <example type="incorrect"><marker>Nenioj</marker></example>
-      <example type="correct"><marker>Nenio</marker></example>
-    </rule>
-
     <rule id="IO_O" name="Io + O-vorto">
       <pattern>
         <token postag="T .* o" postag_regexp="yes">
@@ -121,16 +114,16 @@ $Id: grammar.xml,v 1.17 2010-11-06 17:51:34 dominikoeo Exp $
       <example type="correct">Morgaŭ mi trapasos gravan ekzamenon.</example>
     </rule>
 
-    <rule id="NEOFICIALAJ_ROLVORTETOJ" name="neoficialaj rolvortetoj">
+    <rule id="NEOFIC_PREP" name="neoficialaj rolvortetoj">
       <pattern>
-        <token regexp="yes">na|far|cis</token>
+        <token regexp="yes">na|far|cis|fri</token>
       </pattern>
       <message>«\1» estas neoficiala rolverteto.</message>
       <example type="incorrect">La libro estis verkita <marker>far</marker> fama aŭtoro.</example>
       <example type="correct">La libro estis verkita fare de fama aŭtoro.</example>
     </rule>
 
-    <rule id="KILOGRAMO_DE" name="kilogramo de">
+    <rule id="KILO_DE" name="kilogramo de">
       <pattern mark_from="1">
         <token regexp="yes">((kilo)?gramoj?n?)|(litroj?n?)</token>
         <token>de</token>
@@ -153,7 +146,7 @@ $Id: grammar.xml,v 1.17 2010-11-06 17:51:34 dominikoeo Exp $
     <rule id="PO" name="misuzo de po">
       <pattern>
         <token>po</token>
-        <token regexp="yes">(((kilo)?metr)|((ge)?(person|hom))|(.*ul)|(sekol|jar|jardek|monat|semajn|tag|hor|minut|sekond))oj?</token>
+        <token regexp="yes">(((kilo)?metr)|((ge)?(person|hom))|(.*ul)|(jarmil|jarcent|jardek|jar|monat|semajn|tag|hor|minut|sekond))oj?</token>
       </pattern>
       <message>Misuzo de la vorto «po».</message>
       <example type="incorrect">Kostas du eŭro <marker>po persono</marker>.</example>
@@ -191,7 +184,7 @@ $Id: grammar.xml,v 1.17 2010-11-06 17:51:34 dominikoeo Exp $
       <example type="correct">Ambaŭ teamoj perdis.</example>
     </rule>
 
-    <rule id="PREPOZICIO_AKU" name="prepozicio + akuzativo">
+    <rule id="PREP_AKU" name="prepozicio + akuzativo">
       <pattern mark_to="-1">
         <token postag="P sak"/>
         <token postag=". akz.*" postag_regexp="yes"/>
@@ -209,6 +202,7 @@ $Id: grammar.xml,v 1.17 2010-11-06 17:51:34 dominikoeo Exp $
       <pattern mark_from="1">
         <token postag="V nt .*" postag_regexp="yes" skip="2">
           <exception scope="next" postag="(V.*)|(C .* n .)|(P kak)" postag_regexp="yes"/>
+          <exception scope="next" regexp="yes">[-–,;:“&quot;()]</exception>
         </token>
         <token postag="[OA].* akz.*" postag_regexp="yes">
           <exception inflected="yes" regexp="yes">sekolo|jaro|monato|tago|horo|minuto|sekundo|.*metro|mejlo|lundo|mardo|merkredo|ĵaŭdo|vendredo|sabato|dimanĉo</exception>
@@ -223,7 +217,7 @@ $Id: grammar.xml,v 1.17 2010-11-06 17:51:34 dominikoeo Exp $
       <example type="correct">Mi iras en la domon.</example>
       <example type="correct">Mi iras tien.</example>
       <example type="correct">La festo daŭris ok tagojn.</example>
-      <example type="correct">Dum la milito estis persekutinta esperantisojn.</example>
+      <example type="correct">Dum la milito estis persekutinta esperantistojn.</example>
       <example type="correct">La kongreso okazos la 2-an de marto.</example>
     </rule>
 
@@ -231,12 +225,12 @@ $Id: grammar.xml,v 1.17 2010-11-06 17:51:34 dominikoeo Exp $
       <pattern mark_from="2">
         <token postag="[ROAT] nak.*" postag_regexp="yes" skip="3">
           <exception scope="next" postag="[ROAT] akz.*" postag_regexp="yes"/>
-          <exception scope="next" regexp="yes">[–,;:“&quot;]</exception>
+          <exception scope="next" regexp="yes">[-–,;:“&quot;()]</exception>
         </token>
         <token postag="V tr .*" postag_regexp="yes" skip="1">
           <exception scope="next" postag="(P .*)|([RO] akz.*)|(T .* k .*)|(V .* i)|(V nt .*)" postag_regexp="yes"/>
-          <exception scope="next" regexp="yes">ke|sed|tamen|,</exception>
-          <exception scope="next" regexp="yes">[–,;:“&quot;]</exception>
+          <exception scope="next" regexp="yes">ĉar|se|ke|sed|tamen|,</exception>
+          <exception scope="next" regexp="yes">[-–,;:“&quot;()]</exception>
         </token>
         <token postag="[ROAT] nak.*" postag_regexp="yes">
           <exception postag="T .*e" postag_regexp="yes"/>
@@ -520,7 +514,7 @@ $Id: grammar.xml,v 1.17 2010-11-06 17:51:34 dominikoeo Exp $
         <token skip="1" postag="[AE].*" postag_regexp="yes"/>
         <token>kiom</token>
       </pattern>
-      <message>Ne uzu «tiom kiom», uzu <suggestion>tiel kiel</suggestion>.</message>
+      <message>Ĉu vi intencis diri <suggestion>tiel \2 kiel</suggestion> anstataŭ «tiom \2 kiom»?</message>
       <example type="incorrect">Mi estas <marker>tiom forta, kiom</marker> vi.</example>
       <example type="correct">Mi estas tiel forta, kiel vi.</example>
     </rule>
@@ -686,7 +680,7 @@ $Id: grammar.xml,v 1.17 2010-11-06 17:51:34 dominikoeo Exp $
       </pattern>
       <message>Propozicio «\1» bezonas postan esprimon.</message>
       <example type="incorrect">Mi havas multe <marker>da</marker>.</example>
-      <example type="correct">Mi haveas multe da mono.</example>
+      <example type="correct">Mi havas multe da mono.</example>
     </rule>
     <rule>
       <pattern mark_to="-1">
