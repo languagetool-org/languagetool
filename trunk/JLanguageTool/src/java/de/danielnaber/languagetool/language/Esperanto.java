@@ -43,7 +43,8 @@ public class Esperanto extends Language {
   }
 
   public String[] getCountryVariants() {
-    return new String[] {};
+    /* return any country code, OOo doesn't seem to accept languages without country code */
+    return new String[] {"EN"};
   }
   
   public Tagger getTagger() {
