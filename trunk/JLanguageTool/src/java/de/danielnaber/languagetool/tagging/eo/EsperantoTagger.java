@@ -67,7 +67,7 @@ public class EsperantoTagger implements Tagger {
   // Following preposition may be followed by accusative.
   private final static String prepositionsAccusative[] = {
     "anstataŭ", "en", "kontraŭ", "krom", "sur", "sub", "trans", 
-    "preter", "ĉirkaŭ", "antaŭ", "ekster", "inter", "ĉe"
+    "preter", "ĉirkaŭ", "antaŭ", "malantaŭ", "ekster", "inter", "ĉe"
   };
 
   private final Set setPrepositionsAccusative =
