@@ -5,7 +5,13 @@ title="Easy editing stylesheet" ?>
 <!--
 Esperanto Grammar and Typo Rules for LanguageTool
 Copyright (C) 2010 Dominique Pellé
-$Id: grammar.xml,v 1.19 2010-11-07 11:30:04 dominikoeo Exp $
+$Id: grammar.xml,v 1.20 2010-11-07 19:17:20 dominikoeo Exp $
+
+Dankon al tiuj projektoj, kie troveblis ekzemploj de oftaj eraroj en Esperanto:
+Thank you to those projects where could be found examples of frequent errors in Esperanto:
+- Lernu!:                      http://eo.lernu.net/lernado/gramatiko/demandoj/oe.php
+- esperantilo (Artur Trzewik): http://www.esperantilo.org/erarekzemploj.xml
+- PMEG (Bertilo Wennergren):   http://bertilow.com/pmeg/
 -->
 <rules lang="eo"
        xsi:noNamespaceSchemaLocation="../rules.xsd" 
@@ -86,19 +92,6 @@ $Id: grammar.xml,v 1.19 2010-11-07 11:30:04 dominikoeo Exp $
       <message>Vorto «\1» ne povas priskribi O-vorton «\2».</message>
       <example type="incorrect"><marker>Tre multo</marker> estas ankoraŭ farenda.</example>
       <example type="correct">Tre multe estas ankoraŭ farenda.</example>
-    </rule>
-
-    <rule id="IO_O" name="Io + O-vorto">
-      <pattern>
-        <token postag="T .* o" postag_regexp="yes">
-          <exception scope="previous" postag="P.*" postag_regexp="yes"/>
-        </token>
-        <token postag="O .*" postag_regexp="yes"/>
-      </pattern>
-      <message>Ne povas esti «\1» antaŭ o-vorto «\2». Ĉu vi intencis «<match no="1" regexp_match="(.*)o(j?n?)" regexp_replace="$1u$2"/> \2»?</message>
-      <example type="incorrect">Mi legis <marker>tion libron</marker>.</example>
-      <example type="correct">Mi legis <marker>tiun libron</marker>.</example>
-      <example type="correct">Per kio Karlo konstruis ŝipon?</example>
     </rule>
 
     <rule id="PASI_EKZAMENON" name="pasi ekzamenon (trapasi ekzamenon)">
@@ -202,7 +195,7 @@ $Id: grammar.xml,v 1.19 2010-11-07 11:30:04 dominikoeo Exp $
       <pattern mark_from="1">
         <token postag="V nt .*" postag_regexp="yes" skip="2">
           <exception scope="next" postag="(V.*)|(C .* n .)|(P kak)" postag_regexp="yes"/>
-          <exception scope="next" regexp="yes">[-–,;:“&quot;()]</exception>
+          <exception scope="next" regexp="yes">[!?-–,;:«»“&quot;()]</exception>
         </token>
         <token postag="([OA] akz.*)|(T akz .*[uoa])" postag_regexp="yes">
           <exception inflected="yes" regexp="yes">sekolo|jaro|monato|tago|horo|minuto|sekundo|.*metro|mejlo|lundo|mardo|merkredo|ĵaŭdo|vendredo|sabato|dimanĉo</exception>
@@ -227,11 +220,11 @@ $Id: grammar.xml,v 1.19 2010-11-07 11:30:04 dominikoeo Exp $
       <pattern mark_from="2">
         <token postag="[ROAT] nak.*" postag_regexp="yes" skip="3">
           <exception scope="next" postag="[ROAT] akz.*" postag_regexp="yes"/>
-          <exception scope="next" regexp="yes">[-–,;:“&quot;()]</exception>
+          <exception scope="next" regexp="yes">[!?-–,;:«»“&quot;()]</exception>
         </token>
         <token postag="V tr .*" postag_regexp="yes" skip="2">
           <exception scope="next" postag="(P .*)|([RO] akz.*)|(T .* k .*)|(V nt .*)" postag_regexp="yes"/>
-          <exception scope="next" regexp="yes">[-–,;:“&quot;()]|nek|kaj|aŭ|ĉar|se|ke|sed|tamen|,</exception>
+          <exception scope="next" regexp="yes">[!?-–,;:«»“&quot;()]|nek|kaj|aŭ|ĉar|se|ke|sed|tamen|,</exception>
         </token>
         <token postag="[ROAT] nak.*" postag_regexp="yes">
           <exception postag="T .*e" postag_regexp="yes"/>
@@ -262,7 +255,7 @@ $Id: grammar.xml,v 1.19 2010-11-07 11:30:04 dominikoeo Exp $
         </token>
         <token postag="[RT] nak.*" postag_regexp="yes"/>
         <token postag="[RO] nak.*" postag_regexp="yes" skip="-1">
-          <exception negate="yes" regexp="yes">(.*e)|(.*aŭ)|jam|nur|(.*[ui])|(.*[aiuo]s)</exception>
+          <exception scope="next" negate="yes" regexp="yes">(.*e)|(.*aŭ)|jam|nur|(.*[ui])|(.*[aiuo]s)</exception>
         </token>
         <token postag="V tr .*" postag_regexp="yes"/>
         <token regexp="yes">[\.:;\?!]|(sed|ĉar|tamen|kaj|aŭ|nek)</token>
@@ -314,7 +307,7 @@ $Id: grammar.xml,v 1.19 2010-11-07 11:30:04 dominikoeo Exp $
         <example type="incorrect">Ni estas <marker>laca</marker>.</example>
         <example type="correct">Ni estas <marker>lacaj</marker>.</example>
         <example type="incorrect">Hodiaŭ ni estas tre <marker>laca</marker>.</example>
-        <example type="correct">Hidiaŭ ni estas tre <marker>lacaj</marker>.</example>
+        <example type="correct">Hodiaŭ ni estas tre <marker>lacaj</marker>.</example>
         <example type="incorrect">Tiuj estas <marker>bona</marker>.</example>
         <example type="correct">Tiuj estas bonaj.</example>
       </rule>
@@ -476,10 +469,10 @@ $Id: grammar.xml,v 1.19 2010-11-07 11:30:04 dominikoeo Exp $
       <pattern>
         <token>por</token>
         <token>ke</token>
-        <token postag="(R nak .*)|(O nak .*)" postag_regexp="yes"/>
-        <token postag="V.*" postag_regexp="yes"><exception postag="V .. u" postag_regexp="yes"/></token>
+        <token postag="[RO].*" postag_regexp="yes"/>
+        <token postag="V.*[^u]" postag_regexp="yes"/>
       </pattern>
-      <message>«por ke» postulas volitivon.</message>
+      <message>Oni preskaŭ ĉiam uzas volutivon post «\1 \2». Ĉi vi intencis <suggestion>\1 \2 \3 <match no="4" regexp_match="(.*)[aiou]s" regexp_replace="$1u"/></suggestion>?</message>
       <example type="incorrect">Mi studas, <marker>por ke mi sukcesos</marker>.</example>
       <example type="correct">Mi studas, por ke mi sukcesu.</example>
     </rule>
@@ -572,159 +565,255 @@ $Id: grammar.xml,v 1.19 2010-11-07 11:30:04 dominikoeo Exp $
     </rule>
     -->
 
-  <rule id="NTR_ATA" name="Netransitiva verbo + ata">
-    <pattern>
-      <token postag="C ... .. nt . - ." postag_regexp="yes">
-        <exception regexp="yes">spirit[aeo]j?n?</exception>
-      </token>
-    </pattern>
-    <message>Pasiva participo eblas nur kun transitivaj verboj.</message>
-    <example type="incorrect">La <marker>okazota</marker> vesto</example>
-    <example type="correct">La <marker>okazonta</marker> vesto</example>
-    <example type="correct">La <marker>spirito</marker> de la lingvo</example>
-  </rule>
-
-  <rule id="ANKAŬ_FINO" name="Ankaux (ktp) je la fino de frazo">
-    <pattern mark_to="-1">
-      <token regexp="yes">ankaŭ|eĉ|tre|nur|jam|ĵus|nek|kaj|aŭ|sed|plus|minus</token>
-      <token postag="M fino.*" postag_regexp="yes"/>
-    </pattern>
-    <message>Vorto «\1» devas stari antaŭ tio, al kio ĝi rilatas.</message>
-    <example type="incorrect">Mi scipovas Esperanton <marker>ankaŭ</marker>.</example>
-    <example type="correct">Mi scipovas ankaŭ Esperanton.</example>
-  </rule>
-
-  <rule id="PREP_FINO" name="Prepozicio je la fino de frazo">
-    <pattern mark_to="-1">
-      <token postag="P.*" postag_regexp="yes"></token>
-      <token postag="M fino.*" postag_regexp="yes"/>
-    </pattern>
-    <message>Prepozicio «\1» devas stari antaŭ tio, al kio ĝi rilatas.</message>
-    <example type="incorrect">Mi venis <marker>post</marker>.</example>
-    <example type="correct">Mi venis post li.</example>
-    <example type="correct">Mi venis poste.</example>
-  </rule>
-
-  <rule id="SEN_NEK" name="sen + nek (sen + kaj)">
-    <pattern mark_to="-1">
-      <token skip="2">sen</token>
-      <token postag="O.*" postag_regexp="yes"/>
-      <token skip="2">nek</token>
-      <token postag="O.*" postag_regexp="yes"/>
-    </pattern>
-    <message>Ne uzu «nek» por ligi du aferojn post «sen». Uzu <suggestion>\1 \2 kaj \4</suggestion></message>
-    <example type="incorrect">Tiu virino ne foriru de ŝi <marker>sen konsolo nek</marker> helpo.</example>
-    <example type="correct">Tiu virino ne foriru de ŝi sen konsolo kaj helpo.</example>
-  </rule>
-
-  <rule id="ĴUS" name="ĵus devas stari antaŭ pasinteco">
-    <pattern mark_to="-2">
-      <token>ĵus</token>
-      <token negate="yes" regexp="yes">(.*is)|(.*in?t[aoe]j?n?)</token>
-      <token negate="yes" regexp="yes">(.*is)|(.*in?t[aoe]j?n?)</token>
-    </pattern>
-    <message>La vorto «ĵus» devas aperi antaŭ verbo en la pasinteco.</message>
-    <example type="incorrect">Li <marker>ĵus</marker> venas.</example>
-    <example type="incorrect">Li havas <marker>ĵus</marker> tiom da mono.</example>
-    <example type="incorrect">Li loĝas <marker>ĵus</marker> apud la stacidomo.</example>
-    <example type="correct">Mi ĵus eklernis Esperanton.</example>
-  </rule>
-
-  <rule id="POST_V_I" name="post + verb-i">
-    <pattern>
-      <token>post</token>
-      <token postag="V.* i" postag_regexp="yes"/>
-    </pattern>
-    <message>Anstataŭ «\1 \2», oni uzas int-participon kun e-finaĵo, aŭ «post kiam + plenan subfrazon».</message>
-    <example type="incorrect"><marker>Post diri</marker> tiujn vortojn li foriris.</example>
-    <example type="correct">Post kiam li diris tiujn vortojn, li foriris.</example>
-  </rule>
-
-  <rule id="LA_TITOLO" name="la + titolo">
-    <pattern mark_to="-2" case_sensitive="yes">
-      <token regexp="yes">[Ll]a</token>
-      <token regexp="yes">([Ff]raŭl|[Dd]oktor|[Ss]injor|[Pp]rofesor|[Bb]aron)(in)?o</token>
-      <token regexp="yes">[A-ZĈĜĴĤŜ].*</token>
-    </pattern>
-    <message>Oni ne uzas «\1» antaŭ titolo sekvita de propra nomo, uzu <suggestion>\2 \3</suggestion></message>
-    <example type="incorrect"><marker>La</marker> doktoro Zamenhof kreis Esperanton.</example>
-    <example type="correct">Doktoro Zamenhof kreis Esperanton.</example>
-  </rule>
-
-  <rulegroup id="DA_MEMSTARA" name="memstara prepozcio da">
-    <rule>
-      <pattern mark_from="1">
-        <token postag="V .*" postag_regexp="yes"/>
-        <token>da</token>
+    <rule id="NTR_ATA" name="Netransitiva verbo + ata">
+      <pattern>
+        <token postag="C ... .. nt . - ." postag_regexp="yes">
+          <exception regexp="yes">spirit[aeo]j?n?</exception>
+        </token>
       </pattern>
-      <message>Oni ne povas uzi «da» memstare.</message>
-      <example type="incorrect">Mi manĝis <marker>da</marker> pano.</example>
-      <example type="correct">Mi manĝis iom da pano.</example>
+      <message>Pasiva participo eblas nur kun transitivaj verboj.</message>
+      <example type="incorrect">La <marker>okazota</marker> vesto</example>
+      <example type="correct">La <marker>okazonta</marker> vesto</example>
+      <example type="correct">La <marker>spirito</marker> de la lingvo</example>
     </rule>
-    <rule>
-      <pattern mark_from="1">
-        <token regexp="yes">[,;:]|ke</token>
-        <token>da</token>
-      </pattern>
-      <message>Oni ne povas uzi «da» memstare.</message>
-      <example type="incorrect">Mi volas, ke <marker>da</marker> panon vi manĝu.</example>
-      <example type="correct">Mi volas, ke panon vi manĝu.</example>
-    </rule>
-    <rule>
-      <pattern mark_from="1">
-        <token postag="SENT_START"/>
-        <token>da</token>
-      </pattern>
-      <message>Oni ne povas uzi «da» memstare.</message>
-      <example type="incorrect"><marker>Da</marker> pano mi manĝis.</example>
-      <example type="correct">Iom da pano mi manĝis.</example>
-    </rule>
-  </rulegroup>
 
-  <rulegroup id="P_SENPOSTA" name="prepozicio sen posta esprimo">
-    <rule>
+    <rule id="ANKAŬ_FINO" name="Ankaux (ktp) je la fino de frazo">
       <pattern mark_to="-1">
-        <token regexp="yes">da|de</token>
-        <token regexp="yes">[\.:;\?!]|kaj|aŭ|ĉar|tamen</token>
+        <token regexp="yes">ankaŭ|eĉ|tre|nur|jam|ĵus|nek|kaj|aŭ|sed|plus|minus</token>
+        <token postag="M fino.*" postag_regexp="yes"/>
       </pattern>
-      <message>Prepozicio «\1» bezonas postan esprimon.</message>
-      <example type="incorrect">Mi havas multe <marker>da</marker>.</example>
-      <example type="correct">Mi havas multe da mono.</example>
-      <example type="incorrect">Mi havas multe <marker>da</marker> ĉar mi laboras multe.</example>
+      <message>Vorto «\1» devas stari antaŭ tio, al kio ĝi rilatas.</message>
+      <example type="incorrect">Mi scipovas Esperanton <marker>ankaŭ</marker>.</example>
+      <example type="correct">Mi scipovas ankaŭ Esperanton.</example>
     </rule>
-    <rule>
+
+    <rule id="PREP_FINO" name="Prepozicio je la fino de frazo">
       <pattern mark_to="-1">
-        <token regexp="yes">da|de</token>
-        <token regexp="yes">[,;:]|ke</token>
+        <token postag="P.*" postag_regexp="yes"></token>
+        <token postag="M fino.*" postag_regexp="yes"/>
       </pattern>
-      <message>Prepozicio «\1» bezonas postan esprimon.</message>
-      <example type="incorrect">Mi havas tiom <marker>da</marker>, ke mi bezonas nenion.</example>
-      <example type="correct">Mi havas tiom da ili, ke mi bezonas nenion.</example>
+      <message>Prepozicio «\1» devas stari antaŭ tio, al kio ĝi rilatas.</message>
+      <example type="incorrect">Mi venis <marker>post</marker>.</example>
+      <example type="correct">Mi venis post li.</example>
+      <example type="correct">Mi venis poste.</example>
     </rule>
-  </rulegroup>
 
-  <rule id="SI_UNU" name="si + unu">
-    <pattern>
-      <token regexp="yes">sin?</token>
-      <token>unu</token>
-      <token>la</token>
-      <token regexp="yes">aliaj?n?</token>
-    </pattern>
-    <message>Oni neniam uzu la pronomon «si» kune kun «unu la alia».</message>
-    <example type="incorrect">Ili amas <marker>sin unu la alian</marker>.</example>
-    <example type="correct">Ili amas unu la alian.</example>
-    <example type="correct">Ili amas sin.</example>
-  </rule>
+    <rule id="SEN_NEK" name="sen + nek (sen + kaj)">
+      <pattern mark_to="-1">
+        <token skip="2">sen</token>
+        <token postag="O.*" postag_regexp="yes"/>
+        <token skip="2">nek</token>
+        <token postag="O.*" postag_regexp="yes"/>
+      </pattern>
+      <message>Ne uzu «nek» por ligi du aferojn post «sen». Uzu <suggestion>\1 \2 kaj \4</suggestion></message>
+      <example type="incorrect">Tiu virino ne foriru de ŝi <marker>sen konsolo nek</marker> helpo.</example>
+      <example type="correct">Tiu virino ne foriru de ŝi sen konsolo kaj helpo.</example>
+    </rule>
 
-  <rule id="P_P" name="Sinsekvaj prepozicioj">
-    <pattern>
-      <token postag="P.*" postag_regexp="yes"/>
-      <token postag="P.*" postag_regexp="yes"/>
-    </pattern>
-    <message>Uzo de du sinsekvaj prepozicioj «\1» kaj «\2» ne ĝustas.</message>
-    <example type="incorrect">Li parolis <marker>pri de</marker> vi.</example>
-    <example type="correct">Li parolis pri vi.</example>
-  </rule>
+    <rule id="ĴUS" name="ĵus devas stari antaŭ pasinteco">
+      <pattern mark_to="-2">
+        <token>ĵus</token>
+        <token negate="yes" regexp="yes">(.*is)|(.*in?t[aoe]j?n?)</token>
+        <token negate="yes" regexp="yes">(.*is)|(.*in?t[aoe]j?n?)</token>
+      </pattern>
+      <message>La vorto «ĵus» devas aperi antaŭ verbo en la pasinteco.</message>
+      <example type="incorrect">Li <marker>ĵus</marker> venas.</example>
+      <example type="incorrect">Li havas <marker>ĵus</marker> tiom da mono.</example>
+      <example type="incorrect">Li loĝas <marker>ĵus</marker> apud la stacidomo.</example>
+      <example type="correct">Mi ĵus eklernis Esperanton.</example>
+    </rule>
 
+    <rule id="POST_V_I" name="post + verb-i">
+      <pattern>
+        <token>post</token>
+        <token postag="V.* i" postag_regexp="yes"/>
+      </pattern>
+      <message>Anstataŭ «\1 \2», oni uzas int-participon kun e-finaĵo, aŭ «post kiam + plenan subfrazon».</message>
+      <example type="incorrect"><marker>Post diri</marker> tiujn vortojn li foriris.</example>
+      <example type="correct">Post kiam li diris tiujn vortojn, li foriris.</example>
+    </rule>
+
+    <rule id="LA_TITOLO" name="la + titolo">
+      <pattern mark_to="-2" case_sensitive="yes">
+        <token regexp="yes">[Ll]a</token>
+        <token regexp="yes">([Ff]raŭl|[Dd]oktor|[Ss]injor|[Pp]rofesor|[Bb]aron)(in)?o</token>
+        <token regexp="yes">[A-ZĈĜĴĤŜ].*</token>
+      </pattern>
+      <message>Oni ne uzas «\1» antaŭ titolo sekvita de propra nomo, uzu <suggestion>\2 \3</suggestion></message>
+      <example type="incorrect"><marker>La</marker> doktoro Zamenhof kreis Esperanton.</example>
+      <example type="correct">Doktoro Zamenhof kreis Esperanton.</example>
+    </rule>
+
+    <rulegroup id="DA_MEMSTARA" name="memstara prepozcio da">
+      <rule>
+        <pattern mark_from="1">
+          <token postag="V .*" postag_regexp="yes"/>
+          <token>da</token>
+        </pattern>
+        <message>Oni ne povas uzi «da» memstare.</message>
+        <example type="incorrect">Mi manĝis <marker>da</marker> pano.</example>
+        <example type="correct">Mi manĝis iom da pano.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">[,;:]|ke</token>
+          <token>da</token>
+        </pattern>
+        <message>Oni ne povas uzi «da» memstare.</message>
+        <example type="incorrect">Mi volas, ke <marker>da</marker> panon vi manĝu.</example>
+        <example type="correct">Mi volas, ke panon vi manĝu.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token postag="SENT_START"/>
+          <token>da</token>
+        </pattern>
+        <message>Oni ne povas uzi «da» memstare.</message>
+        <example type="incorrect"><marker>Da</marker> pano mi manĝis.</example>
+        <example type="correct">Iom da pano mi manĝis.</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="P_SENPOSTA" name="prepozicio sen posta esprimo">
+      <rule>
+        <pattern mark_to="-1">
+          <token regexp="yes">da|de</token>
+          <token regexp="yes">[\.:;\?!]|kaj|aŭ|ĉar|tamen</token>
+        </pattern>
+        <message>Prepozicio «\1» bezonas postan esprimon.</message>
+        <example type="incorrect">Mi havas multe <marker>da</marker>.</example>
+        <example type="correct">Mi havas multe da mono.</example>
+        <example type="incorrect">Mi havas multe <marker>da</marker> ĉar mi laboras multe.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token regexp="yes">da|de</token>
+          <token regexp="yes">[,;:]|ke</token>
+        </pattern>
+        <message>Prepozicio «\1» bezonas postan esprimon.</message>
+        <example type="incorrect">Mi havas tiom <marker>da</marker>, ke mi bezonas nenion.</example>
+        <example type="correct">Mi havas tiom da ili, ke mi bezonas nenion.</example>
+      </rule>
+    </rulegroup>
+
+    <rule id="SI_UNU" name="si + unu">
+      <pattern>
+        <token regexp="yes">sin?</token>
+        <token>unu</token>
+        <token>la</token>
+        <token regexp="yes">aliaj?n?</token>
+      </pattern>
+      <message>Oni neniam uzu la pronomon «si» kune kun «unu la alia».</message>
+      <example type="incorrect">Ili amas <marker>sin unu la alian</marker>.</example>
+      <example type="correct">Ili amas unu la alian.</example>
+      <example type="correct">Ili amas sin.</example>
+    </rule>
+
+    <rule id="P_P" name="Sinsekvaj prepozicioj">
+      <pattern>
+        <token postag="P.*" postag_regexp="yes">
+          <exception regexp="yes">dum|ĝis</exception>
+        </token>
+        <token postag="P.*" postag_regexp="yes">
+          <exception>post</exception>
+        </token>
+      </pattern>
+      <message>Uzo de du sinsekvaj prepozicioj «\1» kaj «\2» ne ĝustas.</message>
+      <example type="incorrect">Li parolis <marker>pri de</marker> vi.</example>
+      <example type="correct">Li parolis pri vi.</example>
+      <example type="correct">Li aspektis ĝoja dum en realo, li malsanis.</example>
+      <example type="correct">Li ankoraŭ laboris ĝis antaŭ kelkaj jaroj.</example>
+      <example type="correct">Multe ŝanĝiĝis de post tiu tempo.</example>
+    </rule>
+
+    <rule id="NE_JAM" name="ne + jam (ankoraŭ ne)">
+      <pattern>
+        <token>ne</token>
+        <token>jam</token>
+      </pattern>
+      <message>Preferu <suggestion>ankoraŭ ne</suggestion> anstataŭ «\1 \2».</message>
+      <example type="incorrect">Mi <marker>ne jam</marker> studis la lecionon.</example>
+      <example type="correct">Mi ankoraŭ ne studis la lecionon.</example>
+    </rule>
+
+    <rulegroup id="SUR_NAK" name="sur sen akuzativo de direkto">
+      <rule>
+        <pattern mark_from="1">
+          <token inflected="yes" regexp="yes" skip="2">meti|iri|ĵeti</token>
+          <token regexp="yes">sub|sur</token>
+          <token postag="[ROAT] nak .*" postag_regexp="yes"/>
+        </pattern>
+        <message>Laŭ la kunteksto, eble mankas akuzativo de direkto. Ĉu vi intencis <suggestion>\2 \3n</suggestion>?</message>
+        <example type="incorrect">Ŝi ĵetis ŝin <marker>sur mi</marker>.</example>
+        <example type="correct">Ŝi ĵetis ŝin sur min.</example>
+      </rule>
+
+      <rule>
+        <pattern mark_from="1">
+          <token inflected="yes" regexp="yes" skip="2">meti|iri|ĵeti</token>
+          <token regexp="yes">sub|sur</token>
+          <token postag="[DN]|(T.* u)" postag_regexp="yes"/>
+          <token postag="[ROAT] nak .*" postag_regexp="yes"/>
+        </pattern>
+        <message>Laŭ la kunteksto, eble mankas akuzativo de direkto. Ĉu vi intencis <suggestion>\2 \3 \4n</suggestion>?</message>
+        <example type="incorrect">Mi metas la libron <marker>sur la tablo</marker>.</example>
+        <example type="correct">Mi metas la libron sur la tablon.</example>
+        <example type="correct">Mi sidas sur tiu seĝo.</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="EN_NAK" name="en sen akuzativo de direkto">
+      <rule>
+        <pattern mark_from="1">
+          <token inflected="yes" regexp="yes" skip="2">iri|eniri|fali|enfali|traduki|rigardi</token>
+          <token>en</token>
+          <token postag="[ROAT] nak .*" postag_regexp="yes"/>
+        </pattern>
+        <message>Laŭ la kunteksto, eble mankas akuzativo de direkto. Ĉu vi intencis <suggestion>\2 \3n</suggestion>?</message>
+        <example type="incorrect">Li iras <marker>en ĉambro</marker>.</example>
+        <example type="correct">Li iras en ĉambron.</example>
+        <example type="correct">Mi loĝas en kastelo.</example>
+        <example type="incorrect">La libro estas tradukita <marker>en Esperanto</marker>.</example>
+        <example type="correct">La libro estas tradukita en Esperanton.</example>
+      </rule>
+
+      <rule>
+        <pattern mark_from="1">
+          <token inflected="yes" regexp="yes" skip="2">iri|eniri|fali|enfali|traduki|rigardi</token>
+          <token>en</token>
+          <token postag="[DN]|(T.* u)" postag_regexp="yes"/>
+          <token postag="[ROAT] nak .*" postag_regexp="yes"/>
+        </pattern>
+        <message>Laŭ la kunteksto, eble mankas akuzativo de direkto. Ĉu vi intencis <suggestion>\2 \3 \4n</suggestion>?</message>
+        <example type="incorrect">Li iras <marker>en la ĉambro</marker>.</example>
+        <example type="correct">Li iras en la ĉambron.</example>
+        <example type="correct">Mi loĝas en tiu kastelo.</example>
+      </rule>
+    </rulegroup>
+
+    <rule id="TIO_KIU" name="tion, kiun (tion, kion)">
+      <pattern>
+        <token postag="T .* o" postag_regexp="yes"/>
+        <token>,</token>
+        <token regexp="yes">kiuj?n?</token>
+      </pattern>
+      <message>«\1, \3» ne ĝustas. Ĉu vi intencis <suggestion>\1, <match no="3" regexp_match="kiu(j?n?)" regexp_replace="kio$1"/></suggestion>?</message>
+      <example type="incorrect">Mi manĝis <marker>tion, kiun</marker> mi trovis.</example>
+      <example type="incorrect">Mi manĝis <marker>ĉion, kiun</marker> mi trovis.</example>
+      <example type="correct">Mi manĝis tion, kion mi trovis.</example>
+      <example type="correct">Mi manĝis ĉion, kion mi trovis.</example>
+      <example type="incorrect">Estis <marker>tio, kiu</marker> misfunkciis.</example>
+      <example type="correct">Estis tio, kio misfunkciis.</example>
+    </rule>
+
+    <rule id="LA_PLI" name="La pli (la plej)">
+      <pattern>
+        <token>la</token>
+        <token regexp="yes">(mal)?pli</token>
+      </pattern>
+      <message>Ĉu vi intencis <suggestion>\1 <match no="2" regexp_match="(.*)i" regexp_replace="$1ej"/></suggestion>?</message>
+      <example type="incorrect">Li estas <marker>la pli</marker> rapida.</example>
+      <example type="correct">Li estas la plej rapida.</example>
+    </rule>
   </category>
 </rules>
