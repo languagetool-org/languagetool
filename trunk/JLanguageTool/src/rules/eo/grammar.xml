@@ -5,7 +5,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Esperanto Grammar and Typo Rules for LanguageTool
 Copyright (C) 2010 Dominique Pellé
-$Id: grammar.xml,v 1.18 2010-11-06 19:52:41 dominikoeo Exp $
+$Id: grammar.xml,v 1.19 2010-11-07 11:30:04 dominikoeo Exp $
 -->
 <rules lang="eo"
        xsi:noNamespaceSchemaLocation="../rules.xsd" 
@@ -204,7 +204,7 @@ $Id: grammar.xml,v 1.18 2010-11-06 19:52:41 dominikoeo Exp $
           <exception scope="next" postag="(V.*)|(C .* n .)|(P kak)" postag_regexp="yes"/>
           <exception scope="next" regexp="yes">[-–,;:“&quot;()]</exception>
         </token>
-        <token postag="[OA].* akz.*" postag_regexp="yes">
+        <token postag="([OA] akz.*)|(T akz .*[uoa])" postag_regexp="yes">
           <exception inflected="yes" regexp="yes">sekolo|jaro|monato|tago|horo|minuto|sekundo|.*metro|mejlo|lundo|mardo|merkredo|ĵaŭdo|vendredo|sabato|dimanĉo</exception>
           <exception regexp="yes">[0-9]+-?an</exception>
         </token>
@@ -219,6 +219,8 @@ $Id: grammar.xml,v 1.18 2010-11-06 19:52:41 dominikoeo Exp $
       <example type="correct">La festo daŭris ok tagojn.</example>
       <example type="correct">Dum la milito estis persekutinta esperantistojn.</example>
       <example type="correct">La kongreso okazos la 2-an de marto.</example>
+      <example type="incorrect">Okazas <marker>nenion</marker>.</example>
+      <example type="correct">Okazas nenio.</example>
     </rule>
 
     <rule id="NAK_VTR_NAK" name="mankanta akuzativo">
@@ -227,10 +229,9 @@ $Id: grammar.xml,v 1.18 2010-11-06 19:52:41 dominikoeo Exp $
           <exception scope="next" postag="[ROAT] akz.*" postag_regexp="yes"/>
           <exception scope="next" regexp="yes">[-–,;:“&quot;()]</exception>
         </token>
-        <token postag="V tr .*" postag_regexp="yes" skip="1">
-          <exception scope="next" postag="(P .*)|([RO] akz.*)|(T .* k .*)|(V .* i)|(V nt .*)" postag_regexp="yes"/>
-          <exception scope="next" regexp="yes">ĉar|se|ke|sed|tamen|,</exception>
-          <exception scope="next" regexp="yes">[-–,;:“&quot;()]</exception>
+        <token postag="V tr .*" postag_regexp="yes" skip="2">
+          <exception scope="next" postag="(P .*)|([RO] akz.*)|(T .* k .*)|(V nt .*)" postag_regexp="yes"/>
+          <exception scope="next" regexp="yes">[-–,;:“&quot;()]|nek|kaj|aŭ|ĉar|se|ke|sed|tamen|,</exception>
         </token>
         <token postag="[ROAT] nak.*" postag_regexp="yes">
           <exception postag="T .*e" postag_regexp="yes"/>
@@ -250,20 +251,28 @@ $Id: grammar.xml,v 1.18 2010-11-06 19:52:41 dominikoeo Exp $
       <example type="correct">Mi ne scias sed mi kredas.</example>
       <example type="correct">La lernejo in kiu li instruis estis fermita pro la krizo.</example>
       <example type="correct">Ni entreprenas – li konfesis.</example>
+      <example type="incorrect">Mi volas aĉeti la <marker>komputilo</marker>.</example>
+      <example type="correct">Mi volas esti la instruisto.</example>
     </rule>
 
     <rule id="NAK_NAK_VTR" name="mankanta akuzativo">
       <pattern mark_from="2" mark_to="-2">
         <token skip="2" postag="SENT_START">
-          <exception scope="next" negate_pos="yes" postag="([EK].*)|([ROT] nak.*)" postag_regexp="yes"/>
+          <exception scope="next" negate_pos="yes" postag="([EK].*)|([RT] nak.*)" postag_regexp="yes"/>
         </token>
         <token postag="[RT] nak.*" postag_regexp="yes"/>
-        <token postag="[RO] nak.*" postag_regexp="yes"/>
+        <token postag="[RO] nak.*" postag_regexp="yes" skip="-1">
+          <exception negate="yes" regexp="yes">(.*e)|(.*aŭ)|jam|nur|(.*[ui])|(.*[aiuo]s)</exception>
+        </token>
         <token postag="V tr .*" postag_regexp="yes"/>
-        <token postag="SENT_END"/>
+        <token regexp="yes">[\.:;\?!]|(sed|ĉar|tamen|kaj|aŭ|nek)</token>
       </pattern>
       <message>Ĉu vi forgesis akuzativon antaŭ transitiva verbo «\2»?</message>
       <example type="incorrect">Mi <marker>vi</marker> vidas.</example>
+      <example type="incorrect">Mi <marker>vi</marker> vidas kaj vin aŭdas.</example>
+      <example type="incorrect">Mi <marker>vi</marker> ne ankoraŭ tre bone vidas.</example>
+      <example type="correct">Mi <marker>vin</marker> ne ankoraŭ tre bone vidas.</example>
+      <example type="incorrect">Mi <marker>vi</marker> ne bene vidas.</example>
       <example type="correct">Mi <marker>vin</marker> vidas.</example>
       <example type="incorrect">Ĉar hieraŭ mi <marker>vi</marker> vidis.</example>
       <example type="correct">Ĉar hieraŭ mi <marker>vin</marker> vidis.</example>
@@ -314,7 +323,7 @@ $Id: grammar.xml,v 1.18 2010-11-06 19:52:41 dominikoeo Exp $
         <pattern mark_from="3">
           <token skip="3" postag="SENT_START|K" postag_regexp="yes">
             <exception scope="next" negate_pos="yes" postag="([DE].*)|([ROA] nak np.*)|(T nak np . [ua])" postag_regexp="yes"/>
-            <exception scope="current">kaj</exception>
+            <exception scope="current" regexp="yes">kaj|aŭ</exception>
           </token>
           <token skip="1" postag="([ROA] nak np.*)|(T nak np . [ua])" postag_regexp="yes">
             <exception scope="next" negate_pos="yes" postag="(E.*)|(V nt .*)" postag_regexp="yes"/>
@@ -362,7 +371,7 @@ $Id: grammar.xml,v 1.18 2010-11-06 19:52:41 dominikoeo Exp $
         <pattern mark_from="5">
           <token postag="SENT_START"/>
           <token postag="[RO].*" postag_regexp="yes"/>
-          <token>kaj</token>
+          <token regexp="yes">kaj|aŭ</token>
           <token postag="[RO] nak.*" postag_regexp="yes"/>
           <token postag="V nt .*" postag_regexp="yes" skip="1"/>
           <token postag="[ROAT] nak np.*" postag_regexp="yes"/>
@@ -376,7 +385,7 @@ $Id: grammar.xml,v 1.18 2010-11-06 19:52:41 dominikoeo Exp $
         <pattern mark_to="-1">
           <token postag="O.* pl" postag_regexp="yes"/>
           <token postag="A.* np" postag_regexp="yes"/>
-          <token negate="yes">kaj</token>
+          <token negate="yes" regexp="yes">kaj|aŭ</token>
         </pattern>
         <message>.</message>
         <example type="incorrect">Mi ŝatas <marker>hundojn grandan</marker>.</example>
@@ -390,7 +399,7 @@ $Id: grammar.xml,v 1.18 2010-11-06 19:52:41 dominikoeo Exp $
             <exception regexp="yes">.*[aio]ntaj</exception>
           </token>
           <token postag="O.* np" postag_regexp="yes"/>
-          <token negate="yes">kaj</token>
+          <token negate="yes" regexp="yes">kaj|aŭ</token>
         </pattern>
         <message>Ne kongrua pluralo inter «\1», «\2».</message>
         <example type="incorrect">Mi ŝatas <marker>grandajn hundon</marker>.</example>
@@ -412,7 +421,7 @@ $Id: grammar.xml,v 1.18 2010-11-06 19:52:41 dominikoeo Exp $
       <rule>
         <pattern>
           <token postag="A.* np" postag_regexp="yes">
-            <exception scope="previous">kaj</exception>
+            <exception scope="previous" regexp="yes">kaj|aŭ</exception>
             <exception regexp="yes">.*[aio]nta</exception>
           </token>
           <token postag="O.* pl" postag_regexp="yes"/>
@@ -676,18 +685,19 @@ $Id: grammar.xml,v 1.18 2010-11-06 19:52:41 dominikoeo Exp $
     <rule>
       <pattern mark_to="-1">
         <token regexp="yes">da|de</token>
-        <token postag="SENT_END"/>
+        <token regexp="yes">[\.:;\?!]|kaj|aŭ|ĉar|tamen</token>
       </pattern>
-      <message>Propozicio «\1» bezonas postan esprimon.</message>
+      <message>Prepozicio «\1» bezonas postan esprimon.</message>
       <example type="incorrect">Mi havas multe <marker>da</marker>.</example>
       <example type="correct">Mi havas multe da mono.</example>
+      <example type="incorrect">Mi havas multe <marker>da</marker> ĉar mi laboras multe.</example>
     </rule>
     <rule>
       <pattern mark_to="-1">
         <token regexp="yes">da|de</token>
         <token regexp="yes">[,;:]|ke</token>
       </pattern>
-      <message>Propozicio «\1» bezonas postan esprimon.</message>
+      <message>Prepozicio «\1» bezonas postan esprimon.</message>
       <example type="incorrect">Mi havas tiom <marker>da</marker>, ke mi bezonas nenion.</example>
       <example type="correct">Mi havas tiom da ili, ke mi bezonas nenion.</example>
     </rule>
@@ -705,6 +715,16 @@ $Id: grammar.xml,v 1.18 2010-11-06 19:52:41 dominikoeo Exp $
     <example type="correct">Ili amas unu la alian.</example>
     <example type="correct">Ili amas sin.</example>
   </rule>
-    
+
+  <rule id="P_P" name="Sinsekvaj prepozicioj">
+    <pattern>
+      <token postag="P.*" postag_regexp="yes"/>
+      <token postag="P.*" postag_regexp="yes"/>
+    </pattern>
+    <message>Uzo de du sinsekvaj prepozicioj «\1» kaj «\2» ne ĝustas.</message>
+    <example type="incorrect">Li parolis <marker>pri de</marker> vi.</example>
+    <example type="correct">Li parolis pri vi.</example>
+  </rule>
+
   </category>
 </rules>
