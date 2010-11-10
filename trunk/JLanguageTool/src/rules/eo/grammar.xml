@@ -5,7 +5,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Esperanto Grammar and Typo Rules for LanguageTool
 Copyright (C) 2010 Dominique Pellé
-$Id: grammar.xml,v 1.21 2010-11-10 21:06:11 dominikoeo Exp $
+$Id: grammar.xml,v 1.22 2010-11-10 21:28:59 dominikoeo Exp $
 -->
 <rules lang="eo"
        xsi:noNamespaceSchemaLocation="../rules.xsd" 
@@ -29,7 +29,7 @@ $Id: grammar.xml,v 1.21 2010-11-10 21:06:11 dominikoeo Exp $
     <rule id="ĈI_FOJE" name="ĉi foje (ĉi-foje)">
       <pattern>
         <token>ĉi
-          <exception scope="previous" regexp="yes">tio|tiuj?</exception>
+          <exception scope="previous" regexp="yes">(tion?)|(tiuj?n?)</exception>
         </token>
         <token postag="E .*" postag_regexp="yes"/>
       </pattern>
@@ -884,13 +884,16 @@ $Id: grammar.xml,v 1.21 2010-11-10 21:06:11 dominikoeo Exp $
      <rulegroup id="IO_O" name="Io + O-vorto">
        <rule>
         <pattern>
-          <token postag="T nak .. [^k] o" postag_regexp="yes"/>
+          <token postag="T nak .. [^k] o" postag_regexp="yes">
+            <exception scope="previous" postag="P.*" postag_regexp="yes"/>
+          </token>
           <token postag="O nak .*" postag_regexp="yes"/>
         </pattern>
         <message>Ne povas esti «\1» antaŭ o-vorto «\2». Ĉu vi intencis «<match no="1" regexp_match="(.*)o(j?)" regexp_replace="$1u$2"/> \2»?</message>
         <example type="incorrect"><marker>Io libro</marker> mankas.</example>
         <example type="correct">Iu libro mankas.</example>
         <example type="correct">Estas tio, kio komputilo estas.</example>
+        <example type="correct">Pro tio homoj ne komprenas.</example>
       </rule>
 
       <rule>
