@@ -4,7 +4,7 @@
 <!--
 Dutch Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006,2007,2008, 2009, 2010 R. J. Baars (ruud.baars@opentaal.org)
-$Id: grammar.xml,v 1.32 2010-09-30 10:17:22 milek_pl Exp $
+$Id: grammar.xml,v 1.33 2010-11-13 12:31:15 milek_pl Exp $
 -->
 <rules lang="nl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../rules.xsd">
    <phrases>
@@ -100,7 +100,7 @@ $Id: grammar.xml,v 1.32 2010-09-30 10:17:22 milek_pl Exp $
          <rule id="ID003_OK" name="ten besluite etc.">
             <pattern case_sensitive="yes">
               <token><exception regexp="yes">(?iu)ten</exception></token>
-              <token regexp="yes">besluite|gevolge|laste|onrechte|slotte|dienste|voordele|dele|gunste|dage|gehore|nadele|strijde|overvloede|bate|bedrage|faveure|belope|tonele|grave|departemente|detrimente</token>
+              <token regexp="yes">besluite|gevolge|onrechte|slotte|dienste|voordele|dele|gunste|dage|gehore|nadele|strijde|overvloede|bate|bedrage|faveure|belope|tonele|grave|departemente|detrimente</token>
             </pattern>
             <message>Verwacht werd <suggestion>ten <match no="2"/></suggestion> of <match no="2"/> is een typefout.</message>
             <short>Typefout? (ID003_OK)</short>
@@ -257,7 +257,7 @@ $Id: grammar.xml,v 1.32 2010-09-30 10:17:22 milek_pl Exp $
          </rule>
          <rule id="ID016_OK" name="gelieve etc.">
             <pattern case_sensitive="yes">
-              <token regexp="yes">gelieve|aangehaalder|aanschijns|aanschouwen|aanstoots|algemenen|bedrage|beginne|believe|belope|berde|berge|besluite|bestemder|beurze|bewijze|bloede|bloedens|burele|dage|definitieven|dele|departemente|detrimente|dezer|dezes|dienste|eenre|eeuwigen|eigener|elfder|enenmale|eniger|ere|faveure|fine|gedachtenis|gelde|gelegener|gemoede|gepasten|glorie|goeder|grave|gronde|gunste|haars|harent|harer|heil|helle|hove|huidigen|huize|huizes|hunnen|hunnent|hunner|huns|ingevolge|kerke|koelen|kostelozen|kwader|langen|laste|laste|leste|male|mans|mijnent|mijner|mijns|mijns|moede|monde|naaste|nadele|nagedachtenis|nauwste|nutte|onheils|onverrichter|onzen|onzent|onzer|onzes|ore|overstaan|overvloede|paleize|parkette|persoonlijken|plekkepleziere|prijze|principale|reke|ruste|slotte|snede|stade|stede|stelligste|strengste|strijde|tale|terdege|ternauwernood|tersluiks|terzake|terzelfder|terzijde|tezelfdertijd|toendertijd|tonele|tweeden|uitzonderlijken|ure|uwen|uwent|uwer|uws|vaderlands|velde|verderve|vertrouwelijken|vervelens|vervolge|verzoeke|voordele|voorlopigen|wiens|wille|zelfder|ziele|zijnen|zijnent|zijner|zijns</token>
+              <token regexp="yes">gelieve|aangehaalder|aanschijns|aanschouwen|aanstoots|algemenen|bedrage|beginne|believe|belope|berde|berge|besluite|bestemder|beurze|bewijze|bloede|bloedens|burele|dage|definitieven|dele|departemente|detrimente|dezer|dezes|dienste|eenre|eeuwigen|eigener|elfder|enenmale|eniger|ere|faveure|fine|gedachtenis|gelde|gelegener|gemoede|gepasten|glorie|goeder|grave|gronde|gunste|haars|harent|harer|heil|helle|hove|huidigen|huize|huizes|hunnen|hunnent|hunner|huns|ingevolge|kerke|koelen|kostelozen|kwader|langen|laste|leste|male|mans|mijnent|mijner|mijns|moede|monde|naaste|nadele|nagedachtenis|nauwste|nutte|onheils|onverrichter|onzen|onzent|onzer|onzes|ore|overstaan|overvloede|paleize|parkette|persoonlijken|plekkepleziere|prijze|principale|reke|ruste|slotte|snede|stade|stede|stelligste|strengste|strijde|tale|terdege|ternauwernood|tersluiks|terzake|terzelfder|terzijde|tezelfdertijd|toendertijd|tonele|tweeden|uitzonderlijken|ure|uwen|uwent|uwer|uws|vaderlands|velde|verderve|vertrouwelijken|vervelens|vervolge|verzoeke|voordele|voorlopigen|wiens|wille|zelfder|ziele|zijnen|zijnent|zijner|zijns</token>
             </pattern>
             <message>Ouderwets.</message>
             <short>Ouderwets (ID016_OK)</short>
@@ -386,7 +386,7 @@ $Id: grammar.xml,v 1.32 2010-09-30 10:17:22 milek_pl Exp $
          </rule>
          <rule id="ID027" name="ten dele">
             <pattern>
-              <token negate="yes" regexp="yes">ten|allen|genen|ten</token>
+              <token negate="yes" regexp="yes">ten|allen|genen</token>
               <token>dele</token>
             </pattern>
             <message>Verwacht werd <suggestion>allen <match no="2"/></suggestion>, <suggestion>genen <match no="2"/></suggestion>, <suggestion>ten <match no="2"/></suggestion> of dele is een typefout van <suggestion><match no="1"/> deel</suggestion> of <suggestion><match no="1"/> delen</suggestion>.</message>
@@ -827,7 +827,7 @@ $Id: grammar.xml,v 1.32 2010-09-30 10:17:22 milek_pl Exp $
          <rule id="ID068_OK" name="royalty">
             <pattern mark_to="-1">
               <token>royalty</token>
-              <token negate="yes">'</token>
+              <token><exception regexp="yes">'|‘</exception></token>
             </pattern>
             <message>Engels. <suggestion>leden van het koninklijk huis</suggestion>.</message>
             <short>Leenwoord (ID068_OK)</short>
@@ -836,7 +836,7 @@ $Id: grammar.xml,v 1.32 2010-09-30 10:17:22 milek_pl Exp $
          </rule>
          <rule id="ID068b_OK" name="royalty's">
             <pattern>
-              <token>royalty's</token>
+              <token regexp="yes">royalty('|‘)s</token>
             </pattern>
             <message>Engels. <suggestion>rechten</suggestion>, <suggestion>inkomsten</suggestion>.</message>
             <short>Leenwoord (ID068b_OK)</short>
@@ -1212,7 +1212,7 @@ $Id: grammar.xml,v 1.32 2010-09-30 10:17:22 milek_pl Exp $
       <rulegroup id="T_PLAATS" name="'t Plaats">
          <rule id="ID089" name="'t Plaats">
             <pattern mark_from="2" case_sensitive="yes">
-              <token>'</token>
+              <token regexp="yes">'|‘</token>
               <token>t</token>
               <token regexp="yes">bergje|buurtje|eind|goy|haagje|haantje|harde|heem|hoekske|hof|horntje|kabel|klooster|kruis|laar|loo|rijpje|rooth|schot|veld|ven|waar|woud|woudt|zand|zandstervoorwerk|zandt</token>
             </pattern>
@@ -1240,7 +1240,7 @@ $Id: grammar.xml,v 1.32 2010-09-30 10:17:22 milek_pl Exp $
               <token regexp="yes">Berg|Horst|Katwijk|Koog|Krimpen|Loenen|Millingen|Nes|Ouderkerk|Valkenburg</token>
               <token>aan</token>
               <token>den</token>
-              <token regexp="yes">Maas|Rijn|Zaan|Lek|Vecht|Rijn|Amstel|Geul</token>
+              <token regexp="yes">Maas|Zaan|Lek|Vecht|Rijn|Amstel|Geul</token>
             </pattern>
             <message>U bedoelt waarschijnlijk <match no="1"/> <match no="2"/> <suggestion>de</suggestion> <match no="4"/>.</message>
             <short>Plaatsnaam verkeerd (ID091_OK)</short>
@@ -1329,7 +1329,7 @@ $Id: grammar.xml,v 1.32 2010-09-30 10:17:22 milek_pl Exp $
       <rulegroup id="GROTE_KANS" name="Grote kans op typefout">
          <rule id="ID098_OK" name="">
             <pattern case_sensitive="yes">
-              <token regexp="yes">asem|beden|beried|beschikker|bissers|bogey|bombarde|brammen|brandwonde|casseerde|censoren|codificaties|complets|conus|daarzonder|doordien|dopers|doteren|doteren|dreg|eest|eindde|exclave|exclusies|factoor|fantaste|flatus|forst|franke|gagel|galon|gameten|gecasseerd|gegeeld|gejijd|gemierd|genaakt|geradeerd|gereld|gerokte|geruid|getopt|gewerd|gieken|gording|grazer|groende|gronding|hevels|hinten|hippen|hommer|huif|inclusies|ingeland|ingelanden|jukken|kabaai|kali|keggen|kemels|keuters|kina|kissen|kliefde|kof|koteren|krakken|kregel|krikkel|krimi|lala|leis|leper|lij|loding|loefde|lota|lues|luien|mandement|mandementen|marches|mata|maté|morzel|moveren|munter|nadir|neet|nevens|officie|ontroofd|ooitje|opalen|optrede|ouwel|paapse|paas|pakker|pander|patente|pimpel|prefs|raffia|raio|raio|rakel|ratte|regale|rekel|rekkers|rekwest|responsie|robber|rost|royaliteit|rune|sater|schamp|schoenmaken|schoring|secessie|sloor|sofist|solde|spijl|spore|stag|stagen|steef|stevens|stilten|stoefen|stolpen|stommen|stonde|tactiel|talon|talon|teerder|tergen|testeren|testes|tets|tonale|tonder|topte|treeft|trens|uitmalen|universale|vadem|vake|valer|vees|velling|verenen|verklaarder|verschotten|verwachter|verweking|verzwonden|vlaken|vleten|vlok|volte|voord|voteren|vroed|wartels|weger|wegers|weggen|wem|wetering|woeling|worgen|zaling|zeetje|zieden|zijg|zinker|zoele|zoor|zorglijk|zwartte</token>
+              <token regexp="yes">asem|beden|beried|beschikker|bissers|bogey|bombarde|brammen|brandwonde|casseerde|censoren|codificaties|complets|conus|daarzonder|doordien|dopers|doteren|dreg|eest|eindde|exclave|exclusies|factoor|fantaste|flatus|forst|franke|gagel|galon|gameten|gecasseerd|gegeeld|gejijd|gemierd|genaakt|geradeerd|gereld|gerokte|geruid|getopt|gewerd|gieken|gording|grazer|groende|gronding|hevels|hinten|hippen|hommer|huif|inclusies|ingeland|ingelanden|jukken|kabaai|kali|keggen|kemels|keuters|kina|kissen|kliefde|kof|koteren|krakken|kregel|krikkel|krimi|lala|leis|leper|lij|loding|loefde|lota|lues|luien|mandement|mandementen|marches|mata|maté|morzel|moveren|munter|nadir|neet|nevens|officie|ontroofd|ooitje|opalen|optrede|ouwel|paapse|paas|pakker|pander|patente|pimpel|prefs|raffia|raio|rakel|ratte|regale|rekel|rekkers|rekwest|responsie|robber|rost|royaliteit|rune|sater|schamp|schoenmaken|schoring|secessie|sloor|sofist|solde|spijl|spore|stag|stagen|steef|stevens|stilten|stoefen|stolpen|stommen|stonde|tactiel|talon|teerder|tergen|testeren|testes|tets|tonale|tonder|topte|treeft|trens|uitmalen|universale|vadem|vake|valer|vees|velling|verenen|verklaarder|verschotten|verwachter|verweking|verzwonden|vlaken|vleten|vlok|volte|voord|voteren|vroed|wartels|weger|wegers|weggen|wem|wetering|woeling|worgen|zaling|zeetje|zieden|zijg|zinker|zoele|zoor|zorglijk|zwartte</token>
             </pattern>
             <message>Hoewel het woord correct is, is er een grote kans op een typefout omdat er slechts weinig verschil is met een veelgebruikt woord.</message>
             <short>Typefout? (ID098_OK)</short>
@@ -1397,7 +1397,7 @@ $Id: grammar.xml,v 1.32 2010-09-30 10:17:22 milek_pl Exp $
       <rulegroup id="DEN_HAAG_ETC" name="Plaatsnamen met 's">
          <rule id="ID104_OK" name="">
             <pattern>
-              <token>'</token>
+              <token regexp="yes">'|‘</token>
               <token>s</token>
               <token regexp="yes">Graven.*|Heeren.*|Hertog.*<exception regexp="yes">Gravenhage|Hertogenbosch</exception></token>
             </pattern>
@@ -1408,7 +1408,7 @@ $Id: grammar.xml,v 1.32 2010-09-30 10:17:22 milek_pl Exp $
          </rule>
          <rule id="ID105_OK" name="">
             <pattern>
-              <token>'</token>
+              <token regexp="yes">'|‘</token>
               <token>s</token>
               <token>Gravenhage</token>
             </pattern>
@@ -1419,7 +1419,7 @@ $Id: grammar.xml,v 1.32 2010-09-30 10:17:22 milek_pl Exp $
          </rule>
          <rule id="ID-TA0198_OK" name="">
             <pattern>
-              <token>'</token>
+              <token regexp="yes">'|‘</token>
               <token>s</token>
               <token>Hertogenbosch</token>
             </pattern>
@@ -1434,7 +1434,7 @@ $Id: grammar.xml,v 1.32 2010-09-30 10:17:22 milek_pl Exp $
          om te voorkomen dat blauwe en rode lijnen door elkaar lopen -->
          <rule id="ID107_OK" name="">
             <pattern case_sensitive="yes">
-              <token regexp="yes" postag="UNKNOWN">.*[bcdefghjklmnpqrstvwxz]'s$</token>
+              <token regexp="yes" postag="UNKNOWN">.*[bcdefghjklmnpqrstvwxz]('|‘)s$</token>
             </pattern>
             <message>Alleen na een sterke eindklank en woorden die letter voor letter worden uitgeproken wordt 's geschreven. Probeer eens <suggestion><match no="1" regexp_match="(.*)'s" regexp_replace="$1s"/></suggestion>.</message>
             <short>' overbodig (ID107_OK)</short>
@@ -1738,7 +1738,7 @@ $Id: grammar.xml,v 1.32 2010-09-30 10:17:22 milek_pl Exp $
       <rulegroup id="AVONDS" name="'s avonds">
          <rule id="ID132_OK" name="">
             <pattern mark_from="1">
-              <token negate="yes">'</token>
+              <token><exception regexp="yes">'|‘</exception></token>
               <token>s</token>
               <token regexp="yes">avonds|middags|nachts|ochtends|anderendaags</token>
             </pattern>
@@ -2735,7 +2735,7 @@ $Id: grammar.xml,v 1.32 2010-09-30 10:17:22 milek_pl Exp $
       <rulegroup id="HEM_VERKORT" name="Verkortingen als 'm, 'r etc">
          <rule id="ID202_OK" name="">
             <pattern>
-              <token>'</token>
+              <token regexp="yes">'|‘</token>
               <token>m</token>
             </pattern>
             <message>Netter en leesbaarder is voluit schrijven, dus <suggestion>hem</suggestion>.</message>
@@ -2745,7 +2745,7 @@ $Id: grammar.xml,v 1.32 2010-09-30 10:17:22 milek_pl Exp $
          </rule>
          <rule id="ID204_OK" name="">
             <pattern>
-              <token>d'r</token>
+              <token regexp="yes">d('|‘)r</token>
             </pattern>
             <message>Netter en leesbaarder is voluit schrijven, dus <suggestion>er</suggestion> of <suggestion>haar</suggestion>.</message>
             <short>Niet verkorten (ID204_OK)</short>
@@ -2754,7 +2754,7 @@ $Id: grammar.xml,v 1.32 2010-09-30 10:17:22 milek_pl Exp $
          </rule>
          <rule id="ID205_OK" name="">
             <pattern >
-              <token spacebefore="yes">'</token>
+              <token spacebefore="yes" regexp="yes">'|‘</token>
               <token spacebefore="no">n</token>
             </pattern>
             <message>Netter en leesbaarder is voluit schrijven, dus <suggestion>een</suggestion>.</message>
@@ -2764,7 +2764,7 @@ $Id: grammar.xml,v 1.32 2010-09-30 10:17:22 milek_pl Exp $
          </rule>
          <rule id="ID206_OK" name="">
             <pattern mark_to="-1">
-              <token spacebefore="yes">'</token>
+              <token spacebefore="yes" regexp="yes">'|‘</token>
               <token spacebefore="no">t</token>
               <token negate="yes" regexp="yes">[A-Z]</token>
             </pattern>
@@ -2823,7 +2823,7 @@ $Id: grammar.xml,v 1.32 2010-09-30 10:17:22 milek_pl Exp $
       <rulegroup id="ZN" name="Niet z'n maar zijn, d'r maar haar">
          <rule id="ID212_OK" name="">
             <pattern>
-              <token>z'n</token>
+              <token regexp="yes">z('|‘)n</token>
             </pattern>
             <message>Beter is : <suggestion>zijn</suggestion>.</message>
             <short>Gebruik s (ID212_OK)</short>
@@ -2832,7 +2832,7 @@ $Id: grammar.xml,v 1.32 2010-09-30 10:17:22 milek_pl Exp $
          </rule>
          <rule id="ID213" name="">
             <pattern>
-              <token>d'r</token>
+              <token regexp="yes">d('|‘)r</token>
             </pattern>
             <message>Beter is : <suggestion>haar</suggestion>.</message>
             <short>Gebruik 'haar' of bezitsvorm (ID213)</short>
