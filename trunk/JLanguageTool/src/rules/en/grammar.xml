@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.127 2010-10-24 10:47:45 dnaber Exp $
+$Id: grammar.xml,v 1.128 2010-11-13 14:11:45 milek_pl Exp $
 -->
 <!--suppress CheckTagEmptyBody -->
 <rules lang="en" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
@@ -16,7 +16,7 @@ $Id: grammar.xml,v 1.127 2010-10-24 10:47:45 dnaber Exp $
   <category name="Possible Typos">
     <rule id="I_THIN" name="I thin (think)">
       <pattern mark_from="2">
-        <token regexp="yes" negate="yes">am|do|can|will</token>
+        <token negate="yes" regexp="yes">am|do|can|will</token>
         <token>I</token>
         <token>thin</token>
       </pattern>
@@ -926,7 +926,7 @@ $Id: grammar.xml,v 1.127 2010-10-24 10:47:45 dnaber Exp $
     <rule id="BED_ENGLISH" name="bed/bat (bad) English/...">
       <pattern mark_to="-1">
         <token regexp="yes">bed|bat</token>
-        <token regexp="yes">[Ee]nglish|attitude</token>
+        <token regexp="yes">English|attitude</token>
       </pattern>
       <message>Did you mean <suggestion>bad</suggestion>?</message>
       <short>Possible typo</short>
@@ -936,7 +936,7 @@ $Id: grammar.xml,v 1.127 2010-10-24 10:47:45 dnaber Exp $
     <rule id="PIGEON_ENGLISH" name="pigeon (pidgin) English/...">
       <pattern mark_to="-1">
         <token>pigeon</token>
-        <token regexp="yes">[Ee]nglish|[Ff]rench|[Ss]panish|[Cc]hinese|[Rr]ussian</token>
+        <token regexp="yes">English|French|Spanish|Chinese|Russian</token>
       </pattern>
       <message>Did you mean <suggestion>pidgin</suggestion> (=simplified language)?</message>
       <short>Possible typo</short>
@@ -945,7 +945,7 @@ $Id: grammar.xml,v 1.127 2010-10-24 10:47:45 dnaber Exp $
     </rule>
     <rule id="TELEPHONE_POLL" name="telephone/... poll (pole)">
       <pattern mark_from="1">
-        <token regexp="yes">[Tt]elephone|[Tt]elegraph|[Tt]otem</token>
+        <token regexp="yes">telephone|telegraph|totem</token>
         <token>poll</token>
       </pattern>
       <message>Did you mean <suggestion>pole</suggestion>?</message>
@@ -955,7 +955,7 @@ $Id: grammar.xml,v 1.127 2010-10-24 10:47:45 dnaber Exp $
     </rule>
     <rule id="OPINION_POLE" name="opinion/... pole (poll)">
       <pattern mark_from="1">
-        <token regexp="yes">[Oo]pinion|[Gg]overnment|[Ee]lection|[Ee]xit</token>
+        <token regexp="yes">opinion|government|election|exit</token>
         <token>pole</token>
       </pattern>
       <message>Did you mean <suggestion>poll</suggestion>?</message>
