@@ -153,6 +153,8 @@ public class CaseRule extends GermanRule {
     exceptions.add("Deinem");
     exceptions.add("Deines");
     exceptions.add("Deiner");
+    exceptions.add("Euch");
+
     exceptions.add("Neuem");
     exceptions.add("Weitem");
     exceptions.add("Weiteres");
