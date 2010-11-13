@@ -5,7 +5,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Esperanto Grammar and Typo Rules for LanguageTool
 Copyright (C) 2010 Dominique Pellé
-$Id: grammar.xml,v 1.22 2010-11-10 21:28:59 dominikoeo Exp $
+$Id: grammar.xml,v 1.23 2010-11-13 20:09:50 dominikoeo Exp $
 -->
 <rules lang="eo"
        xsi:noNamespaceSchemaLocation="../rules.xsd" 
@@ -29,7 +29,7 @@ $Id: grammar.xml,v 1.22 2010-11-10 21:28:59 dominikoeo Exp $
     <rule id="ĈI_FOJE" name="ĉi foje (ĉi-foje)">
       <pattern>
         <token>ĉi
-          <exception scope="previous" regexp="yes">(tion?)|(tiuj?n?)</exception>
+          <exception scope="previous" regexp="yes">[ĉt]i((on?)|(uj?n?))</exception>
         </token>
         <token postag="E .*" postag_regexp="yes"/>
       </pattern>
@@ -190,7 +190,7 @@ $Id: grammar.xml,v 1.22 2010-11-10 21:28:59 dominikoeo Exp $
     </rulegroup>
 
     <rule id="VNETR_AKU" name="netransitiva verbo + akuzativo">
-      <pattern mark_from="1">
+      <pattern mark_from="1" mark_to="-1">
         <token postag="V nt .*" postag_regexp="yes" skip="2">
           <exception scope="next" postag="(V.*)|(C .* n .)|(P kak)|(T nak .*[io])" postag_regexp="yes"/>
           <exception scope="next" regexp="yes">[!?-–,;:«»“&quot;()]</exception>
@@ -199,6 +199,7 @@ $Id: grammar.xml,v 1.22 2010-11-10 21:28:59 dominikoeo Exp $
           <exception inflected="yes" regexp="yes">sekolo|jaro|monato|tago|horo|minuto|sekundo|.*metro|mejlo|marmejlo|lundo|mardo|merkredo|ĵaŭdo|vendredo|sabato|dimanĉo</exception>
           <exception regexp="yes">[0-9]+-?an</exception>
         </token>
+        <token><exception postag="V tr .*" postag_regexp="yes"/></token>
       </pattern>
       <message>Netransitiva verbo «\1» ne povas havi objekton.</message>
       <example type="incorrect">Mi volas fariĝi <marker>instruiston</marker>.</example>
@@ -213,6 +214,7 @@ $Id: grammar.xml,v 1.22 2010-11-10 21:28:59 dominikoeo Exp $
       <example type="incorrect">Okazas <marker>nenion</marker>.</example>
       <example type="correct">Okazas nenio.</example>
       <example type="correct">Oni ne trompiĝu pri tio, kion diras la aŭroto.</example>
+      <example type="correct">Ĉu eblas tion fari?</example>
     </rule>
 
     <rule id="NAK_VTR_NAK" name="mankanta akuzativo">
@@ -223,7 +225,7 @@ $Id: grammar.xml,v 1.22 2010-11-10 21:28:59 dominikoeo Exp $
         </token>
         <token postag="V tr .*" postag_regexp="yes" skip="2">
           <exception scope="next" postag="(P .*)|([RO] akz.*)|(T .* k .*)|(V nt .*)" postag_regexp="yes"/>
-          <exception scope="next" regexp="yes">[!?-–,;:«»“&quot;()]|nek|kaj|aŭ|ĉar|se|ke|sed|tamen|,</exception>
+          <exception scope="next" regexp="yes">[!?-–,;:«»“&quot;()]|ĉu|nek|kaj|aŭ|ĉar|se|ke|sed|tamen|,</exception>
         </token>
         <token postag="[ROAT] nak.*" postag_regexp="yes">
           <exception postag="T .*e" postag_regexp="yes"/>
@@ -245,6 +247,7 @@ $Id: grammar.xml,v 1.22 2010-11-10 21:28:59 dominikoeo Exp $
       <example type="correct">Ni entreprenas – li konfesis.</example>
       <example type="incorrect">Mi volas aĉeti la <marker>komputilo</marker>.</example>
       <example type="correct">Mi volas esti la instruisto.</example>
+      <example type="correct">Vi povas kontroli ĉu Esperanto funkcias.</example>
     </rule>
 
     <rule id="NAK_NAK_VTR" name="mankanta akuzativo">
@@ -346,17 +349,19 @@ $Id: grammar.xml,v 1.22 2010-11-10 21:28:59 dominikoeo Exp $
         </pattern>
         <message>Nombro «\1» postulas pluralon. Ĉu vi intencis <suggestion>\1 <match no="2" regexp_match="(.*[^n])(n?)" regexp_replace="$1j$2"/></suggestion>?</message>
         <example type="incorrect">Mi aĉetis du <marker>panon</marker>.</example>
+        <example type="correct">Mi aĉetis unu panon.</example>
         <example type="correct">Mi aĉetis du panojn.</example>
       </rule>
 
       <rule>
         <pattern mark_from="1">
-          <token>unu</token>
+          <token>unu<exception scope="previous" postag="N"></exception></token>
           <token postag="[OA] .* pl" postag_regexp="yes"/>
         </pattern>
         <message>Nombro «\1» postulas singularon. Ĉu vi intencis <suggestion>\1 <match no="2" regexp_match="(.*)j(n?)" regexp_replace="$1$2"/></suggestion>?</message>
         <example type="incorrect">Mi aĉetis unu <marker>panojn</marker>.</example>
         <example type="correct">Mi aĉetis unu panon.</example>
+        <example type="correct">Mi aĉetis cent unu panojn.</example>
       </rule>
 
       <rule>
@@ -555,7 +560,7 @@ $Id: grammar.xml,v 1.22 2010-11-10 21:28:59 dominikoeo Exp $
     <rule id="JU_SEN_DES" name="Ju sen des">
       <pattern mark_to="-1">
         <token skip="-1">ju<exception scope="next">des</exception></token>
-        <token postag="SENT_END|K" postag_regexp="yes"/>
+        <token postag="SENT_END" postag_regexp="yes"/>
       </pattern>
       <message>Vorteto «\1» ne povas aperi sen vorteto «des».</message>
       <example type="incorrect"><marker>Ju</marker> pli facile, pli bone.</example>
@@ -716,23 +721,6 @@ $Id: grammar.xml,v 1.22 2010-11-10 21:28:59 dominikoeo Exp $
       <example type="correct">Ili amas sin.</example>
     </rule>
 
-    <rule id="P_P" name="Sinsekvaj prepozicioj">
-      <pattern>
-        <token postag="P.*" postag_regexp="yes">
-          <exception regexp="yes">dum|ĝis</exception>
-        </token>
-        <token postag="P.*" postag_regexp="yes">
-          <exception>post</exception>
-        </token>
-      </pattern>
-      <message>Uzo de du sinsekvaj prepozicioj «\1» kaj «\2» ne ĝustas.</message>
-      <example type="incorrect">Li parolis <marker>pri de</marker> vi.</example>
-      <example type="correct">Li parolis pri vi.</example>
-      <example type="correct">Li aspektis ĝoja dum en realo, li malsanis.</example>
-      <example type="correct">Li ankoraŭ laboris ĝis antaŭ kelkaj jaroj.</example>
-      <example type="correct">Multe ŝanĝiĝis de post tiu tempo.</example>
-    </rule>
-
     <rule id="NE_JAM" name="ne + jam (ankoraŭ ne)">
       <pattern>
         <token>ne</token>
@@ -868,7 +856,7 @@ $Id: grammar.xml,v 1.22 2010-11-10 21:28:59 dominikoeo Exp $
     <rule id="V_A" name="sensubjekta verbo + a-vorto">
       <pattern mark_from="2" mark_to="-1">
         <token postag="SENT_START|K|(fino.*)" postag_regexp="yes"/>
-        <token postag="V.*" postag_regexp="yes" skip="-1">
+        <token postag="V.*[^i]" postag_regexp="yes" skip="-1">
           <exception scope="next" negate="yes" regexp="yes">(.*e)|(.*aŭ)|tro|pli|malpli|jam|nur|(.*aj?n?)</exception>
         </token>
         <token postag="A.*" postag_regexp="yes"/>
@@ -879,6 +867,7 @@ $Id: grammar.xml,v 1.22 2010-11-10 21:28:59 dominikoeo Exp $
       <example type="correct">Estas facile.</example>
       <example type="incorrect">Estis tre <marker>facila</marker>.</example>
       <example type="correct">Estis tre facile.</example>
+      <example type="correct">Perfektigi kolektivan inteligenton.</example>
     </rule>
 
      <rulegroup id="IO_O" name="Io + O-vorto">
@@ -910,7 +899,7 @@ $Id: grammar.xml,v 1.22 2010-11-10 21:28:59 dominikoeo Exp $
     <rule id="DU_DEK" name="du dek (dudek)">
       <pattern>
         <token regexp="yes">unu|du|tri|kvar|kvin|ses|sep|ok|naŭ</token>
-        <token>dek</token>
+        <token regexp="yes">dek|cent</token>
       </pattern>
       <message>«\1 \2» ne eblas, ĉu vi intencis <suggestion>\1\2</suggestion></message>
       <example type="incorrect">Mi havas <marker>du dek</marker> stelojn.</example>
