@@ -5,7 +5,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Esperanto Grammar and Typo Rules for LanguageTool
 Copyright (C) 2010 Dominique Pellé
-$Id: grammar.xml,v 1.23 2010-11-13 20:09:50 dominikoeo Exp $
+$Id: grammar.xml,v 1.24 2010-11-13 22:23:04 dominikoeo Exp $
 -->
 <rules lang="eo"
        xsi:noNamespaceSchemaLocation="../rules.xsd" 
@@ -31,7 +31,7 @@ $Id: grammar.xml,v 1.23 2010-11-13 20:09:50 dominikoeo Exp $
         <token>ĉi
           <exception scope="previous" regexp="yes">[ĉt]i((on?)|(uj?n?))</exception>
         </token>
-        <token postag="E .*" postag_regexp="yes"/>
+        <token postag="[EO] .*" postag_regexp="yes"/>
       </pattern>
       <message>Ĉu vi intencis skribi <suggestion>\1-\2</suggestion> kun streketo?</message>
       <example type="incorrect">Mi vojaĝos <marker>ĉi jare</marker>.</example>
@@ -303,7 +303,9 @@ $Id: grammar.xml,v 1.23 2010-11-13 20:09:50 dominikoeo Exp $
           <token skip="1" postag="V nt .*" postag_regexp="yes">
             <exception scope="next" negate_pos="yes" postag="(E.*)|([ROA] nak np.*)|(T nak pl . [ua])|SENT_END" postag_regexp="yes"/>
           </token>
-          <token postag="([ROA] nak np.*)|(T nak np . [ua])" postag_regexp="yes"/>
+          <token postag="([ROA] nak np.*)|(T nak np . [ua])" postag_regexp="yes">
+            <exception>parto</exception>
+          </token>
         </pattern>
         <message>Ne kongrua pluralo inter «\2» kaj «\4».</message>
         <example type="incorrect">Ni estas <marker>laca</marker>.</example>
@@ -312,6 +314,7 @@ $Id: grammar.xml,v 1.23 2010-11-13 20:09:50 dominikoeo Exp $
         <example type="correct">Hodiaŭ ni estas tre <marker>lacaj</marker>.</example>
         <example type="incorrect">Tiuj estas <marker>bona</marker>.</example>
         <example type="correct">Tiuj estas bonaj.</example>
+        <example type="correct">ili estas parto de tio.</example>
       </rule>
 
       <rule>
@@ -855,7 +858,7 @@ $Id: grammar.xml,v 1.23 2010-11-13 20:09:50 dominikoeo Exp $
 
     <rule id="V_A" name="sensubjekta verbo + a-vorto">
       <pattern mark_from="2" mark_to="-1">
-        <token postag="SENT_START|K|(fino.*)" postag_regexp="yes"/>
+        <token postag="SENT_START|(fino.*)" postag_regexp="yes"/>
         <token postag="V.*[^i]" postag_regexp="yes" skip="-1">
           <exception scope="next" negate="yes" regexp="yes">(.*e)|(.*aŭ)|tro|pli|malpli|jam|nur|(.*aj?n?)</exception>
         </token>
@@ -904,6 +907,56 @@ $Id: grammar.xml,v 1.23 2010-11-13 20:09:50 dominikoeo Exp $
       <message>«\1 \2» ne eblas, ĉu vi intencis <suggestion>\1\2</suggestion></message>
       <example type="incorrect">Mi havas <marker>du dek</marker> stelojn.</example>
       <example type="correct">Mi havas dudek stelojn.</example>
+    </rule>
+
+    <rule id="ĈIUJ_LA" name="ĉiuj la (ĉiuj)">
+      <pattern mark_to="-1">
+        <token postag="SENT_START|K|(fino.*)" postag_regexp="yes"/>
+        <token postag="T .* [au]" postag_regexp="yes"/>
+        <token postag="D"/>
+        <token postag="[OA] .*" postag_regexp="yes"/>
+      </pattern>
+      <message>Definilo «\3» ne povas esti kun tabelvorto «2». Ĉu vi intencis <suggestion>\2 \4</suggestion>?</message>
+      <example type="incorrect">Mi lernis <marker>ĉiujn la</marker> vortojn.</example>
+      <example type="correct">Mi lernis ĉiujn vortojn.</example>
+    </rule>
+
+    <rule id="MI_PLAĈAS" name="mi plaĉas (al mi plaĉas)">
+      <pattern mark_from="1">
+        <token postag="SENT_START|K|(fino.*)" postag_regexp="yes"/>
+        <token postag="[ROT] nak .*" postag_regexp="yes" skip="-1">
+          <exception scope="next" negate="yes" regexp="yes">tiom|tro|pli|malpli|(.*e)|(.*aŭ)|jam|nur|(.*[ui])|(.*[aiuo]s)</exception>
+        </token>
+        <token inflected="yes">plaĉi</token>
+      </pattern>
+      <message>«\2» ne povas esti subjekto de la verbo «\3». Ĉu vi intencis <suggestion>\2 <match no="3" regexp_match=".*(([aiou]s)|[iu])" regexp_replace="ŝat$1"/></suggestion>?</message>
+      <example type="incorrect"><marker>Mi plaĉas</marker> legi.</example>
+      <example type="incorrect"><marker>Mi ne tiom plaĉas</marker> legi.</example>
+      <example type="correct">Al mi plaĉas legi.</example>
+      <example type="correct">Mi ŝaĉas legi.</example>
+    </rule>
+
+    <rule id="MI_EBLAS" name="mi eblas (mi povas)">
+      <pattern mark_from="1">
+        <token postag="SENT_START|K|(fino.*)" postag_regexp="yes"/>
+        <token postag="[ROT] nak .*" postag_regexp="yes" skip="-1">
+          <exception scope="next" negate="yes" regexp="yes">tiom|tro|pli|malpli|(.*e)|(.*aŭ)|jam|nur|(.*[ui])|(.*[aiuo]s)</exception>
+        </token>
+        <token inflected="yes">ebli</token>
+      </pattern>
+      <message>«\2» ne povas esti subjekto de la verbo «\3». Ĉu vi intencis <suggestion>\2 <match no="3" regexp_match=".*(([aiou]s)|[iu])" regexp_replace="pov$1"/></suggestion>?</message>
+      <example type="incorrect"><marker>Mi ne eblas</marker> legi.</example>
+      <example type="correct">Mi ne povas legi.</example>
+    </rule>
+
+    <rule id="KIU_I" name="kiu esti (kiu estas)">
+      <pattern>
+        <token regexp="yes">kiuj?n?|kion?</token>
+        <token postag="V .*[i]" postag_regexp="yes"/>
+      </pattern>
+      <message>Infinivo «\2» ne povas sekvi «\1».</message>
+      <example type="incorrect"><marker>Kiu esti</marker> tie?</example>
+      <example type="correct">Kiu estis tie?</example>
     </rule>
 
   </category>
