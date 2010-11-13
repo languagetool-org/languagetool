@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 	<!--
 		Disambiguation Rules for LanguageTool Copyright (C) 2008				
-$Id: disambiguation.xml,v 1.29 2010-11-13 00:49:23 milek_pl Exp $
+$Id: disambiguation.xml,v 1.30 2010-11-13 15:38:02 milek_pl Exp $
 	-->	
 <rules lang="pl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../disambiguation.xsd">
@@ -543,6 +543,16 @@ $Id: disambiguation.xml,v 1.29 2010-11-13 00:49:23 milek_pl Exp $
 		<example type="ambiguous" inputform="to[ten/adj:sg:acc.nom.voc:n:pos,to/conj]" outputform="to[to/conj]">No <marker>to</marker> co mam zrobić?...</example>
 	</rule>
 	</rulegroup>
+	
+	<rule name="Jest to -> ten/adj" id="TO_TEN_ADJ">
+		<pattern mark="1">
+			<token regexp="yes">jest|będzie|był[oa]?</token>	
+			<token>to</token>
+		</pattern>
+		<disambig postag="adj:sg:acc.nom.voc:n:pos"/>
+		<example type="untouched">To jest problem.</example>
+		<example type="ambiguous" inputform="to[ten/adj:sg:acc.nom.voc:n:pos,to/conj]" outputform="to[ten/adj:sg:acc.nom.voc:n:pos]" >Jest <marker>to</marker> problem.</example>
+	</rule>
 
 	<rule name="Oznaczenie przyimka za wymaganego przez czasownik" id="ZA_DEP">
 		<pattern mark="1">
