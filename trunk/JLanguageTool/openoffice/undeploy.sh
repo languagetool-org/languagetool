@@ -1,4 +1,4 @@
 #!/bin/sh
 
 echo "Undeploying LanguageTool from OpenOffice.org..."
-unopkg remove LanguageTool-0.9.6-dev.oxt
+unopkg remove LanguageTool-1.0.1-dev.oxt
