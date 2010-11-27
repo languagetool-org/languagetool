@@ -21,6 +21,7 @@ package de.danielnaber.languagetool.tokenizers.de;
 import java.util.regex.Pattern;
 
 import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
+import org.apache.commons.lang.ArrayUtils;
 
 public class GermanSentenceTokenizer extends SentenceTokenizer {
 
@@ -71,7 +72,16 @@ public class GermanSentenceTokenizer extends SentenceTokenizer {
     super(ABBREV_LIST);
     super.monthNames = MONTH_NAMES;
   }
- 
+
+  /**
+   * Create a sentence tokenizer with the given list of abbreviations,
+   * additionally to the built-in ones.
+   */
+  public GermanSentenceTokenizer(final String[] abbrevList) {
+    super((String[]) ArrayUtils.addAll(ABBREV_LIST, abbrevList));
+    super.monthNames = MONTH_NAMES;
+  }
+
   protected String removeFalseEndOfSentence(String s) {
       s = super.removeFalseEndOfSentence(s);
       s = REPAIR_NAME_PATTERN.matcher(s).replaceAll("$1 $2");
