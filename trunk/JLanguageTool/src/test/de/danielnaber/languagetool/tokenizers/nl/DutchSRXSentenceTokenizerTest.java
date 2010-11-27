@@ -28,14 +28,10 @@ import de.danielnaber.languagetool.tokenizers.SRXSentenceTokenizer;
  */
 public class DutchSRXSentenceTokenizerTest extends TestCase {
 
-  // accept \n as paragraph:
   private SRXSentenceTokenizer stokenizer = new SRXSentenceTokenizer("nl");
-  // accept only \n\n as paragraph:
-  private SRXSentenceTokenizer stokenizer2 = new SRXSentenceTokenizer("nl");
-  
+
   public void setUp() {
     stokenizer.setSingleLineBreaksMarksParagraph(true);  
-    stokenizer2.setSingleLineBreaksMarksParagraph(false);  
   }
 
   public void testTokenize() {
@@ -80,7 +76,7 @@ public class DutchSRXSentenceTokenizerTest extends TestCase {
     testSplit(new String[] { "Dat was het: het is een nieuwe zin." });
   }
 
-  public void testSplit(String[] sentences) {
+  private void testSplit(String[] sentences) {
     TestTools.testSplit(sentences, stokenizer);
   }
   

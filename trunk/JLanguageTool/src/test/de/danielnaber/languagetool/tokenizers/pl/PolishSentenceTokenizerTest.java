@@ -145,7 +145,7 @@ public class PolishSentenceTokenizerTest extends TestCase {
     testSplit(new String[] { "Mam w magazynie dwie skrzynie LMD20. ", "Jestem żołnierzem i wiem, jak można ich użyć"});
   }
 
-  public final void testSplit(final String[] sentences) {
+  private final void testSplit(final String[] sentences) {
     TestTools.testSplit(sentences, stokenizer2);
   }
 

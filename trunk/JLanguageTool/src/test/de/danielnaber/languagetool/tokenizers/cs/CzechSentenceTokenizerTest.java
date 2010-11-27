@@ -111,7 +111,7 @@ public class CzechSentenceTokenizerTest extends TestCase {
         "A zanikl v r. 31 př.kr." });
   }
 
-  public final void testSplit(final String[] sentences) {
+  private final void testSplit(final String[] sentences) {
     TestTools.testSplit(sentences, stokenizer);
   }
 

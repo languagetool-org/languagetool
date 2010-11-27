@@ -136,7 +136,7 @@ public class SlovakSentenceTokenizerTest extends TestCase {
         "He lives in Spain now." });
   }
 
-  public final void testSplit(final String[] sentences) {
+  private final void testSplit(final String[] sentences) {
     TestTools.testSplit(sentences, stokenizer2);
   }
 

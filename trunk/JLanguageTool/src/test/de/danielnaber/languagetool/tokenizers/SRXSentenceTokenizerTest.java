@@ -101,7 +101,7 @@ public class SRXSentenceTokenizerTest extends TestCase {
     testSplit(new String[] { "It really[!] works well." });
   }
 
-  public void testSplit(String[] sentences) {
+  private void testSplit(String[] sentences) {
     TestTools.testSplit(sentences, stokenizer);
   }
   

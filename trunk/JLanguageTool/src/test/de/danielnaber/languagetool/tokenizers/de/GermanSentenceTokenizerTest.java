@@ -18,7 +18,6 @@
  */
 package de.danielnaber.languagetool.tokenizers.de;
 
-import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
 import junit.framework.TestCase;
 import de.danielnaber.languagetool.TestTools;
 
@@ -27,16 +26,12 @@ import de.danielnaber.languagetool.TestTools;
  */
 public class GermanSentenceTokenizerTest extends TestCase {
 
-  // accept \n as paragraph:
   private GermanSentenceTokenizer stokenizer = new GermanSentenceTokenizer();
-  // accept only \n\n as paragraph:
-  private GermanSentenceTokenizer stokenizer2 = new GermanSentenceTokenizer();
   // accept "foo" as an abbreviation:
   private GermanSentenceTokenizer stokenizer3 = new GermanSentenceTokenizer(new String[]{"foo"});
   
   public void setUp() {
     stokenizer.setSingleLineBreaksMarksParagraph(true);  
-    stokenizer2.setSingleLineBreaksMarksParagraph(false);
   }
 
   public void testTokenize() {
@@ -90,17 +85,13 @@ public class GermanSentenceTokenizerTest extends TestCase {
     testSplit(new String[] { "Das war es: gar nichts." });
     testSplit(new String[] { "Das war es: Dies ist ein neuer Satz." });
 
-    // test adding
-    testSplit(new String[] { "Hier ist foo. ", "keine Abk. im Text." }, stokenizer);
-    testSplit(new String[] { "Hier ist foo. eine Abk. im Text." }, stokenizer3);
+    // test adding own list of abbreviations:
+    TestTools.testSplit(new String[] { "Hier ist foo. ", "keine Abk. im Text." }, stokenizer);
+    TestTools.testSplit(new String[] { "Hier ist foo. eine Abk. im Text." }, stokenizer3);
   }
 
-  public void testSplit(String[] sentences) {
+  private void testSplit(String[] sentences) {
     TestTools.testSplit(sentences, stokenizer);
-  }
-
-  public void testSplit(String[] sentences, SentenceTokenizer tokenizer) {
-    TestTools.testSplit(sentences, tokenizer);
   }
 
 }

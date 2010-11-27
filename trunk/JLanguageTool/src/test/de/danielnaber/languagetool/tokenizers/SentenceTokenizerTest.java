@@ -84,10 +84,9 @@ public class SentenceTokenizerTest extends TestCase {
     testSplit(new String[] { "They met at 5 p.m. ", "It was Thursday." });
     testSplit(new String[] { "This is it: a test." });
     // one/two returns = paragraph = new sentence:
-    TestTools.testSplit(new String[] { "He won't\n\n", "Really." }, stokenizer2);
     TestTools.testSplit(new String[] { "He won't\n", "Really." }, stokenizer);
-    TestTools.testSplit(new String[] { "He won't\n\n", "Really." }, stokenizer2);
     TestTools.testSplit(new String[] { "He won't\nReally." }, stokenizer2);
+    TestTools.testSplit(new String[] { "He won't\n\n", "Really." }, stokenizer2);
     // Missing space after sentence end:
     testSplit(new String[] { "James is from the Ireland!", "He lives in Spain now." });
     // From the abbreviation list:
@@ -101,7 +100,7 @@ public class SentenceTokenizerTest extends TestCase {
     testSplit(new String[] { "It really[!] works well." });
   }
 
-  public void testSplit(String[] sentences) {
+  private void testSplit(String[] sentences) {
     TestTools.testSplit(sentences, stokenizer);
   }
   
