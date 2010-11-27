@@ -83,7 +83,7 @@ public class SentenceTokenizer implements Tokenizer {
       "cf", "Inc", "Ms", "Gen", "Sen", "Prof", "Corp", "Co"
   };
 
-  private Set<Pattern> abbreviationPatterns = new HashSet<Pattern>();
+  private final Set<Pattern> abbreviationPatterns = new HashSet<Pattern>();
 
   /**
    * Month names like "Dezember" that should not be considered a sentence
