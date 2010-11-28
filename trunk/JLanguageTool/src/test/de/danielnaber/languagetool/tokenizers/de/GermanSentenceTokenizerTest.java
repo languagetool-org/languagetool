@@ -26,12 +26,12 @@ import de.danielnaber.languagetool.TestTools;
  */
 public class GermanSentenceTokenizerTest extends TestCase {
 
-  private GermanSentenceTokenizer stokenizer = new GermanSentenceTokenizer();
+  private GermanSentenceTokenizer sTokenizer = new GermanSentenceTokenizer();
   // accept "foo" as an abbreviation:
-  private GermanSentenceTokenizer stokenizer3 = new GermanSentenceTokenizer(new String[]{"foo"});
+  private GermanSentenceTokenizer sTokenizerWithFoo = new GermanSentenceTokenizer(new String[]{"foo"});
   
   public void setUp() {
-    stokenizer.setSingleLineBreaksMarksParagraph(true);  
+    sTokenizer.setSingleLineBreaksMarksParagraph(true);
   }
 
   public void testTokenize() {
@@ -86,12 +86,12 @@ public class GermanSentenceTokenizerTest extends TestCase {
     testSplit(new String[] { "Das war es: Dies ist ein neuer Satz." });
 
     // test adding own list of abbreviations:
-    TestTools.testSplit(new String[] { "Hier ist foo. ", "keine Abk. im Text." }, stokenizer);
-    TestTools.testSplit(new String[] { "Hier ist foo. eine Abk. im Text." }, stokenizer3);
+    TestTools.testSplit(new String[] { "Hier ist foo. ", "keine Abk. im Text." }, sTokenizer);
+    TestTools.testSplit(new String[] { "Hier ist foo. eine Abk. im Text." }, sTokenizerWithFoo);
   }
 
   private void testSplit(String[] sentences) {
-    TestTools.testSplit(sentences, stokenizer);
+    TestTools.testSplit(sentences, sTokenizer);
   }
 
 }
