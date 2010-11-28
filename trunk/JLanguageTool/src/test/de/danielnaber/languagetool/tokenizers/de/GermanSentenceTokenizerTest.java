@@ -80,6 +80,9 @@ public class GermanSentenceTokenizerTest extends TestCase {
     testSplit(new String[] { "»Der Papagei ist grün.« ", "Das kam so." });
     testSplit(new String[] { "»Der Papagei ist grün«, sagte er" });
 
+    // incorrect sentences:
+    testSplit(new String[] { "Dies ist ein Satz. ", " und der nächste fängt klein an - das ist falsch." });
+
     // TODO: derzeit unterscheiden wir nicht, ob nach dem Doppelpunkt ein
     // ganzer Satz kommt oder nicht:
     testSplit(new String[] { "Das war es: gar nichts." });
