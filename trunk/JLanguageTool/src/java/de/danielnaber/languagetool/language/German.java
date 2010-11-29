@@ -25,14 +25,14 @@ import java.util.Set;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.tagging.Tagger;
 import de.danielnaber.languagetool.tagging.de.GermanTagger;
+import de.danielnaber.languagetool.tokenizers.SRXSentenceTokenizer;
 import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
-import de.danielnaber.languagetool.tokenizers.de.GermanSentenceTokenizer;
 
 public class German extends Language {
 
   private final Tagger tagger = new GermanTagger();
-  private final SentenceTokenizer sentenceTokenizer = new GermanSentenceTokenizer();
-
+  private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("de");
+  
   private static final String[] COUNTRIES = {
     "DE", "CH", "AT", "LU", "LI", "BE"
   };
