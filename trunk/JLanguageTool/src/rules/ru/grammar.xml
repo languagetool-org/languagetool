@@ -8,7 +8,7 @@ LanguageTool.
 Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
 A Russian rule file for LanguageTool 
 Copyright (C) 2008-2010 Yakov Reztsov
-$Id: grammar.xml,v 1.59 2010-10-16 18:59:26 yakovru Exp $
+$Id: grammar.xml,v 1.60 2010-12-08 19:12:38 yakovru Exp $
 -->
 <rules lang="ru" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../rules.xsd">
@@ -670,6 +670,29 @@ $Id: grammar.xml,v 1.59 2010-10-16 18:59:26 yakovru Exp $
             <example type="incorrect">Газета «Правда<marker>:»</marker> "У нас опубликована сенсационная статья"!</example>
         </rule>
         
+        <rulegroup default="on"  id="Digit_defis_letter" name="Окончания порядковых числительных">
+            <rule>
+                <pattern>
+                    <token regexp="yes">[\p{Digit}](й|го|му|м|о|я|е|ми|х)</token>                
+                </pattern>
+                <message>Пропущен дефис. Должно быть: <suggestion><match no="1"  regexp_match="([\p{Digit}])(й|го|му|м|о|я|е|ми|х)" regexp_replace="$1-$2"/></suggestion></message>
+                <short>Пропущен дефис.</short> 
+                <example type="correct">План должен быть выполнен к 6-му сентября.</example>
+                <example type="incorrect">План должен быть выполнен к <marker>6му</marker> сентября.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">[\p{Digit}]</token> 
+                    <token regexp="yes">й|го|му|о|я|е|ми|х</token>                
+                </pattern>
+                <message>Пропущен дефис. Должно быть: <suggestion>\1-\2</suggestion></message>
+                <short>Пропущен дефис.</short> 
+                <example type="correct">План должен быть выполнен к 6-му сентября.</example>
+                <example type="incorrect">План должен быть выполнен к <marker>6 му</marker> сентября.</example>
+            </rule>
+        </rulegroup>
+        
+        
     </category>    
     <category name="Грамматика">
         
@@ -1012,7 +1035,7 @@ $Id: grammar.xml,v 1.59 2010-10-16 18:59:26 yakovru Exp $
             </rule>
         </rulegroup>        
         <rulegroup default="on"  id="Pravopisanie_slitno1" name="Правописание слов “наверху”, “внизу” ...">
-           <!-- To Do
+            <!-- To Do
 ввиду (но: иметь в виду)
 вглубь
 вдоль
@@ -1031,7 +1054,7 @@ $Id: grammar.xml,v 1.59 2010-10-16 18:59:26 yakovru Exp $
 свыше
 согласно
 -->
-         <rule>
+            <rule>
                 <!-- внизу, снизу, наверху, вверху, сверху                
   --> 
                 <pattern case_sensitive="no">
@@ -1044,7 +1067,7 @@ $Id: grammar.xml,v 1.59 2010-10-16 18:59:26 yakovru Exp $
                 <example type="incorrect">Он будет <marker>на верху</marker>.</example>               
             </rule>
             
-                     
+            
             <rule>
                 <!-- поверх, подо, помимо              
   --> 
@@ -1057,7 +1080,7 @@ $Id: grammar.xml,v 1.59 2010-10-16 18:59:26 yakovru Exp $
                 <example type="correct"><marker>Помимо</marker> чисто игровых проблем на ситуацию в таблице могут влиять и различные нюансы.</example>
                 <example type="incorrect"><marker>По мимо</marker> чисто игровых проблем на ситуацию в таблице могут влиять и различные нюансы.</example>               
             </rule>
-<rule>
+            <rule>
                 <!-- невзирая на, несмотря на               
   --> 
                 <pattern case_sensitive="no">
