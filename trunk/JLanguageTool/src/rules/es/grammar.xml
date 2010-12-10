@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 Spanish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
 Copyright (C) 2010 Juan Martorell
-$Id: grammar.xml,v 1.17 2010-10-02 20:43:21 jmartorell Exp $
+$Id: grammar.xml,v 1.18 2010-12-10 01:07:04 jmartorell Exp $
 -->
 <rules lang="es" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <category name="Miscelánea">
@@ -1058,6 +1058,54 @@ http://buscon.rae.es/dpdI/SrvltConsulta?lema=grosso-->
         <example type="incorrect">El <marker>sillón roja</marker> está al fondo.</example>
 
         <example type="correct">El sillón rojo está al fondo.</example>
+      </rule>
+
+      <rule id="CADA_UNA_DE_LOS" name="Concordancia «Cada una de los»">
+        <!-- CADA_UNA_DE_LOS Concordancia (Concordancia M/F) -->
+
+        <pattern case_sensitive="no">
+          <token postag="SENT_START" postag_regexp="yes"></token>
+
+          <token>cada</token>
+
+          <token>una</token>
+
+          <token>de</token>
+
+          <token>los</token>
+        </pattern>
+
+        <message>Posible falta de concordancia de género entre «\3» y «\5».</message>
+
+        <short>Concordancia de género dudosa en la forma distributiva cada... de...</short>
+
+        <example type="incorrect"><marker>Cada una de los</marker> caballeros está ocupado.</example>
+
+        <example type="correct">Cada uno de los caballeros está ocupado.</example>
+      </rule>
+
+      <rule id="CADA_UNO_DE_LAS" name="Concordancia «Cada una de las»">
+        <!-- CADA_UNO_DE_LAS Concordancia (Concordancia F/M) -->
+
+        <pattern case_sensitive="no">
+          <token postag="SENT_START" postag_regexp="yes"></token>
+
+          <token>cada</token>
+
+          <token>uno</token>
+
+          <token>de</token>
+
+          <token>las</token>
+        </pattern>
+
+        <message>Posible falta de concordancia de género entre «\3» y «\5».</message>
+
+        <short>Concordancia de género dudosa en la forma distributiva cada... de...</short>
+
+        <example type="incorrect"><marker>Cada uno de las</marker> damas está ocupada.</example>
+
+        <example type="correct">Cada una de las damas está ocupada.</example>
       </rule>
     </rulegroup>
 
