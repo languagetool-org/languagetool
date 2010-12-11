@@ -5,7 +5,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Esperanto Grammar and Typo Rules for LanguageTool
 Copyright (C) 2010 Dominique Pellé
-$Id: grammar.xml,v 1.26 2010-11-14 08:40:45 dominikoeo Exp $
+$Id: grammar.xml,v 1.27 2010-12-11 16:37:36 dominikoeo Exp $
 -->
 <rules lang="eo"
        xsi:noNamespaceSchemaLocation="../rules.xsd" 
@@ -825,7 +825,7 @@ $Id: grammar.xml,v 1.26 2010-11-14 08:40:45 dominikoeo Exp $
     </rule>
 
     <rule id="AKZ_KIEL_NAK" name="akuzativo + kiel + neakuzativo">
-      <pattern mark_from="2">
+      <pattern mark_from="1">
         <token postag="O akz .*" postag_regexp="yes"/>
         <token>kiel</token>
         <token postag="[OA] nak .*" postag_regexp="yes">
@@ -833,7 +833,7 @@ $Id: grammar.xml,v 1.26 2010-11-14 08:40:45 dominikoeo Exp $
         </token>
       </pattern>
       <message>Laŭ la kunteksto, ŝajnas ke vi intencis diri <suggestion>\3n</suggestion>.</message>
-      <example type="incorrect">Mi uzas la tukon kiel <marker>kovrilo</marker>.</example>
+      <example type="incorrect">Mi uzas la tukon <marker>kiel kovrilo</marker>.</example>
       <example type="correct">Mi uzas la tukon kiel kovrilon.</example>
       <example type="correct">Mi elektis lin kiel prezidanto.</example>
       <example type="correct">Mi elektis lin kiel prezidanton.</example>
@@ -919,7 +919,7 @@ $Id: grammar.xml,v 1.26 2010-11-14 08:40:45 dominikoeo Exp $
 
     <rule id="ĈIUJ_LA" name="ĉiuj la (ĉiuj)">
       <pattern mark_to="-1">
-        <token postag="T .* [au]" postag_regexp="yes"/>
+        <token regexp="yes">ĉiuj?n?</token>
         <token postag="D"/>
         <token postag="[OA] .*" postag_regexp="yes"/>
       </pattern>
@@ -934,7 +934,7 @@ $Id: grammar.xml,v 1.26 2010-11-14 08:40:45 dominikoeo Exp $
         <token postag="[ROT] nak .*" postag_regexp="yes" skip="-1">
           <exception scope="next" negate="yes" regexp="yes">tiom|tro|pli|malpli|(.*e)|(.*aŭ)|jam|nur|(.*[ui])|(.*[aiuo]s)</exception>
         </token>
-        <token inflected="yes" regexp="yes">plaĉi|interesi</token>
+        <token inflected="yes">plaĉi</token>
       </pattern>
       <message>«\2» ne povas esti subjekto de la verbo «\3». Ĉu vi intencis <suggestion>\2 <match no="3" regexp_match=".*(([aiou]s)|[iu])" regexp_replace="ŝat$1"/></suggestion>?</message>
       <example type="incorrect"><marker>Mi plaĉas</marker> legi.</example>
@@ -958,7 +958,7 @@ $Id: grammar.xml,v 1.26 2010-11-14 08:40:45 dominikoeo Exp $
 
     <rule id="KIU_I" name="kiu esti (kiu estas)">
       <pattern>
-        <token regexp="yes">kiuj?n?|kion?</token>
+        <token regexp="yes">kiuj?|kio</token>
         <token postag="V .*[i]" postag_regexp="yes"/>
       </pattern>
       <message>Infinivo «\2» ne povas sekvi «\1».</message>

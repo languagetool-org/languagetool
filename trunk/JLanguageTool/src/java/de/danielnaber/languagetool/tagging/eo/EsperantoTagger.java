@@ -119,6 +119,10 @@ public class EsperantoTagger implements Tagger {
   //                                     3333333333333333   77777777777
   //                                      444444  55  66                  
 
+  // Pattern of 'tabelvortoj' which are also tagged adverbs.
+  final Pattern patternTabelvortoAdverb = 
+    Pattern.compile("(ti|i|ĉi|neni)(am|om|el|e)");
+
   /**
    * Load list of words from UTF-8 file (one word per line).
    */
@@ -253,6 +257,10 @@ public class EsperantoTagger implements Tagger {
 
         l.add(new AnalyzedToken(word, "T " + 
           accusative + plural + type1Group + " " + type, null));
+
+        if ((matcher = patternTabelvortoAdverb.matcher(lWord)).find()) {
+          l.add(new AnalyzedToken(word, "E nak", lWord));
+        }
 
       // Words ending in .*oj?n? are nouns.
       } else if (lWord.endsWith("o")) {
