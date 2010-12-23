@@ -20,6 +20,10 @@ package de.danielnaber.languagetool.tokenizers.da;
 
 import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
 
+/**
+ * @deprecated use {@code new SRXSentenceTokenizer("da")} instead
+ * @author Daniel Naber
+ */
 public class DanishSentenceTokenizer extends SentenceTokenizer {
 
   private static final String[] ABBREV_LIST = {

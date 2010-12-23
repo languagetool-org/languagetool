@@ -25,14 +25,14 @@ import java.util.Set;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.tagging.Tagger;
 import de.danielnaber.languagetool.tagging.da.DanishTagger;
+import de.danielnaber.languagetool.tokenizers.SRXSentenceTokenizer;
 import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
-import de.danielnaber.languagetool.tokenizers.da.DanishSentenceTokenizer;
 
 public class Danish extends Language {
 
   private final Tagger tagger = new DanishTagger();
-  private final SentenceTokenizer sentenceTokenizer = new DanishSentenceTokenizer();
-
+  private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("da");
+  
   private static final String[] COUNTRIES = {"DK"};
   
   public final Locale getLocale() {
