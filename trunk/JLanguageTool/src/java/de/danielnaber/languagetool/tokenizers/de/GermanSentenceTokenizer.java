@@ -23,6 +23,9 @@ import java.util.regex.Pattern;
 import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
 import org.apache.commons.lang.ArrayUtils;
 
+/**
+ * @deprecated use {@code new SRXSentenceTokenizer("de")} instead
+ */
 public class GermanSentenceTokenizer extends SentenceTokenizer {
 
   private static final String[] ABBREV_LIST = {
