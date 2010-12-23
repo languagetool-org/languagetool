@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 Danish Grammar and Typo Rules for LanguageTool
 See danish_tags.txt for the meaning of the POS tags
 Copyright (C) 2009 Esben Aaberg, Foreningen for frit tilgængelige sprogværktøjer
-$Id: grammar.xml,v 1.5 2010-07-17 17:15:40 dnaber Exp $
+$Id: grammar.xml,v 1.6 2010-12-23 17:20:55 dnaber Exp $
 -->
 <rules lang="da" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../rules.xsd">
@@ -18,7 +18,7 @@ $Id: grammar.xml,v 1.5 2010-07-17 17:15:40 dnaber Exp $
         <rule id="Ordgentagelse1">
            <pattern>
               <token><exception postag="SENT_START"/></token>
-              <token><match no="0"/><exception regexp="yes">.|av|bang|bred|bib|bip|bling|bom|bro|duer|fars|faster|fatter|gak|grynt|ha|he|hej|hi|hip|ho|hopper|hurra|kvier|led|marie|men|mobil|mors|normal|original|piller|rap|ren|ride|sej|smed|så|taget|takker|tik-tak|tog|tut|uniform|vov|øf</exception></token>
+              <token><match no="0"/><exception regexp="yes">.|000|av|bang|bred|bib|bip|bling|bom|bro|Cha|det|duer|fars|faster|fatter|gak|grynt|ha|he|hej|hi|hip|ho|hopper|hurra|kvier|led|marie|men|mobil|mors|normal|original|piller|rap|ren|ride|sej|smed|så|taget|takker|tik-tak|tog|tut|uniform|vov|øf</exception></token>
            </pattern>
            <message>Ordgentagelse: Du har gentaget <suggestion>\1</suggestion>.</message>
            <short>Ordgentagelse</short>
@@ -52,9 +52,9 @@ $Id: grammar.xml,v 1.5 2010-07-17 17:15:40 dnaber Exp $
     <rulegroup id="bor_bord" name="bor↔bord">
       <rule>
         <pattern>
-          <token regexp="yes">(aftens|alter|anretter|arbejds|billard|bridge|cafe|camping|computer|eksamens|frokost|gave|have|jule|kaffe|kage|konference|konsol|køkken|middags|morgen|møde|nadver|nat|omstillings|pusle|pølse|salat|senge|skole|sminke|sofa|spille|spise|stue|stam|styr|sy|tagselv|te|.*tennis|terminal|toilet|udtræks|vindues)(bor)(|et|e|ene|s|ets|e|enes)</token>
+          <token regexp="yes">(aftens|alter|anretter|arbejds|billard|bridge|cafe|camping|computer|eksamens|frokost|gave|have|jule|kaffe|kage|konference|konsol|køkken|middags|morgen|møde|nadver|nat|omstillings|pusle|pølse|salat|senge|skole|sminke|sofa|spille|spise|stue|stam|styr|sy|tagselv|te|.*tennis|terminal|toilet|udtræks|vindues)(bor)(|et|e|ene|s|ets|es|enes)</token>
         </pattern>
-        <message>Et bord sidder man ved, et bor laver man huller med: <suggestion><match no="1" regexp_match="(aftens|alter|anretter|arbejds|billard|bridge|cafe|camping|computer|eksamens|frokost|gave|have|jule|kaffe|kage|konference|konsol|køkken|middags|morgen|møde|nadver|nat|omstillings|pusle|pølse|salat|senge|skole|sminke|sofa|spille|spise|stue|stam|styr|sy|tagselv|te|.*tennis|terminal|toilet|udtræks|vindues)(bor)(|et|e|ene|s|ets|e|enes)" regexp_replace="$1$2d$3"/></suggestion>.</message>
+        <message>Et bord sidder man ved, et bor laver man huller med: <suggestion><match no="1" regexp_match="(aftens|alter|anretter|arbejds|billard|bridge|cafe|camping|computer|eksamens|frokost|gave|have|jule|kaffe|kage|konference|konsol|køkken|middags|morgen|møde|nadver|nat|omstillings|pusle|pølse|salat|senge|skole|sminke|sofa|spille|spise|stue|stam|styr|sy|tagselv|te|.*tennis|terminal|toilet|udtræks|vindues)(bor)(|et|e|ene|s|ets|es|enes)" regexp_replace="$1$2d$3"/></suggestion>.</message>
         <short>Mulige ordforveksling - stumt d</short>
         <example correction="havebordet" type="incorrect">Jeg sætter <marker>haveboret</marker> ud.</example>        
         <example type="correct">Eleven sidder ved skolebordet.</example>
@@ -95,7 +95,7 @@ $Id: grammar.xml,v 1.5 2010-07-17 17:15:40 dnaber Exp $
         <example correction="hedder" type="incorrect">Det <marker>heder</marker> på Sjælland, da det er en ø.</example>
         <example type="correct">Det hedder Jens.</example>
       </rule>
-      <!-- heder_hedder Egenavn efter -->
+      <!-- heder_hedder Egennavn efter -->
       <rule>
         <pattern mark_from="1" mark_to="-1">
           <token><exception>de</exception></token> 
@@ -108,7 +108,7 @@ $Id: grammar.xml,v 1.5 2010-07-17 17:15:40 dnaber Exp $
         <example type="correct">Jeg hedder Jens.</example>
         <example type="correct">De heder Jens passer.</example>      
       </rule>
-      <!-- heder_hedder Egenavn før -->
+      <!-- heder_hedder Egennavn før -->
       <rule>
         <pattern mark_from="1">
           <token postag="pro:nom" postag_regexp="yes"/>
@@ -217,6 +217,15 @@ $Id: grammar.xml,v 1.5 2010-07-17 17:15:40 dnaber Exp $
   <!-- Mulig ordforveksling med sjældent ord - Possible word confusion with rare words -->
   <!-- ====================================================================== -->
   <category name="Mulige ordforveksling med sjældent ord">
+    <rule id="egenavn_egennavn" name="egenavn→egennavn">
+      <pattern mark_from="0" >
+        <token regexp="yes">(egenavn)(|et|e|ene|s|ets|es|enes)</token>
+      </pattern>
+      <message>Et egenavn er navnet på et specifik egetræ, f.eks. Dun-Eg og Vinter-Eg. Hvor <suggestion><match no="1" regexp_match="(egenavn)(|et|e|ene|s|ets|es|enes)" regexp_replace="egennavn$2"/></suggestion> er alle navne f.eks. Jens, Sørnsen, Odense, og Vestas.</message>      
+      <short>Mulige ordforveksling</short>
+      <example correction="egennavn" type="incorrect">Jens er et <marker>egenavn</marker>.</example>
+      <example type="correct">Et egennavn skrives med stort begyndelsesbogstav.</example>
+    </rule>
     <rule id="overbord" name="overbord→over bord">
       <pattern mark_from="0" >
         <token>overbord</token>
@@ -267,7 +276,7 @@ $Id: grammar.xml,v 1.5 2010-07-17 17:15:40 dnaber Exp $
   <!-- Grammatik - Grammar -->
   <!-- ====================================================================== -->
   <category name="Grammatik">
-    <rule id="adj-ube-sin-utr-pos" name="Tillægsord ental ubestemt i forkert bøjningsform">
+    <rule id="adj-ube-sin-utr-pos" name="(fejlbehæftet regel) Tillægsord ental ubestemt i forkert bøjningsform" default="off">
       <pattern mark_from="1" > 
         <token regexp="yes">et|det</token>
         <!-- TODO: Make exception for adverbs, when they becomes available in tagger or analyzes the relationship between adjectives and other parts of speech.  -->
