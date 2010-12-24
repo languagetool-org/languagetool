@@ -5,7 +5,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Esperanto Grammar and Typo Rules for LanguageTool
 Copyright (C) 2010 Dominique Pellé
-$Id: grammar.xml,v 1.27 2010-12-11 16:37:36 dominikoeo Exp $
+$Id: grammar.xml,v 1.28 2010-12-24 09:27:12 dominikoeo Exp $
 -->
 <rules lang="eo"
        xsi:noNamespaceSchemaLocation="../rules.xsd" 
@@ -31,12 +31,15 @@ $Id: grammar.xml,v 1.27 2010-12-11 16:37:36 dominikoeo Exp $
         <token>ĉi
           <exception scope="previous" regexp="yes">[ĉt]i((on?)|(uj?n?))</exception>
         </token>
-        <token postag="[EO] .*" postag_regexp="yes"/>
+        <token postag="[EO] .*" postag_regexp="yes">
+          <exception regexp="yes">tien?</exception>
+        </token>
       </pattern>
       <message>Ĉu vi intencis skribi <suggestion>\1-\2</suggestion> kun streketo?</message>
       <example type="incorrect">Mi vojaĝos <marker>ĉi jare</marker>.</example>
       <example type="correct">Mi vojaĝos ĉi-jare.</example>
       <example type="correct">Ĉu tiu ĉi vere okazis?</example>
+      <example type="correct">Mi loĝas ĉi tie.</example>
     </rule>
 
     <rule id="ĈI-TIU" name="ĉi-tiu (ĉi tiu)">
@@ -763,7 +766,8 @@ $Id: grammar.xml,v 1.27 2010-12-11 16:37:36 dominikoeo Exp $
     <rulegroup id="EN_NAK" name="en sen akuzativo de direkto">
       <rule>
         <pattern mark_from="1">
-          <token inflected="yes" regexp="yes" skip="2">iri|eniri|fali|enfali|traduki|rigardi</token>
+          <token inflected="yes" regexp="yes" skip="2">iri|eniri|fali|enfali|traduki|rigardi<exception scope="previous" postag=". akz .*" postag_regexp="yes"/><exception scope="next" postag=". akz .*" postag_regexp="yes"/></token>
+
           <token>en</token>
           <token postag="[ROAT] nak .*" postag_regexp="yes"/>
         </pattern>
@@ -773,11 +777,13 @@ $Id: grammar.xml,v 1.27 2010-12-11 16:37:36 dominikoeo Exp $
         <example type="correct">Mi loĝas en kastelo.</example>
         <example type="incorrect">La libro estas tradukita <marker>en Esperanto</marker>.</example>
         <example type="correct">La libro estas tradukita en Esperanton.</example>
+        <example type="correct">Li eniris ĝin en la jaro 2004.</example>
+        <example type="correct">Li ĝin eniris en la jaro 2004.</example>
       </rule>
 
       <rule>
         <pattern mark_from="1">
-          <token inflected="yes" regexp="yes" skip="2">iri|eniri|fali|enfali|traduki|rigardi</token>
+          <token inflected="yes" regexp="yes" skip="2">iri|eniri|fali|enfali|traduki|rigardi<exception scope="previous" postag=". akz .*" postag_regexp="yes"/><exception scope="next" postag=". akz .*" postag_regexp="yes"/></token>
           <token>en</token>
           <token postag="[DN]|(T.* u)" postag_regexp="yes"/>
           <token postag="[ROAT] nak .*" postag_regexp="yes"/>
@@ -786,6 +792,8 @@ $Id: grammar.xml,v 1.27 2010-12-11 16:37:36 dominikoeo Exp $
         <example type="incorrect">Li iras <marker>en la ĉambro</marker>.</example>
         <example type="correct">Li iras en la ĉambron.</example>
         <example type="correct">Mi loĝas en tiu kastelo.</example>
+        <example type="correct">Li eniris ĝin en tiu jaro.</example>
+        <example type="correct">Li ĝin eniris en tiu jaro.</example>
       </rule>
     </rulegroup>
 
@@ -946,7 +954,7 @@ $Id: grammar.xml,v 1.27 2010-12-11 16:37:36 dominikoeo Exp $
     <rule id="MI_EBLAS" name="mi eblas (mi povas)">
       <pattern mark_from="1">
         <token postag="SENT_START|K|(fino.*)" postag_regexp="yes"/>
-        <token postag="[ROT] nak .*" postag_regexp="yes" skip="-1">
+        <token postag="[RO] nak .*" postag_regexp="yes" skip="-1">
           <exception scope="next" negate="yes" regexp="yes">tiom|tro|pli|malpli|(.*e)|(.*aŭ)|jam|nur|(.*[ui])|(.*[aiuo]s)</exception>
         </token>
         <token inflected="yes">ebli</token>
@@ -954,6 +962,8 @@ $Id: grammar.xml,v 1.27 2010-12-11 16:37:36 dominikoeo Exp $
       <message>«\2» ne povas esti subjekto de la verbo «\3». Ĉu vi intencis <suggestion>\2 <match no="3" regexp_match=".*(([aiou]s)|[iu])" regexp_replace="pov$1"/></suggestion>?</message>
       <example type="incorrect"><marker>Mi ne eblas</marker> legi.</example>
       <example type="correct">Mi ne povas legi.</example>
+      <example type="correct">Mi ne povas legi.</example>
+      <example type="correct">Tio eblas.</example>
     </rule>
 
     <rule id="KIU_I" name="kiu esti (kiu estas)">
