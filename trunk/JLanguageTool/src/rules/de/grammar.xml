@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 German grammar and typo rules for LanguageTool
 See resource/de/tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2010 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.44 2010-10-28 19:29:16 dnaber Exp $
+$Id: grammar.xml,v 1.45 2010-12-26 22:56:14 dnaber Exp $
 -->
 <rules lang="de" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../rules.xsd">
@@ -685,27 +685,29 @@ $Id: grammar.xml,v 1.44 2010-10-28 19:29:16 dnaber Exp $
     <rule id="OEKONOMISCH_OEKUMENISCH" name="Möglicher Tippfehler 'ökonomischer(ökumenischer) Gottesdienst/...'">
       <pattern mark_to="-1">
         <token regexp="yes">ökonomische|ökonomischen|ökonomischer</token>
-        <token regexp="yes">.*[Gg]ottesdienst.*|Kirche|Kirchen|Trauung|Trauungen|Taufe|Taufen|Kirchentag|Kirchentage|Kirchentags|Kirchentages|Abendmahl|Abendmahls</token>
+        <token regexp="yes">.*Gottesdienst.*|Kirche|Kirchen|Trauung|Trauungen|Taufe|Taufen|Kirchentag|Kirchentage|Kirchentags|Kirchentages|Abendmahl|Abendmahls</token>
       </pattern>
       <message>Meinten Sie <suggestion>ökumenisch</suggestion> (ökonomisch = auf die Wirtschaft bezogen)?</message>
       <example type="correct">Was ist ein <marker>ökumenischer</marker> Gottesdienst?</example>
       <example type="incorrect">Was ist ein <marker>ökonomischer</marker> Gottesdienst?</example>
+      <example type="incorrect">Was ist ein <marker>ökonomischer</marker> Wortgottesdienst?</example>
       <example type="incorrect">Was ist das Merkmal eines <marker>ökonomischen</marker> Gedenkgottesdienstes?</example>
       <example type="incorrect">Was ist das Merkmal eines <marker>ökonomischen</marker> Gottesdienstes?</example>
       <example type="incorrect">Was ist das Merkmal von <marker>ökonomischen</marker> Gottesdiensten?</example>
     </rule>
     <rule id="ETHISCH_ETHNISCH" name="Möglicher Tippfehler 'ethische(ethnische) Minderheiten/...'">
       <pattern mark_to="-1">
-        <token regexp="yes">[Ee]thische|[Ee]thischer|[Ee]thischen</token>
+        <token regexp="yes">ethische|ethischer|ethischen</token>
         <token regexp="yes">Minderheit|Minderheiten|Säuberung|Säuberungen|Herkunft|Konflikt|Konflikte</token>
       </pattern>
       <message>Meinten Sie <suggestion>ethnisch</suggestion> (ethisch = Ethik/Moral betreffend, ethnisch = zu einer bestimmten Ethnie/Volksgruppe gehörend)?</message>
       <example type="correct">Bücher über <marker>ethnische</marker> Minderheiten und Vertriebene</example>
       <example type="incorrect">Bücher über <marker>ethische</marker> Minderheiten und Vertriebene</example>
+      <example type="incorrect"><marker>Ethische</marker> Minderheiten und Vertriebene</example>
     </rule>
     <rule id="DENN_DEN" name="Möglicher Tippfehler 'aber denn(dann)'">
       <pattern mark_from="1">
-        <token regexp="yes">[Aa]ber|[Dd]och|[Uu]nd</token>
+        <token regexp="yes">aber|doch|und</token>
         <token>denn</token>
       </pattern>
       <message>Meinten Sie <suggestion>den</suggestion> oder <suggestion>dann</suggestion>?</message>
