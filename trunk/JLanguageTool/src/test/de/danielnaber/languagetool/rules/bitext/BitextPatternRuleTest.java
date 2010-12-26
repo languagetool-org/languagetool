@@ -39,7 +39,7 @@ import junit.framework.TestCase;
 public class BitextPatternRuleTest extends TestCase {
 
   public void testBitextRulesFromXML() throws IOException {
-    testBitextRulesFromXML(null, true);
+    testBitextRulesFromXML(null, false);
   }
   
   private void testBitextRulesFromXML(final Set<Language> ignoredLanguages,
