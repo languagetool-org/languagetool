@@ -18,7 +18,11 @@
  */
 package de.danielnaber.languagetool.tools;
 
+import de.danielnaber.languagetool.rules.RuleMatch;
+import de.danielnaber.languagetool.rules.en.AvsAnRule;
 import junit.framework.TestCase;
+
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,6 +57,11 @@ public class StringToolsTest extends TestCase {
     }
     s = "foo";
     StringTools.assureSet(s, "varName");
+  }
+
+  public void testReadFile() throws IOException {
+    final String content = StringTools.readFile(new FileInputStream("src/test/testinput.txt"), "utf-8");
+    assertEquals("one\ntwo\nöäüß\n", content);
   }
   
   public void testIsAllUppercase() {
@@ -113,17 +122,80 @@ public class StringToolsTest extends TestCase {
     assertEquals("'''", StringTools.uppercaseFirstChar("'''"));
   }
 
+  public void testLowercaseFirstChar() {
+    assertEquals("", StringTools.lowercaseFirstChar(""));
+    assertEquals("a", StringTools.lowercaseFirstChar("A"));
+    assertEquals("öäü", StringTools.lowercaseFirstChar("Öäü"));
+    assertEquals("ßa", StringTools.lowercaseFirstChar("ßa"));
+    assertEquals("'test'", StringTools.lowercaseFirstChar("'Test'"));
+    assertEquals("''test", StringTools.lowercaseFirstChar("''Test"));
+    assertEquals("''t", StringTools.lowercaseFirstChar("''T"));
+    assertEquals("'''", StringTools.lowercaseFirstChar("'''"));
+  }
+
+  public void testReaderToString() throws IOException {
+    final String str = StringTools.readerToString(new StringReader("bla\nöäü"));
+    assertEquals("bla\nöäü", str);
+    final StringBuilder longStr = new StringBuilder();
+    for (int i = 0; i < 4000; i++) {
+      longStr.append("x");
+    }
+    longStr.append("1234567");
+    assertEquals(4007, longStr.length());
+    final String str2 = StringTools.readerToString(new StringReader(longStr.toString()));
+    assertEquals(longStr.toString(), str2);
+  }
+
   public void testEscapeXMLandHTML() {
     assertEquals("!ä&quot;&lt;&gt;&amp;&amp;", StringTools.escapeXML("!ä\"<>&&"));
     assertEquals("!ä&quot;&lt;&gt;&amp;&amp;", StringTools.escapeHTML("!ä\"<>&&"));
   }
-  
+
+  public void testRuleMatchesToXML() throws IOException {
+    final List<RuleMatch> matches = new ArrayList<RuleMatch>();
+    final String text = "This is an test sentence. Here's another sentence with more text.";
+    final RuleMatch match = new RuleMatch(new AvsAnRule(null), 8, 10, "myMessage");
+    match.setColumn(99);
+    match.setEndColumn(100);
+    match.setLine(44);
+    match.setEndLine(45);
+    matches.add(match);
+    final String xml = StringTools.ruleMatchesToXML(matches, text, 5, StringTools.XmlPrintMode.NORMAL_XML);
+    assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+        "<matches>\n" +
+        "<error fromy=\"44\" fromx=\"98\" toy=\"45\" tox=\"99\" ruleId=\"EN_A_VS_AN\" msg=\"myMessage\" replacements=\"\" context=\"...s is an test...\" contextoffset=\"8\" errorlength=\"2\"/>\n" +
+        "</matches>\n", xml);
+  }
+
+  public void testListToString() {
+    final List<String> list = new ArrayList<String>();
+    list.add("foo");
+    list.add("bar");
+    list.add(",");
+    assertEquals("foo,bar,,", StringTools.listToString(list, ","));
+    assertEquals("foo\tbar\t,", StringTools.listToString(list, "\t"));
+  }
+
   public void testGetContext() {
-    String input = "This is a test sentence. Here's another sentence with more text.";
-    String result = StringTools.getContext(8, 14, input, 5);
+    final String input = "This is a test sentence. Here's another sentence with more text.";
+    final String result = StringTools.getContext(8, 14, input, 5);
     assertEquals("...s is a test sent...\n        ^^^^^^     ", result);
   }
-  
+
+  public void testTrimWhitespace() {
+    try {
+      assertEquals(null, StringTools.trimWhitespace(null));
+      fail();
+    } catch (NullPointerException e) {
+      // expected
+    }
+    assertEquals("", StringTools.trimWhitespace(""));
+    assertEquals("", StringTools.trimWhitespace(" "));
+    assertEquals("XXY", StringTools.trimWhitespace(" \nXX\t Y"));
+    // TODO: make this work assertEquals("XXY", StringTools.trimWhitespace(" \r\nXX\t Y"));
+    assertEquals("word", StringTools.trimWhitespace("word"));
+  }
+
   public void testAddSpace() {
     assertEquals(" ", StringTools.addSpace("word", Language.ENGLISH));
     assertEquals("", StringTools.addSpace(",", Language.ENGLISH));
@@ -151,15 +223,6 @@ public class StringToolsTest extends TestCase {
         StringTools.getMnemonic("File && String operations"));
     assertEquals('O', 
       StringTools.getMnemonic("File && String &Operations"));
-  }
-  
-  public void testListToString() {
-    final List<String> list = new ArrayList<String>();
-    list.add("foo");
-    list.add("bar");
-    list.add(",");
-    assertEquals("foo,bar,,", StringTools.listToString(list, ","));
-    assertEquals("foo\tbar\t,", StringTools.listToString(list, "\t"));
   }
   
   public void testIsWhitespace() {
@@ -191,5 +254,10 @@ public class StringToolsTest extends TestCase {
     assertEquals("test", StringTools.filterXML("<b>test</b>"));
     assertEquals("A sentence with a test", StringTools.filterXML("A sentence with a <em>test</em>"));
   }
-  
+
+  public void testAsString() {
+    assertNull(StringTools.asString(null));
+    assertEquals("foo!", "foo!");
+  }
+
 }
