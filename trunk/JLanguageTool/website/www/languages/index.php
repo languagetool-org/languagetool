@@ -2,7 +2,7 @@
 $page = "languages";
 $title = "LanguageTool";
 $title2 = "Supported Languages";
-$lastmod = "2010-09-26 16:00:00 CET";
+$lastmod = "2011-01-02 16:30:00 CET";
 include("../../include/header.php");
 ?>
 		
@@ -14,8 +14,8 @@ language is supported.</p>
 
 <!-- Output of RuleOverview.java: -->
 
-<b>Rules in LanguageTool 1.1</b><br />
-Date: 2010-09-26<br /><br />
+<b>Rules in LanguageTool 1.2</b><br />
+Date: 2011-01-02<br /><br />
 
 <table>
 <tr>
@@ -32,17 +32,19 @@ Date: 2010-09-26<br /><br />
 <td align="right">0</td><td></td><td align="left">Alex Buloichik</td></tr>
 <tr><td>Catalan</td><td align="right">213 (<a href="http://languagetool.cvs.sourceforge.net/*checkout*/languagetool/JLanguageTool/src/rules/ca/grammar.xml">show</a>/<a href="http://community.languagetool.org/rule/list?lang=ca">browse</a>)</td><td></td><td align="right">1</td><td></td>
 <td align="right">4</td><td></td><td align="left">Ricard Roca</td></tr>
-<tr><td>Danish</td><td align="right">21 (<a href="http://languagetool.cvs.sourceforge.net/*checkout*/languagetool/JLanguageTool/src/rules/da/grammar.xml">show</a>/<a href="http://community.languagetool.org/rule/list?lang=da">browse</a>)</td><td></td><td align="right">0</td><td></td>
+<tr><td>Danish</td><td align="right">22 (<a href="http://languagetool.cvs.sourceforge.net/*checkout*/languagetool/JLanguageTool/src/rules/da/grammar.xml">show</a>/<a href="http://community.languagetool.org/rule/list?lang=da">browse</a>)</td><td></td><td align="right">0</td><td></td>
 <td align="right">0</td><td></td><td align="left">Esben Aaberg</td></tr>
-<tr><td>Dutch</td><td align="right">288 (<a href="http://languagetool.cvs.sourceforge.net/*checkout*/languagetool/JLanguageTool/src/rules/nl/grammar.xml">show</a>/<a href="http://community.languagetool.org/rule/list?lang=nl">browse</a>)</td><td></td><td align="right">0</td><td></td>
+<tr><td>Dutch</td><td align="right">302 (<a href="http://languagetool.cvs.sourceforge.net/*checkout*/languagetool/JLanguageTool/src/rules/nl/grammar.xml">show</a>/<a href="http://community.languagetool.org/rule/list?lang=nl">browse</a>)</td><td></td><td align="right">0</td><td></td>
 <td align="right">0</td><td></td><td align="left"><a href="http://www.opentaal.org">Ruud Baars</a></td></tr>
-<tr><td>English</td><td align="right">477 (<a href="http://languagetool.cvs.sourceforge.net/*checkout*/languagetool/JLanguageTool/src/rules/en/grammar.xml">show</a>/<a href="http://community.languagetool.org/rule/list?lang=en">browse</a>)</td><td></td><td align="right">3</td><td></td>
+<tr><td>English</td><td align="right">478 (<a href="http://languagetool.cvs.sourceforge.net/*checkout*/languagetool/JLanguageTool/src/rules/en/grammar.xml">show</a>/<a href="http://community.languagetool.org/rule/list?lang=en">browse</a>)</td><td></td><td align="right">3</td><td></td>
 <td align="right">230</td><td></td><td align="left">Marcin Miłkowski, Daniel Naber</td></tr>
-<tr><td>French</td><td align="right">1672 (<a href="http://languagetool.cvs.sourceforge.net/*checkout*/languagetool/JLanguageTool/src/rules/fr/grammar.xml">show</a>/<a href="http://community.languagetool.org/rule/list?lang=fr">browse</a>)</td><td></td><td align="right">1</td><td></td>
+<tr><td>Esperanto</td><td align="right">75 (<a href="http://languagetool.cvs.sourceforge.net/*checkout*/languagetool/JLanguageTool/src/rules/eo/grammar.xml">show</a>/<a href="http://community.languagetool.org/rule/list?lang=eo">browse</a>)</td><td></td><td align="right">0</td><td></td>
+<td align="right">0</td><td></td><td align="left">Dominique Pellé</td></tr>
+<tr><td>French</td><td align="right">1676 (<a href="http://languagetool.cvs.sourceforge.net/*checkout*/languagetool/JLanguageTool/src/rules/fr/grammar.xml">show</a>/<a href="http://community.languagetool.org/rule/list?lang=fr">browse</a>)</td><td></td><td align="right">1</td><td></td>
 <td align="right">5</td><td></td><td align="left">Agnes Souque, Hugo Voisard&nbsp;(2006-2007)</td></tr>
 <tr><td>Galician</td><td align="right">166 (<a href="http://languagetool.cvs.sourceforge.net/*checkout*/languagetool/JLanguageTool/src/rules/gl/grammar.xml">show</a>/<a href="http://community.languagetool.org/rule/list?lang=gl">browse</a>)</td><td></td><td align="right">0</td><td></td>
 <td align="right">6</td><td></td><td align="left"><a href="http://www.g11n.net/languagetool-gl">Susana Sotelo Docío</a></td></tr>
-<tr><td>German</td><td align="right">133 (<a href="http://languagetool.cvs.sourceforge.net/*checkout*/languagetool/JLanguageTool/src/rules/de/grammar.xml">show</a>/<a href="http://community.languagetool.org/rule/list?lang=de">browse</a>)</td><td></td><td align="right">8</td><td></td>
+<tr><td>German</td><td align="right">137 (<a href="http://languagetool.cvs.sourceforge.net/*checkout*/languagetool/JLanguageTool/src/rules/de/grammar.xml">show</a>/<a href="http://community.languagetool.org/rule/list?lang=de">browse</a>)</td><td></td><td align="right">8</td><td></td>
 <td align="right">88</td><td></td><td align="left">Daniel Naber</td></tr>
 <tr><td>Icelandic</td><td align="right">39 (<a href="http://languagetool.cvs.sourceforge.net/*checkout*/languagetool/JLanguageTool/src/rules/is/grammar.xml">show</a>/<a href="http://community.languagetool.org/rule/list?lang=is">browse</a>)</td><td></td><td align="right">0</td><td></td>
 <td align="right">0</td><td></td><td align="left">Anton Karl Ingason</td></tr>
@@ -52,17 +54,17 @@ Date: 2010-09-26<br /><br />
 <td align="right">0</td><td></td><td align="left">Mantas Kriaučiūnas</td></tr>
 <tr><td>Malayalam</td><td align="right">18 (<a href="http://languagetool.cvs.sourceforge.net/*checkout*/languagetool/JLanguageTool/src/rules/ml/grammar.xml">show</a>/<a href="http://community.languagetool.org/rule/list?lang=ml">browse</a>)</td><td></td><td align="right">0</td><td></td>
 <td align="right">0</td><td></td><td align="left">Jithesh.V.S</td></tr>
-<tr><td>Polish</td><td align="right">1022 (<a href="http://languagetool.cvs.sourceforge.net/*checkout*/languagetool/JLanguageTool/src/rules/pl/grammar.xml">show</a>/<a href="http://community.languagetool.org/rule/list?lang=pl">browse</a>)</td><td></td><td align="right">4</td><td></td>
+<tr><td>Polish</td><td align="right">1027 (<a href="http://languagetool.cvs.sourceforge.net/*checkout*/languagetool/JLanguageTool/src/rules/pl/grammar.xml">show</a>/<a href="http://community.languagetool.org/rule/list?lang=pl">browse</a>)</td><td></td><td align="right">4</td><td></td>
 <td align="right">139</td><td></td><td align="left">Marcin Miłkowski</td></tr>
-<tr><td>Romanian</td><td align="right">416 (<a href="http://languagetool.cvs.sourceforge.net/*checkout*/languagetool/JLanguageTool/src/rules/ro/grammar.xml">show</a>/<a href="http://community.languagetool.org/rule/list?lang=ro">browse</a>)</td><td></td><td align="right">1</td><td></td>
+<tr><td>Romanian</td><td align="right">418 (<a href="http://languagetool.cvs.sourceforge.net/*checkout*/languagetool/JLanguageTool/src/rules/ro/grammar.xml">show</a>/<a href="http://community.languagetool.org/rule/list?lang=ro">browse</a>)</td><td></td><td align="right">1</td><td></td>
 <td align="right">0</td><td></td><td align="left"><a href="http://www.archeus.ro">Ionuț Păduraru</a></td></tr>
-<tr><td>Russian</td><td align="right">112 (<a href="http://languagetool.cvs.sourceforge.net/*checkout*/languagetool/JLanguageTool/src/rules/ru/grammar.xml">show</a>/<a href="http://community.languagetool.org/rule/list?lang=ru">browse</a>)</td><td></td><td align="right">3</td><td></td>
+<tr><td>Russian</td><td align="right">117 (<a href="http://languagetool.cvs.sourceforge.net/*checkout*/languagetool/JLanguageTool/src/rules/ru/grammar.xml">show</a>/<a href="http://community.languagetool.org/rule/list?lang=ru">browse</a>)</td><td></td><td align="right">3</td><td></td>
 <td align="right">0</td><td></td><td align="left">Yakov Reztsov</td></tr>
 <tr><td>Slovak</td><td align="right">55 (<a href="http://languagetool.cvs.sourceforge.net/*checkout*/languagetool/JLanguageTool/src/rules/sk/grammar.xml">show</a>/<a href="http://community.languagetool.org/rule/list?lang=sk">browse</a>)</td><td></td><td align="right">2</td><td></td>
 <td align="right">0</td><td></td><td align="left"><a href="http://sk-spell.sk.cx">Zdenko Podobný</a></td></tr>
 <tr><td>Slovenian</td><td align="right">58 (<a href="http://languagetool.cvs.sourceforge.net/*checkout*/languagetool/JLanguageTool/src/rules/sl/grammar.xml">show</a>/<a href="http://community.languagetool.org/rule/list?lang=sl">browse</a>)</td><td></td><td align="right">0</td><td></td>
 <td align="right">0</td><td></td><td align="left">Martin Srebotnjak</td></tr>
-<tr><td>Spanish</td><td align="right">58 (<a href="http://languagetool.cvs.sourceforge.net/*checkout*/languagetool/JLanguageTool/src/rules/es/grammar.xml">show</a>/<a href="http://community.languagetool.org/rule/list?lang=es">browse</a>)</td><td></td><td align="right">1</td><td></td>
+<tr><td>Spanish</td><td align="right">64 (<a href="http://languagetool.cvs.sourceforge.net/*checkout*/languagetool/JLanguageTool/src/rules/es/grammar.xml">show</a>/<a href="http://community.languagetool.org/rule/list?lang=es">browse</a>)</td><td></td><td align="right">1</td><td></td>
 <td align="right">27</td><td></td><td align="left"><a href="http://languagetool-es.blogspot.com/">Juan Martorell</a></td></tr>
 <tr><td>Swedish</td><td align="right">26 (<a href="http://languagetool.cvs.sourceforge.net/*checkout*/languagetool/JLanguageTool/src/rules/sv/grammar.xml">show</a>/<a href="http://community.languagetool.org/rule/list?lang=sv">browse</a>)</td><td></td><td align="right">1</td><td></td>
 <td align="right">5</td><td></td><td align="left">Niklas Johansson</td></tr>

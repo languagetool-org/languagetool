@@ -2,7 +2,7 @@
 $page = "homepage";
 $title = "LanguageTool";
 $title2 = "Open Source language checker";
-$lastmod = "2010-10-11 16:10:00 CET";
+$lastmod = "2011-01-02 16:20:00 CET";
 include("../include/header.php");
 ?>
 		
@@ -18,7 +18,7 @@ XML configuration files. Rules for more complicated errors can be  written in Ja
 <h2>Download</h2>
 
 <div class="downloadSection">
-	<h2><?=show_link("Download LanguageTool 1.1 (18&nbsp;MB)", "download/LanguageTool-1.1.oxt", 0) ?></h2>
+	<h2><?=show_link("Download LanguageTool 1.2 (18&nbsp;MB)", "download/LanguageTool-1.2.oxt", 0) ?></h2>
 	<!--
 	<table>
 	<tr>
@@ -42,7 +42,7 @@ XML configuration files. Rules for more complicated errors can be  written in Ja
 </div>
 
 <!-- -->
-<p><strong>Try LanguageTool 1.1 without local installation, using Java WebStart.</strong> Requires Java 1.6_04 or later. You will get a security warning which you
+<p><strong>Try LanguageTool 1.2 without local installation, using Java WebStart.</strong> Requires Java 1.6_04 or later. You will get a security warning which you
 need to ignore:<br />
 <strong><?=show_link("Start LanguageTool (18&nbsp;MB)", "webstart/web/LanguageTool.jnlp", 0) ?></strong></p>
 <!-- -->
@@ -51,18 +51,17 @@ need to ignore:<br />
 <h2>News</h2>
 
 
-<p><strong>2010-09-26:</strong> Released version 1.1. Changes include:
+<p><strong>2011-01-02:</strong> Released LanguageTool 1.2. Changes include:
 <ul>
-	<li>Many rule updates, e.g. for French, Dutch, German, English, Spanish</li>
-	<li>Preliminary support for checking bilingual texts</li>
-	<li>Initial support for Malayalam and Belarusian</li>
-	<li>Several bug fixes</li>
-	<li>For a more detailed list of changes, see the <?=show_link("Changelog", "download/CHANGES.txt", 0) ?>.</li>
+	<li>Rule updates for Romanian, Dutch, Polish, German, Russian, Spanish, French and Danish.</li>
+	<li>Added new scripts testwikipedia.sh and testwikipedia.bat to the distribution. These
+		let you check a local Wikipedia XML dump.</li>
+	<li>Added support for Esperanto.</li>
+	<li>Small bug fixes.</li>
+	<li>For a more detailed list of changes, see the <?=show_link("Changelog", "download/CHANGES.txt", 0) ?></li>
 </ul>
 
-<p><strong>2010-09-18:</strong> 
-
-Released version 1.1beta (see above for download) - <?=show_link("Change log", "http://languagetool.cvs.sourceforge.net/viewvc/languagetool/JLanguageTool/CHANGES.txt?revision=1.366&amp;view=markup", 1)?>
+<p><strong>2010-09-26:</strong> Released version 1.1. For a list of changes, see the <?=show_link("Changelog", "download/CHANGES.txt", 0) ?></p>
 
 <p><strong>2010-08-29:</strong> 
 
@@ -80,7 +79,7 @@ This means that you can now use LanguageTool for these languages via the
 
 <ul>
 	<li><strong>In OpenOffice.org</strong>:
-	Double click <tt>LanguageTool-1.1.oxt</tt> to install it.
+	Double click <tt>LanguageTool-1.2.oxt</tt> to install it.
 	If that doesn't work, call <em>Tools -&gt; Extension Manager -&gt; Add...</em>
 	to install it. Close OpenOffice.org and re-start it. Type some text
 	with an error (e.g. "This is an test." &ndash; make sure the text language is set
