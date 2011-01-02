@@ -1,9 +1,9 @@
 LanguageTool, a proof-reading tool for English, German, Polish,
 French, Dutch, Slovenian, Russian, Romanian, Italian, Danish, and Catalan with 
-initial support for Belarusian, Galician, Icelandic, Lithuanian, Malayalam, 
-Slovak, Spanish, Swedish, and Ukrainian
+initial support for Belarusian, Esperanto, Galician, Icelandic, Lithuanian,
+Malayalam, Slovak, Spanish, Swedish, and Ukrainian
 
-Copyright (C) 2005-2010 Daniel Naber (naber at danielnaber de)
+Copyright (C) 2005-2011 Daniel Naber (naber at danielnaber de)
 Version ###VERSION###, ###DATE###
 Homepage: http://www.languagetool.org
 
@@ -13,24 +13,24 @@ Requirements:
 
 Usage:
  -To integrate LanguageTool into OpenOffice.org, you
- can use two methods:
+  can use two methods:
  
  1. Double-click LanguageTool-###VERSION###.oxt. If you
   have OpenOffice.org 3.0.1 integrated into the environment,
   the extension should start installing. Follow the on-screen
   instructions.
  
- 2. If the above method doesn't work, call Tools -> Extension 
-  Manager -> Add... in OpenOffice.org and browse for the 
+ 2. If the above method doesn't work, call Tools > Extension 
+  Manager > Add... in OpenOffice.org and browse for the 
   LanguageTool-###VERSION###.oxt file. 
   
   Close and restart OpenOffice.org Writer. Remember to close the
   OpenOffice.org QuickStarter as well if you use it. Type text with 
-  an error, e.g. "This is an test." (Make sure the text language 
-  is set to English.)
+  an error, e.g. "This is an test." - make sure the text language 
+  is set to English for this example.
   You should see a blue underline under the word "an". Opening
   the context menu with the right mouse button offers you a
-  description of the error and, if possible, a correction.
+  description of the error and, if available, a correction.
   
   Note that there will also be a new menu item "LanguageTool"
   under the "Tools" menu which you might need to use if 

@@ -70,7 +70,7 @@ import de.danielnaber.languagetool.tools.ReflectionUtils;
 @SuppressWarnings({"UnusedDeclaration"})
 public final class JLanguageTool {
 
-  public static final String VERSION = "1.1.1-dev"; // keep in sync with
+  public static final String VERSION = "1.2"; // keep in sync with
                                                     // build.properties!
 
   private static ResourceDataBroker dataBroker = new DefaultResourceDataBroker();
