@@ -31,12 +31,12 @@ XML configuration files. Rules for more complicated errors can be  written in Ja
 	<ul>
 		<li>Requires <?=show_link("Java", "http://www.java.com/en/download/manual.jsp", 1)?>&nbsp;5.0
 			or later. This version only works with OpenOffice.org 3.0.1 or later 
-			and you need to <strong>restart OpenOffice.org</strong> after installation of this extension.</p>
+			and you need to <strong>restart OpenOffice.org</strong> after installation of this extension.</li>
 		<li>If you're upgrading from LanguageTool 0.9.5, you must de-install
 			it <strong>before</strong> upgrading to a later version (check
 			<a href="http://languagetool.wikidot.com/removing-languagetool-0-9-5-from-openoffice-3-0-1">this
 			page</a> if you forgot to do so).</li>
-		<li>Please report bugs to the <?=show_link("Sourceforge bug tracker", "http://sourceforge.net/tracker/?group_id=110216&atid=655717", 1)?>
+		<li>Please report bugs to the <?=show_link("Sourceforge bug tracker", "http://sourceforge.net/tracker/?group_id=110216&amp;atid=655717", 1)?>
 			or send an email to naber <i>at</i> danielnaber.de.</li>
 	</ul>
 </div>
