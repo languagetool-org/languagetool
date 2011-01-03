@@ -143,7 +143,8 @@ public abstract class Language {
   public abstract String getName();
   
   /**
-   * Get this language's country variants, e.g. <code>US</code> or <code>PL</code>.
+   * Get this language's variants, e.g. <code>US</code> (as in <code>en_US</code>) or
+   * <code>PL</code> (as in <code>pl_PL</code>).
    * @return String[] - array of country variants for the language.
    */
   public abstract String[] getCountryVariants();
