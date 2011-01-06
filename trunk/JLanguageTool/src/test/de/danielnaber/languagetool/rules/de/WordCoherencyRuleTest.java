@@ -32,8 +32,8 @@ import de.danielnaber.languagetool.rules.RuleMatch;
 public class WordCoherencyRuleTest extends TestCase {
 
   public void testRule() throws IOException {
-    WordCoherencyRule rule = new WordCoherencyRule(null);
-    JLanguageTool langTool = new JLanguageTool(Language.GERMAN);
+    final WordCoherencyRule rule = new WordCoherencyRule(null);
+    final JLanguageTool langTool = new JLanguageTool(Language.GERMAN);
     // correct sentences:
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das ist aufwendig, aber nicht zu aufwendig.")).length);
     // as WordCoherencyRule keeps its state to check more than one sentence 
@@ -48,9 +48,9 @@ public class WordCoherencyRuleTest extends TestCase {
   }
   
   public void testRuleCompleteTexts() throws IOException {
-    JLanguageTool langTool;
+    final JLanguageTool langTool;
     // complete texts:
-    List<RuleMatch> matches = null;
+    List<RuleMatch> matches;
     //matches = langTool.check("Das ist aufwendig. Aber hallo. Es ist wirklich aufwendig.");
     //assertEquals(0, matches.size());
     langTool = new JLanguageTool(Language.GERMAN);
@@ -77,6 +77,10 @@ public class WordCoherencyRuleTest extends TestCase {
     assertEquals(1, matches.size());
     
     matches = langTool.check("Das ist das aufwändigste. Aber hallo. Es ist wirklich aufwendig.");
+    assertEquals(1, matches.size());
+
+    // cross-paragraph checks
+    matches = langTool.check("Das ist das aufwändigste.\n\nAber hallo. Es ist wirklich aufwendig.");
     assertEquals(1, matches.size());
   }
 
