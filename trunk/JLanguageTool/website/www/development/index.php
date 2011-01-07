@@ -2,7 +2,7 @@
 $page = "development";
 $title = "LanguageTool";
 $title2 = "Development";
-$lastmod = "2009-10-31 23:05:00 CET";
+$lastmod = "2011-01-08 23:05:00 CET";
 include("../../include/header.php");
 include('../../include/geshi/geshi.php');
 ?>
@@ -275,7 +275,7 @@ can be developed as a Java class. See
 <tt><a href="http://languagetool.cvs.sourceforge.net/*checkout*/languagetool/JLanguageTool/src/java/de/danielnaber/languagetool/rules/WordRepeatRule.java">rules/WordRepeatRule.java</a></tt>
 for a simple
 example which you can use to develop your own rules. You will also need to
-add your rule to <tt>JLanguageTool.java</tt> to activate it.</p>
+add your rule's id to <tt>&lt;YourLanguage&gt;.java</tt> to activate it.</p>
 
 <p><a name="translation"><strong>Translating the user interface</strong></a><br />
 To translate the user interface, just copy <tt>MessagesBundle_en.properties</tt>
@@ -292,7 +292,7 @@ Adding a new language requires some changes to the Java source files. You should
 the "JLanguageTool" module from CVS (see the <a href="http://sourceforge.net/cvs/?group_id=110216">sourceforge 
 help</a>). You may then call <tt><a href="http://ant.apache.org/">ant</a></tt> to
 build LanguageTool (this is optional, it's okay to work only inside Eclipse). Ant should compile
-a file named like <tt>LanguageTool-1.0.0-dev.oxt</tt> in the <tt>dist</tt> directory.</p>
+a file named like <tt>LanguageTool-1.x.y-dev.oxt</tt> in the <tt>dist</tt> directory.</p>
 
 <ul>
 
@@ -320,7 +320,7 @@ for English. You need the
 package. Install it and add its installation directory to your PATH. Once it works for English,
 create your own version of <tt>manually_added.txt</tt> and use that to create a <tt>.dict</tt> file,
 then adapt your tagger to use it (e.g. copy <tt>EnglishTagger.java</tt> and change the 
-<tt>RESOURCE_FILENAME</tt> constant). More details about building dictionaries
+<tt>getFileName()</tt> implementation). More details about building dictionaries
 are <?=show_link("in the Wiki.", "http://languagetool.wikidot.com/developing-a-tagger-dictionary", 0) ?>
 </p></li>
 
