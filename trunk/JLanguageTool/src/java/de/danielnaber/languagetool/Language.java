@@ -160,8 +160,7 @@ public abstract class Language {
   public abstract Contributor[] getMaintainers();
 
   /**
-   * Get the IDs of the global rules that should run for texts in this language
-   * or <code>null</code>.
+   * Get the IDs of the rules that should run for texts in this language.
    */
   public abstract Set<String> getRelevantRuleIDs();
 
