@@ -7,8 +7,8 @@ title="Easy editing stylesheet" ?>
 LanguageTool.
 Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
 A Russian rule file for LanguageTool 
-Copyright (C) 2008-2010 Yakov Reztsov
-$Id: grammar.xml,v 1.60 2010-12-08 19:12:38 yakovru Exp $
+Copyright (C) 2008-2011 Yakov Reztsov
+$Id: grammar.xml,v 1.61 2011-01-09 10:13:37 yakovru Exp $
 -->
 <rules lang="ru" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../rules.xsd">
@@ -130,7 +130,7 @@ $Id: grammar.xml,v 1.60 2010-12-08 19:12:38 yakovru Exp $
         <rulegroup default="on" id="A_NO_DA" name="Союзы 'а, но'">
             <rule>
                 <pattern case_sensitive="yes" mark_to="-1">
-                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—|’|ну|Ну|«<exception postag="SENT_START"></exception></token>
+                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—|’|‘|ну|Ну|«<exception postag="SENT_START"></exception></token>
                     <token>а</token>
                     <token negate="yes" regexp="yes">[\p{Punct}]|\)</token>
                 </pattern>
@@ -802,7 +802,7 @@ $Id: grammar.xml,v 1.60 2010-12-08 19:12:38 yakovru Exp $
                 <pattern mark_from="1" mark_to="-1">
                     <!--           ADJ:Masc   NN:Masc    -->
                     <token  postag="SENT_START" skip ="-1"><exception scope="next" postag_regexp="yes" postag="NN:Masc:Sin:.*"></exception></token>
-                    <token  postag="ADJ:.*:.*" postag_regexp="yes"><exception  postag="ADJ:Masc:.*" postag_regexp="yes"></exception><exception  negate_pos="yes" postag="ADJ:.*:.*" postag_regexp="yes"/><exception scope="previous" postag="NumC:.*|Num:.*" postag_regexp="yes"></exception><exception scope="previous" regexp="yes">[\p{Digit}]*</exception></token>
+                    <token  postag="ADJ:.*:.*" postag_regexp="yes"><exception  postag="ADJ:Masc:.*" postag_regexp="yes"></exception><exception  negate_pos="yes" postag="ADJ:.*:.*" postag_regexp="yes"/><exception scope="previous" postag="NumC:.*|Num:.*" postag_regexp="yes"></exception><exception scope="previous" regexp="yes">[\p{Digit}]*</exception><exception  postag="ADJ:PL:.*" postag_regexp="yes"></exception></token>
                     <token  postag="NN:Masc:Sin:.*"  skip="-1" postag_regexp="yes"><exception negate_pos="yes"  postag="NN:Masc:Sin:.*" postag_regexp="yes"></exception><exception postag="NN:Masc:Sin:.*" scope= "next" postag_regexp="yes"></exception></token>            
                     <token  regexp="yes">.|;</token>
                 </pattern>
@@ -818,7 +818,7 @@ $Id: grammar.xml,v 1.60 2010-12-08 19:12:38 yakovru Exp $
                 <pattern mark_from="1" mark_to="-1">    
                     <!--           ADJ:Fem   NN:Fem    -->
                     <token  postag="SENT_START" skip ="-1"><exception scope="next" postag_regexp="yes" postag="NN:Fem:Sin:.*"></exception></token>
-                    <token  postag="ADJ:.*:.*" postag_regexp="yes"><exception  postag="ADJ:Fem:.*" postag_regexp="yes"></exception><exception  negate_pos="yes" postag="ADJ:.*:.*" postag_regexp="yes"/><exception scope="previous" postag="NumC:.*|Num:.*" postag_regexp="yes"></exception><exception scope="previous" regexp="yes">[\p{Digit}]*</exception></token>   
+                    <token  postag="ADJ:.*:.*" postag_regexp="yes"><exception  postag="ADJ:Fem:.*" postag_regexp="yes"></exception><exception  negate_pos="yes" postag="ADJ:.*:.*" postag_regexp="yes"/><exception scope="previous" postag="NumC:.*|Num:.*" postag_regexp="yes"></exception><exception scope="previous" regexp="yes">[\p{Digit}]*</exception><exception  postag="ADJ:PL:.*" postag_regexp="yes"></exception></token>   
                     <token  postag="NN:Fem:Sin:.*"  skip="-1" postag_regexp="yes"><exception  negate_pos="yes" postag="NN:Fem:Sin:.*" postag_regexp="yes"></exception><exception postag="NN:Fem:Sin:.*" scope="next"  postag_regexp="yes"></exception></token>                    
                     <token  regexp="yes">.|;</token>
                 </pattern>
@@ -834,7 +834,7 @@ $Id: grammar.xml,v 1.60 2010-12-08 19:12:38 yakovru Exp $
                 <pattern mark_from="1" mark_to="-1">
                     <!--           ADJ:Neut   NN:Neut    -->
                     <token  postag="SENT_START" skip ="-1"><exception scope="next" postag_regexp="yes" postag="NN:Neut:Sin:.*"></exception></token>
-                    <token  postag="ADJ:.*:.*" postag_regexp="yes"><exception  postag="ADJ:Neut:.*" postag_regexp="yes"></exception><exception  negate_pos="yes" postag="ADJ:.*:.*" postag_regexp="yes"/><exception scope="previous" postag="NumC:.*|Num:.*" postag_regexp="yes"></exception><exception scope="previous" regexp="yes">[\p{Digit}]*</exception></token>
+                    <token  postag="ADJ:.*:.*" postag_regexp="yes"><exception  postag="ADJ:Neut:.*" postag_regexp="yes"></exception><exception  negate_pos="yes" postag="ADJ:.*:.*" postag_regexp="yes"/><exception scope="previous" postag="NumC:.*|Num:.*" postag_regexp="yes"></exception><exception scope="previous" regexp="yes">[\p{Digit}]*</exception><exception  postag="ADJ:PL:.*" postag_regexp="yes"></exception></token>
                     <token  postag="NN:Neut:Sin:.*"  skip="-1" postag_regexp="yes"><exception negate_pos="yes" postag="NN:Neut:Sin:.*"  postag_regexp="yes"></exception><exception postag="NN:Neut:Sin:.*" scope="next" postag_regexp="yes"></exception></token>                   
                     <token  regexp="yes">.|;</token>
                 </pattern>
@@ -853,7 +853,7 @@ $Id: grammar.xml,v 1.60 2010-12-08 19:12:38 yakovru Exp $
                     
                     <token  postag="SENT_START" skip ="-1"><exception scope="next" postag_regexp="yes" postag="NN:.*:PL:.*"></exception></token>
                     <token  postag="ADJ:PL:.*" postag_regexp="yes"><exception negate_pos="yes" postag="ADJ:PL:.*" postag_regexp="yes"></exception> <exception scope="previous" postag="NumC:.*|Num:.*" postag_regexp="yes"></exception><exception scope="previous" regexp="yes">[\p{Digit}]*</exception>  </token>
-                    <token  postag="NN:.*:.*:.*" skip="-1" postag_regexp="yes"><exception postag="NN:.*:PL:.*" postag_regexp="yes"></exception><exception postag="NN:.*:PL:.*" scope="next" postag_regexp="yes"></exception><exception negate_pos="yes" postag="NN:.*:.*:.*" postag_regexp="yes"/></token>                   
+                    <token  postag="NN:.*:.*:.*" skip="-1" postag_regexp="yes"><exception postag="NN:.*:PL:.*" postag_regexp="yes"></exception><exception postag="NN:.*:PL:.*" scope="next" postag_regexp="yes"></exception><exception negate_pos="yes" postag="NN:.*:.*:.*" postag_regexp="yes"/><exception  scope="next" regexp="yes">и|[\p{Punct}]</exception></token>                   
                     <token  regexp="yes">.|;</token>
                 </pattern>
                 
@@ -867,7 +867,7 @@ $Id: grammar.xml,v 1.60 2010-12-08 19:12:38 yakovru Exp $
                     <!--           ADJ:!PL   NN:.*:Sin    -->
                     <token  postag="SENT_START" skip ="-1"><exception scope="next" postag_regexp="yes" postag="NN:.*:Sin:.*"></exception></token>
                     <token  postag="ADJ:.*:(.*)" postag_regexp="yes"><exception negate_pos="yes" postag="ADJ:.*:(.*)" postag_regexp="yes"></exception><exception postag="ADJ:PL:.*" postag_regexp="yes"></exception><exception regexp="yes" scope="previous">и|или|но|да</exception></token>
-                    <token  postag="NN:.*:.*:.*" skip="-1" postag_regexp="yes"><exception postag="NN:.*:Sin:.*" postag_regexp="yes"></exception><exception postag="NN:.*:Sin:.*" scope="next" postag_regexp="yes"></exception><exception negate_pos="yes" postag="NN:.*:.*:.*" postag_regexp="yes"/></token>                   
+                    <token  postag="NN:.*:.*:.*" skip="-1" postag_regexp="yes"><exception postag="NN:.*:Sin:.*" postag_regexp="yes"></exception><exception postag="NN:.*:Sin:.*" scope="next" postag_regexp="yes"></exception><exception negate_pos="yes" postag="NN:.*:.*:.*" postag_regexp="yes"/><exception  scope="next" regexp="yes">и|[\p{Punct}]</exception></token>                   
                     <token  regexp="yes">.|;</token>
                 </pattern>
                 
@@ -1239,8 +1239,8 @@ $Id: grammar.xml,v 1.60 2010-12-08 19:12:38 yakovru Exp $
         <rule default="on"  id="Verb_and_PREP" name="Глагол и предлог">  
             <pattern>
                 <!--              PREP VB:.*    -->
-                <token  postag="PREP" postag_regexp="yes"><exception negate_pos="yes" postag="PREP" postag_regexp="yes"></exception><exception>спустя</exception></token>
-                <token  postag="VB:.*" postag_regexp="yes"><exception negate_pos="yes" postag="VB:.*" postag_regexp="yes"></exception></token>
+                <token  postag="PREP" postag_regexp="yes"><exception negate_pos="yes" postag="PREP" postag_regexp="yes"></exception><exception regexp ="yes">спустя|ради</exception></token>
+                <token  postag="VB:.*" postag_regexp="yes"><exception negate_pos="yes" postag="VB:.*" postag_regexp="yes"></exception><exception>трём</exception></token>
                 
             </pattern>
             <message>Предлог перед глаголом не употребляется. Должно быть: <suggestion>\2</suggestion> или <suggestion>\2 \1</suggestion>.</message>
@@ -1506,9 +1506,9 @@ $Id: grammar.xml,v 1.60 2010-12-08 19:12:38 yakovru Exp $
             <rule>  
                 <pattern>
                     <token inflected = "yes">нарушать</token>
-                    <token><exception   postag=".*:V" postag_regexp="yes"/><exception  postag="PNN:.*" postag_regexp="yes"/></token>
+                    <token><exception   postag=".*:V" postag_regexp="yes"/><exception   postag=".*:R" postag_regexp="yes"/><exception  postag="PNN:.*" postag_regexp="yes"/></token>
                 </pattern>
-                <message>Не найдены обязательные зависимые слова: нарушать что?</message>
+                <message>Не найдены обязательные зависимые слова: нарушать что (чего)? </message>
                 <short>нарушать что?</short>
                 <example type="correct">Вы нарушаете правила.</example>     
                 <example type="incorrect">Вы <marker>нарушаете!</marker></example>
