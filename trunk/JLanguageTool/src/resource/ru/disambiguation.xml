@@ -2,10 +2,10 @@
 <!--
 Disambiguation Russian Rules for LanguageTool (www.languagetool.org)
 Copyright (C) 2009-2011 Yakov Reztsov				
-$Id: disambiguation.xml,v 1.7 2011-01-09 10:12:59 yakovru Exp $
+$Id: disambiguation.xml,v 1.8 2011-01-09 21:16:58 yakovru Exp $
 -->
 <rules lang="ru"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="../disambiguation.xsd">	
+       xsi:noNamespaceSchemaLocation="../disambiguation.xsd">	
     <!-- prepositions 
    R:   
    без, вместо, вокруг (prep & adv), для, до, из (изо), из-за, из-под, кроме,
@@ -144,11 +144,25 @@ $Id: disambiguation.xml,v 1.7 2011-01-09 10:12:59 yakovru Exp $
         </pattern>
         <disambig><match no="2" postag="ADJ:.*:P" postag_regexp="yes"/></disambig>
     </rule>
-        <!-- To do -->
-     <rule name="ADV_OB1" id="ADV_OB1">
+    <!-- To do -->
+    <rule name="ADV_OB1" id="ADV_OB1">
         <pattern mark="1">
             <token>в</token>
-            <token>дальнейшем</token>
+            <token regexp="yes" >дальнейшем|диковинку|заключение|меру|насмешку|обнимку|обтяжку|обхват|общем|отместку|рассрочку|розницу|складчину|старину|тиши</token>
+        </pattern>
+        <disambig><match no="2" postag="ADV"/></disambig>
+    </rule>
+    <rule name="ADV_OB2" id="ADV_OB2">
+        <pattern mark="1">
+            <token>без</token>
+            <token regexp="yes" >ведома|оглядки|просвета|разбору|толку|спросу|удержки|умолку|устали</token>
+        </pattern>
+        <disambig><match no="2" postag="ADV"/></disambig>
+    </rule>
+    <rule name="ADV_OB3" id="ADV_OB3">
+        <pattern mark="1">
+            <token>с</token>
+            <token regexp="yes" >ведома|виду|маху|разбегу|толку|размаху</token>
         </pattern>
         <disambig><match no="2" postag="ADV"/></disambig>
     </rule>
