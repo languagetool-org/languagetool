@@ -23,9 +23,12 @@ import java.util.Locale;
 import java.util.Set;
 
 import de.danielnaber.languagetool.Language;
+import de.danielnaber.languagetool.rules.patterns.Unifier;
 import de.danielnaber.languagetool.synthesis.Synthesizer;
 import de.danielnaber.languagetool.synthesis.es.SpanishSynthesizer;
 import de.danielnaber.languagetool.tagging.Tagger;
+import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
+import de.danielnaber.languagetool.tagging.disambiguation.rules.es.SpanishRuleDisambiguator;
 import de.danielnaber.languagetool.tagging.es.SpanishTagger;
 import de.danielnaber.languagetool.tokenizers.SRXSentenceTokenizer;
 import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
@@ -42,6 +45,8 @@ public class Spanish extends Language {
   };
 
   private final Tagger tagger = new SpanishTagger();
+  private final Disambiguator disambiguator = new SpanishRuleDisambiguator();
+  private static final Unifier SPANISH_UNIFIER = new Unifier();
 
   public Locale getLocale() {
     return new Locale(getShortName());
@@ -62,6 +67,14 @@ public class Spanish extends Language {
   
   public Tagger getTagger() {
     return tagger;
+  }
+  
+  public Disambiguator getDisambiguator() {
+	    return disambiguator;
+  }
+  
+  public Unifier getUnifier() {
+	    return SPANISH_UNIFIER;
   }
   
   public final Synthesizer getSynthesizer() {

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Spanish Disambiguation Rules for LanguageTool
+Copyright (C) 2011 Juan Martorell
+$Id: disambiguation.xml,v 1.1 2011-01-16 19:29:23 jmartorell Exp $
+-->
+
+<rules lang="es" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="../disambiguation.xsd">
+  <unification feature="number">
+    <equivalence type="S">
+      <token postag="(N.{2}|[ADP].{3}|V.{4})S.*" postag_regexp="yes"/>
+    </equivalence>
+    <equivalence type="P">
+      <token postag="(N.{2}|[ADP].{3}|V.{4})P.*" postag_regexp="yes"/>
+    </equivalence>
+  </unification>
+  <unification feature="gender">
+    <equivalence type="M">
+      <token postag="(N.|[ADP].{2}|V.{3})M.*" postag_regexp="yes"/>
+    </equivalence>
+    <equivalence type="F">
+      <token postag="(N.|[ADP].{2}|V.{3})F.*" postag_regexp="yes"/>
+    </equivalence>
+  </unification>
+  
+	<rule name="La ambigua" id="LA-ARTICULO-PRONOMBRE">
+		<pattern mark="0">
+			<and>
+				<token postag="DA0F[SP]0" postag_regexp="yes"/>
+				<token postag="N.*" postag_regexp="yes"/>
+			</and>
+		</pattern>
+		<disambig action="filter" postag="D.*"/>
+	</rule>  
+  
+</rules>
