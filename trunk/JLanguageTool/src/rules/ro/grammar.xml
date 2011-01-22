@@ -11,14 +11,14 @@ title="Easy editing stylesheet" ?>
 		If there is an error you want LanguageTool to detect but you do not know how to do it: open an issue
 			there describing the error, give some examples - I'll try to fix it as soon as I can. 
 
-		Version: $Id: grammar.xml,v 1.29 2010-10-03 12:18:22 archeus Exp $		
+		Version: $Id: grammar.xml,v 1.30 2011-01-22 12:51:35 dnaber Exp $		
 		
 	-->
 <rules lang="ro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../rules.xsd">
 	<phrases>
 		<phrase id="FARA_GRAD_DE_COMPARATIE">
-			<token regexp="yes" inflected="yes">celebru|bestial|frigorific|perfect|rarisim|vast|optim|admirabil|superior|inferior|uriaș|imens|magnific|străvechi|teribil|metalic|bărbătesc|trunghiular|minor|enorm|plin|gol|mort|complet|întreg|principal|termogen|major|oportun|anterior|posterior|ulterior|interior|exterior|extrem|minim|maxim|suprem|ultim|asemenea|complet|general|gigantic|uriaș|petrolifer|unic|principal|veșnic|uluitor|nemaipomenit|extraordinar|oral|desăvârșit|fantastic|formidabil|ultra|super|trăsnet|mortal|supraaglomerat|ultrasensibil|excelent|splendid|geniu|genial|calitativ|endocrin|viu</token>
+			<token regexp="yes" inflected="yes">celebru|bestial|frigorific|perfect|rarisim|vast|optim|admirabil|superior|inferior|uriaș|imens|magnific|străvechi|teribil|metalic|bărbătesc|trunghiular|minor|enorm|plin|gol|mort|complet|întreg|principal|termogen|major|oportun|anterior|posterior|ulterior|interior|exterior|extrem|minim|maxim|suprem|ultim|asemenea|general|gigantic|petrolifer|unic|veșnic|uluitor|nemaipomenit|extraordinar|oral|desăvârșit|fantastic|formidabil|ultra|super|trăsnet|mortal|supraaglomerat|ultrasensibil|excelent|splendid|geniu|genial|calitativ|endocrin|viu</token>
 		</phrase>
 		<phrase id="LUNILE_ANULUI">
 			<token regexp="yes" inflected="yes">ianuarie|februarie|martie|aprilie|mai|iunie|iulie|august|septembrie|octombrie|noiembrie|decembrie</token>
@@ -177,7 +177,7 @@ title="Easy editing stylesheet" ?>
 		</rule>    
 		<rule id="CREIAM" name="creiam/creiai/creia/creiați/creiau"> 
 	        <pattern>
-	          <token regexp="yes">crei(am|ai|a|ați|au|ez|ezi|ăm|ați|eze|ai|ași|arăm|arăți|asem|aseși|ase|aserăm|aserăți|aseră)</token>
+	          <token regexp="yes">crei(am|ai|a|ați|au|ez|ezi|ăm|eze|ași|arăm|arăți|asem|aseși|ase|aserăm|aserăți|aseră)</token>
 	         </pattern>
 	        <message>Ați dorit să scrieți <suggestion><match no="1" regexp_match="(cre)i(.*)" regexp_replace="$1$2"></match></suggestion>?</message>
 	        <example type="incorrect" correction="cream">Eu <marker>creiam</marker> ceva.</example>
@@ -302,7 +302,7 @@ title="Easy editing stylesheet" ?>
 		<rule id="MAI_ITI_ESTE" name="mai îți este...">
 			<pattern mark_to="-1">
 				<token>mai</token>
-				<token regexp="yes">îți|vă|îi|vă|ne|le</token>
+				<token regexp="yes">îți|vă|îi|ne|le</token>
 				<token regexp="yes">este|era</token>
 				<token postag_regexp="yes" postag="S...anc000|A....n0000"></token>
 			</pattern>
@@ -4427,7 +4427,7 @@ title="Easy editing stylesheet" ?>
 				<token inflected="yes">crede</token>
 				<token>în</token>
 				<token>sinea</token>
-				<token  regexp="yes">mea|ei|lor|lui|ei|noastră|noastră</token>
+				<token  regexp="yes">mea|ei|lor|lui|noastră|noastră</token>
 			</pattern>
 			<message>Ați dorit să scrieți <suggestion>\1</suggestion>?</message>
 			<short>Pleonasm</short>
