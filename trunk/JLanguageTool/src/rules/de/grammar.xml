@@ -6,12 +6,21 @@ title="Easy editing stylesheet" ?>
 <!--
 German grammar and typo rules for LanguageTool
 See resource/de/tagset.txt for the meaning of the POS tags
-Copyright (C) 2001-2010 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.45 2010-12-26 22:56:14 dnaber Exp $
+Copyright (C) 2001-2011 Daniel Naber (http://www.danielnaber.de)
+$Id: grammar.xml,v 1.46 2011-01-22 12:24:07 dnaber Exp $
 -->
 <rules lang="de" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../rules.xsd">
   <category name="Mögliche Tippfehler">
+    <rule id="KLINGENDE_KASSEN" name="Tippfehler: 'klingende(klingelnde) Kassen'">
+      <pattern>
+          <token regexp="yes">klingende|klingender|klingenden</token>
+          <token>Kassen</token>
+        </pattern>
+      <message>Meinten Sie <suggestion>klingelnde</suggestion>, <suggestion>klingelnder</suggestion>, <suggestion>klingelnden</suggestion>?</message>
+      <example type="correct">Box Office: Harry Potter und die <marker>klingelnden Kassen</marker>.</example>
+      <example type="incorrect">Box Office: Harry Potter und die <marker>klingenden Kassen</marker>.</example>
+    </rule>
     <rule id="HARZ_4" name="Tippfehler: 'Harz IV (Hartz IV)'">
       <pattern>
         <token>Harz</token>
