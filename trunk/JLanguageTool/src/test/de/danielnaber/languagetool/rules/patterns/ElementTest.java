@@ -19,25 +19,25 @@
 
 package de.danielnaber.languagetool.rules.patterns;
 
+import de.danielnaber.languagetool.JLanguageTool;
 import junit.framework.TestCase;
 
 public class ElementTest extends TestCase {
 
-  
-  public void testSentStart() {    
-    Element elem = new Element("", false, false, false);
-    elem.setPosElement("SENT_START", false, false);
-    assertTrue(elem.isSentStart());
-    elem.setPosElement("SENT_START", false, true);
-    assertFalse(elem.isSentStart());
-    elem.setPosElement("SENT_START", true, false);
-    assertTrue(elem.isSentStart());
-    elem.setPosElement("SENT_START", true, true);
-    assertFalse(elem.isSentStart());
+  public void testSentenceStart() {
+    Element element = new Element("", false, false, false);
+    element.setPosElement(JLanguageTool.SENTENCE_START_TAGNAME, false, false);
+    assertTrue(element.isSentStart());
+    element.setPosElement(JLanguageTool.SENTENCE_START_TAGNAME, false, true);
+    assertFalse(element.isSentStart());
+    element.setPosElement(JLanguageTool.SENTENCE_START_TAGNAME, true, false);
+    assertTrue(element.isSentStart());
+    element.setPosElement(JLanguageTool.SENTENCE_START_TAGNAME, true, true);
+    assertFalse(element.isSentStart());
 
     //this should be false:
-    elem = new Element("bla|blah", false, true, false);
-    elem.setPosElement("foo", true, true);
-    assertFalse(elem.isSentStart());
+    element = new Element("bla|blah", false, true, false);
+    element.setPosElement("foo", true, true);
+    assertFalse(element.isSentStart());
   }
 }
