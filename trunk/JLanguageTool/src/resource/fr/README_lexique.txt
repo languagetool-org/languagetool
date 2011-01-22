@@ -1,7 +1,7 @@
 _______________________________________________________________________________
 
    LEXIQUE FRANÇAIS, LISTE DES FORMES FLÉCHIES
-   version 3.9.1
+   version 4.0.1
    
    Olivier R. - dicollecte<at>free<dot>fr
    Dicollecte: http://www.dicollecte.org/
@@ -14,13 +14,16 @@ _______________________________________________________________________________
    * LGPL: GNU Lesser General Public License
      version 2.1 ou supérieure  --  http://www.gnu.org/licenses/lgpl-2.1.html
 
-   Principaux contributeurs:
-   - Laurent Dubois, administrateur du dictionnaire;
-   - Sylvain P. et Pierre Poisson, contrôleurs;
+   Principaux contributeurs :
+   - Laurent Dubois ;
+   - Sylvain P. ;
+   - Pierre Poisson ;
+   - Jean-Luc T. ;
+   - Pierre-Yves ;
    - Romain Muller et Serge Bibauw, de l’association RENOUVO, grâce à qui
-     la nouvelle orthographe et ses anciennes variantes ont pu être établies.
+     la nouvelle orthographe et ses anciennes variantes ont pu être établies ;
    - Chantal Contant, pour ses recherches sur la réforme de 1990.
-     
+
    Merci aussi à tous ceux qui ont apporté leur pierre à l’édifice.
 
    Pour participer à l’amélioration du dictionnaire, allez sur:
@@ -39,11 +42,6 @@ _______________________________________________________________________________
    À propos de la réforme orthographique de 1990:
    http://www.renouvo.org/regles.php
    http://www.orthographe-recommandee.info/
-   
-   En raison des contraintes de la genèse des formes fléchies, la morphologie
-   n’est pas normée.
-   Par exemple, un nom féminin peut être étiqueté [nf] ou [nom].fem
-   http://www.dicollecte.org/documentation.php?prj=fr#grammaire
    
    L’archive contient également une adaptation du lexique pour le correcteur
    grammatical LanguageTool.
