@@ -8,7 +8,7 @@ LanguageTool.
 Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
 A Russian rule file for LanguageTool 
 Copyright (C) 2008-2011 Yakov Reztsov
-$Id: grammar.xml,v 1.61 2011-01-09 10:13:37 yakovru Exp $
+$Id: grammar.xml,v 1.62 2011-01-22 21:14:40 yakovru Exp $
 -->
 <rules lang="ru" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../rules.xsd">
@@ -215,13 +215,14 @@ $Id: grammar.xml,v 1.61 2011-01-09 10:13:37 yakovru Exp $
             <rule>
                 <!-- Вводные слова: итак, следовательно, во-первых, наконец, между прочим, ...-->            
                 <pattern case_sensitive="yes">
-                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—<exception postag="SENT_START"></exception></token>     
+                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—|а|и|но<exception postag="SENT_START"></exception></token>     
                     <token regexp="yes">итак|следовательно|во-первых|во-вторых|в-третьих|в-четвертых|в-пятых</token>
                     <token>,</token>
                 </pattern>
                 <message>Запятая пропущена здесь:<suggestion>\1, \2\3</suggestion>.</message>
                 <short>Нет запятой.</short>
                 <example type="correct">Эта <marker>работа, во-первых,</marker> представляет огромную научную ценность.</example>
+                <example type="correct">Эта работа была выполнена полностью, <marker>а следовательно,</marker> должна быть рассмотрена в первую очередь.</example>
                 <example type="incorrect" correction="работа, во-первых,">Эта <marker>работа во-первых,</marker> представляет огромную научную ценность.</example>
             </rule>         
             <rule>
@@ -302,7 +303,7 @@ $Id: grammar.xml,v 1.61 2011-01-09 10:13:37 yakovru Exp $
             <rule>
                 <!--Вводные слова: к счастью, к несчастью, к радости, к ужасу, к сожалению, ...-->
                 <pattern case_sensitive="yes">
-                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—<exception postag="SENT_START"></exception></token>
+                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—|а|и|но<exception postag="SENT_START"></exception></token>
                     <token>к</token>
                     <token regexp="yes">счастью|несчастью|радости|ужасу|сожалению</token>
                     <token negate="yes">,</token>
@@ -316,7 +317,7 @@ $Id: grammar.xml,v 1.61 2011-01-09 10:13:37 yakovru Exp $
             <rule>
                 <!--Вводные слова: к счастью, к несчастью, к радости, к ужасу, к сожалению, ...-->
                 <pattern case_sensitive="yes">
-                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—<exception postag="SENT_START"></exception></token>
+                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—|а|и|но<exception postag="SENT_START"></exception></token>
                     <token>к</token>
                     <token regexp="yes">счастью|несчастью|радости|ужасу|сожалению</token>
                     <token>,</token>
@@ -354,7 +355,7 @@ $Id: grammar.xml,v 1.61 2011-01-09 10:13:37 yakovru Exp $
             <rule>
                 <!-- Вводные слова: конечно, несомненно, вероятно, может быть, кажется, ...-->
                 <pattern case_sensitive="yes">
-                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—|наиболее|наименее|более|менее<exception postag="SENT_START"></exception></token>     
+                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—|наиболее|наименее|более|менее|а|и|но<exception postag="SENT_START"></exception></token>     
                     <token regexp="yes">конечно|несомненно|вероятно|кажется</token>
                     <token negate="yes">,</token>
                 </pattern>
@@ -366,7 +367,7 @@ $Id: grammar.xml,v 1.61 2011-01-09 10:13:37 yakovru Exp $
             <rule>
                 <!-- Вводные слова: конечно, несомненно, вероятно, может быть, кажется, ...-->
                 <pattern case_sensitive="yes">
-                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—|наиболее|наименее|более|менее<exception postag="SENT_START"></exception></token>     
+                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—|наиболее|наименее|более|менее|а|и|но<exception postag="SENT_START"></exception></token>     
                     <token regexp="yes">конечно|несомненно|вероятно|кажется</token>
                     <token>,</token>
                 </pattern>
@@ -400,7 +401,7 @@ $Id: grammar.xml,v 1.61 2011-01-09 10:13:37 yakovru Exp $
             <rule>
                 <!-- Вводные слова:   одним словом, вообще, иначе говоря, так сказать, ...-->
                 <pattern case_sensitive="yes">
-                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—<exception postag="SENT_START"></exception></token>     
+                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—|а|и|но<exception postag="SENT_START"></exception></token>     
                     <token>одним</token>
                     <token>словом</token>
                     <token negate="yes">,</token>
@@ -413,7 +414,7 @@ $Id: grammar.xml,v 1.61 2011-01-09 10:13:37 yakovru Exp $
             <rule>
                 <!-- Вводные слова:   одним словом, вообще, иначе говоря, так сказать, ...-->
                 <pattern case_sensitive="yes">
-                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—<exception postag="SENT_START"></exception></token>     
+                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—|а|и|но<exception postag="SENT_START"></exception></token>     
                     <token>одним</token>
                     <token>словом</token>
                     <token>,</token>
