@@ -80,10 +80,11 @@ public class RuleMatch implements Comparable<RuleMatch> {
     int pos = 0;
     while (matcher.find(pos)) {
       pos = matcher.end();
-      String repl = matcher.group(1);
-      if (startWithUppercase)
-        repl = StringTools.uppercaseFirstChar(repl);
-      suggestedReplacements.add(repl);
+      String replacement = matcher.group(1);
+      if (startWithUppercase) {
+        replacement = StringTools.uppercaseFirstChar(replacement);
+      }
+      suggestedReplacements.add(replacement);
     }
   }
 
@@ -196,9 +197,9 @@ public class RuleMatch implements Comparable<RuleMatch> {
   public void setSuggestedReplacement(final String replacement) {
     if (replacement == null)
       throw new NullPointerException("replacement might be empty but not null");
-    final List<String> fixes = new ArrayList<String>();
-    fixes.add(replacement);
-    setSuggestedReplacements(fixes);
+    final List<String> replacements = new ArrayList<String>();
+    replacements.add(replacement);
+    setSuggestedReplacements(replacements);
   }
 
   /**
