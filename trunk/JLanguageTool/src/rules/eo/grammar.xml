@@ -5,7 +5,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Esperanto Grammar and Typo Rules for LanguageTool
 Copyright (C) 2010 Dominique Pellé
-$Id: grammar.xml,v 1.28 2010-12-24 09:27:12 dominikoeo Exp $
+$Id: grammar.xml,v 1.29 2011-01-22 22:32:09 dominikoeo Exp $
 -->
 <rules lang="eo"
        xsi:noNamespaceSchemaLocation="../rules.xsd" 
@@ -852,13 +852,14 @@ $Id: grammar.xml,v 1.28 2010-12-24 09:27:12 dominikoeo Exp $
         <token postag="SENT_START|K|(fino.*)" postag_regexp="yes" skip="-1">
           <exception scope="next" postag="[ROAT] akz.*" postag_regexp="yes"></exception>
         </token>
-        <token regexp="yes" skip="-1">(mal|ne|re|mis|fi)?(interes|ŝanĝ|komenc|komunik|fin|uz|nask)(ad|aĉ|et|eg)?([ui]|([aiuo]s))<exception scope="next" regexp="yes">.*n</exception>
+        <token regexp="yes" skip="-1">(mal|ne|re|mis|fi)?(interes|ŝanĝ|komenc|komunik|fin|uz|nask)(ad|aĉ|et|eg)?([ui]|([aiuo]s))<exception scope="next" regexp="yes">.*n</exception><exception scope="next" postag="V.* i" postag_regexp="yes"/>
         </token>
         <token postag="SENT_END" postag_regexp="yes"/>
       </pattern>
       <message>Oni preskaŭ ĉiam uzas la verbon «\2» kun akuzativo. Ĉu vi intencis <suggestion><match no="2" regexp_match="(.*)(([aiou]s)|[iu])" regexp_replace="$1iĝ$2"/></suggestion>?</message>
       <example type="incorrect">Mi <marker>interesegas</marker> pri tio.</example>
       <example type="correct">Mi interesiĝas pri tio.</example>
+      <example type="correct">La maristoj komencis kanti.</example>
     </rule>
 
     <rule id="V_A" name="sensubjekta verbo + a-vorto">
