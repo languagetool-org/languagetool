@@ -19,13 +19,7 @@
 package de.danielnaber.languagetool.rules.patterns;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
@@ -45,11 +39,10 @@ public class PatternRuleTest extends TestCase {
 
   private static JLanguageTool langTool;
 
-  private static final Pattern PROBABLE_REGEX = Pattern.compile("[^\\[\\]\\*\\+\\|\\^\\{\\}\\?][\\[\\]\\*\\+\\|\\^\\{\\}\\?]|\\\\[^0-9]|\\(.+\\)|\\..");
+  private static final Pattern PROBABLE_PATTERN = Pattern.compile("[^\\[\\]\\*\\+\\|\\^\\{\\}\\?][\\[\\]\\*\\+\\|\\^\\{\\}\\?]|\\\\[^0-9]|\\(.+\\)|\\..");
 
-  private static final Pattern CASE_REGEX = Pattern.compile("\\[(.)(.)\\]");
+  private static final Pattern CASE_PATTERN = Pattern.compile("\\[(.)(.)\\]");
 
-  
   @Override
   public void setUp() throws IOException {
     if (langTool == null) {
@@ -58,26 +51,13 @@ public class PatternRuleTest extends TestCase {
   }
 
   public void testGrammarRulesFromXML() throws IOException {
-    testGrammarRulesFromXML(null, false);
-  }
-
-  private void testGrammarRulesFromXML(final Set<Language> ignoredLanguages,
-      final boolean verbose) throws IOException {
     for (final Language lang : Language.LANGUAGES) {
-      if (ignoredLanguages != null && ignoredLanguages.contains(lang)) {
-        if (verbose) {
-          System.out.println("Ignoring tests for " + lang.getName());
-        }
-        continue;
-      }
-      if (verbose) {
-        System.out.println("Running tests for " + lang.getName() + "...");
-      }
+      System.out.println("Running tests for " + lang.getName() + "...");
       final PatternRuleLoader ruleLoader = new PatternRuleLoader();
       final JLanguageTool languageTool = new JLanguageTool(lang);
       final String name = "/" + lang.getShortName() + "/grammar.xml";
       final List<PatternRule> rules = ruleLoader.getRules(JLanguageTool.getDataBroker().
-    		  getFromRulesDirAsStream(name), name);
+              getFromRulesDirAsStream(name), name);
       warnIfRegexpSyntax(rules, lang);
       testGrammarRulesFromXML(rules, languageTool, lang);
     }
@@ -94,10 +74,10 @@ public class PatternRuleTest extends TestCase {
         i++;
         warnIfElementNotKosher(element, lang, rule.getId());
         if (element.getExceptionList() != null) {
-        for (final Element exception: element.getExceptionList()) {          
-          warnIfElementNotKosher(exception, lang, rule.getId() 
-              + " (exception in token [" + i + "]:" + element +") ");          
-        }
+          for (final Element exception: element.getExceptionList()) {
+            warnIfElementNotKosher(exception, lang, rule.getId()
+                + " (exception in token [" + i + "]:" + element +") ");
+          }
         }
       }
     }
@@ -106,7 +86,7 @@ public class PatternRuleTest extends TestCase {
   private void warnIfElementNotKosher(final Element element, 
       final Language lang, final String ruleId) {
     if (!element.isRegularExpression()
-        && (PROBABLE_REGEX.matcher(element.getString())
+        && (PROBABLE_PATTERN.matcher(element.getString())
             .find())) {
       System.err.println("The " + lang.toString() + " rule: "
           + ruleId + " contains element " + "\"" + element
@@ -118,16 +98,15 @@ public class PatternRuleTest extends TestCase {
           + ruleId + " contains an empty string element " + "\"" + element
           + "\" that is marked as regular expression (don't look at the POS tag, it might be OK).");
     } else if (element.isRegularExpression()
-        && !PROBABLE_REGEX.matcher(element.getString())
+        && !PROBABLE_PATTERN.matcher(element.getString())
             .find()) {
       System.err.println("The " + lang.toString() + " rule: "
           + ruleId + " contains element " + "\"" + element
           + "\" that is marked as regular expression"
           + " but probably is not one."); 
-      }   
+    }
           
-    if (element.isInflected()
-     && "".equals(element.getString())) {
+    if (element.isInflected() && "".equals(element.getString())) {
       System.err.println("The " + lang.toString() + " rule: "
           + ruleId + " contains element " + "\"" + element
           + "\" that is marked as inflected"
@@ -135,7 +114,7 @@ public class PatternRuleTest extends TestCase {
     }
 
     if (element.isRegularExpression() && !element.getCaseSensitive()) {
-      Matcher matcher = CASE_REGEX.matcher(element.getString());
+      final Matcher matcher = CASE_PATTERN.matcher(element.getString());
       if (matcher.find()) {
         final String letter1 = matcher.group(1);
         final String letter2 = matcher.group(2);
@@ -157,7 +136,7 @@ public class PatternRuleTest extends TestCase {
         final Set<String> partSet = new HashSet<String>();
         final Set<String> partSetNoCase = new HashSet<String>();
         for (String part : alt) {
-          String partNoCase = caseSensitive ? part : part.toLowerCase();
+          final String partNoCase = caseSensitive ? part : part.toLowerCase();
           if (partSetNoCase.contains(partNoCase)) {
             if (partSet.contains(part)) {
               // Duplicate disjunction parts "foo|foo".
@@ -197,7 +176,7 @@ public class PatternRuleTest extends TestCase {
       final List<IncorrectExample> badSentences = rule.getIncorrectExamples();
       for (IncorrectExample origBadExample : badSentences) {
         // enable indentation use
-        String origBadSentence = origBadExample.getExample().replaceAll(
+        final String origBadSentence = origBadExample.getExample().replaceAll(
             "[\\n\\t]+", "");
         final List<String> suggestedCorrection = origBadExample
             .getCorrections();
@@ -343,7 +322,7 @@ public class PatternRuleTest extends TestCase {
     return matches;
   }
 
-  public void testUppercasingSuggestion() throws IOException {
+  public void testMakeSuggestionUppercase() throws IOException {
     final JLanguageTool langTool = new JLanguageTool(Language.ENGLISH);
     langTool.activateDefaultPatternRules();
     final List<RuleMatch> matches = langTool
@@ -444,20 +423,15 @@ public class PatternRuleTest extends TestCase {
   }
 
   public void testSentenceStart() throws IOException {
-    PatternRule pr;
-    RuleMatch[] matches;
-
-    pr = makePatternRule("SENT_START One");
-    matches = pr.match(langTool.getAnalyzedSentence("Not One word."));
+    final PatternRule pr = makePatternRule("SENT_START One");
+    RuleMatch[] matches = pr.match(langTool.getAnalyzedSentence("Not One word."));
     assertEquals(0, matches.length);
     matches = pr.match(langTool.getAnalyzedSentence("One word."));
     assertEquals(1, matches.length);
   }
 
   private static String callFormatMultipleSynthesis(final String[] suggs,
-      final String left, final String right) throws IllegalArgumentException,
-      SecurityException, InvocationTargetException, IllegalAccessException,
-      NoSuchMethodException {
+      final String left, final String right) throws Exception {
     Class[] argClasses = { String[].class, String.class, String.class };
     Object[] argObjects = { suggs, left, right };
     return TestTools.callStringStaticMethod(PatternRule.class,
@@ -465,23 +439,21 @@ public class PatternRuleTest extends TestCase {
   }
 
   /* test private methods as well */
-  public void testformatMultipleSynthesis() throws IllegalArgumentException,
-      SecurityException, InvocationTargetException, IllegalAccessException,
-      NoSuchMethodException {
-    final String[] suggArray = { "blah blah", "foo bar" };
+  public void testFormatMultipleSynthesis() throws Exception {
+    final String[] suggestions1 = { "blah blah", "foo bar" };
 
     assertEquals(
         "This is how you should write: <suggestion>blah blah</suggestion>, <suggestion>foo bar</suggestion>.",
 
-        callFormatMultipleSynthesis(suggArray,
+        callFormatMultipleSynthesis(suggestions1,
             "This is how you should write: <suggestion>", "</suggestion>."));
 
-    final String[] suggArray2 = { "test", " " };
+    final String[] suggestions2 = { "test", " " };
 
     assertEquals(
         "This is how you should write: <suggestion>test</suggestion>, <suggestion> </suggestion>.",
 
-        callFormatMultipleSynthesis(suggArray2,
+        callFormatMultipleSynthesis(suggestions2,
             "This is how you should write: <suggestion>", "</suggestion>."));
   }
 
@@ -490,13 +462,11 @@ public class PatternRuleTest extends TestCase {
    * programmers.
    */
   public static void main(final String[] args) throws IOException {
-    final PatternRuleTest prt = new PatternRuleTest();
+    final PatternRuleTest test = new PatternRuleTest();
     System.out.println("Running XML pattern tests...");
-    prt.setUp();
-    final Set<Language> ignoredLanguages = new HashSet<Language>();
-    // ignoredLanguages.add(Language.CZECH); // has no XML rules yet
-    prt.testGrammarRulesFromXML(ignoredLanguages, true);
-    System.out.println("Tests successful.");
+    test.setUp();
+    test.testGrammarRulesFromXML();
+    System.out.println("Tests finished.");
   }
 
 }
