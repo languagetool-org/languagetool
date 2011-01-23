@@ -5,7 +5,7 @@ title="Easy editing stylesheet" ?>
 <!--
 French Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski, Agnes Souque, Hugo Voisard & Myriam Lechelt.
-$Id: grammar.xml,v 1.50 2011-01-23 08:44:45 dominikoeo Exp $
+$Id: grammar.xml,v 1.51 2011-01-23 09:43:44 dominikoeo Exp $
 -->
 <rules lang="fr" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <phrases>
@@ -1164,15 +1164,15 @@ though, and has since been slightly modified)-->
     <rule id="QUI_VCONJ" name="Verbe conjugué après pronom relatif qui">
       <pattern mark_from="1">
         <token negate_pos="yes" postag="(R pers .*)|P" postag_regexp="yes"/>
-        <token postag="R rel .*" postag_regexp="yes" skip="1">qui</token>
+        <token postag="R rel .*" postag_regexp="yes">qui</token>
         <token postag="V .* [12] .*" postag_regexp="yes">
           <exception postag="(V .* 3 .*)" postag_regexp="yes"/>
         </token>
       </pattern>
       <message>Le verbe de la relative devrait être à la 3ème personne</message>
       <example type="correct">Les enfants <marker>qui jouent</marker> en bas font du bruit.</example>
-      <!--  FIXME: absurd example just to fix it -->
       <example type="incorrect">Les gens <marker>qui étalais</marker> là sont partis.</example>
+      <example type="correct">Je sais qui tu es.</example>
     </rule>
     <rulegroup id="ACC_SN_V" name="Accord verbe avec groupe nominal">
       <rule name="test accord pp passé dans une relative avec l'auxiliaire avoir">
@@ -5864,7 +5864,7 @@ though, and has since been slightly modified)-->
         <token regexp="yes" skip="2">reçu|reçus</token>
         <token>d</token>
         <token>'</token>
-        <token regexp="yes">impôt|impôts</token>
+        <token regexp="yes">impôts?</token>
       </pattern>
       <message>« Reçu (pour fins) d'impôts » est un anglicisme. Employez <suggestion>reçu fiscal</suggestion>.</message>
       <example type="incorrect"><marker>reçu d'impôt</marker></example>
@@ -5872,9 +5872,9 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="SESSION_DE_FORMATION" name="session de formation">
       <pattern>
-        <token regexp="yes">session|sessions</token>
+        <token regexp="yes">sessions?</token>
         <token>de</token>
-        <token regexp="yes">formation|formations</token>
+        <token regexp="yes">formations?</token>
       </pattern>
       <message>« Session de formation » est un anglicisme (training session). Employez <suggestion>séance de formation</suggestion> (une seule fois), <suggestion>stage de formation</suggestion> (plusieurs fois).</message>
       <example type="incorrect"><marker>session de formation</marker></example>
@@ -5882,10 +5882,10 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="SESSION_DENREGISTREMENT" name="session d'enregistrement">
       <pattern>
-        <token regexp="yes">session|sessions</token>
+        <token regexp="yes">sessions?</token>
         <token>d</token>
         <token>'</token>
-        <token regexp="yes">enregistrement|enregistrements</token>
+        <token regexp="yes">enregistrements?</token>
       </pattern>
       <message>« Session d'enregistrement » est un anglicisme (recording session). Employez <suggestion>séance d'enregistrement</suggestion> (employez le pluriel s'il l'activité s'étale sur plusieurs périodes).</message>
       <example type="incorrect"><marker>session d'enregistrement</marker></example>
@@ -5893,9 +5893,9 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="SESSION_DE_PHOTOS" name="session de photos">
       <pattern>
-        <token regexp="yes">session|sessions</token>
+        <token regexp="yes">sessions?</token>
         <token>de</token>
-        <token regexp="yes">photo|photos</token>
+        <token regexp="yes">photos?</token>
       </pattern>
       <message>« Session de photos » est un anglicisme (photo session). Employez <suggestion>séance de photos</suggestion> (employez le pluriel s'il l'activité s'étale sur plusieurs périodes).</message>
       <example type="incorrect"><marker>session de photos</marker></example>
@@ -5903,7 +5903,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="SESSIONNEL" name="sessionnel">
       <pattern>
-        <token regexp="yes">sessionnel|sessionnelle|sessionnels|sessionnelles</token>
+        <token regexp="yes">sessionnels?|sessionnelles?</token>
       </pattern>
       <message>« Sessionnel » est un anglicisme (sessional). Employez <suggestion>de session</suggestion> (période de temps), <suggestion>de séance</suggestion> (une seule fois).</message>
       <example type="incorrect"><marker>sessionnel</marker></example>
@@ -5911,17 +5911,18 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="RENCONTRER_DES_BESOINS" name="rencontrer des besoins">
       <pattern>
-        <token inflected="yes" skip="4">rencontrer</token>
-        <token regexp="yes">besoin|besoins</token>
+        <token inflected="yes" skip="1">rencontrer</token>
+        <token regexp="yes">besoins?</token>
       </pattern>
       <message>« Rencontrer des besoins » est un anglicisme. Employez <suggestion>répondre à des besoins</suggestion>, <suggestion>satisfaire des besoins</suggestion>.</message>
       <example type="incorrect"><marker>rencontrer des besoins</marker></example>
       <example type="correct"><marker>répondre à des besoins</marker></example>
+      <example type="correct">Je veux la rencontrer et au besoin, lui parler.</example>
     </rule>
     <rule id="RENCONTRER_DES_EXIGENCES" name="rencontrer des exigences">
       <pattern>
         <token inflected="yes" skip="4">rencontrer</token>
-        <token regexp="yes">exigences|exigence</token>
+        <token regexp="yes">exigences?</token>
       </pattern>
       <message>« Rencontrer des exigences » est un anglicisme. Employez <suggestion>répondre à des exigences</suggestion>, <suggestion>satisfaire des exigences</suggestion>.</message>
       <example type="incorrect"><marker>rencontrer des exigences</marker></example>
@@ -5939,7 +5940,7 @@ though, and has since been slightly modified)-->
     <rule id="RENCONTRER_DES_OBLIGATIONS" name="rencontrer des obligations">
       <pattern>
         <token inflected="yes" skip="4">rencontrer</token>
-        <token regexp="yes">obligations|obligation</token>
+        <token regexp="yes">obligations?</token>
       </pattern>
       <message>« Rencontrer des obligations » est un anglicisme. Employez <suggestion>faire face à des obligations</suggestion>.</message>
       <example type="incorrect"><marker>rencontrer des obligations</marker></example>
@@ -5948,7 +5949,7 @@ though, and has since been slightly modified)-->
     <rule id="RENCONTRER_UN_OBJECTIF" name="rencontrer un objectif">
       <pattern>
         <token inflected="yes" skip="4">rencontrer</token>
-        <token regexp="yes">objectif|objectifs</token>
+        <token regexp="yes">objectifs?</token>
       </pattern>
       <message>« Rencontrer un objectif » est un anglicisme. Employez <suggestion>atteindre un objectif</suggestion>.</message>
       <example type="incorrect"><marker>rencontrer un objectif</marker></example>
@@ -5957,7 +5958,7 @@ though, and has since been slightly modified)-->
     <rule id="RENCONTRER_DES_ECHEANCES" name="rencontrer des échéances">
       <pattern>
         <token inflected="yes" skip="4">rencontrer</token>
-        <token regexp="yes">échéances|échéance</token>
+        <token regexp="yes">échéances?</token>
       </pattern>
       <message>« Rencontrer des échéances » est un anglicisme. Employez <suggestion>respecter des échéances</suggestion>.</message>
       <example type="incorrect"><marker>rencontrer des échéances</marker></example>
@@ -5974,7 +5975,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="CODE_REGIONAL" name="code régional">
       <pattern>
-        <token regexp="yes">code|codes</token>
+        <token regexp="yes">codes?</token>
         <token regexp="yes">régional|régionale|régionaux|régionals</token>
       </pattern>
       <message>« Code régional » est un anglicisme (area code). Employez <suggestion>indicatif régional</suggestion>.</message>
@@ -5983,8 +5984,8 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="STATUT_CIVIL" name="statut civil">
       <pattern>
-        <token regexp="yes">statut|statuts</token>
-        <token regexp="yes">civil|civils</token>
+        <token regexp="yes">statuts?</token>
+        <token regexp="yes">civils?</token>
       </pattern>
       <message>« Statut civil » est un anglicisme. Employez <suggestion>état civil</suggestion>.</message>
       <example type="incorrect"><marker>statut civil</marker></example>
@@ -6002,7 +6003,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="COFFRET_DE_SURETE" name="coffre(t) de sûreté">
       <pattern>
-        <token regexp="yes">coffret|coffrets|coffre|coffres</token>
+        <token regexp="yes">coffret?s?</token>
         <token>de</token>
         <token>sûreté</token>
       </pattern>
@@ -6012,9 +6013,9 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="BOITE_DES_TEMOINS" name="boîte des témoins">
       <pattern>
-        <token regexp="yes">boîte|boîtes</token>
+        <token regexp="yes">boîtes?</token>
         <token>des</token>
-        <token regexp="yes">témoin|témoins</token>
+        <token regexp="yes">témoins?</token>
       </pattern>
       <message>« Boîte des témoins » est un anglicisme (witness box). Employez <suggestion>barre des témoins</suggestion>.</message>
       <example type="incorrect"><marker>boîte des témoins</marker></example>
@@ -6022,9 +6023,9 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="BOITE_DE_SON" name="boîte de son">
       <pattern>
-        <token regexp="yes">boîte|boîtes</token>
+        <token regexp="yes">boîtes?</token>
         <token>de</token>
-        <token regexp="yes">son|sons</token>
+        <token regexp="yes">sons?</token>
       </pattern>
       <message>« Boîte de son » est un anglicisme. Employez <suggestion>enceinte acoustique</suggestion>.</message>
       <example type="incorrect"><marker>boîte de son</marker></example>
@@ -6033,7 +6034,7 @@ though, and has since been slightly modified)-->
     <rule id="BOITE_DE_CAMION" name="boîte de camion">
       <pattern>
         <token regexp="yes" skip="3">boîte|boîtes</token>
-        <token regexp="yes">camion|camions</token>
+        <token regexp="yes">camions?</token>
       </pattern>
       <message>« Boîte de camion » est un anglicisme (truck box). Employez <suggestion>caisse de camion</suggestion>.</message>
       <example type="incorrect"><marker>boîte de camion</marker></example>
@@ -6041,9 +6042,9 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="CAISSE_DE_SON" name="caisse de son">
       <pattern>
-        <token regexp="yes">caisse|caisses</token>
+        <token regexp="yes">caisses?</token>
         <token>de</token>
-        <token regexp="yes">son|sons</token>
+        <token regexp="yes">sons?</token>
       </pattern>
       <message>« Caisse de son » est un anglicisme. Employez <suggestion>enceinte acoustique</suggestion>, <suggestion>enceinte</suggestion>.</message>
       <example type="incorrect"><marker>caisse de son</marker></example>
@@ -6051,8 +6052,8 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="ANNEE_DE_CALENDRIER" name="année de/du calendrier">
       <pattern>
-        <token regexp="yes">année|années</token>
-        <token regexp="yes">de|du</token>
+        <token regexp="yes">années?</token>
+        <token regexp="yes">d[eu]</token>
         <token>calendrier</token>
       </pattern>
       <message>« Année de calendrier » est un anglicisme (calendar year). Employez <suggestion>année civile</suggestion>.</message>
@@ -6061,7 +6062,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="BOITE_A_MALLE" name="boîte à malle">
       <pattern>
-        <token regexp="yes">boîte|boîtes</token>
+        <token regexp="yes">boîtes?</token>
         <token regexp="yes">[àa]</token>
         <token regexp="yes">mal|malle</token>
       </pattern>
@@ -6071,9 +6072,9 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="CANNE_DE_CONSERVE" name="canne de conserve">
       <pattern>
-        <token regexp="yes">canne|cannes</token>
+        <token regexp="yes">cannes?</token>
         <token>de</token>
-        <token regexp="yes">conserve|conserves</token>
+        <token regexp="yes">conserves?</token>
       </pattern>
       <message>« Canne de conserve » est un anglicisme. Employez <suggestion>boîte de conserve</suggestion>.</message>
       <example type="incorrect"><marker>canne de conserve</marker></example>
@@ -6081,8 +6082,8 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="DROITS_HUMAINS" name="droits humains">
       <pattern>
-        <token regexp="yes">droits|droit</token>
-        <token regexp="yes">humain|humains</token>
+        <token regexp="yes">droits?</token>
+        <token regexp="yes">humains?</token>
       </pattern>
       <message>« Droits humains » est un anglicisme (human rights). Employez <suggestion>droits de l'homme</suggestion>, <suggestion>droits des personnes</suggestion>.</message>
       <example type="incorrect"><marker>droits humains</marker></example>
@@ -6117,7 +6118,7 @@ though, and has since been slightly modified)-->
         <token>que</token>
         <token>je</token>
         <token inflected="yes">être</token>
-        <token regexp="yes">concerné|concernés|concernées|concernée</token>
+        <token regexp="yes">concernée?s?</token>
       </pattern>
       <message>« En autant que je suis concernée » est un anglicisme (as far as I am concerned, insofar as I am concerned). Employez <suggestion>en ce qui me concerne</suggestion>, <suggestion>quant à moi</suggestion>, <suggestion>pour ma part</suggestion>.</message>
       <example type="incorrect"><marker>en autant que je être concerné</marker></example>
@@ -6126,7 +6127,7 @@ though, and has since been slightly modified)-->
     <rule id="EN_AUTORITE" name="en autorité">
       <pattern>
         <token>en</token>
-        <token regexp="yes">autorité|autorités</token>
+        <token regexp="yes">autorités?</token>
       </pattern>
       <message>« En autorité » est un anglicisme. Employez <suggestion>ayant autorité</suggestion>, <suggestion>dans l'exercice de ses fonctions</suggestion>.</message>
       <example type="incorrect"><marker>en autorité</marker></example>
@@ -6134,7 +6135,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="RELATIONNISTE" name="relationniste">
       <pattern>
-        <token regexp="yes">relationniste|relationnistes</token>
+        <token regexp="yes">relationnistes?</token>
       </pattern>
       <message>« Relationniste » est un anglicisme (public relation officer) et un régionalisme (Québec). Employez <suggestion>responsable de la communication</suggestion>, <suggestion>attaché de presse</suggestion>, <suggestion>chargé de relations publiques</suggestion>, <suggestion>directeur des relations publiques</suggestion>.</message>
       <example type="incorrect"><marker>relationniste</marker></example>
