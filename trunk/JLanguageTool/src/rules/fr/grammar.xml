@@ -5,7 +5,7 @@ title="Easy editing stylesheet" ?>
 <!--
 French Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski, Agnes Souque, Hugo Voisard & Myriam Lechelt.
-$Id: grammar.xml,v 1.56 2011-01-23 20:00:29 dominikoeo Exp $
+$Id: grammar.xml,v 1.57 2011-01-23 20:44:28 dominikoeo Exp $
 -->
 <rules lang="fr" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <phrases>
@@ -28,9 +28,9 @@ though, and has since been slightly modified)-->
       <pattern>
         <token inflected="yes" skip="5">acculer</token>
         <token>au</token>
-        <token regexp="yes">pied|pieds</token>
+        <token regexp="yes">pieds?</token>
         <token>du</token>
-        <token regexp="yes">mur|murs</token>
+        <token regexp="yes">murs?</token>
       </pattern>
       <message>« Acculer au pied du mur » est un pléonasme. Employez <suggestion>mettre au pied du mur</suggestion>.</message>
       <example type="incorrect"><marker>acculer au pied du mur</marker></example>
@@ -52,7 +52,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="PERSPECTIVE_D_AVENIR" name="perspective d'avenir">
       <pattern>
-        <token regexp="yes">perspective|perspectives</token>
+        <token regexp="yes">perspectives?</token>
         <token>d</token>
         <token>'</token>
         <token>avenir</token>
@@ -77,7 +77,7 @@ though, and has since been slightly modified)-->
     <rule id="DESSINER_UN_DESSIN" name="dessiner un dessin">
       <pattern>
         <token inflected="yes" skip="7">dessiner</token>
-        <token regexp="yes">dessin|dessins</token>
+        <token regexp="yes">dessins?</token>
       </pattern>
       <message>« Dessiner un dessin » est un pléonasme. Employez <suggestion>faire un dessin</suggestion>, <suggestion>colorier un dessin</suggestion>.</message>
       <example type="incorrect"><marker>dessiner un dessin</marker></example>
@@ -114,8 +114,8 @@ though, and has since been slightly modified)-->
     </rulegroup>
     <rule id="BANQUEROUTE_FRANDULEUSE" name="banqueroute frauduleuse">
       <pattern>
-        <token regexp="yes">banqueroute|banqueroutes</token>
-        <token regexp="yes">frauduleux|frauduleuses|frauduleuse</token>
+        <token regexp="yes">banqueroutes?</token>
+        <token regexp="yes">frauduleux|frauduleuses?</token>
       </pattern>
       <message>« Banqueroute frauduleuse » est un pléonasme. Employez <suggestion>\1</suggestion>.</message>
       <example type="incorrect"><marker>banqueroute frauduleuse</marker></example>
@@ -133,10 +133,10 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="MEDIA_DINFORMATION" name="média d'information">
       <pattern>
-        <token regexp="yes">média|media|medias|médias</token>
+        <token regexp="yes">m[ée]dias?</token>
         <token>d</token>
         <token>'</token>
-        <token regexp="yes">information|informations</token>
+        <token regexp="yes">informations?</token>
       </pattern>
       <message>« Média d'information » est un pléonasme. Employez <suggestion>média</suggestion>.</message>
       <example type="incorrect"><marker>média d'information</marker></example>
@@ -153,8 +153,8 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="CIRRHOSE_DU_FOIE" name="cirrhose du foie">
       <pattern>
-        <token regexp="yes" skip="3">cirrhose|cirrhoses</token>
-        <token regexp="yes">foie|foies</token>
+        <token regexp="yes" skip="3">cirrhoses?</token>
+        <token regexp="yes">foies?</token>
       </pattern>
       <message>« Cirrhose du foie » est un pléonasme. Employez <suggestion>cirrhose</suggestion>.</message>
       <example type="incorrect"><marker>cirrhose du foie</marker></example>
@@ -164,7 +164,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token inflected="yes" skip="6">avérer</token>
-          <token regexp="yes">vrai|vraie|vrais|vraies</token>
+          <token regexp="yes">vraie?s?</token>
         </pattern>
         <message>« S'avérer vrai » est un pléonasme. Employez <suggestion>s'\1 exact</suggestion>.</message>
         <example type="incorrect">s'<marker>avérer vrai</marker></example>
@@ -172,8 +172,8 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes" skip="6">avérés|avérées|avérée|avéré</token>
-          <token regexp="yes">vrai|vraie|vrais|vraies</token>
+          <token regexp="yes" skip="6">avérée?s?</token>
+          <token regexp="yes">vraie?s?</token>
         </pattern>
         <message>« S'avérer exact » est un pléonasme. Employez <suggestion>s'\1 exact</suggestion>.</message>
         <example type="incorrect"><marker>avéré vrai</marker></example>
@@ -201,7 +201,7 @@ though, and has since been slightly modified)-->
     <rule id="CAMPUS_UNIVERSITAIRE" name="campus universitaire">
       <pattern>
         <token regexp="yes">campus|campuses</token>
-        <token regexp="yes">universitaire|universitaires</token>
+        <token regexp="yes">universitaires?</token>
       </pattern>
       <message>« Campus universitaire » est un pléonasme. Employez <suggestion>\1</suggestion>.</message>
       <example type="incorrect"><marker>campus universitaire</marker></example>
@@ -209,9 +209,9 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="BOURRASQUE_DE_VENT" name="bourrasque de vent">
       <pattern>
-        <token regexp="yes">bourrasque|bourrasques|rafale|rafales</token>
+        <token regexp="yes">bourrasques?|rafales?</token>
         <token>de</token>
-        <token regexp="yes">vent|vents</token>
+        <token regexp="yes">vents?</token>
       </pattern>
       <message>« \1 de \3 » est un pléonasme. Employez <suggestion>\1</suggestion>.</message>
       <example type="incorrect">Une <marker>bourrasque de vent</marker></example>
@@ -269,7 +269,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="CONTRAINT_MALGRE_SOI" name="contraint malgré soi">
       <pattern>
-        <token regexp="yes" skip="2">contraint|contrainte|contraintes</token>
+        <token regexp="yes" skip="2">contrainte?s?</token>
         <token>malgré</token>
         <token regexp="yes">soi|eux|lui|moi|elle|toi</token>
       </pattern>
@@ -289,7 +289,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="DUNE_DE_SABLE" name="dune de sable">
       <pattern>
-        <token regexp="yes" skip="2">dune|dunes</token>
+        <token regexp="yes" skip="2">dunes?</token>
         <token>de</token>
         <token>sable</token>
       </pattern>
@@ -299,8 +299,8 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="PANACEE_UNIVERSELLE" name="panacée universelle">
       <pattern>
-        <token regexp="yes">panacée|panacées</token>
-        <token regexp="yes">universelle|universelles|universels|universel</token>
+        <token regexp="yes">panacées?</token>
+        <token regexp="yes">universelles?|universels?</token>
       </pattern>
       <message>« Panacée universelle » est un pléonasme. Employez <suggestion>\1</suggestion>, <suggestion>remède universel</suggestion>.</message>
       <example type="incorrect"><marker>panacée universelle</marker></example>
@@ -308,8 +308,8 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="GAI_LURON" name="gai luron">
       <pattern>
-        <token regexp="yes" skip="2">gai|gais</token>
-        <token regexp="yes">luron|lurons</token>
+        <token regexp="yes" skip="2">gais?</token>
+        <token regexp="yes">lurons?</token>
       </pattern>
       <message>« Gai luron » est un pléonasme. Employez <suggestion>luron</suggestion>.</message>
       <example type="correct"><marker>luron</marker></example>
@@ -317,8 +317,8 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="ERREUR_INVOLONTAIRE" name="erreur involontaire">
       <pattern>
-        <token regexp="yes" skip="2">erreur|erreurs</token>
-        <token regexp="yes">involontaire|involontaires</token>
+        <token regexp="yes" skip="2">erreurs?</token>
+        <token regexp="yes">involontaires?</token>
       </pattern>
       <message>« Erreur involontaire » est un pléonasme. Employez <suggestion>\1</suggestion>.</message>
       <example type="correct"><marker>erreur</marker></example>
@@ -326,8 +326,8 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="HASARD_IMPREVU" name="hasard imprévu">
       <pattern>
-        <token regexp="yes" skip="2">hasard|hasards</token>
-        <token regexp="yes">imprévu|imprévus</token>
+        <token regexp="yes" skip="2">hasards?</token>
+        <token regexp="yes">imprévus?</token>
       </pattern>
       <message>« Hasard imprévu » est un pléonasme. Employez <suggestion>\1</suggestion>.</message>
       <example type="correct"><marker>hasard</marker></example>
@@ -335,7 +335,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="HEURE_DE_TEMPS" name="heure de temps">
       <pattern>
-        <token regexp="yes" skip="2">heure|heures</token>
+        <token regexp="yes" skip="2">heures?</token>
         <token>temps</token>
       </pattern>
       <message>« Heure de temps » est un pléonasme. Employez <suggestion>\1</suggestion>.</message>
@@ -344,7 +344,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="HEMORRAGIE_DE_SANG" name="hémorragie de sang">
       <pattern>
-        <token regexp="yes" skip="2">hémorragie|hémorragies</token>
+        <token regexp="yes" skip="2">hémorragies?</token>
         <token>de</token>
         <token>sang</token>
       </pattern>
@@ -357,7 +357,7 @@ though, and has since been slightly modified)-->
         <token inflected="yes">de</token>
         <token>d</token>
         <token>'</token>
-        <token regexp="yes">autre|autres</token>
+        <token regexp="yes">autres?</token>
       </pattern>
       <message>« De d'autres » est un pléonasme. Employez <suggestion>d'autres</suggestion>.</message>
       <example type="incorrect"><marker>de d'autres</marker></example>
@@ -375,8 +375,8 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="TUNNEL_SOUTERRAIN" name="tunnel souterrain">
       <pattern>
-        <token regexp="yes">tunnel|tunnels</token>
-        <token regexp="yes">souterrain|souterrains</token>
+        <token regexp="yes">tunnels?</token>
+        <token regexp="yes">souterrains?</token>
       </pattern>
       <message>« Tunnel souterrain » est un pléonasme. Employez <suggestion>\1</suggestion>.</message>
       <example type="incorrect"><marker>tunnel souterrain</marker></example>
@@ -394,8 +394,8 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="DEPENSES_SOMPTUAIRES" name="dépenses somptuaires">
       <pattern>
-        <token regexp="yes">dépense|dépenses</token>
-        <token regexp="yes">somptuaire|somptuaires</token>
+        <token regexp="yes">dépenses?</token>
+        <token regexp="yes">somptuaires?</token>
       </pattern>
       <message>« Dépenses somptuaires » est un pléonasme. Employez <suggestion>\1 d'apparat</suggestion>, <suggestion>\1 excessives</suggestion>. « Somptuaire » signifie « relatif à la dépense ».</message>
       <example type="incorrect"><marker>dépenses somptuaires</marker></example>
@@ -449,7 +449,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="VOIRE_MEME" name="voire même">
       <pattern>
-        <token regexp="yes" skip="1">voir|voire</token>
+        <token regexp="yes" skip="1">voire?</token>
         <token>même</token>
       </pattern>
       <message>« Voire même » est un pléonasme. Employez <suggestion>voire</suggestion>, <suggestion>même</suggestion>.</message>
@@ -458,8 +458,8 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="APANAGE_EXCLUSIF" name="apanage exclusif">
       <pattern>
-        <token regexp="yes" skip="2">apanage|apanages</token>
-        <token regexp="yes">exclusif|exclusifs</token>
+        <token regexp="yes" skip="2">apanages?</token>
+        <token regexp="yes">exclusifs?</token>
       </pattern>
       <message>« Apanage exclusif » est un pléonasme. Employez <suggestion>\1</suggestion>.</message>
       <example type="incorrect"><marker>apanage exclusif</marker></example>
@@ -467,8 +467,8 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="INAUGURATION_OFFICIELLE" name="inauguration officielle">
       <pattern>
-        <token regexp="yes" skip="2">inauguration|inaugurations</token>
-        <token regexp="yes">officielle|officielles</token>
+        <token regexp="yes" skip="2">inaugurations?</token>
+        <token regexp="yes">officielles?</token>
       </pattern>
       <message>« Inauguration officielle » est un pléonasme. Employez <suggestion>\1</suggestion>.</message>
       <example type="correct"><marker>inauguration</marker></example>
@@ -507,8 +507,8 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="ORAGE_ELECTRIQUE" name="orage électrique">
       <pattern>
-        <token regexp="yes">orage|orages</token>
-        <token regexp="yes">électrique|électriques</token>
+        <token regexp="yes">orages?</token>
+        <token regexp="yes">électriques?</token>
       </pattern>
       <message>« Orage électrique » est un pléonasme. Employez <suggestion>\1</suggestion>.</message>
       <example type="incorrect"><marker>orages électriques</marker></example>
@@ -516,8 +516,8 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="PREMIERE_PRIORITE" name="première priorité">
       <pattern>
-        <token regexp="yes">première|premières</token>
-        <token regexp="yes">priorité|priorités</token>
+        <token regexp="yes">premières?</token>
+        <token regexp="yes">priorités?</token>
       </pattern>
       <message>« Première priorité » est un pléonasme. Employez <suggestion>priorité</suggestion>.</message>
       <example type="incorrect"><marker>première priorité</marker></example>
@@ -525,8 +525,8 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="PREMIER_BALBUTIEMENT" name="premier balbutiement">
       <pattern>
-        <token regexp="yes">premier|premiers</token>
-        <token regexp="yes">balbutiement|balbutiements</token>
+        <token regexp="yes">premiers?</token>
+        <token regexp="yes">balbutiements?</token>
       </pattern>
       <message>« Premier balbutiement » est un pléonasme. Employez <suggestion>balbutiement</suggestion>.</message>
       <example type="incorrect"><marker>premier balbutiement</marker></example>
@@ -671,7 +671,7 @@ though, and has since been slightly modified)-->
     <rule default="off" id="CETTE_CEST" name="CETTE au lieu de C'EST">
       <pattern mark_to="-1">
         <token regexp="yes">cette|cet</token>
-        <token regexp="yes">un|une</token>
+        <token regexp="yes">une?</token>
       </pattern>
       <message>« \1 » peut être une impropriété. Employez <suggestion>c'est</suggestion> au besoin.</message>
       <example type="correct"><marker>C'est</marker> une belle maison.</example>
@@ -691,7 +691,7 @@ though, and has since been slightly modified)-->
       <pattern mark_to="-1">
         <token>en</token>
         <token>temps</token>
-        <token regexp="yes">que|qu</token>
+        <token regexp="yes">que?</token>
       </pattern>
       <message>La bonne expression est : <suggestion>en tant</suggestion>.</message>
       <example type="incorrect">Il est venu <marker>en temps</marker> que maire.</example>
@@ -789,7 +789,7 @@ though, and has since been slightly modified)-->
     <rulegroup id="ACCORD_GENRE" name="Accord en genre">
       <rule name="masculin suivi du féminin">
         <pattern mark_from="1">
-          <token negate="yes" regexp="yes">de|des</token>
+          <token negate="yes" regexp="yes">des?</token>
           <token skip="1" postag="[DJ] m .*" postag_regexp="yes">
             <exception postag="V .*" postag_regexp="yes"/>
             <!-- Following exception is to skip an adverb or epicene word -->
@@ -813,7 +813,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule name="nom masculin suivi du féminin">
         <pattern mark_from="1" >
-          <token negate="yes" regexp="yes">de|du</token>
+          <token negate="yes" regexp="yes">des?|du</token>
           <token skip="1" postag="N m .*" postag_regexp="yes">
             <exception postag="(N f .*)|(V .*)" postag_regexp="yes"/>
             <!-- Following exception is to skip an adverb -->
@@ -836,6 +836,7 @@ though, and has since been slightly modified)-->
         <example type="correct">Les <marker>soldats abasourdis</marker> par le chaos.</example>
         <example type="correct">Une bouteille <marker>fut apportée</marker>.</example>
         <example type="correct">L'<marker>homme présente</marker> une amie.</example>
+        <example type="correct">Une réduction des <marker>coûts comprise</marker> entre 10 et 20 euros.</example>
       </rule>
       <rule name="féminin suivi du masculin">
         <pattern>
@@ -862,9 +863,9 @@ though, and has since been slightly modified)-->
       </rule>
       <rule name="nom féminin suivi du masculin">
         <pattern mark_from="1">
-          <token negate="yes" regexp="yes">de|des</token>
+          <token negate="yes" regexp="yes">des?</token>
           <token skip="1" postag="N f .*" postag_regexp="yes">
-            <exception postag="N m .*" postag_regexp="yes"/>
+            <exception postag="[NJ] [em] .*" postag_regexp="yes"/>
             <exception postag="V.*" postag_regexp="yes"/>
             <!-- Following exception is to skip an adverb -->
             <exception scope="next" negate_pos="yes" postag="A|(J m .*)|(V .* m .*)|SENT_END" postag_regexp="yes"/>
@@ -885,6 +886,7 @@ though, and has since been slightly modified)-->
         <example type="incorrect">Les <marker>lettres triés</marker> par ordre alphabétique.</example>
         <example type="correct">Il <marker>aura capté</marker> sa confiance.</example>
         <example type="correct">Il a une <marker>force exceptionnelle</marker>.</example>
+        <example type="correct">Un centre <marker>logistique dédié</marker>.</example>
       </rule>
     </rulegroup>
     <rule id="MON_NFS" name="mon/ton/son suivi d'un nom féminin singulier">
@@ -1213,7 +1215,7 @@ though, and has since been slightly modified)-->
         <pattern mark_from="3">
           <token negate="yes" regexp="yes">plus|moins</token>
           <token postag="N .* p" postag_regexp="yes"/>
-          <token regexp="yes" skip="2">que|qu</token>
+          <token regexp="yes" skip="2">que?</token>
           <token postag="V avoir ind.*" postag_regexp="yes" skip="2"><exception postag="A" scope="next"/></token>
           <token postag="V ppa.* s" postag_regexp="yes" skip="1"><exception postag="V inf" postag_regexp="yes" scope="next"/></token>
         </pattern>
@@ -1224,7 +1226,7 @@ though, and has since been slightly modified)-->
       <rule name="test accord pp passé dans une relative">
         <pattern mark_from="2">
           <token postag="N .* s" postag_regexp="yes"/>
-          <token regexp="yes" skip="2">que|qu</token>
+          <token regexp="yes" skip="2">que?</token>
           <token postag="V avoir ind.*" postag_regexp="yes" skip="2"/>
           <token postag="V ppa.* p" postag_regexp="yes"><exception postag="V inf" postag_regexp="yes" scope="next"/></token>
         </pattern>
@@ -1235,7 +1237,7 @@ though, and has since been slightly modified)-->
       <rule name="test accord pp passé dans une relative">
         <pattern mark_from="2">
           <token postag="N f .*" postag_regexp="yes"><exception>impression</exception></token>
-          <token regexp="yes" skip="2">que|qu</token>
+          <token regexp="yes" skip="2">que?</token>
           <token postag="V avoir ind.*" postag_regexp="yes" skip="2"/>
           <token postag="V ppa m .*" postag_regexp="yes"><exception postag="V inf" postag_regexp="yes" scope="next"/></token>
         </pattern>
@@ -1251,7 +1253,7 @@ though, and has since been slightly modified)-->
       <rule name="test accord pp passé dans une relative">
         <pattern mark_from="2">
           <token postag="N m .*" postag_regexp="yes"/>
-          <token regexp="yes" skip="2">que|qu</token>
+          <token regexp="yes" skip="2">que?</token>
           <token postag="V avoir ind.*" postag_regexp="yes" skip="2"/>
           <token postag="V ppa f .*" postag_regexp="yes"><exception postag="V inf" postag_regexp="yes" scope="next"/></token>
         </pattern>
@@ -1325,7 +1327,7 @@ though, and has since been slightly modified)-->
         <token inflected="yes" skip="5">crier</token>
         <token>comme</token>
         <token regexp="yes">un|une|des|les</token>
-        <token regexp="yes">perdu|perdus|perdue|perdues</token>
+        <token regexp="yes">perdue?s?</token>
       </pattern>
       <message>« Crier comme un perdu » est un régionalisme (Québec) et un archaïsme. Employez <suggestion>crier comme un putois</suggestion>, <suggestion>crier comme un damné</suggestion> (familier), <suggestion>crier à tue-tête</suggestion> (familier), <suggestion>crier comme un fou</suggestion> (familier). Note : « Crier comme un perdu » se trouve dans ce sens dans la 1re, 4e, 5e et 6e édition du dictionnaire de l'Académie.</message>
       <example type="incorrect"><marker>crier comme un perdu</marker></example>
@@ -1335,7 +1337,7 @@ though, and has since been slightly modified)-->
       <pattern>
         <token inflected="yes" regexp="yes" skip="2">faire|piquer|prendre</token>
         <token>une</token>
-        <token regexp="yes">plonge|plonges</token>
+        <token regexp="yes">plonges?</token>
       </pattern>
       <message>« Faire/prendre/piquer une plonge » est un régionalisme (Québec). Employez <suggestion>faire un plongeon</suggestion>.</message>
       <example type="incorrect"><marker>faire une plonge</marker></example>
@@ -1343,7 +1345,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="POGNE" name="pogne">
       <pattern>
-        <token regexp="yes">pogne|pognes</token>
+        <token regexp="yes">pognes?</token>
       </pattern>
       <message>« Pogne » peut être un régionalisme (Québec). Employez <suggestion>poigne</suggestion> au besoin. « Pogne » désigne la main de façon populaire en français standard.</message>
       <example type="incorrect"><marker>pogne</marker></example>
@@ -1351,8 +1353,8 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="CE_MIDI" name="ce midi">
       <pattern>
-        <token regexp="yes">ce|ces</token>
-        <token regexp="yes">midi|midis</token>
+        <token regexp="yes">ces?</token>
+        <token regexp="yes">midis?</token>
       </pattern>
       <message>« Ce midi » est un régionalisme (Québec). Employez <suggestion>à midi</suggestion>. Il s'agit d'une période de la journée, et non une période de la jounrée.</message>
       <example type="incorrect"><marker>ce midi</marker></example>
@@ -1360,10 +1362,10 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="BOYAU_DARROSAGE" name="boyau d'arrosage">
       <pattern>
-        <token regexp="yes">boyau|boyaux</token>
+        <token regexp="yes">boyaux?</token>
         <token>d</token>
         <token>'</token>
-        <token regexp="yes">arrosage|arrosages</token>
+        <token regexp="yes">arrosages?</token>
       </pattern>
       <message>« Boyau d'arrosage » est un régionalisme (Québec). Employez <suggestion>tuyau d'arrosage</suggestion>.</message>
       <example type="incorrect"><marker>boyau d'arrosage</marker></example>
@@ -1371,7 +1373,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="BEIGNE" name="beigne">
       <pattern>
-        <token regexp="yes">beigne|beignes</token>
+        <token regexp="yes">beignes?</token>
       </pattern>
       <message>« Beigne » est un régionalisme (Québec). Employez <suggestion>beignet</suggestion>.</message>
       <example type="incorrect"><marker>beigne</marker></example>
@@ -1379,7 +1381,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="COLLEUX" name="colleux">
       <pattern>
-        <token regexp="yes">colleux|colleuse|colleuses</token>
+        <token regexp="yes">colleux|colleuses?</token>
       </pattern>
       <message>« Colleux » est un régionalisme (Québec). Employez <suggestion>affectueux</suggestion>.</message>
       <example type="incorrect"><marker>colleux</marker></example>
@@ -1387,7 +1389,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="CHALOUPERIE" name="chalouperie">
       <pattern>
-        <token regexp="yes">chalouperie|chalouperies</token>
+        <token regexp="yes">chalouperies?</token>
       </pattern>
       <message>« Chalouperie » est un régionalisme (Québec). Employez <suggestion>fabrique de chaloupes</suggestion>.</message>
       <example type="incorrect"><marker>chalouperie</marker></example>
@@ -1395,7 +1397,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="PODIATRE" name="podiatre">
       <pattern>
-        <token regexp="yes">podiatre|podiatres</token>
+        <token regexp="yes">podiatres?</token>
       </pattern>
       <message>« Podiatre » est un régionalisme (Québec). Employez <suggestion>podologue</suggestion>.</message>
       <example type="incorrect"><marker>podiatre</marker></example>
@@ -1403,7 +1405,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="TREMPETTE" name="trempette">
       <pattern>
-        <token regexp="yes">trempette|trempettes</token>
+        <token regexp="yes">trempettes?</token>
       </pattern>
       <message>« Trempette » est un régionalisme (Québec). Employez <suggestion>sauce froide</suggestion>.</message>
       <example type="incorrect"><marker>trempette</marker></example>
@@ -1411,7 +1413,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="SERAPHIN" name="séraphin">
       <pattern>
-        <token regexp="yes">séraphin|séraphins</token>
+        <token regexp="yes">séraphins?</token>
       </pattern>
       <message>« Séraphin » peut être un régionalisme (Québec). Employez <suggestion>avare</suggestion> au besoin. « Séraphin » désigne une sorte d'ange en français standard</message>
       <example type="incorrect"><marker>séraphin</marker></example>
@@ -1419,7 +1421,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="CHALOUPIER" name="chaloupier">
       <pattern>
-        <token regexp="yes">chaloupier|chaloupiers|chaloupière|chaloupières</token>
+        <token regexp="yes">chaloupiers?|chaloupières?</token>
       </pattern>
       <message>« Chaloupier » peut être un régionalisme (Québec). Employez <suggestion>fabricant de chaloupes</suggestion> au besoin. « Chaloupier » désigne un matelot manoeuvrant une chaloupe en français standard.</message>
       <example type="incorrect"><marker>chaloupier</marker></example>
@@ -1430,7 +1432,7 @@ though, and has since been slightly modified)-->
         <token inflected="yes" skip="5">sauver</token>
         <token>par</token>
         <token>la</token>
-        <token regexp="yes">cloche|cloches</token>
+        <token regexp="yes">cloches?</token>
       </pattern>
       <message>« Sauvé par la cloche » est un régionalisme (Québec) et un archaïsme. Employez <suggestion>sauvé par le gong</suggestion>.</message>
       <example type="incorrect"><marker>sauver par la cloche</marker></example>
@@ -1438,7 +1440,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="ARENA" name="aréna">
       <pattern>
-        <token regexp="yes">aréna|arénas</token>
+        <token regexp="yes">arénas?</token>
       </pattern>
       <message>« Aréna » est un régionalisme (Québec) et un anglicisme (arena). Employez <suggestion>stade de hockey</suggestion>, <suggestion>diffamation</suggestion>, <suggestion>dénigrement</suggestion>.</message>
       <example type="incorrect"><marker>aréna</marker></example>
@@ -1446,7 +1448,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="DEPANNEUR" name="dépanneur">
       <pattern>
-        <token regexp="yes">dépanneur|dépanneurs</token>
+        <token regexp="yes">dépanneurs?</token>
       </pattern>
       <message>« Dépanneur » est un régionalisme (Québec). Employez <suggestion>épicerie</suggestion>, <suggestion>épicerie de quartier</suggestion>.</message>
       <example type="incorrect"><marker>dépanneur</marker></example>
@@ -1463,7 +1465,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="DRAVE" name="drave">
       <pattern>
-        <token regexp="yes">drave|draves</token>
+        <token regexp="yes">draves?</token>
       </pattern>
       <message>« Drave » est un régionalisme (Québec). Employez <suggestion>flottage de bois</suggestion>.</message>
       <example type="incorrect"><marker>drave</marker></example>
@@ -1471,7 +1473,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="DRAVEUR" name="draveur">
       <pattern>
-        <token regexp="yes">draveur|draveurs</token>
+        <token regexp="yes">draveurs?</token>
       </pattern>
       <message>« Draveur » est un régionalisme (Québec). Employez <suggestion>flotteur de bois</suggestion>.</message>
       <example type="incorrect"><marker>draveur</marker></example>
@@ -1479,7 +1481,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="WAWARON" name="wawaron/ouaouaron">
       <pattern>
-        <token regexp="yes">wawaron|ouaouaron|wawarons|ouaouarons</token>
+        <token regexp="yes">wawarons?|ouaouarons?</token>
       </pattern>
       <message>« Wawaron/ouaouaron » est un régionalisme (Québec). Employez <suggestion>fumée</suggestion>.</message>
       <example type="incorrect"><marker>wawaron</marker></example>
@@ -1487,7 +1489,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="TELEROMAN" name="téléroman">
       <pattern>
-        <token regexp="yes">téléroman|téléromans</token>
+        <token regexp="yes">téléromans?</token>
       </pattern>
       <message>« Téléroman » est un régionalisme (Québec). Employez <suggestion>feuilleton</suggestion>.</message>
       <example type="incorrect"><marker>téléroman</marker></example>
@@ -1495,7 +1497,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="OUANANICHE" name="ouananiche">
       <pattern>
-        <token regexp="yes">ouananiche|ouananiches</token>
+        <token regexp="yes">ouananiches?</token>
       </pattern>
       <message>« Ouananiche » est un régionalisme (Québec). Employez <suggestion>saumon d'eau douce</suggestion>.</message>
       <example type="incorrect"><marker>ouananiche</marker></example>
@@ -1503,7 +1505,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="BROUE" name="broue">
       <pattern>
-        <token regexp="yes">broue|broues</token>
+        <token regexp="yes">broues?</token>
       </pattern>
       <message>« Broue » est un régionalisme (Québec). Employez <suggestion>bière</suggestion>, <suggestion>mousse</suggestion>, <suggestion>écume</suggestion>.</message>
       <example type="incorrect"><marker>broue</marker></example>
@@ -1511,7 +1513,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="KAYAKABLE" name="kayakable">
       <pattern>
-        <token regexp="yes">kayakable|kayakables</token>
+        <token regexp="yes">kayakables?</token>
       </pattern>
       <message>« Kayakable » est un régionalisme (Québec). Employez <suggestion>où l'on peut faire du kayak</suggestion>.</message>
       <example type="incorrect"><marker>kayakable</marker></example>
@@ -1519,7 +1521,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="MEMERE" name="mémère">
       <pattern>
-        <token regexp="yes">mémère|mémères</token>
+        <token regexp="yes">mémères?</token>
       </pattern>
       <message>« Mémère » est un régionalisme (Québec). Employez <suggestion>commère</suggestion>.</message>
       <example type="incorrect"><marker>mémère</marker></example>
@@ -1535,7 +1537,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="URGENTOLOGUE" name="urgentologue">
       <pattern>
-        <token regexp="yes">urgentologue|urgentologues</token>
+        <token regexp="yes">urgentologues?</token>
       </pattern>
       <message>« Urgentologue » est un régionalisme (Québec). Employez <suggestion>urgentiste</suggestion>.</message>
       <example type="incorrect"><marker>urgentologue</marker></example>
@@ -1543,7 +1545,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="SOUS-MARIN" name="sous-marin">
       <pattern>
-        <token regexp="yes">sous-marin|sous-marins</token>
+        <token regexp="yes">sous-marins?</token>
       </pattern>
       <message>« Sous-marin » peut être un régionalisme (Québec). Employez <suggestion>sandwich long</suggestion> au besoin.</message>
       <example type="incorrect"><marker>sous-marin</marker></example>
@@ -1551,7 +1553,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="REMBOURREUR" name="rembourreur">
       <pattern>
-        <token regexp="yes">rembourreuse|rembourreur|rembourreurs|rembourreuses</token>
+        <token regexp="yes">rembourreuses?|rembourreurs?</token>
       </pattern>
       <message>« Rembourreur » est un régionalisme (Québec). Employez <suggestion>tapissier</suggestion>. Note : Les mots de même famille « rembourrage » et « rembourrure » sont attestés en français standard.</message>
       <example type="incorrect"><marker>rembourreur</marker></example>
@@ -1559,7 +1561,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="CHAMBRANLANT" name="chambranlant">
       <pattern>
-        <token regexp="yes">chambranlant|chambranlants|chambranlante|chambranlantes</token>
+        <token regexp="yes">chambranlante?s?</token>
       </pattern>
       <message>« Chambranlant » est un régionalisme (Québec). Employez <suggestion>branlant</suggestion>.</message>
       <example type="incorrect"><marker>chambranlant</marker></example>
@@ -1575,7 +1577,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="BORDEE_DE_NEIGE" name="galon à mesurer">
       <pattern>
-        <token regexp="yes">bordée|bordées</token>
+        <token regexp="yes">bordées?</token>
         <token>de</token>
         <token>neige</token>
       </pattern>
@@ -1585,7 +1587,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="GALON_A_MESURER" name="galon à mesurer">
       <pattern>
-        <token regexp="yes">galon|galons</token>
+        <token regexp="yes">galons?</token>
         <token>à</token>
         <token>mesurer</token>
       </pattern>
@@ -1595,9 +1597,9 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="RAGOUT_DE_BOEUF" name="ragoût de bœuf">
       <pattern>
-        <token regexp="yes">ragoût|ragoûts</token>
+        <token regexp="yes">ragoûts?</token>
         <token>de</token>
-        <token regexp="yes">boeuf|boeufs|bœuf|bœufs</token>
+        <token regexp="yes">boeufs?|bœufs?</token>
       </pattern>
       <message>« Ragoût de bœuf » est un régionalisme (Québec). Employez <suggestion>pot-au-feu</suggestion>.</message>
       <example type="incorrect"><marker>ragoût de bœuf</marker></example>
@@ -1613,7 +1615,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="PEDIGRI" name="pédigri">
       <pattern>
-        <token regexp="yes">pédigri|pédigris</token>
+        <token regexp="yes">pédigris?</token>
       </pattern>
       <message>« Pédigri » est un régionalisme (Québec). Employez <suggestion>pedigree</suggestion>, <suggestion>pédigrée</suggestion>.</message>
       <example type="incorrect"><marker>pédigri</marker></example>
@@ -1631,7 +1633,7 @@ though, and has since been slightly modified)-->
       <pattern>
         <token inflected="yes">piler</token>
         <token skip="1">sur</token>
-        <token regexp="yes">orgueil|orgueils</token>
+        <token regexp="yes">orgueils?</token>
       </pattern>
       <message>« Piler sur son orgueil » est un régionalisme (Québec). Employez <suggestion>rabaisser</suggestion>, <suggestion>rabattre son orgueil</suggestion>, <suggestion>mettre son orgueil en poche</suggestion>.</message>
       <example type="incorrect"><marker>piler sur son orgueil</marker></example>
@@ -1641,7 +1643,7 @@ though, and has since been slightly modified)-->
       <pattern>
         <token inflected="yes">piler</token>
         <token skip="1">sur</token>
-        <token regexp="yes">pied|pieds</token>
+        <token regexp="yes">pieds?</token>
       </pattern>
       <message>« Piler sur les pieds » est un régionalisme (Québec). Employez <suggestion>marcher sur les pieds</suggestion>.</message>
       <example type="incorrect"><marker>piler sur les pieds</marker></example>
@@ -1658,9 +1660,9 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="PARADE_DE_MODE" name="parade de mode">
       <pattern>
-        <token regexp="yes">parade|parades</token>
+        <token regexp="yes">parades?</token>
         <token>de</token>
-        <token regexp="yes">mode|modes</token>
+        <token regexp="yes">modes?</token>
       </pattern>
       <message>« Parade de mode » est un régionalisme (Québec). Employez <suggestion>défilé de mode</suggestion>.</message>
       <example type="incorrect"><marker>parade de mode</marker></example>
@@ -1705,9 +1707,9 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="PALETTE_DE_CHOCOLAT" name="palette de chocolat">
       <pattern>
-        <token regexp="yes">palette|palettes</token>
+        <token regexp="yes">palettes?</token>
         <token>de</token>
-        <token regexp="yes">chocolat|chocolats</token>
+        <token regexp="yes">chocolats?</token>
       </pattern>
       <message>« Palette de chocolat » est un régionalisme (Québec). Employez <suggestion>barre de chocolat</suggestion>, <suggestion>tablette de chocolat</suggestion>.</message>
       <example type="incorrect"><marker>palette de chocolat</marker></example>
@@ -1715,9 +1717,9 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="MOULIN_A_COUDRE" name="moulin à coudre">
       <pattern>
-        <token regexp="yes">moulin|moulins</token>
+        <token regexp="yes">moulins?</token>
         <token regexp="yes">[aà]</token>
-        <token regexp="yes">coudre|coudres</token>
+        <token regexp="yes">coudres?</token>
       </pattern>
       <message>« Moulin à coudre » est un régionalisme (Québec). Employez <suggestion>machine à coudre</suggestion>.</message>
       <example type="incorrect"><marker>moulin à coudre</marker></example>
@@ -1725,9 +1727,9 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="MAISON_EN_RANGEE" name="maison en rangée">
       <pattern>
-        <token regexp="yes" skip="1">maison|maisons</token>
+        <token regexp="yes" skip="1">maisons?</token>
         <token>en</token>
-        <token regexp="yes">rangé|rangée|rangées|rangés</token>
+        <token regexp="yes">rangée?s?</token>
       </pattern>
       <message>« Maison en rangée » est un régionalisme (Québec). Employez <suggestion>maison jumelée</suggestion>, <suggestion>maison attenante</suggestion>, <suggestion>lotissement en bande</suggestion>.</message>
       <example type="incorrect"><marker>maison en rangée</marker></example>
@@ -1735,7 +1737,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="IVRESSOMETRE" name="ivressomètre">
       <pattern>
-        <token regexp="yes" skip="2">ivressomètre|ivressomètres</token>
+        <token regexp="yes" skip="2">ivressomètres?</token>
       </pattern>
       <message>« Ivressomètre » est un régionalisme (Québec). Employez <suggestion>intéressé par</suggestion>.</message>
       <example type="incorrect"><marker>ivressomètre</marker></example>
@@ -1743,7 +1745,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="INTERESSE_A" name="intéressé à">
       <pattern>
-        <token regexp="yes" skip="2">intéressé|intéressés|intéressée|intéressées</token>
+        <token regexp="yes" skip="2">intéressée?s?</token>
         <token regexp="yes">à|aux|au</token>
       </pattern>
       <message>« Intéressée à » est un régionalisme (Québec). Employez <suggestion>intéressé par</suggestion>.</message>
@@ -1753,7 +1755,7 @@ though, and has since been slightly modified)-->
     <rule id="DEMANDER_UNE_QUESTION" name="demander une question">
       <pattern>
         <token inflected="yes" skip="2">demander</token>
-        <token regexp="yes">question|questions</token>
+        <token regexp="yes">questions?</token>
       </pattern>
       <message>« Demander une question » est un régionalisme (Québec), un anglicisme (to ask a question) et un archaïsme. Employez <suggestion>poser une question</suggestion>.</message>
       <example type="incorrect"><marker>demander une question</marker></example>
@@ -1762,8 +1764,8 @@ though, and has since been slightly modified)-->
     <rule id="PASSER_AU_FEU" name="passer au feu">
       <pattern>
         <token inflected="yes" skip="6">passer</token>
-        <token regexp="yes">au|aux</token>
-        <token regexp="yes">feu|feux</token>
+        <token regexp="yes">aux?</token>
+        <token regexp="yes">feux?</token>
       </pattern>
       <message>« Passer au feu » est un régionalisme (Québec). Employez <suggestion>brûler</suggestion>, <suggestion>être incendié</suggestion>, <suggestion>être détruit par un incendie</suggestion>.</message>
       <example type="incorrect"><marker>passer au feu</marker></example>
@@ -1772,7 +1774,7 @@ though, and has since been slightly modified)-->
     <rule id="TIRER_LES_JOINTS" name="tirer les joints">
       <pattern>
         <token inflected="yes" skip="6">tirer</token>
-        <token regexp="yes">joint|joints</token>
+        <token regexp="yes">joints?</token>
       </pattern>
       <message>« Tirer les joints » est un régionalisme (Québec). Employez <suggestion>jointoyer</suggestion>.</message>
       <example type="incorrect"><marker>tirer les joints</marker></example>
@@ -1781,7 +1783,7 @@ though, and has since been slightly modified)-->
     <rule id="DISPENSER_DES_COURS" name="dispenser des cours">
       <pattern>
         <token inflected="yes" skip="6">dispenser</token>
-        <token regexp="yes">cours|cour</token>
+        <token regexp="yes">cours?</token>
       </pattern>
       <message>« Dispenser des cours » est un régionalisme (Québec). Employez <suggestion>donner des cours</suggestion>.</message>
       <example type="incorrect"><marker>dispenser des cours</marker></example>
@@ -1800,7 +1802,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="MARCHETTE" name="marchette">
       <pattern>
-        <token regexp="yes">marchette|marchettes</token>
+        <token regexp="yes">marchettes?</token>
       </pattern>
       <message>« Marchette » est un régionalisme (Québec).Employez <suggestion>trotteur</suggestion> (bébé), <suggestion>trotte-bébé</suggestion>, <suggestion>déambulateur</suggestion> (personne âgée).</message>
       <example type="incorrect"><marker>marchette</marker></example>
@@ -1808,7 +1810,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="GRAVELLE1" name="gravelle">
       <pattern>
-        <token regexp="yes">gravelle|gravelles</token>
+        <token regexp="yes">gravelles?</token>
       </pattern>
       <message>« Gravelle » est un régionalisme (Québec) peut-être influencé par l'anglais (gravel). Employez <suggestion>gravier</suggestion>, <suggestion>gravillon</suggestion>.</message>
       <example type="incorrect"><marker>gravelle</marker></example>
@@ -1816,7 +1818,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="CREME_EN_GLACE" name="crème en glace">
       <pattern>
-        <token regexp="yes">crème|crèmes</token>
+        <token regexp="yes">crèmes?</token>
         <token>en</token>
         <token>glace</token>
       </pattern>
@@ -1826,8 +1828,8 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="CONSTRUCTION_DOMICILIAIRE" name="construction domiciliaire">
       <pattern>
-        <token regexp="yes">construction|constructions</token>
-        <token regexp="yes">domiciliaire|domiciliaires</token>
+        <token regexp="yes">constructions?</token>
+        <token regexp="yes">domiciliaires?</token>
       </pattern>
       <message>« Construction domiciliaire » est un régionalisme (Québec). Employez <suggestion>construction de logements</suggestion>. En français standard, « domiciliaire » est un terme de droit.</message>
       <example type="incorrect"><marker>construction domiciliaire</marker></example>
@@ -1835,8 +1837,8 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="QUARTIER_DOMICILIAIRE" name="quartier domiciliaire">
       <pattern>
-        <token regexp="yes">quartier|quartiers</token>
-        <token regexp="yes">domiciliaire|domiciliaires</token>
+        <token regexp="yes">quartiers?</token>
+        <token regexp="yes">domiciliaires?</token>
       </pattern>
       <message>« Quartier domiciliaire » est un régionalisme (Québec). Employez <suggestion>quartier résidentiel</suggestion>. En français standard, « domiciliaire » est un terme de droit.</message>
       <example type="incorrect"><marker>quartier domiciliaire</marker></example>
@@ -1844,7 +1846,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="FELUET" name="feluet">
       <pattern>
-        <token regexp="yes">feluet|feluette|feluets|feluettes</token>
+        <token regexp="yes">feluets?|feluettes?</token>
       </pattern>
       <message>« Feluet » est un régionalisme (Québec) et un barbarisme. Employez <suggestion>fluet</suggestion>.</message>
       <example type="incorrect"><marker>feluet</marker></example>
@@ -1852,8 +1854,8 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="MOTARD_CRIMINALISE" name="motard criminalisé">
       <pattern>
-        <token regexp="yes">motard|motards|motardes|motarde</token>
-        <token regexp="yes">criminalisé|criminalisés|criminalisée|criminalisées</token>
+        <token regexp="yes">motarde?s?</token>
+        <token regexp="yes">criminalisée?s?</token>
       </pattern>
       <message>« Motard criminalisé » est un régionalisme (Québec). Employez <suggestion>motard criminel</suggestion>.</message>
       <example type="incorrect"><marker>motard criminalisé</marker></example>
@@ -1861,7 +1863,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="CREME_A_GLACE" name="crème à glace">
       <pattern>
-        <token regexp="yes">crème|crèmes</token>
+        <token regexp="yes">crèmes?</token>
         <token>à</token>
         <token>glace</token>
       </pattern>
@@ -1871,7 +1873,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="CREME_A_LA_GLACE" name="crème à la glace">
       <pattern>
-        <token regexp="yes">crème|crèmes</token>
+        <token regexp="yes">crèmes?</token>
         <token>à</token>
         <token>la</token>
         <token>glace</token>
@@ -1883,8 +1885,8 @@ though, and has since been slightly modified)-->
     <rulegroup id="CHEERLEADER" name="cheerleader">
       <rule>
         <pattern>
-          <token regexp="yes">cheer|cheers</token>
-          <token regexp="yes">leader|leaders</token>
+          <token regexp="yes">cheers?</token>
+          <token regexp="yes">leaders?</token>
         </pattern>
         <message>« Cheerleader » est un régionalisme (Québec). Employez <suggestion>pom pom girl</suggestion>.</message>
         <example type="incorrect"><marker>cheer leader</marker></example>
@@ -1892,7 +1894,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">cheer-leader|cheerleader|cheerleaders|cheer-leaders</token>
+          <token regexp="yes">cheer-?leaders?</token>
         </pattern>
         <message>« Cheerleader » est un régionalisme (Québec). Employez <suggestion>pom pom girl</suggestion>.</message>
         <example type="incorrect"><marker>cheerleader</marker></example>
@@ -1922,7 +1924,7 @@ though, and has since been slightly modified)-->
     </rulegroup>
     <rule id="COMPOSITEURE" name="compositeure">
       <pattern>
-        <token regexp="yes">compositeure|compositeures</token>
+        <token regexp="yes">compositeures?</token>
       </pattern>
       <message>« Compositeure » est un régionalisme (Québec). Employez <suggestion>compositrice</suggestion>.</message>
       <example type="incorrect"><marker>compositeure</marker></example>
@@ -1930,7 +1932,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="ENTRAINEURE" name="entraîneure">
       <pattern>
-        <token regexp="yes">entraîneure|entraîneures</token>
+        <token regexp="yes">entraîneures?</token>
       </pattern>
       <message>« Entraîneure » est un régionalisme (Québec). Employez <suggestion>entraîneuse</suggestion>.</message>
       <example type="incorrect"><marker>entraîneure</marker></example>
@@ -1940,7 +1942,7 @@ though, and has since been slightly modified)-->
       <pattern>
         <token>permis</token>
         <token>de</token>
-        <token regexp="yes">construction|constructions</token>
+        <token regexp="yes">constructions?</token>
       </pattern>
       <message>« Permis de construction » est un régionalisme (Québec). Employez <suggestion>permis de construire</suggestion>.</message>
       <example type="incorrect"><marker>permis de construction</marker></example>
@@ -1958,9 +1960,9 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="COMPTE_DE_TAXES" name="compte de taxes">
       <pattern>
-        <token regexp="yes">compte|comptes</token>
+        <token regexp="yes">comptes?</token>
         <token>de</token>
-        <token regexp="yes">taxe|taxes</token>
+        <token regexp="yes">taxes?</token>
       </pattern>
       <message>« Compte de taxes » est un régionalisme (Québec). Employez <suggestion>avis d'imposition</suggestion>, <suggestion>impôt foncier</suggestion> (ensemble des avis d'imposition).</message>
       <example type="incorrect"><marker>compte de taxes</marker></example>
@@ -1968,7 +1970,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="CLAUSE_NONOBSTANT" name="clause nonobstant">
       <pattern>
-        <token regexp="yes">clause|clauses</token>
+        <token regexp="yes">clauses?</token>
         <token>nonobstant</token>
       </pattern>
       <message>« Clause nonobstant » est un régionalisme (Québec). Employez <suggestion>clause dérogative</suggestion>.</message>
@@ -1986,7 +1988,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="CI-BAS" name="ci-bas">
       <pattern>
-        <token regexp="yes">ci-bas|ci-basse|ci-basses</token>
+        <token regexp="yes">ci-bas|ci-basses?</token>
       </pattern>
       <message>« Ci-bas » est un régionalisme (Québec). Employez <suggestion>ci-dessous</suggestion>.</message>
       <example type="incorrect"><marker>ci-bas</marker></example>
@@ -2002,7 +2004,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="CENNE" name="cenne">
       <pattern>
-        <token regexp="yes">cennes|cenne</token>
+        <token regexp="yes">cennes?</token>
       </pattern>
       <message>« Cenne » est un régionalisme (Québec [familier]). Employez <suggestion>cent</suggestion>.</message>
       <example type="incorrect"><marker>cenne</marker></example>
@@ -2010,7 +2012,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="CHAMPLURE" name="champlure">
       <pattern>
-        <token regexp="yes">champlure|champlures|chantepleure|chantepleures|champleure|champleures</token>
+        <token regexp="yes">champlures?|chantepleures?|champleures?</token>
       </pattern>
       <message>« Champlure/champleure/chantepleure » est un régionalisme (Québec). Employez <suggestion>robinet</suggestion>.</message>
       <example type="incorrect"><marker>champlure</marker></example>
@@ -2030,7 +2032,7 @@ though, and has since been slightly modified)-->
     <rule id="AMASSER_DE_LARGENT" name="amasser de l'argent/des fonds">
       <pattern>
         <token inflected="yes" skip="5">amasser</token>
-        <token regexp="yes">argent|argents|fonds</token>
+        <token regexp="yes">argents?|fonds</token>
       </pattern>
       <message>« Amasser de l'argent/des fonds » est un régionalisme (Québec). Employez <suggestion>ramasser de l'argent</suggestion>, <suggestion>recueillir de l'argent</suggestion>. « Amasser » implique l'idée d'accumulation en français standard et ne se prête pas à ce contexte</message>
       <example type="incorrect"><marker>amasser de l'argent</marker></example>
@@ -2051,7 +2053,7 @@ though, and has since been slightly modified)-->
       <pattern>
         <token inflected="yes" skip="5">chanter</token>
         <token>la</token>
-        <token regexp="yes">pomme|pommes</token>
+        <token regexp="yes">pommes?</token>
       </pattern>
       <message>« Chanter la pomme » est un régionalisme (Québec). Employez <suggestion>conter fleurette</suggestion>, <suggestion>faire le joli cœur</suggestion> (familier), <suggestion>baratiner</suggestion> (péjoratif).</message>
       <example type="incorrect"><marker>chanter la pomme</marker></example>
@@ -2059,8 +2061,8 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="CASIER_POSTAL" name="casier postal">
       <pattern>
-        <token regexp="yes">casier|casiers</token>
-        <token regexp="yes">postal|postaux|postale|postales</token>
+        <token regexp="yes">casiers?</token>
+        <token regexp="yes">postale?s?|postaux</token>
       </pattern>
       <message>« Casier postal » est un régionalisme (Québec). Employez <suggestion>boîte postale</suggestion>.</message>
       <example type="incorrect"><marker>casier postal</marker></example>
@@ -2111,7 +2113,7 @@ though, and has since been slightly modified)-->
         <pattern>
           <token inflected="yes" skip="5">avoir</token>
           <token>de</token>
-          <token regexp="yes">besoin|besoins</token>
+          <token regexp="yes">besoins?</token>
         </pattern>
         <message>« Avoir de besoin » est un régionalisme (Québec). Employez <suggestion>avoir besoin</suggestion>.</message>
         <example type="incorrect"><marker>avoir de besoin</marker></example>
@@ -2124,7 +2126,7 @@ though, and has since been slightly modified)-->
           <token>ce</token>
           <token skip="3">que</token>
           <token inflected="yes" skip="5">avoir</token>
-          <token regexp="yes">besoin|besoins</token>
+          <token regexp="yes">besoins?</token>
         </pattern>
         <message>« Ce que j'ai (de) besoin » est un régionalisme (Québec). Employez <suggestion>ce dont j'ai besoin</suggestion>.</message>
         <example type="incorrect"><marker>ce que j'ai besoin</marker></example>
@@ -2133,9 +2135,9 @@ though, and has since been slightly modified)-->
     </rulegroup>
     <rule id="CHANTEUR_DE_POMME" name="chanteur de pomme">
       <pattern>
-        <token regexp="yes">chanteur|chanteurs</token>
+        <token regexp="yes">chanteurs?</token>
         <token>de</token>
-        <token regexp="yes">pomme|pommes</token>
+        <token regexp="yes">pommes?</token>
       </pattern>
       <message>« Chanteur de pomme » est un régionalisme (Québec). Employez <suggestion>séducteur</suggestion>, <suggestion>beau-parleur</suggestion>, <suggestion>baratineur</suggestion> (péjoratif), <suggestion>coureur de jupon</suggestion> (péjoratif).</message>
       <example type="incorrect"><marker>chanteur de pomme</marker></example>
@@ -2152,8 +2154,8 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="BLEU_MARIN" name="bleu marin">
       <pattern>
-        <token regexp="yes">bleu|bleue|bleues|bleus</token>
-        <token regexp="yes">marin|marins</token>
+        <token regexp="yes">bleue?s?</token>
+        <token regexp="yes">marins?</token>
       </pattern>
       <message>« Bleu marin » est un régionalisme (Québec). Employez <suggestion>bleu marine</suggestion>.</message>
       <example type="incorrect"><marker>bleu marin</marker></example>
@@ -2171,10 +2173,10 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="VIDANGE_D_HUILE" name="vidange d'huile">
       <pattern>
-        <token regexp="yes">vidange|vidanges</token>
+        <token regexp="yes">vidanges?</token>
         <token>d</token>
         <token>'</token>
-        <token regexp="yes">huile|huiles</token>
+        <token regexp="yes">huiles?</token>
       </pattern>
       <message>« Vidange d'huile » est un régionalisme (Québec). Employez <suggestion>vidange du moteur</suggestion>, <suggestion>vidange moteur</suggestion>, <suggestion>vidange</suggestion>.</message>
       <example type="incorrect"><marker>vidange d'huile</marker></example>
@@ -2191,7 +2193,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="BRIQUELEUR" name="briqueleur">
       <pattern>
-        <token regexp="yes">briqueleur|briqueleuse|briqueleurs|briqueleuses</token>
+        <token regexp="yes">briqueleurs?|briqueleuses?</token>
       </pattern>
       <message>« Briqueleur un régionalisme (Québec). Employez <suggestion>poseur de briques</suggestion>, <suggestion>maçon</suggestion>, <suggestion>ouvrier-maçon</suggestion>, <suggestion>briqueteur</suggestion> (rare).</message>
       <example type="incorrect"><marker>briqueleur</marker></example>
@@ -2208,9 +2210,9 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="TOUR_A_BUREAUX" name="tour à bureaux">
       <pattern>
-        <token regexp="yes">tour|tours</token>
+        <token regexp="yes">tours?</token>
         <token regexp="yes">[aà]</token>
-        <token regexp="yes">bureaux|bureau|bureaus</token>
+        <token regexp="yes">bureau[sx]?</token>
       </pattern>
       <message>« Tour à bureaux » est un régionalisme (Québec). Employez <suggestion>tour de bureaux</suggestion>.</message>
       <example type="incorrect"><marker>tour à bureaux</marker></example>
@@ -2218,7 +2220,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="STATUT_DE_LA_FEMME" name="statut de la femme">
       <pattern>
-        <token regexp="yes">statut|statuts</token>
+        <token regexp="yes">statuts?</token>
         <token>de</token>
         <token>la</token>
         <token>femme</token>
@@ -2229,9 +2231,9 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="CAMION_DE_VIDANGES" name="camion de vidanges">
       <pattern>
-        <token regexp="yes">camion|camions</token>
+        <token regexp="yes">camions?</token>
         <token>de</token>
-        <token regexp="yes">vidange|vidanges</token>
+        <token regexp="yes">vidanges?</token>
       </pattern>
       <message>« Camion de vidanges » est un régionalisme (Québec). Employez <suggestion>benne à ordures</suggestion>, <suggestion>camion des éboueurs</suggestion>.</message>
       <example type="incorrect"><marker>camion de vidanges</marker></example>
@@ -2239,9 +2241,9 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="SAC_DE_VIDANGE" name="sac de vidanges">
       <pattern>
-        <token regexp="yes">sac|sacs</token>
+        <token regexp="yes">sacs?</token>
         <token>de</token>
-        <token regexp="yes">vidange|vidanges</token>
+        <token regexp="yes">vidanges?</token>
       </pattern>
       <message>« Sac de vidanges » est un régionalisme (Québec). Employez <suggestion>sac-poubelle</suggestion>.</message>
       <example type="incorrect"><marker>sac de vidanges</marker></example>
@@ -2249,9 +2251,9 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="TAXE_DE_VIDANGE" name="taxe de vidanges">
       <pattern>
-        <token regexp="yes">taxe|taxes</token>
+        <token regexp="yes">taxes?</token>
         <token>de</token>
-        <token regexp="yes">vidange|vidanges</token>
+        <token regexp="yes">vidanges?</token>
       </pattern>
       <message>« Taxe de vidanges » est un régionalisme (Québec). Employez <suggestion>taxe d'ordures ménagères</suggestion>.</message>
       <example type="incorrect"><marker>taxe de vidanges</marker></example>
@@ -2338,9 +2340,9 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="PERDRIX_DE_SAPINIERE" name="perdrix de sapinière">
       <pattern>
-        <token regexp="yes">perdrix|perdrixs</token>
-        <token regexp="yes">des|de</token>
-        <token regexp="yes">sapinière|sapinières</token>
+        <token regexp="yes">perdrixs?</token>
+        <token regexp="yes">des?</token>
+        <token regexp="yes">sapinières?</token>
       </pattern>
       <message>« Perdrix de sapinière » est un régionalisme (Québec). Employez <suggestion>tétras</suggestion>.</message>
       <example type="incorrect"><marker>perdrix de sapinière</marker></example>
@@ -2348,9 +2350,9 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="PERDRIX_DE_SAVANE" name="perdrix des savanes">
       <pattern>
-        <token regexp="yes">perdrix|perdrixs</token>
-        <token regexp="yes">des|de</token>
-        <token regexp="yes">savane|savanes</token>
+        <token regexp="yes">perdrixs?</token>
+        <token regexp="yes">des?</token>
+        <token regexp="yes">savanes?</token>
       </pattern>
       <message>« Perdrix de savanes » est un régionalisme (Québec). Employez <suggestion>tétras</suggestion>.</message>
       <example type="incorrect"><marker>perdrix des savanes</marker></example>
@@ -2360,7 +2362,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token regexp="yes">perdrix|perdrixs</token>
-          <token regexp="yes">de|des</token>
+          <token regexp="yes">des?</token>
           <token regexp="yes">bois-franc|bois-francs</token>
         </pattern>
         <message>« Perdrix de bois francs » est un régionalisme (Québec). Employez <suggestion>gélinotte huppée</suggestion>.</message>
@@ -2370,7 +2372,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token regexp="yes">perdrix|perdrixs</token>
-          <token regexp="yes">de|des</token>
+          <token regexp="yes">des?</token>
           <token>bois</token>
           <token regexp="yes">franc|francs</token>
         </pattern>
@@ -2596,7 +2598,7 @@ though, and has since been slightly modified)-->
     <rule id="JASEUR_DES_CEDRES" name="jaseur des cèdres">
       <pattern>
         <token regexp="yes">jaseur|jaseurs|jaseure|jaseuse|jaseures|jaseuses</token>
-        <token regexp="yes">de|des</token>
+        <token regexp="yes">des?</token>
         <token regexp="yes">cèdre|cèdres</token>
       </pattern>
       <message>« Jaseur des cèdres » est un régionalisme (Québec). Employez <suggestion>jaseur d'Amérique</suggestion>.</message>
@@ -2751,9 +2753,9 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="HERBE_A_POUX" name="herbe à poux">
       <pattern>
-        <token regexp="yes">herbe|herbes</token>
+        <token regexp="yes">herbes?</token>
         <token regexp="yes">[aà]</token>
-        <token regexp="yes">pou|poux</token>
+        <token regexp="yes">poux?</token>
       </pattern>
       <message>« Herbe à poux » est un régionalisme (Québec). Employez <suggestion>ambroisie</suggestion>.</message>
       <example type="incorrect"><marker>herbe à poux</marker></example>
@@ -2761,9 +2763,9 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="HERBE_A_PUCE" name="herbe à puce">
       <pattern>
-        <token regexp="yes">herbe|herbes</token>
+        <token regexp="yes">herbes?</token>
         <token regexp="yes">[aà]</token>
-        <token regexp="yes">puce|puces</token>
+        <token regexp="yes">puces?</token>
       </pattern>
       <message>« Herbe à puce » est un régionalisme (Québec). Employez <suggestion>sumac vénéneux</suggestion>.</message>
       <example type="incorrect"><marker>herbe à puce</marker></example>
@@ -2771,9 +2773,9 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="HARFANG_DES_NEIGES" name="harfang des neiges">
       <pattern>
-        <token regexp="yes">harfang|harfangs</token>
-        <token regexp="yes">des|de</token>
-        <token regexp="yes">neige|neiges</token>
+        <token regexp="yes">harfangs?</token>
+        <token regexp="yes">des?</token>
+        <token regexp="yes">neiges?</token>
       </pattern>
       <message>« Harfang des neiges » est un régionalisme (Québec) peut-être influencé par l'anglais (snowy owl). Employez <suggestion>harfang</suggestion>, <suggestion>chouette blanche</suggestion>, <suggestion>chouette harfang</suggestion>.</message>
       <example type="incorrect"><marker>harfang des neiges</marker></example>
@@ -2781,9 +2783,9 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="COSTUME_DE_BAIN" name="costume de bain">
       <pattern>
-        <token regexp="yes">costume|costumes</token>
+        <token regexp="yes">costumes?</token>
         <token>de</token>
-        <token regexp="yes">bain|bains</token>
+        <token regexp="yes">bains?</token>
       </pattern>
       <message>« Costume de bain » est un régionalisme (Québec). Employez <suggestion>maillot de bain</suggestion>, <suggestion>maillot</suggestion>.</message>
       <example type="incorrect"><marker>costume de bain</marker></example>
@@ -2791,7 +2793,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="AIGUISOIR" name="aiguisoir">
       <pattern>
-        <token regexp="yes">aiguisoir|aiguisoirs</token>
+        <token regexp="yes">aiguisoirs?</token>
       </pattern>
       <message>« Aiguisoir » est un régionalisme (Québec). Employez <suggestion>taille-crayon</suggestion>.</message>
       <example type="incorrect"><marker>aiguisoir</marker></example>
@@ -2799,7 +2801,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="ENCAVURE" name="encavure">
       <pattern>
-        <token regexp="yes">encavure|encavures</token>
+        <token regexp="yes">encavures?</token>
       </pattern>
       <message>« Encavure » est un régionalisme (Québec). Employez <suggestion>rainure</suggestion>.</message>
       <example type="incorrect"><marker>encavure</marker></example>
@@ -2807,7 +2809,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="COQUERELLE" name="coquerelle">
       <pattern>
-        <token regexp="yes">coquerelle|coquerelles</token>
+        <token regexp="yes">coquerelles?</token>
       </pattern>
       <message>« Coquerelle » est un régionalisme (Québec). Employez <suggestion>cafard</suggestion>, <suggestion>cancrelat</suggestion>, <suggestion>blatte</suggestion>.</message>
       <example type="incorrect"><marker>coquerelle</marker></example>
@@ -2815,7 +2817,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="BATTURE" name="batture">
       <pattern>
-        <token regexp="yes">batture|battures</token>
+        <token regexp="yes">battures?</token>
       </pattern>
       <message>« Batture » est un régionalisme (Québec). Employez <suggestion>estran</suggestion>, <suggestion>laisse de mer</suggestion>.</message>
       <example type="incorrect"><marker>batture</marker></example>
@@ -2860,7 +2862,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="SE_DETAILLER" name="se détailler">
       <pattern>
-        <token regexp="yes" skip="3">se|s</token>
+        <token regexp="yes" skip="3">se?</token>
         <token inflected="yes">détailler</token>
       </pattern>
       <message>« Se détailler » est un régionalisme (Québec) et peut-être un anglicisme (to retail). Employez <suggestion>se vendre au prix de détail</suggestion>, <suggestion>se vendre au détail</suggestion>.</message>
@@ -8962,9 +8964,9 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="REGLEMENT_HORS_COUR" name="règlement hors cour">
       <pattern>
-        <token regexp="yes">règlement|règlements</token>
+        <token regexp="yes">règlements?</token>
         <token>hors</token>
-        <token regexp="yes">cours|cour</token>
+        <token regexp="yes">cours?</token>
       </pattern>
       <message>« Règlement hors cour » est un anglicisme (out-of-court settlement). Employez <suggestion>règlement à l'amiable</suggestion>.</message>
       <example type="incorrect"><marker>règlement hors cour</marker></example>
@@ -8972,8 +8974,8 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="CODE_CRIMINEL" name="code criminel">
       <pattern>
-        <token regexp="yes">code|codes</token>
-        <token regexp="yes">criminel|criminels</token>
+        <token regexp="yes">codes?</token>
+        <token regexp="yes">criminels?</token>
       </pattern>
       <message>« Code criminel » est un anglicisme (criminal code). Employez <suggestion>code pénal</suggestion>.</message>
       <example type="incorrect"><marker>code criminel</marker></example>
@@ -8981,9 +8983,9 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="PAYE_DE_VACANCES" name="paye de vacances">
       <pattern>
-        <token regexp="yes">paye|payes|paie|paies</token>
-        <token regexp="yes">de|des</token>
-        <token regexp="yes">vacances|vacance</token>
+        <token regexp="yes">payes?|paies?</token>
+        <token regexp="yes">des?</token>
+        <token regexp="yes">vacances?</token>
       </pattern>
       <message>« Paye de vacances » est un anglicisme (vacation pay). Employez <suggestion>indemnité de congé</suggestion>, <suggestion>indemnité de congé payé</suggestion>.</message>
       <example type="incorrect"><marker>paye de vacances</marker></example>
@@ -8991,10 +8993,10 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="PLAN_DASSURANCE" name="plan d'assurance">
       <pattern>
-        <token regexp="yes">plan|plans</token>
+        <token regexp="yes">plans?</token>
         <token>d</token>
         <token>'</token>
-        <token regexp="yes">assurance|assurances</token>
+        <token regexp="yes">assurances?</token>
       </pattern>
       <message>« Plan d'assurance » est un anglicisme (insurance plan). Employez <suggestion>régime d'assurance</suggestion>.</message>
       <example type="incorrect"><marker>plan d'assurance</marker></example>
@@ -9002,7 +9004,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="PLAN_DE_PENSION" name="plan de pension">
       <pattern>
-        <token regexp="yes">plan|plans</token>
+        <token regexp="yes">plans?</token>
         <token>de</token>
         <token>pension</token>
       </pattern>
@@ -9012,8 +9014,8 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="BOITE_TELEPHONIQUE" name="boîte téléphonique">
       <pattern>
-        <token regexp="yes">boîte|boîtes</token>
-        <token regexp="yes">téléphonique|téléphoniques</token>
+        <token regexp="yes">boîtes?</token>
+        <token regexp="yes">téléphoniques?</token>
       </pattern>
       <message>« Boîte téléphonique » est un anglicisme (phoxe box). Employez <suggestion>cabine téléphonique</suggestion>.</message>
       <example type="incorrect"><marker>boîte téléphonique</marker></example>
@@ -9021,7 +9023,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="BOITE_DE_SCRUTIN" name="boîte de scrutin">
       <pattern>
-        <token regexp="yes">boîte|boîtes</token>
+        <token regexp="yes">boîtes?</token>
         <token>de</token>
         <token>scrutin</token>
       </pattern>
@@ -9031,9 +9033,9 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="ALLOCATION_DE_DEPART" name="allocation de départ">
       <pattern>
-        <token regexp="yes">allocation|allocations</token>
+        <token regexp="yes">allocations?</token>
         <token>de</token>
-        <token regexp="yes">départ|départs</token>
+        <token regexp="yes">départs?</token>
       </pattern>
       <message>« Allocation de départ » est un anglicisme (allowance). Employez <suggestion>indemnité de départ</suggestion>.</message>
       <example type="incorrect"><marker>allocation de départ</marker></example>
@@ -9041,7 +9043,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="BILLET_DE_SAISON" name="billet de saison">
       <pattern>
-        <token regexp="yes">billet|billets</token>
+        <token regexp="yes">billets?</token>
         <token>de</token>
         <token>saison</token>
       </pattern>
@@ -9051,9 +9053,9 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="COMPTE_DE_BANQUE" name="compte de banque">
       <pattern>
-        <token regexp="yes">compte|comptes</token>
+        <token regexp="yes">comptes?</token>
         <token>de</token>
-        <token regexp="yes">banque|banques</token>
+        <token regexp="yes">banques?</token>
       </pattern>
       <message>« Compte de banque » est un anglicisme (bank account). Employez <suggestion>compte en banque</suggestion>, <suggestion>compte bancaire</suggestion>.</message>
       <example type="incorrect"><marker>compte de banque</marker></example>
@@ -9061,7 +9063,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="COMPTE_DELECTRICITE" name="compte d'électricité">
       <pattern>
-        <token regexp="yes">compte|comptes</token>
+        <token regexp="yes">comptes?</token>
         <token>d</token>
         <token>'</token>
         <token>électricité</token>
@@ -9072,7 +9074,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="COMPTE_DE_TELEPHONE" name="compte de téléphone">
       <pattern>
-        <token regexp="yes">compte|comptes</token>
+        <token regexp="yes">comptes?</token>
         <token>de</token>
         <token>téléphone</token>
       </pattern>
@@ -15896,9 +15898,9 @@ though, and has since been slightly modified)-->
     <rule id="FAIRE_DES_COUPES_SOMBRES" name="faire des coupes sombres">
       <pattern>
         <token inflected="yes" skip="2">faire</token>
-        <token regexp="yes">de|des</token>
-        <token regexp="yes">coupe|coupes</token>
-        <token regexp="yes">sombre|sombres</token>
+        <token regexp="yes">des?</token>
+        <token regexp="yes">coupes?</token>
+        <token regexp="yes">sombres?</token>
       </pattern>
       <message>« Faire des coupes sombres » est un tour critiqué. Employez <suggestion>faire des coupes claires</suggestion>.</message>
       <example type="incorrect"><marker>faire des coupes sombres</marker></example>
