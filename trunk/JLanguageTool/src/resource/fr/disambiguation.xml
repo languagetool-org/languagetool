@@ -41,7 +41,7 @@ RB => Règles Brutes
 		</rule>
 		<rule name="qui nous">
 			<pattern mark="1">
-				<token regexp="yes">qui|de|ne</token>
+				<token regexp="yes">qui|de|ne|chez</token>
 				<token>nous</token>
 			</pattern>
 			<disambig postag="R pers obj 1 p"/>
@@ -75,7 +75,7 @@ RB => Règles Brutes
 		</rule>
 		<rule name="ce qui vous">
 			<pattern mark="1">
-				<token regexp="yes">qui|de|ne</token>
+				<token regexp="yes">qui|de|ne|chez</token>
 				<token>vous</token>
 			</pattern>
 			<disambig postag="R pers obj 2 p"/>
@@ -262,13 +262,6 @@ RB => Règles Brutes
 
 
 	<rulegroup name="RP : Infinitif ambigu" id="RP-INFINITIF">
-		<rule name="Infinitifs">
-			<pattern mark="1">
-				<token postag="V.*" postag_regexp="yes"/>
-				<token postag="V inf"/>
-			</pattern>
-			<disambig postag="V inf"/>
-		</rule>
 		<rule name="Infinitif être">
 			<pattern mark="1">
 				<token postag="V.*" postag_regexp="yes"/>
@@ -400,12 +393,6 @@ RB => Règles Brutes
 			<disambig postag="C sub"/>
 		</rule>
 	<rulegroup name="RB : Infinitif" id="RB-INFINITIF">
-		<rule name="infinitif">
-			<pattern mark="0">
-				<token postag="V inf"/>
-			</pattern>
-			<disambig postag="V inf"/>
-		</rule>
 		<rule name="infinitif être">
 			<pattern mark="0">
 				<token postag="V etre inf"/>
