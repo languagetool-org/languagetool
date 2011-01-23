@@ -5,7 +5,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Esperanto Grammar and Typo Rules for LanguageTool
 Copyright (C) 2010 Dominique Pellé
-$Id: grammar.xml,v 1.29 2011-01-22 22:32:09 dominikoeo Exp $
+$Id: grammar.xml,v 1.30 2011-01-23 13:01:29 dominikoeo Exp $
 -->
 <rules lang="eo"
        xsi:noNamespaceSchemaLocation="../rules.xsd" 
@@ -199,7 +199,7 @@ $Id: grammar.xml,v 1.29 2011-01-22 22:32:09 dominikoeo Exp $
           <exception scope="next" regexp="yes">[!?-–,;:«»“&quot;()]</exception>
         </token>
         <token postag="([OA] akz.*)|(T akz .*[uoa])" postag_regexp="yes">
-          <exception inflected="yes" regexp="yes">sekolo|jaro|monato|tago|horo|minuto|sekundo|.*metro|mejlo|marmejlo|lundo|mardo|merkredo|ĵaŭdo|vendredo|sabato|dimanĉo</exception>
+          <exception inflected="yes" regexp="yes">sekolo|jaro|monato|tago|horo|minuto|sekundo|.*metro|mejlo|marmejlo|paŝo|lundo|mardo|merkredo|ĵaŭdo|vendredo|sabato|dimanĉo</exception>
           <exception regexp="yes">[0-9]+-?an</exception>
         </token>
         <token><exception postag="V tr .*" postag_regexp="yes"/></token>
@@ -786,7 +786,9 @@ $Id: grammar.xml,v 1.29 2011-01-22 22:32:09 dominikoeo Exp $
           <token inflected="yes" regexp="yes" skip="2">iri|eniri|fali|enfali|traduki|rigardi<exception scope="previous" postag=". akz .*" postag_regexp="yes"/><exception scope="next" postag=". akz .*" postag_regexp="yes"/></token>
           <token>en</token>
           <token postag="[DN]|(T.* u)" postag_regexp="yes"/>
-          <token postag="[ROAT] nak .*" postag_regexp="yes"/>
+          <token postag="[ROAT] nak .*" postag_regexp="yes">
+            <exception>komenco</exception>
+          </token>
         </pattern>
         <message>Laŭ la kunteksto, eble mankas akuzativo de direkto. Ĉu vi intencis <suggestion>\2 \3 \4n</suggestion>?</message>
         <example type="incorrect">Li iras <marker>en la ĉambro</marker>.</example>
@@ -794,6 +796,7 @@ $Id: grammar.xml,v 1.29 2011-01-22 22:32:09 dominikoeo Exp $
         <example type="correct">Mi loĝas en tiu kastelo.</example>
         <example type="correct">Li eniris ĝin en tiu jaro.</example>
         <example type="correct">Li ĝin eniris en tiu jaro.</example>
+        <example type="correct">Li iris en la komenco al la lernejo.</example>
       </rule>
     </rulegroup>
 
