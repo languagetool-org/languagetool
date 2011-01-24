@@ -11,7 +11,7 @@ title="Easy editing stylesheet" ?>
 		If there is an error you want LanguageTool to detect but you do not know how to do it: open an issue
 			there describing the error, give some examples - I'll try to fix it as soon as I can. 
 
-		Version: $Id: grammar.xml,v 1.30 2011-01-22 12:51:35 dnaber Exp $		
+		Version: $Id: grammar.xml,v 1.31 2011-01-24 08:12:00 archeus Exp $		
 		
 	-->
 <rules lang="ro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -2209,7 +2209,7 @@ title="Easy editing stylesheet" ?>
 					<token inflected="yes" regexp="yes">autoritate|autorități</token>
 					<token inflected="yes" regexp="yes">oficial|competent|competentă</token>
 				</pattern>
-				<message>autoriate ... 2. Organ al puterii de stat competent să ia măsuri și să... Ați vrut să scrieți <suggestion>\1</suggestion>?</message>
+				<message>Pleonasm. Ați vrut să scrieți <suggestion>\1</suggestion>?</message>
 				<short>Pleonasm</short>
 				<example type="incorrect" correction="autoritatea">Care este <marker>autoritatea competentă</marker> în materie de drept civil?</example>
 				<example type="incorrect" correction="autoritățile">A anunțat <marker>autoritățile competente</marker>.</example>
@@ -2218,13 +2218,15 @@ title="Easy editing stylesheet" ?>
 		</rule>
 		<rule id="SPECTACOL_ARTISTIC" name="spectacol artistic">
 				<pattern>
-					<token inflected="yes" regexp="yes" >spectacol|reprezentație</token>
-					<token regexp="yes">artistic|artistic</token>
+					<token inflected="yes" regexp="yes">spectacol|reprezentație</token>
+					<token regexp="yes">artistic|artistică</token>
 				</pattern>
-				<message>autoriate ... 2. Organ al puterii de stat competent să ia măsuri și să... Ați vrut să scrieți <suggestion>\1</suggestion>?</message>
+				<message>Pleonasm. Ați vrut să scrieți <suggestion>\1</suggestion>?</message>
 				<short>Pleonasm</short>
 				<example type="incorrect" correction="spectacol">Formația a susținut un <marker>spectacol artistic</marker>.</example>
+				<example type="incorrect" correction="reprezentație">Formația a susținut o <marker>reprezentație artistică</marker>.</example>
 				<example type="correct">Formația a susținul un <marker>spectacol</marker>.</example>
+				<example type="correct">Formația a susținul o <marker>reprezentație</marker>.</example>
 		</rule>
 		<rulegroup id="MOS_BATRAN_BABA_BATRANA" name="moș bătrân">
 			<rule id="MOS_BATRAN" name="moș bătrân">
@@ -4427,13 +4429,15 @@ title="Easy editing stylesheet" ?>
 				<token inflected="yes">crede</token>
 				<token>în</token>
 				<token>sinea</token>
-				<token  regexp="yes">mea|ei|lor|lui|noastră|noastră</token>
+				<token regexp="yes">mea|ei|lor|lui|noastră|voastră</token>
 			</pattern>
 			<message>Ați dorit să scrieți <suggestion>\1</suggestion>?</message>
 			<short>Pleonasm</short>
 			<example type="incorrect" correction="crezut">El a <marker>crezut în sinea lui</marker> că este bine.</example>
-			<example type="incorrect" correction="credeam">Eu <marker>credeam în sinea lui</marker> că este bine.</example>
+			<example type="incorrect" correction="credeam">Eu <marker>credeam în sinea mea</marker> că este bine.</example>
+			<example type="incorrect" correction="credeați">Voi <marker>credeați în sinea voastră</marker> că este bine.</example>
 			<example type="correct">Eu <marker>credeam</marker> că este bine.</example>
+			<example type="correct">Voi <marker>credeați</marker> că este bine.</example>
 		</rule>
 		<rule id="COBAI_DE_EXPERIENTA" name="cobai de experiență">
 			<pattern>
