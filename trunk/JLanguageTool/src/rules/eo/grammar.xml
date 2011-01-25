@@ -5,7 +5,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Esperanto Grammar and Typo Rules for LanguageTool
 Copyright (C) 2010 Dominique Pellé
-$Id: grammar.xml,v 1.30 2011-01-23 13:01:29 dominikoeo Exp $
+$Id: grammar.xml,v 1.31 2011-01-25 21:00:20 dominikoeo Exp $
 -->
 <rules lang="eo"
        xsi:noNamespaceSchemaLocation="../rules.xsd" 
@@ -32,7 +32,7 @@ $Id: grammar.xml,v 1.30 2011-01-23 13:01:29 dominikoeo Exp $
           <exception scope="previous" regexp="yes">[ĉt]i((on?)|(uj?n?))</exception>
         </token>
         <token postag="[EO] .*" postag_regexp="yes">
-          <exception regexp="yes">tien?</exception>
+          <exception regexp="yes">tie[nl]?</exception>
         </token>
       </pattern>
       <message>Ĉu vi intencis skribi <suggestion>\1-\2</suggestion> kun streketo?</message>
@@ -943,23 +943,27 @@ $Id: grammar.xml,v 1.30 2011-01-23 13:01:29 dominikoeo Exp $
     <rule id="MI_PLAĈAS" name="mi plaĉas (al mi plaĉas)">
       <pattern mark_from="1">
         <token postag="SENT_START|K|(fino.*)" postag_regexp="yes"/>
-        <token postag="[ROT] nak .*" postag_regexp="yes" skip="-1">
+        <token postag="R nak .*" postag_regexp="yes" skip="3">
           <exception scope="next" negate="yes" regexp="yes">tiom|tro|pli|malpli|(.*e)|(.*aŭ)|jam|nur|(.*[ui])|(.*[aiuo]s)</exception>
         </token>
         <token inflected="yes">plaĉi</token>
+        <token negate="yes">al</token>
       </pattern>
       <message>«\2» ne povas esti subjekto de la verbo «\3». Ĉu vi intencis <suggestion>\2 <match no="3" regexp_match=".*(([aiou]s)|[iu])" regexp_replace="ŝat$1"/></suggestion>?</message>
       <example type="incorrect"><marker>Mi plaĉas</marker> legi.</example>
       <example type="incorrect"><marker>Mi ne tiom plaĉas</marker> legi.</example>
+      <example type="correct">Mi plaĉas al vi</example>
       <example type="correct">Al mi plaĉas legi.</example>
-      <example type="correct">Mi ŝaĉas legi.</example>
+      <example type="correct">Mi ŝatas legi.</example>
+      <example type="correct">Esperanto plaĉas al mi</example>
     </rule>
 
     <rule id="MI_EBLAS" name="mi eblas (mi povas)">
       <pattern mark_from="1">
         <token postag="SENT_START|K|(fino.*)" postag_regexp="yes"/>
-        <token postag="[RO] nak .*" postag_regexp="yes" skip="-1">
+        <token postag="R nak .*" postag_regexp="yes" skip="3">
           <exception scope="next" negate="yes" regexp="yes">tiom|tro|pli|malpli|(.*e)|(.*aŭ)|jam|nur|(.*[ui])|(.*[aiuo]s)</exception>
+          <exception scope="next">ke</exception>
         </token>
         <token inflected="yes">ebli</token>
       </pattern>
@@ -968,6 +972,7 @@ $Id: grammar.xml,v 1.30 2011-01-23 13:01:29 dominikoeo Exp $
       <example type="correct">Mi ne povas legi.</example>
       <example type="correct">Mi ne povas legi.</example>
       <example type="correct">Tio eblas.</example>
+      <example type="correct">Mi pensas ke eblas.</example>
     </rule>
 
     <rule id="KIU_I" name="kiu esti (kiu estas)">
