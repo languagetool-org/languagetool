@@ -84,7 +84,13 @@ public class EsperantoTagger implements Tagger {
   // Numbers.
   private final static String numbers[] = {
     "nul", "unu", "du", "tri", "kvar", "kvin", "ses",
-    "sep", "ok", "naŭ", "dek", "cent", "mil"
+    "sep", "ok", "naŭ", "dek", "cent", "mil",
+
+    "dudek", "tridek", "kvardek", "kvindek", 
+    "sesdek", "sepdek", "okdek", "naŭdek",
+
+    "ducent", "tricent", "kvarcent", "kvincent",
+    "sescent", "sepcent", "okcent", "naŭcent"
   };
 
   private final static Set setNumbers = new HashSet<String>(Arrays.asList(numbers));
