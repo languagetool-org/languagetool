@@ -5,7 +5,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Esperanto Grammar and Typo Rules for LanguageTool
 Copyright (C) 2010 Dominique Pellé
-$Id: grammar.xml,v 1.31 2011-01-25 21:00:20 dominikoeo Exp $
+$Id: grammar.xml,v 1.32 2011-01-25 22:15:30 dominikoeo Exp $
 -->
 <rules lang="eo"
        xsi:noNamespaceSchemaLocation="../rules.xsd" 
@@ -166,9 +166,11 @@ $Id: grammar.xml,v 1.31 2011-01-25 21:00:20 dominikoeo Exp $
 
     <rulegroup id="PREP_AKU" name="prepozicio + akuzativo">
       <rule>
-        <pattern mark_to="-1">
+        <pattern mark_to="-1" case_sensitive="yes">
           <token postag="P sak"/>
-          <token postag=". akz.*" postag_regexp="yes"/>
+          <token postag=". akz.*" postag_regexp="yes">
+            <exception regexp="yes">[A-ZĈĜĤĴŜ].*</exception>
+          </token>
           <token negate_pos="yes" postag="(V tr i)|(E.*)|SENT_END" postag_regexp="yes"/>
         </pattern>
         <message>Prepozicio «\1» neniam povas esti sekvita de akuzativo.</message>
@@ -177,6 +179,7 @@ $Id: grammar.xml,v 1.31 2011-01-25 21:00:20 dominikoeo Exp $
         <example type="correct">Mi pensas <marker>pri vi</marker>.</example>
         <example type="correct"><marker>Por tion</marker> fari</example>
         <example type="correct"><marker>Por ĉion</marker> lerte kolekti.</example>
+        <example type="correct">La teksto de Piron.</example>
       </rule>
 
       <rule>
@@ -221,7 +224,7 @@ $Id: grammar.xml,v 1.31 2011-01-25 21:00:20 dominikoeo Exp $
     </rule>
 
     <rule id="NAK_VTR_NAK" name="mankanta akuzativo">
-      <pattern mark_from="2">
+      <pattern mark_from="2" case_sensitive="yes">
         <token postag="[ROAT] nak.*" postag_regexp="yes" skip="3">
           <exception scope="next" postag="[ROAT] akz.*" postag_regexp="yes"/>
           <exception scope="next" regexp="yes">[!?-–,;:«»“&quot;()]</exception>
@@ -232,6 +235,7 @@ $Id: grammar.xml,v 1.31 2011-01-25 21:00:20 dominikoeo Exp $
         </token>
         <token postag="[ROAT] nak.*" postag_regexp="yes">
           <exception postag="T .*e" postag_regexp="yes"/>
+          <exception regexp="yes">[A-ZĈĜĤĴŜ].*</exception>
         </token>
       </pattern>
       <message>Ĉu vi forgesis akuzativon post transitiva verbo «\2»?</message>
@@ -251,6 +255,7 @@ $Id: grammar.xml,v 1.31 2011-01-25 21:00:20 dominikoeo Exp $
       <example type="incorrect">Mi volas aĉeti la <marker>komputilo</marker>.</example>
       <example type="correct">Mi volas esti la instruisto.</example>
       <example type="correct">Vi povas kontroli ĉu Esperanto funkcias.</example>
+      <example type="correct">Mi dankas Barbara.</example>
     </rule>
 
     <rule id="NAK_NAK_VTR" name="mankanta akuzativo">
@@ -941,7 +946,7 @@ $Id: grammar.xml,v 1.31 2011-01-25 21:00:20 dominikoeo Exp $
     </rule>
 
     <rule id="MI_PLAĈAS" name="mi plaĉas (al mi plaĉas)">
-      <pattern mark_from="1">
+      <pattern mark_from="1" mark_to="-1">
         <token postag="SENT_START|K|(fino.*)" postag_regexp="yes"/>
         <token postag="R nak .*" postag_regexp="yes" skip="3">
           <exception scope="next" negate="yes" regexp="yes">tiom|tro|pli|malpli|(.*e)|(.*aŭ)|jam|nur|(.*[ui])|(.*[aiuo]s)</exception>
