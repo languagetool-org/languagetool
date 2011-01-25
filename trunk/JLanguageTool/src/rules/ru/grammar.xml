@@ -8,7 +8,7 @@ LanguageTool.
 Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
 A Russian rule file for LanguageTool 
 Copyright (C) 2008-2011 Yakov Reztsov
-$Id: grammar.xml,v 1.62 2011-01-22 21:14:40 yakovru Exp $
+$Id: grammar.xml,v 1.63 2011-01-25 20:26:08 yakovru Exp $
 -->
 <rules lang="ru" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../rules.xsd">
@@ -449,6 +449,28 @@ $Id: grammar.xml,v 1.62 2011-01-22 21:14:40 yakovru Exp $
                 <example type="incorrect" correction="Одним словом, эта"><marker>Одним словом эта</marker> работа представляет огромную научную ценность.</example>
             </rule>                   
         </rulegroup>
+        
+        
+        <rulegroup default="on" id="Oborot_ne_kto_inoj_kak" name="Запятая в сравнительных оборотах">
+            <!--   Запятая ставится перед как в сравнительных оборотах "не кто иной, как" и "не что иное, как"
+            --> 
+      
+            <rule>
+                <pattern case_sensitive="no">
+                    <token>не</token>
+                    <token regexp="yes">кто|что</token>
+                    <token regexp="yes">иной|иное</token>           
+                    <token>как</token>
+                </pattern>
+                <message>Запятая пропущена здесь:<suggestion>\1 \2 \3, \4</suggestion>.</message>
+                <short>Нет запятой.</short>
+                <example type="correct">Был это не кто иной, как наш мастер.</example>
+                <example type="incorrect">Был это <marker>не кто иной как</marker> наш мастер.</example>
+            </rule>   
+        </rulegroup>
+        
+        
+        
         
         <rulegroup default="off" id="PREDLOGI_KROME" name="Дополнения, вводимые предлогами: кроме, ...">
             <!--Дополнения, вводимые предлогами: кроме, помимо, вместо, сверх, за исключением
@@ -1139,6 +1161,62 @@ $Id: grammar.xml,v 1.62 2011-01-22 21:14:40 yakovru Exp $
                 <example type="incorrect">Мы, <marker>также как и</marker> наши товарищи, любим заниматься спортом.</example>
             </rule>
         </rulegroup>
+        <rulegroup default="on" id="Oborot_nikto_inoj_ne" name="Обороты “не кто иной, как” и “никто иной не”">
+            <!--  Обороты не кто иной, как..., не что иное, как...      и     никто иной не...; ничто иное не...,
+            например: это был не кто иной, как твоя родная сестра, но: никто иной не мог этого сделать;
+            это было не что иное, как приключение; но: ничто иное не могло бы меня испугать.
+            --> 
+      
+            <rule>
+                <pattern case_sensitive="no">
+                    <token>ни</token>
+                    <token regexp="yes">кто|что</token>
+                    <token regexp="yes">иной|иное</token>           
+                    <token>,</token>
+                    <token>как</token>
+                </pattern>
+                <message>Оборот:<suggestion>не \2 \3 \4 \5</suggestion>.</message>
+                <short>Ошибка.</short>
+                <example type="correct">Был это не кто иной, как наш мастер.</example>
+                <example type="incorrect">Был это <marker>ни кто иной, как</marker> наш мастер.</example>
+            </rule>   
+            <rule>
+                <pattern case_sensitive="no">
+                    <token>ни</token>
+                    <token regexp="yes">кто|что</token>
+                    <token regexp="yes">иной|иное</token>           
+                    <token>как</token>
+                </pattern>
+                <message>Оборот:<suggestion>не \2 \3, \4</suggestion>.</message>
+                <short>Ошибка.</short>
+                <example type="correct">Был это не кто иной, как наш мастер.</example>
+                <example type="incorrect">Был это <marker>ни кто иной как</marker> наш мастер.</example>
+            </rule>   
+            <rule>
+                <pattern case_sensitive="no">
+                    <token regexp="yes">ни|не</token>
+                    <token regexp="yes">кто|что</token>
+                    <token regexp="yes">иной|иное</token>           
+                    <token>не</token>                 
+                </pattern>
+                <message>Оборот:<suggestion>ни\2 \3 \4</suggestion>.</message>
+                <short>Ошибка.</short>
+                <example type="correct">Ничто иное не могло бы его испугать.</example>
+                <example type="incorrect"><marker>Не что иное не</marker> могло бы его испугать.</example>
+            </rule>   
+            <rule>
+                <pattern case_sensitive="no"> 
+                    <token regexp="yes">(не)(кто|что)</token>
+                    <token regexp="yes">иной|иное</token>           
+                    <token>не</token>                 
+                </pattern>
+                <message>Оборот:<suggestion><match no="1" regexp_match="(не|Не)(кто|что)" regexp_replace="ни$2"/> <match no="2"/> <match no="3"/></suggestion>.</message>
+                <short>Ошибка.</short>
+                <example type="correct">Ничто иное не могло бы его испугать.</example>
+                <example type="incorrect"><marker>Нечто иное не</marker> могло бы его испугать.</example>
+            </rule>              
+        </rulegroup>
+        
         <rulegroup default="on"  id="V_K_S" name="Беглая гласная в предлогах: в, к, с, без, из ...">
             <rule>  
                 <pattern>
