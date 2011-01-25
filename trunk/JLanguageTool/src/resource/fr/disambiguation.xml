@@ -41,7 +41,7 @@ RB => Règles Brutes
 		</rule>
 		<rule name="qui nous">
 			<pattern mark="1">
-				<token regexp="yes">qui|de|ne|chez|sur</token>
+				<token regexp="yes">qui|de|ne|chez|sur|sans</token>
 				<token>nous</token>
 			</pattern>
 			<disambig postag="R pers obj 1 p"/>
@@ -75,7 +75,7 @@ RB => Règles Brutes
 		</rule>
 		<rule name="ce qui vous">
 			<pattern mark="1">
-				<token regexp="yes">qui|de|ne|chez|sur</token>
+				<token regexp="yes">qui|de|ne|chez|sur|sans</token>
 				<token>vous</token>
 			</pattern>
 			<disambig postag="R pers obj 2 p"/>
@@ -436,18 +436,17 @@ RB => Règles Brutes
 		<disambig postag="A"/>
 	</rule>
 
-
 	<rulegroup name ="RB : Pro pers + V" id="RB-PRO_PERS_V">
 		<rule name="je V ind pres">
 			<pattern mark="1">
-				<token postag="R pers suj 1 s" postag_regexp="yes" skip="3"/>
+				<token postag="R pers suj 1 s" postag_regexp="yes"/>
 				<token postag="V ind pres 1 s"><exception>suis</exception></token>
 			</pattern>
 			<disambig  postag="V ind pres 1 s"/>
 		</rule>
 		<rule name="je V ind impa">
 			<pattern mark="1">
-				<token postag="R pers suj 1 s" postag_regexp="yes" skip="3"/>
+				<token postag="R pers suj 1 s" postag_regexp="yes"/>
 				<token postag="V ind impa 1 s"/>
 			</pattern>
 			<disambig  postag="V ind impa 1 s"/>
@@ -455,14 +454,14 @@ RB => Règles Brutes
 
 		<rule name="tu V ind pres">
 			<pattern mark="1">
-				<token postag="R pers suj 2 s" postag_regexp="yes" skip="3"/>
+				<token postag="R pers suj 2 s" postag_regexp="yes"/>
 				<token postag="V ind pres 2 s"/>
 			</pattern>
 			<disambig  postag="V ind pres 2 s"/>
 		</rule>
 		<rule name="tu V ind impa">
 			<pattern mark="1">
-				<token postag="R pers suj 2 s" postag_regexp="yes" skip="3"/>
+				<token postag="R pers suj 2 s" postag_regexp="yes"/>
 				<token postag="V ind impa 2 s"/>
 			</pattern>
 			<disambig  postag="V ind impa 2 s"/>
@@ -470,7 +469,7 @@ RB => Règles Brutes
 
 		<rule name="il V ind pres">
 			<pattern mark="1">
-				<token postag="(R pers suj 3 m s)|(R pers suj 3 f s)" postag_regexp="yes" skip="3"/>
+				<token postag="(R pers suj 3 m s)|(R pers suj 3 f s)" postag_regexp="yes"/>
 				<token postag="V ind pres 3 s"/>
 			</pattern>
 			<disambig  postag="V ind pres 3 s"/>
@@ -478,19 +477,20 @@ RB => Règles Brutes
 
 		<rule name="tu V cond pres">
 			<pattern mark="1">
-				<token postag="R pers suj 2 s" postag_regexp="yes" skip="3"/>
+				<token postag="R pers suj 2 s" postag_regexp="yes"/>
 				<token postag="V con pres 2 s"/>
 			</pattern>
 			<disambig  postag="V con pres 2 s"/>
 		</rule>
 		<rule name="je V cond pres">
 			<pattern mark="1">
-				<token postag="R pers suj 1 s" postag_regexp="yes" skip="3"/>
+				<token postag="R pers suj 1 s" postag_regexp="yes"/>
 				<token postag="V con pres 1 s"/>
 			</pattern>
 			<disambig  postag="V con pres 1 s"/>
 		</rule>
 	</rulegroup>
+
 		<rule name="RD : ambig J/N" id="RD-ADJ_NOM">
 			<pattern mark="1">
 				<token postag="A"/>
