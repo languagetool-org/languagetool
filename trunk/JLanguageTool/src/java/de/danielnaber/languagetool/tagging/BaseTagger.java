@@ -39,16 +39,16 @@ import de.danielnaber.languagetool.tools.StringTools;
  */
 public abstract class BaseTagger implements Tagger {
 
-  private IStemmer morfologik;
+  private IStemmer dictLookup;
   private Locale conversionLocale = Locale.getDefault();  
 
   /**
    * Get the filename, e.g., <tt>/resource/fr/french.dict</tt>.
-   **/
+   */
   public abstract String getFileName();
 
-  public void setLocale(Locale loc) {
-    conversionLocale = loc;
+  public void setLocale(Locale locale) {
+    conversionLocale = locale;
   }
 
   public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens)
@@ -59,16 +59,16 @@ public abstract class BaseTagger implements Tagger {
     final List<AnalyzedTokenReadings> tokenReadings = new ArrayList<AnalyzedTokenReadings>();
     int pos = 0;
     // caching IStemmer instance - lazy init
-    if (morfologik == null) {      
+    if (dictLookup == null) {
       final URL url = this.getClass().getResource(getFileName());
-      morfologik = new DictionaryLookup(Dictionary.read(url));
+      dictLookup = new DictionaryLookup(Dictionary.read(url));
     }
 
     for (String word : sentenceTokens) {
       final List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
       final String lowerWord = word.toLowerCase(conversionLocale);
-      taggerTokens = asAnalyzedTokenList(word, morfologik.lookup(word));
-      lowerTaggerTokens = asAnalyzedTokenList(word, morfologik.lookup(lowerWord));       
+      taggerTokens = asAnalyzedTokenList(word, dictLookup.lookup(word));
+      lowerTaggerTokens = asAnalyzedTokenList(word, dictLookup.lookup(lowerWord));
       final boolean isLowercase = word.equals(lowerWord);
 
       //normal case
@@ -83,8 +83,7 @@ public abstract class BaseTagger implements Tagger {
       if (lowerTaggerTokens.isEmpty() && taggerTokens.isEmpty()) {
         if (isLowercase) {          
           upperTaggerTokens = asAnalyzedTokenList(word, 
-              morfologik.lookup(StringTools
-                  .uppercaseFirstChar(word)));
+              dictLookup.lookup(StringTools.uppercaseFirstChar(word)));
           if (!upperTaggerTokens.isEmpty()) {
             addTokens(upperTaggerTokens, l);
           } else {
@@ -109,6 +108,7 @@ public abstract class BaseTagger implements Tagger {
     }
     return aTokenList;
   }
+
   protected AnalyzedToken asAnalyzedToken(final String word, final WordData wd) {
     return new AnalyzedToken(
         word,
@@ -116,8 +116,7 @@ public abstract class BaseTagger implements Tagger {
         StringTools.asString(wd.getStem()));
   }
 
-  private void addTokens(final List<AnalyzedToken> taggedTokens,
-      final List<AnalyzedToken> l) {
+  private void addTokens(final List<AnalyzedToken> taggedTokens, final List<AnalyzedToken> l) {
     if (taggedTokens != null) {
       for (AnalyzedToken at : taggedTokens) {
         /*
@@ -132,7 +131,6 @@ public abstract class BaseTagger implements Tagger {
     }
   }
 
-
   /*
    * (non-Javadoc)
    * 
@@ -140,8 +138,7 @@ public abstract class BaseTagger implements Tagger {
    * de.danielnaber.languagetool.tagging.Tagger#createNullToken(java.lang.String
    * , int)
    */  
-  public final AnalyzedTokenReadings createNullToken(final String token,
-      final int startPos) {
+  public final AnalyzedTokenReadings createNullToken(final String token, final int startPos) {
     return new AnalyzedTokenReadings(new AnalyzedToken(token, null, null), startPos);
   }
 
