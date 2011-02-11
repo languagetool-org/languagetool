@@ -8,7 +8,7 @@ LanguageTool.
 Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
 A Russian rule file for LanguageTool 
 Copyright (C) 2008-2011 Yakov Reztsov
-$Id: grammar.xml,v 1.63 2011-01-25 20:26:08 yakovru Exp $
+$Id: grammar.xml,v 1.64 2011-02-11 04:27:36 yakovru Exp $
 -->
 <rules lang="ru" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../rules.xsd">
@@ -563,7 +563,7 @@ $Id: grammar.xml,v 1.63 2011-01-25 20:26:08 yakovru Exp $
             </rule>
         </rulegroup>
         <rulegroup default="on" id="NO_NE_KAK" name="Почти как, не как, ...">
-            <!--Перед сравнительным оборотом стоит не или слова совсем, совершенно, почти, именно запятая не ставится.
+            <!--Перед сравнительным оборотом стоит "не" или слова: совсем, совершенно, почти, именно  ->> запятая не ставится.
             --> 
             <rule>
                 <pattern>
@@ -1045,6 +1045,36 @@ $Id: grammar.xml,v 1.63 2011-01-25 20:26:08 yakovru Exp $
                 <example type="correct">Это совсем непродуманное решение.</example>
                 <example type="incorrect">Это совсем <marker>не продуманное</marker> решение.</example>
             </rule>
+            
+            <rule>  
+                <!-- раздельное написание частицы не:
+                если "не" входит в состав усилительных отрицаний: далеко не, отнюдь не, вовсе не, ничуть не, нисколько не и т. п., предшествующих существительному, прилагательному или наречию.
+                -->
+                <pattern mark_from="1">
+                    <token regexp= "yes">далеко|отнюдь|вовсе|ничуть|нисколько</token>
+                    <token  postag="(ADJ:.*)|(PT:.*)" postag_regexp="yes" regexp="yes" >(не)(.*)</token>
+                </pattern>                
+                <message>Пишется раздельно с не: <suggestion><match no="1"/> <match no="2" regexp_match="(не)(.*)" regexp_replace="$1 $2"/></suggestion>.</message>
+                <short>Раздельно с не</short>
+                <example type="correct">Эта книга вовсе не интересная.</example>
+                <example type="incorrect">Эта книга вовсе <marker>неинтересная</marker>.</example>
+            </rule>
+            <rule>  
+                <!-- раздельное написание частицы не:
+                если при прилагательном, причастии или наречии в качестве пояснительного слова стоит местоимение, начинающееся с ни, например:
+                никому (ни для кого и т. п.) не нужная вещь, никогда не встречающаяся ошибка, никому не выгодно за это браться;
+                -->
+                <pattern mark_from="1">
+                    <token postag="PNN:.*" regexp= "yes" postag_regexp="yes">(ни)(.*)</token>
+                    <token  postag="(ADJ:.*)|(PT:.*)" postag_regexp="yes" regexp="yes" >(не)(.*)</token>
+                </pattern>                
+                <message>Пишется раздельно с не: <suggestion><match no="1"/> <match no="2" regexp_match="(не)(.*)" regexp_replace="$1 $2"/></suggestion>.</message>
+                <short>Раздельно с не</short>
+                <example type="correct">На полке лежит никому не нужная коробка.</example>
+                <example type="incorrect">На полке лежит никому <marker>ненужная</marker> коробка.</example>
+            </rule>
+            
+            
         </rulegroup>
         <rulegroup default="on"  id="Kak_budto" name="Сложный союз (частица) “как будто”">
             <rule>
