@@ -5,7 +5,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Esperanto Grammar and Typo Rules for LanguageTool
 Copyright (C) 2010 Dominique Pellé
-$Id: grammar.xml,v 1.33 2011-02-12 02:02:26 dominikoeo Exp $
+$Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
 -->
 <rules lang="eo"
        xsi:noNamespaceSchemaLocation="../rules.xsd" 
@@ -198,12 +198,13 @@ $Id: grammar.xml,v 1.33 2011-02-12 02:02:26 dominikoeo Exp $
     <rule id="VNETR_AKU" name="netransitiva verbo + akuzativo">
       <pattern mark_from="1" mark_to="-1">
         <token postag="V nt .*" postag_regexp="yes" skip="2">
-          <exception scope="next" postag="(V.*)|(C .* n .)|(P kak)|(T nak .*[io])" postag_regexp="yes"/>
+          <exception scope="next" postag="(V.*)|(C .* n .)|(P kak)|(T nak .*[io])|(M fino.*)" postag_regexp="yes"/>
           <exception scope="next" regexp="yes">[!?-–,;:«»“&quot;()]</exception>
         </token>
         <token postag="([OA] akz.*)|(T akz .*[uoa])" postag_regexp="yes">
           <exception inflected="yes" regexp="yes">jarcento|jardeko|jaro|monato|semajno|tago|horo|minuto|sekundo|.*metro|mejlo|marmejlo|paŝo|lundo|mardo|merkredo|ĵaŭdo|vendredo|sabato|dimanĉo</exception>
           <exception regexp="yes">[0-9]+-?an</exception>
+          <exception regexp="yes">\p{Lu}.*</exception>
         </token>
         <token>
           <exception postag="V tr .*" postag_regexp="yes"/>
@@ -226,6 +227,7 @@ $Id: grammar.xml,v 1.33 2011-02-12 02:02:26 dominikoeo Exp $
       <example type="correct">Ĉu eblas tion fari?</example>
       <example type="correct">Tio okazis la antaŭan jaron.</example>
       <example type="correct">La tradukado daŭris proksimume du semajnojn.</example>
+      <example type="correct">Bela estas Ĝon.</example>
     </rule>
 
     <rule id="NAK_VTR_NAK" name="mankanta akuzativo">
@@ -289,11 +291,12 @@ $Id: grammar.xml,v 1.33 2011-02-12 02:02:26 dominikoeo Exp $
     <rule id="AKZ_R_AKZ" name="akuzativa pronomo + akuzativo">
       <pattern mark_to="-1">
         <token postag="R akz .*" postag_regexp="yes"/>
-        <token postag="[ROAT] akz .*" postag_regexp="yes"/>
+        <token postag="[ROA] akz .*" postag_regexp="yes"/>
       </pattern>
       <message>Ne eblas diri «\1 \2». Ĉu vi intencis <suggestion>al <match no="1" regexp_match="(.*)n(j?)" regexp_replace="$1$2"/> \2</suggestion>?</message>
       <example type="incorrect">Donu <marker>min</marker> akvon.</example>
       <example type="correct">Donu al mi akvon.</example>
+      <example type="correct">Li surprizis nin ĉiujn.</example>
     </rule>
 
     <rule id="R_AKZ_AKZ" name="akuzativa pronomo + akuzativo">
