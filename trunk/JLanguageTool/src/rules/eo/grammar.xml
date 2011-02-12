@@ -5,7 +5,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Esperanto Grammar and Typo Rules for LanguageTool
 Copyright (C) 2010 Dominique Pellé
-$Id: grammar.xml,v 1.32 2011-01-25 22:15:30 dominikoeo Exp $
+$Id: grammar.xml,v 1.33 2011-02-12 02:02:26 dominikoeo Exp $
 -->
 <rules lang="eo"
        xsi:noNamespaceSchemaLocation="../rules.xsd" 
@@ -159,7 +159,7 @@ $Id: grammar.xml,v 1.32 2011-01-25 22:15:30 dominikoeo Exp $
         <token>ambaŭ</token>
         <token>la</token>
       </pattern> 
-      <message>Ne devas esti «\2» post «\1», ĉar «1» estas jam definilo.</message>
+      <message>Ne devas esti «\2» post «\1», ĉar «\1» estas jam definilo.</message>
       <example type="incorrect"><marker>Ambaŭ la</marker> teamoj perdis.</example>
       <example type="correct">Ambaŭ teamoj perdis.</example>
     </rule>
@@ -202,10 +202,13 @@ $Id: grammar.xml,v 1.32 2011-01-25 22:15:30 dominikoeo Exp $
           <exception scope="next" regexp="yes">[!?-–,;:«»“&quot;()]</exception>
         </token>
         <token postag="([OA] akz.*)|(T akz .*[uoa])" postag_regexp="yes">
-          <exception inflected="yes" regexp="yes">sekolo|jaro|monato|tago|horo|minuto|sekundo|.*metro|mejlo|marmejlo|paŝo|lundo|mardo|merkredo|ĵaŭdo|vendredo|sabato|dimanĉo</exception>
+          <exception inflected="yes" regexp="yes">jarcento|jardeko|jaro|monato|semajno|tago|horo|minuto|sekundo|.*metro|mejlo|marmejlo|paŝo|lundo|mardo|merkredo|ĵaŭdo|vendredo|sabato|dimanĉo</exception>
           <exception regexp="yes">[0-9]+-?an</exception>
         </token>
-        <token><exception postag="V tr .*" postag_regexp="yes"/></token>
+        <token>
+          <exception postag="V tr .*" postag_regexp="yes"/>
+          <exception inflected="yes" regexp="yes">jarcento|jardeko|jaro|monato|semajno|tago|horo|minuto|sekundo|.*metro|mejlo|marmejlo|paŝo|lundo|mardo|merkredo|ĵaŭdo|vendredo|sabato|dimanĉo</exception>
+        </token>
       </pattern>
       <message>Netransitiva verbo «\1» ne povas havi objekton.</message>
       <example type="incorrect">Mi volas fariĝi <marker>instruiston</marker>.</example>
@@ -221,6 +224,8 @@ $Id: grammar.xml,v 1.32 2011-01-25 22:15:30 dominikoeo Exp $
       <example type="correct">Okazas nenio.</example>
       <example type="correct">Oni ne trompiĝu pri tio, kion diras la aŭroto.</example>
       <example type="correct">Ĉu eblas tion fari?</example>
+      <example type="correct">Tio okazis la antaŭan jaron.</example>
+      <example type="correct">La tradukado daŭris proksimume du semajnojn.</example>
     </rule>
 
     <rule id="NAK_VTR_NAK" name="mankanta akuzativo">
@@ -263,14 +268,14 @@ $Id: grammar.xml,v 1.32 2011-01-25 22:15:30 dominikoeo Exp $
         <token skip="2" postag="SENT_START">
           <exception scope="next" negate_pos="yes" postag="([EK].*)|([RT] nak.*)" postag_regexp="yes"/>
         </token>
-        <token postag="[RT] nak.*" postag_regexp="yes"/>
+        <token postag="R nak.*" postag_regexp="yes"/>
         <token postag="[RO] nak.*" postag_regexp="yes" skip="-1">
           <exception scope="next" negate="yes" regexp="yes">tro|pli|malpli|(.*e)|(.*aŭ)|jam|nur|(.*[ui])|(.*[aiuo]s)</exception>
         </token>
         <token postag="V tr .*" postag_regexp="yes"/>
         <token regexp="yes">[\.:;\?!]|(sed|ĉar|tamen|kaj|aŭ|nek)</token>
       </pattern>
-      <message>Ĉu vi forgesis akuzativon antaŭ transitiva verbo «\2»?</message>
+      <message>Ĉu vi forgesis akuzativon antaŭ transitiva verbo «\3»?</message>
       <example type="incorrect">Mi <marker>vi</marker> vidas.</example>
       <example type="incorrect">Mi <marker>vi</marker> vidas kaj vin aŭdas.</example>
       <example type="incorrect">Mi <marker>vi</marker> ne ankoraŭ tre bone vidas.</example>
@@ -515,16 +520,6 @@ $Id: grammar.xml,v 1.32 2011-01-25 22:15:30 dominikoeo Exp $
       <example type="correct">Tri el ili scipovas Esperanton.</example>
     </rule>
 
-    <rule id="KELKE_DA" name="Kelke da (kelkaj)">
-      <pattern>
-        <token>kelke</token>
-        <token>da</token>
-      </pattern>
-      <message>Ne eblas diri « kelke da », uzu <suggestion>kelkaj</suggestion>.</message>
-      <example type="incorrect">Nur <marker>kelke da</marker> homoj scipovas la klingonan.</example>
-      <example type="correct">Nur kelkaj homoj scipovas la klingonan.</example>
-    </rule>
-
     <rule id="TIOM_KIOM" name="Tiom kiom (tiel kiom)">
       <pattern>
         <token>tiom</token>
@@ -591,13 +586,15 @@ $Id: grammar.xml,v 1.32 2011-01-25 22:15:30 dominikoeo Exp $
     <rule id="NTR_ATA" name="Netransitiva verbo + ata">
       <pattern>
         <token postag="C ... .. nt . - ." postag_regexp="yes">
-          <exception regexp="yes">spirit[aeo]j?n?</exception>
+          <exception regexp="yes">(palat|gravit|sonat|spirit)[aeo]j?n?</exception>
         </token>
       </pattern>
       <message>Pasiva participo eblas nur kun transitivaj verboj.</message>
       <example type="incorrect">La <marker>okazota</marker> vesto</example>
       <example type="correct">La <marker>okazonta</marker> vesto</example>
       <example type="correct">La <marker>spirito</marker> de la lingvo</example>
+      <example type="correct">Li aŭskultas <marker>sonaton</marker>.</example>
+      <example type="correct"><marker>Gravito</marker> estas forto inter masoj.</example>
     </rule>
 
     <rule id="ANKAŬ_FINO" name="Ankaux (ktp) je la fino de frazo">
@@ -940,7 +937,7 @@ $Id: grammar.xml,v 1.32 2011-01-25 22:15:30 dominikoeo Exp $
         <token postag="D"/>
         <token postag="[OA] .*" postag_regexp="yes"/>
       </pattern>
-      <message>Definilo «\2» ne povas esti kun tabelvorto «1». Ĉu vi intencis <suggestion>\1 \3</suggestion>?</message>
+      <message>Definilo «\2» ne povas esti kun tabelvorto «\1». Ĉu vi intencis <suggestion>\1 \3</suggestion>?</message>
       <example type="incorrect">Mi lernis <marker>ĉiujn la</marker> vortojn.</example>
       <example type="correct">Mi lernis ĉiujn vortojn.</example>
     </rule>
