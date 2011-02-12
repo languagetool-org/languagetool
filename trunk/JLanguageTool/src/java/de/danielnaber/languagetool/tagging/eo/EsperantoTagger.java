@@ -57,9 +57,9 @@ public class EsperantoTagger implements Tagger {
 
   // Following preposition are never followed by accusative.
   private final static String prepositionsNoAccusative[] = {
-      "al", "apud", "cis", "da", "de", "disde", "dum", "ekde", "el", 
-      "far", "ĝis", "je", "kun", "laŭ", "malgraŭ", "na",
-      "per", "po", "post", "por", "pri", "pro", "sen", "super", "tra"
+    "al", "cis", "da", "de", "disde", "dum", "ekde", "el", 
+    "far", "ĝis", "je", "kun", "laŭ", "malgraŭ", "na",
+    "per", "po", "post", "por", "pri", "pro", "sen", "tra"
   };
 
   private final static Set setPrepositionsNoAccusative =
@@ -67,8 +67,9 @@ public class EsperantoTagger implements Tagger {
 
   // Following preposition may be followed by accusative.
   private final static String prepositionsAccusative[] = {
-    "anstataŭ", "en", "kontraŭ", "krom", "sur", "sub", "trans", 
-    "preter", "ĉirkaŭ", "antaŭ", "malantaŭ", "ekster", "inter", "ĉe"
+    "anstataŭ", "apud", "en", "kontraŭ", "krom", "sur", "sub", "trans", 
+    "preter", "ĉirkaŭ", "antaŭ", "malantaŭ", "ekster", "inter", "ĉe",
+    "super"
   };
 
   private final Set setPrepositionsAccusative =
@@ -113,7 +114,6 @@ public class EsperantoTagger implements Tagger {
   private final static Pattern patternVerb2 = Pattern.compile(".*(ig|iĝ)(.s|.)$");
 
   // Particips -ant-, -int, ont-, -it-, -it-, -ot-
-  // TODO: this is not used yet.
   final Pattern patternParticiple =
     Pattern.compile("(.*)([aio])(n?)t([aoe])(j?)(n?)$");
   // Groups           11  22222  33   44444  55  66
@@ -235,6 +235,7 @@ public class EsperantoTagger implements Tagger {
       } else if (setPrepositionsAccusative.contains(lWord)) {
         l.add(new AnalyzedToken(word, "P kak", lWord));
 
+      // Numbers.
       } else if (setNumbers.contains(lWord)) {
         l.add(new AnalyzedToken(word, "N", lWord));
 
