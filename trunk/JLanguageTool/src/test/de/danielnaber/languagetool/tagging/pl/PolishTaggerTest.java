@@ -51,7 +51,7 @@ public class PolishTaggerTest extends TestCase {
 	
 	public void testTagger() throws IOException {
 	  TestTools.myAssert("To jest duży dom.",
-	      "To/[ten]adj:sg:acc.nom.voc:n:pos|To/[to]conj -- jest/[być]verb:fin:sg:ter:imperf -- duży/[duży]adj:sg:acc:m3:pos:aff|duży/[duży]adj:sg:nom:m:pos:aff|duży/[duży]adj:sg:voc:m1.m2:pos:aff -- dom/[dom]subst:sg:acc.nom:m3", tokenizer, tagger);
+	      "To/[ten]adj:sg:acc.nom.voc:n:pos|To/[to]conj -- jest/[być]verb:fin:sg:ter:imperf -- duży/[duży]adj:sg:acc:m3:pos:aff|duży/[duży]adj:sg:nom:m:pos:aff|duży/[duży]adj:sg:voc:m:pos:aff -- dom/[dom]subst:sg:acc.nom:m3", tokenizer, tagger);
     TestTools.myAssert("Krowa pasie się na pastwisku.",
         "Krowa/[krowa]subst:sg:nom:f -- pasie/[pas]subst:sg:loc.voc:m3 -- się/[siebie]qub -- na/[na]prep:acc.loc -- pastwisku/[pastwisko]subst:sg:dat.loc:n", tokenizer, tagger);
     TestTools.myAssert("blablabla", "blablabla/[null]null", tokenizer, tagger);
