@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 French Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski, Agnes Souque, Hugo Voisard & Myriam Lechelt.
               2011 Dominique Pellé
-$Id: grammar.xml,v 1.64 2011-02-13 18:51:15 dominikoeo Exp $
+$Id: grammar.xml,v 1.65 2011-02-13 21:01:45 dominikoeo Exp $
 -->
 <rules lang="fr" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <phrases>
@@ -582,7 +582,7 @@ though, and has since been slightly modified)-->
       <example type="correct">Ça voiture est en panne.</example>
     </rule>
 
-    <rule id="QUAND_QUANT" name="QUAND au lien de QUANT">
+    <rule id="QUAND_QUANT" name="Quand au lien de quant">
       <pattern mark_to="-1">
         <token>quand</token>
         <token regexp="yes">à|aux?</token>
@@ -592,7 +592,7 @@ though, and has since been slightly modified)-->
       <example type="correct">Quant à ma commande, elle n'est pas arrivée.</example>
     </rule>
 
-    <rule id="QUANT_QUAND" name="QUANT au lien de QUAND">
+    <rule id="QUANT_QUAND" name="Quant au lien de quand">
       <pattern mark_to="-1">
         <token>quant</token>
         <token negate="yes" regexp="yes">à|aux?</token>
@@ -602,7 +602,7 @@ though, and has since been slightly modified)-->
       <example type="correct"><marker>Quand</marker> il arrive, je suis heureuse.</example>
     </rule>
 
-    <rulegroup id="DAVANTAGE" name="DAVANTAGE au lieu de D'AVANTAGE">
+    <rulegroup id="DAVANTAGE" name="Davantage au lieu de d'avantage">
       <rule>
         <pattern mark_from="1">
           <token postag="A|(N.*)" postag_regexp="yes">
@@ -628,7 +628,7 @@ though, and has since been slightly modified)-->
       </rule>
     </rulegroup>
 
-    <rulegroup id="D_AVANTAGE" name="D'AVANTAGE au lieu de DAVANTAGE">
+    <rulegroup id="D_AVANTAGE" name="D'avantage au lieu de davantage">
       <rule>
         <pattern mark_from="1">
           <token postag="V.*" postag_regexp="yes">
@@ -667,7 +667,7 @@ though, and has since been slightly modified)-->
       </rule>
     </rulegroup>
 
-    <rulegroup id="BIENTOT" name="BIENTOT au lieu de BIEN TOT">
+    <rulegroup id="BIENTOT" name="Bientôt au lieu de bien tôt">
       <rule>
         <pattern mark_to="-1">
           <token>bientôt<exception inflected="yes" scope="previous">partir</exception></token>
@@ -680,7 +680,7 @@ though, and has since been slightly modified)-->
       </rule>
     </rulegroup>
 
-    <rulegroup id="PEUT_ETRE" name="PEUT-ETRE au lieu de PEUT ETRE">
+    <rulegroup id="PEUT_ETRE" name="Peut-être au lieu de peut être">
       <rule>
         <pattern mark_from="1">
           <token regexp="yes">il|ce|ça|cela|ceci</token>
@@ -692,7 +692,7 @@ though, and has since been slightly modified)-->
       </rule>
     </rulegroup>
 
-    <rulegroup id="PEUTETRE" name="PEUT ETRE au lieu de PEUT-ETRE">
+    <rulegroup id="PEUTETRE" name="Peut être au lieu de peut-être">
       <rule>
         <pattern mark_from="1">
           <token postag="V.*" postag_regexp="yes"/>
@@ -705,7 +705,7 @@ though, and has since been slightly modified)-->
       </rule>
     </rulegroup>
 
-    <rulegroup id="AMENDE" name="AMENDE au lieu de AMANDE">
+    <rulegroup id="AMENDE" name="Amende au lieu de amande">
       <rule>
         <pattern mark_from="1">
           <token regexp="yes">en|aux</token>
@@ -719,7 +719,7 @@ though, and has since been slightly modified)-->
       </rule>
     </rulegroup>
 
-    <rulegroup id="AMANDE" name="AMANDE au lieu de AMENDE">
+    <rulegroup id="AMANDE" name="Amande au lieu de amende">
       <rule>
         <pattern mark_from="1">
           <token skip="3" inflected="yes" regexp="yes">payer|recevoir|condamner</token>
@@ -740,6 +740,33 @@ though, and has since been slightly modified)-->
         <message>Voulez-vous écrire <suggestion>amende</suggestion> ?</message>
         <example type="incorrect">J'ai été mis à l'<marker>amande</marker>.</example>
         <example type="correct">J'ai été mis à l'amende.</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="PECHE" name="Pêcher au lieu de péché">
+      <rule>
+        <pattern mark_from="1">
+          <token inflected="yes" skip="4" regexp="yes">confesser|effacer|pardonner|repentir|rémission|absolution|commettre|coupable|curé|prêtre|grave</token>
+          <token regexp="yes">p[eêè]ch(ér?|eur)s?</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="(.).(.*)" regexp_replace="$1é$2"/></suggestion> ?</message>
+        <example type="incorrect">Il a confessé tous ses <marker>pêchés</marker>.</example>
+        <example type="correct">Il a confessé tous ses péchés.</example>
+        <example type="incorrect">Il a commis un <marker>pêché</marker>.</example>
+        <example type="correct">Il a commis un <marker>péché</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token regexp="yes" skip="2">p[eêè]chés?</token>
+          <token regexp="yes" inflected="yes">avouer|confesser|commettre|pardonner|prêtre|curé|originel|mignon|dieu|adultère|omission|capital|jeunesse</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="(.).(.*)" regexp_replace="$1é$2"/></suggestion> ?</message>
+        <example type="incorrect">Les <marker>pêchés</marker> capitaux</example>
+        <example type="correct">Les péchés capitaux</example>
+        <example type="incorrect">Manger est mon <marker>pêchés</marker> mignon.</example>
+        <example type="correct">Manger est mon péché mignon.</example>
+        <example type="incorrect"><marker>Pêchés</marker> de jeunesse</example>
+        <example type="correct">Péchés de jeunesse</example>
       </rule>
     </rulegroup>
 
