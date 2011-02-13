@@ -6,12 +6,14 @@ title="Easy editing stylesheet" ?>
 French Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski, Agnes Souque, Hugo Voisard & Myriam Lechelt.
               2011 Dominique Pellé
-$Id: grammar.xml,v 1.63 2011-02-13 13:21:33 dominikoeo Exp $
+$Id: grammar.xml,v 1.64 2011-02-13 18:51:15 dominikoeo Exp $
 -->
 <rules lang="fr" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <phrases>
-    <phrase id="V_NON_N">
-      <token postag="V.*" postag_regexp="yes"><exception postag="N.*" postag_regexp="yes"></exception></token>
+    <phrase id="V_NON_NR">
+      <token postag="V.*" postag_regexp="yes">
+        <exception postag="[NR].*" postag_regexp="yes"/>
+      </token>
     </phrase>
     <phrase id="V_R_NON_N">
       <token postag="[VR].*" postag_regexp="yes"><exception postag="N.*" postag_regexp="yes"></exception></token>
@@ -743,7 +745,7 @@ though, and has since been slightly modified)-->
 
     <rule id="A_A_ACCENT" name="A au lieu de À">
       <pattern mark_from="1">
-        <phraseref idref="V_NON_N" />
+        <phraseref idref="V_NON_NR" />
         <token>a</token>
       </pattern>
       <message>Voulez-vous écrire <suggestion>à</suggestion> ?</message>
@@ -776,7 +778,7 @@ though, and has since been slightly modified)-->
     <rule id="MA" name="MA au lieu de M'A">
       <pattern mark_to="-1">
         <token>ma</token>
-        <phraseref idref="V_NON_N" />
+        <phraseref idref="V_NON_NR" />
       </pattern>
       <message>Voulez-vous écrire <suggestion>m'a</suggestion>?</message>
       <example type="incorrect">Il <marker>ma</marker> répondu.</example>
@@ -842,13 +844,17 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="CEST_CETTE" name="C'EST au lieu de CETTE CET ou CES">
       <pattern mark_to="-1">
-        <token skip="1">c</token>
+        <token>c</token>
+        <token regexp="yes">['’]</token>
         <token>est</token>
-        <token postag="N.*" postag_regexp="yes"></token>
+        <token postag="N.*" postag_regexp="yes">
+          <exception regexp="yes">pas|dommage</exception>
+        </token>
       </pattern>
       <message>Voulez-vous écrire <suggestion>ces</suggestion>, <suggestion>cet</suggestion> ou <suggestion>cette</suggestion> au lieu de '\1'\2'?</message>
       <example type="incorrect"><marker>C'est</marker> école est grande.</example>
       <example type="correct"><marker>Cette</marker> école est réputée.</example>
+      <example type="correct">C'est dommage to partir si tôt.</example>
     </rule>
     <rule id="EN_TANT_QUE" name="EN TEMPS QUE au lieu de EN TANT QUE">
       <pattern mark_to="-1">
@@ -998,6 +1004,7 @@ though, and has since been slightly modified)-->
           <token postag="SENT_START"/>
           <token skip="1" postag="[DJN] .* p" postag_regexp="yes">
             <exception scope="current" postag=".* sp?" postag_regexp="yes"/>
+            <exception scope="current" postag="V .*" postag_regexp="yes"/>
             <!-- Following exception skip words both singular/plural as well as adverbs -->
             <!-- <exception scope="next" negate_pos="yes" postag="A|([JN] .* sp?)|SENT_END" postag_regexp="yes"/> -->
           </token>
@@ -1381,7 +1388,9 @@ though, and has since been slightly modified)-->
 
       <rule name="il/elle/on + Verbe">
         <pattern>
-          <token postag="(R pers suj 3 .* s)|(R dem . s)" postag_regexp="yes"/>
+          <token postag="(R pers suj 3 .* s)|(R dem . s)" postag_regexp="yes">
+            <exception>ce</exception>
+          </token>
           <token postag="V .*" postag_regexp="yes"><exception postag="V .* 3 s" postag_regexp="yes"></exception></token>
         </pattern>
         <message>Vérifiez l'accord entre le pronom « \1 » et le verbe « \2 ».</message>
@@ -1389,10 +1398,13 @@ though, and has since been slightly modified)-->
         <example type="correct">Il travaille</example>
         <example type="incorrect"><marker>Ça fonctionnent</marker>.</example>
         <example type="correct">Ça fonctionne.</example>
+        <example type="correct">Ce sont des histoires.</example>
       </rule>
       <rule name="il/elle/on + ne + Verbe">
         <pattern>
-          <token postag="(R pers suj 3 .* s)|(R dem . s)" postag_regexp="yes"/>
+          <token postag="(R pers suj 3 .* s)|(R dem . s)" postag_regexp="yes">
+            <exception>ce</exception>
+          </token>
           <token>ne</token>
           <token postag="V .*" postag_regexp="yes"><exception postag="V .* 3 s" postag_regexp="yes"></exception></token>
         </pattern>
@@ -1401,6 +1413,7 @@ though, and has since been slightly modified)-->
         <example type="correct">Il ne travaille pas</example>
         <example type="incorrect"><marker>Ça ne fonctionnent</marker> pas.</example>
         <example type="correct">Ça ne fonctionne pas.</example>
+        <example type="correct">Ce ne sont pas des histoires.</example>
       </rule>
       <rule name="il/elle/on + pronom obj + Verbe">
         <pattern>
@@ -1726,6 +1739,114 @@ though, and has since been slightly modified)-->
       <example type="correct">Deux <marker>cents</marker> milliards d'étoiles.</example>
       <example type="incorrect">J'ai cinq <marker>cents</marker> soixante-et-un euros.</example>
     </rule>
+
+    <rulegroup id="EST_CE_QUE" name="Est-ce que">
+      <rule>
+        <pattern>
+          <token>Est
+            <exception regexp="yes" scope="previous">['’]</exception>
+            <exception postag="R pers suj .*" postag_regexp="yes" scope="previous"></exception>
+          </token>
+          <token>ce</token>
+          <token regexp="yes">que?</token>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>\1-\2 \3</suggestion> ?</message>
+        <example type="incorrect"><marker>Est ce que</marker> tu viens ?</example>
+        <example type="correct">Est-ce que tu viens ?</example>
+        <example type="correct">C'est ce que je dis.</example>
+        <example type="correct">Il est ce que j'appele un champion.</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="TRAIT_UNION_INVERSION" name="Trait d'union dans l'inversion verbe-pronom sujet">
+      <rule>
+        <pattern>
+          <token postag="V .* 1 s" postag_regexp="yes">
+            <exception regexp="yes">.*[éèe]</exception>
+          </token>
+          <token postag="R pers suj 1 s"/>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
+        <example type="incorrect"><marker>Puis je</marker> déposer mes affaires ?</example>
+        <example type="correct">Puis-je déposer mes affaires ?</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag="V .* 1 s" postag_regexp="yes">
+            <exception regexp="yes">.*[^éèe]</exception>
+          </token>
+          <token postag="R pers suj 1 s"/>
+        </pattern>
+        <message>Voulez-vous dire <suggestion><match no="1" regexp_match="(.*)." regexp_replace="$1é"/>-\2</suggestion> ?</message>
+        <example type="incorrect"><marker>Aime je</marker> ma femme ?</example>
+        <example type="correct"><marker>Aimè-je</marker> ma femme ?</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag="V .* 2 s" postag_regexp="yes"/>
+          <token postag="R pers suj 2 s"/>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
+        <example type="incorrect">Que <marker>manges tu</marker> ?</example>
+        <example type="correct">Que manges-tu ?</example>
+      </rule>
+      <rule>
+        <pattern>
+          <and>
+            <token postag="V.* 3 s" postag_regexp="yes"/>
+            <token regexp="yes">.*[^aec]</token>
+          </and>
+          <token regexp="yes">il|elle|on</token>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
+        <example type="incorrect">Que <marker>prend il</marker> ?</example>
+        <example type="correct">Que prend-il ?</example>
+      </rule>
+      <rule>
+        <pattern>
+          <and>
+            <token postag="V.* 3 s" postag_regexp="yes"/>
+            <token regexp="yes">.*[aec]</token>
+          </and>
+          <token regexp="yes">(t-)?(il|elle|on)</token>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>\1-t-\2</suggestion> ?</message>
+        <example type="incorrect">Que <marker>mange il</marker> ?</example>
+        <example type="correct">Que mange-t-il ?</example>
+        <example type="incorrect">Où <marker>va il</marker> ?</example>
+        <example type="correct">Où <marker>va-t-il</marker> ?</example>
+        <example type="incorrect">Quel âge <marker>a t-elle</marker> ?</example>
+        <example type="correct">Quel âge a-t-elle ?</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag="V .* 1 p" postag_regexp="yes"/>
+          <token postag="R pers suj 1 p"/>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
+        <example type="incorrect">Que <marker>mangeons nous</marker> ?</example>
+        <example type="correct">Que mangeons-nous ?</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag="V .* 2 p" postag_regexp="yes"/>
+          <token postag="R pers suj 2 p"/>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
+        <example type="incorrect">Que <marker>mangez vous</marker> ?</example>
+        <example type="correct">Que mangez-vous ?</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag="V .* 3 p" postag_regexp="yes"/>
+          <token postag="R pers suj 3 . p" postag_regexp="yes"/>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
+        <example type="incorrect">Que <marker>mangent ils</marker> ?</example>
+        <example type="correct">Que mangent-il ?</example>
+      </rule>
+    </rulegroup>
+
   </category>
 
   <category default="off" name="Régionalismes">
@@ -11816,7 +11937,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="DRILL" name="drill">
       <pattern>
-        <token regexp="yes">drill|drills|drille|drilles</token>
+        <token regexp="yes">drill|drills</token>
       </pattern>
       <message>« Drill » est un anglicisme. Employez <suggestion>perceuse</suggestion> (bois, métal), <suggestion>foreuse</suggestion> (pierre), <suggestion>roulette</suggestion> (dentiste), <suggestion>exercice militaire</suggestion> (armée), <suggestion>exercice d'apprentissage</suggestion> (enseignement).</message>
       <example type="incorrect"><marker>drill</marker></example>
@@ -16662,16 +16783,6 @@ though, and has since been slightly modified)-->
       <example type="correct">Oui ...</example>
       <example type="correct">Vous vous parlez.</example>
       <example type="correct">Il est capable de te <marker>faire faire</marker> des choses surprenantes.</example>
-    </rule>
-
-    <rule id="APOSTROPHE" name="Apostrophe avant voyelle">
-      <pattern>
-        <token regexp="yes">le|la|ne|de|du</token>
-        <token regexp="yes">[aeiou].*</token>
-      </pattern>
-      <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="(.*)." regexp_replace="$1"/>'\2</suggestion> ?</message>
-      <example type="incorrect"><marker>La abeille</marker></example>
-      <example type="correct">L'abeille</example>
     </rule>
   </category>
 <!-- vim: foldmethod=marker foldmarker=<category,</category:
