@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 	<!--
 		Disambiguation Rules for LanguageTool Copyright (C) 2008				
-$Id: disambiguation.xml,v 1.30 2010-11-13 15:38:02 milek_pl Exp $
+$Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
 	-->	
 <rules lang="pl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../disambiguation.xsd">
@@ -140,7 +140,21 @@ $Id: disambiguation.xml,v 1.30 2010-11-13 15:38:02 milek_pl Exp $
         </unify>
         </pattern>
         <disambig action="unify"/>
-	</rule>	
+	</rule>
+	<rule>
+		<pattern mark_from="0" mark_to="0">
+		<unify>
+		<feature id="number"/><feature id="gender"/> <feature id="case"/>
+          <token>jedna</token>
+          <token postag="subst.*|adj.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="subst.*|adj.*"/><exception postag="subst:irreg"/></token>
+        </unify>
+        </pattern>
+        <disambig action="unify"/>
+        <example type="untouched">On jedna sobie tłumy.</example>
+        <example type="ambiguous" inputform="jedna[jeden/adj:sg:nom.voc:f:pos,jednać/verb:fin:sg:ter:imperf]" outputform="jedna[jeden/adj:sg:nom.voc:f:pos]">To jest <marker>jedna</marker> osoba.</example>
+        <example type="ambiguous" inputform="jedna[jeden/adj:sg:nom.voc:f:pos,jednać/verb:fin:sg:ter:imperf]" outputform="jedna[jeden/adj:sg:nom.voc:f:pos]">To jest ta <marker>jedna</marker> jedyna.</example>
+	</rule>
+		
 	</rulegroup>		
 
 <!--  too greedy!	
@@ -632,4 +646,18 @@ $Id: disambiguation.xml,v 1.30 2010-11-13 15:38:02 milek_pl Exp $
 		<example type="untouched">On daje mu w ryj.</example>
 		<example type="ambiguous" inputform="daje[dawać/verb:fin:sg:ter:imperf]" outputform="daje[dawać/qub]">On przeżył <marker>daje</marker> vu.</example>
 	</rule>
+	
+	<rulegroup name="byc moze -> qub" id="MOZE_QUB">
+	<rule>
+		<pattern mark="1">
+		<token>być</token>
+		<token>może</token>
+		</pattern>
+		<disambig postag="qub"/>
+		<example type="untouched">On może być debilem.</example>
+		<example type="ambiguous" inputform="może[móc/verb:fin:sg:ter:imperf]" outputform="może[móc/qub]">On być <marker>może</marker> jest debilem</example>	
+	</rule>
+	</rulegroup>
+	
+	
 </rules>
