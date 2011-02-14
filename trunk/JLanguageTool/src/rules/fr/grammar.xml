@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 French Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski, Agnes Souque, Hugo Voisard & Myriam Lechelt.
               2011 Dominique Pellé
-$Id: grammar.xml,v 1.66 2011-02-13 22:31:22 dominikoeo Exp $
+$Id: grammar.xml,v 1.67 2011-02-14 21:28:20 dominikoeo Exp $
 -->
 <rules lang="fr" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <phrases>
@@ -608,11 +608,13 @@ though, and has since been slightly modified)-->
 
     <rulegroup id="DAVANTAGE" name="Davantage au lieu de d'avantage">
       <rule>
-        <pattern mark_from="1">
+        <pattern mark_from="1" mark_to="-1">
           <token postag="A|(N.*)" postag_regexp="yes">
-            <exception>pas</exception>
+            <exception regexp="yes">pas|bien|encore|toujours</exception>
+            <exception postag="V.*" postag_regexp="yes"/>
           </token>
           <token regexp="yes">davantages?</token>
+          <token negate="yes" regexp="yes">de|d</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>d'avantage</suggestion> ?</message>
         <example type="incorrect">Il a assez <marker>davantage</marker>.</example>
@@ -620,6 +622,7 @@ though, and has since been slightly modified)-->
         <example type="incorrect">L'obtention <marker>davantage</marker> en nature se fera sous certaines conditions.</example>
         <example type="correct">L'obtention d'avantages en nature se fera sous certaines conditions.</example>
         <example type="correct">Je ne vous ferai pas davantage de reproches.</example>
+        <example type="correct">Si vous aimeriez en savoir davantage, veuillez me contacter.</example>
       </rule>
       <rule>
         <pattern mark_from="1">
@@ -1753,7 +1756,7 @@ though, and has since been slightly modified)-->
 
     <rule id="CENT" name="Cent">
       <pattern mark_from="1" mark_to="-1">
-        <token regexp="yes">deux|trois|quatre|cinq|six|sept|huit|neuf|mille</token>
+        <token regexp="yes">deux|trois|quatre|cinq|six|sept|huit|neuf</token>
         <token>cent</token>
         <token negate="yes" regexp="yes">un|une|deux|trois|quatre|cinq|six|sept|huit|neuf|dix|onze|douze|treize|quatorze|quinze|seize|vingt|trente|quarante|cinquante|soixante|septante|octante|huitante|nonante|mille|(dix-.*)|(vingt-.*)|(trente-.*)|(quarante-.*)|(cinquante-.*)|(soixante-.*)|(quatre-.*)|(octante-.*)|(huitante-.*)|(nonante-.*)</token>
       </pattern>
@@ -1763,6 +1766,7 @@ though, and has since been slightly modified)-->
       <example type="correct">Deux <marker>cent</marker> mille étoiles.</example>
       <example type="incorrect">Deux <marker>cent</marker> milliards d'étoiles.</example>
       <example type="correct">J'ai cinq <marker>cent</marker> soixante-et-un euros.</example>
+      <example type="correct">J'ai mille cent timbres.</example>
     </rule>
     <rule id="CENTS" name="Cents">
       <pattern mark_from="1" mark_to="-1">
@@ -15575,7 +15579,6 @@ though, and has since been slightly modified)-->
       <example type="correct"><marker>par là</marker></example>
     </rule>
 -->
-    <!--nouvelle règle-->
     <rule id="EN-DESSOUS" name="en-dessous">
       <pattern>
         <token>en-dessous</token>
@@ -15584,7 +15587,6 @@ though, and has since been slightly modified)-->
       <example type="incorrect"><marker>en-dessous</marker></example>
       <example type="correct"><marker>en dessous</marker></example>
     </rule>
-    <!--nouvelle règle-->
     <rule id="PAR_DESSUS" name="par dessus">
       <pattern>
         <token>par</token>
@@ -15594,7 +15596,6 @@ though, and has since been slightly modified)-->
       <example type="incorrect"><marker>par dessus</marker></example>
       <example type="correct"><marker>par-dessus</marker></example>
     </rule>
-    <!--nouvelle règle-->
     <rule id="PAR_DESSOUS" name="par dessous">
       <pattern>
         <token>par</token>
@@ -15604,7 +15605,6 @@ though, and has since been slightly modified)-->
       <example type="incorrect"><marker>par dessous</marker></example>
       <example type="correct"><marker>par-dessous</marker></example>
     </rule>
-    <!--nouvelle règle-->
     <rule id="AU_DESSOUS" name="au dessous">
       <pattern>
         <token>au</token>
@@ -15614,7 +15614,6 @@ though, and has since been slightly modified)-->
       <example type="incorrect"><marker>au dessous</marker></example>
       <example type="correct"><marker>au-dessous</marker></example>
     </rule>
-    <!--nouvelle règle-->
     <rule id="AU_DESSUS" name="au dessus">
       <pattern>
         <token>au</token>
@@ -15624,7 +15623,6 @@ though, and has since been slightly modified)-->
       <example type="incorrect"><marker>au dessus</marker></example>
       <example type="correct"><marker>au-dessus</marker></example>
     </rule>
-    <!--nouvelle règle-->
     <rule default="off" id="EH" name="eh (sans virgule après)">
       <pattern mark_to="-1">
         <token>eh</token>
@@ -15634,7 +15632,6 @@ though, and has since been slightly modified)-->
       <example correction="eh," type="incorrect"><marker>eh</marker> blah</example>
       <example type="correct"><marker>eh</marker>,</example>
     </rule>
-    <!--nouvelle règle-->
     <rule default="off" id="EH_BIEN" name="eh bien (sans virgule après)">
       <pattern mark_to="-1">
         <token>eh</token>
@@ -15645,29 +15642,6 @@ though, and has since been slightly modified)-->
       <example correction="eh bien," type="incorrect"><marker>eh bien</marker> soit!</example>
       <example type="correct"><marker>eh bien</marker>,</example>
     </rule>
-    <!--fixme
-    <rule id="MAIS" name="mais (sans virgule avant)">
-      <pattern>
-        <token><exception>,</exception></token>
-        <token>mais</token>
-        <token><exception>,</exception><exception>;</exception><exception>!</exception><exception>:</exception><exception>-</exception><exception>?</exception></token>
-      </pattern>
-      <message>«&#160;Mais&#160;» (sans virgule avant) peut être une faute de typographie. Employez une virgule (<suggestion>,</suggestion>) au besoin.</message>
-      <example type="incorrect"><marker> mais</marker></example>
-      <example type="correct"><marker>, mais</marker></example>
-    </rule>
-
-    <rule id="ET_CE" name="et ce (sans virgule après)">
-      <pattern>
-        <token>et</token>
-        <token>ce</token>
-        <token><exception>,</exception></token>
-      </pattern>
-      <message>«&#160;Et ce&#160;» (sans virgule après) peut être une faute de typographie. Employez une virgule (<suggestion>,</suggestion>) au besoin.</message>
-      <example type="incorrect"><marker>et ce </marker></example>
-      <example type="correct"><marker>et ce, </marker></example>
-    </rule>
--->
     <rule id="CEE" name="CÉE">
       <pattern case_sensitive="yes">
         <token>CÉE</token>
@@ -15683,6 +15657,16 @@ though, and has since been slightly modified)-->
       <message>« \1 » est une faute de typographie. Employez <suggestion>tout à fait</suggestion>.</message>
       <example type="incorrect"><marker>tout-à-fait</marker></example>
       <example type="correct"><marker>tout à fait</marker></example>
+    </rule>
+    <rule id="ARC_EN_CIEL" name="arc en ciel">
+      <pattern>
+        <token regexp="yes">arcs?</token> 
+        <token>en</token>
+        <token>ciel</token>
+      </pattern>
+      <message>« \1 \2 \3 » est une faute de typographie. Employez <suggestion>\1-\2-\3</suggestion>.</message>
+      <example type="incorrect">Un bel <marker>arc en ciel</marker>.</example>
+      <example type="correct">Un bel <marker>arc-en-ciel</marker>.</example>
     </rule>
     <rule id="CEST_A_DIRE" name="c'est à dire">
       <pattern>
@@ -15723,6 +15707,38 @@ though, and has since been slightly modified)-->
       <message>« Inter-club » est une faute de typographie. Employez <suggestion>interclub</suggestion>.</message>
       <example type="incorrect"><marker>inter-club</marker></example>
       <example type="correct"><marker>interclub</marker></example>
+    </rule>
+
+    <rulegroup id="XXieme" name="XXième">
+      <rule>
+        <pattern case_sensitive="yes">
+          <token regexp="yes">(([IVXLCM]+)|([0-9]+))-?i?[eè]mes?</token>
+        </pattern>
+        <message>« \1 » est un faut de typographie. Employez <suggestion><match no="1" regexp_match="(.*?)-?i?[eè]me" regexp_replace="$1e"/></suggestion>.</message>
+        <example type="incorrect">Un écrivain du <marker>XIX-ième</marker> siècle</example>
+        <example type="correct">Un écrivain du XIXe siècle</example>
+        <example type="incorrect">La <marker>2eme</marker> à droite</example>
+        <example type="correct">La 2e à droite</example>
+      </rule>
+    </rulegroup>
+
+    <rule id="EX" name="ex + trait d'union">
+      <pattern>
+        <token>ex</token>
+        <token postag="N.*" postag_regexp="yes"/>
+      </pattern>
+      <message>« \1 \2 » est une erreur de typographie. Employez <suggestion>\1-\2</suggestion>.</message>
+      <example type="incorrect">Mon <marker>ex femme</marker> habite près de chez moi.</example>
+      <example type="correct">Mon ex-femme habite près de chez moi.</example>
+    </rule>
+    <rule id="SEMI" name="semi + trait d'union">
+      <pattern>
+        <token regexp="yes">semi|mi</token>
+        <token postag="[JN].*" postag_regexp="yes"/>
+      </pattern>
+      <message>« \1 \2 » est une erreur de typographie. Employez <suggestion>\1-\2</suggestion>.</message>
+      <example type="incorrect">La procédure est <marker>semi automatique</marker>.</example>
+      <example type="correct">La procédure est semi-automatique.</example>
     </rule>
   </category>
 
@@ -16794,6 +16810,39 @@ though, and has since been slightly modified)-->
       <example type="incorrect"><marker>dieu</marker></example>
       <example type="correct"><marker>Dieu</marker></example>
     </rule>
+
+    <rulegroup id="MOIS" name="mois de l'année">
+      <rule>
+        <pattern case_sensitive="yes" mark_from="1">
+          <token/>
+          <token regexp="yes">Janvier|Février|Avril|Mai|Juin|Juillet|Août|Septembre|Octobre|Novembre|Décembre</token>
+        </pattern>
+        <message>Les mois de l'année n'ont pas de majuscule.</message>
+        <example type="incorrect">Cette année, <marker>Avril</marker> a été chaud.</example>
+        <example type="correct">Cette année, <marker>avril</marker> a été chaud.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="1">
+          <token regexp="yes">en|([1-9][0-9]*)|de</token>
+          <token>Mars</token>
+        </pattern>
+        <message>Les mois de l'année n'ont pas de majuscule.</message>
+        <example type="incorrect">Je suis né le 30 <marker>Mars</marker> 1960.</example>
+        <example type="correct">Je suis né le 30 mars 1960.</example>
+        <example type="correct">La planète Mars est rouge.</example>
+        <example type="correct">Dans la mythologie romaine, Mars est le dieu de la guerre.</example>
+      </rule>
+    </rulegroup>
+    <rule id="JOURS" name="jours de la semaine">
+      <pattern case_sensitive="yes" mark_from="1">
+        <token/>
+        <token regexp="yes">Lundi|Mardi|Mercredi|Jeudi|Vendredi|Samedi|Dimanche</token>
+      </pattern>
+      <message>Les jours de la semaine n'ont pas de majuscule.</message>
+      <example type="incorrect">Je viendrai <marker>Lundi</marker>.</example>
+      <example type="correct">Je viendrai lundi.</example>
+    </rule>
+
   </category>
 
   <category name="Règles de base">
