@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 French Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski, Agnes Souque, Hugo Voisard & Myriam Lechelt.
               2011 Dominique Pellé
-$Id: grammar.xml,v 1.67 2011-02-14 21:28:20 dominikoeo Exp $
+$Id: grammar.xml,v 1.68 2011-02-15 21:21:19 dominikoeo Exp $
 -->
 <rules lang="fr" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <phrases>
@@ -578,7 +578,7 @@ though, and has since been slightly modified)-->
     <rule id="SA_CA" name="SA au lieu de ÇA">
       <pattern mark_to="-1">
         <token>sa</token>
-        <phraseref idref="V_R_NON_N" />
+        <phraseref idref="V_R_NON_N"/>
       </pattern>
       <message>Voulez-vous écrire <suggestion>ça</suggestion> ?</message>
       <example type="correct">Ça va?</example>
@@ -782,14 +782,28 @@ though, and has since been slightly modified)-->
     </rulegroup>
 
     <rule id="A_A_ACCENT" name="A au lieu de À">
-      <pattern mark_from="1">
-        <phraseref idref="V_NON_NR" />
+      <pattern mark_from="1" mark_to="-1">
+        <phraseref idref="V_NON_NR"/>
         <token>a</token>
+        <token negate="yes">priori</token>
       </pattern>
       <message>Voulez-vous écrire <suggestion>à</suggestion> ?</message>
       <example type="correct">Ils s'apprêtent à commencer le premier trou.</example>
       <example type="incorrect">Ils s'apprêtent <marker>a</marker> commencer le premier trou.</example>
+      <example type="correct">Je ne pouvais pas le croire a priori.</example>
     </rule>
+
+    <rule id="OU" name="Ou au lieux de où">
+      <pattern mark_to="-1">
+        <token>ou</token>
+        <token inflected="yes">être<exception>être</exception></token>
+      </pattern>
+      <message>Voulez-vous écrire <suggestion>où</suggestion> ?</message>
+      <example type="incorrect"><marker>Ou</marker> sont mes affaires ?</example>
+      <example type="correct">Où sont mes affaires ?</example>
+      <example type="correct">Manger ou être mangé, c'est la loi de la nature.</example>
+    </rule>
+
     <rule id="SE_CE" name="SE au lieu de CE">
       <pattern mark_to="-1">
         <token>se</token>
@@ -816,7 +830,7 @@ though, and has since been slightly modified)-->
     <rule id="MA" name="MA au lieu de M'A">
       <pattern mark_to="-1">
         <token>ma</token>
-        <phraseref idref="V_NON_NR" />
+        <phraseref idref="V_NON_NR"/>
       </pattern>
       <message>Voulez-vous écrire <suggestion>m'a</suggestion>?</message>
       <example type="incorrect">Il <marker>ma</marker> répondu.</example>
@@ -1804,18 +1818,24 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token postag="V .* 1 s" postag_regexp="yes">
+            <exception scope="previous" postag="R pers suj .*" postag_regexp="yes"/>
             <exception regexp="yes">.*[éèe]</exception>
+            <exception postag="N.*" postag_regexp="yes"/>
           </token>
           <token postag="R pers suj 1 s"/>
         </pattern>
         <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
         <example type="incorrect"><marker>Puis je</marker> déposer mes affaires ?</example>
         <example type="correct">Puis-je déposer mes affaires ?</example>
+        <example type="correct">Sans doute je ne vais pas.</example>
+        <example type="correct">Si d'aventure on en a.</example>
+        <example type="correct">Tant que je vivrai je n'oublierai pas.</example>
       </rule>
       <rule>
         <pattern>
           <token postag="V .* 1 s" postag_regexp="yes">
             <exception regexp="yes">.*[^éèe]</exception>
+            <exception scope="previous" postag="R pers suj .*" postag_regexp="yes"/>
           </token>
           <token postag="R pers suj 1 s"/>
         </pattern>
@@ -1825,7 +1845,9 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token postag="V .* 2 s" postag_regexp="yes"/>
+          <token postag="V .* 2 s" postag_regexp="yes">
+            <exception scope="previous" postag="R pers suj .*" postag_regexp="yes"/>
+          </token>
           <token postag="R pers suj 2 s"/>
         </pattern>
         <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
@@ -1837,6 +1859,7 @@ though, and has since been slightly modified)-->
           <and>
             <token postag="V.* 3 s" postag_regexp="yes">
               <exception regexp="yes" scope="previous">['’]</exception>
+              <exception scope="previous" postag="R pers suj .*" postag_regexp="yes"/>
             </token>
             <token regexp="yes">.*[^aec]</token>
           </and>
@@ -1852,12 +1875,14 @@ though, and has since been slightly modified)-->
           <and>
             <token postag="V.* 3 s" postag_regexp="yes">
               <exception>cela</exception>
+              <exception postag="N.*" postag_regexp="yes"/>
+              <exception scope="previous" postag="R pers suj .*" postag_regexp="yes"/>
             </token>
             <token regexp="yes">.*[aec]</token>
           </and>
           <token regexp="yes">(t-)?(il|elle|on)</token>
         </pattern>
-        <message>Voulez-vous dire <suggestion>\1-t-\2</suggestion> ?</message>
+        <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
         <example type="incorrect">Que <marker>mange il</marker> ?</example>
         <example type="correct">Que mange-t-il ?</example>
         <example type="incorrect">Où <marker>va il</marker> ?</example>
@@ -1865,10 +1890,13 @@ though, and has since been slightly modified)-->
         <example type="incorrect">Quel âge <marker>a t-elle</marker> ?</example>
         <example type="correct">Quel âge a-t-elle ?</example>
         <example type="correct">Comme cela elle n'a pas à cuisiner.</example>
+        <example type="correct">Les jours de fête on ne travaille pas.</example>
       </rule>
       <rule>
         <pattern>
-          <token postag="V .* 1 p" postag_regexp="yes"/>
+          <token postag="V .* 1 p" postag_regexp="yes">
+            <exception scope="previous" postag="R pers suj .*" postag_regexp="yes"/>
+          </token>
           <token postag="R pers suj 1 p"/>
         </pattern>
         <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
@@ -1877,7 +1905,9 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token postag="V .* 2 p" postag_regexp="yes"/>
+          <token postag="V .* 2 p" postag_regexp="yes">
+            <exception scope="previous" postag="R pers suj .*" postag_regexp="yes"/>
+          </token>
           <token postag="R pers suj 2 p"/>
         </pattern>
         <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
@@ -1886,7 +1916,9 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token postag="V .* 3 p" postag_regexp="yes"/>
+          <token postag="V .* 3 p" postag_regexp="yes">
+            <exception scope="previous" postag="R pers suj .*" postag_regexp="yes"/>
+          </token>
           <token postag="R pers suj 3 . p" postag_regexp="yes"/>
         </pattern>
         <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
@@ -1894,6 +1926,31 @@ though, and has since been slightly modified)-->
         <example type="correct">Que mangent-il ?</example>
       </rule>
     </rulegroup>
+
+    <rule id="MA_VOYELLE" name="ma + voyelle">
+      <pattern>
+        <token regexp="yes">[mst]a</token>
+        <token regexp="yes">[aeiou].*</token>
+      </pattern>
+      <message>Voulez-vous dire <suggestion>mon \2</suggestion> ?</message>
+      <example type="incorrect">Voici <marker>ma amie</marker>.</example>
+      <example type="correct">Voici mon amie.</example>
+    </rule>
+
+    <rule id="VIEUX" name="view + voyelle">
+      <pattern>
+        <token>vieux</token>
+        <and>
+          <token regexp="yes">[aeiouh].*</token>
+          <token postag="[NJ] m s.?" postag_regexp="yes"/>
+        </and>
+      </pattern>
+      <message>Voulez-vous dire <suggestion>vieil \2</suggestion> ?</message>
+      <example type="incorrect">C'est un <marker>vieux homme</marker>.</example>
+      <example type="correct">C'est un <marker>vieil homme</marker>.</example>
+      <example type="incorrect">Mon <marker>vieux ami</marker>.</example>
+      <example type="correct">Mon vieil ami.</example>
+    </rule>
 
   </category>
 
