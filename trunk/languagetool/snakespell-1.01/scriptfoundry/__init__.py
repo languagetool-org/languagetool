@@ -1,1 +1,0 @@
-# scriptfoundry python collection
