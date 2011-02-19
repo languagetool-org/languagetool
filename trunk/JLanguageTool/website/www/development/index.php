@@ -6,7 +6,8 @@ $lastmod = "2011-01-08 23:05:00 CET";
 include("../../include/header.php");
 include('../../include/geshi/geshi.php');
 ?>
-		
+
+
 <p class="firstpara">This is a collection of the developer documentation available for LanguageTool.
 It's intended for people who want to understand LanguageTool so
 they can write their own rules or even add support for a new language.
