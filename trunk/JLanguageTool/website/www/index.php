@@ -2,7 +2,7 @@
 $page = "homepage";
 $title = "LanguageTool";
 $title2 = "Open Source language checker";
-$lastmod = "2011-01-02 16:20:00 CET";
+$lastmod = "2011-02-19 11:20:00 CET";
 include("../include/header.php");
 ?>
 		
@@ -50,6 +50,9 @@ need to ignore:<br />
 
 <h2>News</h2>
 
+
+<p><strong>2011-02-19:</strong> The LanguageTool source code is now available from
+<?=show_link("subversion", "development/#checkout", 0)?>. Please don't use the old CVS repository anymore.</p>
 
 <p><strong>2011-01-02:</strong> Released LanguageTool 1.2. Changes include:
 <ul>
