@@ -2,7 +2,7 @@
 $page = "development";
 $title = "LanguageTool";
 $title2 = "Development";
-$lastmod = "2011-01-08 23:05:00 CET";
+$lastmod = "2011-02-19 02:05:00 CET";
 include("../../include/header.php");
 include('../../include/geshi/geshi.php');
 ?>
@@ -16,6 +16,7 @@ Software developers might also be interested in LanguageTool's
 
 <ul>
 	<li><a href="#helpwanted">Help wanted!</a></li>
+    <li><a href="#checkout">Checkout (Java developers only)</a></li>
 	<li><a href="#installation">Installation and usage</a></li>
 	<li><a href="#process">Language checking process</a></li>
 	<li><a href="#xmlrules">Adding new XML rules</a></li>
@@ -27,17 +28,12 @@ Software developers might also be interested in LanguageTool's
 
 <p><a name="helpwanted"><strong>Help wanted!</strong></a><br />
 We're looking for people who support us writing new rules so LanguageTool can
-detect more errors. The languages that LanguageTool already supports but for
-which support needs to be improved are: English, German, Polish, Spanish, 
-French, Italian, Dutch, Czech, Lithuanian, Ukrainian, and Slovenian.</p>
+detect more errors. See <?=show_link("the list of supported languages", "../languages/", 0)?>.</p>
 
 <p>How can you help?</p>
 
 <ol>
 	<li>Read this page</li>
-	<li>If you want to write rules in Java or if you want to add support
-		for another language, <?=show_link("check out LanguageTool from CVS",
-		"http://sourceforge.net/cvs/?group_id=110216", 1)?>.</li>
 	<li>Subscribe to the <?=show_link("mailing list",
 		"http://lists.sourceforge.net/lists/listinfo/languagetool-devel", 1)?></li>
 	<li>Try writing rules. For English and German, see the lists of errors
@@ -46,6 +42,16 @@ French, Italian, Dutch, Czech, Lithuanian, Ukrainian, and Slovenian.</p>
     <li><?=show_link("See the wiki", "http://languagetool.wikidot.com/", 0)?> for 
         more tips and tricks</li>
 </ol>
+
+<p><a name="checkout"><strong>Checkout (Java developers only)</strong></a><br />
+If you are a Java developer and you want to extend LanguageTool or if you
+want to use the latest development version, check out LanguageTool from subversion:</p>
+
+<code>
+svn co https://languagetool.svn.sourceforge.net/svnroot/languagetool/trunk/JLanguageTool languagetool
+</code>
+
+<p>You can then run the test with <tt>ant test</tt> or build the code with <tt>ant</tt>.</p>
 
 <p><a name="installation"><strong>Installation and usage</strong></a><br />
 Please see the README file that comes with LanguageTool and the 
@@ -273,7 +279,7 @@ etc as an error:</p>
 <p><a name="javarules"><strong>Adding new Java rules</strong></a><br />
 Rules that cannot be expressed with a simple pattern in <tt>grammar.xml</tt>
 can be developed as a Java class. See 
-<tt><a href="http://languagetool.cvs.sourceforge.net/*checkout*/languagetool/JLanguageTool/src/java/de/danielnaber/languagetool/rules/WordRepeatRule.java">rules/WordRepeatRule.java</a></tt>
+<tt><a href="http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/JLanguageTool/src/java/de/danielnaber/languagetool/rules/WordRepeatRule.java?revision=4635&amp;content-type=text%2Fplain">rules/WordRepeatRule.java</a></tt>
 for a simple
 example which you can use to develop your own rules. You will also need to
 add your rule's id to <tt>&lt;YourLanguage&gt;.java</tt> to activate it.</p>
@@ -290,7 +296,7 @@ that's not the case, start LanguageTool with <tt>java -Duser.language=xx -jar La
 
 <p><a name="newlanguage"><strong>Adding support for a new language</strong></a><br />
 Adding a new language requires some changes to the Java source files. You should check out
-the "JLanguageTool" module from CVS (see the <a href="http://sourceforge.net/cvs/?group_id=110216">sourceforge 
+the "JLanguageTool" module from subversion (see <a href="#checkout">above</a> or the <a href="http://sourceforge.net/scm/?type=svn&amp;group_id=110216">sourceforge 
 help</a>). You may then call <tt><a href="http://ant.apache.org/">ant</a></tt> to
 build LanguageTool (this is optional, it's okay to work only inside Eclipse). Ant should compile
 a file named like <tt>LanguageTool-1.x.y-dev.oxt</tt> in the <tt>dist</tt> directory.</p>
@@ -315,7 +321,7 @@ You will also need to add the short name of your language to <tt>rules.dtd</tt>.
 and its rules, based on the "example" elements of each rule.</p>
 
 <p>To add part-of-speech tags, please have a look at <tt>resource/en/make-dict-en.sh</tt>
-(note: this file is only in CVS, not in the released OXT). First try to make it work 
+(note: this file is only in subversion, not in the released OXT). First try to make it work
 for English. You need the
 <?=show_link("fsa", "http://www.eti.pg.gda.pl/katedry/kiw/pracownicy/Jan.Daciuk/personal/fsa.html", 1) ?> 
 package. Install it and add its installation directory to your PATH. Once it works for English,
