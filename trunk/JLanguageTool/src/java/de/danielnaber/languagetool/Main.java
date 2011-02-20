@@ -36,7 +36,6 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import de.danielnaber.languagetool.bitext.StringPair;
 import de.danielnaber.languagetool.bitext.TabBitextReader;
 import de.danielnaber.languagetool.rules.Rule;
 import de.danielnaber.languagetool.rules.bitext.BitextRule;
@@ -112,10 +111,10 @@ class Main {
     profileRules = true;
   }
 
-  private final void setBitextMode(final Language sourceLang, 
+  private void setBitextMode(final Language sourceLang,
       final String[] disabledRules, final String[] enabledRules) throws IOException, ParserConfigurationException, SAXException {
     bitextMode = true;
-    Language target = lt.getLanguage();
+    final Language target = lt.getLanguage();
     lt = new JLanguageTool(target, null);    
     srcLt = new JLanguageTool(sourceLang);
     lt.activateDefaultPatternRules();
@@ -162,7 +161,7 @@ class Main {
     if (oneTime) {
       if (bitextMode) {
         //TODO: add parameter to set different readers        
-        TabBitextReader reader = new TabBitextReader(filename, encoding);
+        final TabBitextReader reader = new TabBitextReader(filename, encoding);
         if (applySuggestions) {
           Tools.correctBitext(reader, srcLt, lt, bRules); 
         } else {
