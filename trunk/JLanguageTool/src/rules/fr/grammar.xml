@@ -1047,7 +1047,7 @@ though, and has since been slightly modified)-->
         <example type="correct">Les <marker>hérétiques ayant</marker> reconnu la foi catholique.</example>
         <example type="correct">Les <marker>voitures verte</marker> et rouge.</example>
         <example type="correct">Des <marker>livres audio</marker></example>
-        <example type="correct">L'institut de <marker>recherches brittanique</marker></example>
+        <example type="correct">L'institut de <marker>recherches britannique</marker></example>
         <example type="incorrect">Les <marker>camions très lourd</marker>.</example>
         <example type="correct">Les <marker>camions très lourds</marker>.</example>
         <example type="incorrect"><marker>Les atlas cher</marker>.</example>
@@ -1810,7 +1810,7 @@ though, and has since been slightly modified)-->
         <example type="incorrect"><marker>Est ce que</marker> tu viens ?</example>
         <example type="correct">Est-ce que tu viens ?</example>
         <example type="correct">C'est ce que je dis.</example>
-        <example type="correct">Il est ce que j'appele un champion.</example>
+        <example type="correct">Il est ce que j'appelle un champion.</example>
       </rule>
     </rulegroup>
 
@@ -1937,7 +1937,7 @@ though, and has since been slightly modified)-->
       <example type="correct">Voici mon amie.</example>
     </rule>
 
-    <rule id="VIEUX" name="view + voyelle">
+    <rule id="VIEUX" name="vieux + voyelle">
       <pattern>
         <token>vieux</token>
         <and>
@@ -1951,6 +1951,66 @@ though, and has since been slightly modified)-->
       <example type="incorrect">Mon <marker>vieux ami</marker>.</example>
       <example type="correct">Mon vieil ami.</example>
     </rule>
+
+    <rulegroup id="TOUT_LES" name="Accord avec adjectifs tout/tous/toute/toutes">
+      <rule>
+        <pattern mark_to="-2">
+          <token regexp="yes">toute?</token>
+          <token postag="D.*" postag_regexp="yes"/>
+          <token postag="[AN] . p" postag_regexp="yes"/>
+        </pattern>
+        <message>Vérifiez l'accord entre « \1 » et « \3 ».</message>
+        <example type="incorrect"><marker>Toute</marker> ces erreurs qu'il fait</example>
+        <example type="correct"><marker>Toutes</marker> ces erreurs qu'il fait</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-2">
+          <token regexp="yes">tous|toutes<exception scope="previous" postag="V.*" postag_regexp="yes"/><exception regexp="yes" scope="previous">à|de|[vv]ous|eux</exception></token>
+          <token postag="D.*" postag_regexp="yes"/>
+          <token postag="[AN] . s" postag_regexp="yes"/>
+        </pattern>
+        <message>Vérifiez l'accord entre « \1 » et « \3 ».</message>
+        <example type="incorrect"><marker>Toutes</marker> la saison</example>
+        <example type="correct"><marker>Toute</marker> la saison</example>
+        <example type="correct">Ils aiment tous la géographie.</example>
+        <example type="correct">Il sera connu de tous un jour.</example>
+        <example type="correct">C'est pour nous tous une mauvaise nouvelle.</example>
+        <example type="correct">Je souhaite à tous une bonne année.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-2">
+          <token>tous</token>
+          <token postag="D.*" postag_regexp="yes"/>
+          <token postag="[AN] f .*" postag_regexp="yes"/>
+        </pattern>
+        <message>Vérifiez l'accord entre « \1 » et « \3 ».</message>
+        <example type="incorrect"><marker>Tous</marker> les années</example>
+        <example type="correct"><marker>Toutes</marker> les années</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-2">
+          <token>tout<exception regexp="yes" scope="previous">après|du</exception></token>
+          <token postag="D.*" postag_regexp="yes"/>
+          <token postag="[AN] f .*" postag_regexp="yes"/>
+        </pattern>
+        <message>Vérifiez l'accord entre « \1 » et « \3 ».</message>
+        <example type="incorrect"><marker>Tout</marker> la saison</example>
+        <example type="correct"><marker>Toute</marker> la saison</example>
+        <example type="correct">Après tout ma douleur n'est pas si forte.</example>
+        <example type="correct">Je n'aime pas du tout la télévision.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-2">
+          <token regexp="yes">toutes?</token>
+          <token postag="D.*" postag_regexp="yes"/>
+          <token postag="[AN] m .*" postag_regexp="yes"/>
+        </pattern>
+        <message>Vérifiez l'accord entre « \1 » et « \3 ».</message>
+        <example type="incorrect"><marker>Toute</marker> cet équipement</example>
+        <example type="correct">Tout cet équipement</example>
+        <example type="correct">Toutes les cours de récréation</example>
+      </rule>
+    </rulegroup>
 
   </category>
 
@@ -16741,7 +16801,7 @@ though, and has since been slightly modified)-->
       <example type="incorrect">Des maisons perdues <marker>en pleine campagne</marker>.</example>
       <example type="incorrect">J'habite <marker>en pleine campagne</marker>.</example>
       <example type="correct">J'habite <marker>en plaine campagne</marker>.</example>
-      <example type="correct">Il est <marker>en pleine campagne</marker> electorale.</example>
+      <example type="correct">Il est <marker>en pleine campagne</marker> électorale.</example>
     </rule>
     <rule id="POSTULER_A" name="postuler à">
       <pattern>
