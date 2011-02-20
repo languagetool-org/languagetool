@@ -49,7 +49,7 @@ RB => Règles Brutes
     </rule>
     <rule name="qui nous">
       <pattern mark="1">
-        <token regexp="yes">qui|de|ne|chez|sur|sans|entre|parmi</token>
+        <token regexp="yes">qui|de|ne|chez|sur|sans|entre|parmi|tout</token>
         <token>nous</token>
       </pattern>
       <disambig postag="R pers obj 1 p"/>
@@ -62,11 +62,19 @@ RB => Règles Brutes
       </pattern>
       <disambig postag="R pers obj 1 p"/>
     </rule>
+    <rule name="que ça nous">
+      <pattern mark="2">
+        <token>que</token>
+        <token regexp="yes">ça|cela|ceci|ceux-ci|celles?-ci</token>
+        <token>nous</token>
+      </pattern>
+      <disambig postag="R pers obj 1 p"/>
+    </rule>
     <rule name="L'homme nous parle">
       <pattern mark="1">
-      <token postag="N . s" postag_regexp="yes"/>
-      <token regexp="yes">vous|nous</token>
-      <token postag="V .* 3 s" postag_regexp="yes"/>
+        <token postag="N . s" postag_regexp="yes"/>
+        <token regexp="yes">vous|nous</token>
+        <token postag="V .* 3 s" postag_regexp="yes"/>
       </pattern>
       <disambig action="filter" postag="R pers obj .*"/>
       <example type="ambiguous" inputform="nous[nous/R pers obj 1 p,nous/R pers suj 1 p]" outputform="nous[nous/R pers obj 1 p]">L'homme <marker>nous</marker> parle de sa vie.</example>
@@ -74,9 +82,9 @@ RB => Règles Brutes
     </rule>
     <rule name="Les études nous ont...">
       <pattern mark="1">
-    <token postag="N . p" postag_regexp="yes"/>
-      <token regexp="yes">vous|nous</token>
-      <token postag="V .* 3 p" postag_regexp="yes"/>
+        <token postag="N . p" postag_regexp="yes"/>
+        <token regexp="yes">vous|nous</token>
+        <token postag="V .* 3 p" postag_regexp="yes"/>
       </pattern>
       <disambig action="filter" postag="R pers obj .*"/>
       <example type="ambiguous" inputform="nous[nous/R pers obj 1 p,nous/R pers suj 1 p]" outputform="nous[nous/R pers obj 1 p]">Les études <marker>nous</marker> ont révélé...</example>
@@ -91,7 +99,7 @@ RB => Règles Brutes
     </rule>
     <rule name="qui vous">
       <pattern mark="1">
-        <token regexp="yes">qui|de|ne|chez|sur|sans|entre|parmi</token>
+        <token regexp="yes">qui|de|ne|chez|sur|sans|entre|parmi|tout</token>
         <token>vous</token>
       </pattern>
       <disambig postag="R pers obj 2 p"/>
@@ -99,6 +107,14 @@ RB => Règles Brutes
     <rule name="ça vous">
       <pattern mark="2">
         <token postag="SENT_START"/>
+        <token regexp="yes">ça|cela|ceci|ceux-ci|celles?-ci</token>
+        <token>vous</token>
+      </pattern>
+      <disambig postag="R pers obj 2 p"/>
+    </rule>
+    <rule name="que ça vous">
+      <pattern mark="2">
+        <token>que</token>
         <token regexp="yes">ça|cela|ceci|ceux-ci|celles?-ci</token>
         <token>vous</token>
       </pattern>
@@ -320,6 +336,7 @@ RB => Règles Brutes
       <disambig><match no="1" postag_regexp="yes" postag="D.*"/></disambig>
     </rule>
                 -->
+
   </rulegroup>
 
     <rule name="RP : Det + Adj ambigu + Nom" id="RP-D_J_AMBIG_N">
@@ -332,7 +349,6 @@ RB => Règles Brutes
       </pattern>
       <disambig action="unify"/>
     </rule>
-    <!-- --> 
     <rule name="RP : Det + Nom ambigu" id="RP-D_N_AMBIG">
       <pattern mark_from="0" mark_to="0">
         <unify> <feature id="number"/> <feature id="gender"/>
@@ -361,7 +377,6 @@ RB => Règles Brutes
       <disambig postag="V etre ppa m s"/>
     </rule>
   </rulegroup>
-
 
   <rulegroup name="RP : Que" id="RP-QUE">
     <rule name="que relatif">
@@ -519,6 +534,7 @@ RB => Règles Brutes
       </pattern>
       <disambig><match no="1" postag_regexp="yes" postag="J.*"/></disambig>
     </rule>
+ 
 <!--  this is too greedy 
     <rule name="RB : verbes" id="RB-VERBES">
       <pattern mark="0">
@@ -536,7 +552,6 @@ RB => Règles Brutes
       <disambig><match no="1" postag_regexp="yes" postag="J.*"/></disambig>
     </rule>
 -->
-
     <rule name="RB : adverbes" id="RB-ADVERBES">
       <pattern mark="0">
         <token postag="A"/>
