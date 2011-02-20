@@ -18,12 +18,7 @@
  */
 package de.danielnaber.languagetool;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -159,85 +154,92 @@ class Main {
       oneTime = file.length() < MAX_FILE_SIZE || bitextMode;
     }
     if (oneTime) {
-      if (bitextMode) {
-        //TODO: add parameter to set different readers        
-        final TabBitextReader reader = new TabBitextReader(filename, encoding);
-        if (applySuggestions) {
-          Tools.correctBitext(reader, srcLt, lt, bRules); 
-        } else {
-          Tools.checkBitext(reader, srcLt, lt, bRules,
-            apiFormat);
-        }
+      runOnFileInOneGo(filename, encoding, listUnknownWords);
+    } else {
+      runOnFileLineByLine(filename, encoding, listUnknownWords);
+    }
+  }
+
+  private void runOnFileInOneGo(String filename, String encoding, boolean listUnknownWords) throws IOException {
+    if (bitextMode) {
+      //TODO: add parameter to set different readers
+      final TabBitextReader reader = new TabBitextReader(filename, encoding);
+      if (applySuggestions) {
+        Tools.correctBitext(reader, srcLt, lt, bRules);
       } else {
-        final String text = getFilteredText(filename, encoding);
-        if (applySuggestions) {
-          System.out.print(Tools.correctText(text, lt));
-        } else if (profileRules) {        
-          Tools.profileRulesOnText(text, lt);
-        } else if (!taggerOnly) {
-          Tools.checkText(text, lt, apiFormat, 0);
-        } else {
-          Tools.tagText(text, lt);
-        }
-        if (listUnknownWords) {
-          System.out.println("Unknown words: " + lt.getUnknownWords());
-        }
+        Tools.checkBitext(reader, srcLt, lt, bRules,
+          apiFormat);
       }
     } else {
-      if (verbose) {
-        lt.setOutput(System.err);
+      final String text = getFilteredText(filename, encoding);
+      if (applySuggestions) {
+        System.out.print(Tools.correctText(text, lt));
+      } else if (profileRules) {
+        Tools.profileRulesOnText(text, lt);
+      } else if (!taggerOnly) {
+        Tools.checkText(text, lt, apiFormat, 0);
+      } else {
+        Tools.tagText(text, lt);
       }
-      if (!apiFormat && !applySuggestions) {
-        if ("-".equals(filename)) {
-          System.out.println("Working on STDIN...");          
-        } else {
-          System.out.println("Working on " + filename + "...");
-        }
+      if (listUnknownWords) {
+        System.out.println("Unknown words: " + lt.getUnknownWords());
       }
-      int runCount = 1; 
-      final List<Rule> rules = lt.getAllRules();
-      if (profileRules) {                   
-        System.out.printf("Testing %d rules\n", rules.size());
-        System.out.println("Rule ID\tTime\tSentences\tMatches\tSentences per sec.");
-        runCount = rules.size();
+    }
+  }
+
+  private void runOnFileLineByLine(String filename, String encoding, boolean listUnknownWords) throws IOException {
+    if (verbose) {
+      lt.setOutput(System.err);
+    }
+    if (!apiFormat && !applySuggestions) {
+      if ("-".equals(filename)) {
+        System.out.println("Working on STDIN...");
+      } else {
+        System.out.println("Working on " + filename + "...");
       }
-      InputStreamReader isr = null;
-      BufferedReader br = null;
-      int lineOffset = 0;           
-      int tmpLineOffset = 0;
-      final List<String> unknownWords = new ArrayList<String>();
-      StringBuilder sb = new StringBuilder();      
-      for (int ruleIndex = 0; ruleIndex <runCount; ruleIndex++) {
-        currentRule = rules.get(ruleIndex);
-        int matches = 0;
-        long sentences = 0;        
-        final long startTime = System.currentTimeMillis();        
-        try {
-          if (!"-".equals(filename)) {
-            final File file = new File(filename);
-            if (encoding != null) {
-              isr = new InputStreamReader(new BufferedInputStream(
-                  new FileInputStream(file.getAbsolutePath())), encoding);
-            } else {
-              isr = new InputStreamReader(new BufferedInputStream(
-                  new FileInputStream(file.getAbsolutePath())));
+    }
+    int runCount = 1;
+    final List<Rule> rules = lt.getAllRules();
+    if (profileRules) {
+      System.out.printf("Testing %d rules\n", rules.size());
+      System.out.println("Rule ID\tTime\tSentences\tMatches\tSentences per sec.");
+      runCount = rules.size();
+    }
+    InputStreamReader isr = null;
+    BufferedReader br = null;
+    int lineOffset = 0;
+    int tmpLineOffset = 0;
+    final List<String> unknownWords = new ArrayList<String>();
+    StringBuilder sb = new StringBuilder();
+    for (int ruleIndex = 0; ruleIndex < runCount; ruleIndex++) {
+      currentRule = rules.get(ruleIndex);
+      int matches = 0;
+      long sentences = 0;
+      final long startTime = System.currentTimeMillis();
+      try {
+        isr = getInputStreamReader(filename, encoding, isr);
+        br = new BufferedReader(isr);
+        String line;
+        while ((line = br.readLine()) != null) {
+          sb.append(line);
+          sb.append('\n');
+          tmpLineOffset++;
+          if (lt.getLanguage().getSentenceTokenizer().singleLineBreaksMarksPara()) {
+            matches = handleLine(matches, lineOffset, sb);
+            sentences += lt.getSentenceCount();
+            if (profileRules) {
+              sentences += lt.sentenceTokenize(sb.toString()).size();
             }
+            if (listUnknownWords && !taggerOnly) {
+              for (String word : lt.getUnknownWords())
+                if (!unknownWords.contains(word)) {
+                  unknownWords.add(word);
+                }
+            }
+            sb = new StringBuilder();
+            lineOffset = tmpLineOffset;
           } else {
-            if (encoding != null) {
-              isr = new InputStreamReader(new BufferedInputStream(System.in),
-                  encoding);
-            } else {
-              isr = new InputStreamReader(new BufferedInputStream(System.in));
-            }
-          }
-          br = new BufferedReader(isr);
-          String line;
-          while ((line = br.readLine()) != null) {
-            sb.append(line);
-            sb.append('\n');
-            tmpLineOffset++;
-            if (lt.getLanguage().getSentenceTokenizer()
-                .singleLineBreaksMarksPara()) {
+            if ("".equals(line) || sb.length() >= MAX_FILE_SIZE) {
               matches = handleLine(matches, lineOffset, sb);
               sentences += lt.getSentenceCount();
               if (profileRules) {
@@ -251,51 +253,56 @@ class Main {
               }
               sb = new StringBuilder();
               lineOffset = tmpLineOffset;
-            } else {
-              if ("".equals(line) || sb.length() >= MAX_FILE_SIZE) {
-                matches = handleLine(matches, lineOffset, sb);
-                sentences += lt.getSentenceCount();
-                if (profileRules) {
-                  sentences += lt.sentenceTokenize(sb.toString()).size();
-                }
-                if (listUnknownWords && !taggerOnly) {
-                  for (String word : lt.getUnknownWords())
-                    if (!unknownWords.contains(word)) {
-                      unknownWords.add(word);
-                    }
-                }
-                sb = new StringBuilder();
-                lineOffset = tmpLineOffset;
-              }              
-            }            
-          }
-        } finally {
-
-          if (sb.length() > 0) {
-            matches = handleLine(matches, tmpLineOffset - 1, sb);
-            sentences += lt.getSentenceCount();
-            if (profileRules) {
-              sentences += lt.sentenceTokenize(sb.toString()).size();
-            }
-            if (listUnknownWords && !taggerOnly) {
-              for (String word : lt.getUnknownWords())
-                if (!unknownWords.contains(word)) {
-                  unknownWords.add(word);
-                }
             }
           }
+        }
+      } finally {
 
-          printTimingInformation(listUnknownWords, rules, unknownWords, ruleIndex, matches, sentences, startTime);
+        if (sb.length() > 0) {
+          matches = handleLine(matches, tmpLineOffset - 1, sb);
+          sentences += lt.getSentenceCount();
+          if (profileRules) {
+            sentences += lt.sentenceTokenize(sb.toString()).size();
+          }
+          if (listUnknownWords && !taggerOnly) {
+            for (String word : lt.getUnknownWords())
+              if (!unknownWords.contains(word)) {
+                unknownWords.add(word);
+              }
+          }
+        }
 
-          if (br != null) {
-            br.close();
-          }
-          if (isr != null) {
-            isr.close();
-          }
+        printTimingInformation(listUnknownWords, rules, unknownWords, ruleIndex, matches, sentences, startTime);
+
+        if (br != null) {
+          br.close();
+        }
+        if (isr != null) {
+          isr.close();
         }
       }
     }
+  }
+
+  private InputStreamReader getInputStreamReader(String filename, String encoding, InputStreamReader isr) throws UnsupportedEncodingException, FileNotFoundException {
+    if (!"-".equals(filename)) {
+      final File file = new File(filename);
+      if (encoding != null) {
+        isr = new InputStreamReader(new BufferedInputStream(
+            new FileInputStream(file.getAbsolutePath())), encoding);
+      } else {
+        isr = new InputStreamReader(new BufferedInputStream(
+            new FileInputStream(file.getAbsolutePath())));
+      }
+    } else {
+      if (encoding != null) {
+        isr = new InputStreamReader(new BufferedInputStream(System.in),
+            encoding);
+      } else {
+        isr = new InputStreamReader(new BufferedInputStream(System.in));
+      }
+    }
+    return isr;
   }
 
   private void printTimingInformation(final boolean listUnknownWords, final List<Rule> rules,
