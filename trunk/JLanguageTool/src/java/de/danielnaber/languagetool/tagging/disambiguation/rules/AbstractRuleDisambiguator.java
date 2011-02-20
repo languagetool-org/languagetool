@@ -41,7 +41,7 @@ import de.danielnaber.languagetool.tools.Tools;
  */
 public abstract class AbstractRuleDisambiguator implements Disambiguator {
 
-  protected static final String DISAMB_FILE = "disambiguation.xml";
+  protected static final String DISAMBIGUATION_FILE = "disambiguation.xml";
   protected List<DisambiguationPatternRule> disambiguationRules;
 
   protected abstract Language getLanguage();
@@ -50,13 +50,13 @@ public abstract class AbstractRuleDisambiguator implements Disambiguator {
   public AnalyzedSentence disambiguate(final AnalyzedSentence input) throws IOException {
     AnalyzedSentence sentence = input;
     if (disambiguationRules == null) {
-      final String defaultPatternFilename =
-        JLanguageTool.getDataBroker().getResourceDir() + "/" + getLanguage().getShortName() + "/" + DISAMB_FILE;
+      final String disambiguationFile =
+        JLanguageTool.getDataBroker().getResourceDir() + "/" + getLanguage().getShortName() + "/" + DISAMBIGUATION_FILE;
       try {
-        disambiguationRules = loadPatternRules(defaultPatternFilename);
+        disambiguationRules = loadPatternRules(disambiguationFile);
       } catch (final Exception e) {
         throw new RuntimeException("Problems with parsing disambiguation file: "
-            + defaultPatternFilename, e);
+            + disambiguationFile, e);
       }
     }
     for (final DisambiguationPatternRule patternRule : disambiguationRules) {

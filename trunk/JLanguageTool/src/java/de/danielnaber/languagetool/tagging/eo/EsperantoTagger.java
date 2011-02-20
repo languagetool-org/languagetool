@@ -48,25 +48,25 @@ import de.danielnaber.languagetool.tagging.Tagger;
 public class EsperantoTagger implements Tagger {
 
   // These words don't need to be tagged.
-  private final static String wordsNotTagged[] = {
+  private static final String wordsNotTagged[] = {
     "ajn", "ĉi", "ĉu", "des", "do", "ja", "ju", "ke", "malpli", 
     "ne", "nek", "ol", "pli"
   };
 
-  private final static Set setWordsNotTagged = new HashSet<String>(Arrays.asList(wordsNotTagged));
+  private static final Set setWordsNotTagged = new HashSet<String>(Arrays.asList(wordsNotTagged));
 
   // Following preposition are never followed by accusative.
-  private final static String prepositionsNoAccusative[] = {
+  private static final String prepositionsNoAccusative[] = {
     "al", "cis", "da", "de", "disde", "dum", "ekde", "el", 
     "far", "ĝis", "je", "kun", "laŭ", "malgraŭ", "na",
     "per", "po", "post", "por", "pri", "pro", "sen", "tra"
   };
 
-  private final static Set setPrepositionsNoAccusative =
+  private static final Set setPrepositionsNoAccusative =
     new HashSet<String>(Arrays.asList(prepositionsNoAccusative));
 
   // Following preposition may be followed by accusative.
-  private final static String prepositionsAccusative[] = {
+  private static final String prepositionsAccusative[] = {
     "anstataŭ", "apud", "en", "kontraŭ", "krom", "sur", "sub", "trans", 
     "preter", "ĉirkaŭ", "antaŭ", "malantaŭ", "ekster", "inter", "ĉe",
     "super"
@@ -76,14 +76,14 @@ public class EsperantoTagger implements Tagger {
     new HashSet<String>(Arrays.asList(prepositionsAccusative));
 
   // Conjunctions.
-  private final static String conjunctions[] = {
+  private static final String conjunctions[] = {
     "ĉar", "kaj", "aŭ", "sed", "plus", "minus", "tamen"
   };
 
-  private final static Set setConjunctions = new HashSet<String>(Arrays.asList(conjunctions));
+  private static final Set setConjunctions = new HashSet<String>(Arrays.asList(conjunctions));
 
   // Numbers.
-  private final static String numbers[] = {
+  private static final String numbers[] = {
     "nul", "unu", "du", "tri", "kvar", "kvin", "ses",
     "sep", "ok", "naŭ", "dek", "cent", "mil",
 
@@ -94,39 +94,39 @@ public class EsperantoTagger implements Tagger {
     "sescent", "sepcent", "okcent", "naŭcent"
   };
 
-  private final static Set setNumbers = new HashSet<String>(Arrays.asList(numbers));
+  private static final Set setNumbers = new HashSet<String>(Arrays.asList(numbers));
 
   // Adverbs which do not end in -e
-  private final static String adverbs[] = {
+  private static final String adverbs[] = {
     "ankoraŭ", "almenaŭ", "apenaŭ", "baldaŭ", "preskaŭ", "eĉ",
     "jam", "jen", "ĵus", "morgaŭ", "hodiaŭ", "hieraŭ", "nun",
     "nur", "plu", "tre", "tro", "tuj", "for"
   };
 
-  private final static Set setAdverbs = new HashSet<String>(Arrays.asList(adverbs));
+  private static final Set setAdverbs = new HashSet<String>(Arrays.asList(adverbs));
 
   // Set of transitive verbs and non-transitive verbs.
   private Set setTransitiveVerbs = null;
   private Set setNonTransitiveVerbs = null;
 
   // Verbs always end with this pattern.
-  private final static Pattern patternVerb1 = Pattern.compile("(.*)(as|os|is|us|u|i)$");
-  private final static Pattern patternVerb2 = Pattern.compile(".*(ig|iĝ)(.s|.)$");
+  private static final Pattern patternVerb1 = Pattern.compile("(.*)(as|os|is|us|u|i)$");
+  private static final Pattern patternVerb2 = Pattern.compile(".*(ig|iĝ)(.s|.)$");
 
   // Particips -ant-, -int, ont-, -it-, -it-, -ot-
-  final Pattern patternParticiple =
+  private static final Pattern patternParticiple =
     Pattern.compile("(.*)([aio])(n?)t([aoe])(j?)(n?)$");
   // Groups           11  22222  33   44444  55  66
 
   // Pattern 'tabelvortoj'.
-  final Pattern patternTabelvorto = 
+  private static final Pattern patternTabelvorto =
     Pattern.compile("^(i|ti|ki|ĉi|neni)((([uoae])(j?)(n?))|(am|al|es|el|om))$");
   // Groups            111111111111111  22222222222222222222222222222222
   //                                     3333333333333333   77777777777
   //                                      444444  55  66                  
 
   // Pattern of 'tabelvortoj' which are also tagged adverbs.
-  final Pattern patternTabelvortoAdverb = 
+  private static final Pattern patternTabelvortoAdverb = 
     Pattern.compile("(ti|i|ĉi|neni)(am|om|el|e)");
 
   /**

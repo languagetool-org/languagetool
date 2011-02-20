@@ -59,7 +59,7 @@ public class AnalyzedSentence {
     return true;
   }
 
-  private AnalyzedTokenReadings[] tokens;
+  private final AnalyzedTokenReadings[] tokens;
 
   private AnalyzedTokenReadings[] nonBlankTokens;
 
