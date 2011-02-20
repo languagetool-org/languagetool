@@ -1814,6 +1814,21 @@ though, and has since been slightly modified)-->
       </rule>
     </rulegroup>
 
+    <rulegroup id="N_EST_CE_PAS" name="n'est-ce pas">
+      <rule>
+        <pattern>
+          <token>n</token>
+          <token regexp="yes">['’]</token>
+          <token>est</token>
+          <token>ce</token>
+          <token>pas</token>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>\1\2 \3-\4 \5</suggestion> ?</message>
+        <example type="incorrect">Il vient, <marker>n'est ce pas</marker> ?</example>
+        <example type="correct">Il vient, n'est-ce pas ?</example>
+      </rule>
+    </rulegroup>
+
     <rulegroup id="TRAIT_UNION_INVERSION" name="Trait d'union dans l'inversion verbe-pronom sujet">
       <rule>
         <pattern>
