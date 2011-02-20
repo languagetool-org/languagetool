@@ -2,7 +2,7 @@
 $page = "links";
 $title = "LanguageTool";
 $title2 = "Links";
-$lastmod = "2010-08-29 22:35:00 CET";
+$lastmod = "2011-02-20 12:35:00 CET";
 include("../../include/header.php");
 ?>
 
@@ -62,9 +62,9 @@ Daniel Naber (<strong>naber <span>a&#116;</span> danielnaber<span>.</span>de</st
 <ul style="list-style:none">
 	<li><?=show_link("XML file with 221 collected English grammar errors", "/download/errors.xml", 0) ?>, 23KB</li>
 	<li><?=show_link("Another English error collection", 
-		"http://languagetool.cvs.sourceforge.net/languagetool/JLanguageTool/resource/en/errors.txt?view=markup", 1) ?></li>
+		"http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/JLanguageTool/src/resource/en/errors.txt?view=markup", 1) ?></li>
 	<li><?=show_link("German error collection", 
-		"http://languagetool.cvs.sourceforge.net/languagetool/JLanguageTool/resource/de/errors.txt?view=markup", 1) ?></li>
+		"http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/JLanguageTool/src/resource/de/errors.txt?view=markup", 1) ?></li>
 </ul>
 
 <br /><br /><br />
