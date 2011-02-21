@@ -37,7 +37,7 @@ public class PolishSynthesizerTest extends TestCase {
     assertEquals("[Aaru]", Arrays.toString(synth.synthesize(dummyToken("Aar"), "subst:sg:gen:m3")));
     assertEquals("[Abchazem]", Arrays.toString(synth.synthesize(dummyToken("Abchaz"), "subst:sg:inst:m1")));
     assertEquals("[nieduży]", Arrays.toString(synth.synthesize(dummyToken("duży"), "adj:sg:nom:m:pos:neg")));        
-    assertEquals("[miała]", Arrays.toString(synth.synthesize(dummyToken("mieć"), "verb:praet:sg:ter:f:perf")));
+    assertEquals("[miała]", Arrays.toString(synth.synthesize(dummyToken("mieć"), "verb:praet:sg:ter:f:imperf")));
         assertEquals("[brzydziej]", Arrays.toString(synth.synthesize(dummyToken("brzydko"), "adv:comp")));
     //with regular expressions
     assertEquals("[tonera]", Arrays.toString(synth.synthesize(dummyToken("toner"), ".*sg.*[\\.:]gen.*", true)));
