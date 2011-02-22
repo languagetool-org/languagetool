@@ -716,6 +716,18 @@ though, and has since been slightly modified)-->
       </rule>
     </rulegroup>
 
+    <rulegroup id="PEUT_PEU" name="Peut au lieu de peu">
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">très|trop|un|de|quelque|pour|à</token>
+          <token regexp="yes">peu[tx]</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>peu</suggestion> ?</message>
+        <example type="incorrect">Il travaille trop <marker>peut</marker>.</example>
+        <example type="correct">Il travaille trop <marker>peu</marker>.</example>
+      </rule>
+    </rulegroup>
+
     <rulegroup id="AMENDE" name="Amende au lieu de amande">
       <rule>
         <pattern mark_from="1">
@@ -781,28 +793,117 @@ though, and has since been slightly modified)-->
       </rule>
     </rulegroup>
 
-    <rule id="A_A_ACCENT" name="A au lieu de À">
-      <pattern mark_from="1" mark_to="-1">
-        <phraseref idref="V_NON_NR"/>
-        <token>a</token>
-        <token negate="yes">priori</token>
-      </pattern>
-      <message>Voulez-vous écrire <suggestion>à</suggestion> ?</message>
-      <example type="correct">Ils s'apprêtent à commencer le premier trou.</example>
-      <example type="incorrect">Ils s'apprêtent <marker>a</marker> commencer le premier trou.</example>
-      <example type="correct">Je ne pouvais pas le croire a priori.</example>
-    </rule>
+    <rulegroup id="DES_DES_ACCENT" name="Des au lieu de Dès">
+      <rule>
+        <pattern mark_to="-1">
+          <token>des</token>
+          <token regexp="yes">que?|lors|avant|toujours|demain</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>dès</suggestion> ?</message>
+        <example type="incorrect">Tu reparts <marker>des</marker> qu'il arrive.</example>
+        <example type="correct">Tu reparts <marker>dès</marker> qu'il arrive.</example>
+      </rule>
 
-    <rule id="OU" name="Ou au lieux de où">
-      <pattern mark_to="-1">
-        <token>ou</token>
-        <token inflected="yes">être<exception>être</exception></token>
-      </pattern>
-      <message>Voulez-vous écrire <suggestion>où</suggestion> ?</message>
-      <example type="incorrect"><marker>Ou</marker> sont mes affaires ?</example>
-      <example type="correct">Où sont mes affaires ?</example>
-      <example type="correct">Manger ou être mangé, c'est la loi de la nature.</example>
-    </rule>
+      <!-- Need to fix false positives such as "les un des autres
+      <rule>
+        <pattern mark_to="-1">
+          <token>des</token>
+          <token postag="D.*" postag_regexp="yes"/>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>dès</suggestion> ?</message>
+        <example type="incorrect">Il boit <marker>des</marker> le matin.</example>
+        <example type="correct">Il boit <marker>dès</marker> le matin.</example>
+      </rule>
+      -->
+    </rulegroup>
+
+    <rulegroup id="A_A_ACCENT" name="A au lieu de À">
+      <rule>
+        <pattern mark_from="2" mark_to="-1">
+          <token postag="SENT_START" skip="-1">
+            <exception scope="next" regexp="yes">qu[ie]?</exception>
+          </token>
+          <token postag="V.*" postag_regexp="yes">
+            <exception postag="[ZNRJ].*" postag_regexp="yes"/>
+            <exception postag="V inf" postag_regexp="yes"/>
+          </token>
+          <token>a</token>
+          <token negate="yes">priori</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>à</suggestion> ?</message>
+        <example type="incorrect">Ils s'apprêtent <marker>a</marker> le dépasser.</example>
+        <example type="correct">Ils s'apprêtent <marker>à</marker> le dépasser.</example>
+        <example type="correct">Je ne pouvais pas le croire a priori.</example>
+        <example type="correct">La grève généralisée a paralysé tout le pays.</example>
+        <example type="correct">Fumer a nui à sa santé.</example>
+        <example type="correct">Ce que tu dis a l'air correct.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-2">
+          <token>a</token>
+          <token regexp="yes">force|cause|défaut</token>
+          <token>de</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>à</suggestion> ?</message>
+        <example type="incorrect"><marker>A</marker> force de mentir, on ne le croit plus.</example>
+        <example type="correct"><marker>À</marker> force de mentir, on ne le croit plus.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token>a</token>
+          <token regexp="yes">laquelle|coté|gauche|droite|condition</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>à</suggestion> ?</message>
+        <example type="incorrect">L'adresse <marker>a</marker> laquelle tu l'as envoyé</example>
+        <example type="correct">L'adresse <marker>à</marker> laquelle tu l'as envoyé</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">grâce|prête?s?</token>
+          <token>a</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>à</suggestion> ?</message>
+        <example type="incorrect">Grâce <marker>a</marker> toi, j'ai gagné.</example>
+        <example type="correct">Grâce à toi, j'ai gagné.</example>
+        <example type="incorrect">Elles sont prêtes <marker>a</marker> t'écouter.</example>
+        <example type="correct">Elles sont prêtes à t'écouter.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2">
+          <token inflected="yes" skip="1">avoir<exception scope="next" negate_pos="yes" postag="A|V avoir ind pres 3 s|SENT_END" postag_regexp="yes"/></token>
+          <token>mal</token>
+          <token>a</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>à</suggestion> ?</message>
+        <example type="incorrect">J'ai mal <marker>a</marker> l'oreille.</example>
+        <example type="correct">J'ai mal <marker>à</marker> l'oreille.</example>
+        <example type="incorrect">J'ai très mal <marker>a</marker> l'oreille.</example>
+        <example type="correct">J'ai très mal <marker>à</marker> l'oreille.</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="OU" name="Ou au lieux de où">
+      <rule>
+        <pattern mark_to="-1">
+          <token>ou</token>
+          <token inflected="yes">être<exception>être</exception></token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>où</suggestion> ?</message>
+        <example type="incorrect"><marker>Ou</marker> sont mes affaires ?</example>
+        <example type="correct">Où sont mes affaires ?</example>
+        <example type="correct">Manger ou être mangé, c'est la loi de la nature.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2">
+          <token>au</token>
+          <token>moment</token>
+          <token>ou</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>où</suggestion> ?</message>
+        <example type="incorrect">Au moment <marker>ou</marker> elle est sortie</example>
+        <example type="correct">Au moment <marker>où</marker> elle est sortie</example>
+      </rule>
+    </rulegroup>
 
     <rule id="SE_CE" name="SE au lieu de CE">
       <pattern mark_to="-1">
@@ -1197,10 +1298,100 @@ though, and has since been slightly modified)-->
       </rule>
     </rulegroup>
 
+    <rulegroup id="A_LAQUELLE" name="accord avec lequel, laquelle, lesquels, etc.">
+      <rule>
+        <pattern mark_from="1">
+          <token postag="SENT_START" skip="2"/>
+          <token postag="N m.*" postag_regexp="yes"/>
+          <token postag="P"/>
+          <token regexp="yes">laquelle|lesquelles</token>
+        </pattern>
+        <message>« \2 » et « \4 » ne semblent pas bien accordés en genre.</message>
+        <example type="incorrect">L'<marker>homme avec laquelle</marker> tu parles</example>
+        <example type="correct">La <marker>femme avec laquelle</marker> tu parles</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token postag="SENT_START" skip="2"/>
+          <token postag="N m.*" postag_regexp="yes"/>
+          <token regexp="yes">desquelles|auxquelles</token>
+        </pattern>
+        <message>« \2 » et « \3 » ne semblent pas bien accordés en genre.</message>
+        <example type="incorrect">Les <marker>hommes auxquelles</marker> tu parles</example>
+        <example type="correct">Les <marker>femmmes auxquelles</marker> tu parles</example>
+      </rule>
+
+      <rule>
+        <pattern mark_from="1">
+          <token postag="SENT_START" skip="2"/>
+          <token postag="N f.*" postag_regexp="yes"/>
+          <token postag="P"/>
+          <token regexp="yes">lequel|lesquels</token>
+        </pattern>
+        <message>« \2 » et « \4 » ne semblent pas bien accordés en genre.</message>
+        <example type="incorrect">La <marker>femme à lequel</marker> tu parles</example>
+        <example type="correct">La <marker>femme à laquelle</marker> tu parles</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token postag="SENT_START" skip="2"/>
+          <token postag="N f.*" postag_regexp="yes"/>
+          <token regexp="yes">duquel|auquel|auxquels|desquels</token>
+        </pattern>
+        <message>« \2 » et « \3 » ne semblent pas bien accordés en genre.</message>
+        <example type="incorrect">La <marker>femme auquel</marker> tu parles</example>
+        <example type="correct">L'<marker>homme auquel</marker> tu parles</example>
+      </rule>
+
+      <rule>
+        <pattern mark_from="1">
+          <token postag="SENT_START" skip="2"/>
+          <token postag="N .* p" postag_regexp="yes"/>
+          <token postag="P"/>
+          <token regexp="yes">laquelle|lequel</token>
+        </pattern>
+        <message>« \2 » et « \4 » ne semblent pas bien accordés en nombre.</message>
+        <example type="incorrect">Les <marker>hommes avec lequel</marker> tu parles</example>
+        <example type="correct">L'<marker>homme avec lesquels</marker> tu parles</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token postag="SENT_START" skip="2"/>
+          <token postag="N .* p" postag_regexp="yes"/>
+          <token regexp="yes">duquel|auquel</token>
+        </pattern>
+        <message>« \2 » et « \3 » ne semblent pas bien accordés en nombre.</message>
+        <example type="incorrect">Les <marker>hommes auquel</marker> tu parles</example>
+        <example type="correct">Les <marker>hommes auxquels</marker> tu parles</example>
+      </rule>
+
+      <rule>
+        <pattern mark_from="1">
+          <token postag="SENT_START" skip="2"/>
+          <token postag="N .* s" postag_regexp="yes"/>
+          <token postag="P"/>
+          <token regexp="yes">lesquels|lesquelles</token>
+        </pattern>
+        <message>« \2 » et « \4 » ne semblent pas bien accordés en nombre.</message>
+        <example type="incorrect">L'<marker>homme avec lesquels</marker> tu parles</example>
+        <example type="correct">Les <marker>hommes avec lesquels</marker> tu parles</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token postag="SENT_START" skip="2"/>
+          <token postag="N .* s" postag_regexp="yes"/>
+          <token regexp="yes">auxquels|auxquelles|desquelles</token>
+        </pattern>
+        <message>« \2 » et « \3 » ne semblent pas bien accordés en nombre.</message>
+        <example type="incorrect">L'<marker>homme auxquels</marker> tu parles</example>
+        <example type="correct">Les <marker>hommes auxquels</marker> tu parles</example>
+      </rule>
+    </rulegroup>
+
     <rule id="MON_NFS" name="mon/ton/son suivi d'un nom féminin singulier">
       <pattern>
         <token regexp="yes">[mts]on</token>
-        <and>
+        <and> 
           <token negate="yes" postag="N f s" regexp="yes">[ahâeiouéîœ].*</token>
           <token><exception postag="N m s"/></token>
         </and>
@@ -1845,12 +2036,13 @@ though, and has since been slightly modified)-->
           <token postag="SENT_START"/>
           <token postag="D.*" postag_regexp="yes"/>
           <token postag="N .* s" postag_regexp="yes"/>
-          <token postag="V.*" postag_regexp="yes"><exception postag="(V .* 3 s)|(V ppa . s)" postag_regexp="yes"/></token>
+          <token postag="V.*" postag_regexp="yes"><exception postag="(V .* 3 s)|(V ppa . s)|(V etre ppr)" postag_regexp="yes"/></token>
         </pattern>
         <message>Le verbe « \4 » devrait être à la 3e personne du singulier</message>
         <example type="correct">Mon enfant <marker>joue</marker> en bas.</example>
         <example type="correct">Le contexte <marker>troublé</marker>.</example>
         <example type="incorrect">Mon enfant <marker>étaient</marker> parti.</example>
+        <example type="correct">Ma mère <marker>étant</marker> malade n'est pas venue.</example>
       </rule>
       <rule name="sujet pluriel + verbe singulier">
         <pattern mark_from="3">
@@ -1899,6 +2091,27 @@ though, and has since been slightly modified)-->
         <example type="correct">Quelles que puissent être vos raisons</example>
       </rule>
     </rulegroup>
+
+    <rule id="LA_PLUS_PART" name="la plus part au lieu de la plupart">
+      <pattern>
+        <token>la</token>
+        <token>plus</token>
+        <token>part</token>
+      </pattern>
+      <message>On écrit <suggestion>la plupart</suggestion>.</message>
+      <example type="incorrect"><marker>La plus part</marker> du temps</example>
+      <example type="correct">La plupart du temps</example>
+    </rule>
+
+    <rule id="TRES_BEAUCOUP" name="très/trop + adverbe superlatif">
+      <pattern>
+        <token regexp="yes">très|trop</token>
+        <token regexp="yes">beaucoup|terrible|délicieux|assez|mieux|pire|meilleur</token>
+      </pattern>
+      <message>On emploie pas « \1 » avant un adjectif ou adverbe « \2 » expriment un superlatif.</message>
+      <example type="incorrect">J'ai <marker>trop beaucoup</marker> de travail.</example>
+      <example type="correct">J'ai trop de travail.</example>
+    </rule>
 
     <rule id="CENT" name="Cent">
       <pattern mark_from="1" mark_to="-1">
