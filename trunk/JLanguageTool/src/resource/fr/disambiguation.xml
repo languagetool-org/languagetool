@@ -54,6 +54,14 @@ RB => Règles Brutes
       </pattern>
       <disambig postag="R pers obj 1 p"/>
     </rule>
+    <rule name="Robert nous">
+      <pattern mark="2">
+        <token postag="SENT_START" skip="1"/>
+        <token postag="Z.*" postag_regexp="yes"/>
+        <token>nous</token>
+      </pattern>
+      <disambig postag="R pers obj 1 p"/>
+    </rule>
     <rule name="ça nous">
       <pattern mark="2">
         <token postag="SENT_START"/>
@@ -64,7 +72,7 @@ RB => Règles Brutes
     </rule>
     <rule name="que ça nous">
       <pattern mark="2">
-        <token regexp="yes">que|si</token>
+        <token regexp="yes">que|si|lorsque</token>
         <token regexp="yes">ça|cela|ceci|ceux-ci|celles?-ci</token>
         <token>nous</token>
       </pattern>
@@ -104,6 +112,14 @@ RB => Règles Brutes
       </pattern>
       <disambig postag="R pers obj 2 p"/>
     </rule>
+    <rule name="Robert vous">
+      <pattern mark="2">
+        <token postag="SENT_START" skip="1"/>
+        <token postag="Z.*" postag_regexp="yes"/>
+        <token>vous</token>
+      </pattern>
+      <disambig postag="R pers obj 2 p"/>
+    </rule>
     <rule name="ça vous">
       <pattern mark="2">
         <token postag="SENT_START"/>
@@ -114,7 +130,7 @@ RB => Règles Brutes
     </rule>
     <rule name="que ça vous">
       <pattern mark="2">
-        <token regexp="yes">que|si</token>
+        <token regexp="yes">que|si|lorsque</token>
         <token regexp="yes">ça|cela|ceci|ceux-ci|celles?-ci</token>
         <token>vous</token>
       </pattern>
