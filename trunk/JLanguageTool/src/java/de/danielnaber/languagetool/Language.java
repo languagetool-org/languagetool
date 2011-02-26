@@ -330,4 +330,9 @@ public abstract class Language {
     }
     return maintainersInfo.toString();
   }
+
+  public boolean isExternal() {
+    return false;
+  }
+
 }

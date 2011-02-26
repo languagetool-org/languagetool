@@ -40,16 +40,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.Reader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
-import java.util.Set;
+import java.util.*;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -207,27 +198,21 @@ public final class Main implements ActionListener {
   }
 
   private void populateLanguageBox(final JComboBox languageBox) {
-    final List<String> languages = new ArrayList<String>();
     languageBox.removeAllItems();
-    for (final Language language : Language.LANGUAGES) {
+    final List<I18nLanguage> i18nLanguages = new ArrayList<I18nLanguage>();
+    for (Language language : Language.LANGUAGES) {
       if (language != Language.DEMO) {
-        try {
-          languages.add(messages.getString(language.getShortName()));
-        } catch (final MissingResourceException e) {
-          // can happen with external rules:
-          languages.add(language.getName());
-        }
+        i18nLanguages.add(new I18nLanguage(language));
       }
     }
-    Collections.sort(languages);
-    for (final String languageName : languages) {
-      languageBox.addItem(languageName);
+    Collections.sort(i18nLanguages);
+    for (final I18nLanguage i18nLanguage : i18nLanguages) {
+      languageBox.addItem(i18nLanguage);
     }
   }
 
   private void preselectLanguage(final JComboBox languageBox) {
-    // use the system default language to preselect the language from the combo
-    // box:
+    // use the system default language to preselect the language from the combo box:
     try {
       final Locale defaultLocale = Locale.getDefault();
       languageBox.setSelectedItem(messages.getString(defaultLocale.getLanguage()));
@@ -442,20 +427,7 @@ public final class Main implements ActionListener {
   }
 
   private Language getCurrentLanguage() {
-    final String langName = languageBox.getSelectedItem().toString();
-    String lang = langName;
-    for (final Enumeration<String> e = messages.getKeys(); e.hasMoreElements();) {
-      final String elem = e.nextElement();
-      if (messages.getString(elem).equals(langName)) {
-        lang = elem;
-        break;
-      }
-    }
-    // external rules:
-    if (lang.length() > 2) {
-      return Language.getLanguageForName(lang);
-    }
-    return Language.getLanguageForShortName(lang);
+    return ((I18nLanguage) languageBox.getSelectedItem()).getLanguage();
   }
 
   private ConfigurationDialog getCurrentConfigDialog() {
@@ -732,6 +704,35 @@ public final class Main implements ActionListener {
     @Override
     public String getDescription() {
       return "*.txt";
+    }
+
+  }
+
+  private class I18nLanguage implements Comparable<I18nLanguage> {
+
+    private final Language language;
+
+    I18nLanguage(Language language) {
+      this.language = language;
+    }
+
+    Language getLanguage() {
+      return language;
+    }
+
+    // used by the GUI:
+    @Override
+    public String toString() {
+      if (language.isExternal()) {
+        return language.getName() + " (ext.)";
+      } else {
+        return messages.getString(language.getShortName());
+      }
+    }
+
+    @Override
+    public int compareTo(I18nLanguage o) {
+      return toString().compareTo(o.toString());
     }
 
   }

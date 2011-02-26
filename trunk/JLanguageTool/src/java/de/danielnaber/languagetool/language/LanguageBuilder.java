@@ -34,12 +34,16 @@ public class LanguageBuilder {
   private LanguageBuilder() {
   }
 
+  public static Language makeAdditionalLanguage(final File file) {
+    return makeLanguage(file, true);
+  }
+
   /**
    * Takes an XML file named <tt>rules-xx-language.xml</tt>,
    * e.g. <tt>rules-de-German.xml</tt> and builds
    * a Language object for that language.
    */
-  public static Language makeLanguage(final File file) {
+  private static Language makeLanguage(final File file, final boolean isAdditional) {
     if (file == null) {
       throw new NullPointerException("file argument cannot be null");
     }
@@ -70,8 +74,13 @@ public class LanguageBuilder {
       public Set<String> getRelevantRuleIDs() {
         return null;
       }
+      @Override
       public String getRuleFileName() {
         return file.getAbsolutePath();
+      }
+      @Override
+      public boolean isExternal() {
+        return isAdditional;
       }
     };
     return newLanguage;
