@@ -98,6 +98,20 @@ RB => Règles Brutes
       <example type="ambiguous" inputform="nous[nous/R pers obj 1 p,nous/R pers suj 1 p]" outputform="nous[nous/R pers obj 1 p]">Les études <marker>nous</marker> ont révélé...</example>
       <example type="untouched">La plupart du temps nous sommes dans le développement d'une expertise...</example>
     </rule>
+    <rule name="puis-je vous">
+      <pattern mark="1">
+        <token regexp="yes">.*-(je|tu|ils?|elles?|on|vous|nous)</token>
+        <token>vous</token>
+      </pattern>
+      <disambig postag="R pers obj 2 p"/>
+    </rule>
+    <rule name="puis-je nous">
+      <pattern mark="1">
+        <token regexp="yes">.*-(je|tu|ils?|elles?|on|vous|nous)</token>
+        <token>nous</token>
+      </pattern>
+      <disambig postag="R pers obj 1 p"/>
+    </rule>
     <rule name="vous">
       <pattern mark="1">
         <token postag="R pers .*" postag_regexp="yes"/>
@@ -511,7 +525,7 @@ RB => Règles Brutes
     <rule name="t' + verbe">
       <pattern mark="2">
         <token>t</token>
-        <token>'</token>
+        <token regexp="yes">['’]</token>
         <token postag="V.* 2 s" postag_regexp="yes"/>
       </pattern>
       <disambig action="filter" postag="V.* 2 s"/>
@@ -650,7 +664,6 @@ RB => Règles Brutes
       <example type="ambiguous" inputform="minutes[&lt;/S&gt;,minute/N f p,minuter/V ind pres 2 s,minuter/V sub pres 2 s]" outputform="minutes[&lt;/S&gt;,minute/N f p]">5 <marker>minutes</marker></example>
     </rule>
 
-
     <rule name="L'Écosse" id="ECOSSE">
       <pattern case_sensitive="yes">
         <token/>
@@ -666,8 +679,6 @@ RB => Règles Brutes
       <disambig postag="N f s"/>
     </rule>
 
-    <!--  based on user reports -->
-
     <rule name="aura lieu" id="AURA_LIEU">
     <pattern mark="0">
       <token>aura</token>
@@ -676,6 +687,14 @@ RB => Règles Brutes
     <disambig action="filter" postag="V.*"/>
     <example type="ambiguous" inputform="aura[aura/N f s,avoir/V avoir ind futu 3 s]" outputform="aura[avoir/V avoir ind futu 3 s]">La rentrée scolaire <marker>aura</marker> lieu comme prévu la semaine prochaine.</example>
     <example type="untouched">Mon petit conseil pour une belle aura...</example>
+    </rule>
+
+    <rule name="d" id="D_APOSTROPHE">
+      <pattern mark="0">
+        <token>d</token>
+        <token>'</token>
+      </pattern>
+      <disambig postag="P"/>
     </rule>
 
 </rules>
