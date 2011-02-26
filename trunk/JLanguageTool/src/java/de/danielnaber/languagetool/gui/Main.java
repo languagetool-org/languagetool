@@ -88,34 +88,34 @@ import de.danielnaber.languagetool.tools.StringTools;
  */
 public final class Main implements ActionListener {
 
-  private final ResourceBundle messages;
-
   private static final String HTML_FONT_START = "<font face='Arial,Helvetica'>";
-  private static final String HTML_FONT_END = "</font>";
 
-  private final static String SYSTEM_TRAY_ICON_NAME = "/TrayIcon.png";
+  private static final String HTML_FONT_END = "</font>";
+  private static final String SYSTEM_TRAY_ICON_NAME = "/TrayIcon.png";
+
   private static final String SYSTEM_TRAY_TOOLTIP = "LanguageTool";
   private static final String CONFIG_FILE = ".languagetool.cfg";
+  private static final int WINDOW_WIDTH = 600;
+  private static final int WINDOW_HEIGHT = 550;
+
+  private final ResourceBundle messages;
 
   private final Configuration config;
 
   private JFrame frame;
   private JTextArea textArea;
   private JTextPane resultArea;
-  private JComboBox langBox;
+  private JComboBox languageBox;
 
   private HTTPServer httpServer;
 
   private final Map<Language, ConfigurationDialog> configDialogs = new HashMap<Language, ConfigurationDialog>();
 
-  // whether clicking on the window close button hides to system tray:
-  private boolean trayMode;
-
+  private boolean closeHidesToTray;
   private boolean isInTray;
 
   private Main() throws IOException {
-    config = new Configuration(new File(System.getProperty("user.home")),
-        CONFIG_FILE);
+    config = new Configuration(new File(System.getProperty("user.home")), CONFIG_FILE);
     messages = JLanguageTool.getMessageBundle();
     maybeStartServer();
   }
@@ -123,17 +123,7 @@ public final class Main implements ActionListener {
   private void createGUI() {
     frame = new JFrame("LanguageTool " + JLanguageTool.VERSION);
 
-    try {
-      for (UIManager.LookAndFeelInfo info : UIManager
-          .getInstalledLookAndFeels()) {
-        if ("Nimbus".equals(info.getName())) {
-          UIManager.setLookAndFeel(info.getClassName());
-          break;
-        }
-      }
-    } catch (Exception ex) {
-      // Well, what can we do...
-    }
+    setLookAndFeel();
 
     frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
     frame.addWindowListener(new CloseListener());
@@ -142,8 +132,7 @@ public final class Main implements ActionListener {
     frame.setJMenuBar(new MainMenuBar(this, messages));
 
     textArea = new JTextArea(messages.getString("guiDemoText"));
-    // TODO: wrong line number is displayed for lines that are wrapped
-    // automatically:
+    // TODO: wrong line number is displayed for lines that are wrapped automatically:
     textArea.setLineWrap(true);
     textArea.setWrapStyleWord(true);
     resultArea = new JTextPane();
@@ -166,21 +155,13 @@ public final class Main implements ActionListener {
     panel.add(button, buttonCons);
     buttonCons.gridx = 1;
     buttonCons.gridy = 0;
-    panel.add(new JLabel(" " + messages.getString("textLanguage") + " "),
-        buttonCons);
+    panel.add(new JLabel(" " + messages.getString("textLanguage") + " "), buttonCons);
     buttonCons.gridx = 2;
     buttonCons.gridy = 0;
-    langBox = new JComboBox();
-    populateLanguageBox();
-    // use the system default language to preselect the language from the combo
-    // box:
-    try {
-      final Locale defaultLocale = Locale.getDefault();
-      langBox.setSelectedItem(messages.getString(defaultLocale.getLanguage()));
-    } catch (final MissingResourceException e) {
-      // language not supported, so don't select a default
-    }
-    panel.add(langBox, buttonCons);
+    languageBox = new JComboBox();
+    populateLanguageBox(languageBox);
+    preselectLanguage(languageBox);
+    panel.add(languageBox, buttonCons);
 
     final Container contentPane = frame.getContentPane();
     final GridBagLayout gridLayout = new GridBagLayout();
@@ -209,25 +190,49 @@ public final class Main implements ActionListener {
     contentPane.add(panel, cons);
 
     frame.pack();
-    frame.setSize(600, 550);
+    frame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
   }
 
-  private void populateLanguageBox() {
-    final List<String> toSort = new ArrayList<String>();
-    langBox.removeAllItems();    
-    for (final Language lang : Language.LANGUAGES) {
-      if (lang != Language.DEMO) {
+  private void setLookAndFeel() {
+    try {
+      for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+        if ("Nimbus".equals(info.getName())) {
+          UIManager.setLookAndFeel(info.getClassName());
+          break;
+        }
+      }
+    } catch (Exception ex) {
+      // Well, what can we do...
+    }
+  }
+
+  private void populateLanguageBox(final JComboBox languageBox) {
+    final List<String> languages = new ArrayList<String>();
+    languageBox.removeAllItems();
+    for (final Language language : Language.LANGUAGES) {
+      if (language != Language.DEMO) {
         try {
-          toSort.add(messages.getString(lang.getShortName()));
+          languages.add(messages.getString(language.getShortName()));
         } catch (final MissingResourceException e) {
           // can happen with external rules:
-          toSort.add(lang.getName());
+          languages.add(language.getName());
         }
       }
     }
-    Collections.sort(toSort);
-    for (final String lng : toSort) {
-      langBox.addItem(lng);
+    Collections.sort(languages);
+    for (final String languageName : languages) {
+      languageBox.addItem(languageName);
+    }
+  }
+
+  private void preselectLanguage(final JComboBox languageBox) {
+    // use the system default language to preselect the language from the combo
+    // box:
+    try {
+      final Locale defaultLocale = Locale.getDefault();
+      languageBox.setSelectedItem(messages.getString(defaultLocale.getLanguage()));
+    } catch (final MissingResourceException e) {
+      // language not supported, so don't select a default
     }
   }
 
@@ -250,8 +255,9 @@ public final class Main implements ActionListener {
   }
 
   void loadFile() {
-    final File file = Tools.openFileDialog(frame, new PlainTextFilter());
+    final File file = Tools.openFileDialog(frame, new PlainTextFileFilter());
     if (file == null) {
+      // user clicked cancel
       return;
     }
     try {
@@ -331,15 +337,14 @@ public final class Main implements ActionListener {
     } catch (final RuleFilenameException e) {
       Tools.showErrorMessage(e);
     }
-    populateLanguageBox();
+    populateLanguageBox(languageBox);
   }
 
   void showOptions() {
     final JLanguageTool langTool = getCurrentLanguageTool();
     final List<Rule> rules = langTool.getAllRules();
     final ConfigurationDialog configDialog = getCurrentConfigDialog();
-    configDialog.show(rules); // this blocks until OK/Cancel is clicked in the
-    // dialog
+    configDialog.show(rules); // this blocks until OK/Cancel is clicked in the dialog
     config.setDisabledRuleIds(configDialog.getDisabledRuleIds());
     config.setEnabledRuleIds(configDialog.getEnabledRuleIds());
     config.setDisabledCategoryNames(configDialog.getDisabledCategoryNames());
@@ -377,7 +382,7 @@ public final class Main implements ActionListener {
     if (clipboard == null) { // on Windows
       clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
     }
-    String s = null;
+    String s;
     final Transferable data = clipboard.getContents(this);
     try {
       if (data != null
@@ -400,7 +405,7 @@ public final class Main implements ActionListener {
   }
 
   void quitOrHide() {
-    if (trayMode) {
+    if (closeHidesToTray) {
       hideToTray();
     } else {
       quit();
@@ -424,8 +429,7 @@ public final class Main implements ActionListener {
       try {
         httpServer.run();
       } catch (final PortBindingException e) {
-        JOptionPane.showMessageDialog(null, e.getMessage(), "Error",
-            JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
       }
     }
   }
@@ -438,7 +442,7 @@ public final class Main implements ActionListener {
   }
 
   private Language getCurrentLanguage() {
-    final String langName = langBox.getSelectedItem().toString();
+    final String langName = languageBox.getSelectedItem().toString();
     String lang = langName;
     for (final Enumeration<String> e = messages.getKeys(); e.hasMoreElements();) {
       final String elem = e.nextElement();
@@ -456,7 +460,7 @@ public final class Main implements ActionListener {
 
   private ConfigurationDialog getCurrentConfigDialog() {
     final Language language = getCurrentLanguage();
-    ConfigurationDialog configDialog = null;
+    final ConfigurationDialog configDialog;
     if (configDialogs.containsKey(language)) {
       configDialog = configDialogs.get(language);
     } else {
@@ -584,7 +588,7 @@ public final class Main implements ActionListener {
   }
 
   private void setTrayMode(boolean trayMode) {
-    this.trayMode = trayMode;
+    this.closeHidesToTray = trayMode;
   }
 
   public static void main(final String[] args) {
@@ -718,14 +722,11 @@ public final class Main implements ActionListener {
 
   }
 
-  static class PlainTextFilter extends FileFilter {
+  static class PlainTextFileFilter extends FileFilter {
 
     @Override
     public boolean accept(final File f) {
-      if (f.getName().toLowerCase().endsWith(".txt")) {
-        return true;
-      }
-      return false;
+      return f.getName().toLowerCase().endsWith(".txt");
     }
 
     @Override
