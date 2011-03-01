@@ -2863,22 +2863,26 @@ though, and has since been slightly modified)-->
 
     <rulegroup id="P_V_PAS" name="negation sans NE">
       <rule>
-        <pattern mark_from="1">
+        <pattern mark_from="1" mark_to="-1">
           <token postag="(Z.*)|(R pers suj.*)" postag_regexp="yes"/>
-          <token postag="V.*" postag_regexp="yes" regexp="yes">[aeiouh].*</token>
+          <token postag="V.*" postag_regexp="yes" regexp="yes">[aeiouyh].*</token>
           <token>pas</token>
+          <token negate="yes" regexp="yes">mal|moins</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>\1 n'\2 \3</suggestion></message>
         <example type="incorrect">On <marker>a pas</marker> compris.</example>
         <example type="correct">On n'a pas compris.</example>
         <example type="incorrect">Robert <marker>a pas</marker> compris.</example>
         <example type="correct">On n'a pas compris.</example>
+        <example type="correct">Il y a pas mal de choses à faire.</example>
+        <example type="correct">Il a pas moins de 10 voitures.</example>
       </rule>
       <rule>
-        <pattern mark_from="1">
+        <pattern mark_from="1" mark_to="-1">
           <token postag="(Z.*)|(R pers suj.*)" postag_regexp="yes"/>
-          <token postag="V.*" postag_regexp="yes" regexp="yes">[^aeiouh].*</token>
+          <token postag="V.*" postag_regexp="yes" regexp="yes">[^aeiouyh].*</token>
           <token>pas</token>
+          <token negate="yes" regexp="yes">mal|moins</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>\1 ne \2 \3</suggestion></message>
         <example type="incorrect">On <marker>part pas</marker> encore.</example>
@@ -2886,15 +2890,28 @@ though, and has since been slightly modified)-->
       </rule>
 
       <rule>
-        <pattern mark_from="2">
+        <pattern mark_from="2" mark_to="-1">
           <token postag="(Z.*)|(R pers suj.*)" postag_regexp="yes"/>
-          <token postag="R.* obj.*" postag_regexp="yes"/>
+          <token postag="R.* obj.*" postag_regexp="yes" regexp="yes">[^aeiouyh].*</token>
           <token postag="V.*" postag_regexp="yes"/>
           <token>pas</token>
+          <token negate="yes" regexp="yes">mal|moins</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>\1 ne \2 \3 \4</suggestion></message>
         <example type="incorrect">On vous <marker>a pas</marker> compris.</example>
         <example type="correct">On ne vous a pas compris.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2" mark_to="-1">
+          <token postag="(Z.*)|(R pers suj.*)" postag_regexp="yes"/>
+          <token postag="R.* obj.*" postag_regexp="yes" regexp="yes">[aeiouyh].*</token>
+          <token postag="V.*" postag_regexp="yes"/>
+          <token>pas</token>
+          <token negate="yes" regexp="yes">mal|moins</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>\1 n'\2 \3 \4</suggestion></message>
+        <example type="incorrect">Il y <marker>a pas</marker> d'eau.</example>
+        <example type="correct">Il n'y a pas d'eau.</example>
       </rule>
     </rulegroup>
 
@@ -2913,25 +2930,6 @@ though, and has since been slightly modified)-->
       <example type="correct">Il en profita.</example>
     </rule>
     -->
-
-    <rulegroup id="AUX_MOD_V" name="auxiliaire modal + verbe">
-      <rule>
-        <pattern mark_from="1">
-          <and>
-            <token inflected="yes" regexp="yes">aller|faire|devoir|pouvoir|savoir|vouloir</token>
-            <token postag="V.*" postag_regexp="yes"/>
-          </and>
-          <token postag="V.*" postag_regexp="yes">
-            <exception postag="[^V] .*" postag_regexp="yes"/>
-            <exception postag="V.* inf" postag_regexp="yes"/>
-          </token>
-        </pattern>
-        <message>Le verbe « \2 » devrait être à l'infinitif après l'auxiliaire modal « \1 »</message>
-        <example type="incorrect">Je sais <marker>nagé</marker></example>
-        <example type="correct">Je sais nager</example>
-        <example type="correct">Il fait partie du club.</example>
-      </rule>
-    </rulegroup>
 
   </category>
 
