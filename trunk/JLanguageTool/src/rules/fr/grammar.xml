@@ -1037,7 +1037,7 @@ though, and has since been slightly modified)-->
         <token regexp="yes">['’]</token>
         <token>est</token>
         <token postag="N.*" postag_regexp="yes">
-          <exception regexp="yes">pas|dommage</exception>
+          <exception regexp="yes">pas|dommage|grâce</exception>
           <exception postag="[^N].*" postag_regexp="yes"/>
         </token>
       </pattern>
@@ -2292,6 +2292,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token postag="V .* 1 s" postag_regexp="yes">
+            <exception postag="N.*" postag_regexp="yes"/>
             <exception regexp="yes">.*[^éèe]</exception>
             <exception scope="previous" postag="R pers suj .*" postag_regexp="yes"/>
           </token>
@@ -2300,6 +2301,7 @@ though, and has since been slightly modified)-->
         <message>Voulez-vous dire <suggestion><match no="1" regexp_match="(.*)." regexp_replace="$1é"/>-\2</suggestion> ?</message>
         <example type="incorrect"><marker>Aime je</marker> ma femme ?</example>
         <example type="correct"><marker>Aimè-je</marker> ma femme ?</example>
+        <example type="correct">Quel genre de musique j'écoute</example>
       </rule>
       <rule>
         <pattern>
@@ -2896,10 +2898,10 @@ though, and has since been slightly modified)-->
       </rule>
     </rulegroup>
 
-    <!-- Too many false positive but possibly interesting rule 
+    <!-- Too many false positive but possibly interesting rule
     <rule id="PREP_V" name="verbe après préposition">
       <pattern mark_from="1">
-        <token postag="P"><exception regexp="yes">avant|dehors|dedans|derrière|en|par|proche|suivant</exception></token>
+        <token postag="P"><exception regexp="yes">avant|dehors|dedans|derrière|en|outre|par|proche|suivant</exception></token>
         <token postag="V.*" postag_regexp="yes">
           <exception postag="V.* inf" postag_regexp="yes"/>
           <exception postag="[^V].*" postag_regexp="yes"/>
@@ -2911,6 +2913,25 @@ though, and has since been slightly modified)-->
       <example type="correct">Il en profita.</example>
     </rule>
     -->
+
+    <rulegroup id="AUX_MOD_V" name="auxiliaire modal + verbe">
+      <rule>
+        <pattern mark_from="1">
+          <and>
+            <token inflected="yes" regexp="yes">aller|faire|devoir|pouvoir|savoir|vouloir</token>
+            <token postag="V.*" postag_regexp="yes"/>
+          </and>
+          <token postag="V.*" postag_regexp="yes">
+            <exception postag="[^V] .*" postag_regexp="yes"/>
+            <exception postag="V.* inf" postag_regexp="yes"/>
+          </token>
+        </pattern>
+        <message>Le verbe « \2 » devrait être à l'infinitif après l'auxiliaire modal « \1 »</message>
+        <example type="incorrect">Je sais <marker>nagé</marker></example>
+        <example type="correct">Je sais nager</example>
+        <example type="correct">Il fait partie du club.</example>
+      </rule>
+    </rulegroup>
 
   </category>
 
@@ -5500,7 +5521,7 @@ though, and has since been slightly modified)-->
     <rulegroup id="PAVER_LA_VOIE" name="paver la voie">
       <rule>
         <pattern>
-          <token inflected="yes" skip="6">paver</token>
+          <token inflected="yes" skip="1">paver</token>
           <token regexp="yes">voies?</token>
         </pattern>
         <message>« Paver la voie » est un anglicisme (to pave the way). Employez <suggestion>ouvrir la voie</suggestion>, <suggestion>ouvrir la porte</suggestion>, <suggestion>préparer le terrain</suggestion>.</message>
@@ -5974,7 +5995,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="ETRE_A_DATE" name="être à date">
       <pattern>
-        <token inflected="yes" skip="6">être</token>
+        <token inflected="yes">être</token>
         <token>à</token>
         <token regexp="yes">dates?</token>
       </pattern>
@@ -5994,7 +6015,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="CONTROLER_LA_SITUATION" name="contrôler la situation">
       <pattern>
-        <token inflected="yes" skip="6">contrôler</token>
+        <token inflected="yes" skip="1">contrôler</token>
         <token regexp="yes">situations?</token>
       </pattern>
       <message>« Contrôler la situation » est un anglicisme. Employez <suggestion>avoir la situation en mains</suggestion>, <suggestion>tenir la situation en mains</suggestion>.</message>
@@ -6003,7 +6024,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="CONTROLER_LA_CIRCULATION" name="contrôler la circulation">
       <pattern>
-        <token inflected="yes" skip="6">contrôler</token>
+        <token inflected="yes" skip="1">contrôler</token>
         <token regexp="yes">circulations?</token>
       </pattern>
       <message>« Contrôler la circulation » est un anglicisme. Employez <suggestion>régler la circulation</suggestion>.</message>
@@ -6012,7 +6033,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="CONTROLER_UN_INCENDIE" name="contrôler un incendie">
       <pattern>
-        <token inflected="yes" skip="6">contrôler</token>
+        <token inflected="yes" skip="1">contrôler</token>
         <token regexp="yes">incendies?</token>
       </pattern>
       <message>« Contrôler un incendie » est un anglicisme. Employez <suggestion>maîtriser un incendie</suggestion>.</message>
@@ -6021,7 +6042,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="COUPER_DES_POSTES" name="couper des postes">
       <pattern>
-        <token inflected="yes" skip="6">couper</token>
+        <token inflected="yes" skip="1">couper</token>
         <token regexp="yes">postes?</token>
       </pattern>
       <message>« Couper des postes » est un anglicisme. Employez <suggestion>abolir des postes</suggestion>, <suggestion>supprimer des postes</suggestion>.</message>
