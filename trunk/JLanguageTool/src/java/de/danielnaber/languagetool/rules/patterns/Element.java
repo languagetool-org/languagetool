@@ -718,6 +718,15 @@ public class Element {
   }
 
   /**
+   * Tests whether the POS matches a regular expression.
+   * 
+   * @since 1.3.0
+   */
+  public final boolean isPOStagRegularExpression() {
+    return posRegExp;
+  }
+
+  /**
    * @return the POS of the Element
    * @since 0.9.6
    */

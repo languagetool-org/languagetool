@@ -37,7 +37,11 @@ import de.danielnaber.languagetool.rules.RuleMatch;
  */
 public class PatternRuleTest extends TestCase {
 
-  private static final Pattern PROBABLE_PATTERN = Pattern.compile("[^\\[\\]\\*\\+\\|\\^\\{\\}\\?][\\[\\]\\*\\+\\|\\^\\{\\}\\?]|\\\\[^0-9]|\\(.+\\)|\\..");
+  // The  [^cfmnt123]\\.|\\.[^mvngl]  part is there to consider a string as a
+  // regexp if and only if it is not enclosed on both sides by those characters.
+  // This is to cope with Polish POS tags which contain dots without being
+  // a regexp.
+  private static final Pattern PROBABLE_PATTERN = Pattern.compile("(.+[+?^{}|\\[\\]].*)|(.*[+?^{}|\\[\\]].+)|(\\(.*\\))|(\\\\[^0-9].*)|[^cfmnt123]\\.|\\.[^mvngl]|(.+\\.$)");
   private static final Pattern CASE_PATTERN = Pattern.compile("\\[(.)(.)\\]");
 
   private static JLanguageTool langTool;
@@ -71,45 +75,83 @@ public class PatternRuleTest extends TestCase {
       int i = 0;
       for (final Element element : rule.getElements()) {
         i++;
-        warnIfElementNotKosher(element, lang, rule.getId());
+
+        // Check whether token value is consistent with regexp="..."
+        warnIfElementNotKosher(
+          element.getString(),
+          element.isRegularExpression(),
+          element.getCaseSensitive(),
+          element.isInflected(),
+          lang, rule.getId());
+
+        // Check postag="..." is consistent with postag_regexp="..."
+        warnIfElementNotKosher(
+          element.getPOStag() == null ? "" : element.getPOStag(),
+          element.isPOStagRegularExpression(),
+          element.getCaseSensitive(),
+          false,
+          lang, rule.getId() + " (exception in POS tag) ");
+
         if (element.getExceptionList() != null) {
           for (final Element exception: element.getExceptionList()) {
-            warnIfElementNotKosher(exception, lang, rule.getId()
-                + " (exception in token [" + i + "]:" + element +") ");
+            // Check whether exception value is consistent with regexp="..."
+            // Don't check string "." since it is sometimes used as a regexp
+            // and sometimes used as non regexp.
+            if (!exception.getString().equals(".")) {
+              warnIfElementNotKosher(
+                exception.getString(),
+                exception.isRegularExpression(),
+                exception.getCaseSensitive(),
+                exception.isInflected(),
+                lang, rule.getId() + " (exception in token [" + i + "]) ");
+            }
+            // Check postag="..." of exception is consistent with postag_regexp="..."
+            warnIfElementNotKosher(
+              exception.getPOStag() == null ? "" : exception.getPOStag(),
+              exception.isPOStagRegularExpression(),
+              exception.getCaseSensitive(),
+              false,
+              lang, rule.getId() + " (exception in POS tag of token [" + i + "]) ");
           }
         }
       }
     }
   }
 
-  private void warnIfElementNotKosher(final Element element, 
+  private void warnIfElementNotKosher(
+      final String stringValue,
+      final boolean isRegularExpression,
+      final boolean isCaseSensitive,
+      final boolean isInflected,
       final Language lang, final String ruleId) {
-    if (!element.isRegularExpression()
-        && PROBABLE_PATTERN.matcher(element.getString()).find()) {
+
+    if (!isRegularExpression
+        && PROBABLE_PATTERN.matcher(stringValue).find()) {
       System.err.println("The " + lang.toString() + " rule: "
-          + ruleId + " contains element " + "\"" + element
+          + ruleId + " contains " + "\"" + stringValue
           + "\" that is not marked as regular expression but probably is one.");
     }
-    if (element.isRegularExpression() && "".equals(element.getString())) {
+
+    if (isRegularExpression && "".equals(stringValue)) {
       System.err.println("The " + lang.toString() + " rule: "
-          + ruleId + " contains an empty string element " + "\"" + element
-          + "\" that is marked as regular expression (don't look at the POS tag, it might be OK).");
-    } else if (element.isRegularExpression()
-        && !PROBABLE_PATTERN.matcher(element.getString())
+          + ruleId + " contains an empty string " + "\"" + stringValue
+          + "\" that is marked as regular expression.");
+    } else if (isRegularExpression
+        && !PROBABLE_PATTERN.matcher(stringValue)
             .find()) {
       System.err.println("The " + lang.toString() + " rule: "
-          + ruleId + " contains element " + "\"" + element
+          + ruleId + " contains " + "\"" + stringValue
           + "\" that is marked as regular expression but probably is not one.");
     }
           
-    if (element.isInflected() && "".equals(element.getString())) {
+    if (isInflected && "".equals(stringValue)) {
       System.err.println("The " + lang.toString() + " rule: "
-          + ruleId + " contains element " + "\"" + element
+          + ruleId + " contains " + "\"" + stringValue
           + "\" that is marked as inflected but is empty, so the attribute is redundant.");
     }
 
-    if (element.isRegularExpression() && !element.getCaseSensitive()) {
-      final Matcher matcher = CASE_PATTERN.matcher(element.getString());
+    if (isRegularExpression && !isCaseSensitive) {
+      final Matcher matcher = CASE_PATTERN.matcher(stringValue);
       if (matcher.find()) {
         final String letter1 = matcher.group(1);
         final String letter2 = matcher.group(2);
@@ -123,26 +165,25 @@ public class PatternRuleTest extends TestCase {
       }
     }
 
-    if (element.isRegularExpression() && element.getString().contains("|")) {
-      final String[] groups = element.getString().split("\\)");         
-      final boolean caseSensitive = element.getCaseSensitive();
+    if (isRegularExpression && stringValue.contains("|")) {
+      final String[] groups = stringValue.split("\\)");         
       for (final String group : groups) {        
         final String[] alt = group.split("\\|");
         final Set<String> partSet = new HashSet<String>();
         final Set<String> partSetNoCase = new HashSet<String>();
         for (String part : alt) {
-          final String partNoCase = caseSensitive ? part : part.toLowerCase();
+          final String partNoCase = isCaseSensitive ? part : part.toLowerCase();
           if (partSetNoCase.contains(partNoCase)) {
             if (partSet.contains(part)) {
               // Duplicate disjunction parts "foo|foo".
-              System.err.println("The " + lang.toString() + " rule : "
+              System.err.println("The " + lang.toString() + " rule: "
                   + ruleId + " contains duplicated disjunction part (" 
-                  + part + ") within the element " + "\"" + element + "\".");
+                  + part + ") within " + "\"" + stringValue + "\".");
             } else {
               // Duplicate disjunction parts "Foo|foo" since element ignores case.
-              System.err.println("The " + lang.toString() + " rule : "
+              System.err.println("The " + lang.toString() + " rule: "
                   + ruleId + " contains duplicated non case sensitive disjunction part (" 
-                  + part + ") within the element " + "\"" + element + "\". Did you "
+                  + part + ") within " + "\"" + stringValue + "\". Did you "
                   + "forget case_sensitive=\"yes\"?");
             }
           }    
