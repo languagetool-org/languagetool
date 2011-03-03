@@ -1038,7 +1038,7 @@ though, and has since been slightly modified)-->
         <token regexp="yes">['’]</token>
         <token>est</token>
         <token postag="N.*" postag_regexp="yes">
-          <exception regexp="yes">pas|dommage|grâce</exception>
+          <exception regexp="yes">pas|dommage|grâce|non</exception>
           <exception postag="[^N].*" postag_regexp="yes"/>
         </token>
       </pattern>
@@ -1047,6 +1047,7 @@ though, and has since been slightly modified)-->
       <example type="correct"><marker>Cette</marker> école est réputée.</example>
       <example type="correct">C'est dommage to partir si tôt.</example>
       <example type="correct">Vouloir c'est pouvoir.</example>
+      <example type="correct">C'est non seulement pour lui, mais aussi pour elle.</example>
       <!-- FIXME: romantique is misclassified in dicollecte dictionary -->
       <!-- <example type="correct">Comme c'est romantique.</example> -->
     </rule>
@@ -1212,6 +1213,7 @@ though, and has since been slightly modified)-->
           </token>
           <token postag="[JN] .* s" postag_regexp="yes">
             <exception postag="(V .*)|(.* sp)" postag_regexp="yes"/>
+            <exception scope="previous">du</exception>
           </token>
         </pattern>
         <message>« \2 » et « \3 » ne semblent pas bien accordés en nombre</message>
@@ -1219,6 +1221,7 @@ though, and has since been slightly modified)-->
         <example type="correct"><marker>Des poulets</marker> fermiers</example>
         <example type="incorrect"><marker>Dix gros poulet</marker> fermiers</example>
         <example type="correct"><marker>Dix gros poulets</marker> fermiers</example>
+        <example type="correct">Pauvres du monde</example>
       </rule>
     </rulegroup>
 
@@ -1273,6 +1276,7 @@ though, and has since been slightly modified)-->
           <token negate="yes" regexp="yes">des?|du|aux?</token>
           <token skip="1" postag="N m .*" postag_regexp="yes">
             <exception postag="(N f .*)|(V .*)" postag_regexp="yes"/>
+            <exception>non</exception>
             <!-- Following exception is to skip an adverb -->
             <exception scope="next" negate_pos="yes" postag="A|(J f .*)|(V .* f .*)|SENT_END" postag_regexp="yes"/>
           </token>
@@ -1295,6 +1299,7 @@ though, and has since been slightly modified)-->
         <example type="correct">L'<marker>homme présente</marker> une amie.</example>
         <example type="correct">Une réduction des <marker>coûts comprise</marker> entre 10 et 20 euros.</example>
         <example type="correct">Une omelette au <marker>jambon relevée</marker> d'oseille.</example>
+        <example type="correct">Des bouteilles non vidées</example>
       </rule>
 
       <rule name="féminin suivi du masculin">
@@ -1463,11 +1468,12 @@ though, and has since been slightly modified)-->
       <pattern mark_from="1">
         <token postag="V .*" postag_regexp="yes" skip="1">
           <exception inflected="yes" postag="(V inf)|(V etre .*)|(V avoir .*)|(N .*)" postag_regexp="yes" regexp="yes">être|paraître|sembler|devenir|demeurer|rester|avoir</exception>
-          <exception regexp="yes" scope="current">,|et|tu|ou|toutes?</exception>
+          <exception regexp="yes" scope="current">,|tu|toutes?</exception>
         </token>
         <token postag="V ppa .*" postag_regexp="yes">
           <exception postag="[ZNJ] .*" postag_regexp="yes" scope="current"/>
           <exception inflected="yes" regexp="yes" scope="previous">être|paraître|sembler|devenir|demeurer|rester|avoir</exception>
+          <exception scope="previous" regexp="yes">et|ou</exception>
           <exception>tu</exception>
         </token>
       </pattern>
@@ -1481,6 +1487,7 @@ though, and has since been slightly modified)-->
       <example type="correct">La maison appartient à Renée.</example>
       <example type="correct">C'est de toute nécessité.</example>
       <example type="correct">Il faut que tu le tues.</example>
+      <example type="correct">Un mineur mouillé et barbouillé</example>
     </rule>
 
     <rule id="AUX_ETRE_VCONJ" name="Auxiliaire suivi d'un verbe conjugué">
@@ -17846,14 +17853,6 @@ though, and has since been slightly modified)-->
       <message>« Mon dieu » est une expression fautive. Employez <suggestion>mon Dieu</suggestion>.</message>
       <example type="incorrect"><marker>mon dieu</marker>!</example>
       <example type="correct"><marker>Mon Dieu</marker>!</example>
-    </rule>
-    <rule id="SEIGNEUR" name="seigneur">
-      <pattern case_sensitive="yes">
-        <token>seigneur</token>
-      </pattern>
-      <message>« Seigneur » s'écrit avec une majuscule au sens de Dieu. Employez <suggestion>Seigneur</suggestion> au besoin.</message>
-      <example type="incorrect"><marker>seigneur</marker></example>
-      <example type="correct"><marker>Seigneur</marker></example>
     </rule>
     <rule id="DIEU" name="dieu">
       <pattern case_sensitive="yes">
