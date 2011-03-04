@@ -366,7 +366,6 @@ RB => Règles Brutes
       <disambig><match no="1" postag_regexp="yes" postag="D.*"/></disambig>
     </rule>
                 -->
-
   </rulegroup>
 
     <rule name="RP : Det + Adj ambigu + Nom" id="RP-D_J_AMBIG_N">
@@ -374,7 +373,7 @@ RB => Règles Brutes
       <unify>  <feature id="number"/> <feature id="gender"/>
         <token postag="D.*" postag_regexp="yes"/>
         <token postag="J.*" postag_regexp="yes"/>
-        <token postag="N.*" postag_regexp="yes"><exception inflected="yes">être</exception></token>
+        <token postag="N.*" postag_regexp="yes"><exception>dans</exception><exception inflected="yes">être</exception></token>
       </unify>
       </pattern>
       <disambig action="unify"/>
@@ -390,7 +389,7 @@ RB => Règles Brutes
       <example type="untouched">Ils sont parti.</example>
       <example type="ambiguous" inputform="livre[livre/N e s,livrer/V imp pres 2 s,livrer/V ind pres 1 s,livrer/V ind pres 3 s,livrer/V sub pres 1 s,livrer/V sub pres 3 s]" outputform="livre[livre/N e s]">Il a enfin publié son <marker>livre</marker>.</example>
     </rule>
-     
+
   <rulegroup name="RP : Etre/avoir + participe passé ambigu" id="RP-ÊTRE_AVOIR_VPPA_AMBIG">
     <rule name="ppa masc sing">
       <pattern mark="1">
@@ -696,5 +695,4 @@ RB => Règles Brutes
       </pattern>
       <disambig postag="P"/>
     </rule>
-
 </rules>
