@@ -192,7 +192,7 @@ $Id: grammar.xml,v 1.18 2010-12-10 01:07:04 jmartorell Exp $
         <!--HABER_SI-->
 
         <pattern mark_from="1">
-          <token postag="SENT_START" postag_regexp="yes"></token>
+          <token postag="SENT_START"></token>
 
           <token>haber</token>
 
@@ -388,7 +388,7 @@ Anulamos si entremedias hay al menos un nombre-->
         <pattern mark_to="-1">
           <token>tu</token>
 
-          <token postag="SENT_END" postag_regexp="yes"></token>
+          <token postag="SENT_END"></token>
         </pattern>
 
         <message>El pronombre personal <suggestion>tú</suggestion> lleva tilde.</message>
@@ -404,7 +404,7 @@ Anulamos si entremedias hay al menos un nombre-->
         <pattern mark_to="-1">
           <token>el</token>
 
-          <token postag="SENT_END" postag_regexp="yes"></token>
+          <token postag="SENT_END"></token>
         </pattern>
 
         <message>El pronombre personal <suggestion>él</suggestion> lleva tilde.</message>
@@ -438,7 +438,7 @@ Anulamos si entremedias hay al menos un nombre-->
       <pattern mark_to="-1">
         <token><!--Included «lo» to avoid overlap with LO_SE rule--><exception regexp="yes" scope="previous">per|lo</exception>se</token>
 
-        <token postag="SENT_END" postag_regexp="yes"></token>
+        <token postag="SENT_END"></token>
       </pattern>
 
       <message>El presente de indicativo primera persona del verbo saber es <suggestion>sé</suggestion>.</message>
@@ -476,7 +476,7 @@ Fuentes: http://cvc.cervantes.es/ALHABLA/MUSEO_HORRORES/museo_010.htm -->
         <!-- ESTAR_SEGURO_QUE Queísmo: Estoy seguro que -> Estoy seguro de que -->
 
         <pattern>
-          <token inflected="yes"><exception postag="VAIP3S0" postag_regexp="yes"></exception>estar</token>
+          <token inflected="yes"><exception postag="VAIP3S0"></exception>estar</token>
 
           <token inflected="yes">seguro</token>
 
@@ -794,7 +794,7 @@ http://buscon.rae.es/dpdI/SrvltConsulta?lema=grosso-->
         <!-- DET_NOM_SING Concordancia (el pavos) -->
 
         <pattern case_sensitive="yes">
-          <token postag="D.{3}S.*" postag_regexp="yes"><exception postag="DI0CS0" postag_regexp="yes"></exception></token>
+          <token postag="D.{3}S.*" postag_regexp="yes"><exception postag="DI0CS0"></exception></token>
 
           <token postag="N.{2}P.*" postag_regexp="yes"><!--TODO: Include adjectives: N.{2}P.*|AQ.{2}P. --><exception negate_pos="yes" postag="N.{2}P.*"
           postag_regexp="yes"></exception><exception regexp="yes">[Bb]otones|\p{Lu}\p{L}*</exception></token>
@@ -975,7 +975,7 @@ http://buscon.rae.es/dpdI/SrvltConsulta?lema=grosso-->
         <!-- EL_NOM_MASC Concordancia (el pava) -->
 
         <pattern case_sensitive="yes">
-          <token postag="DA0MS0" postag_regexp="yes"></token>
+          <token postag="DA0MS0"></token>
 
           <token postag="N.{1}F.*" postag_regexp="yes"><exception negate_pos="yes" postag="N.{1}F.*" postag_regexp="yes" scope="current"></exception><exception
           regexp="yes">\p{Lu}\p{L}*|aura|ágata|ágora|águila|álgebra|áncora|ánfora|ánima|área|árnica|acta|afta|agua|aguasal|aguaviva|ala|alba|alga|algia|alma|alta|alza|ama</exception><exception
@@ -1064,7 +1064,7 @@ http://buscon.rae.es/dpdI/SrvltConsulta?lema=grosso-->
         <!-- CADA_UNA_DE_LOS Concordancia (Concordancia M/F) -->
 
         <pattern case_sensitive="no">
-          <token postag="SENT_START" postag_regexp="yes"></token>
+          <token postag="SENT_START"></token>
 
           <token>cada</token>
 
@@ -1088,7 +1088,7 @@ http://buscon.rae.es/dpdI/SrvltConsulta?lema=grosso-->
         <!-- CADA_UNO_DE_LAS Concordancia (Concordancia F/M) -->
 
         <pattern case_sensitive="no">
-          <token postag="SENT_START" postag_regexp="yes"></token>
+          <token postag="SENT_START"></token>
 
           <token>cada</token>
 
@@ -1293,8 +1293,8 @@ http://buscon.rae.es/dpdI/SrvltConsulta?lema=grosso-->
       <!-- SUJ_PRED_ATRIB_MASC Concordancia (pavo es roja) -->
 
       <pattern>
-        <token postag="N.{1}M.*" postag_regexp="yes" skip="1"><exception postag="RN" postag_regexp="yes"></exception><exception
-        regexp="yes">botones|la|do</exception><exception postag="N.*|CS" postag_regexp="yes" scope="next"></exception></token>
+        <token postag="N.{1}M.*" postag_regexp="yes" skip="1"><exception postag="RN"></exception><exception regexp="yes">botones|la|do</exception><exception
+        postag="N.*|CS" postag_regexp="yes" scope="next"></exception></token>
 
         <token inflected="yes" regexp="yes" skip="2"><exception regexp="yes" scope="previous">[^\w].*|se</exception>ser|estar|parecer</token>
 
