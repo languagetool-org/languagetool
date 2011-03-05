@@ -5,11 +5,8 @@
 Dutch Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006,2007,2008, 2009, 2010 R. J. Baars (ruud.baars@opentaal.org)
 Contributions and ideas from: taaladvies.net, 'Pander'
-$Id: grammar.xml,v 1.34 2010-11-22 19:32:55 milek_pl Exp $
+$Id: grammar.xml,v 1.34 2010/11/22 19:32:55 milek_pl Exp $
 -->
-
-
-
 <rules lang="nl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../rules.xsd">
    <phrases>
       <!-- noun phrases for singular het-words -->
@@ -1010,8 +1007,8 @@ $Id: grammar.xml,v 1.34 2010-11-22 19:32:55 milek_pl Exp $
       </rulegroup>
       
       <rulegroup id="EURO" name="Fouten rond de euro">
-
-	  <rule id="ID209a_OK" name="Geen EUR voor een bedrag">
+         
+         <rule id="ID209a_OK" name="Geen EUR voor een bedrag">
             <pattern>
               <token>EUR</token>
               <token regexp="yes">[0-9]{1,10}</token>
@@ -1021,48 +1018,48 @@ $Id: grammar.xml,v 1.34 2010-11-22 19:32:55 milek_pl Exp $
             <example type="incorrect">Hij gaf mij <marker>EUR 5</marker>.</example>
             <example type="correct">Hij gaf mij <marker>€ 5</marker>.</example>
          </rule>
-
-	  <rule id="EUR_001" name="na € een spatie">
+         
+         <rule id="EUR_001" name="na € een spatie">
             <pattern>
               <token regexp="yes">€[0-9]{1,10}</token>
             </pattern>
             <message>Gebruik een spatie na de € :<suggestion><match no="1" regexp_match="([€])([0-9]{1,10})" regexp_replace="$1 $2"/></suggestion></message>
-            <short>spatie na €</short>
+            <short>spatie na € (EUR_001)</short>
             <example type="incorrect">Hij gaf mij <marker>€10</marker>.</example>
             <example type="correct">Hij gaf mij <marker>€ 5</marker>.</example>
          </rule>
-	  <rule id="EUR_002" name="na EUR een spatie">
+         <rule id="EUR_002" name="na EUR een spatie">
             <pattern>
               <token regexp="yes">EUR[0-9]{1,10}</token>
             </pattern>
             <message>Gebruik een spatie na EUR :<suggestion><match no="1" regexp_match="(EUR)([0-9]{1,10})" regexp_replace="$1 $2"/></suggestion></message>
-            <short>spatie na EUR</short>
+            <short>spatie na EUR (EUR_002)</short>
             <example type="incorrect">Hij gaf mij <marker>EUR10</marker>.</example>
             <example type="correct">Hij gaf mij <marker>€ 5</marker>.</example>
          </rule>
-	  <rule id="EUR_003" name="EUR na het bedrag">
+         <rule id="EUR_003" name="EUR na het bedrag">
             <pattern>
               <token regexp="yes">[0-9]{1,10}EUR</token>
             </pattern>
             <message>Gebruik EUR voor het bedrag</message>
-            <short>spatie na EUR</short>
+            <short>spatie na EUR (EUR_003)</short>
             <example type="incorrect">Hij gaf mij <marker>10EUR</marker>.</example>
             <example type="correct">Hij gaf mij <marker>€ 5</marker>.</example>
          </rule>
-	  <rule id="EUR_004" name="€ heeft koppelteken nodig">
+         <rule id="EUR_004" name="€ heeft koppelteken nodig">
             <pattern>
               <token regexp="yes">€[a-z].*</token>
             </pattern>
             <message>Gebruik een koppelteken na een symbool. <suggestion><match no="1" regexp_match="(€)(.*)" regexp_replace="$1-$2"/></suggestion></message>
-            <short>spatie na EUR</short>
+            <short>spatie na EUR (EUR_004)</short>
             <example type="incorrect">Hij gaf mij een <marker>€teken</marker>.</example>
             <example type="correct">Hij gaf mij een <marker>€-teken</marker>.</example>
          </rule>
          
       </rulegroup>
       
-
- 
+      
+      
       <rulegroup id="PUNTPUNTPUNT" name="...">
          <rule id="ID1007" name="">
             <pattern mark_to="-1">
@@ -1546,7 +1543,7 @@ $Id: grammar.xml,v 1.34 2010-11-22 19:32:55 milek_pl Exp $
          <rule id="ID-TP0003" name="Kelvin zonder graden">
             <pattern>
               <token regexp="yes">.*°</token>
-	      <token>K</token>
+              <token>K</token>
             </pattern>
             <message>Bij een temperatuur in Kelvin word geen ° gebruikt.</message>
             <short>geen ° bij Kelvin (ID-TP0003)</short>
@@ -1634,6 +1631,20 @@ $Id: grammar.xml,v 1.34 2010-11-22 19:32:55 milek_pl Exp $
             <example type="incorrect">Dat is op <marker>ad hocbasis</marker>.</example>
          </rule>
       </rulegroup>
+      <rulegroup id="VRANK_EN_VRIJ" name="Frank en vrij">
+         <rule id="ID1637" name="">
+            <pattern mark_to="-2">
+              <token>vrank</token>
+              <token>en</token>
+              <token>vrij</token>
+            </pattern>
+            <message>Beter is <suggestion>frank</suggestion></message>
+            <short>frank (ID1637)</short>
+            <example type="incorrect">Hij spreekt <marker>vrank</marker> en vrij.</example>
+            <example type="correct">Hij spreekt <marker>frank</marker> en vrij.</example>
+         </rule>
+      </rulegroup>
+      
       <rulegroup id="AAN_DEN_LIJVE" name="Aan den lijve">
          <rule id="ID114" name="">
             <pattern mark_from="1">
@@ -2796,6 +2807,39 @@ $Id: grammar.xml,v 1.34 2010-11-22 19:32:55 milek_pl Exp $
             <example type="correct">De <marker>pijler</marker> onder het beleid.</example>
          </rule>
       </rulegroup>
+      <rulegroup id="BELASTING" name="Belastings~ of belasting~">
+         <rule id="ID2810" name="">
+            <pattern>
+              <token regexp="yes">.*belastings.*</token>
+            </pattern>
+            <message>Belasting krijgt een tussen-s als het om kracht gaat, maar niet bij geld.</message>
+            <short>belasting? (ID2810)</short>
+            <example type="incorrect">De <marker>belastingsbetaler</marker> is de sigaar.</example>
+            <example type="correct">De <marker>belastingbetaler</marker> is de sigaar.</example>
+         </rule>
+      </rulegroup>
+      <rulegroup id="KADET" name="Kadet of cadet">
+         <rule id="ID2813" name="Kadet of kadet">
+            <pattern>
+              <token regexp="yes">[kc]adet.*</token>
+            </pattern>
+            <message>Een kadet is een broodje, een cadet is een militair in opleiding.</message>
+            <short>kadet of cadet (ID2813)</short>
+            <example type="incorrect">De <marker>kadet</marker> was in opleiding.</example>
+            <example type="correct">De <marker>militair</marker> was in opleiding.</example>
+         </rule>
+      </rulegroup>
+      <rulegroup id="KORPS" name="Korps of corps">
+         <rule id="ID2824" name="Korps of corps">
+            <pattern>
+              <token regexp="yes">[kc]orps</token>
+            </pattern>
+            <message>Een korps is een groep mensen met eenzelfde rol; een corps is een (studenten)vereniging.</message>
+            <short>korps of corps (ID2824)</short>
+            <example type="incorrect">Het <marker>corps</marker> brandweerlieden kwam in opstand.</example>
+            <example type="correct">De <marker>brandweerlieden</marker> kwamen in opstand.</example>
+         </rule>
+      </rulegroup>
       <rulegroup id="OP_PIJL" name="Op pijl i.p.v. op peil">
          <rule id="ID195_OK" name="">
             <pattern mark_from="1">
@@ -3059,7 +3103,7 @@ $Id: grammar.xml,v 1.34 2010-11-22 19:32:55 milek_pl Exp $
             <pattern mark_to="-1" case_sensitive="yes">
               <token regexp="yes">bende|berg|blik|bos|bups|colonne|grom|groep|groepje|hoeveelheid|horde|kluit|kluwen|kudde|lading|leger|legioen|menigte|meute|reeks|rij|rijtje|rits|roedel|schare|serie|slag|sleep|stoet|troep|verzameling|zwik|zooi|zootje</token>
               <token postag="NN2.*" postag_regexp="yes"/>
-              <token postag="VBi" postag_regexp="yes"/>
+              <token postag="VBi"/>
               <token><exception postag="SENT_END"/><exception postag="NN2"/></token>
             </pattern>
             <message>Gaat het om één groep, dan is het <suggestion><match no="1"/> <match no="2"/> <match no="3" postag="VB3"/></suggestion>.</message>
@@ -3071,7 +3115,7 @@ $Id: grammar.xml,v 1.34 2010-11-22 19:32:55 milek_pl Exp $
             <pattern  case_sensitive="yes">
               <token regexp="yes">bende|berg|blik|bos|bups|colonne|grom|groep|groepje|hoeveelheid|horde|kluit|kluwen|kudde|lading|leger|legioen|menigte|meute|reeks|rij|rijtje|rits|roedel|schare|serie|slag|sleep|stoet|troep|verzameling|zwik|zooi|zootje</token>
               <token postag="NN2.*" postag_regexp="yes"/>
-              <token postag="VBh" postag_regexp="yes"/>
+              <token postag="VBh"/>
             </pattern>
             <message>Gaat het om één groep, dan is het <suggestion><match no="1"/> <match no="2"/> <match no="3" postag="VBh1"/></suggestion>.</message>
             <short>Een groep is één. (ID220_OK)</short>
@@ -3083,7 +3127,7 @@ $Id: grammar.xml,v 1.34 2010-11-22 19:32:55 milek_pl Exp $
               <token>het</token>
               <token>aantal</token>
               <token postag="NN2.*" postag_regexp="yes"/>
-              <token postag="VBh" postag_regexp="yes"><exception postag="VBp" postag_regexp="yes"/></token>
+              <token postag="VBh"><exception postag="VBp"/></token>
             </pattern>
             <message>Het aantal is één groep, dus juist is <suggestion><match no="4" postag="VBh1"/></suggestion>.</message>
             <short>Geem meervoud. (ID-TA0016)</short>
@@ -3477,7 +3521,7 @@ $Id: grammar.xml,v 1.34 2010-11-22 19:32:55 milek_pl Exp $
             <pattern case_sensitive="yes" mark_from="1" mark_to="-2">
               <token><exception postag_regexp="yes" postag="VB3|VBh1"/><exception>nadat</exception></token>
               <token>het</token>
-              <token postag="NN1[dmf]" postag_regexp="yes" regexp="yes">^[a-z].*<exception postag="AJ.*|VBi|VB3|PN.*|VBp.*|VBh.*|NM.*|PPe|PN.*|NN1|NN1h" postag_regexp="yes"/><exception regexp="yes">zij|mijn|is|was|wordt|mis|u|niet|een|voor|bij</exception></token>
+              <token postag="NN1[dmf]" postag_regexp="yes" regexp="yes">^[a-z].*<exception postag="AJ.*|VBi|VB3|PN.*|VBp.*|VBh.*|NM.*|PPe|NN1|NN1h" postag_regexp="yes"/><exception regexp="yes">zij|mijn|is|was|wordt|mis|u|niet|een|voor|bij</exception></token>
               <token><exception postag_regexp="yes" postag="VBp|VBi"/></token>
             </pattern>
             <message><suggestion>de</suggestion></message>
@@ -3509,6 +3553,42 @@ $Id: grammar.xml,v 1.34 2010-11-22 19:32:55 milek_pl Exp $
             <short>Spatie te veel (UK_NN2_NN2)</short>
             <example type="incorrect">Kijk eens naar de <marker>heren schoenen</marker>.</example>
             <example type="correct">Kijk eens naar de <marker>herenschoenen</marker>.</example>
+         </rule>
+      </rulegroup>
+      <rulegroup id="TE_VOORSCHIJN" name="te voorschijn">
+         <rule id="ID3558" name="">
+            <pattern>
+              <token>te</token>
+              <token regexp="yes">voorschijn|vreden</token>
+            </pattern>
+            <message>Fout. Het moet zijn: <suggestion><match no="1"/><match no="2"/></suggestion>.</message>
+            <short>Spatie overbodig (ID3558)</short>
+            <example type="incorrect">Het komt <marker>te voorschijn</marker>.</example>
+            <example type="correct">Het komt <marker>tevoorschijn</marker>.</example>
+         </rule>
+      </rulegroup>
+      <rulegroup id="TECH" name="high en low tech">
+         <rule id="ID3570" name="">
+            <pattern>
+              <token regexp="yes">high|low</token>
+              <token>tech</token>
+            </pattern>
+            <message>Fout. Het moet zijn: <suggestion><match no="1"/><match no="2"/></suggestion>.</message>
+            <short>Spatie overbodig (ID3570)</short>
+            <example type="incorrect">Het is <marker>high tech</marker>.</example>
+            <example type="correct">Het is <marker>lowtech</marker>.</example>
+         </rule>
+      </rulegroup>
+      <rulegroup id="RANGNR" name="rangnr met onterechte spatie">
+         <rule id="ID3582" name="">
+            <pattern>
+              <token regexp="yes">[1-9]([0-9]){0,3}</token>
+              <token regexp="yes">ste|e</token>
+            </pattern>
+            <message>Fout. Het moet zijn: <suggestion><match no="1"/><match no="2"/></suggestion>.</message>
+            <short>Spatie overbodig (ID3582)</short>
+            <example type="incorrect">Het is de <marker>20 e</marker>.</example>
+            <example type="correct">Het is de <marker>30ste</marker>.</example>
          </rule>
       </rulegroup>
       <!--
@@ -3598,6 +3678,19 @@ $Id: grammar.xml,v 1.34 2010-11-22 19:32:55 milek_pl Exp $
             <example type="correct">Het uitzicht <marker>vanaf</marker>de toren is mooi.</example>
          </rule>
       </rulegroup>
+      <rulegroup id="TE_ALLEN_PRIJZE" name="Te allen prijze">
+         <rule id="ID3681"  name="te allen prijze">
+            <pattern>
+              <token>te</token>
+              <token>allen</token>
+              <token>prijze</token>
+            </pattern>
+            <message>Standaardtaal is <suggestion>tot elke prijs</suggestion> of <suggestion>koste wat kost</suggestion>.</message>
+            <short>Streektaal (ID3681)</short>
+            <example type="incorrect">Hij wil <marker>te allen prijze</marker> weg.</example>
+            <example type="correct">Hij wil <marker>koste wat kost</marker> weg.</example>
+         </rule>
+      </rulegroup>
    </category>
    <!--
    <category name="Typisch Hollands naar standaardtaal">
@@ -3616,5 +3709,7 @@ $Id: grammar.xml,v 1.34 2010-11-22 19:32:55 milek_pl Exp $
             <example type="correct">Hij gaat <marker>naar bed</marker>.</example>
          </rule>
       </rulegroup>
+      
+      
    </category>
 </rules>
