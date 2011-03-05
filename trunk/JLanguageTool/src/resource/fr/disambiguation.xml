@@ -62,6 +62,15 @@ RB => Règles Brutes
       </pattern>
       <disambig postag="R pers obj 1 p"/>
     </rule>
+    <rule name="quelqu'un nous">
+      <pattern mark="3">
+        <token>quelqu</token>
+        <token regexp="yes">['’]</token>
+        <token regexp="yes">une?s?</token>
+        <token>nous</token>
+      </pattern>
+      <disambig postag="R pers obj 1 p"/>
+    </rule>
     <rule name="ça nous">
       <pattern mark="2">
         <token postag="SENT_START|M nonfin" postag_regexp="yes" skip="1"/>
@@ -130,6 +139,15 @@ RB => Règles Brutes
       <pattern mark="2">
         <token postag="SENT_START" skip="1"/>
         <token postag="Z.*" postag_regexp="yes"/>
+        <token>vous</token>
+      </pattern>
+      <disambig postag="R pers obj 2 p"/>
+    </rule>
+    <rule name="quelqu'un vous">
+      <pattern mark="3">
+        <token>quelqu</token>
+        <token regexp="yes">['’]</token>
+        <token regexp="yes">une?s?</token>
         <token>vous</token>
       </pattern>
       <disambig postag="R pers obj 2 p"/>
@@ -357,7 +375,7 @@ RB => Règles Brutes
       </pattern>
       <disambig postag="D e s"/>
     </rule>
-                <!-- This causes false positives.
+    <!-- This causes false positives.
     <rule name="Det">
       <pattern mark="0">
         <token postag="D.*" postag_regexp="yes"/>
@@ -365,7 +383,7 @@ RB => Règles Brutes
       </pattern>
       <disambig><match no="1" postag_regexp="yes" postag="D.*"/></disambig>
     </rule>
-                -->
+    -->
   </rulegroup>
 
     <rule name="RP : Det + Adj ambigu + Nom" id="RP-D_J_AMBIG_N">
@@ -373,7 +391,7 @@ RB => Règles Brutes
       <unify>  <feature id="number"/> <feature id="gender"/>
         <token postag="D.*" postag_regexp="yes"/>
         <token postag="J.*" postag_regexp="yes"/>
-        <token postag="N.*" postag_regexp="yes"><exception>dans</exception><exception inflected="yes">être</exception></token>
+        <token postag="N.*" postag_regexp="yes"><exception regexp="yes">dans|envers</exception><exception inflected="yes">être</exception></token>
       </unify>
       </pattern>
       <disambig action="unify"/>
@@ -382,7 +400,7 @@ RB => Règles Brutes
       <pattern mark_from="0" mark_to="0">
         <unify> <feature id="number"/> <feature id="gender"/>
         <token postag="D.*" postag_regexp="yes"/>
-        <token postag="N.*" postag_regexp="yes"><exception>dans</exception></token>
+        <token postag="N.*" postag_regexp="yes"><exception regexp="yes">dans|envers</exception></token>
         </unify>
       </pattern>
       <disambig action="unify"/>
@@ -487,7 +505,6 @@ RB => Règles Brutes
     </rule>
   </rulegroup>
 
-
   <rule name="RD : ambig Adv/N" id="RD-ADV_NOM">
     <pattern mark="0">
       <and>
@@ -555,7 +572,6 @@ RB => Règles Brutes
     </pattern>
     <disambig><match no="1" postag_regexp="yes" postag="J.*"/></disambig>
   </rule>
- 
 <!--  this is too greedy 
     <rule name="RB : verbes" id="RB-VERBES">
       <pattern mark="0">

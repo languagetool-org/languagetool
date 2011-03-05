@@ -631,6 +631,27 @@ though, and has since been slightly modified)-->
       <example type="correct"><marker>Quand</marker> il arrive, je suis heureuse.</example>
     </rule>
 
+    <rulegroup id="NOTRE" name="notre/votre et nôtre/vôtre">
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">les?|la|du|des|aux?</token>
+          <token regexp="yes">[nv]otres?</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>\1 <match no="2" regexp_match="(.)otre(s?)" regexp_replace="$1ôtre$2"/></suggestion></message>
+        <example type="incorrect">C'est le <marker>notre</marker>.</example>
+        <example type="correct">C'est le nôtre.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes" negate="yes">les?|la|du|des|aux?</token>
+          <token regexp="yes">[nv]ôtres?</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>\1 <match no="2" regexp_match="(.)ôtre(s?)" regexp_replace="$1otre$2"/></suggestion></message>
+        <example type="incorrect">C'est <marker>nôtre</marker> mère.</example>
+        <example type="correct">C'est <marker>notre</marker> mère.</example>
+      </rule>
+    </rulegroup>
+
     <rulegroup id="DAVANTAGE" name="Davantage au lieu de d'avantage">
       <rule>
         <pattern mark_from="1" mark_to="-1">
@@ -17027,6 +17048,21 @@ though, and has since been slightly modified)-->
       <message>« \1 \2 \3 » est un tour critiqué. Employez <suggestion>chez</suggestion></message>
       <example type="incorrect">Il va <marker>au</marker> coiffeur tous les mois.</example>
       <example type="correct">Il va chez le coiffeur tous les mois.</example>
+    </rule>
+
+    <rule id="S_EN_SUIVRE" name="s'en suivre au lieu de s'ensuivre">
+      <pattern>
+        <token>s</token>
+        <token regexp="yes">['’]</token>
+        <token>en</token>
+        <and>
+          <token inflected="yes">suivre</token>
+          <token postag="V .*" postag_regexp="yes"></token>
+        </and>
+      </pattern>
+      <message>« \1\2\3 \4» est incorrecte. Employez <suggestion>\1\2en\4</suggestion></message>
+      <example type="incorrect">La défaite <marker>s'en suivit</marker>.</example>
+      <example type="correct">La défaite s'ensuivit.</example>
     </rule>
 
     <!--The following rules were created by Hugo Voisard-->
