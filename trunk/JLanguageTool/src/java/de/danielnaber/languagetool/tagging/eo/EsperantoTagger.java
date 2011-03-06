@@ -110,8 +110,8 @@ public class EsperantoTagger implements Tagger {
   private Set setNonTransitiveVerbs = null;
 
   // Verbs always end with this pattern.
-  private static final Pattern patternVerb1 = Pattern.compile("(.*)(as|os|is|us|u|i)$");
-  private static final Pattern patternVerb2 = Pattern.compile(".*(ig|iĝ)(.s|.)$");
+  private static final Pattern patternVerb = Pattern.compile("(.*)(as|os|is|us|u|i)$");
+  private static final Pattern patternVerbIg = Pattern.compile(".*(ig|iĝ)i$");
 
   // Particips -ant-, -int, ont-, -it-, -it-, -ot-
   private static final Pattern patternParticiple =
@@ -173,6 +173,30 @@ public class EsperantoTagger implements Tagger {
     // suffixes -ad, -aĉ, -et, -eg since these affixes never alter transitivity.
     setTransitiveVerbs    = loadWords(JLanguageTool.getDataBroker().getFromRulesDirAsStream("/eo/verb-tr.txt"));
     setNonTransitiveVerbs = loadWords(JLanguageTool.getDataBroker().getFromRulesDirAsStream("/eo/verb-ntr.txt"));
+  }
+
+  // For a given verb (.*i) find whether it is transitive and/or non transitive.
+  // Returns:
+  // "tr" for a verb which is transitive
+  // "tn" for a verb which is transitive and non-transitive (or unknown).
+  // "nt" for a verb which is non-transitive.
+  private String findTransitivity(final String verb) {
+    final String transitive;
+    final Matcher matcher = patternVerbIg.matcher(verb);
+
+    if (matcher.find()) {
+      transitive = matcher.group(1).equals("ig") ? "tr" : "nt";
+    } else {
+      final boolean isTransitive   = setTransitiveVerbs.contains(verb);
+      final boolean isIntransitive = setNonTransitiveVerbs.contains(verb);
+
+      if (isTransitive) {
+        transitive = isIntransitive ? "tn" : "tr";
+      } else {
+        transitive = isIntransitive ? "nt" : "tn";
+      }
+    }
+    return transitive;
   }
 
   public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens) throws IOException {
@@ -296,24 +320,11 @@ public class EsperantoTagger implements Tagger {
         l.add(new AnalyzedToken(word, "E akz", lWord.substring(0, lWord.length() - 1)));
 
       // Verbs.
-      } else if ((matcher = patternVerb1.matcher(lWord)).find()) {
+      } else if ((matcher = patternVerb.matcher(lWord)).find()) {
         final String verb = matcher.group(1) + "i";
         final String tense = matcher.group(2);
-        final String transitive;
+        final String transitive = findTransitivity(verb);
 
-        final Matcher matcher2 = patternVerb2.matcher(lWord);
-        if (matcher2.find()) {
-          transitive = matcher2.group(1).equals("ig") ? "tr" : "nt";
-        } else {
-          final boolean isTransitive   = setTransitiveVerbs.contains(verb);
-          final boolean isIntransitive = setNonTransitiveVerbs.contains(verb);
-
-          if (isTransitive) {
-            transitive = isIntransitive ? "tn" : "tr";
-          } else {
-            transitive = isIntransitive ? "nt" : "tn";
-          }
-        }
         l.add(new AnalyzedToken(word, "V " + transitive + " " + tense, verb));
 
       // Irregular word (no tag).
@@ -329,21 +340,8 @@ public class EsperantoTagger implements Tagger {
         final String aoe = matcher.group(4);
         final String plural = matcher.group(5).equals("j") ? "pl" : "np";
         final String accusative = matcher.group(6).equals("n") ? "akz" : "nak";
-        final String transitive;
+        final String transitive = findTransitivity(verb);
 
-        final Matcher matcher2 = patternVerb2.matcher(lWord);
-        if (matcher2.find()) {
-          transitive = matcher2.group(1).equals("ig") ? "tr" : "nt";
-        } else {
-          final boolean isTransitive   = setTransitiveVerbs.contains(verb);
-          final boolean isIntransitive = setNonTransitiveVerbs.contains(verb);
-
-          if (isTransitive) {
-            transitive = isIntransitive ? "tn" : "tr";
-          } else {
-            transitive = isIntransitive ? "nt" : "tn";
-          }
-        }
         l.add(new AnalyzedToken(word, "C " + accusative + " " + plural + " " +
                                 transitive + " " + aio + " " + antAt + " " + aoe,
                                 verb));
