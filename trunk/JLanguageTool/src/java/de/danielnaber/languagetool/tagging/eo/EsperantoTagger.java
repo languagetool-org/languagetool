@@ -112,6 +112,8 @@ public class EsperantoTagger implements Tagger {
   // Verbs always end with this pattern.
   private static final Pattern patternVerb = Pattern.compile("(.*)(as|os|is|us|u|i)$");
   private static final Pattern patternVerbIg = Pattern.compile(".*(ig|iĝ)i$");
+  private static final Pattern patternPrefix = Pattern.compile("(mal|ek|re|mis|fi)(.*)");
+  private static final Pattern patternSuffix = Pattern.compile("(.*)(ad|aĉ|eg|et)i");
 
   // Particips -ant-, -int, ont-, -it-, -it-, -ot-
   private static final Pattern patternParticiple =
@@ -180,23 +182,48 @@ public class EsperantoTagger implements Tagger {
   // "tr" for a verb which is transitive
   // "tn" for a verb which is transitive and non-transitive (or unknown).
   // "nt" for a verb which is non-transitive.
-  private String findTransitivity(final String verb) {
-    final String transitive;
+  private String findTransitivity(String verb) {
     final Matcher matcher = patternVerbIg.matcher(verb);
 
     if (matcher.find()) {
-      transitive = matcher.group(1).equals("ig") ? "tr" : "nt";
-    } else {
+      return matcher.group(1).equals("ig") ? "tr" : "nt";
+    }
+
+    // This loop executes only once for most verbs (or very few times).
+    for (;;) {
       final boolean isTransitive   = setTransitiveVerbs.contains(verb);
       final boolean isIntransitive = setNonTransitiveVerbs.contains(verb);
 
       if (isTransitive) {
-        transitive = isIntransitive ? "tn" : "tr";
-      } else {
-        transitive = isIntransitive ? "nt" : "tn";
+        return isIntransitive ? "tn" : "tr";
+      } else if (isIntransitive) {
+        return "nt";
       }
+
+      // Verb is not explicitly listed as transitive or non transitive.
+      // Try to remove a prefix mal-, ek-, re-, mis- fi- or
+      // suffix -ad, -aĉ, -et, -eg since those never alter
+      // transitivity.  Then look up verb again in case we find 
+      // a verb with a known transitivity.  For example, given a verb
+      // "malŝategi", we will probe "malŝategi", "ŝategi" "ŝati"
+      // and then finally find out that "ŝati" is transitive.
+      final Matcher matcherPrefix = patternPrefix.matcher(verb);
+      if (matcherPrefix.find()) {
+        // Remove a prefix and try again.
+        verb = matcherPrefix.group(2);
+        continue;
+      }
+      final Matcher matcherSuffix = patternSuffix.matcher(verb);
+      if (matcherSuffix.find()) {
+        // Remove a suffix and try again.
+        verb = matcherSuffix.group(1) + "i";
+        continue;
+      }
+      break;
     }
-    return transitive;
+
+    // Unknown transitivity: consider verb as both transitive non-transitive.
+    return "tn"; 
   }
 
   public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens) throws IOException {

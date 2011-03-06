@@ -41,5 +41,9 @@ public class EsperantoTaggerTest extends TestCase {
   public void testTagger() throws IOException {
     TestTools.myAssert("Tio estas simpla testo",
         "Tio/[null]T nak np t o -- estas/[esti]V nt as -- simpla/[simpla]A nak np -- testo/[testo]O nak np", tokenizer, tagger);
+    TestTools.myAssert("Mi malsategas",
+        "Mi/[mi]R nak np -- malsategas/[malsategi]V nt as", tokenizer, tagger);
+    TestTools.myAssert("Li malŝategas sin",
+        "Li/[li]R nak np -- malŝategas/[malŝategi]V tr as -- sin/[si]R akz np", tokenizer, tagger);
   }
 }

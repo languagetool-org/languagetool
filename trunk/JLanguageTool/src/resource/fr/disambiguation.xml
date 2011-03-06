@@ -34,7 +34,7 @@ RB => Règles Brutes
   <!-- Words not tagged in dicollecte -->
   <rule name="adverbes" id="ADVERBES">
     <pattern mark="0">
-      <token regexp="yes">trop|peu|beaucoup|assez</token>
+      <token regexp="yes">trop|peu|beaucoup|assez|fort</token>
     </pattern>
     <disambig postag="A"/>
   </rule>
@@ -224,7 +224,6 @@ RB => Règles Brutes
     </rule>
   </rulegroup>
 
-
   <rulegroup name="RP : Pronoms personnels sujets" id="RP-PRO_PERS_SUJ">
     <rule name="j'">
       <pattern mark="0">
@@ -375,15 +374,6 @@ RB => Règles Brutes
       </pattern>
       <disambig postag="D e s"/>
     </rule>
-    <!-- This causes false positives.
-    <rule name="Det">
-      <pattern mark="0">
-        <token postag="D.*" postag_regexp="yes"/>
-        <token postag="N.*|J.*" postag_regexp="yes"/>
-      </pattern>
-      <disambig><match no="1" postag_regexp="yes" postag="D.*"/></disambig>
-    </rule>
-    -->
   </rulegroup>
 
     <rule name="RP : Det + Adj ambigu + Nom" id="RP-D_J_AMBIG_N">
@@ -572,23 +562,6 @@ RB => Règles Brutes
     </pattern>
     <disambig><match no="1" postag_regexp="yes" postag="J.*"/></disambig>
   </rule>
-<!--  this is too greedy 
-    <rule name="RB : verbes" id="RB-VERBES">
-      <pattern mark="0">
-        <token postag="V ind .*" postag_regexp="yes"><exception scope="previous" regexp="yes">\d+</exception></token>
-      </pattern>
-      <disambig><match no="1" postag_regexp="yes" postag="V ind .*"/></disambig>
-    </rule>
--->
-
-<!--   Pour test fausses alertes
-    <rule name="RB : adjectifs" id="RB-ADJECTIFS">
-      <pattern mark="0">
-        <token postag="J.*" postag_regexp="yes"/>
-      </pattern>
-      <disambig><match no="1" postag_regexp="yes" postag="J.*"/></disambig>
-    </rule>
--->
     <rule name="RB : adverbes" id="RB-ADVERBES">
       <pattern mark="0">
         <token postag="A"/>
