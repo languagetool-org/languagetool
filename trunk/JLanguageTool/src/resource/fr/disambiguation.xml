@@ -87,6 +87,14 @@ RB => Règles Brutes
       </pattern>
       <disambig postag="R pers obj 1 p"/>
     </rule>
+    <rule name="sans_même nous">
+      <pattern mark="2">
+        <token>sans</token>
+        <token>même</token>
+        <token>nous</token>
+      </pattern>
+      <disambig postag="R pers obj 1 p"/>
+    </rule>
     <rule name="L'homme nous parle">
       <pattern mark="1">
         <token postag="N . s" postag_regexp="yes"/>
@@ -164,6 +172,14 @@ RB => Règles Brutes
       <pattern mark="2">
         <token regexp="yes">que|si|lorsque|où</token>
         <token regexp="yes">ça|cela|ceci|ceux-ci|celles?-ci</token>
+        <token>vous</token>
+      </pattern>
+      <disambig postag="R pers obj 2 p"/>
+    </rule>
+    <rule name="sans_même vous">
+      <pattern mark="2">
+        <token>sans</token>
+        <token>même</token>
         <token>vous</token>
       </pattern>
       <disambig postag="R pers obj 2 p"/>
@@ -671,11 +687,27 @@ RB => Règles Brutes
     <example type="untouched">Mon petit conseil pour une belle aura...</example>
     </rule>
 
-    <rule name="d" id="D_APOSTROPHE">
+    <rule id="D" name="d + apostrophe">
       <pattern mark="0">
         <token>d</token>
         <token>'</token>
       </pattern>
       <disambig postag="P"/>
+    </rule>
+
+    <rule id="N" name="n + apostrophe">
+      <pattern mark="0">
+        <token>n</token>
+        <token>'</token>
+      </pattern>
+      <disambig postag=""/>
+    </rule>
+
+    <rule id="MEME_ADV" name="même adverbe">
+      <pattern mark="1">
+        <token postag="SENT_START|C.*|M nonfin" postag_regexp="yes"/>
+        <token>même</token>
+      </pattern>
+      <disambig postag="A"/>
     </rule>
 </rules>

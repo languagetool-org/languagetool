@@ -1123,13 +1123,14 @@ though, and has since been slightly modified)-->
         <pattern>
           <token postag="K"/>
           <token postag="[JN] .* s" postag_regexp="yes">
-            <exception regexp="yes">janvier|février|avril|mai|juin|juillet|août|septembre|octobre|novembre|décembre</exception>
+            <exception regexp="yes">janvier|février|avril|mai|juin|juillet|août|septembre|octobre|novembre|décembre|cent|mille</exception>
           </token>
         </pattern>
         <message>« \1 » et « \2 » ne semblent pas bien accordés en nombre</message>
-        <example type="correct">J'ai quatre enfants.</example>
         <example type="incorrect">J'ai <marker>quatre enfant</marker>.</example>
+        <example type="correct">J'ai quatre enfants.</example>
         <example type="correct">Il est né le <marker>quatre janvier</marker>.</example>
+        <example type="correct">On estimait à seize mille les fusils de son armée.</example>
       </rule>
 
       <rule name="nombre pluriel suivi du singulier">
@@ -1174,6 +1175,7 @@ though, and has since been slightly modified)-->
         <example type="correct">Vous êtes bon fils.</example>
         <example type="correct">On voyait ses joues <marker>devenir rouges</marker>.</example>
         <example type="correct">Des filles <marker>un peu pâles</marker>.</example>
+        <example type="correct"><marker>Même vainqueurs</marker> ils sont mécontant.</example>
       </rule>
       <rule name="singulier suivi du pluriel">
         <pattern mark_from="1">
@@ -2544,12 +2546,15 @@ though, and has since been slightly modified)-->
         <pattern mark_to="-2">
           <token>tout<exception scope="previous">avant</exception></token>
           <token postag="D.*" postag_regexp="yes"/>
-          <token postag="[AN] . p" postag_regexp="yes"/>
+          <token postag="[AN] . p" postag_regexp="yes">
+            <exception postag="[AN] .*sp?" postag_regexp="yes"></exception>
+          </token>
         </pattern>
         <message>Vérifiez l'accord entre « \1 » et « \3 ».</message>
         <example type="incorrect">Il marche <marker>tout</marker> les matins.</example>
         <example type="correct">Il marche <marker>tous</marker> les matins.</example>
         <example type="correct">Corrige avant tout les erreurs.</example>
+        <example type="correct">Tous les cours d'eau.</example>
       </rule>
       <rule>
         <pattern mark_to="-2">
@@ -7625,7 +7630,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="ASSUMER_QUE" name="assumer que">
       <pattern>
-        <token inflected="yes" skip="4">assumer</token>
+        <token inflected="yes" skip="2">assumer</token>
         <token>que</token>
       </pattern>
       <message>« Assumer que » est un anglicisme. Employez <suggestion>présumer que</suggestion>.</message>
