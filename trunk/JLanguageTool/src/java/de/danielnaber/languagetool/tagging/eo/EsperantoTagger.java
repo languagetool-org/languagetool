@@ -59,7 +59,7 @@ public class EsperantoTagger implements Tagger {
   private static final String prepositionsNoAccusative[] = {
     "al", "cis", "da", "de", "disde", "dum", "ekde", "el", 
     "far", "ĝis", "je", "kun", "laŭ", "malgraŭ", "na",
-    "per", "po", "post", "por", "pri", "pro", "sen", "tra"
+    "per", "po", "post", "por", "pri", "pro", "sen",
   };
 
   private static final Set setPrepositionsNoAccusative =
@@ -69,7 +69,7 @@ public class EsperantoTagger implements Tagger {
   private static final String prepositionsAccusative[] = {
     "anstataŭ", "apud", "en", "kontraŭ", "krom", "sur", "sub", "trans", 
     "preter", "ĉirkaŭ", "antaŭ", "malantaŭ", "ekster", "inter", "ĉe",
-    "super"
+    "super", "tra"
   };
 
   private final Set setPrepositionsAccusative =
