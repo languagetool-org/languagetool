@@ -1206,7 +1206,7 @@ though, and has since been slightly modified)-->
           </token>
           <token postag="[JN] .* s" postag_regexp="yes">
             <exception postag="(V .*)|(.* sp)" postag_regexp="yes"/>
-            <exception regexp="yes">face|grâce</exception>
+            <exception regexp="yes">face|grâce|juste</exception>
           </token>
           <token negate="yes">et</token>
         </pattern>
@@ -1227,6 +1227,7 @@ though, and has since been slightly modified)-->
         <example type="correct">Les préoccupations des travailleurs face à la crise.</example>
         <example type="correct">Plus de crédits bancaires grâce à des taux d'intérêts bas.</example>
         <example type="correct">Je suis né le huit janvier.</example>
+        <example type="correct">Deux immeubles juste en face de toi.</example>
       </rule>
       <rule name="pluriel suivi du singulier">
         <pattern>
@@ -1266,6 +1267,7 @@ though, and has since been slightly modified)-->
           <token postag="[JN] f .*" postag_regexp="yes">
             <exception postag="(V .*)|([NJ] [em] .*)" postag_regexp="yes"/>
             <exception scope="previous">peu</exception>
+            <exception>face</exception>
           </token>
         </pattern>
         <message>« \2 » et « \3 » ne semblent pas bien accordés en genre</message>
@@ -1281,6 +1283,7 @@ though, and has since been slightly modified)-->
         <example type="correct"><marker>Force tranquille</marker> de la nature</example>
         <example type="correct">Une bouche un peu grande.</example>
         <example type="correct">La mort subite</example>
+        <example type="correct"><marker>Confus face</marker> aux remarques obscures</example>
       </rule>
       <rule name="masculin suivi du féminin">
         <pattern mark_from="1">
@@ -1292,11 +1295,13 @@ though, and has since been slightly modified)-->
           </token>
           <token postag="[JN] f .*" postag_regexp="yes">
             <exception postag="(V .*)|([NJ] [em] .*)" postag_regexp="yes"/>
+            <exception>face</exception>
           </token>
         </pattern>
         <message>« \2 » et « \3 » ne semblent pas bien accordés en genre</message>
         <example type="incorrect"><marker>Un belle</marker> homme.</example>
         <example type="correct"><marker>Un bel</marker> homme.</example>
+        <example type="correct"><marker>Confus face</marker> aux remarques obscures</example>
       </rule>
 
       <rule name="nom masculin suivi du féminin">
@@ -1646,12 +1651,14 @@ though, and has since been slightly modified)-->
           <token postag="V etre .* [13] p" postag_regexp="yes" skip="1"/>
           <token postag="(V ppa .* s)|(J .* s)" postag_regexp="yes">
             <exception scope="previous" regexp="yes">aux?</exception>
+            <exception>juste</exception>
           </token>
         </pattern>
         <message>« \3 » devrait être au pluriel après « \2 ».</message>
         <example type="correct">Les voisins sont <marker>partis</marker></example>
         <example type="incorrect">Les voisins <marker>sont revenu</marker></example>
         <example type="correct"><marker>Soyez tranquille</marker>.</example>
+        <example type="correct">Les mathématiques ne sont pas juste de la mémorisation.</example>
       </rule>
       <rule name="Verbe au singulier + adjectif ou participe passé pluriel">
         <pattern mark_from="1">
