@@ -108,8 +108,6 @@ TODO:
  -German:
  	"*Ich kaufe den Hund einen Knochen" (den -> dem), aber:
  	"*Ich kaufe dem Hund." (dem -> den)
- -see if it's feasible to check bitexts (especially looking for false friends),
-  for example for checking translation files in xliff format
  -see "TODO" / "FIXME" in the source:
  	find . -iname "*.java" -exec egrep -H "TODO|FIXME" {} \;
  -...
