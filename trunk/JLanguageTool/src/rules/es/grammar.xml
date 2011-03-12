@@ -32,7 +32,7 @@ $Id: grammar.xml,v 1.18 2010-12-10 01:07:04 jmartorell Exp $
     </rule>
 
     <rule id="EN_BASE_A" name="en base a">
-      <!-- EN_BASE_A En base a -> con base en (o basado en) (o sobre la base de)-->
+      <!-- EN_BASE_A En base a -> con base en (o basado en) (o sobre la base de) (http://cvc.cervantes.es/alhabla/museo_horrores/museo_039.htm)-->
 
       <pattern>
         <token>en</token>
@@ -102,6 +102,8 @@ $Id: grammar.xml,v 1.18 2010-12-10 01:07:04 jmartorell Exp $
 
       <message>La construcción "ir" más infinitivo exige la presencia de la preposición "a": <suggestion>\1 a \2</suggestion>.</message>
 
+      <short>Error ortográfico</short>
+
       <example correction="Voy a hablar" type="incorrect"><marker>Voy hablar</marker> con ella.</example>
 
       <example type="correct"><marker>Voy a hablar</marker> con ella.</example>
@@ -148,7 +150,7 @@ $Id: grammar.xml,v 1.18 2010-12-10 01:07:04 jmartorell Exp $
         <example type="correct">Nos llevamos como anfitrión <marker>e</marker> invitado.</example>
       </rule>
 
-      <rule id="PRON_E_PARTICIPIO" name="e+ participio">
+      <rule id="PRON_E_PARTICIPIO" name="pronombre + e + participio">
         <!--PRON_E_PARTICIPIO e comido-->
 
         <pattern mark_from="1" mark_to="-1">
@@ -178,7 +180,7 @@ $Id: grammar.xml,v 1.18 2010-12-10 01:07:04 jmartorell Exp $
         <pattern>
           <token>haber</token>
 
-          <token>que</token>
+          <token regexp="yes">qu[eé]</token>
         </pattern>
 
         <message>Verifique que no quiso decir <suggestion>a ver qué</suggestion>.</message>
@@ -214,12 +216,10 @@ $Id: grammar.xml,v 1.18 2010-12-10 01:07:04 jmartorell Exp $
         <pattern>
           <token>y<exception scope="previous">¿</exception></token>
 
-          <token regexp="yes">^h?[ií].* <exception regexp="yes">^h?ih?[aeouáéóú].*</exception><!--Números romanos--><exception
-          regexp="yes">[ivxlcdm]+</exception></token>
+          <token regexp="yes">^h?[ií].* <exception regexp="yes">^h?ih?[aeouáéóú].*</exception><!--Números romanos--><exception regexp="yes">[ivxlcdm]+</exception></token>
         </pattern>
 
-        <message>Cuando precede a palabras que comienzan por i- (o hi-), la conjunción "y" se transforma en "e": <suggestion>e <match
-        no="2"></match></suggestion></message>
+        <message>Cuando precede a palabras que comienzan por i- (o hi-), la conjunción "y" se transforma en "e": <suggestion>e <match no="2"></match></suggestion></message>
 
         <short>Error ortográfico.</short>
 
@@ -239,8 +239,7 @@ $Id: grammar.xml,v 1.18 2010-12-10 01:07:04 jmartorell Exp $
           <token regexp="yes">^h?[oó].*</token>
         </pattern>
 
-        <message>Cuando precede a palabras que comienzan por o- (u ho-), la conjunción "o" se transforma en "u": <suggestion>u <match
-        no="2"></match></suggestion></message>
+        <message>Cuando precede a palabras que comienzan por o- (u ho-), la conjunción "o" se transforma en "u": <suggestion>u <match no="2"></match></suggestion></message>
 
         <short>Error ortográfico.</short>
 
@@ -259,8 +258,8 @@ $Id: grammar.xml,v 1.18 2010-12-10 01:07:04 jmartorell Exp $
         <token inflected="yes" regexp="yes">dificultad|problema|vicisitud</token>
       </pattern>
 
-      <message>La forma correcta es usando el verbo "afrontar: <suggestion><match include_skipped="none" no="1" postag="(.*)"
-      postag_replace="$1">afrontar</match> <match include_skipped="following" no="1"></match> <match no="2"></match></suggestion>"</message>
+      <message>La forma correcta es usando el verbo "afrontar: <suggestion><match include_skipped="none" no="1" postag="(.*)" postag_replace="$1">afrontar</match> <match include_skipped="following" no="1"></match> <match
+      no="2"></match></suggestion>"</message>
 
       <example correction="afrontar muchos problemas" type="incorrect">Tuvo que <marker>afrentar muchos problemas</marker> con la mudanza.</example>
 
@@ -270,8 +269,6 @@ $Id: grammar.xml,v 1.18 2010-12-10 01:07:04 jmartorell Exp $
     <rule id="DESTORNILLAR_RISA" name="destornillarse de risa (desternillarse)">
       <!--DESTORNILLAR_RISA http://cvc.cervantes.es/alhabla/museo_horrores/museo_015.htm-->
 
-      <!---->
-
       <pattern>
         <token inflected="yes" skip="1">destornillar</token>
 
@@ -280,8 +277,8 @@ $Id: grammar.xml,v 1.18 2010-12-10 01:07:04 jmartorell Exp $
         <token>risa</token>
       </pattern>
 
-      <message>La forma correcta es usando el verbo «desternillar»: <suggestion><match include_skipped="none" no="1" postag="(.*)"
-      postag_replace="$1">desternillar</match> <match include_skipped="all" no="2"></match> <match no="3"></match></suggestion>"</message>
+      <message>La forma correcta es usando el verbo «desternillar»: <suggestion><match include_skipped="none" no="1" postag="(.*)" postag_replace="$1">desternillar</match> <match include_skipped="all" no="2"></match> <match
+      no="3"></match></suggestion>"</message>
 
       <example correction="desternilló de risa" type="incorrect">Con ese chiste, se <marker>destornilló de risa</marker>.</example>
 
@@ -310,18 +307,18 @@ $Id: grammar.xml,v 1.18 2010-12-10 01:07:04 jmartorell Exp $
       <!--SIN_ECUANIME-->
 
       <pattern>
-        <token>condición</token>
+        <token inflected="yes" regexp="yes">condición|requisito</token>
 
         <token>sin</token>
 
         <token>ecuánime</token>
       </pattern>
 
-      <message>La forma correcta es <suggestion>condición sine quae non</suggestion>.</message>
+      <message>La forma correcta es <suggestion>/0 sine qua non</suggestion>.</message>
 
       <short>Expresión incorrecta</short>
 
-      <example correction="condición sine quae non" type="incorrect">Para aprobar, la <marker>condición sin ecuánime</marker> es obtener un 5.</example>
+      <example correction="condición sine qua non" type="incorrect">Para aprobar, la <marker>condición sin ecuánime</marker> es obtener un 5.</example>
 
       <example type="correct">Es condición sine quae non tener permiso para entrar en el local.</example>
     </rule>
@@ -346,7 +343,7 @@ Atención: estas reglas pueden generar muchos falsos positivos.-->
         <example type="correct">Me alegra tu vuelta al trabajo.</example>
       </rule>
 
-      <rule id="TU_PARTICULA_VERBO_P2" name="Tu + verbo en 2a">
+      <rule id="TU_PARTICULA_VERBO_P2" name="Tu + partícula + verbo en 2a">
         <!--TU_PARTICULA_VERBO_P2 tu no te lo pierdas
 Anulamos si entremedias hay al menos un nombre-->
 
@@ -371,8 +368,7 @@ Anulamos si entremedias hay al menos un nombre-->
         <pattern case_sensitive="yes" mark_to="-1">
           <token regexp="yes">[E|e]l</token>
 
-          <token postag="V.{3}3.*" postag_regexp="yes"><exception postag="N.*|P.*|AQ.*" postag_regexp="yes"></exception><exception
-          regexp="yes">\p{Lu}.*</exception></token>
+          <token postag="V.{3}3.*" postag_regexp="yes"><exception postag="N.*|P.*|AQ.*" postag_regexp="yes"></exception><exception regexp="yes">\p{Lu}.*</exception></token>
         </pattern>
 
         <message>El pronombre personal <suggestion>él</suggestion> lleva tilde.</message>
@@ -498,8 +494,7 @@ Fuentes: http://cvc.cervantes.es/ALHABLA/MUSEO_HORRORES/museo_010.htm -->
         <pattern>
           <token postag="PP[12]C[SP]000" postag_regexp="yes"></token>
 
-          <token inflected="yes" regexp="yes">alegrar|sorprender|entreistecer|agobiar|emocionar|aburres|preocupa<exception postag="VM.*3.*"
-          postag_regexp="yes"></exception></token>
+          <token inflected="yes" regexp="yes">alegrar|sorprender|entreistecer|agobiar|emocionar|aburres|preocupa<exception postag="VM.*3.*" postag_regexp="yes"></exception></token>
 
           <token>que</token>
         </pattern>
@@ -517,8 +512,7 @@ Fuentes: http://cvc.cervantes.es/ALHABLA/MUSEO_HORRORES/museo_010.htm -->
         <!-- VERBO_DE_QUE Queísmo: Pienso de que -> Pienso que -->
 
         <pattern>
-          <token inflected="yes"
-          regexp="yes">pensar|opinar|creer|comentar|expresar|decir|deducir|inferir|colegir|razonar|comunicar|confirmar|corroborar|desmentir|constar|resultar|aconsejar|ver|observar</token>
+          <token inflected="yes" regexp="yes">pensar|opinar|creer|comentar|expresar|decir|deducir|inferir|colegir|razonar|comunicar|confirmar|corroborar|desmentir|constar|resultar|aconsejar|ver|observar</token>
 
           <token>de</token>
 
@@ -611,8 +605,7 @@ Fuentes: http://cvc.cervantes.es/ALHABLA/MUSEO_HORRORES/museo_010.htm -->
           <token postag="PX1.S0S0" postag_regexp="yes"></token>
         </pattern>
 
-        <message>La expresión correcta es «<suggestion>\1 de <match no="2" postag="PX(\d).S0S0" postag_regexp="yes"
-        postag_replace="PP$1CSO00">mí</match></suggestion>».</message>
+        <message>La expresión correcta es «<suggestion>\1 de <match no="2" postag="PX(\d).S0S0" postag_regexp="yes" postag_replace="PP$1CSO00">mí</match></suggestion>».</message>
 
         <example correction="detrás de mí" type="incorrect">Venían <marker>detrás mío</marker>.</example>
 
@@ -628,8 +621,7 @@ Fuentes: http://cvc.cervantes.es/ALHABLA/MUSEO_HORRORES/museo_010.htm -->
           <token postag="PX2.S0S0" postag_regexp="yes"></token>
         </pattern>
 
-        <message>La expresión correcta es «<suggestion>\1 de <match no="2" postag="PX(\d).S0S0" postag_regexp="yes"
-        postag_replace="PP$1CSO00">ti</match></suggestion>».</message>
+        <message>La expresión correcta es «<suggestion>\1 de <match no="2" postag="PX(\d).S0S0" postag_regexp="yes" postag_replace="PP$1CSO00">ti</match></suggestion>».</message>
 
         <example correction="detrás de ti" type="incorrect">Venían <marker>detrás tuyo</marker>.</example>
 
@@ -645,9 +637,9 @@ Fuentes: http://cvc.cervantes.es/ALHABLA/MUSEO_HORRORES/museo_010.htm -->
           <token postag="PX1.S0P0" postag_regexp="yes"></token>
         </pattern>
 
-        <message>La expresión correcta es «\1 de nosotros/as»</message>
+        <message>La expresión correcta es «<suggestion>\1 de nosotros</suggestion>» o «<suggestion>\1 de nosotras</suggestion>».</message>
 
-        <example type="incorrect">Venían <marker>detrás nuestro</marker>.</example>
+        <example correction="detrás de nosotros|detrás de nosotras" type="incorrect">Venían <marker>detrás nuestro</marker>.</example>
 
         <example type="correct">Tenemos a los niños encima de nosotros.</example>
       </rule>
@@ -661,9 +653,9 @@ Fuentes: http://cvc.cervantes.es/ALHABLA/MUSEO_HORRORES/museo_010.htm -->
           <token postag="PX2.S0P0" postag_regexp="yes"></token>
         </pattern>
 
-        <message>La expresión correcta es «\1 de vosotros/as».</message>
+        <message>La expresión correcta es «<suggestion>\1 de vosotros</suggestion>» o «<suggestion>\1 de vosotras</suggestion>».</message>
 
-        <example type="incorrect">Venían <marker>detrás vuestro</marker>.</example>
+        <example correction="detrás de vosotros|detrás de vosotras" type="incorrect">Venían <marker>detrás vuestro</marker>.</example>
 
         <example type="correct">Tenemos a los niños encima de vosotros.</example>
       </rule>
@@ -677,9 +669,10 @@ Fuentes: http://cvc.cervantes.es/ALHABLA/MUSEO_HORRORES/museo_010.htm -->
           <token postag="PX3.{2}0C0" postag_regexp="yes"></token>
         </pattern>
 
-        <message>La expresión correcta es «\1 de él/ella/ello/ellos/ellas/usted/ustedes».</message>
+        <message>La expresión correcta es «<suggestion>\1 de él</suggestion>» o «<suggestion>\1 de ella</suggestion>» o «<suggestion>\1 de ello</suggestion>» o «<suggestion>\1 de ellos</suggestion>» o «<suggestion>\1 de ellas</suggestion>» o
+        «<suggestion>\1 de usted</suggestion>» o «<suggestion>\1 de ustedes</suggestion>».</message>
 
-        <example type="incorrect">Venían <marker>detrás suya</marker>.</example>
+        <example correction="detrás de él|detrás de ella|detrás de ello|detrás de ellos|detrás de ellas|detrás de usted|detrás de ustedes" type="incorrect">Venían <marker>detrás suya</marker>.</example>
 
         <example type="correct">Tienen a los niños encima de ellos.</example>
       </rule>
@@ -699,8 +692,7 @@ vengas[venir/VMSP2S0]-->
         <token postag="VMM.*" postag_regexp="yes"><exception negate_pos="yes" postag="VMM.*" postag_regexp="yes"></exception></token>
       </pattern>
 
-      <message>Con la partícula negativa \1, en lugar del imperativo \2 debe usarse el subjuntivo <suggestion>\1 <match no="2" postag="VMM.(.{3})"
-      postag_regexp="yes" postag_replace="VMSP$1"></match></suggestion>.</message>
+      <message>Con la partícula negativa \1, en lugar del imperativo \2 debe usarse el subjuntivo <suggestion>\1 <match no="2" postag="VMM.(.{3})" postag_regexp="yes" postag_replace="VMSP$1"></match></suggestion>.</message>
 
       <example correction="No contéis" type="incorrect"><marker>No contad</marker> con nosotros.</example>
 
@@ -777,6 +769,36 @@ http://buscon.rae.es/dpdI/SrvltConsulta?lema=grosso-->
 
       <example type="correct">La Tierra se encuentra, dicho grosso modo, a ocho minutos-luz del Sol.</example>
     </rule>
+
+    <rule id="SIN_ENCAMBIO" name="Sin en cambio --&gt; Sin embargo, en cambio">
+      <pattern>
+        <token>sin</token>
+
+        <token>en</token>
+
+        <token>cambio</token>
+      </pattern>
+
+      <message>Se utiliza <suggestion>en cambio</suggestion> o <suggestion>sin embargo</suggestion></message>
+
+      <example correction="en cambio|sin embargo" type="incorrect">Imagino que <marker>sin en cambio</marker> está de acuerdo.</example>
+
+      <example type="correct">La Tierra se encuentra, en cambio, a ocho minutos-luz del Sol.</example>
+    </rule>
+
+    <rule id="SI_QUIERA" name="Si quiera--&gt; Siquiera">
+      <pattern>
+        <token>si</token>
+
+        <token>quiera</token>
+      </pattern>
+
+      <message>Se utiliza <suggestion>siquiera</suggestion></message>
+
+      <example correction="siquiera" type="incorrect">Imagino que ni<marker>si quiera</marker> está de acuerdo.</example>
+
+      <example type="correct">La que sí quiera, puede venir.</example>
+    </rule>
   </category>
 
   <category name="Concordancia">
@@ -796,8 +818,7 @@ http://buscon.rae.es/dpdI/SrvltConsulta?lema=grosso-->
         <pattern case_sensitive="yes">
           <token postag="D.{3}S.*" postag_regexp="yes"><exception postag="DI0CS0"></exception></token>
 
-          <token postag="N.{2}P.*" postag_regexp="yes"><!--TODO: Include adjectives: N.{2}P.*|AQ.{2}P. --><exception negate_pos="yes" postag="N.{2}P.*"
-          postag_regexp="yes"></exception><exception regexp="yes">[Bb]otones|\p{Lu}\p{L}*</exception></token>
+          <token postag="N.{2}P.*" postag_regexp="yes"><!--TODO: Include adjectives: N.{2}P.*|AQ.{2}P. --><exception negate_pos="yes" postag="N.{2}P.*" postag_regexp="yes"></exception><exception regexp="yes">[Bb]otones|\p{Lu}\p{L}*</exception></token>
         </pattern>
 
         <message>Posible falta de concordancia de número entre «\1» y «\2».</message>
@@ -809,14 +830,13 @@ http://buscon.rae.es/dpdI/SrvltConsulta?lema=grosso-->
         <example type="correct">Acércame las sillas, por favor.</example>
       </rule>
 
-      <rule id="DEL_NOM_SING" name="Concordancia singular en Determinante + nombre">
+      <rule id="DEL_NOM_SING" name="Concordancia singular en «del» + nombre">
         <!-- DEL_NOM_SING Concordancia (del pavos) -->
 
         <pattern case_sensitive="yes">
           <token regexp="yes">del|al</token>
 
-          <token postag="N.{2}P.*" postag_regexp="yes"><!--TODO: Include adjectives: N.{2}P.*|AQ.{2}P. --><exception negate_pos="yes" postag="N.{2}P.*"
-          postag_regexp="yes"></exception><exception regexp="yes">\p{Lu}\p{L}*</exception></token>
+          <token postag="N.{2}P.*" postag_regexp="yes"><!--TODO: Include adjectives: N.{2}P.*|AQ.{2}P. --><exception negate_pos="yes" postag="N.{2}P.*" postag_regexp="yes"></exception><exception regexp="yes">\p{Lu}\p{L}*</exception></token>
         </pattern>
 
         <message>Posible falta de concordancia de número entre «\1» y «\2».</message>
@@ -834,8 +854,7 @@ http://buscon.rae.es/dpdI/SrvltConsulta?lema=grosso-->
         <pattern case_sensitive="yes">
           <token postag="D.{3}P.*" postag_regexp="yes"></token>
 
-          <token postag="N.{2}S.*" postag_regexp="yes"><!--TODO: Include adjectives: N.{2}S.*|AQ.{2}S. --><exception negate_pos="yes" postag="N.{2}S.*"
-          postag_regexp="yes"></exception><exception regexp="yes">\p{Lu}\p{L}*</exception></token>
+          <token postag="N.{2}S.*" postag_regexp="yes"><!--TODO: Include adjectives: N.{2}S.*|AQ.{2}S. --><exception negate_pos="yes" postag="N.{2}S.*" postag_regexp="yes"></exception><exception regexp="yes">\p{Lu}\p{L}*</exception></token>
         </pattern>
 
         <message>Posible falta de concordancia de número entre «\1» y «\2».</message>
@@ -851,13 +870,10 @@ http://buscon.rae.es/dpdI/SrvltConsulta?lema=grosso-->
         <!-- NOM_ADJ_SINGULAR Concordancia (pavo rojos) -->
 
         <pattern case_sensitive="yes" mark_to="-1">
-          <token postag="N.{2}S.*" postag_regexp="yes" skip="1"><exception postag="C.*|SP.*" postag_regexp="yes" scope="previous"></exception><exception
-          postag="[VRCD].*|SP.*" postag_regexp="yes"></exception><exception
-          regexp="yes">mayoría|minoría|parte|número|mitad|vez|modo|manera|guisa|forma</exception><exception regexp="yes"
-          scope="next">[^\p{L}].*|al|del|suficientemente</exception></token>
+          <token postag="N.{2}S.*" postag_regexp="yes" skip="1"><exception postag="C.*|SP.*" postag_regexp="yes" scope="previous"></exception><exception postag="[VRCD].*|SP.*" postag_regexp="yes"></exception><exception
+          regexp="yes">mayoría|minoría|parte|número|mitad|vez|modo|manera|guisa|forma</exception><exception regexp="yes" scope="next">[^\p{L}].*|al|del|suficientemente</exception></token>
 
-          <token postag="A.{3}P.*" postag_regexp="yes"><exception postag="[VRCD].*|SP.*" postag_regexp="yes" scope="previous"></exception><exception
-          postag="D.*|SP.*" postag_regexp="yes"></exception><exception regexp="yes">\p{Lu}\p{L}+</exception></token>
+          <token postag="A.{3}P.*" postag_regexp="yes"><exception postag="[VRCD].*|SP.*" postag_regexp="yes" scope="previous"></exception><exception postag="D.*|SP.*" postag_regexp="yes"></exception><exception regexp="yes">\p{Lu}\p{L}+</exception></token>
 
           <token postag=".+" postag_regexp="yes"><exception postag="N.{2}P.*" postag_regexp="yes" scope="current"></exception></token>
         </pattern>
@@ -875,13 +891,10 @@ http://buscon.rae.es/dpdI/SrvltConsulta?lema=grosso-->
         <!-- NOM_ADJ_PLURAL Concordancia (pavos rojo) -->
 
         <pattern case_sensitive="yes" mark_to="-1">
-          <token postag="N.{2}P.*|P.{3}P.*" postag_regexp="yes" skip="1"><exception postag="SP.*" postag_regexp="yes" scope="previous"></exception><exception
-          negate_pos="yes" postag="N.{2}P.*|P.{3}P.*" postag_regexp="yes"></exception><exception inflected="yes" postag=""
-          regexp="yes">me|nos|mí|conmigo|ti|contigo|lo|le|les|se|consigo|la|do</exception><exception regexp="yes">botones|veces</exception><exception
-          regexp="yes" scope="next">[^\p{L}].*|al|del</exception></token>
+          <token postag="N.{2}P.*|P.{3}P.*" postag_regexp="yes" skip="1"><exception postag="SP.*" postag_regexp="yes" scope="previous"></exception><exception negate_pos="yes" postag="N.{2}P.*|P.{3}P.*" postag_regexp="yes"></exception><exception
+          inflected="yes" postag="" regexp="yes">me|nos|mí|conmigo|ti|contigo|lo|le|les|se|consigo|la|do</exception><exception regexp="yes">botones|veces</exception><exception regexp="yes" scope="next">[^\p{L}].*|al|del</exception></token>
 
-          <token postag="A.{3}S.*" postag_regexp="yes"><exception postag="[VRCD].*|SP.*" postag_regexp="yes" scope="previous"></exception><exception
-          scope="previous">del</exception><exception postag="R.*|SP.*" postag_regexp="yes"></exception><exception
+          <token postag="A.{3}S.*" postag_regexp="yes"><exception postag="[VRCD].*|SP.*" postag_regexp="yes" scope="previous"></exception><exception scope="previous">del</exception><exception postag="R.*|SP.*" postag_regexp="yes"></exception><exception
           regexp="yes">clave|guía|extra|\p{Lu}\p{L}+</exception></token>
 
           <token postag=".+" postag_regexp="yes"><exception postag="C.*" postag_regexp="yes" regexp="yes">[;,]</exception></token>
@@ -917,8 +930,8 @@ http://buscon.rae.es/dpdI/SrvltConsulta?lema=grosso-->
         <pattern case_sensitive="yes">
           <token postag="D.{2}F.*" postag_regexp="yes"></token>
 
-          <token postag="N.{1}M.*" postag_regexp="yes"><exception negate_pos="yes" postag="N.{1}M.*" postag_regexp="yes" scope="current"></exception><exception
-          regexp="yes">botones|\p{Lu}\p{L}*</exception><exception inflected="yes" regexp="yes">la|do|número</exception></token>
+          <token postag="N.{1}M.*" postag_regexp="yes"><exception negate_pos="yes" postag="N.{1}M.*" postag_regexp="yes" scope="current"></exception><exception regexp="yes">botones|\p{Lu}\p{L}*</exception><exception inflected="yes"
+          regexp="yes">la|do|número</exception></token>
         </pattern>
 
         <message>Posible falta de concordancia de género entre «\1» y «\2».</message>
@@ -955,11 +968,9 @@ http://buscon.rae.es/dpdI/SrvltConsulta?lema=grosso-->
         <!-- DET_NOM_MASC Concordancia (ese pava) -->
 
         <pattern case_sensitive="yes">
-          <token postag="D[^P].{1}M.*" postag_regexp="yes"><exception regexp="yes">[Ee]l|(([Aa]l|[Nn]in)g)?[Uuú]n</exception><exception postag="R.*"
-          postag_regexp="yes"></exception></token>
+          <token postag="D[^P].{1}M.*" postag_regexp="yes"><exception regexp="yes">[Ee]l|(([Aa]l|[Nn]in)g)?[Uuú]n</exception><exception postag="R.*" postag_regexp="yes"></exception></token>
 
-          <token postag="N.{1}F.*" postag_regexp="yes"><exception negate_pos="yes" postag="N.{1}F.*" postag_regexp="yes" scope="current"></exception><exception
-          regexp="yes">\p{Lu}\p{L}*</exception></token>
+          <token postag="N.{1}F.*" postag_regexp="yes"><exception negate_pos="yes" postag="N.{1}F.*" postag_regexp="yes" scope="current"></exception><exception regexp="yes">\p{Lu}\p{L}*</exception></token>
         </pattern>
 
         <message>Posible falta de concordancia de género entre «\1» y «\2».</message>
@@ -971,7 +982,7 @@ http://buscon.rae.es/dpdI/SrvltConsulta?lema=grosso-->
         <example type="correct">Me gusta esa silla que hay ahí.</example>
       </rule>
 
-      <rule id="EL_NOM_MASC" name="Concordancia masculino en Determinante + nombre">
+      <rule id="EL_NOM_MASC" name="Concordancia masculino en «el» + nombre">
         <!-- EL_NOM_MASC Concordancia (el pava) -->
 
         <pattern case_sensitive="yes">
@@ -991,7 +1002,7 @@ http://buscon.rae.es/dpdI/SrvltConsulta?lema=grosso-->
         <example type="correct">Me gusta esa silla que hay ahí.</example>
       </rule>
 
-      <rule id="DEL_NOM_MASC" name="Concordancia masculino en Determinante + nombre">
+      <rule id="DEL_NOM_MASC" name="Concordancia masculino en «del» + nombre">
         <!-- DEL_NOM_MASC Concordancia (del pava) 
 -->
 
@@ -1018,9 +1029,8 @@ http://buscon.rae.es/dpdI/SrvltConsulta?lema=grosso-->
         <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
           <token postag=".*" postag_regexp="yes"></token>
 
-          <token postag="N.{1}F.*|PD0F.*" postag_regexp="yes" skip="1"><exception postag="SP.*|C." postag_regexp="yes" scope="previous"></exception><!--Previously excluded C.*|SP.*|R.* without negated POS--><exception
-          negate_pos="yes" postag="N.{1}F.*|PD0F.*" postag_regexp="yes"></exception><exception inflected="yes"
-          regexp="yes">mayoría|minoría|mitad|parte|vez|era|eres|\w||\p{Lu}\p{L}+</exception><exception postag="[VRCD].*|SP.*|PR.*" postag_regexp="yes"
+          <token postag="N.{1}F.*|PD0F.*" postag_regexp="yes" skip="1"><exception postag="SP.*|C." postag_regexp="yes" scope="previous"></exception><!--Previously excluded C.*|SP.*|R.* without negated POS--><exception negate_pos="yes"
+          postag="N.{1}F.*|PD0F.*" postag_regexp="yes"></exception><exception inflected="yes" regexp="yes">mayoría|minoría|mitad|parte|vez|era|eres|\w||\p{Lu}\p{L}+</exception><exception postag="[VRCD].*|SP.*|PR.*" postag_regexp="yes"
           scope="next"></exception><exception regexp="yes" scope="next">\W*</exception><exception regexp="yes" scope="next">del|al</exception></token>
 
           <token postag="A.{2}M.*" postag_regexp="yes"><exception regexp="yes">\p{Lu}\p{L}+</exception></token>
@@ -1041,12 +1051,10 @@ http://buscon.rae.es/dpdI/SrvltConsulta?lema=grosso-->
         <!-- NOM_ADJ_MASC Concordancia (pavo roja) -->
 
         <pattern case_sensitive="yes" mark_to="-1">
-          <token postag="N.{1}M.*|P.{2}M.*" postag_regexp="yes" skip="1"><exception negate_pos="yes" postag="N.{1}M.*|P.{2}M.*"
-          postag_regexp="yes"></exception><exception>dos</exception><exception regexp="yes" scope="next">[^\p{L}]+</exception><exception postag="[VCD].*|SP.*"
-          postag_regexp="yes" scope="next"></exception></token>
+          <token postag="N.{1}M.*|P.{2}M.*" postag_regexp="yes" skip="1"><exception negate_pos="yes" postag="N.{1}M.*|P.{2}M.*" postag_regexp="yes"></exception><exception>dos</exception><exception regexp="yes" scope="next">[^\p{L}]+</exception><exception
+          postag="[VCD].*|SP.*" postag_regexp="yes" scope="next"></exception></token>
 
-          <token postag="A.{2}F.*" postag_regexp="yes"><exception regexp="yes">\p{Lu}\p{L}+</exception><exception postag="N.*" postag_regexp="yes"
-          scope="next"></exception></token>
+          <token postag="A.{2}F.*" postag_regexp="yes"><exception regexp="yes">\p{Lu}\p{L}+</exception><exception postag="N.*" postag_regexp="yes" scope="next"></exception></token>
 
           <token postag=".+" postag_regexp="yes"><exception postag="N.{1}F.*" postag_regexp="yes" scope="current"></exception></token>
         </pattern>
@@ -1116,12 +1124,11 @@ http://buscon.rae.es/dpdI/SrvltConsulta?lema=grosso-->
 
       <!--Concordancica de persona (pronombre personal nominativo + verbo)-->
 
-      <rule id="PP_V_1">
+      <rule id="PP_V_1" name="Concordancia 1ª persona">
         <!-- PP_V_1 Concordancia (yo entregas)-->
 
         <pattern>
-          <token postag="PP1(.{2}N|CN0|MP0).*" postag_regexp="yes"><exception postag="SP.*" postag_regexp="yes" scope="previous"></exception><exception
-          postag="V.{3}1.*|C.*|SP.*" postag_regexp="yes"></exception></token>
+          <token postag="PP1(.{2}N|CN0|MP0).*" postag_regexp="yes"><exception postag="SP.*" postag_regexp="yes" scope="previous"></exception><exception postag="V.{3}1.*|C.*|SP.*" postag_regexp="yes"></exception></token>
 
           <token postag="V.{3}[23].*" postag_regexp="yes"><exception postag="V.{3}1.*|AQ.*" postag_regexp="yes"></exception></token>
         </pattern>
@@ -1135,14 +1142,13 @@ http://buscon.rae.es/dpdI/SrvltConsulta?lema=grosso-->
         <example type="correct">Yo vengo</example>
       </rule>
 
-      <rule id="PP_V_2">
+      <rule id="PP_V_2" name="Concordancia 2ª persona">
         <!-- PP_V_2 Concordancia (tú entrego)-->
 
         <pattern case_sensitive="no">
           <token postag="PP2(.{2}N|CN0|MP0).*" postag_regexp="yes"><exception postag="SP*" postag_regexp="yes" scope="previous"></exception></token>
 
-          <token postag="V.{3}[13].*" postag_regexp="yes"><exception postag="AQ.*|SP.*" postag_regexp="yes"></exception><!--TODO: generalizar.--><exception
-          regexp="yes">como|una|obra</exception></token>
+          <token postag="V.{3}[13].*" postag_regexp="yes"><exception postag="AQ.*|SP.*" postag_regexp="yes"></exception><!--TODO: generalizar.--><exception regexp="yes">como|una|obra</exception></token>
         </pattern>
 
         <message>Posible falta de concordancia de persona entre «\1» y «\2».</message>
@@ -1154,14 +1160,13 @@ http://buscon.rae.es/dpdI/SrvltConsulta?lema=grosso-->
         <example type="correct">Tú vienes</example>
       </rule>
 
-      <rule id="PP_V_3">
+      <rule id="PP_V_3" name="Concordancia 3ª persona">
         <!-- PP_V_3 Concordancia (él entrego)-->
 
         <pattern case_sensitive="no">
           <token postag="PP3(.*000|CN0|MP0).*" postag_regexp="yes"><exception postag="SP.*" postag_regexp="yes" scope="previous"></exception></token>
 
-          <token postag="V.{3}[12].*" postag_regexp="yes"><exception postag="V.{3}3.*|C.*|SP.*" postag_regexp="yes" scope="next"></exception><exception
-          postag="V.{3}3.*|AQ.*|[NCR].*" postag_regexp="yes"></exception></token>
+          <token postag="V.{3}[12].*" postag_regexp="yes"><exception postag="V.{3}3.*|C.*|SP.*" postag_regexp="yes" scope="next"></exception><exception postag="V.{3}3.*|AQ.*|[NCR].*" postag_regexp="yes"></exception></token>
         </pattern>
 
         <message>Posible falta de concordancia de persona entre «\1» y «\2».</message>
@@ -1178,8 +1183,8 @@ http://buscon.rae.es/dpdI/SrvltConsulta?lema=grosso-->
   Eliminados sustantivos y otros pronombres por elevado número de falsos positivos. -->
 
         <pattern>
-          <token postag="PP.{2}S.*" postag_regexp="yes"><exception postag="SP.*|C.*|PT.*" postag_regexp="yes" scope="previous"></exception><exception
-          negate_pos="yes" postag="PP.{2}S.*" postag_regexp="yes"></exception><exception postag="PP.C.[0D]00" postag_regexp="yes"></exception></token>
+          <token postag="PP.{2}S.*" postag_regexp="yes"><exception postag="SP.*|C.*|PT.*" postag_regexp="yes" scope="previous"></exception><exception negate_pos="yes" postag="PP.{2}S.*" postag_regexp="yes"></exception><exception postag="PP.C.[0D]00"
+          postag_regexp="yes"></exception></token>
 
           <token postag="V.{4}P.*" postag_regexp="yes"></token>
         </pattern>
@@ -1199,8 +1204,7 @@ http://buscon.rae.es/dpdI/SrvltConsulta?lema=grosso-->
  -->
 
         <pattern>
-          <token postag="PP.{2}P.*" postag_regexp="yes"><exception postag="SP.*|CS.*|PT.*" postag_regexp="yes" scope="previous"></exception> <exception
-          postag="AQ.*|V.*|PP[12]C.000|PP3.{2}[AD]00" postag_regexp="yes"></exception></token>
+          <token postag="PP.{2}P.*" postag_regexp="yes"><exception postag="SP.*|CS.*|PT.*" postag_regexp="yes" scope="previous"></exception> <exception postag="AQ.*|V.*|PP[12]C.000|PP3.{2}[AD]00" postag_regexp="yes"></exception></token>
 
           <token postag="V.{4}S.*" postag_regexp="yes"><exception negate_pos="yes" postag="V.*" postag_regexp="yes"></exception></token>
         </pattern>
@@ -1221,15 +1225,13 @@ http://buscon.rae.es/dpdI/SrvltConsulta?lema=grosso-->
       <!-- SUJ_PRED_ATRIB_SINGULAR Concordancia (pavo es rojos) -->
 
       <pattern case_sensitive="yes">
-        <token postag="N.{2}S.*|P.{3}S.*" postag_regexp="yes" skip="1"><exception scope="previous">del|al</exception><exception postag="SP.*|C.*"
-        postag_regexp="yes" scope="previous"></exception><exception postag="PP.C.[DO0]00|R.*|C.*|SP.*" postag_regexp="yes"></exception><exception
-        regexp="yes">mayoría|minoría|parte|número</exception><exception postag="[NC].*" postag_regexp="yes" scope="next"></exception></token>
+        <token postag="N.{2}S.*|P.{3}S.*" postag_regexp="yes" skip="1"><exception scope="previous">del|al</exception><exception postag="SP.*|C.*" postag_regexp="yes" scope="previous"></exception><exception postag="PP.C.[DO0]00|R.*|C.*|SP.*"
+        postag_regexp="yes"></exception><exception regexp="yes">mayoría|minoría|parte|número</exception><exception postag="[NC].*" postag_regexp="yes" scope="next"></exception></token>
 
-        <token inflected="yes" regexp="yes" skip="1"><exception regexp="yes" scope="previous">[^\w].*|se</exception><exception postag="C.*|SP.*"
-        postag_regexp="yes" scope="previous"></exception><exception postag="C.*|SP.*" postag_regexp="yes" scope="next"></exception>ser|parecer</token>
+        <token inflected="yes" regexp="yes" skip="1"><exception regexp="yes" scope="previous">[^\w].*|se</exception><exception postag="C.*|SP.*" postag_regexp="yes" scope="previous"></exception><exception postag="C.*|SP.*" postag_regexp="yes"
+        scope="next"></exception>ser|parecer</token>
 
-        <token postag="N.{2}P.*|A.{3}P.*" postag_regexp="yes"><exception postag="V.*" scope="previous"></exception><exception postag="SP.*|[CDRV].*"
-        postag_regexp="yes"></exception></token>
+        <token postag="N.{2}P.*|A.{3}P.*" postag_regexp="yes"><exception postag="V.*" scope="previous"></exception><exception postag="SP.*|[CDRV].*" postag_regexp="yes"></exception></token>
       </pattern>
 
       <message>Posible falta de concordancia de número entre «\1» y «\3».</message>
@@ -1245,15 +1247,12 @@ http://buscon.rae.es/dpdI/SrvltConsulta?lema=grosso-->
       <!-- SUJ_PRED_ATRIB_PLURAL Concordancia (pavos es rojo) -->
 
       <pattern>
-        <token postag="N.{2}P.*|P.{3}P" postag_regexp="yes" skip="1"><exception postag="SP.*" postag_regexp="yes"
-        scope="previous"></exception><exception>botones</exception><exception postag="PP.C.[DO0]00" postag_regexp="yes"></exception><exception postag="[NC].*"
-        postag_regexp="yes" scope="next"></exception></token>
+        <token postag="N.{2}P.*|P.{3}P" postag_regexp="yes" skip="1"><exception postag="SP.*" postag_regexp="yes" scope="previous"></exception><exception>botones</exception><exception postag="PP.C.[DO0]00" postag_regexp="yes"></exception><exception
+        postag="[NC].*" postag_regexp="yes" scope="next"></exception></token>
 
-        <token inflected="yes" regexp="yes" skip="1"><exception regexp="yes" scope="previous">[^\w].*|se</exception><exception postag="VM[NG]0000"
-        postag_regexp="yes" scope="next"></exception>ser|estar|parecer</token>
+        <token inflected="yes" regexp="yes" skip="1"><exception regexp="yes" scope="previous">[^\w].*|se</exception><exception postag="VM[NG]0000" postag_regexp="yes" scope="next"></exception>ser|estar|parecer</token>
 
-        <token postag="N.{2}S.*|A.{3}S.*" postag_regexp="yes"><exception postag="SP.*|[CD].*" postag_regexp="yes" scope="previous"></exception><exception
-        postag="SP.*|[CDRV].*" postag_regexp="yes"></exception></token>
+        <token postag="N.{2}S.*|A.{3}S.*" postag_regexp="yes"><exception postag="SP.*|[CD].*" postag_regexp="yes" scope="previous"></exception><exception postag="SP.*|[CDRV].*" postag_regexp="yes"></exception></token>
       </pattern>
 
       <message>Posible falta de concordancia de número entre «\1» y «\3».</message>
@@ -1271,13 +1270,12 @@ http://buscon.rae.es/dpdI/SrvltConsulta?lema=grosso-->
 -->
 
       <pattern>
-        <token postag="N.{1}F.*" postag_regexp="yes" skip="1"><exception postag="SP.*" postag_regexp="yes" scope="previous"></exception><exception
-        postag="[RC].*" postag_regexp="yes"></exception><exception postag="N.*|C.*" postag_regexp="yes" scope="next"></exception></token>
+        <token postag="N.{1}F.*" postag_regexp="yes" skip="1"><exception postag="SP.*" postag_regexp="yes" scope="previous"></exception><exception postag="[RC].*" postag_regexp="yes"></exception><exception postag="N.*|C.*" postag_regexp="yes"
+        scope="next"></exception></token>
 
         <token inflected="yes" regexp="yes" skip="2"><exception regexp="yes" scope="previous">[^\w].*|se</exception>ser|parecer</token>
 
-        <token postag="A.{2}M.*" postag_regexp="yes"><exception postag="SP.*|[CDRV].*" postag_regexp="yes"></exception><exception
-        regexp="yes">la|do</exception></token>
+        <token postag="A.{2}M.*" postag_regexp="yes"><exception postag="SP.*|[CDRV].*" postag_regexp="yes"></exception><exception regexp="yes">la|do</exception></token>
       </pattern>
 
       <message>Posible falta de concordancia de género entre «\1» y «\3».</message>
@@ -1293,8 +1291,7 @@ http://buscon.rae.es/dpdI/SrvltConsulta?lema=grosso-->
       <!-- SUJ_PRED_ATRIB_MASC Concordancia (pavo es roja) -->
 
       <pattern>
-        <token postag="N.{1}M.*" postag_regexp="yes" skip="1"><exception postag="RN"></exception><exception regexp="yes">botones|la|do</exception><exception
-        postag="N.*|CS" postag_regexp="yes" scope="next"></exception></token>
+        <token postag="N.{1}M.*" postag_regexp="yes" skip="1"><exception postag="RN"></exception><exception regexp="yes">botones|la|do</exception><exception postag="N.*|CS" postag_regexp="yes" scope="next"></exception></token>
 
         <token inflected="yes" regexp="yes" skip="2"><exception regexp="yes" scope="previous">[^\w].*|se</exception>ser|estar|parecer</token>
 
@@ -1313,6 +1310,8 @@ http://buscon.rae.es/dpdI/SrvltConsulta?lema=grosso-->
 
   <category name="Estilo">
     <rule id="LOOR" name="Loor de multitudes">
+      <!-- LOOR : La forma preferida es OLOR (http://cvc.cervantes.es/alhabla/museo_horrores/museo_014.htm)-->
+
       <pattern>
         <token>loor</token>
 
@@ -1327,5 +1326,89 @@ http://buscon.rae.es/dpdI/SrvltConsulta?lema=grosso-->
 
       <example type="correct">Entraron en olor de multiitudes</example>
     </rule>
+
+    <!--ELLOS_ELLAS: El neutro en español se forma igual que el masculino (http://buscon.rae.es/dpdI/SrvltGUIBusDPD?origen=RAE&lema=g%E9nero2#22-->
+
+    <rulegroup id="ELLOS_ELLAS" name="Redundancias no sexistas incorrectas">
+      <rule id="TODAS_Y_TODOS" name="Redundancia neutro - femenino + masculino">
+        <!-- TODAS_Y_TODOS : Primero ellas y luego ellos, sin partículas-->
+
+        <pattern>
+          <token regexp="yes">(.+)as</token>
+
+          <token postag="CC"><exception>sino</exception></token>
+
+          <token><match no="0" regexp_match="(.+)as" regexp_replace="$1os"></match></token>
+        </pattern>
+
+        <message>Es suficiente con «<suggestion>\3</suggestion>».</message>
+
+        <example correction="todos" type="incorrect">Hemos llegado <marker>todas y todos</marker></example>
+
+        <example type="correct">Defenderemos a nuestros compañeros.</example>
+      </rule>
+
+      <rule id="TODOS_Y_TODAS" name="Redundancia neutro - masculino + femenino">
+        <!-- TODOS_Y_TODAS : Primero ellos y luego ellas, sin partículas-->
+
+        <pattern>
+          <token regexp="yes">(.+)os</token>
+
+          <token postag="CC"><exception>sino</exception></token>
+
+          <token><match no="0" regexp_match="(.+)os" regexp_replace="$1as"></match></token>
+        </pattern>
+
+        <message>Es suficiente con «<suggestion>\1</suggestion>».</message>
+
+        <example correction="todos" type="incorrect">Hemos llegado <marker>todos y todas</marker></example>
+
+        <example type="correct">Defenderemos a nuestros compañeros.</example>
+      </rule>
+
+      <rule id="LAS_TIAS_Y_LOS_TIOS" name="Redundancia neutro - femenino + masculino con partículas">
+        <!--LAS_TIAS_Y_LOS_TIOS : Primero ellas y luego ellos, con preposiciones y artículos-->
+
+        <pattern>
+          <token postag="[DS].+" postag_regexp="yes"><exception postag="P.*" postag_regexp="yes"></exception></token>
+
+          <token postag="N.F.+" postag_regexp="yes" regexp="yes">(.+)as</token>
+
+          <token postag="CC"><exception>sino</exception></token>
+
+          <token postag="[DS].+" postag_regexp="yes"><exception postag="P.*" postag_regexp="yes"></exception></token>
+
+          <token postag="N.M.+" postag_regexp="yes"><match no="1" regexp_match="(.+)as" regexp_replace="$1os"></match></token>
+        </pattern>
+
+        <message>Es suficiente con «<suggestion><match include_skipped="following" no="4"></match> <match no="5"></match></suggestion>».</message>
+
+        <example correction="para todos" type="incorrect">Queda sopa <marker>para todas y para todos</marker></example>
+
+        <example type="correct">Queda sopa para todos los alumnos y para todas las jugadoras.</example>
+      </rule>
+
+      <rule id="LOS_TIOS_Y_LAS_TIAS" name="Redundancia neutro - masculino + femenino con partículas">
+        <!--LOS_TIOS_Y_LAS_TIAS : Primero ellos y luego ellas, con preposiciones y artículos-->
+
+        <pattern>
+          <token postag="[DS].+" postag_regexp="yes"><exception postag="P.*" postag_regexp="yes"></exception></token>
+
+          <token regexp="yes">(.+)os</token>
+
+          <token postag="CC"><exception>sino</exception></token>
+
+          <token postag="[DS].+" postag_regexp="yes" skip="1"><exception postag="P.*" postag_regexp="yes"></exception></token>
+
+          <token><match no="1" regexp_match="(.+)os" regexp_replace="$1as"></match></token>
+        </pattern>
+
+        <message>Es suficiente con «<suggestion><match include_skipped="following" no="1"></match> <match no="2"></match></suggestion>».</message>
+
+        <example correction="para todos" type="incorrect">Queda sopa <marker>para todos y para todas</marker></example>
+
+        <example type="correct">Queda sopa para todos los alumnos y para todas las jugadoras.</example>
+      </rule>
+    </rulegroup>
   </category>
 </rules>
