@@ -463,7 +463,8 @@ public class Match {
         formattedToken.setWhitespaceBefore(matchedToken.isWhitespaceBefore());
       }
       String token = formattedToken.getToken();
-      if (pRegexMatch != null) {
+      if (pRegexMatch != null && regexReplace != null) {
+    	/* only replace if it is something to replace*/
         token = pRegexMatch.matcher(token).replaceAll(regexReplace);
       }
       token = convertCase(token);
