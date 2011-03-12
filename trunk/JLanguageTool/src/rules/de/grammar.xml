@@ -1438,6 +1438,19 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example correction="Ruhe" type="incorrect">Lass mich in <marker>ruhe</marker>.</example>
       <example type="correct">Rabbit in Ruhe</example>
     </rule>
+    <!-- -->
+    <rule id="IN_DER_NAEHE" name="Groß-/Kleinschreibung: 'in der nähe(Nähe)'">
+      <pattern case_sensitive="yes" mark_from="2">
+        <token regexp="yes">[Ii]n</token>
+        <token>der</token>
+        <token>nähe</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>Nähe</suggestion>?</message>
+      <example type="correct">In der <marker>Nähe</marker> liegt der Bahnhof.</example>
+      <example type="correct">Und in der <marker>Nähe</marker> liegt der Bahnhof.</example>
+      <example type="incorrect">In der <marker>nähe</marker> liegt der Bahnhof.</example>
+      <example type="incorrect">Und in der <marker>nähe</marker> liegt der Bahnhof.</example>
+    </rule>
   </category>
   <category name="Grammatik">
     <!-- TODO: testen!!
