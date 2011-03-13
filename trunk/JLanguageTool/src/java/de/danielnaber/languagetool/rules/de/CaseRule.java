@@ -215,18 +215,17 @@ public class CaseRule extends GermanRule {
     return "Großschreibung von Nomen und substantivierten Verben";
   }
 
-  public RuleMatch[] match(final AnalyzedSentence text) {
+  public RuleMatch[] match(final AnalyzedSentence text) throws IOException {
     final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
     
-    int pos = 0;
     boolean prevTokenIsDas = false;
     for (int i = 0; i < tokens.length; i++) {
-    	//FIXME: defaulting to the first analysis
-    	//don't know if it's safe
+      //FIXME: defaulting to the first analysis don't know if it's safe
       final String posToken = tokens[i].getAnalyzedToken(0).getPOSTag();
-      if (posToken != null && posToken.equals(JLanguageTool.SENTENCE_START_TAGNAME))
+      if (posToken != null && posToken.equals(JLanguageTool.SENTENCE_START_TAGNAME)) {
         continue;
+      }
       if (i == 1) {   // don't care about first word, UppercaseSentenceStartRule does this already
         if (nounIndicators.contains(tokens[i].getToken().toLowerCase())) {
           prevTokenIsDas = true;
@@ -236,7 +235,7 @@ public class CaseRule extends GermanRule {
       final AnalyzedGermanTokenReadings analyzedToken = (AnalyzedGermanTokenReadings)tokens[i];
       final String token = analyzedToken.getToken();
       List<AnalyzedGermanToken> readings = analyzedToken.getGermanReadings();
-      AnalyzedGermanTokenReadings analyzedGermanToken2 = null;
+      AnalyzedGermanTokenReadings analyzedGermanToken2;
       
       boolean isBaseform = false;
       if (analyzedToken.getReadingsLength() > 1 && token.equals(analyzedToken.getAnalyzedToken(0).getLemma())) {
@@ -245,47 +244,22 @@ public class CaseRule extends GermanRule {
       if ((readings == null || analyzedToken.getAnalyzedToken(0).getPOSTag() == null || analyzedToken.hasReadingOfType(GermanToken.POSType.VERB))
           && isBaseform) {
         // no match, e.g. for "Groß": try if there's a match for the lowercased word:
-        
-        try {
-          analyzedGermanToken2 = tagger.lookup(token.toLowerCase());
-          if (analyzedGermanToken2 != null) {
-            readings = analyzedGermanToken2.getGermanReadings();
-          }
-        } catch (IOException e) {
-          throw new RuntimeException(e);
+        analyzedGermanToken2 = tagger.lookup(token.toLowerCase());
+        if (analyzedGermanToken2 != null) {
+          readings = analyzedGermanToken2.getGermanReadings();
         }
-        if (prevTokenIsDas) {
-          // e.g. essen -> Essen
-          final String newToken = StringTools.uppercaseFirstChar(token);
-          try {
-            analyzedGermanToken2 = tagger.lookup(newToken);
-            //analyzedGermanToken2.hasReadingOfType(GermanToken.POSType.VERB)
-          } catch (IOException e) {
-            throw new RuntimeException(e);
-          }
-          if (Character.isLowerCase(token.charAt(0)) && !substVerbenExceptions.contains(token)) {
-            final String msg = "Substantivierte Verben werden groß geschrieben.";
-            final RuleMatch ruleMatch = new RuleMatch(this, tokens[i].getStartPos(),
-                tokens[i].getStartPos()+token.length(), msg);
-            final String word = tokens[i].getToken();
-            final String fixedWord = StringTools.uppercaseFirstChar(word);
-            ruleMatch.setSuggestedReplacement(fixedWord);
-            ruleMatches.add(ruleMatch);
-          }
-        }
+        potentiallyAddLowercaseMatch(ruleMatches, tokens[i], prevTokenIsDas, token);
       }
       prevTokenIsDas = nounIndicators.contains(tokens[i].getToken().toLowerCase());
-      if (readings == null)
+      if (readings == null) {
         continue;
-      final boolean hasNounReading = analyzedToken.hasReadingOfType(GermanToken.POSType.NOMEN);
-      if (hasNounReading)  // it's the spell checker's task to check that nouns are uppercase
-        continue;
-      try {
-        // TODO: this lookup should only happen once:
-        analyzedGermanToken2 = tagger.lookup(token.toLowerCase());
-      } catch (IOException e) {
-        throw new RuntimeException(e);      
       }
+      final boolean hasNounReading = analyzedToken.hasReadingOfType(GermanToken.POSType.NOMEN);
+      if (hasNounReading) {  // it's the spell checker's task to check that nouns are uppercase
+        continue;
+      }
+      // TODO: this lookup should only happen once:
+      analyzedGermanToken2 = tagger.lookup(token.toLowerCase());
       if (analyzedToken.getAnalyzedToken(0).getPOSTag() == null && analyzedGermanToken2 == null) {
         continue;
       }
@@ -294,26 +268,43 @@ public class CaseRule extends GermanRule {
         // unknown word, probably a name etc
         continue;
       }
-      
-      if (Character.isUpperCase(token.charAt(0)) &&
-          token.length() > 1 &&     // length limit = ignore abbreviations
-          !sentenceStartExceptions.contains(tokens[i-1].getToken()) &&
-          !StringTools.isAllUppercase(token) &&
-          !exceptions.contains(token) &&
-          !analyzedToken.hasReadingOfType(POSType.PROPER_NOUN) &&
-          !analyzedToken.isSentenceEnd() &&
-          !isExceptionPhrase(i, tokens)) {
-        final String msg = "Außer am Satzanfang werden nur Nomen und Eigennamen groß geschrieben";
-        final RuleMatch ruleMatch = new RuleMatch(this, tokens[i].getStartPos(),
-            tokens[i].getStartPos()+token.length(), msg);
-        final String word = tokens[i].getToken();
-        final String fixedWord = Character.toLowerCase(word.charAt(0)) + word.substring(1);
+      potentiallyAddUppercaseMatch(ruleMatches, tokens, i, analyzedToken, token);
+    }
+    return toRuleMatchArray(ruleMatches);
+  }
+
+  private void potentiallyAddLowercaseMatch(List<RuleMatch> ruleMatches, AnalyzedTokenReadings tokenReadings, boolean prevTokenIsDas, String token) {
+    if (prevTokenIsDas) {
+      // e.g. essen -> Essen
+      if (Character.isLowerCase(token.charAt(0)) && !substVerbenExceptions.contains(token)) {
+        final String msg = "Substantivierte Verben werden groß geschrieben.";
+        final RuleMatch ruleMatch = new RuleMatch(this, tokenReadings.getStartPos(),
+            tokenReadings.getStartPos() + token.length(), msg);
+        final String word = tokenReadings.getToken();
+        final String fixedWord = StringTools.uppercaseFirstChar(word);
         ruleMatch.setSuggestedReplacement(fixedWord);
         ruleMatches.add(ruleMatch);
       }
-      pos += token.length();
     }
-    return toRuleMatchArray(ruleMatches);
+  }
+
+  private void potentiallyAddUppercaseMatch(List<RuleMatch> ruleMatches, AnalyzedTokenReadings[] tokens, int i, AnalyzedGermanTokenReadings analyzedToken, String token) {
+    if (Character.isUpperCase(token.charAt(0)) &&
+        token.length() > 1 &&     // length limit = ignore abbreviations
+        !sentenceStartExceptions.contains(tokens[i-1].getToken()) &&
+        !StringTools.isAllUppercase(token) &&
+        !exceptions.contains(token) &&
+        !analyzedToken.hasReadingOfType(POSType.PROPER_NOUN) &&
+        !analyzedToken.isSentenceEnd() &&
+        !isExceptionPhrase(i, tokens)) {
+      final String msg = "Außer am Satzanfang werden nur Nomen und Eigennamen groß geschrieben";
+      final RuleMatch ruleMatch = new RuleMatch(this, tokens[i].getStartPos(),
+          tokens[i].getStartPos() + token.length(), msg);
+      final String word = tokens[i].getToken();
+      final String fixedWord = Character.toLowerCase(word.charAt(0)) + word.substring(1);
+      ruleMatch.setSuggestedReplacement(fixedWord);
+      ruleMatches.add(ruleMatch);
+    }
   }
 
   private boolean isExceptionPhrase(int i, AnalyzedTokenReadings[] tokens) {
@@ -336,8 +327,9 @@ public class CaseRule extends GermanRule {
   }
 
   private boolean compareLists(AnalyzedTokenReadings[] tokens, int startIndex, int endIndex, String[] parts) {
-    if (startIndex < 0)
+    if (startIndex < 0) {
       return false;
+    }
     int i = 0;
     for (int j = startIndex; j <= endIndex; j++) {
       //System.err.println("**" +tokens[j].getToken() + " <-> "+ parts[i]);
