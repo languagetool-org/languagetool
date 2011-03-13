@@ -307,20 +307,20 @@ $Id: grammar.xml,v 1.18 2010-12-10 01:07:04 jmartorell Exp $
       <!--SIN_ECUANIME-->
 
       <pattern>
-        <token inflected="yes" regexp="yes">condición|requisito</token>
+        <token regexp="yes">condición|requisito</token>
 
         <token>sin</token>
 
         <token>ecuánime</token>
       </pattern>
 
-      <message>La forma correcta es <suggestion>/0 sine qua non</suggestion>.</message>
+      <message>La forma correcta es <suggestion>\1 sine qua non</suggestion>.</message>
 
       <short>Expresión incorrecta</short>
 
       <example correction="condición sine qua non" type="incorrect">Para aprobar, la <marker>condición sin ecuánime</marker> es obtener un 5.</example>
 
-      <example type="correct">Es condición sine quae non tener permiso para entrar en el local.</example>
+      <example type="correct">Es condición sine qua non tener permiso para entrar en el local.</example>
     </rule>
 
     <!--Pronombres personales cuyo tilde se olvida o se pone impropiamente
@@ -795,7 +795,7 @@ http://buscon.rae.es/dpdI/SrvltConsulta?lema=grosso-->
 
       <message>Se utiliza <suggestion>siquiera</suggestion></message>
 
-      <example correction="siquiera" type="incorrect">Imagino que ni<marker>si quiera</marker> está de acuerdo.</example>
+      <example correction="siquiera" type="incorrect">Imagino que ni <marker>si quiera</marker> está de acuerdo.</example>
 
       <example type="correct">La que sí quiera, puede venir.</example>
     </rule>
@@ -1341,7 +1341,7 @@ http://buscon.rae.es/dpdI/SrvltConsulta?lema=grosso-->
           <token><match no="0" regexp_match="(.+)as" regexp_replace="$1os"></match></token>
         </pattern>
 
-        <message>Es suficiente con «<suggestion>\3</suggestion>».</message>
+        <message>Posible redundancia. Si no se quiere remarcar la diferencia de género, es suficiente con <suggestion>\3</suggestion>.</message>
 
         <example correction="todos" type="incorrect">Hemos llegado <marker>todas y todos</marker></example>
 
@@ -1359,7 +1359,7 @@ http://buscon.rae.es/dpdI/SrvltConsulta?lema=grosso-->
           <token><match no="0" regexp_match="(.+)os" regexp_replace="$1as"></match></token>
         </pattern>
 
-        <message>Es suficiente con «<suggestion>\1</suggestion>».</message>
+        <message>Posible redundancia. Si no se quiere remarcar la diferencia de género, es suficiente con <suggestion>\1</suggestion>.</message>
 
         <example correction="todos" type="incorrect">Hemos llegado <marker>todos y todas</marker></example>
 
@@ -1372,18 +1372,18 @@ http://buscon.rae.es/dpdI/SrvltConsulta?lema=grosso-->
         <pattern>
           <token postag="[DS].+" postag_regexp="yes"><exception postag="P.*" postag_regexp="yes"></exception></token>
 
-          <token postag="N.F.+" postag_regexp="yes" regexp="yes">(.+)as</token>
+          <token postag="(P.|N).F.+" postag_regexp="yes" regexp="yes">(.+)as</token>
 
           <token postag="CC"><exception>sino</exception></token>
 
           <token postag="[DS].+" postag_regexp="yes"><exception postag="P.*" postag_regexp="yes"></exception></token>
 
-          <token postag="N.M.+" postag_regexp="yes"><match no="1" regexp_match="(.+)as" regexp_replace="$1os"></match></token>
+          <token postag="(P.|N).M.+" postag_regexp="yes"><match no="1" regexp_match="(.+)as" regexp_replace="$1os"></match></token>
         </pattern>
 
-        <message>Es suficiente con «<suggestion><match include_skipped="following" no="4"></match> <match no="5"></match></suggestion>».</message>
+        <message>Posible redundancia. Si no se quiere remarcar la diferencia de género, es suficiente con <suggestion><match include_skipped="following" no="4"></match> <match no="5"></match></suggestion>.</message>
 
-        <example correction="para todos" type="incorrect">Queda sopa <marker>para todas y para todos</marker></example>
+        <example correction="los mozos" type="incorrect">Mira cómo se divierten <marker>las mozas y los mozos</marker></example>
 
         <example type="correct">Queda sopa para todos los alumnos y para todas las jugadoras.</example>
       </rule>
@@ -1394,20 +1394,20 @@ http://buscon.rae.es/dpdI/SrvltConsulta?lema=grosso-->
         <pattern>
           <token postag="[DS].+" postag_regexp="yes"><exception postag="P.*" postag_regexp="yes"></exception></token>
 
-          <token regexp="yes">(.+)os</token>
+          <token postag="(P.|N).M.+" postag_regexp="yes" regexp="yes">(.+)os</token>
 
           <token postag="CC"><exception>sino</exception></token>
 
           <token postag="[DS].+" postag_regexp="yes" skip="1"><exception postag="P.*" postag_regexp="yes"></exception></token>
 
-          <token><match no="1" regexp_match="(.+)os" regexp_replace="$1as"></match></token>
+          <token postag="(P.|N).F.+" postag_regexp="yes"><match no="1" regexp_match="(.+)os" regexp_replace="$1as"></match></token>
         </pattern>
 
-        <message>Es suficiente con «<suggestion><match include_skipped="following" no="1"></match> <match no="2"></match></suggestion>».</message>
+        <message>Posible redundancia. Si no se quiere remarcar la diferencia de género, es suficiente con <suggestion><match include_skipped="following" no="1"></match> <match no="2"></match></suggestion>.</message>
 
-        <example correction="para todos" type="incorrect">Queda sopa <marker>para todos y para todas</marker></example>
+        <example correction="los mozos" type="incorrect">Debemos ayudar a <marker>los mozos y las mozas</marker></example>
 
-        <example type="correct">Queda sopa para todos los alumnos y para todas las jugadoras.</example>
+        <example type="correct">Debemos ayudar a los alumnos.</example>
       </rule>
     </rulegroup>
   </category>
