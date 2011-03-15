@@ -14,6 +14,16 @@ $Id: grammar.xml,v 1.129 2010-11-13 23:24:21 dnaber Exp $
   <!-- Possible typos -->
   <!-- ====================================================================== -->
   <category name="Possible Typos">
+    <rule id="DE_JURO" name="de juro (jure)">
+      <pattern>
+        <token>de</token>
+        <token>juro</token>
+      </pattern>
+      <message>This is an incorrect spelling of a Latin phrase. Did you mean <suggestion>de jure</suggestion>?</message>
+      <short>Possible typo</short>
+      <example correction="de jure" type="incorrect">There is no <marker>de juro</marker> segregation allowed by law anywhere in the United States.</example>
+      <example type="correct">There is no de jure segregation allowed by law anywhere in the United States.</example>
+    </rule>
     <rule id="I_THIN" name="I thin (think)">
       <pattern mark_from="2">
         <token negate="yes" regexp="yes">am|do|can|will</token>
@@ -1620,7 +1630,7 @@ $Id: grammar.xml,v 1.129 2010-11-13 23:24:21 dnaber Exp $
       <example type="correct">Type in the <marker>form</marker> on the web page.</example>
       <example type="incorrect">Type in the <marker>from</marker> on the web page.</example>
     </rule>
-    <rule id="CAN_NOT" name="can not (cannot)">
+    <rule default="off" id="CAN_NOT" name="can not (cannot)">
       <pattern>
         <token>can</token>
         <token>not</token>
@@ -2345,7 +2355,7 @@ $Id: grammar.xml,v 1.129 2010-11-13 23:24:21 dnaber Exp $
           <token postag="WRB|WP" postag_regexp="yes"></token>
           <token regexp="yes">has|have|had</token>
           <token postag="PRP"></token>
-          <token postag="VBD|VBP|VB" postag_regexp="yes"><exception postag="VBN"/></token>
+          <token postag="VBD|VBP|VB" postag_regexp="yes"><exception postag="VBN"></exception></token>
         </pattern>
         <message>Possible agreement error – use past participle here: <suggestion><match no="5" postag="VBN"></match></suggestion>.</message>
         <example correction="done" type="incorrect">What have you <marker>did</marker>?</example>
