@@ -68,8 +68,24 @@ $Id: grammar.xml,v 1.231 2011-02-13 12:30:11 milek_pl Exp $
     <phrase id="NIE_INTERPUNKCJA">
       <token><exception postag="SENT_START"></exception><exception regexp="yes">[\p{Punct}\-–—„«»…’]+|tyle|i|lub|albo|ani|oraz|bądź|czy|a</exception></token>
     </phrase>
+    <phrase id="NIE_SPOJNIK_PRZECINKOWY_OLD">
+      <token><exception inflected="yes" regexp="yes">acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|choć|chociaż|czyliż?|dopóki|gdyż|gdyżby|ilekolwiek|ilekroć|lecz|którędy|dopóty|póki|dlaczego|ponieważ|zanim|który|jaki|co|kto|że|iż|jak|nawiasem|a|jeśli|jeżeli|gdyby|gdy|kiedy|jeśliby|jeżeliby|żeby|aby|ażeby|iżby|zamiast|szczególnie|zwłaszcza</exception><exception postag="prep:.*" postag_regexp="yes"></exception></token>
+    </phrase>
     <phrase id="NIE_SPOJNIK_PRZECINKOWY">
-      <token><exception inflected="yes" regexp="yes">acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dopóki|gdyż|gdyżby|ilekolwiek|ilekroć|lecz|którędy|dopóty|póki|dlaczego|ponieważ|zanim|który|jaki|co|kto|że|iż|jak|nawiasem|a|jeśli|jeżeli|gdyby|gdy|kiedy|jeśliby|jeżeliby|żeby|aby|ażeby|iżby|zamiast</exception></token>
+      <includephrases>
+        <phraseref idref="NIE_SPOJNIK_PRZECINKOWY_OLD" />
+        <phraseref idref="PREP_KTORY" />
+        <phraseref idref="PREP_PREP_KTORY" />
+      </includephrases>
+    </phrase>
+    <phrase id="PREP_KTORY">
+      <token postag=""><exception postag="prep:.*" postag_regexp="yes" scope="previous"></exception><exception inflected="yes" regexp="yes">który|jaki</exception></token>
+    </phrase>
+    <phrase id="PREP_PREP_KTORY">
+      <token postag="prep:.*" postag_regexp="yes"></token>
+      <includephrases>
+        <phraseref idref="PREP_KTORY" />
+      </includephrases>
     </phrase>
     <phrase id="ACC_NOM_1">
       <token postag=".*acc.*|.*nom.*" postag_regexp="yes"><exception postag=".*inst.*|.*loc.*" postag_regexp="yes"></exception></token>
@@ -109,7 +125,7 @@ $Id: grammar.xml,v 1.231 2011-02-13 12:30:11 milek_pl Exp $
         <example type="correct">Chociaż kupiłem wino, chciałem też pić wodę.</example>
         <example type="correct">Marek będzie pomagał Jurkowi odrabiać lekcje za Romana.</example>
         <example type="correct">Tak to bywa... ludzie się zmieniają.</example>
-		<example type="correct">To jest jedna osoba.</example>
+        <example type="correct">To jest jedna osoba.</example>
         <example type="incorrect"><marker>Zzuwszy buty Marek zatruł atmosferę na sali.</marker></example>
         <example type="incorrect">Chociaż <marker>kupiłem wino chciałem też pić wodę.</marker></example>
       </rule>
@@ -1665,7 +1681,7 @@ $Id: grammar.xml,v 1.231 2011-02-13 12:30:11 milek_pl Exp $
       <pattern mark_from="2">
         <token postag="SENT_START"></token>
         <token skip="2"><exception negate_pos="yes" postag="(adj):sg:inst.loc:m.n:pos|subst:sg:gen.loc.voc:m3|subst:sg:loc.voc:m3" postag_regexp="yes" scope="next"></exception>W</token>
-        <token regexp="yes">przypadku|razie</token>
+        <token regexp="yes">przypadku|razie|celu</token>
         <token>,</token>
         <phraseref idref="NIE_SPOJNIK_PRZECINKOWY" />
       </pattern>
@@ -1673,16 +1689,28 @@ $Id: grammar.xml,v 1.231 2011-02-13 12:30:11 milek_pl Exp $
       <example correction="przypadku miałem" type="incorrect">W tym <marker>przypadku, miałem</marker> rację.</example>
       <example type="correct">W tym przypadku, który już opisałem, miałem rację.</example>
     </rule>
-    <rule id="POZA_TYM" name="Zbędny przecinek po „poza tym” na początku zdania">
+    <rule id="W_MYSL_PRZECINEK" name="Zbędny przecinek po „w przypadku/razie/myśl/miarę” na początku zdania">
       <pattern mark_from="2">
         <token postag="SENT_START"></token>
-        <token>poza</token>
-        <token>tym</token>
+        <token>w</token>
+        <token regexp="yes" skip="-1"><exception postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes" scope="next"></exception>przypadku|razie|myśl|miarę|celu</token>
         <token>,</token>
         <phraseref idref="NIE_SPOJNIK_PRZECINKOWY" />
       </pattern>
-      <message>Prawdopodobnie zbędny przecinek. Poprawnie: <suggestion>\3 \5</suggestion>.</message>
-      <example correction="tym miałem" type="incorrect">Poza <marker>tym, miałem</marker> rację.</example>
+      <message>Prawdopodobnie zbędny przecinek. Poprawnie: <suggestion><match no="3"></match> <match include_skipped="following" no="3"></match> <match no="5"></match></suggestion>.</message>
+      <example correction="razie pożaru zbić" type="incorrect">W <marker>razie pożaru, zbić</marker> szybkę.</example>
+      <example correction="myśl tej teorii miałem" type="incorrect">W <marker>myśl tej teorii, miałem</marker> rację.</example>
+      <example type="correct">W myśl tej teorii, którą już opisałem, miałem rację.</example>
+    </rule>
+    <rule id="POZA_TYM" name="Zbędny przecinek po „poza”, „dla”, „dzięki”, „mimo” itp. na początku zdania">
+      <pattern mark_from="1">
+        <token postag="SENT_START"></token>
+        <token regexp="yes" skip="-1"><exception postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf|pred" postag_regexp="yes" scope="next"></exception>poza|dla|dzięki|mimo|oprócz|wobec</token>
+        <token>,</token>
+        <phraseref idref="NIE_SPOJNIK_PRZECINKOWY" />
+      </pattern>
+      <message>Prawdopodobnie zbędny przecinek. Poprawnie: <suggestion><match no="2"></match> <match include_skipped="following" no="2"></match> <match no="5"></match></suggestion>.</message>
+      <example correction="Poza tym miałem" type="incorrect"><marker>Poza tym, miałem</marker> rację.</example>
       <example type="correct">Poza tym, jak już mówiłem, miałem rację.</example>
     </rule>
     <rule id="DODATKOWO" name="Zbędny przecinek po „dodatkowo” na początku zdania">
@@ -9200,7 +9228,7 @@ $Id: grammar.xml,v 1.231 2011-02-13 12:30:11 milek_pl Exp $
     <rulegroup id="SKROTY_Z_KROPKA" name="Pisownia skrótów z kropką („np.”, „inż.”)">
       <rule>
         <pattern mark_to="-1">
-          <token postag="brev:pun"><exception negate_pos="yes" postag="brev:pun"/><exception regexp="yes">dr|mjr|mgr|a?bp|płk</exception></token>
+          <token postag="brev:pun"><exception negate_pos="yes" postag="brev:pun"></exception><exception regexp="yes">dr|mjr|mgr|a?bp|płk</exception></token>
           <token negate="yes">.</token>
         </pattern>
         <message>Ten skrót piszemy z kropką: <suggestion>\1.</suggestion>.</message>
@@ -11685,7 +11713,7 @@ $Id: grammar.xml,v 1.231 2011-02-13 12:30:11 milek_pl Exp $
       </rule>
       <rule>
         <pattern mark_from="2" mark_to="-2">
-          <token negate="yes" regexp="yes">chodzi|chodziło|chodzić<exception postag="SENT_START" ></exception></token>
+          <token negate="yes" regexp="yes">chodzi|chodziło|chodzić<exception postag="SENT_START"></exception></token>
           <token>o</token>
           <token>ty</token>
           <token>,</token>
