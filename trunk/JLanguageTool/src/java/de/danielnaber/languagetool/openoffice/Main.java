@@ -24,6 +24,8 @@ package de.danielnaber.languagetool.openoffice;
  * @author Marcin Miłkowski
  */
 import java.io.File;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -627,22 +629,19 @@ public class Main extends WeakBase implements XJobExecutor,
   }
 
   static void showError(final Throwable e) {
+    final StringWriter stringWriter = new StringWriter();
+    final PrintWriter printWriter = new PrintWriter(stringWriter);
+    e.printStackTrace(printWriter);
+    String msg = "An error has occurred in LanguageTool " + JLanguageTool.VERSION + ":\n" + e.toString()
+        + "\nStacktrace:\n";
+    msg += stringWriter.toString();
     final String metaInfo = "OS: " + System.getProperty("os.name")
       + " on " + System.getProperty("os.arch") + ", Java version "
       + System.getProperty("java.vm.version")
       + " from " + System.getProperty("java.vm.vendor");
-    String msg = "An error has occurred in LanguageTool " + JLanguageTool.VERSION + ":\n" + e.toString()
-        + "\nStacktrace:\n";
-    final StackTraceElement[] elem = e.getStackTrace();
-    for (final StackTraceElement element : elem) {
-      msg += element.toString() + "\n";
-    }
     msg += metaInfo;
     final DialogThread dt = new DialogThread(msg);
     dt.start();
-    // e.printStackTrace();
-    // OOo crashes when we throw an Exception :-(
-    // throw new RuntimeException(e);
   }
 
   private File getHomeDir() {
