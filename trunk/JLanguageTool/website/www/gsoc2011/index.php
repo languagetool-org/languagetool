@@ -1,5 +1,5 @@
 <?php
-$page = "languages";
+$page = "other";
 $title = "LanguageTool";
 $title2 = "Google Summer of Code 2011";
 $lastmod = "2011-03-19 12:30:00 CET";
