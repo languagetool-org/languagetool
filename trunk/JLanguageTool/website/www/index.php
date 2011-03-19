@@ -2,7 +2,7 @@
 $page = "homepage";
 $title = "LanguageTool";
 $title2 = "Open Source language checker";
-$lastmod = "2011-02-19 11:20:00 CET";
+$lastmod = "2011-03-19 11:20:00 CET";
 include("../include/header.php");
 ?>
 		
@@ -30,8 +30,8 @@ XML configuration files. Rules for more complicated errors can be  written in Ja
 	-->
 	<ul>
 		<li>Requires <?=show_link("Java", "http://www.java.com/en/download/manual.jsp", 1)?>&nbsp;5.0
-			or later. This version only works with OpenOffice.org 3.0.1 or later 
-			and you need to <strong>restart OpenOffice.org</strong> after installation of this extension.</li>
+			or later. This version only works with OpenOffice.org 3.0.1 or later and LibreOffice
+			and you need to <strong>restart OpenOffice.org/LibreOffice</strong> after installation of this extension.</li>
 		<li>If you're upgrading from LanguageTool 0.9.5, you must de-install
 			it <strong>before</strong> upgrading to a later version (check
 			<a href="http://languagetool.wikidot.com/removing-languagetool-0-9-5-from-openoffice-3-0-1">this
@@ -81,7 +81,7 @@ This means that you can now use LanguageTool for these languages via the
 <h2>Installation and Usage</h2>
 
 <ul>
-	<li><strong>In OpenOffice.org</strong>:
+	<li><strong>In OpenOffice.org/LibreOffice</strong>:
 	Double click <tt>LanguageTool-1.2.oxt</tt> to install it.
 	If that doesn't work, call <em>Tools -&gt; Extension Manager -&gt; Add...</em>
 	to install it. Close OpenOffice.org and re-start it. Type some text
@@ -91,7 +91,7 @@ This means that you can now use LanguageTool for these languages via the
 	<li>Also see <?=show_link("Usage", "usage/", 0)?> for using LanguageTool outside of OpenOffice.org.</li>
 </ul>
 
-<h2><a name="commonproblems"><strong>Common problems with OpenOffice.org integration</strong></a></h2>
+<h2><a name="commonproblems"><strong>Common problems with OpenOffice.org/LibreOffice integration</strong></a></h2>
 
 <ul>
 <li>Did you restart OpenOffice.org - including the QuickStarter - after installation of LanguageTool? This is required,
@@ -116,8 +116,11 @@ This means that you can now use LanguageTool for these languages via the
 	ODT Compare</a> extension - use version 1.2.0 of DeltaXML ODT Compare, which fixes the problem.</li>
 <li>If you get a message "Can not activate the factory for com.sun.star.help.HelpIndexer because java.lang.NoClassDefFoundError: org/apache/lucene/analysis/cjk/CJKAnalyzer":
 	this was a bug In OpenOffice.org 3.1, it was fixed in version 3.2 (<a href="http://qa.openoffice.org/issues/show_bug.cgi?id=98680">Issue 98680</a>)</li>
+<li>If you get "Failed to load rules for language English" when opening the configuration dialog, de-installed LanguageTool 1.2
+    and install <a href="http://www.languagetool.org/download/LanguageTool-1.3-beta2.oxt">LanguageTool 1.3 beta2</a> (problem occurred on openSUSE 11.3 with LanguageTool 1.2 pre-installed)
+    <!-- 2011-03-18 --></li>
 <li style="margin-top:8px">If these hints don't help, please email <strong>naber at danielnaber de</strong> describing the problem
-	and letting me know which version of LanguageTool, OpenOffice.org and which operating system you are using.</li>
+	and letting me know which version of LanguageTool, LibreOffice/OpenOffice.org and which operating system you are using.</li>
 </ul>
 
 <p><strong>Known bugs:</strong> Please also see the <?=show_link("README", "download/README.txt", 0)?> 
