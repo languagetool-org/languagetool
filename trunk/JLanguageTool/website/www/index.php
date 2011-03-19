@@ -50,6 +50,7 @@ need to ignore:<br />
 
 <h2>News</h2>
 
+<p><strong>2011-03-19:</strong> LanguageTool participates in the <?=show_link("Google Summer of Code 2011", "gsoc2011", 0)?></p>
 
 <p><strong>2011-02-19:</strong> The LanguageTool source code is now available from
 <?=show_link("subversion", "development/#checkout", 0)?>. Please don't use the old CVS repository anymore.</p>
