@@ -32,9 +32,12 @@ import de.danielnaber.languagetool.tagging.disambiguation.rules.es.SpanishRuleDi
 import de.danielnaber.languagetool.tagging.es.SpanishTagger;
 import de.danielnaber.languagetool.tokenizers.SRXSentenceTokenizer;
 import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
+import de.danielnaber.languagetool.tokenizers.Tokenizer;
+import de.danielnaber.languagetool.tokenizers.es.SpanishWordTokenizer;
 
 public class Spanish extends Language {
 	
+	private final Tokenizer wordTokenizer = new SpanishWordTokenizer();
 	private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("es");
 	private final Synthesizer synthesizer = new SpanishSynthesizer();
   
@@ -76,6 +79,10 @@ public class Spanish extends Language {
   public Unifier getUnifier() {
 	    return SPANISH_UNIFIER;
   }
+  
+  public final Tokenizer getWordTokenizer() {
+	    return wordTokenizer;
+	  }
   
   public final Synthesizer getSynthesizer() {
 	    return synthesizer;
