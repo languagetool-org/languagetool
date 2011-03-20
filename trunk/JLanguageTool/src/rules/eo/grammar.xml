@@ -94,11 +94,9 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
 
     <rule id="ĈI_FOJE" name="ĉi foje (ĉi-foje)">
       <pattern>
-        <token>ĉi
-          <exception scope="previous" regexp="yes">[ĉt]i([oe]|[au]j?)n?</exception>
-        </token>
+        <token>ĉi<exception scope="previous" postag="T ... .. [ĉt].*" postag_regexp="yes"/></token>
         <token postag="E .*" postag_regexp="yes">
-          <exception regexp="yes">tie[nl]?</exception>
+          <exception postag="T ... .. [ĉt].*" postag_regexp="yes"/>
         </token>
       </pattern>
       <message>Ĉu vi intencis skribi <suggestion>\1-\2</suggestion> kun streketo?</message>
@@ -159,6 +157,31 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <example type="correct"><marker>Trapasinte la ekzamenon</marker></example>
       <example type="correct">Morgaŭ mi trapasos gravan ekzamenon.</example>
     </rule>
+
+    <rulegroup id="DIPLOMIĜI" name="diplomiĝi (esti diplomita)">
+      <rule>
+        <pattern mark_from="1">
+          <token postag="R nak.*" postag_regexp="yes"/>
+          <token inflected="yes">diplomiĝi</token>
+        </pattern>
+        <message>«diplomiĝi» signifas «iĝi diplomo», kiu ne estas la celata senco. Ĉu vi intencis <suggestion>\1 <match no="2" regexp_match="diplomiĝ(.*)" regexp_replace="ricev$1 diplomon"/></suggestion>?</message>
+        <example type="incorrect">Li <marker>diplomiĝis</marker> lastjare.</example>
+        <example type="correct">Li ricevis diplomon lastjare.</example>
+        <example type="correct">Li estis diplomita lastjare.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2">
+          <token postag="R nak.*" postag_regexp="yes"/>
+          <token/>
+          <token inflected="yes">diplomiĝi</token>
+        </pattern>
+        <message>«diplomiĝi» signifas «iĝi diplomo», kiu ne estas la celata senco. Ĉu vi intencis <suggestion>\1 \2 <match no="3" regexp_match="diplomiĝ(.*)" regexp_replace="ricev$1 diplomon"/></suggestion>?</message>
+        <example type="incorrect">Li baldaŭ <marker>diplomiĝos</marker>.</example>
+        <example type="correct">Li baldaŭ ricevos diplomon.</example>
+        <example type="incorrect">Ni esperas <marker>diplomiĝi</marker>.</example>
+        <example type="correct">Ni esperas ricevi diplomon.</example>
+      </rule>
+    </rulegroup>
 
     <rule id="NEOFIC_PREP" name="neoficialaj rolvortetoj">
       <pattern>
@@ -1043,12 +1066,13 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
 
     <rule id="KIU_I" name="kiu esti (kiu estas)">
       <pattern>
-        <token regexp="yes">kiuj?|kio</token>
+        <token regexp="yes">kiuj?|kio<exception scope="previous" postag="P .*" postag_regexp="yes"/></token>
         <token postag="V .*[i]" postag_regexp="yes"/>
       </pattern>
       <message>Infinivo «\2» ne povas sekvi «\1».</message>
       <example type="incorrect"><marker>Kiu esti</marker> tie?</example>
       <example type="correct">Kiu estis tie?</example>
+      <example type="correct">Mi aĉetis ujon en kiu meti ĝin.</example>
     </rule>
 
     <rulegroup id="ESTONTECO" name="estonteco">
