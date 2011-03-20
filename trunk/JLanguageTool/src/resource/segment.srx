@@ -5,7 +5,8 @@
 <formathandle type="end" include="yes"></formathandle>
 <formathandle type="isolated" include="yes"></formathandle>
 <okpsrx:options oneSegmentIncludesAll="no" trimLeadingWhitespaces="no" trimTrailingWhitespaces="no"></okpsrx:options>
-<okpsrx:sample language="pl_two" useMappedRules="yes">Jestem zły, bo... (wpisz własną odpowiedź) drażni mnie krowa.
+<okpsrx:sample language="pl_two" useMappedRules="no">Ingevolge paragraaf 4.7.4. van het SGR is ...
+Jestem zły, bo... (wpisz własną odpowiedź) drażni mnie krowa.
 Kierownictwo toleruje pracę z konieczności ("Skąd wezmę innego pracownika?") i jest zadowolone. Józek D. (45 l.) T.Love
 Planowany wzrost przychodów najludniejszych gmin w br. będzie o 2 pkt. proc. wyższy od prognozowanej na br. stopy średniorocznej inflacji (15 proc.) natomiast wzrost wydatków przewyższa o 12 pkt. proc. stopę inflacji (co za dziwota! - przyp. red.) i tak dalej.
 Nie jesteś Rosjaninem? - spytał przedstawiciel okręgu. 11.X.2001 (b. dobra gra).
@@ -1390,6 +1391,11 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <rule break="no">
 <beforebreak>\.\p{Lu}\p{Ll}\.\s?</beforebreak>
 <afterbreak>\p{Lu}[^\p{Lu}]</afterbreak>
+</rule>
+<!--a number with a dot before a lowercase char-->
+<rule break="no">
+<beforebreak>\b\d+\.\s</beforebreak>
+<afterbreak>\p{Ll}|\p{Lu}{2,}</afterbreak>
 </rule>
 <rule break="yes">
 <beforebreak>\been\sprof\.\s</beforebreak>
