@@ -1199,7 +1199,7 @@ though, and has since been slightly modified)-->
       <rule name="nom masculin suivi du féminin">
         <pattern mark_from="1">
           <token negate="yes" regexp="yes">des?|du|aux?</token>
-          <token postag="N m .*" postag_regexp="yes" skip="1"><exception postag="(N f .*)|(V .*)" postag_regexp="yes"></exception> <exception>non</exception> <!-- Following exception is to skip an adverb --> <exception negate_pos="yes" postag="A|(J f .*)|(V .* f .*)|SENT_END" postag_regexp="yes" scope="next"></exception></token>
+          <token postag="N m .*" postag_regexp="yes" skip="1"><exception postag="([NJ] [fe] .*)|(V .*)" postag_regexp="yes"></exception> <exception>non</exception> <!-- Following exception is to skip an adverb --> <exception negate_pos="yes" postag="A|(J f .*)|(V .* f .*)|SENT_END" postag_regexp="yes" scope="next"/></token>
           <token postag="(J f .*)|(V .* f .*)" postag_regexp="yes"><exception postag="V .*(inf|ppr|ind|con|sub).*" postag_regexp="yes"></exception></token>
         </pattern>
         <message>« \2 » et « \3 » ne semblent pas bien accordés en genre</message>
@@ -1218,10 +1218,11 @@ though, and has since been slightly modified)-->
         <example type="correct">Une réduction des <marker>coûts comprise</marker> entre 10 et 20 euros.</example>
         <example type="correct">Une omelette au <marker>jambon relevée</marker> d'oseille.</example>
         <example type="correct">Des bouteilles non vidées</example>
+        <example type="correct">La détention provisoire illimitée</example>
       </rule>
       <rule name="féminin suivi du masculin">
         <pattern>
-          <token postag="[DJ] f .*" postag_regexp="yes" skip="1"><exception postag="V .*" postag_regexp="yes"></exception> <!-- Following exception is to skip an adverb or epicene word --> <exception negate_pos="yes" postag="A|([JN] [me] .*)|SENT_END" postag_regexp="yes" scope="next"></exception></token>
+          <token postag="[DJ] f .*" postag_regexp="yes" skip="1"><exception postag="([NJ] [me] .*)|(V .*)" postag_regexp="yes"></exception> <!-- Following exception is to skip an adverb or epicene word --> <exception negate_pos="yes" postag="A|([JN] [me] .*)|SENT_END" postag_regexp="yes" scope="next"></exception></token>
           <token postag="[JN] m .*" postag_regexp="yes"><exception postag="(V .*)|(C coor)|([NJ] e .*)" postag_regexp="yes"></exception></token>
         </pattern>
         <message>« \1 » et « \2 » ne semblent pas bien accordés en genre</message>
