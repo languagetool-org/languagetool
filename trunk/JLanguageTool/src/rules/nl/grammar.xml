@@ -258,11 +258,21 @@ $Id: grammar.xml,v 1.34 2010/11/22 19:32:55 milek_pl Exp $
          </rule>
          <rule id="ID016_OK" name="gelieve etc.">
             <pattern case_sensitive="yes">
-              <token regexp="yes">gelieve|aangehaalder|aanschijns|aanschouwen|aanstoots|algemenen|bedrage|beginne|believe|belope|berde|berge|besluite|bestemder|beurze|bewijze|bloede|bloedens|burele|dage|definitieven|dele|departemente|detrimente|dezer|dezes|dienste|eenre|eeuwigen|eigener|elfder|enenmale|eniger|ere|faveure|fine|gedachtenis|gelde|gelegener|gemoede|gepasten|glorie|goeder|grave|gronde|gunste|haars|harent|harer|heil|helle|hove|huidigen|huize|huizes|hunnen|hunnent|hunner|huns|ingevolge|kerke|koelen|kostelozen|kwader|langen|laste|leste|male|mans|mijnent|mijner|mijns|moede|monde|naaste|nadele|nagedachtenis|nauwste|nutte|onheils|onverrichter|onzen|onzent|onzer|onzes|ore|overstaan|overvloede|paleize|parkette|persoonlijken|plekkepleziere|prijze|principale|reke|ruste|slotte|snede|stade|stede|stelligste|strengste|strijde|tale|terdege|ternauwernood|tersluiks|terzake|terzelfder|terzijde|tezelfdertijd|toendertijd|tonele|tweeden|uitzonderlijken|ure|uwen|uwent|uwer|uws|vaderlands|velde|verderve|vertrouwelijken|vervelens|vervolge|verzoeke|voordele|voorlopigen|wiens|wille|zelfder|ziele|zijnen|zijnent|zijner|zijns</token>
+              <token regexp="yes">gelieve|aangehaalder|aanschijns|aanschouwen|aanstoots|algemenen|beginne|believe|belope|berde|berge|besluite|bestemder|beurze|bewijze|bloede|bloedens|burele|dage|definitieven|departemente|detrimente|dezer|dezes|dienste|eenre|eeuwigen|eigener|elfder|enenmale|eniger|ere|faveure|fine|gedachtenis|gelde|gelegener|gemoede|gepasten|glorie|goeder|grave|gronde|gunste|haars|harent|harer|heil|helle|hove|huidigen|huize|huizes|hunnen|hunnent|hunner|huns|ingevolge|kerke|koelen|kostelozen|kwader|langen|laste|leste|male|mans|mijnent|mijner|mijns|moede|monde|naaste|nadele|nagedachtenis|nauwste|nutte|onheils|onverrichter|onzen|onzent|onzer|onzes|ore|overstaan|overvloede|paleize|parkette|persoonlijken|plekkepleziere|prijze|principale|reke|ruste|slotte|snede|stade|stede|tale|terdege|ternauwernood|tersluiks|terzake|terzelfder|terzijde|tezelfdertijd|toendertijd|tonele|tweeden|uitzonderlijken|ure|uwen|uwent|uwer|uws|vaderlands|velde|verderve|vertrouwelijken|vervelens|vervolge|verzoeke|voordele|voorlopigen|wiens|wille|zelfder|ziele|zijnen|zijnent|zijner|zijns</token>
             </pattern>
             <message>Ouderwets.</message>
             <short>Ouderwets (ID016_OK)</short>
             <example type="incorrect">Met <marker>algemenen</marker> is ouderwets.</example>
+            <example type="correct"><marker>Het </marker> is moderner.</example>
+         </rule>
+         <rule id="ID016b_OK" name="ten strengste etc.">
+            <pattern case_sensitive="yes" mark_from="1">
+              <token>ten</token>
+              <token regexp="yes">bedrage|bewijze|dele|dienste|strengste|strijde|tweeden</token>
+            </pattern>
+            <message>Ouderwets.</message>
+            <short>Ouderwets (ID016b_OK)</short>
+            <example type="incorrect">Ten <marker>bedrage</marker> is ouderwets.</example>
             <example type="correct"><marker>Het </marker> is moderner.</example>
          </rule>
          <rule id="ID017_OK" name="perse">
