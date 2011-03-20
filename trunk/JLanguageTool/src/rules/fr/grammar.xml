@@ -16484,10 +16484,11 @@ though, and has since been slightly modified)-->
     <rulegroup id="XXieme" name="XXième">
       <rule>
         <pattern case_sensitive="yes">
-          <token regexp="yes">(([IVXLCM]+)|([0-9]+))-?i?[eè]mes?</token>
+          <token regexp="yes">(([IVXLCM]+)|([0-9]+))-?(i?[eè]mes?|è)</token>
         </pattern>
-        <message>« \1 » est un faut de typographie. Employez <suggestion><match no="1" regexp_match="(.*?)-?i?[eè]me" regexp_replace="$1e"></match></suggestion>.</message>
+        <message>« \1 » est un faut de typographie. Employez <suggestion><match no="1" regexp_match="(.*?)-?(i?[eè]mes?|è)" regexp_replace="$1e"></match></suggestion>.</message>
         <example type="incorrect">Un écrivain du <marker>XIX-ième</marker> siècle</example>
+        <example type="incorrect">Un écrivain du <marker>XIXè</marker> siècle</example>
         <example type="correct">Un écrivain du XIXe siècle</example>
         <example type="incorrect">La <marker>2eme</marker> à droite</example>
         <example type="correct">La 2e à droite</example>
