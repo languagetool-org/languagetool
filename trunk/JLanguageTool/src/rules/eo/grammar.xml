@@ -923,22 +923,43 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <example type="correct">Mi elektis lin kiel prezidanton.</example>
     </rule>
 
-    <rule id="NAK" name="verbo kiu preskaŭ ĉiam postulas akuzativon">
-      <pattern mark_from="1" mark_to="-1">
-        <token postag="SENT_START|K|(fino.*)" postag_regexp="yes" skip="-1">
-          <exception scope="next" postag="[ROAT] akz.*" postag_regexp="yes"></exception>
-        </token>
-        <token regexp="yes" skip="-1">(mal|ne|re|mis|fi)?(balanc|ban|bukl|etend|fin|fleks|klin|kolekt|interes|komenc|komunik|mov|naŭz|nask|paŝt|renkont|renvers|romp|rul|sku|streĉ|sufok|sving|ŝanĝ|ŝiri|ŝut|ted|tren|turn|vek|vend|venĝ|verŝ|vind|uz)(ad|aĉ|et|eg)?([ui]|([aiuo]s))<exception scope="next" regexp="yes">.*n</exception><exception scope="next" postag="V.* i" postag_regexp="yes"/>
-        </token>
-        <token postag="SENT_END|K|(T.* k .*)" postag_regexp="yes"/>
-      </pattern>
-      <message>Oni preskaŭ ĉiam uzas la verbon «\2» kun akuzativo. Ĉu vi intencis <suggestion><match no="2" regexp_match="(.*)(([aiou]s)|[iu])" regexp_replace="$1iĝ$2"/></suggestion>?</message>
-      <example type="incorrect">Mi <marker>interesegas</marker> pri tio.</example>
-      <example type="correct">Mi interesiĝas pri tio.</example>
-      <example type="correct">La maristoj komencis kanti.</example>
-      <example type="incorrect">Mi <marker>vekis</marker> kiam mi aŭdis tion.</example>
-      <example type="correct">Mi <marker>vekiĝis</marker> kiam mi aŭdis tion.</example>
-    </rule>
+    <rulegroup id="NAK" name="verbo kiu preskaŭ ĉiam postulas akuzativon">
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token postag="SENT_START|K|(fino.*)" postag_regexp="yes" skip="-1">
+            <exception scope="next" postag="[ROAT] akz.*" postag_regexp="yes"></exception>
+          </token>
+          <token regexp="yes" skip="-1">(mal|ne|re|mis|fi)?(balanc|ban|bukl|etend|fleks|klin|kolekt|interes|komunik|mov|naŭz|nask|paŝt|renkont|renvers|romp|rul|sku|streĉ|sufok|sving|ŝanĝ|ŝiri|ŝut|ted|tren|turn|vek|vend|venĝ|verŝ|vind|uz)(ad|aĉ|et|eg)?([ui]|([aiuo]s))<exception scope="next" regexp="yes">.*n</exception><exception scope="next" postag="V.* i" postag_regexp="yes"/>
+          </token>
+          <token postag="SENT_END|K|(T.* k .*)" postag_regexp="yes"/>
+        </pattern>
+        <message>Oni preskaŭ ĉiam uzas la verbon «\2» kun akuzativo. Ĉu vi intencis <suggestion><match no="2" regexp_match="(.*)(([aiou]s)|[iu])" regexp_replace="$1iĝ$2"/></suggestion>?</message>
+        <example type="incorrect">Mi <marker>interesegas</marker> pri tio.</example>
+        <example type="correct">Mi interesiĝas pri tio.</example>
+        <example type="incorrect">Mi <marker>vekis</marker> kiam mi aŭdis tion.</example>
+        <example type="correct">Mi <marker>vekiĝis</marker> kiam mi aŭdis tion.</example>
+      </rule>
+
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token postag="SENT_START|K|(fino.*)" postag_regexp="yes" skip="-1">
+            <exception scope="next" postag="[ROAT] akz.*" postag_regexp="yes"></exception>
+          </token>
+          <token regexp="yes" skip="-1">(ne|re)?(fin|komenc)[aiou]s<exception scope="previous" regexp="yes">[mcvlŝn]i|ili|oni</exception><exception scope="next" regexp="yes">.*n</exception><exception scope="next" postag="V.* i" postag_regexp="yes"/>
+          </token>
+          <token postag="SENT_END|K|(T.* k .*)" postag_regexp="yes"/>
+        </pattern>
+        <message>Oni preskaŭ ĉiam uzas la verbon «\2» kun akuzativo. Ĉu vi intencis <suggestion><match no="2" regexp_match="(.*)(([aiou]s)|[iu])" regexp_replace="$1iĝ$2"/></suggestion>?</message>
+        <example type="incorrect">La filmo <marker>komencos</marker> baldaŭ.</example>
+        <example type="incorrect">Ĝi <marker>komencos</marker> baldaŭ.</example>
+        <example type="correct">La filmo komenciĝos baldaŭ.</example>
+        <example type="correct">Ĝi komenciĝos baldaŭ.</example>
+        <example type="correct">Mi komencos baldaŭ.</example>
+        <example type="correct">Kiam komenci?</example>
+        <example type="correct">Mi devas komenci.</example>
+        <example type="correct">La maristoj komencis kanti.</example>
+      </rule>
+    </rulegroup>
 
     <rule id="V_A" name="sensubjekta verbo + a-vorto">
       <pattern mark_from="2" mark_to="-1">
