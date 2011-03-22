@@ -1004,7 +1004,7 @@ though, and has since been slightly modified)-->
         <token>c</token>
         <token regexp="yes">['’]</token>
         <token>est</token>
-        <token postag="N.*" postag_regexp="yes"><exception regexp="yes">pas|dommage|grâce|non</exception> <exception postag="[^N].*" postag_regexp="yes"></exception></token>
+        <token postag="N.*" postag_regexp="yes"><exception regexp="yes">pas|dommage|grâce|monsieur|madame|mademoiselle|oui|non|lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche|bonnet</exception><exception postag="[^N].*" postag_regexp="yes"></exception></token>
       </pattern>
       <message>Voulez-vous écrire <suggestion>ces</suggestion>, <suggestion>cet</suggestion> ou <suggestion>cette</suggestion> au lieu de '\1'\2'?</message>
       <example type="incorrect"><marker>C'est</marker> école est grande.</example>
@@ -1012,6 +1012,7 @@ though, and has since been slightly modified)-->
       <example type="correct">C'est dommage to partir si tôt.</example>
       <example type="correct">Vouloir c'est pouvoir.</example>
       <example type="correct">C'est non seulement pour lui, mais aussi pour elle.</example>
+      <example type="correct">C'est dimanche qu'il arrive.</example>
       <!-- FIXME: romantique is misclassified in dicollecte dictionary -->
       <!-- <example type="correct">Comme c'est romantique.</example> -->
     </rule>
@@ -1619,6 +1620,7 @@ though, and has since been slightly modified)-->
         <example type="correct">Il me veut</example>
         <example type="incorrect"><marker>Cela nous aident</marker>.</example>
         <example type="correct">Cela nous aide.</example>
+        <example type="correct">Pour cela nous développons un nouveau concept.</example>
       </rule>
       <rule name="il/elle/on + ne + pronom obj + Verbe">
         <pattern>
@@ -9285,7 +9287,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="MEME_A_CA" name="même à ça">
       <pattern>
-        <token regexp="yes">même|meme</token>
+        <token regexp="yes">m[êe]me</token>
         <token regexp="yes">[àa]</token>
         <token regexp="yes">ça|çà|ca</token>
       </pattern>
@@ -16446,21 +16448,103 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="LUI_MEME" name="lui même">
       <pattern>
-        <token regexp="yes">moi|toi|lui|elle|nous|vous|eux|elles</token>
+        <token regexp="yes">[mts]oi|lui|elle|[nv]ous|eux|elles</token>
         <token>même</token>
       </pattern>
       <message>« \1 \2 » est une faute de typographie. Employez <suggestion>\1-\2</suggestion>.</message>
       <example type="incorrect">Il l'a fait <marker>lui même</marker>.</example>
       <example type="correct">Il l'a fait <marker>lui-même</marker>.</example>
     </rule>
-    <rule id="ETATS_UNIS" name="État Unis au lieu de États-Unis">
-      <pattern case_sensitive="yes">
-        <token regexp="yes">[EÉ]tats</token>
-        <token>Unis</token>
+    <rulegroup id="TRAIT_UNION_PAYS" name="Trait d'union dans les pays et lieux">
+      <rule>
+        <pattern case_sensitive="yes">
+          <token regexp="yes">[EÉ]tats</token>
+          <token>Unis</token>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>États-Unis</suggestion> ?</message>
+        <example type="incorrect">La politique des <marker>États Unis</marker>.</example>
+        <example type="correct">La politique des <marker>États-Unis</marker>.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token>Grande</token>
+          <token>Bretagne</token>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
+        <example type="incorrect">Il habite en <marker>Grande Bretagne</marker>.</example>
+        <example type="correct">Il habite en <marker>Grande-Bretagne</marker>.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token>Royaume</token>
+          <token>Uni</token>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
+        <example type="incorrect">La dette du <marker>Royaume Uni</marker>.</example>
+        <example type="correct">La dette du <marker>Royaume-Uni</marker>.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token>Nouvelle</token>
+          <token regexp="yes">Galles|Orléans</token>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
+        <example type="incorrect">La <marker>Nouvelle Galles</marker> du Sud</example>
+        <example type="correct">La Nouvelle-Galles du Sud</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token>Nouveau</token>
+          <token>Brunswick</token>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
+        <example type="incorrect">Le <marker>Nouveau Brunswick</marker></example>
+        <example type="correct">Le Nouveau-Brunswick</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token>Pays</token>
+          <token regexp="yes">Bas|Basque</token>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
+        <example type="incorrect">Il habite aux <marker>Pays Bas</marker>.</example>
+        <example type="correct">Il habite en <marker>Pays-Bas</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2" case_sensitive="yes">
+          <token>massif</token>
+          <token>du</token>
+          <token>Mont</token>
+          <token>Blanc</token>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>Mont-Blanc</suggestion> ?</message>
+        <example type="incorrect">Le massif du <marker>Mont Blanc</marker>.</example>
+        <example type="correct">Le massif du Mont-Blanc.</example>
+        <example type="correct">Le mont Blanc est le point culminant des Alpes.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token>Maison</token>
+          <token>Blanche</token>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
+        <example type="incorrect">As-tu vu la <marker>Maison Blanche</marker> ?</example>
+        <example type="correct">As-tu vu la <marker>Maison-Blanche</marker> ?</example>
+      </rule>
+    </rulegroup>
+    <rule id="QUASI_NOM" name="Quasi + nom">
+      <pattern>
+        <token regexp="yes">quasi|non</token>
+        <token postag="N.*|V.* inf" postag_regexp="yes">
+          <exception negate_pos="yes" postag="N.*|V.* inf" postag_regexp="yes"/>
+        </token>
       </pattern>
-      <message>Voulez-vous dire <suggestion>États-Unis</suggestion> ?</message>
-      <example type="incorrect">La politique des <marker>États Unis</marker>.</example>
-      <example type="correct">La politique des <marker>États-Unis</marker>.</example>
+      <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
+      <example type="incorrect">J'ai la <marker>quasi certitude</marker> qu'il ne viendra pas.</example>
+      <example type="correct">J'ai la quasi-certitude qu'il ne viendra pas.</example>
+      <example type="correct">Je suis quasi certain qu'il ne viendra pas.</example>
+      <example type="incorrect">Une fin de <marker>non recevoir</marker>.</example>
+      <example type="correct">Une fin de non-recevoir.</example>
     </rule>
     <rule id="ETC..." name="etc...">
       <pattern>
