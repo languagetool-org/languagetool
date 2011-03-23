@@ -47,6 +47,15 @@ RB => Règles Brutes
       </pattern>
       <disambig postag="R pers obj 1 p"/>
     </rule>
+    <rule name="le bus nous">
+      <pattern mark="3">
+        <token postag="SENT_START|M fin .*" postag_regexp="yes" skip="1"/>
+        <token postag="D.*" postag_regexp="yes"/>
+        <token postag="N.*" postag_regexp="yes"/>
+        <token>nous</token>
+      </pattern>
+      <disambig postag="R pers obj 1 p"/>
+    </rule>
     <rule name="qui nous">
       <pattern mark="1">
         <token regexp="yes">à|qui|de|ne|chez|sur|sans|entre|parmi|tout|pour</token>
@@ -132,6 +141,15 @@ RB => Règles Brutes
     <rule name="vous">
       <pattern mark="1">
         <token postag="R pers .*" postag_regexp="yes"/>
+        <token>vous</token>
+      </pattern>
+      <disambig postag="R pers obj 2 p"/>
+    </rule>
+    <rule name="le bus vous">
+      <pattern mark="3">
+        <token postag="SENT_START|M fin .*" postag_regexp="yes" skip="1"/>
+        <token postag="D.*" postag_regexp="yes"/>
+        <token postag="N.*" postag_regexp="yes"/>
         <token>vous</token>
       </pattern>
       <disambig postag="R pers obj 2 p"/>
