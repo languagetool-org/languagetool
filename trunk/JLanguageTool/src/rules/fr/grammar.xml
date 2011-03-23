@@ -1483,13 +1483,14 @@ though, and has since been slightly modified)-->
         <pattern mark_from="1">
           <token postag="SENT_START" skip="3"><exception postag="R pers suj.*" postag_regexp="yes" scope="next"></exception></token>
           <token postag="V etre .* [13] p" postag_regexp="yes" skip="1"></token>
-          <token postag="(V ppa .* s)|(J .* s)" postag_regexp="yes"><exception regexp="yes" scope="previous">aux?</exception> <exception>juste</exception></token>
+          <token postag="(V ppa .* s)|(J .* s)" postag_regexp="yes"><exception regexp="yes" scope="previous">sans|juste|aux?</exception></token>
         </pattern>
         <message>« \3 » devrait être au pluriel après « \2 ».</message>
         <example type="correct">Les voisins sont <marker>partis</marker></example>
         <example type="incorrect">Les voisins <marker>sont revenu</marker></example>
         <example type="correct"><marker>Soyez tranquille</marker>.</example>
         <example type="correct">Les mathématiques ne sont pas juste de la mémorisation.</example>
+        <example type="correct">Ces tirs sont sans précédent.</example>
       </rule>
       <rule name="Verbe au singulier + adjectif ou participe passé pluriel">
         <pattern mark_from="1">
@@ -16538,6 +16539,7 @@ though, and has since been slightly modified)-->
         <token regexp="yes">quasi|non</token>
         <token postag="N.*|V.* inf" postag_regexp="yes">
           <exception negate_pos="yes" postag="N.*|V.* inf" postag_regexp="yes"/>
+          <exception>pas</exception>
         </token>
       </pattern>
       <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
