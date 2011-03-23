@@ -1127,7 +1127,7 @@ though, and has since been slightly modified)-->
         <pattern mark_from="1" mark_to="-1">
           <token negate="yes">de</token>
           <token postag="[DJN] .* p" postag_regexp="yes" skip="1"><exception postag="K"></exception> <exception postag="V.*" postag_regexp="yes"></exception> <exception postag=".* sp?" postag_regexp="yes" scope="current"></exception> <!-- Following exception skip words both singular/plural as well as adverbs --> <exception negate_pos="yes" postag="A|([JN] .* sp?)|SENT_END" postag_regexp="yes" scope="next"></exception></token>
-          <token postag="[JN] .* s" postag_regexp="yes"><exception postag="(V .*)|(.* sp)" postag_regexp="yes"></exception> <exception regexp="yes">face|grâce|juste</exception></token>
+          <token postag="[JN] .* s" postag_regexp="yes"><exception postag="(V .*)|(.* sp)" postag_regexp="yes"></exception> <exception regexp="yes">face|grâce|juste|internet</exception></token>
           <token negate="yes">et</token>
         </pattern>
         <message>« \2 » et « \3 » ne semblent pas bien accordés en nombre</message>
@@ -1148,11 +1148,12 @@ though, and has since been slightly modified)-->
         <example type="correct">Plus de crédits bancaires grâce à des taux d'intérêts bas.</example>
         <example type="correct">Je suis né le huit janvier.</example>
         <example type="correct">Deux immeubles juste en face de toi.</example>
+        <example type="correct">Les communications Internet.</example>
       </rule>
       <rule name="pluriel suivi du singulier">
         <pattern>
           <token postag="SENT_START"></token>
-          <token postag="[DJN] .* p" postag_regexp="yes" skip="1"><exception postag=".* sp?" postag_regexp="yes" scope="current"></exception> <exception postag="V .*" postag_regexp="yes" scope="current"></exception> <exception postag="K"></exception> <!-- Following exception skip words both singular/plural as well as adverbs --> <!-- <exception scope="next" negate_pos="yes" postag="A|([JN] .* sp?)|SENT_END" postag_regexp="yes"/> --></token>
+          <token postag="[DJN] .* p" postag_regexp="yes" skip="1"><exception postag=".* sp?" postag_regexp="yes" scope="current"></exception> <exception postag="V .*" postag_regexp="yes" scope="current"></exception> <exception postag="K"></exception> <!-- Following exception skip words both singular/plural as well as adverbs --> <exception scope="next" negate_pos="yes" postag="A|([JN] .* sp?)|SENT_END" postag_regexp="yes"/></token>
           <token postag="[JN] .* s" postag_regexp="yes"><exception postag="(V .*)|(.* sp)" postag_regexp="yes"></exception> <exception scope="previous">du</exception></token>
         </pattern>
         <message>« \2 » et « \3 » ne semblent pas bien accordés en nombre</message>
@@ -16450,14 +16451,14 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="LUI_MEME" name="lui même">
       <pattern>
-        <token regexp="yes">[mts]oi|lui|elle|[nv]ous|eux|elles</token>
-        <token>même</token>
+        <token regexp="yes">[mts]oi|lui|elles?|[nv]ous|eux</token>
+        <token regexp="yes">mêmes?</token>
       </pattern>
       <message>« \1 \2 » est une faute de typographie. Employez <suggestion>\1-\2</suggestion>.</message>
       <example type="incorrect">Il l'a fait <marker>lui même</marker>.</example>
       <example type="correct">Il l'a fait <marker>lui-même</marker>.</example>
     </rule>
-    <rulegroup id="TRAIT_UNION_PAYS" name="Trait d'union dans les pays et lieux">
+    <rulegroup id="TRAIT_UNION" name="Trait d'union">
       <rule>
         <pattern case_sensitive="yes">
           <token regexp="yes">[EÉ]tats</token>
@@ -16488,7 +16489,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern case_sensitive="yes">
           <token>Nouvelle</token>
-          <token regexp="yes">Galles|Orléans</token>
+          <token regexp="yes">Calédonie|[EÉ]cosse|Galles|Guinée|Orléans|Zélande</token>
         </pattern>
         <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
         <example type="incorrect">La <marker>Nouvelle Galles</marker> du Sud</example>
@@ -16497,11 +16498,47 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern case_sensitive="yes">
           <token>Nouveau</token>
-          <token>Brunswick</token>
+          <token regexp="yes">Brunswick|Mexique|Québec</token>
         </pattern>
         <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
         <example type="incorrect">Le <marker>Nouveau Brunswick</marker></example>
         <example type="correct">Le Nouveau-Brunswick</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token>Haut</token>
+          <token>Rhin</token>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
+        <example type="incorrect">Le <marker>Haut Rhin</marker></example>
+        <example type="correct">Le Haut-Rhin</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token>Haute</token>
+          <token regexp="yes">Corse|Garonne|Loire|Marne|Normandie|Saône|Savoie|Vienne</token>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
+        <example type="incorrect">La <marker>Haute Corse</marker></example>
+        <example type="correct">La Haute-Corse</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token>Hautes</token>
+          <token regexp="yes">Alpes|Pyrénées</token>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
+        <example type="incorrect">Les <marker>Hautes Alpes</marker></example>
+        <example type="correct">Les Hautes-Alpes</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token>Basse</token>
+          <token regexp="yes">Normandie|Saxe|Terre</token>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
+        <example type="incorrect">La <marker>Basse Normandie</marker></example>
+        <example type="correct">La Basse-Normandie</example>
       </rule>
       <rule>
         <pattern case_sensitive="yes">
