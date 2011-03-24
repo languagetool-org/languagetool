@@ -55,7 +55,8 @@ for (RuleMatch match : matches) {
 	The client that wants to use LanguageTool can now just send its text to this URL:<br />
 	<tt>http://localhost:8081/?language=xx&amp;text=my+text</tt><br />
 	The <tt>language</tt> parameter must specify the two-character language code
-	(the language of the text to be checked). The <tt>text</tt> parameter is the
+	(the language of the text to be checked). You can also specify <tt>motherTongue</tt>
+	parameter to specify your mother tongue (for false friend checks). The <tt>text</tt> parameter is the
 	text itself (you may need to encode it for URLs). You can use both POST and
 	GET to send your requests to the LanguageTool server.<br />
 	For the input "this is a test" the LanguageTool server will reply with this
