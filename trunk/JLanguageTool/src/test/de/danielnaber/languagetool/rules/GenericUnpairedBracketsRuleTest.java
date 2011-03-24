@@ -83,11 +83,25 @@ public class GenericUnpairedBracketsRuleTest extends TestCase {
         .match(langTool
             .getAnalyzedSentence("Het centrale probleem van het werk is de ‘dichterlijke kuischheid’."));
     assertEquals(0, matches.length);
+    //this was a bug as there are several pairs that start with the same char:
+    matches = rule
+    .match(langTool
+        .getAnalyzedSentence(" Eurlings: “De gegevens van de dienst zijn van cruciaal belang voor de veiligheid van de luchtvaart en de scheepvaart”."));
+    assertEquals(0, matches.length);
+    matches = rule
+    .match(langTool
+        .getAnalyzedSentence(" Eurlings: \u201eDe gegevens van de dienst zijn van cruciaal belang voor de veiligheid van de luchtvaart en de scheepvaart\u201d."));
+    assertEquals(0, matches.length);
     // incorrect sentences:
     matches = rule
         .match(langTool
             .getAnalyzedSentence("Het centrale probleem van het werk is de „dichterlijke kuischheid."));
     assertEquals(1, matches.length);
+    matches = rule
+    .match(langTool
+        .getAnalyzedSentence(" Eurlings: “De gegevens van de dienst zijn van cruciaal belang voor de veiligheid van de luchtvaart en de scheepvaart."));
+    assertEquals(1, matches.length);
+    
   }
 
   public void testRuleRomanian() throws IOException {

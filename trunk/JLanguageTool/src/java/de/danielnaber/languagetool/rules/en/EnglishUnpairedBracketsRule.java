@@ -38,6 +38,7 @@ public class EnglishUnpairedBracketsRule extends GenericUnpairedBracketsRule {
     super(messages, language);
     startSymbols = EN_START_SYMBOLS;
     endSymbols = EN_END_SYMBOLS;
+    uniqueMapInit();
   }
 
   public String getId() {

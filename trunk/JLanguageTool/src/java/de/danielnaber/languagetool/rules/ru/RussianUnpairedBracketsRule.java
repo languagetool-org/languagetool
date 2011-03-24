@@ -53,6 +53,7 @@ public class RussianUnpairedBracketsRule extends GenericUnpairedBracketsRule {
     super(messages, language);
     startSymbols = RU_START_SYMBOLS;
     endSymbols = RU_END_SYMBOLS;
+    uniqueMapInit();
   }
 
   public String getId() {

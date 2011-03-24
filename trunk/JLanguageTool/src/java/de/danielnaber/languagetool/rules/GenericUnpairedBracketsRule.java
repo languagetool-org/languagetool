@@ -21,6 +21,8 @@ package de.danielnaber.languagetool.rules;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
@@ -104,6 +106,8 @@ public class GenericUnpairedBracketsRule extends Rule {
   
   private int ruleMatchIndex;
   private List<RuleMatch> ruleMatches;
+  
+  private Map<String,Boolean> uniqueMap;
 
   public GenericUnpairedBracketsRule(final ResourceBundle messages,
       final Language language) {
@@ -148,16 +152,30 @@ public class GenericUnpairedBracketsRule extends Rule {
       startSymbols = START_SYMBOLS;
       endSymbols = END_SYMBOLS;
     }
-
+    uniqueMapInit();
     ruleLang = language;
   }
 
+  
   public String getId() {
     return "UNPAIRED_BRACKETS";
   }
 
   public String getDescription() {
     return messages.getString("desc_unpaired_brackets");
+  }
+
+  public void uniqueMapInit() {
+    uniqueMap = new HashMap<String, Boolean>();
+    for (int j = 1; j < endSymbols.length; j++) {
+      int found = 0;
+      for (int i = 1; i < endSymbols.length; i++) {
+        if (endSymbols[i].equals(endSymbols[j])) {
+          found++;
+        }
+      }
+      uniqueMap.put(endSymbols[j], found == 1);
+    }
   }
   
   /**
@@ -217,6 +235,7 @@ public class GenericUnpairedBracketsRule extends Rule {
           if (noException && precededByWhitespace
               && token.equals(startSymbols[j])) {
             symbolStack.push(new SymbolLocator(startSymbols[j], i));
+            break;
           } else if (noException && followedByWhitespace
               && token.equals(endSymbols[j])) {            
             if (i > 1 && endSymbols[j].equals(")") 
@@ -226,12 +245,23 @@ public class GenericUnpairedBracketsRule extends Rule {
             } else {
               if (symbolStack.empty()) {
                 symbolStack.push(new SymbolLocator(endSymbols[j], i));
+                break;
               } else {
                 if (symbolStack.peek().symbol.equals(startSymbols[j])) {
                   symbolStack.pop();
+                  break;
                 } else {
-                  symbolStack.push(new SymbolLocator(endSymbols[j], i));
-                }                
+                  if (isEndSymbolUnique(endSymbols[j])) {
+                    symbolStack.push(new SymbolLocator(endSymbols[j], i));
+                    break;
+                  } else {
+                    if (j == endSymbols.length - 1) {
+                    symbolStack.push(new SymbolLocator(endSymbols[j], i));
+                    break;
+                    }
+                  }
+                }
+                
               }
             }
           }
@@ -253,6 +283,10 @@ public class GenericUnpairedBracketsRule extends Rule {
     return toRuleMatchArray(ruleMatches);
   }
 
+  private boolean isEndSymbolUnique(final String str) {
+    return uniqueMap.get(str);
+  }
+  
   private RuleMatch createMatch(final int startPos, final String symbol) {
     if (!ruleMatchStack.empty()) {
       final int index = findSymbolNum(symbol);

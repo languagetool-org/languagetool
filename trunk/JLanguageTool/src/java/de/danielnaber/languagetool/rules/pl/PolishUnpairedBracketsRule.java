@@ -34,6 +34,7 @@ public class PolishUnpairedBracketsRule extends GenericUnpairedBracketsRule {
     super(messages, language);
     startSymbols = PL_START_SYMBOLS;
     endSymbols = PL_END_SYMBOLS;
+    uniqueMapInit();
   }
 
   public String getId() {
