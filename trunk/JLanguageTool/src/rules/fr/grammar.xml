@@ -1081,7 +1081,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule name="nombre pluriel suivi du singulier">
         <pattern>
-          <token regexp="yes">([2-9])|([1-9][0-9]+)<exception scope="previous">,</exception></token>
+          <token regexp="yes">([2-9])|([1-9][0-9]+)<exception regexp="yes">[12][0-9][0-9][0-9]</exception><exception scope="previous">,</exception></token>
           <token postag="[JN] .* s" postag_regexp="yes"><exception regexp="yes">allée|avenue|balade|boulevard|chaussée|chemin|cour|impasse|place|route|rue|ruelle|quai|sentier|square|janvier|février|avril|mai|juin|juillet|août|septembre|octobre|novembre|décembre</exception></token>
         </pattern>
         <message>« \1 » et « \2 » ne semblent pas bien accordés en nombre</message>
@@ -1090,6 +1090,9 @@ though, and has since been slightly modified)-->
         <example type="correct">Il est né le <marker>4 janvier</marker>.</example>
         <example type="correct">Son adresse est <marker>4 rue</marker> de la gare.</example>
         <example type="correct">Cela coûte 1,25 Euro.</example>
+        <example type="correct">Il sera élu en 2010 maire de la ville.</example>
+        <example type="incorrect">Le pays est découpé en <marker>4 partie</marker>.</example>
+        <example type="correct">Le pays est découpé en 4 parties.</example>
       </rule>
       <rule name="singulier suivi du pluriel">
         <pattern mark_from="1">
