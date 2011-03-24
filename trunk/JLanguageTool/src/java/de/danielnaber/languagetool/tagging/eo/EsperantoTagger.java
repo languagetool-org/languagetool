@@ -111,9 +111,9 @@ public class EsperantoTagger implements Tagger {
 
   // Verbs always end with this pattern.
   private static final Pattern patternVerb = Pattern.compile("(.*)(as|os|is|us|u|i)$");
-  private static final Pattern patternVerbIg = Pattern.compile(".*(ig|iĝ)i$");
-  private static final Pattern patternPrefix = Pattern.compile("(mal|ek|re|mis|fi)(.*)");
-  private static final Pattern patternSuffix = Pattern.compile("(.*)(ad|aĉ|eg|et)i");
+  private static final Pattern patternVerbIg = Pattern.compile("(ig|iĝ)i$");
+  private static final Pattern patternPrefix = Pattern.compile("^(mal|mis|ek|re|fi|ne)(.*)");
+  private static final Pattern patternSuffix = Pattern.compile("(.*)(ad|aĉ|eg|et)i$");
 
   // Particips -ant-, -int, ont-, -it-, -it-, -ot-
   private static final Pattern patternParticiple =
@@ -129,7 +129,7 @@ public class EsperantoTagger implements Tagger {
 
   // Pattern of 'tabelvortoj' which are also tagged adverbs.
   private static final Pattern patternTabelvortoAdverb = 
-    Pattern.compile("(ti|i|ĉi|neni)(am|om|el|e)");
+    Pattern.compile("^(ti|i|ĉi|neni)(am|om|el|e)$");
 
   /**
    * Load list of words from UTF-8 file (one word per line).
