@@ -121,13 +121,7 @@ public class EsperantoTagger implements Tagger {
   // Groups           1111111111111111  55555  66  77
   // Groups            22  33333  44                 
  
-  // Following word can end with -ant, -at, -int, -it (etc) and yet 
-  // are not participles.
-  private static final String nonParticiple[] = {
-    "gravit", "kvant", "palat", "sonat", "spirit"
-  };
-  private static final Set setNonParticiple =  
-    new HashSet<String>(Arrays.asList(nonParticiple));
+  private Set setNonParticiple;
 
   // Pattern 'tabelvortoj'.
   private static final Pattern patternTabelvorto =
@@ -184,6 +178,7 @@ public class EsperantoTagger implements Tagger {
     // suffixes -ad, -aĉ, -et, -eg since these affixes never alter transitivity.
     setTransitiveVerbs    = loadWords(JLanguageTool.getDataBroker().getFromRulesDirAsStream("/eo/verb-tr.txt"));
     setNonTransitiveVerbs = loadWords(JLanguageTool.getDataBroker().getFromRulesDirAsStream("/eo/verb-ntr.txt"));
+    setNonParticiple      = loadWords(JLanguageTool.getDataBroker().getFromRulesDirAsStream("/eo/root-ant-at.txt"));
   }
 
   // For a given verb (.*i) find whether it is transitive and/or non transitive.
