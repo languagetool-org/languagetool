@@ -115,16 +115,25 @@ public class EsperantoTagger implements Tagger {
   private static final Pattern patternPrefix = Pattern.compile("^(mal|mis|ek|re|fi|ne)(.*)");
   private static final Pattern patternSuffix = Pattern.compile("(.*)(ad|aĉ|eg|et)i$");
 
-  // Particips -ant-, -int, ont-, -it-, -it-, -ot-
+  // Participles -ant-, -int, ont-, -it-, -it-, -ot-
   private static final Pattern patternParticiple =
-    Pattern.compile("(.*)([aio])(n?)t([aoe])(j?)(n?)$");
-  // Groups           11  22222  33   44444  55  66
+    Pattern.compile("((.*)([aio])(n?)t)([aoe])(j?)(n?)$");
+  // Groups           1111111111111111  55555  66  77
+  // Groups            22  33333  44                 
+ 
+  // Following word can end with -ant, -at, -int, -it (etc) and yet 
+  // are not participles.
+  private static final String nonParticiple[] = {
+    "gravit", "kvant", "palat", "sonat", "spirit"
+  };
+  private static final Set setNonParticiple =  
+    new HashSet<String>(Arrays.asList(nonParticiple));
 
   // Pattern 'tabelvortoj'.
   private static final Pattern patternTabelvorto =
     Pattern.compile("^(i|ti|ki|ĉi|neni)((([uoae])(j?)(n?))|(am|al|es|el|om))$");
-  // Groups            111111111111111  22222222222222222222222222222222
-  //                                     3333333333333333   77777777777
+  // Groups            111111111111111  22222222222222222222222222222222222
+  //                                     3333333333333333   77777777777777
   //                                      444444  55  66                  
 
   // Pattern of 'tabelvortoj' which are also tagged adverbs.
@@ -361,17 +370,19 @@ public class EsperantoTagger implements Tagger {
 
       // Participle (can be combined with other tags).
       if ((matcher = patternParticiple.matcher(lWord)).find()) {
-        final String verb = matcher.group(1) + "i";
-        final String aio = matcher.group(2);
-        final String antAt = matcher.group(3).equals("n") ? "n" : "-";
-        final String aoe = matcher.group(4);
-        final String plural = matcher.group(5).equals("j") ? "pl" : "np";
-        final String accusative = matcher.group(6).equals("n") ? "akz" : "nak";
-        final String transitive = findTransitivity(verb);
+        if (!setNonParticiple.contains(matcher.group(1))) {
+          final String verb = matcher.group(2) + "i";
+          final String aio = matcher.group(3);
+          final String antAt = matcher.group(4).equals("n") ? "n" : "-";
+          final String aoe = matcher.group(5);
+          final String plural = matcher.group(6).equals("j") ? "pl" : "np";
+          final String accusative = matcher.group(7).equals("n") ? "akz" : "nak";
+          final String transitive = findTransitivity(verb);
 
-        l.add(new AnalyzedToken(word, "C " + accusative + " " + plural + " " +
-                                transitive + " " + aio + " " + antAt + " " + aoe,
-                                verb));
+          l.add(new AnalyzedToken(word, "C " + accusative + " " + plural + " " +
+                                  transitive + " " + aio + " " + antAt + " " + aoe,
+                                  verb));
+        }
       }
 
       pos += word.length();
