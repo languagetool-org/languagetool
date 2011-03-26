@@ -96,8 +96,6 @@ public class GenericUnpairedBracketsRule extends Rule {
 
   private boolean endOfParagraph;
 
-  private final Language ruleLang;
-
   private static final Pattern PUNCTUATION = Pattern.compile("\\p{Punct}");
   private static final Pattern PUNCTUATION_NO_DOT = Pattern
       .compile("[\\p{Punct}&&[^\\.]]");  
@@ -153,7 +151,6 @@ public class GenericUnpairedBracketsRule extends Rule {
       endSymbols = END_SYMBOLS;
     }
     uniqueMapInit();
-    ruleLang = language;
   }
 
   
@@ -341,8 +338,8 @@ public class GenericUnpairedBracketsRule extends Rule {
 class RuleMatchLocator extends SymbolLocator {
   public int myIndex;
 
-  RuleMatchLocator(final String sym, final int ind, final int myInd) {
-    super(sym, ind);
-    myIndex = myInd;
+  RuleMatchLocator(final String symbol, final int index, final int myIndex) {
+    super(symbol, index);
+    this.myIndex = myIndex;
   }
 }

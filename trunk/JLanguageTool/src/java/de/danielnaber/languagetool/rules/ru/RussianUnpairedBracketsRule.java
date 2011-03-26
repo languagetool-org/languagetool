@@ -32,7 +32,7 @@ public class RussianUnpairedBracketsRule extends GenericUnpairedBracketsRule {
   private static final String[] RU_END_SYMBOLS   = { "]", ")", "}", "“", "»", "\"", "'" };
 
   private static final Pattern NUMERALS_RU = Pattern
-  .compile("(?i)\\d{1,2}?[а-я]*|[а-я]|[А-Я]|[а-я][а-я]|[А-Я][А-Я]");
+    .compile("(?i)\\d{1,2}?[а-я]*|[а-я]|[А-Я]|[а-я][а-я]|[А-Я][А-Я]");
 
   
   protected boolean isNoException(final String token,
