@@ -12,16 +12,14 @@ Requirements:
  -For OpenOffice.org integration, OpenOffice 3.0.1 or later.
 
 Usage:
- -To integrate LanguageTool into OpenOffice.org, you
+ -To integrate LanguageTool into OpenOffice.org or LibreOffice, you
   can use two methods:
  
- 1. Double-click LanguageTool-###VERSION###.oxt. If you
-  have OpenOffice.org 3.0.1 integrated into the environment,
-  the extension should start installing. Follow the on-screen
-  instructions.
+ 1. Double-click LanguageTool-###VERSION###.oxt. The extension should
+  start installing. Follow the on-screen instructions.
  
  2. If the above method doesn't work, call Tools > Extension 
-  Manager > Add... in OpenOffice.org and browse for the 
+  Manager > Add... in OpenOffice.org/LibreOffice and browse for the
   LanguageTool-###VERSION###.oxt file. 
   
   Close and restart OpenOffice.org Writer. Remember to close the
@@ -66,6 +64,7 @@ Known bugs:
   -you cannot display the configuration dialog box due to the bug
    present in GridBagLayout that limits the number of items displayed;
    the languages affected are currently French and Polish.
+ -Also see http://www.languagetool.org/#commonproblems
    
 TODO:
  -see if java.text.RuleBasedBreakIterator would be better for word 
