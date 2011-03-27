@@ -167,9 +167,10 @@ License:
  It is released under the GNU General Public License.
 
  Dutch:
- The Dutch data are based on Alpino parser for Dutch by Gertjan van 
+ The Dutch data are partly based on Alpino parser for Dutch by Gertjan van 
  Noord and is released on LGPL license. Alpino is available at 
- http://www.let.rug.nl/~vannoord/alp/Alpino/.
+ http://www.let.rug.nl/~vannoord/alp/Alpino/. The POS tag system and values
+ come mostly from OpenTaal, www.opentaal.org.
 
  Russian:
  Russian dictionary originally developed by www.aot.ru and licensed under LGPL.
