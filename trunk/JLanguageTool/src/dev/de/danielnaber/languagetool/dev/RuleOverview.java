@@ -60,8 +60,8 @@ public final class RuleOverview {
     System.out.println("  <th align=\"right\">Java rules</th>");
     System.out.println("  <th>&nbsp;&nbsp;</th>");
     System.out.println("  <th align=\"right\">" +
-        "<a href=\"http://languagetool.cvs.sourceforge.net/*checkout*/languagetool/" +
-        "JLanguageTool/src/rules/false-friends.xml\">False friends</a></th>");
+        "<a href=\"http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/JLanguageTool/src/rules/false-friends.xml?content-type=text%2Fplain" +
+        "\">False friends</a></th>");
     System.out.println("  <th>&nbsp;&nbsp;</th>");
     System.out.println("  <th align=\"left\">Rule Maintainers</th>");
     System.out.println("</tr>");
@@ -113,8 +113,8 @@ public final class RuleOverview {
           countInRuleGroup++;
         }
         System.out.print("<td align=\"right\">" + (count + countInRuleGroup) + " (" +
-            "<a href=\"http://languagetool.cvs.sourceforge.net/*checkout*/languagetool/" +
-            "JLanguageTool/src/rules/" + lang.getShortName() + "/grammar.xml\">show</a>/" +
+            "<a href=\"http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/JLanguageTool/src/rules/" + lang.getShortName() + "/grammar.xml?content-type=text%2Fplain" +
+            "\">show</a>/" +
             "<a href=\"http://community.languagetool.org/rule/list?lang=" +
             lang.getShortName() + "\">browse</a>" +
             ")</td>");
