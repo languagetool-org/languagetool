@@ -2,7 +2,7 @@
 $page = "homepage";
 $title = "LanguageTool";
 $title2 = "Open Source language checker";
-$lastmod = "2011-03-19 11:20:00 CET";
+$lastmod = "2011-03-27 18:20:00 CET";
 include("../include/header.php");
 ?>
 		
@@ -18,7 +18,7 @@ XML configuration files. Rules for more complicated errors can be  written in Ja
 <h2>Download</h2>
 
 <div class="downloadSection">
-	<h2><?=show_link("Download LanguageTool 1.2 (18&nbsp;MB)", "download/LanguageTool-1.2.oxt", 0) ?></h2>
+	<h2><?=show_link("Download LanguageTool 1.3 (18&nbsp;MB)", "download/LanguageTool-1.3.oxt", 0) ?></h2>
 	<!--
 	<table>
 	<tr>
@@ -42,7 +42,7 @@ XML configuration files. Rules for more complicated errors can be  written in Ja
 </div>
 
 <!-- -->
-<p><strong>Try LanguageTool 1.2 without local installation, using Java WebStart.</strong> Requires Java 1.6_04 or later. You will get a security warning which you
+<p><strong>Try LanguageTool 1.3 without local installation, using Java WebStart.</strong> Requires Java 1.6_04 or later. You will get a security warning which you
 need to ignore:<br />
 <strong><?=show_link("Start LanguageTool (18&nbsp;MB)", "webstart/web/LanguageTool.jnlp", 0) ?></strong></p>
 <!-- -->
@@ -50,11 +50,20 @@ need to ignore:<br />
 
 <h2>News</h2>
 
+<p><strong>2011-03-27:</strong> Released LanguageTool 1.3. Changes include:
+<ul>
+	<li>Rule updates for Spanish, French, Polish, Dutch, Russian, English, and Esperanto.</li>
+    <li>Reduced false alarms for Spanish in a significant way.</li>
+	<li>Some bug fixes.</li>
+	<li>For a more detailed list of changes, see the <?=show_link("Changelog", "download/CHANGES.txt", 0) ?></li>
+</ul>
+
 <p><strong>2011-03-19:</strong> LanguageTool participates in the <?=show_link("Google Summer of Code 2011", "gsoc2011", 0)?></p>
 
 <p><strong>2011-02-19:</strong> The LanguageTool source code is now available from
 <?=show_link("subversion", "development/#checkout", 0)?>. Please don't use the old CVS repository anymore.</p>
 
+<!--
 <p><strong>2011-01-02:</strong> Released LanguageTool 1.2. Changes include:
 <ul>
 	<li>Rule updates for Romanian, Dutch, Polish, German, Russian, Spanish, French and Danish.</li>
@@ -77,7 +86,7 @@ LanguageTool has been integrated into <?=show_link("After the Deadline", "http:/
 a powerful English grammar checker. Thanks to LanguageTool it now also  supports French and German. 
 This means that you can now use LanguageTool for these languages via the
 <?=show_link("After the Deadline Firefox plugin", "http://firefox.afterthedeadline.com/", 0)?>.</p>
-
+-->
 
 <h2>Installation and Usage</h2>
 
@@ -130,7 +139,7 @@ for a list of known problems.</p>
 <h2>License &amp; Source Code</h2>
 
 <p>LanguageTool is freely available under the <?=show_link("LGPL", "http://www.fsf.org/licensing/licenses/lgpl.html#SEC1", 0)?>.
-The source is available <?=show_link("at Sourceforge", "http://sourceforge.net/projects/languagetool/", 1) ?> via CVS</p>
+The source is available <?=show_link("at Sourceforge", "http://sourceforge.net/projects/languagetool/", 1) ?> via SVN</p>
 
 <div style="height:750px"></div>
 
