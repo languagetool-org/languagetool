@@ -164,9 +164,9 @@ public class GenericUnpairedBracketsRule extends Rule {
 
   public void uniqueMapInit() {
     uniqueMap = new HashMap<String, Boolean>();
-    for (int j = 1; j < endSymbols.length; j++) {
+    for (int j = 0; j < endSymbols.length; j++) {
       int found = 0;
-      for (int i = 1; i < endSymbols.length; i++) {
+      for (int i = 0; i < endSymbols.length; i++) {
         if (endSymbols[i].equals(endSymbols[j])) {
           found++;
         }
