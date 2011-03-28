@@ -2,7 +2,7 @@
 $page = "homepage";
 $title = "LanguageTool";
 $title2 = "Open Source language checker";
-$lastmod = "2011-03-28 18:20:00 CET";
+$lastmod = "2011-03-28 22:20:00 CET";
 include("../include/header.php");
 ?>
 		
@@ -18,7 +18,7 @@ XML configuration files. Rules for more complicated errors can be  written in Ja
 <h2>Download</h2>
 
 <div class="downloadSection">
-	<h2><?=show_link("Download LanguageTool 1.3 (18&nbsp;MB)", "download/LanguageTool-1.3.oxt", 0) ?></h2>
+	<h2><?=show_link("Download LanguageTool 1.3.1 (18&nbsp;MB)", "download/LanguageTool-1.3.1.oxt", 0) ?></h2>
 	<!--
 	<table>
 	<tr>
@@ -49,6 +49,8 @@ need to ignore:<br />
 
 
 <h2>News</h2>
+
+<p><strong>2011-03-28:</strong> Released LanguageTool 1.3.1. This fixes a NullPointerException occurring with some inputs.
 
 <p><strong>2011-03-27:</strong> Released LanguageTool 1.3. Changes include:
 <ul>
