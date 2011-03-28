@@ -2,7 +2,7 @@
 $page = "homepage";
 $title = "LanguageTool";
 $title2 = "Open Source language checker";
-$lastmod = "2011-03-27 18:20:00 CET";
+$lastmod = "2011-03-28 18:20:00 CET";
 include("../include/header.php");
 ?>
 		
@@ -92,7 +92,7 @@ This means that you can now use LanguageTool for these languages via the
 
 <ul>
 	<li><strong>In OpenOffice.org/LibreOffice</strong>:
-	Double click <tt>LanguageTool-1.2.oxt</tt> to install it.
+	Double click <tt>LanguageTool-1.3.oxt</tt> to install it.
 	If that doesn't work, call <em>Tools -&gt; Extension Manager -&gt; Add...</em>
 	to install it. Close OpenOffice.org and re-start it. Type some text
 	with an error (e.g. "This is an test." &ndash; make sure the text language is set
@@ -126,8 +126,8 @@ This means that you can now use LanguageTool for these languages via the
 	ODT Compare</a> extension - use version 1.2.0 of DeltaXML ODT Compare, which fixes the problem.</li>
 <li>If you get a message "Can not activate the factory for com.sun.star.help.HelpIndexer because java.lang.NoClassDefFoundError: org/apache/lucene/analysis/cjk/CJKAnalyzer":
 	this was a bug In OpenOffice.org 3.1, it was fixed in version 3.2 (<a href="http://qa.openoffice.org/issues/show_bug.cgi?id=98680">Issue 98680</a>)</li>
-<li>If you get "Failed to load rules for language English" when opening the configuration dialog, de-installed LanguageTool 1.2
-    and install <a href="http://www.languagetool.org/download/LanguageTool-1.3-beta2.oxt">LanguageTool 1.3 beta2</a> (problem occurred on openSUSE 11.3 with LanguageTool 1.2 pre-installed)
+<li>If you get "Failed to load rules for language English" when opening the configuration dialog, try the latest version of LanguageTool, as this should be fixed in 1.3
+    (problem occurred on openSUSE 11.3 with LanguageTool 1.2 pre-installed)
     <!-- 2011-03-18 --></li>
 <li style="margin-top:8px">If these hints don't help, please email <strong>naber at danielnaber de</strong> describing the problem
 	and letting me know which version of LanguageTool, LibreOffice/OpenOffice.org and which operating system you are using.</li>
