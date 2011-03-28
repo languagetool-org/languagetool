@@ -53,6 +53,11 @@
 		<pathelement location="${dist.dir}/LanguageTool.uno.jar" />
 		<pathelement path="${java.class.path}" />
 	</path>
+	
+	<path id="test.classpath">
+	        <path refid="junit.classpath" />
+	        <pathelement location="${build.classes}" />
+	</path>
 
 	<!-- ================================================================== -->
 	<!-- Source without external libs -->
@@ -255,7 +260,7 @@
 		de/danielnaber/languagetool/rules/bitext/BitextPatternRuleTest.java
 		de/danielnaber/languagetool/ValidateXMLTest.java
   		de/danielnaber/languagetool/XMLValidator.java" destdir="${build.classes}" target="${target}" debug="${debug}">
-			<classpath refid="classpath" />
+			<classpath refid="test.classpath" />
 		</javac>
 
 	</target>
