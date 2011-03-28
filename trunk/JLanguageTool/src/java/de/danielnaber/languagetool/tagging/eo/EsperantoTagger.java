@@ -119,7 +119,7 @@ public class EsperantoTagger implements Tagger {
   private static final Pattern patternParticiple =
     Pattern.compile("((.*)([aio])(n?)t)([aoe])(j?)(n?)$");
   // Groups           1111111111111111  55555  66  77
-  // Groups            22  33333  44                 
+  //                   22  33333  44                 
  
   private Set setNonParticiple;
 
@@ -184,8 +184,9 @@ public class EsperantoTagger implements Tagger {
   // For a given verb (.*i) find whether it is transitive and/or non transitive.
   // Returns:
   // "tr" for a verb which is transitive
-  // "tn" for a verb which is transitive and non-transitive (or unknown).
-  // "nt" for a verb which is non-transitive.
+  // "nt" for a verb which is non-transitive
+  // "tn" for a verb which is transitive and non-transitive
+  // "xx" for an unknown verb.
   private String findTransitivity(String verb) {
     final Matcher matcher = patternVerbIg.matcher(verb);
 
@@ -225,9 +226,7 @@ public class EsperantoTagger implements Tagger {
       }
       break;
     }
-
-    // Unknown transitivity: consider verb as both transitive non-transitive.
-    return "tn"; 
+    return "xx"; // Unknown transitivity.
   }
 
   public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens) throws IOException {
