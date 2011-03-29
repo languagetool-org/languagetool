@@ -55,8 +55,8 @@ public class SimpleReplaceRuleTest extends TestCase {
 		List<String> invalidSuggestions = new ArrayList<String>();
 		List<Map<String,String>> wrongWords = rule.getWrongWords();
 		for (Map<String, String> ruleEntry : wrongWords) {
-			for (String fromWord : ruleEntry.keySet()) {
-				String toWord = ruleEntry.get(fromWord);
+			for (Map.Entry<String,String> fromWord : ruleEntry.entrySet()) {
+				String toWord = fromWord.getValue();
 				if (toWord == null || fromWord.equals(toWord)) {
 					invalidSuggestions.add(toWord);
 				}
