@@ -545,14 +545,25 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       </rule>
     </rulegroup>
 
-    <rule id="LA_MIA" name="La + pronomo">
-      <pattern>
+    <rule id="LA_MIA" name="La + a-pronomo">
+      <pattern mark_to="-1">
         <token>la</token>
-        <token postag_regexp="yes" postag="R .*"/>
+        <token regexp="yes">([mcvlŝĝn]|il)iaj?n?</token>
+        <token postag="[OA] .*" postag_regexp="yes"></token>
       </pattern>
       <message>«\1» ne povas stari kune kun pronomo «\2».</message>
-      <example type="incorrect"><marker>La mi</marker> libro.</example>
-      <example type="correct">Mia ibro.</example>
+      <example type="incorrect"><marker>La mia</marker> aŭto estas ruĝa.</example>
+      <example type="correct">Mia aŭto estas ruĝa.</example>
+      <example type="correct">Via deziro estas la mia.</example>
+    </rule>
+    <rule id="LA_MI" name="La + pronomo">
+      <pattern>
+        <token>la</token>
+        <token regexp="yes">([mcvlŝĝn]|il)i</token>
+      </pattern>
+      <message>«\1» ne povas stari kune kun pronomo «\2».</message>
+      <example type="incorrect">Ĉu <marker>la vi</marker> estas multekara?</example>
+      <example type="correct">Ĉu via estas multekara?</example>
     </rule>
 
     <rule id="ANTAŬ_VINF" name="antaŭ + verbo inf">
