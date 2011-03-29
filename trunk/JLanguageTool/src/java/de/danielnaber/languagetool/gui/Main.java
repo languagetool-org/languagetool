@@ -151,7 +151,6 @@ public final class Main implements ActionListener {
     buttonCons.gridy = 0;
     languageBox = new JComboBox();
     populateLanguageBox(languageBox);
-    preselectLanguage(languageBox);
     panel.add(languageBox, buttonCons);
 
     final Container contentPane = frame.getContentPane();
@@ -206,18 +205,18 @@ public final class Main implements ActionListener {
       }
     }
     Collections.sort(i18nLanguages);
-    for (final I18nLanguage i18nLanguage : i18nLanguages) {
-      languageBox.addItem(i18nLanguage);
-    }
-  }
-
-  private void preselectLanguage(final JComboBox languageBox) {
-    // use the system default language to preselect the language from the combo box:
+    final String defaultLocale = Locale.getDefault().getLanguage();
+    String defaultLocaleInGui = null;
     try {
-      final Locale defaultLocale = Locale.getDefault();
-      languageBox.setSelectedItem(messages.getString(defaultLocale.getLanguage()));
+      defaultLocaleInGui = messages.getString(defaultLocale);
     } catch (final MissingResourceException e) {
       // language not supported, so don't select a default
+    }
+    for (final I18nLanguage i18nLanguage : i18nLanguages) {
+      languageBox.addItem(i18nLanguage);
+      if (i18nLanguage.toString().equals(defaultLocaleInGui)) {
+        languageBox.setSelectedItem(i18nLanguage);
+      }
     }
   }
 
