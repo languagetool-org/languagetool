@@ -20,7 +20,10 @@ with OpenOffice.org.</p>
 	Then start <tt>LanguageToolGUI.jar</tt> by double clicking on it. If your computer isn't
 	configured to start jar archives, start it from the command line using<br />
 	<tt>java -jar LanguageToolGUI.jar</tt><br />
-	You can use the <tt>--tray</tt> option to start LanguageTool inside the system tray.
+	You can use the <tt>--tray</tt> option to start LanguageTool inside the system tray. 
+	After you copy any text to the clipboard, clicking LanguageTool in the system tray will
+	cause the application to open and check the contents of the clipboard automatically. This way
+	you could use LT for applications that do not support direct integration of the checker.
 	</li>
 
 	<li><strong>As a stand-alone application on the command line</strong>:
