@@ -24,7 +24,7 @@ Daniel Naber (<strong>naber <span>a&#116;</span> danielnaber<span>.</span>de</st
 	<li>Development and user discussion:
  		<?=show_link("Subscribe/Unsubscribe",  "http://lists.sourceforge.net/mailman/listinfo/languagetool-devel", 0) ?>,
  		<?=show_link("archive", "http://sourceforge.net/mailarchive/forum.php?forum_name=languagetool-devel", 0)?></li>
-	<li>CVS commit messages: <?=show_link("Subscribe/Unsubscribe", "http://lists.sourceforge.net/mailman/listinfo/languagetool-cvs", 0) ?>,
+	<li>SVN commit messages: <?=show_link("Subscribe/Unsubscribe", "http://lists.sourceforge.net/mailman/listinfo/languagetool-cvs", 0) ?>,
  		<?=show_link("archive", "http://sourceforge.net/mailarchive/forum.php?forum_name=languagetool-cvs", 0)?></li>
 </ul>
 
