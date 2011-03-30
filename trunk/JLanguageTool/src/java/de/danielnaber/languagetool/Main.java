@@ -457,6 +457,7 @@ class Main {
           throw new IllegalArgumentException(
           "You cannot specify both enabled and disabled rules");
         }
+        checkArguments("-d/--disable", i, args);
         final String rules = args[++i];
         disabledRules = rules.split(",");
       } else if (args[i].equals("-e") || args[i].equals("--enable")) {
@@ -464,13 +465,17 @@ class Main {
           throw new IllegalArgumentException(
           "You cannot specify both enabled and disabled rules");
         }
+        checkArguments("-e/--enable", i, args);
         final String rules = args[++i];
         enabledRules = rules.split(",");
       } else if (args[i].equals("-l") || args[i].equals("--language")) {
+        checkArguments("-l/--language", i, args);
         language = getLanguageOrExit(args[++i]);
       } else if (args[i].equals("-m") || args[i].equals("--mothertongue")) {
+        checkArguments("-m/--mothertongue", i, args);
         motherTongue = getLanguageOrExit(args[++i]);
       } else if (args[i].equals("-c") || args[i].equals("--encoding")) {
+        checkArguments("-c/--encoding", i, args);
         encoding = args[++i];
       } else if (args[i].equals("-u") || args[i].equals("--list-unknown")) {
         listUnknown = true;
@@ -547,6 +552,12 @@ class Main {
       prg.runRecursive(filename, encoding, listUnknown);
     } else {
       prg.runOnFile(filename, encoding, listUnknown);
+    }
+  }
+
+  private static void checkArguments(String option, int argParsingPos, String[] args) {
+    if (argParsingPos + 1 >= args.length) {
+      throw new IllegalArgumentException("Missing argument to " + option + " command line option.");
     }
   }
 
