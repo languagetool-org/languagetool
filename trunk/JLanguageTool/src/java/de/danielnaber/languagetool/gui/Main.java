@@ -589,6 +589,7 @@ public final class Main implements ActionListener {
             .println("Usage: java de.danielnaber.languagetool.gui.Main [-t|--tray]");
         System.out
             .println("  -t, --tray: dock LanguageTool to system tray on startup");
+        prg.stopServer();
       } else {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
           public void run() {
