@@ -46,7 +46,7 @@ public final class ReflectionUtils {
    *          skipping loading extra classes
    * @param subdirLevel
    *          If more than 0 all subdirectories/subpackages up to
-   *          <code>dirLevel</code> will be traversed This parameter is checked
+   *          <code>dirLevel</code> will be traversed. This parameter is checked
    *          before class is loaded - use it to improve performance by skipping
    *          loading extra classes
    * @param classExtends
@@ -101,7 +101,7 @@ public final class ReflectionUtils {
     final File directory = new File(resource.toURI());
 
     if (!directory.exists() && !directory.isDirectory()) {
-      throw new Exception("directory does not exist: "
+      throw new Exception("Directory does not exist: "
           + directory.getAbsolutePath());
     }
 
