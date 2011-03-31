@@ -66,13 +66,13 @@ public final class ReflectionUtils {
       final String packagePath = packageName.replace('.', '/');
       final Enumeration<URL> resources_ = classLoader.getResources(packagePath);
 
-      final Set<URI> uniqResources = new HashSet<URI>();
+      final Set<URI> uniqueResources = new HashSet<URI>();
       while (resources_.hasMoreElements()) {
         final URI resource = resources_.nextElement().toURI();
-        uniqResources.add(resource);
+        uniqueResources.add(resource);
       }
 
-      for (final URI res : uniqResources) {
+      for (final URI res : uniqueResources) {
         final URL resource = res.toURL();
         // System.err.println("trying resource: " + resource);
         // jars and directories are treated differently
@@ -149,30 +149,26 @@ public final class ReflectionUtils {
       final Map<Class,String> foundClasses, final URL resource) throws IOException,
       URISyntaxException, ClassNotFoundException {
     final JarURLConnection conn = (JarURLConnection) resource.openConnection();
-    final JarFile currentFile = conn.getJarFile(); // new JarFile(new
-    // File(resource.toURI()));
+    final JarFile currentFile = conn.getJarFile();
     // jars are flat containers:
-    for (final Enumeration<JarEntry> e = currentFile.entries(); e
-        .hasMoreElements();) {
+    for (final Enumeration<JarEntry> e = currentFile.entries(); e.hasMoreElements();) {
       final JarEntry current = e.nextElement();
       final String name = current.getName();
-      // System.err.println("jar entry: " + name);
 
       if (name.endsWith(".class")) {
-        final String classNm = name.replaceAll("/", ".").replace(".class", "");
-        final int pointIdx = classNm.lastIndexOf('.');
-        final String classShortNm = pointIdx == -1 ? classNm : classNm
-            .substring(pointIdx + 1);
+        final String className = name.replaceAll("/", ".").replace(".class", "");
+        final int pointIdx = className.lastIndexOf('.');
+        final String classShortNm = pointIdx == -1 ? className : className.substring(pointIdx + 1);
 
-        if (classNm.startsWith(packageName)
+        if (className.startsWith(packageName)
             && (classNameRegEx == null || classShortNm.matches(classNameRegEx))) {
-          final String subName = classNm.substring(packageName.length() + 1);
+          final String subName = className.substring(packageName.length() + 1);
 
           if (countOccurrences(subName, '.') > subdirLevel) {
             continue;
           }
 
-          final Class clazz = Class.forName(classNm);
+          final Class clazz = Class.forName(className);
           if (foundClasses.containsKey(clazz)) {
             throw new RuntimeException("Duplicate class definition:\n"
                 + clazz.getName() + ", found in\n" + currentFile.getName() + " and\n"
@@ -188,7 +184,6 @@ public final class ReflectionUtils {
               && interfaceImplements == null
               || isImplementing(clazz, interfaceImplements)) {
             foundClasses.put(clazz, currentFile.getName());
-            // System.err.println("Added class from jar: " + name);
           }
         }
       }
