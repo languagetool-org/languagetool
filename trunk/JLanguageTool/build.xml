@@ -387,167 +387,173 @@
 <zip compress="no" destfile="${dist.dir}/LanguageTool-${version}.oxt" basedir="${dist.dir}" includes="**" excludes="deploy.sh,undeploy.sh,turn.sh,jdic.jar,printlocales.jar,linux/**,windows/**,sunos/**,mac/**" />
 </target>
 
-<target name="ooo-internal" depends="clean,init,build,ooo-build">
-<copy file="${resource.dir}/TrayIcon.png" todir="${dist.dir}/resource/" />
-<filter filtersFile="build.properties" />
+<target name="common" depends="clean,init,build,ooo-build">
+	<copy file="${resource.dir}/TrayIcon.png" todir="${dist.dir}/resource/" />
+	<filter filtersFile="build.properties" />
 
 
-<copy file="./README.txt" todir="${dist.dir}" />
-<copy file="./CHANGES.txt" todir="${dist.dir}" />
-<copy file="./COPYING.txt" todir="${dist.dir}" />
-<replace file="${dist.dir}/README.txt" token="###VERSION###" value="${version}">
-</replace>
-<replace file="${dist.dir}/README.txt" token="###DATE###" value="${date}">
-</replace>
-<copy file="${ext.dir}/LGPL.txt" todir="${dist.dir}" />
-<copy file="${ext.dir}/Morfologik-nodict-license.txt" tofile="${dist.dir}/Morfologik-license.txt" />
-<copy file="${ext.dir}/CPL.txt" tofile="${dist.dir}/junit-license.txt" />
-<copy file="${ext.dir}/Apache-License.txt" tofile="${dist.dir}/jWordSplitter-license.txt" />
-<copy file="${ext.dir}/segment-license.txt" tofile="${dist.dir}/segment-license.txt" />
+	<copy file="./README.txt" todir="${dist.dir}" />
+	<copy file="./CHANGES.txt" todir="${dist.dir}" />
+	<copy file="./COPYING.txt" todir="${dist.dir}" />
+	<replace file="${dist.dir}/README.txt" token="###VERSION###" value="${version}">
+	</replace>
+	<replace file="${dist.dir}/README.txt" token="###DATE###" value="${date}">
+	</replace>
+	<copy file="${ext.dir}/LGPL.txt" todir="${dist.dir}" />
+	<copy file="${ext.dir}/Morfologik-nodict-license.txt" tofile="${dist.dir}/Morfologik-license.txt" />
+	<copy file="${ext.dir}/CPL.txt" tofile="${dist.dir}/junit-license.txt" />
+	<copy file="${ext.dir}/Apache-License.txt" tofile="${dist.dir}/jWordSplitter-license.txt" />
+	<copy file="${ext.dir}/segment-license.txt" tofile="${dist.dir}/segment-license.txt" />
 
-<filter filtersFile="build.properties" />
-<copy file="${ext.dir}/README" tofile="${dist.dir}/README-license.txt" filtering="true" encoding="${encoding}" />
+	<filter filtersFile="build.properties" />
+	<copy file="${ext.dir}/README" tofile="${dist.dir}/README-license.txt" filtering="true" encoding="${encoding}" />
 
-<copy file="${ext.stempelator.lib}" todir="${dist.dir}" />
-<copy file="${ext.jdic.lib}" todir="${dist.dir}" />
-<copy file="${ext.jaminid.lib}" todir="${dist.dir}" />
-<copy file="${ext.jwordsplitter.lib}" todir="${dist.dir}" />
-<copy file="${ext.segment.lib}" todir="${dist.dir}" />
-<copy file="${ext.logging.lib}" todir="${dist.dir}" />
-<copy file="${ext.commons.lang.lib}" todir="${dist.dir}" />
-<copy file="${ext.bliki.lib}" todir="${dist.dir}" />
-<copy file="${ext.junit.lib}" todir="${dist.dir}" />
-<!-- JAXB jars for Java 1.5 -->	
-<copy file="${ext.jaxb-api.lib}" todir="${dist.dir}" />
-<copy file="${ext.jaxb-impl.lib}" todir="${dist.dir}" />
-<copy file="${ext.jsr.lib}" todir="${dist.dir}" />
-<copy file="${ext.activation.lib}" todir="${dist.dir}" />
+	<copy file="${ext.stempelator.lib}" todir="${dist.dir}" />
+	<copy file="${ext.jdic.lib}" todir="${dist.dir}" />
+	<copy file="${ext.jaminid.lib}" todir="${dist.dir}" />
+	<copy file="${ext.jwordsplitter.lib}" todir="${dist.dir}" />
+	<copy file="${ext.segment.lib}" todir="${dist.dir}" />
+	<copy file="${ext.logging.lib}" todir="${dist.dir}" />
+	<copy file="${ext.commons.lang.lib}" todir="${dist.dir}" />
+	<copy file="${ext.bliki.lib}" todir="${dist.dir}" />
+	<copy file="${ext.junit.lib}" todir="${dist.dir}" />
+	<!-- JAXB jars for Java 1.5 -->	
+	<copy file="${ext.jaxb-api.lib}" todir="${dist.dir}" />
+	<copy file="${ext.jaxb-impl.lib}" todir="${dist.dir}" />
+	<copy file="${ext.jsr.lib}" todir="${dist.dir}" />
+	<copy file="${ext.activation.lib}" todir="${dist.dir}" />
 
 
-<copy todir="${dist.dir}/linux">
-	<fileset dir="${ext.dir}/linux" />
-</copy>
-<copy todir="${dist.dir}/windows">
-	<fileset dir="${ext.dir}/windows" />
-</copy>
-<copy todir="${dist.dir}/sunos">
-	<fileset dir="${ext.dir}/sunos" />
-</copy>
-<copy todir="${dist.dir}/mac">
-	<fileset dir="${ext.dir}/mac" />
-</copy>
-<zip compress="yes" destfile="${dist.dir}/standalone-libs.zip" basedir="${dist.dir}" includes="jdic.jar,linux/**,windows/**,sunos/**,mac/**" />
+	<copy todir="${dist.dir}/linux">
+		<fileset dir="${ext.dir}/linux" />
+	</copy>
+	<copy todir="${dist.dir}/windows">
+		<fileset dir="${ext.dir}/windows" />
+	</copy>
+	<copy todir="${dist.dir}/sunos">
+		<fileset dir="${ext.dir}/sunos" />
+	</copy>
+	<copy todir="${dist.dir}/mac">
+		<fileset dir="${ext.dir}/mac" />
+	</copy>
+	<zip compress="yes" destfile="${dist.dir}/standalone-libs.zip" basedir="${dist.dir}" includes="jdic.jar,linux/**,windows/**,sunos/**,mac/**" />
 
-<copy file="${src.scripts.dir}/testrules.sh" todir="${dist.dir}" />
-<copy file="${src.scripts.dir}/testrules.bat" todir="${dist.dir}" />
-<copy file="${src.scripts.dir}/testwikipedia.sh" todir="${dist.dir}" />
-<copy file="${src.scripts.dir}/testwikipedia.bat" todir="${dist.dir}" />
+	<copy file="${src.scripts.dir}/testrules.sh" todir="${dist.dir}" />
+	<copy file="${src.scripts.dir}/testrules.bat" todir="${dist.dir}" />
+	<copy file="${src.scripts.dir}/testwikipedia.sh" todir="${dist.dir}" />
+	<copy file="${src.scripts.dir}/testwikipedia.bat" todir="${dist.dir}" />
 
-<copy file="${resource.dir}/api-output.dtd" todir="${dist.dir}/resource" />
-<copy file="${resource.dir}/disambiguation.xsd" todir="${dist.dir}/resource" />
-<copy file="${resource.dir}/segment.srx" todir="${dist.dir}/resource" />
+	<copy file="${resource.dir}/api-output.dtd" todir="${dist.dir}/resource" />
+	<copy file="${resource.dir}/disambiguation.xsd" todir="${dist.dir}/resource" />
+	<copy file="${resource.dir}/segment.srx" todir="${dist.dir}/resource" />
 
-<copy file="${resource.dir}/en/tagset.txt" todir="${dist.dir}/resource/en" />
-<copy file="${resource.dir}/en/english.dict" todir="${dist.dir}/resource/en" />
-<copy file="${resource.dir}/en/english.info" todir="${dist.dir}/resource/en" />
-<copy file="${resource.dir}/en/english_synth.dict" todir="${dist.dir}/resource/en" />
-<copy file="${resource.dir}/en/english_synth.info" todir="${dist.dir}/resource/en" />
-<copy file="${resource.dir}/en/english_tags.txt" todir="${dist.dir}/resource/en" />
-<copy file="${resource.dir}/en/disambiguation.xml" todir="${dist.dir}/resource/en" />
-<copy file="${resource.dir}/en/compounds.txt" todir="${dist.dir}/resource/en" />
+	<copy file="${resource.dir}/en/tagset.txt" todir="${dist.dir}/resource/en" />
+	<copy file="${resource.dir}/en/english.dict" todir="${dist.dir}/resource/en" />
+	<copy file="${resource.dir}/en/english.info" todir="${dist.dir}/resource/en" />
+	<copy file="${resource.dir}/en/english_synth.dict" todir="${dist.dir}/resource/en" />
+	<copy file="${resource.dir}/en/english_synth.info" todir="${dist.dir}/resource/en" />
+	<copy file="${resource.dir}/en/english_tags.txt" todir="${dist.dir}/resource/en" />
+	<copy file="${resource.dir}/en/disambiguation.xml" todir="${dist.dir}/resource/en" />
+	<copy file="${resource.dir}/en/compounds.txt" todir="${dist.dir}/resource/en" />
 
-<copy file="${resource.dir}/eo/etikedoj.txt" todir="${dist.dir}/resource/eo" />
+	<copy file="${resource.dir}/eo/etikedoj.txt" todir="${dist.dir}/resource/eo" />
 
-<copy file="${resource.dir}/it/italian.dict" todir="${dist.dir}/resource/it" />
-<copy file="${resource.dir}/it/italian.info" todir="${dist.dir}/resource/it" />
-<copy file="${resource.dir}/it/readme-morph-it.txt" todir="${dist.dir}/resource/it" />
+	<copy file="${resource.dir}/it/italian.dict" todir="${dist.dir}/resource/it" />
+	<copy file="${resource.dir}/it/italian.info" todir="${dist.dir}/resource/it" />
+	<copy file="${resource.dir}/it/readme-morph-it.txt" todir="${dist.dir}/resource/it" />
 
-<copy file="${resource.dir}/fr/french.dict" todir="${dist.dir}/resource/fr" />
-<copy file="${resource.dir}/fr/french.info" todir="${dist.dir}/resource/fr" />
-<copy file="${resource.dir}/fr/README_lexique.txt" todir="${dist.dir}/resource/fr" />
-<copy file="${resource.dir}/fr/tagset.LT.txt" todir="${dist.dir}/resource/fr" />
-<copy file="${resource.dir}/fr/disambiguation.xml" todir="${dist.dir}/resource/fr" />
+	<copy file="${resource.dir}/fr/french.dict" todir="${dist.dir}/resource/fr" />
+	<copy file="${resource.dir}/fr/french.info" todir="${dist.dir}/resource/fr" />
+	<copy file="${resource.dir}/fr/README_lexique.txt" todir="${dist.dir}/resource/fr" />
+	<copy file="${resource.dir}/fr/tagset.LT.txt" todir="${dist.dir}/resource/fr" />
+	<copy file="${resource.dir}/fr/disambiguation.xml" todir="${dist.dir}/resource/fr" />
 
-<copy file="${resource.dir}/gl/galician.dict" todir="${dist.dir}/resource/gl" />
-<copy file="${resource.dir}/gl/galician.info" todir="${dist.dir}/resource/gl" />
-<copy file="${resource.dir}/gl/README" todir="${dist.dir}/resource/gl" />
+	<copy file="${resource.dir}/gl/galician.dict" todir="${dist.dir}/resource/gl" />
+	<copy file="${resource.dir}/gl/galician.info" todir="${dist.dir}/resource/gl" />
+	<copy file="${resource.dir}/gl/README" todir="${dist.dir}/resource/gl" />
 
-<copy file="${resource.dir}/es/spanish.dict" todir="${dist.dir}/resource/es" />
-<copy file="${resource.dir}/es/spanish.info" todir="${dist.dir}/resource/es" />
-<copy file="${resource.dir}/es/etiquetas-eagles.txt" todir="${dist.dir}/resource/es" />
-<copy file="${resource.dir}/es/spanish_synth.dict" todir="${dist.dir}/resource/es" />	
-<copy file="${resource.dir}/es/spanish_synth.info" todir="${dist.dir}/resource/es" />	
-<copy file="${resource.dir}/es/spanish_tags.txt" todir="${dist.dir}/resource/es" />
-<copy file="${resource.dir}/es/disambiguation.xml" todir="${dist.dir}/resource/es" />
-<copy file="${resource.dir}/es/README" todir="${dist.dir}/resource/es" />
+	<copy file="${resource.dir}/es/spanish.dict" todir="${dist.dir}/resource/es" />
+	<copy file="${resource.dir}/es/spanish.info" todir="${dist.dir}/resource/es" />
+	<copy file="${resource.dir}/es/etiquetas-eagles.txt" todir="${dist.dir}/resource/es" />
+	<copy file="${resource.dir}/es/spanish_synth.dict" todir="${dist.dir}/resource/es" />	
+	<copy file="${resource.dir}/es/spanish_synth.info" todir="${dist.dir}/resource/es" />	
+	<copy file="${resource.dir}/es/spanish_tags.txt" todir="${dist.dir}/resource/es" />
+	<copy file="${resource.dir}/es/disambiguation.xml" todir="${dist.dir}/resource/es" />
+	<copy file="${resource.dir}/es/README" todir="${dist.dir}/resource/es" />
 
-<copy file="${resource.dir}/da/danish_tags.txt" todir="${dist.dir}/resource/da" />
-<copy file="${resource.dir}/da/danish.dict" todir="${dist.dir}/resource/da" />
-<copy file="${resource.dir}/da/danish.info" todir="${dist.dir}/resource/da" />
+	<copy file="${resource.dir}/da/danish_tags.txt" todir="${dist.dir}/resource/da" />
+	<copy file="${resource.dir}/da/danish.dict" todir="${dist.dir}/resource/da" />
+	<copy file="${resource.dir}/da/danish.info" todir="${dist.dir}/resource/da" />
 
-<copy file="${resource.dir}/de/german.dict" todir="${dist.dir}/resource/de" />
-<copy file="${resource.dir}/de/german.info" todir="${dist.dir}/resource/de" />
-<copy file="${resource.dir}/de/compounds.txt" todir="${dist.dir}/resource/de" />
-<copy file="${resource.dir}/de/added.txt" todir="${dist.dir}/resource/de" />
-<copy file="${resource.dir}/de/tagset.txt" todir="${dist.dir}/resource/de" />
+	<copy file="${resource.dir}/de/german.dict" todir="${dist.dir}/resource/de" />
+	<copy file="${resource.dir}/de/german.info" todir="${dist.dir}/resource/de" />
+	<copy file="${resource.dir}/de/compounds.txt" todir="${dist.dir}/resource/de" />
+	<copy file="${resource.dir}/de/added.txt" todir="${dist.dir}/resource/de" />
+	<copy file="${resource.dir}/de/tagset.txt" todir="${dist.dir}/resource/de" />
 
-<copy file="${resource.dir}/pl/polish.dict" todir="${dist.dir}/resource/pl" />
-<copy file="${resource.dir}/pl/polish.info" todir="${dist.dir}/resource/pl" />
-<copy file="${resource.dir}/pl/polish_synth.dict" todir="${dist.dir}/resource/pl" />
-<copy file="${resource.dir}/pl/polish_synth.info" todir="${dist.dir}/resource/pl" />
-<copy file="${resource.dir}/pl/polish_tags.txt" todir="${dist.dir}/resource/pl" />
-<copy file="${resource.dir}/pl/compounds.txt" todir="${dist.dir}/resource/pl" />
-<copy file="${resource.dir}/pl/multiwords.txt" todir="${dist.dir}/resource/pl" />
-<copy file="${resource.dir}/pl/disambiguation.xml" todir="${dist.dir}/resource/pl" />
+	<copy file="${resource.dir}/pl/polish.dict" todir="${dist.dir}/resource/pl" />
+	<copy file="${resource.dir}/pl/polish.info" todir="${dist.dir}/resource/pl" />
+	<copy file="${resource.dir}/pl/polish_synth.dict" todir="${dist.dir}/resource/pl" />
+	<copy file="${resource.dir}/pl/polish_synth.info" todir="${dist.dir}/resource/pl" />
+	<copy file="${resource.dir}/pl/polish_tags.txt" todir="${dist.dir}/resource/pl" />
+	<copy file="${resource.dir}/pl/compounds.txt" todir="${dist.dir}/resource/pl" />
+	<copy file="${resource.dir}/pl/multiwords.txt" todir="${dist.dir}/resource/pl" />
+	<copy file="${resource.dir}/pl/disambiguation.xml" todir="${dist.dir}/resource/pl" />
 
-<copy file="${resource.dir}/nl/dutch.dict" todir="${dist.dir}/resource/nl" />
-<copy file="${resource.dir}/nl/dutch.info" todir="${dist.dir}/resource/nl" />
-<copy file="${resource.dir}/nl/dutch_synth.dict" todir="${dist.dir}/resource/nl" />
-<copy file="${resource.dir}/nl/dutch_synth.info" todir="${dist.dir}/resource/nl" />
-<copy file="${resource.dir}/nl/dutch_tags.txt" todir="${dist.dir}/resource/nl" />
-<copy file="${resource.dir}/nl/disambiguation.xml" todir="${dist.dir}/resource/nl" />
+	<copy file="${resource.dir}/nl/dutch.dict" todir="${dist.dir}/resource/nl" />
+	<copy file="${resource.dir}/nl/dutch.info" todir="${dist.dir}/resource/nl" />
+	<copy file="${resource.dir}/nl/dutch_synth.dict" todir="${dist.dir}/resource/nl" />
+	<copy file="${resource.dir}/nl/dutch_synth.info" todir="${dist.dir}/resource/nl" />
+	<copy file="${resource.dir}/nl/dutch_tags.txt" todir="${dist.dir}/resource/nl" />
+	<copy file="${resource.dir}/nl/disambiguation.xml" todir="${dist.dir}/resource/nl" />
 
-<copy file="${resource.dir}/sv/swedish.info" todir="${dist.dir}/resource/sv" />
-<copy file="${resource.dir}/sv/swedish.dict" todir="${dist.dir}/resource/sv" />
-<copy file="${resource.dir}/sv/compounds.txt" todir="${dist.dir}/resource/sv" />
+	<copy file="${resource.dir}/sv/swedish.info" todir="${dist.dir}/resource/sv" />
+	<copy file="${resource.dir}/sv/swedish.dict" todir="${dist.dir}/resource/sv" />
+	<copy file="${resource.dir}/sv/compounds.txt" todir="${dist.dir}/resource/sv" />
 
-<copy file="${resource.dir}/uk/ukrainian.dict" todir="${dist.dir}/resource/uk" />
+	<copy file="${resource.dir}/uk/ukrainian.dict" todir="${dist.dir}/resource/uk" />
 
-<copy file="${resource.dir}/ru/russian.dict" todir="${dist.dir}/resource/ru" />
-<copy file="${resource.dir}/ru/russian.info" todir="${dist.dir}/resource/ru" />
-<copy file="${resource.dir}/ru/russian_tags.txt" todir="${dist.dir}/resource/ru" />
-<copy file="${resource.dir}/ru/russian_synth.dict" todir="${dist.dir}/resource/ru" />
-<copy file="${resource.dir}/ru/russian_synth.info" todir="${dist.dir}/resource/ru" />
-<copy file="${resource.dir}/ru/tags_russian.txt" todir="${dist.dir}/resource/ru" />
-<copy file="${resource.dir}/ru/compounds_ru.txt" todir="${dist.dir}/resource/ru" />
-<copy file="${resource.dir}/ru/disambiguation.xml" todir="${dist.dir}/resource/ru" />
+	<copy file="${resource.dir}/ru/russian.dict" todir="${dist.dir}/resource/ru" />
+	<copy file="${resource.dir}/ru/russian.info" todir="${dist.dir}/resource/ru" />
+	<copy file="${resource.dir}/ru/russian_tags.txt" todir="${dist.dir}/resource/ru" />
+	<copy file="${resource.dir}/ru/russian_synth.dict" todir="${dist.dir}/resource/ru" />
+	<copy file="${resource.dir}/ru/russian_synth.info" todir="${dist.dir}/resource/ru" />
+	<copy file="${resource.dir}/ru/tags_russian.txt" todir="${dist.dir}/resource/ru" />
+	<copy file="${resource.dir}/ru/compounds_ru.txt" todir="${dist.dir}/resource/ru" />
+	<copy file="${resource.dir}/ru/disambiguation.xml" todir="${dist.dir}/resource/ru" />
 
-<copy file="${resource.dir}/ro/romanian.dict" todir="${dist.dir}/resource/ro" />
-<copy file="${resource.dir}/ro/romanian.info" todir="${dist.dir}/resource/ro" />
-<copy file="${resource.dir}/ro/romanian_synth.dict" todir="${dist.dir}/resource/ro" />
-<copy file="${resource.dir}/ro/romanian_synth.info" todir="${dist.dir}/resource/ro" />
-<copy file="${resource.dir}/ro/romanian_tags.txt" todir="${dist.dir}/resource/ro" />
-<copy file="${resource.dir}/ro/disambiguation.xml" todir="${dist.dir}/resource/ro" />
+	<copy file="${resource.dir}/ro/romanian.dict" todir="${dist.dir}/resource/ro" />
+	<copy file="${resource.dir}/ro/romanian.info" todir="${dist.dir}/resource/ro" />
+	<copy file="${resource.dir}/ro/romanian_synth.dict" todir="${dist.dir}/resource/ro" />
+	<copy file="${resource.dir}/ro/romanian_synth.info" todir="${dist.dir}/resource/ro" />
+	<copy file="${resource.dir}/ro/romanian_tags.txt" todir="${dist.dir}/resource/ro" />
+	<copy file="${resource.dir}/ro/disambiguation.xml" todir="${dist.dir}/resource/ro" />
 
-<copy file="${resource.dir}/sk/slovak.dict" todir="${dist.dir}/resource/sk" />
-<copy file="${resource.dir}/sk/slovak.info" todir="${dist.dir}/resource/sk" />
-<copy file="${resource.dir}/sk/compounds.txt" todir="${dist.dir}/resource/sk" />
-<copy file="${resource.dir}/sk/README" todir="${dist.dir}/resource/sk" />
-<copy file="${resource.dir}/sk/slovak_synth.dict" todir="${dist.dir}/resource/sk" />
-<copy file="${resource.dir}/sk/slovak_synth.info" todir="${dist.dir}/resource/sk" />
-<copy file="${resource.dir}/sk/slovak_tags.txt" todir="${dist.dir}/resource/sk" />
+	<copy file="${resource.dir}/sk/slovak.dict" todir="${dist.dir}/resource/sk" />
+	<copy file="${resource.dir}/sk/slovak.info" todir="${dist.dir}/resource/sk" />
+	<copy file="${resource.dir}/sk/compounds.txt" todir="${dist.dir}/resource/sk" />
+	<copy file="${resource.dir}/sk/README" todir="${dist.dir}/resource/sk" />
+	<copy file="${resource.dir}/sk/slovak_synth.dict" todir="${dist.dir}/resource/sk" />
+	<copy file="${resource.dir}/sk/slovak_synth.info" todir="${dist.dir}/resource/sk" />
+	<copy file="${resource.dir}/sk/slovak_tags.txt" todir="${dist.dir}/resource/sk" />
 
-<copy file="${resource.dir}/ml/malayalam.dict" todir="${dist.dir}/resource/ml" />
-<copy file="${resource.dir}/ml/malayalam.info" todir="${dist.dir}/resource/ml" />
+	<copy file="${resource.dir}/ml/malayalam.dict" todir="${dist.dir}/resource/ml" />
+	<copy file="${resource.dir}/ml/malayalam.info" todir="${dist.dir}/resource/ml" />
 
-<copy file="${resource.dir}/ca/catalan_synth.dict" todir="${dist.dir}/resource/ca" />
-<copy file="${resource.dir}/ca/catalan_tags.txt" todir="${dist.dir}/resource/ca" />
-<copy file="${resource.dir}/ca/catalan.dict" todir="${dist.dir}/resource/ca" />
-<copy file="${resource.dir}/ca/catalan.info" todir="${dist.dir}/resource/ca" />
-<copy file="${resource.dir}/ca/README" todir="${dist.dir}/resource/ca" />
+	<copy file="${resource.dir}/ca/catalan_synth.dict" todir="${dist.dir}/resource/ca" />
+	<copy file="${resource.dir}/ca/catalan_tags.txt" todir="${dist.dir}/resource/ca" />
+	<copy file="${resource.dir}/ca/catalan.dict" todir="${dist.dir}/resource/ca" />
+	<copy file="${resource.dir}/ca/catalan.info" todir="${dist.dir}/resource/ca" />
+	<copy file="${resource.dir}/ca/README" todir="${dist.dir}/resource/ca" />
 
-<copy file="${resource.dir}/xx/dummy.dict" tofile="${dist.dir}/resource/cs/czech.dict" />
+	<copy file="${resource.dir}/xx/dummy.dict" tofile="${dist.dir}/resource/cs/czech.dict" />
+	<copy todir="${dist.dir}/rules">
+		<fileset dir="src/rules" excludes="CVS" />
+	</copy>
 
+</target>
+	
+<target name="ooo-internal" depends="common">
 <!-- prepare properties file automatically -->
 <javac encoding="${encoding}" srcdir="${src.dir}/dev" includes="de/danielnaber/languagetool/dev/PrintLocales.java" destdir="${build.classes}" target="${target}" debug="${debug}">
 </javac>
@@ -572,17 +578,13 @@
 <copy todir="${dist.dir}/">
 	<fileset dir="openoffice/" includes="images/**,help/**" />
 </copy>
-<copy todir="${dist.dir}/rules">
-	<fileset dir="src/rules" excludes="CVS" />
-</copy>
-
 </target>
 
 <target name="dict-de" description="Build the German tagger dictionary from Morphy data">
 <exec executable="${resource.dir}/de/make-dict-de.sh" />
 </target>
 
-<target name="jnlp" depends="ooo-internal" description="Builds JNLP distribution file">
+<target name="jnlp" depends="common" description="Builds JNLP distribution file">
 <mkdir dir="${dist.dir}/web" />
 <mkdir dir="${dist.dir}/web/linux" />
 <mkdir dir="${dist.dir}/web/windows" />
@@ -591,15 +593,19 @@
 <filter filtersFile="build.properties" />
 <copy file="./LanguageTool.jnlp" todir="${dist.dir}/web" filtering="true" />
 <copy file="./LanguageToolServer.jnlp" todir="${dist.dir}/web" filtering="true" />	
-<jar compress="yes" basedir="${dist.dir}" destfile="${dist.dir}/web/resource.jar" includes="resource/**" />
-<jar compress="yes" basedir="${dist.dir}" destfile="${dist.dir}/web/rules.jar" includes="rules/**" />
 
 <copy todir="${dist.dir}/web/">
 	<fileset dir="${dist.dir}" casesensitive="yes">
 	  <include name="**/*.jar" />
 	  <exclude name="**/printlocales.jar"/>
+	  <exclude name="**/LanguageTool.uno.jar"/>
+	  <exclude name="**/junit.jar"/>
+	  <exclude name="**/${bliki.lib}"/>
 	</fileset>
 </copy>
+
+<jar compress="yes" basedir="${dist.dir}" destfile="${dist.dir}/web/resource.jar" includes="resource/**" />
+<jar compress="yes" basedir="${dist.dir}" destfile="${dist.dir}/web/rules.jar" includes="rules/**" />
 	
 <jar compress="yes" basedir="${dist.dir}/linux/x86" destfile="${dist.dir}/web/linux/jdic-native.jar" includes="**" />
 <jar compress="yes" basedir="${dist.dir}/sunos/x86" destfile="${dist.dir}/web/sunos/jdic-x86.jar" includes="**" />
@@ -607,7 +613,8 @@
 <jar compress="yes" basedir="${dist.dir}/windows/x86" destfile="${dist.dir}/web/windows/jdic-native.jar" includes="**" />
 <jar compress="yes" basedir="${dist.dir}/mac/ppc" destfile="${dist.dir}/web/mac/jdic-native.jar" includes="**" />
 	
-<signjar keystore="./keystore.ks" keypass="blabla" storepass="blabla" alias="myalias">
+<signjar keypass="blabla" keystore="./myalias.p12" 
+	storetype="pkcs12" storepass="blabla" alias="marcin miłkowski open source developer - id w unizeto technologies s.a.">
   <path>
     <fileset dir="${dist.dir}/web" includes="**/*.jar" />
   </path>
