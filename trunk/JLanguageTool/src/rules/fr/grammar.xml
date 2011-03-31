@@ -735,9 +735,10 @@ though, and has since been slightly modified)-->
     </rulegroup>
     <rulegroup id="AMENDE" name="Amende au lieu de amande">
       <rule>
-        <pattern mark_from="1">
+        <pattern mark_from="1" mark_to="-1">
           <token regexp="yes">en|aux<exception scope="previous">face</exception></token>
           <token regexp="yes" skip="3">amendes?</token>
+          <token negate="yes">honorable</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>amande</suggestion> ?</message>
         <example type="incorrect">Des yeux en <marker>amende</marker>.</example>
@@ -745,6 +746,7 @@ though, and has since been slightly modified)-->
         <example type="incorrect">Un gâteau aux <marker>amendes</marker>.</example>
         <example type="correct">Un gâteau aux amandes.</example>
         <example type="correct">Face aux amendes à payer</example>
+        <example type="correct">En amende honorable</example>
       </rule>
     </rulegroup>
     <rulegroup id="AMANDE" name="Amande au lieu de amende">
@@ -1003,9 +1005,9 @@ though, and has since been slightly modified)-->
         <token>c</token>
         <token regexp="yes">['’]</token>
         <token>est</token>
-        <token postag="N.*" postag_regexp="yes"><exception regexp="yes">pas|dommage|grâce|monsieur|madame|mademoiselle|oui|non|lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche|bonnet</exception><exception postag="[^N].*" postag_regexp="yes"></exception></token>
+        <token postag="N.*" postag_regexp="yes"><exception regexp="yes">pas|dommage|grâce|monsieur|madame|mademoiselle|oui|non|lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche|bonnet|la</exception><exception postag="[^N].*" postag_regexp="yes"></exception></token>
       </pattern>
-      <message>Voulez-vous écrire <suggestion>ces</suggestion>, <suggestion>cet</suggestion> ou <suggestion>cette</suggestion> au lieu de '\1'\2'?</message>
+      <message>Voulez-vous écrire <suggestion>ces</suggestion>, <suggestion>cet</suggestion> ou <suggestion>cette</suggestion> au lieu de « \1\2\3 »?</message>
       <example type="incorrect"><marker>C'est</marker> école est grande.</example>
       <example type="correct"><marker>Cette</marker> école est réputée.</example>
       <example type="correct">C'est dommage to partir si tôt.</example>
@@ -1013,6 +1015,7 @@ though, and has since been slightly modified)-->
       <example type="correct">C'est non seulement pour lui, mais aussi pour elle.</example>
       <example type="correct">C'est dimanche qu'il arrive.</example>
       <example type="correct">Comme c'est romantique.</example>
+      <example type="correct">C'est la fin.</example>
     </rule>
     <rule id="EN_TANT_QUE" name="EN TEMPS QUE au lieu de EN TANT QUE">
       <pattern mark_to="-1">
@@ -1284,7 +1287,7 @@ though, and has since been slightly modified)-->
         </pattern>
         <message>« \2 » et « \3 » ne semblent pas bien accordés en genre.</message>
         <example type="incorrect">Les <marker>hommes auxquelles</marker> tu parles</example>
-        <example type="correct">Les <marker>femmmes auxquelles</marker> tu parles</example>
+        <example type="correct">Les <marker>femmes auxquelles</marker> tu parles</example>
       </rule>
       <rule>
         <pattern mark_from="1">
@@ -2391,7 +2394,7 @@ though, and has since been slightly modified)-->
           <token postag="[ZR].*" postag_regexp="yes"></token>
           <and>
             <token postag="V.*ind.*" postag_regexp="yes"></token>
-            <token inflected="yes" regexp="yes">aimer|approuver|attendre|craindre|demander|déplorer|désirer|douter|exiger|falloir|importer|interdire|ordonner|permettre|préfèrer|refuser|regretter|souhaiter|suffir|suggerer|vouloir</token>
+            <token inflected="yes" regexp="yes">aimer|approuver|attendre|craindre|demander|déplorer|désirer|douter|exiger|falloir|importer|interdire|ordonner|permettre|préfèrer|refuser|regretter|souhaiter|suffir|suggérer|vouloir</token>
           </and>
           <token>que</token>
           <token postag="[ZR].*" postag_regexp="yes"></token>
@@ -2406,7 +2409,7 @@ though, and has since been slightly modified)-->
           <token postag="[ZR].*" postag_regexp="yes"></token>
           <and>
             <token postag="V.*ind.*" postag_regexp="yes"></token>
-            <token inflected="yes" regexp="yes">aimer|approuver|attendre|craindre|demander|déplorer|désirer|douter|exiger|falloir|importer|interdire|ordonner|permettre|préfèrer|refuser|regretter|souhaiter|suffir|suggerer|vouloir</token>
+            <token inflected="yes" regexp="yes">aimer|approuver|attendre|craindre|demander|déplorer|désirer|douter|exiger|falloir|importer|interdire|ordonner|permettre|préfèrer|refuser|regretter|souhaiter|suffir|suggérer|vouloir</token>
           </and>
           <token>qu</token>
           <token regexp="yes">['’]</token>
@@ -2616,7 +2619,7 @@ though, and has since been slightly modified)-->
         <example type="correct">Quoique je te <marker>dise</marker>.</example>
       </rule>
     </rulegroup>
-    <rulegroup id="P_V_PAS" name="negation sans NE">
+    <rulegroup id="P_V_PAS" name="négation sans NE">
       <rule>
         <pattern mark_from="1" mark_to="-1">
           <token postag="(Z.*)|(R pers suj.*)" postag_regexp="yes"></token>
@@ -4421,9 +4424,9 @@ though, and has since been slightly modified)-->
         <token>en</token>
         <token regexp="yes">couleurs?</token>
       </pattern>
-      <message>« Rêver en couleurs » est un régionalisme (Québec). Employez <suggestion>bâtir des chateaux en Espagne</suggestion>, <suggestion>prendre ses désirs pour des réalités</suggestion>.</message>
+      <message>« Rêver en couleurs » est un régionalisme (Québec). Employez <suggestion>bâtir des châteaux en Espagne</suggestion>, <suggestion>prendre ses désirs pour des réalités</suggestion>.</message>
       <example type="incorrect"><marker>rêver en couleurs</marker></example>
-      <example type="correct"><marker>bâtir des chateaux en Espagne</marker></example>
+      <example type="correct"><marker>bâtir des châteaux en Espagne</marker></example>
     </rule>
     <rule id="TIRER_AU_POIGNET" name="tirer au poignet">
       <pattern>
@@ -4969,9 +4972,9 @@ though, and has since been slightly modified)-->
       <pattern>
         <token regexp="yes">mopp?es?|mops?</token>
       </pattern>
-      <message>« \1 » est un anglicisme (mop). Employez <suggestion>balai à franges</suggestion>, <suggestion>serpillère</suggestion>. Note : « Vadrouille » est un régionalisme (Québec) dans ce sens.</message>
+      <message>« \1 » est un anglicisme (mop). Employez <suggestion>balai à franges</suggestion>, <suggestion>serpillière</suggestion>. Note : « Vadrouille » est un régionalisme (Québec) dans ce sens.</message>
       <example type="incorrect"><marker>moppe</marker></example>
-      <example type="correct"><marker>serpillère</marker></example>
+      <example type="correct"><marker>serpillière</marker></example>
     </rule>
     <rulegroup id="NON-APPLICABLE" name="non-applicable">
       <rule>
@@ -5316,7 +5319,7 @@ though, and has since been slightly modified)-->
           <token>de</token>
           <token regexp="yes">banques?</token>
         </pattern>
-        <message>« Gérant de banque » est un anglicisme (bank manager). Employez <suggestion>directeur d'agence banquaire</suggestion>, <suggestion>directeur d'agence</suggestion>, <suggestion>directeur de banque</suggestion>.</message>
+        <message>« Gérant de banque » est un anglicisme (bank manager). Employez <suggestion>directeur d'agence bancaire</suggestion>, <suggestion>directeur d'agence</suggestion>, <suggestion>directeur de banque</suggestion>.</message>
         <example type="incorrect"><marker>gérant de banque</marker></example>
         <example type="correct"><marker>directeur de banque</marker></example>
       </rule>
@@ -15732,7 +15735,7 @@ though, and has since been slightly modified)-->
       <pattern>
         <token regexp="yes">b[iy]cycles?</token>
       </pattern>
-      <message>« Bicycle » est un anglicisme. Employez <suggestion>vélo</suggestion>, <suggestion>bicyclette</suggestion>, <suggestion>moto</suggestion>. Note : La tendance est de prononcer ce mot « bycique ».</message>
+      <message>« Bicycle » est un anglicisme. Employez <suggestion>vélo</suggestion>, <suggestion>bicyclette</suggestion>, <suggestion>moto</suggestion>.</message>
       <example type="incorrect"><marker>bicycle</marker>.</example>
       <example type="correct"><marker>vélo</marker>.</example>
     </rule>
