@@ -2,7 +2,7 @@
 $page = "homepage";
 $title = "LanguageTool";
 $title2 = "Open Source language checker";
-$lastmod = "2011-03-28 22:20:00 CET";
+$lastmod = "2011-04-01 12:20:00 CET";
 include("../include/header.php");
 ?>
 		
@@ -42,8 +42,7 @@ XML configuration files. Rules for more complicated errors can be  written in Ja
 </div>
 
 <!-- -->
-<p><strong>Try LanguageTool 1.3 without local installation, using Java WebStart.</strong> Requires Java 1.6_04 or later. You will get a security warning which you
-need to ignore:<br />
+<p><strong>Try LanguageTool 1.3 without installation, using Java WebStart.</strong> Requires Java 1.6_04 or later.<br />
 <strong><?=show_link("Start LanguageTool (18&nbsp;MB)", "webstart/web/LanguageTool.jnlp", 0) ?></strong></p>
 <!-- -->
 
