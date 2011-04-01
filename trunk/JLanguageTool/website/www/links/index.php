@@ -35,7 +35,7 @@ Daniel Naber (<strong>naber <span>a&#116;</span> danielnaber<span>.</span>de</st
 	<li><?=show_link("LanguageTool for LyX", "http://wiki.lyx.org/Tools/LyX-GrammarChecker", 1) ?></li>
 	<li><?=show_link("LanguageTool plugin for OmegaT", "https://sourceforge.net/projects/omegat-plugins/files/OmegaT-LanguageTool/", 1)?>
 		a plugin that enables grammar-checking in computer-aided translation tool OmegaT (open source)</li>
-	<li><?=show_link("LanguageTool in CheckMate", "http://www.opentag.com/okapi/wiki/index.php?title=CheckMate", 1)?>LanguageTool
+	<li><?=show_link("LanguageTool in CheckMate", "http://www.opentag.com/okapi/wiki/index.php?title=CheckMate", 1)?> LanguageTool
 	can be used as a server in CheckMate, translation QA tool</li>
 </ul>
 		
