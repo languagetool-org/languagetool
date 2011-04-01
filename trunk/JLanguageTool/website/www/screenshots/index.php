@@ -46,6 +46,17 @@ include("../../include/header.php");
 		user interface which lets<br/>you type in or paste text and check it (click to enlarge)</span></a>
 </td>
 </tr>
+<tr><td>&nbsp;</td></tr>
+<tr><td>&nbsp;</td></tr>
+<tr>
+<td>
+	<a href="art/lt-omegat.png"><img border="0" width="300" height="175" 
+		src="art/lt-omegat_small.png" alt="LanguageTool plugin in OmegaT" /></a><br />
+		<a href="art/lt-omegat.png"><span style="font-size:10px">The simple LanguageTool
+		plugin in OmegaT<br/>that helps to check your translation on the go(click to enlarge)</span></a>
+</td>
+</tr>
+
 </table>
 
 <?php
