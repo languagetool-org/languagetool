@@ -54,18 +54,6 @@ Usage:
  -To check plain text files from the command line:
   java -jar LanguageTool.jar <filename>
 
-Known bugs:
- -OpenOffice.org integration:
-   -doesn't work correctly with documents that contain revisions
- -general:
-   -for some rules there may be a lot of false alarms, i.e., LanguageTool complains
-    about text which is actually correct
- -Java 1.5:
-  -you cannot display the configuration dialog box due to the bug
-   present in GridBagLayout that limits the number of items displayed;
-   the languages affected are currently French and Polish.
- -Also see http://www.languagetool.org/#commonproblems
-   
 ------------------------------------------------ 
 
 Using LanguageTool from .NET:
