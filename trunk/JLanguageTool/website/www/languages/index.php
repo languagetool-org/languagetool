@@ -39,9 +39,9 @@ Date: 2011-03-27<br /><br />
 <tr><td>English</td><td align="right">479 (<a href="http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/JLanguageTool/src/rules/en/grammar.xml?content-type=text%2Fplain">show</a>/<a href="http://community.languagetool.org/rule/list?lang=en">browse</a>)</td><td></td><td align="right">0</td><td></td>
 <td align="right">231</td><td></td><td align="left">Marcin Miłkowski, Daniel Naber</td></tr>
 <tr><td>Esperanto</td><td align="right">80 (<a href="http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/JLanguageTool/src/rules/eo/grammar.xml?content-type=text%2Fplain">show</a>/<a href="http://community.languagetool.org/rule/list?lang=eo">browse</a>)</td><td></td><td align="right">0</td><td></td>
-<td align="right">0</td><td></td><td align="left">Dominique Pellé</td></tr>
+<td align="right">0</td><td></td><td align="left"><a href="http://dominiko.livejournal.com/tag/lingvoilo">Dominique Pellé</a></td></tr>
 <tr><td>French</td><td align="right">1810 (<a href="http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/JLanguageTool/src/rules/fr/grammar.xml?content-type=text%2Fplain">show</a>/<a href="http://community.languagetool.org/rule/list?lang=fr">browse</a>)</td><td></td><td align="right">0</td><td></td>
-<td align="right">5</td><td></td><td align="left">Agnes Souque, Hugo Voisard&nbsp;(2006-2007)</td></tr>
+<td align="right">5</td><td></td><td align="left">Agnes Souque, Hugo Voisard&nbsp;(2006-2007), Dominique Pellé</td></tr>
 <tr><td>Galician</td><td align="right">166 (<a href="http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/JLanguageTool/src/rules/gl/grammar.xml?content-type=text%2Fplain">show</a>/<a href="http://community.languagetool.org/rule/list?lang=gl">browse</a>)</td><td></td><td align="right">0</td><td></td>
 <td align="right">6</td><td></td><td align="left"><a href="http://www.g11n.net/languagetool-gl">Susana Sotelo Docío</a></td></tr>
 <tr><td>German</td><td align="right">139 (<a href="http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/JLanguageTool/src/rules/de/grammar.xml?content-type=text%2Fplain">show</a>/<a href="http://community.languagetool.org/rule/list?lang=de">browse</a>)</td><td></td><td align="right">0</td><td></td>
