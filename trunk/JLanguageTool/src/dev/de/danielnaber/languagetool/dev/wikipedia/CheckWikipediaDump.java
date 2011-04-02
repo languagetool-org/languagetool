@@ -27,12 +27,14 @@ import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import de.danielnaber.languagetool.rules.Rule;
 import org.xml.sax.SAXException;
 
 import de.danielnaber.languagetool.JLanguageTool;
@@ -54,29 +56,34 @@ public class CheckWikipediaDump {
   
   public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException {
     final CheckWikipediaDump prg = new CheckWikipediaDump();
-    if (args.length < 3 || args.length > 4) {
-      System.err.println("Usage: CheckWikipediaDump <propertyFile> <language> <filename> [maxArticleCheck]");
+    if (args.length < 4 || args.length > 5) {
+      System.err.println("Usage: CheckWikipediaDump <propertyFile> <language> <filename> <ruleIds> [maxArticleCheck]");
       System.err.println("\tpropertyFile a file to set database access properties. Use '-' to print results to stdout.");
       System.err.println("\tlanguage languagecode like 'en' or 'de'");
       System.err.println("\tfilename path to unpacked Wikipedia XML dump");
+      System.err.println("\truleIds comma-separated list of rule-ids to activate. Use '-' to activate the default rules.");
       System.err.println("\tmaxArticleCheck optional: maximum number of articles to check");
       System.exit(1);
-    }
-    int maxArticles = 0;
-    if (args.length == 4) {
-      maxArticles = Integer.parseInt(args[3]);
     }
     File propFile = null;
     if (!"-".equals(args[0])) {
       propFile = new File(args[0]);
       if (!propFile.exists() || propFile.isDirectory()) {
-        throw new IOException("file not found or isn't a file: " + propFile.getAbsolutePath());
+        throw new IOException("File not found or isn't a file: " + propFile.getAbsolutePath());
       }
     }
-    prg.run(propFile, args[1], args[2], maxArticles);
+    int maxArticles = 0;
+    if (args.length == 5) {
+      maxArticles = Integer.parseInt(args[4]);
+    }
+    String[] ruleIds = null;
+    if (!"-".equals(args[3])) {
+      ruleIds = args[3].split(",");
+    }
+    prg.run(propFile, args[1], args[2], ruleIds, maxArticles);
   }
   
-  private void run(File propFile, String language, String textFilename, int maxArticles) 
+  private void run(File propFile, String language, String textFilename, String[] ruleIds, int maxArticles)
       throws IOException, SAXException, ParserConfigurationException {
     final File file = new File(textFilename);
     if (!file.exists() || !file.isFile()) {
@@ -89,28 +96,11 @@ public class CheckWikipediaDump {
     }
     final JLanguageTool languageTool = new JLanguageTool(lang);
     languageTool.activateDefaultPatternRules();
-    // useful settings (avoid false alarms) because text extraction
-    // from Wikipedia isn't clean yet:
-    languageTool.disableRule("DE_CASE");    // too many false hits
-    languageTool.disableRule("UNPAIRED_BRACKETS");
-    languageTool.disableRule("UPPERCASE_SENTENCE_START");
-    languageTool.disableRule("WORD_REPEAT_RULE");
-    languageTool.disableRule("COMMA_PARENTHESIS_WHITESPACE");
-    languageTool.disableRule("WHITESPACE_RULE");
-    languageTool.disableRule("EN_QUOTES");        // en
-    languageTool.disableRule("CUDZYSLOW_DRUKARSKI");  // pl
-    languageTool.disableRule("POMIŠLJAJ_1");  // sl
-    languageTool.disableRule("POMIŠLJAJ_2");  // sl
-    languageTool.disableRule("POMIŠLJAJ_3");  // sl
-    /*
-    List rules = lt.getAllRules();
-    for (Iterator iter = rules.iterator(); iter.hasNext();) {
-      Rule element = (Rule) iter.next();
-      lt.disableRule(element.getId());
+    if (ruleIds != null) {
+      enableSpecifiedRules(ruleIds, languageTool);
+    } else {
+      enableDefaultRules(languageTool);
     }
-    lt.enableRule("DE_AGREEMENT");
-    */
-    System.err.println("These rules are disabled: " + languageTool.getDisabledRules());
     final Date dumpDate = getDumpDate(file);
     System.out.println("Dump date: " + dumpDate + ", language: " + language);
     final BaseWikipediaDumpHandler handler;
@@ -124,6 +114,33 @@ public class CheckWikipediaDump {
     final SAXParserFactory factory = SAXParserFactory.newInstance();
     final SAXParser saxParser = factory.newSAXParser();
     saxParser.parse(file, handler);
+  }
+
+  private void enableSpecifiedRules(String[] ruleIds, JLanguageTool languageTool) {
+    for (Rule rule : languageTool.getAllRules()) {
+      languageTool.disableRule(rule.getId());
+    }
+    for (String ruleId : ruleIds) {
+      languageTool.enableRule(ruleId);
+    }
+    System.err.println("Only these rules are enabled: " + Arrays.toString(ruleIds));
+  }
+
+  private void enableDefaultRules(JLanguageTool languageTool) throws IOException {
+    // useful settings (avoid false alarms) because text extraction
+    // from Wikipedia isn't clean yet:
+    languageTool.disableRule("DE_CASE");    // too many false hits
+    languageTool.disableRule("UNPAIRED_BRACKETS");
+    languageTool.disableRule("UPPERCASE_SENTENCE_START");
+    languageTool.disableRule("WORD_REPEAT_RULE");
+    languageTool.disableRule("COMMA_PARENTHESIS_WHITESPACE");
+    languageTool.disableRule("WHITESPACE_RULE");
+    languageTool.disableRule("EN_QUOTES");        // en
+    languageTool.disableRule("CUDZYSLOW_DRUKARSKI");  // pl
+    languageTool.disableRule("POMIŠLJAJ_1");  // sl
+    languageTool.disableRule("POMIŠLJAJ_2");  // sl
+    languageTool.disableRule("POMIŠLJAJ_3");  // sl
+    System.err.println("These rules are disabled: " + languageTool.getDisabledRules());
   }
 
   private Date getDumpDate(File file) throws IOException {

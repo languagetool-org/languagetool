@@ -1,6 +1,6 @@
 @ECHO off
 :: Check command line parameters
-IF (%2)==() GOTO usage
+IF (%3)==() GOTO usage
 IF (%1)==() GOTO usage
 IF (%1)==(?) GOTO usage
 IF (%1)==(/?) GOTO usage
@@ -18,6 +18,7 @@ ECHO Usage: %0 lang wikipediaXmlDump
 ECHO Where:
 ECHO - lang is a language code such as 'en' or 'de';
 ECHO - wikipediaXmlDump is the path to an unpacked Wikipedia XML dump.
+ECHO - ruleIds is a comma-separated list of rules to be activated or '-' for the default rules
 ECHO Example:
 ECHO - %0 de dewiki-20101012-pages-articles-partly.xml
 
