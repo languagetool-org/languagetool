@@ -72,7 +72,8 @@ public class French extends Language {
     hVoisard.setRemark("2006-2007");
     return new Contributor[] {
         new Contributor("Agnes Souque"),
-        hVoisard
+        hVoisard,
+        new Contributor("Dominique Pellé"),
     };
   }
 

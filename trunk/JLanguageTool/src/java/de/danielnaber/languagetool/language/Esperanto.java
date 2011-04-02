@@ -52,9 +52,9 @@ public class Esperanto extends Language {
   }
 
   public Contributor[] getMaintainers() {
-    return new Contributor[] {
-        new Contributor("Dominique Pellé")
-    };
+    final Contributor dPelle = new Contributor("Dominique Pellé");
+    dPelle.setUrl("http://dominiko.livejournal.com/tag/lingvoilo");
+    return new Contributor[] { dPelle };
   }
 
   public Set<String> getRelevantRuleIDs() {
