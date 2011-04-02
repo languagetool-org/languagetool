@@ -1,7 +1,7 @@
 <?php
 $page = "links";
 $title = "LanguageTool";
-$title2 = "Links";
+$title2 = "Links &amp; Resources";
 $lastmod = "2011-02-20 12:35:00 CET";
 include("../../include/header.php");
 ?>
