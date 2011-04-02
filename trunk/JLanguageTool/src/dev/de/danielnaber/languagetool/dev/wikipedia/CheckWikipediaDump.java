@@ -56,15 +56,7 @@ public class CheckWikipediaDump {
   
   public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException {
     final CheckWikipediaDump prg = new CheckWikipediaDump();
-    if (args.length < 4 || args.length > 5) {
-      System.err.println("Usage: CheckWikipediaDump <propertyFile> <language> <filename> <ruleIds> [maxArticleCheck]");
-      System.err.println("\tpropertyFile a file to set database access properties. Use '-' to print results to stdout.");
-      System.err.println("\tlanguage languagecode like 'en' or 'de'");
-      System.err.println("\tfilename path to unpacked Wikipedia XML dump");
-      System.err.println("\truleIds comma-separated list of rule-ids to activate. Use '-' to activate the default rules.");
-      System.err.println("\tmaxArticleCheck optional: maximum number of articles to check");
-      System.exit(1);
-    }
+    ensureCorrectUsageOrExit(args);
     File propFile = null;
     if (!"-".equals(args[0])) {
       propFile = new File(args[0]);
@@ -82,7 +74,19 @@ public class CheckWikipediaDump {
     }
     prg.run(propFile, args[1], args[2], ruleIds, maxArticles);
   }
-  
+
+  private static void ensureCorrectUsageOrExit(String[] args) {
+    if (args.length < 4 || args.length > 5) {
+      System.err.println("Usage: CheckWikipediaDump <propertyFile> <language> <filename> <ruleIds> [maxArticleCheck]");
+      System.err.println("\tpropertyFile a file to set database access properties. Use '-' to print results to stdout.");
+      System.err.println("\tlanguage languagecode like 'en' or 'de'");
+      System.err.println("\tfilename path to unpacked Wikipedia XML dump");
+      System.err.println("\truleIds comma-separated list of rule-ids to activate. Use '-' to activate the default rules.");
+      System.err.println("\tmaxArticleCheck optional: maximum number of articles to check");
+      System.exit(1);
+    }
+  }
+
   private void run(File propFile, String language, String textFilename, String[] ruleIds, int maxArticles)
       throws IOException, SAXException, ParserConfigurationException {
     final File file = new File(textFilename);
@@ -101,15 +105,13 @@ public class CheckWikipediaDump {
     } else {
       enableDefaultRules(languageTool);
     }
-    final Date dumpDate = getDumpDate(file);
+    final Date dumpDate = getDumpFileDate(file);
     System.out.println("Dump date: " + dumpDate + ", language: " + language);
     final BaseWikipediaDumpHandler handler;
     if (propFile != null) {
-      handler = new DatabaseDumpHandler(languageTool, maxArticles, dumpDate,
-                language, propFile, lang); 
+      handler = new DatabaseDumpHandler(languageTool, maxArticles, dumpDate, language, propFile, lang);
     } else {
-      handler = new OutputDumpHandler(languageTool, maxArticles, dumpDate,
-              language, lang); 
+      handler = new OutputDumpHandler(languageTool, maxArticles, dumpDate, language, lang);
     }
     final SAXParserFactory factory = SAXParserFactory.newInstance();
     final SAXParser saxParser = factory.newSAXParser();
@@ -143,7 +145,7 @@ public class CheckWikipediaDump {
     System.err.println("These rules are disabled: " + languageTool.getDisabledRules());
   }
 
-  private Date getDumpDate(File file) throws IOException {
+  private Date getDumpFileDate(File file) throws IOException {
     final String filename = file.getName();
     final String[] parts = filename.split("-");
     if (parts.length < 3) {

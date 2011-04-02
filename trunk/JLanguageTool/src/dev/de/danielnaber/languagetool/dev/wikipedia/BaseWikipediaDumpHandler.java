@@ -147,9 +147,9 @@ abstract class BaseWikipediaDumpHandler extends DefaultHandler {
     }
   }
   
-  abstract protected void handleResult(String title, List<RuleMatch> ruleMatches,
+  protected abstract void handleResult(String title, List<RuleMatch> ruleMatches,
       String text, Language language) throws Exception;
 
-  abstract protected void close();
+  protected abstract void close();
 
 }
