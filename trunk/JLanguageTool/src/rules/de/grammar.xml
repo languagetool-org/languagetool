@@ -1451,6 +1451,18 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect">In der <marker>nähe</marker> liegt der Bahnhof.</example>
       <example type="incorrect">Und in der <marker>nähe</marker> liegt der Bahnhof.</example>
     </rule>
+    <rule id="EIN_PAAR" name="Groß-/Kleinschreibung: 'ein Paar(paar)'">
+        <pattern case_sensitive="yes" mark_to="-1">
+          <token regexp="yes">[Ee]in|[Dd]as</token>
+          <token>Paar</token>
+          <token negate="yes" regexp="yes">.*[Ss]chuhe</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>ein paar</suggestion>? (=einige)</message>
+        <example type="correct"><marker>Ein Paar</marker> Schuhe.</example>
+        <example type="correct"><marker>Ein Paar</marker> Wanderschuhe.</example>
+        <example type="correct"><marker>Ein paar</marker> Münzen.</example>
+        <example type="incorrect"><marker>Ein Paar</marker> Münzen.</example>
+      </rule>
   </category>
   <category name="Grammatik">
     <!-- TODO: testen!!
