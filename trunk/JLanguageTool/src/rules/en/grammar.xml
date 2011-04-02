@@ -2110,6 +2110,20 @@ $Id: grammar.xml,v 1.129 2010-11-13 23:24:21 dnaber Exp $
   <!-- Grammar -->
   <!-- ====================================================================== -->
   <category name="Grammar">
+    <rule id="DONT_WILL" name="don't will (won't)">
+      <pattern mark_from="1">
+        <token negate="yes">who</token>
+        <token>don</token>
+        <token>'</token>
+        <token>t</token>
+        <token>will</token>
+      </pattern>
+      <message>Did you mean <suggestion>won't</suggestion>?</message>
+      <short>Grammatical problem or typo</short>
+      <example type="incorrect">I <marker>don't will</marker> do that.</example>
+      <example type="correct">I <marker>won't</marker> do that.</example>
+      <example type="correct">Those who <marker>don't will</marker> never know.</example>
+    </rule>
     <rule id="HELP_TO_FIND" name="help to find (help find)">
       <pattern>
         <token>help</token>
