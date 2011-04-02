@@ -26,6 +26,11 @@ include("../../include/header.php");
 	and LanguageTool are installed. This issue is tracked as <a href="http://openatd.trac.wordpress.org/ticket/215">ticket #215 at After the Deadline</a>.</li>
 <li>If you get <strong>"This media-type is not supported: application/vnd.sun.star.package-bundle2.0.00"</strong> during installation, please consider
     <a href="http://user.services.openoffice.org/en/forum/viewtopic.php?p=58403#p58403">resetting your OpenOffice user profile</a>.</li>
+<li>If you get <strong>"Could not create Java implementation loader"</strong>, try this:
+    Got to <em>Tools -> Options -> Java</em>, uncheck "Use a Java runtime environment", exit OpenOffice.org and start it again,
+    check "Use a Java runtime environment" again and try to install/activate the LanguageTool extension
+    (<a href="http://sourceforge.net/projects/opencards/forums/forum/707158/topic/1886832">source</a>) - please
+    let us know if this worked for you</li>
 <li>If you are using an older version of LanguageTool and/or OpenOffice.org, these issues may affect you:
     <ul>
         <li>LanguageTool installation fails if the name of your user account contains
