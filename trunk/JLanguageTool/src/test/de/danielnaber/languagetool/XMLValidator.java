@@ -55,15 +55,15 @@ public final class XMLValidator {
    * Check some limits of our simplified XML output.  
    */
   public void checkSimpleXMLString(String xml) throws IOException {
-    Pattern p = Pattern.compile("(<error.*?/>)", Pattern.DOTALL|Pattern.MULTILINE);
-    Matcher matcher = p.matcher(xml);
+    final Pattern p = Pattern.compile("(<error.*?/>)", Pattern.DOTALL|Pattern.MULTILINE);
+    final Matcher matcher = p.matcher(xml);
     int pos = 0;
     while (matcher.find(pos)) {
-      String errorElement = matcher.group();
+      final String errorElement = matcher.group();
       pos = matcher.end();
       if (errorElement.contains("\n") || errorElement.contains("\r"))
         throw new IOException("<error ...> may not contain line breaks");
-      char beforeError = xml.charAt(matcher.start()-1);
+      final char beforeError = xml.charAt(matcher.start()-1);
       if (beforeError != '\n' && beforeError != '\r')
         throw new IOException("Each <error ...> must start on a new line");
     }
@@ -81,10 +81,10 @@ public final class XMLValidator {
    */
   public final void validate(String filename, String dtdFile, String docType) throws IOException {
     try {
-      String xml = StringTools.readFile(this.getClass().getResourceAsStream(filename), "utf-8");
+      final String xml = StringTools.readFile(this.getClass().getResourceAsStream(filename), "utf-8");
       validateInternal(xml, dtdFile, docType);
     } catch (Exception e) {
-      IOException ioe = new IOException("Cannot load or parse '"+filename+"'");
+      final IOException ioe = new IOException("Cannot load or parse '"+filename+"'");
       ioe.initCause(e);
       throw ioe;
     }
@@ -101,35 +101,35 @@ public final class XMLValidator {
       validateInternal(this.getClass().getResourceAsStream(filename), 
           this.getClass().getResource(xmlSchema));
     } catch (Exception e) {
-      IOException ioe = new IOException("Cannot load or parse '"+filename+"'");
+      final IOException ioe = new IOException("Cannot load or parse '"+filename+"'");
       ioe.initCause(e);
       throw ioe;
     }
   }
 
   private void validateInternal(String xml, String dtdFile, String doctype) throws SAXException, IOException, ParserConfigurationException {
-    SAXParserFactory factory = SAXParserFactory.newInstance();
+    final SAXParserFactory factory = SAXParserFactory.newInstance();
     factory.setValidating(true);
-    SAXParser saxParser = factory.newSAXParser();
+    final SAXParser saxParser = factory.newSAXParser();
     //used for removing existing DOCTYPE from grammar.xml files
     xml = xml.replaceAll("<!DOCTYPE.+>", "");
     final String decl = "<?xml version=\"1.0\"";
     final String endDecl = "?>";
     final String dtd = "<!DOCTYPE "+doctype+" PUBLIC \"-//W3C//DTD Rules 0.1//EN\" \"" +this.getClass().getResource(dtdFile)+ "\">";
-    int pos = xml.indexOf(decl);
-    int endPos = xml.indexOf(endDecl);
+    final int pos = xml.indexOf(decl);
+    final int endPos = xml.indexOf(endDecl);
     if (pos == -1)
       throw new IOException("No XML declaration found in '" + xml.substring(0, Math.min(100, xml.length())) + "...'");
-    String newXML = xml.substring(0, endPos+endDecl.length()) + "\r\n" + dtd + xml.substring(endPos+endDecl.length());
+    final String newXML = xml.substring(0, endPos+endDecl.length()) + "\r\n" + dtd + xml.substring(endPos+endDecl.length());
     //System.err.println(newXML);
-    InputSource is = new InputSource(new StringReader(newXML));
+    final InputSource is = new InputSource(new StringReader(newXML));
     saxParser.parse(is, new ErrorHandler());
   }
 
   private void validateInternal(InputStream xml, URL xmlSchema) throws SAXException, IOException, ParserConfigurationException {        
-    SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-    Schema schema = sf.newSchema(xmlSchema);
-    Validator validator = schema.newValidator();
+    final SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+    final Schema schema = sf.newSchema(xmlSchema);
+    final Validator validator = schema.newValidator();
     validator.setErrorHandler(new ErrorHandler());
     validator.validate(new StreamSource(xml));        
   }
