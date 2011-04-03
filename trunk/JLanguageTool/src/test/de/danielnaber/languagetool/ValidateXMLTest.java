@@ -51,10 +51,7 @@ public class ValidateXMLTest extends TestCase {
     final XMLValidator validator = new XMLValidator();
     int disambiguationChecks = 0;
     for (Language language : Language.LANGUAGES) {
-      if (language == Language.ROMANIAN) {
-        // TODO: don't ignore this, fix it instead!
-        continue;
-      }
+      
       final String disambiguationFile = JLanguageTool.getDataBroker().getResourceDir() + "/" + language.getShortName() + "/disambiguation.xml";
       final InputStream stream = this.getClass().getResourceAsStream(disambiguationFile);
       if (stream != null) {

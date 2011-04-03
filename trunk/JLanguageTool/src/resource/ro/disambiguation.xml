@@ -26,11 +26,7 @@
 			<token postag_regexp="yes" postag="Sms3aac000|Sfp3aac000|Sfs3aac000" />
 			<and>
 				<token>care</token>
-				<or>
-					<token postag="Snp3anc000" />
-					<token postag="V0p3000cz0" />
-					<token postag="V0s3000cz0" />
-				</or>
+				<token postag_regexp="yes" postag="Snp3anc000|V0[sp]3000cz0" />				
 			</and>
 			<token postag="V0s3000iz0" />
 		</pattern>
@@ -40,9 +36,7 @@
 		<pattern mark="1"> 
 			<token postag="V.*ivv" postag_regexp="yes"><exception>voi</exception></token>
 			<!-- mai puțin "voi", este prea general, vezi "pentru voi culege el aceste flori" -->
-			<and>
-				<token postag="V000000f00"></token>
-			</and>			
+			<token postag="V000000f00"></token>
 		</pattern>
 		<disambig><match no="2" postag="V000000f00" postag_regexp="yes"/></disambig>
 	</rule>
