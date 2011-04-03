@@ -191,40 +191,11 @@ public final class TestTools {
     return false;
   }
 
-  /**
-   * Used to call private methods for testing
-   * 
-   * @param targetClass
-   *          Class under test
-   * @param methodName
-   *          Name of the method under test
-   * @param argClasses
-   *          Types of arguments
-   * @param argObjects
-   *          Values of arguments
-   * @throws InvocationTargetException
-   * @throws IllegalAccessException
-   * @throws IllegalArgumentException
-   * @throws NoSuchMethodException
-   * @throws SecurityException
-   */
-  public static void callStaticMethod(final Class targetClass,
-      final String methodName, final Class[] argClasses,
-      final Object[] argObjects) throws InvocationTargetException,
-      IllegalArgumentException, IllegalAccessException, SecurityException,
-      NoSuchMethodException {
-
-    final Method method = targetClass.getDeclaredMethod(methodName, argClasses);
-    method.setAccessible(true);
-    method.invoke(null, argObjects);
-  }
-
   public static String callStringStaticMethod(final Class targetClass,
       final String methodName, final Class[] argClasses,
       final Object[] argObjects) throws InvocationTargetException,
       IllegalArgumentException, IllegalAccessException, SecurityException,
       NoSuchMethodException {
-
     final Method method = targetClass.getDeclaredMethod(methodName, argClasses);
     method.setAccessible(true);
     return (String) method.invoke(null, argObjects);
