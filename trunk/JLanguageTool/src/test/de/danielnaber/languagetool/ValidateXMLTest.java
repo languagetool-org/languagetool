@@ -19,20 +19,27 @@
 package de.danielnaber.languagetool;
 
 import java.io.IOException;
+import java.util.Set;
 
 import junit.framework.TestCase;
 
 public class ValidateXMLTest extends TestCase {
 
-  public void testPatternFile() throws IOException {
+  public void testPatternFile(Set<Language> ignoredLanguages, boolean verbose) throws IOException {
     XMLValidator validator = new XMLValidator();
     for (int i = 0; i < Language.LANGUAGES.length; i++) {
       Language lang = Language.LANGUAGES[i];
+      if (ignoredLanguages != null && ignoredLanguages.contains(lang)) {
+        continue;
+      }
+      if (verbose) {
+      	System.out.println("Running tests for " + lang.getName() + "...");
+      }
       String grammarFile = JLanguageTool.getDataBroker().getRulesDir() + "/" + lang.getShortName() + "/grammar.xml";
       validator.validate(grammarFile, JLanguageTool.getDataBroker().getRulesDir() + "/rules.xsd");
     }
   }
-
+  
   public void testFalseFriendsXML() throws IOException {
     XMLValidator validator = new XMLValidator();
     validator.validate(JLanguageTool.getDataBroker().getRulesDir() + "/false-friends.xml", 
@@ -63,8 +70,13 @@ public class ValidateXMLTest extends TestCase {
    */
   public static void main(final String[] args) throws IOException {
     final ValidateXMLTest prt = new ValidateXMLTest();
-    System.out.println("Validating XML grammar files ...");  
-    prt.testPatternFile();
+    System.out.println("Validating XML grammar files ...");
+    if (args.length == 0) {
+      prt.testPatternFile(null, true);
+    } else {
+      final Set<Language> ignoredLanguages = TestTools.getLanguagesExcept(args);
+      prt.testPatternFile(ignoredLanguages, true);
+    }
     prt.testFalseFriendsXML();
     prt.testDisambiguationRuleFile();
     System.out.println("Validation tests successful.");

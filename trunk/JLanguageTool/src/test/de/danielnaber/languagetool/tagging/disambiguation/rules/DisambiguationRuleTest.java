@@ -26,14 +26,11 @@ import java.util.Set;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import de.danielnaber.languagetool.*;
 import junit.framework.TestCase;
 
 import org.xml.sax.SAXException;
 
-import de.danielnaber.languagetool.AnalyzedSentence;
-import de.danielnaber.languagetool.AnalyzedTokenReadings;
-import de.danielnaber.languagetool.JLanguageTool;
-import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.tagging.disambiguation.xx.DemoDisambiguator;
 import de.danielnaber.languagetool.tagging.disambiguation.xx.TrimDisambiguator;
 
@@ -58,9 +55,6 @@ public class DisambiguationRuleTest extends TestCase {
       throws IOException, ParserConfigurationException, SAXException {
     for (final Language lang : Language.LANGUAGES) {
       if (ignoredLanguages != null && ignoredLanguages.contains(lang)) {
-        if (verbose) {
-          System.out.println("Ignoring tests for " + lang.getName());
-        }
         continue;
       }
       if (verbose) {
@@ -229,7 +223,12 @@ public class DisambiguationRuleTest extends TestCase {
     final DisambiguationRuleTest prt = new DisambiguationRuleTest();
     System.out.println("Running disambiguator rule tests...");
     prt.setUp();
-    prt.testDisambiguationRulesFromXML();        
+    if (args.length == 0) {
+	  prt.testDisambiguationRulesFromXML(null, true);
+    } else {
+      final Set<Language> ignoredLanguages = TestTools.getLanguagesExcept(args);
+      prt.testDisambiguationRulesFromXML(ignoredLanguages, true);
+    }
     System.out.println("Tests successful.");
   }
   

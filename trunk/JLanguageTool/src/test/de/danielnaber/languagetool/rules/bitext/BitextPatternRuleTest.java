@@ -21,13 +21,12 @@ package de.danielnaber.languagetool.rules.bitext;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
+import de.danielnaber.languagetool.TestTools;
 import de.danielnaber.languagetool.bitext.StringPair;
 import de.danielnaber.languagetool.rules.Rule;
 import de.danielnaber.languagetool.rules.RuleMatch;
@@ -46,9 +45,6 @@ public class BitextPatternRuleTest extends TestCase {
       final boolean verbose) throws IOException {
      for (final Language lang : Language.LANGUAGES) {
       if (ignoredLanguages != null && ignoredLanguages.contains(lang)) {
-        if (verbose) {
-          System.out.println("Ignoring tests for " + lang.getName());
-        }
         continue;
       }                  
       final BitextPatternRuleLoader ruleLoader = new BitextPatternRuleLoader();
@@ -60,7 +56,7 @@ public class BitextPatternRuleTest extends TestCase {
         }
         final JLanguageTool languageTool = new JLanguageTool(lang);
         final List<BitextPatternRule> rules = ruleLoader.getRules(is, name);
-        testBitextRulesFromXML(rules, languageTool, Language.POLISH);
+        testBitextRulesFromXML(rules, languageTool, lang);
       }                           
     }
   }
@@ -279,10 +275,13 @@ public class BitextPatternRuleTest extends TestCase {
   public static void main(final String[] args) throws IOException {
     final BitextPatternRuleTest prt = new BitextPatternRuleTest();
     System.out.println("Running XML bitext pattern tests...");   
-    prt.testBitextRulesFromXML();        
+    if (args.length == 0) {
+      prt.testBitextRulesFromXML(null, true);
+    } else {
+      final Set<Language> ignoredLanguages = TestTools.getLanguagesExcept(args);
+      prt.testBitextRulesFromXML(ignoredLanguages, true);
+    }
     System.out.println("Tests successful.");
   }
 
-  
-  
 }

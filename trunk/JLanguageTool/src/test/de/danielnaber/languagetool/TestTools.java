@@ -21,12 +21,7 @@ package de.danielnaber.languagetool;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import junit.framework.Assert;
 import de.danielnaber.languagetool.tagging.Tagger;
@@ -46,7 +41,19 @@ public final class TestTools {
   public static ResourceBundle getEnglishMessages() {
 	  return getMessages("en");
   }
-  
+
+  public static Set<Language> getLanguagesExcept(String[] langCodes) {
+    final Set<Language> languages = new HashSet<Language>();
+    languages.addAll(Arrays.asList(Language.LANGUAGES));
+    if (langCodes != null) {
+      for (String langCode : langCodes) {
+        final Language lang = Language.getLanguageForShortName(langCode);
+        languages.remove(lang);
+      }
+    }
+    return languages;
+  }
+
   /**
    * Gets the resource bundle for the specified language.
    * @param language lowercase two-letter ISO-639 code.

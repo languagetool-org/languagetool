@@ -53,8 +53,11 @@ public class PatternRuleTest extends TestCase {
     }
   }
 
-  public void testGrammarRulesFromXML() throws IOException {
+  public void testGrammarRulesFromXML(Set<Language> ignoredLanguages) throws IOException {
     for (final Language lang : Language.LANGUAGES) {
+      if (ignoredLanguages != null && ignoredLanguages.contains(lang)) {
+        continue;
+      }
       System.out.println("Running tests for " + lang.getName() + "...");
       final PatternRuleLoader ruleLoader = new PatternRuleLoader();
       final JLanguageTool languageTool = new JLanguageTool(lang);
@@ -63,6 +66,30 @@ public class PatternRuleTest extends TestCase {
               getFromRulesDirAsStream(name), name);
       warnIfRegexpSyntaxNotKosher(rules, lang);
       testGrammarRulesFromXML(rules, languageTool, lang);
+    }
+  }
+  
+  private void testGrammarRulesFromXML(final List<PatternRule> rules,
+                                       final JLanguageTool languageTool, final Language lang) throws IOException {
+    final HashMap<String, PatternRule> complexRules = new HashMap<String, PatternRule>();
+    for (final PatternRule rule : rules) {
+      testCorrectSentences(languageTool, lang, rule);
+      testBadSentences(languageTool, lang, complexRules, rule);
+    }
+    if (!complexRules.isEmpty()) {
+      final Set<String> set = complexRules.keySet();
+      final List<PatternRule> badRules = new ArrayList<PatternRule>();
+      for (String aSet : set) {
+        final PatternRule badRule = complexRules.get(aSet);
+        if (badRule != null) {
+          badRule.notComplexPhrase();
+          badRule.setMessage("The rule contains a phrase that never matched any incorrect example.");
+          badRules.add(badRule);
+        }
+      }
+      if (!badRules.isEmpty()) {
+        testGrammarRulesFromXML(badRules, languageTool, lang);
+      }
     }
   }
 
@@ -143,7 +170,7 @@ public class PatternRuleTest extends TestCase {
           + ruleId + " contains " + "\"" + stringValue
           + "\" that is marked as regular expression but probably is not one.");
     }
-          
+
     if (isInflected && "".equals(stringValue)) {
       System.err.println("The " + lang.toString() + " rule: "
           + ruleId + " contains " + "\"" + stringValue
@@ -166,8 +193,8 @@ public class PatternRuleTest extends TestCase {
     }
 
     if (isRegularExpression && stringValue.contains("|")) {
-      final String[] groups = stringValue.split("\\)");         
-      for (final String group : groups) {        
+      final String[] groups = stringValue.split("\\)");
+      for (final String group : groups) {
         final String[] alt = group.split("\\|");
         final Set<String> partSet = new HashSet<String>();
         final Set<String> partSetNoCase = new HashSet<String>();
@@ -177,43 +204,19 @@ public class PatternRuleTest extends TestCase {
             if (partSet.contains(part)) {
               // Duplicate disjunction parts "foo|foo".
               System.err.println("The " + lang.toString() + " rule: "
-                  + ruleId + " contains duplicated disjunction part (" 
+                  + ruleId + " contains duplicated disjunction part ("
                   + part + ") within " + "\"" + stringValue + "\".");
             } else {
               // Duplicate disjunction parts "Foo|foo" since element ignores case.
               System.err.println("The " + lang.toString() + " rule: "
-                  + ruleId + " contains duplicated non case sensitive disjunction part (" 
+                  + ruleId + " contains duplicated non case sensitive disjunction part ("
                   + part + ") within " + "\"" + stringValue + "\". Did you "
                   + "forget case_sensitive=\"yes\"?");
             }
-          }    
+          }
           partSetNoCase.add(partNoCase);
           partSet.add(part);
         }
-      }
-    }
-  }
-
-  private void testGrammarRulesFromXML(final List<PatternRule> rules,
-      final JLanguageTool languageTool, final Language lang) throws IOException {
-    final HashMap<String, PatternRule> complexRules = new HashMap<String, PatternRule>();
-    for (final PatternRule rule : rules) {
-      testCorrectSentences(languageTool, lang, rule);
-      testBadSentences(languageTool, lang, complexRules, rule);
-    }
-    if (!complexRules.isEmpty()) {
-      final Set<String> set = complexRules.keySet();
-      final List<PatternRule> badRules = new ArrayList<PatternRule>();
-      for (String aSet : set) {
-        final PatternRule badRule = complexRules.get(aSet);
-        if (badRule != null) {
-          badRule.notComplexPhrase();
-          badRule.setMessage("The rule contains a phrase that never matched any incorrect example.");
-          badRules.add(badRule);
-        }
-      }
-      if (!badRules.isEmpty()) {
-        testGrammarRulesFromXML(badRules, languageTool, lang);
       }
     }
   }
@@ -503,8 +506,13 @@ public class PatternRuleTest extends TestCase {
     final PatternRuleTest test = new PatternRuleTest();
     System.out.println("Running XML pattern tests...");
     test.setUp();
-    test.testGrammarRulesFromXML();
-    System.out.println("Tests finished.");
+    if (args.length == 0) {
+      test.testGrammarRulesFromXML(null);
+    } else {
+      final Set<Language> ignoredLanguages = TestTools.getLanguagesExcept(args);
+      test.testGrammarRulesFromXML(ignoredLanguages);
+    }
+    System.out.println("Tests finished!");
   }
 
 }
