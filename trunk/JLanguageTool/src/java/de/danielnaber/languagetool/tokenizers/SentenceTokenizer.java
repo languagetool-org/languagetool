@@ -134,6 +134,7 @@ public class SentenceTokenizer implements Tokenizer {
   /**
    * Tokenize the given string to sentences.
    */
+  @Override
   public List<String> tokenize(String s) {
     s = firstSentenceSplitting(s);
     s = removeFalseEndOfSentence(s);

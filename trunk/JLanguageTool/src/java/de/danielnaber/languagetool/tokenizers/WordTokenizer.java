@@ -33,6 +33,7 @@ public class WordTokenizer implements Tokenizer {
   public WordTokenizer() {
   }
 
+  @Override
   public List<String> tokenize(final String text) {
     final List<String> l = new ArrayList<String>();
     final StringTokenizer st = new StringTokenizer(text, 

@@ -33,7 +33,8 @@ public class SpanishWordTokenizer implements Tokenizer {
 
 	public SpanishWordTokenizer() {	
 	}
-	
+
+    @Override
 	public List<String> tokenize(final String text) {
 		    final List<String> l = new ArrayList<String>();
 		    final StringTokenizer st = new StringTokenizer(text, 

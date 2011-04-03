@@ -38,7 +38,8 @@ public class GermanCompoundTokenizer implements Tokenizer {
     wordSplitter.setStrictMode(true); // required for now to make minimum length work
     wordSplitter.setMinimumWordLength(3);
   }
-  
+
+  @Override
   public List<String> tokenize(String word) {
     return (List<String>) wordSplitter.splitWord(word);
   }

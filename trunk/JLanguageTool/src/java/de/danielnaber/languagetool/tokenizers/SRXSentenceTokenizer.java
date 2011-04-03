@@ -38,7 +38,7 @@ import de.danielnaber.languagetool.JLanguageTool;
  */
 public class SRXSentenceTokenizer extends SentenceTokenizer {
 
-  private BufferedReader srxReader;
+  private final BufferedReader srxReader;
   private final SrxDocument document;
   private final String language;
   private String parCode;
@@ -70,6 +70,7 @@ public class SRXSentenceTokenizer extends SentenceTokenizer {
     return segments;
   }
 
+  @Override
   public final boolean singleLineBreaksMarksPara() {
     return "_one".equals(parCode);
   }
@@ -80,6 +81,7 @@ public class SRXSentenceTokenizer extends SentenceTokenizer {
    *          paragraph, with <code>false</code>, only two ore more consecutive
    *          line breaks end a paragraph
    */
+  @Override
   public final void setSingleLineBreaksMarksParagraph(
       final boolean lineBreakParagraphs) {
     if (lineBreakParagraphs) {
@@ -89,6 +91,7 @@ public class SRXSentenceTokenizer extends SentenceTokenizer {
     }
   }
 
+  @Override
   protected final void finalize() throws Throwable {
     if (srxReader != null) {
       srxReader.close();

@@ -33,7 +33,8 @@ public class GalicianWordTokenizer implements Tokenizer {
 
   public GalicianWordTokenizer() {
   }
-  
+
+  @Override
   public List<String> tokenize(final String text) {
     final List<String> tokens = new ArrayList<String>();
     final StringTokenizer st = new StringTokenizer(text, 

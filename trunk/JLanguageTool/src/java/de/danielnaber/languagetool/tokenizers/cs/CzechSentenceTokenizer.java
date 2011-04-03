@@ -118,6 +118,7 @@ public class CzechSentenceTokenizer extends SentenceTokenizer {
    * @param lineBreakParagraphs if <code>true</code>, single lines breaks are assumed to end a paragraph,
    *  with <code>false</code>, only two ore more consecutive line breaks end a paragraph
    */
+  @Override
   public final void setSingleLineBreaksMarksParagraph(final boolean lineBreakParagraphs) {
     if (lineBreakParagraphs)
       paragraph = paragraphByLineBreak;
@@ -125,6 +126,7 @@ public class CzechSentenceTokenizer extends SentenceTokenizer {
       paragraph = paragraphByTwoLineBreaks;
   }
 
+  @Override
   public final List<String> tokenize(String s) {
     s = firstSentenceSplitting(s);
     s = removeFalseEndOfSentence(s);
@@ -159,6 +161,7 @@ public class CzechSentenceTokenizer extends SentenceTokenizer {
    * Repair some positions that don't require a split, i.e. remove the special break character at
    * those positions.
    */
+  @Override
   protected String removeFalseEndOfSentence(String s) {
     // Don't split at e.g. "U. S. A.":
     s = abbrev1.matcher(s).replaceAll("$1");
