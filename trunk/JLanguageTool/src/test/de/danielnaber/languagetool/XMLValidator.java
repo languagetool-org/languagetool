@@ -55,17 +55,19 @@ public final class XMLValidator {
    * Check some limits of our simplified XML output.  
    */
   public void checkSimpleXMLString(String xml) throws IOException {
-    final Pattern p = Pattern.compile("(<error.*?/>)", Pattern.DOTALL|Pattern.MULTILINE);
-    final Matcher matcher = p.matcher(xml);
+    final Pattern pattern = Pattern.compile("(<error.*?/>)", Pattern.DOTALL|Pattern.MULTILINE);
+    final Matcher matcher = pattern.matcher(xml);
     int pos = 0;
     while (matcher.find(pos)) {
       final String errorElement = matcher.group();
       pos = matcher.end();
-      if (errorElement.contains("\n") || errorElement.contains("\r"))
+      if (errorElement.contains("\n") || errorElement.contains("\r")) {
         throw new IOException("<error ...> may not contain line breaks");
+      }
       final char beforeError = xml.charAt(matcher.start()-1);
-      if (beforeError != '\n' && beforeError != '\r')
+      if (beforeError != '\n' && beforeError != '\r') {
         throw new IOException("Each <error ...> must start on a new line");
+      }
     }
   }
 
@@ -84,7 +86,7 @@ public final class XMLValidator {
       final String xml = StringTools.readFile(this.getClass().getResourceAsStream(filename), "utf-8");
       validateInternal(xml, dtdFile, docType);
     } catch (Exception e) {
-      final IOException ioe = new IOException("Cannot load or parse '"+filename+"'");
+      final IOException ioe = new IOException("Cannot load or parse '" + filename + "'");
       ioe.initCause(e);
       throw ioe;
     }
@@ -101,13 +103,13 @@ public final class XMLValidator {
       validateInternal(this.getClass().getResourceAsStream(filename), 
           this.getClass().getResource(xmlSchema));
     } catch (Exception e) {
-      final IOException ioe = new IOException("Cannot load or parse '"+filename+"'");
+      final IOException ioe = new IOException("Cannot load or parse '" + filename + "'");
       ioe.initCause(e);
       throw ioe;
     }
   }
 
-  private void validateInternal(String xml, String dtdFile, String doctype) throws SAXException, IOException, ParserConfigurationException {
+  private void validateInternal(String xml, String dtdFile, String docType) throws SAXException, IOException, ParserConfigurationException {
     final SAXParserFactory factory = SAXParserFactory.newInstance();
     factory.setValidating(true);
     final SAXParser saxParser = factory.newSAXParser();
@@ -115,13 +117,13 @@ public final class XMLValidator {
     xml = xml.replaceAll("<!DOCTYPE.+>", "");
     final String decl = "<?xml version=\"1.0\"";
     final String endDecl = "?>";
-    final String dtd = "<!DOCTYPE "+doctype+" PUBLIC \"-//W3C//DTD Rules 0.1//EN\" \"" +this.getClass().getResource(dtdFile)+ "\">";
+    final String dtd = "<!DOCTYPE " + docType + " PUBLIC \"-//W3C//DTD Rules 0.1//EN\" \"" +this.getClass().getResource(dtdFile)+ "\">";
     final int pos = xml.indexOf(decl);
     final int endPos = xml.indexOf(endDecl);
-    if (pos == -1)
+    if (pos == -1) {
       throw new IOException("No XML declaration found in '" + xml.substring(0, Math.min(100, xml.length())) + "...'");
+    }
     final String newXML = xml.substring(0, endPos+endDecl.length()) + "\r\n" + dtd + xml.substring(endPos+endDecl.length());
-    //System.err.println(newXML);
     final InputSource is = new InputSource(new StringReader(newXML));
     saxParser.parse(is, new ErrorHandler());
   }
