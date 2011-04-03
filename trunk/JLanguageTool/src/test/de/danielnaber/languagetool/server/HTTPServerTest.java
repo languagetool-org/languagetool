@@ -33,23 +33,23 @@ import de.danielnaber.languagetool.tools.StringTools;
 
 public class HTTPServerTest extends TestCase {
 
-  public void testHTTPServer() {
-    HTTPServer server = new HTTPServer();
+  public void testHTTPServer() throws Exception {
+    final HTTPServer server = new HTTPServer();
     try {
       server.run();
       // no error:
-      String enc = "UTF-8";
+      final String enc = "UTF-8";
       assertEquals("<?xml version=\"1.0\" encoding=\""+enc+"\"?>\n<matches>\n</matches>\n", check(Language.GERMAN, ""));
       assertEquals("<?xml version=\"1.0\" encoding=\""+enc+"\"?>\n<matches>\n</matches>\n", check(Language.GERMAN, "Ein kleiner test"));
       // one error:
       assertTrue(check(Language.GERMAN, "ein kleiner test").indexOf("UPPERCASE_SENTENCE_START") != -1);
       // two errors:
-      String result = check(Language.GERMAN, "ein kleiner test. Und wieder Erwarten noch was: \u00f6\u00e4\u00fc\u00df.");
+      final String result = check(Language.GERMAN, "ein kleiner test. Und wieder Erwarten noch was: \u00f6\u00e4\u00fc\u00df.");
       assertTrue(result.indexOf("UPPERCASE_SENTENCE_START") != -1);
       assertTrue(result.indexOf("WIEDER_WILLEN") != -1);
       assertTrue("Expected special chars, got: '" + result+ "'",
           result.indexOf("\u00f6\u00e4\u00fc\u00df") != -1);   // special chars are intact
-      XMLValidator validator = new XMLValidator();
+      final XMLValidator validator = new XMLValidator();
       validator.validateXMLString(result, JLanguageTool.getDataBroker().getResourceDir() + "/api-output.dtd", "matches");
       validator.checkSimpleXMLString(result);
       //System.err.println(result);
@@ -58,17 +58,17 @@ public class HTTPServerTest extends TestCase {
       assertTrue(check(Language.GERMAN, "bla <script>").indexOf("<script>") == -1);
       
       // other tests for special characters
-      String germanSpecialChars = check(Language.GERMAN, "ein kleiner test. Und wieder Erwarten noch was: öäüß öäüß.");
+      final String germanSpecialChars = check(Language.GERMAN, "ein kleiner test. Und wieder Erwarten noch was: öäüß öäüß.");
       assertTrue("Expected special chars, got: '" + germanSpecialChars+ "'", germanSpecialChars.contains("öäüß"));
-      String romanianSpecialChars = check(Language.ROMANIAN, "bla bla șțîâă șțîâă și câteva caractere speciale");
+      final String romanianSpecialChars = check(Language.ROMANIAN, "bla bla șțîâă șțîâă și câteva caractere speciale");
       assertTrue("Expected special chars, got: '" + romanianSpecialChars+ "'", romanianSpecialChars.contains("șțîâă"));
-      String polishSpecialChars = check(Language.POLISH, "Mówiła długo, żeby tylko mówić mówić długo.");
+      final String polishSpecialChars = check(Language.POLISH, "Mówiła długo, żeby tylko mówić mówić długo.");
       assertTrue("Expected special chars, got: '" + polishSpecialChars+ "'", polishSpecialChars.contains("mówić"));
       // test http POST
       assertTrue(checkByPOST(Language.ROMANIAN, "greșit greșit").indexOf("greșit") != -1);
       // test supported language listing
-      URL url = new URL("http://localhost:" + HTTPServer.DEFAULT_PORT + "/Languages");
-      String languagesXML = StringTools.streamToString((InputStream)url.getContent());
+      final URL url = new URL("http://localhost:" + HTTPServer.DEFAULT_PORT + "/Languages");
+      final String languagesXML = StringTools.streamToString((InputStream)url.getContent());
       if (!languagesXML.contains("Romanian") || !languagesXML.contains("English"))
         fail("Error getting supported languages: " + languagesXML);
       // tests for "&" character
@@ -76,8 +76,6 @@ public class HTTPServerTest extends TestCase {
       // tests for mother tongue (copy from link {@link FalseFriendRuleTest})   
       assertTrue(check(Language.ENGLISH, Language.GERMAN, "We will berate you").indexOf("BERATE") != -1);
       assertTrue(check(Language.GERMAN, Language.ENGLISH, "Man sollte ihn nicht so beraten.").indexOf("BERATE") != -1);
-    } catch (Exception e) {
-      throw new RuntimeException(e);
     } finally {
       server.stop();
     }
@@ -90,11 +88,12 @@ public class HTTPServerTest extends TestCase {
   private String check(Language lang, Language motherTongue, String text) throws IOException {
     String urlOptions = "/?language=" + lang.getShortName();
     urlOptions += "&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like polish, romanian, etc
-    if (null != motherTongue)
-    	urlOptions += "&motherTongue="+motherTongue.getShortName(); 
-    URL url = new URL("http://localhost:" + HTTPServer.DEFAULT_PORT + urlOptions);
-    InputStream stream = (InputStream)url.getContent();
-    String result = StringTools.streamToString(stream);
+    if (null != motherTongue) {
+    	urlOptions += "&motherTongue="+motherTongue.getShortName();
+    }
+    final URL url = new URL("http://localhost:" + HTTPServer.DEFAULT_PORT + urlOptions);
+    final InputStream stream = (InputStream)url.getContent();
+    final String result = StringTools.streamToString(stream);
     return result;
   }
   
@@ -104,13 +103,13 @@ public class HTTPServerTest extends TestCase {
   private String checkByPOST(Language lang, String text) throws IOException {
     String postData = "language=" + lang.getShortName();
     postData += "&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like polish, romanian, etc
-    URL url = new URL("http://localhost:" + HTTPServer.DEFAULT_PORT);
-    URLConnection connection = url.openConnection();
+    final URL url = new URL("http://localhost:" + HTTPServer.DEFAULT_PORT);
+    final URLConnection connection = url.openConnection();
     connection.setDoOutput(true);
-    OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream());
+    final OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream());
     wr.write(postData);
     wr.flush();
-    String result = StringTools.streamToString(connection.getInputStream());
+    final String result = StringTools.streamToString(connection.getInputStream());
     return result;
   }
   
