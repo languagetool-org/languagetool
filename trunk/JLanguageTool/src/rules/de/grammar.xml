@@ -12,6 +12,17 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
 <rules lang="de" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../rules.xsd">
   <category name="Mögliche Tippfehler">
+    <rule id="BAFF_ERSTAUNT" name="Tippfehler: 'baff(bass) erstaunt'">
+      <pattern mark_to="-1">
+          <token>baff</token>
+          <token inflected="yes">erstaunt</token>
+        </pattern>
+      <message>Meinten Sie <suggestion>bass</suggestion>? 'bass erstaunt' ist eine feste Wendung.</message>
+      <example type="correct">Der Mann war <marker>bass</marker> erstaunt.</example>
+      <example type="correct">Ein <marker>bass</marker> erstaunter Typ.</example>
+      <example type="incorrect">Der Mann war <marker>baff</marker> erstaunt.</example>
+      <example type="incorrect">Ein <marker>baff</marker> erstaunter Typ.</example>
+    </rule>
     <rule id="KLINGENDE_KASSEN" name="Tippfehler: 'klingende(klingelnde) Kassen'">
       <pattern mark_to="-1">
           <token regexp="yes">klingende|klingender|klingenden</token>
