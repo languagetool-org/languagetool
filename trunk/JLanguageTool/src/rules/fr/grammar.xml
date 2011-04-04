@@ -16825,6 +16825,38 @@ though, and has since been slightly modified)-->
       <example type="incorrect">Il va <marker>au</marker> coiffeur tous les mois.</example>
       <example type="correct">Il va chez le coiffeur tous les mois.</example>
     </rule>
+    <rulegroup id="AUX_DEPENDS" name="aux depends">
+      <rule>
+        <pattern>
+          <token regexp="yes">aux?</token>
+          <token regexp="yes">dépends?</token>
+        </pattern>
+        <message>« \1 \2 » est un tour critiqué. Employez <suggestion>aux dépens</suggestion></message>
+        <example type="incorrect">Il vit <marker>aux depends</marker> de ses parents.</example>
+        <example type="correct">Il vit <marker>aux depens</marker> de ses parents.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>à</token>
+          <token regexp="yes">[mts](es|on)|leurs?|[nv]os|[nv]otre</token>
+          <token regexp="yes">dépends?</token>
+        </pattern>
+        <message>« \1 \2 \3 » est un tour critiqué. Employez <suggestion>\1 \2 dépens</suggestion></message>
+        <example type="incorrect">Il vit <marker>à nos dépends</marker>.</example>
+        <example type="correct">Il vit <marker>à nos dépends</marker>.</example>
+      </rule>
+    </rulegroup>
+    <rule id="CHIFFRE_D_AFFAIRE" name="chiffre d'affaire">
+        <pattern mark_from="3">
+          <token regexp="yes">chiffres?</token>
+          <token>d</token>
+          <token regexp="yes">['’]</token>
+          <token>affaire</token>
+        </pattern>
+        <message>Employez <suggestion>\1 \2\3\4s</suggestion> car il s'agit du chiffre des affaires.</message>
+        <example type="incorrect">Le chiffre d'affaire de l'entreprise.</example>
+        <example type="correct">Le chiffre d'affaires de l'entreprise.</example>
+    </rule>
     <rule id="S_EN_SUIVRE" name="s'en suivre au lieu de s'ensuivre">
       <pattern>
         <token>s</token>
