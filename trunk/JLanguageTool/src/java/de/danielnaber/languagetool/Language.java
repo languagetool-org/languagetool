@@ -39,6 +39,7 @@ import de.danielnaber.languagetool.language.Galician;
 import de.danielnaber.languagetool.language.German;
 import de.danielnaber.languagetool.language.Icelandic;
 import de.danielnaber.languagetool.language.Italian;
+import de.danielnaber.languagetool.language.Khmer;
 import de.danielnaber.languagetool.language.Lithuanian;
 import de.danielnaber.languagetool.language.Malayalam;
 import de.danielnaber.languagetool.language.Polish;
@@ -76,6 +77,7 @@ public abstract class Language {
   public static final Language FRENCH = new French();
   public static final Language GERMAN = new German();
   public static final Language ITALIAN = new Italian();
+  public static final Language KHMER = new Khmer();
   public static final Language LITHUANIAN = new Lithuanian();
   public static final Language POLISH = new Polish();
   public static final Language SLOVAK = new Slovak();
@@ -99,7 +101,7 @@ public abstract class Language {
    * All languages supported by LanguageTool.
    */
   public static Language[] LANGUAGES = {
-    ENGLISH, GERMAN, POLISH, FRENCH, SPANISH, ITALIAN, DUTCH, LITHUANIAN, UKRAINIAN, RUSSIAN,
+    ENGLISH, GERMAN, POLISH, FRENCH, SPANISH, ITALIAN, KHMER, DUTCH, LITHUANIAN, UKRAINIAN, RUSSIAN,
     SLOVAK, SLOVENIAN, SWEDISH, ROMANIAN, ICELANDIC, GALICIAN, CATALAN, DANISH,
     MALAYALAM, BELARUSIAN, ESPERANTO,
     DEMO

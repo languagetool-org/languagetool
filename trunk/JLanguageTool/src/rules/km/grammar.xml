@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../print.xsl" ?>
+<?xml-stylesheet type="text/css" href="../rules.css" 
+title="Easy editing stylesheet" ?>
+<!--
+Khmer Grammar and Typo Rules for LanguageTool
+See tagset.txt for the meaning of the POS tags
+$Id: grammar.xml,v 1.1 2010/01/14 12:42:24 milek_pl Exp $
+-->
+<rules lang="km" xsi:noNamespaceSchemaLocation="../rules.xsd"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <!-- ====================================================================== -->
+  <!-- Possible typos -->
+  <!-- ====================================================================== -->
+  <category name="Possible Typos">
+    <rule id="ហើយ​និង" name="ហើយ​នឹង (ហើយ​និង​)">
+      <pattern mark_from="0" mark_to="-1">
+        <token>ហើយ</token>
+        <token>នឹង</token>
+		<token><exception>ថ្កល់</exception></token>
+      </pattern>
+      <message>You should use <suggestion>ហើយ​និង</suggestion>។</message>
+      <short>Possible typo</short>
+      <example correction="ហើយ​នឹង" type="incorrect">នេះ
+      ហើយ<marker>​នឹង</marker>នោះ។</example>
+      <example type="correct">នេះ ហើយ<marker>​និង</marker>នោះ។</example>
+    </rule>
+    <rule id="ហើយនិង" name="ហើយនឹង (ហើយនិង​)">
+      <pattern mark_from="0" mark_to="-1">
+        <token>ហើយនឹង</token>
+		<token><exception>ថ្កល់</exception></token>
+      </pattern>
+      <message>You should use <suggestion>ហើយ​និង​</suggestion>។</message>
+      <short>Possible typo</short>
+      <example correction="ហើយ​នឹង" type="incorrect">នេះ
+      ហើយ​<marker>នឹង</marker>នោះ។</example>
+      <example type="correct">នេះ ហើយ<marker>​និង</marker>នោះ។</example>
+    </rule>
+	<rule id="នឹងថ្កល់" name="និងថ្កល់ (នឹងថ្កល់​)">
+      <pattern>
+        <token>និង</token>
+        <token>ថ្កល់</token>
+      </pattern>
+      <message>You should use <suggestion>នឹង​ថ្កល់</suggestion>។</message>
+      <short>Possible typo</short>
+      <example correction="នឹង​ថ្កល់" type="incorrect">ទឹក​ដែល​​​ស្អាត ហើយ​<marker>​និង​ថ្កល់</marker>។</example>
+      <example type="correct">ទឹក​ដែល​​​ស្អាត ហើយ​<marker>​នឹង​ថ្កល់</marker>។</example>
+    </rule>
+    <rule id="ខ្ញុំ​ចំណាស់" name="ខ្ញុំ​រាង​ចំណាស់​ (ខ្ញុំ​ចំណាស់)">
+      <pattern>
+        <token postag="PRP"></token>
+        <token>ចំណាស់</token>
+      </pattern>
+      <message>You should use
+      <suggestion>\1​រាង​ចំណាស់</suggestion>។</message>
+      <short>Possible typo</short>
+      <example correction="ហើយ​នឹង"
+      type="incorrect">ខ្ញុំ​<marker>​ចំណាស់</marker>បន្តិច​ហើយ។</example>
+      <example
+      type="correct">ខ្ញុំ​<marker>​រាង​ចំណាស់</marker>បន្តិច​ហើយ។</example>
+    </rule>
+    <rule id="លើង​ទៅ" name="ឡើងទៅ​ (លើង​ទៅ)">
+      <pattern>
+        <token>លើង</token>
+        <token>ទៅ</token>
+      </pattern>
+      <message>You should use <suggestion>​​ឡើង​ទៅ​</suggestion>។</message>
+      <short>Possible typo</short>
+      <example correction="ហើយ​នឹង"
+      type="incorrect">ខ្ញុំ​<marker>លើង</marker>​ទៅលើ​ផ្ទះ។</example>
+      <example type="correct">ខ្ញុំ​<marker>​ឡើង</marker>ទៅលើ​ផ្ទះ។</example>
+    </rule>
+	    <rule id="ជា​មួយ​និង" name="ជា​មួយ​នឹង​ (ជា​មួយ​និង)">
+      <pattern mark_from="1">
+        <token>ជាមួយ</token>
+		<token>និង</token>
+      </pattern>
+      <message>You should use ជា​មួយ​<suggestion>​​​នឹង​​</suggestion>។</message>
+      <short>Possible typo</short>
+      <example correction="ជា​មួយ​និង"
+      type="incorrect">សូម​ជួយ​កូន​របស់​អ្នក​អោយ​ហាត់​អត់ធ្មត់​ជា​មួយ​​<marker>នឹង​</marker>​ក្រុម​គ្រួសារ។</example>
+      <example type="correct">សូម​ជួយ​កូន​របស់​អ្នក​អោយ​ហាត់​អត់ធ្មត់​ជា​មួយ​​<marker>និង​</marker>​ក្រុម​គ្រួសារ។</example>
+    </rule>
+		    <rule id="ជា​មួយ​និង" name="ជា​មួយ​នឹង​ (ជា​មួយ​និង)">
+      <pattern mark_from="2">
+        <token>ជា</token>
+		<token>មួយ</token>
+		<token>និង</token>
+      </pattern>
+      <message>You should use ជា​មួយ​<suggestion>​​​នឹង​​</suggestion>។</message>
+      <short>Possible typo</short>
+      <example correction="ជា​មួយ​និង"
+      type="incorrect">សូម​ជួយ​កូន​របស់​អ្នក​អោយ​ហាត់​អត់ធ្មត់​ជា​មួយ​​<marker>នឹង​</marker>​ក្រុម​គ្រួសារ។</example>
+      <example type="correct">សូម​ជួយ​កូន​របស់​អ្នក​អោយ​ហាត់​អត់ធ្មត់​ជា​មួយ​​<marker>និង​</marker>​ក្រុម​គ្រួសារ។</example>
+</rule>
+		    <rule id="ពីរនាក់" name="ពីរអ្នក​ (ពីរនាក់)">
+      <pattern mark_from="2">
+	  	<token><exception regexp="yes">មក|និង|រស់</exception></token>
+		<token>ពីរ</token>
+		<token>អ្នក</token>
+      </pattern>
+      <message>You should use ​ពីរ​​<suggestion>​​​នាក់​​</suggestion>។</message>
+      <short>Possible typo</short>
+      <example correction="ជា​មួយ​និង"
+      type="incorrect">ទាំង​ពីរ​​<marker>អ្នក​</marker>។</example>
+      <example type="correct">ទាំង​ពីរ​​<marker>នាក់​</marker>​។</example>
+</rule>
+		    <rule id="មកពីរអ្នក" name="មកពីរអ្នក​ (មកពីរអ្នក)">
+      <pattern mark_from="1">
+	  <token>មក</token>
+		<token>ពីរ</token>
+		<token><exception postag="CLS"></exception></token>
+      </pattern>
+      <message>You should use មក​​<suggestion>​​​ពី\3</suggestion> or
+	          មក<suggestion>ពីរ​​នាក់</suggestion></message>
+      <short>Possible typo</short>
+      <example correction="ជា​មួយ​និង"
+      type="incorrect">វា​មក<marker>ពីរ​</marker>អ្នក។</example>
+      <example type="correct">វាមក​​<marker>ពី​</marker>​អ្នក។</example>
+</rule>
+  </category>
+  <category name="Khmer Grammar">
+
+    <rule id="ADJ_NOUN"
+          name="Possible incorrect position of adjective: noun + adjective" default="off">
+<!--We removed this rule for now, it is too greedy-->
+      <pattern>
+        <token postag="JJ"><exception postag="NUM|CLS|GEN|VB|AUX" postag_regexp="yes">រៀងរាល់</exception></token>
+        <token postag="NN"><exception postag_regexp="yes" postag="GEN|PRO"></exception></token>
+      </pattern>
+      <message>In Khmer the adjective follows the noun. Write
+      <suggestion>\2​\1​</suggestion> instead.</message>
+      <short>Grammatical problem or typo</short>
+      <example
+      type="incorrect">ខ្ញុំ​មាន​<marker>ក្រហម</marker>​ឡាន។</example>
+      <example type="correct">ខ្ញុំ​មាន​ឡាន<marker>​ក្រហម</marker>។</example>
+    </rule>
+    <rule id="NOUN_POSESIVEPRONOUN"
+          name="Possible incorrect position of noun posessed by pronoun: noun + pronoun = possesive" default="off">
+<!--We removed this rule for now, it is too greedy-->
+      <pattern>
+        <token postag="PRP|PRO" postag_regexp="yes"><exception regexp="yes">នេះ|នោះ</exception></token>
+        <token postag="NN"><exception>ខ្លួន</exception></token>
+      </pattern>
+      <message>In Khmer the noun posessed precedes the pronoun. Write
+      <suggestion>\2​\1​</suggestion> instead.</message>
+      <short>Grammatical problem or typo</short>
+      <example type="incorrect">នេះគឺជា​​ខ្ញុំ<marker>ឡាន</marker>។</example>
+      <example type="correct">នេះគឺជា​<marker>ឡាន</marker>​ខ្ញុំ។</example>
+    </rule>
+    <rule id="Gender_spec"
+          name="Possible incorrect position of gender word: noun + gender" default="off">
+<!--We removed this rule for now, it is too greedy-->
+      <pattern>
+        <token postag="GEN"></token>
+        <token postag="NN"><exception
+        regexp="yes">ក្មេង|ចំណាស់</exception></token>
+      </pattern>
+      <message>In Khmer the gender normally follows the noun. Write
+      <suggestion>\2​\1</suggestion> instead.</message>
+      <short>Grammatical problem or typo</short>
+      <example type="incorrect">​<marker>ស្រី</marker>លោក។</example>
+      <example type="correct">លោក​<marker>ស្រី</marker>។</example>
+    </rule>
+    <rule id="NEG_PART_POS"
+          name="Possible incorrect position of negative particle: Negative Particle + Verb or Adjective or Adverb" default="off">
+<!--We removed this rule for now, it is too greedy-->
+      <pattern>
+        <token postag="JJ"><exception
+        regexp="yes">ក្មេង|ចំណាស់</exception></token>
+        <token regexp="yes">មិន|អត់</token>
+      </pattern>
+      <message>In Khmer the negative particle never precedes an adjective.
+      Write <suggestion>\2​\1</suggestion> instead.</message>
+      <short>Bad writing style</short>
+      <example type="incorrect">ឡាន​នោះ​ខៀវ​<marker>មិន</marker>ទេ។</example>
+      <example type="correct">ឡាន​នោះ​<marker>មិន</marker>ខៀវ​ទេ។</example>
+    </rule>
+    <rule id="WANT_NOUN" name="INCORRECT USE OF WANT WITH NOUN">
+      <pattern mark_from="0" mark_to="-1">
+        <token>ចង់</token>
+        <token postag="NN"></token>
+      </pattern>
+      <message>You should write <suggestion>ចង់​បាន​</suggestion>
+      instead.</message>
+      <short>Bad writing style</short>
+      <example type="incorrect">ខ្ញុំ​​<marker>ចង់</marker>ឡាន​នោះ។</example>
+      <example
+      type="correct">ខ្ញុំ​​<marker>ចង់បាន​</marker>ឡាន​នោះ។</example>
+    </rule>
+    <rule id="WANT_VERB" name="INCORRECT USE OF WANT WITH VERB">
+      <pattern mark_from="0" mark_to="-1">
+        <token regexp="yes">ចង់បាន|ចង់​បាន</token>
+        <token postag="VB"></token>
+      </pattern>
+      <message>You should write <suggestion>ចង់​</suggestion>
+      instead.</message>
+      <short>Bad writing style</short>
+      <example type="incorrect">ខ្ញុំ​​<marker>ចង់បាន</marker>ទៅ។</example>
+      <example type="correct">ខ្ញុំ​​<marker>ចង់​</marker>ទៅ។</example>
+    </rule>
+    <rule id="FROM_Classifier" name="INCORRECT USE OF FROM WITH CLASSIFIER">
+      <pattern mark_from="0" mark_to="-1">
+        <token>ពី</token>
+        <token postag="CLS"></token>
+      </pattern>
+      <message>You should write <suggestion>ពីរ</suggestion>
+      instead.</message>
+      <short>Incorrect usage of ពី</short>
+      <example type="incorrect">​​<marker>ពី</marker>នាក់។</example>
+      <example type="correct"><marker>ពីរ​</marker>នាក់។</example>
+    </rule>
+    <rulegroup id="Classifier_PEOPLE"
+               name="CLASSIFIERS THAT CAN BE USED WITH PEOPLE">
+      <rule>
+        <pattern>
+          <token>មនុស្ស</token>
+          <token postag="NUM"></token>
+          <token><exception postag="CLS"></exception></token>
+        </pattern>
+        <message>You should write <suggestion>\1​\2​នាក់​​\3</suggestion>
+        <suggestion>\1​\2​ក្រុម​​\3</suggestion>
+        <suggestion>\1​\2​ពួក​\3​</suggestion> or
+        <suggestion>\1​\2​គូ​​\3</suggestion> instead.</message>
+        <short>Incorrect classifier for មនុស្ស</short>
+        <example type="incorrect">មនុស្ស​​<marker>ពីរ</marker>។</example>
+        <example type="correct">មនុស្ស​​<marker>ពីរ</marker>នាក់។</example>
+      </rule>
+<rule>
+        <pattern>
+          <token>មនុស្ស</token>
+          <token postag="NUM"></token>
+          <token postag="CLS"><exception regexp="yes">នាក់|ក្រុម|ពួក|គ</exception></token>
+        </pattern>
+        <message>You should write <suggestion>\1​\2​នាក់​</suggestion>
+        <suggestion>\1​\2​ក្រុម​</suggestion>
+        <suggestion>\1​\2​ពួក​</suggestion> or
+        <suggestion>\1​\2​គូ​</suggestion> instead.</message>
+        <short>Incorrect classifier for មនុស្ស</short>
+        <example type="incorrect">មនុស្ស​​<marker>ពីរ</marker>។</example>
+        <example type="correct">មនុស្ស​​<marker>ពីរ</marker>នាក់។</example>
+      </rule>
+      <rule default="off">
+        <pattern>
+          <token>មនុស្ស</token>
+          <token postag="NUM"></token>
+          <token postag="CLS"><exception
+          regexp="yes">នាក់|ក្រុម|ពួក|គូ</exception></token>
+        </pattern>
+        <message>You should write <suggestion>\1​\2​នាក់​</suggestion>
+        <suggestion>\1​\2​ក្រុម​</suggestion>
+        <suggestion>\1​\2​ពួក​</suggestion> or
+        <suggestion>\1​\2​គូ​</suggestion> instead.</message>
+        <short>Incorrect classifier for មនុស្ស</short>
+        <example type="incorrect">មនុស្ស​​<marker>ពីរ</marker>។</example>
+        <example type="correct">មនុស្ស​​<marker>ពីរ</marker>នាក់។</example>
+      </rule>
+    </rulegroup>
+	<rule id="NOUN + និង + NOUN" name="INCORRECT USE OF ហើយ​និង with two nouns">
+		<!-- Sometimes when a verb does two or more actions, that are nouns, it is fine to use ហើយ​​និង​. Once we have the ability to detect sentence structure, we can add this ទ្រង់​នឹង​ផ្តល់​អោយ​អ្នក​នូវ​កំឡាំង ហើយនិង​អំណាច​រាល់​ថ្ងៃ-->
+      <pattern mark_from="1" mark_to="-1">
+	    <token postag_regexp="yes" postag="NN|NNP|PRO|ROY"><exception postag="VB"></exception></token>
+        <token>ហើយ</token>
+		<token>និង</token>
+	    <token postag_regexp="yes" postag="NN|NNP|PRO|ROY"><exception postag="VB"></exception></token>
+      </pattern>
+      <message>You should write <suggestion>\3</suggestion>
+      instead.</message>
+      <short>Incorrect usage of ហើយ​និង with two nouns</short>
+      <example type="incorrect">​​ម្តាយ​​<marker>ហើយនិង</marker>ឪពុក។</example>
+      <example type="correct">​​ម្តាយ​​<marker>និង</marker>ឪពុក។</example>
+    </rule>
+	<rule id="VERB + ហើយនិង + VERB" name="INCORRECT USE OF ​និង with two verbs">
+      <pattern mark_from="1" mark_to="-1">
+	    <token postag_regexp="yes" postag="VB"><exception postag="NN"></exception></token>
+		<token>និង</token>
+	    <token postag_regexp="yes" postag="VB"><exception postag="NN"></exception></token>
+      </pattern>
+      <message>You should write <suggestion>ហើយ​និង</suggestion>
+      instead.</message>
+      <short>Incorrect usage of និង with two verbs</short>
+      <example type="incorrect">​​ម្តាយ​​<marker>ហើយនិង</marker>ឪពុក។</example>
+      <example type="correct">​​ម្តាយ​​<marker>និង</marker>ឪពុក។</example>
+    </rule>
+  </category>
+</rules>
