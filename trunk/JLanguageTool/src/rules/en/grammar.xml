@@ -4268,8 +4268,7 @@ $Id: grammar.xml,v 1.129 2010-11-13 23:24:21 dnaber Exp $
     </rule>
     <rulegroup id="DT_DT" name="Two consecutive articles, e.g. 'the a'">
       <rule>
-        <pattern mark_from="1" mark_to="-1">
-          <token><exception postag="VB.*" postag_regexp="yes"></exception></token>
+        <pattern mark_from="0" mark_to="-1">
           <token regexp="yes">a|an|the</token>
           <token postag="DT" regexp="yes">a|an|the</token>
           <token><exception regexp="yes">'|\.</exception></token>
@@ -4278,6 +4277,7 @@ $Id: grammar.xml,v 1.129 2010-11-13 23:24:21 dnaber Exp $
         <short>Two consecutive articles</short>
         <example type="correct"><marker>The</marker> thing is this.</example>
         <example correction="The" type="incorrect"><marker>The a</marker> thing is this.</example>
+		<example correction="a" type="incorrect">This is <marker>an a</marker> flower.</example>
         <example type="correct">The Thames was once a much broader river.</example>
       </rule>
       <rule>
