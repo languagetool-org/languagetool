@@ -53,7 +53,7 @@ public class EsperantoTagger implements Tagger {
     "ne", "nek", "ol", "pli"
   };
 
-  private static final Set setWordsNotTagged = new HashSet<String>(Arrays.asList(wordsNotTagged));
+  private static final Set<String> setWordsNotTagged = new HashSet<String>(Arrays.asList(wordsNotTagged));
 
   // Following preposition are never followed by accusative.
   private static final String prepositionsNoAccusative[] = {
@@ -62,7 +62,7 @@ public class EsperantoTagger implements Tagger {
     "per", "po", "post", "por", "pri", "pro", "sen"
   };
 
-  private static final Set setPrepositionsNoAccusative =
+  private static final Set<String> setPrepositionsNoAccusative =
     new HashSet<String>(Arrays.asList(prepositionsNoAccusative));
 
   // Following preposition may be followed by accusative.
@@ -72,7 +72,7 @@ public class EsperantoTagger implements Tagger {
     "super", "tra"
   };
 
-  private final Set setPrepositionsAccusative =
+  private final Set<String> setPrepositionsAccusative =
     new HashSet<String>(Arrays.asList(prepositionsAccusative));
 
   // Conjunctions.
@@ -80,7 +80,7 @@ public class EsperantoTagger implements Tagger {
     "ĉar", "kaj", "aŭ", "sed", "plus", "minus", "tamen"
   };
 
-  private static final Set setConjunctions = new HashSet<String>(Arrays.asList(conjunctions));
+  private static final Set<String> setConjunctions = new HashSet<String>(Arrays.asList(conjunctions));
 
   // Numbers.
   private static final String numbers[] = {
@@ -94,7 +94,7 @@ public class EsperantoTagger implements Tagger {
     "sescent", "sepcent", "okcent", "naŭcent"
   };
 
-  private static final Set setNumbers = new HashSet<String>(Arrays.asList(numbers));
+  private static final Set<String> setNumbers = new HashSet<String>(Arrays.asList(numbers));
 
   // Adverbs which do not end in -e
   private static final String adverbs[] = {
@@ -103,11 +103,11 @@ public class EsperantoTagger implements Tagger {
     "nur", "plu", "tre", "tro", "tuj", "for"
   };
 
-  private static final Set setAdverbs = new HashSet<String>(Arrays.asList(adverbs));
+  private static final Set<String> setAdverbs = new HashSet<String>(Arrays.asList(adverbs));
 
   // Set of transitive verbs and non-transitive verbs.
-  private Set setTransitiveVerbs = null;
-  private Set setNonTransitiveVerbs = null;
+  private Set<String> setTransitiveVerbs = null;
+  private Set<String> setNonTransitiveVerbs = null;
 
   // Verbs always end with this pattern.
   private static final Pattern patternVerb = Pattern.compile("(.*)(as|os|is|us|u|i)$");
@@ -121,7 +121,7 @@ public class EsperantoTagger implements Tagger {
   // Groups           1111111111111111  55555  66  77
   //                   22  33333  44                 
  
-  private Set setNonParticiple;
+  private Set<String> setNonParticiple;
 
   // Pattern 'tabelvortoj'.
   private static final Pattern patternTabelvorto =
@@ -137,7 +137,7 @@ public class EsperantoTagger implements Tagger {
   /**
    * Load list of words from UTF-8 file (one word per line).
    */
-  private Set loadWords(final InputStream file) throws IOException {
+  private Set<String> loadWords(final InputStream file) throws IOException {
     InputStreamReader isr = null;
     BufferedReader br = null;
     final Set<String> words = new HashSet<String>();
