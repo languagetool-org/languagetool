@@ -26,6 +26,10 @@ import junit.framework.TestCase;
 
 public class ValidateXMLTest extends TestCase {
 
+  public void testPatternFile() throws IOException {
+    testPatternFile(null, false);
+  }
+
   public void testPatternFile(Set<Language> ignoredLanguages, boolean verbose) throws IOException {
     final XMLValidator validator = new XMLValidator();
     for (int i = 0; i < Language.LANGUAGES.length; i++) {
