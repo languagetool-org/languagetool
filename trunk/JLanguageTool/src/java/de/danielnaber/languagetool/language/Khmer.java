@@ -54,7 +54,7 @@ public class Khmer extends Language {
   }
 
   public String[] getCountryVariants() {
-    return new String[] {"KM"};
+    return COUNTRIES;
   }
   
   
