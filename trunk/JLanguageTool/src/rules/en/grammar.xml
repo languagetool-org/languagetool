@@ -4273,11 +4273,11 @@ $Id: grammar.xml,v 1.129 2010-11-13 23:24:21 dnaber Exp $
           <token postag="DT" regexp="yes">a|an|the</token>
           <token><exception regexp="yes">'|\.</exception></token>
         </pattern>
-        <message>Maybe you need to remove the second determiner so that only <suggestion>\2</suggestion> is left.</message>
+        <message>Maybe you need to remove one determiner so that only <suggestion>\1</suggestion> or <suggestion>\2</suggestion> is left.</message>
         <short>Two consecutive articles</short>
         <example type="correct"><marker>The</marker> thing is this.</example>
-        <example correction="The" type="incorrect"><marker>The a</marker> thing is this.</example>
-		<example correction="a" type="incorrect">This is <marker>an a</marker> flower.</example>
+        <example correction="The|A" type="incorrect"><marker>The a</marker> thing is this.</example>
+		<example correction="an|a" type="incorrect">This is <marker>an a</marker> flower.</example>
         <example type="correct">The Thames was once a much broader river.</example>
       </rule>
       <rule>
