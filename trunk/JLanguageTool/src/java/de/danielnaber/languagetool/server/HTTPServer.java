@@ -48,7 +48,7 @@ import java.net.HttpURLConnection;
  * @author Daniel Naber
  * @modified by Ankit
  */
-class Handler implements HttpHandler {
+class LanguageToolHttpHandler implements HttpHandler {
 
   /**
    * JLanguageTool instances for each language (created and configured on first use).
@@ -56,10 +56,7 @@ class Handler implements HttpHandler {
    * This is like a tree: first level contain the Languages, next level contains JLanguageTool instances for each mother tongue.
    */
   private static final Map<Language, Map<Language, JLanguageTool>> instances = new HashMap<Language, Map<Language, JLanguageTool>>();
-  Map<String, String> parameters;
   private static final Set<String> allowedIPs = new HashSet<String>();
-
-
   static {
     // accept only requests from localhost.
     // TODO: find a cleaner solution
@@ -70,20 +67,18 @@ class Handler implements HttpHandler {
   private static final int CONTEXT_SIZE = 40; // characters
 
   public void handle(HttpExchange t) throws IOException {
-    parameters = new HashMap<String, String>();
+    final Map<String, String> parameters = new HashMap<String, String>();
     synchronized (instances) {
 
-      URI requestedUri = t.getRequestURI();
+      final URI requestedUri = t.getRequestURI();
 
       if ("post".equalsIgnoreCase(t.getRequestMethod())) { //POST
-        InputStreamReader isr =
-          new InputStreamReader(t.getRequestBody(), "utf-8");
-        BufferedReader br = new BufferedReader(isr);
-        String query = br.readLine();
+        final InputStreamReader isr = new InputStreamReader(t.getRequestBody(), "utf-8");
+        final BufferedReader br = new BufferedReader(isr);
+        final String query = br.readLine();
         parseQuery(query, parameters);
-      } else //GET
-      {
-        String query = requestedUri.getRawQuery();
+      } else {   // GET
+        final String query = requestedUri.getRawQuery();
         parseQuery(query, parameters);
       }
 
@@ -93,7 +88,7 @@ class Handler implements HttpHandler {
 
         if (StringTools.isEmpty(requestedUri.getRawPath())) {
           t.sendResponseHeaders(HttpURLConnection.HTTP_FORBIDDEN, 0);
-          throw new RuntimeException("Error: Access to " + requestedUri.getPath().toString() + " denied");
+          throw new RuntimeException("Error: Access to " + requestedUri.getPath() + " denied");
         }
 
         if (allowedIPs.contains(t.getRemoteAddress().getAddress().toString())) {
@@ -102,7 +97,7 @@ class Handler implements HttpHandler {
           if (requestedUri.getRawPath().endsWith("/Languages")) {
             t.getResponseHeaders().set("Content-Type", "text/xml");
             t.getResponseHeaders().set("Content_Encoding", "UTF-8");
-            String response = getSupportedLanguagesAsXML();
+            final String response = getSupportedLanguagesAsXML();
             t.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes().length);
             t.getResponseBody().write(response.getBytes());
             t.close();
@@ -134,8 +129,7 @@ class Handler implements HttpHandler {
             print("Checking " + text.length() + " characters of text, language " + langParam);
             final List<RuleMatch> matches = lt.check(text);
             t.getResponseHeaders().set("Content-Type", "text/xml");
-            // TODO: how to set the encoding to utf-8 if we can just return a
-            // String?
+            // TODO: how to set the encoding to utf-8 if we can just return a String?
             t.getResponseHeaders().set("Content_Encoding", "UTF-8");
 
             final String response = StringTools.ruleMatchesToXML(matches, text,
@@ -157,7 +151,7 @@ class Handler implements HttpHandler {
           print("Exceptions was caused by this text: " + text);
         }
         e.printStackTrace();
-        String response = "Error: " + StringTools.escapeXML(e.toString());
+        final String response = "Error: " + StringTools.escapeXML(e.toString());
         t.sendResponseHeaders(500, response.getBytes().length);
         t.getResponseBody().write(response.getBytes());
         t.close();
@@ -186,8 +180,7 @@ class Handler implements HttpHandler {
    * @return a JLanguageTool instance for a specific language and mother tongue.
    * @throws Exception when JLanguageTool creation failed
    */
-  private JLanguageTool getLanguageToolInstance(Language lang, Language motherTongue) 
-  throws Exception {
+  private JLanguageTool getLanguageToolInstance(Language lang, Language motherTongue) throws Exception {
     Map<Language, JLanguageTool> languageTools = instances.get(lang);
     if (null == languageTools) {
       // first call using this language
@@ -218,9 +211,7 @@ class Handler implements HttpHandler {
    */
   public static String getSupportedLanguagesAsXML() {
     final List<Language> languages = Arrays.asList(Language.REAL_LANGUAGES);
-    Collections.sort(languages, 
-        new Comparator<Language>() {
-
+    Collections.sort(languages, new Comparator<Language>() {
       public int compare(Language o1, Language o2) {
         return o1.getName().compareTo(o2.getName());
       }
@@ -233,26 +224,22 @@ class Handler implements HttpHandler {
     return xmlBuffer.toString();
   }
 
-  private void parseQuery(String query, Map<String, String> parameters)
-  throws UnsupportedEncodingException {
+  private void parseQuery(String query, Map<String, String> parameters) throws UnsupportedEncodingException {
 
     if (query != null) {
-      String pairs[] = query.split("[&]");
+      final String[] pairs = query.split("[&]");
 
       for (String pair : pairs) {
-        String param = pair.substring(0, pair.indexOf("="));
+        final String param = pair.substring(0, pair.indexOf("="));
         String key = null;
-        String value = null;
+        String value;
         if (param != null) {
-          key = URLDecoder.decode(param,
-              System.getProperty("file.encoding"));
+          key = URLDecoder.decode(param, System.getProperty("file.encoding"));
         }
-
         if (pair.substring(pair.indexOf("=") + 1) == null || pair.substring(pair.indexOf("=") + 1).equals("")) {
           value = "";
         } else {
-          value = URLDecoder.decode(pair.substring(pair.indexOf("=") + 1),
-          "UTF-8");
+          value = URLDecoder.decode(pair.substring(pair.indexOf("=") + 1), "UTF-8");
         }
         value = value.replaceAll("\\+", " ");
         parameters.put(key, value);
@@ -311,7 +298,7 @@ public class HTTPServer {// implements Runnable{
   public void run() {
     try {
       server = com.sun.net.httpserver.HttpServer.create(new InetSocketAddress(port), 0);
-      server.createContext("/", new Handler());
+      server.createContext("/", new LanguageToolHttpHandler());
       System.out.println("Starting server on port " + port + "...");
       server.start();
       System.out.print("Server started");
@@ -328,7 +315,7 @@ public class HTTPServer {// implements Runnable{
    * Stop the server process.
    **/
   public void stop() {
-    System.out.println("Stoping server ");
+    System.out.println("Stopping server ");
     server.stop(0);
     System.out.println("Server stopped");
   }
@@ -347,10 +334,11 @@ public class HTTPServer {// implements Runnable{
       }
     }
     try {
-      com.sun.net.httpserver.HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
-      server.createContext("/", new Handler());
+      final com.sun.net.httpserver.HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
+      server.createContext("/", new LanguageToolHttpHandler());
       server.start();
     } catch (Exception e) {
+      // TODO: what to do?
     }
 
   }
