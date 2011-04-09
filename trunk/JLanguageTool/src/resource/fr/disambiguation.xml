@@ -39,6 +39,32 @@ RB => Règles Brutes
     <disambig postag="A"/>
   </rule>
 
+  <rule name="la (nom)" id="LA_N">
+    <pattern mark="1">
+      <token regexp="yes">un|les?|ce|du|des</token>
+      <token>la</token>
+    </pattern>
+    <disambig postag="N m sp"/>
+  </rule>
+
+  <rule name="la (pronom pers))" id="LA_R">
+    <pattern mark="1">
+      <token postag="R pers suj.*" postag_regexp="yes"/>
+      <token>la</token>
+    </pattern>
+    <disambig postag="R pers obj 3 f s"/>
+  </rule>
+
+  <rule name="la (déterminant)" id="LA_D">
+    <pattern mark="0">
+      <and>
+        <token>la</token>
+        <token postag="D f s"/>
+      </and>
+    </pattern>
+    <disambig postag="D f s"/>
+  </rule>
+
   <rulegroup name="RP : Pronoms personnels objets" id="RP-PRO_PERS_OBJ">
     <rule name="nous">
       <pattern mark="1">
@@ -362,7 +388,6 @@ RB => Règles Brutes
       <disambig postag="D e s"/>
     </rule>
   </rulegroup>
-
 
   <rulegroup name="RP : Négation" id="RP-NEGATION">
     <rule name="pas">
