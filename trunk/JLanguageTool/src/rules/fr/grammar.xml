@@ -1488,9 +1488,16 @@ though, and has since been slightly modified)-->
       </rule>
       <rule name="Verbe au pluriel + adjectif ou participe passé singulier">
         <pattern mark_from="1">
-          <token postag="SENT_START" skip="3"><exception postag="R pers suj.*" postag_regexp="yes" scope="next"></exception></token>
-          <token postag="V etre .* [13] p" postag_regexp="yes" skip="1"></token>
-          <token postag="(V ppa .* s)|(J .* s)" postag_regexp="yes"><exception regexp="yes" scope="previous">sans|aux?</exception><exception>juste</exception></token>
+          <token postag="SENT_START" skip="3">
+            <exception postag="R pers suj.*" postag_regexp="yes" scope="next"/>
+          </token>
+          <token postag="V etre .* [13] p" postag_regexp="yes" skip="1">
+            <exception>du</exception>
+          </token>
+          <token postag="(V ppa .* s)|(J .* s)" postag_regexp="yes">
+            <exception regexp="yes" scope="previous">sans|aux?</exception>
+            <exception>juste</exception>
+          </token>
         </pattern>
         <message>« \3 » devrait être au pluriel après « \2 ».</message>
         <example type="correct">Les voisins sont <marker>partis</marker></example>
@@ -1498,6 +1505,7 @@ though, and has since been slightly modified)-->
         <example type="correct"><marker>Soyez tranquille</marker>.</example>
         <example type="correct">Les mathématiques ne sont pas juste de la mémorisation.</example>
         <example type="correct">Ces tirs sont sans précédent.</example>
+        <example type="correct">Ils sont du dix-huitième siècle.</example>
       </rule>
       <rule name="Verbe au singulier + adjectif ou participe passé pluriel">
         <pattern mark_from="1">
@@ -1595,8 +1603,12 @@ though, and has since been slightly modified)-->
       </rule>
       <rule name="il/elle/on + Verbe">
         <pattern>
-          <token postag="(R pers suj 3 .* s)|(R dem . s)" postag_regexp="yes"><exception>ce</exception></token>
-          <token postag="V .*" postag_regexp="yes"><exception postag="V .* 3 s" postag_regexp="yes"></exception></token>
+          <token postag="(R pers suj 3 .* s)|(R dem . s)" postag_regexp="yes">
+            <exception regexp="yes">ce|celle</exception>
+          </token>
+          <token postag="V .*" postag_regexp="yes">
+            <exception postag="V .* 3 s" postag_regexp="yes"/>
+          </token>
         </pattern>
         <message>Vérifiez l'accord entre le pronom « \1 » et le verbe « \2 ».</message>
         <example type="incorrect"><marker>Il travaillent</marker></example>
@@ -1604,6 +1616,7 @@ though, and has since been slightly modified)-->
         <example type="incorrect"><marker>Ça fonctionnent</marker>.</example>
         <example type="correct">Ça fonctionne.</example>
         <example type="correct">Ce sont des histoires.</example>
+        <example type="correct">Celle adressée à mon ami</example>
       </rule>
       <rule name="il/elle/on + ne + Verbe">
         <pattern>
@@ -1729,14 +1742,19 @@ though, and has since been slightly modified)-->
       </rule>
       <rule name="ils/elles + Verbe">
         <pattern>
-          <token postag="(R pers suj 3 .* p)|(R dem . p)" postag_regexp="yes"></token>
-          <token postag="V .*" postag_regexp="yes"><exception postag="V .* 3 p" postag_regexp="yes"></exception></token>
+          <token postag="(R pers suj 3 .* p)|(R dem . p)" postag_regexp="yes">
+            <exception regexp="yes">celles|ceux</exception>
+          </token>
+          <token postag="V .*" postag_regexp="yes">
+            <exception postag="V .* 3 p" postag_regexp="yes"/>
+          </token>
         </pattern>
         <message>Vérifiez l'accord entre le pronom « \1 » et le verbe « \2 ».</message>
         <example type="incorrect"><marker>Ils travaille</marker>.</example>
         <example type="correct">Ils travaillent.</example>
         <example type="incorrect"><marker>Ceux-ci fonctionne</marker>.</example>
         <example type="correct">Ceux-ci fonctionnent.</example>
+        <example type="correct">Ceux enseignés dans cette école</example>
       </rule>
       <rule name="ils/elles + ne + Verbe">
         <pattern>
@@ -2117,7 +2135,7 @@ though, and has since been slightly modified)-->
     <rulegroup id="EST_CE_QUE" name="Est-ce que">
       <rule>
         <pattern>
-          <token>Est <exception regexp="yes" scope="previous">['’]</exception> <exception postag="R pers suj .*" postag_regexp="yes" scope="previous"></exception></token>
+          <token>Est<exception regexp="yes" scope="previous">['’]</exception> <exception postag="R pers suj .*" postag_regexp="yes" scope="previous"></exception></token>
           <token>ce</token>
           <token regexp="yes">que?</token>
         </pattern>
