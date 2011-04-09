@@ -631,6 +631,34 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <example type="correct">Tri el ili scipovas Esperanton.</example>
     </rule>
 
+    <!-- too many false positive to enable (but worth investigating further)
+    <rulegroup id="O_KIO" name="o-vorto, kio (o-vorto, kiu)">
+      <rule>
+        <pattern mark_from="1">
+          <token postag="SENT_START"/>
+          <token regexp="yes">la|tiun?</token> 
+          <token postag="O ... np" postag_regexp="yes"/>
+          <token regexp="yes">kion?</token>
+        </pattern>
+        <message>Ĉu vi intencis <suggestion>\2 \3, <match no="5" regexp_match="kio(n?)" regexp_replace="kiu$1"/></suggestion>?</message>
+        <example type="incorrect">La <marker>aŭto kion</marker> mi volas</example>
+        <example type="correct">La <marker>aŭto, kiun</marker> mi volas</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token postag="SENT_START"/>
+          <token regexp="yes">la|tiun?</token> 
+          <token postag="O ... np" postag_regexp="yes"/>
+          <token>,</token>
+          <token regexp="yes">kion?</token>
+        </pattern>
+        <message>Ĉu vi intencis <suggestion>\2 \3\4 <match no="4" regexp_match="kio(n?)" regexp_replace="kiu$1"/></suggestion>?</message>
+        <example type="incorrect">La <marker>aŭto, kion</marker> mi volas</example>
+        <example type="correct">La <marker>aŭto, kiun</marker> mi volas</example>
+      </rule>
+    </rulegroup>
+    -->
+
     <rule id="TIOM_KIOM" name="Tiom kiom (tiel kiom)">
       <pattern>
         <token>tiom</token>
@@ -989,8 +1017,8 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <example type="correct">Perfektigi kolektivan inteligenton.</example>
     </rule>
 
-     <rulegroup id="IO_O" name="Io + O-vorto">
-       <rule>
+    <rulegroup id="IO_O" name="Io + O-vorto">
+      <rule>
         <pattern>
           <token postag="T nak .. [^k] o" postag_regexp="yes">
             <exception scope="previous" postag="P.*" postag_regexp="yes"/>
@@ -1007,22 +1035,34 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <rule>
         <pattern>
           <token postag="T akz .* o" postag_regexp="yes"/>
+          <token>la</token>
           <token postag="O akz .*" postag_regexp="yes"/>
         </pattern>
-        <message>Ne povas esti «\1» antaŭ o-vorto «\2». Ĉu vi intencis «<match no="1" regexp_match="(.*)o(j?n)" regexp_replace="$1u$2"/> \2»?</message>
-        <example type="incorrect">Mi legis <marker>tion libron</marker>.</example>
-        <example type="correct">Mi legis tiun libron.</example>
+        <message>Ne povas esti «\1» antaŭ o-vorto «\4».</message>
+        <example type="incorrect">Mi legis <marker>ĉion la libron</marker>.</example>
+        <example type="correct">Mi legis la tutan libron.</example>
       </rule>
-
       <rule>
-        <pattern mark_to="-1">
-          <token postag="T .* o" postag_regexp="yes"/>
-          <token postag="O .*" postag_regexp="yes" skip="1"/>
-          <token postag="SENT_END|K|fino.*" postag_regexp="yes"/>
+        <pattern>
+          <token postag="T nak .. [^k] o" postag_regexp="yes">
+            <exception scope="previous" postag="P.*" postag_regexp="yes"/>
+          </token>
+          <token>la</token>
+          <token postag="O nak .*" postag_regexp="yes"/>
         </pattern>
-        <message>Ne povas esti «\1» antaŭ o-vorto «\2». Ĉu vi intencis «<match no="1" regexp_match="(.*)o(j?n?)" regexp_replace="$1u$2"/> \2»?</message>
-        <example type="incorrect">Mi ŝatas <marker>tion filmon</marker>.</example>
-        <example type="correct">Mi ŝatas tiun filmon.</example>
+        <message>Ne povas esti «\1» antaŭ o-vorto «\2».</message>
+        <example type="incorrect"><marker>Nenio la virinoj</marker> venis.</example>
+        <example type="incorrect">Neniu virino venis.</example>
+     </rule>
+
+     <rule>
+       <pattern>
+         <token postag="T akz .* o" postag_regexp="yes"/>
+         <token postag="O akz .*" postag_regexp="yes"/>
+       </pattern>
+       <message>Ne povas esti «\1» antaŭ o-vorto «\2». Ĉu vi intencis «<match no="1" regexp_match="(.*)o(j?n)" regexp_replace="$1u$2"/> \2»?</message>
+       <example type="incorrect">Mi legis <marker>tion libron</marker>.</example>
+       <example type="correct">Mi legis tiun libron.</example>
       </rule>
     </rulegroup>
 
