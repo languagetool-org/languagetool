@@ -25,7 +25,7 @@ import de.danielnaber.languagetool.tagging.BaseTagger;
 
 /** French Tagger
  * 
- * Based on inDICO, implemented in FSA.
+ * Based on Dicollete (http://www.dicollecte.org/) implemented in FSA.
  * 
  * @author Marcin Milkowski
  */
