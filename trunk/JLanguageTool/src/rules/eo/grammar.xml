@@ -169,7 +169,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
 
     <rule id="KILO_DE" name="kilogramo de">
       <pattern mark_from="1">
-        <token regexp="yes">((kilo)?gramoj?n?)|(litroj?n?)</token>
+        <token regexp="yes">((kilo)?gramoj?n?)|((litr|tun)oj?n?)</token>
         <token>de</token>
       </pattern>
       <message>Ĉu vi intencis <suggestion>\1 da</suggestion> anstataŭ «\1 de»?</message>
@@ -1188,6 +1188,16 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
         <example type="correct">Kie <marker>aĉeti</marker> ĝin hodiaŭ?</example>
       </rule>
     </rulegroup>
+
+    <rule id="LA_VORTO" name="Netaŭga vorto post 'la'">
+      <pattern>
+        <token>la</token>
+        <token postag_regexp="yes">[^OAEN].*</token>
+      </pattern>
+      <message>La vorto « \1 » ne povas esti antaŭ la vorto « \2 ».</message>
+      <example type="incorrect"><marker>La manĝi</marker> ne bonas</example>
+      <example type="correct">La manĝaĵo ne bonas</example>
+    </rule>
 
   </category>
 <!-- vim: foldmethod=marker foldmarker=<category,</category:
