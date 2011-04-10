@@ -1052,7 +1052,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
         </pattern>
         <message>Ne povas esti «\1» antaŭ o-vorto «\2».</message>
         <example type="incorrect"><marker>Nenio la virinoj</marker> venis.</example>
-        <example type="incorrect">Neniu virino venis.</example>
+        <example type="correct">Neniu virino venis.</example>
      </rule>
 
      <rule>
@@ -1190,9 +1190,12 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
     </rulegroup>
 
     <rule id="LA_VORTO" name="Netaŭga vorto post 'la'">
-      <pattern>
-        <token>la</token>
-        <token postag_regexp="yes">[^OAEN].*</token>
+      <pattern case_sensitive="yes">
+        <token regexp="yes">[lL]a</token>
+        <and>
+          <token postag_regexp="yes" postag="[MPRV].*"/>
+          <token regexp="yes">[a-zĉĝĵĥŝ].*</token>
+        </and>
       </pattern>
       <message>La vorto « \1 » ne povas esti antaŭ la vorto « \2 ».</message>
       <example type="incorrect"><marker>La manĝi</marker> ne bonas</example>
