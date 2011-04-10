@@ -16484,13 +16484,15 @@ though, and has since been slightly modified)-->
     </rule>
     <rulegroup id="TRAIT_UNION" name="Trait d'union">
       <rule>
-        <pattern case_sensitive="yes">
-          <token regexp="yes">[EÉ]tats</token>
-          <token>Unis</token>
+        <pattern>
+          <token regexp="yes">jusque|celles?|celui|ceux</token>
+          <token regexp="yes">l[àa]</token>
         </pattern>
-        <message>Voulez-vous dire <suggestion>États-Unis</suggestion> ?</message>
-        <example type="incorrect">La politique des <marker>États Unis</marker>.</example>
-        <example type="correct">La politique des <marker>États-Unis</marker>.</example>
+        <message>Voulez-vous dire <suggestion>\1-là</suggestion> ?</message>
+        <example type="incorrect"><marker>Jusque là</marker> tout va bien.</example>
+        <example type="correct"><marker>Jusque-là</marker> tout va bien.</example>
+        <example type="incorrect"><marker>Celle là</marker>, elle sait comment faire.</example>
+        <example type="correct"><marker>Celle-là</marker>, elle sait comment fair.</example>
       </rule>
       <rule>
         <pattern>
@@ -16500,6 +16502,15 @@ though, and has since been slightly modified)-->
         <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
         <example type="incorrect">Je n'ai pas <marker>grand chose</marker>.</example>
         <example type="correct">Je n'ai pas <marker>grand-chose</marker>.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token regexp="yes">[EÉ]tats</token>
+          <token>Unis</token>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>États-Unis</suggestion> ?</message>
+        <example type="incorrect">La politique des <marker>États Unis</marker>.</example>
+        <example type="correct">La politique des <marker>États-Unis</marker>.</example>
       </rule>
       <rule>
         <pattern case_sensitive="yes">
