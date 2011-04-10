@@ -13,8 +13,23 @@ $Id: grammar.xml,v 1.1 2010/01/14 12:42:24 milek_pl Exp $
   <!-- ====================================================================== -->
   <!-- Possible typos -->
   <!-- ====================================================================== -->
+
+    <category name="Possible Typos">
+        <!-- TOOD: remove as soon as the rest is fixed -->
+      <rule id="FAKE_RULE" name="Fake rule for XML validity - remove me">
+        <pattern>
+          <token>x</token>
+        </pattern>
+        <message>You should use <suggestion>aaa</suggestion></message>
+        <short>Possible typo</short>
+        <example type="incorrect">Foo <marker>x</marker> bar</example>
+        <example type="correct"><marker>​aaa</marker></example>
+      </rule>
+    </category>
+
+    <!--
   <category name="Possible Typos">
-    <rule id="ហើយ​និង" name="ហើយ​នឹង (ហើយ​និង​)">
+    <rule id="HOUY_NUNG" name="ហើយ​នឹង (ហើយ​និង​)">
       <pattern mark_from="0" mark_to="-1">
         <token>ហើយ</token>
         <token>នឹង</token>
@@ -26,7 +41,7 @@ $Id: grammar.xml,v 1.1 2010/01/14 12:42:24 milek_pl Exp $
       ហើយ<marker>​នឹង</marker>នោះ។</example>
       <example type="correct">នេះ ហើយ<marker>​និង</marker>នោះ។</example>
     </rule>
-    <rule id="ហើយនិង" name="ហើយនឹង (ហើយនិង​)">
+    <rule id="HOUYNUNG" name="ហើយនឹង (ហើយនិង​)">
       <pattern mark_from="0" mark_to="-1">
         <token>ហើយនឹង</token>
 		<token><exception>ថ្កល់</exception></token>
@@ -37,7 +52,7 @@ $Id: grammar.xml,v 1.1 2010/01/14 12:42:24 milek_pl Exp $
       ហើយ​<marker>នឹង</marker>នោះ។</example>
       <example type="correct">នេះ ហើយ<marker>​និង</marker>នោះ។</example>
     </rule>
-	<rule id="នឹងថ្កល់" name="និងថ្កល់ (នឹងថ្កល់​)">
+	<rule id="NUNG_PDOAL" name="និងថ្កល់ (នឹងថ្កល់​)">
       <pattern>
         <token>និង</token>
         <token>ថ្កល់</token>
@@ -47,7 +62,7 @@ $Id: grammar.xml,v 1.1 2010/01/14 12:42:24 milek_pl Exp $
       <example correction="នឹង​ថ្កល់" type="incorrect">ទឹក​ដែល​​​ស្អាត ហើយ​<marker>​និង​ថ្កល់</marker>។</example>
       <example type="correct">ទឹក​ដែល​​​ស្អាត ហើយ​<marker>​នឹង​ថ្កល់</marker>។</example>
     </rule>
-    <rule id="ខ្ញុំ​ចំណាស់" name="ខ្ញុំ​រាង​ចំណាស់​ (ខ្ញុំ​ចំណាស់)">
+    <rule id="KHNOM_CHOMNAH" name="ខ្ញុំ​រាង​ចំណាស់​ (ខ្ញុំ​ចំណាស់)">
       <pattern>
         <token postag="PRP"></token>
         <token>ចំណាស់</token>
@@ -60,7 +75,7 @@ $Id: grammar.xml,v 1.1 2010/01/14 12:42:24 milek_pl Exp $
       <example
       type="correct">ខ្ញុំ​<marker>​រាង​ចំណាស់</marker>បន្តិច​ហើយ។</example>
     </rule>
-    <rule id="លើង​ទៅ" name="ឡើងទៅ​ (លើង​ទៅ)">
+    <rule id="LENG_TOV" name="ឡើងទៅ​ (លើង​ទៅ)">
       <pattern>
         <token>លើង</token>
         <token>ទៅ</token>
@@ -71,7 +86,7 @@ $Id: grammar.xml,v 1.1 2010/01/14 12:42:24 milek_pl Exp $
       type="incorrect">ខ្ញុំ​<marker>លើង</marker>​ទៅលើ​ផ្ទះ។</example>
       <example type="correct">ខ្ញុំ​<marker>​ឡើង</marker>ទៅលើ​ផ្ទះ។</example>
     </rule>
-	    <rule id="ជា​មួយ​និង" name="ជា​មួយ​នឹង​ (ជា​មួយ​និង)">
+	    <rule id="JEAMUY_NENG" name="ជា​មួយ​នឹង​ (ជា​មួយ​និង)">
       <pattern mark_from="1">
         <token>ជាមួយ</token>
 		<token>និង</token>
@@ -82,7 +97,7 @@ $Id: grammar.xml,v 1.1 2010/01/14 12:42:24 milek_pl Exp $
       type="incorrect">សូម​ជួយ​កូន​របស់​អ្នក​អោយ​ហាត់​អត់ធ្មត់​ជា​មួយ​​<marker>នឹង​</marker>​ក្រុម​គ្រួសារ។</example>
       <example type="correct">សូម​ជួយ​កូន​របស់​អ្នក​អោយ​ហាត់​អត់ធ្មត់​ជា​មួយ​​<marker>និង​</marker>​ក្រុម​គ្រួសារ។</example>
     </rule>
-		    <rule id="ជា​មួយ​និង" name="ជា​មួយ​នឹង​ (ជា​មួយ​និង)">
+		    <rule id="JEA_MUY_NENG" name="ជា​មួយ​នឹង​ (ជា​មួយ​និង)">
       <pattern mark_from="2">
         <token>ជា</token>
 		<token>មួយ</token>
@@ -94,7 +109,7 @@ $Id: grammar.xml,v 1.1 2010/01/14 12:42:24 milek_pl Exp $
       type="incorrect">សូម​ជួយ​កូន​របស់​អ្នក​អោយ​ហាត់​អត់ធ្មត់​ជា​មួយ​​<marker>នឹង​</marker>​ក្រុម​គ្រួសារ។</example>
       <example type="correct">សូម​ជួយ​កូន​របស់​អ្នក​អោយ​ហាត់​អត់ធ្មត់​ជា​មួយ​​<marker>និង​</marker>​ក្រុម​គ្រួសារ។</example>
 </rule>
-		    <rule id="ពីរនាក់" name="ពីរអ្នក​ (ពីរនាក់)">
+		    <rule id="BI_NEAK" name="ពីរអ្នក​ (ពីរនាក់)">
       <pattern mark_from="2">
 	  	<token><exception regexp="yes">មក|និង|រស់</exception></token>
 		<token>ពីរ</token>
@@ -106,7 +121,7 @@ $Id: grammar.xml,v 1.1 2010/01/14 12:42:24 milek_pl Exp $
       type="incorrect">ទាំង​ពីរ​​<marker>អ្នក​</marker>។</example>
       <example type="correct">ទាំង​ពីរ​​<marker>នាក់​</marker>​។</example>
 </rule>
-		    <rule id="មកពីរអ្នក" name="មកពីរអ្នក​ (មកពីរអ្នក)">
+		    <rule id="MOK_BI_NEAK" name="មកពីរអ្នក​ (មកពីរអ្នក)">
       <pattern mark_from="1">
 	  <token>មក</token>
 		<token>ពីរ</token>
@@ -120,11 +135,15 @@ $Id: grammar.xml,v 1.1 2010/01/14 12:42:24 milek_pl Exp $
       <example type="correct">វាមក​​<marker>ពី​</marker>​អ្នក។</example>
 </rule>
   </category>
+    -->
+  <!--
   <category name="Khmer Grammar">
+  -->
 
+      <!--We removed this rule for now, it is too greedy-->
+      <!--
     <rule id="ADJ_NOUN"
           name="Possible incorrect position of adjective: noun + adjective" default="off">
-<!--We removed this rule for now, it is too greedy-->
       <pattern>
         <token postag="JJ"><exception postag="NUM|CLS|GEN|VB|AUX" postag_regexp="yes">រៀងរាល់</exception></token>
         <token postag="NN"><exception postag_regexp="yes" postag="GEN|PRO"></exception></token>
@@ -136,9 +155,11 @@ $Id: grammar.xml,v 1.1 2010/01/14 12:42:24 milek_pl Exp $
       type="incorrect">ខ្ញុំ​មាន​<marker>ក្រហម</marker>​ឡាន។</example>
       <example type="correct">ខ្ញុំ​មាន​ឡាន<marker>​ក្រហម</marker>។</example>
     </rule>
+    -->
+      <!--We removed this rule for now, it is too greedy-->
+      <!--
     <rule id="NOUN_POSESIVEPRONOUN"
           name="Possible incorrect position of noun posessed by pronoun: noun + pronoun = possesive" default="off">
-<!--We removed this rule for now, it is too greedy-->
       <pattern>
         <token postag="PRP|PRO" postag_regexp="yes"><exception regexp="yes">នេះ|នោះ</exception></token>
         <token postag="NN"><exception>ខ្លួន</exception></token>
@@ -149,9 +170,11 @@ $Id: grammar.xml,v 1.1 2010/01/14 12:42:24 milek_pl Exp $
       <example type="incorrect">នេះគឺជា​​ខ្ញុំ<marker>ឡាន</marker>។</example>
       <example type="correct">នេះគឺជា​<marker>ឡាន</marker>​ខ្ញុំ។</example>
     </rule>
+    -->
+      <!--We removed this rule for now, it is too greedy-->
+      <!--
     <rule id="Gender_spec"
           name="Possible incorrect position of gender word: noun + gender" default="off">
-<!--We removed this rule for now, it is too greedy-->
       <pattern>
         <token postag="GEN"></token>
         <token postag="NN"><exception
@@ -163,9 +186,11 @@ $Id: grammar.xml,v 1.1 2010/01/14 12:42:24 milek_pl Exp $
       <example type="incorrect">​<marker>ស្រី</marker>លោក។</example>
       <example type="correct">លោក​<marker>ស្រី</marker>។</example>
     </rule>
+    -->
+      <!--We removed this rule for now, it is too greedy-->
+      <!--
     <rule id="NEG_PART_POS"
           name="Possible incorrect position of negative particle: Negative Particle + Verb or Adjective or Adverb" default="off">
-<!--We removed this rule for now, it is too greedy-->
       <pattern>
         <token postag="JJ"><exception
         regexp="yes">ក្មេង|ចំណាស់</exception></token>
@@ -177,6 +202,8 @@ $Id: grammar.xml,v 1.1 2010/01/14 12:42:24 milek_pl Exp $
       <example type="incorrect">ឡាន​នោះ​ខៀវ​<marker>មិន</marker>ទេ។</example>
       <example type="correct">ឡាន​នោះ​<marker>មិន</marker>ខៀវ​ទេ។</example>
     </rule>
+    -->
+<!--
     <rule id="WANT_NOUN" name="INCORRECT USE OF WANT WITH NOUN">
       <pattern mark_from="0" mark_to="-1">
         <token>ចង់</token>
@@ -201,7 +228,8 @@ $Id: grammar.xml,v 1.1 2010/01/14 12:42:24 milek_pl Exp $
       <example type="correct">ខ្ញុំ​​<marker>ចង់​</marker>ទៅ។</example>
     </rule>
     <rule id="FROM_Classifier" name="INCORRECT USE OF FROM WITH CLASSIFIER">
-      <pattern mark_from="0" mark_to="-1">
+      <pattern mark_from="1" mark_to="-1">
+	    <token regexp="yes">កាំភ្លើង|ដាវ|ដើមឈើ|អាវុធ​</token>
         <token>ពី</token>
         <token postag="CLS"></token>
       </pattern>
@@ -231,7 +259,7 @@ $Id: grammar.xml,v 1.1 2010/01/14 12:42:24 milek_pl Exp $
         <pattern>
           <token>មនុស្ស</token>
           <token postag="NUM"></token>
-          <token postag="CLS"><exception regexp="yes">នាក់|ក្រុម|ពួក|គ</exception></token>
+          <token postag="CLS"><exception regexp="yes">នាក់|ក្រុម|ពួក|គូ|ចំនួន​</exception></token>
         </pattern>
         <message>You should write <suggestion>\1​\2​នាក់​</suggestion>
         <suggestion>\1​\2​ក្រុម​</suggestion>
@@ -246,7 +274,7 @@ $Id: grammar.xml,v 1.1 2010/01/14 12:42:24 milek_pl Exp $
           <token>មនុស្ស</token>
           <token postag="NUM"></token>
           <token postag="CLS"><exception
-          regexp="yes">នាក់|ក្រុម|ពួក|គូ</exception></token>
+          regexp="yes">នាក់|ក្រុម|ពួក|គូ|ចំនួន</exception></token>
         </pattern>
         <message>You should write <suggestion>\1​\2​នាក់​</suggestion>
         <suggestion>\1​\2​ក្រុម​</suggestion>
@@ -257,8 +285,10 @@ $Id: grammar.xml,v 1.1 2010/01/14 12:42:24 milek_pl Exp $
         <example type="correct">មនុស្ស​​<marker>ពីរ</marker>នាក់។</example>
       </rule>
     </rulegroup>
-	<rule id="NOUN + និង + NOUN" name="INCORRECT USE OF ហើយ​និង with two nouns">
-		<!-- Sometimes when a verb does two or more actions, that are nouns, it is fine to use ហើយ​​និង​. Once we have the ability to detect sentence structure, we can add this ទ្រង់​នឹង​ផ្តល់​អោយ​អ្នក​នូវ​កំឡាំង ហើយនិង​អំណាច​រាល់​ថ្ងៃ-->
+-->
+      <!-- Sometimes when a verb does two or more actions, that are nouns, it is fine to use ហើយ​​និង​. Once we have the ability to detect sentence structure, we can add this ទ្រង់​នឹង​ផ្តល់​អោយ​អ្នក​នូវ​កំឡាំង ហើយនិង​អំណាច​រាល់​ថ្ងៃ-->
+      <!--
+	<rule id="NOUN_NENG_NOUN" name="INCORRECT USE OF ហើយ​និង with two nouns">
       <pattern mark_from="1" mark_to="-1">
 	    <token postag_regexp="yes" postag="NN|NNP|PRO|ROY"><exception postag="VB"></exception></token>
         <token>ហើយ</token>
@@ -271,7 +301,7 @@ $Id: grammar.xml,v 1.1 2010/01/14 12:42:24 milek_pl Exp $
       <example type="incorrect">​​ម្តាយ​​<marker>ហើយនិង</marker>ឪពុក។</example>
       <example type="correct">​​ម្តាយ​​<marker>និង</marker>ឪពុក។</example>
     </rule>
-	<rule id="VERB + ហើយនិង + VERB" name="INCORRECT USE OF ​និង with two verbs">
+	<rule id="VERB_NENG_VERB" name="INCORRECT USE OF ​និង with two verbs">
       <pattern mark_from="1" mark_to="-1">
 	    <token postag_regexp="yes" postag="VB"><exception postag="NN"></exception></token>
 		<token>និង</token>
@@ -283,5 +313,8 @@ $Id: grammar.xml,v 1.1 2010/01/14 12:42:24 milek_pl Exp $
       <example type="incorrect">​​ម្តាយ​​<marker>ហើយនិង</marker>ឪពុក។</example>
       <example type="correct">​​ម្តាយ​​<marker>និង</marker>ឪពុក។</example>
     </rule>
+    -->
+    <!--
   </category>
+  -->
 </rules>
