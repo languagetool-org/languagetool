@@ -163,8 +163,10 @@ public class LanguageManagerDialog implements ActionListener {
   List<Language> getLanguages() {
     final List<Language> languages = new ArrayList<Language>();
     for (File ruleFile : ruleFiles) {
-      final Language newLanguage = LanguageBuilder.makeAdditionalLanguage(ruleFile);
-      languages.add(newLanguage);
+      if (ruleFile != null) {
+        final Language newLanguage = LanguageBuilder.makeAdditionalLanguage(ruleFile);
+        languages.add(newLanguage);
+      }
     }
     return languages;
   }
