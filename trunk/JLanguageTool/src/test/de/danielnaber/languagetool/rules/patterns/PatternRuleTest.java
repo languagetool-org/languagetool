@@ -246,7 +246,7 @@ public class PatternRuleTest extends TestCase {
         RuleMatch[] matches = getMatches(rule, badSentence, languageTool);
         if (!rule.isWithComplexPhrase()) {
           assertTrue(lang + ": Did expect one error in: \"" + badSentence
-              + "\" (Rule: " + rule + "), got " + matches.length
+              + "\" (Rule: " + rule + "), but found " + matches.length
               + ". Additional info:" + rule.getMessage(), matches.length == 1);
           assertEquals(lang
               + ": Incorrect match position markup (start) for rule " + rule,
