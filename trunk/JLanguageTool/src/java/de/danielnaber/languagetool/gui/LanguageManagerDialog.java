@@ -73,7 +73,7 @@ public class LanguageManagerDialog implements ActionListener {
   
   public void show() {
     dialog = new JDialog(owner, true);
-    dialog.setTitle("Language Module Manager");   // FIXME: i18n
+    dialog.setTitle(Messages.getString("guiLanguageManagerDialog"));   // FIXME: i18n //$NON-NLS-1$
     
     // close dialog when user presses Escape key:
     // TODO: taken from ConfigurationDialog, avoid duplication:
@@ -106,19 +106,19 @@ public class LanguageManagerDialog implements ActionListener {
     
     final JPanel buttonPanel = new JPanel();
     buttonPanel.setLayout(new GridBagLayout());
-    addButton = new JButton("Add...");    // FIXME: i18n
+    addButton = new JButton(Messages.getString("guiAddButton"));
     addButton.addActionListener(this);
     cons.gridx = 1;
     cons.gridy = 0;
     buttonPanel.add(addButton, cons);
 
-    removeButton = new JButton("Remove");    // FIXME: i18n
+    removeButton = new JButton(Messages.getString("guiRemoveButton"));
     removeButton.addActionListener(this);
     cons.gridx = 1;
     cons.gridy = 1;
     buttonPanel.add(removeButton, cons);
 
-    closeButton = new JButton("Close");    // FIXME: i18n
+    closeButton = new JButton(Messages.getString("guiCloseButton"));
     closeButton.addActionListener(this);
     cons.gridx = 1;
     cons.gridy = 2;
@@ -153,7 +153,7 @@ public class LanguageManagerDialog implements ActionListener {
     } else if (e.getSource() == closeButton) {
       dialog.setVisible(false);
     } else {
-      throw new IllegalArgumentException("Don't know how to handle " + e);
+      throw new IllegalArgumentException("Don't know how to handle " + e); //$NON-NLS-1$
     }
   }
   
@@ -173,13 +173,13 @@ public class LanguageManagerDialog implements ActionListener {
   
   static class XMLFileFilter extends FileFilter {
     public boolean accept(final File f) {
-      if (f.getName().toLowerCase().endsWith(".xml") || f.isDirectory()) {
+      if (f.getName().toLowerCase().endsWith(".xml") || f.isDirectory()) { //$NON-NLS-1$
         return true;
       }
       return false;
     }
     public String getDescription() {
-      return "*.xml";
+      return "*.xml"; //$NON-NLS-1$
     }
   }
 
