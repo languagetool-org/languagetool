@@ -31,9 +31,10 @@ class DatabaseDumpHandler extends BaseWikipediaDumpHandler {
     DatabaseDumpHandler(JLanguageTool lt, int maxArticles, Date dumpDate, String langCode,
             File propertiesFile, Language lang) throws IOException {
     super(lt, maxArticles, dumpDate, langCode, lang);
+    final Properties dbProperties = new Properties();
+    final FileInputStream inStream = new FileInputStream(propertiesFile);
     try {
-        final Properties dbProperties = new Properties();
-        dbProperties.load(new FileInputStream(propertiesFile));
+        dbProperties.load(inStream);
         final String dbDriver = getProperty(dbProperties, "dbDriver");
         final String dbUrl = getProperty(dbProperties, "dbUrl");
         final String dbUser = getProperty(dbProperties, "dbUser");
@@ -44,6 +45,8 @@ class DatabaseDumpHandler extends BaseWikipediaDumpHandler {
         throw new RuntimeException(e);
       } catch (SQLException e) {
         throw new RuntimeException(e);
+      } finally {
+        inStream.close();
       }
     }
     
