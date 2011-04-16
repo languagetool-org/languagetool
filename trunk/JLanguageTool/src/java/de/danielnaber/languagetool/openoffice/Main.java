@@ -24,8 +24,6 @@ package de.danielnaber.languagetool.openoffice;
  * @author Marcin Miłkowski
  */
 import java.io.File;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -294,7 +292,7 @@ public class Main extends WeakBase implements XJobExecutor,
           paRes.nBehindEndOfSentencePosition = paRes.nStartOfNextSentencePosition;
           if (!StringTools.isEmpty(sentence)) {
             final List<RuleMatch> ruleMatches = langTool.check(sentence, false,
-                JLanguageTool.paragraphHandling.ONLYNONPARA);
+                JLanguageTool.ParagraphHandling.ONLYNONPARA);
             final SingleProofreadingError[] pErrors = checkParaRules(paraText,
                 locale, paRes.nStartOfSentencePosition,
                 paRes.nStartOfNextSentencePosition, paRes.aDocumentIdentifier);
@@ -370,7 +368,7 @@ public class Main extends WeakBase implements XJobExecutor,
     if (startPos == 0) {
       try {
         paragraphMatches = langTool.check(paraText, false,
-            JLanguageTool.paragraphHandling.ONLYPARA);
+            JLanguageTool.ParagraphHandling.ONLYPARA);
         this.docID = docID;
       } catch (final Throwable t) {
         showError(t);

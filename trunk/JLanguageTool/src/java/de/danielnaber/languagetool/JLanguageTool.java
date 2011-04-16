@@ -92,7 +92,7 @@ public final class JLanguageTool {
   /**
    * Constants for correct paragraph-rule handling. 
    */
-  public static enum paragraphHandling {
+  public static enum ParagraphHandling {
     /**
      * Handle normally - all kinds of rules run.
      */
@@ -426,7 +426,7 @@ public final class JLanguageTool {
    * @throws IOException
    */
   public List<RuleMatch> check(final String text) throws IOException {
-    return check(text, true, paragraphHandling.NORMAL);
+    return check(text, true, ParagraphHandling.NORMAL);
   }
   
   
@@ -445,7 +445,7 @@ public final class JLanguageTool {
    * @return a List of {@link RuleMatch} objects
    * @throws IOException
    */
-  public List<RuleMatch> check(final String text, boolean tokenizeText, final paragraphHandling paraMode) throws IOException {
+  public List<RuleMatch> check(final String text, boolean tokenizeText, final ParagraphHandling paraMode) throws IOException {
     sentenceCount = 0;
     final List<String> sentences;
     if (tokenizeText) { 
@@ -500,7 +500,7 @@ public final class JLanguageTool {
       }      
     }
 
-    if (!paraMode.equals(paragraphHandling.ONLYNONPARA)) {
+    if (!paraMode.equals(ParagraphHandling.ONLYNONPARA)) {
     // removing false positives in paragraph-level rules
     for (final Rule rule : allRules) {
       if (rule.isParagraphBackTrack() && (rule.getMatches() != null)) {
@@ -517,7 +517,7 @@ public final class JLanguageTool {
     return ruleMatches;
   }
 
-  public List<RuleMatch> checkAnalyzedSentence(final paragraphHandling paraMode,
+  public List<RuleMatch> checkAnalyzedSentence(final ParagraphHandling paraMode,
       final List<Rule> allRules, int tokenCount, int lineCount,
       int columnCount, final String sentence, AnalyzedSentence analyzedText) 
         throws IOException {

@@ -317,7 +317,7 @@ public final class Tools {
    final AnalyzedSentence srcText = srcLt.getAnalyzedSentence(src);
    final AnalyzedSentence trgText = trgLt.getAnalyzedSentence(trg);
    final List<RuleMatch> ruleMatches = trgLt.checkAnalyzedSentence
-     (JLanguageTool.paragraphHandling.NORMAL, 
+     (JLanguageTool.ParagraphHandling.NORMAL,
       trgLt.getAllRules(), 0, 0, 1, trg, trgText);     
     for (BitextRule bRule : bRules) {     
       final RuleMatch[] curMatch = bRule.match(srcText, trgText);

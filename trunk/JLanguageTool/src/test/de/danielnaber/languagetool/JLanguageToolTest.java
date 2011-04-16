@@ -23,7 +23,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import junit.framework.TestCase;
-import de.danielnaber.languagetool.JLanguageTool.paragraphHandling;
+import de.danielnaber.languagetool.JLanguageTool.ParagraphHandling;
 import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.rules.patterns.PatternRule;
 
@@ -201,19 +201,19 @@ public class JLanguageToolTest extends TestCase {
     assertEquals(2, tool.getSentenceCount());
     
     //run in a sentence-only mode
-    matches = tool.check("(This is an quote.\n It ends in the second sentence.", false, paragraphHandling.ONLYNONPARA);
+    matches = tool.check("(This is an quote.\n It ends in the second sentence.", false, ParagraphHandling.ONLYNONPARA);
     assertEquals(1, matches.size());
     assertEquals("EN_A_VS_AN", matches.get(0).getRule().getId());
     assertEquals(1, tool.getSentenceCount());
     
     //run in a paragraph mode - single sentence
-    matches = tool.check("(This is an quote.\n It ends in the second sentence.", false, paragraphHandling.ONLYPARA);
+    matches = tool.check("(This is an quote.\n It ends in the second sentence.", false, ParagraphHandling.ONLYPARA);
     assertEquals(1, matches.size());
     assertEquals("EN_UNPAIRED_BRACKETS", matches.get(0).getRule().getId());
     assertEquals(1, tool.getSentenceCount());
     
     //run in a paragraph mode - many sentences
-    matches = tool.check("(This is an quote.\n It ends in the second sentence.", true, paragraphHandling.ONLYPARA);
+    matches = tool.check("(This is an quote.\n It ends in the second sentence.", true, ParagraphHandling.ONLYPARA);
     assertEquals(1, matches.size());
     assertEquals("EN_UNPAIRED_BRACKETS", matches.get(0).getRule().getId());
     assertEquals(2, tool.getSentenceCount());
