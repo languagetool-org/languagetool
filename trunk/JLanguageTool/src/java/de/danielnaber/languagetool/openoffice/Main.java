@@ -69,6 +69,7 @@ import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.gui.Configuration;
 import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.tools.StringTools;
+import de.danielnaber.languagetool.tools.Tools;
 
 public class Main extends WeakBase implements XJobExecutor,
     XServiceDisplayName, XServiceInfo, XProofreader,
@@ -629,12 +630,9 @@ public class Main extends WeakBase implements XJobExecutor,
   }
 
   static void showError(final Throwable e) {
-    final StringWriter stringWriter = new StringWriter();
-    final PrintWriter printWriter = new PrintWriter(stringWriter);
-    e.printStackTrace(printWriter);
     String msg = "An error has occurred in LanguageTool " + JLanguageTool.VERSION + ":\n" + e.toString()
         + "\nStacktrace:\n";
-    msg += stringWriter.toString();
+    msg += Tools.getFullStackTrace(e);
     final String metaInfo = "OS: " + System.getProperty("os.name")
       + " on " + System.getProperty("os.arch") + ", Java version "
       + System.getProperty("java.vm.version")
