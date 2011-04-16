@@ -33,8 +33,6 @@ import de.danielnaber.languagetool.rules.RuleMatch;
  */
 public class DifferentLengthRule extends BitextRule {
   
-  static final String MSG = "Source and target translation lengths are very different!";
-
   @Override
   public String getDescription() { 
     return "Check if translation length is similar to source length";
@@ -45,8 +43,9 @@ public class DifferentLengthRule extends BitextRule {
     return "TRANSLATION_LENGTH";
   }
 
+  @Override
   public String getMessage() {
-    return MSG;
+    return "Source and target translation lengths are very different!";
   }
 
   @Override
@@ -54,11 +53,11 @@ public class DifferentLengthRule extends BitextRule {
       AnalyzedSentence targetText) throws IOException {
    
     if (isLengthDifferent(getPureText(sourceText), getPureText(targetText))) {
-      final RuleMatch[] rm = new RuleMatch[1];
+      final RuleMatch[] ruleMatch = new RuleMatch[1];
       final AnalyzedTokenReadings[] tokens = targetText.getTokens();
       final int len = tokens[tokens.length - 1].getStartPos() + tokens[tokens.length - 1].getToken().length();
-      rm[0] = new RuleMatch(this, 1, len, MSG);
-      return rm;
+      ruleMatch[0] = new RuleMatch(this, 1, len, getMessage());
+      return ruleMatch;
     }
     return new RuleMatch[0];
   }

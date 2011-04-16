@@ -33,8 +33,6 @@ import de.danielnaber.languagetool.rules.RuleMatch;
  */
 public class SameTranslationRule extends BitextRule {
 
-  static final String MSG = "Source and target translation are the same!"; 
-  
   @Override
   public String getDescription() { 
     return "Check if translation is the same as source";
@@ -45,8 +43,9 @@ public class SameTranslationRule extends BitextRule {
     return "SAME_TRANSLATION";
   }
 
+  @Override
   public String getMessage() {
-    return MSG;
+    return "Source and target translation are the same!";
   }
 
   @Override
@@ -56,11 +55,11 @@ public class SameTranslationRule extends BitextRule {
     //This is just heuristics, checking word count
     if (sourceText.getTokensWithoutWhitespace().length > 3 
         && getPureText(sourceText).equals(getPureText(targetText))) {
-      final RuleMatch[] rm = new RuleMatch[1];
+      final RuleMatch[] ruleMatch = new RuleMatch[1];
       final AnalyzedTokenReadings[] tokens = targetText.getTokens();
       final int len = tokens[tokens.length - 1].getStartPos() + tokens[tokens.length - 1].getToken().length();
-      rm[0] = new RuleMatch(this, 1, len, MSG);
-      return rm;
+      ruleMatch[0] = new RuleMatch(this, 1, len, getMessage());
+      return ruleMatch;
     }
     return new RuleMatch[0];
   }
