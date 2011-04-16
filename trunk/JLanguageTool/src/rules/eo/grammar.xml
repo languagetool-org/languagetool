@@ -237,7 +237,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
           <token postag=". akz.*" postag_regexp="yes">
             <exception regexp="yes">[A-ZĈĜĤĴŜ].*</exception>
           </token>
-          <token negate_pos="yes" postag="(V t[rn] i)|(E.*)|SENT_END" postag_regexp="yes"/>
+          <token><exception postag="V t[rn] i|E.*" postag_regexp="yes"/></token>
         </pattern>
         <message>Prepozicio «\1» neniam povas esti sekvita de akuzativo.</message>
         <example type="incorrect">Mi pensas <marker>pri vin</marker>.</example>
@@ -253,7 +253,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
           <token postag="P sak"/>
           <token postag="D"/>
           <token postag=". akz.*" postag_regexp="yes"/>
-          <token negate_pos="yes" postag="(V t[rn] i)|(E.*)|SENT_END" postag_regexp="yes"/>
+          <token><exception postag="V t[rn] i|E.*" postag_regexp="yes"/></token>
         </pattern>
         <message>Prepozicio «\1» neniam povas esti sekvita de akuzativo.</message>
         <example type="incorrect">Mi pensas <marker>pri la laboron</marker>.</example>
@@ -264,7 +264,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
     <rule id="VNETR_AKU" name="netransitiva verbo + akuzativo">
       <pattern mark_from="1" mark_to="-1">
         <token postag="V nt .*" postag_regexp="yes" skip="2">
-          <exception scope="next" postag="(V.*)|(C .* n .)|(P kak)|(T nak .*[io])|(T xxx pn k es)|(M fino.*)" postag_regexp="yes"/>
+          <exception scope="next" postag="(V.*)|(C .* n .)|(P kak)|(T nak .*[io])|(T xxx pn k es)" postag_regexp="yes"/>
           <exception scope="next" regexp="yes">[!?-–,;:«»“&quot;()]</exception>
           <exception scope="previous" inflected="yes" regexp="yes">lasi|igi</exception>
         </token>
@@ -390,7 +390,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
 
     <rulegroup id="NEKONG_NOMBR" name="nekongruaj nombroj">
       <rule>
-        <pattern mark_from="3">
+        <pattern mark_from="3" mark_to="-1">
           <token skip="3" postag="SENT_START|K" postag_regexp="yes">
             <exception scope="next" negate_pos="yes" postag="([DE].*)|([ROA] nak pl.*)|(T nak pl . [ua])" postag_regexp="yes"/>
           </token>
@@ -401,6 +401,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
           <token postag="([ROA] nak np.*)|(T nak np . [ua])" postag_regexp="yes">
             <exception regexp="yes">parto|paro</exception>
           </token>
+          <token><exception>kaj</exception></token>
         </pattern>
         <message>Ne kongrua pluralo inter «\2» kaj «\4».</message>
         <example type="incorrect">Ni estas <marker>laca</marker>.</example>
@@ -410,6 +411,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
         <example type="incorrect">Tiuj estas <marker>bona</marker>.</example>
         <example type="correct">Tiuj estas bonaj.</example>
         <example type="correct">Ili estas parto de tio.</example>
+        <example type="correct">Ni estas frato kaj fratino.</example>
       </rule>
 
       <rule>
@@ -584,7 +586,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
           <exception scope="next" regexp="yes">ĉu|ki.*</exception>
           <exception scope="next" postag="T .* k .*" postag_regexp="yes"/>
         </token>
-        <token postag="M fino dem"/>
+        <token>?</token>
       </pattern>
       <message>Demando devas komenciĝi per la vorto «Ĉu» aŭ «Ki-» tabelvorto.</message>
       <example type="incorrect">Vi fartas bone<marker>?</marker></example>
@@ -718,7 +720,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
     <rule id="ANKAŬ_FINO" name="Ankaux (ktp) je la fino de frazo">
       <pattern mark_to="-1">
         <token regexp="yes">ankaŭ|eĉ|tre|nur|jam|ĵus|nek|kaj|aŭ|sed|plus|minus</token>
-        <token postag="M fino.*" postag_regexp="yes"/>
+        <token postag="SENT_END"/>
       </pattern>
       <message>Vorto «\1» devas stari antaŭ tio, al kio ĝi rilatas.</message>
       <example type="incorrect">Mi scipovas Esperanton <marker>ankaŭ</marker>.</example>
@@ -728,7 +730,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
     <rule id="PREP_FINO" name="Prepozicio je la fino de frazo">
       <pattern mark_to="-1">
         <token postag="P.*" postag_regexp="yes"></token>
-        <token postag="M fino.*" postag_regexp="yes"/>
+        <token postag="SENT_END"/>
       </pattern>
       <message>Prepozicio «\1» devas stari antaŭ tio, al kio ĝi rilatas.</message>
       <example type="incorrect">Mi venis <marker>post</marker>.</example>
@@ -965,7 +967,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
     <rulegroup id="NAK" name="verbo kiu preskaŭ ĉiam postulas akuzativon">
       <rule>
         <pattern mark_from="1" mark_to="-1">
-          <token postag="SENT_START|K|(fino.*)" postag_regexp="yes" skip="-1">
+          <token postag="SENT_START|K" postag_regexp="yes" skip="-1">
             <exception scope="next" postag="[ROAT] akz.*" postag_regexp="yes"></exception>
           </token>
           <token regexp="yes" skip="-1">(mal|ne|re|mis|fi)?(balanc|ban|bukl|etend|fleks|klin|kolekt|interes|komunik|mov|naŭz|nask|paŝt|renkont|renvers|romp|rul|sku|streĉ|sufok|sving|ŝanĝ|ŝiri|ŝut|ted|tren|turn|vek|vend|venĝ|verŝ|vind|uz)(ad|aĉ|et|eg)?([ui]|([aiuo]s))<exception scope="next" regexp="yes">.*n</exception><exception scope="next" postag="V.* i" postag_regexp="yes"/>
@@ -981,7 +983,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
 
       <rule>
         <pattern mark_from="1" mark_to="-1">
-          <token postag="SENT_START|K|(fino.*)" postag_regexp="yes" skip="-1">
+          <token postag="SENT_START|K" postag_regexp="yes" skip="-1">
             <exception scope="next" postag="[ROAT] akz.*" postag_regexp="yes"></exception>
           </token>
           <token regexp="yes" skip="-1">(ne|re)?(fin|komenc)[aiou]s<exception scope="previous" regexp="yes">[mcvlŝn]i|ili|oni</exception><exception scope="next" regexp="yes">.*n</exception><exception scope="next" postag="V.* i" postag_regexp="yes"/>
@@ -1002,12 +1004,12 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
 
     <rule id="V_A" name="sensubjekta verbo + a-vorto">
       <pattern mark_from="2" mark_to="-1">
-        <token postag="SENT_START|(fino.*)" postag_regexp="yes"/>
+        <token postag="SENT_START"/>
         <token postag="V.*[^i]" postag_regexp="yes" skip="-1">
           <exception scope="next" negate="yes" regexp="yes">(.*e)|(.*aŭ)|tro|pli|malpli|jam|nur|(.*aj?n?)</exception>
         </token>
         <token postag="A.*" postag_regexp="yes"/>
-        <token postag="SENT_END|K|(fino.*)" postag_regexp="yes"/>
+        <token postag="SENT_END|K" postag_regexp="yes"/>
       </pattern>
       <message>Nur adverbo priskribas sensubjektan frazon, ĉu vi intencis <suggestion><match no="3" regexp_match="(.*)a" regexp_replace="$1e"/></suggestion>?</message>
       <example type="incorrect">Estas <marker>facila</marker>.</example>
@@ -1089,7 +1091,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
 
     <rule id="MI_PLAĈAS" name="mi plaĉas (al mi plaĉas)">
       <pattern mark_from="1" mark_to="-1">
-        <token postag="SENT_START|K|(fino.*)" postag_regexp="yes"/>
+        <token postag="SENT_START|K" postag_regexp="yes"/>
         <token postag="R nak .*" postag_regexp="yes" skip="3">
           <exception scope="next" negate="yes" regexp="yes">tiom|tro|pli|malpli|(.*e)|(.*aŭ)|jam|nur|(.*[ui])|(.*[aiuo]s)</exception>
         </token>
@@ -1107,7 +1109,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
 
     <rule id="MI_EBLAS" name="mi eblas (mi povas)">
       <pattern mark_from="1">
-        <token postag="SENT_START|K|(fino.*)" postag_regexp="yes"/>
+        <token postag="SENT_START|K" postag_regexp="yes"/>
         <token postag="R nak .*" postag_regexp="yes" skip="3">
           <exception scope="next" negate="yes" regexp="yes">tiom|tro|pli|malpli|(.*e)|(.*aŭ)|jam|nur|(.*[ui])|(.*[aiuo]s)</exception>
           <exception scope="next">ke</exception>
@@ -1163,7 +1165,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
           <token postag="SENT_START"/>
           <token regexp="yes">ĉu|ki[eo]n?|ki[au]j?n?|ki(el|[ao]m)</token>
           <token postag="V .*u" postag_regexp="yes" skip="-1">
-            <exception scope="next" negate_pos="yes" postag="(E.*)|M fino dem|SENT_END" postag_regexp="yes"/>
+            <exception scope="next" negate_pos="yes" postag="(E.*)|SENT_END" postag_regexp="yes"/>
           </token>
           <token postag="SENT_END"/>
         </pattern>
@@ -1177,7 +1179,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
           <token regexp="yes">ĉu|ki[eo]|ki[au]j?|ki(el|[ao]m)</token>
           <token postag="V tr u" skip="-1"/>
           <token postag="[ROAT] akz.*" postag_regexp="yes" skip="-1">
-            <exception scope="next" negate_pos="yes" postag="(E.*)|M fino dem|SENT_END" postag_regexp="yes"/>
+            <exception scope="next" negate_pos="yes" postag="(E.*)|SENT_END" postag_regexp="yes"/>
           </token>
           <token postag="SENT_END"/>
         </pattern>
@@ -1202,7 +1204,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <example type="correct">La manĝaĵo ne bonas</example>
     </rule>
 
-    <rule id="SI_MEMSTARA" name="si memstara">
+    <rule id="SI_SUBJ" name="si subjekto">
       <pattern mark_to="-1">
         <token>si<exception scope="previous" postag_regexp="yes" postag="P.*"/></token>
         <token><exception>mem</exception></token>
@@ -1214,7 +1216,16 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <example type="correct">Li ne estas si mem.</example>
       <example type="incorrect">Lin vidas <marker>si</marker>.</example>
     </rule>
-
+    <!--
+    <rule id="SIA_SUBJ" name="sia subjekto">
+      <pattern>
+        <token regexp="yes">siaj?<exception scope="previous" postag_regexp="yes" postag="P.*"/></token>
+      </pattern>
+      <message>La vorto «\1» ne povas esti subjekto.</message>
+      <example type="incorrect">Sia patro nomis lin "Zam".</example>
+      <example type="correct">Li fieras pri sia patro.</example>
+    </rule>
+    -->
   </category>
 <!-- vim: foldmethod=marker foldmarker=<category,</category:
   -->

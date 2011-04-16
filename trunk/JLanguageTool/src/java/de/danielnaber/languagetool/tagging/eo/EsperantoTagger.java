@@ -243,16 +243,7 @@ public class EsperantoTagger implements Tagger {
       final List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
       final String lWord = word.toLowerCase();
 
-      if (lWord.equals(".")) {
-        l.add(new AnalyzedToken(word, "M fino", lWord));
-
-      } else if (lWord.equals("?")) {
-        l.add(new AnalyzedToken(word, "M fino dem", lWord));
-
-      } else if (lWord.equals("!")) {
-        l.add(new AnalyzedToken(word, "M fino kri", lWord));
-
-      } else if (lWord.equals("la")) {
+      if (lWord.equals("la")) {
         l.add(new AnalyzedToken(word, "D", lWord));
 
       } else if (setAdverbs.contains(lWord)) {

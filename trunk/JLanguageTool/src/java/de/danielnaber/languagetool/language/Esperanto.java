@@ -25,13 +25,20 @@ import java.util.Set;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.tagging.Tagger;
 import de.danielnaber.languagetool.tagging.eo.EsperantoTagger;
+import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
+import de.danielnaber.languagetool.tokenizers.SRXSentenceTokenizer;
 
 public class Esperanto extends Language {
 
   private final Tagger tagger = new EsperantoTagger();
+  private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("eo");
 
   public Locale getLocale() {
     return new Locale("eo");
+  }
+
+  public final SentenceTokenizer getSentenceTokenizer() {
+    return sentenceTokenizer;
   }
 
   public String getName() {
