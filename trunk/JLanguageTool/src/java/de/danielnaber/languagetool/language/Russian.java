@@ -32,26 +32,18 @@ import de.danielnaber.languagetool.tagging.Tagger;
 import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
 import de.danielnaber.languagetool.tagging.disambiguation.rules.ru.RussianRuleDisambiguator;
 import de.danielnaber.languagetool.tagging.ru.RussianTagger;
-//import de.danielnaber.languagetool.tokenizers.Tokenizer;
-//import de.danielnaber.languagetool.tokenizers.ru.RussianWordTokenizer;
-import de.danielnaber.languagetool.tokenizers.SRXSentenceTokenizer;  // new Tokenizer 
+import de.danielnaber.languagetool.tokenizers.SRXSentenceTokenizer;
 import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
-// import de.danielnaber.languagetool.tokenizers.ru.RussianSentenceTokenizer;  // old Tokenizer
-
 
 public class Russian extends Language {
 
-  private static final String[] COUNTRIES = {
-    "RU"
-  };
-  
+  private static final Unifier RUSSIAN_UNIFIER = new Unifier();
+
   private final Tagger tagger = new RussianTagger();
   private final Disambiguator disambiguator = new RussianRuleDisambiguator();
-  private static final Unifier RUSSIAN_UNIFIER = new Unifier();  
-//  private Tokenizer wordTokenizer = new RussianWordTokenizer();
   private final Synthesizer synthesizer = new RussianSynthesizer();
-//  private SentenceTokenizer sentenceTokenizer = new RussianSentenceTokenizer();   // old Tokenizer
-  private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("ru"); // new Tokenizer
+  private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("ru");
+
   public Locale getLocale() {
     return new Locale(getShortName());
   }
@@ -66,7 +58,7 @@ public class Russian extends Language {
 
   @Override
   public String[] getCountryVariants() {
-    return COUNTRIES;
+    return new String[] {"RU"};
   }
   
   public Tagger getTagger() {
@@ -77,20 +69,15 @@ public class Russian extends Language {
     return disambiguator;
   }
   
-//  public Tokenizer getWordTokenizer() {
-//    return wordTokenizer;
-//  }
-
   public Synthesizer getSynthesizer() {
     return synthesizer;
   }
 
-   public SentenceTokenizer getSentenceTokenizer() {
+  public SentenceTokenizer getSentenceTokenizer() {
     return sentenceTokenizer;
   }
 
-   
-     public Unifier getUnifier() {
+  public Unifier getUnifier() {
     return RUSSIAN_UNIFIER;
   }
 
