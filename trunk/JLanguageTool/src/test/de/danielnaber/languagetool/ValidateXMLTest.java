@@ -58,9 +58,13 @@ public class ValidateXMLTest extends TestCase {
       
       final String disambiguationFile = JLanguageTool.getDataBroker().getResourceDir() + "/" + language.getShortName() + "/disambiguation.xml";
       final InputStream stream = this.getClass().getResourceAsStream(disambiguationFile);
-      if (stream != null) {
-        validator.validate(disambiguationFile, JLanguageTool.getDataBroker().getResourceDir() + "/disambiguation.xsd");
-        disambiguationChecks++;
+      try {
+        if (stream != null) {
+          validator.validate(disambiguationFile, JLanguageTool.getDataBroker().getResourceDir() + "/disambiguation.xsd");
+          disambiguationChecks++;
+        }
+      } finally {
+        if (stream != null) { stream.close(); }
       }
     }
     assertTrue(disambiguationChecks > 0);
