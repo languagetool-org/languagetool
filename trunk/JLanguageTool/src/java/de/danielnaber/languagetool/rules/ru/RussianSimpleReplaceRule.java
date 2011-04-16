@@ -33,7 +33,7 @@ import de.danielnaber.languagetool.rules.AbstractSimpleReplaceRule;
  * 
  * @author  Yakov Reztsov
  */
-public class RuSimpleReplaceRule extends AbstractSimpleReplaceRule {
+public class RussianSimpleReplaceRule extends AbstractSimpleReplaceRule {
 
   private static final String FILE_NAME = "/ru/replace.txt";
 
@@ -44,7 +44,7 @@ public class RuSimpleReplaceRule extends AbstractSimpleReplaceRule {
   public final String getFileName() {
     return FILE_NAME;
   }
-  public RuSimpleReplaceRule(final ResourceBundle messages) throws IOException {
+  public RussianSimpleReplaceRule(final ResourceBundle messages) throws IOException {
     super(messages);
   }
 

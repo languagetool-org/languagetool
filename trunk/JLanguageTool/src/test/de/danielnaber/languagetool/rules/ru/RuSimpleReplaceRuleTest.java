@@ -37,7 +37,7 @@ import de.danielnaber.languagetool.rules.RuleMatch;
 public class RuSimpleReplaceRuleTest extends TestCase {
 
 	public void testRule() throws IOException {
-		RuSimpleReplaceRule rule = new RuSimpleReplaceRule(TestTools.getMessages("ru"));
+		RussianSimpleReplaceRule rule = new RussianSimpleReplaceRule(TestTools.getMessages("ru"));
 
 		RuleMatch[] matches;
 		JLanguageTool langTool = new JLanguageTool(Language.RUSSIAN);

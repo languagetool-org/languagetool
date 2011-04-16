@@ -23,7 +23,7 @@ import java.util.*;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.rules.*;
 import de.danielnaber.languagetool.rules.patterns.Unifier;
-import de.danielnaber.languagetool.rules.ru.RuSimpleReplaceRule;
+import de.danielnaber.languagetool.rules.ru.RussianSimpleReplaceRule;
 import de.danielnaber.languagetool.rules.ru.RussianCompoundRule;
 import de.danielnaber.languagetool.rules.ru.RussianUnpairedBracketsRule;
 import de.danielnaber.languagetool.synthesis.Synthesizer;
@@ -96,7 +96,7 @@ public class Russian extends Language {
             // specific to Russian :
             RussianUnpairedBracketsRule.class,
             RussianCompoundRule.class,
-            RuSimpleReplaceRule.class
+            RussianSimpleReplaceRule.class
     );
   }
 
