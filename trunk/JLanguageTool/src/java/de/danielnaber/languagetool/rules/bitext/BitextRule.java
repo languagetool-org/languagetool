@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.List;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
+import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.bitext.StringPair;
 import de.danielnaber.languagetool.rules.Rule;
 import de.danielnaber.languagetool.rules.RuleMatch;
@@ -51,8 +52,13 @@ public abstract class BitextRule extends Rule {
   @Override
   public abstract String getId();
 
+  /**
+   * This method makes no sense for bitext, return null??
+   */
   @Override
-  public abstract RuleMatch[] match(AnalyzedSentence text) throws IOException;  
+  public RuleMatch[] match(AnalyzedSentence text) throws IOException {
+    return null;
+  }
   
   public abstract RuleMatch[] match(AnalyzedSentence sourceText, 
       AnalyzedSentence targetText) throws IOException;
@@ -103,4 +109,11 @@ public abstract class BitextRule extends Rule {
   }
 
 
+  protected String getPureText(AnalyzedSentence text) {
+    final StringBuilder sb = new StringBuilder();
+    for (AnalyzedTokenReadings token : text.getTokens()) {
+      sb.append(token.getToken());
+    }
+    return sb.toString();
+  }
 }

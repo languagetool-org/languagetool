@@ -48,45 +48,26 @@ public class DifferentLengthRule extends BitextRule {
   public String getMessage() {
     return MSG;
   }
-  
-  /**
-   * This method makes no sense for bitext, return null?? 
-   */
-  @Override
-  public RuleMatch[] match(AnalyzedSentence text) throws IOException {
-    // TODO Auto-generated method stub
-    return null;
-  }
 
   @Override
   public RuleMatch[] match(AnalyzedSentence sourceText,
       AnalyzedSentence targetText) throws IOException {
    
-    if (isLengthDifferent(
-        getPureText(sourceText), getPureText(targetText))) {
+    if (isLengthDifferent(getPureText(sourceText), getPureText(targetText))) {
       final RuleMatch[] rm = new RuleMatch[1];
       final AnalyzedTokenReadings[] tokens = targetText.getTokens();
       final int len = tokens[tokens.length - 1].getStartPos() + tokens[tokens.length - 1].getToken().length();
-      rm[0] = new RuleMatch(this, 1, len,
-      MSG);
+      rm[0] = new RuleMatch(this, 1, len, MSG);
       return rm;
     }
     return new RuleMatch[0];
   }
   
-  static boolean isLengthDifferent(final String src, final String trg) {
+  private boolean isLengthDifferent(final String src, final String trg) {
     final double skew = (((double) src.length() / (double) trg.length()) * 100.00);
     return (skew > 250 || skew < 30);
-   }
-  
-  private static String getPureText(AnalyzedSentence text) {
-    final StringBuilder sb = new StringBuilder();
-    for (AnalyzedTokenReadings token : text.getTokens()) {
-      sb.append(token.getToken());
-    }
-    return sb.toString();
   }
-
+  
   public void reset() {
   }
 

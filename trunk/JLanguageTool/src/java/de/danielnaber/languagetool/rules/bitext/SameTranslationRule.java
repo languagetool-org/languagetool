@@ -48,15 +48,6 @@ public class SameTranslationRule extends BitextRule {
   public String getMessage() {
     return MSG;
   }
-  
-  /**
-   * This method makes no sense for bitext, return null?? 
-   */
-  @Override
-  public RuleMatch[] match(AnalyzedSentence text) throws IOException {
-    // TODO Auto-generated method stub
-    return null;
-  }
 
   @Override
   public RuleMatch[] match(AnalyzedSentence sourceText,
@@ -72,14 +63,6 @@ public class SameTranslationRule extends BitextRule {
       return rm;
     }
     return new RuleMatch[0];
-  }
-  
-  private static String getPureText(AnalyzedSentence text) {
-    final StringBuilder sb = new StringBuilder();
-    for (AnalyzedTokenReadings token : text.getTokens()) {
-      sb.append(token.getToken());
-    }
-    return sb.toString();
   }
 
   public void reset() {
