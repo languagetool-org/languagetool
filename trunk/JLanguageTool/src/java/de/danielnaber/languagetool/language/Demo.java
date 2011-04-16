@@ -18,10 +18,12 @@
  */
 package de.danielnaber.languagetool.language;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
-import java.util.Set;
 
 import de.danielnaber.languagetool.Language;
+import de.danielnaber.languagetool.rules.Rule;
 import de.danielnaber.languagetool.tagging.Tagger;
 import de.danielnaber.languagetool.tagging.xx.DemoTagger;
 
@@ -53,8 +55,9 @@ public class Demo extends Language {
     return null;
   }
 
-  public Set<String> getRelevantRuleIDs() {
-    return null;
+  @Override
+  public List<Class<? extends Rule>> getRelevantRules() {
+    return Collections.emptyList();
   }
 
 }

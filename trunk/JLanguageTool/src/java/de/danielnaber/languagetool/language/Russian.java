@@ -18,12 +18,14 @@
  */
 package de.danielnaber.languagetool.language;
 
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Set;
+import java.util.*;
 
 import de.danielnaber.languagetool.Language;
+import de.danielnaber.languagetool.rules.*;
 import de.danielnaber.languagetool.rules.patterns.Unifier;
+import de.danielnaber.languagetool.rules.ru.RuSimpleReplaceRule;
+import de.danielnaber.languagetool.rules.ru.RussianCompoundRule;
+import de.danielnaber.languagetool.rules.ru.RussianUnpairedBracketsRule;
 import de.danielnaber.languagetool.synthesis.Synthesizer;
 import de.danielnaber.languagetool.synthesis.ru.RussianSynthesizer;
 import de.danielnaber.languagetool.tagging.Tagger;
@@ -96,19 +98,19 @@ public class Russian extends Language {
      return new Contributor[] {new Contributor("Yakov Reztsov")};
   }
 
-  public Set<String> getRelevantRuleIDs() {
-    final Set<String> ids = new HashSet<String>();
-    ids.add("COMMA_PARENTHESIS_WHITESPACE");
-    ids.add("DOUBLE_PUNCTUATION");    
-    ids.add("UPPERCASE_SENTENCE_START");
-    ids.add("WORD_REPEAT_RULE");
-    ids.add("WHITESPACE_RULE");    
-    // specific to Russian :
-    ids.add("RU_UNPAIRED_BRACKETS");
-    ids.add("RU_COMPOUNDS");    
-    ids.add("RU_SIMPLE_REPLACE");
-    return ids;
-	
+  @Override
+  public List<Class<? extends Rule>> getRelevantRules() {
+    return Arrays.asList(
+            CommaWhitespaceRule.class,
+            DoublePunctuationRule.class,
+            UppercaseSentenceStartRule.class,
+            WordRepeatRule.class,
+            WhitespaceRule.class,
+            // specific to Russian :
+            RussianUnpairedBracketsRule.class,
+            RussianCompoundRule.class,
+            RuSimpleReplaceRule.class
+    );
   }
 
 }

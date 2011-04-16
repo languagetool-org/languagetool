@@ -20,6 +20,7 @@
 package de.danielnaber.languagetool.rules.bitext;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
@@ -39,18 +40,28 @@ import de.danielnaber.languagetool.Language;
 
 public abstract class BitextRule extends Rule {
 
+  public static List<Class<? extends BitextRule>> getRelevantRules() {
+    return Arrays.asList(DifferentLengthRule.class, SameTranslationRule.class);
+  }
+
   private List<StringPair> correctExamples;
   private List<IncorrectBitextExample> incorrectExamples;
- 
+
   private Language sourceLanguage;
-  
+
   @Override
   public abstract String getDescription();
-    
+
   public abstract String getMessage();
 
   @Override
   public abstract String getId();
+
+  public abstract RuleMatch[] match(AnalyzedSentence sourceText,
+      AnalyzedSentence targetText) throws IOException;
+
+  @Override
+  public abstract void reset();
 
   /**
    * This method makes no sense for bitext, return null??
@@ -59,12 +70,6 @@ public abstract class BitextRule extends Rule {
   public RuleMatch[] match(AnalyzedSentence text) throws IOException {
     return null;
   }
-  
-  public abstract RuleMatch[] match(AnalyzedSentence sourceText, 
-      AnalyzedSentence targetText) throws IOException;
-  
-  @Override
-  public abstract void reset();
 
   /**
    * Set the source language. If the language is not supported
@@ -74,28 +79,28 @@ public abstract class BitextRule extends Rule {
   public final void setSourceLang(final Language lang) {
     sourceLanguage = lang;
   }
- 
+
   public final Language getSourceLang() {
     return sourceLanguage;
   }
-  
+
   /**
    * Set the examples that are correct and thus do not trigger the rule.
-   */  
+   */
   public final void setCorrectBitextExamples(final List<StringPair> correctExamples) {
     this.correctExamples = correctExamples;
   }
 
   /**
    * Get example sentences that are correct and thus will not match this rule.
-   */  
+   */
   public final List<StringPair> getCorrectBitextExamples() {
     return correctExamples;
   }
 
   /**
    * Set the examples that are incorrect and thus do trigger the rule.
-   */  
+   */
   public final void setIncorrectBitextExamples(
       final List<IncorrectBitextExample> incorrectExamples) {
     this.incorrectExamples = incorrectExamples;
@@ -103,11 +108,10 @@ public abstract class BitextRule extends Rule {
 
   /**
    * Get example sentences that are incorrect and thus will match this rule.
-   */  
+   */
   public final List<IncorrectBitextExample> getIncorrectBitextExamples() {
     return incorrectExamples;
   }
-
 
   protected String getPureText(AnalyzedSentence text) {
     final StringBuilder sb = new StringBuilder();

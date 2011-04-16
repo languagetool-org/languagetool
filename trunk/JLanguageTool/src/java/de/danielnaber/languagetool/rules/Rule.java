@@ -22,7 +22,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.Set;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.Language;
@@ -98,8 +97,8 @@ public abstract class Rule {
    * Whether this rule can be used for text in the given language.
    */
   public final boolean supportsLanguage(final Language language) {
-    final Set<String> relevantIDs = language.getRelevantRuleIDs();
-    return relevantIDs != null && relevantIDs.contains(getId());
+    final List<Class<? extends Rule>> relevantRuleClasses = language.getRelevantRules();
+    return relevantRuleClasses != null && relevantRuleClasses.contains(this.getClass());
   }
 
   /**

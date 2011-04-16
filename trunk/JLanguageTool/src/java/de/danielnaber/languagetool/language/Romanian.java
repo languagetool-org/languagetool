@@ -18,11 +18,10 @@
  */
 package de.danielnaber.languagetool.language;
 
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Set;
+import java.util.*;
 
 import de.danielnaber.languagetool.Language;
+import de.danielnaber.languagetool.rules.*;
 import de.danielnaber.languagetool.rules.ro.CompoundRule;
 import de.danielnaber.languagetool.rules.ro.SimpleReplaceRule;
 import de.danielnaber.languagetool.synthesis.Synthesizer;
@@ -78,21 +77,20 @@ public class Romanian extends Language {
 		return new Contributor[] { contributor };
 	}
 
-	public Set<String> getRelevantRuleIDs() {
-		final Set<String> ids = new HashSet<String>();
-		ids.add("COMMA_PARENTHESIS_WHITESPACE");
-		ids.add("DOUBLE_PUNCTUATION");
-		ids.add("UPPERCASE_SENTENCE_START");
-		ids.add("WHITESPACE_RULE");
-		ids.add("UNPAIRED_BRACKETS");
-		ids.add("UPPERCASE_SENTENCE_START");
-		ids.add("WORD_REPEAT_RULE");
-		// specific to romanian
-		ids.add(SimpleReplaceRule.ROMANIAN_SIMPLE_REPLACE_RULE);
-		ids.add(CompoundRule.ROMANIAN_COMPOUND_RULE);
-
-		return ids;
-	}
+  @Override
+  public List<Class<? extends Rule>> getRelevantRules() {
+    return Arrays.asList(
+            CommaWhitespaceRule.class,
+            DoublePunctuationRule.class,
+            UppercaseSentenceStartRule.class,
+            WhitespaceRule.class,
+            GenericUnpairedBracketsRule.class,
+            WordRepeatRule.class,
+            // specific to Romanian:
+            SimpleReplaceRule.class,
+            CompoundRule.class
+    );
+  }
 
 	public final Synthesizer getSynthesizer() {
 		return synthesizer;

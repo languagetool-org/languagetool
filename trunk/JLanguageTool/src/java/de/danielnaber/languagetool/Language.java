@@ -50,6 +50,7 @@ import de.danielnaber.languagetool.language.Slovenian;
 import de.danielnaber.languagetool.language.Spanish;
 import de.danielnaber.languagetool.language.Swedish;
 import de.danielnaber.languagetool.language.Ukrainian;
+import de.danielnaber.languagetool.rules.Rule;
 import de.danielnaber.languagetool.rules.patterns.Unifier;
 import de.danielnaber.languagetool.synthesis.Synthesizer;
 import de.danielnaber.languagetool.tagging.Tagger;
@@ -105,7 +106,6 @@ public abstract class Language {
     SLOVAK, SLOVENIAN, SWEDISH, ROMANIAN, ICELANDIC, GALICIAN, CATALAN, DANISH,
     MALAYALAM, BELARUSIAN, ESPERANTO,
     DEMO
-    // FIXME: load dynamically from classpath
   };
 
   /**
@@ -162,9 +162,10 @@ public abstract class Language {
   public abstract Contributor[] getMaintainers();
 
   /**
-   * Get the IDs of the rules that should run for texts in this language.
+   * Get the rules classes that should run for texts in this language.
+   * @since 1.4
    */
-  public abstract Set<String> getRelevantRuleIDs();
+  public abstract List<Class<? extends Rule>> getRelevantRules();
 
   // -------------------------------------------------------------------------
 

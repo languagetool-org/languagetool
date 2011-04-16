@@ -29,6 +29,12 @@ import de.danielnaber.languagetool.Language;
  */
 public class CaseRuleTest extends TestCase {
 
+  public void testRuleActivation() throws IOException {
+    CaseRule rule = new CaseRule(null);
+    assertTrue(rule.supportsLanguage(Language.GERMAN));
+    assertFalse(rule.supportsLanguage(Language.ENGLISH));
+  }
+
   public void testRule() throws IOException {
     CaseRule rule = new CaseRule(null);
     JLanguageTool langTool = new JLanguageTool(Language.GERMAN);

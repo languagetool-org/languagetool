@@ -390,11 +390,7 @@ public final class Tools {
 
     final List<BitextRule> rules = new ArrayList<BitextRule>();
     try {
-      // we pass ".*Rule$" regexp to improve efficiency, see javadoc
-      final Class[] classes = ReflectionUtils.findClasses(Rule.class
-          .getClassLoader(), Rule.class.getPackage().getName()
-          + ".bitext", ".*Rule$", 0,
-          Rule.class, null);
+      final List<Class<? extends BitextRule>> classes = BitextRule.getRelevantRules();
             
       for (final Class class1 : classes) {
         final Constructor[] constructors = class1.getConstructors();
@@ -422,7 +418,6 @@ public final class Tools {
     } catch (final Exception e) {
       throw new RuntimeException("Failed to load rules: " + e.getMessage(), e);
     }
-    // System.err.println("Loaded " + rules.size() + " rules");
     return rules;
   }
 

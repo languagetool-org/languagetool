@@ -18,11 +18,12 @@
  */
 package de.danielnaber.languagetool.language;
 
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Set;
+import java.util.*;
 
 import de.danielnaber.languagetool.Language;
+import de.danielnaber.languagetool.rules.*;
+import de.danielnaber.languagetool.rules.sk.CompoundRule;
+import de.danielnaber.languagetool.rules.sk.SlovakVes;
 import de.danielnaber.languagetool.synthesis.Synthesizer;
 import de.danielnaber.languagetool.tagging.Tagger;
 import de.danielnaber.languagetool.tagging.sk.SlovakTagger;
@@ -71,23 +72,24 @@ public class Slovak extends Language {
   }
   
   public Contributor[] getMaintainers() {
-	final Contributor contributor = new Contributor("Zdenko Podobný");
-	contributor.setUrl("http://sk-spell.sk.cx");
-	return new Contributor[] { contributor };
+  	final Contributor contributor = new Contributor("Zdenko Podobný");
+	  contributor.setUrl("http://sk-spell.sk.cx");
+	  return new Contributor[] { contributor };
   }
 
-  public Set<String> getRelevantRuleIDs() {
-    final Set<String> ids = new HashSet<String>();
-    ids.add("COMMA_PARENTHESIS_WHITESPACE");
-    ids.add("DOUBLE_PUNCTUATION");
-    ids.add("UNPAIRED_BRACKETS");
-    ids.add("UPPERCASE_SENTENCE_START");
-    ids.add("WORD_REPEAT_RULE");
-    ids.add("WHITESPACE_RULE");
-    // specific to Slovak:
-    ids.add("SK_COMPOUNDS");
-    ids.add("SK_VES");
-    return ids;
+  @Override
+  public List<Class<? extends Rule>> getRelevantRules() {
+    return Arrays.asList(
+            CommaWhitespaceRule.class,
+            DoublePunctuationRule.class,
+            GenericUnpairedBracketsRule.class,
+            UppercaseSentenceStartRule.class,
+            WordRepeatRule.class,
+            WhitespaceRule.class,
+            // specific to Slovak:
+            CompoundRule.class,
+            SlovakVes.class
+    );
   }
 
 }

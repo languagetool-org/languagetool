@@ -18,11 +18,10 @@
  */
 package de.danielnaber.languagetool.language;
 
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Set;
+import java.util.*;
 
 import de.danielnaber.languagetool.Language;
+import de.danielnaber.languagetool.rules.*;
 import de.danielnaber.languagetool.synthesis.Synthesizer;
 import de.danielnaber.languagetool.synthesis.ca.CatalanSynthesizer;
 import de.danielnaber.languagetool.tagging.Tagger;
@@ -37,7 +36,6 @@ public class Catalan extends Language {
   private final Tagger tagger = new CatalanTagger();
   private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("ca");
   private final Synthesizer synthesizer = new CatalanSynthesizer();
-//  private CastellanismesReplaceRule castella = new CastellanismesReplaceRule();
 
   private static final String[] COUNTRIES = {
     "ES"
@@ -64,16 +62,18 @@ public class Catalan extends Language {
     return new Contributor[] {new Contributor("Ricard Roca")};
   }
 
-  public Set<String> getRelevantRuleIDs() {
-    final Set<String> ids = new HashSet<String>();
-    ids.add("COMMA_PARENTHESIS_WHITESPACE");
-    ids.add("DOUBLE_PUNCTUATION");
-    ids.add("UNPAIRED_BRACKETS");
-    ids.add("UPPERCASE_SENTENCE_START");
-    ids.add("WHITESPACE_RULE");
-    ids.add(CastellanismesReplaceRule.CATALAN_CASTELLANISMES_REPLACE_RULE);
-    ids.add(AccentuacioReplaceRule.CATALAN_ACCENTUACIO_REPLACE_RULE);
-    return ids;
+  @Override
+  public List<Class<? extends Rule>> getRelevantRules() {
+    return Arrays.asList(
+            CommaWhitespaceRule.class,
+            DoublePunctuationRule.class,
+            GenericUnpairedBracketsRule.class,
+            UppercaseSentenceStartRule.class,
+            WhitespaceRule.class,
+            // specific to Catalan:
+            CastellanismesReplaceRule.class,
+            AccentuacioReplaceRule.class
+    );
   }
 
   public final Tagger getTagger() {

@@ -18,27 +18,6 @@
  */
 package de.danielnaber.languagetool;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintStream;
-import java.lang.reflect.Constructor;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
-import java.util.Set;
-
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.xml.sax.SAXException;
-
 import de.danielnaber.languagetool.databroker.DefaultResourceDataBroker;
 import de.danielnaber.languagetool.databroker.ResourceDataBroker;
 import de.danielnaber.languagetool.rules.Rule;
@@ -49,7 +28,15 @@ import de.danielnaber.languagetool.rules.patterns.PatternRuleLoader;
 import de.danielnaber.languagetool.tagging.Tagger;
 import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
 import de.danielnaber.languagetool.tokenizers.Tokenizer;
-import de.danielnaber.languagetool.tools.ReflectionUtils;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintStream;
+import java.lang.reflect.Constructor;
+import java.util.*;
 
 /**
  * The main class used for checking text against different rules:
@@ -245,31 +232,12 @@ public final class JLanguageTool {
     }
   }
 
-  private Rule[] getAllBuiltinRules(final Language language,
-      final ResourceBundle messages) {
-    // use reflection to get a list of all non-pattern rules under
-    // "de.danielnaber.languagetool.rules"
-    // generic rules first, then language-specific ones
-    // TODO: the order of loading classes is not guaranteed so we may want to
-    // implement rule
-    // precedence
-
+  private Rule[] getAllBuiltinRules(final Language language, final ResourceBundle messages) {
     final List<Rule> rules = new ArrayList<Rule>();
-    try {
-      // we pass ".*Rule$" regexp to improve efficiency, see javadoc
-      final Class[] classes1 = ReflectionUtils.findClasses(Rule.class
-          .getClassLoader(), Rule.class.getPackage().getName(), ".*Rule$", 0,
-          Rule.class, null);
-      final Class[] classes2 = ReflectionUtils.findClasses(Rule.class
-          .getClassLoader(), Rule.class.getPackage().getName() + "."
-          + language.getShortName(), ".*Rule$", 0, Rule.class, null);
-
-      final List<Class> classes = new ArrayList<Class>();
-      classes.addAll(Arrays.asList(classes1));
-      classes.addAll(Arrays.asList(classes2));
-
-      for (final Class class1 : classes) {
-        final Constructor[] constructors = class1.getConstructors();
+    final List<Class<? extends Rule>> languageRules = language.getRelevantRules();
+    for (Class<? extends Rule> ruleClass : languageRules) {
+      final Constructor[] constructors = ruleClass.getConstructors();
+      try {
         for (final Constructor constructor : constructors) {
           final Class[] paramTypes = constructor.getParameterTypes();
           if (paramTypes.length == 1
@@ -283,14 +251,12 @@ public final class JLanguageTool {
             rules.add((Rule) constructor.newInstance(messages, language));
             break;
           }
-          throw new RuntimeException("Unknown constructor for rule class: "
-              + class1.getName());
+          throw new RuntimeException("Unknown constructor for rule class: " + ruleClass.getName());
         }
+      } catch (Exception e) {
+        throw new RuntimeException("Failed to load rules for language " + language, e);
       }
-    } catch (final Exception e) {
-      throw new RuntimeException("Failed to load rules for language " + language, e);
     }
-    // System.err.println("Loaded " + rules.size() + " rules");
     return rules.toArray(new Rule[rules.size()]);
   }
 

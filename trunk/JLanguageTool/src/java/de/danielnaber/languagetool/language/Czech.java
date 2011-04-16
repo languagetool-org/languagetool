@@ -18,11 +18,12 @@
  */
 package de.danielnaber.languagetool.language;
 
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Set;
+import java.util.*;
 
 import de.danielnaber.languagetool.Language;
+import de.danielnaber.languagetool.rules.CommaWhitespaceRule;
+import de.danielnaber.languagetool.rules.DoublePunctuationRule;
+import de.danielnaber.languagetool.rules.Rule;
 import de.danielnaber.languagetool.tagging.Tagger;
 import de.danielnaber.languagetool.tagging.cs.CzechTagger;
 import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
@@ -63,11 +64,12 @@ public class Czech extends Language {
     return new Contributor[] {new Contributor("Jozef Ličko")};
   }
 
-  public Set<String> getRelevantRuleIDs() {
-    final Set<String> ids = new HashSet<String>();
-    ids.add("COMMA_PARENTHESIS_WHITESPACE");
-    ids.add("DOUBLE_PUNCTUATION");
-    return ids;
+  @Override
+  public List<Class<? extends Rule>> getRelevantRules() {
+    return Arrays.asList(
+            CommaWhitespaceRule.class,
+            DoublePunctuationRule.class
+    );
   }
-
+  
 }

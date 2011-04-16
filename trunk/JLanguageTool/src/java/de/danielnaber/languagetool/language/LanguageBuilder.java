@@ -19,10 +19,12 @@
 package de.danielnaber.languagetool.language;
 
 import java.io.File;
+import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
-import java.util.Set;
 
 import de.danielnaber.languagetool.Language;
+import de.danielnaber.languagetool.rules.Rule;
 
 /**
  * Create a language by specifying the language's XML rule file.
@@ -71,8 +73,9 @@ public class LanguageBuilder {
       public String getName() {
         return parts[2].replace(".xml", "");
       }
-      public Set<String> getRelevantRuleIDs() {
-        return null;
+      @Override
+      public List<Class<? extends Rule>> getRelevantRules() {
+        return Collections.emptyList();
       }
       @Override
       public String getRuleFileName() {

@@ -18,11 +18,13 @@
  */
 package de.danielnaber.languagetool.language;
 
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Set;
+import java.util.*;
 
 import de.danielnaber.languagetool.Language;
+import de.danielnaber.languagetool.rules.*;
+import de.danielnaber.languagetool.rules.en.AvsAnRule;
+import de.danielnaber.languagetool.rules.en.CompoundRule;
+import de.danielnaber.languagetool.rules.en.EnglishUnpairedBracketsRule;
 import de.danielnaber.languagetool.synthesis.Synthesizer;
 import de.danielnaber.languagetool.synthesis.en.EnglishSynthesizer;
 import de.danielnaber.languagetool.tagging.Tagger;
@@ -86,18 +88,19 @@ public class English extends Language {
         new Contributor("Daniel Naber")};
   }
 
-  public final Set<String> getRelevantRuleIDs() {
-    final Set<String> ids = new HashSet<String>();
-    ids.add("COMMA_PARENTHESIS_WHITESPACE");
-    ids.add("DOUBLE_PUNCTUATION");
-    ids.add("EN_UNPAIRED_BRACKETS");
-    ids.add("UPPERCASE_SENTENCE_START");
-    ids.add("WORD_REPEAT_RULE");
-    ids.add("WHITESPACE_RULE");    
-    // specific to English:
-    ids.add("EN_A_VS_AN");
-    ids.add("EN_COMPOUNDS");
-    return ids;
+  @Override
+  public List<Class<? extends Rule>> getRelevantRules() {
+    return Arrays.asList(
+            CommaWhitespaceRule.class,
+            DoublePunctuationRule.class,
+            EnglishUnpairedBracketsRule.class,
+            UppercaseSentenceStartRule.class,
+            WhitespaceRule.class,
+            WordRepeatRule.class,
+            // specific to English:
+            AvsAnRule.class,
+            CompoundRule.class
+    );
   }
 
 }

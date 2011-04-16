@@ -18,11 +18,11 @@
  */
 package de.danielnaber.languagetool.language;
 
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Set;
+import java.util.*;
 
 import de.danielnaber.languagetool.Language;
+import de.danielnaber.languagetool.rules.Rule;
+import de.danielnaber.languagetool.rules.km.KhmerSimpleReplaceRule;
 import de.danielnaber.languagetool.tagging.Tagger;
 import de.danielnaber.languagetool.tagging.km.KhmerTagger;
 import de.danielnaber.languagetool.tokenizers.SRXSentenceTokenizer;
@@ -79,12 +79,12 @@ public class Khmer extends Language {
         };
   }
 
-  public Set<String> getRelevantRuleIDs() {
-    final Set<String> ids = new HashSet<String>();
-	// specific to Khmer:
-	//ids.add("KM_WORD_COHERENCY");
-	ids.add("KM_SIMPLE_REPLACE");
-    return ids;
+  @Override
+  public List<Class<? extends Rule>> getRelevantRules() {
+    final List<Class<? extends Rule>> ruleClasses = new ArrayList<Class<? extends Rule>>();
+    // specific to Khmer:
+    ruleClasses.add(KhmerSimpleReplaceRule.class);
+    return ruleClasses;
   }
 
 }

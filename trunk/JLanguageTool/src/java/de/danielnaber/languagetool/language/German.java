@@ -18,11 +18,11 @@
  */
 package de.danielnaber.languagetool.language;
 
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Set;
+import java.util.*;
 
 import de.danielnaber.languagetool.Language;
+import de.danielnaber.languagetool.rules.*;
+import de.danielnaber.languagetool.rules.de.*;
 import de.danielnaber.languagetool.tagging.Tagger;
 import de.danielnaber.languagetool.tagging.de.GermanTagger;
 import de.danielnaber.languagetool.tokenizers.SRXSentenceTokenizer;
@@ -66,22 +66,23 @@ public class German extends Language {
     return new Contributor[] {new Contributor("Daniel Naber")};
   }
 
-  public Set<String> getRelevantRuleIDs() {
-    final Set<String> ids = new HashSet<String>();
-    ids.add("COMMA_PARENTHESIS_WHITESPACE");
-    ids.add("DOUBLE_PUNCTUATION");
-    ids.add("UNPAIRED_BRACKETS");
-    ids.add("UPPERCASE_SENTENCE_START");
-    ids.add("GERMAN_WORD_REPEAT_RULE");
-    ids.add("WHITESPACE_RULE");
-    // specific to German:
-    ids.add("DE_AGREEMENT");
-    ids.add("DE_CASE");
-    ids.add("DE_COMPOUNDS");
-    ids.add("DE_DASH");
-    ids.add("DE_WORD_COHERENCY");
-    ids.add("DE_WIEDER_VS_WIDER");
-    return ids;
+  @Override
+  public List<Class<? extends Rule>> getRelevantRules() {
+    return Arrays.asList(
+            CommaWhitespaceRule.class,
+            DoublePunctuationRule.class,
+            GenericUnpairedBracketsRule.class,
+            UppercaseSentenceStartRule.class,
+            WhitespaceRule.class,
+            // specific to German:
+            GermanWordRepeatRule.class,
+            AgreementRule.class,
+            CaseRule.class,
+            CompoundRule.class,
+            DashRule.class,
+            WordCoherencyRule.class,
+            WiederVsWiderRule.class
+    );
   }
 
 }

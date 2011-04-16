@@ -18,11 +18,10 @@
  */
 package de.danielnaber.languagetool.language;
 
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Set;
+import java.util.*;
 
 import de.danielnaber.languagetool.Language;
+import de.danielnaber.languagetool.rules.*;
 import de.danielnaber.languagetool.rules.patterns.Unifier;
 import de.danielnaber.languagetool.synthesis.Synthesizer;
 import de.danielnaber.languagetool.synthesis.es.SpanishSynthesizer;
@@ -98,17 +97,16 @@ public class Spanish extends Language {
     return new Contributor[] { contributor };
   }
 
-  public Set<String> getRelevantRuleIDs() {
-    final Set<String> ids = new HashSet<String>();
-    ids.add("COMMA_PARENTHESIS_WHITESPACE");
-    ids.add("DOUBLE_PUNCTUATION");
-    ids.add("UNPAIRED_BRACKETS");
-    ids.add("UPPERCASE_SENTENCE_START");
-    ids.add("WORD_REPEAT_RULE");
-    ids.add("WHITESPACE_RULE");
-    // specific to Spanish:
-    // ids.add("EL_WITH_FEM");
-    return ids;
+  @Override
+  public List<Class<? extends Rule>> getRelevantRules() {
+    return Arrays.asList(
+            CommaWhitespaceRule.class,
+            DoublePunctuationRule.class,
+            GenericUnpairedBracketsRule.class,
+            UppercaseSentenceStartRule.class,
+            WordRepeatRule.class,
+            WhitespaceRule.class
+    );
   }
 
 }

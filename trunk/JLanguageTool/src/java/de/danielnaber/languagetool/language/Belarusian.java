@@ -18,11 +18,10 @@
  */
 package de.danielnaber.languagetool.language;
 
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Set;
+import java.util.*;
 
 import de.danielnaber.languagetool.Language;
+import de.danielnaber.languagetool.rules.*;
 import de.danielnaber.languagetool.tagging.Tagger;
 import de.danielnaber.languagetool.tagging.be.BelarusianTagger;
 
@@ -61,12 +60,14 @@ public class Belarusian extends Language {
         return new Contributor[] { new Contributor("Alex Buloichik") };
     }
 
-    public Set<String> getRelevantRuleIDs() {
-        final Set<String> ids = new HashSet<String>();
-        ids.add("COMMA_PARENTHESIS_WHITESPACE");
-        ids.add("DOUBLE_PUNCTUATION");
-        ids.add("UPPERCASE_SENTENCE_START");
-        ids.add("WHITESPACE_RULE");
-        return ids;
+    @Override
+    public List<Class<? extends Rule>> getRelevantRules() {
+      return Arrays.asList(
+              CommaWhitespaceRule.class,
+              DoublePunctuationRule.class,
+              UppercaseSentenceStartRule.class,
+              WhitespaceRule.class
+      );
     }
+
 }

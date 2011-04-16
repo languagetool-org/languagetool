@@ -18,11 +18,10 @@
  */
 package de.danielnaber.languagetool.language;
 
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Set;
+import java.util.*;
 
 import de.danielnaber.languagetool.Language;
+import de.danielnaber.languagetool.rules.*;
 import de.danielnaber.languagetool.tagging.Tagger;
 import de.danielnaber.languagetool.tagging.da.DanishTagger;
 import de.danielnaber.languagetool.tokenizers.SRXSentenceTokenizer;
@@ -63,16 +62,16 @@ public class Danish extends Language {
     return new Contributor[] {new Contributor("Esben Aaberg")};
   }
 
-  public final Set<String> getRelevantRuleIDs() {
-    final Set<String> ids = new HashSet<String>();
-    ids.add("COMMA_PARENTHESIS_WHITESPACE");
-    ids.add("DOUBLE_PUNCTUATION");
-    ids.add("UNPAIRED_BRACKETS"); // correction for genitive apostrophes eg. "Lis' hund" made in UnpairedQuotesBracketsRule
-    ids.add("UPPERCASE_SENTENCE_START"); // abbreviation exceptions, done in DanishSentenceTokenizer 
-    // "WORD_REPEAT_RULE" implemented in grammar.xml
-    ids.add("WHITESPACE_RULE");    
-    // specific to Danish:
-    return ids;
+  @Override
+  public List<Class<? extends Rule>> getRelevantRules() {
+    return Arrays.asList(
+            CommaWhitespaceRule.class,
+            DoublePunctuationRule.class,
+            GenericUnpairedBracketsRule.class,  // correction for genitive apostrophes eg. "Lis' hund" made in UnpairedQuotesBracketsRule
+            UppercaseSentenceStartRule.class,  // abbreviation exceptions, done in DanishSentenceTokenizer
+            // "WORD_REPEAT_RULE" implemented in grammar.xml
+            WhitespaceRule.class
+    );
   }
 
 }
