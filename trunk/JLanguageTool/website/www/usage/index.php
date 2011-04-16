@@ -60,8 +60,10 @@ for (RuleMatch match : matches) {
 	The <tt>language</tt> parameter must specify the two-character language code
 	(the language of the text to be checked). You can also specify <tt>motherTongue</tt>
 	parameter to specify your mother tongue (for false friend checks). The <tt>text</tt> parameter is the
-	text itself (you may need to encode it for URLs). You can use both POST and
-	GET to send your requests to the LanguageTool server.<br />
+	text itself (you may need to encode it for URLs). If you want to test bilingual text (containing
+	source and translation), simply specify also <tt>srctext</tt> parameter. This way bitext mode will be 
+	automatically activated. 
+	You can use both POST and GET to send your requests to the LanguageTool server.<br />
 	For the input "this is a test" the LanguageTool server will reply with this
 	XML response:<br/><br/>
 	
