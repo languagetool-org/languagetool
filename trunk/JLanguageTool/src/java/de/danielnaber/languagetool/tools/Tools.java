@@ -18,27 +18,6 @@
  */
 package de.danielnaber.languagetool.tools;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintStream;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.lang.reflect.Constructor;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
-
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.xml.sax.SAXException;
-
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
@@ -51,6 +30,12 @@ import de.danielnaber.languagetool.rules.patterns.PatternRule;
 import de.danielnaber.languagetool.rules.patterns.bitext.BitextPatternRuleLoader;
 import de.danielnaber.languagetool.rules.patterns.bitext.FalseFriendsAsBitextLoader;
 import de.danielnaber.languagetool.tools.StringTools.XmlPrintMode;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.*;
+import java.lang.reflect.Constructor;
+import java.util.*;
 
 public final class Tools {
 
@@ -131,7 +116,7 @@ public final class Tools {
     if (apiFormat) {
       final String xml = StringTools.ruleMatchesToXML(ruleMatches, contents,
           contextSize, xmlMode);
-      PrintStream out = new PrintStream(System.out, true, "UTF-8");
+      final PrintStream out = new PrintStream(System.out, true, "UTF-8");
       out.print(xml);
     } else {
       printMatches(ruleMatches, prevMatches, contents, contextSize);
@@ -236,7 +221,7 @@ public final class Tools {
     if (apiFormat) {
       final String xml = StringTools.ruleMatchesToXML(ruleMatches, trg,
           contextSize, xmlMode);
-      PrintStream out = new PrintStream(System.out, true, "UTF-8");
+      final PrintStream out = new PrintStream(System.out, true, "UTF-8");
       out.print(xml);
     } else {
       printMatches(ruleMatches, 0, trg, contextSize);
@@ -260,8 +245,7 @@ public final class Tools {
    * @param trgLt Target JLanguageTool (used to analyze the text).
    * @param bRules  Bilingual rules used in addition to target standard rules.
    * @param apiFormat Whether API format should be used.
-   * @param xmlMode The mode of XML output display.
-   * @return  The number of rules matched on the bitext.
+   * @return The number of rules matched on the bitext.
    * @throws IOException
    * @since 1.0.1
    */
@@ -297,7 +281,7 @@ public final class Tools {
           if (xmlMode == StringTools.XmlPrintMode.START_XML) {
             xmlMode = StringTools.XmlPrintMode.CONTINUE_XML;
           }
-          PrintStream out = new PrintStream(System.out, true, "UTF-8");
+          final PrintStream out = new PrintStream(System.out, true, "UTF-8");
           out.print(xml);          
         } else {
           printMatches(fixedMatches, matchCount, reader.getCurrentLine(), contextSize);
@@ -308,7 +292,7 @@ public final class Tools {
     }       
     displayTimeStats(startTime, sentCount, apiFormat);
     if (apiFormat) {
-      PrintStream out = new PrintStream(System.out, true, "UTF-8");
+      final PrintStream out = new PrintStream(System.out, true, "UTF-8");
       out.print("</matches>");
     }
     return ruleMatches.size();
@@ -433,32 +417,31 @@ public final class Tools {
   public static void profileRulesOnText(final String contents, 
       final JLanguageTool lt) throws IOException {
     final long[] workTime = new long[10];
-    int matchCount = 0;
     final List<Rule> rules = lt.getAllRules();
     final int ruleCount = rules.size();
     System.out.printf("Testing %d rules\n", ruleCount);
     System.out.println("Rule ID\tTime\tSentences\tMatches\tSentences per sec.");
     final List<String> sentences = lt.sentenceTokenize(contents);
     for (Rule rule : rules) {
-      matchCount = 0;
-    for (int k = 0; k < 10; k++) {
-      final long startTime = System.currentTimeMillis();
-      for (String sentence : sentences) {
-      matchCount += rule.match
-        (lt.getAnalyzedSentence(sentence)).length;
+      int matchCount = 0;
+      for (int k = 0; k < 10; k++) {
+        final long startTime = System.currentTimeMillis();
+        for (String sentence : sentences) {
+          matchCount += rule.match
+                  (lt.getAnalyzedSentence(sentence)).length;
+        }
+        final long endTime = System.currentTimeMillis();
+        workTime[k] = endTime - startTime;
       }
-      final long endTime = System.currentTimeMillis();
-      workTime[k] = endTime - startTime;    
+      Arrays.sort(workTime);
+      final long time = median(workTime);
+      final float timeInSeconds = time / 1000.0f;
+      final float sentencesPerSecond = sentences.size() / timeInSeconds;
+      System.out.printf(Locale.ENGLISH,
+              "%s\t%d\t%d\t%d\t%.1f", rule.getId(),
+              time, sentences.size(), matchCount, sentencesPerSecond);
+      System.out.println();
     }
-    Arrays.sort(workTime);
-    final long time = median(workTime);
-    final float timeInSeconds = time / 1000.0f;
-    final float sentencesPerSecond = sentences.size() / timeInSeconds;    
-    System.out.printf(Locale.ENGLISH,
-          "%s\t%d\t%d\t%d\t%.1f", rule.getId(), 
-          time, sentences.size(), matchCount, sentencesPerSecond);
-      System.out.println();          
-    }    
   }
   
   public static int profileRulesOnLine(final String contents, 
@@ -507,31 +490,29 @@ public final class Tools {
    *  @param   
    *    reader - a bitext file reader
    *  @param
-   *    sourceLanguageTool Initialized source JLanguageTool object
+   *    sourceLt Initialized source JLanguageTool object
    *  @param
-   *    targetLanguageTool Initialized target JLanguageTool object
+   *    targetLt Initialized target JLanguageTool object
    *  @param
    *    bRules  List of all BitextRules to use     
    */  
   public static void correctBitext(final BitextReader reader,
-      final JLanguageTool srcLt, final JLanguageTool trgLt,
+      final JLanguageTool sourceLt, final JLanguageTool targetLt,
       final List<BitextRule> bRules) throws IOException {  
     //TODO: implement a bitext writer for XML formats (like XLIFF)
-    final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();        
     for (StringPair srcAndTrg : reader) {
       final List<RuleMatch> curMatches = checkBitext(
           srcAndTrg.getSource(), srcAndTrg.getTarget(), 
-          srcLt, trgLt, bRules);
+          sourceLt, targetLt, bRules);
       final List<RuleMatch> fixedMatches = new ArrayList<RuleMatch>();      
       for (RuleMatch thisMatch : curMatches) {
         fixedMatches.add(  
-            trgLt.adjustRuleMatchPos(thisMatch, 
+            targetLt.adjustRuleMatchPos(thisMatch,
                 0, //don't need to adjust at all, we have zero offset related to trg sentence 
                 reader.getTargetColumnCount(), 
                 reader.getLineCount(), 
                 reader.getCurrentLine()));
       }
-      ruleMatches.addAll(fixedMatches);
       if (fixedMatches.size() > 0) {
         System.out.println(correctTextFromMatches(srcAndTrg.getTarget(), 
             fixedMatches));        
@@ -570,25 +551,6 @@ public final class Tools {
     return sb.toString();  
   }
   
-  public static InputStream getInputStream(final String resourcePath) throws IOException {
-    try {
-      // try the URL first:
-      final URL url = new URL(resourcePath);
-      // success, load the resource.
-      return url.openStream();
-    } catch (final MalformedURLException e) {
-      // no luck. Fallback to class loader paths.
-    }
-    // try file path:
-    final File f = new File(resourcePath);
-    if (f.exists() && f.isFile() && f.canRead()) {
-      return new BufferedInputStream(new FileInputStream(f));
-    }
-    throw new IOException(
-        "Could not open input stream from URL/resource/file: "
-        + f.getAbsolutePath());
-  }
-
   /**
    * Get a stacktrace as a string.
    */
@@ -605,7 +567,6 @@ public final class Tools {
    * @param filename
    * @return the stream of the file
    * @throws IOException
-   *           if the file cannot be loaded
    */
   public static InputStream getStream(final String filename) throws IOException {
     // the other ways to load the stream like
