@@ -29,20 +29,20 @@ import java.util.Set;
 
 public class RuleTest extends TestCase {
 
-  public void testJavaRuleIdsForUniqueness() throws IOException {
+  public void testJavaRuleIds() throws IOException {
     final Set<String> ids = new HashSet<String>();
     final Set<Class> ruleClasses = new HashSet<Class>();
     for (Language language : Language.LANGUAGES) {
       final JLanguageTool lt = new JLanguageTool(language);
       final List<Rule> allRules = lt.getAllRules();
       for (Rule rule : allRules) {
-        assertUniqueness(ids, ruleClasses, language, rule);
-        assertValidId(language, rule);
+        assertIdUniqueness(ids, ruleClasses, language, rule);
+        assertIdValidity(language, rule);
       }
     }
   }
 
-  private void assertUniqueness(Set<String> ids, Set<Class> ruleClasses, Language language, Rule rule) {
+  private void assertIdUniqueness(Set<String> ids, Set<Class> ruleClasses, Language language, Rule rule) {
     final String ruleId = rule.getId();
     if (ids.contains(ruleId) && !ruleClasses.contains(rule.getClass())) {
       throw new RuntimeException("Rule id occurs more than once: '" + ruleId + "', language: " + language);
@@ -51,10 +51,11 @@ public class RuleTest extends TestCase {
     ruleClasses.add(rule.getClass());
   }
 
-  private void assertValidId(Language language, Rule rule) {
+  private void assertIdValidity(Language language, Rule rule) {
     final String ruleId = rule.getId();
     if (!ruleId.matches("^[A-Z_]+$")) {
-      throw new RuntimeException("Invalid character in rule id: '" + ruleId + "', language: " + language);
+      throw new RuntimeException("Invalid character in rule id: '" + ruleId + "', language: "
+              + language + ", only [A-Z_] are allowed");
     }
   }
 
