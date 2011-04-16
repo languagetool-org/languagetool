@@ -30,9 +30,9 @@ import de.danielnaber.languagetool.rules.Category;
 import de.danielnaber.languagetool.rules.RuleMatch;
 
 
-public class SlovakVes extends SlovakRule {
+public class SlovakVesRule extends SlovakRule {
 
-  public SlovakVes(final ResourceBundle messages) {
+  public SlovakVesRule(final ResourceBundle messages) {
     if (messages != null) {
       super.setCategory(new Category(messages.getString("category_misc")));
     }

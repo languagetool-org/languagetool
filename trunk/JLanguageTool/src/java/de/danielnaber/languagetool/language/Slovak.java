@@ -23,7 +23,7 @@ import java.util.*;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.rules.*;
 import de.danielnaber.languagetool.rules.sk.CompoundRule;
-import de.danielnaber.languagetool.rules.sk.SlovakVes;
+import de.danielnaber.languagetool.rules.sk.SlovakVesRule;
 import de.danielnaber.languagetool.synthesis.Synthesizer;
 import de.danielnaber.languagetool.tagging.Tagger;
 import de.danielnaber.languagetool.tagging.sk.SlovakTagger;
@@ -88,7 +88,7 @@ public class Slovak extends Language {
             WhitespaceRule.class,
             // specific to Slovak:
             CompoundRule.class,
-            SlovakVes.class
+            SlovakVesRule.class
     );
   }
 
