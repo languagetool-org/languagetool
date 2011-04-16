@@ -157,7 +157,7 @@ class LanguageToolHttpHandler implements HttpHandler {
                   motherTongue + "and target language " + langParam);
               final JLanguageTool trglt = getLanguageToolInstance(lang, null);
               final JLanguageTool srclt = getLanguageToolInstance(motherTongue, null);
-              List<BitextRule> bRules = Tools.getBitextRules(motherTongue, lang);
+              final List<BitextRule> bRules = Tools.getBitextRules(motherTongue, lang);
               matches = Tools.checkBitext(sourceText, text, srclt, trglt, bRules);
               
             }
@@ -175,7 +175,7 @@ class LanguageToolHttpHandler implements HttpHandler {
 
           }
         } else {
-          t.sendResponseHeaders(403, 0);
+          t.sendResponseHeaders(HttpURLConnection.HTTP_FORBIDDEN, 0);
           throw new RuntimeException("Error: Access from " + t.getRemoteAddress().toString() + " denied");
         }
       } catch (Exception e) {
@@ -184,7 +184,7 @@ class LanguageToolHttpHandler implements HttpHandler {
         }
         e.printStackTrace();
         final String response = "Error: " + StringTools.escapeXML(e.toString());
-        t.sendResponseHeaders(500, response.getBytes().length);
+        t.sendResponseHeaders(HttpURLConnection.HTTP_INTERNAL_ERROR, response.getBytes().length);
         t.getResponseBody().write(response.getBytes());
         t.close();
       }
