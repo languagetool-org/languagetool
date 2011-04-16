@@ -74,16 +74,20 @@ class DatabaseDumpHandler extends BaseWikipediaDumpHandler {
               "check_date, sourceuri, is_visible) "+
               "VALUES (0, ?, ?, ?, ?, ?, ?, ?, 1)";
       final PreparedStatement prepSt = conn.prepareStatement(sql);
-      for (RuleMatch match : ruleMatches) {
-        prepSt.setString(1, language.getShortName());
-        prepSt.setString(2, match.getRule().getId());
-        prepSt.setString(3, match.getMessage());
-        prepSt.setString(4, Tools.getContext(match.getFromPos(),
-              match.getToPos(), text, CONTEXT_SIZE, MARKER_START, MARKER_END));
-        prepSt.setDate(5, new java.sql.Date(dumpDate.getTime()));
-        prepSt.setDate(6, new java.sql.Date(new Date().getTime()));
-        prepSt.setString(7, URL_PREFIX.replaceAll(LANG_MARKER, langCode) + title);
-        prepSt.executeUpdate();
+      try {
+        for (RuleMatch match : ruleMatches) {
+          prepSt.setString(1, language.getShortName());
+          prepSt.setString(2, match.getRule().getId());
+          prepSt.setString(3, match.getMessage());
+          prepSt.setString(4, Tools.getContext(match.getFromPos(),
+                match.getToPos(), text, CONTEXT_SIZE, MARKER_START, MARKER_END));
+          prepSt.setDate(5, new java.sql.Date(dumpDate.getTime()));
+          prepSt.setDate(6, new java.sql.Date(new Date().getTime()));
+          prepSt.setString(7, URL_PREFIX.replaceAll(LANG_MARKER, langCode) + title);
+          prepSt.executeUpdate();
+        }
+      } finally {
+        prepSt.close();
       }
     }
 
