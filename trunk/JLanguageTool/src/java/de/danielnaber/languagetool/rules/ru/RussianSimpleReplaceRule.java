@@ -39,11 +39,11 @@ public class RussianSimpleReplaceRule extends AbstractSimpleReplaceRule {
 
   // locale used on case-conversion
 	private static final Locale RU_LOCALE = new Locale("ru");
-
   
   public final String getFileName() {
     return FILE_NAME;
   }
+
   public RussianSimpleReplaceRule(final ResourceBundle messages) throws IOException {
     super(messages);
   }
@@ -52,11 +52,11 @@ public class RussianSimpleReplaceRule extends AbstractSimpleReplaceRule {
     return "RU_SIMPLE_REPLACE";
   }
   
- public String getDescription() {
+  public String getDescription() {
     return "Поиск ошибочных слов/фраз";
   }
 
-public String getShort() {
+  public String getShort() {
 	  return "Ошибка?";
 	}
 	
