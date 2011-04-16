@@ -38,11 +38,13 @@ public abstract class Rule {
   private List<String> correctExamples;
   private List<IncorrectExample> incorrectExamples;
   private Category category;
-
-  /**
-   * If true, then the rule is turned off by default.
-   */
+  /** If true, then the rule is turned off by default. */
   private boolean defaultOff;
+  /** Used by paragraph rules to signal that they can remove previous rule matches */
+  private boolean paragraphBackTrack;
+  /** The final list of RuleMatches, without removed matches. */
+  private List<RuleMatch> previousMatches;
+  private List<RuleMatch> removedMatches;
 
   protected ResourceBundle messages;
 
@@ -69,22 +71,9 @@ public abstract class Rule {
   public abstract String getDescription();
 
   /**
-   * Used by paragraph rules to signal that they can remove previous rule
-   * matches.
-   */
-  private boolean paragraphBackTrack;
-
-  /**
-   * The final list of RuleMatches, without removed matches.
-   */
-  private List<RuleMatch> previousMatches;
-
-  private List<RuleMatch> removedMatches;
-
-  /**
    * Check whether the given text matches this error rule, i.e. whether the text
    * contains this error.
-   * 
+   *
    * @param text
    *          a pre-analyzed sentence
    * @return an array of RuleMatch object for each match.
@@ -158,42 +147,42 @@ public abstract class Rule {
   /**
    * Method to add matches.
    * 
-   * @param r
+   * @param ruleMatch
    *          RuleMatch - matched rule added by check()
    */
-  public final void addRuleMatch(final RuleMatch r) {
+  public final void addRuleMatch(final RuleMatch ruleMatch) {
     if (previousMatches == null) {
       previousMatches = new ArrayList<RuleMatch>();
     }
-    previousMatches.add(r);
+    previousMatches.add(ruleMatch);
   }
 
   /**
    * Deletes (or disables) previously matched rule.
    * 
-   * @param i
+   * @param index
    *          Index of the rule that should be deleted.
    */
-  public final void setAsDeleted(final int i) {
+  public final void setAsDeleted(final int index) {
     if (removedMatches == null) {
       removedMatches = new ArrayList<RuleMatch>();
     }
-    removedMatches.add(previousMatches.get(i));
+    removedMatches.add(previousMatches.get(index));
   }
 
-  public final boolean isInRemoved(final RuleMatch r) {
+  public final boolean isInRemoved(final RuleMatch ruleMatch) {
     if (removedMatches == null) {
       return false;
     }
-    return removedMatches.contains(r);
+    return removedMatches.contains(ruleMatch);
   }
 
-  public final boolean isInMatches(final int i) {
+  public final boolean isInMatches(final int index) {
     if (previousMatches == null) {
       return false;
     }
-    if (previousMatches.size() > i) {
-      return previousMatches.get(i) != null;
+    if (previousMatches.size() > index) {
+      return previousMatches.get(index) != null;
     }
     return false;
   }
@@ -217,7 +206,6 @@ public abstract class Rule {
 
   /**
    * Checks whether the rule has been turned off by default by the rule author.
-   * 
    * @return True if the rule is turned off by default.
    */
   public final boolean isDefaultOff() {
