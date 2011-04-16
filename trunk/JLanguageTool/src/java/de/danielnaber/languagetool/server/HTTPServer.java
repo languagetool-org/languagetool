@@ -39,7 +39,10 @@ import java.net.InetSocketAddress;
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.rules.RuleMatch;
+import de.danielnaber.languagetool.rules.bitext.BitextRule;
 import de.danielnaber.languagetool.tools.StringTools;
+import de.danielnaber.languagetool.tools.Tools;
+
 import java.net.HttpURLConnection;
 /**
  * A small embedded HTTP server that checks text. Returns XML, prints debugging
@@ -84,6 +87,7 @@ class LanguageToolHttpHandler implements HttpHandler {
 
       final long timeStart = System.currentTimeMillis();
       String text = null;
+      String sourceText = null;
       try {
 
         if (StringTools.isEmpty(requestedUri.getRawPath())) {
@@ -117,7 +121,7 @@ class LanguageToolHttpHandler implements HttpHandler {
             if (null != motherTongueParam) {
               motherTongue = Language.getLanguageForShortName(motherTongueParam);
             }
-            final JLanguageTool lt = getLanguageToolInstance(lang, motherTongue);
+            
             // TODO: how to take options from the client?
             // TODO: customize lt here after reading client options
 
@@ -126,10 +130,30 @@ class LanguageToolHttpHandler implements HttpHandler {
             if (text == null) {
               throw new IllegalArgumentException("Missing 'text' parameter");
             }
-            print("Checking " + text.length() + " characters of text, language " + langParam);
-            final List<RuleMatch> matches = lt.check(text);
+            
+            List<RuleMatch> matches = null;
+            
+            sourceText = parameters.get("srctext");
+            if (sourceText == null) {
+              final JLanguageTool lt = getLanguageToolInstance(lang, motherTongue);
+              print("Checking " + text.length() + " characters of text, language " + langParam);
+              matches = lt.check(text);
+            } else {
+              
+              if (motherTongueParam == null) {
+                throw new IllegalArgumentException("Missing 'motherTongue' for bilingual checks");
+              }
+              
+              print("Checking bilingual text, with source length" + sourceText.length() +
+                  "and target length "+ text.length() + " (characters), source language " +
+                  motherTongue + "and target language " + langParam);
+              final JLanguageTool trglt = getLanguageToolInstance(lang, null);
+              final JLanguageTool srclt = getLanguageToolInstance(motherTongue, null);
+              List<BitextRule> bRules = Tools.getBitextRules(motherTongue, lang);
+              matches = Tools.checkBitext(sourceText, text, srclt, trglt, bRules);
+              
+            }
             t.getResponseHeaders().set("Content-Type", "text/xml");
-            // TODO: how to set the encoding to utf-8 if we can just return a String?
             t.getResponseHeaders().set("Content_Encoding", "UTF-8");
 
             final String response = StringTools.ruleMatchesToXML(matches, text,

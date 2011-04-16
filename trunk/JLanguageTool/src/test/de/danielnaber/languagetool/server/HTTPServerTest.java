@@ -76,6 +76,10 @@ public class HTTPServerTest extends TestCase {
       // tests for mother tongue (copy from link {@link FalseFriendRuleTest})   
       assertTrue(check(Language.ENGLISH, Language.GERMAN, "We will berate you").indexOf("BERATE") != -1);
       assertTrue(check(Language.GERMAN, Language.ENGLISH, "Man sollte ihn nicht so beraten.").indexOf("BERATE") != -1);
+      assertTrue(check(Language.POLISH, Language.ENGLISH, "To jest frywolne.").indexOf("FRIVOLOUS") != -1);
+      //tests for bitext
+      assertTrue(bitextCheck(Language.POLISH, Language.ENGLISH, "This is frivolous.", "To jest frywolne.").indexOf("FRIVOLOUS") != -1);
+      assertTrue(bitextCheck(Language.POLISH, Language.ENGLISH, "This is something else.", "To jest frywolne.").indexOf("FRIVOLOUS") == -1);
     } finally {
       server.stop();
     }
@@ -83,6 +87,19 @@ public class HTTPServerTest extends TestCase {
 
   private String check(Language lang, String text) throws IOException {
 	  return check(lang, null, text);
+  }
+  
+  private String bitextCheck(Language lang, Language motherTongue, String sourceText, String text) throws IOException {
+    String urlOptions = "/?language=" + lang.getShortName();
+    urlOptions += "&srctext=" + URLEncoder.encode(sourceText, "UTF-8"); 
+    urlOptions += "&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like polish, romanian, etc
+    if (null != motherTongue) {
+      urlOptions += "&motherTongue="+motherTongue.getShortName();
+    }
+    final URL url = new URL("http://localhost:" + HTTPServer.DEFAULT_PORT + urlOptions);
+    final InputStream stream = (InputStream)url.getContent();
+    final String result = StringTools.streamToString(stream);
+    return result;
   }
   
   private String check(Language lang, Language motherTongue, String text) throws IOException {
