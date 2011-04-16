@@ -59,6 +59,11 @@ public abstract class Rule {
     this.messages = messages;
   }
 
+  /**
+   * An ASCII-only string used to identify the rule in e.g. configuration files.
+   * This string is supposed to be unique and to stay the same in all upcoming
+   * versions of LanguageTool.
+   */
   public abstract String getId();
 
   public abstract String getDescription();
