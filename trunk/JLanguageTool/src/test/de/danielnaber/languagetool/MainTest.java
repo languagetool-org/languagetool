@@ -226,9 +226,7 @@ public class MainTest extends AbstractSecurityTestCase {
   }
   
   public void testPolishFileAPI() throws URISyntaxException, IOException, ParserConfigurationException, SAXException {
-    // Create a simple plain text file.
-    File input = File.createTempFile("input", "txt");
-    input.deleteOnExit();
+    File input = createTempFile();
 
     // Populate the file with data.
     PrintWriter w = new PrintWriter(new OutputStreamWriter(new FileOutputStream(input), "UTF-8"));
@@ -247,9 +245,7 @@ public class MainTest extends AbstractSecurityTestCase {
   }
   
   public void testPolishLineNumbers() throws URISyntaxException, IOException, ParserConfigurationException, SAXException {
-    // Create a simple plain text file.
-    File input = File.createTempFile("input", "txt");
-    input.deleteOnExit();
+    File input = createTempFile();
 
     // Populate the file with data.
     PrintWriter w = new PrintWriter(new OutputStreamWriter(new FileOutputStream(input), "UTF-8"));
@@ -270,7 +266,13 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue(output.indexOf("Expected text language: Polish") == 0);
     assertTrue(output.indexOf("Line 8, column 1, Rule ID: BRAK_PRZECINKA_KTORY") != -1);
   }
-  
+
+  private File createTempFile() throws IOException {
+    File input = File.createTempFile(MainTest.class.getName(), ".txt");
+    input.deleteOnExit();
+    return input;
+  }
+
   public void testEnglishTagger()  throws URISyntaxException, IOException, ParserConfigurationException, SAXException {
     final URL url = this.getClass().getResource(ENGLISH_TEST_FILE);
     final URI uri = new URI (url.toString());
@@ -282,9 +284,7 @@ public class MainTest extends AbstractSecurityTestCase {
   }
 
   public void testBitextMode()  throws URISyntaxException, IOException, ParserConfigurationException, SAXException {
-    // Create a simple plain text file.
-    File input = File.createTempFile("input", "txt");
-    input.deleteOnExit();
+    File input = createTempFile();
 
     // Populate the file with data.
     PrintWriter w = new PrintWriter(new OutputStreamWriter(new FileOutputStream(input), "UTF-8"));
@@ -304,9 +304,7 @@ public class MainTest extends AbstractSecurityTestCase {
   }
   
   public void testBitextModeWithDisabledRule()  throws URISyntaxException, IOException, ParserConfigurationException, SAXException {
-    // Create a simple plain text file.
-    File input = File.createTempFile("input", "txt");
-    input.deleteOnExit();
+    File input = createTempFile();
 
     // Populate the file with data.
     PrintWriter w = new PrintWriter(new OutputStreamWriter(new FileOutputStream(input), "UTF-8"));
@@ -326,9 +324,7 @@ public class MainTest extends AbstractSecurityTestCase {
   }
   
   public void testBitextModeWithEnabledRule()  throws URISyntaxException, IOException, ParserConfigurationException, SAXException {
-    // Create a simple plain text file.
-    File input = File.createTempFile("input", "txt");
-    input.deleteOnExit();
+    File input = createTempFile();
 
     // Populate the file with data.
     PrintWriter w = new PrintWriter(new OutputStreamWriter(new FileOutputStream(input), "UTF-8"));
@@ -348,9 +344,7 @@ public class MainTest extends AbstractSecurityTestCase {
   }
   
   public void testBitextModeApply()  throws URISyntaxException, IOException, ParserConfigurationException, SAXException {
-    // Create a simple plain text file.
-    File input = File.createTempFile("input", "txt");
-    input.deleteOnExit();
+    File input = createTempFile();
 
     // Populate the file with data.
     PrintWriter w = new PrintWriter(new OutputStreamWriter(new FileOutputStream(input), "UTF-8"));
