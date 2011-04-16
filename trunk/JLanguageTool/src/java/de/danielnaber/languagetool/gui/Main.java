@@ -735,6 +735,18 @@ public final class Main implements ActionListener {
       return toString().compareTo(o.toString());
     }
 
+    @Override
+    public boolean equals(Object o) {
+      if (this == o) return true;
+      if (o == null || getClass() != o.getClass()) return false;
+      final I18nLanguage other = (I18nLanguage) o;
+      return language.toString().equals(other.toString());
+    }
+
+    @Override
+    public int hashCode() {
+      return toString().hashCode();
+    }
   }
 
 }
