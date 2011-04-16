@@ -77,9 +77,17 @@ class LanguageToolHttpHandler implements HttpHandler {
 
       if ("post".equalsIgnoreCase(t.getRequestMethod())) { //POST
         final InputStreamReader isr = new InputStreamReader(t.getRequestBody(), "utf-8");
-        final BufferedReader br = new BufferedReader(isr);
-        final String query = br.readLine();
-        parseQuery(query, parameters);
+        try {
+          final BufferedReader br = new BufferedReader(isr);
+          try {
+            final String query = br.readLine();
+            parseQuery(query, parameters);
+          } finally {
+            br.close();
+          }
+        } finally {
+          isr.close();
+        }
       } else {   // GET
         final String query = requestedUri.getRawQuery();
         parseQuery(query, parameters);
