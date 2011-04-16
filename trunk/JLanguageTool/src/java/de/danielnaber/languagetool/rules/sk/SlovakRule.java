@@ -21,10 +21,9 @@ package de.danielnaber.languagetool.rules.sk;
 import de.danielnaber.languagetool.rules.Rule;
 
 /**
- * Abstract base class for Polish rules.
+ * Abstract base class for Slovak rules.
  * 
  * @author Zdenko Podobný based on Polish rules
- *
  */
 public abstract class SlovakRule extends Rule {
 
