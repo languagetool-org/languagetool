@@ -347,9 +347,11 @@ public class HTTPServer {// implements Runnable{
    * Stop the server process.
    **/
   public void stop() {
-    System.out.println("Stopping server ");
-    server.stop(0);
-    System.out.println("Server stopped");
+    if (server != null) {
+      System.out.println("Stopping server ");
+      server.stop(0);
+      System.out.println("Server stopped");
+    }
   }
 
   public static void main(String[] args) {
