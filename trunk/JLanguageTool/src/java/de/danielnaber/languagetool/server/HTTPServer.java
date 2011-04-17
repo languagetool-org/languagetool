@@ -332,8 +332,8 @@ public class HTTPServer {
       System.out.print("Server started");
     } catch (Exception e) {
       throw new PortBindingException(
-          "LanguageTool server could not be started " + "on port " + port
-          + ", maybe something else is running on that port already?");
+          "LanguageTool server could not be started on port " + port
+          + ", maybe something else is running on that port already?", e);
 
     }
   }

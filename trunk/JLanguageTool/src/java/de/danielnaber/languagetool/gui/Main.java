@@ -413,7 +413,8 @@ public final class Main implements ActionListener {
       try {
         httpServer.run();
       } catch (final PortBindingException e) {
-        JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        final String message = e.getMessage() + "\n\n" + de.danielnaber.languagetool.tools.Tools.getFullStackTrace(e);
+        JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
       }
     }
   }
