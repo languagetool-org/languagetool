@@ -66,15 +66,12 @@ public class JLanguageToolTest extends TestCase {
   
   public void testGerman() throws IOException {
     final JLanguageTool tool = new JLanguageTool(Language.GERMAN);
-    List<RuleMatch> matches = tool.check("Ein Test, der keine Fehler geben sollte.");
-    assertEquals(0, matches.size());
-    matches = tool.check("Ein Test Test, der Fehler geben sollte.");
-    assertEquals(1, matches.size());
+    assertEquals(0, tool.check("Ein Test, der keine Fehler geben sollte.").size());
+    assertEquals(1, tool.check("Ein Test Test, der Fehler geben sollte.").size());
     tool.activateDefaultPatternRules();
     tool.setListUnknownWords(true);
     // German rule has no effect with English error:
-    matches = tool.check("I can give you more a detailed description");
-    assertEquals(0, matches.size());
+    assertEquals(0, tool.check("I can give you more a detailed description").size());
     //test unknown words listing
     assertEquals("[I, can, detailed, give, more, you]", tool.getUnknownWords().toString());    
   }
@@ -82,10 +79,8 @@ public class JLanguageToolTest extends TestCase {
   public void testDutch() throws IOException {
     final JLanguageTool tool = new JLanguageTool(Language.DUTCH);
     tool.activateDefaultPatternRules();
-    List<RuleMatch> matches = tool.check("Een test, die geen fouten mag geven.");
-    assertEquals(0, matches.size());
-    matches = tool.check("Een test test, die een fout moet geven.");
-    assertEquals(1, matches.size());
+    assertEquals(0, tool.check("Een test, die geen fouten mag geven.").size());
+    assertEquals(1, tool.check("Een test test, die een fout moet geven.").size());
     //test uppercasing rule:
     /*  
     matches = tool.check("De Afdeling Beheer kan het");
@@ -93,8 +88,7 @@ public class JLanguageToolTest extends TestCase {
     assertEquals("Als Afdeling geen deel uitmaakt van de naam, dan is juist:<suggestion>afdeling</suggestion>", matches.get(0).getMessage());
      */
     // Dutch rule has no effect with English error:
-    matches = tool.check("I can give you more a detailed description");
-    assertEquals(0, matches.size());
+    assertEquals(0, tool.check("I can give you more a detailed description").size());
   }
   
   public void testPolish() throws IOException {
@@ -130,8 +124,7 @@ public class JLanguageToolTest extends TestCase {
     assertEquals(30, matches.get(0).getColumn());
     //recheck with the -b mode...
     final Language lang = Language.POLISH;
-    lang.getSentenceTokenizer().setSingleLineBreaksMarksParagraph(
-        true);
+    lang.getSentenceTokenizer().setSingleLineBreaksMarksParagraph(true);
     tool = new JLanguageTool(lang);
     tool.activateDefaultPatternRules();
     matches = tool.check("To jest tekst.\nTest 1. To jest linia w której nie ma przecinka.");
@@ -145,8 +138,7 @@ public class JLanguageToolTest extends TestCase {
   
   public void testSlovenian() throws IOException {
     final JLanguageTool tool = new JLanguageTool(Language.SLOVENIAN);
-    List<RuleMatch> matches = tool.check("Kupil je npr. jajca, moko in mleko.");
-    assertEquals(0, matches.size());
+    assertEquals(0, tool.check("Kupil je npr. jajca, moko in mleko.").size());
   }
   
   public void testCountLines() {
@@ -155,7 +147,6 @@ public class JLanguageToolTest extends TestCase {
     assertEquals(2, JLanguageTool.countLineBreaks("\nZweite\nDritte"));
     assertEquals(4, JLanguageTool.countLineBreaks("\nZweite\nDritte\n\n"));
   }
-  
   
   public void testAnalyzedSentence() throws IOException {
     final JLanguageTool tool = new JLanguageTool(Language.ENGLISH);
