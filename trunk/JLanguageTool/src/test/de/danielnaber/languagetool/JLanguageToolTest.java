@@ -25,7 +25,6 @@ import java.util.List;
 import junit.framework.TestCase;
 import de.danielnaber.languagetool.JLanguageTool.ParagraphHandling;
 import de.danielnaber.languagetool.rules.RuleMatch;
-import de.danielnaber.languagetool.rules.patterns.PatternRule;
 
 /**
  * @author Daniel Naber
@@ -49,30 +48,20 @@ public class JLanguageToolTest extends TestCase {
   }
   */
   
-  
   public void testEnglish() throws IOException {
     final JLanguageTool tool = new JLanguageTool(Language.ENGLISH);
-    List<RuleMatch> matches = tool.check("A test that should not give errors.");
-    assertEquals(0, matches.size());
-    matches = tool.check("A test test that should give errors.");
-    assertEquals(1, matches.size());
-    matches = tool.check("I can give you more a detailed description.");
-    assertEquals(0, matches.size());
+    assertEquals(0, tool.check("A test that should not give errors.").size());
+    assertEquals(1, tool.check("A test test that should give errors.").size());
+    assertEquals(0, tool.check("I can give you more a detailed description.").size());
     assertEquals(8, tool.getAllRules().size());
-    final List<PatternRule> rules = tool.loadPatternRules(JLanguageTool.getDataBroker().getRulesDir()
-    		+ "/en/grammar.xml");
-    for (PatternRule patternRule : rules) {
-      tool.addRule(patternRule);
-    }
+    tool.activateDefaultPatternRules();
     assertTrue(tool.getAllRules().size() > 3);
-    matches = tool.check("I can give you more a detailed description.");
-    assertEquals(1, matches.size());
+    assertEquals(1, tool.check("I can give you more a detailed description.").size());
     tool.disableRule("MORE_A_JJ");
-    matches = tool.check("I can give you more a detailed description.");
-    assertEquals(0, matches.size());
+    assertEquals(0, tool.check("I can give you more a detailed description.").size());
+    assertEquals(1, tool.check("I've go to go.").size());
     tool.disableCategory("Possible Typos");
-    matches = tool.check("I've go to go.");
-    assertEquals(0, matches.size());
+    assertEquals(0, tool.check("I've go to go.").size());
   }
   
   public void testGerman() throws IOException {
@@ -81,11 +70,7 @@ public class JLanguageToolTest extends TestCase {
     assertEquals(0, matches.size());
     matches = tool.check("Ein Test Test, der Fehler geben sollte.");
     assertEquals(1, matches.size());
-    final List<PatternRule> rules = tool.loadPatternRules(JLanguageTool.getDataBroker().getRulesDir()
-    		+ "/de/grammar.xml");
-    for (PatternRule patternRule : rules) {
-      tool.addRule(patternRule);
-    }
+    tool.activateDefaultPatternRules();
     tool.setListUnknownWords(true);
     // German rule has no effect with English error:
     matches = tool.check("I can give you more a detailed description");
@@ -96,11 +81,7 @@ public class JLanguageToolTest extends TestCase {
 
   public void testDutch() throws IOException {
     final JLanguageTool tool = new JLanguageTool(Language.DUTCH);
-    final List<PatternRule> rules = tool.loadPatternRules(JLanguageTool.getDataBroker().getRulesDir()
-    		+ "/nl/grammar.xml");
-    for (PatternRule patternRule : rules) {
-      tool.addRule(patternRule);
-    }
+    tool.activateDefaultPatternRules();
     List<RuleMatch> matches = tool.check("Een test, die geen fouten mag geven.");
     assertEquals(0, matches.size());
     matches = tool.check("Een test test, die een fout moet geven.");
@@ -129,11 +110,7 @@ public class JLanguageToolTest extends TestCase {
     tool.enableDefaultOffRule("PL_WORD_REPEAT");
     matches = tool.check("Był on bowiem pięknym strzelcem bowiem.");
     assertEquals(1, matches.size());
-    List<PatternRule> rules = tool.loadPatternRules(JLanguageTool.getDataBroker().getRulesDir()
-    		+ "/pl/grammar.xml");
-    for (final PatternRule rule : rules) {
-      tool.addRule(rule);
-    }
+    tool.activateDefaultPatternRules();
     matches = tool.check("Premier drapie się w ucho co i rusz.");
     assertEquals(1, matches.size());
     // Polish rule has no effect with English error:
@@ -141,6 +118,7 @@ public class JLanguageToolTest extends TestCase {
     assertEquals(0, matches.size());
     tool.setListUnknownWords(true);
     matches = tool.check("This is not a Polish text.");
+    assertEquals(0, matches.size());
     assertEquals("[Polish, This, is]", tool.getUnknownWords().toString());
     //check positions relative to sentence ends    
     matches = tool.check("To jest tekst.\nTest 1. To jest linia w której nie ma przecinka.");
@@ -155,11 +133,7 @@ public class JLanguageToolTest extends TestCase {
     lang.getSentenceTokenizer().setSingleLineBreaksMarksParagraph(
         true);
     tool = new JLanguageTool(lang);
-    rules = tool.loadPatternRules(JLanguageTool.getDataBroker().getRulesDir()
-    		+ "/pl/grammar.xml");
-    for (final PatternRule rule : rules) {
-      tool.addRule(rule);
-    }
+    tool.activateDefaultPatternRules();
     matches = tool.check("To jest tekst.\nTest 1. To jest linia w której nie ma przecinka.");
     assertEquals(16, matches.get(0).getColumn());
     //with a space...
@@ -167,7 +141,6 @@ public class JLanguageToolTest extends TestCase {
     assertEquals(16, matches.get(0).getColumn());
     matches = tool.check("To jest tekst. To jest linia w której nie ma przecinka.");
     assertEquals(23, matches.get(0).getColumn());
-    
   }
   
   public void testSlovenian() throws IOException {
@@ -192,7 +165,7 @@ public class JLanguageToolTest extends TestCase {
     assertEquals("<S> </S><P/> ", tool.getAnalyzedSentence("\n").toString());
   }  
   
-  public void testParaRules() throws IOException {
+  public void testParagraphRules() throws IOException {
     final JLanguageTool tool = new JLanguageTool(Language.ENGLISH);
     
     //run normally
