@@ -36,7 +36,7 @@ import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
 
 /**
  * Multiword tagger-chunker for Polish.
- * 
+ *
  * @author Marcin Miłkowski
  */
 public class PolishChunker implements Disambiguator {
@@ -46,10 +46,10 @@ public class PolishChunker implements Disambiguator {
   private Map<String, String> mFull;
 
   private static final String FILENAME = "/pl/multiwords.txt";
-  
+
   /*
-   * Lazy init, thanks to Artur Trzewik
-   */
+  * Lazy init, thanks to Artur Trzewik
+  */
   private void lazyInit() throws IOException {
 
     if (mStartSpace != null)
@@ -58,7 +58,7 @@ public class PolishChunker implements Disambiguator {
     mStartSpace = new HashMap<String, String>();
     mStartNoSpace = new HashMap<String, String>();
     mFull = new HashMap<String, String>();
-    
+
     final List<String> posTokens = loadWords(JLanguageTool.getDataBroker().getFromResourceDirAsStream(FILENAME));
     for (String posToken : posTokens) {
       final String[] tokenAndTag = posToken.split("\t");
@@ -97,11 +97,11 @@ public class PolishChunker implements Disambiguator {
   /**
    * Implements multiword POS tags, e.g., &lt;ELLIPSIS&gt; for ellipsis (...)
    * start, and &lt;/ELLIPSIS&gt; for ellipsis end.
-   * 
+   *
    * @param input
    *          The tokens to be chunked.
    * @return AnalyzedSentence with additional markers.
-   * @throws IOException 
+   * @throws IOException
    */
   public final AnalyzedSentence disambiguate(final AnalyzedSentence input) throws IOException {
 
@@ -124,11 +124,11 @@ public class PolishChunker implements Disambiguator {
             tokens.append(anTokens[j].getToken());
             if (mFull.containsKey(tokens.toString())) {
               final AnalyzedToken tokenStart = new AnalyzedToken(tok, "<"
-                  + mFull.get(tokens.toString()) + ">", tokens.toString());
+                      + mFull.get(tokens.toString()) + ">", tokens.toString());
               output[i].addReading(tokenStart);
               final AnalyzedToken tokenEnd = new AnalyzedToken(
-                  anTokens[finalLen].getToken(), "</"
-                  + mFull.get(tokens.toString()) + ">", tokens.toString());
+                      anTokens[finalLen].getToken(), "</"
+                              + mFull.get(tokens.toString()) + ">", tokens.toString());
               output[finalLen].addReading(tokenEnd);
             }
             lenCounter++;
@@ -149,12 +149,12 @@ public class PolishChunker implements Disambiguator {
             tokens.append(anTokens[j].getToken());
             if (mFull.containsKey(tokens.toString())) {
               final AnalyzedToken tokenStart = new AnalyzedToken(tok, "<"
-                  + mFull.get(tokens.toString()) + ">", tokens.toString());
+                      + mFull.get(tokens.toString()) + ">", tokens.toString());
               output[i].addReading(tokenStart);
               final AnalyzedToken tokenEnd = new AnalyzedToken(anTokens
-                  [i + len - 1].getToken(), 
-                  "</" + mFull.get(tokens.toString()) + ">",
-                  tokens.toString());
+                      [i + len - 1].getToken(),
+                      "</" + mFull.get(tokens.toString()) + ">",
+                      tokens.toString());
               output[i + len - 1].addReading(tokenEnd);
             }
           }
@@ -164,36 +164,36 @@ public class PolishChunker implements Disambiguator {
 
     return new AnalyzedSentence(output);
   }
- 
+
   private List<String> loadWords(final InputStream file) throws IOException {
-  InputStreamReader isr = null;
-  BufferedReader br = null;
-  final List<String> lines = new ArrayList<String>();
-  try {
-    isr = new InputStreamReader(file, "UTF-8");
-    br = new BufferedReader(isr);
-    String line;
+    InputStreamReader isr = null;
+    BufferedReader br = null;
+    final List<String> lines = new ArrayList<String>();
+    try {
+      isr = new InputStreamReader(file, "UTF-8");
+      br = new BufferedReader(isr);
+      String line;
 
-    while ((line = br.readLine()) != null) {
-      line = line.trim();
-      if (line.length() < 1) {
-        continue;
+      while ((line = br.readLine()) != null) {
+        line = line.trim();
+        if (line.length() < 1) {
+          continue;
+        }
+        if (line.charAt(0) == '#') { // ignore comments
+          continue;
+        }
+        lines.add(line);
       }
-      if (line.charAt(0) == '#') { // ignore comments
-        continue;
-      }      
-      lines.add(line);
-    }
 
-  } finally {
-    if (br != null) {
-      br.close();
+    } finally {
+      if (br != null) {
+        br.close();
+      }
+      if (isr != null) {
+        isr.close();
+      }
     }
-    if (isr != null) {
-      isr.close();
-    }
+    return lines;
   }
-  return lines;
-  }
-  
+
 }
