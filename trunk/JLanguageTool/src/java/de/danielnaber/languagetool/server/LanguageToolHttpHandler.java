@@ -21,6 +21,7 @@ import java.util.*;
 
 class LanguageToolHttpHandler implements HttpHandler {
 
+  private static final String CONTENT_TYPE_VALUE = "text/xml; charset=UTF-8";
   /**
    * JLanguageTool instances for each language (created and configured on first use).
    * Instances are organized by language and mother language.
@@ -100,8 +101,7 @@ class LanguageToolHttpHandler implements HttpHandler {
   }
 
   private void printListOfLanguages(HttpExchange t) throws IOException {
-    t.getResponseHeaders().set("Content-Type", "text/xml");
-    t.getResponseHeaders().set("Content_Encoding", "UTF-8");
+    t.getResponseHeaders().set("Content-Type", CONTENT_TYPE_VALUE);
     final String response = getSupportedLanguagesAsXML();
     t.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes().length);
     t.getResponseBody().write(response.getBytes());
@@ -136,16 +136,15 @@ class LanguageToolHttpHandler implements HttpHandler {
       if (motherTongueParam == null) {
         throw new IllegalArgumentException("Missing 'motherTongue' for bilingual checks");
       }
-      print("Checking bilingual text, with source length" + sourceText.length() +
-          "and target length "+ text.length() + " (characters), source language " +
+      print("Checking bilingual text, with source length " + sourceText.length() +
+          " and target length " + text.length() + " (characters), source language " +
           motherTongue + "and target language " + langParam);
       final JLanguageTool sourceLt = getLanguageToolInstance(motherTongue, null);
       final JLanguageTool targetLt = getLanguageToolInstance(lang, null);
       final List<BitextRule> bRules = Tools.getBitextRules(motherTongue, lang);
       matches = Tools.checkBitext(sourceText, text, sourceLt, targetLt, bRules);
     }
-    t.getResponseHeaders().set("Content-Type", "text/xml");
-    t.getResponseHeaders().set("Content_Encoding", "UTF-8");
+    t.getResponseHeaders().set("Content-Type", CONTENT_TYPE_VALUE);
 
     final String response = StringTools.ruleMatchesToXML(matches, text,
             CONTEXT_SIZE, StringTools.XmlPrintMode.NORMAL_XML);

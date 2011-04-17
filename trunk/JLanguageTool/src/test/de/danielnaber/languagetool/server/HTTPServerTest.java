@@ -69,8 +69,9 @@ public class HTTPServerTest extends TestCase {
       // test supported language listing
       final URL url = new URL("http://localhost:" + HTTPServer.DEFAULT_PORT + "/Languages");
       final String languagesXML = StringTools.streamToString((InputStream)url.getContent());
-      if (!languagesXML.contains("Romanian") || !languagesXML.contains("English"))
+      if (!languagesXML.contains("Romanian") || !languagesXML.contains("English")) {
         fail("Error getting supported languages: " + languagesXML);
+      }
       // tests for "&" character
       assertTrue(check(Language.ENGLISH, "Me & you you").contains("&"));
       // tests for mother tongue (copy from link {@link FalseFriendRuleTest})   
