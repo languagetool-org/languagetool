@@ -12,6 +12,15 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
 <rules lang="de" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../rules.xsd">
   <category name="Mögliche Tippfehler">
+    <rule id="ZU_SPAEHT" name="Tippfehler: 'zu/erst/sehr späht(spät)'">
+      <pattern mark_from="1">
+        <token regexp="yes">zu|erst|sehr</token>
+        <token>späht</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>spät</suggestion>?</message>
+      <example type="correct">Er war zu <marker>spät</marker> dran.</example>
+      <example type="incorrect">Er war zu <marker>späht</marker> dran.</example>
+    </rule>
     <rule id="BAFF_ERSTAUNT" name="Tippfehler: 'baff(bass) erstaunt'">
       <pattern mark_to="-1">
           <token>baff</token>
