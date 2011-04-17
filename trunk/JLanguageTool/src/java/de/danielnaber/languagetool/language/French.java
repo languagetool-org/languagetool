@@ -26,13 +26,13 @@ import de.danielnaber.languagetool.rules.fr.QuestionWhitespaceRule;
 import de.danielnaber.languagetool.rules.patterns.Unifier;
 import de.danielnaber.languagetool.tagging.Tagger;
 import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
-import de.danielnaber.languagetool.tagging.disambiguation.rules.fr.FrenchRuleDisambiguator;
+import de.danielnaber.languagetool.tagging.disambiguation.fr.FrenchHybridDisambiguator;
 import de.danielnaber.languagetool.tagging.fr.FrenchTagger;
 
 public class French extends Language {
 
   private final Tagger tagger = new FrenchTagger();
-  private final Disambiguator disambiguator = new FrenchRuleDisambiguator();
+  private final Disambiguator disambiguator = new FrenchHybridDisambiguator();
   private static final Unifier FRENCH_UNIFIER = new Unifier();
   
   public Locale getLocale() {
