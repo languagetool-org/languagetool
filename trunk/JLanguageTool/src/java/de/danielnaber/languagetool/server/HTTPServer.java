@@ -56,22 +56,22 @@ class LanguageToolHttpHandler implements HttpHandler {
   /**
    * JLanguageTool instances for each language (created and configured on first use).
    * Instances are organized by language and mother language.
-   * This is like a tree: first level contain the Languages, next level contains JLanguageTool instances for each mother tongue.
+   * This is like a tree: first level contains the Languages, next level contains JLanguageTool instances for each mother tongue.
    */
-  private static final Map<Language, Map<Language, JLanguageTool>> instances = new HashMap<Language, Map<Language, JLanguageTool>>();
-  private static final Set<String> allowedIPs = new HashSet<String>();
+  private static final Map<Language, Map<Language, JLanguageTool>> INSTANCES = new HashMap<Language, Map<Language, JLanguageTool>>();
+  private static final Set<String> ALLOWED_IPS = new HashSet<String>();
   static {
     // accept only requests from localhost.
     // TODO: find a cleaner solution
-    allowedIPs.add("/0:0:0:0:0:0:0:1"); // Suse Linux IPv6 stuff
-    allowedIPs.add("/0:0:0:0:0:0:0:1%0"); // some(?) Mac OS X
-    allowedIPs.add("/127.0.0.1");
+    ALLOWED_IPS.add("/0:0:0:0:0:0:0:1"); // Suse Linux IPv6 stuff
+    ALLOWED_IPS.add("/0:0:0:0:0:0:0:1%0"); // some(?) Mac OS X
+    ALLOWED_IPS.add("/127.0.0.1");
   }
   private static final int CONTEXT_SIZE = 40; // characters
 
   public void handle(HttpExchange t) throws IOException {
     final Map<String, String> parameters = new HashMap<String, String>();
-    synchronized (instances) {
+    synchronized (INSTANCES) {
 
       final URI requestedUri = t.getRequestURI();
 
@@ -103,7 +103,7 @@ class LanguageToolHttpHandler implements HttpHandler {
           throw new RuntimeException("Error: Access to " + requestedUri.getPath() + " denied");
         }
 
-        if (allowedIPs.contains(t.getRemoteAddress().getAddress().toString())) {
+        if (ALLOWED_IPS.contains(t.getRemoteAddress().getAddress().toString())) {
 
           // request type: list known languages
           if (requestedUri.getRawPath().endsWith("/Languages")) {
@@ -208,11 +208,11 @@ class LanguageToolHttpHandler implements HttpHandler {
    * @throws Exception when JLanguageTool creation failed
    */
   private JLanguageTool getLanguageToolInstance(Language lang, Language motherTongue) throws Exception {
-    Map<Language, JLanguageTool> languageTools = instances.get(lang);
+    Map<Language, JLanguageTool> languageTools = INSTANCES.get(lang);
     if (null == languageTools) {
       // first call using this language
       languageTools = new HashMap<Language, JLanguageTool>();
-      instances.put(lang, languageTools);
+      INSTANCES.put(lang, languageTools);
     }
     final JLanguageTool languageTool = languageTools.get(motherTongue);
     if (null == languageTool) {
