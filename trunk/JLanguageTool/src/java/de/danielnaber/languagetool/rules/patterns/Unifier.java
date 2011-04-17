@@ -121,7 +121,7 @@ public class Unifier {
       return;
     }
     equivalenceTypes.put(new EquivalenceTypeLocator(feature, type), elem);
-    List<String> lTypes;
+    final List<String> lTypes;
     if (equivalenceFeatures.containsKey(feature)) {
       lTypes = equivalenceFeatures.get(feature);
     } else {
@@ -136,10 +136,8 @@ public class Unifier {
    * 
    * @param aToken
    *          - token to be tested
-   * @param feature
-   *          - feature to be tested
-   * @param type
-   *          - type of equivalence relation for the feature
+   * @param uFeatures
+   *          - features to be tested
    * @return true if the token shares this type of feature with other tokens
    */
   protected final boolean isSatisfied(final AnalyzedToken aToken,
@@ -167,19 +165,19 @@ public class Unifier {
         if (types == null || types.isEmpty()) {
           types = equivalenceFeatures.get(feat.getKey());
         }
-        for (final String typename : types) {
+        for (final String typeName : types) {
           final Element testElem = equivalenceTypes
-          .get(new EquivalenceTypeLocator(feat.getKey(), typename));
+          .get(new EquivalenceTypeLocator(feat.getKey(), typeName));
           if (testElem == null) {
             return false;
           }
           if (testElem.isMatched(aToken)) {
             if (!equivalencesMatched.get(tokCnt).containsKey(feat.getKey())) {
               final Set<String> typeSet = new HashSet<String>();
-              typeSet.add(typename);
+              typeSet.add(typeName);
               equivalencesMatched.get(tokCnt).put(feat.getKey(), typeSet);
             } else {
-              equivalencesMatched.get(tokCnt).get(feat.getKey()).add(typename);
+              equivalencesMatched.get(tokCnt).get(feat.getKey()).add(typeName);
             }
           }
         }
@@ -204,7 +202,7 @@ public class Unifier {
     boolean unifiedNext = true;
     boolean anyFeatUnified = false;    
     List<String> types;
-    ArrayList<Boolean> tokenFeaturesFound = new ArrayList<Boolean>(tmpFeaturesFound);
+    final ArrayList<Boolean> tokenFeaturesFound = new ArrayList<Boolean>(tmpFeaturesFound);
     if (allFeatsIn) {
       for (int i = 0; i <= tokCnt; i++) {
         boolean allFeatsUnified = true;
@@ -214,12 +212,12 @@ public class Unifier {
           if (types == null || types.isEmpty()) {
             types = equivalenceFeatures.get(feat.getKey());
           }
-          for (final String typename : types) {
+          for (final String typeName : types) {
             if (featuresFound.get(i)
                 && equivalencesMatched.get(i).containsKey(feat.getKey())
-                && equivalencesMatched.get(i).get(feat.getKey()).contains(typename)) {
+                && equivalencesMatched.get(i).get(feat.getKey()).contains(typeName)) {
               final Element testElem = equivalenceTypes
-              .get(new EquivalenceTypeLocator(feat.getKey(), typename));
+              .get(new EquivalenceTypeLocator(feat.getKey(), typeName));
               featUnified = featUnified || testElem.isMatched(aToken);
             }
           }
@@ -297,7 +295,7 @@ public class Unifier {
       return null;
     }
     if (!firstUnified) {
-      AnalyzedTokenReadings tmpATR;
+      final AnalyzedTokenReadings tmpATR;
       int first = 0;
       tmpFeaturesFound.add(true); // Bentley's search idea
       while (!tmpFeaturesFound.get(first)) {
@@ -331,10 +329,6 @@ public class Unifier {
    * 
    * @param matchToken
    *          AnalyzedToken token to unify
-   * @param feature
-   *          String: feature to unify over
-   * @param type
-   *          String: value types of the feature
    * @param isUniNegated
    *          if true, then return negated result
    * @param lastReading
@@ -369,7 +363,7 @@ public class Unifier {
 
   /**
    * Used for getting a unified sequence in case when simple test method
-   * {@link #isUnified} was used.
+   * {@link #isUnified(de.danielnaber.languagetool.AnalyzedToken, java.util.Map, boolean, boolean)}} was used.
    * 
    * @return An array of {@link AnalyzedTokenReadings}
    */
@@ -382,7 +376,15 @@ public class Unifier {
 }
 
 class EquivalenceTypeLocator {
-  
+
+  private final String feature;
+  private final String type;
+
+  EquivalenceTypeLocator(final String feature, final String type) {
+    this.feature = feature;
+    this.type = type;
+  }
+
   @Override
   public int hashCode() {
     final int prime = 31;
@@ -421,12 +423,4 @@ class EquivalenceTypeLocator {
     return true;
   }
 
-  private final String feature;
-  private final String type;
-
-  EquivalenceTypeLocator(final String feature, final String type) {
-    this.feature = feature;
-    this.type = type;
-  }
-  
 }
