@@ -36,44 +36,44 @@ import de.danielnaber.languagetool.tokenizers.Tokenizer;
 import de.danielnaber.languagetool.tokenizers.ro.RomanianWordTokenizer;
 
 /**
- * 
+ *
  * @author Ionuț Păduraru
  * @since 24.02.2009 22:18:21
  */
 public class Romanian extends Language {
 
-	private final Tagger tagger = new RomanianTagger();
-	private final Synthesizer synthesizer = new RomanianSynthesizer();
-	private final Disambiguator disambiguator = new RomanianRuleDisambiguator();
-	private final Tokenizer wordTokenizer = new RomanianWordTokenizer();
+  private final Tagger tagger = new RomanianTagger();
+  private final Synthesizer synthesizer = new RomanianSynthesizer();
+  private final Disambiguator disambiguator = new RomanianRuleDisambiguator();
+  private final Tokenizer wordTokenizer = new RomanianWordTokenizer();
   private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer(getShortName());
 
-	public Locale getLocale() {
-		return new Locale(getShortName());
-	}
+  public Locale getLocale() {
+    return new Locale(getShortName());
+  }
 
-	public String getName() {
-		return "Romanian";
-	}
+  public String getName() {
+    return "Romanian";
+  }
 
-	public String getShortName() {
-		return "ro";
-	}
+  public String getShortName() {
+    return "ro";
+  }
 
-	@Override
-	public String[] getCountryVariants() {
-		return new String[]{"RO"};
-	}
+  @Override
+  public String[] getCountryVariants() {
+    return new String[]{"RO"};
+  }
 
-	public Tagger getTagger() {
-		return tagger;
-	}
+  public Tagger getTagger() {
+    return tagger;
+  }
 
-	public Contributor[] getMaintainers() {
-		final Contributor contributor = new Contributor("Ionuț Păduraru");
-		contributor.setUrl("http://www.archeus.ro");
-		return new Contributor[] { contributor };
-	}
+  public Contributor[] getMaintainers() {
+    final Contributor contributor = new Contributor("Ionuț Păduraru");
+    contributor.setUrl("http://www.archeus.ro");
+    return new Contributor[] { contributor };
+  }
 
   @Override
   public List<Class<? extends Rule>> getRelevantRules() {
@@ -90,19 +90,19 @@ public class Romanian extends Language {
     );
   }
 
-	public final Synthesizer getSynthesizer() {
-		return synthesizer;
-	}
+  public final Synthesizer getSynthesizer() {
+    return synthesizer;
+  }
 
-	public final Disambiguator getDisambiguator() {
-		return disambiguator;
-	}
+  public final Disambiguator getDisambiguator() {
+    return disambiguator;
+  }
 
-	public final Tokenizer getWordTokenizer() {
-		return wordTokenizer;
-	}
+  public final Tokenizer getWordTokenizer() {
+    return wordTokenizer;
+  }
 
-	public SentenceTokenizer getSentenceTokenizer() {
-		return sentenceTokenizer;
-	}
+  public SentenceTokenizer getSentenceTokenizer() {
+    return sentenceTokenizer;
+  }
 }
