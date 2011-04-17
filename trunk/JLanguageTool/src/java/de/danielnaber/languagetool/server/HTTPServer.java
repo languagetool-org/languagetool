@@ -95,7 +95,7 @@ class LanguageToolHttpHandler implements HttpHandler {
 
       final long timeStart = System.currentTimeMillis();
       String text = null;
-      String sourceText = null;
+      final String sourceText;
       try {
 
         if (StringTools.isEmpty(requestedUri.getRawPath())) {
@@ -131,7 +131,7 @@ class LanguageToolHttpHandler implements HttpHandler {
             }
             
             // TODO: how to take options from the client?
-            // TODO: customize lt here after reading client options
+            // TODO: customize LT here after reading client options
 
             text = parameters.get("text");
 
@@ -139,27 +139,23 @@ class LanguageToolHttpHandler implements HttpHandler {
               throw new IllegalArgumentException("Missing 'text' parameter");
             }
             
-            List<RuleMatch> matches = null;
-            
+            final List<RuleMatch> matches;
             sourceText = parameters.get("srctext");
             if (sourceText == null) {
               final JLanguageTool lt = getLanguageToolInstance(lang, motherTongue);
               print("Checking " + text.length() + " characters of text, language " + langParam);
               matches = lt.check(text);
             } else {
-              
               if (motherTongueParam == null) {
                 throw new IllegalArgumentException("Missing 'motherTongue' for bilingual checks");
               }
-              
               print("Checking bilingual text, with source length" + sourceText.length() +
                   "and target length "+ text.length() + " (characters), source language " +
                   motherTongue + "and target language " + langParam);
-              final JLanguageTool trglt = getLanguageToolInstance(lang, null);
-              final JLanguageTool srclt = getLanguageToolInstance(motherTongue, null);
+              final JLanguageTool sourceLt = getLanguageToolInstance(motherTongue, null);
+              final JLanguageTool targetLt = getLanguageToolInstance(lang, null);
               final List<BitextRule> bRules = Tools.getBitextRules(motherTongue, lang);
-              matches = Tools.checkBitext(sourceText, text, srclt, trglt, bRules);
-              
+              matches = Tools.checkBitext(sourceText, text, sourceLt, targetLt, bRules);
             }
             t.getResponseHeaders().set("Content-Type", "text/xml");
             t.getResponseHeaders().set("Content_Encoding", "UTF-8");
@@ -180,7 +176,7 @@ class LanguageToolHttpHandler implements HttpHandler {
         }
       } catch (Exception e) {
         if (HTTPServer.verbose) {
-          print("Exceptions was caused by this text: " + text);
+          print("Exception was caused by this text: " + text);
         }
         e.printStackTrace();
         final String response = "Error: " + StringTools.escapeXML(e.toString());
@@ -189,7 +185,6 @@ class LanguageToolHttpHandler implements HttpHandler {
         t.close();
       }
     }
-
 
   }
 
@@ -284,18 +279,17 @@ class LanguageToolHttpHandler implements HttpHandler {
  * Start the server from command line. Usage:
  * <tt>HTTPServer [-v|--verbose] [-p|--port port]</tt>
  */
-public class HTTPServer {// implements Runnable{
+public class HTTPServer {
 
-  com.sun.net.httpserver.HttpServer server;
-  /**
-   * The default port on which the server is running (8081).
-   */
+  /** The default port on which the server is running (8081). */
   public static final int DEFAULT_PORT = 8081;
-  private int port = DEFAULT_PORT;
   public static boolean verbose;
 
+  private com.sun.net.httpserver.HttpServer server;
+  private int port = DEFAULT_PORT;
+
   private static void printUsageAndExit() {
-    System.out.println("Usage: HTTPServer [-p|--port port]");
+    System.out.println("Usage: " + HTTPServer.class.getSimpleName() + " [-p|--port port]");
     System.exit(1);
   }
 
@@ -340,7 +334,6 @@ public class HTTPServer {// implements Runnable{
           + ", maybe something else is running on that port already?");
 
     }
-
   }
 
   /**
@@ -354,7 +347,7 @@ public class HTTPServer {// implements Runnable{
     }
   }
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
     if (args.length > 3) {
       printUsageAndExit();
     }
@@ -372,9 +365,8 @@ public class HTTPServer {// implements Runnable{
       server.createContext("/", new LanguageToolHttpHandler());
       server.start();
     } catch (Exception e) {
-      // TODO: what to do?
+      throw new RuntimeException("Could not start LanguageTool HTTP server on port " + port, e);
     }
-
   }
 }
 
