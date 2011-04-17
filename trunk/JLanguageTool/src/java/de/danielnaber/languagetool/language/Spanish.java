@@ -35,20 +35,14 @@ import de.danielnaber.languagetool.tokenizers.Tokenizer;
 import de.danielnaber.languagetool.tokenizers.es.SpanishWordTokenizer;
 
 public class Spanish extends Language {
-	
-	private final Tokenizer wordTokenizer = new SpanishWordTokenizer();
-	private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("es");
-	private final Synthesizer synthesizer = new SpanishSynthesizer();
-  
-  private static final String[] COUNTRIES = {
-    "ES", "", "MX", "GT", "CR", "PA", "DO",
-    "VE", "PE", "AR", "EC", "CL", "UY", "PY",
-    "BO", "SV", "HN", "NI", "PR", "US", "CU"
-  };
 
+  private static final Unifier SPANISH_UNIFIER = new Unifier();
+
+  private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("es");
+  private final Tokenizer wordTokenizer = new SpanishWordTokenizer();
+  private final Synthesizer synthesizer = new SpanishSynthesizer();
   private final Tagger tagger = new SpanishTagger();
   private final Disambiguator disambiguator = new SpanishRuleDisambiguator();
-  private static final Unifier SPANISH_UNIFIER = new Unifier();
 
   public Locale getLocale() {
     return new Locale(getShortName());
@@ -64,7 +58,11 @@ public class Spanish extends Language {
 
   @Override
   public String[] getCountryVariants() {
-    return COUNTRIES;
+    return new String[]{
+            "ES", "", "MX", "GT", "CR", "PA", "DO",
+            "VE", "PE", "AR", "EC", "CL", "UY", "PY",
+            "BO", "SV", "HN", "NI", "PR", "US", "CU"
+    };
   }
   
   public Tagger getTagger() {

@@ -27,10 +27,6 @@ import de.danielnaber.languagetool.tagging.xx.DemoTagger;
 
 public class Lithuanian extends Language {
   
-  private static final String[] COUNTRIES = {
-    "LT"
-  };
-
   public Locale getLocale() {
     return new Locale(getShortName());
   }
@@ -41,7 +37,7 @@ public class Lithuanian extends Language {
 
   @Override
   public String[] getCountryVariants() {
-    return COUNTRIES;
+    return new String[]{"LT"};
   }
   
   public String getShortName() {

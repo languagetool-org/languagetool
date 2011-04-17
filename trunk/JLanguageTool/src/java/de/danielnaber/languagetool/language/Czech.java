@@ -34,8 +34,6 @@ public class Czech extends Language {
   private final Tagger tagger = new CzechTagger();
   private final SentenceTokenizer sentenceTokenizer = new CzechSentenceTokenizer();
 
-  private static final String[] COUNTRIES = {"CZ"};
-  
   public Locale getLocale() {
     return new Locale(getShortName());
   }
@@ -49,7 +47,7 @@ public class Czech extends Language {
   }
   
   public String[] getCountryVariants() {
-    return COUNTRIES;
+    return new String[]{"CZ"};
   }
 
   public Tagger getTagger() {

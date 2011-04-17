@@ -39,8 +39,6 @@ public class Khmer extends Language {
   private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("KM");
   private final Disambiguator disambiguator = new KhmerRuleDisambiguator();
   
-  private static final String[] COUNTRIES = {"KM"};
-  
   public Locale getLocale() {
     return new Locale("km");
   }
@@ -54,9 +52,8 @@ public class Khmer extends Language {
   }
 
   public String[] getCountryVariants() {
-    return COUNTRIES;
+    return new String[]{"KM"};
   }
-  
   
   public Tagger getTagger() {
     return tagger;

@@ -32,8 +32,6 @@ import de.danielnaber.languagetool.tagging.be.BelarusianTagger;
  */
 public class Belarusian extends Language {
 
-    private static final String[] COUNTRIES = { "BY" };
-
     private final Tagger tagger = new BelarusianTagger();
 
     public Locale getLocale() {
@@ -49,7 +47,7 @@ public class Belarusian extends Language {
     }
 
     public String[] getCountryVariants() {
-        return COUNTRIES;
+        return new String[]{"BY"};
     }
 
     public Tagger getTagger() {

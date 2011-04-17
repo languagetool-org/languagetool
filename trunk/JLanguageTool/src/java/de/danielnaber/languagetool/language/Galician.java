@@ -35,8 +35,6 @@ public class Galician extends Language {
   private final Tokenizer wordTokenizer = new GalicianWordTokenizer();
   private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("gl");
 
-  private static final String[] COUNTRIES = {"ES"};
-  
   public final Locale getLocale() {
     return new Locale(getShortName());
   }
@@ -54,7 +52,7 @@ public class Galician extends Language {
   }
 
   public final String[] getCountryVariants() {
-    return COUNTRIES;
+    return new String[]{"ES"};
   }
   
   public final Tagger getTagger() {

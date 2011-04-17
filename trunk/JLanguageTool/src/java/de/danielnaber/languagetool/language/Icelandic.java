@@ -36,11 +36,20 @@ public class Icelandic extends Language {
 	
 	private final Tagger tagger = new DemoTagger();
 	private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("is");
-	private static final String[] COUNTRIES = { "IS" };
-	
+
+  @Override
+  public String getName() {
+    return "Icelandic";
+  }
+
+  @Override
+  public String getShortName() {
+    return "is";
+  }
+
 	@Override
 	public String[] getCountryVariants() {
-	    return COUNTRIES;
+	    return new String[]{"IS"};
 	}
 
 	@Override
@@ -53,15 +62,10 @@ public class Icelandic extends Language {
 	     return new Contributor[] {new Contributor("Anton Karl Ingason")};
 	}
 
-	@Override
-	public String getName() {
-		return "Icelandic";
-	}
-	
 	public Tagger getTagger() {
 		    return tagger;
 	}
-	
+
 	public SentenceTokenizer getSentenceTokenizer() {
     return sentenceTokenizer;
   }
@@ -77,10 +81,5 @@ public class Icelandic extends Language {
             WhitespaceRule.class
     );
   }
-
-	@Override
-	public String getShortName() {
-		return "is";
-	}
 
 }

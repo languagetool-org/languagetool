@@ -42,12 +42,10 @@ import de.danielnaber.languagetool.tokenizers.ro.RomanianWordTokenizer;
  */
 public class Romanian extends Language {
 
-	private static final String[] COUNTRIES = { "RO" };
-
 	private final Tagger tagger = new RomanianTagger();
 	private final Synthesizer synthesizer = new RomanianSynthesizer();
 	private final Disambiguator disambiguator = new RomanianRuleDisambiguator();
-	private final Tokenizer wdTokenizer = new RomanianWordTokenizer();
+	private final Tokenizer wordTokenizer = new RomanianWordTokenizer();
   private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("ro");
 
 	public Locale getLocale() {
@@ -64,7 +62,7 @@ public class Romanian extends Language {
 
 	@Override
 	public String[] getCountryVariants() {
-		return COUNTRIES;
+		return new String[]{"RO"};
 	}
 
 	public Tagger getTagger() {
@@ -101,7 +99,7 @@ public class Romanian extends Language {
 	}
 
 	public final Tokenizer getWordTokenizer() {
-		return wdTokenizer;
+		return wordTokenizer;
 	}
 
 	public SentenceTokenizer getSentenceTokenizer() {

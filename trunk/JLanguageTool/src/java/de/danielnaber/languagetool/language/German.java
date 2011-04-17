@@ -33,10 +33,6 @@ public class German extends Language {
   private final Tagger tagger = new GermanTagger();
   private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("de");
   
-  private static final String[] COUNTRIES = {
-    "DE", "CH", "AT", "LU", "LI", "BE"
-  };
-  
   public Locale getLocale() {
     return new Locale(getShortName());
   }
@@ -51,7 +47,7 @@ public class German extends Language {
 
   @Override
   public String[] getCountryVariants() {
-    return COUNTRIES;
+    return new String[]{"DE", "CH", "AT", "LU", "LI", "BE"};
   }
   
   public Tagger getTagger() {

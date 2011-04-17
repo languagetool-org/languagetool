@@ -45,8 +45,6 @@ public class Polish extends Language {
   private static final Unifier POLISH_UNIFIER = new Unifier();
   private static final Unifier POLISH_DISAMB_UNIFIER = new Unifier();
   
-  private static final String[] COUNTRIES = {"PL"}; 
-    
   @Override
   public Locale getLocale() {
     return new Locale(getShortName());
@@ -64,7 +62,7 @@ public class Polish extends Language {
   
   @Override
   public String[] getCountryVariants() {
-    return COUNTRIES;
+    return new String[]{"PL"};
   }
   
   @Override

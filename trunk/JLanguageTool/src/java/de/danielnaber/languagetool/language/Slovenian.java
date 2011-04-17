@@ -29,10 +29,6 @@ public class Slovenian extends Language {
   
   private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("sl");  
   
-  private static final String[] COUNTRIES = {
-    "SI"
-  };
-
   public Locale getLocale() {
     return new Locale(getShortName());
   }
@@ -47,7 +43,7 @@ public class Slovenian extends Language {
   
   @Override
   public String[] getCountryVariants() {
-    return COUNTRIES;
+    return new String[]{"SI"};
   }
 
   public SentenceTokenizer getSentenceTokenizer() {

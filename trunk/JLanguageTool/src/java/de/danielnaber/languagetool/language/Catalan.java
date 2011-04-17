@@ -37,10 +37,6 @@ public class Catalan extends Language {
   private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("ca");
   private final Synthesizer synthesizer = new CatalanSynthesizer();
 
-  private static final String[] COUNTRIES = {
-    "ES"
-  };
-
   public Locale getLocale() {
     return new Locale(getShortName());
   }
@@ -51,7 +47,7 @@ public class Catalan extends Language {
 
   @Override
   public String[] getCountryVariants() {
-    return COUNTRIES;
+    return new String[]{"ES"};
   }
   
   public String getShortName() {

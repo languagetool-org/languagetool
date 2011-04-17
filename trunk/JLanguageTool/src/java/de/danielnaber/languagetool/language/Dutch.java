@@ -41,8 +41,6 @@ public class Dutch extends Language {
   private final Disambiguator disambiguator = new DutchRuleDisambiguator();
   private final Tokenizer wdTokenizer = new DutchWordTokenizer();
 
-  private static final String[] COUNTRIES = { "NL", "BE" };
-
   public final Locale getLocale() {
     return new Locale(getShortName());
   }
@@ -56,7 +54,7 @@ public class Dutch extends Language {
   }
 
   public final String[] getCountryVariants() {
-    return COUNTRIES;
+    return new String[]{"NL", "BE"};
   }
 
   public final Tagger getTagger() {

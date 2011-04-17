@@ -28,10 +28,6 @@ import de.danielnaber.languagetool.tagging.sv.SwedishTagger;
 
 public class Swedish extends Language {
 
-  private static final String[] COUNTRIES = {
-    "SE", "FI"
-  };
-  
   private final Tagger tagger = new SwedishTagger();
 
   public final Locale getLocale() {
@@ -48,7 +44,7 @@ public class Swedish extends Language {
 
   @Override
   public final String[] getCountryVariants() {
-    return COUNTRIES;
+    return new String[]{"SE", "FI"};
   }
   
   public final Tagger getTagger() {

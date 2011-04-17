@@ -32,8 +32,6 @@ public class Danish extends Language {
   private final Tagger tagger = new DanishTagger();
   private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("da");
   
-  private static final String[] COUNTRIES = {"DK"};
-  
   public final Locale getLocale() {
     return new Locale(getShortName());
   }
@@ -47,7 +45,7 @@ public class Danish extends Language {
   }
 
   public final String[] getCountryVariants() {
-    return COUNTRIES;
+    return new String[]{"DK"};
   }
   
   public final Tagger getTagger() {

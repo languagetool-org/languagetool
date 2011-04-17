@@ -37,10 +37,6 @@ public class Slovak extends Language {
   private final Tagger tagger = new SlovakTagger();
   private final Synthesizer synthesizer = new SlovakSynthesizer(); 
   
-  private static final String[] COUNTRIES = {
-    "SK"
-  };
-
   public Locale getLocale() {
     return new Locale(getShortName());
   }
@@ -55,7 +51,7 @@ public class Slovak extends Language {
   
   @Override
   public String[] getCountryVariants() {
-    return COUNTRIES;
+    return new String[]{"SK"};
   }
 
   public Tagger getTagger() {
