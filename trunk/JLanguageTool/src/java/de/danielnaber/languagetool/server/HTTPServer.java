@@ -70,105 +70,27 @@ class LanguageToolHttpHandler implements HttpHandler {
   private static final int CONTEXT_SIZE = 40; // characters
 
   public void handle(HttpExchange t) throws IOException {
-    final Map<String, String> parameters = new HashMap<String, String>();
     synchronized (INSTANCES) {
-
       final URI requestedUri = t.getRequestURI();
-
-      if ("post".equalsIgnoreCase(t.getRequestMethod())) { //POST
-        final InputStreamReader isr = new InputStreamReader(t.getRequestBody(), "utf-8");
-        try {
-          final BufferedReader br = new BufferedReader(isr);
-          try {
-            final String query = br.readLine();
-            parseQuery(query, parameters);
-          } finally {
-            br.close();
-          }
-        } finally {
-          isr.close();
-        }
-      } else {   // GET
-        final String query = requestedUri.getRawQuery();
-        parseQuery(query, parameters);
-      }
-
+      final Map<String, String> parameters = getRequestQuery(t, requestedUri);
       final long timeStart = System.currentTimeMillis();
       String text = null;
-      final String sourceText;
       try {
-
         if (StringTools.isEmpty(requestedUri.getRawPath())) {
           t.sendResponseHeaders(HttpURLConnection.HTTP_FORBIDDEN, 0);
           throw new RuntimeException("Error: Access to " + requestedUri.getPath() + " denied");
         }
-
         if (ALLOWED_IPS.contains(t.getRemoteAddress().getAddress().toString())) {
-
-          // request type: list known languages
           if (requestedUri.getRawPath().endsWith("/Languages")) {
-            t.getResponseHeaders().set("Content-Type", "text/xml");
-            t.getResponseHeaders().set("Content_Encoding", "UTF-8");
-            final String response = getSupportedLanguagesAsXML();
-            t.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes().length);
-            t.getResponseBody().write(response.getBytes());
-            t.close();
+            // request type: list known languages
+            printListOfLanguages(t);
           } else {
-            // request type: grammar checking (default type)
-            final String langParam = parameters.get("language");
-
-            if (langParam == null) {
-              throw new IllegalArgumentException("Missing 'language' parameter");
-            }
-            final Language lang = Language.getLanguageForShortName(langParam);
-            if (lang == null) {
-              throw new IllegalArgumentException("Unknown language '" + langParam + "'");
-            }
-            final String motherTongueParam = parameters.get("motherTongue");
-            Language motherTongue = null;
-            if (null != motherTongueParam) {
-              motherTongue = Language.getLanguageForShortName(motherTongueParam);
-            }
-            
-            // TODO: how to take options from the client?
-            // TODO: customize LT here after reading client options
-
+            // request type: text checking
             text = parameters.get("text");
-
             if (text == null) {
               throw new IllegalArgumentException("Missing 'text' parameter");
             }
-            
-            final List<RuleMatch> matches;
-            sourceText = parameters.get("srctext");
-            if (sourceText == null) {
-              final JLanguageTool lt = getLanguageToolInstance(lang, motherTongue);
-              print("Checking " + text.length() + " characters of text, language " + langParam);
-              matches = lt.check(text);
-            } else {
-              if (motherTongueParam == null) {
-                throw new IllegalArgumentException("Missing 'motherTongue' for bilingual checks");
-              }
-              print("Checking bilingual text, with source length" + sourceText.length() +
-                  "and target length "+ text.length() + " (characters), source language " +
-                  motherTongue + "and target language " + langParam);
-              final JLanguageTool sourceLt = getLanguageToolInstance(motherTongue, null);
-              final JLanguageTool targetLt = getLanguageToolInstance(lang, null);
-              final List<BitextRule> bRules = Tools.getBitextRules(motherTongue, lang);
-              matches = Tools.checkBitext(sourceText, text, sourceLt, targetLt, bRules);
-            }
-            t.getResponseHeaders().set("Content-Type", "text/xml");
-            t.getResponseHeaders().set("Content_Encoding", "UTF-8");
-
-            final String response = StringTools.ruleMatchesToXML(matches, text,
-                CONTEXT_SIZE, StringTools.XmlPrintMode.NORMAL_XML);
-
-            print("Check done in " + (System.currentTimeMillis() - timeStart) + "ms");
-
-            t.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes().length);
-            t.getResponseBody().write(response.getBytes());
-            t.close();
-
+            text = checkText(text, t, parameters, timeStart);
           }
         } else {
           t.sendResponseHeaders(HttpURLConnection.HTTP_FORBIDDEN, 0);
@@ -185,7 +107,110 @@ class LanguageToolHttpHandler implements HttpHandler {
         t.close();
       }
     }
+  }
 
+  private Map<String, String> getRequestQuery(HttpExchange t, URI requestedUri) throws IOException {
+    Map<String, String> parameters;
+    if ("post".equalsIgnoreCase(t.getRequestMethod())) { // POST
+      final InputStreamReader isr = new InputStreamReader(t.getRequestBody(), "utf-8");
+      try {
+        final BufferedReader br = new BufferedReader(isr);
+        try {
+          final String query = br.readLine();
+          parameters = parseQuery(query);
+        } finally {
+          br.close();
+        }
+      } finally {
+        isr.close();
+      }
+    } else {   // GET
+      final String query = requestedUri.getRawQuery();
+      parameters = parseQuery(query);
+    }
+    return parameters;
+  }
+
+  private void printListOfLanguages(HttpExchange t) throws IOException {
+    t.getResponseHeaders().set("Content-Type", "text/xml");
+    t.getResponseHeaders().set("Content_Encoding", "UTF-8");
+    final String response = getSupportedLanguagesAsXML();
+    t.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes().length);
+    t.getResponseBody().write(response.getBytes());
+    t.close();
+  }
+
+  private String checkText(String text, HttpExchange t, Map<String, String> parameters, long timeStart) throws Exception {
+    final String langParam = parameters.get("language");
+    if (langParam == null) {
+      throw new IllegalArgumentException("Missing 'language' parameter");
+    }
+    final Language lang = Language.getLanguageForShortName(langParam);
+    if (lang == null) {
+      throw new IllegalArgumentException("Unknown language '" + langParam + "'");
+    }
+    final String motherTongueParam = parameters.get("motherTongue");
+    Language motherTongue = null;
+    if (null != motherTongueParam) {
+      motherTongue = Language.getLanguageForShortName(motherTongueParam);
+    }
+
+    // TODO: how to take options from the client?
+    // TODO: customize LT here after reading client options
+
+    final List<RuleMatch> matches;
+    final String sourceText = parameters.get("srctext");
+    if (sourceText == null) {
+      final JLanguageTool lt = getLanguageToolInstance(lang, motherTongue);
+      print("Checking " + text.length() + " characters of text, language " + langParam);
+      matches = lt.check(text);
+    } else {
+      if (motherTongueParam == null) {
+        throw new IllegalArgumentException("Missing 'motherTongue' for bilingual checks");
+      }
+      print("Checking bilingual text, with source length" + sourceText.length() +
+          "and target length "+ text.length() + " (characters), source language " +
+          motherTongue + "and target language " + langParam);
+      final JLanguageTool sourceLt = getLanguageToolInstance(motherTongue, null);
+      final JLanguageTool targetLt = getLanguageToolInstance(lang, null);
+      final List<BitextRule> bRules = Tools.getBitextRules(motherTongue, lang);
+      matches = Tools.checkBitext(sourceText, text, sourceLt, targetLt, bRules);
+    }
+    t.getResponseHeaders().set("Content-Type", "text/xml");
+    t.getResponseHeaders().set("Content_Encoding", "UTF-8");
+
+    final String response = StringTools.ruleMatchesToXML(matches, text,
+            CONTEXT_SIZE, StringTools.XmlPrintMode.NORMAL_XML);
+
+    print("Check done in " + (System.currentTimeMillis() - timeStart) + "ms");
+
+    t.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes().length);
+    t.getResponseBody().write(response.getBytes());
+    t.close();
+    return text;
+  }
+
+  private Map<String, String> parseQuery(String query) throws UnsupportedEncodingException {
+    final Map<String, String> parameters = new HashMap<String, String>();
+    if (query != null) {
+      final String[] pairs = query.split("[&]");
+      for (String pair : pairs) {
+        final String param = pair.substring(0, pair.indexOf("="));
+        String key = null;
+        String value;
+        if (param != null) {
+          key = URLDecoder.decode(param, System.getProperty("file.encoding"));
+        }
+        if (pair.substring(pair.indexOf("=") + 1) == null || pair.substring(pair.indexOf("=") + 1).equals("")) {
+          value = "";
+        } else {
+          value = URLDecoder.decode(pair.substring(pair.indexOf("=") + 1), "UTF-8");
+        }
+        value = value.replaceAll("\\+", " ");
+        parameters.put(key, value);
+      }
+    }
+    return parameters;
   }
 
   private void print(String s) {
@@ -249,29 +274,6 @@ class LanguageToolHttpHandler implements HttpHandler {
     }
     xmlBuffer.append("</languages>\n");
     return xmlBuffer.toString();
-  }
-
-  private void parseQuery(String query, Map<String, String> parameters) throws UnsupportedEncodingException {
-
-    if (query != null) {
-      final String[] pairs = query.split("[&]");
-
-      for (String pair : pairs) {
-        final String param = pair.substring(0, pair.indexOf("="));
-        String key = null;
-        String value;
-        if (param != null) {
-          key = URLDecoder.decode(param, System.getProperty("file.encoding"));
-        }
-        if (pair.substring(pair.indexOf("=") + 1) == null || pair.substring(pair.indexOf("=") + 1).equals("")) {
-          value = "";
-        } else {
-          value = URLDecoder.decode(pair.substring(pair.indexOf("=") + 1), "UTF-8");
-        }
-        value = value.replaceAll("\\+", " ");
-        parameters.put(key, value);
-      }
-    }
   }
 }
 
