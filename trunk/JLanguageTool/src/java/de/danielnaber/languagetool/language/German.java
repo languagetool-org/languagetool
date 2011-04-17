@@ -31,7 +31,7 @@ import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
 public class German extends Language {
 
   private final Tagger tagger = new GermanTagger();
-  private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("de");
+  private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer(getShortName());
   
   public Locale getLocale() {
     return new Locale(getShortName());

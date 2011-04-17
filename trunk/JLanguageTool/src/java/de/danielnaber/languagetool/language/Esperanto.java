@@ -31,7 +31,7 @@ import de.danielnaber.languagetool.tokenizers.SRXSentenceTokenizer;
 public class Esperanto extends Language {
 
   private final Tagger tagger = new EsperantoTagger();
-  private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("eo");
+  private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer(getShortName());
 
   public Locale getLocale() {
     return new Locale("eo");

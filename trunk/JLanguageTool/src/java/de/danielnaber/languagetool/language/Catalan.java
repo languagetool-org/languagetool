@@ -34,7 +34,7 @@ import de.danielnaber.languagetool.rules.ca.AccentuacioReplaceRule;
 public class Catalan extends Language {
 
   private final Tagger tagger = new CatalanTagger();
-  private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("ca");
+  private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer(getShortName());
   private final Synthesizer synthesizer = new CatalanSynthesizer();
 
   public Locale getLocale() {

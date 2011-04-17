@@ -30,7 +30,7 @@ import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
 public class Danish extends Language {
 
   private final Tagger tagger = new DanishTagger();
-  private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("da");
+  private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer(getShortName());
   
   public final Locale getLocale() {
     return new Locale(getShortName());

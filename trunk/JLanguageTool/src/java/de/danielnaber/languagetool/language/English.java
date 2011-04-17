@@ -40,7 +40,7 @@ public class English extends Language {
 
   private final Tagger tagger = new EnglishTagger();
   private final Tokenizer wordTokenizer = new EnglishWordTokenizer();
-  private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("en");
+  private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer(getShortName());
   private final Synthesizer synthesizer = new EnglishSynthesizer();
   private final Disambiguator disambiguator = new EnglishRuleDisambiguator();
 

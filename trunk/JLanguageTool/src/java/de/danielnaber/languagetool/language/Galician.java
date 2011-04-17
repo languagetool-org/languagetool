@@ -33,7 +33,7 @@ public class Galician extends Language {
 
   private final Tagger tagger = new GalicianTagger();
   private final Tokenizer wordTokenizer = new GalicianWordTokenizer();
-  private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("gl");
+  private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer(getShortName());
 
   public final Locale getLocale() {
     return new Locale(getShortName());

@@ -33,7 +33,7 @@ import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
 
 public class Slovak extends Language {
   
-  private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("sk");
+  private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer(getShortName());
   private final Tagger tagger = new SlovakTagger();
   private final Synthesizer synthesizer = new SlovakSynthesizer(); 
   

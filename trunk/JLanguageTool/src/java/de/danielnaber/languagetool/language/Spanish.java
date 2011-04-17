@@ -38,7 +38,7 @@ public class Spanish extends Language {
 
   private static final Unifier SPANISH_UNIFIER = new Unifier();
 
-  private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("es");
+  private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer(getShortName());
   private final Tokenizer wordTokenizer = new SpanishWordTokenizer();
   private final Synthesizer synthesizer = new SpanishSynthesizer();
   private final Tagger tagger = new SpanishTagger();

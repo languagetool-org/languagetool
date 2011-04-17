@@ -36,7 +36,7 @@ public class Khmer extends Language {
 
   private final Tagger tagger = new KhmerTagger();
   private final Tokenizer wordTokenizer = new KhmerWordTokenizer();
-  private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("KM");
+  private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer(getShortName());
   private final Disambiguator disambiguator = new KhmerRuleDisambiguator();
   
   public Locale getLocale() {

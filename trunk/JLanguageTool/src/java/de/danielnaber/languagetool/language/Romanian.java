@@ -46,7 +46,7 @@ public class Romanian extends Language {
 	private final Synthesizer synthesizer = new RomanianSynthesizer();
 	private final Disambiguator disambiguator = new RomanianRuleDisambiguator();
 	private final Tokenizer wordTokenizer = new RomanianWordTokenizer();
-  private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("ro");
+  private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer(getShortName());
 
 	public Locale getLocale() {
 		return new Locale(getShortName());

@@ -35,7 +35,7 @@ import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
 public class Icelandic extends Language {
 	
 	private final Tagger tagger = new DemoTagger();
-	private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("is");
+	private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer(getShortName());
 
   @Override
   public String getName() {

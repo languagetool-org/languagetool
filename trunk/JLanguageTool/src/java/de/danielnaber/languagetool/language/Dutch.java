@@ -36,7 +36,7 @@ import de.danielnaber.languagetool.tokenizers.nl.DutchWordTokenizer;
 public class Dutch extends Language {
 
   private final Tagger tagger = new DutchTagger();
-  private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("nl");
+  private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer(getShortName());
   private final Synthesizer synthesizer = new DutchSynthesizer();
   private final Disambiguator disambiguator = new DutchRuleDisambiguator();
   private final Tokenizer wdTokenizer = new DutchWordTokenizer();

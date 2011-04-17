@@ -42,7 +42,7 @@ public class Russian extends Language {
   private final Tagger tagger = new RussianTagger();
   private final Disambiguator disambiguator = new RussianRuleDisambiguator();
   private final Synthesizer synthesizer = new RussianSynthesizer();
-  private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("ru");
+  private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer(getShortName());
 
   public Locale getLocale() {
     return new Locale(getShortName());

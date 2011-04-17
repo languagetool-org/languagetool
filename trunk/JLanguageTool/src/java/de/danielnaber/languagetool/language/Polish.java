@@ -38,13 +38,14 @@ import de.danielnaber.languagetool.tokenizers.SRXSentenceTokenizer;
 
 public class Polish extends Language {
 
-  private final Tagger tagger = new PolishTagger();
-  private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("pl");
-  private final Disambiguator disambiguator = new PolishHybridDisambiguator();
-  private final Synthesizer synthesizer = new PolishSynthesizer();
   private static final Unifier POLISH_UNIFIER = new Unifier();
   private static final Unifier POLISH_DISAMB_UNIFIER = new Unifier();
-  
+
+  private final Tagger tagger = new PolishTagger();
+  private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer(getShortName());
+  private final Disambiguator disambiguator = new PolishHybridDisambiguator();
+  private final Synthesizer synthesizer = new PolishSynthesizer();
+
   @Override
   public Locale getLocale() {
     return new Locale(getShortName());
