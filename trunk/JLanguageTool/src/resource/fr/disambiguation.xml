@@ -100,7 +100,7 @@ RB => Règles Brutes
     <rule name="quelqu'un nous">
       <pattern mark="3">
         <token>quelqu</token>
-        <token regexp="yes">['’]</token>
+        <token regexp="yes">[’´'‛′‘]</token>
         <token regexp="yes">une?s?</token>
         <token>nous</token>
       </pattern>
@@ -198,7 +198,7 @@ RB => Règles Brutes
     <rule name="quelqu'un vous">
       <pattern mark="3">
         <token>quelqu</token>
-        <token regexp="yes">['’]</token>
+        <token regexp="yes">[’´'‛′‘]</token>
         <token regexp="yes">une?s?</token>
         <token>vous</token>
       </pattern>
@@ -258,6 +258,13 @@ RB => Règles Brutes
         <token>lui</token>
       </pattern>
       <disambig postag="R 3 s"/>
+    </rule>
+    <rule name="lui (R pers)">
+      <pattern mark="1">
+        <token regexp="yes">[lnj]e|tu|ils?|elles?|on|[nv]ous|la</token>
+        <token>lui</token>
+      </pattern>
+      <disambig postag="R pers obj 3 m s"/>
     </rule>
     <rule name="leur">
       <pattern mark="0">
@@ -589,8 +596,17 @@ RB => Règles Brutes
     </rule>
     <rule name="t' + verbe">
       <pattern mark="2">
+        <token>t<exception scope="previous">ne</exception><exception scope="previous" postag_regexp="yes" postag="R pers suj.*"/></token>
+        <token regexp="yes">[’´'‛′‘]</token>
+        <token postag="V.* 2 s" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="filter" postag="V.* 2 s"/>
+    </rule>
+    <rule name="ne t' + verbe">
+      <pattern mark="3">
+        <token>ne<exception scope="previous" postag_regexp="yes" postag="R pers suj.*"/></token>
         <token>t</token>
-        <token regexp="yes">['’]</token>
+        <token regexp="yes">[’´'‛′‘]</token>
         <token postag="V.* 2 s" postag_regexp="yes"/>
       </pattern>
       <disambig action="filter" postag="V.* 2 s"/>
@@ -728,22 +744,6 @@ RB => Règles Brutes
     <disambig action="filter" postag="V.*"/>
     <example type="ambiguous" inputform="aura[aura/N f s,avoir/V avoir ind futu 3 s]" outputform="aura[avoir/V avoir ind futu 3 s]">La rentrée scolaire <marker>aura</marker> lieu comme prévu la semaine prochaine.</example>
     <example type="untouched">Mon petit conseil pour une belle aura...</example>
-    </rule>
-
-    <rule id="D" name="d + apostrophe">
-      <pattern mark="0">
-        <token>d</token>
-        <token>'</token>
-      </pattern>
-      <disambig postag="P"/>
-    </rule>
-
-    <rule id="N" name="n + apostrophe">
-      <pattern mark="0">
-        <token>n</token>
-        <token>'</token>
-      </pattern>
-      <disambig postag=""/>
     </rule>
 
     <rule id="MEME_ADV" name="même adverbe">
