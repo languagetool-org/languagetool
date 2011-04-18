@@ -197,6 +197,11 @@ public class PatternRuleTest extends TestCase {
     }
 
     if (isRegularExpression && stringValue.contains("|")) {
+      if (stringValue.indexOf("||") >= 0) {
+        // Empty disjunctions in regular expression are most likely not intended.
+        System.err.println("The " + lang.toString() + " rule: "
+            + ruleId + " contains empty disjunction || within " + "\"" + stringValue + "\".");
+      }
       final String[] groups = stringValue.split("\\)");
       for (final String group : groups) {
         final String[] alt = group.split("\\|");
