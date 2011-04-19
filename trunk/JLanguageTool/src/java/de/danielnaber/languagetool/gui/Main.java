@@ -191,7 +191,7 @@ public final class Main implements ActionListener {
           break;
         }
       }
-    } catch (Exception ex) {
+    } catch (Exception ignored) {
       // Well, what can we do...
     }
   }
