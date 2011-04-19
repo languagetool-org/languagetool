@@ -64,7 +64,7 @@ class LanguageToolHttpHandler implements HttpHandler {
             if (text == null) {
               throw new IllegalArgumentException("Missing 'text' parameter");
             }
-            text = checkText(text, t, parameters, timeStart);
+            checkText(text, t, parameters, timeStart);
           }
         } else {
           t.sendResponseHeaders(HttpURLConnection.HTTP_FORBIDDEN, 0);
@@ -113,7 +113,7 @@ class LanguageToolHttpHandler implements HttpHandler {
     t.close();
   }
 
-  private String checkText(String text, HttpExchange t, Map<String, String> parameters, long timeStart) throws Exception {
+  private void checkText(String text, HttpExchange t, Map<String, String> parameters, long timeStart) throws Exception {
     final String langParam = parameters.get("language");
     if (langParam == null) {
       throw new IllegalArgumentException("Missing 'language' parameter");
@@ -159,7 +159,6 @@ class LanguageToolHttpHandler implements HttpHandler {
     t.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes().length);
     t.getResponseBody().write(response.getBytes());
     t.close();
-    return text;
   }
 
   private Map<String, String> parseQuery(String query) throws UnsupportedEncodingException {
