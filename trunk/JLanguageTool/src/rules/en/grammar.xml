@@ -2110,6 +2110,87 @@ $Id: grammar.xml,v 1.129 2010-11-13 23:24:21 dnaber Exp $
   <!-- Grammar -->
   <!-- ====================================================================== -->
   <category name="Grammar">
+    <rulegroup id="WANT_THAT_I" name="want that I(want me to)">
+      <!-- TODO: extend this rule to cover more than personal pronouns. This is actually a very common error for German speakers. -->
+      <rule>
+        <pattern>
+          <token inflected="yes">want</token>
+          <token>that</token>
+          <token>I</token>
+        </pattern>
+        <message>Did you mean <suggestion>\1 me to</suggestion>?</message>
+        <short>Grammatical problem or typo</short>
+        <example type="incorrect">He <marker>wants that I</marker> send him an email.</example>
+        <example type="incorrect">They <marker>want that I</marker> send him an email.</example>
+        <example type="incorrect">They <marker>wanted that I</marker> send him an email.</example>
+        <example type="correct">He <marker>wants me to</marker> send him an email.</example>
+        <example type="correct">They <marker>want me to</marker> send him an email.</example>
+        <example type="correct">They <marker>wanted me to</marker> send him an email.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">want</token>
+          <token>that</token>
+          <token>you</token>
+        </pattern>
+        <message>Did you mean <suggestion>\1 you to</suggestion>?</message>
+        <short>Grammatical problem or typo</short>
+        <example type="incorrect">He <marker>wants that you</marker> send him an email.</example>
+        <example type="incorrect">They <marker>want that you</marker> send him an email.</example>
+        <example type="incorrect">They <marker>wanted that you</marker> send him an email.</example>
+        <example type="correct">He <marker>wants you to</marker> send him an email.</example>
+        <example type="correct">They <marker>want you to</marker> send him an email.</example>
+        <example type="correct">They <marker>wanted you to</marker> send him an email.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">want</token>
+          <token>that</token>
+          <token>he</token>
+        </pattern>
+        <message>Did you mean <suggestion>\1 him to</suggestion>?</message>
+        <short>Grammatical problem or typo</short>
+        <example type="incorrect">They <marker>want that he</marker> sends him an email.</example>
+        <example type="correct">They <marker>want him to</marker> send him an email.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">want</token>
+          <token>that</token>
+          <token>she</token>
+        </pattern>
+        <message>Did you mean <suggestion>\1 her to</suggestion>?</message>
+        <short>Grammatical problem or typo</short>
+        <example type="incorrect">They <marker>want that she</marker> sends him an email.</example>
+        <example type="correct">They <marker>want her to</marker> send him an email.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">want</token>
+          <token>that</token>
+          <token>we</token>
+        </pattern>
+        <message>Did you mean <suggestion>\1 us to</suggestion>?</message>
+        <short>Grammatical problem or typo</short>
+        <example type="incorrect">He <marker>wants that we</marker> send him an email.</example>
+        <example type="incorrect">They <marker>want that we</marker> send him an email.</example>
+        <example type="incorrect">They <marker>wanted that we</marker> send him an email.</example>
+        <example type="correct">He <marker>wants us to</marker> send him an email.</example>
+        <example type="correct">They <marker>want us to</marker> send him an email.</example>
+        <example type="correct">They <marker>wanted us to</marker> send him an email.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">want</token>
+          <token>that</token>
+          <token>they</token>
+        </pattern>
+        <message>Did you mean <suggestion>\1 them to</suggestion>?</message>
+        <short>Grammatical problem or typo</short>
+        <example type="incorrect">They <marker>want that they</marker> sends him an email.</example>
+        <example type="correct">They <marker>want them to</marker> send him an email.</example>
+      </rule>
+    </rulegroup>
     <rule id="DONT_WILL" name="don't will (won't)">
       <pattern mark_from="1">
         <token negate="yes">who</token>
