@@ -64,7 +64,7 @@ class LanguageToolHttpHandler implements HttpHandler {
             if (text == null) {
               throw new IllegalArgumentException("Missing 'text' parameter");
             }
-            checkText(text, t, parameters, timeStart);
+            checkText(text, t, parameters);
           }
         } else {
           t.sendResponseHeaders(HttpURLConnection.HTTP_FORBIDDEN, 0);
@@ -80,6 +80,7 @@ class LanguageToolHttpHandler implements HttpHandler {
         t.getResponseBody().write(response.getBytes());
         t.close();
       }
+      print("Check done in " + (System.currentTimeMillis() - timeStart) + "ms");
     }
   }
 
@@ -113,7 +114,7 @@ class LanguageToolHttpHandler implements HttpHandler {
     t.close();
   }
 
-  private void checkText(String text, HttpExchange t, Map<String, String> parameters, long timeStart) throws Exception {
+  private void checkText(String text, HttpExchange t, Map<String, String> parameters) throws Exception {
     final String langParam = parameters.get("language");
     if (langParam == null) {
       throw new IllegalArgumentException("Missing 'language' parameter");
@@ -150,12 +151,8 @@ class LanguageToolHttpHandler implements HttpHandler {
       matches = Tools.checkBitext(sourceText, text, sourceLt, targetLt, bRules);
     }
     t.getResponseHeaders().set("Content-Type", CONTENT_TYPE_VALUE);
-
     final String response = StringTools.ruleMatchesToXML(matches, text,
             CONTEXT_SIZE, StringTools.XmlPrintMode.NORMAL_XML);
-
-    print("Check done in " + (System.currentTimeMillis() - timeStart) + "ms");
-
     t.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes().length);
     t.getResponseBody().write(response.getBytes());
     t.close();
@@ -185,12 +182,9 @@ class LanguageToolHttpHandler implements HttpHandler {
   }
 
   private void print(String s) {
-    System.out.println(getDate() + " " + s);
-  }
-
-  private String getDate() {
-    final SimpleDateFormat sdf = new SimpleDateFormat();
-    return sdf.format(new Date());
+    final SimpleDateFormat dateFormat = new SimpleDateFormat();
+    final String now = dateFormat.format(new Date());
+    System.out.println(now + " " + s);
   }
 
   /**
@@ -225,7 +219,7 @@ class LanguageToolHttpHandler implements HttpHandler {
   /**
    * Construct an xml string containing all supported languages. <br/>The xml format is:<br/>
    * &lt;languages&gt;<br/>
-   *	&nbsp;&nbsp;&lt;language name="Catalan" abbr="ca" /&gt;<br/> 
+   *    &nbsp;&nbsp;&lt;language name="Catalan" abbr="ca" /&gt;<br/> 
    *    &nbsp;&nbsp;&lt;language name="Dutch" abbr="nl" /&gt;<br/>
    *    &nbsp;&nbsp;...<br/>
    *  &lt;languages&gt;<br/>
