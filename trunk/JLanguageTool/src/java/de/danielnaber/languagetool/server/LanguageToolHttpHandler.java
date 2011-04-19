@@ -37,6 +37,11 @@ class LanguageToolHttpHandler implements HttpHandler {
     ALLOWED_IPS.add("/127.0.0.1");
   }
   private static final int CONTEXT_SIZE = 40; // characters
+  private final boolean verbose;
+
+  public LanguageToolHttpHandler(boolean verbose) {
+    this.verbose = verbose;
+  }
 
   public void handle(HttpExchange t) throws IOException {
     synchronized (INSTANCES) {
@@ -66,7 +71,7 @@ class LanguageToolHttpHandler implements HttpHandler {
           throw new RuntimeException("Error: Access from " + t.getRemoteAddress().toString() + " denied");
         }
       } catch (Exception e) {
-        if (HTTPServer.verbose) {
+        if (verbose) {
           print("Exception was caused by this text: " + text);
         }
         e.printStackTrace();

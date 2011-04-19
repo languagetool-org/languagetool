@@ -33,10 +33,10 @@ public class HTTPServer {
 
   /** The default port on which the server is running (8081). */
   public static final int DEFAULT_PORT = 8081;
-  public static boolean verbose;
-
   private com.sun.net.httpserver.HttpServer server;
+
   private int port = DEFAULT_PORT;
+  private boolean verbose;
 
   private static void printUsageAndExit() {
     System.out.println("Usage: " + HTTPServer.class.getSimpleName() + " [-p|--port port]");
@@ -65,7 +65,7 @@ public class HTTPServer {
    */
   public HTTPServer(int port, boolean verbose) {
     this.port = port;
-    HTTPServer.verbose = verbose;
+    this.verbose = verbose;
   }
 
   /**
@@ -74,7 +74,7 @@ public class HTTPServer {
   public void run() {
     try {
       server = com.sun.net.httpserver.HttpServer.create(new InetSocketAddress(port), 0);
-      server.createContext("/", new LanguageToolHttpHandler());
+      server.createContext("/", new LanguageToolHttpHandler(verbose));
       System.out.println("Starting server on port " + port + "...");
       server.start();
       System.out.print("Server started");
@@ -100,7 +100,7 @@ public class HTTPServer {
     if (args.length > 3) {
       printUsageAndExit();
     }
-    HTTPServer.verbose = false;
+    boolean verbose = false;
     int port = DEFAULT_PORT;
     for (int i = 0; i < args.length; i++) {
       if ("-p".equals(args[i]) || "--port".equals(args[i])) {
@@ -111,7 +111,7 @@ public class HTTPServer {
     }
     try {
       final com.sun.net.httpserver.HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
-      server.createContext("/", new LanguageToolHttpHandler());
+      server.createContext("/", new LanguageToolHttpHandler(verbose));
       server.start();
     } catch (Exception e) {
       throw new RuntimeException("Could not start LanguageTool HTTP server on port " + port, e);
