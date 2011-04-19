@@ -1126,8 +1126,17 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect">Mit <marker>Freundlichen</marker> Grüßen</example>
     </rule>
   -->
+    <rule id="IN_KUERZE" name="Groß-/Kleinschreibung: 'in kürze(Kürze)'">
+      <pattern mark_from="1" case_sensitive="yes">
+        <token regexp="yes">[Ii]n</token>
+        <token>kürze</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>Kürze</suggestion>?</message>
+      <example type="correct">In <marker>Kürze</marker> erscheint das neue Ubuntu.</example>
+      <example type="incorrect">In <marker>kürze</marker> erscheint das neue Ubuntu.</example>
+    </rule>
     <!-- TODO: allgemeiner... -->
-    <rule id="OEFFNEN" name="Tippfehler: 'öffnen (Öffnen)'">
+    <rule id="OEFFNEN" name="Groß-/Kleinschreibung: 'dem öffnen(Öffnen)'">
       <pattern mark_from="1" case_sensitive="yes">
         <token>dem</token>
         <token>öffnen</token>
