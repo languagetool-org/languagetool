@@ -17,7 +17,7 @@
  * USA
  */
 
-package de.danielnaber.languagetool.tagging.disambiguation.pl;
+package de.danielnaber.languagetool.tagging.disambiguation;
 
 import java.io.IOException;
 
@@ -33,13 +33,13 @@ public class PolishChunkerTest extends TestCase {
     private PolishTagger tagger;
     private WordTokenizer tokenizer;
     private SentenceTokenizer sentenceTokenizer;
-    private PolishChunker disambiguator;
+    private MultiWordChunker disambiguator;
       
     public void setUp() {
       tagger = new PolishTagger();
       tokenizer = new WordTokenizer();
       sentenceTokenizer = new SRXSentenceTokenizer("pl"); 
-      disambiguator = new PolishChunker();      
+      disambiguator = new MultiWordChunker("/pl/multiwords.txt");      
     }
 
     public void testChunker() throws IOException {

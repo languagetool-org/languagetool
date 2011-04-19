@@ -23,6 +23,7 @@ import java.io.IOException;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
+import de.danielnaber.languagetool.tagging.disambiguation.MultiWordChunker;
 import de.danielnaber.languagetool.tagging.disambiguation.rules.pl.PolishRuleDisambiguator;
 
 /**
@@ -33,7 +34,7 @@ import de.danielnaber.languagetool.tagging.disambiguation.rules.pl.PolishRuleDis
 
 public class PolishHybridDisambiguator implements Disambiguator {
 
-  private final Disambiguator chunker = new PolishChunker();
+  private final Disambiguator chunker = new MultiWordChunker("/pl/multiwords.txt");
   private final Disambiguator disambiguator = new PolishRuleDisambiguator();
 
   /**

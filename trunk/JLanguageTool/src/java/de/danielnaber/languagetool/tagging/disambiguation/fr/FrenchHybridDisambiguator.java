@@ -23,17 +23,18 @@ import java.io.IOException;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
+import de.danielnaber.languagetool.tagging.disambiguation.MultiWordChunker;
 import de.danielnaber.languagetool.tagging.disambiguation.rules.fr.FrenchRuleDisambiguator;
 
 /**
- * Hybrid chunker-disambiguator for Polish (copied from pl/Polish/HybridDisambiguator)
+ * Hybrid chunker-disambiguator for French
  * 
  * @author Marcin Miłkowski
  */
 
 public class FrenchHybridDisambiguator implements Disambiguator {
 
-  private final Disambiguator chunker = new FrenchChunker();
+  private final Disambiguator chunker = new MultiWordChunker("/fr/multiwords.txt");
   private final Disambiguator disambiguator = new FrenchRuleDisambiguator();
 
   /**

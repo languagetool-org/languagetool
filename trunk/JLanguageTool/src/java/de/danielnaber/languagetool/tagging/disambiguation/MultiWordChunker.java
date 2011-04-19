@@ -17,7 +17,7 @@
  * USA
  */
 
-package de.danielnaber.languagetool.tagging.disambiguation.fr;
+package de.danielnaber.languagetool.tagging.disambiguation;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -35,18 +35,23 @@ import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
 
 /**
- * Multiword tagger-chunker for French (copied from Polish pl/PolishChunker.java).
+ * Multiword tagger-chunker.
  *
  * @author Marcin Miłkowski
  */
-public class FrenchChunker implements Disambiguator {
+public class MultiWordChunker implements Disambiguator {
 
   private Map<String, String> mStartSpace;
   private Map<String, String> mStartNoSpace;
   private Map<String, String> mFull;
 
-  private static final String FILENAME = "/fr/multiwords.txt";
+  private final String filename;
 
+  public MultiWordChunker(final String filename) {
+    super();
+    this.filename = filename;
+  }
+  
   /*
   * Lazy init, thanks to Artur Trzewik
   */
@@ -59,7 +64,7 @@ public class FrenchChunker implements Disambiguator {
     mStartNoSpace = new HashMap<String, String>();
     mFull = new HashMap<String, String>();
 
-    final List<String> posTokens = loadWords(JLanguageTool.getDataBroker().getFromResourceDirAsStream(FILENAME));
+    final List<String> posTokens = loadWords(JLanguageTool.getDataBroker().getFromResourceDirAsStream(filename));
     for (String posToken : posTokens) {
       final String[] tokenAndTag = posToken.split("\t");
       final boolean containsSpace = tokenAndTag[0].indexOf(' ') > 0;
