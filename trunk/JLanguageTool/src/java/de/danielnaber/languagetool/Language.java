@@ -24,13 +24,12 @@ import java.util.List;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
-import java.util.Set;
 
 import de.danielnaber.languagetool.language.Belarusian;
 import de.danielnaber.languagetool.language.Catalan;
 import de.danielnaber.languagetool.language.Contributor;
-import de.danielnaber.languagetool.language.Demo;
 import de.danielnaber.languagetool.language.Danish;
+import de.danielnaber.languagetool.language.Demo;
 import de.danielnaber.languagetool.language.Dutch;
 import de.danielnaber.languagetool.language.English;
 import de.danielnaber.languagetool.language.Esperanto;
