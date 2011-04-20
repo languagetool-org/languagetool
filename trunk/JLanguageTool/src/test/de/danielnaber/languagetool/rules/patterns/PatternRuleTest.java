@@ -254,10 +254,10 @@ public class PatternRuleTest extends TestCase {
               + "\" (Rule: " + rule + "), but found " + matches.length
               + ". Additional info:" + rule.getMessage(), matches.length == 1);
           assertEquals(lang
-              + ": Incorrect match position markup (start) for rule " + rule,
+              + ": Incorrect match position markup (start) for rule " + rule + ", sentence: " + badSentence,
               expectedMatchStart, matches[0].getFromPos());
           assertEquals(lang
-              + ": Incorrect match position markup (end) for rule " + rule,
+              + ": Incorrect match position markup (end) for rule " + rule + ", sentence: " + badSentence,
               expectedMatchEnd, matches[0].getToPos());
           // make sure suggestion is what we expect it to be
           if (suggestedCorrections != null && suggestedCorrections.size() > 0) {
