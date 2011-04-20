@@ -309,7 +309,7 @@ RB => Règles Brutes
     <rule name="tu te/ne">
       <pattern mark="0">
         <token>tu</token>
-        <token regexp="yes">te|t|ne|n</token>
+        <token regexp="yes">[mntl]e?|la|lui|leur|[nv]ous</token>
       </pattern>
       <disambig postag="R pers suj 2 s"/>
     </rule>
@@ -321,21 +321,6 @@ RB => Règles Brutes
       </pattern>
       <disambig postag="R pers suj 1 p"/>
     </rule>
-    <rule name="nous infinitif">
-      <pattern mark="0">
-        <token postag="R pers suj 1 p"/>
-        <token postag="V inf"/>
-      </pattern>
-      <disambig postag="R pers obj 1 p"/>
-      <example type="ambiguous" inputform="nous[nous/R pers obj 1 p,nous/R pers suj 1 p]" outputform="nous[nous/R pers obj 1 p]">Il faut <marker>nous</marker> hâter.</example>
-    </rule>
-    <rule name="nous V/A/R">
-      <pattern mark="0">
-        <token postag="R pers suj 1 p"/>
-        <token postag="(V.*)|A|(R pers obj .*)" postag_regexp="yes"/>
-      </pattern>
-      <disambig postag="R pers suj 1 p"/>
-    </rule>
 
     <rule name="Vous">
       <pattern mark="1">
@@ -344,21 +329,7 @@ RB => Règles Brutes
       </pattern>
       <disambig postag="R pers suj 2 p"/>
     </rule>
-    <rule name="vous infinitif">
-      <pattern mark="0">
-        <token postag="R pers suj 2 p"/>
-        <token postag="V inf"/>
-      </pattern>
-      <disambig postag="R pers obj 2 p"/>
-      <example type="ambiguous" inputform="vous[vous/R pers obj 2 p,vous/R pers suj 2 p]" outputform="vous[vous/R pers obj 2 p]">Il faut <marker>vous</marker> hâter.</example>
-    </rule>
-    <rule name="vous V/A/R">
-      <pattern mark="0">
-        <token postag="R pers suj 2 p"/>
-        <token postag="(V.*)|(A)|(R pers obj .*)" postag_regexp="yes"/>
-      </pattern>
-      <disambig postag="R pers suj 2 p"/>
-    </rule>
+
   </rulegroup>
 
   <rulegroup name="RP : étais" id ="RP-ETAIS">
@@ -590,14 +561,6 @@ RB => Règles Brutes
     <rule name="tu + verbe">
       <pattern mark="1">
         <token>tu</token>
-        <token postag="V.* 2 s" postag_regexp="yes"/>
-      </pattern>
-      <disambig action="filter" postag="V.* 2 s"/>
-    </rule>
-    <rule name="t' + verbe">
-      <pattern mark="2">
-        <token>t<exception scope="previous">ne</exception><exception scope="previous" postag_regexp="yes" postag="R pers suj.*"/></token>
-        <token regexp="yes">[’´'‛′‘]</token>
         <token postag="V.* 2 s" postag_regexp="yes"/>
       </pattern>
       <disambig action="filter" postag="V.* 2 s"/>
