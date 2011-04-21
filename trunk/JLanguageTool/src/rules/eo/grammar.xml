@@ -719,15 +719,29 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <example type="correct">Kvanto da tempo</example>
     </rule>
 
-    <rule id="ANKAŬ_FINO" name="Ankaux (ktp) je la fino de frazo">
-      <pattern mark_to="-1">
-        <token regexp="yes">ankaŭ|eĉ|tre|nur|jam|ĵus|nek|kaj|aŭ|sed|plus|minus</token>
-        <token postag="SENT_END"/>
-      </pattern>
-      <message>Vorto «\1» devas stari antaŭ tio, al kio ĝi rilatas.</message>
-      <example type="incorrect">Mi scipovas Esperanton <marker>ankaŭ</marker>.</example>
-      <example type="correct">Mi scipovas ankaŭ Esperanton.</example>
-    </rule>
+    <rulegroup id="ANKAŬ_FINO" name="Ankaux (ktp) je la fino de frazo">
+      <rule>
+        <pattern>
+          <and>
+            <token regexp="yes">ankaŭ|eĉ|tre|nur|jam|ĵus|nek|kaj|aŭ|sed|plus|minus</token>
+            <token postag="SENT_END"/>
+          </and>
+        </pattern>
+        <message>Vorto «\1» devas stari antaŭ tio, al kio ĝi rilatas.</message>
+        <example type="incorrect">Mi scipovas Esperanton <marker>ankaŭ</marker></example>
+        <example type="correct">Mi scipovas ankaŭ Esperanton</example>
+      </rule>
+
+      <rule>
+        <pattern mark_to="-1">
+          <token regexp="yes">ankaŭ|eĉ|tre|nur|jam|ĵus|nek|kaj|aŭ|sed|plus|minus</token>
+          <token regexp="yes" postag="SENT_END">[.;!?»")]</token>
+        </pattern>
+        <message>Prepozicio «\1» devas stari antaŭ tio, al kio ĝi rilatas.</message>
+        <example type="incorrect">Mi scipovas Esperanton <marker>ankaŭ</marker>.</example>
+        <example type="correct">Mi scipovas ankaŭ Esperanton.</example>
+      </rule>
+    </rulegroup>
 
     <rulegroup id="PREP_FINO" name="Prepozicio je la fino de frazo">
       <rule>
@@ -746,7 +760,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <rule>
         <pattern mark_to="-1">
           <token postag="P.*" postag_regexp="yes"/>
-          <token regexp="yes" postag="SENT_END">[.!?»")]</token>
+          <token regexp="yes" postag="SENT_END">[.;!?»")]</token>
         </pattern>
         <message>Prepozicio «\1» devas stari antaŭ tio, al kio ĝi rilatas.</message>
         <example type="incorrect">Mi venis <marker>post</marker>.</example>
