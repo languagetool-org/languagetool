@@ -867,6 +867,26 @@ though, and has since been slightly modified)-->
         <example type="correct">Elles sont prêtes à t’écouter.</example>
       </rule>
       <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token>tout</token>
+          <token>a</token>
+          <token>coup</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>à</suggestion> ?</message>
+        <example type="incorrect">Tout <marker>a</marker> coup, j’entendis une explosion.</example>
+        <example type="correct">Tout à coup, j’entendis une explosion.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-2">
+          <token>a</token>
+          <token>coup</token>
+          <token regexp="yes">s[ûu]r</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>à</suggestion> ?</message>
+        <example type="incorrect"><marker>A</marker> coup sûr, il ne viendra pas.</example>
+        <example type="correct">À coup sûr, il ne viendra pas.</example>
+      </rule>
+      <rule>
         <pattern mark_from="2">
           <token postag="V.*" postag_regexp="yes" skip="1"></token>
           <token>mal</token>
@@ -18098,7 +18118,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern case_sensitive="yes" mark_from="1">
           <token negate_pos="yes" postag="SENT_START"></token>
-          <token regexp="yes">Janvier|Février|Avril|Mai|Juin|Juillet|Août|Septembre|Octobre|Novembre|Décembre</token>
+          <token regexp="yes">Janvier|Février|Avril|Mai|Juin|Juillet|Ao[uû]t|Septembre|Octobre|Novembre|Décembre|Vendémiaire|Brumaire|Frimaire|Nivôse|Pluviôse|Ventôse|Germinal|Floréal|Prairial|Messidor|Thermidor|Fructidor</token>
         </pattern>
         <message>Les mois de l’année n’ont pas de majuscule.</message>
         <example type="incorrect">Cette année, <marker>Avril</marker> a été chaud.</example>
