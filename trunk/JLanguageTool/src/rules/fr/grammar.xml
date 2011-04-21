@@ -1086,7 +1086,7 @@ though, and has since been slightly modified)-->
         <pattern>
           <token regexp="yes">([2-9])|([1-9][0-9]+)<exception regexp="yes">[12][0-9][0-9][0-9]</exception><exception scope="previous">,</exception></token>
           <token postag="[JN] .* s" postag_regexp="yes">
-            <exception regexp="yes">allée|avenue|balade|boulevard|chaussée|chemin|cour|impasse|place|route|rue|ruelle|quai|sentier|square|janvier|février|avril|mai|juin|juillet|août|septembre|octobre|novembre|décembre|brumaire</exception>
+            <exception regexp="yes">allée|avenue|balade|boulevard|chaussée|chemin|cour|impasse|place|route|rue|ruelle|quai|sentier|square|janvier|février|avril|mai|juin|juillet|ao[uû]t|septembre|octobre|novembre|décembre|vendémiaire|brumaire|frimaire|nivôse|pluviôse|ventôse|germinal|floréal|prairial|messidor|thermidor|fructidor</exception>
           </token>
         </pattern>
         <message>« \1 » et « \2 » ne semblent pas bien accordés en nombre</message>
@@ -1283,6 +1283,7 @@ though, and has since been slightly modified)-->
           </token>
           <token postag="[JN] m .*" postag_regexp="yes">
             <exception postag="(V .*)|(C coor)|([NJ] e .*)" postag_regexp="yes"/>
+            <exception regexp="yes">.</exception>
           </token>
         </pattern>
         <message>« \1 » et « \2 » ne semblent pas bien accordés en genre</message>
@@ -1297,6 +1298,7 @@ though, and has since been slightly modified)-->
         <example type="correct">Il faudra que je <marker>vive seul</marker>.</example>
         <example type="correct"><marker>Sa large</marker> et bonne figure.</example>
         <example type="correct">La porte d’entrée.</example>
+        <example type="correct">Son amie l’abandonne.</example>
       </rule>
       <rule name="nom féminin suivi du masculin">
         <pattern mark_from="1">
