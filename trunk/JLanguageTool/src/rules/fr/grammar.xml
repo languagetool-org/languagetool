@@ -2696,6 +2696,29 @@ though, and has since been slightly modified)-->
         <example type="correct">Pense-y bien.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="LA" name="là sans trait d'union">
+      <rule>
+        <pattern>
+          <token>là</token>
+          <token regexp="yes">bas|dedans|dessous|devant|derrière|haut</token>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>là-\1</suggestion> ?</message>
+        <example type="incorrect">Je vias <marker>là bas</marker>.</example>
+        <example type="correct">Je vias <marker>là-bas</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">jusque|moment|celles?|celui|ceux|matins?|jours?|nuits?|deux</token>
+          <token>là</token>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>\1-là</suggestion> ?</message>
+        <example type="incorrect"><marker>Jusque là</marker> tout va bien.</example>
+        <example type="correct"><marker>Jusque-là</marker> tout va bien.</example>
+        <example type="incorrect"><marker>Celle là</marker>, elle sait comment faire.</example>
+        <example type="correct"><marker>Celle-là</marker>, elle sait comment faire.</example>
+      </rule>
+    </rulegroup>
+
     <rule id="MA_VOYELLE" name="ma + voyelle">
       <pattern>
         <token regexp="yes">[mst]a</token>
@@ -16900,17 +16923,6 @@ though, and has since been slightly modified)-->
       <example type="correct">Il l’a fait <marker>lui-même</marker>.</example>
     </rule>
     <rulegroup id="TRAIT_UNION" name="Trait d’union">
-      <rule>
-        <pattern>
-          <token regexp="yes">jusque|celles?|celui|ceux</token>
-          <token regexp="yes">l[àa]</token>
-        </pattern>
-        <message>Voulez-vous dire <suggestion>\1-là</suggestion> ?</message>
-        <example type="incorrect"><marker>Jusque là</marker> tout va bien.</example>
-        <example type="correct"><marker>Jusque-là</marker> tout va bien.</example>
-        <example type="incorrect"><marker>Celle là</marker>, elle sait comment faire.</example>
-        <example type="correct"><marker>Celle-là</marker>, elle sait comment faire.</example>
-      </rule>
       <rule>
         <pattern>
           <token>grand</token>
