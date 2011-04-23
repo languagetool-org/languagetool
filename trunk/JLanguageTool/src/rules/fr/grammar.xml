@@ -18336,14 +18336,15 @@ though, and has since been slightly modified)-->
     <rule id="FRENCH_WORD_REPEAT_RULE" name="Doublon (« pour pour », « je je », etc.)">
       <pattern>
         <token regexp="yes">\p{L}+<exception postag="SENT_START"></exception></token>
-        <token spacebefore="yes"><exception regexp="yes">vous|nous|faire</exception><match no="0"></match></token>
+        <token spacebefore="yes"><exception regexp="yes">vous|nous|faire|en</exception><match no="0"></match></token>
       </pattern>
       <message>Faute de frappe possible : un mot est répété : \1 \2. Correction : <suggestion>\1</suggestion>.</message>
       <short>Doublon</short>
       <example correction="Je" type="incorrect"><marker>Je je</marker> suis français.</example>
-      <example type="correct">Oui ...</example>
+      <example type="correct">Oui...</example>
       <example type="correct">Vous vous parlez.</example>
       <example type="correct">Il est capable de te <marker>faire faire</marker> des choses surprenantes.</example>
+      <example type="correct">En en demandant deux</example>
     </rule>
   </category>
   <!-- vim: foldmethod=marker foldmarker=<category,</category:
