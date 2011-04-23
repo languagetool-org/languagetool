@@ -2137,7 +2137,7 @@ though, and has since been slightly modified)-->
           <token postag="SENT_START"/>
           <token>ne</token>
           <token postag_regexp="yes" postag="V.*">
-            <exception postag_regexp="yes" postag="V.* imp .*"/>
+            <exception postag_regexp="yes" postag="V.* (imp|ppr).*"/>
           </token>
           <token regexp="yes">pas|plus</token>
         </pattern>
@@ -2146,37 +2146,43 @@ though, and has since been slightly modified)-->
         <example type="correct">Ne <marker>sois</marker> pas en retard !</example>
         <example type="incorrect">Ne <marker>vas</marker> plus là !</example>
         <example type="correct">Ne <marker>va</marker> plus là !</example>
+        <example type="correct">Ne <marker>sachant</marker> pas quoi faire</example>
       </rule>
       <rule>
         <pattern mark_from="3" mark_to="-1">
           <token postag="SENT_START"/>
-          <token>ne</token>
+          <token regexp="yes">ne?</token>
           <!-- 1 token -->
-          <token regexp="yes">[lmt]e|[nv]ous|les|la|leur|lui</token>
+          <token regexp="yes">[lmt]e|[nv]ous|les|la|leur|lui|[’´'‛′‘]</token>
           <token postag_regexp="yes" postag="V.*">
-            <exception postag_regexp="yes" postag="V.* imp .*"/>
+            <exception postag_regexp="yes" postag="V.* (imp|ppr).*"/>
           </token>
           <token regexp="yes">pas|plus</token>
         </pattern>
         <message>Le verbe « \4 » devrait être à l’impératif.</message>
         <example type="incorrect">Ne me <marker>prend</marker> pas pour un idiot</example>
         <example type="correct">Ne me <marker>prends</marker> pas pour un idiot</example>
+        <example type="correct">Ne me <marker>présentant</marker> pas comme maire</example>
+        <example type="correct">N’<marker>apporte</marker> pas de cadeaux.</example>
       </rule>
       <rule>
         <pattern mark_from="4" mark_to="-1">
           <token postag="SENT_START"/>
-          <token>ne</token>
+          <token regexp="yes">ne?</token>
           <!-- 2 token (not all combinations are possible) -->
-          <token regexp="yes">[mtl]e|les|la?</token>
-          <token regexp="yes">les?|la|[nv]ous|lui|leur|[’´'‛′‘]</token>
+          <token regexp="yes">[mtl]e|les|la?|[’´'‛′‘]</token>
+          <token regexp="yes">les?|la|[nv]ous|lui|leur|y|en|[’´'‛′‘]</token>
           <token postag_regexp="yes" postag="V.*">
-            <exception postag_regexp="yes" postag="V.* imp .*"/>
+            <exception postag_regexp="yes" postag="V.* (imp|ppr).*"/>
           </token>
           <token regexp="yes">pas|plus</token>
         </pattern>
         <message>Le verbe « \5 » devrait être à l’impératif.</message>
         <example type="incorrect">Ne l’<marker>attend</marker> pas</example>
         <example type="correct">Ne l’<marker>attends</marker> pas</example>
+        <example type="correct">Ne l’<marker>ayant</marker> pas trouvé</example>
+        <example type="incorrect">N’y <marker>vas</marker> pas</example>
+        <example type="correct">N’y <marker>va</marker> pas</example>
       </rule>
       <rule>
         <pattern mark_from="5" mark_to="-1">
@@ -2187,13 +2193,14 @@ though, and has since been slightly modified)-->
           <token regexp="yes">[’´'‛′‘]</token>
           <token regexp="yes">y|en</token>
           <token postag_regexp="yes" postag="V.*">
-            <exception postag_regexp="yes" postag="V.* imp .*"/>
+            <exception postag_regexp="yes" postag="V.* (imp|ppr).*"/>
           </token>
           <token regexp="yes">pas|plus</token>
         </pattern>
         <message>Le verbe « \6 » devrait être à l’impératif.</message>
         <example type="incorrect">Ne m’y <marker>attend</marker> pas</example>
         <example type="correct">Ne m’y <marker>attends</marker> pas</example>
+        <example type="correct">Ne m’y <marker>étant</marker> pas rendu compte</example>
       </rule>
     </rulegroup>
     <rulegroup id="QUI_VCONJ" name="Verbe conjugué après pronom relatif qui">
