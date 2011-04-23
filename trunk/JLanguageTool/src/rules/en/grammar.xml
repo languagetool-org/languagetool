@@ -14,6 +14,20 @@ $Id: grammar.xml,v 1.129 2010-11-13 23:24:21 dnaber Exp $
   <!-- Possible typos -->
   <!-- ====================================================================== -->
   <category name="Possible Typos">
+    <rule id="IS_EVEN_WORST" name="is even worst (worse)">
+      <pattern mark_from="2" mark_to="-1">
+        <token regexp="yes">is|was|were</token>
+        <token>even</token>
+        <token postag="JJS"/>
+        <token><exception postag="NNS?:.*" postag_regexp="yes"/></token>
+      </pattern>
+      <message>Probably incorrect use of superlative '\3'. Consider using the comparative form instead (e.g. 'better' instead of 'best').</message>
+      <example type="incorrect">He was even <marker>worst</marker> after a year.</example>
+      <example type="incorrect">He was even <marker>worst</marker>.</example>
+      <example type="correct">He was even worse after a year.</example>
+      <example type="correct">He was even best man at my wedding.</example>
+      <example type="correct">He was even worse.</example>
+    </rule>
     <rule id="DE_JURO" name="de juro (jure)">
       <pattern>
         <token>de</token>
