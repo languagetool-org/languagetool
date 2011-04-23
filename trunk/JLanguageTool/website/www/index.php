@@ -2,7 +2,7 @@
 $page = "homepage";
 $title = "LanguageTool";
 $title2 = "Open Source language checker";
-$lastmod = "2011-04-02 12:20:00 CET";
+$lastmod = "2011-04-23 12:20:00 CET";
 include("../include/header.php");
 ?>
 		
@@ -46,6 +46,8 @@ XML configuration files. Rules for more complicated errors can be  written in Ja
 <strong><?=show_link("Start LanguageTool (18&nbsp;MB)", "webstart/web/LanguageTool.jnlp", 0) ?></strong></p>
 <!-- -->
 
+<p>Untested daily snapshots of the current development version are available at
+<?=show_link("the snapshot directory", "download/snapshots/", 0) ?>.
 
 <h2>News</h2>
 
