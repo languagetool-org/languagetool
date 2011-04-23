@@ -1138,7 +1138,7 @@ though, and has since been slightly modified)-->
       <example type="incorrect">Je demande <marker>à corps et à cris</marker></example>
       <example type="correct">Je demande <marker>à cor et à cri</marker></example>
     </rule>
-    <rule id="DU_A" name="du à (dû à">
+    <rule id="DU_A" name="du à (dû à)">
       <pattern mark_to="-1">
         <token>du</token>
         <token regexp="yes">à|aux?</token>
@@ -1146,6 +1146,18 @@ though, and has since been slightly modified)-->
       <message>Voulez-vous écrire <suggestion>dû</suggestion> ?</message>
       <example type="incorrect">L'échec est <marker>du</marker> à un erreur de calcul</example>
       <example type="correct">L'échec est <marker>dû</marker> à un erreur de calcul</example>
+    </rule>
+    <rule id="OUTREMER" name="outremer (outre-mer)">
+      <pattern mark_from="3">
+        <token inflected="yes">venir</token>
+        <token>d</token>
+        <token regexp="yes">[’´'‛′‘]</token>
+        <token>outremer</token>
+      </pattern>
+      <message>Voulez-vous écrire <suggestion>outre-mer</suggestion> ?</message>
+      <example type="incorrect">Je viens d'<marker>outremer</marker>.</example>
+      <example type="correct">Je viens d'<marker>outre-mer</marker>.</example>
+      <example type="correct">L'azurage du linge se fait avec du bleu d'outremer.</example>
     </rule>
   </category>
   <category name="Grammaire">
@@ -16995,13 +17007,24 @@ though, and has since been slightly modified)-->
     <rulegroup id="XXieme" name="XXième">
       <rule>
         <pattern case_sensitive="yes">
-          <token regexp="yes">(([IVXLCM]+)|([0-9]+))-?(i?[eè]mes?|è)</token>
+          <token regexp="yes">(([IVXLCM]+)|([0-9]+))-?(i?[eèéê]mes?|è)</token>
         </pattern>
-        <message>« \1 » est un faut de typographie. Employez <suggestion><match no="1" regexp_match="(.*?)-?(i?[eè]mes?|è)" regexp_replace="$1e"></match></suggestion>.</message>
+        <message>« \1 » est un faut de typographie. Employez <suggestion><match no="1" regexp_match="(.*?)-?(i?[eèéê]mes?|è)" regexp_replace="$1e"></match></suggestion>.</message>
         <example type="incorrect">Un écrivain du <marker>XIX-ième</marker> siècle</example>
         <example type="incorrect">Un écrivain du <marker>XIXè</marker> siècle</example>
         <example type="correct">Un écrivain du XIXe siècle</example>
         <example type="incorrect">La <marker>2eme</marker> à droite</example>
+        <example type="correct">La 2e à droite</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token regexp="yes">([IVXLCM]+)|([0-9]+)</token>
+          <token regexp="yes">i?[eèéê]mes?|è</token>
+        </pattern>
+        <message>« \1 \2 » est un faut de typographie. Employez <suggestion><match no="1" regexp_match="(.*?)-?(i?[eèéê]mes?|è)" regexp_replace="$1e"></match></suggestion>.</message>
+        <example type="incorrect">Un écrivain du <marker>XIX ième</marker> siècle</example>
+        <example type="correct">Un écrivain du XIXe siècle</example>
+        <example type="incorrect">La <marker>2 eme</marker> à droite</example>
         <example type="correct">La 2e à droite</example>
       </rule>
     </rulegroup>
