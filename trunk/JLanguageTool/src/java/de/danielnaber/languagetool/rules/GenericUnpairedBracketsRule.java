@@ -115,10 +115,10 @@ public class GenericUnpairedBracketsRule extends Rule {
     setParagraphBackTrack(true);
     if (language.equals(Language.SLOVAK)) {
       startSymbols = SK_START_SYMBOLS;
-      endSymbols = SK_END_SYMBOLS; }
-      else if (language.equals(Language.SLOVENIAN)) {
-        startSymbols = SL_START_SYMBOLS;
-        endSymbols = SL_END_SYMBOLS;     
+      endSymbols = SK_END_SYMBOLS;
+    } else if (language.equals(Language.SLOVENIAN)) {
+      startSymbols = SL_START_SYMBOLS;
+      endSymbols = SL_END_SYMBOLS;     
     } else if (language.equals(Language.FRENCH)) {
       startSymbols = FR_START_SYMBOLS;
       endSymbols = FR_END_SYMBOLS;
@@ -164,14 +164,14 @@ public class GenericUnpairedBracketsRule extends Rule {
 
   public void uniqueMapInit() {
     uniqueMap = new HashMap<String, Boolean>();
-    for (int j = 0; j < endSymbols.length; j++) {
+    for (String endSymbol : endSymbols) {
       int found = 0;
-      for (int i = 0; i < endSymbols.length; i++) {
-        if (endSymbols[i].equals(endSymbols[j])) {
-          found++;
+      for (String endSymbol1 : endSymbols) {
+        if (endSymbol1.equals(endSymbol)) {
+            found++;
         }
       }
-      uniqueMap.put(endSymbols[j], found == 1);
+      uniqueMap.put(endSymbol, found == 1);
     }
   }
   
@@ -258,7 +258,6 @@ public class GenericUnpairedBracketsRule extends Rule {
                     }
                   }
                 }
-                
               }
             }
           }
