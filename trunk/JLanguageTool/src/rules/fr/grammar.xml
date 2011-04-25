@@ -960,7 +960,7 @@ though, and has since been slightly modified)-->
         <example type="incorrect">Il est <marker>sur</marker> de lui.</example>
         <example type="correct">Il est <marker>sûr</marker> de lui.</example>
         <example type="correct">Tout repose sur de vagues accusations.</example>
-        <example type="correct">Il compte sur d'autres personnes.</example>
+        <example type="correct">Il compte sur d’autres personnes.</example>
       </rule>
       <rule>
         <pattern mark_to="-3">
@@ -970,9 +970,9 @@ though, and has since been slightly modified)-->
           <token><exception postag_regexp="yes" postag="[DJ] .*p"/></token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>sûr</suggestion> ?</message>
-        <example type="incorrect">Elle est <marker>sur</marker> d'elle</example>
-        <example type="correct">Elle est <marker>sûr</marker> d'elle</example>
-        <example type="correct">Il compte sur d'autres personnes.</example>
+        <example type="incorrect">Elle est <marker>sur</marker> d’elle</example>
+        <example type="correct">Elle est <marker>sûr</marker> d’elle</example>
+        <example type="correct">Il compte sur d’autres personnes.</example>
       </rule>
     </rulegroup>
     <rule id="SE_CE" name="SE au lieu de CE">
@@ -1152,8 +1152,8 @@ though, and has since been slightly modified)-->
         <token regexp="yes">à|aux?</token>
       </pattern>
       <message>Voulez-vous écrire <suggestion>dû</suggestion> ?</message>
-      <example type="incorrect">L'échec est <marker>du</marker> à un erreur de calcul</example>
-      <example type="correct">L'échec est <marker>dû</marker> à un erreur de calcul</example>
+      <example type="incorrect">L’échec est <marker>du</marker> à un erreur de calcul</example>
+      <example type="correct">L’échec est <marker>dû</marker> à un erreur de calcul</example>
     </rule>
     <rule id="OUTREMER" name="outremer (outre-mer)">
       <pattern mark_from="3">
@@ -1163,9 +1163,9 @@ though, and has since been slightly modified)-->
         <token>outremer</token>
       </pattern>
       <message>Voulez-vous écrire <suggestion>outre-mer</suggestion> ?</message>
-      <example type="incorrect">Je viens d'<marker>outremer</marker>.</example>
-      <example type="correct">Je viens d'<marker>outre-mer</marker>.</example>
-      <example type="correct">L'azurage du linge se fait avec du bleu d'outremer.</example>
+      <example type="incorrect">Je viens d’<marker>outremer</marker>.</example>
+      <example type="correct">Je viens d’<marker>outre-mer</marker>.</example>
+      <example type="correct">L’azurage du linge se fait avec du bleu d’outremer.</example>
     </rule>
   </category>
   <category name="Grammaire">
@@ -1340,6 +1340,8 @@ though, and has since been slightly modified)-->
         <example type="correct"><marker>Un bel</marker> homme.</example>
         <example type="correct"><marker>Confus face</marker> aux remarques obscures</example>
         <example type="correct">Elle est tout sauf courtoise.</example>
+        <!-- FIXME
+        <example type="correct">Je n’ai pas du <marker>tout peur</marker> des serpents.</example> -->
       </rule>
       <rule name="nom masculin suivi du féminin">
         <pattern>
@@ -1557,6 +1559,45 @@ though, and has since been slightly modified)-->
       <example type="correct">Il faut que tu le tues.</example>
       <example type="correct">Un mineur mouillé et barbouillé</example>
     </rule>
+    <rulegroup id="PEUT_ETRE_VPPA" name="peut être + participe présent">
+      <rule>
+        <pattern mark_from="4">
+          <token postag="SENT_START" skip="-1">
+            <exception scope="next" postag="[NRZ].* f .*" postag_regexp="yes"/>
+          </token>
+          <token postag="[NZ] m .*|R pers suj 3 m .*" postag_regexp="yes"/>
+          <token inflected="yes" postag="V .* 3 .*" postag_regexp="yes" regexp="yes">devoir|pouvoir|semble</token>
+          <token>être</token>
+          <token postag="V.* ppa f .*|J f .*" postag_regexp="yes"/>
+        </pattern>
+        <message>« \5 » n’est pas accordé en genre ou nombre avec « \2 ».</message>
+        <example type="incorrect">Un orage peut être <marker>observée</marker>.</example>
+        <example type="incorrect">Un orage peut être <marker>observées</marker>.</example>
+        <example type="correct">un orage peut être observé.</example>
+        <example type="incorrect">il peut être <marker>observée</marker>.</example>
+        <example type="correct">Il peut être <marker>observé</marker>.</example>
+        <example type="correct">La peine de mort devrait être abolie.</example>
+        <example type="correct">Toute objection de ce type doit être déférée au président.</example>
+        <example type="incorrect">Antoine peut être <marker>amusante</marker>.</example>
+        <example type="correct">Antoine peut être <marker>amusant</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="4">
+          <token postag="SENT_START" skip="-1">
+            <exception scope="next" postag="[NR].* m .*" postag_regexp="yes"/>
+          </token>
+          <token postag="[NZ] f .*|R pers suj 3 f .*" postag_regexp="yes"/>
+          <token inflected="yes" postag="V .* 3 .*" postag_regexp="yes" regexp="yes">devoir|pouvoir|semble</token>
+          <token>être</token>
+          <token postag="V.* ppa m .*|J m .*" postag_regexp="yes"/>
+        </pattern>
+        <message>« \5 » n’est pas accordé en genre ou nombre avec « \2 ».</message>
+        <example type="incorrect">Une corrélation peut être <marker>observé</marker>.</example>
+        <example type="correct">Une corrélation peut être <marker>observée</marker>.</example>
+        <example type="incorrect">Martine peut être <marker>amusant</marker>.</example>
+        <example type="correct">Martine peut être <marker>amusante</marker>.</example>
+      </rule>
+    </rulegroup>
     <rule id="AUX_ETRE_VCONJ" name="Auxiliaire suivi d’un verbe conjugué">
       <pattern mark_from="1">
         <token postag="V etre .*" postag_regexp="yes">
@@ -1759,8 +1800,8 @@ though, and has since been slightly modified)-->
         <message>Vérifiez l’accord entre le pronom « \1 » et le verbe « \5 ».</message>
         <example type="incorrect"><marker>Je ne t’attend</marker> pas.</example>
         <example type="correct"><marker>Je ne t’attends</marker> pas.</example>
-        <example type="incorrect"><marker>Je n'y croit</marker> pas</example>
-        <example type="correct"><marker>Je n'y crois pas</marker> pas</example>
+        <example type="incorrect"><marker>Je n’y croit</marker> pas</example>
+        <example type="correct"><marker>Je n’y crois pas</marker> pas</example>
         <example type="incorrect"><marker>Je t'en parles</marker></example>
         <example type="correct"><marker>Je t'en parle</marker></example>
         <example type="incorrect"><marker>Je ne vous en parles</marker></example>
@@ -1839,7 +1880,7 @@ though, and has since been slightly modified)-->
         <example type="incorrect"><marker>Tu t’en souvient</marker></example>
         <example type="correct"><marker>Tu t’en souviens</marker></example>
         <example type="incorrect"><marker>Tu n’y va</marker> pas</example>
-        <example type="correct"><marker>Tu n'y vas</marker> pas</example>
+        <example type="correct"><marker>Tu n’y vas</marker> pas</example>
         <example type="incorrect"><marker>Tu ne me le prend</marker> pas.</example>
         <example type="correct"><marker>Tu ne me le prends</marker> pas.</example>
       </rule>
@@ -2061,7 +2102,7 @@ though, and has since been slightly modified)-->
         <example type="correct">Ceux-ci fonctionnent.</example>
         <example type="correct">Ceux enseignés dans cette école</example>
         <example type="correct">À elles revient la maison.</example>
-        <example type="correct">L'une d’elles est inutile.</example>
+        <example type="correct">L’une d’elles est inutile.</example>
       </rule>
       <rule name="ils/elles + 1 token + Verbe">
         <pattern>
@@ -2733,15 +2774,15 @@ though, and has since been slightly modified)-->
         <example type="correct">Pense-y bien.</example>
       </rule>
     </rulegroup>
-    <rulegroup id="LA" name="là sans trait d'union">
+    <rulegroup id="LA" name="là sans trait d’union">
       <rule>
         <pattern>
           <token>là</token>
           <token regexp="yes">bas|dedans|dessous|devant|derrière|haut</token>
         </pattern>
-        <message>Voulez-vous dire <suggestion>là-\1</suggestion> ?</message>
-        <example type="incorrect">Je vias <marker>là bas</marker>.</example>
-        <example type="correct">Je vias <marker>là-bas</marker>.</example>
+        <message>Voulez-vous dire <suggestion>là-\2</suggestion> ?</message>
+        <example type="incorrect">Je vais <marker>là bas</marker>.</example>
+        <example type="correct">Je vais <marker>là-bas</marker>.</example>
       </rule>
       <rule>
         <pattern>
@@ -2823,7 +2864,7 @@ though, and has since been slightly modified)-->
         <example type="correct">Il sera connu de tous un jour.</example>
         <example type="correct">C’est pour nous tous une mauvaise nouvelle.</example>
         <example type="correct">Je souhaite à tous une bonne année.</example>
-        <example type="correct">Il n'apprécient pas tous la nourriture.</example>
+        <example type="correct">Il n’apprécient pas tous la nourriture.</example>
         <example type="correct">Ils sont tous au travail.</example>
       </rule>
       <rule>
@@ -2838,7 +2879,7 @@ though, and has since been slightly modified)-->
         <example type="incorrect"><marker>Tous</marker> les années</example>
         <example type="correct"><marker>Toutes</marker> les années</example>
         <example type="correct">Elle donne à tous des bouteilles.</example>
-        <example type="correct">Mes amis n'apprécient pas tous la musique.</example>
+        <example type="correct">Mes amis n’apprécient pas tous la musique.</example>
         <example type="correct">On a tous des qualités.</example>
       </rule>
       <rule>
@@ -17204,7 +17245,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">([IVXLCM]+)|([0-9]+)</token>
           <token regexp="yes">i?[eèé]mes?|è</token>
         </pattern>
-        <message>« \1 \2 » est un faut de typographie. Employez <suggestion><match no="1" regexp_match="(.*?)-?(i?[eèéê]mes?|è)" regexp_replace="$1e"/></suggestion>.</message>
+        <message>« \1 \2 » est un faut de typographie. Employez <suggestion><match no="1" regexp_match="(.*?)-?(i?[eèéê]mes?|è)" regexp_replace="$1e"/></suggestion>.</message>
         <example type="incorrect">Un écrivain du <marker>XIX ième</marker> siècle</example>
         <example type="correct">Un écrivain du XIXe siècle</example>
         <example type="incorrect">La <marker>2 eme</marker> à droite</example>
@@ -18416,10 +18457,10 @@ though, and has since been slightly modified)-->
         <token regexp="yes">[âa]ge</token>
       </pattern>
       <message>Employez <suggestion>Moyen Âge</suggestion>.</message>
-      <example type="incorrect">Le <marker>moyen âge</marker> débute après la division de l'empire romain.</example>
-      <example type="correct">Le <marker>Moyen Âge</marker> débute après la division de l'empire romain.</example>
+      <example type="incorrect">Le <marker>moyen âge</marker> débute après la division de l’empire romain.</example>
+      <example type="correct">Le <marker>Moyen Âge</marker> débute après la division de l’empire romain.</example>
     </rule>
-    <rulegroup id="ETAT" name="L'État">
+    <rulegroup id="ETAT" name="L’État">
       <rule>
         <pattern case_sensitive="yes" mark_from="3">
           <token regexp="yes">(affaire|agent|administration|chancellerie|chefs|conseil|coup|diplôme|doctorat|emprunt|lycée|propriété|secret|homme|femme|police|religion|ministre|ministère|subvention|secrétaire|secrétariat|raison|ressortissant|université)s?</token>
@@ -18429,8 +18470,8 @@ though, and has since been slightly modified)-->
           <token regexp="yes">[ée]tat</token>
         </pattern>
         <message>Employez <suggestion>État</suggestion> avec majuscule quand il désigne un pays ou son gouvernement.</message>
-        <example type="incorrect">C'est une secret d'<marker>état</marker>.</example>
-        <example type="correct">C'est une secret d'État.</example>
+        <example type="incorrect">C'est une secret d’<marker>état</marker>.</example>
+        <example type="correct">C'est une secret d’État.</example>
       </rule>
       <rule>
         <pattern case_sensitive="yes" mark_from="4">
@@ -18441,8 +18482,8 @@ though, and has since been slightly modified)-->
           <token regexp="yes">[ée]tat</token>
         </pattern>
         <message>Employez <suggestion>État</suggestion> avec majuscule quand il désigne un pays ou son gouvernement.</message>
-        <example type="incorrect">La sûreté de l'<marker>état</marker> en dépend.</example>
-        <example type="correct">La sûreté de l'État en dépend.</example>
+        <example type="incorrect">La sûreté de l’<marker>état</marker> en dépend.</example>
+        <example type="correct">La sûreté de l’État en dépend.</example>
       </rule>
       <rule>
         <pattern case_sensitive="yes" mark_to="-1">
@@ -18450,8 +18491,8 @@ though, and has since been slightly modified)-->
           <token regexp="yes">fran[cç]ais|palestinien|(souverain|providence|américain|africain|européen|voyou|démocratique|totalitaire|fédéral|capitaliste)s?</token>
         </pattern>
         <message>Employez <suggestion>État</suggestion> avec majuscule quand il désigne un pays ou son gouvernement.</message>
-        <example type="incorrect">L'<marker>état</marker> français</example>
-        <example type="correct">L'<marker>État</marker> français</example>
+        <example type="incorrect">L’<marker>état</marker> français</example>
+        <example type="correct">L’<marker>État</marker> français</example>
       </rule>
     </rulegroup>
   </category>
