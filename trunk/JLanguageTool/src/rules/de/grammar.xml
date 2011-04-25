@@ -1506,6 +1506,15 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       </rule>
   </category>
   <category name="Grammatik">
+    <rule id="IM_KEINEN" name="Grammatik: 'im keinen(kleinen)'">
+      <pattern mark_from="1">
+        <token>im</token>
+        <token>keinen</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>kleinen</suggestion>?</message>
+      <example type="incorrect">Treffpunkt ist im <marker>keinen</marker> Saal.</example>
+      <example type="correct">Treffpunkt ist im <marker>kleinen</marker> Saal.</example>
+    </rule>
     <!-- TODO: testen!!
     <rulegroup id="DIE_DER" name="Grammatik: 'der/die' (Genitiv Plural für Substantive)">
       <rule>
