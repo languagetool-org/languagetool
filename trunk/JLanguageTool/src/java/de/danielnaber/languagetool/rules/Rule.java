@@ -28,7 +28,7 @@ import de.danielnaber.languagetool.Language;
 
 /**
  * Abstract rule class. A Rule describes a language error and can test whether a
- * given pre-analyzed text contains that error using the {@link Rule#match}
+ * given pre-analyzed text contains that error using the {@link Rule#match(de.danielnaber.languagetool.AnalyzedSentence)}
  * method.
  * 
  * @author Daniel Naber
@@ -213,7 +213,7 @@ public abstract class Rule {
   }
 
   /**
-   * Turns the rule by default off.
+   * Turns the rule off by default.
    **/
   public final void setDefaultOff() {
     defaultOff = true;
