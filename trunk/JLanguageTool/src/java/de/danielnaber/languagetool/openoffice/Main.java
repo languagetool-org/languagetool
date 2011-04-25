@@ -620,7 +620,7 @@ public class Main extends WeakBase implements XJobExecutor,
           break;
         }
       }
-    } catch (Exception ex) {
+    } catch (Exception ignored) {
       // Well, what can we do...
     }
     

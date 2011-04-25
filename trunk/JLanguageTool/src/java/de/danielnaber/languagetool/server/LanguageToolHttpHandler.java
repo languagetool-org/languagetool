@@ -75,7 +75,7 @@ class LanguageToolHttpHandler implements HttpHandler {
           print("Exception was caused by this text: " + text);
         }
         e.printStackTrace();
-        final String response = "Error: " + StringTools.escapeXML(e.toString());
+        final String response = "Error: " + StringTools.escapeXML(Tools.getFullStackTrace(e));
         t.sendResponseHeaders(HttpURLConnection.HTTP_INTERNAL_ERROR, response.getBytes().length);
         t.getResponseBody().write(response.getBytes());
         t.close();

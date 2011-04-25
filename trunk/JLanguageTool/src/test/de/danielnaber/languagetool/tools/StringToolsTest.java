@@ -38,21 +38,21 @@ public class StringToolsTest extends TestCase {
     try {
       StringTools.assureSet(s, "varName");
       fail();
-    } catch (IllegalArgumentException e) {
+    } catch (IllegalArgumentException expected) {
       // expected exception
     }
     s = " \t";
     try {
       StringTools.assureSet(s, "varName");
       fail();
-    } catch (IllegalArgumentException e) {
+    } catch (IllegalArgumentException expected) {
       // expected exception
     }
     s = null;
     try {
       StringTools.assureSet(s, "varName");
       fail();
-    } catch (NullPointerException e) {
+    } catch (NullPointerException expected) {
       // expected exception
     }
     s = "foo";
@@ -186,7 +186,7 @@ public class StringToolsTest extends TestCase {
     try {
       assertEquals(null, StringTools.trimWhitespace(null));
       fail();
-    } catch (NullPointerException e) {
+    } catch (NullPointerException expected) {
       // expected
     }
     assertEquals("", StringTools.trimWhitespace(""));

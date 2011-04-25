@@ -52,7 +52,7 @@ public class SRXSentenceTokenizer extends SentenceTokenizer {
   		  JLanguageTool.getDataBroker().getFromResourceDirAsStream(RULES), "utf-8"));
     } catch (Exception e) {
       throw new RuntimeException("Could not load rules " + RULES + " from resource dir "
-         + JLanguageTool.getDataBroker().getResourceDir());
+         + JLanguageTool.getDataBroker().getResourceDir(), e);
     }
     final SrxParser srxParser = new Srx2Parser();
     document = srxParser.parse(srxReader);

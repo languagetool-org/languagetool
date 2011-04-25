@@ -378,7 +378,6 @@ public final class Main implements ActionListener {
         s = "";
       }
     } catch (final Exception ex) {
-      ex.printStackTrace();
       if (data != null) {
         s = data.toString();
       } else {
@@ -476,12 +475,8 @@ public final class Main implements ActionListener {
           langTool.enableRule(ruleName);
         }
       }
-    } catch (final IOException ioe) {
-      throw new RuntimeException(ioe);
-    } catch (final ParserConfigurationException ex) {
-      throw new RuntimeException(ex);
-    } catch (final SAXException ex) {
-      throw new RuntimeException(ex);
+    } catch (final Exception e) {
+      throw new RuntimeException(e);
     }
     return langTool;
   }
@@ -503,15 +498,10 @@ public final class Main implements ActionListener {
       int matches = 0;
       try {
         matches = checkText(langTool, textArea.getText(), sb);
-      } catch (final Exception ex) {
-        sb.append("<br><br><b><font color=\"red\">" + ex.toString() + "<br>");
-        final StackTraceElement[] elements = ex.getStackTrace();
-        for (final StackTraceElement element : elements) {
-          sb.append(element);
-          sb.append("<br>");
-        }
+      } catch (final Exception e) {
+        sb.append("<br><br><b><font color=\"red\">");
+        sb.append(de.danielnaber.languagetool.tools.Tools.getFullStackTrace(e).replace("\n", "<br/>"));
         sb.append("</font></b><br>");
-        ex.printStackTrace();
       }
       final String checkDone = Tools.makeTexti18n(messages, "checkDone",
           new Object[] {matches});

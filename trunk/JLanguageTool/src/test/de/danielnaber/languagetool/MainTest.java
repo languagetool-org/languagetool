@@ -74,8 +74,7 @@ public class MainTest extends AbstractSecurityTestCase {
       String[] args = new String[] {"-h"};
       Main.main(args);
       fail("LT should have exited with status 0!");
-    }
-    catch (ExitException e) {
+    } catch (ExitException e) {
       String output = new String(this.out.toByteArray());
       assertTrue(output.indexOf("Usage: java de.danielnaber.languagetool.Main [-r|--recursive] [-v|--verbose") != -1);
       assertEquals("Exit status", 1, e.status);

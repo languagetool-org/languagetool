@@ -86,9 +86,7 @@ public final class XMLValidator {
       final String xml = StringTools.readFile(this.getClass().getResourceAsStream(filename), "utf-8");
       validateInternal(xml, dtdFile, docType);
     } catch (Exception e) {
-      final IOException ioe = new IOException("Cannot load or parse '" + filename + "'");
-      ioe.initCause(e);
-      throw ioe;
+      throw new IOException("Cannot load or parse '" + filename + "'", e);
     }
   }
 
@@ -103,9 +101,7 @@ public final class XMLValidator {
       validateInternal(this.getClass().getResourceAsStream(filename), 
           this.getClass().getResource(xmlSchema));
     } catch (Exception e) {
-      final IOException ioe = new IOException("Cannot load or parse '" + filename + "'");
-      ioe.initCause(e);
-      throw ioe;
+      throw new IOException("Cannot load or parse '" + filename + "'", e);
     }
   }
 

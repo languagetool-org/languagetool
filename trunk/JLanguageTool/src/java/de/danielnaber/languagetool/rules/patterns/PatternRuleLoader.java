@@ -55,10 +55,7 @@ public class PatternRuleLoader extends DefaultHandler {
       saxParser.parse(is, handler);
       return handler.getRules();
     } catch (final Exception e) {
-      final IOException ioe = new IOException("Cannot load or parse '"
-          + filename + "'");
-      ioe.initCause(e);
-      throw ioe;
+      throw new IOException("Cannot load or parse '" + filename + "'", e);
     }
   }
 

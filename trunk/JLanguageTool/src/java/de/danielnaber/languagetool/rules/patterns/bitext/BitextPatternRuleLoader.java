@@ -62,10 +62,7 @@ public class BitextPatternRuleLoader extends DefaultHandler {
       rules = handler.getBitextRules();
       return rules;
     } catch (final Exception e) {
-      final IOException ioe = new IOException("Cannot load or parse '"
-          + filename + "'");
-      ioe.initCause(e);
-      throw ioe;
+      throw new IOException("Cannot load or parse '" + filename + "'", e);
     }
   }
 
