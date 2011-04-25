@@ -12,6 +12,18 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
 <rules lang="de" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../rules.xsd">
   <category name="Mögliche Tippfehler">
+    <rule id="ERSTEN_MAIN" name="Tippfehler: '1. Main(Mai)'">
+      <pattern mark_from="3">
+        <token regexp="yes">am|den</token>
+        <token regexp="yes">\d+</token>
+        <token>.</token>
+        <token>Main</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>Mai</suggestion>?</message>
+      <example type="incorrect">Ich will nochmal auf den 18. <marker>Main</marker> hinweisen.</example>
+      <example type="correct">Ich will nochmal auf den 18. <marker>Mai</marker> hinweisen.</example>
+      <example type="correct">Ich will am 18. <marker>Main-Taunus-Rennen</marker> teilnehmen.</example>
+    </rule>
     <rule id="ZU_SPAEHT" name="Tippfehler: 'zu/erst/sehr späht(spät)'">
       <pattern mark_from="1">
         <token regexp="yes">zu|erst|sehr</token>
