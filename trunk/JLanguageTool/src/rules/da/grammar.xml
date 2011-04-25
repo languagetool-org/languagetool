@@ -111,7 +111,7 @@ $Id: grammar.xml,v 1.6 2010-12-23 17:20:55 dnaber Exp $
       <!-- heder_hedder Egennavn før -->
       <rule>
         <pattern mark_from="1">
-          <token postag="pro:nom" postag_regexp="yes"/>
+          <token postag="pro:nom"/>
           <token>heder</token>        
         </pattern>
         <message>Mente du: <suggestion>hedder</suggestion>=navn eller heder=lyngarealer</message>
@@ -280,7 +280,7 @@ $Id: grammar.xml,v 1.6 2010-12-23 17:20:55 dnaber Exp $
       <pattern mark_from="1" > 
         <token regexp="yes">et|det</token>
         <!-- TODO: Make exception for adverbs, when they becomes available in tagger or analyzes the relationship between adjectives and other parts of speech.  -->
-        <token postag="adj:ube:sin:utr:pos" postag_regexp="yes" regexp="yes">.*[a-s,u-å]<exception postag="sub:.*:neu:.*" postag_regexp="yes">før</exception></token>
+        <token postag="adj:ube:sin:utr:pos" regexp="yes">.*[a-s,u-å]<exception postag="sub:.*:neu:.*" postag_regexp="yes">før</exception></token>
       </pattern>
       <message>Ved at der står "\1" skal tilægsord <suggestion>\2t</suggestion> være intetkøn</message>      
       <short>Muligvis tillægsord i forker form</short>
