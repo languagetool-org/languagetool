@@ -238,23 +238,24 @@ public final class JLanguageTool {
     for (Class<? extends Rule> ruleClass : languageRules) {
       final Constructor[] constructors = ruleClass.getConstructors();
       try {
-        for (final Constructor constructor : constructors) {
+        if (constructors.length > 0) {
+          final Constructor constructor = constructors[0];
           final Class[] paramTypes = constructor.getParameterTypes();
           if (paramTypes.length == 1
               && paramTypes[0].equals(ResourceBundle.class)) {
             rules.add((Rule) constructor.newInstance(messages));
-            break;
-          }
-          if (paramTypes.length == 2
+          } else if (paramTypes.length == 2
               && paramTypes[0].equals(ResourceBundle.class)
               && paramTypes[1].equals(Language.class)) {
             rules.add((Rule) constructor.newInstance(messages, language));
-            break;
+          } else {
+            throw new RuntimeException("No matching constructor found for rule class: " + ruleClass.getName());            
           }
-          throw new RuntimeException("Unknown constructor for rule class: " + ruleClass.getName());
+        } else {
+          throw new RuntimeException("No public constructor for rule class: " + ruleClass.getName());
         }
       } catch (Exception e) {
-        throw new RuntimeException("Failed to load rules for language " + language, e);
+        throw new RuntimeException("Failed to load built-in Java rules for language " + language, e);
       }
     }
     return rules.toArray(new Rule[rules.size()]);
@@ -269,7 +270,7 @@ public final class JLanguageTool {
   }
 
   /**
-   * Load pattern rules from an XML file. Use {@link #addRule} to add these
+   * Load pattern rules from an XML file. Use {@link #addRule(Rule)} to add these
    * rules to the checking process.
    * 
    * @throws IOException
@@ -289,7 +290,7 @@ public final class JLanguageTool {
   /**
    * Load false friend rules from an XML file. Only those pairs will be loaded
    * that match the current text language and the mother tongue specified in the
-   * JLanguageTool constructor. Use {@link #addRule} to add these rules to the
+   * JLanguageTool constructor. Use {@link #addRule(Rule)} to add these rules to the
    * checking process.
    * 
    * @throws ParserConfigurationException
@@ -337,14 +338,14 @@ public final class JLanguageTool {
   }
 
   /**
-   * Add a rule to be used by the next call to {@link #check}.
+   * Add a rule to be used by the next call to {@link #check(String)}.
    */
   public void addRule(final Rule rule) {
     userRules.add(rule);
   }
 
   /**
-   * Disable a given rule so {@link #check} won't use it.
+   * Disable a given rule so {@link #check(String)} won't use it.
    * 
    * @param ruleId
    *          the id of the rule to disable
@@ -355,7 +356,7 @@ public final class JLanguageTool {
   }
 
   /**
-   * Disable a given category so {@link #check} won't use it.
+   * Disable a given category so {@link #check(String)} won't use it.
    * 
    * @param categoryName
    *          the id of the category to disable
@@ -398,7 +399,7 @@ public final class JLanguageTool {
   }
 
   /**
-   * Re-enable a given rule so {@link #check} will use it.
+   * Re-enable a given rule so {@link #check(String)} will use it.
    * 
    * @param ruleId
    *          the id of the rule to enable
@@ -734,7 +735,7 @@ public final class JLanguageTool {
   
   /**
    * Get all rules for the current language that are built-in or that have been
-   * added using {@link #addRule}.
+   * added using {@link #addRule(Rule)}.
    * @return a List of {@link Rule} objects
    */
   public List<Rule> getAllRules() {
