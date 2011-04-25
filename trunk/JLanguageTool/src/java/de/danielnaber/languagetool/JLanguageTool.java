@@ -501,17 +501,17 @@ public final class JLanguageTool {
     }
 
     if (!paraMode.equals(ParagraphHandling.ONLYNONPARA)) {
-    // removing false positives in paragraph-level rules
-    for (final Rule rule : allRules) {
-      if (rule.isParagraphBackTrack() && (rule.getMatches() != null)) {
-        final List<RuleMatch> rm = rule.getMatches();
-        for (final RuleMatch r : rm) {
-          if (rule.isInRemoved(r)) {
-            ruleMatches.remove(r);
+      // removing false positives in paragraph-level rules
+      for (final Rule rule : allRules) {
+        if (rule.isParagraphBackTrack() && (rule.getMatches() != null)) {
+          final List<RuleMatch> rm = rule.getMatches();
+          for (final RuleMatch r : rm) {
+            if (rule.isInRemoved(r)) {
+              ruleMatches.remove(r);
+            }
           }
         }
       }
-    }
     }
 
     return ruleMatches;
