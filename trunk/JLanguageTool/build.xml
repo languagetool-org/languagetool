@@ -116,10 +116,15 @@
 	<!-- TEST -->
 	<!-- ================================================================== -->
 
-	<target name="test-failfast" depends="clean,init,build,ooo-build" description="Runs unit tests, stopping on failure">
+	<target name="test-failfast" description="Runs unit tests, stopping on failure">
 		<property name="haltonfailure" value="yes"/>
 		<antcall target="test"/>
 	</target>
+
+    <target name="test-rules" description="Runs unit tests for the pattern rules only">
+        <property name="testcase" value="PatternRuleTest"/>
+        <antcall target="test"/>
+    </target>
 
 	<target name="test" depends="clean,init,build,ooo-build" description="Runs unit tests">
 
