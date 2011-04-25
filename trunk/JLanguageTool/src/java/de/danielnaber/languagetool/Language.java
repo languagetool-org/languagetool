@@ -239,6 +239,23 @@ public abstract class Language {
     }
   }
 
+  /**
+   * Start symbols used by {@link de.danielnaber.languagetool.rules.GenericUnpairedBracketsRule}.
+   * Note that the array must be of equal length as {@link #getUnpairedRuleEndSymbols()} and the sequence of
+   * starting symbols must match exactly the sequence of ending symbols.
+   */
+  public String[] getUnpairedRuleStartSymbols() {
+    return new String[]{ "[", "(", "{", "\"", "'" };
+  }
+
+  /**
+   * End symbols used by {@link de.danielnaber.languagetool.rules.GenericUnpairedBracketsRule}.
+   * @see #getUnpairedRuleStartSymbols()
+   */
+  public String[] getUnpairedRuleEndSymbols() {
+    return new String[]{ "]", ")", "}", "\"", "'" };
+  }
+  
   // -------------------------------------------------------------------------
   
   /**

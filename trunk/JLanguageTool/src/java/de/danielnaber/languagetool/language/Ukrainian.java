@@ -47,6 +47,16 @@ public class Ukrainian extends Language {
     return new String[]{"UA"};
   }
   
+  @Override
+  public String[] getUnpairedRuleStartSymbols() {
+    return new String[]{ "[", "(", "{", "„", "«" };
+  }
+
+  @Override
+  public String[] getUnpairedRuleEndSymbols() {
+    return new String[]{ "]", ")", "}", "“", "»" };
+  }
+  
   public Tagger getTagger() {
     return tagger;
   }

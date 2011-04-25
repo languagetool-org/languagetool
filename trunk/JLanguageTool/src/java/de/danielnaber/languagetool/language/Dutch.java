@@ -57,6 +57,16 @@ public class Dutch extends Language {
     return new String[]{"NL", "BE"};
   }
 
+  @Override
+  public String[] getUnpairedRuleStartSymbols() {
+    return new String[]{ "[", "(", "{", "“", "\u2039", "\u201c", "\u201e" };
+  }
+
+  @Override
+  public String[] getUnpairedRuleEndSymbols() {
+    return new String[]{ "]", ")", "}", "”", "\u203a", "\u201d", "\u201d" };
+  }
+  
   public final Tagger getTagger() {
     return tagger;
   }

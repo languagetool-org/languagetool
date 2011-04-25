@@ -39,51 +39,9 @@ import de.danielnaber.languagetool.tools.SymbolLocator;
  */
 public class GenericUnpairedBracketsRule extends Rule {
 
-  /**
-   * Note that there must be equal length of both arrays, and the sequence of
-   * starting symbols must match exactly the sequence of ending symbols.
-   */
-  private static final String[] START_SYMBOLS = { "[", "(", "{", "\"", "'" };
-  private static final String[] END_SYMBOLS   = { "]", ")", "}", "\"", "'" };
-
   protected String[] startSymbols;
   protected String[] endSymbols;
   
-  private static final String[] SL_START_SYMBOLS = { "[", "(", "{", "„", "»", "\"" };
-  private static final String[] SL_END_SYMBOLS   = { "]", ")", "}", "”", "«", "\"" };
-  
-  private static final String[] SK_START_SYMBOLS = { "[", "(", "{", "„", "»", "\"" };
-  private static final String[] SK_END_SYMBOLS   = { "]", ")", "}", "“", "«", "\"" };
-
-  private static final String[] RO_START_SYMBOLS = { "[", "(", "{", "„", "«" };
-  private static final String[] RO_END_SYMBOLS   = { "]", ")", "}", "”", "»" };
-
-  private static final String[] FR_START_SYMBOLS = { "[", "(", "{", "«", /*"‘"*/ };
-  private static final String[] FR_END_SYMBOLS   = { "]", ")", "}", "»", /*"’" used in "d’arm" and many other words */ };
-
-  private static final String[] DE_START_SYMBOLS = { "[", "(", "{", "„", "»", "‘" };
-  private static final String[] DE_END_SYMBOLS   = { "]", ")", "}", "“", "«", "’" };
-
-  private static final String[] GL_START_SYMBOLS = { "[", "(", "{", "“", "«", "‘", "\"", "'" };
-  private static final String[] GL_END_SYMBOLS   = { "]", ")", "}", "”", "»", "’", "\"", "'" };
-
-  private static final String[] ES_START_SYMBOLS = { "[", "(", "{", "“", "«", "¿", "¡" };
-  private static final String[] ES_END_SYMBOLS   = { "]", ")", "}", "”", "»", "?", "!" };
-
-  private static final String[] UK_START_SYMBOLS = { "[", "(", "{", "„", "«" };
-  private static final String[] UK_END_SYMBOLS   = { "]", ")", "}", "“", "»" };
-
-  private static final String[] NL_START_SYMBOLS = { "[", "(", "{", "“", "\u2039", "\u201c", "\u201e" };
-  private static final String[] NL_END_SYMBOLS   = { "]", ")", "}", "”", "\u203a", "\u201d", "\u201d" };
-
-  private static final String[] IT_START_SYMBOLS = { "[", "(", "{", "»", /*"‘"*/ };
-  private static final String[] IT_END_SYMBOLS   = { "]", ")", "}", "«", /*"’"*/ };
-
-  private static final String[] DK_START_SYMBOLS = { "[", "(", "{", "\"", "”" };
-  private static final String[] DK_END_SYMBOLS   = { "]", ")", "}", "\"", "”" };
-
-  
-
   /**
    * The stack for pairing symbols.
    */
@@ -113,43 +71,8 @@ public class GenericUnpairedBracketsRule extends Rule {
     super.setCategory(new Category(messages.getString("category_misc")));
 
     setParagraphBackTrack(true);
-    if (language.equals(Language.SLOVAK)) {
-      startSymbols = SK_START_SYMBOLS;
-      endSymbols = SK_END_SYMBOLS;
-    } else if (language.equals(Language.SLOVENIAN)) {
-      startSymbols = SL_START_SYMBOLS;
-      endSymbols = SL_END_SYMBOLS;     
-    } else if (language.equals(Language.FRENCH)) {
-      startSymbols = FR_START_SYMBOLS;
-      endSymbols = FR_END_SYMBOLS;
-    } else if (language.equals(Language.GERMAN)) {
-      startSymbols = DE_START_SYMBOLS;
-      endSymbols = DE_END_SYMBOLS;
-    } else if (language.equals(Language.GALICIAN)) {
-      startSymbols = GL_START_SYMBOLS;
-      endSymbols = GL_END_SYMBOLS;
-    } else if (language.equals(Language.DUTCH)) {
-      startSymbols = NL_START_SYMBOLS;
-      endSymbols = NL_END_SYMBOLS;
-    } else if (language.equals(Language.SPANISH)) {
-      startSymbols = ES_START_SYMBOLS;
-      endSymbols = ES_END_SYMBOLS;
-    } else if (language.equals(Language.UKRAINIAN)) {
-      startSymbols = UK_START_SYMBOLS;
-      endSymbols = UK_END_SYMBOLS;
-    } else if (language.equals(Language.ITALIAN)) {
-      startSymbols = IT_START_SYMBOLS;
-      endSymbols = IT_END_SYMBOLS;
-    } else if (language.equals(Language.ROMANIAN)) {
-      startSymbols = RO_START_SYMBOLS;
-      endSymbols = RO_END_SYMBOLS;
-    } else if (language.equals(Language.DANISH)) {
-      startSymbols = DK_START_SYMBOLS;
-      endSymbols = DK_END_SYMBOLS;
-    } else {
-      startSymbols = START_SYMBOLS;
-      endSymbols = END_SYMBOLS;
-    }
+    startSymbols = language.getUnpairedRuleStartSymbols();
+    endSymbols = language.getUnpairedRuleEndSymbols();
     uniqueMapInit();
   }
 

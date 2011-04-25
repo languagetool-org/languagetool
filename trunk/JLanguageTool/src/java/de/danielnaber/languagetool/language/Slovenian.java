@@ -46,6 +46,16 @@ public class Slovenian extends Language {
     return new String[]{"SI"};
   }
 
+  @Override
+  public String[] getUnpairedRuleStartSymbols() {
+    return new String[]{ "[", "(", "{", "„", "»", "\"" };
+  }
+
+  @Override
+  public String[] getUnpairedRuleEndSymbols() {
+    return new String[]{ "]", ")", "}", "”", "«", "\"" };
+  }
+  
   public SentenceTokenizer getSentenceTokenizer() {
     return sentenceTokenizer;
   }

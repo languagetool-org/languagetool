@@ -52,6 +52,16 @@ public class French extends Language {
             "CI", "HI", "ML", "SN", "CD", "MA", "RE"};
   }
 
+  @Override
+  public String[] getUnpairedRuleStartSymbols() {
+    return new String[]{ "[", "(", "{", "«", /*"‘"*/ };
+  }
+
+  @Override
+  public String[] getUnpairedRuleEndSymbols() {
+    return new String[]{ "]", ")", "}", "»", /*"’" used in "d’arm" and many other words */ };
+  }
+  
   public Tagger getTagger() {
     return tagger;
   }

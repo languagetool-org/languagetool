@@ -55,6 +55,16 @@ public class Galician extends Language {
     return new String[]{"ES"};
   }
   
+  @Override
+  public String[] getUnpairedRuleStartSymbols() {
+    return new String[]{ "[", "(", "{", "“", "«", "‘", "\"", "'" };
+  }
+
+  @Override
+  public String[] getUnpairedRuleEndSymbols() {
+    return new String[]{ "]", ")", "}", "”", "»", "’", "\"", "'" };
+  }
+  
   public final Tagger getTagger() {
     return tagger;
   }

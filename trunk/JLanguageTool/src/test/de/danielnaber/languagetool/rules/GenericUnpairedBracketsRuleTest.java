@@ -26,6 +26,14 @@ import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.TestTools;
 
 public class GenericUnpairedBracketsRuleTest extends TestCase {
+
+  public void testStartSymbolCountEqualsEndSymbolCount() throws IOException {
+    for (Language language : Language.LANGUAGES) {
+      final int startSymbols = language.getUnpairedRuleStartSymbols().length;
+      final int endSymbols = language.getUnpairedRuleEndSymbols().length;
+      assertEquals("Different number of start and end symbols for " + language, startSymbols, endSymbols);
+    }
+  }
   
   public void testRuleGerman() throws IOException {
     GenericUnpairedBracketsRule rule = new GenericUnpairedBracketsRule(TestTools

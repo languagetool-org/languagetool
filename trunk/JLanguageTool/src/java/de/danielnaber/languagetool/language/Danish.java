@@ -48,6 +48,16 @@ public class Danish extends Language {
     return new String[]{"DK"};
   }
   
+  @Override
+  public String[] getUnpairedRuleStartSymbols() {
+    return new String[]{ "[", "(", "{", "\"", "”" };
+  }
+
+  @Override
+  public String[] getUnpairedRuleEndSymbols() {
+    return new String[]{ "]", ")", "}", "\"", "”" };
+  }
+  
   public final Tagger getTagger() {
     return tagger;
   }

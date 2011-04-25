@@ -65,6 +65,16 @@ public class Romanian extends Language {
     return new String[]{"RO"};
   }
 
+  @Override
+  public String[] getUnpairedRuleStartSymbols() {
+    return new String[]{ "[", "(", "{", "„", "«" };
+  }
+
+  @Override
+  public String[] getUnpairedRuleEndSymbols() {
+    return new String[]{ "]", ")", "}", "”", "»" };
+  }
+  
   public Tagger getTagger() {
     return tagger;
   }

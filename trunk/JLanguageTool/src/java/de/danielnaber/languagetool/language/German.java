@@ -49,7 +49,17 @@ public class German extends Language {
   public String[] getCountryVariants() {
     return new String[]{"DE", "CH", "AT", "LU", "LI", "BE"};
   }
-  
+
+  @Override
+  public String[] getUnpairedRuleStartSymbols() {
+    return new String[]{ "[", "(", "{", "„", "»", "‘" };
+  }
+
+  @Override
+  public String[] getUnpairedRuleEndSymbols() {
+    return new String[]{ "]", ")", "}", "“", "«", "’" };
+  }
+
   public Tagger getTagger() {
     return tagger;
   }
