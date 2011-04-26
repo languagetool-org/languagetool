@@ -57,16 +57,16 @@ import java.util.*;
 @SuppressWarnings({"UnusedDeclaration"})
 public final class JLanguageTool {
 
-  public static final String VERSION = "1.4-dev"; // keep in sync with
-                                                    // build.properties!
+  public static final String VERSION = "1.4-dev"; // keep in sync with build.properties!
 
-  private static ResourceDataBroker dataBroker = new DefaultResourceDataBroker();
   public static final String PATTERN_FILE = "grammar.xml";
   public static final String FALSE_FRIEND_FILE = "false-friends.xml";
-
   public static final String SENTENCE_START_TAGNAME = "SENT_START";
+
   public static final String SENTENCE_END_TAGNAME = "SENT_END";
   public static final String PARAGRAPH_END_TAGNAME = "PARA_END";
+
+  private static ResourceDataBroker dataBroker = new DefaultResourceDataBroker();
 
   private final List<Rule> builtinRules = new ArrayList<Rule>();
   private final List<Rule> userRules = new ArrayList<Rule>(); // rules added via addRule() method
@@ -156,7 +156,7 @@ public final class JLanguageTool {
   }
   
   /**
-   * The grammar checker does need resources from following
+   * The grammar checker needs resources from following
    * directories:
    * 
    * <ul style="list-type: circle">
@@ -180,7 +180,7 @@ public final class JLanguageTool {
   }
   
   /**
-   * The grammar checker does need resources from following
+   * The grammar checker needs resources from following
    * directories:
    * 
    * <ul style="list-type: circle">
