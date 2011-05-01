@@ -841,13 +841,15 @@ $Id: grammar.xml,v 1.129 2010-11-13 23:24:21 dnaber Exp $
       </rule>
       <rule>
         <pattern mark_from="1">
-          <token regexp="yes">of|from</token>
+          <token regexp="yes">of|from|my|your|his|her|our</token>
           <token>advise</token>
         </pattern>
         <message>Did you mean <suggestion>advice</suggestion> (a noun)?</message>
         <short>Possible typo</short>
         <example correction="advice" type="incorrect">What was the best piece of <marker>advise</marker> that you ever got?</example>
+        <example correction="advice" type="incorrect">He didn't listen to my <marker>advise</marker>.</example>
         <example type="correct">What was the best piece of advice that you ever got?</example>
+        <example type="correct">He didn't listen to my <marker>advice</marker>.</example>
       </rule>
       <rule>
         <pattern mark_from="1">
