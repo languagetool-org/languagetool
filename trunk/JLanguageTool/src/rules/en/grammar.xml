@@ -4547,6 +4547,17 @@ $Id: grammar.xml,v 1.129 2010-11-13 23:24:21 dnaber Exp $
      -->
   </category>
   <category name="Commonly Confused Words">
+    <rule id="NOT_JET" name="not jet (yet)">
+      <pattern mark_from="1" mark_to="-1">
+        <token>not</token>
+        <token>jet</token>
+        <token postag="VBN"></token>
+      </pattern>
+      <message>Did you mean <suggestion>yet</suggestion>?</message>
+      <short>Possible typo</short>
+      <example type="correct">That is not <marker>yet</marker> decided.</example>
+      <example type="incorrect">That is not <marker>jet</marker> decided.</example>
+    </rule>
     <rule id="YOUR_NN" name="your (you're)">
       <pattern mark_from="0" mark_to="-1">
         <token inflected="no">you</token>
