@@ -39,9 +39,12 @@ public class FalseFriendRuleTest extends TestCase {
   public void testHintsForGermanSpeakers() throws IOException, ParserConfigurationException, SAXException {
     JLanguageTool langTool = new JLanguageTool(Language.ENGLISH, Language.GERMAN);
     langTool.activateDefaultFalseFriendRules();
-    assertErrors(1, "We will berate you.", langTool);
+    final List<RuleMatch> matches = assertErrors(1, "We will berate you.", langTool);
+    assertEquals(matches.get(0).getSuggestedReplacements().toString(), "[to provide advice, to give advice]");
     assertErrors(0, "We will give you advice.", langTool);
     assertErrors(1, "I go to high school in Foocity.", langTool);
+    final List<RuleMatch> matches2 = assertErrors(1, "The chef", langTool);
+    assertEquals("[boss, chief]", matches2.get(0).getSuggestedReplacements().toString());
   }
 
   public void testHintsForEnglishSpeakers() throws IOException, ParserConfigurationException, SAXException {
@@ -62,10 +65,11 @@ public class FalseFriendRuleTest extends TestCase {
     assertSuggestions(3, "My brother is politic.", langTool);
   }
   
-  private void assertErrors(int errorCount, String s, JLanguageTool langTool) throws IOException {
+  private List<RuleMatch> assertErrors(int errorCount, String s, JLanguageTool langTool) throws IOException {
     List<RuleMatch> matches = langTool.check(s);
     //System.err.println(matches);
     assertEquals(errorCount, matches.size());
+    return matches;
   }
   
   private void assertSuggestions(final int suggestionCount, final String s, final JLanguageTool langTool) throws IOException {

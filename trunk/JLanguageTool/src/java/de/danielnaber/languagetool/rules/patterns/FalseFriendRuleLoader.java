@@ -293,7 +293,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
       if (currentTranslationLanguage == motherTongue) {
         translations.add(translation);
       }
-      if (currentTranslationLanguage == textLanguage) {
+      if (currentTranslationLanguage == textLanguage && language == motherTongue) {
         suggestions.add(translation.toString());
       }
       translation = new StringBuilder();
