@@ -41,6 +41,7 @@ public class Indexer  {
 
   static final String BODY_FIELD = "body";
   
+  //Constructor
   private Indexer() {}
   
   public static void main(String[] args) throws IOException {
