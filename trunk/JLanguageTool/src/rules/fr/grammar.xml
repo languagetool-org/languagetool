@@ -942,8 +942,8 @@ though, and has since been slightly modified)-->
           <token regexp="yes">que?|et|[!;:."»…]</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>sûr</suggestion> ?</message>
-        <example type="incorrect">J'en suis <marker>sur</marker>.</example>
-        <example type="correct">J'en suis sûr.</example>
+        <example type="incorrect">J’en suis <marker>sur</marker>.</example>
+        <example type="correct">J’en suis sûr.</example>
         <example type="incorrect"><marker>Sur</marker> et certain.</example>
         <example type="correct">Sûr et certain.</example>
         <example type="incorrect">Je suis <marker>sur</marker> que tu réussiras.</example>
@@ -1185,7 +1185,7 @@ though, and has since been slightly modified)-->
         <pattern>
           <token postag="K"/>
           <token postag="[JN] .* s" postag_regexp="yes">
-            <exception regexp="yes">janvier|février|avril|mai|juin|juillet|août|septembre|octobre|novembre|décembre|cent|mille</exception>
+            <exception regexp="yes">janvier|février|avril|mai|juin|juillet|août|septembre|octobre|novembre|décembre|vendémiaire|brumaire|frimaire|nivôse|pluviôse|ventôse|germinal|floréal|prairial|messidor|thermidor|fructidor|cent|mille</exception>
           </token>
         </pattern>
         <message>« \1 » et « \2 » ne semblent pas bien accordés en nombre</message>
@@ -1281,7 +1281,7 @@ though, and has since been slightly modified)-->
         <example type="correct">Un catalogue des animaux commode à consulter</example>
       </rule>
       <rule name="pluriel suivi du singulier">
-        <pattern>
+        <pattern mark_to="-1">
           <token postag="SENT_START"/>
           <token postag="[DJN] .* p" postag_regexp="yes" skip="1">
             <exception postag=".* sp?" postag_regexp="yes" scope="current"/>
@@ -1294,6 +1294,7 @@ though, and has since been slightly modified)-->
             <exception postag="(V .*)|(.* sp)" postag_regexp="yes"/>
             <exception scope="previous">du</exception>
           </token>
+          <token><exception>et</exception></token>
         </pattern>
         <message>« \2 » et « \3 » ne semblent pas bien accordés en nombre</message>
         <example type="incorrect"><marker>Des poulet</marker> fermiers</example>
@@ -1302,6 +1303,7 @@ though, and has since been slightly modified)-->
         <example type="correct"><marker>Dix gros poulets</marker> fermiers</example>
         <example type="correct">Pauvres du monde</example>
         <example type="correct">Quarante pour cent des femmes</example>
+        <example type="correct">Vos nom et prénom, s’il vous plaît.</example>
       </rule>
     </rulegroup>
     <rulegroup id="ACCORD_GENRE" name="Accord en genre">
@@ -1777,7 +1779,7 @@ though, and has since been slightly modified)-->
         <example type="incorrect"><marker>Je peut</marker></example>
         <example type="correct">Je peux</example>
         <example type="incorrect">J<marker>'arrives</marker></example>
-        <example type="correct">J'arrive</example>
+        <example type="correct">J’arrive</example>
       </rule>
       <rule name="je + 1 token + verbe">
         <pattern>
@@ -1789,7 +1791,7 @@ though, and has since been slightly modified)-->
         <example type="incorrect"><marker>Je ne travailles</marker> pas.</example>
         <example type="correct">Je ne travaille pas</example>
         <example type="incorrect">J<marker>'en ait</marker></example>
-        <example type="correct">J'en ai</example>
+        <example type="correct">J’en ai</example>
       </rule>
       <rule name="je + 2 tokens + verbe">
         <pattern>
@@ -1825,8 +1827,8 @@ though, and has since been slightly modified)-->
         <example type="correct"><marker>Je ne t’attends</marker> pas.</example>
         <example type="incorrect"><marker>Je n’y croit</marker> pas</example>
         <example type="correct"><marker>Je n’y crois pas</marker> pas</example>
-        <example type="incorrect"><marker>Je t'en parles</marker></example>
-        <example type="correct"><marker>Je t'en parle</marker></example>
+        <example type="incorrect"><marker>Je t’en parles</marker></example>
+        <example type="correct"><marker>Je t’en parle</marker></example>
         <example type="incorrect"><marker>Je ne vous en parles</marker></example>
         <example type="correct"><marker>Je ne vous en parle</marker></example>
         <example type="incorrect"><marker>Je ne leur en veut</marker> pas.</example>
@@ -1845,8 +1847,8 @@ though, and has since been slightly modified)-->
           <token postag="V .*" postag_regexp="yes"><exception postag="V .* 1 s" postag_regexp="yes"/></token>
         </pattern>
         <message>Vérifiez l’accord entre le pronom « \1 » et le verbe « \6 ».</message>
-        <example type="incorrect"><marker>Je ne m'en souvient</marker> pas</example>
-        <example type="correct"><marker>Je ne m'en souviens</marker> pas</example>
+        <example type="incorrect"><marker>Je ne m’en souvient</marker> pas</example>
+        <example type="correct"><marker>Je ne m’en souviens</marker> pas</example>
         <example type="incorrect"><marker>Je ne l’y ait</marker> pas vu pas</example>
         <example type="correct"><marker>Je ne l’y ai</marker> pas vu</example>
       </rule>
@@ -1998,8 +2000,8 @@ though, and has since been slightly modified)-->
           <token postag="V .*" postag_regexp="yes"><exception postag="V .* 3 s" postag_regexp="yes"/></token>
         </pattern>
         <message>Vérifiez l’accord entre le pronom « \1 » et le verbe « \5 ».</message>
-        <example type="incorrect"><marker>Cela ne t'aideras</marker> pas.</example>
-        <example type="correct"><marker>Cela ne t'aidera</marker> pas.</example>
+        <example type="incorrect"><marker>Cela ne t’aideras</marker> pas.</example>
+        <example type="correct"><marker>Cela ne t’aidera</marker> pas.</example>
         <example type="incorrect"><marker>Elle m’en parlent</marker></example>
         <example type="correct"><marker>Elle m’en parle</marker></example>
       </rule>
@@ -2896,7 +2898,9 @@ though, and has since been slightly modified)-->
           <token postag="D.*" postag_regexp="yes">
             <exception>des</exception>
           </token>
-          <token postag="[AN] f .*" postag_regexp="yes"/>
+          <token postag="[AN] f .*" postag_regexp="yes">
+            <exception postag="V inf"/>
+          </token>
         </pattern>
         <message>Vérifiez l’accord entre « \1 » et « \3 ».</message>
         <example type="incorrect"><marker>Tous</marker> les années</example>
@@ -2904,6 +2908,7 @@ though, and has since been slightly modified)-->
         <example type="correct">Elle donne à tous des bouteilles.</example>
         <example type="correct">Mes amis n’apprécient pas tous la musique.</example>
         <example type="correct">On a tous des qualités.</example>
+        <example type="correct">Je peux tous les lire.</example>
       </rule>
       <rule>
         <pattern mark_to="-2">
@@ -3010,7 +3015,7 @@ though, and has since been slightly modified)-->
             <token postag="V.*ind.*" postag_regexp="yes"/>
             <token inflected="yes" regexp="yes">permettre|falloir|vouloir|ordonner|exiger|désirer|suffir|espérer</token>
           </and>
-          <token regexp="yes">pas|guerre</token>
+          <token regexp="yes">pas|guerre|plus</token>
           <token>que</token>
           <token postag="[ZR].*" postag_regexp="yes"/>
           <token postag="V.*" postag_regexp="yes"><exception postag="V.*sub pres.*" postag_regexp="yes"/></token>
@@ -5790,7 +5795,7 @@ though, and has since been slightly modified)-->
           <token>part</token>
           <token>de</token>
         </pattern>
-        <message>« Prendre la part de » est un anglicisme (to take somebody's part). Employez <suggestion>prendre la défense de</suggestion>, <suggestion>prendre le parti de</suggestion>.</message>
+        <message>« Prendre la part de » est un anglicisme (to take somebody’s part). Employez <suggestion>prendre la défense de</suggestion>, <suggestion>prendre le parti de</suggestion>.</message>
         <example type="incorrect"><marker>prendre la part de</marker></example>
         <example type="correct"><marker>prendre le parti de</marker></example>
       </rule>
@@ -6712,7 +6717,7 @@ though, and has since been slightly modified)-->
         <token regexp="yes">clauses?</token>
         <token regexp="yes">grands?-pères?</token>
       </pattern>
-      <message>« Clause grand-père » est un anglicisme (grandfather's clause). Employez <suggestion>clause de droits acquis</suggestion>.</message>
+      <message>« Clause grand-père » est un anglicisme (grandfather’s clause). Employez <suggestion>clause de droits acquis</suggestion>.</message>
       <example type="incorrect"><marker>clause grand-père</marker></example>
       <example type="correct"><marker>clause de droits acquis</marker></example>
     </rule>
@@ -16855,7 +16860,7 @@ though, and has since been slightly modified)-->
     <rule default="off" id="ALORS" name="alors (sans virgule après)">
       <pattern mark_to="-1">
         <token>alors</token>
-        <token><exception>,</exception><exception>.</exception><exception>;</exception><exception>!</exception><exception>:</exception><exception>-</exception><exception>?</exception><exception>qu</exception><exception>que</exception></token>
+        <token><exception regexp="yes">[,.;!:\-?]|que?</exception></token>
       </pattern>
       <message>« Alors » (sans virgule après) peut être une faute de typographie. Employez une virgule (<suggestion>,</suggestion>) au besoin.</message>
       <example type="incorrect"><marker>alors</marker> il faut partir</example>
@@ -16866,7 +16871,7 @@ though, and has since been slightly modified)-->
         <token>dans</token>
         <token>ce</token>
         <token>cas</token>
-        <token><exception>,</exception><exception>.</exception><exception>;</exception><exception>!</exception><exception>:</exception><exception>-</exception><exception>?</exception></token>
+        <token><exception regexp="yes">[,.;!:\-?]</exception></token>
       </pattern>
       <message>« Dans ce cas » (sans virgule après) peut être une faute de typographie. Employez une virgule (<suggestion>,</suggestion>) au besoin.</message>
       <example type="incorrect"><marker>dans ce cas</marker> il est certain</example>
@@ -16876,7 +16881,7 @@ though, and has since been slightly modified)-->
       <pattern mark_to="-1">
         <token>et</token>
         <token>ce</token>
-        <token><exception>,</exception><exception>.</exception><exception>;</exception><exception>!</exception><exception>:</exception><exception>-</exception><exception>?</exception><exception>n</exception></token>
+        <token><exception regexp="yes">[,.;!:\-?n]</exception></token>
       </pattern>
       <message>« Et ce » (sans virgule après) peut être une faute de typographie. Employez une virgule (<suggestion>,</suggestion>) au besoin.</message>
       <example type="incorrect"><marker>et ce</marker> blah blah</example>
@@ -16959,7 +16964,7 @@ though, and has since been slightly modified)-->
     <rule default="off" id="EH" name="eh (sans virgule après)">
       <pattern mark_to="-1">
         <token>eh</token>
-        <token><exception>,</exception><exception>.</exception><exception>;</exception><exception>!</exception><exception>:</exception><exception>-</exception><exception>?</exception><exception>bien</exception></token>
+        <token><exception regexp="yes">[,.;!:\-?]|bien</exception></token>
       </pattern>
       <message>« Eh » (sans virgule après) peut être une faute de typographie. Employez une virgule (<suggestion>\1,</suggestion>) au besoin.</message>
       <example correction="eh," type="incorrect"><marker>eh</marker> blah</example>
@@ -16969,7 +16974,7 @@ though, and has since been slightly modified)-->
       <pattern mark_to="-1">
         <token>eh</token>
         <token>bien</token>
-        <token><exception>,</exception><exception>.</exception><exception>;</exception><exception>!</exception><exception>:</exception><exception>-</exception><exception>?</exception></token>
+        <token><exception regexp="yes">[,.;!:\-?]</exception></token>
       </pattern>
       <message>« Eh bien » (sans virgule après) peut être une faute de typographie. Employez une virgule (<suggestion>\1 \2,</suggestion>) au besoin.</message>
       <example correction="eh bien," type="incorrect"><marker>eh bien</marker> soit!</example>
@@ -17296,13 +17301,32 @@ though, and has since been slightly modified)-->
 
     <rule id="APOS_ESPACE" name="apostrophe + espace">
       <pattern>
-        <token regexp="yes">[cdjlmnst]|qu</token>
-        <token regexp="yes">['´‘’′]</token>
+        <token regexp="yes">(.*-)?[cdjlmnst]|qu|jusqu|lorsqu|aujourd</token>
+        <token spacebefore="no" regexp="yes">['´‘’′]</token>
         <token spacebefore="yes"/>
       </pattern>
       <message>Il ne doit pas y avoir d’espace après l’apostrophe. Employez <suggestion>\1\2\3</suggestion>.</message>
       <example type="incorrect">Ils ont beaucoup <marker>d’ enfants</marker>.</example>
       <example type="correct">Ils ont beaucoup d’enfants.</example>
+      <example type="incorrect">Un <marker>chef-d’ œuvre</marker></example>
+      <example type="correct">Un chef-d’œuvre</example>
+    </rule>
+
+    <rule id="APOS" name="apostrophe typographique">
+      <pattern mark_from="1" mark_to="-1">
+        <token regexp="yes">(.*-)?[cdjlmnst]|qu|jusqu|lorsqu|aujourd</token>
+        <token spacebefore="no" regexp="yes">['´‘′]</token>
+        <token spacebefore="no"/>
+      </pattern>
+      <message>Employez l‘apostrophe typographique <suggestion>’</suggestion>.</message>
+      <example type="incorrect">Ils ont beaucoup d<marker>'</marker>enfants.</example>
+      <example type="incorrect">C<marker>´</marker>beau.</example>
+      <example type="incorrect">J<marker>‘</marker>ai faim.</example>
+      <example type="incorrect">Il fait beau aujourd<marker>′</marker>hui.</example>
+      <example type="incorrect">Va-t<marker>'</marker>en d’ici.</example>
+      <example type="correct">Va-t’en d’ici.</example>
+      <example type="correct">Ils ont beaucoup d’enfants.</example>
+      <example type="correct">Pressez la touche 'c' pour continuer.</example>
     </rule>
 
     <rule id="SAINT_VALENTIN" name="Saint Valentin">
@@ -18493,8 +18517,8 @@ though, and has since been slightly modified)-->
           <token regexp="yes">[ée]tat</token>
         </pattern>
         <message>Employez <suggestion>État</suggestion> avec majuscule quand il désigne un pays ou son gouvernement.</message>
-        <example type="incorrect">C'est une secret d’<marker>état</marker>.</example>
-        <example type="correct">C'est une secret d’État.</example>
+        <example type="incorrect">C’est une secret d’<marker>état</marker>.</example>
+        <example type="correct">C’est une secret d’État.</example>
       </rule>
       <rule>
         <pattern case_sensitive="yes" mark_from="4">
@@ -18532,7 +18556,7 @@ though, and has since been slightly modified)-->
       <example type="correct">Vous vous parlez.</example>
       <example type="correct">Il est capable de te <marker>faire faire</marker> des choses surprenantes.</example>
       <example type="correct">En en demandant deux</example>
-      <example type="correct">C'est donnant donnant</example>
+      <example type="correct">C’est donnant donnant</example>
     </rule>
   </category>
   <!-- vim: foldmethod=marker foldmarker=<category,</category:
