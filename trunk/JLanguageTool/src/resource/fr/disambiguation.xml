@@ -34,7 +34,7 @@ RB => Règles Brutes
   <!-- Words not tagged in dicollecte -->
   <rule name="adverbes" id="ADVERBES">
     <pattern mark="0">
-      <token regexp="yes">trop|peu|beaucoup|assez|fort</token>
+      <token regexp="yes">trop|peu|beaucoup|assez|fort|peut-être</token>
     </pattern>
     <disambig postag="A"/>
   </rule>
@@ -693,6 +693,14 @@ RB => Règles Brutes
     <rule name="RP : sur" id="RP-SUR">
       <pattern mark="0">
         <token>sur</token>
+      </pattern>
+      <disambig postag="P"/>
+    </rule>
+
+    <rule name="Tout sauf" id="TOUT_SAUF">
+      <pattern mark="1">
+        <token>tout</token>
+        <token>sauf</token>
       </pattern>
       <disambig postag="P"/>
     </rule>
