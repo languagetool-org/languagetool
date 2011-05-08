@@ -1506,6 +1506,18 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       </rule>
   </category>
   <category name="Grammatik">
+    <rulegroup id="INMITTE_IN_DER" name="Grammatik: 'inmitten in der (inmitten der)' ">
+      <rule>
+        <pattern>
+          <token>inmitten</token>
+          <token>in</token>
+        </pattern>
+        <message>'inmitten in' is eine Doppelung - meinten Sie <suggestion>inmitten</suggestion>?</message>
+        <example type="incorrect"><marker>Inmitten in</marker> der Stadt.</example>
+        <example type="incorrect"><marker>Inmitten in</marker> einer intakten Landschaft.</example>
+        <example type="correct"><marker>Inmitten</marker> der Stadt.</example>
+      </rule>
+    </rulegroup>
     <rule id="IM_KEINEN" name="Grammatik: 'im keinen(kleinen)'">
       <pattern mark_from="1">
         <token>im</token>
