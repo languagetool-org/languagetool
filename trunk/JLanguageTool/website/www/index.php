@@ -51,6 +51,8 @@ XML configuration files. Rules for more complicated errors can be  written in Ja
 
 <h2>News</h2>
 
+<p><strong>2011-05-08:</strong> More information about <?=show_link("Google Summer of Code 2011", "gsoc2011", 0)?></p>
+
 <p><strong>2011-03-28:</strong> Released LanguageTool 1.3.1. This fixes a NullPointerException occurring with some inputs.
 
 <p><strong>2011-03-27:</strong> Released LanguageTool 1.3. Changes include:
@@ -60,8 +62,6 @@ XML configuration files. Rules for more complicated errors can be  written in Ja
 	<li>Some bug fixes.</li>
 	<li>For a more detailed list of changes, see the <?=show_link("Changelog", "download/CHANGES.txt", 0) ?></li>
 </ul>
-
-<p><strong>2011-03-19:</strong> LanguageTool participates in the <?=show_link("Google Summer of Code 2011", "gsoc2011", 0)?></p>
 
 <p><strong>2011-02-19:</strong> The LanguageTool source code is now available from
 <?=show_link("subversion", "development/#checkout", 0)?>. Please don't use the old CVS repository anymore.</p>
