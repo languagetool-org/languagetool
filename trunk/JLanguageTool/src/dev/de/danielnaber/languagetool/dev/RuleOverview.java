@@ -81,6 +81,7 @@ public final class RuleOverview {
       .replaceAll("(?s)<!--.*?-->", "")
       .replaceAll("(?s)<rules.*?>", "");
 
+    int overallJavaCount = 0;
     for (final String langName : sortedLanguages) {
       final Language lang = Language.getLanguageForName(langName);
       System.out.print("<tr>");
@@ -130,6 +131,7 @@ public final class RuleOverview {
         final File[] javaRules = dir.listFiles(new JavaFilter());
         final int javaCount = javaRules.length-1;   // minus 1: one is always "<Language>Rule.java"
         System.out.print("<td align=\"right\">" + javaCount + "</td>");
+        overallJavaCount++;
       }
 
       // false friends
@@ -176,6 +178,10 @@ public final class RuleOverview {
       }
       
       System.out.println("</tr>");    
+    }
+      
+    if (overallJavaCount == 0) {
+      throw new RuntimeException("No Java rules found");
     }
 
     System.out.println("</table>");    
