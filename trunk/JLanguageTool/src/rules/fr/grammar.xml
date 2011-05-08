@@ -802,7 +802,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern mark_to="-1">
           <token regexp="yes">d[eé]s</token>
-          <token regexp="yes">que?|[lmst]a|[mts]on|[lmst]es|le?|[nv]os|[nv]otre|leurs?|cet?|cettes?|lors|après|maintenant|à|toujours|midi|minuit|aujourd|hier|demain|une?|janvier|février|mars|avril|mai|juin|juillet|a[uû]ot|septembre|octobre|novembre|décembre|lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche|P[âa]ques|No[ëe]l|([12]?\d\d\d)</token>
+          <token regexp="yes">que?|[lmst]a|[mts]on|[lmst]es|le?|[nv]os|[nv]otre|leurs?|cet?|cettes?|lors|après|maintenant|à|toujours|midi|minuit|aujourd|hier|demain|une?|janvier|f[eé]vrier|mars|avril|mai|juin|juillet|a[uû]ot|septembre|octobre|novembre|d[eé]cembre|vendémiaire|brumaire|frimaire|nivôse|pluviôse|ventôse|germinal|floréal|prairial|messidor|thermidor|fructidor|lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche|P[âa]ques|No[ëe]l|([12]?\d\d\d)</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="(.).." regexp_replace="$1ès"/></suggestion> ?</message>
         <example type="incorrect">Tu repars <marker>des</marker> qu’il arrive.</example>
@@ -841,23 +841,24 @@ though, and has since been slightly modified)-->
         <example type="correct">Ce que tu dis a l’air correct.</example>
       </rule>
       <rule>
-        <pattern mark_to="-2">
-          <token>a</token>
-          <token regexp="yes">force|cause|défaut|midi|minuit|Noël|Pâques</token>
-          <token>de</token>
-        </pattern>
-        <message>Voulez-vous écrire <suggestion>à</suggestion> ?</message>
-        <example type="incorrect"><marker>A</marker> force de mentir, on ne le croit plus.</example>
-        <example type="correct"><marker>À</marker> force de mentir, on ne le croit plus.</example>
-      </rule>
-      <rule>
         <pattern mark_to="-1">
           <token>a</token>
-          <token regexp="yes">laquelle|côté|gauche|droite|condition</token>
+          <token regexp="yes">autrui|bord|cause|condition|côté|court|défaut|droite|force|laquelle|gauche|mesure|midi|minuit|part|peine|propos|proximité|travers|se|quels?|quelles?|comment|no[ëe]l|p[aâ]ques|[mts]e|[mst]oi|lui|elles?|eux|[nv]ous|vitesse|vélo</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>à</suggestion> ?</message>
         <example type="incorrect">L’adresse <marker>a</marker> laquelle tu l’as envoyé</example>
         <example type="correct">L’adresse <marker>à</marker> laquelle tu l’as envoyé</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token>a<exception scope="previous" regexp="yes">en|y</exception></token>
+          <token regexp="yes">quo?i</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>à</suggestion> ?</message>
+        <example type="incorrect"><marker>A</marker> quoi penses-tu ?</example>
+        <example type="correct">À quoi penses-tu ?</example>
+        <example type="correct">Il y en <marker>a</marker> qui dorment.</example>
+        <example type="correct">Fais-moi savoir s'il y <marker>a</marker> quoi que ce soit que je puisse faire.</example>
       </rule>
       <rule>
         <pattern mark_from="1">
@@ -988,7 +989,10 @@ though, and has since been slightly modified)-->
     <rule id="CE_SE" name="CE au lieu de SE">
       <pattern mark_to="-1">
         <token>ce</token>
-        <token postag="V.*" postag_regexp="yes"><exception postag="[NJ] [me] s" postag_regexp="yes"/><exception inflected="yes" regexp="yes">être|devoir|pouvoir</exception></token>
+        <token postag="V.*" postag_regexp="yes">
+          <exception postag="[NJ] [me] s" postag_regexp="yes"/>
+          <exception inflected="yes" regexp="yes">être|devoir|pouvoir</exception>
+        </token>
       </pattern>
       <message>Voulez-vous écrire <suggestion>se</suggestion> ?</message>
       <example type="incorrect"><marker>Ce</marker> promener est relaxant.</example>
