@@ -887,7 +887,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern mark_from="1">
-          <token regexp="yes">grâce|prête?s?</token>
+          <token regexp="yes">grâce|prête?s?|pareils?|pareilles?|semblables?</token>
           <token>a</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>à</suggestion> ?</message>
@@ -1590,6 +1590,48 @@ though, and has since been slightly modified)-->
       <example type="correct">Il faut que tu le tues.</example>
       <example type="correct">Un mineur mouillé et barbouillé</example>
     </rule>
+    <rulegroup id="NON_V" name="pronom sujet + nom/adj">
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">je|tu|ils?|on</token>
+          <token postag="[ACNJZP].*" postag_regexp="yes">
+            <exception postag="V.*" postag_regexp="yes"/>
+            <exception regexp="yes">[lmnsty]|en|ne?</exception>
+          </token>
+        </pattern>
+        <message>« \2 » n’est pas un verbe.</message>
+        <example type="incorrect">Tu <marker>sorts</marker> ce soir.</example>
+        <example type="correct">Tu <marker>sors</marker> ce soir.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2">
+          <token regexp="yes">je|tu|ils?|on</token>
+          <token regexp="yes">[mnts]e|la|les?|[nv]ous|lui|leur|y|en</token>
+          <token postag="[ACNJZP].*" postag_regexp="yes">
+            <exception postag="V.*" postag_regexp="yes"/>
+            <exception regexp="yes">y|en|[lmnst]</exception>
+          </token>
+        </pattern>
+        <message>« \3 » n’est pas un verbe.</message>
+        <example type="incorrect">Tu ne <marker>sorts</marker> pas ce soir.</example>
+        <example type="correct">Tu ne <marker>sors</marker> pas ce soir.</example>
+        <example type="correct">Je ne <marker>donne</marker> rien.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="3">
+          <token regexp="yes">je|tu|ils?|on</token>
+          <token regexp="yes">[lmnt]|[mnt]e|la|les?|[nv]ous|lui|leur</token>
+          <token regexp="yes">[’´'‛′‘]|[mnt]e|la|les?|[vn]ous|en|y|lui|leur</token>
+          <token postag="[ACNJZP].*" postag_regexp="yes">
+            <exception postag="V.*" postag_regexp="yes"/>
+            <exception regexp="yes">y|en</exception>
+          </token>
+        </pattern>
+        <message>« \4 » n’est pas un verbe.</message>
+        <example type="incorrect">Tu ne la <marker>sorts</marker> pas ce soir.</example>
+        <example type="correct">Tu ne la <marker>sors</marker> pas ce soir.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="ETRE_VPPA_OU_ADJ" name="être + participe présent">
       <rule>
         <pattern mark_from="3">

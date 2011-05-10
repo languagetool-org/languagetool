@@ -292,12 +292,27 @@ RB => Règles Brutes
       </pattern>
       <disambig postag="R pers obj 3 m s"/>
     </rule>
-    <rule name="leur">
-      <pattern mark="0">
+
+    <rule>
+      <pattern mark="1">
+        <token postag="[NZR].*" postag_regexp="yes"/>
         <token>leur</token>
-        <token postag="V.*" postag_regexp="yes"/>
       </pattern>
       <disambig postag="R pers obj 3 p"/>
+    </rule>
+    <rule>
+      <pattern mark="1">
+        <token>ne</token>
+        <token>leur</token>
+      </pattern>
+      <disambig postag="R pers obj 3 p"/>
+    </rule>
+    <rule>
+      <pattern mark="0">
+        <token postag="D e s">leur</token>
+        <token postag="[NJ].*" postag_regexp="yes"/>
+      </pattern>
+      <disambig postag="D e s"/>
     </rule>
 
     <rule name="le/la/les/l'">
@@ -375,14 +390,31 @@ RB => Règles Brutes
     </rule>
   </rulegroup>
 
-
-    <rule name ="RP : En + participe présent" id="RP-EN_VPPR">
+  <rulegroup name="ne + verbe" id="NE_V">
+    <rule>
       <pattern mark="1">
-        <token>en</token>
-        <token postag="V ppr"/>
+        <token regexp="yes">ne|je|tu|ils?|on</token>
+        <token postag="V.*" postag_regexp="yes"/>
       </pattern>
-      <disambig><match no="1" postag="V ppr"/></disambig>
+      <disambig><match no="1" postag_regexp="yes" postag="V.*"/></disambig>
     </rule>
+    <rule>
+      <pattern mark="2">
+        <token>n</token>
+        <token>[’´'‛′‘]</token>
+        <token postag="V.*" postag_regexp="yes"/>
+      </pattern>
+      <disambig><match no="2" postag_regexp="yes" postag="V.*"/></disambig>
+    </rule>
+  </rulegroup>
+
+  <rule name ="RP : En + participe présent" id="RP-EN_VPPR">
+    <pattern mark="1">
+      <token>en</token>
+      <token postag="V ppr"/>
+    </pattern>
+    <disambig><match no="1" postag="V ppr"/></disambig>
+  </rule>
 
   <rulegroup name="RP : mon/ton/son" id="RP-MON_TON_SON">
     <rule name="mon">
@@ -410,7 +442,6 @@ RB => Règles Brutes
     </rule>
   </rulegroup>
 
-
   <rulegroup name="RP : Infinitif ambigu" id="RP-INFINITIF">
     <rule name="Infinitif être">
       <pattern mark="1">
@@ -425,17 +456,6 @@ RB => Règles Brutes
         <token postag="V avoir inf"/>
       </pattern>
       <disambig postag="V avoir inf"/>
-    </rule>
-  </rulegroup>
-
-
-  <rulegroup name="RP : Det ambigu + Nom/Adj" id="RP-D_AMBIG_N_J">
-    <rule name="leur">
-      <pattern mark="0">
-        <token>leur</token>
-        <token postag="N.*|J.*" postag_regexp="yes"/>
-      </pattern>
-      <disambig postag="D e s"/>
     </rule>
   </rulegroup>
 
@@ -579,7 +599,7 @@ RB => Règles Brutes
     <rule name="j' + verbe">
       <pattern mark="2">
         <token>j</token>
-        <token>'</token>
+        <token regexp="yes">[’´'‛′‘]</token>
         <token postag="V.* 1 s" postag_regexp="yes"/>
       </pattern>
       <disambig action="filter" postag="V.* 1 s"/>
@@ -626,6 +646,7 @@ RB => Règles Brutes
     </pattern>
     <disambig><match no="1" postag_regexp="yes" postag="J.*"/></disambig>
   </rule>
+
     <rule name="RB : adverbes" id="RB-ADVERBES">
       <pattern mark="0">
         <token postag="A"/>
