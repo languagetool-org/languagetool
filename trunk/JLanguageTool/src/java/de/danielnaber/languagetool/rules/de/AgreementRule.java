@@ -28,6 +28,7 @@ import java.util.Set;
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.JLanguageTool;
+import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.rules.Category;
 import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.tagging.de.AnalyzedGermanToken;
@@ -232,7 +233,7 @@ public class AgreementRule extends GermanRule {
     // city names:
     if (nextTerm.endsWith("er") && tokens.length > tokenPos+1) {
       final AnalyzedGermanTokenReadings nextNextToken = (AnalyzedGermanTokenReadings)tokens[tokenPos+1];
-      final GermanTagger tagger = new GermanTagger();
+      final GermanTagger tagger = (GermanTagger) Language.GERMAN.getTagger();
       try {
         final AnalyzedGermanTokenReadings nextATR = tagger.lookup(nextTerm.substring(0, nextTerm.length()-2));
         final AnalyzedGermanTokenReadings nextNextATR = tagger.lookup(nextNextToken.getToken());

@@ -22,12 +22,7 @@ import java.util.*;
 class LanguageToolHttpHandler implements HttpHandler {
 
   private static final String CONTENT_TYPE_VALUE = "text/xml; charset=UTF-8";
-  /**
-   * JLanguageTool instances for each language (created and configured on first use).
-   * Instances are organized by language and mother language.
-   * This is like a tree: first level contains the Languages, next level contains JLanguageTool instances for each mother tongue.
-   */
-  private static final Map<Language, Map<Language, JLanguageTool>> INSTANCES = new HashMap<Language, Map<Language, JLanguageTool>>();
+
   private static final Set<String> ALLOWED_IPS = new HashSet<String>();
   static {
     // accept only requests from localhost.
@@ -44,44 +39,42 @@ class LanguageToolHttpHandler implements HttpHandler {
   }
 
   public void handle(HttpExchange t) throws IOException {
-    synchronized (INSTANCES) {
-      final URI requestedUri = t.getRequestURI();
-      final Map<String, String> parameters = getRequestQuery(t, requestedUri);
-      final long timeStart = System.currentTimeMillis();
-      String text = null;
-      try {
-        if (StringTools.isEmpty(requestedUri.getRawPath())) {
-          t.sendResponseHeaders(HttpURLConnection.HTTP_FORBIDDEN, 0);
-          throw new RuntimeException("Error: Access to " + requestedUri.getPath() + " denied");
-        }
-        if (ALLOWED_IPS.contains(t.getRemoteAddress().getAddress().toString())) {
-          if (requestedUri.getRawPath().endsWith("/Languages")) {
-            // request type: list known languages
-            printListOfLanguages(t);
-          } else {
-            // request type: text checking
-            text = parameters.get("text");
-            if (text == null) {
-              throw new IllegalArgumentException("Missing 'text' parameter");
-            }
-            checkText(text, t, parameters);
-          }
-        } else {
-          t.sendResponseHeaders(HttpURLConnection.HTTP_FORBIDDEN, 0);
-          throw new RuntimeException("Error: Access from " + t.getRemoteAddress().toString() + " denied");
-        }
-      } catch (Exception e) {
-        if (verbose) {
-          print("Exception was caused by this text: " + text);
-        }
-        e.printStackTrace();
-        final String response = "Error: " + StringTools.escapeXML(Tools.getFullStackTrace(e));
-        t.sendResponseHeaders(HttpURLConnection.HTTP_INTERNAL_ERROR, response.getBytes().length);
-        t.getResponseBody().write(response.getBytes());
-        t.close();
+    final URI requestedUri = t.getRequestURI();
+    final Map<String, String> parameters = getRequestQuery(t, requestedUri);
+    final long timeStart = System.currentTimeMillis();
+    String text = null;
+    try {
+      if (StringTools.isEmpty(requestedUri.getRawPath())) {
+        t.sendResponseHeaders(HttpURLConnection.HTTP_FORBIDDEN, 0);
+        throw new RuntimeException("Error: Access to " + requestedUri.getPath() + " denied");
       }
-      print("Check done in " + (System.currentTimeMillis() - timeStart) + "ms");
+      if (ALLOWED_IPS.contains(t.getRemoteAddress().getAddress().toString())) {
+        if (requestedUri.getRawPath().endsWith("/Languages")) {
+          // request type: list known languages
+          printListOfLanguages(t);
+        } else {
+          // request type: text checking
+          text = parameters.get("text");
+          if (text == null) {
+            throw new IllegalArgumentException("Missing 'text' parameter");
+          }
+          checkText(text, t, parameters);
+        }
+      } else {
+        t.sendResponseHeaders(HttpURLConnection.HTTP_FORBIDDEN, 0);
+        throw new RuntimeException("Error: Access from " + t.getRemoteAddress().toString() + " denied");
+      }
+    } catch (Exception e) {
+      if (verbose) {
+        print("Exception was caused by this text: " + text);
+      }
+      e.printStackTrace();
+      final String response = "Error: " + StringTools.escapeXML(Tools.getFullStackTrace(e));
+      t.sendResponseHeaders(HttpURLConnection.HTTP_INTERNAL_ERROR, response.getBytes().length);
+      t.getResponseBody().write(response.getBytes());
+      t.close();
     }
+    print("Check done in " + (System.currentTimeMillis() - timeStart) + "ms");
   }
 
   private Map<String, String> getRequestQuery(HttpExchange t, URI requestedUri) throws IOException {
@@ -198,22 +191,11 @@ class LanguageToolHttpHandler implements HttpHandler {
    * @throws Exception when JLanguageTool creation failed
    */
   private JLanguageTool getLanguageToolInstance(Language lang, Language motherTongue) throws Exception {
-    Map<Language, JLanguageTool> languageTools = INSTANCES.get(lang);
-    if (null == languageTools) {
-      // first call using this language
-      languageTools = new HashMap<Language, JLanguageTool>();
-      INSTANCES.put(lang, languageTools);
-    }
-    final JLanguageTool languageTool = languageTools.get(motherTongue);
-    if (null == languageTool) {
-      print("Creating JLanguageTool instance for language " + lang + ((null != motherTongue) ? (" and mother tongue " + motherTongue) : ""));
-      final JLanguageTool newLanguageTool = new JLanguageTool(lang, motherTongue);
-      newLanguageTool.activateDefaultPatternRules();
-      newLanguageTool.activateDefaultFalseFriendRules();
-      languageTools.put(motherTongue, newLanguageTool);
-      return newLanguageTool;
-    }
-    return languageTool;
+    print("Creating JLanguageTool instance for language " + lang + ((null != motherTongue) ? (" and mother tongue " + motherTongue) : ""));
+    final JLanguageTool newLanguageTool = new JLanguageTool(lang, motherTongue);
+    newLanguageTool.activateDefaultPatternRules();
+    newLanguageTool.activateDefaultFalseFriendRules();
+    return newLanguageTool;
   }
 
   /**

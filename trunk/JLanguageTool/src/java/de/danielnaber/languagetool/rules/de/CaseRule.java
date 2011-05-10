@@ -28,6 +28,7 @@ import java.util.Set;
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.JLanguageTool;
+import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.rules.Category;
 import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.tagging.de.AnalyzedGermanToken;
@@ -47,7 +48,7 @@ import de.danielnaber.languagetool.tools.StringTools;
  */
 public class CaseRule extends GermanRule {
 
-  private final GermanTagger tagger = new GermanTagger();
+  private final GermanTagger tagger = (GermanTagger) Language.GERMAN.getTagger();
 
   // wenn hinter diesen Wörtern ein Verb steht, ist es wohl ein substantiviertes Verb,
   // muss also groß geschrieben werden:

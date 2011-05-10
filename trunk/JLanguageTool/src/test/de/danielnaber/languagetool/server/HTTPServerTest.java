@@ -30,6 +30,9 @@ import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.XMLValidator;
 import de.danielnaber.languagetool.tools.StringTools;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
 
 public class HTTPServerTest extends TestCase {
 
@@ -37,53 +40,58 @@ public class HTTPServerTest extends TestCase {
     final HTTPServer server = new HTTPServer();
     try {
       server.run();
-      // no error:
-      final String enc = "UTF-8";
-      assertEquals("<?xml version=\"1.0\" encoding=\""+enc+"\"?>\n<matches>\n</matches>\n", check(Language.GERMAN, ""));
-      assertEquals("<?xml version=\"1.0\" encoding=\""+enc+"\"?>\n<matches>\n</matches>\n", check(Language.GERMAN, "Ein kleiner test"));
-      // one error:
-      assertTrue(check(Language.GERMAN, "ein kleiner test").indexOf("UPPERCASE_SENTENCE_START") != -1);
-      // two errors:
-      final String result = check(Language.GERMAN, "ein kleiner test. Und wieder Erwarten noch was: \u00f6\u00e4\u00fc\u00df.");
-      assertTrue(result.indexOf("UPPERCASE_SENTENCE_START") != -1);
-      assertTrue(result.indexOf("WIEDER_WILLEN") != -1);
-      assertTrue("Expected special chars, got: '" + result+ "'",
-          result.indexOf("\u00f6\u00e4\u00fc\u00df") != -1);   // special chars are intact
-      final XMLValidator validator = new XMLValidator();
-      validator.validateXMLString(result, JLanguageTool.getDataBroker().getResourceDir() + "/api-output.dtd", "matches");
-      validator.checkSimpleXMLString(result);
-      //System.err.println(result);
-      // make sure XML chars are escaped in the result to avoid invalid XML
-      // and XSS attacks:
-      assertTrue(check(Language.GERMAN, "bla <script>").indexOf("<script>") == -1);
-      
-      // other tests for special characters
-      final String germanSpecialChars = check(Language.GERMAN, "ein kleiner test. Und wieder Erwarten noch was: öäüß öäüß.");
-      assertTrue("Expected special chars, got: '" + germanSpecialChars + "'", germanSpecialChars.contains("öäüß"));
-      final String romanianSpecialChars = check(Language.ROMANIAN, "bla bla șțîâă șțîâă și câteva caractere speciale");
-      assertTrue("Expected special chars, got: '" + romanianSpecialChars + "'", romanianSpecialChars.contains("șțîâă"));
-      final String polishSpecialChars = check(Language.POLISH, "Mówiła długo, żeby tylko mówić mówić długo.");
-      assertTrue("Expected special chars, got: '" + polishSpecialChars+ "'", polishSpecialChars.contains("mówić"));
-      // test http POST
-      assertTrue(checkByPOST(Language.ROMANIAN, "greșit greșit").indexOf("greșit") != -1);
-      // test supported language listing
-      final URL url = new URL("http://localhost:" + HTTPServer.DEFAULT_PORT + "/Languages");
-      final String languagesXML = StringTools.streamToString((InputStream)url.getContent());
-      if (!languagesXML.contains("Romanian") || !languagesXML.contains("English")) {
-        fail("Error getting supported languages: " + languagesXML);
-      }
-      // tests for "&" character
-      assertTrue(check(Language.ENGLISH, "Me & you you").contains("&"));
-      // tests for mother tongue (copy from link {@link FalseFriendRuleTest})   
-      assertTrue(check(Language.ENGLISH, Language.GERMAN, "We will berate you").indexOf("BERATE") != -1);
-      assertTrue(check(Language.GERMAN, Language.ENGLISH, "Man sollte ihn nicht so beraten.").indexOf("BERATE") != -1);
-      assertTrue(check(Language.POLISH, Language.ENGLISH, "To jest frywolne.").indexOf("FRIVOLOUS") != -1);
-      //tests for bitext
-      assertTrue(bitextCheck(Language.POLISH, Language.ENGLISH, "This is frivolous.", "To jest frywolne.").indexOf("FRIVOLOUS") != -1);
-      assertTrue(bitextCheck(Language.POLISH, Language.ENGLISH, "This is something else.", "To jest frywolne.").indexOf("FRIVOLOUS") == -1);
+      runTests();
+
     } finally {
       server.stop();
     }
+  }
+
+  void runTests() throws IOException, SAXException, ParserConfigurationException {
+    // no error:
+    final String enc = "UTF-8";
+    assertEquals("<?xml version=\"1.0\" encoding=\""+enc+"\"?>\n<matches>\n</matches>\n", check(Language.GERMAN, ""));
+    assertEquals("<?xml version=\"1.0\" encoding=\""+enc+"\"?>\n<matches>\n</matches>\n", check(Language.GERMAN, "Ein kleiner test"));
+    // one error:
+    assertTrue(check(Language.GERMAN, "ein kleiner test").indexOf("UPPERCASE_SENTENCE_START") != -1);
+    // two errors:
+    final String result = check(Language.GERMAN, "ein kleiner test. Und wieder Erwarten noch was: \u00f6\u00e4\u00fc\u00df.");
+    assertTrue(result.indexOf("UPPERCASE_SENTENCE_START") != -1);
+    assertTrue(result.indexOf("WIEDER_WILLEN") != -1);
+    assertTrue("Expected special chars, got: '" + result+ "'",
+        result.indexOf("\u00f6\u00e4\u00fc\u00df") != -1);   // special chars are intact
+    final XMLValidator validator = new XMLValidator();
+    validator.validateXMLString(result, JLanguageTool.getDataBroker().getResourceDir() + "/api-output.dtd", "matches");
+    validator.checkSimpleXMLString(result);
+    //System.err.println(result);
+    // make sure XML chars are escaped in the result to avoid invalid XML
+    // and XSS attacks:
+    assertTrue(check(Language.GERMAN, "bla <script>").indexOf("<script>") == -1);
+
+    // other tests for special characters
+    final String germanSpecialChars = check(Language.GERMAN, "ein kleiner test. Und wieder Erwarten noch was: öäüß öäüß.");
+    assertTrue("Expected special chars, got: '" + germanSpecialChars + "'", germanSpecialChars.contains("öäüß"));
+    final String romanianSpecialChars = check(Language.ROMANIAN, "bla bla șțîâă șțîâă și câteva caractere speciale");
+    assertTrue("Expected special chars, got: '" + romanianSpecialChars + "'", romanianSpecialChars.contains("șțîâă"));
+    final String polishSpecialChars = check(Language.POLISH, "Mówiła długo, żeby tylko mówić mówić długo.");
+    assertTrue("Expected special chars, got: '" + polishSpecialChars+ "'", polishSpecialChars.contains("mówić"));
+    // test http POST
+    assertTrue(checkByPOST(Language.ROMANIAN, "greșit greșit").indexOf("greșit") != -1);
+    // test supported language listing
+    final URL url = new URL("http://localhost:" + HTTPServer.DEFAULT_PORT + "/Languages");
+    final String languagesXML = StringTools.streamToString((InputStream) url.getContent());
+    if (!languagesXML.contains("Romanian") || !languagesXML.contains("English")) {
+      fail("Error getting supported languages: " + languagesXML);
+    }
+    // tests for "&" character
+    assertTrue(check(Language.ENGLISH, "Me & you you").contains("&"));
+    // tests for mother tongue (copy from link {@link FalseFriendRuleTest})   
+    assertTrue(check(Language.ENGLISH, Language.GERMAN, "We will berate you").indexOf("BERATE") != -1);
+    assertTrue(check(Language.GERMAN, Language.ENGLISH, "Man sollte ihn nicht so beraten.").indexOf("BERATE") != -1);
+    assertTrue(check(Language.POLISH, Language.ENGLISH, "To jest frywolne.").indexOf("FRIVOLOUS") != -1);
+    //tests for bitext
+    assertTrue(bitextCheck(Language.POLISH, Language.ENGLISH, "This is frivolous.", "To jest frywolne.").indexOf("FRIVOLOUS") != -1);
+    assertTrue(bitextCheck(Language.POLISH, Language.ENGLISH, "This is something else.", "To jest frywolne.").indexOf("FRIVOLOUS") == -1);
   }
 
   private String check(Language lang, String text) throws IOException {
@@ -107,7 +115,7 @@ public class HTTPServerTest extends TestCase {
     String urlOptions = "/?language=" + lang.getShortName();
     urlOptions += "&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like polish, romanian, etc
     if (null != motherTongue) {
-    	urlOptions += "&motherTongue="+motherTongue.getShortName();
+    	urlOptions += "&motherTongue=" + motherTongue.getShortName();
     }
     final URL url = new URL("http://localhost:" + HTTPServer.DEFAULT_PORT + urlOptions);
     final InputStream stream = (InputStream)url.getContent();

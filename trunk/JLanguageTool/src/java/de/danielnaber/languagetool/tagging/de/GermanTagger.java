@@ -45,9 +45,9 @@ public class GermanTagger implements Tagger {
   private static final String DICT_FILENAME = "/de/german.dict";
   private static final String USER_DICT_FILENAME = "/de/added.txt";
 
-  private static IStemmer morfologik;
-  private static ManualTagger manualTagger;
-  private static GermanCompoundTokenizer compoundTokenizer;
+  private IStemmer morfologik;
+  private ManualTagger manualTagger;
+  private GermanCompoundTokenizer compoundTokenizer;
   
   public GermanTagger() {
   }
@@ -57,8 +57,9 @@ public class GermanTagger implements Tagger {
     words.add(word);
     final List<AnalyzedTokenReadings> result = tag(words, false);
     final AnalyzedGermanTokenReadings atr = (AnalyzedGermanTokenReadings) result.get(0);
-    if (atr.getAnalyzedToken(0).getPOSTag() == null)
+    if (atr.getAnalyzedToken(0).getPOSTag() == null) {
       return null;
+    }
     return atr;
   }
     

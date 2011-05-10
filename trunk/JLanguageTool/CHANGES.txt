@@ -27,12 +27,13 @@ LanguageTool Change Log
   -renamed JLanguageTool.paragraphHandling to JLanguageTool.ParagraphHandling
   -removed deprecated GermanSentenceTokenizer
   
-
  -Internal changes:
   -Java rules are not loaded dynamically from the classpath anymore,
    instead every language needs to implement the getRelevantRules()
    method that returns the rule classes relevant for that language.
   -Removed jaminid dependency for HTTP Server, thanks to Ankit.
+  -The HTTP server doesn't block anymore when checking a long text. It
+   now has a longer startup time per call though (50-150ms).
 
  -Rule development:
   -Extended testrules.sh and testrules.bat so that they can take a
