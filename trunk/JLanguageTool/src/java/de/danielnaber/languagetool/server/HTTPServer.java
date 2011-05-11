@@ -22,6 +22,7 @@ import com.sun.net.httpserver.HttpServer;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+
 /**
  * A small embedded HTTP server that checks text. Returns XML, prints debugging
  * to stdout/stderr.
@@ -33,16 +34,11 @@ public class HTTPServer {
 
   /** The default port on which the server is running (8081). */
   public static final int DEFAULT_PORT = 8081;
-  private com.sun.net.httpserver.HttpServer server;
 
   private int port = DEFAULT_PORT;
+  private HttpServer server;
   private boolean verbose;
-
-  private static void printUsageAndExit() {
-    System.out.println("Usage: " + HTTPServer.class.getSimpleName() + " [-p|--port port]");
-    System.exit(1);
-  }
-
+  
   /**
    * Prepare a server - use run() to start it.
    */
@@ -73,7 +69,7 @@ public class HTTPServer {
    */
   public void run() {
     try {
-      server = com.sun.net.httpserver.HttpServer.create(new InetSocketAddress(port), 0);
+      server = HttpServer.create(new InetSocketAddress(port), 0);
       server.createContext("/", new LanguageToolHttpHandler(verbose));
       System.out.println("Starting server on port " + port + "...");
       server.start();
@@ -86,11 +82,11 @@ public class HTTPServer {
   }
 
   /**
-   * Stop the server process.
+   * Stop the server.
    */
   public void stop() {
     if (server != null) {
-      System.out.println("Stopping server ");
+      System.out.println("Stopping server");
       server.stop(0);
       System.out.println("Server stopped");
     }
@@ -98,7 +94,8 @@ public class HTTPServer {
 
   public static void main(String[] args) throws IOException {
     if (args.length > 3) {
-      printUsageAndExit();
+      System.out.println("Usage: " + HTTPServer.class.getSimpleName() + " [-p|--port port]");
+      System.exit(1);
     }
     boolean verbose = false;
     int port = DEFAULT_PORT;
@@ -110,7 +107,7 @@ public class HTTPServer {
       }
     }
     try {
-      final com.sun.net.httpserver.HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
+      final HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
       server.createContext("/", new LanguageToolHttpHandler(verbose));
       server.start();
     } catch (Exception e) {
