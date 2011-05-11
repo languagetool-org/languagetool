@@ -106,10 +106,6 @@
 		<mkdir dir="${build.classes}" />
 		<mkdir dir="${build.meta-inf}" />
 		<mkdir dir="${dist.dir}" />
-		<mkdir dir="${dist.dir}/linux" />
-		<mkdir dir="${dist.dir}/windows" />
-		<mkdir dir="${dist.dir}/sunos" />
-		<mkdir dir="${dist.dir}/mac" />
 	</target>
 
 	<!-- ================================================================== -->
@@ -426,19 +422,6 @@
 	<copy file="${ext.commons.lang.lib}" todir="${dist.dir}" />
 	<copy file="${ext.bliki.lib}" todir="${dist.dir}" />
 	<copy file="${ext.junit.lib}" todir="${dist.dir}" />
-
-	<copy todir="${dist.dir}/linux">
-		<fileset dir="${ext.dir}/linux" />
-	</copy>
-	<copy todir="${dist.dir}/windows">
-		<fileset dir="${ext.dir}/windows" />
-	</copy>
-	<copy todir="${dist.dir}/sunos">
-		<fileset dir="${ext.dir}/sunos" />
-	</copy>
-	<copy todir="${dist.dir}/mac">
-		<fileset dir="${ext.dir}/mac" />
-	</copy>
 
 	<copy file="${src.scripts.dir}/testrules.sh" todir="${dist.dir}" />
 	<copy file="${src.scripts.dir}/testrules.bat" todir="${dist.dir}" />
