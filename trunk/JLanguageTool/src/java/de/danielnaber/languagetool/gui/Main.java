@@ -598,10 +598,6 @@ public final class Main implements ActionListener {
   class TrayActionListener implements MouseListener {
 
     public void mouseClicked(@SuppressWarnings("unused")MouseEvent e) {
-      handleClick();
-    }
-
-    private void handleClick() {
       if (frame.isVisible() && frame.isActive()) {
         frame.setVisible(false);
       } else if (frame.isVisible() && !frame.isActive()) {
@@ -612,17 +608,10 @@ public final class Main implements ActionListener {
       }
     }
 
-    public void mouseEntered(@SuppressWarnings("unused") MouseEvent e) {
-    }
-
-    public void mouseExited(@SuppressWarnings("unused")MouseEvent e) {
-    }
-
-    public void mousePressed(@SuppressWarnings("unused")MouseEvent e) {
-    }
-
-    public void mouseReleased(@SuppressWarnings("unused")MouseEvent e) {
-    }
+    public void mouseEntered(@SuppressWarnings("unused") MouseEvent e) {}
+    public void mouseExited(@SuppressWarnings("unused")MouseEvent e) {}
+    public void mousePressed(@SuppressWarnings("unused")MouseEvent e) {}
+    public void mouseReleased(@SuppressWarnings("unused")MouseEvent e) {}
 
   }
 
@@ -632,23 +621,12 @@ public final class Main implements ActionListener {
       quitOrHide();
     }
 
-    public void windowActivated(@SuppressWarnings("unused")WindowEvent e) {
-    }
-
-    public void windowClosed(@SuppressWarnings("unused")WindowEvent e) {
-    }
-
-    public void windowDeactivated(@SuppressWarnings("unused")WindowEvent e) {
-    }
-
-    public void windowDeiconified(@SuppressWarnings("unused")WindowEvent e) {
-    }
-
-    public void windowIconified(@SuppressWarnings("unused")WindowEvent e) {
-    }
-
-    public void windowOpened(@SuppressWarnings("unused")WindowEvent e) {
-    }
+    public void windowActivated(@SuppressWarnings("unused")WindowEvent e) {}
+    public void windowClosed(@SuppressWarnings("unused")WindowEvent e) {}
+    public void windowDeactivated(@SuppressWarnings("unused")WindowEvent e) {}
+    public void windowDeiconified(@SuppressWarnings("unused")WindowEvent e) {}
+    public void windowIconified(@SuppressWarnings("unused")WindowEvent e) {}
+    public void windowOpened(@SuppressWarnings("unused")WindowEvent e) {}
 
   }
 
