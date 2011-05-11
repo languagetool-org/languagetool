@@ -95,6 +95,7 @@ public final class Main implements ActionListener {
     // TODO: wrong line number is displayed for lines that are wrapped automatically:
     textArea.setLineWrap(true);
     textArea.setWrapStyleWord(true);
+    textArea.addKeyListener(new ControlReturnTextCheckingListener());
     resultArea = new JTextPane();
     resultArea.setContentType("text/html");
     resultArea.setText(HTML_FONT_START + messages.getString("resultAreaText")
@@ -548,6 +549,28 @@ public final class Main implements ActionListener {
     }
   }
 
+  private class ControlReturnTextCheckingListener implements KeyListener {
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+      if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+        if ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) == KeyEvent.CTRL_DOWN_MASK) {
+          final JLanguageTool langTool = getCurrentLanguageTool();
+          checkTextAndDisplayResults(langTool, getCurrentLanguage());
+        }
+      }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+    }
+    
+  }
+  
   //
   // The System Tray stuff
   //
