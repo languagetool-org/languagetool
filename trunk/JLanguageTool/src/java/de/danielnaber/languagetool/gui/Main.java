@@ -18,51 +18,6 @@
  */
 package de.danielnaber.languagetool.gui;
 
-import java.awt.AWTException;
-import java.awt.Container;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Image;
-import java.awt.Insets;
-import java.awt.MenuItem;
-import java.awt.PopupMenu;
-import java.awt.Toolkit;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.Transferable;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.Reader;
-import java.util.*;
-
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextPane;
-import javax.swing.UIManager;
-import javax.swing.WindowConstants;
-import javax.swing.filechooser.FileFilter;
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.jdesktop.jdic.tray.SystemTray;
-import org.jdesktop.jdic.tray.TrayIcon;
-import org.xml.sax.SAXException;
-
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.language.RuleFilenameException;
@@ -71,6 +26,20 @@ import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.server.HTTPServer;
 import de.danielnaber.languagetool.server.PortBindingException;
 import de.danielnaber.languagetool.tools.StringTools;
+
+import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
+import java.awt.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.event.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.Reader;
+import java.util.*;
+import java.util.List;
 
 /**
  * A simple GUI to check texts with.
@@ -256,22 +225,7 @@ public final class Main implements ActionListener {
   }
 
   void hideToTray() {
-    final String version = System.getProperty("java.version");
-    if (!isInTray && version.startsWith("1.5")) { // we don't run under <= 1.4,
-      // so we don't check for that
-      TrayIcon trayIcon = null;
-      try {
-    	final Icon sysTrayIcon = new ImageIcon(JLanguageTool.getDataBroker().getFromResourceDirAsUrl(Main.SYSTEM_TRAY_ICON_NAME));
-        trayIcon = new TrayIcon(sysTrayIcon);
-      } catch (final NoClassDefFoundError e) {
-        throw new MissingJdicException(e);
-      }
-      final SystemTray tray = SystemTray.getDefaultSystemTray();
-      trayIcon.addActionListener(new TrayActionListener());
-      trayIcon.setToolTip(SYSTEM_TRAY_TOOLTIP);
-      tray.addTrayIcon(trayIcon);
-    } else if (!isInTray) {
-      // Java 1.6 or later
+    if (!isInTray) {
       final java.awt.SystemTray tray = java.awt.SystemTray.getSystemTray();
       final Image img = Toolkit.getDefaultToolkit().getImage(
     		  JLanguageTool.getDataBroker().getFromResourceDirAsUrl(Main.SYSTEM_TRAY_ICON_NAME));
