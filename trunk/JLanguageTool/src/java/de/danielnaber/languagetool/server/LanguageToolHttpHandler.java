@@ -22,20 +22,14 @@ import java.util.*;
 class LanguageToolHttpHandler implements HttpHandler {
 
   private static final String CONTENT_TYPE_VALUE = "text/xml; charset=UTF-8";
-
-  private static final Set<String> ALLOWED_IPS = new HashSet<String>();
-  static {
-    // accept only requests from localhost.
-    // TODO: find a cleaner solution
-    ALLOWED_IPS.add("/0:0:0:0:0:0:0:1"); // Suse Linux IPv6 stuff
-    ALLOWED_IPS.add("/0:0:0:0:0:0:0:1%0"); // some(?) Mac OS X
-    ALLOWED_IPS.add("/127.0.0.1");
-  }
   private static final int CONTEXT_SIZE = 40; // characters
+  
+  private final Set<String> allowedIps;  
   private final boolean verbose;
 
-  public LanguageToolHttpHandler(boolean verbose) {
+  LanguageToolHttpHandler(boolean verbose, Set<String> allowedIps) {
     this.verbose = verbose;
+    this.allowedIps = allowedIps;
   }
 
   public void handle(HttpExchange httpExchange) throws IOException {
@@ -48,7 +42,8 @@ class LanguageToolHttpHandler implements HttpHandler {
         httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_FORBIDDEN, 0);
         throw new RuntimeException("Error: Access to " + requestedUri.getPath() + " denied");
       }
-      if (ALLOWED_IPS.contains(httpExchange.getRemoteAddress().getAddress().toString())) {
+      final String remoteAddress = httpExchange.getRemoteAddress().getAddress().toString();
+      if (allowedIps.contains(remoteAddress)) {
         if (requestedUri.getRawPath().endsWith("/Languages")) {
           // request type: list known languages
           printListOfLanguages(httpExchange);

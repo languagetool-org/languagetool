@@ -22,16 +22,28 @@ import com.sun.net.httpserver.HttpServer;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A small embedded HTTP server that checks text. Returns XML, prints debugging
- * to stdout/stderr.
+ * to stdout/stderr. Note that the server only accepts connections from localhost
+ * for security reasons.
  * 
  * @author Daniel Naber
  * @modified by Ankit
  */
 public class HTTPServer {
 
+  private static final Set<String> ALLOWED_IPS = new HashSet<String>();
+  static {
+    // accept only requests from localhost.
+    // TODO: find a cleaner solution
+    ALLOWED_IPS.add("/0:0:0:0:0:0:0:1"); // Suse Linux IPv6 stuff
+    ALLOWED_IPS.add("/0:0:0:0:0:0:0:1%0"); // some(?) Mac OS X
+    ALLOWED_IPS.add("/127.0.0.1");
+  }
+  
   /** The default port on which the server is running (8081). */
   public static final int DEFAULT_PORT = 8081;
 
@@ -70,7 +82,7 @@ public class HTTPServer {
   public void run() {
     try {
       server = HttpServer.create(new InetSocketAddress(port), 0);
-      server.createContext("/", new LanguageToolHttpHandler(verbose));
+      server.createContext("/", new LanguageToolHttpHandler(verbose, ALLOWED_IPS));
       System.out.println("Starting server on port " + port + "...");
       server.start();
       System.out.print("Server started");
@@ -108,7 +120,7 @@ public class HTTPServer {
     }
     try {
       final HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
-      server.createContext("/", new LanguageToolHttpHandler(verbose));
+      server.createContext("/", new LanguageToolHttpHandler(verbose, ALLOWED_IPS));
       server.start();
     } catch (Exception e) {
       throw new RuntimeException("Could not start LanguageTool HTTP server on port " + port, e);
