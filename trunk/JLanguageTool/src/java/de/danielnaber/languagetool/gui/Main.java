@@ -519,10 +519,6 @@ public final class Main implements ActionListener {
               prg.createGUI();
               prg.setTrayMode(true);
               prg.hideToTray();
-            } catch (final MissingJdicException e) {
-              JOptionPane.showMessageDialog(null, e.getMessage(), "Error",
-                  JOptionPane.ERROR_MESSAGE);
-              System.exit(1);
             } catch (final Exception e) {
               Tools.showError(e);
               System.exit(1);
@@ -576,14 +572,8 @@ public final class Main implements ActionListener {
 
   }
 
-  class TrayActionListener implements ActionListener, MouseListener {
+  class TrayActionListener implements MouseListener {
 
-    // for Java 1.5 / Jdic:
-    public void actionPerformed(@SuppressWarnings("unused")ActionEvent e) {
-      handleClick();
-    }
-
-    // Java 1.6:
     public void mouseClicked(@SuppressWarnings("unused")MouseEvent e) {
       handleClick();
     }

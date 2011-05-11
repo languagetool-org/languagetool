@@ -147,12 +147,7 @@ class MainMenuBar extends JMenuBar implements ActionListener {
     } else if (e.getActionCommand().equals(checkClipboardText)) {
       prg.checkClipboardText();
     } else if (e.getActionCommand().equals(dockToTrayText)) {
-      try {
-        prg.hideToTray();
-      } catch (MissingJdicException ex) {
-        JOptionPane.showMessageDialog(null, ex.getMessage(), "Error",
-            JOptionPane.ERROR_MESSAGE);
-      }
+      prg.hideToTray();
     } else if (e.getActionCommand().equals(addLanguageText)) {
       prg.addLanguage();
     } else if (e.getActionCommand().equals(optionsText)) {

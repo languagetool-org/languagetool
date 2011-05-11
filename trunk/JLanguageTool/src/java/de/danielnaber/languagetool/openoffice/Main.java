@@ -604,17 +604,15 @@ public class Main extends WeakBase implements XJobExecutor,
     final String version = System.getProperty("java.version");
     if (version != null
         && (version.startsWith("1.0") || version.startsWith("1.1")
-            || version.startsWith("1.2") || version.startsWith("1.3") || version
-            .startsWith("1.4"))) {
+            || version.startsWith("1.2") || version.startsWith("1.3") 
+            || version .startsWith("1.4") || version.startsWith("1.5"))) {
       final DialogThread dt = new DialogThread(
-          "Error: LanguageTool requires Java 1.5 or later. Current version: "
-              + version);
+          "Error: LanguageTool requires Java 6.0 or later. Current version: " + version);
       dt.start();
       return false;
     }
     try {
-      for (UIManager.LookAndFeelInfo info : UIManager
-          .getInstalledLookAndFeels()) {
+      for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
         if ("Nimbus".equals(info.getName())) {
           UIManager.setLookAndFeel(info.getClassName());
           break;
@@ -623,7 +621,6 @@ public class Main extends WeakBase implements XJobExecutor,
     } catch (Exception ignored) {
       // Well, what can we do...
     }
-    
     return true;
   }
 
