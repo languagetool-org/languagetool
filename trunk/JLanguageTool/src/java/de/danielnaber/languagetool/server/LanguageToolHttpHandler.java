@@ -38,31 +38,31 @@ class LanguageToolHttpHandler implements HttpHandler {
     this.verbose = verbose;
   }
 
-  public void handle(HttpExchange t) throws IOException {
-    final URI requestedUri = t.getRequestURI();
-    final Map<String, String> parameters = getRequestQuery(t, requestedUri);
+  public void handle(HttpExchange httpExchange) throws IOException {
+    final URI requestedUri = httpExchange.getRequestURI();
+    final Map<String, String> parameters = getRequestQuery(httpExchange, requestedUri);
     final long timeStart = System.currentTimeMillis();
     String text = null;
     try {
       if (StringTools.isEmpty(requestedUri.getRawPath())) {
-        t.sendResponseHeaders(HttpURLConnection.HTTP_FORBIDDEN, 0);
+        httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_FORBIDDEN, 0);
         throw new RuntimeException("Error: Access to " + requestedUri.getPath() + " denied");
       }
-      if (ALLOWED_IPS.contains(t.getRemoteAddress().getAddress().toString())) {
+      if (ALLOWED_IPS.contains(httpExchange.getRemoteAddress().getAddress().toString())) {
         if (requestedUri.getRawPath().endsWith("/Languages")) {
           // request type: list known languages
-          printListOfLanguages(t);
+          printListOfLanguages(httpExchange);
         } else {
           // request type: text checking
           text = parameters.get("text");
           if (text == null) {
             throw new IllegalArgumentException("Missing 'text' parameter");
           }
-          checkText(text, t, parameters);
+          checkText(text, httpExchange, parameters);
         }
       } else {
-        t.sendResponseHeaders(HttpURLConnection.HTTP_FORBIDDEN, 0);
-        throw new RuntimeException("Error: Access from " + t.getRemoteAddress().toString() + " denied");
+        httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_FORBIDDEN, 0);
+        throw new RuntimeException("Error: Access from " + httpExchange.getRemoteAddress().toString() + " denied");
       }
     } catch (Exception e) {
       if (verbose) {
@@ -70,17 +70,17 @@ class LanguageToolHttpHandler implements HttpHandler {
       }
       e.printStackTrace();
       final String response = "Error: " + StringTools.escapeXML(Tools.getFullStackTrace(e));
-      t.sendResponseHeaders(HttpURLConnection.HTTP_INTERNAL_ERROR, response.getBytes().length);
-      t.getResponseBody().write(response.getBytes());
-      t.close();
+      httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_INTERNAL_ERROR, response.getBytes().length);
+      httpExchange.getResponseBody().write(response.getBytes());
+      httpExchange.close();
     }
     print("Check done in " + (System.currentTimeMillis() - timeStart) + "ms");
   }
 
-  private Map<String, String> getRequestQuery(HttpExchange t, URI requestedUri) throws IOException {
+  private Map<String, String> getRequestQuery(HttpExchange httpExchange, URI requestedUri) throws IOException {
     Map<String, String> parameters;
-    if ("post".equalsIgnoreCase(t.getRequestMethod())) { // POST
-      final InputStreamReader isr = new InputStreamReader(t.getRequestBody(), "utf-8");
+    if ("post".equalsIgnoreCase(httpExchange.getRequestMethod())) { // POST
+      final InputStreamReader isr = new InputStreamReader(httpExchange.getRequestBody(), "utf-8");
       try {
         final BufferedReader br = new BufferedReader(isr);
         try {
@@ -99,15 +99,15 @@ class LanguageToolHttpHandler implements HttpHandler {
     return parameters;
   }
 
-  private void printListOfLanguages(HttpExchange t) throws IOException {
-    t.getResponseHeaders().set("Content-Type", CONTENT_TYPE_VALUE);
+  private void printListOfLanguages(HttpExchange httpExchange) throws IOException {
+    httpExchange.getResponseHeaders().set("Content-Type", CONTENT_TYPE_VALUE);
     final String response = getSupportedLanguagesAsXML();
-    t.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes().length);
-    t.getResponseBody().write(response.getBytes());
-    t.close();
+    httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes().length);
+    httpExchange.getResponseBody().write(response.getBytes());
+    httpExchange.close();
   }
 
-  private void checkText(String text, HttpExchange t, Map<String, String> parameters) throws Exception {
+  private void checkText(String text, HttpExchange httpExchange, Map<String, String> parameters) throws Exception {
     final String langParam = parameters.get("language");
     if (langParam == null) {
       throw new IllegalArgumentException("Missing 'language' parameter");
@@ -143,12 +143,12 @@ class LanguageToolHttpHandler implements HttpHandler {
       final List<BitextRule> bRules = Tools.getBitextRules(motherTongue, lang);
       matches = Tools.checkBitext(sourceText, text, sourceLt, targetLt, bRules);
     }
-    t.getResponseHeaders().set("Content-Type", CONTENT_TYPE_VALUE);
+    httpExchange.getResponseHeaders().set("Content-Type", CONTENT_TYPE_VALUE);
     final String response = StringTools.ruleMatchesToXML(matches, text,
             CONTEXT_SIZE, StringTools.XmlPrintMode.NORMAL_XML);
-    t.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes().length);
-    t.getResponseBody().write(response.getBytes());
-    t.close();
+    httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes().length);
+    httpExchange.getResponseBody().write(response.getBytes());
+    httpExchange.close();
   }
 
   private Map<String, String> parseQuery(String query) throws UnsupportedEncodingException {
