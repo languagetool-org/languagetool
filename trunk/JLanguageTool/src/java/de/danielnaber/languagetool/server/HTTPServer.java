@@ -22,74 +22,83 @@ import com.sun.net.httpserver.HttpServer;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
 /**
  * A small embedded HTTP server that checks text. Returns XML, prints debugging
- * to stdout/stderr. Note that the server only accepts connections from localhost
- * for security reasons.
+ * to stdout/stderr. Note that by default the server only accepts connections from 
+ * localhost for security reasons.
  * 
  * @author Daniel Naber
  * @modified by Ankit
  */
 public class HTTPServer {
 
-  private static final Set<String> allowedIps = new HashSet<String>();
-  static {
-    // by default, accept only requests from localhost:
-    allowedIps.add("0:0:0:0:0:0:0:1"); // Suse Linux IPv6 stuff
-    allowedIps.add("0:0:0:0:0:0:0:1%0"); // some(?) Mac OS X
-    allowedIps.add("127.0.0.1");
-  }
-  
   /** The default port on which the server is running (8081). */
   public static final int DEFAULT_PORT = 8081;
 
-  private int port = DEFAULT_PORT;
+  private static final Set<String> DEFAULT_ALLOWED_IPS= new HashSet<String>(Arrays.asList(
+          "0:0:0:0:0:0:0:1",     // Suse Linux IPv6 stuff
+          "0:0:0:0:0:0:0:1%0",   // some(?) Mac OS X
+          "127.0.0.1"
+  ));
+
+  private final int port;
+
   private HttpServer server;
-  private boolean verbose;
   
   /**
-   * Prepare a server - use run() to start it.
+   * Prepare a server on the given port - use run() to start it. Accepts
+   * connections from localhost only.
    */
   public HTTPServer() {
+    this(DEFAULT_PORT);
   }
 
   /**
-   * Prepare a server on the given port - use run() to start it.
+   * Prepare a server on the given port - use run() to start it. Accepts
+   * connections from localhost only.
    */
   public HTTPServer(int port) {
     this(port, false);
   }
 
   /**
-   * Prepare a server on the given port - use run() to start it.
-   *
-   * @param verbose
-   *          if true, the text to check will be displayed in case of exceptions
-   *          (default: false)
+   * Prepare a server on the given port - use run() to start it. Accepts
+   * connections from localhost only.
+   * @param verbose if true, the text to be checked will be displayed in case of exceptions
    */
   public HTTPServer(int port, boolean verbose) {
+    this(port, verbose, DEFAULT_ALLOWED_IPS);
+  }
+  
+  /**
+   * Prepare a server on the given port - use run() to start it.
+   * @param verbose if true, the text to be checked will be displayed in case of exceptions
+   * @param allowedIps the IP addresses from which connections are allowed
+   * @throws PortBindingException if we cannot bind to the given port, probably because something else is running there
+   */
+  public HTTPServer(int port, boolean verbose, Set<String> allowedIps) {
     this.port = port;
-    this.verbose = verbose;
+    try {
+      server = HttpServer.create(new InetSocketAddress(port), 0);
+      server.createContext("/", new LanguageToolHttpHandler(verbose, allowedIps));
+    } catch (Exception e) {
+      throw new PortBindingException(
+          "LanguageTool server could not be started on port " + port
+          + ", maybe something else is running on that port already?", e);
+    }
   }
 
   /**
    * Start the server.
    */
   public void run() {
-    try {
-      server = HttpServer.create(new InetSocketAddress(port), 0);
-      server.createContext("/", new LanguageToolHttpHandler(verbose, allowedIps));
-      System.out.println("Starting server on port " + port + "...");
-      server.start();
-      System.out.print("Server started");
-    } catch (Exception e) {
-      throw new PortBindingException(
-          "LanguageTool server could not be started on port " + port
-          + ", maybe something else is running on that port already?", e);
-    }
+    System.out.println("Starting server on port " + port + "...");
+    server.start();
+    System.out.print("Server started");
   }
 
   /**
@@ -119,7 +128,7 @@ public class HTTPServer {
     }
     try {
       final HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
-      server.createContext("/", new LanguageToolHttpHandler(verbose, allowedIps));
+      server.createContext("/", new LanguageToolHttpHandler(verbose, DEFAULT_ALLOWED_IPS));
       server.start();
     } catch (Exception e) {
       throw new RuntimeException("Could not start LanguageTool HTTP server on port " + port, e);

@@ -24,6 +24,7 @@ import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.util.HashSet;
 
 import junit.framework.TestCase;
 import de.danielnaber.languagetool.JLanguageTool;
@@ -41,7 +42,6 @@ public class HTTPServerTest extends TestCase {
     try {
       server.run();
       runTests();
-
     } finally {
       server.stop();
     }
@@ -94,6 +94,20 @@ public class HTTPServerTest extends TestCase {
     assertTrue(bitextCheck(Language.POLISH, Language.ENGLISH, "This is something else.", "To jest frywolne.").indexOf("FRIVOLOUS") == -1);
   }
 
+  public void testAccessDenied() throws Exception {
+    final HTTPServer server = new HTTPServer(HTTPServer.DEFAULT_PORT, false, new HashSet<String>());
+    try {
+      server.run();
+      try {
+        check(Language.GERMAN, "no ip address allowed, so this cannot work");
+        fail();
+      } catch (IOException expected) {
+      }
+    } finally {
+      server.stop();
+    }
+  }
+  
   private String check(Language lang, String text) throws IOException {
 	  return check(lang, null, text);
   }

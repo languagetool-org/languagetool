@@ -37,6 +37,11 @@ public class HTTPServerLoadTest extends HTTPServerTest {
     }
   }
   
+  @Override
+  public void testAccessDenied() throws Exception {
+    // no need to test this here, tested in super class
+  }
+  
   private class TestRunnable implements Runnable {
     @Override
     public void run() {
