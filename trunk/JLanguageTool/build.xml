@@ -163,14 +163,14 @@
 
 	<!-- ================================================================== -->
 
-	<target name="test-coverage" depends="clean,init,dist" description="Checks unit test coverage">
+	<target name="test-coverage" depends="clean,init,dist" description="Checks unit test coverage (needs cobertura manually copied to libs/build/cobertura/)">
 
 		<echo>##### NOTE: log4j needs to be added to CLASSPATH manually! #####</echo>
 
 		<mkdir dir="${junit.classes.dir}" />
 		<mkdir dir="${dist.dir}/report/tests" />
 
-		<javac encoding="${encoding}" srcdir="${src.test.dir}" includes="**/*Test.java" destdir="${junit.classes.dir}" target="${target}" debug="${debug}">
+		<javac encoding="${encoding}" srcdir="${src.test.dir}" includes="**/*Test.java,**/XMLValidator.java,**/TestTools.java" destdir="${junit.classes.dir}" target="${target}" debug="${debug}">
 			<classpath refid="junit.classpath" />
 		</javac>
 		<javac encoding="${encoding}" srcdir="${src.java.dir}" includes="**/*.java" destdir="${junit.classes.dir}" target="${target}" debug="${debug}">
@@ -180,6 +180,9 @@
 			<fileset dir="${src.java.dir}/de/danielnaber/languagetool/">
 				<include name="*.properties" />
 			</fileset>
+            <fileset dir="${src.test.dir}/de/danielnaber/languagetool/">
+                <include name="**/test-en.txt" />
+            </fileset>
 		</copy>
 
 		<!-- make sure that no classes where left in the build directory, clean it up -->
