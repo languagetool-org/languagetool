@@ -38,11 +38,7 @@ class LanguageToolHttpHandler implements HttpHandler {
     final long timeStart = System.currentTimeMillis();
     String text = null;
     try {
-      if (StringTools.isEmpty(requestedUri.getRawPath())) {
-        httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_FORBIDDEN, 0);
-        throw new RuntimeException("Error: Access to " + requestedUri.getPath() + " denied");
-      }
-      final String remoteAddress = httpExchange.getRemoteAddress().getAddress().toString();
+      final String remoteAddress = httpExchange.getRemoteAddress().getAddress().getHostAddress();
       if (allowedIps.contains(remoteAddress)) {
         if (requestedUri.getRawPath().endsWith("/Languages")) {
           // request type: list known languages
@@ -56,8 +52,9 @@ class LanguageToolHttpHandler implements HttpHandler {
           checkText(text, httpExchange, parameters);
         }
       } else {
-        httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_FORBIDDEN, 0);
-        throw new RuntimeException("Error: Access from " + httpExchange.getRemoteAddress().toString() + " denied");
+        final String errorMessage = "Error: Access from " + StringTools.escapeXML(remoteAddress) + " denied";
+        sendError(httpExchange, HttpURLConnection.HTTP_FORBIDDEN, errorMessage);
+        throw new RuntimeException(errorMessage);
       }
     } catch (Exception e) {
       if (verbose) {
@@ -65,11 +62,15 @@ class LanguageToolHttpHandler implements HttpHandler {
       }
       e.printStackTrace();
       final String response = "Error: " + StringTools.escapeXML(Tools.getFullStackTrace(e));
-      httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_INTERNAL_ERROR, response.getBytes().length);
-      httpExchange.getResponseBody().write(response.getBytes());
+      sendError(httpExchange, HttpURLConnection.HTTP_INTERNAL_ERROR, response);
       httpExchange.close();
     }
     print("Check done in " + (System.currentTimeMillis() - timeStart) + "ms");
+  }
+
+  private void sendError(HttpExchange httpExchange, int returnCode, String response) throws IOException {
+    httpExchange.sendResponseHeaders(returnCode, response.getBytes().length);
+    httpExchange.getResponseBody().write(response.getBytes());
   }
 
   private Map<String, String> getRequestQuery(HttpExchange httpExchange, URI requestedUri) throws IOException {

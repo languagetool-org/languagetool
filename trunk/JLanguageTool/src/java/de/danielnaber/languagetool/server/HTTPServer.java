@@ -35,13 +35,12 @@ import java.util.Set;
  */
 public class HTTPServer {
 
-  private static final Set<String> ALLOWED_IPS = new HashSet<String>();
+  private static final Set<String> allowedIps = new HashSet<String>();
   static {
-    // accept only requests from localhost.
-    // TODO: find a cleaner solution
-    ALLOWED_IPS.add("/0:0:0:0:0:0:0:1"); // Suse Linux IPv6 stuff
-    ALLOWED_IPS.add("/0:0:0:0:0:0:0:1%0"); // some(?) Mac OS X
-    ALLOWED_IPS.add("/127.0.0.1");
+    // by default, accept only requests from localhost:
+    allowedIps.add("0:0:0:0:0:0:0:1"); // Suse Linux IPv6 stuff
+    allowedIps.add("0:0:0:0:0:0:0:1%0"); // some(?) Mac OS X
+    allowedIps.add("127.0.0.1");
   }
   
   /** The default port on which the server is running (8081). */
@@ -82,7 +81,7 @@ public class HTTPServer {
   public void run() {
     try {
       server = HttpServer.create(new InetSocketAddress(port), 0);
-      server.createContext("/", new LanguageToolHttpHandler(verbose, ALLOWED_IPS));
+      server.createContext("/", new LanguageToolHttpHandler(verbose, allowedIps));
       System.out.println("Starting server on port " + port + "...");
       server.start();
       System.out.print("Server started");
@@ -120,7 +119,7 @@ public class HTTPServer {
     }
     try {
       final HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
-      server.createContext("/", new LanguageToolHttpHandler(verbose, ALLOWED_IPS));
+      server.createContext("/", new LanguageToolHttpHandler(verbose, allowedIps));
       server.start();
     } catch (Exception e) {
       throw new RuntimeException("Could not start LanguageTool HTTP server on port " + port, e);
