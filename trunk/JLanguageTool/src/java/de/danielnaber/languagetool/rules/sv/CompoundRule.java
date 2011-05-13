@@ -18,7 +18,6 @@
  */
 package de.danielnaber.languagetool.rules.sv;
 
-import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.rules.AbstractCompoundRule;
 
 import java.io.IOException;
@@ -32,13 +31,12 @@ import java.util.ResourceBundle;
 public class CompoundRule extends AbstractCompoundRule {
   
   private static final String FILE_NAME = "/sv/compounds.txt";
-  
+
   public CompoundRule(final ResourceBundle messages) throws IOException {
-    super(messages);
-    loadCompoundFile(JLanguageTool.getDataBroker().getFromResourceDirAsStream(FILE_NAME), "UTF-8");
-    super.setMsg("Dessa ord skrivs samman med bindesträck.", 
-        "Dessa ord skrivs samman.", 
-        "Dessa ord skrivs samman med eller utan bindesträck.");
+    super(messages, FILE_NAME,
+            "Dessa ord skrivs samman med bindesträck.",
+            "Dessa ord skrivs samman.",
+            "Dessa ord skrivs samman med eller utan bindesträck.");
   }
 
   @Override

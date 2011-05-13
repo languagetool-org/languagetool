@@ -21,7 +21,6 @@ package de.danielnaber.languagetool.rules.pl;
 import java.io.IOException;
 import java.util.ResourceBundle;
 
-import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.rules.AbstractCompoundRule;
 
 /**
@@ -33,14 +32,13 @@ import de.danielnaber.languagetool.rules.AbstractCompoundRule;
 public final class CompoundRule extends AbstractCompoundRule {
 
   private static final String FILE_NAME = "/pl/compounds.txt";
-    
-  public CompoundRule(final ResourceBundle messages) throws IOException {    
-    super(messages);
-    loadCompoundFile(JLanguageTool.getDataBroker().getFromResourceDirAsStream(FILE_NAME), "UTF-8");
+
+  public CompoundRule(final ResourceBundle messages) throws IOException {
+    super(messages, FILE_NAME,
+            "Ten wyraz pisze się z łącznikiem.",
+            "Ten wyraz pisze się razem (bez spacji ani łącznika).",
+            "Ten wyraz pisze się z łącznikiem lub bez niego.");
     super.setShort("Brak łącznika lub zbędny łącznik");
-    super.setMsg("Ten wyraz pisze się z łącznikiem.", 
-        "Ten wyraz pisze się razem (bez spacji ani łącznika).", 
-        "Ten wyraz pisze się z łącznikiem lub bez niego.");
   }
   
   @Override

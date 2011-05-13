@@ -21,7 +21,6 @@ package de.danielnaber.languagetool.rules.sk;
 import java.io.IOException;
 import java.util.ResourceBundle;
 
-import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.rules.AbstractCompoundRule;
 
 /**
@@ -33,14 +32,13 @@ import de.danielnaber.languagetool.rules.AbstractCompoundRule;
 public final class CompoundRule extends AbstractCompoundRule {
 
   private static final String FILE_NAME = "/sk/compounds.txt";
-    
-  public CompoundRule(final ResourceBundle messages) throws IOException {    
-    super(messages);
-    loadCompoundFile(JLanguageTool.getDataBroker().getFromResourceDirAsStream(FILE_NAME), "UTF-8");
+
+  public CompoundRule(final ResourceBundle messages) throws IOException {
+    super(messages, FILE_NAME,
+            "Toto slovo sa zvyčajne píše so spojovníkom.",
+            "Toto slovo sa obvykle píše bez spojovníka.",
+            "Tento výraz sa bežne píše s alebo bez spojovníka.");
     super.setShort("Problém spájania slov");
-    super.setMsg("Toto slovo sa zvyčajne píše so spojovníkom.", 
-        "Toto slovo sa obvykle píše bez spojovníka.", 
-        "Tento výraz sa bežne píše s alebo bez spojovníka.");
   }
   
   @Override

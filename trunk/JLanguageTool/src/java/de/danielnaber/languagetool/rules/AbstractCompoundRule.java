@@ -26,6 +26,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
+import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.tools.StringTools;
 
 /**
@@ -42,9 +43,9 @@ public abstract class AbstractCompoundRule extends Rule {
   private final Set<String> noDashSuggestion = new HashSet<String>();
   private final Set<String> onlyDashSuggestion = new HashSet<String>();
 
-  private String withHyphenMessage;
-  private String asOneMessage;
-  private String withOrWithoutHyphenMessage;
+  private final String withHyphenMessage;
+  private final String withoutHyphenMessage;
+  private final String withOrWithoutHyphenMessage;
 
   private String shortDesc;
 
@@ -58,9 +59,15 @@ public abstract class AbstractCompoundRule extends Rule {
    */
   private boolean hyphenIgnored = true;
   
-  public AbstractCompoundRule(final ResourceBundle messages) throws IOException {
-    if (messages != null)
-      super.setCategory(new Category(messages.getString("category_misc")));    
+  public AbstractCompoundRule(final ResourceBundle messages, final String fileName,
+        final String withHyphenMessage, final String withoutHyphenMessage, final String withOrWithoutHyphenMessage) throws IOException {
+    if (messages != null) {
+      super.setCategory(new Category(messages.getString("category_misc")));
+    }
+    loadCompoundFile(JLanguageTool.getDataBroker().getFromResourceDirAsStream(fileName), "UTF-8");
+    this.withHyphenMessage = withHyphenMessage;
+    this.withoutHyphenMessage = withoutHyphenMessage;
+    this.withOrWithoutHyphenMessage = withOrWithoutHyphenMessage;
   }
 
   @Override
@@ -71,12 +78,6 @@ public abstract class AbstractCompoundRule extends Rule {
 
   public void setShort(final String shortDescription) {
     shortDesc = shortDescription;
-  }
-
-  public void setMsg(final String withHyphenMessage, final String asOneMessage, final String withHyphenOrNotMessage) {
-    this.withHyphenMessage = withHyphenMessage;
-    this.asOneMessage = asOneMessage;
-    withOrWithoutHyphenMessage = withHyphenOrNotMessage;
   }
 
   public boolean isHyphenIgnored() {
@@ -153,7 +154,7 @@ public abstract class AbstractCompoundRule extends Rule {
           if (!hasAllUppercaseParts(origStringToCheck) && countParts(stringToCheck) <= getMaxUnHyphenatedWordCount()
               && !onlyDashSuggestion.contains(stringToCheck)) {
             replacement.add(mergeCompound(origStringToCheck));
-            msg = asOneMessage;
+            msg = withoutHyphenMessage;
           }
           final String[] parts = stringToCheck.split(" ");
           if (parts.length > 0 && parts[0].length() == 1) {
@@ -232,7 +233,7 @@ public abstract class AbstractCompoundRule extends Rule {
     }
   }
 
-  public void loadCompoundFile(final InputStream file, final String encoding) throws IOException {
+  private void loadCompoundFile(final InputStream file, final String encoding) throws IOException {
     final Scanner scanner = new Scanner(file, encoding);
     try {
       while (scanner.hasNextLine()) {

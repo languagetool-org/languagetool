@@ -21,7 +21,6 @@ package de.danielnaber.languagetool.rules.en;
 import java.io.IOException;
 import java.util.ResourceBundle;
 
-import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.rules.AbstractCompoundRule;
 
 /**
@@ -35,12 +34,11 @@ public class CompoundRule extends AbstractCompoundRule {
   private static final String FILE_NAME = "/en/compounds.txt";
     
   public CompoundRule(final ResourceBundle messages) throws IOException {    
-    super(messages);
-    loadCompoundFile(JLanguageTool.getDataBroker().getFromResourceDirAsStream(FILE_NAME), "UTF-8");
+    super(messages, FILE_NAME,
+            "This word is normally spelled with hyphen.", 
+            "This word is normally spelled as one.", 
+            "This expression is normally spelled as one or with hyphen.");
     super.setShort("Hyphenation problem");
-    super.setMsg("This word is normally spelled with hyphen.", 
-        "This word is normally spelled as one.", 
-        "This expression is normally spelled as one or with hyphen.");
   }
   
   @Override

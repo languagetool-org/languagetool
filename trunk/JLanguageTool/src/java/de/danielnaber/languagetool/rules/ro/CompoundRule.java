@@ -21,7 +21,6 @@ package de.danielnaber.languagetool.rules.ro;
 import java.io.IOException;
 import java.util.ResourceBundle;
 
-import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.rules.AbstractCompoundRule;
 
 /**
@@ -31,16 +30,14 @@ import de.danielnaber.languagetool.rules.AbstractCompoundRule;
  */
 public class CompoundRule extends AbstractCompoundRule {
 
-  public static final String ROMANIAN_COMPOUND_RULE = "RO_COMPOUND";
   private static final String FILE_NAME = "/ro/compounds.txt";
 
   public CompoundRule(final ResourceBundle messages) throws IOException {
-    super(messages);
-    loadCompoundFile(JLanguageTool.getDataBroker().getFromRulesDirAsStream(FILE_NAME), "UTF-8");
-    super.setShort("Problemă de scriere (cratimă, spațiu, etc.)");
-    super.setMsg("Cuvântul se scrie cu cratimă.",
+    super(messages, FILE_NAME,
+            "Cuvântul se scrie cu cratimă.",
             "Cuvântul se scrie legat.",
             "Cuvântul se scrie legat sau cu cratimă.");
+    super.setShort("Problemă de scriere (cratimă, spațiu, etc.)");
     // default value (2) is not ok for Romanian
     setMaxUnHyphenatedWordCount(Integer.MAX_VALUE);
     // there are words that should not be written with hyphen but as one word
@@ -49,7 +46,7 @@ public class CompoundRule extends AbstractCompoundRule {
 
   @Override
   public String getId() {
-    return ROMANIAN_COMPOUND_RULE;
+    return "RO_COMPOUND";
   }
 
   @Override
