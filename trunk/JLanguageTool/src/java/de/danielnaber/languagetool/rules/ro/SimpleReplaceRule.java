@@ -64,11 +64,11 @@ public class SimpleReplaceRule extends Rule {
   private static final String FILE_NAME = "/ro/replace.txt";
   private static final String FILE_ENCODING = "utf-8";
   // locale used on case-conversion
-  private static Locale roLocale = new Locale("ro");
+  private static final Locale RO_LOCALE = new Locale("ro");
 
   // list of maps containing error-corrections pairs.
   // the n-th map contains key strings of (n+1) words 
-  private List<Map<String, String>> wrongWords;
+  private final List<Map<String, String>> wrongWords;
 
   public final String getFileName() {
     return FILE_NAME;
@@ -118,7 +118,7 @@ public class SimpleReplaceRule extends Rule {
    * locale used on case-conversion
    */
   public Locale getLocale() {
-    return roLocale;
+    return RO_LOCALE;
   }
 
   public String getEncoding() {
@@ -194,7 +194,7 @@ public class SimpleReplaceRule extends Rule {
       }
     }
     // seal the result (prevent modification from outside this class)
-    List<Map<String,String>> result = new ArrayList<Map<String, String>>();
+    final List<Map<String,String>> result = new ArrayList<Map<String, String>>();
     for (Map<String, String> map : list) {
       result.add(Collections.unmodifiableMap(map));
     }
