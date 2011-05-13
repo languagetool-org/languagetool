@@ -111,10 +111,11 @@ public abstract class AbstractCompoundRule extends Rule {
     for (int i = 0; i < tokens.length + MAX_TERMS-1; i++) {
       AnalyzedTokenReadings token = null;
       // we need to extend the token list so we find matches at the end of the original list:
-      if (i >= tokens.length)
+      if (i >= tokens.length) {
         token = new AnalyzedTokenReadings(new AnalyzedToken("", "", null), prevTokens.peek().getStartPos());
-      else
+      } else {
         token = tokens[i];
+      }
       if (i == 0) {
         addToQueue(token, prevTokens);
         continue;
@@ -127,8 +128,9 @@ public abstract class AbstractCompoundRule extends Rule {
       final List<String> origStringsToCheck = new ArrayList<String>();    // original upper/lowercase spelling
       final Map<String, AnalyzedTokenReadings> stringToToken = new HashMap<String, AnalyzedTokenReadings>();
       for (AnalyzedTokenReadings atr : prevTokens) {
-        if (j == 0)
+        if (j == 0) {
           firstMatchToken = atr;
+        }
         sb.append(' ');
         sb.append(atr.getToken());
         if (j >= 1) {
@@ -245,24 +247,23 @@ public abstract class AbstractCompoundRule extends Rule {
       String line;
       while ((line = br.readLine()) != null) {
         line = line.trim();
-        if (line.length() < 1) {
-          continue;
-        }
-        if (line.charAt(0) == '#') {      // ignore comments
-          continue;
+        if (line.length() < 1 || line.charAt(0) == '#') {
+          continue;     // ignore comments
         }
         // the set contains the incorrect spellings, i.e. the ones without hyphen
         line = line.replace('-', ' ');
         final String[] parts = line.split(" ");
-        if (parts.length > MAX_TERMS)
+        if (parts.length > MAX_TERMS) {
           throw new IOException("Too many compound parts: " + line + ", maximum allowed: " + MAX_TERMS);
-        if (parts.length == 1)
+        }
+        if (parts.length == 1) {
           throw new IOException("Not a compound: " + line);
+        }
         if (line.endsWith("+")) {
-          line = line.substring(0, line.length() - 1);    // cut off "+"
+          line = removeLastCharacter(line);
           noDashSuggestion.add(line.toLowerCase());
         } else if (line.endsWith("*")) {
-          line = line.substring(0, line.length() - 1);    // cut off "*"
+          line = removeLastCharacter(line);
           onlyDashSuggestion.add(line.toLowerCase());
         }
         incorrectCompounds.add(line.toLowerCase());
@@ -271,6 +272,10 @@ public abstract class AbstractCompoundRule extends Rule {
       if (br != null) br.close();
       if (isr != null) isr.close();
     }
+  }
+
+  private String removeLastCharacter(String str) {
+    return str.substring(0, str.length() - 1);
   }
 
   public void reset() {
