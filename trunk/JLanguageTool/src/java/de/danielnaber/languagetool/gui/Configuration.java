@@ -29,7 +29,7 @@ import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.server.HTTPServer;
 
 /**
- * Configuration -- currently this is just a list of disabled rule IDs.
+ * Configuration -- currently this is mostly a list of disabled rule IDs.
  * Configuration is loaded from and stored to a properties file.
  * 
  * @author Daniel Naber
@@ -45,7 +45,6 @@ public class Configuration {
   private static final String SERVER_PORT_CONFIG_KEY = "serverPort";
 
   private File configFile;
-
   private Set<String> disabledRuleIds = new HashSet<String>();
   private Set<String> enabledRuleIds = new HashSet<String>();
   private Set<String> disabledCategoryNames = new HashSet<String>();
@@ -215,18 +214,13 @@ public class Configuration {
     if (motherTongue != null) {
       props.setProperty(MOTHER_TONGUE_CONFIG_KEY, motherTongue.getShortName());
     }
-    props.setProperty(SERVER_RUN_CONFIG_KEY, Boolean.valueOf(runServer)
-        .toString());
-    props.setProperty(SERVER_PORT_CONFIG_KEY, Integer.valueOf(serverPort)
-        .toString());
-    FileOutputStream fos = null;
+    props.setProperty(SERVER_RUN_CONFIG_KEY, Boolean.valueOf(runServer).toString());
+    props.setProperty(SERVER_PORT_CONFIG_KEY, Integer.valueOf(serverPort).toString());
+    final FileOutputStream fos = new FileOutputStream(configFile);
     try {
-      fos = new FileOutputStream(configFile);
       props.store(fos, "LanguageTool configuration");
     } finally {
-      if (fos != null) {
-        fos.close();
-      }
+      fos.close();
     }
   }
 
