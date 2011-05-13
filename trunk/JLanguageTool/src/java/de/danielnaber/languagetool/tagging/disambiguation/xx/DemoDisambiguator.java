@@ -25,15 +25,14 @@ import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
 /**
  * Trivial disambiguator.
  * Does nothing at all. Just copies input to output.   
- * 
- * @author Jozef Licko
  *
+ * @author Jozef Licko
  */
 public class DemoDisambiguator implements Disambiguator {
 
-	@Override
+  @Override
   public final AnalyzedSentence disambiguate(final AnalyzedSentence input) {
-		return input;
-	}
+    return input;
+  }
 
 }

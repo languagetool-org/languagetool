@@ -19,10 +19,6 @@
 
 package de.danielnaber.languagetool.language;
 
-/**
- * @author Anton Karl Ingason
- */
-
 import java.util.*;
 
 import de.danielnaber.languagetool.Language;
@@ -32,10 +28,13 @@ import de.danielnaber.languagetool.tagging.xx.DemoTagger;
 import de.danielnaber.languagetool.tokenizers.SRXSentenceTokenizer;
 import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
 
+/**
+ * @author Anton Karl Ingason
+ */
 public class Icelandic extends Language {
-	
-	private final Tagger tagger = new DemoTagger();
-	private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer(getShortName());
+
+  private final Tagger tagger = new DemoTagger();
+  private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer(getShortName());
 
   @Override
   public String getName() {
@@ -47,27 +46,27 @@ public class Icelandic extends Language {
     return "is";
   }
 
-	@Override
-	public String[] getCountryVariants() {
-	    return new String[]{"IS"};
-	}
+  @Override
+  public String[] getCountryVariants() {
+    return new String[]{"IS"};
+  }
 
-	@Override
-	public Locale getLocale() {
-	    return new Locale(getShortName());
-	}
+  @Override
+  public Locale getLocale() {
+    return new Locale(getShortName());
+  }
 
-	@Override
-	public Contributor[] getMaintainers() {
-	     return new Contributor[] {new Contributor("Anton Karl Ingason")};
-	}
+  @Override
+  public Contributor[] getMaintainers() {
+    return new Contributor[] {new Contributor("Anton Karl Ingason")};
+  }
 
-	@Override
+  @Override
   public Tagger getTagger() {
-		    return tagger;
-	}
+    return tagger;
+  }
 
-	@Override
+  @Override
   public SentenceTokenizer getSentenceTokenizer() {
     return sentenceTokenizer;
   }

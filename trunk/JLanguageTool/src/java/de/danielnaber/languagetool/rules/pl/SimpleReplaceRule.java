@@ -27,63 +27,63 @@ import de.danielnaber.languagetool.rules.AbstractSimpleReplaceRule;
 /**
  * A rule that matches words or phrases which should not be used and suggests
  * correct ones instead.
- * 
+ *
  * Polish implementations. Loads the list of words from
  * <code>rules/pl/replace.txt</code>.
- * 
+ *
  * @author Marcin Miłkowski
  */
 public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
 
-	public static final String POLISH_SIMPLE_REPLACE_RULE = "PL_SIMPLE_REPLACE";
-	
-	private static final String FILE_NAME = "/pl/replace.txt";
-	// locale used on case-conversion
-	private static final Locale PL_LOCALE = new Locale("pl");
+  public static final String POLISH_SIMPLE_REPLACE_RULE = "PL_SIMPLE_REPLACE";
 
-	@Override
+  private static final String FILE_NAME = "/pl/replace.txt";
+  // locale used on case-conversion
+  private static final Locale PL_LOCALE = new Locale("pl");
+
+  @Override
   public final String getFileName() {
-		return FILE_NAME;
-	}
+    return FILE_NAME;
+  }
 
-	public SimpleReplaceRule(final ResourceBundle messages) throws IOException {
-		super(messages);
-	}
+  public SimpleReplaceRule(final ResourceBundle messages) throws IOException {
+    super(messages);
+  }
 
-	@Override
+  @Override
   public final String getId() {
-		return POLISH_SIMPLE_REPLACE_RULE;
-	}
+    return POLISH_SIMPLE_REPLACE_RULE;
+  }
 
-	@Override
+  @Override
   public String getDescription() {
-		return "Typowe literówki";
-	}
-	
-	@Override
-  public String getShort() {
-	  return "Literówka";
-	}
-	
-	@Override
-  public String getSuggestion() {
-	  return " to typowa literówka, poprawnie: ";
-	}
-	
-	/**
-	 * use case-insensitive matching.
-	 */
-	@Override
-  public boolean isCaseSensitive() {
-		return false;
-	}
+    return "Typowe literówki";
+  }
 
-	/**
-	 * locale used on case-conversion
-	 */
-	@Override
+  @Override
+  public String getShort() {
+    return "Literówka";
+  }
+
+  @Override
+  public String getSuggestion() {
+    return " to typowa literówka, poprawnie: ";
+  }
+
+  /**
+   * use case-insensitive matching.
+   */
+  @Override
+  public boolean isCaseSensitive() {
+    return false;
+  }
+
+  /**
+   * locale used on case-conversion
+   */
+  @Override
   public Locale getLocale() {
-		return PL_LOCALE;
-	}
+    return PL_LOCALE;
+  }
 
 }

@@ -27,71 +27,71 @@ import de.danielnaber.languagetool.rules.AbstractSimpleReplaceRule;
 /**
  * A rule that matches words or phrases which should not be used and suggests
  * correct ones instead.
- * 
+ *
  * Catalan implementations for accentuation errors.
  * This is basically the same as CastellanismesReplaceRule.java
  * with a different error message.
- * 
+ *
  * Loads the list of words from <code>rules/ca/accentuacio.txt</code>.
  *
  * TODO: Some of the entries are proper names (Greek gods, etc.), which
  * aren't currently checked.
- * 
+ *
  * @author Jimmy O'Regan
  *
  * Based on pl/SimpleReplaceRule.java
  */
 public class AccentuacioReplaceRule extends AbstractSimpleReplaceRule {
 
-	public static final String CATALAN_ACCENTUACIO_REPLACE_RULE = "CA_ACCENTUACIO_REPLACE";
-	
-	private static final String FILE_NAME = "/ca/accentuacio.txt";
-	// locale used on case-conversion
-	private static final Locale CA_LOCALE = new Locale("ca");
+  public static final String CATALAN_ACCENTUACIO_REPLACE_RULE = "CA_ACCENTUACIO_REPLACE";
 
-	@Override
+  private static final String FILE_NAME = "/ca/accentuacio.txt";
+  // locale used on case-conversion
+  private static final Locale CA_LOCALE = new Locale("ca");
+
+  @Override
   public final String getFileName() {
-		return FILE_NAME;
-	}
+    return FILE_NAME;
+  }
 
-	public AccentuacioReplaceRule(final ResourceBundle messages) throws IOException {
-		super(messages);
-	}
+  public AccentuacioReplaceRule(final ResourceBundle messages) throws IOException {
+    super(messages);
+  }
 
-	@Override
+  @Override
   public final String getId() {
-		return CATALAN_ACCENTUACIO_REPLACE_RULE;
-	}
+    return CATALAN_ACCENTUACIO_REPLACE_RULE;
+  }
 
-	@Override
+  @Override
   public String getDescription() {
-		return "Errors d'accentuació";
-	}
-	
-	@Override
-  public String getShort() {
-	  return "Accentuació";
-	}
-	
-	@Override
-  public String getSuggestion() {
-	  return " es un error d'accentuació, cal dir: ";
-	}
-	
-	/**
-	 * use case-insensitive matching.
-	 */
-	@Override
-  public boolean isCaseSensitive() {
-		return false;
-	}
+    return "Errors d'accentuació";
+  }
 
-	/**
-	 * locale used on case-conversion
-	 */
-	@Override
+  @Override
+  public String getShort() {
+    return "Accentuació";
+  }
+
+  @Override
+  public String getSuggestion() {
+    return " es un error d'accentuació, cal dir: ";
+  }
+
+  /**
+   * use case-insensitive matching.
+   */
+  @Override
+  public boolean isCaseSensitive() {
+    return false;
+  }
+
+  /**
+   * locale used on case-conversion
+   */
+  @Override
   public Locale getLocale() {
-		return CA_LOCALE;
-	}
+    return CA_LOCALE;
+  }
 
 }

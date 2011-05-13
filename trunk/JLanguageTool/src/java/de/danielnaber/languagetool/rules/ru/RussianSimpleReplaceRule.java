@@ -27,10 +27,10 @@ import de.danielnaber.languagetool.rules.AbstractSimpleReplaceRule;
 /**
  * A rule that matches words or phrases which should not be used and suggests
  * correct ones instead. 
- * 
+ *
  * Russian implementations. Loads the
  * relevant words from <code>rules/ru/replace.txt</code>.
- * 
+ *
  * @author  Yakov Reztsov
  */
 public class RussianSimpleReplaceRule extends AbstractSimpleReplaceRule {
@@ -38,8 +38,8 @@ public class RussianSimpleReplaceRule extends AbstractSimpleReplaceRule {
   private static final String FILE_NAME = "/ru/replace.txt";
 
   // locale used on case-conversion
-	private static final Locale RU_LOCALE = new Locale("ru");
-  
+  private static final Locale RU_LOCALE = new Locale("ru");
+
   @Override
   public final String getFileName() {
     return FILE_NAME;
@@ -53,7 +53,7 @@ public class RussianSimpleReplaceRule extends AbstractSimpleReplaceRule {
   public final String getId() {
     return "RU_SIMPLE_REPLACE";
   }
-  
+
   @Override
   public String getDescription() {
     return "Поиск ошибочных слов/фраз";
@@ -61,27 +61,27 @@ public class RussianSimpleReplaceRule extends AbstractSimpleReplaceRule {
 
   @Override
   public String getShort() {
-	  return "Ошибка?";
-	}
-	
-	@Override
-  public String getSuggestion() {
-	  return " - ошибочное слово/фраза, исправление: ";
-	}
-	
-	/**
-	 * use case-insensitive matching.
-	 */
-	@Override
-  public boolean isCaseSensitive() {
-		return false;
-	}
+    return "Ошибка?";
+  }
 
-	/**
-	 * locale used on case-conversion
-	 */
-	@Override
+  @Override
+  public String getSuggestion() {
+    return " - ошибочное слово/фраза, исправление: ";
+  }
+
+  /**
+   * use case-insensitive matching.
+   */
+  @Override
+  public boolean isCaseSensitive() {
+    return false;
+  }
+
+  /**
+   * locale used on case-conversion
+   */
+  @Override
   public Locale getLocale() {
-		return RU_LOCALE;
-	}
+    return RU_LOCALE;
+  }
 }
