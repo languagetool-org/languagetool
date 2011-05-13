@@ -4549,6 +4549,18 @@ $Id: grammar.xml,v 1.129 2010-11-13 23:24:21 dnaber Exp $
      -->
   </category>
   <category name="Commonly Confused Words">
+    <rule id="WORTH_THAN" name="worth (worse) than">
+      <pattern mark_from="1" mark_to="-1">
+        <token negate="yes" regexp="yes">more|less</token>
+        <token>worth</token>
+        <token>than</token>
+      </pattern>
+      <message>Did you mean <suggestion>worse</suggestion>, the comparative of 'bad'?</message>
+      <short>Possible typo</short>
+      <example type="correct">Zynga estimated to be more <marker>worth</marker> than EA.</example>
+      <example type="correct">Is cloud hosting <marker>worse</marker> than hostgator?</example>
+      <example type="incorrect">Is cloud hosting <marker>worth</marker> than hostgator?</example>
+    </rule>
     <rule id="NOT_JET" name="not jet (yet)">
       <pattern mark_from="1" mark_to="-1">
         <token>not</token>
