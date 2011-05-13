@@ -34,26 +34,32 @@ public class Belarusian extends Language {
 
     private final Tagger tagger = new BelarusianTagger();
 
+    @Override
     public Locale getLocale() {
         return new Locale(getShortName());
     }
 
+    @Override
     public String getName() {
         return "Belarusian";
     }
 
+    @Override
     public String getShortName() {
         return "be";
     }
 
+    @Override
     public String[] getCountryVariants() {
         return new String[]{"BY"};
     }
 
+    @Override
     public Tagger getTagger() {
         return tagger;
     }
 
+    @Override
     public Contributor[] getMaintainers() {
         return new Contributor[] { new Contributor("Alex Buloichik") };
     }

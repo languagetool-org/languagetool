@@ -63,8 +63,10 @@ public abstract class AbstractCompoundRule extends Rule {
       super.setCategory(new Category(messages.getString("category_misc")));    
   }
 
+  @Override
   public abstract String getId();    
 
+  @Override
   public abstract String getDescription();
 
   public void setShort(final String shortDescription) {
@@ -93,6 +95,7 @@ public abstract class AbstractCompoundRule extends Rule {
     this.maxUnHyphenatedWordCount = maxNoHyphensSize;
   }
 
+  @Override
   public RuleMatch[] match(final AnalyzedSentence text) {
     final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
@@ -264,6 +267,7 @@ public abstract class AbstractCompoundRule extends Rule {
     return str.substring(0, str.length() - 1);
   }
 
+  @Override
   public void reset() {
   }
 

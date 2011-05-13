@@ -230,6 +230,7 @@ public class EsperantoTagger implements Tagger {
     return "xx"; // Unknown transitivity.
   }
 
+  @Override
   public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens) throws IOException {
 
     lazyInit();
@@ -378,11 +379,13 @@ public class EsperantoTagger implements Tagger {
     return tokenReadings;
   }
 
+  @Override
   public AnalyzedTokenReadings createNullToken(String token, int startPos) {
     return new AnalyzedTokenReadings(
       new AnalyzedToken(token, null, null), startPos);
   }
 
+  @Override
   public AnalyzedToken createToken(String token, String posTag) {
     return new AnalyzedToken(token, posTag, null);
   }

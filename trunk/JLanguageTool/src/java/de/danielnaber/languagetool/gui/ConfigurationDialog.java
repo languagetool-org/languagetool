@@ -113,6 +113,7 @@ public class ConfigurationDialog implements ActionListener {
     // close dialog when user presses Escape key:
     final KeyStroke stroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
     final ActionListener actionListener = new ActionListener() {
+      @Override
       public void actionPerformed(@SuppressWarnings("unused") ActionEvent actionEvent) {
         dialog.setVisible(false);
       }
@@ -159,6 +160,7 @@ public class ConfigurationDialog implements ActionListener {
         }
 
         final ActionListener ruleCheckBoxListener = new ActionListener() {
+          @Override
           public void actionPerformed(final ActionEvent actionEvent) {
             final JCheckBox cBox = (JCheckBox) actionEvent.getSource();
             final boolean selected = cBox.getModel().isSelected();
@@ -196,6 +198,7 @@ public class ConfigurationDialog implements ActionListener {
           }
 
           final ActionListener categoryCheckBoxListener = new ActionListener() {
+            @Override
             public void actionPerformed(final ActionEvent actionEvent) {
               final JCheckBox cBox = (JCheckBox) actionEvent.getSource();
               final boolean selected = cBox.getModel().isSelected();
@@ -263,6 +266,7 @@ public class ConfigurationDialog implements ActionListener {
       serverPortField.setMinimumSize(new Dimension(100, 25));
       cons.gridx = 1;
       serverCheckbox.addActionListener(new ActionListener() {
+        @Override
         public void actionPerformed(@SuppressWarnings("unused") ActionEvent e) {
           serverPortField.setEnabled(serverCheckbox.isSelected());
         }
@@ -343,6 +347,7 @@ public class ConfigurationDialog implements ActionListener {
     return motherTongues.toArray();
   }
 
+  @Override
   public void actionPerformed(ActionEvent e) {
     if (e.getSource() == okButton) {
       int i = 0;
@@ -481,6 +486,7 @@ public class ConfigurationDialog implements ActionListener {
 
 class CategoryComparator implements Comparator<Rule> {
 
+  @Override
   public int compare(final Rule r1, final Rule r2) {
     final boolean hasCat = r1.getCategory() != null && r2.getCategory() != null;
     if (hasCat) {

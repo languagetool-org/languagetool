@@ -37,14 +37,17 @@ public class Slovak extends Language {
   private final Tagger tagger = new SlovakTagger();
   private final Synthesizer synthesizer = new SlovakSynthesizer(); 
   
+  @Override
   public Locale getLocale() {
     return new Locale(getShortName());
   }
 
+  @Override
   public String getName() {
     return "Slovak";
   }
 
+  @Override
   public String getShortName() {
     return "sk";
   }
@@ -64,6 +67,7 @@ public class Slovak extends Language {
     return new String[]{ "]", ")", "}", "“", "«", "\"" };
   }
   
+  @Override
   public Tagger getTagger() {
     return tagger;
   }
@@ -73,10 +77,12 @@ public class Slovak extends Language {
     return synthesizer;
   }
   
+  @Override
   public SentenceTokenizer getSentenceTokenizer() {
     return sentenceTokenizer;
   }
   
+  @Override
   public Contributor[] getMaintainers() {
   	final Contributor contributor = new Contributor("Zdenko Podobný");
 	  contributor.setUrl("http://sk-spell.sk.cx");

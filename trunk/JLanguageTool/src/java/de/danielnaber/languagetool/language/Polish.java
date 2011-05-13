@@ -81,10 +81,12 @@ public class Polish extends Language {
     return disambiguator;
   }
  
+  @Override
   public Unifier getUnifier() {
     return POLISH_UNIFIER;
   }
 
+  @Override
   public Unifier getDisambiguationUnifier() {
     return POLISH_DISAMB_UNIFIER;
   }

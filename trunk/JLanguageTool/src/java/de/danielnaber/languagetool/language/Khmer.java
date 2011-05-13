@@ -39,38 +39,47 @@ public class Khmer extends Language {
   private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer(getShortName());
   private final Disambiguator disambiguator = new KhmerRuleDisambiguator();
   
+  @Override
   public Locale getLocale() {
     return new Locale("km");
   }
 
+  @Override
   public String getName() {
     return "Khmer";
   }
 
+  @Override
   public String getShortName() {
     return "km";
   }
 
+  @Override
   public String[] getCountryVariants() {
     return new String[]{"KM"};
   }
   
+  @Override
   public Tagger getTagger() {
     return tagger;
   }
   
+  @Override
   public SentenceTokenizer getSentenceTokenizer() {
     return sentenceTokenizer;
   }
 
+  @Override
   public Tokenizer getWordTokenizer() {
     return wordTokenizer;
   }
   
+  @Override
   public Disambiguator getDisambiguator() {
     return disambiguator;
   }
   
+  @Override
   public Contributor[] getMaintainers() {
     return new Contributor[] {new Contributor("Nathan Wells")
         };

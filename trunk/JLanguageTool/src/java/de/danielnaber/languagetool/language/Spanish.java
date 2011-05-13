@@ -44,14 +44,17 @@ public class Spanish extends Language {
   private final Tagger tagger = new SpanishTagger();
   private final Disambiguator disambiguator = new SpanishRuleDisambiguator();
 
+  @Override
   public Locale getLocale() {
     return new Locale(getShortName());
   }
 
+  @Override
   public String getName() {
     return "Spanish";
   }
 
+  @Override
   public String getShortName() {
     return "es";
   }
@@ -75,30 +78,37 @@ public class Spanish extends Language {
     return new String[]{ "]", ")", "}", "”", "»", "?", "!" };
   }
   
+  @Override
   public Tagger getTagger() {
     return tagger;
   }
   
+  @Override
   public Disambiguator getDisambiguator() {
 	    return disambiguator;
   }
   
+  @Override
   public Unifier getUnifier() {
 	    return SPANISH_UNIFIER;
   }
   
+  @Override
   public final Tokenizer getWordTokenizer() {
 	    return wordTokenizer;
 	  }
   
+  @Override
   public final Synthesizer getSynthesizer() {
 	    return synthesizer;
   }
 
+  @Override
   public final SentenceTokenizer getSentenceTokenizer() {
 	    return sentenceTokenizer;
   }
   
+  @Override
   public Contributor[] getMaintainers() {
 	  final Contributor contributor = new Contributor("Juan Martorell");
     contributor.setUrl("http://languagetool-es.blogspot.com/");

@@ -43,10 +43,12 @@ public final class CompoundRule extends AbstractCompoundRule {
         "Tento výraz sa bežne píše s alebo bez spojovníka.");
   }
   
+  @Override
   public final String getId() {
     return "SK_COMPOUNDS";
   }
 
+  @Override
   public final String getDescription() {
     return "Slová so spojovníkom napr. použite „česko-slovenský” namiesto „česko slovenský”";
   }    

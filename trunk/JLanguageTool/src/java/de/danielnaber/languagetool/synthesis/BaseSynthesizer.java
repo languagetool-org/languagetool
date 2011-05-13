@@ -39,6 +39,7 @@ public class BaseSynthesizer implements Synthesizer {
    *          A desired part-of-speech tag.
    * @return String value - inflected word.
    */
+  @Override
   public String[] synthesize(final AnalyzedToken token, final String posTag)
       throws IOException {    
       if (synthesizer == null) {
@@ -53,6 +54,7 @@ public class BaseSynthesizer implements Synthesizer {
       return wordForms.toArray(new String[wordForms.size()]);
     }
       
+  @Override
   public String[] synthesize(final AnalyzedToken token, final String posTag,
       final boolean posTagRegExp) throws IOException {
     if (posTagRegExp) {
@@ -79,6 +81,7 @@ public class BaseSynthesizer implements Synthesizer {
     return synthesize(token, posTag);
   }
 
+  @Override
   public String getPosTagCorrection(final String posTag) {
     return posTag;
   }

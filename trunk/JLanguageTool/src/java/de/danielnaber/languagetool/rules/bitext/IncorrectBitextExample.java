@@ -57,6 +57,7 @@ public class IncorrectBitextExample {
     return corrections;
   }
   
+  @Override
   public String toString() {
     return example.getSource() + "/ " + example.getTarget() + " " + corrections;
   }

@@ -45,6 +45,7 @@ public final class GermanToken {
       this.name = name;
     }
     
+    @Override
     public String toString() {
       return name;
     }
@@ -63,6 +64,7 @@ public final class GermanToken {
       this.name = name;
     }
     
+    @Override
     public String toString() {
       return name;
     }
@@ -79,6 +81,7 @@ public final class GermanToken {
       this.name = name;
     }
     
+    @Override
     public String toString() {
       return name;
     }
@@ -96,6 +99,7 @@ public final class GermanToken {
       this.name = name;
     }
     
+    @Override
     public String toString() {
       return name;
     }

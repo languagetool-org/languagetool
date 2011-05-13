@@ -70,10 +70,12 @@ public class TabBitextReader implements BitextReader {
 
   class TabReader implements Iterator<StringPair> {
 
+    @Override
     public boolean hasNext() { 
       return nextLine != null;
     }
 
+    @Override
     public StringPair next() {
       try {
         final StringPair result = nextPair;
@@ -94,6 +96,7 @@ public class TabBitextReader implements BitextReader {
     }
 
     // The file is read-only.
+    @Override
     public void remove() { 
       throw new UnsupportedOperationException(); 
     }

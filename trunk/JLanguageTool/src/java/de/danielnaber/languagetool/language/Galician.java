@@ -35,22 +35,27 @@ public class Galician extends Language {
   private final Tokenizer wordTokenizer = new GalicianWordTokenizer();
   private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer(getShortName());
 
+  @Override
   public final Locale getLocale() {
     return new Locale(getShortName());
   }
 
+  @Override
   public final SentenceTokenizer getSentenceTokenizer() {
     return sentenceTokenizer;
   }
   
+  @Override
   public final String getName() {
     return "Galician";
   }
 
+  @Override
   public final String getShortName() {
     return "gl";
   }
 
+  @Override
   public final String[] getCountryVariants() {
     return new String[]{"ES"};
   }
@@ -65,14 +70,17 @@ public class Galician extends Language {
     return new String[]{ "]", ")", "}", "”", "»", "’", "\"", "'" };
   }
   
+  @Override
   public final Tagger getTagger() {
     return tagger;
   }
 
+  @Override
   public final Tokenizer getWordTokenizer() {
     return wordTokenizer;
   }
 
+  @Override
   public Contributor[] getMaintainers() {
     final Contributor contributor = new Contributor("Susana Sotelo Docío");
     contributor.setUrl("http://www.g11n.net/languagetool-gl");

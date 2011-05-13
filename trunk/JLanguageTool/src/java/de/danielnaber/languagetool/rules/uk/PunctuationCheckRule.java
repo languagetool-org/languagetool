@@ -46,6 +46,7 @@ public class PunctuationCheckRule extends AbstractPunctuationCheckRule {
    * de.danielnaber.languagetool.rules.AbstractPunctuationCheckRule#isPunctsJoinOk
    * (java.lang.String)
    */
+  @Override
   protected final boolean isPunctsJoinOk(final String tokens) {
     return // we ignore duplicated spaces - too many errors
     tokens.matches("([,:] | *- |,- | ) *") // internal puctuation
@@ -60,6 +61,7 @@ public class PunctuationCheckRule extends AbstractPunctuationCheckRule {
    * de.danielnaber.languagetool.rules.AbstractPunctuationCheckRule#isPunctuation
    * (java.lang.String)
    */
+  @Override
   protected final boolean isPunctuation(final String token) {
     return token.matches("^[.,!?: -]$");
   }
@@ -69,6 +71,7 @@ public class PunctuationCheckRule extends AbstractPunctuationCheckRule {
    * 
    * @see de.danielnaber.languagetool.rules.AbstractPunctuationCheckRule#reset()
    */
+  @Override
   public void reset() {
     // nothing
   }

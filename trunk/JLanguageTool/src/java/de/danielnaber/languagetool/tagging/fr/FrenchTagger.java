@@ -31,6 +31,7 @@ import de.danielnaber.languagetool.tagging.BaseTagger;
  */
 public class FrenchTagger extends BaseTagger {
 
+  @Override
   public final String getFileName() {
     return JLanguageTool.getDataBroker().getResourceDir() + "/fr/french.dict";    
   }

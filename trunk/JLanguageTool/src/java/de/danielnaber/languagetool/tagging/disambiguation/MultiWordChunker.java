@@ -108,6 +108,7 @@ public class MultiWordChunker implements Disambiguator {
    * @return AnalyzedSentence with additional markers.
    * @throws IOException
    */
+  @Override
   public final AnalyzedSentence disambiguate(final AnalyzedSentence input) throws IOException {
 
     lazyInit();

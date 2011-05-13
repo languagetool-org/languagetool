@@ -39,14 +39,17 @@ public class DashRule extends GermanRule {
       super.setCategory(new Category(messages.getString("category_misc")));
   }
 
+  @Override
   public String getId() {
     return "DE_DASH";
   }
 
+  @Override
   public String getDescription() {
     return "Keine Leerzeichen in Bindestrich-Komposita (wie z.B. in 'Diäten- Erhöhung')";
   }
 
+  @Override
   public RuleMatch[] match(final AnalyzedSentence text) {
     final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
@@ -77,6 +80,7 @@ public class DashRule extends GermanRule {
     return toRuleMatchArray(ruleMatches);
   }
 
+  @Override
   public void reset() {
     // nothing
   }

@@ -39,6 +39,7 @@ import de.danielnaber.languagetool.tagging.BaseTagger;
  */
 public class DanishTagger extends BaseTagger {
 
+  @Override
   public final String getFileName() {
     return JLanguageTool.getDataBroker().getResourceDir() + "/da/danish.dict";    
   }

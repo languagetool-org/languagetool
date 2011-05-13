@@ -67,6 +67,7 @@ public class DifferentLengthRule extends BitextRule {
     return (skew > 250 || skew < 30);
   }
   
+  @Override
   public void reset() {
   }
 

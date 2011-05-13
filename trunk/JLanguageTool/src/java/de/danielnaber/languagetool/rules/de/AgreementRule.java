@@ -110,14 +110,17 @@ public class AgreementRule extends GermanRule {
       super.setCategory(new Category(messages.getString("category_grammar")));
   }
   
+  @Override
   public String getId() {
     return "DE_AGREEMENT";
   }
 
+  @Override
   public String getDescription() {
     return "Kongruenz von Nominalphrasen (unvollständig!), z.B. 'mein kleiner(kleines) Haus'";
   }
 
+  @Override
   public RuleMatch[] match(final AnalyzedSentence text) {
     final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
@@ -400,6 +403,7 @@ public class AgreementRule extends GermanRule {
     return StringTools.listToString(l, "/");
   }
 
+  @Override
   public void reset() {
   }
 

@@ -46,6 +46,7 @@ public class RomanianTagger extends BaseTagger {
   private IStemmer morfologik;
   private static final Locale roLocale = new Locale("ro");
 
+  @Override
   public final String getFileName() {
     return JLanguageTool.getDataBroker().getResourceDir() + RESOURCE_FILENAME;
   }

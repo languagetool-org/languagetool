@@ -40,6 +40,7 @@ public class DutchWordTokenizer extends WordTokenizer {
    *         Note: a special string ##NL_APOS## is used to replace apostrophe
    *         during tokenizing.
    */
+  @Override
   public List<String> tokenize(final String text) {
     // TODO: find a cleaner implementation, this is a hack
     final List<String> tokenList = super.tokenize(text.replaceAll(

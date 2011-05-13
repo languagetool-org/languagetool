@@ -30,14 +30,17 @@ public class Ukrainian extends Language {
 
   private final Tagger tagger = new UkrainianTagger();
 
+  @Override
   public Locale getLocale() {
     return new Locale(getShortName());
   }
 
+  @Override
   public String getName() {
     return "Ukrainian";
   }
 
+  @Override
   public String getShortName() {
     return "uk";
   }
@@ -57,10 +60,12 @@ public class Ukrainian extends Language {
     return new String[]{ "]", ")", "}", "“", "»" };
   }
   
+  @Override
   public Tagger getTagger() {
     return tagger;
   }
   
+  @Override
   public Contributor[] getMaintainers() {
     return new Contributor[] {new Contributor("Andriy Rysin")};
   }

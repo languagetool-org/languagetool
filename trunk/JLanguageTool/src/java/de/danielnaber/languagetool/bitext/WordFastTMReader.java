@@ -39,6 +39,7 @@ public class WordFastTMReader extends TabBitextReader {
     }
   }
   
+  @Override
   public final StringPair tab2StringPair(final String line) {
     if (line == null) {
       return null;
@@ -55,10 +56,12 @@ public class WordFastTMReader extends TabBitextReader {
 
   class TabReader implements Iterator<StringPair> {
 
+    @Override
     public boolean hasNext() { 
       return nextLine != null;
     }
 
+    @Override
     public StringPair next() {
       try {
         final StringPair result = nextPair;
@@ -77,6 +80,7 @@ public class WordFastTMReader extends TabBitextReader {
     }
 
     // The file is read-only.
+    @Override
     public void remove() { 
       throw new UnsupportedOperationException(); 
     }

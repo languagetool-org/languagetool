@@ -60,6 +60,7 @@ public class Category {
     return priority;
   }
   
+  @Override
   public String toString() {
     return name + "(prio=" + priority + ")";
   }

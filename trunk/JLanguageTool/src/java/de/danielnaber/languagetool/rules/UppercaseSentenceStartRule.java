@@ -44,14 +44,17 @@ public class UppercaseSentenceStartRule extends Rule {
     this.language = language;
   }
 
+  @Override
   public final String getId() {
     return "UPPERCASE_SENTENCE_START";
   }
 
+  @Override
   public final String getDescription() {
     return messages.getString("desc_uppercase_sentence");
   }
 
+  @Override
   public final RuleMatch[] match(final AnalyzedSentence text) {
     final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
@@ -130,6 +133,7 @@ public class UppercaseSentenceStartRule extends Rule {
     return null;
   }
 
+  @Override
   public void reset() {
   }
 

@@ -40,6 +40,7 @@ public class RussianSimpleReplaceRule extends AbstractSimpleReplaceRule {
   // locale used on case-conversion
 	private static final Locale RU_LOCALE = new Locale("ru");
   
+  @Override
   public final String getFileName() {
     return FILE_NAME;
   }
@@ -48,33 +49,39 @@ public class RussianSimpleReplaceRule extends AbstractSimpleReplaceRule {
     super(messages);
   }
 
+  @Override
   public final String getId() {
     return "RU_SIMPLE_REPLACE";
   }
   
+  @Override
   public String getDescription() {
     return "Поиск ошибочных слов/фраз";
   }
 
+  @Override
   public String getShort() {
 	  return "Ошибка?";
 	}
 	
-	public String getSuggestion() {
+	@Override
+  public String getSuggestion() {
 	  return " - ошибочное слово/фраза, исправление: ";
 	}
 	
 	/**
 	 * use case-insensitive matching.
 	 */
-	public boolean isCaseSensitive() {
+	@Override
+  public boolean isCaseSensitive() {
 		return false;
 	}
 
 	/**
 	 * locale used on case-conversion
 	 */
-	public Locale getLocale() {
+	@Override
+  public Locale getLocale() {
 		return RU_LOCALE;
 	}
 }

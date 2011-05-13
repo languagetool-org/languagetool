@@ -32,6 +32,7 @@ import de.danielnaber.languagetool.tagging.Tagger;
  */
 public class BelarusianTagger implements Tagger {
 
+    @Override
     public List<AnalyzedTokenReadings> tag(List<String> sentenceTokens) {
       final List<AnalyzedTokenReadings> tokenReadings = new ArrayList<AnalyzedTokenReadings>();
       int pos = 0;
@@ -47,11 +48,13 @@ public class BelarusianTagger implements Tagger {
       return tokenReadings;
     }
 
+    @Override
     public AnalyzedTokenReadings createNullToken(String token, int startPos) {
       return new AnalyzedTokenReadings(new AnalyzedToken(token, null, null),
               startPos);
     }
 
+    @Override
     public AnalyzedToken createToken(String token, String posTag) {
       return new AnalyzedToken(token, posTag, null);
     }

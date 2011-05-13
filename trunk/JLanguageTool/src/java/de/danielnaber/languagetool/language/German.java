@@ -33,14 +33,17 @@ public class German extends Language {
   private final Tagger tagger = new GermanTagger();
   private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer(getShortName());
   
+  @Override
   public Locale getLocale() {
     return new Locale(getShortName());
   }
 
+  @Override
   public String getName() {
     return "German";
   }
 
+  @Override
   public String getShortName() {
     return "de";
   }
@@ -60,14 +63,17 @@ public class German extends Language {
     return new String[]{ "]", ")", "}", "“", "«", "’" };
   }
 
+  @Override
   public Tagger getTagger() {
     return tagger;
   }
 
+  @Override
   public SentenceTokenizer getSentenceTokenizer() {
     return sentenceTokenizer;
   }
 
+  @Override
   public Contributor[] getMaintainers() {
     return new Contributor[] {new Contributor("Daniel Naber")};
   }

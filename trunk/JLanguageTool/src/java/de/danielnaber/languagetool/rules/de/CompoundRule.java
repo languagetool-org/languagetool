@@ -43,10 +43,12 @@ public class CompoundRule extends AbstractCompoundRule {
   }
 
 
+  @Override
   public String getId() {
     return "DE_COMPOUNDS";
   }
 
+  @Override
   public String getDescription() {
     return "Zusammenschreibung von Komposita, z.B. 'CD-ROM' statt 'CD ROM'";
   }

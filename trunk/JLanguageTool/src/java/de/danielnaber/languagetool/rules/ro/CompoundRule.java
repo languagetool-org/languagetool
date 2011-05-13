@@ -47,10 +47,12 @@ public class CompoundRule extends AbstractCompoundRule {
     setHyphenIgnored(false);
   }
 
+  @Override
   public String getId() {
     return ROMANIAN_COMPOUND_RULE;
   }
 
+  @Override
   public String getDescription() {
     return "Greșeală de scriere (cuvinte scrise legat sau cu cratimă)";
   }

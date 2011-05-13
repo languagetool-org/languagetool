@@ -79,6 +79,7 @@ public class LanguageManagerDialog implements ActionListener {
     // TODO: taken from ConfigurationDialog, avoid duplication:
     final KeyStroke stroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
     final ActionListener actionListener = new ActionListener() {
+      @Override
       @SuppressWarnings("unused")
       public void actionPerformed(ActionEvent actionEvent) {
         dialog.setVisible(false); 
@@ -139,6 +140,7 @@ public class LanguageManagerDialog implements ActionListener {
     dialog.setVisible(true);
   }
 
+  @Override
   public void actionPerformed(ActionEvent e) {
     if (e.getSource() == addButton) {
       final File ruleFile = Tools.openFileDialog(null, new XMLFileFilter());
@@ -172,12 +174,14 @@ public class LanguageManagerDialog implements ActionListener {
   }
   
   static class XMLFileFilter extends FileFilter {
+    @Override
     public boolean accept(final File f) {
       if (f.getName().toLowerCase().endsWith(".xml") || f.isDirectory()) { //$NON-NLS-1$
         return true;
       }
       return false;
     }
+    @Override
     public String getDescription() {
       return "*.xml"; //$NON-NLS-1$
     }

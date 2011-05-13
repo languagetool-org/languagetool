@@ -56,6 +56,7 @@ class ConfigThread extends Thread {
     return cfgDialog.getDisabledRuleIds();
   }  
 
+  @Override
   public void run() {    
     try {
       final JLanguageTool langTool = new JLanguageTool(docLanguage, cfgDialog.getMotherTongue());

@@ -77,10 +77,12 @@ public class GenericUnpairedBracketsRule extends Rule {
   }
 
   
+  @Override
   public String getId() {
     return "UNPAIRED_BRACKETS";
   }
 
+  @Override
   public String getDescription() {
     return messages.getString("desc_unpaired_brackets");
   }
@@ -120,6 +122,7 @@ public class GenericUnpairedBracketsRule extends Rule {
     return true;
   }
 
+  @Override
   public final RuleMatch[] match(final AnalyzedSentence text) {
     ruleMatches = new ArrayList<RuleMatch>();
     final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
@@ -246,6 +249,7 @@ public class GenericUnpairedBracketsRule extends Rule {
    * Reset the state information for the rule, including paragraph-level
    * information.
    */
+  @Override
   public final void reset() {
     ruleMatchStack.clear();
     symbolStack.clear();

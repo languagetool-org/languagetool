@@ -29,6 +29,7 @@ public class UkrainianMorfoTagger extends BaseTagger {
 
   private static final String RESOURCE_FILENAME = "/uk/ukrainian.dict";
 
+  @Override
   public final String getFileName() {
     return JLanguageTool.getDataBroker().getResourceDir() + RESOURCE_FILENAME;    
   } 

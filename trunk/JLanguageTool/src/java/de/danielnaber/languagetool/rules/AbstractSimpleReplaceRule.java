@@ -75,10 +75,12 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
     wrongWords = loadWords(JLanguageTool.getDataBroker().getFromRulesDirAsStream(getFileName()));
   }
 
+  @Override
   public String getId() {
     return "SIMPLE_REPLACE";
   }
 
+  @Override
   public String getDescription() {
     return "Checks for wrong words/phrases";
   }
@@ -91,6 +93,7 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
     return "Wrong word";
   }
 
+  @Override
   public final RuleMatch[] match(final AnalyzedSentence text) {
     final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
@@ -153,6 +156,7 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
     return map;
   }
 
+  @Override
   public void reset() {
   }  
   

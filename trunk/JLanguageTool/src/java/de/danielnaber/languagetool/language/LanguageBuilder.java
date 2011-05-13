@@ -58,18 +58,23 @@ public class LanguageBuilder {
     }
     
     final Language newLanguage = new Language() {
+      @Override
       public Locale getLocale() {
         return new Locale(getShortName());
       }
+      @Override
       public Contributor[] getMaintainers() {
         return null;
       }
+      @Override
       public String getShortName() {
         return parts[1];
       }
+      @Override
       public String[] getCountryVariants() {
         return new String[] {""};
       }
+      @Override
       public String getName() {
         return parts[2].replace(".xml", "");
       }

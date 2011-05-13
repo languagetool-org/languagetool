@@ -37,6 +37,7 @@ public class PolishUnpairedBracketsRule extends GenericUnpairedBracketsRule {
     uniqueMapInit();
   }
 
+  @Override
   public String getId() {
     return "PL_UNPAIRED_BRACKETS";
   }

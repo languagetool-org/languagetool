@@ -49,7 +49,8 @@ public class AccentuacioReplaceRule extends AbstractSimpleReplaceRule {
 	// locale used on case-conversion
 	private static final Locale CA_LOCALE = new Locale("ca");
 
-	public final String getFileName() {
+	@Override
+  public final String getFileName() {
 		return FILE_NAME;
 	}
 
@@ -57,33 +58,39 @@ public class AccentuacioReplaceRule extends AbstractSimpleReplaceRule {
 		super(messages);
 	}
 
-	public final String getId() {
+	@Override
+  public final String getId() {
 		return CATALAN_ACCENTUACIO_REPLACE_RULE;
 	}
 
-	public String getDescription() {
+	@Override
+  public String getDescription() {
 		return "Errors d'accentuació";
 	}
 	
-	public String getShort() {
+	@Override
+  public String getShort() {
 	  return "Accentuació";
 	}
 	
-	public String getSuggestion() {
+	@Override
+  public String getSuggestion() {
 	  return " es un error d'accentuació, cal dir: ";
 	}
 	
 	/**
 	 * use case-insensitive matching.
 	 */
-	public boolean isCaseSensitive() {
+	@Override
+  public boolean isCaseSensitive() {
 		return false;
 	}
 
 	/**
 	 * locale used on case-conversion
 	 */
-	public Locale getLocale() {
+	@Override
+  public Locale getLocale() {
 		return CA_LOCALE;
 	}
 

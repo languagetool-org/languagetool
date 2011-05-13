@@ -44,43 +44,53 @@ public class English extends Language {
   private final Synthesizer synthesizer = new EnglishSynthesizer();
   private final Disambiguator disambiguator = new EnglishRuleDisambiguator();
 
+  @Override
   public final Locale getLocale() {
     return new Locale(getShortName());
   }
 
+  @Override
   public final SentenceTokenizer getSentenceTokenizer() {
     return sentenceTokenizer;
   }
   
+  @Override
   public final String getName() {
     return "English";
   }
 
+  @Override
   public final String getShortName() {
     return "en";
   }
 
+  @Override
   public final String[] getCountryVariants() {
     return new String[]{"GB", "US", "AU", "CA", "NZ", "ZA"};
   }
   
+  @Override
   public final Tagger getTagger() {
     return tagger;
   }
 
+  @Override
   public final Tokenizer getWordTokenizer() {
     return wordTokenizer;
   }
 
+  @Override
   public final Synthesizer getSynthesizer() {
     return synthesizer;
   }
   
+  @Override
   public final Disambiguator getDisambiguator() {
     return disambiguator;
   }
 
   
+  @Override
   public final Contributor[] getMaintainers() {
     return new Contributor[] {new Contributor("Marcin Miłkowski"),
         new Contributor("Daniel Naber")};

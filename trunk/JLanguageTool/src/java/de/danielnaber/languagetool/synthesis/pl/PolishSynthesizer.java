@@ -55,6 +55,7 @@ public class PolishSynthesizer implements Synthesizer {
 
   private ArrayList<String> possibleTags;
   
+  @Override
   public final String[] synthesize(final AnalyzedToken token,
       final String posTag) throws IOException {
     if (posTag == null) {
@@ -77,6 +78,7 @@ public class PolishSynthesizer implements Synthesizer {
     return forms.toArray(new String[forms.size()]);
   }
 
+  @Override
   public final String[] synthesize(final AnalyzedToken token, final String pos,
       final boolean posTagRegExp) throws IOException {
     if (pos == null) {
@@ -123,6 +125,7 @@ public class PolishSynthesizer implements Synthesizer {
     return synthesize(token, posTag);
   }
 
+  @Override
   public final String getPosTagCorrection(final String posTag) {
     if (posTag.contains(".")) {
       final String[] tags = posTag.split(":");

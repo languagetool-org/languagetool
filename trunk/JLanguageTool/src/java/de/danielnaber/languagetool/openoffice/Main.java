@@ -223,6 +223,7 @@ public class Main extends WeakBase implements XJobExecutor,
    *           (not really, LT simply returns the ProofreadingResult with the
    *           values supplied)
    */
+  @Override
   public final ProofreadingResult doProofreading(final String docID,
       final String paraText, final Locale locale, final int startOfSentencePos,
       final int nSuggestedBehindEndOfSentencePosition,
@@ -431,6 +432,7 @@ public class Main extends WeakBase implements XJobExecutor,
    * 
    * @return false
    */
+  @Override
   public final boolean isSpellChecker() {
     return false;
   }
@@ -450,6 +452,7 @@ public class Main extends WeakBase implements XJobExecutor,
   /**
    * @return An array of Locales supported by LT.
    */
+  @Override
   public final Locale[] getLocales() {
     try {
       int dims = 0;
@@ -476,6 +479,7 @@ public class Main extends WeakBase implements XJobExecutor,
    * @param locale
    *          The Locale to check.
    */
+  @Override
   public final boolean hasLocale(final Locale locale) {
     try {
       for (final Language element : Language.LANGUAGES) {
@@ -497,6 +501,7 @@ public class Main extends WeakBase implements XJobExecutor,
    *          - the listener to be added
    * @return true if listener is non-null and has been added, false otherwise.
    */
+  @Override
   public final boolean addLinguServiceEventListener(
       final XLinguServiceEventListener xLinEvLis) {
     if (xLinEvLis == null) {
@@ -513,6 +518,7 @@ public class Main extends WeakBase implements XJobExecutor,
    *          - the listener to be removed
    * @return true if listener is non-null and has been removed, false otherwise.
    */
+  @Override
   public final boolean removeLinguServiceEventListener(
       final XLinguServiceEventListener xLinEvLis) {
     if (xLinEvLis == null) {
@@ -547,6 +553,7 @@ public class Main extends WeakBase implements XJobExecutor,
     }
   }
 
+  @Override
   public String[] getSupportedServiceNames() {
     return getServiceNames();
   }
@@ -555,6 +562,7 @@ public class Main extends WeakBase implements XJobExecutor,
     return SERVICE_NAMES;
   }
 
+  @Override
   public boolean supportsService(final String sServiceName) {
     for (final String sName : SERVICE_NAMES) {
       if (sServiceName.equals(sName)) {
@@ -564,6 +572,7 @@ public class Main extends WeakBase implements XJobExecutor,
     return false;
   }
 
+  @Override
   public String getImplementationName() {
     return Main.class.getName();
   }
@@ -582,6 +591,7 @@ public class Main extends WeakBase implements XJobExecutor,
         .getServiceNames(), regKey);
   }
 
+  @Override
   public void trigger(final String sEvent) {
     if (!javaVersionOkay()) {
       return;
@@ -669,6 +679,7 @@ public class Main extends WeakBase implements XJobExecutor,
     }
   }
 
+  @Override
   public void ignoreRule(final String ruleId, final Locale locale)
       throws IllegalArgumentException {
     // TODO: config should be locale-dependent
@@ -688,6 +699,7 @@ public class Main extends WeakBase implements XJobExecutor,
    * 
    * The rules disabled in the config dialog box are left as intact.
    */
+  @Override
   public void resetIgnoreRules() {
     config.setDisabledRuleIds(disabledRules);
     try {
@@ -698,6 +710,7 @@ public class Main extends WeakBase implements XJobExecutor,
     recheck = true;
   }
   
+  @Override
   public String getServiceDisplayName(Locale locale) {
     return "LanguageTool";
   }
@@ -710,6 +723,7 @@ public class Main extends WeakBase implements XJobExecutor,
  */
 class ErrorPositionComparator implements Comparator<SingleProofreadingError> {
 
+  @Override
   public int compare(final SingleProofreadingError match1,
       final SingleProofreadingError match2) {
     if (match1.aSuggestions.length == 0 

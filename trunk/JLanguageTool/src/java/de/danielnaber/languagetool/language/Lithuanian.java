@@ -27,10 +27,12 @@ import de.danielnaber.languagetool.tagging.xx.DemoTagger;
 
 public class Lithuanian extends Language {
   
+  @Override
   public Locale getLocale() {
     return new Locale(getShortName());
   }
 
+  @Override
   public String getName() {
     return "Lithuanian";
   }
@@ -40,14 +42,17 @@ public class Lithuanian extends Language {
     return new String[]{"LT"};
   }
   
+  @Override
   public String getShortName() {
     return "lt";
   }
 
+  @Override
   public Tagger getTagger() {
     return new DemoTagger();
   }
 
+  @Override
   public Contributor[] getMaintainers() {
     return new Contributor[] {new Contributor("Mantas Kriaučiūnas")};
   }

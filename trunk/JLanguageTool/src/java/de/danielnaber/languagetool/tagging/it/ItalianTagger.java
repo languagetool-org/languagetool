@@ -34,6 +34,7 @@ import de.danielnaber.languagetool.tagging.BaseTagger;
  */
 public class ItalianTagger extends BaseTagger {
 
+  @Override
   public final String getFileName() {
     return JLanguageTool.getDataBroker().getResourceDir() + "/it/italian.dict";    
   }

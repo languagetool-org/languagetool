@@ -29,14 +29,17 @@ public class Italian extends Language {
 
   private final Tagger tagger = new ItalianTagger();
 
+  @Override
   public Locale getLocale() {
     return new Locale(getShortName());
   }
 
+  @Override
   public String getName() {
     return "Italian";
   }
 
+  @Override
   public String getShortName() {
     return "it";
   }
@@ -56,10 +59,12 @@ public class Italian extends Language {
     return new String[]{ "]", ")", "}", "«", /*"’"*/ };
   }
   
+  @Override
   public Tagger getTagger() {
     return tagger;
   }
 
+  @Override
   public Contributor[] getMaintainers() {
     final Contributor contributor = new Contributor("Paolo Bianchini");
     return new Contributor[] { contributor };

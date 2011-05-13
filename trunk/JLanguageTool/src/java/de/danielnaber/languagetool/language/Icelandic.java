@@ -62,11 +62,13 @@ public class Icelandic extends Language {
 	     return new Contributor[] {new Contributor("Anton Karl Ingason")};
 	}
 
-	public Tagger getTagger() {
+	@Override
+  public Tagger getTagger() {
 		    return tagger;
 	}
 
-	public SentenceTokenizer getSentenceTokenizer() {
+	@Override
+  public SentenceTokenizer getSentenceTokenizer() {
     return sentenceTokenizer;
   }
 

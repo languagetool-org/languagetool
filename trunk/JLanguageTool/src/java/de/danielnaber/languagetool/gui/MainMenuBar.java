@@ -141,6 +141,7 @@ class MainMenuBar extends JMenuBar implements ActionListener {
         messages.getString("guiMenuAbout"));
   }
 
+  @Override
   public void actionPerformed(ActionEvent e) {
     if (e.getActionCommand().equals(openText)) {
       prg.loadFile();

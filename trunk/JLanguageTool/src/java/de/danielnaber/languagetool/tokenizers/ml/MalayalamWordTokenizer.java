@@ -34,6 +34,7 @@ public class MalayalamWordTokenizer implements Tokenizer {
   public MalayalamWordTokenizer() {
   }
   
+  @Override
   public List<String> tokenize(final String text) {
     final List<String> tokens = new ArrayList<String>();
     final StringTokenizer st = new StringTokenizer(text, 

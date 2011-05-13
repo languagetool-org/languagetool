@@ -41,6 +41,7 @@ public class FrenchHybridDisambiguator implements Disambiguator {
    * Calls two disambiguator classes: (1) a chunker; (2) a rule-based
    * disambiguator.
    */
+  @Override
   public final AnalyzedSentence disambiguate(AnalyzedSentence input)
       throws IOException {
     return disambiguator.disambiguate(chunker.disambiguate(input));

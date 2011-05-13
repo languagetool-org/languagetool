@@ -46,10 +46,12 @@ public class RussianCompoundRule extends AbstractCompoundRule {
     
   }
   
+  @Override
   public String getId() {
     return "RU_COMPOUNDS";
   }
 
+  @Override
   public String getDescription() {
     return "Правописание через дефис";
   }

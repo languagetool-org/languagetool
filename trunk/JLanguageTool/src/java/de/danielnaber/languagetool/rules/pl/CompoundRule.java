@@ -43,10 +43,12 @@ public final class CompoundRule extends AbstractCompoundRule {
         "Ten wyraz pisze się z łącznikiem lub bez niego.");
   }
   
+  @Override
   public final String getId() {
     return "PL_COMPOUNDS";
   }
 
+  @Override
   public final String getDescription() {
     return "Sprawdza wyrazy z łącznikiem, np. „łapu capu” zamiast „łapu-capu”";
   }    

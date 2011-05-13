@@ -48,14 +48,17 @@ public class Romanian extends Language {
   private final Tokenizer wordTokenizer = new RomanianWordTokenizer();
   private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer(getShortName());
 
+  @Override
   public Locale getLocale() {
     return new Locale(getShortName());
   }
 
+  @Override
   public String getName() {
     return "Romanian";
   }
 
+  @Override
   public String getShortName() {
     return "ro";
   }
@@ -75,10 +78,12 @@ public class Romanian extends Language {
     return new String[]{ "]", ")", "}", "”", "»" };
   }
   
+  @Override
   public Tagger getTagger() {
     return tagger;
   }
 
+  @Override
   public Contributor[] getMaintainers() {
     final Contributor contributor = new Contributor("Ionuț Păduraru");
     contributor.setUrl("http://www.archeus.ro");
@@ -100,18 +105,22 @@ public class Romanian extends Language {
     );
   }
 
+  @Override
   public final Synthesizer getSynthesizer() {
     return synthesizer;
   }
 
+  @Override
   public final Disambiguator getDisambiguator() {
     return disambiguator;
   }
 
+  @Override
   public final Tokenizer getWordTokenizer() {
     return wordTokenizer;
   }
 
+  @Override
   public SentenceTokenizer getSentenceTokenizer() {
     return sentenceTokenizer;
   }

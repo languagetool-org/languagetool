@@ -32,6 +32,7 @@ import de.danielnaber.languagetool.tagging.BaseTagger;
  */
 public class EnglishTagger extends BaseTagger {
 
+  @Override
   public final String getFileName() {
     return JLanguageTool.getDataBroker().getResourceDir() + "/en/english.dict";    
   }

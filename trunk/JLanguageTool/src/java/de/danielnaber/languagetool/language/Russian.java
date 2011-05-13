@@ -44,14 +44,17 @@ public class Russian extends Language {
   private final Synthesizer synthesizer = new RussianSynthesizer();
   private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer(getShortName());
 
+  @Override
   public Locale getLocale() {
     return new Locale(getShortName());
   }
 
+  @Override
   public String getName() {
     return "Russian";
   }
 
+  @Override
   public String getShortName() {
     return "ru";
   }
@@ -61,26 +64,32 @@ public class Russian extends Language {
     return new String[] {"RU"};
   }
   
+  @Override
   public Tagger getTagger() {
     return tagger;
   }
 
+   @Override
    public Disambiguator getDisambiguator() {
     return disambiguator;
   }
   
+  @Override
   public Synthesizer getSynthesizer() {
     return synthesizer;
   }
 
+  @Override
   public SentenceTokenizer getSentenceTokenizer() {
     return sentenceTokenizer;
   }
 
+  @Override
   public Unifier getUnifier() {
     return RUSSIAN_UNIFIER;
   }
 
+  @Override
   public Contributor[] getMaintainers() {
      return new Contributor[] {new Contributor("Yakov Reztsov")};
   }

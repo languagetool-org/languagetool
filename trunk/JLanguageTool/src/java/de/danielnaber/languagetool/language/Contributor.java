@@ -40,6 +40,7 @@ public class Contributor {
     return name;
   }
   
+  @Override
   public final String toString() {
     return getName();
   }

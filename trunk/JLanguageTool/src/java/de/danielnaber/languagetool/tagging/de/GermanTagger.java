@@ -63,6 +63,7 @@ public class GermanTagger implements Tagger {
     return atr;
   }
     
+  @Override
   public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens) throws IOException {
     return tag(sentenceTokens, true);
   }
@@ -179,10 +180,12 @@ public class GermanTagger implements Tagger {
     }
   }
     
+  @Override
   public final AnalyzedGermanTokenReadings createNullToken(final String token, final int startPos) {
     return new AnalyzedGermanTokenReadings(new AnalyzedGermanToken(token, null, null), startPos);
   }
 
+  @Override
   public AnalyzedToken createToken(String token, String posTag) {
     return new AnalyzedGermanToken(token, posTag);
   }

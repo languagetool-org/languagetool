@@ -36,6 +36,7 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
 
   private static final String FILE_NAME = "/uk/replace.txt";
 
+  @Override
   public final String getFileName() {
     return FILE_NAME;
   }
@@ -43,6 +44,7 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
     super(messages);
   }
 
+  @Override
   public final String getId() {
     return "UK_SIMPLE_REPLACE";
   }

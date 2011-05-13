@@ -40,14 +40,17 @@ public class WiederVsWiderRule extends GermanRule {
       super.setCategory(new Category(messages.getString("category_typo")));
   }
   
+  @Override
   public String getId() {
     return "DE_WIEDER_VS_WIDER";
   }
 
+  @Override
   public String getDescription() {
     return "Möglicher Tippfehler 'spiegeln ... wieder(wider)'";
   }
 
+  @Override
   public RuleMatch[] match(AnalyzedSentence text) {
     final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     final AnalyzedTokenReadings[] tokens = text.getTokens();
@@ -84,6 +87,7 @@ public class WiederVsWiderRule extends GermanRule {
     return toRuleMatchArray(ruleMatches);
   }
 
+  @Override
   public void reset() {
     // nothing
   }

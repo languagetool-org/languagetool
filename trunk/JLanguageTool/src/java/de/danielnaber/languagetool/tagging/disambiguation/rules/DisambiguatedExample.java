@@ -70,6 +70,7 @@ public class DisambiguatedExample {
     return inputForms;
   }
   
+  @Override
   public String toString() {
     return example + ": " + inputForms + " -> " + outputForms;
   }

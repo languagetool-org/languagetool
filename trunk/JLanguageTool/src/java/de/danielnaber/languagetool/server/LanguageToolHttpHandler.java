@@ -32,6 +32,7 @@ class LanguageToolHttpHandler implements HttpHandler {
     this.allowedIps = allowedIps;
   }
 
+  @Override
   public void handle(HttpExchange httpExchange) throws IOException {
     final URI requestedUri = httpExchange.getRequestURI();
     final Map<String, String> parameters = getRequestQuery(httpExchange, requestedUri);
@@ -207,6 +208,7 @@ class LanguageToolHttpHandler implements HttpHandler {
   public static String getSupportedLanguagesAsXML() {
     final List<Language> languages = Arrays.asList(Language.REAL_LANGUAGES);
     Collections.sort(languages, new Comparator<Language>() {
+      @Override
       public int compare(Language o1, Language o2) {
         return o1.getName().compareTo(o2.getName());
       }

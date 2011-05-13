@@ -43,10 +43,12 @@ public class CompoundRule extends AbstractCompoundRule {
         "This expression is normally spelled as one or with hyphen.");
   }
   
+  @Override
   public String getId() {
     return "EN_COMPOUNDS";
   }
 
+  @Override
   public String getDescription() {
     return "Hyphenated words, e.g., 'case-sensitive' instead of 'case sensitive'";
   }    

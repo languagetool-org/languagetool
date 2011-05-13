@@ -31,7 +31,8 @@ import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
  */
 public class DemoDisambiguator implements Disambiguator {
 
-	public final AnalyzedSentence disambiguate(final AnalyzedSentence input) {
+	@Override
+  public final AnalyzedSentence disambiguate(final AnalyzedSentence input) {
 		return input;
 	}
 

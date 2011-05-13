@@ -58,6 +58,7 @@ public class BitextPatternRule extends BitextRule {
     return srcRule.getDescription();
   }
 
+  @Override
   public String getMessage() {
     return trgRule.getMessage();
   }

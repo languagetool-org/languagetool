@@ -73,6 +73,7 @@ public class EnglishSynthesizer extends BaseSynthesizer {
    *          A desired part-of-speech tag.
    * @return String value - inflected word.
    */
+  @Override
   public String[] synthesize(final AnalyzedToken token, final String posTag)
       throws IOException {
     if (ADD_DETERMINER.equals(posTag)) {

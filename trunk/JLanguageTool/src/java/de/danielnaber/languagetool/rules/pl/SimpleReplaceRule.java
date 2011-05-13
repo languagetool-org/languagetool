@@ -41,7 +41,8 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
 	// locale used on case-conversion
 	private static final Locale PL_LOCALE = new Locale("pl");
 
-	public final String getFileName() {
+	@Override
+  public final String getFileName() {
 		return FILE_NAME;
 	}
 
@@ -49,33 +50,39 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
 		super(messages);
 	}
 
-	public final String getId() {
+	@Override
+  public final String getId() {
 		return POLISH_SIMPLE_REPLACE_RULE;
 	}
 
-	public String getDescription() {
+	@Override
+  public String getDescription() {
 		return "Typowe literówki";
 	}
 	
-	public String getShort() {
+	@Override
+  public String getShort() {
 	  return "Literówka";
 	}
 	
-	public String getSuggestion() {
+	@Override
+  public String getSuggestion() {
 	  return " to typowa literówka, poprawnie: ";
 	}
 	
 	/**
 	 * use case-insensitive matching.
 	 */
-	public boolean isCaseSensitive() {
+	@Override
+  public boolean isCaseSensitive() {
 		return false;
 	}
 
 	/**
 	 * locale used on case-conversion
 	 */
-	public Locale getLocale() {
+	@Override
+  public Locale getLocale() {
 		return PL_LOCALE;
 	}
 

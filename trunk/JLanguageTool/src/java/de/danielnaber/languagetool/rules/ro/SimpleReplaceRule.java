@@ -82,11 +82,13 @@ public class SimpleReplaceRule extends Rule {
 		wrongWords = loadWords(JLanguageTool.getDataBroker().getFromRulesDirAsStream(getFileName()));
 	}
 
-	public final String getId() {
+	@Override
+  public final String getId() {
 		return ROMANIAN_SIMPLE_REPLACE_RULE;
 	}
 
-	public String getDescription() {
+	@Override
+  public String getDescription() {
 		return "Cuvinte sau grupuri de cuvinte incorecte sau ieșite din uz";
 	}
 
@@ -208,7 +210,8 @@ public class SimpleReplaceRule extends Rule {
 		}
 	}
 
-	public RuleMatch[] match(final AnalyzedSentence text) {
+	@Override
+  public RuleMatch[] match(final AnalyzedSentence text) {
 		final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
 		final AnalyzedTokenReadings[] tokens = text
 				.getTokensWithoutWhitespace();
@@ -258,7 +261,8 @@ public class SimpleReplaceRule extends Rule {
 		return toRuleMatchArray(ruleMatches);
 	}
 
-	public void reset() {
+	@Override
+  public void reset() {
 	}
 
 }

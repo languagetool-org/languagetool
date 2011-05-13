@@ -82,11 +82,13 @@ public class KhmerSimpleReplaceRule extends Rule {
 		wrongWords = loadWords(JLanguageTool.getDataBroker().getFromRulesDirAsStream(getFileName()));
 	}
 
-	public final String getId() {
+	@Override
+  public final String getId() {
 		return KHMER_SIMPLE_REPLACE_RULE;
 	}
 
-	public String getDescription() {
+	@Override
+  public String getDescription() {
 		return "Words or groups of words that are incorrect or obsolete";
 	}
 
@@ -211,7 +213,8 @@ public class KhmerSimpleReplaceRule extends Rule {
 		}
 	}
 
-	public RuleMatch[] match(final AnalyzedSentence text) {
+	@Override
+  public RuleMatch[] match(final AnalyzedSentence text) {
 		final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
 		final AnalyzedTokenReadings[] tokens = text
 				.getTokensWithoutWhitespace();
@@ -261,7 +264,8 @@ public class KhmerSimpleReplaceRule extends Rule {
 		return toRuleMatchArray(ruleMatches);
 	}
 
-	public void reset() {
+	@Override
+  public void reset() {
 	}
 
 }

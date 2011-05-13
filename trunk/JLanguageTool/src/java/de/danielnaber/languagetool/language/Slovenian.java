@@ -29,14 +29,17 @@ public class Slovenian extends Language {
   
   private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer(getShortName());
   
+  @Override
   public Locale getLocale() {
     return new Locale(getShortName());
   }
 
+  @Override
   public String getName() {
     return "Slovenian";
   }
 
+  @Override
   public String getShortName() {
     return "sl";
   }
@@ -56,10 +59,12 @@ public class Slovenian extends Language {
     return new String[]{ "]", ")", "}", "”", "«", "\"" };
   }
   
+  @Override
   public SentenceTokenizer getSentenceTokenizer() {
     return sentenceTokenizer;
   }
   
+  @Override
   public Contributor[] getMaintainers() {
     return new Contributor[] {new Contributor("Martin Srebotnjak")};
   }

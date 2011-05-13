@@ -129,6 +129,7 @@ public class AnalyzedGermanToken extends AnalyzedToken {
     return genus; 
   }
 
+  @Override
   public String toString() {
     return getPOSTag();
   }

@@ -37,10 +37,12 @@ public class Catalan extends Language {
   private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer(getShortName());
   private final Synthesizer synthesizer = new CatalanSynthesizer();
 
+  @Override
   public Locale getLocale() {
     return new Locale(getShortName());
   }
 
+  @Override
   public String getName() {
     return "Catalan";
   }
@@ -50,10 +52,12 @@ public class Catalan extends Language {
     return new String[]{"ES"};
   }
   
+  @Override
   public String getShortName() {
     return "ca";
   }
 
+  @Override
   public Contributor[] getMaintainers() {
     return new Contributor[] {new Contributor("Ricard Roca")};
   }
@@ -72,14 +76,17 @@ public class Catalan extends Language {
     );
   }
 
+  @Override
   public final Tagger getTagger() {
     return tagger;
   }
 
+  @Override
   public final Synthesizer getSynthesizer() {
     return synthesizer;
   }
 
+  @Override
   public final SentenceTokenizer getSentenceTokenizer() {
     return sentenceTokenizer;
   }

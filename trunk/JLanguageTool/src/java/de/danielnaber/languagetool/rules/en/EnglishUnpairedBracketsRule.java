@@ -41,10 +41,12 @@ public class EnglishUnpairedBracketsRule extends GenericUnpairedBracketsRule {
     uniqueMapInit();
   }
 
+  @Override
   public String getId() {
     return "EN_UNPAIRED_BRACKETS";
   }
   
+  @Override
   protected boolean isNoException(final String token,
       final AnalyzedTokenReadings[] tokens, final int i, final int j, final boolean precSpace,
       final boolean follSpace) {

@@ -35,34 +35,42 @@ public class Malayalam extends Language {
   private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("en");
   private final Tokenizer wordTokenizer = new MalayalamWordTokenizer();
 
+  @Override
   public final Locale getLocale() {
     return new Locale(getShortName());
   }
 
+  @Override
   public final SentenceTokenizer getSentenceTokenizer() {
     return sentenceTokenizer;
   }
   
+  @Override
   public final String getName() {
     return "Malayalam";
   }
 
+  @Override
   public final String getShortName() {
     return "ml";
   }
 
+  @Override
   public final Tokenizer getWordTokenizer() {
     return wordTokenizer;
   }
   
+  @Override
   public final String[] getCountryVariants() {
     return new String[]{"IN"};
   }
   
+  @Override
   public final Tagger getTagger() {
     return tagger;
   }
     
+  @Override
   public final Contributor[] getMaintainers() {
     return new Contributor[] {new Contributor("Jithesh.V.S")
         };

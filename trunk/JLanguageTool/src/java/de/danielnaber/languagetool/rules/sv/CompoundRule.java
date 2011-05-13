@@ -41,10 +41,12 @@ public class CompoundRule extends AbstractCompoundRule {
         "Dessa ord skrivs samman med eller utan bindesträck.");
   }
 
+  @Override
   public String getId() {
     return "SV_COMPOUNDS";
   }
 
+  @Override
   public String getDescription() {
     return "Särskrivningar, t.ex. 'e mail' bör skrivas 'e-mail'";
   }

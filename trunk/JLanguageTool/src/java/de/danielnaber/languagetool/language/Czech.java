@@ -34,30 +34,37 @@ public class Czech extends Language {
   private final Tagger tagger = new CzechTagger();
   private final SentenceTokenizer sentenceTokenizer = new CzechSentenceTokenizer();
 
+  @Override
   public Locale getLocale() {
     return new Locale(getShortName());
   }
 
+  @Override
   public String getName() {
     return "Czech";
   }
 
+  @Override
   public String getShortName() {
     return "cs";
   }
   
+  @Override
   public String[] getCountryVariants() {
     return new String[]{"CZ"};
   }
 
+  @Override
   public Tagger getTagger() {
     return tagger;
   }
   
+  @Override
   public SentenceTokenizer getSentenceTokenizer() {
     return sentenceTokenizer;
   }
 
+  @Override
   public Contributor[] getMaintainers() {
     return new Contributor[] {new Contributor("Jozef Ličko")};
   }

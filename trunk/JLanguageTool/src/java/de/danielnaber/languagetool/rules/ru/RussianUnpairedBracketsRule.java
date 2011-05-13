@@ -35,6 +35,7 @@ public class RussianUnpairedBracketsRule extends GenericUnpairedBracketsRule {
     .compile("(?i)\\d{1,2}?[а-я]*|[а-я]|[А-Я]|[а-я][а-я]|[А-Я][А-Я]");
 
   
+  @Override
   protected boolean isNoException(final String token,
       final AnalyzedTokenReadings[] tokens, final int i, final int j,
       final boolean precSpace,
@@ -56,6 +57,7 @@ public class RussianUnpairedBracketsRule extends GenericUnpairedBracketsRule {
     uniqueMapInit();
   }
 
+  @Override
   public String getId() {
     return "RU_UNPAIRED_BRACKETS";
   }

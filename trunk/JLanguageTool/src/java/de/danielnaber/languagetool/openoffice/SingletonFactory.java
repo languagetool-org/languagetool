@@ -32,11 +32,13 @@ public class SingletonFactory implements XSingleComponentFactory {
 
   private transient de.danielnaber.languagetool.openoffice.Main instance;
 
+  @Override
   public final Object createInstanceWithArgumentsAndContext(final Object[] arguments, 
       final XComponentContext xContext) throws com.sun.star.uno.Exception {    
     return createInstanceWithContext(xContext);
   }
 
+  @Override
   public final Object createInstanceWithContext(final XComponentContext xContext) throws com.sun.star.uno.Exception {    
     if (instance == null) {     
       instance = new de.danielnaber.languagetool.openoffice.Main(xContext);      

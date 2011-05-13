@@ -33,31 +33,38 @@ public class Esperanto extends Language {
   private final Tagger tagger = new EsperantoTagger();
   private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer(getShortName());
 
+  @Override
   public Locale getLocale() {
     return new Locale("eo");
   }
 
+  @Override
   public final SentenceTokenizer getSentenceTokenizer() {
     return sentenceTokenizer;
   }
 
+  @Override
   public String getName() {
     return "Esperanto";
   }
 
+  @Override
   public String getShortName() {
     return "eo";
   }
 
+  @Override
   public String[] getCountryVariants() {
     /* return "ANY" country code as a "country-less" placeholder for OOo: */
     return new String[] {"ANY"};
   }
   
+  @Override
   public Tagger getTagger() {
     return tagger;
   }
 
+  @Override
   public Contributor[] getMaintainers() {
     final Contributor dPelle = new Contributor("Dominique Pellé");
     dPelle.setUrl("http://dominiko.livejournal.com/tag/lingvoilo");

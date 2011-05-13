@@ -129,6 +129,7 @@ public class AnalyzedGermanTokenReadings extends AnalyzedTokenReadings {
     return false;
   }
 
+  @Override
   public String toString() {
     if (anTokReadings == null) {
       return super.getAnalyzedToken(0).getToken() + "[?]";

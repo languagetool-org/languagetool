@@ -63,14 +63,17 @@ public class WordCoherencyRule extends GermanRule {
     germanLemmatizer = new GermanLemmatizer();
   }
   
+  @Override
   public String getId() {
     return "DE_WORD_COHERENCY";
   }
 
+  @Override
   public String getDescription() {
     return "Einheitliche Schreibweise für Wörter mit mehr als einer korrekten Schreibweise";
   }
 
+  @Override
   public RuleMatch[] match(AnalyzedSentence text) {
     final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     final AnalyzedTokenReadings[] tokens = text.getTokens();
@@ -149,6 +152,7 @@ public class WordCoherencyRule extends GermanRule {
     return map;
   }
   
+  @Override
   public void reset() {
     shouldNotAppearWord = new HashMap<String, RuleMatch>();
   }

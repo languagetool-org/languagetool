@@ -194,6 +194,7 @@ public final class Main implements ActionListener {
     frame.setVisible(true);
   }
 
+  @Override
   public void actionPerformed(final ActionEvent e) {
     try {
       if (e.getActionCommand().equals(
@@ -515,6 +516,7 @@ public final class Main implements ActionListener {
           && (args[0].equals("-t") || args[0].equals("--tray"))) {
         // dock to systray on startup
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
+          @Override
           public void run() {
             try {
               prg.createGUI();
@@ -534,6 +536,7 @@ public final class Main implements ActionListener {
         prg.stopServer();
       } else {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
+          @Override
           public void run() {
             try {
               prg.createGUI();
@@ -577,6 +580,7 @@ public final class Main implements ActionListener {
 
   class TrayActionRMBListener implements ActionListener {
 
+    @Override
     public void actionPerformed(ActionEvent e) {
       if (e.getActionCommand().equalsIgnoreCase(
           StringTools.getLabel(messages.getString("guiMenuCheckClipboard")))) {
@@ -597,6 +601,7 @@ public final class Main implements ActionListener {
 
   class TrayActionListener implements MouseListener {
 
+    @Override
     public void mouseClicked(@SuppressWarnings("unused")MouseEvent e) {
       if (frame.isVisible() && frame.isActive()) {
         frame.setVisible(false);
@@ -608,24 +613,35 @@ public final class Main implements ActionListener {
       }
     }
 
+    @Override
     public void mouseEntered(@SuppressWarnings("unused") MouseEvent e) {}
+    @Override
     public void mouseExited(@SuppressWarnings("unused")MouseEvent e) {}
+    @Override
     public void mousePressed(@SuppressWarnings("unused")MouseEvent e) {}
+    @Override
     public void mouseReleased(@SuppressWarnings("unused")MouseEvent e) {}
 
   }
 
   class CloseListener implements WindowListener {
 
+    @Override
     public void windowClosing(@SuppressWarnings("unused")WindowEvent e) {
       quitOrHide();
     }
 
+    @Override
     public void windowActivated(@SuppressWarnings("unused")WindowEvent e) {}
+    @Override
     public void windowClosed(@SuppressWarnings("unused")WindowEvent e) {}
+    @Override
     public void windowDeactivated(@SuppressWarnings("unused")WindowEvent e) {}
+    @Override
     public void windowDeiconified(@SuppressWarnings("unused")WindowEvent e) {}
+    @Override
     public void windowIconified(@SuppressWarnings("unused")WindowEvent e) {}
+    @Override
     public void windowOpened(@SuppressWarnings("unused")WindowEvent e) {}
 
   }

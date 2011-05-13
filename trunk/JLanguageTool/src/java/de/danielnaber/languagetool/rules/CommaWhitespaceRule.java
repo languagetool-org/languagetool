@@ -39,14 +39,17 @@ public class CommaWhitespaceRule extends Rule {
     super.setCategory(new Category(messages.getString("category_misc")));
   }
 
+  @Override
   public final String getId() {
     return "COMMA_PARENTHESIS_WHITESPACE";
   }
 
+  @Override
   public final String getDescription() {
     return messages.getString("desc_comma_whitespace");
   }
 
+  @Override
   public final RuleMatch[] match(final AnalyzedSentence text) {
     final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     final AnalyzedTokenReadings[] tokens = text.getTokens();
@@ -163,6 +166,7 @@ public class CommaWhitespaceRule extends Rule {
     return true;
   }   
 
+  @Override
   public void reset() {
     // nothing
   }

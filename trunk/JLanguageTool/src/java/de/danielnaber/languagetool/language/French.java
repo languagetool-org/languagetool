@@ -35,18 +35,22 @@ public class French extends Language {
   private final Disambiguator disambiguator = new FrenchHybridDisambiguator();
   private static final Unifier FRENCH_UNIFIER = new Unifier();
   
+  @Override
   public Locale getLocale() {
     return new Locale(getShortName());
   }
 
+  @Override
   public String getName() {
     return "French";
   }
 
+  @Override
   public String getShortName() {
     return "fr";
   }
   
+  @Override
   public String[] getCountryVariants() {
     return new String[]{"FR", "", "BE", "CH", "CA", "LU", "MC", "CM",
             "CI", "HI", "ML", "SN", "CD", "MA", "RE"};
@@ -62,18 +66,22 @@ public class French extends Language {
     return new String[]{ "]", ")", "}", "»", /*"’" used in "d’arm" and many other words */ };
   }
   
+  @Override
   public Tagger getTagger() {
     return tagger;
   }
 
+  @Override
   public Disambiguator getDisambiguator() {
     return disambiguator;
   }
   
+  @Override
   public Unifier getUnifier() {
     return FRENCH_UNIFIER;
   }
 
+  @Override
   public Contributor[] getMaintainers() {
     final Contributor hVoisard = new Contributor("Hugo Voisard");
     hVoisard.setRemark("2006-2007");

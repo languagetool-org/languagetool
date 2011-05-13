@@ -209,14 +209,17 @@ public class CaseRule extends GermanRule {
       super.setCategory(new Category(messages.getString("category_case")));
   }
   
+  @Override
   public String getId() {
     return "DE_CASE";
   }
 
+  @Override
   public String getDescription() {
     return "Großschreibung von Nomen und substantivierten Verben";
   }
 
+  @Override
   public RuleMatch[] match(final AnalyzedSentence text) throws IOException {
     final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
@@ -345,6 +348,7 @@ public class CaseRule extends GermanRule {
     return true;
   }
 
+  @Override
   public void reset() {
     // nothing
   }

@@ -31,26 +31,32 @@ public class Demo extends Language {
 
   private final Tagger tagger = new DemoTagger();
 
+  @Override
   public Locale getLocale() {
     return new Locale("en");
   }
 
+  @Override
   public String getName() {
     return "Testlanguage";
   }
 
+  @Override
   public String getShortName() {
     return "xx";
   }
 
+  @Override
   public String[] getCountryVariants() {
     return new String[] {"XX"};
   }
   
+  @Override
   public Tagger getTagger() {
     return tagger;
   }
 
+  @Override
   public Contributor[] getMaintainers() {
     return null;
   }

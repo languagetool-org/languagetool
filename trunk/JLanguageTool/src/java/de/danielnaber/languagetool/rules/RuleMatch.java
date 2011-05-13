@@ -227,6 +227,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
     return rule.getId() + ":" + fromPos + "-" + toPos + ":" + message;
   }
 
+  @Override
   public int compareTo(final RuleMatch other) {
     if (other == null)
       throw new ClassCastException();

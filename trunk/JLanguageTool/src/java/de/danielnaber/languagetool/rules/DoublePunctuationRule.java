@@ -37,14 +37,17 @@ public class DoublePunctuationRule extends Rule {
     super.setCategory(new Category(messages.getString("category_misc")));
   }
 
+  @Override
   public final String getId() {
     return "DOUBLE_PUNCTUATION";
   }
 
+  @Override
   public final String getDescription() {
     return messages.getString("desc_double_punct");
   }
 
+  @Override
   public final RuleMatch[] match(final AnalyzedSentence text) {
     final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     final AnalyzedTokenReadings[] tokens = text.getTokens();
@@ -92,6 +95,7 @@ public class DoublePunctuationRule extends Rule {
     return toRuleMatchArray(ruleMatches);
   }
 
+  @Override
   public void reset() {
     // nothing
   }

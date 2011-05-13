@@ -32,6 +32,7 @@ import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
  */
 public class TrimDisambiguator implements Disambiguator {
 
+  @Override
   public final AnalyzedSentence disambiguate(final AnalyzedSentence input) {
 
     final AnalyzedTokenReadings[] anTokens = input.getTokens();

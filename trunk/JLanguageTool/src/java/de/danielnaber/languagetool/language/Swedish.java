@@ -30,14 +30,17 @@ public class Swedish extends Language {
 
   private final Tagger tagger = new SwedishTagger();
 
+  @Override
   public final Locale getLocale() {
     return new Locale(getShortName());
   }
 
+  @Override
   public final String getName() {
     return "Swedish";
   }
 
+  @Override
   public final String getShortName() {
     return "sv";
   }
@@ -47,10 +50,12 @@ public class Swedish extends Language {
     return new String[]{"SE", "FI"};
   }
   
+  @Override
   public final Tagger getTagger() {
     return tagger;
   }
 
+  @Override
   public final Contributor[] getMaintainers() {
     return new Contributor[] {new Contributor("Niklas Johansson")};
   }

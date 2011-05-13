@@ -47,6 +47,7 @@ public class UkrainianMyspellTagger implements Tagger {
   private HashMap<String, String[]> wordsToPos;
 
  
+  @Override
   public final List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens)
       throws IOException {
 
@@ -138,10 +139,12 @@ public class UkrainianMyspellTagger implements Tagger {
     return tokenReadings;
   }
 
+  @Override
   public final AnalyzedTokenReadings createNullToken(final String token, final int startPos) {
     return new AnalyzedTokenReadings(new AnalyzedToken(token, null, null), startPos);
   }
 
+  @Override
   public AnalyzedToken createToken(String token, String posTag) {
     return new AnalyzedToken(token, posTag, null);
   }

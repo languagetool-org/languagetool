@@ -81,10 +81,12 @@ public abstract class KhmerWordCoherencyRule extends KhmerRule {
     wrongWords = loadWords(JLanguageTool.getDataBroker().getFromRulesDirAsStream(getFileName()));
   }
 
+  @Override
   public String getId() {
     return "KM_WORD_COHERENCY";
   }
 
+  @Override
   public String getDescription() {
     return "Checks for wrong words/phrases";
   }
@@ -97,6 +99,7 @@ public abstract class KhmerWordCoherencyRule extends KhmerRule {
     return "Wrong word";
   }
 
+  @Override
   public final RuleMatch[] match(final AnalyzedSentence text) {
     final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
@@ -161,6 +164,7 @@ for (int i = 0; i < parts.length - 1; i++) {
     return map;
   }
 
+  @Override
   public void reset() {
   }  
 

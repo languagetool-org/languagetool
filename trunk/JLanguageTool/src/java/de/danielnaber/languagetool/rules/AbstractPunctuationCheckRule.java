@@ -39,10 +39,12 @@ public abstract class AbstractPunctuationCheckRule extends Rule {
     super.setCategory(new Category(messages.getString("category_misc")));
   }
 
+  @Override
   public String getId() {
     return "PUNCTUATION_GENERIC_CHECK";
   }
 
+  @Override
   public String getDescription() {
     return "Use of unusual combination of punctuation characters";
   }
@@ -51,6 +53,7 @@ public abstract class AbstractPunctuationCheckRule extends Rule {
 
   protected abstract boolean isPunctuation(String token);
 
+  @Override
   public RuleMatch[] match(final AnalyzedSentence text) {
     final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     final AnalyzedTokenReadings[] tokens = text.getTokens();
@@ -86,6 +89,7 @@ public abstract class AbstractPunctuationCheckRule extends Rule {
     return toRuleMatchArray(ruleMatches);
   }
 
+  @Override
   public void reset() {
     // nothing
   }

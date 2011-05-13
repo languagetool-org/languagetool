@@ -41,18 +41,22 @@ public class Dutch extends Language {
   private final Disambiguator disambiguator = new DutchRuleDisambiguator();
   private final Tokenizer wdTokenizer = new DutchWordTokenizer();
 
+  @Override
   public final Locale getLocale() {
     return new Locale(getShortName());
   }
 
+  @Override
   public final String getName() {
     return "Dutch";
   }
 
+  @Override
   public final String getShortName() {
     return "nl";
   }
 
+  @Override
   public final String[] getCountryVariants() {
     return new String[]{"NL", "BE"};
   }
@@ -67,26 +71,32 @@ public class Dutch extends Language {
     return new String[]{ "]", ")", "}", "”", "\u203a", "\u201d", "\u201d" };
   }
   
+  @Override
   public final Tagger getTagger() {
     return tagger;
   }
 
+  @Override
   public final Synthesizer getSynthesizer() {
     return synthesizer;
   }
 
+  @Override
   public final SentenceTokenizer getSentenceTokenizer() {
     return sentenceTokenizer;
   }
 
+  @Override
   public final Tokenizer getWordTokenizer() {
     return wdTokenizer;
   }
 
+  @Override
   public final Disambiguator getDisambiguator() {
     return disambiguator;
   }
 
+  @Override
   public final Contributor[] getMaintainers() {
     final Contributor contributor = new Contributor("Ruud Baars");
     contributor.setUrl("http://www.opentaal.org");

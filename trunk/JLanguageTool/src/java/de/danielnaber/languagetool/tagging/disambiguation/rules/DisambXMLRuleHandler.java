@@ -41,10 +41,12 @@ class DisambXMLRuleHandler extends XMLRuleHandler {
     return rules;
   }
   
+  @Override
   public void warning (final SAXParseException e) throws SAXException {
     throw e;
   }
   
+  @Override
   public void error (final SAXParseException e) throws SAXException {
     throw e;
   }

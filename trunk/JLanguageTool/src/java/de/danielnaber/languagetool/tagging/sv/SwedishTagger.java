@@ -28,6 +28,7 @@ import de.danielnaber.languagetool.tagging.BaseTagger;
  */
 public class SwedishTagger extends BaseTagger {
 
+  @Override
   public final String getFileName() {
     return JLanguageTool.getDataBroker().getResourceDir() + "/sv/swedish.dict";    
   }
