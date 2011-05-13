@@ -8,7 +8,7 @@ LanguageTool.
 Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
 A Russian rule file for LanguageTool 
 Copyright (C) 2008-2011 Yakov Reztsov
-$Id: grammar.xml,v 1.66 2011-03-22 19:51:37 yakovru Exp $
+$Id: grammar.xml,v 1.67 2011-05-13 10:50:10 yakovru Exp $
 #     REVISION:  $Id$
 -->
 <rules lang="ru" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -213,7 +213,7 @@ $Id: grammar.xml,v 1.66 2011-03-22 19:51:37 yakovru Exp $
                 <message>Запятая пропущена здесь:<suggestion>\1, \2, \3</suggestion>.</message>
                 <short>Нет запятой.</short>
                 <example type="correct">Эта работа, во-первых, представляет огромную научную ценность.</example>
-                 <example type="correct">Эта работа была выполнена полностью, <marker>а следовательно,</marker> должна быть рассмотрена в первую очередь.</example>
+                <example type="correct">Эта работа была выполнена полностью, <marker>а следовательно,</marker> должна быть рассмотрена в первую очередь.</example>
                 <example type="incorrect" correction="работа, во-первых, представляет">Эта <marker>работа во-первых представляет</marker> огромную научную ценность.</example>
             </rule>
             <rule>
@@ -1094,10 +1094,6 @@ $Id: grammar.xml,v 1.66 2011-03-22 19:51:37 yakovru Exp $
         </rulegroup>        
         <rulegroup default="on"  id="Pravopisanie_slitno1" name="Правописание слов “наверху”, “внизу” ...">
             <!-- To Do
-ввиду (но: иметь в виду)
-вглубь
-вдоль
-взамен
 вместо
 вне
 заместо
@@ -1124,6 +1120,39 @@ $Id: grammar.xml,v 1.66 2011-03-22 19:51:37 yakovru Exp $
                 <example type="correct">Он будет <marker>наверху</marker>.</example>
                 <example type="incorrect">Он будет <marker>на верху</marker>.</example>               
             </rule>
+            
+            
+            <rule>
+                <!-- вглубь, вдоль, взамен               
+  --> 
+                <pattern case_sensitive="no">
+                    <token>в</token>       
+                    <token regexp = "yes">глубь|доль|замен</token>
+                </pattern>
+                <message>Слово пишется слитно: <suggestion>\1\2</suggestion>.</message>
+                <short>Пишется слитно.</short>
+                <example type="correct">Его путь пролегал <marker>вдоль</marker> лесополосы.</example>
+                <example type="incorrect">Его путь пролегал <marker>в доль</marker> лесополосы.</example>               
+            </rule>
+            
+            
+            <rule>
+                <!-- ввиду (но: иметь в виду)
+        
+  --> 
+                <pattern case_sensitive="no"  mark_from="1">
+                    <token negate= "yes" inflected="yes">иметь</token>   
+                    <token>в</token>       
+                    <token>виду</token>
+                </pattern>
+                <message>Слово пишется слитно: <suggestion>\2\3</suggestion>.</message>
+                <short>Пишется слитно.</short>
+                <example type="correct">Много  оборудования не использовалось в учреждении <marker>ввиду</marker> отсутствия расходных материалов.</example>
+                <example type="correct">Он имел <marker>в виду</marker> совсем другое событие.</example>
+                <example type="incorrect">Много оборудования не использовалось в учреждении <marker>в виду</marker> отсутствия расходных материалов.</example>               
+            </rule>
+            
+            
             
             
             <rule>
