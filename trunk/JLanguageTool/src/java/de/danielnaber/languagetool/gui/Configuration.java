@@ -27,6 +27,7 @@ import java.util.*;
 
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.server.HTTPServer;
+import de.danielnaber.languagetool.tools.StringTools;
 
 /**
  * Configuration -- currently this is mostly a list of disabled rule IDs.
@@ -43,6 +44,7 @@ public class Configuration {
   private static final String MOTHER_TONGUE_CONFIG_KEY = "motherTongue";
   private static final String SERVER_RUN_CONFIG_KEY = "serverMode";
   private static final String SERVER_PORT_CONFIG_KEY = "serverPort";
+  private static final String DELIMITER = ",";
 
   private File configFile;
   private Set<String> disabledRuleIds = new HashSet<String>();
@@ -123,26 +125,12 @@ public class Configuration {
       fis = new FileInputStream(configFile);
       final Properties props = new Properties();
       props.load(fis);
-      final String val = (String) props.get(DISABLED_RULES_CONFIG_KEY);
-      if (val != null) {
-        final String[] ids = val.split(",");
-        disabledRuleIds.addAll(Arrays.asList(ids));
-      }
 
-      final String enRul = (String) props.get(ENABLED_RULES_CONFIG_KEY);
-      if (enRul != null) {
-        final String[] ids = enRul.split(",");
-        enabledRuleIds.addAll(Arrays.asList(ids));
-      }
-
-      final String cat = (String) props.get(DISABLED_CATEGORIES_CONFIG_KEY);
-      if (cat != null) {
-        final String[] names = cat.split(",");
-        disabledCategoryNames.addAll(Arrays.asList(names));
-      }
-
-      final String motherTongueStr = (String) props
-          .get(MOTHER_TONGUE_CONFIG_KEY);
+      disabledRuleIds.addAll(getListFromProperties(props, DISABLED_RULES_CONFIG_KEY));
+      enabledRuleIds.addAll(getListFromProperties(props, ENABLED_RULES_CONFIG_KEY));
+      disabledCategoryNames.addAll(getListFromProperties(props, DISABLED_CATEGORIES_CONFIG_KEY));
+      
+      final String motherTongueStr = (String) props.get(MOTHER_TONGUE_CONFIG_KEY);
       if (motherTongueStr != null) {
         motherTongue = Language.getLanguageForShortName(motherTongueStr);
       }
@@ -150,8 +138,7 @@ public class Configuration {
       if (runServerString != null) {
         runServer = runServerString.equals("true");
       }
-      final String serverPortString = (String) props
-          .get(SERVER_PORT_CONFIG_KEY);
+      final String serverPortString = (String) props.get(SERVER_PORT_CONFIG_KEY);
       if (serverPortString != null) {
         serverPort = Integer.parseInt(serverPortString);
       }
@@ -164,53 +151,21 @@ public class Configuration {
     }
   }
 
+  private Collection<? extends String> getListFromProperties(Properties props, String key) {
+    final String value = (String) props.get(key);
+    final List<String> list = new ArrayList<String>();
+    if (value != null) {
+      final String[] names = value.split(DELIMITER);
+      list.addAll(Arrays.asList(names));
+    }
+    return list;
+  }
+
   public void saveConfiguration() throws IOException {
     final Properties props = new Properties();
-
-    if (disabledRuleIds == null) {
-      props.setProperty(DISABLED_RULES_CONFIG_KEY, "");
-    } else {
-      final StringBuilder sb = new StringBuilder();
-      for (final Iterator<String> iter = disabledRuleIds.iterator(); iter
-          .hasNext();) {
-        final String id = iter.next();
-        sb.append(id);
-        if (iter.hasNext()) {
-          sb.append(',');
-        }
-      }
-      props.setProperty(DISABLED_RULES_CONFIG_KEY, sb.toString());
-    }
-
-    if (enabledRuleIds == null) {
-      props.setProperty(ENABLED_RULES_CONFIG_KEY, "");
-    } else {
-      final StringBuilder sb = new StringBuilder();
-      for (final Iterator<String> iter = enabledRuleIds.iterator(); iter.hasNext();) {
-        final String id = iter.next();
-        sb.append(id);
-        if (iter.hasNext()) {
-          sb.append(',');
-        }
-      }
-      props.setProperty(ENABLED_RULES_CONFIG_KEY, sb.toString());
-    }
-
-    if (disabledCategoryNames == null) {
-      props.setProperty(DISABLED_CATEGORIES_CONFIG_KEY, "");
-    } else {
-      final StringBuilder sb = new StringBuilder();
-      for (final Iterator<String> iter = disabledCategoryNames.iterator(); iter
-          .hasNext();) {
-        final String name = iter.next();
-        sb.append(name);
-        if (iter.hasNext()) {
-          sb.append(',');
-        }
-      }
-      props.setProperty(DISABLED_CATEGORIES_CONFIG_KEY, sb.toString());
-    }
-
+    addListToProperties(props, DISABLED_RULES_CONFIG_KEY, disabledRuleIds);
+    addListToProperties(props, ENABLED_RULES_CONFIG_KEY, enabledRuleIds);
+    addListToProperties(props, DISABLED_CATEGORIES_CONFIG_KEY, disabledCategoryNames);
     if (motherTongue != null) {
       props.setProperty(MOTHER_TONGUE_CONFIG_KEY, motherTongue.getShortName());
     }
@@ -221,6 +176,14 @@ public class Configuration {
       props.store(fos, "LanguageTool configuration");
     } finally {
       fos.close();
+    }
+  }
+
+  private void addListToProperties(Properties props, String key, Set<String> list) {
+    if (list == null) {
+      props.setProperty(key, "");
+    } else {
+      props.setProperty(key, StringTools.listToString(list, DELIMITER));
     }
   }
 
