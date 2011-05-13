@@ -336,7 +336,7 @@ public class Main extends WeakBase implements XJobExecutor,
     return paRes;
   }
 
-  synchronized private String getSentence(final String paraText,
+  private synchronized String getSentence(final String paraText,
       final int startPos) {
     if (paraText.equals(currentPara) && tokenizedSentences != null) {
       int i = 0;
@@ -363,7 +363,7 @@ public class Main extends WeakBase implements XJobExecutor,
     return "";
   }
 
-  synchronized private SingleProofreadingError[] checkParaRules(
+  private synchronized SingleProofreadingError[] checkParaRules(
       final String paraText, final Locale locale, final int startPos,
       final int endPos, final String docID) {
     if (startPos == 0) {
@@ -753,7 +753,7 @@ class ErrorPositionComparator implements Comparator<SingleProofreadingError> {
 }
 
 class DialogThread extends Thread {
-  final private String text;
+  private final String text;
 
   DialogThread(final String text) {
     this.text = text;
