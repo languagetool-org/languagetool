@@ -110,7 +110,7 @@ public abstract class Language {
   /**
    * All languages supported by LanguageTool, but without the demo language.
    */
-  public static Language[] REAL_LANGUAGES = new Language[LANGUAGES.length-1];
+  public static final Language[] REAL_LANGUAGES = new Language[LANGUAGES.length-1];
   static {
     int i = 0;
     for (final Language lang : LANGUAGES) {
