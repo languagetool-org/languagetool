@@ -26,33 +26,33 @@ import de.danielnaber.languagetool.rules.AbstractCompoundRule;
 
 /**
  * Checks that compounds (if in the list) are not written as separate words.
- * 
+ *
  * @author Ionuț Păduraru, based on code by Daniel Naber
  */
 public class CompoundRule extends AbstractCompoundRule {
 
-	public static final String ROMANIAN_COMPOUND_RULE = "RO_COMPOUND";
-	private static final String FILE_NAME = "/ro/compounds.txt";
+  public static final String ROMANIAN_COMPOUND_RULE = "RO_COMPOUND";
+  private static final String FILE_NAME = "/ro/compounds.txt";
 
-	public CompoundRule(final ResourceBundle messages) throws IOException {
-		super(messages);
-		loadCompoundFile(JLanguageTool.getDataBroker().getFromRulesDirAsStream(FILE_NAME), "UTF-8");
-		super.setShort("Problemă de scriere (cratimă, spațiu, etc.)");
-		super.setMsg("Cuvântul se scrie cu cratimă.",
-				"Cuvântul se scrie legat.",
-				"Cuvântul se scrie legat sau cu cratimă.");
-		// default value (2) is not ok for Romanian
-		setMaxUnHyphenatedWordCount(Integer.MAX_VALUE);
-		// there are words that should not be written with hyphen but as one word
-		setHyphenIgnored(false);
-	}
+  public CompoundRule(final ResourceBundle messages) throws IOException {
+    super(messages);
+    loadCompoundFile(JLanguageTool.getDataBroker().getFromRulesDirAsStream(FILE_NAME), "UTF-8");
+    super.setShort("Problemă de scriere (cratimă, spațiu, etc.)");
+    super.setMsg("Cuvântul se scrie cu cratimă.",
+            "Cuvântul se scrie legat.",
+            "Cuvântul se scrie legat sau cu cratimă.");
+    // default value (2) is not ok for Romanian
+    setMaxUnHyphenatedWordCount(Integer.MAX_VALUE);
+    // there are words that should not be written with hyphen but as one word
+    setHyphenIgnored(false);
+  }
 
-	public String getId() {
-		return ROMANIAN_COMPOUND_RULE;
-	}
+  public String getId() {
+    return ROMANIAN_COMPOUND_RULE;
+  }
 
-	public String getDescription() {
-		return "Greșeală de scriere (cuvinte scrise legat sau cu cratimă)";
-	}
+  public String getDescription() {
+    return "Greșeală de scriere (cuvinte scrise legat sau cu cratimă)";
+  }
 
 }

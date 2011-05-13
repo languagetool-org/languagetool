@@ -39,7 +39,7 @@ public class CompoundRule extends AbstractCompoundRule {
     super.setShort("Hyphenation problem");
     super.setMsg("Dieses Kompositum wird mit Bindestrich geschrieben.", 
         "Dieses Kompositum wird zusammengeschrieben.", 
-    "Dieses Kompositum wird zusammen oder mit Bindestrich geschrieben.");
+        "Dieses Kompositum wird zusammen oder mit Bindestrich geschrieben.");
   }
 
 
