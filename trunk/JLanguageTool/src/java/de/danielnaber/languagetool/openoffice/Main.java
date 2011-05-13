@@ -138,7 +138,7 @@ public class Main extends WeakBase implements XJobExecutor,
     xContext = xCompContext;
   }
 
-  private XComponent getxComponent() {
+  private XComponent getXComponent() {
     try {
       final XMultiComponentFactory xMCF = xContext.getServiceManager();
       final Object desktop = xMCF.createInstanceWithContext(
@@ -159,7 +159,7 @@ public class Main extends WeakBase implements XJobExecutor,
    * @return Language - the language under the visible cursor.
    */
   private Language getLanguage() {
-    final XComponent xComponent = getxComponent();
+    final XComponent xComponent = getXComponent();
     if (xComponent == null) {
       return Language.ENGLISH; // for testing with local main() method only
     }
@@ -243,7 +243,7 @@ public class Main extends WeakBase implements XJobExecutor,
     }
   }
 
-  synchronized private ProofreadingResult doGrammarCheckingInternal(
+  private synchronized ProofreadingResult doGrammarCheckingInternal(
       final String paraText, final Locale locale, final ProofreadingResult paRes) {
 
     if (!StringTools.isEmpty(paraText)
@@ -668,7 +668,7 @@ public class Main extends WeakBase implements XJobExecutor,
     @Override
     public void run() {
       final XModel model = (XModel) UnoRuntime.queryInterface(XModel.class,
-          getxComponent());
+          getXComponent());
       final XWindow parentWindow = model.getCurrentController().getFrame()
           .getContainerWindow();
       final XWindowPeer parentWindowPeer = (XWindowPeer) UnoRuntime
