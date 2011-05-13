@@ -18,18 +18,9 @@
  */
 package de.danielnaber.languagetool.rules;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Queue;
-import java.util.ResourceBundle;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ArrayBlockingQueue;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
@@ -239,14 +230,10 @@ public abstract class AbstractCompoundRule extends Rule {
   }
 
   public void loadCompoundFile(final InputStream file, final String encoding) throws IOException {
-    InputStreamReader isr = null;
-    BufferedReader br = null;   
+    final Scanner scanner = new Scanner(file, encoding);
     try {
-      isr = new InputStreamReader(file, encoding);
-      br = new BufferedReader(isr);
-      String line;
-      while ((line = br.readLine()) != null) {
-        line = line.trim();
+      while (scanner.hasNextLine()) {
+        String line = scanner.nextLine().trim();
         if (line.length() < 1 || line.charAt(0) == '#') {
           continue;     // ignore comments
         }
@@ -269,8 +256,7 @@ public abstract class AbstractCompoundRule extends Rule {
         incorrectCompounds.add(line.toLowerCase());
       }
     } finally {
-      if (br != null) br.close();
-      if (isr != null) isr.close();
+      scanner.close();
     }
   }
 
