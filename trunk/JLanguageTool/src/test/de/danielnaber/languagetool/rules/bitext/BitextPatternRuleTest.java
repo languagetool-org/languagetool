@@ -40,25 +40,30 @@ public class BitextPatternRuleTest extends TestCase {
   public void testBitextRulesFromXML() throws IOException {
     testBitextRulesFromXML(null, false);
   }
-  
+
   private void testBitextRulesFromXML(final Set<Language> ignoredLanguages,
-      final boolean verbose) throws IOException {
-     for (final Language lang : Language.LANGUAGES) {
+                                      final boolean verbose) throws IOException {
+    int testCount = 0;
+    for (final Language lang : Language.LANGUAGES) {
       if (ignoredLanguages != null && ignoredLanguages.contains(lang)) {
         continue;
-      }                  
+      }
       final BitextPatternRuleLoader ruleLoader = new BitextPatternRuleLoader();
       final String name = "/" + lang.getShortName() + "/bitext.xml";
-      final InputStream is = JLanguageTool.getDataBroker().getFromRulesDirAsStream(name);
-      if (is != null) {
+      try {
+        final InputStream is = JLanguageTool.getDataBroker().getFromRulesDirAsStream(name);
         if (verbose) {
           System.out.println("Running tests for " + lang.getName() + "...");
         }
         final JLanguageTool languageTool = new JLanguageTool(lang);
         final List<BitextPatternRule> rules = ruleLoader.getRules(is, name);
         testBitextRulesFromXML(rules, languageTool, lang);
-      }                           
+        testCount++;
+      } catch (RuntimeException ignored) {
+        // thrown if there is no bitext.xml file
+      }
     }
+    assertTrue(testCount >= 1);
   }
   
   private void testBitextRulesFromXML(final List<BitextPatternRule> rules,

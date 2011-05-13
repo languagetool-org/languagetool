@@ -137,7 +137,9 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
   @Override
   public InputStream getFromResourceDirAsStream(final String path) {
     final String completePath = this.getCompleteResourceUrl(path);
-    return ResourceDataBroker.class.getResourceAsStream(completePath);
+    final InputStream resourceAsStream = ResourceDataBroker.class.getResourceAsStream(completePath);
+    assertNotNull(resourceAsStream, path, completePath);
+    return resourceAsStream;
   }
 
   /**
@@ -155,7 +157,9 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
   @Override
   public URL getFromResourceDirAsUrl(final String path) {
     final String completePath = this.getCompleteResourceUrl(path);
-    return getFixedJarURL(ResourceDataBroker.class.getResource(completePath));
+    final URL resource = ResourceDataBroker.class.getResource(completePath);
+    assertNotNull(resource, path, completePath);
+    return getFixedJarURL(resource);
   }
 
   /**
@@ -169,7 +173,7 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
    *         {@code resource} directory.
    */
   private String getCompleteResourceUrl(final String path) {
-    final StringBuffer completePath = new StringBuffer(this.getResourceDir());
+    final StringBuilder completePath = new StringBuilder(this.getResourceDir());
 
     if (!this.getResourceDir().endsWith("/") && !(path.charAt(0)=='/')) {
       completePath.append('/');
@@ -199,8 +203,10 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
    */
   @Override
   public InputStream getFromRulesDirAsStream(final String path) {
-    final StringBuffer completePath = this.getCompleteRulesUrl(path);
-    return ResourceDataBroker.class.getResourceAsStream(completePath.toString());
+    final String completePath = this.getCompleteRulesUrl(path);
+    final InputStream resourceAsStream = ResourceDataBroker.class.getResourceAsStream(completePath);
+    assertNotNull(resourceAsStream, path, completePath);
+    return resourceAsStream;
   }
 
   /**
@@ -216,8 +222,16 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
    */
   @Override
   public URL getFromRulesDirAsUrl(final String path) {
-    final StringBuffer completePath = this.getCompleteRulesUrl(path);
-    return getFixedJarURL(ResourceDataBroker.class.getResource(completePath.toString()));
+    final String completePath = this.getCompleteRulesUrl(path);
+    final URL resource = ResourceDataBroker.class.getResource(completePath);
+    assertNotNull(resource, path, completePath);
+    return getFixedJarURL(resource);
+  }
+
+  private void assertNotNull(Object object, String path, String completePath) {
+    if (object == null) {
+      throw new RuntimeException("Path " + path + " not found in class path at " + completePath);
+    }
   }
 
   /**
@@ -230,8 +244,8 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
    * @return The full relative path to the resource including the path to the
    *         {@code rules} directory.
    */
-  private StringBuffer getCompleteRulesUrl(final String path) {
-    final StringBuffer completePath = new StringBuffer(this.getRulesDir());
+  private String getCompleteRulesUrl(final String path) {
+    final StringBuilder completePath = new StringBuilder(this.getRulesDir());
 
     if (!this.getRulesDir().endsWith("/") && !(path.charAt(0)=='/')) {
       completePath.append('/');
@@ -243,7 +257,7 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
       completePath.append(path);
     }
 
-    return completePath;
+    return completePath.toString();
   }
 
   /**
