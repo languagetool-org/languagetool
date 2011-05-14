@@ -1290,7 +1290,7 @@ though, and has since been slightly modified)-->
             <exception negate_pos="yes" postag="A|([JN] .* s?p)|SENT_END" postag_regexp="yes" scope="next"/>
             <exception postag="V inf" scope="current"/>
             <exception postag="&lt;/DE&gt;" scope="previous"/>
-            <exception regexp="yes" scope="previous">de|du</exception>
+            <exception regexp="yes" scope="previous">et|de|du</exception>
           </token>
           <token postag="[JN] .* p" postag_regexp="yes">
             <exception postag="(V .*)|([JN] .* sp)" postag_regexp="yes"/>
@@ -1314,6 +1314,7 @@ though, and has since been slightly modified)-->
         <example type="correct"><marker>Même vainqueurs</marker> ils sont mécontents.</example>
         <example type="incorrect"><marker>Une vaches</marker> laitières</example>
         <example type="correct"><marker>Une vache</marker> laitière</example>
+        <example type="correct">Les premier et deuxième trimestres.</example>
       </rule>
       <rule name="pluriel suivi du singulier">
         <pattern mark_from="1" mark_to="-1">
@@ -17263,11 +17264,20 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token>grand</token>
-          <token>chose</token>
+          <token regexp="yes">chose|peine</token>
         </pattern>
         <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
         <example type="incorrect">Je n’ai pas <marker>grand chose</marker>.</example>
         <example type="correct">Je n’ai pas <marker>grand-chose</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">grands?</token>
+          <token regexp="yes">([mp]ère|parent|papa|maman|paternel|paternité|oncle|tante|messe)s?</token>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
+        <example type="incorrect">Mon <marker>grand père</marker> a 100 ans.</example>
+        <example type="correct">Mon <marker>grand-père</marker> a 100 ans.</example>
       </rule>
       <rule>
         <pattern>
@@ -17538,6 +17548,19 @@ though, and has since been slightly modified)-->
       <example type="incorrect">J’ai reçu des fleurs pour la <marker>saint Valentin</marker>.</example>
       <example type="correct">J’ai reçu des fleurs pour la <marker>Saint-Valentin</marker>.</example>
     </rule>
+
+    <rulegroup id="VIRGULE" name="Usage de la virgule">
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token negate="yes">,</token>
+          <token>etc</token>
+          <token>.</token>
+        </pattern>
+        <message>On met généralement une virgule devant « etc. ». Employez <suggestion>, etc.</suggestion>.</message>
+        <example type="incorrect">J’ai un chien, un chat, un lapin<marker> etc</marker>.</example>
+        <example type="correct">J’ai un chien, un chat, un lapin, etc.</example>
+      </rule>
+    </rulegroup>
   </category>
   <category name="Archaïsmes (tours vieillis, anciens et vieux)">
     <!--The following rules were created by Hugo Voisard-->
