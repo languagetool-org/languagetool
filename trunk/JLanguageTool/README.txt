@@ -8,7 +8,7 @@ Version ###VERSION###, ###DATE###
 Homepage: http://www.languagetool.org
 
 Requirements:
- -Java 6.0 or later (Sun Java or IcedTea; GIJ is not supported)
+ -Java 6.0 or later (Sun/Oracle Java or IcedTea; GIJ is not supported)
  -For OpenOffice.org integration, OpenOffice 3.0.1 or later.
 
 Usage:
