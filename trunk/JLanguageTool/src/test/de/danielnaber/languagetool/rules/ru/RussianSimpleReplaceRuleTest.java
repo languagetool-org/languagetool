@@ -28,13 +28,13 @@ import de.danielnaber.languagetool.TestTools;
 import de.danielnaber.languagetool.rules.RuleMatch;
 
 /*  
- * RuSimpleReplaceRuleTest
+ * RussianSimpleReplaceRuleTest
  * @ author Yakov Reztsov
  *
  */
 
 
-public class RuSimpleReplaceRuleTest extends TestCase {
+public class RussianSimpleReplaceRuleTest extends TestCase {
 
 	public void testRule() throws IOException {
 		RussianSimpleReplaceRule rule = new RussianSimpleReplaceRule(TestTools.getMessages("ru"));
