@@ -8,7 +8,7 @@ LanguageTool.
 Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
 A Russian rule file for LanguageTool 
 Copyright (C) 2008-2011 Yakov Reztsov
-$Id: grammar.xml,v 1.67 2011-05-13 10:50:10 yakovru Exp $
+$Id: grammar.xml,v 1.68 2011-05-14 14:58:12 yakovru Exp $
 #     REVISION:  $Id$
 -->
 <rules lang="ru" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -1098,9 +1098,6 @@ $Id: grammar.xml,v 1.67 2011-05-13 10:50:10 yakovru Exp $
 вне
 заместо
 навстречу
-накануне
-наподобие
-напротив
 насчёт
 ниже
 посередине
@@ -1108,6 +1105,23 @@ $Id: grammar.xml,v 1.67 2011-05-13 10:50:10 yakovru Exp $
 свыше
 согласно
 -->
+            <rule>
+                <!-- накануне, наподобие, напротив               
+  --> 
+                <pattern case_sensitive="no">
+                    <token>на</token>       
+                    <token regexp = "yes">кануне|подобие|против</token>
+                </pattern>
+                <message>Слово пишется слитно: <suggestion>\1\2</suggestion>.</message>
+                <short>Пишется слитно.</short>
+                <example type="correct">Это событие произошло <marker>накануне</marker> дня рождения.</example>
+                <example type="incorrect">Это событие произошло <marker>на кануне</marker> дня рождения.</example>               
+            </rule>
+            
+            
+            
+            
+            
             <rule>
                 <!-- внизу, снизу, наверху, вверху, сверху                
   --> 
@@ -1152,6 +1166,19 @@ $Id: grammar.xml,v 1.67 2011-05-13 10:50:10 yakovru Exp $
                 <example type="incorrect">Много оборудования не использовалось в учреждении <marker>в виду</marker> отсутствия расходных материалов.</example>               
             </rule>
             
+            <rule>
+                <!--  иметь в виду (но: ввиду)
+        
+  --> 
+                <pattern case_sensitive="no">
+                    <token  inflected="yes">иметь</token>   
+                    <token>ввиду</token>                          
+                </pattern>
+                <message>Пишется раздельно: <suggestion>\1 в виду</suggestion>.</message>
+                <short>Пишется раздельно.</short>            
+                <example type="correct">Он <marker>имел в виду</marker> совсем другое событие.</example>
+                <example type="incorrect">Он <marker>имел ввиду</marker> совсем другое событие.</example>            
+            </rule>
             
             
             
