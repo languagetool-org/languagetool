@@ -39,7 +39,7 @@ public interface Tagger {
    * may implement special cases for the first word of a sentence, which is 
    * usually written with an uppercase letter.
    * 
-   * @param sentenceTokens the text as returned by a WordTokenizer but without whitespace tokens. 
+   * @param sentenceTokens the text as returned by a WordTokenizer 
    */
   public List<AnalyzedTokenReadings> tag(List<String> sentenceTokens) throws IOException;
   
