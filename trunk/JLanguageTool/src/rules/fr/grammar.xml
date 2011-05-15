@@ -163,20 +163,11 @@ though, and has since been slightly modified)-->
     <rulegroup id="SAVERER_VRAI" name="s’avérer vrai">
       <rule>
         <pattern>
-          <token inflected="yes" skip="6">avérer</token>
+          <token inflected="yes" skip="2">avérer</token>
           <token regexp="yes">vraie?s?</token>
         </pattern>
         <message>« S’avérer vrai » est un pléonasme. Employez <suggestion>s’\1 exact</suggestion>.</message>
         <example type="incorrect">s’<marker>avérer vrai</marker></example>
-        <example type="correct"><marker>s’avérer exact</marker></example>
-      </rule>
-      <rule>
-        <pattern>
-          <token regexp="yes" skip="6">avérée?s?</token>
-          <token regexp="yes">vraie?s?</token>
-        </pattern>
-        <message>« S’avérer exact » est un pléonasme. Employez <suggestion>s’\1 exact</suggestion>.</message>
-        <example type="incorrect"><marker>avéré vrai</marker></example>
         <example type="correct"><marker>s’avérer exact</marker></example>
       </rule>
     </rulegroup>
@@ -1269,6 +1260,86 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category name="Grammaire">
+    <!-- http://www.leconjugueur.com/frlesnombres.php -->
+    <rulegroup id="TRAIT_UNION_NOMBRE" name="Nombre avec trait d'union">
+      <rule>
+        <pattern>
+          <token regexp="yes">dix|vingt|trente|quarante|cinquante|soixante|septante|octante|huitante|nonante</token>
+          <token regexp="yes">(deux|trois|six|sept|huit)(ièmes?)?|quatre|quatrièmes?|cinq|cinquièmes?|neuf|neuvièmes?</token>
+        </pattern>
+        <message>Employez <suggestion>\1-\2</suggestion>.</message>
+        <example type="incorrect">Il a <marker>dix huit</marker> ans.</example>
+        <example type="correct">Il a <marker>dix-huit</marker> ans.</example>
+        <example type="incorrect">La <marker>dix huitième</marker> fois.</example>
+        <example type="correct">La <marker>dix-huitième</marker> fois.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>soixante</token>
+          <token regexp="yes">((douz|treiz|quatorz|quinz|seiz)(e|ièmes?))|((dix-sept|dix-huit)(ièmes?)?)|dix-neuf|dix-neuvièmes?</token>
+        </pattern>
+        <message>Employez <suggestion>\1-2</suggestion>.</message>
+        <example type="incorrect">Il a <marker>soixante douze</marker> ans.</example>
+        <example type="correct">Il a <marker>soixante-douze</marker> ans.</example>
+        <example type="incorrect">Elle est <marker>soixante douzième</marker></example>
+        <example type="correct">Elle est <marker>soixante-douzième</marker></example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">vingt|trente|quarante|cinquante|soixante|septante|octante|huitante|nonante</token>
+          <token regexp="yes">une?|unièmes?</token>
+        </pattern>
+        <message>Employez <suggestion>\1 et \2</suggestion> ou <suggestion>\1-et-\2</suggestion>.</message>
+        <example type="incorrect">Il a <marker>soixante un</marker> ans.</example>
+        <example type="correct">Il a <marker>soixante et un</marker> ans.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>quatre</token>
+          <token regexp="yes">vingts?</token>
+          <token regexp="yes">une|((un|deux|trois|six|sept|huit|dix|dix-sept|dix-huit)(ièmes?)?)|((quatr|onz|douz|treiz|quatorz|quinz|seiz)|(e|ièmes?)?)|cinq|cinquièmes?|neuf|neuvièmes?</token>
+        </pattern>
+        <message>Employez <suggestion>quatre-vingt-un</suggestion>.</message>
+        <example type="incorrect">Il a <marker>quatre vingt un</marker> ans.</example>
+        <example type="correct">Il a <marker>quatre-vingt-un</marker> ans.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">quatre-vingts?</token>
+          <token regexp="yes">une|((un|deux|trois|six|sept|huit|dix|dix-sept|dix-huit)(ièmes?)?)|((quatr|onz|douz|treiz|quatorz|quinz|seiz)|(e|ièmes?)?)|cinq|cinquièmes?|neuf|neuvièmes?</token>
+        </pattern>
+        <message>Employez <suggestion>quatre-vingt-un</suggestion>.</message>
+        <example type="incorrect">Il a <marker>quatre-vingt deux</marker> ans.</example>
+        <example type="correct">Il a <marker>quatre-vingt-deux</marker> ans.</example>
+      </rule>
+    </rulegroup>
+    <rule id="CENT" name="Cent">
+      <pattern mark_from="1" mark_to="-1">
+        <token regexp="yes">deux|trois|quatre|cinq|six|sept|huit|neuf</token>
+        <token>cent</token>
+        <token negate="yes" regexp="yes">un|une|deux|trois|quatre|cinq|six|sept|huit|neuf|dix|onze|douze|treize|quatorze|quinze|seize|vingt|trente|quarante|cinquante|soixante|septante|octante|huitante|nonante|mille|(dix-.*)|(vingt-.*)|(trente-.*)|(quarante-.*)|(cinquante-.*)|(soixante-.*)|(quatre-.*)|(octante-.*)|(huitante-.*)|(nonante-.*)</token>
+      </pattern>
+      <message>Le numéral cardinal cent prend un « s » au pluriel lorsqu’il représente des centaines entières.</message>
+      <example type="incorrect">J’ai trois <marker>cent</marker> timbres.</example>
+      <example type="correct">J’ai trois <marker>cent</marker> cinquante timbres.</example>
+      <example type="correct">Deux <marker>cent</marker> mille étoiles.</example>
+      <example type="incorrect">Deux <marker>cent</marker> milliards d’étoiles.</example>
+      <example type="correct">J’ai cinq <marker>cent</marker> soixante-et-un euros.</example>
+      <example type="correct">J’ai mille cent timbres.</example>
+    </rule>
+    <rule id="CENTS" name="Cents">
+      <pattern mark_from="1" mark_to="-1">
+        <token regexp="yes">deux|trois|quatre|cinq|six|sept|huit|neuf|mille</token>
+        <token>cents</token>
+        <token regexp="yes">un|une|deux|trois|quatre|cinq|six|sept|huit|neuf|dix|onze|douze|treize|quatorze|quinze|seize|vingt|trente|quarante|cinquante|soixante|septante|octante|huitante|nonante|mille|(dix-.*)|(vingt-.*)|(trente-.*)|(quarante-.*)|(cinquante-.*)|(soixante-.*)|(quatre-.*)|(octante-.*)|(huitante-.*)|(nonante-.*)</token>
+      </pattern>
+      <message>Le numéral cardinal cent ne prend pas de « s » lorsqu’il ne représente pas des centaine entières.</message>
+      <example type="correct">J’ai trois <marker>cents</marker> timbres.</example>
+      <example type="incorrect">J’ai trois <marker>cents</marker> cinquante timbres.</example>
+      <example type="incorrect">Deux <marker>cents</marker> mille étoiles.</example>
+      <example type="correct">Deux <marker>cents</marker> milliards d’étoiles.</example>
+      <example type="incorrect">J’ai cinq <marker>cents</marker> soixante-et-un euros.</example>
+    </rule>
     <rulegroup id="ACCORD_NOMBRE" name="Accord en nombre">
       <rule name="nombre singulier suivi du pluriel">
         <pattern>
@@ -2859,33 +2930,6 @@ though, and has since been slightly modified)-->
       <message>On emploie pas « \1 » avant un adjectif ou adverbe « \2 » expriment un superlatif.</message>
       <example type="incorrect">J’ai <marker>trop beaucoup</marker> de travail.</example>
       <example type="correct">J’ai trop de travail.</example>
-    </rule>
-    <rule id="CENT" name="Cent">
-      <pattern mark_from="1" mark_to="-1">
-        <token regexp="yes">deux|trois|quatre|cinq|six|sept|huit|neuf</token>
-        <token>cent</token>
-        <token negate="yes" regexp="yes">un|une|deux|trois|quatre|cinq|six|sept|huit|neuf|dix|onze|douze|treize|quatorze|quinze|seize|vingt|trente|quarante|cinquante|soixante|septante|octante|huitante|nonante|mille|(dix-.*)|(vingt-.*)|(trente-.*)|(quarante-.*)|(cinquante-.*)|(soixante-.*)|(quatre-.*)|(octante-.*)|(huitante-.*)|(nonante-.*)</token>
-      </pattern>
-      <message>Le numéral cardinal cent prend un « s » au pluriel lorsqu’il représente des centaines entières.</message>
-      <example type="incorrect">J’ai trois <marker>cent</marker> timbres.</example>
-      <example type="correct">J’ai trois <marker>cent</marker> cinquante timbres.</example>
-      <example type="correct">Deux <marker>cent</marker> mille étoiles.</example>
-      <example type="incorrect">Deux <marker>cent</marker> milliards d’étoiles.</example>
-      <example type="correct">J’ai cinq <marker>cent</marker> soixante-et-un euros.</example>
-      <example type="correct">J’ai mille cent timbres.</example>
-    </rule>
-    <rule id="CENTS" name="Cents">
-      <pattern mark_from="1" mark_to="-1">
-        <token regexp="yes">deux|trois|quatre|cinq|six|sept|huit|neuf|mille</token>
-        <token>cents</token>
-        <token regexp="yes">un|une|deux|trois|quatre|cinq|six|sept|huit|neuf|dix|onze|douze|treize|quatorze|quinze|seize|vingt|trente|quarante|cinquante|soixante|septante|octante|huitante|nonante|mille|(dix-.*)|(vingt-.*)|(trente-.*)|(quarante-.*)|(cinquante-.*)|(soixante-.*)|(quatre-.*)|(octante-.*)|(huitante-.*)|(nonante-.*)</token>
-      </pattern>
-      <message>Le numéral cardinal cent ne prend pas de « s » lorsqu’il ne représente pas des centaine entières.</message>
-      <example type="correct">J’ai trois <marker>cents</marker> timbres.</example>
-      <example type="incorrect">J’ai trois <marker>cents</marker> cinquante timbres.</example>
-      <example type="incorrect">Deux <marker>cents</marker> mille étoiles.</example>
-      <example type="correct">Deux <marker>cents</marker> milliards d’étoiles.</example>
-      <example type="incorrect">J’ai cinq <marker>cents</marker> soixante-et-un euros.</example>
     </rule>
     <rulegroup id="EST_CE_QUE" name="Est-ce que">
       <rule>
@@ -18063,20 +18107,11 @@ though, and has since been slightly modified)-->
     <rulegroup id="SAVERER_FAUX" name="s’avérer faux">
       <rule>
         <pattern>
-          <token inflected="yes" skip="6">avérer</token>
+          <token inflected="yes" skip="2">avérer</token>
           <token regexp="yes">faux|fausses?</token>
         </pattern>
         <message>« S’avérer faux » est un tour critiqué. Employez <suggestion>se révéler faux</suggestion>.</message>
         <example type="incorrect"><marker>avérer faux</marker></example>
-        <example type="correct"><marker>se révéler faux</marker></example>
-      </rule>
-      <rule>
-        <pattern>
-          <token regexp="yes" skip="6">avérée?s?</token>
-          <token regexp="yes">faux|fausses?</token>
-        </pattern>
-        <message>« S’avérer faux » est un tour critiqué. Employez <suggestion>se révéler faux</suggestion>.</message>
-        <example type="incorrect"><marker>avéré faux</marker></example>
         <example type="correct"><marker>se révéler faux</marker></example>
       </rule>
     </rulegroup>
@@ -18791,7 +18826,7 @@ though, and has since been slightly modified)-->
           <!-- Obviously, the list of languages could be expanded here.  I picked the most frequent spoken
                languages and added a few more. -->
           <token inflected="yes" regexp="yes" skip="8">parler|cours|leçon|apprendre|étudier|traduire|enseigner|professeur|enseignant|dictionnaire|méthode</token>
-          <token regexp="yes">Afrikaans|Albanais|Allemand|Alsacien|Anglais|Arabe|Basque|Breton|Bulgare|Cantonais|Catalan|Chinois|Corse|Corréen|Croate|Danois|Espagnol|Espéranto|Estonien|Farsi|Finnois|Flamand|Français|Frison|Gallois|Gaullois|Grec|Hébreux|Hindi|Hollandais|Hongrois|Javanais|Ido|Indonésien|Interlingua|Islandais|Italien|Irlandais|Japonais|Klingon|Khmer|Laotien|Lojban|Latin|Malais|Mandarin|Maori|Néerlandais|Occitan|Ourdou|Polonais|Portugais|Provençal|Roumain|Russe|Slovaque|Slovène|Suédois|Tahitien|Tchèque|Thaï|Turc|Ukrainien|Vietnamien|Volapük|Yiddish|Xhosa|Zoulou<exception scope="previous" inflected="yes">être</exception><exception scope="previous" regexp="yes">en|[dl]es|un</exception>
+          <token regexp="yes">Afrikaans|Albanais|Allemand|Alsacien|Anglais|Arabe|Basque|Biélorusse|Breton|Bulgare|Cantonais|Catalan|Chinois|Corse|Cornique|Corréen|Croate|Danois|Écossais|Espagnol|Espéranto|Estonien|Farsi|Filipino|Finnois|Flamand|Français|Frison|Galicien|Gallois|Gaullois|Grec|Hawaïen|Hébreu|Hindi|Hollandais|Hongrois|Javanais|Ido|Indonésien|Interlingua|Islandais|Italien|Irlandais|Japonais|Klingon|Khmer|Laotien|Latin|Lojban|Luxembourgeois|Macédonien|Malais|Maltais|Mandarin|Mannois|Maori|Moldave|Néerlandais|Norvégien|Occitan|Ourdou|Polonais|Portugais|Provençal|Quechua|Romanche|Roumain|Russe|Sarde|Serbe|Sicilien|Slovaque|Slovène|Sorabe|Suédois|Swahili|Tagalog|Tahitien|Tchèque|Thaï|Turc|Ukrainien|Vietnamien|Volapük|Yiddish|Xhosa|Zoulou<exception scope="previous" inflected="yes">être</exception><exception scope="previous" regexp="yes">en|[dl]es|un</exception>
           </token>
         </pattern>
         <message>Les noms de langues n'ont pas de majuscule en français.</message>
@@ -18801,7 +18836,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern case_sensitive="yes" mark_from="1">
           <token regexp="yes">[eE]n</token>
-          <token regexp="yes">Afrikaans|Albanais|Allemand|Alsacien|Anglais|Arabe|Basque|Breton|Bulgare|Cantonais|Catalan|Chinois|Corse|Corréen|Croate|Danois|Espagnol|Espéranto|Estonien|Farsi|Finnois|Flamand|Français|Frison|Gallois|Gaullois|Grec||HébreuxHindi|Hollandais|Hongrois|Javanais|Ido|Indonésien|Interlingua|Islandais|Italien|Irlandais|Japonais|Klingon|Khmer|Laotien|Latin|Lojban|Malais|Mandarin|Maori|Néerlandais|Occitan|Ourdou|Polonais|Portugais|Provençal|Roumain|Russe|Slovaque|Slovène|Suédois|Tahitien|Tchèque|Thaï|Turc|Ukrainien|Vietnamien|Volapük|Yiddish|Xhosa|Zoulou</token>
+          <token regexp="yes">Afrikaans|Albanais|Allemand|Alsacien|Anglais|Arabe|Basque|Biélorusse|Breton|Bulgare|Cantonais|Catalan|Chinois|Corse|Cornique|Corréen|Croate|Danois|Écossais|Espagnol|Espéranto|Estonien|Farsi|Filipino|Finnois|Flamand|Français|Frison|Galicien|Gallois|Gaullois|Grec|Hawaïen|Hébreu|Hindi|Hollandais|Hongrois|Javanais|Ido|Indonésien|Interlingua|Islandais|Italien|Irlandais|Japonais|Klingon|Khmer|Laotien|Latin|Lojban|Luxembourgeois|Macédonien|Malais|Maltais|Mandarin|Mannois|Maori|Moldave|Néerlandais|Norvégien|Occitan|Ourdou|Polonais|Portugais|Provençal|Quechua|Romanche|Roumain|Russe|Sarde|Serbe|Sicilien|Slovaque|Slovène|Sorabe|Suédois|Swahili|Tagalog|Tahitien|Tchèque|Thaï|Turc|Ukrainien|Vietnamien|Volapük|Yiddish|Xhosa|Zoulou</token>
         </pattern>
         <message>Les noms de langues n'ont pas de majuscule en français.</message>
         <example type="incorrect">Avez-vous un guide touristique en <marker>Français</marker> ?</example>
