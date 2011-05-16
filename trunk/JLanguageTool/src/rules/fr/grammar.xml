@@ -726,12 +726,13 @@ though, and has since been slightly modified)-->
     <rulegroup id="PEUT_PEU" name="Peut au lieu de peu">
       <rule>
         <pattern mark_from="1">
-          <token regexp="yes">très|trop|un|de|quelque|pour|à</token>
+          <token regexp="yes">très|trop|un|de|quelque|pour|à<exception scope="previous" regexp="yes">[’´'‛′‘]</exception></token>
           <token regexp="yes">peu[tx]</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>peu</suggestion> ?</message>
         <example type="incorrect">Il travaille trop <marker>peut</marker>.</example>
         <example type="correct">Il travaille trop <marker>peu</marker>.</example>
+        <example type="correct">Est-ce que quelqu’un <marker>peut</marker> m’aider ?</example>
       </rule>
     </rulegroup>
     <rulegroup id="PALE" name="Pale au lieu de pâle">
@@ -985,25 +986,24 @@ though, and has since been slightly modified)-->
     <rulegroup id="SUR_ACCENT" name="Sur au lieu de Sûr">
       <rule>
         <pattern mark_to="-1">
-          <token>sur</token>
-          <token regexp="yes">que?|et|[!;:."»…]</token>
+          <token regexp="yes">sure?s?</token>
+          <token regexp="yes">que?|et|[!;:.»…]</token>
         </pattern>
-        <message>Voulez-vous écrire <suggestion>sûr</suggestion> ?</message>
+        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="(.).(.*)" regexp_replace="$1û$2"/></suggestion> ?</message>
         <example type="incorrect">J’en suis <marker>sur</marker>.</example>
         <example type="correct">J’en suis sûr.</example>
         <example type="incorrect"><marker>Sur</marker> et certain.</example>
         <example type="correct">Sûr et certain.</example>
-        <example type="incorrect">Je suis <marker>sur</marker> que tu réussiras.</example>
-        <example type="correct">Je suis <marker>sûr</marker> que tu réussiras.</example>
-        <example type="correct">Sûr et certain.</example>
+        <example type="incorrect">Je suis <marker>sure</marker> que tu réussiras.</example>
+        <example type="correct">Je suis <marker>sûre</marker> que tu réussiras.</example>
       </rule>
       <rule>
         <pattern mark_to="-2">
-          <token>sur</token>
+          <token regexp="yes">sure?s?</token>
           <token>de</token>
           <token><exception postag_regexp="yes" postag="J .*p"/></token>
         </pattern>
-        <message>Voulez-vous écrire <suggestion>sûr</suggestion> ?</message>
+        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="(.).(.*)" regexp_replace="$1û$2"/></suggestion> ?</message>
         <example type="incorrect">Il est <marker>sur</marker> de lui.</example>
         <example type="correct">Il est <marker>sûr</marker> de lui.</example>
         <example type="correct">Tout repose sur de vagues accusations.</example>
@@ -1011,14 +1011,16 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern mark_to="-3">
-          <token>sur</token>
+          <token regexp="yes">sure?s?</token>
           <token>d</token>
           <token regexp="yes">[’´'‛′‘]</token>
           <token><exception postag_regexp="yes" postag="[DJ] .*p"/></token>
         </pattern>
-        <message>Voulez-vous écrire <suggestion>sûr</suggestion> ?</message>
-        <example type="incorrect">Elle est <marker>sur</marker> d’elle</example>
-        <example type="correct">Elle est <marker>sûr</marker> d’elle</example>
+        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="(.).(.*)" regexp_replace="$1û$2"/></suggestion> ?</message>
+        <example type="incorrect">Il est <marker>sur</marker> d’arriver à l’heure.</example>
+        <example type="correct">Il est <marker>sûr</marker> d’arriver à l’heure.</example>
+        <example type="incorrect">Elle est <marker>sure</marker> d’elle</example>
+        <example type="correct">Elle est <marker>sûre</marker> d’elle</example>
         <example type="correct">Il compte sur d’autres personnes.</example>
       </rule>
     </rulegroup>
@@ -1257,6 +1259,15 @@ though, and has since been slightly modified)-->
       <message>Voulez-vous écrire <suggestion>en train</suggestion> ?</message>
       <example type="incorrect">Ils sont <marker>entrain</marker> de jouer au tennis.</example>
       <example type="correct">Ils sont <marker>en train</marker> de jouer au tennis.</example>
+    </rule>
+    <rule id="BALLADE" name="ballade (balade)">
+      <pattern mark_from="1">
+        <token inflected="yes" regexp="yes" skip="1">partir|faire|amener|sortir|[mts]e|[nv]ous|tour</token>
+        <token regexp="yes">ballades?</token>
+      </pattern>
+      <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="(.).*e(s?)" regexp_replace="$1alade$2"/></suggestion> ?</message>
+      <example type="incorrect">Je part faire une <marker>ballade</marker> pour me relaxer.</example>
+      <example type="correct">Je part faire une <marker>balade</marker> pour me relaxer.</example>
     </rule>
   </category>
   <category name="Grammaire">
@@ -2935,7 +2946,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token>Est<exception regexp="yes" scope="previous">[’´'‛′‘]</exception>
-            <exception postag="R pers suj .*" postag_regexp="yes" scope="previous"/>
+            <exception postag="R pers suj .*|V.*inf" postag_regexp="yes" scope="previous"/>
           </token>
           <token>ce</token>
           <token regexp="yes">que?</token>
@@ -2945,6 +2956,7 @@ though, and has since been slightly modified)-->
         <example type="correct">Est-ce que tu viens ?</example>
         <example type="correct">C’est ce que je dis.</example>
         <example type="correct">Il est ce que j’appelle un champion.</example>
+        <example type="correct">Discuter est ce qu’elle fait le mieux.</example>
       </rule>
     </rulegroup>
     <rulegroup id="N_EST_CE_PAS" name="n’est-ce pas">
@@ -3562,6 +3574,15 @@ though, and has since been slightly modified)-->
       <example type="correct">Il en profita.</example>
       <example type="correct">C’est tout à fait correct.</example>
       <example type="correct">Elles sont quasiment à portée de main.</example>
+    </rule>
+    <rule id="DOUBLE_NEG" name="Double négation">
+      <pattern>
+        <token>pas</token>
+        <token regexp="yes">personne|rien|aucune?|jamais</token>
+      </pattern>
+      <message>Double négation, voulez-vous dire <suggestion>\2</suggestion></message>
+      <example type="incorrect">Il n’y a <marker>pas personne</marker> pour m’aider.</example>
+      <example type="correct">Il n’y a personne pour m’aider.</example>
     </rule>
   </category>
   <category default="off" name="Régionalismes">
@@ -18703,6 +18724,16 @@ though, and has since been slightly modified)-->
       <example type="incorrect">Il vit comme un <marker>coq en patte</marker>.</example>
       <example type="correct">Il vit comme un <marker>coq en pâte</marker>.</example>
     </rule>
+    <rule id="CARNET_DE_CHEQUE" name="carnet de chèque">
+      <pattern>
+        <token regexp="yes">carnets?</token>
+        <token>de</token>
+        <token regexp="yes">ch[èe]que|note|timbre|ticket|vacance</token>
+      </pattern>
+      <message>Employez <suggestion>\1 \2 chèques</suggestion>.</message>
+      <example type="incorrect">J’ai perdu mon <marker>carnet de chèque</marker>.</example>
+      <example type="correct">J’ai perdu mon <marker>carnet de chèques</marker>.</example>
+    </rule>
   </category>
   <category name="Marques de commerce">
     <rulegroup id="COCOTTE-MINUTE" name="Cocotte-Minute">
@@ -18826,7 +18857,7 @@ though, and has since been slightly modified)-->
           <!-- Obviously, the list of languages could be expanded here.  I picked the most frequent spoken
                languages and added a few more. -->
           <token inflected="yes" regexp="yes" skip="8">parler|cours|leçon|apprendre|étudier|traduire|enseigner|professeur|enseignant|dictionnaire|méthode</token>
-          <token regexp="yes">Afrikaans|Albanais|Allemand|Alsacien|Anglais|Arabe|Basque|Biélorusse|Breton|Bulgare|Cantonais|Catalan|Chinois|Corse|Cornique|Corréen|Croate|Danois|Écossais|Espagnol|Espéranto|Estonien|Farsi|Filipino|Finnois|Flamand|Français|Frison|Galicien|Gallois|Gaullois|Grec|Hawaïen|Hébreu|Hindi|Hollandais|Hongrois|Javanais|Ido|Indonésien|Interlingua|Islandais|Italien|Irlandais|Japonais|Klingon|Khmer|Laotien|Latin|Lojban|Luxembourgeois|Macédonien|Malais|Maltais|Mandarin|Mannois|Maori|Moldave|Néerlandais|Norvégien|Occitan|Ourdou|Polonais|Portugais|Provençal|Quechua|Romanche|Roumain|Russe|Sarde|Serbe|Sicilien|Slovaque|Slovène|Sorabe|Suédois|Swahili|Tagalog|Tahitien|Tchèque|Thaï|Turc|Ukrainien|Vietnamien|Volapük|Yiddish|Xhosa|Zoulou<exception scope="previous" inflected="yes">être</exception><exception scope="previous" regexp="yes">en|[dl]es|un</exception>
+          <token regexp="yes">Afrikaans|Albanais|Allemand|Alsacien|Anglais|Arabe|Arménien|Asturien|Basque|Bengali|Biélorusse|Bosniaque|Breton|Bulgare|Cantonais|Catalan|Chamorro|Cherokee|Chinois|Corse|Cornique|Corréen|Croate|Danois|Écossais|Espagnol|Espéranto|Estonien|Féroïen|Farsi|Filipino|Finnois|Flamand|Français|Frison|Galicien|Gallois|Gaullois|Géorgien|Grec|Hawaïen|Hébreu|Hindi|Hollandais|Hongrois|Javanais|Ido|Indonésien|Interlingua|Islandais|Italien|Irlandais|Japonais|Kazakh|Klingon|Khmer|Kurde|Laotien|Latin|Limbourgeois|Lituanien|Lojban|Luxembourgeois|Macédonien|Malais|Malgache|Maltais|Mandarin|Mannois|Maori|Moldave|Mongol|Néerlandais|Norvégien|Occitan|Ourdou|Ouzbek|Persan|Polonais|Portugais|Provençal|Quechua|Romanche|Roumain|Russe|Sans[ck]rit|Sarde|Serbe|Sicilien|Slovaque|Slovène|Sorabe|Suédois|Swahili|Tagalog|Tahitien|Tamoul|Tatar|Tchèque|Thaï|Turc|Ukrainien|Vietnamien|Volapük|Yiddish|Xhosa|Zoulou<exception scope="previous" inflected="yes">être</exception><exception scope="previous" regexp="yes">en|[dl]es|un</exception>
           </token>
         </pattern>
         <message>Les noms de langues n'ont pas de majuscule en français.</message>
@@ -18836,7 +18867,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern case_sensitive="yes" mark_from="1">
           <token regexp="yes">[eE]n</token>
-          <token regexp="yes">Afrikaans|Albanais|Allemand|Alsacien|Anglais|Arabe|Basque|Biélorusse|Breton|Bulgare|Cantonais|Catalan|Chinois|Corse|Cornique|Corréen|Croate|Danois|Écossais|Espagnol|Espéranto|Estonien|Farsi|Filipino|Finnois|Flamand|Français|Frison|Galicien|Gallois|Gaullois|Grec|Hawaïen|Hébreu|Hindi|Hollandais|Hongrois|Javanais|Ido|Indonésien|Interlingua|Islandais|Italien|Irlandais|Japonais|Klingon|Khmer|Laotien|Latin|Lojban|Luxembourgeois|Macédonien|Malais|Maltais|Mandarin|Mannois|Maori|Moldave|Néerlandais|Norvégien|Occitan|Ourdou|Polonais|Portugais|Provençal|Quechua|Romanche|Roumain|Russe|Sarde|Serbe|Sicilien|Slovaque|Slovène|Sorabe|Suédois|Swahili|Tagalog|Tahitien|Tchèque|Thaï|Turc|Ukrainien|Vietnamien|Volapük|Yiddish|Xhosa|Zoulou</token>
+          <token regexp="yes">Afrikaans|Albanais|Allemand|Alsacien|Anglais|Arabe|Arménien|Asturien|Basque|Bengali|Biélorusse|Bosniaque|Breton|Bulgare|Cantonais|Catalan|Chamorro|Cherokee|Chinois|Corse|Cornique|Corréen|Croate|Danois|Écossais|Espagnol|Espéranto|Estonien|Féroïen|Farsi|Filipino|Finnois|Flamand|Français|Frison|Galicien|Gallois|Gaullois|Géorgien|Grec|Hawaïen|Hébreu|Hindi|Hollandais|Hongrois|Javanais|Ido|Indonésien|Interlingua|Islandais|Italien|Irlandais|Japonais|Kazakh|Klingon|Khmer|Kurde|Laotien|Latin|Limbourgeois|Lituanien|Lojban|Luxembourgeois|Macédonien|Malais|Malgache|Maltais|Mandarin|Mannois|Maori|Moldave|Mongol|Néerlandais|Norvégien|Occitan|Ourdou|Ouzbek|Persan|Polonais|Portugais|Provençal|Quechua|Romanche|Roumain|Russe|Sans[ck]rit|Sarde|Serbe|Sicilien|Slovaque|Slovène|Sorabe|Suédois|Swahili|Tagalog|Tahitien|Tamoul|Tatar|Tchèque|Thaï|Turc|Ukrainien|Vietnamien|Volapük|Yiddish|Xhosa|Zoulou</token>
         </pattern>
         <message>Les noms de langues n'ont pas de majuscule en français.</message>
         <example type="incorrect">Avez-vous un guide touristique en <marker>Français</marker> ?</example>
