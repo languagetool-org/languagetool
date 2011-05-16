@@ -1101,9 +1101,6 @@ $Id: grammar.xml,v 1.68 2011-05-14 14:58:12 yakovru Exp $
 насчёт
 ниже
 посередине
-сверх
-свыше
-согласно
 -->
             <rule>
                 <!-- накануне, наподобие, напротив               
@@ -1118,10 +1115,6 @@ $Id: grammar.xml,v 1.68 2011-05-14 14:58:12 yakovru Exp $
                 <example type="incorrect">Это событие произошло <marker>на кануне</marker> дня рождения.</example>               
             </rule>
             
-            
-            
-            
-            
             <rule>
                 <!-- внизу, снизу, наверху, вверху, сверху                
   --> 
@@ -1135,6 +1128,19 @@ $Id: grammar.xml,v 1.68 2011-05-14 14:58:12 yakovru Exp $
                 <example type="incorrect">Он будет <marker>на верху</marker>.</example>               
             </rule>
             
+            
+            <rule>
+                <!-- сверх, свыше, согласно               
+  --> 
+                <pattern case_sensitive="no">
+                    <token regexp = "yes">со|с</token>       
+                    <token regexp = "yes">верх|выше|гласно</token>
+                </pattern>
+                <message>Слово пишется слитно: <suggestion>\1\2</suggestion>.</message>
+                <short>Пишется слитно.</short>
+                <example type="correct">Склад заполнен <marker>сверх</marker> меры.</example>
+                <example type="incorrect">Склад заполнен <marker>с верх</marker> меры.</example>               
+            </rule>
             
             <rule>
                 <!-- вглубь, вдоль, взамен               
