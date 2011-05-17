@@ -1138,6 +1138,21 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect">Mit <marker>Freundlichen</marker> Grüßen</example>
     </rule>
   -->
+    <rule id="IM_FOLGENDEN" name="Groß-/Kleinschreibung: 'im folgenden(Folgenden)'">
+      <pattern mark_from="1" mark_to="-1" case_sensitive="yes">
+        <token regexp="yes">[Ii]m</token>
+        <token>folgenden</token>
+        <token postag="(VER|PA2):.*" postag_regexp="yes"/>
+      </pattern>
+      <message><suggestion>Folgenden</suggestion> wird als Substantivierung groß geschrieben.</message>
+      <example type="correct">Im <marker>Folgenden</marker> geht es um Fahrräder.</example>
+      <example type="incorrect">Im <marker>folgenden</marker> geht es um Fahrräder.</example>
+      <example type="correct">Die im <marker>Folgenden</marker> beschriebene Geschichte.</example>
+      <example type="correct">Diese These werde ich im <marker>Folgenden</marker> ausführen.</example>
+      <example type="incorrect">Diese These werde ich im <marker>folgenden</marker> ausführen.</example>
+      <example type="incorrect">Die im <marker>folgenden</marker> beschriebene Geschichte.</example>
+      <example type="correct">Die im <marker>folgenden</marker> Buch beschriebe Geschichte.</example>
+    </rule>
     <rule id="IN_KUERZE" name="Groß-/Kleinschreibung: 'in kürze(Kürze)'">
       <pattern mark_from="1" case_sensitive="yes">
         <token regexp="yes">[Ii]n</token>
