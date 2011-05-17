@@ -99,8 +99,8 @@ public class Slovak extends Language {
             WordRepeatRule.class,
             WhitespaceRule.class,
             // specific to Slovak:
-            CompoundRule.class,
-            SlovakVesRule.class
+            CompoundRule.class
+            //SlovakVesRule.class
     );
   }
 

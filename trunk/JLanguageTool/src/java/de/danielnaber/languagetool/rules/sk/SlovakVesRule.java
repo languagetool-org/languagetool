@@ -29,7 +29,10 @@ import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.rules.Category;
 import de.danielnaber.languagetool.rules.RuleMatch;
 
-
+/**
+ * @deprecated this is currently buggy, do not use
+ */
+@Deprecated
 public class SlovakVesRule extends SlovakRule {
 
   public SlovakVesRule(final ResourceBundle messages) {
