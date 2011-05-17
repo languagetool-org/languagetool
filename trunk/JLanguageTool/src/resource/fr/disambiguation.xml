@@ -726,6 +726,21 @@ RB => Règles Brutes
       <disambig postag="P"/>
     </rule>
 
+    <rule name="au + N/V" id="AU_NV">
+      <pattern mark="1">
+        <token regexp="yes">aux?</token>
+        <token postag_regexp="yes" postag="V.*"/>
+      </pattern>
+      <disambig action="filter"><match no="2" postag="N.*" postag_regexp="yes"/></disambig>
+    </rule>
+
+    <rule name="Cela" id="CELA">
+      <pattern mark="0">
+        <token>Cela<exception scope="previous" regexp="yes">il|elle|on</exception></token>
+      </pattern>
+      <disambig postag="R dem m s"/>
+    </rule>
+
     <rule name="Nombres + N" id="NOMBRE-N">
       <pattern mark="1">
         <token postag="Y"/>
