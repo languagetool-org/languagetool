@@ -12,6 +12,19 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
 <rules lang="de" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../rules.xsd">
   <category name="Mögliche Tippfehler">
+    <rule id="SCHRIEBT" name="Tippfehler: 'schriebt(schreibt)'">
+      <pattern mark_from="1" mark_to="-1">
+        <token negate="yes">Ihr</token>
+        <token>schriebt</token>
+        <token negate="yes">Ihr</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>schreibt</suggestion>?</message>
+      <example type="incorrect">Er <marker>schriebt</marker> keine Briefe.</example>
+      <example type="correct">Er <marker>schreibt</marker> keine Briefe.</example>
+      <example type="correct"><marker>Schriebt</marker> Ihr damals keine Briefe?</example>
+      <example type="correct">Ihr <marker>schriebt</marker> damals viele Briefe.</example>
+      <example type="correct">Ihr <marker>schreibt</marker> oft Briefe.</example>
+    </rule>
     <rule id="ERSTEN_MAIN" name="Tippfehler: '1. Main(Mai)'">
       <pattern mark_from="3">
         <token regexp="yes">am|den</token>
