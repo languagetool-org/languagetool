@@ -4549,6 +4549,17 @@ $Id: grammar.xml,v 1.129 2010-11-13 23:24:21 dnaber Exp $
      -->
   </category>
   <category name="Commonly Confused Words">
+    <rule id="EASE_OFF_USE" name="ease off (of) use">
+      <pattern mark_from="1" mark_to="-1">
+        <token>ease</token>
+        <token>off</token>
+        <token>use</token>
+      </pattern>
+      <message>Did you mean <suggestion>of</suggestion>?</message>
+      <short>Possible typo</short>
+      <example type="correct">Increase ease <marker>of</marker> use.</example>
+      <example type="incorrect">Increase ease <marker>off</marker> use.</example>
+    </rule>
     <rule id="WORTH_THAN" name="worth (worse) than">
       <pattern mark_from="1" mark_to="-1">
         <token negate="yes" regexp="yes">more|less</token>
