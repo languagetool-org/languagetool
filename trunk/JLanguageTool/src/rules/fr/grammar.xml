@@ -547,7 +547,7 @@ though, and has since been slightly modified)-->
       <example type="correct"><marker>réserver</marker></example>
     </rule>
   </category>
-  <category name="Confusion d’homonymes">
+  <category name="Confusion d’homonymes et paronymes">
     <rulegroup id="CA_SA" name="ÇA au lieu de SA">
       <rule>
         <pattern mark_to="-1">
@@ -1265,6 +1265,37 @@ though, and has since been slightly modified)-->
       <example type="incorrect">Je part faire une <marker>ballade</marker> pour me relaxer.</example>
       <example type="correct">Je part faire une <marker>balade</marker> pour me relaxer.</example>
     </rule>
+    <rulegroup id="ERUPTION" name="éruption (irruption)">
+      <rule>
+        <pattern mark_from="1">
+          <token inflected="yes">faire</token>
+          <token regexp="yes">[ée]rr?uption</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>irruption</suggestion> ?</message>
+        <example type="incorrect">Le voleur fit <marker>éruption</marker> pendant la nuit.</example>
+        <example type="correct">Le voleur fit irruption pendant la nuit.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="IRRUPTION" name="irruption (éruption)">
+      <rule>
+        <pattern mark_to="-1">
+          <token regexp="yes" skip="1">irruptions?<exception inflected="yes" scope="previous">faire</exception></token>
+          <token regexp="yes">des?|volcans?|vocaniques?</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match=".*[nN](s?)" regexp_replace="éruption$1"/></suggestion> ?</message>
+        <example type="incorrect">L'<marker>irruption</marker> du volcan fut violente.</example>
+        <example type="correct">L'éruption du volcan fut violente.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token>en</token>
+          <token>irruption</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion><match no="2" regexp_match=".*[nN](s?)" regexp_replace="éruption$1"/></suggestion> ?</message>
+        <example type="incorrect">Le volcan est entré en <marker>irruption</marker>.</example>
+        <example type="correct">Le volcan est entré en <marker>éruption</marker>.</example>
+      </rule>
+    </rulegroup>
   </category>
   <category name="Grammaire">
     <!-- http://www.leconjugueur.com/frlesnombres.php -->
@@ -17370,6 +17401,33 @@ though, and has since been slightly modified)-->
         <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
         <example type="incorrect">Je n’ai pas <marker>grand chose</marker>.</example>
         <example type="correct">Je n’ai pas <marker>grand-chose</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">belles?</token>
+          <token regexp="yes">sœurs?|soeurs?|mères?</token>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>belle-\2</suggestion> ?</message>
+        <example type="incorrect">Ma <marker>belle sœur</marker> est ici.</example>
+        <example type="correct">Ma <marker>belle-sœur</marker> est ici.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">beaux?</token>
+          <token regexp="yes">frères?|pères|fils</token>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>\2-\2</suggestion> ?</message>
+        <example type="incorrect">Mon <marker>beau frère</marker> est ici.</example>
+        <example type="correct">Mon <marker>beau-frère</marker> est ici.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">beaux?</token>
+          <token regexp="yes">frères|pères|fils|arts|parents</token>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
+        <example type="incorrect">J’étudie les <marker>beaux arts</marker>.</example>
+        <example type="correct">J’étudie les <marker>beaux-arts</marker>.</example>
       </rule>
       <rule>
         <pattern>
