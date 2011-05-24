@@ -1146,11 +1146,15 @@ though, and has since been slightly modified)-->
     <rule id="ON_ONT" name="ON au lieu de ONT">
       <pattern mark_to="-1">
         <token>ont</token>
-        <token postag="V.*" postag_regexp="yes"><exception postag="V.* ppa .*" postag_regexp="yes"/></token>
+        <token postag="V.*" postag_regexp="yes">
+          <exception postag="V.* ppa .*" postag_regexp="yes"/>
+          <exception regexp="yes">envie|confiance</exception>
+        </token>
       </pattern>
       <message>Voulez-vous écrire <suggestion>on</suggestion> ?</message>
       <example type="correct"><marker>On</marker> a fini.</example>
       <example type="incorrect"><marker>Ont</marker> a tendance à ralentir.</example>
+      <example type="correct">Ceux qui ont envie de voir le film</example>
     </rule>
     <rule id="SEPTIQUE" name="septique au lieu de sceptique">
       <pattern mark_from="1">
@@ -1240,10 +1244,10 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="SOUTIENT" name="soutient (soutien)">
       <pattern mark_to="-1">
-        <token>soutient</token>
-        <token>de</token>
+        <token regexp="yes">soutient|maintient</token>
+        <token regexp="yes">d[eu]</token>
       </pattern>
-      <message>Voulez-vous écrire <suggestion>soutien</suggestion> ?</message>
+      <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="(.*)[tT]" regexp_replace="$1"/></suggestion> ?</message>
       <example type="incorrect">Il dépend du <marker>soutient</marker> de ses parents.</example>
       <example type="correct">Il dépend du <marker>soutien</marker> de ses parents.</example>
     </rule>
@@ -1296,6 +1300,25 @@ though, and has since been slightly modified)-->
         <example type="correct">Le volcan est entré en <marker>éruption</marker>.</example>
       </rule>
     </rulegroup>
+    <rule id="CONJECTURE" name="conjecture (conjoncture)">
+      <pattern mark_to="-1">
+        <token>conjecture</token>
+        <token regexp="yes">actuelle|présente|économique|politique|électorale|militaire|mondiale|européenne|française|syndicale|difficile|délicate|favorable</token>
+      </pattern>
+      <message>Voulez-vous écrire <suggestion>conjoncture</suggestion> ?</message>
+      <example type="incorrect">Dans la <marker>conjecture</marker> économique actuelle, le français dépensent moins.</example>
+      <example type="correct">Dans la <marker>conjoncture</marker> économique actuelle, le français dépensent moins.</example>
+    </rule>
+    <rule id="EXCES" name="excès (accès)">
+      <pattern mark_to="-2">
+        <token>excès</token>
+        <token>de</token>
+        <token regexp="yes">fièvre|toux|folie|colère|convulsions?</token>
+      </pattern>
+      <message>Voulez-vous écrire <suggestion>accès</suggestion> ?</message>
+      <example type="incorrect">Il ne sait pas dominer ses <marker>excès</marker> de colère.</example>
+      <example type="correct">Il ne sait pas dominer ses <marker>accès</marker> de colère.</example>
+    </rule>
   </category>
   <category name="Grammaire">
     <!-- http://www.leconjugueur.com/frlesnombres.php -->
@@ -1428,6 +1451,7 @@ though, and has since been slightly modified)-->
             <exception postag="V inf" scope="current"/>
             <exception postag="&lt;/DE&gt;" scope="previous"/>
             <exception regexp="yes" scope="previous">et|de|du</exception>
+            <exception>air</exception>
           </token>
           <token postag="[JN] .* p" postag_regexp="yes">
             <exception postag="(V .*)|([JN] .* sp)" postag_regexp="yes"/>
@@ -1452,6 +1476,7 @@ though, and has since been slightly modified)-->
         <example type="incorrect"><marker>Une vaches</marker> laitières</example>
         <example type="correct"><marker>Une vache</marker> laitière</example>
         <example type="correct">Les premier et deuxième trimestres.</example>
+        <example type="correct">Les montagnes ont l’air belles.</example>
       </rule>
       <rule name="pluriel suivi du singulier">
         <pattern mark_from="1" mark_to="-1">
@@ -1563,7 +1588,7 @@ though, and has since been slightly modified)-->
             <exception scope="previous" postag="&lt;/DE&gt;"/>
             <exception scope="previous" regexp="yes">des?|du|aux?</exception>
             <exception postag="([NJ] [fe] .*)|(V .*)" postag_regexp="yes"/>
-            <exception>non</exception>
+            <exception regexp="yes">non|air</exception>
             <!-- Following exception is to skip an adverb -->
             <exception negate_pos="yes" postag="A|(J f .*)|(V .* f .*)|SENT_END" postag_regexp="yes" scope="next"/>
           </token>
@@ -1589,6 +1614,7 @@ though, and has since been slightly modified)-->
         <example type="correct">Des bouteilles non vidées</example>
         <example type="correct">La détention provisoire illimitée</example>
         <example type="correct">Une maquette d’avion jolie</example>
+        <example type="correct">Elle a l’air jolie.</example>
       </rule>
       <rule name="féminin suivi du masculin">
         <pattern>
@@ -2780,7 +2806,7 @@ though, and has since been slightly modified)-->
     <rulegroup id="QUE_AVOIR" name="accord que + verbe avoir">
       <rule>
         <pattern mark_from="3">
-          <token negate="yes" regexp="yes">plus|moins|de|[’´'‛′‘]/</token>
+          <token negate="yes" regexp="yes">plus|moins|de|à|appareil|[’´'‛′‘]/</token>
           <token postag="N .* p" postag_regexp="yes"/>
           <token regexp="yes" skip="2">que?</token>
           <token postag="V avoir ind.*" postag_regexp="yes" skip="2"><exception postag="A" scope="next"/></token>
@@ -2790,6 +2816,7 @@ though, and has since been slightly modified)-->
         <example type="correct">Les documents qu’ils <marker>ont achetés</marker>.</example>
         <example type="incorrect">Les documents qu’ils <marker>ont acheté</marker>.</example>
         <example type="correct">Les parties de poker qu’il <marker>a jouées</marker>.</example>
+        <example type="correct">Le sac à main que j’ai acheté.</example>
       </rule>
       <rule>
         <pattern mark_from="3">
