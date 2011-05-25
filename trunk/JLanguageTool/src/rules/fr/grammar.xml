@@ -1148,13 +1148,14 @@ though, and has since been slightly modified)-->
         <token>ont</token>
         <token postag="V.*" postag_regexp="yes">
           <exception postag="V.* ppa .*" postag_regexp="yes"/>
-          <exception regexp="yes">envie|confiance</exception>
+          <exception regexp="yes">envie|confiance|force</exception>
         </token>
       </pattern>
       <message>Voulez-vous écrire <suggestion>on</suggestion> ?</message>
       <example type="correct"><marker>On</marker> a fini.</example>
       <example type="incorrect"><marker>Ont</marker> a tendance à ralentir.</example>
       <example type="correct">Ceux qui ont envie de voir le film</example>
+      <example type="correct">Les décrets ont force de loi.</example>
     </rule>
     <rule id="SEPTIQUE" name="septique au lieu de sceptique">
       <pattern mark_from="1">
@@ -1643,9 +1644,10 @@ though, and has since been slightly modified)-->
         <example type="correct">Son amie l’abandonne.</example>
       </rule>
       <rule name="nom féminin suivi du masculin">
-        <pattern mark_from="1">
-          <token negate="yes" regexp="yes">des?</token>
+        <pattern>
           <token postag="N f .*" postag_regexp="yes" skip="1">
+            <exception regexp="yes" scope="previous">des?</exception>
+            <exception scope="previous" postag="&lt;/DE&gt;"/>
             <exception regexp="yes">fois|moitié</exception>
             <exception postag="[NJ] [em] .*" postag_regexp="yes"/>
             <exception postag="V.*" postag_regexp="yes"/>
@@ -1656,7 +1658,7 @@ though, and has since been slightly modified)-->
             <exception postag="V .*(inf|ppr|ind|con|sub).*" postag_regexp="yes"/>
           </token>
         </pattern>
-        <message>« \2 » et « \3 » ne semblent pas bien accordés en genre</message>
+        <message>« \1 » et « \2 » ne semblent pas bien accordés en genre</message>
         <example type="incorrect">Une <marker>forêt tropical</marker>.</example>
         <example type="correct">Une <marker>forêt tropicale</marker>.</example>
         <example type="incorrect">Une <marker>forêt très grand</marker>.</example>
@@ -1671,6 +1673,7 @@ though, and has since been slightly modified)-->
         <example type="correct">Un centre <marker>logistique dédié</marker>.</example>
         <example type="correct">Une fois effectués les changements.</example>
         <example type="correct">Le carton est à moitié plein.</example>
+        <example type="correct">Un indicateur d’inégalité utilisé par les Nations Unies.</example>
       </rule>
     </rulegroup>
     <rulegroup id="A_LAQUELLE" name="accord avec lequel, laquelle, lesquels, etc.">
@@ -12106,13 +12109,24 @@ though, and has since been slightly modified)-->
     <rulegroup id="A_CAPACITE" name="à (pleine) capacité">
       <rule>
         <pattern>
-          <token skip="1">à</token>
+          <token>à</token>
           <token>capacité</token>
         </pattern>
-        <message>« À (pleine) capacité » est un anglicisme (to capacity). Employez <suggestion>à 100 % de sa capacité</suggestion>, <suggestion>au maximum de sa capacité</suggestion>, <suggestion>bondé</suggestion> (de gens), <suggestion>complet</suggestion> (hôtel, avion).</message>
-        <example type="correct">Il a la capacité de faire qqch.</example>
-        <example type="incorrect"><marker>à capacité</marker></example>
-        <example type="correct"><marker>à 100 % de sa capacité</marker></example>
+        <message>« À capacité » est un anglicisme (to capacity). Employez <suggestion>entièrement</suggestion>, <suggestion>au maximum de sa capacité</suggestion>, <suggestion>bondé</suggestion> (de gens), <suggestion>complet</suggestion> (hôtel, avion).</message>
+        <example type="incorrect">Un récipient rempli <marker>à capacité</marker>.</example>
+        <example type="correct">Un récipient rempli entièrement.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>à</token>
+          <token>pleine</token>
+          <token>capacité</token>
+        </pattern>
+        <message>« À pleine capacité » est un anglicisme (to capacity). Employez <suggestion>à 100 % de sa capacité</suggestion>, <suggestion>au maximum de sa capacité</suggestion>, <suggestion>bondé</suggestion> (de gens), <suggestion>complet</suggestion> (hôtel, avion).</message>
+        <example type="incorrect">Le moteur fonctionne <marker>à pleine capacité</marker>.</example>
+        <example type="correct">Le moteur fonctionne <marker>à 100 % de sa capacité</marker>.</example>
+        <example type="correct">Il a la capacité de le faire.</example>
+        <example type="correct">On les juge à leur capacité de résoudre les problèmes.</example>
       </rule>
     </rulegroup>
     <rule id="METTRE_L_EPAULE_A_LA_ROUE" name="mettre l’épaule à la roue">
