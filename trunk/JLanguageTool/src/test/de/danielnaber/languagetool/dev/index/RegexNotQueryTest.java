@@ -57,8 +57,9 @@ public class RegexNotQueryTest extends LuceneTestCase {
   private int regexQueryNrHits(String regex, RegexCapabilities capability) throws Exception {
     RegexNotQuery query = new RegexNotQuery(newTerm(regex));
 
-    if (capability != null)
+    if (capability != null) {
       query.setRegexImplementation(capability);
+    }
 
     return searcher.search(query, null, 1000).totalHits;
   }
@@ -109,22 +110,22 @@ public class RegexNotQueryTest extends LuceneTestCase {
     assertFalse(query1.equals(query2));
   }
 
-  public void testJakartaCaseSensative() throws Exception {
+  public void testJakartaCaseSensitive() throws Exception {
     assertEquals(2, regexQueryNrHits("^.*QUICK.*$", null));
   }
 
-  public void testJavaUtilCaseSensative() throws Exception {
+  public void testJavaUtilCaseSensitive() throws Exception {
     assertEquals(2, regexQueryNrHits("^.*QUICK.*$", null));
   }
 
-  public void testJakartaCaseInsensative() throws Exception {
+  public void testJakartaCaseInsensitive() throws Exception {
     assertEquals(
         1,
         regexQueryNrHits("^.*QUICK.*$", new JakartaRegexpCapabilities(
             JakartaRegexpCapabilities.FLAG_MATCH_CASEINDEPENDENT)));
   }
 
-  public void testJavaUtilCaseInsensative() throws Exception {
+  public void testJavaUtilCaseInsensitive() throws Exception {
     assertEquals(
         1,
         regexQueryNrHits("^.*QUICK.*$", new JavaUtilRegexCapabilities(
