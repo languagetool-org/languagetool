@@ -110,6 +110,11 @@ public class RegexNotQueryTest extends LuceneTestCase {
     assertFalse(query1.equals(query2));
   }
 
+  // Both of the two documents contain terms that does not match "^.*QUICK.*$" in case-sensitive
+  // way.
+  // Document No.1 : the, quick, brown
+  // Document No.2 : quick
+  // Hits count is 2.
   public void testJakartaCaseSensitive() throws Exception {
     assertEquals(2, regexQueryNrHits("^.*QUICK.*$", null));
   }
@@ -118,6 +123,11 @@ public class RegexNotQueryTest extends LuceneTestCase {
     assertEquals(2, regexQueryNrHits("^.*QUICK.*$", null));
   }
 
+  // Only document No.1 contain terms that does not match "^.*QUICK.*$" in case-insensitive
+  // way.
+  // Document No.1 : the, brown, fox ...
+  // Document No.2 :
+  // Hits count is 1.
   public void testJakartaCaseInsensitive() throws Exception {
     assertEquals(
         1,
