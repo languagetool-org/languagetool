@@ -18,7 +18,7 @@ public class LanguageToolFilter extends TokenFilter {
 
   @Override
   public boolean incrementToken() throws IOException {
-    // TODO Auto-generated method stub
+    // TODO Tao: use JLanguageTool to make tokens
     return false;
   }
 

@@ -21,7 +21,7 @@ public class LanguageToolAnalyzer extends Analyzer {
 
   @Override
   public TokenStream tokenStream(String fieldName, Reader reader) {
-    // TODO Auto-generated method stub
+    // TODO Tao: make it tokenize the stream using AnyCharTokenizer and filter by LanguageToolFilter
     return null;
   }
 
