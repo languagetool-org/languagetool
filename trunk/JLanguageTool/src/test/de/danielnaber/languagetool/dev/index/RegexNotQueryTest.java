@@ -7,7 +7,11 @@ import org.apache.lucene.index.RandomIndexWriter;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.index.TermEnum;
 import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.regex.*;
+import org.apache.lucene.search.regex.JakartaRegexpCapabilities;
+import org.apache.lucene.search.regex.JavaUtilRegexCapabilities;
+import org.apache.lucene.search.regex.RegexCapabilities;
+import org.apache.lucene.search.regex.RegexQuery;
+import org.apache.lucene.search.regex.SpanRegexQuery;
 import org.apache.lucene.search.spans.SpanNearQuery;
 import org.apache.lucene.search.spans.SpanQuery;
 import org.apache.lucene.store.Directory;
@@ -108,6 +112,8 @@ public class RegexNotQueryTest extends LuceneTestCase {
 
     RegexQuery query3 = new RegexQuery(newTerm("foo.*"));
     assertFalse(query2.equals(query3));
+
+    assertFalse(query3.equals(query2));
   }
 
   // Both of the two documents contain terms that does not match "^.*QUICK.*$" in case-sensitive
