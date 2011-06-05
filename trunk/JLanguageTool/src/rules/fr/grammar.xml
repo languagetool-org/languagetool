@@ -1069,7 +1069,7 @@ though, and has since been slightly modified)-->
     <rule id="SON_SONT" name="SON au lieu de SONT">
       <pattern mark_from="1" mark_to="-1">
         <token negate="yes" regexp="yes">au|le|du|un</token>
-        <token>son</token>
+        <token>son<exception postag="N m s"/></token>
         <token postag="([VR].*)|P" postag_regexp="yes"><exception postag="[NJ] .*" postag_regexp="yes"/></token>
       </pattern>
       <message>Voulez-vous écrire <suggestion>sont</suggestion> ?</message>
@@ -1079,6 +1079,7 @@ though, and has since been slightly modified)-->
       <example type="correct">Le <marker>son</marker> dans l’informatique</example>
       <example type="correct">Son indigne frère</example>
       <example type="correct">Au son de la voix</example>
+      <example type="correct">Même son de cloche</example>
     </rule>
     <!-- according to Hanse dictionary,checked with Google-->
     <rule default="off" id="ET_BIEN" name="ET BIEN au lieu de EH BIEN">
@@ -1416,7 +1417,9 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token postag="K"/>
+          <token postag="K">
+            <exception scope="previous">numéro</exception>
+          </token>
           <token postag="[JN] .* s" postag_regexp="yes">
             <exception regexp="yes">janvier|février|avril|mai|juin|juillet|août|septembre|octobre|novembre|décembre|vendémiaire|brumaire|frimaire|nivôse|pluviôse|ventôse|germinal|floréal|prairial|messidor|thermidor|fructidor|cent|mille</exception>
           </token>
@@ -1426,6 +1429,7 @@ though, and has since been slightly modified)-->
         <example type="correct">J’ai quatre enfants.</example>
         <example type="correct">Il est né le <marker>quatre janvier</marker>.</example>
         <example type="correct">On estimait à seize mille les fusils de son armée.</example>
+        <example type="correct">Le patron du numéro deux allemand a démissioné.</example>
       </rule>
       <rule name="nombre pluriel suivi du singulier">
         <pattern>
@@ -18929,7 +18933,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern case_sensitive="yes" mark_from="1">
-          <token regexp="yes">en|([1-9][0-9]*)|de</token>
+          <token regexp="yes">en|([1-9][0-9]*)</token>
           <token>Mars</token>
         </pattern>
         <message>Les mois de l’année n’ont pas de majuscule.</message>
