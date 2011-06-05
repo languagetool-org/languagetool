@@ -19,6 +19,9 @@
         <pathelement location="${ext.logging.lib}" />
         <pathelement location="${ext.commons.lang.lib}" />
         <pathelement location="${ext.bliki.lib}" />
+        <pathelement location="${ext.lucene-core.lib}" />
+        <pathelement location="${ext.lucene-queries.lib}" />
+        <pathelement location="${ext.lucene-test-framework.lib}" />
 		<pathelement location="${ext.segment.lib}" />
 		<!-- -->
 		<pathelement location="${ext.ooo.juh.lib}" />
@@ -257,10 +260,10 @@
 
 		<mkdir dir="${build.classes}" />
 
-		<javac encoding="${encoding}" srcdir="${src.java.dir}" includes="de/danielnaber/**/*.java" excludes="de/danielnaber/languagetool/dev/*.java,de/danielnaber/languagetool/openoffice/*.java" destdir="${build.classes}" target="${target}" debug="${debug}">
+		<javac encoding="${encoding}" srcdir="${src.java.dir}" includes="de/danielnaber/**/*.java" excludes="de/danielnaber/languagetool/dev/**/*.java,de/danielnaber/languagetool/openoffice/*.java" destdir="${build.classes}" target="${target}" debug="${debug}">
 			<classpath refid="classpath" />
 		</javac>
-        <javac encoding="${encoding}" srcdir="${src.java.dev.dir}" includes="de/danielnaber/languagetool/dev/wikipedia/*.java" destdir="${build.classes}" target="${target}" debug="${debug}">
+        <javac encoding="${encoding}" srcdir="${src.java.dev.dir}" includes="de/danielnaber/languagetool/dev/**/*.java" destdir="${build.classes}" target="${target}" debug="${debug}">
             <classpath refid="classpath" />
         </javac>
 		<javac encoding="${encoding}" srcdir="${src.test.dir}" includes="de/danielnaber/languagetool/rules/patterns/PatternRuleTest.java
