@@ -8,7 +8,15 @@ import org.apache.lucene.util.Version;
 
 import de.danielnaber.languagetool.JLanguageTool;
 
+/**
+ * LanguageToolAnalyzer emits the entire input (i.e. a sentence) as a single token by
+ * AnyCharTokenizer, and then use JLanguageTool to analyze and tag the tokens by LanguageToolFilter.
+ * 
+ * @author Tao Lin
+ * 
+ */
 public class LanguageToolAnalyzer extends Analyzer {
+
   private JLanguageTool lt;
 
   private Version matchVersion;
@@ -19,10 +27,10 @@ public class LanguageToolAnalyzer extends Analyzer {
     this.lt = lt;
   }
 
-  @Override
   public TokenStream tokenStream(String fieldName, Reader reader) {
-    // TODO Tao: make it tokenize the stream using AnyCharTokenizer and filter by LanguageToolFilter
-    return null;
+    TokenStream result = new AnyCharTokenizer(this.matchVersion, reader);
+    result = new LanguageToolFilter(result, lt);
+    return result;
   }
 
 }
