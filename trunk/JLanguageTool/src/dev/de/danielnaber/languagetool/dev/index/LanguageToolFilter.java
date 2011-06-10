@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Stack;
 
 import org.apache.lucene.analysis.TokenFilter;
 import org.apache.lucene.analysis.TokenStream;
@@ -23,7 +24,8 @@ public class LanguageToolFilter extends TokenFilter {
 
   private Iterator<AnalyzedTokenReadings> tokenIter;
 
-  private List<AnalyzedTokenReadings> tokenBuffer;
+  // stack for POS
+  private Stack<String> stack;
 
   private CharTermAttribute termAtt;
 
@@ -40,6 +42,7 @@ public class LanguageToolFilter extends TokenFilter {
   protected LanguageToolFilter(TokenStream input, JLanguageTool lt) {
     super(input);
     this.lt = lt;
+    stack = new Stack<String>();
     termAtt = addAttribute(CharTermAttribute.class);
     offsetAtt = addAttribute(OffsetAttribute.class);
     posIncrAtt = addAttribute(PositionIncrementAttribute.class);
@@ -49,13 +52,22 @@ public class LanguageToolFilter extends TokenFilter {
   @Override
   public boolean incrementToken() throws IOException {
 
+    if (stack.size() > 0) {
+      String pop = stack.pop();
+      restoreState(current);
+      termAtt.append(pop);
+      posIncrAtt.setPositionIncrement(0);
+      typeAtt.setType("pos");
+      return true;
+    }
+
     if (tokenIter == null || !tokenIter.hasNext()) {
       // there are no remaining tokens from the current sentence... are there more sentences?
       if (input.incrementToken()) {
         // a new sentence is available: process it.
         AnalyzedSentence sentence = lt.getAnalyzedSentence(termAtt.toString());
 
-        tokenBuffer = Arrays.asList(sentence.getTokens());
+        List<AnalyzedTokenReadings> tokenBuffer = Arrays.asList(sentence.getTokens());
         tokenIter = tokenBuffer.iterator();
         /*
          * it should not be possible to have a sentence with 0 words, check just in case. returning
@@ -73,6 +85,13 @@ public class LanguageToolFilter extends TokenFilter {
     AnalyzedTokenReadings tr = tokenIter.next();
     AnalyzedToken at = tr.getAnalyzedToken(0);
 
+    // add POS tag for sentence start.
+    if (tr.isSentStart()) {
+      termAtt.append(POS_PREFIX + tr.getAnalyzedToken(0).getPOSTag());
+      return true;
+    }
+
+    // by pass the white spaces.
     if (tr.isWhitespace()) {
       return this.incrementToken();
     }
@@ -81,12 +100,15 @@ public class LanguageToolFilter extends TokenFilter {
 
     for (int i = 0; i < tr.getReadingsLength(); i++) {
       at = tr.getAnalyzedToken(i);
+      if (at.getPOSTag() != null) {
+        stack.push(POS_PREFIX + at.getPOSTag());
+      }
     }
 
     current = captureState();
     termAtt.append(tr.getAnalyzedToken(0).getToken());
 
     return true;
-  }
 
+  }
 }
