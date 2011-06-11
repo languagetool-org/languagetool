@@ -971,6 +971,16 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct">Sie brachte alles <marker>durcheinander</marker>.</example>
       <example type="incorrect">Sie brachte alles <marker>durch einander</marker>.</example>
     </rule>
+    <rule id="DIENSTAG_ABEND" name="'Dienstag abend(Dienstagabend)">
+      <pattern case_sensitive="no">
+        <token regexp="yes">Montag|Dienstag|Mittwoch|Donnerstag|Freitag|Samstag|Sonntag</token>
+        <token regexp="yes">morgen|mittag|abend|nacht</token>
+      </pattern>
+      <message>Meinten Sie <suggestion><match no="1"/><match case_conversion="startlower" no="2"/></suggestion>?</message>
+      <example type="correct">Am <marker>Dienstagabend</marker> geht es rund!</example>
+      <example type="incorrect">Am <marker>Dienstag abend</marker> geht es rund!</example>
+      <example type="incorrect">Am <marker>Dienstag Abend</marker> geht es rund!</example>
+    </rule>
     <rulegroup id="INFINITIV_MIT_ZU" name="Zusammen-/Getrenntschreibung: Infinitiv mit 'zu'">
     <!--
     Jan: The many exceptions to the first rule below are meant to avoid false alarms on
