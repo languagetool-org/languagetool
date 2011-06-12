@@ -32,7 +32,6 @@ import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.JLanguageTool;
-import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
 
 /**
  * Multiword tagger-chunker.
@@ -41,8 +40,8 @@ import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
  */
 public class MultiWordChunker implements Disambiguator {
 
-  private Map<String, String> mStartSpace;
-  private Map<String, String> mStartNoSpace;
+  private Map<String, Integer> mStartSpace;
+  private Map<String, Integer> mStartNoSpace;
   private Map<String, String> mFull;
 
   private final String filename;
@@ -57,11 +56,12 @@ public class MultiWordChunker implements Disambiguator {
   */
   private void lazyInit() throws IOException {
 
-    if (mStartSpace != null)
+    if (mStartSpace != null) {
       return;
+    }
 
-    mStartSpace = new HashMap<String, String>();
-    mStartNoSpace = new HashMap<String, String>();
+    mStartSpace = new HashMap<String, Integer>();
+    mStartNoSpace = new HashMap<String, Integer>();
     mFull = new HashMap<String, String>();
 
     final List<String> posTokens = loadWords(JLanguageTool.getDataBroker().getFromResourceDirAsStream(filename));
@@ -77,22 +77,22 @@ public class MultiWordChunker implements Disambiguator {
           firstTokens[i] = tokenAndTag[0].substring(0 + (i - 1), i);
         }
         if (mStartNoSpace.containsKey(firstToken)) {
-          if (Integer.parseInt(mStartNoSpace.get(firstToken)) < firstTokens.length) {
-            mStartNoSpace.put(firstToken, Integer.toString(firstTokens.length));
+          if (mStartNoSpace.get(firstToken) < firstTokens.length) {
+            mStartNoSpace.put(firstToken, firstTokens.length);
           }
         } else {
-          mStartNoSpace.put(firstToken, Integer.toString(firstTokens.length));
+          mStartNoSpace.put(firstToken, firstTokens.length);
         }
       } else {
         firstTokens = tokenAndTag[0].split(" ");
         firstToken = firstTokens[0];
 
         if (mStartSpace.containsKey(firstToken)) {
-          if (Integer.parseInt(mStartSpace.get(firstToken)) < firstTokens.length) {
-            mStartSpace.put(firstToken, Integer.toString(firstTokens.length));
+          if (mStartSpace.get(firstToken) < firstTokens.length) {
+            mStartSpace.put(firstToken, firstTokens.length);
           }
         } else {
-          mStartSpace.put(firstToken, Integer.toString(firstTokens.length));
+          mStartSpace.put(firstToken, firstTokens.length);
         }
       }
       mFull.put(tokenAndTag[0], tokenAndTag[1]);
@@ -122,7 +122,7 @@ public class MultiWordChunker implements Disambiguator {
 
       int finalLen = 0;
       if (mStartSpace.containsKey(tok)) {
-        final int len = Integer.parseInt(mStartSpace.get(tok));
+        final int len = mStartSpace.get(tok);
         int j = i;
         int lenCounter = 0;
         while (j < anTokens.length) {
@@ -149,7 +149,7 @@ public class MultiWordChunker implements Disambiguator {
       }
 
       if (mStartNoSpace.containsKey(tok)) {
-        final int len = Integer.parseInt(mStartNoSpace.get(tok));
+        final int len = mStartNoSpace.get(tok);
         if (i + len <= anTokens.length) {
           for (int j = i; j < i + len; j++) {
             tokens.append(anTokens[j].getToken());
