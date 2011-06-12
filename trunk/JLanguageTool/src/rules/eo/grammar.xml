@@ -36,7 +36,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <example type="correct">Mi lernas Esperanton <marker>ekde</marker> la jaro 2005</example>
     </rule>
 
-    <rule id="SERĈI_ŜERCI" name="Serĉi (Ŝerci)">
+    <rule id="SERCXI" name="Serĉi (Ŝerci)">
       <pattern>
         <token inflected="yes">serĉi<exception scope="previous" regexp="yes">tie|ĉie</exception></token>
         <token>pri</token>
@@ -90,9 +90,140 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
 
   </category>
 
+  <category name="Evitindaĵoj">
+    <rule id="NE_JAM" name="ne + jam (ankoraŭ ne)">
+      <pattern>
+        <token>ne</token>
+        <token>jam</token>
+      </pattern>
+      <message>Preferu <suggestion>ankoraŭ ne</suggestion> anstataŭ «\1 \2».</message>
+      <example type="incorrect">Mi <marker>ne jam</marker> studis la lecionon.</example>
+      <example type="correct">Mi ankoraŭ ne studis la lecionon.</example>
+    </rule>
+
+    <rule id="PASI_EKZAMENON" name="pasi ekzamenon (trapasi ekzamenon)">
+      <pattern>
+        <token regexp="yes" skip="2">pas(i|u|as|is|us|os|([aoi]n?t[ea]j?n?))</token>
+        <token regexp="yes">ekzamenoj?n?</token>
+      </pattern>
+      <message>«Pasi ekzamenon» evitindas. Preferu «sukcesi en ekzameno» aŭ «trapasi ekzamenon» laŭ tion, kion vi intencas.</message>
+      <example type="incorrect">Li ne <marker>pasis la ekzamenon</marker>.</example>
+      <example type="correct">Li ne sukcesis en la ekzameno.</example>
+      <example type="incorrect"><marker>Pasinte la ekzamenon</marker></example>
+      <example type="correct"><marker>Trapasinte la ekzamenon</marker></example>
+      <example type="correct">Morgaŭ mi trapasos gravan ekzamenon.</example>
+    </rule>
+
+    <rule id="NEOFIC_PREP" name="neoficialaj rolvortetoj">
+      <pattern>
+        <token regexp="yes">na|far|cis|fri</token>
+      </pattern>
+      <message>«\1» estas neoficiala rolvorteto, kaj do evitinda.</message>
+      <example type="incorrect">La libro estis verkita <marker>far</marker> fama aŭtoro.</example>
+      <example type="correct">La libro estis verkita fare de fama aŭtoro.</example>
+    </rule>
+
+    <rule id="ADICII_AL" name="adicii x al y (adicii x kaj y)">
+      <pattern mark_from="2" mark_to="-1">
+        <token inflected="yes">adicii</token>
+        <token/>
+        <token>al</token>
+        <token/>
+      </pattern>
+      <message>Laŭ Revo, «\1 \2 \3 \4» estas evitinda. Preferu la pli simetrian <suggestion>\1 \2 kaj \4</suggestion></message>
+      <example type="incorrect">Mi adicias 2 <marker>al</marker> 2.</example>
+      <example type="correct">Mi adicias 2 kaj 2.</example>
+    </rule>
+
+    <rule id="BILIONO" name="biliono">
+      <pattern>
+        <token inflected="yes">biliono</token>
+      </pattern>
+      <message>Laŭ Revo, «\1» estas evitinda, ĉar diversaj vortaroj difinas ĝin malsame. Preferu <suggestion>miliardo</suggestion> aŭ <suggestion>mil miliardoj</suggestion> laŭ tio, kion vi intencas.</message>
+      <example type="incorrect"><marker>Biliono</marker> da steloj</example>
+      <example type="correct">Mi miliardo da steloj</example>
+    </rule>
+    <rule id="BRASIKRAPO" name="brasikrapo">
+      <pattern>
+        <token inflected="yes">brasikrapo</token>
+      </pattern>
+      <message>«\1» estas evitinda. Preferu <suggestion>tigobrasiko</suggestion>.</message>
+      <example type="incorrect">Mi manĝis <marker>brasikrapon</marker>.</example>
+      <example type="correct">Mi manĝis tigobrasikon.</example>
+    </rule>
+    <rule id="DEFLANKIGXI" name="deflankiĝi">
+      <pattern>
+        <token inflected="yes">deflankiĝi</token>
+      </pattern>
+      <message>«\1» estas evitinda. Preferu <suggestion>forflankiĝi</suggestion>.</message>
+      <example type="incorrect">Mi devis <marker>deflankiĝi</marker>.</example>
+      <example type="correct">Mi devis <marker>forflankiĝi</marker>.</example>
+    </rule>
+    <rule id="CIFERO_DE" name="cifero de (nombro de)">
+      <pattern mark_to="-1">
+        <token regexp="yes">ciferon?</token>
+        <token>de</token>
+      </pattern>
+      <message>Preferu <suggestion>nombro de</suggestion>.</message>
+      <example type="incorrect">La <marker>cifero</marker> de mortoj estas alta.</example>
+      <example type="correct">La nombro de mortoj estas alta.</example>
+    </rule>
+    <rule id="DATIGXI" name="datiĝi">
+      <pattern>
+        <token inflected="yes">datiĝi</token>
+      </pattern>
+      <message>«\1» estas mallogika kaj evitinda laŭ Revo.</message>
+      <example type="incorrect">La teksto <marker>datiĝas</marker> de 1900.</example>
+      <example type="correct">La teksto aperis en 1900.</example>
+    </rule>
+    <rule id="SENDIFINA_MODO" name="sendifinia modo">
+      <pattern>
+        <token inflected="yes">sendifina</token>
+        <token inflected="yes">modo</token>
+      </pattern>
+      <message>«\1 \2» evitinda laŭ Revo. Uzu <suggestion>infinitivo</suggestion>.</message>
+      <example type="incorrect"><marker>sendifina modo</marker>.</example>
+      <example type="correct">infinitivo</example>
+    </rule>
+    <rule id="JAM_FUTURO" name="jam + futuro">
+      <pattern>
+        <token>jam</token>
+        <token postag="V .. os" postag_regexp="yes"/>
+      </pattern>
+      <message>«jam + futuro» estas evitinda laŭ Revo. Ĝi povas signifi «fine, pli malpli, baldaŭ».</message>
+      <example type="incorrect">Kun la tempo, ili <marker>jam solidiĝos</marker>.</example>
+      <example type="correct">Kun la tempo, ili fine solidiĝos.</example>
+    </rule>
+    <rule id="KODIGO" name="kodigo">
+      <pattern mark_to="-1">
+        <token inflected="yes" skip="1">kodigo</token>
+        <token regexp="yes">(utf.*)|latin\d+|ASCII|big.*|CP-?\d+|windows.*|ISO.*|UCS.*|IBM.*|EBCDIC.*|ECMA.*|ANSI.*|8859.*</token>
+      </pattern>
+      <message>Ne uzu «kodigo» tiusence. Uzu <suggestion>kodoprezento</suggestion>.</message>
+      <example type="incorrect">Dosiero en la <marker>kodigo</marker> utf-8.</example>
+      <example type="correct">Dosiero en la <marker>kodoprezento</marker> utf-8.</example>
+    </rule>
+    <rule id="BLANKKOLUMULO" name="blankkolumulo">
+      <pattern>
+        <token inflected="yes" regexp="yes">(blank|blu)a?kolumulo</token>
+      </pattern>
+      <message>Iuj rigardas la idiomaĵon «\1» malklara, malmoderna kaj evitinda.</message>
+      <example type="incorrect">Li estas <marker>blankkolumulo</marker>.</example>
+      <example type="correct">Li estas <marker>oficisto</marker>.</example>
+    </rule>
+    <rule id="VIDEOKONFERENCO" name="videokonferenco">
+      <pattern>
+        <token inflected="yes">videokonferenco</token>
+      </pattern>
+      <message>Laŭ Revo, «\1» estas evitinda, uzu <suggestion>videkunveno</suggestion> aŭ <suggestion>telekunveno</suggestion>.</message>
+      <example type="incorrect">Mi invitas vin al la <marker>videokonferenco</marker>.</example>
+      <example type="correct">Mi invitas vin al la <marker>videkkunveno</marker>.</example>
+    </rule>
+  </category>
+
   <category name="Gramatiko">
 
-    <rule id="ĈI_FOJE" name="ĉi foje (ĉi-foje)">
+    <rule id="CXI_FOJE" name="ĉi foje (ĉi-foje)">
       <pattern>
         <token>ĉi<exception scope="previous" postag="T ... .. [ĉt].*" postag_regexp="yes"/></token>
         <token postag="E .*" postag_regexp="yes">
@@ -106,7 +237,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <example type="correct">Mi loĝas ĉi tie.</example>
     </rule>
 
-    <rule id="ĈI_O" name="ĉi-libro (ĉi libro)">
+    <rule id="CXI_O" name="ĉi-libro (ĉi libro)">
       <pattern>
         <token regexp="yes">ĉi-.*oj?n?</token>
       </pattern>
@@ -116,7 +247,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <example type="correct">Mi ŝatis ĉi tiun libron.</example>
     </rule>
 
-    <rule id="ĈI-TIU" name="ĉi-tiu (ĉi tiu)">
+    <rule id="CXI-TIU" name="ĉi-tiu (ĉi tiu)">
       <pattern>
         <token regexp="yes">ĉi-ti(([aeou]j?n?)|el|am|es|om)</token>
       </pattern>
@@ -143,28 +274,6 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <message>Vorto «\1» ne povas priskribi O-vorton «\2».</message>
       <example type="incorrect"><marker>Tre multo</marker> estas ankoraŭ farenda.</example>
       <example type="correct">Tre multe estas ankoraŭ farenda.</example>
-    </rule>
-
-    <rule id="PASI_EKZAMENON" name="pasi ekzamenon (trapasi ekzamenon)">
-      <pattern>
-        <token regexp="yes" skip="2">pas(i|u|as|is|us|os|([aoi]n?t[ea]j?n?))</token>
-        <token regexp="yes">ekzamenoj?n?</token>
-      </pattern>
-      <message>«Pasi ekzamenon» evitindas. Preferu «sukcesi en ekzameno» aŭ «trapasi ekzamenon» laŭ tion, kion vi intencas.</message>
-      <example type="incorrect">Li ne <marker>pasis la ekzamenon</marker>.</example>
-      <example type="correct">Li ne sukcesis en la ekzameno.</example>
-      <example type="incorrect"><marker>Pasinte la ekzamenon</marker></example>
-      <example type="correct"><marker>Trapasinte la ekzamenon</marker></example>
-      <example type="correct">Morgaŭ mi trapasos gravan ekzamenon.</example>
-    </rule>
-
-    <rule id="NEOFIC_PREP" name="neoficialaj rolvortetoj">
-      <pattern>
-        <token regexp="yes">na|far|cis|fri</token>
-      </pattern>
-      <message>«\1» estas neoficiala rolvorteto.</message>
-      <example type="incorrect">La libro estis verkita <marker>far</marker> fama aŭtoro.</example>
-      <example type="correct">La libro estis verkita fare de fama aŭtoro.</example>
     </rule>
 
     <rule id="KILO_DE" name="kilogramo de">
@@ -208,7 +317,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <example type="correct">Mi studas <marker>por sukcesi</marker>.</example>
     </rule>
 
-    <rule id="AMBAŬ_SING" name="ambaŭ + sing">
+    <rule id="AMBAUX_SING" name="ambaŭ + sing">
       <pattern mark_to="-1"> 
         <token>ambaŭ</token>
         <token postag="[ROAT] ... np" postag_regexp="yes"/>
@@ -220,7 +329,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <example type="correct">Mi amas ambaŭ patron kaj patrinon.</example>
     </rule>
 
-    <rule id="AMBAŬ_LA" name="ambaŭ + la">
+    <rule id="AMBAUX_LA" name="ambaŭ + la">
       <pattern> 
         <token>ambaŭ</token>
         <token>la</token>
@@ -570,7 +679,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <example type="correct">Ĉu via estas multekara?</example>
     </rule>
 
-    <rule id="ANTAŬ_VINF" name="antaŭ + verbo inf">
+    <rule id="ANTAUX_VINF" name="antaŭ + verbo inf">
       <pattern>
         <token>antaŭ</token>
         <token postag="V .*" postag_regexp="yes"/>
@@ -582,7 +691,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <example type="correct">Ni alvenos antaŭ ol pluvos.</example>
     </rule>
 
-    <rule id="DEMANDO_SEN_ĈU" name="demando sen demanda vorto">
+    <rule id="DEMANDO_SEN_CXU" name="demando sen demanda vorto">
       <pattern mark_from="1">
         <token postag="SENT_START" skip="-1">
           <exception scope="next" regexp="yes">ĉu|ki.*</exception>
@@ -719,7 +828,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <example type="correct">Kvanto da tempo</example>
     </rule>
 
-    <rulegroup id="ANKAŬ_FINO" name="Ankaŭ (ktp) je la fino de frazo">
+    <rulegroup id="ANKAUX_FINO" name="Ankaŭ (ktp) je la fino de frazo">
       <rule>
         <pattern>
           <and>
@@ -781,7 +890,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <example type="correct">Tiu virino ne foriru de ŝi sen konsolo kaj helpo.</example>
     </rule>
 
-    <rule id="ĴUS" name="ĵus devas stari antaŭ pasinteco">
+    <rule id="JXUS" name="ĵus devas stari antaŭ pasinteco">
       <pattern mark_to="-2">
         <token>ĵus</token>
         <token negate="yes" regexp="yes">(.*is)|(.*in?t[aoe]j?n?)</token>
@@ -878,16 +987,6 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <example type="incorrect">Ili amas <marker>sin unu la alian</marker>.</example>
       <example type="correct">Ili amas unu la alian.</example>
       <example type="correct">Ili amas sin.</example>
-    </rule>
-
-    <rule id="NE_JAM" name="ne + jam (ankoraŭ ne)">
-      <pattern>
-        <token>ne</token>
-        <token>jam</token>
-      </pattern>
-      <message>Preferu <suggestion>ankoraŭ ne</suggestion> anstataŭ «\1 \2».</message>
-      <example type="incorrect">Mi <marker>ne jam</marker> studis la lecionon.</example>
-      <example type="correct">Mi ankoraŭ ne studis la lecionon.</example>
     </rule>
 
     <rulegroup id="SUR_NAK" name="sur sen akuzativo de direkto">
@@ -1110,7 +1209,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <example type="correct">Mi havas dudek stelojn.</example>
     </rule>
 
-    <rule id="ĈIUJ_LA" name="ĉiuj la (ĉiuj)">
+    <rule id="CXIUJ_LA" name="ĉiuj la (ĉiuj)">
       <pattern mark_to="-1">
         <token regexp="yes">ĉiuj?n?</token>
         <token postag="D"/>
@@ -1121,7 +1220,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <example type="correct">Mi lernis ĉiujn vortojn.</example>
     </rule>
 
-    <rule id="MI_PLAĈAS" name="mi plaĉas (al mi plaĉas)">
+    <rule id="MI_PLACXAS" name="mi plaĉas (al mi plaĉas)">
       <pattern mark_from="1" mark_to="-1">
         <token postag="SENT_START|K" postag_regexp="yes"/>
         <token postag="R nak .*" postag_regexp="yes" skip="3">
@@ -1191,7 +1290,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       </rule>
     </rulegroup>
 
-    <rulegroup id="ĈU_IRU" name="u-verbo sen subjekto en demando">
+    <rulegroup id="CXU_IRU" name="u-verbo sen subjekto en demando">
       <rule>
         <pattern mark_from="2" mark_to="-1">
           <token postag="SENT_START"/>
@@ -1247,6 +1346,17 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <example type="correct">Li kombas al si la harojn.</example>
       <example type="correct">Li ne estas si mem.</example>
       <example type="incorrect">Lin vidas <marker>si</marker>.</example>
+    </rule>
+
+    <rule id="KONI" name="koni">
+      <pattern mark_to="-2">
+        <token inflected="yes">koni</token>
+        <token>la</token>
+        <token regexp="yes">.*ikoj?n|geografion</token>
+      </pattern>
+      <message>Laŭ la kunteksto, ŝajnas ke vi intencis diri <suggestion><match no="1" regexp_match="kon(.*)" regexp_replace="sci$1"/></suggestion> anstataŭ «\1».</message>
+      <example type="incorrect">Li <marker>konas</marker> la matematikon.</example>
+      <example type="correct">Li <marker>scias</marker> la matematikon.</example>
     </rule>
     <!--
     <rule id="SIA_SUBJ" name="sia subjekto">
