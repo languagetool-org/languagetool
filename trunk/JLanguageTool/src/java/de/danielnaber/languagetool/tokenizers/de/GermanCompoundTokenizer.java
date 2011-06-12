@@ -44,5 +44,14 @@ public class GermanCompoundTokenizer implements Tokenizer {
     return (List<String>) wordSplitter.splitWord(word);
   }
 
+  public static void main(String[] args) throws IOException {
+    if (args.length != 1) {
+      System.out.println("Usage: " + GermanCompoundTokenizer.class.getSimpleName() + " <wordToSplit>");
+      System.exit(1);
+    }
+    final GermanCompoundTokenizer tokenizer = new GermanCompoundTokenizer();
+    System.out.println(tokenizer.tokenize(args[0]));
+  }
+
 }
 
