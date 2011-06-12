@@ -169,12 +169,14 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <example type="correct">La nombro de mortoj estas alta.</example>
     </rule>
     <rule id="DATIGXI" name="datiĝi">
-      <pattern>
+      <pattern mark_to="-2">
         <token inflected="yes">datiĝi</token>
+        <token skip="4">de</token>
+        <token regexp="yes">tagoj|semajnoj|monatoj|jaroj|jacentoj</token>
       </pattern>
-      <message>«\1» estas mallogika kaj evitinda laŭ Revo.</message>
-      <example type="incorrect">La teksto <marker>datiĝas</marker> de 1900.</example>
-      <example type="correct">La teksto aperis en 1900.</example>
+      <message>Tiu uzo de «\1» estas mallogika kaj evitinda laŭ Revo en tiu kunteksto.</message>
+      <example type="incorrect">La teksto <marker>datiĝas</marker> de ok jaroj.</example>
+      <example type="correct">La teksto aperis antaŭ ok jaroj.</example>
     </rule>
     <rule id="SENDIFINA_MODO" name="sendifinia modo">
       <pattern>
@@ -190,7 +192,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
         <token>jam</token>
         <token postag="V .. os" postag_regexp="yes"/>
       </pattern>
-      <message>«jam + futuro» estas evitinda laŭ Revo. Ĝi povas signifi «fine, pli malpli, baldaŭ».</message>
+      <message>«jam + futuro» estas iafoje uzata en aparta evitinda senco laŭ Revo. Ĝi povas signifi «fine, pli malpli, baldaŭ».</message>
       <example type="incorrect">Kun la tempo, ili <marker>jam solidiĝos</marker>.</example>
       <example type="correct">Kun la tempo, ili fine solidiĝos.</example>
     </rule>
@@ -219,7 +221,73 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <example type="incorrect">Mi invitas vin al la <marker>videokonferenco</marker>.</example>
       <example type="correct">Mi invitas vin al la <marker>videkkunveno</marker>.</example>
     </rule>
+    <rule id="LAUXTLEGI" name="laŭtlegi">
+      <pattern>
+        <token inflected="yes">laŭtlegi</token>
+      </pattern>
+      <message>Laŭ Revo, «\1» estas evitinda, uzu <suggestion><match no="1" regexp_match=".*g(.*)" regexp_replace="voĉleg$1"/></suggestion> aŭ <suggestion>laŭte <match no="1" regexp_match=".*g(.*)" regexp_replace="voĉleg$1"/></suggestion>.</message>
+      <example type="incorrect">Li <marker>laŭtlegis</marker> sian mesaĝon.</example>
+      <example type="correct">Li voĉlegis sian mesaĝon.</example>
+    </rule>
+    <rule id="LERNI" name="lerni">
+      <pattern mark_to="-2">
+        <token inflected="yes">lerni</token>
+        <token regexp="yes">la|.*aj?n</token>
+        <token regexp="yes">(novaĵ|ver)oj?n</token>
+      </pattern>
+      <message>Tiu uzo de «\1» evitindas. Ŝajnas laŭ la kunteksto, ke vi intencis diri <suggestion><match no="1" regexp_match=".*n(.*)" regexp_replace="eksci$1"/></suggestion>.</message>
+      <example type="incorrect">Mi ĵus <marker>lernis</marker> la novaĵon.</example>
+      <example type="correct">Mi ĵus eksciis la novaĵon.</example>
+    </rule>
+    <rulegroup id="MORTA" name="morta">
+      <rule>
+        <pattern mark_to="-1">
+          <token inflected="yes">morta</token>
+          <token inflected="yes" regexp="yes">korpo|homo|viro|virino|infano|soldato</token>
+        </pattern>
+        <message>Tiu uzo de «\1» evitindas. Ŝajnas laŭ la kunteksto, ke vi intencis diri <suggestion><match no="1" regexp_match=".a(.*)" regexp_replace="malviva$1"/></suggestion>.</message>
+        <example type="incorrect">Li vidis lian <marker>mortan</marker> korpon.</example>
+        <example type="correct">Li vidis lian <marker>malvivan</marker> korpon.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token inflected="yes" regexp="yes">korpo|homo|viro|virino|infano|soldato</token>
+          <token inflected="yes">morta</token>
+        </pattern>
+        <message>Tiu uzo de «\1» evitindas. Ŝajnas laŭ la kunteksto, ke vi intencis diri <suggestion><match no="2" regexp_match=".a(.*)" regexp_replace="malviva$1"/></suggestion>.</message>
+        <example type="incorrect">Li vidis lian korpon <marker>mortan</marker>.</example>
+        <example type="correct">Li vidis lian korpon <marker>malvivan</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">morta</token>
+          <token inflected="yes">naturo</token>
+        </pattern>
+        <message>Tiu uzo de «\1 \2» evitindas. Ŝajnas, ke vi intencis diri <suggestion>muta naturo</suggestion>.</message>
+        <example type="incorrect">Li pentris <marker>mortan naturon</marker>.</example>
+        <example type="correct">Li pentris <marker>mutan naturon</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">naturo</token>
+          <token inflected="yes">morta</token>
+        </pattern>
+        <message>Tiu uzo de «\1 \2» evitindas. Ŝajnas, ke vi intencis diri <suggestion>muta naturo</suggestion>.</message>
+        <example type="incorrect">Li pentris <marker>naturon mortan</marker>.</example>
+        <example type="correct">Li pentris <marker>mutan naturon</marker>.</example>
+      </rule>
+    </rulegroup>
+
+    <rule id="STUMPNAZA" name="stumpnaza">
+      <pattern>
+        <token inflected="yes">stumpnaza</token>
+      </pattern>
+      <message>Laŭ Revo, «\1» estas evitinda. Uzu <suggestion><match no="1" regexp_match=".*naza(.*)" regexp_replace="kuspnaza$1"/>kuspnaza</suggestion>.</message>
+      <example type="incorrect">Sokrato estis <marker>stumpnaza</marker>.</example>
+      <example type="correct">Sokrato estis kuspnaza.</example>
+    </rule>
   </category>
+
 
   <category name="Gramatiko">
 
