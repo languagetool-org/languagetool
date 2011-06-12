@@ -20,13 +20,12 @@ public class BaseSynthesizer implements Synthesizer {
   protected IStemmer synthesizer;
 
   private ArrayList<String> possibleTags;
-
-  private final String tagsFileName;
+  private final String tagFileName;
   private final String resourceFileName;
   
-  public BaseSynthesizer(final String resFile, final String tagFile) {
-    tagsFileName = tagFile;
-    resourceFileName = resFile;  
+  public BaseSynthesizer(final String resourceFileName, final String tagFileName) {
+    this.resourceFileName = resourceFileName;  
+    this.tagFileName = tagFileName;
   }
   
   /**
@@ -36,15 +35,12 @@ public class BaseSynthesizer implements Synthesizer {
    * @param token
    *          AnalyzedToken to be inflected.
    * @param posTag
-   *          A desired part-of-speech tag.
+   *          The desired part-of-speech tag.
    * @return String value - inflected word.
    */
   @Override
-  public String[] synthesize(final AnalyzedToken token, final String posTag) throws IOException {    
-    if (synthesizer == null) {
-      final URL url = this.getClass().getResource(resourceFileName);
-      synthesizer = new DictionaryLookup(Dictionary.read(url));
-    }
+  public String[] synthesize(final AnalyzedToken token, final String posTag) throws IOException {
+    initSynthesizer();
     final List<WordData> wordData = synthesizer.lookup(token.getLemma() + "|" + posTag);
     final List<String> wordForms = new ArrayList<String>();
     for (WordData wd : wordData) {
@@ -58,26 +54,30 @@ public class BaseSynthesizer implements Synthesizer {
       final boolean posTagRegExp) throws IOException {
     if (posTagRegExp) {
       if (possibleTags == null) {
-        possibleTags = SynthesizerTools.loadWords(Tools
-            .getStream(tagsFileName));
+        possibleTags = SynthesizerTools.loadWords(Tools.getStream(tagFileName));
       }
-      if (synthesizer == null) {
-        final URL url = this.getClass().getResource(resourceFileName);
-        synthesizer = new DictionaryLookup(Dictionary.read(url));
-      }
+      initSynthesizer();
       final Pattern p = Pattern.compile(posTag);
       final ArrayList<String> results = new ArrayList<String>();
       for (final String tag : possibleTags) {
         final Matcher m = p.matcher(tag);
         if (m.matches()) {
           final List<WordData> wordForms = synthesizer.lookup(token.getLemma() + "|" + tag);
-          for (WordData wd : wordForms)
-            results.add(wd.getStem().toString());          
+          for (WordData wd : wordForms) {
+            results.add(wd.getStem().toString());
+          }
         }
       }
       return results.toArray(new String[results.size()]);
     }
     return synthesize(token, posTag);
+  }
+
+  private void initSynthesizer() throws IOException {
+    if (synthesizer == null) {
+      final URL url = this.getClass().getResource(resourceFileName);
+      synthesizer = new DictionaryLookup(Dictionary.read(url));
+    }
   }
 
   @Override
