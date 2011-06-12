@@ -99,6 +99,7 @@ public class HTTPServerTest extends TestCase {
     try {
       server.run();
       try {
+        System.out.println("Testing 'access denied' check now");
         check(Language.GERMAN, "no ip address allowed, so this cannot work");
         fail();
       } catch (IOException expected) {
@@ -109,7 +110,7 @@ public class HTTPServerTest extends TestCase {
   }
   
   private String check(Language lang, String text) throws IOException {
-	  return check(lang, null, text);
+    return check(lang, null, text);
   }
   
   private String bitextCheck(Language lang, Language motherTongue, String sourceText, String text) throws IOException {
