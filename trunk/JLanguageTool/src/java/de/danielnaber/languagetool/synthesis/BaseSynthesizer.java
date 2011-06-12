@@ -40,19 +40,18 @@ public class BaseSynthesizer implements Synthesizer {
    * @return String value - inflected word.
    */
   @Override
-  public String[] synthesize(final AnalyzedToken token, final String posTag)
-      throws IOException {    
-      if (synthesizer == null) {
-        final URL url = this.getClass().getResource(resourceFileName);
-        synthesizer = new DictionaryLookup(Dictionary.read(url));
-      }
-      final List<WordData> wordData = synthesizer.lookup(token.getLemma() + "|" + posTag);
-      final List<String> wordForms = new ArrayList<String>();
-      for (WordData wd : wordData) {
-        wordForms.add(wd.getStem().toString());
-      }
-      return wordForms.toArray(new String[wordForms.size()]);
+  public String[] synthesize(final AnalyzedToken token, final String posTag) throws IOException {    
+    if (synthesizer == null) {
+      final URL url = this.getClass().getResource(resourceFileName);
+      synthesizer = new DictionaryLookup(Dictionary.read(url));
     }
+    final List<WordData> wordData = synthesizer.lookup(token.getLemma() + "|" + posTag);
+    final List<String> wordForms = new ArrayList<String>();
+    for (WordData wd : wordData) {
+      wordForms.add(wd.getStem().toString());
+    }
+    return wordForms.toArray(new String[wordForms.size()]);
+  }
       
   @Override
   public String[] synthesize(final AnalyzedToken token, final String posTag,
@@ -85,6 +84,5 @@ public class BaseSynthesizer implements Synthesizer {
   public String getPosTagCorrection(final String posTag) {
     return posTag;
   }
-
 
 }
