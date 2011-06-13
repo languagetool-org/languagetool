@@ -19,11 +19,7 @@
 package de.danielnaber.languagetool.rules.de;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.ResourceBundle;
-import java.util.Set;
+import java.util.*;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
@@ -54,9 +50,16 @@ import de.danielnaber.languagetool.tools.StringTools;
  */
 public class AgreementRule extends GermanRule {
 
-  private static final String KASUS = "Kasus";
-  private static final String NUMERUS = "Numerus";
-  private static final String GENUS = "Genus";
+  private enum GrammarCategory {
+    KASUS("Kasus (Fall: Wer/Was, Wessen, Wem, Wen/Was - Beispiel: 'das Fahrrads' statt 'des Fahrrads')"),
+    GENUS("Genus (männlich, weiblich, sächlich - Beispiel: 'der Fahrrad' statt 'das Fahrrad')"),
+    NUMERUS("Numerus (Einzahl, Mehrzahl - Beispiel: 'das Fahrräder' statt 'die Fahrräder')");
+    
+    private final String displayName;
+    private GrammarCategory(String displayName) {
+      this.displayName = displayName;
+    }
+  }
 
   /*
    * City names are incoherently tagged in the Morphy data. To avoid
@@ -288,53 +291,47 @@ public class AgreementRule extends GermanRule {
   private RuleMatch checkDetNounAgreement(final AnalyzedGermanTokenReadings token1,
       final AnalyzedGermanTokenReadings token2) {
     // avoid false alarm: "Gebt ihm Macht."
-    if (token1.getToken().equalsIgnoreCase("ihm"))
+    if (token1.getToken().equalsIgnoreCase("ihm")) {
       return null;
+    }
     RuleMatch ruleMatch = null;
     final Set<String> set1 = getAgreementCategories(token1);
-    if (set1 == null)
+    if (set1 == null) {
       return null;  // word not known, assume it's correct
+    }
     final Set<String> set2 = getAgreementCategories(token2);
-    if (set2 == null)
+    if (set2 == null) {
       return null;
-    /*System.err.println("#"+set1);
-    System.err.println("#"+set2);
-    System.err.println("");*/
+    }
     set1.retainAll(set2);
     if (set1.size() == 0) {
-      // TODO: better error message than just 'agreement error'
-      final String msg = "Möglicherweise fehlende Übereinstimmung (Kongruenz) zwischen Artikel und Nomen " +
-            "bezüglich Kasus, Numerus oder Genus. Beispiel: 'meine Haus' statt 'mein Haus'";
+      final List<String> errorCategories = getCategoriesCausingError(token1, token2);
+      final String errorDetails = errorCategories.size() > 0 ? StringTools.listToString(errorCategories, " und ") : "Kasus, Genus oder Numerus";
+      final String msg = "Möglicherweise fehlende grammatische Übereinstimmung zwischen Artikel und Nomen " +
+            "bezüglich " + errorDetails + ".";
       ruleMatch = new RuleMatch(this, token1.getStartPos(), 
-          token2.getStartPos()+token2.getToken().length(), msg);
+          token2.getStartPos() + token2.getToken().length(), msg);
     }
     return ruleMatch;
   }
 
+  private List<String> getCategoriesCausingError(AnalyzedGermanTokenReadings token1, AnalyzedGermanTokenReadings token2) {
+    final List<String> categories = new ArrayList<String>();
+    final List<GrammarCategory> categoriesToCheck = Arrays.asList(GrammarCategory.KASUS, GrammarCategory.GENUS, GrammarCategory.NUMERUS);
+    for (GrammarCategory category : categoriesToCheck) {
+      if (agreementWithCategoryRelaxation(token1, token2, category)) {
+        categories.add(category.displayName);
+      }
+    }
+    return categories;
+  }
+
   private RuleMatch checkDetAdjNounAgreement(final AnalyzedGermanTokenReadings token1,
       final AnalyzedGermanTokenReadings token2, final AnalyzedGermanTokenReadings token3) {
-    final Set<String> relax = new HashSet<String>();
-    final Set<String> set = retainCommonCategories(token1, token2, token3, relax);
+    final Set<String> set = retainCommonCategories(token1, token2, token3, null);
     RuleMatch ruleMatch = null;
     if (set.size() == 0) {
       // TODO: more detailed error message:
-      /*relax.add(KASUS);
-      set = retainCommonCategories(token1, token2, token3, relax);
-      if (set.size() > 0) {
-        System.err.println("KASUS!");
-      }
-      relax.clear();
-      relax.add(NUMERUS);
-      set = retainCommonCategories(token1, token2, token3, relax);
-      if (set.size() > 0) {
-        System.err.println("NUMERUS!");
-      }
-      relax.clear();
-      relax.add(GENUS);
-      set = retainCommonCategories(token1, token2, token3, relax);
-      if (set.size() > 0) {
-        System.err.println("GENUS!");
-      }*/
       final String msg = "Möglicherweise fehlende Übereinstimmung (Kongruenz) zwischen Artikel, Adjektiv und " +
             "Nomen bezüglich Kasus, Numerus oder Genus. Beispiel: 'mein kleiner Haus' " +
             "statt 'mein kleines Haus'";
@@ -344,16 +341,42 @@ public class AgreementRule extends GermanRule {
     return ruleMatch;
   }
 
+  private boolean agreementWithCategoryRelaxation(final AnalyzedGermanTokenReadings token1,
+                                                  final AnalyzedGermanTokenReadings token2, final GrammarCategory categoryToRelax) {
+    final Set<GrammarCategory> categoryToRelaxSet;
+    if (categoryToRelax != null) {
+      categoryToRelaxSet = Collections.singleton(categoryToRelax);
+    } else {
+      categoryToRelaxSet = Collections.emptySet();
+    }
+    final Set<String> set1 = getAgreementCategories(token1, categoryToRelaxSet);
+    if (set1 == null) {
+      return true;  // word not known, assume it's correct
+    }
+    final Set<String> set2 = getAgreementCategories(token2, categoryToRelaxSet);
+    if (set2 == null) {
+      return true;      
+    }
+    set1.retainAll(set2);
+    return set1.size() > 0;
+  }
+  
   private Set<String> retainCommonCategories(final AnalyzedGermanTokenReadings token1, 
       final AnalyzedGermanTokenReadings token2, final AnalyzedGermanTokenReadings token3,
-      Set<String> relax) {
-    final Set<String> set1 = getAgreementCategories(token1, relax);
+      final GrammarCategory categoryToRelax) {
+    final Set<GrammarCategory> categoryToRelaxSet;
+    if (categoryToRelax == null) {
+      categoryToRelaxSet = Collections.singleton(categoryToRelax);
+    } else {
+      categoryToRelaxSet = Collections.emptySet();
+    }
+    final Set<String> set1 = getAgreementCategories(token1, categoryToRelaxSet);
     if (set1 == null)
       return null;  // word not known, assume it's correct
-    final Set<String> set2 = getAgreementCategories(token2, relax);
+    final Set<String> set2 = getAgreementCategories(token2, categoryToRelaxSet);
     if (set2 == null)
       return null;
-    final Set<String> set3 = getAgreementCategories(token3, relax);
+    final Set<String> set3 = getAgreementCategories(token3, categoryToRelaxSet);
     if (set3 == null)
       return null;
     /*System.err.println(token1.getToken()+"#"+set1);
@@ -366,18 +389,18 @@ public class AgreementRule extends GermanRule {
   }
 
   private Set<String> getAgreementCategories(final AnalyzedGermanTokenReadings aToken) {
-    return getAgreementCategories(aToken, new HashSet<String>());
+    return getAgreementCategories(aToken, new HashSet<GrammarCategory>());
   }
   
   /** Return Kasus, Numerus, Genus. */
-  private Set<String> getAgreementCategories(final AnalyzedGermanTokenReadings aToken, Set<String> omit) {
+  private Set<String> getAgreementCategories(final AnalyzedGermanTokenReadings aToken, Set<GrammarCategory> omit) {
     final Set<String> set = new HashSet<String>();
     final List<AnalyzedGermanToken> readings = aToken.getGermanReadings();
     for (AnalyzedGermanToken reading : readings) {
       if (reading.getCasus() == null && reading.getNumerus() == null &&
           reading.getGenus() == null)
         continue;
-      if (reading.getGenus() == null) {
+      if (reading.getGenus() == null && (reading.getToken().equals("ich") || reading.getToken().equals("wir"))) {
         // "ich" and "wir" contains genus=ALG in the original data. Not sure if
         // this is allowed, but expand this so "Ich Arbeiter" doesn't get flagged
         // as incorrect:
@@ -392,13 +415,13 @@ public class AgreementRule extends GermanRule {
   }
 
   private String makeString(GermanToken.Kasus casus, GermanToken.Numerus num, GermanToken.Genus gen,
-      Set<String> omit) {
+      Set<GrammarCategory> omit) {
     final List<String> l = new ArrayList<String>();
-    if (casus != null && !omit.contains(KASUS))
+    if (casus != null && !omit.contains(GrammarCategory.KASUS))
       l.add(casus.toString());
-    if (num != null && !omit.contains(NUMERUS))
+    if (num != null && !omit.contains(GrammarCategory.NUMERUS))
       l.add(num.toString());
-    if (gen != null && !omit.contains(GENUS))
+    if (gen != null && !omit.contains(GrammarCategory.GENUS))
       l.add(gen.toString());
     return StringTools.listToString(l, "/");
   }

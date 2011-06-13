@@ -34,6 +34,7 @@ public class AgreementRuleTest extends TestCase {
   private AgreementRule rule;
   private JLanguageTool langTool;
   
+  @Override
   public void setUp() throws IOException {
     rule = new AgreementRule(null);
     langTool = new JLanguageTool(Language.GERMAN);
@@ -147,6 +148,17 @@ public class AgreementRuleTest extends TestCase {
     //assertBad("Es sind der Frau.");
   }
 
+  public void testDetNounRuleErrorMessages() throws IOException {
+    // check detailed error messages:
+    assertBad("Das Fahrrads.", "bezüglich Kasus");
+    assertBad("Der Fahrrad.", "bezüglich Genus");
+    assertBad("Das Fahrräder.", "bezüglich Numerus");
+    assertBad("Die Tischen sind ecking.", "bezüglich Kasus");
+    assertBad("Die Tischen sind ecking.", "und Genus");
+    //TODO: input is actually correct
+    assertBad("Bei dem Papierabzüge von Digitalbildern bestellte werden.", "bezüglich Kasus, Genus oder Numerus.");
+  }
+  
   public void testRegression() throws IOException {
       JLanguageTool gramCheckerEngine = new JLanguageTool(Language.GERMAN);
       gramCheckerEngine.activateDefaultPatternRules();
@@ -187,4 +199,11 @@ public class AgreementRuleTest extends TestCase {
     assertEquals(1, rule.match(langTool.getAnalyzedSentence(s)).length);
   }
 
+  private void assertBad(String s, String expectedErrorSubstring) throws IOException {
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence(s)).length);
+    final String errorMessage = rule.match(langTool.getAnalyzedSentence(s))[0].getMessage();
+    assertTrue("Got error '" + errorMessage + "', expected substring '" + expectedErrorSubstring + "'",
+            errorMessage.contains(expectedErrorSubstring));
+  }
+  
 }
