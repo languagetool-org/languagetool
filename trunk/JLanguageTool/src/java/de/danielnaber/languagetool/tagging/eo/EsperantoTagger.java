@@ -49,7 +49,7 @@ public class EsperantoTagger implements Tagger {
 
   // These words don't need to be tagged.
   private static final String wordsNotTagged[] = {
-    "ajn", "ĉi", "ĉu", "des", "do", "ja", "ju", "ke", "malpli", 
+    "ajn", "ĉi", "ĉu", "des", "ja", "ju", "ke", "malpli", 
     "ne", "ol", "pli"
   };
 
@@ -77,7 +77,7 @@ public class EsperantoTagger implements Tagger {
 
   // Conjunctions.
   private static final String conjunctions[] = {
-    "ĉar", "kaj", "kvankam", "kvazaŭ", "aŭ", "sed", "nek",
+    "ĉar", "do", "kaj", "kvankam", "kvazaŭ", "aŭ", "sed", "nek",
     "plus", "minus", "tamen"
   };
 

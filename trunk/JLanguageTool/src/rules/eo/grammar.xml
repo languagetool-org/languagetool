@@ -50,11 +50,12 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
     <rule id="LITERO_LETERO" name="Litero (Letero)">
       <pattern mark_from="1">
         <token skip="2" inflected="yes" regexp="yes">.*(adres|send|redakt|leg|ricev)i</token>
-        <token regexp="yes">literoj?n?</token>
+        <token regexp="yes">literoj?n?<exception scope="previous" regexp="yes">(mal)?(grand|et)aj?n</exception></token>
       </pattern>
       <message>Ĉu vi intencis <suggestion><match no="2" regexp_match="(.).(.*)" regexp_replace="$1e$2"/></suggestion> anstataŭ «\2»?</message>
       <example type="incorrect">Mi dissendis la <marker>literon</marker>.</example>
       <example type="correct">Mi dissendis la <marker>leteron</marker>.</example>
+      <example type="correct">Mi ne povas legi etajn literojn.</example>
     </rule>
 
     <rule id="EBLECO" name="ebleco (eblo)">
@@ -278,16 +279,105 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       </rule>
     </rulegroup>
 
-    <rule id="STUMPNAZA" name="stumpnaza">
+    <rule id="STUMPNAZA" name="stumpnaza (kuspnaza)">
       <pattern>
         <token inflected="yes">stumpnaza</token>
       </pattern>
-      <message>Laŭ Revo, «\1» estas evitinda. Uzu <suggestion><match no="1" regexp_match=".*naza(.*)" regexp_replace="kuspnaza$1"/>kuspnaza</suggestion>.</message>
+      <message>Laŭ Revo, «\1» estas evitinda. Uzu <suggestion><match no="1" regexp_match=".*naza(.*)" regexp_replace="kuspnaza$1"/></suggestion>.</message>
       <example type="incorrect">Sokrato estis <marker>stumpnaza</marker>.</example>
       <example type="correct">Sokrato estis kuspnaza.</example>
     </rule>
+
+    <rule id="PUBLIKA" name="publika (ŝtata)">
+      <pattern mark_to="-1">
+        <token regexp="yes">publikaj?n?</token>
+        <token regexp="yes">(funkciul|aŭtoritato|prunt|pruntad|sekret|televid)oj?n?</token>
+      </pattern>
+      <message>Laŭ Revo, tiu uzo de «\1» estas evitinda. Ĉu vi intencis <suggestion><match no="1" regexp_match=".*a(.*)" regexp_replace="ŝtata$1"/></suggestion>, <match no="1" regexp_match=".*a(.*)" regexp_replace="nacia$1"/> aŭ <match no="1" regexp_match=".*a(.*)" regexp_replace="regna$1"/>?</message>
+      <example type="incorrect"><marker>Publika</marker> televido aĉas.</example>
+      <example type="correct">Ŝtata televido aĉas.</example>
+    </rule>
+
+    <rule id="ALTA_TAJDO" name="alta tajdo (altmaro)">
+      <pattern>
+        <token regexp="yes">(mal)?altaj?n?</token>
+        <token regexp="yes">tajd(eg|et)?on?</token>
+      </pattern>
+      <message>Laŭ Revo, «\1 \2» estas evitinda. Uzu <match no="1" regexp_match="(.*)a(.*)" regexp_replace="$1maro$2"/>?</message>
+      <example type="incorrect">Estas nun <marker>alta tajdo</marker>.</example>
+      <example type="correct">Estas nun altmaro.</example>
+    </rule>
+    <rule id="TOMOGRAFO" name="tomografo (tomografiilo)">
+      <pattern>
+        <token inflected="yes">tomografo</token>
+      </pattern>
+      <message>Laŭ Revo, «\1» estas evitinda. Uzu <suggestion><match no="1" regexp_match=".*o(.*)" regexp_replace="tomografiilo$1"/></suggestion>.</message>
+      <example type="incorrect">Komputila <marker>tomografo</marker></example>
+      <example type="correct">Komputila <marker>tomografiilo</marker></example>
+    </rule>
+    <rule id="UNIKA" name="unika (ununura)">
+      <pattern mark_to="-1">
+        <token regexp="yes">unikaj?n?</token>
+        <token regexp="yes">(ge)?(fil|infan|beb)(et)?(in)?oj?n?</token>
+      </pattern>
+      <message>Laŭ Revo, «\1» estas evitinda en tiu konteksto. Uzu <suggestion><match no="1" regexp_match=".*a(.*)" regexp_replace="ununura"/> \2</suggestion>.</message>
+      <example type="incorrect">Komputila <marker>unika</marker> filo.</example>
+      <example type="correct">Komputila <marker>ununura</marker> filo.</example>
+    </rule>
+    <rule id="POCENTO" name="pocento (elcento)">
+      <pattern>
+        <token inflected="yes">pocento</token>
+      </pattern>
+      <message>Laŭ Revo, «\1» estas evitinda. Uzu <suggestion><match no="1" regexp_match=".*o(.*)" regexp_replace="elcento$1"/></suggestion>.</message>
+      <example type="incorrect">Du <marker>pocentoj</marker> de la loĝantaro</example>
+      <example type="correct">Du <marker>elcentoj</marker> de la loĝantaro</example>
+    </rule>
   </category>
 
+  <category name="Arkaismoj">
+    <rulegroup id="ARKAISMO" name="arkaismo">
+      <rule>
+        <pattern>
+          <token inflected="yes">abaĵuro</token>
+        </pattern>
+        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*o(.*)" regexp_replace="lumŝirmilo$1"/></suggestion>.</message>
+        <example type="incorrect">Mi aĉetis <marker>abaĵuron</marker>.</example>
+        <example type="correct">Mi aĉetis <marker>lumŝirmilon</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">multepeza</token>
+        </pattern>
+        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match="multe(.*)" regexp_replace="$1"/></suggestion>.</message>
+        <example type="incorrect">Estas <marker>multepeza</marker> valizo.</example>
+        <example type="correct">Estas peza valizo.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">aeroplano</token>
+        </pattern>
+        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*o(.*)" regexp_replace="avio$1"/></suggestion>.</message>
+        <example type="incorrect">Pasas <marker>aeroplanoj</marker>.</example>
+        <example type="correct">Pasas <marker>avioj</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">aideso</token>
+        </pattern>
+        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*o(.*)" regexp_replace="aidoso$1"/></suggestion>.</message>
+        <example type="incorrect">La viruso de <marker>aideso</marker></example>
+        <example type="correct">La viruso de <marker>aidoso</marker></example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">alikvanto</token>
+        </pattern>
+        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*o(.*)" regexp_replace="nedivizoro$1"/></suggestion>.</message>
+        <example type="incorrect">Du estas <marker>alikvanto</marker></example>
+        <example type="correct">Du estas <marker>nedivizoro</marker></example>
+      </rule>
+    </rulegroup>
+  </category>
 
   <category name="Gramatiko">
 
@@ -1426,6 +1516,41 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <example type="incorrect">Li <marker>konas</marker> la matematikon.</example>
       <example type="correct">Li <marker>scias</marker> la matematikon.</example>
     </rule>
+
+    <rulegroup id="DEMANDI" name="demandi">
+      <rule>
+        <pattern mark_to="-1">
+          <token inflected="yes">demandi</token>
+          <token regexp="yes">(aliĝ|almoz|atent|inform|help|klarig|kompat|koment|kompren|konsil|mon|pardon|permes|pac|pan|rifuĝej|subten)oj?n|ke</token>
+        </pattern>
+        <message>Laŭ la kunteksto, ŝajnas ke vi intencis diri <suggestion><match no="1" regexp_match=".*d(.*)" regexp_replace="pet$1"/></suggestion> anstataŭ «\1».</message>
+        <example type="incorrect">Mi <marker>demandas</marker> pardonon.</example>
+        <example type="correct">Mi petas pardonon.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-3">
+          <token inflected="yes">demandi</token>
+          <token>al</token>
+          <token/>
+          <token regexp="yes">(akv|aliĝ|almoz|atent|inform|help|klarig|kompat|koment|kompren|konsil|mon|pardon|permes|pac|pan|protekton|rifuĝej|subten|vin)oj?n|ke</token>
+        </pattern>
+        <message>Laŭ la kunteksto, ŝajnas ke vi intencis diri <suggestion><match no="1" regexp_match=".*d(.*)" regexp_replace="pet$1"/></suggestion> anstataŭ «\1».</message>
+        <example type="incorrect">Mi <marker>demandas</marker> al vi pardonon.</example>
+        <example type="correct">Mi petas al vi pardonon.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-4">
+          <token inflected="yes">demandi</token>
+          <token>al</token>
+          <token regexp="yes">la|ĉ?iuj|.*aj?</token>
+          <token/>
+          <token regexp="yes">(akv|aliĝ|almoz|atent|inform|help|klarig|kompat|koment|kompren|konsil|mon|pardon|permes|pac|pan|protekton|rifuĝej|subten|vin)oj?n|ke</token>
+        </pattern>
+        <message>Laŭ la kunteksto, ŝajnas ke vi intencis diri <suggestion><match no="1" regexp_match=".*d(.*)" regexp_replace="pet$1"/></suggestion> anstataŭ «\1».</message>
+        <example type="incorrect">Mi <marker>demandas</marker> al la instruisto pardonon.</example>
+        <example type="correct">Mi petas al la instruisto pardonon.</example>
+      </rule>
+    </rulegroup>
     <!--
     <rule id="SIA_SUBJ" name="sia subjekto">
       <pattern>
