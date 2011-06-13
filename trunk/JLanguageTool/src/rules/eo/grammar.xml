@@ -332,6 +332,15 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <example type="incorrect">Du <marker>pocentoj</marker> de la loĝantaro</example>
       <example type="correct">Du <marker>elcentoj</marker> de la loĝantaro</example>
     </rule>
+    <rule id="KONTINUA_KURENTO" name="kontinua kurento (konstanta kurento)">
+      <pattern>
+        <token inflected="yes">kontinua</token>
+        <token inflected="yes">kurento</token>
+      </pattern>
+      <message>Laŭ Revo, «\1 \2» estas evitinda. Uzu <suggestion><match no="2" regexp_match=".*o(.*)" regexp_replace="konstanta$1 kurento$1"/></suggestion>.</message>
+      <example type="incorrect">Pasas <marker>kontinua kurento</marker></example>
+      <example type="correct">Pasas <marker>konstanta kurento</marker></example>
+    </rule>
   </category>
 
   <category name="Arkaismoj">
@@ -375,6 +384,154 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
         <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*o(.*)" regexp_replace="nedivizoro$1"/></suggestion>.</message>
         <example type="incorrect">Du estas <marker>alikvanto</marker></example>
         <example type="correct">Du estas <marker>nedivizoro</marker></example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">ama[ĉĵ]i</token>
+        </pattern>
+        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*[ĉĵ](.*)" regexp_replace="amor$1"/></suggestion>.</message>
+        <example type="incorrect">Ili ŝatas <marker>amaĵi</marker></example>
+        <example type="correct">Ili ŝatas <marker>amori</marker></example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">pliami</token>
+        </pattern>
+        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match="pliam(.*)" regexp_replace="prefer$1"/></suggestion>.</message>
+        <example type="incorrect">Li <marker>pliamas</marker> vojaĝi aviadile</example>
+        <example type="correct">Li <marker>preferas</marker> vojaĝi aviadile</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">amovendist(in)?o</token>
+        </pattern>
+        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*t(in)?(.*)" regexp_replace="amorits$1$2"/></suggestion>.</message>
+        <example type="incorrect">Ŝi estas <marker>amovendistino</marker></example>
+        <example type="correct">Ŝi estas amoristino</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">ardejo</token>
+        </pattern>
+        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*de(.*)" regexp_replace="fokus$1"/></suggestion>, <suggestion><match no="1" regexp_match=".*de(.*)" regexp_replace="centr$1"/></suggestion>, <suggestion><match no="1" regexp_match=".*de(.*)" regexp_replace="kern$1"/></suggestion> aŭ <suggestion><match no="1" regexp_match=".*de(.*)" regexp_replace="brulej$1"/></suggestion>.</message>
+        <example type="incorrect"><marker>ardejo</marker></example>
+        <example type="correct"><marker>brulejo</marker></example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">armo|detruilo</token>
+        </pattern>
+        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*o(.*)" regexp_replace="armilo$1"/></suggestion>.</message>
+        <example type="incorrect">Li vendas <marker>armojn</marker>.</example>
+        <example type="correct">Li vendas <marker>armilojn</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">Baltiko</token>
+        </pattern>
+        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*o(.*)" regexp_replace="Balta$1 Maro$1"/></suggestion>.</message>
+        <example type="incorrect">Mi vojaĝas al la <marker>Baltiko</marker></example>
+        <example type="correct">Mi vojaĝas al la <marker>Balta Maro</marker></example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">refaldoborderi</token>
+        </pattern>
+        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*r(.*)" regexp_replace="orl$1"/></suggestion>.</message>
+        <example type="incorrect">Ŝi <marker>refaldoborderas</marker></example>
+        <example type="correct">Ŝi <marker>orlas</marker></example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">(mal)?dekstrano</token>
+        </pattern>
+        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match="dekstran" regexp_replace="dekstrul"/></suggestion>.</message>
+        <example type="incorrect">Li estas <marker>dekstrano</marker></example>
+        <example type="correct">Li estas <marker>dekstrulo</marker></example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">delegato</token>
+        </pattern>
+        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match="(.*)at(.*)" regexp_replace="$1it$2"/></suggestion>.</message>
+        <example type="incorrect">Li estas <marker>delegato</marker></example>
+        <example type="correct">Li estas <marker>delegito</marker></example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">detalaĵo</token>
+        </pattern>
+        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*ĵ(.*)" regexp_replace="deltal$1"/></suggestion>.</message>
+        <example type="incorrect">Tio estas <marker>detalaĵo</marker></example>
+        <example type="correct">Tio estas <marker>detalo</marker></example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">diakilono</token>
+        </pattern>
+        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*n(.*)" regexp_replace="diakil$1"/></suggestion>.</message>
+        <example type="incorrect">Mi faris <marker>diakilonon</marker></example>
+        <example type="correct">Mi faris <marker>diakilon</marker></example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">diletantismo</token>
+        </pattern>
+        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*m(.*)" regexp_replace="diletantec$1"/></suggestion>.</message>
+        <example type="incorrect">Li ŝatas <marker>diletantismon</marker></example>
+        <example type="correct">Li ŝatas <marker>diletantecon</marker></example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">diluvio</token>
+        </pattern>
+        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*vi(.*)" regexp_replace="plejstocen$1"/></suggestion>.</message>
+        <example type="incorrect">Li legas pri <marker>diluvio</marker></example>
+        <example type="correct">Li legas pri <marker>plejstoceno</marker></example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">aldoniteco</token>
+        </pattern>
+        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*c(.*)" regexp_replace="sindon$1"/></suggestion>.</message>
+        <example type="incorrect">La <marker>aldoniteco</marker> de la loĝantaro</example>
+        <example type="correct">La <marker>sindono</marker> de la loĝantaro</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">eksponenta</token>
+          <token inflected="yes">funkcio</token>
+        </pattern>
+        <message>Laŭ Revo, «\1 \2» estas arkaismo. Uzu <suggestion><match no="2" regexp_match=".*i(.*)" regexp_replace="eksponencial$1"/></suggestion>.</message>
+        <example type="incorrect">Tio estas <marker>eksponenta funkcio</marker></example>
+        <example type="correct">Tio estas <marker>eksponencialo</marker></example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token>ekster</token>
+          <token regexp="yes">[clmnvŝ]i</token>
+        </pattern>
+        <message>Laŭ Revo, tiu uzo de «\1» estas arkaismo. Uzu <suggestion>krom</suggestion>.</message>
+        <example type="incorrect">Ĉiuj <marker>ekster</marker> mi sciis pri tio.</example>
+        <example type="correct">Ĉiuj <marker>krom</marker> mi sciis pri tio.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">elektra</token>
+          <token inflected="yes">fluo</token>
+        </pattern>
+        <message>Laŭ Revo, tiu uzo «\1 \2» estas arkaismo. Uzu <suggestion><match no="2" regexp_match=".*u(.*)" regexp_replace="kurent$1"/></suggestion>.</message>
+        <example type="incorrect">Mi mizuras la <marker>elektran fluon</marker>.</example>
+        <example type="correct">Mi mizuras la <marker>kurenton</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>el</token>
+          <token>de</token>
+        </pattern>
+        <message>Laŭ Revo, «\1 \2» estas arkaismo. Uzu <suggestion>de</suggestion>.</message>
+        <example type="incorrect">Li eliras <marker>el de</marker> la lito.</example>
+        <example type="correct">Li eliras <marker>de</marker> la lito.</example>
       </rule>
     </rulegroup>
   </category>
