@@ -43,6 +43,7 @@ public class PatternRuleTest extends TestCase {
   // a regexp.
   private static final Pattern PROBABLE_PATTERN = Pattern.compile("(.+[+?^{}|\\[\\]].*)|(.*[+?^{}|\\[\\]].+)|(\\(.*\\))|(\\\\[^0-9].*)|[^cfmnt123]\\.|\\.[^mvngl]|(.+\\.$)");
   private static final Pattern CASE_PATTERN = Pattern.compile("\\[(.)(.)\\]");
+  private static final Pattern EMPTY_DISJUNCTION = Pattern.compile("^[|]|[|][|]|[|]$");
 
   private static JLanguageTool langTool;
 
@@ -72,7 +73,7 @@ public class PatternRuleTest extends TestCase {
       testGrammarRulesFromXML(rules, languageTool, lang);
     }
   }
-  
+
   private void testGrammarRulesFromXML(final List<PatternRule> rules,
                                        final JLanguageTool languageTool, final Language lang) throws IOException {
     final HashMap<String, PatternRule> complexRules = new HashMap<String, PatternRule>();
@@ -180,6 +181,12 @@ public class PatternRuleTest extends TestCase {
           + ruleId + " contains " + "\"" + stringValue
           + "\" that is marked as inflected but is empty, so the attribute is redundant.");
     }
+    if (isRegularExpression && ".*".equals(stringValue)) {
+      System.err.println("The " + lang.toString() + " rule: "
+          + ruleId + " marked as regular expression contains "
+          + "regular expression \".*\" which is useless: "
+          + "(use an empty string without regexp=\"yes\" such as <token/>)");
+    }
 
     if (isRegularExpression && !isCaseSensitive) {
       final Matcher matcher = CASE_PATTERN.matcher(stringValue);
@@ -197,10 +204,11 @@ public class PatternRuleTest extends TestCase {
     }
 
     if (isRegularExpression && stringValue.contains("|")) {
-      if (stringValue.indexOf("||") >= 0) {
+      final Matcher matcher = EMPTY_DISJUNCTION.matcher(stringValue);
+      if (matcher.find()) {
         // Empty disjunctions in regular expression are most likely not intended.
         System.err.println("The " + lang.toString() + " rule: "
-            + ruleId + " contains empty disjunction || within " + "\"" + stringValue + "\".");
+            + ruleId + " contains empty disjunction | within " + "\"" + stringValue + "\".");
       }
       final String[] groups = stringValue.split("\\)");
       for (final String group : groups) {
@@ -505,7 +513,7 @@ public class PatternRuleTest extends TestCase {
     return TestTools.callStringStaticMethod(PatternRule.class,
         "formatMultipleSynthesis", argClasses, argObjects);
   }
-  
+
   /**
    * Test XML patterns, as a help for people developing rules that are not
    * programmers.
