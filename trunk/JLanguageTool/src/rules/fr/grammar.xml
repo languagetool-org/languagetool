@@ -847,7 +847,7 @@ though, and has since been slightly modified)-->
         <pattern mark_from="2" mark_to="-1">
           <token postag="SENT_START" skip="-1"><exception regexp="yes" scope="next">qu[ie]?</exception></token>
           <token postag="V.*" postag_regexp="yes">
-            <exception postag="[ZNRJ].*|" postag_regexp="yes"/>
+            <exception postag="[ZNRJ].*" postag_regexp="yes"/>
             <exception postag="V inf"/>
           </token>
           <token>a</token>
@@ -3647,6 +3647,15 @@ though, and has since been slightly modified)-->
       <message>Double négation, voulez-vous dire <suggestion>\2</suggestion></message>
       <example type="incorrect">Il n’y a <marker>pas personne</marker> pour m’aider.</example>
       <example type="correct">Il n’y a personne pour m’aider.</example>
+    </rule>
+    <rule id="MOTS_INCOMP" name="Mots qui ne peuvent pas se suivre">
+      <pattern>
+        <token regexp="yes">[cdlmts]es|[nv]os|cettes?|[mts]a|mon|leurs?|aux?</token>
+        <token regexp="yes">[cdlmst]es|[nv]os|cettes?|[mts]a|mon|je|tu|ils?|elle?|[vn]ous|on</token>
+      </pattern>
+      <message>Les deux mots « \1 \2 » ne peuvent pas se suivrent.</message>
+      <example type="incorrect">Plusieurs <marker>des ces</marker> langues vont disparaitre.</example>
+      <example type="correct">Plusieurs de ces langues vont disparaitre.</example>
     </rule>
   </category>
   <category default="off" name="Régionalismes">
@@ -17524,7 +17533,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">chefs?</token>
           <token>d</token>
           <token regexp="yes">[’´'‛′‘]</token>
-          <token regexp="yes">(oe|œ)uvres?|</token>
+          <token regexp="yes">(oe|œ)uvres?</token>
         </pattern>
         <message>Voulez-vous dire <suggestion>\1-d’œuvre</suggestion> ?</message>
         <example type="incorrect">C'est un <marker>chef d’œuvre</marker>.</example>
