@@ -77,7 +77,7 @@ class PatternRuleHandler extends XMLRuleHandler {
   private boolean defaultOn;
 
   private Category category;
-  private String description;
+  private String name;
   private String ruleGroupDescription;
 
   // ===========================================================
@@ -122,9 +122,9 @@ class PatternRuleHandler extends XMLRuleHandler {
       if (inRuleGroup && id == null) {
         id = ruleGroupId;
       }
-      description = attrs.getValue("name");
-      if (inRuleGroup && description == null) {
-        description = ruleGroupDescription;
+      name = attrs.getValue("name");
+      if (inRuleGroup && name == null) {
+        name = ruleGroupDescription;
       }
       correctExamples = new ArrayList<String>();
       incorrectExamples = new ArrayList<IncorrectExample>();
@@ -205,7 +205,7 @@ class PatternRuleHandler extends XMLRuleHandler {
       phraseElementInit();
       if (phraseElementList.isEmpty()) {
         final PatternRule rule = new PatternRule(id, language, elementList,
-            description, message.toString(), shortMessage.toString());
+                name, message.toString(), shortMessage.toString());
         prepareRule(rule);
         rules.add(rule);
       } else {
@@ -218,7 +218,7 @@ class PatternRuleHandler extends XMLRuleHandler {
         for (final ArrayList<Element> phraseElement : phraseElementList) {
           processElement(phraseElement);
           final PatternRule rule = new PatternRule(id, language, phraseElement,
-              description, message.toString(), shortMessage.toString(),
+                  name, message.toString(), shortMessage.toString(),
               phraseElementList.size() > 1);
           prepareRule(rule);
           rules.add(rule);

@@ -95,7 +95,7 @@ public class PatternRule extends AbstractPatternRule {
       throw new NullPointerException("elements cannot be null");
     }
     if (description == null) {
-      throw new NullPointerException("description cannot be null");
+      throw new NullPointerException("description/name cannot be null");
     }
 
     this.message = message;
