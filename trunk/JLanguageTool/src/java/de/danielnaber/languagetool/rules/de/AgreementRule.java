@@ -332,7 +332,7 @@ public class AgreementRule extends GermanRule {
     RuleMatch ruleMatch = null;
     if (set.size() == 0) {
       // TODO: more detailed error message:
-      final String msg = "Möglicherweise fehlende Übereinstimmung (Kongruenz) zwischen Artikel, Adjektiv und " +
+      final String msg = "Möglicherweise fehlende grammatische Übereinstimmung zwischen Artikel, Adjektiv und " +
             "Nomen bezüglich Kasus, Numerus oder Genus. Beispiel: 'mein kleiner Haus' " +
             "statt 'mein kleines Haus'";
       ruleMatch = new RuleMatch(this, token1.getStartPos(), 
