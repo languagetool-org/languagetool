@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../print.xsl" ?>
-<?xml-stylesheet type="text/css" href="../rules.css" 
+<?xml-stylesheet type="text/css" href="../rules.css"
 title="Easy editing stylesheet" ?>
 <!--
 French Grammar and Typo Rules for LanguageTool
@@ -22,7 +22,7 @@ $Id: grammar.xml,v 1.68 2011-02-15 21:21:19 dominikoeo Exp $
   </phrases>
   <category name="Pléonasmes">
     <!--The following rules were created by Hugo Voisard
-(the rule on "ajouter en plus" 
+(the rule on "ajouter en plus"
 was already there before the category was created,
 though, and has since been slightly modified)-->
     <rule id="ACCULER_AU_PIED_DU_MUR" name="acculer au pied du mur">
@@ -17447,6 +17447,24 @@ though, and has since been slightly modified)-->
       <example type="correct">Il l’a fait <marker>lui-même</marker>.</example>
     </rule>
     <rulegroup id="TRAIT_UNION" name="Trait d’union">
+      <rule>
+        <pattern>
+          <token>avant</token>
+          <token regexp="yes">bras|centres?|coureur|derniers?|gardes?|guerre|goûts?|hier</token>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
+        <example type="incorrect">Il est arrivé <marker>avant hier</marker>.</example>
+        <example type="correct">Il est arrivé <marker>avant-hier</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>garde</token>
+          <token regexp="yes">robes?</token>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
+        <example type="incorrect">Elle a changé sa <marker>garde robe</marker>.</example>
+        <example type="correct">Elle a changé sa <marker>garde-robe</marker>.</example>
+      </rule>
       <rule>
         <pattern>
           <token>grand</token>
