@@ -17,8 +17,6 @@ import de.danielnaber.languagetool.rules.patterns.PatternRuleLoader;
 
 public class Searcher {
 
-  private static final String FN = "field";
-
   public static void main(String[] args) throws Exception {
     ensureCorrectUsageOrExit(args);
     run(args[0], args[1], args[2]);
@@ -65,7 +63,7 @@ public class Searcher {
     for (int i = 0; i < docs.totalHits;) {
       Document d = searcher.doc(hits[i].doc);
       i++;
-      System.out.println(i + ": " + d.get(FN));
+      System.out.println(i + ": " + d.get(PatternRuleQueryBuilder.FN));
     }
     searcher.close();
   }

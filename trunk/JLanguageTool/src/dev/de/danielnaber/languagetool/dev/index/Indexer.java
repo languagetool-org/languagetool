@@ -23,10 +23,7 @@ import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
 
 public class Indexer {
 
-  private static final String FN = "field";
-
   public static void main(String[] args) throws Exception {
-    System.out.println(args.length);
     ensureCorrectUsageOrExit(args);
     run(args[0], args[1]);
   }
@@ -69,7 +66,7 @@ public class Indexer {
     List<String> sentences = sentenceTokenizer.tokenize(content);
     for (String sentence : sentences) {
       Document doc = new Document();
-      doc.add(new Field(FN, sentence, Store.YES, Index.ANALYZED));
+      doc.add(new Field(PatternRuleQueryBuilder.FN, sentence, Store.YES, Index.ANALYZED));
       writer.addDocument(doc);
     }
     writer.close();
