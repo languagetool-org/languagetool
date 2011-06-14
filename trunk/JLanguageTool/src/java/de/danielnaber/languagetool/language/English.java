@@ -105,6 +105,7 @@ public class English extends Language {
             UppercaseSentenceStartRule.class,
             WhitespaceRule.class,
             WordRepeatRule.class,
+            LongSentenceRule.class,
             // specific to English:
             AvsAnRule.class,
             CompoundRule.class
