@@ -22,7 +22,6 @@ import java.util.*;
 
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.rules.*;
-import de.danielnaber.languagetool.rules.fr.QuestionWhitespaceRule;
 import de.danielnaber.languagetool.tagging.Tagger;
 import de.danielnaber.languagetool.tagging.eo.EsperantoTagger;
 import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
@@ -79,8 +78,7 @@ public class Esperanto extends Language {
             GenericUnpairedBracketsRule.class,
             UppercaseSentenceStartRule.class,
             WordRepeatRule.class,
-            WhitespaceRule.class,
-            QuestionWhitespaceRule.class
+            WhitespaceRule.class
     );
   }
 
