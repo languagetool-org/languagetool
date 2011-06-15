@@ -2,7 +2,7 @@
 $page = "other";
 $title = "LanguageTool";
 $title2 = "Common Problems";
-$lastmod = "2011-04-02 13:30:00 CET";
+$lastmod = "2011-06-15 13:30:00 CET";
 include("../../include/header.php");
 ?>
 
@@ -31,6 +31,10 @@ include("../../include/header.php");
     check "Use a Java runtime environment" again and try to install/activate the LanguageTool extension
     (<a href="http://sourceforge.net/projects/opencards/forums/forum/707158/topic/1886832">source</a>) - please
     let us know if this worked for you</li>
+<li>If you get <strong>Failed to load rules for language ... Caused by java.lang.ClassNotFoundException: Loading rules failed: Duplicate class definition</strong>:
+    For some reason LanguageTool is installed twice as an extension in OpenOffice.org. You can try deleting the directories listed
+    in the error message after making a backup. (The directories to be deleted have random names like "EE31.tmp_" or similar - exit OpenOffice.org
+    before deleting anything).</li>
 <li>If you are using an older version of LanguageTool and/or OpenOffice.org, these issues may affect you:
     <ul>
         <li>LanguageTool installation fails if the name of your user account contains
