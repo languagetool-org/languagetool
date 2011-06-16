@@ -18,7 +18,6 @@ package de.danielnaber.languagetool.dev.index;
  */
 
 import org.apache.lucene.index.Term;
-import org.apache.lucene.search.regex.JavaUtilRegexCapabilities;
 import org.apache.lucene.search.regex.RegexCapabilities;
 import org.apache.lucene.search.regex.RegexQueryCapable;
 import org.apache.lucene.search.spans.SpanMultiTermQueryWrapper;
@@ -31,7 +30,8 @@ import org.apache.lucene.search.spans.SpanMultiTermQueryWrapper;
 
 public class SpanRegexNotQuery extends SpanMultiTermQueryWrapper<RegexNotQuery> implements
     RegexQueryCapable {
-  private final RegexCapabilities regexImpl = new JavaUtilRegexCapabilities();
+
+  private static final long serialVersionUID = -2877900815692852272L;
 
   public SpanRegexNotQuery(Term term) {
     super(new RegexNotQuery(term));
