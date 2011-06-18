@@ -244,11 +244,13 @@ public class EsperantoTagger implements Tagger {
       final List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
       final String lWord = word.toLowerCase();
 
-      if (lWord.equals("la")) {
-        l.add(new AnalyzedToken(word, "D", lWord));
+      if (lWord.equals("la") || lWord.equals("l'")) {
+        l.add(new AnalyzedToken(word, "D", "la"));
 
       } else if (setAdverbs.contains(lWord)) {
         l.add(new AnalyzedToken(word, "E nak", lWord));
+      } else if (lWord.equals("dank'")) {
+        l.add(new AnalyzedToken(word, "E nak", "danke"));
 
       } else if (setWordsNotTagged.contains(lWord)) {
         l.add(new AnalyzedToken(word, null, lWord));
@@ -319,6 +321,8 @@ public class EsperantoTagger implements Tagger {
       // Words ending in .*oj?n? are nouns.
       } else if (lWord.endsWith("o")) {
         l.add(new AnalyzedToken(word, "O nak np", lWord));
+      } else if (lWord.length() >= 2 && lWord.endsWith("'")) {
+        l.add(new AnalyzedToken(word, "O nak np", lWord.substring(0, lWord.length() - 1) + "o"));
       } else if (lWord.endsWith("oj")) {
         l.add(new AnalyzedToken(word, "O nak pl", lWord.substring(0, lWord.length() - 1)));
       } else if (lWord.endsWith("on")) {

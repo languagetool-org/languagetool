@@ -50,7 +50,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
     <rule id="LITERO_LETERO" name="Litero (Letero)">
       <pattern mark_from="1">
         <token skip="2" inflected="yes" regexp="yes">.*(adres|send|redakt|leg|ricev)i</token>
-        <token regexp="yes">literoj?n?<exception scope="previous" regexp="yes">(mal)?(grand|et)aj?n</exception></token>
+        <token regexp="yes">literoj?n?<exception scope="previous" regexp="yes">((mal)?(grand|et)aj?n)|(ĉin|japan)aj?n?</exception></token>
       </pattern>
       <message>Ĉu vi intencis <suggestion><match no="2" regexp_match="(.).(.*)" regexp_replace="$1e$2"/></suggestion> anstataŭ «\2»?</message>
       <example type="incorrect">Mi dissendis la <marker>literon</marker>.</example>
@@ -350,6 +350,14 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <example type="incorrect">Ni kalkulas la <marker>ciklometrian funkcion</marker></example>
       <example type="correct">Ni kalkulas la <marker>inversan trigonometrian funkcion</marker></example>
     </rule>
+    <rule id="KOMUNONA" name="komunona (kunmezurebla)">
+      <pattern>
+        <token inflected="yes" regexp="yes">(ne)?komunona</token>
+      </pattern>
+      <message>Laŭ Revo, «\1» estas evitinda. Uzu <suggestion><match no="1" regexp_match="(ne)?.*n(.*)" regexp_replace="$1kunmezurebl$2"/></suggestion>.</message>
+      <example type="incorrect">Diagonalo de kvadrato estas <marker>nekomunona</marker>.</example>
+      <example type="correct">Diagonalo de kvadrato estas <marker>nekunmezurebla</marker>.</example>
+    </rule>
 
   </category>
 
@@ -521,7 +529,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <rule>
         <pattern mark_to="-1">
           <token>ekster</token>
-          <token regexp="yes">[mcvlŝnv]i|ili</token>
+          <token regexp="yes">[mcvlŝnv]i|ili|oni</token>
         </pattern>
         <message>Laŭ Revo, tiu uzo de «\1» estas arkaismo. Uzu <suggestion>krom</suggestion>.</message>
         <example type="incorrect">Ĉiuj <marker>ekster</marker> mi sciis pri tio.</example>
@@ -771,6 +779,86 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
         <example type="incorrect">Ili uzas <marker>radiokarbonon</marker>.</example>
         <example type="correct">Ili uzas karbonon 14.</example>
       </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">karito</token>
+        </pattern>
+        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*t(.*)" regexp_replace="karitat$1"/></suggestion>.</message>
+        <example type="incorrect">Li estas sen <marker>karito</marker>.</example>
+        <example type="correct">Li estas sen <marker>karitato</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">kaseto</token>
+        </pattern>
+        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*t(.*)" regexp_replace="kased$1"/></suggestion>.</message>
+        <example type="incorrect">Mi aĉetis <marker>kaseton</marker>.</example>
+        <example type="correct">Mi aĉetis <marker>kasedon</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">klukkluki</token>
+        </pattern>
+        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*k(.*)" regexp_replace="gugl$1"/></suggestion>.</message>
+        <example type="incorrect">Mi estas <marker>klukklukanta</marker>.</example>
+        <example type="correct">Mi estas <marker>guglanta</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">komisiitaro</token>
+        </pattern>
+        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*r(.*)" regexp_replace="komision$1"/></suggestion>.</message>
+        <example type="incorrect">La <marker>komisiitaro</marker> elektis lin.</example>
+        <example type="correct">La <marker>komisiono</marker> elektis lin.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">komisiulo</token>
+        </pattern>
+        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*l(.*)" regexp_replace="komisiist$1"/></suggestion>.</message>
+        <example type="incorrect">La <marker>komisiulo</marker> elektis lin.</example>
+        <example type="correct">La <marker>komisiisto</marker> elektis lin.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">kompateco</token>
+        </pattern>
+        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*c(.*)" regexp_replace="kompatem$1"/></suggestion>.</message>
+        <example type="incorrect">La <marker>kompateco</marker> de Dio.</example>
+        <example type="correct">La <marker>kompatemo</marker> de Dio.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">komput[eo]ro</token>
+        </pattern>
+        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*r(.*)" regexp_replace="komputil$1"/></suggestion>.</message>
+        <example type="incorrect">Mi aĉetis novan <marker>komputeron</marker>.</example>
+        <example type="correct">Mi aĉetis novan <marker>komputilon</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>enkomune</token>
+        </pattern>
+        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion>entute</suggestion>.</message>
+        <example type="incorrect">Ni <marker>enkomune</marker> decidis.</example>
+        <example type="correct">Ni <marker>entute</marker> decidis.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">akvokonduko</token>
+        </pattern>
+        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*k(.*)" regexp_replace="akvokondukil$1"/></suggestion>.</message>
+        <example type="incorrect">La <marker>akvokonduko</marker> de Romo.</example>
+        <example type="correct">La <marker>akvokondukilo</marker> de Romo.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">konfidencio</token>
+        </pattern>
+        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match="(.*c)i(.*)" regexp_replace="$1$2"/></suggestion>.</message>
+        <example type="incorrect">Li faris <marker>konfidencion</marker></example>
+        <example type="correct">Li faris <marker>konfidencon</marker></example>
+      </rule>
 
     </rulegroup>
   </category>
@@ -938,6 +1026,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
         </token>
         <token>
           <exception postag="V t[rn] .*" postag_regexp="yes"/>
+          <exception postag="C ... .. .. . n ." postag_regexp="yes"/>
           <exception inflected="yes" regexp="yes">(duono?)?(jarcent|jardek|jar|somer|vintr|printemp|aŭtun|sezon|monat|semajn|tag|maten|vesper|(post?)tagmez|nokt|hor|minut|sekund|moment|.*metr|mejl|marmejl|fut|col|paŝ|lund|mard|merkred|ĵaŭd|vendred|sabat|dimanĉ|foj|temp|.*gram)o?(fin)?(e[tg])?o</exception>
         </token>
       </pattern>
@@ -965,6 +1054,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <example type="correct">Li lasis fali ĝin.</example>
       <example type="correct">Tio daŭros nur momenteton.</example>
       <example type="correct">Jen estas vorto kies signifon mi ne komprenas.</example>
+      <example type="correct">Li estas ĉion leginta.</example>
     </rule>
 
     <rule id="NAK_VTR_NAK" name="mankanta akuzativo">
@@ -1108,7 +1198,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <rule>
         <pattern mark_from="1">
           <token postag="N">
-            <exception>unu</exception>
+            <exception regexp="yes">unu|nul</exception>
           </token>
           <token postag="[OA] .* np" postag_regexp="yes"/>
         </pattern>
@@ -1116,6 +1206,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
         <example type="incorrect">Mi aĉetis du <marker>panon</marker>.</example>
         <example type="correct">Mi aĉetis unu panon.</example>
         <example type="correct">Mi aĉetis du panojn.</example>
+        <example type="correct">Nul celcia grado.</example>
       </rule>
 
       <rule>

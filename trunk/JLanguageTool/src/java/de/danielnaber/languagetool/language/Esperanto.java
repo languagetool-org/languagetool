@@ -26,11 +26,14 @@ import de.danielnaber.languagetool.tagging.Tagger;
 import de.danielnaber.languagetool.tagging.eo.EsperantoTagger;
 import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
 import de.danielnaber.languagetool.tokenizers.SRXSentenceTokenizer;
+import de.danielnaber.languagetool.tokenizers.Tokenizer;
+import de.danielnaber.languagetool.tokenizers.eo.EsperantoWordTokenizer;
 
 public class Esperanto extends Language {
 
   private final Tagger tagger = new EsperantoTagger();
   private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer(getShortName());
+  private final Tokenizer wdTokenizer = new EsperantoWordTokenizer();
 
   @Override
   public Locale getLocale() {
@@ -40,6 +43,11 @@ public class Esperanto extends Language {
   @Override
   public final SentenceTokenizer getSentenceTokenizer() {
     return sentenceTokenizer;
+  }
+
+  @Override
+  public final Tokenizer getWordTokenizer() {
+    return wdTokenizer;
   }
 
   @Override
