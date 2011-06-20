@@ -742,7 +742,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
         <pattern>
           <token inflected="yes">irigaco</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*c(.*)" regexp_replace="irigaci$1"/></suggestion>.</message>
+        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match="(.*c)(.*)" regexp_replace="$1i$2"/></suggestion>.</message>
         <example type="incorrect">La plantoj bezonas <marker>irigacon</marker>.</example>
         <example type="correct">La plantoj bezonas <marker>irigacion</marker>.</example>
       </rule>
@@ -751,8 +751,8 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
           <token inflected="yes">centjaro</token>
         </pattern>
         <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*r(.*)" regexp_replace="jarcent$1"/></suggestion>.</message>
-        <example type="incorrect">Daŭris du <marker>centjaroj</marker>.</example>
-        <example type="correct">Daŭris du <marker>jarcentoj</marker>.</example>
+        <example type="incorrect">Daŭris du <marker>centjarojn</marker>.</example>
+        <example type="correct">Daŭris du <marker>jarcentojn</marker>.</example>
       </rule>
       <rule>
         <pattern>
@@ -1059,8 +1059,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
 
     <rule id="NAK_VTR_NAK" name="mankanta akuzativo">
       <pattern mark_from="2" case_sensitive="yes">
-        <token postag="[ROAT] nak.*" postag_regexp="yes" skip="3">
-          <exception postag="E.*" postag_regexp="yes"/>
+        <token postag="[ROA] nak.*|T nak .. . [ou]" postag_regexp="yes" skip="3">
           <exception scope="next" postag="[ROAT] akz.*" postag_regexp="yes"/>
           <exception scope="next" regexp="yes">[!?-–,;:«»“&quot;()]</exception>
           <exception scope="previous" postag="P .*" postag_regexp="yes"/>
@@ -1096,6 +1095,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <example type="correct">Kiun rolon laŭ vi havis la teamo ?</example>
       <example type="correct">Tion oni nomas religio.</example>
       <example type="correct">Tie loĝas mia amiko.</example>
+      <example type="correct">Kie loĝas la homo?</example>
     </rule>
 
     <rule id="NAK_NAK_VTR" name="mankanta akuzativo">
@@ -1745,7 +1745,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
           <token postag="SENT_START|K" postag_regexp="yes" skip="-1">
             <exception scope="next" postag="[ROAT] akz.*" postag_regexp="yes"></exception>
           </token>
-          <token regexp="yes" skip="-1">(mal|ne|re|mis|fi)?(balanc|ban|bukl|etend|fleks|klin|kolekt|interes|komunik|mov|naŭz|nask|paŝt|renkont|renvers|romp|rul|sku|streĉ|sufok|sving|ŝanĝ|ŝiri|ŝut|ted|tren|turn|vek|vend|venĝ|verŝ|vind|uz)(ad|aĉ|et|eg)?([ui]|([aiuo]s))<exception scope="next" regexp="yes">.*n</exception><exception scope="next" postag="V.* i" postag_regexp="yes"/>
+          <token regexp="yes" skip="-1">(mal|ne|re|mis|fi)?(balanc|ban|bukl|etend|fleks|klin|kolekt|interes|komunik|mov|naŭz|nask|paŝt|renkont|renvers|romp|rul|sku|streĉ|sufok|sving|ŝanĝ|ŝiri|ŝut|ted|tren|turn|vek|vend|venĝ|verŝ|vind|uz)(ad|aĉ|et|eg)?([ui]|([aiuo]s))<exception scope="next" regexp="yes">.*n|da</exception><exception scope="next" postag="V.* i" postag_regexp="yes"/>
           </token>
           <token postag="SENT_END|K|(T.* k .*)" postag_regexp="yes"/>
         </pattern>
@@ -1754,6 +1754,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
         <example type="correct">Mi interesiĝas pri tio.</example>
         <example type="incorrect">Mi <marker>vekis</marker> kiam mi aŭdis tion.</example>
         <example type="correct">Mi <marker>vekiĝis</marker> kiam mi aŭdis tion.</example>
+        <example type="correct">Ni <marker>kolektu</marker> pli da informo.</example>
       </rule>
 
       <rule>
