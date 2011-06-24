@@ -1,6 +1,7 @@
 package de.danielnaber.languagetool.dev.index;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.Query;
@@ -17,31 +18,55 @@ public class PatternRuleQueryBuilder {
   public static final String FN = "field";
 
   public static Query bulidQuery(PatternRule rule) {
+    return next(rule.getElements().iterator());
+  }
+
+  // create the next SpanQuery from the top Element in the Iterator.
+  private static SpanQuery next(Iterator<Element> it) {
+
+    // no more Element
+    if (!it.hasNext())
+      return null;
+
+    Element patternElement = it.next();
+    patternElement.getExceptionList();
+
     ArrayList<SpanQuery> list = new ArrayList<SpanQuery>();
-    int i = 0;
-    for (Element patternElement : rule.getElements()) {
-      SpanQuery termQuery = createSpanQuery(patternElement.getString(), "",
-          patternElement.getNegation(), patternElement.isRegularExpression());
-      SpanQuery posQuery = createSpanQuery(patternElement.getPOStag(),
-          LanguageToolFilter.POS_PREFIX, patternElement.getPOSNegation(),
-          patternElement.isPOStagRegularExpression());
 
-      if (termQuery != null && posQuery != null) {
-        SpanNearQuery q = new SpanNearQuery(new SpanQuery[] { termQuery, posQuery }, 0, false);
-        list.add(q);
-      } else if (termQuery != null) {
-        list.add(termQuery);
-      } else if (posQuery != null) {
-        list.add(posQuery);
-      } else {
-        i++;
-      }
-      i += patternElement.getSkipNext();
+    int skip = 0;
 
+    SpanQuery termQuery = createSpanQuery(patternElement.getString(), "",
+        patternElement.getNegation(), patternElement.isRegularExpression());
+    SpanQuery posQuery = createSpanQuery(patternElement.getPOStag(), LanguageToolFilter.POS_PREFIX,
+        patternElement.getPOSNegation(), patternElement.isPOStagRegularExpression());
+
+    if (termQuery != null && posQuery != null) {
+      SpanNearQuery q = new SpanNearQuery(new SpanQuery[] { termQuery, posQuery }, 0, false);
+      list.add(q);
+    } else if (termQuery != null) {
+      list.add(termQuery);
+    } else if (posQuery != null) {
+      list.add(posQuery);
+    } else {
+      skip++;
+    }
+    if (patternElement.getSkipNext() >= 0) {
+      skip += patternElement.getSkipNext();
+    } else {
+      // skip == -1
+      skip = Integer.MAX_VALUE;
     }
 
-    SpanNearQuery snq = new SpanNearQuery(list.toArray(new SpanQuery[list.size()]), i, true);
-    return snq;
+    // recursion invoke
+    SpanQuery next = next(it);
+
+    if (next != null) {
+      list.add(next);
+      return new SpanNearQuery(list.toArray(new SpanQuery[list.size()]), skip, true);
+    } else {
+      return list.get(0);
+    }
+
   }
 
   private static SpanQuery createSpanQuery(String token, String prefix, boolean isNegation,
