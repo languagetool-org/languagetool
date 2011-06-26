@@ -75,7 +75,7 @@ public class German extends Language {
 
   @Override
   public Contributor[] getMaintainers() {
-    return new Contributor[] {new Contributor("Daniel Naber")};
+      return new Contributor[] { Contributors.DANIEL_NABER };
   }
 
   @Override

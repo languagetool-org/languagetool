@@ -88,7 +88,7 @@ public class French extends Language {
     return new Contributor[] {
         new Contributor("Agnes Souque"),
         hVoisard,
-        new Contributor("Dominique Pellé"),
+        Contributors.DOMINIQUE_PELLE,
     };
   }
 

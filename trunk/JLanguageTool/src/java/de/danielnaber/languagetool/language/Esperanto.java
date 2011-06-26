@@ -73,9 +73,7 @@ public class Esperanto extends Language {
 
   @Override
   public Contributor[] getMaintainers() {
-    final Contributor dPelle = new Contributor("Dominique Pellé");
-    dPelle.setUrl("http://dominiko.livejournal.com/tag/lingvoilo");
-    return new Contributor[] { dPelle };
+    return new Contributor[] { Contributors.DOMINIQUE_PELLE };
   }
 
   @Override

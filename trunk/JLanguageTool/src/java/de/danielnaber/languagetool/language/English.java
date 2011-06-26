@@ -92,8 +92,7 @@ public class English extends Language {
   
   @Override
   public final Contributor[] getMaintainers() {
-    return new Contributor[] {new Contributor("Marcin Miłkowski"),
-        new Contributor("Daniel Naber")};
+      return new Contributor[] { Contributors.MARCIN_MILKOWSKI, Contributors.DANIEL_NABER };
   }
 
   @Override
