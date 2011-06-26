@@ -1,7 +1,7 @@
 LanguageTool, a proof-reading tool for English, German, Polish,
 French, Dutch, Slovenian, Russian, Romanian, Italian, Danish, and Catalan with 
 initial support for Belarusian, Esperanto, Galician, Icelandic, Lithuanian,
-Malayalam, Slovak, Spanish, Swedish, and Ukrainian
+Malayalam, Slovak, Spanish, Swedish, Ukrainian, and Khmer
 
 Copyright (C) 2005-2011 Daniel Naber (naber at danielnaber de)
 Version ###VERSION###, ###DATE###
