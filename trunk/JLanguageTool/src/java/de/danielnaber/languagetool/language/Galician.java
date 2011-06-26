@@ -83,7 +83,7 @@ public class Galician extends Language {
   @Override
   public Contributor[] getMaintainers() {
     final Contributor contributor = new Contributor("Susana Sotelo Docío");
-    contributor.setUrl("http://www.g11n.net/languagetool-gl");
+    contributor.setUrl("http://www.g11n.net");
     return new Contributor[] { contributor };
   }
 
