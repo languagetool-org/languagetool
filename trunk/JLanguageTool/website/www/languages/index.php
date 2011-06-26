@@ -2,7 +2,7 @@
 $page = "languages";
 $title = "LanguageTool";
 $title2 = "Supported Languages";
-$lastmod = "2011-03-27 18:30:00 CET";
+$lastmod = "2011-06-26 20:30:00 CET";
 include("../../include/header.php");
 ?>
 		
@@ -14,8 +14,8 @@ language is supported.</p>
 
 <!-- Output of RuleOverview.java: -->
 
-<b>Rules in LanguageTool 1.3</b><br />
-Date: 2011-03-27<br /><br />
+<b>Rules in LanguageTool 1.4</b><br />
+Date: 2011-06-26<br /><br />
 
 <table>
 <tr>
@@ -36,20 +36,22 @@ Date: 2011-03-27<br /><br />
 <td align="right">0</td><td></td><td align="left">Esben Aaberg</td></tr>
 <tr><td>Dutch</td><td align="right">311 (<a href="http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/JLanguageTool/src/rules/nl/grammar.xml?content-type=text%2Fplain">show</a>/<a href="http://community.languagetool.org/rule/list?lang=nl">browse</a>)</td><td></td><td align="right">0</td><td></td>
 <td align="right">0</td><td></td><td align="left"><a href="http://www.opentaal.org">Ruud Baars</a></td></tr>
-<tr><td>English</td><td align="right">479 (<a href="http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/JLanguageTool/src/rules/en/grammar.xml?content-type=text%2Fplain">show</a>/<a href="http://community.languagetool.org/rule/list?lang=en">browse</a>)</td><td></td><td align="right">3</td><td></td>
+<tr><td>English</td><td align="right">490 (<a href="http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/JLanguageTool/src/rules/en/grammar.xml?content-type=text%2Fplain">show</a>/<a href="http://community.languagetool.org/rule/list?lang=en">browse</a>)</td><td></td><td align="right">3</td><td></td>
 <td align="right">231</td><td></td><td align="left">Marcin Miłkowski, Daniel Naber</td></tr>
-<tr><td>Esperanto</td><td align="right">80 (<a href="http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/JLanguageTool/src/rules/eo/grammar.xml?content-type=text%2Fplain">show</a>/<a href="http://community.languagetool.org/rule/list?lang=eo">browse</a>)</td><td></td><td align="right">0</td><td></td>
+<tr><td>Esperanto</td><td align="right">177 (<a href="http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/JLanguageTool/src/rules/eo/grammar.xml?content-type=text%2Fplain">show</a>/<a href="http://community.languagetool.org/rule/list?lang=eo">browse</a>)</td><td></td><td align="right">0</td><td></td>
 <td align="right">0</td><td></td><td align="left"><a href="http://dominiko.livejournal.com/tag/lingvoilo">Dominique Pellé</a></td></tr>
-<tr><td>French</td><td align="right">1810 (<a href="http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/JLanguageTool/src/rules/fr/grammar.xml?content-type=text%2Fplain">show</a>/<a href="http://community.languagetool.org/rule/list?lang=fr">browse</a>)</td><td></td><td align="right">1</td><td></td>
+<tr><td>French</td><td align="right">1891 (<a href="http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/JLanguageTool/src/rules/fr/grammar.xml?content-type=text%2Fplain">show</a>/<a href="http://community.languagetool.org/rule/list?lang=fr">browse</a>)</td><td></td><td align="right">1</td><td></td>
 <td align="right">5</td><td></td><td align="left">Agnes Souque, Hugo Voisard&nbsp;(2006-2007), Dominique Pellé</td></tr>
 <tr><td>Galician</td><td align="right">166 (<a href="http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/JLanguageTool/src/rules/gl/grammar.xml?content-type=text%2Fplain">show</a>/<a href="http://community.languagetool.org/rule/list?lang=gl">browse</a>)</td><td></td><td align="right">0</td><td></td>
 <td align="right">6</td><td></td><td align="left"><a href="http://www.g11n.net/languagetool-gl">Susana Sotelo Docío</a></td></tr>
-<tr><td>German</td><td align="right">139 (<a href="http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/JLanguageTool/src/rules/de/grammar.xml?content-type=text%2Fplain">show</a>/<a href="http://community.languagetool.org/rule/list?lang=de">browse</a>)</td><td></td><td align="right">8</td><td></td>
+<tr><td>German</td><td align="right">150 (<a href="http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/JLanguageTool/src/rules/de/grammar.xml?content-type=text%2Fplain">show</a>/<a href="http://community.languagetool.org/rule/list?lang=de">browse</a>)</td><td></td><td align="right">8</td><td></td>
 <td align="right">88</td><td></td><td align="left">Daniel Naber</td></tr>
 <tr><td>Icelandic</td><td align="right">39 (<a href="http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/JLanguageTool/src/rules/is/grammar.xml?content-type=text%2Fplain">show</a>/<a href="http://community.languagetool.org/rule/list?lang=is">browse</a>)</td><td></td><td align="right">0</td><td></td>
 <td align="right">0</td><td></td><td align="left">Anton Karl Ingason</td></tr>
 <tr><td>Italian</td><td align="right">86 (<a href="http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/JLanguageTool/src/rules/it/grammar.xml?content-type=text%2Fplain">show</a>/<a href="http://community.languagetool.org/rule/list?lang=it">browse</a>)</td><td></td><td align="right">0</td><td></td>
 <td align="right">36</td><td></td><td align="left">Paolo Bianchini</td></tr>
+<tr><td>Khmer</td><td align="right">22 (<a href="http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/JLanguageTool/src/rules/km/grammar.xml?content-type=text%2Fplain">show</a>/<a href="http://community.languagetool.org/rule/list?lang=km">browse</a>)</td><td></td><td align="right">2</td><td></td>
+<td align="right">0</td><td></td><td align="left">Nathan Wells</td></tr>
 <tr><td>Lithuanian</td><td align="right">4 (<a href="http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/JLanguageTool/src/rules/lt/grammar.xml?content-type=text%2Fplain">show</a>/<a href="http://community.languagetool.org/rule/list?lang=lt">browse</a>)</td><td></td><td align="right">0</td><td></td>
 <td align="right">0</td><td></td><td align="left">Mantas Kriaučiūnas</td></tr>
 <tr><td>Malayalam</td><td align="right">18 (<a href="http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/JLanguageTool/src/rules/ml/grammar.xml?content-type=text%2Fplain">show</a>/<a href="http://community.languagetool.org/rule/list?lang=ml">browse</a>)</td><td></td><td align="right">0</td><td></td>
@@ -58,7 +60,7 @@ Date: 2011-03-27<br /><br />
 <td align="right">140</td><td></td><td align="left">Marcin Miłkowski</td></tr>
 <tr><td>Romanian</td><td align="right">418 (<a href="http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/JLanguageTool/src/rules/ro/grammar.xml?content-type=text%2Fplain">show</a>/<a href="http://community.languagetool.org/rule/list?lang=ro">browse</a>)</td><td></td><td align="right">1</td><td></td>
 <td align="right">0</td><td></td><td align="left"><a href="http://www.archeus.ro">Ionuț Păduraru</a></td></tr>
-<tr><td>Russian</td><td align="right">124 (<a href="http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/JLanguageTool/src/rules/ru/grammar.xml?content-type=text%2Fplain">show</a>/<a href="http://community.languagetool.org/rule/list?lang=ru">browse</a>)</td><td></td><td align="right">3</td><td></td>
+<tr><td>Russian</td><td align="right">129 (<a href="http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/JLanguageTool/src/rules/ru/grammar.xml?content-type=text%2Fplain">show</a>/<a href="http://community.languagetool.org/rule/list?lang=ru">browse</a>)</td><td></td><td align="right">3</td><td></td>
 <td align="right">0</td><td></td><td align="left">Yakov Reztsov</td></tr>
 <tr><td>Slovak</td><td align="right">55 (<a href="http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/JLanguageTool/src/rules/sk/grammar.xml?content-type=text%2Fplain">show</a>/<a href="http://community.languagetool.org/rule/list?lang=sk">browse</a>)</td><td></td><td align="right">2</td><td></td>
 <td align="right">0</td><td></td><td align="left"><a href="http://sk-spell.sk.cx">Zdenko Podobný</a></td></tr>

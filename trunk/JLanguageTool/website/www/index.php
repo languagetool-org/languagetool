@@ -2,7 +2,7 @@
 $page = "homepage";
 $title = "LanguageTool";
 $title2 = "Open Source language checker";
-$lastmod = "2011-05-08 12:20:00 CET";
+$lastmod = "2011-06-26 20:20:00 CET";
 include("../include/header.php");
 ?>
 		
@@ -18,7 +18,7 @@ XML configuration files. Rules for more complicated errors can be  written in Ja
 <h2>Download</h2>
 
 <div class="downloadSection">
-	<h2><?=show_link("Download LanguageTool 1.3.1 (18&nbsp;MB)", "download/LanguageTool-1.3.1.oxt", 0) ?></h2>
+	<h2><?=show_link("Download LanguageTool 1.4 (18&nbsp;MB)", "download/LanguageTool-1.4.oxt", 0) ?></h2>
 	<!--
 	<table>
 	<tr>
@@ -42,7 +42,7 @@ XML configuration files. Rules for more complicated errors can be  written in Ja
 </div>
 
 <!-- -->
-<p><strong>Try LanguageTool 1.3 without installation, using Java WebStart.</strong> Requires Java 1.6_04 or later.<br />
+<p><strong>Try LanguageTool 1.4 without installation, using Java WebStart.</strong> Requires Java 1.6_04 or later.<br />
 <strong><?=show_link("Start LanguageTool (18&nbsp;MB)", "webstart/web/LanguageTool.jnlp", 0) ?></strong></p>
 <!-- -->
 
@@ -51,10 +51,18 @@ XML configuration files. Rules for more complicated errors can be  written in Ja
 
 <h2>News</h2>
 
+<p><strong>2011-06-26:</strong> Released LanguageTool 1.4. Changes include:
+<ul>
+	<li>Rule updates for English, French, German, Russian, and Esperanto.</li>
+    <li>Support for Khmer</li>
+    <li>Some internal cleanups and simplifications</li>
+	<li>For a more detailed list of changes, see the <?=show_link("Changelog", "download/CHANGES.txt", 0) ?></li>
+</ul>
+
 <p><strong>2011-05-08:</strong> More information about <?=show_link("Google Summer of Code 2011", "gsoc2011", 0)?></p>
 
-<p><strong>2011-03-28:</strong> Released LanguageTool 1.3.1. This fixes a NullPointerException occurring with some inputs.
-
+<!--
+<p><strong>2011-03-28:</strong> Released LanguageTool 1.3.1. This fixes a NullPointerException occurring with some inputs.</p>
 <p><strong>2011-03-27:</strong> Released LanguageTool 1.3. Changes include:
 <ul>
 	<li>Rule updates for Spanish, French, Polish, Dutch, Russian, English, and Esperanto.</li>
@@ -62,6 +70,7 @@ XML configuration files. Rules for more complicated errors can be  written in Ja
 	<li>Some bug fixes.</li>
 	<li>For a more detailed list of changes, see the <?=show_link("Changelog", "download/CHANGES.txt", 0) ?></li>
 </ul>
+-->
 
 <p><strong>2011-02-19:</strong> The LanguageTool source code is now available from
 <?=show_link("subversion", "development/#checkout", 0)?>. Please don't use the old CVS repository anymore.</p>
@@ -95,7 +104,7 @@ This means that you can now use LanguageTool for these languages via the
 
 <ul>
 	<li><strong>In OpenOffice.org/LibreOffice</strong>:
-	Double click <tt>LanguageTool-1.3.1.oxt</tt> to install it.
+	Double click <tt>LanguageTool-1.4.oxt</tt> to install it.
 	If that doesn't work, call <em>Tools -&gt; Extension Manager -&gt; Add...</em>
 	to install it. Close OpenOffice.org and re-start it. Type some text
 	with an error (e.g. "This is an test." &ndash; make sure the text language is set
