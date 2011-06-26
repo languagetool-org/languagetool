@@ -46,27 +46,27 @@ public class Indexer {
     }
 
     System.out.println("Indexing to directory '" + indexDir + "'...");
-    Directory dir = FSDirectory.open(new File(indexDir));
+    final Directory dir = FSDirectory.open(new File(indexDir));
 
-    Language language = Language.ENGLISH;
-    Analyzer analyzer = new LanguageToolAnalyzer(Version.LUCENE_31, new JLanguageTool(language));
+    final Language language = Language.ENGLISH;
+    final Analyzer analyzer = new LanguageToolAnalyzer(Version.LUCENE_31, new JLanguageTool(language));
 
-    IndexWriterConfig iwc = new IndexWriterConfig(Version.LUCENE_31, analyzer);
+    final IndexWriterConfig iwc = new IndexWriterConfig(Version.LUCENE_31, analyzer);
     iwc.setOpenMode(OpenMode.CREATE);
-    IndexWriter writer = new IndexWriter(dir, iwc);
+    final IndexWriter writer = new IndexWriter(dir, iwc);
 
-    BufferedReader reader = new BufferedReader(new FileReader(file));
-    StringBuffer buffer = new StringBuffer();
+    final BufferedReader reader = new BufferedReader(new FileReader(file));
+    final StringBuffer buffer = new StringBuffer();
     String line = "";
     while ((line = reader.readLine()) != null) {
       buffer.append(line);
     }
-    String content = buffer.toString();
-    SentenceTokenizer sentenceTokenizer = language.getSentenceTokenizer();
-    List<String> sentences = sentenceTokenizer.tokenize(content);
+    final String content = buffer.toString();
+    final SentenceTokenizer sentenceTokenizer = language.getSentenceTokenizer();
+    final List<String> sentences = sentenceTokenizer.tokenize(content);
     for (String sentence : sentences) {
-      Document doc = new Document();
-      doc.add(new Field(PatternRuleQueryBuilder.FN, sentence, Store.YES, Index.ANALYZED));
+      final Document doc = new Document();
+      doc.add(new Field(PatternRuleQueryBuilder.FIELD_NAME, sentence, Store.YES, Index.ANALYZED));
       writer.addDocument(doc);
     }
     writer.close();

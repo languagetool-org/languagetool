@@ -15,9 +15,9 @@ import de.danielnaber.languagetool.rules.patterns.PatternRule;
 
 public class PatternRuleQueryBuilder {
 
-  public static final String FN = "field";
+  public static final String FIELD_NAME = "field";
 
-  public static Query bulidQuery(PatternRule rule) {
+  public static Query buildQuery(PatternRule rule) {
     return next(rule.getElements().iterator());
   }
 
@@ -25,23 +25,24 @@ public class PatternRuleQueryBuilder {
   private static SpanQuery next(Iterator<Element> it) {
 
     // no more Element
-    if (!it.hasNext())
+    if (!it.hasNext()) {
       return null;
+    }
 
-    Element patternElement = it.next();
+    final Element patternElement = it.next();
     patternElement.getExceptionList();
 
-    ArrayList<SpanQuery> list = new ArrayList<SpanQuery>();
+    final ArrayList<SpanQuery> list = new ArrayList<SpanQuery>();
 
     int skip = 0;
 
-    SpanQuery termQuery = createSpanQuery(patternElement.getString(), "",
+    final SpanQuery termQuery = createSpanQuery(patternElement.getString(), "",
         patternElement.getNegation(), patternElement.isRegularExpression());
-    SpanQuery posQuery = createSpanQuery(patternElement.getPOStag(), LanguageToolFilter.POS_PREFIX,
+    final SpanQuery posQuery = createSpanQuery(patternElement.getPOStag(), LanguageToolFilter.POS_PREFIX,
         patternElement.getPOSNegation(), patternElement.isPOStagRegularExpression());
 
     if (termQuery != null && posQuery != null) {
-      SpanNearQuery q = new SpanNearQuery(new SpanQuery[] { termQuery, posQuery }, 0, false);
+      final SpanNearQuery q = new SpanNearQuery(new SpanQuery[] { termQuery, posQuery }, 0, false);
       list.add(q);
     } else if (termQuery != null) {
       list.add(termQuery);
@@ -58,7 +59,7 @@ public class PatternRuleQueryBuilder {
     }
 
     // recursion invoke
-    SpanQuery next = next(it);
+    final SpanQuery next = next(it);
 
     if (next != null) {
       list.add(next);
@@ -73,7 +74,7 @@ public class PatternRuleQueryBuilder {
       boolean isRegularExpression) {
     SpanQuery q = null;
     if (token != null && !token.equals("")) {
-      Term term = new Term(FN, prefix + token);
+      final Term term = new Term(FIELD_NAME, prefix + token);
       if (isNegation) {
         q = new SpanRegexNotQuery(term);
       } else {

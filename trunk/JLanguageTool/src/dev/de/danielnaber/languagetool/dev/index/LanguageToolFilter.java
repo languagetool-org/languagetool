@@ -20,29 +20,30 @@ import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.JLanguageTool;
 
 public class LanguageToolFilter extends TokenFilter {
-  private JLanguageTool lt;
+  
+  private final JLanguageTool languageTool;
 
   private Iterator<AnalyzedTokenReadings> tokenIter;
 
   // stack for POS
-  private Stack<String> stack;
+  private final Stack<String> posStack;
 
-  private CharTermAttribute termAtt;
+  private final CharTermAttribute termAtt;
 
-  private OffsetAttribute offsetAtt;
+  private final OffsetAttribute offsetAtt;
 
-  private PositionIncrementAttribute posIncrAtt;
+  private final PositionIncrementAttribute posIncrAtt;
 
-  private TypeAttribute typeAtt;
+  private final TypeAttribute typeAtt;
 
   private AttributeSource.State current;
 
   public static final String POS_PREFIX = "_POS_";
 
-  protected LanguageToolFilter(TokenStream input, JLanguageTool lt) {
+  protected LanguageToolFilter(TokenStream input, JLanguageTool languageTool) {
     super(input);
-    this.lt = lt;
-    stack = new Stack<String>();
+    this.languageTool = languageTool;
+    posStack = new Stack<String>();
     termAtt = addAttribute(CharTermAttribute.class);
     offsetAtt = addAttribute(OffsetAttribute.class);
     posIncrAtt = addAttribute(PositionIncrementAttribute.class);
@@ -52,8 +53,8 @@ public class LanguageToolFilter extends TokenFilter {
   @Override
   public boolean incrementToken() throws IOException {
 
-    if (stack.size() > 0) {
-      String pop = stack.pop();
+    if (posStack.size() > 0) {
+      final String pop = posStack.pop();
       restoreState(current);
       termAtt.append(pop);
       posIncrAtt.setPositionIncrement(0);
@@ -65,16 +66,17 @@ public class LanguageToolFilter extends TokenFilter {
       // there are no remaining tokens from the current sentence... are there more sentences?
       if (input.incrementToken()) {
         // a new sentence is available: process it.
-        AnalyzedSentence sentence = lt.getAnalyzedSentence(termAtt.toString());
+        final AnalyzedSentence sentence = languageTool.getAnalyzedSentence(termAtt.toString());
 
-        List<AnalyzedTokenReadings> tokenBuffer = Arrays.asList(sentence.getTokens());
+        final List<AnalyzedTokenReadings> tokenBuffer = Arrays.asList(sentence.getTokens());
         tokenIter = tokenBuffer.iterator();
         /*
          * it should not be possible to have a sentence with 0 words, check just in case. returning
-         * EOS isn't the best either, but its the behavior of the original code.
+         * EOS isn't the best either, but it's the behavior of the original code.
          */
-        if (!tokenIter.hasNext())
+        if (!tokenIter.hasNext()) {
           return false;
+        }
       } else {
         return false; // no more sentences, end of stream!
       }
@@ -82,7 +84,7 @@ public class LanguageToolFilter extends TokenFilter {
 
     // It must clear attributes, as it is creating new tokens.
     clearAttributes();
-    AnalyzedTokenReadings tr = tokenIter.next();
+    final AnalyzedTokenReadings tr = tokenIter.next();
     AnalyzedToken at = tr.getAnalyzedToken(0);
 
     // add POS tag for sentence start.
@@ -101,7 +103,7 @@ public class LanguageToolFilter extends TokenFilter {
     for (int i = 0; i < tr.getReadingsLength(); i++) {
       at = tr.getAnalyzedToken(i);
       if (at.getPOSTag() != null) {
-        stack.push(POS_PREFIX + at.getPOSTag());
+        posStack.push(POS_PREFIX + at.getPOSTag());
       }
     }
 

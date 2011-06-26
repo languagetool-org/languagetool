@@ -17,19 +17,20 @@ import de.danielnaber.languagetool.JLanguageTool;
  */
 public class LanguageToolAnalyzer extends Analyzer {
 
-  private JLanguageTool lt;
+  private final JLanguageTool languageTool;
 
-  private Version matchVersion;
+  private final Version matchVersion;
 
-  public LanguageToolAnalyzer(Version matchVersion, JLanguageTool lt) {
+  public LanguageToolAnalyzer(Version matchVersion, JLanguageTool languageTool) {
     super();
     this.matchVersion = matchVersion;
-    this.lt = lt;
+    this.languageTool = languageTool;
   }
 
+  @Override
   public TokenStream tokenStream(String fieldName, Reader reader) {
     TokenStream result = new AnyCharTokenizer(this.matchVersion, reader);
-    result = new LanguageToolFilter(result, lt);
+    result = new LanguageToolFilter(result, languageTool);
     return result;
   }
 

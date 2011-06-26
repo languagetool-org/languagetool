@@ -33,15 +33,16 @@ public class Searcher {
   }
 
   private static void run(String ruleId, String ruleXML, String indexDir) throws Exception {
-    PatternRuleLoader ruleLoader = new PatternRuleLoader();
-    File xml = new File(ruleXML);
+    final PatternRuleLoader ruleLoader = new PatternRuleLoader();
+    final File xml = new File(ruleXML);
     if (!xml.exists() || !xml.canRead()) {
       System.out.println("Rule XML file '" + xml.getAbsolutePath()
           + "' does not exist or is not readable, please check the path");
       System.exit(1);
     }
-    InputStream is = new FileInputStream(xml);
-    List<PatternRule> rules = ruleLoader.getRules(is, ruleXML);
+    final InputStream is = new FileInputStream(xml);
+    final List<PatternRule> rules = ruleLoader.getRules(is, ruleXML);
+    is.close();
     PatternRule theRule = null;
     for (PatternRule rule : rules) {
       if (rule.getId().equals(ruleId)) {
@@ -53,17 +54,17 @@ public class Searcher {
       System.out.println("Can not find rule '" + ruleId + "'");
       System.exit(1);
     }
-    Query query = PatternRuleQueryBuilder.bulidQuery(theRule);
-    IndexSearcher searcher = new IndexSearcher(FSDirectory.open(new File(indexDir)));
+    final Query query = PatternRuleQueryBuilder.buildQuery(theRule);
+    final IndexSearcher searcher = new IndexSearcher(FSDirectory.open(new File(indexDir)));
 
-    TopDocs docs = searcher.search(query, 100);
-    ScoreDoc[] hits = docs.scoreDocs;
+    final TopDocs docs = searcher.search(query, 100);
+    final ScoreDoc[] hits = docs.scoreDocs;
     System.out.println("Search results: " + docs.totalHits);
 
     for (int i = 0; i < docs.totalHits;) {
-      Document d = searcher.doc(hits[i].doc);
+      final Document d = searcher.doc(hits[i].doc);
       i++;
-      System.out.println(i + ": " + d.get(PatternRuleQueryBuilder.FN));
+      System.out.println(i + ": " + d.get(PatternRuleQueryBuilder.FIELD_NAME));
     }
     searcher.close();
   }

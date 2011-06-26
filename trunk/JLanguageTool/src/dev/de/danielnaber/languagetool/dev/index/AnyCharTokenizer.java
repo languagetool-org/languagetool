@@ -9,9 +9,9 @@ import org.apache.lucene.util.Version;
 public class AnyCharTokenizer extends CharTokenizer {
 
   /**
-   * Construct a new AnyCharTokenizer. * @param matchVersion Lucene version to match See
-   * {@link <a href="#version">above</a>}
+   * Construct a new AnyCharTokenizer.
    * 
+   * @param matchVersion Lucene version to match See {@link <a href="#version">above</a>}
    * @param in
    *          the input to split up into tokens
    */
