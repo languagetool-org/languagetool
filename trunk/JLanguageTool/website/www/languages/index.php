@@ -37,15 +37,15 @@ Date: 2011-06-26<br /><br />
 <tr><td>Dutch</td><td align="right">311 (<a href="http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/JLanguageTool/src/rules/nl/grammar.xml?content-type=text%2Fplain">show</a>/<a href="http://community.languagetool.org/rule/list?lang=nl">browse</a>)</td><td></td><td align="right">0</td><td></td>
 <td align="right">0</td><td></td><td align="left"><a href="http://www.opentaal.org">Ruud Baars</a></td></tr>
 <tr><td>English</td><td align="right">490 (<a href="http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/JLanguageTool/src/rules/en/grammar.xml?content-type=text%2Fplain">show</a>/<a href="http://community.languagetool.org/rule/list?lang=en">browse</a>)</td><td></td><td align="right">3</td><td></td>
-<td align="right">231</td><td></td><td align="left">Marcin Miłkowski, Daniel Naber</td></tr>
+<td align="right">231</td><td></td><td align="left"><a href="http://marcinmilkowski.pl">Marcin Miłkowski</a>, <a href="http://www.danielnaber.de">Daniel Naber</a></td></tr>
 <tr><td>Esperanto</td><td align="right">177 (<a href="http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/JLanguageTool/src/rules/eo/grammar.xml?content-type=text%2Fplain">show</a>/<a href="http://community.languagetool.org/rule/list?lang=eo">browse</a>)</td><td></td><td align="right">0</td><td></td>
 <td align="right">0</td><td></td><td align="left"><a href="http://dominiko.livejournal.com/tag/lingvoilo">Dominique Pellé</a></td></tr>
 <tr><td>French</td><td align="right">1891 (<a href="http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/JLanguageTool/src/rules/fr/grammar.xml?content-type=text%2Fplain">show</a>/<a href="http://community.languagetool.org/rule/list?lang=fr">browse</a>)</td><td></td><td align="right">1</td><td></td>
-<td align="right">5</td><td></td><td align="left">Agnes Souque, Hugo Voisard&nbsp;(2006-2007), Dominique Pellé</td></tr>
+<td align="right">5</td><td></td><td align="left">Agnes Souque, Hugo Voisard&nbsp;(2006-2007), <a href="http://dominiko.livejournal.com/tag/lingvoilo">Dominique Pellé</a></td></tr>
 <tr><td>Galician</td><td align="right">166 (<a href="http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/JLanguageTool/src/rules/gl/grammar.xml?content-type=text%2Fplain">show</a>/<a href="http://community.languagetool.org/rule/list?lang=gl">browse</a>)</td><td></td><td align="right">0</td><td></td>
-<td align="right">6</td><td></td><td align="left"><a href="http://www.g11n.net/languagetool-gl">Susana Sotelo Docío</a></td></tr>
+<td align="right">6</td><td></td><td align="left"><a href="http://www.g11n.net">Susana Sotelo Docío</a></td></tr>
 <tr><td>German</td><td align="right">150 (<a href="http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/JLanguageTool/src/rules/de/grammar.xml?content-type=text%2Fplain">show</a>/<a href="http://community.languagetool.org/rule/list?lang=de">browse</a>)</td><td></td><td align="right">8</td><td></td>
-<td align="right">88</td><td></td><td align="left">Daniel Naber</td></tr>
+<td align="right">88</td><td></td><td align="left"><a href="http://www.danielnaber.de">Daniel Naber</a></td></tr>
 <tr><td>Icelandic</td><td align="right">39 (<a href="http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/JLanguageTool/src/rules/is/grammar.xml?content-type=text%2Fplain">show</a>/<a href="http://community.languagetool.org/rule/list?lang=is">browse</a>)</td><td></td><td align="right">0</td><td></td>
 <td align="right">0</td><td></td><td align="left">Anton Karl Ingason</td></tr>
 <tr><td>Italian</td><td align="right">86 (<a href="http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/JLanguageTool/src/rules/it/grammar.xml?content-type=text%2Fplain">show</a>/<a href="http://community.languagetool.org/rule/list?lang=it">browse</a>)</td><td></td><td align="right">0</td><td></td>
