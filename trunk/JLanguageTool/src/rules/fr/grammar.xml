@@ -844,6 +844,15 @@ though, and has since been slightly modified)-->
     </rulegroup>
     <rulegroup id="A_A_ACCENT" name="A au lieu de À">
       <rule>
+        <pattern mark_from="1">
+          <token postag="SENT_START"/>
+          <token>A</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>À</suggestion> ?</message>
+        <example type="incorrect"><marker>A</marker> quelle heure arrive-t-il ?</example>
+        <example type="correct"><marker>À</marker> quelle heure arrive-t-il ?</example>
+      </rule>
+      <rule>
         <pattern mark_from="2" mark_to="-1">
           <token postag="SENT_START" skip="-1"><exception regexp="yes" scope="next">qu[ie]?</exception></token>
           <token postag="V.*" postag_regexp="yes">
@@ -851,7 +860,7 @@ though, and has since been slightly modified)-->
             <exception postag="V inf"/>
           </token>
           <token>a</token>
-          <token negate="yes">priori</token>
+          <token><exception regexp="yes">priori|côté</exception></token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>à</suggestion> ?</message>
         <example type="incorrect">Ils s’apprêtent <marker>a</marker> le dépasser.</example>
@@ -862,7 +871,8 @@ though, and has since been slightly modified)-->
         <example type="correct">Ce que tu dis a l’air correct.</example>
       </rule>
       <rule>
-        <pattern mark_to="-1">
+        <pattern mark_from="1" mark_to="-1">
+          <token/>
           <token>a</token>
           <token regexp="yes">autrui|bord|cause|condition|côté|court|défaut|droite|force|laquelle|gauche|mesure|midi|minuit|part|peine|propos|proximité|travers|se|quels?|quelles?|comment|no[ëe]l|p[aâ]ques|[mts]e|[mst]oi|lui|elles?|eux|[nv]ous|vitesse|vélo</token>
         </pattern>
@@ -871,13 +881,14 @@ though, and has since been slightly modified)-->
         <example type="correct">L’adresse <marker>à</marker> laquelle tu l’as envoyé</example>
       </rule>
       <rule>
-        <pattern mark_to="-1">
+        <pattern mark_from="1" mark_to="-1">
+          <token/>
           <token>a<exception scope="previous" regexp="yes">en|y</exception></token>
           <token regexp="yes">quo?i</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>à</suggestion> ?</message>
-        <example type="incorrect"><marker>A</marker> quoi penses-tu ?</example>
-        <example type="correct">À quoi penses-tu ?</example>
+        <example type="incorrect">Tu penses <marker>a</marker> quoi ?</example>
+        <example type="correct">Tu penses <marker>à</marker> quoi ?</example>
         <example type="correct">Il y en <marker>a</marker> qui dorment.</example>
         <example type="correct">Fais-moi savoir s’il y <marker>a</marker> quoi que ce soit que je puisse faire.</example>
       </rule>
@@ -903,14 +914,15 @@ though, and has since been slightly modified)-->
         <example type="correct">Tout à coup, j’entendis une explosion.</example>
       </rule>
       <rule>
-        <pattern mark_to="-2">
+        <pattern mark_from="1" mark_to="-2">
+          <token/>
           <token>a</token>
           <token>coup</token>
           <token regexp="yes">s[ûu]r</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>à</suggestion> ?</message>
-        <example type="incorrect"><marker>A</marker> coup sûr, il ne viendra pas.</example>
-        <example type="correct">À coup sûr, il ne viendra pas.</example>
+        <example type="incorrect">Il ne viendra pas <marker>a</marker> coup sûr.</example>
+        <example type="correct">Il ne viendra pas <marker>à</marker> coup sûr.</example>
       </rule>
       <rule>
         <pattern mark_from="2">
