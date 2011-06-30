@@ -37,7 +37,7 @@ import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.rules.patterns.PatternRule;
 import de.danielnaber.languagetool.rules.patterns.PatternRuleLoader;
 
-public class PatternRuleQueryBulderText extends LuceneTestCase {
+public class PatternRuleQueryBuilderText extends LuceneTestCase {
   private IndexSearcher searcher;
 
   private IndexReader reader;
