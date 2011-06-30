@@ -115,9 +115,7 @@ public class PatternRuleQueryBuilderText extends LuceneTestCase {
     try {
       PatternRuleQueryBuilder.buildQuery(rules.get(0));
       fail("Exception should be thrown for unsupported PatternRule");
-    } catch (UnsupportedPatternRuleException e) {
-      assertTrue(e instanceof UnsupportedPatternRuleException);
-    }
+    } catch (UnsupportedPatternRuleException expected) {}
 
     sb = new StringBuffer();
 
@@ -133,9 +131,7 @@ public class PatternRuleQueryBuilderText extends LuceneTestCase {
     try {
       PatternRuleQueryBuilder.buildQuery(rules.get(0));
       fail("Exception should be thrown for unsupported PatternRule");
-    } catch (UnsupportedPatternRuleException e) {
-      assertTrue(e instanceof UnsupportedPatternRuleException);
-    }
-
+    } catch (UnsupportedPatternRuleException expected) {}
+      
   }
 }
