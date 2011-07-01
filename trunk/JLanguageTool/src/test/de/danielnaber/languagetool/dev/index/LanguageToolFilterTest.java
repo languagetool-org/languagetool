@@ -33,7 +33,7 @@ import de.danielnaber.languagetool.Language;
 
 public class LanguageToolFilterTest extends BaseTokenStreamTestCase {
   public void testFilter() throws Exception {
-    String input = "How do you thin?";
+    String input = "How do you thin about this idea?";
 
     TokenStream stream = new AnyCharTokenizer(TEST_VERSION_CURRENT, new StringReader(input));
     LanguageToolFilter filter = new LanguageToolFilter(stream, new JLanguageTool(Language.ENGLISH));
@@ -42,12 +42,18 @@ public class LanguageToolFilterTest extends BaseTokenStreamTestCase {
     stream = new AnyCharTokenizer(TEST_VERSION_CURRENT, new StringReader(input));
     filter = new LanguageToolFilter(stream, new JLanguageTool(Language.ENGLISH));
 
-    assertTokenStreamContents(filter, new String[] { "_POS_SENT_START", "How", "_POS_WRB", "do",
-        "_POS_VBP", "_POS_VB", "you", "_POS_PRP", "thin", "_POS_JJ", "_POS_VBP", "_POS_VB", "?",
-        "_POS_SENT_END" }, new int[] { 0, 0, 0, 4, 4, 4, 7, 7, 11, 11, 11, 11, 15, 15 }, new int[] {
-        0, 3, 3, 6, 6, 6, 10, 10, 15, 15, 15, 15, 16, 16 }, new String[] { "pos", "word", "pos",
-        "word", "pos", "pos", "word", "pos", "word", "pos", "pos", "pos", "word", "pos" },
-        new int[] { 1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0 }, 16);
+    assertTokenStreamContents(filter, new String[] { "_POS_SENT_START", "How", "_INSEN_how",
+        "_POS_WRB", "do", "_INSEN_do", "_POS_VBP", "_POS_VB", "you", "_INSEN_you", "_POS_PRP",
+        "thin", "_INSEN_thin", "_POS_JJ", "_POS_VBP", "_POS_VB", "about", "_INSEN_about",
+        "_POS_IN", "_POS_RP", "this", "_INSEN_this", "_POS_DT", "idea", "_INSEN_idea",
+        "_POS_NN:UN", "?", "_INSEN_?", "_POS_SENT_END" }, new int[] { 0, 0, 0, 0, 4, 4, 4, 4, 7, 7,
+        7, 11, 11, 11, 11, 11, 16, 16, 16, 16, 22, 22, 22, 27, 27, 27, 31, 31, 31 }, new int[] { 0,
+        3, 3, 3, 6, 6, 6, 6, 10, 10, 10, 15, 15, 15, 15, 15, 21, 21, 21, 21, 26, 26, 26, 31, 31,
+        31, 32, 32, 32 }, new String[] { "pos", "word", "insen", "pos", "word", "insen", "pos",
+        "pos", "word", "insen", "pos", "word", "insen", "pos", "pos", "pos", "word", "insen",
+        "pos", "pos", "word", "insen", "pos", "word", "insen", "pos", "word", "insen", "pos" },
+        new int[] { 1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0,
+            1, 0, 0 }, 32);
   }
 
   private static void displayTokensWithFullDetails(TokenStream stream) throws IOException {
