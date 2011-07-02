@@ -20,13 +20,12 @@ package de.danielnaber.languagetool.dev.index;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.regex.Pattern;
 
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.Query;
-import org.apache.lucene.search.regex.SpanRegexQuery;
-import org.apache.lucene.search.spans.SpanNearQuery;
+import org.apache.lucene.search.regex.JavaUtilRegexCapabilities;
 import org.apache.lucene.search.spans.SpanQuery;
-import org.apache.lucene.search.spans.SpanTermQuery;
 
 import de.danielnaber.languagetool.rules.patterns.Element;
 import de.danielnaber.languagetool.rules.patterns.PatternRule;
@@ -40,6 +39,8 @@ import de.danielnaber.languagetool.rules.patterns.PatternRule;
 public class PatternRuleQueryBuilder {
 
   public static final String FIELD_NAME = "field";
+
+  private static final int MAX_SKIP = 1000;
 
   public static Query buildQuery(PatternRule rule) throws UnsupportedPatternRuleException {
     return next(rule.getElements().iterator());
@@ -55,31 +56,26 @@ public class PatternRuleQueryBuilder {
 
     final Element patternElement = it.next();
 
-    // unsupported rule features
-    if (patternElement.getExceptionList() != null) {
-      throw new UnsupportedPatternRuleException(
-          "Pattern rules with token exceptions are not supported.");
-    }
-    if (patternElement.isInflected()) {
-      throw new UnsupportedPatternRuleException(
-          "Pattern rules with inflated tokens are not supported.");
-    }
+    checkUnsupportedRule(patternElement);
 
     final ArrayList<SpanQuery> list = new ArrayList<SpanQuery>();
 
     int skip = 0;
 
-    final SpanQuery termQuery = createSpanQuery(patternElement.getString(), "",
-        patternElement.getNegation(), patternElement.isRegularExpression());
-    final SpanQuery posQuery = createSpanQuery(patternElement.getPOStag(),
-        LanguageToolFilter.POS_PREFIX, patternElement.getPOSNegation(),
-        patternElement.isPOStagRegularExpression());
+    final boolean caseSensitive = patternElement.getCaseSensitive();
 
-    if (termQuery != null && posQuery != null) {
-      final SpanNearQuery q = new SpanNearQuery(new SpanQuery[] { termQuery, posQuery }, 0, false);
+    final SpanQuery tokenQuery = createTokenQuery(patternElement.getString(),
+        patternElement.getNegation(), patternElement.isRegularExpression(), caseSensitive);
+
+    final SpanQuery posQuery = createPOSQuery(patternElement.getPOStag(),
+        patternElement.getPOSNegation(), patternElement.isPOStagRegularExpression());
+
+    if (tokenQuery != null && posQuery != null) {
+      final RigidSpanNearQuery q = new RigidSpanNearQuery(new SpanQuery[] { tokenQuery, posQuery },
+          0, true);
       list.add(q);
-    } else if (termQuery != null) {
-      list.add(termQuery);
+    } else if (tokenQuery != null) {
+      list.add(tokenQuery);
     } else if (posQuery != null) {
       list.add(posQuery);
     } else {
@@ -89,7 +85,7 @@ public class PatternRuleQueryBuilder {
       skip += patternElement.getSkipNext();
     } else {
       // skip == -1
-      skip = Integer.MAX_VALUE;
+      skip = MAX_SKIP;
     }
 
     // recursion invoke
@@ -97,29 +93,88 @@ public class PatternRuleQueryBuilder {
 
     if (next != null) {
       list.add(next);
-      return new SpanNearQuery(list.toArray(new SpanQuery[list.size()]), skip, true);
-    } else {
+      return new RigidSpanNearQuery(list.toArray(new SpanQuery[list.size()]), skip + 1, true);
+    } else if (list.size() > 0) {
       return list.get(0);
+    } else {
+      return null;
     }
 
   }
 
-  private static SpanQuery createSpanQuery(String token, String prefix, boolean isNegation,
-      boolean isRegularExpression) {
+  private static void checkUnsupportedRule(Element patternElement)
+      throws UnsupportedPatternRuleException {
+
+    // unsupported rule features
+    if (patternElement.hasExceptionList()) {
+      throw new UnsupportedPatternRuleException(
+          "Pattern rules with token exceptions are not supported.");
+    }
+
+    if (patternElement.hasAndGroup()) {
+      throw new UnsupportedPatternRuleException(
+          "Pattern rules with tokens in \"And Group\" are not supported.");
+    }
+
+    if (patternElement.isPartOfPhrase()) {
+      throw new UnsupportedPatternRuleException("Pattern rules with phrases are not supported.");
+    }
+
+    if (patternElement.isUnified()) {
+      throw new UnsupportedPatternRuleException(
+          "Pattern rules with unified tokens are not supported.");
+    }
+
+    if (patternElement.isInflected()) {
+      throw new UnsupportedPatternRuleException(
+          "Pattern rules with inflated tokens are not supported.");
+    }
+
+    if (patternElement.testWhitespace()) {
+      throw new UnsupportedPatternRuleException(
+          "Pattern rules with tokens testing \"Whitespace before\" are not supported.");
+    }
+  }
+
+  private static SpanQuery createTokenQuery(String token, boolean isNegation,
+      boolean isRegularExpression, boolean caseSensitive) {
     SpanQuery q = null;
     if (token != null && !token.equals("")) {
-      final Term term = new Term(FIELD_NAME, prefix + token);
-      if (isNegation) {
-        q = new SpanRegexNotQuery(term);
+      if (!isNegation) {
+        String text = isRegularExpression ? token : Pattern.quote(token);
+        final Term term = new Term(FIELD_NAME, text);
+        q = new POSAwaredSpanRegexQuery(term, false);
+        if (!caseSensitive) {
+          ((POSAwaredSpanRegexQuery) q).setRegexImplementation(new JavaUtilRegexCapabilities(
+              JavaUtilRegexCapabilities.FLAG_CASE_INSENSITIVE));
+        }
       } else {
-        if (isRegularExpression) {
-          q = new SpanRegexQuery(term);
-        } else {
-          q = new SpanTermQuery(term);
+        String text = isRegularExpression ? token : Pattern.quote(token);
+        final Term term = new Term(FIELD_NAME, text);
+        q = new POSAwaredSpanRegexNotQuery(term, false);
+        if (!caseSensitive) {
+          ((POSAwaredSpanRegexNotQuery) q).setRegexImplementation(new JavaUtilRegexCapabilities(
+              JavaUtilRegexCapabilities.FLAG_CASE_INSENSITIVE));
         }
       }
     }
     return q;
   }
 
+  private static SpanQuery createPOSQuery(String token, boolean isNegation,
+      boolean isRegularExpression) {
+    SpanQuery q = null;
+    if (token != null && !token.equals("")) {
+      if (!isNegation) {
+        String text = isRegularExpression ? token : Pattern.quote(token);
+        final Term term = new Term(FIELD_NAME, text);
+        q = new POSAwaredSpanRegexQuery(term, true);
+      } else {
+        String text = isRegularExpression ? token : Pattern.quote(token);
+        final Term term = new Term(FIELD_NAME, text);
+        q = new POSAwaredSpanRegexNotQuery(term, true);
+      }
+    }
+    return q;
+  }
 }
