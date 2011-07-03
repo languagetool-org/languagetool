@@ -52,9 +52,6 @@ public class LanguageToolFilter extends TokenFilter {
   // stack for POS
   private final Stack<String> posStack;
 
-  // stack for case insensitive tokens
-  private final Stack<String> insenStack;
-
   private final CharTermAttribute termAtt;
 
   private final OffsetAttribute offsetAtt;
@@ -67,13 +64,10 @@ public class LanguageToolFilter extends TokenFilter {
 
   public static final String POS_PREFIX = "_POS_";
 
-  public static final String CASE_INSENSITIVE_PREFIX = "_INSEN_";
-
   protected LanguageToolFilter(TokenStream input, JLanguageTool languageTool) {
     super(input);
     this.languageTool = languageTool;
     posStack = new Stack<String>();
-    insenStack = new Stack<String>();
     termAtt = addAttribute(CharTermAttribute.class);
     offsetAtt = addAttribute(OffsetAttribute.class);
     posIncrAtt = addAttribute(PositionIncrementAttribute.class);
@@ -82,15 +76,6 @@ public class LanguageToolFilter extends TokenFilter {
 
   @Override
   public boolean incrementToken() throws IOException {
-
-    if (insenStack.size() > 0) {
-      final String pop = insenStack.pop();
-      restoreState(current);
-      termAtt.append(pop);
-      posIncrAtt.setPositionIncrement(0);
-      typeAtt.setType("insen");
-      return true;
-    }
 
     if (posStack.size() > 0) {
       final String pop = posStack.pop();
@@ -139,8 +124,6 @@ public class LanguageToolFilter extends TokenFilter {
     }
 
     offsetAtt.setOffset(tr.getStartPos(), tr.getStartPos() + at.getToken().length());
-
-    insenStack.push(CASE_INSENSITIVE_PREFIX + at.getToken().toLowerCase());
 
     for (int i = 0; i < tr.getReadingsLength(); i++) {
       at = tr.getAnalyzedToken(i);

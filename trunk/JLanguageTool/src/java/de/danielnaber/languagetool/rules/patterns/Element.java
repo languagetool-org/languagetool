@@ -40,23 +40,29 @@ import de.danielnaber.languagetool.tools.StringTools;
 public class Element {
 
   private String stringToken;
+
   private String posToken;
+
   private String regToken;
+
   private boolean posRegExp;
 
   private boolean negation;
+
   private boolean posNegation;
 
   private final boolean caseSensitive;
+
   private final boolean stringRegExp;
+
   private boolean inflected;
 
   private boolean testWhitespace;
+
   private boolean whitespaceBefore;
 
   /**
-   * List of exceptions that are valid for the current token and / or some next
-   * tokens.
+   * List of exceptions that are valid for the current token and / or some next tokens.
    */
   private List<Element> exceptionList;
 
@@ -66,8 +72,7 @@ public class Element {
   private boolean exceptionValidNext;
 
   /**
-   * True if any exception with a scope=="current" or scope=="next" is set for
-   * the element.
+   * True if any exception with a scope=="current" or scope=="next" is set for the element.
    */
   private boolean exceptionSet;
 
@@ -82,23 +87,26 @@ public class Element {
   private List<Element> previousExceptionList;
 
   private List<Element> andGroupList;
+
   private boolean andGroupSet;
+
   private boolean[] andGroupCheck;
 
   private int skip;
 
   private Pattern p;
+
   private Pattern pPos;
 
   private Matcher m;
+
   private Matcher mPos;
 
   /** The reference to another element in the pattern. **/
   private Match tokenReference;
 
   /**
-   * True when the element stores a formatted reference to another element of
-   * the pattern.
+   * True when the element stores a formatted reference to another element of the pattern.
    */
   private boolean containsMatches;
 
@@ -106,8 +114,7 @@ public class Element {
   private static final String UNKNOWN_TAG = "UNKNOWN";
 
   /**
-   * Parameter passed to regular expression matcher to enable case insensitive
-   * Unicode matching.
+   * Parameter passed to regular expression matcher to enable case insensitive Unicode matching.
    */
   private static final String CASE_INSENSITIVE = "(?iu)";
 
@@ -117,21 +124,20 @@ public class Element {
   private String phraseName;
 
   /**
-   * This var is used to determine if calling {@link #setStringElement} makes
-   * sense. This method takes most time so it's best to reduce the number of its
-   * calls.
+   * This var is used to determine if calling {@link #setStringElement} makes sense. This method
+   * takes most time so it's best to reduce the number of its calls.
    **/
   private boolean testString;
 
   /**
-   * Tells if the element is inside the unification, so that {@link Unifier}
-   * tests it.
+   * Tells if the element is inside the unification, so that {@link Unifier} tests it.
    */
   private boolean unified;
+
   private boolean uniNegation;
 
   private Map<String, List<String>> unificationFeatures;
-  
+
   /**
    * Creates Element that is used to match tokens in the text.
    * 
@@ -144,8 +150,8 @@ public class Element {
    * @param inflected
    *          True if the check refers to base forms (lemmas).
    */
-  public Element(final String token, final boolean caseSensitive,
-      final boolean regExp, final boolean inflected) {
+  public Element(final String token, final boolean caseSensitive, final boolean regExp,
+      final boolean inflected) {
     this.caseSensitive = caseSensitive;
     this.stringRegExp = regExp;
     this.inflected = inflected;
@@ -159,10 +165,10 @@ public class Element {
    * @AnalyzedToken to check matching against
    * @return True if token matches, false otherwise.
    */
-  public final boolean isMatched(final AnalyzedToken token) {    
+  public final boolean isMatched(final AnalyzedToken token) {
     if (testWhitespace && !isWhitespaceBefore(token)) {
-        return false;
-    }    
+      return false;
+    }
     boolean matched = false;
     if (testString) {
       matched = (isStringTokenMatched(token) ^ negation)
@@ -191,28 +197,27 @@ public class Element {
           if (testException.isMatched(token)) {
             return true;
           }
-        }                
+        }
       }
     }
     return false;
   }
 
   /**
-   * Enables testing multiple conditions specified by different elements.
-   * Doesn't test exceptions.
+   * Enables testing multiple conditions specified by different elements. Doesn't test exceptions.
    * 
-   * Works as logical AND operator only if preceded with
-   * {@link #setupAndGroup()}, and followed by {@link #checkAndGroup(boolean)}.
+   * Works as logical AND operator only if preceded with {@link #setupAndGroup()}, and followed by
+   * {@link #checkAndGroup(boolean)}.
    * 
    * @param token
-   *          AnalyzedToken - the token checked. 
+   *          AnalyzedToken - the token checked.
    */
-  public final void addMemberAndGroup(final AnalyzedToken token) {    
+  public final void addMemberAndGroup(final AnalyzedToken token) {
     if (andGroupSet) {
       for (int i = 0; i < andGroupList.size(); i++) {
         if (!andGroupCheck[i + 1]) {
           final Element testAndGroup = andGroupList.get(i);
-          if (testAndGroup.isMatched(token)) {            
+          if (testAndGroup.isMatched(token)) {
             andGroupCheck[i + 1] = true;
           }
         }
@@ -239,8 +244,7 @@ public class Element {
   }
 
   /**
-   * Enables testing multiple conditions specified by multiple element
-   * exceptions.
+   * Enables testing multiple conditions specified by multiple element exceptions.
    * 
    * Works as logical AND operator.
    * 
@@ -260,8 +264,7 @@ public class Element {
   }
 
   /**
-   * This method checks exceptions both in AND-group and the token. Introduced
-   * to for clarity.
+   * This method checks exceptions both in AND-group and the token. Introduced to for clarity.
    * 
    * @param token
    *          Token to match
@@ -303,8 +306,7 @@ public class Element {
   }
 
   /**
-   * Checks whether a previously set exception matches (in case the exception
-   * had scope == "next").
+   * Checks whether a previously set exception matches (in case the exception had scope == "next").
    * 
    * @param token
    * @AnalyzedToken to check matching against.
@@ -317,15 +319,15 @@ public class Element {
           if (testException.isMatched(token)) {
             return true;
           }
-        }        
+        }
       }
     }
     return false;
   }
 
   /**
-   * Checks whether an exception for a previous token matches (in case the
-   * exception had scope == "previous").
+   * Checks whether an exception for a previous token matches (in case the exception had scope ==
+   * "previous").
    * 
    * @param token
    *          {@link AnalyzedToken} to check matching against.
@@ -345,15 +347,14 @@ public class Element {
   }
 
   /**
-   * Checks whether an exception for a previous token matches all readings of a
-   * given token (in case the exception had scope == "previous").
+   * Checks whether an exception for a previous token matches all readings of a given token (in case
+   * the exception had scope == "previous").
    * 
    * @param prevToken
    *          {@link AnalyzedTokenReadings} to check matching against.
    * @return true if any of the exceptions matches.
    */
-  public final boolean isMatchedByPreviousException(
-      final AnalyzedTokenReadings prevToken) {
+  public final boolean isMatchedByPreviousException(final AnalyzedTokenReadings prevToken) {
     final int numReadings = prevToken.getReadingsLength();
     for (int i = 0; i < numReadings; i++) {
       if (isMatchedByPreviousException(prevToken.getAnalyzedToken(i))) {
@@ -366,13 +367,12 @@ public class Element {
   /**
    * Checks if the token is a SENT_START.
    * 
-   * @return True if the element starts the sentence and the element hasn't been
-   *         set to have negated POS token.
+   * @return True if the element starts the sentence and the element hasn't been set to have negated
+   *         POS token.
    * 
    */
   public final boolean isSentStart() {
-    return JLanguageTool.SENTENCE_START_TAGNAME.equals(posToken)
-        && !posNegation;
+    return JLanguageTool.SENTENCE_START_TAGNAME.equals(posToken) && !posNegation;
   }
 
   @Override
@@ -436,11 +436,9 @@ public class Element {
    * @param scopePrevious
    *          True if the exception should match only a single previous token.
    */
-  public final void setPosException(final String posToken,
-      final boolean regExp, final boolean negation, final boolean scopeNext,
-      final boolean scopePrevious) {
-    final Element posException = new Element("", this.caseSensitive, false,
-        false);
+  public final void setPosException(final String posToken, final boolean regExp,
+      final boolean negation, final boolean scopeNext, final boolean scopePrevious) {
+    final Element posException = new Element("", this.caseSensitive, false, false);
     posException.setPosElement(posToken, regExp, negation);
     posException.exceptionValidNext = scopeNext;
     setException(posException, scopePrevious);
@@ -462,11 +460,10 @@ public class Element {
    * @param scopePrevious
    *          True if the exception should match only a single previous token.
    */
-  public final void setStringException(final String token,
-      final boolean regExp, final boolean inflected, final boolean negation,
-      final boolean scopeNext, final boolean scopePrevious) {
-    final Element stringException = new Element(token, this.caseSensitive,
-        regExp, inflected);
+  public final void setStringException(final String token, final boolean regExp,
+      final boolean inflected, final boolean negation, final boolean scopeNext,
+      final boolean scopePrevious) {
+    final Element stringException = new Element(token, this.caseSensitive, regExp, inflected);
     stringException.setNegation(negation);
     stringException.exceptionValidNext = scopeNext;
     setException(stringException, scopePrevious);
@@ -643,8 +640,8 @@ public class Element {
   }
 
   /**
-   * Prepare Element for matching by formatting its string token and POS (if the
-   * Element is supposed to refer to some other token).
+   * Prepare Element for matching by formatting its string token and POS (if the Element is supposed
+   * to refer to some other token).
    * 
    * @param token
    *          the token specified as {@link AnalyzedTokenReadings}
@@ -652,8 +649,8 @@ public class Element {
    *          the language synthesizer ({@link Synthesizer})
    * 
    */
-  public final void compile(final AnalyzedTokenReadings token,
-      final Synthesizer synth) throws IOException {
+  public final void compile(final AnalyzedTokenReadings token, final Synthesizer synth)
+      throws IOException {
 
     m = null;
     p = null;
@@ -671,12 +668,11 @@ public class Element {
         }
         setPosElement(posReference, tokenReference.posRegExp(), negation);
       }
-      setStringElement(referenceString.replace("\\"
-          + tokenReference.getTokenRef(), ""));
+      setStringElement(referenceString.replace("\\" + tokenReference.getTokenRef(), ""));
       inflected = true;
     } else {
-      setStringElement(referenceString.replace("\\"
-          + tokenReference.getTokenRef(), tokenReference.toTokenString()));
+      setStringElement(referenceString.replace("\\" + tokenReference.getTokenRef(),
+          tokenReference.toTokenString()));
     }
   }
 
@@ -770,15 +766,16 @@ public class Element {
     unified = true;
   }
 
-  /** 
+  /**
    * Get unification features and types.
+   * 
    * @return A map from features to a list of types.
    * @since 1.0.1
    */
   public final Map<String, List<String>> getUniFeatures() {
     return unificationFeatures;
   }
-  
+
   public final void setUniNegation() {
     uniNegation = true;
   }
@@ -801,12 +798,21 @@ public class Element {
   public final boolean isWhitespaceBefore(final AnalyzedToken token) {
     return whitespaceBefore == token.isWhitespaceBefore();
   }
-  
+
   /**
    * Since 1.0.0
+   * 
    * @return A List of Exceptions. Used for testing.
    */
   public final List<Element> getExceptionList() {
     return exceptionList;
+  }
+
+  public final boolean hasExceptionList() {
+    return exceptionList != null || previousExceptionList != null;
+  }
+
+  public final boolean testWhitespace() {
+    return testWhitespace;
   }
 }

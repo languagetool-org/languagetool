@@ -1,3 +1,21 @@
+/* LanguageTool, a natural language style checker 
+ * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+ * 
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+ * USA
+ */
 package de.danielnaber.languagetool.dev.index;
 
 import org.apache.lucene.document.Document;
@@ -10,8 +28,6 @@ import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.regex.JakartaRegexpCapabilities;
 import org.apache.lucene.search.regex.JavaUtilRegexCapabilities;
 import org.apache.lucene.search.regex.RegexCapabilities;
-import org.apache.lucene.search.regex.RegexQuery;
-import org.apache.lucene.search.regex.SpanRegexQuery;
 import org.apache.lucene.search.spans.SpanNearQuery;
 import org.apache.lucene.search.spans.SpanQuery;
 import org.apache.lucene.store.Directory;
@@ -55,9 +71,8 @@ public class RegexNotQueryTest extends LuceneTestCase {
     return new Term(FN, value);
   }
 
-  // TODO: comment in?
-  /*private int regexQueryNrHits(String regex, RegexCapabilities capability) throws Exception {
-    RegexNotQuery query = new RegexNotQuery(newTerm(regex));
+  private int regexQueryNrHits(String regex, RegexCapabilities capability) throws Exception {
+    POSAwaredRegexNotQuery query = new POSAwaredRegexNotQuery(newTerm(regex), false);
 
     if (capability != null) {
       query.setRegexImplementation(capability);
@@ -68,15 +83,15 @@ public class RegexNotQueryTest extends LuceneTestCase {
 
   private int spanRegexQueryNrHits(String regex1, String regex2, int slop, boolean ordered)
       throws Exception {
-    SpanRegexNotQuery srq1 = new SpanRegexNotQuery(newTerm(regex1));
-    SpanRegexQuery srq2 = new SpanRegexQuery(newTerm(regex2));
+    POSAwaredSpanRegexNotQuery srq1 = new POSAwaredSpanRegexNotQuery(newTerm(regex1), false);
+    POSAwaredSpanRegexQuery srq2 = new POSAwaredSpanRegexQuery(newTerm(regex2), false);
     SpanNearQuery query = new SpanNearQuery(new SpanQuery[] { srq1, srq2 }, slop, ordered);
 
     return searcher.search(query, null, 1000).totalHits;
   }
 
   public void testMatchAll() throws Exception {
-    TermEnum terms = new RegexNotQuery(new Term(FN, "^q.[aeiou]c.*$")).getEnum(searcher
+    TermEnum terms = new POSAwaredRegexNotQuery(new Term(FN, "^q.[aeiou]c.*$"), false).getEnum(searcher
         .getIndexReader());
     do {
       Term term = terms.term();
@@ -105,13 +120,13 @@ public class RegexNotQueryTest extends LuceneTestCase {
   }
 
   public void testEquals() throws Exception {
-    RegexNotQuery query1 = new RegexNotQuery(newTerm("foo.*"));
+    POSAwaredRegexNotQuery query1 = new POSAwaredRegexNotQuery(newTerm("foo.*"), false);
     query1.setRegexImplementation(new JakartaRegexpCapabilities());
 
-    RegexNotQuery query2 = new RegexNotQuery(newTerm("foo.*"));
+    POSAwaredRegexNotQuery query2 = new POSAwaredRegexNotQuery(newTerm("foo.*"), false);
     assertFalse(query1.equals(query2));
 
-    RegexQuery query3 = new RegexQuery(newTerm("foo.*"));
+    POSAwaredRegexQuery query3 = new POSAwaredRegexQuery(newTerm("foo.*"), false);
     assertFalse(query2.equals(query3));
 
     assertFalse(query3.equals(query2));
@@ -147,6 +162,6 @@ public class RegexNotQueryTest extends LuceneTestCase {
         1,
         regexQueryNrHits("^.*QUICK.*$", new JavaUtilRegexCapabilities(
             JavaUtilRegexCapabilities.FLAG_CASE_INSENSITIVE)));
-  }*/
+  }
 
 }

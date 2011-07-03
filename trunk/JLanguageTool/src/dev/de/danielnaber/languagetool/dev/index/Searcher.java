@@ -1,12 +1,33 @@
+/* LanguageTool, a natural language style checker 
+ * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+ * 
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+ * USA
+ */
 package de.danielnaber.languagetool.dev.index;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
 import org.apache.lucene.document.Document;
+import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.MultiSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
@@ -15,6 +36,13 @@ import org.apache.lucene.store.FSDirectory;
 import de.danielnaber.languagetool.rules.patterns.PatternRule;
 import de.danielnaber.languagetool.rules.patterns.PatternRuleLoader;
 
+/**
+ * A class with a main() method that takes a rule id (of a simple rule) and the location of the
+ * index that runs the query on that index and prints all matches
+ * 
+ * @author Tao Lin
+ * 
+ */
 public class Searcher {
 
   public static void main(String[] args) throws Exception {
@@ -32,8 +60,8 @@ public class Searcher {
     }
   }
 
-  private static void run(String ruleId, String ruleXML, String indexDir) throws Exception {
-    final PatternRuleLoader ruleLoader = new PatternRuleLoader();
+  private static void run(String ruleId, String ruleXML, String indexDir)
+      throws CorruptIndexException, IOException {
     final File xml = new File(ruleXML);
     if (!xml.exists() || !xml.canRead()) {
       System.out.println("Rule XML file '" + xml.getAbsolutePath()
@@ -41,23 +69,9 @@ public class Searcher {
       System.exit(1);
     }
     final InputStream is = new FileInputStream(xml);
-    final List<PatternRule> rules = ruleLoader.getRules(is, ruleXML);
-    is.close();
-    PatternRule theRule = null;
-    for (PatternRule rule : rules) {
-      if (rule.getId().equals(ruleId)) {
-        theRule = rule;
-        break;
-      }
-    }
-    if (theRule == null) {
-      System.out.println("Can not find rule '" + ruleId + "'");
-      System.exit(1);
-    }
-    final Query query = PatternRuleQueryBuilder.buildQuery(theRule);
     final IndexSearcher searcher = new IndexSearcher(FSDirectory.open(new File(indexDir)));
 
-    final TopDocs docs = searcher.search(query, 100);
+    final TopDocs docs = run(ruleId, is, searcher);
     final ScoreDoc[] hits = docs.scoreDocs;
     System.out.println("Search results: " + docs.totalHits);
 
@@ -67,5 +81,48 @@ public class Searcher {
       System.out.println(i + ": " + d.get(PatternRuleQueryBuilder.FIELD_NAME));
     }
     searcher.close();
+  }
+
+  public static TopDocs run(PatternRule rule, IndexSearcher searcher) throws IOException {
+    final Query query = PatternRuleQueryBuilder.buildQuery(rule);
+    return searcher.search(query, 10000);
+  }
+
+  public static TopDocs run(String ruleId, InputStream ruleXMLStream, IndexSearcher searcher)
+      throws IOException {
+    final PatternRuleLoader ruleLoader = new PatternRuleLoader();
+    final List<PatternRule> rules = ruleLoader.getRules(ruleXMLStream, "test.xml");
+    ruleXMLStream.close();
+    PatternRule theRule = null;
+    for (PatternRule rule : rules) {
+      if (rule.getId().equals(ruleId)) {
+        theRule = rule;
+        break;
+      }
+    }
+    if (theRule == null) {
+      throw new PatternRuleNotFoundException(ruleId);
+    }
+    return run(theRule, searcher);
+  }
+
+  public static TopDocs run(String ruleId, InputStream ruleXMLStream, MultiSearcher searcher)
+      throws IOException {
+    final PatternRuleLoader ruleLoader = new PatternRuleLoader();
+    final List<PatternRule> rules = ruleLoader.getRules(ruleXMLStream, "test.xml");
+    ruleXMLStream.close();
+    PatternRule theRule = null;
+    for (PatternRule rule : rules) {
+      if (rule.getId().equals(ruleId)) {
+        theRule = rule;
+        break;
+      }
+    }
+    if (theRule == null) {
+      throw new PatternRuleNotFoundException(ruleId);
+    }
+    final Query query = PatternRuleQueryBuilder.buildQuery(theRule);
+    System.out.println(query);
+    return searcher.search(query, 1000);
   }
 }

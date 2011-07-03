@@ -106,11 +106,17 @@ public class PatternRuleQueryBuilder {
       throws UnsupportedPatternRuleException {
 
     // unsupported rule features
-    // TODO: comment in
-    /*if (patternElement.hasExceptionList()) {
+    
+    // we need Element to expose its features of exception and whitespace testing support.
+    if (patternElement.hasExceptionList()) {
       throw new UnsupportedPatternRuleException(
           "Pattern rules with token exceptions are not supported.");
-    }*/
+    }
+    
+    if (patternElement.testWhitespace()) {
+      throw new UnsupportedPatternRuleException(
+          "Pattern rules with tokens testing \"Whitespace before\" are not supported.");
+    }
 
     if (patternElement.hasAndGroup()) {
       throw new UnsupportedPatternRuleException(
@@ -131,11 +137,7 @@ public class PatternRuleQueryBuilder {
           "Pattern rules with inflated tokens are not supported.");
     }
 
-    // TODO: comment in
-    /*if (patternElement.testWhitespace()) {
-      throw new UnsupportedPatternRuleException(
-          "Pattern rules with tokens testing \"Whitespace before\" are not supported.");
-    }*/
+
   }
 
   private static SpanQuery createTokenQuery(String token, boolean isNegation,
