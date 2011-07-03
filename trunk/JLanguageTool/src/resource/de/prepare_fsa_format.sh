@@ -12,6 +12,8 @@ fi
 
 cat $1 | 
   grep -v "^#" - | \
+  grep -v "\*" - | \
+  grep -v "\-\-" - | \
   sed 's/\r//' | \
   sed 's/\n\+/\n/' | \
   sed 's/<\/\?form>//g' | \
@@ -19,5 +21,7 @@ cat $1 |
   sed 's/<lemma //' | \
   sed 's/\/lemma>//' | \
   sed 's/\([a-z]\+\)=\([A-Z]\+\)/\2/g' | \
-  sed 's/\([a-z]\+\)=\(.\+\)//g' | \
+  sed 's/\([a-z]\+\)=\([A-Z0-9]\+\)/\2/g' | \
+  sed 's/(//' | \
+  sed 's/)//' | \
   awk -f src/resource/de/format_fsa.awk

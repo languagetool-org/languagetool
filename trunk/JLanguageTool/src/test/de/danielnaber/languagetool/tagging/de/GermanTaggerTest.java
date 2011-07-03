@@ -19,6 +19,7 @@
 package de.danielnaber.languagetool.tagging.de;
 
 import java.io.IOException;
+import java.util.List;
 
 import de.danielnaber.languagetool.JLanguageTool;
 
@@ -34,6 +35,7 @@ public class GermanTaggerTest extends TestCase {
 
   public void testTagger() throws IOException {
     GermanTagger tagger = new GermanTagger();
+    
     AnalyzedGermanTokenReadings aToken = tagger.lookup("Haus");
     assertEquals("Haus[SUB:AKK:SIN:NEU, SUB:DAT:SIN:NEU, SUB:NOM:SIN:NEU]", aToken.toSortedString());
     assertEquals("Haus", aToken.getReadings().get(0).getLemma());
@@ -100,6 +102,40 @@ public class GermanTaggerTest extends TestCase {
     aToken = tagger.lookup("übrigbleibst");
     assertEquals("übrigbleibst[VER:2:SIN:PRÄ:NON:NEB]", aToken.toSortedString());
     assertEquals("übrigbleiben", aToken.getReadings().get(0).getLemma());
+  }
+
+  // make sure we use the version of the POS data that was extended with post spelling reform data
+  public void testExtendedTagger() throws IOException {
+    GermanTagger tagger = new GermanTagger();
+
+    assertEquals("Kuß[SUB:AKK:SIN:MAS, SUB:DAT:SIN:MAS, SUB:NOM:SIN:MAS]", tagger.lookup("Kuß").toSortedString());
+    assertEquals("Kuss[SUB:AKK:SIN:MAS, SUB:DAT:SIN:MAS, SUB:NOM:SIN:MAS]", tagger.lookup("Kuss").toSortedString());
+
+    assertEquals("Haß[SUB:AKK:SIN:MAS, SUB:DAT:SIN:MAS, SUB:NOM:SIN:MAS]", tagger.lookup("Haß").toSortedString());
+    assertEquals("Hass[SUB:AKK:SIN:MAS, SUB:DAT:SIN:MAS, SUB:NOM:SIN:MAS]", tagger.lookup("Hass").toSortedString());
+
+    assertEquals("muß[VER:MOD:1:SIN:PRÄ, VER:MOD:3:SIN:PRÄ]", tagger.lookup("muß").toSortedString());
+    assertEquals("muss[VER:MOD:1:SIN:PRÄ, VER:MOD:3:SIN:PRÄ]", tagger.lookup("muss").toSortedString());
+  }
+
+  public void testTaggerBaseforms() throws IOException {
+    GermanTagger tagger = new GermanTagger();
+    
+    List<AnalyzedGermanToken> readings = tagger.lookup("übrigbleibst").getGermanReadings();
+    assertEquals(1, readings.size());
+    assertEquals("übrigbleiben", readings.get(0).getLemma());
+
+    readings = tagger.lookup("Haus").getGermanReadings();
+    assertEquals(3, readings.size());
+    assertEquals("Haus", readings.get(0).getLemma());
+    assertEquals("Haus", readings.get(1).getLemma());
+    assertEquals("Haus", readings.get(2).getLemma());
+
+    readings = tagger.lookup("Häuser").getGermanReadings();
+    assertEquals(3, readings.size());
+    assertEquals("Haus", readings.get(0).getLemma());
+    assertEquals("Haus", readings.get(1).getLemma());
+    assertEquals("Haus", readings.get(2).getLemma());
   }
   
   public void testDictionary() throws IOException {    
