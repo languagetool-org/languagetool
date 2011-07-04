@@ -2,7 +2,7 @@
 $page = "homepage";
 $title = "LanguageTool";
 $title2 = "Open Source language checker";
-$lastmod = "2011-06-26 20:20:00 CET";
+$lastmod = "2011-07-04 20:20:00 CET";
 include("../include/header.php");
 ?>
 		
@@ -29,7 +29,7 @@ XML configuration files. Rules for more complicated errors can be  written in Ja
 	</table>
 	-->
 	<ul>
-		<li>Requires <?=show_link("Java", "http://www.java.com/en/download/manual.jsp", 1)?>&nbsp;5.0
+		<li>Requires <?=show_link("Java", "http://www.java.com/en/download/manual.jsp", 1)?>&nbsp;6.0
 			or later. This version only works with OpenOffice.org 3.0.1 or later and LibreOffice
 			and you need to <strong>restart OpenOffice.org/LibreOffice</strong> after installation of this extension.</li>
 		<li>If you're upgrading from LanguageTool 0.9.5, you must de-install
