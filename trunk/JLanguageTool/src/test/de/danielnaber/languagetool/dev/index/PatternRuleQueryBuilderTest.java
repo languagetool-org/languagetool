@@ -185,7 +185,7 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
 
   }
 
-  public void testAllPatternRules() throws IOException {
+  /*public void testAllPatternRules() throws IOException {
     System.out.println("\nStatistics information for supported rule ratio of each language:");
     int successAll = 0;
     int failAll = 0;
@@ -231,5 +231,5 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
       System.out.println("\t" + entry.getKey() + ": " + entry.getValue());
     }
 
-  }
+  }*/
 }
