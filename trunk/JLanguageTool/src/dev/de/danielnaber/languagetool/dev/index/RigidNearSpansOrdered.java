@@ -318,9 +318,9 @@ public class RigidNearSpansOrdered extends Spans {
 
       if (matchStart >= prevEnd) { // Only non overlapping spans add to slop.
         matchSlop += (matchStart - prevEnd);
-        if (allowedSlop > 0) {
-          matchSlop++;
-        }
+        // if (allowedSlop > 0) {
+        matchSlop++;
+        // }
       }
 
       /*
