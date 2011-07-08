@@ -163,7 +163,8 @@ public class WikipediaIndexHandler extends DefaultHandler {
     final SAXParserFactory factory = SAXParserFactory.newInstance();
     final SAXParser saxParser = factory.newSAXParser();
     WikipediaIndexHandler handler = new WikipediaIndexHandler(FSDirectory.open(new File(
-        "E:\\project\\data\\index_zh")), Language.CHINESE, 4001, 10000);
+        //"E:\\project\\data\\index_zh")), Language.CHINESE, 4001, 10000);
+        "E:\\project\\data\\index_zh")), Language.ENGLISH, 4001, 10000);
     try {
       saxParser.parse(new FileInputStream(new File(
           "E:\\project\\data\\zhwiki-latest-pages-meta-current.xml")), handler);
