@@ -92,9 +92,12 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
 
     List<PatternRule> rules = ruleLoader.getRules(input, "test.xml");
 
-    Query query = PatternRuleQueryBuilder.buildQuery(rules.get(0));
-    System.out.println(query);
-    assertEquals(1, searcher.search(query, null, 1000).totalHits);
+    Query query1 = PatternRuleQueryBuilder.buildQuery(rules.get(0), true);
+    Query query2 = PatternRuleQueryBuilder.buildQuery(rules.get(0), false);
+    System.out.println(query1);
+    assertEquals(query1, query2);
+    assertEquals(1, searcher.search(query1, null, 1000).totalHits);
+    assertEquals(1, searcher.search(query2, null, 1000).totalHits);
 
   }
 
@@ -126,19 +129,19 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
 
     List<PatternRule> rules = ruleLoader.getRules(input, "test.xml");
 
-    Query query = PatternRuleQueryBuilder.buildQuery(rules.get(0));
+    Query query = PatternRuleQueryBuilder.buildQuery(rules.get(0), true);
     System.out.println(query);
     assertEquals(1, searcher.search(query, null, 1000).totalHits);
 
-    query = PatternRuleQueryBuilder.buildQuery(rules.get(1));
+    query = PatternRuleQueryBuilder.buildQuery(rules.get(1), true);
     System.out.println(query);
     assertEquals(0, searcher.search(query, null, 1000).totalHits);
 
-    query = PatternRuleQueryBuilder.buildQuery(rules.get(2));
+    query = PatternRuleQueryBuilder.buildQuery(rules.get(2), true);
     System.out.println(query);
     assertEquals(1, searcher.search(query, null, 1000).totalHits);
 
-    query = PatternRuleQueryBuilder.buildQuery(rules.get(3));
+    query = PatternRuleQueryBuilder.buildQuery(rules.get(3), true);
     System.out.println(query);
     assertEquals(1, searcher.search(query, null, 1000).totalHits);
   }
@@ -159,10 +162,15 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
 
     List<PatternRule> rules = ruleLoader.getRules(input, "test.xml");
     try {
-      PatternRuleQueryBuilder.buildQuery(rules.get(0));
+      PatternRuleQueryBuilder.buildQuery(rules.get(0), true);
       fail("Exception should be thrown for unsupported PatternRule");
     } catch (UnsupportedPatternRuleException e) {
       assertTrue(e instanceof UnsupportedPatternRuleException);
+    }
+    try {
+      PatternRuleQueryBuilder.buildQuery(rules.get(0), false);
+    } catch (UnsupportedPatternRuleException e) {
+      fail("Exception should not be thrown, if not checkUnsupportedRule");
     }
 
     sb = new StringBuffer();
@@ -177,15 +185,21 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
 
     rules = ruleLoader.getRules(input, "test.xml");
     try {
-      PatternRuleQueryBuilder.buildQuery(rules.get(0));
+      PatternRuleQueryBuilder.buildQuery(rules.get(0), true);
       fail("Exception should be thrown for unsupported PatternRule");
     } catch (UnsupportedPatternRuleException e) {
       assertTrue(e instanceof UnsupportedPatternRuleException);
     }
 
+    try {
+      PatternRuleQueryBuilder.buildQuery(rules.get(0), false);
+    } catch (UnsupportedPatternRuleException e) {
+      fail("Exception should not be thrown, if not checkUnsupportedRule");
+    }
+
   }
 
-  /*public void testAllPatternRules() throws IOException {
+  public void testAllPatternRules() throws IOException {
     System.out.println("\nStatistics information for supported rule ratio of each language:");
     int successAll = 0;
     int failAll = 0;
@@ -203,7 +217,7 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
       for (PatternRule rule : rules) {
 
         try {
-          PatternRuleQueryBuilder.buildQuery((PatternRule) rule);
+          PatternRuleQueryBuilder.buildQuery((PatternRule) rule, true);
           success++;
         } catch (UnsupportedPatternRuleException e) {
           if (messages.get(e.getMessage()) == null) {
@@ -231,5 +245,5 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
       System.out.println("\t" + entry.getKey() + ": " + entry.getValue());
     }
 
-  }*/
+  }
 }

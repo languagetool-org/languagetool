@@ -131,6 +131,7 @@ public class Indexer {
         final List<String> sentences = sentenceTokenizer.tokenize(line);
         for (String sentence : sentences) {
           add(lineNo, sentence);
+          // System.out.println(sentence);
         }
       }
       lineNo++;

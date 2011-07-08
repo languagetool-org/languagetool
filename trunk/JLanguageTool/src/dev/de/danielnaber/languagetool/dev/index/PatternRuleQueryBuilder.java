@@ -42,12 +42,14 @@ public class PatternRuleQueryBuilder {
 
   private static final int MAX_SKIP = 1000;
 
-  public static Query buildQuery(PatternRule rule) throws UnsupportedPatternRuleException {
-    return next(rule.getElements().iterator());
+  public static Query buildQuery(PatternRule rule, boolean checkUnsupportedRule)
+      throws UnsupportedPatternRuleException {
+    return next(rule.getElements().iterator(), checkUnsupportedRule);
   }
 
   // create the next SpanQuery from the top Element in the Iterator.
-  private static SpanQuery next(Iterator<Element> it) throws UnsupportedPatternRuleException {
+  private static SpanQuery next(Iterator<Element> it, boolean checkUnsupportedRule)
+      throws UnsupportedPatternRuleException {
 
     // no more Element
     if (!it.hasNext()) {
@@ -56,8 +58,9 @@ public class PatternRuleQueryBuilder {
 
     final Element patternElement = it.next();
 
-    checkUnsupportedRule(patternElement);
-
+    if (checkUnsupportedRule) {
+      checkUnsupportedRule(patternElement);
+    }
     final ArrayList<SpanQuery> list = new ArrayList<SpanQuery>();
 
     int skip = 0;
@@ -89,7 +92,7 @@ public class PatternRuleQueryBuilder {
     }
 
     // recursion invoke
-    final SpanQuery next = next(it);
+    final SpanQuery next = next(it, checkUnsupportedRule);
 
     if (next != null) {
       list.add(next);
@@ -106,13 +109,13 @@ public class PatternRuleQueryBuilder {
       throws UnsupportedPatternRuleException {
 
     // unsupported rule features
-    
+
     // we need Element to expose its features of exception and whitespace testing support.
     if (patternElement.hasExceptionList()) {
       throw new UnsupportedPatternRuleException(
           "Pattern rules with token exceptions are not supported.");
     }
-    
+
     if (patternElement.testWhitespace()) {
       throw new UnsupportedPatternRuleException(
           "Pattern rules with tokens testing \"Whitespace before\" are not supported.");
@@ -136,7 +139,6 @@ public class PatternRuleQueryBuilder {
       throw new UnsupportedPatternRuleException(
           "Pattern rules with inflated tokens are not supported.");
     }
-
 
   }
 

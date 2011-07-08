@@ -45,6 +45,8 @@ import de.danielnaber.languagetool.rules.patterns.PatternRuleLoader;
  */
 public class Searcher {
 
+  private static final int MAX_HITS = 1000;
+
   public static void main(String[] args) throws Exception {
     ensureCorrectUsageOrExit(args);
     run(args[0], args[1], args[2]);
@@ -68,10 +70,23 @@ public class Searcher {
           + "' does not exist or is not readable, please check the path");
       System.exit(1);
     }
-    final InputStream is = new FileInputStream(xml);
+    InputStream is = new FileInputStream(xml);
     final IndexSearcher searcher = new IndexSearcher(FSDirectory.open(new File(indexDir)));
+    TopDocs docs;
+    try {
+      docs = run(ruleId, is, searcher, true);
+    } catch (UnsupportedPatternRuleException e) {
+      System.out.println(e.getMessage() + " Try to search potential matches:");
+      is = new FileInputStream(xml);
+      docs = run(ruleId, is, searcher, false);
+    }
+    printResult(docs, searcher);
+    searcher.close();
+  }
 
-    final TopDocs docs = run(ruleId, is, searcher);
+  public static void printResult(TopDocs docs, IndexSearcher searcher)
+      throws CorruptIndexException, IOException {
+
     final ScoreDoc[] hits = docs.scoreDocs;
     System.out.println("Search results: " + docs.totalHits);
 
@@ -80,16 +95,17 @@ public class Searcher {
       i++;
       System.out.println(i + ": " + d.get(PatternRuleQueryBuilder.FIELD_NAME));
     }
-    searcher.close();
   }
 
-  public static TopDocs run(PatternRule rule, IndexSearcher searcher) throws IOException {
-    final Query query = PatternRuleQueryBuilder.buildQuery(rule);
-    return searcher.search(query, 10000);
-  }
-
-  public static TopDocs run(String ruleId, InputStream ruleXMLStream, IndexSearcher searcher)
+  public static TopDocs run(PatternRule rule, IndexSearcher searcher, boolean checkUnsupportedRule)
       throws IOException {
+    final Query query = PatternRuleQueryBuilder.buildQuery(rule, checkUnsupportedRule);
+    System.out.println(query);
+    return searcher.search(query, MAX_HITS);
+  }
+
+  public static TopDocs run(String ruleId, InputStream ruleXMLStream, IndexSearcher searcher,
+      boolean checkUnsupportedRule) throws IOException {
     final PatternRuleLoader ruleLoader = new PatternRuleLoader();
     final List<PatternRule> rules = ruleLoader.getRules(ruleXMLStream, "test.xml");
     ruleXMLStream.close();
@@ -103,7 +119,7 @@ public class Searcher {
     if (theRule == null) {
       throw new PatternRuleNotFoundException(ruleId);
     }
-    return run(theRule, searcher);
+    return run(theRule, searcher, checkUnsupportedRule);
   }
 
   public static TopDocs run(String ruleId, InputStream ruleXMLStream, MultiSearcher searcher)
@@ -121,8 +137,8 @@ public class Searcher {
     if (theRule == null) {
       throw new PatternRuleNotFoundException(ruleId);
     }
-    final Query query = PatternRuleQueryBuilder.buildQuery(theRule);
+    final Query query = PatternRuleQueryBuilder.buildQuery(theRule, true);
     System.out.println(query);
-    return searcher.search(query, 1000);
+    return searcher.search(query, MAX_HITS);
   }
 }
