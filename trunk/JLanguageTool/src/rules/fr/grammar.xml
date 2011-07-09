@@ -1333,6 +1333,27 @@ though, and has since been slightly modified)-->
       <example type="incorrect">Il ne sait pas dominer ses <marker>excès</marker> de colère.</example>
       <example type="correct">Il ne sait pas dominer ses <marker>accès</marker> de colère.</example>
     </rule>
+    <rulegroup id="VACANCE" name="vacance (vacances)">
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">en|de</token>
+          <token>vancance</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>vacances</suggestion> ?</message>
+        <example type="incorrect">Je suis en <marker>vancance</marker> à partir de demain.</example>
+        <example type="correct">Je suis en <marker>vancances</marker> à partir de demain.</example>
+        <example type="correct">Il y a une vacance dans notre équipe au travail.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">bonne|longue|grande|excellente|merveilleuse|belle</token>
+          <token>vacance</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>bonnes vacances</suggestion> ?</message>
+        <example type="incorrect"><marker>Bonne vacance</marker> !</example>
+        <example type="correct"><marker>Bonnes vacances</marker> !</example>
+      </rule>
+    </rulegroup>
   </category>
   <category name="Grammaire">
     <!-- http://www.leconjugueur.com/frlesnombres.php -->
@@ -2665,33 +2686,27 @@ though, and has since been slightly modified)-->
     </rulegroup>
     <rulegroup id="IMP_PRON" name="Impératif + pronom">
       <rule>
-        <pattern mark_from="1" mark_to="-1">
+        <pattern mark_from="1">
           <token postag="SENT_START|C coor" postag_regexp="yes"/>
           <token postag="V.* imp .*" postag_regexp="yes"/>
-          <token regexp="yes">[mt]oi|[mt]e|lui|leur|y|[nv]ous</token>
-          <token><exception postag="V.* inf" postag_regexp="yes"/></token>
+          <token regexp="yes">[mt]oi|lui|leur|y|[nv]ous</token>
         </pattern>
         <message>Voulez vous écrire <suggestion>\2-\3</suggestion>.</message>
-        <example type="incorrect"><marker>Viens me</marker> le dire.</example>
-        <example type="correct"><marker>Viens-me</marker> le dire.</example>
         <example type="incorrect"><marker>Laisse moi</marker> ici.</example>
         <example type="correct"><marker>Laisse-moi</marker> ici.</example>
-        <example type="incorrect">Et <marker>achète lui</marker> un livre.</example>
-        <example type="correct">Et <marker>achète-lui</marker> un livre</example>
         <example type="correct"><marker>Veuillez me</marker> réveiller à sept heures.</example>
       </rule>
       <rule>
         <pattern mark_from="1" mark_to="-1">
           <token postag="SENT_START|C coor" postag_regexp="yes"/>
-          <token postag="V.* imp .*" postag_regexp="yes" inflected="yes">laisser</token>
-          <token regexp="yes">[mt]oi|l[ae]|les|[nv]ous</token>
-          <token postag="V.* inf" postag_regexp="yes"/>
+          <token postag="V.* imp .*" postag_regexp="yes"/>
+          <token regexp="yes">les?|la</token>
+          <token><exception postag="[NJ] .*" postag_regexp="yes"></exception></token>
         </pattern>
         <message>Voulez vous écrire <suggestion>\2-\3</suggestion>.</message>
-        <example type="incorrect"><marker>Laisse moi</marker> partir.</example>
-        <example type="correct"><marker>Laisse-moi</marker> partir.</example>
-        <example type="incorrect"><marker>Laisse le</marker> partir.</example>
-        <example type="correct"><marker>Laisse-le</marker> partir.</example>
+        <example type="incorrect"><marker>Donne la</marker> à ton frère.</example>
+        <example type="correct"><marker>Donne-la à ton frère</marker>.</example>
+        <example type="correct"><marker>Donne la pomme à ton frère</marker>.</example>
       </rule>
     </rulegroup>
     <rulegroup id="QUI_VCONJ" name="Verbe conjugué après pronom relatif qui">
@@ -18888,7 +18903,7 @@ though, and has since been slightly modified)-->
       <pattern>
         <token regexp="yes">carnets?</token>
         <token>de</token>
-        <token regexp="yes">ch[èe]que|note|timbre|ticket|vacance</token>
+        <token regexp="yes">ch[èe]que|note|timbre|ticket|vacances</token>
       </pattern>
       <message>Employez <suggestion>\1 \2 chèques</suggestion>.</message>
       <example type="incorrect">J’ai perdu mon <marker>carnet de chèque</marker>.</example>
