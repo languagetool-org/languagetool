@@ -2686,27 +2686,74 @@ though, and has since been slightly modified)-->
     </rulegroup>
     <rulegroup id="IMP_PRON" name="Impératif + pronom">
       <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token postag="SENT_START|C coor" postag_regexp="yes"/>
+          <token postag="V.* imp .*" postag_regexp="yes"/>
+          <token regexp="yes">[nv]ous|lui|y</token>
+          <token>
+            <exception postag="V.* inf" postag_regexp="yes"/>
+            <exception regexp="yes">y|en</exception>
+          </token>
+        </pattern>
+        <message>Voulez vous écrire <suggestion>\2-\3</suggestion>.</message>
+        <example type="incorrect"><marker>Laisse nous</marker> ici.</example>
+        <example type="correct">Laisse-nous ici.</example>
+        <example type="correct">Veuillez nous réveiller à sept heures.</example>
+        <example type="incorrect"><marker>Dis lui</marker> bonjour.</example>
+        <example type="correct">Dis-lui bonjour.</example>
+        <example type="correct">Veuillez lui dire d'attendre.</example>
+        <example type="correct">Veuillez vous en aller.</example>
+        <example type="correct">Veuillez nous y conduire.</example>
+      </rule>
+      <rule>
         <pattern mark_from="1">
           <token postag="SENT_START|C coor" postag_regexp="yes"/>
           <token postag="V.* imp .*" postag_regexp="yes"/>
-          <token regexp="yes">[mt]oi|lui|leur|y|[nv]ous</token>
+          <token regexp="yes">[mt]oi</token>
         </pattern>
         <message>Voulez vous écrire <suggestion>\2-\3</suggestion>.</message>
-        <example type="incorrect"><marker>Laisse moi</marker> ici.</example>
-        <example type="correct"><marker>Laisse-moi</marker> ici.</example>
-        <example type="correct"><marker>Veuillez me</marker> réveiller à sept heures.</example>
+        <example type="incorrect"><marker>Laisse moi</marker> faire comme ça.</example>
+        <example type="correct"><marker>Laisse-moi</marker> faire comme ça.</example>
       </rule>
       <rule>
         <pattern mark_from="1" mark_to="-1">
           <token postag="SENT_START|C coor" postag_regexp="yes"/>
           <token postag="V.* imp .*" postag_regexp="yes"/>
-          <token regexp="yes">les?|la</token>
-          <token><exception postag="[NJ] .*" postag_regexp="yes"></exception></token>
+          <token regexp="yes">l[ea]</token>
+          <token>
+            <exception postag="[NJ] .*sp?|V.* inf|Y" postag_regexp="yes"></exception>
+            <exception regexp="yes">plus|moins|une?</exception>
+          </token>
         </pattern>
         <message>Voulez vous écrire <suggestion>\2-\3</suggestion>.</message>
         <example type="incorrect"><marker>Donne la</marker> à ton frère.</example>
-        <example type="correct"><marker>Donne-la à ton frère</marker>.</example>
-        <example type="correct"><marker>Donne la pomme à ton frère</marker>.</example>
+        <example type="correct">Donne-la à ton frère.</example>
+        <example type="correct">Donne la pomme à ton frère.</example>
+        <example type="correct">Veuillez le noter.</example>
+        <example type="correct">Regarde la belle fille.</example>
+        <example type="incorrect"><marker>Regarde la</marker>.</example>
+        <example type="correct">>Regarde-la.</example>
+        <example type="incorrect"><marker>Regarde la</marker> bien.</example>
+        <example type="correct">Regarde-la bien.</example>
+        <example type="correct">Allez le voir.</example>
+        <example type="correct">Lis le plus vite possible.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token postag="SENT_START|C coor" postag_regexp="yes"/>
+          <token postag="V.* imp .*" postag_regexp="yes"/>
+          <token>les</token>
+          <token>
+            <exception postag="[NJ] .*p|V.* inf|Y" postag_regexp="yes"></exception>
+            <exception regexp="yes">plus|moins|autres|deux|trois|quatre|cinq|six|sept|huit|neuf|dix|onze|douze|treize|quatorze|quinze|seize|vingt|trente|quarante|cinquante|soixante|septante|octante|huitante|nonante|mille|(dix-.*)|(vingt-.*)|(trente-.*)|(quarante-.*)|(cinquante-.*)|(soixante-.*)|(quatre-.*)|(octante-.*)|(huitante-.*)|(nonante-.*)</exception>
+          </token>
+        </pattern>
+        <message>Voulez vous écrire <suggestion>\2-\3</suggestion>.</message>
+        <example type="incorrect"><marker>Coupez les</marker> une autre fois.</example>
+        <example type="correct"><marker>Coupez-les</marker> une autre fois.</example>
+        <example type="correct"><marker>Coupez les</marker> autres légumes.</example>
+        <example type="correct"><marker>Coupez les</marker> 3 feuilles.</example>
+        <example type="correct"><marker>Coupez les</marker> trois feuilles.</example>
       </rule>
     </rulegroup>
     <rulegroup id="QUI_VCONJ" name="Verbe conjugué après pronom relatif qui">
