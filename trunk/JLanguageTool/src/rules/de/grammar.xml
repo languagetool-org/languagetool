@@ -922,6 +922,15 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
   
   <category name="Zusammen-/Getrenntschreibung">
     <!-- Jan: TODO - find a rule that can distinguish "indem" from "in dem" -->
+    <rule id="BIS_HER" name="Zusammen-/Getrenntschreibung: 'bis her(bisher)'">
+      <pattern>
+        <token>bis</token>
+        <token>her</token>
+      </pattern>
+      <message><suggestion>bisher</suggestion> (Synonym: <suggestion>bis jetzt</suggestion>) schreibt man zusammen.</message>
+      <example type="correct">Wo das Rad <marker>bisher</marker> stand.</example>
+      <example type="incorrect">Wo das Rad <marker>bis her</marker> stand.</example>
+    </rule>
     <rule id="STATTFINDEN" name="Zusammen-/Getrenntschreibung: 'statt finden(stattfinden)'">
     <!-- Jan: TODO: Don't match 'suchen statt finden' -->
       <pattern>
