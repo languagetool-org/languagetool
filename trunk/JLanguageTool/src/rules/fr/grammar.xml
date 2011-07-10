@@ -2715,17 +2715,19 @@ though, and has since been slightly modified)-->
         <example type="correct"><marker>Laisse-moi</marker> faire comme ça.</example>
       </rule>
       <rule>
-        <pattern>
+        <pattern mark_to="-1">
           <token postag="V.* imp .*" postag_regexp="yes"/>
-          <token regexp="yes">[mst]</token>
+          <token regexp="yes">[mt]</token>
           <token regexp="yes">[’´'‛′‘]</token>
           <token regexp="yes">en|y</token>
+          <token><exception postag="V.* inf" postag_regexp="yes"/></token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>\1-\2’\4</suggestion> ?</message>
         <example type="incorrect"><marker>Donne m’en</marker> un peu.</example>
         <example type="correct">Donne-m’en un peu.</example>
         <example type="incorrect"><marker>Trouve t‘en</marker> toi-même !</example>
         <example type="correct">Trouve-t’en toi-même !</example>
+        <example type="correct">Veuillez m’en montrer un autre.</example>
       </rule>
       <rule>
         <pattern mark_from="1" mark_to="-1">
@@ -2775,24 +2777,44 @@ though, and has since been slightly modified)-->
         <message>Voulez-vous écrire <suggestion>\1-\2</suggestion> ?</message>
         <example type="incorrect"><marker>Donne-le moi</marker> plus tard.</example>
         <example type="correct">Donne-le-moi plus tard.</example>
+        <example type="incorrect"><marker>Donne-en lui</marker>.</example>
+        <example type="correct">Donne-en-lui.</example>
       </rule>
       <rule>
         <pattern mark_to="-1">
-          <token regexp="yes">.*-([nv]ous|lui|leur|l[ae]|les)</token>
-          <token regexp="yes">[nv]ous|en|y|leur</token>
-          <token postag_regexp="yes" postag="SENT_END|M .*"/>
+          <token regexp="yes">.*-([mt]oi|[nv]ous|lui|leur|l[ae]|les)</token>
+          <token regexp="yes">en|y|leur</token>
+          <token postag_regexp="yes" postag="P|SENT_END|[CM] .*">
+            <exception>dehors</exception>
+          </token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>\1-\2</suggestion> ?</message>
         <example type="incorrect"><marker>Offre-leur en</marker>.</example>
         <example type="correct">Offre-leur-en.</example>
         <example type="incorrect"><marker>Appuyez-vous y</marker>.</example>
         <example type="correct">Appuyez-vous-y.</example>
+        <example type="incorrect"><marker>Souvenez-vous en</marker>.</example>
+        <example type="correct">Souvenez-vous-en.</example>
         <example type="correct">Croyez-vous en Dieu ?</example>
-        <example type="incorrect"><marker>Envoie-les nous</marker>.</example>
-        <example type="correct">Envoie-les-nous.</example>
         <example type="correct">Envoie-les en vacances.</example>
-        <example type="incorrect"><marker>Offre-lui</marker> en.</example>
+        <example type="incorrect"><marker>Offre-lui en</marker>.</example>
         <example type="correct">Offre-lui-en.</example>
+        <example type="incorrect"><marker>Prends-moi en</marker> quand tu sera là.</example>
+        <example type="correct">Prends-moi-en quand tu sera là.</example>
+        <example type="correct">Laisse-moi en dehors de cette affaire.</example>
+        <example type="incorrect"><marker>Demande-les leur</marker>.</example>
+        <example type="correct"><marker>Demande-les-leur</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token regexp="yes">.*-(l[ae]|les)</token>
+          <token regexp="yes">[nv]ous</token>
+          <token postag_regexp="yes" postag="P|SENT_END|[CM] .*"/>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>\1-\2</suggestion> ?</message>
+        <example type="incorrect"><marker>Envoie-la nous</marker>.</example>
+        <example type="correct">Envoie-la-nous.</example>
+        <example type="correct">Voulez-vous vous en aller ?</example>
       </rule>
     </rulegroup>
     <rulegroup id="QUI_VCONJ" name="Verbe conjugué après pronom relatif qui">
