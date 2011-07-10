@@ -1495,18 +1495,6 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <example type="correct">Ĉu via estas multekara?</example>
     </rule>
 
-    <rule id="ANTAUX_VINF" name="antaŭ + verbo inf">
-      <pattern>
-        <token>antaŭ</token>
-        <token postag="V .*" postag_regexp="yes"/>
-      </pattern>
-      <message>Inter «\1» kaj verbo «\2», oni devas meti «ol».</message>
-      <example type="incorrect">Ne manĝu <marker>antaŭ naĝi</marker>.</example>
-      <example type="correct">Mi manĝu antaŭ ol naĝi.</example>
-      <example type="incorrect">Ni alvenos <marker>antaŭ pluvos</marker>.</example>
-      <example type="correct">Ni alvenos antaŭ ol pluvos.</example>
-    </rule>
-
     <rule id="DEMANDO_SEN_CXU" name="demando sen demanda vorto">
       <pattern mark_from="1">
         <token postag="SENT_START" skip="-1">
@@ -1719,14 +1707,37 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <example type="correct">Mi ĵus eklernis Esperanton.</example>
     </rule>
 
-    <rule id="POST_V_I" name="post + verb-i">
+    <rule id="ANTAUX_V" name="antaŭ + verbo">
+      <pattern>
+        <token>antaŭ</token>
+        <token postag="V .*" postag_regexp="yes"/>
+      </pattern>
+      <message>Inter «\1» kaj verbo «\2», oni devas meti «ol».</message>
+      <example type="incorrect">Ne manĝu <marker>antaŭ naĝi</marker>.</example>
+      <example type="correct">Mi manĝu antaŭ ol naĝi.</example>
+      <example type="incorrect">Ni alvenos <marker>antaŭ pluvos</marker>.</example>
+      <example type="correct">Ni alvenos antaŭ ol pluvos.</example>
+    </rule>
+
+    <rule id="POST_V" name="post + verbo">
       <pattern>
         <token>post</token>
-        <token postag="V.* i" postag_regexp="yes"/>
+        <token postag="V .*" postag_regexp="yes"/>
       </pattern>
       <message>Anstataŭ «\1 \2», oni uzas int-participon kun e-finaĵo, aŭ «post kiam + plenan subfrazon».</message>
       <example type="incorrect"><marker>Post diri</marker> tiujn vortojn li foriris.</example>
       <example type="correct">Post kiam li diris tiujn vortojn, li foriris.</example>
+    </rule>
+
+    <rule id="MALGRAUX_V" name="malgraŭ + verbo">
+      <pattern>
+        <token>malgraŭ</token>
+        <token postag="V .*" postag_regexp="yes"/>
+      </pattern>
+      <message>Anstataŭ «\1 \2», oni uzas participon kun e-finaĵo, aŭ «kvankam», aŭ «\1 tio, ke + plenan subfrazon».</message>
+      <example type="incorrect"><marker>Malgraŭ fali</marker>, li batalis.</example>
+      <example type="correct">Malgraŭ tio, ke li falis, li batalis.</example>
+      <example type="correct">Kvankam li falis, li batalis.</example>
     </rule>
 
     <rule id="LA_TITOLO" name="la + titolo">
