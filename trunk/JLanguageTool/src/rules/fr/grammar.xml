@@ -2769,29 +2769,30 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">.*-(en|les|l[ae]|leur|lui|[nv]ous)</token>
-          <token regexp="yes">[mt]oi|lui|leur|en|y</token>
+          <token regexp="yes">.*-(en|les|l[ae])</token>
+          <token regexp="yes">[mt]oi|lui</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>\1-\2</suggestion> ?</message>
         <example type="incorrect"><marker>Donne-le moi</marker> plus tard.</example>
         <example type="correct">Donne-le-moi plus tard.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token regexp="yes">.*-([nv]ous|lui|leur|l[ae]|les)</token>
+          <token regexp="yes">[nv]ous|en|y|leur</token>
+          <token postag_regexp="yes" postag="SENT_END|M .*"/>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>\1-\2</suggestion> ?</message>
         <example type="incorrect"><marker>Offre-leur en</marker>.</example>
         <example type="correct">Offre-leur-en.</example>
         <example type="incorrect"><marker>Appuyez-vous y</marker>.</example>
         <example type="correct">Appuyez-vous-y.</example>
-      </rule>
-      <rule>
-        <pattern mark_to="-1">
-          <token regexp="yes">.*-(en|les|l[ae]|leur|lui)</token>
-          <token regexp="yes">[nv]ous</token>
-          <token>
-            <exception postag="V.* inf" postag_regexp="yes"></exception>
-          </token>
-        </pattern>
-        <message>Voulez-vous écrire <suggestion>\1-\2</suggestion> ?</message>
+        <example type="correct">Croyez-vous en Dieu ?</example>
         <example type="incorrect"><marker>Envoie-les nous</marker>.</example>
         <example type="correct">Envoie-les-nous.</example>
-        <example type="correct">Envoie-les nous prendre à l‘aéroport.</example>
+        <example type="correct">Envoie-les en vacances.</example>
+        <example type="incorrect"><marker>Offre-lui</marker> en.</example>
+        <example type="correct">Offre-lui-en.</example>
       </rule>
     </rulegroup>
     <rulegroup id="QUI_VCONJ" name="Verbe conjugué après pronom relatif qui">
