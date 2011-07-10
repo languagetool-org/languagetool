@@ -1357,7 +1357,7 @@ though, and has since been slightly modified)-->
   </category>
   <category name="Grammaire">
     <!-- http://www.leconjugueur.com/frlesnombres.php -->
-    <rulegroup id="TRAIT_UNION_NOMBRE" name="Nombre avec trait d'union">
+    <rulegroup id="TRAIT_UNION_NOMBRE" name="Nombre avec trait d’union">
       <rule>
         <pattern>
           <token regexp="yes">dix|vingt|trente|quarante|cinquante|soixante|septante|octante|huitante|nonante</token>
@@ -2695,25 +2695,37 @@ though, and has since been slightly modified)-->
             <exception regexp="yes">y|en</exception>
           </token>
         </pattern>
-        <message>Voulez vous écrire <suggestion>\2-\3</suggestion>.</message>
+        <message>Voulez-vous écrire <suggestion>\2-\3</suggestion> ?</message>
         <example type="incorrect"><marker>Laisse nous</marker> ici.</example>
         <example type="correct">Laisse-nous ici.</example>
         <example type="correct">Veuillez nous réveiller à sept heures.</example>
         <example type="incorrect"><marker>Dis lui</marker> bonjour.</example>
         <example type="correct">Dis-lui bonjour.</example>
-        <example type="correct">Veuillez lui dire d'attendre.</example>
+        <example type="correct">Veuillez lui dire d’attendre.</example>
         <example type="correct">Veuillez vous en aller.</example>
         <example type="correct">Veuillez nous y conduire.</example>
       </rule>
       <rule>
-        <pattern mark_from="1">
-          <token postag="SENT_START|C coor" postag_regexp="yes"/>
+        <pattern>
           <token postag="V.* imp .*" postag_regexp="yes"/>
           <token regexp="yes">[mt]oi</token>
         </pattern>
-        <message>Voulez vous écrire <suggestion>\2-\3</suggestion>.</message>
+        <message>Voulez-vous écrire <suggestion>\1-\2</suggestion> ?</message>
         <example type="incorrect"><marker>Laisse moi</marker> faire comme ça.</example>
         <example type="correct"><marker>Laisse-moi</marker> faire comme ça.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag="V.* imp .*" postag_regexp="yes"/>
+          <token regexp="yes">[mst]</token>
+          <token regexp="yes">[’´'‛′‘]</token>
+          <token regexp="yes">en|y</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>\1-\2’\4</suggestion> ?</message>
+        <example type="incorrect"><marker>Donne m’en</marker> un peu.</example>
+        <example type="correct">Donne-m’en un peu.</example>
+        <example type="incorrect"><marker>Trouve t‘en</marker> toi-même !</example>
+        <example type="correct">Trouve-t’en toi-même !</example>
       </rule>
       <rule>
         <pattern mark_from="1" mark_to="-1">
@@ -2725,7 +2737,7 @@ though, and has since been slightly modified)-->
             <exception regexp="yes">plus|moins|une?</exception>
           </token>
         </pattern>
-        <message>Voulez vous écrire <suggestion>\2-\3</suggestion>.</message>
+        <message>Voulez-vous écrire <suggestion>\2-\3</suggestion> ?</message>
         <example type="incorrect"><marker>Donne la</marker> à ton frère.</example>
         <example type="correct">Donne-la à ton frère.</example>
         <example type="correct">Donne la pomme à ton frère.</example>
@@ -2748,12 +2760,38 @@ though, and has since been slightly modified)-->
             <exception regexp="yes">plus|moins|autres|deux|trois|quatre|cinq|six|sept|huit|neuf|dix|onze|douze|treize|quatorze|quinze|seize|vingt|trente|quarante|cinquante|soixante|septante|octante|huitante|nonante|mille|(dix-.*)|(vingt-.*)|(trente-.*)|(quarante-.*)|(cinquante-.*)|(soixante-.*)|(quatre-.*)|(octante-.*)|(huitante-.*)|(nonante-.*)</exception>
           </token>
         </pattern>
-        <message>Voulez vous écrire <suggestion>\2-\3</suggestion>.</message>
+        <message>Voulez-vous écrire <suggestion>\2-\3</suggestion> ?</message>
         <example type="incorrect"><marker>Coupez les</marker> une autre fois.</example>
         <example type="correct"><marker>Coupez-les</marker> une autre fois.</example>
         <example type="correct"><marker>Coupez les</marker> autres légumes.</example>
         <example type="correct"><marker>Coupez les</marker> 3 feuilles.</example>
         <example type="correct"><marker>Coupez les</marker> trois feuilles.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">.*-(en|les|l[ae]|leur|lui|[nv]ous)</token>
+          <token regexp="yes">[mt]oi|lui|leur|en|y</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>\1-\2</suggestion> ?</message>
+        <example type="incorrect"><marker>Donne-le moi</marker> plus tard.</example>
+        <example type="correct">Donne-le-moi plus tard.</example>
+        <example type="incorrect"><marker>Offre-leur en</marker>.</example>
+        <example type="correct">Offre-leur-en.</example>
+        <example type="incorrect"><marker>Appuyez-vous y</marker>.</example>
+        <example type="correct">Appuyez-vous-y.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token regexp="yes">.*-(en|les|l[ae]|leur|lui)</token>
+          <token regexp="yes">[nv]ous</token>
+          <token>
+            <exception postag="V.* inf" postag_regexp="yes"></exception>
+          </token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>\1-\2</suggestion> ?</message>
+        <example type="incorrect"><marker>Envoie-les nous</marker>.</example>
+        <example type="correct">Envoie-les-nous.</example>
+        <example type="correct">Envoie-les nous prendre à l‘aéroport.</example>
       </rule>
     </rulegroup>
     <rulegroup id="QUI_VCONJ" name="Verbe conjugué après pronom relatif qui">
@@ -3654,7 +3692,7 @@ though, and has since been slightly modified)-->
           <token>pas</token>
           <token negate="yes" regexp="yes">mal|moins</token>
         </pattern>
-        <message>Voulez-vous écrire <suggestion>\1 n’\2 \3</suggestion></message>
+        <message>Voulez-vous écrire <suggestion>\1 n’\2 \3</suggestion> ?</message>
         <example type="incorrect">On <marker>a pas</marker> compris.</example>
         <example type="correct">On n’a pas compris.</example>
         <example type="incorrect">Robert <marker>a pas</marker> compris.</example>
@@ -3669,7 +3707,7 @@ though, and has since been slightly modified)-->
           <token>pas</token>
           <token negate="yes" regexp="yes">mal|moins</token>
         </pattern>
-        <message>Voulez-vous écrire <suggestion>\1 ne \2 \3</suggestion></message>
+        <message>Voulez-vous écrire <suggestion>\1 ne \2 \3</suggestion> ?</message>
         <example type="incorrect">On <marker>part pas</marker> encore.</example>
         <example type="correct">On ne part pas encore.</example>
       </rule>
@@ -3681,7 +3719,7 @@ though, and has since been slightly modified)-->
           <token>pas</token>
           <token negate="yes" regexp="yes">mal|moins</token>
         </pattern>
-        <message>Voulez-vous écrire <suggestion>\1 ne \2 \3 \4</suggestion></message>
+        <message>Voulez-vous écrire <suggestion>\1 ne \2 \3 \4</suggestion> ?</message>
         <example type="incorrect">On vous <marker>a pas</marker> compris.</example>
         <example type="correct">On ne vous a pas compris.</example>
       </rule>
@@ -3693,7 +3731,7 @@ though, and has since been slightly modified)-->
           <token>pas</token>
           <token negate="yes" regexp="yes">mal|moins</token>
         </pattern>
-        <message>Voulez-vous écrire <suggestion>\1 n’\2 \3 \4</suggestion></message>
+        <message>Voulez-vous écrire <suggestion>\1 n’\2 \3 \4</suggestion> ?</message>
         <example type="incorrect">Il y <marker>a pas</marker> d’eau.</example>
         <example type="correct">Il n’y a pas d’eau.</example>
       </rule>
@@ -3719,7 +3757,7 @@ though, and has since been slightly modified)-->
         <token>pas</token>
         <token regexp="yes">personne|rien|aucune?|jamais</token>
       </pattern>
-      <message>Double négation, voulez-vous dire <suggestion>\2</suggestion></message>
+      <message>Double négation, voulez-vous dire <suggestion>\2</suggestion> ?</message>
       <example type="incorrect">Il n’y a <marker>pas personne</marker> pour m’aider.</example>
       <example type="correct">Il n’y a personne pour m’aider.</example>
     </rule>
@@ -17533,6 +17571,42 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
+          <token>porte</token>
+          <token inflected="yes" regexp="yes">avion|parole|parapluie|monnaie|étendard</token>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
+        <example type="incorrect">Le pays a envoyé un <marker>porte avion</marker>.</example>
+        <example type="correct">Le pays a envoyé un <marker>porte-avion</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>sous</token>
+          <token regexp="yes">alimentation|développée?s?</token>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
+        <example type="incorrect">Les pays <marker>sous développés</marker></example>
+        <example type="correct">Les pays <marker>sous-développés</marker></example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">timbres?</token>
+          <token>poste</token>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
+        <example type="incorrect">Je collectionne les <marker>timbres poste</marker>.</example>
+        <example type="correct">Je collectionne les <marker>timbres-poste</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>passe</token>
+          <token>droit</token>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
+        <example type="incorrect">N’espérez pas un <marker>passe droit</marker>.</example>
+        <example type="correct">N’espérez pas un <marker>passe-droit</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
           <token>avant</token>
           <token regexp="yes">bras|centres?|coureur|derniers?|gardes?|guerre|goûts?|hier</token>
         </pattern>
@@ -17647,12 +17721,12 @@ though, and has since been slightly modified)-->
           <token regexp="yes">(oe|œ)uvres?</token>
         </pattern>
         <message>Voulez-vous dire <suggestion>\1-d’œuvre</suggestion> ?</message>
-        <example type="incorrect">C'est un <marker>chef d’œuvre</marker>.</example>
-        <example type="correct">C'est un <marker>chef-d’œuvre</marker>.</example>
+        <example type="incorrect">C’est un <marker>chef d’œuvre</marker>.</example>
+        <example type="correct">C’est un <marker>chef-d’œuvre</marker>.</example>
       </rule>
       <rule>
         <pattern case_sensitive="yes">
-          <token regexp="yes">[EÉ]tats</token>
+          <token regexp="yes">[EÉ]tats|Royaumes?</token>
           <token>Unis</token>
         </pattern>
         <message>Voulez-vous dire <suggestion>États-Unis</suggestion> ?</message>
