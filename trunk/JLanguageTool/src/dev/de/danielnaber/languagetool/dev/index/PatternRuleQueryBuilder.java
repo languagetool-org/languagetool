@@ -58,20 +58,32 @@ public class PatternRuleQueryBuilder {
 
     final Element patternElement = it.next();
 
-    if (checkUnsupportedRule) {
+    SpanQuery tokenQuery = null;
+
+    SpanQuery posQuery = null;
+    try {
       checkUnsupportedRule(patternElement);
+      final boolean caseSensitive = patternElement.getCaseSensitive();
+
+      tokenQuery = createTokenQuery(patternElement.getString(), patternElement.getNegation(),
+          patternElement.isRegularExpression(), caseSensitive);
+
+      posQuery = createPOSQuery(patternElement.getPOStag(), patternElement.getPOSNegation(),
+          patternElement.isPOStagRegularExpression());
+
+    } catch (UnsupportedPatternRuleException e) {
+      if (checkUnsupportedRule) {
+        throw e;
+      } else {
+        // create an empty token for the unsupported token, so that it can match any term with any
+        // POS tag.
+        tokenQuery = createTokenQuery("", false, false, false);
+      }
+
     }
     final ArrayList<SpanQuery> list = new ArrayList<SpanQuery>();
 
     int skip = 0;
-
-    final boolean caseSensitive = patternElement.getCaseSensitive();
-
-    final SpanQuery tokenQuery = createTokenQuery(patternElement.getString(),
-        patternElement.getNegation(), patternElement.isRegularExpression(), caseSensitive);
-
-    final SpanQuery posQuery = createPOSQuery(patternElement.getPOStag(),
-        patternElement.getPOSNegation(), patternElement.isPOStagRegularExpression());
 
     if (tokenQuery != null && posQuery != null) {
       final RigidSpanNearQuery q = new RigidSpanNearQuery(new SpanQuery[] { tokenQuery, posQuery },
