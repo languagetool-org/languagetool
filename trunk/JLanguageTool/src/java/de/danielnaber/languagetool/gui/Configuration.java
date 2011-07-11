@@ -42,6 +42,7 @@ public class Configuration {
   private static final String ENABLED_RULES_CONFIG_KEY = "enabledRules";
   private static final String DISABLED_CATEGORIES_CONFIG_KEY = "disabledCategories";
   private static final String MOTHER_TONGUE_CONFIG_KEY = "motherTongue";
+  private static final String AUTO_DETECT_CONFIG_KEY = "autoDetect";
   private static final String SERVER_RUN_CONFIG_KEY = "serverMode";
   private static final String SERVER_PORT_CONFIG_KEY = "serverPort";
   private static final String DELIMITER = ",";
@@ -52,6 +53,7 @@ public class Configuration {
   private Set<String> disabledCategoryNames = new HashSet<String>();
   private Language motherTongue;
   private boolean runServer;
+  private boolean autoDetect;
   private int serverPort = HTTPServer.DEFAULT_PORT;
 
   public Configuration(final File baseDir, final String filename)
@@ -98,7 +100,15 @@ public class Configuration {
   public void setMotherTongue(final Language motherTongue) {
     this.motherTongue = motherTongue;
   }
-
+  
+  public boolean getAutoDetect() {
+      return autoDetect;
+  }
+  
+  public void setAutoDetect(final boolean autoDetect) {
+      this.autoDetect = autoDetect;
+  }
+  
   public boolean getRunServer() {
     return runServer;
   }
@@ -134,6 +144,12 @@ public class Configuration {
       if (motherTongueStr != null) {
         motherTongue = Language.getLanguageForShortName(motherTongueStr);
       }
+      
+      final String autoDetectStr = (String) props.get(AUTO_DETECT_CONFIG_KEY);
+      if (autoDetectStr != null) {
+          autoDetect = autoDetectStr.equals("true");
+      }
+      
       final String runServerString = (String) props.get(SERVER_RUN_CONFIG_KEY);
       if (runServerString != null) {
         runServer = runServerString.equals("true");
@@ -169,6 +185,7 @@ public class Configuration {
     if (motherTongue != null) {
       props.setProperty(MOTHER_TONGUE_CONFIG_KEY, motherTongue.getShortName());
     }
+    props.setProperty(AUTO_DETECT_CONFIG_KEY, Boolean.valueOf(autoDetect).toString());
     props.setProperty(SERVER_RUN_CONFIG_KEY, Boolean.valueOf(runServer).toString());
     props.setProperty(SERVER_PORT_CONFIG_KEY, Integer.valueOf(serverPort).toString());
     final FileOutputStream fos = new FileOutputStream(configFile);

@@ -26,8 +26,12 @@ import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.server.HTTPServer;
 import de.danielnaber.languagetool.server.PortBindingException;
 import de.danielnaber.languagetool.tools.StringTools;
+import de.danielnaber.languagetool.AnalyzedSentence;
+
+import org.apache.tika.language.*;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.filechooser.FileFilter;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
@@ -66,6 +70,7 @@ public final class Main implements ActionListener {
   private JTextArea textArea;
   private JTextPane resultArea;
   private JComboBox languageBox;
+  private JCheckBox autoDetectBox;
 
   private HTTPServer httpServer;
 
@@ -88,7 +93,7 @@ public final class Main implements ActionListener {
     frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
     frame.addWindowListener(new CloseListener());
     frame.setIconImage(new ImageIcon(JLanguageTool.getDataBroker().getFromResourceDirAsUrl(
-    	Main.SYSTEM_TRAY_ICON_NAME)).getImage());
+        Main.SYSTEM_TRAY_ICON_NAME)).getImage());
     frame.setJMenuBar(new MainMenuBar(this, messages));
 
     textArea = new JTextArea(messages.getString("guiDemoText"));
@@ -109,20 +114,43 @@ public final class Main implements ActionListener {
     button.addActionListener(this);
 
     final JPanel panel = new JPanel();
+    panel.setOpaque(false);    // to get rid of the gray background
     panel.setLayout(new GridBagLayout());
     final GridBagConstraints buttonCons = new GridBagConstraints();
+    final JPanel insidePanel = new JPanel();
+    insidePanel.setOpaque(false);
+    insidePanel.setLayout(new GridBagLayout());
     buttonCons.gridx = 0;
     buttonCons.gridy = 0;
-    panel.add(button, buttonCons);
+//    buttonCons.anchor = GridBagConstraints.WEST;
+    insidePanel.add(button, buttonCons);
     buttonCons.gridx = 1;
     buttonCons.gridy = 0;
-    panel.add(new JLabel(" " + messages.getString("textLanguage") + " "), buttonCons);
-    buttonCons.gridx = 2;
-    buttonCons.gridy = 0;
+//    buttonCons.anchor = GridBagConstraints.WEST;
+    insidePanel.add(new JLabel(" " + messages.getString("textLanguage") + " "), buttonCons);
     languageBox = new JComboBox();
     populateLanguageBox(languageBox);
-    panel.add(languageBox, buttonCons);
-
+    buttonCons.gridx = 2;
+    buttonCons.gridy = 0;
+//    buttonCons.anchor = GridBagConstraints.WEST;
+    insidePanel.add(languageBox, buttonCons);
+    buttonCons.gridx = 0;
+    buttonCons.gridy = 0;
+    panel.add(insidePanel);
+    
+    autoDetectBox = new JCheckBox("Automatically detect language");
+    autoDetectBox.addActionListener( new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            languageBox.setEnabled(!autoDetectBox.isSelected());
+        }
+    });
+    // set whether it's checked
+    buttonCons.gridx = 0;
+    buttonCons.gridy = 1;
+    buttonCons.anchor = GridBagConstraints.WEST;
+    panel.add(autoDetectBox, buttonCons);
+    
     final Container contentPane = frame.getContentPane();
     final GridBagLayout gridLayout = new GridBagLayout();
     contentPane.setLayout(gridLayout);
@@ -201,6 +229,7 @@ public final class Main implements ActionListener {
           StringTools.getLabel(messages.getString("checkText")))) {
         final JLanguageTool langTool = getCurrentLanguageTool();
         checkTextAndDisplayResults(langTool, getCurrentLanguage());
+        // if "Tag Text" button is pressed
       } else {
         throw new IllegalArgumentException("Unknown action " + e);
       }
@@ -230,7 +259,7 @@ public final class Main implements ActionListener {
     if (!isInTray) {
       final java.awt.SystemTray tray = java.awt.SystemTray.getSystemTray();
       final Image img = Toolkit.getDefaultToolkit().getImage(
-    		  JLanguageTool.getDataBroker().getFromResourceDirAsUrl(Main.SYSTEM_TRAY_ICON_NAME));
+              JLanguageTool.getDataBroker().getFromResourceDirAsUrl(Main.SYSTEM_TRAY_ICON_NAME));
       final PopupMenu popup = makePopupMenu();
       try {
         final java.awt.TrayIcon trayIcon = new java.awt.TrayIcon(img,
@@ -342,6 +371,11 @@ public final class Main implements ActionListener {
     }
     return s;
   }
+  
+  void tagText() {
+      final JLanguageTool langTool = getCurrentLanguageTool();
+      tagTextAndDisplayResults(langTool, getCurrentLanguage());
+  }
 
   void quitOrHide() {
     if (closeHidesToTray) {
@@ -381,8 +415,19 @@ public final class Main implements ActionListener {
     }
   }
 
+  // method modified to add automatic language detection
   private Language getCurrentLanguage() {
-    return ((I18nLanguage) languageBox.getSelectedItem()).getLanguage();
+    if (autoDetectBox.isSelected()) {
+        LanguageIdentifier li = new LanguageIdentifier(textArea.getText());
+        Language lang = Language.getLanguageForShortName(li.getLanguage());
+        if (lang != null) {
+            return Language.getLanguageForShortName(li.getLanguage());
+        } else {
+            return Language.ENGLISH;
+        }        
+    } else {
+        return ((I18nLanguage) languageBox.getSelectedItem()).getLanguage();
+    }
   }
 
   private ConfigurationDialog getCurrentConfigDialog() {
@@ -466,6 +511,31 @@ public final class Main implements ActionListener {
       resultArea.setText(HTML_FONT_START + sb.toString() + HTML_FONT_END);
       resultArea.setCaretPosition(0);
     }
+  }
+  
+  private void tagTextAndDisplayResults(final JLanguageTool langTool,
+       final Language lang) {
+      if (StringTools.isEmpty(textArea.getText().trim())) {
+          textArea.setText(messages.getString("enterText2"));
+      } else {
+          // tag text
+          List<String> sentences = langTool.sentenceTokenize(textArea.getText());
+          final StringBuilder sb = new StringBuilder();
+          try {
+              for (String sent : sentences) {
+                  AnalyzedSentence analyzedText = langTool.getAnalyzedSentence(sent);
+                  sb.append(analyzedText.toString());
+                  sb.append("\n");
+              }
+          } catch (IOException e) {
+              sb.append("An error occurred while tagging the text");
+          }
+          
+          String s = sb.toString();
+          s = s.replaceAll("<S>","SENT_START");
+          // this prints out the text with strike-through? don't know why
+          resultArea.setText(HTML_FONT_START + s + HTML_FONT_END);
+      }
   }
 
   private int checkText(final JLanguageTool langTool, final String text,

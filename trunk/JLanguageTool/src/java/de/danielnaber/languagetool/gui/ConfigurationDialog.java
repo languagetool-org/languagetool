@@ -72,6 +72,8 @@ public class ConfigurationDialog implements ActionListener {
   private JDialog dialog;
 
   private JComboBox motherTongueBox;
+  
+  private JCheckBox autoDetectCheckbox;
 
   private JCheckBox serverCheckbox;
   private JTextField serverPortField;
@@ -88,6 +90,7 @@ public class ConfigurationDialog implements ActionListener {
   private final List<JCheckBox> categoryCheckBoxes = new ArrayList<JCheckBox>();
   private final List<String> checkBoxesCategoryNames = new ArrayList<String>();
   private Language motherTongue;
+  private boolean autoDetect;
   private boolean serverMode;
   private int serverPort;
 
@@ -122,6 +125,8 @@ public class ConfigurationDialog implements ActionListener {
     rootPane.registerKeyboardAction(actionListener, stroke,
         JComponent.WHEN_IN_FOCUSED_WINDOW);
 
+    
+    
     // JPanel
     final JPanel checkBoxPanel = new JPanel();
     checkBoxPanel.setLayout(new GridBagLayout());
@@ -242,7 +247,17 @@ public class ConfigurationDialog implements ActionListener {
       }
     }
     motherTonguePanel.add(motherTongueBox, cons);
-
+    
+    // only show the auto-detect checkbox inside OpenOffice
+    if (insideOOo) {
+        // autoDetect checkbox; just put it in the same panel as motherTongue for now
+        autoDetectCheckbox = new JCheckBox("Automatically detect language");
+        // some setting to do here
+        autoDetectCheckbox.setSelected(autoDetect);
+        cons.gridy++;
+        motherTonguePanel.add(autoDetectCheckbox, cons);
+    }    
+    
     final JPanel portPanel = new JPanel();
     portPanel.setLayout(new GridBagLayout());
     // TODO: why is this now left-aligned?!?!
@@ -386,6 +401,11 @@ public class ConfigurationDialog implements ActionListener {
       } else {
         motherTongue = (Language) motherTongueBox.getSelectedItem();
       }
+      // this doesn't perform correctly yet; settings saved even if "Cancel" is pressed
+      if (autoDetectCheckbox != null) {
+        autoDetect = autoDetectCheckbox.isSelected(); 
+      }      
+      
       if (serverCheckbox != null) {
         serverMode = serverCheckbox.isSelected();
         serverPort = Integer.parseInt(serverPortField.getText());
@@ -427,7 +447,15 @@ public class ConfigurationDialog implements ActionListener {
   public Language getMotherTongue() {
     return motherTongue;
   }
-
+  
+  public void setAutoDetect(boolean autoDetect) {
+      this.autoDetect = autoDetect;
+  }
+  
+  public boolean getAutoDetect() {
+      return autoDetectCheckbox.isSelected();
+  }
+  
   /**
    * Get the Language object for the given localized language name.
    * 

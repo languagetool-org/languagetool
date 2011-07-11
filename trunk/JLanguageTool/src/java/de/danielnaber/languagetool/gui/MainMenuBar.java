@@ -27,7 +27,6 @@ import java.util.ResourceBundle;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 
 import de.danielnaber.languagetool.tools.StringTools;
@@ -50,6 +49,7 @@ class MainMenuBar extends JMenuBar implements ActionListener {
   private String addLanguageText;
   private String optionsText;
   private String quitText;
+  private String tagText;
   // Help:
   private String aboutText;
 
@@ -112,7 +112,13 @@ class MainMenuBar extends JMenuBar implements ActionListener {
     helpItem.addActionListener(this);
     helpItem.setMnemonic(StringTools.getMnemonic(
         messages.getString("guiMenuAbout")));        
-    helpMenu.add(helpItem);    
+    helpMenu.add(helpItem);   
+    // "Tag Text"
+    final JMenuItem tagItem = new JMenuItem(tagText);
+    tagItem.addActionListener(this);
+    tagItem.setMnemonic(StringTools.getMnemonic(messages.getString("guiTagText")));
+    tagItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T, Event.CTRL_MASK));
+    fileMenu.add(tagItem);
     // add menus:
     add(fileMenu);
     add(helpMenu);
@@ -136,6 +142,8 @@ class MainMenuBar extends JMenuBar implements ActionListener {
         messages.getString("guiMenuOptions"));
     quitText = StringTools.getLabel(
         messages.getString("guiMenuQuit"));
+    tagText = StringTools.getLabel(
+        messages.getString("guiTagText"));
     // Help:
     aboutText = StringTools.getLabel(
         messages.getString("guiMenuAbout"));
@@ -158,6 +166,8 @@ class MainMenuBar extends JMenuBar implements ActionListener {
     } else if (e.getActionCommand().equals(aboutText)) {
       final AboutDialog about = new AboutDialog(messages);
       about.show();
+    } else if (e.getActionCommand().equals(tagText)) {
+      prg.tagText();
     } else {
       throw new IllegalArgumentException("Unknown action " + e);
     }

@@ -86,12 +86,36 @@ public class MainTest extends AbstractSecurityTestCase {
     //System.err.println("###"+url);
     final URI uri = new URI (url.toString());
     String[] args = new String[] {"-l", "en", uri.getPath()};
-
+    
     Main.main(args);
     String output = new String(this.out.toByteArray());
     //System.out.println("#>"+output);
     assertTrue(output.indexOf("Expected text language: English") == 0);
     assertTrue(output.indexOf("1.) Line 1, column 9, Rule ID: EN_A_VS_AN") != -1);
+  }
+  
+  public void testEnglishFileAutoDetect() throws URISyntaxException, IOException, ParserConfigurationException, SAXException {
+	  final URL url = this.getClass().getResource(ENGLISH_TEST_FILE);
+	  final URI uri = new URI (url.toString());
+	  String[] args = new String[] {"-adl", uri.getPath()};
+	  	  
+	  Main.main(args);
+	  String output = new String(this.out.toByteArray());
+	  assertTrue(output.indexOf("Using English for file") == 0);
+	  assertTrue(output.indexOf("1.) Line 1, column 9, Rule ID: EN_A_VS_AN") != -1);
+  }
+  
+  public void testEnglishStdInAutoDetect() throws URISyntaxException, IOException, ParserConfigurationException, SAXException {
+      final String test = "This is an test.";
+      final byte[] b = test.getBytes();
+      System.setIn(new ByteArrayInputStream(b));
+      String[] args = new String[] {"-adl"};
+
+      Main.main(args);
+      String output = new String(this.out.toByteArray());
+      assertTrue(output.indexOf("Working on STDIN...") == 0);
+      assertTrue(output.indexOf("Language used is: English") != -1);
+      assertTrue(output.indexOf("1.) Line 1, column 9, Rule ID: EN_A_VS_AN") != -1);
   }
   
   public void testEnglishFileVerbose() throws URISyntaxException, IOException, ParserConfigurationException, SAXException {

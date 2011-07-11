@@ -31,6 +31,8 @@
 		<!-- -->
 		<pathelement location="${dist.dir}/resource" />
 		<pathelement location="${dist.dir}/rules" />
+		<!-- tika lib -->
+		<pathelement location="${ext.tika.lib}" />
 	</path>
 
 	<path id="classpath">
@@ -133,7 +135,7 @@
 			<classpath refid="junit.classpath" />
 		</javac>
 
-		<!-- make sure that no classes where left in the build directory, clean it up -->
+		<!-- make sure that no classes were left in the build directory, clean it up -->
 		<delete dir="${build.dir}" />
 
 		<path id="test.classpath">
@@ -289,7 +291,7 @@
 		<jar jarfile="${dist.dir}/${final.name}.jar" basedir="${build.classes}" excludes="**/*.java">
 			<manifest>
 				<attribute name="Main-Class" value="de.danielnaber.languagetool.Main" />
-				<attribute name="Class-Path" value="./ ./rules ./resource ./${stempelator.lib} ./jWordSplitter.jar ./${segment.lib} ./${logging.lib}" />
+				<attribute name="Class-Path" value="./ ./rules ./resource ./${stempelator.lib} ./jWordSplitter.jar ./${segment.lib} ./${logging.lib} ./${tika.lib}" />
 				<attribute name="Implementation-Version" value="${version}" />
 				<attribute name="Implementation-Date" value="${date}" />
 			</manifest>
@@ -298,11 +300,21 @@
 		<jar jarfile="${dist.dir}/${final.name.gui}.jar" basedir="${build.classes}" includes="de/danielnaber/languagetool/gui/*.class">
 			<manifest>
 				<attribute name="Main-Class" value="de.danielnaber.languagetool.gui.Main" />
-				<attribute name="Class-Path" value="./LanguageTool.jar ./ ./resource ./rules ./${stempelator.lib} ./jWordSplitter.jar ./${segment.lib} ./${logging.lib}" />
+				<attribute name="Class-Path" value="./LanguageTool.jar ./ ./resource ./rules ./${stempelator.lib} ./jWordSplitter.jar ./${segment.lib} ./${logging.lib} ./${tika.lib}" />
 				<attribute name="Implementation-Version" value="${version}" />
 				<attribute name="Implementation-Date" value="${date}" />
 			</manifest>
 		</jar>
+
+		<jar jarfile="${dist.dir}/${converter.name}.jar" basedir="${build.classes}" includes="de/danielnaber/languagetool/dev/conversion/*.class">
+			<manifest>
+				<attribute name="Main-Class" value="de.danielnaber.languagetool.dev.conversion.RuleConverterMain" />
+				<attribute name="Class-Path" value="./ ./rules ./resource ./${final.name}.jar" />
+				<attribute name="Implemenation-Version" value="${version}" />
+				<attribute name="Implementation-Date" value="${date}" />
+			</manifest>
+		</jar>
+
 
 	</target>
 
@@ -356,7 +368,7 @@
 		<attribute name="RegistrationClassName" value="de.danielnaber.languagetool.openoffice.Main" />
 		<attribute name="Implementation-Version" value="${version}" />
 		<attribute name="Implementation-Date" value="${date}" />
-		<attribute name="Class-Path" value=". ./rules ./resource ./${stempelator.lib} ./jWordSplitter.jar ./${segment.lib} ./${logging.lib}" />
+		<attribute name="Class-Path" value=". ./rules ./resource ./${stempelator.lib} ./jWordSplitter.jar ./${segment.lib} ./${logging.lib} ./${tika.lib}" />
 		<attribute name="Uno-Type-Path" value="" />
 	</manifest>
 </jar>
@@ -427,6 +439,7 @@
 	<copy file="${ext.commons.lang.lib}" todir="${dist.dir}" />
 	<copy file="${ext.bliki.lib}" todir="${dist.dir}" />
 	<copy file="${ext.junit.lib}" todir="${dist.dir}" />
+	<copy file="${ext.tika.lib}" todir="${dist.dir}" />
 
 	<copy file="${src.scripts.dir}/testrules.sh" todir="${dist.dir}" />
 	<copy file="${src.scripts.dir}/testrules.bat" todir="${dist.dir}" />
@@ -445,6 +458,7 @@
 	<copy file="${resource.dir}/en/english_tags.txt" todir="${dist.dir}/resource/en" />
 	<copy file="${resource.dir}/en/disambiguation.xml" todir="${dist.dir}/resource/en" />
 	<copy file="${resource.dir}/en/compounds.txt" todir="${dist.dir}/resource/en" />
+	<copy file="${resource.dir}/en/macro_expansions.txt" todir="${dist.dir}/resource/en" />
 
 	<copy file="${resource.dir}/eo/etikedoj.txt" todir="${dist.dir}/resource/eo" />
 

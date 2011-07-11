@@ -31,6 +31,8 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
+import org.apache.tika.language.*;
+
 import de.danielnaber.languagetool.bitext.TabBitextReader;
 import de.danielnaber.languagetool.rules.Rule;
 import de.danielnaber.languagetool.rules.bitext.BitextRule;
@@ -51,6 +53,11 @@ class Main {
   private final boolean applySuggestions;
   private boolean profileRules;
   private boolean bitextMode;
+  private boolean autoDetect;
+  private boolean singleLineBreakMarksParagraph;
+  private String[] enabledRules;
+  private String[] disabledRules;
+  private Language motherTongue;
   private JLanguageTool srcLt;
   List<BitextRule> bRules;
   private Rule currentRule;
@@ -61,12 +68,18 @@ class Main {
   Main(final boolean verbose, final boolean taggerOnly,
       final Language language, final Language motherTongue,
       final String[] disabledRules, final String[] enabledRules,
-      final boolean apiFormat, boolean applySuggestions) throws IOException,
+      final boolean apiFormat, boolean applySuggestions, 
+      boolean autoDetect, boolean singleLineBreakMarksParagraph) throws IOException,
       SAXException, ParserConfigurationException {
     this.verbose = verbose;
     this.apiFormat = apiFormat;
     this.taggerOnly = taggerOnly;
     this.applySuggestions = applySuggestions;
+    this.autoDetect = autoDetect;
+    this.enabledRules = enabledRules;
+    this.disabledRules = disabledRules;
+    this.motherTongue = motherTongue;
+    this.singleLineBreakMarksParagraph = singleLineBreakMarksParagraph;
     profileRules = false;
     bitextMode = false;
     srcLt = null;
@@ -147,6 +160,21 @@ class Main {
       final boolean listUnknownWords) throws IOException {
     boolean oneTime = false;
     if (!"-".equals(filename)) {
+      if (autoDetect) {
+          Language language = getLanguageFromFile(filename, encoding);
+          if (language == null) {
+              System.err.println("Could not detect language well enough, using English");
+              language = Language.ENGLISH;
+          }
+          try {
+              changeLanguage(language, motherTongue, disabledRules, enabledRules);
+          } catch (SAXException e) {
+              e.printStackTrace();
+          } catch (ParserConfigurationException e) {
+              e.printStackTrace();
+          }
+          System.out.println("Using " + language.getName() + " for file " + filename);
+      }
       final File file = new File(filename);
       // run once on file if the file size < MAXFILESIZE or
       // when we use the bitext mode (we use a bitext reader
@@ -220,8 +248,28 @@ class Main {
         isr = getInputStreamReader(filename, encoding, isr);
         br = new BufferedReader(isr);
         String line;
+        int lineCount = 0;
         while ((line = br.readLine()) != null) {
           sb.append(line);
+          lineCount++;    
+          // to detect language from the first input line
+          if (lineCount == 1 && autoDetect) {     
+              Language language = getLanguageFromString(line, false);
+              if (language == null) {
+                  System.err.println("Could not detect language well enough, using English");
+                  language = Language.ENGLISH;
+              }
+              System.out.println("Language used is: " + language.getName());
+              language.getSentenceTokenizer().setSingleLineBreaksMarksParagraph(
+                        singleLineBreakMarksParagraph);
+              try {
+                  changeLanguage(language, motherTongue, disabledRules, enabledRules);
+              } catch (SAXException e) {
+                  e.printStackTrace();
+              } catch (ParserConfigurationException e) {
+                  e.printStackTrace();
+              }
+          }
           sb.append('\n');
           tmpLineOffset++;
           if (lt.getLanguage().getSentenceTokenizer().singleLineBreaksMarksPara()) {
@@ -403,9 +451,9 @@ class Main {
   private static void exitWithUsageMessage() {
     System.out
     .println("Usage: java de.danielnaber.languagetool.Main "
-        + "[-r|--recursive] [-v|--verbose] [-l|--language LANG] [-m|--mothertongue LANG] [-d|--disable RULES] "
+        + "[-r|--recursive] [-v|--verbose] [-l|--language LANG] [-m|--mothertongue LANG] [-d|--disable RULES] [-adl|--autoDetect] "
         + "[-e|--enable RULES] [-c|--encoding] [-u|--list-unknown] [-t|--taggeronly] [-b] [--api] [-a|--apply] "             
-        +	"[-b2|--bitext] <file>");
+        +    "[-b2|--bitext] <file>");
     System.exit(1);
   }
 
@@ -414,7 +462,7 @@ class Main {
    */
   public static void main(final String[] args) throws IOException,
   ParserConfigurationException, SAXException {
-    if (args.length < 1 || args.length > 9) {
+    if (args.length < 1 || args.length > 10) {
       exitWithUsageMessage();
     }
     boolean verbose = false;
@@ -426,6 +474,7 @@ class Main {
     boolean applySuggestions = false;
     boolean profile = false;
     boolean bitext = false;
+    boolean autoDetect = false;
     Language language = null;
     Language motherTongue = null;
     String encoding = null;
@@ -436,6 +485,8 @@ class Main {
       if (args[i].equals("-h") || args[i].equals("-help")
           || args[i].equals("--help") || args[i].equals("--?")) {
         exitWithUsageMessage();
+      } else if (args[i].equals("-adl") || args[i].equals("--autoDetect")) {    // set autoDetect flag
+          autoDetect = true;
       } else if (args[i].equals("-v") || args[i].equals("--verbose")) {
         verbose = true;
       } else if (args[i].equals("-t") || args[i].equals("--taggeronly")) {
@@ -525,18 +576,22 @@ class Main {
     if (filename == null) {
       filename = "-";
     }
+    
     if (language == null) {
       if (!apiFormat) {
-        System.err.println("No language specified, using English");
-      }
+        if (!autoDetect) {
+            System.err.println("No language specified, using English");
+        }
+      } 
       language = Language.ENGLISH;
     } else if (!apiFormat && !applySuggestions) {
       System.out.println("Expected text language: " + language.getName());
     }    
+    
     language.getSentenceTokenizer().setSingleLineBreaksMarksParagraph(
         singleLineBreakMarksParagraph);
     final Main prg = new Main(verbose, taggerOnly, language, motherTongue,
-        disabledRules, enabledRules, apiFormat, applySuggestions);
+        disabledRules, enabledRules, apiFormat, applySuggestions, autoDetect, singleLineBreakMarksParagraph);
     prg.setListUnknownWords(listUnknown);
     if (profile) {
       prg.setProfilingMode();
@@ -561,6 +616,23 @@ class Main {
     }
   }
 
+  // for language auto detect
+  // TODO: alter tika's language profiles so they are in line with LT's supported languages
+  private static Language getLanguageFromFile(String filename, String encoding)    throws IOException {
+      Language lang = null;
+      LanguageIdentifier li;
+      String text = StringTools.readFile(new FileInputStream(filename), encoding);
+      li = new LanguageIdentifier(text);
+      lang = Language.getLanguageForShortName(li.getLanguage());      
+      return lang;
+  }
+  
+  private static Language getLanguageFromString(String string, boolean print) {
+      LanguageIdentifier li = new LanguageIdentifier(string);
+      Language lang = Language.getLanguageForShortName(li.getLanguage());
+      return lang;
+  }
+  
   private static Language getLanguageOrExit(final String lang) {
     Language language = null;
     boolean foundLanguage = false;
@@ -579,6 +651,14 @@ class Main {
       exitWithUsageMessage();
     }
     return language;
+  }
+  
+  private void changeLanguage(Language language, Language motherTongue, 
+          String[] disabledRules, String[] enabledRules ) throws IOException, SAXException, ParserConfigurationException {
+      lt = new JLanguageTool(language, motherTongue);
+      lt.activateDefaultPatternRules();
+      lt.activateDefaultFalseFriendRules();
+      selectRules(lt, disabledRules, enabledRules);
   }
 
 }
