@@ -1354,6 +1354,46 @@ though, and has since been slightly modified)-->
         <example type="correct"><marker>Bonnes vacances</marker> !</example>
       </rule>
     </rulegroup>
+    <rule id="FONDS_FONTS" name="fonds baptismaux (fonts baptismaux)">
+      <pattern>
+        <token>fonds</token>
+        <token>baptismaux</token>
+      </pattern>
+      <message>Voulez-vous écrire <suggestion>fonts \2</suggestion> ?</message>
+      <example type="incorrect">Les <marker>fonds baptismaux</marker> servent aux baptèmes.</example>
+      <example type="correct">Les <marker>fonts baptismaux</marker> servent aux baptèmes.</example>
+    </rule>
+    <rulegroup id="COUR_COURS_COURT" name="cour, cours, courts">
+      <rule>
+        <pattern mark_from="1">
+          <token>en</token>
+          <token regexp="yes">court?|courts</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>cours</suggestion> ?</message>
+        <example type="incorrect">Une affaire en <marker>cour</marker></example>
+        <example type="correct">Une affaire <marker>en cours</marker></example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token>au</token>
+          <token regexp="yes">court?|courts</token>
+          <token>de</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>cours</suggestion> ?</message>
+        <example type="incorrect">Au <marker>cour</marker> de l’été</example>
+        <example type="correct">Au cours de l’été</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>libre</token>
+          <token regexp="yes">court?|courts</token>
+          <token regexp="yes">[àa]</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>\1 cours à</suggestion> ?</message>
+        <example type="incorrect">Donner <marker>libre cour à</marker> l’imagination</example>
+        <example type="correct">Donner libre cours à l’imagination</example>
+      </rule>
+    </rulegroup>
   </category>
   <category name="Grammaire">
     <!-- http://www.leconjugueur.com/frlesnombres.php -->
@@ -1535,7 +1575,8 @@ though, and has since been slightly modified)-->
         <message>« \2 » et « \3 » ne semblent pas bien accordés en nombre</message>
         <example type="correct">un canard gras</example>
         <example type="correct">des oies</example>
-        <example type="incorrect"><marker>des poulet</marker> fermiers</example>
+        <example type="incorrect"><marker>Des poulet</marker> fermiers</example>
+        <example type="correct"><marker>Des poulets</marker> fermiers</example>
         <example type="correct">Les <marker>hérétiques ayant</marker> reconnu la foi catholique.</example>
         <example type="correct">Les <marker>voitures verte</marker> et rouge.</example>
         <example type="correct">Des <marker>livres audio</marker></example>
@@ -1554,26 +1595,6 @@ though, and has since been slightly modified)-->
         <example type="correct">Un catalogue des animaux commode à consulter</example>
         <example type="incorrect">J’aime jouer <marker>aux carte</marker>.</example>
         <example type="correct">J’aime jouer <marker>aux cartes</marker>.</example>
-      </rule>
-      <rule name="pluriel suivi du singulier">
-        <pattern mark_to="-1">
-          <token postag="SENT_START"/>
-          <token postag="[DJN] .* p" postag_regexp="yes" skip="1">
-            <exception postag=".* sp?" postag_regexp="yes" scope="current"/>
-            <exception postag="V .*" postag_regexp="yes" scope="current"/>
-            <exception postag="K"/>
-            <!-- Following exception skip words both singular/plural as well as adverbs -->
-            <exception scope="next" negate_pos="yes" postag="A|([JN] .* sp?)|SENT_END" postag_regexp="yes"/>
-          </token>
-          <token postag="[JN] .* s" postag_regexp="yes">
-            <exception postag="(V .*)|(.* sp)" postag_regexp="yes"/>
-            <exception scope="previous">du</exception>
-          </token>
-          <token><exception>et</exception></token>
-        </pattern>
-        <message>« \2 » et « \3 » ne semblent pas bien accordés en nombre</message>
-        <example type="incorrect"><marker>Des poulet</marker> fermiers</example>
-        <example type="correct"><marker>Des poulets</marker> fermiers</example>
         <example type="incorrect"><marker>Dix gros poulet</marker> fermiers</example>
         <example type="correct"><marker>Dix gros poulets</marker> fermiers</example>
         <example type="correct">Pauvres du monde</example>
@@ -3132,6 +3153,15 @@ though, and has since been slightly modified)-->
       <message>On écrit <suggestion>la plupart</suggestion>.</message>
       <example type="incorrect"><marker>La plus part</marker> du temps</example>
       <example type="correct">La plupart du temps</example>
+    </rule>
+    <rule id="NUL_PART" name="nul part (nulle part)">
+      <pattern>
+        <token>nul</token>
+        <token>part</token>
+      </pattern>
+      <message>On écrit <suggestion>nulle part</suggestion>.</message>
+      <example type="incorrect">Il n’a <marker>nul part</marker> où aller.</example>
+      <example type="correct">Il n’a nulle part où aller.</example>
     </rule>
     <rule id="TRES_BEAUCOUP" name="très/trop + adverbe superlatif">
       <pattern>
@@ -19176,7 +19206,7 @@ though, and has since been slightly modified)-->
           <!-- Obviously, the list of languages could be expanded here.  I picked the most frequent spoken
                languages and added a few more. -->
           <token inflected="yes" regexp="yes" skip="8">parler|cours|leçon|apprendre|étudier|traduire|enseigner|professeur|enseignant|dictionnaire|méthode</token>
-          <token regexp="yes">Afrikaans|Albanais|Allemand|Alsacien|Anglais|Arabe|Arménien|Asturien|Basque|Bengali|Biélorusse|Bosniaque|Breton|Bulgare|Cantonais|Catalan|Chamorro|Cherokee|Chinois|Corse|Cornique|Corréen|Croate|Danois|Écossais|Espagnol|Espéranto|Estonien|Féroïen|Farsi|Filipino|Finnois|Flamand|Français|Frison|Galicien|Gallois|Gaullois|Géorgien|Grec|Hawaïen|Hébreu|Hindi|Hollandais|Hongrois|Javanais|Ido|Indonésien|Interlingua|Islandais|Italien|Irlandais|Japonais|Kazakh|Klingon|Khmer|Kurde|Laotien|Latin|Limbourgeois|Lituanien|Lojban|Luxembourgeois|Macédonien|Malais|Malgache|Maltais|Mandarin|Mannois|Maori|Moldave|Mongol|Néerlandais|Norvégien|Occitan|Ourdou|Ouzbek|Persan|Polonais|Portugais|Provençal|Quechua|Romanche|Roumain|Russe|Sans[ck]rit|Sarde|Serbe|Sicilien|Slovaque|Slovène|Sorabe|Suédois|Swahili|Tagalog|Tahitien|Tamoul|Tatar|Tchèque|Thaï|Turc|Ukrainien|Vietnamien|Volapük|Yiddish|Xhosa|Zoulou<exception scope="previous" inflected="yes">être</exception><exception scope="previous" regexp="yes">en|[dl]es|un</exception>
+          <token regexp="yes">Afrikaans|Albanais|Allemand|Alsacien|Anglais|Arabe|Arménien|Asturien|Basque|Bengali|Biélorusse|Bosniaque|Breton|Bulgare|Cantonais|Catalan|Chamorro|Cherokee|Chinois|Corse|Cornique|Corréen|Croate|Danois|Écossais|Espagnol|Espéranto|Estonien|Féroïen|Farsi|Filipino|Finnois|Flamand|Français|Frison|Galicien|Gallois|Gaullois|Géorgien|Grec|Hawaïen|Hébreu|Hindi|Hollandais|Hongrois|Javanais|Ido|Indonésien|Interlingua|Islandais|Italien|Irlandais|Japonais|Kazakh|Klingon|Khmer|Kurde|Laotien|Latin|Limbourgeois|Lituanien|Lojban|Luxembourgeois|Macédonien|Malais|Malgache|Maltais|Mandarin|Mannois|Maori|Moldave|Mongol|Néerlandais|Norvégien|Occitan|Ourdou|Ouzbek|Persan|Polonais|Portugais|Provençal|Quechua|Romanche|Roumain|Russe|Sans[ck]rit|Sarde|Serbe|Sicilien|Slovaque|Slovène|Sorabe|Suédois|Swahili|Tagalog|Tahitien|Tamoul|Tatar|Tchèque|Thaï|Turc|Ukrainien|Vietnamien|Volapük|Yiddish|Xhosa|Zoulou<exception scope="previous" inflected="yes">être</exception><exception scope="previous" regexp="yes">en|[dl]es|une?</exception>
           </token>
         </pattern>
         <message>Les noms de langues n’ont pas de majuscule en français.</message>
