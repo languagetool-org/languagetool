@@ -48,8 +48,8 @@ class MainMenuBar extends JMenuBar implements ActionListener {
   private String dockToTrayText;
   private String addLanguageText;
   private String optionsText;
-  private String quitText;
   private String tagText;
+  private String quitText;  
   // Help:
   private String aboutText;
 
@@ -93,6 +93,12 @@ class MainMenuBar extends JMenuBar implements ActionListener {
     addLanguageItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, Event.CTRL_MASK));
     addLanguageItem.addActionListener(this);
     fileMenu.add(addLanguageItem);
+    // "Tag Text"
+    final JMenuItem tagItem = new JMenuItem(tagText);
+    tagItem.addActionListener(this);
+    tagItem.setMnemonic(StringTools.getMnemonic(messages.getString("guiTagText")));
+    tagItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T, Event.CTRL_MASK));
+    fileMenu.add(tagItem);
     // "Options":
     final JMenuItem optionsItem = new JMenuItem(optionsText);
     optionsItem.setMnemonic(StringTools.getMnemonic(
@@ -113,12 +119,7 @@ class MainMenuBar extends JMenuBar implements ActionListener {
     helpItem.setMnemonic(StringTools.getMnemonic(
         messages.getString("guiMenuAbout")));        
     helpMenu.add(helpItem);   
-    // "Tag Text"
-    final JMenuItem tagItem = new JMenuItem(tagText);
-    tagItem.addActionListener(this);
-    tagItem.setMnemonic(StringTools.getMnemonic(messages.getString("guiTagText")));
-    tagItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T, Event.CTRL_MASK));
-    fileMenu.add(tagItem);
+    
     // add menus:
     add(fileMenu);
     add(helpMenu);
@@ -138,12 +139,12 @@ class MainMenuBar extends JMenuBar implements ActionListener {
         messages.getString("guiMenuHide"));
     addLanguageText = StringTools.getLabel(
         messages.getString("guiMenuAddRules"));
+    tagText = StringTools.getLabel(
+            messages.getString("guiTagText"));
     optionsText = StringTools.getLabel(
         messages.getString("guiMenuOptions"));
     quitText = StringTools.getLabel(
-        messages.getString("guiMenuQuit"));
-    tagText = StringTools.getLabel(
-        messages.getString("guiTagText"));
+        messages.getString("guiMenuQuit"));    
     // Help:
     aboutText = StringTools.getLabel(
         messages.getString("guiMenuAbout"));
@@ -159,6 +160,8 @@ class MainMenuBar extends JMenuBar implements ActionListener {
       prg.hideToTray();
     } else if (e.getActionCommand().equals(addLanguageText)) {
       prg.addLanguage();
+    } else if (e.getActionCommand().equals(tagText)) {
+      prg.tagText();
     } else if (e.getActionCommand().equals(optionsText)) {
       prg.showOptions();
     } else if (e.getActionCommand().equals(quitText)) {
@@ -166,8 +169,6 @@ class MainMenuBar extends JMenuBar implements ActionListener {
     } else if (e.getActionCommand().equals(aboutText)) {
       final AboutDialog about = new AboutDialog(messages);
       about.show();
-    } else if (e.getActionCommand().equals(tagText)) {
-      prg.tagText();
     } else {
       throw new IllegalArgumentException("Unknown action " + e);
     }

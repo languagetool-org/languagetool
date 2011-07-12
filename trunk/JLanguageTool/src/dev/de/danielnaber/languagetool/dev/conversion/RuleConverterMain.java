@@ -9,7 +9,6 @@ public class RuleConverterMain {
     
     private String grammarfile;
     private String specificFiletype;
-    private String generalFiletype;
     private RuleConverter rc;
     
     private static String[] supportedGeneralFiletypes = {"atd"};
@@ -25,7 +24,6 @@ public class RuleConverterMain {
     private RuleConverterMain(String infilename, String grammarfile, String generalFiletype, String specificFiletype) {
         this.grammarfile  = grammarfile;
         this.specificFiletype = specificFiletype;
-        this.generalFiletype = generalFiletype;
         if (generalFiletype.equals("atd")) {
             rc = new AtdRuleConverter(infilename, grammarfile, specificFiletype);
             

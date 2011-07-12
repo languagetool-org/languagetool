@@ -17,14 +17,14 @@ import morfologik.stemming.IStemmer;
 
 public abstract class RuleConverter {
 
-    protected final String firstIndent = "  ";
-    protected final String secondIndent = "    ";
-    protected final String thirdIndent = "      ";
-    protected final String fourthIndent = "        ";
-    protected final int firstIndentInt = 2;
-    protected final int secondIndentInt = 4;
-    protected final int thirdIndentInt = 6;
-    protected final int fourthIndentInt = 8;
+    protected static final String firstIndent = "  ";
+    protected static final String secondIndent = "    ";
+    protected static final String thirdIndent = "      ";
+    protected static final String fourthIndent = "        ";
+    protected static final int firstIndentInt = 2;
+    protected static final int secondIndentInt = 4;
+    protected static final int thirdIndentInt = 6;
+    protected static final int fourthIndentInt = 8;
     
     protected String inFileName;
     protected String outFileName;
