@@ -949,6 +949,15 @@ though, and has since been slightly modified)-->
     </rulegroup>
     <rulegroup id="A_ACCENT_A" name="À au lieu de A">
       <rule>
+        <pattern>
+          <token>à</token>
+          <token regexp="yes">posteriori|priori</token>
+        </pattern>
+        <message>Il est recommendé d’écrire la locution <suggestion>a \2</suggestion> sans accent.</message>
+        <example type="incorrect">Il est facile de décider <marker>à posteriori</marker>.</example>
+        <example type="correct">Il est facile de décider a posteriori.</example>
+      </rule>
+      <rule>
         <pattern mark_to="-1">
           <token>à</token>
           <token postag="V.*ppa.*" postag_regexp="yes">
@@ -1048,6 +1057,7 @@ though, and has since been slightly modified)-->
         <token postag="V.*" postag_regexp="yes">
           <exception postag="[NJ] [me] s" postag_regexp="yes"/>
           <exception inflected="yes" regexp="yes">être|devoir|pouvoir</exception>
+          <exception regexp="yes">faisant|faire</exception>
         </token>
       </pattern>
       <message>Voulez-vous écrire <suggestion>se</suggestion> ?</message>
@@ -1057,6 +1067,8 @@ though, and has since been slightly modified)-->
       <example type="incorrect">Ce phénomène <marker>ce</marker> transforme en phénomène de société.</example>
       <example type="correct">Ce phénomène se transforme en phénomène de société.</example>
       <example type="correct">Ce peuple</example>
+      <example type="correct">Ce faisant, il se rapprochait.</example>
+      <example type="correct">Pour ce faire, vous disposez d'un délai d’une semaine.</example>
     </rule>
     <rule id="MA" name="MA au lieu de M’A">
       <pattern mark_to="-1">
@@ -1354,15 +1366,45 @@ though, and has since been slightly modified)-->
         <example type="correct"><marker>Bonnes vacances</marker> !</example>
       </rule>
     </rulegroup>
-    <rule id="FONDS_FONTS" name="fonds baptismaux (fonts baptismaux)">
+    <rule id="FLAMAND_FLAMANT" name="flamand, flamant">
       <pattern>
-        <token>fonds</token>
-        <token>baptismaux</token>
+        <token regexp="yes">flamands?</token>
+        <token regexp="yes">roses?</token>
       </pattern>
-      <message>Voulez-vous écrire <suggestion>fonts \2</suggestion> ?</message>
-      <example type="incorrect">Les <marker>fonds baptismaux</marker> servent aux baptèmes.</example>
-      <example type="correct">Les <marker>fonts baptismaux</marker> servent aux baptèmes.</example>
+      <message>On écrit <suggestion><match no="1" regexp_match="(.*)d(.*)" regexp_replace="$1t$2"/> \2</suggestion>.</message>
+      <example type="incorrect">As-tu vu les <marker>flamands roses</marker> ?</example>
+      <example type="correct">As-tu vu les <marker>flamants roses</marker> ?</example>
     </rule>
+    <rulegroup id="FOND_FONDS_FONTS" name="fond, fonds, fonts">
+      <rule>
+        <pattern mark_to="-2">
+          <token>fond</token>
+          <token>de</token>
+          <token>commerce</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>fonds</suggestion> ?</message>
+        <example type="incorrect">J’ai repris ce <marker>fond</marker> de commerce</example>
+        <example type="correct">J’ai repris ce fonds de commerce</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token>fond</token>
+          <token regexp="yes">monétaire|réserve</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>fonds</suggestion> ?</message>
+        <example type="incorrect">Un <marker>fond</marker> monétaire</example>
+        <example type="correct">Un fonds monétaire</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>fonds</token>
+          <token>baptismaux</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>fonts \2</suggestion> ?</message>
+        <example type="incorrect">Les <marker>fonds baptismaux</marker> servent aux baptèmes.</example>
+        <example type="correct">Les <marker>fonts baptismaux</marker> servent aux baptèmes.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="COUR_COURS_COURT" name="cour, cours, courts">
       <rule>
         <pattern mark_from="1">
@@ -3609,6 +3651,17 @@ though, and has since been slightly modified)-->
         <example type="correct">Pourvu que tu <marker>réussisses</marker></example>
       </rule>
       <rule>
+        <pattern mark_from="3">
+          <token>après</token>
+          <token regexp="yes" skip="1">que?</token>
+          <token postag="[ZR].*" postag_regexp="yes"/>
+          <token postag="V.*sub.*" postag_regexp="yes"><exception postag="V.*(ind|con).*" postag_regexp="yes"/></token>
+        </pattern>
+        <message>Le verbe « \4 » ne doit pas être au subjonctif après la location « \1 \2 ».</message>
+        <example type="incorrect">Il est arrivé après que je <marker>sois</marker> parti.</example>
+        <example type="correct">Il est arrivé après que je <marker>fus</marker> parti.</example>
+      </rule>
+      <rule>
         <pattern mark_from="4">
           <token regexp="yes">afin|avant|non|sans|pour|pourvu|malgré</token>
           <token regexp="yes" skip="1">que?</token>
@@ -3791,11 +3844,11 @@ though, and has since been slightly modified)-->
     </rulegroup>
     <rule id="PREP_V" name="verbe après préposition">
       <pattern mark_from="1">
-        <token postag="P"><exception regexp="yes">avant|dehors|dedans|derrière|en|outre|par|proche|suivant</exception></token>
+        <token postag="P"><exception regexp="yes">avant|côté|dehors|dedans|derrière|en|outre|par|proche|suivant</exception></token>
         <token postag="V.*" postag_regexp="yes">
           <exception postag="V.* inf" postag_regexp="yes"/>
           <exception postag="[^V].*" postag_regexp="yes"/>
-          <exception regexp="yes">fait|portée</exception>
+          <exception regexp="yes">fait|portée|sortie|musées?|pensées?|surprises?|points|vue|fumée|plongée</exception>
         </token>
       </pattern>
       <message>Le verbe « \2 » devrait être à l’infinitif après la préposition « \1 »</message>
@@ -3804,6 +3857,8 @@ though, and has since been slightly modified)-->
       <example type="correct">Il en profita.</example>
       <example type="correct">C’est tout à fait correct.</example>
       <example type="correct">Elles sont quasiment à portée de main.</example>
+      <example type="correct">Les filles sont de sortie.</example>
+      <example type="correct">Le voisin d’à côté est pénible.</example>
     </rule>
     <rule id="DOUBLE_NEG" name="Double négation">
       <pattern>
@@ -19221,6 +19276,19 @@ though, and has since been slightly modified)-->
         <message>Les noms de langues n’ont pas de majuscule en français.</message>
         <example type="incorrect">Avez-vous un guide touristique en <marker>Français</marker> ?</example>
         <example type="correct">Avez-vous un guide touristique en <marker>français</marker> ?</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="GENTILLE" name="gentillés">
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <!-- Obviously, the list of gentillés could be expanded here. -->
+          <token regexp="yes">une?|certaine?s?|ce|[cdl]es|cette|quelques|plusieurs|chaque<exception scope="previous" regexp="yes" inflected="yes">parler|apprendre|enseigner|étudier</exception></token>
+          <token regexp="yes">(?-iu:afghan|albanais|algérien|allemand|américain|andorran|angolais|anglais|antiguais|argentin|arménien|australien|autrichien|azerbaïdjanais|bahamien|bahreïni|bahreïnien|bangladais|barbadien|basque|belge|bélizien|béninois|breton|bhoutanais|biélorusse|birman|bolivien|bosnien|botswanais|brésilien|britanique|brunéien|bulgare|burkinabè|burundais|cambodgien|camerounais|canadien|capverdien|centrafricain|chillien|chinois|chypriote|colombien|comorien|congolais|nord-coréen|sud-coréen|corse|costaricien|croate|cubain|danois|djiboutien|dominicain|dominiquais|ivorien|égyptien|émirati|équatorien|érythréen|estonien|espagnol|états-?unien|étasunien|éthiopien|fidjien|finlandais|formosan|français|gabonais|gambien|géorgien|ghanéen|grec|grenadien|guadeloupéen|guatémaltèque|guinéen|bissau|équato-guinéen|guyanien|haïtien|hondurien|hollandais|hongrois|indien|indochinois|indonésien|irakien|italien|iranien|irlandais|islandais|israëlien|jamaïcain|japonais|jordanien|kazakh|kényan|kosovar|koweïtien|laotien|sothos|letton|libanais|libérien|libyen|liechtensteinois|lituanien|luxembourgeois|macédonien|malgache|malaisien|malawite|maldivien|malien|maltais|maori|marocain|marshallais|mauricien|mauritanien|mexicain|micronésien|moldave|monégasque|monténégrin|mongol|mozambicain|myanmarais|namibien|nauruan|népalais|nicaraguayen|nigérien|nigérian|niouéen|néerlandais|norvégien|néo-zélandais|omani|ougandais|ouzbek|pakistanais|palauan|palestinien|panaméen|papouasien|paraguayen|péruvien|philippin|parisien|polonais|portugais|qatari|roumain|russe|rwandais|saint-lucien|salvadorien|santoméen|sénégalais|serbe|sebo-montonégrin|sychellois|singapourien|slovaque|slovène|somalien|soudanais|srilankais|suédois|suisse|surinamais|swazi|syrien|tadjik|tanzanien|tchadien|tchèque|taïlandais|togolais|tonguien|trinidadien|tahitien|saoudien|sud-africain|tunisien|turkmène|turc|taïwanais|tuvaluan|ukrainien|soviétique|uruguayen|vanuatuan|vénézuélien|vietnamien|yéménite|yougoslave|zaïrois|zambien|zimbabwéen|scandinave|lapon|polynésien)</token>
+          <token><exception regexp="yes">correct|courant</exception></token>
+        </pattern>
+        <message>Les gentillés (noms des habitants) ont une majuscule (mais pas les noms des langues).</message>
+        <example type="incorrect">Je travaille en anglais avec des <marker>anglais</marker>.</example>
+        <example type="correct">Je travaille en anglais avec des Anglais.</example>
       </rule>
     </rulegroup>
     <rule id="MOYEN_AGE" name="Moyen Âge">
