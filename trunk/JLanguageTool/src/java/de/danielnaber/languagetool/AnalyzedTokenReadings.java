@@ -72,6 +72,8 @@ public class AnalyzedTokenReadings {
       return false;
     if (isWhitespaceBefore != other.isWhitespaceBefore)
       return false;
+    if (isImmunized != other.isImmunized)
+      return false;
     if (startPos != other.startPos)
       return false;
     if (token == null) {
@@ -93,6 +95,14 @@ public class AnalyzedTokenReadings {
   private boolean isParaEnd;
 
   private boolean isWhitespaceBefore;
+  
+  /**
+   * If true, then the token is marked up as immune against tests:
+   * it should never be matched by any rule. Used to have generalized
+   * mechanism for exceptions in rules.
+   */
+  private boolean isImmunized;
+  
   
   public AnalyzedTokenReadings(final AnalyzedToken[] r, final int startPos) {
     anTokReadings = r.clone();
@@ -272,6 +282,15 @@ public class AnalyzedTokenReadings {
     return isWhitespaceBefore;
   }
 
+  public final void immunize() {
+    isImmunized = true;
+  }
+  
+  public final boolean isImmunized() {
+    return isImmunized;
+  }  
+
+  
   @Override
   public String toString() {
     final StringBuilder sb = new StringBuilder();

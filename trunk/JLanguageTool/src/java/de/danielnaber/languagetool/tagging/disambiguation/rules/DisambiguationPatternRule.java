@@ -40,7 +40,7 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
 
   /** Possible disambiguator actions. **/
   public enum DisambiguatorAction {
-    ADD, FILTER, REMOVE, REPLACE, UNIFY;
+    ADD, FILTER, REMOVE, REPLACE, UNIFY, IMMUNIZE;
 
     /**
      * Converts string to the constant enum.
@@ -105,7 +105,8 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
     if (disamb == null && posSelect == null
         && disambAction != DisambiguatorAction.UNIFY
         && disambAction != DisambiguatorAction.ADD
-        && disambAction != DisambiguatorAction.REMOVE) {
+        && disambAction != DisambiguatorAction.REMOVE
+        && disambAction != DisambiguatorAction.IMMUNIZE) {
       throw new NullPointerException("disambiguated POS cannot be null");
     }    
     this.disambiguatedPOS = disamb;
@@ -274,6 +275,12 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
         }
       }
       break;
+    case IMMUNIZE: 
+      for (int i = 0; i < matchingTokens - startPositionCorrection
+            + endPositionCorrection; i++) {
+      whTokens[text.getOriginalPosition(firstMatchToken + correctedStPos
+          + i)].immunize();
+      }
     case FILTER:
       if (matchElement == null) { // same as REPLACE if using <match>
         final Match tmpMatchToken = new Match(disambiguatedPOS, null, true,

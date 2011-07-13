@@ -287,8 +287,8 @@ public class PatternRule extends AbstractPatternRule {
           prevSkipNext = tokens.length - (nextPos + 1);
         }        
         final int maxTok = Math.min(nextPos + prevSkipNext, tokens.length - (patternSize - k));
-        for (int m = nextPos; m <= maxTok; m++) {
-          allElementsMatch = testAllReadings(tokens, elem, prevElement, m,
+        for (int m = nextPos; m <= maxTok; m++) {          
+          allElementsMatch = !tokens[m].isImmunized() && testAllReadings(tokens, elem, prevElement, m,
               firstMatchToken, prevSkipNext);
           if (allElementsMatch) {
             lastMatchToken = m;
