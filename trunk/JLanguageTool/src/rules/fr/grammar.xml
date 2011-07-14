@@ -1068,7 +1068,7 @@ though, and has since been slightly modified)-->
       <example type="correct">Ce phénomène se transforme en phénomène de société.</example>
       <example type="correct">Ce peuple</example>
       <example type="correct">Ce faisant, il se rapprochait.</example>
-      <example type="correct">Pour ce faire, vous disposez d'un délai d’une semaine.</example>
+      <example type="correct">Pour ce faire, vous disposez d’un délai d’une semaine.</example>
     </rule>
     <rule id="MA" name="MA au lieu de M’A">
       <pattern mark_to="-1">
@@ -1410,10 +1410,12 @@ though, and has since been slightly modified)-->
         <pattern mark_from="1">
           <token>en</token>
           <token regexp="yes">court?|courts</token>
+          <token><exception>matiale</exception></token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>cours</suggestion> ?</message>
         <example type="incorrect">Une affaire en <marker>cour</marker></example>
         <example type="correct">Une affaire <marker>en cours</marker></example>
+        <example type="correct">Il fut traduit en cour martiale.</example>
       </rule>
       <rule>
         <pattern mark_from="1" mark_to="-1">
@@ -1509,7 +1511,7 @@ though, and has since been slightly modified)-->
       <pattern mark_from="1" mark_to="-1">
         <token regexp="yes">deux|trois|quatre|cinq|six|sept|huit|neuf|mille</token>
         <token>cents</token>
-        <token regexp="yes">un|une|deux|trois|quatre|cinq|six|sept|huit|neuf|dix|onze|douze|treize|quatorze|quinze|seize|vingt|trente|quarante|cinquante|soixante|septante|octante|huitante|nonante|mille|(dix-.*)|(vingt-.*)|(trente-.*)|(quarante-.*)|(cinquante-.*)|(soixante-.*)|(quatre-.*)|(octante-.*)|(huitante-.*)|(nonante-.*)</token>
+        <token regexp="yes">un|une|deux|trois|quatre|cinq|six|sept|huit|neuf|dix|onze|douze|treize|quatorze|quinze|seize|vingt|trente|quarante|cinquante|soixante|septante|octante|huitante|nonante|(dix-.*)|(vingt-.*)|(trente-.*)|(quarante-.*)|(cinquante-.*)|(soixante-.*)|(quatre-.*)|(octante-.*)|(huitante-.*)|(nonante-.*)</token>
       </pattern>
       <message>Le numéral cardinal cent ne prend pas de « s » lorsqu’il ne représente pas des centaine entières.</message>
       <example type="correct">J’ai trois <marker>cents</marker> timbres.</example>
@@ -1517,6 +1519,7 @@ though, and has since been slightly modified)-->
       <example type="incorrect">Deux <marker>cents</marker> mille étoiles.</example>
       <example type="correct">Deux <marker>cents</marker> milliards d’étoiles.</example>
       <example type="incorrect">J’ai cinq <marker>cents</marker> soixante-et-un euros.</example>
+      <example type="correct">Huit cents mille ans.</example>
     </rule>
     <rulegroup id="ACCORD_NOMBRE" name="Accord en nombre">
       <rule name="nombre singulier suivi du pluriel">
