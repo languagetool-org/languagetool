@@ -1407,14 +1407,14 @@ though, and has since been slightly modified)-->
     </rulegroup>
     <rulegroup id="COUR_COURS_COURT" name="cour, cours, courts">
       <rule>
-        <pattern mark_from="1">
+        <pattern mark_from="1" mark_to="-1">
           <token>en</token>
           <token regexp="yes">court?|courts</token>
-          <token><exception>matiale</exception></token>
+          <token><exception>martiale</exception></token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>cours</suggestion> ?</message>
-        <example type="incorrect">Une affaire en <marker>cour</marker></example>
-        <example type="correct">Une affaire <marker>en cours</marker></example>
+        <example type="incorrect">Une affaire en <marker>cour</marker>.</example>
+        <example type="correct">Une affaire <marker>en cours</marker>.</example>
         <example type="correct">Il fut traduit en cour martiale.</example>
       </rule>
       <rule>
@@ -1511,15 +1511,14 @@ though, and has since been slightly modified)-->
       <pattern mark_from="1" mark_to="-1">
         <token regexp="yes">deux|trois|quatre|cinq|six|sept|huit|neuf|mille</token>
         <token>cents</token>
-        <token regexp="yes">un|une|deux|trois|quatre|cinq|six|sept|huit|neuf|dix|onze|douze|treize|quatorze|quinze|seize|vingt|trente|quarante|cinquante|soixante|septante|octante|huitante|nonante|(dix-.*)|(vingt-.*)|(trente-.*)|(quarante-.*)|(cinquante-.*)|(soixante-.*)|(quatre-.*)|(octante-.*)|(huitante-.*)|(nonante-.*)</token>
+        <token regexp="yes">un|une|deux|trois|quatre|cinq|six|sept|huit|neuf|dix|onze|douze|treize|quatorze|quinze|seize|vingt|trente|quarante|cinquante|soixante|septante|octante|huitante|nonante|mille|(dix-.*)|(vingt-.*)|(trente-.*)|(quarante-.*)|(cinquante-.*)|(soixante-.*)|(quatre-.*)|(octante-.*)|(huitante-.*)|(nonante-.*)</token>
       </pattern>
       <message>Le numéral cardinal cent ne prend pas de « s » lorsqu’il ne représente pas des centaine entières.</message>
-      <example type="correct">J’ai trois <marker>cents</marker> timbres.</example>
       <example type="incorrect">J’ai trois <marker>cents</marker> cinquante timbres.</example>
+      <example type="correct">J’ai trois cents timbres.</example>
       <example type="incorrect">Deux <marker>cents</marker> mille étoiles.</example>
-      <example type="correct">Deux <marker>cents</marker> milliards d’étoiles.</example>
+      <example type="correct">Deux cents milliards d’étoiles.</example>
       <example type="incorrect">J’ai cinq <marker>cents</marker> soixante-et-un euros.</example>
-      <example type="correct">Huit cents mille ans.</example>
     </rule>
     <rulegroup id="ACCORD_NOMBRE" name="Accord en nombre">
       <rule name="nombre singulier suivi du pluriel">
@@ -2232,7 +2231,27 @@ though, and has since been slightly modified)-->
       <example type="correct">J’ai du <marker>manger</marker> cela.</example>
       <example type="correct">Ils avaient voulu cela.</example>
     </rule>
-
+    <rulegroup id="COND_VS_FUTUR" name="probable futur avant bientôt, demain, etc.">
+      <rule>
+        <pattern mark_to="-1">
+          <token postag="V con pres 1 s"><exception postag="V ind futu 1 s"/></token>
+          <token regexp="yes">demain|après-demain|bientôt</token>
+        </pattern>
+        <message>Vérifier si le verbe « \1 » ne devrait pas être au futur plutôt qu'au conditionel.</message>
+        <example type="incorrect">Je <marker>viendrais</marker> demain.</example>
+        <example type="correct">Je viendrai demain.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-2">
+          <token postag="V con pres 1 s"><exception postag="V ind futu 1 s"/></token>
+          <token skip="3" regexp="yes">après|dans</token>
+          <token regexp="yes">secondes?|minutes?|heures?|jours|semaines?|mois|années?|instants?</token>
+        </pattern>
+        <message>Vérifier si le verbe « \1 » ne devrait pas être au futur plutôt qu'au conditionel.</message>
+        <example type="incorrect">Je <marker>viendrais</marker> dans trois jours.</example>
+        <example type="correct">Je viendrai dans trois jours.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="ACCORD_R_PERS_VERBE" name="accord pronom personnel avec verbe">
       <rule name="je + 0 token + verbe">
         <pattern>
