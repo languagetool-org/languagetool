@@ -33,41 +33,23 @@ public class RuleConverterMain {
     private void run() throws IOException {
         // get the rules
         List<String> rules = rc.getRulesAsString();
-        // convert the rules to LT format (ArrayList of lines of XML)
-        ArrayList<ArrayList<String>> ltRules = new ArrayList<ArrayList<String>>();        
+        // regular rules
+        ArrayList<ArrayList<String>> ltRules = new ArrayList<ArrayList<String>>(); 
+        // false alarm rules
+        ArrayList<ArrayList<String>> killedRules = new ArrayList<ArrayList<String>>();
         for (String r : rules) {
             HashMap<String,String> hm = rc.parseRule(r);
             ArrayList<String> ltRule = (ArrayList<String>) rc.ltRuleAsList(hm, 
                     RuleConverter.getSuitableID(hm), RuleConverter.getSuitableName(hm), specificFiletype);
-            ltRules.add(ltRule);
-        }
-              
-        // read in the grammar file
-        /*
-        ArrayList<String> lines = null;
-        int insertIndex = 0;
-        lines = RuleConverter.fileToList(grammarfile);
-        insertIndex = lines.size() - 1;
-        // find where to put the converted rules
-        for (int i=lines.size() - 1; i > 0; i--) {
-            if (lines.get(i).contains("</category>")) {
-                insertIndex = i + 1;
-                break;
+            if (notKilledRule(hm)) {
+            	ltRules.add(ltRule);
+            } else {
+            	killedRules.add(ltRule);
             }
         }
-        
-        // add the new rules
-        lines.add(insertIndex++,"<category name=\"Auto-generated ATD Rules\">");
-//        lines.add(insertIndex++,"<rulegroup id=\"Auto-gen rules\" name=\"Automatically generated ATD rules\">");
-        for (ArrayList<String> ltRule : ltRules) {
-            for (String s : ltRule) {
-                lines.add(insertIndex++,s);
-            }
-        }
-//        lines.add(insertIndex++,"</rulegroup>");
-        lines.add(insertIndex++,"</category>");     
-        */
+
         // write the new grammar file out (as ".xml.backup" for now)
+        //TODO: write the false alarm rules to another file
         PrintWriter w = new PrintWriter(new OutputStreamWriter(new FileOutputStream(grammarfile),"UTF-8"));
         w.write(RuleConverter.xmlHeader);
         w.write("<category name=\"Auto-generated AtD rules\" id=\"ATD_RULES\">\n");
@@ -168,6 +150,15 @@ public class RuleConverterMain {
             exitWithUsageMessage();
         }
         return type;
+    }
+    
+    public boolean notKilledRule(HashMap<String,String> rule) {
+    	if (rule.containsKey("filter")) {
+    		if (rule.get("filter").equals("kill") || rule.get("filter").equals("die")) {
+    			return false;
+    		}
+    	}
+    	return true;
     }
     
 }

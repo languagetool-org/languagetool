@@ -8,6 +8,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import morfologik.stemming.DictionaryLookup;
+import morfologik.stemming.WordData;
 
 import de.danielnaber.languagetool.JLanguageTool;
 
@@ -17,6 +21,8 @@ public class AtdRuleConverter extends RuleConverter {
 
     private final static String MACRO_EXPANSIONS_FILE = "." + JLanguageTool.getDataBroker().getResourceDir() + "/en/macro_expansions.txt";
     private static HashMap<String,String> macroExpansions = fillOutMacroExpansions();
+    
+    private static Pattern nounInPattern = Pattern.compile("NN(?!P|S|\\.)");
     
     // default constructor
     public AtdRuleConverter() {
@@ -85,7 +91,7 @@ public class AtdRuleConverter extends RuleConverter {
     }
     
     /**
-     * Takes a HashMap of an AtD ("avoid") rule, and returns a list of lines of XML in LT format.
+     * Takes a HashMap of an AtD rule, and returns a list of lines of XML in LT format.
      * 
      * @param rule: HashMap of values like "pattern" and "message"
      * @param id: String of rule id
@@ -97,8 +103,6 @@ public class AtdRuleConverter extends RuleConverter {
     @Override
     public List<String> ltRuleAsList(HashMap<String,String> rule, String id, String name, String type) {
         ArrayList<String> ltRule = new ArrayList<String>();
-        
-        
         if (id != null && name != null) {
             ltRule.add(firstIndent + "<rule " + "id=\"" + id + "\" name=\"" + name + "\">");
         } else {
@@ -132,11 +136,7 @@ public class AtdRuleConverter extends RuleConverter {
         else if (type.equals("default")) {
             // don't deal with filter=kill for now (meaning, likely, lots of false positives)
             //TODO: add negative rule matches here
-            if (rule.containsKey("filter")) {
-                if (rule.get("filter").equals("kill")) {
-                    return null;
-                }
-            }
+        	// these will go into the disambiguation file (?) according to the formalism being developed by Marcin
             if (Boolean.parseBoolean(rule.get("casesensitive"))) {
                 ltRule.add(secondIndent + "<pattern case_sensitive=\"yes\">");
             } else {
@@ -158,6 +158,11 @@ public class AtdRuleConverter extends RuleConverter {
             ltRule.add(secondIndent + "</pattern>");
             if (rule.containsKey("word")) {
                 ltRule = addSuggestion(ltRule, rule.get("word"), pattern, secondIndentInt);
+            }
+            if (rule.containsKey("filter")) {
+                if (rule.get("filter").equals("kill")) {
+                    ltRule.add(secondIndent + "<disambig action=\"immunize\"/>");
+                }
             }
             ltRule.add(firstIndent + "</rule>");
             
@@ -199,6 +204,7 @@ public class AtdRuleConverter extends RuleConverter {
         }
         if (hasPosTag(e)) {
             String[] parts = e.split("/");
+            parts[1] = fixNoun(parts[1]);
             if (parts[0].equals(".*")) {
                 if (isRegex(parts[1])) {
                     ltRule = addToken(ltRule, null, parts[1], "regexpostag", thirdIndentInt);
@@ -240,9 +246,12 @@ public class AtdRuleConverter extends RuleConverter {
         return orig;
     }
   
-    // this is also pretty specific for AtD
-    // should perhaps be re-formulated as an abstract instance method
-    // and implemented in the extending class (AtdRuleConverter)
+    /**
+     * Takes the word=... suggestion from an AtD rule and puts it in LT <message> format
+     * @param suggestion
+     * @param pattern
+     * @return
+     */
     public static String expandSuggestion(String suggestion, String[] pattern) {
         String[] splitSuggestion = suggestion.split(",");   // split into wholly separate suggestions
         StringBuilder sb = new StringBuilder();
@@ -283,9 +292,13 @@ public class AtdRuleConverter extends RuleConverter {
         return sb.toString();
     }
     
- // for the contiguous reference with a transform, e.g. \1:upper or \2:nosuffix
-    // this is actually pretty specific to AtD, so it should either not go in here or go in here 
-    // as an abstract method.
+ 
+    /** 
+     * Expands the contiguous reference with transform (\1:upper, \2:singular, e.g.)
+     * @param element: reference with transform
+     * @param pattern: the pattern the reference references
+     * @return
+     */
     public static String expandTransform(String element, String[] pattern) {
         String[] se = element.split(":");
         int numMatched = Integer.parseInt(se[0].replaceAll("\\\\", ""));
@@ -326,12 +339,19 @@ public class AtdRuleConverter extends RuleConverter {
         else if (transform.equals("lower")) {
             retString = "<match no=\"" + Integer.toString(numMatched + 1) + "\" case_conversion=\"alllower\" />";
         }
-        //TODO: this is probably the wrong way to handle this (proper nouns)
         else if (transform.equals("singular")) {
-            retString = "<match no=\"" + Integer.toString(numMatched + 1) + "\" postag=\"NN|NNP\" postag_regexp=\"yes\"/>";
+        	if (hasSpecificPosTag(pattern[numMatched],"NNPS")) {
+        		retString = "<match no=\"" + Integer.toString(numMatched + 1) + "\" postag=\"NNP\" />";
+        	} else {
+        		retString = "<match no=\"" + Integer.toString(numMatched + 1) + "\" postag=\"NN\" />";
+        	}
         }
         else if (transform.equals("plural")) {
-            retString = "<match no=\"" + Integer.toString(numMatched + 1) + "\" postag=\"NNS|NNPS\" postag_regexp=\"yes\"/>";
+            if (hasSpecificPosTag(pattern[numMatched],"NNP")) {
+            	retString = "<match no=\"" + Integer.toString(numMatched + 1) + "\" postag=\"NNPS\" />";
+            } else {
+            	retString = "<match no=\"" + Integer.toString(numMatched + 1) + "\" postag=\"NNS\" />";
+            }
         }
         else if (transform.equals("participle")) {
             retString = "<match no=\"" + Integer.toString(numMatched + 1) + "\" postag=\"VBN\" />";
@@ -357,6 +377,9 @@ public class AtdRuleConverter extends RuleConverter {
         boolean caseSensitive = false;
         String[] splitPattern = pattern.split("\\ +");
         for (String s : splitPattern) {
+        	if (s.equals("0BEGIN.0")) {
+        		continue;
+        	}
             String[] splitS = s.split("/");
             if (uppercase.matcher(splitS[0]).find()) {
                 caseSensitive = true;
@@ -365,6 +388,44 @@ public class AtdRuleConverter extends RuleConverter {
         return caseSensitive;
     }
     
+    /**
+     * Replaces NN with NN|NN:UN?, to account for the new LT mass noun tags
+     * @param postag
+     * @return
+     */
+    public static String fixNoun(String postag) {
+    	Matcher m = nounInPattern.matcher(postag);
+    	if (m.find()) {
+    		postag = postag.replaceFirst("NN(?!P|S|\\.)","NN|NN:UN?");
+    	}
+    	return postag;
+    }
+    
+    /**
+     * Checks if an element of the AtD pattern has a specific postag.
+     * @param word: an element of an AtD pattern; (accepts both .\*\/NN and <word> types)
+     * @param postag: a specific postag (no regexes)
+     * @return
+     */
+    public static boolean hasSpecificPosTag(String word, String postag) {
+    	if (dictLookup == null) {
+    		dictLookup = (DictionaryLookup) loadDictionary();
+    	}
+    	if (hasPosTag(word)) {
+    		String[] splitWord = word.split("/");
+    		if (Pattern.matches(splitWord[1], postag)) {
+    			return true;
+    		}
+    		return false;
+    	}
+    	List<WordData> lwd = dictLookup.lookup(word);
+    	for (WordData wd : lwd) {
+    		if (wd.getTag().toString().equals(postag)) {
+    			return true;
+    		}
+    	}
+    	return false;
+    }
     
     
 

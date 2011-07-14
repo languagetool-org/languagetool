@@ -14,6 +14,7 @@ import de.danielnaber.languagetool.JLanguageTool;
 import morfologik.stemming.Dictionary;
 import morfologik.stemming.DictionaryLookup;
 import morfologik.stemming.IStemmer;
+import morfologik.stemming.WordData;
 
 public abstract class RuleConverter {
 
@@ -30,7 +31,7 @@ public abstract class RuleConverter {
     protected String outFileName;
     protected String ruleType;
     
-    private static DictionaryLookup dictLookup = (DictionaryLookup) loadDictionary();
+    protected static DictionaryLookup dictLookup = (DictionaryLookup) loadDictionary();
     
     protected static final Pattern wordReference = Pattern.compile("\\\\\\d+");
     protected static final Pattern wordReferenceTransform = Pattern.compile("\\\\\\d+:[^:]+");
@@ -136,7 +137,7 @@ public abstract class RuleConverter {
         } else if (type.equals("regextoken")) {
             orig.add(space + "<token regexp=\"yes\">" + token + "</token>");
         } else if (type.equals("regexpostag")) {
-            orig.add(space + "<token postag=\"" + postag + "\" + postag_regexp=\"yes\"></token>");
+            orig.add(space + "<token postag=\"" + postag + "\" postag_regexp=\"yes\"></token>");
         } else if (type.equals("sentstart")) {
             orig.add(space + "<token postag=\"SENT_START\"></token>");
         }
