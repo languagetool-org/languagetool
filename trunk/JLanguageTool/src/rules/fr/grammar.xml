@@ -1349,11 +1349,11 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern mark_from="1">
           <token regexp="yes">en|de</token>
-          <token>vancance</token>
+          <token>vacance</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>vacances</suggestion> ?</message>
-        <example type="incorrect">Je suis en <marker>vancance</marker> à partir de demain.</example>
-        <example type="correct">Je suis en <marker>vancances</marker> à partir de demain.</example>
+        <example type="incorrect">Je suis en <marker>vacance</marker> à partir de demain.</example>
+        <example type="correct">Je suis en <marker>vacances</marker> à partir de demain.</example>
         <example type="correct">Il y a une vacance dans notre équipe au travail.</example>
       </rule>
       <rule>
@@ -1401,8 +1401,8 @@ though, and has since been slightly modified)-->
           <token>baptismaux</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>fonts \2</suggestion> ?</message>
-        <example type="incorrect">Les <marker>fonds baptismaux</marker> servent aux baptèmes.</example>
-        <example type="correct">Les <marker>fonts baptismaux</marker> servent aux baptèmes.</example>
+        <example type="incorrect">Les <marker>fonds baptismaux</marker> servent aux baptêmes.</example>
+        <example type="correct">Les <marker>fonts baptismaux</marker> servent aux baptêmes.</example>
       </rule>
     </rulegroup>
     <rulegroup id="COUR_COURS_COURT" name="cour, cours, courts">
@@ -1530,7 +1530,7 @@ though, and has since been slightly modified)-->
         <example type="correct">J’ai 1 enfant.</example>
         <example type="incorrect">J’ai <marker>1 enfants</marker>.</example>
         <example type="correct">Cela coûte 2,1 Euros.</example>
-        <example type="correct">Ils sont agés de 4 et 1 ans.</example>
+        <example type="correct">Ils sont âgés de 4 et 1 ans.</example>
       </rule>
       <rule>
         <pattern>
@@ -1546,7 +1546,7 @@ though, and has since been slightly modified)-->
         <example type="correct">J’ai quatre enfants.</example>
         <example type="correct">Il est né le <marker>quatre janvier</marker>.</example>
         <example type="correct">On estimait à seize mille les fusils de son armée.</example>
-        <example type="correct">Le patron du numéro deux allemand a démissioné.</example>
+        <example type="correct">Le patron du numéro deux allemand a démissionné.</example>
       </rule>
       <rule name="nombre pluriel suivi du singulier">
         <pattern>
@@ -2234,7 +2234,10 @@ though, and has since been slightly modified)-->
     <rulegroup id="COND_VS_FUTUR" name="probable futur avant bientôt, demain, etc.">
       <rule>
         <pattern mark_to="-1">
-          <token postag="V con pres 1 s"><exception postag="V ind futu 1 s"/></token>
+          <token postag="V con pres 1 s">
+            <exception postag="V ind futu 1 s"/>
+            <exception>aimerais</exception>
+          </token>
           <token regexp="yes">demain|après-demain|bientôt</token>
         </pattern>
         <message>Vérifier si le verbe « \1 » ne devrait pas être au futur plutôt qu'au conditionel.</message>
@@ -3372,7 +3375,7 @@ though, and has since been slightly modified)-->
         <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
         <example type="incorrect">Que <marker>mangez vous</marker> ?</example>
         <example type="correct">Que mangez-vous ?</example>
-        <example type="correct">Veuillez vous rendre à l’acceuil.</example>
+        <example type="correct">Veuillez vous rendre à l’accueil.</example>
       </rule>
       <rule>
         <pattern>
@@ -10355,7 +10358,7 @@ though, and has since been slightly modified)-->
         <token>de</token>
         <token>naissance</token>
       </pattern>
-      <message>« Certificat de naissance » est un anglicisme (birth certificate). Employez <suggestion>acte de naissance</suggestion>, <suggestion>extrait de naissance</suggestion>, <suggestion>extrait de baptème</suggestion>.</message>
+      <message>« Certificat de naissance » est un anglicisme (birth certificate). Employez <suggestion>acte de naissance</suggestion>, <suggestion>extrait de naissance</suggestion>, <suggestion>extrait de baptême</suggestion>.</message>
       <example type="incorrect"><marker>certificat de naissance</marker>.</example>
       <example type="correct"><marker>acte de naissance</marker>.</example>
     </rule>
