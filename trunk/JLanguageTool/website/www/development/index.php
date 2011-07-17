@@ -2,7 +2,7 @@
 $page = "development";
 $title = "LanguageTool";
 $title2 = "Development";
-$lastmod = "2011-02-19 02:05:00 CET";
+$lastmod = "2011-07-17 13:05:00 CET";
 include("../../include/header.php");
 include('../../include/geshi/geshi.php');
 ?>
@@ -137,6 +137,11 @@ etc as an error:</p>
 <p>There are more features not used in the example above:</p>
 
 <ul class="largelist">
+    
+    <li>element <tt>token</tt>, attribute <tt>inflected</tt> is used to match not only the given form but 
+    also all of its inflected forms. For example <tt>&lt;token inflected="yes"&gt;bicycle&lt;/token&gt;</tt> will
+    match <em>bicycle</em>, <em>bicycles</em>, <em>bicycling</em> etc.</li>
+    
 	<li>element <tt>token</tt>, attribute <tt>skip</tt> is used
 	in two situations:
 	
