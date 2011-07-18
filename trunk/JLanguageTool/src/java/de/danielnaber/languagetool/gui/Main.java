@@ -26,12 +26,12 @@ import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.server.HTTPServer;
 import de.danielnaber.languagetool.server.PortBindingException;
 import de.danielnaber.languagetool.tools.StringTools;
+import de.danielnaber.languagetool.tools.LanguageIdentifierTools;
 import de.danielnaber.languagetool.AnalyzedSentence;
 
 import org.apache.tika.language.*;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.filechooser.FileFilter;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
@@ -78,6 +78,15 @@ public final class Main implements ActionListener {
 
   private boolean closeHidesToTray;
   private boolean isInTray;
+  
+  static {
+	  try {
+		  LanguageIdentifierTools.addLtProfiles();  
+	  } catch (Exception e) {
+		  System.out.println("Couldn't load the additional language profiles. Check your ngp files.");
+	  }
+	  
+  }
 
   private Main() throws IOException {
     config = new Configuration(new File(System.getProperty("user.home")), CONFIG_FILE);

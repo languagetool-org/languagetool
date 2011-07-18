@@ -19,6 +19,7 @@
 package de.danielnaber.languagetool;
 
 import java.io.*;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -38,6 +39,7 @@ import de.danielnaber.languagetool.rules.Rule;
 import de.danielnaber.languagetool.rules.bitext.BitextRule;
 import de.danielnaber.languagetool.tools.StringTools;
 import de.danielnaber.languagetool.tools.Tools;
+import de.danielnaber.languagetool.tools.*;
 
 /**
  * The command line tool to check plain text files.
@@ -486,7 +488,14 @@ class Main {
           || args[i].equals("--help") || args[i].equals("--?")) {
         exitWithUsageMessage();
       } else if (args[i].equals("-adl") || args[i].equals("--autoDetect")) {    // set autoDetect flag
-          autoDetect = true;
+          // also initialize the other language profiles for the LanguageIdentifier
+    	  try {
+    		  LanguageIdentifierTools.addLtProfiles();
+    	  } catch (Exception e)	{
+    		  System.out.println("Failed to load some additional profiles. Check your ngp files.");
+    		  e.printStackTrace();
+    	  }
+    	  autoDetect = true;
       } else if (args[i].equals("-v") || args[i].equals("--verbose")) {
         verbose = true;
       } else if (args[i].equals("-t") || args[i].equals("--taggeronly")) {
