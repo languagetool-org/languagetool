@@ -63,6 +63,16 @@ public class RuleConverterMain {
         w.close();
         RuleCoverage checker = new RuleCoverage(Language.ENGLISH);
         checker.evaluateRules(grammarfile);
+        
+        // for now, write the disambiguation rules to a default file
+        w = new PrintWriter(new OutputStreamWriter(new FileOutputStream("disambiguationtest.xml"), "UTF-8"));
+        for (ArrayList<String> killedRule : killedRules) {
+        	for (String line : killedRule) {
+        		w.write(line + '\n');
+        	}
+        }
+        w.close();
+        
     }
     
     public static void main(String[] args) throws IOException {
@@ -152,6 +162,12 @@ public class RuleConverterMain {
         return type;
     }
     
+
+    /**
+     * Applies to the AtD false alarm rules
+     * @param rule
+     * @return
+     */
     public boolean notKilledRule(HashMap<String,String> rule) {
     	if (rule.containsKey("filter")) {
     		if (rule.get("filter").equals("kill") || rule.get("filter").equals("die")) {

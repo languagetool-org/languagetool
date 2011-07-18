@@ -4,5 +4,7 @@ halve to::word=have \1
 0BEGIN.0 My|Your|His|Her|Their pants is::word=\0 \1 are::filter=sane::avoid=live, rest
 0BEGIN.0 .*/NNP and [a-z]+/PRP.* [a-z]+/NNS is::word=\0 \1 \2 \3 are, \0 or \2 \3:singular \4::filter=sane::avoid=live, rest
 charge d'affaires::word=chargé d'affaires::filter=none
-All my .*/NN are fast::word=\2:plural
-All my .*/NNP are fast::word=\2:plural
+.*/DT couple .*/NN|NNS::word=\0 \1 of \2::pivots=couple,couple of
+.*/NN isn't::word=\0 is not
+
+

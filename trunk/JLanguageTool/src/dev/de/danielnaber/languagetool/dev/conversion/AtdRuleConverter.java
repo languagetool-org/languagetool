@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -19,7 +20,7 @@ import de.danielnaber.languagetool.JLanguageTool;
 public class AtdRuleConverter extends RuleConverter {
     
 
-    private final static String MACRO_EXPANSIONS_FILE = "." + JLanguageTool.getDataBroker().getResourceDir() + "/en/macro_expansions.txt";
+    private final static String MACRO_EXPANSIONS_FILE = "." + JLanguageTool.getDataBroker().getResourceDir() + "/en/macro_expansions.txt";	
     private static HashMap<String,String> macroExpansions = fillOutMacroExpansions();
     
     private static Pattern nounInPattern = Pattern.compile("NN(?!P|S|\\.)");
@@ -116,17 +117,42 @@ public class AtdRuleConverter extends RuleConverter {
                 ltRule.add(secondIndent + "<pattern>");
             }            
             String[] pattern = rule.get("pattern").split("\\ +");
-            for (String e : pattern) {
+            if (isSpecialApostropheCase(pattern)) {
+            	List<HashMap<String,String>> twoRules = splitOffRegularWords(rule);
+            	List<String> twoRulesList = new ArrayList<String>();
+            	for (HashMap<String,String> map : twoRules) {
+            		List<String> singleRule = ltRuleAsList(map, RuleConverter.getSuitableID(map), RuleConverter.getSuitableName(map), type);
+            		for (String line : singleRule) {
+            			twoRulesList.add(line);
+            		}
+            	}
+            	return twoRulesList;
+            }
+            for (int i=0;i<pattern.length;i++) {
                 // for proper handling of apostrophes
-                if (e.contains("'")) {
+                String e = pattern[i];
+                if (e.contains("'") && !e.contains("|")) {
                     String[] temp = e.replaceAll("'", " ' ").split("\\ +");
                     for (String sTemp : temp) {
                         ltRule = addTokenHelper(ltRule,sTemp,thirdIndentInt);
                     }
+                } else if (e.contains("'") & e.contains("|")) {
+                	String[] temp = e.split("\\|");
+                	String prefixes = "";
+                	String suffix = "";
+                	for (String sTemp : temp) {
+                		String[] splitSTemp = sTemp.split("'");
+                		prefixes = prefixes + splitSTemp[0] + "|";
+                		suffix = splitSTemp[1];
+                	}
+                	prefixes = prefixes.substring(0, prefixes.length() - 1);
+                	ltRule = addTokenHelper(ltRule, prefixes, thirdIndentInt);
+                	ltRule = addTokenHelper(ltRule, "'", thirdIndentInt);
+                	ltRule = addTokenHelper(ltRule, suffix, thirdIndentInt);
+
                 } else {
                     ltRule = addTokenHelper(ltRule,e,thirdIndentInt);
                 }
-                
             }
             ltRule.add(secondIndent + "</pattern>");
             ltRule.add(secondIndent + "<message>" + rule.get("explanation") + "</message>");
@@ -134,23 +160,46 @@ public class AtdRuleConverter extends RuleConverter {
         }
         // for the default rules ( pattern::declaration="..."::declaration="..." )
         else if (type.equals("default")) {
-            // don't deal with filter=kill for now (meaning, likely, lots of false positives)
-            //TODO: add negative rule matches here
-        	// these will go into the disambiguation file (?) according to the formalism being developed by Marcin
+        	// because AtD is case sensitive and LT is not (by default)
             if (Boolean.parseBoolean(rule.get("casesensitive"))) {
                 ltRule.add(secondIndent + "<pattern case_sensitive=\"yes\">");
             } else {
                 ltRule.add(secondIndent + "<pattern>");
             }
             String[] pattern = rule.get("pattern").split("\\ +");
+            if (isSpecialApostropheCase(pattern)) {
+            	List<HashMap<String,String>> twoRules = splitOffRegularWords(rule);
+            	List<String> twoRulesList = new ArrayList<String>();
+            	for (HashMap<String,String> map : twoRules) {
+            		List<String> singleRule = ltRuleAsList(map, RuleConverter.getSuitableID(map), RuleConverter.getSuitableName(map), type);
+            		for (String line : singleRule) {
+            			twoRulesList.add(line);
+            		}
+            	}
+            	return twoRulesList;
+            }
             for (int i=0;i<pattern.length;i++) {
                 // for proper handling of apostrophes
                 String e = pattern[i];
-                if (e.contains("'")) {
+                if (e.contains("'") && !e.contains("|")) {
                     String[] temp = e.replaceAll("'", " ' ").split("\\ +");
                     for (String sTemp : temp) {
                         ltRule = addTokenHelper(ltRule,sTemp,thirdIndentInt);
                     }
+                } else if (e.contains("'") & e.contains("|")) {
+                	String[] temp = e.split("\\|");
+                	String prefixes = "";
+                	String suffix = "";
+                	for (String sTemp : temp) {
+                		String[] splitSTemp = sTemp.split("'");
+                		prefixes = prefixes + splitSTemp[0] + "|";
+                		suffix = splitSTemp[1];
+                	}
+                	prefixes = prefixes.substring(0, prefixes.length() - 1);
+                	ltRule = addTokenHelper(ltRule, prefixes, thirdIndentInt);
+                	ltRule = addTokenHelper(ltRule, "'", thirdIndentInt);
+                	ltRule = addTokenHelper(ltRule, suffix, thirdIndentInt);
+
                 } else {
                     ltRule = addTokenHelper(ltRule,e,thirdIndentInt);
                 }
@@ -167,9 +216,90 @@ public class AtdRuleConverter extends RuleConverter {
             ltRule.add(firstIndent + "</rule>");
             
         }
-        
         return ltRule;
-        
+    }
+    
+ // returns true if the rule contains and or pattern that has both regular and apostrophed words
+    // (e.g. would|could|wouldn't|couldn't)
+    // shouldn't match or patterns with just apostrophes (e.g. wouldn't|couldn't)
+    public boolean isSpecialApostropheCase(String[] pattern) {
+    	for (String s : pattern) {
+    		if (s.contains("|") && s.contains("'")) {
+    			String[] ss = s.split("\\|");
+    			for (String sss : ss) {
+    				if (!sss.contains("'")) {
+    					return true;
+    				}
+    			}
+    		}
+    	}
+    	return false;
+    }
+    
+    public boolean isApostropheCase(String[] pattern) {
+    	for (String s : pattern) {
+    		if (s.contains("|") && s.contains("'")) {
+    			String[] ss = s.split("\\|");
+    			HashSet<String> suffixes = new HashSet<String>();
+    			for (String sss : ss) {
+    				String[] ssss = sss.split("'");
+    				suffixes.add(ssss[ssss.length - 1]);
+    			}
+    			if (suffixes.size() == 1) {
+    				return true;
+    			}
+    		}
+    	}
+    	return false;
+    }
+    
+    public List<HashMap<String,String>> splitOffRegularWords(HashMap<String,String> rule) {
+    	List<HashMap<String,String>> rulesList = new ArrayList<HashMap<String,String>>();
+    	String pattern = rule.get("pattern");
+    	String[] splitPattern = pattern.split("\\ +");
+    	String regularPattern = "";
+    	String apostrophedPattern = "";
+    	for (String sp : splitPattern) {
+    		if (sp.contains("|") && sp.contains("'")) {
+    			List<String> apostrophedWords = new ArrayList<String>();
+    			List<String> regularWords = new ArrayList<String>();
+    			String[] temp = sp.split("\\|");
+    			for (String sTemp : temp) {
+    				if (sTemp.contains("'")) {
+    					apostrophedWords.add(sTemp);
+    				} else {
+    					regularWords.add(sTemp);
+    				}
+    			}
+    			for (int i=0;i<regularWords.size() - 1;i++) {
+    				regularPattern = regularPattern + regularWords.get(i) + "|";
+    			}
+    			regularPattern = regularPattern + regularWords.get(regularWords.size() - 1);
+    			for (int i=0;i<apostrophedWords.size() - 1;i++) {
+    				apostrophedPattern = apostrophedPattern + apostrophedWords.get(i) + "|";
+    			}
+    			apostrophedPattern = apostrophedPattern + apostrophedWords.get(apostrophedWords.size() - 1);
+    			regularPattern = regularPattern + " ";
+    			apostrophedPattern = apostrophedPattern + " ";
+    		} else {
+    			regularPattern = regularPattern + sp + " ";
+    			apostrophedPattern = apostrophedPattern + sp + " ";
+    		}
+    	}
+    	regularPattern = regularPattern.trim();
+    	apostrophedPattern = apostrophedPattern.trim();
+    	HashMap<String,String> regularRule = new HashMap<String,String>();
+    	HashMap<String,String> apostrophedRule = new HashMap<String,String>();
+    	for (String key : rule.keySet()) {
+    		regularRule.put(key, rule.get(key));
+    		apostrophedRule.put(key, rule.get(key));
+    	}
+    	regularRule.put("pattern", regularPattern);
+    	apostrophedRule.put("pattern", apostrophedPattern);
+    	rulesList.add(regularRule);
+    	rulesList.add(apostrophedRule);
+    	
+    	return rulesList;
     }
     
     public static boolean isMacro(String e) {
@@ -197,10 +327,14 @@ public class AtdRuleConverter extends RuleConverter {
     }
     
     public ArrayList<String> addTokenHelper(ArrayList<String> ltRule, String e, int spaces) {
-        // special case of start of sentence anchor
+        // special cases of start and end of sentence anchors
         if (e.equals("0BEGIN.0")) {
             ltRule = addToken(ltRule, null, null, "sentstart", thirdIndentInt);
             return ltRule;
+        }
+        if (e.equals("0END.0")) {
+        	ltRule = addToken(ltRule, null, null, "sentend", thirdIndentInt);
+        	return ltRule;
         }
         if (hasPosTag(e)) {
             String[] parts = e.split("/");
@@ -377,7 +511,7 @@ public class AtdRuleConverter extends RuleConverter {
         boolean caseSensitive = false;
         String[] splitPattern = pattern.split("\\ +");
         for (String s : splitPattern) {
-        	if (s.equals("0BEGIN.0")) {
+        	if (s.equals("0BEGIN.0") || s.equals("0END.0")) {
         		continue;
         	}
             String[] splitS = s.split("/");

@@ -14,7 +14,6 @@ import de.danielnaber.languagetool.JLanguageTool;
 import morfologik.stemming.Dictionary;
 import morfologik.stemming.DictionaryLookup;
 import morfologik.stemming.IStemmer;
-import morfologik.stemming.WordData;
 
 public abstract class RuleConverter {
 
@@ -140,6 +139,8 @@ public abstract class RuleConverter {
             orig.add(space + "<token postag=\"" + postag + "\" postag_regexp=\"yes\"></token>");
         } else if (type.equals("sentstart")) {
             orig.add(space + "<token postag=\"SENT_START\"></token>");
+        } else if (type.equals("sentend")) {
+        	orig.add(space + "<token postag=\"SENT_END\"></token>");
         }
         return orig;
     }
@@ -192,11 +193,11 @@ public abstract class RuleConverter {
     //TODO: rework this method to return acceptable names
     // (ones that don't start with an underscore, ones that don't include the regex symbols)
     public static String getSuitableID(HashMap<String,String> rule) {
-        return rule.get("pattern").replaceAll("[\\ &|.*/]", "_");       
+        return rule.get("pattern").replaceAll("[\\ &|.*/<>]", "_");       
     }
     
     public static String getSuitableName(HashMap<String,String> rule) {
-        return rule.get("pattern").replaceAll("[&|.*/]", "_");
+        return rule.get("pattern").replaceAll("[&|.*/<>]", "_");
     }
     
     /**
