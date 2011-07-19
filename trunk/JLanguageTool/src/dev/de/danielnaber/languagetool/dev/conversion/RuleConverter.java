@@ -118,29 +118,34 @@ public abstract class RuleConverter {
      * @param type: how to add the token, postag 
      * @return
      */
-    protected static ArrayList<String> addToken(ArrayList<String> orig, String token, String postag, String type, int indent) {
+    protected static ArrayList<String> addToken(ArrayList<String> orig, String token, String postag, String type, int indent, String exceptions) {
         String space = getSpace(indent);
         
+        String exceptionString = "";
+        if (exceptions != null) {
+        	exceptionString = "<exception regexp=\"yes\">" + exceptions + "</exception>";
+        }
+        
         if (type.equals("token")) {
-            orig.add(space + "<token>" + token + "</token>");
+            orig.add(space + "<token>" + token + exceptionString + "</token>");
         } else if (type.equals("regexandpostag")) {
-            orig.add(space + "<token postag=\"" + postag + "\" regexp=\"yes\">" + token + "</token>");
+            orig.add(space + "<token postag=\"" + postag + "\" regexp=\"yes\">" + token + exceptionString + "</token>");
         } else if (type.equals("tokenandpostag")) {
-            orig.add(space + "<token postag=\"" + postag + "\">" + token + "</token>");
+            orig.add(space + "<token postag=\"" + postag + "\">" + token + exceptionString + "</token>");
         } else if (type.equals("tokenandregexpostag")) {
-            orig.add(space + "<token postag=\"" + postag + "\" postag_regexp=\"yes\">" + token + "</token>");
+            orig.add(space + "<token postag=\"" + postag + "\" postag_regexp=\"yes\">" + token + exceptionString + "</token>");
         } else if (type.equals("regexandregexpostag")) {
-            orig.add(space + "<token postag=\"" + postag + "\" postag_regexp=\"yes\" regexp=\"yes\">" + token + "</token>");
+            orig.add(space + "<token postag=\"" + postag + "\" postag_regexp=\"yes\" regexp=\"yes\">" + token + exceptionString + "</token>");
         } else if (type.equals("postag")) {
-            orig.add(space + "<token postag=\"" + postag + "\"></token>");
+            orig.add(space + "<token postag=\"" + postag + "\">" + exceptionString + "</token>");
         } else if (type.equals("regextoken")) {
-            orig.add(space + "<token regexp=\"yes\">" + token + "</token>");
+            orig.add(space + "<token regexp=\"yes\">" + token + exceptionString + "</token>");
         } else if (type.equals("regexpostag")) {
-            orig.add(space + "<token postag=\"" + postag + "\" postag_regexp=\"yes\"></token>");
+            orig.add(space + "<token postag=\"" + postag + "\" postag_regexp=\"yes\">" + exceptionString + "</token>");
         } else if (type.equals("sentstart")) {
-            orig.add(space + "<token postag=\"SENT_START\"></token>");
+            orig.add(space + "<token postag=\"SENT_START\">" + exceptionString + "</token>");
         } else if (type.equals("sentend")) {
-        	orig.add(space + "<token postag=\"SENT_END\"></token>");
+        	orig.add(space + "<token postag=\"SENT_END\">" + exceptionString + "</token>");
         }
         return orig;
     }

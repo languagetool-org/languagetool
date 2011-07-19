@@ -56,8 +56,7 @@ public class AtdRuleConverter extends RuleConverter {
             }
         } finally {
             in.close();
-        }
-        
+        }  
         return ruleList;
     }
 
@@ -108,7 +107,11 @@ public class AtdRuleConverter extends RuleConverter {
             ltRule.add(firstIndent + "<rule " + "id=\"" + id + "\" name=\"" + name + "\">");
         } else {
             ltRule.add(firstIndent + "<rule>");
-        }    
+        }   
+        String exceptions = null;
+        if (rule.containsKey("avoid")) {	// (avoid=...) words that should make the rule fail if they appear in the pattern
+        	exceptions = getAvoidWords(rule.get("avoid"));
+        }
         // for the "avoid" rules
         if (type.equals("avoid")) {
             if (Boolean.parseBoolean(rule.get("casesensitive"))) {
@@ -117,41 +120,15 @@ public class AtdRuleConverter extends RuleConverter {
                 ltRule.add(secondIndent + "<pattern>");
             }            
             String[] pattern = rule.get("pattern").split("\\ +");
-            if (isSpecialApostropheCase(pattern)) {
-            	List<HashMap<String,String>> twoRules = splitOffRegularWords(rule);
-            	List<String> twoRulesList = new ArrayList<String>();
-            	for (HashMap<String,String> map : twoRules) {
-            		List<String> singleRule = ltRuleAsList(map, RuleConverter.getSuitableID(map), RuleConverter.getSuitableName(map), type);
-            		for (String line : singleRule) {
-            			twoRulesList.add(line);
-            		}
-            	}
-            	return twoRulesList;
+            if (isApostropheCase(pattern)) {
+            	return handleApostropheCase(rule, type);
             }
             for (int i=0;i<pattern.length;i++) {
-                // for proper handling of apostrophes
                 String e = pattern[i];
-                if (e.contains("'") && !e.contains("|")) {
-                    String[] temp = e.replaceAll("'", " ' ").split("\\ +");
-                    for (String sTemp : temp) {
-                        ltRule = addTokenHelper(ltRule,sTemp,thirdIndentInt);
-                    }
-                } else if (e.contains("'") & e.contains("|")) {
-                	String[] temp = e.split("\\|");
-                	String prefixes = "";
-                	String suffix = "";
-                	for (String sTemp : temp) {
-                		String[] splitSTemp = sTemp.split("'");
-                		prefixes = prefixes + splitSTemp[0] + "|";
-                		suffix = splitSTemp[1];
-                	}
-                	prefixes = prefixes.substring(0, prefixes.length() - 1);
-                	ltRule = addTokenHelper(ltRule, prefixes, thirdIndentInt);
-                	ltRule = addTokenHelper(ltRule, "'", thirdIndentInt);
-                	ltRule = addTokenHelper(ltRule, suffix, thirdIndentInt);
-
+                if (e.contains("'")) {
+                    ltRule = handleRegularApostrophe(ltRule,e,thirdIndentInt,exceptions);
                 } else {
-                    ltRule = addTokenHelper(ltRule,e,thirdIndentInt);
+                    ltRule = addTokenHelper(ltRule,e,thirdIndentInt,exceptions);
                 }
             }
             ltRule.add(secondIndent + "</pattern>");
@@ -167,41 +144,15 @@ public class AtdRuleConverter extends RuleConverter {
                 ltRule.add(secondIndent + "<pattern>");
             }
             String[] pattern = rule.get("pattern").split("\\ +");
-            if (isSpecialApostropheCase(pattern)) {
-            	List<HashMap<String,String>> twoRules = splitOffRegularWords(rule);
-            	List<String> twoRulesList = new ArrayList<String>();
-            	for (HashMap<String,String> map : twoRules) {
-            		List<String> singleRule = ltRuleAsList(map, RuleConverter.getSuitableID(map), RuleConverter.getSuitableName(map), type);
-            		for (String line : singleRule) {
-            			twoRulesList.add(line);
-            		}
-            	}
-            	return twoRulesList;
+            if (isApostropheCase(pattern)) {
+            	return handleApostropheCase(rule, type);
             }
             for (int i=0;i<pattern.length;i++) {
-                // for proper handling of apostrophes
                 String e = pattern[i];
-                if (e.contains("'") && !e.contains("|")) {
-                    String[] temp = e.replaceAll("'", " ' ").split("\\ +");
-                    for (String sTemp : temp) {
-                        ltRule = addTokenHelper(ltRule,sTemp,thirdIndentInt);
-                    }
-                } else if (e.contains("'") & e.contains("|")) {
-                	String[] temp = e.split("\\|");
-                	String prefixes = "";
-                	String suffix = "";
-                	for (String sTemp : temp) {
-                		String[] splitSTemp = sTemp.split("'");
-                		prefixes = prefixes + splitSTemp[0] + "|";
-                		suffix = splitSTemp[1];
-                	}
-                	prefixes = prefixes.substring(0, prefixes.length() - 1);
-                	ltRule = addTokenHelper(ltRule, prefixes, thirdIndentInt);
-                	ltRule = addTokenHelper(ltRule, "'", thirdIndentInt);
-                	ltRule = addTokenHelper(ltRule, suffix, thirdIndentInt);
-
+                if (e.contains("'")) {
+                    ltRule = handleRegularApostrophe(ltRule,e,thirdIndentInt,exceptions);
                 } else {
-                    ltRule = addTokenHelper(ltRule,e,thirdIndentInt);
+                    ltRule = addTokenHelper(ltRule,e,thirdIndentInt,exceptions);
                 }
             }
             ltRule.add(secondIndent + "</pattern>");
@@ -219,88 +170,127 @@ public class AtdRuleConverter extends RuleConverter {
         return ltRule;
     }
     
- // returns true if the rule contains and or pattern that has both regular and apostrophed words
-    // (e.g. would|could|wouldn't|couldn't)
-    // shouldn't match or patterns with just apostrophes (e.g. wouldn't|couldn't)
-    public boolean isSpecialApostropheCase(String[] pattern) {
-    	for (String s : pattern) {
-    		if (s.contains("|") && s.contains("'")) {
-    			String[] ss = s.split("\\|");
-    			for (String sss : ss) {
-    				if (!sss.contains("'")) {
-    					return true;
-    				}
-    			}
-    		}
-    	}
-    	return false;
-    }
     
+    /**
+     * Returns true if the pattern contains an or regexp with apostrophes. E.g. wouldn't|couldn't|would|could
+     * @param pattern
+     * @return
+     */
     public boolean isApostropheCase(String[] pattern) {
     	for (String s : pattern) {
-    		if (s.contains("|") && s.contains("'")) {
-    			String[] ss = s.split("\\|");
-    			HashSet<String> suffixes = new HashSet<String>();
-    			for (String sss : ss) {
-    				String[] ssss = sss.split("'");
-    				suffixes.add(ssss[ssss.length - 1]);
-    			}
-    			if (suffixes.size() == 1) {
-    				return true;
-    			}
+    		if (s.contains("'") && s.contains("|")) {
+    			return true;
     		}
     	}
     	return false;
     }
     
-    public List<HashMap<String,String>> splitOffRegularWords(HashMap<String,String> rule) {
-    	List<HashMap<String,String>> rulesList = new ArrayList<HashMap<String,String>>();
-    	String pattern = rule.get("pattern");
-    	String[] splitPattern = pattern.split("\\ +");
-    	String regularPattern = "";
-    	String apostrophedPattern = "";
-    	for (String sp : splitPattern) {
-    		if (sp.contains("|") && sp.contains("'")) {
-    			List<String> apostrophedWords = new ArrayList<String>();
-    			List<String> regularWords = new ArrayList<String>();
-    			String[] temp = sp.split("\\|");
-    			for (String sTemp : temp) {
-    				if (sTemp.contains("'")) {
-    					apostrophedWords.add(sTemp);
-    				} else {
-    					regularWords.add(sTemp);
-    				}
-    			}
-    			for (int i=0;i<regularWords.size() - 1;i++) {
-    				regularPattern = regularPattern + regularWords.get(i) + "|";
-    			}
-    			regularPattern = regularPattern + regularWords.get(regularWords.size() - 1);
-    			for (int i=0;i<apostrophedWords.size() - 1;i++) {
-    				apostrophedPattern = apostrophedPattern + apostrophedWords.get(i) + "|";
-    			}
-    			apostrophedPattern = apostrophedPattern + apostrophedWords.get(apostrophedWords.size() - 1);
-    			regularPattern = regularPattern + " ";
-    			apostrophedPattern = apostrophedPattern + " ";
-    		} else {
-    			regularPattern = regularPattern + sp + " ";
-    			apostrophedPattern = apostrophedPattern + sp + " ";
+    /**
+     * Properly splits up the apostrophe'd or patterns, and re-calls ltRuleAsList with appropriate pattern arguments
+     * @param rule
+     * @param type
+     * @return
+     */
+    public List<String> handleApostropheCase(HashMap<String,String> rule, String type) {
+    	String[] pattern = rule.get("pattern").split("\\ +");
+    	String offendingToken = "";
+    	int offendingTokenIndex = 0;
+    	for (int i=0;i<pattern.length;i++) {
+    		String token = pattern[i];
+    		if (token.contains("'") && token.contains("|")) {
+    			offendingToken = token;
+    			offendingTokenIndex = i;
+    			break;
     		}
     	}
-    	regularPattern = regularPattern.trim();
-    	apostrophedPattern = apostrophedPattern.trim();
-    	HashMap<String,String> regularRule = new HashMap<String,String>();
-    	HashMap<String,String> apostrophedRule = new HashMap<String,String>();
-    	for (String key : rule.keySet()) {
-    		regularRule.put(key, rule.get(key));
-    		apostrophedRule.put(key, rule.get(key));
+    	String[] brokenToken = offendingToken.split("\\|");
+    	HashMap<String,ArrayList<String>> suffixMap = new HashMap<String,ArrayList<String>>();
+    	for (String token : brokenToken) {
+    		if (!token.contains("'")) {
+    			suffixMap = addItemSmart(suffixMap, "regular", token);
+    		} else {
+    			String[] splitToken = token.split("'");
+    			// for the case where the apostrophe is at the end (e.g. mothers')
+    			if (splitToken.length == 1) {
+    				suffixMap = addItemSmart(suffixMap, "", splitToken[0]);
+    			} else {
+    				suffixMap = addItemSmart(suffixMap, splitToken[1], splitToken[0]);
+    			}
+    		}
     	}
-    	regularRule.put("pattern", regularPattern);
-    	apostrophedRule.put("pattern", apostrophedPattern);
-    	rulesList.add(regularRule);
-    	rulesList.add(apostrophedRule);
+    	ArrayList<String> newPatterns = new ArrayList<String>();
+    	for (String suffix : suffixMap.keySet()) {
+    		String newPattern = "";
+    		for (int i=0;i<pattern.length;i++) {
+    			if (i == offendingTokenIndex) {
+    				ArrayList<String> prefixes = suffixMap.get(suffix);
+    				String prefixString = "";
+    				for (String prefix : prefixes) {
+    					prefixString = prefixString + prefix + "|";
+    				}
+    				prefixString = prefixString.substring(0, prefixString.length() - 1);
+    				if (suffix.equals("regular")) {
+    					newPattern = newPattern + prefixString + " ";
+    				} else {
+    					newPattern = newPattern + prefixString + " ' " + suffix + " ";
+    				}    				
+    			} else {
+    				newPattern = newPattern + pattern[i] + " ";
+    			}
+    		}
+    		newPattern = newPattern.trim();
+    		newPatterns.add(newPattern);
+    	}
+    	ArrayList<String> allRules = new ArrayList<String>();
+    	for (String newPattern : newPatterns) {
+    		rule.put("pattern",newPattern);
+    		List<String> newLtRule = ltRuleAsList(rule,getSuitableID(rule),getSuitableName(rule),type);
+    		allRules.addAll(newLtRule);
+    	}
+    	return allRules;
     	
-    	return rulesList;
+    	
     }
+    
+    /**
+     * Helper method to appropriate add an item to a HashMap
+     * @param map
+     * @param key
+     * @param item
+     * @return
+     */
+    public HashMap<String,ArrayList<String>> addItemSmart(HashMap<String,ArrayList<String>> map, String key, String item) {
+    	if (map.containsKey(key)) {
+    		ArrayList<String> existing = map.get(key);
+    		existing.add(item);
+    		map.put(key,existing);
+    	} else {
+    		ArrayList<String> newList = new ArrayList<String>();
+    		newList.add(item);
+    		map.put(key, newList);
+    	}
+    	return map;
+    }
+     
+    /**
+     * Properly splits up words with apostrophes in them and adds the tokens to the LT rule
+     * @param ltRule
+     * @param element
+     * @param indent
+     * @return
+     */
+    public ArrayList<String> handleRegularApostrophe(ArrayList<String> ltRule, String element, int indent, String exceptions) {
+    	if (element.equals("'")) {
+    		ltRule = addTokenHelper(ltRule,element,indent,exceptions);
+    		return ltRule;
+    	}
+    	String[] temp = element.replaceAll("'", " ' ").split("\\ +");
+        for (String sTemp : temp) {
+            ltRule = addTokenHelper(ltRule,sTemp,indent,exceptions);
+        }
+        return ltRule;
+    }
+
     
     public static boolean isMacro(String e) {
         return e.contains("&");
@@ -311,6 +301,16 @@ public class AtdRuleConverter extends RuleConverter {
     // accessible (and easily extendible) format
     public static String expandMacro(String e) {
         return macroExpansions.get(e);
+    }
+    
+    public String getAvoidWords(String exceptions) {
+    	String[] avoidWords = exceptions.split(", ");
+    	String retString = "";
+    	for (String s : avoidWords) {
+    		retString = retString + s + "|";
+    	}
+    	retString = retString.substring(0,retString.length() - 1);
+    	return retString;
     }
     
     public static HashMap<String,String> fillOutMacroExpansions() {
@@ -326,14 +326,14 @@ public class AtdRuleConverter extends RuleConverter {
         return macroExpansions;
     }
     
-    public ArrayList<String> addTokenHelper(ArrayList<String> ltRule, String e, int spaces) {
+    public ArrayList<String> addTokenHelper(ArrayList<String> ltRule, String e, int spaces, String exceptions) {
         // special cases of start and end of sentence anchors
         if (e.equals("0BEGIN.0")) {
-            ltRule = addToken(ltRule, null, null, "sentstart", thirdIndentInt);
+            ltRule = addToken(ltRule, null, null, "sentstart", thirdIndentInt, exceptions);
             return ltRule;
         }
         if (e.equals("0END.0")) {
-        	ltRule = addToken(ltRule, null, null, "sentend", thirdIndentInt);
+        	ltRule = addToken(ltRule, null, null, "sentend", thirdIndentInt, exceptions);
         	return ltRule;
         }
         if (hasPosTag(e)) {
@@ -341,34 +341,32 @@ public class AtdRuleConverter extends RuleConverter {
             parts[1] = fixNoun(parts[1]);
             if (parts[0].equals(".*")) {
                 if (isRegex(parts[1])) {
-                    ltRule = addToken(ltRule, null, parts[1], "regexpostag", thirdIndentInt);
+                    ltRule = addToken(ltRule, null, parts[1], "regexpostag", thirdIndentInt, exceptions);
                 } else {
-                    ltRule = addToken(ltRule, null, parts[1], "postag", thirdIndentInt);
-                }
-                
+                    ltRule = addToken(ltRule, null, parts[1], "postag", thirdIndentInt, exceptions);
+                }  
             } else {
                 if (isRegex(parts[0])) {
                     if (isRegex(parts[1])) {
-                        ltRule = addToken(ltRule, parts[0], parts[1], "regexandregexpostag", thirdIndentInt);
+                        ltRule = addToken(ltRule, parts[0], parts[1], "regexandregexpostag", thirdIndentInt, exceptions);
                     } else {
-                        ltRule = addToken(ltRule, parts[0], parts[1], "regexandpostag", thirdIndentInt);
+                        ltRule = addToken(ltRule, parts[0], parts[1], "regexandpostag", thirdIndentInt, exceptions);
                     }
                 } else {
                     if (isRegex(parts[1])) {
-                        ltRule = addToken(ltRule, parts[0], parts[1], "tokenandregexpostag", thirdIndentInt);
+                        ltRule = addToken(ltRule, parts[0], parts[1], "tokenandregexpostag", thirdIndentInt, exceptions);
                     } else {
-                        ltRule = addToken(ltRule, parts[0], parts[1], "tokenandpostag", thirdIndentInt);
+                        ltRule = addToken(ltRule, parts[0], parts[1], "tokenandpostag", thirdIndentInt, exceptions);
                     }
-                }
-                
+                }  
             }
         } else {
             if (isRegex(e)) {
-                ltRule = addToken(ltRule, e, null, "regextoken", thirdIndentInt);
+                ltRule = addToken(ltRule, e, null, "regextoken", thirdIndentInt, null);
             } else if (isMacro(e)) {
-                ltRule = addToken(ltRule, expandMacro(e), null, "regextoken", thirdIndentInt);
+                ltRule = addToken(ltRule, expandMacro(e), null, "regextoken", thirdIndentInt, exceptions);
             } else {
-                ltRule = addToken(ltRule, e, null, "token", thirdIndentInt);
+                ltRule = addToken(ltRule, e, null, "token", thirdIndentInt, null);
             }
         }
         return ltRule;
@@ -390,7 +388,6 @@ public class AtdRuleConverter extends RuleConverter {
         String[] splitSuggestion = suggestion.split(",");   // split into wholly separate suggestions
         StringBuilder sb = new StringBuilder();
         sb.append("Did you mean ");
-        
         for (int i=0;i<splitSuggestion.length;i++) {
             String s = splitSuggestion[i];  
             String[] ss = s.split("\\ +");
@@ -474,18 +471,10 @@ public class AtdRuleConverter extends RuleConverter {
             retString = "<match no=\"" + Integer.toString(numMatched + 1) + "\" case_conversion=\"alllower\" />";
         }
         else if (transform.equals("singular")) {
-        	if (hasSpecificPosTag(pattern[numMatched],"NNPS")) {
-        		retString = "<match no=\"" + Integer.toString(numMatched + 1) + "\" postag=\"NNP\" />";
-        	} else {
-        		retString = "<match no=\"" + Integer.toString(numMatched + 1) + "\" postag=\"NN\" />";
-        	}
+        	retString = "<match no=\"" + Integer.toString(numMatched + 1) + "\" postag=\"NNP|NN(:U.?)?\" postag_regexp=\"yes\" />";
         }
         else if (transform.equals("plural")) {
-            if (hasSpecificPosTag(pattern[numMatched],"NNP")) {
-            	retString = "<match no=\"" + Integer.toString(numMatched + 1) + "\" postag=\"NNPS\" />";
-            } else {
-            	retString = "<match no=\"" + Integer.toString(numMatched + 1) + "\" postag=\"NNS\" />";
-            }
+           	retString = "<match no=\"" + Integer.toString(numMatched + 1) + "\" postag=\"NNPS|NNS\" postag_regexp=\"yes\" />";
         }
         else if (transform.equals("participle")) {
             retString = "<match no=\"" + Integer.toString(numMatched + 1) + "\" postag=\"VBN\" />";
@@ -498,6 +487,17 @@ public class AtdRuleConverter extends RuleConverter {
         }
         else if (transform.equals("present")) {
             retString = "<match no=\"" + Integer.toString(numMatched + 1) + "\" postag=\"VBG\" />";
+        }
+        else if (transform.equals("determiner") || transform.equals("determiner2")) {
+        	// currently a hack, as I can't see how to replace AtD's bigram probability.
+        	// should be good for a lot of situations
+        	retString = "the";
+        }
+        else if (transform.equals("positive")) {
+        	// don't know how i'll work this for non explicitly stated words (ones that need \1, i.e.)
+        }
+        else if (transform.equals("possessive")) {
+        	retString = "<match no=\"" + Integer.toString(numMatched + 1) + "\" postag=\"NN(:U.?)?\" postag_regexp=\"yes\" />'s";
         }
         return retString;
     }
