@@ -1,6 +1,7 @@
 package de.danielnaber.languagetool.tools;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -27,9 +28,10 @@ public class LanguageIdentifierTools {
     
         try {
             LanguageProfile profile = new LanguageProfile();
-            String languageFilePath = "./" + JLanguageTool.getDataBroker().getResourceDir() + 
+            final String languageFilePath = JLanguageTool.getDataBroker().getResourceDir() + 
             	"/" + language + "/" + language + PROFILE_SUFFIX;
-            InputStream stream = new FileInputStream(languageFilePath);
+             
+            InputStream stream = JLanguageTool.class.getResourceAsStream(languageFilePath);
             
             try {
                 BufferedReader reader =
