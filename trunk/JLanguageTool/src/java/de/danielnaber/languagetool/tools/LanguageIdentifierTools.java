@@ -22,16 +22,12 @@ public class LanguageIdentifierTools {
 	}
 	
     private static void addProfile(String language) throws Exception {
-        String PROFILE_SUFFIX = ".ngp";
-        String PROFILE_ENCODING = "UTF-8";
+        final String PROFILE_SUFFIX = ".ngp";
+        final String PROFILE_ENCODING = "UTF-8";
     
         try {
             LanguageProfile profile = new LanguageProfile();
-            
-            // this probably not the right way to get the path for the language file, but 
-            // I can't figure out how to do it any other way right now
-            String executionPath = System.getProperty("user.dir");
-            String languageFilePath = executionPath + JLanguageTool.getDataBroker().getResourceDir() + 
+            String languageFilePath = "./" + JLanguageTool.getDataBroker().getResourceDir() + 
             	"/" + language + "/" + language + PROFILE_SUFFIX;
             InputStream stream = new FileInputStream(languageFilePath);
             
