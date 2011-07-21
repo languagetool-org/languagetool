@@ -9,8 +9,11 @@ import de.danielnaber.languagetool.rules.patterns.PatternRuleLoader;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,12 +35,13 @@ public class RuleCoverage {
     String fileName = "." + JLanguageTool.getDataBroker().getResourceDir() + "/en/english.dict";
     private File dictFile = new File(fileName);
     
-    //TODO: Doesn't work with "avoid" files; generates incorrect examples!
+    
     public RuleCoverage(Language language) throws IOException {
         tool = new JLanguageTool(language);
         tool.activateDefaultPatternRules();
         tool.disableRule("UPPERCASE_SENTENCE_START");
         tool.disableRule("EN_UNPAIRED_BRACKETS");
+        tool.disableRule("EN_A_VS_AN");
         dictLookup = (DictionaryLookup) loadDictionary();        
     }
     
@@ -49,8 +53,38 @@ public class RuleCoverage {
         }
     }
     
+    public void splitOutCoveredRules(String grammarfile, String discardfile) throws IOException {
+    	List<PatternRule> rules = loadPatternRules(grammarfile);
+    	
+    	PrintWriter w = new PrintWriter(new OutputStreamWriter(new FileOutputStream(grammarfile),"UTF-8"));
+    	PrintWriter w2 = null;
+    	int discardedRules = 0;
+    	
+        
+    	for (PatternRule rule : rules) {
+    		String example = generateExample(rule);
+    		if (isCoveredBy(example) == null) {
+    			w.write(rule.toXML());
+    		} else {
+    			if (w2 == null) {
+    				w2 = new PrintWriter(new OutputStreamWriter(new FileOutputStream(discardfile),"UTF-8")); 
+    			}
+    			discardedRules++;
+    			w2.write(rule.toXML());
+    		}
+    	}
+    	
+    	if (discardedRules > 0) {
+    		System.out.println(Integer.toString(discardedRules) + " rules already covered, written to " + discardfile);
+    	}
+    	w.close();
+    	if (w2 != null) {
+    		w2.close();
+    	}
+    }
+    
     /**
-     * 
+     * Returns true if the input string is covered by an existing JLanguageTool error 
      * @param str: input error string
      * @return: true if (entire) string is considered an error, false o.w.; this doesn't work
      * @throws IOException

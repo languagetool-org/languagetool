@@ -9,6 +9,8 @@ public class RuleConverterMain {
     
     private String grammarfile;
     private String specificFiletype;
+    private String discardfile;
+    private String disambigfile;
     private RuleConverter rc;
     
     private static String[] supportedGeneralFiletypes = {"atd"};
@@ -17,13 +19,16 @@ public class RuleConverterMain {
     private static void exitWithUsageMessage() {
         System.out
         .println("Usage: java de.danielnaber.languagetool.tools.RuleConverterMain "
-            + "[-h|--help] [-g|--generalFiletype] [-s|--specificFiletype] <incoming-rule-file> <outgoing-grammar-file>");
+            + "[-h|--help] [-g|--generalFiletype] [-s|--specificFiletype] [-r|--ruleFile] [-a|--disambigFile] " +
+            "[-d|--discardFile] [-f|--grammarFile]");
         System.exit(1);
       }
     
-    private RuleConverterMain(String infilename, String grammarfile, String generalFiletype, String specificFiletype) {
+    private RuleConverterMain(String infilename, String grammarfile, String discardfile, String disambigfile, String generalFiletype, String specificFiletype) {
         this.grammarfile  = grammarfile;
         this.specificFiletype = specificFiletype;
+        this.disambigfile = disambigfile;
+        this.discardfile = discardfile;
         if (generalFiletype.equals("atd")) {
             rc = new AtdRuleConverter(infilename, grammarfile, specificFiletype);
             
@@ -62,16 +67,20 @@ public class RuleConverterMain {
         w.write("</rules>");
         w.close();
         RuleCoverage checker = new RuleCoverage(Language.ENGLISH);
-        checker.evaluateRules(grammarfile);
+        checker.splitOutCoveredRules(grammarfile,discardfile);
         
         // for now, write the disambiguation rules to a default file
-        w = new PrintWriter(new OutputStreamWriter(new FileOutputStream("disambiguationtest.xml"), "UTF-8"));
-        for (ArrayList<String> killedRule : killedRules) {
-        	for (String line : killedRule) {
-        		w.write(line + '\n');
-        	}
+        if (killedRules.size() > 0) {
+        	w = new PrintWriter(new OutputStreamWriter(new FileOutputStream(disambigfile), "UTF-8"));
+            for (ArrayList<String> killedRule : killedRules) {
+            	for (String line : killedRule) {
+            		w.write(line + '\n');
+            	}
+            }
+            w.close();
+            System.out.println(Integer.toString(killedRules.size()) + " disambiguation rules written to " + disambigfile);
         }
-        w.close();
+        
         
     }
     
@@ -80,8 +89,23 @@ public class RuleConverterMain {
         String rulefile = null;
         String specificFiletype = null; // type of rule, specific to filetype (e.g. "avoid")
         String generalFiletype= null; // type of file, like the syntax of the other system (e.g. "atd") - i know this is confusing and needs to be fixed
+        String discardfile = null;
+        String disambigfile = null;
         
-        if (args.length < 2) {
+        // this doesn't work because the output rules file is not a legit rules file 
+        //TODO: fix this so we can have this functionality
+        try {
+        	if (args[0].equals("--check")) {
+        		RuleCoverage checker = new RuleCoverage(Language.ENGLISH);
+        		String inFile = args[1];
+        		checker.evaluateRules(inFile);
+        		System.exit(1);
+        	}
+        } catch (Exception e) {
+        	e.printStackTrace();
+        }
+        
+        if (args.length < 4) {
             exitWithUsageMessage();
         }
         
@@ -96,11 +120,17 @@ public class RuleConverterMain {
             else if (args[i].equals("-g") || args[i].equals("--generalFiletype")) {
                 generalFiletype = getGeneralFiletypeOrExit(args[++i]);
             }
-            else if (i == args.length - 2) {
-                rulefile = args[i];
+            else if (args[i].equals("--grammarFile") || args[i].equals("-f")) {
+            	grammarfile = args[++i];
             }
-            else if (i == args.length - 1) {
-                grammarfile = args[i];
+            else if (args[i].equals("--discardFile") || args[i].equals("-d")) {
+            	discardfile = args[++i];
+            }
+            else if (args[i].equals("--disambigFile") || args[i].equals("-a")) {
+            	disambigfile = args[++i];
+            }
+            else if (args[i].equals("--ruleFile") || args[i].equals("-r")) {
+            	rulefile = args[++i];
             }
             else {
                 System.err.println("Unknown option: " + args[i]);
@@ -113,7 +143,21 @@ public class RuleConverterMain {
         if (generalFiletype == null) {
             generalFiletype = "atd";
         }
-        RuleConverterMain prg = new RuleConverterMain(rulefile, grammarfile, generalFiletype, specificFiletype);
+        if (grammarfile == null) {
+        	System.err.println("Need to specify a grammar file");
+        	exitWithUsageMessage();
+        }
+        if (rulefile == null) {
+        	System.err.println("Need to specify a rule file");
+        	exitWithUsageMessage();
+        }
+        if (disambigfile == null) {
+        	disambigfile = "disambig.xml";
+        }
+        if (discardfile == null) {
+        	discardfile = "discard.xml";
+        }
+        RuleConverterMain prg = new RuleConverterMain(rulefile, grammarfile, discardfile, disambigfile, generalFiletype, specificFiletype);
         prg.run();       
         
     }

@@ -3,6 +3,9 @@ package de.danielnaber.languagetool.dev.conversion;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
@@ -174,15 +177,17 @@ public abstract class RuleConverter {
     public static ArrayList<String> fileToListNoBlanks(String filename) {
         ArrayList<String> returnList = new ArrayList<String>();
         Scanner in = null;
+        InputStream is = null;
         try {
-            in = new Scanner(new FileInputStream(filename));
+        	is = JLanguageTool.getDataBroker().getFromResourceDirAsStream(filename);
+            in = new Scanner(is);
             while (in.hasNextLine()) {
                 String line = in.nextLine();
                 if (!line.equals("") && !line.equals("\n")) {
                     returnList.add(line);
                 }
             } 
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             in.close();
@@ -240,8 +245,14 @@ public abstract class RuleConverter {
     
     public static IStemmer loadDictionary() {
         IStemmer dictLookup = null;
-        String fileName = "." + JLanguageTool.getDataBroker().getResourceDir() + "/en/english.dict";
-        File dictFile = new File(fileName);
+        String fileName = "/en/english.dict";
+        URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(fileName);
+        File dictFile = null;
+        try {
+        	dictFile = new File(url.toURI());
+        } catch (URISyntaxException e) {
+        	e.printStackTrace();
+        }
         try {
             dictLookup = new DictionaryLookup(Dictionary.read(dictFile));
         } catch (IOException e) {

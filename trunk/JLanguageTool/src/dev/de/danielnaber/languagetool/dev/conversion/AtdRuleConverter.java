@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -14,13 +13,11 @@ import java.util.regex.Pattern;
 import morfologik.stemming.DictionaryLookup;
 import morfologik.stemming.WordData;
 
-import de.danielnaber.languagetool.JLanguageTool;
-
 
 public class AtdRuleConverter extends RuleConverter {
     
 
-    private final static String MACRO_EXPANSIONS_FILE = "." + JLanguageTool.getDataBroker().getResourceDir() + "/en/macro_expansions.txt";	
+    private final static String MACRO_EXPANSIONS_FILE = "/en/macro_expansions.txt";	
     private static HashMap<String,String> macroExpansions = fillOutMacroExpansions();
     
     private static Pattern nounInPattern = Pattern.compile("NN(?!P|S|\\.)");
@@ -71,7 +68,12 @@ public class AtdRuleConverter extends RuleConverter {
                 for (int i=1;i<splitRule.length;i++) {
                     // add with key=declaration, value=terms 
                     String[] splitDeclaration = splitRule[i].split("=");
-                    outRule.put(splitDeclaration[0], splitDeclaration[1]);
+                    try {
+                    	outRule.put(splitDeclaration[0], splitDeclaration[1]);
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                    	System.err.println("Incorrect declaration for rule " + rule + "; rule skipped");
+                    }
+                    
                 }
             }
         }
