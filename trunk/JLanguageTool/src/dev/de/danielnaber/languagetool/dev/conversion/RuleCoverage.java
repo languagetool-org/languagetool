@@ -256,7 +256,7 @@ public class RuleCoverage {
           is = new FileInputStream(filename);
       }
       return ruleLoader.getRules(is, filename);
-  }
+    }
     
     
     

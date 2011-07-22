@@ -1,7 +1,6 @@
 package de.danielnaber.languagetool.dev.conversion;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
@@ -161,12 +160,14 @@ public abstract class RuleConverter {
     public static ArrayList<String> fileToList(String filename) {
         ArrayList<String> returnList = new ArrayList<String>();
         Scanner in = null;
+        InputStream is = null;
         try {
-            in = new Scanner(new FileInputStream(filename));
+        	is = JLanguageTool.getDataBroker().getFromResourceDirAsStream(filename);
+            in = new Scanner(is);
             while (in.hasNextLine()) {
                 returnList.add(in.nextLine());
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             in.close();

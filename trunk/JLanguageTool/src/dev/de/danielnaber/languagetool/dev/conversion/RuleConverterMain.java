@@ -53,8 +53,7 @@ public class RuleConverterMain {
             }
         }
 
-        // write the new grammar file out (as ".xml.backup" for now)
-        //TODO: write the false alarm rules to another file
+        // write out the grammar rules to grammarfile
         PrintWriter w = new PrintWriter(new OutputStreamWriter(new FileOutputStream(grammarfile),"UTF-8"));
         w.write(RuleConverter.xmlHeader);
         w.write("<category name=\"Auto-generated AtD rules\" id=\"ATD_RULES\">\n");
@@ -66,6 +65,8 @@ public class RuleConverterMain {
         w.write("</category>\n");
         w.write("</rules>");
         w.close();
+        
+        // evaluate the rules to see which are already covered
         RuleCoverage checker = new RuleCoverage(Language.ENGLISH);
         checker.splitOutCoveredRules(grammarfile,discardfile);
         
