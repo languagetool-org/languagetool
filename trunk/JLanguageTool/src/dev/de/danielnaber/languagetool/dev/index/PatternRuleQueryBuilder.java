@@ -149,7 +149,7 @@ public class PatternRuleQueryBuilder {
 
     if (patternElement.isInflected()) {
       throw new UnsupportedPatternRuleException(
-          "Pattern rules with inflated tokens are not supported.");
+          "Pattern rules with inflected tokens are not supported.");
     }
 
   }
