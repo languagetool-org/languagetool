@@ -38,19 +38,18 @@ import de.danielnaber.languagetool.rules.patterns.PatternRule;
 import de.danielnaber.languagetool.rules.patterns.PatternRuleLoader;
 
 public class PatternRuleQueryBuilderTest extends LuceneTestCase {
+  
   private IndexSearcher searcher;
-
   private IndexReader reader;
-
   private Directory directory;
 
   @Override
   public void setUp() throws Exception {
     super.setUp();
     directory = newDirectory();
-    RandomIndexWriter writer = new RandomIndexWriter(random, directory, new LanguageToolAnalyzer(
+    final RandomIndexWriter writer = new RandomIndexWriter(random, directory, new LanguageToolAnalyzer(
         Version.LUCENE_31, new JLanguageTool(Language.ENGLISH)));
-    Document doc = new Document();
+    final Document doc = new Document();
     doc.add(newField(PatternRuleQueryBuilder.FIELD_NAME,
         "How do you thin about this wonderful idea?", Field.Store.NO, Field.Index.ANALYZED));
     doc.add(newField(PatternRuleQueryBuilder.FIELD_NAME,
@@ -71,7 +70,7 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
   }
 
   public void testQueryBuilder() throws Exception {
-    StringBuffer sb = new StringBuffer();
+    final StringBuilder sb = new StringBuilder();
 
     sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?> <rules lang=\"en\"> <category name=\"Test\"> <rule id=\"TEST_RULE\" name=\"test\"> <pattern>");
 
@@ -84,21 +83,20 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
 
     sb.append("</pattern> </rule> </category> </rules>");
 
-    InputStream input = new ByteArrayInputStream(sb.toString().getBytes());
+    final InputStream input = new ByteArrayInputStream(sb.toString().getBytes());
     final PatternRuleLoader ruleLoader = new PatternRuleLoader();
 
-    List<PatternRule> rules = ruleLoader.getRules(input, "test.xml");
+    final List<PatternRule> rules = ruleLoader.getRules(input, "test.xml");
 
-    Query query1 = PatternRuleQueryBuilder.buildQuery(rules.get(0), true);
-    Query query2 = PatternRuleQueryBuilder.buildQuery(rules.get(0), false);
+    final Query query1 = PatternRuleQueryBuilder.buildQuery(rules.get(0), true);
+    final Query query2 = PatternRuleQueryBuilder.buildQuery(rules.get(0), false);
     assertEquals(query1, query2);
     assertEquals(1, searcher.search(query1, null, 1000).totalHits);
     assertEquals(1, searcher.search(query2, null, 1000).totalHits);
-
   }
 
-  public void testCaseSentive() throws Exception {
-    StringBuffer sb = new StringBuffer();
+  public void testCaseSensitive() throws Exception {
+    final StringBuilder sb = new StringBuilder();
 
     sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?> <rules lang=\"en\"> <category name=\"Test\">");
 
@@ -120,10 +118,10 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
 
     sb.append("</category> </rules>");
 
-    InputStream input = new ByteArrayInputStream(sb.toString().getBytes());
+    final InputStream input = new ByteArrayInputStream(sb.toString().getBytes());
     final PatternRuleLoader ruleLoader = new PatternRuleLoader();
 
-    List<PatternRule> rules = ruleLoader.getRules(input, "test.xml");
+    final List<PatternRule> rules = ruleLoader.getRules(input, "test.xml");
 
     Query query = PatternRuleQueryBuilder.buildQuery(rules.get(0), true);
     assertEquals(1, searcher.search(query, null, 1000).totalHits);
@@ -139,13 +137,11 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
   }
 
   public void testUnsupportedPatternRule() throws Exception {
-    StringBuffer sb = new StringBuffer();
+    StringBuilder sb = new StringBuilder();
 
     sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?> <rules lang=\"en\"> <category name=\"Test\"> <rule id=\"TEST_RULE\" name=\"test\"> <pattern>");
 
-    sb.append("<token skip=\"-1\">both<exception scope=\"next\">and</exception></token>"); // exception
-                                                                                           // is not
-                                                                                           // supported
+    sb.append("<token skip=\"-1\">both<exception scope=\"next\">and</exception></token>"); // exception is not supported
 
     sb.append("</pattern> </rule> </category> </rules>");
 
@@ -156,16 +152,14 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
     try {
       PatternRuleQueryBuilder.buildQuery(rules.get(0), true);
       fail("Exception should be thrown for unsupported PatternRule");
-    } catch (UnsupportedPatternRuleException e) {
-      assertTrue(e instanceof UnsupportedPatternRuleException);
-    }
+    } catch (UnsupportedPatternRuleException expected) {}
     try {
       PatternRuleQueryBuilder.buildQuery(rules.get(0), false);
     } catch (UnsupportedPatternRuleException e) {
       fail("Exception should not be thrown, if not checkUnsupportedRule");
     }
 
-    sb = new StringBuffer();
+    sb = new StringBuilder();
 
     sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?> <rules lang=\"en\"> <category name=\"Test\"> <rule id=\"TEST_RULE\" name=\"test\"> <pattern>");
 
@@ -179,9 +173,7 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
     try {
       PatternRuleQueryBuilder.buildQuery(rules.get(0), true);
       fail("Exception should be thrown for unsupported PatternRule");
-    } catch (UnsupportedPatternRuleException e) {
-      assertTrue(e instanceof UnsupportedPatternRuleException);
-    }
+    } catch (UnsupportedPatternRuleException expected) {}
 
     try {
       PatternRuleQueryBuilder.buildQuery(rules.get(0), false);
