@@ -157,20 +157,23 @@ public class WikipediaIndexHandler extends DefaultHandler {
     indexer.close();
   }
 
-  public static void main(String... strings) throws Exception {
-    long start = System.currentTimeMillis();
-
+  public static void main(String... args) throws Exception {
+    if (args.length != 2) {
+      System.out.println("Usage: " + WikipediaIndexHandler.class.getSimpleName() + " <wikipediaDump> <indexDir>");
+      System.exit(1);
+    }
+    final long start = System.currentTimeMillis();
     final SAXParserFactory factory = SAXParserFactory.newInstance();
     final SAXParser saxParser = factory.newSAXParser();
-    WikipediaIndexHandler handler = new WikipediaIndexHandler(FSDirectory.open(new File(
-        "E:\\project\\data\\index_en")), Language.ENGLISH, 1, 10000);
+    final FSDirectory fsDirectory = FSDirectory.open(new File(args[1]));
+    final WikipediaIndexHandler handler = new WikipediaIndexHandler(fsDirectory, Language.ENGLISH, 1, 10000);
     try {
-      saxParser.parse(new FileInputStream(new File(
-          "E:\\project\\data\\enwiki-20110405-pages-articles1.xml")), handler);
-    } catch (RuntimeException e) {
+      saxParser.parse(new FileInputStream(new File(args[0])), handler);
+    } finally {
+      handler.close();
     }
-    handler.close();
-    long end = System.currentTimeMillis();
-    System.out.println("It takes " + (start - end) / (1000 * 60) + " minutes");
+    final long end = System.currentTimeMillis();
+    final float minutes = (end - start) / (float)(1000 * 60);
+    System.out.printf("Indexing took %.2f minutes", minutes);
   }
 }
