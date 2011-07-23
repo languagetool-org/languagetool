@@ -91,7 +91,6 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
 
     Query query1 = PatternRuleQueryBuilder.buildQuery(rules.get(0), true);
     Query query2 = PatternRuleQueryBuilder.buildQuery(rules.get(0), false);
-    System.out.println(query1);
     assertEquals(query1, query2);
     assertEquals(1, searcher.search(query1, null, 1000).totalHits);
     assertEquals(1, searcher.search(query2, null, 1000).totalHits);
@@ -127,19 +126,15 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
     List<PatternRule> rules = ruleLoader.getRules(input, "test.xml");
 
     Query query = PatternRuleQueryBuilder.buildQuery(rules.get(0), true);
-    System.out.println(query);
     assertEquals(1, searcher.search(query, null, 1000).totalHits);
 
     query = PatternRuleQueryBuilder.buildQuery(rules.get(1), true);
-    System.out.println(query);
     assertEquals(0, searcher.search(query, null, 1000).totalHits);
 
     query = PatternRuleQueryBuilder.buildQuery(rules.get(2), true);
-    System.out.println(query);
     assertEquals(1, searcher.search(query, null, 1000).totalHits);
 
     query = PatternRuleQueryBuilder.buildQuery(rules.get(3), true);
-    System.out.println(query);
     assertEquals(1, searcher.search(query, null, 1000).totalHits);
   }
 
