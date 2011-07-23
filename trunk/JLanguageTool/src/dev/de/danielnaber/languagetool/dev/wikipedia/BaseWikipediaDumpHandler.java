@@ -71,25 +71,7 @@ abstract class BaseWikipediaDumpHandler extends DefaultHandler {
     this.maxArticles = maxArticles;
     this.dumpDate = dumpDate;
     this.langCode = langCode;
-    initTextFilter();
-  }
-  
-  /**
-   * initialize textFilter field 
-   */
-  private void initTextFilter() {
-    if (Language.ROMANIAN == lang) {
-      textFilter = new WikipediaTextFilter() {
-        @Override
-        public String filter(String arg0) {
-          final String tmp = super.filter(arg0);
-          // diacritics correction (comma-bellow instead of sedilla for ș and ț)
-          return RomanianDiacriticsModifier.correctDiacritrics(tmp);
-        }
-      };
-    } else {
-      textFilter = new WikipediaTextFilter();
-    }
+    textFilter = TextFilterTools.getTextFilter(lang);
   }
 
   @Override

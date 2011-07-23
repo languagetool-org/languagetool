@@ -40,19 +40,8 @@ import de.danielnaber.languagetool.dev.tools.RomanianDiacriticsModifier;
  * Wikipedia handler for indexing.
  * 
  * @author Tao Lin
- * 
  */
 public class WikipediaIndexHandler extends DefaultHandler {
-
-  protected static final int CONTEXT_SIZE = 50;
-
-  protected static final String MARKER_START = "<err>";
-
-  protected static final String MARKER_END = "</err>";
-
-  protected static final String LANG_MARKER = "XX";
-
-  protected static final String URL_PREFIX = "http://" + LANG_MARKER + ".wikipedia.org/wiki/";
 
   private int articleCount = 0;
 
@@ -68,8 +57,6 @@ public class WikipediaIndexHandler extends DefaultHandler {
 
   private TextFilter textFilter = new WikipediaTextFilter();
 
-  private final Language language;
-
   private final Indexer indexer;
 
   // ===========================================================
@@ -77,34 +64,16 @@ public class WikipediaIndexHandler extends DefaultHandler {
   // ===========================================================
 
   public WikipediaIndexHandler(Directory dir, Language language, int start, int end) {
-    this.language = language;
     this.indexer = new Indexer(dir, language);
     this.start = start;
     this.end = end;
-    if (start > end) {
-      throw new RuntimeException("\"Start\" should be smaller than \"End\"");
+    if (start > end && end != 0) {
+      throw new RuntimeException("\"start\" should be smaller than \"end\"");
     }
-    initTextFilter();
+    textFilter = TextFilterTools.getTextFilter(language);
   }
 
-  /**
-   * initialize textFilter field
-   */
-  private void initTextFilter() {
-    if (Language.ROMANIAN == language) {
-      textFilter = new WikipediaTextFilter() {
-        @Override
-        public String filter(String arg0) {
-          final String tmp = super.filter(arg0);
-          // diacritics correction (comma-bellow instead of sedilla for ș and ț)
-          return RomanianDiacriticsModifier.correctDiacritrics(tmp);
-        }
-      };
-    } else {
-      textFilter = new WikipediaTextFilter();
-    }
-  }
-
+  @Override
   @SuppressWarnings("unused")
   public void startElement(String namespaceURI, String lName, String qName, Attributes attrs)
       throws SAXException {
@@ -115,37 +84,32 @@ public class WikipediaIndexHandler extends DefaultHandler {
     }
   }
 
+  @Override
   @SuppressWarnings("unused")
   public void endElement(String namespaceURI, String sName, String qName) {
     if (qName.equals("title")) {
       text = new StringBuilder();
     } else if (qName.equals("text")) {
+      System.out.println(++articleCount);
+      if (articleCount < start) {
+        return;
+      } else if (articleCount >= end && end != 0) {
+        throw new DocumentLimitReachedException(end);
+      }
       try {
-        System.out.println(articleCount++);
-        if (articleCount < start) {
-          return;
-        } else if (articleCount >= end) {
-          throw new RuntimeException();
-        }
-
-        // System.err.println(text.length() + " " + text.substring(0, Math.min(50, text.length())));
         final String textToCheck = textFilter.filter(text.toString());
-        // System.out.println(textToCheck);
         if (!textToCheck.contains("#REDIRECT") && !textToCheck.trim().equals("")) {
-          // System.err.println("#########################");
-          // System.err.println(textToCheck);
-
           indexer.index(textToCheck, false);
         }
       } catch (Exception e) {
-        throw new RuntimeException(e);
+        throw new RuntimeException("Failed checking article " + articleCount, e);
       }
     }
     text = new StringBuilder();
-
     inText = false;
   }
 
+  @Override
   public void characters(char buf[], int offset, int len) {
     final String s = new String(buf, offset, len);
     if (inText) {
@@ -158,17 +122,34 @@ public class WikipediaIndexHandler extends DefaultHandler {
   }
 
   public static void main(String... args) throws Exception {
-    if (args.length != 2) {
-      System.out.println("Usage: " + WikipediaIndexHandler.class.getSimpleName() + " <wikipediaDump> <indexDir>");
+    if (args.length != 4) {
+      System.out.println("Usage: " + WikipediaIndexHandler.class.getSimpleName() + " <wikipediaDump> <indexDir> <languageCode> <maxDocs>");
+      System.out.println("\t<wikipediaDump> a Wikipedia XML dump");
+      System.out.println("\t<indexDir> directory where Lucene index will be written to, existing index content will be removed");
+      System.out.println("\t<languageCode> short code like en for English, de for German etc");
+      System.out.println("\t<maxDocs> maximum number of documents to be indexed, use 0 for no limit");
       System.exit(1);
+    }
+    final String languageCode = args[2];
+    final Language language = Language.getLanguageForShortName(languageCode);
+    if (language == null) {
+      throw new RuntimeException("Could not find language '" + languageCode + "'");
+    }
+    final int maxDocs = Integer.parseInt(args[3]);
+    if (maxDocs == 0) {
+      System.out.println("Going to index all documents from input");
+    } else {
+      System.out.println("Going to index up to " + maxDocs + " documents");
     }
     final long start = System.currentTimeMillis();
     final SAXParserFactory factory = SAXParserFactory.newInstance();
     final SAXParser saxParser = factory.newSAXParser();
     final FSDirectory fsDirectory = FSDirectory.open(new File(args[1]));
-    final WikipediaIndexHandler handler = new WikipediaIndexHandler(fsDirectory, Language.ENGLISH, 1, 10000);
+    final WikipediaIndexHandler handler = new WikipediaIndexHandler(fsDirectory, language, 1, maxDocs);
     try {
       saxParser.parse(new FileInputStream(new File(args[0])), handler);
+    } catch (DocumentLimitReachedException e) {
+      System.out.println("Document limit (" + e.limit + ") reached, stopping indexing");
     } finally {
       handler.close();
     }
@@ -176,4 +157,12 @@ public class WikipediaIndexHandler extends DefaultHandler {
     final float minutes = (end - start) / (float)(1000 * 60);
     System.out.printf("Indexing took %.2f minutes", minutes);
   }
+
+  private class DocumentLimitReachedException extends RuntimeException {
+    int limit;
+    DocumentLimitReachedException(int limit) {
+      this.limit = limit;
+    }
+  }
+
 }
