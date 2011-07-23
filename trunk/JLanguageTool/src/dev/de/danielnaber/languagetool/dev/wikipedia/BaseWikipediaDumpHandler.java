@@ -92,6 +92,7 @@ abstract class BaseWikipediaDumpHandler extends DefaultHandler {
     }
   }
 
+  @Override
   @SuppressWarnings("unused")
   public void startElement(String namespaceURI, String lName, String qName,
       Attributes attrs) throws SAXException {
@@ -102,6 +103,7 @@ abstract class BaseWikipediaDumpHandler extends DefaultHandler {
     }
   }
 
+  @Override
   @SuppressWarnings("unused")
   public void endElement(String namespaceURI, String sName, String qName) {
     if (qName.equals("title")) {
@@ -140,6 +142,7 @@ abstract class BaseWikipediaDumpHandler extends DefaultHandler {
     inText = false;
   }
 
+  @Override
   public void characters(char buf[], int offset, int len) {
     final String s = new String(buf, offset, len);
     if (inText) {
