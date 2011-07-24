@@ -23,6 +23,8 @@ import java.util.*;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.rules.*;
 import de.danielnaber.languagetool.tagging.Tagger;
+import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
+import de.danielnaber.languagetool.tagging.disambiguation.rules.eo.EsperantoRuleDisambiguator;
 import de.danielnaber.languagetool.tagging.eo.EsperantoTagger;
 import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
 import de.danielnaber.languagetool.tokenizers.SRXSentenceTokenizer;
@@ -34,6 +36,7 @@ public class Esperanto extends Language {
   private final Tagger tagger = new EsperantoTagger();
   private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer(getShortName());
   private final Tokenizer wdTokenizer = new EsperantoWordTokenizer();
+  private final Disambiguator disambiguator = new EsperantoRuleDisambiguator();
 
   @Override
   public Locale getLocale() {
@@ -69,6 +72,11 @@ public class Esperanto extends Language {
   @Override
   public Tagger getTagger() {
     return tagger;
+  }
+
+  @Override
+  public final Disambiguator getDisambiguator() {
+    return disambiguator;
   }
 
   @Override

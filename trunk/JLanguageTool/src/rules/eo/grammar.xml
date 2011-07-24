@@ -1191,7 +1191,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
           <exception scope="previous" inflected="yes" regexp="yes">lasi|igi</exception>
         </token>
         <token postag="([OA] akz.*)|(T akz .*[uoa])" postag_regexp="yes">
-          <exception inflected="yes" regexp="yes">(duono?)?(jarcent|jardek|jar|somer|vintr|printemp|aŭtun|sezon|monat|semajn|tag|maten|vesper|(post?)tagmez|nokt|hor|minut|sekund|moment|.*metr|mejl|marmejl|fut|col|paŝ|lund|mard|merkred|ĵaŭd|vendred|sabat|dimanĉ|foj|temp|.*gram)o?(fin)?(e[tg])?o</exception>
+          <exception inflected="yes" regexp="yes">(duono?)?(jarcent|jardek|jar|somer|vintr|printemp|aŭtun|sezon|monat|semajn|tag|maten|vesper|(post?)tagmez|nokt|hor|minut|sekund|moment|.*metr|mejl|marmejl|fut|col|paŝ|lund|mard|merkred|ĵaŭd|vendred|sabat|dimanĉ|foj|temp|.*gram|funt)o?(fin)?(e[tg])?o</exception>
           <exception regexp="yes">([0-9]+-?an)|(\p{Lu}.*)</exception>
           <exception postag="T akz .. k .*" postag_regexp="yes"></exception>
         </token>
@@ -1226,11 +1226,13 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <example type="correct">Tio daŭros nur momenteton.</example>
       <example type="correct">Jen estas vorto kies signifon mi ne komprenas.</example>
       <example type="correct">Li estas ĉion leginta.</example>
+      <example type="correct">La bebo pezis sep funtojn.</example>
     </rule>
 
     <rule id="NAK_VTR_NAK" name="mankanta akuzativo">
       <pattern mark_from="2" case_sensitive="yes">
         <token postag="[ROA] nak.*|T nak .. . [ou]" postag_regexp="yes" skip="3">
+          <exception postag="X ndo"/>
           <exception scope="next" postag="[ROAT] akz.*" postag_regexp="yes"/>
           <exception scope="next" regexp="yes">[!?-–,;:«»“&quot;()]</exception>
           <exception scope="previous" postag="P .ak" postag_regexp="yes"/>
@@ -1267,6 +1269,8 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <example type="correct">Tion oni nomas religio.</example>
       <example type="correct">Tie loĝas mia amiko.</example>
       <example type="correct">Kie loĝas la homo?</example>
+      <example type="correct">En la akvo ludas knaobj</example>
+      <example type="correct">Post vetero malbela lumas suno denove.</example>
     </rule>
 
     <rule id="NAK_NAK_VTR" name="mankanta akuzativo">
@@ -1511,6 +1515,20 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <example type="correct">Vi komprenas min, ĉu ne?</example>
       <example type="correct">Je la kioma horo okazis tio?</example>
       <example type="correct">Kiucele li tion faris?</example>
+    </rule>
+
+    <rule id="CXI" name="neebla uzo de ĉi">
+      <pattern mark_from="1" mark_to="-1">
+        <token negate_pos="yes" postag_regexp="yes" postag="[AOET] .*"/>
+        <token>ĉi</token>
+        <token negate_pos="yes" postag_regexp="yes" postag="[AOET] .*"/>
+      </pattern>
+      <message>Tiu uzo de «\2» ne eblas.  Ĉu vi eblis intencis skribi «ĉu»?</message>
+      <example type="incorrect">Mi scivolas <marker>ĉi</marker> li venos.</example>
+      <example type="correct">Mi scivolas ĉu vinon li aĉenis.</example>
+      <example type="correct">Mi deziras ĉi tiun.</example>
+      <example type="correct">Mi deziras tiun ĉi.</example>
+      <example type="correct">Mi konas ĉi homon.</example>
     </rule>
 
     <rule id="POR_KE_V" name="Por ke + verbo">
