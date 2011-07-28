@@ -72,6 +72,10 @@ public class ChineseWordTokenizer implements Tokenizer {
     try {
       result = seg.split(chinesdJF.chineseFan2Jan(text)).getFinalResult();
     } catch (Exception e) {
+      // Occasionally, the Chinese tokenization/segment component throws NullPointerException or
+      // ArrayIndexOutOfBoundsException, due to some internal bugs of ictclas4j. The reasons of the
+      // bugs and how to resolve them are unknown now. In this case, we can just bypass the sentence
+      // and return a empty List.
       return ret;
     }
     final String[] list = result.split(" ");
