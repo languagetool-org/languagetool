@@ -4,14 +4,44 @@
 title="Easy editing stylesheet" ?>
 <!--
 Chinese Grammar and Typo Rules for LanguageTool
-See tagset.txt for the meaning of the POS tags
 Copyright (C) 2011-2012 Tao Lin
 $Id: grammar.xml,v 1.0 2011-07-29 13:20:25 taolin2011 Exp $
 -->
-<!--suppress CheckTagEmptyBody -->
 <rules lang="en" xsi:noNamespaceSchemaLocation="../rules.xsd"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <category name="句法">
+    <rulegroup id="s34" name="与中心语搭配不当">
+      <rule>
+        <pattern mark_to="-1">
+          <token skip="-1">许多</token>
+          <token>景象</token>
+        </pattern>
+        <message> ‘景象’不应该与‘（许）多’搭配，您可以使用‘<suggestion>一派</suggestion>’与之搭配。 </message>
+        <short>与中心语搭配不当</short>
+        <example type="incorrect" correction="一派"> 村里出现了<marker>许多</marker>欣欣向荣的景象。 </example>
+        <example type="correct"> 村里出现了<marker>一派</marker>欣欣向荣的景象。 </example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token skip="-1">杰出</token>
+          <token>意义</token>
+        </pattern>
+        <message> ‘意义’不应该与‘杰出’搭配，您可以使用‘<suggestion>重大</suggestion>’与之搭配。 </message>
+        <short>与中心语搭配不当</short>
+        <example type="incorrect" correction="重大"> 《女神》具有<marker>杰出</marker>的历史意义。 </example>
+        <example type="correct"> 《女神》是五四运动的产物，具有<marker>重大</marker>的历史意义。 </example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token skip="-1">照顾</token>
+          <token>周全</token>
+        </pattern>
+        <message> ‘照顾’不应该与‘周全’搭配，您可以使用‘<suggestion>好</suggestion>’与之搭配。 </message>
+        <short>与中心语搭配不当</short>
+        <example type="incorrect" correction="好"> 上次我对你照顾得太不<marker>周全</marker>。 </example>
+        <example type="correct">一定要照顾好妇女和儿童。</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="s5" name="歧义">
       <rule>
         <pattern>
