@@ -27,6 +27,7 @@ import java.util.ResourceBundle;
 
 import de.danielnaber.languagetool.language.Belarusian;
 import de.danielnaber.languagetool.language.Catalan;
+import de.danielnaber.languagetool.language.Chinese;
 import de.danielnaber.languagetool.language.Contributor;
 import de.danielnaber.languagetool.language.Danish;
 import de.danielnaber.languagetool.language.Demo;
@@ -70,6 +71,7 @@ public abstract class Language {
 
   // NOTE: keep in sync with array below!
   //public final static Language CZECH = new Czech();
+  public static final Language CHINESE = new Chinese();
   public static final Language DANISH = new Danish();
   public static final Language DUTCH = new Dutch();
   public static final Language ENGLISH = new English();
@@ -103,7 +105,7 @@ public abstract class Language {
   public static Language[] LANGUAGES = {
     ENGLISH, GERMAN, POLISH, FRENCH, SPANISH, ITALIAN, KHMER, DUTCH, LITHUANIAN, UKRAINIAN, RUSSIAN,
     SLOVAK, SLOVENIAN, SWEDISH, ROMANIAN, ICELANDIC, GALICIAN, CATALAN, DANISH,
-    MALAYALAM, BELARUSIAN, ESPERANTO,
+    MALAYALAM, BELARUSIAN, ESPERANTO, CHINESE,
     DEMO
   };
 

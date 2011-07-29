@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../print.xsl" ?>
+<?xml-stylesheet type="text/css" href="../rules.css" 
+title="Easy editing stylesheet" ?>
+<!--
+Chinese Grammar and Typo Rules for LanguageTool
+See tagset.txt for the meaning of the POS tags
+Copyright (C) 2011-2012 Tao Lin
+$Id: grammar.xml,v 1.0 2011-07-29 13:20:25 taolin2011 Exp $
+-->
+<!--suppress CheckTagEmptyBody -->
+<rules lang="en" xsi:noNamespaceSchemaLocation="../rules.xsd"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <category name="句法">
+    <rulegroup id="s5" name="歧义">
+      <rule>
+        <pattern>
+          <token skip="-1">超过</token>
+          <token skip="-1" postag="u">的</token>
+          <token regexp="yes" postag="m|q" postag_regexp="yes">百分之.*|倍</token>
+        </pattern>
+        <message>‘超过’造成的歧义。</message>
+        <short>歧义</short>
+        <example type="incorrect"> 实际生产的量<marker>超过了计划的百分之百</marker>。 </example>
+        <example type="correct">实际产量远远超过了计划产量。</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag="m"/>
+          <token postag="q"/>
+          <token postag="n"/>
+          <token>、</token>
+        </pattern>
+        <message>数量词修饰并列短语，可能产生歧义</message>
+        <short>语法错误</short>
+        <example type="incorrect">
+          <marker>3个领导、</marker>书记 </example>
+        <example type="correct">3个市长来到了我们县。</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token postag="m"/>
+          <token postag="q"/>
+          <token postag="n"/>
+          <token postag="c" regexp="yes" skip="5"> [和与及同跟既]<exception postag="m|q"
+              postag_regexp="yes" scope="next"/>
+          </token>
+          <token postag="n">
+            <exception postag="v|p" postag_regexp="yes" scope="previous"/>
+          </token>
+          <token postag="n.*|vn|q" postag_regexp="yes" negate_pos="yes"/>
+        </pattern>
+        <message>数量词修饰并列短语，可能产生歧义</message>
+        <short>语法错误</short>
+        <example type="incorrect">
+          <marker>3个领导和书记</marker>莅临视察。 </example>
+        <example type="correct">3个市长和3个书记莅临我校指导工作。</example>
+      </rule>
+    </rulegroup>
+  </category>
+</rules>
