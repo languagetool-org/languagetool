@@ -1,11 +1,23 @@
-package de.danielnaber.languagetool.dev.conversion;
+/* LanguageTool, a natural language style checker 
+ * Copyright (C) 2010 Daniel Naber (http://www.languagetool.org)
+ * 
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+ * USA
+ */
 
-import de.danielnaber.languagetool.JLanguageTool;
-import de.danielnaber.languagetool.Language;
-import de.danielnaber.languagetool.rules.RuleMatch;
-import de.danielnaber.languagetool.rules.patterns.Element;
-import de.danielnaber.languagetool.rules.patterns.PatternRule;
-import de.danielnaber.languagetool.rules.patterns.PatternRuleLoader;
+package de.danielnaber.languagetool.dev.conversion;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -20,11 +32,17 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import morfologik.stemming.Dictionary;
 import morfologik.stemming.DictionaryIterator;
 import morfologik.stemming.DictionaryLookup;
-import morfologik.stemming.Dictionary;
 import morfologik.stemming.IStemmer;
 import morfologik.stemming.WordData;
+import de.danielnaber.languagetool.JLanguageTool;
+import de.danielnaber.languagetool.Language;
+import de.danielnaber.languagetool.rules.RuleMatch;
+import de.danielnaber.languagetool.rules.patterns.Element;
+import de.danielnaber.languagetool.rules.patterns.PatternRule;
+import de.danielnaber.languagetool.rules.patterns.PatternRuleLoader;
 
 
 public class RuleCoverage {
@@ -135,13 +153,12 @@ public class RuleCoverage {
         if (!token.isEmpty() && !e.isRegularExpression()) {
             return token;
         // all other token types
-        } else {
-            dictIterator = resetDictIter(); 
-            while (dictIterator.hasNext()) {
-                String word = dictIterator.next().getWord().toString();
-                if (isExampleOf(word, e) && !inExceptionList(word, exceptions)) {
-                    return word;
-                }
+        }
+        dictIterator = resetDictIter(); 
+        while (dictIterator.hasNext()) {
+            String word = dictIterator.next().getWord().toString();
+            if (isExampleOf(word, e) && !inExceptionList(word, exceptions)) {
+                return word;
             }
         } 
         return null;
