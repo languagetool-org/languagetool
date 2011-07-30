@@ -29,7 +29,6 @@ import org.xml.sax.helpers.DefaultHandler;
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.TextFilter;
-import de.danielnaber.languagetool.dev.tools.RomanianDiacriticsModifier;
 import de.danielnaber.languagetool.rules.RuleMatch;
 
 /**
