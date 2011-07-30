@@ -2239,6 +2239,52 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
         <example type="correct">Mi petas al la instruisto pardonon.</example>
       </rule>
     </rulegroup>
+
+    <rulegroup id="TIES_KIU" name="ties, kiu (de tiu, kiu)">
+      <rule>
+        <pattern>
+          <token>ties</token>
+          <token postag="O .*" postag_regexp="yes"/>
+          <token regexp="yes">kiuj?n?</token>
+        </pattern>
+        <message>Oni ne uzas «\3» post «\1». Konsidu uzi <suggestion>\2 de tiu, \3</suggestion>.</message>
+        <example type="incorrect">Ne kredu <marker>ties parolon kiu</marker> tro multe promesas.</example>
+        <example type="correct">Ne kredu parolon de tiu, kiu tro multe promesas.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>ties</token>
+          <token postag="O .*" postag_regexp="yes"/>
+          <token>,</token>
+          <token regexp="yes">kiuj?n?</token>
+        </pattern>
+        <message>Oni ne uzas «\4» post «\1». Konsidu uzi <suggestion>\2 de tiu, \4</suggestion>.</message>
+        <example type="incorrect">Ne kredu <marker>ties, parolon kiu</marker> tro multe promesas.</example>
+        <example type="correct">Ne kredu parolon de tiu, kiu tro multe promesas.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="TIAL_KIAL" name="tial, kial (ĉar)">
+      <rule>
+        <pattern>
+          <token>tial</token>
+          <token>kial</token>
+        </pattern>
+        <message>Oni ne uzas «tial, kial». Konsideru uzi <suggestion>pro la sama kaŭzo, kial</suggestion>, <suggestion>pro la sama kaŭzo, pro kio</suggestion> aŭ pli simple <suggestion>, ĉar</suggestion>.</message>
+        <example type="incorrect">Ili foriris <marker>tial kial</marker> mi foriris.</example>
+        <example type="correct">Ili foriris pro la sama kaŭzo, kial mi foriris.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>tial</token>
+          <token>,</token>
+          <token>kial</token>
+        </pattern>
+        <message>Oni ne uzas «tial, kial». Konsideru uzi <suggestion>pro la sama kaŭzo, kial</suggestion>, <suggestion>pro la sama kaŭzo, pro kio</suggestion> aŭ pli simple <suggestion>, ĉar</suggestion>.</message>
+        <example type="incorrect">Ili foriris <marker>tial, kial</marker> mi foriris.</example>
+        <example type="correct">Ili foriris pro la sama kaŭzo, kial mi foriris.</example>
+      </rule>
+    </rulegroup>
+
     <!--
     <rule id="SIA_SUBJ" name="sia subjekto">
       <pattern>
