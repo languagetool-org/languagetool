@@ -43,7 +43,7 @@ public class ChineseWordTokenizer implements Tokenizer {
       InputStream coreDictIn = JLanguageTool.getDataBroker().getFromResourceDirAsStream(
           "/zh/coreDict.dct");
       InputStream bigramDictIn = JLanguageTool.getDataBroker().getFromResourceDirAsStream(
-          "/zh/bigramDict.dct");
+          "/zh/BigramDict.dct");
       InputStream personTaggerDctIn = JLanguageTool.getDataBroker().getFromResourceDirAsStream(
           "/zh/nr.dct");
       InputStream personTaggerCtxIn = JLanguageTool.getDataBroker().getFromResourceDirAsStream(
