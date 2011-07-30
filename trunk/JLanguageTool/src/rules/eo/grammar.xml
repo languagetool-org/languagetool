@@ -47,6 +47,36 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <example type="correct">Mi ĉie serĉi pri tio.</example>
     </rule>
 
+    <rulegroup id="REPORTISTO" name="Reportisto (Raportisto)">
+      <rule>
+        <pattern>
+          <token inflected="yes">reportisto</token>
+        </pattern>
+        <message>Plej verŝajne vi intencis skribi <suggestion>raportisto</suggestion> anstataŭ «\1»?</message>
+        <example type="incorrect">La <marker>reportistoj</marker> havis neniun novaĵon.</example>
+        <example type="correct">La raportistoj havis neniun novaĵon.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token inflected="yes">reporti</token>
+          <token regexp="yes">pri|ke</token>
+        </pattern>
+        <message>Laŭ la kunteksto ŝajnas, ke vi intencis skribi <suggestion><match no="1" regexp_match="(.).(.*)" regexp_replace="$1a$2"/></suggestion> anstataŭ «\1»?</message>
+        <example type="incorrect">Li <marker>reportis</marker> pri la eventoj.</example>
+        <example type="correct">Li raportis pri la eventoj.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-2">
+          <token inflected="yes">reporti</token>
+          <token>,</token>
+          <token>ke</token>
+        </pattern>
+        <message>Laŭ la kunteksto ŝajnas, ke vi intencis skribi <suggestion><match no="1" regexp_match="(.).(.*)" regexp_replace="$1a$2"/></suggestion> anstataŭ «\1»?</message>
+        <example type="incorrect">Li <marker>reportis</marker>, ke la eventoj tiel okazis.</example>
+        <example type="correct">Li <marker>raportis</marker>, ke la eventoj tiel okazis.</example>
+      </rule>
+    </rulegroup>
+
     <rule id="LITERO_LETERO" name="Litero (Letero)">
       <pattern mark_from="1">
         <token skip="2" inflected="yes" regexp="yes">.*(adres|send|redakt|leg|ricev)i</token>
@@ -144,6 +174,15 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <message>Laŭ Revo, «\1 \2 \3 \4» estas evitinda. Preferu la pli simetrian <suggestion>\1 \2 kaj \4</suggestion>.</message>
       <example type="incorrect">Mi adicias 2 <marker>al</marker> 2.</example>
       <example type="correct">Mi adicias 2 kaj 2.</example>
+    </rule>
+
+    <rule id="DARFI" name="darfi (rajti)">
+      <pattern>
+        <token inflected="yes" regexp="yes">(mal|ne)?darf(eg)?i</token>
+      </pattern>
+      <message>Laŭ PMEG, la verbo «darfi» esas superflua. Uzu <suggestion><match no="1" regexp_match="darf" regexp_replace="rajt"/></suggestion>.</message>
+      <example type="incorrect">Vi <marker>darfas</marker> malfermi la fenestron.</example>
+      <example type="correct">Vi rajtas malfermi la fenestron.</example>
     </rule>
 
     <rule id="BILIONO" name="biliono">
@@ -330,7 +369,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
         <token regexp="yes">unikaj?n?</token>
         <token regexp="yes">(ge)?(fil|infan|beb)(et)?(in)?oj?n?</token>
       </pattern>
-      <message>Laŭ Revo, «\1» estas evitinda en tiu konteksto. Uzu <suggestion><match no="1" regexp_match=".*a(.*)" regexp_replace="ununura"/> \2</suggestion>.</message>
+      <message>Laŭ Revo, «\1» estas evitinda en tiu kunteksto. Uzu <suggestion><match no="1" regexp_match=".*a(.*)" regexp_replace="ununura"/> \2</suggestion>.</message>
       <example type="incorrect">Komputila <marker>unika</marker> filo.</example>
       <example type="correct">Komputila <marker>ununura</marker> filo.</example>
     </rule>
@@ -2247,6 +2286,25 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
         <message>Laŭ la kunteksto, ŝajnas ke vi intencis diri <suggestion><match no="1" regexp_match=".*d(.*)" regexp_replace="pet$1"/></suggestion> anstataŭ «\1».</message>
         <example type="incorrect">Mi <marker>demandas</marker> al la instruisto pardonon.</example>
         <example type="correct">Mi petas al la instruisto pardonon.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-2">
+          <token inflected="yes">demandi</token>
+          <token>,</token>
+          <token>ke</token>
+        </pattern>
+        <message>Laŭ la kunteksto, ŝajnas ke vi intencis diri <suggestion><match no="1" regexp_match=".*d(.*)" regexp_replace="pet$1"/></suggestion> anstataŭ «\1».</message>
+        <example type="incorrect">Mia patro <marker>demandas</marker>, ke mi pli lavoru.</example>
+        <example type="correct">Mia patro petas, ke mi pli lavoru.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">demandi</token>
+          <token>ke</token>
+        </pattern>
+        <message>Laŭ la kunteksto, ŝajnas ke vi intencis diri <suggestion><match no="1" regexp_match=".*d(.*)" regexp_replace="pet$1"/>, ke</suggestion> anstataŭ «\1 \2».</message>
+        <example type="incorrect">Mia patro <marker>demandas ke</marker> mi pli lavoru.</example>
+        <example type="correct">Mia patro petas, ke mi pli lavoru.</example>
       </rule>
     </rulegroup>
 
