@@ -38,7 +38,7 @@ public class CommaWhitespaceRuleTest extends TestCase {
     // correct sentences:
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("This is a test sentence.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("This, is, a test sentence.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("This (foo bar) is a test(!).")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("This (foo bar) is a test!.")).length);
     //we get only entities into the comma rule, so let's test for entities:
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("&quot;This is it,&quot; he said.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das kostet €2,45.")).length);
@@ -63,20 +63,22 @@ public class CommaWhitespaceRuleTest extends TestCase {
     assertEquals(2, matches.length);
     matches = rule.match(langTool.getAnalyzedSentence(",is a test sentence."));
     assertEquals(2, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("This ( foo bar) is a test(!)."));
+    matches = rule.match(langTool.getAnalyzedSentence("This ( foo bar) is a test!."));
     assertEquals(1, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("This (foo bar ) is a test(!)."));      
+    matches = rule.match(langTool.getAnalyzedSentence("This (foo bar ) is a test!."));      
+    assertEquals(1, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("This(foo bar) is a test!."));      
     assertEquals(1, matches.length);
     
     //other brackets, first [
-    matches = rule.match(langTool.getAnalyzedSentence("This [ foo bar) is a test(!)."));
+    matches = rule.match(langTool.getAnalyzedSentence("This [ foo bar) is a test!."));
     assertEquals(1, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("This (foo bar ] is a test(!)."));      
+    matches = rule.match(langTool.getAnalyzedSentence("This (foo bar ] is a test!."));      
     assertEquals(1, matches.length);
     //now {
-    matches = rule.match(langTool.getAnalyzedSentence("This { foo bar) is a test(!)."));
+    matches = rule.match(langTool.getAnalyzedSentence("This { foo bar) is a test!."));
     assertEquals(1, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("This (foo bar } is a test(!)."));      
+    matches = rule.match(langTool.getAnalyzedSentence("This (foo bar } is a test!."));      
     assertEquals(1, matches.length);
     
     //full stop error:

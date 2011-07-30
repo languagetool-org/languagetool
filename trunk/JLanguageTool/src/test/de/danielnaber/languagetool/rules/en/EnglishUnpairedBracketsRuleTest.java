@@ -132,11 +132,11 @@ public class EnglishUnpairedBracketsRuleTest extends TestCase {
 
     List<RuleMatch> matches;
     matches = tool
-        .check("This is multiple sentence text that contains a bracket:"
+        .check("This is multiple sentence text that contains a bracket: "
             + "[This is bracket. With some text.] and this continues.\n");
     assertEquals(0, matches.size());
     matches = tool
-        .check("This is multiple sentence text that contains a bracket:"
+        .check("This is multiple sentence text that contains a bracket: "
             + "[This is bracket. With some text. And this continues.\n\n");
     assertEquals(1, matches.size());
     // now with a paragraph end inside - we get two alarms because of paragraph
