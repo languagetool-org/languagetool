@@ -64,18 +64,12 @@ public class CommaWhitespaceRule extends Rule {
       || tokens[i].isFieldCode();
       pos += token.length();
       String msg = null;
-      int fixFromLen = 0;
-      int fixToLen = 0;
+      int fixLen = 0;
       String suggestionText = null;
       if (isWhite && isLeftBracket(prevToken)) {
         msg = messages.getString("no_space_after");
         suggestionText = prevToken;
-        fixToLen = 1;
-      } else if (i > 0 && !prevWhite && isLeftBracket(token)) {
-        msg = messages.getString("missing_space_before");
-        suggestionText = " " + token;
-        fixFromLen = prevToken.length();
-        fixToLen = 1;
+        fixLen = 1;
       } else if (!isWhite && prevToken.equals(",") 
           && isNotQuoteOrHyphen(token) 
           && containsNoNumber(prevPrevToken) 
@@ -87,11 +81,11 @@ public class CommaWhitespaceRule extends Rule {
         if (isRightBracket(token)) {
           msg = messages.getString("no_space_before");
           suggestionText = token;
-          fixToLen = 1;
+          fixLen = 1;
         } else if (token.equals(",")) {
           msg = messages.getString("space_after_comma");
           suggestionText = ",";
-          fixToLen = 1;
+          fixLen = 1;
           //exception for duplicated comma (we already have another rule for that)
           if (i + 1 < tokens.length
              && ",".equals(tokens[i + 1].getToken())) {
@@ -100,7 +94,7 @@ public class CommaWhitespaceRule extends Rule {
         } else if (token.equals(".")) {
           msg = messages.getString("no_space_before_dot");
           suggestionText = ".";
-          fixToLen = 1;
+          fixLen = 1;
           // exception case for figures such as ".5" and ellipsis
           if (i + 1 < tokens.length
               && isNumberOrDot(tokens[i + 1].getToken())) {
@@ -109,8 +103,8 @@ public class CommaWhitespaceRule extends Rule {
         }
       }
       if (msg != null) {
-        final int fromPos = tokens[i - 1].getStartPos() + fixFromLen;
-        final int toPos = tokens[i - 1].getStartPos() + fixToLen + prevLen;
+        final int fromPos = tokens[i - 1].getStartPos();
+        final int toPos = tokens[i - 1].getStartPos() + fixLen + prevLen;
         // TODO: add some good short comment here
         final RuleMatch ruleMatch = new RuleMatch(this, fromPos, toPos, msg);
         ruleMatch.setSuggestedReplacement(suggestionText);
