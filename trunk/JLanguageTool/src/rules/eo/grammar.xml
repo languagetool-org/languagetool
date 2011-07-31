@@ -77,6 +77,32 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       </rule>
     </rulegroup>
 
+    <rulegroup id="DANKEMA" name="Dankema (Danka)">
+      <rule>
+        <pattern mark_to="-2">
+          <token inflected="yes">dankema</token>
+          <token regexp="yes" skip="1">pro|por|se</token>
+          <token regexp="yes">helpo|servo</token>
+        </pattern>
+        <message>Laŭ la kunteksto ŝajnas, ke vi intencis skribi <suggestion><match no="1" regexp_match="(.*)em(.*)" regexp_replace="$1$2"/></suggestion>. Teorie «dankema» estas uzata por konstanta inklino al dankado, ne por provizora helpo.</message>
+        <example type="incorrect">Ili estas tre <marker>dankemaj</marker> pro via helpo.</example>
+        <example type="correct">Mi estas tre danka pro via helpo.</example>
+        <example type="correct">Mi estas dankema al mia infanoj.</example>
+        <example type="correct">Li havas dankeman karakteron.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes" skip="1">est[iuo]s</token>
+          <token inflected="yes">dankema</token>
+        </pattern>
+        <message>Laŭ la kunteksto ŝajnas, ke vi intencis skribi <suggestion><match no="2" regexp_match="(.*)em(.*)" regexp_replace="$1$2"/></suggestion>. Teorie «dankema» estas uzata por konstanta inklino al dankado, ne por provizora helpo.</message>
+        <example type="incorrect">Se vi helpus min, ni estus <marker>dankemaj</marker>.</example>
+        <example type="incorrect">Se vi helpus min, ni estus tre <marker>dankemaj</marker>.</example>
+        <example type="correct">Se vi helpus min, ni estus dankaj.</example>
+        <example type="correct">Se vi helpus min, ni estus tre dankaj.</example>
+      </rule>
+    </rulegroup>
+
     <rule id="LITERO_LETERO" name="Litero (Letero)">
       <pattern mark_from="1">
         <token skip="2" inflected="yes" regexp="yes">.*(adres|send|redakt|leg|ricev)i</token>
@@ -1572,7 +1598,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
         <token>ĉi</token>
         <token negate_pos="yes" postag_regexp="yes" postag="[AOET] .*"/>
       </pattern>
-      <message>Tiu uzo de «\2» ne eblas.  Ĉu vi eblis intencis skribi «ĉu»?</message>
+      <message>Tiu uzo de «\2» ne eblas.  Ĉu vi eblis intencis skribi <suggestion>ĉu</suggestion>?</message>
       <example type="incorrect">Mi scivolas <marker>ĉi</marker> li venos.</example>
       <example type="correct">Mi scivolas ĉu vinon li aĉenis.</example>
       <example type="correct">Mi deziras ĉi tiun.</example>
