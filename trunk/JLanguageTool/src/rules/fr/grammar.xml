@@ -819,7 +819,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern mark_to="-1">
           <token regexp="yes">d[eé]s</token>
-          <token regexp="yes">que?|[lmst]a|[mts]on|[lmst]es|le?|[nv]os|[nv]otre|leurs?|cet?|cettes?|lors|après|maintenant|à|toujours|midi|minuit|aujourd|hier|demain|une?|janvier|f[eé]vrier|mars|avril|mai|juin|juillet|a[uû]ot|septembre|octobre|novembre|d[eé]cembre|vendémiaire|brumaire|frimaire|nivôse|pluviôse|ventôse|germinal|floréal|prairial|messidor|thermidor|fructidor|lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche|P[âa]ques|No[ëe]l|([12]?\d\d\d)</token>
+          <token regexp="yes">que?|[lmst]a|[mts]on|[lmst]es|le?|[nv]os|[nv]otre|leurs?|ce[ts]?|cette|lors|après|maintenant|à|toujours|midi|minuit|aujourd|hier|demain|une?|janvier|f[eé]vrier|mars|avril|mai|juin|juillet|a[uû]ot|septembre|octobre|novembre|d[eé]cembre|vendémiaire|brumaire|frimaire|nivôse|pluviôse|ventôse|germinal|floréal|prairial|messidor|thermidor|fructidor|lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche|P[âa]ques|No[ëe]l|([12]?\d\d\d)</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="(.).." regexp_replace="$1ès"/></suggestion> ?</message>
         <example type="incorrect">Tu repars <marker>des</marker> qu’il arrive.</example>
@@ -3577,7 +3577,7 @@ though, and has since been slightly modified)-->
           <token postag="[ZR].*" postag_regexp="yes"/>
           <and>
             <token postag="V.*ind.*" postag_regexp="yes"/>
-            <token inflected="yes" regexp="yes">aimer|approuver|attendre|craindre|demander|déplorer|désirer|douter|exiger|falloir|importer|interdire|ordonner|permettre|préfèrer|refuser|regretter|souhaiter|suffir|suggérer|vouloir</token>
+            <token inflected="yes" regexp="yes">aimer|approuver|attendre|craindre|demander|déplorer|désirer|douter|exiger|falloir|importer|interdire|ordonner|permettre|préférer|refuser|regretter|souhaiter|suffire|suggérer|vouloir</token>
           </and>
           <token>que</token>
           <token postag="[ZR].*" postag_regexp="yes"/>
@@ -3594,7 +3594,7 @@ though, and has since been slightly modified)-->
           <token postag="[ZR].*" postag_regexp="yes"/>
           <and>
             <token postag="V.*ind.*" postag_regexp="yes"/>
-            <token inflected="yes" regexp="yes">aimer|approuver|attendre|craindre|demander|déplorer|désirer|douter|exiger|falloir|importer|interdire|ordonner|permettre|préfèrer|refuser|regretter|souhaiter|suffir|suggérer|vouloir</token>
+            <token inflected="yes" regexp="yes">aimer|approuver|attendre|craindre|demander|déplorer|désirer|douter|exiger|falloir|importer|interdire|ordonner|permettre|préférer|refuser|regretter|souhaiter|suffire|suggérer|vouloir</token>
           </and>
           <token>qu</token>
           <token regexp="yes">[’´'‛′‘]</token>
@@ -3613,7 +3613,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes" skip="1">ne?</token>
           <and>
             <token postag="V.*ind.*" postag_regexp="yes"/>
-            <token inflected="yes" regexp="yes">permettre|falloir|vouloir|ordonner|exiger|désirer|suffir|espérer</token>
+            <token inflected="yes" regexp="yes">permettre|falloir|vouloir|ordonner|exiger|désirer|suffire|espérer</token>
           </and>
           <token regexp="yes">pas|guerre|plus</token>
           <token>que</token>
@@ -3918,8 +3918,8 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="MOTS_INCOMP" name="Mots qui ne peuvent pas se suivre">
       <pattern>
-        <token regexp="yes">[cdlmts]es|[nv]os|cette|ces|[mts]a|mon|leurs?|aux?</token>
-        <token regexp="yes">[cdlmst]es|[nv]os|cette|ces[mts]a|mon|je|tu|ils?|elle?|[vn]ous|on</token>
+        <token regexp="yes">[cdlmts]es|[nv]os|cette|ce[st]|[mts]a|mon|leurs?|aux?</token>
+        <token regexp="yes">[cdlmst]es|[nv]os|cette|ce[st]|[mts]a|mon|je|tu|ils?|elle?|[vn]ous|on</token>
       </pattern>
       <message>Les deux mots « \1 \2 » ne peuvent pas se suivrent.</message>
       <example type="incorrect">Plusieurs <marker>des ces</marker> langues vont disparaitre.</example>
@@ -18316,7 +18316,7 @@ though, and has since been slightly modified)-->
       <example type="incorrect">Il va <marker>au</marker> coiffeur tous les mois.</example>
       <example type="correct">Il va chez le coiffeur tous les mois.</example>
     </rule>
-    <rulegroup id="AUX_DEPENDS" name="aux depends">
+    <rulegroup id="AUX_DEPENDS" name="aux dépends">
       <rule>
         <pattern>
           <token regexp="yes">aux?</token>
