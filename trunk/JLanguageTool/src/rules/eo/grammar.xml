@@ -36,6 +36,28 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <example type="correct">Mi lernas Esperanton <marker>ekde</marker> la jaro 2005</example>
     </rule>
 
+    <rulegroup id="SE_ĈU" name="se (ĉu)">
+      <rule>
+        <pattern mark_from="1">
+          <token inflected="yes">scii</token>
+          <token>se</token>
+        </pattern>
+        <message>Laŭ la kunteksto ŝajnas, ke vi intencis skribi <suggestion>ĉu</suggestion>.</message>
+        <example type="incorrect">Mi ne scias <marker>se</marker> li venos.</example>
+        <example type="correct">Mi ne scias ĉu li venos.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2">
+          <token inflected="yes">scii</token>
+          <token>,</token>
+          <token>se</token>
+        </pattern>
+        <message>Laŭ la kunteksto ŝajnas, ke vi intencis skribi <suggestion>ĉu</suggestion>.</message>
+        <example type="incorrect">Mi ne scias, <marker>se</marker> li venos.</example>
+        <example type="correct">Mi ne scias, ĉu li venos.</example>
+      </rule>
+    </rulegroup>
+
     <rule id="SERCXI" name="Serĉi (Ŝerci)">
       <pattern>
         <token inflected="yes">serĉi<exception scope="previous" regexp="yes">tie|ĉie</exception></token>
@@ -2363,7 +2385,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
           <token>tial</token>
           <token>kial</token>
         </pattern>
-        <message>Oni ne uzas «tial, kial». Konsideru uzi <suggestion>pro la sama kaŭzo, kial</suggestion>, <suggestion>pro la sama kaŭzo, pro kio</suggestion> aŭ <suggestion>ĉar</suggestion>.</message>
+        <message>Oni ne uzas «\1, \2». Konsideru uzi <suggestion>pro la sama kaŭzo, kial</suggestion>, <suggestion>pro la sama kaŭzo, pro kio</suggestion> aŭ <suggestion>ĉar</suggestion>.</message>
         <example type="incorrect">Ili foriris <marker>tial kial</marker> mi foriris.</example>
         <example type="correct">Ili foriris pro la sama kaŭzo, kial mi foriris.</example>
       </rule>
@@ -2373,7 +2395,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
           <token>,</token>
           <token>kial</token>
         </pattern>
-        <message>Oni ne uzas «tial, kial». Konsideru uzi <suggestion>pro la sama kaŭzo, kial</suggestion>, <suggestion>pro la sama kaŭzo, pro kio</suggestion> aŭ <suggestion>ĉar</suggestion>.</message>
+        <message>Oni ne uzas «\1, \2». Konsideru uzi <suggestion>pro la sama kaŭzo, kial</suggestion>, <suggestion>pro la sama kaŭzo, pro kio</suggestion> aŭ <suggestion>ĉar</suggestion>.</message>
         <example type="incorrect">Ili foriris <marker>tial, kial</marker> mi foriris.</example>
         <example type="correct">Ili foriris pro la sama kaŭzo, kial mi foriris.</example>
       </rule>
