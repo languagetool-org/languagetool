@@ -99,6 +99,15 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       </rule>
     </rulegroup>
 
+    <rule id="REBELO" name="Rebelo (Ribelo)">
+      <pattern>
+        <token inflected="yes" regexp="yes">rebel[oi]</token>
+      </pattern>
+      <message>La vorto «\1» estas neverŝajna. Ĉu vi intencis skribi <suggestion><match no="1" regexp_match="(.)." regexp_replace="$1i"/></suggestion>?</message>
+      <example type="incorrect">Li <marker>rebeloj</marker> venkis.</example>
+      <example type="correct">Li ribeloj venkis.</example>
+    </rule>
+
     <rulegroup id="DANKEMA" name="Dankema (Danka)">
       <rule>
         <pattern mark_to="-2">
@@ -1325,6 +1334,33 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <example type="correct">Li estas ĉion leginta.</example>
       <example type="correct">La bebo pezis sep funtojn.</example>
     </rule>
+
+    <rulegroup id="SENSUBJEKTA_V" name="sensubjekta verbo">
+      <rule>
+        <pattern>
+          <token postag="R nak.*" postag_regexp="yes">
+            <exception scope="previous" postag="P .*" postag_regexp="yes"/>
+          </token>
+          <token inflected="yes" regexp="yes">(ek)?(fulm|fros|hajl|neĝ|pluv|tondr|tem|tagiĝ|vent|ŝtorm)(et|eg)?i</token>
+        </pattern>
+        <message>La verbo «\2» estas sensubjekta verbo, do ne uzu «\1». Skribu <suggestion>\2</suggestion>.</message>
+        <example type="incorrect"><marker>Ĝi pluvos</marker> morgaŭ.</example>
+        <example type="correct"><marker>Pluvos</marker> morgaŭ.</example>
+        <example type="correct">Laŭ mi <marker>pluvos</marker> morgaŭ.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag="R nak.*" postag_regexp="yes">
+            <exception scope="previous" postag="P .*" postag_regexp="yes"/>
+          </token>
+          <token postag="E.*" postag_regexp="yes"/>
+          <token inflected="yes" regexp="yes">(ek)?(fulm|fros|hajl|neĝ|pluv|tondr|tem|tagiĝ|vent|ŝtorm)(et|eg)?i</token>
+        </pattern>
+        <message>La verbo «\3» estas sensubjekta verbo, do ne uzu «\1». Skribu <suggestion>\2 \3</suggestion>.</message>
+        <example type="incorrect"><marker>Ĝi veŝajne pluvetos</marker> morgaŭ.</example>
+        <example type="correct">Verŝajne <marker>pluvetos</marker> morgaŭ.</example>
+      </rule>
+    </rulegroup>
 
     <rule id="NAK_VTR_NAK" name="mankanta akuzativo">
       <pattern mark_from="2" case_sensitive="yes">
