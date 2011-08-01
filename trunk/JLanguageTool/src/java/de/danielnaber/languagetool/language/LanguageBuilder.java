@@ -53,7 +53,9 @@ public class LanguageBuilder {
       throw new RuleFilenameException(file);
     }
     final String[] parts = file.getName().split("-");
-    if (parts.length != 3 || !parts[0].equals("rules") || parts[1].length() != 2) {
+    final boolean startsWithRules = parts[0].equals("rules");
+    final boolean secondPartHasCorrectLength = parts[1].length() == 2 || parts[1].length() == 3;
+    if (parts.length != 3 || !startsWithRules || !secondPartHasCorrectLength) {
       throw new RuleFilenameException(file);
     }
     

@@ -289,8 +289,8 @@ public abstract class Language {
    */
   public static Language getLanguageForShortName(final String shortLanguageCode) {
     StringTools.assureSet(shortLanguageCode, "shortLanguageCode");
-    if (shortLanguageCode.length() != "xx".length()) {
-      throw new IllegalArgumentException("'" + shortLanguageCode + "' isn't a two-character code");
+    if (shortLanguageCode.length() != "xx".length() && shortLanguageCode.length() != "xxx".length()) {
+      throw new IllegalArgumentException("'" + shortLanguageCode + "' isn't a two- or three-character code");
     }
     for (Language element : Language.LANGUAGES) {
       if (shortLanguageCode.equals(element.getShortName())) {
