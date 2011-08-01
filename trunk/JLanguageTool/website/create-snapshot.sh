@@ -8,4 +8,4 @@ ant dist
 mv dist/LanguageTool-1.4-dev.oxt ../www/download/snapshots/LanguageTool-`date +%Y%m%d`-snapshot.oxt
 
 # delete *.oxt files older than 5 days:
-rm `find ../www/download/snapshots/ -name "*.oxt" -ctime 5`
+rm `find ../www/download/snapshots/ -name "*.oxt" -mtime +5`
