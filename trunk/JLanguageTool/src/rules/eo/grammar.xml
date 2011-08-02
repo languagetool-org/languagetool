@@ -1455,9 +1455,9 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <rule>
         <pattern mark_from="3" mark_to="-1">
           <token skip="3" postag="SENT_START|K" postag_regexp="yes">
-            <exception scope="next" negate_pos="yes" postag="([DE].*)|([ROA] nak pl.*)|(T nak pl . [ua])" postag_regexp="yes"/>
+            <exception scope="next" negate_pos="yes" postag="[DE].*|[ROA] nak pl.*|T nak pl . [ua]" postag_regexp="yes"/>
           </token>
-          <token postag="([ROA] nak pl.*)|(T nak pl . [ua])" postag_regexp="yes"/>
+          <token postag="([RO] nak pl.*)|(T nak pl . [ua])" postag_regexp="yes"/>
           <token skip="1" postag="V nt .*" postag_regexp="yes">
             <exception scope="next" negate_pos="yes" postag="(E.*)|([ROA] nak np.*)|(T nak pl . [ua])|SENT_END" postag_regexp="yes"/>
           </token>
@@ -1475,6 +1475,12 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
         <example type="correct">Tiuj estas bonaj.</example>
         <example type="correct">Ili estas parto de tio.</example>
         <example type="correct">Ni estas frato kaj fratino.</example>
+        <example type="incorrect">Niaj filinoj estas <marker>bela</marker>.</example>
+        <example type="correct">Niaj filinoj estas <marker>belaj</marker>.</example>
+        <example type="incorrect">Niaj filinoj estas tre <marker>bela</marker>.</example>
+        <example type="correct">Niaj filinoj estas tre belaj.</example>
+        <example type="incorrect">Niaj grandaj filinoj estas tre <marker>bela</marker>.</example>
+        <example type="correct">Niaj grandaj filinoj estas tre belaj.</example>
       </rule>
 
       <rule>
@@ -1483,7 +1489,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
             <exception scope="next" negate_pos="yes" postag="([DE].*)|([ROA] nak np.*)|(T nak np . [ua])" postag_regexp="yes"/>
             <exception scope="current" regexp="yes">kaj|aŭ</exception>
           </token>
-          <token skip="1" postag="([ROA] nak np.*)|(T nak np . [ua])" postag_regexp="yes">
+          <token skip="1" postag="([RO] nak np.*)|(T nak np . [ua])" postag_regexp="yes">
             <exception scope="next" negate_pos="yes" postag="(E.*)|(V nt .*)" postag_regexp="yes"/>
           </token>
           <token skip="1" postag="V nt .*" postag_regexp="yes">
@@ -1493,14 +1499,16 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
         </pattern>
         <message>Ne kongrua pluralo inter «\2» kaj «\4».</message>
         <example type="incorrect">Mi estas <marker>lacaj</marker>.</example>
-        <example type="correct">Mi estas <marker>laca</marker>.</example>
+        <example type="correct">Mi estas laca.</example>
         <example type="incorrect">Mi estas tre <marker>lacaj</marker>.</example>
         <example type="correct">Mi estas tre <marker>laca</marker>.</example>
         <example type="incorrect">Tiu estas tre <marker>bonaj</marker>.</example>
-        <example type="correct">Tiu estas tre <marker>bona</marker>.</example>
+        <example type="correct">Tiu estas tre bona.</example>
         <example type="correct">Tie estas bona amiko.</example>
         <example type="correct">Tie estas bonaj amikoj.</example>
         <example type="correct">La aliĝo kaj aneco estas senpagaj.</example>
+        <example type="incorrect">Mia nova aŭtomobilo estas <marker>multekostaj</marker>.</example>
+        <example type="correct">Mia nova aŭtomobilo estas multekosta.</example>
       </rule>
 
       <rule>
