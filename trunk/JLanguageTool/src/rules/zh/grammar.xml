@@ -10,6 +10,266 @@ $Id: grammar.xml,v 1.0 2011-07-29 13:20:25 taolin2011 Exp $
 <rules lang="en" xsi:noNamespaceSchemaLocation="../rules.xsd"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <category name="句法">
+    <rulegroup id="s32" name="动宾搭配不当">
+      <rule>
+        <pattern mark_to="-1">
+          <token postag="v" regexp="yes" skip="-1">增强|加强|增加|扩大</token>
+          <token postag="n">力度</token>
+        </pattern>
+        <message> ‘力度’不应该与‘增强’‘加强’‘增加’‘扩大’搭配，您可以使用‘<suggestion>加大</suggestion>’与之搭配。 </message>
+        <short>动宾搭配不当</short>
+        <example correction="加大" type="incorrect"> 在这方面，一定要<marker>加强</marker>打击的力度！ </example>
+        <example type="correct">中央政府决定加大政治体制改革的力度。</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token postag="v" skip="-1">培养</token>
+          <token postag="n">水平</token>
+        </pattern>
+        <message> ‘水平’不应该与‘培养’搭配，您可以使用‘<suggestion>提高</suggestion>’与之搭配。 </message>
+        <short>动宾搭配不当</short>
+        <example correction="提高" type="incorrect"> 好好地<marker>培养</marker>大家的文化水平！ </example>
+        <example type="correct">白话文运动的主要目的就是提高民众的文化水平。</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token postag="v" regexp="yes" skip="-1">增大|增加|加快</token>
+          <token postag="n">规模</token>
+        </pattern>
+        <message> ‘规模’不应该与‘增大’‘增加’‘加快’搭配，您可以使用‘<suggestion>扩大</suggestion>’与之搭配。 </message>
+        <short>动宾搭配不当</short>
+        <example correction="扩大" type="incorrect"> 我们<marker>增加</marker>组织的规模很关键。 </example>
+        <example type="correct">现在的企业一味地希望扩大企业的规模而导致生产效率很低。</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token postag="v" skip="-1">完成</token>
+          <token regexp="yes">目标|理想</token>
+        </pattern>
+        <message> 与‘目标’‘理想’搭配的动词不应该是‘完成’，您可以使用‘<suggestion>实现</suggestion>’与之搭配。 </message>
+        <short>动宾搭配不当</short>
+        <example correction="实现" type="incorrect"> 我们<marker>完成</marker>了目标。 </example>
+        <example type="correct">我们终于实现了目标。</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token postag="v" skip="-1">防止</token>
+          <token postag="n" regexp="yes">地震|余震|火山|泥石流|海啸|台风|龙卷风|洪水|洪涝|干旱</token>
+        </pattern>
+        <message> 不可控因素不能与‘防止’搭配。您可以使用‘<suggestion>预防</suggestion>’与之搭配。 </message>
+        <short>动宾搭配不当</short>
+        <example type="incorrect" correction="预防"> 政府加大了<marker>防止</marker>余震再次发生的力度。 </example>
+        <example type="correct">随时预防洪涝灾害的发生。</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token skip="-1">解决</token>
+          <token>困境</token>
+        </pattern>
+        <message> ‘困境’不应该与‘解决’搭配，您可以使用‘<suggestion>摆脱</suggestion>’与之搭配。 </message>
+        <short>动宾搭配不当</short>
+        <example correction="摆脱" type="incorrect"> 这应该是<marker>解决</marker>困境的有效方法之一。 </example>
+        <example type="correct">郭美美试图摆脱困境。</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token skip="-1">增加</token>
+          <token regexp="yes">免疫力|抵抗力</token>
+        </pattern>
+        <message> ‘免疫力’不应该与‘增加’搭配，您可以使用‘<suggestion>提高</suggestion>’与之搭配。 </message>
+        <short>动宾搭配不当</short>
+        <example correction="提高" type="incorrect"> 锻炼可以<marker>增加</marker>身体的免疫力。 </example>
+        <example type="correct">规律的作息时间有助于提高身体的抵抗力。</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token skip="-1">摘取</token>
+          <token>奖</token>
+        </pattern>
+        <message>‘奖’不应该与‘摘取’搭配，您可以使用‘获得’或者‘摘取桂冠’替代。</message>
+        <short>动宾搭配不当</short>
+        <example type="incorrect"> 电影节邀请了曾经<marker>摘取过戛纳金棕榈奖</marker>的35位导演出席。 </example>
+        <example type="correct">电影节邀请了曾经获得过戛纳金棕榈奖的35位导演出席。</example>
+        <example type="correct">电影节邀请了曾经在嘎纳电影节上摘取桂冠的35位导演出席。</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token skip="-1">吸引</token>
+          <token>关注</token>
+        </pattern>
+        <message> ‘关注’不应该与‘吸引’搭配，您可以使用‘<suggestion>引起</suggestion>’与之搭配。 </message>
+        <short>动宾搭配不当</short>
+        <example correction="引起" type="incorrect"> 电影节<marker>吸引</marker>了曾经获得过戛纳金棕榈奖的35位导演的关注。 </example>
+        <example type="correct">电影节引起了各大赞助商的关注。</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token skip="-1">推动</token>
+          <token>联系</token>
+        </pattern>
+        <message> ‘联系’不应该与‘推动’搭配，您可以使用‘<suggestion>加强</suggestion>’与之搭配。 </message>
+        <short>动宾搭配不当</short>
+        <example correction="加强" type="incorrect"> 他的行为<marker>推动</marker>了村民之间的联系。 </example>
+        <example type="correct">我们要努力加强民众与政府的联系。</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token skip="-1">克服</token>
+          <token>条件</token>
+        </pattern>
+        <message> ‘克服’不应该与‘条件’搭配，您可以使用‘<suggestion>困难</suggestion>’与之搭配。 </message>
+        <short>动宾搭配不当</short>
+        <example correction="困难" type="incorrect"> 运火炬登顶珠峰，必须克服低温、低压、大风等不利的特殊气候<marker>条件</marker>。 </example>
+        <example type="correct">考研所要克服的困难实在是很多。</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token skip="-1">保护</token>
+          <token>安全</token>
+        </pattern>
+        <message> ‘安全’不应该与‘保护’搭配，您可以使用‘<suggestion>保证</suggestion>’与之搭配。 </message>
+        <short>动宾搭配不当</short>
+        <example correction="保证" type="incorrect"> 解放军多次抢险救灾，<marker>保护</marker>了人民群众生命财产的安全。 </example>
+        <example type="correct">如何保证你的安全才是他最关心的。</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token skip="-1">学习</token>
+          <token>素养</token>
+        </pattern>
+        <message> ‘素养’不应该与‘学习’搭配，您可以使用‘<suggestion>提高</suggestion>’与之搭配。 </message>
+        <short>动宾搭配不当</short>
+        <example correction="提高" type="incorrect"> 学生在这里<marker>学习</marker>将来步入广阔社会所需要的言语交际本领与素养。 </example>
+        <example type="correct">学习本领才是最重要的。</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token skip="-1">降低</token>
+          <token>扩散</token>
+        </pattern>
+        <message> ‘扩散’不应该与‘降低’搭配，您可以使用‘<suggestion>减少</suggestion>’与之搭配。 </message>
+        <short>动宾搭配不当</short>
+        <example correction="减少" type="incorrect"> 这或许有助于<marker>降低</marker>流感病毒的扩散。 </example>
+        <example type="correct">政府花费几个亿才减少了污染物的扩散。</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-2">
+          <token skip="-1">揭发</token>
+          <token>黑</token>
+          <token>幕</token>
+        </pattern>
+        <message> ‘黑幕’不应该与‘揭发’搭配，您可以使用‘<suggestion>揭穿</suggestion>’与之搭配。 </message>
+        <short>动宾搭配不当</short>
+        <example correction="揭穿" type="incorrect"> 《时事画报》经常<marker>揭发</marker>清朝统治下的黑幕。 </example>
+        <example type="correct">《时事画报》经常揭穿清朝统治下的黑幕。</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token skip="-1">揭穿</token>
+          <token>罪行</token>
+        </pattern>
+        <message> ‘罪行’不应该与‘揭穿’搭配，您可以使用‘<suggestion>揭发</suggestion>’与之搭配。 </message>
+        <short>动宾搭配不当</short>
+        <example correction="揭发" type="incorrect"> 《时事画报》经常<marker>揭穿</marker>清朝统治下的罪行。 </example>
+        <example type="correct">《时事画报》经常揭发清朝统治下的罪行。</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token>起</token>
+          <token skip="-1">到</token>
+          <token>效果</token>
+        </pattern>
+        <message> ‘效果’不应该与‘起到’搭配，您可以使用‘<suggestion>达到</suggestion>’与之搭配。 </message>
+        <short>动宾搭配不当</short>
+        <example correction="达到" type="incorrect">
+            文静秀气的文竹，配上红色的宜兴盆，另加一个雪白的水盘，就显得协调和漂亮，更好地<marker>起到</marker>装点家居的效果。 </example>
+        <example type="correct">没有系统的方法就很难到达想要的效果。</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token skip="-1">开辟</token>
+          <token>航班</token>
+        </pattern>
+        <message> ‘开辟’不应该与‘航班’搭配，您可以使用‘<suggestion>航线</suggestion>’与之搭配。 </message>
+        <short>动宾搭配不当</short>
+        <example correction="航线" type="incorrect">
+            根据客流量日益增加的实际情况，航空公司新近开辟了从上海直达旧金山的<marker>航班</marker>。 </example>
+        <example type="correct">德国汉莎航空公司开辟了许多冷门的航线。</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token skip="-1">康复</token>
+          <token regexp="yes">疾病|病</token>
+        </pattern>
+        <message> ‘（疾）病’不应该与‘康复’搭配，您可以使用‘<suggestion>治好</suggestion>’与之搭配。 </message>
+        <short>动宾搭配不当</short>
+        <example correction="治好" type="incorrect"> 步行运动<marker>康复</marker>了我的疾病。 </example>
+        <example type="correct">步行运动治好了我们的病。</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token skip="-1">受到</token>
+          <token>优惠</token>
+        </pattern>
+        <message> ‘优惠’不应该与‘受到’搭配，您可以使用‘<suggestion>得到</suggestion>’与之搭配。 </message>
+        <short>动宾搭配不当</short>
+        <example correction="得到" type="incorrect"> 你们台商在天津办企业是否能<marker>受到</marker>一些优惠呢？ </example>
+        <example type="correct">学生们应该在商业活动中得到一些优惠。</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token skip="-1">做出</token>
+          <token>成果</token>
+        </pattern>
+        <message> ‘成果’不应该与‘做出’搭配，您可以使用‘<suggestion>取得</suggestion>’与之搭配。 </message>
+        <short>动宾搭配不当</short>
+        <example correction="取得" type="incorrect">
+          <marker>做出</marker>成果对我们来说才是重要的。 </example>
+        <example type="correct">中国改革开放三十年取得了巨大的成果。</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token>做</token>
+          <token skip="-1">出</token>
+          <token>成果</token>
+        </pattern>
+        <message> ‘成果’不应该与‘做出’搭配，您可以使用‘<suggestion>取得</suggestion>’与之搭配。 </message>
+        <short>动宾搭配不当</short>
+        <example correction="取得" type="incorrect"> 科研人员能够更好地<marker>做出</marker>许多创新的成果。 </example>
+        <example type="correct">中国改革开放三十年取得了巨大的成果。</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token skip="-1">解决</token>
+          <token>状况</token>
+        </pattern>
+        <message> ‘状况’不应该与‘解决’搭配，您可以使用‘<suggestion>改变</suggestion>’与之搭配。 </message>
+        <short>动宾搭配不当</short>
+        <example correction="改变" type="incorrect"> 科研人员能够更好的<marker>解决</marker>许多创新中产生的状况。 </example>
+        <example type="correct">一个优秀的工程师要能够改变各种不良的状况。</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token skip="-1">争夺</token>
+          <token>冠亚军</token>
+        </pattern>
+        <message> ‘争夺’不应该与‘冠亚军’搭配，您可以使用‘<suggestion>冠军</suggestion>’与之搭配。 </message>
+        <short>动宾搭配不当</short>
+        <example correction="冠军" type="incorrect"> 天津队将同北京队争夺团体<marker>冠亚军</marker>。 </example>
+        <example type="correct">天津队将同北京队争夺团体冠军。</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>争</token>
+          <token>夺冠</token>
+          <token>亚军</token>
+        </pattern>
+        <message> ‘争夺’不应该与‘冠亚军’搭配，您可以使用‘<suggestion>争夺冠军</suggestion>’与之搭配。 </message>
+        <short>动宾搭配不当</short>
+        <example correction="争夺冠军" type="incorrect"> 天津队将同北京队<marker>争夺冠亚军</marker>。 </example>
+        <example type="correct">天津队将同北京队争夺冠军。</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="s34" name="与中心语搭配不当">
       <rule>
         <pattern mark_to="-1">
