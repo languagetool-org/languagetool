@@ -9,7 +9,67 @@ $Id: grammar.xml,v 1.0 2011-07-29 13:20:25 taolin2011 Exp $
 -->
 <rules lang="en" xsi:noNamespaceSchemaLocation="../rules.xsd"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <!-- ====================================================================== -->
+  <!-- 语法：句法 -->
+  <!-- ====================================================================== -->
   <category name="句法">
+    <rulegroup id="s2" name="成分赘余">
+      <rule>
+        <pattern>
+          <token skip="-1"> 略<exception scope="previous">攻</exception>
+          </token>
+          <token regexp="yes">一些|一点</token>
+        </pattern>
+        <message>‘略’与‘一些’‘一点’同时使用会造成多余的现象。建议您删除其中一个。</message>
+        <short>定语、状语、补语多余</short>
+        <example type="incorrect"> 为精简字数，这篇文章不得不<marker>略加删改一些</marker>。 </example>
+        <example type="correct">你懂的道理要多一些。</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token skip="-1">或许</token>
+          <token>可能</token>
+        </pattern>
+        <message>‘可能’与‘或许’同时使用会造成多余的现象。建议您删除其中一个。</message>
+        <short>定语、状语、补语多余</short>
+        <example type="incorrect">
+          <marker>或许一桶水对已经茂盛的参天大树可能</marker>并不起什么作用。 </example>
+        <example type="correct">或许你已经没有感觉了。</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="s31" name="主谓搭配不当">
+      <rule>
+        <pattern mark_from="1">
+          <token skip="-1">水平</token>
+          <token regexp="yes">改善|变化</token>
+        </pattern>
+        <message> ‘水平’不能与‘改善’搭配，您可以使用‘<suggestion>提高</suggestion>’与之搭配。 </message>
+        <short>主谓搭配不当</short>
+        <example type="incorrect" correction="提高"> 我们的技能水平得到了很大的<marker>改善</marker>。 </example>
+        <example type="correct">低级劳动者的技能水平继续提高。</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token skip="-1">学习</token>
+          <token>荒废</token>
+        </pattern>
+        <message> ‘荒废’不应该与‘学习’搭配，您可以使用‘<suggestion>学业</suggestion>’与之搭配。 </message>
+        <short>主谓搭配不当</short>
+        <example correction="学业" type="incorrect"> 虽然家境贫寒，父母多病，但是<marker>学习</marker>千万不能荒废。 </example>
+        <example type="correct">学业千万不能荒废。</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token skip="-1"> 渡过<exception scope="next" postag="n|ns" postag_regexp="yes"/>
+          </token>
+          <token postag="t"/>
+        </pattern>
+        <message> ‘渡过’不应该来修饰时间，你可以使用‘<suggestion>度过</suggestion>’与之搭配。 </message>
+        <short>主谓搭配不当</short>
+        <example type="incorrect" correction="度过"> 我在科恩<marker>渡过</marker>了整个夏天。 </example>
+        <example type="correct">唐僧师徒一行人终于渡过了流沙河。</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="s32" name="动宾搭配不当">
       <rule>
         <pattern mark_to="-1">
