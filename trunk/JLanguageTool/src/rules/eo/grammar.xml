@@ -1640,6 +1640,19 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <example type="correct">Ĉu via estas multekara?</example>
     </rule>
 
+    <rule id="MI_MIA" name="mi (mia)">
+      <pattern mark_from="1" mark_to="-2">
+        <token postag="SENT_START|K" postag_regexp="yes"/>
+        <token regexp="yes">([mcvlŝĝn]|il)i</token>
+        <token postag="O nak .*" postag_regexp="yes"/>
+        <token><exception regexp="yes">[!,]</exception></token>
+      </pattern>
+      <message>Ĉu vi intencis skribi <suggestion>\2a</suggestion>?</message>
+      <example type="incorrect"><marker>Mi</marker> patrino vizitos min.</example>
+      <example type="correct">Mia patrino vizitos min.</example>
+      <example type="correct">Vi idioto!</example>
+    </rule>
+
     <rule id="DEMANDO_SEN_CXU" name="demando sen demanda vorto">
       <pattern mark_from="1">
         <token postag="SENT_START" skip="-1">
@@ -1672,6 +1685,16 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <example type="correct">Mi konas ĉi homon.</example>
     </rule>
 
+    <rule id="VOLAS_KE_V" name="Volas ke + verbo">
+      <pattern mark_from="2">
+        <token regexp="yes" skip="1">(admon|bezoni|dezir|konsil|neces|ordon|pet|postul|vol)(et|eg)?[aiou]s</token>
+        <token skip="4">ke<exception scope="next" negate_pos="yes" postag="[RO] nak.*|E.*|T .* t e|V .*[^u]" postag_regexp="yes"/></token>
+        <token postag="V .*[^u]" postag_regexp="yes"/>
+      </pattern>
+      <message>Oni preskaŭ ĉiu uzu u-verbon kun ke-frazo kiam la verbo de ĉeffrazo estas «\1». Ĉu vi intencis skribi <suggestion><match no="3" regexp_match="(.*)([aiou]s|i)" regexp_replace="$1u"/></suggestion>?</message>
+      <example type="incorrect">Mi volas, ke vi tien <marker>iras</marker>.</example>
+      <example type="correct">Mi volas, ke vi tien iru.</example>
+    </rule>
     <rule id="POR_KE_V" name="Por ke + verbo">
       <pattern>
         <token>por</token>
