@@ -33,8 +33,8 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token>Main</token>
       </pattern>
       <message>Meinten Sie <suggestion>Mai</suggestion>?</message>
-      <example type="incorrect">Ich will nochmal auf den 18. <marker>Main</marker> hinweisen.</example>
-      <example type="correct">Ich will nochmal auf den 18. <marker>Mai</marker> hinweisen.</example>
+      <example type="incorrect">Ich will noch mal auf den 18. <marker>Main</marker> hinweisen.</example>
+      <example type="correct">Ich will noch mal auf den 18. <marker>Mai</marker> hinweisen.</example>
       <example type="correct">Ich will am 18. <marker>Main-Taunus-Rennen</marker> teilnehmen.</example>
     </rule>
     <rule id="ZU_SPAEHT" name="Tippfehler: 'zu/erst/sehr späht(spät)'">
@@ -82,7 +82,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token>wage</token>
         <token postag="SUB:.*|VER:.*" postag_regexp="yes"/>
       </pattern>
-      <message>Meinten Sie <suggestion>vage</suggestion> (=unklar, unpräsize)?</message>
+      <message>Meinten Sie <suggestion>vage</suggestion> (=unklar, unpräzise)?</message>
       <example type="correct">Eine <marker>vage</marker> Entscheidung</example>
       <example type="incorrect">Eine <marker>wage</marker> Entscheidung</example>
     </rule>
@@ -173,17 +173,6 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Die Klänge, die er in einige seiner Lieder einbaute.</example>
         <example type="correct">Die CD, auf denen diese Lieder veröffentlicht wurden.</example>
         <example type="incorrect"><marker>Lieder</marker> funktioniert es noch immer nicht.</example>
-      </rule>
-    </rulegroup>
-    <rulegroup id="DESWEGEN" name="Tippfehler: 'des wegen(deswegen)'">
-      <rule>
-        <pattern>
-          <token>des</token>
-          <token>wegen</token>
-        </pattern>
-        <message>Meinten Sie <suggestion>deswegen</suggestion>?</message>
-        <example type="correct"><marker>Deswegen</marker> fuhren sie nach Hause.</example>
-        <example type="incorrect"><marker>Des wegen</marker> fuhren sie nach Hause.</example>
       </rule>
     </rulegroup>
     <rulegroup id="FIELE_UND_VIELE" name="Tippfehler: 'fiele(viele) Grüße'">
@@ -287,30 +276,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect">Die Art und <marker>Wiese</marker> war unerträglich.</example>
       </rule>
     </rulegroup>
-    <rulegroup id="SO_WIE_SO" name="Tippfehler: 'so wie so(sowieso)'">
-      <rule>
-        <pattern>
-          <token>so</token>
-          <token>wie</token>
-          <token>so</token>
-        </pattern>
-        <message>Meinten Sie <suggestion>sowieso</suggestion>?</message>
-        <example type="correct">Das halte ich <marker>sowieso</marker> für schlecht.</example>
-        <example type="incorrect">Das halte ich <marker>so wie so</marker> für schlecht.</example>
-      </rule>
-    </rulegroup>
-    <rulegroup id="CONTRA_PRODUKTIV" name="Tippfehler: 'contra produktiv(kontraproduktiv)'">
-      <rule>
-        <pattern>
-          <token>contra</token>
-          <token>produktiv</token>
-        </pattern>
-        <message>Meinten Sie <suggestion>kontraproduktiv</suggestion>?</message>
-        <example type="correct">Das halte ich für <marker>kontraproduktiv</marker>.</example>
-        <example type="incorrect">Das halte ich für <marker>contra produktiv</marker>.</example>
-      </rule>
-    </rulegroup>
-    <rulegroup id="MUEHLHEIM_A_D_RUHR" name="Tippfehler: 'Mühlheim(Mülheim) an der Ruhr'">
+   <rulegroup id="MUEHLHEIM_A_D_RUHR" name="Tippfehler: 'Mühlheim(Mülheim) an der Ruhr'">
       <rule>
         <pattern>
           <token>Mühlheim</token>
@@ -571,10 +537,10 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       </rule>
     </rulegroup>
     <rule id="ZU_ZUMUTEN" name="Möglicher Tippfehler 'zu zu... (zuzu...)'">
-      <!-- TODO: gilt das für alle Verben mit "zu.*"? -->
+      <!-- Jan: Removed TODO and added more cases. -->
       <pattern>
         <token>zu</token>
-        <token regexp="yes">zumuten|zugeben|zulassen|zubinden|zubereiten|zugestehen|zumachen</token>
+        <token regexp="yes">zuarbeiten|zubauen|zubeißen|zubekommen|zubereiten|zubetonieren|zubilligen|zubinden|zubringen|zudecken|zudenken|zudienen|zudiktieren|zudrehen|zudrücken|zueignen|zuerkennen|zufallen|zufassen|zufaxen|zufliegen|zufließen|zufrieren|zufügen|zuführen|zugeben|zugehen|zugehören|zugesellen|zugestehen|zugießen|zugreifen|zuhaken|zuhalten|zuhängen|zuhauen|zuheilen|zuhören|zujauchzen|zukaufen|zukehren|zukiffen|zuklappen|zukleben|zuklinken|zuknallen|zuknöpfen|zukommen|zukorken|zulachen|zuladen|zulangen|zulassen|zulaufen|zulegen|zuleiten|zulöten|zumachen|zumessen|zumischen|zumuten|zunähen|zunehmen|zuneigen|zuordnen|zupacken|zupfropfen|zuprosten|zuraten|zuraunen|zurechnen|zureden|zureichen|zureiten|zurichten|zurollen|zurren|zurufen|zurüsten|zusagen|zuschalten|zuschanzen|zuschauen|zuschicken|zuschieben|zuschießen|zuschlagen|zuschließen|zuschmeißen|zuschmieren|zuschnallen|zuschnappen|zuschneiden|zuschnüren|zuschrauben|zuschreiben|zuschreien|zuschütten|zuschwellen|zusehen|zusetzen|zusperren|zuspielen|zuspitzen|zusprechen|zuspringen|zustechen|zustecken|zustehen|zustellen|zustimmen|zustopfen|zustoßen|zustreben|zuströmen|zustürzen|zuteilen|zutragen|zutrauen|zutreffen|zutrinken|zuwachsen|zuwarten|zuweisen|zuwerfen|zuwinken|zuziehen</token>
       </pattern>
       <message>Meinten Sie <suggestion>\1\2</suggestion>?</message>
       <example type="correct">Das ist ihm wohl nicht <marker>zuzumuten</marker>.</example>
@@ -773,7 +739,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <pattern mark_from="1" mark_to="-1">
         <token>im</token>
         <token>Zaun</token>
-        <token regexp="yes">halten|hielt|hält|haltet|hälst|gehalten</token>
+        <token regexp="yes">halten|hielt|hält|haltet|hältst|gehalten</token>
       </pattern>
       <message>Meinten Sie <suggestion>Zaum</suggestion>?</message>
       <example type="correct">Da konnt ich meine Finger nicht mehr im <marker>Zaum</marker> halten.</example>
@@ -999,6 +965,40 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect">Am <marker>Dienstag abend</marker> geht es rund!</example>
       <example type="incorrect">Am <marker>Dienstag Abend</marker> geht es rund!</example>
     </rule>
+    <rulegroup id="DESWEGEN" name="Tippfehler: 'des wegen(deswegen)'">
+      <rule>
+        <pattern>
+          <token>des</token>
+          <token>wegen</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>deswegen</suggestion>?</message>
+        <example type="correct"><marker>Deswegen</marker> fuhren sie nach Hause.</example>
+        <example type="incorrect"><marker>Des wegen</marker> fuhren sie nach Hause.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="SO_WIE_SO" name="Tippfehler: 'so wie so(sowieso)'">
+      <rule>
+        <pattern>
+          <token>so</token>
+          <token>wie</token>
+          <token>so</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>sowieso</suggestion>?</message>
+        <example type="correct">Das halte ich <marker>sowieso</marker> für schlecht.</example>
+        <example type="incorrect">Das halte ich <marker>so wie so</marker> für schlecht.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="CONTRA_PRODUKTIV" name="Tippfehler: 'contra produktiv(kontraproduktiv)'">
+      <rule>
+        <pattern>
+          <token>contra</token>
+          <token>produktiv</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>kontraproduktiv</suggestion>?</message>
+        <example type="correct">Das halte ich für <marker>kontraproduktiv</marker>.</example>
+        <example type="incorrect">Das halte ich für <marker>contra produktiv</marker>.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="INFINITIV_MIT_ZU" name="Zusammen-/Getrenntschreibung: Infinitiv mit 'zu'">
     <!--
     Jan: The many exceptions to the first rule below are meant to avoid false alarms on
@@ -1568,7 +1568,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>inmitten</token>
           <token>in</token>
         </pattern>
-        <message>'inmitten in' is eine Doppelung - meinten Sie <suggestion>inmitten</suggestion>?</message>
+        <message>'inmitten in' ist eine Doppelung - meinten Sie <suggestion>inmitten</suggestion>?</message>
         <example type="incorrect"><marker>Inmitten in</marker> der Stadt.</example>
         <example type="incorrect"><marker>Inmitten in</marker> einer intakten Landschaft.</example>
         <example type="correct"><marker>Inmitten</marker> der Stadt.</example>
@@ -1582,6 +1582,17 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <message>Meinten Sie <suggestion>kleinen</suggestion>?</message>
       <example type="incorrect">Treffpunkt ist im <marker>keinen</marker> Saal.</example>
       <example type="correct">Treffpunkt ist im <marker>kleinen</marker> Saal.</example>
+    </rule>
+    <rule id="MEINES_WISSENS_NACH" name="Grammatik: 'meines Wissens'">
+      <pattern mark_to="-1">
+        <token>meines</token>
+        <token>Wissens</token>
+        <token>nach</token>
+        <token postag="VER:.*" postag_regexp="yes" />
+      </pattern>
+      <message>Meinten Sie <suggestion>meines Wissens</suggestion>?</message>
+      <example type="incorrect"><marker>Meines Wissens nach</marker> ist diese Formulierung falsch.</example>
+      <example type="correct"><marker>Meines Wissens</marker> ist diese Formulierung richtig.</example>
     </rule>
     <!-- TODO: testen!!
     <rulegroup id="DIE_DER" name="Grammatik: 'der/die' (Genitiv Plural für Substantive)">
