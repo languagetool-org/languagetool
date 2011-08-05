@@ -129,6 +129,146 @@ $Id: grammar.xml,v 1.0 2011-07-29 13:20:25 taolin2011 Exp $
         <example type="correct">我的红包低于一千。</example>
       </rule>
     </rulegroup>
+    <rulegroup id="wb2" name="介词">
+      <rule>
+        <pattern mark_to="-1">
+          <token postag="n.*|r" postag_regexp="yes"/>
+          <token postag="p">对于</token>
+          <token postag="n.*|r" postag_regexp="yes"/>
+          <token postag="v"/>
+        </pattern>
+        <message> “对于” 没有 “对” 的表“朝”、“向”意义用法，请改用“<suggestion>对</suggestion>”表示。 </message>
+        <short>介词的误用</short>
+        <example type="incorrect" correction="对"> 课室中<marker>小明对于老师</marker>说： </example>
+        <example type="correct">我对你表示万分感谢。</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2">
+          <!--<token postag="n.*|r" postag_regexp="yes"/>-->
+          <token negate="yes" regexp="yes">对于|对|的</token>
+          <token postag="n.*|r" postag_regexp="yes" skip="1"/>
+          <token regexp="yes">来说|而言|说来</token>
+        </pattern>
+        <message>固定搭配： “\3” 应与 “对” 或 “对于” 搭配使用：对于...\3。</message>
+        <short>介词的误用</short>
+        <example type="incorrect"> 这件事在我<marker>来说</marker>是好事。 </example>
+        <example type="correct">这件事对于我来说是好事。</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token postag="SENT_START" negate_pos="yes"/>
+          <token postag="p">关于</token>
+        </pattern>
+        <message> “关于”组成的介词短语必需位于句首，或请改用 <suggestion>对于</suggestion> 代替。 </message>
+        <short>介词的误用</short>
+        <example type="incorrect" correction="对于"> 我们小组<marker>关于</marker>这个问题商讨了很久。 </example>
+        <example type="correct">关于这个问题我们小组商讨了很多次。</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag="p">由</token>
+          <token postag="r|n.*" postag_regexp="yes" skip="2"/>
+          <token postag="v">为首</token>
+        </pattern>
+        <message> 固定搭配： “为首” 应与 “以” 搭配使用： <suggestion>以...为首</suggestion> 。 </message>
+        <short>介词的误用</short>
+        <example type="incorrect" correction="以...为首">
+          <marker>由这些人为首</marker>的坏蛋们应接受法律的惩罚。 </example>
+        <example type="correct">以他们为首的战士们英勇地牺牲了。</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag="p">本着</token>
+          <token postag="p">以</token>
+        </pattern>
+        <message>成分累赘： “本着” “以” 不一起使用，请删除其中一个</message>
+        <short>介词的误用</short>
+        <example type="incorrect"> 公司<marker>本着以</marker>务实的态度赢得了客户的信任。 </example>
+        <example type="correct">我校本着好学上进的良好校风，获得了优等院校的称号。</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag="p" skip="2">被</token>
+          <token postag="v"> 当选<exception postag="v" scope="previous"/>
+          </token>
+        </pattern>
+        <message> 搭配错误： “被” “当选” 不一起使用，请改为： <suggestion>被...选</suggestion> 。 </message>
+        <short>介词的误用</short>
+        <example type="incorrect" correction="被...选"> 小白<marker>被大家当选</marker>为新班长。 </example>
+        <example type="correct">我被选为小学生代表参加比赛。</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag="p" skip="2">给</token>
+          <token postag="u">所</token>
+        </pattern>
+        <message>搭配错误： “给” “所” 不一起使用，请去掉 “所” ，或改为 “被...所” 句式。</message>
+        <short>介词的误用</short>
+        <example type="incorrect"> 那本书还没<marker>给我自己所</marker>看到过。 </example>
+        <example type="correct">当时候我还没给你知道这件事。</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-3">
+          <token postag="p" skip="-1">把</token>
+          <token postag="n">范围</token>
+          <token postag="f">内</token>
+          <token postag="v"/>
+        </pattern>
+        <message> 搭配错误： 应将 “把” 改为 “<suggestion>在</suggestion>”：在...范围内 </message>
+        <short>介词的误用</short>
+        <example type="incorrect" correction="在"> 我们准备<marker>把</marker>方圆600米范围内种植树木。 </example>
+        <example type="correct">领导把那个范围内的树木都铲平了。</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-4">
+          <token postag="p" skip="-1">把</token>
+          <token postag="n">范围</token>
+          <token postag="p">以</token>
+          <token postag="f">内</token>
+          <token postag="v"/>
+        </pattern>
+        <message> 搭配错误： 应将 “把” 改为 “<suggestion>在</suggestion>”：在...范围以内. </message>
+        <short>介词的误用</short>
+        <example type="incorrect"> 我们准备<marker>把</marker>方圆600米范围以内种植树木。 </example>
+        <example type="correct">领导把那个范围以内的树木都铲平了。</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag="v">来自</token>
+          <token postag="p">于</token>
+        </pattern>
+        <message> 成分累赘： “来自” “于” 不一起使用，请删除 “于”： <suggestion>来自</suggestion> 。 </message>
+        <short>介词的误用</short>
+        <example type="incorrect" correction="来自"> 我们都<marker>来自于</marker>中国。 </example>
+        <example type="correct">这些事故的原因都来自醉酒驾驶。</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag="p">
+            <exception>除</exception>
+          </token>
+          <token regexp="yes">了|过|着</token>
+        </pattern>
+        <message> 介词后不能接 “\2” ，请删除 “\2” ： <suggestion>\1</suggestion> 。 </message>
+        <short>介词的误用</short>
+        <example type="incorrect" correction="把"> 我<marker>把着</marker>你拉高。 </example>
+        <example type="correct">我把你吃了。</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag="p">把</token>
+          <token postag="n.*|r" postag_regexp="yes"/>
+          <token postag="v.*" postag_regexp="yes">
+            <exception>试</exception>
+          </token>
+          <token>过</token>
+        </pattern>
+        <message> “把” 字句谓语动词后不能接 “过” 。</message>
+        <short>介词的误用</short>
+        <example type="incorrect"> 我<marker>把苹果吃过</marker>了。 </example>
+        <example type="correct">我把它杀了。</example>
+      </rule>
+    </rulegroup>
   </category>
    
   <!-- ====================================================================== -->
