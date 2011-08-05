@@ -302,7 +302,37 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect"><marker>Mühlheim a. d. Ruhr</marker> ist eine kreisfreie Stadt im westlichen Ruhrgebiet.</example>
       </rule>
     </rulegroup>
-    <rulegroup id="MEISTENS_IMMER" name="Verdoppelung: 'meistens immer'">
+    <rulegroup id="VERDOPPELUNG" name="Verdoppelung: 'meistens immer', 'schon bereits' ...">
+      <rule>
+        <pattern>
+          <token>einander</token>
+          <token>gegenseitig</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>einander</suggestion> oder <suggestion>sich gegenseitig</suggestion>?</message>
+        <example type="correct">Sie hatten <marker>einander</marker> so lieb.</example>
+        <example type="correct">Sie mochten <marker>sich gegenseitig</marker> nicht.</example>
+        <example type="incorrect" correction="einander|sich gegenseitig">Sie hatten <marker>einander gegenseitig</marker> so lieb.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>schon</token>
+          <token>bereits</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>schon</suggestion> oder <suggestion>bereits</suggestion>?</message>
+        <example type="correct">Das ist <marker>bereits</marker> geschehen.</example>
+        <example type="correct">Das ist mir auch <marker>schon</marker> oft passiert.</example>
+        <example type="incorrect" correction="schon|bereits">Das ist <marker>schon bereits</marker> gestern passiert.</example>
+      </rule>
+       <rule>
+        <pattern>
+          <token>bereits</token>
+          <token>schon</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>schon</suggestion> oder <suggestion>bereits</suggestion>?</message>
+        <example type="correct">Das ist <marker>bereits</marker> geschehen.</example>
+        <example type="correct">Das ist mir auch <marker>schon</marker> oft passiert.</example>
+        <example type="incorrect" correction="schon|bereits">Das ist <marker>bereits schon</marker> gestern passiert.</example>
+      </rule>
       <rule>
         <pattern>
           <token>meistens</token>
@@ -584,6 +614,143 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct">Es gibt keine neuen Features, <marker>sondern</marker> nur Fehlerkorrekturen.</example>
       <example type="incorrect">Es gibt keine neuen Features, <marker>sonder</marker> nur Fehlerkorrekturen.</example>
     </rule>
+    <rulegroup id="SEID_VS_SEIT" name="Möglicher Tippfehler: 'Seit' statt 'seid'" default="off">
+    <!-- Jan: TODO - extend this -->
+      <rule>
+        <pattern mark_from="0" mark_to="-3">
+          <token>seit</token>
+          <token>ihr</token>
+          <token postag="(ADJ:PRD:.*)|(PA2:PRD:.*)" postag_regexp="yes" />
+          <token>?</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>seid</suggestion> (Verbform) statt "seit" (Präposition)?</message>
+        <example type="correct"><marker>Seid</marker> ihr zufrieden?</example>
+        <example correction="Seid" type="incorrect"><marker>Seit</marker> ihr zufrieden?</example>
+      </rule>
+      <rule>
+        <pattern mark_from="4" mark_to="0">
+          <token>,</token>
+          <token postag="KON:.*" postag_regexp="yes" />
+          <token>ihr</token>
+          <token postag="(ADJ:PRD:.*)|(PA2:PRD:.*)" postag_regexp="yes" />
+          <token>seit</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>seid</suggestion> (Verbform) statt "seit" (Präposition)?</message>
+        <example type="correct">Wenn ihr zufrieden <marker>seid</marker>, ist ja alles in Ordnung.</example>
+        <example correction="seid" type="incorrect">Es ist doch alles in Ordnung, wenn ihr zufrieden <marker>seit</marker>.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="SEIT_VS_SEID" name="Möglicher Tippfehler: 'Seid' statt 'seit'">
+      <rule>
+        <pattern mark_from="0" mark_to="-2">
+          <token>seid</token>
+          <token postag="ADV:TMP" />
+          <token postag="VER:(AUX:|MOD:)?(1:SIN|2:SIN|3:SIN|1:PLU|3:PLU).*" postag_regexp="yes" />
+        </pattern>
+        <message>Meinten Sie <suggestion>seit</suggestion> (Präposition) statt "seid" (Verbform)?</message>
+        <example type="correct"><marker>Seit</marker> gestern geht es mir wieder besser.</example>
+        <example correction="Seit" type="incorrect"><marker>Seid</marker> gestern geht es mir wieder besser.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token postag="VER:(AUX:|MOD:)?(1:SIN|2:SIN|3:SIN|1:PLU|3:PLU).*" postag_regexp="yes" />
+          <token>seid</token>
+          <token postag="ADV:TMP" />
+        </pattern>
+        <message>Meinten Sie <suggestion>seit</suggestion> (Präposition) statt "seid" (Verbform)?</message>
+        <example type="correct">Es geht <marker>seit</marker> gestern wieder besser.</example>
+        <example correction="seit" type="incorrect">Es läuft <marker>seid</marker> gestern wieder besser.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token regexp="yes">schon|bereits|erst</token>
+          <token>seid</token>
+          <token postag="ADV:TMP" />
+        </pattern>
+        <message>Meinten Sie <suggestion>seit</suggestion> (Präposition) statt "seid" (Verbform)?</message>
+        <example type="correct">Es geht schon <marker>seit</marker> gestern wieder besser.</example>
+        <example correction="seit" type="incorrect">Das ist nicht erst <marker>seid</marker> gestern so.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-2">
+          <token regexp="yes">schon|bereits|erst</token>
+          <token>seid</token>
+          <token postag="ZAL" />
+          <token regexp="yes">Millisekunden|Sekunden|Minuten|Stunden|Tagen|Wochen|Monaten|Jahren|Jahrzehnten|Jahrhunderten</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>seit</suggestion> (Präposition) statt "seid" (Verbform)?</message>
+        <example type="correct">Mir geht es schon <marker>seit</marker> zwei Tagen wieder besser.</example>
+        <example correction="seit" type="incorrect">Mir geht es schon <marker>seid</marker> zwei Tagen wieder besser.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="0" mark_to="-3">
+          <token>seid</token>
+          <token regexp="yes">einigen|wenigen|vielen|etlichen|mehreren</token>
+          <token regexp="yes">Millisekunden|Sekunden|Minuten|Stunden|Tagen|Wochen|Monaten|Jahren|Jahrzehnten|Jahrhunderten</token>
+          <token postag="VER:(AUX:)?(1:SIN|2:SIN|3:SIN|1:PLU|3:PLU).*" postag_regexp="yes" />
+        </pattern>
+        <message>Meinten Sie <suggestion>seit</suggestion> (Präposition) statt "seid" (Verbform)?</message>
+        <example type="correct"><marker>Seit</marker> einigen Tagen läuft der Laden wieder.</example>
+        <example correction="Seit" type="incorrect"><marker>Seid</marker> einigen Tagen geht es wieder besser.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-2">
+          <token postag="VER:(AUX:)?(1:SIN|2:SIN|3:SIN|1:PLU|3:PLU).*" postag_regexp="yes" />
+          <token>seid</token>
+          <token regexp="yes">einigen|wenigen|vielen|etlichen|mehreren</token>
+          <token regexp="yes">Millisekunden|Sekunden|Minuten|Stunden|Tagen|Wochen|Monaten|Jahren|Jahrzehnten|Jahrhunderten</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>seit</suggestion> (Präposition) statt "seid" (Verbform)?</message>
+        <example type="correct">Es geht <marker>seit</marker> einigen Tagen wieder.</example>
+        <example correction="seit" type="incorrect">Der Laden läuft <marker>seid</marker> einigen Tagen auf Hochtouren.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-2">
+          <token postag="VER:(AUX:|MOD:)?(1:SIN|2:SIN|3:SIN|1:PLU|3:PLU).*" postag_regexp="yes" />
+          <token>seid</token>
+          <token regexp="yes">letzten|vorletzten</token>
+          <token regexp="yes">Montag|Dienstag|Mittwoch|Donnerstag|Freitag|Samstag|Sonntag|Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember|Frühling|Sommer|Herbst|Winter|Jahr|Halbjahr|Semester|Wintersemester|Sommersemester</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>seit</suggestion> (Präposition) statt "seid" (Verbform)?</message>
+        <example type="correct">Es geht <marker>seit</marker> letzten Mittwoch wieder.</example>
+        <example correction="seit" type="incorrect">Der Laden läuft <marker>seid</marker> letzten Mittwoch auf Hochtouren.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="0" mark_to="-3">
+          <token>seid</token>
+          <token regexp="yes">letzten|vorletzten</token>
+          <token regexp="yes">Montag|Dienstag|Mittwoch|Donnerstag|Freitag|Samstag|Sonntag|Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember|Frühling|Sommer|Herbst|Winter|Jahr|Halbjahr|Semester|Wintersemester|Sommersemester</token>
+          <token postag="VER:(AUX:|MOD:)?(1:SIN|2:SIN|3:SIN|1:PLU|3:PLU).*" postag_regexp="yes" />
+        </pattern>
+        <message>Meinten Sie <suggestion>seit</suggestion> (Präposition) statt "seid" (Verbform)?</message>
+        <example type="correct"><marker>Seit</marker> letzten Mittwoch brennt das Licht wieder.</example>
+        <example correction="Seit" type="incorrect"><marker>Seid</marker> letzten Mittwoch läuft es wieder.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="0" mark_to="-4">
+          <token>seid</token>
+          <token>dem</token>
+          <token regexp="yes">letzten|vorletzten</token>
+          <token regexp="yes">Montag|Dienstag|Mittwoch|Donnerstag|Freitag|Samstag|Sonntag|Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember|Frühling|Sommer|Herbst|Winter|Jahr|Halbjahr|Semester|Wintersemester|Sommersemester</token>
+          <token postag="VER:(AUX:|MOD:)?(1:SIN|2:SIN|3:SIN|1:PLU|3:PLU).*" postag_regexp="yes" />
+        </pattern>
+        <message>Meinten Sie <suggestion>seit</suggestion> (Präposition) statt "seid" (Verbform)?</message>
+        <example type="correct"><marker>Seit</marker> dem letzten Mittwoch brennt das Licht wieder.</example>
+        <example correction="Seit" type="incorrect"><marker>Seid</marker> dem letzten Mittwoch läuft es wieder.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-3">
+          <token postag="VER:(AUX:|MOD:)?(1:SIN|2:SIN|3:SIN|1:PLU|3:PLU).*" postag_regexp="yes" />
+          <token>seid</token>
+          <token regexp="no">ein</token>
+          <token regexp="no">paar</token>
+          <token regexp="yes">Millisekunden|Sekunden|Minuten|Stunden|Tagen|Wochen|Monaten|Jahren|Jahrzehnten|Jahrhunderten</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>seit</suggestion> (Präposition) statt "seid" (Verbform)?</message>
+        <example type="correct">Es geht <marker>seit</marker> ein paar Tagen wieder.</example>
+        <example correction="seit" type="incorrect">Der Laden läuft <marker>seid</marker> ein paar Tagen auf Hochtouren.</example>
+      </rule>
+    </rulegroup>
     <rule id="SEID_BESTEHEN" name="Möglicher Tippfehler 'seid(seit) Bestehen'">
       <!-- TODO: generalize -->
       <pattern mark_to="-1">
@@ -884,6 +1051,55 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct"><marker>Der Genuss</marker> von Schokolade.</example>
       <example type="incorrect"><marker>Der Genus</marker> von Schokolade.</example>
     </rule>
+    <rule id="HOHES_NIVEA" name="Möglicher Tippfehler: 'Nivea(Niveau)'">
+      <pattern mark_from="1" mark_to="0">
+        <token regexp="yes">hohes|hohem|hohen</token>
+        <token>Nivea</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>Niveau</suggestion> (Ebene, Stufe) statt Nivea (Kosmetikhersteller)?</message>
+      <example type="correct">Wir sind auf hohem <marker>Niveau</marker> gescheitert.</example>
+      <example type="incorrect">Wir sind auf hohem <marker>Nivea</marker> gescheitert.</example>
+    </rule>
+    <rule id="DAS_NIVEA" name="Möglicher Tippfehler: 'Nivea(Niveau)'">
+      <pattern mark_from="1" mark_to="0">
+        <token>das</token>
+        <token>Nivea</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>Niveau</suggestion> (Ebene, Stufe) statt Nivea (Kosmetikhersteller)?</message>
+      <example type="correct">Das <marker>Niveau</marker> ist sehr hoch.</example>
+      <example type="incorrect">Das <marker>Nivea</marker> ist sehr hoch.</example>
+    </rule>
+    <rule id="DEM_ERSTEN_BLICK" name="Möglicher Tippfehler: 'auf dem(den) ersten Blick'">
+      <pattern mark_from="1" mark_to="-2">
+        <token>auf</token>
+        <token>dem</token>
+        <token>ersten</token>
+        <token>Blick</token>
+      </pattern>
+      <message>Meinten Sie: auf <suggestion>den</suggestion> ersten Blick?</message>
+      <example type="correct">Auf <marker>den</marker> ersten Blick ist kein Unterschied zu erkennen.</example>
+      <example type="incorrect">Auf <marker>dem</marker> ersten Blick ist kein Unterschied zu erkennen.</example>
+    </rule>
+    <rulegroup id="RUSSELL" name="Möglicher Tippfehler: 'Russel(Russell)'">
+      <rule>
+        <pattern mark_from="1">
+          <token>Bertrand</token>
+          <token>Russel</token>
+        </pattern>
+        <message>Meinten Sie Lord Bertrand <suggestion>Russell</suggestion>?</message>
+        <example type="correct">Bertrand <marker>Russell</marker></example>
+        <example type="incorrect">Bertrand <marker>Russel</marker></example>
+      </rule>
+      <rule>
+        <pattern mark_from="0" mark_to="-1">
+          <token regexp="yes">Russelsche|Russelschen</token>
+          <token>Antinomie</token>
+        </pattern>
+        <message>Meinten Sie: <suggestion><match no="1" regexp_match="(Russel)(sche|schen)" regexp_replace="$1l$2"/></suggestion>?</message>
+        <example type="correct"><marker>Russellsche</marker> Antinomie</example>
+        <example type="incorrect"><marker>Russelsche</marker> Antinomie</example>
+      </rule>
+    </rulegroup>
   </category>
   
   <category name="Zusammen-/Getrenntschreibung">
@@ -1829,5 +2045,19 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect">Die Wirkung ist <marker>sofortig</marker>.</example>
       </rule>
     </rulegroup>
+  </category>
+  <category name="Zeichensetzung">
+    <rule id="MIT_FREUNDLICHEN_GRUESSEN_KOMMA" name="Zeichensetzung: Falsches Satzzeichen nach 'Mit freundlichen Grüßen'">
+      <pattern>
+        <token postag="SENT_START"/>
+        <token>Mit</token>
+        <token>freundlichen</token>
+        <token>Grüßen</token>
+        <token regexp="yes">(,|\.|:|!|;)</token>
+      </pattern>
+      <message>Nach der Grußformel <suggestion>Mit freundlichen Grüßen</suggestion> steht laut Empfehlung des Duden kein Satzzeichen.</message>
+      <example type="correct"><marker>Mit freundlichen Grüßen</marker></example>
+      <example correction="Mit freundlichen Grüßen" type="incorrect"><marker>Mit freundlichen Grüßen,</marker></example>
+    </rule>
   </category>
 </rules>
