@@ -46,11 +46,30 @@ public class Searcher {
 
   private static final int MAX_HITS = 1000;
 
-  public static void main(String[] args) throws Exception {
-    ensureCorrectUsageOrExit(args);
-    run(args[0], args[1], args[2]);
+  public static TopDocs run(PatternRule rule, IndexSearcher searcher, boolean checkUnsupportedRule)
+      throws IOException {
+    final Query query = PatternRuleQueryBuilder.buildQuery(rule, checkUnsupportedRule);
+    return searcher.search(query, MAX_HITS);
   }
 
+  public static TopDocs run(String ruleId, InputStream ruleXMLStream, IndexSearcher searcher,
+      boolean checkUnsupportedRule) throws IOException {
+    final PatternRuleLoader ruleLoader = new PatternRuleLoader();
+    final List<PatternRule> rules = ruleLoader.getRules(ruleXMLStream, "test.xml");
+    ruleXMLStream.close();
+    PatternRule theRule = null;
+    for (PatternRule rule : rules) {
+      if (rule.getId().equals(ruleId)) {
+        theRule = rule;
+        break;
+      }
+    }
+    if (theRule == null) {
+      throw new PatternRuleNotFoundException(ruleId);
+    }
+    return run(theRule, searcher, checkUnsupportedRule);
+  }
+  
   private static void ensureCorrectUsageOrExit(String[] args) {
     if (args.length != 3) {
       System.err.println("Usage: Searcher <ruleId> <ruleXML> <indexDir>");
@@ -96,28 +115,9 @@ public class Searcher {
     }
   }
 
-  public static TopDocs run(PatternRule rule, IndexSearcher searcher, boolean checkUnsupportedRule)
-      throws IOException {
-    final Query query = PatternRuleQueryBuilder.buildQuery(rule, checkUnsupportedRule);
-    return searcher.search(query, MAX_HITS);
-  }
-
-  public static TopDocs run(String ruleId, InputStream ruleXMLStream, IndexSearcher searcher,
-      boolean checkUnsupportedRule) throws IOException {
-    final PatternRuleLoader ruleLoader = new PatternRuleLoader();
-    final List<PatternRule> rules = ruleLoader.getRules(ruleXMLStream, "test.xml");
-    ruleXMLStream.close();
-    PatternRule theRule = null;
-    for (PatternRule rule : rules) {
-      if (rule.getId().equals(ruleId)) {
-        theRule = rule;
-        break;
-      }
-    }
-    if (theRule == null) {
-      throw new PatternRuleNotFoundException(ruleId);
-    }
-    return run(theRule, searcher, checkUnsupportedRule);
+  public static void main(String[] args) throws Exception {
+    ensureCorrectUsageOrExit(args);
+    run(args[0], args[1], args[2]);
   }
 
 }
