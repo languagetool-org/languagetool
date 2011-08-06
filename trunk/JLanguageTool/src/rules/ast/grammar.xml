@@ -1,0 +1,522 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../print.xsl" 
+title="Pretty print" ?>
+<?xml-stylesheet type="text/css" href="../rules.css" 
+title="Easy editing stylesheet" ?>
+<!--
+Asturian Grammar and Typo Rules for LanguageTool
+Copyright (C) 2011 Xesús González Rato
+$Id: grammar.xml,v 0.01 2011-07-30 01:07:04 esbardu Exp $
+-->
+<rules lang="ast" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <category name="contraiciones">
+    <!-- A_EL A el -> al-->
+
+    <rule id="A_EL" name="a el">
+      <pattern>
+        <token>a</token>
+        <token>el</token>
+      </pattern>
+      <message>N'asturianu la preposición «a» contrái siempre col artículu determináu: <suggestion>al</suggestion>.</message>
+      <short>N'asturianu «a»+«el» contrái.</short>
+      <example correction="al" type="incorrect">Foi <marker>a el</marker> cine cola so hermana.</example>
+      <example type="correct">Foi al cine cola so hermana.</example>
+    </rule>
+    
+    <!-- A_L' A l' -> al-->
+    <!--nun ta completu, falta que concuaye col xéneru de \4
+
+    <rule id="A_L'" name="a l'">
+      <pattern>
+        <token>a</token>
+        <token>l</token>
+        <token regexp="yes">[’´'‛′‘]</token>
+        <token regexp="yes">^h?[eéiíoóuú].*</token>
+      </pattern>
+      <message>N'asturianu la preposición «a» contrái siempre col artículu determináu en cuenta d'apostrofar: <suggestion>al</suggestion>.</message>
+      <short>N'asturianu «a»+«l'» contrái en cuenta d'apostrofar.</short>
+      <example correction="al \4" type="incorrect">Tienes que lo dicir <marker>a l'entamu</marker>.</example>
+      <example type="correct">Tienes que lo dicir al entamu.</example>
+    </rule>-->
+
+    <!-- DE_EL De el -> del-->
+
+    <rule id="DE_EL" name="de el">
+      <pattern>
+        <token>de</token>
+        <token>el</token>
+      </pattern>
+      <message>N'asturianu la preposición «de» contrái siempre col artículu determináu: <suggestion>del</suggestion>.</message>
+      <short>N'asturianu «de»+«el» contrái.</short>
+      <example correction="del" type="incorrect">El fíu <marker>de el</marker> so hermanu llámase Colás.</example>
+      <example type="correct">El fíu del so hermanu llámase Colás.</example>
+    </rule>
+    
+    <!-- DE_L' De l' -> del-->
+    <!--nun ta completu, falta que concuaye col xéneru de \4
+
+    <rule id="DE_L'" name="de l'">
+      <pattern>
+        <token>de</token>
+        <token>l</token>
+        <token regexp="yes">[’´'‛′‘]</token>
+        <token regexp="yes">^h?[eéiíoóuú].*</token>
+      </pattern>
+      <message>N'asturianu la preposición «de» contrái siempre col artículu determináu en cuenta d'apostrofar: <suggestion>del</suggestion>.</message>
+      <short>N'asturianu «de»+«l'» contrái en cuenta d'apostrofar.</short>
+      <example correction="del \4" type="incorrect">Tien les llaves <marker>de l'apartamentu</marker>.</example>
+      <example type="correct">Tien les llaves del apartamentu.</example>
+    </rule>-->
+
+    <!-- PA_EL Pa el -> pal-->
+
+    <rule id="PA_EL" name="pa el">
+      <pattern>
+        <token>pa</token>
+        <token>el</token>
+      </pattern>
+      <message>N'asturianu la preposición «pa» contrái siempre col artículu determináu: <suggestion>pal</suggestion>.</message>
+      <short>N'asturianu «pa»+«el» contrái.</short>
+      <example correction="pal" type="incorrect">Foi <marker>pa el</marker> chigre hai dos hores.</example>
+      <example type="correct">Foi pal chigre hai dos hores.</example>
+    </rule>
+    
+    <!-- PA_L' Pa l' -> pal-->
+    <!--nun ta completu, falta que concuaye col xéneru de \4
+
+    <rule id="PA_L'" name="pa l'">
+      <pattern>
+        <token>pa</token>
+        <token>l</token>
+        <token regexp="yes">[’´'‛′‘]</token>
+        <token regexp="yes">^h?[eéiíoóuú].*</token>
+      </pattern>
+      <message>N'asturianu la preposición «pa» contrái siempre col artículu determináu en cuenta d'apostrofar: <suggestion>pal</suggestion>.</message>
+      <short>N'asturianu «pa»+«l'» contrái en cuenta d'apostrofar.</short>
+      <example correction="pal \4" type="incorrect">Les perres foron <marker>pa l'herederu</marker>.</example>
+      <example type="correct">Les perres foron pal herederu.</example>
+    </rule>-->
+
+    <!-- SO_EL So el -> sol-->
+
+    <rule id="SO_EL" name="so el">
+      <pattern>
+        <token>so</token>
+        <token>el</token>
+      </pattern>
+      <message>N'asturianu la preposición «so» contrái siempre col artículu determináu: <suggestion>sol</suggestion>.</message>
+      <short>N'asturianu «so»+«el» contrái.</short>
+      <example correction="sol" type="incorrect">La caxa ta <marker>so el</marker> somier.</example>
+      <example type="correct">La caxa ta sol somier.</example>
+    </rule>
+    
+    <!-- SO_L' So l' -> sol-->
+    <!--nun ta completu, falta que concuaye col xéneru de \4
+
+    <rule id="SO_L'" name="so l'">
+      <pattern>
+        <token>so</token>
+        <token>l</token>
+        <token regexp="yes">[’´'‛′‘]</token>
+        <token regexp="yes">^h?[eéiíoóuú].*</token>
+      </pattern>
+      <message>N'asturianu la preposición «de» contrái siempre col artículu determináu en cuenta d'apostrofar: <suggestion>sol</suggestion>.</message>
+      <short>N'asturianu «so»+«l'» contrái en cuenta d'apostrofar.</short>
+      <example correction="sol \4" type="incorrect">Tienes la pota <marker>so l'arcón</marker>.</example>
+      <example type="correct">Tienes la pota sol arcón.</example>
+    </rule>-->
+
+    <!-- CON_LA Con la -> cola-->
+
+    <rule id="CON_LA" name="con la">
+      <pattern>
+        <token>con</token>
+        <token>la</token>
+      </pattern>
+      <message>N'asturianu la preposición «con» contrái siempre col artículu determináu: <suggestion>cola</suggestion>.</message>
+      <short>N'asturianu «con»+«la» contrái.</short>
+      <example correction="cola" type="incorrect">Vieno al cine <marker>con la</marker> so hermana.</example>
+      <example type="correct">Vieno al cine cola so hermana.</example>
+    </rule>
+    
+    <!-- CON_EL Con el -> col-->
+
+    <rule id="CON_EL" name="con el">
+      <pattern>
+        <token>con</token>
+        <token>el</token>
+      </pattern>
+      <message>N'asturianu la preposición «con» contrái siempre col artículu determináu: <suggestion>col</suggestion>.</message>
+      <short>N'asturianu «con»+«el» contrái.</short>
+      <example correction="col" type="incorrect">Vieno al cine <marker>con el</marker> so hermanu.</example>
+      <example type="correct">Vieno al cine col so hermanu.</example>
+    </rule>
+
+    <!-- CON_LO Con lo -> colo-->
+
+    <rule id="CON_LO" name="con lo">
+      <pattern>
+        <token>con</token>
+        <token>lo</token>
+      </pattern>
+      <message>N'asturianu la preposición «con» contrái siempre col artículu determináu: <suggestion>colo</suggestion>.</message>
+      <short>N'asturianu «con»+«lo» contrái.</short>
+      <example correction="Colo" type="incorrect"><marker>Con lo</marker> poco que xinta, habría tar bien delgáu.</example>
+      <example type="correct">Colo poco que xinta, habría tar bien delgáu.</example>
+    </rule>
+
+    <!-- CON_LES Con les -> coles-->
+
+    <!--
+    <rule id="CON_LES" name="con les">
+      <pattern>
+        <token>con</token>
+        <token>les</token>
+      </pattern>
+      <message>N'asturianu la preposición «con» contrái siempre col artículu determináu: <suggestion>coles</suggestion>.</message>
+      <short>N'asturianu «con»+«les» contrái.</short>
+      <example correction="coles" type="incorrect"><marker>Con les</marker> perres que tienes pues mercar un pisu.</example>
+      <example type="correct">Coles perres que tienes pues mercar un pisu.</example>
+    </rule>
+    -->
+
+    <!-- CON_LOS Con los -> colos-->
+
+    <rule id="CON_LOS" name="con los">
+      <pattern>
+        <token>con</token>
+        <token>los</token>
+      </pattern>
+      <message>N'asturianu la preposición «con» contrái siempre col artículu determináu: <suggestion>colos</suggestion>.</message>
+      <short>N'asturianu «con»+«los» contrái.</short>
+      <example correction="colos" type="incorrect">Marchó pa en casa <marker>con los</marker> bolsos enllenos.</example>
+      <example type="correct">Marchó pa en casa colos bolsos enllenos.</example>
+    </rule>
+
+    <!-- CON_L'a Con l'a -> cola-->
+    <!--nun ta completu, falta que concuaye col xéneru de \4
+
+    <rule id="CON_L'" name="con l'">
+      <pattern>
+        <token>con</token>
+        <token>l</token>
+        <token regexp="yes">[’´'‛′‘]</token>
+        <token regexp="yes">^h?[aá].*</token>
+      </pattern>
+      <message>N'asturianu la preposición «con» contrái siempre col artículu determináu en cuenta d'apostrofar: <suggestion>cola</suggestion>.</message>
+      <short>N'asturianu «con»+«l'» contrái en cuenta d'apostrofar.</short>
+      <example correction="cola \4" type="incorrect">Marchóme <marker>con l'almuhada</marker>.</example>
+      <example type="correct">Marchóme cola almuhada.</example>
+    </rule>-->
+
+    <!-- CON_L' Con l' -> col-->
+    <!--nun ta completu, falta que concuaye col xéneru de \4
+
+    <rule id="CON_L'" name="con l'">
+      <pattern>
+        <token>con</token>
+        <token>l</token>
+        <token regexp="yes">[’´'‛′‘]</token>
+        <token regexp="yes">^h?[eéiíoóuú].*</token>
+      </pattern>
+      <message>N'asturianu la preposición «con» contrái siempre col artículu determináu en cuenta d'apostrofar: <suggestion>col</suggestion>.</message>
+      <short>N'asturianu «con»+«l'» contrái en cuenta d'apostrofar.</short>
+      <example correction="col \4" type="incorrect">Dio-y <marker>con l'espadañu</marker>.</example>
+      <example type="correct">Dio-y col espadañu.</example>
+    </rule>-->
+
+    <!-- EN_LA En la -> na-->
+
+    <rule id="EN_LA" name="en la">
+      <pattern>
+        <token>en</token>
+        <token>la</token>
+      </pattern>
+      <message>N'asturianu la preposición «en» contrái siempre col artículu determináu: <suggestion>na</suggestion>.</message>
+      <short>N'asturianu «en»+«la» contrái.</short>
+      <example correction="na" type="incorrect">Espérote <marker>en la</marker> estación.</example>
+      <example type="correct">Espérote na estación.</example>
+    </rule>
+    
+    <!-- EN_EL En el -> nel-->
+
+    <rule id="EN_EL" name="en el">
+      <pattern>
+        <token>en</token>
+        <token>el</token>
+      </pattern>
+      <message>N'asturianu la preposición «en» contrái siempre col artículu determináu: <suggestion>nel</suggestion>.</message>
+      <short>N'asturianu «en»+«el» contrái.</short>
+      <example correction="nel" type="incorrect">Espérote <marker>en el</marker> chigre.</example>
+      <example type="correct">Espérote nel chigre.</example>
+    </rule>
+
+    <!-- EN_LO En lo -> no-->
+
+    <rule id="EN_LO" name="en lo">
+      <pattern>
+        <token>en</token>
+        <token>lo</token>
+      </pattern>
+      <message>N'asturianu la preposición «en» contrái siempre col artículu determináu: <suggestion>no</suggestion>.</message>
+      <short>N'asturianu «en»+«lo» contrái.</short>
+      <example correction="no" type="incorrect">Tas pensando <marker>en lo</marker> que yo.</example>
+      <example type="correct">Tas pensando no que yo.</example>
+    </rule>
+
+    <!-- EN_LES En les -> nes-->
+
+    <rule id="CON_LES" name="con les">
+      <pattern>
+        <token>en</token>
+        <token>les</token>
+      </pattern>
+      <message>N'asturianu la preposición «en» contrái siempre col artículu determináu: <suggestion>nes</suggestion>.</message>
+      <short>N'asturianu «en»+«les» contrái.</short>
+      <example correction="nes" type="incorrect">Tienes los llibros <marker>en les</marker> baldes.</example>
+      <example type="correct">Tienes los llibros nes baldes.</example>
+    </rule>
+
+    <!-- EN_LOS En los -> nos-->
+
+    <rule id="EN_LOS" name="en los">
+      <pattern>
+        <token>en</token>
+        <token>los</token>
+      </pattern>
+      <message>N'asturianu la preposición «en» contrái siempre col artículu determináu: <suggestion>nos</suggestion>.</message>
+      <short>N'asturianu «en»+«los» contrái.</short>
+      <example correction="nos" type="incorrect">Tienes manches <marker>en los</marker> pies.</example>
+      <example type="correct">Tienes manches nos pies.</example>
+    </rule>
+
+    <!-- EN_L'a En l'a -> na-->
+    <!--nun ta completu, falta que concuaye col xéneru de \4
+
+    <rule id="EN_L'" name="en l'">
+      <pattern>
+        <token>en</token>
+        <token>l</token>
+        <token regexp="yes">[’´'‛′‘]</token>
+        <token regexp="yes">^h?[aá].*</token>
+      </pattern>
+      <message>N'asturianu la preposición «en» contrái siempre col artículu determináu en cuenta d'apostrofar: <suggestion>na</suggestion>.</message>
+      <short>N'asturianu «en»+«l'» contrái en cuenta d'apostrofar.</short>
+      <example correction="na \4" type="incorrect">Cayóte agua <marker>en l'almuhada</marker>.</example>
+      <example type="correct">Cayóte agua na almuhada.</example>
+    </rule>-->
+
+    <!-- EN_L' En l' -> nel-->
+    <!--nun ta completu, falta que concuaye col xéneru de \4
+
+    <rule id="EN_L'" name="en l'">
+      <pattern>
+        <token>en</token>
+        <token>l</token>
+        <token regexp="yes">[’´'‛′‘]</token>
+        <token regexp="yes">^h?[eéiíoóuú].*</token>
+      </pattern>
+      <message>N'asturianu la preposición «en» contrái siempre col artículu determináu en cuenta d'apostrofar: <suggestion>nel</suggestion>.</message>
+      <short>N'asturianu «en»+«l'» contrái en cuenta d'apostrofar.</short>
+      <example correction="nel \4" type="incorrect">Pegó <marker>en l'espadañu</marker>.</example>
+      <example type="correct">Pegó nel espadañu.</example>
+    </rule>-->
+
+    <!-- PER_LA Per la -> pela-->
+
+    <rule id="PER_LA" name="per la">
+      <pattern>
+        <token>per</token>
+        <token>la</token>
+      </pattern>
+      <message>N'asturianu la preposición «per» contrái siempre col artículu determináu: <suggestion>pela</suggestion>.</message>
+      <short>N'asturianu «per»+«la» contrái.</short>
+      <example correction="pela" type="incorrect">Vien <marker>per la</marker> cera.</example>
+      <example type="correct">Vien pela cera.</example>
+    </rule>
+    
+    <!-- PER_EL Per el -> pel-->
+
+    <rule id="PER_EL" name="per el">
+      <pattern>
+        <token>per</token>
+        <token>el</token>
+      </pattern>
+      <message>N'asturianu la preposición «per» contrái siempre col artículu determináu: <suggestion>pel</suggestion>.</message>
+      <short>N'asturianu «per»+«el» contrái.</short>
+      <example correction="pel" type="incorrect">Tien que venir <marker>per el</marker> camín.</example>
+      <example type="correct">Tien que venir pel camín.</example>
+    </rule>
+
+    <!-- PER_LO Per lo -> pelo-->
+
+    <rule id="PER_LO" name="per lo">
+      <pattern>
+        <token>per</token>
+        <token>lo</token>
+      </pattern>
+      <message>N'asturianu la preposición «per» contrái siempre col artículu determináu: <suggestion>pelo</suggestion>.</message>
+      <short>N'asturianu «per»+«lo» contrái.</short>
+      <example correction="pelo" type="incorrect">Vete <marker>per lo</marker> segao.</example>
+      <example type="correct">Vete pelo segao.</example>
+    </rule>
+
+    <!-- PER_LES Per les -> peles-->
+
+    <rule id="PER_LES" name="per les">
+      <pattern>
+        <token>per</token>
+        <token>les</token>
+      </pattern>
+      <message>N'asturianu la preposición «per» contrái siempre col artículu determináu: <suggestion>peles</suggestion>.</message>
+      <short>N'asturianu «per»+«les» contrái.</short>
+      <example correction="peles" type="incorrect">Ta pingándo-y <marker>per les</marker> dees.</example>
+      <example type="correct">Ta pingándo-y peles dees.</example>
+    </rule>
+
+    <!-- PER_LOS Per los -> pelos-->
+
+    <rule id="PER_LOS" name="per los">
+      <pattern>
+        <token>per</token>
+        <token>los</token>
+      </pattern>
+      <message>N'asturianu la preposición «per» contrái siempre col artículu determináu: <suggestion>pelos</suggestion>.</message>
+      <short>N'asturianu «per»+«los» contrái.</short>
+      <example correction="pelos" type="incorrect">Da-y bien <marker>per los</marker> requexos.</example>
+      <example type="correct">Da-y bien pelos requexos.</example>
+    </rule>
+
+    <!-- PER_L'a Per l'a -> pela-->
+    <!--nun ta completu, falta que concuaye col xéneru de \4
+
+    <rule id="PER_L'" name="per l'">
+      <pattern>
+        <token>per</token>
+        <token>l</token>
+        <token regexp="yes">[’´'‛′‘]</token>
+        <token regexp="yes">^h?[aá].*</token>
+      </pattern>
+      <message>N'asturianu la preposición «per» contrái siempre col artículu determináu en cuenta d'apostrofar: <suggestion>pela</suggestion>.</message>
+      <short>N'asturianu «per»+«l'» contrái en cuenta d'apostrofar.</short>
+      <example correction="pela \4" type="incorrect">Pingóte agua <marker>per l'almuhada</marker>.</example>
+      <example type="correct">Pingóte aguda pela almuhada.</example>
+    </rule>-->
+
+    <!-- PER_L' Per l' -> pel-->
+    <!--nun ta completu, falta que concuaye col xéneru de \4
+
+    <rule id="PER_L'" name="per l'">
+      <pattern>
+        <token>per</token>
+        <token>l</token>
+        <token regexp="yes">[’´'‛′‘]</token>
+        <token regexp="yes">^h?[eéiíoóuú].*</token>
+      </pattern>
+      <message>N'asturianu la preposición «per» contrái siempre col artículu determináu en cuenta d'apostrofar: <suggestion>pel</suggestion>.</message>
+      <short>N'asturianu «per»+«l'» contrái en cuenta d'apostrofar.</short>
+      <example correction="pel \4" type="incorrect">Arramó aguda <marker>per l'espadañu</marker>.</example>
+      <example type="correct">Arramó agua pel espadañu.</example>
+    </rule>-->
+
+    <!-- POR_LA Por la -> pola-->
+
+    <rule id="POR_LA" name="por la">
+      <pattern>
+        <token>por</token>
+        <token>la</token>
+      </pattern>
+      <message>N'asturianu la preposición «por» contrái siempre col artículu determináu: <suggestion>pola</suggestion>.</message>
+      <short>N'asturianu «por»+«la» contrái.</short>
+      <example correction="pola" type="incorrect">Préstame <marker>por la</marker> vida.</example>
+      <example type="correct">Préstame pola vida.</example>
+    </rule>
+    
+    <!-- POR_EL Por el -> pol-->
+
+    <rule id="POR_EL" name="por el">
+      <pattern>
+        <token>por</token>
+        <token>el</token>
+      </pattern>
+      <message>N'asturianu la preposición «por» contrái siempre col artículu determináu: <suggestion>pol</suggestion>.</message>
+      <short>N'asturianu «por»+«el» contrái.</short>
+      <example correction="pol" type="incorrect">Préstame <marker>por el</marker> vivir.</example>
+      <example type="correct">Préstame pol vivir.</example>
+    </rule>
+
+    <!-- POR_LO Por lo -> polo-->
+
+    <rule id="POR_LO" name="por lo">
+      <pattern>
+        <token>por</token>
+        <token>lo</token>
+      </pattern>
+      <message>N'asturianu la preposición «por» contrái siempre col artículu determináu: <suggestion>polo</suggestion>.</message>
+      <short>N'asturianu «por»+«lo» contrái.</short>
+      <example correction="Polo" type="incorrect"><marker>Por lo</marker> visto nun te gusta nada esto.</example>
+      <example type="correct">Polo visto nun te gusta nada esto.</example>
+    </rule>
+
+    <!-- POR_LES Por les -> poles-->
+
+    <rule id="POR_LES" name="por les">
+      <pattern>
+        <token>por</token>
+        <token>les</token>
+      </pattern>
+      <message>N'asturianu la preposición «por» contrái siempre col artículu determináu: <suggestion>poles</suggestion>.</message>
+      <short>N'asturianu «por»+«les» contrái.</short>
+      <example correction="poles" type="incorrect">Calló la boca <marker>por les</marker> tos pallabres.</example>
+      <example type="correct">Calló la boca poles tos pallabres.</example>
+    </rule>
+
+    <!-- POR_LOS Por los -> polos-->
+
+    <rule id="POR_LOS" name="por los">
+      <pattern>
+        <token>por</token>
+        <token>los</token>
+      </pattern>
+      <message>N'asturianu la preposición «por» contrái siempre col artículu determináu: <suggestion>polos</suggestion>.</message>
+      <short>N'asturianu «por»+«los» contrái.</short>
+      <example correction="polos" type="incorrect">Calló la boca <marker>por los</marker> sos comentarios.</example>
+      <example type="correct">Calló la boca polos sos comentarios.</example>
+    </rule>
+
+    <!-- POR_L'a Por l'a -> pola-->
+    <!--nun ta completu, falta que concuaye col xéneru de \4
+
+    <rule id="POR_L'" name="por l'">
+      <pattern>
+        <token>por</token>
+        <token>l</token>
+        <token regexp="yes">[’´'‛′‘]</token>
+        <token regexp="yes">^h?[aá].*</token>
+      </pattern>
+      <message>N'asturianu la preposición «por» contrái siempre col artículu determináu en cuenta d'apostrofar: <suggestion>pola</suggestion>.</message>
+      <short>N'asturianu «por»+«l'» contrái en cuenta d'apostrofar.</short>
+      <example correction="pola \4" type="incorrect">Dormisti mal <marker>por l'almuhada</marker>.</example>
+      <example type="correct">Dormisti mal pola almuhada.</example>
+    </rule>-->
+
+    <!-- POR_L' Por l' -> pol-->
+    <!--nun ta completu, falta que concuaye col xéneru de \4
+
+    <rule id="POR_L'" name="por l'">
+      <pattern>
+        <token>por</token>
+        <token>l</token>
+        <token regexp="yes">[’´'‛′‘]</token>
+        <token regexp="yes">^h?[eéiíoóuú].*</token>
+      </pattern>
+      <message>N'asturianu la preposición «por» contrái siempre col artículu determináu en cuenta d'apostrofar: <suggestion>pol</suggestion>.</message>
+      <short>N'asturianu «por»+«l'» contrái en cuenta d'apostrofar.</short>
+      <example correction="pol \4" type="incorrect">Fízolo too <marker>por l'hermanu</marker> del so amigu.</example>
+      <example type="correct">Fízolo too pol hermanu del so amigu.</example>
+    </rule>-->
+
+  </category>
+
+</rules>

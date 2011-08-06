@@ -25,31 +25,7 @@ import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-import de.danielnaber.languagetool.language.Belarusian;
-import de.danielnaber.languagetool.language.Catalan;
-import de.danielnaber.languagetool.language.Chinese;
-import de.danielnaber.languagetool.language.Contributor;
-import de.danielnaber.languagetool.language.Danish;
-import de.danielnaber.languagetool.language.Demo;
-import de.danielnaber.languagetool.language.Dutch;
-import de.danielnaber.languagetool.language.English;
-import de.danielnaber.languagetool.language.Esperanto;
-import de.danielnaber.languagetool.language.French;
-import de.danielnaber.languagetool.language.Galician;
-import de.danielnaber.languagetool.language.German;
-import de.danielnaber.languagetool.language.Icelandic;
-import de.danielnaber.languagetool.language.Italian;
-import de.danielnaber.languagetool.language.Khmer;
-import de.danielnaber.languagetool.language.Lithuanian;
-import de.danielnaber.languagetool.language.Malayalam;
-import de.danielnaber.languagetool.language.Polish;
-import de.danielnaber.languagetool.language.Romanian;
-import de.danielnaber.languagetool.language.Russian;
-import de.danielnaber.languagetool.language.Slovak;
-import de.danielnaber.languagetool.language.Slovenian;
-import de.danielnaber.languagetool.language.Spanish;
-import de.danielnaber.languagetool.language.Swedish;
-import de.danielnaber.languagetool.language.Ukrainian;
+import de.danielnaber.languagetool.language.*;
 import de.danielnaber.languagetool.rules.Rule;
 import de.danielnaber.languagetool.rules.patterns.Unifier;
 import de.danielnaber.languagetool.synthesis.Synthesizer;
@@ -94,6 +70,7 @@ public abstract class Language {
   public static final Language CATALAN = new Catalan();
   public static final Language MALAYALAM = new Malayalam();
   public static final Language BELARUSIAN = new Belarusian();
+  public static final Language ASTURIAN = new Asturian();
   
   public static final Language DEMO = new Demo();
   
@@ -105,7 +82,7 @@ public abstract class Language {
   public static Language[] LANGUAGES = {
     ENGLISH, GERMAN, POLISH, FRENCH, SPANISH, ITALIAN, KHMER, DUTCH, LITHUANIAN, UKRAINIAN, RUSSIAN,
     SLOVAK, SLOVENIAN, SWEDISH, ROMANIAN, ICELANDIC, GALICIAN, CATALAN, DANISH,
-    MALAYALAM, BELARUSIAN, ESPERANTO, CHINESE,
+    MALAYALAM, BELARUSIAN, ESPERANTO, CHINESE, ASTURIAN,
     DEMO
   };
 
