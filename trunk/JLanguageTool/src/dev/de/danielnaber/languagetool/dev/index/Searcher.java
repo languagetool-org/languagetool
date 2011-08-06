@@ -100,7 +100,7 @@ public class Searcher {
   public static TopDocs run(PatternRule rule, IndexSearcher searcher, boolean checkUnsupportedRule)
       throws IOException {
     final Query query = PatternRuleQueryBuilder.buildQuery(rule, checkUnsupportedRule);
-    System.out.println(query);
+    //System.out.println(query);
     return searcher.search(query, MAX_HITS);
   }
 
@@ -138,7 +138,7 @@ public class Searcher {
       throw new PatternRuleNotFoundException(ruleId);
     }
     final Query query = PatternRuleQueryBuilder.buildQuery(theRule, true);
-    System.out.println(query);
+    //System.out.println(query);
     return searcher.search(query, MAX_HITS);
   }
 }
