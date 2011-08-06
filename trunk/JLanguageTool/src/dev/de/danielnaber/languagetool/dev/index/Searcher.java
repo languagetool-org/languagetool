@@ -25,9 +25,7 @@ import java.io.InputStream;
 import java.util.List;
 
 import org.apache.lucene.document.Document;
-import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.MultiSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
@@ -52,10 +50,10 @@ public class Searcher {
     return searcher.search(query, MAX_HITS);
   }
 
-  public static TopDocs run(String ruleId, InputStream ruleXMLStream, IndexSearcher searcher,
-      boolean checkUnsupportedRule) throws IOException {
+  public static TopDocs run(String ruleId, InputStream ruleXMLStream, String ruleXmlFile, IndexSearcher searcher,
+                            boolean checkUnsupportedRule) throws IOException {
     final PatternRuleLoader ruleLoader = new PatternRuleLoader();
-    final List<PatternRule> rules = ruleLoader.getRules(ruleXMLStream, "test.xml");
+    final List<PatternRule> rules = ruleLoader.getRules(ruleXMLStream, ruleXmlFile);
     ruleXMLStream.close();
     PatternRule theRule = null;
     for (PatternRule rule : rules) {
@@ -80,9 +78,9 @@ public class Searcher {
     }
   }
 
-  private static void run(String ruleId, String ruleXML, String indexDir)
+  private static void run(String ruleId, String ruleXmlFile, String indexDir)
       throws IOException {
-    final File xml = new File(ruleXML);
+    final File xml = new File(ruleXmlFile);
     if (!xml.exists() || !xml.canRead()) {
       System.out.println("Rule XML file '" + xml.getAbsolutePath()
           + "' does not exist or is not readable, please check the path");
@@ -92,11 +90,11 @@ public class Searcher {
     final IndexSearcher searcher = new IndexSearcher(FSDirectory.open(new File(indexDir)));
     TopDocs docs;
     try {
-      docs = run(ruleId, is, searcher, true);
+      docs = run(ruleId, is, ruleXmlFile, searcher, true);
     } catch (UnsupportedPatternRuleException e) {
       System.out.println(e.getMessage() + " Try to search potential matches:");
       is = new FileInputStream(xml);
-      docs = run(ruleId, is, searcher, false);
+      docs = run(ruleId, is, ruleXmlFile, searcher, false);
     }
     printResult(docs, searcher);
     searcher.close();
