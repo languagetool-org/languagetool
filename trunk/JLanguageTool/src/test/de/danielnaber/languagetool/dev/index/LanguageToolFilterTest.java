@@ -32,12 +32,13 @@ import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
 
 public class LanguageToolFilterTest extends BaseTokenStreamTestCase {
+  
   public void testFilter() throws Exception {
     String input = "How do you thin?";
 
     TokenStream stream = new AnyCharTokenizer(TEST_VERSION_CURRENT, new StringReader(input));
     LanguageToolFilter filter = new LanguageToolFilter(stream, new JLanguageTool(Language.ENGLISH));
-    displayTokensWithFullDetails(filter);
+    //displayTokensWithFullDetails(filter);
 
     stream = new AnyCharTokenizer(TEST_VERSION_CURRENT, new StringReader(input));
     filter = new LanguageToolFilter(stream, new JLanguageTool(Language.ENGLISH));
