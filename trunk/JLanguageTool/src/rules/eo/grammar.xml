@@ -1372,7 +1372,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
         </token>
         <token postag="V t[rn] .*" postag_regexp="yes" skip="2">
           <exception scope="next" postag="([KP].*)|([RO] akz.*)|(T .* k .*)|(V nt .*)" postag_regexp="yes"/>
-          <exception scope="next" regexp="yes">[!?-–,;:«»“&quot;()]|ĉu|se|ke|,</exception>
+          <exception scope="next" regexp="yes">[!?-–,;:«»“&quot;()]|ĉu|des|se|ke|,</exception>
           <exception inflected="yes">nomi</exception>
         </token>
         <token postag="[ROAT] nak.*" postag_regexp="yes">
@@ -1404,6 +1404,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <example type="correct">Kie loĝas la homo?</example>
       <example type="correct">En la akvo ludas knaobj</example>
       <example type="correct">Post vetero malbela lumas suno denove.</example>
+      <example type="correct">Ju pli ni havas des pli ni deziras.</example>
     </rule>
 
     <rule id="NAK_NAK_VTR" name="mankanta akuzativo">
@@ -1719,6 +1720,36 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <example type="correct">Mi venis kun mia frato.</example>
     </rule>
 
+    <!-- More work needed on this rule 
+    <rulegroup id="ESTAS_E" name="estas + e-vorto">
+      <rule>
+        <pattern mark_from="2" mark_to="-1">
+          <token postag="O nak .*" postag_regexp="yes"><exception postag="X ndo"/></token>
+          <token inflected="yes">esti</token>
+          <token postag="E.*" postag_regexp="yes"><exception>tie</exception></token>
+          <token regexp="yes">[.!?,;…]</token>
+        </pattern>
+        <message>Ĉu vi intencis skribi <suggestion><match no="2" regexp_match="e$" regexp_replace="a"/></suggestion>?</message>
+        <example type="incorrect">Via aŭto estas <marker>grande</marker>.</example>
+        <example type="correct">Via aŭto estas granda.</example>
+        <example type="correct">Veturi estas facile.</example>
+        <example type="correct">En la somero estas varme.</example>
+        <example type="correct">Estas varme.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="3" mark_to="-1">
+          <token postag="O nak .*" postag_regexp="yes"><exception postag="X ndo"/></token>
+          <token inflected="yes">esti</token>
+          <token postag="E.*" postag_regexp="yes"><exception>tie</exception></token>
+          <token postag="E.*" postag_regexp="yes"><exception>tie</exception></token>
+          <token regexp="yes">[.!?,;…]</token>
+        </pattern>
+        <message>Ĉu vi intencis skribi <suggestion><match no="3" regexp_match="e$" regexp_replace="a"/></suggestion>?</message>
+        <example type="incorrect">Mi aŭto estas tre <marker>grande</marker>.</example>
+        <example type="correct">Mi aŭto estas tre granda.</example>
+      </rule>
+    </rulegroup>
+    -->
     <rule id="UNU_DE_ILI" name="Unu de ili (Unu el ili)">
       <pattern>
         <token postag="N"/>
