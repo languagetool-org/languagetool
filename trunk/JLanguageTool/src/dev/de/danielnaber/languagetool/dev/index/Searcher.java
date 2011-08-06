@@ -41,7 +41,6 @@ import de.danielnaber.languagetool.rules.patterns.PatternRuleLoader;
  * index that runs the query on that index and prints all matches
  * 
  * @author Tao Lin
- * 
  */
 public class Searcher {
 
@@ -63,7 +62,7 @@ public class Searcher {
   }
 
   private static void run(String ruleId, String ruleXML, String indexDir)
-      throws CorruptIndexException, IOException {
+      throws IOException {
     final File xml = new File(ruleXML);
     if (!xml.exists() || !xml.canRead()) {
       System.out.println("Rule XML file '" + xml.getAbsolutePath()
@@ -84,8 +83,8 @@ public class Searcher {
     searcher.close();
   }
 
-  public static void printResult(TopDocs docs, IndexSearcher searcher)
-      throws CorruptIndexException, IOException {
+  private static void printResult(TopDocs docs, IndexSearcher searcher)
+      throws IOException {
 
     final ScoreDoc[] hits = docs.scoreDocs;
     System.out.println("Search results: " + docs.totalHits);
@@ -100,7 +99,6 @@ public class Searcher {
   public static TopDocs run(PatternRule rule, IndexSearcher searcher, boolean checkUnsupportedRule)
       throws IOException {
     final Query query = PatternRuleQueryBuilder.buildQuery(rule, checkUnsupportedRule);
-    //System.out.println(query);
     return searcher.search(query, MAX_HITS);
   }
 
@@ -122,23 +120,4 @@ public class Searcher {
     return run(theRule, searcher, checkUnsupportedRule);
   }
 
-  public static TopDocs run(String ruleId, InputStream ruleXMLStream, MultiSearcher searcher)
-      throws IOException {
-    final PatternRuleLoader ruleLoader = new PatternRuleLoader();
-    final List<PatternRule> rules = ruleLoader.getRules(ruleXMLStream, "test.xml");
-    ruleXMLStream.close();
-    PatternRule theRule = null;
-    for (PatternRule rule : rules) {
-      if (rule.getId().equals(ruleId)) {
-        theRule = rule;
-        break;
-      }
-    }
-    if (theRule == null) {
-      throw new PatternRuleNotFoundException(ruleId);
-    }
-    final Query query = PatternRuleQueryBuilder.buildQuery(theRule, true);
-    //System.out.println(query);
-    return searcher.search(query, MAX_HITS);
-  }
 }
