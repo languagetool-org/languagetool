@@ -22,16 +22,15 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.language.Contributor;
+import de.danielnaber.languagetool.tools.LanguageIdentifierTools;
 import de.danielnaber.languagetool.tools.StringTools;
 import de.danielnaber.languagetool.tools.Tools;
+import org.apache.tika.language.LanguageIdentifier;
 
 /**
  * Command line tool to list supported languages and their number of rules.
@@ -55,15 +54,17 @@ public final class RuleOverview {
     System.out.println("<table>");
     System.out.println("<tr>");
     System.out.println("  <th></th>");
-    System.out.println("  <th align=\"right\">XML rules</th>");
+    System.out.println("  <th valign='bottom' align=\"right\">XML rules</th>");
     System.out.println("  <th>&nbsp;&nbsp;</th>");
-    System.out.println("  <th align=\"right\">Java rules</th>");
+    System.out.println("  <th align=\"right\">Java<br/>rules</th>");
     System.out.println("  <th>&nbsp;&nbsp;</th>");
     System.out.println("  <th align=\"right\">" +
         "<a href=\"http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/JLanguageTool/src/rules/false-friends.xml?content-type=text%2Fplain" +
-        "\">False friends</a></th>");
+        "\">False<br/>friends</a></th>");
     System.out.println("  <th>&nbsp;&nbsp;</th>");
-    System.out.println("  <th align=\"left\">Rule Maintainers</th>");
+    System.out.println("  <th valign='bottom'>Auto-<br/>detected</th>");
+    System.out.println("  <th>&nbsp;&nbsp;</th>");
+    System.out.println("  <th valign='bottom' align=\"left\">Rule Maintainers</th>");
     System.out.println("</tr>");
     final List<String> sortedLanguages = new ArrayList<String>();
     for (Language element : Language.LANGUAGES) {
@@ -151,6 +152,9 @@ public final class RuleOverview {
         }
         System.out.print("<td align=\"right\">" + count + "</td>");
 
+        System.out.print("<td></td>");
+        System.out.print("<td>" + (isAutoDetected(lang.getShortName()) ? "yes" : "-") + "</td>");
+        
         // maintainer information:
         System.out.print("<td></td>");
         final StringBuilder maintainerInfo = new StringBuilder();
@@ -185,6 +189,17 @@ public final class RuleOverview {
     }
 
     System.out.println("</table>");    
+  }
+  
+  private boolean isAutoDetected(String code) {
+    if (LanguageIdentifier.getSupportedLanguages().contains(code)) {
+      return true;
+    }
+    final Set<String> additionalCodes = new HashSet<String>(Arrays.asList(LanguageIdentifierTools.ADDITIONAL_LANGUAGES));
+    if (additionalCodes.contains(code)) {
+      return true;
+    }
+    return false;
   }
 
 }

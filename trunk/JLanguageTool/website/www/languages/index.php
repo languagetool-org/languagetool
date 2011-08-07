@@ -80,6 +80,10 @@ Date: 2011-06-26<br /><br />
 to that language. There are some rules that deal with punctuation
 and that apply to almost all languages.</p>
 
+<!--
+<p>Auto-detected means that a language can be detected by LanguageTool without the user needing to select the language.</p>
+-->
+
 <?php
 include("../../include/footer.php");
 ?>
