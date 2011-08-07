@@ -62,7 +62,7 @@ public class Tagalog extends Language {
 
   @Override
   public Contributor[] getMaintainers() {
-    return new Contributor[] { new Contributor("Nathaniel Oco") };
+    return new Contributor[] { new Contributor("Nathaniel Oco"), new Contributor("Allan Borra") };
   }
 
   @Override
