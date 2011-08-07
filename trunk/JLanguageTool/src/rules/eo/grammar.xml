@@ -1654,7 +1654,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <example type="correct">Vi idioto!</example>
     </rule>
 
-    <rule id="DEMANDO_SEN_CXU" name="demando sen demanda vorto">
+    <rule id="DEM_SEN_CXU" name="demando sen demanda vorto">
       <pattern mark_from="1">
         <token postag="SENT_START" skip="-1">
           <exception scope="next" regexp="yes">ĉu|ki.*</exception>
@@ -1671,6 +1671,28 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <example type="correct">Je la kioma horo okazis tio?</example>
       <example type="correct">Kiucele li tion faris?</example>
     </rule>
+
+    <rulegroup id="DEM_SEN_DEM_SIGNO" name="Demando sen demandosigno">
+      <rule>
+        <pattern mark_from="2">
+          <token postag_regexp="yes" postag="SENT_START|K"/>
+          <token skip="-1">ĉu<exception scope="next">aŭ</exception></token>
+          <token postag="SENT_END">
+            <exception>?</exception>
+            <exception postag="X ?!"/>
+          </token>
+        </pattern>
+        <message>La frazo komenciĝas per «\2», sed ne havas demandosignon ĉe la fino la frazo.</message>
+        <example type="incorrect">Ĉu vi volas nun manĝi<marker>.</marker></example>
+        <example type="correct">Ĉu vi volas nun manĝi?</example>
+        <example type="correct">Ĉu li venas aŭ ne, mi tute ne scias.</example>
+        <example type="correct">Mi ne scias, ĉu li venos.</example>
+        <example type="correct">Mi ne scias, ĉu li venos<marker>.</marker></example>
+        <example type="incorrect">Kaj ĉu vi neniam ankoraŭ provis<marker>.</marker></example>
+        <example type="correct">Kaj ĉu vi neniam ankoraŭ provis?</example>
+        <example type="correct">Ĉu vere vidi lin?!</example>
+      </rule>
+    </rulegroup>
 
     <rule id="CXI" name="neebla uzo de ĉi">
       <pattern mark_from="1" mark_to="-1">
