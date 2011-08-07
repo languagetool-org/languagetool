@@ -85,7 +85,6 @@ public final class Main implements ActionListener {
 	  } catch (Exception e) {
 		  System.out.println("Couldn't load the additional language profiles. Check your ngp files.");
 	  }
-	  
   }
 
   private Main() throws IOException {
@@ -430,9 +429,21 @@ public final class Main implements ActionListener {
         LanguageIdentifier li = new LanguageIdentifier(textArea.getText());
         Language lang = Language.getLanguageForShortName(li.getLanguage());
         if (lang != null) {
+        	for (int i=0;i<languageBox.getItemCount();i++) {
+        		I18nLanguage boxLanguage = (I18nLanguage) languageBox.getItemAt(i);
+        		if (boxLanguage.getLanguage().getName() == lang.getName()) {
+        			languageBox.setSelectedIndex(i);
+        		}
+        	}
             return Language.getLanguageForShortName(li.getLanguage());
         } else {
-            return Language.ENGLISH;
+        	for (int i=0;i<languageBox.getItemCount();i++) {
+        		I18nLanguage boxLanguage = (I18nLanguage) languageBox.getItemAt(i);
+        		if (boxLanguage.getLanguage().getName() == Language.ENGLISH.getName()) {
+        			languageBox.setSelectedIndex(i);
+        		}
+        	}
+        	return Language.ENGLISH;
         }        
     } else {
         return ((I18nLanguage) languageBox.getSelectedItem()).getLanguage();
