@@ -9,10 +9,33 @@ See resource/de/tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2011 Daniel Naber (http://www.danielnaber.de)
 $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
 -->
+
 <rules lang="de" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../rules.xsd">
+
   <category name="Mögliche Tippfehler">
-    <rule id="SCHRIEBT" name="Tippfehler: 'schriebt (schreibt)'">
+    <!-- 
+    <rule id="VON_BIS" name="Möglicher Tippfehler: 'von ... bis ...'">
+      <pattern mark_from="0">
+        <token regexp="yes">von|vom</token>
+        <token regexp="yes">([0-9]+\.?)\s?(\-|–)\s?([0-9]+\.?)</token>
+      </pattern>
+      <message>Meinten Sie <suggestion><match no="1"/> <match no="2" regexp_match="([0-9]+\.?)\s?(\-|–)\s?([0-9]+\.?)" regexp_replace="$1 bis $3" /></suggestion>?</message>
+      <example type="correct">Von <marker>9 bis 10</marker> Uhr.</example>
+      <example type="incorrect">Von <marker>9–10</marker> Uhr.</example>
+    </rule>
+    -->
+    <!-- 
+    <rule id="BISSTRICH" name="Möglicher Tippfehler beim Bis-Strich">
+      <pattern>
+        <token regexp="yes">[0-9]+(\.)?\s?\-\s?[0-9]+(\.)?</token>
+      </pattern>
+      <message>Meinten Sie <suggestion><match no="1" regexp_match="([0-9]+(\.)?)\-([0-9]+(\.)?)" regexp_replace="$1–$3" /></suggestion>? Als Bis-Strich wird i.a. der Gedankenstrich verwendet.</message>
+      <example type="correct">Er ist 50<marker>–</marker>60 Jahre alt.</example>
+      <example type="incorrect">Er ist 50<marker>-</marker>60 Jahre alt.</example>
+    </rule>
+    -->
+    <rule id="SCHRIEBT" name="Möglicher Tippfehler: 'schriebt (schreibt)'">
       <pattern mark_from="1" mark_to="-1">
         <token negate="yes">Ihr</token>
         <token>schriebt</token>
@@ -25,7 +48,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct">Ihr <marker>schriebt</marker> damals viele Briefe.</example>
       <example type="correct">Ihr <marker>schreibt</marker> oft Briefe.</example>
     </rule>
-    <rule id="ERSTEN_MAIN" name="Tippfehler: '1. Main (Mai)'">
+    <rule id="ERSTEN_MAIN" name="Möglicher Tippfehler: '1. Main (Mai)'">
       <pattern mark_from="3">
         <token regexp="yes">am|den</token>
         <token regexp="yes">\d+</token>
@@ -37,7 +60,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct">Ich will noch mal auf den 18. <marker>Mai</marker> hinweisen.</example>
       <example type="correct">Ich will am 18. <marker>Main-Taunus-Rennen</marker> teilnehmen.</example>
     </rule>
-    <rule id="ZU_SPAEHT" name="Tippfehler: 'zu/erst/sehr späht (spät)'">
+    <rule id="ZU_SPAEHT" name="Möglicher Tippfehler: 'zu/erst/sehr späht (spät)'">
       <pattern mark_from="1">
         <token regexp="yes">zu|erst|sehr</token>
         <token>späht</token>
@@ -46,7 +69,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct">Er war zu <marker>spät</marker> dran.</example>
       <example type="incorrect">Er war zu <marker>späht</marker> dran.</example>
     </rule>
-    <rule id="BAFF_ERSTAUNT" name="Tippfehler: 'baff (bass) erstaunt'">
+    <rule id="BAFF_ERSTAUNT" name="Möglicher Tippfehler: 'baff (bass) erstaunt'">
       <pattern mark_to="-1">
           <token>baff</token>
           <token inflected="yes">erstaunt</token>
@@ -57,7 +80,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect">Der Mann war <marker>baff</marker> erstaunt.</example>
       <example type="incorrect">Ein <marker>baff</marker> erstaunter Typ.</example>
     </rule>
-    <rule id="KLINGENDE_KASSEN" name="Tippfehler: 'klingende (klingelnde) Kassen'">
+    <rule id="KLINGENDE_KASSEN" name="Möglicher Tippfehler: 'klingende (klingelnde) Kassen'">
       <pattern mark_to="-1">
           <token regexp="yes">klingende|klingender|klingenden</token>
           <token regexp="yes">Kasse|Kassen</token>
@@ -66,7 +89,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct">Box Office: Harry Potter und die <marker>klingelnden</marker> Kassen.</example>
       <example type="incorrect">Box Office: Harry Potter und die <marker>klingenden</marker> Kassen.</example>
     </rule>
-    <rule id="HARZ_4" name="Tippfehler: 'Harz IV (Hartz IV)'">
+    <rule id="HARZ_4" name="Möglicher Tippfehler: 'Harz IV (Hartz IV)'">
       <pattern>
         <token>Harz</token>
         <token regexp="yes">4|IV</token>
@@ -77,7 +100,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct">Er lebt von <marker>Hartz IV</marker>.</example>
       <example type="incorrect">Er lebt von <marker>Harz IV</marker>.</example>
     </rule>
-    <rule id="WAGE_VAGE" name="Tippfehler: 'wage (vage)'">
+    <rule id="WAGE_VAGE" name="Möglicher Tippfehler: 'wage (vage)'">
       <pattern mark_to="-1">
         <token>wage</token>
         <token postag="SUB:.*|VER:.*" postag_regexp="yes"/>
@@ -86,7 +109,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct">Eine <marker>vage</marker> Entscheidung</example>
       <example type="incorrect">Eine <marker>wage</marker> Entscheidung</example>
     </rule>
-    <rule id="DIE_DE" name="Tippfehler: 'de (die)'">
+    <rule id="DIE_DE" name="Möglicher Tippfehler: 'de (die)'">
       <pattern mark_to="-1">
         <token>de</token>
         <token postag="SUB:.*" postag_regexp="yes"/>
@@ -99,7 +122,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect"><marker>De</marker> Programmierung mit Plain Old Java Objects soll einfacher werden.</example>
       <example type="incorrect">Und <marker>de</marker> Programmierung mit Plain Old Java Objects soll einfacher werden.</example>
     </rule>
-    <rule id="BIS_BISS" name="Tippfehler: 'biss (bis)'">
+    <rule id="BIS_BISS" name="Möglicher Tippfehler: 'biss (bis)'">
       <pattern mark_from="1">
         <token inflected="yes" regexp="yes">bleiben|sein</token>
         <token>biss</token>
@@ -118,7 +141,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct"><marker>von</marker> Hand</example>
       <example type="incorrect"><marker>van</marker> Hand</example>
     </rule>
-    <rulegroup id="VATER_MORGANA" name="Tippfehler: Vater (Fata) Morgana'">
+    <rulegroup id="VATER_MORGANA" name="Möglicher Tippfehler: Vater (Fata) Morgana'">
       <rule>
         <pattern>
           <token>Vater</token>
@@ -142,7 +165,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect">So nimmst du das <marker>war</marker>.</example>      
       </rule>
     </rulegroup>
-    <rulegroup id="DAS_AMEN" name="Tippfehler: 'das Armen (Amen)'">
+    <rulegroup id="DAS_AMEN" name="Möglicher Tippfehler: 'das Armen (Amen)'">
       <rule>
         <pattern mark_from="1">
           <token regexp="yes">ein|das</token>
@@ -153,7 +176,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect">So sicher wie das <marker>Armen</marker> in der Kirche.</example>
       </rule>
     </rulegroup>
-    <rulegroup id="LIEDER_LEIDER" name="Tippfehler: 'Lieder (Leider) ...'">
+    <rulegroup id="LIEDER_LEIDER" name="Möglicher Tippfehler: 'Lieder (Leider) ...'">
       <rule>
         <pattern mark_from="1" mark_to="-1">
           <token postag="SENT_START"/>
@@ -175,7 +198,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect"><marker>Lieder</marker> funktioniert es noch immer nicht.</example>
       </rule>
     </rulegroup>
-    <rulegroup id="FIELE_UND_VIELE" name="Tippfehler: 'fiele (viele) Grüße'">
+    <rulegroup id="FIELE_UND_VIELE" name="Möglicher Tippfehler: 'fiele (viele) Grüße'">
       <rule>
         <pattern mark_to="-1">
           <token>Fiele</token>
@@ -186,7 +209,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect"><marker>Fiele</marker> Grüße</example>
       </rule>
     </rulegroup>
-    <rulegroup id="FIEL_UND_VIEL" name="Tippfehler: 'nehmen/geben fiel (viel)'">
+    <rulegroup id="FIEL_UND_VIEL" name="Möglicher Tippfehler: 'nehmen/geben fiel (viel)'">
       <rule>
         <pattern mark_from="1">
           <token inflected="yes">nehmen</token>
@@ -216,7 +239,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect">Er gibt zu <marker>fiel</marker> Geld aus.</example>
       </rule>
     </rulegroup>
-    <rulegroup id="FUER_UND_WIEDER" name="Tippfehler: 'für und wieder (wider)'">
+    <rulegroup id="FUER_UND_WIEDER" name="Möglicher Tippfehler: 'für und wieder (wider)'">
       <rule>
         <pattern case_sensitive="yes">
           <token>für</token>
@@ -238,7 +261,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect">Das <marker>Für und Wieder</marker> wird erwogen.</example>
       </rule>
     </rulegroup>
-    <rulegroup id="ANDERE_SEITEN_AUFZIEHEN" name="Tippfehler: 'andere Seiten (Saiten) aufziehen'">
+    <rulegroup id="ANDERE_SEITEN_AUFZIEHEN" name="Möglicher Tippfehler: 'andere Seiten (Saiten) aufziehen'">
       <rule>
         <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
           <token>andere</token>
@@ -252,7 +275,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect">Bei der UNO müssen andere <marker>Seiten</marker> aufgezogen werden.</example>
       </rule>
     </rulegroup>
-    <rulegroup id="EINEM_LEIHEN" name="Tippfehler: 'einem Leihen (Laien)'">
+    <rulegroup id="EINEM_LEIHEN" name="Möglicher Tippfehler: 'einem Leihen (Laien)'">
       <rule>
         <pattern case_sensitive="yes" mark_from="1">
           <token>einem</token>
@@ -264,7 +287,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect">Wie kann ich einem <marker>Leihen</marker> den Unterschied zwischen analog und digital erklären?</example>
       </rule>
     </rulegroup>
-    <rulegroup id="ART_UND_WIESE" name="Tippfehler: 'Art und Wiese (Art und Weise)'">
+    <rulegroup id="ART_UND_WIESE" name="Möglicher Tippfehler: 'Art und Wiese (Art und Weise)'">
       <rule>
         <pattern mark_from="2">
           <token>Art</token>
@@ -276,7 +299,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect">Die Art und <marker>Wiese</marker> war unerträglich.</example>
       </rule>
     </rulegroup>
-   <rulegroup id="MUEHLHEIM_A_D_RUHR" name="Tippfehler: 'Mühlheim (Mülheim) an der Ruhr'">
+   <rulegroup id="MUEHLHEIM_A_D_RUHR" name="Möglicher Tippfehler: 'Mühlheim (Mülheim) an der Ruhr'">
       <rule>
         <pattern>
           <token>Mühlheim</token>
@@ -300,48 +323,6 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <message>Meinten Sie <suggestion>Mülheim a. d. Ruhr</suggestion> (Mülheim ohne "h")?</message>
         <example type="correct"><marker>Mülheim a. d. Ruhr</marker> ist eine kreisfreie Stadt im westlichen Ruhrgebiet.</example>
         <example type="incorrect"><marker>Mühlheim a. d. Ruhr</marker> ist eine kreisfreie Stadt im westlichen Ruhrgebiet.</example>
-      </rule>
-    </rulegroup>
-    <rulegroup id="VERDOPPELUNG" name="Verdoppelung: 'meistens immer', 'schon bereits' ...">
-      <rule>
-        <pattern>
-          <token>einander</token>
-          <token>gegenseitig</token>
-        </pattern>
-        <message>Meinten Sie <suggestion>einander</suggestion> oder <suggestion>sich gegenseitig</suggestion>?</message>
-        <example type="correct">Sie hatten <marker>einander</marker> so lieb.</example>
-        <example type="correct">Sie mochten <marker>sich gegenseitig</marker> nicht.</example>
-        <example type="incorrect" correction="einander|sich gegenseitig">Sie hatten <marker>einander gegenseitig</marker> so lieb.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>schon</token>
-          <token>bereits</token>
-        </pattern>
-        <message>Meinten Sie <suggestion>schon</suggestion> oder <suggestion>bereits</suggestion>?</message>
-        <example type="correct">Das ist <marker>bereits</marker> geschehen.</example>
-        <example type="correct">Das ist mir auch <marker>schon</marker> oft passiert.</example>
-        <example type="incorrect" correction="schon|bereits">Das ist <marker>schon bereits</marker> gestern passiert.</example>
-      </rule>
-       <rule>
-        <pattern>
-          <token>bereits</token>
-          <token>schon</token>
-        </pattern>
-        <message>Meinten Sie <suggestion>schon</suggestion> oder <suggestion>bereits</suggestion>?</message>
-        <example type="correct">Das ist <marker>bereits</marker> geschehen.</example>
-        <example type="correct">Das ist mir auch <marker>schon</marker> oft passiert.</example>
-        <example type="incorrect" correction="schon|bereits">Das ist <marker>bereits schon</marker> gestern passiert.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>meistens</token>
-          <token>immer</token>
-        </pattern>
-        <message>Meinten Sie <suggestion>meistens</suggestion> oder <suggestion>immer</suggestion>?</message>
-        <example type="correct">Ich gehe <marker>immer</marker> am Samstag einkaufen.</example>
-        <example type="correct">Ich gehe <marker>meistens</marker> am Samstag einkaufen.</example>
-        <example type="incorrect">Ich gehe <marker>meistens immer</marker> am Samstag einkaufen.</example>
       </rule>
     </rulegroup>
     <rulegroup id="WIE_IST_DEN" name="Möglicher Tippfehler: 'wie ist den (denn)'">
@@ -841,25 +822,6 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct">Warum liefern Firmen lieber per <marker>Nachnahme</marker>?</example>
       <example type="incorrect">Warum liefern Firmen lieber per <marker>Nachname</marker>?</example>
     </rule>
-    <rule id="MOEGLICHER_WEISE" name="Möglicher Tippfehler 'möglicher Weise (möglicherweise)'">
-      <pattern>
-        <token>möglicher</token>
-        <token>Weise</token>
-      </pattern>
-      <message><suggestion>möglicherweise</suggestion> wird zusammengeschrieben.</message>
-      <example type="correct"><marker>Möglicherweise</marker> ist die Gelbphase zu kurz eingestellt.</example>
-      <example type="incorrect"><marker>Möglicher Weise</marker> ist die Gelbphase zu kurz eingestellt.</example>
-    </rule>
-    <rule id="FAELSCHLICHER_WEISE" name="Möglicher Tippfehler 'fälschlicher Weise (fälschlicherweise)'">
-      <pattern>
-        <token>fälschlicher</token>
-        <token>Weise</token>
-      </pattern>
-      <message><suggestion>fälschlicherweise</suggestion> wird zusammengeschrieben.</message>
-      <example type="correct"><marker>fälschlicherweise</marker> ist die Gelbphase zu kurz eingestellt.</example>
-      <example type="incorrect"><marker>fälschlicher Weise</marker> ist die Gelbphase zu kurz eingestellt.</example>
-      <example type="incorrect"><marker>fälschlicher weise</marker> ist die Gelbphase zu kurz eingestellt.</example>
-    </rule>
     <rule id="LASEN_LASSEN" name="Möglicher Tippfehler 'zu lasen (lassen)'">
       <pattern case_sensitive="yes" mark_from="1">
         <token>zu</token>
@@ -909,10 +871,10 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token regexp="yes">halten|hielt|hält|haltet|hältst|gehalten</token>
       </pattern>
       <message>Meinten Sie <suggestion>Zaum</suggestion>?</message>
-      <example type="correct">Da konnt ich meine Finger nicht mehr im <marker>Zaum</marker> halten.</example>
-      <example type="incorrect">Da konnt ich meine Finger nicht mehr im <marker>Zaun</marker> halten.</example>
+      <example type="correct">Da konnte ich meine Finger nicht mehr im <marker>Zaum</marker> halten.</example>
+      <example type="incorrect">Da konnte ich meine Finger nicht mehr im <marker>Zaun</marker> halten.</example>
     </rule>
-    <rule id="VOM_ZAUM_BRECHEN" name="Tippfehler: 'Zaum (Zaun)'">
+    <rule id="VOM_ZAUM_BRECHEN" name="Möglicher Tippfehler: 'Zaum (Zaun)'">
       <pattern mark_from="1" mark_to="-1">
         <token>vom</token>
         <token>Zaum</token>
@@ -934,6 +896,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect">Da würde ich auch <marker>Bescheide</marker> sagen.</example>
       <example type="incorrect">Da würde ich auch <marker>Bescheids</marker> geben.</example>
     </rule>
+    <!-- Jan: TODO – Shouldn't this one be covered by a Java rule by now?  -->
     <rule id="WIEDER_WILLEN" name="Möglicher Tippfehler 'wieder (wider) Willen/Erwarten'">
       <pattern mark_to="-1" case_sensitive="yes">
         <token>wieder</token>
@@ -981,16 +944,6 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct">Internet <marker>ohne</marker> Schnur</example>
       <example type="incorrect">Internet <marker>mit ohne</marker> Schnur</example>
     </rule>
-    <rule id="TROTZ_ALLEDEM" name="'Möglicher Tippfehler 'trotz alle dem (alledem)'">
-      <pattern mark_from="1">
-        <token regexp="yes">bei|trotz|nach|von|hinter</token>
-        <token>alle</token>
-        <token>dem</token>
-      </pattern>
-      <message>Meinten Sie <suggestion>alledem</suggestion>?</message>
-      <example type="correct">Hinter <marker>alledem</marker> steht die Universität.</example>
-      <example type="incorrect">Hinter <marker>alle dem</marker> steht die Universität.</example>
-    </rule>
     <rule id="INS_BEZUG" name="'Möglicher Tippfehler 'ins (in) Bezug'">
       <pattern mark_to="-1">
         <token>ins</token>
@@ -1020,27 +973,6 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct">Was lange <marker>währt</marker>...</example>
       <example type="incorrect">Was lange <marker>wehrt</marker>...</example>
     </rule>
-    <!-- 
-    <rule id="VON_BIS" name="Möglicher Tippfehler: 'von ... bis ...'">
-      <pattern mark_from="0">
-        <token regexp="yes">von|vom</token>
-        <token regexp="yes">([0-9]+\.?)\s?(\-|–)\s?([0-9]+\.?)</token>
-      </pattern>
-      <message>Meinten Sie <suggestion><match no="1"/> <match no="2" regexp_match="([0-9]+\.?)\s?(\-|–)\s?([0-9]+\.?)" regexp_replace="$1 bis $3" /></suggestion>?</message>
-      <example type="correct">Von <marker>9 bis 10</marker> Uhr.</example>
-      <example type="incorrect">Von <marker>9–10</marker> Uhr.</example>
-    </rule>
-    -->
-    <!-- 
-    <rule id="BISSTRICH" name="Möglicher Tippfehler beim Bis-Strich">
-      <pattern>
-        <token regexp="yes">[0-9]+(\.)?\s?\-\s?[0-9]+(\.)?</token>
-      </pattern>
-      <message>Meinten Sie <suggestion><match no="1" regexp_match="([0-9]+(\.)?)\-([0-9]+(\.)?)" regexp_replace="$1–$3" /></suggestion>? Als Bis-Strich wird i.a. der Gedankenstrich verwendet.</message>
-      <example type="correct">Er ist 50<marker>–</marker>60 Jahre alt.</example>
-      <example type="incorrect">Er ist 50<marker>-</marker>60 Jahre alt.</example>
-    </rule>
-    -->
     <rule id="DER_GENUS" name="Möglicher Tippfehler: 'der Genus (Genuss)'">
       <pattern>
         <token regexp="yes">der|den</token>
@@ -1104,6 +1036,27 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
   
   <category name="Zusammen-/Getrenntschreibung">
     <!-- Jan: TODO - find a rule that can distinguish "indem" from "in dem" -->
+    <rule id="MOEGLICHER_WEISE_ETC" name="Zusammen-/Getrenntschreibung: 'möglicher Weise (möglicherweise) etc. ...'">
+      <pattern case_sensitive="no">
+        <token negate="yes">in</token>
+        <!-- <token regexp="yes" negate="yes">(äußerst|sehr|ausgesprochen)</token> -->
+        <token regexp="yes">(absurd|auffällig|bedauerlich|bedauernswert|begreiflich|beklagenswert|bemerkenswert|berechtigt|betrüblich|bevorzugt|bezeichnend|billig|blöd|charakteristisch|dankenswert|drollig|ehrlich|eigenartig|eigenmächtig|eigentümlich|eim|entgegenkommend|enttäuschend|erfreulich|erklärlich|erstaunlich|evident|fair|fälschlich|fäss|fatal|folgend|frech|freundlich|gebührend|gemein|gerecht|gewöhnlich|gleich|glied|glücklich|gnädig|günstig|heimlich|heimtückisch|herkömmlich|ideal|idiotisch|inkonsequent|inkorrekt|interessant|ironisch|irreführend|irrig|irritierend|irrtümlich|klar|klassisch|kleck|klug|komisch|konsequent|kontingent|korrekt|kurios|laienhaft|legitim|leichtsinnig|liebenswürdig|listig|lit|lobenswert|löblich|logisch|merkwürdig|missverständlich|möglich|naheliegend|naiv|natürlich|nett|normal|notwendig|originell|paradox|passend|pikant|plausibl|praktisch|realistisch|richtig|riskant|schlau|seltsam|sinnig|sinnvoll|solch|sonderbar|traditionell|tragisch|traurig|trickreich|trivial|typisch|unachtsam|unerklärlich|unerlaubt|unerwartet|ungeschickt|unglücklich|unnötig|unstrittig|unverdient|unvermeidlich|unverständlich|unvorsichtig|verdient|vernünftig|verständlich|widersinnig|wunderbar|wunderlich|zufällig|zulässig|zweckmäßig)er</token>
+        <token>Weise</token>
+      </pattern>
+      <message><suggestion>\2weise</suggestion> wird (als Adverb) meist zusammengeschrieben.</message>
+      <example type="correct"><marker>Möglicherweise</marker> ist die Gelbphase der Ampel zu kurz eingestellt.</example>
+      <example type="incorrect"><marker>Möglicher Weise</marker> ist die Gelbphase zu kurz eingestellt.</example>
+    </rule>
+    <rule id="TROTZ_ALLEDEM" name="'Zusammen-/Getrenntschreibung: 'trotz alle dem (alledem)'">
+      <pattern mark_from="1">
+        <token regexp="yes">bei|trotz|nach|von|hinter</token>
+        <token>alle</token>
+        <token>dem</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>alledem</suggestion>?</message>
+      <example type="correct">Hinter <marker>alledem</marker> steht die Universität.</example>
+      <example type="incorrect">Hinter <marker>alle dem</marker> steht die Universität.</example>
+    </rule>
     <rule id="BIS_HER" name="Zusammen-/Getrenntschreibung: 'bis her (bisher)'">
       <pattern>
         <token>bis</token>
@@ -1153,7 +1106,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct">Das geht <marker>sowieso</marker> nicht.</example>
       <example type="incorrect">Das geht <marker>so wie so</marker> nicht.</example>
     </rule>
-    <rule id="DURCHEINANDER" name="'durcheinander' usw.">
+    <rule id="DURCHEINANDER" name="Zusammen-/Getrenntschreibung: 'durcheinander' usw.">
       <pattern case_sensitive="no" mark_from="0">
         <token regexp="yes">durch|von|in|auf|zu|mit|aus</token>
         <token>einander</token>
@@ -1162,7 +1115,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct">Sie brachte alles <marker>durcheinander</marker>.</example>
       <example type="incorrect">Sie brachte alles <marker>durch einander</marker>.</example>
     </rule>
-    <rule id="GENAU_SO" name="'genau so (genauso)">
+    <rule id="GENAU_SO" name="Zusammen-/Getrenntschreibung: 'genau so (genauso)">
       <pattern>
         <token>genau</token>
         <token>so</token>
@@ -1171,7 +1124,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct">Und <marker>genauso</marker> soll es sein.</example>
       <example type="incorrect">Und <marker>genau so</marker> soll es sein.</example>
     </rule>
-    <rule id="DIENSTAG_ABEND" name="'Dienstag abend (Dienstagabend)">
+    <rule id="DIENSTAG_ABEND" name="Zusammen-/Getrenntschreibung: 'Dienstag abend (Dienstagabend)">
       <pattern case_sensitive="no">
         <token regexp="yes">Montag|Dienstag|Mittwoch|Donnerstag|Freitag|Samstag|Sonntag</token>
         <token regexp="yes">morgen|mittag|abend|nacht</token>
@@ -1181,7 +1134,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect">Am <marker>Dienstag abend</marker> geht es rund!</example>
       <example type="incorrect">Am <marker>Dienstag Abend</marker> geht es rund!</example>
     </rule>
-    <rulegroup id="DESWEGEN" name="Tippfehler: 'des wegen (deswegen)'">
+    <rulegroup id="DESWEGEN" name="Zusammen-/Getrenntschreibung: 'des wegen (deswegen)'">
       <rule>
         <pattern>
           <token>des</token>
@@ -1192,7 +1145,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect"><marker>Des wegen</marker> fuhren sie nach Hause.</example>
       </rule>
     </rulegroup>
-    <rulegroup id="SO_WIE_SO" name="Tippfehler: 'so wie so (sowieso)'">
+    <rulegroup id="SO_WIE_SO" name="Zusammen-/Getrenntschreibung: 'so wie so (sowieso)'">
       <rule>
         <pattern>
           <token>so</token>
@@ -1204,7 +1157,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect">Das halte ich <marker>so wie so</marker> für schlecht.</example>
       </rule>
     </rulegroup>
-    <rulegroup id="CONTRA_PRODUKTIV" name="Tippfehler: 'contra produktiv (kontraproduktiv)'">
+    <rulegroup id="CONTRA_PRODUKTIV" name="Zusammen-/Getrenntschreibung: 'contra produktiv (kontraproduktiv)'">
       <rule>
         <pattern>
           <token>contra</token>
@@ -1339,6 +1292,131 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     </rulegroup>
   </category>
   
+  <category name="Redundanz">
+  <!-- Jan: TODO –  Add more stuff like "Haarfrisur, Fußpedal, Altveteran, langsam kriechen, schnell rasen ..." -->
+  <!-- Jan: TODO –  organize this into smaller rulegroups -->
+    <rulegroup id="VERDOPPELUNG" name="Verdoppelung: 'meistens immer', 'schon bereits' ...">
+      <rule>
+        <pattern>
+          <token>plötzlich</token>
+          <token postag="VER:.*" postag_regexp="yes"/>
+          <token>auf</token>
+          <token>einmal</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>plötzlich \2</suggestion> oder <suggestion>auf einmal \2</suggestion>?</message>
+        <example type="correct"><marker>Plötzlich</marker> lief wieder alles rund.</example>
+        <example type="correct"><marker>Auf einmal</marker> ging wieder alles glatt.</example>
+        <example type="incorrect"><marker>Plötzlich ging auf einmal</marker> wieder alles glatt.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>plötzlich</token>
+          <token>auf</token>
+          <token>einmal</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>plötzlich</suggestion> oder <suggestion>auf einmal</suggestion>?</message>
+        <example type="correct">Es lief <marker>plötzlich</marker> wieder alles glatt.</example>
+        <example type="correct">Es lief <marker>auf einmal</marker> wieder alles glatt.</example>
+        <example type="incorrect" correction="plötzlich|auf einmal">Es lief <marker>plötzlich auf einmal</marker> wieder alles glatt.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>auf</token>
+          <token>einmal</token>
+          <token>plötzlich</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>plötzlich</suggestion> oder <suggestion>auf einmal</suggestion>?</message>
+        <example type="correct">Es lief <marker>auf einmal</marker> wieder alles glatt.</example>
+        <example type="correct">Es lief <marker>plötzlich</marker> wieder alles glatt.</example>
+        <example type="incorrect" correction="plötzlich|auf einmal">Es lief <marker>auf einmal plötzlich</marker> wieder alles glatt.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>exakt</token>
+          <token>genau</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>exakt</suggestion> oder <suggestion>genau</suggestion>?</message>
+        <example type="correct">Es lief <marker>exakt</marker> wie beim letzten Mal.</example>
+        <example type="correct">Es lief <marker>genau</marker> wie beim letzten Mal.</example>
+        <example type="incorrect" correction="exakt|genau">Es war <marker>exakt genau</marker> wie beim letzten Mal.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>exakt</token>
+          <token>genauso</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>exakt so</suggestion> oder <suggestion>genauso</suggestion>?</message>
+        <example type="correct">Es lief <marker>exakt so</marker> wie beim letzten Mal.</example>
+        <example type="correct">Es lief <marker>genauso</marker> wie beim letzten Mal.</example>
+        <example type="incorrect" correction="exakt so|genauso">Es lief wieder <marker>exakt genauso</marker> wie beim letzten Versuch.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>einander</token>
+          <token>gegenseitig</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>einander</suggestion> oder <suggestion>sich gegenseitig</suggestion>?</message>
+        <example type="correct">Sie hatten <marker>einander</marker> so lieb.</example>
+        <example type="correct">Sie mochten <marker>sich gegenseitig</marker> nicht besonders.</example>
+        <example type="incorrect" correction="einander|sich gegenseitig">Sie hatten <marker>einander gegenseitig</marker> so lieb.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>schon</token>
+          <token>bereits</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>schon</suggestion> oder <suggestion>bereits</suggestion>?</message>
+        <example type="correct">Das ist <marker>bereits</marker> geschehen.</example>
+        <example type="correct">Das ist mir auch <marker>schon</marker> oft passiert.</example>
+        <example type="incorrect" correction="schon|bereits">Das ist <marker>schon bereits</marker> gestern passiert.</example>
+      </rule>
+       <rule>
+        <pattern>
+          <token>bereits</token>
+          <token>schon</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>schon</suggestion> oder <suggestion>bereits</suggestion>?</message>
+        <example type="correct">Das ist <marker>bereits</marker> geschehen.</example>
+        <example type="correct">Das ist mir auch <marker>schon</marker> oft passiert.</example>
+        <example type="incorrect" correction="schon|bereits">Das ist <marker>bereits schon</marker> gestern passiert.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">meist(ens)?</token>
+          <token>immer</token>
+        </pattern>
+        <message>Meinten Sie <suggestion><match no="1"/></suggestion> oder <suggestion>immer</suggestion>?</message>
+        <example type="correct">Ich gehe <marker>immer</marker> am Samstag einkaufen.</example>
+        <example type="correct">Ich gehe <marker>meistens</marker> am Samstag einkaufen.</example>
+        <example type="correct">Ich gehe <marker>meist</marker> am Samstag einkaufen.</example>
+        <example type="incorrect" correction="meistens|immer">Ich gehe <marker>meistens immer</marker> am Samstag einkaufen.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>immer</token>
+          <token regexp="yes">meist(ens)?</token>
+        </pattern>
+        <message>Meinten Sie <suggestion><match no="2"/></suggestion> oder <suggestion>immer</suggestion>?</message>
+        <example type="correct">Ich gehe <marker>immer</marker> am Samstag einkaufen.</example>
+        <example type="correct">Ich gehe <marker>meistens</marker> am Samstag einkaufen.</example>
+        <example type="correct">Ich gehe <marker>meist</marker> am Samstag einkaufen.</example>
+        <example type="incorrect" correction="meistens|immer">Ich gehe <marker>immer meistens</marker> am Samstag einkaufen.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="INMITTEN_IN_DER" name="Grammatik: 'inmitten in der (inmitten der)' ">
+      <rule>
+        <pattern>
+          <token>inmitten</token>
+          <token>in</token>
+        </pattern>
+        <message>'inmitten in' ist eine Doppelung - meinten Sie <suggestion>inmitten</suggestion>?</message>
+        <example type="incorrect"><marker>Inmitten in</marker> der Stadt.</example>
+        <example type="incorrect"><marker>Inmitten in</marker> einer intakten Landschaft.</example>
+        <example type="correct"><marker>Inmitten</marker> der Stadt.</example>
+      </rule>
+    </rulegroup>
+  </category>
+
   <category name="Stil">
     <rule id="NICHTSDESTOTROTZ" name="Stil: 'nichtsdestotrotz' ist eine umgangssprachliche Verballhornung von 'nichtsdestoweniger'">
       <pattern>
@@ -1348,7 +1426,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct"><marker>Nichtsdestoweniger</marker> wird einfach weiter geplant.</example>
       <example type="incorrect"><marker>Nichtsdestotrotz</marker> wird einfach weiter geplant.</example>
     </rule>
-    <rule id="MAENNER_VS_LEUTE" name="'Kaufleute' usw.">
+    <rule id="MAENNER_VS_LEUTE" name="Stil: 'Kaufleute' usw.">
       <pattern case_sensitive="no" mark_from="0">
         <token regexp="yes">(Kauf|See|Feuerwehr)männer(n)?</token>
       </pattern>
@@ -1357,19 +1435,20 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect">Es waren viele <marker>Feuerwehrmänner</marker> im Einsatz.</example>
     </rule>
   </category>
+
   <!--  Rules about upper/lowercase:  -->
   <category name="Groß-/Kleinschreibung">
-    <!--
-  <rule id="ZU_RECHT" name="Groß-/Kleinschreibung: 'zu recht (Recht)'">
-    <pattern case_sensitive="yes">
-      <token regexp="yes">[Zz]u</token>
-      <token>recht</token>
-    </pattern>
-    <message>In der Wendung <suggestion>zu Recht</suggestion> wird 'Recht' groß geschrieben.</message>
-    <example type="correct">Da regt er sich zu <marker>Recht</marker> auf.</example>
-    <example type="correct">Er schneidet das zu recht kleinen Stücken.</example>
-    <example type="incorrect">Da regt er sich zu <marker>recht</marker> auf.</example>
-  </rule>
+  <!-- Jan: TODO – distinguish legit uses of 'zu Recht', 'zu recht', and 'zurecht' (all three exist)
+    <rule id="ZU_RECHT" name="Groß-/Kleinschreibung: 'zu recht (Recht)'">
+      <pattern case_sensitive="yes">
+        <token regexp="yes">[Zz]u</token>
+        <token>recht</token>
+      </pattern>
+      <message>In der Wendung <suggestion>zu Recht</suggestion> wird 'Recht' großgeschrieben.</message>
+      <example type="correct">Da regt er sich zu <marker>Recht</marker> auf.</example>
+      <example type="correct">Er schneidet das zu recht kleinen Stücken.</example>
+      <example type="incorrect">Da regt er sich zu <marker>recht</marker> auf.</example>
+    </rule>
   -->
   <!-- TODO: make sure we don't automatically turn the suggestion to uppercase here:
     <rule id="WIR_TREFFEN" name="Groß-/Kleinschreibung: 'wir Treffen (treffen)'">
@@ -1384,8 +1463,21 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect">Sie <marker>Treffen</marker> sich später.</example>
     </rule>
   -->
-      <!-- TODO: make sure we don't automatically turn the suggestion to uppercase here:
-    <rule id="MIT_FREUNDLICHEN" name="Tippfehler: 'mit Freundlichen (freundlichen)'">
+  <!-- TODO: make sure we don't automatically turn the suggestion to uppercase here:
+    <rule id="KREUZ_UND_QUER" name="Groß-/Kleinschreibung: 'kreuz und quer'">
+      <pattern case_sensitive="yes">
+        <token negate="yes" postag="SENT_START"/>
+        <token regexp="yes">Kreuz</token>
+        <token>und</token>
+        <token>quer</token>
+      </pattern>
+      <message>Die Wendung '<suggestion><match case_conversion="alllower" no="1"/><match case_conversion="alllower" no="2"/><match case_conversion="alllower" no="3"/></suggestion> wird normalerweise kleingeschrieben.</message>
+      <example type="correct">Alle liefen <marker>kreuz und quer</marker> durcheinander.</example>
+      <example type="incorrect">Alle liefen <marker>Kreuz und quer</marker> durcheinander.</example>
+    </rule>
+  -->
+  <!-- TODO: make sure we don't automatically turn the suggestion to uppercase here:
+    <rule id="MIT_FREUNDLICHEN" name="Möglicher Tippfehler: 'mit Freundlichen (freundlichen)'">
       <pattern mark_from="1">
         <token>mit</token>
         <token>Freundlichen</token>
@@ -1395,20 +1487,33 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect">Mit <marker>Freundlichen</marker> Grüßen</example>
     </rule>
   -->
+  <!-- TODO: LT itself uppercases the suggestion so that it's incorrect again: 
+    <rule id="WIR_TREFFEN" name="Groß-/Kleinschreibung: 'wir Treffen (treffen)'">
+      <pattern mark_from="1" case_sensitive="yes">
+        <token regexp="yes">[wW]ir|[sS]ie</token>
+        <token>Treffen</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>treffen</suggestion>?</message>
+      <example type="correct">Wir <marker>treffen</marker> uns später.</example>
+      <example type="correct">Sie <marker>treffen</marker> sich später.</example>
+      <example type="incorrect">Wir <marker>Treffen</marker> uns später.</example>
+      <example type="incorrect">Sie <marker>Treffen</marker> sich später.</example>
+    </rule>
+  -->
     <rule id="IM_FOLGENDEN" name="Groß-/Kleinschreibung: 'im folgenden (Folgenden)'">
       <pattern mark_from="1" mark_to="-1" case_sensitive="yes">
         <token regexp="yes">[Ii]m</token>
         <token>folgenden</token>
         <token postag="(VER|PA2):.*" postag_regexp="yes"/>
       </pattern>
-      <message><suggestion>Folgenden</suggestion> wird als Substantivierung groß geschrieben.</message>
+      <message><suggestion>Folgenden</suggestion> wird als Substantivierung großgeschrieben.</message>
       <example type="correct">Im <marker>Folgenden</marker> geht es um Fahrräder.</example>
       <example type="incorrect">Im <marker>folgenden</marker> geht es um Fahrräder.</example>
       <example type="correct">Die im <marker>Folgenden</marker> beschriebene Geschichte.</example>
       <example type="correct">Diese These werde ich im <marker>Folgenden</marker> ausführen.</example>
       <example type="incorrect">Diese These werde ich im <marker>folgenden</marker> ausführen.</example>
       <example type="incorrect">Die im <marker>folgenden</marker> beschriebene Geschichte.</example>
-      <example type="correct">Die im <marker>folgenden</marker> Buch beschriebe Geschichte.</example>
+      <example type="correct">Die im <marker>folgenden</marker> Buch beschriebene Geschichte.</example>
     </rule>
     <rule id="IN_KUERZE" name="Groß-/Kleinschreibung: 'in kürze (Kürze)'">
       <pattern mark_from="1" case_sensitive="yes">
@@ -1438,7 +1543,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct">Schwer von <marker>Begriff</marker> sein</example>
       <example type="incorrect">Schwer von <marker>begriff</marker> sein</example>
     </rule>
-    <rulegroup id="WEITERE_VORGEHEN" name="Tippfehler: 'das weitere vorgehen (Vorgehen)'">
+    <rulegroup id="WEITERE_VORGEHEN" name="Groß-/Kleinschreibung: 'das weitere vorgehen (Vorgehen)'">
       <rule>
         <pattern mark_from="1" case_sensitive="yes">
           <token regexp="yes">weitere|weiteren</token>
@@ -1449,7 +1554,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect">Wir werden das weitere <marker>vorgehen</marker> zusammen abstimmen.</example>
       </rule>
     </rulegroup>
-    <rulegroup id="BEICHTE" name="Tippfehler: 'die beichte (Beichte)'">
+    <rulegroup id="BEICHTE" name="Groß-/Kleinschreibung: 'die beichte (Beichte)'">
       <rule>
         <pattern mark_from="1" case_sensitive="yes">
           <token regexp="yes">eine|die|seine|ihre|meine</token>
@@ -1471,19 +1576,6 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect">Die <marker>suche</marker> dauerte lange.</example>
       <example type="incorrect">Sie waren auf der <marker>suche</marker> nach Felix.</example>
     </rule>
-    <!-- TODO: LT itself uppercases the suggestion so that it's incorrect again: 
-    <rule id="WIR_TREFFEN" name="Groß-/Kleinschreibung: 'wir Treffen (treffen)'">
-      <pattern mark_from="1" case_sensitive="yes">
-        <token regexp="yes">[wW]ir|[sS]ie</token>
-        <token>Treffen</token>
-      </pattern>
-      <message>Meinten Sie <suggestion>treffen</suggestion>?</message>
-      <example type="correct">Wir <marker>treffen</marker> uns später.</example>
-      <example type="correct">Sie <marker>treffen</marker> sich später.</example>
-      <example type="incorrect">Wir <marker>Treffen</marker> uns später.</example>
-      <example type="incorrect">Sie <marker>Treffen</marker> sich später.</example>
-    </rule>
-    -->
     <rule id="GUTEN_UND_SCHLECHTEN" name="Groß-/Kleinschreibung: 'in Guten (guten) wie in Schlechten (schlechten) Zeiten'">
       <pattern case_sensitive="yes">
         <token regexp="yes">[Ii]n</token>
@@ -1502,7 +1594,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token>weiteren</token>
         <token postag="VER:.*" postag_regexp="yes"/>
       </pattern>
-      <message><suggestion>Weiteren</suggestion> in der Wendung 'des Weiteren' wird groß geschrieben.</message>
+      <message><suggestion>Weiteren</suggestion> in der Wendung 'des Weiteren' wird großgeschrieben.</message>
       <example type="correct">Des <marker>Weiteren</marker> sind alle Katzen blau.</example>
       <example type="correct">Und des <marker>Weiteren</marker> waren alle Katzen blau.</example>
       <example type="correct">Die Rechtsvorschrift zur Sicherung des <marker>weiteren</marker> Aufenthaltsrechtes.</example>
@@ -1514,7 +1606,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token regexp="yes">[Dd]es|[Ee]ines</token>
         <token>nachts</token>
       </pattern>
-      <message><suggestion>Nachts</suggestion> in der Wendung 'des Nachts' bzw. 'eines Nachts' wird groß geschrieben.</message>
+      <message><suggestion>Nachts</suggestion> in der Wendung 'des Nachts' bzw. 'eines Nachts' wird großgeschrieben.</message>
       <example type="correct">Des <marker>Nachts</marker> sind alle Katzen blau.</example>
       <example type="incorrect">Des <marker>nachts</marker> sind alle Katzen blau.</example>
       <example type="incorrect">Eines <marker>nachts</marker> sind alle Katzen blau.</example>
@@ -1528,7 +1620,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token>und</token>
         <token>böse</token>
       </pattern>
-      <message><suggestion>Gut und Böse</suggestion> in der Wendung 'jenseits von Gut und Böse' wird groß geschrieben.</message>
+      <message><suggestion>Gut und Böse</suggestion> in der Wendung 'jenseits von Gut und Böse' wird großgeschrieben.</message>
       <example type="correct">Das ist jenseits von <marker>Gut und Böse</marker>.</example>
       <example type="incorrect">Das ist jenseits von <marker>gut und böse</marker>.</example>
     </rule>
@@ -1538,7 +1630,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>zur</token>
           <token>genüge</token>
         </pattern>
-        <message>In <suggestion>zur Genüge</suggestion> wird 'Genüge' groß geschrieben.</message>
+        <message>In <suggestion>zur Genüge</suggestion> wird 'Genüge' großgeschrieben.</message>
         <example type="correct">Das hat sich <marker>zur Genüge</marker> gezeigt.</example>
         <example type="incorrect">Das hat sich <marker>zur genüge</marker> gezeigt.</example>
       </rule>
@@ -1547,7 +1639,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>genüge</token>
           <token regexp="yes">tun|tut|tust|getan</token>
         </pattern>
-        <message>'Genüge' wird hier groß geschrieben: <suggestion>Genüge \2</suggestion></message>
+        <message>'Genüge' wird hier großgeschrieben: <suggestion>Genüge \2</suggestion></message>
         <example type="correct">Der Gerechtigkeit wurde <marker>Genüge getan</marker>.</example>
         <example type="incorrect">Der Gerechtigkeit wurde <marker>genüge getan</marker>.</example>
       </rule>
@@ -1559,7 +1651,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token>und</token>
         <token>aber</token>
       </pattern>
-      <message><suggestion>Wenn und Aber</suggestion> in der Wendung 'ohne Wenn und Aber' wird groß geschrieben.</message>
+      <message><suggestion>Wenn und Aber</suggestion> in der Wendung 'ohne Wenn und Aber' wird großgeschrieben.</message>
       <example type="correct">Das gilt von <marker>Wenn und Aber</marker>.</example>
       <example type="incorrect">Das gilt ohne <marker>wenn und aber</marker>.</example>
     </rule>
@@ -1569,7 +1661,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token regexp="yes">erste|ersten|letzte|letzten|vorige|vorigen</token>
         <token>mal</token>
       </pattern>
-      <message><suggestion>Mal</suggestion> in der Wendung 'das erste/letzte Mal' wird groß geschrieben.</message>
+      <message><suggestion>Mal</suggestion> in der Wendung 'das erste/letzte Mal' wird großgeschrieben.</message>
       <example type="correct">...als du ihn das erste <marker>Mal</marker> gesehen hast?</example>
       <example type="incorrect">...als du ihn das erste <marker>mal</marker> gesehen hast?</example>
       <example type="incorrect">...als du ihn zum ersten <marker>mal</marker> gesehen hast?</example>
@@ -1580,7 +1672,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token>acht</token>
         <token regexp="yes">nehmen|nahm|genommen</token>
       </pattern>
-      <message><suggestion>Acht</suggestion> in der Wendung '(sich) in Acht nehmen' wird groß geschrieben.</message>
+      <message><suggestion>Acht</suggestion> in der Wendung '(sich) in Acht nehmen' wird großgeschrieben.</message>
       <example type="correct">Er sollte sich in <marker>Acht</marker> nehmen.</example>
       <example type="incorrect">Er sollte sich in <marker>acht</marker> nehmen.</example>
     </rule>
@@ -1589,7 +1681,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token>aus</token>
         <token>versehen</token>
       </pattern>
-      <message>In der Wendung 'aus Versehen' wird <suggestion>Versehen</suggestion> groß geschrieben.</message>
+      <message>In der Wendung 'aus Versehen' wird <suggestion>Versehen</suggestion> großgeschrieben.</message>
       <example type="correct">Die SPD meuchelt aus <marker>Versehen</marker> ihren Chef.</example>
       <example type="incorrect">Die SPD meuchelt aus <marker>versehen</marker> ihren Chef.</example>
     </rule>
@@ -1599,7 +1691,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token>dem</token>
         <token>laufenden</token>
       </pattern>
-      <message>In der Wendung 'auf dem Laufenden' wird <suggestion>Laufenden</suggestion> groß geschrieben.</message>
+      <message>In der Wendung 'auf dem Laufenden' wird <suggestion>Laufenden</suggestion> großgeschrieben.</message>
       <example type="correct">Bitte halte mich auf dem <marker>Laufenden</marker>.</example>
       <example type="incorrect">Bitte halte mich auf dem <marker>laufenden</marker>
       </example>
@@ -1609,7 +1701,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token regexp="yes">etwas|nichts</token>
         <token>wichtiges</token>
       </pattern>
-      <message><suggestion>Wichtiges</suggestion> als Nomen wird groß geschrieben.</message>
+      <message><suggestion>Wichtiges</suggestion> als Nomen wird großgeschrieben.</message>
       <example type="correct">Beiträge die etwas <marker>Wichtiges</marker> über den Spielverlauf verraten bitte kennzeichnen.</example>
       <example type="incorrect">Beiträge die etwas <marker>wichtiges</marker> über den Spielverlauf verraten bitte kennzeichnen.</example>
     </rule>
@@ -1618,7 +1710,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token regexp="yes">etwas|nichts</token>
         <token>gutes</token>
       </pattern>
-      <message><suggestion>Gutes</suggestion> als Nomen wird groß geschrieben.</message>
+      <message><suggestion>Gutes</suggestion> als Nomen wird großgeschrieben.</message>
       <example type="correct">Dahinter verbirgt sich nichts <marker>Gutes</marker>.</example>
       <example type="incorrect">Dahinter verbirgt sich nichts <marker>gutes</marker>.</example>
     </rule>
@@ -1637,7 +1729,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>fragen</token>
           <token inflected="yes" regexp="yes">haben|stellen</token>
         </pattern>
-        <message><suggestion>Fragen</suggestion> als Nomen wird groß geschrieben.</message>
+        <message><suggestion>Fragen</suggestion> als Nomen wird großgeschrieben.</message>
         <example type="correct">Meine <marker>Fragen</marker> hat bislang keiner gelesen.</example>
         <example type="correct">Dazu möchte ich gerne <marker>Fragen</marker> stellen.</example>
         <example type="correct">Dazu wurden <marker>Fragen</marker> gestellt.</example>
@@ -1651,7 +1743,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token inflected="yes" regexp="yes">haben|stellen</token>
           <token>fragen</token>
         </pattern>
-        <message><suggestion>Fragen</suggestion> als Nomen wird groß geschrieben.</message>
+        <message><suggestion>Fragen</suggestion> als Nomen wird großgeschrieben.</message>
         <example type="correct">Ich habe <marker>Fragen</marker> dazu.</example>
         <example type="correct">Ich stellte <marker>Fragen</marker> dazu.</example>
         <example type="incorrect">Ich habe <marker>fragen</marker> dazu.</example>
@@ -1777,39 +1869,8 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect"><marker>Ein Paar</marker> Münzen.</example>
       </rule>
   </category>
+
   <category name="Grammatik">
-    <rulegroup id="INMITTEN_IN_DER" name="Grammatik: 'inmitten in der (inmitten der)' ">
-      <rule>
-        <pattern>
-          <token>inmitten</token>
-          <token>in</token>
-        </pattern>
-        <message>'inmitten in' ist eine Doppelung - meinten Sie <suggestion>inmitten</suggestion>?</message>
-        <example type="incorrect"><marker>Inmitten in</marker> der Stadt.</example>
-        <example type="incorrect"><marker>Inmitten in</marker> einer intakten Landschaft.</example>
-        <example type="correct"><marker>Inmitten</marker> der Stadt.</example>
-      </rule>
-    </rulegroup>
-    <rule id="IM_KEINEN" name="Grammatik: 'im keinen (kleinen)'">
-      <pattern mark_from="1">
-        <token>im</token>
-        <token>keinen</token>
-      </pattern>
-      <message>Meinten Sie <suggestion>kleinen</suggestion>?</message>
-      <example type="incorrect">Treffpunkt ist im <marker>keinen</marker> Saal.</example>
-      <example type="correct">Treffpunkt ist im <marker>kleinen</marker> Saal.</example>
-    </rule>
-    <rule id="MEINES_WISSENS_NACH" name="Grammatik: 'meines Wissens'">
-      <pattern mark_to="-1">
-        <token>meines</token>
-        <token>Wissens</token>
-        <token>nach</token>
-        <token postag="VER:.*" postag_regexp="yes" />
-      </pattern>
-      <message>Meinten Sie <suggestion>meines Wissens</suggestion>?</message>
-      <example type="incorrect"><marker>Meines Wissens nach</marker> ist diese Formulierung falsch.</example>
-      <example type="correct"><marker>Meines Wissens</marker> ist diese Formulierung richtig.</example>
-    </rule>
     <!-- TODO: testen!!
     <rulegroup id="DIE_DER" name="Grammatik: 'der/die' (Genitiv Plural für Substantive)">
       <rule>
@@ -1825,7 +1886,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     </rulegroup>
     -->
     <!-- TODO: testen!!
-    <rulegroup id="EINER_EINE" name="Grammatik: 'unbestimmter Artikel weiblicher im Akkusativ'">
+    <rulegroup id="EINER_EINE" name="Grammatik: 'unbestimmter weiblicher Artikel im Akkusativ'">
       <rule>
         <pattern mark_from="0">
           <token>einer</token>
@@ -1851,19 +1912,6 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       </rule>
     </rulegroup>
     -->
-    <!-- TODO: make this more general: -->
-    <rulegroup id="ICH_WUENSCHE" name="Grammatik: 'Ich wünschen (wünsche)'">
-      <rule>
-        <pattern case_sensitive="yes" mark_from="1">
-          <token regexp="yes">ich|Ich</token>
-          <token>wünschen</token>
-        </pattern>
-        <message>Meinten Sie <suggestion>wünsche</suggestion> ?</message>
-        <example type="correct">Ich <marker>wünsche</marker> dir viel Spaß.</example>
-        <example type="correct">Viel Spaß <marker>wünsche</marker> ich dir.</example>
-        <example type="incorrect" correction="wünsche">Ich <marker>wünschen</marker> dir viel Spaß.</example>
-      </rule>
-    </rulegroup>
     <!-- TODO: Fix false alarms like in "Seite zum Suchen von Abkürzungen"
     <rulegroup id="ZUM_ZUR" name="Grammatik: 'zum (zur) Trennung'">
       <rule>
@@ -1892,6 +1940,54 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect">Sie hilft <marker>ihn</marker> gerne.</example>
     </rule>
     -->
+    <!-- TODO: too many false alarams
+    <rulegroup id="SEIT_PREP_TEILGRUPPE_MIT_NACH_ETC" name="Grammatik: 'seit/nach/... des (dem)'">
+      <rule>
+        <pattern case_sensitive="no" mark_from="1">
+          <token regexp="yes">mit|nach|bei|von|aus|zu|seit</token>
+          <token postag=".*:DEF:(GEN|NOM|AKK).*" postag_regexp="yes"/>
+          <token/>
+        </pattern>
+        <message>Meinten Sie den Dativ?</message>
+        <example type="correct">Seit <marker>dem Umzug</marker> auf einen neuen Server...</example>        
+        <example type="correct">Aber nach <marker>einer Warnung</marker> hielt er an.</example>        
+        <example type="incorrect">Seit <marker>des Umzuges</marker> auf einen neuen Server...</example>
+      </rule>
+    </rulegroup>
+    -->
+    <rule id="IM_KEINEN" name="Grammatik: 'im keinen (kleinen)'">
+      <pattern mark_from="1">
+        <token>im</token>
+        <token>keinen</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>kleinen</suggestion>?</message>
+      <example type="incorrect">Treffpunkt ist im <marker>keinen</marker> Saal.</example>
+      <example type="correct">Treffpunkt ist im <marker>kleinen</marker> Saal.</example>
+    </rule>
+    <rule id="MEINES_WISSENS_NACH" name="Grammatik: 'meines Wissens'">
+      <pattern mark_to="-1">
+        <token>meines</token>
+        <token>Wissens</token>
+        <token>nach</token>
+        <token postag="VER:.*" postag_regexp="yes" />
+      </pattern>
+      <message>Meinten Sie <suggestion>meines Wissens</suggestion>?</message>
+      <example type="incorrect"><marker>Meines Wissens nach</marker> ist diese Formulierung falsch.</example>
+      <example type="correct"><marker>Meines Wissens</marker> ist diese Formulierung richtig.</example>
+    </rule>
+    <!-- TODO: make this more general: -->
+    <rulegroup id="ICH_WUENSCHE" name="Grammatik: 'Ich wünschen (wünsche)'">
+      <rule>
+        <pattern case_sensitive="yes" mark_from="1">
+          <token regexp="yes">ich|Ich</token>
+          <token>wünschen</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>wünsche</suggestion> ?</message>
+        <example type="correct">Ich <marker>wünsche</marker> dir viel Spaß.</example>
+        <example type="correct">Viel Spaß <marker>wünsche</marker> ich dir.</example>
+        <example type="incorrect" correction="wünsche">Ich <marker>wünschen</marker> dir viel Spaß.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="SPRECH_NICHT" name="Grammatik: 'bitte sprech (sprich)'">
       <rule>
         <pattern mark_from="1">
@@ -1922,21 +2018,6 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct"><marker>Sprich</marker> doch bitte nicht so laut.</example>
       </rule>
     </rulegroup>
-    <!-- TODO: too many false alarams
-    <rulegroup id="SEIT_PREP_TEILGRUPPE_MIT_NACH_ETC" name="Grammatik: 'seit/nach/... des (dem)'">
-      <rule>
-        <pattern case_sensitive="no" mark_from="1">
-          <token regexp="yes">mit|nach|bei|von|aus|zu|seit</token>
-          <token postag=".*:DEF:(GEN|NOM|AKK).*" postag_regexp="yes"/>
-          <token/>
-        </pattern>
-        <message>Meinten Sie den Dativ?</message>
-        <example type="correct">Seit <marker>dem Umzug</marker> auf einen neuen Server...</example>        
-        <example type="correct">Aber nach <marker>einer Warnung</marker> hielt er an.</example>        
-        <example type="incorrect">Seit <marker>des Umzuges</marker> auf einen neuen Server...</example>
-      </rule>
-    </rulegroup>
-    -->
     <rulegroup id="DEN_DEM" name="Grammatik: 'dem/den' (nur für wenige Verben)">
       <!-- TODO: the list of words needs to be extended -->
       <rule>
@@ -1994,8 +2075,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example correction="Herrn" type="incorrect">Mein Brief an <marker>Herr</marker> Schmidt.</example>
       <example correction="Herrn" type="incorrect">Er ging zu <marker>Herr</marker> Schmidt.</example>
     </rule>
-    <!-- TODO: test this more and then set default="on" -->
-    <rulegroup id="ADJEKTIVE_ZU_ADVERBIEN" name="Grammatik: 'bisherig, seitherig usw.'" default="off">
+    <rulegroup id="ADJEKTIVE_ZU_ADVERBIEN" name="Grammatik: 'bisherig, seitherig usw.'" default="on">
       <rule>
         <pattern>
           <token regexp="no">bisherig</token>
@@ -2046,6 +2126,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       </rule>
     </rulegroup>
   </category>
+
   <category name="Zeichensetzung">
     <rule id="MIT_FREUNDLICHEN_GRUESSEN_KOMMA" name="Zeichensetzung: Falsches Satzzeichen nach 'Mit freundlichen Grüßen'">
       <pattern>
@@ -2060,4 +2141,5 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example correction="Mit freundlichen Grüßen" type="incorrect"><marker>Mit freundlichen Grüßen,</marker></example>
     </rule>
   </category>
+
 </rules>
