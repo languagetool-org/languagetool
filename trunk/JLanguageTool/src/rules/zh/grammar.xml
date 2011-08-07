@@ -269,6 +269,74 @@ $Id: grammar.xml,v 1.0 2011-07-29 13:20:25 taolin2011 Exp $
         <example type="correct">我把它杀了。</example>
       </rule>
     </rulegroup>
+    <rulegroup id="wb3" name="连词" default="on">
+      <rule>
+        <pattern mark_to="-2">
+          <token postag="c">或者</token>
+          <token skip="-1"/>
+          <token postag="w">？</token>
+        </pattern>
+        <message> 表示选择的疑问句中不能使用 “或者” ，请改用： <suggestion>还是</suggestion> 。 </message>
+        <short>介词的误用</short>
+        <example type="incorrect" correction="还是"> 我是吃我的面包<marker>或者</marker>你的汉堡包？ </example>
+        <example type="correct">你是看书还是吃饭？</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="wb4" name="助词">
+      <rule>
+        <pattern mark_from="1" mark_to="-2">
+          <token postag="v">
+            <exception regexp="yes">剩下|允许|接受|遭受|所谓|看到|拥有|提供</exception>
+          </token>
+          <token postag="u">的</token>
+          <token postag="d">
+            <exception regexp="yes">最|不|比较|较|大约|也|就|都</exception>
+          </token>
+          <token postag_regexp="yes" postag="a|d"/>
+        </pattern>
+        <message>
+            1.动词被副词修饰时，助词应该用‘得’;2.省略宾语时，助词应该用‘的’;可能造成歧义。您的意思是不是：<suggestion>\1得\3\4</suggestion>
+        </message>
+        <short>‘得’的用法</short>
+        <example type="incorrect"> 他跑<marker>的</marker>很快。 </example>
+        <example type="correct">剩下的很多都没人要。</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token postag_regexp="yes" postag="a|d"/>
+          <token postag="u" skip="-1">的</token>
+          <token postag="v|vd" postag_regexp="yes">
+            <exception regexp="yes">是|有</exception>
+          </token>
+        </pattern>
+        <message> 动词的修饰一般为‘形容词（副词）+地+动词’。您的意思是否是：\1<suggestion>地</suggestion>\3 </message>
+        <short>‘地’的用法</short>
+        <example type="incorrect"> 水渐渐<marker>的</marker>涨起来。 </example>
+        <example type="correct">人慢慢地走过来了。</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-2">
+          <token postag_regexp="yes" postag="a|d"/>
+          <token postag="u">的</token>
+          <token postag="a"/>
+          <token postag="w"/>
+        </pattern>
+        <message> 形容词的修饰一般为‘形容词（副词）+地+形容词’。您的意思是否是：<suggestion>\1地\3</suggestion>
+        </message>
+        <short>‘地’的用法</short>
+        <example type="incorrect"> 太阳渐渐<marker>的</marker>亮。 </example>
+        <example type="correct">人们的生活节奏特别地快。</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token postag="nr|ns" postag_regexp="yes"/>
+          <token>等等</token>
+        </pattern>
+        <message> “等等”不能与专有名词搭配，您可以使用“<suggestion>等</suggestion>”与之搭配。 </message>
+        <example type="incorrect" correction="等"> 小明，小红<marker>等等</marker>。 </example>
+        <example type="correct">小明，小红等</example>
+      </rule>
+    </rulegroup>
   </category>
    
   <!-- ====================================================================== -->
