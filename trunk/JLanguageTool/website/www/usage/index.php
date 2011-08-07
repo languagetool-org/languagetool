@@ -2,7 +2,7 @@
 $page = "usage";
 $title = "LanguageTool";
 $title2 = "Usage";
-$lastmod = "2011-05-07 15:20:00 CET";
+$lastmod = "2011-08-07 16:20:00 CET";
 include("../../include/header.php");
 include('../../include/geshi/geshi.php');
 ?>
@@ -78,7 +78,7 @@ for (RuleMatch match : matches) {
 </matches>'); ?>
 
 	<p>The server can also be started on the command line using this command:<br />
-	<tt>java -cp jaminid.jar:LanguageTool.jar de.danielnaber.languagetool.server.HTTPServer</tt>
+	<tt>java -cp LanguageTool.jar de.danielnaber.languagetool.server.HTTPServer</tt>
 
 	</li>
 
