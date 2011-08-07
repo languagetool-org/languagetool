@@ -28,7 +28,6 @@ public class LanguageIdentifierTools {
               "/" + language + "/" + language + PROFILE_SUFFIX;
 
       InputStream stream = JLanguageTool.class.getResourceAsStream(languageFilePath);
-
       try {
         BufferedReader reader =
                 new BufferedReader(new InputStreamReader(stream, PROFILE_ENCODING));
@@ -47,8 +46,8 @@ public class LanguageIdentifierTools {
       }
 
       LanguageIdentifier.addProfile(language, profile);
-    } catch (Throwable t) {
-      throw new Exception("Failed trying to load language profile for language \""+language+"\". Error: "+t.getMessage());
+    } catch (Exception e) {
+      throw new Exception("Failed trying to load language profile for language \"" + language + "\".", e);
     }
   }
 
