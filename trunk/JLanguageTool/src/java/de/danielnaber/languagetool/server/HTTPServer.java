@@ -130,6 +130,7 @@ public class HTTPServer {
       final HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
       server.createContext("/", new LanguageToolHttpHandler(verbose, DEFAULT_ALLOWED_IPS));
       server.start();
+      System.out.println("Started LanguageTool HTTP server on port " + port + ".");
     } catch (Exception e) {
       throw new RuntimeException("Could not start LanguageTool HTTP server on port " + port, e);
     }
