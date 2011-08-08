@@ -1378,7 +1378,18 @@ $Id: grammar.xml,v 1.68 2011-05-14 14:58:12 yakovru Exp $
                 <example type="incorrect">Кошка спрыгнула <marker>с шкафа</marker>.</example>
             </rule>
         </rulegroup>
-        
+        <rulegroup default="on"  id="Vo_izbezhanie" name="Правописание предлога во избежание">
+            <rule>  
+                <pattern>
+                    <token>во</token>
+                    <token>избежании</token>
+                </pattern>
+                <message>Неправильная форма предлога. Должно быть: <suggestion>\1 избежание</suggestion>.</message>
+                <short>Ошибка!</short>
+                <example type="correct">Чего не следует делать во избежание неприятностей.</example>
+                <example type="incorrect">Чего не следует делать <marker>во избежании</marker> неприятностей.</example>
+            </rule>
+        </rulegroup>    
         <rulegroup default="on"  id="O_OB_OBO" name="Правописание предлогов о, об, обо">
             <rule>  
                 <pattern>
