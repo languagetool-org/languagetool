@@ -50,7 +50,7 @@ public class EsperantoTagger implements Tagger {
   // These words don't need to be tagged.
   private static final String wordsNotTagged[] = {
     "ajn", "ĉi", "ĉu", "des", "ja", "ju", "ke", "malpli", 
-    "ne", "ol", "pli"
+    "ne", "ol", "pli", "pli-malpli"
   };
 
   private static final Set<String> setWordsNotTagged = new HashSet<String>(Arrays.asList(wordsNotTagged));
