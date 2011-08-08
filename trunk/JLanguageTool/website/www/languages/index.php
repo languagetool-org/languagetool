@@ -61,7 +61,7 @@ Date: 2011-06-26<br /><br />
 <tr><td>Romanian</td><td align="right">418 (<a href="http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/JLanguageTool/src/rules/ro/grammar.xml?content-type=text%2Fplain">show</a>/<a href="http://community.languagetool.org/rule/list?lang=ro">browse</a>)</td><td></td><td align="right">1</td><td></td>
 <td align="right">0</td><td></td><td align="left"><a href="http://www.archeus.ro">Ionuț Păduraru</a></td></tr>
 <tr><td>Russian</td><td align="right">129 (<a href="http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/JLanguageTool/src/rules/ru/grammar.xml?content-type=text%2Fplain">show</a>/<a href="http://community.languagetool.org/rule/list?lang=ru">browse</a>)</td><td></td><td align="right">3</td><td></td>
-<td align="right">0</td><td></td><td align="left">Yakov Reztsov</td></tr>
+<td align="right">0</td><td></td><td align="left"><a href="http://myooo.ru/content/view/83/43/">Yakov Reztsov</a></td></tr>
 <tr><td>Slovak</td><td align="right">55 (<a href="http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/JLanguageTool/src/rules/sk/grammar.xml?content-type=text%2Fplain">show</a>/<a href="http://community.languagetool.org/rule/list?lang=sk">browse</a>)</td><td></td><td align="right">2</td><td></td>
 <td align="right">0</td><td></td><td align="left"><a href="http://sk-spell.sk.cx">Zdenko Podobný</a></td></tr>
 <tr><td>Slovenian</td><td align="right">58 (<a href="http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/JLanguageTool/src/rules/sl/grammar.xml?content-type=text%2Fplain">show</a>/<a href="http://community.languagetool.org/rule/list?lang=sl">browse</a>)</td><td></td><td align="right">0</td><td></td>
