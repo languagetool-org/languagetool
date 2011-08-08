@@ -14,27 +14,6 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
          xsi:noNamespaceSchemaLocation="../rules.xsd">
 
   <category name="Mögliche Tippfehler">
-    <!-- 
-    <rule id="VON_BIS" name="Möglicher Tippfehler: 'von ... bis ...'">
-      <pattern mark_from="0">
-        <token regexp="yes">von|vom</token>
-        <token regexp="yes">([0-9]+\.?)\s?(\-|–)\s?([0-9]+\.?)</token>
-      </pattern>
-      <message>Meinten Sie <suggestion><match no="1"/> <match no="2" regexp_match="([0-9]+\.?)\s?(\-|–)\s?([0-9]+\.?)" regexp_replace="$1 bis $3" /></suggestion>?</message>
-      <example type="correct">Von <marker>9 bis 10</marker> Uhr.</example>
-      <example type="incorrect">Von <marker>9–10</marker> Uhr.</example>
-    </rule>
-    -->
-    <!-- 
-    <rule id="BISSTRICH" name="Möglicher Tippfehler beim Bis-Strich">
-      <pattern>
-        <token regexp="yes">[0-9]+(\.)?\s?\-\s?[0-9]+(\.)?</token>
-      </pattern>
-      <message>Meinten Sie <suggestion><match no="1" regexp_match="([0-9]+(\.)?)\-([0-9]+(\.)?)" regexp_replace="$1–$3" /></suggestion>? Als Bis-Strich wird i.a. der Gedankenstrich verwendet.</message>
-      <example type="correct">Er ist 50<marker>–</marker>60 Jahre alt.</example>
-      <example type="incorrect">Er ist 50<marker>-</marker>60 Jahre alt.</example>
-    </rule>
-    -->
     <rule id="SCHRIEBT" name="Möglicher Tippfehler: 'schriebt (schreibt)'">
       <pattern mark_from="1" mark_to="-1">
         <token negate="yes">Ihr</token>
@@ -49,6 +28,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct">Ihr <marker>schreibt</marker> oft Briefe.</example>
     </rule>
     <rule id="ERSTEN_MAIN" name="Möglicher Tippfehler: '1. Main (Mai)'">
+    <!-- TODO: Doesn't seem to match intended text. -->
       <pattern mark_from="3">
         <token regexp="yes">am|den</token>
         <token regexp="yes">\d+</token>
@@ -595,7 +575,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct">Es gibt keine neuen Features, <marker>sondern</marker> nur Fehlerkorrekturen.</example>
       <example type="incorrect">Es gibt keine neuen Features, <marker>sonder</marker> nur Fehlerkorrekturen.</example>
     </rule>
-    <rulegroup id="SEID_VS_SEIT" name="Möglicher Tippfehler: 'Seit' statt 'seid'" default="off">
+    <rulegroup id="SEID_VS_SEIT" name="Möglicher Tippfehler: 'Seit' statt 'seid'" default="on">
     <!-- Jan: TODO - extend this -->
       <rule>
         <pattern mark_from="0" mark_to="-3">
@@ -1024,7 +1004,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       </rule>
       <rule>
         <pattern mark_from="0" mark_to="-1">
-          <token regexp="yes">Russelsche|Russelschen</token>
+          <token regexp="yes">Russelsche(n)?</token>
           <token>Antinomie</token>
         </pattern>
         <message>Meinten Sie: <suggestion><match no="1" regexp_match="(Russel)(sche|schen)" regexp_replace="$1l$2"/></suggestion>?</message>
@@ -1037,7 +1017,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
   <category name="Zusammen-/Getrenntschreibung">
     <!-- Jan: TODO - find a rule that can distinguish "indem" from "in dem" -->
     <rule id="MOEGLICHER_WEISE_ETC" name="Zusammen-/Getrenntschreibung: 'möglicher Weise (möglicherweise) etc. ...'">
-      <pattern case_sensitive="no">
+      <pattern case_sensitive="no" mark_from="1">
         <token negate="yes">in</token>
         <!-- <token regexp="yes" negate="yes">(äußerst|sehr|ausgesprochen)</token> -->
         <token regexp="yes">(absurd|auffällig|bedauerlich|bedauernswert|begreiflich|beklagenswert|bemerkenswert|berechtigt|betrüblich|bevorzugt|bezeichnend|billig|blöd|charakteristisch|dankenswert|drollig|ehrlich|eigenartig|eigenmächtig|eigentümlich|eim|entgegenkommend|enttäuschend|erfreulich|erklärlich|erstaunlich|evident|fair|fälschlich|fäss|fatal|folgend|frech|freundlich|gebührend|gemein|gerecht|gewöhnlich|gleich|glied|glücklich|gnädig|günstig|heimlich|heimtückisch|herkömmlich|ideal|idiotisch|inkonsequent|inkorrekt|interessant|ironisch|irreführend|irrig|irritierend|irrtümlich|klar|klassisch|kleck|klug|komisch|konsequent|kontingent|korrekt|kurios|laienhaft|legitim|leichtsinnig|liebenswürdig|listig|lit|lobenswert|löblich|logisch|merkwürdig|missverständlich|möglich|naheliegend|naiv|natürlich|nett|normal|notwendig|originell|paradox|passend|pikant|plausibl|praktisch|realistisch|richtig|riskant|schlau|seltsam|sinnig|sinnvoll|solch|sonderbar|traditionell|tragisch|traurig|trickreich|trivial|typisch|unachtsam|unerklärlich|unerlaubt|unerwartet|ungeschickt|unglücklich|unnötig|unstrittig|unverdient|unvermeidlich|unverständlich|unvorsichtig|verdient|vernünftig|verständlich|widersinnig|wunderbar|wunderlich|zufällig|zulässig|zweckmäßig)er</token>
@@ -1145,18 +1125,6 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect"><marker>Des wegen</marker> fuhren sie nach Hause.</example>
       </rule>
     </rulegroup>
-    <rulegroup id="SO_WIE_SO" name="Zusammen-/Getrenntschreibung: 'so wie so (sowieso)'">
-      <rule>
-        <pattern>
-          <token>so</token>
-          <token>wie</token>
-          <token>so</token>
-        </pattern>
-        <message>Meinten Sie <suggestion>sowieso</suggestion>?</message>
-        <example type="correct">Das halte ich <marker>sowieso</marker> für schlecht.</example>
-        <example type="incorrect">Das halte ich <marker>so wie so</marker> für schlecht.</example>
-      </rule>
-    </rulegroup>
     <rulegroup id="CONTRA_PRODUKTIV" name="Zusammen-/Getrenntschreibung: 'contra produktiv (kontraproduktiv)'">
       <rule>
         <pattern>
@@ -1176,7 +1144,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     -->
       <rule>
         <pattern>
-          <token postag=".*PRP:.*" postag_regexp="yes"><exception scope="current">gegenüber</exception><exception scope="current">anstatt</exception><exception scope="current">ohne</exception><exception scope="current">entsprechend</exception><exception scope="current">um</exception><exception scope="current">als</exception><exception scope="current">an</exception><exception scope="current">auf</exception></token>
+          <token postag=".*PRP:.*" postag_regexp="yes"><exception scope="current">gegenüber</exception><exception scope="current">anstatt</exception><exception scope="current">ohne</exception><exception scope="current">entsprechend</exception><exception scope="current">um</exception><exception scope="current">als</exception><exception scope="current">an</exception><exception scope="current">auf</exception><exception scope="current">bis</exception></token>
           <token>zu</token>
           <token postag=".*VER:.*INF.*" postag_regexp="yes"><exception regexp="yes" scope="current">einigen|agieren|sieben|weiten|sein</exception></token>
         </pattern>
@@ -2139,6 +2107,52 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <message>Nach der Grußformel <suggestion>Mit freundlichen Grüßen</suggestion> steht laut Empfehlung des Duden kein Satzzeichen.</message>
       <example type="correct"><marker>Mit freundlichen Grüßen</marker></example>
       <example correction="Mit freundlichen Grüßen" type="incorrect"><marker>Mit freundlichen Grüßen,</marker></example>
+    </rule>
+    <rule id="ZWISCHEN_BIS" name="Zeichensetzung: 'zwischen' mit Bis-Strich">
+      <pattern mark_from="0">
+        <token regexp="yes">[Zz]wischen</token>
+        <token regexp="yes">([0-9]{1,5})(\-|–)([0-9]{1,5})</token>
+      </pattern>
+      <message>'Zwischen' steht mit 'und', nicht mit dem Bis-Strich: <suggestion><match no="1"/> <match no="2" regexp_match="([0-9]{1,5})(\-|–)([0-9]{1,5})" regexp_replace="$1 und $3" /></suggestion>.</message>
+      <example type="correct"><marker>Zwischen 9 und 10</marker> Uhr.</example>
+      <example type="incorrect"><marker>Zwischen 9–10</marker> Uhr.</example>
+    </rule>
+    <rulegroup id="VON_BIS" name="Zeichensetzung: 'von' mit Bis-Strich">
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes" negate="yes">innerhalb|Verzögerung(en)?|Gewicht(s)?|Dauer|Umfang(s)?|Größe(n)?|Länge(n)?|Durchmesser([ns])?|Radius|Masse</token>
+          <token regexp="yes">[vV]o[nm]</token>
+          <token regexp="yes">([0-9]{1,5})(\-|–)([0-9]{1,5})</token>
+        </pattern>
+        <message>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus: <suggestion><match no="2"/> <match no="3" regexp_match="([0-9]{1,5})(\-|–)([0-9]{1,5})" regexp_replace="$1 bis $3" /></suggestion>.</message>
+        <example type="correct"><marker>Von 9 bis 10</marker> Uhr.</example>
+        <example type="correct"><marker>9–10</marker> Stunden lang.</example>
+        <example type="incorrect"><marker>Von 9–10</marker> Uhr.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="0">
+          <token regexp="yes">[vV]o[nm]</token>
+          <token regexp="yes">([0-9]{1,5})</token>
+          <token regexp="yes">\.</token>
+          <token regexp="yes">(\-|–)</token>
+          <token regexp="yes">([0-9]{1,5})</token>
+          <token regexp="yes">\.</token>
+        </pattern>
+        <message>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus: <suggestion>\1 \2\3 bis \5\6</suggestion>.</message>
+        <example type="correct"><marker>Vom 9. bis 10.</marker> April.</example>
+        <example type="incorrect"><marker>Vom 9. – 10.</marker> April.</example>
+      </rule>
+    </rulegroup>
+    <rule id="BISSTRICH" name="Zeichensetzung: Bis-Strich">
+      <pattern case_sensitive="yes" mark_from="1">
+        <token regexp="yes">[^0-9\-]+
+          <exception regexp="yes">IS[BS]N|ISO|DIN|IEC</exception>
+        </token>
+        <token regexp="yes">([0-9]{1,5})(\-)([0-9]{1,5})</token>
+      </pattern>
+      <message>Meinten Sie <suggestion><match no="2" regexp_match="\-" regexp_replace="–" /></suggestion>? Als Bis-Strich wird i.a. der Gedankenstrich verwendet.</message>
+      <example type="correct">Der Täter ist etwa <marker>40–50</marker> Jahre alt.</example>
+      <example type="incorrect">Der Täter ist etwa <marker>40-50</marker> Jahre alt.</example>
     </rule>
   </category>
 
