@@ -58,7 +58,7 @@ public class EsperantoTagger implements Tagger {
   // Following preposition are never followed by accusative.
   private static final String prepositionsNoAccusative[] = {
     "al", "cis", "da", "de", "depost", "disde", "dum", "ekde",
-    "el", "far", "ĝis", "je", "kun", "laŭ", "malgraŭ", "na",
+    "el", "far", "ĝis", "graŭ", "je", "kun", "laŭ", "malgraŭ", "na",
     "per", "po", "post", "por", "pri", "pro", "sen"
   };
 
@@ -112,7 +112,7 @@ public class EsperantoTagger implements Tagger {
 
   // Verbs always end with this pattern.
   private static final Pattern patternVerb = Pattern.compile("(.*)(as|os|is|us|u|i)$");
-  private static final Pattern patternVerbIg = Pattern.compile("(ig|iĝ)i$");
+  private static final Pattern patternVerbIg = Pattern.compile("i(g|ĝ)i$");
   private static final Pattern patternPrefix = Pattern.compile("^(mal|mis|ek|re|fi|ne)(.*)");
   private static final Pattern patternSuffix = Pattern.compile("(.*)(ad|aĉ|eg|et)i$");
 
@@ -192,7 +192,7 @@ public class EsperantoTagger implements Tagger {
     final Matcher matcher = patternVerbIg.matcher(verb);
 
     if (matcher.find()) {
-      return matcher.group(1).equals("ig") ? "tr" : "nt";
+      return matcher.group(1).equals("g") ? "tr" : "nt";
     }
 
     // This loop executes only once for most verbs (or very few times).
