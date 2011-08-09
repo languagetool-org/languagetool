@@ -299,7 +299,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
         <token>jam</token>
         <token postag="V .. os" postag_regexp="yes"/>
       </pattern>
-      <message>«jam + futuro» estas iafoje uzata en aparta evitinda senco laŭ Revo. Ĝi povas signifi «fine, pli malpli, baldaŭ».</message>
+      <message>«jam + futuro» estas iafoje uzata en aparta evitinda senco laŭ Revo. Ĝi povas signifi «fine, pli-malpli, baldaŭ».</message>
       <example type="incorrect">Kun la tempo, ili <marker>jam solidiĝos</marker>.</example>
       <example type="correct">Kun la tempo, ili fine solidiĝos.</example>
     </rule>
@@ -1543,13 +1543,16 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
           <token postag="N">
             <exception regexp="yes">unu|nul</exception>
           </token>
-          <token postag="[OA] .* np" postag_regexp="yes"/>
+          <token postag="[OA] .* np" postag_regexp="yes">
+            <exception regexp="yes">(unu|(du|tri|kvar|kvin|ses|sep|ok|naŭ)(dek)?|dek)an?</exception>
+          </token>
         </pattern>
         <message>Nombro «\1» postulas pluralon. Ĉu vi intencis <suggestion>\1 <match no="2" regexp_match="(.*[^n])(n?)" regexp_replace="$1j$2"/></suggestion>?</message>
         <example type="incorrect">Mi aĉetis du <marker>panon</marker>.</example>
         <example type="correct">Mi aĉetis unu panon.</example>
         <example type="correct">Mi aĉetis du panojn.</example>
         <example type="correct">Nul celcia grado.</example>
+        <example type="correct">Mi naskiĝis la dudek sepan de Septembro.</example>
       </rule>
 
       <rule>
@@ -2189,7 +2192,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
           <token postag="SENT_START|K" postag_regexp="yes" skip="-1">
             <exception scope="next" postag="[ROAT] akz.*" postag_regexp="yes"></exception>
           </token>
-          <token regexp="yes" skip="-1">(mal|ne|re|mis|fi)?(balanc|ban|bukl|etend|fleks|klin|kolekt|interes|komunik|mov|naŭz|nask|paŝt|renkont|renvers|romp|rul|sku|streĉ|sufok|sving|ŝanĝ|ŝiri|ŝut|ted|tren|turn|vek|vend|venĝ|verŝ|vind|uz)(ad|aĉ|et|eg)?([ui]|[aiuo]s)<exception scope="next" regexp="yes">.*n|da</exception><exception scope="next" postag="V.* i" postag_regexp="yes"/>
+          <token regexp="yes" skip="-1">(mal|ne|re|mis|fi)?(balanc|ban|bukl|etend|fleks|klin|kolekt|interes|komunik|mov|naŭz|nask|paŝt|renkont|renvers|romp|rul|sku|streĉ|sufok|sving|ŝanĝ|ŝiri|ŝut|ted|tren|turn|vek|vend|venĝ|verŝ|vind|uz)(ad|aĉ|et|eg)?([ui]|[aiuo]s)<exception scope="next" regexp="yes">.*n|da|nek</exception><exception scope="next" postag="V.* i" postag_regexp="yes"/>
           </token>
           <token postag="SENT_END|K|T.* k .*" postag_regexp="yes"/>
         </pattern>
@@ -2199,6 +2202,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
         <example type="incorrect">Mi <marker>vekis</marker> kiam mi aŭdis tion.</example>
         <example type="correct">Mi <marker>vekiĝis</marker> kiam mi aŭdis tion.</example>
         <example type="correct">Ni <marker>kolektu</marker> pli da informo.</example>
+        <example type="correct">Ni <marker>renkontis</marker> nek lin, nek ŝin.</example>
       </rule>
 
       <rule>
@@ -2557,6 +2561,16 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
         <example type="correct">Ili foriris pro la sama kaŭzo, kial mi foriris.</example>
       </rule>
     </rulegroup>
+
+    <rule id="PLI_MALPLI" name="pli malpli (pli-malpli)">
+      <pattern>
+        <token>pli</token>
+        <token spacebefore="yes">malpli</token>
+      </pattern>
+      <message>Oni plej ofte skribas <suggestion>\1-\2</suggestion>.</message>
+      <example type="incorrect">Mi scipovas Esperanton ekde <marker>pli malpli</marker> du jaroj.</example>
+      <example type="correct">Mi scipovas Esperanton ekde pli-malpli du jaroj.</example>
+    </rule>
 
     <!--
     <rule id="SIA_SUBJ" name="sia subjekto">
