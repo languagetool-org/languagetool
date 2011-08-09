@@ -49,4 +49,20 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
     return "UK_SIMPLE_REPLACE";
   }
 
+ @Override
+  public String getDescription() {
+    return "Пошук помилкових слів";
+  }
+
+  @Override
+  public String getShort() {
+    return "Помилка?";
+  }
+
+  @Override
+  public String getSuggestion() {
+    return " - помилкове слово, виправлення: ";
+  }
+
+
 }
