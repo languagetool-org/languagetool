@@ -1197,7 +1197,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
 
     <rule id="KILO_DE" name="kilogramo de">
       <pattern mark_from="1">
-        <token regexp="yes">((kilo)?gramoj?n?)|((litr|tun)oj?n?)</token>
+        <token regexp="yes">((kilo)?gramoj?n?)|(litr|tun)oj?n?</token>
         <token>de</token>
       </pattern>
       <message>Ĉu vi intencis <suggestion>\1 da</suggestion> anstataŭ «\1 de»?</message>
@@ -1260,43 +1260,69 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
 
     <rulegroup id="PREP_AKU" name="prepozicio + akuzativo">
       <rule>
-        <pattern mark_to="-1" case_sensitive="yes">
+        <pattern mark_from="1" mark_to="-1" case_sensitive="yes">
           <token postag="P sak"/>
           <token postag=". akz.*" postag_regexp="yes">
             <exception regexp="yes">[A-ZĈĜĤĴŜ].*</exception>
           </token>
           <token><exception postag="V t[rn] i|E.*" postag_regexp="yes"/></token>
         </pattern>
-        <message>Prepozicio «\1» neniam povas esti sekvita de akuzativo.</message>
-        <example type="incorrect">Mi pensas <marker>pri vin</marker>.</example>
-        <example type="incorrect">Mi vojaĝas <marker>sen veturilon</marker>.</example>
-        <example type="correct">Mi pensas <marker>pri vi</marker>.</example>
-        <example type="correct"><marker>Por tion</marker> fari</example>
-        <example type="correct"><marker>Por ĉion</marker> lerte kolekti.</example>
+        <message>Prepozicio «\1» neniam povas esti sekvita de akuzativo. Uzu <suggestion><match no="2" regexp_match="n$" regexp_replace=""/></suggestion></message>
+        <example type="incorrect">Mi pensas pri <marker>vin</marker>.</example>
+        <example type="incorrect">Mi vojaĝas sen <marker>veturilon</marker>.</example>
+        <example type="correct">Mi pensas pri vi.</example>
+        <example type="correct">Por tion fari</example>
+        <example type="correct">Por ĉion lerte kolekti.</example>
         <example type="correct">La teksto de Piron.</example>
       </rule>
-
       <rule>
-        <pattern mark_to="-1">
+        <pattern mark_from="2" mark_to="-1">
           <token postag="P sak"/>
-          <token postag="D"/>
+          <token postag="[DN]|E nak" postag_regexp="yes"/>
           <token postag=". akz.*" postag_regexp="yes"/>
           <token><exception postag="V t[rn] i|E.*" postag_regexp="yes"/></token>
         </pattern>
-        <message>Prepozicio «\1» neniam povas esti sekvita de akuzativo.</message>
-        <example type="incorrect">Mi pensas <marker>pri la laboron</marker>.</example>
+        <message>Prepozicio «\1» neniam povas esti sekvita de akuzativo. Skribu <suggestion><match no="3" regexp_match="n$" regexp_replace=""/></suggestion>.</message>
+        <example type="incorrect">Mi pensas pri la <marker>laboron</marker>.</example>
         <example type="correct">Mi pensas pri la laboro.</example>
+        <example type="incorrect">Mi alvenis ekde kvar <marker>horojn</marker>.</example>
+        <example type="correct">Mi alvenis ekde kvar horoj.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="3" mark_to="-1">
+          <token postag="P sak"/>
+          <token postag="[DN]|E nak" postag_regexp="yes"/>
+          <token postag="N"/>
+          <token postag=". akz.*" postag_regexp="yes"/>
+          <token><exception postag="V t[rn] i|E.*" postag_regexp="yes"/></token>
+        </pattern>
+        <message>Prepozicio «\1» neniam povas esti sekvita de akuzativo. Skribu <suggestion><match no="4" regexp_match="n$" regexp_replace=""/></suggestion>.</message>
+        <example type="incorrect">Il loĝis tie ekde cent dek <marker>jarojn</marker>.</example>
+        <example type="correct">Il loĝis tie ekde cent dek jaroj.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="4" mark_to="-1">
+          <token postag="P sak"/>
+          <token postag="[DN]|E nak" postag_regexp="yes"/>
+          <token postag="N"/>
+          <token postag="N"/>
+          <token postag=". akz.*" postag_regexp="yes"/>
+          <token><exception postag="V t[rn] i|E.*" postag_regexp="yes"/></token>
+        </pattern>
+        <message>Prepozicio «\1» neniam povas esti sekvita de akuzativo. Skribu <suggestion><match no="5" regexp_match="n$" regexp_replace=""/></suggestion>.</message>
+        <example type="incorrect">Il loĝis tie ekde preskaŭ cent dek <marker>jarojn</marker>.</example>
+        <example type="correct">Il loĝis tie ekde preskaŭ cent dek jaroj.</example>
       </rule>
     </rulegroup>
 
     <rule id="VNETR_AKU" name="netransitiva verbo + akuzativo">
       <pattern mark_from="1" mark_to="-1">
         <token postag="V nt .*" postag_regexp="yes" skip="2">
-          <exception scope="next" postag="(V.*)|(C .* n .)|(P kak)|(T nak .*[io])|(T xxx pn k es)" postag_regexp="yes"/>
+          <exception scope="next" postag="V.*|C .* n .|P kak|T nak .*[io]|T xxx pn k es" postag_regexp="yes"/>
           <exception scope="next" regexp="yes">[!?-–,;:«»“&quot;()]</exception>
           <exception scope="previous" inflected="yes" regexp="yes">lasi|igi</exception>
         </token>
-        <token postag="([OA] akz.*)|(T akz .*[uoa])" postag_regexp="yes">
+        <token postag="[OA] akz.*|T akz .*[uoa]" postag_regexp="yes">
           <exception inflected="yes" regexp="yes">(duono?)?(jarcent|jardek|jar|somer|vintr|printemp|aŭtun|sezon|monat|semajn|tag|maten|vesper|(post?)tagmez|nokt|hor|minut|sekund|moment|.*metr|mejl|marmejl|fut|col|paŝ|lund|mard|merkred|ĵaŭd|vendred|sabat|dimanĉ|foj|temp|.*gram|funt)o?(fin)?(e[tg])?o</exception>
           <exception regexp="yes">([0-9]+-?an)|(\p{Lu}.*)</exception>
           <exception postag="T akz .. k .*" postag_regexp="yes"></exception>
@@ -1341,7 +1367,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
           <token postag="R nak.*" postag_regexp="yes">
             <exception scope="previous" postag="P .*" postag_regexp="yes"/>
           </token>
-          <token inflected="yes" regexp="yes">(ek)?(fulm|fros|hajl|neĝ|pluv|tondr|tem|tagiĝ|vent|ŝtorm)(et|eg)?i</token>
+          <token inflected="yes" regexp="yes">(ek)?(fulm|frost|hajl|neĝ|pluv|tondr|tem|tagiĝ|vent|ŝtorm)(et|eg)?i</token>
         </pattern>
         <message>La verbo «\2» estas sensubjekta verbo, do ne uzu «\1». Skribu <suggestion>\2</suggestion>.</message>
         <example type="incorrect"><marker>Ĝi pluvos</marker> morgaŭ.</example>
@@ -1371,7 +1397,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
           <exception scope="previous" postag="P .ak" postag_regexp="yes"/>
         </token>
         <token postag="V t[rn] .*" postag_regexp="yes" skip="2">
-          <exception scope="next" postag="([KP].*)|([RO] akz.*)|(T .* k .*)|(V nt .*)" postag_regexp="yes"/>
+          <exception scope="next" postag="[KP].*|[RO] akz.*|T .* k .*|V nt .*" postag_regexp="yes"/>
           <exception scope="next" regexp="yes">[!?-–,;:«»“&quot;()]|ĉu|des|se|ke|,</exception>
           <exception inflected="yes">nomi</exception>
         </token>
@@ -1410,11 +1436,11 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
     <rule id="NAK_NAK_VTR" name="mankanta akuzativo">
       <pattern mark_from="2" mark_to="-2">
         <token skip="2" postag="SENT_START">
-          <exception scope="next" negate_pos="yes" postag="([EK].*)|([RT] nak.*)" postag_regexp="yes"/>
+          <exception scope="next" negate_pos="yes" postag="[EK].*|[RT] nak.*" postag_regexp="yes"/>
         </token>
         <token postag="R nak.*" postag_regexp="yes"/>
         <token postag="[RO] nak.*" postag_regexp="yes" skip="-1">
-          <exception scope="next" negate="yes" regexp="yes">tro|pli|malpli|(.*e)|(.*aŭ)|jam|nur|(.*[ui])|(.*[aiuo]s)</exception>
+          <exception scope="next" negate="yes" regexp="yes">tro|pli|malpli|.*e|.*aŭ|jam|nur|.*[ui]|.*[aiuo]s</exception>
         </token>
         <token postag="V t[rn] .*" postag_regexp="yes"/>
         <token regexp="yes">[\.:;\?!]|(sed|ĉar|tamen|kaj|aŭ|nek)</token>
@@ -1458,11 +1484,11 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
           <token skip="3" postag="SENT_START|K" postag_regexp="yes">
             <exception scope="next" negate_pos="yes" postag="[DE].*|[ROA] nak pl.*|T nak pl . [ua]" postag_regexp="yes"/>
           </token>
-          <token postag="([RO] nak pl.*)|(T nak pl . [ua])" postag_regexp="yes"/>
+          <token postag="[RO] nak pl.*|T nak pl . [ua]" postag_regexp="yes"/>
           <token skip="1" postag="V nt .*" postag_regexp="yes">
-            <exception scope="next" negate_pos="yes" postag="(E.*)|([ROA] nak np.*)|(T nak pl . [ua])|SENT_END" postag_regexp="yes"/>
+            <exception scope="next" negate_pos="yes" postag="E.*|[ROA] nak np.*|T nak pl . [ua]|SENT_END" postag_regexp="yes"/>
           </token>
-          <token postag="([ROA] nak np.*)|(T nak np . [ua])" postag_regexp="yes">
+          <token postag="[ROA] nak np.*|T nak np . [ua]" postag_regexp="yes">
             <exception regexp="yes">parto|paro</exception>
           </token>
           <token><exception>kaj</exception></token>
@@ -1487,16 +1513,16 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <rule>
         <pattern mark_from="3">
           <token skip="3" postag="SENT_START|K" postag_regexp="yes">
-            <exception scope="next" negate_pos="yes" postag="([DE].*)|([ROA] nak np.*)|(T nak np . [ua])" postag_regexp="yes"/>
+            <exception scope="next" negate_pos="yes" postag="[DE].*|[ROA] nak np.*|T nak np . [ua]" postag_regexp="yes"/>
             <exception scope="current" regexp="yes">kaj|aŭ</exception>
           </token>
-          <token skip="1" postag="([RO] nak np.*)|(T nak np . [ua])" postag_regexp="yes">
-            <exception scope="next" negate_pos="yes" postag="(E.*)|(V nt .*)" postag_regexp="yes"/>
+          <token skip="1" postag="[RO] nak np.*|T nak np . [ua]" postag_regexp="yes">
+            <exception scope="next" negate_pos="yes" postag="E.*|V nt .*" postag_regexp="yes"/>
           </token>
           <token skip="1" postag="V nt .*" postag_regexp="yes">
-            <exception scope="next" negate_pos="yes" postag="(E.*)|([ROAT] nak pl.*)|SENT_END" postag_regexp="yes"/>
+            <exception scope="next" negate_pos="yes" postag="E.*|[ROAT] nak pl.*|SENT_END" postag_regexp="yes"/>
           </token>
-          <token postag="([ROA] nak pl.*)|(T nak pl . [ua])" postag_regexp="yes"/>
+          <token postag="[ROA] nak pl.*|T nak pl . [ua]" postag_regexp="yes"/>
         </pattern>
         <message>Ne kongrua pluralo inter «\2» kaj «\4».</message>
         <example type="incorrect">Mi estas <marker>lacaj</marker>.</example>
@@ -1933,8 +1959,8 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
     <rule id="JXUS" name="ĵus devas stari antaŭ pasinteco">
       <pattern mark_to="-2">
         <token>ĵus</token>
-        <token negate="yes" regexp="yes">(.*is)|(.*in?t[aoe]j?n?)</token>
-        <token negate="yes" regexp="yes">(.*is)|(.*in?t[aoe]j?n?)</token>
+        <token negate="yes" regexp="yes">.*is|.*in?t[aoe]j?n?</token>
+        <token negate="yes" regexp="yes">.*is|.*in?t[aoe]j?n?</token>
       </pattern>
       <message>La vorto «ĵus» devas aperi antaŭ verbo en la pasinteco.</message>
       <example type="incorrect">Li <marker>ĵus</marker> venas.</example>
@@ -2068,7 +2094,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
         <pattern mark_from="1">
           <token inflected="yes" regexp="yes" skip="2">meti|iri|ĵeti</token>
           <token regexp="yes">sub|sur</token>
-          <token postag="[DN]|(T.* u)" postag_regexp="yes"/>
+          <token postag="[DN]|T.* u" postag_regexp="yes"/>
           <token postag="[ROAT] nak .*" postag_regexp="yes"/>
         </pattern>
         <message>Laŭ la kunteksto, eble mankas akuzativo de direkto. Ĉu vi intencis <suggestion>\2 \3 \4n</suggestion>?</message>
@@ -2100,7 +2126,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
         <pattern mark_from="1">
           <token inflected="yes" regexp="yes" skip="2">iri|eniri|fali|enfali|traduki|rigardi<exception scope="previous" postag=". akz .*" postag_regexp="yes"/><exception scope="next" postag=". akz .*" postag_regexp="yes"/></token>
           <token>en</token>
-          <token postag="[DN]|(T.* u)" postag_regexp="yes"/>
+          <token postag="[DN]|T.* u" postag_regexp="yes"/>
           <token postag="[ROAT] nak .*" postag_regexp="yes">
             <exception>komenco</exception>
           </token>
@@ -2163,9 +2189,9 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
           <token postag="SENT_START|K" postag_regexp="yes" skip="-1">
             <exception scope="next" postag="[ROAT] akz.*" postag_regexp="yes"></exception>
           </token>
-          <token regexp="yes" skip="-1">(mal|ne|re|mis|fi)?(balanc|ban|bukl|etend|fleks|klin|kolekt|interes|komunik|mov|naŭz|nask|paŝt|renkont|renvers|romp|rul|sku|streĉ|sufok|sving|ŝanĝ|ŝiri|ŝut|ted|tren|turn|vek|vend|venĝ|verŝ|vind|uz)(ad|aĉ|et|eg)?([ui]|([aiuo]s))<exception scope="next" regexp="yes">.*n|da</exception><exception scope="next" postag="V.* i" postag_regexp="yes"/>
+          <token regexp="yes" skip="-1">(mal|ne|re|mis|fi)?(balanc|ban|bukl|etend|fleks|klin|kolekt|interes|komunik|mov|naŭz|nask|paŝt|renkont|renvers|romp|rul|sku|streĉ|sufok|sving|ŝanĝ|ŝiri|ŝut|ted|tren|turn|vek|vend|venĝ|verŝ|vind|uz)(ad|aĉ|et|eg)?([ui]|[aiuo]s)<exception scope="next" regexp="yes">.*n|da</exception><exception scope="next" postag="V.* i" postag_regexp="yes"/>
           </token>
-          <token postag="SENT_END|K|(T.* k .*)" postag_regexp="yes"/>
+          <token postag="SENT_END|K|T.* k .*" postag_regexp="yes"/>
         </pattern>
         <message>Oni preskaŭ ĉiam uzas la verbon «\2» kun akuzativo. Ĉu vi intencis <suggestion><match no="2" regexp_match="(.*)(([aiou]s)|[iu])" regexp_replace="$1iĝ$2"/></suggestion>?</message>
         <example type="incorrect">Mi <marker>interesegas</marker> pri tio.</example>
@@ -2182,7 +2208,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
           </token>
           <token regexp="yes" skip="-1">(ne|re)?(fin|komenc)[aiou]s<exception scope="previous" regexp="yes">[mcvlŝn]i|ili|oni</exception><exception scope="next" regexp="yes">.*n</exception><exception scope="next" postag="V.* i" postag_regexp="yes"/>
           </token>
-          <token postag="SENT_END|K|(T.* k .*)" postag_regexp="yes"/>
+          <token postag="SENT_END|K|T.* k .*" postag_regexp="yes"/>
         </pattern>
         <message>Oni preskaŭ ĉiam uzas la verbon «\2» kun akuzativo. Ĉu vi intencis <suggestion><match no="2" regexp_match="(.*)(([aiou]s)|[iu])" regexp_replace="$1iĝ$2"/></suggestion>?</message>
         <example type="incorrect">La filmo <marker>komencos</marker> baldaŭ.</example>
@@ -2200,7 +2226,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <pattern mark_from="2" mark_to="-1">
         <token postag="SENT_START"/>
         <token postag="V.*[^i]" postag_regexp="yes" skip="-1">
-          <exception scope="next" negate="yes" regexp="yes">(.*e)|(.*aŭ)|tro|pli|malpli|jam|nur|(.*aj?n?)</exception>
+          <exception scope="next" negate="yes" regexp="yes">.*e|.*aŭ|tro|pli|malpli|jam|nur|.*aj?n?</exception>
         </token>
         <token postag="A.*" postag_regexp="yes"/>
         <token postag="SENT_END|K" postag_regexp="yes"><exception regexp="yes">kaj|aŭ</exception></token>
@@ -2288,7 +2314,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <pattern mark_from="1" mark_to="-1">
         <token postag="SENT_START|K" postag_regexp="yes"/>
         <token postag="R nak .*" postag_regexp="yes" skip="3">
-          <exception scope="next" negate="yes" regexp="yes">tiom|tro|pli|malpli|(.*e)|(.*aŭ)|jam|nur|(.*[ui])|(.*[aiuo]s)</exception>
+          <exception scope="next" negate="yes" regexp="yes">tiom|tro|pli|malpli|.*e|.*aŭ|jam|nur|.*[ui]|.*[aiuo]s</exception>
         </token>
         <token inflected="yes">plaĉi</token>
         <token negate="yes">al</token>
@@ -2306,7 +2332,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <pattern mark_from="1">
         <token postag="SENT_START|K" postag_regexp="yes"/>
         <token postag="R nak .*" postag_regexp="yes" skip="3">
-          <exception scope="next" negate="yes" regexp="yes">tiom|tro|pli|malpli|(.*e)|(.*aŭ)|jam|nur|(.*[ui])|(.*[aiuo]s)</exception>
+          <exception scope="next" negate="yes" regexp="yes">tiom|tro|pli|malpli|.*e|.*aŭ|jam|nur|.*[ui]|.*[aiuo]s</exception>
           <exception scope="next">ke</exception>
         </token>
         <token inflected="yes">ebli</token>
@@ -2370,7 +2396,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
           <token postag="SENT_START"/>
           <token regexp="yes">ĉu|ki[eo]n?|ki[au]j?n?|ki(el|[ao]m)</token>
           <token postag="V .*u" postag_regexp="yes" skip="-1">
-            <exception scope="next" negate_pos="yes" postag="(E.*)|SENT_END" postag_regexp="yes"/>
+            <exception scope="next" negate_pos="yes" postag="E.*|SENT_END" postag_regexp="yes"/>
           </token>
           <token postag="SENT_END"/>
         </pattern>
@@ -2384,7 +2410,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
           <token regexp="yes">ĉu|ki[eo]|ki[au]j?|ki(el|[ao]m)</token>
           <token postag="V tr u" skip="-1"/>
           <token postag="[ROAT] akz.*" postag_regexp="yes" skip="-1">
-            <exception scope="next" negate_pos="yes" postag="(E.*)|SENT_END" postag_regexp="yes"/>
+            <exception scope="next" negate_pos="yes" postag="E.*|SENT_END" postag_regexp="yes"/>
           </token>
           <token postag="SENT_END"/>
         </pattern>
