@@ -965,7 +965,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     </rule>
     <rule id="HOHES_NIVEA" name="Möglicher Tippfehler: 'Nivea (Niveau)'">
       <pattern mark_from="1" mark_to="0">
-        <token regexp="yes">hohes|hohem|hohen</token>
+        <token regexp="yes">hohe(n|m|s)?</token>
         <token>Nivea</token>
       </pattern>
       <message>Meinten Sie <suggestion>Niveau</suggestion> (Ebene, Stufe) statt Nivea (Kosmetikhersteller)?</message>
@@ -1036,6 +1036,16 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <message>Meinten Sie <suggestion>alledem</suggestion>?</message>
       <example type="correct">Hinter <marker>alledem</marker> steht die Universität.</example>
       <example type="incorrect">Hinter <marker>alle dem</marker> steht die Universität.</example>
+    </rule>
+    <rule id="ZU_ERST" name="Zusammen-/Getrenntschreibung: 'zu erst (zuerst)'">
+      <pattern mark_to="-1">
+        <token>zu</token>
+        <token>erst</token>
+        <token regexp="yes" negate="yes">gestern|heute|kürzlich|gerade</token>
+      </pattern>
+      <message><suggestion>zuerst</suggestion> (Synonym: <suggestion>anfangs</suggestion>) schreibt man zusammen.</message>
+      <example type="correct"><marker>Zuerst</marker> wussten wir nicht so recht, was wir tun sollten.</example>
+      <example type="incorrect"><marker>Zu erst</marker> wussten wir nicht, was wir überhaupt tun sollten.</example>
     </rule>
     <rule id="BIS_HER" name="Zusammen-/Getrenntschreibung: 'bis her (bisher)'">
       <pattern>
@@ -1371,13 +1381,13 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect" correction="meistens|immer">Ich gehe <marker>immer meistens</marker> am Samstag einkaufen.</example>
       </rule>
     </rulegroup>
-    <rulegroup id="INMITTEN_IN_DER" name="Grammatik: 'inmitten in der (inmitten der)' ">
+    <rulegroup id="INMITTEN_IN_DER" name="Verdoppelung: 'inmitten in der (inmitten der)' ">
       <rule>
         <pattern>
           <token>inmitten</token>
           <token>in</token>
         </pattern>
-        <message>'inmitten in' ist eine Doppelung - meinten Sie <suggestion>inmitten</suggestion>?</message>
+        <message>'inmitten in' ist eine Doppelung – meinten Sie <suggestion>inmitten</suggestion>?</message>
         <example type="incorrect"><marker>Inmitten in</marker> der Stadt.</example>
         <example type="incorrect"><marker>Inmitten in</marker> einer intakten Landschaft.</example>
         <example type="correct"><marker>Inmitten</marker> der Stadt.</example>
@@ -1394,8 +1404,28 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct"><marker>Nichtsdestoweniger</marker> wird einfach weiter geplant.</example>
       <example type="incorrect"><marker>Nichtsdestotrotz</marker> wird einfach weiter geplant.</example>
     </rule>
+    <rule id="NICHT_ADAEQUAT_GENUG" name="Stil: 'nicht adäquat' ist eine elegantere Formulierung.">
+      <pattern>
+        <token>nicht</token>
+        <token>adäquat</token>
+        <token>genug</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>nicht adäquat</suggestion>, <suggestion>inadäquat</suggestion> oder <suggestion>unpassend</suggestion>?</message>
+      <example type="correct">Das schien mir <marker>nicht adäquat</marker> (unpassend).</example>
+      <example type="incorrect">Das schien mir <marker>nicht adäquat genug</marker>.</example>
+    </rule>
+    <rule id="MEISTE_ALLER" name="Stil: Unelegante Formulierung.">
+      <pattern>
+        <token regexp="yes">den|die</token>
+        <token>meisten</token>        
+        <token>aller</token>
+      </pattern>
+      <message>Was halten Sie von der Formulierung: <suggestion>\1 \2 der</suggestion>?</message>
+      <example type="incorrect"><marker>Die meisten aller</marker> Hollywoodfilme ...</example>
+      <example type="correct"><marker>Die meisten der</marker> damaligen Hollywoodfilme ...</example>
+    </rule>
     <rule id="MAENNER_VS_LEUTE" name="Stil: 'Kaufleute' usw.">
-      <pattern case_sensitive="no" mark_from="0">
+      <pattern case_sensitive="no">
         <token regexp="yes">(Kauf|See|Feuerwehr)männer(n)?</token>
       </pattern>
       <message>Meinten Sie <suggestion><match no="1" regexp_match="(Kauf|See|Feuerwehr)männer(n)?" regexp_replace="$1leute$2" /></suggestion>?</message>
@@ -1468,6 +1498,91 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect">Sie <marker>Treffen</marker> sich später.</example>
     </rule>
   -->
+    <rulegroup id="MARINE_SUBST" name="Groß-/Kleinschreibung: 'marine (Marine)'">
+      <rule>
+        <pattern mark_from="2" mark_to="-1" case_sensitive="yes">
+          <token regexp="yes">[Ii]n</token>
+          <token>der</token>
+          <token>marine</token>
+          <!-- <token postag="SUB:.*" postag_regexp="yes" negate="yes"/> -->
+          <token regexp="yes" negate="yes">[A-ZÄÖÜ].*</token>
+        </pattern>
+        <message>Bitte prüfen Sie, ob '<suggestion>Marine</suggestion>' hier als Substantiv gebraucht wird.</message>
+        <example type="correct">Eine Umgebung, in der <marker>marine</marker> Lebensformen ...</example>
+        <example type="correct">Er diente in der <marker>Marine</marker>.</example>
+        <example type="incorrect">Er diente in der <marker>marine</marker> als Bootsmann.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="ANTIKE_SUBST" name="Groß-/Kleinschreibung: 'antike (Antike)'">
+      <rule>
+        <pattern mark_from="2" mark_to="-1" case_sensitive="yes">
+          <token regexp="yes">[Ii]n</token>
+          <token>der</token>
+          <token>antike</token>
+          <token regexp="yes" negate="yes">[A-ZÄÖÜ].*</token>
+        </pattern>
+        <message>Bitte prüfen Sie, ob '<suggestion>Antike</suggestion>' hier als Substantiv gebraucht wird.</message>
+        <example type="incorrect">In der <marker>antike</marker> war das Leben der Sklaven hart.</example>
+        <example type="correct">Die Renaissance, in der <marker>antike</marker> Vorbilder ...</example>
+        <example type="correct">In der <marker>Antike</marker> war das Leben der Sklaven hart.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2" mark_to="-1" case_sensitive="yes">
+          <token regexp="yes">[Ii]n</token>
+          <token>der</token>
+          <token>spätantike</token>
+          <token regexp="yes" negate="yes">[A-ZÄÖÜ].*</token>
+        </pattern>
+        <message>Bitte prüfen Sie, ob '<suggestion>Spätantike</suggestion>' hier als Substantiv gebraucht wird.</message>
+        <example type="incorrect">In der <marker>spätantike</marker> war das Leben der Sklaven hart.</example>
+        <example type="correct">Die Renaissance, in der <marker>spätantike</marker> Vorbilder ...</example>
+        <example type="correct">In der <marker>Spätantike</marker> war das Leben der Sklaven hart.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="RAEUMEN_SUBST" name="Groß-/Kleinschreibung: 'räumen (Räumen)'">
+      <rule>
+        <pattern mark_from="2" case_sensitive="yes">
+          <token regexp="yes">[Ii]n</token>
+          <token>den</token>
+          <token>räumen</token>
+        </pattern>
+        <message>Bitte prüfen Sie, ob '<suggestion>Räumen</suggestion>' hier als Substantiv gebraucht wird.</message>
+        <example type="correct">In den <marker>Räumen</marker> wurde es dunkel.</example>
+        <example type="incorrect">In den <marker>räumen</marker> wurde es dunkel.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="3" case_sensitive="yes">
+          <token regexp="yes">[Ii]n</token>
+          <token>den</token>
+          <token postag="ADJ:.*" postag_regexp="yes"/>
+          <token>räumen</token>
+        </pattern>
+        <message>Bitte prüfen Sie, ob '<suggestion>Räumen</suggestion>' hier als Substantiv gebraucht wird.</message>
+        <example type="correct">In den <marker>Räumen</marker> wurde es dunkel.</example>
+        <example type="incorrect">In den fensterlosen <marker>räumen</marker> wurde es schneller dunkel.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="ROLLE_SUBST" name="Groß-/Kleinschreibung: 'rolle (Rolle)'">
+      <rule>
+        <pattern mark_from="2" case_sensitive="yes">
+          <token regexp="yes">(k)?eine</token>
+          <token postag="ADJ:.*" postag_regexp="yes"/>
+          <token regexp="yes">rolle(n)?</token>
+        </pattern>
+        <message>Bitte prüfen Sie, ob <suggestion>Rolle</suggestion> hier als Substantiv gebraucht wird.</message>
+        <example type="correct">Das spielt doch keine <marker>Rolle</marker>!</example>
+        <example type="incorrect">Das spielt doch eine große <marker>rolle</marker>!</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" case_sensitive="yes">
+          <token regexp="yes">(k)?eine</token>
+          <token regexp="yes">rolle(n)?</token>
+        </pattern>
+        <message>Bitte prüfen Sie, ob <suggestion>Rolle</suggestion> hier als Substantiv gebraucht wird.</message>
+        <example type="correct">Das spielt doch hier doch überhaupt keine <marker>Rolle</marker>!</example>
+        <example type="incorrect">Das spielt in diesem Zusammenhang doch gar keine <marker>rolle</marker>!</example>
+      </rule>
+    </rulegroup>
     <rule id="IM_FOLGENDEN" name="Groß-/Kleinschreibung: 'im folgenden (Folgenden)'">
       <pattern mark_from="1" mark_to="-1" case_sensitive="yes">
         <token regexp="yes">[Ii]m</token>
