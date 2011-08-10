@@ -10,7 +10,7 @@ import de.danielnaber.languagetool.JLanguageTool;
 
 public class LanguageIdentifierTools {
 
-  public static final String[] ADDITIONAL_LANGUAGES = {"be", "ca", "eo", "gl", "ro", "sk", "sl", "uk"};
+  public static final String[] ADDITIONAL_LANGUAGES = {"be", "ca", "eo", "gl", "ro", "sk", "sl", "uk", "ast", "tl"};
 
   public static void addLtProfiles() throws Exception {
     for (String language : ADDITIONAL_LANGUAGES) {
