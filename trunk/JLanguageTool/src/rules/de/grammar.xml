@@ -958,7 +958,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token regexp="yes">der|den</token>
         <token>Genus</token>
       </pattern>
-      <message>Meinten Sie '<suggestion>der Genuss</suggestion>' oder '<suggestion>das Genus</suggestion>' (gramm. Geschlecht)?</message>
+      <message>Meinten Sie <suggestion>der Genuss</suggestion> oder <suggestion>das Genus</suggestion> (gramm. Geschlecht)?</message>
       <example type="correct"><marker>Das Genus</marker> bezeichnet das grammatische Geschlecht.</example>
       <example type="correct"><marker>Der Genuss</marker> von Schokolade.</example>
       <example type="incorrect"><marker>Der Genus</marker> von Schokolade.</example>
@@ -1045,6 +1045,16 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <message>Meinten Sie <suggestion>woanders</suggestion>?</message>
       <example type="correct">Ihr müsst <marker>woanders</marker> danach suchen.</example>
       <example type="incorrect">Ihr müsst <marker>wo anders</marker> danach suchen.</example>
+    </rule>
+    <rule id="REIHEN_FOLGE" name="'Zusammen-/Getrenntschreibung: 'reihen folge (Reihenfolge)'">
+      <pattern mark_from="1">
+        <token regexp="yes">dieser|richtige(n)?|falsche(n)?</token>
+        <token>reihen</token>
+        <token>folge</token>
+      </pattern>
+      <message>Bitte prüfen Sie die Getrenntschreibung: Müsste es <suggestion>Reihenfolge</suggestion> heißen?</message>
+      <example type="correct">Ihr müsst die richtige <marker>Reihenfolge</marker> beachten.</example>
+      <example type="incorrect">Ihr müsst die richtige <marker>Reihen folge</marker> beachten.</example>
     </rule>
     <rule id="ZU_ERST" name="Zusammen-/Getrenntschreibung: 'zu erst (zuerst)'">
       <pattern mark_to="-1">
@@ -1478,7 +1488,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token>und</token>
         <token>quer</token>
       </pattern>
-      <message>Die Wendung '<suggestion><match case_conversion="alllower" no="1"/><match case_conversion="alllower" no="2"/><match case_conversion="alllower" no="3"/></suggestion> wird normalerweise kleingeschrieben.</message>
+      <message>Die Wendung <suggestion><match case_conversion="alllower" no="1"/><match case_conversion="alllower" no="2"/><match case_conversion="alllower" no="3"/></suggestion> wird normalerweise kleingeschrieben.</message>
       <example type="correct">Alle liefen <marker>kreuz und quer</marker> durcheinander.</example>
       <example type="incorrect">Alle liefen <marker>Kreuz und quer</marker> durcheinander.</example>
     </rule>
@@ -1516,7 +1526,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <!-- <token postag="SUB:.*" postag_regexp="yes" negate="yes"/> -->
           <token regexp="yes" negate="yes">[A-ZÄÖÜ].*</token>
         </pattern>
-        <message>Bitte prüfen Sie, ob '<suggestion>Marine</suggestion>' hier als Substantiv gebraucht wird.</message>
+        <message>Bitte prüfen Sie, ob <suggestion>Marine</suggestion> hier als Substantiv gebraucht wird.</message>
         <example type="correct">Eine Umgebung, in der <marker>marine</marker> Lebensformen ...</example>
         <example type="correct">Er diente in der <marker>Marine</marker>.</example>
         <example type="incorrect">Er diente in der <marker>marine</marker> als Bootsmann.</example>
@@ -1528,9 +1538,9 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">[Ii]n</token>
           <token>der</token>
           <token>antike</token>
-          <token regexp="yes" negate="yes">[A-ZÄÖÜ].*</token>
+          <token regexp="yes" negate="yes">[A-ZÄÖÜ].+</token>
         </pattern>
-        <message>Bitte prüfen Sie, ob '<suggestion>Antike</suggestion>' hier als Substantiv gebraucht wird.</message>
+        <message>Bitte prüfen Sie, ob <suggestion>Antike</suggestion> hier als Substantiv gebraucht wird.</message>
         <example type="incorrect">In der <marker>antike</marker> war das Leben der Sklaven hart.</example>
         <example type="correct">Die Renaissance, in der <marker>antike</marker> Vorbilder ...</example>
         <example type="correct">In der <marker>Antike</marker> war das Leben der Sklaven hart.</example>
@@ -1540,12 +1550,198 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">[Ii]n</token>
           <token>der</token>
           <token>spätantike</token>
-          <token regexp="yes" negate="yes">[A-ZÄÖÜ].*</token>
+          <token regexp="yes" negate="yes">[A-ZÄÖÜ].+</token>
         </pattern>
-        <message>Bitte prüfen Sie, ob '<suggestion>Spätantike</suggestion>' hier als Substantiv gebraucht wird.</message>
+        <message>Bitte prüfen Sie, ob <suggestion>Spätantike</suggestion> hier als Substantiv gebraucht wird.</message>
         <example type="incorrect">In der <marker>spätantike</marker> war das Leben der Sklaven hart.</example>
         <example type="correct">Die Renaissance, in der <marker>spätantike</marker> Vorbilder ...</example>
         <example type="correct">In der <marker>Spätantike</marker> war das Leben der Sklaven hart.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="DAS_NASS" name="Groß-/Kleinschreibung: 'nass (Nass)'">
+      <rule>
+        <pattern mark_from="2" case_sensitive="yes">
+          <token regexp="yes">ins|das</token>
+          <token>kühle</token>
+          <token>nass</token>
+        </pattern>
+        <message>Bitte prüfen Sie, ob <suggestion>Nass</suggestion> hier als Substantiv gebraucht wird.</message>
+        <example type="correct">Du hast mich ganz <marker>nass</marker> gemacht!</example>
+        <example type="correct">Hinein ins kühle <marker>Nass</marker>!</example>
+        <example type="incorrect">Hinein ins kühle <marker>nass</marker>!</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="NOTFALLS_SUBST" name="Groß-/Kleinschreibung: 'notfalls (Notfalls)'">
+      <rule>
+        <pattern mark_from="2" case_sensitive="yes">
+          <token regexp="yes">[Ww]egen|aufgrund</token>
+          <token regexp="yes">dieses|des|eines</token>
+          <token>notfalls</token>
+        </pattern>
+        <message>Bitte prüfen Sie, ob <suggestion>Notfalls</suggestion> hier als Substantiv gebraucht wird.</message>
+        <example type="correct">Wir können <marker>notfalls</marker> dort übernachten.</example>
+        <example type="correct">Wegen eines <marker>Notfalls</marker> musste ich meinen Urlaub abbrechen.</example>
+        <example type="incorrect">Wegen eines <marker>notfalls</marker> musste ich meinen Urlaub abbrechen.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="LOECHERN_SUBST" name="Groß-/Kleinschreibung: 'löchern (Löchern)'">
+      <rule>
+        <pattern mark_from="2" case_sensitive="yes">
+          <token regexp="yes">in|aus</token>
+          <token regexp="yes">allen|den|ihren</token>
+          <token>löchern</token>
+        </pattern>
+        <message>Bitte prüfen Sie, ob <suggestion>Löchern</suggestion> hier als Substantiv gebraucht wird.</message>
+        <example type="correct">Du sollst mich nicht immer <marker>löchern</marker>!</example>
+        <example type="correct">Die Ratten kamen aus ihren <marker>Löchern</marker>.</example>
+        <example type="incorrect">Die Ratten kamen aus ihren <marker>löchern</marker>.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="BRUESTE_SUBST" name="Groß-/Kleinschreibung: 'brüste (Brüste)'">
+      <rule>
+        <pattern mark_from="2" case_sensitive="yes">
+          <token regexp="yes">zwischen|auf|an|unter</token>
+          <token regexp="yes">ihren|den</token>
+          <token>brüsten</token>
+        </pattern>
+        <message>Bitte prüfen Sie, ob <suggestion>Brüsten</suggestion> hier als Substantiv gebraucht wird.</message>
+        <example type="correct">Als Busen bezeichnet man den Spalt zwischen den <marker>Brüsten</marker>.</example>
+        <example type="correct">Mit so etwas solltest du dich nicht noch <marker>brüsten</marker>!</example>
+        <example type="incorrect">Als Busen bezeichnet man den Spalt zwischen den <marker>brüsten</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2" case_sensitive="yes">
+          <token regexp="yes">zwischen|auf|an|unter</token>
+          <token regexp="yes">ihre|die</token>
+          <token>brüste</token>
+        </pattern>
+        <message>Bitte prüfen Sie, ob <suggestion>Brüste</suggestion> hier als Substantiv gebraucht wird.</message>
+        <example type="correct">Jetzt <marker>brüste</marker> dich nicht auch noch mit deinem Fehlverhalten!</example>
+        <example type="correct">Sie steckte es zwischen ihre <marker>Brüste</marker>.</example>
+        <example type="incorrect">Sie steckte es zwischen die <marker>brüste</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2" case_sensitive="yes">
+          <token>unterhalb</token>
+          <token regexp="yes">ihrer|der</token>
+          <token>brüste</token>
+        </pattern>
+        <message>Bitte prüfen Sie, ob <suggestion>Brüste</suggestion> hier als Substantiv gebraucht wird.</message>
+        <example type="correct">Jetzt <marker>brüste</marker> dich nicht auch noch mit deinem Fehlverhalten!</example>
+        <example type="correct">Der Unterbrustumfang ist der Körperumfang direkt unterhalb der <marker>Brüste</marker>.</example>
+        <example type="incorrect">Der Unterbrustumfang ist der Körperumfang direkt unterhalb der <marker>brüste</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" case_sensitive="yes">
+          <token regexp="yes">(ihr|weich|klein|groß|winzig|riesig|entblößt|nackt|schlaff|herunterhängend|herabhängend)e(n)?</token>
+          <token regexp="yes">brüste(n)?</token>
+        </pattern>
+        <message>Bitte prüfen Sie, ob <suggestion><match case_conversion="startupper" no="2"/></suggestion> hier als Substantiv gebraucht wird.</message>
+        <example type="correct">Jetzt <marker>brüste</marker> dich nicht auch noch mit deinem Fehlverhalten!</example>
+        <example type="incorrect">Im Fernsehen sorgen entblößte <marker>brüste</marker> immer wieder für Aufregung.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="AUFSTAND_SUBST" name="Groß-/Kleinschreibung: 'aufstand (Aufstand)'">
+      <rule>
+        <pattern mark_from="1" case_sensitive="yes">
+          <token regexp="yes">den|(k)?einen</token>
+          <token>aufstand</token>
+        </pattern>
+        <message>Bitte prüfen Sie, ob <suggestion>Aufstand</suggestion> hier als Substantiv gebraucht wird.</message>
+        <example type="correct">Als ich <marker>aufstand</marker>, war es bereits zehn Uhr.</example>
+        <example type="correct">Kellerkinder probten den <marker>Aufstand</marker>.</example>
+        <example type="incorrect">Kellerkinder probten den <marker>aufstand</marker>.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="DURCHEINANDER_SUBST" name="Groß-/Kleinschreibung: 'durcheinander (Durcheinander)'">
+      <rule>
+        <pattern mark_from="1" case_sensitive="yes">
+          <token regexp="yes">(bunt|chaotisch|fröhlich|furchtbar|gewaltig|heillos|hektisch|hoffnungslos|schlimm|schrecklich|toll|total|unbeschreiblich|unentwirrbar|unglaublich|verwirrend|völlig|wild|wirr|wüst|ziemlich|üblich)e(n|s)?</token>
+          <token>durcheinander</token>
+        </pattern>
+        <message>Bitte prüfen Sie, ob <suggestion>Durcheinander</suggestion> hier als Substantiv gebraucht wird.</message>
+        <example type="correct">Sie brachte alles <marker>durcheinander</marker>.</example>
+        <example type="correct">Es herrschte ein heilloses <marker>Durcheinander</marker>.</example>
+        <example type="incorrect">Es herrschte ein heilloses <marker>durcheinander</marker>.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="LÜGE_SUBST" name="Groß-/Kleinschreibung: 'lüge (Lüge)'">
+      <rule>
+        <pattern mark_from="1" case_sensitive="yes">
+          <token regexp="yes">(freche|faustdicke|dreiste|dreckige|niederträchtige|infame|glatte|verdammte|unverschämte|rotzfreche)(n)?</token>
+          <token regexp="yes">lüge(n)?</token>
+        </pattern>
+        <message>Bitte prüfen Sie, ob <suggestion><match case_conversion="startupper" no="2"/></suggestion> hier als Substantiv gebraucht wird.</message>
+        <example type="correct">Ich <marker>lüge</marker> nur äußerst ungern.</example>
+        <example type="correct">Das ist eine ganz dreiste <marker>Lüge</marker>!</example>
+        <example type="incorrect">Das ist eine ganz dreiste <marker>lüge</marker>!</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1" case_sensitive="yes">
+          <token>lügen</token>
+          <token regexp="yes">gestraft|strafte(n)?</token>
+        </pattern>
+        <message>Bitte prüfen Sie, ob <suggestion>Lügen</suggestion> hier als Substantiv gebraucht wird.</message>
+        <example type="correct">Seine Prognose wurde durch die Realität <marker>Lügen</marker> gestraft.</example>
+        <example type="incorrect">Seine Prognose wurde durch die Realität <marker>lügen</marker> gestraft.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="KLAUEN_SUBST" name="Groß-/Kleinschreibung: 'klauen (Klauen)'">
+      <rule>
+        <pattern mark_from="2" case_sensitive="yes">
+          <token regexp="yes">[Ii]n</token>
+          <token regexp="yes">den|seinen|ihren</token>
+          <token>klauen</token>
+        </pattern>
+        <message>Bitte prüfen Sie, ob <suggestion>Klauen</suggestion> hier als Substantiv gebraucht wird.</message>
+        <example type="correct">In den <marker>Klauen</marker> der Angst.</example>
+        <example type="incorrect">In den <marker>klauen</marker> der Angst.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="SCHAECHTE_SUBST" name="Groß-/Kleinschreibung: 'schächte (Schächte)'">
+      <rule>
+        <pattern mark_from="2" case_sensitive="yes">
+          <token regexp="yes">[Ii]n</token>
+          <token>den</token>
+          <token>schächten</token>
+        </pattern>
+        <message>Bitte prüfen Sie, ob <suggestion>Schächten</suggestion> hier als Substantiv gebraucht wird.</message>
+        <example type="correct">In den <marker>Schächten</marker> gab es wenig Luft.</example>
+        <example type="incorrect">In den <marker>schächten</marker> gab es wenig Luft.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" case_sensitive="yes">
+          <token regexp="yes">[Dd]ie</token>
+          <token>schächte</token>
+        </pattern>
+        <message>Bitte prüfen Sie, ob <suggestion>Schächte</suggestion> hier als Substantiv gebraucht wird.</message>
+        <example type="correct">Die <marker>Schächte</marker> liefen voll Wasser.</example>
+        <example type="incorrect">Die <marker>schächte</marker> liefen voll Wasser.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="STIMME_SUBST" name="Groß-/Kleinschreibung: 'stimme (Stimme)'">
+      <rule>
+        <pattern mark_from="1" case_sensitive="yes">
+          <token regexp="yes">seine(r)?|ihre(r)?|laute(r)?|feste(r)?|schwache(r)?|schrille(r)?|keifige(r)?|hohe(r)?|tiefe(r)?|brüchige(r)?|erstickte(r)?</token>
+          <token>stimme</token>
+        </pattern>
+        <message>Bitte prüfen Sie, ob <suggestion>Stimme</suggestion> hier als Substantiv gebraucht wird.</message>
+        <example type="correct">Ich <marker>stimme</marker> dir voll und ganz zu.</example>
+        <example type="correct">Mit brüchiger <marker>Stimme</marker> nahm er Abschied.</example>
+        <example type="incorrect">Mit brüchiger <marker>stimme</marker> nahm er Abschied.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="WUESTE_SUBST" name="Groß-/Kleinschreibung: 'wüste (Wüste)'">
+      <rule>
+        <pattern mark_from="2" case_sensitive="yes">
+          <token regexp="yes">[Ii]n</token>
+          <token regexp="yes">der|die</token>
+          <token>wüste</token>
+        </pattern>
+        <message>Bitte prüfen Sie, ob <suggestion>Wüste</suggestion> hier als Substantiv gebraucht wird.</message>
+        <example type="correct">Am Hafen verwickelten mich die Schurken in eine <marker>wüste</marker> Schlägerei.</example>
+        <example type="correct">Er wurde in die <marker>Wüste</marker> geschickt.</example>
+        <example type="incorrect">Er wurde in die <marker>wüste</marker> geschickt.</example>
       </rule>
     </rulegroup>
     <rulegroup id="RAEUMEN_SUBST" name="Groß-/Kleinschreibung: 'räumen (Räumen)'">
@@ -1555,7 +1751,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>den</token>
           <token>räumen</token>
         </pattern>
-        <message>Bitte prüfen Sie, ob '<suggestion>Räumen</suggestion>' hier als Substantiv gebraucht wird.</message>
+        <message>Bitte prüfen Sie, ob <suggestion>Räumen</suggestion> hier als Substantiv gebraucht wird.</message>
         <example type="correct">In den <marker>Räumen</marker> wurde es dunkel.</example>
         <example type="incorrect">In den <marker>räumen</marker> wurde es dunkel.</example>
       </rule>
@@ -1566,7 +1762,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token postag="ADJ:.*" postag_regexp="yes"/>
           <token>räumen</token>
         </pattern>
-        <message>Bitte prüfen Sie, ob '<suggestion>Räumen</suggestion>' hier als Substantiv gebraucht wird.</message>
+        <message>Bitte prüfen Sie, ob <suggestion>Räumen</suggestion> hier als Substantiv gebraucht wird.</message>
         <example type="correct">In den <marker>Räumen</marker> wurde es dunkel.</example>
         <example type="incorrect">In den fensterlosen <marker>räumen</marker> wurde es schneller dunkel.</example>
       </rule>
