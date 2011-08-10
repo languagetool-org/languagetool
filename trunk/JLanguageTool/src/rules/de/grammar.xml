@@ -1037,6 +1037,15 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct">Hinter <marker>alledem</marker> steht die Universität.</example>
       <example type="incorrect">Hinter <marker>alle dem</marker> steht die Universität.</example>
     </rule>
+    <rule id="WO_ANDERS" name="'Zusammen-/Getrenntschreibung: 'wo anders (woanders)'">
+      <pattern>
+        <token>wo</token>
+        <token>anders</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>woanders</suggestion>?</message>
+      <example type="correct">Ihr müsst <marker>woanders</marker> danach suchen.</example>
+      <example type="incorrect">Ihr müsst <marker>wo anders</marker> danach suchen.</example>
+    </rule>
     <rule id="ZU_ERST" name="Zusammen-/Getrenntschreibung: 'zu erst (zuerst)'">
       <pattern mark_to="-1">
         <token>zu</token>
@@ -1565,6 +1574,16 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     <rulegroup id="ROLLE_SUBST" name="Groß-/Kleinschreibung: 'rolle (Rolle)'">
       <rule>
         <pattern mark_from="2" case_sensitive="yes">
+          <token regexp="yes">in|aus</token>
+          <token regexp="yes">der|seiner|ihrer|einer</token>
+          <token>rolle</token>
+        </pattern>
+        <message>Bitte prüfen Sie, ob <suggestion>Rolle</suggestion> hier als Substantiv gebraucht wird.</message>
+        <example type="correct">... mit Sean Connery in der <marker>Rolle</marker> des James Bond.</example>
+        <example type="incorrect">Sie fiel aus der <marker>rolle</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2" case_sensitive="yes">
           <token regexp="yes">(k)?eine</token>
           <token postag="ADJ:.*" postag_regexp="yes"/>
           <token regexp="yes">rolle(n)?</token>
@@ -1579,7 +1598,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">rolle(n)?</token>
         </pattern>
         <message>Bitte prüfen Sie, ob <suggestion>Rolle</suggestion> hier als Substantiv gebraucht wird.</message>
-        <example type="correct">Das spielt doch hier doch überhaupt keine <marker>Rolle</marker>!</example>
+        <example type="correct">Das spielt hier doch überhaupt keine <marker>Rolle</marker>!</example>
         <example type="incorrect">Das spielt in diesem Zusammenhang doch gar keine <marker>rolle</marker>!</example>
       </rule>
     </rulegroup>
@@ -2023,7 +2042,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect">Sie hilft <marker>ihn</marker> gerne.</example>
     </rule>
     -->
-    <!-- TODO: too many false alarams
+    <!-- TODO: too many false alarms
     <rulegroup id="SEIT_PREP_TEILGRUPPE_MIT_NACH_ETC" name="Grammatik: 'seit/nach/... des (dem)'">
       <rule>
         <pattern case_sensitive="no" mark_from="1">
@@ -2038,6 +2057,15 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       </rule>
     </rulegroup>
     -->
+    <rule id="GEMAESS_DES" name="Grammatik: 'gemäß des (dem)'">
+      <pattern>
+        <token>gemäß</token>
+        <token>des</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>gemäß dem</suggestion>? Die Präposition 'gemäß' erfordert den Dativ.</message>
+      <example type="incorrect"><marker>Gemäß des</marker> Beschlusses der Kultusministerkonferenz ...</example>
+      <example type="correct"><marker>Gemäß dem</marker> Beschluss der Kultusministerkonferenz ...</example>
+    </rule>
     <rule id="IM_KEINEN" name="Grammatik: 'im keinen (kleinen)'">
       <pattern mark_from="1">
         <token>im</token>
