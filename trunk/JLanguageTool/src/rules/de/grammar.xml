@@ -1020,12 +1020,58 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <pattern case_sensitive="no" mark_from="1">
         <token negate="yes">in</token>
         <!-- <token regexp="yes" negate="yes">(äußerst|sehr|ausgesprochen)</token> -->
-        <token regexp="yes">(absurd|auffällig|bedauerlich|bedauernswert|begreiflich|beklagenswert|bemerkenswert|berechtigt|betrüblich|bevorzugt|bezeichnend|billig|blöd|charakteristisch|dankenswert|drollig|ehrlich|eigenartig|eigenmächtig|eigentümlich|eim|entgegenkommend|enttäuschend|erfreulich|erklärlich|erstaunlich|evident|fair|fälschlich|fäss|fatal|folgend|frech|freundlich|gebührend|gemein|gerecht|gewöhnlich|gleich|glied|glücklich|gnädig|günstig|heimlich|heimtückisch|herkömmlich|ideal|idiotisch|inkonsequent|inkorrekt|interessant|ironisch|irreführend|irrig|irritierend|irrtümlich|klar|klassisch|kleck|klug|komisch|konsequent|kontingent|korrekt|kurios|laienhaft|legitim|leichtsinnig|liebenswürdig|listig|lit|lobenswert|löblich|logisch|merkwürdig|missverständlich|möglich|naheliegend|naiv|natürlich|nett|normal|notwendig|originell|paradox|passend|pikant|plausibl|praktisch|realistisch|richtig|riskant|schlau|seltsam|sinnig|sinnvoll|solch|sonderbar|traditionell|tragisch|traurig|trickreich|trivial|typisch|unachtsam|unerklärlich|unerlaubt|unerwartet|ungeschickt|unglücklich|unnötig|unstrittig|unverdient|unvermeidlich|unverständlich|unvorsichtig|verdient|vernünftig|verständlich|widersinnig|wunderbar|wunderlich|zufällig|zulässig|zweckmäßig)er</token>
+        <token regexp="yes">(absurd|auffällig|bedauerlich|bedauernswert|begreiflich|beklagenswert|bemerkenswert|berechtigt|betrüblich|bevorzugt|bezeichnend|billig|blöd|charakteristisch|dankenswert|drollig|ehrlich|eigenartig|eigenmächtig|eigentümlich|entgegenkommend|enttäuschend|erfreulich|erklärlich|erstaunlich|evident|fair|fälschlich|fatal|folgend|frech|freundlich|gebührend|gemein|gerecht|gewöhnlich|gleich|glied|glücklich|gnädig|günstig|heimlich|heimtückisch|herkömmlich|ideal|idiotisch|inkonsequent|inkorrekt|interessant|ironisch|irreführend|irrig|irritierend|irrtümlich|klar|klassisch|kleck|klug|komisch|konsequent|kontingent|korrekt|kurios|laienhaft|legitim|leichtsinnig|liebenswürdig|listig|lobenswert|löblich|logisch|merkwürdig|missverständlich|möglich|naheliegend|naiv|natürlich|nett|normal|notwendig|originell|paradox|passend|pikant|plausibl|praktisch|realistisch|richtig|riskant|schlau|seltsam|sinnig|sinnvoll|solch|sonderbar|traditionell|tragisch|traurig|trickreich|trivial|typisch|unachtsam|unerklärlich|unerlaubt|unerwartet|ungeschickt|unglücklich|unnötig|unstrittig|unverdient|unvermeidlich|unverständlich|unvorsichtig|verdient|vernünftig|verständlich|widersinnig|wunderbar|wunderlich|zufällig|zulässig|zweckmäßig)er</token>
         <token>Weise</token>
       </pattern>
       <message><suggestion>\2weise</suggestion> wird (als Adverb) meist zusammengeschrieben.</message>
       <example type="correct"><marker>Möglicherweise</marker> ist die Gelbphase der Ampel zu kurz eingestellt.</example>
       <example type="incorrect"><marker>Möglicher Weise</marker> ist die Gelbphase zu kurz eingestellt.</example>
+    </rule>
+    <rule id="UEBER_QUELLEND" name="'Zusammen-/Getrenntschreibung: 'über quellend (überquellend)'">
+      <pattern case_sensitive="yes">
+        <token>über</token>
+        <token regexp="yes">quellend(e[rns]?)?</token>
+      </pattern>
+      <message>Bitte prüfen Sie die Getrenntschreibung: Meinten Sie evt. <suggestion>\1\2</suggestion>?</message>
+      <example type="incorrect">Die <marker>über quellenden</marker> Mülleimer.</example>
+      <example type="correct">Die <marker>überquellenden</marker> Mülleimer.</example>
+    </rule>
+    <rule id="BEI_GESTEUERT" name="'Zusammen-/Getrenntschreibung: 'bei gesteuert (beigesteuert)'">
+      <pattern case_sensitive="yes">
+        <token>bei</token>
+        <token>gesteuert</token>
+      </pattern>
+      <message>Bitte prüfen Sie die Getrenntschreibung: Meinten Sie evt. <suggestion>\1\2</suggestion>?</message>
+      <example type="correct">Wir haben zum Gartenfest einen Kuchen <marker>beigesteuert</marker>.</example>
+      <example type="incorrect">Wir haben zum Gartenfest einen Kuchen <marker>bei gesteuert</marker>.</example>
+    </rule>
+    <rule id="ZWEIFEL_LOS" name="'Zusammen-/Getrenntschreibung: 'zweifel los (zweifellos)'">
+      <pattern case_sensitive="yes">
+        <token>zweifel</token>
+        <token>los</token>
+      </pattern>
+      <message>Bitte prüfen Sie die Getrenntschreibung: Meinten Sie evt. <suggestion>\1\2</suggestion>?</message>
+      <example type="correct">Das hat <marker>zweifellos</marker> gut geklappt.</example>
+      <example type="incorrect">Das hat <marker>zweifel los</marker> gut geklappt.</example>
+    </rule>
+    <rule id="OBDACH_LOS" name="'Zusammen-/Getrenntschreibung: 'obdachlos'">
+      <pattern case_sensitive="yes">
+        <token>Obdach</token>
+        <token regexp="yes">los(e|er|en)?</token>
+      </pattern>
+      <message>Bitte prüfen Sie die Getrenntschreibung: Meinten Sie evt. <suggestion>\1\2</suggestion>?</message>
+      <example type="correct">Tausende wurden <marker>obdachlos</marker> in jener Nacht.</example>
+      <example type="incorrect">Tausende wurden <marker>Obdach los</marker>.</example>
+    </rule>
+    <rule id="ZU_ER_SCHEINEN" name="'Zusammen-/Getrenntschreibung: 'zu' + Infinitiv">
+      <pattern case_sensitive="yes" mark_from="1">
+        <token>zu</token>
+        <token>er</token>
+        <token regexp="yes">kennen|gründen|mitteln|lassen|fassen|sehen|gaunern|morden|schrecken|schleichen|scheinen|heischen|greifen</token>
+      </pattern>
+      <message>Bitte prüfen Sie die Getrenntschreibung: Meinten Sie evt. <suggestion>\2\3</suggestion>?</message>
+      <example type="correct">... zu <marker>erfassen</marker> ...</example>
+      <example type="incorrect">... zu <marker>er fassen</marker> ...</example>
     </rule>
     <rule id="TROTZ_ALLEDEM" name="'Zusammen-/Getrenntschreibung: 'trotz alle dem (alledem)'">
       <pattern mark_from="1">
@@ -1048,7 +1094,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     </rule>
     <rule id="REIHEN_FOLGE" name="'Zusammen-/Getrenntschreibung: 'reihen folge (Reihenfolge)'">
       <pattern mark_from="1">
-        <token regexp="yes">dieser|richtige(n)?|falsche(n)?</token>
+        <token regexp="yes">dieser|richtige(n)?|falsche(n)?|andere([rn])?</token>
         <token>reihen</token>
         <token>folge</token>
       </pattern>
@@ -1558,6 +1604,45 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">In der <marker>Spätantike</marker> war das Leben der Sklaven hart.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="BUERSTE_SUBST" name="Groß-/Kleinschreibung: 'bürste (Bürste)'">
+      <rule>
+        <pattern mark_from="2" case_sensitive="yes">
+          <token regexp="yes">[mM]it(tels)?</token>
+          <token regexp="yes">der|einer</token>
+          <token>bürste</token>
+        </pattern>
+        <message>Bitte prüfen Sie, ob <suggestion>Bürste</suggestion> hier als Substantiv gebraucht wird.</message>
+        <example type="correct">Ich habe hier eine Bürste, mit der ich Fido das Fell <marker>bürste</marker>.</example>
+        <example type="correct">Ich bearbeite das Leder mit einer <marker>Bürste</marker>, bis es glänzt.</example>
+        <example type="incorrect">Ich bearbeite das Leder mit der <marker>bürste</marker>.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="OBDACHLOS_SUBST" name="Groß-/Kleinschreibung: substantivierte Adjektive">
+      <rule>
+        <pattern mark_from="1" mark_to="-1" case_sensitive="yes">
+          <token regexp="yes">([dD](er|ie))|([eE]ine)</token>
+          <token regexp="yes">obdachlose|angestellte|abgeordnete|jugendliche</token>
+          <token postag="VER:.*" postag_regexp="yes"/>
+        </pattern>
+        <message>Bitte prüfen Sie, ob <suggestion><match case_conversion="startupper" no="2"/></suggestion> hier substantiviert gebraucht wird.</message>
+        <example type="correct">Der <marker>Angestellte</marker> wurde entlassen.</example>
+        <example type="correct">Der <marker>obdachlose</marker> Mann wurde überfallen.</example>
+        <example type="incorrect">Der <marker>angestellte</marker> wurde entlassen.</example>
+        <example type="incorrect">Der <marker>obdachlose</marker> wurde überfallen.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-1" case_sensitive="yes">
+          <token regexp="yes">([dD](en|ie))|([eE]inen)</token>
+          <token regexp="yes">(obdachlose|angestellte|abgeordnete|jugendliche)(n)</token>
+          <token postag="VER:.*" postag_regexp="yes"/>
+        </pattern>
+        <message>Bitte prüfen Sie, ob <suggestion><match case_conversion="startupper" no="2"/></suggestion> hier substantiviert gebraucht wird.</message>
+        <example type="correct">Die <marker>Angestellten</marker> wurden entlassen.</example>
+        <example type="correct">Die <marker>obdachlosen</marker> Männer wurden überfallen.</example>
+        <example type="incorrect">Die <marker>angestellten</marker> wurden entlassen.</example>
+        <example type="incorrect">Die <marker>obdachlosen</marker> wurden überfallen.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="DAS_NASS" name="Groß-/Kleinschreibung: 'nass (Nass)'">
       <rule>
         <pattern mark_from="2" case_sensitive="yes">
@@ -1582,6 +1667,71 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Wir können <marker>notfalls</marker> dort übernachten.</example>
         <example type="correct">Wegen eines <marker>Notfalls</marker> musste ich meinen Urlaub abbrechen.</example>
         <example type="incorrect">Wegen eines <marker>notfalls</marker> musste ich meinen Urlaub abbrechen.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="KOSTEN_UND_MUEHEN" name="Groß-/Kleinschreibung: 'kosten (Kosten)'">
+      <rule>
+        <pattern case_sensitive="yes">
+          <token>kosten</token>
+          <token>und</token>
+          <token>mühen</token>
+        </pattern>
+        <message>Bitte prüfen Sie die Kleinschreibung: <suggestion><match case_conversion="startupper" no="1"/> <match case_conversion="alllower" no="2"/> <match case_conversion="startupper" no="3"/></suggestion>.</message>
+        <example type="incorrect">Wir haben keine <marker>kosten und mühen</marker> gescheut.</example>
+        <example type="correct">Wir haben keine <marker>Kosten und Mühen</marker> gescheut.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token>Kosten</token>
+          <token>und</token>
+          <token>mühen</token>
+        </pattern>
+        <message>Bitte prüfen Sie die Kleinschreibung: <suggestion><match case_conversion="startupper" no="1"/> <match case_conversion="alllower" no="2"/> <match case_conversion="startupper" no="3"/></suggestion>.</message>
+        <example type="incorrect">Wir haben keine <marker>Kosten und mühen</marker> gescheut.</example>
+        <example type="correct">Wir haben keine <marker>Kosten und Mühen</marker> gescheut.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token>kosten</token>
+          <token>und</token>
+          <token>Mühen</token>
+        </pattern>
+        <message>Bitte prüfen Sie die Kleinschreibung: <suggestion><match case_conversion="startupper" no="1"/> <match case_conversion="alllower" no="2"/> <match case_conversion="startupper" no="3"/></suggestion>.</message>
+        <example type="incorrect">Wir haben keine <marker>kosten und Mühen</marker> gescheut.</example>
+        <example type="correct">Wir haben keine <marker>Kosten und Mühen</marker> gescheut.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token regexp="yes">[wW]eder</token>
+          <token>kosten</token>
+          <token>noch</token>
+          <token>mühen</token>
+        </pattern>
+        <message>Bitte prüfen Sie die Kleinschreibung: <suggestion><match no="1"/> <match case_conversion="startupper" no="2"/> <match case_conversion="alllower" no="3"/> <match case_conversion="startupper" no="4"/></suggestion>.</message>
+        <example type="incorrect">Wir haben <marker>weder kosten noch mühen</marker> gescheut.</example>
+        <example type="correct">Wir haben <marker>weder Kosten noch Mühen</marker> gescheut.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token regexp="yes">[wW]eder</token>
+          <token>kosten</token>
+          <token>noch</token>
+          <token>Mühen</token>
+        </pattern>
+        <message>Bitte prüfen Sie die Kleinschreibung: <suggestion><match no="1"/> <match case_conversion="startupper" no="2"/> <match case_conversion="alllower" no="3"/> <match case_conversion="startupper" no="4"/></suggestion>.</message>
+        <example type="incorrect">Wir haben <marker>weder kosten noch Mühen</marker> gescheut.</example>
+        <example type="correct">Wir haben <marker>weder Kosten noch Mühen</marker> gescheut.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token regexp="yes">[wW]eder</token>
+          <token>Kosten</token>
+          <token>noch</token>
+          <token>mühen</token>
+        </pattern>
+        <message>Bitte prüfen Sie die Kleinschreibung: <suggestion><match no="1"/> <match case_conversion="startupper" no="2"/> <match case_conversion="alllower" no="3"/> <match case_conversion="startupper" no="4"/></suggestion>.</message>
+        <example type="incorrect">Wir haben <marker>weder Kosten noch mühen</marker> gescheut.</example>
+        <example type="correct">Wir haben <marker>weder Kosten noch Mühen</marker> gescheut.</example>
       </rule>
     </rulegroup>
     <rulegroup id="LOECHERN_SUBST" name="Groß-/Kleinschreibung: 'löchern (Löchern)'">
@@ -1641,6 +1791,55 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect">Im Fernsehen sorgen entblößte <marker>brüste</marker> immer wieder für Aufregung.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="ZUSTAND_SUBST" name="Groß-/Kleinschreibung: 'zustand (Zustand)'">
+      <rule>
+        <pattern mark_from="4" case_sensitive="yes">
+          <token regexp="yes">[iI]n</token>
+          <token>einem</token>
+          <token regexp="yes">(solch|so)</token>
+          <token regexp="yes">(gut|schlecht|katastrophal|labil|unbrauchbar|inakzeptabl)en</token>
+          <token>zustand</token>
+        </pattern>
+        <message>Bitte prüfen Sie, ob <suggestion>Zustand</suggestion> hier als Substantiv gebraucht wird.</message>
+        <example type="correct">Er hat bekommen, was ihm <marker>zustand</marker>.</example>
+        <example type="correct">Es war in einem so guten <marker>Zustand</marker>, dass ihm das Wetter nichts anhaben konnte.</example>
+        <example type="incorrect">Es war in einem so guten <marker>zustand</marker>, dass ihm das Wetter nichts anhaben konnte.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="3" case_sensitive="yes">
+          <token regexp="yes">[iI]n</token>
+          <token regexp="yes">(k)?einem</token>
+          <token regexp="yes">(solch|gut|schlecht|katastrophal|brauchbar|akzeptabl)en</token>
+          <token>zustand</token>
+        </pattern>
+        <message>Bitte prüfen Sie, ob <suggestion>Zustand</suggestion> hier als Substantiv gebraucht wird.</message>
+        <example type="correct">Er hat bekommen, was ihm <marker>zustand</marker>.</example>
+        <example type="correct">Es war in keinem guten <marker>Zustand</marker>.</example>
+        <example type="incorrect">Es war in keinem guten <marker>zustand</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2" case_sensitive="yes">
+          <token regexp="yes">[iI]n</token>
+          <token regexp="yes">(sein|ihr|dies|ein|gut|schlecht|katastrophal|brauchbar|akzeptabl)em</token>
+          <token>zustand</token>
+        </pattern>
+        <message>Bitte prüfen Sie, ob <suggestion>Zustand</suggestion> hier als Substantiv gebraucht wird.</message>
+        <example type="correct">Er hat bekommen, was ihm <marker>zustand</marker>.</example>
+        <example type="correct">In seinem <marker>Zustand</marker> sollte er sich schonen.</example>
+        <example type="incorrect">In seinem <marker>zustand</marker> sollte er sich schonen.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2" case_sensitive="yes">
+          <token>doch</token>
+          <token>kein</token>
+          <token>zustand</token>
+        </pattern>
+        <message>Bitte prüfen Sie, ob <suggestion>Zustand</suggestion> hier als Substantiv gebraucht wird.</message>
+        <example type="correct">Er hat bekommen, was ihm <marker>zustand</marker>.</example>
+        <example type="correct">Das ist doch kein <marker>Zustand</marker>.</example>
+        <example type="incorrect">Das ist doch kein <marker>zustand</marker>.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="AUFSTAND_SUBST" name="Groß-/Kleinschreibung: 'aufstand (Aufstand)'">
       <rule>
         <pattern mark_from="1" case_sensitive="yes">
@@ -1651,6 +1850,19 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Als ich <marker>aufstand</marker>, war es bereits zehn Uhr.</example>
         <example type="correct">Kellerkinder probten den <marker>Aufstand</marker>.</example>
         <example type="incorrect">Kellerkinder probten den <marker>aufstand</marker>.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="ALLERLEI_SUBST" name="Groß-/Kleinschreibung: 'allerlei (Allerlei)'">
+      <rule>
+        <pattern mark_from="1" case_sensitive="yes">
+          <token regexp="yes">((bunt|chaotisch|fröhlich|verwirrend|wild|wirr)e(n|s)?)|Leipziger</token>
+          <token>allerlei</token>
+        </pattern>
+        <message>Bitte prüfen Sie, ob <suggestion>Allerlei</suggestion> hier als Substantiv gebraucht wird.</message>
+        <example type="correct">Es gab Leipziger <marker>Allerlei</marker> in der Firmenkantine.</example>
+        <example type="correct">Es war ein buntes <marker>Allerlei</marker>.</example>
+        <example type="incorrect">Es war ein buntes <marker>allerlei</marker>.</example>
+        <example type="incorrect">Es gab Leipziger <marker>allerlei</marker>.</example>
       </rule>
     </rulegroup>
     <rulegroup id="DURCHEINANDER_SUBST" name="Groß-/Kleinschreibung: 'durcheinander (Durcheinander)'">
@@ -1734,7 +1946,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     <rulegroup id="WUESTE_SUBST" name="Groß-/Kleinschreibung: 'wüste (Wüste)'">
       <rule>
         <pattern mark_from="2" case_sensitive="yes">
-          <token regexp="yes">[Ii]n</token>
+          <token regexp="yes">[Ii]n|[aA]us</token>
           <token regexp="yes">der|die</token>
           <token>wüste</token>
         </pattern>
@@ -1764,13 +1976,13 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         </pattern>
         <message>Bitte prüfen Sie, ob <suggestion>Räumen</suggestion> hier als Substantiv gebraucht wird.</message>
         <example type="correct">In den <marker>Räumen</marker> wurde es dunkel.</example>
-        <example type="incorrect">In den fensterlosen <marker>räumen</marker> wurde es schneller dunkel.</example>
+        <example type="incorrect">In den fensterlosen <marker>räumen</marker> wurde es sofort dunkel.</example>
       </rule>
     </rulegroup>
     <rulegroup id="ROLLE_SUBST" name="Groß-/Kleinschreibung: 'rolle (Rolle)'">
       <rule>
         <pattern mark_from="2" case_sensitive="yes">
-          <token regexp="yes">in|aus</token>
+          <token regexp="yes">in|aus|von</token>
           <token regexp="yes">der|seiner|ihrer|einer</token>
           <token>rolle</token>
         </pattern>
@@ -2141,7 +2353,6 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example correction="Ruhe" type="incorrect">Lass mich in <marker>ruhe</marker>.</example>
       <example type="correct">Rabbit in Ruhe</example>
     </rule>
-    <!-- -->
     <rule id="IN_DER_NAEHE" name="Groß-/Kleinschreibung: 'in der nähe (Nähe)'">
       <pattern case_sensitive="yes" mark_from="2">
         <token regexp="yes">[Ii]n</token>
@@ -2158,7 +2369,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <pattern case_sensitive="yes" mark_to="-1">
           <token regexp="yes">[Ee]in</token>
           <token>Paar</token>
-          <token negate="yes" regexp="yes">.*[Ss]chuhe</token>
+          <token negate="yes" regexp="yes">(.*)([Ss]chuhe|[Ss]ocken)</token>
         </pattern>
         <message>Meinten Sie <suggestion>ein paar</suggestion>? (=einige)</message>
         <example type="correct"><marker>Ein Paar</marker> Schuhe.</example>
@@ -2253,6 +2464,35 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       </rule>
     </rulegroup>
     -->
+    <rulegroup id="WEGEN_DIR" name="Grammatik: 'wegen dir (deinetwegen)'">
+      <rule>
+        <pattern>
+          <token>wegen</token>
+          <token>dir</token>
+        </pattern>
+        <message>'\1 \2' ist möglicherweise umgangssprachlich. Ersetzen durch <suggestion>deinetwegen</suggestion>?</message>
+        <example type="incorrect"><marker>Wegen dir</marker> komme ich zu spät.</example>
+        <example type="correct"><marker>Deinetwegen</marker> komme ich zu spät.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>wegen</token>
+          <token>ihr</token>
+        </pattern>
+        <message>'\1 \2' ist möglicherweise umgangssprachlich. Ersetzen durch <suggestion>ihretwegen</suggestion>?</message>
+        <example type="incorrect"><marker>Wegen ihr</marker> komme ich zu spät.</example>
+        <example type="correct"><marker>Ihretwegen</marker> komme ich zu spät.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>wegen</token>
+          <token>ihm</token>
+        </pattern>
+        <message>'\1 \2' ist möglicherweise umgangssprachlich. Ersetzen durch <suggestion>seinetwegen</suggestion>?</message>
+        <example type="incorrect"><marker>Wegen ihm</marker> komme ich zu spät.</example>
+        <example type="correct"><marker>Seinetwegen</marker> komme ich zu spät.</example>
+      </rule>
+    </rulegroup>
     <rule id="GEMAESS_DES" name="Grammatik: 'gemäß des (dem)'">
       <pattern>
         <token>gemäß</token>
