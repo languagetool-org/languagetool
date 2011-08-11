@@ -10,6 +10,245 @@ $Id: grammar.xml,v 1.0 2011-07-29 13:20:25 taolin2011 Exp $
 <rules lang="en" xsi:noNamespaceSchemaLocation="../rules.xsd"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <!-- ====================================================================== -->
+  <!-- 拼写： 成语错误-->
+  <!-- ====================================================================== -->
+    <category name="成语错误">
+    <rule id="ANRANSHISE" name="黯然失色">
+      <pattern mark_from="0" mark_to="-2">
+        <token>暗</token>
+        <token>然</token>
+        <token>失色</token>
+      </pattern>
+      <message> 您的意思是“<suggestion>黯</suggestion>然失色”吗？ </message>
+      <short>成语错误</short>
+      <example type="incorrect" correction="黯"> HTC一出便让苹果<marker>暗</marker>然失色。 </example>
+      <example type="correct">HTC一出便让苹果黯然失色。</example>
+    </rule>
+    <rule id="ANBANGDINGGUO" name="安邦定国">
+      <pattern mark_from="1" mark_to="-1">
+        <token>安</token>
+        <token>帮</token>
+        <token>定国</token>
+      </pattern>
+      <message> 您的意思是安“<suggestion>邦</suggestion>定国”吗？ </message>
+      <short>成语错误</short>
+      <example type="incorrect" correction="邦"> 要以安<marker>帮</marker>定国为己任。 </example>
+      <example type="correct">要以安邦定国为己任。</example>
+    </rule>
+    <rule id="AISHENGTANQI" name="唉声叹气">
+      <pattern>
+        <token>哀声叹气</token>
+      </pattern>
+      <message> 您的意思是“<suggestion>唉声叹气</suggestion>”吗？ </message>
+      <short>成语错误</short>
+      <example type="incorrect" correction="唉声叹气"> 小明是怎么了，一天都在<marker>哀声叹气</marker>的。 </example>
+      <example type="correct">小明是怎么了，一天都在唉声叹气的。</example>
+    </rule>
+    <rule id="ANBUJIUBAN" name="按部就班">
+      <pattern>
+        <token>按步就班</token>
+      </pattern>
+      <message> 您的意思是“<suggestion>按部就班</suggestion>”吗？ </message>
+      <short>成语错误</short>
+      <example type="incorrect" correction="按部就班"> 他就这样<marker>按步就班</marker>地当上了总经理。 </example>
+      <example type="correct">他就这样按部就班地当上了总经理。</example>
+    </rule>
+    <rule id="BANMENNONGFU" name="班门弄斧">
+      <pattern mark_to="-3">
+        <token>搬</token>
+        <token>门</token>
+        <token>弄</token>
+        <token>斧</token>
+      </pattern>
+      <message> 您的意思是“<suggestion>班</suggestion>门弄斧”吗？ </message>
+      <short>成语错误</short>
+      <example type="incorrect" correction="班"> 你居然敢在我面前<marker>搬</marker>门弄斧。 </example>
+      <example type="correct">你居然敢在我面前班门弄斧。</example>
+    </rule>
+    <rule id="BASHANSHESHUI" name="跋山涉水">
+      <pattern mark_to="-2">
+        <token>拔</token>
+        <token>山</token>
+        <token>涉水</token>
+      </pattern>
+      <message> 您的意思是“<suggestion>跋</suggestion>山涉水”吗？ </message>
+      <short>成语错误</short>
+      <example type="incorrect" correction="跋"> 我们历经艰辛，<marker>拔</marker>山涉水，终于看到了这美景。 </example>
+      <example type="correct">我们历经艰辛，跋山涉水，终于看到了这美景。</example>
+    </rule>
+    <rule id="BINGXINGBUBEI" name="并行不悖">
+      <pattern mark_from="2">
+        <token>并行</token>
+        <token>不</token>
+        <token>背</token>
+      </pattern>
+      <message> 您的意思是“并行不<suggestion>悖</suggestion>”吗？ </message>
+      <short>成语错误</short>
+      <example type="incorrect" correction="悖"> 经济全球化与爱国主义并行不<marker>背</marker>。 </example>
+      <example type="correct">经济全球化与爱国主义并行不悖。</example>
+    </rule>
+    <rule id="BINGBINGYOULI" name="彬彬有礼">
+      <pattern mark_to="-2">
+        <token>衫衫</token>
+        <token>有</token>
+        <token>礼</token>
+      </pattern>
+      <message> 您的意思是“<suggestion>彬彬</suggestion>有礼”吗？ </message>
+      <short>成语错误</short>
+      <example type="incorrect" correction="彬彬"> 他<marker>衫衫</marker>有礼的样子真讨人喜欢。 </example>
+      <example type="correct">他彬彬有礼的样子真讨人喜欢。</example>
+    </rule>
+    <rule id="BIBIJIESHI" name="比比皆是">
+      <pattern mark_to="-2">
+        <token>彼彼</token>
+        <token>皆</token>
+        <token>是</token>
+      </pattern>
+      <message> 您的意思是“<suggestion>比比</suggestion>皆是”吗？ </message>
+      <short>成语错误</short>
+      <example type="incorrect" correction="比比"> 违法占地、破坏耕地、<marker>彼彼</marker>皆是、竟无人过问。 </example>
+      <example type="correct">违法占地、破坏耕地、比比皆是、竟无人过问。</example>
+    </rule>
+    <rule id="BUHANERLI" name="不寒而栗">
+      <pattern mark_from="3">
+        <token>不</token>
+        <token>寒</token>
+        <token>而</token>
+        <token>粟</token>
+      </pattern>
+      <message> 您的意思是“不寒而<suggestion>栗</suggestion>”吗？ </message>
+      <short>成语错误</short>
+      <example type="incorrect" correction="栗"> 看了这血腥的图片，我不寒而<marker>粟</marker>。 </example>
+      <example type="correct">看了这血腥的图片，我不寒而栗。</example>
+    </rule>
+    <rule id="BINGHUANGMALUAN" name="兵荒马乱">
+      <pattern mark_from="1" mark_to="-2">
+        <token>兵</token>
+        <token>慌</token>
+        <token>马</token>
+        <token>乱</token>
+      </pattern>
+      <message> 您的意思是“兵<suggestion>荒</suggestion>马乱”吗？ </message>
+      <short>成语错误</short>
+      <example type="incorrect" correction="荒"> 在这个兵<marker>慌</marker>马乱的年代，要想过好日子真难。 </example>
+      <example type="correct">在这个兵荒马乱的年代，要想过好日子真难。</example>
+    </rule>
+    <rule id="BODAJINGSHEN" name="博大精深">
+      <pattern mark_to="-2">
+        <token>搏</token>
+        <token>大</token>
+        <token>精深</token>
+      </pattern>
+      <message> 您的意思是“<suggestion>博</suggestion>大精深”吗？ </message>
+      <short>成语错误</short>
+      <example type="incorrect" correction="博"> 中文真的是<marker>搏</marker>大精深啊！ </example>
+      <example type="correct">中文真的是博大精深啊！</example>
+    </rule>
+    <rule id="BUCHIXIAWEN" name="不耻下问">
+      <pattern mark_to="-2">
+        <token>不齿</token>
+        <token>下</token>
+        <token>问</token>
+      </pattern>
+      <message> 您的意思是“<suggestion>不耻</suggestion>下问”吗？ </message>
+      <short>成语错误</short>
+      <example type="incorrect" correction="不耻"> 当学生的就是要<marker>不齿</marker>下问。 </example>
+      <example type="correct">当学生的就是要不耻下问。</example>
+    </rule>
+    <rule id="BUJIAOBUZAO" name="不骄不躁">
+      <pattern mark_to="-2">
+        <token>不娇</token>
+        <token>不</token>
+        <token>躁</token>
+      </pattern>
+      <message> 您的意思是“<suggestion>不骄</suggestion>不躁”吗？ </message>
+      <short>成语错误</short>
+      <example type="incorrect" correction="不骄">在短暂的成功后，要<marker>不娇</marker>不躁，稳步向前。</example>
+      <example type="correct">在短暂的成功后，要不骄不躁，稳步向前。</example>
+    </rule>
+    <rule id="BIECHUJIZHU" name="别出机杼">
+      <pattern mark_from="3">
+        <token>别</token>
+        <token>出</token>
+        <token>机</token>
+        <token>抒</token>
+      </pattern>
+      <message> 您的意思是“别出机<suggestion>杼</suggestion>”吗？ </message>
+      <short>成语错误</short>
+      <example type="incorrect" correction="杼">首歌曲创作者匠心独运，别出机<marker>抒</marker>，真是一首好歌。</example>
+      <example type="correct">首歌曲创作者匠心独运，别出机杼，真是一首好歌。</example>
+    </rule>
+    <rulegroup id="CANGHUANGSHISE" name="仓皇失措">
+      <rule id="惶_皇" name="惶_皇">
+        <pattern mark_to="-1">
+          <token>仓惶</token>
+          <token>失措</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>仓皇</suggestion>失措”吗？ </message>
+        <short>成语错误</short>
+        <example type="incorrect" correction="仓皇"> 我曾经那样<marker>仓惶</marker>失措的想着你。 </example>
+        <example type="correct">我曾经那样仓皇失措的想着你。</example>
+      </rule>
+      <rule id="慌_皇" name="慌_皇">
+        <pattern mark_to="-1" mark_from="1">
+          <token>仓</token>
+          <token>慌</token>
+          <token>失措</token>
+        </pattern>
+        <message> 您的意思是“仓<suggestion>皇</suggestion>失措”吗？ </message>
+        <short>成语错误</short>
+        <example type="incorrect" correction="皇"> 我曾经那样仓<marker>慌</marker>失措的想着你。 </example>
+        <example type="correct">我曾经那样仓皇失措的想着你。</example>
+      </rule>
+    </rulegroup>
+    <rule id="CANGHAIYISU" name="沧海一粟">
+      <pattern mark_to="-2">
+        <token>苍海</token>
+        <token>一</token>
+        <token>粟</token>
+      </pattern>
+      <message> 您的意思是“<suggestion>沧海</suggestion>一粟”么？ </message>
+      <short>成语错误</short>
+      <example type="incorrect" correction="沧海"> 人类的世界，生命是那么的渺小，就如<marker>苍海</marker>一粟。 </example>
+      <example type="correct">人类的世界，生命是那么的渺小，就如沧海一粟。</example>
+    </rule>
+    <rule id="CAOJIANRENMING" name="草菅人命">
+      <pattern mark_from="1" mark_to="-2">
+        <token>草</token>
+        <token regexp="yes">管|官</token>
+        <token>人</token>
+        <token>命</token>
+      </pattern>
+      <message> 您的意思是“草<suggestion>菅</suggestion>人命”吗？ </message>
+      <short>成语错误</short>
+      <example type="incorrect" correction="菅"> 你不能这样草<marker>管</marker>人命。 </example>
+      <example type="correct">你不能这样草菅人命。</example>
+    </rule>
+    <rule id="CANWURENDAO" name="惨无人道">
+      <pattern mark_to="-3">
+        <token>残</token>
+        <token>无</token>
+        <token>人</token>
+        <token>道</token>
+      </pattern>
+      <message> 您的意思是“<suggestion>惨</suggestion>无人道”吗？ </message>
+      <short>成语错误</short>
+      <example type="incorrect" correction="惨"> 战争期间发生了多次<marker>残</marker>无人道的屠杀。 </example>
+      <example type="correct">战争期间发生了多次惨无人道的屠杀。</example>
+    </rule>
+    <rule id="CANGENGLENGZHI" name="残羹冷炙">
+      <pattern mark_from="2">
+        <token>残羹</token>
+        <token>冷</token>
+        <token>灸</token>
+      </pattern>
+      <message> 您的意思是“残羹冷<suggestion>炙</suggestion>”吗？ </message>
+      <short>成语错误</short>
+      <example type="incorrect" correction="炙"> 跟风、赶潮流，你吃到的很可能只是残羹冷<marker>灸</marker>。 </example>
+      <example type="correct">跟风、赶潮流，你吃到的很可能只是残羹冷炙。</example>
+    </rule>
+  </category>
+  <!-- ====================================================================== -->
   <!-- 语法：实词的词法 -->
   <!-- ====================================================================== -->
   <category name="词法-实词">
