@@ -963,24 +963,26 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct"><marker>Der Genuss</marker> von Schokolade.</example>
       <example type="incorrect"><marker>Der Genus</marker> von Schokolade.</example>
     </rule>
-    <rule id="HOHES_NIVEA" name="Möglicher Tippfehler: 'Nivea (Niveau)'">
-      <pattern mark_from="1" mark_to="0">
-        <token regexp="yes">hohe(n|m|s)?</token>
-        <token>Nivea</token>
-      </pattern>
-      <message>Meinten Sie <suggestion>Niveau</suggestion> (Ebene, Stufe) statt Nivea (Kosmetikhersteller)?</message>
-      <example type="correct">Wir sind auf hohem <marker>Niveau</marker> gescheitert.</example>
-      <example type="incorrect">Wir sind auf hohem <marker>Nivea</marker> gescheitert.</example>
-    </rule>
-    <rule id="DAS_NIVEA" name="Möglicher Tippfehler: 'Nivea (Niveau)'">
-      <pattern mark_from="1" mark_to="0">
-        <token>das</token>
-        <token>Nivea</token>
-      </pattern>
-      <message>Meinten Sie <suggestion>Niveau</suggestion> (Ebene, Stufe) statt Nivea (Kosmetikhersteller)?</message>
-      <example type="correct">Das <marker>Niveau</marker> ist sehr hoch.</example>
-      <example type="incorrect">Das <marker>Nivea</marker> ist sehr hoch.</example>
-    </rule>
+    <rulegroup id="NIVEA" name="Möglicher Tippfehler: 'Nivea (Niveau)'">
+      <rule id="HOHES_NIVEA">
+        <pattern mark_from="1" mark_to="0">
+          <token regexp="yes">hohe(n|m|s)?</token>
+          <token>Nivea</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>Niveau</suggestion> (Ebene, Stufe) statt Nivea (Kosmetikhersteller)?</message>
+        <example type="correct">Wir sind auf hohem <marker>Niveau</marker> gescheitert.</example>
+        <example type="incorrect">Wir sind auf hohem <marker>Nivea</marker> gescheitert.</example>
+      </rule>
+      <rule id="DAS_NIVEA">
+        <pattern mark_from="1" mark_to="0">
+          <token>das</token>
+          <token>Nivea</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>Niveau</suggestion> (Ebene, Stufe) statt Nivea (Kosmetikhersteller)?</message>
+        <example type="correct">Das <marker>Niveau</marker> ist sehr hoch.</example>
+        <example type="incorrect">Das <marker>Nivea</marker> ist sehr hoch.</example>
+      </rule>
+    </rulegroup>
     <rule id="DEM_ERSTEN_BLICK" name="Möglicher Tippfehler: 'auf dem (den) ersten Blick'">
       <pattern mark_from="1" mark_to="-2">
         <token>auf</token>
@@ -1163,7 +1165,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     </rule>
     <rule id="DURCHEINANDER" name="Zusammen-/Getrenntschreibung: 'durcheinander' usw.">
       <pattern case_sensitive="no" mark_from="0">
-        <token regexp="yes">durch|von|in|auf|zu|mit|aus</token>
+        <token regexp="yes">durch|von|in|auf|zu|mit|aus|neben</token>
         <token>einander</token>
       </pattern>
       <message>Meinten Sie <suggestion>\1einander</suggestion>?</message>
@@ -1307,8 +1309,8 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">begleiten|bekommen|beugen|bewegen|biegen|bitten|blicken|brechen|bringen|drängen|dringen|dürfen|eilen|fahren|fallen|fliegen|fließen|flitzen|führen|geben|gehen|gelangen|gleiten|gucken|helfen|holen|klettern|kommen|können|krabbeln|kriechen|kriegen|lassen|laufen|leiten|locken|müssen|neigen|rasen|rasseln|regnen|reiten|rennen|rieseln|rinnen|rollen|rufen|sausen|schaffen|schallen|schauen|scheinen|schicken|schieben|schleichen|schleifen|schlendern|schleppen|schleudern|schlittern|schlüpfen|schmeißen|schmuggeln|schwingen|sehen|spähen|spielen|springen|stecken|stehlen|steigen|stellen|stoßen|strecken|strömen|stürmen|stürzen|taumeln|torkeln|tragen|tropfen|trudeln|wagen|wälzen|wehen|werfen|wollen|zerren|ziehen|zwängen</token>
         </pattern>
         <message>Meinten Sie <suggestion><match no="1" /><match no="2" /><match no="3" /></suggestion>?</message>
-        <example type="correct">Er versprach, mich dort <marker>hereinzubringen</marker>.</example>
-        <example type="incorrect">Er versprach, mich dort <marker>herein zu bringen</marker>.</example>
+        <example type="correct">Er versprach, mich hier <marker>hereinzubringen</marker>.</example>
+        <example type="incorrect">Er versprach, mich hier <marker>herein zu bringen</marker>.</example>
       </rule>
       <rule>
         <pattern mark_from="0">
@@ -1319,6 +1321,36 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <message>Meinten Sie <suggestion><match no="1" /><match no="2" /><match no="3" /></suggestion>?</message>
         <example type="correct">Er versuchte, es <marker>hinunterzuziehen</marker>.</example>
         <example type="incorrect">Er versuchte, es <marker>hinunter zu ziehen</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="0">
+          <token>fest</token>
+          <token>zu</token>
+          <token regexp="yes">binden|halten|ketten|kleben|krallen|legen|machen|nageln|nehmen|zurren|ziehen|schrauben|schreiben|setzen|stehen|stellen</token>
+        </pattern>
+        <message>Meinten Sie <suggestion><match no="1" /><match no="2" /><match no="3" /></suggestion>?</message>
+        <example type="correct">Er versuchte, es <marker>festzubinden</marker>.</example>
+        <example type="incorrect">Er versuchte, es <marker>fest zu binden</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="0">
+          <token>los</token>
+          <token>zu</token>
+          <token regexp="yes">ballern|bekommen|bellen|binden|brausen|brechen|brüllen|donnern|drehen|dreschen|drücken|eisen|fahren|flennen|fliegen|gehen|gurten|haben|haken|hauen|heften|hetzen|heulen|kaufen|ketten|knüpfen|kommen|koppeln|kriegen|lachen|lassen|laufen|legen|lösen|machen|marschieren|platzen|poltern|prügeln|prusten|rasen|reißen|rennen|rollen|sagen|sausen|schicken|schießen|schlagen|schluchzen|schnallen|schneiden|schrauben|schreien|schwimmen|sprechen|springen|treten|werden|wickeln|wiehern</token>
+        </pattern>
+        <message>Meinten Sie <suggestion><match no="1" /><match no="2" /><match no="3" /></suggestion>?</message>
+        <example type="correct">Das ist kein Grund <marker>loszubrüllen</marker>.</example>
+        <example type="incorrect">Das ist kein Grund <marker>los zu brüllen</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="0">
+          <token>fort</token>
+          <token>zu</token>
+          <token regexp="yes">begleiten|bestehen|beugen|bewegen|biegen|bilden|bringen|dauern|denken|eilen|entwickeln|fahren|fließen|flitzen|führen|gehen|gelangen|gleiten|helfen|holen|klettern|kommen|lassen|laufen|leiten|nehmen|neigen|pflanzen|rasen|reißen|rollen|sausen|schaffen|schicken|schleifen|schlendern|schleppen|schleudern|schreiben|schreiten|schwingen|setzen|springen|stehlen|steigen|stoßen|strömen|stürmen|stürzen|taumeln|torkeln|tragen|treiben|trudeln|wälzen|werfen|zerren|ziehen</token>
+        </pattern>
+        <message>Meinten Sie <suggestion><match no="1" /><match no="2" /><match no="3" /></suggestion>?</message>
+        <example type="correct">Das ist eine seltsame Methode, sich <marker>fortzubewegen</marker>.</example>
+        <example type="incorrect">Das ist eine seltsame Methode, sich <marker>fort zu bewegen</marker>.</example>
       </rule>
       <rule>
         <pattern mark_from="1">
@@ -1461,6 +1493,28 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
   </category>
 
   <category name="Stil">
+    <!-- TODO: add the other cases; avoid collisions with 'rein' as adjective, 'Rum' as noun, add compounds such as 'rumlaufen', etc.
+    <rulegroup id="RAN_RUM_RAUF_REIN_RAUS_RUNTER" name="Stil: 'herauf' statt 'rauf' usw. [unvollständig!]">
+      <rule>
+        <pattern>
+          <token>rauf</token>
+        </pattern>
+        <message>Möchten Sie 'rauf' durch <suggestion>herauf</suggestion> bzw. <suggestion>hinauf</suggestion> ersetzen?</message>
+        <example type="incorrect">Er lief den Hügel <marker>rauf</marker>.</example>
+        <example type="correct">Er lief den Hügel <marker>hinauf</marker>.</example>
+        <example type="correct">Er kam den Hügel <marker>herauf</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>rein</token>
+        </pattern>
+        <message>Möchten Sie 'rein' durch <suggestion>herein</suggestion> bzw. <suggestion>hinein</suggestion> ersetzen?</message>
+        <example type="incorrect">Er lief in den Tunnel <marker>rein</marker>.</example>
+        <example type="correct">Er lief in den Tunnel <marker>hinein</marker>.</example>
+        <example type="correct">Er kam in den Tunnel <marker>herein</marker>.</example>
+      </rule>
+    </rulegroup>
+    -->
     <rule id="NICHTSDESTOTROTZ" name="Stil: 'nichtsdestotrotz' ist eine umgangssprachliche Verballhornung von 'nichtsdestoweniger'">
       <pattern>
         <token>nichtsdestotrotz</token>
@@ -1469,7 +1523,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct"><marker>Nichtsdestoweniger</marker> wird einfach weiter geplant.</example>
       <example type="incorrect"><marker>Nichtsdestotrotz</marker> wird einfach weiter geplant.</example>
     </rule>
-    <rule id="NICHT_ADAEQUAT_GENUG" name="Stil: 'nicht adäquat' ist eine elegantere Formulierung.">
+    <rule id="NICHT_ADAEQUAT_GENUG" name="Stil: 'nicht adäquat genug'">
       <pattern>
         <token>nicht</token>
         <token>adäquat</token>
@@ -1479,7 +1533,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct">Das schien mir <marker>nicht adäquat</marker> (unpassend).</example>
       <example type="incorrect">Das schien mir <marker>nicht adäquat genug</marker>.</example>
     </rule>
-    <rule id="MEISTE_ALLER" name="Stil: Unelegante Formulierung.">
+    <rule id="MEISTE_ALLER" name="Stil: 'die meisten aller ...'">
       <pattern>
         <token regexp="yes">den|die</token>
         <token>meisten</token>        
@@ -1489,7 +1543,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect"><marker>Die meisten aller</marker> Hollywoodfilme ...</example>
       <example type="correct"><marker>Die meisten der</marker> damaligen Hollywoodfilme ...</example>
     </rule>
-    <rule id="MAENNER_VS_LEUTE" name="Stil: 'Kaufleute' usw.">
+    <rule id="MAENNER_VS_LEUTE" name="Stil: 'Kaufleute' usw. statt 'Kaufmänner'">
       <pattern case_sensitive="no">
         <token regexp="yes">(Kauf|See|Feuerwehr)männer(n)?</token>
       </pattern>
@@ -1563,6 +1617,23 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect">Sie <marker>Treffen</marker> sich später.</example>
     </rule>
   -->
+    <rulegroup id="DANK_SUBST" name="Groß-/Kleinschreibung: 'dank (Dank)'">
+    <!-- TODO: "Das/Was war/ist jetzt/nun/dann der/euer Dank?" -->
+      <rule>
+        <pattern mark_from="1" mark_to="-1" case_sensitive="yes">
+          <token regexp="yes">[zZ]um|[dD]er|[aA]ls</token>
+          <token>dank</token>
+          <token regexp="yes">(da)?für</token>
+        </pattern>
+        <message>Bitte prüfen Sie, ob <suggestion>Dank</suggestion> hier als Substantiv gebraucht wird.</message>
+        <example type="incorrect">Zum <marker>dank</marker> für seine Leistungen wurde er dann gefeuert.</example>
+        <example type="incorrect">Zum <marker>dank</marker> dafür wurde er anschließend gefeuert.</example>
+        <example type="incorrect">Das war nun der <marker>dank</marker> dafür?</example>
+        <example type="correct">Zum <marker>Dank</marker> für seine Leistungen wurde er schließlich gefeuert.</example>
+        <example type="correct">Zum <marker>Dank</marker> dafür wurde er anschließend gefeuert.</example>
+        <example type="correct">Das war nun der <marker>Dank</marker> dafür?</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="MARINE_SUBST" name="Groß-/Kleinschreibung: 'marine (Marine)'">
       <rule>
         <pattern mark_from="2" mark_to="-1" case_sensitive="yes">
@@ -1617,7 +1688,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect">Ich bearbeite das Leder mit der <marker>bürste</marker>.</example>
       </rule>
     </rulegroup>
-    <rulegroup id="OBDACHLOS_SUBST" name="Groß-/Kleinschreibung: substantivierte Adjektive">
+    <rulegroup id="OBDACHLOS_SUBST" name="Groß-/Kleinschreibung: substantivierte Adjektive ('Obdachlose, Angestellte, Abgeordnete, Jugendliche')">
       <rule>
         <pattern mark_from="1" mark_to="-1" case_sensitive="yes">
           <token regexp="yes">([dD](er|ie))|([eE]ine)</token>
@@ -1640,7 +1711,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Die <marker>Angestellten</marker> wurden entlassen.</example>
         <example type="correct">Die <marker>obdachlosen</marker> Männer wurden überfallen.</example>
         <example type="incorrect">Die <marker>angestellten</marker> wurden entlassen.</example>
-        <example type="incorrect">Die <marker>obdachlosen</marker> wurden überfallen.</example>
+        <example type="incorrect">Die <marker>jugendlichen</marker> benahmen sich daneben.</example>
       </rule>
     </rulegroup>
     <rulegroup id="DAS_NASS" name="Groß-/Kleinschreibung: 'nass (Nass)'">
