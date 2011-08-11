@@ -2598,6 +2598,29 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       </rule>
     </rulegroup>
 
+    <rulegroup id="E_A" name="e-vorto anstataŭ a-vorto">
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token postag="P ...|T ... .. t [au]" postag_regexp="yes"/>
+          <token postag="E .*" postag_regexp="yes" regexp="yes">.*e<exception>proksimume</exception></token>
+          <token postag="O .*" postag_regexp="yes"/>
+        </pattern>
+        <message>Ĉu vi intencis skribi <suggestion><match no="2" regexp_match="e$" regexp_replace=""/><match no="3" regexp_match=".*o(j?n?)$" regexp_replace="a$1"/></suggestion>?</message>
+        <example type="incorrect">Li ĉiam loĝis en <marker>grande</marker> domoj.</example>
+        <example type="correct">Li ĉiam loĝis en grandaj domoj.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token>la</token>
+          <token postag="E .*" postag_regexp="yes" regexp="yes">.*e<exception>proksimume</exception></token>
+          <token postag="O .*" postag_regexp="yes"/>
+        </pattern>
+        <message>Ĉu vi intencis skribi <suggestion><match no="2" regexp_match="e$" regexp_replace=""/><match no="3" regexp_match=".*o(j?n?)$" regexp_replace="a$1"/></suggestion>?</message>
+        <example type="incorrect">Li loĝas en la <marker>grande</marker> domo.</example>
+        <example type="correct">Li loĝas en la <marker>granda</marker> domo.</example>
+      </rule>
+    </rulegroup>
+
     <!--
     <rule id="SIA_SUBJ" name="sia subjekto">
       <pattern>
