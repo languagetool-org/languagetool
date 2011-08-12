@@ -12,7 +12,279 @@ $Id: grammar.xml,v 1.0 2011-07-29 13:20:25 taolin2011 Exp $
   <!-- ====================================================================== -->
   <!-- 拼写： 成语错误-->
   <!-- ====================================================================== -->
-    <category name="成语错误">
+   <category name="成语错误">
+     <rule id="DASHIDAFEI" name="大是大非">
+      <pattern mark_to="-2">
+        <token>大事</token>
+        <token>大</token>
+        <token>非</token>
+      </pattern>
+      <message> 您的意思是“<suggestion>大是</suggestion>大非”吗？ </message>
+      <short>成语错误</short>
+      <example type="incorrect" correction="大是"> 一页一页的历史写出来了，<marker>大事</marker>大非，终于有了无私的公论。 </example>
+      <example type="correct">一页一页的历史写出来了，大是大非，终于有了无私的公论。</example>
+    </rule>
+    <rule id="ESHOUCHENGQIN" name="额手称庆">
+      <pattern mark_from="1" mark_to="-2">
+        <token>额</token>
+        <token>首</token>
+        <token>称</token>
+        <token>庆</token>
+      </pattern>
+      <message> 您的意思是“额<suggestion>手</suggestion>称庆”吗？ </message>
+      <short>成语错误</short>
+      <example type="incorrect" correction="手"> 国人无不额<marker>首</marker>称庆。 </example>
+      <example type="correct">国人无不额手称庆。</example>
+    </rule>
+    <rule id="FANWENRUJIE" name="繁文缛节">
+      <pattern mark_from="2" mark_to="-1">
+        <token>繁</token>
+        <token>文</token>
+        <token>褥</token>
+        <token>节</token>
+      </pattern>
+      <message> 您的意思是“繁文<suggestion>缛</suggestion>节”吗？ </message>
+      <short>成语错误</short>
+      <example type="incorrect" correction="缛"> 他使他们从那些繁文<marker>褥</marker>节中拯救出来。 </example>
+      <example type="correct">他使他们从那些繁文缛节中拯救出来。</example>
+    </rule>
+    <rule id="FAWANGHUIHUI" name="法网恢恢">
+      <pattern mark_from="1" mark_to="0">
+        <token>法网</token>
+        <token>灰灰</token>
+      </pattern>
+      <message> 您的意思“法网<suggestion>恢恢</suggestion>”吗？ </message>
+      <short>成语错误</short>
+      <example type="incorrect" correction="恢恢"> 法网<marker>灰灰</marker>疏而不漏。 </example>
+      <example type="correct">法网恢恢疏而不漏。</example>
+    </rule>
+    <rule id="FUYUANLIAOKUO" name="幅员辽阔">
+      <pattern mark_from="1" mark_to="-1">
+        <token>幅</token>
+        <token>圆</token>
+        <token>辽阔</token>
+      </pattern>
+      <message> 您的意思是“幅<suggestion>员</suggestion>辽阔”吗？ </message>
+      <short>成语错误</short>
+      <example type="incorrect" correction="员"> 中国幅<marker>圆</marker>辽阔，民族众多。 </example>
+      <example type="correct">中国幅员辽阔，民族众多。</example>
+    </rule>
+    <rule id="FAYANGGUANGDA" name="发扬光大">
+      <pattern mark_from="1" mark_to="0">
+        <token>发扬</token>
+        <token>广大</token>
+      </pattern>
+      <message> 您的意思是“发扬<suggestion>光大</suggestion>”吗？ </message>
+      <short>成语错误</short>
+      <example type="incorrect" correction="光大"> 奥运精神将继续发扬<marker>广大</marker>。 </example>
+      <example type="correct">奥运精神将继续发扬光大。</example>
+    </rule>
+    <rule id="FENGGONGWEIJI" name="丰功伟绩">
+      <pattern mark_from="2" mark_to="0">
+        <token>丰功</token>
+        <token>伟</token>
+        <token>迹</token>
+      </pattern>
+      <message> 您的意思是“丰功伟<suggestion>绩</suggestion>”吗？ </message>
+      <short>成语错误</short>
+      <example type="incorrect" correction="绩"> 他们歌颂国王的丰功伟<marker>迹</marker>。 </example>
+      <example type="correct">他们歌颂国王的丰功伟绩。</example>
+    </rule>
+    <rule id="FENJINXINJI" name="费尽心机">
+      <pattern mark_from="0" mark_to="-2">
+        <token>废</token>
+        <token>尽</token>
+        <token>心机</token>
+      </pattern>
+      <message> 您的意思是“<suggestion>费</suggestion>尽心机”吗？ </message>
+      <short>成语错误</short>
+      <example type="incorrect" correction="费"> 这个工作让我们<marker>废</marker>尽心机。 </example>
+      <example type="correct">这个工作让我们费尽心机。</example>
+    </rule>
+    <rule id="FENFATUQIANG" name="奋发图强">
+      <pattern mark_from="0" mark_to="-2">
+        <token>愤</token>
+        <token>发</token>
+        <token>图强</token>
+      </pattern>
+      <message> 您的意思是“<suggestion>奋</suggestion>发图强”吗？ </message>
+      <short>成语错误</short>
+      <example type="incorrect" correction="奋"> 他决定<marker>愤</marker>发图强学习英语。 </example>
+      <example type="correct">他决定奋发图强学习英语。</example>
+    </rule>
+     <rule id="CANKUWUQING" name="残酷无情">
+      <pattern mark_to="-3">
+        <token>惨</token>
+        <token>酷</token>
+        <token>无</token>
+        <token>情</token>
+      </pattern>
+      <message> 您的意思是“<suggestion>残</suggestion>酷无情”吗？ </message>
+      <short>成语错误</short>
+      <example type="incorrect" correction="残"> 命运如此<marker>惨</marker>酷无情。 </example>
+      <example type="correct">命运如此残酷无情。</example>
+    </rule>
+    <rule id="CANJUERENHUAN" name="惨绝人寰">
+      <pattern mark_from="3">
+        <token>惨</token>
+        <token>绝</token>
+        <token>人</token>
+        <token>圜</token>
+      </pattern>
+      <message> 您的意思是“惨绝人<suggestion>寰</suggestion>”吗？ </message>
+      <short>成语错误</short>
+      <example type="incorrect" correction="寰"> 这里发生过一次惨绝人<marker>圜</marker>的屠杀。 </example>
+      <example type="correct">这里发生过一次惨绝人寰的屠杀。</example>
+    </rule>
+    <rule id="CHONGERBUWEN" name="充耳不闻">
+      <pattern mark_to="-3">
+        <token>冲</token>
+        <token>耳</token>
+        <token>不</token>
+        <token>闻</token>
+      </pattern>
+      <message> 您的意思是“<suggestion>充</suggestion>耳不闻”吗？ </message>
+      <short>成语错误</short>
+      <example type="incorrect" correction="充"> 不要对这件事<marker>冲</marker>耳不闻，它关系到你的利益。 </example>
+      <example type="correct">不要对这件事充耳不闻，它关系到你的利益。</example>
+    </rule>
+    <rule id="CHUERFANER" name="出尔反尔">
+      <pattern mark_from="1" mark_to="-2">
+        <token>出</token>
+        <token>而</token>
+        <token>反</token>
+        <token>尔</token>
+      </pattern>
+      <message> 您的意思是“出<suggestion>尔</suggestion>反尔”吗？ </message>
+      <short>成语错误</short>
+      <example type="incorrect" correction="尔"> 他总这样出<marker>而</marker>反尔，迟早会有报应的。 </example>
+      <example type="correct">他总是这样出尔反尔，迟早会有报应的。</example>
+    </rule>
+    <rule id="CUIXITANXIN" name="促膝谈心">
+      <pattern mark_to="-2">
+        <token>触</token>
+        <token>膝</token>
+        <token>谈心</token>
+      </pattern>
+      <message> 您的意思是“<suggestion>促</suggestion>膝谈心”吗？ </message>
+      <short>成语错误</short>
+      <example type="incorrect" correction="促"> 好久没有这样<marker>触</marker>膝谈心了。 </example>
+      <example type="correct">好久没有这样促膝谈心了。</example>
+    </rule>
+    <rule id="CUOTUOSUIYUE" name="蹉跎岁月">
+      <pattern mark_to="-2">
+        <token>嵯</token>
+        <token>跎</token>
+        <token>岁月</token>
+      </pattern>
+      <message> 您的意思是“<suggestion>蹉</suggestion>跎岁月”吗？ </message>
+      <short>成语错误</short>
+      <example type="incorrect" correction="蹉"> 回忆我的<marker>嵯</marker>跎岁月，回忆我的青年时光。 </example>
+      <example type="correct">回忆我的蹉跎岁月，回忆我的青年时光。</example>
+    </rule>
+    <rule id="CHUOCHUOYOUYU" name="绰绰有余">
+      <pattern>
+        <token>卓</token>
+        <token>卓有</token>
+        <token>余</token>
+      </pattern>
+      <message> 您的意思是“<suggestion>绰绰有余</suggestion>”吗？ </message>
+      <short>成语错误</short>
+      <example type="incorrect" correction="绰绰有余"> 这些材料拿来做袋子<marker>卓卓有余</marker>了。 </example>
+      <example type="correct">这些材料拿来做袋子绰绰有余了。</example>
+    </rule>
+    <rule id="CHIXINWANGXIANG" name="痴心妄想">
+      <pattern mark_from="1" mark_to="-1">
+        <token>痴心</token>
+        <token>忘</token>
+        <token>想</token>
+      </pattern>
+      <message> 您的意思是“痴心<suggestion>妄</suggestion>想”吗？ </message>
+      <short>成语错误</short>
+      <example type="incorrect" correction="妄"> 想在一夜之间赶超其他人简直就是痴心<marker>忘</marker>想。 </example>
+      <example type="correct">想在一夜之间赶超其他人简直就是痴心妄想。</example>
+    </rule>
+    <rule id="CHIZHAFENGYUN" name="叱咤风云">
+      <pattern mark_from="1" mark_to="-1">
+        <token>叱</token>
+        <token>诧</token>
+        <token>风云</token>
+      </pattern>
+      <message> 您的意思是“叱<suggestion>咤</suggestion>风云”吗？ </message>
+      <short>成语错误</short>
+      <example type="incorrect" correction="咤"> 曾几何时他也是叱<marker>诧</marker>风云的人物。 </example>
+      <example type="correct">曾几何时他也是叱咤风云的人物。</example>
+    </rule>
+    <rule id="CHUIMAOQIUCI" name="吹毛求疵">
+      <pattern mark_from="3">
+        <token>吹</token>
+        <token>毛</token>
+        <token>求</token>
+        <token>庇</token>
+      </pattern>
+      <message> 您的意思是“吹毛求<suggestion>疵</suggestion>”吗？ </message>
+      <short>成语错误</short>
+      <example type="incorrect" correction="疵"> 他对工作真的是吹毛求<marker>庇</marker>。 </example>
+      <example type="correct">他对工作真的是吹毛求疵。</example>
+    </rule>
+    <rule id="CHUNQIANGSHEJIAN" name="唇枪舌剑">
+      <pattern mark_from="3">
+        <token>唇</token>
+        <token>枪</token>
+        <token>舌</token>
+        <token>箭</token>
+      </pattern>
+      <message> 您的意思是“唇枪舌<suggestion>剑</suggestion>”吗？ </message>
+      <short>成语错误</short>
+      <example type="incorrect" correction="剑"> 债限谈判唇枪舌<marker>箭</marker>。 </example>
+      <example type="correct">债限谈判唇枪舌剑。</example>
+    </rule>
+    <rule id="CHUNSHENRUHUA" name="出神入化">
+      <pattern mark_from="1">
+        <token>出神</token>
+        <token>入画</token>
+      </pattern>
+      <message> 您的意思是“出神<suggestion>入化</suggestion>”吗？ </message>
+      <short>成语错误</short>
+      <example type="incorrect" correction="入化"> 他的书法真的是出神<marker>入画</marker>。 </example>
+      <example type="correct">他的书法真的是出神入化。</example>
+    </rule>
+    <rule id="DACAIXIAOYONG" name="大材小用">
+      <pattern mark_from="1" mark_to="-2">
+        <token>大</token>
+        <token>才</token>
+        <token>小</token>
+        <token>用</token>
+      </pattern>
+      <message> 您的意思是“大<suggestion>材</suggestion>小用”吗？ </message>
+      <short>成语错误</short>
+      <example type="incorrect" correction="材"> 叫我做这个工作真的是大<marker>才</marker>小用啊。 </example>
+      <example type="correct">叫我做这个工作真的是大材小用啊。</example>
+    </rule>
+    <rule id="DAMINGDINGDING" name="大名鼎鼎">
+      <pattern mark_from="1">
+        <token>大名</token>
+        <token>顶顶</token>
+      </pattern>
+      <message> 您的意思是“大名<suggestion>鼎鼎</suggestion>”吗？ </message>
+      <short>成语错误</short>
+      <example type="incorrect" correction="鼎鼎"> 这就是大名<marker>顶顶</marker>的王教授？ </example>
+      <example type="correct">这就是大名鼎鼎的王教授？</example>
+    </rule>
+    <rule id="DANZHUANGNONGMO" name="淡妆浓抹">
+      <pattern mark_from="1" mark_to="-2">
+        <token>淡</token>
+        <token>装</token>
+        <token>浓</token>
+        <token>抹</token>
+      </pattern>
+      <message> 您的意思是“淡<suggestion>妆</suggestion>浓抹”吗？ </message>
+      <short>成语错误</short>
+      <example type="incorrect" correction="妆"> 欲把西湖比西子,淡<marker>装</marker>浓抹总相宜。 </example>
+      <example type="correct">欲把西湖比西子,淡妆浓抹总相宜。</example>
+    </rule>  
+   
+   
     <rule id="ANRANSHISE" name="黯然失色">
       <pattern mark_from="0" mark_to="-2">
         <token>暗</token>
