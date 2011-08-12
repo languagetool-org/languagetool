@@ -156,6 +156,7 @@ public final class Main implements ActionListener {
     });
     // set whether it's checked
     autoDetectBox.setSelected(config.getAutoDetect());
+    languageBox.setEnabled(!autoDetectBox.isSelected());
     
     buttonCons.gridx = 0;
     buttonCons.gridy = 1;
