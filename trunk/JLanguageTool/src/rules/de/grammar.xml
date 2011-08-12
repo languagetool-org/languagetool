@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet type="text/xsl" href="../print.xsl" 
+<?xml-stylesheet type="text/xsl" href="../print.xsl"
 title="Pretty print" ?>
-<?xml-stylesheet type="text/css" href="../rules.css" 
+<?xml-stylesheet type="text/css" href="../rules.css"
 title="Easy editing stylesheet" ?>
 <!--
 German grammar and typo rules for LanguageTool
@@ -27,8 +27,19 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct">Ihr <marker>schriebt</marker> damals viele Briefe.</example>
       <example type="correct">Ihr <marker>schreibt</marker> oft Briefe.</example>
     </rule>
+    <rule id="WOLLTE_GRAD" name="Möglicher Tippfehler: 'Grad (gerade)'">
+      <pattern mark_from="3">
+        <token regexp="yes">wollt(e)?</token>
+        <token>ich</token>
+        <token>auch</token>
+        <token>grad</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>gerade</suggestion>?</message>
+      <example type="incorrect">Das wollte ich auch <marker>Grad</marker> sagen.</example>
+      <example type="correct">Das wollte ich auch <marker>gerade</marker> sagen.</example>
+    </rule>
     <rule id="ERSTEN_MAIN" name="Möglicher Tippfehler: '1. Main (Mai)'">
-    <!-- TODO: Doesn't seem to match intended text. -->
+    <!-- TODO: Intended text is matched only in the OOo plug-in, it seems. -->
       <pattern mark_from="3">
         <token regexp="yes">am|den</token>
         <token regexp="yes">\d+</token>
@@ -48,6 +59,164 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <message>Meinten Sie <suggestion>spät</suggestion>?</message>
       <example type="correct">Er war zu <marker>spät</marker> dran.</example>
       <example type="incorrect">Er war zu <marker>späht</marker> dran.</example>
+    </rule>
+    <rulegroup id="IN_DER_REGELN" name="Möglicher Tippfehler: 'in der Regeln (Regel)'">
+      <rule>
+        <pattern case_sensitive="yes">
+          <token>in</token>
+          <token>der</token>
+          <token>Regeln</token>
+        </pattern>
+        <message>Meinten Sie evt. die Redewendung <suggestion>in der Regel</suggestion>?</message>
+        <example type="correct">Eine Situation, <marker>in der feste Regeln</marker> wichtig werden.</example>
+        <example type="correct">Wir machen das <marker>in der Regel</marker> folgendermaßen.</example>
+        <example type="incorrect">Wir machen das <marker>in der Regeln</marker> folgendermaßen.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token>in</token>
+          <token>aller</token>
+          <token>Regeln</token>
+        </pattern>
+        <message>Meinten Sie evt. die Redewendung <suggestion>in aller Regel</suggestion>?</message>
+        <example type="correct">Wir machen das <marker>in aller Regel</marker> folgendermaßen.</example>
+        <example type="incorrect">Wir machen das <marker>in aller Regeln</marker> folgendermaßen.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="FASST_VS_FAST" name="Möglicher Tippfehler: 'fasst (fast)'">
+      <rule>
+        <pattern>
+          <token>hätte</token>
+          <token>fasst</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>hätte fast</suggestion> (beinahe)?</message>
+        <example type="correct">Ich <marker>hätte fast</marker> einen Infarkt bekommen.</example>
+        <example type="incorrect">Ich <marker>hätte fasst</marker> einen Infarkt bekommen.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>habe</token>
+          <token>fasst</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>habe fast</suggestion> (beinahe)?</message>
+        <example type="correct">Ich <marker>habe fast</marker> einen Infarkt bekommen.</example>
+        <example type="incorrect">Ich <marker>habe fasst</marker> einen Infarkt bekommen.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>wäre</token>
+          <token>fasst</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>wäre fast</suggestion> (beinahe)?</message>
+        <example type="correct">Ich <marker>wäre fast</marker> gestorben vor Angst.</example>
+        <example type="incorrect">Ich <marker>wäre fasst</marker> gestorben vor Angst.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>bin</token>
+          <token>fasst</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>bin fast</suggestion> (beinahe)?</message>
+        <example type="correct">Ich <marker>bin fast</marker> gestorben vor Angst.</example>
+        <example type="incorrect">Ich <marker>bin fasst</marker> gestorben vor Angst.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>hätte</token>
+          <token>ich</token>
+          <token>fasst</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>hätte ich fast</suggestion> (beinahe)?</message>
+        <example type="correct">Da <marker>hätte ich fast</marker> einen Infarkt bekommen.</example>
+        <example type="incorrect">Da <marker>hätte ich fasst</marker> einen Infarkt bekommen.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>habe</token>
+          <token>ich</token>
+          <token>fasst</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>habe ich fast</suggestion> (beinahe)?</message>
+        <example type="correct">Da <marker>habe ich fast</marker> einen Infarkt bekommen.</example>
+        <example type="incorrect">Da <marker>habe ich fasst</marker> einen Infarkt bekommen.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>wäre</token>
+          <token>ich</token>
+          <token>fasst</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>wäre ich fast</suggestion> (beinahe)?</message>
+        <example type="correct">Da <marker>wäre ich fast</marker> gestorben vor Angst.</example>
+        <example type="incorrect">Da <marker>wäre ich fasst</marker> gestorben vor Angst.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>bin</token>
+          <token>ich</token>
+          <token>fasst</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>bin ich fast</suggestion> (beinahe)?</message>
+        <example type="correct">Da <marker>bin ich fast</marker> gestorben vor Angst.</example>
+        <example type="incorrect">Da <marker>bin ich fasst</marker> gestorben.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="FLAME_VS_FLAMME" name="Möglicher Tippfehler: 'Flame (Flamme)'">
+      <rule>
+        <pattern mark_from="2">
+          <token>Feuer</token>
+          <token>und</token>
+          <token>Flame</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>Flamme</suggestion>?</message>
+        <example type="correct">Wir waren sofort Feuer und <marker>Flamme</marker>.</example>
+        <example type="incorrect">Wir waren sofort Feuer und <marker>Flame</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">eine|lodernde|helle|brennende|die|heiße|verzehrende|verlöschende|unauslöschliche</token>
+          <token>Flame</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>Flamme</suggestion>?</message>
+        <example type="correct">Eine lodernde <marker>Flamme</marker> war unser Zeichen.</example>
+        <example type="incorrect">Die lodernde <marker>Flame</marker> der Reinigung sei unser Zeichen.</example>
+      </rule>
+    </rulegroup>
+    <rule id="BEREIST_BEREITS" name="Möglicher Tippfehler: 'bereist (bereits) etwas vor'">
+      <pattern mark_to="-2">
+        <token regexp="yes">bereist|bereit</token>
+        <token regexp="yes">etwas|was</token>
+        <token>vor</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>bereits</suggestion> (schon) oder <suggestion>bereite</suggestion> (vorbereiten)?</message>
+      <example type="correct">Ich <marker>bereite</marker> etwas vor.</example>
+      <example type="correct">Da habe ich <marker>bereits</marker> etwas vor.</example>
+      <example type="incorrect">Da habe ich <marker>bereist</marker> etwas vor.</example>
+    </rule>
+    <rule id="MIT_RUM_BEKLECKERT" name="Möglicher Tippfehler: 'mit Rum (Ruhm) bekleckert' (Redewendung)">
+      <pattern mark_from="2" mark_to="-1">
+          <token regexp="yes">nicht|unbedingt|gerade</token>
+          <token>mit</token>
+          <token>Rum</token>
+          <token regexp="yes">bekleckert|befleckt|bedeckt</token>
+        </pattern>
+      <message>Meinten Sie <suggestion>Ruhm</suggestion>? (Redewendung)</message>
+      <example type="correct">Da haben wir uns nicht gerade mit <marker>Ruhm</marker> bekleckert.</example>
+      <example type="correct">Verzeihung, Sie haben sich eben mit etwas <marker>Rum</marker> bekleckert.</example>
+      <example type="incorrect">Da haben wir uns nicht gerade mit <marker>Rum</marker> bekleckert.</example>
+    </rule>
+    <rule id="MALT_MAHLT" name="Möglicher Tippfehler: 'malt (mahlt) zuerst' (Redewendung)">
+      <pattern mark_from="4" mark_to="-1">
+          <token>wer</token>
+          <token>zuerst</token>
+          <token>kommt</token>
+          <token>,</token>
+          <token regexp="yes">mal.*</token>
+          <token>zuerst</token>
+        </pattern>
+      <message>Meinten Sie <suggestion>mahlt</suggestion>? (Redewendung)</message>
+      <example type="correct">Wer zuerst kommt, <marker>mahlt</marker> zuerst.</example>
+      <example type="incorrect">Wer zuerst kommt, <marker>malt</marker> zuerst.</example>
     </rule>
     <rule id="BAFF_ERSTAUNT" name="Möglicher Tippfehler: 'baff (bass) erstaunt'">
       <pattern mark_to="-1">
@@ -137,12 +306,12 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <pattern mark_from="1">
           <token inflected="yes" skip="5">nehmen</token>
           <token>war</token>
-        </pattern>      
+        </pattern>
         <message>Meinten Sie <suggestion>wahr</suggestion> wie in 'wahrnehmen'?</message>
         <example type="correct">So nehme ich das <marker>wahr</marker>.</example>
         <example type="correct">So nimmst du das <marker>wahr</marker>.</example>
-        <example type="incorrect">So nehme ich das <marker>war</marker>.</example>      
-        <example type="incorrect">So nimmst du das <marker>war</marker>.</example>      
+        <example type="incorrect">So nehme ich das <marker>war</marker>.</example>
+        <example type="incorrect">So nimmst du das <marker>war</marker>.</example>
       </rule>
     </rulegroup>
     <rulegroup id="DAS_AMEN" name="Möglicher Tippfehler: 'das Armen (Amen)'">
@@ -528,7 +697,6 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       </rule>
     </rulegroup>
     <rule id="ZU_ZUMUTEN" name="Möglicher Tippfehler 'zu zu... (zuzu...)'">
-      <!-- Jan: Removed TODO and added more cases. -->
       <pattern>
         <token>zu</token>
         <token regexp="yes">zuarbeiten|zubauen|zubeißen|zubekommen|zubereiten|zubetonieren|zubilligen|zubinden|zubringen|zudecken|zudenken|zudienen|zudiktieren|zudrehen|zudrücken|zueignen|zuerkennen|zufallen|zufassen|zufaxen|zufliegen|zufließen|zufrieren|zufügen|zuführen|zugeben|zugehen|zugehören|zugesellen|zugestehen|zugießen|zugreifen|zuhaken|zuhalten|zuhängen|zuhauen|zuheilen|zuhören|zujauchzen|zukaufen|zukehren|zukiffen|zuklappen|zukleben|zuklinken|zuknallen|zuknöpfen|zukommen|zukorken|zulachen|zuladen|zulangen|zulassen|zulaufen|zulegen|zuleiten|zulöten|zumachen|zumessen|zumischen|zumuten|zunähen|zunehmen|zuneigen|zuordnen|zupacken|zupfropfen|zuprosten|zuraten|zuraunen|zurechnen|zureden|zureichen|zureiten|zurichten|zurollen|zurren|zurufen|zurüsten|zusagen|zuschalten|zuschanzen|zuschauen|zuschicken|zuschieben|zuschießen|zuschlagen|zuschließen|zuschmeißen|zuschmieren|zuschnallen|zuschnappen|zuschneiden|zuschnüren|zuschrauben|zuschreiben|zuschreien|zuschütten|zuschwellen|zusehen|zusetzen|zusperren|zuspielen|zuspitzen|zusprechen|zuspringen|zustechen|zustecken|zustehen|zustellen|zustimmen|zustopfen|zustoßen|zustreben|zuströmen|zustürzen|zuteilen|zutragen|zutrauen|zutreffen|zutrinken|zuwachsen|zuwarten|zuweisen|zuwerfen|zuwinken|zuziehen</token>
@@ -565,7 +733,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <message>Meinten Sie <suggestion>wieder</suggestion>?</message>
       <example type="correct">Sie kam <marker>wieder</marker> einmal zu spät.</example>
       <example type="incorrect">Sie kam <marker>wider</marker> einmal zu spät.</example>
-    </rule>    
+    </rule>
     <rule id="SONDER" name="Möglicher Tippfehler 'sonder (sondern)'">
       <!-- "sonder" wird vom Spellchecker akzeptiert, ist aber fast nie richtig -->
       <pattern>
@@ -1015,7 +1183,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       </rule>
     </rulegroup>
   </category>
-  
+
   <category name="Zusammen-/Getrenntschreibung">
     <!-- Jan: TODO - find a rule that can distinguish "indem" from "in dem" -->
     <rule id="MOEGLICHER_WEISE_ETC" name="Zusammen-/Getrenntschreibung: 'möglicher Weise (möglicherweise) etc. ...'">
@@ -1028,6 +1196,17 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <message><suggestion>\2weise</suggestion> wird (als Adverb) meist zusammengeschrieben.</message>
       <example type="correct"><marker>Möglicherweise</marker> ist die Gelbphase der Ampel zu kurz eingestellt.</example>
       <example type="incorrect"><marker>Möglicher Weise</marker> ist die Gelbphase zu kurz eingestellt.</example>
+    </rule>
+    <rule id="ZU_TEIL" name="'Zusammen-/Getrenntschreibung: 'zu Teil (zuteil/zum Teil)'">
+      <pattern>
+        <token>zu</token>
+        <token>teil</token>
+      </pattern>
+      <message>Meinten Sie evt. <suggestion>zum Teil</suggestion> oder <suggestion>zuteil</suggestion>?</message>
+      <example type="incorrect">Diese Fehler werden <marker>zu Teil</marker> bereits erkannt.</example>
+      <example type="incorrect">Mir wurde eine große Ehre <marker>zu teil</marker>.</example>
+      <example type="correct">Diese Fehler werden <marker>zum Teil</marker> bereits erkannt.</example>
+      <example type="correct">Mir wurde eine große Ehre <marker>zuteil</marker>.</example>
     </rule>
     <rule id="UEBER_QUELLEND" name="'Zusammen-/Getrenntschreibung: 'über quellend (überquellend)'">
       <pattern case_sensitive="yes">
@@ -1127,7 +1306,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     <!-- Jan: TODO: Don't match 'suchen statt finden' -->
       <pattern>
         <token>statt</token>
-        <token regexp="yes">finden|findet|fand|fanden</token>
+        <token regexp="yes">finden|findet|fand|fanden|gefunden</token>
       </pattern>
       <message>Meinten Sie <suggestion>statt<match no="2" /></suggestion>?</message>
       <example type="correct">Wo das Fest das <marker>stattfindet</marker>, ist noch nicht klar.</example>
@@ -1214,14 +1393,9 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       </rule>
     </rulegroup>
     <rulegroup id="INFINITIV_MIT_ZU" name="Zusammen-/Getrenntschreibung: Infinitiv mit 'zu'">
-    <!--
-    Jan: The many exceptions to the first rule below are meant to avoid false alarms on
-    "hört auf zu <verb>", "fängt an zu <verb>", "um zu <verb>", etc.
-    TODO: The rule is very general and will certainly benefit from a field test.
-    -->
       <rule>
         <pattern>
-          <token postag=".*PRP:.*" postag_regexp="yes"><exception scope="current">gegenüber</exception><exception scope="current">anstatt</exception><exception scope="current">ohne</exception><exception scope="current">entsprechend</exception><exception scope="current">um</exception><exception scope="current">als</exception><exception scope="current">an</exception><exception scope="current">auf</exception><exception scope="current">bis</exception></token>
+          <token postag=".*PRP:.*" postag_regexp="yes"><exception scope="current">gegenüber</exception><exception scope="current">anstatt</exception><exception scope="current">ohne</exception><exception scope="current">entsprechend</exception><exception scope="current">um</exception><exception scope="current">als</exception><exception scope="current">an</exception><exception scope="current">auf</exception><exception scope="current">bis</exception><exception scope="current">zu</exception></token>
           <token>zu</token>
           <token postag=".*VER:.*INF.*" postag_regexp="yes"><exception regexp="yes" scope="current">einigen|agieren|sieben|weiten|sein</exception></token>
         </pattern>
@@ -1234,7 +1408,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <!-- Now try to catch some errors our first rule missed, mostly because of the exceptions defined above -->
       <rule>
         <pattern mark_from="1">
-          <!-- Jan: exceptions - don't match 'hört auf zu atmen' etc. -->
+          <!-- Exceptions - don't match 'hört auf zu atmen' etc. -->
           <token regexp="yes" negate="yes">hör(e|n|st|t|te|ten|tet|test)</token>
           <!-- <token postag="ADV:.*" postag_regexp="yes" negate="yes" /> // doesn't work atm -->
           <token>auf</token>
@@ -1248,7 +1422,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       </rule>
       <rule>
         <pattern mark_from="1">
-          <!-- Jan: exceptions - don't match 'fängst an zu beten' etc. -->
+          <!-- Exceptions - don't match 'fängst an zu beten' etc. -->
           <token regexp="yes" negate="yes">fing(st|t|et|en)?|fäng(st|t)|fang(e|t|en)?</token>
           <token>an</token>
           <token>zu</token>
@@ -1282,7 +1456,6 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect">Er versprach, mich bald <marker>ein zu arbeiten</marker>.</example>
       </rule>
       <rule>
-      <!-- Jan: This one might turn out too greedy, because 'hinzu' is a word in itself. -->
         <pattern mark_from="0">
           <token>hin</token>
           <token>zu</token>
@@ -1364,9 +1537,19 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Es ist nicht leicht, damit <marker>umzugehen</marker>.</example>
         <example type="incorrect">Es ist nicht leicht, damit <marker>um zu gehen</marker>.</example>
       </rule>
+      <rule>
+        <pattern>
+          <token>zu</token>
+          <token>zu</token>
+          <token regexp="yes">arbeiten|bauen|beißen|bekommen|bereiten|betonieren|billigen|binden|bringen|decken|denken|drehen|drücken|eignen|erkennen|fallen|fassen|faxen|fliegen|fließen|frieren|fügen|führen|geben|gehen|gehören|gesellen|gestehen|gießen|greifen|haken|halten|hängen|hauen|heilen|hören|jauchzen|kaufen|kehren|kiffen|klappen|kleben|klinken|knallen|knöpfen|kommen|korken|lachen|lächeln|laden|langen|lassen|laufen|legen|leiten|löten|machen|messen|mischen|muten|nähen|nehmen|neigen|ordnen|packen|pfropfen|prosten|raten|raunen|rechnen|reden|reichen|reiten|richten|rollen|rren|rufen|rüsten|sagen|schalten|schanzen|schauen|schicken|schieben|schießen|schlagen|schließen|schmeißen|schmieren|schnallen|schnappen|schneiden|schnüren|schrauben|schreiben|schreien|schütten|schwellen|sehen|setzen|sperren|spielen|spitzen|sprechen|springen|stechen|stecken|stehen|stellen|stimmen|stopfen|stoßen|streben|strömen|stürzen|teilen|tragen|trauen|treffen|trinken|wachsen|warten|weisen|werfen|winken|ziehen</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>\1\2\3</suggestion>?</message>
+        <example type="correct">Das ist ihm wohl nicht <marker>zuzumuten</marker>.</example>
+        <example type="incorrect">Das ist ihm wohl nicht <marker>zu zu muten</marker>.</example>
+      </rule>
     </rulegroup>
   </category>
-  
+
   <category name="Redundanz">
   <!-- Jan: TODO –  Add more stuff like "Haarfrisur, Fußpedal, Altveteran, langsam kriechen, schnell rasen ..." -->
   <!-- Jan: TODO –  organize this into smaller rulegroups -->
@@ -1493,8 +1676,9 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
   </category>
 
   <category name="Stil">
-    <!-- TODO: add the other cases; avoid collisions with 'rein' as adjective, 'Rum' as noun, add compounds such as 'rumlaufen', etc.
-    <rulegroup id="RAN_RUM_RAUF_REIN_RAUS_RUNTER" name="Stil: 'herauf' statt 'rauf' usw. [unvollständig!]">
+    <rulegroup id="RAN_RUM_RAUF_REIN_RAUS_RUNTER" name="Umgangssprache: 'rauf (herauf)' usw. [unvollständig!]">
+    <!-- TODO: add the other cases; avoid collisions with 'rein' as adjective, 'Rum' as noun, add compounds such as 'rumlaufen', etc. -->
+    <!--
       <rule>
         <pattern>
           <token>rauf</token>
@@ -1513,8 +1697,65 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Er lief in den Tunnel <marker>hinein</marker>.</example>
         <example type="correct">Er kam in den Tunnel <marker>herein</marker>.</example>
       </rule>
-    </rulegroup>
     -->
+      <rule>
+        <pattern>
+          <token regexp="yes">raus(bekommen|gaben|geben|gebt|gefahren|gefahrenen|gegangen|gegangenen|gegeben|gegebenen|gehen|gehst|geht|gejagt|gekitzelt|geklettert|gekommen|gekriegt|gekrochen|gelassen|gelaufen|gelegt|gelesen|gelockt|gemacht|genommen|gepickt|geplatzt|geputzt|gequollen|geredet|gerissen|gerückt|gerutscht|geschaut|geschickt|geschlüpft|gesetzt|gesprudelt|gestellt|geströmt|gestürmt|gestürzt|gesucht|getragen|geworfen|geworfenen|gezerrt|gezogen|gucken|guckten|haben|hauen|holen|klettern|kletterten|klingeln|klingelten|krabbeln|kriechen|kriegen|kriegten|lassen|laufen|legen|ließen|locken|nehmen|platzen|platzten|rannten|rannte|reden|redeten|reißen|rennen|riefen|rutschen|rutschten|schauen|schauten|schicken|schickten|schmeißen|schmuggeln|suchen|suchten|warfen|werfen|zerren|ziehen)</token>
+        </pattern>
+        <message>'\1' ist umgangssprachlich. Vorschlag: <suggestion><match no="1" regexp_match="^raus" regexp_replace="heraus"/></suggestion>.</message>
+        <example type="incorrect">Sie hat es nicht <marker>rausbekommen</marker>.</example>
+        <example type="correct">Sie hat es <marker>herausbekommen</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">rauszu(bekommen|finden|fischen|fliegen|geben|gehen|greifen|gucken|hauen|heben|helfen|holen|klettern|kommen|kriegen|lassen|laufen|legen|pauken|pressen|putzen|quetschen|reden|reißen|rennen|rücken|schauen|scheren|schicken|schieben|schlagen|schleppen|schleudern|schlüpfen|schmuggeln|schneiden|trennen|treten|trommeln|winden|zerren|ziehen)</token>
+        </pattern>
+        <message>'\1' ist umgangssprachlich. Vorschläge: <suggestion><match no="1" regexp_match="^raus" regexp_replace="heraus"/></suggestion>.</message>
+        <example type="incorrect">Sie versuchte es <marker>rauszubekommen</marker>.</example>
+        <example type="correct">Sie versuchte es <marker>herauszubekommen</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">rein(brachten|bringen|fallen|fielen|gebracht|gefallen|gefallenen|gegangen|gehen|gehst|geht|geklettert|gekommen|gelassen|gelegt|gelegten|geplatzt|geplatzten|gerannt|geredet|geritten|geschaut|geschneit|gezogen|gezogenen|gingen|ging|kamen|kam|kämen|käme|klettern|kletterten|kommen|können|konnten|könnten|krabbeln|kriechen|kriegen|kriegten|krochen|lassen|laufen|legen|legten|ließen|locken|lockten|reden|redeten|regnen|reiten|rennen|ritten|schauen|schauten|stecken|steckten|ziehen|zogen|zog|zubringen|zufallen|zugehen|zuklettern|zukommen|zukönnen|zukriegen|zulassen|zulaufen|zureden|zuregnen|zureiten|zuschauen|zuschmeißen|zuschmuggeln|zuspringen|zustecken|zutragen|zuziehen|zuzwängen)</token>
+        </pattern>
+        <message>'\1' ist umgangssprachlich. Vorschläge: <suggestion><match no="1" regexp_match="^rein" regexp_replace="herein"/></suggestion>.</message>
+        <example type="incorrect">Da sind wir ganz schön <marker>reingefallen</marker>.</example>
+        <example type="correct">Da sind wir ganz schön <marker>hereingefallen</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">rum(albern|alberten|ärgern|balgen|balgten|ballern|ballerten|basteln|bastelten|brüllen|brüllten|bummeln|bummelten|doktern|drucksen|drucksten|drückten|dümpeln|dümpelten|erzählen|erzählten|fingern|fingerten|fuchteln|fummeln|fummelten|gammeln|gammelten|gealbert|gebastelt|gebohrt|gebrüllt|gebummelt|gefuchtelt|gegammelt|gegangen|gehackt|gehüpft|gehurt|geknobelt|geknutscht|gekramt|gekriegt|gekrittelt|gekritzelt|gekrochen|gekurvt|gelaufen|gelegen|gelungert|gepaddelt|gepfuscht|geplagt|gequält|gerannt|geraten|gerätselt|gereicht|geschickt|geschleppt|geschnüffelt|geschraubt|geschubst|gespielt|gestanden|gestänkert|gestümpert|getrampelt|getrieben|getrödelt|geturnt|gewinselt|gewirbelt|geworfen|gewühlt|gewurstelt|gezankt|gezappelt|hacken|hämmern|hängen|hantieren|hingen|hocken|hockten|hüpfen|hüpften|huren|hurten|jammern|jammerten|knobeln|knutschen|kommandieren|kommandierten|kramen|kramten|krochen|kurven|kurvten|lagen|lästern|lästerten|laufen|liefen|liegen|lümmeln|lümmelten|lungern|lungerten|machen|machten|meckern|meckerten|motzen|motzten|murksen|murksten|nörgeln|probieren|probierten|rannten|schleppen|schleppten|schnüffeln|schnüffelten|schrauben|schraubten|schreien|schubsen|schubsten|sitzen|spazieren|spazierten|spielen|spielten|sprangen|springen|spritzen|spritzten|spukten|standen|stänkern|stänkerten|stehen|stöbern|stöberten|stochern|stocherten|stümpern|stümperten|suchen|suchten|toben|tobten|tollen|tollten|trödeln|trödelten|wandern|wanderten|winseln|wühlen|wursteln|zanken|zankten|zappeln)</token>
+        </pattern>
+        <message>'\1' ist umgangssprachlich. Vorschläge: <suggestion><match no="1" regexp_match="^rum" regexp_replace="herum"/></suggestion>.</message>
+        <example type="incorrect">Ich will mich damit nicht immer <marker>rumärgern</marker> müssen.</example>
+        <example type="correct">Ich bin es leid, mich damit <marker>herumzuärgern</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">rumzu(albern|ärgern|basteln|bohren|brüllen|fummeln|gammeln|hüpfen|huren|knobeln|knutschen|kramen|kriegen|kurven|laufen|liegen|pfuschen|quälen|schnüffeln|schrauben|schreien|schubsen|sitzen|spielen|spionieren|springen|spuken|stänkern|stehen|stochern|stoßen|streunen|stümpern|suchen|tappen|tasten|toben|tollen|tragen|trampeln|vagabundieren|wälzen|wandern|werfen|werkeln|wickeln|wühlen|wursteln|zanken)</token>
+        </pattern>
+        <message>'\1' ist umgangssprachlich. Vorschläge: <suggestion><match no="1" regexp_match="^rum" regexp_replace="herum"/></suggestion>.</message>
+        <example type="incorrect">Ich bin es leid, mich damit immer <marker>rumzuärgern</marker>.</example>
+        <example type="correct">Ich bin es leid, mich damit <marker>herumzuärgern</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">albern|alberten|ärgern|balgen|balgten|ballern|ballerten|basteln|bastelten|brüllen|brüllten|bummeln|bummelten|doktern|drucksen|drucksten|drückten|dümpeln|dümpelten|erzählen|erzählten|fingern|fingerten|fuchteln|fummeln|fummelten|gammeln|gammelten|gealbert|gebastelt|gebohrt|gebrüllt|gebummelt|gefuchtelt|gegammelt|gegangen|gehackt|gehüpft|gehurt|geknobelt|geknutscht|gekramt|gekriegt|gekrittelt|gekritzelt|gekrochen|gekurvt|gelaufen|gelegen|gelungert|gepaddelt|gepfuscht|geplagt|gequält|gerannt|geraten|gerätselt|gereicht|geschickt|geschleppt|geschnüffelt|geschraubt|geschubst|gespielt|gestanden|gestänkert|gestümpert|getrampelt|getrieben|getrödelt|geturnt|gewinselt|gewirbelt|geworfen|gewühlt|gewurstelt|gezankt|gezappelt|hacken|hämmern|hängen|hantieren|hingen|hocken|hockten|hüpfen|hüpften|huren|hurten|jammern|jammerten|knobeln|knutschen|kommandieren|kommandierten|kramen|kramten|krochen|kurven|kurvten|lagen|lästern|lästerten|laufen|liefen|liegen|lümmeln|lümmelten|lungern|lungerten|machen|machten|meckern|meckerten|motzen|motzten|murksen|murksten|nörgeln|probieren|probierten|rannten|schleppen|schleppten|schnüffeln|schnüffelten|schrauben|schraubten|schreien|schubsen|schubsten|sitzen|spazieren|spazierten|spielen|spielten|sprangen|springen|spritzen|spritzten|spukten|standen|stänkern|stänkerten|stehen|stöbern|stöberten|stochern|stocherten|stümpern|stümperten|suchen|suchten|toben|tobten|tollen|tollten|trödeln|trödelten|wandern|wanderten|winseln|wühlen|wursteln|zanken|zankten|zappeln</token>
+          <token>rum</token>
+        </pattern>
+        <message>'\2' ist umgangssprachlich. Vorschläge: <suggestion>herum</suggestion>.</message>
+        <example type="incorrect">Wir alberten <marker>rum</marker>.</example>
+        <example type="correct">Wir alberten <marker>herum</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">runter(baumeln|baumelten|drücken|drückten|fallen|fielen|fliegen|fließen|flitzen|flitzten|flogen|flossen|fuhren|gefallen|gefallenen|geflogen|gegangen|gehangelt|gehauen|gehen|geholt|geholten|gehst|geht|geklappt|geklettert|gekommen|gekommenen|gekullert|gekurbelt|gekurbelten|geladen|geladenen|gelassen|gelassenen|gelaufen|geleiert|geleierten|geputzt|gerannt|gerasselt|gerissen|gerollt|gerutscht|geschluckt|geschluckten|geschraubt|geschraubten|getragen|getropft|geworfen|gewürgt|gewürgten|gezerrt|gezogen|gezogenen|gingen|handeln|hängen|hauen|hauten|holen|holten|kamen|kam|kippen|kippten|klappen|klappten|klettern|kletterten|knallen|knallten|kommen|kullern|kullerten|kurbeln|kurbelten|laden|lassen|leiern|leierten|ließen|machen|putzen|putzten|rasseln|rasselten|rissen|rutschen|rutschten|schlingen|schlucken|schluckten|schmeißen|schmissen|schrauben|schütten|setzen|spielen|spielten|spülen|spülten|tropfen|würgen|würgten|zubrechen|zugehen|zukommen|zukraxeln|zumachen|zurennen|zurinnen|zurutschen|zuschleppen|zuschlingen|zuschlucken|zuschmeißen|zusetzen|zuspringen|zuspülen|zusteigen|zuwerfen|zuwürgen|zuzerren)</token>
+        </pattern>
+        <message>'\1' ist umgangssprachlich. Vorschläge: <suggestion><match no="1" regexp_match="^runter" regexp_replace="herunter"/></suggestion>.</message>
+        <example type="incorrect">Er ließ die Beine <marker>runterbaumeln</marker>.</example>
+        <example type="correct">Er ließ die Beine <marker>herunterbaumeln</marker>.</example>
+      </rule>
+    </rulegroup>
     <rule id="NICHTSDESTOTROTZ" name="Stil: 'nichtsdestotrotz' ist eine umgangssprachliche Verballhornung von 'nichtsdestoweniger'">
       <pattern>
         <token>nichtsdestotrotz</token>
@@ -1523,6 +1764,32 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct"><marker>Nichtsdestoweniger</marker> wird einfach weiter geplant.</example>
       <example type="incorrect"><marker>Nichtsdestotrotz</marker> wird einfach weiter geplant.</example>
     </rule>
+    <rulegroup id="MURKSEN" name="Umgangssprache: 'abmurksen' etc.">
+      <rule>
+        <pattern>
+          <token regexp="yes">(ab|abzu|herum|herumzu)?(murksen|knutschen|wichsen)</token>
+        </pattern>
+        <message>\1 ist umgangssprachlich.</message>
+        <example type="incorrect">Jetzt hör schon auf, an dem Ding <marker>herumzumurksen</marker>!</example>
+        <example type="correct">Jetzt hör schon auf, daran <marker>herumzubasteln</marker>!</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">(ab|herum)?(murks|knutsch|wichs)(en|t|te|ten)</token>
+        </pattern>
+        <message>\1 ist umgangssprachlich.</message>
+        <example type="incorrect">Widerlich, wie sie ihn <marker>abknutscht</marker>!</example>
+        <example type="correct">Sie küsste <marker>ihn</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">(abge|herumge)(murkst|knutscht|wichst)</token>
+        </pattern>
+        <message>\1 ist umgangssprachlich.</message>
+        <example type="incorrect">Widerlich, sie hat ihn <marker>abgeknutscht</marker>!</example>
+        <example type="correct">Sie hat ihn <marker>geküsst</marker>.</example>
+      </rule>
+    </rulegroup>
     <rule id="NICHT_ADAEQUAT_GENUG" name="Stil: 'nicht adäquat genug'">
       <pattern>
         <token>nicht</token>
@@ -1536,7 +1803,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     <rule id="MEISTE_ALLER" name="Stil: 'die meisten aller ...'">
       <pattern>
         <token regexp="yes">den|die</token>
-        <token>meisten</token>        
+        <token>meisten</token>
         <token>aller</token>
       </pattern>
       <message>Was halten Sie von der Formulierung: <suggestion>\1 \2 der</suggestion>?</message>
@@ -1604,7 +1871,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect">Mit <marker>Freundlichen</marker> Grüßen</example>
     </rule>
   -->
-  <!-- TODO: LT itself uppercases the suggestion so that it's incorrect again: 
+  <!-- TODO: LT itself uppercases the suggestion so that it's incorrect again:
     <rule id="WIR_TREFFEN" name="Groß-/Kleinschreibung: 'wir Treffen (treffen)'">
       <pattern mark_from="1" case_sensitive="yes">
         <token regexp="yes">[wW]ir|[sS]ie</token>
@@ -1617,6 +1884,17 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect">Sie <marker>Treffen</marker> sich später.</example>
     </rule>
   -->
+    <rulegroup id="EIN_BISSCHEN" name="Groß-/Kleinschreibung: 'Bisschen (bisschen)'">
+      <rule>
+        <pattern case_sensitive="yes">
+          <token regexp="yes">[eE]in</token>
+          <token>Bisschen</token>
+        </pattern>
+        <message>Meinten Sie: <suggestion>\1 <match case_conversion="alllower" no="2"/></suggestion>?</message>
+        <example type="correct">Das war <marker>ein bisschen</marker> komisch.</example>
+        <example type="incorrect">Das war <marker>ein Bisschen</marker> komisch.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="DANK_SUBST" name="Groß-/Kleinschreibung: 'dank (Dank)'">
     <!-- TODO: "Das/Was war/ist jetzt/nun/dann der/euer Dank?" -->
       <rule>
@@ -1632,6 +1910,64 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Zum <marker>Dank</marker> für seine Leistungen wurde er schließlich gefeuert.</example>
         <example type="correct">Zum <marker>Dank</marker> dafür wurde er anschließend gefeuert.</example>
         <example type="correct">Das war nun der <marker>Dank</marker> dafür?</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-1" case_sensitive="yes">
+          <token regexp="yes">[zZ]u</token>
+          <token>dank</token>
+          <token>verpflichtet</token>
+        </pattern>
+        <message>Bitte prüfen Sie, ob <suggestion>Dank</suggestion> hier als Substantiv gebraucht wird.</message>
+        <example type="incorrect">Wir sind ihr zu <marker>dank</marker> verpflichtet.</example>
+        <example type="correct">Wir sind ihr zu <marker>Dank</marker> verpflichtet.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2" mark_to="-1" case_sensitive="yes">
+          <token regexp="yes">[zZ]u</token>
+          <token>großem</token>
+          <token>dank</token>
+          <token>verpflichtet</token>
+        </pattern>
+        <message>Bitte prüfen Sie, ob <suggestion>Dank</suggestion> hier als Substantiv gebraucht wird.</message>
+        <example type="incorrect">Wir sind ihr zu großem <marker>dank</marker> verpflichtet.</example>
+        <example type="correct">Wir sind ihr zu großem <marker>Dank</marker> verpflichtet.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="FAELLEN_SUBST" name="Groß-/Kleinschreibung: 'fällen (Fällen)'">
+      <rule>
+        <pattern mark_from="2" case_sensitive="yes">
+          <token regexp="yes">[Ii]n|[Bb]ei</token>
+          <token regexp="yes">den|denjenigen|diesen|einfachen|einigen|leichten|manchen|mehreren|schweren|schwierigen|vielen|wenigen|zahlreichen</token>
+          <token>fällen</token>
+        </pattern>
+        <message>Bitte prüfen Sie, ob <suggestion>Fällen</suggestion> hier als Substantiv gebraucht wird.</message>
+        <example type="correct">In besonders schweren <marker>Fällen</marker> ...</example>
+        <example type="correct">In manchen <marker>Fällen</marker> ...</example>
+        <example type="incorrect">In manchen <marker>fällen</marker> ...</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="IN_DIE_BREITE" name="Groß-/Kleinschreibung: 'breite (Breite)'">
+      <rule>
+        <pattern mark_from="3" case_sensitive="yes">
+          <token inflected="yes">gehen</token>
+          <token>in</token>
+          <token>die</token>
+          <token>breite</token>
+        </pattern>
+        <message>Bitte prüfen Sie, ob <suggestion>Breite</suggestion> hier als Substantiv gebraucht wird.</message>
+        <example type="correct">Du gehst ganz schön in die <marker>Breite</marker> in letzter Zeit.</example>
+        <example type="incorrect">Du gehst in die <marker>breite</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2" mark_to="-1" case_sensitive="yes">
+          <token regexp="yes">[Ii]n</token>
+          <token>die</token>
+          <token>breite</token>
+          <token inflected="yes">gehen</token>
+        </pattern>
+        <message>Bitte prüfen Sie, ob <suggestion>Breite</suggestion> hier als Substantiv gebraucht wird.</message>
+        <example type="correct">Sie ist ganz schön in die <marker>Breite</marker> gegangen.</example>
+        <example type="incorrect">Sie ist ganz schön in die <marker>breite</marker> gegangen.</example>
       </rule>
     </rulegroup>
     <rulegroup id="MARINE_SUBST" name="Groß-/Kleinschreibung: 'marine (Marine)'">
@@ -2529,8 +2865,8 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token/>
         </pattern>
         <message>Meinten Sie den Dativ?</message>
-        <example type="correct">Seit <marker>dem Umzug</marker> auf einen neuen Server...</example>        
-        <example type="correct">Aber nach <marker>einer Warnung</marker> hielt er an.</example>        
+        <example type="correct">Seit <marker>dem Umzug</marker> auf einen neuen Server...</example>
+        <example type="correct">Aber nach <marker>einer Warnung</marker> hielt er an.</example>
         <example type="incorrect">Seit <marker>des Umzuges</marker> auf einen neuen Server...</example>
       </rule>
     </rulegroup>
@@ -2552,6 +2888,15 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         </pattern>
         <message>'\1 \2' ist möglicherweise umgangssprachlich. Ersetzen durch <suggestion>ihretwegen</suggestion>?</message>
         <example type="incorrect"><marker>Wegen ihr</marker> komme ich zu spät.</example>
+        <example type="correct"><marker>Ihretwegen</marker> komme ich zu spät.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>wegen</token>
+          <token>ihnen</token>
+        </pattern>
+        <message>'\1 \2' ist möglicherweise umgangssprachlich. Ersetzen durch <suggestion>ihretwegen</suggestion>?</message>
+        <example type="incorrect"><marker>Wegen Ihnen</marker> komme ich zu spät.</example>
         <example type="correct"><marker>Ihretwegen</marker> komme ich zu spät.</example>
       </rule>
       <rule>
@@ -2600,7 +2945,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">ich|Ich</token>
           <token>wünschen</token>
         </pattern>
-        <message>Meinten Sie <suggestion>wünsche</suggestion> ?</message>
+        <message>Meinten Sie <suggestion>wünsche</suggestion>?</message>
         <example type="correct">Ich <marker>wünsche</marker> dir viel Spaß.</example>
         <example type="correct">Viel Spaß <marker>wünsche</marker> ich dir.</example>
         <example type="incorrect" correction="wünsche">Ich <marker>wünschen</marker> dir viel Spaß.</example>
@@ -2611,17 +2956,17 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <pattern mark_from="1">
           <token>bitte</token>
           <token>sprech</token>
-        </pattern>      
-        <message>Statt 'sprech' sollte hier eventuell <suggestion>sprich</suggestion> benutzt werden.</message>   
-        <example type="correct">Bitte <marker>sprich</marker> nicht so laut.</example>      
+        </pattern>
+        <message>Statt 'sprech' sollte hier eventuell <suggestion>sprich</suggestion> benutzt werden.</message>
+        <example type="correct">Bitte <marker>sprich</marker> nicht so laut.</example>
         <example type="incorrect">Bitte <marker>sprech</marker> nicht so laut.</example>
       </rule>
       <rule>
         <pattern mark_to="-1">
           <token>sprech</token>
           <token>bitte</token>
-        </pattern>   
-        <message>Statt 'sprech' sollte hier eventuell <suggestion>sprich</suggestion> benutzt werden.</message>   
+        </pattern>
+        <message>Statt 'sprech' sollte hier eventuell <suggestion>sprich</suggestion> benutzt werden.</message>
         <example type="incorrect"><marker>Sprech</marker> bitte nicht so laut.</example>
         <example type="correct"><marker>Sprich</marker> bitte nicht so laut.</example>
       </rule>
@@ -2631,7 +2976,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token skip="5"></token>
           <token>bitte</token>
         </pattern>
-        <message>Statt 'sprech' sollte hier eventuell <suggestion>sprich</suggestion> benutzt werden.</message>   
+        <message>Statt 'sprech' sollte hier eventuell <suggestion>sprich</suggestion> benutzt werden.</message>
         <example type="incorrect"><marker>Sprech</marker> doch bitte nicht so laut.</example>
         <example type="correct"><marker>Sprich</marker> doch bitte nicht so laut.</example>
       </rule>
@@ -2682,7 +3027,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     </rulegroup>
     <rule id="AN_HERR" name="Grammatik: 'an/für Herr (Herrn)'">
       <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
-        <token regexp="yes">[Aa]n|[Zz]u|[Ff]ür|[Dd]es</token>
+        <token regexp="yes">[Aa]n|[Zz]u|[Ff]ür|[Dd]es|[Vv]on</token>
         <token>Herr</token>
         <token regexp="yes">[A-Z].*</token>
         <!--  don't match: "die Rechte an Herr der Ringe" -->
