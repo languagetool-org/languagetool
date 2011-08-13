@@ -1472,6 +1472,17 @@ though, and has since been slightly modified)-->
       </rule>
     </rulegroup>
 
+
+    <rule id="MARCHE_MARCHER" name="marcher (marché)">
+      <pattern mark_from="1">
+        <token regexp="yes">au|aucun|autre|bon|ce|du|grand|le|leur|meilleur|[mts]on|[nv]otre|par|petit|un</token>
+        <token>marcher</token>
+      </pattern>
+      <message>Voules-vous écrire <suggestion><match no="2" regexp_match="er" regexp_replace="é"/></suggestion>?</message>
+      <example type="incorrect">Elle va au <marker>marcher</marker>.</example>
+      <example type="correct">Elle va au marché.</example>
+    </rule>
+
   </category>
   <category name="Grammaire">
     <!-- http://www.leconjugueur.com/frlesnombres.php -->
@@ -19362,13 +19373,14 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern mark_from="1" mark_to="-1">
           <!-- Obviously, the list of gentilés could be expanded here. -->
-          <token regexp="yes">une?|certaine?s?|ce|[cdl]es|cette|quelques|plusieurs|chaque<exception scope="previous" regexp="yes" inflected="yes">parler|apprendre|enseigner|étudier</exception></token>
+          <token regexp="yes">une?|certaine?s?|ce|[cdl]es|cette|quelques|plusieurs|chaque<exception scope="previous" regexp="yes" inflected="yes">avoir|parler|apprendre|enseigner|étudier</exception></token>
           <token regexp="yes">(?-iu:afghan|albanais|algérien|allemand|américain|andorran|angolais|anglais|antiguais|argentin|arménien|australien|autrichien|azerbaïdjanais|bahaméen|bahreïni|bahreïnien|bangladais|barbadien|basque|belge|bélizien|béninois|breton|bhoutanais|biélorusse|birman|bolivien|bosnien|botswanais|brésilien|britannique|brunéien|bulgare|burkinais|burkinab[èé]|burundais|cambodgien|camerounais|canadien|capverdien|centrafricain|chilien|chinois|chypriote|colombien|comorien|congolais|nord-coréen|sud-coréen|corse|costaricien|croate|cubain|danois|djiboutien|dominicain|dominiquais|ivoirien|égyptien|émirati|équatorien|érythréen|estonien|espagnol|états-?unien|étasunien|éthiopien|fidjien|finlandais|formosan|français|gabonais|gambien|géorgien|ghanéen|grec|grenadien|guadeloupéen|guatémaltèque|guinéen|bissau|équato-guinéen|guyanien|haïtien|hondurien|hollandais|hongrois|indien|indochinois|indonésien|irakien|italien|iranien|irlandais|islandais|israélien|jamaïcain|japonais|jordanien|kazakh|kényan|kosovar|koweïtien|laotien|sothos|letton|libanais|libérien|libyen|liechtensteinois|lituanien|luxembourgeois|macédonien|malgache|malaisien|malawite|maldivien|malien|maltais|maori|marocain|marshallais|mauricien|mauritanien|mexicain|micronésien|moldave|monégasque|monténégrin|mongol|mozambicain|myanmarais|namibien|nauruan|népalais|nicaraguayen|nigérien|nigérian|niouéen|néerlandais|norvégien|néo-zélandais|omani|ougandais|ouzbek|pakistanais|palauan|palestinien|panaméen|papouasien|paraguayen|péruvien|philippin|parisien|polonais|portugais|qatari|roumain|russe|rwandais|saint-lucien|salvadorien|santoméen|sénégalais|serbe|sebo-montonégrin|sychellois|singapourien|slovaque|slovène|somalien|soudanais|srilankais|suédois|suisse|surinamais|swazi|syrien|tadjik|tanzanien|tchadien|tchèque|thaïlandais|togolais|tonguien|trinidadien|tahitien|saoudien|sud-africain|tunisien|turkmène|turc|taïwanais|tuvaluan|ukrainien|soviétique|uruguayen|vanuatuan|vénézuélien|vietnamien|yéménite|yougoslave|zaïrois|zambien|zimbabwéen|scandinave|lapon|polynésien)</token>
           <token><exception regexp="yes">correct|courant</exception></token>
         </pattern>
         <message>Les gentilés (noms des habitants) ont une majuscule (mais pas les noms des langues).</message>
         <example type="incorrect">Je travaille en anglais avec des <marker>anglais</marker>.</example>
         <example type="correct">Je travaille en anglais avec des Anglais.</example>
+        <example type="correct">Même les Français ont un français qui est loin d’être parfait.</example>
       </rule>
     </rulegroup>
     <rule id="MOYEN_AGE" name="Moyen Âge">
