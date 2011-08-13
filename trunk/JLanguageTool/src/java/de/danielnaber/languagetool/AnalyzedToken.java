@@ -85,15 +85,20 @@ public class AnalyzedToken {
     if (this.equals(an)) {
       return true;      
     }
-    boolean found = false;
-    if (an.getToken() != null) {
-      found = this.token.equals(an.getToken());        
+    //empty tokens never match anything
+    if ("".equals(an.getToken()) && an.getLemma() == null 
+        && an.getPOSTag() == null) {
+      return false;
+    }
+    boolean found = true;
+    if (!"".equals(an.getToken())) { //token cannot be null
+      found &= this.token.equals(an.getToken());      
     }
     if (an.getLemma() != null) {
-      found = this.lemma.equals(an.getLemma());        
+      found &= this.lemma.equals(an.getLemma());             
     }
     if (an.getPOSTag() != null) {
-      found = this.posTag.equals(an.getPOSTag());        
+      found &= this.posTag.equals(an.getPOSTag());      
     }
     return found;
   }
