@@ -677,23 +677,42 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     </rulegroup>
     <rulegroup id="DU_WUENSCHT" name="Möglicher Tippfehler 'du wünscht (wünschst)'">
       <rule>
-        <!-- TODO: mehr Fälle finden mit "grep "schen/BDIOXYcd" de_DE_neu.dic|less" -->
         <pattern mark_from="1">
           <token>du</token>
-          <token>wünscht</token>
+          <token regexp="yes">(ablö|abmi|abrut|abwä|abwi|anpir|anquat|aufbau|auffi|auffri|aufhüb|aufklat|aufkrei|aufpeit|aufti|aufwi|ausfor|auslö|auslut|auspeit|ausquet|ausrut|austau|auswä|auswi|bau|beglückwün|begrap|beherr|beimi|beklat|belau|bequat|berau|betat|dolmet|dri|durchfor|durchlut|durchmi|durchrut|du|eindeut|eindri|einmi|einquet|eintau|enttäu|entwi|erfor|erfri|erha|erhei|erli|erlö|erwi|fäl|feil|fi|flan|flet|flut|for|fri|grap|grät|ha|hei|herabrut|heraufrut|herausfi|herausrut|herauswä|herbeiwün|hereinrut|herr|herüberrut|herummat|herumpfu|herumrut|herunterrut|hinabrut|hinaufrut|hineinmi|hineinpfu|hineinquet|hineinrut|hinüberrut|hinunterrut|hinwegtäu|hu|klat|knir|knut|krei|ku|lat|lau|lö|losdri|lut|mi|mitmi|nachfor|na|pan|peit|pfu|pir|plan|plant|plat|pre|prit|put|quat|quet|quiet|ram|rau|runterrut|rut|tau|täu|tu|überra|umtau|untermi|verar|verdeut|verdolmet|verdri|verfäl|vermi|verna|verpfu|verquat|verram|verrut|vertau|vertu|verwi|verwün|vorbeihu|vorherr|vortäu|wä|wat|wegfi|wegrut|wegwi|wi|wün|wu|zerflei|zerknaut|zerquet|zi|zurückrut|zurückwün|zusammenmi)scht</token>
         </pattern>
-        <message>Meinten Sie <suggestion>wünschst</suggestion> (ich wünsche, du wünschst, er wünscht, ...)?</message>
+        <message>Meinten Sie <suggestion><match no="2" regexp_match="scht$" regexp_replace="schst"/></suggestion>?</message>
         <example type="correct">Du <marker>wünschst</marker> dir so viel.</example>
         <example type="incorrect">Du <marker>wünscht</marker> dir so viel.</example>
       </rule>
       <rule>
         <pattern mark_to="-1">
-          <token>wünscht</token>
+          <token regexp="yes">(bau|beglückwün|begrap|beherr|beklat|belau|bequat|berau|betat|dolmet|dri|durchfor|durchmi|du|enttäu|entwi|erfor|erfri|erha|erhei|erli|erlö|erwi|fäl|feil|fi|flan|flet|flut|for|fri|grap|grät|ha|hei|herr|hu|klat|knir|knut|krei|ku|lat|lau|lö|losdri|lut|mi|mitmi|nachfor|na|pan|peit|pfu|pir|plan|plant|plat|pre|prit|put|quat|quet|quiet|ram|rau|rut|tau|täu|tu|überra|verar|verdeut|verdolmet|verdri|verfäl|vermi|verna|verpfu|verquat|verram|verrut|vertau|vertu|verwi|verwün|vorbeihu|vorherr|vortäu|wä|wat|wi|wün|wu|zerflei|zerknaut|zerquet|zi)scht</token>
           <token>du</token>
         </pattern>
-        <message>Meinten Sie <suggestion>wünschst</suggestion> (ich wünsche, du wünschst, er wünscht, ...)?</message>
+        <message>Meinten Sie <suggestion><match no="1" regexp_match="scht$" regexp_replace="schst"/></suggestion>?</message>
         <example type="correct"><marker>Wünschst</marker> du dir mehr Zeit?</example>
         <example type="incorrect"><marker>Wünscht</marker> du dir mehr Zeit?</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="DU_ERHAELST" name="Möglicher Tippfehler 'du erhälst (erhältst)'">
+      <rule>
+        <pattern mark_from="1">
+          <token>du</token>
+          <token>erhälst</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>erhältst</suggestion>?</message>
+        <example type="correct">Du <marker>erhältst</marker> als Anlage mein Testament.</example>
+        <example type="incorrect">Du <marker>erhälst</marker> als Anlage mein Testament.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token>erhälst</token>
+          <token>du</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>erhältst</suggestion>?</message>
+        <example type="correct">Als Anlage <marker>erhältst</marker> Du mein Testament.</example>
+        <example type="incorrect">Als Anlage <marker>erhälst</marker> Du mein Testament.</example>
       </rule>
     </rulegroup>
     <rule id="ZU_ZUMUTEN" name="Möglicher Tippfehler 'zu zu... (zuzu...)'">
@@ -1217,6 +1236,15 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect">Die <marker>über quellenden</marker> Mülleimer.</example>
       <example type="correct">Die <marker>überquellenden</marker> Mülleimer.</example>
     </rule>
+    <rule id="HILF_REICH" name="'Zusammen-/Getrenntschreibung: 'hilf reich (hilfreich)'">
+      <pattern>
+        <token>hilf</token>
+        <token regexp="yes">reich(e[rns]?)?</token>
+      </pattern>
+      <message>Bitte prüfen Sie die Getrenntschreibung: Meinten Sie evt. das Adjektiv <suggestion>\1\2</suggestion>?</message>
+      <example type="incorrect">Die <marker>hilf reichen</marker> Worte.</example>
+      <example type="correct">Die <marker>hilfreichen</marker> Worte.</example>
+    </rule>
     <rule id="BEI_GESTEUERT" name="'Zusammen-/Getrenntschreibung: 'bei gesteuert (beigesteuert)'">
       <pattern case_sensitive="yes">
         <token>bei</token>
@@ -1673,6 +1701,32 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct"><marker>Inmitten</marker> der Stadt.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="ISBN-NUMMER" name="Verdoppelung: 'ISBN-Nummer (ISBN)' u.ä.">
+      <rule>
+        <pattern>
+          <token regexp="yes">ISBN-Nummer(n)?</token>
+        </pattern>
+        <message>'ISBN' steht für 'International Standard Book Number' – ersetzen durch <suggestion>ISBN</suggestion>?</message>
+        <example type="incorrect">Die <marker>ISBN-Nummer</marker> des Buches.</example>
+        <example type="correct">Die <marker>ISBN</marker> des Buches.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">PIN-Nummer(n)?</token>
+        </pattern>
+        <message>'PIN' steht für 'Personal Identification Number' – ersetzen durch <suggestion>PIN</suggestion>?</message>
+        <example type="incorrect">Sie gab ihre <marker>PIN-Nummer</marker> ein.</example>
+        <example type="correct">Sie gab ihre <marker>PIN</marker> ein.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">DTV-Verlag(s)?</token>
+        </pattern>
+        <message>'DTV' steht für 'Deutscher Taschenbuch-Verlag' – ersetzen durch <suggestion>DTV</suggestion>?</message>
+        <example type="incorrect">Das Buch ist im <marker>DTV-Verlag</marker> erschienen.</example>
+        <example type="correct">Das Buch ist im <marker>DTV</marker> erschienen.</example>
+      </rule>
+    </rulegroup>
   </category>
 
   <category name="Stil">
@@ -1835,23 +1889,10 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     </rule>
   -->
   <!-- TODO: make sure we don't automatically turn the suggestion to uppercase here:
-    <rule id="WIR_TREFFEN" name="Groß-/Kleinschreibung: 'wir Treffen (treffen)'">
-      <pattern mark_from="1" case_sensitive="yes">
-        <token regexp="yes">[Ww]ir|[Ss]ie</token>
-        <token>Treffen</token>
-      </pattern>
-      <message>Meinten Sie <suggestion>treffen</suggestion>?</message>
-      <example type="correct">Wir <marker>treffen</marker> uns später.</example>
-      <example type="correct">Sie <marker>treffen</marker> sich später.</example>
-      <example type="incorrect">Wir <marker>Treffen</marker> uns später.</example>
-      <example type="incorrect">Sie <marker>Treffen</marker> sich später.</example>
-    </rule>
-  -->
-  <!-- TODO: make sure we don't automatically turn the suggestion to uppercase here:
     <rule id="KREUZ_UND_QUER" name="Groß-/Kleinschreibung: 'kreuz und quer'">
       <pattern case_sensitive="yes">
         <token negate="yes" postag="SENT_START"/>
-        <token regexp="yes">Kreuz</token>
+        <token>Kreuz</token>
         <token>und</token>
         <token>quer</token>
       </pattern>
@@ -1860,30 +1901,56 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect">Alle liefen <marker>Kreuz und quer</marker> durcheinander.</example>
     </rule>
   -->
-  <!-- TODO: make sure we don't automatically turn the suggestion to uppercase here:
-    <rule id="MIT_FREUNDLICHEN" name="Möglicher Tippfehler: 'mit Freundlichen (freundlichen)'">
-      <pattern mark_from="1">
-        <token>mit</token>
-        <token>Freundlichen</token>
+    <rulegroup id="MIT_FREUNDLICHEN" name="Groß-/Kleinschreibung: 'mit Freundlichen (freundlichen) grüßen (Grüßen)'">
+      <rule>
+        <pattern mark_from="1" case_sensitive="yes">
+          <token regexp="yes">[mM]it</token>
+          <token>Freundlichen</token>
+        </pattern>
+        <message>Meinten Sie <suggestion><match case_conversion="alllower" no="2"/></suggestion>?</message>
+        <example type="correct">Mit <marker>freundlichen</marker> Grüßen</example>
+        <example type="incorrect">Mit <marker>Freundlichen</marker> Grüßen</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2" case_sensitive="yes">
+          <token regexp="yes">[mM]it</token>
+          <token regexp="yes">(herz|freund)lichen|besten|lieben</token>
+          <token>grüßen</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>Grüßen</suggestion>?</message>
+        <example type="correct">Mit freundlichen <marker>Grüßen</marker></example>
+        <example type="incorrect">Mit freundlichen <marker>grüßen</marker></example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" case_sensitive="yes">
+          <token regexp="yes">(Herz|Freund)liche|Liebe</token>
+          <token>grüße</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>Grüße</suggestion>?</message>
+        <example type="correct">Herzliche <marker>Grüße</marker></example>
+        <example type="incorrect">Herzliche <marker>grüße</marker></example>
+      </rule>
+    </rulegroup>
+    <rule id="ROTE_ARMEE" name="Groß-/Kleinschreibung: 'rote (Rote) Armee'">
+      <pattern case_sensitive="yes">
+        <token regexp="yes">rote(n)?</token>
+        <token>Armee</token>
       </pattern>
-      <message>Meinten Sie <suggestion>freundlichen</suggestion>?</message>
-      <example type="correct">Mit <marker>freundlichen</marker> Grüßen</example>
-      <example type="incorrect">Mit <marker>Freundlichen</marker> Grüßen</example>
+      <message>Meinten Sie <suggestion>Rote Armee</suggestion>? Dies ist eine feste Wendung.</message>
+      <example type="incorrect">Soldaten der <marker>roten Armee</marker> rückten auf Berlin vor.</example>
+      <example type="correct">Soldaten der <marker>Roten Armee</marker> rückten auf Berlin vor.</example>
     </rule>
-  -->
-  <!-- TODO: LT itself uppercases the suggestion so that it's incorrect again:
     <rule id="WIR_TREFFEN" name="Groß-/Kleinschreibung: 'wir Treffen (treffen)'">
       <pattern mark_from="1" case_sensitive="yes">
         <token regexp="yes">[wW]ir|[sS]ie</token>
         <token>Treffen</token>
       </pattern>
-      <message>Meinten Sie <suggestion>treffen</suggestion>?</message>
+      <message>Meinten Sie <suggestion><match case_conversion="alllower" no="2"/></suggestion>?</message>
       <example type="correct">Wir <marker>treffen</marker> uns später.</example>
       <example type="correct">Sie <marker>treffen</marker> sich später.</example>
       <example type="incorrect">Wir <marker>Treffen</marker> uns später.</example>
       <example type="incorrect">Sie <marker>Treffen</marker> sich später.</example>
     </rule>
-  -->
     <rulegroup id="EIN_BISSCHEN" name="Groß-/Kleinschreibung: 'Bisschen (bisschen)'">
       <rule>
         <pattern case_sensitive="yes">
@@ -1893,6 +1960,27 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <message>Meinten Sie: <suggestion>\1 <match case_conversion="alllower" no="2"/></suggestion>?</message>
         <example type="correct">Das war <marker>ein bisschen</marker> komisch.</example>
         <example type="incorrect">Das war <marker>ein Bisschen</marker> komisch.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="ANGST_SUBST" name="Groß-/Kleinschreibung: 'angst (Angst)'">
+      <rule>
+        <pattern case_sensitive="yes" mark_from="1">
+          <token regexp="yes">vor|keine|große(r)?|lauter|ha[sb]?t|hatte(st|n)?|bekam(st|t|en)?</token>
+          <token>angst</token>
+        </pattern>
+        <message>Meinten Sie: <suggestion>Angst</suggestion>?</message>
+        <example type="correct">)Ich hatte überhaupt keine <marker>Angst</marker>.</example>
+        <example type="incorrect">)Ich hatte überhaupt keine <marker>angst</marker>.</example>
+      </rule>
+      <rule>
+        <pattern  case_sensitive="yes" mark_from="2">
+          <token>mit</token>
+          <token>der</token>
+          <token>angst</token>
+        </pattern>
+        <message>Meinten Sie: <suggestion>Angst</suggestion>?</message>
+        <example type="correct">)Ich bekam es mit der <marker>Angst</marker> zu tun.</example>
+        <example type="incorrect">)Ich bekam es mit der <marker>angst</marker> zu tun.</example>
       </rule>
     </rulegroup>
     <rulegroup id="DANK_SUBST" name="Groß-/Kleinschreibung: 'dank (Dank)'">
@@ -2918,6 +3006,38 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect"><marker>Gemäß des</marker> Beschlusses der Kultusministerkonferenz ...</example>
       <example type="correct"><marker>Gemäß dem</marker> Beschluss der Kultusministerkonferenz ...</example>
     </rule>
+    <rulegroup id="RAF" name="Grammatik: 'Rote Armee Fraktion'">
+      <rule>
+        <pattern>
+          <token>Roten</token>
+          <token>Armee</token>
+          <token>Fraktion</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>Rote Armee Fraktion</suggestion>? Dies ist eine feste Wendung.</message>
+        <example type="incorrect">Mitglieder der <marker>Roten Armee Fraktion</marker> ...</example>
+        <example type="correct">Mitglieder der <marker>Rote Armee Fraktion</marker> ...</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>Rote</token>
+          <token>Arme</token>
+          <token>Fraktion</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>Rote Armee Fraktion</suggestion>?</message>
+        <example type="incorrect">Mitglieder der <marker>Rote Arme Fraktion</marker> ...</example>
+        <example type="correct">Mitglieder der <marker>Rote Armee Fraktion</marker> ...</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token>rote</token>
+          <token>Armee</token>
+          <token>Fraktion</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>Rote Armee Fraktion</suggestion>? Dies ist eine feste Wendung.</message>
+        <example type="incorrect">Mitglieder der <marker>rote Armee Fraktion</marker> ...</example>
+        <example type="correct">Mitglieder der <marker>Rote Armee Fraktion</marker> ...</example>
+      </rule>
+    </rulegroup>
     <rule id="IM_KEINEN" name="Grammatik: 'im keinen (kleinen)'">
       <pattern mark_from="1">
         <token>im</token>
@@ -3145,7 +3265,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         </token>
         <token regexp="yes">([0-9]{1,5})(\-)([0-9]{1,5})</token>
       </pattern>
-      <message>Meinten Sie <suggestion><match no="2" regexp_match="\-" regexp_replace="–" /></suggestion>? Als Bis-Strich wird i.a. der Gedankenstrich verwendet.</message>
+      <message>Meinten Sie <suggestion><match no="2" regexp_match="\-" regexp_replace="–" /></suggestion>? Als Bis-Strich wird i.A. der Gedankenstrich verwendet.</message>
       <example type="correct">Der Täter ist etwa <marker>40–50</marker> Jahre alt.</example>
       <example type="incorrect">Der Täter ist etwa <marker>40-50</marker> Jahre alt.</example>
     </rule>
