@@ -3278,7 +3278,7 @@ though, and has since been slightly modified)-->
     <rule id="TRES_BEAUCOUP" name="très/trop + adverbe superlatif">
       <pattern>
         <token regexp="yes">très|trop</token>
-        <token regexp="yes">beaucoup|terrible|délicieux|assez|mieux|pire|meilleur</token>
+        <token regexp="yes">assez|beaucoup|délicieux|meilleur|mieux|pire|terrible</token>
       </pattern>
       <message>On emploie pas « \1 » avant un adjectif ou adverbe « \2 » expriment un superlatif.</message>
       <example type="incorrect">J’ai <marker>trop beaucoup</marker> de travail.</example>
@@ -17790,6 +17790,33 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
+          <token>Jésus</token>
+          <token>Christ</token>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
+        <example type="incorrect"><marker>Jésus Christ</marker> est un synonyme de Jésus.</example>
+        <example type="correct">Jésus-Christ est un synonyme de Jésus.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token>Jean</token>
+          <token regexp="yes">Alain|Antoine|André|Baptiste|Benoit|Bernard|Charles|Christophe|Christian|Claude|Damien|Daniel|David|Denis|Dominique|[EÉ]douard|Emmanuel|[EÉ]tienne|[EÉ]ric|Eudes|Francis|François|Fréderic|Gabriel|Georges|Guillaume|Hugue|Jacques|Joseph|Louis|Laurent|Loup|Luc|Manuel|Marc|Marcel|Marie|Mathieu|Maurice|Max|Michel|No[ëe]l|Patrice|Paul|Philippe|Pierre|Rémi|René|Raymond|Robert|Vincent|Yves</token>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
+        <example type="incorrect">Je m’appelle <marker>Jean Marc</marker>.</example>
+        <example type="correct">Je m’appelle Jean-Marc.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token>Marie</token>
+          <token regexp="yes">Agnès|Ali[cn]e|Amélie|Andrée|Ange|Angelle|Anne|Antoinette|Annick|Astrid|Aude|Béatrice|Bénédicte|Bernadette|Camille|Carmen|Caroline|Cath?erine|Cécile|Céline|Chantal|Charlotte|Christine|Claire|Claude|Dominique|[ÉE]dith|[ÉE]lisabeth|[ÉE]lise|[EÉ]milie|[EÉ]mmanuelle|Eve|France|Françoise|Gabrielle|Ga[eë]lle|Genevi[èe]ve|Jeanne|Jo[ëe]lle|Josée?|Josephe|Julie|Hélène|Isabelle|Laure|Laurence|L[iy][ns]e|Lou|Louise|Luce|Odile|Madeleine|Martine|No[eë]lle|Paule|Pascale|Renée|Rose|Sophie|Thérèse|Véronique|Yvonne</token>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
+        <example type="incorrect">Je m’appelle <marker>Marie Laure</marker>.</example>
+        <example type="correct">Je m’appelle Marie-Laure.</example>
+      </rule>
+      <rule>
+        <pattern>
           <token regexp="yes">timbres?</token>
           <token>poste</token>
         </pattern>
@@ -19373,9 +19400,9 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern mark_from="1" mark_to="-1">
           <!-- Obviously, the list of gentilés could be expanded here. -->
-          <token regexp="yes">une?|certaine?s?|ce|[cdl]es|cette|quelques|plusieurs|chaque<exception scope="previous" regexp="yes" inflected="yes">avoir|parler|apprendre|enseigner|étudier</exception></token>
-          <token regexp="yes">(?-iu:afghan|albanais|algérien|allemand|américain|andorran|angolais|anglais|antiguais|argentin|arménien|australien|autrichien|azerbaïdjanais|bahaméen|bahreïni|bahreïnien|bangladais|barbadien|basque|belge|bélizien|béninois|breton|bhoutanais|biélorusse|birman|bolivien|bosnien|botswanais|brésilien|britannique|brunéien|bulgare|burkinais|burkinab[èé]|burundais|cambodgien|camerounais|canadien|capverdien|centrafricain|chilien|chinois|chypriote|colombien|comorien|congolais|nord-coréen|sud-coréen|corse|costaricien|croate|cubain|danois|djiboutien|dominicain|dominiquais|ivoirien|égyptien|émirati|équatorien|érythréen|estonien|espagnol|états-?unien|étasunien|éthiopien|fidjien|finlandais|formosan|français|gabonais|gambien|géorgien|ghanéen|grec|grenadien|guadeloupéen|guatémaltèque|guinéen|bissau|équato-guinéen|guyanien|haïtien|hondurien|hollandais|hongrois|indien|indochinois|indonésien|irakien|italien|iranien|irlandais|islandais|israélien|jamaïcain|japonais|jordanien|kazakh|kényan|kosovar|koweïtien|laotien|sothos|letton|libanais|libérien|libyen|liechtensteinois|lituanien|luxembourgeois|macédonien|malgache|malaisien|malawite|maldivien|malien|maltais|maori|marocain|marshallais|mauricien|mauritanien|mexicain|micronésien|moldave|monégasque|monténégrin|mongol|mozambicain|myanmarais|namibien|nauruan|népalais|nicaraguayen|nigérien|nigérian|niouéen|néerlandais|norvégien|néo-zélandais|omani|ougandais|ouzbek|pakistanais|palauan|palestinien|panaméen|papouasien|paraguayen|péruvien|philippin|parisien|polonais|portugais|qatari|roumain|russe|rwandais|saint-lucien|salvadorien|santoméen|sénégalais|serbe|sebo-montonégrin|sychellois|singapourien|slovaque|slovène|somalien|soudanais|srilankais|suédois|suisse|surinamais|swazi|syrien|tadjik|tanzanien|tchadien|tchèque|thaïlandais|togolais|tonguien|trinidadien|tahitien|saoudien|sud-africain|tunisien|turkmène|turc|taïwanais|tuvaluan|ukrainien|soviétique|uruguayen|vanuatuan|vénézuélien|vietnamien|yéménite|yougoslave|zaïrois|zambien|zimbabwéen|scandinave|lapon|polynésien)</token>
-          <token><exception regexp="yes">correct|courant</exception></token>
+          <token regexp="yes">une?|certaine?s?|cet?|[cdl]es|cette|quelques|plusieurs|chaque<exception scope="previous" regexp="yes" inflected="yes">avoir|parler|apprendre|enseigner|étudier</exception></token>
+          <token regexp="yes">(?-iu:afghan|albanais|algérien|allemand|américain|andorran|angolais|anglais|antiguais|argentin|arménien|australien|autrichien|azerbaïdjanais|bahaméen|bahreïni|bâlois|bahreïnien|bangladais|barbadien|basque|belge|bélizien|béninois|brestois|breton|bruxellois|bhoutanais|biélorusse|birman|bolivien|bordelais|bosnien|botswanais|brésilien|britannique|brunéien|bulgare|burkinais|burkinab[èé]|burundais|cambodgien|camerounais|canadien|capverdien|centrafricain|chilien|chinois|chypriote|colombien|comorien|congolais|nord-coréen|sud-coréen|corse|costaricien|croate|cubain|danois|djiboutien|dominicain|dominiquais|ivoirien|égyptien|émirati|équatorien|érythréen|estonien|espagnol|états-?unien|étasunien|éthiopien|fidjien|finlandais|formosan|français|gabonais|gambien|genévois|géorgien|ghanéen|grec|grenadien|guadeloupéen|guatémaltèque|guinéen|bissau|équato-guinéen|guyanien|haïtien|hondurien|hollandais|hongrois|indien|indochinois|indonésien|irakien|italien|iranien|irlandais|islandais|israélien|jamaïcain|japonais|jordanien|kazakh|kényan|kosovar|koweïtien|laotien|sothos|letton|libanais|libérien|libyen|liechtensteinois|lillois|lituanien|luxembourgeois|lyonnais|macédonien|malgache|malaisien|malawite|maldivien|malien|maltais|maori|marocain|marseillais|marshallais|mauricien|mauritanien|mexicain|micronésien|moldave|monégasque|monpelliérain|monténégrin|mongol|mozambicain|myanmarais|namibien|nantais|nauruan|népalais|nicaraguayen|nigérien|nigérian|niouéen|néerlandais|norvégien|néo-zélandais|omani|ougandais|ouzbek|pakistanais|palauan|palestinien|panaméen|papouasien|paraguayen|parisien|péruvien|philippin|polonais|portugais|qatari|roumain|russe|rwandais|saint-lucien|salvadorien|santoméen|sénégalais|serbe|sebo-montonégrin|sychellois|singapourien|slovaque|slovène|somalien|soudanais|srilankais|suédois|suisse|surinamais|swazi|syrien|tadjik|tanzanien|tchadien|tchèque|thaïlandais|togolais|tonguien|trinidadien|tahitien|toulousain|saoudien|strasbourgeois|sud-africain|tunisien|turkmène|turc|taïwanais|tuvaluan|ukrainien|soviétique|uruguayen|vanuatuan|vénézuélien|vietnamien|yéménite|yougoslave|zaïrois|zambien|zimbabwéen|zurichois|scandinave|lapon|polynésien)</token>
+          <token><exception regexp="yes">correct|courant|parfait</exception></token>
         </pattern>
         <message>Les gentilés (noms des habitants) ont une majuscule (mais pas les noms des langues).</message>
         <example type="incorrect">Je travaille en anglais avec des <marker>anglais</marker>.</example>
