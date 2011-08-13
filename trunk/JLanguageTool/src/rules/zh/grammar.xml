@@ -9,6 +9,185 @@ $Id: grammar.xml,v 1.0 2011-07-29 13:20:25 taolin2011 Exp $
 -->
 <rules lang="en" xsi:noNamespaceSchemaLocation="../rules.xsd"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  
+  <!-- ====================================================================== -->
+  <!-- 拼写： 词语错误-->
+  <!-- ====================================================================== -->
+  <category name="词语错误">
+    <rulegroup id="AI_ZHONG_SHUAI" name="哀/衷/衰">
+      <rule>
+        <pattern mark_to="-1">
+          <token regexp="yes">衷|衰</token>
+          <token postag="v|vg" regexp="yes" postag_regexp="yes">悼|叹|鸣|请|怜|劝|告|求|怨</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>哀</suggestion>\2”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="哀"> 我们在清明节的时候都要去<marker>衰</marker>悼为祖国牺牲的烈士们。 </example>
+        <example type="correct">我们在清明节的时候都要去哀悼为祖国牺牲的烈士们。</example>
+        <example type="correct">他苦苦哀求他妻子不要离婚。</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">衷鸣|衷求</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>哀鸣</suggestion>”吗？ </message>
+        <example type="incorrect" correction="哀鸣"> 听到小明的<marker>衷鸣</marker>，我们不由得心寒。 </example>
+        <example type="correct">听到小明得哀鸣，我们不由得心寒</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token>默</token>
+          <token>衰</token>
+        </pattern>
+        <message> 您的意思是“默<suggestion>哀</suggestion>”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="哀"> 现在，我们为我们的牺牲的烈士们默<marker>衰</marker>五分钟。 </example>
+        <example type="correct">现在，我们为我们的牺牲的烈士们默哀五分钟。</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>默衷</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>默哀</suggestion>”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="默哀"> 现在，我们为我们的牺牲的烈士们<marker>默衷</marker>五分钟。 </example>
+        <example type="correct">现在，我们为我们的牺牲的烈士们默哀五分钟。</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token regexp="yes">哀|衰</token>
+          <token regexp="yes" postag="ag|n|ng" postag_regexp="yes">肠|曲|心</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>衷</suggestion>\2”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="衷"> 我们<marker>哀</marker>心祝愿这对夫妻白头偕老。 </example>
+        <example type="correct">我们衷心祝愿这对夫妻白头偕老。</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes" postag="a|p|ng" postag_regexp="yes">由|苦|折</token>
+          <token regexp="yes">哀|衰</token>
+        </pattern>
+        <message> 您的意思是“\1<suggestion>衷</suggestion>”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="衷"> 我由<marker>衰</marker>的感谢我们父母。 </example>
+        <example type="correct">我由衷的感谢我们父母。</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token regexp="yes">哀|衷</token>
+          <token regexp="yes" postag="a|ag" postag_regexp="yes">微|弱|老|竭 </token>
+        </pattern>
+        <message> 您的意思是“<suggestion>衰</suggestion>\2”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="衰"> 婆婆，一天天的<marker>哀</marker>老了。 </example>
+        <example type="correct">婆婆，一天天的衰老了。</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>衷老</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>衰老</suggestion>”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="衰老"> 爷爷，一天天的<marker>衷老</marker>了。 </example>
+        <example type="correct">爷爷，一天天的衰老了。</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token regexp="yes">哀|衷</token>
+          <token regexp="yes" postag="v|vg" postag_regexp="yes">落|败|减|退|亡</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>衰</suggestion>\2”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="衰"> 清朝，一天天得<marker>衷</marker>败着。 </example>
+        <example type="correct">清朝，一天天得衰败着。</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes" postag="v">盛|兴</token>
+          <token regexp="yes">哀|衷</token>
+        </pattern>
+        <message> 您的意思是“\1<suggestion>衰</suggestion>”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="衰"> 盛<marker>衷</marker>无常 </example>
+        <example type="correct">盛衰无常</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="BA_BO" name="拔/拨">
+      <rule>
+        <pattern mark_to="-1">
+          <token>拨</token>
+          <token regexp="yes" postag="n|nr" postag_regexp="yes">腿|草|牙|毒|毛|河|城|尖|剑</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>拔</suggestion>\2”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="拔"> 今天我们参加了<marker>拨</marker>河比赛。 </example>
+        <example type="correct">今天我们参加了拔河比赛。</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>拨</token>
+          <token>尖</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>拔尖</suggestion>”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="拔尖"> 小明在班上很<marker>拨尖</marker>。 </example>
+        <example type="correct">小明在班上很拔尖。</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token postag="d">挺</token>
+          <token>拨</token>
+        </pattern>
+        <message> 您的意思是“挺<suggestion>拔</suggestion>”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="拔"> 看我挺<marker>拨</marker>的胸部。 </example>
+        <example type="correct">看我挺拔的胸部。</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token postag="n">海</token>
+          <token>拨</token>
+        </pattern>
+        <message> 您的意思是“海<suggestion>拔</suggestion>”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="拔"> 这儿海<marker>拨</marker>5000米。 </example>
+        <example type="correct">这儿海拔5000米。</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token>拔</token>
+          <token regexp="yes" postag="v|p" postag_regexp="yes">动|发|付|开|给|打</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>拨</suggestion>\2”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="拨"> 中央政府<marker>拔</marker>给了当地政府1000万。 </example>
+        <example type="correct">中央政府拨给了当地政府1000万。</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token>拔</token>
+          <token regexp="yes" postag_regexp="yes" postag="n|q">号|款</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>拨</suggestion>\2”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="拨"> 他家还是<marker>拔</marker>号上网。 </example>
+        <example type="correct">他家还是拨号上网。</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token>
+            <exception>一点</exception>点 </token>
+          <token>拔</token>
+        </pattern>
+        <message> 您的意思是“点<suggestion>拨</suggestion>”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="拨"> 哪里不懂？等下老师回来给你点<marker>拔</marker>下。 </example>
+        <example type="correct">哪里不懂？等下老师回来给你点拨下。</example>
+      </rule>
+    </rulegroup>
+  </category>
+  
   <!-- ====================================================================== -->
   <!-- 拼写： 成语错误-->
   <!-- ====================================================================== -->
@@ -283,8 +462,6 @@ $Id: grammar.xml,v 1.0 2011-07-29 13:20:25 taolin2011 Exp $
       <example type="incorrect" correction="妆"> 欲把西湖比西子,淡<marker>装</marker>浓抹总相宜。 </example>
       <example type="correct">欲把西湖比西子,淡妆浓抹总相宜。</example>
     </rule>  
-   
-   
     <rule id="ANRANSHISE" name="黯然失色">
       <pattern mark_from="0" mark_to="-2">
         <token>暗</token>
