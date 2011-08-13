@@ -193,7 +193,7 @@ public class AnalyzedTokenReadings {
         .getPOSTag(), tok.getLemma());
     tmpTok.setWhitespaceBefore(isWhitespaceBefore);
     for (AnalyzedToken anTokReading : anTokReadings) {
-      if (!anTokReading.equals(tmpTok)) {
+      if (!anTokReading.matches(tmpTok)) {
         l.add(anTokReading);
       }
     }

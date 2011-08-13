@@ -74,6 +74,30 @@ public class AnalyzedToken {
     return isWhitespaceBefore;
   }
 
+  
+  /**
+   * @since 1.4
+   * @param an AnalyzedToken to test
+   * @return true if all of the non-null values (lemma, POS, token)
+   * of AnalyzedToken match this token.
+   */
+  public final boolean matches(final AnalyzedToken an) {
+    if (this.equals(an)) {
+      return true;      
+    }
+    boolean found = false;
+    if (an.getToken() != null) {
+      found = this.token.equals(an.getToken());        
+    }
+    if (an.getLemma() != null) {
+      found = this.lemma.equals(an.getLemma());        
+    }
+    if (an.getPOSTag() != null) {
+      found = this.posTag.equals(an.getPOSTag());        
+    }
+    return found;
+  }
+  
   @Override
   public String toString() {
     final StringBuilder sb = new StringBuilder();

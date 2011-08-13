@@ -77,6 +77,15 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
 			<disambig postag="qub"/>
 		</rule>
 	</rulegroup>
+	<rule name="przeszło" id="PRZESZLO">		
+			<pattern mark="0">
+			<token>przeszło</token>
+			<token regexp="yes">\d+</token>
+			</pattern>
+			<disambig action="remove"><wd lemma="przejść"></wd></disambig>
+			<example type="untouched">Przeszło trzydziestu panów pije wódkę.</example>
+			<example type="ambiguous" inputform="Przeszło[przejść/verb:praet:sg:ter:n:perf]" outputform="Przeszło[]"><marker>Przeszło</marker> 30 panów pije wódkę.</example>
+	</rule>
 	<rule name="prawie/subst -> kublik" id="prawie">
 		<pattern mark="1">
 			<token><exception postag="prep.*inst" postag_regexp="yes"/></token>
