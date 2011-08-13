@@ -687,6 +687,15 @@ though, and has since been slightly modified)-->
         <example type="correct">Il part bientôt pour Venise.</example>
       </rule>
     </rulegroup>
+    <rule id="GENE" name="Gène au lieu de Gêne">
+      <pattern mark_from="1">
+        <token>sans</token>
+        <token>gène</token>
+      </pattern>
+      <message>Voulez-vous écrire <suggestion>gêne</suggestion> ?</message>
+      <example type="incorrect">Il est sans <marker>gène</marker>.</example>
+      <example type="correct">Il est sans gêne.</example>
+    </rule>
     <rulegroup id="PEUT_ETRE" name="Peut-être au lieu de peut être">
       <rule>
         <pattern mark_from="1">
@@ -874,7 +883,7 @@ though, and has since been slightly modified)-->
         <pattern mark_from="1" mark_to="-1">
           <token/>
           <token>a</token>
-          <token regexp="yes">autrui|bord|cause|condition|côté|court|défaut|droite|force|laquelle|gauche|mesure|midi|minuit|part|peine|propos|proximité|travers|se|quels?|quelles?|comment|no[ëe]l|p[aâ]ques|[mts]e|[mst]oi|lui|elles?|eux|[nv]ous|vitesse|vélo</token>
+          <token regexp="yes">autrui|bord|cause|condition|côté|court|défaut|droite|force|laquelle|gauche|mesure|midi|minuit|part|peine|propos|proximité|rebours|travers|se|quels?|quelles?|comment|no[ëe]l|p[aâ]ques|[mts]e|[mst]oi|lui|elles?|eux|[nv]ous|vitesse|vélo</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>à</suggestion> ?</message>
         <example type="incorrect">L’adresse <marker>a</marker> laquelle tu l’as envoyé</example>
@@ -891,6 +900,15 @@ though, and has since been slightly modified)-->
         <example type="correct">Tu penses <marker>à</marker> quoi ?</example>
         <example type="correct">Il y en <marker>a</marker> qui dorment.</example>
         <example type="correct">Fais-moi savoir s’il y <marker>a</marker> quoi que ce soit que je puisse faire.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token>face<exception scope="previous">[lmts]a|leur|[nv]otre|une</exception></token>
+          <token>a</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>à</suggestion> ?</message>
+        <example type="incorrect">Nous étions face <marker>a</marker> un danger.</example>
+        <example type="correct">Nous étions face à un danger.</example>
       </rule>
       <rule>
         <pattern mark_from="1">
@@ -1522,7 +1540,7 @@ though, and has since been slightly modified)-->
         <pattern>
           <token>quatre</token>
           <token regexp="yes">vingts?</token>
-          <token regexp="yes">une|((un|deux|trois|six|sept|huit|dix|dix-sept|dix-huit)(ièmes?)?)|((quatr|onz|douz|treiz|quatorz|quinz|seiz)|(e|ièmes?)?)|cinq|cinquièmes?|neuf|neuvièmes?</token>
+          <token regexp="yes">une|((un|deux|trois|six|sept|huit|dix|dix-sept|dix-huit)(ièmes?)?)|(quatr|onz|douz|treiz|quatorz|quinz|seiz)(e|ièmes?)?|cinq|cinquièmes?|neuf|neuvièmes?</token>
         </pattern>
         <message>Employez <suggestion>quatre-vingt-un</suggestion>.</message>
         <example type="incorrect">Il a <marker>quatre vingt un</marker> ans.</example>
@@ -1531,7 +1549,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token regexp="yes">quatre-vingts?</token>
-          <token regexp="yes">une|((un|deux|trois|six|sept|huit|dix|dix-sept|dix-huit)(ièmes?)?)|((quatr|onz|douz|treiz|quatorz|quinz|seiz)|(e|ièmes?)?)|cinq|cinquièmes?|neuf|neuvièmes?</token>
+          <token regexp="yes">une|(un|deux|trois|six|sept|huit|dix|dix-sept|dix-huit)(ièmes?)?|(quatr|onz|douz|treiz|quatorz|quinz|seiz)(e|ièmes?)?|cinq|cinquièmes?|neuf|neuvièmes?</token>
         </pattern>
         <message>Employez <suggestion>quatre-vingt-un</suggestion>.</message>
         <example type="incorrect">Il a <marker>quatre-vingt deux</marker> ans.</example>
@@ -1910,6 +1928,17 @@ though, and has since been slightly modified)-->
         <example type="correct">Les <marker>hommes auxquels</marker> tu parles</example>
       </rule>
     </rulegroup>
+    <rule id="TE_NV" name="me/te/se + non verbe">
+      <pattern mark_from="1">
+        <token regexp="yes">[mts]e</token>
+        <token postag="[NJAKZ].*" postag_regexp="yes">
+          <exception postag="[^NJAKZ].*" postag_regexp="yes"/>
+        </token>
+      </pattern>
+      <message>Le mot «\2» ne peut pas suivre le mot «\1».</message>
+      <example type="incorrect">Ça te <marker>gène</marker> si je fume ?</example>
+      <example type="correct">Ça te gêne si je fume ?</example>
+    </rule>
     <rule id="MON_NFS" name="mon/ton/son suivi d’un nom féminin singulier">
       <pattern>
         <token regexp="yes">[mts]on</token>
@@ -17808,12 +17837,39 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern case_sensitive="yes">
+          <token>Pierre</token>
+          <token regexp="yes">Adrien|Alain|Alexandre|André|Antoine|[ÉE]douard|[ÉE]mmanuel|François|Jean|Henri|Louis|Luc|Marie|Nicolas|Olivier|Yves</token>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
+        <example type="incorrect">Je m’appelle <marker>Pierre Yves</marker>.</example>
+        <example type="correct">Je m’appelle Pierre-Yves.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token>Charles</token>
+          <token regexp="yes">Antoine|[EÉ]douard|Henr[iy]</token>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
+        <example type="incorrect">Je m’appelle <marker>Charles Édouard</marker>.</example>
+        <example type="correct">Je m’appelle Charles-Édouard.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
           <token>Marie</token>
           <token regexp="yes">Agnès|Ali[cn]e|Amélie|Andrée|Ange|Angelle|Anne|Antoinette|Annick|Astrid|Aude|Béatrice|Bénédicte|Bernadette|Camille|Carmen|Caroline|Cath?erine|Cécile|Céline|Chantal|Charlotte|Christine|Claire|Claude|Dominique|[ÉE]dith|[ÉE]lisabeth|[ÉE]lise|[EÉ]milie|[EÉ]mmanuelle|Eve|France|Françoise|Gabrielle|Ga[eë]lle|Genevi[èe]ve|Jeanne|Jo[ëe]lle|Josée?|Josephe|Julie|Hélène|Isabelle|Laure|Laurence|L[iy][ns]e|Lou|Louise|Luce|Odile|Madeleine|Martine|No[eë]lle|Paule|Pascale|Renée|Rose|Sophie|Thérèse|Véronique|Yvonne</token>
         </pattern>
         <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
         <example type="incorrect">Je m’appelle <marker>Marie Laure</marker>.</example>
         <example type="correct">Je m’appelle Marie-Laure.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token>Anne</token>
+          <token regexp="yes">Catherine|Charlotte|Christine|Claire|Cécile|Flore|Ga[ëe]lle|France|Laure|L[iy][ns]e|Marie|Sophie</token>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
+        <example type="incorrect">Je m’appelle <marker>Anne Sophie</marker>.</example>
+        <example type="correct">Je m’appelle Anne-Sophie.</example>
       </rule>
       <rule>
         <pattern>
