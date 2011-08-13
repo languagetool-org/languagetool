@@ -1438,6 +1438,40 @@ though, and has since been slightly modified)-->
         <example type="correct">Donner libre cours à l’imagination</example>
       </rule>
     </rulegroup>
+
+    <rulegroup id="COMPTE_CONTE" name="compte (conte)">
+      <rule>
+        <pattern mark_to="-2">
+          <token regexp="yes">comptes?</token>
+          <token>de</token>
+          <token regexp="yes">fées?|traditions?</token>
+        </pattern>
+        <message>Voules-vous écrire <suggestion><match no="1" regexp_match="(.*)mp(.*)" regexp_replace="$1n$2"/></suggestion>?</message>
+        <example type="incorrect">Elle aime les <marker>comptes</marker> de fées.</example>
+        <example type="correct">Elle aime les contes de fées.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-3">
+          <token regexp="yes">comptes?</token>
+          <token>d</token>
+          <token regexp="yes">[’´'‛′‘]</token>
+          <token regexp="yes">amour|horreur</token>
+        </pattern>
+        <message>Voules-vous écrire <suggestion><match no="1" regexp_match="(.*)mp(.*)" regexp_replace="$1n$2"/></suggestion>?</message>
+        <example type="incorrect">Elle aime les <marker>comptes</marker> d’horreur.</example>
+        <example type="correct">Elle aime les contes d’horreur.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token regexp="yes">comptes?</token>
+          <token regexp="yes">allégoriques?|fantastiques?|littéraires?|merveilleux|morals?|oral|oraux|écrits?|populaires?|satiriques?|véhiculés?</token>
+        </pattern>
+        <message>Voules-vous écrire <suggestion><match no="1" regexp_match="(.*)mp(.*)" regexp_replace="$1n$2"/></suggestion>?</message>
+        <example type="incorrect">Elle aime les <marker>comptes</marker> fantastiques.</example>
+        <example type="correct">Elle aime les contes fantastiques.</example>
+      </rule>
+    </rulegroup>
+
   </category>
   <category name="Grammaire">
     <!-- http://www.leconjugueur.com/frlesnombres.php -->
@@ -3925,6 +3959,7 @@ though, and has since been slightly modified)-->
       <example type="incorrect">Plusieurs <marker>des ces</marker> langues vont disparaitre.</example>
       <example type="correct">Plusieurs de ces langues vont disparaitre.</example>
     </rule>
+
   </category>
   <category default="off" name="Régionalismes">
     <!--The following rules were created by Hugo Voisard-->
