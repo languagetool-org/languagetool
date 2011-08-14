@@ -16,7 +16,6 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-
 package de.danielnaber.languagetool.rules.ru;
 
 import java.util.ResourceBundle;
@@ -28,38 +27,23 @@ import de.danielnaber.languagetool.rules.GenericUnpairedBracketsRule;
 
 public class RussianUnpairedBracketsRule extends GenericUnpairedBracketsRule {
 
-  private static final String[] RU_START_SYMBOLS = { "[", "(", "{", "„", "«", "\"", "'" };
-  private static final String[] RU_END_SYMBOLS   = { "]", ")", "}", "“", "»", "\"", "'" };
+    private static final String[] RU_START_SYMBOLS = {"[", "(", "{", "„", "«", "\"", "'"};
+    private static final String[] RU_END_SYMBOLS = {"]", ")", "}", "“", "»", "\"", "'"};
+    private static final Pattern NUMERALS_RU = Pattern.compile("(?i)\\d{1,2}?[а-я]*|[а-я]|[А-Я]|[а-я][а-я]|[А-Я][А-Я]|(?i)\\d{1,2}?[a-z']*|M*(D?C{0,3}|C[DM])(L?X{0,3}|X[LC])(V?I{0,3}|I[VX])$");
 
-  private static final Pattern NUMERALS_RU = Pattern
-    .compile("(?i)\\d{1,2}?[а-я]*|[а-я]|[А-Я]|[а-я][а-я]|[А-Я][А-Я]");
 
-  
-  @Override
-  protected boolean isNoException(final String token,
-      final AnalyzedTokenReadings[] tokens, final int i, final int j,
-      final boolean precSpace,
-      final boolean follSpace) {
-    // exception for Russian bullets: а), б), Д)..., ДД), аа) and 1а).
-    if (i > 1 && endSymbols[j].equals(")") &&
-        NUMERALS_RU.matcher(tokens[i - 1].getToken()).matches() && 
-        !(!symbolStack.empty() && "(".equals(symbolStack.peek().symbol))) {
-       return false;
-     }
-    return true;
-  }
-  
-  public RussianUnpairedBracketsRule(final ResourceBundle messages,
-      final Language language) {
-    super(messages, language);
-    startSymbols = RU_START_SYMBOLS;
-    endSymbols = RU_END_SYMBOLS;
-    uniqueMapInit();
-  }
 
-  @Override
-  public String getId() {
-    return "RU_UNPAIRED_BRACKETS";
-  }
-  
+    public RussianUnpairedBracketsRule(final ResourceBundle messages,
+            final Language language) {
+        super(messages, language);
+        startSymbols = RU_START_SYMBOLS;
+        endSymbols = RU_END_SYMBOLS;
+        NUMERALS=NUMERALS_RU; 
+        uniqueMapInit();
+    }
+
+    @Override
+    public String getId() {
+        return "RU_UNPAIRED_BRACKETS";
+    }
 }
