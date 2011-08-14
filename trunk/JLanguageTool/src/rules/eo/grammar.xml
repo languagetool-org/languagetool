@@ -1248,15 +1248,26 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <example type="correct">Mi amas ambaŭ patron kaj patrinon.</example>
     </rule>
 
-    <rule id="AMBAUX_LA" name="ambaŭ + la">
-      <pattern>
-        <token>ambaŭ</token>
-        <token>la</token>
-      </pattern>
-      <message>Ne devas esti «\2» post «\1», ĉar «\1» estas jam difinilo.</message>
-      <example type="incorrect"><marker>Ambaŭ la</marker> teamoj perdis.</example>
-      <example type="correct">Ambaŭ teamoj perdis.</example>
-    </rule>
+    <rulegroup id="AMBAUX_LA" name="ambaŭ + la">
+      <rule>
+        <pattern>
+          <token>ambaŭ</token>
+          <token>la</token>
+        </pattern>
+        <message>Ne devas esti «\2» post «\1», ĉar «\1» estas jam difinilo.</message>
+        <example type="incorrect"><marker>Ambaŭ la</marker> teamoj perdis.</example>
+        <example type="correct">Ambaŭ teamoj perdis.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>la</token>
+          <token>ambaŭ</token>
+        </pattern>
+        <message>Ne devas esti «\1» antaŭ «\2», ĉar «\2» estas jam difinilo.</message>
+        <example type="incorrect"><marker>La ambaŭ</marker> teamoj perdis.</example>
+        <example type="correct">Ambaŭ teamoj perdis.</example>
+      </rule>
+    </rulegroup>
 
     <rulegroup id="PREP_AKU" name="prepozicio + akuzativo">
       <rule>
@@ -2432,13 +2443,14 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <pattern case_sensitive="yes">
         <token regexp="yes">[lL]a</token>
         <and>
-          <token postag_regexp="yes" postag="[KMPRV].*"/>
+          <token postag_regexp="yes" postag="[KMPRV].*"><exception>ĝis</exception></token>
           <token regexp="yes">[a-zĉĝĵĥŝ].*</token>
         </and>
       </pattern>
       <message>La vorto «\1» ne povas esti antaŭ la vorto «\2».</message>
       <example type="incorrect"><marker>La manĝi</marker> ne bonas</example>
       <example type="correct">La manĝaĵo ne bonas</example>
+      <example type="correct">Jen aŭdiĝis ankaŭ la ĝis nun superbruita fontano.</example>
     </rule>
 
     <rule id="SI_SUBJ" name="si subjekto">
@@ -2622,6 +2634,16 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
         <example type="correct">Li loĝas en la <marker>granda</marker> domo.</example>
       </rule>
     </rulegroup>
+
+    <rule id="P_P" name="prepozicio + prepozicio">
+      <pattern>
+        <token regexp="yes">al|je|(mal)?graŭ</token>
+        <token postag="P.*" postag_regexp="yes"/>
+      </pattern>
+      <message>Kontrolu, ĉu la du sinsekvaj prepozicioj ĝustas.</message>
+      <example type="incorrect">Mi preferas vojaĝi per trajno <marker>al per</marker> aviadilo.</example>
+      <example type="correct">Mi preferas vojaĝi per trajno ol per aviadilo.</example>
+    </rule>
 
     <!--
     <rule id="SIA_SUBJ" name="sia subjekto">
