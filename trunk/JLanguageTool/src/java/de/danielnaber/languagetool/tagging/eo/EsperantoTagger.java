@@ -106,9 +106,9 @@ public class EsperantoTagger implements Tagger {
 
   private static final Set<String> setAdverbs = new HashSet<String>(Arrays.asList(adverbs));
 
-  // Set of transitive verbs and non-transitive verbs.
+  // Set of transitive verbs and intransitive verbs.
   private Set<String> setTransitiveVerbs = null;
-  private Set<String> setNonTransitiveVerbs = null;
+  private Set<String> setIntransitiveVerbs = null;
 
   // Verbs always end with this pattern.
   private static final Pattern patternVerb = Pattern.compile("(.*)(as|os|is|us|u|i)$");
@@ -171,13 +171,13 @@ public class EsperantoTagger implements Tagger {
       return;
     }
 
-    // Load set of transitive and non-transitive verbs.  Files don't contain
+    // Load set of transitive and intransitive verbs.  Files don't contain
     // verbs with suffix -iĝ or -ig since transitivity is obvious for those verbs.
     // They also don't contain verbs with prefixes mal-, ek-, re-, mis- fi- and
     // suffixes -ad, -aĉ, -et, -eg since these affixes never alter transitivity.
-    setTransitiveVerbs    = loadWords(JLanguageTool.getDataBroker().getFromRulesDirAsStream("/eo/verb-tr.txt"));
-    setNonTransitiveVerbs = loadWords(JLanguageTool.getDataBroker().getFromRulesDirAsStream("/eo/verb-ntr.txt"));
-    setNonParticiple      = loadWords(JLanguageTool.getDataBroker().getFromRulesDirAsStream("/eo/root-ant-at.txt"));
+    setTransitiveVerbs   = loadWords(JLanguageTool.getDataBroker().getFromRulesDirAsStream("/eo/verb-tr.txt"));
+    setIntransitiveVerbs = loadWords(JLanguageTool.getDataBroker().getFromRulesDirAsStream("/eo/verb-ntr.txt"));
+    setNonParticiple     = loadWords(JLanguageTool.getDataBroker().getFromRulesDirAsStream("/eo/root-ant-at.txt"));
   }
 
   // For a given verb (.*i) find whether it is transitive and/or non transitive.
@@ -190,13 +190,15 @@ public class EsperantoTagger implements Tagger {
     if (verb.endsWith("iĝi")) {
       return "nt";
     } else if (verb.endsWith("igi")) {
-      return "tr";
+      // The verb "memmortigi is strange: even though it ends in -igi, it
+      // is intransitive.
+      return verb.equals("memmortigi") ? "nt" : "tr";
     }
 
     // This loop executes only once for most verbs (or very few times).
     for (;;) {
       final boolean isTransitive   = setTransitiveVerbs.contains(verb);
-      final boolean isIntransitive = setNonTransitiveVerbs.contains(verb);
+      final boolean isIntransitive = setIntransitiveVerbs.contains(verb);
 
       if (isTransitive) {
         return isIntransitive ? "tn" : "tr";
@@ -204,7 +206,7 @@ public class EsperantoTagger implements Tagger {
         return "nt";
       }
 
-      // Verb is not explicitly listed as transitive or non transitive.
+      // Verb is not explicitly listed as transitive or intransitive.
       // Try to remove a prefix mal-, ek-, re-, mis- fi- or
       // suffix -ad, -aĉ, -et, -eg since those never alter
       // transitivity.  Then look up verb again in case we find 
