@@ -2,7 +2,7 @@
 $page = "development";
 $title = "LanguageTool";
 $title2 = "Development";
-$lastmod = "2011-07-17 13:05:00 CET";
+$lastmod = "2011-08-14 13:05:00 CET";
 include("../../include/header.php");
 include('../../include/geshi/geshi.php');
 ?>
@@ -28,7 +28,7 @@ Software developers might also be interested in LanguageTool's
 
 <p><a name="helpwanted"><strong>Help wanted!</strong></a><br />
 We're looking for people who support us writing new rules so LanguageTool can
-detect more errors. See <?=show_link("the list of supported languages", "../languages/", 0)?>.</p>
+detect more errors. Also see <?=show_link("the list of supported languages", "../languages/", 0)?>.</p>
 
 <p>How can you help?</p>
 
@@ -82,7 +82,7 @@ Here are some examples of patterns that can be used in that file:</p>
 		<tt>think|say</tt>, i.e. the word <em>think</em> or <em>say</em></li>
 	<li><?php hl('<token postag="VB" /> <token>house</token>', "xmlcodeNoIndent"); ?>
 		matches a base form verb followed by the word <em>house</em>.
-		See resource/en/tagset.txt for a list of possible part-of-speech tags.</li>
+		See resource/en/tagset.txt for a list of possible part-of-speech tags (these are specific to English).</li>
 	<li><?php hl('<token>cause</token> <token regexp="yes" negate="yes">and|to</token>', "xmlcodeNoIndent"); ?>
 		matches the word <em>cause</em> followed
 		by any word that is not <em>and</em> or <em>to</em></li>
