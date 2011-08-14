@@ -112,9 +112,8 @@ public class EsperantoTagger implements Tagger {
 
   // Verbs always end with this pattern.
   private static final Pattern patternVerb = Pattern.compile("(.*)(as|os|is|us|u|i)$");
-  private static final Pattern patternVerbIg = Pattern.compile("i(g|ĝ)i$");
-  private static final Pattern patternPrefix = Pattern.compile("^(mal|mis|ek|re|fi|ne)(.*)");
-  private static final Pattern patternSuffix = Pattern.compile("(.*)(ad|aĉ|eg|et)i$");
+  private static final Pattern patternPrefix = Pattern.compile("^(?:mal|mis|ek|re|fi|ne)(.*)");
+  private static final Pattern patternSuffix = Pattern.compile("(.*)(?:ad|aĉ|eg|et)i$");
 
   // Participles -ant-, -int, ont-, -it-, -it-, -ot-
   private static final Pattern patternParticiple =
@@ -126,14 +125,13 @@ public class EsperantoTagger implements Tagger {
 
   // Pattern 'tabelvortoj'.
   private static final Pattern patternTabelvorto =
-    Pattern.compile("^(i|ti|ki|ĉi|neni)((([uoae])(j?)(n?))|(am|al|es|el|om))$");
-  // Groups            111111111111111  22222222222222222222222222222222222
-  //                                     3333333333333333   77777777777777
-  //                                      444444  55  66                  
+    Pattern.compile("^(i|ti|ki|ĉi|neni)(?:(?:([uoae])(j?)(n?))|(am|al|es|el|om))$");
+  // Groups            111111111111111        222222  33  44    55555555555555
+  //                                          
 
   // Pattern of 'tabelvortoj' which are also tagged adverbs.
   private static final Pattern patternTabelvortoAdverb = 
-    Pattern.compile("^(ti|i|ĉi|neni)(am|om|el|e)$");
+    Pattern.compile("^(?:ti|i|ĉi|neni)(?:am|om|el|e)$");
 
   /**
    * Load list of words from UTF-8 file (one word per line).
@@ -189,10 +187,10 @@ public class EsperantoTagger implements Tagger {
   // "tn" for a verb which is transitive and non-transitive
   // "xx" for an unknown verb.
   private String findTransitivity(String verb) {
-    final Matcher matcher = patternVerbIg.matcher(verb);
-
-    if (matcher.find()) {
-      return matcher.group(1).equals("g") ? "tr" : "nt";
+    if (verb.endsWith("iĝi")) {
+      return "nt";
+    } else if (verb.endsWith("igi")) {
+      return "tr";
     }
 
     // This loop executes only once for most verbs (or very few times).
@@ -216,7 +214,7 @@ public class EsperantoTagger implements Tagger {
       final Matcher matcherPrefix = patternPrefix.matcher(verb);
       if (matcherPrefix.find()) {
         // Remove a prefix and try again.
-        verb = matcherPrefix.group(2);
+        verb = matcherPrefix.group(1);
         continue;
       }
       final Matcher matcherSuffix = patternSuffix.matcher(verb);
@@ -291,10 +289,10 @@ public class EsperantoTagger implements Tagger {
       // Tiu, kiu (tabelvortoj).
       } else if ((matcher = patternTabelvorto.matcher(lWord)).find()) {
         final String type1Group = matcher.group(1).substring(0, 1).toLowerCase();
-        final String type2Group = matcher.group(4);
-        final String plGroup    = matcher.group(5);
-        final String accGroup   = matcher.group(6);
-        final String type3Group = matcher.group(7);
+        final String type2Group = matcher.group(2);
+        final String plGroup    = matcher.group(3);
+        final String accGroup   = matcher.group(4);
+        final String type3Group = matcher.group(5);
         final String type;
         final String plural;
         final String accusative;
