@@ -56,8 +56,11 @@ public class GenericUnpairedBracketsRule extends Rule {
 
   private static final Pattern PUNCTUATION = Pattern.compile("\\p{Punct}");
   private static final Pattern PUNCTUATION_NO_DOT = Pattern
-      .compile("[\\p{Punct}&&[^\\.]]");  
-  private static final Pattern NUMERALS = Pattern
+      .compile("[\\p{Punct}&&[^\\.]]");
+  
+  public static  Pattern NUMERALS;
+  
+  private static final Pattern NUMERALS_EN = Pattern
       .compile("(?i)\\d{1,2}?[a-z']*|M*(D?C{0,3}|C[DM])(L?X{0,3}|X[LC])(V?I{0,3}|I[VX])$");
   
   private int ruleMatchIndex;
@@ -73,6 +76,8 @@ public class GenericUnpairedBracketsRule extends Rule {
     setParagraphBackTrack(true);
     startSymbols = language.getUnpairedRuleStartSymbols();
     endSymbols = language.getUnpairedRuleEndSymbols();
+    
+    NUMERALS=NUMERALS_EN;
     uniqueMapInit();
   }
 
