@@ -759,6 +759,29 @@ though, and has since been slightly modified)-->
         <example type="correct">La pale de l’hélice est cassée.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="RIZ_RIS" name="Riz au lieu de ris">
+      <rule>
+        <pattern mark_to="-2">
+          <token>riz</token>
+          <token>de</token>
+          <token regexp="yes">veaux?|chasse</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>ris</suggestion> ?</message>
+        <example type="incorrect">Ce <marker>riz</marker> de veau est succulant.</example>
+        <example type="correct">Ce ris de veau est succulant.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-3">
+          <token>riz</token>
+          <token>d</token>
+          <token regexp="yes">[’´'‛′‘]</token>
+          <token regexp="yes">agneaux?</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>ris</suggestion> ?</message>
+        <example type="incorrect">Ce <marker>riz</marker> d’agneau est succulant.</example>
+        <example type="correct">Ce ris d’agneau est succulant.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="AMENDE" name="Amende au lieu de amande">
       <rule>
         <pattern mark_from="1" mark_to="-1">
@@ -1454,6 +1477,15 @@ though, and has since been slightly modified)-->
         <message>Voulez-vous écrire <suggestion>\1 cours à</suggestion> ?</message>
         <example type="incorrect">Donner <marker>libre cour à</marker> l’imagination</example>
         <example type="correct">Donner libre cours à l’imagination</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">cours?</token>
+          <token regexp="yes">termes?</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>court terme</suggestion> ?</message>
+        <example type="incorrect">C’est une solution à <marker>cours terme</marker>.</example>
+        <example type="correct">C’est une solution à <marker>court terme</marker>.</example>
       </rule>
     </rulegroup>
 
@@ -17798,6 +17830,34 @@ though, and has since been slightly modified)-->
         <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
         <example type="incorrect"><marker>Quelques uns</marker> sont arrivés en retard.</example>
         <example type="correct"><marker>Quelques-uns</marker> sont arrivés en retard.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">états?</token>
+          <token regexp="yes">majors?</token>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
+        <example type="incorrect">Les <marker>états majors</marker> ont décidé.</example>
+        <example type="correct">Les états-majors ont décidé.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>vice</token>
+          <token regexp="yes" inflected="yes">amiral|amirauté|bailli|camérier|cardinal|chambellan|champion|chancelier|comité|commissaire|connétable|consul|consulat|délégation|dieu|doyen|époux|empereur|impératrice|gér[ae]nt|gérance|gouverneur|inquisiteur|légat|légation|ma[îi]tre|ministre|patriarche|préfet|président|présidence|procureur|recteur|rectorat|reine|roi|royale|royauté|sacristain|secrétaire|sénéchal|sénéchaussée</token>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
+        <example type="incorrect">Elle est la <marker>vice présidente</marker>.</example>
+        <example type="correct">Elle est la vice-présidente.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">r[ée]z?</token>
+          <token>de</token>
+          <token>chaussée</token>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>rez-de-chaussée</suggestion> ?</message>
+        <example type="incorrect">J’habite au <marker>rez de chaussée</marker>.</example>
+        <example type="correct">J’habite au rez-de-chaussée.</example>
       </rule>
       <rule>
         <pattern>
