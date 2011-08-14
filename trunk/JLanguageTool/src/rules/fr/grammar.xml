@@ -2017,12 +2017,13 @@ though, and has since been slightly modified)-->
           <token regexp="yes">je|tu|ils?|on</token>
           <token postag="[ACNJZP].*" postag_regexp="yes">
             <exception postag="V.*" postag_regexp="yes"/>
-            <exception regexp="yes">[lmnsty]|en|ne?</exception>
+            <exception regexp="yes">[lmnsty]|en|ne?|soussignée?</exception>
           </token>
         </pattern>
         <message>« \2 » n’est pas un verbe.</message>
         <example type="incorrect">Tu <marker>sorts</marker> ce soir.</example>
         <example type="correct">Tu <marker>sors</marker> ce soir.</example>
+        <example type="correct">Je soussigné Pierre Dupont déclare avoir pris connaissance des conditions de ce contrat.</example>
       </rule>
       <rule>
         <pattern mark_from="2">
@@ -18010,7 +18011,7 @@ though, and has since been slightly modified)-->
         </pattern>
         <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
         <example type="incorrect">J’étudie les <marker>beaux arts</marker>.</example>
-        <example type="correct">J’étudie les <marker>beaux-arts</marker>.</example>
+        <example type="correct">J’étudie les beaux-arts.</example>
       </rule>
       <rule>
         <pattern>
@@ -18019,7 +18020,7 @@ though, and has since been slightly modified)-->
         </pattern>
         <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
         <example type="incorrect">Mon <marker>grand père</marker> a 100 ans.</example>
-        <example type="correct">Mon <marker>grand-père</marker> a 100 ans.</example>
+        <example type="correct">Mon grand-père a 100 ans.</example>
       </rule>
       <rule>
         <pattern>
@@ -18028,7 +18029,7 @@ though, and has since been slightly modified)-->
         </pattern>
         <message>Voulez-vous dire <suggestion>gratte-ciel</suggestion> ?</message>
         <example type="incorrect">Les <marker>gratte ciel</marker> de New York</example>
-        <example type="correct">Les <marker>gratte-ciel</marker> de New York</example>
+        <example type="correct">Les gratte-ciel de New York</example>
       </rule>
       <rule>
         <pattern>
@@ -18037,7 +18038,7 @@ though, and has since been slightly modified)-->
         </pattern>
         <message>Voulez-vous dire <suggestion>ouï-dire</suggestion> ?</message>
         <example type="incorrect">J’ai <marker>ouï dire</marker> qu’il ne viendra pas.</example>
-        <example type="correct">J’ai <marker>ouï-dire</marker> qu’il ne viendra pas.</example>
+        <example type="correct">J’ai ouï-dire qu’il ne viendra pas.</example>
       </rule>
       <rule>
         <pattern>
@@ -18046,7 +18047,7 @@ though, and has since been slightly modified)-->
         </pattern>
         <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
         <example type="incorrect">Le magasin est en <marker>centre ville</marker>.</example>
-        <example type="correct">Le magasin est en <marker>centre-ville</marker>.</example>
+        <example type="correct">Le magasin est en centre-ville.</example>
       </rule>
       <rule>
         <pattern>
@@ -18055,7 +18056,7 @@ though, and has since been slightly modified)-->
         </pattern>
         <message>Voulez-vous dire <suggestion>\1-mouche</suggestion> ?</message>
         <example type="incorrect">Un <marker>oiseau mouche</marker>.</example>
-        <example type="correct">Un <marker>oiseau-mouche</marker>.</example>
+        <example type="correct">Un oiseau-mouche.</example>
       </rule>
       <rule>
         <pattern>
@@ -18066,7 +18067,7 @@ though, and has since been slightly modified)-->
         </pattern>
         <message>Voulez-vous dire <suggestion>\1-d’œuvre</suggestion> ?</message>
         <example type="incorrect">C’est un <marker>chef d’œuvre</marker>.</example>
-        <example type="correct">C’est un <marker>chef-d’œuvre</marker>.</example>
+        <example type="correct">C’est un chef-d’œuvre.</example>
       </rule>
       <rule>
         <pattern case_sensitive="yes">
@@ -18075,7 +18076,7 @@ though, and has since been slightly modified)-->
         </pattern>
         <message>Voulez-vous dire <suggestion>États-Unis</suggestion> ?</message>
         <example type="incorrect">La politique des <marker>États Unis</marker>.</example>
-        <example type="correct">La politique des <marker>États-Unis</marker>.</example>
+        <example type="correct">La politique des États-Unis.</example>
       </rule>
       <rule>
         <pattern case_sensitive="yes">
@@ -18084,7 +18085,53 @@ though, and has since been slightly modified)-->
         </pattern>
         <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
         <example type="incorrect">Il habite en <marker>Grande Bretagne</marker>.</example>
-        <example type="correct">Il habite en <marker>Grande-Bretagne</marker>.</example>
+        <example type="correct">Il habite en Grande-Bretagne.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token>Bosnie</token>
+          <token>Herzégovine</token>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
+        <example type="incorrect">Il habite en <marker>Bosnie Herzégovine</marker>.</example>
+        <example type="correct">Il habite en Bosnie-Herzégovine.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token regexp="yes">[ÎI]le</token>
+          <token regexp="yes">[Dd]e</token>
+          <token>France</token>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>Île-de-France</suggestion> ?</message>
+        <example type="incorrect">Il habite en <marker>Ile de France</marker>.</example>
+        <example type="correct">Il habite en Île-de-France.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token>Franche</token>
+          <token regexp="yes">Comp?tée?</token>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>\1-Comté</suggestion> ?</message>
+        <example type="incorrect">Il habite en <marker>Franche Comté</marker>.</example>
+        <example type="correct">Il habite en Franche-Comté.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token regexp="yes">Char[ae]nte</token>
+          <token>Maritime</token>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>Charente-\2</suggestion> ?</message>
+        <example type="incorrect">Il habite en <marker>Charente Maritime</marker>.</example>
+        <example type="correct">Il habite en Charente-Maritime.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token>Clermont</token>
+          <token regexp="yes">F[ée]rrand</token>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>\1-Ferrand</suggestion> ?</message>
+        <example type="incorrect">Il habite à <marker>Clermont Ferrand</marker>.</example>
+        <example type="correct">Il habite à Clermont-Ferrand.</example>
       </rule>
       <rule>
         <pattern case_sensitive="yes">
@@ -18093,7 +18140,16 @@ though, and has since been slightly modified)-->
         </pattern>
         <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
         <example type="incorrect">La dette du <marker>Royaume Uni</marker>.</example>
-        <example type="correct">La dette du <marker>Royaume-Uni</marker>.</example>
+        <example type="correct">La dette du Royaume-Uni.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token>Colombie</token>
+          <token>Britannique</token>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
+        <example type="incorrect">Il habite en <marker>Colombie Britannique</marker>.</example>
+        <example type="correct">Il habite en <marker>Colombie-Britannique</marker>.</example>
       </rule>
       <rule>
         <pattern case_sensitive="yes">
@@ -19572,20 +19628,32 @@ though, and has since been slightly modified)-->
     </rulegroup>
   </category>
   <category name="Règles de base">
-    <rule id="FRENCH_WORD_REPEAT_RULE" name="Doublon (« pour pour », « je je », etc.)">
-      <pattern>
-        <token regexp="yes">\p{L}+<exception postag="SENT_START"/></token>
-        <token spacebefore="yes"><exception regexp="yes">vous|nous|faire|en|donnant</exception><match no="0"/></token>
-      </pattern>
-      <message>Faute de frappe possible : un mot est répété : \1 \2. Correction : <suggestion>\1</suggestion>.</message>
-      <short>Doublon</short>
-      <example correction="Je" type="incorrect"><marker>Je je</marker> suis français.</example>
-      <example type="correct">Oui...</example>
-      <example type="correct">Vous vous parlez.</example>
-      <example type="correct">Il est capable de te <marker>faire faire</marker> des choses surprenantes.</example>
-      <example type="correct">En en demandant deux</example>
-      <example type="correct">C’est donnant donnant</example>
-    </rule>
+    <rulegroup id="FRENCH_WORD_REPEAT_RULE" name="Doublon (« pour pour », « je je », etc.)">
+      <rule>
+        <pattern>
+          <token regexp="yes">\p{L}+<exception postag="SENT_START"/></token>
+          <token spacebefore="yes"><exception regexp="yes">vous|nous|mieux|faire|en|donnant</exception><match no="0"/></token>
+        </pattern>
+        <message>Faute de frappe possible : un mot est répété : \1 \2. Correction : <suggestion>\1</suggestion>.</message>
+        <short>Doublon</short>
+        <example correction="Je" type="incorrect"><marker>Je je</marker> suis français.</example>
+        <example type="correct">Oui...</example>
+        <example type="correct">Vous vous parlez.</example>
+        <example type="correct">Il est capable de te <marker>faire faire</marker> des choses surprenantes.</example>
+        <example type="correct">En en demandant deux</example>
+        <example type="correct">C’est donnant donnant</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>mieux<exception scope="previous">qui</exception></token>
+          <token>mieux</token>
+        </pattern>
+        <message>Faute de frappe possible : un mot est répété : \1 \2. Correction : <suggestion>\1</suggestion>.</message>
+        <short>Doublon</short>
+        <example correction="mieux" type="incorrect">C’est <marker>mieux mieux</marker> comme ça.</example>
+        <example type="correct">Les chiens abboient à qui mieux mieux.</example>
+      </rule>
+    </rulegroup>
   </category>
   <!-- vim: foldmethod=marker foldmarker=<category,</category:
   -->
