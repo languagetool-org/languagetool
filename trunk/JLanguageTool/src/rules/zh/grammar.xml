@@ -186,6 +186,158 @@ $Id: grammar.xml,v 1.0 2011-07-29 13:20:25 taolin2011 Exp $
         <example type="correct">哪里不懂？等下老师回来给你点拨下。</example>
       </rule>
     </rulegroup>
+      <rulegroup id="CHANG_BI" name="敞/敝">
+      <rule>
+        <pattern mark_to="-1">
+          <token>敝</token>
+          <token regexp="yes" postag_regexp="yes" postag=" v|a|j">开|平|亮</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>敞</suggestion>\2”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="敞"> 你要<marker>敝</marker>开心胸。 </example>
+        <example type="correct">你要敞开心胸。</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token>宽</token>
+          <token>敝</token>
+        </pattern>
+        <message> 您的意思是“宽<suggestion>敞</suggestion>”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="敞"> 好一个宽<marker>敝</marker>的房间啊。 </example>
+        <example type="correct">好一个宽敞的房间啊。</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="CHA_TU" name="茶/荼">
+      <rule>
+        <pattern mark_to="-1">
+          <token>荼</token>
+          <token regexp="yes" postag_regexp="yes" postag="j|ng|n|t|vg">杯|具|叶|水|饭|点</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>茶</suggestion>\2”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="茶"> 我今天买了一个<marker>荼</marker>杯。 </example>
+        <example type="correct">我今天买了一个茶杯。</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="CI_LA" name="刺/剌">
+      <rule>
+        <pattern mark_to="-1">
+          <token>剌</token>
+          <token regexp="yes" postag_regexp="yes" postag="v|j|n|a|g|ng"
+            >探|杀|透|客|刀|猬|绣|人|激|骨|耳</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>刺</suggestion>\2”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="刺"> 听说奥巴马被<marker>剌</marker>杀了？ </example>
+        <example type="correct">听说奥巴马被刺杀了？</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes" postag_regexp="yes" postag="v|n|p|vg">讥|讽|被|行</token>
+          <token>剌</token>
+        </pattern>
+        <message> 您的意思是“\1<suggestion>刺</suggestion>”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="刺"> 这篇文章讽<marker>剌</marker>了中国现状。 </example>
+        <example type="correct">这篇文章讽刺了中国现状。</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token>泼</token>
+          <token>刺</token>
+        </pattern>
+        <message> 您的意思是“泼<suggestion>剌</suggestion>”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="剌"> 好一个泼<marker>刺</marker>的女子！ </example>
+        <example type="correct">好一个泼剌的女子！</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="CONG_WU" name="匆/勿">
+      <rule>
+        <pattern mark_to="-1">
+          <token>勿</token>
+          <token regexp="yes">忙|促|猝</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>匆</suggestion>\2”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="匆"> 我<marker>勿</marker>忙的去了厕所。 </example>
+        <example type="correct">我匆忙地去了厕所。</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag="a">勿勿</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>匆匆</suggestion>”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="匆匆"> 来也<marker>勿勿</marker>，去也冲冲。 </example>
+        <example type="correct">来也匆匆，去也冲冲</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token>请</token>
+          <token>匆</token>
+        </pattern>
+        <message> 您的意思是请“<suggestion>勿</suggestion>”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="勿"> 请<marker>匆</marker>在教室吃东西。 </example>
+        <example type="correct">请勿在教室吃东西。</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="DAI_FA" name="代/伐">
+      <rule>
+        <pattern mark_to="-1">
+          <token>
+            <exception>外代树</exception>代 </token>
+          <token regexp="yes" postag="v">木|树</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>伐</suggestion>\2”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="伐"> 这里禁止<marker>代</marker>树。 </example>
+        <example type="correct">这里禁止伐树。</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag="nr">代木</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>伐木</suggestion>”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="伐木"> 这里禁止<marker>代木</marker>。 </example>
+        <example type="correct">这里禁止伐木。</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes" postag_regexp="yes" postag="v|nr|ng">讨|征</token>
+          <token>代</token>
+        </pattern>
+        <message> 您的意思是“\1<suggestion>伐</suggestion>”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="伐"> 秦国在开春后就要开始征<marker>代</marker>齐国。 </example>
+        <example type="correct">秦国在开春后就要开始征伐齐国。</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="DIAO_DAO" name="叼/叨">
+      <rule>
+        <pattern mark_to="-1">
+          <token>叼</token>
+          <token regexp="yes" postag="v|n|o" postag_regexp="yes">念|咕</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>叨</suggestion>\2”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="叨"> 您能别再<marker>叼</marker>咕了吗？ </example>
+        <example type="correct">您能别在叨咕了吗？</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token>唠</token>
+          <token>叼</token>
+        </pattern>
+        <message> 您的意思是“唠<suggestion>叨</suggestion>”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="叨"> 其实，父母的唠<marker>叼</marker>也是一种幸福。 </example>
+        <example type="correct">其实，父母的唠叨也是一种幸福。</example>
+      </rule>
+    </rulegroup>
   </category>
   
   <!-- ====================================================================== -->
