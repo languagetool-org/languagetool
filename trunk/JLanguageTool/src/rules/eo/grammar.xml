@@ -1443,7 +1443,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
           <exception scope="next" negate="yes" regexp="yes">tro|pli|malpli|.*e|.*aŭ|jam|nur|.*[ui]|.*[aiuo]s</exception>
         </token>
         <token postag="V t[rn] .*" postag_regexp="yes"/>
-        <token regexp="yes">[\.:;\?!]|(sed|ĉar|tamen|kaj|aŭ|nek)</token>
+        <token regexp="yes">[\.:;\?!]|sed|ĉar|tamen|kaj|aŭ|nek</token>
       </pattern>
       <message>Ĉu vi forgesis akuzativon antaŭ transitiva verbo «\3»?</message>
       <example type="incorrect">Mi <marker>vi</marker> vidas.</example>
@@ -2230,6 +2230,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <pattern mark_from="2" mark_to="-1">
         <token postag="SENT_START"/>
         <token postag="V.*[^i]" postag_regexp="yes" skip="-1">
+          <exception>estu</exception>
           <exception scope="next" negate="yes" regexp="yes">.*e|.*aŭ|tro|pli|malpli|jam|nur|.*aj?n?</exception>
         </token>
         <token postag="A.*" postag_regexp="yes"/>
@@ -2242,6 +2243,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <example type="correct">Estis tre facile.</example>
       <example type="correct">Perfektigi kolektivan inteligenton.</example>
       <example type="correct">Komparu bonajn kaj malbonajn efikojn.</example>
+      <example type="correct">Estu lavita!</example>
     </rule>
 
     <rulegroup id="IO_O" name="Io + O-vorto">
