@@ -3,6 +3,10 @@
 title="Pretty print" ?>
 <?xml-stylesheet type="text/css" href="../rules.css"
 title="Easy editing stylesheet" ?>
+<!DOCTYPE rules [
+<!ENTITY wochentage "Montag|Dienstag|Mittwoch|Donnerstag|Freitag|Samstag|Sonntag">
+<!ENTITY monate "Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember">
+]>
 <!--
 German grammar and typo rules for LanguageTool
 See resource/de/tagset.txt for the meaning of the POS tags
@@ -26,6 +30,14 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct"><marker>Schriebt</marker> Ihr damals keine Briefe?</example>
       <example type="correct">Ihr <marker>schriebt</marker> damals viele Briefe.</example>
       <example type="correct">Ihr <marker>schreibt</marker> oft Briefe.</example>
+    </rule>
+    <rule id="FOND_VS_FONDS" name="Möglicher Tippfehler: 'Fond (Fonds)'">
+      <pattern>
+        <token regexp="yes">(Ablösungs|Absatz|Absatzförderungs|Abschreibungs|Agrar|Aktiendach|Aktien|Aktions|Alterssicherungs|Angestelltenpensions|Anlage|Anpassungs|Anteil|Arbeitnehmer|Arbeitskräfte|Arbeitszeit|Aufbauhilfe|Ausbildungs|Ausgleichs|Auslands|Auswanderungs|Bau|Bausparkassensicherungs|Berufsbildungs|Betriebserweiterungs|Betriebs|Bevölkerungs|Bildungs|Biogas|Bodenreserve|Branchen|Bundes|Dach|Deckungs|Devisenausgleichs|Dispositions|Eigenkapital|Einlagensicherungs|Einwanderungs|Einzel|Entschädigungs|Entwicklungs|Entwicklungshilfe|Erneuerungs|Ersatz|Ethik|Familien|Fernseh|Film|Filmförderungs|Finanzierungs|Finanzmittel|Fluthilfe|Förder|Förderungs|Forschungs|Forst|Fortbildungs|Frauenförder|Fremd|Futtermittel|Garantie|Gedächtnis|Geheim|Geld|Geldmarkt|Gemeinschafts|Gewinnbeteiligungs|Gewinn|Grund|Grundmittel|Grundstücks|Haftungs|Handels|Härte|Hauptstadtkultur|Hilfe|Hilfs|Holzabsatz|Immobilien|Index|Inlands|Internet|Investitions|Investment|Kapitalanlage|Kapitalentwicklungs|Kapital|Katastrophen|Katastrophenhilfe|Kinderhilfs|Klimaschutz|Kloster|Kranken|Kreisschul|Kultur|Kunst|Landes|Landschafts|Landwirtschafts|Laufzeit|Lehrstellen|Leistungs|Liegenschafts|Literatur|Lohn|Lotterie|Medien|Milliarden|Mindestgarantie|National|Naturschutz|Nothilfe|Öko|Öl|Opfer|Pensions|Pensionsinvestment|Petroleum|Polizeireserve|Preis|Privat|Produktionsanlage|Produktions|Produktionsgrund|Produktionsmittel|Produktionsumlauf|Publikums|Rechtshilfe|Regional|Renten|Repräsentations|Reserve|Rettungs|Risiko|Schiffs|Schmiergeld|Schuldentilgungs|Schulgeld|Sicherheits|Sicherungs|Solidaritäts|Sonder|Sozial|Spekulations|Spenden|Spezial|Staats|Stabilisierungs|Stadterweiterungs|Streik|Struktur|Tarif|Teil|Tierschutz|Tilgungs|Treuhand|Umlauf|Umlaufmittel|Umwelt|Universitäts|Unterstützungs|Vermögensbildungs|Vermögens|Verteidigungs|Wahl|Wahlkampf|Währungsausgleich|Währungsausgleichs|Währungs|Waren|Weltbevölkerungs|Weltwährungs|Werbe|Wissenschafts|Zeit|Ziel|Zukunfts|Zwangsarbeiter)fond</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>\1s</suggestion> (Bestand)?</message>
+      <example type="incorrect">Der <marker>Absatzförderungsfond</marker>.</example>
+      <example type="correct">Der <marker>Absatzförderungsfonds</marker>.</example>
     </rule>
     <rule id="WOLLTE_GRAD" name="Möglicher Tippfehler: 'Grad (gerade)'">
       <pattern mark_from="3">
@@ -857,7 +869,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token postag="VER:(AUX:|MOD:)?(1:SIN|2:SIN|3:SIN|1:PLU|3:PLU).*" postag_regexp="yes" />
           <token>seid</token>
           <token regexp="yes">letzten|vorletzten</token>
-          <token regexp="yes">Montag|Dienstag|Mittwoch|Donnerstag|Freitag|Samstag|Sonntag|Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember|Frühling|Sommer|Herbst|Winter|Jahr|Halbjahr|Semester|Wintersemester|Sommersemester</token>
+          <token regexp="yes">&wochentage;|&monate;|Frühling|Sommer|Herbst|Winter|Jahr|Halbjahr|Semester|Wintersemester|Sommersemester</token>
         </pattern>
         <message>Meinten Sie <suggestion>seit</suggestion> (Präposition) statt "seid" (Verbform)?</message>
         <example type="correct">Es geht <marker>seit</marker> letzten Mittwoch wieder.</example>
@@ -867,7 +879,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <pattern mark_from="0" mark_to="-3">
           <token>seid</token>
           <token regexp="yes">letzten|vorletzten</token>
-          <token regexp="yes">Montag|Dienstag|Mittwoch|Donnerstag|Freitag|Samstag|Sonntag|Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember|Frühling|Sommer|Herbst|Winter|Jahr|Halbjahr|Semester|Wintersemester|Sommersemester</token>
+          <token regexp="yes">&wochentage;|&monate;|Frühling|Sommer|Herbst|Winter|Jahr|Halbjahr|Semester|Wintersemester|Sommersemester</token>
           <token postag="VER:(AUX:|MOD:)?(1:SIN|2:SIN|3:SIN|1:PLU|3:PLU).*" postag_regexp="yes" />
         </pattern>
         <message>Meinten Sie <suggestion>seit</suggestion> (Präposition) statt "seid" (Verbform)?</message>
@@ -879,7 +891,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>seid</token>
           <token>dem</token>
           <token regexp="yes">letzten|vorletzten</token>
-          <token regexp="yes">Montag|Dienstag|Mittwoch|Donnerstag|Freitag|Samstag|Sonntag|Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember|Frühling|Sommer|Herbst|Winter|Jahr|Halbjahr|Semester|Wintersemester|Sommersemester</token>
+          <token regexp="yes">&wochentage;|&monate;|Frühling|Sommer|Herbst|Winter|Jahr|Halbjahr|Semester|Wintersemester|Sommersemester</token>
           <token postag="VER:(AUX:|MOD:)?(1:SIN|2:SIN|3:SIN|1:PLU|3:PLU).*" postag_regexp="yes" />
         </pattern>
         <message>Meinten Sie <suggestion>seit</suggestion> (Präposition) statt "seid" (Verbform)?</message>
@@ -1227,6 +1239,24 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct">Diese Fehler werden <marker>zum Teil</marker> bereits erkannt.</example>
       <example type="correct">Mir wurde eine große Ehre <marker>zuteil</marker>.</example>
     </rule>
+    <rule id="EINST_WEILEN" name="'Zusammen-/Getrenntschreibung: 'einst weilen (einstweilen)'">
+      <pattern>
+        <token>einst</token>
+        <token>weilen</token>
+      </pattern>
+      <message>Meinten Sie evt. <suggestion>einstweilen</suggestion> (vorerst)?</message>
+      <example type="incorrect">Lasst uns das <marker>einst weilen</marker> verschieben.</example>
+      <example type="correct">Lasst uns das <marker>einstweilen</marker> verschieben.</example>
+    </rule>
+    <rule id="MITTLER_WEILE" name="'Zusammen-/Getrenntschreibung: 'mittler Weile (mittlerweile)'">
+      <pattern>
+        <token>mittler</token>
+        <token>weile</token>
+      </pattern>
+      <message>Meinten Sie evt. <suggestion>mittlerweile</suggestion>?</message>
+      <example type="incorrect">Das sollte <marker>mittler Weile</marker> klappen.</example>
+      <example type="correct">Das sollte <marker>mittlerweile</marker> klappen.</example>
+    </rule>
     <rule id="UEBER_QUELLEND" name="'Zusammen-/Getrenntschreibung: 'über quellend (überquellend)'">
       <pattern case_sensitive="yes">
         <token>über</token>
@@ -1390,7 +1420,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     </rule>
     <rule id="DIENSTAG_ABEND" name="Zusammen-/Getrenntschreibung: 'Dienstag abend (Dienstagabend)">
       <pattern case_sensitive="no">
-        <token regexp="yes">Montag|Dienstag|Mittwoch|Donnerstag|Freitag|Samstag|Sonntag</token>
+        <token regexp="yes">&wochentage;</token>
         <token regexp="yes">morgen|mittag|abend|nacht</token>
       </pattern>
       <message>Meinten Sie <suggestion><match no="1"/><match case_conversion="startlower" no="2"/></suggestion>?</message>
@@ -1872,6 +1902,47 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct">Es waren viele <marker>Feuerwehrleute</marker> im Einsatz.</example>
       <example type="incorrect">Es waren viele <marker>Feuerwehrmänner</marker> im Einsatz.</example>
     </rule>
+    <rulegroup id="ZWISCHEN_SEIT_BIS" name="Stil: 'Zwischen ... bis ...'">
+      <rule>
+        <pattern mark_from="0">
+          <token regexp="yes">seit|zwischen</token>
+          <token regexp="yes">[0-9]{1,4}</token>
+          <token>bis</token>
+          <token regexp="yes">[0-9]{1,4}</token>
+        </pattern>
+        <message>'Zwischen' steht mit 'und', nicht mit 'bis': <suggestion>zwischen \2 und \4</suggestion>, <suggestion>von \2 bis \4</suggestion>.</message>
+        <example type="correct"><marker>Zwischen 10 und 11</marker> Uhr.</example>
+        <example type="correct"><marker>Von 9 bis 10</marker> Uhr.</example>
+        <example type="incorrect"><marker>Zwischen 10 bis 11</marker> Uhr.</example>
+        <example type="incorrect"><marker>Seit 10 bis 11</marker> Uhr.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="0">
+          <token regexp="yes">seit|zwischen</token>
+          <token regexp="yes">&wochentage;</token>
+          <token>bis</token>
+          <token regexp="yes">&wochentage;</token>
+        </pattern>
+        <message>'Zwischen' steht mit 'und', nicht mit 'bis': <suggestion>zwischen \2 und \4</suggestion>, <suggestion>von \2 bis \4</suggestion>.</message>
+        <example type="correct"><marker>Zwischen Montag und Freitag</marker>.</example>
+        <example type="correct"><marker>Von Montag bis Freitag</marker>.</example>
+        <example type="incorrect"><marker>Zwischen Montag bis Freitag</marker>.</example>
+        <example type="incorrect"><marker>Seit Montag bis Freitag</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="0">
+          <token regexp="yes">seit|zwischen</token>
+          <token regexp="yes">&monate;</token>
+          <token>bis</token>
+          <token regexp="yes">&monate;</token>
+        </pattern>
+        <message>'Zwischen' steht mit 'und', nicht mit 'bis': <suggestion>zwischen \2 und \4</suggestion>, <suggestion>von \2 bis \4</suggestion>.</message>
+        <example type="correct"><marker>Zwischen März und Juli</marker>.</example>
+        <example type="correct"><marker>Von März bis Juli</marker>.</example>
+        <example type="incorrect"><marker>Zwischen März bis Juli</marker>.</example>
+        <example type="incorrect"><marker>Seit März bis Juli</marker>.</example>
+      </rule>
+    </rulegroup>
   </category>
 
   <!--  Rules about upper/lowercase:  -->
@@ -1969,8 +2040,8 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>angst</token>
         </pattern>
         <message>Meinten Sie: <suggestion>Angst</suggestion>?</message>
-        <example type="correct">)Ich hatte überhaupt keine <marker>Angst</marker>.</example>
-        <example type="incorrect">)Ich hatte überhaupt keine <marker>angst</marker>.</example>
+        <example type="correct">Ich hatte überhaupt keine <marker>Angst</marker>.</example>
+        <example type="incorrect">Ich hatte überhaupt keine <marker>angst</marker>.</example>
       </rule>
       <rule>
         <pattern  case_sensitive="yes" mark_from="2">
@@ -1979,8 +2050,8 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>angst</token>
         </pattern>
         <message>Meinten Sie: <suggestion>Angst</suggestion>?</message>
-        <example type="correct">)Ich bekam es mit der <marker>Angst</marker> zu tun.</example>
-        <example type="incorrect">)Ich bekam es mit der <marker>angst</marker> zu tun.</example>
+        <example type="correct">Ich bekam es mit der <marker>Angst</marker> zu tun.</example>
+        <example type="incorrect">Ich bekam es mit der <marker>angst</marker> zu tun.</example>
       </rule>
     </rulegroup>
     <rulegroup id="DANK_SUBST" name="Groß-/Kleinschreibung: 'dank (Dank)'">
@@ -2110,6 +2181,39 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Ich habe hier eine Bürste, mit der ich Fido das Fell <marker>bürste</marker>.</example>
         <example type="correct">Ich bearbeite das Leder mit einer <marker>Bürste</marker>, bis es glänzt.</example>
         <example type="incorrect">Ich bearbeite das Leder mit der <marker>bürste</marker>.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="HECKE_SUBST" name="Groß-/Kleinschreibung: 'hecke (Hecke)'">
+      <rule>
+        <pattern mark_from="1" mark_to="-1" case_sensitive="yes">
+          <token regexp="yes">[Dd]ie</token>
+          <token>hecke</token>
+          <token postag="VER:.*" postag_regexp="yes"/>
+        </pattern>
+        <message>Bitte prüfen Sie, ob <suggestion>Hecke</suggestion> hier als Substantiv gebraucht wird.</message>
+        <example type="correct">Die <marker>Hecke</marker> ist 1,20 m hoch.</example>
+        <example type="incorrect">Die <marker>hecke</marker> ist 1,20 m hoch.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2" case_sensitive="yes">
+          <token postag="VER:.*" postag_regexp="yes"/>
+          <token>die</token>
+          <token>hecke</token>
+        </pattern>
+        <message>Bitte prüfen Sie, ob <suggestion>Hecke</suggestion> hier als Substantiv gebraucht wird.</message>
+        <example type="correct">Seit Wochen muss die <marker>Hecke</marker> geschnitten werden.</example>
+        <example type="incorrect">Seit Wochen ist die <marker>hecke</marker> zu hoch.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="BELIEBEN_SUBST" name="Groß-/Kleinschreibung: 'nach/ins belieben (Belieben)'">
+      <rule>
+        <pattern mark_from="1" case_sensitive="yes">
+          <token regexp="yes">[nN]ach|ins</token>
+          <token>belieben</token>
+        </pattern>
+        <message>Bitte prüfen Sie, ob <suggestion>Belieben</suggestion> hier als Substantiv gebraucht wird.</message>
+        <example type="incorrect">Damit könnt ihr ganz nach <marker>belieben</marker> verfahren.</example>
+        <example type="correct">Damit könnt ihr ganz nach <marker>Belieben</marker> verfahren.</example>
       </rule>
     </rulegroup>
     <rulegroup id="OBDACHLOS_SUBST" name="Groß-/Kleinschreibung: substantivierte Adjektive ('Obdachlose, Angestellte, Abgeordnete, Jugendliche')">
@@ -3205,7 +3309,17 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         </pattern>
         <message>Diese Form des Adjektivs "\1" ist sehr ungebräuchlich. Meinten Sie das Adverb <suggestion>sofort</suggestion> oder das Adjektiv in der Form <suggestion>\1e</suggestion> oder einer anderen flektierten Form?</message>
         <example type="correct">Die Wirkung tritt <marker>sofort</marker> ein.</example>
+        <example type="correct">... mit <marker>sofortiger</marker> Wirkung.</example>
         <example type="incorrect">Die Wirkung ist <marker>sofortig</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="no">etwaig</token>
+        </pattern>
+        <message>Diese Form des Adjektivs "\1" ist sehr ungebräuchlich. Meinten Sie das Adverb <suggestion>etwa</suggestion> oder das Adjektiv in der Form <suggestion>\1e</suggestion> oder einer anderen flektierten Form?</message>
+        <example type="correct">Bei <marker>etwaigen</marker> Verstößen ...</example>
+        <example type="correct">Sollte dagegen <marker>etwa</marker> verstoßen werden ...</example>
+        <example type="incorrect">Sollte dagegen <marker>etwaig</marker> verstoßen werden ...</example>
       </rule>
     </rulegroup>
   </category>
@@ -3223,9 +3337,9 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct"><marker>Mit freundlichen Grüßen</marker></example>
       <example correction="Mit freundlichen Grüßen" type="incorrect"><marker>Mit freundlichen Grüßen,</marker></example>
     </rule>
-    <rule id="ZWISCHEN_BIS" name="Zeichensetzung: 'zwischen' mit Bis-Strich">
+    <rule id="ZWISCHEN_BISSTRICH" name="Zeichensetzung: 'zwischen' mit Bis-Strich">
       <pattern mark_from="0">
-        <token regexp="yes">[Zz]wischen</token>
+        <token regexp="yes">seit|zwischen</token>
         <token regexp="yes">([0-9]{1,5})(\-|–)([0-9]{1,5})</token>
       </pattern>
       <message>'Zwischen' steht mit 'und', nicht mit dem Bis-Strich: <suggestion><match no="1"/> <match no="2" regexp_match="([0-9]{1,5})(\-|–)([0-9]{1,5})" regexp_replace="$1 und $3" /></suggestion>.</message>
