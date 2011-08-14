@@ -2,11 +2,11 @@
 $page = "other";
 $title = "LanguageTool";
 $title2 = "Common Problems";
-$lastmod = "2011-06-15 13:30:00 CET";
+$lastmod = "2011-08-14 13:30:00 CET";
 include("../../include/header.php");
 ?>
 
-<h2><a name="commonproblems"><strong>Common problems with OpenOffice.org/LibreOffice integration</strong></a></h2>
+<h2><a name="commonproblems">Checklist in Case of Problems</a></h2>
 
 <ul class="largelist">
 <li>Did you restart OpenOffice.org - including the QuickStarter - after installation of LanguageTool? This is required,
@@ -18,12 +18,18 @@ include("../../include/header.php");
 <li>If LanguageTool doesn't start and you see no error message, please
 	check if the extension is enabled in the Extension manager
 	(under <em>Tools -&gt; Extension Manager</em>).</li>
-<li>On Ubuntu, when you get an error message during installation, you might need to
+</ul>
+
+<h2>Common problems with OpenOffice.org/LibreOffice integration</a></h2>
+
+<ul class="largelist">
+<li><strong>Freeze on startup</strong>: for some people, LanguageTool freezes LibreOffice or OpenOffice.org on startup for seconds to minutes.
+ We don't have a solution yet, neither can we reproduce the problem. <a href="https://sourceforge.net/tracker/?func=detail&amp;aid=3153545&amp;group_id=110216&amp;atid=655717">Bug report</a>.
+</li>
+<li>When you get an <strong>error message during installation on Ubuntu</strong>, you might need to
 	install the <tt>openoffice.org-java-common</tt> package. See
 	<a href="http://nancib.wordpress.com/2008/05/03/fixing-the-openofficeorg-grammar-glitch-in-ubuntu-hardy/">this blog posting</a>
 	for details.</li>
-<li>The menu items in OpenOffice.org get mixed up when both <a href="http://open.afterthedeadline.com/">After the Deadline</a>
-	and LanguageTool are installed. This issue is tracked as <a href="http://openatd.trac.wordpress.org/ticket/215">ticket #215 at After the Deadline</a>.</li>
 <li>If you get <strong>"This media-type is not supported: application/vnd.sun.star.package-bundle2.0.00"</strong> during installation, please consider
     <a href="http://user.services.openoffice.org/en/forum/viewtopic.php?p=58403#p58403">resetting your OpenOffice user profile</a>.</li>
 <li>If you get <strong>"Could not create Java implementation loader"</strong>, try this:
@@ -35,6 +41,9 @@ include("../../include/header.php");
     For some reason LanguageTool is installed twice as an extension in OpenOffice.org. You can try deleting the directories listed
     in the error message after making a backup. (The directories to be deleted have random names like "EE31.tmp_" or similar - exit OpenOffice.org
     before deleting anything).</li>
+<li>The <strong>menu items in LibreOffice/OpenOffice.org get mixed up</strong> when both <a href="http://open.afterthedeadline.com/">After the Deadline</a>
+	and LanguageTool are installed. This issue is tracked as <a href="http://openatd.trac.wordpress.org/ticket/215">ticket #215 at After the Deadline</a>.</li>
+
 <li>If you are using an older version of LanguageTool and/or OpenOffice.org, these issues may affect you:
     <ul>
         <li>LanguageTool installation fails if the name of your user account contains
@@ -51,13 +60,14 @@ include("../../include/header.php");
 </li>
 </ul>
 
-<h2>Known limitations</h2>
+<h2>Known Limitations</h2>
 
 <ul>
+    <li>Some errors are not detected: LanguageTool uses rules to detect errors, i.e. it will only complain about errors for which there 
+        is a rule that detects it. Please consider learning <a href="../development/">how to write rules</a> and help make LanguageTool 
+        better by contributing your rules.</li>
     <li>For some rules there are a lot of false alarms, i.e., LanguageTool complains about text which is actually correct</li>
-    <li>LanguageTool doesn't work correctly with documents that contain revisions</li>
-    <li>With Java 1.5 you cannot display the configuration dialog box due to the bug present in GridBagLayout that
-        limits the number of items displayed; the languages affected are currently French and Polish</li>
+    <li>LanguageTool doesn't work correctly with documents that contain revisions <!-- https://bugs.freedesktop.org/show_bug.cgi?id=36540 --></li>
 </ul>
 
 <h2>Still need Help?</h2>
