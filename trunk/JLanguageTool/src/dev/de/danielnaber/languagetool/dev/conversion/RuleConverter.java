@@ -51,6 +51,9 @@ public abstract class RuleConverter {
     protected String outFileName;
     protected String ruleType;
     
+    protected int idIndex;
+    protected int nameIndex;
+    
     protected static DictionaryLookup dictLookup = (DictionaryLookup) loadDictionary();
     
     protected static final Pattern wordReference = Pattern.compile("\\\\\\d+");
@@ -74,7 +77,9 @@ public abstract class RuleConverter {
         "www.w3.org/2001/XMLSchema-instance\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema\">\n";
     
     // basic constructor
-    public RuleConverter() {    
+    public RuleConverter() {  
+    	idIndex = 0;
+    	nameIndex = 0;
     }
     
     // constructor with input and output rule files
@@ -86,6 +91,8 @@ public abstract class RuleConverter {
         } else {
             this.ruleType = ruleType;
         }
+        idIndex = 0;
+        nameIndex = 0;
     }
     
   /**
@@ -93,7 +100,10 @@ public abstract class RuleConverter {
    * 
    * @return a List<String> containing the rule strings from the infile
    */
-    public abstract List<String> getRulesAsString() throws IOException;
+    public abstract List<? extends Object> getRules() throws IOException;	// gets all the rules from the input rule file
+    public abstract ArrayList<List<String>> getLtRules(List<? extends Object> list);	// takes the output form getRules and gets the LT rules (always in same format)
+    public abstract ArrayList<List<String>> getFalseAlarmRules(List<? extends Object> list);
+    
     
     // parses a rule, returning a HashMap of relevant values ( a sketchy part of the implementation)
     // the "pattern" key will always point to the thing to match, be it a regexp, some tokens, just a term,
@@ -105,7 +115,7 @@ public abstract class RuleConverter {
 //    public abstract String ltRule(HashMap<String,String> rule);
     
 //    public abstract List<String> ltRuleAsList(HashMap<String,String> rule);
-    public abstract List<String> ltRuleAsList(HashMap<String,String> rule, String id, String name, String type);
+    public abstract List<String> ltRuleAsList(Object rule, String id, String name, String type);
     
     public String getInFile() {
         return inFileName;
@@ -167,9 +177,72 @@ public abstract class RuleConverter {
             orig.add(space + "<token postag=\"SENT_START\">" + exceptionString + "</token>");
         } else if (type.equals("sentend")) {
         	orig.add(space + "<token postag=\"SENT_END\">" + exceptionString + "</token>");
-        }
+        } else if (type.equals("tokeninflected")) {
+        	orig.add(space + "<token inflected=\"yes\">" + token + exceptionString + "</token>");
+        } else if (type.equals("regexpinflected")) {
+        	orig.add(space + "<token regexp=\"yes\" inflected=\"yes\">" + token + exceptionString + "</token>");
+        } else if (type.equals("tokenandpostaginflected")) {
+        	orig.add(space + "<token postag=\"" + postag + "\" inflected=\"yes\">" + token + exceptionString + "</token>");
+        } else if (type.equals("regexpandpostaginflected")) {
+        	orig.add(space + "<token postag=\"" + postag + "\" inflected=\"yes\" regexp=\"yes\">" + token + exceptionString + "</token>");
+        } else if (type.equals("regexpandregexppostaginflected")) {
+        	orig.add(space + "<token postag=\"" + postag + "\" inflected=\"yes\" regexp=\"yes\" postag_regexp=\"yes\">" + token + exceptionString + "</token>");
+        } 
         return orig;
     }
+    
+    protected static ArrayList<String> addToken(ArrayList<String> orig, String token, String postag, String exceptions, 
+    											boolean careful, boolean inflected, boolean negate, int skip, int indent) {
+        String space = getSpace(indent);
+        
+        String inflectedString = "";
+        if (inflected) {
+        	inflectedString = " inflected=\"yes\"";
+        }
+        String skipString = "";
+        if (skip == -1) {
+        	skipString = " skip=\"-1\"";
+        }
+        String regexpString = "";
+        if (isRegex(token)) {
+        	regexpString = " regexp=\"yes\"";
+        }
+        String exceptionString = "";
+        if (exceptions != null) {
+        	if (exceptions.contains("<exception")) {
+        		exceptionString = exceptions;
+        	} else {
+        		exceptionString = "<exception regexp=\"yes\">" + exceptions + "</exception>";
+        	}
+        }
+        String postagRegexp = "";
+        if (isRegex(postag)) {
+        	postagRegexp = " postag_regexp=\"yes\"";
+        }
+        String postagString = "";
+        if (postag != null) {
+        	if (!postag.isEmpty()) {
+        		postagString = " postag=\"" + postag + "\"";
+        	}
+        }
+        String carefulString = "";
+        if (careful) {
+        	carefulString = "<exception" + postagString + postagRegexp + " negate_pos=\"yes\"/>";
+        }
+        String negateString = "";
+        if (!token.isEmpty() && negate) {
+        	negateString = " negate=\"yes\"";
+        }
+        String negatePosString = "";
+        if (!postagString.isEmpty() && negate) {
+        	negatePosString = " negate_pos=\"yes\"";
+        }
+        
+       	orig.add(space + "<token" + inflectedString + skipString + regexpString + postagString + postagRegexp + negateString + negatePosString + ">" + token + carefulString + exceptionString + "</token>");
+        
+        return orig;
+    }
+    
     
     /**
      * 
@@ -225,6 +298,9 @@ public abstract class RuleConverter {
     public static String getSuitableID(HashMap<String,String> rule) {
         return rule.get("pattern").replaceAll("[\\ &|.*/<>]", "_");       
     }
+    
+    public abstract String generateId(Object ruleObject);
+    public abstract String generateName(Object ruleObject);
     
     public static String getSuitableName(HashMap<String,String> rule) {
         return rule.get("pattern").replaceAll("[&|.*/<>]", "_");

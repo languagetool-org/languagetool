@@ -32,14 +32,14 @@ public class RuleConverterMain {
     private String disambigfile;
     private RuleConverter rc;
     
-    private static String[] supportedGeneralFiletypes = {"atd"};
+    private static String[] supportedGeneralFiletypes = {"atd","cg"};
     private static String[] supportedSpecificFiletypes = {"avoid","default"};
     
     private static void exitWithUsageMessage() {
         System.out
         .println("Usage: java de.danielnaber.languagetool.tools.RuleConverterMain "
-            + "[-h|--help] [-g|--generalFiletype] [-s|--specificFiletype] [-r|--ruleFile] [-a|--disambigFile] " +
-            "[-d|--discardFile] [-f|--grammarFile]");
+            + "[-h|--help] [-g|--generalFiletype] [-s|--specificFiletype] [-i|--inputFile] [-a|--disambigFile] " +
+            "[-d|--discardFile] [-o|--outputFile]");
         System.exit(1);
       }
     
@@ -50,33 +50,24 @@ public class RuleConverterMain {
         this.discardfile = discardfile;
         if (generalFiletype.equals("atd")) {
             rc = new AtdRuleConverter(infilename, grammarfile, specificFiletype);
-            
+        } else if (generalFiletype.equals("cg")) {
+        	rc = new CgRuleConverter(infilename, grammarfile, specificFiletype);
         }
     }
     
     private void run() throws IOException {
-        // get the rules
-        List<String> rules = rc.getRulesAsString();
-        // regular rules
-        ArrayList<ArrayList<String>> ltRules = new ArrayList<ArrayList<String>>(); 
-        // false alarm rules
-        ArrayList<ArrayList<String>> killedRules = new ArrayList<ArrayList<String>>();
-        for (String r : rules) {
-            HashMap<String,String> hm = rc.parseRule(r);
-            ArrayList<String> ltRule = (ArrayList<String>) rc.ltRuleAsList(hm, 
-                    RuleConverter.getSuitableID(hm), RuleConverter.getSuitableName(hm), specificFiletype);
-            if (notKilledRule(hm)) {
-            	ltRules.add(ltRule);
-            } else {
-            	killedRules.add(ltRule);
-            }
-        }
+        // get the rules in native format
+        List<? extends Object> rules = rc.getRules();
+        // get the rules in LT list format
+        ArrayList<List<String>> ltRules = rc.getLtRules(rules);
+        ArrayList<List<String>> falseAlarmRules = rc.getFalseAlarmRules(rules);
 
         // write out the grammar rules to grammarfile
         PrintWriter w = new PrintWriter(new OutputStreamWriter(new FileOutputStream(grammarfile),"UTF-8"));
-        w.write(RuleConverter.xmlHeader);
-        w.write("<category name=\"Auto-generated AtD rules\" id=\"ATD_RULES\">\n");
-        for (ArrayList<String> ltRule : ltRules) {
+        
+        w.write("<rules>\n");
+        w.write("<category name=\"Auto-generated rules\">\n");
+        for (List<String> ltRule : ltRules) {
             for (String line : ltRule) {
                 w.write(line + '\n');
             }
@@ -85,20 +76,22 @@ public class RuleConverterMain {
         w.write("</rules>");
         w.close();
         
+        /*
+         * this will have to be added back in once I have the general format figured out
         // evaluate the rules to see which are already covered
         RuleCoverage checker = new RuleCoverage(Language.ENGLISH);
         checker.splitOutCoveredRules(grammarfile,discardfile);
-        
+        */
         // for now, write the disambiguation rules to a default file
-        if (killedRules.size() > 0) {
+        if (falseAlarmRules.size() > 0) {
         	w = new PrintWriter(new OutputStreamWriter(new FileOutputStream(disambigfile), "UTF-8"));
-            for (ArrayList<String> killedRule : killedRules) {
+            for (List<String> killedRule : falseAlarmRules) {
             	for (String line : killedRule) {
             		w.write(line + '\n');
             	}
             }
             w.close();
-            System.out.println(Integer.toString(killedRules.size()) + " disambiguation rules written to " + disambigfile);
+            System.out.println(Integer.toString(falseAlarmRules.size()) + " disambiguation rules written to " + disambigfile);
         }
         
         
@@ -140,7 +133,7 @@ public class RuleConverterMain {
             else if (args[i].equals("-g") || args[i].equals("--generalFiletype")) {
                 generalFiletype = getGeneralFiletypeOrExit(args[++i]);
             }
-            else if (args[i].equals("--grammarFile") || args[i].equals("-f")) {
+            else if (args[i].equals("--outputFile") || args[i].equals("-o")) {
             	grammarfile = args[++i];
             }
             else if (args[i].equals("--discardFile") || args[i].equals("-d")) {
@@ -149,7 +142,7 @@ public class RuleConverterMain {
             else if (args[i].equals("--disambigFile") || args[i].equals("-a")) {
             	disambigfile = args[++i];
             }
-            else if (args[i].equals("--ruleFile") || args[i].equals("-r")) {
+            else if (args[i].equals("--inputFile") || args[i].equals("-i")) {
             	rulefile = args[++i];
             }
             else {
@@ -227,18 +220,6 @@ public class RuleConverterMain {
     }
     
 
-    /**
-     * Applies to the AtD false alarm rules
-     * @param rule
-     * @return
-     */
-    public boolean notKilledRule(HashMap<String,String> rule) {
-    	if (rule.containsKey("filter")) {
-    		if (rule.get("filter").equals("kill") || rule.get("filter").equals("die")) {
-    			return false;
-    		}
-    	}
-    	return true;
-    }
+  
     
 }

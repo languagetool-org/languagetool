@@ -51,9 +51,50 @@ public class AtdRuleConverter extends RuleConverter {
         super(inFile,outFile,specificFileType);
     }
     
+    @SuppressWarnings("unchecked")
+	@Override
+    public String generateId(Object ruleObject) {
+    	HashMap<String,String> ruleMap = (HashMap<String,String>) ruleObject;
+    	return ruleMap.get("pattern").replaceAll("[\\ &|.*/<>]", "_"); 
+    }
+    
+    @SuppressWarnings("unchecked")
     @Override
-    public List<String> getRulesAsString() throws IOException {
-        // open the input file
+    public String generateName(Object ruleObject) {
+    	HashMap<String,String> ruleMap = (HashMap<String,String>) ruleObject;
+    	return ruleMap.get("pattern").replaceAll("[&|.*/<>]", "_");
+    }
+    
+    @Override
+    public ArrayList<List<String>> getLtRules(List<? extends Object> rules) {
+    	ArrayList<List<String>> ltRules = new ArrayList<List<String>>();
+    	for (Object ruleObject : rules) {
+    		String ruleString = (String)ruleObject;	// AtD rules will always be strings
+    		HashMap<String,String> ruleMap = parseRule(ruleString);
+    		if (notKilledRule(ruleMap)) {
+    			List<String> ltRule = ltRuleAsList(ruleMap, generateId(ruleMap), generateName(ruleMap), this.ruleType);
+        		ltRules.add(ltRule);
+    		}
+    	}
+    	return ltRules;
+    }
+    
+    @Override
+    public ArrayList<List<String>> getFalseAlarmRules(List<? extends Object> rules) {
+    	ArrayList<List<String>> falseAlarmRules = new ArrayList<List<String>>();
+    	for (Object ruleObject : rules) {
+    		String ruleString = (String)ruleObject;
+    		HashMap<String,String> ruleMap = parseRule(ruleString);
+    		if (!notKilledRule(ruleMap)) {
+    			List<String> falseAlarmRule = ltRuleAsList(ruleMap, generateId(ruleMap), generateName(ruleMap), this.ruleType);
+    			falseAlarmRules.add(falseAlarmRule);
+    		}
+    	}
+    	return falseAlarmRules;
+    }
+    
+    public List<String> getRules() throws IOException {
+    	// open the input file
         Scanner in = new Scanner(new FileInputStream(inFileName));  // might need allowance for encoding?
         // list to hold the rules as strings
         List<String> ruleList = new ArrayList<String>();
@@ -107,6 +148,8 @@ public class AtdRuleConverter extends RuleConverter {
         } else {
             outRule.put("casesensitive","false");
         }
+        // store the string of the rule itself
+        outRule.put("ruleString", rule);
         
         return outRule;
     }
@@ -121,9 +164,12 @@ public class AtdRuleConverter extends RuleConverter {
      * @return list of XML lines
      * 
      */
-    @Override
-    public List<String> ltRuleAsList(HashMap<String,String> rule, String id, String name, String type) {
+    @SuppressWarnings("unchecked")
+	@Override
+    public List<String> ltRuleAsList(Object ruleObject, String id, String name, String type) {
         ArrayList<String> ltRule = new ArrayList<String>();
+        HashMap<String,String> rule = (HashMap<String,String>)ruleObject;
+        ltRule.add("<!-- " + rule.get("ruleString") + " -->");
         if (id != null && name != null) {
             ltRule.add(firstIndent + "<rule " + "id=\"" + id + "\" name=\"" + name + "\">");
         } else {
@@ -580,6 +626,20 @@ public class AtdRuleConverter extends RuleConverter {
     		}
     	}
     	return false;
+    }
+    
+    /**
+     * Applies to the AtD false alarm rules
+     * @param rule
+     * @return
+     */
+    public boolean notKilledRule(HashMap<String,String> rule) {
+    	if (rule.containsKey("filter")) {
+    		if (rule.get("filter").equals("kill") || rule.get("filter").equals("die")) {
+    			return false;
+    		}
+    	}
+    	return true;
     }
     
     
