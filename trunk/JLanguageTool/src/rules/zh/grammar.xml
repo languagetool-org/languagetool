@@ -344,6 +344,153 @@ $Id: grammar.xml,v 1.0 2011-07-29 13:20:25 taolin2011 Exp $
   <!-- 拼写： 成语错误-->
   <!-- ====================================================================== -->
    <category name="成语错误">
+     <rule id="FENGCHENPUPU" name="风尘仆仆">
+      <pattern mark_from="1" mark_to="0">
+        <token>风尘</token>
+        <token>扑扑</token>
+      </pattern>
+      <message> 您的意思是“风尘<suggestion>仆仆</suggestion>”吗？ </message>
+      <short>成语错误</short>
+      <example type="incorrect" correction="仆仆"> 他风尘<marker>扑扑</marker>地归来。 </example>
+      <example type="correct">他风尘仆仆地归来。</example>
+    </rule>
+    <rule id="FENGSHENGHELI" name="风声鹤唳">
+      <pattern mark_from="2" mark_to="0">
+        <token>风声</token>
+        <token>鹤</token>
+        <token>戾</token>
+      </pattern>
+      <message> 您的意思是“风声鹤<suggestion>唳</suggestion>”吗？ </message>
+      <short>成语错误</short>
+      <example type="incorrect" correction="唳"> 风声鹤<marker>戾</marker>草木皆兵。 </example>
+      <example type="correct">风声鹤唳草木皆兵。</example>
+    </rule>
+    <rule id="FENGMIYISHI" name="风靡一时">
+      <pattern mark_from="1" mark_to="-1">
+        <token>风</token>
+        <token>糜</token>
+        <token>一时</token>
+      </pattern>
+      <message> 您的意思是“风<suggestion>靡</suggestion>一时”吗？ </message>
+      <short>成语错误</short>
+      <example type="incorrect" correction="靡"> 迷你裙曾经风<marker>糜</marker>一时。 </example>
+      <example type="correct">迷你裙曾经风靡一时。</example>
+    </rule>
+    <rule id="FENGMANGBILOU" name="锋芒毕露">
+      <pattern mark_from="1" mark_to="-1">
+        <token>锋芒</token>
+        <token>必</token>
+        <token>露</token>
+      </pattern>
+      <message> 您的意思是“锋芒<suggestion>毕</suggestion>露”吗？ </message>
+      <short>成语错误</short>
+      <example type="incorrect" correction="毕"> 他这人锋芒<marker>必</marker>露。 </example>
+      <example type="correct">他这人锋芒毕露。</example>
+    </rule>
+    <rule id="FENGMAOLINJIAO" name="凤毛麟角">
+      <pattern mark_from="2" mark_to="-1">
+        <token>凤</token>
+        <token>毛</token>
+        <token>鳞</token>
+        <token>角</token>
+      </pattern>
+      <message> 您的意思是“凤毛<suggestion>麟</suggestion>角”吗？ </message>
+      <short>成语错误</short>
+      <example type="incorrect" correction="麟"> 好东西一直是凤毛<marker>鳞</marker>角的。 </example>
+      <example type="correct">好东西一直都是凤毛麟角的。</example>
+    </rule>
+    <rule id="FUDICHOUXIN" name="釜底抽薪">
+      <pattern mark_from="0" mark_to="-3">
+        <token>斧</token>
+        <token>底</token>
+        <token>抽</token>
+        <token>薪</token>
+      </pattern>
+      <message> 您的意思是“<suggestion>釜</suggestion>底抽薪”吗？ </message>
+      <short>成语错误</short>
+      <example type="incorrect" correction="釜"> 只有<marker>斧</marker>底抽薪才能打败敌人。 </example>
+      <example type="correct">只有釜底抽薪才能打败敌人。</example>
+    </rule>
+    <rule id="FUYUWANKANG" name="负隅顽抗">
+      <pattern mark_from="1" mark_to="-1">
+        <token>负</token>
+        <token>偶</token>
+        <token>顽抗</token>
+      </pattern>
+      <message> 您的意思是“负<suggestion>隅</suggestion>顽抗”吗？ </message>
+      <short>成语错误</short>
+      <example type="incorrect" correction="隅"> 尽管还有一些人负<marker>偶</marker>顽抗，战争已经结束。 </example>
+      <example type="correct">尽管还有一些人负隅顽抗，战争已经结束。</example>
+    </rule>
+    <rule id="FUTANGDAOHUO" name="赴汤蹈火">
+      <pattern mark_from="1" mark_to="-2">
+        <token>赴</token>
+        <token>烫</token>
+        <token>蹈</token>
+        <token>火</token>
+      </pattern>
+      <message> 您的意思是“赴<suggestion>汤</suggestion>蹈火”吗？ </message>
+      <short>成语错误</short>
+      <example type="incorrect" correction="汤"> 我为你赴<marker>烫</marker>蹈火万死不辞。 </example>
+      <example type="correct">我为你赴汤蹈火万死不辞。</example>
+    </rule>
+    <rule id="FANGWEIDUJIAN" name="防微杜渐">
+      <pattern mark_from="3" mark_to="0">
+        <token>防</token>
+        <token>微</token>
+        <token>杜</token>
+        <token>惭</token>
+      </pattern>
+      <message> 您的意思是“防微杜<suggestion>渐</suggestion>”吗？ </message>
+      <short>成语错误</short>
+      <example type="incorrect" correction="渐"> 我们应该防微杜<marker>惭</marker>把危险消灭在萌芽中。 </example>
+      <example type="correct">我们应该防微杜渐把危险消灭在萌芽中。</example>
+    </rule>
+    <rule id="FENGCHIDIANCHE" name="风驰电掣">
+      <pattern mark_from="3" mark_to="0">
+        <token>风</token>
+        <token>驰</token>
+        <token>电</token>
+        <token>制</token>
+      </pattern>
+      <message> 您的意思是“风驰电<suggestion>掣</suggestion>”吗？ </message>
+      <short>成语错误</short>
+      <example type="incorrect" correction="掣"> 一辆汽车“风驰电<marker>制</marker>”而来。 </example>
+      <example type="correct">一辆汽车风驰电掣而来。</example>
+    </rule>
+    <rule id="FENGYONGFENGYA" name="附庸风雅">
+      <pattern mark_from="0" mark_to="-1">
+        <token>付庸</token>
+        <token>风雅</token>
+      </pattern>
+      <message> 您的意思是“<suggestion>附庸</suggestion>风雅”吗？ </message>
+      <short>成语错误</short>
+      <example type="incorrect" correction="附庸"> 年轻人不应该<marker>付庸</marker>风雅。 </example>
+      <example type="correct">年轻人不应该附庸风雅。</example>
+    </rule>
+    <rule id="FANYUNFUYU" name="翻云覆雨">
+      <pattern mark_from="2" mark_to="-1">
+        <token>翻</token>
+        <token>云</token>
+        <token>复</token>
+        <token>雨</token>
+      </pattern>
+      <message> 您的意思是“翻云<suggestion>覆</suggestion>雨”吗？ </message>
+      <short>成语错误</short>
+      <example type="incorrect" correction="覆"> 他常常翻云<marker>复</marker>雨，是人摸不清头脑。 </example>
+      <example type="correct">他常常翻云覆雨，是人摸不清头脑。</example>
+    </rule>
+    <rule id="FANGRENJILIU" name="放任自流">
+      <pattern mark_from="2" mark_to="0">
+        <token>放任</token>
+        <token>自</token>
+        <token>留</token>
+      </pattern>
+      <message> 您的意思是“放任自<suggestion>流</suggestion>”吗？ </message>
+      <short>成语错误</short>
+      <example type="incorrect" correction="流"> 你不应该对孩子放任自<marker>留</marker>。 </example>
+      <example type="correct">你不应该对孩子放任自流。</example>
+    </rule>
      <rule id="DASHIDAFEI" name="大是大非">
       <pattern mark_to="-2">
         <token>大事</token>
