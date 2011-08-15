@@ -2054,6 +2054,39 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect">Ich bekam es mit der <marker>angst</marker> zu tun.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="TAGEN_SUBST" name="Groß-/Kleinschreibung: 'tage (Tage)'">
+      <rule>
+        <pattern case_sensitive="yes" mark_from="2">
+          <token regexp="yes">[Ii]n|[Ss]eit</token>
+          <token regexp="yes">wenigen|einigen|mehreren|vielen</token>
+          <token>tagen</token>
+        </pattern>
+        <message>Bitte prüfen Sie, ob <suggestion>Tagen</suggestion> hier als Substantiv gebraucht wird.</message>
+        <example type="correct">Seit einigen <marker>Tagen</marker> läuft es wieder.</example>
+        <example type="incorrect">Seit einigen <marker>tagen</marker> läuft es wieder.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="2">
+          <token regexp="yes">[Ii]n|[Ss]eit</token>
+          <token postag="ZAL"/>
+          <token>tagen</token>
+        </pattern>
+        <message>Bitte prüfen Sie, ob <suggestion>Tagen</suggestion> hier als Substantiv gebraucht wird.</message>
+        <example type="correct">Seit zwei <marker>Tagen</marker> läuft es wieder.</example>
+        <example type="incorrect">Seit zwei <marker>tagen</marker> läuft es wieder.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="3">
+          <token regexp="yes">[Ii]n|[Ss]eit</token>
+          <token>ein</token>
+          <token>paar</token>
+          <token>tagen</token>
+        </pattern>
+        <message>Bitte prüfen Sie, ob <suggestion>Tagen</suggestion> hier als Substantiv gebraucht wird.</message>
+        <example type="correct">Seit ein paar <marker>Tagen</marker> läuft es wieder.</example>
+        <example type="incorrect">Seit ein paar <marker>tagen</marker> läuft es wieder.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="DANK_SUBST" name="Groß-/Kleinschreibung: 'dank (Dank)'">
     <!-- TODO: "Das/Was war/ist jetzt/nun/dann der/euer Dank?" -->
       <rule>
