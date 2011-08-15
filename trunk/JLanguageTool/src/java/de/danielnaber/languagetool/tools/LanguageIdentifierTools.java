@@ -12,13 +12,13 @@ public class LanguageIdentifierTools {
 
   public static final String[] ADDITIONAL_LANGUAGES = {"be", "ca", "eo", "gl", "ro", "sk", "sl", "uk", "ast", "tl"};
 
-  public static void addLtProfiles() throws Exception {
+  public static void addLtProfiles() {
     for (String language : ADDITIONAL_LANGUAGES) {
       addProfile(language);
     }
   }
 
-  private static void addProfile(String language) throws Exception {
+  private static void addProfile(String language) {
     final String PROFILE_SUFFIX = ".ngp";
     final String PROFILE_ENCODING = "UTF-8";
 
@@ -47,7 +47,7 @@ public class LanguageIdentifierTools {
 
       LanguageIdentifier.addProfile(language, profile);
     } catch (Exception e) {
-      throw new Exception("Failed trying to load language profile for language \"" + language + "\".", e);
+      throw new RuntimeException("Failed trying to load language profile for language \"" + language + "\".", e);
     }
   }
 

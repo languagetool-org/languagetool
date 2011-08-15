@@ -488,14 +488,9 @@ class Main {
           || args[i].equals("--help") || args[i].equals("--?")) {
         exitWithUsageMessage();
       } else if (args[i].equals("-adl") || args[i].equals("--autoDetect")) {    // set autoDetect flag
-          // also initialize the other language profiles for the LanguageIdentifier
-    	  try {
-    		  LanguageIdentifierTools.addLtProfiles();
-    	  } catch (Exception e)	{
-    		  System.out.println("Failed to load some additional profiles. Check your ngp files.");
-    		  e.printStackTrace();
-    	  }
-    	  autoDetect = true;
+        // also initialize the other language profiles for the LanguageIdentifier
+        LanguageIdentifierTools.addLtProfiles();
+        autoDetect = true;
       } else if (args[i].equals("-v") || args[i].equals("--verbose")) {
         verbose = true;
       } else if (args[i].equals("-t") || args[i].equals("--taggeronly")) {

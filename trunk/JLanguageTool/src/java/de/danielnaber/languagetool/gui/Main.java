@@ -78,16 +78,9 @@ public final class Main implements ActionListener {
 
   private boolean closeHidesToTray;
   private boolean isInTray;
-  
-  static {
-	  try {
-		  LanguageIdentifierTools.addLtProfiles();  
-	  } catch (Exception e) {
-		  System.out.println("Couldn't load the additional language profiles. Check your ngp files.");
-	  }
-  }
 
   private Main() throws IOException {
+    LanguageIdentifierTools.addLtProfiles();  
     config = new Configuration(new File(System.getProperty("user.home")), CONFIG_FILE);
     messages = JLanguageTool.getMessageBundle();
     maybeStartServer();
