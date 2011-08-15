@@ -11,10 +11,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Arrays;
-import java.util.Stack;
 import java.util.TreeMap;
-
-import sun.org.mozilla.javascript.Token;
 
 import de.danielnaber.languagetool.dev.conversion.cg.CgCompositeTag;
 import de.danielnaber.languagetool.dev.conversion.cg.CgContextualTest;
