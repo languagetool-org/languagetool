@@ -744,6 +744,17 @@ though, and has since been slightly modified)-->
         <example type="correct">Est-ce que quelqu’un <marker>peut</marker> m’aider ?</example>
       </rule>
     </rulegroup>
+    <rule id="FOR_INTERIEUR" name="fort intérieur au lieu de for intérieur">
+      <pattern mark_from="2">
+        <token regexp="yes">en|dans</token>
+        <token regexp="yes">[mts]on|[nv]otre|leur</token>
+        <token regexp="yes">forts?</token>
+        <token regexp="yes">intérieurs?</token>
+      </pattern>
+      <message>Voulez-vous écrire <suggestion>for intérieur</suggestion> ?</message>
+      <example type="incorrect">En mon <marker>fort intérieur</marker>, je le crois.</example>
+      <example type="correct">En mon for intérieur, je le crois.</example>
+    </rule>
     <rulegroup id="PALE" name="Pale au lieu de pâle">
       <rule>
         <pattern mark_from="1">
