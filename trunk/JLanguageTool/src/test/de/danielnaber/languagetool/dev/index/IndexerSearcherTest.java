@@ -74,16 +74,13 @@ public class IndexerSearcherTest extends LuceneTestCase {
       Searcher.run("Invalid Rule Id",
           JLanguageTool.getDataBroker().getFromRulesDirAsStream("/en/grammar.xml"), "/en/grammar.xml", searcher, true);
       fail("Exception should be thrown for invalid rule id.");
-    } catch (IOException e) {
-      assertTrue(e instanceof PatternRuleNotFoundException);
+    } catch (PatternRuleNotFoundException expected) {
       try {
         Searcher.run("Invalid Rule Id",
             JLanguageTool.getDataBroker().getFromRulesDirAsStream("/en/grammar.xml"), "/en/grammar.xml", searcher,
             false);
         fail("Exception should be thrown for invalid rule id.");
-      } catch (IOException ex) {
-        assertTrue(ex instanceof PatternRuleNotFoundException);
-      }
+      } catch (PatternRuleNotFoundException expected2) {}
     }
 
     try {
@@ -103,8 +100,7 @@ public class IndexerSearcherTest extends LuceneTestCase {
       Searcher.run("ALL_FOR_NOT",
           JLanguageTool.getDataBroker().getFromRulesDirAsStream("/en/grammar.xml"), "/en/grammar.xml", searcher, true);
       fail("Exception should be thrown for unsupported PatternRule");
-    } catch (IOException e) {
-      assertTrue(e instanceof UnsupportedPatternRuleException);
+    } catch (UnsupportedPatternRuleException expected) {
       topDocs = Searcher
           .run("ALL_FOR_NOT",
               JLanguageTool.getDataBroker().getFromRulesDirAsStream("/en/grammar.xml"), "/en/grammar.xml", searcher,
