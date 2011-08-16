@@ -1545,6 +1545,90 @@ though, and has since been slightly modified)-->
     </rule>
 
   </category>
+  <category name="Élision">
+    <!-- I find conflicting information about élision, so this needs to be reviewed.
+    <rulegroup id="PARCE_QUE" name="Élision de parce que">
+      <rule>
+        <pattern>
+          <token>parce</token>
+          <token>que</token>
+          <token regexp="yes">à|ils?|elles?|on|une?</token>
+        </pattern>
+        <message>«\1 \2 \3» s’élide en <suggestion>\1 qu’\3</suggestion>.</message>
+        <example type="incorrect"><marker>Parce que il</marker> fait froid.</example>
+        <example type="correct">Parce qu’il fait froid.</example>
+        <example type="correct">Parce que en février il fait froid.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>parce</token>
+          <token>qu</token>
+          <token regexp="yes">[’´'‛′‘]</token>
+          <token negate="yes" regexp="yes">à|ils?|elles?|on|une?</token>
+        </pattern>
+        <message>«Parce que» ne s’élide que devant à, il, ils, elle, elles, on, un, une. Employez <suggestion>\1 que \4</suggestion>.</message>
+        <example type="incorrect"><marker>Parce qu’en</marker> février il fait froid.</example>
+        <example type="correct">Parce que en février il fait froid.</example>
+        <example type="correct">Parce qu’il est malade.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="PUISQUE" name="Élision de puisque">
+      <rule>
+        <pattern>
+          <token regexp="yes">puisque|lorsque</token>
+          <token regexp="yes">ils?|elles?|on|en|une?</token>
+        </pattern>
+        <message>«\1 \2» s’élide en <suggestion>puisqu’\2</suggestion>.</message>
+        <example type="incorrect"><marker>Puisque en</marker> février il fait froid.</example>
+        <example type="correct"><marker>Puisqu’en</marker> février il fait froid.</example>
+        <example type="correct">Puisque aussitôt il partit.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">puisqu|lorsqu</token>
+          <token regexp="yes">[’´'‛′‘]</token>
+          <token negate="yes" regexp="yes">ils?|elles?|on|en|une?</token>
+        </pattern>
+        <message>«\1e» ne s’élide que devant il, ils, elle, elles, on, en, un, une. Employez <suggestion>\1e \3</suggestion>.</message>
+        <example type="incorrect"><marker>Puisqu’aussitôt</marker> il partit.</example>
+        <example type="correct">Puisque aussitôt il partit.</example>
+        <example type="correct">Puisque en février il fait froid.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="QUOIQUE" name="Élision de quoique">
+      <rule>
+        <pattern>
+          <token>quoique</token>
+          <token regexp="yes">ils?|elles?|on</token>
+        </pattern>
+        <message>«\1 \2» s’élide en <suggestion>puisqu’\2</suggestion>.</message>
+        <example type="incorrect"><marker>Quoique on</marker> en dise</example>
+        <example type="correct"><marker>Quoiqu’on</marker> en dise</example>
+      </rule>
+    </rulegroup>
+    -->
+    <rulegroup id="PRESQUE" name="Élision de presque">
+      <rule>
+        <pattern>
+          <token>presque</token>
+          <token regexp="yes">îles?</token>
+        </pattern>
+        <message>«\1 \2» s’élide en <suggestion>presqu’île</suggestion>.</message>
+        <example type="incorrect">Une <marker>presque île</marker></example>
+        <example type="correct">Une presqu’île</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>presqu</token>
+          <token regexp="yes">[’´'‛′‘]</token>
+          <token negate="yes" regexp="yes">îles?</token>
+        </pattern>
+        <message>«presque» ne s’élide que dans le nom «presqu’île». Employez <suggestion>\1e \3</suggestion>.</message>
+        <example type="incorrect">La réponse est <marker>presqu’exacte</marker>.</example>
+        <example type="correct">La réponse est presque exacte.</example>
+      </rule>
+    </rulegroup>
+  </category>
   <category name="Grammaire">
     <!-- http://www.leconjugueur.com/frlesnombres.php -->
     <rulegroup id="TRAIT_UNION_NOMBRE" name="Nombre avec trait d’union">
@@ -2379,7 +2463,7 @@ though, and has since been slightly modified)-->
           <token postag="R pers suj 1 s|&lt;/JE&gt;" postag_regexp="yes"/>
           <token postag="V .*" postag_regexp="yes"><exception postag="V .* 1 s" postag_regexp="yes"/></token>
         </pattern>
-        <message>Vérifiez l’accord entre le pronom « \1 » et le verbe « \2 ».</message>
+        <message>Vérifiez l’accord entre le pronom et le verbe « \2 ».</message>
         <example type="incorrect"><marker>Je peut</marker></example>
         <example type="correct">Je peux</example>
         <example type="incorrect">J<marker>’arrives</marker></example>
@@ -2391,7 +2475,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">[lmnt]e|la|les?|[nv]vous|leur|lui|en|y</token>
           <token postag="V .*" postag_regexp="yes"><exception postag="V .* 1 s" postag_regexp="yes"/></token>
         </pattern>
-        <message>Vérifiez l’accord entre le pronom « \1 » et le verbe « \3 ».</message>
+        <message>Vérifiez l’accord entre le pronom et le verbe « \3 ».</message>
         <example type="incorrect"><marker>Je ne travailles</marker> pas.</example>
         <example type="correct">Je ne travaille pas</example>
         <example type="incorrect">J<marker>’en ait</marker></example>
