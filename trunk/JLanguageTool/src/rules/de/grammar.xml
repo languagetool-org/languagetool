@@ -40,6 +40,26 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct">Ihr <marker>schriebt</marker> damals viele Briefe.</example>
       <example type="correct">Ihr <marker>schreibt</marker> oft Briefe.</example>
     </rule>
+    <rule id="GRUENE_VS_GRUENDE" name="Möglicher Tippfehler: 'aus guten Grünen (Gründen)'">
+      <pattern case_sensitive="yes" mark_from="2">
+        <token regexp="yes">[aA]us</token>
+        <token regexp="yes">(zwingend|zureichend|welch|gut|triftig|plausibl|stichhaltig|verständlich|taktisch|politisch|bestimmt|ersichtlich|begreiflich|gesundheitlich|nachvollziehbar|einleuchtend|wichtig)en</token>
+        <token>Grünen</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>Gründen</suggestion>?</message>
+      <example type="incorrect">Aus bestimmten <marker>Grünen</marker> gelang mir das nicht.</example>
+      <example type="correct">Aus bestimmten <marker>Gründen</marker> gelang mir das nicht.</example>
+    </rule>
+    <rule id="BEKANNTEST" name="Möglicher Tippfehler: 'bekanntest (bekannteste)'">
+      <pattern mark_from="1" mark_to="-1">
+        <token regexp="yes">der|die|das</token>
+        <token>bekanntest</token>
+        <token postag="SUB:.*" postag_regexp="yes"/>
+      </pattern>
+      <message>Meinten Sie <suggestion>bekannteste</suggestion>?</message>
+      <example type="incorrect">Das <marker>bekanntest</marker> Beispiel ...</example>
+      <example type="correct">Das <marker>bekannteste</marker> Beispiel ...</example>
+    </rule>
     <rule id="FOND_VS_FONDS" name="Möglicher Tippfehler: 'Fond (Fonds)'">
       <pattern>
         <token regexp="yes">(Ablösungs|Absatz|Absatzförderungs|Abschreibungs|Agrar|Aktiendach|Aktien|Aktions|Alterssicherungs|Angestelltenpensions|Anlage|Anpassungs|Anteil|Arbeitnehmer|Arbeitskräfte|Arbeitszeit|Aufbauhilfe|Ausbildungs|Ausgleichs|Auslands|Auswanderungs|Bau|Bausparkassensicherungs|Berufsbildungs|Betriebserweiterungs|Betriebs|Bevölkerungs|Bildungs|Biogas|Bodenreserve|Branchen|Bundes|Dach|Deckungs|Devisenausgleichs|Dispositions|Eigenkapital|Einlagensicherungs|Einwanderungs|Einzel|Entschädigungs|Entwicklungs|Entwicklungshilfe|Erneuerungs|Ersatz|Ethik|Familien|Fernseh|Film|Filmförderungs|Finanzierungs|Finanzmittel|Fluthilfe|Förder|Förderungs|Forschungs|Forst|Fortbildungs|Frauenförder|Fremd|Futtermittel|Garantie|Gedächtnis|Geheim|Geld|Geldmarkt|Gemeinschafts|Gewinnbeteiligungs|Gewinn|Grund|Grundmittel|Grundstücks|Haftungs|Handels|Härte|Hauptstadtkultur|Hilfe|Hilfs|Holzabsatz|Immobilien|Index|Inlands|Internet|Investitions|Investment|Kapitalanlage|Kapitalentwicklungs|Kapital|Katastrophen|Katastrophenhilfe|Kinderhilfs|Klimaschutz|Kloster|Kranken|Kreisschul|Kultur|Kunst|Landes|Landschafts|Landwirtschafts|Laufzeit|Lehrstellen|Leistungs|Liegenschafts|Literatur|Lohn|Lotterie|Medien|Milliarden|Mindestgarantie|National|Naturschutz|Nothilfe|Öko|Öl|Opfer|Pensions|Pensionsinvestment|Petroleum|Polizeireserve|Preis|Privat|Produktionsanlage|Produktions|Produktionsgrund|Produktionsmittel|Produktionsumlauf|Publikums|Rechtshilfe|Regional|Renten|Repräsentations|Reserve|Rettungs|Risiko|Schiffs|Schmiergeld|Schuldentilgungs|Schulgeld|Sicherheits|Sicherungs|Solidaritäts|Sonder|Sozial|Spekulations|Spenden|Spezial|Staats|Stabilisierungs|Stadterweiterungs|Streik|Struktur|Tarif|Teil|Tierschutz|Tilgungs|Treuhand|Umlauf|Umlaufmittel|Umwelt|Universitäts|Unterstützungs|Vermögensbildungs|Vermögens|Verteidigungs|Wahl|Wahlkampf|Währungsausgleich|Währungsausgleichs|Währungs|Waren|Weltbevölkerungs|Weltwährungs|Werbe|Wissenschafts|Zeit|Ziel|Zukunfts|Zwangsarbeiter)fond</token>
@@ -213,31 +233,6 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct">Ich <marker>bereite</marker> etwas vor.</example>
       <example type="correct">Da habe ich <marker>bereits</marker> etwas vor.</example>
       <example type="incorrect">Da habe ich <marker>bereist</marker> etwas vor.</example>
-    </rule>
-    <rule id="MIT_RUM_BEKLECKERT" name="Möglicher Tippfehler: 'mit Rum (Ruhm) bekleckert' (Redewendung)">
-      <pattern mark_from="2" mark_to="-1">
-          <token regexp="yes">nicht|unbedingt|gerade</token>
-          <token>mit</token>
-          <token>Rum</token>
-          <token regexp="yes">bekleckert|befleckt|bedeckt</token>
-        </pattern>
-      <message>Meinten Sie <suggestion>Ruhm</suggestion>? (Redewendung)</message>
-      <example type="correct">Da haben wir uns nicht gerade mit <marker>Ruhm</marker> bekleckert.</example>
-      <example type="correct">Verzeihung, Sie haben sich eben mit etwas <marker>Rum</marker> bekleckert.</example>
-      <example type="incorrect">Da haben wir uns nicht gerade mit <marker>Rum</marker> bekleckert.</example>
-    </rule>
-    <rule id="MALT_MAHLT" name="Möglicher Tippfehler: 'malt (mahlt) zuerst' (Redewendung)">
-      <pattern mark_from="4" mark_to="-1">
-          <token>wer</token>
-          <token>zuerst</token>
-          <token>kommt</token>
-          <token>,</token>
-          <token regexp="yes">mal.*</token>
-          <token>zuerst</token>
-        </pattern>
-      <message>Meinten Sie <suggestion>mahlt</suggestion>? (Redewendung)</message>
-      <example type="correct">Wer zuerst kommt, <marker>mahlt</marker> zuerst.</example>
-      <example type="incorrect">Wer zuerst kommt, <marker>malt</marker> zuerst.</example>
     </rule>
     <rule id="BAFF_ERSTAUNT" name="Möglicher Tippfehler: 'baff (bass) erstaunt'">
       <pattern mark_to="-1">
@@ -2011,6 +2006,62 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect">Herzliche <marker>grüße</marker></example>
       </rule>
     </rulegroup>
+    <rulegroup id="AUF_DER_FLUCHT" name="Groß-/Kleinschreibung: 'auf der flucht (Flucht)'">
+      <rule>
+        <pattern case_sensitive="yes" mark_from="2">
+          <token regexp="yes">[aA]uf|[bB]ei</token>
+          <token regexp="yes">(sein|ihr|d)er</token>
+          <token>flucht</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>Flucht</suggestion>?</message>
+        <example type="incorrect">Er wurde auf der <marker>flucht</marker> erschossen.</example>
+        <example type="incorrect">Bei seiner <marker>flucht</marker> stahl er ein Auto.</example>
+        <example type="correct">Er wurde auf der <marker>Flucht</marker> erschossen.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="3">
+          <token regexp="yes">[aA]uf|[bB]ei</token>
+          <token regexp="yes">(sein|ihr|d)er</token>
+          <token postag="ADJ:.*" postag_regexp="yes"/>
+          <token>flucht</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>Flucht</suggestion>?</message>
+        <example type="incorrect">Bei seiner wilden <marker>flucht</marker> stahl er ein Auto.</example>
+        <example type="correct">Er wurde auf der <marker>Flucht</marker> erschossen.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="LEGENDE_SUBST" name="Groß-/Kleinschreibung: 'legende (Legende)'">
+      <rule>
+        <pattern case_sensitive="yes" mark_from="2" mark_to="-1">
+          <token regexp="yes">[eE]iner|[Dd]er</token>
+          <token postag="ADJ:.*" postag_regexp="yes"/>
+          <token>legende</token>
+          <token regexp="yes">nach|zufolge</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>Legende</suggestion>?</message>
+        <example type="incorrect">Einer alten <marker>legende</marker> zufolge ...</example>
+        <example type="correct">Einer alten <marker>Legende</marker> zufolge ...</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="1">
+          <token regexp="yes">lebende(n)?|verbreitete(n)?</token>
+          <token>legende</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>Legende</suggestion>?</message>
+        <example type="incorrect">Einer verbreiteten <marker>legende</marker> zufolge ...</example>
+        <example type="correct">Einer verbreiteten <marker>Legende</marker> zufolge ...</example>
+      </rule>
+    </rulegroup>
+    <rule id="GRUENDE_SUBST" name="Groß-/Kleinschreibung: 'mit guten gründen (Gründen)'">
+      <pattern case_sensitive="yes" mark_from="2">
+        <token regexp="yes">[aA]us|[mM]it</token>
+        <token regexp="yes">(zwingend|zureichend|welch|irgendwelch|gut|triftig|plausibl|stichhaltig|verständlich|taktisch|politisch|bestimmt|ersichtlich|begreiflich|gesundheitlich|nachvollziehbar|einleuchtend|wichtig)en</token>
+        <token>gründen</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>Gründen</suggestion>?</message>
+      <example type="incorrect">Aus irgendwelchen <marker>gründen</marker> gelang mir das nicht.</example>
+      <example type="correct">Aus irgendwelchen <marker>Gründen</marker> gelang mir das nicht.</example>
+    </rule>
     <rule id="ROTE_ARMEE" name="Groß-/Kleinschreibung: 'rote (Rote) Armee'">
       <pattern case_sensitive="yes">
         <token regexp="yes">rote(n)?</token>
@@ -2391,7 +2442,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     <rulegroup id="BRUESTE_SUBST" name="Groß-/Kleinschreibung: 'brüste (Brüste)'">
       <rule>
         <pattern mark_from="2" case_sensitive="yes">
-          <token regexp="yes">zwischen|auf|an|unter</token>
+          <token regexp="yes">zwischen|auf|an|unter|mit</token>
           <token regexp="yes">ihren|den</token>
           <token>brüsten</token>
         </pattern>
@@ -3364,6 +3415,46 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect">Sollte dagegen <marker>etwaig</marker> verstoßen werden ...</example>
       </rule>
     </rulegroup>
+  </category>
+
+  <category name="Redewendungen">
+    <rule id="MIT_RUM_BEKLECKERT" name="Redewendung: 'mit Rum (Ruhm) bekleckert'">
+      <pattern mark_from="2" mark_to="-1">
+          <token regexp="yes">nicht|unbedingt|gerade</token>
+          <token>mit</token>
+          <token>Rum</token>
+          <token regexp="yes">bekleckert|befleckt|bedeckt</token>
+        </pattern>
+      <message>Meinten Sie <suggestion>Ruhm</suggestion>? (Redewendung)</message>
+      <example type="correct">Da haben wir uns nicht gerade mit <marker>Ruhm</marker> bekleckert.</example>
+      <example type="correct">Verzeihung, Sie haben sich eben mit etwas <marker>Rum</marker> bekleckert.</example>
+      <example type="incorrect">Da haben wir uns nicht gerade mit <marker>Rum</marker> bekleckert.</example>
+    </rule>
+    <rule id="MALT_MAHLT" name="Redewendung: 'malt (mahlt) zuerst'">
+      <pattern mark_from="4" mark_to="-1">
+          <token>wer</token>
+          <token>zuerst</token>
+          <token>kommt</token>
+          <token>,</token>
+          <token regexp="yes">mal.*</token>
+          <token>zuerst</token>
+        </pattern>
+      <message>Meinten Sie <suggestion>mahlt</suggestion>? (Redewendung)</message>
+      <example type="correct">Wer zuerst kommt, <marker>mahlt</marker> zuerst.</example>
+      <example type="incorrect">Wer zuerst kommt, <marker>malt</marker> zuerst.</example>
+    </rule>
+    <rule id="AUS_DEM_NICHTS" name="Redewendung: 'aus der Luft gegriffen' u.ä.">
+      <pattern>
+          <token>aus</token>
+          <token>der</token>
+          <token>Luft</token>
+          <token>entstanden</token>
+        </pattern>
+      <message>Meinten Sie <suggestion>aus dem Nichts entstanden</suggestion> oder <suggestion>aus der Luft gegriffen</suggestion>?</message>
+      <example type="correct">Die Vorwürfe sind doch nicht einfach <marker>aus dem Nichts entstanden</marker>.</example>
+      <example type="correct">Die Vorwürfe sind doch nicht einfach <marker>aus der Luft gegriffen</marker>.</example>
+      <example type="incorrect">Die Vorwürfe sind doch nicht einfach <marker>aus der Luft entstanden</marker>.</example>
+    </rule>
   </category>
 
   <category name="Zeichensetzung">
