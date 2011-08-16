@@ -66,16 +66,14 @@ public final class TestTools {
   }
 
   public static void testSplit(final String[] sentences,
-      final SentenceTokenizer stokenizer) {
+      final SentenceTokenizer sTokenizer) {
     final StringBuilder inputString = new StringBuilder();
     final List<String> input = new ArrayList<String>();
-    for (final String sentence : sentences) {
-      input.add(sentence);
-    }
+    Collections.addAll(input, sentences);
     for (final String string : input) {
       inputString.append(string);
     }
-    Assert.assertEquals(input, stokenizer.tokenize(inputString.toString()));
+    Assert.assertEquals(input, sTokenizer.tokenize(inputString.toString()));
   }
 
   public static void myAssert(final String input, final String expected,
@@ -90,14 +88,14 @@ public final class TestTools {
       }
     }
     final List<AnalyzedTokenReadings> output = tagger.tag(noWhitespaceTokens);
-    final StringBuffer outputStr = new StringBuffer();
+    final StringBuilder outputStr = new StringBuilder();
     for (final Iterator<AnalyzedTokenReadings> iter = output.iterator(); iter
         .hasNext();) {
       final AnalyzedTokenReadings token = iter.next();
       final int readingsNumber = token.getReadingsLength();
       final List<String> readings = new ArrayList<String>();
       for (int j = 0; j < readingsNumber; j++) {
-        final StringBuffer readingStr = new StringBuffer();
+        final StringBuilder readingStr = new StringBuilder();
         readingStr.append(token.getAnalyzedToken(j).getToken());
         readingStr.append("/[");
         readingStr.append(token.getAnalyzedToken(j).getLemma());
@@ -120,7 +118,7 @@ public final class TestTools {
       final Tokenizer tokenizer, final SentenceTokenizer sentenceTokenizer,
       final Tagger tagger, final Disambiguator disambiguator)
       throws IOException {
-    final StringBuffer outputStr = new StringBuffer();
+    final StringBuilder outputStr = new StringBuilder();
     final List<String> sentences = sentenceTokenizer.tokenize(input);
     for (final String sentence : sentences) {
       final List<String> tokens = tokenizer.tokenize(sentence);
@@ -168,7 +166,7 @@ public final class TestTools {
         final int readingsNumber = token.getReadingsLength();
         final List<String> readings = new ArrayList<String>();
         for (int j = 0; j < readingsNumber; j++) {
-          final StringBuffer readingStr = new StringBuffer();
+          final StringBuilder readingStr = new StringBuilder();
           readingStr.append(token.getAnalyzedToken(j).getToken());
           readingStr.append("/[");
           readingStr.append(token.getAnalyzedToken(j).getLemma());
