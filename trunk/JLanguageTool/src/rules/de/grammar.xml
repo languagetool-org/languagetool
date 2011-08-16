@@ -18,6 +18,15 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
          xsi:noNamespaceSchemaLocation="../rules.xsd">
 
   <category name="Mögliche Tippfehler">
+    <rule id="BEKANNT_ALT" name="Möglicher Tippfehler: 'bekannt alt (als)'">
+      <pattern mark_from="1">
+        <token>bekannt</token>
+        <token>alt</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>als</suggestion>?</message>
+      <example type="incorrect">Er ist bekannt <marker>alt</marker> intelligent.</example>
+      <example type="correct">Er ist bekannt <marker>als</marker> intelligent.</example>
+    </rule>
     <rule id="SCHRIEBT" name="Möglicher Tippfehler: 'schriebt (schreibt)'">
       <pattern mark_from="1" mark_to="-1">
         <token negate="yes">Ihr</token>
