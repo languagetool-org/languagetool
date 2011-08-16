@@ -435,7 +435,7 @@ RB => Règles Brutes
     </rule>
     <rule name="ne">
       <pattern mark="0">
-        <token regexp="yes" skip="3">n|ne</token>
+        <token regexp="yes" skip="3">ne?</token>
         <token regexp="yes">pas|point|plus|jamais</token>
       </pattern>
       <disambig postag="A"/>
@@ -484,7 +484,7 @@ RB => Règles Brutes
   <rulegroup name="RP : Etre/avoir + participe passé ambigu" id="RP-ÊTRE_AVOIR_VPPA_AMBIG">
     <rule name="ppa masc sing">
       <pattern mark="1">
-        <token postag="(V etre .*)|(V avoir .*)" postag_regexp="yes" skip="2"/>
+        <token postag="V etre .*|V avoir .*" postag_regexp="yes" skip="2"/>
         <token postag="V ppa .*" postag_regexp="yes"/>
       </pattern>
       <disambig><match no="2" postag_regexp="yes" postag="V ppa .*"/></disambig>
@@ -516,14 +516,14 @@ RB => Règles Brutes
   </rulegroup>
     <rule name="RP : Indicatif être (suis est sommes)" id="RP-SUIS_EST_SOMMES">
       <pattern mark="1">
-        <token postag="(R pers suj .*)|(J.*)|(N.*)|A" postag_regexp="yes"/>
+        <token postag="R pers suj .*|J.*|N.*|A" postag_regexp="yes"/>
         <token postag="V etre ind pres .*" postag_regexp="yes"/>
       </pattern>
       <disambig><match no="2" postag_regexp="yes" postag="V etre ind pres .*"/></disambig>
     </rule>
     <rule name="RP : Indicatif avoir (as a ont)" id="RP-AS_A_ONT">
       <pattern mark="1">
-        <token postag="(R pers suj .*)|J.*|N.*|A" postag_regexp="yes"/>
+        <token postag="R pers suj .*|J.*|N.*|A" postag_regexp="yes"/>
         <token postag="V avoir ind pres .*" postag_regexp="yes"/>
       </pattern>
       <disambig><match no="2" postag_regexp="yes" postag="V avoir ind pres .*"/></disambig>
