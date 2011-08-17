@@ -23,6 +23,7 @@ import java.util.*;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.rules.Rule;
 import de.danielnaber.languagetool.rules.km.KhmerSimpleReplaceRule;
+import de.danielnaber.languagetool.rules.km.KhmerWordRepeatRule;
 import de.danielnaber.languagetool.tagging.Tagger;
 import de.danielnaber.languagetool.tagging.km.KhmerTagger;
 import de.danielnaber.languagetool.tokenizers.SRXSentenceTokenizer;
@@ -81,16 +82,16 @@ public class Khmer extends Language {
   
   @Override
   public Contributor[] getMaintainers() {
-    return new Contributor[] {new Contributor("Nathan Wells")
-        };
+    return new Contributor[] {new Contributor("Nathan Wells")};
   }
 
   @Override
   public List<Class<? extends Rule>> getRelevantRules() {
-    final List<Class<? extends Rule>> ruleClasses = new ArrayList<Class<? extends Rule>>();
-    // specific to Khmer:
-    ruleClasses.add(KhmerSimpleReplaceRule.class);
-    return ruleClasses;
+    return Arrays.asList(
+      // specific to Khmer:
+      KhmerSimpleReplaceRule.class,
+      KhmerWordRepeatRule.class
+    );
   }
 
 }

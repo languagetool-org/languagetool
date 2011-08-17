@@ -1,0 +1,45 @@
+/* LanguageTool, a natural language style checker 
+ * Copyright (C) 2011 Daniel Naber (http://www.danielnaber.de)
+ * 
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+ * USA
+ */
+package de.danielnaber.languagetool.rules.km;
+
+import de.danielnaber.languagetool.JLanguageTool;
+import de.danielnaber.languagetool.Language;
+import de.danielnaber.languagetool.TestTools;
+import junit.framework.TestCase;
+
+import java.io.IOException;
+
+/**
+ * @author Nathan Wells
+ */
+public class KhmerWordRepeatRuleTest extends TestCase {
+
+    public void testWordRepeatRule() throws IOException {
+        KhmerWordRepeatRule rule = new KhmerWordRepeatRule(TestTools.getEnglishMessages(), Language.KHMER);
+        JLanguageTool langTool = new JLanguageTool(Language.KHMER);
+        // correct sentences:
+        assertEquals(0, rule.match(langTool.getAnalyzedSentence("នេះ​ហើយៗ​នោះ។")).length);
+        assertEquals(0, rule.match(langTool.getAnalyzedSentence("គាត់​ហើយ ហើយ​ខ្ញុំ។")).length);
+
+        // incorrect sentences:
+        assertEquals(1, rule.match(langTool.getAnalyzedSentence("នេះ​ហើយ​ហើយ​នោះ។")).length);
+        assertEquals(1, rule.match(langTool.getAnalyzedSentence("ខ្ញុំ​និង​និង​គាត់។")).length);
+    }
+
+}
