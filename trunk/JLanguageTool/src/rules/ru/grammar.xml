@@ -57,7 +57,7 @@ $Id: grammar.xml,v 1.68 2011-05-14 14:58:12 yakovru Exp $
                 <example type="incorrect"><marker>Пожалуйста закройте</marker> дверь.</example>
             </rule>
         </rulegroup>
-        <rulegroup default="on" id="KAK_PRAVILO" name="Вводное сочетание как обычно, как всегда, ...">
+        <rulegroup default="on" id="KAK_PRAVILO" name="Вводное сочетание “как обычно”, “как всегда”, ...">
             <!--Вводное сочетание как обычно, как всегда, как правило, как исключение, как сейчас, как нарочно
 -->
             <rule>
@@ -113,7 +113,7 @@ $Id: grammar.xml,v 1.68 2011-05-14 14:58:12 yakovru Exp $
                 <example type="incorrect" correction="Как правило, мы"><marker>Как правило мы</marker> ходим в походы летом.</example>
             </rule>         
         </rulegroup>
-        <rulegroup id="KAK_I" name="После союза как следует и">
+        <rulegroup id="KAK_I" name="После союза “как” следует “и”">
             <!--TODO: Detect 2 comma.-->
             <rule>
                 <pattern case_sensitive="no" mark_to= "-1">
@@ -130,7 +130,7 @@ $Id: grammar.xml,v 1.68 2011-05-14 14:58:12 yakovru Exp $
             </rule>
             
         </rulegroup>
-        <rulegroup default="on" id="A_NO_DA" name="Союзы ”а, но”">
+        <rulegroup default="on" id="A_NO_DA" name="Союзы “а”, “но”">
             <rule>
                 <pattern case_sensitive="yes" mark_to="-1">
                     <token negate="yes" regexp="yes">[\p{Punct}]|-|—|’|‘|ну|Ну|«<exception postag="SENT_START"></exception></token>
@@ -153,7 +153,7 @@ $Id: grammar.xml,v 1.68 2011-05-14 14:58:12 yakovru Exp $
                 <example type="incorrect">Она говорила <marker>мало но</marker> толково.</example>
             </rule>
         </rulegroup>
-        <rulegroup default="on" id="VVODNOE_SLOVO" name="Вводные слова: по-видимому, ...">
+        <rulegroup default="on" id="VVODNOE_SLOVO" name="Вводные слова: “по-видимому”, ...">
             <rule>
                 <pattern case_sensitive="yes">
                     <token negate="yes" regexp="yes">[\p{Punct}]|-|—|как|который|которого|которому|
@@ -303,7 +303,7 @@ $Id: grammar.xml,v 1.68 2011-05-14 14:58:12 yakovru Exp $
                 <example type="incorrect" correction="Видишь ли, эта"><marker>Видишь ли эта</marker> работа представляет огромную научную ценность.</example>
             </rule>
         </rulegroup>
-        <rulegroup default="off" id="KAK_VVODNOE" name="Слова, которые могут выступать в роли вводных: к счастью, ...">
+        <rulegroup default="off" id="KAK_VVODNOE" name="Слова, которые могут выступать в роли вводных: “к счастью”, ...">
             <rule>
                 <!--Вводные слова: к счастью, к несчастью, к радости, к ужасу, к сожалению, ...-->
                 <pattern case_sensitive="yes">
@@ -476,7 +476,7 @@ $Id: grammar.xml,v 1.68 2011-05-14 14:58:12 yakovru Exp $
         
         
         
-        <rulegroup default="off" id="PREDLOGI_KROME" name="Дополнения, вводимые предлогами: кроме, ...">
+        <rulegroup default="off" id="PREDLOGI_KROME" name="Дополнения, вводимые предлогами: “кроме”, ...">
             <!--Дополнения, вводимые предлогами: кроме, помимо, вместо, сверх, за исключением
             --> 
             <!--TODO: Detect 2 comma.-->
@@ -502,7 +502,7 @@ $Id: grammar.xml,v 1.68 2011-05-14 14:58:12 yakovru Exp $
                 <example type="incorrect" correction="поход, за исключением">В <marker>поход за исключением</marker> Ивана пошло ещё пять человек.</example>
             </rule>
         </rulegroup>
-        <rule default="on"  id="V_tom_chisle" name="В том числе">
+        <rule default="on"  id="V_tom_chisle" name="“В том числе”">
             <pattern case_sensitive="yes">
                 <token negate="yes" regexp="yes">и|[\p{Punct}]|-|—<exception postag="SENT_START"></exception></token>
                 <token>в</token>
@@ -551,7 +551,7 @@ $Id: grammar.xml,v 1.68 2011-05-14 14:58:12 yakovru Exp $
         </rulegroup>
         
         
-        <rulegroup default="on" id="NO_KAK_POPALO" name="Что угодно, как попало">
+        <rulegroup default="on" id="NO_KAK_POPALO" name="“Что угодно”, “как попало”">
             <!--Что угодно, как попало  не выделяются запятыми.
             --> 
             <rule>
@@ -566,7 +566,7 @@ $Id: grammar.xml,v 1.68 2011-05-14 14:58:12 yakovru Exp $
                 <example type="incorrect">Работа была сделана<marker>, как попало</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup default="on" id="NO_NE_KAK" name="Почти как, не как, ...">
+        <rulegroup default="on" id="NO_NE_KAK" name="“Почти как”, “не как”, ...">
             <!--Перед сравнительным оборотом стоит "не" или слова: совсем, совершенно, почти, именно  ->> запятая не ставится.
             --> 
             <rule>
@@ -581,7 +581,7 @@ $Id: grammar.xml,v 1.68 2011-05-14 14:58:12 yakovru Exp $
                 <example type="incorrect">Работа была сделана <marker>совсем, как</marker> попало.</example>
             </rule>
         </rulegroup>
-        <rulegroup default="on" id="NO_NE_TO_CHTO" name="Не то что, не так чтобы, не иначе как">
+        <rulegroup default="on" id="NO_NE_TO_CHTO" name="“Не то что”, “не так чтобы”, “не иначе как”">
             <!-- Внутри сочетаний не то что, не то (так) чтобы, не иначе как запятая не ставится.
             --> 
             <rule>
@@ -610,7 +610,7 @@ $Id: grammar.xml,v 1.68 2011-05-14 14:58:12 yakovru Exp $
             </rule>            
             
         </rulegroup>
-        <rulegroup default="on" id="I_TO_I_SE" name="Цельные выражения: ни рыба ни мясо, ...">
+        <rulegroup default="on" id="I_TO_I_SE" name="Цельные выражения: “ни рыба ни мясо”, ...">
             <!-- Запятая не ставится в цельных выражениях:
             и то и се,  
             ни то ни се,  
@@ -1344,7 +1344,7 @@ $Id: grammar.xml,v 1.68 2011-05-14 14:58:12 yakovru Exp $
             </rule>              
         </rulegroup>
         
-        <rulegroup default="on"  id="V_K_S" name="Беглая гласная в предлогах: в, к, с, без, из ...">
+        <rulegroup default="on"  id="V_K_S" name="Беглая гласная в предлогах: “в”, “к”, “с”, “без”, “из” ...">
             <rule>  
                 <pattern>
                     <token>во</token>
@@ -1396,7 +1396,7 @@ $Id: grammar.xml,v 1.68 2011-05-14 14:58:12 yakovru Exp $
                 <example type="incorrect"><marker>Изо окна</marker> выпал пакет.</example>
             </rule> 
         </rulegroup>
-        <rulegroup default="off"  id="S_SO" name="Беглая гласная в предлогах: c, co.">
+        <rulegroup default="off"  id="S_SO" name="Беглая гласная в предлогах: “c”, “co”.">
             <rule>  
                 <pattern>
                     <token>с</token>
@@ -1408,7 +1408,7 @@ $Id: grammar.xml,v 1.68 2011-05-14 14:58:12 yakovru Exp $
                 <example type="incorrect">Кошка спрыгнула <marker>с шкафа</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup default="on"  id="Vo_izbezhanie" name="Правописание предлога во избежание">
+        <rulegroup default="on"  id="Vo_izbezhanie" name="Правописание предлога “во избежание”">
             <rule>  
                 <pattern>
                     <token>во</token>
@@ -1420,7 +1420,7 @@ $Id: grammar.xml,v 1.68 2011-05-14 14:58:12 yakovru Exp $
                 <example type="incorrect">Чего не следует делать <marker>во избежании</marker> неприятностей.</example>
             </rule>
         </rulegroup>    
-        <rulegroup default="on"  id="O_OB_OBO" name="Правописание предлогов о, об, обо">
+        <rulegroup default="on"  id="O_OB_OBO" name="Правописание предлогов: “о”, “об”, “обо”">
             <rule>  
                 <pattern>
                     <token regexp="yes">обо|о</token>
