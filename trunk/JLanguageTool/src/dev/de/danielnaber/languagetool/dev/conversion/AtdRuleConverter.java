@@ -51,18 +51,37 @@ public class AtdRuleConverter extends RuleConverter {
         super(inFile,outFile,specificFileType);
     }
     
-    @SuppressWarnings("unchecked")
-	@Override
-    public String generateId(Object ruleObject) {
-    	HashMap<String,String> ruleMap = (HashMap<String,String>) ruleObject;
-    	return ruleMap.get("pattern").replaceAll("[\\ &|.*/<>]", "_"); 
-    }
-    
-    @SuppressWarnings("unchecked")
+//    @SuppressWarnings("unchecked")
+//	@Override
+//    public String generateId(Object ruleObject) {
+//    	HashMap<String,String> ruleMap = (HashMap<String,String>) ruleObject;
+//    	return ruleMap.get("pattern").replaceAll("[\\ &|.*/<>]", "_"); 
+//    }
+//    
+//    @SuppressWarnings("unchecked")
+//    @Override
+//    public String generateName(Object ruleObject) {
+//    	HashMap<String,String> ruleMap = (HashMap<String,String>) ruleObject;
+//    	return ruleMap.get("pattern").replaceAll("[&|.*/<>]", "_");
+//    }
     @Override
-    public String generateName(Object ruleObject) {
-    	HashMap<String,String> ruleMap = (HashMap<String,String>) ruleObject;
-    	return ruleMap.get("pattern").replaceAll("[&|.*/<>]", "_");
+	public String generateName(Object ruleObject) {
+		String name = "rule_" + nameIndex;
+		nameIndex++;
+		return name;
+	}
+	
+	@Override
+	public String generateId(Object ruleObject) {
+		String name = "rule_" + idIndex;
+		idIndex++;
+		return name;
+	}
+    
+    @Override
+    public String[] getAcceptableFileTypes() {
+    	String[] ft = {"default","avoid"};
+    	return ft;
     }
     
     @Override
@@ -80,7 +99,7 @@ public class AtdRuleConverter extends RuleConverter {
     }
     
     @Override
-    public ArrayList<List<String>> getFalseAlarmRules(List<? extends Object> rules) {
+    public ArrayList<List<String>> getDisambiguationRules(List<? extends Object> rules) {
     	ArrayList<List<String>> falseAlarmRules = new ArrayList<List<String>>();
     	for (Object ruleObject : rules) {
     		String ruleString = (String)ruleObject;
@@ -91,6 +110,24 @@ public class AtdRuleConverter extends RuleConverter {
     		}
     	}
     	return falseAlarmRules;
+    }
+    
+    @Override
+    public ArrayList<List<String>> getAllLtRules(List<? extends Object> rules) {
+    	ArrayList<List<String>> allRules = new ArrayList<List<String>>();
+    	for (Object ruleObject : rules) {
+    		String ruleString = (String)ruleObject;
+    		HashMap<String,String> ruleMap = parseRule(ruleString);
+    		List<String> ltRule = ltRuleAsList(ruleMap, generateId(ruleMap), generateName(ruleMap), this.ruleType);
+    		allRules.add(ltRule);
+    	}
+    	return allRules;
+    }
+    
+    public boolean isDisambiguationRule(Object ruleObject) {
+    	String rule = (String)ruleObject;
+    	HashMap<String,String> ruleMap = parseRule(rule);
+    	return (ruleMap.containsKey("filter") && (ruleMap.get("filter").equals("kill") || ruleMap.get("filter").equals("die")));
     }
     
     public List<String> getRules() throws IOException {
@@ -641,6 +678,13 @@ public class AtdRuleConverter extends RuleConverter {
     	}
     	return true;
     }
+    
+    @Override
+    public String getRuleAsString(Object ruleObject) {
+    	return (String)ruleObject;
+    }
+    
+    
     
     
 

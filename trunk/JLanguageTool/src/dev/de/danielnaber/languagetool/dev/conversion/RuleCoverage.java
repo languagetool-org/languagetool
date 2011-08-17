@@ -19,6 +19,7 @@
 
 package de.danielnaber.languagetool.dev.conversion;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -43,7 +44,7 @@ import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.rules.patterns.Element;
 import de.danielnaber.languagetool.rules.patterns.PatternRule;
 import de.danielnaber.languagetool.rules.patterns.PatternRuleLoader;
-
+import de.danielnaber.languagetool.dev.conversion.RuleConverter;
 
 public class RuleCoverage {
 
@@ -53,6 +54,11 @@ public class RuleCoverage {
     String fileName = "." + JLanguageTool.getDataBroker().getResourceDir() + "/en/english.dict";
     private File dictFile = new File(fileName);
     
+    private String ruleFileHeader = RuleConverter.xmlHeader;
+    private String categoriesString = "<category name=\"test\">";
+    private String endCategoriesString = "</category>";
+    private String endRulesString = "</rules>"; 
+    
     
     public RuleCoverage(Language language) throws IOException {
         tool = new JLanguageTool(language);
@@ -61,6 +67,26 @@ public class RuleCoverage {
         tool.disableRule("EN_UNPAIRED_BRACKETS");
         tool.disableRule("EN_A_VS_AN");
         dictLookup = (DictionaryLookup) loadDictionary();        
+    }
+    
+    public RuleCoverage() throws IOException {
+    	tool = new JLanguageTool(Language.ENGLISH);
+        tool.activateDefaultPatternRules();
+        tool.disableRule("UPPERCASE_SENTENCE_START");
+        tool.disableRule("EN_UNPAIRED_BRACKETS");
+        tool.disableRule("EN_A_VS_AN");
+        dictLookup = (DictionaryLookup) loadDictionary();
+    }
+    
+    // for testing purposes
+    public RuleCoverage(String dictFileName) throws IOException {
+    	tool = new JLanguageTool(Language.ENGLISH);
+        tool.activateDefaultPatternRules();
+        tool.disableRule("UPPERCASE_SENTENCE_START");
+        tool.disableRule("EN_UNPAIRED_BRACKETS");
+        tool.disableRule("EN_A_VS_AN");
+        this.fileName = dictFileName;
+        dictLookup = (DictionaryLookup) loadDictionary();
     }
     
     public void evaluateRules(String grammarfile) throws IOException {
@@ -118,6 +144,15 @@ public class RuleCoverage {
             return matches.get(0).getRule().getId();
         }
         return null;
+    }
+    
+    public String isCoveredBy(PatternRule rule) throws IOException {
+    	String example = generateExample(rule);
+    	List<RuleMatch> matches = tool.check(example);
+    	if (matches.size() > 0) {
+    		return matches.get(0).getRule().getId();
+    	}
+    	return "";
     }
     
     /**
@@ -274,6 +309,14 @@ public class RuleCoverage {
       }
       return ruleLoader.getRules(is, filename);
     }
+    
+    public List<PatternRule> parsePatternRule(final String ruleString) throws IOException {
+    	final PatternRuleLoader ruleLoader = new PatternRuleLoader();
+    	String ruleFileString = ruleFileHeader + categoriesString + ruleString + endCategoriesString + endRulesString;
+    	InputStream is = new ByteArrayInputStream(ruleFileString.getBytes());
+    	return ruleLoader.getRules(is,null);
+    }
+
     
     
     

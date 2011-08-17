@@ -60,7 +60,7 @@ public class RuleConverterMain {
         List<? extends Object> rules = rc.getRules();
         // get the rules in LT list format
         ArrayList<List<String>> ltRules = rc.getLtRules(rules);
-        ArrayList<List<String>> falseAlarmRules = rc.getFalseAlarmRules(rules);
+        ArrayList<List<String>> falseAlarmRules = rc.getDisambiguationRules(rules);	// TODO: this is kind of obsolete in favor of the gui
 
         // write out the grammar rules to grammarfile
         PrintWriter w = new PrintWriter(new OutputStreamWriter(new FileOutputStream(grammarfile),"UTF-8"));

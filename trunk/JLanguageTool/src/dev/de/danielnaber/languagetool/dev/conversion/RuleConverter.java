@@ -102,7 +102,9 @@ public abstract class RuleConverter {
    */
     public abstract List<? extends Object> getRules() throws IOException;	// gets all the rules from the input rule file
     public abstract ArrayList<List<String>> getLtRules(List<? extends Object> list);	// takes the output form getRules and gets the LT rules (always in same format)
-    public abstract ArrayList<List<String>> getFalseAlarmRules(List<? extends Object> list);
+    public abstract ArrayList<List<String>> getAllLtRules(List<? extends Object> list);
+    public abstract ArrayList<List<String>> getDisambiguationRules(List<? extends Object> list);
+    public abstract String getRuleAsString(Object ruleObject);
     
     
     // parses a rule, returning a HashMap of relevant values ( a sketchy part of the implementation)
@@ -191,6 +193,7 @@ public abstract class RuleConverter {
         return orig;
     }
     
+    // better new addToken method
     protected static ArrayList<String> addToken(ArrayList<String> orig, String token, String postag, String exceptions, 
     											boolean careful, boolean inflected, boolean negate, int skip, int indent) {
         String space = getSpace(indent);
@@ -302,9 +305,13 @@ public abstract class RuleConverter {
     public abstract String generateId(Object ruleObject);
     public abstract String generateName(Object ruleObject);
     
+    public abstract String[] getAcceptableFileTypes();
+    
     public static String getSuitableName(HashMap<String,String> rule) {
         return rule.get("pattern").replaceAll("[&|.*/<>]", "_");
     }
+    
+    public abstract boolean isDisambiguationRule(Object ruleObject);
     
     /**
      * @param e: AtD token
@@ -328,6 +335,15 @@ public abstract class RuleConverter {
             sb.append(' ');
         }
         return sb.toString();
+    }
+    
+    public static String getRuleStringFromList(List<String> rule) {
+    	StringBuilder sb = new StringBuilder();
+    	for (String line : rule) {
+    		sb.append(line);
+    		sb.append('\n');
+    	}
+    	return sb.toString();
     }
     
     // if this is done in a non-static way it might save some time or be cleaner

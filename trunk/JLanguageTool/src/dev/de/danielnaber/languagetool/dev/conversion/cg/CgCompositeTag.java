@@ -38,7 +38,7 @@ public class CgCompositeTag {
     
     // should only be at most one baseform in a composite tag
     public String getBaseform() {
-    	String baseform = null;
+    	String baseform = "";
     	for (CgTag tag : this.tags) {
     		if (CgRuleConverter.isBaseForm(tag.tag)) {
     			baseform = tag.tag;
@@ -49,7 +49,7 @@ public class CgCompositeTag {
     
     // should also be at most one surfaceform
     public String getSurfaceform() {
-    	String surfaceform = null;
+    	String surfaceform = "";
     	for (CgTag tag : this.tags) {
     		if (CgRuleConverter.isSurfaceForm(tag.tag)) {
     			surfaceform = tag.tag;

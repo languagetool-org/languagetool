@@ -58,9 +58,15 @@ public class CgRuleConverter extends RuleConverter {
 		}
 		return rules;
 	}
-	
+
+	// no regular rules in CG files
 	@Override 
 	public ArrayList<List<String>> getLtRules(List<? extends Object> rules) {
+		return new ArrayList<List<String>>();
+	}
+	
+	@Override
+	public ArrayList<List<String>> getDisambiguationRules(List<? extends Object> rules) {
 		ArrayList<List<String>> ltRules = new ArrayList<List<String>>();
 		for (Object ruleObject : rules) {
 			CgRule cgrule = (CgRule) ruleObject;	// cg rules will always be of the form CgRule
@@ -70,10 +76,14 @@ public class CgRuleConverter extends RuleConverter {
 		return ltRules;
 	}
 	
-	// no false alarm rules in CG files
+	@Override 
+	public ArrayList<List<String>> getAllLtRules(List<? extends Object> rules) {
+		return getDisambiguationRules(rules);
+	}
+	
 	@Override
-	public ArrayList<List<String>> getFalseAlarmRules(List<? extends Object> rules) {
-		return new ArrayList<List<String>>();
+	public boolean isDisambiguationRule(Object ruleObject) {
+		return true;	// all cg rules are disambiguation rules
 	}
 	
 	public void parseCgFile() throws IOException { 
@@ -82,7 +92,7 @@ public class CgRuleConverter extends RuleConverter {
 		CgTextualParser parser = new CgTextualParser(grammar, file);
 		int result = parser.parse_grammar_from_file(inFileName, null, null);
 		if (result == 0) {
-			System.out.println("Successfully parsed constraint grammar file " + inFileName);
+			//System.out.println("Successfully parsed constraint grammar file " + inFileName);
 		} else {
 			System.err.println("Failed to parse constraint grammar file " + inFileName);
 		}
@@ -121,6 +131,9 @@ public class CgRuleConverter extends RuleConverter {
 	public List<String> ltRuleAsList(Object ruleObject, String id, String name, String type) {
 		CgRule rule = (CgRule)ruleObject;
 		type = rule.type.name();	// like K_SELECT or K_REMOVE
+		if (rule.line > 500) {
+			System.out.println();
+		}
 		List<String> ltRule = new ArrayList<String>();
 
 		String cgRuleString = lines[rule.line];
@@ -135,7 +148,7 @@ public class CgRuleConverter extends RuleConverter {
 			Token target = new Token(targetSet,false,0,false,false,new CgSet(),false,0,false);
 			if (!isOrCompatible(target)) {
 				System.err.println("Target for rule on line " + rule.line + " cannot be represented as one LT rule. Rewrite");
-				System.exit(1);
+				return new ArrayList<String>();
 			}
 			tokensList.add(target);
 			ArrayList<CgContextualTest> sortedTestsHeads = new ArrayList<CgContextualTest>();
@@ -650,6 +663,7 @@ public class CgRuleConverter extends RuleConverter {
 						oldToken.postags = getPostags(oldToken.target);
 						oldToken.baseforms = getBaseForms(oldToken.target);
 						oldToken.surfaceforms = getSurfaceForms(oldToken.target);
+						oldToken.compositeTags = getCompositeTags(oldToken.target);
 						oldToken.negate = false;
 						tokenList.set(i,oldToken);
 					}
@@ -1280,6 +1294,9 @@ public class CgRuleConverter extends RuleConverter {
 			barrier = new CgSet();
 			cbarrier = false;
 		}
+		if (test.line == 548 && test.offset == 1) {
+			System.out.println();
+		}
 		return new Token(testTarget,testCareful,testOffset,testScanAhead,testScanBehind,barrier,cbarrier,0,testNot);
 		
 	}
@@ -1618,6 +1635,18 @@ public class CgRuleConverter extends RuleConverter {
 			idIndex++;
 		}
 		return name;
+	}
+	
+	@Override
+	public String getRuleAsString(Object ruleObject) {
+		CgRule rule = (CgRule) ruleObject;
+		return lines[rule.line];
+	}
+	
+	@Override
+	public String[] getAcceptableFileTypes() {
+		String[] ft = {"default"};
+		return ft;
 	}
 
 }
