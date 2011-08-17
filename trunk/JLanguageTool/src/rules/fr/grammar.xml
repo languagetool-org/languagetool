@@ -1631,7 +1631,7 @@ though, and has since been slightly modified)-->
     <rule id="EL_LE" name="Élision de le, la…">
       <pattern>
         <token regexp="yes">[dljmnst]e|la|jusque</token>
-        <token regexp="yes">[àâaéêèeiîou].*<exception regexp="yes">onze|onzièmes?|un|a|oui</exception></token>
+        <token regexp="yes">[àâaéêèeiîou].*<exception regexp="yes">onze|onzièmes?|un|a|oui|énième</exception></token>
       </pattern>
       <message>«\1 \2» s’élide en <suggestion><match no="1" regexp_match=".$" regexp_replace=""/>’\2</suggestion>.</message>
       <example type="incorrect"><marker>La île</marker> est encore loin.</example>
@@ -2135,13 +2135,14 @@ though, and has since been slightly modified)-->
           <token regexp="yes">je|tu|ils?|on</token>
           <token postag="[ACNJZP].*" postag_regexp="yes">
             <exception postag="V.*" postag_regexp="yes"/>
-            <exception regexp="yes">[lmnsty]|en|ne?|soussignée?</exception>
+            <exception regexp="yes">[lmnsty]|en|ou|ne?|soussignée?</exception>
           </token>
         </pattern>
         <message>« \2 » n’est pas un verbe.</message>
         <example type="incorrect">Tu <marker>sorts</marker> ce soir.</example>
         <example type="correct">Tu <marker>sors</marker> ce soir.</example>
         <example type="correct">Je soussigné Pierre Dupont déclare avoir pris connaissance des conditions de ce contrat.</example>
+        <example type="correct">Il ou elle se trouve là.</example>
       </rule>
       <rule>
         <pattern mark_from="2">
