@@ -34,7 +34,7 @@ $Id: grammar.xml,v 1.68 2011-05-14 14:58:12 yakovru Exp $
             <example type="correct">Стоимость работ составила 10 млн. рублей.</example>
             <example type="incorrect">Стоимость работ составила 10 <marker>млн</marker> рублей.</example>
         </rule> 
-        <rulegroup id="POZHALUJSTA" name="«пожалуйста» выделяется запятыми">
+        <rulegroup id="POZHALUJSTA" name="“Пожалуйста” выделяется запятыми">
             <rule>
                 <pattern case_sensitive="yes" mark_to="0">
                     <token negate="yes" regexp="yes">[\p{Punct}]|всегда<exception postag="SENT_START"></exception></token>
@@ -130,7 +130,7 @@ $Id: grammar.xml,v 1.68 2011-05-14 14:58:12 yakovru Exp $
             </rule>
             
         </rulegroup>
-        <rulegroup default="on" id="A_NO_DA" name="Союзы 'а, но'">
+        <rulegroup default="on" id="A_NO_DA" name="Союзы ”а, но”">
             <rule>
                 <pattern case_sensitive="yes" mark_to="-1">
                     <token negate="yes" regexp="yes">[\p{Punct}]|-|—|’|‘|ну|Ну|«<exception postag="SENT_START"></exception></token>
@@ -1258,6 +1258,36 @@ $Id: grammar.xml,v 1.68 2011-05-14 14:58:12 yakovru Exp $
                 <example type="incorrect">Мы, <marker>также как и</marker> наши товарищи, любим заниматься спортом.</example>
             </rule>
         </rulegroup>
+        
+         <rulegroup default="on"  id="Ni_to_ni_drugoe" name="Сложный союз “ни то, ни другое”">
+            <rule>
+                <pattern case_sensitive="no">
+                    <token regexp = "yes" >не|ни</token>
+                    <token>то</token>
+                    <token regexp = "yes" >не|ни</token>
+                    <token>другое</token>
+                </pattern>
+                <message>Сложный союз: <suggestion>ни \2, ни \4</suggestion>.</message>
+                <short>Сложный союз "ни то, ни другое".</short>
+                <example type="correct">А может, <marker>ни то, ни другое</marker>, а что-то новое?</example>
+                <example type="incorrect">А может, <marker>ни то не другое</marker>, а что-то новое?</example>
+            </rule>
+             <rule>
+                <pattern case_sensitive="no">
+                    <token>не</token>
+                    <token>то</token>
+                    <token>,</token>
+                    <token>не</token>
+                    <token>другое</token>
+                </pattern>
+                <message>Сложный союз: <suggestion>ни \2\3 ни \5</suggestion>.</message>
+                <short>Сложный союз "ни то, ни другое".</short>
+                <example type="correct">А может, <marker>ни то, ни другое</marker>, а что-то новое?</example>
+                <example type="incorrect">А может, <marker>не то, не другое</marker>, а что-то новое?</example>
+            </rule>
+        </rulegroup>
+        
+        
         <rulegroup default="on" id="Oborot_nikto_inoj_ne" name="Обороты “не кто иной, как” и “никто иной не”">
             <!--  Обороты не кто иной, как..., не что иное, как...      и     никто иной не...; ничто иное не...,
             например: это был не кто иной, как твоя родная сестра, но: никто иной не мог этого сделать;
