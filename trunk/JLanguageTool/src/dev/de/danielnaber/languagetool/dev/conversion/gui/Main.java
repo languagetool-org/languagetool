@@ -1,5 +1,6 @@
 package de.danielnaber.languagetool.dev.conversion.gui;
 
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Frame;
@@ -38,6 +39,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.KeyStroke;
 import javax.swing.UIManager;
+import javax.swing.border.LineBorder;
 
 import de.danielnaber.languagetool.dev.conversion.CgRuleConverter;
 import de.danielnaber.languagetool.dev.conversion.AtdRuleConverter;
@@ -49,18 +51,19 @@ public final class Main implements ActionListener {
 
 	private JFrame frame;
 	private JTextArea resultArea;
-	private JComboBox ruleType;
+	private JComboBox ruleTypeBox;
+	private JComboBox specificRuleTypeBox;
 	private JComboBox rulesBox;
 	private JButton convert;
 	private JButton saveEditedRule;
 	private JTextPane coveredByPane;
-	private JCheckBox checkCovered;
 	private JCheckBox writeCoveredRules;
-	private JButton checkCurrentRuleCovered;
 	private JTextPane mainRuleFilePane;
 	private JCheckBox regularRules;
 	private JCheckBox disambigRules;
 	private JTextPane numRulesPane;
+	private JButton checkRulesCoveredButton;
+	private JButton writeRulesToFileButton;
 	
 	private RuleCoverage checker;
 	
@@ -85,22 +88,23 @@ public final class Main implements ActionListener {
 	private static final int WINDOW_HEIGHT = 750;
 	
 	private void createGUI() {
+		// main frame
 		frame = new JFrame("Language Tool Rule Converter");
 		frame.addWindowListener(new CloseListener());
 		frame.setJMenuBar(new MainMenuBar(this));
 		setLookAndFeel();
 		
+		// converted rule area
 		resultArea = new JTextArea();
 		resultArea.setLineWrap(true);
 		resultArea.setWrapStyleWord(true);
 		resultArea.requestFocusInWindow();
-		
-		
 		JScrollPane scrollPane = new JScrollPane(resultArea);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane.setPreferredSize(new Dimension(250,145));
 		scrollPane.setMinimumSize(new Dimension(10,10));
 		
+		// original rule combo box
 		rulesBox = new JComboBox();
 		rulesBox.addActionListener(new ActionListener() {
 			@Override
@@ -110,15 +114,28 @@ public final class Main implements ActionListener {
 			}
 		});
 		
-		ruleType = new JComboBox();
-		ruleType.addItem(atdString);
-		ruleType.addItem(cgString);
+		// rule type combo box
+		ruleTypeBox = new JComboBox();
+		ruleTypeBox.addItem(atdString);
+		ruleTypeBox.addItem(cgString);
+		ruleTypeBox.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				populateSpecificRuleType();
+			}
+		});
+		// specific rule type
+		specificRuleTypeBox = new JComboBox();
+		populateSpecificRuleType();
 		
+		// rule file pane
 		mainRuleFilePane = new JTextPane();
 		mainRuleFilePane.setText(filename);
+		mainRuleFilePane.setBorder(new LineBorder(Color.BLACK,1));
 		
-		convert = new JButton("Smash");
-		convert.setMnemonic('S');
+		// convert button
+		convert = new JButton("Convert");
+		convert.setMnemonic('C');
 		convert.addActionListener( new ActionListener() {
 	        @Override
 	        public void actionPerformed(ActionEvent e) {
@@ -127,7 +144,9 @@ public final class Main implements ActionListener {
 	        }
 	    });
 		
-		saveEditedRule =  new JButton("Save Rule");
+		// save rule button
+		saveEditedRule =  new JButton("Save rule");
+		saveEditedRule.setMnemonic('S');
 		saveEditedRule.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -135,9 +154,17 @@ public final class Main implements ActionListener {
 			}
 		});
 		
+		// save all rules
+		writeRulesToFileButton = new JButton("Write rules to file");
+		writeRulesToFileButton.setMnemonic('W');
+		writeRulesToFileButton.addActionListener(this);
+		
+		
+		// covered by existing rule pane
 		coveredByPane = new JTextPane();
-		checkCovered = new JCheckBox("Check if rules are covered");
-		checkCovered.setMnemonic('c');
+		coveredByPane.setBorder(new LineBorder(Color.BLACK,1));
+		
+		// display regular and/or disambiguation rules check box
 		regularRules = new JCheckBox("Show regular rules",true);
 		disambigRules = new JCheckBox("Show disambiguation rules",true);
 		regularRules.addActionListener(new ActionListener() {
@@ -152,61 +179,89 @@ public final class Main implements ActionListener {
 				populateRuleBox();
 			}
 		});
+		
+		// write covered rules to file check box
 		writeCoveredRules = new JCheckBox("Write duplicate rules to file");
 		
-		checkCurrentRuleCovered = new JButton("Check if current rule is covered");
-		checkCurrentRuleCovered.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				getDisplayedRuleAndCheckIfCovered();
-			}
-		});
+		// check if all current rules are covered button
+		checkRulesCoveredButton = new JButton("Check rule coverage");
+		checkRulesCoveredButton.setMnemonic('E');
+		checkRulesCoveredButton.addActionListener(this);
 		
+		// number of rules display
 		final JLabel numRulesLabel = new JLabel("Number of rules:");
 		numRulesPane = new JTextPane();
 		numRulesPane.setText(Integer.toString(numberOfRules));
 		
-		
+		// add everything into the frame
 		final Container contentPane = frame.getContentPane();
 		final GridBagLayout gridLayout = new GridBagLayout();
 	    contentPane.setLayout(gridLayout);
 	    final GridBagConstraints cons = new GridBagConstraints();
 	    cons.fill = GridBagConstraints.BOTH;
+	    
 
-	    final JPanel panel = new JPanel();
-	    panel.setLayout(new GridBagLayout());
+	    // inside panel to hold all the buttons
 	    final GridBagConstraints buttonCons = new GridBagConstraints();
 	    final JPanel insidePanel = new JPanel();
 	    insidePanel.setOpaque(true);
 	    insidePanel.setLayout(new GridBagLayout());
-	    buttonCons.gridx = 0;
-	    buttonCons.gridy = 0;
-	    buttonCons.gridwidth = 2;
-	    insidePanel.add(ruleType,buttonCons);
+	    
+	    insidePanel.setBorder(new LineBorder(Color.BLACK,1));
+	    buttonCons.fill = GridBagConstraints.BOTH;
+	    
+//	    buttonCons.weightx = 1f;
+	    
+	    // rule type
+	    JPanel ruleTypePanel = new JPanel(new GridBagLayout());
+	    GridBagConstraints c = new GridBagConstraints();
+	    ruleTypePanel.add(new JLabel("Rule type:"),c);
+	    c.gridx = 1;
+	    ruleTypePanel.add(ruleTypeBox,c);
+	    c.gridx = 2;
+	    ruleTypePanel.add(specificRuleTypeBox,c);
+
+	    insidePanel.add(ruleTypePanel,buttonCons);
+	    
+	    JPanel displayRulesPanel = new JPanel(new GridBagLayout());
+	    c.gridx = 0;
+	    displayRulesPanel.add(regularRules,c);
+	    c.gridx = 1;
+	    displayRulesPanel.add(disambigRules,c);
+	    
 	    buttonCons.gridy = 1;
-	    insidePanel.add(convert,buttonCons);
+	    insidePanel.add(displayRulesPanel,buttonCons);
+	    
+	    JPanel convertPanel = new JPanel(new GridBagLayout());
+	    c.gridx = 0;
+	    convertPanel.add(checkRulesCoveredButton,c);
+	    c.gridx = 1;
+	    convertPanel.add(convert,c);
+	    
 	    buttonCons.gridy = 2;
-	    buttonCons.gridx = 0;
-	    insidePanel.add(saveEditedRule,buttonCons);
+	    buttonCons.fill = GridBagConstraints.NONE;
+	    insidePanel.add(convertPanel,buttonCons);
+	    
+	    JPanel savePanel = new JPanel(new GridBagLayout());
+	    c.gridx = 0;
+	    savePanel.add(saveEditedRule,c);
+	    c.gridx = 1;
+	    savePanel.add(writeRulesToFileButton,c);
+	    
 	    buttonCons.gridy = 3;
-	    insidePanel.add(checkCovered,buttonCons);
+	    insidePanel.add(savePanel,buttonCons);
+	    
 	    buttonCons.gridy = 4;
-	    insidePanel.add(regularRules,buttonCons);
-	    buttonCons.gridy = 5;
-	    insidePanel.add(disambigRules,buttonCons);
-	    buttonCons.gridy = 6;
 	    insidePanel.add(writeCoveredRules,buttonCons);
-	    buttonCons.gridy = 7;
-	    insidePanel.add(checkCurrentRuleCovered,buttonCons);
-	    buttonCons.gridy = 8;
-	    buttonCons.gridx = 0;
-	    buttonCons.gridwidth = 1;
-	    buttonCons.anchor = GridBagConstraints.EAST;
-	    insidePanel.add(numRulesLabel,buttonCons);
-	    buttonCons.gridx = 1;
-	    buttonCons.anchor = GridBagConstraints.WEST;
-	    insidePanel.add(numRulesPane,buttonCons);
-	    panel.add(insidePanel);
+	    
+	    JPanel numRulesPanel = new JPanel(new GridBagLayout());
+	    c.gridx = 0;
+	    numRulesPanel.add(numRulesLabel,c);
+	    c.gridx = 1;
+	    numRulesPanel.add(numRulesPane,c);
+	    
+	    buttonCons.gridy = 5;
+	    insidePanel.add(numRulesPanel,buttonCons);
 	    
 	    cons.gridx = 0;
 	    cons.gridy = 0;
@@ -233,14 +288,20 @@ public final class Main implements ActionListener {
 	    cons.gridx = 0;
 	    cons.gridy = 4;
 	    cons.ipady = 0;
+	    cons.ipadx = 0;
+	    cons.weightx = 0;
+	    cons.weighty = 0;
 	    cons.anchor = GridBagConstraints.WEST;
-	    contentPane.add(coveredByPane,cons);
+	    contentPane.add(new JLabel("Covered by:"),cons);
 	    cons.gridy = 5;
-	    contentPane.add(panel,cons);
-	    cons.gridx = 0;
+	    contentPane.add(coveredByPane,cons);
 	    cons.gridy = 6;
+	    contentPane.add(insidePanel,cons);
+	    cons.gridx = 0;
+	    cons.gridy = 7;
+	    contentPane.add(new JLabel("Rule file:"),cons);
+	    cons.gridy = 8;
 	    contentPane.add(mainRuleFilePane,cons);
-	    
 	    
 	    frame.pack();
 	    frame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -316,7 +377,7 @@ public final class Main implements ActionListener {
 			if (coveredByList != null) {
 				int index = getCurrentRuleIndex();
 				if (!coveredByList[index].isEmpty()) {
-					coveredByPane.setText("Covered by: " + coveredByList[index]);
+					coveredByPane.setText(coveredByList[index]);
 					coveredByPane.repaint();
 				} else {
 					coveredByPane.setText("");
@@ -370,19 +431,6 @@ public final class Main implements ActionListener {
 					disambigRuleIndices[i] = false;
 				}
 				coveredByList[i] = "";
-			}
-			
-			// in case we want to check if the rules are already covered
-			if (checkCovered.isSelected()) {
-				checker = new RuleCoverage();
-				for (int i=0;i<ruleStrings.size();i++) {
-					if (!disambigRuleIndices[i]) {
-						String cov = checker.isCoveredBy(checker.parsePatternRule(ruleStrings.get(i)).get(0));
-						coveredByList[i] = cov;;
-					} else {
-						coveredByList[i] = "";
-					}
-				}
 			}
 			
 		} catch (IOException e) {
@@ -439,7 +487,7 @@ public final class Main implements ActionListener {
 	
 	private RuleConverter getCurrentRuleConverter() {
 		RuleConverter rc = null;
-		String type = (String)ruleType.getSelectedItem();
+		String type = (String)ruleTypeBox.getSelectedItem();
 		
 		if (type.equals(atdString)) {
 			rc = new AtdRuleConverter(getCurrentFilename(), null, "default");
@@ -450,12 +498,40 @@ public final class Main implements ActionListener {
 	}
 	
 	private String getCurrentFilename() {
-		return mainRuleFilePane.getText();
+		try {
+			String fn = mainRuleFilePane.getText();
+			filename = fn;
+			return mainRuleFilePane.getText();
+		} catch (NullPointerException e) {
+			return "";
+		}
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// nothing right now
+		if (e.getSource() == checkRulesCoveredButton) {
+			checkIfAllCurrentRulesCovered();
+		} else if (e.getSource() == writeRulesToFileButton) {
+			try {
+				writeRulesToFile();
+			} catch (IOException ex) {
+				showError(ex);
+			}
+		}
+	}
+	
+	public void checkIfAllCurrentRulesCovered() {
+		try {
+			checker = new RuleCoverage();
+			for (int i=0;i<ruleStrings.size();i++) {
+				PatternRule patternRule = checker.parsePatternRule(ruleStrings.get(i)).get(0);
+				String coveringRule = checker.isCoveredBy(patternRule);
+				coveredByList[i] = coveringRule;
+				displayCoveredBy();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void saveEditedVisibleRule() {
@@ -472,20 +548,6 @@ public final class Main implements ActionListener {
 		}
 	}
 	
-	private void getDisplayedRuleAndCheckIfCovered() {
-		String rule = resultArea.getText();
-		int index = getCurrentRuleIndex();
-		try {
-			checker = new RuleCoverage();
-			PatternRule patternRule = checker.parsePatternRule(rule).get(0);
-			String coveredBy = checker.isCoveredBy(patternRule);
-			coveredByList[index] = coveredBy;
-			displayCoveredBy();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
 	private int getCurrentRuleIndex() {
 		String selectedRule = (String)rulesBox.getSelectedItem();
 		int index;
@@ -497,10 +559,29 @@ public final class Main implements ActionListener {
 		return index;
 	}
 	
+	private String getCurrentOutfile() {
+		if (outfilename.equals("")) {
+			outfilename = filename + ".grammar.xml";
+			return outfilename;
+		} else {
+			return outfilename;
+		}
+	}
+	
+	private String getCurrentDisambigFile() {
+		if (disambigOutFile.equals("")) {
+			disambigOutFile = filename + ".disambig.xml";
+			return disambigOutFile;
+		} else {
+			return disambigOutFile;
+		}
+	}
+	
 	public void writeRulesToFile() throws IOException {
 		boolean writeCovered = writeCoveredRules.isSelected();
 		// write regular rules
 		if (anyRegularRules()) {
+			outfilename = getCurrentOutfile();
 			PrintWriter w = new PrintWriter(new OutputStreamWriter(new FileOutputStream(outfilename),"UTF-8"));
 	        w.write("<rules>\n");
 	        w.write("<category name=\"Auto-generated rules\">\n");
@@ -516,6 +597,7 @@ public final class Main implements ActionListener {
 		}
 		// write disambiguation rules
 		if (anyDisambiguationRules()) {
+			disambigOutFile = getCurrentDisambigFile();
 			PrintWriter w = new PrintWriter(new OutputStreamWriter(new FileOutputStream(disambigOutFile),"UTF-8"));
 	        w.write("<rules>\n");
 	        for (int i=0;i<ruleStrings.size();i++) {
@@ -526,6 +608,14 @@ public final class Main implements ActionListener {
 	        w.write("</rules>");
 	        w.close();
 	        showDialog("Rules written to " + disambigOutFile);
+		}
+	}
+	
+	private void populateSpecificRuleType() {
+		String[] ft = getCurrentRuleConverter().getAcceptableFileTypes();
+		specificRuleTypeBox.removeAllItems();
+		for (String s : ft) {
+			specificRuleTypeBox.addItem(s);
 		}
 	}
 	
@@ -597,10 +687,10 @@ public final class Main implements ActionListener {
 			filename = fn;
 			String fileString = readFileAsString(filename);
 			if (fileString.contains("::")) {
-				ruleType.setSelectedItem("After the Deadline");
+				ruleTypeBox.setSelectedItem("After the Deadline");
 			} else if (fileString.contains("REMOVE") || fileString.contains("SELECT") || 
 					fileString.contains("LIST") || fileString.contains("SET")) {
-				ruleType.setSelectedItem("Constraint Grammar");
+				ruleTypeBox.setSelectedItem("Constraint Grammar");
 			}
 			mainRuleFilePane.setText(filename);
 		}
@@ -661,9 +751,9 @@ public final class Main implements ActionListener {
 			try {
 				rulesBox.setSelectedIndex(rulesBox.getSelectedIndex() + 1);
 			} catch (IndexOutOfBoundsException e) {
-				e.printStackTrace();
+				// nothing
 			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
+				// nothing
 			}
 		}
 	}
@@ -767,7 +857,7 @@ public final class Main implements ActionListener {
 		    optionsRuleType = new JComboBox();
 		    optionsRuleType.addItem(cgString);
 			optionsRuleType.addItem(atdString);
-			optionsRuleType.setSelectedItem(ruleType.getSelectedItem());
+			optionsRuleType.setSelectedItem(ruleTypeBox.getSelectedItem());
 			optionsRuleType.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
@@ -927,7 +1017,7 @@ public final class Main implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == okButton) {
-				ruleType.setSelectedItem(optionsRuleType.getSelectedItem());
+				ruleTypeBox.setSelectedItem(optionsRuleType.getSelectedItem());
 				filename = ruleFilePane.getText();
 				mainRuleFilePane.setText(filename);
 				outfilename = outFilePane.getText();

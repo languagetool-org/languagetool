@@ -41,6 +41,8 @@ public class AtdRuleConverter extends RuleConverter {
     
     private static Pattern nounInPattern = Pattern.compile("NN(?!P|S|\\.)");
     
+    
+    
     // default constructor
     public AtdRuleConverter() {
         super();
@@ -404,7 +406,12 @@ public class AtdRuleConverter extends RuleConverter {
     // need to take the macros out of the atd file rules.sl and put them in some
     // accessible (and easily extendible) format
     public static String expandMacro(String e) {
-        return macroExpansions.get(e);
+        if (e.charAt(0) == '&') {
+        	return macroExpansions.get(e);
+        } else {
+        	return e;
+        }
+    	
     }
     
     public String getAvoidWords(String exceptions) {
@@ -430,48 +437,73 @@ public class AtdRuleConverter extends RuleConverter {
         return macroExpansions;
     }
     
+//    public ArrayList<String> addTokenHelper(ArrayList<String> ltRule, String e, int spaces, String exceptions) {
+//        // special cases of start and end of sentence anchors
+//        if (e.equals("0BEGIN.0")) {
+////            ltRule = addToken(ltRule, null, null, "sentstart", thirdIndentInt, exceptions);
+//            ltRule = addToken(ltRule, null, SENT_START, null, false, false, false, 0, thirdIndentInt);
+//            return ltRule;
+//        }
+//        if (e.equals("0END.0")) {
+////        	ltRule = addToken(ltRule, null, null, "sentend", thirdIndentInt, exceptions);
+//        	ltRule = addToken(ltRule, null, SENT_END, null, false, false, false, 0, thirdIndentInt);
+//        	return ltRule;
+//        }
+//        if (hasPosTag(e)) {
+//            String[] parts = e.split("/");
+//            parts[1] = fixNoun(parts[1]);
+//            if (parts[0].equals(".*")) {
+//                if (isRegex(parts[1])) {
+////                    ltRule = addToken(ltRule, null, parts[1], "regexpostag", thirdIndentInt, exceptions);
+//                    ltRule = addToken(ltRule, null, parts[1], exceptions, false, false, false, 0, thirdIndentInt);
+//                } else {
+//                    ltRule = addToken(ltRule, null, parts[1], "postag", thirdIndentInt, exceptions);
+//                }  
+//            } else {
+//                if (isRegex(parts[0])) {
+//                    if (isRegex(parts[1])) {
+//                        ltRule = addToken(ltRule, parts[0], parts[1], "regexandregexpostag", thirdIndentInt, exceptions);
+//                    } else {
+//                        ltRule = addToken(ltRule, parts[0], parts[1], "regexandpostag", thirdIndentInt, exceptions);
+//                    }
+//                } else {
+//                    if (isRegex(parts[1])) {
+//                        ltRule = addToken(ltRule, parts[0], parts[1], "tokenandregexpostag", thirdIndentInt, exceptions);
+//                    } else {
+//                        ltRule = addToken(ltRule, parts[0], parts[1], "tokenandpostag", thirdIndentInt, exceptions);
+//                    }
+//                }  
+//            }
+//        } else {
+//            if (isRegex(e)) {
+//                ltRule = addToken(ltRule, e, null, "regextoken", thirdIndentInt, null);
+//            } else if (isMacro(e)) {
+//                ltRule = addToken(ltRule, expandMacro(e), null, "regextoken", thirdIndentInt, exceptions);
+//            } else {
+//                ltRule = addToken(ltRule, e, null, "token", thirdIndentInt, null);
+//            }
+//        }
+//        return ltRule;
+//    }
+    
     public ArrayList<String> addTokenHelper(ArrayList<String> ltRule, String e, int spaces, String exceptions) {
         // special cases of start and end of sentence anchors
         if (e.equals("0BEGIN.0")) {
-            ltRule = addToken(ltRule, null, null, "sentstart", thirdIndentInt, exceptions);
+//            ltRule = addToken(ltRule, null, null, "sentstart", thirdIndentInt, exceptions);
+            ltRule = addToken(ltRule, null, SENT_START, null, false, false, false, 0, thirdIndentInt);
             return ltRule;
         }
         if (e.equals("0END.0")) {
-        	ltRule = addToken(ltRule, null, null, "sentend", thirdIndentInt, exceptions);
+//        	ltRule = addToken(ltRule, null, null, "sentend", thirdIndentInt, exceptions);
+        	ltRule = addToken(ltRule, null, SENT_END, null, false, false, false, 0, thirdIndentInt);
         	return ltRule;
         }
         if (hasPosTag(e)) {
             String[] parts = e.split("/");
             parts[1] = fixNoun(parts[1]);
-            if (parts[0].equals(".*")) {
-                if (isRegex(parts[1])) {
-                    ltRule = addToken(ltRule, null, parts[1], "regexpostag", thirdIndentInt, exceptions);
-                } else {
-                    ltRule = addToken(ltRule, null, parts[1], "postag", thirdIndentInt, exceptions);
-                }  
-            } else {
-                if (isRegex(parts[0])) {
-                    if (isRegex(parts[1])) {
-                        ltRule = addToken(ltRule, parts[0], parts[1], "regexandregexpostag", thirdIndentInt, exceptions);
-                    } else {
-                        ltRule = addToken(ltRule, parts[0], parts[1], "regexandpostag", thirdIndentInt, exceptions);
-                    }
-                } else {
-                    if (isRegex(parts[1])) {
-                        ltRule = addToken(ltRule, parts[0], parts[1], "tokenandregexpostag", thirdIndentInt, exceptions);
-                    } else {
-                        ltRule = addToken(ltRule, parts[0], parts[1], "tokenandpostag", thirdIndentInt, exceptions);
-                    }
-                }  
-            }
+            ltRule = addToken(ltRule, parts[0], parts[1], exceptions, false, false, false, 0, thirdIndentInt);
         } else {
-            if (isRegex(e)) {
-                ltRule = addToken(ltRule, e, null, "regextoken", thirdIndentInt, null);
-            } else if (isMacro(e)) {
-                ltRule = addToken(ltRule, expandMacro(e), null, "regextoken", thirdIndentInt, exceptions);
-            } else {
-                ltRule = addToken(ltRule, e, null, "token", thirdIndentInt, null);
-            }
+            ltRule = addToken(ltRule, expandMacro(e), null, exceptions, false, false, false, 0, thirdIndentInt);
         }
         return ltRule;
     }

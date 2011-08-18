@@ -54,6 +54,9 @@ public abstract class RuleConverter {
     protected int idIndex;
     protected int nameIndex;
     
+    protected static String SENT_START = "SENT_START";
+    protected static String SENT_END = "SENT_END";
+    
     protected static DictionaryLookup dictLookup = (DictionaryLookup) loadDictionary();
     
     protected static final Pattern wordReference = Pattern.compile("\\\\\\d+");
@@ -198,6 +201,11 @@ public abstract class RuleConverter {
     											boolean careful, boolean inflected, boolean negate, int skip, int indent) {
         String space = getSpace(indent);
         
+        // fix the case of the "everything" token
+        if (token.equals(".*")) {
+        	token = "";
+        }
+        
         String inflectedString = "";
         if (inflected) {
         	inflectedString = " inflected=\"yes\"";
@@ -325,7 +333,10 @@ public abstract class RuleConverter {
      * returns if the string contains a character that might indicate it's a regex
      */
     protected static boolean isRegex(String e) {
-        Matcher m = regex.matcher(e);
+        if (e == null) {
+        	return false;
+        } 
+    	Matcher m = regex.matcher(e);
         return m.find();        
     }
     
