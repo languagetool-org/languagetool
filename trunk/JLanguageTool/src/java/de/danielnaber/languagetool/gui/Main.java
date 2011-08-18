@@ -59,6 +59,7 @@ public final class Main implements ActionListener {
 
   private static final String SYSTEM_TRAY_TOOLTIP = "LanguageTool";
   private static final String CONFIG_FILE = ".languagetool.cfg";
+  private static final String EXTERNAL_LANGUAGE_SUFFIX = " (ext.)";
   private static final int WINDOW_WIDTH = 600;
   private static final int WINDOW_HEIGHT = 550;
 
@@ -507,8 +508,14 @@ public final class Main implements ActionListener {
       textArea.setText(messages.getString("enterText2"));
     } else {
       final StringBuilder sb = new StringBuilder();
+      final String langName;
+      if (lang.isExternal()) {
+        langName = lang.getTranslatedName(messages) + EXTERNAL_LANGUAGE_SUFFIX;
+      } else {
+        langName = lang.getTranslatedName(messages);
+      }
       final String startCheckText = Tools.makeTexti18n(messages,
-          "startChecking", new Object[] { lang.getTranslatedName(messages) });
+          "startChecking", new Object[] { langName });
       resultArea.setText(HTML_FONT_START + startCheckText + "<br>\n"
           + HTML_FONT_END);
       resultArea.repaint(); // FIXME: why doesn't this work?
@@ -765,7 +772,7 @@ public final class Main implements ActionListener {
     @Override
     public String toString() {
       if (language.isExternal()) {
-        return language.getName() + " (ext.)";
+        return language.getName() + EXTERNAL_LANGUAGE_SUFFIX;
       } else {
         return messages.getString(language.getShortName());
       }
