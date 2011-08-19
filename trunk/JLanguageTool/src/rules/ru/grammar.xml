@@ -1259,7 +1259,7 @@ $Id: grammar.xml,v 1.68 2011-05-14 14:58:12 yakovru Exp $
             </rule>
         </rulegroup>
         
-         <rulegroup default="on"  id="Ni_to_ni_drugoe" name="Сложный союз “ни то, ни другое”">
+        <rulegroup default="on"  id="Ni_to_ni_drugoe" name="Сложный союз “ни то, ни другое”">
             <rule>
                 <pattern case_sensitive="no">
                     <token regexp = "yes" >не|ни</token>
@@ -1272,7 +1272,7 @@ $Id: grammar.xml,v 1.68 2011-05-14 14:58:12 yakovru Exp $
                 <example type="correct">А может, <marker>ни то, ни другое</marker>, а что-то новое?</example>
                 <example type="incorrect">А может, <marker>ни то не другое</marker>, а что-то новое?</example>
             </rule>
-             <rule>
+            <rule>
                 <pattern case_sensitive="no">
                     <token>не</token>
                     <token>то</token>
@@ -1607,6 +1607,72 @@ $Id: grammar.xml,v 1.68 2011-05-14 14:58:12 yakovru Exp $
             <short>Требуется родительный падеж.</short>
             <example type="correct">Заросший пруд у лесной опушки.</example>
             <example type="incorrect">Заросший пруд <marker>у лесную</marker> опушки.</example>
+        </rule>       
+        
+        
+        <rule default="on"  id="upravlauchij_NN" name="Словосочетания “управляющий”, ... + существительное">          
+            <pattern case_sensitive="no">
+                <!--    Управляющий предприятием    NN:.*:.*:T       -->
+                <token regexp= "yes" inflected="yes" >управляющий|командующий|заведующий</token>
+                <token  postag="NN:.*:.*:.*" postag_regexp="yes"><exception postag="NN:.*:.*:T" postag_regexp="yes"></exception><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token>              
+            </pattern>
+            <message>Существительное \1 предполагает употребление зависимого слова в творительном падеже:
+            <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:T"></match></suggestion></message>  
+            <short>Требуется творительный падеж.</short>
+            <example type="correct"><marker>Управляющий предприятием</marker> общественного питания.</example>
+            <example type="incorrect"><marker>Управляющий предприятия</marker> общественного питания.</example>
+        </rule>       
+        
+        <rule default="on"  id="vopreki_NN" name="Предлог “вопреки” + существительное">          
+            <pattern case_sensitive="no">    
+                <!--     вопреки предположениям    NN:.*:.*:D       -->
+                <token>вопреки</token>
+                <token  postag="NN:.*:.*:.*" postag_regexp="yes"><exception postag="NN:.*:.*:D" postag_regexp="yes"></exception><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token>              
+            </pattern>
+            <message> \1 предполагает употребление зависимого слова в творительном падеже:
+            <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:D"></match></suggestion></message>  
+            <short>Требуется дательный падеж.</short>
+            <example type="correct"><marker>Вопреки предположениям</marker> о том, что изменения ожидаются довольно скоро, объявлены более отдалённые сроки их вступления в силу.</example>
+            <example type="incorrect"><marker>Вопреки предположений</marker> о том, что изменения ожидаются довольно скоро, объявлены более отдалённые сроки их вступления в силу.</example>
+        </rule>       
+        
+        <rule default="on"  id="zaslujivat_NN" name="Словосочетание: “заслуживать”+ существительное">          
+            <pattern case_sensitive="no">
+                <!--    заслуживать доверия    NN:.*:.*:R       -->
+                <token>заслуживать</token>
+                <token  postag="NN:.*:.*:.*" postag_regexp="yes"><exception postag="NN:.*:.*:R" postag_regexp="yes"></exception><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token>              
+            </pattern>
+            <message> \1 предполагает употребление зависимого слова в родительном падеже:
+            <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:R"></match></suggestion></message>  
+            <short>Требуется родительный падеж.</short>
+            <example type="correct">Кто может <marker>заслуживать доверия</marker> в этом вопросе?</example>
+            <example type="incorrect">Кто может <marker>заслуживать доверие</marker> в этом вопросе?</example>
+        </rule>       
+        <rule default="on"  id="zaslujit_NN" name="Словосочетание: “заслужить” + существительное">          
+            <pattern case_sensitive="no">
+                <!--    заслужить доверие    NN:.*:.*:V       -->
+                <token>заслужить</token>
+                <token  postag="NN:.*:.*:.*" postag_regexp="yes"><exception postag="NN:.*:.*:V" postag_regexp="yes"></exception><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token>              
+            </pattern>
+            <message> \1 предполагает употребление зависимого слова в винительном падеже:
+            <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:V"></match></suggestion></message>  
+            <short>Требуется винительный падеж.</short>
+            <example type="correct">Кто может <marker>заслужить доверие</marker> в этом вопросе?</example>
+            <example type="incorrect">Кто может <marker>заслужить доверию</marker> в этом вопросе?</example>
+        </rule>       
+        
+        
+        <rule default="on"  id="drug_s_drugom" name="Словосочетание “равноправны друг c другом”">          
+            <pattern case_sensitive="no">
+                <!--   Равноправны друг c другом      -->
+                <token >равноправны</token>
+                <token>друг</token>
+                <token>другу</token> 
+            </pattern>
+            <message>   <suggestion>\1 \2 с другом</suggestion></message>  
+            <short>Равноправны друг c другом</short>
+            <example type="correct">Равноправны друг c другом.</example>
+            <example type="incorrect">Они <marker>равноправны друг другу</marker>.</example>
         </rule>       
         
         
