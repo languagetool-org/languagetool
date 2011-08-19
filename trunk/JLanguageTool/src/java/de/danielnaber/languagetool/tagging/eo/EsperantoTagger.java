@@ -34,11 +34,11 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
 import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.tagging.Tagger;
+import de.danielnaber.languagetool.tagging.ManualTagger;
 
 /**
  * A part-of-speech tagger for Esperanto.
@@ -46,65 +46,9 @@ import de.danielnaber.languagetool.tagging.Tagger;
  * @author Dominique Pellé
  */
 public class EsperantoTagger implements Tagger {
-
-  // These words don't need to be tagged.
-  private static final String wordsNotTagged[] = {
-    "ajn", "ĉi", "ĉu", "des", "ja", "ju", "ke", "malpli", 
-    "ne", "ol", "pli", "pli-malpli"
-  };
-
-  private static final Set<String> setWordsNotTagged = new HashSet<String>(Arrays.asList(wordsNotTagged));
-
-  // Following preposition are never followed by accusative.
-  private static final String prepositionsNoAccusative[] = {
-    "al", "cis", "da", "de", "depost", "disde", "dum", "ekde",
-    "el", "far", "ĝis", "graŭ", "je", "kun", "laŭ", "malgraŭ", "na",
-    "per", "po", "post", "por", "pri", "pro", "sen"
-  };
-
-  private static final Set<String> setPrepositionsNoAccusative =
-    new HashSet<String>(Arrays.asList(prepositionsNoAccusative));
-
-  // Following preposition may be followed by accusative.
-  private static final String prepositionsAccusative[] = {
-    "anstataŭ", "apud", "en", "kontraŭ", "krom", "sur", "sub", "trans", 
-    "preter", "ĉirkaŭ", "antaŭ", "malantaŭ", "ekster", "inter", "ĉe",
-    "super", "tra"
-  };
-
-  private final Set<String> setPrepositionsAccusative =
-    new HashSet<String>(Arrays.asList(prepositionsAccusative));
-
-  // Conjunctions.
-  private static final String conjunctions[] = {
-    "ĉar", "do", "kaj", "kvankam", "kvazaŭ", "aŭ", "sed", "nek",
-    "plus", "minus", "tamen"
-  };
-
-  private static final Set<String> setConjunctions = new HashSet<String>(Arrays.asList(conjunctions));
-
-  // Numbers.
-  private static final String numbers[] = {
-    "nul", "unu", "du", "tri", "kvar", "kvin", "ses",
-    "sep", "ok", "naŭ", "dek", "cent", "mil",
-
-    "dudek", "tridek", "kvardek", "kvindek", 
-    "sesdek", "sepdek", "okdek", "naŭdek",
-
-    "ducent", "tricent", "kvarcent", "kvincent",
-    "sescent", "sepcent", "okcent", "naŭcent"
-  };
-
-  private static final Set<String> setNumbers = new HashSet<String>(Arrays.asList(numbers));
-
-  // Adverbs which do not end in -e
-  private static final String adverbs[] = {
-    "ankoraŭ", "almenaŭ", "apenaŭ", "baldaŭ", "preskaŭ", "eĉ",
-    "jam", "jen", "ĵus", "morgaŭ", "hodiaŭ", "hieraŭ", "nun",
-    "nur", "plu", "tre", "tro", "tuj", "for"
-  };
-
-  private static final Set<String> setAdverbs = new HashSet<String>(Arrays.asList(adverbs));
+  // manual tagger is used to tag the list of closed Esperanto words
+  // (small limited number of words which do not have regular ending).
+  private ManualTagger manualTagger = null;
 
   // Set of transitive verbs and intransitive verbs.
   private Set<String> setTransitiveVerbs = null;
@@ -167,9 +111,15 @@ public class EsperantoTagger implements Tagger {
   }
 
   private void lazyInit() throws IOException {
-    if (setTransitiveVerbs != null) {
+    if (manualTagger != null) {
       return;
     }
+
+    // A manual tagger is used for closed words.  Closed words are the small
+    // limited set of words in Esperanto which have no standard ending, as
+    // opposed to open words which are unlimited in numbers and which follow
+    // strict rules for their suffixes.
+    manualTagger = new ManualTagger(JLanguageTool.getDataBroker().getFromResourceDirAsStream("/eo/manual-tagger.txt"));
 
     // Load set of transitive and intransitive verbs.  Files don't contain
     // verbs with suffix -iĝ or -ig since transitivity is obvious for those verbs.
@@ -234,7 +184,6 @@ public class EsperantoTagger implements Tagger {
   public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens) throws IOException {
 
     lazyInit();
-
     Matcher matcher;
 
     final List<AnalyzedTokenReadings> tokenReadings = 
@@ -243,136 +192,107 @@ public class EsperantoTagger implements Tagger {
     for (String word : sentenceTokens) {
       final List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
       final String lWord = word.toLowerCase();
+      final String[] manualTags = manualTagger.lookup(lWord);
 
-      if (lWord.equals("la") || lWord.equals("l'")) {
-        l.add(new AnalyzedToken(word, "D", "la"));
-
-      } else if (setAdverbs.contains(lWord)) {
-        l.add(new AnalyzedToken(word, "E nak", lWord));
-      } else if (lWord.equals("dank'")) {
-        l.add(new AnalyzedToken(word, "E nak", "danke"));
-
-      } else if (setWordsNotTagged.contains(lWord)) {
-        l.add(new AnalyzedToken(word, null, lWord));
-
-      // Pronouns.
-      } else if (lWord.equals("mi") || lWord.equals("ci")
-              || lWord.equals("li") || lWord.equals("ŝi")
-              || lWord.equals("ĝi") || lWord.equals("si")
-              || lWord.equals("oni")) {
-        l.add(new AnalyzedToken(word, "R nak np", lWord));
-      } else if (lWord.equals("min") || lWord.equals("cin")
-              || lWord.equals("lin") || lWord.equals("ŝin") 
-              || lWord.equals("ĝin") || lWord.equals("sin")) {
-        l.add(new AnalyzedToken(word, "R akz np", lWord.substring(0, lWord.length() - 1)));
-      } else if (lWord.equals("ni") || lWord.equals("ili")) {
-        l.add(new AnalyzedToken(word, "R nak pl", lWord));
-      } else if (lWord.equals("nin") || lWord.equals("ilin")) {
-        l.add(new AnalyzedToken(word, "R akz pl", lWord.substring(0, lWord.length() - 1)));
-      } else if (lWord.equals("vi")) {
-        l.add(new AnalyzedToken(word, "R nak pn", lWord));
-      } else if (lWord.equals("vin")) {
-        l.add(new AnalyzedToken(word, "R akz pn", lWord.substring(0, lWord.length() - 1)));
-
-      // Conjunctions (kaj, sed, ...)
-      } else if (setConjunctions.contains(lWord)) {
-        l.add(new AnalyzedToken(word, "K", lWord));
-  
-      // Prepositions.
-      } else if (setPrepositionsNoAccusative.contains(lWord)) {
-        l.add(new AnalyzedToken(word, "P sak", lWord));
-      } else if (setPrepositionsAccusative.contains(lWord)) {
-        l.add(new AnalyzedToken(word, "P kak", lWord));
-
-      // Numbers.
-      } else if (setNumbers.contains(lWord)) {
-        l.add(new AnalyzedToken(word, "N", lWord));
-
-      // Tiu, kiu (tabelvortoj).
-      } else if ((matcher = patternTabelvorto.matcher(lWord)).find()) {
-        final String type1Group = matcher.group(1).substring(0, 1).toLowerCase();
-        final String type2Group = matcher.group(2);
-        final String plGroup    = matcher.group(3);
-        final String accGroup   = matcher.group(4);
-        final String type3Group = matcher.group(5);
-        final String type;
-        final String plural;
-        final String accusative;
-
-        if (accGroup == null) {
-          accusative = "xxx";
-        } else {
-          accusative = accGroup.toLowerCase().equals("n") ? "akz" : "nak";
+      if (manualTags != null) {
+        // This is a closed word for which we know its lemmas and tags.
+        for (int i = 0; i < manualTags.length; i += 2) {
+          final String lemma  = manualTags[2*i];
+          final String postag = manualTags[2*i + 1];
+          l.add(new AnalyzedToken(word, postag, lemma));
         }
-        if (plGroup == null) {
-          plural = " pn ";
-        } else {
-          plural = plGroup.toLowerCase().equals("j") ? " pl " : " np ";
-        }
-        type = ((type2Group == null) ? type3Group : type2Group).toLowerCase();
-
-        l.add(new AnalyzedToken(word, "T " + 
-          accusative + plural + type1Group + " " + type, null));
-
-        if ((matcher = patternTabelvortoAdverb.matcher(lWord)).find()) {
-          l.add(new AnalyzedToken(word, "E nak", lWord));
-        }
-
-      // Words ending in .*oj?n? are nouns.
-      } else if (lWord.endsWith("o")) {
-        l.add(new AnalyzedToken(word, "O nak np", lWord));
-      } else if (lWord.length() >= 2 && lWord.endsWith("'")) {
-        l.add(new AnalyzedToken(word, "O nak np", lWord.substring(0, lWord.length() - 1) + "o"));
-      } else if (lWord.endsWith("oj")) {
-        l.add(new AnalyzedToken(word, "O nak pl", lWord.substring(0, lWord.length() - 1)));
-      } else if (lWord.endsWith("on")) {
-        l.add(new AnalyzedToken(word, "O akz np", lWord.substring(0, lWord.length() - 1)));
-      } else if (lWord.endsWith("ojn")) {
-        l.add(new AnalyzedToken(word, "O akz pl", lWord.substring(0, lWord.length() - 2)));
-
-      // Words ending in .*aj?n? are nouns.
-      } else if (lWord.endsWith("a")) {
-        l.add(new AnalyzedToken(word, "A nak np", lWord));
-      } else if (lWord.endsWith("aj")) {
-        l.add(new AnalyzedToken(word, "A nak pl", lWord.substring(0, lWord.length() - 1)));
-      } else if (lWord.endsWith("an")) {
-        l.add(new AnalyzedToken(word, "A akz np", lWord.substring(0, lWord.length() - 1)));
-      } else if (lWord.endsWith("ajn")) {
-        l.add(new AnalyzedToken(word, "A akz pl", lWord.substring(0, lWord.length() - 2)));
-
-      // Words ending in .*en? are adverbs.
-      } else if (lWord.endsWith("e")) {
-        l.add(new AnalyzedToken(word, "E nak", lWord));
-      } else if (lWord.endsWith("en")) {
-        l.add(new AnalyzedToken(word, "E akz", lWord.substring(0, lWord.length() - 1)));
-
-      // Verbs.
-      } else if ((matcher = patternVerb.matcher(lWord)).find()) {
-        final String verb = matcher.group(1) + "i";
-        final String tense = matcher.group(2);
-        final String transitive = findTransitivity(verb);
-
-        l.add(new AnalyzedToken(word, "V " + transitive + " " + tense, verb));
-
-      // Irregular word (no tag).
       } else {
-        l.add(new AnalyzedToken(word, null, null));
-      }
+        // This is an open word, we need to look at the word ending 
+        // to determine its lemma and POS tag.  For verb, we also
+        // need to look up the dictionary of known transitive and
+        // intransitive verbs.
 
-      // Participle (can be combined with other tags).
-      if ((matcher = patternParticiple.matcher(lWord)).find()) {
-        if (!setNonParticiple.contains(matcher.group(1))) {
-          final String verb = matcher.group(2) + "i";
-          final String aio = matcher.group(3);
-          final String antAt = matcher.group(4).equals("n") ? "n" : "-";
-          final String aoe = matcher.group(5);
-          final String plural = matcher.group(6).equals("j") ? "pl" : "np";
-          final String accusative = matcher.group(7).equals("n") ? "akz" : "nak";
+        // Tiu, kiu (tabelvortoj).
+        if ((matcher = patternTabelvorto.matcher(lWord)).find()) {
+          final String type1Group = matcher.group(1).substring(0, 1).toLowerCase();
+          final String type2Group = matcher.group(2);
+          final String plGroup    = matcher.group(3);
+          final String accGroup   = matcher.group(4);
+          final String type3Group = matcher.group(5);
+          final String type;
+          final String plural;
+          final String accusative;
+
+          if (accGroup == null) {
+            accusative = "xxx";
+          } else {
+            accusative = accGroup.toLowerCase().equals("n") ? "akz" : "nak";
+          }
+          if (plGroup == null) {
+            plural = " pn ";
+          } else {
+            plural = plGroup.toLowerCase().equals("j") ? " pl " : " np ";
+          }
+          type = ((type2Group == null) ? type3Group : type2Group).toLowerCase();
+
+          l.add(new AnalyzedToken(word, "T " + 
+            accusative + plural + type1Group + " " + type, null));
+
+          if ((matcher = patternTabelvortoAdverb.matcher(lWord)).find()) {
+            l.add(new AnalyzedToken(word, "E nak", lWord));
+          }
+
+        // Words ending in .*oj?n? are nouns.
+        } else if (lWord.endsWith("o")) {
+          l.add(new AnalyzedToken(word, "O nak np", lWord));
+        } else if (lWord.length() >= 2 && lWord.endsWith("'")) {
+          l.add(new AnalyzedToken(word, "O nak np", lWord.substring(0, lWord.length() - 1) + "o"));
+        } else if (lWord.endsWith("oj")) {
+          l.add(new AnalyzedToken(word, "O nak pl", lWord.substring(0, lWord.length() - 1)));
+        } else if (lWord.endsWith("on")) {
+          l.add(new AnalyzedToken(word, "O akz np", lWord.substring(0, lWord.length() - 1)));
+        } else if (lWord.endsWith("ojn")) {
+          l.add(new AnalyzedToken(word, "O akz pl", lWord.substring(0, lWord.length() - 2)));
+
+        // Words ending in .*aj?n? are nouns.
+        } else if (lWord.endsWith("a")) {
+          l.add(new AnalyzedToken(word, "A nak np", lWord));
+        } else if (lWord.endsWith("aj")) {
+          l.add(new AnalyzedToken(word, "A nak pl", lWord.substring(0, lWord.length() - 1)));
+        } else if (lWord.endsWith("an")) {
+          l.add(new AnalyzedToken(word, "A akz np", lWord.substring(0, lWord.length() - 1)));
+        } else if (lWord.endsWith("ajn")) {
+          l.add(new AnalyzedToken(word, "A akz pl", lWord.substring(0, lWord.length() - 2)));
+
+        // Words ending in .*en? are adverbs.
+        } else if (lWord.endsWith("e")) {
+          l.add(new AnalyzedToken(word, "E nak", lWord));
+        } else if (lWord.endsWith("en")) {
+          l.add(new AnalyzedToken(word, "E akz", lWord.substring(0, lWord.length() - 1)));
+
+        // Verbs.
+        } else if ((matcher = patternVerb.matcher(lWord)).find()) {
+          final String verb = matcher.group(1) + "i";
+          final String tense = matcher.group(2);
           final String transitive = findTransitivity(verb);
 
-          l.add(new AnalyzedToken(word, "C " + accusative + " " + plural + " " +
-                                  transitive + " " + aio + " " + antAt + " " + aoe,
-                                  verb));
+          l.add(new AnalyzedToken(word, "V " + transitive + " " + tense, verb));
+
+        // Irregular word (no tag).
+        } else {
+          l.add(new AnalyzedToken(word, null, null));
+        }
+
+        // Participle (can be combined with other tags).
+        if ((matcher = patternParticiple.matcher(lWord)).find()) {
+          if (!setNonParticiple.contains(matcher.group(1))) {
+            final String verb = matcher.group(2) + "i";
+            final String aio = matcher.group(3);
+            final String antAt = matcher.group(4).equals("n") ? "n" : "-";
+            final String aoe = matcher.group(5);
+            final String plural = matcher.group(6).equals("j") ? "pl" : "np";
+            final String accusative = matcher.group(7).equals("n") ? "akz" : "nak";
+            final String transitive = findTransitivity(verb);
+
+            l.add(new AnalyzedToken(word, "C " + accusative + " " + plural + " " +
+                                    transitive + " " + aio + " " + antAt + " " + aoe,
+                                    verb));
+          }
         }
       }
 
