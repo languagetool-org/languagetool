@@ -2196,13 +2196,16 @@ though, and has since been slightly modified)-->
           </token>
           <token postag="[NZ] m .*|R pers suj 3 m .*" postag_regexp="yes"/>
           <token postag="V etre.* 3 .*" postag_regexp="yes"/>
-          <token postag="V.* ppa f .*|J f .*" postag_regexp="yes"/>
+          <token postag="V.* ppa f .*|J f .*" postag_regexp="yes">
+            <exception>même</exception>
+          </token>
         </pattern>
         <message>Le mot féminin « \4 » n’est pas accordé en genre avec le mot masculin « \2 ».</message>
         <example type="incorrect">Un orage est <marker>annoncée</marker>.</example>
         <example type="correct">Un orage est <marker>annoncé</marker>.</example>
         <example type="incorrect">Antoine est <marker>mariée</marker>.</example>
         <example type="correct">Antoine est <marker>marié</marker>.</example>
+        <example type="correct">Ils sont même resté ici.</example>
       </rule>
       <rule>
         <pattern mark_from="4">
@@ -3661,7 +3664,7 @@ though, and has since been slightly modified)-->
         <token>vieux</token>
         <and>
           <token regexp="yes">[aeiouh].*</token>
-          <token postag="[NJ] m s.?" postag_regexp="yes"/>
+          <token postag="[NJ] m s" postag_regexp="yes"/>
         </and>
       </pattern>
       <message>Voulez-vous dire <suggestion>vieil \2</suggestion> ?</message>
@@ -3669,6 +3672,7 @@ though, and has since been slightly modified)-->
       <example type="correct">C’est un <marker>vieil homme</marker>.</example>
       <example type="incorrect">Mon <marker>vieux ami</marker>.</example>
       <example type="correct">Mon vieil ami.</example>
+      <example type="correct">Ils sont comme de vieux ours.</example>
     </rule>
     <rulegroup id="TOUT_LES" name="Accord avec adjectifs tout/tous/toute/toutes">
       <rule>
@@ -17962,6 +17966,29 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
+          <token>tout</token>
+          <token regexp="yes">[aà]</token>
+          <token>l</token>
+          <token regexp="yes">[’´'‛′‘]</token>
+          <token>égout</token>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>\1-à-l'égout</suggestion> ?</message>
+        <example type="incorrect">Avez-vous le <marker>tout à l’égout</marker> ?</example>
+        <example type="correct">Avez-vous le tout-à-l’égout ?</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token postag="D.*" postag_regexp="yes"/>
+          <token>va</token>
+          <token>nu</token>
+          <token regexp="yes">pieds?</token>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>\1-\2\-pieds</suggestion> ?</message>
+        <example type="incorrect">C’est un <marker>va nu pieds</marker>.</example>
+        <example type="correct">C’est un va-nu-pieds.</example>
+      </rule>
+      <rule>
+        <pattern>
           <token>vice</token>
           <token regexp="yes" inflected="yes">amiral|amirauté|bailli|camérier|cardinal|chambellan|champion|chancelier|comité|commissaire|connétable|consul|consulat|délégation|dieu|doyen|époux|empereur|impératrice|gér[ae]nt|gérance|gouverneur|inquisiteur|légat|légation|ma[îi]tre|ministre|patriarche|préfet|président|présidence|procureur|recteur|rectorat|reine|roi|royale|royauté|sacristain|secrétaire|sénéchal|sénéchaussée</token>
         </pattern>
@@ -18685,17 +18712,99 @@ though, and has since been slightly modified)-->
         <token regexp="yes" skip="1">à|aux?</token>
         <token regexp="yes">coiffeur|coiffeuse|médecin|dentiste|boulanger|boulangère|boucher|bouchère|pharmacien|pharmacienne</token>
       </pattern>
-      <message>« \1 \2 \3 » est un tour critiqué. Employez <suggestion>chez</suggestion></message>
+      <message>« \1 \2 \3 » est un tour critiqué. Employez <suggestion>chez</suggestion>.</message>
       <example type="incorrect">Il va <marker>au</marker> coiffeur tous les mois.</example>
       <example type="correct">Il va chez le coiffeur tous les mois.</example>
     </rule>
+    <rulegroup id="PIED_PIEDS" name="pied ou pieds">
+      <rule>
+        <pattern mark_to="-1">
+          <token>à</token>
+          <token>pieds</token>
+          <token><exception>joints</exception></token>
+        </pattern>
+        <message>« \1 \2 » est un tour critiqué. Employez <suggestion>à pied</suggestion>.</message>
+        <example type="incorrect">Il est arrivé <marker>à pieds</marker>.</example>
+        <example type="correct">Il est arrivé à pied.</example>
+        <example type="correct">Il a sauté à pieds joints.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">avoir|perdre</token>
+          <token>pieds</token>
+        </pattern>
+        <message>« \1 \2 » est un tour critiqué. Employez <suggestion>\1 pied</suggestion>.</message>
+        <example type="incorrect">Il <marker>a pieds</marker> dans ce bassin.</example>
+        <example type="correct">Il a pied dans ce bassin.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">avoir</token>
+          <token regexp="yes">pas|plus|bon</token>
+          <token>pieds</token>
+        </pattern>
+        <message>« \1 \2 \3 » est un tour critiqué. Employez <suggestion>\1 \2 pied</suggestion>.</message>
+        <example type="incorrect">Je n’<marker>ai pas pieds</marker> dans ce bassin.</example>
+        <example type="correct">Je n’ai pas pied dans ce bassin.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes" skip="1">mettre</token>
+          <token regexp="yes">[aà]</token>
+          <token>pieds</token>
+        </pattern>
+        <message>« \1 \2 \3 » est un tour critiqué. Employez <suggestion>\1 à pied</suggestion>.</message>
+        <example type="incorrect">L’entreprise l’a <marker>mis à pieds</marker>.</example>
+        <example type="correct">L’entreprise l’a mis à pied.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes" skip="1" regexp="yes">mettre|remettre</token>
+          <token>sur</token>
+          <token>pieds</token>
+        </pattern>
+        <message>« \1 \2 \3 » est un tour critiqué. Employez <suggestion>\1 \2 pied</suggestion>.</message>
+        <example type="incorrect">Le projet que j’ai <marker>mis sur pieds</marker> est en bonne voie.</example>
+        <example type="correct">Le projet que j’ai mis sur pied est en bonne voie.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>de</token>
+          <token>pieds</token>
+          <token>en</token>
+          <token>cap</token>
+        </pattern>
+        <message>« \1 \2 \3 \4 » est un tour critiqué. Employez <suggestion>\1 pied \3 \4</suggestion>.</message>
+        <example type="incorrect">Il s’est habillé <marker>de pieds en cap</marker> comme un militaire.</example>
+        <example type="correct">Il s’est habillé de pied en cap comme un militaire.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>de</token>
+          <token>pieds</token>
+          <token regexp="yes">fermes?</token>
+        </pattern>
+        <message>« \1 \2 \3 » est un tour critiqué. Employez <suggestion>\1 pied ferme</suggestion>.</message>
+        <example type="incorrect">Je l’attend <marker>de pieds fermes</marker>.</example>
+        <example type="correct">Je l’attend de pied ferme.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>arrache</token>
+          <token regexp="yes">pieds?</token>
+        </pattern>
+        <message>Employez <suggestion>\1-pied</suggestion>.</message>
+        <example type="incorrect">Il travaille d’<marker>arrache pieds</marker> sur ce projet.</example>
+        <example type="correct">Il travaille d’arrache-pied sur ce projet.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="AUX_DEPENDS" name="aux dépends">
       <rule>
         <pattern>
           <token regexp="yes">aux?</token>
           <token regexp="yes">dépends?</token>
         </pattern>
-        <message>« \1 \2 » est un tour critiqué. Employez <suggestion>aux dépens</suggestion></message>
+        <message>« \1 \2 » est un tour critiqué. Employez <suggestion>aux dépens</suggestion>.</message>
         <example type="incorrect">Il vit <marker>aux dépends</marker> de ses parents.</example>
         <example type="correct">Il vit <marker>aux dépens</marker> de ses parents.</example>
       </rule>
