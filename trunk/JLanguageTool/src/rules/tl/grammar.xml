@@ -4,8 +4,8 @@
 title="Easy editing stylesheet" ?>
 <!--
 Tagalog Grammar and Typo Rules for LanguageTool
-See tagset.txt for the meaning of the POS tags
-Copyright (C) 2011 Nathaniel Oco and Allan Borra
+See tagset.txt for the different POS, Lexical Categories, and corresponding attributes
+Copyright (C) 2011 Nathaniel Oco and Allan Borra (http://www.dlsu.edu.ph/research/centers/adric/nlp/)
 $Id: grammar.xml,v 1.129 2010/11/13 23:24:21 dnaber Exp $
 -->
 <rules lang="tl" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
@@ -409,14 +409,14 @@ $Id: grammar.xml,v 1.129 2010/11/13 23:24:21 dnaber Exp $
 			<example type="correct">Pinalakad <marker>sa abogado</marker> ang lupa.</example>
 		</rule>
 	</category>	
-	<category name="Redundant Repetition">
+	<category name="Word Repetition">
 		<rule id="ANG_ANG" name="ang ang (ang mga)">
 			<pattern case_sensitive="no" mark_from="0">
 				<token>ang</token>
 				<token>ang</token>
 			</pattern>
 			<message>Do you mean <suggestion>\1 mga</suggestion>? "ang" can not be followed by another "ang".</message>
-			<short>Redundant Repetition</short>
+			<short>Word Repetition</short>
 			<example correction="ang mga" type="incorrect">Maganda <marker>ang ang</marker> tanawin.</example>
 			<example type="correct">Maganda <marker>ang mga</marker> tanawin.</example>
 		</rule>
@@ -426,7 +426,7 @@ $Id: grammar.xml,v 1.129 2010/11/13 23:24:21 dnaber Exp $
 				<token>mga</token>
 			</pattern>
 			<message>Do you mean <suggestion>ang \2</suggestion>? "mga" can not be followed by another "mga".</message>
-			<short>Redundant Repetition</short>
+			<short>Word Repetition</short>
 			<example correction="ang mga" type="incorrect">Maganda <marker>mga mga</marker> tanawin.</example>
 			<example type="correct">Maganda <marker>ang mga</marker> tanawin.</example>
 		</rule>
@@ -436,9 +436,60 @@ $Id: grammar.xml,v 1.129 2010/11/13 23:24:21 dnaber Exp $
 				<token>ng</token>
 			</pattern>
 			<message>Do you mean <suggestion>\1 mga</suggestion>? "ng" can not be followed by another "ng".</message>
-			<short>Redundant Repetition</short>
+			<short>Word Repetition</short>
 			<example correction="ng mga" type="incorrect">Pinalakad <marker>ng ng</marker> abogado si Maria.</example>
 			<example type="correct">Pinalakad <marker>ng mga</marker> abogado si Maria.</example>
 		</rule>
-	</category>	
+	</category>
+	<category name="Common Typo Errors">
+		<rule id="LAGGING" name="lagging (laging)">
+			<pattern case_sensitive="no" mark_from="0">
+				<token>lagging</token>
+			</pattern>
+			<message>Do you mean <suggestion>laging</suggestion>?</message>
+			<short>Common Typo Errors</short>
+			<example correction="laging" type="incorrect">Kapag <marker>lagging</marker> kapiling kita, sumasaya ako.</example>
+			<example type="correct">Kapag <marker>laging</marker> kapiling kita, sumasaya ako.</example>
+		</rule>
+		<rule id="NAGGING" name="nagging (naging)">
+			<pattern case_sensitive="no" mark_from="0">
+				<token>nagging</token>
+			</pattern>
+			<message>Do you mean <suggestion>naging</suggestion>?</message>
+			<short>Common Typo Errors</short>
+			<example correction="naging" type="incorrect">Siya ay <marker>nagging</marker> aso.</example>
+			<example type="correct">Siya ay <marker>naging</marker> aso.</example>
+		</rule>
+	</category>
+	<category name="Loan Words">
+		<rule id="CAKE" name="cake (keyk)">
+			<pattern case_sensitive="no" mark_from="0">
+				<token>cake</token>
+			</pattern>
+			<message>Do you mean <suggestion>keyk</suggestion>?</message>
+			<short>Loan Words</short>
+			<example correction="keyk" type="incorrect">Kumain kami ng <marker>cake</marker> kagabi.</example>
+			<example type="correct">Kumain kami ng <marker>keyk</marker> kagabi.</example>
+		</rule>
+		<rule id="SCORE" name="score (iskor)">
+			<pattern case_sensitive="no" mark_from="0">
+				<token>score</token>
+			</pattern>
+			<message>Do you mean <suggestion>iskor</suggestion>?</message>
+			<short>Loan Words</short>
+			<example correction="iskor" type="incorrect">Ano na ang <marker>score</marker>?</example>
+			<example type="correct">Ano na ang <marker>iskor</marker>?</example>
+		</rule>
+	</category>
+	<category name="Conyo">
+		<rule id="WHERE" name="where (nasaan)">
+			<pattern case_sensitive="no" mark_from="0">
+				<token>where</token>
+			</pattern>
+			<message>Do you mean <suggestion>nasaan</suggestion>?</message>
+			<short>Conyo</short>
+			<example correction="nasaan" type="incorrect">Ano ba, <marker>where</marker> na kayo?</example>
+			<example type="correct">Ano ba, <marker>nasaan</marker> na kayo?</example>
+		</rule>
+	</category>
 </rules>
