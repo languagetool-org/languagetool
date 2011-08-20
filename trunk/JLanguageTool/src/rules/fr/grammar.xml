@@ -1737,7 +1737,7 @@ though, and has since been slightly modified)-->
       <rule name="nombre singulier suivi du pluriel">
         <pattern>
           <token regexp="yes">[01]<exception regexp="yes" scope="previous">,|et|ou</exception></token>
-          <token postag="[JN] .* p" postag_regexp="yes"/>
+          <token postag="[JN] . p" postag_regexp="yes"/>
         </pattern>
         <message>« \1 » et « \2 » ne semblent pas bien accordés en nombre</message>
         <example type="correct">J’ai 1 enfant.</example>
@@ -1788,7 +1788,7 @@ though, and has since been slightly modified)-->
             <exception regexp="yes" scope="previous">et|de|du</exception>
             <exception>air</exception>
           </token>
-          <token postag="[JN] .* p" postag_regexp="yes">
+          <token postag="[JN] . p" postag_regexp="yes">
             <exception postag="V .*|[JN] .* sp" postag_regexp="yes"/>
             <exception scope="previous">peu</exception>
           </token>
@@ -1816,7 +1816,7 @@ though, and has since been slightly modified)-->
       <rule name="pluriel suivi du singulier">
         <pattern mark_from="1" mark_to="-1">
           <token negate="yes" regexp="yes">des?</token>
-          <token postag="[DJN] .* p" postag_regexp="yes" skip="1">
+          <token postag="[DJN] . p" postag_regexp="yes" skip="1">
             <exception postag="K"/>
             <exception postag="V.*" postag_regexp="yes"/>
             <exception postag=".* sp?" postag_regexp="yes" scope="current"/>
@@ -2038,7 +2038,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern mark_from="1">
           <token postag="SENT_START" skip="2"/>
-          <token postag="N .* p" postag_regexp="yes"/>
+          <token postag="N . p" postag_regexp="yes"/>
           <token postag="P"/>
           <token regexp="yes">laquelle|lequel</token>
         </pattern>
@@ -2049,7 +2049,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern mark_from="1">
           <token postag="SENT_START" skip="2"/>
-          <token postag="N .* p" postag_regexp="yes"/>
+          <token postag="N . p" postag_regexp="yes"/>
           <token regexp="yes">duquel|auquel</token>
         </pattern>
         <message>« \2 » et « \3 » ne semblent pas bien accordés en nombre.</message>
@@ -2059,7 +2059,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern mark_from="1">
           <token postag="SENT_START" skip="2"/>
-          <token postag="N .* s" postag_regexp="yes"/>
+          <token postag="N . s" postag_regexp="yes"/>
           <token postag="P"/>
           <token regexp="yes">lesquels|lesquelles</token>
         </pattern>
@@ -2070,7 +2070,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern mark_from="1">
           <token postag="SENT_START" skip="2"/>
-          <token postag="N .* s" postag_regexp="yes"/>
+          <token postag="N . s" postag_regexp="yes"/>
           <token regexp="yes">auxquels|auxquelles|desquelles</token>
         </pattern>
         <message>« \2 » et « \3 » ne semblent pas bien accordés en nombre.</message>
@@ -2259,9 +2259,9 @@ though, and has since been slightly modified)-->
             <exception scope="next" postag="[NR].*p" postag_regexp="yes"/>
             <exception scope="next">et</exception>
           </token>
-          <token postag="Z.*|N .* s|R pers suj.* s" postag_regexp="yes"/>
+          <token postag="Z.*|N . s|R pers suj.* s" postag_regexp="yes"/>
           <token postag="V etre .*" postag_regexp="yes"/>
-          <token postag="V.* ppa .* p|J .* p" postag_regexp="yes"/>
+          <token postag="V.* ppa .* p|J . p" postag_regexp="yes"/>
         </pattern>
         <message>Le mot pluriel « \4 » n’est pas accordé en nombre avec le mot singulier « \2 ».</message>
         <example type="incorrect">Un orage fut <marker>annoncés</marker>.</example>
@@ -2280,10 +2280,10 @@ though, and has since been slightly modified)-->
             <exception scope="next" postag="[NR].*p" postag_regexp="yes"/>
             <exception scope="next">et</exception>
           </token>
-          <token postag="Z.*|N .* s|R pers suj.* s" postag_regexp="yes"/>
+          <token postag="Z.*|N . s|R pers suj.* s" postag_regexp="yes"/>
           <token postag="V etre .*" postag_regexp="yes"/>
           <token postag="A"/>
-          <token postag="V.* ppa .* p|J .* p" postag_regexp="yes"/>
+          <token postag="V.* ppa .* p|J . p" postag_regexp="yes"/>
         </pattern>
         <message>Le mot pluriel « \5 » n’est pas accordé en nombre avec le mot singulier « \2 ».</message>
         <example type="incorrect">Tu étais très <marker>jeunes</marker>.</example>
@@ -2294,9 +2294,9 @@ though, and has since been slightly modified)-->
           <token postag="SENT_START" skip="-1">
             <exception scope="next" postag="[NR].*sp?|V inf" postag_regexp="yes"/>
           </token>
-          <token postag="N .* p|R pers suj [13].* p" postag_regexp="yes"/>
+          <token postag="N . p|R pers suj [13].* p" postag_regexp="yes"/>
           <token postag="V etre .*" postag_regexp="yes"/>
-          <token postag="V.* ppa .* s|J .* s" postag_regexp="yes"/>
+          <token postag="V.* ppa .* s|J . s" postag_regexp="yes"/>
         </pattern>
         <message>Le mot singulier « \4 » n’est pas accordé en nombre avec le mot pluriel « \2 ».</message>
         <example type="incorrect">Des orages sont <marker>annoncé</marker>.</example>
@@ -2314,10 +2314,10 @@ though, and has since been slightly modified)-->
           <token postag="SENT_START" skip="-1">
             <exception scope="next" postag="[NR].*sp?|V inf" postag_regexp="yes"/>
           </token>
-          <token postag="N .* p|R pers suj [13].* p" postag_regexp="yes"/>
+          <token postag="N . p|R pers suj [13].* p" postag_regexp="yes"/>
           <token postag="V etre .*" postag_regexp="yes"/>
           <token postag="A"/>
-          <token postag="V.* ppa .* s|J .* s" postag_regexp="yes"/>
+          <token postag="V.* ppa .* s|J . s" postag_regexp="yes"/>
         </pattern>
         <message>Le mot singulier « \5 » n’est pas accordé en nombre avec le mot pluriel « \2 ».</message>
         <example type="incorrect">Nous étions trop <marker>fatigué</marker>.</example>
@@ -2368,10 +2368,10 @@ though, and has since been slightly modified)-->
             <exception scope="next" postag="[NR].*p" postag_regexp="yes"/>
             <exception scope="next">et</exception>
           </token>
-          <token postag="Z.*|N .* s|R pers suj .* s" postag_regexp="yes"/>
+          <token postag="Z.*|N . s|R pers suj .* s" postag_regexp="yes"/>
           <token inflected="yes" postag="V.*" postag_regexp="yes" regexp="yes">devoir|pouvoir|semble</token>
           <token>être</token>
-          <token postag="V.* ppa .* p|J .* p" postag_regexp="yes"/>
+          <token postag="V.* ppa .* p|J . p" postag_regexp="yes"/>
         </pattern>
         <message>Le mot pluriel « \5 » n’est pas accordé en nombre avec le mot singulier « \2 ».</message>
         <example type="incorrect">Un orage peut être <marker>observés</marker>.</example>
@@ -2387,13 +2387,13 @@ though, and has since been slightly modified)-->
           <token postag="SENT_START" skip="-1">
             <exception scope="next" postag="[NR].*sp?" postag_regexp="yes"/>
           </token>
-          <token postag="N .* p|R pers suj .* p" postag_regexp="yes">
-            <exception postag="N .* sp?" postag_regexp="yes"></exception>
+          <token postag="N . p|R pers suj .* p" postag_regexp="yes">
+            <exception postag="N . sp?" postag_regexp="yes"></exception>
             <exception>vous</exception>
           </token>
           <token inflected="yes" postag="V.*" postag_regexp="yes" regexp="yes">devoir|pouvoir|semble</token>
           <token>être</token>
-          <token postag="V.* ppa .* s|J .* s" postag_regexp="yes"/>
+          <token postag="V.* ppa .* s|J . s" postag_regexp="yes"/>
         </pattern>
         <message>Le mot singulier « \5 » n’est pas accordé en nombre avec le mot pluriel « \2 ».</message>
         <example type="incorrect">Des orages peuvent être <marker>observé</marker>.</example>
@@ -2499,7 +2499,7 @@ though, and has since been slightly modified)-->
       <rule name="je + 1 token + verbe">
         <pattern>
           <token postag="R pers suj 1 s|&lt;/JE&gt;" postag_regexp="yes"/>
-          <token regexp="yes">[lmnt]e|la|les?|[nv]vous|leur|lui|en|y</token>
+          <token regexp="yes">[lmnt]e|la|les|[nv]vous|leur|lui|en|y</token>
           <token postag="V .*" postag_regexp="yes"><exception postag="V .* 1 s" postag_regexp="yes"/></token>
         </pattern>
         <message>Vérifiez l’accord entre le pronom et le verbe « \3 ».</message>
@@ -3267,7 +3267,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern mark_from="3">
           <token negate="yes" regexp="yes">plus|moins|de|à|appareil|[’´'‛′‘]/</token>
-          <token postag="N .* p" postag_regexp="yes"/>
+          <token postag="N . p" postag_regexp="yes"/>
           <token regexp="yes" skip="2">que?</token>
           <token postag="V avoir ind.*" postag_regexp="yes" skip="2"><exception postag="A" scope="next"/></token>
           <token postag="V ppa.* s" postag_regexp="yes" skip="1"><exception postag="V inf" scope="next"/></token>
@@ -3281,7 +3281,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern mark_from="3">
           <token negate="yes" regexp="yes">plus|moins|de|[’´'‛′‘]/</token>
-          <token postag="N .* s" postag_regexp="yes"/>
+          <token postag="N . s" postag_regexp="yes"/>
           <token regexp="yes" skip="2">que?</token>
           <token postag="V avoir ind.*" postag_regexp="yes" skip="2"/>
           <token postag="V ppa.* p" postag_regexp="yes"><exception postag="V inf" scope="next"/></token>
@@ -3353,10 +3353,10 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern mark_from="4">
           <token postag="SENT_START" skip="2"/>
-          <token postag="N .* s" postag_regexp="yes"><exception negate_pos="yes" postag="N .* s" postag_regexp="yes"/></token>
+          <token postag="N . s" postag_regexp="yes"><exception negate_pos="yes" postag="N . s" postag_regexp="yes"/></token>
           <token>qui</token>
           <token postag="V etre .* 3 .*" postag_regexp="yes"/>
-          <token postag="J .* p|V ppa .* p" postag_regexp="yes"/>
+          <token postag="J . p|V ppa .* p" postag_regexp="yes"/>
         </pattern>
         <message>Vérifiez l’accord entre « \2 » et « \5 »</message>
         <example type="incorrect">Cet homme qui est <marker>grands</marker>.</example>
@@ -3365,10 +3365,10 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern mark_from="4">
           <token postag="SENT_START" skip="2"/>
-          <token postag="N .* p" postag_regexp="yes"><exception negate_pos="yes" postag="N .* p" postag_regexp="yes"/></token>
+          <token postag="N . p" postag_regexp="yes"><exception negate_pos="yes" postag="N . p" postag_regexp="yes"/></token>
           <token>qui</token>
           <token postag="V etre .* 3 .*" postag_regexp="yes"/>
-          <token postag="J .* s|V ppa .* s" postag_regexp="yes"/>
+          <token postag="J . s|V ppa .* s" postag_regexp="yes"/>
         </pattern>
         <message>Vérifiez l’accord entre « \2 » et « \5 »</message>
         <example type="incorrect">Ces femmes qui sont <marker>charmante</marker>.</example>
@@ -3380,24 +3380,102 @@ though, and has since been slightly modified)-->
         <pattern mark_from="3">
           <token postag="SENT_START"/>
           <token postag="D.*" postag_regexp="yes"/>
-          <token postag="N .* s" postag_regexp="yes"/>
-          <token postag="V.*" postag_regexp="yes"><exception postag="V .* 3 s|V ppa . s|V.* ppr|J.*" postag_regexp="yes"/> <exception regexp="yes">toute?s?</exception></token>
+          <token postag="N . s" postag_regexp="yes">
+            <exception regexp="yes">mot|verbe</exception>
+          </token>
+          <token postag="V.*" postag_regexp="yes">
+            <exception postag="V .* 3 s|V ppa . s|V.* ppr|J.*" postag_regexp="yes"/>
+            <exception regexp="yes">toute?s?</exception>
+          </token>
         </pattern>
         <message>Le verbe « \4 » devrait être à la 3e personne du singulier</message>
-        <example type="correct">Mon enfant <marker>joue</marker> en bas.</example>
-        <example type="correct">Le contexte <marker>troublé</marker>.</example>
         <example type="incorrect">Mon enfant <marker>étaient</marker> parti.</example>
-        <example type="correct">Ma mère <marker>étant</marker> malade n’est pas venue.</example>
-        <example type="correct">Un bruit <marker>sifflant</marker> de vapeur.</example>
-        <example type="correct">Un souffle <marker>ardent</marker></example>
+        <example type="correct">Mon enfant joue en bas.</example>
+        <example type="correct">Le contexte troublé.</example>
+        <example type="correct">Ma mère étant malade n’est pas venue.</example>
+        <example type="correct">Un bruit sifflant de vapeur.</example>
+        <example type="correct">Un souffle ardent</example>
         <example type="correct">Au diable toutes ces histoires</example>
+        <example type="correct">Le verbe aimer est facile à conjuguer.</example>
+      </rule>
+      <rule name="sujet singulier + 1 token + verbe pluriel">
+        <pattern mark_from="4">
+          <token postag="SENT_START"/>
+          <token postag="D.*" postag_regexp="yes"/>
+          <token postag="N . s" postag_regexp="yes"/>
+          <token regexp="yes">[lmnt]e|la|les|leur|lui|en|y</token>
+          <token postag="V.*" postag_regexp="yes">
+            <exception negate_pos="yes" postag="V.*" postag_regexp="yes"/> 
+            <exception postag="V .* 3 s" postag_regexp="yes"/>
+          </token>
+        </pattern>
+        <message>Le verbe « \5 » devrait être à la 3e personne du singulier</message>
+        <example type="incorrect">Mon enfant ne <marker>peux</marker> pas aller à l’école.</example>
+        <example type="correct">Mon enfant ne peut pas aller à l’école.</example>
+        <example type="correct">Ce matin nous avons froid.</example>
+        <example type="correct">Cette chaise en bois est lourde.</example>
+      </rule>
+      <rule name="sujet singulier + 2 tokens + verbe pluriel">
+        <pattern mark_from="5">
+          <token postag="SENT_START"/>
+          <token postag="D.*" postag_regexp="yes"/>
+          <token postag="N . s" postag_regexp="yes"/>
+          <!-- Not all combinations of tokens are actually possible -->
+          <token regexp="yes">[lmnt]|[mnt]e|la|les?|[nv]ous|lui|leur</token>
+          <token regexp="yes">[’´'‛′‘]|[mnt]e|la|les?|[vn]ous|en|y|lui|leur</token>
+          <token postag="V.*" postag_regexp="yes">
+            <exception postag="V .* 3 s" postag_regexp="yes"/>
+          </token>
+        </pattern>
+        <message>Le verbe « \6 » devrait être à la 3e personne du singulier</message>
+        <example type="incorrect">Mon enfant l’<marker>étudient</marker>.</example>
+        <example type="correct">Mon enfant l’<marker>étudie</marker>.</example>
+      </rule>
+      <rule name="sujet singulier + 3 tokens + verbe pluriel">
+        <pattern mark_from="6">
+          <token postag="SENT_START"/>
+          <token postag="D.*" postag_regexp="yes"/>
+          <token postag="N . s" postag_regexp="yes"/>
+          <!-- Not all combinations of tokens are actually possible -->
+          <token regexp="yes">[mnt]|ne</token>
+          <token regexp="yes">[’´'‛′‘]|[lmt]e?|[vn]ous|lui|leur</token>
+          <token regexp="yes">[’´'‛′‘]|l[ea]|[vn]ous|lui|leur|en|y</token>
+          <token postag="V.*" postag_regexp="yes">
+            <exception postag="V .* 3 s" postag_regexp="yes"/>
+          </token>
+        </pattern>
+        <message>Le verbe « \7 » devrait être à la 3e personne du singulier</message>
+        <example type="incorrect">Mon enfant ne l’<marker>étudient</marker>.</example>
+        <example type="correct">Mon enfant ne l’<marker>étudie</marker>.</example>
+      </rule>
+      <rule name="sujet singulier + 4 tokens + verbe pluriel">
+        <pattern mark_from="7">
+          <token postag="SENT_START"/>
+          <token postag="D.*" postag_regexp="yes"/>
+          <token postag="N . s" postag_regexp="yes"/>
+          <!-- Not all combinations of tokens are actually possible -->
+          <token>ne</token>
+          <token regexp="yes">[lmt]</token>
+          <token regexp="yes">[’´'‛′‘]</token>
+          <token regexp="yes">en|y</token>
+          <token postag="V.*" postag_regexp="yes">
+            <exception postag="V .* 3 s" postag_regexp="yes"/>
+          </token>
+        </pattern>
+        <message>Le verbe « \8 » devrait être à la 3e personne du singulier</message>
+        <example type="incorrect">Mon enfant ne m’en <marker>veux</marker> pas.</example>
+        <example type="correct">Mon enfant ne m’en veut pas.</example>
       </rule>
       <rule name="sujet pluriel + verbe singulier">
         <pattern mark_from="3">
           <token postag="SENT_START"/>
           <token postag="D.*" postag_regexp="yes"/>
-          <token postag="N .* p" postag_regexp="yes"><exception negate_pos="yes" postag="N .* p" postag_regexp="yes"/></token>
-          <token postag="V.*" postag_regexp="yes"><exception postag="V .* 3 p|V ppa . p|V.* ppr|J .* p" postag_regexp="yes"/></token>
+          <token postag="N . p" postag_regexp="yes">
+            <exception negate_pos="yes" postag="N . p" postag_regexp="yes"/>
+          </token>
+          <token postag="V.*" postag_regexp="yes">
+            <exception postag="V .* 3 p|V ppa . p|V.* ppr|J . p" postag_regexp="yes"/>
+          </token>
         </pattern>
         <message>Le verbe « \4 » devrait être à la 3e personne du pluriel</message>
         <example type="correct">Les enfants <marker>jouent</marker> en bas.</example>
@@ -3586,7 +3664,9 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token postag="V .* 1 p" postag_regexp="yes"><exception postag="R pers suj .*" postag_regexp="yes" scope="previous"/></token>
+          <token postag="V .* 1 p" postag_regexp="yes">
+            <exception postag="R pers suj .*" postag_regexp="yes" scope="previous"/>
+          </token>
           <token postag="R pers suj 1 p"/>
         </pattern>
         <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
@@ -3608,7 +3688,9 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token postag="V .* 3 p" postag_regexp="yes"><exception postag="R pers suj .*" postag_regexp="yes" scope="previous"/></token>
+          <token postag="V .* 3 p" postag_regexp="yes">
+            <exception postag="R pers suj .*" postag_regexp="yes" scope="previous"/>
+          </token>
           <token postag="R pers suj 3 . p" postag_regexp="yes"/>
         </pattern>
         <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
@@ -3754,7 +3836,9 @@ though, and has since been slightly modified)-->
         <pattern mark_to="-2">
           <token regexp="yes">toutes?</token>
           <token postag="D.*" postag_regexp="yes"/>
-          <token postag="[AN] m .*" postag_regexp="yes"><exception postag="[AN] f .*" postag_regexp="yes"/></token>
+          <token postag="[AN] m .*" postag_regexp="yes">
+            <exception postag="[AN] f .*" postag_regexp="yes"/>
+          </token>
         </pattern>
         <message>Vérifiez l’accord en genre entre « \1 » et « \3 ».</message>
         <example type="incorrect"><marker>Toute</marker> cet équipement</example>
@@ -3768,7 +3852,9 @@ though, and has since been slightly modified)-->
           <token postag="SENT_START" skip="1"/>
           <token>si</token>
           <token postag="Z|R pers suj.*" postag_regexp="yes"/>
-          <token postag="V.* (futu|con|sub).*" postag_regexp="yes"><exception postag="V.* ind (pres|impa).*" postag_regexp="yes"/></token>
+          <token postag="V.* (futu|con|sub).*" postag_regexp="yes">
+            <exception postag="V.* ind (pres|impa).*" postag_regexp="yes"/>
+          </token>
         </pattern>
         <message>« \2 » ne peut pas être suivi d’un verbe au futur, conditionnel ou subjonctif.</message>
         <example type="incorrect">Et si tu <marker>aurais</marker> gagné</example>
@@ -3782,7 +3868,9 @@ though, and has since been slightly modified)-->
           <token>si</token>
           <token regexp="yes">[jt]</token>
           <token regexp="yes">[’´'‛′‘]</token>
-          <token postag="V.* (futu|con|sub).*" postag_regexp="yes"><exception postag="V.* ind (pres|impa).*" postag_regexp="yes"/></token>
+          <token postag="V.* (futu|con|sub).*" postag_regexp="yes">
+            <exception postag="V.* ind (pres|impa).*" postag_regexp="yes"/>
+          </token>
         </pattern>
         <message>« \2 » ne peut pas être suivi d’un verbe au futur, conditionnel ou subjonctif.</message>
         <example type="incorrect">Si j’<marker>aurai</marker> gagné</example>
@@ -3794,7 +3882,9 @@ though, and has since been slightly modified)-->
           <token>s</token>
           <token regexp="yes">[’´'‛′‘]</token>
           <token regexp="yes">ils?</token>
-          <token postag="V.* (futu|con|sub).*" postag_regexp="yes"><exception postag="V.* ind (pres|impa).*" postag_regexp="yes"/></token>
+          <token postag="V.* (futu|con|sub).*" postag_regexp="yes">
+            <exception postag="V.* ind (pres|impa).*" postag_regexp="yes"/>
+          </token>
         </pattern>
         <message>« \2\3\4 » ne peut pas être suivi d’un verbe au futur, conditionnel ou subjonctif.</message>
         <example type="incorrect">S’ils <marker>auraient</marker> gagné</example>
@@ -3811,7 +3901,9 @@ though, and has since been slightly modified)-->
           </and>
           <token>que</token>
           <token postag="[ZR].*" postag_regexp="yes"/>
-          <token postag="V.*" postag_regexp="yes"><exception postag="V .*sub .*" postag_regexp="yes"/></token>
+          <token postag="V.*" postag_regexp="yes">
+            <exception postag="V .*sub .*" postag_regexp="yes"/>
+          </token>
         </pattern>
         <message>Le verbe « \5 » doit être au subjonctif.</message>
         <example type="incorrect">Je veux que tu <marker>es</marker> prudent.</example>
@@ -3997,7 +4089,9 @@ though, and has since been slightly modified)-->
           <token>ce</token>
           <token regexp="yes" skip="1">que?</token>
           <token postag="[ZR].*" postag_regexp="yes"/>
-          <token postag="V.*" postag_regexp="yes"><exception postag="V.*sub.*" postag_regexp="yes"/></token>
+          <token postag="V.*" postag_regexp="yes">
+            <exception postag="V.*sub.*" postag_regexp="yes"/>
+          </token>
         </pattern>
         <message>Le verbe « \7 » doit être au subjonctif après la location « \1 \2 \3 ».</message>
         <example type="incorrect">Demander jusqu’à ce qu’il <marker>répond</marker>.</example>
@@ -4012,7 +4106,9 @@ though, and has since been slightly modified)-->
           <token regexp="yes" skip="1">que?</token>
           <token postag="[ZR].*" postag_regexp="yes"/>
           <token postag="R pers obj.*" postag_regexp="yes"/>
-          <token postag="V.*" postag_regexp="yes"><exception postag="V.*sub.*" postag_regexp="yes"/></token>
+          <token postag="V.*" postag_regexp="yes">
+            <exception postag="V.*sub.*" postag_regexp="yes"/>
+          </token>
         </pattern>
         <message>Le verbe « \8 » doit être au subjonctif après la location « \1 \2 \3 ».</message>
         <example type="incorrect">Demander jusqu’à ce qu’il me <marker>répond</marker>.</example>
