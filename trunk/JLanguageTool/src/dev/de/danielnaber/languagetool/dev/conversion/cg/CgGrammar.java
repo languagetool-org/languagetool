@@ -70,7 +70,7 @@ public class CgGrammar {
     }
     
     public void addSet(CgSet to) {
-        String s = CgTextualParser.stringbits[STRINGS.S_DELIMITSET.value];
+//        String s = CgTextualParser.stringbits[STRINGS.S_DELIMITSET.value];
 
         if (this.delimiters == null && to.name.equals(CgTextualParser.stringbits[STRINGS.S_DELIMITSET.value])) {
             this.delimiters = to;

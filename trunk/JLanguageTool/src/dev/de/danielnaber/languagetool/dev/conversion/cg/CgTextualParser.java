@@ -17,6 +17,9 @@ import de.danielnaber.languagetool.dev.conversion.cg.CgRule.RFLAGS;
 
 public class CgTextualParser {
     
+	// TODO: although this method mostly works, it needs a lot of cleanup and checking before it
+	// can be considered a good port of the C++ VISL CG3 TextualParser class
+	
     // variables
     private int verbosity_level;
     private int sets_counter;
@@ -27,9 +30,9 @@ public class CgTextualParser {
 //    private String locale;
 //    private String codepage;
     
-    // in the C++ code these are inherited from IGrammarParser
     private CgGrammar result;
-//    private File ux_stderr;
+    // private File ux_stderr;
+    
     // the character array of the input stream
     private char[] inArray;
     // the index (acts like the pointer to the current character in the C++ code)
@@ -50,7 +53,7 @@ public class CgTextualParser {
     public CgTextualParser(CgGrammar result, File file) {
         this.result = result;
         // must reinclude this if we decide to let it write to a file
-//        this.ux_stderr = file;	
+        // this.ux_stderr = file;	
         option_vislcg_compat = false;
         in_after_sections = false;
         in_before_sections = false;
@@ -73,6 +76,8 @@ public class CgTextualParser {
         return result;
     }
     
+    // TODO: support for various locales; right now it can read UTF-8 fine (e.g. in the icelandic rules file)
+    // but it should have explicit allowances for encoding and locale
     public int parse_grammar_from_file(final String filename, final String locale, final String codepage) {
         if (result == null) {
             System.err.println("Grammar hasn't been initialized. Make this happen.");
@@ -172,10 +177,20 @@ public class CgTextualParser {
         return 0;
     }
     
+    /** 
+     * Returns true until we're done parsing the grammar file
+     * @return
+     */
     private boolean notDone() {
         return index < length;
     }
     
+    /**
+     * The main parsing method; starts at the beginning of the file (index = 4 because of the buffer)
+     * and goes until it's done
+     * @param fname
+     * @return 0 if successfully parses file
+     */
     private int parseFromChar(String fname) {
         if (index >= length) {
             System.err.println("No input stream or input stream is empty");
@@ -708,7 +723,7 @@ public class CgTextualParser {
                     System.exit(1);
                 }                
             }
-            // INCLUDE (NOT GOING TO SUPPORT THIS)
+            // INCLUDE (not supported)
             else if (ISCHR(index,0,'I','i') && ISCHR(index,6,'E','e') && ISCHR(index,1,'N','n') && ISCHR(index,2,'C','c') && ISCHR(index,3,'L','l') &&
                     ISCHR(index,4,'U','u') && ISCHR(index,5,'D','d') && !ISSTRING(index,6)) {
                 System.err.println("INCLUDE keyword not supported yet in this CG parser. Please paste the contents of the other files in directly");
@@ -784,37 +799,11 @@ public class CgTextualParser {
                     !ISSTRING(index,4)) {
                 parseRule(KEYWORDS.K_UNMAP);
             }
-            // TEMPLATE
+            // TEMPLATE (not supported)
             else if (ISCHR(index,0,'T','t') && ISCHR(index,7,'E','e') && ISCHR(index,1,'E','e') && ISCHR(index,2,'M','m') && ISCHR(index,3,'P','p') &&
                     ISCHR(index,4,'L','l') && ISCHR(index,5,'A','a') && ISCHR(index,6,'T','t') && !ISSTRING(index,7)) {
                 System.err.println("Templates not supported yet in this CG parser. Sorry.");
                 System.exit(1);
-                // All this code is unreachable...
-            	CgContextualTest t = new CgContextualTest();
-                t.line = result.lines;
-                index += 8;
-                result.lines += SKIPWS((char)0,(char)0);
-                nindex = index;
-                result.lines += SKIPTOWS_N((char)0, true);
-                StringBuilder template = new StringBuilder();
-                for (int i=index;i<nindex;i++) {
-                    template.append(inArray[i]);
-                }
-                t.name = template.toString().hashCode();
-                result.addContextualTest(t, template.toString());
-                index = nindex;
-                result.lines += SKIPWS('=',(char)0);
-                if (inArray[index] != '=') {
-                    System.err.println("Error encountered before expected = on line " + result.lines);
-                    System.exit(1);
-                }
-                ++index;
-                parseContextualTestList(null);
-                result.lines += SKIPWS(';',(char)0);
-                if (inArray[index] != '=') {
-                    System.err.println("Missing closing ; at line " + result.lines);
-                    System.exit(1);
-                }
             }
             // PARENTHESES
             else if (ISCHR(index,0,'P','p') && ISCHR(index,10,'S','s') && ISCHR(index,1,'A','a') && ISCHR(index,2,'R','r') &&
@@ -936,6 +925,10 @@ public class CgTextualParser {
         return 0;
     }
     
+    /**
+     * Adds a CgRule to the CgGrammar
+     * @param rule
+     */
     private void addRuleToGrammar(CgRule rule) {
         if (this.in_section) {
             rule.section = result.sections.size() - 1;
@@ -960,6 +953,12 @@ public class CgTextualParser {
         }
     }
     
+    /**
+     * Parses a list of tags from the current index position, returning a CgSet
+     * @param s
+     * @param isinline
+     * @return
+     */
     private CgSet parseTagList(CgSet s, boolean isinline) {
         if (isinline) {
             if (inArray[index] != '(') {
@@ -1218,6 +1217,10 @@ public class CgTextualParser {
         return s;
     }
     
+    /**
+     * Parses the beginning of a contextual test.
+     * E.g. the "-1C" part of (-1C Noun)
+     */
     private void parseContextualTestPosition() {
         boolean negative = false;
         boolean had_digits = false;
@@ -1421,7 +1424,12 @@ public class CgTextualParser {
         }
     }
 
-    // the other big method
+    /**
+     * Takes a CgRule and parses the contextual test at the current position, adding the 
+     * test to the rule and returning the modified rule
+     * @param rule
+     * @return
+     */
     private CgRule parseContextualTestList(CgRule rule) {
         if (inLinkedTest) {
         	// if there's a previous linked test, link them together and add them to the HashMap
@@ -1668,6 +1676,11 @@ public class CgTextualParser {
         return rule;
     }
     
+    /**
+     * Wrapper for parsing contextual tests
+     * @param rule
+     * @return
+     */
     private CgRule parseContextualTests(CgRule rule) {
         currentTest = null;
         parentTest = null;
@@ -1677,12 +1690,21 @@ public class CgTextualParser {
         return parseContextualTestList(rule);
     }
     
+    /**
+     * For parsing dependency tests; NOT TESTED
+     * @param rule
+     * @return
+     */
     private CgRule parseContextualDependencyTests(CgRule rule) {
         // if there are no dependency rules this shouldn't be an issue, right?
     	System.out.println("Warning: dependency tests not tested in this implementation");
         return parseContextualTestList(rule);
     }
     
+    /**
+     * After the key is set (e.g. REMOVE or SELECT), parses the rule according the some specific guidelines
+     * @param key
+     */
     private void parseRule(KEYWORDS key) {
         CgRule rule = result.allocateRule();
         rule.line = result.lines;
@@ -2066,6 +2088,7 @@ public class CgTextualParser {
             }
             rule.dep_target = rule.dep_test_head;
             // this might be a problematic loop
+            // TODO: dependency rules not really supported/tested yet
             while (rule.dep_target.next != 0) {
                 rule.dep_target = rule.test_map.get(rule.dep_target.next);
             }
@@ -2083,23 +2106,18 @@ public class CgTextualParser {
         addRuleToGrammar(rule);
     }
     
-    private boolean ux_isalnum(char c) {
+    // ** TESTING METHODS FOR CURRENT CHARACTER/STRING **
+    
+    private static boolean ux_isalnum(char c) {
         return Character.isLetterOrDigit(c);
     }
     
-    private boolean ux_simplecasecmp(String s) {
-        // meant to duplicate the ux_simplecasecmp() method from the c++ code
-        // compares from the present index 
-        char[] ar = s.toCharArray();
-        for (int i=0;i<ar.length;i++) {
-            if (inArray[index + i] != ar[i] && inArray[index+i] != ar[i]+(char)32) {    // this +32 thing is probably something i should check
-                return false;
-            }
-        }
-        return true;
-    }
-    
-    private boolean ux_isEmpty(String s) {
+    /**
+     * Returns true if the given string is empty (all whitespace or length 0)
+     * @param s
+     * @return
+     */
+    private static boolean ux_isEmpty(String s) {
         int l = s.length();
         if (l > 0) {
             for (char c : s.toCharArray()) {
@@ -2111,7 +2129,12 @@ public class CgTextualParser {
         return true;
     }
     
-    private int ux_isSetOp(String s) {
+    /**
+     * Returns the integer value of the given set operator 
+     * @param s
+     * @return
+     */
+    private static int ux_isSetOp(String s) {
         int retval = STRINGS.S_IGNORE.value;
         if (s.compareToIgnoreCase(stringbits[STRINGS.S_OR.value]) == 0 ||
                 s.compareToIgnoreCase(stringbits[STRINGS.S_PIPE.value]) == 0) {
@@ -2141,7 +2164,23 @@ public class CgTextualParser {
         return retval;
     }
     
-    //HELPER METHODS TO CHECK CHARACTER VALUES AND MOVE THE POINTER AROUND (contained in the inlines.h file)
+    // ** HELPER METHODS TO CHECK CHARACTER VALUES AND MOVE THE POINTER AROUND (contained in the inlines.h file) **
+    
+    /**
+	 * Returns true if the next characters in the array match the given string
+     * @param s
+     * @return
+     */
+    private boolean ux_simplecasecmp(String s) {
+        char[] ar = s.toCharArray();
+        for (int i=0;i<ar.length;i++) {
+            if (inArray[index + i] != ar[i] && inArray[index+i] != ar[i]+(char)32) {    // this +32 thing is probably something i should check
+                return false;
+            }
+        }
+        return true;
+    }
+    
     private boolean ISSTRING(int position, int offset) {
         if (inArray[position-1] == '"' && inArray[position+offset+1] == '"') {
             return true;
@@ -2158,6 +2197,7 @@ public class CgTextualParser {
         }
         return inArray[position + offset] == c || inArray[position + offset] == d ;
     }
+    
     
     private void BACKTONL_LP() {
         while (lpindex < inArray.length && !ISNL(lpindex) && (inArray[lpindex] != ';' || ISESC(lpindex))) {
@@ -2351,7 +2391,7 @@ public class CgTextualParser {
         return (a%2==0);
     }
 
-    // STRING helper definitions
+    // ** STRING helper definitions
     
     public static String _S_SET_ISECT_U = "\u2229";
     public static String _S_SET_SYMDIFF_U = "\u2206";

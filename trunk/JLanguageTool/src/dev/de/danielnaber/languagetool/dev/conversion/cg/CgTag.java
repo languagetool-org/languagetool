@@ -76,7 +76,6 @@ public class CgTag {
                     tmpIndex++;
                 }
             }
-            int length = tmp.length;
             if (tmp[tmpIndex] == 'T' && tmp[tmpIndex+1] == ':') {
                 System.out.println("Warning: the tag on line " + grammar.lines + " looks like a misplaced template marker.");
             }

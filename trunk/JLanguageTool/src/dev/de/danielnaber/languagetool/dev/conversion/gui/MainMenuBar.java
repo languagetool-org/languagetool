@@ -48,6 +48,7 @@ class MainMenuBar extends JMenuBar implements ActionListener {
   private String saveRuleText;
   private String optionsText;
   private String showRulesText;
+  private String showCoveringRulesText;
   
   // Navigate:
   private String nextRuleText;
@@ -90,6 +91,11 @@ class MainMenuBar extends JMenuBar implements ActionListener {
     showRulesItem.setMnemonic(0);
     showRulesItem.addActionListener(this);
     fileMenu.add(showRulesItem);
+    // "Show covering rules"
+    final JMenuItem showCoveringRulesItem = new JMenuItem(showCoveringRulesText);
+    showCoveringRulesItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L,Event.CTRL_MASK));
+    showCoveringRulesItem.addActionListener(this);
+    fileMenu.add(showCoveringRulesItem);
     // "Options"
     final JMenuItem optionsItem = new JMenuItem(optionsText);
     optionsItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_COMMA, Event.CTRL_MASK));
@@ -135,6 +141,7 @@ class MainMenuBar extends JMenuBar implements ActionListener {
     writeText = "Write rules to file";
     saveRuleText = "Save current rule";
     showRulesText = "Show all rules";
+    showCoveringRulesText = "Show covering rules";
     optionsText = "Options";
     quitText = "Quit";
     // Navigate:
@@ -166,6 +173,8 @@ class MainMenuBar extends JMenuBar implements ActionListener {
     	prg.saveEditedVisibleRule();
     } else if (e.getActionCommand().equals(showRulesText)) {
     	prg.showAllRules();
+    } else if (e.getActionCommand().equals(showCoveringRulesText)) {
+    	prg.displayCoveringRules();
     }
     else {
       throw new IllegalArgumentException("Unknown action " + e);

@@ -5,8 +5,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -29,8 +29,6 @@ public class CgRuleConverter extends RuleConverter {
 	private CgGrammar grammar;
 	private String[] lines;
 	private static String tagDelimiter = ":";
-	private static String sent_end = "fin";
-	private static String sent_start = "SENT_START";
 	
 	// basic constructor
 	public CgRuleConverter() {
@@ -41,45 +39,36 @@ public class CgRuleConverter extends RuleConverter {
 		super(infile, outfile, specificFiletype);
 	}
 	
-	public CgGrammar getGrammar() {
-		return this.grammar;
-	}
+	// Get methods
+	public CgGrammar getGrammar() {return this.grammar;}
 	
-	public void setGrammar(CgGrammar grammar) {
-		this.grammar = grammar;
-	}
+	// Set methods
+	public void setGrammar(CgGrammar grammar) {this.grammar = grammar;}
+	
+	public void setTagDelimiter(String td) {tagDelimiter = td;}
 	
 	@Override
-	public List<CgRule> getRules() throws IOException {
+	public void parseRuleFile() throws IOException {
 		parseCgFile();	// builds the grammar
-		List<CgRule> rules = new ArrayList<CgRule>();
+		List<CgRule> ruleList = new ArrayList<CgRule>();
 		for (CgRule rule : grammar.rule_by_number) {
-			rules.add(rule);
+			ruleList.add(rule);
 		}
-		return rules;
-	}
-
-	// no regular rules in CG files
-	@Override 
-	public ArrayList<List<String>> getLtRules(List<? extends Object> rules) {
-		return new ArrayList<List<String>>();
+		ruleObjects	= ruleList;
+		ltRules = new ArrayList<List<String>>();
+		allLtRules = new ArrayList<List<String>>();
+		disambiguationRules = new ArrayList<List<String>>();
+		originalRuleStrings = new ArrayList<String>();
+		warnings = new ArrayList<String>();
+		for (Object ruleObject : ruleObjects) {
+			CgRule cgrule = (CgRule) ruleObject;
+			List<String> ruleAsList = ltRuleAsList(cgrule,generateId(ruleObject),generateName(ruleObject),cgrule.type.name());
+			disambiguationRules.add(ruleAsList);
+			allLtRules.add(ruleAsList);
+			originalRuleStrings.add(lines[cgrule.line]);
+		}
 	}
 	
-	@Override
-	public ArrayList<List<String>> getDisambiguationRules(List<? extends Object> rules) {
-		ArrayList<List<String>> ltRules = new ArrayList<List<String>>();
-		for (Object ruleObject : rules) {
-			CgRule cgrule = (CgRule) ruleObject;	// cg rules will always be of the form CgRule
-			List<String> ltRule = ltRuleAsList(cgrule, generateId(ruleObject), generateName(ruleObject), cgrule.type.name());
-			ltRules.add(ltRule);
-		}
-		return ltRules;
-	}
-	
-	@Override 
-	public ArrayList<List<String>> getAllLtRules(List<? extends Object> rules) {
-		return getDisambiguationRules(rules);
-	}
 	
 	@Override
 	public boolean isDisambiguationRule(Object ruleObject) {
@@ -99,6 +88,10 @@ public class CgRuleConverter extends RuleConverter {
 		getGrammarFileLines(inFileName);
 	}
 	
+	/**
+	 * Grabs the original lines of the CG grammar file. Mainly for retrieving the original rule strings to include in comments.
+	 * @param filename
+	 */
 	public void getGrammarFileLines(String filename) {
 		BufferedReader reader = null;
         StringBuilder sb = new StringBuilder();
@@ -124,173 +117,172 @@ public class CgRuleConverter extends RuleConverter {
 	
 	/**
 	 * Takes a single {@link CgRule} and converts it into a list of lines of a LT rule.
-	 * Sometimes the cg rule has to be split into several LT rules. In this case, the rule 
+	 * Sometimes the CG rule has to be split into several LT rules. In this case, the rule 
 	 * is added as a bunch of rules in a rulegroup
 	 */
 	@Override
 	public List<String> ltRuleAsList(Object ruleObject, String id, String name, String type) {
 		CgRule rule = (CgRule)ruleObject;
 		type = rule.type.name();	// like K_SELECT or K_REMOVE
-		if (rule.line > 500) {
-			System.out.println();
-		}
 		List<String> ltRule = new ArrayList<String>();
+		String currentWarning = "";
 
 		String cgRuleString = lines[rule.line];
 		ltRule.add("<!-- " + cgRuleString + " -->");
+		//TODO: this doesn't work
 //		ArrayList<CgRule> rules = splitUnificationRule(mainRule, grammar);
 //		for (CgRule rule : rules) {
-			ArrayList<Token> tokensList = new ArrayList<Token>();
-			ArrayList<ArrayList<Token>> outerList = new ArrayList<ArrayList<Token>>(); 	// in case we need to split the rule into several rules
-			ArrayList<Token[]> processedLists = new ArrayList<Token[]>();
-			
-			CgSet targetSet = expandSetSets(grammar.getSet(rule.target));
-			Token target = new Token(targetSet,false,0,false,false,new CgSet(),false,0,false);
-			if (!isOrCompatible(target)) {
-				System.err.println("Target for rule on line " + rule.line + " cannot be represented as one LT rule. Rewrite");
-				return new ArrayList<String>();
+		ArrayList<Token> tokensList = new ArrayList<Token>();
+		ArrayList<ArrayList<Token>> outerList = new ArrayList<ArrayList<Token>>(); 	// in case we need to split the rule into several rules
+		ArrayList<Token[]> processedLists = new ArrayList<Token[]>();
+		
+		CgSet targetSet = expandSetSets(grammar.getSet(rule.target));
+		Token target = new Token(targetSet,false,0,false,false,new CgSet(),false,0,false);
+		if (!isOrCompatible(target)) {
+			System.err.println("Target for rule on line " + rule.line + " cannot be represented as one LT rule. Consider rewriting it.");
+			return new ArrayList<String>();
+		}
+		tokensList.add(target);
+		ArrayList<CgContextualTest> sortedTestsHeads = new ArrayList<CgContextualTest>();
+		// puts the parent test at the end, so it's processed last
+		for (CgContextualTest test : rule.test_heads) {
+			if (test.isParentTest()) {
+				sortedTestsHeads.add(test);
+			} else {
+				sortedTestsHeads.add(0, test);
 			}
-			tokensList.add(target);
-			ArrayList<CgContextualTest> sortedTestsHeads = new ArrayList<CgContextualTest>();
-			// puts the parent test at the end, so they're processed last
-			for (CgContextualTest test : rule.test_heads) {
-				if (test.isParentTest()) {
-					sortedTestsHeads.add(test);
-				} else {
-					sortedTestsHeads.add(0, test);
+		}
+		
+		for (CgContextualTest test : sortedTestsHeads) {
+			if (test.isNormalTest()) {
+				Token testToken = getTokenFromNormalTest(test);
+				tokensList.add(testToken);
+				// only accounts for a single branching (i.e. one parent test)
+			} else if (test.isParentTest()) {
+				if (!outerList.isEmpty()) {
+					System.err.println("Can't have two parent tests in one test on line " + rule.line + "\nTry splitting it up.");
+					System.exit(1);
 				}
-			}
-			
-			//TODO: need a new way of organizing the list of split rules; the branching is getting too complicated
-			//TODO: need to split out the reverse negative barrier test special case
-			// just put all the different rules in the outerList, then we can process all of them and remove an
-			// entire branch
-			
-			for (CgContextualTest test : sortedTestsHeads) {
-				if (test.isNormalTest()) {
-					Token testToken = getTokenFromNormalTest(test);
-					tokensList.add(testToken);
-					// only accounts for a single branching (i.e. one parent test)
-					
-				} else if (test.isParentTest()) {
-					if (!outerList.isEmpty()) {
-						System.err.println("Can't have two parent tests in one test on line " + rule.line + "\nTry splitting it up.");
-						System.exit(1);
-					}
-					for (int testInt : test.ors) {
-						ArrayList<Token> newTokenList = copyTokenList(tokensList);
-						CgContextualTest childTest = rule.test_map.get(testInt);
-						if (childTest.isNormalTest()) {
-							Token childTestToken = getTokenFromNormalTest(childTest);
-							newTokenList.add(childTestToken);
-						} else if (childTest.isLinkedTest()) {
-							ArrayList<CgContextualTest> linkedTests = new ArrayList<CgContextualTest>();
-							CgContextualTest curTest = childTest;
-							while (curTest.next != 0) {	// while there are still more tests to link to
-								linkedTests.add(curTest);
-								curTest = rule.test_map.get(curTest.next);
-							} 	
-							linkedTests.add(curTest); 	// add the last linked test
-							
-							Token headLinkedToken = getLinkedTokens(linkedTests);	// modifies the offsets for the linked tests
-							newTokenList.add(headLinkedToken);
-						}
+				for (int testInt : test.ors) {
+					ArrayList<Token> newTokenList = copyTokenList(tokensList);
+					CgContextualTest childTest = rule.test_map.get(testInt);
+					if (childTest.isNormalTest()) {
+						Token childTestToken = getTokenFromNormalTest(childTest);
+						newTokenList.add(childTestToken);
+					} else if (childTest.isLinkedTest()) {
+						ArrayList<CgContextualTest> linkedTests = new ArrayList<CgContextualTest>();
+						CgContextualTest curTest = childTest;
+						while (curTest.next != 0) {	// while there are still more tests to link to
+							linkedTests.add(curTest);
+							curTest = rule.test_map.get(curTest.next);
+						} 	
+						linkedTests.add(curTest); 	// add the last linked test
 						
-						outerList.add(newTokenList);
+						Token headLinkedToken = getLinkedTokens(linkedTests);	// modifies the offsets for the linked tests
+						newTokenList.add(headLinkedToken);
 					}
-				} else if (test.isLinkedTest()) {
-					// add all the linked tests to a list
-					ArrayList<CgContextualTest> linkedTests = new ArrayList<CgContextualTest>();
-					CgContextualTest curTest = test;
-					while (curTest.next != 0) {	// while there are still more tests to link to
-						linkedTests.add(curTest);
-						curTest = rule.test_map.get(curTest.next);
-					} 	
-					linkedTests.add(curTest); 	// add the last linked test
 					
-					Token headLinkedToken = getLinkedTokens(linkedTests);	// modifies the offsets for the linked tests
-					tokensList.add(headLinkedToken);
-					
+					outerList.add(newTokenList);
+				}
+			} else if (test.isLinkedTest()) {
+				// add all the linked tests to a list
+				ArrayList<CgContextualTest> linkedTests = new ArrayList<CgContextualTest>();
+				CgContextualTest curTest = test;
+				while (curTest.next != 0) {	// while there are still more tests to link to
+					linkedTests.add(curTest);
+					curTest = rule.test_map.get(curTest.next);
+				} 	
+				linkedTests.add(curTest); 	// add the last linked test
+				
+				Token headLinkedToken = getLinkedTokens(linkedTests);	// modifies the offsets for the linked tests
+				tokensList.add(headLinkedToken);
+				
+			}
+		}
+		// if the outerList is empty, we haven't had a parent test, so we can just add the tokensList to the outerList and process it
+		if (outerList.isEmpty()) {	
+			outerList.add(tokensList);
+		}
+		// pre-process/split all the tests
+		// they come off outerList and go back onto processedLists
+		// first split off the special case of the negative backward barrier scan
+		for (int i=0;i<outerList.size();i++) {
+			Token[] tokens = outerList.get(i).toArray(new Token[outerList.get(i).size()]);
+			if (negativeBackwardBarrierScan(tokens)) {
+				ArrayList<List<Token>> split = splitNegativeBackwardBarrierScan(tokens);
+				outerList.remove(i);
+				for (List<Token> splitList : split) {
+					outerList.add(i, new ArrayList<Token>(splitList));
+					i++;
 				}
 			}
-			// if the outerList is empty, we haven't had a parent test, so we can just add the tokensList to the outerList and process it
-			if (outerList.isEmpty()) {	
-				outerList.add(tokensList);
-			}
-			// pre-process/split all the tests
-			// they come off outerList and go back onto processedLists
-			// first split off the special case of the negative backward barrier scan
-			for (int i=0;i<outerList.size();i++) {
-				Token[] tokens = outerList.get(i).toArray(new Token[outerList.get(i).size()]);
-				if (negativeBackwardBarrierScan(tokens)) {
-					ArrayList<List<Token>> split = splitNegativeBackwardBarrierScan(tokens);
-					outerList.remove(i);
-					for (List<Token> splitList : split) {
-						outerList.add(i, new ArrayList<Token>(splitList));
-						i++;
+		}
+		
+		for (int i=0;i<outerList.size();i++) {
+			Token[] tokens = outerList.get(i).toArray(new Token[outerList.get(i).size()]);
+			Arrays.sort(tokens);
+			tokens = addGapTokens(tokens);
+			if (skipSafe(tokens)) {
+				tokens = addSkipTokens(tokens);
+				tokens = resolveLinkedTokens(tokens);
+				if (!singleRuleCompatible(tokens)) {
+					ArrayList<List<Token>> singleRuleCompatibleTokens = splitForSingleRule(tokens);
+					for (List<Token> srctl : singleRuleCompatibleTokens) {
+						Token[] srcta = srctl.toArray(new Token[srctl.size()]);
+						processedLists.add(srcta);
 					}
+				} else {
+					processedLists.add(tokens);
 				}
 			}
-			
-			for (int i=0;i<outerList.size();i++) {
-				Token[] tokens = outerList.get(i).toArray(new Token[outerList.get(i).size()]);
-				Arrays.sort(tokens);
-				tokens = addGapTokens(tokens);
-				if (skipSafe(tokens)) {
-					tokens = addSkipTokens(tokens);
-					tokens = resolveLinkedTokens(tokens);
-					if (!singleRuleCompatible(tokens)) {
-						ArrayList<List<Token>> singleRuleCompatibleTokens = splitForSingleRule(tokens);
+			else {
+				ArrayList<List<Token>> splitTokenLists = getSkipSafeTokens(tokens);
+				for (int j=0;j<splitTokenLists.size();j++) {
+					Token[] indSplitTokenList = splitTokenLists.get(j).toArray(new Token[splitTokenLists.get(j).size()]);
+					indSplitTokenList = addSkipTokens(indSplitTokenList);
+					indSplitTokenList = resolveLinkedTokens(indSplitTokenList);
+					Arrays.sort(indSplitTokenList);
+					indSplitTokenList = addGapTokens(indSplitTokenList);
+					if (!singleRuleCompatible(indSplitTokenList)) {
+						ArrayList<List<Token>> singleRuleCompatibleTokens = splitForSingleRule(indSplitTokenList);
 						for (List<Token> srctl : singleRuleCompatibleTokens) {
 							Token[] srcta = srctl.toArray(new Token[srctl.size()]);
 							processedLists.add(srcta);
 						}
 					} else {
-						processedLists.add(tokens);
-					}
-				}
-				else {
-					ArrayList<List<Token>> splitTokenLists = getSkipSafeTokens(tokens);
-					for (int j=0;j<splitTokenLists.size();j++) {
-						Token[] indSplitTokenList = splitTokenLists.get(j).toArray(new Token[splitTokenLists.get(j).size()]);
-						indSplitTokenList = addSkipTokens(indSplitTokenList);
-						indSplitTokenList = resolveLinkedTokens(indSplitTokenList);
-						Arrays.sort(indSplitTokenList);
-						indSplitTokenList = addGapTokens(indSplitTokenList);
-						if (!singleRuleCompatible(indSplitTokenList)) {
-							ArrayList<List<Token>> singleRuleCompatibleTokens = splitForSingleRule(indSplitTokenList);
-							for (List<Token> srctl : singleRuleCompatibleTokens) {
-								Token[] srcta = srctl.toArray(new Token[srctl.size()]);
-								processedLists.add(srcta);
-							}
-						} else {
-							processedLists.add(indSplitTokenList);
-						}
+						processedLists.add(indSplitTokenList);
 					}
 				}
 			}
-			
-			// the actual rule generation
-			if (processedLists.size() == 1) {
-				Token[] tokens = processedLists.get(0);
-				List<String> ltRule2 = getRuleByType(targetSet, tokens, rule, id, name, type);
-				ltRule.addAll(ltRule2);
-			} else {
-				ltRule.add("<rulegroup name=\"" + generateName(ruleObject) + "\">");
-				for (Token[] tokens : processedLists) {
-					List<String> ltRule2 = getRuleByType(targetSet, tokens, rule, null, null, type);
-					ltRule.addAll(ltRule2);
-				}
-				ltRule.add("</rulegroup>");
-			}
-			
-//		}
+		}
 		
+		// the actual rule generation
+		if (processedLists.size() == 1) {
+			Token[] tokens = processedLists.get(0);
+			List<String> ltRule2 = getRuleByType(targetSet, tokens, rule, id, name, type);
+			ltRule.addAll(ltRule2);
+		} else {
+			ltRule.add("<rulegroup name=\"" + generateName(ruleObject) + "\">");
+			for (Token[] tokens : processedLists) {
+				List<String> ltRule2 = getRuleByType(targetSet, tokens, rule, null, null, type);
+				ltRule.addAll(ltRule2);
+			}
+			ltRule.add("</rulegroup>");
+		}
+		
+//		}
+		warnings.add(currentWarning);
 		return ltRule;
 	}
 	
-	// this method is for if there's multiple base/surface forms and postags in the same set, that we 
-	// can't or together in a single LT token
+	// ** METHODS THAT SPLIT A RULE INTO MULTIPLE RULES **
+	
+	/**
+	 * For if there's multiple surface/base forms and postags in a single token that we can't "or" together
+	 * in one LT token. E.g. if a token includes ("man" or "woman" or NN or NNP), it'd have to be split.
+	 * @param tokens
+	 * @return
+	 */
 	public ArrayList<List<Token>> splitForSingleRule(Token[] tokens) {
 		ArrayList<List<Token>> list = new ArrayList<List<Token>>();
 		ArrayList<Token> tokenList = new ArrayList<Token>(Arrays.asList(tokens));
@@ -315,6 +307,11 @@ public class CgRuleConverter extends RuleConverter {
 		return list;
 	}
 	
+	/**
+	 * Actually performs the splitting for wrapper method splitForSingleRule. Only performs a single split.
+	 * @param tokens
+	 * @return
+	 */
 	public ArrayList<List<Token>> splitListForSingleRule(List<Token> tokens) {
 		ArrayList<List<Token>> list = new ArrayList<List<Token>>();
 		ArrayList<Token> list1 = new ArrayList<Token>();
@@ -330,14 +327,14 @@ public class CgRuleConverter extends RuleConverter {
 				Token token2 = new Token(tokens.get(i));
 				token1.target = twoSets.get(0);
 				token2.target = twoSets.get(1);
-				token1.postags = getPostags(token1.target);
-				token1.baseforms = getBaseForms(token1.target);
-				token1.surfaceforms = getSurfaceForms(token1.target);
-				token1.compositeTags = getCompositeTags(token1.target);
-				token2.postags = getPostags(token2.target);
-				token2.baseforms = getBaseForms(token2.target);
-				token2.surfaceforms = getSurfaceForms(token2.target);
-				token2.compositeTags = getCompositeTags(token2.target);
+				token1.postags = token1.target.getSingleTagPostagsString();
+				token1.baseforms = token1.target.getSingleTagBaseformsString();
+				token1.surfaceforms = token1.target.getSingleTagSurfaceformsString();
+				token1.compositeTags = token1.target.getCompositeTags();
+				token2.postags = token2.target.getSingleTagPostagsString();
+				token2.baseforms = token2.target.getSingleTagBaseformsString();
+				token2.surfaceforms = token2.target.getSingleTagSurfaceformsString();
+				token2.compositeTags = token2.target.getCompositeTags();
 				list1.add(token1);
 				list2.add(token2);
 			}
@@ -352,32 +349,75 @@ public class CgRuleConverter extends RuleConverter {
 		return list;
 	}
 	
-	
-	public Token[] resolveLinkedTokens(Token[] tokens) {
-		ArrayList<Token> tokenList = new ArrayList<Token>(Arrays.asList(tokens));
-		boolean notdone = true;
-		while (notdone) {
-			for (int i=0;i<tokenList.size();i++) {
-				Token curToken = tokenList.get(i);
-				if (curToken.nextToken != null) {
-					Token tempToken = new Token(curToken.nextToken);
-					tempToken.offset = curToken.offset + tempToken.relativeOffset;	// to fix the offsets
-					tokenList.add(i+1, tempToken);
-					Token temp2 = new Token(curToken);
-					temp2.nextToken = null;
-					tokenList.set(i, temp2);
-					break;
-				} else {
-					if (i == tokenList.size()-1) notdone = false;
-				}
-			}
+	/**
+	 * Splits off part of a CgSet that can't be represented in a single LT token
+	 * @param target
+	 * @return
+	 */
+	public ArrayList<CgSet> splitCgSet(CgSet target) {
+		// setting up the lists to perform the check
+		ArrayList<CgSet> twoSets = new ArrayList<CgSet>();
+		CgTag[] postags = target.getSingleTagPostags();
+		CgTag[] baseforms = target.getSingleTagBaseforms();
+		CgTag[] surfaceforms = target.getSingleTagSurfaceforms();
+		CgCompositeTag[] compositePostags = target.getCompositePostags();
+		CgCompositeTag[] compositeTags = target.getCompositeTags();
+		
+		// actually checking and doing the splitting
+		if (postags.length > 0 && baseforms.length > 0) {
+			CgSet set1 = new CgSet(target);
+			CgSet set2 = new CgSet(set1);
+			set1.single_tags.removeAll(Arrays.asList(postags));
+			set1.tags.removeAll(Arrays.asList(compositePostags));
+			set2.single_tags.removeAll(Arrays.asList(baseforms));
+			twoSets.add(set1);
+			twoSets.add(set2);
+			return twoSets;
 		}
-		return tokenList.toArray(new Token[tokenList.size()]);
+		if (postags.length > 0 && surfaceforms.length > 0) {
+			CgSet set1 = new CgSet(target);
+			CgSet set2 = new CgSet(target);
+			set1.single_tags.removeAll(Arrays.asList(postags));
+			set1.tags.removeAll(Arrays.asList(compositePostags));
+			set2.single_tags.removeAll(Arrays.asList(surfaceforms));
+			twoSets.add(set1);
+			twoSets.add(set2);
+			return twoSets;
+		}
+		if (surfaceforms.length > 0 && baseforms.length > 0) {
+			CgSet set1 = new CgSet(target);
+			CgSet set2 = new CgSet(target);
+			set1.single_tags.removeAll(Arrays.asList(surfaceforms));
+			set2.single_tags.removeAll(Arrays.asList(baseforms));
+			twoSets.add(set1);
+			twoSets.add(set2);
+			return twoSets;
+		}
+		// if we didn't catch the culprit in the single tags, it must be in the composite tags,
+		// which means that there exists two composite tags that have different types of tags in them.
+		// I could try to do this in a principled way, or I could just split off each composite tag. 
+		// This seems like the better idea for now.
+		for (CgCompositeTag ctag : compositeTags) {
+			CgSet set1 = new CgSet(target);
+			CgSet set2 = new CgSet(target);
+			set1.tags.remove(ctag);
+			set2.tags.removeAll(Arrays.asList(compositeTags));
+			set2.tags.removeAll(Arrays.asList(compositePostags));
+			set2.single_tags = new HashSet<CgTag>();
+			set2.tags.add(ctag);
+			twoSets.add(set1);
+			twoSets.add(set2);
+			return twoSets;
+		}
+		// it should never get to here, because it should never get a set that doesn't need to be split passed to it.
+		return null;
 	}
 	
-	// returns separate Token arrays, each of which is safe for dealing with scanning tokens
-	// and each of which will be a separate rule. This applies when we have a scanning token 
-	// before a non-scanning token, offset wise
+	/**
+	 * returns separate Token arrays, each of which is safe for dealing with scanning tokens
+	 * and each of which will be a separate rule. This applies when we have a scanning token
+	 * before a non-scanning token, offset wise
+	 */
 	public ArrayList<List<Token>> getSkipSafeTokens(Token[] tokens) {
 		ArrayList<List<Token>> list = new ArrayList<List<Token>>();
 		List<Token> tokenList = Arrays.asList(tokens);
@@ -404,6 +444,11 @@ public class CgRuleConverter extends RuleConverter {
 		return list;
 	}
 	
+	/**
+	 * Actually does the splitting for wrapper method getSkipSafeTokens
+	 * @param tokens
+	 * @return
+	 */
 	public ArrayList<List<Token>> splitOutSkipTokens(List<Token> tokens) {
 		ArrayList<List<Token>> list = new ArrayList<List<Token>>();
 		ArrayList<Token> scanningTokens = new ArrayList<Token>();
@@ -464,44 +509,11 @@ public class CgRuleConverter extends RuleConverter {
 		return null;
 	}
 	
-	// returns if the rule is safe to add the "skip" attribute to the previous token, as we do normally;
-	// otherwise, splits the tokens and returns multiple rules.
-	public boolean skipSafe(Token[] tokens) {
-		HashSet<Token> scanningTokens = new HashSet<Token>();
-		HashSet<Token> reverseScanningTokens = new HashSet<Token>();
-		HashSet<Token> normalTokens = new HashSet<Token>();
-		for (Token token : tokens) {
-			if (token.scanahead) {
-				scanningTokens.add(token);
-			} else if (token.scanbehind) {
-				reverseScanningTokens.add(token);
-			} else {
-				normalTokens.add(token);
-			}
-		}
-		for (Token s : scanningTokens) {
-			for (Token o : normalTokens) {
-				if (s.offset <= o.offset) return false;
-			}
-		}
-		for (Token s : reverseScanningTokens) {
-			for (Token o : normalTokens) {
-				if (s.offset >= o.offset) return false;
-			}
-		}
-		return true;
-	}
-	
-	// returns true of the rule contains an example of a negative backwards barrier scan (NOT -1* Adj BARRIER Noun), e.g.
-	public boolean negativeBackwardBarrierScan(Token[] tokens) {
-		for (Token token : tokens) {
-			if (token.scanbehind && token.negate && !token.barrier.isEmpty()) {
-				return true;
-			}
-		}
-		return false;
-	}
-	
+	/**
+	 * Handles special case of negative backwards barrier scan (e.g. (NOT -1* Verb BARRIER CLB));
+	 * @param tokens
+	 * @return
+	 */
 	public ArrayList<List<Token>> splitNegativeBackwardBarrierScan(Token[] tokens) {
 		ArrayList<List<Token>> list = new ArrayList<List<Token>>();
 		ArrayList<Token> newTokenList1 = new ArrayList<Token>();
@@ -529,8 +541,99 @@ public class CgRuleConverter extends RuleConverter {
 		return list;
 	}
 	
-	// contains the list of linked CgContextualTests, to translate into Token format
-	// returns only the head of the linked tokens, have to iterate through them later when you add them
+	// takes a rule that has unification tags (e.g. $$NUMBER) and splits it into several easier to handle rules
+	// TODO: doesn't really work yet; needs to be reworked
+	public ArrayList<CgRule> splitUnificationRule(CgRule rule, CgGrammar grammar) {
+		ArrayList<CgRule> rules = new ArrayList<CgRule>();
+		// go over all the tests in the test_map, which should contain all tests for the entire rule, and every time you see a 
+		// unification tag, put in one of its component parts and add that modified rule to the list of new rules.
+		HashSet<CgSet> unifyingSets = new HashSet<CgSet>();
+		// add all the unifying sets in the rule
+		for (Iterator<Integer> iter = rule.test_map.keySet().iterator(); iter.hasNext(); ) {
+			CgContextualTest curTest = rule.test_map.get(iter.next());
+			CgSet target = grammar.getSet(curTest.target);
+			for (Integer setint : target.sets) {
+				CgSet set = grammar.getSet(setint);
+				if (set.type.contains(ST.ST_TAG_UNIFY.value)) {
+					unifyingSets.add(set);
+				}
+			}
+		}
+		CgSet targetSet = grammar.getSet(rule.target);
+		for (int setint : targetSet.sets) {
+			if (grammar.getSet(setint).type.contains(ST.ST_TAG_UNIFY.value)) {
+				unifyingSets.add(grammar.getSet(setint));
+			}
+		}
+		// if no unifying sets, just return the rule
+		if (unifyingSets.size() == 0) {
+			rules.add(rule);
+		}
+		for (CgSet unifyingSet : unifyingSets) {
+			CgSet unifyingSetExpanded = expandSetSets(unifyingSet);
+			// TODO: ALSO NEEDS COMPOSITE TAGS
+			for (CgTag tag : unifyingSetExpanded.single_tags) {
+				CgSet oldTargetSet = new CgSet(grammar.getSet(rule.target));
+				CgRule newRule = new CgRule(rule);
+				if (oldTargetSet.sets.contains(unifyingSet.hash)) {
+					oldTargetSet.sets.remove((Object)unifyingSet.hash);
+					oldTargetSet.single_tags.add(tag);
+					oldTargetSet.rehash();
+					grammar.addSet(oldTargetSet);
+					newRule.target = oldTargetSet.hash;
+				}
+				
+				for (Iterator<Integer> iter = newRule.test_map.keySet().iterator(); iter.hasNext();) {
+					int testKey = iter.next();
+					CgContextualTest test = newRule.test_map.get(testKey);
+					CgSet oldTestTargetSet = new CgSet(grammar.getSet(test.target));
+					if (oldTestTargetSet.sets.contains(unifyingSet.hash)) {
+						oldTestTargetSet.sets.remove(unifyingSet);
+						oldTestTargetSet.single_tags.add(tag);
+						oldTestTargetSet.rehash();
+						grammar.addSet(oldTestTargetSet);
+						test.target = oldTestTargetSet.hash;
+					}
+					newRule.test_map.put(testKey, test);
+				}
+				rules.add(newRule);
+			}
+		}
+		return rules;
+	}
+	
+	
+	// ** METHODS THAT MODIFY A SINGLE TOKEN LIST **
+	
+	/**
+	 * Expands the tests in a linked test to multiple tokens
+	 */
+	public Token[] resolveLinkedTokens(Token[] tokens) {
+		ArrayList<Token> tokenList = new ArrayList<Token>(Arrays.asList(tokens));
+		boolean notdone = true;
+		while (notdone) {
+			for (int i=0;i<tokenList.size();i++) {
+				Token curToken = tokenList.get(i);
+				if (curToken.nextToken != null) {
+					Token tempToken = new Token(curToken.nextToken);
+					tempToken.offset = curToken.offset + tempToken.relativeOffset;	// to fix the offsets
+					tokenList.add(i+1, tempToken);
+					Token temp2 = new Token(curToken);
+					temp2.nextToken = null;
+					tokenList.set(i, temp2);
+					break;
+				} else {
+					if (i == tokenList.size()-1) notdone = false;
+				}
+			}
+		}
+		return tokenList.toArray(new Token[tokenList.size()]);
+	}
+	
+	/**
+	 * contains the list of linked CgContextualTests, to translate into Token format
+	 * returns only the head of the linked tokens, have to iterate through them later when you add them
+	 */
 	public Token getLinkedTokens(ArrayList<CgContextualTest> tests) {
 		ArrayList<Token> tokens = new ArrayList<Token>();
 		for (int i=0;i<tests.size();i++) {
@@ -576,11 +679,13 @@ public class CgRuleConverter extends RuleConverter {
 			 if (i != 0) ts[i].prevToken = ts[i-1];
 		}
 		return ts[0];
-		
-		
 	}
 	
-	
+	/**
+	 * Adds gap tokens in the case of a linked (sub) list of tokens
+	 * @param ts
+	 * @return
+	 */
 	public Token[] addLinkedGapTokens(Token[] ts) {
 		ArrayList<Token> tokens = new ArrayList<Token>(Arrays.asList(ts));
 		boolean notdone = true;
@@ -610,10 +715,12 @@ public class CgRuleConverter extends RuleConverter {
 		return tokens.toArray(new Token[tokens.size()]);
 	}
 	
-	// only gets called if it's safe to add skip tokens in a straightforward manner, otherwise, we split them out
-	// if it's a negative scanning string (NOT 1* Verb BARRIER CLB), then the exception string is the target
-	// if it's a positive scanning string (1* Verb BARRIER CLB), then the exception string is the barrier and the end of sentence
-	// it always goes in the previous token with scope next
+	/**
+	 * only gets called if it's safe to add skip tokens in a straightforward manner, otherwise, we split them out
+	 * if it's a negative scanning string (NOT 1* Verb BARRIER CLB), then the exception string is the target
+	 * if it's a positive scanning string (1* Verb BARRIER CLB), then the exception string is the barrier and the end of sentence
+	 * it always goes in the previous token with scope next
+	 */
 	public Token[] addSkipTokens(Token[] tokens) {
 		ArrayList<Token> tokenList = new ArrayList<Token>(Arrays.asList(tokens));
 		for (int i=0;i<tokenList.size();i++) {
@@ -629,12 +736,13 @@ public class CgRuleConverter extends RuleConverter {
 					if (oldToken.negate) {	
 						CgSet newTarget = oldToken.barrier;
 						CgTag sentEndTag = new CgTag();
-						sentEndTag.tag = sent_end;
+						sentEndTag.tag = SENT_END;
 						newTarget.single_tags.add(sentEndTag);
 						oldToken.target = newTarget;
-						oldToken.postags = getPostags(oldToken.target);
-						oldToken.baseforms = getBaseForms(oldToken.target);
-						oldToken.surfaceforms = getSurfaceForms(oldToken.target);
+						oldToken.postags = oldToken.target.getSingleTagPostagsString();
+						oldToken.baseforms = oldToken.target.getSingleTagBaseformsString();
+						oldToken.surfaceforms = oldToken.target.getSingleTagSurfaceformsString();
+						oldToken.compositeTags = oldToken.target.getCompositeTags();
 						tokenList.set(0, oldToken);
 					}
 					tokenList.add(0, newToken);
@@ -657,13 +765,13 @@ public class CgRuleConverter extends RuleConverter {
 					if (oldToken.negate) {
 						CgSet newTarget = oldToken.barrier;
 						CgTag sentEndTag = new CgTag();
-						sentEndTag.tag = sent_end;
+						sentEndTag.tag = SENT_END;
 						newTarget.single_tags.add(sentEndTag);
 						oldToken.target = newTarget;
-						oldToken.postags = getPostags(oldToken.target);
-						oldToken.baseforms = getBaseForms(oldToken.target);
-						oldToken.surfaceforms = getSurfaceForms(oldToken.target);
-						oldToken.compositeTags = getCompositeTags(oldToken.target);
+						oldToken.postags = oldToken.target.getSingleTagPostagsString();
+						oldToken.baseforms = oldToken.target.getSingleTagBaseformsString();
+						oldToken.surfaceforms = oldToken.target.getSingleTagSurfaceformsString();
+						oldToken.compositeTags = oldToken.target.getCompositeTags();
 						oldToken.negate = false;
 						tokenList.set(i,oldToken);
 					}
@@ -678,13 +786,13 @@ public class CgRuleConverter extends RuleConverter {
 				}
 				CgSet newTarget = newToken.target;
 				CgTag sentStartTag = new CgTag();
-				sentStartTag.tag = sent_start;
+				sentStartTag.tag = SENT_START;
 				newTarget.single_tags.add(sentStartTag);
 				newToken.target = newTarget;
-				newToken.postags = getPostags(newToken.target);
-				newToken.baseforms = getBaseForms(newToken.target);
-				newToken.surfaceforms = getSurfaceForms(newToken.target);
-				newToken.compositeTags = getCompositeTags(newToken.target);
+				newToken.postags = newToken.target.getSingleTagPostagsString();
+				newToken.baseforms = newToken.target.getSingleTagBaseformsString();
+				newToken.surfaceforms = newToken.target.getSingleTagSurfaceformsString();
+				newToken.compositeTags = newToken.target.getCompositeTags();
 				newToken.skip = -1;
 				Token oldToken = tokenList.get(i);
 				oldToken.skip = -1;
@@ -705,10 +813,10 @@ public class CgRuleConverter extends RuleConverter {
 				else {
 					if (oldToken.negate) {
 						oldToken.target = oldToken.barrier;
-						oldToken.postags = getPostags(oldToken.target);
-						oldToken.baseforms = getBaseForms(oldToken.target);
-						oldToken.surfaceforms = getSurfaceForms(oldToken.target);
-						oldToken.compositeTags = getCompositeTags(oldToken.target);
+						oldToken.postags = oldToken.target.getSingleTagPostagsString();
+						oldToken.baseforms = oldToken.target.getSingleTagBaseformsString();
+						oldToken.surfaceforms = oldToken.target.getSingleTagSurfaceformsString();
+						oldToken.compositeTags = oldToken.target.getCompositeTags();
 						oldToken.exceptionString = exceptionString;
 						tokenList.set(i,oldToken);
 						tokenList.add(i,newToken);
@@ -724,65 +832,12 @@ public class CgRuleConverter extends RuleConverter {
 		return tokenList.toArray(new Token[tokenList.size()]);
 	}
 	
-	public String getBarrierExceptionStringFromToken(Token token) {
-		boolean not = token.negate;
-		boolean inflected = true;
-		String barrierPos = glueWords(getPostags(expandSetSets(token.barrier)));
-		
-		if (token.scanahead) {
-			barrierPos = barrierPos.concat("|" + sent_end);
-		}
-		String barrierToken = glueWords(token.barrier.getSingleTagBaseformsString());
-		if (barrierToken.isEmpty()) {
-			barrierToken = glueWords(token.barrier.getSingleTagSurfaceformsString());
-			inflected = false;
-		}
-		String targetPos = glueWords(token.postags);
-		String targetToken = glueWords(token.baseforms);
-		if (targetToken.isEmpty()) {
-			targetToken = glueWords(token.surfaceforms);
-			if (not) inflected = false;
-		}
-		String postagString = "";
-		String tokenString = "";
-		String inflectedString = "";
-		String regexpString = "";
-		String postagRegexpString = "";
-		if (not) {
-			if (!targetPos.isEmpty()) {
-				postagString = " postag=\"" + targetPos + "\"";
-				if (isRegex(targetPos)) {
-					postagRegexpString = " postag_regexp=\"yes\"";
-				}
-			}
-			if (!targetToken.isEmpty()) {
-				tokenString = " ".concat(targetToken);
-				if (isRegex(tokenString)) {
-					regexpString = " regexp=\"yes\"";
-				}
-			}
-		} else {
-			if (!barrierPos.isEmpty()) {
-				postagString = " postag=\"" + barrierPos + "\"";
-			}
-			if (isRegex(barrierPos)) {
-				postagRegexpString = " postag_regexp=\"yes\"";
-			}
-			if (!barrierToken.isEmpty()) {
-				tokenString = barrierToken;
-				if (isRegex(tokenString)) {
-					regexpString = " postag_regexp=\"yes\"";
-				}
-			}
-		}
-		if (inflected) {
-			inflectedString = " inflected=\"yes\"";
-		}
-		String retString = "<exception" + postagString + inflectedString + regexpString + postagRegexpString + " scope=\"next\">" + tokenString + "</exception>";
-		return retString;
-		
-	}
-	
+	/**
+	 * For cases where there needs to be an empty token inserted in order to make a proper LT pattern
+	 * e.g. REMOVE N IF (1 Verb) (3 Det);
+	 * @param tokens
+	 * @return
+	 */
 	public Token[] addGapTokens(Token[] tokens) {
 		boolean notdone = true;
 		ArrayList<Token> tokenList = new ArrayList<Token>(Arrays.asList(tokens));
@@ -815,8 +870,131 @@ public class CgRuleConverter extends RuleConverter {
 		return newList;
 	}
 	
-	// the actual nature of the CgSet "target" is determined by the rule
-	// it's always a CgSet, but you do different stuff with it
+	public ArrayList<Token> removeExtraEmptyTokens(ArrayList<Token> tokens) {
+		if (tokens.size() == 1) {
+			return tokens;
+		} else {
+			ArrayList<Token> newTokenList = new ArrayList<Token>();
+			for (Token token : tokens) {
+				if (!token.isEmpty()) {
+					newTokenList.add(token);
+				}
+			}
+			if (newTokenList.isEmpty()) {
+				newTokenList.add(tokens.get(0));
+			}
+			return newTokenList;
+		}
+	}
+	
+	
+	// ** METHODS THAT CHECK THE PROPERTIES OF A RULE **
+	
+	/**
+	 * returns if the rule is safe to add the "skip" attribute to the previous token, as we do normally;
+	 * otherwise, splits the tokens and returns multiple rules.
+	 */
+	public boolean skipSafe(Token[] tokens) {
+		HashSet<Token> scanningTokens = new HashSet<Token>();
+		HashSet<Token> reverseScanningTokens = new HashSet<Token>();
+		HashSet<Token> normalTokens = new HashSet<Token>();
+		for (Token token : tokens) {
+			if (token.scanahead) {
+				scanningTokens.add(token);
+			} else if (token.scanbehind) {
+				reverseScanningTokens.add(token);
+			} else {
+				normalTokens.add(token);
+			}
+		}
+		for (Token s : scanningTokens) {
+			for (Token o : normalTokens) {
+				if (s.offset <= o.offset) return false;
+			}
+		}
+		for (Token s : reverseScanningTokens) {
+			for (Token o : normalTokens) {
+				if (s.offset >= o.offset) return false;
+			}
+		}
+		return true;
+	}
+	
+	/**
+	 * returns true of the rule contains an example of a negative backwards barrier scan (NOT -1* Adj BARRIER Noun), e.g. 
+	 * these rules have to be treated as special cases
+	 */
+	public boolean negativeBackwardBarrierScan(Token[] tokens) {
+		for (Token token : tokens) {
+			if (token.scanbehind && token.negate && !token.barrier.isEmpty()) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * 
+	 * @param tokens
+	 * @return
+	 */
+	public boolean singleRuleCompatible(Token[] tokens) {
+		for (Token token : tokens) {
+			if (!isOrCompatible(token)) return false;
+		}
+		return true;
+	}
+	
+	/**
+	 * Returns true if the {@link Token} can be represented in a single LT rule, false otherwise.
+	 * Example: "are"|noun cannot be represented as one LT token
+	 * @param token
+	 * @return
+	 */
+	public boolean isOrCompatible(Token token) {
+		if (token.postags.length > 0 && (token.baseforms.length > 0 || token.surfaceforms.length > 0)) {
+			return false;
+		}
+		if (token.baseforms.length > 0 && token.surfaceforms.length > 0) {
+			return false;
+		}
+		if (token.compositeTags.length > 0 && (token.postags.length > 0 || token.baseforms.length > 0 || token.surfaceforms.length > 0)) {
+			return false;
+		}
+		HashSet<String> pos = new HashSet<String>();
+		HashSet<String> base = new HashSet<String>();
+		HashSet<String> surf = new HashSet<String>();
+		for (CgCompositeTag ctag : token.compositeTags) {
+			for (CgTag tag : ctag.tags) {
+				if (isPostag(tag.tag)) {
+					pos.add(tag.tag);
+				} else if (isSurfaceForm(tag.tag)) {
+					surf.add(tag.tag);
+				} else if (isBaseForm(tag.tag)) {
+					base.add(tag.tag);
+				}
+			}
+		}
+		if (pos.size() > 1 && (surf.size() > 1 || base.size() > 1)) {
+			return false;
+		}
+		if (surf.size() > 1 && base.size() > 1) {
+			return false;
+		}
+		if (surf.size() > 0 && base.size() > 0 && pos.size() > 0) {
+			return false;
+		}
+		return true;
+	}
+
+	
+	
+	
+	// ** METHODS THAT ACTUALLY GENERATE THE LT RULES **
+	
+	/**
+	 * Actual LT rule generation
+	 */
 	public List<String> getRuleByType(CgSet target, Token[] tokens, CgRule rule, String id, String name, String type) {
 		ArrayList<String> ltRule = new ArrayList<String>();
 		TreeMap<Integer,ArrayList<Token>> tokenmap = new TreeMap<Integer,ArrayList<Token>>();
@@ -869,24 +1047,13 @@ public class CgRuleConverter extends RuleConverter {
 		return ltRule;
 	}
 	
-	public ArrayList<Token> removeExtraEmptyTokens(ArrayList<Token> tokens) {
-		if (tokens.size() == 1) {
-			return tokens;
-		} else {
-			ArrayList<Token> newTokenList = new ArrayList<Token>();
-			for (Token token : tokens) {
-				if (!token.isEmpty()) {
-					newTokenList.add(token);
-				}
-			}
-			if (newTokenList.isEmpty()) {
-				newTokenList.add(tokens.get(0));
-			}
-			return newTokenList;
-		}
-	}
-	
-	
+	/**
+	 * Helper for getRuleByType
+	 * @param ltRule
+	 * @param token
+	 * @param indent
+	 * @return
+	 */
 	public ArrayList<String> addCgToken(ArrayList<String> ltRule, Token token, int indent) {
 		String postags = postagsToString(token.postags);
 		String baseforms = glueWords(cleanForms(token.baseforms));
@@ -920,246 +1087,121 @@ public class CgRuleConverter extends RuleConverter {
 		return ltRule;
 	}
 	
-	public String postagsToString(String[] postags) {
-		if (postags.length == 0) {
-			return "";
-		}
-		StringBuilder sb = new StringBuilder();
-		sb.append("(.*" + tagDelimiter + ")?");
-		String postagsGlued = glueWords(postags);
-		sb.append(postagsGlued);
-		sb.append("(" + tagDelimiter + ".*)?");
-		return sb.toString();
-	}
-	
-	public <K,V> TreeMap<K,ArrayList<V>> smartPut(TreeMap<K,ArrayList<V>> map, K key, V value) {
-		if (map.containsKey(key)) {
-			ArrayList<V> original = map.get(key);
-			original.add(value);
-			map.put(key, original);
-		} else {
-			ArrayList<V> newcollection = new ArrayList<V>();
-			newcollection.add(value);
-			map.put(key, newcollection);
-		}
-		return map;
-	}
-	
-	public ArrayList<CgSet> splitCgSet(CgSet target) {
-		// setting up the lists to perform the check
-		ArrayList<CgSet> twoSets = new ArrayList<CgSet>();
-		ArrayList<CgTag> postags = target.getSingleTagPostags();
-		ArrayList<CgTag> baseforms = target.getSingleTagBaseforms();
-		ArrayList<CgTag> surfaceforms = target.getSingleTagSurfaceforms();
-		ArrayList<CgCompositeTag> compositePostags = target.getCompositePostags();
-		ArrayList<CgCompositeTag> compositeTags = target.getCompositeTags();
-		
-		// actually checking and doing the splitting
-		if (postags.size() > 0 && baseforms.size() > 0) {
-			CgSet set1 = new CgSet(target);
-			CgSet set2 = new CgSet(set1);
-			set1.single_tags.removeAll(new ArrayList<CgTag>(postags));
-			set1.tags.removeAll(compositePostags);
-			set2.single_tags.removeAll(baseforms);
-			twoSets.add(set1);
-			twoSets.add(set2);
-			return twoSets;
-		}
-		if (postags.size() > 0 && surfaceforms.size() > 0) {
-			CgSet set1 = new CgSet(target);
-			CgSet set2 = new CgSet(target);
-			set1.single_tags.removeAll(postags);
-			set1.tags.removeAll(compositePostags);
-			set2.single_tags.removeAll(surfaceforms);
-			twoSets.add(set1);
-			twoSets.add(set2);
-			return twoSets;
-		}
-		if (surfaceforms.size() > 0 && baseforms.size() > 0) {
-			CgSet set1 = new CgSet(target);
-			CgSet set2 = new CgSet(target);
-			set1.single_tags.removeAll(surfaceforms);
-			set2.single_tags.removeAll(baseforms);
-			twoSets.add(set1);
-			twoSets.add(set2);
-			return twoSets;
-		}
-		// if we didn't catch the culprit in the single tags, it must be in the composite tags,
-		// which means that there exists two composite tags that have different types of tags in them.
-		// I could try to do this in a principled way, or I could just split off each composite tag. 
-		// This seems like the better idea for now.
-		for (CgCompositeTag ctag : compositeTags) {
-			CgSet set1 = new CgSet(target);
-			CgSet set2 = new CgSet(target);
-			set1.tags.remove(ctag);
-			set2.tags.removeAll(compositeTags);
-			set2.tags.removeAll(compositePostags);
-			set2.single_tags = new HashSet<CgTag>();
-			set2.tags.add(ctag);
-			twoSets.add(set1);
-			twoSets.add(set2);
-			return twoSets;
-		}
-		// it should never get to here, because it should never get a set that doesn't need to be split passed to it.
-		return null;
-	}
-	
 	/**
-	 * Returns true if the {@link Token} can be represented in a single LT rule, false otherwise.
-	 * Example: "are"|noun cannot be represented as one LT token
+	 * Helper for getRuleByType
 	 * @param token
 	 * @return
 	 */
-	public boolean isOrCompatible(Token token) {
-		if (token.postags.length > 0 && (token.baseforms.length > 0 || token.surfaceforms.length > 0)) {
-			return false;
+	public String getBarrierExceptionStringFromToken(Token token) {
+		boolean not = token.negate;
+		boolean inflected = true;
+		String barrierPos = glueWords(expandSetSets(token.barrier).getPostagsString());
+		
+		if (token.scanahead) {
+			barrierPos = barrierPos.concat("|" + SENT_END);
 		}
-		if (token.baseforms.length > 0 && token.surfaceforms.length > 0) {
-			return false;
+		String barrierToken = glueWords(token.barrier.getSingleTagBaseformsString());
+		if (barrierToken.isEmpty()) {
+			barrierToken = glueWords(token.barrier.getSingleTagSurfaceformsString());
+			inflected = false;
 		}
-		if (token.compositeTags.length > 0 && (token.postags.length > 0 || token.baseforms.length > 0 || token.surfaceforms.length > 0)) {
-			return false;
+		String targetPos = glueWords(token.postags);
+		String targetToken = glueWords(token.baseforms);
+		if (targetToken.isEmpty()) {
+			targetToken = glueWords(token.surfaceforms);
+			if (not) inflected = false;
 		}
-		HashSet<String> pos = new HashSet<String>();
-		HashSet<String> base = new HashSet<String>();
-		HashSet<String> surf = new HashSet<String>();
-		for (CgCompositeTag ctag : token.compositeTags) {
-			for (CgTag tag : ctag.tags) {
-				if (isPostag(tag.tag)) {
-					pos.add(tag.tag);
-				} else if (isSurfaceForm(tag.tag)) {
-					surf.add(tag.tag);
-				} else if (isBaseForm(tag.tag)) {
-					base.add(tag.tag);
+		String postagString = "";
+		String tokenString = "";
+		String inflectedString = "";
+		String regexpString = "";
+		String postagRegexpString = "";
+		if (not) {
+			if (!targetPos.isEmpty()) {
+				postagString = " postag=\"" + targetPos + "\"";
+				if (isRegex(targetPos)) {
+					postagRegexpString = " postag_regexp=\"yes\"";
+				}
+			}
+			if (!targetToken.isEmpty()) {
+				tokenString = " ".concat(targetToken);
+				if (isRegex(tokenString)) {
+					regexpString = " regexp=\"yes\"";
+				}
+			}
+		} else {
+			if (!barrierPos.isEmpty()) {
+				postagString = " postag=\"" + barrierPos + "\"";
+			}
+			if (isRegex(barrierPos)) {
+				postagRegexpString = " postag_regexp=\"yes\"";
+			}
+			if (!barrierToken.isEmpty()) {
+				tokenString = barrierToken;
+				if (isRegex(tokenString)) {
+					regexpString = " postag_regexp=\"yes\"";
 				}
 			}
 		}
-		if (pos.size() > 1 && (surf.size() > 1 || base.size() > 1)) {
-			return false;
+		if (inflected) {
+			inflectedString = " inflected=\"yes\"";
 		}
-		if (surf.size() > 1 && base.size() > 1) {
-			return false;
-		}
-		if (surf.size() > 0 && base.size() > 0 && pos.size() > 0) {
-			return false;
-		}
-		return true;
+		String retString = "<exception" + postagString + inflectedString + regexpString + postagRegexpString + " scope=\"next\">" + tokenString + "</exception>";
+		return retString;
 	}
 	
-	public boolean singleRuleCompatible(Token[] tokens) {
-		for (Token token : tokens) {
-			if (!isOrCompatible(token)) return false;
-		}
-		return true;
+	/** 
+	 * Returns the position of the target token, which is always relative to the furthest back token in the rules
+	 * @param tokens
+	 * @return
+	 */
+	public int getPositionOfTarget(Token[] tokens) {
+		Token firstToken = tokens[0];
+		return -1 * firstToken.offset;
 	}
 	
-	// this is problematic, in that I don't know how to write these regular expressions when we have
-	// different morphological tag syntax, as Polish or French.
-	public String filterRegexp(CgSet target) {
-		String[] postags = getPostags(target);
-		String postagString = glueWords(postags);
-		postagString = "(".concat(postagString).concat(")");
-		String postagRegexp = toStringRegexpFormat(postagString);
-		
-		StringBuilder sb = new StringBuilder();
-		sb.append("(?!");
-		sb.append(postagRegexp);
-		sb.append(").*");
-		return sb.toString();
-	}
-	
-	// formats the target for use with disambiguation action="remove" keyword
-	// assuming they support regular expressions, which they currently don't but kind of have to in order to work
-	public String removeTarget(CgSet target) {
-		StringBuilder sb = new StringBuilder();
-		sb.append("<wd ");
-		// these should always be the correct lengths, because if they weren't, they should have been split earlier.
-		ArrayList<String> lemmas = target.getSingleTagBaseformsString();
-		ArrayList<String> postags = target.getSingleTagPostagsString();
-		ArrayList<CgCompositeTag> compositeTags = target.getCompositeTags();
-		ArrayList<String> compositePostags = compositePostagsToString(target.getCompositePostags());
-		postags.addAll(compositePostags);
-		ArrayList<String> surfaceforms = target.getSingleTagSurfaceformsString();
-		
-		if (lemmas.size() > 0 && (compositeTags.size() > 0 || postags.size() > 0 || surfaceforms.size() > 0)) {
-			System.err.println("Error: something went wrong here.");
-		}
-		
-		sb.append("/>");
-		return sb.toString();
-	}
-	
-	public String replaceRegexp(CgSet target) {
-		String[] postags = getPostags(target);
-		String postagString = glueWords(postags);
-		postagString = "(".concat(postagString).concat(")");
-		String postagRegexp = toStringRegexpFormat(postagString);
-		return postagRegexp;
-		
-	}
-	
-	public String addRegexp(CgSet target) {
-		ArrayList<String> postags = target.getSingleTagPostagsString();
-		if (postags.size() != 1) {
-			System.err.println("Error: trying to map more than one mapping tag on line " + target.line);
+	/**
+	 * Helper that takes a normal contextual test (i.e. not a Parent or a Linked test, e.g. (1 Noun))
+	 * and returns the properly filled-out Token object
+	 * @param test
+	 * @return
+	 */
+	public Token getTokenFromNormalTest(CgContextualTest test) {
+		CgSet testTarget = expandSetSets(grammar.getSet(test.target));
+		boolean testCareful = test.pos.contains(POS.POS_CAREFUL.value);
+		int testOffset = test.offset;
+		boolean testScanAhead = test.pos.contains(POS.POS_SCANFIRST.value) && testOffset >= 0;
+		boolean testScanBehind = test.pos.contains(POS.POS_SCANFIRST.value) && testOffset < 0;
+		boolean testNot = test.pos.contains(POS.POS_NOT.value);
+		CgSet testBarrier = grammar.getSet(test.barrier);
+		CgSet testCBarrier = grammar.getSet(test.cbarrier);
+		CgSet barrier = null;
+		boolean cbarrier = false;
+		if (testBarrier != null && testCBarrier != null) {
+			System.err.println("Can't have both a barrier and a careful barrier");
 			System.exit(1);
 		}
-		String postag = postags.get(0);
-		return postag;
-	}
-	
-	public ArrayList<String> compositePostagsToString(ArrayList<CgCompositeTag> list) {
-		ArrayList<String> ret = new ArrayList<String>();
-		for (CgCompositeTag ctag : list) {
-			ret.add(compositePostagToString(ctag));
-		}
-		return ret;
-	}
-	
-	public String[] cleanForms(String[] words) {
-		for (int i=0;i<words.length;i++) {
-			words[i] = words[i].replaceAll(">\"r?i?", "").replaceAll(">\"", "").replaceAll("\"<","").replaceAll("\"r?i?", "");
-		}
-		return words;
-	}
-	
-	public String glueWords(String[] words) {
-		StringBuilder sb = new StringBuilder();
-		if (words == null) {
-			return "";
-		}
-		for (String word : words) {
-			sb.append(word);
-			sb.append("|");
-		}
-		String str = sb.toString();
-		if (str.length() > 1) {
-			return str.substring(0,str.length()-1);
+		if (testBarrier != null) {
+			barrier = testBarrier;
+			cbarrier = false;
+		} else if (testCBarrier != null) {
+			barrier = testCBarrier;
+			cbarrier = true;
 		} else {
-			return str;
+			barrier = new CgSet();
+			cbarrier = false;
 		}
+		if (test.line == 548 && test.offset == 1) {
+			System.out.println();
+		}
+		return new Token(testTarget,testCareful,testOffset,testScanAhead,testScanBehind,barrier,cbarrier,0,testNot);
+		
 	}
 	
-	public String glueWords(ArrayList<String> words) {
-		StringBuilder sb = new StringBuilder();
-		if (words == null) {
-			return "";
-		}
-		for (String word : words) {
-			sb.append(word);
-			sb.append("|");
-		}
-		String str = sb.toString();
-		if (str.length() > 1) {
-			return str.substring(0,str.length()-1);
-		} else {
-			return str;
-		}
-	}
-	
-	// takes a CgSet and, if it contains sets, expands them according to the proper
-	// set operators (set_ops) and returns the new set.
-	//
+	/**
+	 * takes a CgSet and, if it contains nested sets, expands them according to the proper
+	 * set operators (set_ops) and returns the new set.
+	 */
 	public CgSet expandSetSets(CgSet set) {
 		CgSet newSet = new CgSet();
 		newSet.line = set.line;
@@ -1264,200 +1306,55 @@ public class CgRuleConverter extends RuleConverter {
 		return newSet;
 	}
 	
-	public int getPositionOfTarget(Token[] tokens) {
-		Token firstToken = tokens[0];
-		return -1 * firstToken.offset;
-	}
-	
-	public Token getTokenFromNormalTest(CgContextualTest test) {
-		CgSet testTarget = expandSetSets(grammar.getSet(test.target));
-		boolean testCareful = test.pos.contains(POS.POS_CAREFUL.value);
-		int testOffset = test.offset;
-		boolean testScanAhead = test.pos.contains(POS.POS_SCANFIRST.value) && testOffset >= 0;
-		boolean testScanBehind = test.pos.contains(POS.POS_SCANFIRST.value) && testOffset < 0;
-		boolean testNot = test.pos.contains(POS.POS_NOT.value);
-		CgSet testBarrier = grammar.getSet(test.barrier);
-		CgSet testCBarrier = grammar.getSet(test.cbarrier);
-		CgSet barrier = null;
-		boolean cbarrier = false;
-		if (testBarrier != null && testCBarrier != null) {
-			System.err.println("Can't have both a barrier and a careful barrier");
-			System.exit(1);
-		}
-		if (testBarrier != null) {
-			barrier = testBarrier;
-			cbarrier = false;
-		} else if (testCBarrier != null) {
-			barrier = testCBarrier;
-			cbarrier = true;
-		} else {
-			barrier = new CgSet();
-			cbarrier = false;
-		}
-		if (test.line == 548 && test.offset == 1) {
-			System.out.println();
-		}
-		return new Token(testTarget,testCareful,testOffset,testScanAhead,testScanBehind,barrier,cbarrier,0,testNot);
-		
-	}
 
+	
+	
+	
+	
+	
+	
+	
+	
 	@Override
-	public HashMap<String, String> parseRule(String rule) {
-		return null;
-	}
-	
-	// can we grab the surface forms, base forms, and postags all at the same time?
-	// each set contains single tags, composite tags, and other sets (which is handled recursively)
-	// and each contextual test targets only one set.
-	// each element of the set contributes to a certain part of the corresponding LT token:
-	// postags -> postag="x"
-	// surface/base forms -> <token (inflected)>"x"</token>
-	// if we have a composite tag with only postags, it gets represented as a single string, like (prn p3) -> prn:.*p3.* or something
-	// if we have a composite tag with a surface/base form and a postag, it gets split into the token part and the postag part.
-	// we can't include different postags/tokens in the same rule. Like if we have a rule with a target of (prep "to") (det "the"), we can't 
-	// represent that in one LT disambiguation rule. So maybe we can grab the surface/base forms, the postags, then check to see if we have 
-	// either more than one postag, or more than one token. If we have both, we can't proceed. In this way, we can use the methods that we've 
-	// already defined here.
-	
-	// only returns the single tag baseforms, because the composite tag ones can't be split up
-	public String[] getBaseForms(CgSet set) {
-		ArrayList<String> forms = new ArrayList<String>();
-		if (!set.single_tags.isEmpty()) {
-			for (CgTag tag : set.single_tags) {
-				if (isBaseForm(tag.tag)) {
-					forms.add(tag.tag);
-				}
-			}
+	public String generateName(Object ruleObject) {
+		CgRule rule = (CgRule) ruleObject;
+		String name = rule.name;
+		if (name == null) {
+			name = "rule_" + nameIndex;
+			nameIndex++;
 		}
-		return forms.toArray(new String[forms.size()]);
+		return name;
 	}
 	
-	// only returns the single_tag surface forms, because the composite tag ones shouldn't be split up
-	public String[] getSurfaceForms(CgSet set) {
-		ArrayList<String> forms = new ArrayList<String>();
-		if (!set.single_tags.isEmpty()) {
-			for (CgTag tag : set.single_tags) {
-				if (isSurfaceForm(tag.tag)) {
-					forms.add(tag.tag);
-				}
-			}
+	@Override
+	public String generateId(Object ruleObject) {
+		CgRule rule = (CgRule) ruleObject;
+		String name = rule.name;
+		if (name == null) {
+			name = "rule_" + idIndex;
+			idIndex++;
 		}
-		return forms.toArray(new String[forms.size()]);
+		return name;
 	}
 	
-	public String[] getPostags(CgSet set) {
-		ArrayList<String> tags = new ArrayList<String>();
-		if (!set.single_tags.isEmpty()) {
-			for (CgTag tag : set.single_tags) {
-				if (isPostag(tag.tag)) {
-					tags.add(tagToString(tag));	// language-dependent part
-				}
-			}
-		}
-		if (!set.tags.isEmpty()) {
-			for (CgCompositeTag ctag : set.tags) {
-				if (isCompositePostag(ctag)) {
-					tags.add(compositePostagToString(ctag));	// this is the language-dependent part
-				}
-			}
-		}
-		return tags.toArray(new String[tags.size()]);
+	@Override
+	public String getOriginalRuleString(Object ruleObject) {
+		CgRule rule = (CgRule) ruleObject;
+		return lines[rule.line];
 	}
 	
-	public CgCompositeTag[] getCompositeTags(CgSet set) {
-		ArrayList<CgCompositeTag> tags = new ArrayList<CgCompositeTag>();
-		if (!set.tags.isEmpty()) {
-			for (CgCompositeTag ctag : set.tags) {
-				if (!isCompositePostag(ctag)) {
-					tags.add(ctag);
-				}
-			}
-		}
-		return tags.toArray(new CgCompositeTag[tags.size()]);
+	@Override
+	public String[] getAcceptableFileTypes() {
+		String[] ft = {"default"};
+		return ft;
 	}
 	
-	public static boolean isCompositePostag(CgCompositeTag ctag) {
-		for (CgTag tag : ctag.tags) {
-			if (isBaseForm(tag.tag) || isSurfaceForm(tag.tag)) {
-				return false;
-			}
-		}
-		return true;
-	}
 	
-	//TODO: only a stand-in for now; depends on the language-specific multiple-tag string representation
-	//TODO: THIS STILL DOESN'T WORK THAT HOT. SHOULD BE BETTER, LIKE THE TAGTOSTRING METHOD. I NEED TO THINK ABOUT THIS
-	// some complicated regex stuff going on here.
-	// only should be applied to composite postags. Composite tags with postags + s/b-forms get split in different ways
-	public static String compositePostagToString(CgCompositeTag ctag) {
-		StringBuilder sb = new StringBuilder();
-		String gluedPostag = "";
-		int noComponents = 0;
-		for (CgTag tag : ctag.tags) {
-			if (isPostag(tag.tag)) {
-				gluedPostag = gluedPostag.concat(tag.tag).concat("|");
-				noComponents++;
-			}
-		}
-		gluedPostag = "(".concat(gluedPostag.substring(0, gluedPostag.length() - 1)).concat(")");
-		sb.append("^(.*" + tagDelimiter + ")?");
-		for (int i=0;i<noComponents;i++) {
-			sb.append(gluedPostag);
-			if (i < noComponents - 1) {
-				sb.append("(" + tagDelimiter + ".*" + tagDelimiter + "?)");
-			}			
-		}
-		sb.append("(" + tagDelimiter + ".*)?$");
-		return sb.toString();
-		
-		
-	}
-	
-	// language-specific way of representing tags. Relies on a tagDelimiter, which appears to be different in different languages.
-	// For example, in French, the tags look like: "N f s" (i.e. Noun feminine singular). But in Polish they look like "N:f:s" (same).
-	// so this syntax takes care of both of those cases (as long as you change the tagDelimiter), wherever in the postag string 
-	// the tag appears.
-	public String tagToString(CgTag tag) {
-		/*
-		if (tag.tag.equals(sent_end)) {
-			return sent_end;
-		}
-		if (tag.tag.equals(sent_start)) {
-			return sent_start;
-		}
-		StringBuilder sb = new StringBuilder();
-		String t = tag.tag;
-		sb.append("^" + t + "$|");											// the tag is the only tag
-		sb.append("^" + t + tagDelimiter + ".*|");							// the tag is the first tag
-		sb.append(".*" + tagDelimiter + t + tagDelimiter + ".*|");			// the tag is in the middle somewhere
-		sb.append(".*" + tagDelimiter + t + "$");							// the tag is the last tag
-		
-		return sb.toString();
-		*/
-		return tag.tag;
-	}
-	
-	public String toStringRegexpFormat(String t) {
-		StringBuilder sb = new StringBuilder();
-		sb.append("^(.*" + tagDelimiter + ")?");
-		sb.append(t);
-		sb.append("(" + tagDelimiter + ".*)?$");
-		
-		return sb.toString();
-	}
-	
-	public static boolean isPostag(String tag) {
-		return !(tag.matches("\"\\<.*\\>\"r?i?") || tag.matches("\".*\"r?i?"));
-	}
-	
-	public static boolean isSurfaceForm(String form) {
-		return (form.matches("\"\\<.*\\>\"r?i?") || form.matches("\"\"\\<.*\\>\"r?i?\""));
-	}
-	
-	public static boolean isBaseForm(String form) {
-		return (form.matches("\"[^<]*[^>]\"r?i?") || form.matches("\"\"[^<]*[^>]\"r?i?\""));
-	}
-	
+	/**
+	 * Token class: contains the elements that will be written into <token> elements in the resulting LT rule
+	 * @author mbryant
+	 *
+	 */
 	public class Token implements Comparable<Token> {
 
 		// target consists of the expanded CgSet, with no nested sets.
@@ -1486,10 +1383,10 @@ public class CgRuleConverter extends RuleConverter {
 		// copy constructor
 		public Token(Token another) {
 			this.target = new CgSet(another.target);
-			this.postags = getPostags(target);
-			this.surfaceforms = getSurfaceForms(target);
-			this.baseforms = getBaseForms(target);
-			this.compositeTags = getCompositeTags(target);
+			this.postags = target.getPostagsString();
+			this.surfaceforms = target.getSingleTagSurfaceformsString();
+			this.baseforms = target.getSingleTagBaseformsString();
+			this.compositeTags = target.getCompositeTags();
 			this.careful = another.careful;
 			this.offset = another.offset;
 			this.scanahead = another.scanahead;
@@ -1507,10 +1404,10 @@ public class CgRuleConverter extends RuleConverter {
 					 boolean careful, int offset, boolean scanahead, boolean scanbehind,
 					 CgSet barrier, boolean cbarrier, int skip, boolean negate) {
 			this.target = target;
-			this.postags = getPostags(target);
-			this.surfaceforms = getSurfaceForms(target);
-			this.baseforms = getBaseForms(target);
-			this.compositeTags = getCompositeTags(target);
+			this.postags = target.getPostagsString();
+			this.surfaceforms = target.getSingleTagSurfaceformsString();
+			this.baseforms = target.getSingleTagBaseformsString();
+			this.compositeTags = target.getCompositeTags();
 			this.careful = careful;
 			this.offset = offset;
 			this.scanahead = scanahead;
@@ -1542,7 +1439,31 @@ public class CgRuleConverter extends RuleConverter {
 		}
 	}
 	
-	public boolean sameStrings(String[] s1, String[] s2) {
+	
+	// ** SOME STATIC STRING-CHECKING METHODS **
+	
+	public static boolean isPostag(String tag) {
+		return !(tag.matches("\"\\<.*\\>\"r?i?") || tag.matches("\".*\"r?i?"));
+	}
+	
+	public static boolean isSurfaceForm(String form) {
+		return (form.matches("\"\\<.*\\>\"r?i?") || form.matches("\"\"\\<.*\\>\"r?i?\""));
+	}
+	
+	public static boolean isBaseForm(String form) {
+		return (form.matches("\"[^<]*[^>]\"r?i?") || form.matches("\"\"[^<]*[^>]\"r?i?\""));
+	}
+	
+	public static boolean isCompositePostag(CgCompositeTag ctag) {
+		for (CgTag tag : ctag.tags) {
+			if (isBaseForm(tag.tag) || isSurfaceForm(tag.tag)) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public static boolean sameStrings(String[] s1, String[] s2) {
 		if (s1.length != s2.length) {
 			return false;
 		} else {
@@ -1555,98 +1476,202 @@ public class CgRuleConverter extends RuleConverter {
 		return true;
 	}
 	
-	// takes a rule that has unification tags (e.g. $$NUMBER) and splits it into several easier to handle rules
-	public ArrayList<CgRule> splitUnificationRule(CgRule rule, CgGrammar grammar) {
-		ArrayList<CgRule> rules = new ArrayList<CgRule>();
-		// go over all the tests in the test_map, which should contain all tests for the entire rule, and every time you see a 
-		// unification tag, put in one of its component parts and add that modified rule to the list of new rules.
-		HashSet<CgSet> unifyingSets = new HashSet<CgSet>();
-		// add all the unifying sets in the rule
-		for (Iterator<Integer> iter = rule.test_map.keySet().iterator(); iter.hasNext(); ) {
-			CgContextualTest curTest = rule.test_map.get(iter.next());
-			CgSet target = grammar.getSet(curTest.target);
-			for (Integer setint : target.sets) {
-				CgSet set = grammar.getSet(setint);
-				if (set.type.contains(ST.ST_TAG_UNIFY.value)) {
-					unifyingSets.add(set);
-				}
+	
+	
+	// ** METHODS THAT RETURN WRITABLE FORMS FOR CONSTRAINT GRAMMAR TAGS/SETS **
+	
+	public static String glueWords(ArrayList<String> words) {
+		StringBuilder sb = new StringBuilder();
+		if (words == null) {
+			return "";
+		}
+		for (String word : words) {
+			sb.append(word);
+			sb.append("|");
+		}
+		String str = sb.toString();
+		if (str.length() > 1) {
+			return str.substring(0,str.length()-1);
+		} else {
+			return str;
+		}
+	}
+	
+	public static String glueWords(String[] words) {
+		StringBuilder sb = new StringBuilder();
+		if (words == null) {
+			return "";
+		}
+		for (String word : words) {
+			sb.append(word);
+			sb.append("|");
+		}
+		String str = sb.toString();
+		if (str.length() > 1) {
+			return str.substring(0,str.length()-1);
+		} else {
+			return str;
+		}
+	}
+	
+	/** 
+	 * Removes the quotation marks, angle brackets, and suffixes from surface/base forms
+	 * @param words
+	 * @return
+	 */
+	public static String[] cleanForms(String[] words) {
+		for (int i=0;i<words.length;i++) {
+			words[i] = words[i].replaceAll(">\"r?i?", "").replaceAll(">\"", "").replaceAll("\"<","").replaceAll("\"r?i?", "");
+		}
+		return words;
+	}
+	
+	// this is problematic, in that I don't know how to write these regular expressions when we have
+	// different morphological tag syntax, as Polish or French.
+	public static String filterRegexp(CgSet target) {
+		String[] postags = target.getPostagsString();
+		String postagString = glueWords(postags);
+		postagString = "(".concat(postagString).concat(")");
+		String postagRegexp = toStringRegexpFormat(postagString);
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append("(?!");
+		sb.append(postagRegexp);
+		sb.append(").*");
+		return sb.toString();
+	}
+	
+	// formats the target for use with disambiguation action="remove" keyword
+	// assuming they support regular expressions, which they currently don't but kind of have to in order to work
+	public static String removeTarget(CgSet target) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("<wd ");
+		// these should always be the correct lengths, because if they weren't, they should have been split earlier.
+		String[] lemmas = target.getSingleTagBaseformsString();
+		String[] postags = target.getPostagsString();
+		CgCompositeTag[] compositeTags = target.getCompositeTags();
+		String[] surfaceforms = target.getSingleTagSurfaceformsString();
+		
+		if (lemmas.length > 0 && (compositeTags.length > 0 || postags.length > 0 || surfaceforms.length > 0)) {
+			System.err.println("Error: something went wrong here.");
+		}
+		
+		sb.append("/>");
+		return sb.toString();
+	}
+	
+	public static String replaceRegexp(CgSet target) {
+		String[] postags = target.getPostagsString();
+		String postagString = glueWords(postags);
+		postagString = "(".concat(postagString).concat(")");
+		String postagRegexp = toStringRegexpFormat(postagString);
+		return postagRegexp;
+		
+	}
+	
+	public static String addRegexp(CgSet target) {
+		String[] postags = target.getSingleTagPostagsString();
+		if (postags.length != 1) {
+			System.err.println("Error: trying to map more than one mapping tag on line " + target.line);
+			System.exit(1);
+		}
+		String postag = postags[0];
+		return postag;
+	}
+	
+	// ** LANGUAGE-DEPENDENT METHODS **
+	
+	public static String postagsToString(String[] postags) {
+		if (postags.length == 0) {
+			return "";
+		}
+		StringBuilder sb = new StringBuilder();
+		sb.append("(.*" + tagDelimiter + ")?");
+		String postagsGlued = glueWords(postags);
+		sb.append(postagsGlued);
+		sb.append("(" + tagDelimiter + ".*)?");
+		return sb.toString();
+	}
+	
+	public static String toStringRegexpFormat(String t) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("^(.*" + tagDelimiter + ")?");
+		sb.append(t);
+		sb.append("(" + tagDelimiter + ".*)?$");
+		
+		return sb.toString();
+	}
+	
+	//TODO: only a stand-in for now; depends on the language-specific multiple-tag string representation
+	//TODO: THIS STILL DOESN'T WORK THAT HOT. SHOULD BE BETTER, LIKE THE TAGTOSTRING METHOD. I NEED TO THINK ABOUT THIS
+	// some complicated regex stuff going on here.
+	// only should be applied to composite postags. Composite tags with postags + s/b-forms get split in different ways
+	public static String compositePostagToString(CgCompositeTag ctag) {
+		StringBuilder sb = new StringBuilder();
+		String gluedPostag = "";
+		int noComponents = 0;
+		for (CgTag tag : ctag.tags) {
+			if (isPostag(tag.tag)) {
+				gluedPostag = gluedPostag.concat(tag.tag).concat("|");
+				noComponents++;
 			}
 		}
-		CgSet targetSet = grammar.getSet(rule.target);
-		for (int setint : targetSet.sets) {
-			if (grammar.getSet(setint).type.contains(ST.ST_TAG_UNIFY.value)) {
-				unifyingSets.add(grammar.getSet(setint));
-			}
+		gluedPostag = "(".concat(gluedPostag.substring(0, gluedPostag.length() - 1)).concat(")");
+		sb.append("^(.*" + tagDelimiter + ")?");
+		for (int i=0;i<noComponents;i++) {
+			sb.append(gluedPostag);
+			if (i < noComponents - 1) {
+				sb.append("(" + tagDelimiter + ".*" + tagDelimiter + "?)");
+			}			
 		}
-		// if no unifying sets, just return the rule
-		if (unifyingSets.size() == 0) {
-			rules.add(rule);
-		}
-		for (CgSet unifyingSet : unifyingSets) {
-			CgSet unifyingSetExpanded = expandSetSets(unifyingSet);
-			// TODO: ALSO NEEDS COMPOSITE TAGS
-			for (CgTag tag : unifyingSetExpanded.single_tags) {
-				CgSet oldTargetSet = new CgSet(grammar.getSet(rule.target));
-				CgRule newRule = new CgRule(rule);
-				if (oldTargetSet.sets.contains(unifyingSet.hash)) {
-					oldTargetSet.sets.remove((Object)unifyingSet.hash);
-					oldTargetSet.single_tags.add(tag);
-					oldTargetSet.rehash();
-					grammar.addSet(oldTargetSet);
-					newRule.target = oldTargetSet.hash;
-				}
-				
-				for (Iterator<Integer> iter = newRule.test_map.keySet().iterator(); iter.hasNext();) {
-					int testKey = iter.next();
-					CgContextualTest test = newRule.test_map.get(testKey);
-					CgSet oldTestTargetSet = new CgSet(grammar.getSet(test.target));
-					if (oldTestTargetSet.sets.contains(unifyingSet.hash)) {
-						oldTestTargetSet.sets.remove(unifyingSet);
-						oldTestTargetSet.single_tags.add(tag);
-						oldTestTargetSet.rehash();
-						grammar.addSet(oldTestTargetSet);
-						test.target = oldTestTargetSet.hash;
-					}
-					newRule.test_map.put(testKey, test);
-				}
-				rules.add(newRule);
-			}
-		}
-		return rules;
+		sb.append("(" + tagDelimiter + ".*)?$");
+		return sb.toString();
 	}
 	
-	@Override
-	public String generateName(Object ruleObject) {
-		CgRule rule = (CgRule) ruleObject;
-		String name = rule.name;
-		if (name == null) {
-			name = "rule_" + nameIndex;
-			nameIndex++;
+	// language-specific way of representing tags. Relies on a tagDelimiter, which appears to be different in different languages.
+	// For example, in French, the tags look like: "N f s" (i.e. Noun feminine singular). But in Polish they look like "N:f:s" (same).
+	// so this syntax takes care of both of those cases (as long as you change the tagDelimiter), wherever in the postag string 
+	// the tag appears.
+	public static String tagToString(CgTag tag) {
+		/*
+		if (tag.tag.equals(sent_end)) {
+			return sent_end;
 		}
-		return name;
-	}
-	
-	@Override
-	public String generateId(Object ruleObject) {
-		CgRule rule = (CgRule) ruleObject;
-		String name = rule.name;
-		if (name == null) {
-			name = "rule_" + idIndex;
-			idIndex++;
+		if (tag.tag.equals(sent_start)) {
+			return sent_start;
 		}
-		return name;
+		StringBuilder sb = new StringBuilder();
+		String t = tag.tag;
+		sb.append("^" + t + "$|");											// the tag is the only tag
+		sb.append("^" + t + tagDelimiter + ".*|");							// the tag is the first tag
+		sb.append(".*" + tagDelimiter + t + tagDelimiter + ".*|");			// the tag is in the middle somewhere
+		sb.append(".*" + tagDelimiter + t + "$");							// the tag is the last tag
+		
+		return sb.toString();
+		*/
+		return tag.tag;
 	}
 	
-	@Override
-	public String getRuleAsString(Object ruleObject) {
-		CgRule rule = (CgRule) ruleObject;
-		return lines[rule.line];
-	}
-	
-	@Override
-	public String[] getAcceptableFileTypes() {
-		String[] ft = {"default"};
-		return ft;
+	/**
+	 * Helper to properly put an item to a map where the values are lists
+	 * @param <K>
+	 * @param <V>
+	 * @param map
+	 * @param key
+	 * @param value
+	 * @return
+	 */
+	public static <K,V> TreeMap<K,ArrayList<V>> smartPut(TreeMap<K,ArrayList<V>> map, K key, V value) {
+		if (map.containsKey(key)) {
+			ArrayList<V> original = map.get(key);
+			original.add(value);
+			map.put(key, original);
+		} else {
+			ArrayList<V> newcollection = new ArrayList<V>();
+			newcollection.add(value);
+			map.put(key, newcollection);
+		}
+		return map;
 	}
 
 }

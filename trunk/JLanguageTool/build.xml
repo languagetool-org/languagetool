@@ -37,6 +37,8 @@
 		<pathelement location="${dist.dir}/rules" />
 		<!-- tika lib -->
 		<pathelement location="${ext.tika.lib}" />
+        <!-- -->
+        <pathelement location="${ext.xmlsyntax.lib}" />
 	</path>
 
 	<path id="classpath">
@@ -322,7 +324,7 @@
         <jar jarfile="${dist.dir}/RuleConverterGUI.jar" basedir="${build.classes}" includes="de/danielnaber/languagetool/dev/conversion/*.class">
             <manifest>
                 <attribute name="Main-Class" value="de.danielnaber.languagetool.dev.conversion.gui.Main" />
-                <attribute name="Class-Path" value="./ ./rules ./resource ./${final.name}.jar" />
+                <attribute name="Class-Path" value="./ ./rules ./resource ./${final.name}.jar ./${xmlsyntax.lib}" />
                 <attribute name="Implementation-Version" value="${version}" />
                 <attribute name="Implementation-Date" value="${date}" />
             </manifest>
@@ -454,6 +456,7 @@
 	<copy file="${ext.bliki.lib}" todir="${dist.dir}" />
 	<copy file="${ext.junit.lib}" todir="${dist.dir}" />
 	<copy file="${ext.tika.lib}" todir="${dist.dir}" />
+    <copy file="${ext.xmlsyntax.lib}" todir="${dist.dir}" />
 	
 	<copy file="${ext.ictclas4j.lib}" todir="${dist.dir}" />
 	<copy file="${ext.CJFtransform.lib}" todir="${dist.dir}" />

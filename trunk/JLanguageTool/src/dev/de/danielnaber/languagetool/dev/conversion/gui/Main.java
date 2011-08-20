@@ -35,35 +35,50 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRootPane;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.KeyStroke;
 import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
 
+import net.boplicity.xmleditor.*;
+
+import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.dev.conversion.CgRuleConverter;
 import de.danielnaber.languagetool.dev.conversion.AtdRuleConverter;
 import de.danielnaber.languagetool.dev.conversion.RuleConverter;
 import de.danielnaber.languagetool.dev.conversion.RuleCoverage;
+import de.danielnaber.languagetool.rules.Rule;
 import de.danielnaber.languagetool.rules.patterns.PatternRule;
 
 public final class Main implements ActionListener {
 
 	private JFrame frame;
-	private JTextArea resultArea;
+	private XmlTextPane resultArea;
 	private JComboBox ruleTypeBox;
 	private JComboBox specificRuleTypeBox;
 	private JComboBox rulesBox;
 	private JButton convert;
 	private JButton saveEditedRule;
+	private JButton deleteCurrentRule;
 	private JTextPane coveredByPane;
 	private JCheckBox writeCoveredRules;
 	private JTextPane mainRuleFilePane;
+	private JTextPane outFilePane;
+	private JTextPane disambigOutFilePane;
+	
 	private JCheckBox regularRules;
 	private JCheckBox disambigRules;
+	private JCheckBox noWarningRules;
+	private JCheckBox warningRules;
+	private JCheckBox coveredRules;
+	private JCheckBox notCoveredRules;
+	
 	private JTextPane numRulesPane;
+	private JTextPane displayedNumRulesPane;
 	private JButton checkRulesCoveredButton;
+	private JButton recheckCurrentRuleCoverage;
 	private JButton writeRulesToFileButton;
+	private JTextPane warningPane;
 	
 	private RuleCoverage checker;
 	
@@ -71,21 +86,22 @@ public final class Main implements ActionListener {
 	private ArrayList<List<String>> allRulesList;
 	private ArrayList<String> ruleStrings;
 	private ArrayList<String> originalRuleStrings;
+	private ArrayList<String> warnings;
 	private boolean[] disambigRuleIndices;
-	private String[] coveredByList;	// only applies to regular LT rules
+	private ArrayList<String[]> coveredByList;	// only applies to regular LT rules
 	
 	private String filename = "";
 	private String outfilename = "";
 	private String disambigOutFile = "";
 	
 	private String specificFileType;
-	private int numberOfRules = 0;
+	private int numberOfRules;
 
 	private static String cgString = "Constraint Grammar";
 	private static String atdString = "After the Deadline";
 	
-	private static final int WINDOW_WIDTH = 800;
-	private static final int WINDOW_HEIGHT = 750;
+	private static final int WINDOW_WIDTH = 850;
+	private static final int WINDOW_HEIGHT = 800;
 	
 	private void createGUI() {
 		// main frame
@@ -95,9 +111,7 @@ public final class Main implements ActionListener {
 		setLookAndFeel();
 		
 		// converted rule area
-		resultArea = new JTextArea();
-		resultArea.setLineWrap(true);
-		resultArea.setWrapStyleWord(true);
+		resultArea = new XmlTextPane();
 		resultArea.requestFocusInWindow();
 		JScrollPane scrollPane = new JScrollPane(resultArea);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -111,6 +125,7 @@ public final class Main implements ActionListener {
 			public void actionPerformed(ActionEvent e) {
 				displaySelectedRule();
 				displayCoveredBy();
+				displayWarnings();
 			}
 		});
 		
@@ -133,6 +148,14 @@ public final class Main implements ActionListener {
 		mainRuleFilePane.setText(filename);
 		mainRuleFilePane.setBorder(new LineBorder(Color.BLACK,1));
 		
+		outFilePane = new JTextPane();
+		outFilePane.setText(outfilename);
+		outFilePane.setBorder(new LineBorder(Color.BLACK,1));
+		
+		disambigOutFilePane = new JTextPane();
+		disambigOutFilePane.setText(disambigOutFile);
+		disambigOutFilePane.setBorder(new LineBorder(Color.BLACK,1));
+		
 		// convert button
 		convert = new JButton("Convert");
 		convert.setMnemonic('C');
@@ -143,6 +166,16 @@ public final class Main implements ActionListener {
 	            populateRuleBox();
 	        }
 	    });
+		
+		deleteCurrentRule = new JButton("Delete current rule");
+		deleteCurrentRule.setMnemonic('D');
+		deleteCurrentRule.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				deleteCurrentRule();
+			}
+		});
 		
 		// save rule button
 		saveEditedRule =  new JButton("Save rule");
@@ -164,21 +197,37 @@ public final class Main implements ActionListener {
 		coveredByPane = new JTextPane();
 		coveredByPane.setBorder(new LineBorder(Color.BLACK,1));
 		
+		// warnings pane
+		warningPane = new JTextPane();
+		warningPane.setBorder(new LineBorder(Color.BLACK,1));
+		
+		// put coveredByPane and warningPane together in one JPanel
+		JPanel coveredWarningPanel = new JPanel(new GridBagLayout());
+		GridBagConstraints cwcons = new GridBagConstraints();
+		cwcons.weightx = 1f;
+		cwcons.fill = GridBagConstraints.BOTH;
+		cwcons.anchor = GridBagConstraints.WEST;
+		coveredWarningPanel.add(new JLabel("Covered by:"),cwcons);
+		cwcons.gridx = 1;
+		coveredWarningPanel.add(new JLabel("Warnings:"),cwcons);
+		cwcons.gridy = 1;
+		coveredWarningPanel.add(warningPane,cwcons);
+		cwcons.gridx = 0;
+		coveredWarningPanel.add(coveredByPane,cwcons);
+		
 		// display regular and/or disambiguation rules check box
 		regularRules = new JCheckBox("Show regular rules",true);
 		disambigRules = new JCheckBox("Show disambiguation rules",true);
-		regularRules.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				populateRuleBox();
-			}
-		});
-		disambigRules.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				populateRuleBox();
-			}
-		});
+		warningRules = new JCheckBox("Show rules with warnings",true);
+		noWarningRules = new JCheckBox("Show rules without warnings",true);
+		coveredRules = new JCheckBox("Show covered rules",true);
+		notCoveredRules = new JCheckBox("Show not covered rules",true);
+		regularRules.addActionListener(this);
+		disambigRules.addActionListener(this);
+		warningRules.addActionListener(this);
+		noWarningRules.addActionListener(this);
+		coveredRules.addActionListener(this);
+		notCoveredRules.addActionListener(this);
 		
 		// write covered rules to file check box
 		writeCoveredRules = new JCheckBox("Write duplicate rules to file");
@@ -188,10 +237,15 @@ public final class Main implements ActionListener {
 		checkRulesCoveredButton.setMnemonic('E');
 		checkRulesCoveredButton.addActionListener(this);
 		
+		recheckCurrentRuleCoverage = new JButton("Check displayed rule coverage");
+		recheckCurrentRuleCoverage.setMnemonic('R');
+		recheckCurrentRuleCoverage.addActionListener(this);
+		
 		// number of rules display
-		final JLabel numRulesLabel = new JLabel("Number of rules:");
+		final JLabel numRulesLabel = new JLabel("Total number of rules:");
 		numRulesPane = new JTextPane();
-		numRulesPane.setText(Integer.toString(numberOfRules));
+		final JLabel numDisplayedRulesLabel = new JLabel("Number of displayed rules:");
+		displayedNumRulesPane = new JTextPane();
 		
 		// add everything into the frame
 		final Container contentPane = frame.getContentPane();
@@ -228,6 +282,16 @@ public final class Main implements ActionListener {
 	    displayRulesPanel.add(regularRules,c);
 	    c.gridx = 1;
 	    displayRulesPanel.add(disambigRules,c);
+	    c.gridx = 0;
+	    c.gridy = 1;
+	    displayRulesPanel.add(warningRules,c);
+	    c.gridx = 1;
+	    displayRulesPanel.add(noWarningRules,c);
+	    c.gridx = 0;
+	    c.gridy = 2;
+	    displayRulesPanel.add(coveredRules,c);
+	    c.gridx = 1;
+	    displayRulesPanel.add(notCoveredRules,c);
 	    
 	    buttonCons.gridy = 1;
 	    insidePanel.add(displayRulesPanel,buttonCons);
@@ -236,31 +300,44 @@ public final class Main implements ActionListener {
 	    c.gridx = 0;
 	    convertPanel.add(checkRulesCoveredButton,c);
 	    c.gridx = 1;
-	    convertPanel.add(convert,c);
+	    convertPanel.add(recheckCurrentRuleCoverage,c);
 	    
 	    buttonCons.gridy = 2;
 	    buttonCons.fill = GridBagConstraints.NONE;
 	    insidePanel.add(convertPanel,buttonCons);
+	    buttonCons.gridy = 3;
+	    
 	    
 	    JPanel savePanel = new JPanel(new GridBagLayout());
 	    c.gridx = 0;
 	    savePanel.add(saveEditedRule,c);
 	    c.gridx = 1;
 	    savePanel.add(writeRulesToFileButton,c);
-	    
-	    buttonCons.gridy = 3;
+	    c.gridx = 2;
+	    savePanel.add(deleteCurrentRule,c);
 	    insidePanel.add(savePanel,buttonCons);
 	    
 	    buttonCons.gridy = 4;
-	    insidePanel.add(writeCoveredRules,buttonCons);
+	    insidePanel.add(convert,buttonCons);
+	    
+	    
+	    buttonCons.gridy = 5;
+	    JPanel writeOptionsPanel = new JPanel(new GridBagLayout());
+	    c.gridx = 0;
+	    writeOptionsPanel.add(writeCoveredRules,c);
+	    insidePanel.add(writeOptionsPanel,buttonCons);
 	    
 	    JPanel numRulesPanel = new JPanel(new GridBagLayout());
 	    c.gridx = 0;
 	    numRulesPanel.add(numRulesLabel,c);
 	    c.gridx = 1;
 	    numRulesPanel.add(numRulesPane,c);
+	    c.gridx = 2;
+	    numRulesPanel.add(numDisplayedRulesLabel,c);
+	    c.gridx = 3;
+	    numRulesPanel.add(displayedNumRulesPane,c);
 	    
-	    buttonCons.gridy = 5;
+	    buttonCons.gridy = 6;
 	    insidePanel.add(numRulesPanel,buttonCons);
 	    
 	    cons.gridx = 0;
@@ -292,16 +369,22 @@ public final class Main implements ActionListener {
 	    cons.weightx = 0;
 	    cons.weighty = 0;
 	    cons.anchor = GridBagConstraints.WEST;
-	    contentPane.add(new JLabel("Covered by:"),cons);
+	    contentPane.add(coveredWarningPanel,cons);
 	    cons.gridy = 5;
-	    contentPane.add(coveredByPane,cons);
-	    cons.gridy = 6;
 	    contentPane.add(insidePanel,cons);
 	    cons.gridx = 0;
-	    cons.gridy = 7;
+	    cons.gridy = 6;
 	    contentPane.add(new JLabel("Rule file:"),cons);
-	    cons.gridy = 8;
+	    cons.gridy = 7;
 	    contentPane.add(mainRuleFilePane,cons);
+	    cons.gridy = 8;
+	    contentPane.add(new JLabel("Out file:"),cons);
+	    cons.gridy = 9;
+	    contentPane.add(outFilePane,cons);
+	    cons.gridy = 10;
+	    contentPane.add(new JLabel("Disambiguation out file:"),cons);
+	    cons.gridy = 11;
+	    contentPane.add(disambigOutFilePane,cons);
 	    
 	    frame.pack();
 	    frame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -376,14 +459,90 @@ public final class Main implements ActionListener {
 		} else {
 			if (coveredByList != null) {
 				int index = getCurrentRuleIndex();
-				if (!coveredByList[index].isEmpty()) {
-					coveredByPane.setText(coveredByList[index]);
-					coveredByPane.repaint();
-				} else {
-					coveredByPane.setText("");
-					coveredByPane.repaint();
+				String[] cov = coveredByList.get(index);
+				StringBuilder sb = new StringBuilder();
+				for (String s : cov) {
+					sb.append(s + ", ");
 				}
+				coveredByPane.setText(sb.toString().trim());
+			}
+		}
+	}
+	
+	public void displayCoveringRules() {
+		String[] ruleIds = coveredByPane.getText().split(",\\ ?");
+		openExistingRuleWindow(ruleIds);
+	}
+	
+	private void tieOutFileNames() {
+		filename = getCurrentFilename();
+		outfilename = filename + ".grammar.xml";
+		disambigOutFile = filename + ".disambig.xml";
+		outFilePane.setText(outfilename);
+		disambigOutFilePane.setText(disambigOutFile);
+	}
+	
+	public void deleteCurrentRule() {
+		int index = getCurrentRuleIndex();
+		ruleObjects.remove(index);
+		allRulesList.remove(index);
+		ruleStrings.remove(index);
+		originalRuleStrings.remove(index);
+		warnings.remove(index);
+		// removing from the disambigRuleIndices array
+		disambigRuleIndices = removeIndexFromBooleanArray(disambigRuleIndices,index);
+		coveredByList.remove(index);
+		numberOfRules--;
+		numRulesPane.setText(Integer.toString(numberOfRules));
+		populateRuleBox();
+	}
+	
+	private static boolean[] removeIndexFromBooleanArray(boolean[] array, int index) {
+		boolean[] n = new boolean[array.length - 1];
+		for (int i=0;i<index;i++) {
+			n[i] = array[i];
+		}
+		for (int i=index + 1;i<array.length;i++) {
+			n[i-1] = array[i];
+		}
+		return n;
+	}
+	
+	private void openExistingRuleWindow(String[] ruleIds) {
+		JLanguageTool tool = checker.getLanguageTool();
+		String fetchedRuleString = "<pre>";
+		List<Rule> rules = tool.getAllRules();
+		for (String ruleId : ruleIds) {
+			for (Rule rule : rules) {
+				if (rule.getId().equals(ruleId)) {
+					// can only display pattern rules
+				try {
+					PatternRule patternRule = (PatternRule)rule;
+					String tempRuleString = patternRule.toXML();
+					tempRuleString = tempRuleString.replaceAll("\\<","&lt;").replaceAll("\\>", "&gt;");
+					fetchedRuleString = fetchedRuleString.concat(tempRuleString).concat("<br>");
+					break;
+				} catch (ClassCastException e) {
+					fetchedRuleString += "Can't display Java rules";
+					break;
+				}
+			}
 				
+			}
+			
+		}
+		fetchedRuleString = fetchedRuleString.concat("</pre>");
+		showDialog("<html>" + fetchedRuleString + "</html>");
+	}
+	
+	private void displayWarnings() {
+		if (rulesBox.getSelectedIndex() == -1) {
+			warningPane.setText("");
+		} else {
+			if (warnings != null) {
+				int index = getCurrentRuleIndex();
+				warningPane.setText(warnings.get(index));
+				warningPane.repaint();
 			}
 		}
 	}
@@ -393,18 +552,18 @@ public final class Main implements ActionListener {
 		this.rulesBox.removeAllItems();
 		try {
 			// the generic rule objects, just used for building the other lists
+			rc.parseRuleFile();
 			ruleObjects = rc.getRules();	
 			// lists of strings
-			allRulesList = rc.getAllLtRules(ruleObjects);
+			allRulesList = rc.getAllLtRules();
 			// rules in LT format, as strings
 			ruleStrings = new ArrayList<String>();
 			// original rule strings
-			originalRuleStrings = new ArrayList<String>();
+			originalRuleStrings = rc.getOriginalRuleStrings();
+			// warnings
+			warnings = rc.getWarnings();
 			// populating the string lists
-			for (int i=0;i<ruleObjects.size();i++) {
-				Object ruleObject = ruleObjects.get(i);
-				String originalString = rc.getRuleAsString(ruleObject);
-				originalRuleStrings.add(originalString);
+			for (int i=0;i<allRulesList.size();i++) {
 				List<String> ruleList = allRulesList.get(i);
 				String ruleString = RuleConverter.getRuleStringFromList(ruleList);
 				ruleStrings.add(ruleString);
@@ -419,7 +578,7 @@ public final class Main implements ActionListener {
 //				coveredByList[i] = "";
 			disambigRuleIndices = new boolean[allRulesList.size()];
 			// list of existing LT rules that cover the new rules
-			coveredByList = new String[allRulesList.size()];
+			coveredByList = new ArrayList<String[]>();
 			numberOfRules = allRulesList.size();
 			numRulesPane.setText(Integer.toString(numberOfRules));
 			
@@ -430,8 +589,10 @@ public final class Main implements ActionListener {
 				} else {
 					disambigRuleIndices[i] = false;
 				}
-				coveredByList[i] = "";
+				coveredByList.add(new String[0]);
 			}
+			
+			tieOutFileNames();
 			
 		} catch (IOException e) {
 			showDialog("IOException while loading/parsing file " + filename);
@@ -448,6 +609,7 @@ public final class Main implements ActionListener {
 					ruleStrings.remove(i);
 					allRulesList.remove(i);
 					ruleObjects.remove(i);
+					warnings.remove(i);
 					break;
 				} else {
 					if (i == originalRuleStrings.size() - 1) notdone = false;
@@ -458,29 +620,61 @@ public final class Main implements ActionListener {
 	
 	private void populateRuleBox() {
 		rulesBox.removeAllItems();
+		boolean showRegularRules = regularRules.isSelected();
+		boolean showDisambigRules = disambigRules.isSelected();
+		boolean showWarningRules = warningRules.isSelected();
+		boolean showNoWarningRules = noWarningRules.isSelected();
+		boolean showCoveredRules = coveredRules.isSelected();
+		boolean showNotCoveredRules = notCoveredRules.isSelected();
+		int numDisplayed = 0;
 		if (originalRuleStrings != null) {
-			if (regularRules.isSelected() && disambigRules.isSelected()) {
-				// add all rules to the rulesBox
-				for (String r : originalRuleStrings) {
-					rulesBox.addItem(r);
-				}
-			} else if (regularRules.isSelected()) {
-				// add only non-disambiguation rules
-				for (int i=0;i<originalRuleStrings.size();i++) {
-					if (!disambigRuleIndices[i]) {
+			for (int i=0;i<originalRuleStrings.size();i++) {
+				boolean cov = coveredByList.get(i).length != 0;
+				boolean war = !warnings.get(i).equals("");
+				boolean dis = disambigRuleIndices[i];
+				if (dis && cov && war) {
+					if (showDisambigRules && showCoveredRules && showWarningRules) {
 						rulesBox.addItem(originalRuleStrings.get(i));
+						numDisplayed++;
+					}
+				} else if (dis && cov && !war) {
+					if (showDisambigRules && showCoveredRules && showNoWarningRules) {
+						rulesBox.addItem(originalRuleStrings.get(i));
+						numDisplayed++;
+					}
+				} else if (dis && !cov && war) {
+					if (showDisambigRules && showNotCoveredRules && showWarningRules) {
+						rulesBox.addItem(originalRuleStrings.get(i));
+						numDisplayed++;
+					}
+				} else if (dis && !cov && !war) {
+					if (showDisambigRules && showNotCoveredRules && showNoWarningRules) {
+						rulesBox.addItem(originalRuleStrings.get(i));
+						numDisplayed++;
+					}
+				} else if (!dis && cov && war) {
+					if (showRegularRules && showCoveredRules && showWarningRules) {
+						rulesBox.addItem(originalRuleStrings.get(i));
+						numDisplayed++;
+					}
+				} else if (!dis && cov && !war) {
+					if (showRegularRules && showCoveredRules && showNoWarningRules) {
+						rulesBox.addItem(originalRuleStrings.get(i));
+						numDisplayed++;
+					}
+				} else if (!dis && !cov && war) {
+					if (showRegularRules && showNotCoveredRules && showWarningRules) {
+						rulesBox.addItem(originalRuleStrings.get(i));
+						numDisplayed++;
+					}
+				} else if (!dis && !cov && !war) {
+					if (showRegularRules && showNotCoveredRules && showNoWarningRules) {
+						rulesBox.addItem(originalRuleStrings.get(i));
+						numDisplayed++;
 					}
 				}
-			} else if (disambigRules.isSelected()) {
-				// add only disambiguation rules
-				for (int i=0;i<originalRuleStrings.size();i++) {
-					if (disambigRuleIndices[i]) {
-						rulesBox.addItem(originalRuleStrings.get(i));
-					}
-				}
-			} else {
-				// nothing
 			}
+			displayedNumRulesPane.setText(Integer.toString(numDisplayed));
 		}
 	}
 	
@@ -517,16 +711,60 @@ public final class Main implements ActionListener {
 			} catch (IOException ex) {
 				showError(ex);
 			}
+		} else if (e.getSource() == recheckCurrentRuleCoverage) {
+			checkDisplayedRuleCoverage();
+		} else if (e.getSource() == disambigRules || e.getSource() == regularRules || 
+				   e.getSource() == warningRules || e.getSource() == noWarningRules ||
+				   e.getSource() == coveredRules || e.getSource() == notCoveredRules) {
+			populateRuleBox();
 		}
+	}
+	
+	public void checkDisplayedRuleCoverage() {
+		try {
+			if (checker == null) {
+//				checker = new RuleCoverage();
+				checker = new RuleCoverage("/home/mbryant/languagetool/JLanguageTool/src/resource/en/english.dict");
+			}
+			// if the currently displayed rule hasn't been saved yet
+			int index = getCurrentRuleIndex();
+			if (!ruleStrings.get(index).equals(resultArea.getText())) {
+				showDialog("Current rule not yet saved");
+			} else {
+				List<PatternRule> patternRules = checker.parsePatternRule(resultArea.getText());
+				ArrayList<String[]> allCoveringRules = checker.isCoveredBy(patternRules);
+				ArrayList<String> coveringRules = new ArrayList<String>();
+				for (String[] s : allCoveringRules) {
+					for (String ss : s) {
+						coveringRules.add(ss);
+					}
+				}
+				coveredByList.set(index, coveringRules.toArray(new String[coveringRules.size()]));
+				displayCoveredBy();
+			}
+		} catch (IOException e) {
+			showDialog("Couldn't parse or check the rule's coverage for some reason");
+		}
+		
 	}
 	
 	public void checkIfAllCurrentRulesCovered() {
 		try {
-			checker = new RuleCoverage();
+//			checker = new RuleCoverage();
+			checker = new RuleCoverage("/home/mbryant/languagetool/JLanguageTool/src/resource/en/english.dict");
 			for (int i=0;i<ruleStrings.size();i++) {
-				PatternRule patternRule = checker.parsePatternRule(ruleStrings.get(i)).get(0);
-				String coveringRule = checker.isCoveredBy(patternRule);
-				coveredByList[i] = coveringRule;
+				if (disambigRuleIndices[i]) {
+					continue;	// don't check disambiguation (or immunized) rules
+				}
+				List<PatternRule> patternRules = checker.parsePatternRule(ruleStrings.get(i));
+				ArrayList<String[]> allCoveringRules = checker.isCoveredBy(patternRules);
+				ArrayList<String> coveringRules = new ArrayList<String>();
+				for (String[] s : allCoveringRules) {
+					for (String ss : s) {
+						coveringRules.add(ss);
+					}
+				}
+				coveredByList.set(i,coveringRules.toArray(new String[coveringRules.size()]));
 				displayCoveredBy();
 			}
 		} catch (IOException e) {
@@ -564,6 +802,9 @@ public final class Main implements ActionListener {
 			outfilename = filename + ".grammar.xml";
 			return outfilename;
 		} else {
+			if (!outFilePane.getText().equals(outfilename)) {
+				outfilename = outFilePane.getText();
+			}
 			return outfilename;
 		}
 	}
@@ -573,12 +814,17 @@ public final class Main implements ActionListener {
 			disambigOutFile = filename + ".disambig.xml";
 			return disambigOutFile;
 		} else {
+			if (!disambigOutFilePane.getText().equals(disambigOutFile)) {
+				disambigOutFile = disambigOutFilePane.getText();
+			}
 			return disambigOutFile;
 		}
 	}
 	
 	public void writeRulesToFile() throws IOException {
 		boolean writeCovered = writeCoveredRules.isSelected();
+		int numReg = 0;
+		int numDis = 0;
 		// write regular rules
 		if (anyRegularRules()) {
 			outfilename = getCurrentOutfile();
@@ -586,14 +832,14 @@ public final class Main implements ActionListener {
 	        w.write("<rules>\n");
 	        w.write("<category name=\"Auto-generated rules\">\n");
 	        for (int i=0;i<ruleStrings.size();i++) {
-	        	if (!disambigRuleIndices[i] && (writeCovered || (!writeCovered && coveredByList[i].equals("")))) {
+	        	if (!disambigRuleIndices[i] && (writeCovered || (!writeCovered && coveredByList.get(i).length == 0))) {
 	        		w.write(ruleStrings.get(i));
+	        		numReg++;
 	        	}
 	        }
 	        w.write("</category>\n");
 	        w.write("</rules>");
 	        w.close();
-	        showDialog("Rules written to " + outfilename);
 		}
 		// write disambiguation rules
 		if (anyDisambiguationRules()) {
@@ -603,12 +849,23 @@ public final class Main implements ActionListener {
 	        for (int i=0;i<ruleStrings.size();i++) {
 	        	if (disambigRuleIndices[i]) {
 	        		w.write(ruleStrings.get(i));
+	        		numDis++;
 	        	}
 	        }
 	        w.write("</rules>");
 	        w.close();
-	        showDialog("Rules written to " + disambigOutFile);
 		}
+		String message = "";
+		if (numReg > 0) {
+			message += Integer.toString(numReg) + " rules written to " + outfilename + "<br>";
+		}
+		if (numDis > 0) {
+			message += Integer.toString(numDis) + " rules written to " + disambigOutFile;
+		}
+		if (message.equals("")) {
+			message = "No rules written";
+		}
+		showDialog(message);
 	}
 	
 	private void populateSpecificRuleType() {
@@ -635,7 +892,7 @@ public final class Main implements ActionListener {
 	
 	private void showDialog(String fn) {
 		final JDialog writeDialog = new JDialog(this.frame);
-        JLabel label = new JLabel(fn);
+        JLabel label = new JLabel("<html>" + fn + "</html>");
         GridBagConstraints cons = new GridBagConstraints();
         cons.insets = new Insets(2,2,2,2);
         cons.gridx = 0;
@@ -685,6 +942,7 @@ public final class Main implements ActionListener {
 		String fn =	loadFile(frame, "Load grammar file", null); 
 		if (!fn.equals("nullnull")) {
 			filename = fn;
+			mainRuleFilePane.setText(filename);
 			String fileString = readFileAsString(filename);
 			if (fileString.contains("::")) {
 				ruleTypeBox.setSelectedItem("After the Deadline");
@@ -693,6 +951,7 @@ public final class Main implements ActionListener {
 				ruleTypeBox.setSelectedItem("Constraint Grammar");
 			}
 			mainRuleFilePane.setText(filename);
+			mainRuleFilePane.repaint();
 		}
 	}
 	
@@ -810,7 +1069,7 @@ public final class Main implements ActionListener {
 		private JComboBox optionsRuleType;
 		private JTextPane ruleFilePane;
 		private JButton changeRuleFile;
-		private JComboBox specificRuleTypeBox;
+		private JComboBox optionsSpecificRuleTypeBox;
 		private JTextPane outFilePane;
 		private JTextPane disambigOutFilePane;
 		private JButton okButton;
@@ -866,10 +1125,10 @@ public final class Main implements ActionListener {
 			});
 		    final JLabel ortLabel = new JLabel("Current rule type:");
 		    
-		    specificRuleTypeBox = new JComboBox();
-		    populateSpecificRuleType();
+		    optionsSpecificRuleTypeBox = new JComboBox();
+		    populateOptionsSpecificRuleType();
 		    try {
-		    	specificRuleTypeBox.setSelectedItem(specificFileType);
+		    	optionsSpecificRuleTypeBox.setSelectedItem(specificFileType);
 		    } catch (Exception e) {
 		    	// nothing
 		    }
@@ -941,7 +1200,7 @@ public final class Main implements ActionListener {
 		    cons.gridx = 1;
 		    cons.gridy = 2;
 		    cons.anchor = GridBagConstraints.WEST;
-		    contentPane.add(specificRuleTypeBox,cons);
+		    contentPane.add(optionsSpecificRuleTypeBox,cons);
 		    cons.gridx = 0;
 		    cons.gridy = 3;
 		    cons.anchor = GridBagConstraints.EAST;
@@ -994,15 +1253,15 @@ public final class Main implements ActionListener {
 		    dialog.setVisible(true);
 		}
 		
-		private void populateSpecificRuleType() {
-			String[] ft = getCurrentRuleConverter().getAcceptableFileTypes();
-			specificRuleTypeBox.removeAllItems();
+		private void populateOptionsSpecificRuleType() {
+			String[] ft = getCurrentRuleConverterOptions().getAcceptableFileTypes();
+			optionsSpecificRuleTypeBox.removeAllItems();
 			for (String s : ft) {
-				specificRuleTypeBox.addItem(s);
+				optionsSpecificRuleTypeBox.addItem(s);
 			}
 		}
 		
-		private RuleConverter getCurrentRuleConverter() {
+		private RuleConverter getCurrentRuleConverterOptions() {
 			RuleConverter rc = null;
 			String type = (String)optionsRuleType.getSelectedItem();
 			
@@ -1022,7 +1281,7 @@ public final class Main implements ActionListener {
 				mainRuleFilePane.setText(filename);
 				outfilename = outFilePane.getText();
 				disambigOutFile = disambigOutFilePane.getText();
-				specificFileType = (String)specificRuleTypeBox.getSelectedItem();
+				specificFileType = (String)optionsSpecificRuleTypeBox.getSelectedItem();
 				dialog.setVisible(false);
 			} else if (e.getSource() == cancelButton) {
 				dialog.setVisible(false);

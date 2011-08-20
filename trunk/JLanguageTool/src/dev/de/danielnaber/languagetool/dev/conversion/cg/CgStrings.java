@@ -172,6 +172,7 @@ public class CgStrings {
         }
     }
     
+    // need to write some real hashing functions
     public static final int CG3_HASH_SEED = 705577479;
     // this isn't really a good way to do this, for a number of reasons, but I really want this code to run
     public static int hash_sdbm_char(String str, int hash, int length) {

@@ -19,12 +19,9 @@
 
 package de.danielnaber.languagetool.dev.conversion;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.util.HashMap;
+
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -32,12 +29,9 @@ import java.util.regex.*;
 
 import de.danielnaber.languagetool.JLanguageTool;
 
-import morfologik.stemming.Dictionary;
-import morfologik.stemming.DictionaryLookup;
-import morfologik.stemming.IStemmer;
-
 public abstract class RuleConverter {
 
+	// indent strings
     protected static final String firstIndent = "  ";
     protected static final String secondIndent = "    ";
     protected static final String thirdIndent = "      ";
@@ -51,19 +45,26 @@ public abstract class RuleConverter {
     protected String outFileName;
     protected String ruleType;
     
+    // lists of rules
+    protected List<? extends Object> ruleObjects;
+    protected ArrayList<List<String>> allLtRules;
+    protected ArrayList<List<String>> ltRules;
+    protected ArrayList<List<String>> disambiguationRules;
+    protected ArrayList<String> originalRuleStrings;
+    protected ArrayList<String> warnings;	// list as long as allLtRules containing warning strings generating during rule conversion process
+    
+    // for auto-generating Id and name attributes
     protected int idIndex;
     protected int nameIndex;
     
+    // these should be able to be set depending on the language
     protected static String SENT_START = "SENT_START";
     protected static String SENT_END = "SENT_END";
     
-    protected static DictionaryLookup dictLookup = (DictionaryLookup) loadDictionary();
-    
-    protected static final Pattern wordReference = Pattern.compile("\\\\\\d+");
-    protected static final Pattern wordReferenceTransform = Pattern.compile("\\\\\\d+:[^:]+");
-    protected static final Pattern uppercase = Pattern.compile("[A-Z]");
-    
+    // to check identities
     private static Pattern regex = Pattern.compile("[\\.\\^\\$\\*\\+\\?\\{\\}\\[\\]\\|\\(\\)]");
+    
+    // the 
     public static String xmlHeader = 
         "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
         "<?xml-stylesheet type=\"text/xsl\" href=\"../print.xsl\" ?>\n" +
@@ -98,105 +99,97 @@ public abstract class RuleConverter {
         nameIndex = 0;
     }
     
-  /**
-   * Reads rules in from rule file specified by inFileName
-   * 
-   * @return a List<String> containing the rule strings from the infile
-   */
-    public abstract List<? extends Object> getRules() throws IOException;	// gets all the rules from the input rule file
-    public abstract ArrayList<List<String>> getLtRules(List<? extends Object> list);	// takes the output form getRules and gets the LT rules (always in same format)
-    public abstract ArrayList<List<String>> getAllLtRules(List<? extends Object> list);
-    public abstract ArrayList<List<String>> getDisambiguationRules(List<? extends Object> list);
-    public abstract String getRuleAsString(Object ruleObject);
+    // Abstract methods
     
-    
-    // parses a rule, returning a HashMap of relevant values ( a sketchy part of the implementation)
-    // the "pattern" key will always point to the thing to match, be it a regexp, some tokens, just a term,
-    // or any combination thereof
-    public abstract HashMap<String,String> parseRule(String rule);
-    
-    // takes the result of parseRule() and returns a rule in LT format (i.e. XML)
-    // this is the most difficult part: actually finding meaning in the rules
-//    public abstract String ltRule(HashMap<String,String> rule);
-    
-//    public abstract List<String> ltRuleAsList(HashMap<String,String> rule);
-    public abstract List<String> ltRuleAsList(Object rule, String id, String name, String type);
-    
-    public String getInFile() {
-        return inFileName;
+    public List<? extends Object> getRules() {
+    	return this.ruleObjects;
     }
     
-    public String getOutFile() {
-        return outFileName;
+    public ArrayList<List<String>> getAllLtRules() {
+    	return this.allLtRules;
     }
     
-    public String getFileType() {
-        return ruleType;
+    public ArrayList<List<String>> getLtRules() {
+    	return this.ltRules;
     }
     
-    public void setInFile(String filename) {
-        this.inFileName = filename;
+    public ArrayList<List<String>> getDisambiguationRules() {
+    	return this.disambiguationRules;
     }
     
-    public void setOutFile(String filename) {
-        this.outFileName = filename;
+    public ArrayList<String> getOriginalRuleStrings() {
+    	return this.originalRuleStrings;
     }
     
-    public void setFileType(String fileType) {
-        this.ruleType = fileType;
+    public ArrayList<String> getWarnings() {
+    	return this.warnings;
     }
     
     /**
-     * 
-     * @param orig LT rule ArrayList
-     * @param token to add
-     * @param postag to add
-     * @param type: how to add the token, postag 
+     * The main method: parses the input file and populates the rule lists
+     * @throws IOException
+     */
+    public abstract void parseRuleFile() throws IOException;
+    
+    /**
+     * Takes a rule object and returns the original string representation of the rule
+     * @param ruleObject: element from getRules()
      * @return
      */
-    protected static ArrayList<String> addToken(ArrayList<String> orig, String token, String postag, String type, int indent, String exceptions) {
-        String space = getSpace(indent);
-        
-        String exceptionString = "";
-        if (exceptions != null) {
-        	exceptionString = "<exception regexp=\"yes\">" + exceptions + "</exception>";
-        }
-        
-        if (type.equals("token")) {
-            orig.add(space + "<token>" + token + exceptionString + "</token>");
-        } else if (type.equals("regexandpostag")) {
-            orig.add(space + "<token postag=\"" + postag + "\" regexp=\"yes\">" + token + exceptionString + "</token>");
-        } else if (type.equals("tokenandpostag")) {
-            orig.add(space + "<token postag=\"" + postag + "\">" + token + exceptionString + "</token>");
-        } else if (type.equals("tokenandregexpostag")) {
-            orig.add(space + "<token postag=\"" + postag + "\" postag_regexp=\"yes\">" + token + exceptionString + "</token>");
-        } else if (type.equals("regexandregexpostag")) {
-            orig.add(space + "<token postag=\"" + postag + "\" postag_regexp=\"yes\" regexp=\"yes\">" + token + exceptionString + "</token>");
-        } else if (type.equals("postag")) {
-            orig.add(space + "<token postag=\"" + postag + "\">" + exceptionString + "</token>");
-        } else if (type.equals("regextoken")) {
-            orig.add(space + "<token regexp=\"yes\">" + token + exceptionString + "</token>");
-        } else if (type.equals("regexpostag")) {
-            orig.add(space + "<token postag=\"" + postag + "\" postag_regexp=\"yes\">" + exceptionString + "</token>");
-        } else if (type.equals("sentstart")) {
-            orig.add(space + "<token postag=\"SENT_START\">" + exceptionString + "</token>");
-        } else if (type.equals("sentend")) {
-        	orig.add(space + "<token postag=\"SENT_END\">" + exceptionString + "</token>");
-        } else if (type.equals("tokeninflected")) {
-        	orig.add(space + "<token inflected=\"yes\">" + token + exceptionString + "</token>");
-        } else if (type.equals("regexpinflected")) {
-        	orig.add(space + "<token regexp=\"yes\" inflected=\"yes\">" + token + exceptionString + "</token>");
-        } else if (type.equals("tokenandpostaginflected")) {
-        	orig.add(space + "<token postag=\"" + postag + "\" inflected=\"yes\">" + token + exceptionString + "</token>");
-        } else if (type.equals("regexpandpostaginflected")) {
-        	orig.add(space + "<token postag=\"" + postag + "\" inflected=\"yes\" regexp=\"yes\">" + token + exceptionString + "</token>");
-        } else if (type.equals("regexpandregexppostaginflected")) {
-        	orig.add(space + "<token postag=\"" + postag + "\" inflected=\"yes\" regexp=\"yes\" postag_regexp=\"yes\">" + token + exceptionString + "</token>");
-        } 
-        return orig;
-    }
+    public abstract String getOriginalRuleString(Object ruleObject);
+    /**
+     * Takes a rule object (element from getRules()), an id, a name, and a rule type (this.ruleType) and returns a 
+     * list of strings, the rule in LanguageTool format. Almost always called by getLtRules, etc methods
+     * @param rule
+     * @param id
+     * @param name
+     * @param type
+     * @return
+     */
+    public abstract List<String> ltRuleAsList(Object rule, String id, String name, String type);
     
-    // better new addToken method
+    public abstract String generateId(Object ruleObject);
+    public abstract String generateName(Object ruleObject);
+    /**
+     * Returns a list of acceptable file types
+     * @return
+     */
+    public abstract String[] getAcceptableFileTypes();
+    
+    /**
+     * Returns true if the rule object is a disambiguation rule (i.e. should go into the disambiguation.xml file)
+     * @param ruleObject
+     * @return
+     */
+    public abstract boolean isDisambiguationRule(Object ruleObject);
+    
+    // Get methods
+    public String getInFile() {return inFileName;}
+    
+    public String getOutFile() {return outFileName;}
+    
+    public String getFileType() {return ruleType;}
+    
+    // Set methods
+    public void setInFile(String filename) {this.inFileName = filename;}
+    
+    public void setOutFile(String filename) {this.outFileName = filename;}
+    
+    public void setFileType(String fileType) {this.ruleType = fileType;}
+    
+    /**
+     * Takes a LT rule list and elements of a token, and adds the proper <token> element to the rule list.
+     * @param orig
+     * @param token
+     * @param postag
+     * @param exceptions
+     * @param careful
+     * @param inflected
+     * @param negate
+     * @param skip
+     * @param indent
+     * @return
+     */
     protected static ArrayList<String> addToken(ArrayList<String> orig, String token, String postag, String exceptions, 
     											boolean careful, boolean inflected, boolean negate, int skip, int indent) {
         String space = getSpace(indent);
@@ -254,30 +247,9 @@ public abstract class RuleConverter {
         return orig;
     }
     
-    
     /**
-     * 
-     * @param filename
-     * @return ArrayList of lines of the file
+     * Takes a file and returns it as a list of strings, blank lines omitted
      */
-    public static ArrayList<String> fileToList(String filename) {
-        ArrayList<String> returnList = new ArrayList<String>();
-        Scanner in = null;
-        InputStream is = null;
-        try {
-        	is = JLanguageTool.getDataBroker().getFromResourceDirAsStream(filename);
-            in = new Scanner(is);
-            while (in.hasNextLine()) {
-                returnList.add(in.nextLine());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            in.close();
-        }
-        return returnList;
-    }
-    
     public static ArrayList<String> fileToListNoBlanks(String filename) {
         ArrayList<String> returnList = new ArrayList<String>();
         Scanner in = null;
@@ -298,28 +270,6 @@ public abstract class RuleConverter {
         }
         return returnList;
     }
-    
-    // pretty kludgy methods, here
-    // seems necessary to have individual names for the rules, as opposed
-    // to just putting them in a <rulegroup>, because then you can turn them on/off 
-    // individually
-    
-    //TODO: rework this method to return acceptable names
-    // (ones that don't start with an underscore, ones that don't include the regex symbols)
-    public static String getSuitableID(HashMap<String,String> rule) {
-        return rule.get("pattern").replaceAll("[\\ &|.*/<>]", "_");       
-    }
-    
-    public abstract String generateId(Object ruleObject);
-    public abstract String generateName(Object ruleObject);
-    
-    public abstract String[] getAcceptableFileTypes();
-    
-    public static String getSuitableName(HashMap<String,String> rule) {
-        return rule.get("pattern").replaceAll("[&|.*/<>]", "_");
-    }
-    
-    public abstract boolean isDisambiguationRule(Object ruleObject);
     
     /**
      * @param e: AtD token
@@ -357,31 +307,6 @@ public abstract class RuleConverter {
     	return sb.toString();
     }
     
-    // if this is done in a non-static way it might save some time or be cleaner
-    // changes for later
-    public static boolean inDictionary(String word) {
-        if (dictLookup == null) {
-            dictLookup = (DictionaryLookup) loadDictionary();
-        }
-        return !dictLookup.lookup(word).isEmpty();
-    }
     
-    public static IStemmer loadDictionary() {
-        IStemmer dictLookup = null;
-        String fileName = "/en/english.dict";
-        URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(fileName);
-        File dictFile = null;
-        try {
-        	dictFile = new File(url.toURI());
-        } catch (URISyntaxException e) {
-        	e.printStackTrace();
-        }
-        try {
-            dictLookup = new DictionaryLookup(Dictionary.read(dictFile));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return dictLookup;
-    }
     
 }

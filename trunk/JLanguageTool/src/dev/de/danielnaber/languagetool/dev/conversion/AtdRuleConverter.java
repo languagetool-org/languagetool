@@ -19,8 +19,13 @@
 
 package de.danielnaber.languagetool.dev.conversion;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+
+import java.net.URISyntaxException;
+import java.net.URL;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -29,7 +34,11 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import de.danielnaber.languagetool.JLanguageTool;
+
+import morfologik.stemming.Dictionary;
 import morfologik.stemming.DictionaryLookup;
+import morfologik.stemming.IStemmer;
 import morfologik.stemming.WordData;
 
 
@@ -39,9 +48,12 @@ public class AtdRuleConverter extends RuleConverter {
     private final static String MACRO_EXPANSIONS_FILE = "/en/macro_expansions.txt";	
     private static HashMap<String,String> macroExpansions = fillOutMacroExpansions();
     
-    private static Pattern nounInPattern = Pattern.compile("NN(?!P|S|\\.)");
+    private static final Pattern nounInPattern = Pattern.compile("NN(?!P|S|\\.)");
+    private static final Pattern wordReference = Pattern.compile("\\\\(\\d+)"); // a word reference, e.g. \1
+    private static final Pattern wordReferenceTransform = Pattern.compile("\\\\(\\d+):([^:]+)");
+    private static final Pattern uppercase = Pattern.compile("[A-Z]");
     
-    
+    private static IStemmer dictLookup = (DictionaryLookup) loadDictionary();
     
     // default constructor
     public AtdRuleConverter() {
@@ -53,19 +65,6 @@ public class AtdRuleConverter extends RuleConverter {
         super(inFile,outFile,specificFileType);
     }
     
-//    @SuppressWarnings("unchecked")
-//	@Override
-//    public String generateId(Object ruleObject) {
-//    	HashMap<String,String> ruleMap = (HashMap<String,String>) ruleObject;
-//    	return ruleMap.get("pattern").replaceAll("[\\ &|.*/<>]", "_"); 
-//    }
-//    
-//    @SuppressWarnings("unchecked")
-//    @Override
-//    public String generateName(Object ruleObject) {
-//    	HashMap<String,String> ruleMap = (HashMap<String,String>) ruleObject;
-//    	return ruleMap.get("pattern").replaceAll("[&|.*/<>]", "_");
-//    }
     @Override
 	public String generateName(Object ruleObject) {
 		String name = "rule_" + nameIndex;
@@ -87,54 +86,9 @@ public class AtdRuleConverter extends RuleConverter {
     }
     
     @Override
-    public ArrayList<List<String>> getLtRules(List<? extends Object> rules) {
-    	ArrayList<List<String>> ltRules = new ArrayList<List<String>>();
-    	for (Object ruleObject : rules) {
-    		String ruleString = (String)ruleObject;	// AtD rules will always be strings
-    		HashMap<String,String> ruleMap = parseRule(ruleString);
-    		if (notKilledRule(ruleMap)) {
-    			List<String> ltRule = ltRuleAsList(ruleMap, generateId(ruleMap), generateName(ruleMap), this.ruleType);
-        		ltRules.add(ltRule);
-    		}
-    	}
-    	return ltRules;
-    }
-    
-    @Override
-    public ArrayList<List<String>> getDisambiguationRules(List<? extends Object> rules) {
-    	ArrayList<List<String>> falseAlarmRules = new ArrayList<List<String>>();
-    	for (Object ruleObject : rules) {
-    		String ruleString = (String)ruleObject;
-    		HashMap<String,String> ruleMap = parseRule(ruleString);
-    		if (!notKilledRule(ruleMap)) {
-    			List<String> falseAlarmRule = ltRuleAsList(ruleMap, generateId(ruleMap), generateName(ruleMap), this.ruleType);
-    			falseAlarmRules.add(falseAlarmRule);
-    		}
-    	}
-    	return falseAlarmRules;
-    }
-    
-    @Override
-    public ArrayList<List<String>> getAllLtRules(List<? extends Object> rules) {
-    	ArrayList<List<String>> allRules = new ArrayList<List<String>>();
-    	for (Object ruleObject : rules) {
-    		String ruleString = (String)ruleObject;
-    		HashMap<String,String> ruleMap = parseRule(ruleString);
-    		List<String> ltRule = ltRuleAsList(ruleMap, generateId(ruleMap), generateName(ruleMap), this.ruleType);
-    		allRules.add(ltRule);
-    	}
-    	return allRules;
-    }
-    
-    public boolean isDisambiguationRule(Object ruleObject) {
-    	String rule = (String)ruleObject;
-    	HashMap<String,String> ruleMap = parseRule(rule);
-    	return (ruleMap.containsKey("filter") && (ruleMap.get("filter").equals("kill") || ruleMap.get("filter").equals("die")));
-    }
-    
-    public List<String> getRules() throws IOException {
+    public void parseRuleFile() throws IOException {
     	// open the input file
-        Scanner in = new Scanner(new FileInputStream(inFileName));  // might need allowance for encoding?
+        Scanner in = new Scanner(new FileInputStream(inFileName));
         // list to hold the rules as strings
         List<String> ruleList = new ArrayList<String>();
         try {
@@ -153,11 +107,33 @@ public class AtdRuleConverter extends RuleConverter {
         } finally {
             in.close();
         }  
-        return ruleList;
+        ruleObjects = ruleList;
+        allLtRules = new ArrayList<List<String>>();
+        ltRules = new ArrayList<List<String>>();
+        disambiguationRules = new ArrayList<List<String>>();
+        originalRuleStrings = new ArrayList<String>();
+        warnings = new ArrayList<String>();
+        for (Object ruleObject : ruleObjects) {
+        	String ruleString = (String)ruleObject;
+        	HashMap<String,String> ruleMap = parseRule(ruleString);
+        	List<String> ruleAsList = ltRuleAsList(ruleMap,generateId(ruleMap),generateName(ruleMap),this.ruleType);
+        	if (notKilledRule(ruleMap)) {
+        		ltRules.add(ruleAsList);
+        	} else {
+        		disambiguationRules.add(ruleAsList);
+        	}
+        	allLtRules.add(ruleAsList);
+        	originalRuleStrings.add(ruleMap.get("ruleString"));
+        }
     }
-
-
+    
     @Override
+    public boolean isDisambiguationRule(Object ruleObject) {
+    	String rule = (String)ruleObject;
+    	HashMap<String,String> ruleMap = parseRule(rule);
+    	return (ruleMap.containsKey("filter") && (ruleMap.get("filter").equals("kill") || ruleMap.get("filter").equals("die")));
+    }
+    
     public HashMap<String,String> parseRule(String rule) {
         HashMap<String,String> outRule = new HashMap<String,String>();
         if (this.ruleType == "default") {
@@ -206,72 +182,210 @@ public class AtdRuleConverter extends RuleConverter {
     @SuppressWarnings("unchecked")
 	@Override
     public List<String> ltRuleAsList(Object ruleObject, String id, String name, String type) {
-        ArrayList<String> ltRule = new ArrayList<String>();
-        HashMap<String,String> rule = (HashMap<String,String>)ruleObject;
-        ltRule.add("<!-- " + rule.get("ruleString") + " -->");
-        if (id != null && name != null) {
-            ltRule.add(firstIndent + "<rule " + "id=\"" + id + "\" name=\"" + name + "\">");
+        ArrayList<HashMap<String,String>> outerList = new ArrayList<HashMap<String,String>>();
+        HashMap<String,String> mainRule = (HashMap<String,String>)ruleObject;
+        String currentWarning = "";
+        // first expand the macros in the pattern, in case we have to fix an apostrophe case
+        String[] mainPattern = mainRule.get("pattern").split("\\ +");
+        for (int i=0;i<mainPattern.length;i++) {
+        	mainPattern[i] = expandMacro(mainPattern[i]);
+        }
+        mainRule.put("pattern",gluePattern(mainPattern));
+        if (isApostropheCase(mainRule.get("pattern").split("\\ +"))) {
+        	ArrayList<HashMap<String,String>> splitRules = handleApostropheCase(mainRule,ruleObject,type);
+        	for (HashMap<String,String> splitRule : splitRules) {
+        		outerList.add(splitRule);
+        	}
         } else {
-            ltRule.add(firstIndent + "<rule>");
-        }   
-        String exceptions = null;
-        if (rule.containsKey("avoid")) {	// (avoid=...) words that should make the rule fail if they appear in the pattern
-        	exceptions = getAvoidWords(rule.get("avoid"));
+        	outerList.add(mainRule);
         }
-        // for the "avoid" rules
-        if (type.equals("avoid")) {
-            if (Boolean.parseBoolean(rule.get("casesensitive"))) {
-                ltRule.add(secondIndent + "<pattern case_sensitive=\"yes\">");
-            } else {
-                ltRule.add(secondIndent + "<pattern>");
-            }            
-            String[] pattern = rule.get("pattern").split("\\ +");
-            if (isApostropheCase(pattern)) {
-            	return handleApostropheCase(rule, type);
-            }
-            for (int i=0;i<pattern.length;i++) {
-                String e = pattern[i];
-                if (e.contains("'")) {
-                    ltRule = handleRegularApostrophe(ltRule,e,thirdIndentInt,exceptions);
-                } else {
-                    ltRule = addTokenHelper(ltRule,e,thirdIndentInt,exceptions);
-                }
-            }
-            ltRule.add(secondIndent + "</pattern>");
-            ltRule.add(secondIndent + "<message>" + rule.get("explanation") + "</message>");
-            ltRule.add(firstIndent + "</rule>");   
+//        ltRule.add("<!-- " + rule.get("ruleString") + " -->"); write this in at the end now
+//        if (id != null && name != null) {
+//            ltRule.add(firstIndent + "<rule " + "id=\"" + id + "\" name=\"" + name + "\">");
+//        } else {
+//            ltRule.add(firstIndent + "<rule>");
+//        }  
+        ArrayList<String> bigLtRule = new ArrayList<String>();
+        bigLtRule.add("<!-- " + mainRule.get("ruleString") + " -->");
+        if (outerList.size() > 1) {
+        	bigLtRule.add("<rulegroup name=\"" + name + "\" id=\"" + id + "\">");
         }
-        // for the default rules ( pattern::declaration="..."::declaration="..." )
-        else if (type.equals("default")) {
-        	// because AtD is case sensitive and LT is not (by default)
+        for (HashMap<String,String> rule : outerList) {
+        	ArrayList<String> ltRule = new ArrayList<String>();
+        	if (outerList.size() == 1) {
+        		ltRule.add(firstIndent + "<rule id=\"" + id + "\" name=\"" + name + "\">");	// if the rule had to be split
+        	} else {
+        		ltRule.add(firstIndent + "<rule>");
+        	}
+        	String exceptions = null;
+        	// (avoid=...) words that should make the rule fail if they appear in the pattern
+            if (rule.containsKey("avoid")) {	
+            	exceptions = getAvoidWords(rule.get("avoid"));
+            }
+            // add the pattern element
             if (Boolean.parseBoolean(rule.get("casesensitive"))) {
                 ltRule.add(secondIndent + "<pattern case_sensitive=\"yes\">");
             } else {
                 ltRule.add(secondIndent + "<pattern>");
             }
+            
             String[] pattern = rule.get("pattern").split("\\ +");
-            if (isApostropheCase(pattern)) {
-            	return handleApostropheCase(rule, type);
-            }
-            for (int i=0;i<pattern.length;i++) {
-                String e = pattern[i];
-                if (e.contains("'")) {
-                    ltRule = handleRegularApostrophe(ltRule,e,thirdIndentInt,exceptions);
-                } else {
-                    ltRule = addTokenHelper(ltRule,e,thirdIndentInt,exceptions);
-                }
-            }
-            ltRule.add(secondIndent + "</pattern>");
+           
+            String[] newpattern = fixApostrophes(pattern);
+            String suggestion = null;
             if (rule.containsKey("word")) {
-                ltRule = addSuggestion(ltRule, rule.get("word"), pattern, secondIndentInt);
+            	suggestion = rule.get("word");
+            	// suggestion = fixApostrophesSuggestion(suggestion,pattern);	// too problematic of a method to currently call
+            	if (rule.get("pattern").contains("'")) {
+            		currentWarning += "Apostrophes in the pattern may have affected the numbering in the suggestion.\n";
+            	}
+            }
+            pattern = newpattern;
+            for (int i=0;i<pattern.length;i++) {
+                String e = pattern[i];
+                ltRule = addTokenHelper(ltRule,e,thirdIndentInt,exceptions);
+            }
+            ltRule.add(secondIndent + "</pattern>");
+            if (suggestion != null) {
+            	currentWarning = getWarningsFromSuggestion(currentWarning, suggestion);
+                ltRule = addSuggestion(ltRule, suggestion, pattern, secondIndentInt);
             }
             if (rule.containsKey("filter")) {
-                if (rule.get("filter").equals("kill")) {
+                if (rule.get("filter").equals("kill") || rule.get("filter").equals("die")) {
                     ltRule.add(secondIndent + "<disambig action=\"immunize\"/>");
+                } else if (rule.get("filter").equals("none")) {
+                	// none filter is the default
+                	// "stats" filter we can't duplicate
+                } else if (rule.get("filter").equals("indefarticle")) {
+                	currentWarning += "The \"indefarticle\" filter uses an n-gram probability filter. It probably shouldn't be transferred.";
+                } else {
+                	currentWarning += "Filter other than kill.\n";
                 }
             }
             ltRule.add(firstIndent + "</rule>");
-            
+            bigLtRule.addAll(ltRule);
+        }
+        if (outerList.size() > 1) {
+        	bigLtRule.add("</rulegroup>");
+        }
+        warnings.add(currentWarning);
+        return bigLtRule;
+    }
+    
+    private String getWarningsFromSuggestion(String curWarn, String sugg) {
+    	String[] splitSuggs = sugg.split(",\\s*");
+    	for (String ss : splitSuggs) {
+    		String[] suggestionParts = ss.split("\\ +");
+    		for (String sp : suggestionParts) {
+    			String transform = getTransformString(sp);
+    			if (transform.equals(":positive")) {
+    				curWarn += "Positive transform not supported.";
+    			} else if (transform.equals(":determiner")) {
+    				curWarn += "Determiner transform relies on bigram probabilities. Current implementation just returns \"the\"";
+    			}
+    		}
+    	}
+    	return curWarn;
+    }
+    
+    // only applies if we're not in a special apostrophe case
+    private String[] fixApostrophes(String[] p) {
+    	ArrayList<String> retList = new ArrayList<String>();
+    	for (String s : p) {
+    		if (s.equals("'")) {
+    			retList.add(s);
+    		} else if (s.contains("'")) {
+    			String[] temp = s.replaceAll("'"," ' ").split("\\ +");
+    			for (String sTemp : temp) {
+    				retList.add(sTemp);
+    			}
+    		} else {
+    			retList.add(s);
+    		}
+    	}
+    	return retList.toArray(new String[retList.size()]);
+    }
+    
+    // glues a split pattern back together
+    private static String gluePattern(String[] p) {
+    	StringBuilder sb = new StringBuilder();
+    	for (String s : p) {
+    		sb.append(s);
+    		sb.append(' ');
+    	}
+    	return sb.toString().trim();
+    }
+    
+    /*
+    private String fixApostrophesSuggestion(String sugg, String[] oldp) {
+    	String[] splitS = sugg.split(",");
+    	
+    	for (int i=0;i<splitS.length;i++) {
+    		String curs = splitS[i];
+    		String[] sc = curs.split("\\ +");
+    		ArrayList<String> newSuggestion = new ArrayList<String>();
+    		int numBump = 0;
+    		for (int j=0;j<sc.length;j++) {
+    			String e = sc[j];
+    			int numMatched = getReference(e);
+    			if (numMatched != -1) {
+    				String transform = getTransformString(e);
+        			if (oldp[numMatched].contains("'")) {
+        				String[] newElements = oldp[numMatched].replaceAll("'", " ' ").split("\\ +");
+        				numBump = newElements.length;
+        				for (int k=0;k<newElements.length;k++) {
+        					newSuggestion.add("\\\\" + numMatched++ + transform);
+        				}
+        			} else {
+        				newSuggestion.add("\\\\" + (numMatched + numBump - 1) + transform);
+        			}
+    			} else {
+    				newSuggestion.add(e);
+    			}
+    			
+    		}
+    		StringBuilder sb = new StringBuilder();
+    		for (String s : newSuggestion) {
+    			sb.append(s + " ");
+    		}
+    		splitS[i] = sb.toString().trim();
+    	}
+    	StringBuilder sb = new StringBuilder();
+    	for (String s : splitS) {
+    		sb.append(s + ",");
+    	}
+    	String retString = sb.toString();
+    	return retString.substring(0, retString.length() - 1);
+    }
+    */
+    
+    
+    private String getTransformString(String ref) {
+    	Matcher m2 = wordReferenceTransform.matcher(ref);
+    	if (m2.find()) {
+    		return ":" + m2.group(2);
+    	}
+    	return "";
+    }
+    
+    /*
+    private int getReference(String ref) {
+    	Matcher m1 = wordReference.matcher(ref);
+    	if (m1.find()) {
+    		return Integer.parseInt(m1.group(1));
+    	}
+    	return -1;
+    }
+    */
+    
+    public ArrayList<String> handleRegularApostrophe(ArrayList<String> ltRule, String element, int indent, String exceptions) {
+    	if (element.equals("'")) {
+    		ltRule = addTokenHelper(ltRule,element,indent,exceptions);
+    		return ltRule;
+    	}
+    	String[] temp = element.replaceAll("'", " ' ").split("\\ +");
+        for (String sTemp : temp) {
+            ltRule = addTokenHelper(ltRule,sTemp,indent,exceptions);
         }
         return ltRule;
     }
@@ -297,8 +411,12 @@ public class AtdRuleConverter extends RuleConverter {
      * @param type
      * @return
      */
-    public List<String> handleApostropheCase(HashMap<String,String> rule, String type) {
+    public ArrayList<HashMap<String,String>> handleApostropheCase(HashMap<String,String> rule, Object ruleObject, String type) {
     	String[] pattern = rule.get("pattern").split("\\ +");
+    	String oldSuggestion = null;
+    	if (rule.containsKey("word")) {
+    		oldSuggestion = rule.get("word");
+    	}
     	String offendingToken = "";
     	int offendingTokenIndex = 0;
     	for (int i=0;i<pattern.length;i++) {
@@ -347,11 +465,14 @@ public class AtdRuleConverter extends RuleConverter {
     		newPattern = newPattern.trim();
     		newPatterns.add(newPattern);
     	}
-    	ArrayList<String> allRules = new ArrayList<String>();
+    	ArrayList<HashMap<String,String>> allRules = new ArrayList<HashMap<String,String>>();
     	for (String newPattern : newPatterns) {
-    		rule.put("pattern",newPattern);
-    		List<String> newLtRule = ltRuleAsList(rule,getSuitableID(rule),getSuitableName(rule),type);
-    		allRules.addAll(newLtRule);
+    		HashMap<String,String> r = new HashMap<String,String>(rule);
+    		r.put("pattern",newPattern);
+    		if (oldSuggestion != null) {
+    			// this isn't working, have to take care of this
+    		}
+    		allRules.add(r);
     	}
     	return allRules;
     	
@@ -378,33 +499,16 @@ public class AtdRuleConverter extends RuleConverter {
     	return map;
     }
      
-    /**
-     * Properly splits up words with apostrophes in them and adds the tokens to the LT rule
-     * @param ltRule
-     * @param element
-     * @param indent
-     * @return
-     */
-    public ArrayList<String> handleRegularApostrophe(ArrayList<String> ltRule, String element, int indent, String exceptions) {
-    	if (element.equals("'")) {
-    		ltRule = addTokenHelper(ltRule,element,indent,exceptions);
-    		return ltRule;
-    	}
-    	String[] temp = element.replaceAll("'", " ' ").split("\\ +");
-        for (String sTemp : temp) {
-            ltRule = addTokenHelper(ltRule,sTemp,indent,exceptions);
-        }
-        return ltRule;
-    }
-
     
     public static boolean isMacro(String e) {
         return e.contains("&");
     }
     
-    // expands AtD macros like &uncountables and &irregular_verbs
-    // need to take the macros out of the atd file rules.sl and put them in some
-    // accessible (and easily extendible) format
+    /**
+     * expands AtD macros like &uncountables and &irregular_verbs
+ 	 * need to take the macros out of the atd file rules.sl and put them in some
+     * accessible (and easily extendible) format
+     */
     public static String expandMacro(String e) {
         if (e.charAt(0) == '&') {
         	return macroExpansions.get(e);
@@ -414,6 +518,11 @@ public class AtdRuleConverter extends RuleConverter {
     	
     }
     
+    /** 
+     * Get an or-ed list of words to include as exceptions in the rule
+     * @param exceptions
+     * @return
+     */
     public String getAvoidWords(String exceptions) {
     	String[] avoidWords = exceptions.split(", ");
     	String retString = "";
@@ -424,78 +533,22 @@ public class AtdRuleConverter extends RuleConverter {
     	return retString;
     }
     
-    public static HashMap<String,String> fillOutMacroExpansions() {
-        HashMap<String, String> macroExpansions = new HashMap<String,String>();
-        ArrayList<String> lines = fileToListNoBlanks(MACRO_EXPANSIONS_FILE);
-        for (String s : lines) {
-            String[] sl = s.split("=");
-            for (int i=0; i < sl.length; i++) {
-                sl[i] = sl[i].trim();
-            }
-            macroExpansions.put(sl[0], sl[1]);
-        }
-        return macroExpansions;
-    }
-    
-//    public ArrayList<String> addTokenHelper(ArrayList<String> ltRule, String e, int spaces, String exceptions) {
-//        // special cases of start and end of sentence anchors
-//        if (e.equals("0BEGIN.0")) {
-////            ltRule = addToken(ltRule, null, null, "sentstart", thirdIndentInt, exceptions);
-//            ltRule = addToken(ltRule, null, SENT_START, null, false, false, false, 0, thirdIndentInt);
-//            return ltRule;
-//        }
-//        if (e.equals("0END.0")) {
-////        	ltRule = addToken(ltRule, null, null, "sentend", thirdIndentInt, exceptions);
-//        	ltRule = addToken(ltRule, null, SENT_END, null, false, false, false, 0, thirdIndentInt);
-//        	return ltRule;
-//        }
-//        if (hasPosTag(e)) {
-//            String[] parts = e.split("/");
-//            parts[1] = fixNoun(parts[1]);
-//            if (parts[0].equals(".*")) {
-//                if (isRegex(parts[1])) {
-////                    ltRule = addToken(ltRule, null, parts[1], "regexpostag", thirdIndentInt, exceptions);
-//                    ltRule = addToken(ltRule, null, parts[1], exceptions, false, false, false, 0, thirdIndentInt);
-//                } else {
-//                    ltRule = addToken(ltRule, null, parts[1], "postag", thirdIndentInt, exceptions);
-//                }  
-//            } else {
-//                if (isRegex(parts[0])) {
-//                    if (isRegex(parts[1])) {
-//                        ltRule = addToken(ltRule, parts[0], parts[1], "regexandregexpostag", thirdIndentInt, exceptions);
-//                    } else {
-//                        ltRule = addToken(ltRule, parts[0], parts[1], "regexandpostag", thirdIndentInt, exceptions);
-//                    }
-//                } else {
-//                    if (isRegex(parts[1])) {
-//                        ltRule = addToken(ltRule, parts[0], parts[1], "tokenandregexpostag", thirdIndentInt, exceptions);
-//                    } else {
-//                        ltRule = addToken(ltRule, parts[0], parts[1], "tokenandpostag", thirdIndentInt, exceptions);
-//                    }
-//                }  
-//            }
-//        } else {
-//            if (isRegex(e)) {
-//                ltRule = addToken(ltRule, e, null, "regextoken", thirdIndentInt, null);
-//            } else if (isMacro(e)) {
-//                ltRule = addToken(ltRule, expandMacro(e), null, "regextoken", thirdIndentInt, exceptions);
-//            } else {
-//                ltRule = addToken(ltRule, e, null, "token", thirdIndentInt, null);
-//            }
-//        }
-//        return ltRule;
-//    }
-    
+    /**
+     * Takes a LT rule and a word from the AtD pattern and adds the proper token to the LT rule
+     * @param ltRule
+     * @param e
+     * @param spaces
+     * @param exceptions
+     * @return
+     */
     public ArrayList<String> addTokenHelper(ArrayList<String> ltRule, String e, int spaces, String exceptions) {
         // special cases of start and end of sentence anchors
         if (e.equals("0BEGIN.0")) {
-//            ltRule = addToken(ltRule, null, null, "sentstart", thirdIndentInt, exceptions);
-            ltRule = addToken(ltRule, null, SENT_START, null, false, false, false, 0, thirdIndentInt);
+            ltRule = addToken(ltRule, "", SENT_START, null, false, false, false, 0, thirdIndentInt);
             return ltRule;
         }
         if (e.equals("0END.0")) {
-//        	ltRule = addToken(ltRule, null, null, "sentend", thirdIndentInt, exceptions);
-        	ltRule = addToken(ltRule, null, SENT_END, null, false, false, false, 0, thirdIndentInt);
+        	ltRule = addToken(ltRule, "", SENT_END, null, false, false, false, 0, thirdIndentInt);
         	return ltRule;
         }
         if (hasPosTag(e)) {
@@ -503,7 +556,7 @@ public class AtdRuleConverter extends RuleConverter {
             parts[1] = fixNoun(parts[1]);
             ltRule = addToken(ltRule, parts[0], parts[1], exceptions, false, false, false, 0, thirdIndentInt);
         } else {
-            ltRule = addToken(ltRule, expandMacro(e), null, exceptions, false, false, false, 0, thirdIndentInt);
+            ltRule = addToken(ltRule, e, null, exceptions, false, false, false, 0, thirdIndentInt);
         }
         return ltRule;
     }
@@ -712,11 +765,50 @@ public class AtdRuleConverter extends RuleConverter {
     }
     
     @Override
-    public String getRuleAsString(Object ruleObject) {
+    public String getOriginalRuleString(Object ruleObject) {
     	return (String)ruleObject;
     }
     
+    // if this is done in a non-static way it might save some time or be cleaner
+    // changes for later
+    private static boolean inDictionary(String word) {
+        if (dictLookup == null) {
+            dictLookup = (DictionaryLookup) loadDictionary();
+        }
+        return !dictLookup.lookup(word).isEmpty();
+    }
     
+    // this should be general, not specific to English
+    private static IStemmer loadDictionary() {
+        IStemmer dictLookup = null;
+        String fileName = "/en/english.dict";
+        URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(fileName);
+        File dictFile = null;
+        try {
+        	dictFile = new File(url.toURI());
+        } catch (URISyntaxException e) {
+        	e.printStackTrace();
+        }
+        try {
+            dictLookup = new DictionaryLookup(Dictionary.read(dictFile));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return dictLookup;
+    }
+    
+    public static HashMap<String,String> fillOutMacroExpansions() {
+        HashMap<String, String> macroExpansions = new HashMap<String,String>();
+        ArrayList<String> lines = fileToListNoBlanks(MACRO_EXPANSIONS_FILE);
+        for (String s : lines) {
+            String[] sl = s.split("=");
+            for (int i=0; i < sl.length; i++) {
+                sl[i] = sl[i].trim();
+            }
+            macroExpansions.put(sl[0], sl[1]);
+        }
+        return macroExpansions;
+    }
     
     
 

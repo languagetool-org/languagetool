@@ -56,18 +56,14 @@ public class RuleConverterMain {
     }
     
     private void run() throws IOException {
-        // get the rules in native format
-        List<? extends Object> rules = rc.getRules();
-        // get the rules in LT list format
-        ArrayList<List<String>> ltRules = rc.getLtRules(rules);
-        ArrayList<List<String>> falseAlarmRules = rc.getDisambiguationRules(rules);	// TODO: this is kind of obsolete in favor of the gui
+        rc.parseRuleFile();
 
         // write out the grammar rules to grammarfile
         PrintWriter w = new PrintWriter(new OutputStreamWriter(new FileOutputStream(grammarfile),"UTF-8"));
         
         w.write("<rules>\n");
         w.write("<category name=\"Auto-generated rules\">\n");
-        for (List<String> ltRule : ltRules) {
+        for (List<String> ltRule : rc.ltRules) {
             for (String line : ltRule) {
                 w.write(line + '\n');
             }
@@ -83,15 +79,15 @@ public class RuleConverterMain {
         checker.splitOutCoveredRules(grammarfile,discardfile);
         */
         // for now, write the disambiguation rules to a default file
-        if (falseAlarmRules.size() > 0) {
+        if (rc.disambiguationRules.size() > 0) {
         	w = new PrintWriter(new OutputStreamWriter(new FileOutputStream(disambigfile), "UTF-8"));
-            for (List<String> killedRule : falseAlarmRules) {
+            for (List<String> killedRule : rc.disambiguationRules) {
             	for (String line : killedRule) {
             		w.write(line + '\n');
             	}
             }
             w.close();
-            System.out.println(Integer.toString(falseAlarmRules.size()) + " disambiguation rules written to " + disambigfile);
+            System.out.println(Integer.toString(rc.disambiguationRules.size()) + " disambiguation rules written to " + disambigfile);
         }
         
         

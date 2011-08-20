@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.Random;
 
 import morfologik.stemming.Dictionary;
 import morfologik.stemming.DictionaryIterator;
@@ -66,7 +67,8 @@ public class RuleCoverage {
         tool.disableRule("UPPERCASE_SENTENCE_START");
         tool.disableRule("EN_UNPAIRED_BRACKETS");
         tool.disableRule("EN_A_VS_AN");
-        dictLookup = (DictionaryLookup) loadDictionary();        
+        dictLookup = (DictionaryLookup) loadDictionary(); 
+        dictIterator = resetDictIter();
     }
     
     public RuleCoverage() throws IOException {
@@ -76,6 +78,7 @@ public class RuleCoverage {
         tool.disableRule("EN_UNPAIRED_BRACKETS");
         tool.disableRule("EN_A_VS_AN");
         dictLookup = (DictionaryLookup) loadDictionary();
+        dictIterator = resetDictIter();
     }
     
     // for testing purposes
@@ -86,7 +89,13 @@ public class RuleCoverage {
         tool.disableRule("EN_UNPAIRED_BRACKETS");
         tool.disableRule("EN_A_VS_AN");
         this.fileName = dictFileName;
+        this.dictFile = new File(fileName);
         dictLookup = (DictionaryLookup) loadDictionary();
+        dictIterator = resetDictIter();
+    }
+    
+    public JLanguageTool getLanguageTool() {
+    	return tool;
     }
     
     public void evaluateRules(String grammarfile) throws IOException {
@@ -138,21 +147,53 @@ public class RuleCoverage {
         return (matches.size() > 0);        
     }
     
-    public String isCoveredBy(String str) throws IOException {
-        List<RuleMatch> matches = tool.check(str);
-        if (matches.size() > 0) {
-            return matches.get(0).getRule().getId();
-        }
-        return null;
+//    public String isCoveredBy(String str) throws IOException {
+//        List<RuleMatch> matches = tool.check(str);
+//        if (matches.size() > 0) {
+//            return matches.get(0).getRule().getId();
+//        }
+//        return null;
+//    }
+    
+    public String[] isCoveredBy(String str) throws IOException {
+    	List<RuleMatch> matches = tool.check(str);
+    	ArrayList<String> coverages = new ArrayList<String>();
+    	if (matches.size() > 0) {
+    		for (RuleMatch match : matches) {
+    			coverages.add(match.getRule().getId());
+    		}
+    	}
+    	return coverages.toArray(new String[coverages.size()]);
     }
     
-    public String isCoveredBy(PatternRule rule) throws IOException {
+//    public String isCoveredBy(PatternRule rule) throws IOException {
+//    	String example = generateExample(rule);
+//    	List<RuleMatch> matches = tool.check(example);
+//    	if (matches.size() > 0) {
+//    		return matches.get(0).getRule().getId();
+//    	}
+//    	return "";
+//    }
+    
+    public String[] isCoveredBy(PatternRule rule) throws IOException {
+    	ArrayList<String> coverages = new ArrayList<String>();
     	String example = generateExample(rule);
     	List<RuleMatch> matches = tool.check(example);
     	if (matches.size() > 0) {
-    		return matches.get(0).getRule().getId();
+    		for (RuleMatch match : matches) {
+    			coverages.add(match.getRule().getId());
+    		}
     	}
-    	return "";
+    	return coverages.toArray(new String[coverages.size()]);
+    }
+    
+    public ArrayList<String[]> isCoveredBy(List<PatternRule> rules) throws IOException {
+    	ArrayList<String[]> coverages = new ArrayList<String[]>();
+    	for (PatternRule rule : rules) {
+    		String[] cov = isCoveredBy(rule);
+    		coverages.add(cov);
+    	}
+    	return coverages;
     }
     
     /**
@@ -189,14 +230,66 @@ public class RuleCoverage {
             return token;
         // all other token types
         }
-        dictIterator = resetDictIter(); 
-        while (dictIterator.hasNext()) {
+        
+        // just in case there's no example, stop after a ridiculous number (several turns through the dictionary)
+        // need smarter example generation, especially for simple or-ed lists of words. 
+        if (!token.isEmpty() && isSimpleOrRegex(e)) {
+        	// pick an element from the or-ed list at random
+        	return randomOredElement(e);
+        }
+        
+        int count = 0;
+        while (count < 400000) {
+        	if (!dictIterator.hasNext()) {
+        		dictIterator = resetDictIter();
+        	}
             String word = dictIterator.next().getWord().toString();
             if (isExampleOf(word, e) && !inExceptionList(word, exceptions)) {
                 return word;
             }
+            count++;
         } 
         return null;
+    }
+    
+    /** 
+     * Returns true if the element is an or-ed list of words, without a specified pos-tag.
+     * e.g. can|could|would|should
+     * @param e
+     * @return
+     */
+    private boolean isSimpleOrRegex(Element e) {
+    	// any number of conditions that could halt this check
+    	if (e.getPOStag() != null) return false;
+    	if (e.getNegation()) return false;
+    	if (e.isInflected()) return false;
+    	if (!e.isRegularExpression()) return false;
+    	if (e.hasAndGroup()) return false;
+    	if (e.hasExceptionList()) return false;
+    	if (e.isReferenceElement()) return false;
+    	if (e.isSentStart()) return false;
+    	
+    	String token = e.getString();
+    	String[] ors = token.split("\\|");
+    	for (String s : ors) {
+    		if (RuleConverter.isRegex(s)) {
+    			return false;
+    		}
+    	}
+    	return true;
+    }
+    
+    /**
+     * Returns a random one of the or-ed elements. Random seems like the right thing to do here.
+     * Only applied to simple or-ed lists of words, e.g. this|that|those
+     * @param e
+     * @return
+     */
+    private String randomOredElement(Element e) {
+    	String[] split = e.getString().split("\\|");
+    	Random rng = new Random();
+    	int index = rng.nextInt(split.length);
+    	return split[index];
     }
     
     /**
