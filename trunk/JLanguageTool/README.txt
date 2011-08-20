@@ -80,6 +80,12 @@ License:
  
  See README-license.txt for the copyright of the external libraries
 
+ Language detection (*.ngp):
+ The process for automatic language detection is described at
+ http://languagetool.wikidot.com/adding-a-new-language-to-automatic-language-detection
+ The Wikipedia-based training data can be downloaded from
+ http://www.languagetool.org/download/language-training-data/
+ 
  German:
  The German data for part-of-speech tagging is taken from Morphy
  (http://www.wolfganglezius.de/doku.php?id=public:cl:morphy)
