@@ -1821,7 +1821,7 @@ though, and has since been slightly modified)-->
             <exception postag="V.*" postag_regexp="yes"/>
             <exception postag=".* sp?" postag_regexp="yes" scope="current"/>
             <!-- Following exception skip words both singular/plural as well as adverbs -->
-            <exception negate_pos="yes" postag="A|[JN] .* sp?|SENT_END" postag_regexp="yes" scope="next"/>
+            <exception negate_pos="yes" postag="A|[JN] . sp?|SENT_END" postag_regexp="yes" scope="next"/>
           </token>
           <token postag="[JN] .* s" postag_regexp="yes">
             <exception postag="V .*|.* sp" postag_regexp="yes"/>
@@ -2669,7 +2669,7 @@ though, and has since been slightly modified)-->
             <exception scope="previous" postag="P"/>
             <exception scope="previous">comme</exception>
           </token>
-          <token regexp="yes">[lmnst]e|la|les?|[nv]vous|leur|lui|en|y</token>
+          <token regexp="yes">[lmnst]e|la|les|[nv]vous|leur|lui|en|y</token>
           <token postag="V .*" postag_regexp="yes"><exception postag="V .* 3 s" postag_regexp="yes"/></token>
         </pattern>
         <message>Vérifiez l’accord entre le pronom « \1 » et le verbe « \3 ».</message>
@@ -2851,7 +2851,7 @@ though, and has since been slightly modified)-->
             <exception scope="previous" postag="P"/>
             <exception scope="previous">comme</exception>
           </token>
-          <token regexp="yes">[lmnst]e|la|les?|[nv]vous|leur|lui|en|y</token>
+          <token regexp="yes">[lmnst]e|la|les|[nv]vous|leur|lui|en|y</token>
           <token postag="V .*" postag_regexp="yes">
             <exception postag="V .* 3 p" postag_regexp="yes"/>
           </token>
@@ -3052,7 +3052,7 @@ though, and has since been slightly modified)-->
           <token postag="V.* imp .*" postag_regexp="yes"/>
           <token regexp="yes">l[ea]</token>
           <token>
-            <exception postag="[NJ] .*sp?|V.* inf|Y" postag_regexp="yes"></exception>
+            <exception postag="[NJ] . sp?|V.* inf|Y" postag_regexp="yes"></exception>
             <exception regexp="yes">plus|moins|une?</exception>
           </token>
         </pattern>
@@ -3763,7 +3763,7 @@ though, and has since been slightly modified)-->
           <token postag="D.*" postag_regexp="yes">
             <exception>des</exception>
           </token>
-          <token postag="[AN] . p" postag_regexp="yes"><exception postag="[AN] .*sp?" postag_regexp="yes"/></token>
+          <token postag="[AN] . p" postag_regexp="yes"><exception postag="[AN] . sp?" postag_regexp="yes"/></token>
         </pattern>
         <message>Vérifiez l’accord en nombre entre « \1 » et « \3 ».</message>
         <example type="incorrect">Il marche <marker>tout</marker> les matins.</example>
