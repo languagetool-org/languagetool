@@ -403,13 +403,17 @@ public class RuleCoverage {
       return ruleLoader.getRules(is, filename);
     }
     
-    public List<PatternRule> parsePatternRule(final String ruleString) throws IOException {
+    public List<PatternRule> parsePatternRule(final String ruleString) {
     	final PatternRuleLoader ruleLoader = new PatternRuleLoader();
     	String ruleFileString = ruleFileHeader + categoriesString + ruleString + endCategoriesString + endRulesString;
     	InputStream is = new ByteArrayInputStream(ruleFileString.getBytes());
-    	return ruleLoader.getRules(is,null);
+    	try {
+    		return ruleLoader.getRules(is,null);
+    	} catch (IOException e) {
+    		return new ArrayList<PatternRule>();
+    	}
     }
-
+    
     
     
     

@@ -55,6 +55,8 @@ public class AtdRuleConverter extends RuleConverter {
     
     private static IStemmer dictLookup = (DictionaryLookup) loadDictionary();
     
+    private String avoidMessage = "";
+    
     // default constructor
     public AtdRuleConverter() {
         super();
@@ -63,6 +65,11 @@ public class AtdRuleConverter extends RuleConverter {
     // constructor with filename
     public AtdRuleConverter(String inFile, String outFile, String specificFileType) {
         super(inFile,outFile,specificFileType);
+    }
+    
+    @Override
+    public String getOriginalRuleString(Object ruleObject) {
+    	return (String)ruleObject;
     }
     
     @Override
@@ -92,10 +99,15 @@ public class AtdRuleConverter extends RuleConverter {
         // list to hold the rules as strings
         List<String> ruleList = new ArrayList<String>();
         try {
+        	int lineCount = 0;
             while (in.hasNextLine()) {
                 String line = in.nextLine().trim();
                 // toss the comments and blank lines
-                if (line.startsWith("#") || line.equals("")) {
+                // check for the explanation you can give you an interro-hash at the beginning of "avoid" files
+                if (line.startsWith("#?") && lineCount == 0 && ruleType.equals("avoid")) {
+                	avoidMessage = line.substring(2);
+                }
+                else if (line.startsWith("#") || line.equals("")) {
                     continue;
                 } else {
                     if (line.contains("#")) {
@@ -103,6 +115,7 @@ public class AtdRuleConverter extends RuleConverter {
                     }
                     ruleList.add(line);
                 }
+                lineCount++;
             }
         } finally {
             in.close();
@@ -153,9 +166,35 @@ public class AtdRuleConverter extends RuleConverter {
             }
         }
         else if (this.ruleType == "avoid") {
-            String[] splitRule = rule.split("\t+");    // should include checking if there's no tab, or no term after the tab
-            outRule.put("pattern", splitRule[0]);
-            outRule.put("explanation", splitRule[1]);    // so this'll have to change            
+        	// sometimes avoid rules still have word:: declarations
+        	if (rule.contains("::word")) {
+        		String[] splitRule = rule.split("::");
+        		outRule.put("pattern", splitRule[0]);
+        		if (splitRule.length > 1) {
+                    for (int i=1;i<splitRule.length;i++) {
+                        // add with key=declaration, value=terms 
+                        String[] splitDeclaration = splitRule[i].split("=");
+                        try {
+                        	outRule.put(splitDeclaration[0], splitDeclaration[1]);
+                        } catch (ArrayIndexOutOfBoundsException e) {
+                        	System.err.println("Incorrect declaration for rule " + rule + "; rule skipped");
+                        }
+                        
+                    }
+                }
+        		
+        	} else {
+        		String[] splitRule = rule.split("\t+");
+        		outRule.put("pattern", splitRule[0]);
+                // if there's no tab, or no term after the tab, like clichedb.txt
+                if (splitRule.length > 1) {
+                	outRule.put("explanation", splitRule[1]);
+                } else {
+                	outRule.put("explanation", "");
+                }
+        	}
+            
+            
         }
         // accounting for the fact that AtD is case sensitive
         if (isCaseSensitiveRule(outRule.get("pattern"))) {
@@ -199,12 +238,7 @@ public class AtdRuleConverter extends RuleConverter {
         } else {
         	outerList.add(mainRule);
         }
-//        ltRule.add("<!-- " + rule.get("ruleString") + " -->"); write this in at the end now
-//        if (id != null && name != null) {
-//            ltRule.add(firstIndent + "<rule " + "id=\"" + id + "\" name=\"" + name + "\">");
-//        } else {
-//            ltRule.add(firstIndent + "<rule>");
-//        }  
+ 
         ArrayList<String> bigLtRule = new ArrayList<String>();
         bigLtRule.add("<!-- " + mainRule.get("ruleString") + " -->");
         if (outerList.size() > 1) {
@@ -243,6 +277,7 @@ public class AtdRuleConverter extends RuleConverter {
             pattern = newpattern;
             for (int i=0;i<pattern.length;i++) {
                 String e = pattern[i];
+                currentWarning = getWarningsFromPatternElement(currentWarning, e);
                 ltRule = addTokenHelper(ltRule,e,thirdIndentInt,exceptions);
             }
             ltRule.add(secondIndent + "</pattern>");
@@ -250,16 +285,16 @@ public class AtdRuleConverter extends RuleConverter {
             	currentWarning = getWarningsFromSuggestion(currentWarning, suggestion);
                 ltRule = addSuggestion(ltRule, suggestion, pattern, secondIndentInt);
             }
+            // for the "avoid" type rules, like biasdb.txt and avoiddb.txt
+            if (rule.containsKey("explanation")) {
+            	String explanation = rule.get("explanation");
+            	ltRule = addExplanation(ltRule,explanation,secondIndentInt);
+            }
             if (rule.containsKey("filter")) {
                 if (rule.get("filter").equals("kill") || rule.get("filter").equals("die")) {
                     ltRule.add(secondIndent + "<disambig action=\"immunize\"/>");
-                } else if (rule.get("filter").equals("none")) {
-                	// none filter is the default
-                	// "stats" filter we can't duplicate
-                } else if (rule.get("filter").equals("indefarticle")) {
-                	currentWarning += "The \"indefarticle\" filter uses an n-gram probability filter. It probably shouldn't be transferred.";
-                } else {
-                	currentWarning += "Filter other than kill.\n";
+                } else { 
+                	currentWarning = getWarningsFromFilter(currentWarning,rule.get("filter"));
                 }
             }
             ltRule.add(firstIndent + "</rule>");
@@ -272,6 +307,31 @@ public class AtdRuleConverter extends RuleConverter {
         return bigLtRule;
     }
     
+    /**
+     * Returns warnings from the pattern element of an AtD rule
+     * @param curWarn
+     * @param element
+     * @return
+     */
+    private String getWarningsFromPatternElement(String curWarn, String element) {
+    	String token;
+    	if (hasPosTag(element)) {
+    		token = element.split("/")[0];
+    	} else {
+    		token = element;
+    	}
+    	if (isRegex(token) && (token.contains("<") || token.contains(">"))) {
+    		curWarn += "Angle brackets in regular expressions need to be written as &gt; or &lt;\n";
+    	}
+    	return curWarn;
+    }
+    
+    /**
+     * Returns warnings from the suggestion part of an AtD rule
+     * @param curWarn
+     * @param sugg
+     * @return
+     */
     private String getWarningsFromSuggestion(String curWarn, String sugg) {
     	String[] splitSuggs = sugg.split(",\\s*");
     	for (String ss : splitSuggs) {
@@ -279,16 +339,40 @@ public class AtdRuleConverter extends RuleConverter {
     		for (String sp : suggestionParts) {
     			String transform = getTransformString(sp);
     			if (transform.equals(":positive")) {
-    				curWarn += "Positive transform not supported.";
+    				curWarn += "Positive transform not supported.\n";
     			} else if (transform.equals(":determiner")) {
-    				curWarn += "Determiner transform relies on bigram probabilities. Current implementation just returns \"the\"";
+    				curWarn += "Determiner transform relies on bigram probabilities. Current implementation just returns \"the\"\n";
+    			} else if (transform.equals(":nosuffix")) {
+    				curWarn += "No suffix transform doesn't work for match elements or regular expressions.\n";
     			}
     		}
     	}
     	return curWarn;
     }
     
-    // only applies if we're not in a special apostrophe case
+    /**
+     * Returns warnings based on the filter specified in the AtD rule
+     * @param curWarn
+     * @param filter
+     * @return
+     */
+    private String getWarningsFromFilter(String curWarn, String filter) {
+    	if (filter.equals("indefarticle")) {
+    		curWarn += "Indefarticle filter uses n-gram probabilities. Rules using it should probably be discarded.\n";
+    	} else if (filter.equals("stats")) {
+    		curWarn += "Stats filter uses n-gram probabilities. Rules using it should probably be discarded.\n";
+    	} else if (filter.equals("nextonly")) {
+    		curWarn += "Nextonly filter uses n-gram probabilities. Rules using it should probably be discarded.\n";
+    	}
+    	return curWarn;
+    }
+    
+    /**
+     * Fixes the normal apostrophes in a pattern, so the LT tokens can be correctly generated
+     * For example, turns "don't be cruel" into "don ' t be cruel".
+     * @param p
+     * @return
+     */
     private String[] fixApostrophes(String[] p) {
     	ArrayList<String> retList = new ArrayList<String>();
     	for (String s : p) {
@@ -306,89 +390,6 @@ public class AtdRuleConverter extends RuleConverter {
     	return retList.toArray(new String[retList.size()]);
     }
     
-    // glues a split pattern back together
-    private static String gluePattern(String[] p) {
-    	StringBuilder sb = new StringBuilder();
-    	for (String s : p) {
-    		sb.append(s);
-    		sb.append(' ');
-    	}
-    	return sb.toString().trim();
-    }
-    
-    /*
-    private String fixApostrophesSuggestion(String sugg, String[] oldp) {
-    	String[] splitS = sugg.split(",");
-    	
-    	for (int i=0;i<splitS.length;i++) {
-    		String curs = splitS[i];
-    		String[] sc = curs.split("\\ +");
-    		ArrayList<String> newSuggestion = new ArrayList<String>();
-    		int numBump = 0;
-    		for (int j=0;j<sc.length;j++) {
-    			String e = sc[j];
-    			int numMatched = getReference(e);
-    			if (numMatched != -1) {
-    				String transform = getTransformString(e);
-        			if (oldp[numMatched].contains("'")) {
-        				String[] newElements = oldp[numMatched].replaceAll("'", " ' ").split("\\ +");
-        				numBump = newElements.length;
-        				for (int k=0;k<newElements.length;k++) {
-        					newSuggestion.add("\\\\" + numMatched++ + transform);
-        				}
-        			} else {
-        				newSuggestion.add("\\\\" + (numMatched + numBump - 1) + transform);
-        			}
-    			} else {
-    				newSuggestion.add(e);
-    			}
-    			
-    		}
-    		StringBuilder sb = new StringBuilder();
-    		for (String s : newSuggestion) {
-    			sb.append(s + " ");
-    		}
-    		splitS[i] = sb.toString().trim();
-    	}
-    	StringBuilder sb = new StringBuilder();
-    	for (String s : splitS) {
-    		sb.append(s + ",");
-    	}
-    	String retString = sb.toString();
-    	return retString.substring(0, retString.length() - 1);
-    }
-    */
-    
-    
-    private String getTransformString(String ref) {
-    	Matcher m2 = wordReferenceTransform.matcher(ref);
-    	if (m2.find()) {
-    		return ":" + m2.group(2);
-    	}
-    	return "";
-    }
-    
-    /*
-    private int getReference(String ref) {
-    	Matcher m1 = wordReference.matcher(ref);
-    	if (m1.find()) {
-    		return Integer.parseInt(m1.group(1));
-    	}
-    	return -1;
-    }
-    */
-    
-    public ArrayList<String> handleRegularApostrophe(ArrayList<String> ltRule, String element, int indent, String exceptions) {
-    	if (element.equals("'")) {
-    		ltRule = addTokenHelper(ltRule,element,indent,exceptions);
-    		return ltRule;
-    	}
-    	String[] temp = element.replaceAll("'", " ' ").split("\\ +");
-        for (String sTemp : temp) {
-            ltRule = addTokenHelper(ltRule,sTemp,indent,exceptions);
-        }
-        return ltRule;
-    }
     
     
     /**
@@ -479,27 +480,6 @@ public class AtdRuleConverter extends RuleConverter {
     	
     }
     
-    /**
-     * Helper method to appropriate add an item to a HashMap
-     * @param map
-     * @param key
-     * @param item
-     * @return
-     */
-    public HashMap<String,ArrayList<String>> addItemSmart(HashMap<String,ArrayList<String>> map, String key, String item) {
-    	if (map.containsKey(key)) {
-    		ArrayList<String> existing = map.get(key);
-    		existing.add(item);
-    		map.put(key,existing);
-    	} else {
-    		ArrayList<String> newList = new ArrayList<String>();
-    		newList.add(item);
-    		map.put(key, newList);
-    	}
-    	return map;
-    }
-     
-    
     public static boolean isMacro(String e) {
         return e.contains("&");
     }
@@ -561,11 +541,23 @@ public class AtdRuleConverter extends RuleConverter {
         return ltRule;
     }
     
-    public static ArrayList<String> addSuggestion(ArrayList<String> orig, String suggestion, String[] pattern, int indent) {
+    private static ArrayList<String> addSuggestion(ArrayList<String> orig, String suggestion, String[] pattern, int indent) {
         String space = getSpace(indent) ;
         orig.add(space + "<message> " + expandSuggestion(suggestion,pattern) + "</message>");
         return orig;
     }
+
+    
+    private ArrayList<String> addExplanation(ArrayList<String> orig, String explanation, int indent) {
+    	String space = getSpace(indent);
+    	String explanationString = "";
+    	if (!explanation.equals("")) {
+    		explanationString = " \"" + explanation + "\"";
+    	}
+    	orig.add(space + "<message>" + avoidMessage + explanationString + "</message>");
+    	return orig;
+    }
+    
   
     /**
      * Takes the word=... suggestion from an AtD rule and puts it in LT <message> format
@@ -725,32 +717,6 @@ public class AtdRuleConverter extends RuleConverter {
     }
     
     /**
-     * Checks if an element of the AtD pattern has a specific postag.
-     * @param word: an element of an AtD pattern; (accepts both .\*\/NN and <word> types)
-     * @param postag: a specific postag (no regexes)
-     * @return
-     */
-    public static boolean hasSpecificPosTag(String word, String postag) {
-    	if (dictLookup == null) {
-    		dictLookup = (DictionaryLookup) loadDictionary();
-    	}
-    	if (hasPosTag(word)) {
-    		String[] splitWord = word.split("/");
-    		if (Pattern.matches(splitWord[1], postag)) {
-    			return true;
-    		}
-    		return false;
-    	}
-    	List<WordData> lwd = dictLookup.lookup(word);
-    	for (WordData wd : lwd) {
-    		if (wd.getTag().toString().equals(postag)) {
-    			return true;
-    		}
-    	}
-    	return false;
-    }
-    
-    /**
      * Applies to the AtD false alarm rules
      * @param rule
      * @return
@@ -764,10 +730,29 @@ public class AtdRuleConverter extends RuleConverter {
     	return true;
     }
     
-    @Override
-    public String getOriginalRuleString(Object ruleObject) {
-    	return (String)ruleObject;
+    /**
+     * Glues a split pattern back together
+     * @param p
+     * @return
+     */
+    private static String gluePattern(String[] p) {
+    	StringBuilder sb = new StringBuilder();
+    	for (String s : p) {
+    		sb.append(s);
+    		sb.append(' ');
+    	}
+    	return sb.toString().trim();
     }
+    
+    private static String getTransformString(String ref) {
+    	Matcher m2 = wordReferenceTransform.matcher(ref);
+    	if (m2.find()) {
+    		return ":" + m2.group(2);
+    	}
+    	return "";
+    }
+    
+    // ** DICTIONARY METHODS ** 
     
     // if this is done in a non-static way it might save some time or be cleaner
     // changes for later
@@ -797,6 +782,32 @@ public class AtdRuleConverter extends RuleConverter {
         return dictLookup;
     }
     
+    /**
+     * Checks if an element of the AtD pattern has a specific postag.
+     * @param word: an element of an AtD pattern; (accepts both .\*\/NN and <word> types)
+     * @param postag: a specific postag (no regexes)
+     * @return
+     */
+    public static boolean hasSpecificPosTag(String word, String postag) {
+    	if (dictLookup == null) {
+    		dictLookup = (DictionaryLookup) loadDictionary();
+    	}
+    	if (hasPosTag(word)) {
+    		String[] splitWord = word.split("/");
+    		if (Pattern.matches(splitWord[1], postag)) {
+    			return true;
+    		}
+    		return false;
+    	}
+    	List<WordData> lwd = dictLookup.lookup(word);
+    	for (WordData wd : lwd) {
+    		if (wd.getTag().toString().equals(postag)) {
+    			return true;
+    		}
+    	}
+    	return false;
+    }
+    
     public static HashMap<String,String> fillOutMacroExpansions() {
         HashMap<String, String> macroExpansions = new HashMap<String,String>();
         ArrayList<String> lines = fileToListNoBlanks(MACRO_EXPANSIONS_FILE);
@@ -809,6 +820,69 @@ public class AtdRuleConverter extends RuleConverter {
         }
         return macroExpansions;
     }
+    
+    /**
+     * Helper method to appropriate add an item to a HashMap
+     * @param map
+     * @param key
+     * @param item
+     * @return
+     */
+    public static HashMap<String,ArrayList<String>> addItemSmart(HashMap<String,ArrayList<String>> map, String key, String item) {
+    	if (map.containsKey(key)) {
+    		ArrayList<String> existing = map.get(key);
+    		existing.add(item);
+    		map.put(key,existing);
+    	} else {
+    		ArrayList<String> newList = new ArrayList<String>();
+    		newList.add(item);
+    		map.put(key, newList);
+    	}
+    	return map;
+    }
+    
+    /*
+    private String fixApostrophesSuggestion(String sugg, String[] oldp) {
+    	String[] splitS = sugg.split(",");
+    	
+    	for (int i=0;i<splitS.length;i++) {
+    		String curs = splitS[i];
+    		String[] sc = curs.split("\\ +");
+    		ArrayList<String> newSuggestion = new ArrayList<String>();
+    		int numBump = 0;
+    		for (int j=0;j<sc.length;j++) {
+    			String e = sc[j];
+    			int numMatched = getReference(e);
+    			if (numMatched != -1) {
+    				String transform = getTransformString(e);
+        			if (oldp[numMatched].contains("'")) {
+        				String[] newElements = oldp[numMatched].replaceAll("'", " ' ").split("\\ +");
+        				numBump = newElements.length;
+        				for (int k=0;k<newElements.length;k++) {
+        					newSuggestion.add("\\\\" + numMatched++ + transform);
+        				}
+        			} else {
+        				newSuggestion.add("\\\\" + (numMatched + numBump - 1) + transform);
+        			}
+    			} else {
+    				newSuggestion.add(e);
+    			}
+    			
+    		}
+    		StringBuilder sb = new StringBuilder();
+    		for (String s : newSuggestion) {
+    			sb.append(s + " ");
+    		}
+    		splitS[i] = sb.toString().trim();
+    	}
+    	StringBuilder sb = new StringBuilder();
+    	for (String s : splitS) {
+    		sb.append(s + ",");
+    	}
+    	String retString = sb.toString();
+    	return retString.substring(0, retString.length() - 1);
+    }
+    */
     
     
 
