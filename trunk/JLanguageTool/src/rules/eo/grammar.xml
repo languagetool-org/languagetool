@@ -212,15 +212,6 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <example type="correct">Morgaŭ mi trapasos gravan ekzamenon.</example>
     </rule>
 
-    <rule id="NEOFIC_PREP" name="neoficialaj rolvortetoj">
-      <pattern>
-        <token regexp="yes">na|far|cis|fri</token>
-      </pattern>
-      <message>«\1» estas neoficiala rolvorteto, kaj do evitinda.</message>
-      <example type="incorrect">La libro estis verkita <marker>far</marker> fama aŭtoro.</example>
-      <example type="correct">La libro estis verkita fare de fama aŭtoro.</example>
-    </rule>
-
     <rule id="ADICII_AL" name="adicii x al y (adicii x kaj y)">
       <pattern mark_from="2" mark_to="-1">
         <token inflected="yes">adicii</token>
@@ -1140,6 +1131,44 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
     </rulegroup>
   </category>
 
+  <category name="Ne oficialaj vortoj">
+    <rule id="NEOFIC_PREP" name="neoficialaj rolvortetoj">
+      <pattern>
+        <token regexp="yes">na|far|cis|fri</token>
+      </pattern>
+      <message>«\1» estas neoficiala rolvorteto, kaj do evitinda.</message>
+      <example type="incorrect">La libro estis verkita <marker>far</marker> fama aŭtoro.</example>
+      <example type="correct">La libro estis verkita fare de fama aŭtoro.</example>
+    </rule>
+
+    <rule id="NEOFIC_PRON" name="neoficialaj pronomoj">
+      <pattern>
+        <token regexp="yes">ŝli|[rg]i|geli|iŝi|liŝi|ŝili</token>
+      </pattern>
+      <message>«\1» estas neoficiala pronomo, kaj do evitinda.</message>
+      <example type="incorrect"><marker>Ŝli</marker> estas bela.</example>
+      <example type="correct">Ŝi estas bela.</example>
+    </rule>
+
+    <rule id="NEOFIC_ESTIEL" name="neoficialaj vorto estiel">
+      <pattern>
+        <token>estiel</token>
+      </pattern>
+      <message>«\1» estas neoficiala vorto. Konsideru uzi <suggestion>estante</suggestion> aŭ <suggestion>kiel</suggestion>.</message>
+      <example type="incorrect">Mi <marker>estiel</marker> franco ŝatas fromaĝon.</example>
+      <example type="correct">Mi kiel franco ŝatas fromaĝon.</example>
+    </rule>
+    <rule id="NEOFIC_KAUX" name="neoficialaj vorto kaŭ">
+      <pattern>
+        <token>kaŭ</token>
+      </pattern>
+      <message>«\1» estas neoficiala vorto. Konsideru uzi <suggestion>kaj/aŭ</suggestion>.</message>
+      <example type="incorrect">Mi <marker>kaŭ</marker> li ŝatas tion.</example>
+      <example type="correct">Mi kaj/aŭ li ŝatas tion.</example>
+    </rule>
+
+  </category>
+
   <category name="Gramatiko">
 
     <rule id="CXI_FOJE" name="ĉi foje (ĉi-foje)">
@@ -1521,7 +1550,25 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
         <example type="incorrect">Niaj grandaj filinoj estas tre <marker>bela</marker>.</example>
         <example type="correct">Niaj grandaj filinoj estas tre belaj.</example>
       </rule>
-
+      <rule>
+        <pattern mark_from="4" mark_to="-1">
+          <token skip="3" postag="SENT_START|K" postag_regexp="yes"/>
+          <token postag="R nak p." postag_regexp="yes"/>
+          <token>ĉiuj</token>
+          <token skip="1" postag="V nt .*" postag_regexp="yes">
+            <exception scope="next" negate_pos="yes" postag="E.*|[ROA] nak np.*|T nak pl . [ua]|SENT_END" postag_regexp="yes"/>
+          </token>
+          <token postag="[ROA] nak np.*|T nak np . [ua]" postag_regexp="yes">
+            <exception regexp="yes">parto|paro</exception>
+          </token>
+          <token><exception>kaj</exception></token>
+        </pattern>
+        <message>Ne kongrua pluralo inter «\2» kaj «\4».</message>
+        <example type="incorrect">Vi ĉiuj estas <marker>preta</marker>.</example>
+        <example type="correct">Vi ĉiuj estas pretaj.</example>
+        <example type="incorrect">Ni ĉiuj estas <marker>preta</marker>.</example>
+        <example type="correct">Ni ĉiuj estas pretaj.</example>
+      </rule>
       <rule>
         <pattern mark_from="3">
           <token skip="3" postag="SENT_START|K" postag_regexp="yes">
@@ -1594,10 +1641,10 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
 
       <rule>
         <pattern mark_to="-1">
-          <token postag="O.* pl" postag_regexp="yes">
-            <exception scope="previous" postag="A.* pl" postag_regexp="yes"/>
+          <token postag="O ... pl" postag_regexp="yes">
+            <exception scope="previous" postag="A ... pl" postag_regexp="yes"/>
           </token>
-          <token postag="A.* np" postag_regexp="yes">
+          <token postag="A ... np" postag_regexp="yes">
             <exception regexp="yes">aĝa|longa|larga|alta|distanca</exception>
           </token>
           <token negate="yes" regexp="yes">kaj|aŭ|.*on?</token>
@@ -1613,10 +1660,10 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
 
       <rule>
         <pattern mark_to="-1">
-          <token postag="A.* pl" postag_regexp="yes">
+          <token postag="A ... pl" postag_regexp="yes">
             <exception regexp="yes">.*[aio]ntaj</exception>
           </token>
-          <token postag="O.* np" postag_regexp="yes"/>
+          <token postag="O ... np" postag_regexp="yes"/>
           <token negate="yes" regexp="yes">kaj|aŭ</token>
         </pattern>
         <message>Ne kongrua pluralo inter «\1», «\2».</message>
@@ -1628,12 +1675,12 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
 
       <rule>
         <pattern mark_to="-1">
-          <token postag="O.* np" postag_regexp="yes">
+          <token postag="O ... np" postag_regexp="yes">
             <exception scope="previous" regexp="yes">kaj|aŭ</exception>
-            <exception scope="previous" postag="A.* np" postag_regexp="yes"/>
+            <exception scope="previous" postag="A ... np" postag_regexp="yes"/>
           </token>
-          <token postag="A.* pl" postag_regexp="yes"/>
-          <token negate_pos="yes" postag="O.* pl" postag_regexp="yes"/>
+          <token postag="A ... pl" postag_regexp="yes"/>
+          <token negate_pos="yes" postag="O ... pl" postag_regexp="yes"/>
         </pattern>
         <message>Ne kongrua pluralo inter «\1», «\2».</message>
         <example type="incorrect">Mi ŝatas <marker>hundon grandajn</marker>.</example>
@@ -1645,12 +1692,12 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
 
       <rule>
         <pattern>
-          <token postag="A.* np" postag_regexp="yes">
+          <token postag="A ... np" postag_regexp="yes">
             <exception scope="previous" regexp="yes">kaj|aŭ</exception>
             <exception regexp="yes">.*[aio]nta</exception>
-            <exception scope="previous" postag="O.* np" postag_regexp="yes"/>
+            <exception scope="previous" postag="O ... np" postag_regexp="yes"/>
           </token>
-          <token postag="O.* pl" postag_regexp="yes"/>
+          <token postag="O ... pl" postag_regexp="yes"/>
         </pattern>
         <message>Ne kongrua pluralo inter «\1», «\2».</message>
         <example type="incorrect">Mi ŝatas <marker>grandan hundojn</marker>.</example>
@@ -2646,16 +2693,6 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <example type="correct">Mi preferas vojaĝi per trajno ol per aviadilo.</example>
     </rule>
 
-    <!--
-    <rule id="SIA_SUBJ" name="sia subjekto">
-      <pattern>
-        <token regexp="yes">siaj?<exception scope="previous" postag_regexp="yes" postag="P .ak"/></token>
-      </pattern>
-      <message>La vorto «\1» ne povas esti subjekto.</message>
-      <example type="incorrect"><marker>Sia</marker> patro nomis lin "Zam".</example>
-      <example type="correct">Li fieras pri sia patro.</example>
-    </rule>
-    -->
   </category>
 <!-- vim: foldmethod=marker foldmarker=<category,</category:
   -->
