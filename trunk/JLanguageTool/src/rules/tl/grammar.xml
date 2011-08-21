@@ -259,6 +259,121 @@ $Id: grammar.xml,v 1.129 2010/11/13 23:24:21 dnaber Exp $
 			<example type="correct">Maganda <marker>si</marker> Maria.</example>
 		</rule>
 	</category>	
+	<category name="Wrong Determiner">
+		<rule id="SI_NCOM" name="si ncom (ang ncom)">
+			<pattern case_sensitive="no" mark_from="0">
+				<token>si</token>
+				<token postag="NCOM.*" postag_regexp="yes"/>
+			</pattern>
+			<message>Do you mean <suggestion>ang \2</suggestion>? "si" is a personal name marker.</message>
+			<short>Wrong Determiner</short>
+			<example correction="ang abogado" type="incorrect">Pinalakad ni Maria <marker>si abogado</marker>.</example>
+			<example type="correct">Pinalakad ni Maria <marker>ang abogado</marker>.</example>
+		</rule>
+		<rule id="NI_NCOM" name="ni ncom (ng ncom)">
+			<pattern case_sensitive="no" mark_from="0">
+				<token>ni</token>
+				<token postag="NCOM.*" postag_regexp="yes"/>
+			</pattern>
+			<message>Do you mean <suggestion>ng \2</suggestion>? "ni" is a personal name marker.</message>
+			<short>Wrong Determiner</short>
+			<example correction="ng abogado" type="incorrect">Pinalakad <marker>ni abogado</marker> si Maria.</example>
+			<example type="correct">Pinalakad <marker>ng abogado</marker>si Maria.</example>
+		</rule>
+		<rule id="KAY_NCOM" name="kay ncom (sa ncom)">
+			<pattern case_sensitive="no" mark_from="0">
+				<token>kay</token>
+				<token postag="NCOM.*" postag_regexp="yes"/>
+			</pattern>
+			<message>Do you mean <suggestion>sa \2</suggestion>? "kay" is a personal name marker.</message>
+			<short>Wrong Determiner</short>
+			<example correction="sa abogado" type="incorrect">Pinalakad <marker>kay abogado</marker> ang lupa.</example>
+			<example type="correct">Pinalakad <marker>sa abogado</marker> ang lupa.</example>
+		</rule>
+	</category>	
+	<category name="Word Repetition">
+		<rule id="ANG_ANG" name="ang ang (ang mga)">
+			<pattern case_sensitive="no" mark_from="0">
+				<token>ang</token>
+				<token>ang</token>
+			</pattern>
+			<message>Do you mean <suggestion>\1 mga</suggestion>? "ang" can not be followed by another "ang".</message>
+			<short>Word Repetition</short>
+			<example correction="ang mga" type="incorrect">Maganda <marker>ang ang</marker> tanawin.</example>
+			<example type="correct">Maganda <marker>ang mga</marker> tanawin.</example>
+		</rule>
+		<rule id="MGA_MGA" name="mga mga (ang mga)">
+			<pattern case_sensitive="no" mark_from="0">
+				<token>mga</token>
+				<token>mga</token>
+			</pattern>
+			<message>Do you mean <suggestion>ang \2</suggestion>? "mga" can not be followed by another "mga".</message>
+			<short>Word Repetition</short>
+			<example correction="ang mga" type="incorrect">Maganda <marker>mga mga</marker> tanawin.</example>
+			<example type="correct">Maganda <marker>ang mga</marker> tanawin.</example>
+		</rule>
+		<rule id="NG_NG" name="ng ng (ng mga)">
+			<pattern case_sensitive="no" mark_from="0">
+				<token>ng</token>
+				<token>ng</token>
+			</pattern>
+			<message>Do you mean <suggestion>\1 mga</suggestion>? "ng" can not be followed by another "ng".</message>
+			<short>Word Repetition</short>
+			<example correction="ng mga" type="incorrect">Pinalakad <marker>ng ng</marker> abogado si Maria.</example>
+			<example type="correct">Pinalakad <marker>ng mga</marker> abogado si Maria.</example>
+		</rule>
+	</category>
+	<category name="Common Typo Errors">
+		<rule id="LAGGING" name="lagging (laging)">
+			<pattern case_sensitive="no" mark_from="0">
+				<token>lagging</token>
+			</pattern>
+			<message>Do you mean <suggestion>laging</suggestion>?</message>
+			<short>Common Typo Errors</short>
+			<example correction="laging" type="incorrect">Kapag <marker>lagging</marker> kapiling kita, sumasaya ako.</example>
+			<example type="correct">Kapag <marker>laging</marker> kapiling kita, sumasaya ako.</example>
+		</rule>
+		<rule id="NAGGING" name="nagging (naging)">
+			<pattern case_sensitive="no" mark_from="0">
+				<token>nagging</token>
+			</pattern>
+			<message>Do you mean <suggestion>naging</suggestion>?</message>
+			<short>Common Typo Errors</short>
+			<example correction="naging" type="incorrect">Siya ay <marker>nagging</marker> aso.</example>
+			<example type="correct">Siya ay <marker>naging</marker> aso.</example>
+		</rule>
+	</category>
+	<category name="Loan Words">
+		<rule id="CAKE" name="cake (keyk)">
+			<pattern case_sensitive="no" mark_from="0">
+				<token>cake</token>
+			</pattern>
+			<message>Do you mean <suggestion>keyk</suggestion>?</message>
+			<short>Loan Words</short>
+			<example correction="keyk" type="incorrect">Kumain kami ng <marker>cake</marker> kagabi.</example>
+			<example type="correct">Kumain kami ng <marker>keyk</marker> kagabi.</example>
+		</rule>
+		<rule id="SCORE" name="score (iskor)">
+			<pattern case_sensitive="no" mark_from="0">
+				<token>score</token>
+			</pattern>
+			<message>Do you mean <suggestion>iskor</suggestion>?</message>
+			<short>Loan Words</short>
+			<example correction="iskor" type="incorrect">Ano na ang <marker>score</marker>?</example>
+			<example type="correct">Ano na ang <marker>iskor</marker>?</example>
+		</rule>
+	</category>
+	<category name="Conyo">
+		<rule id="WHERE" name="where (nasaan)">
+			<pattern case_sensitive="no" mark_from="0">
+				<token>where</token>
+			</pattern>
+			<message>Do you mean <suggestion>nasaan</suggestion>?</message>
+			<short>Conyo</short>
+			<example correction="nasaan" type="incorrect">Ano ba, <marker>where</marker> na kayo?</example>
+			<example type="correct">Ano ba, <marker>nasaan</marker> na kayo?</example>
+		</rule>
+	</category>
 	<category name="Missing Determiner">
 		<rule id="ADJECTIVE_NPRO" name="adjective npro (adjective si npro)">
 			<pattern case_sensitive="no" mark_from="1" mark_to="-1">
@@ -375,121 +490,6 @@ $Id: grammar.xml,v 1.129 2010/11/13 23:24:21 dnaber Exp $
 			<short>Exchange Word Positions</short>
 			<example correction="si Maria" type="incorrect">Maganda <marker>Maria si</marker>.</example>
 			<example type="correct">Maganda <marker>si Maria</marker>.</example>
-		</rule>
-	</category>
-	<category name="Wrong Determiner">
-		<rule id="SI_NCOM" name="si ncom (ang ncom)">
-			<pattern case_sensitive="no" mark_from="0">
-				<token>si</token>
-				<token postag="NCOM.*" postag_regexp="yes"/>
-			</pattern>
-			<message>Do you mean <suggestion>ang \2</suggestion>? "si" is a personal name marker.</message>
-			<short>Wrong Determiner</short>
-			<example correction="ang abogado" type="incorrect">Pinalakad ni Maria <marker>si abogado</marker>.</example>
-			<example type="correct">Pinalakad ni Maria <marker>ang abogado</marker>.</example>
-		</rule>
-		<rule id="NI_NCOM" name="ni ncom (ng ncom)">
-			<pattern case_sensitive="no" mark_from="0">
-				<token>ni</token>
-				<token postag="NCOM.*" postag_regexp="yes"/>
-			</pattern>
-			<message>Do you mean <suggestion>ng \2</suggestion>? "ni" is a personal name marker.</message>
-			<short>Wrong Determiner</short>
-			<example correction="ng abogado" type="incorrect">Pinalakad <marker>ni abogado</marker> si Maria.</example>
-			<example type="correct">Pinalakad <marker>ng abogado</marker>si Maria.</example>
-		</rule>
-		<rule id="KAY_NCOM" name="kay ncom (sa ncom)">
-			<pattern case_sensitive="no" mark_from="0">
-				<token>kay</token>
-				<token postag="NCOM.*" postag_regexp="yes"/>
-			</pattern>
-			<message>Do you mean <suggestion>sa \2</suggestion>? "kay" is a personal name marker.</message>
-			<short>Wrong Determiner</short>
-			<example correction="sa abogado" type="incorrect">Pinalakad <marker>kay abogado</marker> ang lupa.</example>
-			<example type="correct">Pinalakad <marker>sa abogado</marker> ang lupa.</example>
-		</rule>
-	</category>	
-	<category name="Word Repetition">
-		<rule id="ANG_ANG" name="ang ang (ang mga)">
-			<pattern case_sensitive="no" mark_from="0">
-				<token>ang</token>
-				<token>ang</token>
-			</pattern>
-			<message>Do you mean <suggestion>\1 mga</suggestion>? "ang" can not be followed by another "ang".</message>
-			<short>Word Repetition</short>
-			<example correction="ang mga" type="incorrect">Maganda <marker>ang ang</marker> tanawin.</example>
-			<example type="correct">Maganda <marker>ang mga</marker> tanawin.</example>
-		</rule>
-		<rule id="MGA_MGA" name="mga mga (ang mga)">
-			<pattern case_sensitive="no" mark_from="0">
-				<token>mga</token>
-				<token>mga</token>
-			</pattern>
-			<message>Do you mean <suggestion>ang \2</suggestion>? "mga" can not be followed by another "mga".</message>
-			<short>Word Repetition</short>
-			<example correction="ang mga" type="incorrect">Maganda <marker>mga mga</marker> tanawin.</example>
-			<example type="correct">Maganda <marker>ang mga</marker> tanawin.</example>
-		</rule>
-		<rule id="NG_NG" name="ng ng (ng mga)">
-			<pattern case_sensitive="no" mark_from="0">
-				<token>ng</token>
-				<token>ng</token>
-			</pattern>
-			<message>Do you mean <suggestion>\1 mga</suggestion>? "ng" can not be followed by another "ng".</message>
-			<short>Word Repetition</short>
-			<example correction="ng mga" type="incorrect">Pinalakad <marker>ng ng</marker> abogado si Maria.</example>
-			<example type="correct">Pinalakad <marker>ng mga</marker> abogado si Maria.</example>
-		</rule>
-	</category>
-	<category name="Common Typo Errors">
-		<rule id="LAGGING" name="lagging (laging)">
-			<pattern case_sensitive="no" mark_from="0">
-				<token>lagging</token>
-			</pattern>
-			<message>Do you mean <suggestion>laging</suggestion>?</message>
-			<short>Common Typo Errors</short>
-			<example correction="laging" type="incorrect">Kapag <marker>lagging</marker> kapiling kita, sumasaya ako.</example>
-			<example type="correct">Kapag <marker>laging</marker> kapiling kita, sumasaya ako.</example>
-		</rule>
-		<rule id="NAGGING" name="nagging (naging)">
-			<pattern case_sensitive="no" mark_from="0">
-				<token>nagging</token>
-			</pattern>
-			<message>Do you mean <suggestion>naging</suggestion>?</message>
-			<short>Common Typo Errors</short>
-			<example correction="naging" type="incorrect">Siya ay <marker>nagging</marker> aso.</example>
-			<example type="correct">Siya ay <marker>naging</marker> aso.</example>
-		</rule>
-	</category>
-	<category name="Loan Words">
-		<rule id="CAKE" name="cake (keyk)">
-			<pattern case_sensitive="no" mark_from="0">
-				<token>cake</token>
-			</pattern>
-			<message>Do you mean <suggestion>keyk</suggestion>?</message>
-			<short>Loan Words</short>
-			<example correction="keyk" type="incorrect">Kumain kami ng <marker>cake</marker> kagabi.</example>
-			<example type="correct">Kumain kami ng <marker>keyk</marker> kagabi.</example>
-		</rule>
-		<rule id="SCORE" name="score (iskor)">
-			<pattern case_sensitive="no" mark_from="0">
-				<token>score</token>
-			</pattern>
-			<message>Do you mean <suggestion>iskor</suggestion>?</message>
-			<short>Loan Words</short>
-			<example correction="iskor" type="incorrect">Ano na ang <marker>score</marker>?</example>
-			<example type="correct">Ano na ang <marker>iskor</marker>?</example>
-		</rule>
-	</category>
-	<category name="Conyo">
-		<rule id="WHERE" name="where (nasaan)">
-			<pattern case_sensitive="no" mark_from="0">
-				<token>where</token>
-			</pattern>
-			<message>Do you mean <suggestion>nasaan</suggestion>?</message>
-			<short>Conyo</short>
-			<example correction="nasaan" type="incorrect">Ano ba, <marker>where</marker> na kayo?</example>
-			<example type="correct">Ano ba, <marker>nasaan</marker> na kayo?</example>
 		</rule>
 	</category>
 </rules>
