@@ -1507,7 +1507,7 @@ though, and has since been slightly modified)-->
           <token>de</token>
           <token regexp="yes">fées?|traditions?</token>
         </pattern>
-        <message>Voules-vous écrire <suggestion><match no="1" regexp_match="(.*)mp(.*)" regexp_replace="$1n$2"/></suggestion>?</message>
+        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="(.*)mp(.*)" regexp_replace="$1n$2"/></suggestion>?</message>
         <example type="incorrect">Elle aime les <marker>comptes</marker> de fées.</example>
         <example type="correct">Elle aime les contes de fées.</example>
       </rule>
@@ -1518,7 +1518,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">[’´'‛′‘]</token>
           <token regexp="yes">amour|horreur</token>
         </pattern>
-        <message>Voules-vous écrire <suggestion><match no="1" regexp_match="(.*)mp(.*)" regexp_replace="$1n$2"/></suggestion>?</message>
+        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="(.*)mp(.*)" regexp_replace="$1n$2"/></suggestion>?</message>
         <example type="incorrect">Elle aime les <marker>comptes</marker> d’horreur.</example>
         <example type="correct">Elle aime les contes d’horreur.</example>
       </rule>
@@ -1527,7 +1527,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">comptes?</token>
           <token regexp="yes">allégoriques?|fantastiques?|littéraires?|merveilleux|morals?|oral|oraux|écrits?|populaires?|satiriques?|véhiculés?</token>
         </pattern>
-        <message>Voules-vous écrire <suggestion><match no="1" regexp_match="(.*)mp(.*)" regexp_replace="$1n$2"/></suggestion>?</message>
+        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="(.*)mp(.*)" regexp_replace="$1n$2"/></suggestion>?</message>
         <example type="incorrect">Elle aime les <marker>comptes</marker> fantastiques.</example>
         <example type="correct">Elle aime les contes fantastiques.</example>
       </rule>
@@ -1539,10 +1539,33 @@ though, and has since been slightly modified)-->
         <token regexp="yes">au|aucun|autre|bon|ce|du|grand|le|leur|meilleur|[mts]on|[nv]otre|par|petit|un</token>
         <token>marcher</token>
       </pattern>
-      <message>Voules-vous écrire <suggestion><match no="2" regexp_match="er" regexp_replace="é"/></suggestion>?</message>
+      <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="er" regexp_replace="é"/></suggestion>?</message>
       <example type="incorrect">Elle va au <marker>marcher</marker>.</example>
       <example type="correct">Elle va au marché.</example>
     </rule>
+
+    <rulegroup id="DECREPI_DECREPIT" name="décrépi ou décrépit">
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes" skip="1">vieux|(vieille|vieillesse|vieillard|homme|femme|visage|corp|mine|apparence)s?|animal|animaux|peau</token>
+          <token regexp="yes">décrépie?s?</token>
+        </pattern>
+        <message>« \2 » signifie « avoir perdu son crépi ». Voulez-vous écrire <suggestion><match no="2" regexp_match="i" regexp_replace="it"/></suggestion>?</message>
+        <example type="incorrect">Son visage était <marker>décrépi</marker>.</example>
+        <example type="correct">Son visage était décrépit.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-3">
+          <token regexp="yes">décrépie?s?</token>
+          <token>par</token>
+          <token regexp="yes" skip="1">les?|l|son</token>
+          <token regexp="yes">années|ans|temps|âge</token>
+        </pattern>
+        <message>« \1 » signifie « avoir perdu son crépi ». Voulez-vous écrire <suggestion><match no="1" regexp_match="i" regexp_replace="it"/></suggestion>?</message>
+        <example type="incorrect">Elle semblait <marker>décrépie</marker> par les années.</example>
+        <example type="correct">Elle semblait décrépite par les années.</example>
+      </rule>
+    </rulegroup>
 
   </category>
   <category name="Élision">
@@ -1554,7 +1577,7 @@ though, and has since been slightly modified)-->
           <token>que</token>
           <token regexp="yes">à|ils?|elles?|on|une?</token>
         </pattern>
-        <message>«\1 \2 \3» s’élide en <suggestion>\1 qu’\3</suggestion>.</message>
+        <message>« \1 \2 \3 » s’élide en <suggestion>\1 qu’\3</suggestion>.</message>
         <example type="incorrect"><marker>Parce que il</marker> fait froid.</example>
         <example type="correct">Parce qu’il fait froid.</example>
         <example type="correct">Parce que en février il fait froid.</example>
@@ -1566,7 +1589,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">[’´'‛′‘]</token>
           <token negate="yes" regexp="yes">à|ils?|elles?|on|une?</token>
         </pattern>
-        <message>«Parce que» ne s’élide que devant à, il, ils, elle, elles, on, un, une. Employez <suggestion>\1 que \4</suggestion>.</message>
+        <message>« Parce que » ne s’élide que devant à, il, ils, elle, elles, on, un, une. Employez <suggestion>\1 que \4</suggestion>.</message>
         <example type="incorrect"><marker>Parce qu’en</marker> février il fait froid.</example>
         <example type="correct">Parce que en février il fait froid.</example>
         <example type="correct">Parce qu’il est malade.</example>
@@ -1578,7 +1601,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">puisque|lorsque</token>
           <token regexp="yes">ils?|elles?|on|en|une?</token>
         </pattern>
-        <message>«\1 \2» s’élide en <suggestion>puisqu’\2</suggestion>.</message>
+        <message>« \1 \2 » s’élide en <suggestion>puisqu’\2</suggestion>.</message>
         <example type="incorrect"><marker>Puisque en</marker> février il fait froid.</example>
         <example type="correct"><marker>Puisqu’en</marker> février il fait froid.</example>
         <example type="correct">Puisque aussitôt il partit.</example>
@@ -1589,7 +1612,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">[’´'‛′‘]</token>
           <token negate="yes" regexp="yes">ils?|elles?|on|en|une?</token>
         </pattern>
-        <message>«\1e» ne s’élide que devant il, ils, elle, elles, on, en, un, une. Employez <suggestion>\1e \3</suggestion>.</message>
+        <message>« \1e » ne s’élide que devant il, ils, elle, elles, on, en, un, une. Employez <suggestion>\1e \3</suggestion>.</message>
         <example type="incorrect"><marker>Puisqu’aussitôt</marker> il partit.</example>
         <example type="correct">Puisque aussitôt il partit.</example>
         <example type="correct">Puisque en février il fait froid.</example>
@@ -1601,7 +1624,7 @@ though, and has since been slightly modified)-->
           <token>quoique</token>
           <token regexp="yes">ils?|elles?|on</token>
         </pattern>
-        <message>«\1 \2» s’élide en <suggestion>puisqu’\2</suggestion>.</message>
+        <message>« \1 \2 » s’élide en <suggestion>puisqu’\2</suggestion>.</message>
         <example type="incorrect"><marker>Quoique on</marker> en dise</example>
         <example type="correct"><marker>Quoiqu’on</marker> en dise</example>
       </rule>
@@ -1613,7 +1636,7 @@ though, and has since been slightly modified)-->
           <token>presque</token>
           <token regexp="yes">îles?</token>
         </pattern>
-        <message>«\1 \2» s’élide en <suggestion>presqu’île</suggestion>.</message>
+        <message>« \1 \2 » s’élide en <suggestion>presqu’île</suggestion>.</message>
         <example type="incorrect">Une <marker>presque île</marker></example>
         <example type="correct">Une presqu’île</example>
       </rule>
@@ -1623,7 +1646,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">[’´'‛′‘]</token>
           <token negate="yes" regexp="yes">îles?</token>
         </pattern>
-        <message>«presque» ne s’élide que dans le nom «presqu’île». Employez <suggestion>\1e \3</suggestion>.</message>
+        <message>« presque » ne s’élide que dans le nom « presqu’île ». Employez <suggestion>\1e \3</suggestion>.</message>
         <example type="incorrect">La réponse est <marker>presqu’exacte</marker>.</example>
         <example type="correct">La réponse est presque exacte.</example>
       </rule>
@@ -1633,7 +1656,7 @@ though, and has since been slightly modified)-->
         <token regexp="yes">[dljmnst]e|la|jusque</token>
         <token regexp="yes">[àâaéêèeiîou].*<exception regexp="yes">onze|onzièmes?|un|a|oui|énième</exception></token>
       </pattern>
-      <message>«\1 \2» s’élide en <suggestion><match no="1" regexp_match=".$" regexp_replace=""/>’\2</suggestion>.</message>
+      <message>« \1 \2 » s’élide en <suggestion><match no="1" regexp_match=".$" regexp_replace=""/>’\2</suggestion>.</message>
       <example type="incorrect"><marker>La île</marker> est encore loin.</example>
       <example type="correct">L’île est encore loin.</example>
       <example type="correct">Il connait l’histoire de A à Z.</example>
@@ -1647,7 +1670,7 @@ though, and has since been slightly modified)-->
         <token>si</token>
         <token regexp="yes">ils?</token>
       </pattern>
-      <message>«\1 \2» s’élide en <suggestion><match no="1" regexp_match=".$" regexp_replace=""/>’\2</suggestion>.</message>
+      <message>« \1 \2 » s’élide en <suggestion><match no="1" regexp_match=".$" regexp_replace=""/>’\2</suggestion>.</message>
       <example type="incorrect"><marker>Si il</marker> pleut, je reste ici.</example>
       <example type="correct">S’il pleut, je reste ici.</example>
     </rule>
@@ -2138,7 +2161,7 @@ though, and has since been slightly modified)-->
             <exception regexp="yes">[lmnsty]|en|ou|ne?|soussignée?</exception>
           </token>
         </pattern>
-        <message>« \2 » n’est pas un verbe.</message>
+        <message>« \2 » n’est pas un verbe.</message>
         <example type="incorrect">Tu <marker>sorts</marker> ce soir.</example>
         <example type="correct">Tu <marker>sors</marker> ce soir.</example>
         <example type="correct">Je soussigné Pierre Dupont déclare avoir pris connaissance des conditions de ce contrat.</example>
@@ -2153,7 +2176,7 @@ though, and has since been slightly modified)-->
             <exception regexp="yes">y|en|[lmnst]</exception>
           </token>
         </pattern>
-        <message>« \3 » n’est pas un verbe.</message>
+        <message>« \3 » n’est pas un verbe.</message>
         <example type="incorrect">Tu ne <marker>sorts</marker> pas ce soir.</example>
         <example type="correct">Tu ne <marker>sors</marker> pas ce soir.</example>
         <example type="correct">Je ne <marker>donne</marker> rien.</example>
@@ -2168,7 +2191,7 @@ though, and has since been slightly modified)-->
             <exception regexp="yes">y|en</exception>
           </token>
         </pattern>
-        <message>« \4 » n’est pas un verbe.</message>
+        <message>« \4 » n’est pas un verbe.</message>
         <example type="incorrect">Tu ne la <marker>sorts</marker> pas ce soir.</example>
         <example type="correct">Tu ne la <marker>sors</marker> pas ce soir.</example>
       </rule>
@@ -2183,7 +2206,7 @@ though, and has since been slightly modified)-->
             <exception regexp="yes">y|en</exception>
           </token>
         </pattern>
-        <message>« \5 » n’est pas un verbe.</message>
+        <message>« \5 » n’est pas un verbe.</message>
         <example type="incorrect">Je ne l’<marker>abandon</marker> pas.</example>
         <example type="correct">Je ne l’<marker>abandonne</marker> pas.</example>
       </rule>
@@ -2469,7 +2492,7 @@ though, and has since been slightly modified)-->
           </token>
           <token regexp="yes">demain|après-demain|bientôt</token>
         </pattern>
-        <message>Vérifier si le verbe « \1 » ne devrait pas être au futur plutôt qu'au conditionnel.</message>
+        <message>Vérifier si le verbe « \1 » ne devrait pas être au futur plutôt qu'au conditionnel.</message>
         <example type="incorrect">Je <marker>viendrais</marker> demain.</example>
         <example type="correct">Je viendrai demain.</example>
       </rule>
@@ -2479,7 +2502,7 @@ though, and has since been slightly modified)-->
           <token skip="3" regexp="yes">après|dans</token>
           <token regexp="yes">secondes?|minutes?|heures?|jours|semaines?|mois|années?|instants?</token>
         </pattern>
-        <message>Vérifier si le verbe « \1 » ne devrait pas être au futur plutôt qu'au conditionnel.</message>
+        <message>Vérifier si le verbe « \1 » ne devrait pas être au futur plutôt qu'au conditionnel.</message>
         <example type="incorrect">Je <marker>viendrais</marker> dans trois jours.</example>
         <example type="correct">Je viendrai dans trois jours.</example>
       </rule>
@@ -3427,7 +3450,7 @@ though, and has since been slightly modified)-->
             <exception postag="V .* 3 s" postag_regexp="yes"/>
           </token>
         </pattern>
-        <message>Le verbe « \6 » devrait être à la 3e personne du singulier</message>
+        <message>Le verbe « \6 » devrait être à la 3e personne du singulier</message>
         <example type="incorrect">Mon enfant l’<marker>étudient</marker>.</example>
         <example type="correct">Mon enfant l’<marker>étudie</marker>.</example>
       </rule>
@@ -3444,7 +3467,7 @@ though, and has since been slightly modified)-->
             <exception postag="V .* 3 s" postag_regexp="yes"/>
           </token>
         </pattern>
-        <message>Le verbe « \7 » devrait être à la 3e personne du singulier</message>
+        <message>Le verbe « \7 » devrait être à la 3e personne du singulier</message>
         <example type="incorrect">Mon enfant ne l’<marker>étudient</marker>.</example>
         <example type="correct">Mon enfant ne l’<marker>étudie</marker>.</example>
       </rule>
@@ -3462,7 +3485,7 @@ though, and has since been slightly modified)-->
             <exception postag="V .* 3 s" postag_regexp="yes"/>
           </token>
         </pattern>
-        <message>Le verbe « \8 » devrait être à la 3e personne du singulier</message>
+        <message>Le verbe « \8 » devrait être à la 3e personne du singulier</message>
         <example type="incorrect">Mon enfant ne m’en <marker>veux</marker> pas.</example>
         <example type="correct">Mon enfant ne m’en veut pas.</example>
       </rule>
@@ -4247,7 +4270,7 @@ though, and has since been slightly modified)-->
         <token regexp="yes">[cdlmts]es|[nv]os|cette|ce[st]|[mts]a|mon|leurs?|aux?</token>
         <token regexp="yes">[cdlmst]es|[nv]os|cette|ce[st]|[mts]a|mon|je|tu|ils?|elle?|[vn]ous|on</token>
       </pattern>
-      <message>Les deux mots « \1 \2 » ne peuvent pas se suivrent.</message>
+      <message>Les deux mots « \1 \2 » ne peuvent pas se suivrent.</message>
       <example type="incorrect">Plusieurs <marker>des ces</marker> langues vont disparaitre.</example>
       <example type="correct">Plusieurs de ces langues vont disparaitre.</example>
     </rule>
@@ -18633,7 +18656,7 @@ though, and has since been slightly modified)-->
           <token>etc</token>
           <token>.</token>
         </pattern>
-        <message>On met généralement une virgule devant « etc. ». Employez <suggestion>, etc.</suggestion>.</message>
+        <message>On met généralement une virgule devant « etc. ». Employez <suggestion>, etc.</suggestion>.</message>
         <example type="incorrect">J’ai un chien, un chat, un lapin<marker> etc</marker>.</example>
         <example type="correct">J’ai un chien, un chat, un lapin, etc.</example>
       </rule>
@@ -18870,7 +18893,7 @@ though, and has since been slightly modified)-->
           <token>en</token>
           <token>cap</token>
         </pattern>
-        <message>« \1 \2 \3 \4 » est un tour critiqué. Employez <suggestion>\1 pied \3 \4</suggestion>.</message>
+        <message>« \1 \2 \3 \4 » est un tour critiqué. Employez <suggestion>\1 pied \3 \4</suggestion>.</message>
         <example type="incorrect">Il s’est habillé <marker>de pieds en cap</marker> comme un militaire.</example>
         <example type="correct">Il s’est habillé de pied en cap comme un militaire.</example>
       </rule>
@@ -18880,7 +18903,7 @@ though, and has since been slightly modified)-->
           <token>pieds</token>
           <token regexp="yes">fermes?</token>
         </pattern>
-        <message>« \1 \2 \3 » est un tour critiqué. Employez <suggestion>\1 pied ferme</suggestion>.</message>
+        <message>« \1 \2 \3 » est un tour critiqué. Employez <suggestion>\1 pied ferme</suggestion>.</message>
         <example type="incorrect">Je l’attend <marker>de pieds fermes</marker>.</example>
         <example type="correct">Je l’attend de pied ferme.</example>
       </rule>
