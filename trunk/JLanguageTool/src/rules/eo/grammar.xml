@@ -1150,7 +1150,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <example type="correct">Ŝi estas bela.</example>
     </rule>
 
-    <rule id="NEOFIC_ESTIEL" name="neoficialaj vorto estiel">
+    <rule id="NEOFIC_ESTIEL" name="neoficiala vorto estiel">
       <pattern>
         <token>estiel</token>
       </pattern>
@@ -1158,13 +1158,78 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <example type="incorrect">Mi <marker>estiel</marker> franco ŝatas fromaĝon.</example>
       <example type="correct">Mi kiel franco ŝatas fromaĝon.</example>
     </rule>
-    <rule id="NEOFIC_KAUX" name="neoficialaj vorto kaŭ">
+    <rule id="NEOFIC_KAUX" name="neoficiala vorto kaŭ">
       <pattern>
         <token>kaŭ</token>
       </pattern>
       <message>«\1» estas neoficiala vorto. Konsideru uzi <suggestion>kaj/aŭ</suggestion>.</message>
       <example type="incorrect">Mi <marker>kaŭ</marker> li ŝatas tion.</example>
       <example type="correct">Mi kaj/aŭ li ŝatas tion.</example>
+    </rule>
+    <rule id="NEOFIC_MEN" name="neoficiala vorto men">
+      <pattern>
+        <token>men</token>
+      </pattern>
+      <message>«\1» estas neoficiala kaj malmulte konata vorto. Ĉu vi intencis diri <suggestion>malpli</suggestion> ?</message>
+      <example type="incorrect"><marker>Men</marker> vinon, mi petas.</example>
+      <example type="correct">Mapli da vino, mi petas.</example>
+    </rule>
+    <rule id="NEOFIC_GRAUX" name="neoficiala vorto graŭ">
+      <pattern>
+        <token>graŭ</token>
+      </pattern>
+      <message>«\1» estas neoficiala kaj malmulte konata vorto. Uzu <suggestion>dank’ al</suggestion>.</message>
+      <example type="incorrect">Mi sukcesis <marker>graŭ</marker> ŝia helpo.</example>
+      <example type="correct">Mi sukcesis dank’ al ŝia helpo.</example>
+    </rule>
+    <rule id="NEOFIC_SOR" name="neoficiala vorto sor">
+      <pattern>
+        <token>sor</token>
+      </pattern>
+      <message>«\1» estas neoficiala kaj malmulte konata vorto. Uzu <suggestion>supren</suggestion>.</message>
+      <example type="incorrect">Mi iras <marker>sor</marker>.</example>
+      <example type="correct">Mi iras supren.</example>
+    </rule>
+    <rule id="NEOFIC_SOB" name="neoficiala vorto sob">
+      <pattern>
+        <token>sob</token>
+      </pattern>
+      <message>«\1» estas neoficiala kaj malmulte konata vorto. Uzu <suggestion>suben</suggestion>.</message>
+      <example type="incorrect">Mi iras <marker>sob</marker>.</example>
+      <example type="correct">Mi iras suben.</example>
+    </rule>
+    <rule id="NEOFIC_NEN" name="neoficiala vorto nen">
+      <pattern>
+        <token>nen</token>
+      </pattern>
+      <message>«\1» estas neoficiala kaj malmulte konata vorto. Uzu <suggestion>ne</suggestion>.</message>
+      <example type="incorrect">Li respondis <marker>nen</marker>.</example>
+      <example type="correct">Li respondis ne.</example>
+    </rule>
+    <rule id="NEOFIC_TABELVORTO" name="neoficialaj tabelvortoj">
+      <pattern>
+        <token regexp="yes">(inter)?(alia[lm]|alie[ls]|aliom|aliuj?n?)|sam(el|[oa]m)</token>
+      </pattern>
+      <message>«\1» estas neoficiala tabelvorto, kiu estas do evintinda.</message>
+      <example type="incorrect">Me demandos <marker>aliun</marker>.</example>
+      <example type="correct">Me demandos iun alian.</example>
+    </rule>
+
+    <rule id="NEOFIC_SIS" name="neoficiala vorto sis">
+      <pattern>
+        <token>sis</token>
+      </pattern>
+      <message>«\1» estas neoficiala kaj malmulte konata vorto por la vorto <suggestion>ses</suggestion>.</message>
+      <example type="incorrect">Ŝi havis <marker>sis</marker> infanojn.</example>
+      <example type="correct">Ŝi havis <marker>ses</marker> infanojn.</example>
+    </rule>
+    <rule id="NEOFIC_SEPEN" name="neoficiala vorto sepen">
+      <pattern>
+        <token>sepen</token>
+      </pattern>
+      <message>«\1» estas neoficiala kaj malmulte konata vorto por la vorto <suggestion>sep</suggestion>.</message>
+      <example type="incorrect">Ŝi havis <marker>sepen</marker> infanojn.</example>
+      <example type="correct">Ŝi havis <marker>sep</marker> infanojn.</example>
     </rule>
 
   </category>
