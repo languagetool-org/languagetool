@@ -1013,7 +1013,7 @@ though, and has since been slightly modified)-->
         <pattern mark_to="-1">
           <token>à</token>
           <token postag="V.*ppa.*" postag_regexp="yes">
-            <exception regexp="yes">fait|point|coté|portée|mort|vue</exception>
+            <exception regexp="yes">fait|pointe?s?|coté|portée|mort|vue</exception>
           </token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>a</suggestion> ?</message>
@@ -1022,6 +1022,7 @@ though, and has since been slightly modified)-->
         <example type="incorrect">Paul <marker>à</marker> travaillé tard.</example>
         <example type="correct">Paul <marker>a</marker> travaillé tard.</example>
         <example type="correct">Je suis tout à fait d’accord.</example>
+        <example type="correct">Un crayon à pointe fine.</example>
       </rule>
     </rulegroup>
     <rulegroup id="OU" name="Ou au lieux de où">
@@ -1762,7 +1763,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">[01]<exception regexp="yes" scope="previous">,|et|ou</exception></token>
           <token postag="[JN] . p" postag_regexp="yes"/>
         </pattern>
-        <message>« \1 » et « \2 » ne semblent pas bien accordés en nombre</message>
+        <message>« \1 » et « \2 » ne semblent pas bien accordés en nombre.</message>
         <example type="correct">J’ai 1 enfant.</example>
         <example type="incorrect">J’ai <marker>1 enfants</marker>.</example>
         <example type="correct">Cela coûte 2,1 Euros.</example>
@@ -1777,7 +1778,7 @@ though, and has since been slightly modified)-->
             <exception regexp="yes">janvier|février|avril|mai|juin|juillet|août|septembre|octobre|novembre|décembre|vendémiaire|brumaire|frimaire|nivôse|pluviôse|ventôse|germinal|floréal|prairial|messidor|thermidor|fructidor|cent|mille</exception>
           </token>
         </pattern>
-        <message>« \1 » et « \2 » ne semblent pas bien accordés en nombre</message>
+        <message>« \1 » et « \2 » ne semblent pas bien accordés en nombre.</message>
         <example type="incorrect">J’ai <marker>quatre enfant</marker>.</example>
         <example type="correct">J’ai quatre enfants.</example>
         <example type="correct">Il est né le <marker>quatre janvier</marker>.</example>
@@ -1791,7 +1792,7 @@ though, and has since been slightly modified)-->
             <exception regexp="yes">allée|avenue|balade|boulevard|chaussée|chemin|cour|impasse|place|route|rue|ruelle|quai|sentier|square|janvier|février|avril|mai|juin|juillet|ao[uû]t|septembre|octobre|novembre|décembre|vendémiaire|brumaire|frimaire|nivôse|pluviôse|ventôse|germinal|floréal|prairial|messidor|thermidor|fructidor</exception>
           </token>
         </pattern>
-        <message>« \1 » et « \2 » ne semblent pas bien accordés en nombre</message>
+        <message>« \1 » et « \2 » ne semblent pas bien accordés en nombre.</message>
         <example type="correct">J’ai 4 enfants.</example>
         <example type="incorrect">J’ai <marker>4 enfant</marker>.</example>
         <example type="correct">Il est né le <marker>4 janvier</marker>.</example>
@@ -1816,7 +1817,7 @@ though, and has since been slightly modified)-->
             <exception scope="previous">peu</exception>
           </token>
         </pattern>
-        <message>« \1 » et « \2 » ne semblent pas bien accordés en nombre</message>
+        <message>« \1 » et « \2 » ne semblent pas bien accordés en nombre.</message>
         <example type="correct">un canard</example>
         <example type="correct">des oies dodues</example>
         <example type="correct">au cours de l’année</example>
@@ -1852,7 +1853,7 @@ though, and has since been slightly modified)-->
           </token>
           <token><exception>et</exception></token>
         </pattern>
-        <message>« \2 » et « \3 » ne semblent pas bien accordés en nombre</message>
+        <message>« \2 » et « \3 » ne semblent pas bien accordés en nombre.</message>
         <example type="correct">un canard gras</example>
         <example type="correct">des oies</example>
         <example type="incorrect"><marker>Des poulet</marker> fermiers</example>
@@ -1900,7 +1901,7 @@ though, and has since been slightly modified)-->
             <exception regexp="yes">face|grâce</exception>
           </token>
         </pattern>
-        <message>« \1 » et « \2 » ne semblent pas bien accordés en genre</message>
+        <message>« \1 » et « \2 » ne semblent pas bien accordés en genre.</message>
         <example type="incorrect">Une <marker>joli femme</marker>.</example>
         <example type="correct">Une <marker>jolie femme</marker>.</example>
         <example type="incorrect"><marker>Un très jolie</marker> femme.</example>
@@ -1936,7 +1937,7 @@ though, and has since been slightly modified)-->
            <exception postag="V .*(inf|ppr|ind|con|sub).*" postag_regexp="yes"/>
           </token>
         </pattern>
-        <message>« \1 » et « \2 » ne semblent pas bien accordés en genre</message>
+        <message>« \1 » et « \2 » ne semblent pas bien accordés en genre.</message>
         <example type="incorrect">Un <marker>climat tropicale</marker>.</example>
         <example type="correct">Un <marker>climat tropical</marker>.</example>
         <example type="incorrect">Un <marker>climat très tropicale</marker>.</example>
@@ -1968,7 +1969,7 @@ though, and has since been slightly modified)-->
             <exception regexp="yes">.</exception>
           </token>
         </pattern>
-        <message>« \1 » et « \2 » ne semblent pas bien accordés en genre</message>
+        <message>« \1 » et « \2 » ne semblent pas bien accordés en genre.</message>
         <example type="incorrect"><marker>Une pétale</marker>.</example>
         <example type="correct"><marker>Une fleur</marker>.</example>
         <example type="incorrect"><marker>Une très grand</marker> chien.</example>
@@ -1997,7 +1998,7 @@ though, and has since been slightly modified)-->
             <exception postag="V .*(inf|ppr|ind|con|sub).*" postag_regexp="yes"/>
           </token>
         </pattern>
-        <message>« \1 » et « \2 » ne semblent pas bien accordés en genre</message>
+        <message>« \1 » et « \2 » ne semblent pas bien accordés en genre.</message>
         <example type="incorrect">Une <marker>forêt tropical</marker>.</example>
         <example type="correct">Une <marker>forêt tropicale</marker>.</example>
         <example type="incorrect">Une <marker>forêt très grand</marker>.</example>
@@ -3411,7 +3412,7 @@ though, and has since been slightly modified)-->
             <exception regexp="yes">toute?s?</exception>
           </token>
         </pattern>
-        <message>Le verbe « \4 » devrait être à la 3e personne du singulier</message>
+        <message>Le verbe « \4 » devrait être à la 3e personne du singulier.</message>
         <example type="incorrect">Mon enfant <marker>étaient</marker> parti.</example>
         <example type="correct">Mon enfant joue en bas.</example>
         <example type="correct">Le contexte troublé.</example>
@@ -3432,7 +3433,7 @@ though, and has since been slightly modified)-->
             <exception postag="V .* 3 s" postag_regexp="yes"/>
           </token>
         </pattern>
-        <message>Le verbe « \5 » devrait être à la 3e personne du singulier</message>
+        <message>Le verbe « \5 » devrait être à la 3e personne du singulier.</message>
         <example type="incorrect">Mon enfant ne <marker>peux</marker> pas aller à l’école.</example>
         <example type="correct">Mon enfant ne peut pas aller à l’école.</example>
         <example type="correct">Ce matin nous avons froid.</example>
@@ -3450,7 +3451,7 @@ though, and has since been slightly modified)-->
             <exception postag="V .* 3 s" postag_regexp="yes"/>
           </token>
         </pattern>
-        <message>Le verbe « \6 » devrait être à la 3e personne du singulier</message>
+        <message>Le verbe « \6 » devrait être à la 3e personne du singulier.</message>
         <example type="incorrect">Mon enfant l’<marker>étudient</marker>.</example>
         <example type="correct">Mon enfant l’<marker>étudie</marker>.</example>
       </rule>
@@ -3467,7 +3468,7 @@ though, and has since been slightly modified)-->
             <exception postag="V .* 3 s" postag_regexp="yes"/>
           </token>
         </pattern>
-        <message>Le verbe « \7 » devrait être à la 3e personne du singulier</message>
+        <message>Le verbe « \7 » devrait être à la 3e personne du singulier.</message>
         <example type="incorrect">Mon enfant ne l’<marker>étudient</marker>.</example>
         <example type="correct">Mon enfant ne l’<marker>étudie</marker>.</example>
       </rule>
@@ -3485,7 +3486,7 @@ though, and has since been slightly modified)-->
             <exception postag="V .* 3 s" postag_regexp="yes"/>
           </token>
         </pattern>
-        <message>Le verbe « \8 » devrait être à la 3e personne du singulier</message>
+        <message>Le verbe « \8 » devrait être à la 3e personne du singulier.</message>
         <example type="incorrect">Mon enfant ne m’en <marker>veux</marker> pas.</example>
         <example type="correct">Mon enfant ne m’en veut pas.</example>
       </rule>
@@ -3500,13 +3501,79 @@ though, and has since been slightly modified)-->
             <exception postag="V .* 3 p|V ppa . p|V.* ppr|J . p" postag_regexp="yes"/>
           </token>
         </pattern>
-        <message>Le verbe « \4 » devrait être à la 3e personne du pluriel</message>
+        <message>Le verbe « \4 » devrait être à la 3e personne du pluriel.</message>
         <example type="correct">Les enfants <marker>jouent</marker> en bas.</example>
         <example type="correct">Les régions <marker>situées</marker> au sud sont chaudes.</example>
         <example type="incorrect">Les gens <marker>était</marker> partis.</example>
         <example type="correct">Ces <marker>rues désertes</marker></example>
         <example type="correct">Nos <marker>bagages étant</marker> enregistrés</example>
         <example type="correct">Tout Paris est à la fête.</example>
+      </rule>
+      <rule name="sujet pluriel + 1 token + verbe singulier">
+        <pattern mark_from="4">
+          <token postag="SENT_START"/>
+          <token postag="D.*" postag_regexp="yes"/>
+          <token postag="N . p" postag_regexp="yes"/>
+          <token regexp="yes">[lmnt]e|la|les|leur|lui|en|y</token>
+          <token postag="V.*" postag_regexp="yes">
+            <exception postag="V .* 3 p|V ppa . p|V.* ppr|[NJ].*" postag_regexp="yes"/>
+          </token>
+        </pattern>
+        <message>Le verbe « \5 » devrait être à la 3e personne du pluriel.</message>
+        <example type="incorrect">Les enfants en <marker>manges</marker>.</example>
+        <example type="correct">Les enfants en mangent.</example>
+      </rule>
+      <rule name="sujet pluriel + 2 tokens + verbe singulier">
+        <pattern mark_from="5">
+          <token postag="SENT_START"/>
+          <token postag="D.*" postag_regexp="yes"/>
+          <token postag="N . p" postag_regexp="yes"/>
+          <!-- Not all combinations of tokens are actually possible -->
+          <token regexp="yes">[lmnt]|[mnt]e|la|les?|[nv]ous|lui|leur</token>
+          <token regexp="yes">[’´'‛′‘]|[mnt]e|la|les?|[vn]ous|en|y|lui|leur</token>
+          <token postag="V.*" postag_regexp="yes">
+            <exception postag="V .* 3 p|V ppa . p|V.* ppr|J . p" postag_regexp="yes"/>
+          </token>
+        </pattern>
+        <message>Le verbe « \6 » devrait être à la 3e personne du pluriel.</message>
+        <example type="incorrect">Les camions n’<marker>arrive</marker> pas.</example>
+        <example type="correct">Les camions n’arrivent pas.</example>
+        <example type="correct">Les cuillères en bois commencent à moisir.</example>
+      </rule>
+      <rule name="sujet pluriel + 3 tokens + verbe singulier">
+        <pattern mark_from="6">
+          <token postag="SENT_START"/>
+          <token postag="D.*" postag_regexp="yes"/>
+          <token postag="N . p" postag_regexp="yes"/>
+          <!-- Not all combinations of tokens are actually possible -->
+          <token regexp="yes">[mnt]|ne</token>
+          <token regexp="yes">[’´'‛′‘]|[lmt]e?|[vn]ous|lui|leur</token>
+          <token regexp="yes">[’´'‛′‘]|l[ea]|[vn]ous|lui|leur|en|y</token>
+          <token postag="V.*" postag_regexp="yes">
+            <exception postag="V .* 3 p|V ppa . p|V.* ppr|J . p" postag_regexp="yes"/>
+          </token>
+        </pattern>
+        <message>Le verbe « \7 » devrait être à la 3e personne du pluriel.</message>
+        <example type="incorrect">Les enfants ne l’<marker>attend</marker> pas.</example>
+        <example type="correct">Les enfants ne l’attendent pas.</example>
+      </rule>
+      <rule name="sujet pluriel + 4 tokens + verbe singulier">
+        <pattern mark_from="7">
+          <token postag="SENT_START"/>
+          <token postag="D.*" postag_regexp="yes"/>
+          <token postag="N . p" postag_regexp="yes"/>
+          <!-- Not all combinations of tokens are actually possible -->
+          <token>ne</token>
+          <token regexp="yes">[lmt]</token>
+          <token regexp="yes">[’´'‛′‘]</token>
+          <token regexp="yes">en|y</token>
+          <token postag="V.*" postag_regexp="yes">
+            <exception postag="V .* 3 p|V ppa . p|V.* ppr|J . p" postag_regexp="yes"/>
+          </token>
+        </pattern>
+        <message>Le verbe « \8 » devrait être à la 3e personne du pluriel.</message>
+        <example type="incorrect">Mes enfants ne m’en <marker>veux</marker> pas.</example>
+        <example type="correct">Mes enfants ne m’en veulent pas.</example>
       </rule>
     </rulegroup>
     <rulegroup id="QUELQUE_SOIT" name="Quelque soit">
@@ -4371,7 +4438,7 @@ though, and has since been slightly modified)-->
       <pattern>
         <token regexp="yes">séraphins?</token>
       </pattern>
-      <message>« Séraphin » peut être un régionalisme (Québec). Employez <suggestion>avare</suggestion> au besoin. « Séraphin » désigne une sorte d’ange en français standard</message>
+      <message>« Séraphin » peut être un régionalisme (Québec). Employez <suggestion>avare</suggestion> au besoin. « Séraphin » désigne une sorte d’ange en français standard.</message>
       <example type="incorrect"><marker>séraphin</marker></example>
       <example type="correct"><marker>avare</marker></example>
     </rule>
@@ -4990,7 +5057,7 @@ though, and has since been slightly modified)-->
         <token inflected="yes" skip="5">amasser</token>
         <token regexp="yes">argents?|fonds</token>
       </pattern>
-      <message>« Amasser de l’argent/des fonds » est un régionalisme (Québec). Employez <suggestion>ramasser de l’argent</suggestion>, <suggestion>recueillir de l’argent</suggestion>. « Amasser » implique l’idée d’accumulation en français standard et ne se prête pas à ce contexte</message>
+      <message>« Amasser de l’argent/des fonds » est un régionalisme (Québec). Employez <suggestion>ramasser de l’argent</suggestion>, <suggestion>recueillir de l’argent</suggestion>. « Amasser » implique l’idée d’accumulation en français standard et ne se prête pas à ce contexte.</message>
       <example type="incorrect"><marker>amasser de l’argent</marker></example>
       <example type="correct"><marker>ramasser de l’argent</marker></example>
     </rule>
@@ -19916,12 +19983,13 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern case_sensitive="yes" mark_from="1">
-          <token regexp="yes">[eE]n</token>
-          <token regexp="yes">Afrikaans|Albanais|Allemand|Alsacien|Anglais|Arabe|Aragonais|Aroumain|Arménien|Asturien|Awadhi|Basque|Bengali|Biélorusse|Birman|Bhojpuri|Bosniaque|Breton|Bulgare|Cantonais|Catalan|Chamorro|Cherokee|Chinois|Corse|Cornique|Coréen|Croate|Danois|Divehi|Écossais|Espagnol|Espéranto|Estonien|Féroïen|Farsi|[FP]ilipino|Finnois|Flamand|Français|Frison|Galicien|Gallois|Gaulois|Géorgien|Grec|Gujarati|Hakka|Haoussa|Hawaïen|Hébreu|Hindi|Hmong|Hollandais|Hongrois|Javanais|Ido|Indonésien|Interlingua|Islandais|Italien|Irlandais|Japonais|Jinyu|Kanna[dr]a|Kazakh|Kigongo|Klingon|Khmer|Kurde|Ladino|Laotien|Latin|Ligurien|Limbourgeois|Lituanien|Lojban|Lombard|Luxembourgeois|Macédonien|Maithili|Malais|Malayalam|Maldivien|Malgache|Maltais|Mandarin|Mannois|Maori|Marathi|Marwari|Moldave|Mongol|Mooré|Napolitain|Néerlandais|Norvégien|Occitan|Oriya|Ourdou|Ouzbek|Persan|Peul|Piémontais|Polonais|Portugais|Provençal|Quechua|Romanche|Roumain|Russe|Sans[ck]rit|Sarde|Serbe|Sicilien|Sindhi|Slovaque|Slovène|Soundanais|Sorabe|Suédois|Swahili|Tagalog|Tahitien|Tamoul|Tatar|Tchèque|Télogou|Thaï|Turc|Ukrainien|Vénitien|Vietnamien|Volapük|Wallon|Wo?u|Yiddish|Xhosa|Xiang|Zoulou</token>
+          <token regexp="yes">[eE]n<exception scope="previous" inflected="yes" regexp="yes">aller|naitre</exception></token>
+          <token regexp="yes">Afrikaans|Albanais|Allemand|Alsacien|Anglais|Arabe|Aragonais|Aroumain|Arménien|Asturien|Awadhi|Basque|Bengali|Biélorusse|Birman|Bhojpuri|Bosniaque|Breton|Bulgare|Cantonais|Catalan|Chamorro|Cherokee|Chinois|Cornique|Coréen|Croate|Danois|Divehi|Écossais|Espagnol|Espéranto|Estonien|Féroïen|Farsi|[FP]ilipino|Finnois|Flamand|Français|Frison|Galicien|Gallois|Gaulois|Géorgien|Grec|Gujarati|Hakka|Haoussa|Hawaïen|Hébreu|Hindi|Hmong|Hollandais|Hongrois|Javanais|Ido|Indonésien|Interlingua|Islandais|Italien|Irlandais|Japonais|Jinyu|Kanna[dr]a|Kazakh|Kigongo|Klingon|Khmer|Kurde|Ladino|Laotien|Latin|Ligurien|Limbourgeois|Lituanien|Lojban|Lombard|Luxembourgeois|Macédonien|Maithili|Malais|Malayalam|Maldivien|Malgache|Maltais|Mandarin|Mannois|Maori|Marathi|Marwari|Moldave|Mongol|Mooré|Napolitain|Néerlandais|Norvégien|Occitan|Oriya|Ourdou|Ouzbek|Persan|Peul|Piémontais|Polonais|Portugais|Provençal|Quechua|Romanche|Roumain|Russe|Sans[ck]rit|Sarde|Serbe|Sicilien|Sindhi|Slovaque|Slovène|Soundanais|Sorabe|Suédois|Swahili|Tagalog|Tahitien|Tamoul|Tatar|Tchèque|Télogou|Thaï|Turc|Ukrainien|Vénitien|Vietnamien|Volapük|Wallon|Wo?u|Yiddish|Xhosa|Xiang|Zoulou</token>
         </pattern>
         <message>Les noms de langues n’ont pas de majuscule en français.</message>
         <example type="incorrect">Avez-vous un guide touristique en <marker>Français</marker> ?</example>
         <example type="correct">Avez-vous un guide touristique en <marker>français</marker> ?</example>
+        <example type="correct">Napoléon est né en Corse.</example>
       </rule>
     </rulegroup>
     <rulegroup id="GENTILE" name="gentilés">
