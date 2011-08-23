@@ -177,7 +177,6 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
     </rulegroup>
 
   </category>
-
   <category name="Evitindaĵoj">
     <rule id="NE_JAM" name="ne + jam (ankoraŭ ne)">
       <pattern>
@@ -465,7 +464,6 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
     </rule>
 
   </category>
-
   <category name="Arkaismoj">
     <rulegroup id="ARKAISMO" name="arkaismo">
       <rule>
@@ -1130,7 +1128,6 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
 
     </rulegroup>
   </category>
-
   <category name="Ne oficialaj vortoj">
     <rule id="NEOFIC_PREP" name="neoficialaj rolvortetoj">
       <pattern>
@@ -1233,7 +1230,6 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
     </rule>
 
   </category>
-
   <category name="Gramatiko">
 
     <rule id="CXI_FOJE" name="ĉi foje (ĉi-foje)">
@@ -2756,6 +2752,28 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <message>Kontrolu, ĉu la du sinsekvaj prepozicioj ĝustas.</message>
       <example type="incorrect">Mi preferas vojaĝi per trajno <marker>al per</marker> aviadilo.</example>
       <example type="correct">Mi preferas vojaĝi per trajno ol per aviadilo.</example>
+    </rule>
+
+    <rule id="TIOJ" name="navalidaj vortoj tioj, kioj, ktp.">
+      <pattern>
+        <token postag="T ... pl . o" postag_regexp="yes"/>
+      </pattern>
+      <message>Pluralo ne eblas kun tabelvorto «\1».</message>
+      <example type="incorrect">Mi ŝatas <marker>tiojn</marker>.</example>
+      <example type="correct">Mi ŝatas tion.</example>
+    </rule>
+
+    <rule id="E_VORT_PLUR" name="navalida pluralo ĉe e-vorto.">
+      <pattern>
+        <token regexp="yes">.*ejn?
+          <exception regexp="yes">(mal)?plej|h?ej|okej</exception>
+          <exception regexp="yes">\p{Lu}.*</exception></token>
+      </pattern>
+      <message>Pluralo ne eblas kun e-vorto «\1».</message>
+      <example type="incorrect">Mi kuras <marker>vesperej</marker>.</example>
+      <example type="correct">Mi kuras vespere.</example>
+      <example type="correct">Ŝi estas la plej bela knabino.</example>
+      <example type="correct">Ĉu vi konas Sergej?</example>
     </rule>
 
   </category>
