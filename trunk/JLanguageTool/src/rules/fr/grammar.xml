@@ -3287,6 +3287,90 @@ though, and has since been slightly modified)-->
         <example type="correct">Vous qui me dérangez</example>
       </rule>
     </rulegroup>
+    <rulegroup id="AVOIR_PARTICIPE" name="participe avoir">
+      <rule>
+        <pattern mark_from="3">
+          <token postag="SENT_START|C coor" postag_regexp="yes"/>
+          <token postag="R pers suj.*|Z.*" postag_regexp="yes"/>
+          <token inflected="yes">avoir</token>
+          <token postag="V.* ppa.*" postag_regexp="yes">
+            <exception postag="V.* ppa [me] sp?" postag_regexp="yes"/>
+          </token>
+        </pattern>
+        <message>Le participe «\4» devrait être au singulier masculin.</message>
+        <example type="incorrect">Nous avons <marker>mangés</marker> des huitres.</example>
+        <example type="correct">Nous avons mangé des huitres.</example>
+        <example type="incorrect">Elle est allée en Bretagne et elle a <marker>mangée</marker> des huitres.</example>
+        <example type="correct">Elle est allée en Bretagne et elle a mangé des huitres.</example>
+        <example type="incorrect">Isabelle a <marker>mangée</marker> des huitres.</example>
+        <example type="correct">Isabelle a <marker>mangé</marker> des huitres.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="6">
+          <token postag="SENT_START|C coor" postag_regexp="yes"/>
+          <token postag="R pers suj.*|Z.*" postag_regexp="yes"/>
+          <token>n</token>
+          <token regexp="yes">[’´'‛′‘]</token>
+          <token inflected="yes">avoir</token>
+          <token regexp="yes">pas|guerre|point|rien|jamais</token>
+          <token postag="V.* ppa.*" postag_regexp="yes">
+            <exception postag="V.* ppa [me] sp?" postag_regexp="yes"/>
+          </token>
+        </pattern>
+        <message>Le participe «\7» devrait être au singulier masculin.</message>
+        <example type="incorrect">Nous n’avons pas <marker>mangés</marker> des huitres.</example>
+        <example type="correct">Nous n’avons pas mangé des huitres.</example>
+        <example type="incorrect">Isabelle n’a jamais <marker>mangée</marker> des huitres.</example>
+        <example type="correct">Isabelle n‘a jamais mangé des huitres.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="4">
+          <token postag="SENT_START|C coor" postag_regexp="yes"/>
+          <token regexp="yes">[jt]</token>
+          <token regexp="yes">[’´'‛′‘]</token>
+          <token inflected="yes">avoir</token>
+          <token postag="V.* ppa.*" postag_regexp="yes">
+            <exception postag="V.* ppa [me] sp?" postag_regexp="yes"/>
+          </token>
+        </pattern>
+        <message>Le participe «\5» devrait être au singulier masculin.</message>
+        <example type="incorrect">J‘ai <marker>mangés</marker> des huitres.</example>
+        <example type="correct">J‘ai mangé des huitres.</example>
+        <example type="incorrect">Je suis allée en Bretagne et j’ai <marker>mangée</marker> des huitres.</example>
+        <example type="correct">Je suis allée en Bretagne et j’ai mangé des huitres.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="4">
+          <token postag="SENT_START|C coor" postag_regexp="yes"/>
+          <token postag="D.*" postag_regexp="yes"/>
+          <token postag="N.*" postag_regexp="yes"/>
+          <token inflected="yes">avoir</token>
+          <token postag="V.* ppa.*" postag_regexp="yes">
+            <exception postag="V.* ppa [me] sp?" postag_regexp="yes"/>
+          </token>
+        </pattern>
+        <message>Le participe «\5» devrait être au singulier masculin.</message>
+        <example type="incorrect">Les élèves ont <marker>terminés</marker> leurs devoirs.</example>
+        <example type="correct">Les élèves ont terminé leurs devoirs.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="7">
+          <token postag="SENT_START|C coor" postag_regexp="yes"/>
+          <token postag="D.*" postag_regexp="yes"/>
+          <token postag="N.*" postag_regexp="yes"/>
+          <token>n</token>
+          <token regexp="yes">[’´'‛′‘]</token>
+          <token inflected="yes">avoir</token>
+          <token regexp="yes">pas|guerre|point|rien|jamais</token>
+          <token postag="V.* ppa.*" postag_regexp="yes">
+            <exception postag="V.* ppa [me] sp?" postag_regexp="yes"/>
+          </token>
+        </pattern>
+        <message>Le participe «\8» devrait être au singulier masculin.</message>
+        <example type="incorrect">Les élèves n’ont pas <marker>terminés</marker> leurs devoirs.</example>
+        <example type="correct">Les élèves n’ont pas terminé leurs devoirs.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="QUE_AVOIR" name="accord que + verbe avoir">
       <rule>
         <pattern mark_from="3">
