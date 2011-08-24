@@ -184,7 +184,9 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
 		<pattern mark="0">
 			<token>mają</token>
 		</pattern>
-		<disambig action="remove"><wd lemma="maić" pos="verb:fin:pl:ter:imperf">mają</wd></disambig>
+		<disambig action="filter"><match no="1">mieć</match></disambig>
+		<example type="untouched">Oni mieli robaki.</example>
+		<example type="ambiguous" inputform="mają[maić/verb:fin:pl:ter:imperf,maja/subst:sg:inst:f,mieć/verb:fin:pl:ter:imperf]" outputform="mają[mieć/verb:fin:pl:ter:imperf]">Oni <marker>mają</marker> robaki.</example>
 	</rule>
 	
 	<rule name="sporo to nie spora" id="SPORO">

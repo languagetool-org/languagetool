@@ -76,7 +76,7 @@ public class AnalyzedToken {
 
   
   /**
-   * @since 1.4
+   * @since 1.5
    * @param an AnalyzedToken to test
    * @return true if all of the non-null values (lemma, POS, token)
    * of AnalyzedToken match this token.

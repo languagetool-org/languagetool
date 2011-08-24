@@ -457,10 +457,15 @@ public class Match {
     final ArrayList<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
     if (formattedToken != null) {
       if (staticLemma) {
+        /*
         formattedToken = new AnalyzedTokenReadings(new AnalyzedToken(
             matchedToken.getToken(), posTag, formattedToken.getToken()),
             matchedToken.getStartPos());
         formattedToken.setWhitespaceBefore(matchedToken.isWhitespaceBefore());
+        */
+        matchedToken.leaveReading(new AnalyzedToken(
+            matchedToken.getToken(), posTag, formattedToken.getToken()));
+        formattedToken = matchedToken;
       }
       String token = formattedToken.getToken();
       if (pRegexMatch != null && regexReplace != null) {

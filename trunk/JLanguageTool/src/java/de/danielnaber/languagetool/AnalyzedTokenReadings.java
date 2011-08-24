@@ -199,6 +199,23 @@ public class AnalyzedTokenReadings {
     }
     anTokReadings = l.toArray(new AnalyzedToken[l.size()]);
   }
+  /** 
+   * @since 1.5
+   * Removes all the readings but the one that match the token tok.
+   * @param tok Token to be matched
+   */
+  public final void leaveReading(final AnalyzedToken tok) {
+    final ArrayList<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
+    final AnalyzedToken tmpTok = new AnalyzedToken(tok.getToken(), tok
+        .getPOSTag(), tok.getLemma());
+    tmpTok.setWhitespaceBefore(isWhitespaceBefore);
+    for (AnalyzedToken anTokReading : anTokReadings) {
+      if (anTokReading.matches(tmpTok)) {
+        l.add(anTokReading);
+      }
+    }
+    anTokReadings = l.toArray(new AnalyzedToken[l.size()]);
+  }
 
   public final int getReadingsLength() {
     return anTokReadings.length;
