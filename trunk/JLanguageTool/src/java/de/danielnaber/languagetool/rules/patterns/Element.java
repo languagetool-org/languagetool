@@ -807,6 +807,14 @@ public class Element {
   public final List<Element> getExceptionList() {
     return exceptionList;
   }
+  
+  /**
+   * 
+   * @return List of previous exceptions. Used for testing.
+   */
+  public final List<Element> getPreviousExceptionList() {
+	  return previousExceptionList;
+  }
 
   public final boolean hasExceptionList() {
     return exceptionList != null || previousExceptionList != null;
