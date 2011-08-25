@@ -2110,7 +2110,7 @@ though, and has since been slightly modified)-->
           <exception postag="[^NJAKZ].*" postag_regexp="yes"/>
         </token>
       </pattern>
-      <message>Le mot «\2» ne peut pas suivre le mot «\1».</message>
+      <message>Le mot « \2 » ne peut pas suivre le mot « \1 ».</message>
       <example type="incorrect">Ça te <marker>gène</marker> si je fume ?</example>
       <example type="correct">Ça te gêne si je fume ?</example>
     </rule>
@@ -3288,7 +3288,7 @@ though, and has since been slightly modified)-->
         <example type="correct">Vous qui me dérangez</example>
       </rule>
     </rulegroup>
-    <rulegroup id="AVOIR_PARTICIPE" name="participe avoir">
+    <rulegroup id="AUX_AVOIR" name="auxiliaire avoir">
       <rule>
         <pattern mark_from="3">
           <token postag="SENT_START|C coor" postag_regexp="yes"/>
@@ -3298,13 +3298,67 @@ though, and has since been slightly modified)-->
             <exception postag="V.* ppa [me] sp?" postag_regexp="yes"/>
           </token>
         </pattern>
-        <message>Le participe «\4» devrait être au singulier masculin.</message>
+        <message>Le participe « \4 » devrait être au singulier masculin.</message>
         <example type="incorrect">Nous avons <marker>mangés</marker> des huitres.</example>
+        <example type="incorrect">Nous avons <marker>mangée</marker> des huitres.</example>
+        <example type="incorrect">Nous avons <marker>mangées</marker> des huitres.</example>
         <example type="correct">Nous avons mangé des huitres.</example>
         <example type="incorrect">Elle est allée en Bretagne et elle a <marker>mangée</marker> des huitres.</example>
         <example type="correct">Elle est allée en Bretagne et elle a mangé des huitres.</example>
         <example type="incorrect">Isabelle a <marker>mangée</marker> des huitres.</example>
-        <example type="correct">Isabelle a <marker>mangé</marker> des huitres.</example>
+        <example type="correct">Isabelle a mangé des huitres.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="5">
+          <token postag="SENT_START|C coor" postag_regexp="yes"/>
+          <token postag="R pers suj.*|Z.*" postag_regexp="yes"/>
+          <token regexp="yes">[lmt]</token>
+          <token regexp="yes">[’´'‛′‘]</token>
+          <token inflected="yes">avoir</token>
+          <token postag="V.* ppa.*" postag_regexp="yes">
+            <exception postag="V.* ppa . sp?" postag_regexp="yes"/>
+          </token>
+        </pattern>
+        <message>Le participe « \6 » devrait être au singulier.</message>
+        <example type="incorrect">Nous l’avons <marker>mangés</marker>.</example>
+        <example type="incorrect">Nous l’avons <marker>mangées</marker>.</example>
+        <example type="correct">Nous l’avons mangé.</example>
+        <example type="correct">Nous l’avons mangée.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="4">
+          <token postag="SENT_START|C coor" postag_regexp="yes"/>
+          <token postag="R pers suj.*|Z.*" postag_regexp="yes"/>
+          <token>les</token>
+          <token inflected="yes">avoir</token>
+          <token postag="V.* ppa.*" postag_regexp="yes">
+            <exception postag="V.* ppa . s?p" postag_regexp="yes"/>
+          </token>
+        </pattern>
+        <message>Le participe « \5 » devrait être au pluriel.</message>
+        <example type="incorrect">Nous les avons <marker>mangé</marker>.</example>
+        <example type="incorrect">Nous les avons <marker>mangée</marker>.</example>
+        <example type="correct">Nous l’avons mangés.</example>
+        <example type="correct">Nous l’avons mangées.</example>
+        <example type="incorrect">Il les a <marker>prise</marker> en train de voler.</example>
+        <example type="correct">Il les a pris en train de voler.</example>
+        <example type="correct">Il les a prises en train de voler.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="4">
+          <token postag="SENT_START|C coor" postag_regexp="yes"/>
+          <token postag="R pers suj.*|Z.*" postag_regexp="yes"/>
+          <token regexp="yes">lui|leur</token>
+          <token inflected="yes">avoir</token>
+          <token postag="V.* ppa.*" postag_regexp="yes">
+            <exception postag="V.* ppa [me] sp?" postag_regexp="yes"/>
+          </token>
+        </pattern>
+        <message>Le participe « \5 » devrait être au pluriel.</message>
+        <example type="incorrect">Nous lui avons <marker>donnée</marker> un cadeau.</example>
+        <example type="incorrect">Nous lui avons <marker>donnés</marker> un cadeau.</example>
+        <example type="incorrect">Nous lui avons <marker>données</marker> un cadeau.</example>
+        <example type="correct">Nous lui avons donné un cadeau.</example>
       </rule>
       <rule>
         <pattern mark_from="6">
@@ -3318,11 +3372,66 @@ though, and has since been slightly modified)-->
             <exception postag="V.* ppa [me] sp?" postag_regexp="yes"/>
           </token>
         </pattern>
-        <message>Le participe «\7» devrait être au singulier masculin.</message>
+        <message>Le participe « \7 » devrait être au singulier masculin.</message>
         <example type="incorrect">Nous n’avons pas <marker>mangés</marker> des huitres.</example>
         <example type="correct">Nous n’avons pas mangé des huitres.</example>
         <example type="incorrect">Isabelle n’a jamais <marker>mangée</marker> des huitres.</example>
         <example type="correct">Isabelle n‘a jamais mangé des huitres.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="7">
+          <token postag="SENT_START|C coor" postag_regexp="yes"/>
+          <token postag="R pers suj.*|Z.*" postag_regexp="yes"/>
+          <token>ne</token>
+          <token regexp="yes">[lmt]</token>
+          <token regexp="yes">[’´'‛′‘]</token>
+          <token inflected="yes">avoir</token>
+          <token regexp="yes">pas|guerre|point|rien|jamais</token>
+          <token postag="V.* ppa.*" postag_regexp="yes">
+            <exception postag="V.* ppa . sp?" postag_regexp="yes"/>
+          </token>
+        </pattern>
+        <message>Le participe « \8 » devrait être au singulier.</message>
+        <example type="incorrect">Nous ne t'avons pas <marker>écoutés</marker>.</example>
+        <example type="incorrect">Nous ne t'avons pas <marker>écoutées</marker>.</example>
+        <example type="correct">Nous ne t'avons pas écouté.</example>
+        <example type="correct">Nous ne t'avons pas écoutée.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="6">
+          <token postag="SENT_START|C coor" postag_regexp="yes"/>
+          <token postag="R pers suj.*|Z.*" postag_regexp="yes"/>
+          <token>ne</token>
+          <token>les</token>
+          <token inflected="yes">avoir</token>
+          <token regexp="yes">pas|guerre|point|rien|jamais</token>
+          <token postag="V.* ppa.*" postag_regexp="yes">
+            <exception postag="V.* ppa . s?p" postag_regexp="yes"/>
+          </token>
+        </pattern>
+        <message>Le participe « \7 » devrait être au singulier.</message>
+        <example type="incorrect">Nous ne les avons pas <marker>écouté</marker>.</example>
+        <example type="incorrect">Nous ne les avons pas <marker>écoutée</marker>.</example>
+        <example type="correct">Nous ne les avons pas écoutés.</example>
+        <example type="correct">Nous ne les avons pas écoutées.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="6">
+          <token postag="SENT_START|C coor" postag_regexp="yes"/>
+          <token postag="R pers suj.*|Z.*" postag_regexp="yes"/>
+          <token>ne</token>
+          <token regexp="yes">lui|leur</token>
+          <token inflected="yes">avoir</token>
+          <token regexp="yes">pas|guerre|point|rien|jamais</token>
+          <token postag="V.* ppa.*" postag_regexp="yes">
+            <exception postag="V.* ppa [me] sp?" postag_regexp="yes"/>
+          </token>
+        </pattern>
+        <message>Le participe « \7 » devrait être au masculin singulier.</message>
+        <example type="incorrect">Nous ne lui avons rien <marker>donnée</marker>.</example>
+        <example type="incorrect">Nous ne lui avons rien <marker>donnés</marker>.</example>
+        <example type="incorrect">Nous ne lui avons rien <marker>données</marker>.</example>
+        <example type="correct">Nous ne lui avons rien donné.</example>
       </rule>
       <rule>
         <pattern mark_from="4">
@@ -3334,7 +3443,7 @@ though, and has since been slightly modified)-->
             <exception postag="V.* ppa [me] sp?" postag_regexp="yes"/>
           </token>
         </pattern>
-        <message>Le participe «\5» devrait être au singulier masculin.</message>
+        <message>Le participe « \5 » devrait être au singulier masculin.</message>
         <example type="incorrect">J‘ai <marker>mangés</marker> des huitres.</example>
         <example type="correct">J‘ai mangé des huitres.</example>
         <example type="incorrect">Je suis allée en Bretagne et j’ai <marker>mangée</marker> des huitres.</example>
@@ -3350,9 +3459,63 @@ though, and has since been slightly modified)-->
             <exception postag="V.* ppa [me] sp?" postag_regexp="yes"/>
           </token>
         </pattern>
-        <message>Le participe «\5» devrait être au singulier masculin.</message>
+        <message>Le participe « \5 » devrait être au singulier masculin.</message>
         <example type="incorrect">Les élèves ont <marker>terminés</marker> leurs devoirs.</example>
+        <example type="incorrect">Les élèves ont <marker>terminée</marker> leurs devoirs.</example>
+        <example type="incorrect">Les élèves ont <marker>terminées</marker> leurs devoirs.</example>
         <example type="correct">Les élèves ont terminé leurs devoirs.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="6">
+          <token postag="SENT_START|C coor" postag_regexp="yes"/>
+          <token postag="D.*" postag_regexp="yes"/>
+          <token postag="N.*" postag_regexp="yes"/>
+          <token regexp="yes">[lmt]</token>
+          <token regexp="yes">[’´'‛′‘]</token>
+          <token inflected="yes">avoir</token>
+          <token postag="V.* ppa.*" postag_regexp="yes">
+            <exception postag="V.* ppa . sp?" postag_regexp="yes"/>
+          </token>
+        </pattern>
+        <message>Le participe « \7 » devrait être au singulier.</message>
+        <example type="incorrect">Les élèves t’ont <marker>écoutés</marker>.</example>
+        <example type="incorrect">Les élèves t’ont <marker>écoutées</marker>.</example>
+        <example type="correct">Les élèves t’ont écouté.</example>
+        <example type="correct">Les élèves t’ont écoutée.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="5">
+          <token postag="SENT_START|C coor" postag_regexp="yes"/>
+          <token postag="D.*" postag_regexp="yes"/>
+          <token postag="N.*" postag_regexp="yes"/>
+          <token>les</token>
+          <token inflected="yes">avoir</token>
+          <token postag="V.* ppa.*" postag_regexp="yes">
+            <exception postag="V.* ppa . s?p" postag_regexp="yes"/>
+          </token>
+        </pattern>
+        <message>Le participe « \6 » devrait être au pluriel.</message>
+        <example type="incorrect">Les élèves les ont <marker>écouté</marker>.</example>
+        <example type="incorrect">Les élèves les ont <marker>écoutée</marker>.</example>
+        <example type="correct">Les élèves les ont écoutés.</example>
+        <example type="correct">Les élèves les ont écoutées.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="5">
+          <token postag="SENT_START|C coor" postag_regexp="yes"/>
+          <token postag="D.*" postag_regexp="yes"/>
+          <token postag="N.*" postag_regexp="yes"/>
+          <token regexp="yes">lui|leur</token>
+          <token inflected="yes">avoir</token>
+          <token postag="V.* ppa.*" postag_regexp="yes">
+            <exception postag="V.* ppa [me] sp?" postag_regexp="yes"/>
+          </token>
+        </pattern>
+        <message>Le participe « \6 » devrait être au masculin singulier.</message>
+        <example type="incorrect">Les élèves lui ont <marker>données</marker>.</example>
+        <example type="incorrect">Les élèves lui ont <marker>donnés</marker>.</example>
+        <example type="incorrect">Les élèves lui ont <marker>donnée</marker>.</example>
+        <example type="correct">Les élèves lui ont donné.</example>
       </rule>
       <rule>
         <pattern mark_from="7">
@@ -3367,9 +3530,69 @@ though, and has since been slightly modified)-->
             <exception postag="V.* ppa [me] sp?" postag_regexp="yes"/>
           </token>
         </pattern>
-        <message>Le participe «\8» devrait être au singulier masculin.</message>
+        <message>Le participe « \8 » devrait être au singulier masculin.</message>
         <example type="incorrect">Les élèves n’ont pas <marker>terminés</marker> leurs devoirs.</example>
+        <example type="incorrect">Les élèves n’ont pas <marker>terminée</marker> leurs devoirs.</example>
+        <example type="incorrect">Les élèves n’ont pas <marker>terminées</marker> leurs devoirs.</example>
         <example type="correct">Les élèves n’ont pas terminé leurs devoirs.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="8">
+          <token postag="SENT_START|C coor" postag_regexp="yes"/>
+          <token postag="D.*" postag_regexp="yes"/>
+          <token postag="N.*" postag_regexp="yes"/>
+          <token>ne</token>
+          <token regexp="yes">[mtl]</token>
+          <token regexp="yes">[’´'‛′‘]</token>
+          <token inflected="yes">avoir</token>
+          <token regexp="yes">pas|guerre|point|rien|jamais</token>
+          <token postag="V.* ppa.*" postag_regexp="yes">
+            <exception postag="V.* ppa . sp?" postag_regexp="yes"/>
+          </token>
+        </pattern>
+        <message>Le participe « \9 » devrait être au singulier.</message>
+        <example type="incorrect">Les élèves ne m’ont pas <marker>écoutés</marker>.</example>
+        <example type="incorrect">Les élèves ne m’ont pas <marker>écoutées</marker>.</example>
+        <example type="correct">Les élèves ne m’ont pas écouté.</example>
+        <example type="correct">Les élèves ne m’ont pas écoutée.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="7">
+          <token postag="SENT_START|C coor" postag_regexp="yes"/>
+          <token postag="D.*" postag_regexp="yes"/>
+          <token postag="N.*" postag_regexp="yes"/>
+          <token>ne</token>
+          <token>les</token>
+          <token inflected="yes">avoir</token>
+          <token regexp="yes">pas|guerre|point|rien|jamais</token>
+          <token postag="V.* ppa.*" postag_regexp="yes">
+            <exception postag="V.* ppa . s?p" postag_regexp="yes"/>
+          </token>
+        </pattern>
+        <message>Le participe « \8 » devrait être au pluriel.</message>
+        <example type="incorrect">Les élèves ne les ont pas <marker>écouté</marker>.</example>
+        <example type="incorrect">Les élèves ne les ont pas <marker>écoutée</marker>.</example>
+        <example type="correct">Les élèves ne les ont pas écoutés.</example>
+        <example type="correct">Les élèves ne les ont pas écoutées.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="7">
+          <token postag="SENT_START|C coor" postag_regexp="yes"/>
+          <token postag="D.*" postag_regexp="yes"/>
+          <token postag="N.*" postag_regexp="yes"/>
+          <token>ne</token>
+          <token regexp="yes">lui|leur</token>
+          <token inflected="yes">avoir</token>
+          <token regexp="yes">pas|guerre|point|rien|jamais</token>
+          <token postag="V.* ppa.*" postag_regexp="yes">
+            <exception postag="V.* ppa [me] sp?" postag_regexp="yes"/>
+          </token>
+        </pattern>
+        <message>Le participe « \8 » devrait être au singulier masculin singulier.</message>
+        <example type="incorrect">Les élèves ne lui ont pas <marker>écoutés</marker>.</example>
+        <example type="incorrect">Les élèves ne lui ont pas <marker>écoutées</marker>.</example>
+        <example type="incorrect">Les élèves ne lui ont pas <marker>écoutée</marker>.</example>
+        <example type="correct">Les élèves ne lui ont pas <marker>écouté</marker>.</example>
       </rule>
     </rulegroup>
     <rulegroup id="QUE_AVOIR" name="accord que + verbe avoir">
