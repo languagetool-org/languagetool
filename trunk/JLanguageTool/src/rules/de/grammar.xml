@@ -2313,7 +2313,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <rule>
         <pattern mark_from="1" mark_to="-1" case_sensitive="yes">
           <token regexp="yes">([dD](er|ie))|([eE]ine)</token>
-          <token regexp="yes">obdachlose|angestellte|abgeordnete|jugendliche</token>
+          <token regexp="yes">verdächtige|überlebende|verbündete|obdachlose|angestellte|abgeordnete|jugendliche</token>
           <token postag="VER:.*" postag_regexp="yes"/>
         </pattern>
         <message>Bitte prüfen Sie, ob <suggestion><match case_conversion="startupper" no="2"/></suggestion> hier substantiviert gebraucht wird.</message>
@@ -2325,7 +2325,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <rule>
         <pattern mark_from="1" mark_to="-1" case_sensitive="yes">
           <token regexp="yes">([dD](en|ie))|([eE]inen)</token>
-          <token regexp="yes">(obdachlose|angestellte|abgeordnete|jugendliche)(n)</token>
+          <token regexp="yes">(verdächtige|überlebende|verbündete|obdachlose|angestellte|abgeordnete|jugendliche)(n)</token>
           <token postag="VER:.*" postag_regexp="yes"/>
         </pattern>
         <message>Bitte prüfen Sie, ob <suggestion><match case_conversion="startupper" no="2"/></suggestion> hier substantiviert gebraucht wird.</message>
@@ -2346,6 +2346,29 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Du hast mich ganz <marker>nass</marker> gemacht!</example>
         <example type="correct">Hinein ins kühle <marker>Nass</marker>!</example>
         <example type="incorrect">Hinein ins kühle <marker>nass</marker>!</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="STOLZ_SUBST" name="Groß-/Kleinschreibung: 'stolz (Stolz)'">
+      <rule>
+        <pattern mark_from="2" case_sensitive="yes">
+          <token regexp="yes">mein|dein|sein|unser|euer|ihr</token>
+          <token>ganzer</token>
+          <token>stolz</token>
+        </pattern>
+        <message>Bitte prüfen Sie, ob <suggestion>Stolz</suggestion> hier als Substantiv gebraucht wird.</message>
+        <example type="correct">Sie war ganz <marker>stolz</marker> darauf.</example>
+        <example type="correct">Dieses Auto ist mein ganzer <marker>Stolz</marker>.</example>
+        <example type="incorrect">Dieses Auto ist mein ganzer <marker>stolz</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" case_sensitive="yes">
+          <token regexp="yes">[vV]oller</token>
+          <token>stolz</token>
+        </pattern>
+        <message>Bitte prüfen Sie, ob <suggestion>Stolz</suggestion> hier als Substantiv gebraucht wird.</message>
+        <example type="correct">Sie war ganz <marker>stolz</marker> darauf.</example>
+        <example type="correct">Voller <marker>Stolz</marker> präsentierte er sein neues Auto.</example>
+        <example type="incorrect">Voller <marker>stolz</marker> präsentierte er sein neues Auto.</example>
       </rule>
     </rulegroup>
     <rulegroup id="NOTFALLS_SUBST" name="Groß-/Kleinschreibung: 'notfalls (Notfalls)'">
@@ -2717,15 +2740,27 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect">Die im <marker>folgenden</marker> beschriebene Geschichte.</example>
       <example type="correct">Die im <marker>folgenden</marker> Buch beschriebene Geschichte.</example>
     </rule>
-    <rule id="IN_KUERZE" name="Groß-/Kleinschreibung: 'in kürze (Kürze)'">
-      <pattern mark_from="1" case_sensitive="yes">
-        <token regexp="yes">[Ii]n</token>
-        <token>kürze</token>
-      </pattern>
-      <message>Meinten Sie <suggestion>Kürze</suggestion>?</message>
-      <example type="correct">In <marker>Kürze</marker> erscheint das neue Ubuntu.</example>
-      <example type="incorrect">In <marker>kürze</marker> erscheint das neue Ubuntu.</example>
-    </rule>
+    <rulegroup id="IN_KUERZE" name="Groß-/Kleinschreibung: 'in kürze (Kürze)'">
+      <rule>
+        <pattern mark_from="1" case_sensitive="yes">
+          <token regexp="yes">[Ii]n</token>
+          <token>kürze</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>Kürze</suggestion>?</message>
+        <example type="correct">In <marker>Kürze</marker> erscheint das neue Ubuntu.</example>
+        <example type="incorrect">In <marker>kürze</marker> erscheint das neue Ubuntu.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2" case_sensitive="yes">
+          <token regexp="yes">[Ii]n</token>
+          <token>aller</token>
+          <token>kürze</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>Kürze</suggestion>?</message>
+        <example type="correct">In aller <marker>Kürze</marker> möchte ich Folgendes sagen.</example>
+        <example type="incorrect">In aller <marker>kürze</marker> möchte ich Folgendes sagen.</example>
+      </rule>
+    </rulegroup>
     <!-- TODO: allgemeiner... -->
     <rule id="OEFFNEN" name="Groß-/Kleinschreibung: 'dem öffnen (Öffnen)'">
       <pattern mark_from="1" case_sensitive="yes">
