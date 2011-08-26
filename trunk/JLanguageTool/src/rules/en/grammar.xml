@@ -700,8 +700,8 @@ $Id: grammar.xml,v 1.129 2010-11-13 23:24:21 dnaber Exp $
           <token>it</token>
           <token regexp="yes">is|was</token>
           <token>no</token>
-          <token postag="JJ.*" postag_regexp="yes"><exception regexp="yes">more|less|longer</exception></token>
-          <token><exception postag="NN.*" postag_regexp="yes"></exception></token>
+          <token postag="JJ.*" postag_regexp="yes"><exception regexp="yes">good|more|less|longer</exception></token>
+          <token><exception postag="NN.*" postag_regexp="yes"/></token>
         </pattern>
         <message>Did you mean <suggestion>not</suggestion> or <suggestion>now</suggestion>?</message>
         <short>Possible typo</short>
@@ -1563,7 +1563,7 @@ $Id: grammar.xml,v 1.129 2010-11-13 23:24:21 dnaber Exp $
       <rule>
         <pattern mark_to="-1">
           <token>quite</token>
-          <token postag="SENT_END"></token>
+          <token postag="SENT_END" regexp="yes">\p{Punct}</token>
         </pattern>
         <message>Did you mean <suggestion>quiet</suggestion>? 'quiet' means 'silent', 'quite' mean 'very' or 'to a moderate extent'</message>
         <short>Possible typo</short>
@@ -3589,7 +3589,7 @@ $Id: grammar.xml,v 1.129 2010-11-13 23:24:21 dnaber Exp $
     <rulegroup id="HE_VERB_AGR" name="Agreement error: Non-third person verb with 'he/she'">
       <rule>
         <pattern mark_from="2">
-          <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">hear|see|insist</exception>(that|has|will|must|could|can|should|would|does|did|is|may|might|t|let|was)</token>
+          <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">hear|see|insist|prevent</exception>(that|has|will|must|could|can|should|would|does|did|is|may|might|t|let|was)</token>
           <token regexp="yes">he|she|someone|somebody|nobody|anyone</token>
           <token postag="VB|VBG|VBP" postag_regexp="yes"><exception postag="VBN|VBD|JJ.*|RB|MD" postag_regexp="yes"></exception></token>
         </pattern>
@@ -3604,7 +3604,7 @@ $Id: grammar.xml,v 1.129 2010-11-13 23:24:21 dnaber Exp $
       </rule>
       <rule>
         <pattern mark_from="3">
-          <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">hear|see</exception>(that|has|will|must|could|can|should|would|does|did|is|may|might|t|was)</token>
+          <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">hear|see|prevent</exception>(that|has|will|must|could|can|should|would|does|did|is|may|might|t|was)</token>
           <token regexp="yes">he|she|someone|somebody|nobody|anyone</token>
           <token postag="RB"></token>
           <token postag="VB|VBG|VBP" postag_regexp="yes"><exception postag="VBN|VBD|JJ.*|RB|MD" postag_regexp="yes"></exception></token>
@@ -3618,7 +3618,7 @@ $Id: grammar.xml,v 1.129 2010-11-13 23:24:21 dnaber Exp $
       </rule>
       <rule>
         <pattern mark_from="3">
-          <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">hear|see</exception>(that|has|will|must|could|can|should|would|does|did|is|may|might|t|s|let|was)</token>
+          <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">hear|see|prevent</exception>(that|has|will|must|could|can|should|would|does|did|is|may|might|t|s|let|was)</token>
           <token regexp="yes">someone|somebody|nobody|anyone</token>
           <token>else</token>
           <token postag="VB|VBG|VBP" postag_regexp="yes"><exception postag="VBN|VBD|JJ.*|RB|MD" postag_regexp="yes"></exception></token>
@@ -3632,7 +3632,7 @@ $Id: grammar.xml,v 1.129 2010-11-13 23:24:21 dnaber Exp $
       </rule>
       <rule>
         <pattern mark_from="4">
-          <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">hear|see</exception>(that|has|will|must|could|can|should|would|does|did|is|may|might|t|let|was)</token>
+          <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">hear|see|prevent</exception>(that|has|will|must|could|can|should|would|does|did|is|may|might|t|let|was)</token>
           <token regexp="yes">someone|somebody|nobody|anyone</token>
           <token>else</token>
           <token postag="RB"></token>
@@ -3662,7 +3662,7 @@ $Id: grammar.xml,v 1.129 2010-11-13 23:24:21 dnaber Exp $
       <!--  subjunctive without 'that' -->
       <rule>
         <pattern mark_from="2">
-          <token postag="VB.*" postag_regexp="yes"><exception regexp="yes">was|is</exception><exception inflected="yes" regexp="yes">hear|see</exception></token>
+          <token postag="VB.*" postag_regexp="yes"><exception regexp="yes">was|is</exception><exception inflected="yes" regexp="yes">hear|see|prevent</exception></token>
           <token regexp="yes">he|she|someone|somebody|nobody|anyone</token>
           <token postag="VBG"></token>
         </pattern>
@@ -3676,7 +3676,7 @@ $Id: grammar.xml,v 1.129 2010-11-13 23:24:21 dnaber Exp $
       </rule>
       <rule>
         <pattern mark_from="2" mark_to="-1">
-          <token><exception regexp="yes">(that|has|will|must|could|can|should|would|does|did|is|was|may|might|t|let)</exception><exception inflected="yes" regexp="yes">hear|see</exception><exception postag="CC|IN|DT|MD" postag_regexp="yes"></exception></token>
+          <token><exception regexp="yes">(that|has|will|must|could|can|should|would|does|did|is|was|may|might|t|let)</exception><exception inflected="yes" regexp="yes">hear|see|prevent</exception><exception postag="CC|IN|DT|MD" postag_regexp="yes"></exception></token>
           <token postag="NNP" regexp="yes">.{2,}<exception postag="JJ|CC|RP|DT|PRP\$|NNPS|NNS|IN|RB|WRB" postag_regexp="yes"></exception></token>
           <token postag="VB|VBP" postag_regexp="yes" regexp="yes">\p{Lower}+<exception postag="VBN|VBD|JJ|IN|MD" postag_regexp="yes"></exception></token>
           <token postag="IN|DT" postag_regexp="yes"></token>
@@ -4353,7 +4353,7 @@ $Id: grammar.xml,v 1.129 2010-11-13 23:24:21 dnaber Exp $
     <rule id="THE_EXACTLY_THE" name="Duplicated 'the' surrounding an adverb">
       <pattern>
         <token>the</token>
-        <token postag="RB"><exception>way</exception></token>
+        <token postag="RB"/>
         <token>the</token>
       </pattern>
       <message>Duplicated 'the' in the phrase: '\1 \2 \3'. Did you mean <suggestion>\2 \3</suggestion>?</message>
@@ -5446,7 +5446,7 @@ $Id: grammar.xml,v 1.129 2010-11-13 23:24:21 dnaber Exp $
     </rule>
     <rule id="DESCEND_DOWN" name="descend down (descend)">
       <pattern>
-        <token inflected="yes" regexp="yes">descend|dive|fall</token>
+        <token inflected="yes" regexp="yes">descend|dive</token>
         <token>down</token>
       </pattern>
       <message>This phrase might be redundant. Use simply <suggestion>\1</suggestion>.</message>

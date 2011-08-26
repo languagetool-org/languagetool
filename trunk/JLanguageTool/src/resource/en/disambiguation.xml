@@ -1036,4 +1036,17 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
 		<example type="ambiguous" inputform="but[but/CC]" outputform="but[but/RB]">All <marker>but</marker> one!</example>
 	</rule>
 	</rulegroup>			
+	<rule name="the + adverb/noun + the -> noun" id="THE_RBNN_THE">
+		<pattern mark="1">
+		<token>the</token>
+		<and>
+		<token postag="RB"/>
+		<token postag_regexp="yes" postag="NN.*"/>
+		</and>
+		<token>the</token>
+		</pattern>
+		<disambig action="remove"><wd pos="RB"/></disambig>
+		<example type="untouched">The really the interesting thing is this.</example>
+		<example type="ambiguous" inputform="meanwhile[meanwhile/JJ,meanwhile/NN:U,meanwhile/RB]" outputform="meanwhile[meanwhile/JJ,meanwhile/NN:U]">In the <marker>meanwhile</marker> the whole situation changed.</example>
+	</rule>
 </rules>
