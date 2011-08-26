@@ -425,27 +425,20 @@ public final class Main implements ActionListener {
   // method modified to add automatic language detection
   private Language getCurrentLanguage() {
     if (autoDetectBox.isSelected()) {
-        LanguageIdentifier li = new LanguageIdentifier(textArea.getText());
-        Language lang = Language.getLanguageForShortName(li.getLanguage());
-        if (lang != null) {
-        	for (int i=0;i<languageBox.getItemCount();i++) {
-        		I18nLanguage boxLanguage = (I18nLanguage) languageBox.getItemAt(i);
-        		if (boxLanguage.getLanguage().getName() == lang.getName()) {
-        			languageBox.setSelectedIndex(i);
-        		}
-        	}
-            return Language.getLanguageForShortName(li.getLanguage());
-        } else {
-        	for (int i=0;i<languageBox.getItemCount();i++) {
-        		I18nLanguage boxLanguage = (I18nLanguage) languageBox.getItemAt(i);
-        		if (boxLanguage.getLanguage().getName() == Language.ENGLISH.getName()) {
-        			languageBox.setSelectedIndex(i);
-        		}
-        	}
-        	return Language.ENGLISH;
-        }        
+      final LanguageIdentifier langIdentifier = new LanguageIdentifier(textArea.getText());
+      Language lang = Language.getLanguageForShortName(langIdentifier.getLanguage());
+      if (lang == null) {
+        lang = Language.ENGLISH;
+      }
+      for (int i = 0; i < languageBox.getItemCount(); i++) {
+        final I18nLanguage boxLanguage = (I18nLanguage) languageBox.getItemAt(i);
+        if (boxLanguage.toString().equals(lang.getTranslatedName(messages))) {
+          languageBox.setSelectedIndex(i);
+        }
+      }
+      return lang;
     } else {
-        return ((I18nLanguage) languageBox.getSelectedItem()).getLanguage();
+      return ((I18nLanguage) languageBox.getSelectedItem()).getLanguage();
     }
   }
 
