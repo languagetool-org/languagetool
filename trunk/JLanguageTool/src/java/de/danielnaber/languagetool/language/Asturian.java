@@ -20,12 +20,16 @@ package de.danielnaber.languagetool.language;
 
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.rules.*;
+import de.danielnaber.languagetool.tagging.Tagger;
+import de.danielnaber.languagetool.tagging.ast.AsturianTagger;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
 public class Asturian extends Language {
+
+  private final Tagger tagger = new AsturianTagger();
 
   @Override
   public Locale getLocale() {
@@ -61,6 +65,11 @@ public class Asturian extends Language {
             UppercaseSentenceStartRule.class,
             WhitespaceRule.class
     );
+  }
+
+  @Override
+  public final Tagger getTagger() {
+    return tagger;
   }
 
 }
