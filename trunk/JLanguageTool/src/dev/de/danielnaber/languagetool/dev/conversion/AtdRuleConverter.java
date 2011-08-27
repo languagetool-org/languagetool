@@ -44,10 +44,6 @@ import morfologik.stemming.WordData;
 
 public class AtdRuleConverter extends RuleConverter {
     
-
-//    private final static String MACRO_EXPANSIONS_FILE = "/en/macro_expansions.txt";	
-//    private static HashMap<String,String> macroExpansions = fillOutMacroExpansions();
-    
     private static final Pattern nounInPattern = Pattern.compile("NN(?!P|S|\\.)");
     private static final Pattern wordReference = Pattern.compile("\\\\(\\d+)"); // a word reference, e.g. \1
     private static final Pattern wordReferenceTransform = Pattern.compile("\\\\(\\d+):([^:]+)");
@@ -181,10 +177,8 @@ public class AtdRuleConverter extends RuleConverter {
                         } catch (ArrayIndexOutOfBoundsException e) {
                         	System.err.println("Incorrect declaration for rule " + rule + "; rule skipped");
                         }
-                        
                     }
                 }
-        		
         	} else {
         		String[] splitRule = rule.split("\t+");
         		outRule.put("pattern", splitRule[0]);
@@ -196,8 +190,6 @@ public class AtdRuleConverter extends RuleConverter {
                 	outRule.put("explanation", "");
                 }
         	}
-            
-            
         }
         // accounting for the fact that AtD is case sensitive
         if (isCaseSensitiveRule(outRule.get("pattern"))) {
@@ -864,19 +856,6 @@ public class AtdRuleConverter extends RuleConverter {
     	return false;
     }
     
-//    public static HashMap<String,String> fillOutMacroExpansions() {
-//        HashMap<String, String> macroExpansions = new HashMap<String,String>();
-//        ArrayList<String> lines = fileToListNoBlanks(MACRO_EXPANSIONS_FILE);
-//        for (String s : lines) {
-//            String[] sl = s.split("=");
-//            for (int i=0; i < sl.length; i++) {
-//                sl[i] = sl[i].trim();
-//            }
-//            macroExpansions.put(sl[0], sl[1]);
-//        }
-//        return macroExpansions;
-//    }
-    
     /**
      * Helper method to appropriate add an item to a HashMap
      * @param map
@@ -1121,11 +1100,7 @@ public class AtdRuleConverter extends RuleConverter {
     	MACRO_EXPANSIONS(String v) {
     		this.value = v;
     	}
-    			
     }
-    
-
-	
     
 
 }
