@@ -149,6 +149,12 @@ License:
  The Chinese data and code for part-of-speech tagging is based on ictclas4j project
  (http://code.google.com/p/ictclas4j/) under Apache License 2.0
 
+ Asturian:
+ The Asturian data for part-of-speech tagging are from the Freeling dictionary,
+ licensed under GNU General Public License.
+ Contributor(s):
+   Xesús González Rato <esbardu@asturies.org>
+
 ------------------------------------------------ 
  
  English:
