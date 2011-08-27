@@ -2233,6 +2233,23 @@ though, and has since been slightly modified)-->
         <example type="correct">Ils sont même resté ici.</example>
       </rule>
       <rule>
+        <pattern mark_from="5">
+          <token postag="SENT_START" skip="-1">
+            <exception scope="next" postag="[NRZ].* [fe] .*" postag_regexp="yes"/>
+          </token>
+          <token postag="[NZ] m .*|R pers suj 3 m .*" postag_regexp="yes"/>
+          <token regexp="yes" skip="1">ne?</token>
+          <token postag="V etre.* 3 .*" postag_regexp="yes"/>
+          <token regexp="yes">pas|point|guerre|plus|jamais</token>
+          <token postag="V.* ppa f .*|J f .*" postag_regexp="yes">
+            <exception>même</exception>
+          </token>
+        </pattern>
+        <message>Le mot féminin « \6 » n’est pas accordé en genre avec le mot masculin « \2 ».</message>
+        <example type="incorrect">Antoine n’est pas <marker>mariée</marker>.</example>
+        <example type="correct">Antoine n’est pas <marker>marié</marker>.</example>
+      </rule>
+      <rule>
         <pattern mark_from="4">
           <token postag="SENT_START" skip="-1">
             <exception scope="next" postag="[NRZ].* [fe] .*" postag_regexp="yes"/>
@@ -2247,6 +2264,22 @@ though, and has since been slightly modified)-->
         <example type="correct">Antoine est peut-être <marker>fatigué</marker>.</example>
         <example type="correct">Dominique est peut-être <marker>fatiguée</marker>.</example>
         <example type="correct">Dominique est peut-être <marker>fatigué</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="6">
+          <token postag="SENT_START" skip="-1">
+            <exception scope="next" postag="[NRZ].* [fe] .*" postag_regexp="yes"/>
+          </token>
+          <token postag="[NZ] m .*|R pers suj 3 m .*" postag_regexp="yes"/>
+          <token regexp="yes" skip="1">ne?</token>
+          <token postag="V etre.* 3 .*" postag_regexp="yes"/>
+          <token regexp="yes">pas|point|guerre|plus|jamais</token>
+          <token postag="A"/>
+          <token postag="V.* ppa f .*|J f .*" postag_regexp="yes"/>
+        </pattern>
+        <message>Le mot féminin « \7 » n’est pas accordé en genre avec le mot masculin « \2 ».</message>
+        <example type="incorrect">Antoine n’est pas très <marker>fatiguée</marker>.</example>
+        <example type="correct">Antoine n’est pas très fatigué.</example>
       </rule>
       <rule>
         <pattern mark_from="3">
@@ -2265,6 +2298,21 @@ though, and has since been slightly modified)-->
         <example type="correct">Gravir cette montagne est dangereux</example>
       </rule>
       <rule>
+        <pattern mark_from="5">
+          <token postag="SENT_START" skip="-1">
+            <exception scope="next" postag="[NRZ].* [me] .*|V inf" postag_regexp="yes"/>
+          </token>
+          <token postag="[NZ] f .*|R pers suj 3 f .*" postag_regexp="yes"/>
+          <token regexp="yes" skip="1">ne?</token>
+          <token postag="V etre.* 3 .*" postag_regexp="yes"/>
+          <token regexp="yes">pas|point|guerre|plus|jamais</token>
+          <token postag="V.* ppa m .*|J m .*" postag_regexp="yes"/>
+        </pattern>
+        <message>Le mot masculin « \6 » n’est pas accordé en genre avec le mot féminin « \2 ».</message>
+        <example type="incorrect">Martine n’est pas <marker>marié</marker>.</example>
+        <example type="correct">Martine n’est pas mariée.</example>
+      </rule>
+      <rule>
         <pattern mark_from="4">
           <token postag="SENT_START" skip="-1">
             <exception scope="next" postag="[NRZ].* [me] .*|V inf" postag_regexp="yes"/>
@@ -2279,6 +2327,22 @@ though, and has since been slightly modified)-->
         <example type="correct">Martine est très <marker>jolie</marker>.</example>
       </rule>
       <rule>
+        <pattern mark_from="6">
+          <token postag="SENT_START" skip="-1">
+            <exception scope="next" postag="[NRZ].* [me] .*|V inf" postag_regexp="yes"/>
+          </token>
+          <token postag="[NZ] f .*|R pers suj 3 f .*" postag_regexp="yes"/>
+          <token regexp="yes" skip="1">ne?</token>
+          <token postag="V etre.* 3 .*" postag_regexp="yes"/>
+          <token regexp="yes">pas|point|guerre|plus|jamais</token>
+          <token postag="A"/>
+          <token postag="V.* ppa m .*|J m .*" postag_regexp="yes"/>
+        </pattern>
+        <message>Le mot masculin « \7 » n’est pas accordé en genre avec le mot féminin « \2 ».</message>
+        <example type="incorrect">Martine n’est pas très <marker>joli</marker>.</example>
+        <example type="correct">Martine n’est pas très jolie.</example>
+      </rule>
+      <rule>
         <pattern mark_from="3">
           <token postag="SENT_START" skip="-1">
             <exception scope="next" postag="[NR].*p" postag_regexp="yes"/>
@@ -2290,14 +2354,32 @@ though, and has since been slightly modified)-->
         </pattern>
         <message>Le mot pluriel « \4 » n’est pas accordé en nombre avec le mot singulier « \2 ».</message>
         <example type="incorrect">Un orage fut <marker>annoncés</marker>.</example>
-        <example type="correct">Un orage fut <marker>annoncé</marker>.</example>
+        <example type="correct">Un orage fut annoncé.</example>
         <example type="incorrect">Elle sera <marker>contentes</marker>.</example>
-        <example type="correct">Elle sera <marker>contente</marker>.</example>
+        <example type="correct">Elle sera contente.</example>
         <example type="incorrect">Martine était <marker>ennuyeuses</marker>.</example>
-        <example type="correct">Martine était <marker>ennuyeuse</marker>.</example>
+        <example type="correct">Martine était ennuyeusemarker>.</example>
         <example type="correct">Lui et son équipage furent perdus en mer.</example>
         <example type="incorrect">Tu étais <marker>jeunes</marker>.</example>
         <example type="correct">Tu étais jeune.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="5">
+          <token postag="SENT_START" skip="-1">
+            <exception scope="next" postag="[NR].*p" postag_regexp="yes"/>
+            <exception scope="next">et</exception>
+          </token>
+          <token postag="Z.*|N . s|R pers suj.* s" postag_regexp="yes"/>
+          <token regexp="yes" skip="1">ne?</token>
+          <token postag="V etre .*" postag_regexp="yes"/>
+          <token regexp="yes">pas|point|guerre|plus|jamais</token>
+          <token postag="V.* ppa .* p|J . p" postag_regexp="yes"/>
+        </pattern>
+        <message>Le mot pluriel « \6 » n’est pas accordé en nombre avec le mot singulier « \2 ».</message>
+        <example type="incorrect">Elle ne sera pas <marker>contentes</marker>.</example>
+        <example type="correct">Elle ne sera pas contente.</example>
+        <example type="incorrect">Martine n’était guerre <marker>ennuyeuses</marker>.</example>
+        <example type="correct">Martine n’était guerre ennuyeuse.</example>
       </rule>
       <rule>
         <pattern mark_from="4">
@@ -2313,6 +2395,23 @@ though, and has since been slightly modified)-->
         <message>Le mot pluriel « \5 » n’est pas accordé en nombre avec le mot singulier « \2 ».</message>
         <example type="incorrect">Tu étais très <marker>jeunes</marker>.</example>
         <example type="correct">Tu étais très jeune.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="6">
+          <token postag="SENT_START" skip="-1">
+            <exception scope="next" postag="[NR].*p" postag_regexp="yes"/>
+            <exception scope="next">et</exception>
+          </token>
+          <token postag="Z.*|N . s|R pers suj.* s" postag_regexp="yes"/>
+          <token regexp="yes" skip="1">ne?</token>
+          <token postag="V etre .*" postag_regexp="yes"/>
+          <token regexp="yes">pas|point|guerre|plus|jamais</token>
+          <token postag="A"/>
+          <token postag="V.* ppa .* p|J . p" postag_regexp="yes"/>
+        </pattern>
+        <message>Le mot pluriel « \7 » n’est pas accordé en nombre avec le mot singulier « \2 ».</message>
+        <example type="incorrect">Tu n’étais pas très <marker>jeunes</marker>.</example>
+        <example type="correct">Tu n’étais pas très jeune.</example>
       </rule>
       <rule>
         <pattern mark_from="3">
@@ -2335,6 +2434,21 @@ though, and has since been slightly modified)-->
         <example type="correct">Nous étions <marker>fatigués</marker>.</example>
       </rule>
       <rule>
+        <pattern mark_from="5">
+          <token postag="SENT_START" skip="-1">
+            <exception scope="next" postag="[NR].*sp?|V inf" postag_regexp="yes"/>
+          </token>
+          <token postag="N . p|R pers suj [13].* p" postag_regexp="yes"/>
+          <token regexp="yes" skip="1">ne?</token>
+          <token postag="V etre .*" postag_regexp="yes"/>
+          <token regexp="yes">pas|point|guerre|plus|jamais</token>
+          <token postag="V.* ppa .* s|J . s" postag_regexp="yes"/>
+        </pattern>
+        <message>Le mot singulier « \6 » n’est pas accordé en nombre avec le mot pluriel « \2 ».</message>
+        <example type="incorrect">Elles ne sont pas <marker>absente</marker>.</example>
+        <example type="correct">Elles ne sont pas absentes.</example>
+      </rule>
+      <rule>
         <pattern mark_from="4">
           <token postag="SENT_START" skip="-1">
             <exception scope="next" postag="[NR].*sp?|V inf" postag_regexp="yes"/>
@@ -2347,6 +2461,24 @@ though, and has since been slightly modified)-->
         <message>Le mot singulier « \5 » n’est pas accordé en nombre avec le mot pluriel « \2 ».</message>
         <example type="incorrect">Nous étions trop <marker>fatigué</marker>.</example>
         <example type="correct">Nous étions trop <marker>fatigués</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="6">
+          <token postag="SENT_START" skip="-1">
+            <exception scope="next" postag="[NR].*sp?|V inf" postag_regexp="yes"/>
+          </token>
+          <token postag="N . p|R pers suj [13].* p" postag_regexp="yes"/>
+          <token regexp="yes" skip="1">ne?</token>
+          <token postag="V etre .*" postag_regexp="yes"/>
+          <token regexp="yes">pas|point|guerre|plus|jamais</token>
+          <token postag="A"/>
+          <token postag="V.* ppa .* s|J . s" postag_regexp="yes"/>
+        </pattern>
+        <message>Le mot singulier « \8 » n’est pas accordé en nombre avec le mot pluriel « \2 ».</message>
+        <example type="incorrect">Nous n’étions pas trop <marker>fatigué</marker>.</example>
+        <example type="correct">Nous n‘étions pas trop fatigués.</example>
+        <example type="incorrect">Nous ne sommes pas trop <marker>fatigué</marker>.</example>
+        <example type="correct">Nous ne sommes pas trop fatigués.</example>
       </rule>
     </rulegroup>
     <rulegroup id="PEUT_ETRE_VPPA_OU_ADJ" name="peut être + participe présent">
