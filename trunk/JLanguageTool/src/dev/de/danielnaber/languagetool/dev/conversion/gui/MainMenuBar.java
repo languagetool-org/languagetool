@@ -23,14 +23,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
-import java.util.ResourceBundle;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
-
-import de.danielnaber.languagetool.tools.StringTools;
 
 /**
  * The menu bar of the main dialog.
@@ -46,7 +43,7 @@ class MainMenuBar extends JMenuBar implements ActionListener {
   private String quitText;
   private String writeText;
   private String saveRuleText;
-  private String optionsText;
+//  private String optionsText;
   private String showRulesText;
   private String showCoveringRulesText;
   
@@ -97,11 +94,11 @@ class MainMenuBar extends JMenuBar implements ActionListener {
     showCoveringRulesItem.addActionListener(this);
     fileMenu.add(showCoveringRulesItem);
     // "Options"
-    final JMenuItem optionsItem = new JMenuItem(optionsText);
-    optionsItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_COMMA, Event.CTRL_MASK));
-    optionsItem.setMnemonic(0);
-    optionsItem.addActionListener(this);
-    fileMenu.add(optionsItem);
+//    final JMenuItem optionsItem = new JMenuItem(optionsText);
+//    optionsItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_COMMA, Event.CTRL_MASK));
+//    optionsItem.setMnemonic(0);
+//    optionsItem.addActionListener(this);
+//    fileMenu.add(optionsItem);
     // "Quit":
     final JMenuItem quitItem = new JMenuItem(quitText);
     quitItem.setMnemonic(0);        
@@ -142,7 +139,7 @@ class MainMenuBar extends JMenuBar implements ActionListener {
     saveRuleText = "Save current rule";
     showRulesText = "Show all rules";
     showCoveringRulesText = "Show covering rules";
-    optionsText = "Options";
+//    optionsText = "Options";
     quitText = "Quit";
     // Navigate:
     nextRuleText = "Next rule";
@@ -163,9 +160,9 @@ class MainMenuBar extends JMenuBar implements ActionListener {
     	} catch (IOException ex) {
     		ex.printStackTrace();
     	}
-    } else if (e.getActionCommand().equals(optionsText)) {
+    } /*else if (e.getActionCommand().equals(optionsText)) {
     	prg.showOptions();
-    } else if (e.getActionCommand().equals(nextRuleText)) {
+    } */else if (e.getActionCommand().equals(nextRuleText)) {
     	prg.nextRule();
     } else if (e.getActionCommand().equals(prevRuleText)) {
     	prg.prevRule();
@@ -175,6 +172,8 @@ class MainMenuBar extends JMenuBar implements ActionListener {
     	prg.showAllRules();
     } else if (e.getActionCommand().equals(showCoveringRulesText)) {
     	prg.displayCoveringRules();
+    } else if (e.getActionCommand().equals(aboutText)) {
+    	prg.displayAboutDialog();
     }
     else {
       throw new IllegalArgumentException("Unknown action " + e);

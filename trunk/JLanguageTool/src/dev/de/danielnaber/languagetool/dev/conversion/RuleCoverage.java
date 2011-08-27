@@ -52,52 +52,57 @@ public class RuleCoverage {
     private JLanguageTool tool;    
     private DictionaryIterator dictIterator;
     private DictionaryLookup dictLookup;
-    String fileName = "." + JLanguageTool.getDataBroker().getResourceDir() + "/en/english.dict";
-    private File dictFile = new File(fileName);
+    private Language language;
+    private String filename;
+    private File dictFile;
     
     private String ruleFileHeader = RuleConverter.xmlHeader;
     private String categoriesString = "<category name=\"test\">";
     private String endCategoriesString = "</category>";
     private String endRulesString = "</rules>"; 
     
-    
-    public RuleCoverage(Language language) throws IOException {
-        tool = new JLanguageTool(language);
-        tool.activateDefaultPatternRules();
-        tool.disableRule("UPPERCASE_SENTENCE_START");
-        tool.disableRule("EN_UNPAIRED_BRACKETS");
-        tool.disableRule("EN_A_VS_AN");
-        dictLookup = (DictionaryLookup) loadDictionary(); 
-        dictIterator = resetDictIter();
-    }
-    
+    private static Pattern punctuationSetRegex = Pattern.compile("^\\[(\\p{P})+\\]$",Pattern.UNICODE_CASE);
+    private static Pattern regexSet = Pattern.compile("^\\[([^\\-])*?\\]$");
+
+    // default constructor; defaults to English
     public RuleCoverage() throws IOException {
-    	tool = new JLanguageTool(Language.ENGLISH);
+    	language = Language.ENGLISH;
+    	tool = new JLanguageTool(language);
         tool.activateDefaultPatternRules();
         tool.disableRule("UPPERCASE_SENTENCE_START");
         tool.disableRule("EN_UNPAIRED_BRACKETS");
         tool.disableRule("EN_A_VS_AN");
-        dictLookup = (DictionaryLookup) loadDictionary();
-        dictIterator = resetDictIter();
+        setupDictionaryFiles();
     }
     
-    // for testing purposes
+    // disable some of the default rules in the constructors
+    //TODO: disable the right rules for each language
+    // though this matters less when we return an array of all covering rules
+    public RuleCoverage(Language language) throws IOException {
+    	this.language = language;
+    	tool = new JLanguageTool(language);
+        tool.activateDefaultPatternRules();
+        setupDictionaryFiles();
+    }
+    
+    // for testing purposes, defaults to English
     public RuleCoverage(String dictFileName) throws IOException {
-    	tool = new JLanguageTool(Language.ENGLISH);
+    	language = Language.ENGLISH;
+    	tool = new JLanguageTool(language);
         tool.activateDefaultPatternRules();
         tool.disableRule("UPPERCASE_SENTENCE_START");
         tool.disableRule("EN_UNPAIRED_BRACKETS");
         tool.disableRule("EN_A_VS_AN");
-        this.fileName = dictFileName;
-        this.dictFile = new File(fileName);
-        dictLookup = (DictionaryLookup) loadDictionary();
-        dictIterator = resetDictIter();
+        this.filename = dictFileName;
+        this.dictFile = new File(filename);
+        setupDictionaryFiles();
     }
     
     public JLanguageTool getLanguageTool() {
     	return tool;
     }
-    
+
+    // not really used anymore
     public void evaluateRules(String grammarfile) throws IOException {
         List<PatternRule> rules = loadPatternRules(grammarfile);
         for (PatternRule rule : rules) {
@@ -106,6 +111,7 @@ public class RuleCoverage {
         }
     }
     
+    // not really used anymore
     public void splitOutCoveredRules(String grammarfile, String discardfile) throws IOException {
     	List<PatternRule> rules = loadPatternRules(grammarfile);
     	
@@ -147,14 +153,9 @@ public class RuleCoverage {
         return (matches.size() > 0);        
     }
     
-//    public String isCoveredBy(String str) throws IOException {
-//        List<RuleMatch> matches = tool.check(str);
-//        if (matches.size() > 0) {
-//            return matches.get(0).getRule().getId();
-//        }
-//        return null;
-//    }
-    
+    /**
+     * Returns a list of covering rules for the given example string
+     */
     public String[] isCoveredBy(String str) throws IOException {
     	List<RuleMatch> matches = tool.check(str);
     	ArrayList<String> coverages = new ArrayList<String>();
@@ -165,15 +166,6 @@ public class RuleCoverage {
     	}
     	return coverages.toArray(new String[coverages.size()]);
     }
-    
-//    public String isCoveredBy(PatternRule rule) throws IOException {
-//    	String example = generateExample(rule);
-//    	List<RuleMatch> matches = tool.check(example);
-//    	if (matches.size() > 0) {
-//    		return matches.get(0).getRule().getId();
-//    	}
-//    	return "";
-//    }
     
     public String[] isCoveredBy(PatternRule rule) throws IOException {
     	ArrayList<String> coverages = new ArrayList<String>();
@@ -201,14 +193,26 @@ public class RuleCoverage {
      * @param pattern
      * @return
      */
-    public String generateExample(PatternRule pattern) {
-        StringBuilder sb = new StringBuilder();
-        List<Element> elements = pattern.getElements();
-        for (Element e : elements) {
-            sb.append(getSpecificExample(e) + " ");
+    public String generateExample(PatternRule patternrule) {
+        ArrayList<String> examples = new ArrayList<String>();
+        List<Element> elements = patternrule.getElements();
+        for (int i=0;i<elements.size();i++) {
+        	List<Element> prevExceptions;
+        	if (i == elements.size()-1) {
+        		prevExceptions = new ArrayList<Element>();
+        	} else {
+        		prevExceptions = elements.get(i+1).getPreviousExceptionList();
+        		if (prevExceptions == null) prevExceptions = new ArrayList<Element>();
+        	}
+            examples.add(getSpecificExample(elements.get(i),prevExceptions,elements,examples));
         }
-        // it's okay to not deal with apostrophes as long as we turn off the unpaired brackets rule
-        return sb.toString().trim();
+        // it's okay to not deal with apostrophes as long as we turn off the unpaired brackets rule, for English at least
+        StringBuilder sb = new StringBuilder();
+        //TODO: doesn't deal with spacebefore=no
+        for (String example : examples) {
+        	sb.append(example + " ");
+        }
+        return sb.toString().replaceAll("\\ \\.\\ ", ".").trim();	// to fix the period problem
     }
     
     /**
@@ -216,67 +220,193 @@ public class RuleCoverage {
      * @param e
      * @return
      */
-    public String getSpecificExample(Element e) {
-        String token = e.getString();
-        List<Element> exceptions = e.getExceptionList();
-        if (exceptions == null) {
-            exceptions = new ArrayList<Element>();
-        }
-        if (e.isSentStart()) {
-            return "";
-        }
-        // <token>word</token>
-        if (!token.isEmpty() && !e.isRegularExpression()) {
-            return token;
-        // all other token types
-        }
-        
-        // just in case there's no example, stop after a ridiculous number (several turns through the dictionary)
-        // need smarter example generation, especially for simple or-ed lists of words. 
-        if (!token.isEmpty() && isSimpleOrRegex(e)) {
-        	// pick an element from the or-ed list at random
-        	return randomOredElement(e);
-        }
-        
-        int count = 0;
-        while (count < 400000) {
-        	if (!dictIterator.hasNext()) {
-        		dictIterator = resetDictIter();
+    //TODO: doesn't deal with skipped tokens
+    @SuppressWarnings("unchecked")
+	public String getSpecificExample(Element e, List<Element> prevExceptions, List<Element> elements, ArrayList<String> examples) {
+        // if this is part of (the first of) a list of and-ed tokens
+    	if (e.hasAndGroup()) {
+        	List<Element> andGroup = e.getAndGroup();
+        	andGroup.add(e); // add the token itself to the and group, so we can process them together
+        	// still, if one of the tokens in the and group is just a (non-regexp) token, we can return that as the example
+        	for (Element and : andGroup) {
+        		if (isJustToken(and)) {
+        			return and.getString();
+        		}
+        		if (isPunctuation(and)) {
+        			return getOnePunc(and);
+        		}
         	}
-            String word = dictIterator.next().getWord().toString();
-            if (isExampleOf(word, e) && !inExceptionList(word, exceptions)) {
-                return word;
-            }
-            count++;
+        	// get the patterns of all the and-ed elements, to make processing faster
+        	ArrayList<Pattern> tokenPatterns = new ArrayList<Pattern>(andGroup.size());
+        	ArrayList<Pattern> posPatterns = new ArrayList<Pattern>(andGroup.size());
+        	// get all the exceptions and attributes
+        	ArrayList<Element> allExceptions = new ArrayList<Element>();
+        	allExceptions.addAll(prevExceptions);	// add all the exceptions from the next token with scope="previous"
+        	for (int a=0;a<andGroup.size();a++) {
+        		Element and = andGroup.get(a);
+        		List<Element> ex = and.getExceptionList();
+        		if (ex != null) {
+        			allExceptions.addAll(and.getExceptionList());
+        		}
+        		if (and.isReferenceElement()) {
+        			and = getReferenceElement(and,elements,examples);	// gets the string for the element if it's a match token
+        		}
+        		String andPostag = and.getPOStag();
+        		String andToken = and.getString();
+        		tokenPatterns.add(Pattern.compile(andToken));
+        		if (andPostag != null) {
+        			if (and.isPOStagRegularExpression()) {
+        				posPatterns.add(Pattern.compile(andPostag));
+        			} else {
+        				posPatterns.add(Pattern.compile(Pattern.quote(andPostag)));
+        			}
+        			
+        		} else {
+        			posPatterns.add(null);
+        		}
+        		andGroup.set(a,and);
+        	}
+        	// get exceptions in attribute form for faster processings
+        	ArrayList<ArrayList> exceptionAttributes = getExceptionAttributes(allExceptions);
+        	
+        	// do the dictionary iteration thing; this part could take a while, depending on how far through the dict we have to go
+        	int numResets = 0;
+            while (numResets < 2) {
+            	if (!dictIterator.hasNext()) {
+            		dictIterator = resetDictIter();
+            		numResets++;
+            	}
+                String word = dictIterator.next().getWord().toString();
+                // check if the word meets all the and-ed criteria
+                boolean matched = true;
+                for (int i=0;i<andGroup.size();i++) {
+                	if (!isExampleOf(word, tokenPatterns.get(i), posPatterns.get(i), andGroup.get(i))) {
+                		matched = false;
+                		break;
+                	}
+                }
+                if (matched) {
+                	if (!inExceptionList(word,exceptionAttributes,allExceptions)) {
+                		return word;
+                	}
+                } 
+            } 
         } 
-        return null;
+    	// just a single (non-and-ed) token
+    	else {
+    		if (e.isReferenceElement()) {
+    			e = getReferenceElement(e, elements, examples);
+    		}
+        	String token = e.getString();
+        	String postag = e.getPOStag();
+            List<Element> exceptions = e.getExceptionList();
+            if (exceptions == null) {
+            	exceptions = new ArrayList<Element>();
+            }
+            exceptions.addAll(prevExceptions);
+            
+            ArrayList<ArrayList> exceptionAttributes = getExceptionAttributes(exceptions);
+
+            if (e.isSentStart()) {
+                return "";
+            }
+            // <token>word</token>
+            if (isJustToken(e)) {
+                return token;
+            }
+            if (isPunctuation(e)) {
+    			return getOnePunc(e);
+    		}
+            
+            // need smarter example generation, especially for simple or-ed lists of words. 
+            if (isSimpleOrRegex(e)) {
+            	// pick an element from the or-ed list at random
+            	return randomOredElement(e);
+            }
+            
+            Pattern tokenPattern = Pattern.compile(token);
+            Pattern posPattern;
+            if (postag != null) {
+            	if (e.isPOStagRegularExpression()) {
+            		posPattern = Pattern.compile(postag);
+            	} else {
+            		posPattern = Pattern.compile(Pattern.quote(postag));
+            	}
+            	
+            	if (postag.equals("SENT_END")) {
+            		posPattern = null;
+            	}
+            	
+            } else {
+            	posPattern = null;
+            }
+            
+            // only allows approx. one pass through the dictionary
+            int numResets = 0;
+            while (numResets < 2) {
+            	if (!dictIterator.hasNext()) {
+            		dictIterator = resetDictIter();
+            		numResets++;
+            	}
+                String word = dictIterator.next().getWord().toString();
+                if (isExampleOf(word, tokenPattern, posPattern, e) &&
+                	!inExceptionList(word, exceptionAttributes, exceptions)) {
+                    return word;
+                }
+            } 
+        }
+   
+        return null;	// if no example can be found
     }
     
-    /** 
-     * Returns true if the element is an or-ed list of words, without a specified pos-tag.
-     * e.g. can|could|would|should
+    /**
+     * Returns an element with the string set as the previously matched element
      * @param e
+     * @param elements
+     * @param examples
      * @return
      */
-    private boolean isSimpleOrRegex(Element e) {
-    	// any number of conditions that could halt this check
-    	if (e.getPOStag() != null) return false;
-    	if (e.getNegation()) return false;
-    	if (e.isInflected()) return false;
-    	if (!e.isRegularExpression()) return false;
-    	if (e.hasAndGroup()) return false;
-    	if (e.hasExceptionList()) return false;
-    	if (e.isReferenceElement()) return false;
-    	if (e.isSentStart()) return false;
+    private Element getReferenceElement(Element e, List<Element> elements, ArrayList<String> examples) {
+    	int r = e.getMatch().getTokenRef();
+    	Element newElement = new Element(examples.get(r), elements.get(r).getCaseSensitive(), false, false);
+    	newElement.setNegation(e.getNegation());
+    	return newElement;
     	
-    	String token = e.getString();
-    	String[] ors = token.split("\\|");
-    	for (String s : ors) {
-    		if (RuleConverter.isRegex(s)) {
-    			return false;
-    		}
+    }
+    
+    /**
+     * Gets all the attributes of each element of the exception, so we don't have to keep compiling the Pattern,
+     * which wastes a lot of time
+     * @param exceptions
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+	private ArrayList<ArrayList> getExceptionAttributes(List<Element> exceptions) {
+    	if (exceptions.size() == 0) {
+    		return new ArrayList<ArrayList>();
+    	} 
+    	int size = exceptions.size();
+    	ArrayList<ArrayList> ret = new ArrayList<ArrayList>(6);
+    	ArrayList<Pattern> tokenPatterns = new ArrayList<Pattern>(size);
+    	ArrayList<Pattern> posPatterns = new ArrayList<Pattern>(size);
+    	for (Element e : exceptions) {
+    		String token = e.getString();
+    		String postag = e.getPOStag();
+    		Pattern tokenPattern = Pattern.compile(token);
+    		Pattern posPattern;
+            if (postag != null) {
+            	posPattern = Pattern.compile(postag);
+            } else {
+            	posPattern = null;
+            }
+            
+            tokenPatterns.add(tokenPattern);
+            posPatterns.add(posPattern);
+            
     	}
-    	return true;
+    	ret.add(tokenPatterns);
+    	ret.add(posPatterns);
+    	return ret;
     }
     
     /**
@@ -292,40 +422,73 @@ public class RuleCoverage {
     	return split[index];
     }
     
-    /**
-     * True if the given word matches one of the exceptions
+    /** 
+     * Faster version of inExceptionList, because we don't have to re-compile the Patterns for the exception elements
      * @param word
-     * @param exceptions
+     * @param exceptionAttributes
+     * @param numExceptions
      * @return
      */
-    public boolean inExceptionList(String word, List<Element> exceptions) {
-        for (Element element : exceptions) {
-            if (isExampleOf(word, element)) {
-                return true;
-            }
-        }
-        return false;        
+    @SuppressWarnings("unchecked")
+	private boolean inExceptionList(String word, ArrayList<ArrayList> exceptionAttributes, List<Element> exceptions) {
+    	if (exceptions.size() == 0) {
+    		return false;
+    	}
+    	ArrayList<Pattern> tokenPatterns = exceptionAttributes.get(0);
+    	ArrayList<Pattern> posPatterns = exceptionAttributes.get(1);
+    	
+    	for (int i=0;i<exceptions.size();i++) {
+    		Element curException = exceptions.get(i);
+    		if (isExampleOf(word,tokenPatterns.get(i),
+    				posPatterns.get(i),
+    				curException)) {
+    			return true;
+    		}
+    	}
+    	return false;
     }
     
+    
     /**
-     * True if given word is an example of element
+     * Faster version of isExampleOf, since you don't have to recompile the Patterns every time
      * @param word
-     * @param element
+     * @param tokenPattern
+     * @param posPattern
+     * @param isTokenEmpty
+     * @param hasPosTag
+     * @param negate
+     * @param postagNegate
      * @return
      */
-    public boolean isExampleOf(String word, Element element) {
-        String token = element.getString();
-        String posTag = element.getPOStag();
-        boolean isTokenEmpty = token.isEmpty();
-        boolean hasPosTag = (posTag != null);
-        boolean negate = element.getNegation();
-        boolean postagNegate = element.getPOSNegation();
-        boolean tokenMatches = true;
-        boolean postagMatches = true;
+    public boolean isExampleOf(String word, Pattern tokenPattern, Pattern posPattern, Element e) {
+    	if (tokenPattern.pattern().isEmpty() && posPattern == null) {
+        	return true;
+        }
+    	boolean tokenMatches = true;
+        boolean postagMatches = false;
+        boolean isTokenEmpty = e.getString().isEmpty();
+        boolean hasPosTag = (posPattern != null);
+        boolean negate = e.getNegation();
+        boolean postagNegate = e.getPOSNegation();
+        boolean inflected = e.isInflected();
+        
+        if (posPattern == null) {
+        	postagMatches = true;
+        }
         if (!isTokenEmpty) {
-            Pattern p = Pattern.compile(token);
-            Matcher m = p.matcher(word);
-            if (m.matches()) {
+        	Matcher m;
+        	boolean matches = false;
+        	// checking inflected matches
+        	if (inflected) {
+        		if (isInflectedStringMatch(word,e)) {
+        			matches = true;
+        		}
+        	} else {
+        		m = tokenPattern.matcher(word);
+        		if (m.matches()) matches = true;
+        	}
+            
+            if (matches) {
                 if (negate) {
                     tokenMatches = false; 
                 }
@@ -336,17 +499,18 @@ public class RuleCoverage {
             }
         }
         if (hasPosTag) {
-            Pattern p = Pattern.compile(posTag);
             List<String> postags = getPosTags(word);
             for (String s : postags) {
-                Matcher m = p.matcher(s);
+                Matcher m = posPattern.matcher(s);
                 if (m.matches()) {
-                    if (postagNegate) {
-                        postagMatches = false;
+                    if (!postagNegate) {
+                        postagMatches = true;
+                        break;
                     }
                 } else {
-                    if (!postagNegate) {
-                        postagMatches = false;
+                    if (postagNegate) {
+                        postagMatches = true;
+                        break;
                     }
                 }
             }
@@ -358,12 +522,106 @@ public class RuleCoverage {
         return (tokenMatches && postagMatches);
     }
     
+    private boolean isInflectedStringMatch(String word, Element e) {
+    	Matcher m;
+    	Pattern lemmaPattern = Pattern.compile(RuleConverter.glueWords(getLemmas(e)));
+		ArrayList<String> wordLemmas = getLemmas(word);
+		for (String lemma : wordLemmas) {
+			m = lemmaPattern.matcher(lemma);
+			if (m.matches()) {
+				return true;
+			}
+		}
+		return false;
+    }
+    
+    
+    
+//    /**
+//     * True if given word is an example of element; slower than other version
+//     * @param word
+//     * @param element
+//     * @return
+//     * @deprecated
+//     */
+//    public boolean isExampleOf(String word, Element element) {
+//        String token = element.getString();
+//        String posTag = element.getPOStag();
+//        // the empty token case matches everything
+//        if (token.isEmpty() && posTag == null) {
+//        	return true;
+//        }
+//        boolean isTokenEmpty = token.isEmpty();
+//        boolean hasPosTag = (posTag != null);
+//        boolean negate = element.getNegation();
+//        boolean postagNegate = element.getPOSNegation();
+//        boolean tokenMatches = true;
+//        boolean postagMatches = false;
+//        if (posTag == null) {	// if there's no postag, default postagMatches to true, because it matches everything
+//        	postagMatches = true;
+//        }
+//        
+//        
+//        if (!isTokenEmpty) {
+//            Pattern p = Pattern.compile(token);
+//            Matcher m = p.matcher(word);
+//            if (m.matches()) {
+//                if (negate) {
+//                    tokenMatches = false; 
+//                }
+//            } else {
+//                if (!negate) {
+//                    tokenMatches = false;
+//                }
+//            }
+//        }
+//        if (hasPosTag) {
+//            Pattern p = Pattern.compile(posTag);
+//            List<String> postags = getPosTags(word);
+//            for (String s : postags) {
+//                Matcher m = p.matcher(s);
+//                if (m.matches()) {
+//                    if (!postagNegate) {
+//                        postagMatches = true;
+//                        break;
+//                    } 
+//                } else {
+//                	if (postagNegate) {
+//                		postagMatches = true;
+//                		break;
+//                	}
+//                }
+//            }
+//            if (postags.size() == 0) {
+//                postagMatches = false;
+//            }
+//            
+//        }
+//        return (tokenMatches && postagMatches);
+//    }
+//    
+//    /**
+//     * True if the given word matches one of the exceptions; slower than other version
+//     * @param word
+//     * @param exceptions
+//     * @return
+//     * @deprecated	
+//     */
+//    public boolean inExceptionList(String word, List<Element> exceptions) {
+//    	for (Element element : exceptions) {
+//            if (isExampleOf(word, element)) {
+//                return true;
+//            }
+//        }
+//        return false;       
+//    }
+    
     /**
      * Returns a list of the word's POS tags
      * @param word
      * @return
      */
-    public List<String> getPosTags(String word) {
+    private List<String> getPosTags(String word) {
         List<WordData> lwd = dictLookup.lookup(word);
         ArrayList<String> postags = new ArrayList<String>();
         for (WordData wd : lwd) {
@@ -371,25 +629,140 @@ public class RuleCoverage {
         }
         return postags;
     }
+    /**
+     * Returns an or-ed group of the lemmas of a word
+     * @param word
+     * @return
+     */
+    private ArrayList<String> getLemmas(String word) {
+    	List<WordData> lwd = dictLookup.lookup(word);
+    	ArrayList<String> lemmas = new ArrayList<String>();
+    	for (WordData wd : lwd) {
+    		if (!lemmas.contains(wd.getStem())) {
+    			lemmas.add(wd.getStem().toString());
+    		}
+    	}
+    	return lemmas;
+    }
     
-    public DictionaryIterator resetDictIter() {
+    // returns the lemmas of an element; 
+    // the point of this method is that so we can get the lemmas of a bunch of or-ed words
+    private ArrayList<String> getLemmas(Element e) {
+    	if (!e.isRegularExpression()) {
+    		return getLemmas(e.getString());
+    	} else {
+    		if (isOrRegex(e)) {
+    			ArrayList<String> lemmas = new ArrayList<String>();
+    			String[] words = e.getString().split("\\|");
+    			for (String word : words) {
+    				lemmas.addAll(getLemmas(word));
+    			}
+    			return lemmas;
+    		}
+    		return null;
+    	}
+    }
+    
+    
+    /**
+     * Returns true if the element has a (non-regexp, non-negated) token and no exception list
+     * @param e
+     * @return
+     */
+    private static boolean isJustToken(Element e) {
+    	return (!e.getString().isEmpty() && !e.isRegularExpression() && !e.getNegation() && e.getExceptionList() == null);
+    }
+    
+    //TODO: doesn't really work for other languages, things like [’´'‛′‘] don't get caught here
+    public static boolean isPunctuation(Element e) {
+    	if (regexSet.matcher(e.getString()).matches() && !e.getNegation() && e.getPOStag() == null) {
+    		return true;
+    	}
+    	return false;
+    }
+    
+    public String getOnePunc(Element e) {
+    	String set = e.getString();
+    	Matcher m = regexSet.matcher(set);
+    	m.find();
+    	return m.group(1);
+    }
+    
+    /** 
+     * Returns true if the element is an or-ed list of words, without a specified pos-tag.
+     * e.g. can|could|would|should
+     * @param e
+     * @return
+     */
+    private static boolean isSimpleOrRegex(Element e) {
+    	// any number of conditions that could halt this check
+    	if (e.getString().isEmpty()) return false;
+    	if (e.getPOStag() != null) return false;
+    	if (e.getNegation()) return false;
+    	if (!e.isRegularExpression()) return false;
+    	if (e.hasAndGroup()) return false;
+    	if (e.getExceptionList() != null) return false;
+    	if (e.isReferenceElement()) return false;
+    	if (e.isSentStart()) return false;
+    	
+    	String token = e.getString();
+    	String[] ors = token.split("\\|");
+    	for (String s : ors) {
+    		if (RuleConverter.isRegex(s)) {
+    			return false;
+    		}
+    	}
+    	return true;
+    }
+    
+    private static boolean isOrRegex(Element e) {
+    	if (e.getString().isEmpty()) return false;
+    	String token = e.getString();
+    	String[] ors = token.split("\\|");
+    	for (String s : ors) {
+    		if (RuleConverter.isRegex(s)) {
+    			return false;
+    		}
+    	}
+    	return true; 
+    }
+    
+    private DictionaryIterator resetDictIter() {
         DictionaryIterator ret = null;
         try {
-            ret = new DictionaryIterator(Dictionary.read(dictFile), Charset.forName("utf8").newDecoder(), true);
+        	ret = new DictionaryIterator(Dictionary.read(dictFile), Charset.forName("utf8").newDecoder(), true);
         } catch (IOException e) {
-            e.printStackTrace();
+        	e.printStackTrace();
         }
         return ret;        
     }
     
-    public IStemmer loadDictionary() {
+    private IStemmer loadDictionary() throws IOException {
         IStemmer dictLookup = null;
-        try {
-            dictLookup = new DictionaryLookup(Dictionary.read(dictFile));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        dictLookup = new DictionaryLookup(Dictionary.read(dictFile));
         return dictLookup;
+    }
+    
+    // try several ways to open the dictionary file
+    private void setupDictionaryFiles() {
+   		try {
+   			filename = "." +  JLanguageTool.getDataBroker().getResourceDir() + "/" + 
+   						language.getShortName() + "/" + language.getName().toLowerCase() + ".dict";
+   			dictFile = new File(filename);
+        	dictLookup = (DictionaryLookup) loadDictionary();
+        	dictIterator = resetDictIter();
+        } catch (IOException e) {
+        	try {
+        		// a different formulation of the filename
+        		filename = "./src/" +  JLanguageTool.getDataBroker().getResourceDir() + "/" + 
+							language.getShortName() + "/" + language.getName().toLowerCase() + ".dict";
+        		dictFile = new File(filename);
+        		dictLookup = (DictionaryLookup) loadDictionary();
+            	dictIterator = resetDictIter();
+        	} catch (IOException e2) {
+        		e2.printStackTrace();
+        	}
+        }
     }
     
     public List<PatternRule> loadPatternRules(final String filename)
@@ -414,7 +787,9 @@ public class RuleCoverage {
     	}
     }
     
-    
+    public void enableRule(String id) {
+    	tool.enableDefaultOffRule(id);
+    }
     
     
 }

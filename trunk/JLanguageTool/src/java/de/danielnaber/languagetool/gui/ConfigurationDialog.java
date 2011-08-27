@@ -453,7 +453,10 @@ public class ConfigurationDialog implements ActionListener {
   }
   
   public boolean getAutoDetect() {
-      return autoDetectCheckbox.isSelected();
+      if (insideOOo) {
+    	  return autoDetectCheckbox.isSelected();
+      }
+      return false;
   }
   
   /**

@@ -59,7 +59,7 @@ public class CgRuleConverter extends RuleConverter {
 		allLtRules = new ArrayList<List<String>>();
 		disambiguationRules = new ArrayList<List<String>>();
 		originalRuleStrings = new ArrayList<String>();
-		warnings = new ArrayList<String>();
+		warnings = new ArrayList<String[]>();
 		for (Object ruleObject : ruleObjects) {
 			CgRule cgrule = (CgRule) ruleObject;
 			List<String> ruleAsList = ltRuleAsList(cgrule,generateId(ruleObject),generateName(ruleObject),cgrule.type.name());
@@ -125,7 +125,7 @@ public class CgRuleConverter extends RuleConverter {
 		CgRule rule = (CgRule)ruleObject;
 		type = rule.type.name();	// like K_SELECT or K_REMOVE
 		List<String> ltRule = new ArrayList<String>();
-		String currentWarning = "";
+		ArrayList<String> currentWarnings = new ArrayList<String>();
 
 		String cgRuleString = lines[rule.line];
 		ltRule.add("<!-- " + cgRuleString + " -->");
@@ -271,7 +271,7 @@ public class CgRuleConverter extends RuleConverter {
 		}
 		
 //		}
-		warnings.add(currentWarning);
+		warnings.add(currentWarnings.toArray(new String[currentWarnings.size()]));
 		return ltRule;
 	}
 	
@@ -1479,40 +1479,6 @@ public class CgRuleConverter extends RuleConverter {
 	
 	
 	// ** METHODS THAT RETURN WRITABLE FORMS FOR CONSTRAINT GRAMMAR TAGS/SETS **
-	
-	public static String glueWords(ArrayList<String> words) {
-		StringBuilder sb = new StringBuilder();
-		if (words == null) {
-			return "";
-		}
-		for (String word : words) {
-			sb.append(word);
-			sb.append("|");
-		}
-		String str = sb.toString();
-		if (str.length() > 1) {
-			return str.substring(0,str.length()-1);
-		} else {
-			return str;
-		}
-	}
-	
-	public static String glueWords(String[] words) {
-		StringBuilder sb = new StringBuilder();
-		if (words == null) {
-			return "";
-		}
-		for (String word : words) {
-			sb.append(word);
-			sb.append("|");
-		}
-		String str = sb.toString();
-		if (str.length() > 1) {
-			return str.substring(0,str.length()-1);
-		} else {
-			return str;
-		}
-	}
 	
 	/** 
 	 * Removes the quotation marks, angle brackets, and suffixes from surface/base forms

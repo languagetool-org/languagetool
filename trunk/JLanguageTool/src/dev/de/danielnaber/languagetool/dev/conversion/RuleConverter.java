@@ -51,7 +51,7 @@ public abstract class RuleConverter {
     protected ArrayList<List<String>> ltRules;
     protected ArrayList<List<String>> disambiguationRules;
     protected ArrayList<String> originalRuleStrings;
-    protected ArrayList<String> warnings;	// list as long as allLtRules containing warning strings generating during rule conversion process
+    protected ArrayList<String[]> warnings;	// list as long as allLtRules containing warning strings generating during rule conversion process
     
     // for auto-generating Id and name attributes
     protected int idIndex;
@@ -121,7 +121,7 @@ public abstract class RuleConverter {
     	return this.originalRuleStrings;
     }
     
-    public ArrayList<String> getWarnings() {
+    public ArrayList<String[]> getWarnings() {
     	return this.warnings;
     }
     
@@ -272,14 +272,6 @@ public abstract class RuleConverter {
     }
     
     /**
-     * @param e: AtD token
-     * @return if the token contains a "/", indicating that it contains POS tag information
-     */
-    protected static boolean hasPosTag(String e) {
-        return e.contains("/");
-    }
-    
-    /**
      * returns if the string contains a character that might indicate it's a regex
      */
     protected static boolean isRegex(String e) {
@@ -306,6 +298,42 @@ public abstract class RuleConverter {
     	}
     	return sb.toString();
     }
+    
+    // ** Helpers to "or" sets of words together
+    
+    public static String glueWords(ArrayList<String> words) {
+		StringBuilder sb = new StringBuilder();
+		if (words == null) {
+			return "";
+		}
+		for (String word : words) {
+			sb.append(word);
+			sb.append("|");
+		}
+		String str = sb.toString();
+		if (str.length() > 1) {
+			return str.substring(0,str.length()-1);
+		} else {
+			return str;
+		}
+	}
+	
+	public static String glueWords(String[] words) {
+		StringBuilder sb = new StringBuilder();
+		if (words == null) {
+			return "";
+		}
+		for (String word : words) {
+			sb.append(word);
+			sb.append("|");
+		}
+		String str = sb.toString();
+		if (str.length() > 1) {
+			return str.substring(0,str.length()-1);
+		} else {
+			return str;
+		}
+	}
     
     
     
