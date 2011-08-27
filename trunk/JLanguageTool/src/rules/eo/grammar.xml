@@ -1275,6 +1275,22 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <example type="correct">Jes ja!</example>
     </rule>
 
+    <rulegroup id="SE_CXU" name="scias se (scias ĉu)">
+      <rule>
+        <pattern mark_from="3">
+          <token skip="1" postag="SENT_START|K" postag_regexp="yes"/>
+          <token postag="[RO].*" postag_regexp="yes"/>
+          <token inflected="yes" regexp="yes" skip="2">decidi|demandi|dubi|peti|provi|scii|scivoli</token>
+          <token>se</token>
+        </pattern>
+        <message>Demanda subfrazo komenciĝas per <suggestion>ĉu</suggestion>, ne per «se».</message>
+        <example type="incorrect">Mi demandos min <marker>se</marker> li baldaŭ alvenos</example>
+        <example type="correct">Mi demandos min ĉu li baldaŭ alvenos</example>
+        <example type="incorrect">Mi demandos min, <marker>se</marker> li baldaŭ alvenos</example>
+        <example type="correct">Mi demandos min, ĉu li baldaŭ alvenos</example>
+      </rule>
+    </rulegroup>
+
     <rule id="TRE_O" name="tre + o-vorto">
       <pattern>
         <token>tre</token>
@@ -2385,7 +2401,8 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
           <exception scope="next" negate="yes" regexp="yes">.*e|.*aŭ|tro|pli|malpli|jam|nur|.*aj?n?</exception>
         </token>
         <token postag="A.*" postag_regexp="yes"/>
-        <token postag="SENT_END|K" postag_regexp="yes"><exception regexp="yes">kaj|aŭ</exception></token>
+        <token postag="SENT_END|K" postag_regexp="yes">
+          <exception regexp="yes">kaj|aŭ</exception></token>
       </pattern>
       <message>Nur adverbo priskribas sensubjektan frazon, ĉu vi intencis <suggestion><match no="3" regexp_match="(.*)a" regexp_replace="$1e"/></suggestion>?</message>
       <example type="incorrect">Estas <marker>facila</marker>.</example>
