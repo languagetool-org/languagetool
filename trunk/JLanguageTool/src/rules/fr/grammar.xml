@@ -1891,7 +1891,7 @@ though, and has since been slightly modified)-->
             <exception postag="V .*" postag_regexp="yes"/>
             <!-- Following exception is to skip an adverb or epicene word -->
             <exception negate_pos="yes" postag="A|[JN] [fe] .*|SENT_END" postag_regexp="yes" scope="next"/>
-            <exception postag="N f ." postag_regexp="yes"/>
+            <exception postag="N f .*" postag_regexp="yes"/>
             <exception scope="previous" regexp="yes">des?</exception>
             <exception scope="previous" postag="&lt;/DE&gt;"/>
             <exception>sauf</exception>
@@ -2420,7 +2420,9 @@ though, and has since been slightly modified)-->
           </token>
           <token postag="N . p|R pers suj [13].* p" postag_regexp="yes"/>
           <token postag="V etre .*" postag_regexp="yes"/>
-          <token postag="V.* ppa .* s|J . s" postag_regexp="yes"/>
+          <token postag="V.* ppa .* s|J . s" postag_regexp="yes">
+            <exception regexp="yes">même|vite</exception>
+          </token>
         </pattern>
         <message>Le mot singulier « \4 » n’est pas accordé en nombre avec le mot pluriel « \2 ».</message>
         <example type="incorrect">Des orages sont <marker>annoncé</marker>.</example>
@@ -2432,6 +2434,7 @@ though, and has since been slightly modified)-->
         <example type="correct">Courir les magasins est devenu une corvée.</example>
         <example type="incorrect">Nous étions <marker>fatigué</marker>.</example>
         <example type="correct">Nous étions <marker>fatigués</marker>.</example>
+        <example type="correct">Ils sont même allés faire la guerre.</example>
       </rule>
       <rule>
         <pattern mark_from="5">
