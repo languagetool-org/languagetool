@@ -35,6 +35,8 @@ public class AnalyzedToken {
   private final String tokenInflected;
 
   private boolean isWhitespaceBefore;
+  
+  private boolean hasNoPOSTag;
 
   public AnalyzedToken(final String token, final String posTag, final String lemma) {
     if (token == null) {
@@ -48,6 +50,9 @@ public class AnalyzedToken {
     } else {
       tokenInflected = lemma;
     }
+    hasNoPOSTag = (posTag == null 
+        || JLanguageTool.SENTENCE_END_TAGNAME.equals(posTag)
+        || JLanguageTool.PARAGRAPH_END_TAGNAME.equals(posTag));
   }
 
   public final String getToken() {
@@ -101,6 +106,27 @@ public class AnalyzedToken {
       found &= this.posTag.equals(an.getPOSTag());      
     }
     return found;
+  }
+  
+  /**
+   * @since 1.5
+   * @return true if the AnalyzedToken has no real POS tag 
+   * (= is not null or a special tag)
+   */
+  public final boolean hasNoTag() {
+    return hasNoPOSTag;
+  }
+  
+  /** 
+   * @since 1.5
+   * If other readings of the token have real POS tags,
+   * you can set the flag here that they do, so that the
+   * test in the Element class would be correct for all
+   * cases. 
+   * 
+   */
+  public final void setNoPOSTag(final boolean noTag) {
+    hasNoPOSTag = noTag;
   }
   
   @Override

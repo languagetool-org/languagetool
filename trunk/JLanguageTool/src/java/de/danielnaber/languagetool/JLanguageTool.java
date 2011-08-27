@@ -501,7 +501,7 @@ public final class JLanguageTool {
       }      
     }
 
-    if (!paraMode.equals(ParagraphHandling.ONLYNONPARA)) {
+    if (!ruleMatches.isEmpty() && !paraMode.equals(ParagraphHandling.ONLYNONPARA)) {
       // removing false positives in paragraph-level rules
       for (final Rule rule : allRules) {
         if (rule.isParagraphBackTrack() && (rule.getMatches() != null)) {

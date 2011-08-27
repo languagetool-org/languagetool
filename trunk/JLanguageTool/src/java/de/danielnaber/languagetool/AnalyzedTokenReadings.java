@@ -137,6 +137,7 @@ public class AnalyzedTokenReadings {
         .getPOSTag());
     isParaEnd = hasPosTag(JLanguageTool.PARAGRAPH_END_TAGNAME);
     isSentEnd = hasPosTag(JLanguageTool.SENTENCE_END_TAGNAME);
+    setNoRealPOStag();
   }
 
   public final List<AnalyzedToken> getReadings() {
@@ -184,7 +185,8 @@ public class AnalyzedTokenReadings {
     anTokReadings[anTokReadings.length - 1].
       setWhitespaceBefore(isWhitespaceBefore);
     isParaEnd = hasPosTag(JLanguageTool.PARAGRAPH_END_TAGNAME);
-    isSentEnd = hasPosTag(JLanguageTool.SENTENCE_END_TAGNAME);     
+    isSentEnd = hasPosTag(JLanguageTool.SENTENCE_END_TAGNAME);
+    setNoRealPOStag();
   }   
 
   public final void removeReading(final AnalyzedToken tok) {
@@ -198,6 +200,7 @@ public class AnalyzedTokenReadings {
       }
     }
     anTokReadings = l.toArray(new AnalyzedToken[l.size()]);
+    setNoRealPOStag();
   }
   /** 
    * @since 1.5
@@ -215,6 +218,7 @@ public class AnalyzedTokenReadings {
       }
     }
     anTokReadings = l.toArray(new AnalyzedToken[l.size()]);
+    setNoRealPOStag();
   }
 
   public final int getReadingsLength() {
@@ -305,7 +309,28 @@ public class AnalyzedTokenReadings {
   
   public final boolean isImmunized() {
     return isImmunized;
-  }  
+  }
+  
+  /**
+   * @since 1.5
+   * Sets the flag on AnalyzedTokens to make matching
+   * on "UNKNOWN" POS tag correct in the Element class.  
+   */
+  private final void setNoRealPOStag() {    
+    boolean hasNoPOStag = !isLinebreak(); 
+    for (AnalyzedToken an: anTokReadings) {
+      if (JLanguageTool.PARAGRAPH_END_TAGNAME.equals(an.getPOSTag())
+          || JLanguageTool.SENTENCE_END_TAGNAME.equals(an.getPOSTag())) {
+            continue;
+          }
+      if (an.getPOSTag() != null) {
+        hasNoPOStag = false;
+      }
+      }
+    for (AnalyzedToken an: anTokReadings) {
+      an.setNoPOSTag(hasNoPOStag);
+    }    
+  }
 
   
   @Override

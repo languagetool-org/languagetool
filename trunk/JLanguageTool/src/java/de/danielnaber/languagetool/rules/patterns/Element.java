@@ -111,7 +111,7 @@ public class Element {
   private boolean containsMatches;
 
   /** Matches only tokens without any POS tag. **/
-  private static final String UNKNOWN_TAG = "UNKNOWN";
+  public static final String UNKNOWN_TAG = "UNKNOWN";
 
   /**
    * Parameter passed to regular expression matcher to enable case insensitive Unicode matching.
@@ -137,6 +137,8 @@ public class Element {
   private boolean uniNegation;
 
   private Map<String, List<String>> unificationFeatures;
+  
+  private boolean posUnknown;
 
   /**
    * Creates Element that is used to match tokens in the text.
@@ -401,6 +403,14 @@ public class Element {
     posRegExp = regExp;
     if (posRegExp) {
       pPos = Pattern.compile(posToken);
+      if (mPos == null) {
+        mPos = pPos.matcher(UNKNOWN_TAG);
+      } else {
+        mPos.reset(UNKNOWN_TAG);
+      }
+      posUnknown = mPos.matches();        
+    } else {
+      posUnknown = UNKNOWN_TAG.equals(posToken); 
     }
   }
 
@@ -505,18 +515,11 @@ public class Element {
     if (posToken == null) {
       return true;
     }
-    if (token.getPOSTag() == null) {
-      if (posRegExp) {
-        if (mPos == null) {
-          mPos = pPos.matcher(UNKNOWN_TAG);
-        } else {
-          mPos.reset(UNKNOWN_TAG);
-        }
-        return mPos.matches();
+    if (token.getPOSTag() == null) {      
+      if (posUnknown) {
+        return token.hasNoTag();
       }
-      if (UNKNOWN_TAG.equals(posToken)) {
-        return true;
-      }
+      return false;
     }
     boolean match;
     if (posRegExp) {
@@ -529,10 +532,8 @@ public class Element {
     } else {
       match = posToken.equals(token.getPOSTag());
     }
-    if (!match && UNKNOWN_TAG.equals(posToken)) { // these are helper tags,
-      // ignore them
-      match = JLanguageTool.SENTENCE_END_TAGNAME.equals(token.getPOSTag())
-          || JLanguageTool.PARAGRAPH_END_TAGNAME.equals(token.getPOSTag());
+    if (!match && posUnknown) { // ignore helper tags
+      match = token.hasNoTag();      
     }
     return match;
   }
