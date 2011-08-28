@@ -176,6 +176,58 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       </rule>
     </rulegroup>
 
+    <rulegroup id="AKCENTO_AKCXENTO" name="ankcento kaj akĉento">
+      <rule>
+        <pattern mark_from="1">
+          <token inflected="yes" regexp="yes" skip="1">angla|araba|ĉarma|diversa|loka|fremda|fremdlanda|franca|germana|hebrea|itala|hispana|irlanda|usona|[lmnŝv]ian|terura|havi</token>
+          <token inflected="yes">akcento</token>
+        </pattern>
+        <message>Laŭ la kunteksto, ŝajnas ke vi intencis diri <suggestion><match no="2" regexp_match="c" regexp_replace="ĉ"/></suggestion>.</message>
+        <example type="incorrect">Ŝi havas fortan francan <marker>akcenton</marker>.</example>
+        <example type="correct">Ŝi havas fortan francan akĉenton.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token inflected="yes">akĉento</token>
+          <token regexp="yes">sur|en|troviĝas|falas</token>
+        </pattern>
+        <message>Laŭ la kunteksto, ŝajnas, ke vi intencis diri <suggestion><match no="1" regexp_match="ĉ" regexp_replace="c"/></suggestion>.</message>
+        <example type="incorrect">La <marker>akĉento</marker> en tiu vorto estas sur la lasta silabo.</example>
+        <example type="correct">La akcento en tiu vorto estas sur la lasta silabo.</example>
+      </rule>
+    </rulegroup>
+
+    <rule id="VIOLINO_VIOLONO" name="violino kaj violono">
+      <pattern mark_from="1">
+        <token inflected="yes" skip="1" regexp="yes">ludi|lerni|studi</token>
+        <token inflected="yes" regexp="yes">viol(in)?o</token>
+      </pattern>
+      <message>Laŭ la kunteksto, ŝajnas, ke vi intencis diri <suggestion><match no="2" regexp_match="li" regexp_replace="lo"/></suggestion>.</message>
+      <example type="incorrect">Ŝi ludas la <marker>violinon</marker> bonege.</example>
+      <example type="correct">Ŝi ludas la violonon bonege.</example>
+    </rule>
+
+    <rulegroup id="POLUCIO_POLUO" name="polucio kaj poluo">
+      <rule>
+        <pattern mark_from="1">
+          <token skip="-1" regexp="yes" inflected="yes">aer[ao]|akvo|oceano|planedo|fiŝo|besto|naturo|tero|grundo|maro|.*mond[ao]|grava|problemo|homaro|malsan(ig)?[aoi]|radioaktiv.*|[ĥj]emi[ao]|atmosfero|urb[oa]</token>
+          <token regexp="yes" inflected="yes">.*polucio</token>
+        </pattern>
+        <message>Laŭ la kuntekso, ŝajnas, ke vi intencis diri <suggestion><match no="2" regexp_match="ci" regexp_replace=""/></suggestion>.</message>
+        <example type="incorrect">Tutmonda <marker>polucio</marker> estas danĝero por la planedo.</example>
+        <example type="correct">Tutmonda poluo estas danĝero por la planedo.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token regexp="yes" inflected="yes" skip="-1">.*polucio</token>
+          <token regexp="yes" inflected="yes">aer[ao]|akvo|oceano|planedo|fiŝo|besto|naturo|tero|grundo|maro|.*mond[ao]|grava|problemo|homaro|malsan(ig)?[aoi]|radioaktiv.*|[ĥk]emi[ao]|atmosfero|urb[oa]</token>
+        </pattern>
+        <message>Laŭ la kuntekso, ŝajnas, ke vi intencis diri <suggestion><match no="1" regexp_match="ci" regexp_replace=""/></suggestion>.</message>
+        <example type="incorrect"><marker>Aerpolucio</marker> en la urboj malsanigas la homojn.</example>
+        <example type="correct">Aerpoluo en la urboj malsanigas la homojn.</example>
+      </rule>
+    </rulegroup>
+
   </category>
   <category name="Evitindaĵoj">
     <rule id="NE_JAM" name="ne + jam (ankoraŭ ne)">
@@ -1635,7 +1687,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
           <token postag="[RO] nak pl.*|T nak pl . [ua]" postag_regexp="yes"/>
           <token>ne</token>
           <token skip="1" postag="V nt .*" postag_regexp="yes">
-            <exception scope="next" negate_pos="yes" postag="E.*|[ROA] nak np.*|T nak pl . [ua]|SENT_END" postag_regexp="yes"/>
+            <exception scope="next" negate_pos="yes" postag="E.*|[ROA] nak np.*|T .*|SENT_END" postag_regexp="yes"/>
           </token>
           <token postag="[ROA] nak np.*|T nak np . [ua]" postag_regexp="yes">
             <exception regexp="yes">parto|paro</exception>
@@ -1657,6 +1709,9 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
         <example type="correct">Niaj filinoj ne estas tre belaj.</example>
         <example type="incorrect">Niaj grandaj filinoj ne estas tre <marker>bela</marker>.</example>
         <example type="correct">Niaj grandaj filinoj ne estas tre belaj.</example>
+        <example type="incorrect">Ni ne estu tiom <marker>serioza</marker>.</example>
+        <example type="incorrect">Ni ne estu tiam <marker>serioza</marker>.</example>
+        <example type="correct">Ni ne estu tiom <marker>seriozaj</marker>.</example>
       </rule>
       <rule>
         <pattern mark_from="4" mark_to="-1">
@@ -2399,6 +2454,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
         <token postag="V.*[^i]" postag_regexp="yes" skip="-1">
           <exception>estu</exception>
           <exception scope="next" negate="yes" regexp="yes">.*e|.*aŭ|tro|pli|malpli|jam|nur|.*aj?n?</exception>
+          <exception scope="next">la</exception>
         </token>
         <token postag="A.*" postag_regexp="yes"/>
         <token postag="SENT_END|K" postag_regexp="yes">
@@ -2412,6 +2468,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <example type="correct">Perfektigi kolektivan inteligenton.</example>
       <example type="correct">Komparu bonajn kaj malbonajn efikojn.</example>
       <example type="correct">Estu lavita!</example>
+      <example type="correct">Estas preskaŭ la tria.</example>
     </rule>
 
     <rulegroup id="IO_O" name="Io + O-vorto">
