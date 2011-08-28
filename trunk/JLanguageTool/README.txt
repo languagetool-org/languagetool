@@ -1,7 +1,8 @@
 LanguageTool, a proof-reading tool for English, German, Polish,
 French, Dutch, Slovenian, Russian, Romanian, Italian, Danish, and Catalan with 
-initial support for Belarusian, Esperanto, Galician, Icelandic, Lithuanian,
-Malayalam, Slovak, Spanish, Swedish, Ukrainian, and Khmer
+initial support for Asturian, Belarusian, Chinese, Esperanto, Galician, 
+Icelandic, Khmer, Lithuanian, Malayalam, Slovak, Spanish, Swedish, Tagalog, 
+and Ukrainian 
 
 Copyright (C) 2005-2011 Daniel Naber (naber at danielnaber de)
 Version ###VERSION###, ###DATE###
@@ -93,7 +94,7 @@ License:
 
  Polish:
  The Polish data for part-of-speech tagging is from Morfologik project,
- licensed as LGPL (see http://morfologik.blogspot.com).
+ licensed on LGPL or BSD (see http://morfologik.blogspot.com).
 
  Italian:
  The Italian data for part-of-speech tagging is taken from Morph-it!, 
@@ -147,7 +148,7 @@ License:
  
  Chinese:
  The Chinese data and code for part-of-speech tagging is based on ictclas4j project
- (http://code.google.com/p/ictclas4j/) under Apache License 2.0
+ (http://code.google.com/p/ictclas4j/) under Apache License 2.0.
 
  Asturian:
  The Asturian data for part-of-speech tagging are from the Freeling dictionary,
