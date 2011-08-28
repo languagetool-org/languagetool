@@ -30,7 +30,7 @@ similar expressive power as CG.</p>
 tool that makes it possible to run a rule against a large amount of text. Usually checking
 large texts needs a lot of time, but thanks to this tool, the rule can be tested within seconds.
 The other part of Tao's project was to add support for Chinese to LanguageTool. The upcoming
-version 1.5 of LanguageTool will thus contain 58 rules for Chinese text.</p>
+version 1.5 of LanguageTool will thus contain more than 200 rules for Chinese text.</p>
 
 <h3>Documentation by the GSoC participants</h3>
 
