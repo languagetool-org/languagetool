@@ -9,7 +9,12 @@ cd i18n-temp
 wget http://crowdin.net/download/project/languagetool.zip
 unzip languagetool.zip
 
-for lang in be  ca  cs  da  de  es-ES  fr  gl  is  it  lt  nl  pl  ro  ru  sk  sl  sv-SE  uk
+for lang in es-ES sv-SE
+do
+	mv $lang `expr substr $lang 1 2`
+done
+
+for lang in be  ca  cs  da  de  es  fr  gl  is  it  km lt  nl  pl  ro  ru  sk  sl  sv  uk
 do
   SOURCE="$lang/MessagesBundle.properties"
 	TARGET="../src/java/de/danielnaber/languagetool/MessagesBundle_${lang}.properties"
@@ -17,5 +22,5 @@ do
 	cp $SOURCE $TARGET
 done
 
-#cd ..
-#rm -r i18n-temp
+cd ..
+rm -r i18n-temp
