@@ -2071,6 +2071,17 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect">Soldaten der <marker>roten Armee</marker> rückten auf Berlin vor.</example>
       <example type="correct">Soldaten der <marker>Roten Armee</marker> rückten auf Berlin vor.</example>
     </rule>
+    <rulegroup id="GOTT_SCHUETZE" name="Groß-/Kleinschreibung: 'Schütze (schütze)'">
+      <rule>
+        <pattern case_sensitive="yes" mark_from="1">
+          <token>Gott</token>
+          <token>Schütze</token>
+        </pattern>
+        <message>Meinten Sie <suggestion><match case_conversion="startlower" no="2"/></suggestion>?</message>
+        <example type="incorrect">Gott <marker>Schütze</marker> die Königin!</example>
+        <example type="correct">Gott <marker>schütze</marker> die Königin!</example>
+      </rule>
+    </rulegroup>
     <rule id="WIR_TREFFEN" name="Groß-/Kleinschreibung: 'wir Treffen (treffen)'">
       <pattern mark_from="1" case_sensitive="yes">
         <token regexp="yes">[wW]ir|[sS]ie</token>
