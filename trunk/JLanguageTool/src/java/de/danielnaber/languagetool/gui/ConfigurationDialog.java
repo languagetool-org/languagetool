@@ -251,7 +251,7 @@ public class ConfigurationDialog implements ActionListener {
     // only show the auto-detect checkbox inside OpenOffice
     if (insideOOo) {
         // autoDetect checkbox; just put it in the same panel as motherTongue for now
-        autoDetectCheckbox = new JCheckBox("Automatically detect language");
+        autoDetectCheckbox = new JCheckBox(messages.getString("atd"));
         // some setting to do here
         autoDetectCheckbox.setSelected(autoDetect);
         cons.gridy++;
