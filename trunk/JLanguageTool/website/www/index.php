@@ -2,7 +2,7 @@
 $page = "homepage";
 $title = "LanguageTool";
 $title2 = "Open Source language checker";
-$lastmod = "2011-07-04 20:20:00 CET";
+$lastmod = "2011-08-28 23:20:00 CET";
 include("../include/header.php");
 ?>
 		
@@ -51,6 +51,9 @@ XML configuration files. Rules for more complicated errors can be  written in Ja
 
 <h2>News</h2>
 
+<p><strong>2011-08-28:</strong> Our <?=show_link("Google Summer of Code students", "gsoc2011", 0)?> have 
+successfully finished their projects and the results will be part of LanguageTool 1.5, to be released in about one month.</p>
+
 <p><strong>2011-06-26:</strong> Released LanguageTool 1.4. Changes include:
 <ul>
 	<li>Rule updates for English, French, German, Russian, and Esperanto.</li>
@@ -58,8 +61,6 @@ XML configuration files. Rules for more complicated errors can be  written in Ja
     <li>Some internal cleanups and simplifications</li>
 	<li>For a more detailed list of changes, see the <?=show_link("Changelog", "download/CHANGES.txt", 0) ?></li>
 </ul>
-
-<p><strong>2011-05-08:</strong> More information about <?=show_link("Google Summer of Code 2011", "gsoc2011", 0)?></p>
 
 <!--
 <p><strong>2011-03-28:</strong> Released LanguageTool 1.3.1. This fixes a NullPointerException occurring with some inputs.</p>
