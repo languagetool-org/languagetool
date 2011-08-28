@@ -251,9 +251,11 @@ public class AnalyzedTokenReadings {
    * Add PARA_END tag.
    */
   public void setParaEnd() {
-    final AnalyzedToken paragraphEnd = new AnalyzedToken(getToken(),
-        JLanguageTool.PARAGRAPH_END_TAGNAME, getAnalyzedToken(0).getLemma());
-    addReading(paragraphEnd);    
+    if (!isParaEnd()) {
+      final AnalyzedToken paragraphEnd = new AnalyzedToken(getToken(),
+          JLanguageTool.PARAGRAPH_END_TAGNAME, getAnalyzedToken(0).getLemma());
+      addReading(paragraphEnd);
+    }
   }
 
   /**
@@ -275,9 +277,11 @@ public class AnalyzedTokenReadings {
    * Add a SENT_END tag.
    */
   public final void setSentEnd() {
-    final AnalyzedToken sentenceEnd = new AnalyzedToken(getToken(),
-        JLanguageTool.SENTENCE_END_TAGNAME, getAnalyzedToken(0).getLemma());
-    addReading(sentenceEnd);    
+    if (!isSentEnd()) {
+      final AnalyzedToken sentenceEnd = new AnalyzedToken(getToken(),
+          JLanguageTool.SENTENCE_END_TAGNAME, getAnalyzedToken(0).getLemma());
+      addReading(sentenceEnd);
+    }
   }
 
   public final int getStartPos() {
