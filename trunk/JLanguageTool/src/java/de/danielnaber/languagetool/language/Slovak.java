@@ -32,10 +32,10 @@ import de.danielnaber.languagetool.tokenizers.SRXSentenceTokenizer;
 import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
 
 public class Slovak extends Language {
-  
-  private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer(getShortName());
-  private final Tagger tagger = new SlovakTagger();
-  private final Synthesizer synthesizer = new SlovakSynthesizer(); 
+
+  private Tagger tagger;
+  private SentenceTokenizer sentenceTokenizer;
+  private Synthesizer synthesizer; 
   
   @Override
   public Locale getLocale() {
@@ -69,16 +69,25 @@ public class Slovak extends Language {
   
   @Override
   public Tagger getTagger() {
+    if (tagger == null) {
+      tagger = new SlovakTagger();
+    }
     return tagger;
   }
 
   @Override
   public Synthesizer getSynthesizer() {
+    if (synthesizer == null) {
+      synthesizer = new SlovakSynthesizer();
+    }
     return synthesizer;
   }
   
   @Override
   public SentenceTokenizer getSentenceTokenizer() {
+    if (sentenceTokenizer == null) {
+      sentenceTokenizer = new SRXSentenceTokenizer(getShortName());
+    }
     return sentenceTokenizer;
   }
   

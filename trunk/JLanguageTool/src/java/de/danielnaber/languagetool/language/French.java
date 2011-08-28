@@ -31,8 +31,8 @@ import de.danielnaber.languagetool.tagging.fr.FrenchTagger;
 
 public class French extends Language {
 
-  private final Tagger tagger = new FrenchTagger();
-  private final Disambiguator disambiguator = new FrenchHybridDisambiguator();
+  private Tagger tagger;
+  private Disambiguator disambiguator;
   private static final Unifier FRENCH_UNIFIER = new Unifier();
   
   @Override
@@ -68,11 +68,17 @@ public class French extends Language {
   
   @Override
   public Tagger getTagger() {
+    if (tagger == null) {
+      tagger = new FrenchTagger();
+    }
     return tagger;
   }
 
   @Override
   public Disambiguator getDisambiguator() {
+    if (disambiguator == null) {
+      disambiguator = new FrenchHybridDisambiguator();
+    }
     return disambiguator;
   }
   

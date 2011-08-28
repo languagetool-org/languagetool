@@ -27,7 +27,7 @@ import de.danielnaber.languagetool.tagging.it.ItalianTagger;
 
 public class Italian extends Language {
 
-  private final Tagger tagger = new ItalianTagger();
+  private Tagger tagger;
 
   @Override
   public Locale getLocale() {
@@ -61,6 +61,9 @@ public class Italian extends Language {
   
   @Override
   public Tagger getTagger() {
+    if (tagger == null) {
+      tagger = new ItalianTagger();
+    }
     return tagger;
   }
 

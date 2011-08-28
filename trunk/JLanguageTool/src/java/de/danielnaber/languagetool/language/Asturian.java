@@ -29,7 +29,7 @@ import java.util.Locale;
 
 public class Asturian extends Language {
 
-  private final Tagger tagger = new AsturianTagger();
+  private Tagger tagger;
 
   @Override
   public Locale getLocale() {
@@ -69,6 +69,9 @@ public class Asturian extends Language {
 
   @Override
   public final Tagger getTagger() {
+    if (tagger == null) {
+      tagger = new AsturianTagger();
+    }
     return tagger;
   }
 

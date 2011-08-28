@@ -31,9 +31,9 @@ import de.danielnaber.languagetool.tokenizers.gl.GalicianWordTokenizer;
 
 public class Galician extends Language {
 
-  private final Tagger tagger = new GalicianTagger();
-  private final Tokenizer wordTokenizer = new GalicianWordTokenizer();
-  private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer(getShortName());
+  private Tagger tagger;
+  private Tokenizer wordTokenizer;
+  private SentenceTokenizer sentenceTokenizer;
 
   @Override
   public final Locale getLocale() {
@@ -42,6 +42,9 @@ public class Galician extends Language {
 
   @Override
   public final SentenceTokenizer getSentenceTokenizer() {
+    if (sentenceTokenizer == null) {
+      sentenceTokenizer = new SRXSentenceTokenizer(getShortName());
+    }
     return sentenceTokenizer;
   }
   
@@ -72,11 +75,17 @@ public class Galician extends Language {
   
   @Override
   public final Tagger getTagger() {
+    if (tagger == null) {
+      tagger = new GalicianTagger();
+    }
     return tagger;
   }
 
   @Override
   public final Tokenizer getWordTokenizer() {
+    if (wordTokenizer == null) {
+      wordTokenizer = new GalicianWordTokenizer();
+    }
     return wordTokenizer;
   }
 

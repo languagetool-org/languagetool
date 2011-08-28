@@ -27,7 +27,7 @@ import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
 
 public class Slovenian extends Language {
   
-  private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer(getShortName());
+  private SentenceTokenizer sentenceTokenizer;
   
   @Override
   public Locale getLocale() {
@@ -61,6 +61,9 @@ public class Slovenian extends Language {
   
   @Override
   public SentenceTokenizer getSentenceTokenizer() {
+    if (sentenceTokenizer == null) {
+      sentenceTokenizer = new SRXSentenceTokenizer(getShortName());
+    }
     return sentenceTokenizer;
   }
   

@@ -28,7 +28,7 @@ import de.danielnaber.languagetool.tagging.uk.UkrainianTagger;
 
 public class Ukrainian extends Language {
 
-  private final Tagger tagger = new UkrainianTagger();
+  private Tagger tagger;
 
   @Override
   public Locale getLocale() {
@@ -62,6 +62,9 @@ public class Ukrainian extends Language {
   
   @Override
   public Tagger getTagger() {
+    if (tagger == null) {
+      tagger = new UkrainianTagger();
+    }
     return tagger;
   }
   

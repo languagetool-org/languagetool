@@ -35,11 +35,9 @@ import de.danielnaber.languagetool.tokenizers.zh.ChineseWordTokenizer;
 
 public class Chinese extends Language {
 
-  private final Tagger tagger = new ChineseTagger();
-
-  private final Tokenizer wordTokenizer = new ChineseWordTokenizer();
-
-  private final SentenceTokenizer sentenceTokenizer = new ChineseSentenceTokenizer();
+  private Tagger tagger;
+  private Tokenizer wordTokenizer;
+  private SentenceTokenizer sentenceTokenizer;
 
   @Override
   public String getShortName() {
@@ -73,16 +71,25 @@ public class Chinese extends Language {
 
   @Override
   public final Tagger getTagger() {
+    if (tagger == null) {
+      tagger = new ChineseTagger();
+    }
     return tagger;
   }
 
   @Override
   public final Tokenizer getWordTokenizer() {
+    if (wordTokenizer == null) {
+      wordTokenizer = new ChineseWordTokenizer();
+    }
     return wordTokenizer;
   }
 
   @Override
   public final SentenceTokenizer getSentenceTokenizer() {
+    if (sentenceTokenizer == null) {
+      sentenceTokenizer = new ChineseSentenceTokenizer();
+    }
     return sentenceTokenizer;
   }
 

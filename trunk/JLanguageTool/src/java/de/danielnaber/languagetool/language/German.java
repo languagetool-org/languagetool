@@ -30,8 +30,8 @@ import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
 
 public class German extends Language {
 
-  private final Tagger tagger = new GermanTagger();
-  private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer(getShortName());
+  private Tagger tagger;
+  private SentenceTokenizer sentenceTokenizer;
   
   @Override
   public Locale getLocale() {
@@ -65,11 +65,17 @@ public class German extends Language {
 
   @Override
   public Tagger getTagger() {
+    if (tagger == null) {
+      tagger = new GermanTagger();
+    }
     return tagger;
   }
 
   @Override
   public SentenceTokenizer getSentenceTokenizer() {
+    if (sentenceTokenizer == null) {
+      sentenceTokenizer = new SRXSentenceTokenizer(getShortName());
+    }
     return sentenceTokenizer;
   }
 

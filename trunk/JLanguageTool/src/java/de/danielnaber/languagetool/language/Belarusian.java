@@ -32,7 +32,7 @@ import de.danielnaber.languagetool.tagging.be.BelarusianTagger;
  */
 public class Belarusian extends Language {
 
-    private final Tagger tagger = new BelarusianTagger();
+    private Tagger tagger;
 
     @Override
     public Locale getLocale() {
@@ -56,6 +56,9 @@ public class Belarusian extends Language {
 
     @Override
     public Tagger getTagger() {
+        if (tagger == null) {
+            tagger = new BelarusianTagger();
+        }
         return tagger;
     }
 

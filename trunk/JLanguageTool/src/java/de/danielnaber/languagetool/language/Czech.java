@@ -31,8 +31,8 @@ import de.danielnaber.languagetool.tokenizers.cs.CzechSentenceTokenizer;
 
 public class Czech extends Language {
 
-  private final Tagger tagger = new CzechTagger();
-  private final SentenceTokenizer sentenceTokenizer = new CzechSentenceTokenizer();
+  private Tagger tagger;
+  private SentenceTokenizer sentenceTokenizer;
 
   @Override
   public Locale getLocale() {
@@ -56,11 +56,17 @@ public class Czech extends Language {
 
   @Override
   public Tagger getTagger() {
+    if (tagger == null) {
+      tagger = new CzechTagger();
+    }
     return tagger;
   }
   
   @Override
   public SentenceTokenizer getSentenceTokenizer() {
+    if (sentenceTokenizer == null) {
+      sentenceTokenizer = new CzechSentenceTokenizer();
+    }
     return sentenceTokenizer;
   }
 

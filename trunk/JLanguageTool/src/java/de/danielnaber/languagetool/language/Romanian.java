@@ -42,11 +42,11 @@ import de.danielnaber.languagetool.tokenizers.ro.RomanianWordTokenizer;
  */
 public class Romanian extends Language {
 
-  private final Tagger tagger = new RomanianTagger();
-  private final Synthesizer synthesizer = new RomanianSynthesizer();
-  private final Disambiguator disambiguator = new RomanianRuleDisambiguator();
-  private final Tokenizer wordTokenizer = new RomanianWordTokenizer();
-  private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer(getShortName());
+  private Tagger tagger;
+  private Synthesizer synthesizer;
+  private Disambiguator disambiguator;
+  private Tokenizer wordTokenizer;
+  private SentenceTokenizer sentenceTokenizer;
 
   @Override
   public Locale getLocale() {
@@ -80,6 +80,9 @@ public class Romanian extends Language {
   
   @Override
   public Tagger getTagger() {
+    if (tagger == null) {
+      tagger = new RomanianTagger();
+    }
     return tagger;
   }
 
@@ -107,21 +110,33 @@ public class Romanian extends Language {
 
   @Override
   public final Synthesizer getSynthesizer() {
+    if (synthesizer == null) {
+      synthesizer = new RomanianSynthesizer();
+    }
     return synthesizer;
   }
 
   @Override
   public final Disambiguator getDisambiguator() {
+    if (disambiguator == null) {
+      disambiguator = new RomanianRuleDisambiguator();
+    }
     return disambiguator;
   }
 
   @Override
   public final Tokenizer getWordTokenizer() {
+    if (wordTokenizer == null) {
+      wordTokenizer = new RomanianWordTokenizer();
+    }
     return wordTokenizer;
   }
 
   @Override
   public SentenceTokenizer getSentenceTokenizer() {
+    if (sentenceTokenizer == null) {
+      sentenceTokenizer = new SRXSentenceTokenizer(getShortName());
+    }
     return sentenceTokenizer;
   }
 }

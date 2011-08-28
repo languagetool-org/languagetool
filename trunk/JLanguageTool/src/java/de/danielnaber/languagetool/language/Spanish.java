@@ -38,11 +38,11 @@ public class Spanish extends Language {
 
   private static final Unifier SPANISH_UNIFIER = new Unifier();
 
-  private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer(getShortName());
-  private final Tokenizer wordTokenizer = new SpanishWordTokenizer();
-  private final Synthesizer synthesizer = new SpanishSynthesizer();
-  private final Tagger tagger = new SpanishTagger();
-  private final Disambiguator disambiguator = new SpanishRuleDisambiguator();
+  private SentenceTokenizer sentenceTokenizer;
+  private Tokenizer wordTokenizer;
+  private Synthesizer synthesizer;
+  private Tagger tagger;
+  private Disambiguator disambiguator;
 
   @Override
   public Locale getLocale() {
@@ -80,32 +80,47 @@ public class Spanish extends Language {
   
   @Override
   public Tagger getTagger() {
+    if (tagger == null) {
+      tagger = new SpanishTagger();
+    }
     return tagger;
   }
   
   @Override
   public Disambiguator getDisambiguator() {
-	    return disambiguator;
+    if (disambiguator == null) {
+      disambiguator = new SpanishRuleDisambiguator();
+    }
+    return disambiguator;
   }
   
   @Override
   public Unifier getUnifier() {
-	    return SPANISH_UNIFIER;
+    return SPANISH_UNIFIER;
   }
   
   @Override
   public final Tokenizer getWordTokenizer() {
-	    return wordTokenizer;
-	  }
+    if (wordTokenizer == null) {
+      wordTokenizer = new SpanishWordTokenizer();
+    }
+    return wordTokenizer;
+  }
   
   @Override
   public final Synthesizer getSynthesizer() {
-	    return synthesizer;
+    if (synthesizer == null) {
+      synthesizer = new SpanishSynthesizer();
+    }
+    return synthesizer;
   }
 
   @Override
   public final SentenceTokenizer getSentenceTokenizer() {
-	    return sentenceTokenizer;
+    if (sentenceTokenizer == null) {
+      sentenceTokenizer = new SRXSentenceTokenizer(getShortName());
+    }
+    return sentenceTokenizer;
   }
   
   @Override

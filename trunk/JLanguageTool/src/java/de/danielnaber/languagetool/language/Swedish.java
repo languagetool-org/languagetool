@@ -28,7 +28,7 @@ import de.danielnaber.languagetool.tagging.sv.SwedishTagger;
 
 public class Swedish extends Language {
 
-  private final Tagger tagger = new SwedishTagger();
+  private Tagger tagger;
 
   @Override
   public final Locale getLocale() {
@@ -52,6 +52,9 @@ public class Swedish extends Language {
   
   @Override
   public final Tagger getTagger() {
+    if (tagger == null) {
+      tagger = new SwedishTagger();
+    }
     return tagger;
   }
 

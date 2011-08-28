@@ -35,10 +35,10 @@ import de.danielnaber.languagetool.tokenizers.km.KhmerWordTokenizer;
 
 public class Khmer extends Language {
 
-  private final Tagger tagger = new KhmerTagger();
-  private final Tokenizer wordTokenizer = new KhmerWordTokenizer();
-  private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer(getShortName());
-  private final Disambiguator disambiguator = new KhmerRuleDisambiguator();
+  private Tagger tagger;
+  private Tokenizer wordTokenizer;
+  private SentenceTokenizer sentenceTokenizer;
+  private Disambiguator disambiguator;
   
   @Override
   public Locale getLocale() {
@@ -62,21 +62,33 @@ public class Khmer extends Language {
   
   @Override
   public Tagger getTagger() {
+    if (tagger == null) {
+      tagger = new KhmerTagger();
+    }
     return tagger;
   }
   
   @Override
   public SentenceTokenizer getSentenceTokenizer() {
+    if (sentenceTokenizer == null) {
+      sentenceTokenizer = new SRXSentenceTokenizer(getShortName());
+    }
     return sentenceTokenizer;
   }
 
   @Override
   public Tokenizer getWordTokenizer() {
+    if (wordTokenizer == null) {
+      wordTokenizer = new KhmerWordTokenizer();
+    }
     return wordTokenizer;
   }
   
   @Override
   public Disambiguator getDisambiguator() {
+    if (disambiguator == null) {
+      disambiguator = new KhmerRuleDisambiguator();
+    }
     return disambiguator;
   }
   

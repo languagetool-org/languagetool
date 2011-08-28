@@ -31,9 +31,9 @@ import de.danielnaber.languagetool.tokenizers.Tokenizer;
 
 public class Malayalam extends Language {
 
-  private final Tagger tagger = new MalayalamTagger();
-  private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("en");
-  private final Tokenizer wordTokenizer = new MalayalamWordTokenizer();
+  private Tagger tagger;
+  private SentenceTokenizer sentenceTokenizer;
+  private Tokenizer wordTokenizer;
 
   @Override
   public final Locale getLocale() {
@@ -42,6 +42,9 @@ public class Malayalam extends Language {
 
   @Override
   public final SentenceTokenizer getSentenceTokenizer() {
+    if (sentenceTokenizer == null) {
+      sentenceTokenizer = new SRXSentenceTokenizer("en");
+    }
     return sentenceTokenizer;
   }
   
@@ -57,6 +60,9 @@ public class Malayalam extends Language {
 
   @Override
   public final Tokenizer getWordTokenizer() {
+    if (wordTokenizer == null) {
+      wordTokenizer = new MalayalamWordTokenizer();
+    }
     return wordTokenizer;
   }
   
@@ -67,6 +73,9 @@ public class Malayalam extends Language {
   
   @Override
   public final Tagger getTagger() {
+    if (tagger == null) {
+      tagger = new MalayalamTagger();
+    }
     return tagger;
   }
     

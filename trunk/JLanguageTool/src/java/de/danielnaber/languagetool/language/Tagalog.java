@@ -33,7 +33,7 @@ import java.util.Locale;
  */
 public class Tagalog extends Language {
 
-  private final Tagger tagger = new TagalogTagger();
+  private Tagger tagger;
 
   @Override
   public Locale getLocale() {
@@ -57,6 +57,9 @@ public class Tagalog extends Language {
   
   @Override
   public Tagger getTagger() {
+    if (tagger == null) {
+      tagger = new TagalogTagger();
+    }
     return tagger;
   }
 

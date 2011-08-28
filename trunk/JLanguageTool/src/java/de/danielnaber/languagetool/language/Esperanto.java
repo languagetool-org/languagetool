@@ -33,10 +33,10 @@ import de.danielnaber.languagetool.tokenizers.eo.EsperantoWordTokenizer;
 
 public class Esperanto extends Language {
 
-  private final Tagger tagger = new EsperantoTagger();
-  private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer(getShortName());
-  private final Tokenizer wdTokenizer = new EsperantoWordTokenizer();
-  private final Disambiguator disambiguator = new EsperantoRuleDisambiguator();
+  private Tagger tagger;
+  private SentenceTokenizer sentenceTokenizer;
+  private Tokenizer wordTokenizer;
+  private Disambiguator disambiguator;
 
   @Override
   public Locale getLocale() {
@@ -45,12 +45,18 @@ public class Esperanto extends Language {
 
   @Override
   public final SentenceTokenizer getSentenceTokenizer() {
+    if (sentenceTokenizer == null) {
+      sentenceTokenizer = new SRXSentenceTokenizer(getShortName());
+    }
     return sentenceTokenizer;
   }
 
   @Override
   public final Tokenizer getWordTokenizer() {
-    return wdTokenizer;
+    if (wordTokenizer == null) {
+      wordTokenizer = new EsperantoWordTokenizer();
+    }
+    return wordTokenizer;
   }
 
   @Override
@@ -71,11 +77,17 @@ public class Esperanto extends Language {
   
   @Override
   public Tagger getTagger() {
+    if (tagger == null) {
+      tagger = new EsperantoTagger();
+    }
     return tagger;
   }
 
   @Override
   public final Disambiguator getDisambiguator() {
+    if (disambiguator == null) {
+      disambiguator = new EsperantoRuleDisambiguator();
+    }
     return disambiguator;
   }
 

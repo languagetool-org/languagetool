@@ -41,10 +41,10 @@ public class Polish extends Language {
   private static final Unifier POLISH_UNIFIER = new Unifier();
   private static final Unifier POLISH_DISAMB_UNIFIER = new Unifier();
 
-  private final Tagger tagger = new PolishTagger();
-  private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer(getShortName());
-  private final Disambiguator disambiguator = new PolishHybridDisambiguator();
-  private final Synthesizer synthesizer = new PolishSynthesizer();
+  private Tagger tagger;
+  private SentenceTokenizer sentenceTokenizer;
+  private Disambiguator disambiguator;
+  private Synthesizer synthesizer;
 
   @Override
   public Locale getLocale() {
@@ -68,16 +68,25 @@ public class Polish extends Language {
   
   @Override
   public Tagger getTagger() {
+    if (tagger == null) {
+      tagger = new PolishTagger();
+    }
     return tagger;
   }
 
   @Override
   public SentenceTokenizer getSentenceTokenizer() {
+    if (sentenceTokenizer == null) {
+      sentenceTokenizer = new SRXSentenceTokenizer(getShortName());
+    }
     return sentenceTokenizer;
   }
 
   @Override
   public Disambiguator getDisambiguator() {
+    if (disambiguator == null) {
+      disambiguator = new PolishHybridDisambiguator();
+    }
     return disambiguator;
   }
  
@@ -93,6 +102,9 @@ public class Polish extends Language {
   
   @Override
   public Synthesizer getSynthesizer() {
+    if (synthesizer == null) {
+      synthesizer = new PolishSynthesizer();
+    }
     return synthesizer;
   }
 

@@ -26,6 +26,8 @@ import de.danielnaber.languagetool.tagging.Tagger;
 import de.danielnaber.languagetool.tagging.xx.DemoTagger;
 
 public class Lithuanian extends Language {
+
+  private Tagger tagger;
   
   @Override
   public Locale getLocale() {
@@ -49,7 +51,10 @@ public class Lithuanian extends Language {
 
   @Override
   public Tagger getTagger() {
-    return new DemoTagger();
+    if (tagger == null) {
+      tagger = new DemoTagger();
+    }
+    return tagger;
   }
 
   @Override

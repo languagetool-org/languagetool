@@ -33,8 +33,8 @@ import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
  */
 public class Icelandic extends Language {
 
-  private final Tagger tagger = new DemoTagger();
-  private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer(getShortName());
+  private Tagger tagger;
+  private SentenceTokenizer sentenceTokenizer;
 
   @Override
   public String getName() {
@@ -63,11 +63,17 @@ public class Icelandic extends Language {
 
   @Override
   public Tagger getTagger() {
+    if (tagger == null) {
+      tagger = new DemoTagger();
+    }
     return tagger;
   }
 
   @Override
   public SentenceTokenizer getSentenceTokenizer() {
+    if (sentenceTokenizer == null) {
+      sentenceTokenizer = new SRXSentenceTokenizer(getShortName());
+    }
     return sentenceTokenizer;
   }
 

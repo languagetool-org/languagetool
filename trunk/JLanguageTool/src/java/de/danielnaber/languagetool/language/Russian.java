@@ -39,10 +39,10 @@ public class Russian extends Language {
 
   private static final Unifier RUSSIAN_UNIFIER = new Unifier();
 
-  private final Tagger tagger = new RussianTagger();
-  private final Disambiguator disambiguator = new RussianRuleDisambiguator();
-  private final Synthesizer synthesizer = new RussianSynthesizer();
-  private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer(getShortName());
+  private Tagger tagger;
+  private Disambiguator disambiguator;
+  private Synthesizer synthesizer;
+  private SentenceTokenizer sentenceTokenizer;
 
   @Override
   public Locale getLocale() {
@@ -66,21 +66,33 @@ public class Russian extends Language {
   
   @Override
   public Tagger getTagger() {
+    if (tagger == null) {
+      tagger = new RussianTagger();
+    }
     return tagger;
   }
 
-   @Override
-   public Disambiguator getDisambiguator() {
+  @Override
+  public Disambiguator getDisambiguator() {
+    if (disambiguator == null) {
+      disambiguator = new RussianRuleDisambiguator();
+    }
     return disambiguator;
   }
   
   @Override
   public Synthesizer getSynthesizer() {
+    if (synthesizer == null) {
+      synthesizer = new RussianSynthesizer();
+    }
     return synthesizer;
   }
 
   @Override
   public SentenceTokenizer getSentenceTokenizer() {
+    if (sentenceTokenizer == null) {
+       sentenceTokenizer = new SRXSentenceTokenizer(getShortName());
+    }
     return sentenceTokenizer;
   }
 

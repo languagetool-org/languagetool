@@ -29,7 +29,7 @@ import de.danielnaber.languagetool.tagging.xx.DemoTagger;
 
 public class Demo extends Language {
 
-  private final Tagger tagger = new DemoTagger();
+  private Tagger tagger;
 
   @Override
   public Locale getLocale() {
@@ -53,6 +53,9 @@ public class Demo extends Language {
   
   @Override
   public Tagger getTagger() {
+    if (tagger == null) {
+      tagger = new DemoTagger();
+    }
     return tagger;
   }
 

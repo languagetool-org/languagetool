@@ -35,12 +35,12 @@ import de.danielnaber.languagetool.tokenizers.nl.DutchWordTokenizer;
 
 public class Dutch extends Language {
 
-  private final Tagger tagger = new DutchTagger();
-  private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer(getShortName());
-  private final Synthesizer synthesizer = new DutchSynthesizer();
-  private final Disambiguator disambiguator = new DutchRuleDisambiguator();
-  private final Tokenizer wdTokenizer = new DutchWordTokenizer();
-
+  private Tagger tagger;
+  private SentenceTokenizer sentenceTokenizer;
+  private Synthesizer synthesizer;
+  private Disambiguator disambiguator;
+  private Tokenizer wordTokenizer;
+  
   @Override
   public final Locale getLocale() {
     return new Locale(getShortName());
@@ -73,26 +73,41 @@ public class Dutch extends Language {
   
   @Override
   public final Tagger getTagger() {
+    if (tagger == null) {
+      tagger = new DutchTagger();
+    }
     return tagger;
   }
 
   @Override
   public final Synthesizer getSynthesizer() {
+    if (synthesizer == null) {
+      synthesizer = new DutchSynthesizer();
+    }
     return synthesizer;
   }
 
   @Override
   public final SentenceTokenizer getSentenceTokenizer() {
+    if (sentenceTokenizer == null) {
+      sentenceTokenizer = new SRXSentenceTokenizer(getShortName());
+    }
     return sentenceTokenizer;
   }
 
   @Override
   public final Tokenizer getWordTokenizer() {
-    return wdTokenizer;
+    if (wordTokenizer == null) {
+      wordTokenizer = new DutchWordTokenizer();
+    }
+    return wordTokenizer;
   }
 
   @Override
   public final Disambiguator getDisambiguator() {
+    if (disambiguator == null) {
+      disambiguator = new DutchRuleDisambiguator();
+    }
     return disambiguator;
   }
 

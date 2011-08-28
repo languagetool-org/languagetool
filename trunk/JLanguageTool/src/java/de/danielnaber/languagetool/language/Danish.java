@@ -29,8 +29,8 @@ import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
 
 public class Danish extends Language {
 
-  private final Tagger tagger = new DanishTagger();
-  private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer(getShortName());
+  private Tagger tagger;
+  private SentenceTokenizer sentenceTokenizer;
   
   @Override
   public final Locale getLocale() {
@@ -64,11 +64,17 @@ public class Danish extends Language {
   
   @Override
   public final Tagger getTagger() {
+    if (tagger == null) {
+      tagger = new DanishTagger();
+    }
     return tagger;
   }
 
   @Override
   public SentenceTokenizer getSentenceTokenizer() {
+    if (sentenceTokenizer == null) {
+      sentenceTokenizer = new SRXSentenceTokenizer(getShortName());
+    }
     return sentenceTokenizer;
   }
 

@@ -38,11 +38,11 @@ import de.danielnaber.languagetool.tokenizers.en.EnglishWordTokenizer;
 
 public class English extends Language {
 
-  private final Tagger tagger = new EnglishTagger();
-  private final Tokenizer wordTokenizer = new EnglishWordTokenizer();
-  private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer(getShortName());
-  private final Synthesizer synthesizer = new EnglishSynthesizer();
-  private final Disambiguator disambiguator = new EnglishRuleDisambiguator();
+  private Tagger tagger;
+  private Tokenizer wordTokenizer;
+  private SentenceTokenizer sentenceTokenizer;
+  private Synthesizer synthesizer;
+  private Disambiguator disambiguator;
 
   @Override
   public final Locale getLocale() {
@@ -51,6 +51,9 @@ public class English extends Language {
 
   @Override
   public final SentenceTokenizer getSentenceTokenizer() {
+    if (sentenceTokenizer == null) {
+      sentenceTokenizer = new SRXSentenceTokenizer(getShortName());
+    }
     return sentenceTokenizer;
   }
   
@@ -71,21 +74,33 @@ public class English extends Language {
   
   @Override
   public final Tagger getTagger() {
+    if (tagger == null) {
+      tagger = new EnglishTagger();
+    }
     return tagger;
   }
 
   @Override
   public final Tokenizer getWordTokenizer() {
+    if (wordTokenizer == null) {
+      wordTokenizer = new EnglishWordTokenizer();
+    }
     return wordTokenizer;
   }
 
   @Override
   public final Synthesizer getSynthesizer() {
+    if (synthesizer == null) {
+      synthesizer = new EnglishSynthesizer();
+    }
     return synthesizer;
   }
   
   @Override
   public final Disambiguator getDisambiguator() {
+    if (disambiguator == null) {
+      disambiguator = new EnglishRuleDisambiguator();
+    }
     return disambiguator;
   }
 
