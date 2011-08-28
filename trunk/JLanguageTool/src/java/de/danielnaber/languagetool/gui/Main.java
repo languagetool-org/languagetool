@@ -140,7 +140,7 @@ public final class Main implements ActionListener {
     buttonCons.gridy = 0;
     panel.add(insidePanel);
     
-    autoDetectBox = new JCheckBox("Automatically detect language");
+    autoDetectBox = new JCheckBox(messages.getString("atd"));
     autoDetectBox.addActionListener( new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
