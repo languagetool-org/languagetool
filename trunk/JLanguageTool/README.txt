@@ -156,6 +156,11 @@ License:
  Contributor(s):
    Xesús González Rato <esbardu@asturies.org>
 
+ Tagalog:
+ The Tagalog Tagset was designed by Nathaniel Oco.
+ The words for the Tagger Dictionary were taken from the Philippine Literature Domain of Dalos D. Miguel's Comparative Analysis of Tagalog POS Taggers.
+ The Tagger Dictionary and the Tagset are made available under LGPL.
+
 ------------------------------------------------ 
  
  English:
