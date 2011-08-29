@@ -80,7 +80,7 @@ public class JLanguageToolTest extends TestCase {
     final JLanguageTool tool = new JLanguageTool(Language.DUTCH);
     tool.activateDefaultPatternRules();
     assertEquals(0, tool.check("Een test, die geen fouten mag geven.").size());
-    assertEquals(1, tool.check("Een test test, die een fout moet geven.").size());
+    assertEquals(1, tool.check("Dit is fout.!").size());
     //test uppercasing rule:
     /*  
     matches = tool.check("De Afdeling Beheer kan het");
@@ -88,7 +88,7 @@ public class JLanguageToolTest extends TestCase {
     assertEquals("Als Afdeling geen deel uitmaakt van de naam, dan is juist:<suggestion>afdeling</suggestion>", matches.get(0).getMessage());
      */
     // Dutch rule has no effect with English error:
-    assertEquals(0, tool.check("I can give you more a detailed description").size());
+    assertEquals(0, tool.check("I can give you more a detailed description.").size());
   }
   
   public void testPolish() throws IOException {
