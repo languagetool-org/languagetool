@@ -17,7 +17,7 @@ linguistic resources from other projects. These were the rules
 included in the <?=show_link("After the Deadline grammar checker",
 "http://www.afterthedeadline.com/", 0)?> (some of them will
 be included in version 1.5 after some additional checking)
-and conversion of Constraint Grammar (CG) rules into the format of
+and conversion of <?=show_link("Constraint Grammar", "http://en.wikipedia.org/wiki/Constraint_Grammar", 0) ?> (CG) rules into the format of
 disambiguation rules. CG is widely used for Scandinavian languages and
 we hope that adding an easy option to convert them will enable further
 steps to add deeper linguistic analysis or parsing to LanguageTool without
