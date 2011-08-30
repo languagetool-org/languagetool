@@ -781,7 +781,7 @@ public final class Main implements ActionListener {
       if (this == o) return true;
       if (o == null || getClass() != o.getClass()) return false;
       final I18nLanguage other = (I18nLanguage) o;
-      return language.toString().equals(other.toString());
+      return language.toString().equals(other.toString()) && language.isExternal() == other.language.isExternal();
     }
 
     @Override
