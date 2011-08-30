@@ -663,6 +663,9 @@ class Main {
       lt.activateDefaultPatternRules();
       lt.activateDefaultFalseFriendRules();
       selectRules(lt, disabledRules, enabledRules);
+      if (verbose) {
+        lt.setOutput(System.err);
+      }
   }
 
 }
