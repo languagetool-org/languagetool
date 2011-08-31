@@ -4,11 +4,10 @@ title="Pretty print" ?>
 <?xml-stylesheet type="text/css" href="../rules.css" 
 title="Easy editing stylesheet" ?>
 <!--
-LanguageTool.
-Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+LanguageTool. Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
 A Russian rule file for LanguageTool 
 Copyright (C) 2008-2011 Yakov Reztsov
-$Id: grammar.xml,v 1.68 2011-05-14 14:58:12 yakovru Exp $
+$Id: grammar.xml,v 1.69 2011-08-31 17:26:12 yakovru Exp $
 #     REVISION:  $Id$
 -->
 <rules lang="ru" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -36,14 +35,26 @@ $Id: grammar.xml,v 1.68 2011-05-14 14:58:12 yakovru Exp $
         </rule> 
         <rulegroup id="POZHALUJSTA" name="“Пожалуйста” выделяется запятыми">
             <rule>
-                <pattern case_sensitive="yes" mark_to="0">
+                <pattern case_sensitive="yes"  mark_to="0">
                     <token negate="yes" regexp="yes">[\p{Punct}]|всегда<exception postag="SENT_START"></exception></token>
                     <token>пожалуйста</token>
+                    <token regexp="yes" >[\p{Punct}]</token>
                 </pattern>
-                <message>Нет запятой: <suggestion>\1, \2</suggestion>.</message>
+                <message>Нет запятой: <suggestion>\1, \2\3</suggestion></message>
                 <short>Нет запятой.</short>
                 <example type="correct">Закройте дверь, <marker>пожалуйста.</marker></example>
-                <example type="incorrect">Закройте <marker>дверь пожалуйста</marker>.</example>
+                <example type="incorrect">Закройте <marker>дверь пожалуйста.</marker></example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes"  mark_to="-1">
+                    <token negate="yes" regexp="yes">[\p{Punct}]|всегда<exception postag="SENT_START"></exception></token>
+                    <token>пожалуйста</token>
+                    <token negate="yes" regexp="yes">[\p{Punct}]</token>
+                </pattern>
+                <message>Нет запятой: <suggestion>\1, \2,</suggestion></message>
+                <short>Нет запятой.</short>
+                <example type="correct">Виталий, <marker>пожалуйста</marker>, закройте дверь!</example>
+                <example type="incorrect"><marker>Виталий пожалуйста</marker> закройте дверь!</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes" mark_to="0">
@@ -357,22 +368,22 @@ $Id: grammar.xml,v 1.68 2011-05-14 14:58:12 yakovru Exp $
             </rule>
             
             <rule>
-                <!-- Вводные слова: конечно, несомненно, вероятно, может быть, кажется, ...-->
+                <!-- Вводные слова: конечно, несомненно, вероятно, может быть, кажется, однако ...-->
                 <pattern case_sensitive="yes">
                     <token negate="yes" regexp="yes">[\p{Punct}]|-|—|наиболее|наименее|более|менее|а|и|но<exception postag="SENT_START"></exception></token>     
-                    <token regexp="yes">конечно|несомненно|вероятно|кажется</token>
+                    <token regexp="yes">конечно|несомненно|вероятно|кажется|однако</token>
                     <token negate="yes">,</token>
                 </pattern>
-                <message>Запятая пропущена здесь:<suggestion>\1, \2,</suggestion>.</message>
+                <message>Запятая пропущена здесь:<suggestion>\1, \2, \3</suggestion>.</message>
                 <short>Нет запятой.</short>
                 <example type="correct">Эта работа, несомненно, представляет огромную научную ценность.</example>
-                <example type="incorrect" correction="работа, несомненно,">Эта <marker>работа несомненно представляет</marker> огромную научную ценность.</example>
+                <example type="incorrect" correction="работа, несомненно, представляет">Эта <marker>работа несомненно представляет</marker> огромную научную ценность.</example>
             </rule>
             <rule>
-                <!-- Вводные слова: конечно, несомненно, вероятно, может быть, кажется, ...-->
+                <!-- Вводные слова: конечно, несомненно, вероятно, может быть, кажется, однако ...-->
                 <pattern case_sensitive="yes">
                     <token negate="yes" regexp="yes">[\p{Punct}]|-|—|наиболее|наименее|более|менее|а|и|но<exception postag="SENT_START"></exception></token>     
-                    <token regexp="yes">конечно|несомненно|вероятно|кажется</token>
+                    <token regexp="yes">конечно|несомненно|вероятно|кажется|однако</token>
                     <token>,</token>
                 </pattern>
                 <message>Запятая пропущена здесь:<suggestion>\1, \2\3</suggestion>.</message>
@@ -383,7 +394,7 @@ $Id: grammar.xml,v 1.68 2011-05-14 14:58:12 yakovru Exp $
             <rule>
                 <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
                     <token>,<exception postag="SENT_START"></exception></token>
-                    <token regexp="yes">конечно|несомненно|вероятно|кажется</token>
+                    <token regexp="yes">конечно|несомненно|вероятно|кажется|однако</token>
                     <token negate = "yes"  regexp="yes">[\p{Punct}]|-|—</token>
                 </pattern>
                 <message>Запятая пропущена здесь:<suggestion>\2,</suggestion>.</message>
@@ -394,7 +405,7 @@ $Id: grammar.xml,v 1.68 2011-05-14 14:58:12 yakovru Exp $
             <rule>
                 <pattern case_sensitive="yes">   
                     <token  postag="SENT_START"></token>
-                    <token regexp="yes">Конечно|Несомненно|Вероятно|Кажется</token>
+                    <token regexp="yes">Конечно|Несомненно|Вероятно|Кажется|Однако</token>
                     <token negate="yes" regexp="yes">[\p{Punct}]</token>
                 </pattern>
                 <message>Запятая пропущена здесь:<suggestion>\2, \3</suggestion>.</message>
@@ -1693,12 +1704,13 @@ $Id: grammar.xml,v 1.68 2011-05-14 14:58:12 yakovru Exp $
         <rulegroup default="off"  id="Unknown_words" name="Неизвестные слова (проверка орфографии)">
             <rule>  
                 <pattern mark_to="-1">
-                    <token  postag="UNKNOWN" regexp="yes">[а-я].*</token>
+                    <token  postag="UNKNOWN" regexp="yes">[а-я]([а-я].*)</token>
                     <token></token>
                 </pattern>
                 <message>Слова нет в словаре LanguageTool.</message>
                 <short>Нет в словаре.</short>
                 <example type="correct">Проверка текста.</example>
+                  <example type="correct">Проверка текста и т.п.</example>
                 <example type="incorrect">Это только <marker>теест</marker> проверка.</example>
             </rule>
         </rulegroup>
