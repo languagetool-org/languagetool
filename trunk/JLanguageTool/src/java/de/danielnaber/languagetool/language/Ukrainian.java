@@ -25,10 +25,14 @@ import de.danielnaber.languagetool.rules.*;
 import de.danielnaber.languagetool.rules.uk.SimpleReplaceRule;
 import de.danielnaber.languagetool.tagging.Tagger;
 import de.danielnaber.languagetool.tagging.uk.UkrainianTagger;
+import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
+import de.danielnaber.languagetool.tokenizers.SRXSentenceTokenizer;
+
 
 public class Ukrainian extends Language {
 
   private Tagger tagger;
+  private SentenceTokenizer sentenceTokenizer;
 
   @Override
   public Locale getLocale() {
@@ -66,6 +70,14 @@ public class Ukrainian extends Language {
       tagger = new UkrainianTagger();
     }
     return tagger;
+  }
+  
+  @Override
+  public SentenceTokenizer getSentenceTokenizer() {
+    if (sentenceTokenizer == null) {
+       sentenceTokenizer = new SRXSentenceTokenizer(getShortName());
+    }
+    return sentenceTokenizer;
   }
   
   @Override
