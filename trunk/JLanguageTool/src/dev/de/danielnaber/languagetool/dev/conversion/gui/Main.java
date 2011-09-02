@@ -68,8 +68,9 @@ public final class Main implements ActionListener {
 	private JButton convert;
 	private JButton saveEditedRule;
 	private JButton deleteCurrentRule;
-	private JButton setDefaultOff;
-	private JButton setDefaultOn;
+	private JButton toggleDefaultOff;
+	private JButton makeRuleExclusive;
+	private JButton toggleExtraTokens;
 	private JButton checkRulesCoveredButton;
 	private JButton recheckCurrentRuleCoverage;
 	private JButton writeRulesToFileButton;
@@ -106,6 +107,9 @@ public final class Main implements ActionListener {
 	private String filename = "";
 	private String outfilename = "";
 	private String disambigOutFile = "";
+	
+	private boolean defaultOff = false;
+	private boolean extraTokens = true;
 
 	private int numberOfRules;
 
@@ -119,6 +123,7 @@ public final class Main implements ActionListener {
 	private static Pattern ruleHeaderRegex = Pattern.compile("<rule(group)?\\s+id=\".*?\"\\s+name=\".*?\"");
 	private static Pattern defaultOffRegex = Pattern.compile(" default=\"off\"");
 	private static String defaultOffString = " default=\"off\"";
+	private static Pattern postagToken = Pattern.compile("(<token postag=\"(.*?)\"( postag_regexp=\"yes\")?>)(</token>)");
 
 	// main method
 	public static void main(final String[] args) {
@@ -217,21 +222,44 @@ public final class Main implements ActionListener {
 			}
 		});
 
-		setDefaultOff = new JButton("Set rules off by default");
-		setDefaultOff.setMnemonic('o');
-		setDefaultOff.addActionListener(new ActionListener() {
+		toggleDefaultOff = new JButton("Toggle default=\"off\"");
+		toggleDefaultOff.setMnemonic('t');
+		toggleDefaultOff.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				setDefaultOff();
+				if (!defaultOff) {
+					setDefaultOff();
+					defaultOff = true;
+				} else {
+					setDefaultOn();
+					defaultOff = false;
+				}
 			}
 		});
-
-		setDefaultOn = new JButton("Set rules on by default");
-		setDefaultOn.setMnemonic('l');
-		setDefaultOn.addActionListener(new ActionListener() {
+		
+		
+		makeRuleExclusive = new JButton("Make rule exclusive");
+		makeRuleExclusive.setMnemonic('x');
+		makeRuleExclusive.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				setDefaultOn();
+				makeCurrentRuleExclusive();
+			}
+		});
+		
+		toggleExtraTokens = new JButton("Toggle extra tokens");
+		toggleExtraTokens.setMnemonic('a');
+		toggleExtraTokens.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (!extraTokens) {
+					addExtraTokens();
+					extraTokens = true;
+				} else {
+					removeExtraTokens();
+					extraTokens = false;
+				}
+				
 			}
 		});
 
@@ -370,9 +398,11 @@ public final class Main implements ActionListener {
 
 		JPanel modifyRulesPanel = new JPanel(new GridBagLayout());
 		c.gridx = 0;
-		modifyRulesPanel.add(setDefaultOff, c);
+		modifyRulesPanel.add(toggleDefaultOff, c);
 		c.gridx = 1;
-		modifyRulesPanel.add(setDefaultOn, c);
+		modifyRulesPanel.add(makeRuleExclusive, c);
+		c.gridx = 2;
+		modifyRulesPanel.add(toggleExtraTokens, c);
 		buttonCons.gridy = 3;
 		insidePanel.add(modifyRulesPanel, buttonCons);
 
@@ -580,10 +610,11 @@ public final class Main implements ActionListener {
 
 	// removes the currently displayed rule; it won't be written to the outfile
 	public void deleteCurrentRule() {
-		if (ruleStrings == null) {
+		if (ruleStrings == null || rulesBox.getSelectedItem() == null) {
 			return;
 		}
 		int index = getCurrentRuleIndex();
+		
 		ruleObjects.remove(index);
 		allRulesList.remove(index);
 		ruleStrings.remove(index);
@@ -595,7 +626,12 @@ public final class Main implements ActionListener {
 		coveredByList.remove(index);
 		numberOfRules--;
 		numRulesPane.setText(Integer.toString(numberOfRules));
+		
 		populateRuleBox();
+		if (index > 0) {
+			rulesBox.setSelectedItem(originalRuleStrings.get(index - 1));
+		}
+		
 	}
 
 	private static boolean[] removeIndexFromBooleanArray(boolean[] array,
@@ -610,9 +646,58 @@ public final class Main implements ActionListener {
 		return n;
 	}
 
+	// some regex stuff to make the pos tags of the current rule exclusive (or "careful")
+	public void makeCurrentRuleExclusive() {
+		if (ruleStrings == null || rulesBox.getSelectedItem() == null) {
+			return;
+		}
+		int index = getCurrentRuleIndex();
+		String rs = ruleStrings.get(index);
+		rs = makeTokensExclusive(rs);
+		ruleStrings.set(index,rs);
+		displaySelectedRule();
+	}
+	
+	public void makeAllRulesExclusive() {
+		if (ruleStrings == null || rulesBox.getSelectedItem() == null) {
+			return;
+		}
+		for (int i=0;i<ruleStrings.size();i++) {
+			ruleStrings.set(i,makeTokensExclusive(ruleStrings.get(i)));
+		}
+		populateRuleBox();
+	}
+	
+	
+	private String makeTokensExclusive(String ruleString) {
+		Matcher m = postagToken.matcher(ruleString);
+		while (m.find()) {
+			String r = generateExclusiveException(m.group(2),m.group(3) != null);
+			ruleString = ruleString.replace(m.group(),m.group(1) + r + m.group(4));
+		}
+		return ruleString;
+	}
+	
+	private String generateExclusiveException(String postags, boolean regexp) {
+		String ex = "<exception postag=\"";
+        ex = ex.concat(postags).concat("\"");
+        if (regexp) {
+            ex = ex.concat(" postag_regexp=\"yes\" negate_pos=\"yes\"/>");
+        } else {
+            ex = ex.concat(" negate_pos=\"yes\"/>");
+        }
+        if (postags.equals(getCurrentRuleConverter().getSentStart()) || 
+        	postags.equals(getCurrentRuleConverter().getSentEnd())) {
+        	return "";
+        }
+        return ex;
+	}
+	
+	// method to add the empty tokens at the beginning and end of the pattern, to catch extra overlapping rules
+	
 	// adds a default="off" attribute to the <rule> and <rulegroup> elements
 	private void setDefaultOff() {
-		if (ruleStrings == null) {
+		if (ruleStrings == null || rulesBox.getSelectedItem() == null) {
 			return;
 		}
 		for (int i = 0; i < ruleStrings.size(); i++) {
@@ -620,11 +705,11 @@ public final class Main implements ActionListener {
 			String newRuleString = addOffAttribute(oldRuleString);
 			ruleStrings.set(i, newRuleString);
 		}
-		populateRuleBox();
+		displaySelectedRule();
 	}
 
 	private void setDefaultOn() {
-		if (ruleStrings == null) {
+		if (ruleStrings == null || rulesBox.getSelectedItem() == null) {
 			return;
 		}
 		for (int i = 0; i < ruleStrings.size(); i++) {
@@ -632,7 +717,7 @@ public final class Main implements ActionListener {
 			String newRuleString = removeOffAttribute(oldRuleString);
 			ruleStrings.set(i, newRuleString);
 		}
-		populateRuleBox();
+		displaySelectedRule();
 	}
 
 	private String removeOffAttribute(String rule) {
@@ -746,7 +831,7 @@ public final class Main implements ActionListener {
 		if (originalRuleStrings != null) {
 			for (int i = 0; i < originalRuleStrings.size(); i++) {
 				boolean cov = coveredByList.get(i).length != 0;
-				boolean war = !warnings.get(i).equals("");
+				boolean war = !(warnings.get(i).length == 0);
 				boolean dis = disambigRuleIndices[i];
 				if (dis && cov && war) {
 					if (showDisambigRules && showCoveredRules
@@ -898,7 +983,7 @@ public final class Main implements ActionListener {
 	// checks if the currently displayed rule is covered by an existing language
 	// tool rule
 	public void checkDisplayedRuleCoverage() {
-		if (ruleStrings == null) {
+		if (ruleStrings == null || rulesBox.getSelectedItem() == null) {
 			return;
 		}
 		try {
@@ -931,13 +1016,38 @@ public final class Main implements ActionListener {
 					"Couldn't parse or check the rule's coverage for some reason",
 					null);
 		}
-
 	}
+	
+	private void addExtraTokens() {
+		if (ruleStrings == null || rulesBox.getSelectedItem() == null) {
+			return;
+		}
+		int index = getCurrentRuleIndex();
+		String rs = ruleStrings.get(index);
+		rs = rs.replace("<pattern>\n","<pattern>\n<token/>\n");
+		rs = rs.replace("</pattern>\n","<token/>\n</pattern>\n");
+		ruleStrings.set(index,rs);
+		displaySelectedRule();
+	}
+	
+	private void removeExtraTokens() {
+		if (ruleStrings == null || rulesBox.getSelectedItem() == null) {
+			return;
+		}
+		int index = getCurrentRuleIndex();
+		String rs = ruleStrings.get(index);
+		rs = rs.replace("<pattern>\n<token/>\n","<pattern>\n");
+		rs = rs.replace("<token/>\n</pattern>\n","</pattern>\n");
+		ruleStrings.set(index,rs);
+		displaySelectedRule();
+	}
+	
+	
 
 	// checks if all the loaded rules (individually) are covered by existing LT
 	// rules
 	public void checkIfAllCurrentRulesCovered() {
-		if (ruleStrings == null) {
+		if (ruleStrings == null || rulesBox.getSelectedItem() == null) {
 			return;
 		}
 		try {
@@ -969,8 +1079,8 @@ public final class Main implements ActionListener {
 
 	// saves the changes made in the result area to the current rule.
 	// modifies what gets written to file
-	public void saveEditedVisibleRule() {
-		if (originalRuleStrings != null && ruleStrings != null) {
+	private void saveEditedVisibleRule() {
+		if (originalRuleStrings != null && ruleStrings != null && rulesBox.getSelectedItem() != null) {
 			String newRule = resultArea.getText();
 			String selectedRule = (String) rulesBox.getSelectedItem();
 			int index;
@@ -982,9 +1092,25 @@ public final class Main implements ActionListener {
 			ruleStrings.set(index, newRule);
 		}
 	}
+	
+	public void clickSaveButton() {
+		saveEditedRule.doClick();
+	}
+	
+	public void removeCoveringRules() {
+		int index = getCurrentRuleIndex();
+		coveredByList.set(index, new String[0]);
+		displayCoveredBy();
+	}
+	
+	public void removeWarnings() {
+		int index = getCurrentRuleIndex();
+		warnings.set(index, new String[0]);
+		displayWarnings();
+	}
 
 	public void writeRulesToFile() throws IOException {
-		if (ruleStrings == null) {
+		if (ruleStrings == null || rulesBox.getSelectedItem() == null) {
 			return;
 		}
 		boolean writeCovered = writeCoveredRules.isSelected();
@@ -992,12 +1118,10 @@ public final class Main implements ActionListener {
 		int numDis = 0;
 		StringBuilder regWriteString = new StringBuilder();
 		StringBuilder disWriteString = new StringBuilder();
-		regWriteString.append("<category name=\"Auto-generated rules "
-				+ new File(filename).getName() + "\">\n");
-		disWriteString.append("<category name=\"Auto-generated rules "
-				+ new File(filename).getName() + "\">\n");
-
+		
 		if (anyRegularRules()) {
+			regWriteString.append("<category name=\"Auto-generated rules "
+					+ new File(filename).getName() + "\">\n");
 			for (int i = 0; i < ruleStrings.size(); i++) {
 				if (!disambigRuleIndices[i]
 						&& (writeCovered || (!writeCovered && coveredByList
@@ -1006,18 +1130,19 @@ public final class Main implements ActionListener {
 					numReg++;
 				}
 			}
+			regWriteString.append("</category>");
 		}
 		if (anyDisambiguationRules()) {
+			disWriteString.append("<category name=\"Auto-generated rules "
+					+ new File(filename).getName() + "\">\n");
 			for (int i = 0; i < ruleStrings.size(); i++) {
 				if (disambigRuleIndices[i]) {
 					disWriteString.append(ruleStrings.get(i));
 					numDis++;
 				}
 			}
+			disWriteString.append("</category>");
 		}
-
-		regWriteString.append("</category>");
-		disWriteString.append("</category>");
 
 		String disString = disWriteString.toString();
 		String regString = regWriteString.toString();
@@ -1035,11 +1160,11 @@ public final class Main implements ActionListener {
 	private void writeWithEditing(String dis, String reg, int numDis, int numReg)
 			throws IOException {
 		XmlDisplay regdisplay = new XmlDisplay(reg, getCurrentOutfile(),
-				"Edit regular out file", numReg);
+				"Edit regular out file");
 		regdisplay.show();
 
 		XmlDisplay disdisplay = new XmlDisplay(dis, getCurrentDisambigFile(),
-				"Edit disambiguation file", numDis);
+				"Edit disambiguation file");
 		disdisplay.show();
 	}
 
@@ -1125,13 +1250,6 @@ public final class Main implements ActionListener {
 		writeDialog.setVisible(true);
 	}
 
-	// shows the options dialog
-	// operations from the main screen
-	/*
-	 * public void showOptions() { ConfigDialog configDialog = new
-	 * ConfigDialog(this.frame); configDialog.show(); }
-	 */
-
 	// shows the load file directory dialog
 	private String loadFile(Frame f, String title, String fileType) {
 		String fn = getCurrentFilename();
@@ -1204,13 +1322,23 @@ public final class Main implements ActionListener {
 
 	private String getAllRules() {
 		StringBuilder sb = new StringBuilder();
-		if (ruleStrings == null) {
+		if (ruleStrings == null || rulesBox.getSelectedItem() == null) {
 			return "";
 		}
 		for (String r : ruleStrings) {
 			sb.append(r);
 		}
 		return sb.toString();
+	}
+	
+	public void showOriginalRuleFile() {
+		if (filename == null) {
+			return;
+		}
+		String f = readFileAsString(filename);
+		XmlDisplay regdisplay = new XmlDisplay(f, filename, "Edit existing rules file");
+		regdisplay.show();
+		
 	}
 
 	public void displayAboutDialog() {
@@ -1263,175 +1391,24 @@ public final class Main implements ActionListener {
 		return sb.toString();
 	}
 
-	class CloseListener implements WindowListener {
-
-		@Override
-		public void windowClosing(WindowEvent e) {
-			quit();
-		}
-		@Override
-		public void windowActivated(WindowEvent e) {}
-		@Override
-		public void windowClosed(WindowEvent e) {}
-		@Override
-		public void windowDeactivated(WindowEvent e) {}
-		@Override
-		public void windowDeiconified(WindowEvent e) {}
-		@Override
-		public void windowIconified(WindowEvent e) {}
-		@Override
-		public void windowOpened(WindowEvent e) {}
+	public void cutSelectedText() {
+		resultArea.cut();
 	}
+	
+	public void copySelectedText() {
+		resultArea.copy();
+	}
+	
+	public void pasteText() {
+		resultArea.paste();
+	}
+	
 
-	/*
-	 * ActionListener {
-	 * 
-	 * private JDialog dialog;
-	 * 
-	 * private JComboBox optionsRuleType; private JTextPane ruleFilePane;
-	 * private JButton changeRuleFile; private JComboBox
-	 * optionsSpecificRuleTypeBox; private JTextPane outFilePane; private
-	 * JTextPane disambigOutFilePane; private JButton okButton; private JButton
-	 * cancelButton; private JButton tieFilenamesButton;
-	 * 
-	 * private Frame owner;
-	 * 
-	 * public ConfigDialog(Frame owner) { this.owner = owner; }
-	 * 
-	 * public void show() { dialog = new JDialog(owner,true);
-	 * dialog.setTitle("Rule Converter Options"); // close window on escape
-	 * final KeyStroke escStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE,
-	 * 0); final ActionListener actionListener = new ActionListener() {
-	 * 
-	 * @Override public void actionPerformed(ActionEvent actionEvent) {
-	 * dialog.setVisible(false); } }; final JRootPane rootPane =
-	 * dialog.getRootPane(); rootPane.registerKeyboardAction(actionListener,
-	 * escStroke, JComponent.WHEN_IN_FOCUSED_WINDOW); // press ctrl+enter to
-	 * OK-exit final KeyStroke enterStroke =
-	 * KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,KeyEvent.CTRL_MASK); final
-	 * ActionListener actionListener2 = new ActionListener() {
-	 * 
-	 * @Override public void actionPerformed(ActionEvent e) {
-	 * okButton.doClick(); } }; rootPane.registerKeyboardAction(actionListener2,
-	 * enterStroke, JComponent.WHEN_IN_FOCUSED_WINDOW);
-	 * 
-	 * // initialize the objects ruleFilePane = new JTextPane();
-	 * ruleFilePane.setText(new File(getCurrentFilename()).getAbsolutePath());
-	 * final JLabel rfpLabel = new JLabel("Current rule file:"); changeRuleFile
-	 * = new JButton("Browse"); changeRuleFile.addActionListener(this);
-	 * 
-	 * optionsRuleType = new JComboBox(); optionsRuleType.addItem(cgString);
-	 * optionsRuleType.addItem(atdString);
-	 * optionsRuleType.setSelectedItem(ruleTypeBox.getSelectedItem());
-	 * optionsRuleType.addActionListener(new ActionListener() {
-	 * 
-	 * @Override public void actionPerformed(ActionEvent arg0) {
-	 * populateSpecificRuleType(); } }); final JLabel ortLabel = new
-	 * JLabel("Current rule type:");
-	 * 
-	 * optionsSpecificRuleTypeBox = new JComboBox();
-	 * populateOptionsSpecificRuleType(); try {
-	 * optionsSpecificRuleTypeBox.setSelectedItem(specificFileType); } catch
-	 * (Exception e) { // nothing } final JLabel srtLabel = new
-	 * JLabel("Specific rule type");
-	 * 
-	 * 
-	 * outFilePane = new JTextPane(); outFilePane.setText(new
-	 * File(outfilename).getAbsolutePath()); final JLabel ofpLabel = new
-	 * JLabel("Current output grammar file:"); disambigOutFilePane = new
-	 * JTextPane(); disambigOutFilePane.setText(new
-	 * File(disambigOutFile).getAbsolutePath()); final JLabel dofpLabel = new
-	 * JLabel("Current disambiguation file:");
-	 * 
-	 * tieFilenamesButton = new JButton("Tie output filenames to input files");
-	 * tieFilenamesButton.setMnemonic('t');
-	 * tieFilenamesButton.addActionListener(new ActionListener() {
-	 * 
-	 * @Override public void actionPerformed(ActionEvent e) { if (e.getSource()
-	 * == tieFilenamesButton) { String fn = ruleFilePane.getText(); outfilename
-	 * = fn + ".grammar.xml"; disambigOutFile = fn + ".disambig.xml";
-	 * outFilePane.setText(outfilename);
-	 * disambigOutFilePane.setText(disambigOutFile); } } });
-	 * 
-	 * okButton = new JButton("OK"); okButton.addActionListener(this);
-	 * okButton.setMnemonic('o'); cancelButton = new JButton("Cancel");
-	 * cancelButton.addActionListener(this);
-	 * 
-	 * // place the objects final Container contentPane =
-	 * dialog.getContentPane(); GridBagLayout layout = new GridBagLayout();
-	 * 
-	 * layout.rowWeights = new double[]{10f,10f,10f,10f,10f,10f,10f};
-	 * layout.rowHeights = new int[]{110,90,90,110,110,110,110};
-	 * contentPane.setLayout(layout); GridBagConstraints cons = new
-	 * GridBagConstraints(); cons.fill = GridBagConstraints.BOTH;
-	 * 
-	 * cons.gridx = 0; cons.gridy = 0; cons.anchor = GridBagConstraints.EAST;
-	 * contentPane.add(rfpLabel,cons); cons.gridx = 1; cons.gridy = 0;
-	 * cons.anchor = GridBagConstraints.WEST;
-	 * contentPane.add(ruleFilePane,cons); cons.gridx = 2; cons.gridy = 0;
-	 * cons.anchor = GridBagConstraints.CENTER;
-	 * contentPane.add(changeRuleFile,cons); cons.gridx = 0; cons.gridy = 1;
-	 * cons.anchor = GridBagConstraints.EAST; contentPane.add(ortLabel,cons);
-	 * cons.gridx = 1; cons.gridy = 1; cons.anchor = GridBagConstraints.WEST;
-	 * contentPane.add(optionsRuleType,cons); cons.gridx = 0; cons.gridy = 2;
-	 * cons.anchor = GridBagConstraints.EAST; contentPane.add(srtLabel,cons);
-	 * cons.gridx = 1; cons.gridy = 2; cons.anchor = GridBagConstraints.WEST;
-	 * contentPane.add(optionsSpecificRuleTypeBox,cons); cons.gridx = 0;
-	 * cons.gridy = 3; cons.anchor = GridBagConstraints.EAST;
-	 * contentPane.add(ofpLabel,cons); cons.gridx = 1; cons.gridy = 3;
-	 * cons.gridwidth = 2; cons.anchor = GridBagConstraints.WEST;
-	 * contentPane.add(outFilePane,cons); cons.gridx = 0; cons.gridy = 4;
-	 * cons.gridwidth = 2; cons.anchor = GridBagConstraints.EAST;
-	 * contentPane.add(dofpLabel,cons); cons.gridx = 1; cons.gridy = 4;
-	 * cons.gridwidth = 2; cons.anchor = GridBagConstraints.WEST;
-	 * contentPane.add(disambigOutFilePane,cons); cons.gridx = 0; cons.gridy =
-	 * 5; cons.gridwidth = 2; contentPane.add(tieFilenamesButton,cons);
-	 * 
-	 * 
-	 * JPanel panel = new JPanel(); panel.setLayout(new GridBagLayout());
-	 * GridBagConstraints panelCons = new GridBagConstraints(); panelCons.gridx
-	 * = 0; panelCons.gridy = 0; panelCons.anchor =
-	 * GridBagConstraints.SOUTHWEST; panel.add(cancelButton,panelCons);
-	 * panelCons.gridx = 1; panelCons.anchor = GridBagConstraints.SOUTHEAST;
-	 * panel.add(okButton,panelCons);
-	 * 
-	 * cons.gridx = 0; cons.gridy = 6; cons.gridwidth = 3; cons.ipady = 300;
-	 * contentPane.add(panel,cons);
-	 * 
-	 * 
-	 * dialog.pack(); dialog.setSize(500, 500); final Dimension screenSize =
-	 * Toolkit.getDefaultToolkit().getScreenSize(); final Dimension frameSize =
-	 * dialog.getSize(); dialog.setLocation(screenSize.width / 2 -
-	 * frameSize.width / 2, screenSize.height / 2 - frameSize.height / 2);
-	 * dialog.setVisible(true); }
-	 * 
-	 * private void populateOptionsSpecificRuleType() { String[] ft =
-	 * getCurrentRuleConverterOptions().getAcceptableFileTypes();
-	 * optionsSpecificRuleTypeBox.removeAllItems(); for (String s : ft) {
-	 * optionsSpecificRuleTypeBox.addItem(s); } }
-	 * 
-	 * private RuleConverter getCurrentRuleConverterOptions() { RuleConverter rc
-	 * = null; String type = (String)optionsRuleType.getSelectedItem();
-	 * 
-	 * if (type.equals(atdString)) { rc = new
-	 * AtdRuleConverter(getCurrentFilename(), null, "default"); } else if
-	 * (type.equals(cgString)) { rc = new CgRuleConverter(getCurrentFilename(),
-	 * null, "default"); } return rc; }
-	 * 
-	 * @Override public void actionPerformed(ActionEvent e) { if (e.getSource()
-	 * == okButton) {
-	 * ruleTypeBox.setSelectedItem(optionsRuleType.getSelectedItem()); filename
-	 * = ruleFilePane.getText(); mainRuleFilePane.setText(filename); outfilename
-	 * = outFilePane.getText(); disambigOutFile = disambigOutFilePane.getText();
-	 * specificFileType = (String)optionsSpecificRuleTypeBox.getSelectedItem();
-	 * dialog.setVisible(false); } else if (e.getSource() == cancelButton) {
-	 * dialog.setVisible(false); } else if (e.getSource() == changeRuleFile) {
-	 * String optionsFilename = loadFile(this.owner, "Load rule file", null);
-	 * ruleFilePane.setText(optionsFilename); }
-	 * 
-	 * } }
+	/**
+	 * Creates an XML display dialog to show rules with proper syntax highlighting
+	 * @author mbryant
+	 *
 	 */
-
 	class XmlDisplay implements ActionListener {
 
 		private JFrame xmlframe;
@@ -1441,15 +1418,12 @@ public final class Main implements ActionListener {
 		private JButton cancel;
 		private String text;
 		private String title;
-		private String filename;
-		private int numRules;
+		private String fn;
 
-		public XmlDisplay(String text, String filename, String title,
-				int numRules) {
+		public XmlDisplay(String text, String filename, String title) {
 			this.text = text;
-			this.filename = filename;
+			this.fn = filename;
 			this.title = title;
-			this.numRules = numRules;
 		}
 
 		public boolean isVisible() {
@@ -1480,11 +1454,15 @@ public final class Main implements ActionListener {
 			cancel.addActionListener(this);
 			cancel.setMnemonic('C');
 
+			c.gridwidth = 2;
 			contentPane.add(scrollpane, c);
 			c.gridy = 1;
 			c.weighty = 0;
+			c.gridwidth = 1;
 			c.fill = GridBagConstraints.NONE;
 			contentPane.add(done, c);
+			c.gridx = 1;
+			contentPane.add(cancel, c);
 
 			final JRootPane rootPane = xmlframe.getRootPane();
 			final KeyStroke escStroke = KeyStroke.getKeyStroke(
@@ -1522,11 +1500,10 @@ public final class Main implements ActionListener {
 			if (!this.text.isEmpty()) {
 				try {
 					PrintWriter w = new PrintWriter(new OutputStreamWriter(
-							new FileOutputStream(filename), "UTF-8"));
+							new FileOutputStream(fn), "UTF-8"));
 					w.write(this.text);
 					w.close();
-					showDialog(Integer.toString(numRules)
-							+ " rules written to " + filename, null);
+					showDialog("Written to " + fn, null);
 				} catch (IOException e) {
 					showError(e);
 				}
@@ -1543,7 +1520,26 @@ public final class Main implements ActionListener {
 				xmlframe.setVisible(false);
 			}
 		}
+	}
+	
+	class CloseListener implements WindowListener {
 
+		@Override
+		public void windowClosing(WindowEvent e) {
+			quit();
+		}
+		@Override
+		public void windowActivated(WindowEvent e) {}
+		@Override
+		public void windowClosed(WindowEvent e) {}
+		@Override
+		public void windowDeactivated(WindowEvent e) {}
+		@Override
+		public void windowDeiconified(WindowEvent e) {}
+		@Override
+		public void windowIconified(WindowEvent e) {}
+		@Override
+		public void windowOpened(WindowEvent e) {}
 	}
 
 }

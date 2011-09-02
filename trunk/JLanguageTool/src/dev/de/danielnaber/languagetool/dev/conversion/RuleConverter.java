@@ -58,13 +58,12 @@ public abstract class RuleConverter {
     protected int nameIndex;
     
     // these should be able to be set depending on the language
-    protected static String SENT_START = "SENT_START";
-    protected static String SENT_END = "SENT_END";
+    protected String SENT_START = "SENT_START";
+    protected String SENT_END = "SENT_END";
     
     // to check identities
     private static Pattern regex = Pattern.compile("[\\.\\^\\$\\*\\+\\?\\{\\}\\[\\]\\|\\(\\)]");
     
-    // the 
     public static String xmlHeader = 
         "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
         "<?xml-stylesheet type=\"text/xsl\" href=\"../print.xsl\" ?>\n" +
@@ -99,31 +98,25 @@ public abstract class RuleConverter {
         nameIndex = 0;
     }
     
+    public List<? extends Object> getRules() {return this.ruleObjects;}
+    public ArrayList<List<String>> getAllLtRules() {return this.allLtRules;}
+    public ArrayList<List<String>> getLtRules() {return this.ltRules;}
+    public ArrayList<List<String>> getDisambiguationRules() {return this.disambiguationRules;}
+    public ArrayList<String> getOriginalRuleStrings() {return this.originalRuleStrings;}
+    public ArrayList<String[]> getWarnings() {return this.warnings;}
+    public String getInFile() {return inFileName;}
+    public String getOutFile() {return outFileName;}
+    public String getFileType() {return ruleType;}
+    public String getSentStart() {return this.SENT_START;}
+    public String getSentEnd() {return this.SENT_END;}
+    
+    public void setInFile(String filename) {this.inFileName = filename;}
+    public void setOutFile(String filename) {this.outFileName = filename;}
+    public void setFileType(String fileType) {this.ruleType = fileType;}
+    public void setSentStart(String sent_start) {this.SENT_START = sent_start;}
+    public void setSentEnd(String sent_end) {this.SENT_END = sent_end;}
+    
     // Abstract methods
-    
-    public List<? extends Object> getRules() {
-    	return this.ruleObjects;
-    }
-    
-    public ArrayList<List<String>> getAllLtRules() {
-    	return this.allLtRules;
-    }
-    
-    public ArrayList<List<String>> getLtRules() {
-    	return this.ltRules;
-    }
-    
-    public ArrayList<List<String>> getDisambiguationRules() {
-    	return this.disambiguationRules;
-    }
-    
-    public ArrayList<String> getOriginalRuleStrings() {
-    	return this.originalRuleStrings;
-    }
-    
-    public ArrayList<String[]> getWarnings() {
-    	return this.warnings;
-    }
     
     /**
      * The main method: parses the input file and populates the rule lists
@@ -162,20 +155,6 @@ public abstract class RuleConverter {
      * @return
      */
     public abstract boolean isDisambiguationRule(Object ruleObject);
-    
-    // Get methods
-    public String getInFile() {return inFileName;}
-    
-    public String getOutFile() {return outFileName;}
-    
-    public String getFileType() {return ruleType;}
-    
-    // Set methods
-    public void setInFile(String filename) {this.inFileName = filename;}
-    
-    public void setOutFile(String filename) {this.outFileName = filename;}
-    
-    public void setFileType(String fileType) {this.ruleType = fileType;}
     
     /**
      * Takes a LT rule list and elements of a token, and adds the proper <token> element to the rule list.
@@ -270,6 +249,8 @@ public abstract class RuleConverter {
         }
         return returnList;
     }
+    
+    
     
     /**
      * returns if the string contains a character that might indicate it's a regex

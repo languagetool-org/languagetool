@@ -125,7 +125,7 @@ public class AtdRuleConverter extends RuleConverter {
         for (Object ruleObject : ruleObjects) {
         	String ruleString = (String)ruleObject;
         	HashMap<String,String> ruleMap = parseRule(ruleString);
-        	List<String> ruleAsList = ltRuleAsList(ruleMap,getIdFromName(ruleMap.get("name")),ruleMap.get("name"),this.ruleType);
+        	List<String> ruleAsList = ltRuleAsList(ruleMap,getIdFromName(ruleMap.get("name")),fixName(ruleMap.get("name")),this.ruleType);
         	if (notKilledRule(ruleMap)) {
         		ltRules.add(ruleAsList);
         	} else {
@@ -334,6 +334,11 @@ public class AtdRuleConverter extends RuleConverter {
     	name = name.replaceAll("\\ +", "_");
     	name = name.replaceAll("<|>|!|&|\\.|\\*|\\+|/|\\[.*?\\]","");
     	name = name.toUpperCase();
+    	return name;
+    }
+    
+    private String fixName(String name) {
+    	name = name.replaceAll("<|>|!|&|\\.|\\*|\\+|/|\\[.*?\\]","");
     	return name;
     }
     
@@ -875,49 +880,6 @@ public class AtdRuleConverter extends RuleConverter {
     	}
     	return map;
     }
-    
-    /*
-    private String fixApostrophesSuggestion(String sugg, String[] oldp) {
-    	String[] splitS = sugg.split(",");
-    	
-    	for (int i=0;i<splitS.length;i++) {
-    		String curs = splitS[i];
-    		String[] sc = curs.split("\\ +");
-    		ArrayList<String> newSuggestion = new ArrayList<String>();
-    		int numBump = 0;
-    		for (int j=0;j<sc.length;j++) {
-    			String e = sc[j];
-    			int numMatched = getReference(e);
-    			if (numMatched != -1) {
-    				String transform = getTransformString(e);
-        			if (oldp[numMatched].contains("'")) {
-        				String[] newElements = oldp[numMatched].replaceAll("'", " ' ").split("\\ +");
-        				numBump = newElements.length;
-        				for (int k=0;k<newElements.length;k++) {
-        					newSuggestion.add("\\\\" + numMatched++ + transform);
-        				}
-        			} else {
-        				newSuggestion.add("\\\\" + (numMatched + numBump - 1) + transform);
-        			}
-    			} else {
-    				newSuggestion.add(e);
-    			}
-    			
-    		}
-    		StringBuilder sb = new StringBuilder();
-    		for (String s : newSuggestion) {
-    			sb.append(s + " ");
-    		}
-    		splitS[i] = sb.toString().trim();
-    	}
-    	StringBuilder sb = new StringBuilder();
-    	for (String s : splitS) {
-    		sb.append(s + ",");
-    	}
-    	String retString = sb.toString();
-    	return retString.substring(0, retString.length() - 1);
-    }
-    */
     
     /**
      * @param e: AtD token

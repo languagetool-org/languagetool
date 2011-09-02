@@ -39,10 +39,13 @@ import morfologik.stemming.DictionaryIterator;
 import morfologik.stemming.DictionaryLookup;
 import morfologik.stemming.IStemmer;
 import morfologik.stemming.WordData;
+
+import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.rules.patterns.Element;
+import de.danielnaber.languagetool.rules.patterns.Match;
 import de.danielnaber.languagetool.rules.patterns.PatternRule;
 import de.danielnaber.languagetool.rules.patterns.PatternRuleLoader;
 import de.danielnaber.languagetool.dev.conversion.RuleConverter;
@@ -61,7 +64,6 @@ public class RuleCoverage {
     private String endCategoriesString = "</category>";
     private String endRulesString = "</rules>"; 
     
-    private static Pattern punctuationSetRegex = Pattern.compile("^\\[(\\p{P})+\\]$",Pattern.UNICODE_CASE);
     private static Pattern regexSet = Pattern.compile("^\\[([^\\-])*?\\]$");
 
     // default constructor; defaults to English
@@ -106,7 +108,7 @@ public class RuleCoverage {
     public void evaluateRules(String grammarfile) throws IOException {
         List<PatternRule> rules = loadPatternRules(grammarfile);
         for (PatternRule rule : rules) {
-            String example = generateExample(rule);
+            String example = generateIncorrectExample(rule);
             System.out.println("Rule " + rule.getId() + " is covered by " + isCoveredBy(example) + " for example " + example);
         }
     }
@@ -121,7 +123,7 @@ public class RuleCoverage {
     	
         
     	for (PatternRule rule : rules) {
-    		String example = generateExample(rule);
+    		String example = generateIncorrectExample(rule);
     		if (isCoveredBy(example) == null) {
     			w.write(rule.toXML());
     		} else {
@@ -169,9 +171,9 @@ public class RuleCoverage {
     
     public String[] isCoveredBy(PatternRule rule) throws IOException {
     	ArrayList<String> coverages = new ArrayList<String>();
-    	String example = generateExample(rule);
-    	List<RuleMatch> matches = tool.check(example);
-    	if (matches.size() > 0) {
+    	String example = generateIncorrectExample(rule);
+		List<RuleMatch> matches = tool.check(example);
+		if (matches.size() > 0) {
     		for (RuleMatch match : matches) {
     			coverages.add(match.getRule().getId());
     		}
@@ -193,7 +195,7 @@ public class RuleCoverage {
      * @param pattern
      * @return
      */
-    public String generateExample(PatternRule patternrule) {
+    public String generateIncorrectExample(PatternRule patternrule) {
         ArrayList<String> examples = new ArrayList<String>();
         List<Element> elements = patternrule.getElements();
         for (int i=0;i<elements.size();i++) {
@@ -212,8 +214,52 @@ public class RuleCoverage {
         for (String example : examples) {
         	sb.append(example + " ");
         }
-        return sb.toString().replaceAll("\\ \\.\\ ", ".").trim();	// to fix the period problem
+        String s = sb.toString().replaceAll("\\ \\.\\ ", ".").trim();	// to fix the period problem 
+        return s;
     }
+    
+    // Not using this method yet
+//    public String generateCorrectExample(PatternRule patternrule) {
+//    	String incorrectExample = generateIncorrectExample(patternrule);
+//    	AnalyzedSentence analyzedSentence = null;
+//    	try {
+//    		analyzedSentence = tool.getAnalyzedSentence(incorrectExample);
+//    		RuleMatch[] ruleMatches = patternrule.match(analyzedSentence);
+//    		for (RuleMatch rm : ruleMatches) {
+//    			patternrule.addRuleMatch(rm);
+//    		}
+//    	} catch (IOException e) {
+//    		e.printStackTrace();
+//    	}
+//
+//    	ArrayList<String> examples = new ArrayList<String>();
+//    	List<Match> matches = patternrule.getSuggestionMatches();
+//    	ArrayList<Element> elements = new ArrayList<Element>();
+//    	for (Match m : matches) {
+//    		int ref = m.getTokenRef();
+//    		Element refElement = patternrule.getElements().get(ref);
+//    		elements.add(refElement);
+//    	}
+//    	for (int i=0;i<elements.size();i++) {
+//        	List<Element> prevExceptions;
+//        	if (i == elements.size()-1) {
+//        		prevExceptions = new ArrayList<Element>();
+//        	} else {
+//        		prevExceptions = elements.get(i+1).getPreviousExceptionList();
+//        		if (prevExceptions == null) prevExceptions = new ArrayList<Element>();
+//        	}
+//            examples.add(getSpecificExample(elements.get(i),prevExceptions,elements,examples));
+//        }
+//        // it's okay to not deal with apostrophes as long as we turn off the unpaired brackets rule, for English at least
+//        StringBuilder sb = new StringBuilder();
+//        //TODO: doesn't deal with spacebefore=no
+//        for (String example : examples) {
+//        	sb.append(example + " ");
+//        }
+//        String s = sb.toString().replaceAll("\\ \\.\\ ", ".").trim();	// to fix the period problem 
+//        return s;
+//    }
+//    
     
     /**
      * Generates a word that matches the given Element 
@@ -673,7 +719,12 @@ public class RuleCoverage {
     	return (!e.getString().isEmpty() && !e.isRegularExpression() && !e.getNegation() && e.getExceptionList() == null);
     }
     
-    //TODO: doesn't really work for other languages, things like [’´'‛′‘] don't get caught here
+    /**
+     * Returns true if the given element's string is a regex set of punctuation.
+     * e.g. ['"] or [.,;:?!]
+     * @param e
+     * @return
+     */
     public static boolean isPunctuation(Element e) {
     	if (regexSet.matcher(e.getString()).matches() && !e.getNegation() && e.getPOStag() == null) {
     		return true;
@@ -681,6 +732,11 @@ public class RuleCoverage {
     	return false;
     }
     
+    /**
+     * Grabs the first element of a punctuation set matched by the above method.
+     * @param e
+     * @return
+     */
     public String getOnePunc(Element e) {
     	String set = e.getString();
     	Matcher m = regexSet.matcher(set);
@@ -726,6 +782,8 @@ public class RuleCoverage {
     	}
     	return true; 
     }
+    
+    // ** DICTIONARY METHODS ** 
     
     private DictionaryIterator resetDictIter() {
         DictionaryIterator ret = null;
@@ -779,6 +837,20 @@ public class RuleCoverage {
     public List<PatternRule> parsePatternRule(final String ruleString) {
     	final PatternRuleLoader ruleLoader = new PatternRuleLoader();
     	String ruleFileString = ruleFileHeader + categoriesString + ruleString + endCategoriesString + endRulesString;
+    	InputStream is = new ByteArrayInputStream(ruleFileString.getBytes());
+    	try {
+    		return ruleLoader.getRules(is,null);
+    	} catch (IOException e) {
+    		return new ArrayList<PatternRule>();
+    	}
+    }
+    
+    public List<PatternRule> parsePatternRuleExtraTokens(final String ruleString) {
+    	String rs = ruleString;
+    	rs = rs.replace("<pattern>\n", "<pattern>\n<token/>\n");
+		rs = rs.replace("</pattern>\n", "<token/>\n</pattern>\n");
+    	final PatternRuleLoader ruleLoader = new PatternRuleLoader();
+    	String ruleFileString = ruleFileHeader + categoriesString + rs + endCategoriesString + endRulesString;
     	InputStream is = new ByteArrayInputStream(ruleFileString.getBytes());
     	try {
     		return ruleLoader.getRules(is,null);

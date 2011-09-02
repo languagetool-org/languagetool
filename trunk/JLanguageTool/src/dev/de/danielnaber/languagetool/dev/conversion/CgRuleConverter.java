@@ -1037,7 +1037,8 @@ public class CgRuleConverter extends RuleConverter {
 		}
 		// SELECT
 		else if (type.equals("K_SELECT")) {
-			ltRule.add(firstIndent + "<disambig action=\"replace\"><match no=\"" + (mark + 1) + "\" postag=\"" + replaceRegexp(target) + "\" postag_regexp=\"yes\"/></disambig>");
+			//TODO: needs filtering on lemmas implemented
+			ltRule.add(firstIndent + filterTarget(target, mark + 1));
 		} 
 		// MAP
 		else if (type.equals("K_MAP")) {
@@ -1507,6 +1508,35 @@ public class CgRuleConverter extends RuleConverter {
 		return sb.toString();
 	}
 	
+	public static String filterTarget(CgSet target, int targetNo) {
+		// <match no=\"" + (mark + 1) + "\" postag=\"" + replaceRegexp(target) + "\" postag_regexp=\"yes\"/>
+		StringBuilder sb = new StringBuilder();
+		
+		String[] lemmas = cleanForms(target.getSingleTagBaseformsString());
+		String[] postags = cleanForms(target.getPostagsString());
+		CgCompositeTag[] compositeTags = target.getCompositeTags();
+		String[] surfaceforms = cleanForms(target.getSingleTagSurfaceformsString());
+		
+		if (lemmas.length > 0 && (compositeTags.length > 0 || postags.length > 0 || surfaceforms.length > 0)) {
+			System.err.println("Error: something went wrong here.");
+		}
+		
+		// assumes there can't be both lemmas and postags
+		if (lemmas.length > 0) {
+			sb.append("<disambig action=\"filter\"><match no=\"" + targetNo + "\">" + glueWords(lemmas) + "</match></disambig>");
+		}
+		if (postags.length > 0) {
+			String postagRegexp = "";
+			if (isRegex(glueWords(postags))) {
+				postagRegexp = " postag_regexp=\"yes\"";
+			}
+			sb.append("<disambig postag=\"" + glueWords(postags) + "\"" + postagRegexp + "/>");
+		}
+		
+		return sb.toString();
+		
+	}
+	
 	// formats the target for use with disambiguation action="remove" keyword
 	// assuming they support regular expressions, which they currently don't but kind of have to in order to work
 	public static String removeTarget(CgSet target) {
@@ -1520,6 +1550,13 @@ public class CgRuleConverter extends RuleConverter {
 		
 		if (lemmas.length > 0 && (compositeTags.length > 0 || postags.length > 0 || surfaceforms.length > 0)) {
 			System.err.println("Error: something went wrong here.");
+		}
+		
+		if (lemmas.length > 0) {
+			sb.append("lemma=" + glueWords(lemmas));
+		}
+		if (postags.length > 0) {
+			sb.append("pos=\"" + glueWords(postags) + "\"");
 		}
 		
 		sb.append("/>");
@@ -1548,24 +1585,36 @@ public class CgRuleConverter extends RuleConverter {
 	// ** LANGUAGE-DEPENDENT METHODS **
 	
 	public static String postagsToString(String[] postags) {
+		
 		if (postags.length == 0) {
 			return "";
 		}
+		/*
 		StringBuilder sb = new StringBuilder();
 		sb.append("(.*" + tagDelimiter + ")?");
 		String postagsGlued = glueWords(postags);
 		sb.append(postagsGlued);
 		sb.append("(" + tagDelimiter + ".*)?");
-		return sb.toString();
+		*/
+		// The simplest possible way to do this
+		StringBuilder sb = new StringBuilder();
+		for (String pos : postags) {
+			sb.append(pos + "|");
+		}
+		String ret = sb.toString();
+		return ret.substring(0,ret.length() - 1);
 	}
 	
 	public static String toStringRegexpFormat(String t) {
+		/*
 		StringBuilder sb = new StringBuilder();
 		sb.append("^(.*" + tagDelimiter + ")?");
 		sb.append(t);
 		sb.append("(" + tagDelimiter + ".*)?$");
-		
 		return sb.toString();
+		*/
+		return t;
+		
 	}
 	
 	//TODO: only a stand-in for now; depends on the language-specific multiple-tag string representation
@@ -1573,6 +1622,7 @@ public class CgRuleConverter extends RuleConverter {
 	// some complicated regex stuff going on here.
 	// only should be applied to composite postags. Composite tags with postags + s/b-forms get split in different ways
 	public static String compositePostagToString(CgCompositeTag ctag) {
+		/*
 		StringBuilder sb = new StringBuilder();
 		String gluedPostag = "";
 		int noComponents = 0;
@@ -1591,6 +1641,17 @@ public class CgRuleConverter extends RuleConverter {
 			}			
 		}
 		sb.append("(" + tagDelimiter + ".*)?$");
+		*/
+		// The simplest possible way to represent this
+		StringBuilder sb = new StringBuilder();
+		for (CgTag tag : ctag.tags) {
+			if (isPostag(tag.tag)) {
+				sb.append(tag.tag);
+				sb.append(tagDelimiter);
+			}
+		}
+		sb.deleteCharAt(sb.length() - 1);
+		sb.append(".*");
 		return sb.toString();
 	}
 	
@@ -1615,6 +1676,7 @@ public class CgRuleConverter extends RuleConverter {
 		
 		return sb.toString();
 		*/
+		// The simplest possible way to do this
 		return tag.tag;
 	}
 	

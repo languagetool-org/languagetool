@@ -25,8 +25,6 @@ public class CgSet {
     public ArrayList<CgCompositeTag.AnyTag> tags_list;
     public HashSet<CgTag> ff_tags;
     
-    private static String baseformRegex = "\"[^<].*[^>]\"r?i?";
-    private static String surfaceformRegex = "\"\\<.*\\>\"r?i?";
     
     // default constructor - sets none of the important fields
     public CgSet() {
@@ -135,7 +133,7 @@ public class CgSet {
     	if (!this.single_tags.isEmpty()) {
     		for (CgTag tag : this.single_tags) {
     			String tagtag = tag.tag;
-    			if (tagtag.matches(baseformRegex)) forms.add(tagtag);
+    			if (CgRuleConverter.isBaseForm(tagtag)) forms.add(tagtag);
     		}
     	}
     	return forms.toArray(new String[forms.size()]);
@@ -145,7 +143,7 @@ public class CgSet {
     	ArrayList<CgTag> forms = new ArrayList<CgTag>();
     	if (!this.single_tags.isEmpty()) {
     		for (CgTag tag : this.single_tags) {
-    			if (tag.tag.matches(baseformRegex)) forms.add(tag);
+    			if (CgRuleConverter.isBaseForm(tag.tag)) forms.add(tag);
     		}
     	}
     	return forms.toArray(new CgTag[forms.size()]);
@@ -156,7 +154,7 @@ public class CgSet {
     	if (!this.single_tags.isEmpty()) {
     		for (CgTag tag : this.single_tags) {
     			String tagtag = tag.tag;
-    			if (tagtag.matches(surfaceformRegex)) forms.add(tagtag);
+    			if (CgRuleConverter.isSurfaceForm(tagtag)) forms.add(tagtag);
     		}
     	}
     	return forms.toArray(new String[forms.size()]);
@@ -167,7 +165,7 @@ public class CgSet {
     	if (!this.single_tags.isEmpty()) {
     		for (CgTag tag : this.single_tags) {
     			String tagtag = tag.tag;
-    			if (tagtag.matches(surfaceformRegex)) forms.add(tag);
+    			if (CgRuleConverter.isSurfaceForm(tagtag)) forms.add(tag);
     		}
     	}
     	return forms.toArray(new CgTag[forms.size()]);
@@ -200,7 +198,7 @@ public class CgSet {
     	if (!this.single_tags.isEmpty()) {
     		for (CgTag tag : this.single_tags) {
     			String tagtag = tag.tag;
-    			if (tagtag.matches(surfaceformRegex)) {
+    			if (CgRuleConverter.isSurfaceForm(tagtag)) {
     				forms.add(tagtag);
     			}
     		}
@@ -209,7 +207,7 @@ public class CgSet {
     		for (CgCompositeTag ctag : this.tags) {
     			for (CgTag tag : ctag.tags) {
     				String tagtag = tag.tag;
-    				if (tagtag.matches(surfaceformRegex)) {
+    				if (CgRuleConverter.isSurfaceForm(tagtag)) {
     					forms.add(tagtag);
     				}
     			}
@@ -231,7 +229,7 @@ public class CgSet {
     	if (!this.single_tags.isEmpty()) {
     		for (CgTag tag : this.single_tags) {
     			String tagtag = tag.tag;
-    			if (tagtag.matches(baseformRegex)) {
+    			if (CgRuleConverter.isBaseForm(tagtag)) {
     				forms.add(tagtag);
     			}
     		}
@@ -240,7 +238,7 @@ public class CgSet {
     		for (CgCompositeTag ctag : this.tags) {
     			for (CgTag tag : ctag.tags) {
     				String tagtag = tag.tag;
-    				if (tagtag.matches(baseformRegex)) {
+    				if (CgRuleConverter.isBaseForm(tagtag)) {
     					forms.add(tagtag);
     				}
     			}
