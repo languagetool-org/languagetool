@@ -4658,6 +4658,103 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <afterbreak>\p{Lu}\p{Ll}</afterbreak>
 </rule>
 </languagerule>
+
+<languagerule languagerulename="Ukrainian">
+<rule break="no">
+<beforebreak>\b\d+\.\s</beforebreak>
+<afterbreak>\p{Ll}|\p{Lu}{2,}</afterbreak>
+</rule>
+<!-- capital char abbreviations А. Б. В. -->
+<rule break="no">
+<beforebreak>\b[А-Я]\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bҐ\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bЇ\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bЄ\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b[A-Z]\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b\p{L}\.</beforebreak>
+<afterbreak>\p{L}\.</afterbreak>
+</rule>
+<!-- date/time -->
+<rule break="no">
+<beforebreak>\b[0-9]+(р)\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b[XVILMC]+(ст)\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b[0-9]+(\.|:)[0-9][0-9]\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b[0-9]+(\.|:)[0-9][0-9](\.|:)[0-9][0-9]\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<!--Measures  -->
+<rule break="no">
+<beforebreak>\b[0-9]+(г|гг|грн|млн|млрд|руб|тис)\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<!-- other abbreviations  -->
+<rule break="no">
+<beforebreak>\b(в|вв|вул|г|гг|грн|млн|млрд|руб|ст|р|тис)\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+
+<rule break="no">
+<beforebreak>['"„][\.!?…]['"”]\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>[\u00AB][\.!?…][\u00BB]\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>[\[\(]*\.\.\.[\]\)]* </beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>[\[\(]*…[\]\)]* </beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>["”'\u00BB]\s*</beforebreak>
+<afterbreak>\s*\p{Ll}</afterbreak>
+</rule>
+<!-- break  -->
+<rule break="yes">
+<beforebreak>[\.!?…]['"\u00BB\u2019\u201D\u203A\u0002]*\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="yes">
+<beforebreak>\u005D\u005D\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="yes">
+<beforebreak>[\.!?…]['»"”\p{Pe}]*</beforebreak>
+<afterbreak>\p{Lu}[^\p{Lu}]</afterbreak>
+</rule>
+<rule break="yes">
+<beforebreak>\s\p{L}[\.!?…]\s</beforebreak>
+<afterbreak>\p{Lu}\p{Ll}</afterbreak>
+</rule>
+</languagerule>
 </languagerules>
 <maprules>
 <languagemap languagepattern="[a-z]{2}_one" languagerulename="ByLineBreak"></languagemap>
@@ -4675,6 +4772,7 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <languagemap languagepattern="(DE|de).*" languagerulename="German"></languagemap>
 <languagemap languagepattern="(DA|da).*" languagerulename="Danish"></languagemap>
 <languagemap languagepattern="(EO|eo).*" languagerulename="Esperanto"></languagemap>
+<languagemap languagepattern="(UK|uk).*" languagerulename="Ukrainian"></languagemap>
 <languagemap languagepattern=".*" languagerulename="Default"></languagemap>
 </maprules>
 </body>
