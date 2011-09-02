@@ -549,8 +549,7 @@ public final class Main implements ActionListener {
         sb.append("An error occurred while tagging the text: " + e.getMessage());
       }
       final String s = sb.toString().replaceAll("<S>", "SENT_START").replaceAll("</S>", "");
-
-      resultArea.setText(HTML_FONT_START + s + HTML_FONT_END);
+      resultArea.setText(HTML_FONT_START + StringTools.escapeHTML(s) + HTML_FONT_END);
     }
   }
 
