@@ -381,7 +381,7 @@ public final class Main implements ActionListener {
   
   void tagText() {
       final JLanguageTool langTool = getCurrentLanguageTool();
-      tagTextAndDisplayResults(langTool, getCurrentLanguage());
+      tagTextAndDisplayResults(langTool);
   }
 
   void quitOrHide() {
@@ -532,27 +532,24 @@ public final class Main implements ActionListener {
     }
   }
   
-  private void tagTextAndDisplayResults(final JLanguageTool langTool,
-       final Language lang) {
+  private void tagTextAndDisplayResults(final JLanguageTool langTool) {
       if (StringTools.isEmpty(textArea.getText().trim())) {
           textArea.setText(messages.getString("enterText2"));
       } else {
           // tag text
-          List<String> sentences = langTool.sentenceTokenize(textArea.getText());
+          final List<String> sentences = langTool.sentenceTokenize(textArea.getText());
           final StringBuilder sb = new StringBuilder();
           try {
               for (String sent : sentences) {
-                  AnalyzedSentence analyzedText = langTool.getAnalyzedSentence(sent);
+                  final AnalyzedSentence analyzedText = langTool.getAnalyzedSentence(sent);
                   sb.append(analyzedText.toString());
                   sb.append("\n");
               }
           } catch (IOException e) {
-              sb.append("An error occurred while tagging the text");
+              sb.append("An error occurred while tagging the text: " + e.getMessage());
           }
+          final String s = sb.toString().replaceAll("<S>", "SENT_START").replaceAll("</S>", "");
           
-          String s = sb.toString();
-          s = s.replaceAll("<S>","SENT_START");
-          // this prints out the text with strike-through? don't know why
           resultArea.setText(HTML_FONT_START + s + HTML_FONT_END);
       }
   }
