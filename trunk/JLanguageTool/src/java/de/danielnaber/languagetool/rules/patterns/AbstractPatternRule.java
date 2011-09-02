@@ -79,7 +79,7 @@ public abstract class AbstractPatternRule extends Rule {
     this.getUnified = getUnified;
     unifier = language.getUnifier();
     testUnification = initUnifier();
-    sentStart = patternElements.get(0).isSentStart();    
+    sentStart = patternElements.size() > 0 && patternElements.get(0).isSentStart();    
     if (!testUnification) {
       for (Element elem : patternElements) {
         if (elem.hasAndGroup()) {

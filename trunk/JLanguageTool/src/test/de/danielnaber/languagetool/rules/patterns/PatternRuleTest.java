@@ -58,6 +58,10 @@ public class PatternRuleTest extends TestCase {
     testGrammarRulesFromXML(null);
   }
 
+  public void testGrammarRulesFromXML2() throws IOException {
+    new PatternRule("-1", Language.ENGLISH, Collections.<Element>emptyList(), "", "", "");
+  }
+    
   public void testGrammarRulesFromXML(Set<Language> ignoredLanguages) throws IOException {
     for (final Language lang : Language.LANGUAGES) {
       if (ignoredLanguages != null && ignoredLanguages.contains(lang)) {
@@ -518,7 +522,7 @@ public class PatternRuleTest extends TestCase {
    * Test XML patterns, as a help for people developing rules that are not
    * programmers.
    */
-  public static void main(final String[] args) throws IOException {
+  public static void main2(final String[] args) throws IOException {
     final PatternRuleTest test = new PatternRuleTest();
     System.out.println("Running XML pattern tests...");
     test.setUp();
