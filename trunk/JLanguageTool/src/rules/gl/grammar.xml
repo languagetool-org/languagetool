@@ -344,8 +344,7 @@
       <rule>
         <pattern>
           <token regexp="yes">(entr)?amb[oa]s</token>
-          <!-- # HACK to avoid [ao]s as noun (barely used) (FIXME asap) # -->
-          <token postag="NC.P000" postag_regexp="yes"><exception postag="NC.*" regexp="yes">[oa]s</exception></token>
+          <token postag="NC.P000" postag_regexp="yes"><exception regexp="yes">[oa]s</exception></token>
         </pattern>
         <message>A forma "<match no="1"/>" require do artigo determinado cando vai diante dun substantivo. Quería vostede dicir <suggestion><match no="1" regexp_match="(?iu)amb([ao])s" regexp_replace="ámb$1l$1s"/> \2</suggestion> ou <suggestion><match no="1" regexp_match="(?iu)amb([ao])s" regexp_replace="amb$1s $1s"/> \2</suggestion>?</message>
         <short>Forma incorrecta</short>
@@ -354,16 +353,15 @@
         <example type="correct">Visitou <marker>ambas as cidades</marker> este ano.</example>
       </rule>
       <rule>
-        <pattern mark_to="-1">
+        <pattern>
           <token regexp="yes">tod[oa]s</token>
-          <!-- # HACK to avoid [ao]s as noun (barely used) (FIXME asap) # -->
-          <token postag="NC.P000" postag_regexp="yes"><exception postag="NC.*" regexp="yes">[oa]s</exception></token>
+          <token postag="NC.P000" postag_regexp="yes"><exception regexp="yes">[oa]s</exception></token>
         </pattern>
         <message>A forma "<match no="1"/>" require do artigo determinado cando vai diante dun substantivo. Quería vostede dicir <suggestion><match no="1" regexp_match="(?iu)tod([ao])s" regexp_replace="tód$1l$1s"/></suggestion> ou <suggestion><match no="1" regexp_match="(?iu)tod([ao])s" regexp_replace="tod$1s $1s"/></suggestion>?</message>
         <short>Forma incorrecta</short>
-        <example type="incorrect">De <marker>todos</marker> xeitos non importa moito.</example>
-        <example type="correct">De <marker>todos os</marker> xeitos non importa moito.</example>
-        <example type="correct">De <marker>tódolos</marker> xeitos non importa moito.</example>
+        <example type="incorrect">De <marker>todos xeitos</marker> non importa moito.</example>
+        <example type="correct">De <marker>todos os xeitos</marker> non importa moito.</example>
+        <example type="correct">De <marker>tódolos xeitos</marker> non importa moito.</example>
       </rule>
     </rulegroup>
 
