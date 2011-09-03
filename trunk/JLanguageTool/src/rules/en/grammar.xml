@@ -6,6 +6,11 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
+
+Portions of rules are converted from After The Deadline grammar checker, 
+available at http://open.afterthedeadline.com/, licensed under
+GNU GPL.
+
 $Id: grammar.xml,v 1.129 2010-11-13 23:24:21 dnaber Exp $
 -->
 <!--suppress CheckTagEmptyBody -->
@@ -2121,6 +2126,3117 @@ $Id: grammar.xml,v 1.129 2010-11-13 23:24:21 dnaber Exp $
       <example correction="zero-sum game" type="incorrect">It is a <marker>zero-sum gain</marker> when wages are held flat...</example>
       <example type="correct">It is a zero-sum game when wages are held flat...</example>
     </rule>
+  <!-- hasn't &irregular_verb::word=\0 \1:participle::pivots=\1,\1:participle -->
+  <rule id="HASNT_IRREGULAR_VERB" name="hasnt followed by irregular past tense verb">
+    <pattern>
+      <token regexp="yes">hasn|weren|hadn|haven</token>
+      <token>'</token>
+      <token>t</token>
+      <token regexp="yes">abide|abode|alight|arise|arose|ate|awake|awoke|be|bear|became|befall|befell|began|beget|begin|begot|behold|bend|beseech|betake|bethink|betook|bind|bit|bite|bleed|blew|blow|bore|break|breed|bring|broke|browbeat|build|burn|buy|came|catch|chide|choose|chose|clap|cling|clothe|creep|dare|daydream|deal|did|dig|disprove|dive|do|dove|drank|draw|dream|drew|drink|drive|drove|dwell|eat|fall|feed|feel|fell|fight|find|flee|flew|fling|fly|forbade|forbear|forbid|forbore|forego|foresaw|foresee|foretell|forewent|forgave|forget|forgive|forgot|forsake|forsook|forswear|freeze|frostbite|froze|gainsay|gave|get|gild|give|go|grew|grind|grow|hang|have|hear|heave|hew|hewed|hid|hide|hold|inbreed|inlay|keep|kneel|knew|know|lade|landslide|lay|lead|lean|leap|learn|leave|lend|lie|light|lose|make|mean|meet|mislead|misspell|mistake|mistook|misunderstand|mow|outdid|outdo|outgrew|outgrow|outlay|outran|outride|outshine|overbore|overcame|overdo|overeat|overhang|overhear|overlay|overleap|overlie|overran|override|oversaw|oversee|overtake|overthrew|overthrow|overtook|overwrite|partake|partook|pay|plead|prove|ran|rang|rebuild|redid|redo|reeve|refit|regrow|relay|relight|remake|rend|repay|retake|retell|rethink|retook|rewind|rewrite|rewrote|ride|ring|rise|rived|rode|rose|sang|sank|saw|say|see|seek|sell|send|sew|shake|shave|shear|sheared|shine|shoe|shook|shoot|show|showed|shrank|shrink|sing|sink|sit|slay|sleep|slide|sling|slink|smell|smite|sneak|sow|sowed|speak|speed|spell|spend|spill|spin|spoil|spoke|sprang|spring|stand|stank|stave|steal|stick|sting|stink|stole|strew|strewed|stride|strike|string|strip|strive|strode|strove|sunburn|swam|swear|sweep|swell|swelled|swim|swing|swore|take|teach|tear|tell|think|threw|thrive|throve|throw|took|tore|tread|troubleshoot|typewrite|unbend|unbind|undergo|underlay|underlie|undersell|understand|undertake|undertook|underwent|undid|undo|unlearn|unmake|unsay|unwind|uphold|vex|wake|was|waylay|wear|weave|wed|weep|went|whet|win|wind|withdraw|withdrew|withhold|withstand|woke|wore|wove|wring|write|wrote</token>
+    </pattern>
+    <message> Did you mean <suggestion><match no="1"/><match no="2"/><match no="3"/> <match no="4" postag="VBN" /></suggestion>?</message>
+    <example type="incorrect">They <marker>haven't bit</marker> their tongue.</example>
+    <example type="correct">They haven't awoken before nine in a long time.</example>
+  </rule>
+<!-- could've &irregular_verb::word=\0 \1:participle::pivots=\1,\1:participle -->
+  <rule id="COULDVE_IRREGULAR_VERB" name="Couldve followed by irregular past tense verb">
+    <pattern>
+      <token regexp="yes">could|would|should|you|i|we|they</token>
+      <token>'</token>
+      <token>ve</token>
+      <token regexp="yes">abide|abode|alight|arise|arose|ate|awake|awoke|be|bear|became|befall|befell|began|beget|begin|begot|behold|bend|beseech|betake|bethink|betook|bind|bit|bite|bleed|blew|blow|bore|break|breed|bring|broke|browbeat|build|burn|buy|came|catch|chide|choose|chose|clap|cling|clothe|creep|dare|daydream|deal|did|dig|disprove|dive|do|dove|drank|draw|dream|drew|drink|drive|drove|dwell|eat|fall|feed|feel|fell|fight|find|flee|flew|fling|fly|forbade|forbear|forbid|forbore|forego|foresaw|foresee|foretell|forewent|forgave|forget|forgive|forgot|forsake|forsook|forswear|freeze|frostbite|froze|gainsay|gave|get|gild|give|grew|grind|grow|hang|have|hear|heave|hew|hewed|hid|hide|hold|inbreed|inlay|keep|kneel|knew|know|lade|landslide|lay|lead|lean|leap|learn|leave|lend|lie|light|lose|make|mean|meet|mislead|misspell|mistake|mistook|misunderstand|mow|outdid|outdo|outgrew|outgrow|outlay|outran|outride|outshine|overbore|overcame|overdo|overeat|overhang|overhear|overlay|overleap|overlie|overran|override|oversaw|oversee|overtake|overthrew|overthrow|overtook|overwrite|partake|partook|pay|plead|prove|ran|rang|rebuild|redid|redo|reeve|refit|regrow|relay|relight|remake|rend|repay|retake|retell|rethink|retook|rewind|rewrite|rewrote|ride|ring|rise|rived|rode|rose|sang|sank|saw|say|see|seek|sell|send|sew|shake|shave|shear|sheared|shine|shoe|shook|shoot|show|showed|shrank|shrink|sing|sink|sit|slay|sleep|slide|sling|slink|smell|smite|sneak|sow|sowed|speak|speed|spell|spend|spill|spin|spoil|spoke|sprang|spring|stand|stank|stave|steal|stick|sting|stink|stole|strew|strewed|stride|strike|string|strip|strive|strode|strove|sunburn|swam|swear|sweep|swell|swelled|swim|swing|swore|take|teach|tear|tell|think|threw|thrive|throve|throw|took|tore|tread|troubleshoot|typewrite|unbend|unbind|undergo|underlay|underlie|undersell|understand|undertake|undertook|underwent|undid|undo|unlearn|unmake|unsay|unwind|uphold|vex|wake|was|waylay|wear|weave|wed|weep|went|whet|win|wind|withdraw|withdrew|withhold|withstand|woke|wore|wove|wring|write|wrote</token>
+    </pattern>
+    <message> Did you mean <suggestion><match no="1"/><match no="2"/><match no="3"/> <match no="4" postag="VBN" /></suggestion>?</message>
+    <example type="incorrect">We <marker>could've ate</marker> the chicken.</example>
+    <example type="correct">We could've eaten the chicken.</example>
+  </rule>
+  <!-- an|in|for|the|to every day::word=\0 everyday::pivots=\1 \2,everyday -->
+  <rule id="ANINFOR_EVERY_DAY" name="an every day (everyday)">
+    <pattern>
+      <token regexp="yes">an|in|for|the|to</token>
+      <token>every</token>
+      <token>day</token>
+    </pattern>
+    <message> Did you mean <suggestion><match no="1"/> everyday</suggestion>?</message>
+    <example type="incorrect">They like to look <marker>for every day</marker> occurrences.</example>
+    <example type="correct">They like to look for everyday occurrences.</example>
+  </rule>
+<!-- all ways::word=always -->
+  <rule id="ALL_WAYS" name="all ways (always)">
+    <pattern>
+      <token>all</token>
+      <token>ways</token>
+    </pattern>
+    <message> Did you mean <suggestion>always</suggestion>?</message>
+    <example type="incorrect">He <marker>all ways</marker> takes the last piece of cake.</example>
+    <example type="correct">He always takes the cake.</example>
+  </rule>
+<!-- every where::word=everywhere -->
+  <rule id="EVERY_WHERE" name="every where (everywhere)">
+    <pattern>
+      <token>every</token>
+      <token>where</token>
+    </pattern>
+    <message> Did you mean <suggestion>everywhere</suggestion>?</message>
+    <example type="incorrect">There are bugs <marker>every where</marker>.</example>
+    <example type="correct">We through the trash everywhere.</example>
+  </rule>
+<!-- figure head::word=figurehead -->
+  <rule id="FIGURE_HEAD" name="figure head (figurehead)">
+    <pattern>
+      <token>figure</token>
+      <token>head</token>
+    </pattern>
+    <message> Did you mean <suggestion>figurehead</suggestion>?</message>
+    <example type="incorrect">The boss was merely a <marker>figure head</marker>.</example>
+    <example type="correct">The boss was merely a figurehead.</example>
+  </rule>
+<!-- flag ship::word=flagship -->
+  <rule id="FLAG_SHIP" name="flag ship (flagship)">
+    <pattern>
+      <token>flag</token>
+      <token>ship</token>
+    </pattern>
+    <message> Did you mean <suggestion>flagship</suggestion>?</message>
+    <example type="incorrect">This was the <marker>flag ship</marker> store.</example>
+    <example type="correct">This was the flagship store.</example>
+  </rule>
+<!-- head gear::word=headgear -->
+  <rule id="HEAD_GEAR" name="head gear (headgear)">
+    <pattern>
+      <token>head</token>
+      <token>gear</token>
+    </pattern>
+    <message> Did you mean <suggestion>headgear</suggestion>?</message>
+    <example type="incorrect">She wore <marker>head gear</marker>.</example>
+    <example type="correct">She wore headgear.</example>
+  </rule>
+<!-- head quarters::word=headquarters -->
+  <rule id="HEAD_QUARTERS" name="head quarters (headquarters)">
+    <pattern>
+      <token>head</token>
+      <token>quarters</token>
+    </pattern>
+    <message> Did you mean <suggestion>headquarters</suggestion>?</message>
+    <example type="incorrect">He found the secret <marker>head quarters</marker>.</example>
+    <example type="correct">He found the headquarters.</example>
+  </rule>
+<!-- head stone::word=headstone -->
+  <rule id="HEAD_STONE" name="head stone (headstone)">
+    <pattern>
+      <token>head</token>
+      <token>stone</token>
+    </pattern>
+    <message> Did you mean <suggestion>headstone</suggestion>?</message>
+    <example type="incorrect">They wrote the words on his <marker>head stone</marker>.</example>
+    <example type="correct">He had a slightly cracked headstone.</example>
+  </rule>
+<!-- head wear::word=headwear -->
+  <rule id="HEAD_WEAR" name="head wear (headwear)">
+    <pattern>
+      <token>head</token>
+      <token>wear</token>
+    </pattern>
+    <message> Did you mean <suggestion>headwear</suggestion>?</message>
+    <example type="incorrect">The Mets cap was his favorite <marker>head wear</marker>.</example>
+    <example type="correct">The Yankees cap was his favorite headwear.</example>
+  </rule>
+<!-- how ever::word=however -->
+  <rule id="HOW_EVER" name="how ever (however)">
+    <pattern>
+      <token>how</token>
+      <token>ever</token>
+    </pattern>
+    <message> Did you mean <suggestion>however</suggestion>?</message>
+    <example type="incorrect">We knew, <marker>how ever</marker>, that he would come around.</example>
+    <example type="correct">However, this was strictly unnecessary.</example>
+  </rule>
+<!-- key note::word=keynote -->
+  <rule id="KEY_NOTE" name="key note (keynote)">
+    <pattern>
+      <token>key</token>
+      <token>note</token>
+    </pattern>
+    <message> Did you mean <suggestion>keynote</suggestion>?</message>
+    <example type="incorrect">The <marker>key note</marker> speaker was Bill Gates.</example>
+    <example type="correct">The keynote speaker was Bill Gates.</example>
+  </rule>
+<!-- laughing stock::word=laughingstock -->
+  <rule id="LAUGHING_STOCK" name="laughing stock (laughingstock)">
+    <pattern>
+      <token>laughing</token>
+      <token>stock</token>
+    </pattern>
+    <message> Did you mean <suggestion>laughingstock</suggestion>?</message>
+    <example type="incorrect">The fool was the <marker>laughing stock</marker> of the town.</example>
+    <example type="correct">The fool was the laughingstock of the town.</example>
+  </rule>
+<!-- life time::word=lifetime -->
+  <rule id="LIFE_TIME" name="life time (lifetime)">
+    <pattern>
+      <token>life</token>
+      <token>time</token>
+    </pattern>
+    <message> Did you mean <suggestion>lifetime</suggestion>?</message>
+    <example type="incorrect">In his <marker>life time</marker>, there will be many medical advances.</example>
+    <example type="correct">In his lifetime, there will be many medical advances.</example>
+  </rule>
+<!-- mean while::word=meanwhile -->
+  <rule id="MEAN_WHILE" name="mean while (meanwhile)">
+    <pattern>
+      <token>mean</token>
+      <token>while</token>
+    </pattern>
+    <message> Did you mean <suggestion>meanwhile</suggestion>?</message>
+    <example type="incorrect"><marker>Mean while</marker>, back on the farm...</example>
+    <example type="correct">Meanwhile, back on the farm...</example>
+  </rule>
+<!-- nation wide::word=nationwide -->
+  <rule id="NATION_WIDE" name="nation wide (nationwide)">
+    <pattern>
+      <token>nation</token>
+      <token>wide</token>
+    </pattern>
+    <message> Did you mean <suggestion>nationwide</suggestion>?</message>
+    <example type="incorrect">There was a <marker>nation wide</marker> epidemic.</example>
+    <example type="correct">There was a nationwide epidemic.</example>
+  </rule>
+<!-- near by::word=nearby -->
+  <rule id="NEAR_BY" name="near by (nearby)">
+    <pattern>
+      <token>near</token>
+      <token>by</token>
+    </pattern>
+    <message> Did you mean <suggestion>nearby</suggestion>?</message>
+    <example type="incorrect">There were some stores <marker>near by</marker>.</example>
+    <example type="correct">There were some stores nearby.</example>
+  </rule>
+<!-- new comer::word=newcomer -->
+  <rule id="NEW_COMER" name="new comer (newcomer)">
+    <pattern>
+      <token>new</token>
+      <token>comer</token>
+    </pattern>
+    <message> Did you mean <suggestion>newcomer</suggestion>?</message>
+    <example type="incorrect">There was a <marker>new comer</marker> to the party.</example>
+    <example type="correct">There was a newcomer to the party.</example>
+  </rule>
+<!-- note worthy::word=noteworthy -->
+  <rule id="NOTE_WORTHY" name="note worthy (noteworthy)">
+    <pattern>
+      <token>note</token>
+      <token>worthy</token>
+    </pattern>
+    <message> Did you mean <suggestion>noteworthy</suggestion>?</message>
+    <example type="incorrect">This was a <marker>note worthy</marker> achievement.</example>
+    <example type="correct">This was a noteworthy achievement.</example>
+  </rule>
+<!-- now a days::word=nowadays -->
+  <rule id="NOW_A_DAYS" name="now a days (nowadays)">
+    <pattern>
+      <token>now</token>
+      <token>a</token>
+      <token>days</token>
+    </pattern>
+    <message> Did you mean <suggestion>nowadays</suggestion>?</message>
+    <example type="incorrect"><marker>Now a days</marker>, there isn't much hope.</example>
+    <example type="correct">Nowadays, there isn't much hope.</example>
+  </rule>
+<!-- on going::word=ongoing -->
+  <rule id="ON_GOING" name="on going (ongoing)">
+    <pattern>
+      <token>on</token>
+      <token>going</token>
+    </pattern>
+    <message> Did you mean <suggestion>ongoing</suggestion>?</message>
+    <example type="incorrect">There is an <marker>on going</marker> investigation.</example>
+    <example type="correct">There is an ongoing investigation.</example>
+  </rule>
+<!-- out grow::word=outgrow -->
+  <rule id="OUT_GROW" name="out grow (outgrow)">
+    <pattern>
+      <token>out</token>
+      <token>grow</token>
+    </pattern>
+    <message> Did you mean <suggestion>outgrow</suggestion>?</message>
+    <example type="incorrect">The little guy would soon <marker>out grow</marker> his clothes.</example>
+    <example type="correct">The little guy would soon outgrow his clothes.</example>
+  </rule>
+<!-- out side::word=outside -->
+  <rule id="OUT_SIDE" name="out side (outside)">
+    <pattern>
+      <token>out</token>
+      <token>side</token>
+    </pattern>
+    <message> Did you mean <suggestion>outside</suggestion>?</message>
+    <example type="incorrect">There were more tables <marker>out side</marker>.</example>
+    <example type="correct">There were more tables outside.</example>
+  </rule>
+<!-- over looked::word=overlooked -->
+  <rule id="OVER_LOOKED" name="over looked (overlooked)">
+    <pattern>
+      <token>over</token>
+      <token>looked</token>
+    </pattern>
+    <message> Did you mean <suggestion>overlooked</suggestion>?</message>
+    <example type="incorrect">There were several details we <marker>over looked</marker>.</example>
+    <example type="correct">There were several details we overlooked.</example>
+  </rule>
+<!-- over looking::word=overlooking -->
+  <rule id="OVER_LOOKING" name="over looking (overlooking)">
+    <pattern>
+      <token>over</token>
+      <token>looking</token>
+    </pattern>
+    <message> Did you mean <suggestion>overlooking</suggestion>?</message>
+    <example type="incorrect">We were <marker>over looking</marker> the Grand Canyon.</example>
+    <example type="correct">We were overlooking the Grand Canyon.</example>
+  </rule>
+<!-- over rated::word=overrated -->
+  <rule id="OVER_RATED" name="over rated (overrated)">
+    <pattern>
+      <token>over</token>
+      <token>rated</token>
+    </pattern>
+    <message> Did you mean <suggestion>overrated</suggestion>?</message>
+    <example type="incorrect">The movie was highly <marker>over rated</marker>.</example>
+    <example type="correct">The movie was highly overrated.</example>
+  </rule>
+<!-- over seas::word=overseas -->
+  <rule id="OVER_SEAS" name="over seas (overseas)">
+    <pattern>
+      <token>over</token>
+      <token>seas</token>
+    </pattern>
+    <message> Did you mean <suggestion>overseas</suggestion>?</message>
+    <example type="incorrect">He was stationed <marker>over seas</marker>.</example>
+    <example type="correct">He was stationed overseas.</example>
+  </rule>
+<!-- short coming::word=shortcoming -->
+  <rule id="SHORT_COMING" name="short coming (shortcoming)">
+    <pattern>
+      <token>short</token>
+      <token>coming</token>
+    </pattern>
+    <message> Did you mean <suggestion>shortcoming</suggestion>?</message>
+    <example type="incorrect">Being on time was his biggest <marker>short coming</marker>.</example>
+    <example type="correct">Being on time was hig biggest shortcoming.</example>
+  </rule>
+<!-- short cut::word=shortcut -->
+  <rule id="SHORT_CUT" name="short cut (shortcut)">
+    <pattern>
+      <token>short</token>
+      <token>cut</token>
+    </pattern>
+    <message> Did you mean <suggestion>shortcut</suggestion>?</message>
+    <example type="incorrect">I know a <marker>short cut</marker>.</example>
+    <example type="correct">I know a shortcut.</example>
+  </rule>
+<!-- side kick::word=sidekick -->
+  <rule id="SIDE_KICK" name="side kick (sidekick)">
+    <pattern>
+      <token>side</token>
+      <token>kick</token>
+    </pattern>
+    <message> Did you mean <suggestion>sidekick</suggestion>?</message>
+    <example type="incorrect">He had a zany <marker>side kick</marker>.</example>
+    <example type="correct">He had a zany sidekick.</example>
+  </rule>
+<!-- sky diving::word=skydiving -->
+  <rule id="SKY_DIVING" name="sky diving (skydiving)">
+    <pattern>
+      <token>sky</token>
+      <token>diving</token>
+    </pattern>
+    <message> Did you mean <suggestion>skydiving</suggestion>?</message>
+    <example type="incorrect">We went <marker>sky diving</marker>.</example>
+    <example type="correct">We went skydiving.</example>
+  </rule>
+<!-- some how::word=somehow -->
+  <rule id="SOME_HOW" name="some how (somehow)">
+    <pattern>
+      <token>some</token>
+      <token>how</token>
+    </pattern>
+    <message> Did you mean <suggestion>somehow</suggestion>?</message>
+    <example type="incorrect"><marker>Some how</marker>, we made it out alive.</example>
+    <example type="correct">Somehow, we made it out alive.</example>
+  </rule>
+<!-- stale mate::word=stalemate -->
+  <rule id="STALE_MATE" name="stale mate (stalemate)">
+    <pattern>
+      <token>stale</token>
+      <token>mate</token>
+    </pattern>
+    <message> Did you mean <suggestion>stalemate</suggestion>?</message>
+    <example type="incorrect">The game ended in a <marker>stale mate</marker>.</example>
+    <example type="correct">The game ended in a stalemate.</example>
+  </rule>
+<!-- them selves::word=themselves -->
+  <rule id="THEM_SELVES" name="them selves (themselves)">
+    <pattern>
+      <token>them</token>
+      <token>selves</token>
+    </pattern>
+    <message> Did you mean <suggestion>themselves</suggestion>?</message>
+    <example type="incorrect">They were falling over <marker>them selves</marker>.</example>
+    <example type="correct">They were falling over themselves.</example>
+  </rule>
+<!-- back fire::word=backfire -->
+  <rule id="BACK_FIRE" name="back fire (backfire)">
+    <pattern>
+      <token>back</token>
+      <token>fire</token>
+    </pattern>
+    <message> Did you mean <suggestion>backfire</suggestion>?</message>
+    <example type="incorrect">His plans always <marker>back fire</marker>.</example>
+    <example type="correct">His plans always backfire.</example>
+  </rule>
+<!-- world wide::word=worldwide -->
+  <rule id="WORLD_WIDE" name="world wide (worldwide)">
+    <pattern>
+      <token>world</token>
+      <token>wide</token>
+    </pattern>
+    <message> Did you mean <suggestion>worldwide</suggestion>?</message>
+    <example type="incorrect">There was a <marker>world wide</marker> epidemic.</example>
+    <example type="correct">There was a worldwide epidemic.</example>
+  </rule>
+<!-- worth while::word=worthwhile -->
+  <rule id="WORTH_WHILE" name="worth while (worthwhile)">
+    <pattern>
+      <token>worth</token>
+      <token>while</token>
+    </pattern>
+    <message> Did you mean <suggestion>worthwhile</suggestion>?</message>
+    <example type="incorrect">It was a <marker>worth while</marker> endeavor.</example>
+    <example type="correct">It was a worthwhile endeavor.</example>
+  </rule>
+<!-- way side::word=wayside -->
+  <rule id="WAY_SIDE" name="way side (wayside)">
+    <pattern>
+      <token>way</token>
+      <token>side</token>
+    </pattern>
+    <message> Did you mean <suggestion>wayside</suggestion>?</message>
+    <example type="incorrect">We let it fall by the <marker>way side</marker>.</example>
+    <example type="correct">We let it fall by the wayside.</example>
+  </rule>
+<!-- along side::word=alongside -->
+  <rule id="ALONG_SIDE" name="along side (alongside)">
+    <pattern>
+      <token>along</token>
+      <token>side</token>
+    </pattern>
+    <message> Did you mean <suggestion>alongside</suggestion>?</message>
+    <example type="incorrect">The car pulled up <marker>along side</marker>.</example>
+    <example type="correct">The car pulled up alongside.</example>
+  </rule>
+<!-- be cause::word=because -->
+  <rule id="BE_CAUSE" name="be cause (because)">
+    <pattern>
+      <token>be</token>
+      <token>cause</token>
+    </pattern>
+    <message> Did you mean <suggestion>because</suggestion>?</message>
+    <example type="incorrect">It was all <marker>be cause</marker> of you.</example>
+    <example type="correct">It was all because of you.</example>
+  </rule>
+<!-- be ware::word=beware -->
+  <rule id="BE_WARE" name="be ware (beware)">
+    <pattern>
+      <token>be</token>
+      <token>ware</token>
+    </pattern>
+    <message> Did you mean <suggestion>beware</suggestion>?</message>
+    <example type="incorrect"><marker>Be ware</marker> of the bears.</example>
+    <example type="correct">Beware of the bears.</example>
+  </rule>
+<!-- before hand::word=beforehand -->
+  <rule id="BEFORE_HAND" name="before hand (beforehand)">
+    <pattern>
+      <token>before</token>
+      <token>hand</token>
+    </pattern>
+    <message> Did you mean <suggestion>beforehand</suggestion>?</message>
+    <example type="incorrect">We packed <marker>before hand</marker>.</example>
+    <example type="correct">We packed beforehand.</example>
+  </rule>
+<!-- down side::word=downside -->
+  <rule id="DOWN_SIDE" name="down side (downside)">
+    <pattern>
+      <token>down</token>
+      <token>side</token>
+    </pattern>
+    <message> Did you mean <suggestion>downside</suggestion>?</message>
+    <example type="incorrect">There was no serious <marker>down side</marker> to the plan.</example>
+    <example type="correct">There was no serious downside to the plan.</example>
+  </rule>
+<!-- through out::word=throughout -->
+  <rule id="THROUGH_OUT" name="through out (throughout)">
+    <pattern>
+      <token>through</token>
+      <token>out</token>
+    </pattern>
+    <message> Did you mean <suggestion>throughout</suggestion>?</message>
+    <example type="incorrect">We felt awkward <marker>through out</marker> the play.</example>
+    <example type="correct">We felt awkward throughout the play.</example>
+  </rule>
+<!-- on-going::word=ongoing -->
+  <rule id="ON-GOING" name="on-going (ongoing)">
+    <pattern>
+      <token>on-going</token>
+    </pattern>
+    <message> Did you mean <suggestion>ongoing</suggestion>?</message>
+    <example type="incorrect">There is an <marker>on-going</marker> investigation.</example>
+    <example type="correct">There is an ongoing investigation.</example>
+  </rule>
+<!-- light weight::word=lightweight -->
+  <rule id="LIGHT_WEIGHT" name="light weight (lightweight)">
+    <pattern>
+      <token>light</token>
+      <token>weight</token>
+    </pattern>
+    <message> Did you mean <suggestion>lightweight</suggestion>?</message>
+    <example type="incorrect">He is the best <marker>light weight</marker> boxer in the world.</example>
+    <example type="correct">He is the best lightweight boxer in the world.</example>
+  </rule>
+<!-- heavy weight::word=heavyweight -->
+  <rule id="HEAVY_WEIGHT" name="heavy weight (heavyweight)">
+    <pattern>
+      <token>heavy</token>
+      <token>weight</token>
+    </pattern>
+    <message> Did you mean <suggestion>heavyweight</suggestion>?</message>
+    <example type="incorrect">He is the best <marker>heavy weight</marker> boxer in the world.</example>
+    <example type="correct">He is the best heavyweight boxer in the world.</example>
+  </rule>
+<!-- free lance::word=freelance -->
+  <rule id="FREE_LANCE" name="free lance (freelance)">
+    <pattern>
+      <token>free</token>
+      <token>lance</token>
+    </pattern>
+    <message> Did you mean <suggestion>freelance</suggestion>?</message>
+    <example type="incorrect">We did some <marker>free lance</marker> work for the company.</example>
+    <example type="correct">We did some freelance work for the company.</example>
+  </rule>
+<!-- free lancer::word=freelancer -->
+  <rule id="FREE_LANCER" name="free lancer (freelancer)">
+    <pattern>
+      <token>free</token>
+      <token>lancer</token>
+    </pattern>
+    <message> Did you mean <suggestion>freelancer</suggestion>?</message>
+    <example type="incorrect">He was a <marker>free lancer</marker>.</example>
+    <example type="correct">He was a freelancer.</example>
+  </rule>
+<!-- free lances::word=freelances -->
+  <rule id="FREE_LANCES" name="free lances (freelances)">
+    <pattern>
+      <token>free</token>
+      <token>lances</token>
+    </pattern>
+    <message> Did you mean <suggestion>freelances</suggestion>?</message>
+    <example type="incorrect">He only <marker>free lances</marker> for the CIA.</example>
+    <example type="correct">He only freelances for the CIA.</example>
+  </rule>
+<!-- free lancing::word=freelancing -->
+  <rule id="FREE_LANCING" name="free lancing (freelancing)">
+    <pattern>
+      <token>free</token>
+      <token>lancing</token>
+    </pattern>
+    <message> Did you mean <suggestion>freelancing</suggestion>?</message>
+    <example type="incorrect">His <marker>free lancing</marker> work is fantastic.</example>
+    <example type="correct">His freelancing work is fantastic.</example>
+  </rule>
+<!-- .*/VB a while::word=\0 awhile::pivots=a while,awhile -->
+  <rule id="VB_A_WHILE" name="VB a while (awhile)">
+    <pattern>
+      <token postag="VB"><exception postag="VB.*" postag_regexp="yes" negate_pos="yes"/></token>
+      <token>a</token>
+      <token>while</token>
+    </pattern>
+    <message> Did you mean <suggestion><match no="1"/> awhile</suggestion>?</message>
+    <example type="incorrect">He was expected to <marker>forget a while</marker> after the fact.</example>
+    <example type="correct">He was expected to stay awhile.</example>
+  </rule>
+<!-- web site::word=website -->
+  <rule id="WEB_SITE" name="web site (website)">
+    <pattern>
+      <token>web</token>
+      <token>site</token>
+    </pattern>
+    <message> Did you mean <suggestion>website</suggestion>?</message>
+    <example type="incorrect">The <marker>web site</marker> was down.</example>
+    <example type="correct">The website was down.</example>
+  </rule>
+<!-- head scarf::word=headscarf -->
+  <rule id="HEAD_SCARF" name="head scarf (headscarf)">
+    <pattern>
+      <token>head</token>
+      <token>scarf</token>
+    </pattern>
+    <message> Did you mean <suggestion>headscarf</suggestion>?</message>
+    <example type="incorrect">France had a ban on the <marker>head scarf</marker>.</example>
+    <example type="correct">France had a ban on the headscarf.</example>
+  </rule>
+<!-- head scarves::word=headscarves -->
+  <rule id="HEAD_SCARVES" name="head scarves (headscarves)">
+    <pattern>
+      <token>head</token>
+      <token>scarves</token>
+    </pattern>
+    <message> Did you mean <suggestion>headscarves</suggestion>?</message>
+    <example type="incorrect">France had a ban on <marker>head scarves</marker>.</example>
+    <example type="correct">France had a ban on headscarves.</example>
+  </rule>
+<!-- key words::word=keywords -->
+  <rule id="KEY_WORDS" name="key words (keywords)">
+    <pattern>
+      <token>key</token>
+      <token>words</token>
+    </pattern>
+    <message> Did you mean <suggestion>keywords</suggestion>?</message>
+    <example type="incorrect">You have to enter the <marker>key words</marker>.</example>
+    <example type="correct">You have to enter the keywords.</example>
+  </rule>
+<!-- crowd sourcing::word=crowdsourcing -->
+  <rule id="CROWD_SOURCING" name="crowd sourcing (crowdsourcing)">
+    <pattern>
+      <token>crowd</token>
+      <token>sourcing</token>
+    </pattern>
+    <message> Did you mean <suggestion>crowdsourcing</suggestion>?</message>
+    <example type="incorrect">Mechanical Turk is an example of <marker>crowd sourcing</marker>.</example>
+    <example type="correct">Mechanical Turk is an example of crowdsourcing.</example>
+  </rule>
+<!-- meta data::word=metadata -->
+  <rule id="META_DATA" name="meta data (metadata)">
+    <pattern>
+      <token>meta</token>
+      <token>data</token>
+    </pattern>
+    <message> Did you mean <suggestion>metadata</suggestion>?</message>
+    <example type="incorrect">Tika's library takes <marker>meta data</marker> into account.</example>
+    <example type="correct">Tika's library takes metadata into account.</example>
+  </rule>
+<!-- stand alone::word=standalone -->
+  <rule id="STAND_ALONE" name="stand alone (standalone)">
+    <pattern>
+      <token>stand</token>
+      <token>alone</token>
+    </pattern>
+    <message> Did you mean <suggestion>standalone</suggestion>?</message>
+    <example type="incorrect">I wrote a <marker>stand alone</marker> application.</example>
+    <example type="correct">I wrote a standalone application.</example>
+  </rule>
+<!-- past time::word=pastime -->
+  <rule id="PAST_TIME" name="past time (pasttime)">
+    <pattern>
+      <token>past</token>
+      <token>time</token>
+    </pattern>
+    <message> Did you mean <suggestion>pasttime</suggestion>?</message>
+    <example type="incorrect">This was America's favorite <marker>past time</marker>.</example>
+    <example type="correct">This was America's favorite pasttime.</example>
+  </rule>
+<!-- any where::word=anywhere -->
+  <rule id="ANY_WHERE" name="any where (anywhere)">
+    <pattern>
+      <token>any</token>
+      <token>where</token>
+    </pattern>
+    <message> Did you mean <suggestion>anywhere</suggestion>?</message>
+    <example type="incorrect">Put your stuff down <marker>any where</marker>.</example>
+    <example type="correct">Put your stuff down anywhere.</example>
+  </rule>
+<!-- some where::word=somewhere -->
+  <rule id="SOME_WHERE" name="some where (somewhere)">
+    <pattern>
+      <token>some</token>
+      <token>where</token>
+    </pattern>
+    <message> Did you mean <suggestion>somewhere</suggestion>?</message>
+    <example type="incorrect">There's a place for us, <marker>some where</marker>.</example>
+    <example type="correct">There's a place for us, somewhere.</example>
+  </rule>
+<!-- .*/DT bail out::word=\0 bailout::pivots=bail out,bailout -->
+  <rule id="DT_BAIL_OUT" name="DT bail out (bailout)">
+    <pattern>
+      <token postag="DT"><exception postag="DT" negate_pos="yes"/></token>
+      <token>bail</token>
+      <token>out</token>
+    </pattern>
+    <message> Did you mean <suggestion><match no="1"/> bailout</suggestion>?</message>
+    <example type="incorrect"><marker>The bail out</marker> was too expensive.</example>
+    <example type="correct">The bailout was too expensive.</example>
+  </rule>
+<!-- out come::word=outcome -->
+  <rule id="OUT_COME" name="out come (outcome)">
+    <pattern>
+      <token>out</token>
+      <token>come</token>
+    </pattern>
+    <message> Did you mean <suggestion>outcome</suggestion>?</message>
+    <example type="incorrect">What was the <marker>out come</marker>?</example>
+    <example type="correct">What was the outcome?</example>
+  </rule>
+<!-- album comprised of::word=album composed of::pivots=comprised,composed::options=comprised,composed -->
+  <rule id="ALBUM_COMPRISED_OF" name="album comprised of">
+    <pattern>
+      <token regexp="yes">album|army</token>
+      <token>comprised</token>
+      <token>of</token>
+    </pattern>
+    <message> Did you mean <suggestion><match no="1"/> composed of</suggestion>?</message>
+    <example type="incorrect">This is an <marker>album comprised of</marker> of great songs.</example>
+    <example type="correct">This is an album composed of great songs.</example>
+  </rule>
+<!-- area comprised of::word=area consisting of::pivots=comprised,consisting::options=comprised,consisting -->
+  <rule id="AREA_COMPRISED_OF" name="area comprised of">
+    <pattern>
+      <token>area</token>
+      <token>comprised</token>
+      <token>of</token>
+    </pattern>
+    <message> Did you mean <suggestion>area consisting of</suggestion>?</message>
+    <example type="incorrect">The Tenderloin is an <marker>area comprised of</marker> the seedy sort.</example>
+    <example type="correct">The Tenderloin is an area consisting of the seedy sort.</example>
+  </rule>
+<!-- band comprised of::word=band composed of, band comprising::pivots=comprised,composed,comprising::options=comprised,composed,comprising -->
+  <rule id="BAND_COMPRISED_OF" name="band comprised of">
+    <pattern>
+      <token>band</token>
+      <token>comprised</token>
+      <token>of</token>
+    </pattern>
+    <message> Did you mean <suggestion>band composed of</suggestion> or <suggestion> band comprising</suggestion>?</message>
+    <example type="incorrect">The Beatles were a <marker>band comprised of</marker> great musicians.</example>
+    <example type="correct">The Beatles were a band composed of great musicians.</example>
+  </rule>
+<!-- comprised principally of::word=composed principally of::pivots=comprised,composed::options=comprised,composed -->
+  <rule id="COMPRISED_PRINCIPALLY_OF" name="comprised principally of">
+    <pattern>
+      <token>comprised</token>
+      <token regexp="yes">principally|primarily</token>
+      <token>of</token>
+    </pattern>
+    <message> Did you mean <suggestion>composed <match no="2"/> of</suggestion>?</message>
+    <example type="incorrect">The lawsuit was <marker>comprised primarily of</marker> false accusations.</example>
+    <example type="correct">The lawsuit was composed primarily of false accusations.</example>
+  </rule>
+<!-- entirely comprised of::word=entirely composed of::pivots=comprised,composed::options=comprised,composed -->
+  <rule id="ENTIRELY_COMPRISED_OF" name="entirely comprised of">
+    <pattern>
+      <token regexp="yes">entirely|group|mainly|mostly</token>
+      <token>comprised</token>
+      <token>of</token>
+    </pattern>
+    <message> Did you mean <suggestion><match no="1"/> composed of</suggestion>?</message>
+    <example type="incorrect">It was <marker>entirely comprised of</marker> people.</example>
+    <example type="correct">It was entirely composed of people.</example>
+  </rule>
+<!-- comprised chiefly of::word=composed chiefly of, comprised chiefly, consisted chiefly of::options=comprised,composed,consisted -->
+  <rule id="COMPRISED_CHIEFLY_OF" name="comprised chiefly of">
+    <pattern>
+      <token>comprised</token>
+      <token>chiefly</token>
+      <token>of</token>
+    </pattern>
+    <message> Did you mean <suggestion>composed chiefly of</suggestion> or <suggestion> comprised chiefly</suggestion> or <suggestion> consisted chiefly of</suggestion>?</message>
+    <example type="incorrect">The song was <marker>comprised chiefly of</marker> B chords.</example>
+    <example type="correct">The song was composed chiefly of B chords.</example>
+  </rule>
+<!-- comprised entirely of::word=composed entirely of, comprised entirely, consisted entirely of::options=comprised,composed,consisted -->
+  <rule id="COMPRISED_ENTIRELY_OF" name="comprised entirely of">
+    <pattern>
+      <token>comprised</token>
+      <token>entirely</token>
+      <token>of</token>
+    </pattern>
+    <message> Did you mean <suggestion>composed entirely of</suggestion> or <suggestion> comprised entirely</suggestion> or <suggestion> consisted entirely of</suggestion>?</message>
+    <example type="incorrect">The song was <marker>comprised entirely of</marker> B chords.</example>
+    <example type="correct">The song was composed entirely of B chords.</example>
+  </rule>
+<!-- comprised generally of::word=composed generally of, comprised generally, consisted generally of::options=comprised,composed,consisted -->
+  <rule id="COMPRISED_GENERALLY_OF" name="comprised generally of">
+    <pattern>
+      <token>comprised</token>
+      <token>generally</token>
+      <token>of</token>
+    </pattern>
+    <message> Did you mean <suggestion>composed generally of</suggestion> or <suggestion> comprised generally</suggestion> or <suggestion> consisted generally of</suggestion>?</message>
+    <example type="incorrect">The song was <marker>comprised generally of</marker> B chords.</example>
+    <example type="correct">The song was composed generally of B chords.</example>
+  </rule>
+<!-- comprised largely of::word=composed largely of, comprised largely, consisted largely of::options=comprised,composed,consisted -->
+  <rule id="COMPRISED_LARGELY_OF" name="comprised largely of">
+    <pattern>
+      <token>comprised</token>
+      <token>largely</token>
+      <token>of</token>
+    </pattern>
+    <message> Did you mean <suggestion>composed largely of</suggestion> or <suggestion> comprised largely</suggestion> or <suggestion> consisted largely of</suggestion>?</message>
+    <example type="incorrect">The song was <marker>comprised largely of</marker> B chords.</example>
+    <example type="correct">The song was composed largely of B chords.</example>
+  </rule>
+<!-- comprised mainly of::word=composed mainly of, comprised mainly, consisted mainly of::options=comprised,composed,consisted -->
+  <rule id="COMPRISED_MAINLY_OF" name="comprised mainly of">
+    <pattern>
+      <token>comprised</token>
+      <token>mainly</token>
+      <token>of</token>
+    </pattern>
+    <message> Did you mean <suggestion>composed mainly of</suggestion> or <suggestion> comprised mainly</suggestion> or <suggestion> consisted mainly of</suggestion>?</message>
+    <example type="incorrect">The song was <marker>comprised mainly of</marker> B chords.</example>
+    <example type="correct">The song consisted mainly of B chords.</example>
+  </rule>
+<!-- comprised mostly of::word=composed mostly of, comprised mostly, consisted mostly of::options=comprised,composed,consisted -->
+  <rule id="COMPRISED_MOSTLY_OF" name="comprised mostly of">
+    <pattern>
+      <token>comprised</token>
+      <token>mostly</token>
+      <token>of</token>
+    </pattern>
+    <message> Did you mean <suggestion>composed mostly of</suggestion> or <suggestion> comprised mostly</suggestion> or <suggestion> consisted mostly of</suggestion>?</message>
+    <example type="incorrect">The song was <marker>comprised mostly of</marker> B chords.</example>
+    <example type="correct">The song consisted mostly of B chords.</example>
+  </rule>
+<!-- comprised only of::word=composed only of, comprised only, consisted only of::options=comprised,composed,consisted -->
+  <rule id="COMPRISED_ONLY_OF" name="comprised only of">
+    <pattern>
+      <token>comprised</token>
+      <token>only</token>
+      <token>of</token>
+    </pattern>
+    <message> Did you mean <suggestion>composed only of</suggestion> or <suggestion> comprised only</suggestion> or <suggestion> consisted only of</suggestion>?</message>
+    <example type="incorrect">The song was <marker>comprised only of</marker> B chords.</example>
+    <example type="correct">The song was composed only of B chords.</example>
+  </rule>
+<!-- comprised wholly of::word=composed wholly of, comprised wholly, consisted wholly of::options=comprised,composed,consisted -->
+  <rule id="COMPRISED_WHOLLY_OF" name="comprised wholly of">
+    <pattern>
+      <token>comprised</token>
+      <token>wholly</token>
+      <token>of</token>
+    </pattern>
+    <message> Did you mean <suggestion>composed wholly of</suggestion> or <suggestion> comprised wholly</suggestion> or <suggestion> consisted wholly of</suggestion>?</message>
+    <example type="incorrect">The song was <marker>comprised wholly of</marker> A chords.</example>
+    <example type="correct">The song consisted wholly of A chords.</example>
+  </rule>
+<!-- comprises of::word=comprises, consists of::options=comprises,consists -->
+  <rule id="COMPRISES_OF" name="comprises of">
+    <pattern>
+      <token>comprises</token>
+      <token>of</token>
+    </pattern>
+    <message> Did you mean <suggestion>comprises</suggestion> or <suggestion> consists of</suggestion>?</message>
+    <example type="incorrect">The part <marker>comprises of</marker> the whole.</example>
+    <example type="correct">The part comprises the whole.</example>
+  </rule>
+<!-- comprises mostly of::word=comprises mostly, consists mostly of::options=comprises,consists -->
+  <rule id="COMPRISES_MOSTLY_OF" name="comprises mostly of">
+    <pattern>
+      <token>comprises</token>
+      <token>mostly</token>
+      <token>of</token>
+    </pattern>
+    <message> Did you mean <suggestion>comprises mostly</suggestion> or <suggestion> consists mostly of</suggestion>?</message>
+    <example type="incorrect">The album <marker>comprises mostly of</marker> bad songs.</example>
+    <example type="correct">The album consists mostly of good songs.</example>
+  </rule>
+<!-- comprising of::word=comprising, consisting of::options=comprising,consisting -->
+  <rule id="COMPRISING_OF" name="comprising of">
+    <pattern>
+      <token>comprising</token>
+      <token>of</token>
+    </pattern>
+    <message> Did you mean <suggestion>comprising</suggestion> or <suggestion> consisting of</suggestion>?</message>
+    <example type="incorrect">This is a country <marker>comprising of</marker> independent people.</example>
+    <example type="correct">This is a country consisting of independent people.</example>
+  </rule>
+<!-- comprise of::word=comprise, consist of::options=comprise,consist -->
+  <rule id="COMPRISE_OF" name="comprise of">
+    <pattern>
+      <token>comprise</token>
+      <token>of</token>
+    </pattern>
+    <message> Did you mean <suggestion>comprise</suggestion> or <suggestion> consist of</suggestion>?</message>
+    <example type="incorrect">It's tough to think you <marker>comprise of</marker> mostly water.</example>
+    <example type="correct">It's tough to think you consist of mostly water.</example>
+  </rule>
+<!-- was comprised of::word=comprised, consisted of, was composed of::options=comprised,consisted,composed -->
+  <rule id="WAS_COMPRISED_OF" name="was comprised of">
+    <pattern>
+      <token>was</token>
+      <token>comprised</token>
+      <token>of</token>
+    </pattern>
+    <message> Did you mean <suggestion>comprised</suggestion> or <suggestion> consisted of</suggestion> or <suggestion> was composed of</suggestion>?</message>
+    <example type="incorrect">The proposal <marker>was comprised of</marker> faulty assumptions.</example>
+    <example type="correct">The proposal consisted of faulty assumptions.</example>
+  </rule>
+<!-- were comprised of::word=comprised, were composed of::options=comprised,composed -->
+  <rule id="WERE_COMPRISED_OF" name="were comprised of">
+    <pattern>
+      <token>were</token>
+      <token>comprised</token>
+      <token>of</token>
+    </pattern>
+    <message> Did you mean <suggestion>comprised</suggestion> or <suggestion> were composed of</suggestion>?</message>
+    <example type="incorrect">The missiles <marker>were comprised of</marker> nuclear warheads.</example>
+    <example type="correct">The missiles were composed of nuclear warheads.</example>
+  </rule>
+<!-- which comprised of::word=which comprised, which consisted of, which was composed of::options=comprised,consisted,composed -->
+  <rule id="WHICH_COMPRISED_OF" name="which comprised of">
+    <pattern>
+      <token>which</token>
+      <token>comprised</token>
+      <token>of</token>
+    </pattern>
+    <message> Did you mean <suggestion>which comprised</suggestion> or <suggestion> which consisted of</suggestion> or <suggestion> which was composed of</suggestion>?</message>
+    <example type="incorrect">The ants, <marker>which comprised of</marker> the colony, were asleep.</example>
+    <example type="correct">The any, which comprised the colony, were asleep.</example>
+  </rule>
+<!-- will be comprised of::word=will be composed of, will comprise, will consist of::options=comprised,composed,comprise -->
+  <rule id="WILL_BE_COMPRISED_OF" name="will be comprised of">
+    <pattern>
+      <token>will</token>
+      <token>be</token>
+      <token>comprised</token>
+      <token>of</token>
+    </pattern>
+    <message> Did you mean <suggestion>will be composed of</suggestion> or <suggestion> will comprise</suggestion> or <suggestion> will consist of</suggestion>?</message>
+    <example type="incorrect">The album <marker>will be comprised of</marker> synthetic sounds.</example>
+    <example type="correct">The album will be composed of synthetic sounds.</example>
+  </rule>
+<!-- will comprise of::word=will be composed of, will comprise, will consist of::options=comprise,composed,comprise,consist -->
+  <rule id="WILL_COMPRISE_OF" name="will comprise of">
+    <pattern>
+      <token>will</token>
+      <token>comprise</token>
+      <token>of</token>
+    </pattern>
+    <message> Did you mean <suggestion>will be composed of</suggestion> or <suggestion> will comprise</suggestion> or <suggestion> will consist of</suggestion>?</message>
+    <example type="incorrect">The ants <marker>will comprise of</marker> the colony.</example>
+    <example type="correct">The ants will comprise the colony.</example>
+  </rule>
+<!-- would comprise of::word=would comprise, would consist of::options=comprise,consist -->
+  <rule id="WOULD_COMPRISE_OF" name="would comprise of">
+    <pattern>
+      <token>would</token>
+      <token>comprise</token>
+      <token>of</token>
+    </pattern>
+    <message> Did you mean <suggestion>would comprise</suggestion> or <suggestion> would consist of</suggestion>?</message>
+    <example type="incorrect">The ants <marker>would comprise of</marker> the colony.</example>
+    <example type="correct">The ants would comprise the colony.</example>
+  </rule>
+<!-- government comprised of::word=government composed of, government consisting of::options=comprised,composed,consisting -->
+  <rule id="GOVERNMENT_COMPRISED_OF" name="government comprised of">
+    <pattern>
+      <token>government</token>
+      <token>comprised</token>
+      <token>of</token>
+    </pattern>
+    <message> Did you mean <suggestion>government composed of</suggestion> or <suggestion> government consisting of</suggestion>?</message>
+    <example type="incorrect">Theirs was a <marker>government comprised of</marker> warring factions.</example>
+    <example type="correct">Theirs was a government consisting of warring factions.</example>
+  </rule>
+<!-- is comprised mostly of::word=comprises mostly, consists mostly of, is composed mostly of::options=comprised,comprises,consists,composed::pivots=comprised mostly of,comprises mostly,consists mostly of,composed mostly of -->
+  <rule id="IS_COMPRISED_MOSTLY_OF" name="is comprised mostly of">
+    <pattern>
+      <token>is</token>
+      <token>comprised</token>
+      <token>mostly</token>
+      <token>of</token>
+    </pattern>
+    <message> Did you mean <suggestion>comprises mostly</suggestion> or <suggestion> consists mostly of</suggestion> or <suggestion> is composed mostly of</suggestion>?</message>
+    <example type="incorrect">The government <marker>is comprised mostly of</marker> idiots.</example>
+    <example type="correct">The government consists mostly of idiots.</example>
+  </rule>
+<!-- is comprised of::word=comprises, consists of, is composed of::options=comprised,comprises,consists,composed::pivots=comprised of,comprises,consists of,composed of -->
+  <rule id="IS_COMPRISED_OF" name="is comprised of">
+    <pattern>
+      <token>is</token>
+      <token>comprised</token>
+      <token>of</token>
+    </pattern>
+    <message> Did you mean <suggestion>comprises</suggestion> or <suggestion> consists of</suggestion> or <suggestion> is composed of</suggestion>?</message>
+    <example type="incorrect">The government <marker>is comprised of</marker> idiots.</example>
+    <example type="correct">The government consists of great guys.</example>
+  </rule>
+  <!-- writing|political|science|cultural|grammatical gaffs::word=\0 gaffes::pivots=gaffs,gaffes -->
+  <rule id="WRITINGPOLITICALSCIENCE_GAFFS" name="political gaffs (gaffes)">
+    <pattern>
+      <token regexp="yes">writing|political|science|cultural|grammatical</token>
+      <token>gaffs</token>
+    </pattern>
+    <message> Did you mean <suggestion><match no="1"/> gaffes</suggestion>?</message>
+    <example type="incorrect">There were some serious <marker>political gaffs</marker> committed that day.</example>
+    <example type="correct">There were some serious political gaffes committed that day.</example>
+  </rule>
+<!-- writing|political|science|cultural|grammatical gaff::word=\0 gaffe::pivots=gaff,gaffe -->
+  <rule id="WRITINGPOLITICALSCIENCE_GAFF" name="political gaff (gaffe)">
+    <pattern>
+      <token regexp="yes">writing|political|science|cultural|grammatical</token>
+      <token>gaff</token>
+    </pattern>
+    <message> Did you mean <suggestion><match no="1"/> gaffe</suggestion>?</message>
+    <example type="incorrect">His novel was a huge <marker>cultural gaff</marker>.</example>
+    <example type="correct">His novel was a huge cultural gaffe.</example>
+  </rule>
+<!-- were .*/MD::word=where \1::pivots=were,where::filter=none::options=were,where -->
+  <rule id="WERE_MD" name="were MD">
+    <pattern>
+      <token>were</token>
+      <token postag="MD"><exception postag="MD" negate_pos="yes"/></token>
+    </pattern>
+    <message> Did you mean <suggestion>where <match no="2"/></suggestion>?</message>
+    <example type="incorrect"><marker>Were could</marker> we sleep tonight?</example>
+    <example type="correct">Where could we sleep tonight?</example>
+  </rule>
+<!-- other then::word=other than::pivots=then,than -->
+  <rule id="OTHER_THEN" name="other then (other than)">
+    <pattern>
+      <token>other</token>
+      <token>then</token>
+    </pattern>
+    <message> Did you mean <suggestion>other than</suggestion>?</message>
+    <example type="incorrect">There was no one <marker>other then</marker> us at the campsite.</example>
+    <example type="correct">There was no one other than us at the campsite.</example>
+  </rule>
+<!-- might|may|could|would|will|did effect::word=\0 affect::pivots=effect,affect -->
+  <rule id="MIGHTMAYCOULD_EFFECT" name="MD effect (affect)">
+    <pattern>
+      <token regexp="yes">might|may|could|would|will|did</token>
+      <token>effect</token>
+    </pattern>
+    <message> Did you mean <suggestion><match no="1"/> affect</suggestion>?</message>
+    <example type="incorrect">That <marker>might effect</marker> the bottom line.</example>
+    <example type="correct">That might affect the bottom line.</example>
+  </rule>
+<!-- cause and affect::word=cause and effect::pivots=affect,effect -->
+  <rule id="CAUSE_AND_AFFECT" name="cause and affect (cause and effect)">
+    <pattern>
+      <token>cause</token>
+      <token>and</token>
+      <token>affect</token>
+    </pattern>
+    <message> Did you mean <suggestion>cause and effect</suggestion>?</message>
+    <example type="incorrect">The experiment didn't obey the laws of <marker>cause and affect</marker>.</example>
+    <example type="correct">The experiment didn't obey the laws of cause and effect.</example>
+  </rule>
+<!-- an|into|the|no|take|with immediate|initial|event|overall|total affect::word=\0 \1 effect::pivots=affect,effect -->
+  <rule id="ANINTOTHE_IMMEDIATEINITIALEVENT_AFFECT" name="the immediate affect (effect)">
+    <pattern>
+      <token regexp="yes">an|into|the|no|take|with</token>
+      <token regexp="yes">immediate|initial|event|overall|total</token>
+      <token>affect</token>
+    </pattern>
+    <message> Did you mean <suggestion><match no="1"/> <match no="2"/> effect</suggestion>?</message>
+    <example type="incorrect">The laws had <marker>an immediate affect</marker>.</example>
+    <example type="correct">The laws had an immediate effect.</example>
+  </rule>
+<!-- an|into|the|no|take|with immediate|initial|event|overall|total affects::word=\0 \1 effects::pivots=affects,effects -->
+  <rule id="ANINTOTHE_IMMEDIATEINITIALEVENT_AFFECTS" name="the immediate affects (effects)">
+    <pattern>
+      <token regexp="yes">an|into|the|no|take|with</token>
+      <token regexp="yes">immediate|initial|event|overall|total</token>
+      <token>affects</token>
+    </pattern>
+    <message> Did you mean <suggestion><match no="1"/> <match no="2"/> effects</suggestion>?</message>
+    <example type="incorrect">There was a law <marker>with immediate affects</marker>.</example>
+    <example type="correct">There was a law with immediate effects.</example>
+  </rule>
+<!-- took|take|into affect::word=\0 effect::pivots=affect,effect::options=affect,effect -->
+  <rule id="TOOKTAKEINTO_AFFECT" name="took affect (effect)">
+    <pattern>
+      <token regexp="yes">took|take|into</token>
+      <token>affect</token>
+    </pattern>
+    <message> Did you mean <suggestion><match no="1"/> effect</suggestion>?</message>
+    <example type="incorrect">The ban <marker>took affect</marker> at midnight.</example>
+    <example type="correct">The ban took effect at midnight.</example>
+  </rule>
+<!-- shouldn't|wouldn't|didn't|won't|can't effect::word=\0 affect::pivots=effect,affect -->
+  <rule id="SHOULDNTWOULDNTDIDNT_EFFECT" name="didnt effect (affect)">
+    <pattern>
+      <token regexp="yes">shouldn|wouldn|didn|won|can</token>
+      <token>'</token>
+      <token>t</token>
+      <token>effect</token>
+    </pattern>
+    <message> Did you mean <suggestion><match no="1"/><match no="2"/><match no="3"/> affect</suggestion>?</message>
+    <example type="incorrect">The medicine <marker>shouldn't effect</marker> the baby.</example>
+    <example type="correct">The medicine shouldn't affect the baby.</example>
+  </rule>
+<!-- was aloud::word=was allowed::pivots=aloud,allowed::options=aloud,allowed -->
+  <rule id="WAS_ALOUD" name="was aloud (allowed)">
+    <pattern>
+      <token regexp="yes">was|were</token>
+      <token>aloud</token>
+    </pattern>
+    <message> Did you mean <suggestion>\1 allowed</suggestion>?</message>
+    <example type="incorrect">No dancing <marker>was aloud</marker>.</example>
+    <example type="correct">No dancing was allowed.</example>
+  </rule>
+<!-- eluded to::word=alluded to::pivots=eluded,alluded::options=eluded,alluded -->
+  <rule id="ELUDED_TO" name="eluded to (alluded to)">
+    <pattern>
+      <token>eluded</token>
+      <token>to</token>
+    </pattern>
+    <message> Did you mean <suggestion>alluded to</suggestion>?</message>
+    <example type="incorrect">He <marker>eluded to</marker> to engagement at the party.</example>
+    <example type="correct">He alluded to the engagement at the party.</example>
+  </rule>
+<!-- baited breath::word=bated breath::pivots=baited,bated::options=baited,bated -->
+  <rule id="BAITED_BREATH" name="baited (bated) breath">
+    <pattern>
+      <token>baited</token>
+      <token>breath</token>
+    </pattern>
+    <message> Did you mean <suggestion>bated breath</suggestion>?</message>
+    <example type="incorrect">We are waiting with <marker>baited breath</marker>.</example>
+    <example type="correct">We are waiting with bated breath.</example>
+  </rule>
+<!-- bare in mind::word=bear in mind::pivots=bare,bear::options=bare,bear -->
+  <rule id="BARE_IN_MIND" name="bare (bear) in mind">
+    <pattern>
+      <token>bare</token>
+      <token>in</token>
+      <token>mind</token>
+    </pattern>
+    <message> Did you mean <suggestion>bear in mind</suggestion>?</message>
+    <example type="incorrect"><marker>Bare in mind</marker> that we're alone.</example>
+    <example type="correct">Bear in mind that we're alone.</example>
+  </rule>
+<!-- playoff birth::word=playoff berth::pivots=birth,berth::options=birth,berth -->
+  <rule id="PLAYOFF_BIRTH" name="playoff birth (berth)">
+    <pattern>
+      <token>playoff</token>
+      <token>birth</token>
+    </pattern>
+    <message> Did you mean <suggestion>playoff berth</suggestion>?</message>
+    <example type="incorrect">The Patriots failed to earn a <marker>playoff birth</marker>.</example>
+    <example type="correct">The Patriots failed to earn a playoff berth.</example>
+  </rule>
+<!-- disc break::word=disc brake::pivots=break,brake::options=break,brake -->
+  <rule id="DISC_BREAK" name="disc break (brakes)">
+    <pattern>
+      <token>disc</token>
+      <token>break</token>
+    </pattern>
+    <message> Did you mean <suggestion>disc brake</suggestion>?</message>
+    <example type="incorrect">The rear wheels are <marker>disc break</marker>.</example>
+    <example type="correct">The rear wheels are disc brake.</example>
+  </rule>
+<!-- hit the breaks::word=hit the brakes::pivots=breaks,brakes::options=breaks,brakes -->
+  <rule id="HIT_THE_BREAKS" name="hit the breaks (brakes)">
+    <pattern>
+      <token>hit</token>
+      <token>the</token>
+      <token>breaks</token>
+    </pattern>
+    <message> Did you mean <suggestion>hit the brakes</suggestion>?</message>
+    <example type="incorrect">Charlie forgot to <marker>hit the breaks</marker>.</example>
+    <example type="correct">Charlie forgot to hit the brakes.</example>
+  </rule>
+<!-- spinal chord::word=spinal cord::pivots=chord,cord::options=chord,cord -->
+  <rule id="SPINAL_CHORD" name="spinal chord (cord)">
+    <pattern>
+      <token>spinal</token>
+      <token>chord</token>
+    </pattern>
+    <message> Did you mean <suggestion>spinal cord</suggestion>?</message>
+    <example type="incorrect">There was permanent injury to the <marker>spinal chord</marker>.</example>
+    <example type="correct">There was permanent injury to the spinal cord.</example>
+  </rule>
+<!-- full compliment of::word=full complement of::pivots=compliment,complement::options=compliment,complement -->
+  <rule id="FULL_COMPLIMENT_OF" name="full compliment (complement) of">
+    <pattern>
+      <token>full</token>
+      <token>compliment</token>
+      <token>of</token>
+    </pattern>
+    <message> Did you mean <suggestion>full complement of</suggestion>?</message>
+    <example type="incorrect">He had the <marker>full compliment of</marker> good qualities.</example>
+    <example type="correct">He had the full complement of good qualities.</example>
+  </rule>
+<!-- in edition to::word=in addition to::pivots=edition,addition::options=edition,addition -->
+  <rule id="IN_EDITION_TO" name="in edition (addition) to">
+    <pattern>
+      <token>in</token>
+      <token>edition</token>
+      <token>to</token>
+    </pattern>
+    <message> Did you mean <suggestion>in addition to</suggestion>?</message>
+    <example type="incorrect"><marker>In edition to</marker> failing, he embarrassed himself.</example>
+    <example type="correct">And in addition to the belt, he had a chartreuse cap.</example>
+  </rule>
+<!-- faired as well::word=fared as well::pivots=faired,fared::options=faired,fared -->
+  <rule id="FAIRED_AS_WELL" name="faired (fared) as well">
+    <pattern>
+      <token>faired</token>
+      <token>as</token>
+      <token>well</token>
+    </pattern>
+    <message> Did you mean <suggestion>fared as well</suggestion>?</message>
+    <example type="incorrect">He <marker>faired as well</marker> as could be expected.</example>
+    <example type="correct">He fared as well as could be expected.</example>
+  </rule>
+<!-- faired badly::word=fared badly::pivots=faired,fared::options=faired,fared -->
+  <rule id="FAIRED_BADLY" name="faired (fared) badly">
+    <pattern>
+      <token>faired</token>
+      <token regexp="yes">badly|better|much|poorly|quite|rather|well|worse</token>
+    </pattern>
+    <message> Did you mean <suggestion>fared <match no="2"/></suggestion>?</message>
+    <example type="incorrect">It was a pity that the Jets <marker>faired badly</marker>.</example>
+    <example type="correct">It was a pity that the Mets fared rather well.</example>
+  </rule>
+<!-- and so fourth::word=and so forth::pivots=fourth,forth::options=fourth,forth -->
+  <rule id="AND_SO_FOURTH" name="and so fourth (forth)">
+    <pattern>
+      <token>and</token>
+      <token>so</token>
+      <token>fourth</token>
+    </pattern>
+    <message> Did you mean <suggestion>and so forth</suggestion>?</message>
+    <example type="incorrect">And so on <marker>and so fourth</marker>.</example>
+    <example type="correct">And so on and so forth.</example>
+  </rule>
+<!-- put fourth the|a|an::word=put forth \2::pivots=fourth,forth::options=fourth,forth -->
+  <rule id="PUT_FOURTH_THEAAN" name="put fourth (forth) the">
+    <pattern>
+      <token>put</token>
+      <token>fourth</token>
+      <token regexp="yes">the|a|an</token>
+    </pattern>
+    <message> Did you mean <suggestion>put forth <match no="3"/></suggestion>?</message>
+    <example type="incorrect">He <marker>put fourth the</marker> proposal.</example>
+    <example type="correct">He put forth the proposal.</example>
+  </rule>
+<!-- forth place::word=fourth place::pivots=forth,fourth::options=forth,fourth -->
+  <rule id="FORTH_PLACE" name="forth (fourth) place">
+    <pattern>
+      <token>forth</token>
+      <token>place</token>
+    </pattern>
+    <message> Did you mean <suggestion>fourth place</suggestion>?</message>
+    <example type="incorrect">The runner finished in <marker>forth place</marker>.</example>
+    <example type="correct">The runner finished in fourth place.</example>
+  </rule>
+<!-- door jam::word=door jamb::pivots=jam,jamb::options=jam,jamb -->
+  <rule id="DOOR_JAM" name="door jam (jamb)">
+    <pattern>
+      <token>door</token>
+      <token>jam</token>
+    </pattern>
+    <message> Did you mean <suggestion>door jamb</suggestion>?</message>
+    <example type="incorrect">There were scratches all along the <marker>door jam</marker>.</example>
+    <example type="correct">There were scratches all along the door jamb.</example>
+  </rule>
+<!-- less dollars|minutes|hours|seconds|calories::word=fewer \1::pivots=less,fewer::options=less,fewer -->
+  <rule id="LESS_DOLLARSMINUTESHOURS" name="less (fewer) dollars">
+    <pattern>
+      <token>less</token>
+      <token regexp="yes">dollars|minutes|hours|seconds|calories</token>
+    </pattern>
+    <message> Did you mean <suggestion>fewer <match no="2"/></suggestion>?</message>
+    <example type="incorrect">There were <marker>less hours</marker> to devote to work that day.</example>
+    <example type="correct">There were fewer dollars in the coffer that weekend.</example>
+  </rule>
+<!-- fewer &uncountable::word=less \1::pivots=fewer,less::options=less,fewer -->
+  <rule id="FEWER_UNCOUNTABLE" name="fewer (less) uncountable">
+    <pattern>
+      <token>fewer</token>
+      <token regexp="yes">accommodation|advice|access|baggage|bread|equipment|garbage|luggage|money|cattle|knowledge|sand|furniture|meat|food|news|pasta|progress|research|water|freedom|maturity|intelligence|travel|pollution|traffic</token>
+    </pattern>
+    <message> Did you mean <suggestion>less <match no="2"/></suggestion>?</message>
+    <example type="incorrect">He gave his enemies <marker>fewer advice</marker> than he gave his friends.</example>
+    <example type="correct">They made less progress towards their goal.</example>
+  </rule>
+<!-- am loathe to::word=am loath to::pivots=loathe,loath::options=loathe,loath -->
+  <rule id="AM_LOATHE_TO" name="am loathe (loath) to">
+    <pattern>
+      <token regexp="yes">am|are|be|is|was|were</token>
+      <token>loathe</token>
+      <token>to</token>
+    </pattern>
+    <message> Did you mean <suggestion><match no="1"/> loath to</suggestion>?</message>
+    <example type="incorrect">I <marker>am loathe to</marker> continue this conversation.</example>
+    <example type="correct">I am loath to continue this conversation.</example>
+  </rule>
+<!-- loosing effort|record|season|streak|team|the|to::word=losing \1::pivots=loosing,losing::options=loosing,losing -->
+  <rule id="LOOSING_EFFORTRECORDSEASON" name="loosing (losing) effort">
+    <pattern>
+      <token>loosing</token>
+      <token regexp="yes">effort|record|season|streak|team|the|to</token>
+    </pattern>
+    <message> Did you mean <suggestion>losing <match no="2"/></suggestion>?</message>
+    <example type="incorrect">The Yankees never had a <marker>loosing season</marker>.</example>
+    <example type="correct">It was a terrible losing record.</example>
+  </rule>
+<!-- mute point::word=moot point::pivots=mute,moot::options=mute,moot -->
+  <rule id="MUTE_POINT" name="mute (moot) point">
+    <pattern>
+      <token>mute</token>
+      <token>point</token>
+    </pattern>
+    <message> Did you mean <suggestion>moot point</suggestion>?</message>
+    <example type="incorrect">It was a <marker>mute point</marker>, so we ignored it.</example>
+    <example type="correct">I believe that statement is largely a moot point.</example>
+  </rule>
+<!-- peak his interest::word=pique his interest::pivots=peak,pique::options=peak,pique -->
+  <rule id="PEAK_HIS_INTEREST" name="peak (pique) his interest">
+    <pattern>
+      <token>peak</token>
+      <token>his</token>
+      <token>interest</token>
+    </pattern>
+    <message> Did you mean <suggestion>pique his interest</suggestion>?</message>
+    <example type="incorrect">The mere mention of Luxembourg was enough to <marker>peak his interest</marker>.</example>
+    <example type="correct">The dance music failed to pique his interest.</example>
+  </rule>
+<!-- principal activity|source|use::word=principle \1::pivots=principal,principle::options=principal,principle -->
+  <rule id="PRINCIPAL_ACTIVITYSOURCEUSE" name="principal (principle) activity">
+    <pattern>
+      <token>principal</token>
+      <token regexp="yes">activity|source|use</token>
+    </pattern>
+    <message> Did you mean <suggestion>principle <match no="2"/></suggestion>?</message>
+    <example type="incorrect">Laundering money was the mob's <marker>principal activity</marker>.</example>
+    <example type="correct">Laundering money was the mob's principle activity.</example>
+  </rule>
+<!-- principle engineer|investigator|action|source|town::word=principal \1::pivots=principle,principal::options=principal,principle -->
+  <rule id="PRINCIPLE_ENGINEERINVESTIGATORACTION" name="principle (principal) investigator">
+    <pattern>
+      <token>principle</token>
+      <token regexp="yes">engineer|investigator|action|source|town</token>
+    </pattern>
+    <message> Did you mean <suggestion>principal <match no="2"/></suggestion>?</message>
+    <example type="incorrect">Dr. Baumrind was listed as the grant's <marker>principle investigator</marker>.</example>
+    <example type="correct">Dr. Baumrind was listed as the grant's principal investigator.</example>
+  </rule>
+<!-- most populace::word=most populous::pivots=populace,populous::options=populace,populous -->
+  <rule id="MOST_POPULACE" name="most populace (populous)">
+    <pattern>
+      <token>most</token>
+      <token>populace</token>
+    </pattern>
+    <message> Did you mean <suggestion>most populous</suggestion>?</message>
+    <example type="incorrect">Chicago was the <marker>most populace</marker> city.</example>
+    <example type="correct">California is the most populous state.</example>
+  </rule>
+<!-- at the reigns::word=at the reins::pivots=reigns,reins::options=reigns,reins -->
+  <rule id="AT_THE_REIGNS" name="at the reigns (reins)">
+    <pattern>
+      <token regexp="yes">at|hand|held|hold|holding|holds</token>
+      <token>the</token>
+      <token>reigns</token>
+    </pattern>
+    <message> Did you mean <suggestion><match no="1"/> the reins</suggestion>?</message>
+    <example type="incorrect">The coachman <marker>held the reigns</marker> with expertise.</example>
+    <example type="correct">The CEO holds the reins with authority.</example>
+  </rule>
+<!-- managerial reigns::word=managerial reins::pivots=reigns,reins::options=reigns,reins -->
+  <rule id="MANAGERIAL_REIGNS" name="managerial reigns (reins)">
+    <pattern>
+      <token>managerial</token>
+      <token>reigns</token>
+    </pattern>
+    <message> Did you mean <suggestion>managerial reins</suggestion>?</message>
+    <example type="incorrect">He handed over the <marker>managerial reigns</marker> of the project to the junior member.</example>
+    <example type="correct">He held the managerial reins throughout the project's lifespan.</example>
+  </rule>
+<!-- reigns of power::word=reins of power::pivots=reigns,reins::options=reigns,reins -->
+  <rule id="REIGNS_OF_POWER" name="reigns (reins) of power">
+    <pattern>
+      <token>reigns</token>
+      <token>of</token>
+      <token>power</token>
+    </pattern>
+    <message> Did you mean <suggestion>reins of power</suggestion>?</message>
+    <example type="incorrect">Idi Amin held the <marker>reigns of power</marker> for far too long.</example>
+    <example type="correct">Napoleon had such a firm grasp on the reins of power.</example>
+  </rule>
+<!-- take the reigns::word=take the reins::pivots=reigns,reins::options=reigns,reins -->
+  <rule id="TAKE_THE_REIGNS" name="take the reigns (reins)">
+    <pattern>
+      <token>take</token>
+      <token>the</token>
+      <token>reigns</token>
+    </pattern>
+    <message> Did you mean <suggestion>take the reins</suggestion>?</message>
+    <example type="incorrect"><marker>Take the reigns</marker> cried the bandit.</example>
+    <example type="correct">Take the reins! cried the bandit.</example>
+  </rule>
+<!-- free reign::word=free rein::pivots=reign,rein::options=reign,rein -->
+  <rule id="FREE_REIGN" name="free reign (rein)">
+    <pattern>
+      <token>free</token>
+      <token>reign</token>
+    </pattern>
+    <message> Did you mean <suggestion>free rein</suggestion>?</message>
+    <example type="incorrect">The famous actor was given <marker>free reign</marker> over the city.</example>
+    <example type="correct">The famous actor was given free rein over the city.</example>
+  </rule>
+<!-- lead roll::word=lead role::pivots=roll,role::options=roll,role -->
+  <rule id="LEAD_ROLL" name="lead roll (role)">
+    <pattern>
+      <token regexp="yes">lead|leading|major|minor|starring</token>
+      <token>roll</token>
+    </pattern>
+    <message> Did you mean <suggestion>\1 role</suggestion>?</message>
+    <example type="incorrect">She accepted the <marker>lead roll</marker> in the prestigious play.</example>
+    <example type="correct">She accepted the lead role in the prestigious play.</example>
+  </rule>
+<!-- roll player::word=role player::pivots=roll,role::options=roll,role -->
+  <rule id="ROLL_PLAYER" name="roll player (role player)">
+    <pattern>
+      <token>roll</token>
+      <token>player</token>
+    </pattern>
+    <message> Did you mean <suggestion>role player</suggestion>?</message>
+    <example type="incorrect">Eddie House was mainly a <marker>roll player</marker> in the Celtics' championship run.</example>
+    <example type="correct">Darko would be relegated to a mere role player during his last seasons.</example>
+  </rule>
+<!-- role call::word=roll call::pivots=role,roll::options=role,roll -->
+  <rule id="ROLE_CALL" name="role (roll) call">
+    <pattern>
+      <token>role</token>
+      <token>call</token>
+    </pattern>
+    <message> Did you mean <suggestion>roll call</suggestion>?</message>
+    <example type="incorrect">The colonel always forgot to take <marker>role call</marker>.</example>
+    <example type="correct">The opponents' names were messed up during roll call.</example>
+  </rule>
+<!-- construction sight::word=construction site::pivots=sight,site::options=sight,site -->
+  <rule id="CONSTRUCTION_SIGHT" name="construction sight (site)">
+    <pattern>
+      <token>construction</token>
+      <token>sight</token>
+    </pattern>
+    <message> Did you mean <suggestion>construction site</suggestion>?</message>
+    <example type="incorrect">We didn't visit the <marker>construction sight</marker> until Wednesday.</example>
+    <example type="correct">We didn't visit the construction site until it was almost finished.</example>
+  </rule>
+<!-- out of sink::word=out of sync::pivots=sink,sync::options=sink,sync -->
+  <rule id="OUT_OF_SINK" name="out of sink (sync)">
+    <pattern>
+      <token>out</token>
+      <token>of</token>
+      <token>sink</token>
+    </pattern>
+    <message> Did you mean <suggestion>out of sync</suggestion>?</message>
+    <example type="incorrect">The teammates were so badly <marker>out of sink</marker>.</example>
+    <example type="correct">The teammates were so badly out of sync.</example>
+  </rule>
+<!-- different tact::word=different tack::pivots=tact,tack::options=tact,tack -->
+  <rule id="DIFFERENT_TACT" name="different tact (tack)">
+    <pattern>
+      <token>different</token>
+      <token>tact</token>
+    </pattern>
+    <message> Did you mean <suggestion>different tack</suggestion>?</message>
+    <example type="incorrect">We'll have to try a <marker>different tact</marker>.</example>
+    <example type="correct">We'll have to try a different tack.</example>
+  </rule>
+<!-- .*/IN .*/PRP then .*/IN .*/PRP::word=\0 \1 than \3 \4::pivots=then,than::options=then,than -->
+  <rule id="IN_PRP_THEN_IN_PRP" name="IN PRP then (than) IN PRP">
+    <pattern>
+      <token postag="IN"><exception postag="IN" negate_pos="yes"/></token>
+      <token postag="PRP|NN(:UN?)?" postag_regexp="yes"><exception postag="PRP|NN(:UN?)?" postag_regexp="yes" negate_pos="yes"/></token>
+      <token>then</token>
+      <token postag="IN"><exception postag="IN" negate_pos="yes"/></token>
+      <token postag="PRP|NN(:UN?)?|SENT_END" postag_regexp="yes"><exception postag="PRP|NN(:UN?)?|SENT_END" postag_regexp="yes" negate_pos="yes"/></token>
+    </pattern>
+    <message> Did you mean <suggestion><match no="1"/> <match no="2"/> than <match no="4"/> <match no="5"/></suggestion>?</message>
+    <!-- can't write good examples for this... maybe that means it's not a good rule-->
+    <example type="incorrect">I'd rather be <marker>between him then between she</marker>.</example>
+    <example type="correct">I'd rather be between him than between her.</example>
+  </rule>
+<!-- &comparisons then::word=\0 than::pivots=then,than::options=then,than -->
+  <rule id="COMPARISONS_THEN" name="comparisons then (than)">
+    <pattern>
+      <token regexp="yes">hotter|colder|lamer|less|lesser|more|greater|heavier|lighter|better|worse|smarter|dumber|cheaper|sexier|taller|shorter|faster|slower|older|younger|easier|harder|farther|closer|higher|lower|larger|smaller|sooner|later|weaker|stronger|louder|quieter|darker|brighter</token>
+      <token>then</token>
+    </pattern>
+    <message> Did you mean <suggestion><match no="1"/> than</suggestion>?</message>
+    <example type="incorrect">It was <marker>hotter then</marker> it'd ever been.</example>
+    <example type="correct">It was hotter than it'd ever been.</example>
+  </rule>
+<!-- &comparisons .*/NNS then::word=\0 \1 than::pivots=then,than::options=then,than -->
+  <rule id="COMPARISONS_NNS_THEN" name="comparisons NNS then (than)">
+    <pattern>
+      <token regexp="yes">hotter|colder|lamer|less|lesser|more|greater|heavier|lighter|better|worse|smarter|dumber|cheaper|sexier|taller|shorter|faster|slower|older|younger|easier|harder|farther|closer|higher|lower|larger|smaller|sooner|later|weaker|stronger|louder|quieter|darker|brighter</token>
+      <token postag="NNS"><exception postag="NNS" negate_pos="yes"/></token>
+      <token>then</token>
+    </pattern>
+    <message> Did you mean <suggestion><match no="1"/> <match no="2"/> than</suggestion>?</message>
+    <example type="incorrect">There were <marker>better companies then</marker> GE and Google.</example>
+    <example type="correct">There were better companies than GE and Google.</example>
+  </rule>
+<!-- to .* then by::word=\0 \1 than \3::pivots=then,than::options=then,than -->
+  <rule id="TO__THEN_BY" name="to blank then (than) by">
+    <pattern>
+      <token>to</token>
+      <token></token>
+      <token>then</token>
+      <token>by</token>
+    </pattern>
+    <message> Did you mean <suggestion><match no="1"/> <match no="2"/> than <match no="4"/></suggestion>?</message>
+    <example type="incorrect">I'd rather go <marker>to play then by</marker> the market.</example>
+    <example type="correct">I'd rather go to play than by the market.</example>
+  </rule>
+<!-- waived off::word=waved off::pivots=waived,waved::options=waived,waved -->
+  <rule id="WAIVED_OFF" name="waived (waved) off">
+    <pattern>
+      <token>waived</token>
+      <token>off</token>
+    </pattern>
+    <message> Did you mean <suggestion>waved off</suggestion>?</message>
+    <example type="incorrect">The offsides call was <marker>waived off</marker> by the referee.</example>
+    <example type="correct">The offsides wall was waved off by the referee.</example>
+  </rule>
+<!-- wreck havoc::word=wreak havoc::pivots=wreck,wreak::options=wreck,wreak -->
+  <rule id="WRECK_HAVOC" name="wreck (wreak) havoc">
+    <pattern>
+      <token>wreck</token>
+      <token>havoc</token>
+    </pattern>
+    <message> Did you mean <suggestion>wreak havoc</suggestion>?</message>
+    <example type="incorrect">The hurricane would go on to <marker>wreck havoc</marker> up and down the coast.</example>
+    <example type="correct">The hurricae would go on to wreak havor up and down the coast.</example>
+  </rule>
+<!-- about who to::word=about whom to::pivots=who,whom::options=who,whom -->
+  <rule id="ABOUT_WHO_TO" name="about who (whom) to">
+    <pattern>
+      <token regexp="yes">about|of|over</token>
+      <token>who</token>
+      <token>to</token>
+    </pattern>
+    <message> Did you mean <suggestion><match no="1"/> whom to</suggestion>?</message>
+    <example type="incorrect">What do you think <marker>about who to</marker> promote?</example>
+    <example type="correct">What do you think about whom to promote?</example>
+  </rule>
+<!-- they're|there own::word=their \1::pivots=\0,their::options=they're,there,their -->
+<rulegroup id="THERE_OWN" name="there (their) own">
+  <rule>
+    <pattern>
+      <token>there</token>
+      <token>own</token>
+    </pattern>
+    <message> Did you mean <suggestion>their <match no="2"/></suggestion>?</message>
+    <example type="incorrect">They were largely on <marker>there own</marker> that night.</example>
+    <example type="correct">There were largely on their own that night.</example>
+  </rule>
+  <rule>
+    <pattern>
+      <token>they</token>
+      <token>'</token>
+      <token>re</token>
+      <token>own</token>
+    </pattern>
+    <message> Did you mean <suggestion>their <match no="4"/></suggestion>?</message>
+    <example type="incorrect">They completed the huge project on <marker>they're own</marker>.</example>
+    <example type="correct">They completed the huge project on their own.</example>
+  </rule>
+</rulegroup>
+<!-- .*/VBG they're::word=\0 their::pivots=they're,their::options=they're,their -->
+  <rule id="VBG_THEYRE" name="VBG theyre (their)">
+    <pattern>
+      <token postag="VBG"><exception postag="VBG" negate_pos="yes"/></token>
+      <token>they</token>
+      <token>'</token>
+      <token>re</token>
+    </pattern>
+    <message> Did you mean <suggestion><match no="1"/> their</suggestion>?</message>
+    <example type="incorrect">They couldn't stop <marker>conceptualizing they're</marker> own demise.</example>
+    <example type="correct">They couldn't stop conceptualizing their own demise.</example>
+  </rule>
+<!-- .*/VBG you're::word=\0 your::pivots=you're,your::options=you're,your -->
+  <rule id="VBG_YOURE" name="VBG youre (your)">
+    <pattern>
+      <token postag="VBG"><exception postag="VBG" negate_pos="yes"/></token>
+      <token>you</token>
+      <token>'</token>
+      <token>re</token>
+    </pattern>
+    <message> Did you mean <suggestion><match no="1"/> your</suggestion>?</message>
+    <example type="incorrect">Stop <marker>visualizing you're</marker> own demise.</example>
+    <example type="correct">Stop visualizing your own demise.</example>
+  </rule>
+<!-- that's|it's|who's|he's|she's|there's you're::word=\0 your::pivots=your,you're::options=your,you're -->
+  <rule id="THATS_YOURE" name="thats youre (your)">
+    <pattern>
+      <token regexp="yes">that|it|who|he|she|there</token>
+      <token>'</token>
+      <token>s</token>
+      <token>you</token>
+      <token>'</token>
+      <token>re</token>
+    </pattern>
+    <message> Did you mean <suggestion><match no="1"/><match no="2"/><match no="3"/> your</suggestion>?</message>
+    <example type="incorrect">Don't ask me, <marker>that's you're</marker> own problem.</example>
+    <example type="correct">Don't ask me, that's your own problem.</example>
+  </rule>
+<!-- that's|it's|who's|he's|she's|there's they're::word=\0 their::pivots=they're,their::options=their,they're -->
+  <rule id="THATS_THEYRE" name="thats theyre (their)">
+    <pattern>
+      <token regexp="yes">that|it|who|he|she|there</token>
+      <token>'</token>
+      <token>s</token>
+      <token>they</token>
+      <token>'</token>
+      <token>re</token>
+    </pattern>
+    <message> Did you mean <suggestion><match no="1"/><match no="2"/><match no="3"/> their</suggestion>?</message>
+    <example type="incorrect"><marker>That's they're</marker> fault.</example>
+    <example type="correct">Who's their advisor this year?</example>
+  </rule>
+<!-- that's|it's|who's|he's|she's|there's it's::word=\0 its::pivots=it's,its::options=it's,its -->
+  <rule id="THATS_ITS" name="thats its (possessive)">
+    <pattern>
+      <token regexp="yes">that|it|who|he|she|there</token>
+      <token>'</token>
+      <token>s</token>
+      <token>it</token>
+      <token>'</token>
+      <token>s</token>
+    </pattern>
+    <message> Did you mean <suggestion><match no="1"/><match no="2"/><match no="3"/> its</suggestion>?</message>
+    <example type="incorrect"><marker>He's it's</marker> primary caretaker.</example>
+    <example type="correct">He's its primary caretaker.</example>
+  </rule>
+<!-- you're .*/JJS .*/NN::word=your \1 \2::pivots=you're,your::options=your,you're -->
+  <rule id="YOURE_JJS_NN" name="youre (your) JJS NN">
+    <pattern>
+      <token>you</token>
+      <token>'</token>
+      <token>re</token>
+      <token postag="JJS"><exception postag="JJS" negate_pos="yes"/></token>
+      <token postag="NN|NN:UN?" postag_regexp="yes"><exception postag="NN|NN:UN?" postag_regexp="yes" negate_pos="yes"/></token>
+    </pattern>
+    <message> Did you mean <suggestion>your <match no="4"/> <match no="5"/></suggestion>?</message>
+    <example type="incorrect">I'd like to buy <marker>you're greenest banana</marker> please.</example>
+    <example type="correct">I'd like to buy your greenest banana please.</example>
+  </rule>
+<!-- they're .*/JJS .*/NN::word=their \1 \2::pivots=they're,their::options=their,they're -->
+  <rule id="THEYRE_JJS_NN" name="theyre (their) JJS NN">
+    <pattern>
+      <token>they</token>
+      <token>'</token>
+      <token>re</token>
+      <token postag="JJS"><exception postag="JJS" negate_pos="yes"/></token>
+      <token postag="NN|NN:UN?" postag_regexp="yes"><exception postag="NN|NN:UN?" postag_regexp="yes" negate_pos="yes"/></token>
+    </pattern>
+    <message> Did you mean <suggestion>their <match no="4"/> <match no="5"/></suggestion>?</message>
+    <example type="incorrect">It was <marker>they're oddest hypothesis</marker> yet.</example>
+    <example type="correct">It was their oddest hypothesis yet.</example>
+  </rule>
+<!-- it's .*/JJS .*/NN::word=its \1 \2::pivots=it's,its::options=it's,its -->
+  <rule id="ITS_JJS_NN" name="its (possessive) JJS NN">
+    <pattern>
+      <token>it</token>
+      <token>'</token>
+      <token>s</token>
+      <token postag="JJS"><exception postag="JJS" negate_pos="yes"/></token>
+      <token postag="NN|NN:UN?" postag_regexp="yes"><exception postag="NN|NN:UN?" postag_regexp="yes" negate_pos="yes"/></token>
+    </pattern>
+    <message> Did you mean <suggestion>its <match no="4"/> <match no="5"/></suggestion>?</message>
+    <example type="incorrect">For the painting, <marker>it's reddest area</marker> was in the upper left.</example>
+    <example type="correct">For the painting, its reddest area was in the upper left.</example>
+  </rule>
+<!-- .*/VBZ .*/IN|DT they're .*/NNP|NN|NNS::word=\0 \1 their \3::pivots=they're,their::options=they're,their -->
+  <rule id="VBZ_IN_THEYRE_NN" name="VBZ IN theyre (their) NN">
+    <pattern>
+      <token postag="VBZ"><exception postag="VBZ" negate_pos="yes"/></token>
+      <token postag="IN|DT" postag_regexp="yes"><exception postag="IN|DT" postag_regexp="yes" negate_pos="yes"/></token>
+      <token>they</token>
+      <token>'</token>
+      <token>re</token>
+      <token postag="NNP|NN|NN:UN?|NNS" postag_regexp="yes"><exception postag="NNP|NN|NN:UN?|NNS" postag_regexp="yes" negate_pos="yes"/></token>
+    </pattern>
+    <message> Did you mean <suggestion><match no="1"/> <match no="2"/> their <match no="6"/></suggestion>?</message>
+    <example type="incorrect">What kind of person <marker>disparages of they're company</marker>?</example>
+    <example type="correct">What kind of person disparages of their company?</example>
+  </rule>
+<!-- .*/IN .*/VBZ they're .*/NNP|NN|NNS::word=\0 \1 their \3::pivots=they're,their::options=they're,their -->
+  <rule id="IN_VBZ_THEYRE_NN" name="IN VBZ theyre (their) NN">
+    <pattern>
+      <token postag="IN"><exception postag="IN" negate_pos="yes"/></token>
+      <token postag="VBZ"><exception postag="VBZ" negate_pos="yes"/></token>
+      <token>they</token>
+      <token>'</token>
+      <token>re</token>
+      <token postag="NNP|NN|NN:UN?|NNS" postag_regexp="yes"><exception postag="NNP|NN|NN:UN?|NNS" postag_regexp="yes" negate_pos="yes"/></token>
+    </pattern>
+    <message> Did you mean <suggestion><match no="1"/> <match no="2"/> their <match no="6"/></suggestion>?</message>
+    <example type="incorrect">The only thing we think <marker>of is they're happiness</marker>.</example>
+    <example type="correct">The only thing we think of is their happiness.</example>
+  </rule>
+<!-- .*/DT .*/VBZ they're .*/NNP|NN|NNS::word=\0 \1 their \3::pivots=they're,their::options=they're,their -->
+  <rule id="DT_VBZ_THEYRE_NN" name="DT VBZ theyre (their) NN">
+    <pattern>
+      <token postag="DT"><exception postag="DT" negate_pos="yes"/></token>
+      <token postag="VBZ"><exception postag="VBZ" negate_pos="yes"/></token>
+      <token>they</token>
+      <token>'</token>
+      <token>re</token>
+      <token postag="NNP|NN|NN:UN?|NNS" postag_regexp="yes"><exception postag="NNP|NN|NN:UN?|NNS" postag_regexp="yes" negate_pos="yes"/></token>
+    </pattern>
+    <message> Did you mean <suggestion><match no="1"/> <match no="2"/> their <match no="6"/></suggestion>?</message>
+    <example type="incorrect">And if <marker>another is they're boyfriend</marker>, I will be angry.</example>
+    <example type="correct">And if another is their boyfriend, I wil be angry.</example>
+  </rule>
+  <!-- need|going|have|ought to .*/VBG::word=\0 \1 \2:base::pivots=\2,\2:base -->
+  <rule id="NEED_TO_VBG" name="need to VBG (VB)">
+    <pattern>
+      <token regexp="yes">need|going|have|ought</token>
+      <token>to</token>
+      <token postag="VBG"><exception postag="VBG" negate_pos="yes"/></token>
+    </pattern>
+    <message> Did you mean <suggestion><match no="1"/> <match no="2"/> <match no="3" postag="VB" /></suggestion>?</message>
+    <example type="incorrect">We're <marker>going to hypothesizing</marker> about the origins of man.</example>
+    <example type="correct">We're going to hypothesize about the origins of man.</example>
+  </rule>
+  <rulegroup id="ITS_RULE" name="its rule (possessive)">
+  <!-- on it's own::name=it's rule::word=on its own::filter=none -->
+  <rule>
+    <pattern>
+      <token>on</token>
+      <token>it</token>
+      <token>'</token>
+      <token>s</token>
+      <token>own</token>
+    </pattern>
+    <message> Did you mean <suggestion>on its own</suggestion>?</message>
+    <example type="incorrect">The cat was <marker>on it's own</marker> in the large house.</example>
+    <example type="correct">The cat was on its own in the large house.</example>
+  </rule>
+<!-- of it's own::name=it's rule::word=of its own::filter=none -->
+  <rule>
+    <pattern>
+      <token>of</token>
+      <token>it</token>
+      <token>'</token>
+      <token>s</token>
+      <token>own</token>
+    </pattern>
+    <message> Did you mean <suggestion>of its own</suggestion>?</message>
+    <example type="incorrect">The country's crisis was <marker>of it's own</marker> making.</example>
+    <example type="correct">The country's crisis was of its own making.</example>
+  </rule>
+<!-- such as it's::name=it's rule::word=such as its::filter=none -->
+  <rule>
+    <pattern>
+      <token>such</token>
+      <token>as</token>
+      <token>it</token>
+      <token>'</token>
+      <token>s</token>
+    </pattern>
+    <message> Did you mean <suggestion>such as its</suggestion>?</message>
+    <example type="incorrect">There are so many things like about Coney Island, <marker>such as it's</marker> old-school charm.</example>
+    <example type="correct">We liked a lot about the biology course, such as its pace of learning.</example>
+  </rule>
+<!-- from all it's::name=it's rule::word=from all its::filter=none -->
+  <rule>
+    <pattern>
+      <token>from</token>
+      <token>all</token>
+      <token>it</token>
+      <token>'</token>
+      <token>s</token>
+    </pattern>
+    <message> Did you mean <suggestion>from all its</suggestion>?</message>
+    <example type="incorrect"><marker>From all it's</marker> windows streamed glorious banners.</example>
+    <example type="correct">From all its windows streamed glorious banners.</example>
+  </rule>
+<!-- by all it's::name=it's rule::word=by all its::filter=none -->
+  <rule>
+    <pattern>
+      <token>by</token>
+      <token>all</token>
+      <token>it</token>
+      <token>'</token>
+      <token>s</token>
+    </pattern>
+    <message> Did you mean <suggestion>by all its</suggestion>?</message>
+    <example type="incorrect">I was confused <marker>by all it's</marker> footnotes.</example>
+    <example type="correct">I was confused by all its footnotes.</example>
+  </rule>
+<!-- it's approach::name=it's rule::word=its approach::filter=none -->
+  <rule>
+    <pattern>
+      <token>it</token>
+      <token>'</token>
+      <token>s</token>
+      <token>approach</token>
+    </pattern>
+    <message> Did you mean <suggestion>its approach</suggestion>?</message>
+    <example type="incorrect"><marker>It's approach</marker> was signaled by crunching leaves.</example>
+    <example type="correct">I was informed of its approach by the crunching leaves.</example>
+  </rule>
+<!-- with it's::name=it's rule::word=\0 its::pivots=it's,its -->
+  <rule>
+    <pattern>
+      <token>with</token>
+      <token>it</token>
+      <token>'</token>
+      <token>s</token>
+    </pattern>
+    <message> Did you mean <suggestion><match no="1"/> its</suggestion>?</message>
+    <example type="incorrect">She had trouble <marker>with it's</marker> tiny buttons.</example>
+    <example type="correct">She had trouble with its tiny buttons.</example>
+  </rule>
+<!-- with/.* it's/.* .*/JJ.*|NN.*::name=it's rule::word=\0 its \2::filter=none -->
+  <rule>
+    <pattern>
+      <token regexp="yes">with|in|without|from|under|over|above</token>
+      <token>it</token>
+      <token>'</token>
+      <token>s</token>
+      <token postag="JJ.*|NN.*" postag_regexp="yes"><exception postag="JJ.*|NN.*" postag_regexp="yes" negate_pos="yes"/></token>
+    </pattern>
+    <message> Did you mean <suggestion><match no="1"/> its <match no="5"/></suggestion>?</message>
+    <example type="incorrect">And <marker>above it's veranda</marker> loomed an ominous cloud.</example>
+    <example type="correct">And above its veranda loomed an ominous cloud.</example>
+  </rule>
+  </rulegroup>
+<!-- for it's .*/JJ|NN|NNS::word=for its::pivots=\1,its -->
+  <rule id="FOR_ITS_NN" name="for its NN (possessive)">
+    <pattern>
+      <token>for</token>
+      <token>it</token>
+      <token>'</token>
+      <token>s</token>
+      <token postag="JJ|NN|NN:UN?|NNS" postag_regexp="yes"><exception postag="JJ|NN|NN:UN?|NNS" postag_regexp="yes" negate_pos="yes"/></token>
+    </pattern>
+    <message> Did you mean <suggestion>for its</suggestion>?</message>
+    <example type="incorrect">No one had any remedies <marker>for it's crazy</marker> rantings.</example>
+    <example type="correct">No one had any rememdies for its crazy rantings.</example>
+  </rule>
+<!-- at|be|about|above|across|against|along|among|around|at|behind|by|for|from|had|in|near|of|on|over|through|to|towards|under|upon|with|without it's .*/JJ|NN|NNS::word=\0 its \2::pivots=it's,its -->
+  <rule id="ABOUT_ITS_NN" name="about its NN (possessive)">
+    <pattern>
+      <token regexp="yes">be|about|above|across|against|along|among|around|at|behind|by|for|from|had|in|near|of|on|over|through|to|towards|under|upon|with|without</token>
+      <token>it</token>
+      <token>'</token>
+      <token>s</token>
+      <token postag="JJ|NN|NN:UN?|NNS" postag_regexp="yes"><exception postag="JJ|NN|NN:UN?|NNS" postag_regexp="yes" negate_pos="yes"/></token>
+    </pattern>
+    <message> Did you mean <suggestion><match no="1"/> its <match no="3"/></suggestion>?</message>
+    <example type="incorrect">The frog told a story <marker>about it's happy</marker> childhood in the river.</example>
+    <example type="correct">The frog told a story about its happy childhood in the river.</example>
+  </rule>
+<!-- to .*/VB it's .*/NN|NNS::word=\0 \1 its \3::pivots=it's,its -->
+  <rule id="TO_VB_ITS_NN" name="to VB its NN (possessive)">
+    <pattern>
+      <token>to</token>
+      <token postag="VB"></token>
+      <token>it</token>
+      <token>'</token>
+      <token>s</token>
+      <token postag="NN|NN:UN?|NNS" postag_regexp="yes"><exception postag="NN|NN:UN?|NNS" postag_regexp="yes" negate_pos="yes"/></token>
+    </pattern>
+    <message> Did you mean <suggestion><match no="1"/> <match no="2"/> its <match no="6"/></suggestion>?</message>
+    <example type="incorrect">I wanted so badly <marker>to take it's apple</marker> and throw it through the window.</example>
+    <example type="correct">I wanted so badly to take its apple and throw it through the window.</example>
+  </rule>
+<!-- it's .*/JJ .*/NNS|NN::word=its \1 \2::pivots=it's,its -->
+  <rule id="ITS_JJ_NNSNN" name="its JJ NN (possessive)">
+    <pattern>
+      <token>it</token>
+      <token>'</token>
+      <token>s</token>
+      <token postag="JJ"><exception postag="JJ" negate_pos="yes"/></token>
+      <token postag="NNS|NN|NN:UN?" postag_regexp="yes"><exception postag="NNS|NN|NN:UN?" postag_regexp="yes" negate_pos="yes"/></token>
+    </pattern>
+    <message> Did you mean <suggestion>its <match no="4"/> <match no="5"/></suggestion>?</message>
+    <example type="incorrect">I appreciated <marker>it's odorless handshake</marker> by the fifth time.</example>
+    <example type="correct">I appreciate its odorless handshake by the fifth time.</example>
+  </rule>
+  <!-- laid ahead::word=lay ahead::pivots=laid,lay::options=laid,lay -->
+  <rule id="LAID_AHEAD" name="laid (lay) ahead">
+    <pattern>
+      <token>laid</token>
+      <token>ahead</token>
+    </pattern>
+    <message> Did you mean <suggestion>lay ahead</suggestion>?</message>
+    <example type="incorrect">We never knew what <marker>laid ahead</marker>.</example>
+    <example type="correct">We never knew what lay ahead.</example>
+  </rule>
+<!-- lay around::word=lie around::pivots=lay,lie::options=lay,lie -->
+  <rule id="LAY_AROUND" name="lay (lie) around">
+    <pattern>
+      <token>lay</token>
+      <token regexp="yes">around|low</token>
+    </pattern>
+    <message>Did you mean <suggestion>lie <match no="2"/></suggestion>?</message>
+    <example type="incorrect">All he did Sunday was <marker>lay around</marker> the house.</example>
+    <example type="correct">All he did Sunday was lie around the house.</example>
+  </rule>
+<!-- laying around::word=lying around::pivots=laying,lying::options=laying,lying -->
+  <rule id="LAYING_AROUND" name="laying (lying) around">
+    <pattern>
+      <token>laying</token>
+      <token regexp="yes">around|low</token>
+    </pattern>
+    <message> Did you mean <suggestion>lying <match no="2"/></suggestion>?</message>
+    <example type="incorrect">He had a special talent for <marker>laying low</marker>.</example>
+    <example type="correct">He had a special talent for lying low.</example>
+  </rule>
+<!-- lays atop::word=lies atop::pivots=lays,lies::options=lays,lies -->
+  <rule id="LAYS_ATOP" name="lays (lies) atop">
+    <pattern>
+      <token>lays</token>
+      <token regexp="yes">atop|beside|low|near|on</token>
+    </pattern>
+    <message> Did you mean <suggestion>lies <match no="2"/></suggestion>?</message>
+    <example type="incorrect">The text explains how important it is that the chicken <marker>lays on</marker> the noodles artfully.</example>
+    <example type="correct">The text explains how important it is that the chicken lies on the noodles artfully.</example>
+  </rule>
+<!-- was lain::word=was laid::pivots=lain,laid::options=lain,laid -->
+  <rule id="WAS_LAIN" name="was lain (laid)">
+    <pattern>
+      <token regexp="yes">was|were</token>
+      <token>lain</token>
+    </pattern>
+    <message> Did you mean <suggestion>\1 laid</suggestion>?</message>
+    <example type="incorrect">The body <marker>was lain</marker> beside his wife in the cemetery.</example>
+    <example type="correct">His body was laid beside his wife in the cemetery.</example>
+  </rule>
+  <!-- Jimmy Buffet::word=Jimmy Buffett::pivots=Buffet,Buffett -->
+  <rule id="JIMMY_BUFFET" name="Jimmy Buffet (Buffett)">
+    <pattern case_sensitive="yes">
+      <token>Jimmy</token>
+      <token>Buffet</token>
+    </pattern>
+    <message> Did you mean <suggestion>Jimmy Buffett</suggestion>?</message>
+    <example type="incorrect"><marker>Jimmy Buffet</marker> sang at the Arco Arena.</example>
+    <example type="correct">Jimmy Buffett sang at Arco Arena.</example>
+  </rule>
+<!-- Jimmy Hendrix::word=Jimi Hendrix::pivots=Jimmy,Jimi -->
+  <rule id="JIMMY_HENDRIX" name="Jimmy (Jimi) Hendrix">
+    <pattern case_sensitive="yes">
+      <token>Jimmy</token>
+      <token>Hendrix</token>
+    </pattern>
+    <message> Did you mean <suggestion>Jimi Hendrix</suggestion>?</message>
+    <example type="incorrect">Some argue that <marker>Jimmy Hendrix</marker> was the best guitarist who ever lived.</example>
+    <example type="correct">Some argue that Jimi Hendrix was the best ever.</example>
+  </rule>
+<!-- Phillips Arena::word=Philips Arena::pivots=Phillips,Philips::options=Phillips,Philips -->
+  <rule id="PHILLIPS_ARENA" name="Phillips (Philips) Arena">
+    <pattern case_sensitive="yes">
+      <token>Phillips</token>
+      <token>Arena</token>
+    </pattern>
+    <message> Did you mean <suggestion>Philips Arena</suggestion>?</message>
+    <example type="incorrect">The team played at <marker>Phillips Arena</marker>.</example>
+    <example type="correct">The team played at Philips Arena.</example>
+  </rule>
+<!-- jive with::word=jibe with::pivots=jive,jibe -->
+  <rule id="JIVE_WITH" name="jive (jibe) with">
+    <pattern>
+      <token>jive</token>
+      <token>with</token>
+    </pattern>
+    <message> Did you mean <suggestion>jibe with</suggestion>?</message>
+    <example type="incorrect">That doesn't <marker>jive with</marker> my mental outlook.</example>
+    <example type="correct">That doesn't jibe with my mental outlook.</example>
+  </rule>
+<!-- mash potatoes::word=mashed potatoes::pivots=mash,mashed::options=mash,mashed -->
+  <rule id="MASH_POTATOES" name="mash (mashed) potatoes">
+    <pattern>
+      <token>mash</token>
+      <token>potatoes</token>
+    </pattern>
+    <message> Did you mean <suggestion>mashed potatoes</suggestion>?</message>
+    <example type="incorrect">His favorite food is <marker>mash potatoes</marker> and gravy.</example>
+    <example type="correct">His favorite food is mashed potatoes and gravy.</example>
+  </rule>
+<!-- is renown for::word=is renowned for::pivots=renown,renowned::options=renown,renowned -->
+  <rule id="IS_RENOWN_FOR" name="is renown (renowned) for">
+    <pattern>
+      <token>is</token>
+      <token>renown</token>
+      <token>for</token>
+    </pattern>
+    <message> Did you mean <suggestion>is renowned for</suggestion>?</message>
+    <example type="incorrect">Brown <marker>is renown for</marker> its annoying undergraduates.</example>
+    <example type="correct">Brown is renowned for its annoying undergraduates.</example>
+  </rule>
+<!-- brew haha::word=brouhaha -->
+  <rule id="BREW_HAHA" name="brew haha (brouhaha)">
+    <pattern>
+      <token>brew</token>
+      <token>haha</token>
+    </pattern>
+    <message> Did you mean <suggestion>brouhaha</suggestion>?</message>
+    <example type="incorrect">What's all the <marker>brew haha</marker> about over there?</example>
+    <example type="correct">What's all the brouhaha about over there?</example>
+  </rule>
+<!-- working progress::word=work in progress -->
+  <rule id="WORKING_PROGRESS" name="working (work in) progress">
+    <pattern>
+      <token>working</token>
+      <token>progress</token>
+    </pattern>
+    <message> Did you mean <suggestion>work in progress</suggestion>?</message>
+    <example type="incorrect">His symphony was a <marker>working progress</marker>.</example>
+    <example type="correct">His symphony was a work in progress.</example>
+  </rule>
+<!-- historic record::word=historical record::pivots=historic,historical -->
+  <rule id="HISTORIC_RECORD" name="historic (historical) record">
+    <pattern>
+      <token>historic</token>
+      <token>record</token>
+    </pattern>
+    <message> Did you mean <suggestion>historical record</suggestion>?</message>
+    <example type="incorrect">The policy was strictly a matter of <marker>historic record</marker>.</example>
+    <example type="correct">The policy was strictly a matter of historical record.</example>
+  </rule>
+<!-- guest stared::word=guest-starred -->
+  <rule id="GUEST_STARED" name="guest stared (guest-starred)">
+    <pattern>
+      <token>guest</token>
+      <token>stared</token>
+    </pattern>
+    <message> Did you mean <suggestion>guest-starred</suggestion>?</message>
+    <example type="incorrect">Alan Alda never <marker>guest stared</marker> in another episode.</example>
+    <example type="correct">Alan Alda never guest-starred in another episode.</example>
+  </rule>
+<!-- in titled::word=entitled -->
+  <rule id="IN_TITLED" name="in titled (entitled)">
+    <pattern>
+      <token>in</token>
+      <token>titled</token>
+    </pattern>
+    <message> Did you mean <suggestion>entitled</suggestion>?</message>
+    <example type="incorrect">The children felt <marker>in titled</marker> to their expensive education.</example>
+    <example type="correct">The children fel entitled to their expensive education.</example>
+  </rule>
+<!-- is contained of::word=contains -->
+  <rule id="IS_CONTAINED_OF" name="is contained of (contains)">
+    <pattern>
+      <token>is</token>
+      <token>contained</token>
+      <token>of</token>
+    </pattern>
+    <message> Did you mean <suggestion>contains</suggestion>?</message>
+    <example type="incorrect">The beer <marker>is contained of</marker> hops and water.</example>
+    <example type="correct">The beer contains hops and water.</example>
+  </rule>
+<!-- after been::word=after being::pivots=been,being -->
+  <rule id="AFTER_BEEN" name="after been (being)">
+    <pattern>
+      <token>after</token>
+      <token>been</token>
+    </pattern>
+    <message> Did you mean <suggestion>after being</suggestion>?</message>
+    <example type="incorrect"><marker>After been</marker> assaulted, the man was often wary.</example>
+    <example type="correct">After being assaulted, the man was often wary.</example>
+  </rule>
+<!-- imminent domain::word=eminent domain::pivots=imminent,eminent -->
+  <rule id="IMMINENT_DOMAIN" name="imminent (eminent) domain">
+    <pattern>
+      <token>imminent</token>
+      <token>domain</token>
+    </pattern>
+    <message> Did you mean <suggestion>eminent domain</suggestion>?</message>
+    <example type="incorrect">Their house was claimed due to <marker>imminent domain</marker>.</example>
+    <example type="correct">Their house was claimed due to eminent domain.</example>
+  </rule>
+<!-- chomping at the bit::word=champing at the bit::pivots=chomping,champing -->
+  <rule id="CHOMPING_AT_THE_BIT" name="chomping (champing) at the bit">
+    <pattern>
+      <token>chomping</token>
+      <token>at</token>
+      <token>the</token>
+      <token>bit</token>
+    </pattern>
+    <message> Did you mean <suggestion>champing at the bit</suggestion>?</message>
+    <example type="incorrect">The horses were all <marker>chomping at the bit</marker>.</example>
+    <example type="correct">The horses were all champing at the bit.</example>
+  </rule>
+<!-- constellation prize::word=consolation prize::pivots=constellation,consolation -->
+  <rule id="CONSTELLATION_PRIZE" name="constellation (consolation) prize">
+    <pattern>
+      <token>constellation</token>
+      <token>prize</token>
+    </pattern>
+    <message> Did you mean <suggestion>consolation prize</suggestion>?</message>
+    <example type="incorrect">The team was so upset, they didn't even claim their <marker>constellation prize</marker>.</example>
+    <example type="correct">The consolation prize was a trip to the Bahamas.</example>
+  </rule>
+<!-- constitutes of::word=consists of::pivots=constitutes,consists -->
+  <rule id="CONSTITUTES_OF" name="constitutes (consists) of">
+    <pattern>
+      <token>constitutes</token>
+      <token>of</token>
+    </pattern>
+    <message> Did you mean <suggestion>consists of</suggestion>?</message>
+    <example type="incorrect">The city <marker>constitutes of</marker> five boroughs.</example>
+    <example type="correct">The city consists of five boroughs.</example>
+  </rule>
+<!-- could care less::word=couldn't care less::pivots=could,couldn't -->
+  <rule id="COULD_CARE_LESS" name="could (couldn't) care less">
+    <pattern>
+      <token>could</token>
+      <token>care</token>
+      <token>less</token>
+    </pattern>
+    <message> Did you mean <suggestion>couldn't care less</suggestion>?</message>
+    <example type="incorrect">The man on the street said he <marker>could care less</marker>.</example>
+    <example type="correct">The man on the street said he couldn't care less.</example>
+  </rule>
+<!-- could give a damn::word=couldn't give a damn::filter=none -->
+  <rule id="COULD_GIVE_A_DAMN" name="could (couldn't) give a damn">
+    <pattern>
+      <token>could</token>
+      <token>give</token>
+      <token>a</token>
+      <token>damn</token>
+    </pattern>
+    <message> Did you mean <suggestion>couldn't give a damn</suggestion>?</message>
+    <example type="incorrect">Frankly, my dear, I <marker>could give a damn</marker>.</example>
+    <example type="correct">Frankly, my dear, I couldn't give a damn.</example>
+  </rule>
+<!-- daily regiment::word=daily regimen::pivots=regiment,regimen -->
+  <rule id="DAILY_REGIMENT" name="daily regiment (regimen)">
+    <pattern>
+      <token>daily</token>
+      <token>regiment</token>
+    </pattern>
+    <message> Did you mean <suggestion>daily regimen</suggestion>?</message>
+    <example type="incorrect">They had a strict <marker>daily regiment</marker> of calisthenics.</example>
+    <example type="correct">They had a strict daily regimen of calisthenics.</example>
+  </rule>
+<!-- de factor::word=de facto::pivots=factor,facto -->
+  <rule id="DE_FACTOR" name="de factor (facto)">
+    <pattern>
+      <token>de</token>
+      <token>factor</token>
+    </pattern>
+    <message> Did you mean <suggestion>de facto</suggestion>?</message>
+    <example type="incorrect">There was a <marker>de factor</marker> ban on cigarettes.</example>
+    <example type="correct">There was a de facto ban on cigarettes.</example>
+  </rule>
+<!-- worse-case scenario::word=worst-case scenario::pivots=worse-case,worst-case -->
+  <rule id="WORSE-CASE_SCENARIO" name="worse-case (worst-case) scenario">
+    <pattern>
+      <token>worse-case</token>
+      <token>scenario</token>
+    </pattern>
+    <message> Did you mean <suggestion>worst-case scenario</suggestion>?</message>
+    <example type="incorrect">They always prepared for the <marker>worse-case scenario</marker>.</example>
+    <example type="correct">They always prepared for the worst-case scenario.</example>
+  </rule>
+<!-- worst comes to worst::word=worse comes to worst::pivots=worse-case,worst-case -->
+  <rule id="WORST_COMES_TO_WORST" name="worst (worse) comes to worst">
+    <pattern>
+      <token>worst</token>
+      <token>comes</token>
+      <token>to</token>
+      <token>worst</token>
+    </pattern>
+    <message> Did you mean <suggestion>worse comes to worst</suggestion>?</message>
+    <example type="incorrect">If <marker>worst comes to worst</marker>, we'll just move.</example>
+    <example type="correct">If worse comes to worst, we'll just move.</example>
+  </rule>
+<!-- to bath::word=to bathe::pivots=bath,bathe -->
+  <rule id="TO_BATH" name="to bath (bathe)">
+    <pattern>
+      <token>to</token>
+      <token>bath</token>
+    </pattern>
+    <message> Did you mean <suggestion>to bathe</suggestion>?</message>
+    <example type="incorrect">It's so relaxing <marker>to bath</marker> in the evening.</example>
+    <example type="correct">It's so relaxing to bathe in the evening.</example>
+  </rule>
+<!-- treasure trough::word=treasure trove::pivots=trough,trove -->
+  <rule id="TREASURE_TROUGH" name="treasure trough (trove)">
+    <pattern>
+      <token>treasure</token>
+      <token>trough</token>
+    </pattern>
+    <message> Did you mean <suggestion>treasure trove</suggestion>?</message>
+    <example type="incorrect">In the wreckage they found a <marker>treasure trough</marker> of doubloons.</example>
+    <example type="correct">It was a treasure trove of ideas.</example>
+  </rule>
+<!-- ad nauseum::word=ad nauseam::filter=none -->
+  <rule id="AD_NAUSEUM" name="ad nauseum (nauseam)">
+    <pattern>
+      <token>ad</token>
+      <token>nauseum</token>
+    </pattern>
+    <message> Did you mean <suggestion>ad nauseam</suggestion>?</message>
+    <example type="incorrect">The song was playing <marker>ad nauseum</marker>.</example>
+    <example type="correct">The song was playing ad nauseam.</example>
+  </rule>
+<!-- Noble Prize::word=Nobel Prize::filter=none -->
+  <rule id="NOBLE_PRIZE" name="Noble (Nobel) Prize">
+    <pattern case_sensitive="yes">
+      <token>Noble</token>
+      <token>Prize</token>
+    </pattern>
+    <message> Did you mean <suggestion>Nobel Prize</suggestion>?</message>
+    <example type="incorrect">He was awarded the <marker>Noble Prize</marker> in literature.</example>
+    <example type="correct">He was awarded the Nobel Prize in physics.</example>
+  </rule>
+<!-- land lover::word=landlubber::filter=none -->
+  <rule id="LAND_LOVER" name="land lover (landlubber)">
+    <pattern>
+      <token>land</token>
+      <token>lover</token>
+    </pattern>
+    <message> Did you mean <suggestion>landlubber</suggestion>?</message>
+    <example type="incorrect">The sailors considered John to be a serious <marker>land lover</marker>.</example>
+    <example type="correct">The sailors considered John to be a serious landlubber.</example>
+  </rule>
+<!-- strike a cord::word=strike a chord::filter=none -->
+  <rule id="STRIKE_A_CORD" name="strike a cord (chord)">
+    <pattern>
+      <token>strike</token>
+      <token>a</token>
+      <token>cord</token>
+    </pattern>
+    <message> Did you mean <suggestion>strike a chord</suggestion>?</message>
+    <example type="incorrect">Her comment happened to <marker>strike a cord</marker> with the colonel.</example>
+    <example type="correct">Her comment happened to strike a chord with the colonel.</example>
+  </rule>
+<!-- safety deposit box::word=safe deposit box::filter=none -->
+  <rule id="SAFETY_DEPOSIT_BOX" name="safety (safe) deposit box">
+    <pattern>
+      <token>safety</token>
+      <token>deposit</token>
+      <token>box</token>
+    </pattern>
+    <message> Did you mean <suggestion>safe deposit box</suggestion>?</message>
+    <example type="incorrect">He inherited his grandfather's <marker>safety deposit box</marker>.</example>
+    <example type="correct">He inherited his grandfather's safe deposit box.</example>
+  </rule>
+<!-- statue of limitations::word=statute of limitations::filter=none -->
+  <rule id="STATUE_OF_LIMITATIONS" name="statue (statute) of limitations">
+    <pattern>
+      <token>statue</token>
+      <token>of</token>
+      <token>limitations</token>
+    </pattern>
+    <message> Did you mean <suggestion>statute of limitations</suggestion>?</message>
+    <example type="incorrect">Luckily, his crime wasn't covered by the <marker>statue of limitations</marker>.</example>
+    <example type="correct">He was one year away from the statute of limitations.</example>
+  </rule>
+<!-- all the farther::word=as far as::filter=none -->
+  <rule id="ALL_THE_FARTHER" name="all the farther (as far as)">
+    <pattern>
+      <token>all</token>
+      <token>the</token>
+      <token>farther</token>
+    </pattern>
+    <message> Did you mean <suggestion>as far as</suggestion>?</message>
+    <example type="incorrect">The town was <marker>all the farther</marker> than the border.</example>
+    <example type="correct">The town was as far as the border.</example>
+  </rule>
+<!-- discussions around::word=\0 about::pivots=around, about -->
+  <rule id="DISCUSSIONS_AROUND" name="discussions around (about)">
+    <pattern>
+      <token>discussions</token>
+      <token>around</token>
+    </pattern>
+    <message> Did you mean <suggestion><match no="1"/> about</suggestion>?</message>
+    <example type="incorrect">They had many <marker>discussions around</marker> politics.</example>
+    <example type="correct">They had many discussions about politics.</example>
+  </rule>
+<!-- as time progressed::word=as time passed::filter=none -->
+  <rule id="AS_TIME_PROGRESSED" name="as time progressed (passed)">
+    <pattern>
+      <token>as</token>
+      <token>time</token>
+      <token>progressed</token>
+    </pattern>
+    <message> Did you mean <suggestion>as time passed</suggestion>?</message>
+    <example type="incorrect"><marker>As time progressed</marker>, the sisters got wiser.</example>
+    <example type="correct">As time passed, the sisters got wiser.</example>
+  </rule>
+<!-- as follow::word=as follows::filter=none -->
+  <rule id="AS_FOLLOW" name="as follow (follows)">
+    <pattern>
+      <token>as</token>
+      <token>follow</token>
+    </pattern>
+    <message> Did you mean <suggestion>as follows</suggestion>?</message>
+    <example type="incorrect">The main points are <marker>as follow</marker>:</example>
+    <example type="correct">The main points are as follows:</example>
+  </rule>
+<!-- beyond the pail::word=beyond the pale::filter=none -->
+  <rule id="BEYOND_THE_PAIL" name="beyond the pail (pale)">
+    <pattern>
+      <token>beyond</token>
+      <token>the</token>
+      <token>pail</token>
+    </pattern>
+    <message> Did you mean <suggestion>beyond the pale</suggestion>?</message>
+    <example type="incorrect">His behavior was <marker>beyond the pail</marker>.</example>
+    <example type="correct">His behavior was beyond the pale.</example>
+  </rule>
+<!-- beckon call::word=beck and call::filter=none -->
+  <rule id="BECKON_CALL" name="beckon (beck and) call">
+    <pattern>
+      <token>beckon</token>
+      <token>call</token>
+    </pattern>
+    <message> Did you mean <suggestion>beck and call</suggestion>?</message>
+    <example type="incorrect">Don't expect me to be at your <marker>beckon call</marker>.</example>
+    <example type="correct">Don't expect me to be at your beck and call.</example>
+  </rule>
+<!-- begs belief::word=beggars belief::filter=none -->
+  <rule id="BEGS_BELIEF" name="begs (beggars) belief">
+    <pattern>
+      <token>begs</token>
+      <token>belief</token>
+    </pattern>
+    <message> Did you mean <suggestion>beggars belief</suggestion>?</message>
+    <example type="incorrect">It <marker>begs belief</marker> that corporate policies can always pursue the best interests of a company.</example>
+    <example type="correct">It beggars belief that corporate policies can always pursue the best interests of a company.</example>
+  </rule>
+<!-- buttload::word=boatload::filter=none -->
+  <rule id="BUTTLOAD" name="buttload (boatload)">
+    <pattern>
+      <token>buttload</token>
+    </pattern>
+    <message> Did you mean <suggestion>boatload</suggestion>?</message>
+    <example type="incorrect">There was a <marker>buttload</marker> of cabbage left over.</example>
+    <example type="correct">There was a boatload of sprouts left over.</example>
+  </rule>
+<!-- brussell sprout::word=brussells sprout::filter=none -->
+  <rule id="BRUSSELL_SPROUT" name="brussell (brussells) sprout">
+    <pattern>
+      <token>brussell</token>
+      <token>sprout</token>
+    </pattern>
+    <message> Did you mean <suggestion>brussells sprout</suggestion>?</message>
+    <example type="incorrect">He left the last <marker>brussell sprout</marker> on his plate.</example>
+    <example type="correct">He left the last brussells sprout on his plate.</example>
+  </rule>
+<!-- bored of::word=bored with::filter=none -->
+  <rule id="BORED_OF" name="bored of (with)">
+    <pattern>
+      <token>bored</token>
+      <token>of</token>
+    </pattern>
+    <message> Did you mean <suggestion>bored with</suggestion>?</message>
+    <example type="incorrect">I always get <marker>bored of</marker> people who talk about themselves.</example>
+    <example type="correct">I always get bored with people who talk about themselves.</example>
+  </rule>
+<!-- build off of::word=build on::filter=none -->
+  <rule id="BUILD_OFF_OF" name="build off of (build on)">
+    <pattern>
+      <token>build</token>
+      <token>off</token>
+      <token>of</token>
+    </pattern>
+    <message> Did you mean <suggestion>build on</suggestion>?</message>
+    <example type="incorrect">Arcade Fire tried to <marker>build off of</marker> the success of their first album.</example>
+    <example type="correct">Arcade Fire tried to build on the success of their first album.</example>
+  </rule>
+<!-- trite and true::word=tried and true::filter=none -->
+  <rule id="TRITE_AND_TRUE" name="trite (tried) and true">
+    <pattern>
+      <token>trite</token>
+      <token>and</token>
+      <token>true</token>
+    </pattern>
+    <message> Did you mean <suggestion>tried and true</suggestion>?</message>
+    <example type="incorrect">It was a <marker>trite and true</marker> solution.</example>
+    <example type="correct">It was a tried and true solution.</example>
+  </rule>
+<!-- between you and I::word=between you and me::filter=none -->
+  <rule id="BETWEEN_YOU_AND_I" name="between you and I (me)">
+    <pattern>
+      <token>between</token>
+      <token>you</token>
+      <token>and</token>
+      <token>I</token>
+    </pattern>
+    <message> Did you mean <suggestion>between you and me</suggestion>?</message>
+    <example type="incorrect"><marker>Between you and I</marker>, there's no hope of survival.</example>
+    <example type="correct">Between you and me, there's no hope of cake tomorrow.</example>
+  </rule>
+<!-- every since::word=ever since::filter=none -->
+  <rule id="EVERY_SINCE" name="every (ever) since">
+    <pattern>
+      <token>every</token>
+      <token>since</token>
+    </pattern>
+    <message> Did you mean <suggestion>ever since</suggestion>?</message>
+    <example type="incorrect">And <marker>every since</marker> the war, the people have gone to bed at eleven.</example>
+    <example type="correct">Ever since the turn of the century, cows have worn hats.</example>
+  </rule>
+<!-- fowl swoop::word=fell swoop::filter=none -->
+  <rule id="FOWL_SWOOP" name="fowl (fell) swoop">
+    <pattern>
+      <token>fowl</token>
+      <token>swoop</token>
+    </pattern>
+    <message> Did you mean <suggestion>fell swoop</suggestion>?</message>
+    <example type="incorrect">He completed the symphony in one <marker>fowl swoop</marker>.</example>
+    <example type="correct">He completed the symphony in one fell swoop.</example>
+  </rule>
+<!-- gardener|garden snake::word=garter snake::filter=none -->
+  <rule id="GARDENERGARDEN_SNAKE" name="gardener (garter) snake">
+    <pattern>
+      <token regexp="yes">gardener|garden</token>
+      <token>snake</token>
+    </pattern>
+    <message> Did you mean <suggestion>garter snake</suggestion>?</message>
+    <example type="incorrect">We found a tiny <marker>gardener snake</marker> in the bushes.</example>
+    <example type="correct">We found a tiny garter snake in the bushes.</example>
+  </rule>
+<!-- hay day::word=heyday::filter=none -->
+  <rule id="HAY_DAY" name="hay day (heyday)">
+    <pattern>
+      <token>hay</token>
+      <token>day</token>
+    </pattern>
+    <message> Did you mean <suggestion>heyday</suggestion>?</message>
+    <example type="incorrect">He was never as good as he was in his <marker>hay day</marker>.</example>
+    <example type="correct">This was the boxer's heyday; he was fantastic.</example>
+  </rule>
+<!-- hardly never::word=hardly ever::pivots=never,ever -->
+  <rule id="HARDLY_NEVER" name="hardly never (ever)">
+    <pattern>
+      <token>hardly</token>
+      <token>never</token>
+    </pattern>
+    <message> Did you mean <suggestion>hardly ever</suggestion>?</message>
+    <example type="incorrect">She <marker>hardly never</marker> takes the subway.</example>
+    <example type="correct">She hardly ever takes the subway.</example>
+  </rule>
+<!-- hew and cry::word=hue and cry::filter=none -->
+  <rule id="HEW_AND_CRY" name="hew (hue) and cry">
+    <pattern>
+      <token>hew</token>
+      <token>and</token>
+      <token>cry</token>
+    </pattern>
+    <message> Did you mean <suggestion>hue and cry</suggestion>?</message>
+    <example type="incorrect">There was a massive <marker>hew and cry</marker> after the beating.</example>
+    <example type="correct">There was a massive hue and cry after the robbery.</example>
+  </rule>
+<!-- minus well::word=might as well::filter=none -->
+  <rule id="MINUS_WELL" name="minus well (might as well)">
+    <pattern>
+      <token>minus</token>
+      <token>well</token>
+    </pattern>
+    <message> Did you mean <suggestion>might as well</suggestion>?</message>
+    <example type="incorrect">We <marker>minus well</marker> break up.</example>
+    <example type="correct">We might as well break up.</example>
+  </rule>
+<!-- oft chance::word=off chance::filter=none -->
+  <rule id="OFT_CHANCE" name="oft chance (off chance)">
+    <pattern>
+      <token>oft</token>
+      <token>chance</token>
+    </pattern>
+    <message> Did you mean <suggestion>off chance</suggestion>?</message>
+    <example type="incorrect">On the <marker>oft chance</marker> that you get home by nine, could you turn on the oven?</example>
+    <example type="correct">On the off chance you're alive, could you call me?</example>
+  </rule>
+<!-- on the same token::word=by the same token::filter=none -->
+  <rule id="ON_THE_SAME_TOKEN" name="on the same token (by the same token)">
+    <pattern>
+      <token>on</token>
+      <token>the</token>
+      <token>same</token>
+      <token>token</token>
+    </pattern>
+    <message> Did you mean <suggestion>by the same token</suggestion>?</message>
+    <example type="incorrect"><marker>On the same token</marker>, they believe you've cheated them.</example>
+    <example type="correct">By the same token, they believe in faith before religion.</example>
+  </rule>
+<!-- one of the only::word=one of the few::pivots=only,few -->
+  <rule id="ONE_OF_THE_ONLY" name="one of the only (few)">
+    <pattern>
+      <token>one</token>
+      <token>of</token>
+      <token>the</token>
+      <token>only</token>
+    </pattern>
+    <message> Did you mean <suggestion>one of the few</suggestion>?</message>
+    <example type="incorrect">He's <marker>one of the only</marker> magicians in Providence.</example>
+    <example type="correct">She's one of the few musicians with an accordian.</example>
+  </rule>
+<!-- pedal to the medal::word=pedal to the metal::filter=none -->
+  <rule id="PEDAL_TO_THE_MEDAL" name="pedal to the medal (metal)">
+    <pattern>
+      <token>pedal</token>
+      <token>to</token>
+      <token>the</token>
+      <token>medal</token>
+    </pattern>
+    <message> Did you mean <suggestion>pedal to the metal</suggestion>?</message>
+    <example type="incorrect">To get by the police car, he put the <marker>pedal to the medal</marker>.</example>
+    <example type="correct">To get by the cop car, he put the pedal to the metal.</example>
+  </rule>
+<!-- pawn off::word=palm off::pivots=pawn,palm -->
+  <rule id="PAWN_OFF" name="pawn off (palm off)">
+    <pattern>
+      <token>pawn</token>
+      <token>off</token>
+    </pattern>
+    <message> Did you mean <suggestion>palm off</suggestion>?</message>
+    <example type="incorrect">Are you trying to <marker>pawn off</marker> that annoying client?</example>
+    <example type="correct">Are you trying to palm off that annoying client?</example>
+  </rule>
+<!-- plays a factor::word=plays a role::filter=none -->
+  <rule id="PLAYS_A_FACTOR" name="plays a factor (plays a role)">
+    <pattern>
+      <token>plays</token>
+      <token>a</token>
+      <token>factor</token>
+    </pattern>
+    <message> Did you mean <suggestion>plays a role</suggestion>?</message>
+    <example type="incorrect">The goalie hardly <marker>plays a factor</marker> in the endgame.</example>
+    <example type="correct">The goalie hardly plays a role in the endgame.</example>
+  </rule>
+<!-- realms of possibility::word=realm of possibility::filter=none -->
+  <rule id="REALMS_OF_POSSIBILITY" name="realms (realm) of possibility">
+    <pattern>
+      <token>realms</token>
+      <token>of</token>
+      <token>possibility</token>
+    </pattern>
+    <message> Did you mean <suggestion>realm of possibility</suggestion>?</message>
+    <example type="incorrect">That is hardly outside the <marker>realms of possibility</marker>.</example>
+    <example type="correct">That's hardly outside the realm of possibility.</example>
+  </rule>
+<!-- sense of false hope|privacy|security|confidence::word=false sense of \3::filter=none -->
+  <rule id="SENSE_OF_FALSE_HOPEPRIVACYSECURITY" name="sense of false security (false sense of security)">
+    <pattern>
+      <token>sense</token>
+      <token>of</token>
+      <token>false</token>
+      <token regexp="yes">hope|privacy|security|confidence</token>
+    </pattern>
+    <message> Did you mean <suggestion>false sense of <match no="4"/></suggestion>?</message>
+    <example type="incorrect">The members of the board were holding onto a <marker>sense of false security</marker>.</example>
+    <example type="correct">The members of the board were holding onto a false sense of security.</example>
+  </rule>
+<!-- ring its neck::word=wring its neck::filter=none -->
+  <rule id="RING_ITS_NECK" name="ring (wring) its neck">
+    <pattern>
+      <token>ring</token>
+      <token>its</token>
+      <token>neck</token>
+    </pattern>
+    <message> Did you mean <suggestion>wring its neck</suggestion>?</message>
+    <example type="incorrect">I'm going to <marker>ring its neck</marker>.</example>
+    <example type="correct">I'm going to wring its neck.</example>
+  </rule>
+<!-- right of passage::word=rite of passage::pivots=right,rite -->
+  <rule id="RIGHT_OF_PASSAGE" name="right (rite) of passage">
+    <pattern>
+      <token>right</token>
+      <token>of</token>
+      <token>passage</token>
+    </pattern>
+    <message> Did you mean <suggestion>rite of passage</suggestion>?</message>
+    <example type="incorrect">The fire-ritual was a Cherokee <marker>right of passage</marker>.</example>
+    <example type="correct">The fire-ritual was a Cherokee rite of passage.</example>
+  </rule>
+<!-- rod|rot iron::word=wrought iron::filter=none -->
+  <rule id="RODROT_IRON" name="rod (wrought) iron">
+    <pattern>
+      <token regexp="yes">rod|rot</token>
+      <token>iron</token>
+    </pattern>
+    <message> Did you mean <suggestion>wrought iron</suggestion>?</message>
+    <example type="incorrect">She specialized in art done in <marker>rod iron</marker>.</example>
+    <example type="correct">She specialized in wrought iron art.</example>
+  </rule>
+<!-- souse chef::word=sous chef::filter=none -->
+  <rule id="SOUSE_CHEF" name="souse (sous) chef">
+    <pattern>
+      <token>souse</token>
+      <token>chef</token>
+    </pattern>
+    <message> Did you mean <suggestion>sous chef</suggestion>?</message>
+    <example type="incorrect">He gave most of his responsibility to his <marker>souse chef</marker>.</example>
+    <example type="correct">He gave most of his responsibility to his sous chef.</example>
+  </rule>
+<!-- stock and trade::word=stock in trade::filter=none -->
+  <rule id="STOCK_AND_TRADE" name="stock and trade (stock in trade)">
+    <pattern>
+      <token>stock</token>
+      <token>and</token>
+      <token>trade</token>
+    </pattern>
+    <message> Did you mean <suggestion>stock in trade</suggestion>?</message>
+    <example type="incorrect">Swords and knives are their <marker>stock and trade</marker>.</example>
+    <example type="correct">Swords and bullion cubes are their stock in trade.</example>
+  </rule>
+<!-- sound byte::word=sound bite::filter=none -->
+  <rule id="SOUND_BYTE" name="sound byte (bite)">
+    <pattern>
+      <token>sound</token>
+      <token>byte</token>
+    </pattern>
+    <message> Did you mean <suggestion>sound bite</suggestion>?</message>
+    <example type="incorrect">The politician gave an awful <marker>sound byte</marker>.</example>
+    <example type="correct">The politician gave a great sound bite.</example>
+  </rule>
+<!-- to the manor born::word=to the manner born::filter=none -->
+  <rule id="TO_THE_MANOR_BORN" name="to the manor (manner) born">
+    <pattern>
+      <token>to</token>
+      <token>the</token>
+      <token>manor</token>
+      <token>born</token>
+    </pattern>
+    <message> Did you mean <suggestion>to the manner born</suggestion>?</message>
+    <example type="incorrect">He played the piano as <marker>to the manor born</marker>.</example>
+    <example type="correct">He played flute as to the manner born.</example>
+  </rule>
+<!-- vintage point::word=vantage point::filter=none -->
+  <rule id="VINTAGE_POINT" name="vintage (vantage) point">
+    <pattern>
+      <token>vintage</token>
+      <token>point</token>
+    </pattern>
+    <message> Did you mean <suggestion>vantage point</suggestion>?</message>
+    <example type="incorrect">There was a great <marker>vintage point</marker> on the back side of the hill.</example>
+    <example type="correct">There was a great vantage point on the back of the hill.</example>
+  </rule>
+<!-- whim and a prayer::word=wing and a prayer::filter=none -->
+  <rule id="WHIM_AND_A_PRAYER" name="whim (wing) and a prayer">
+    <pattern>
+      <token>whim</token>
+      <token>and</token>
+      <token>a</token>
+      <token>prayer</token>
+    </pattern>
+    <message> Did you mean <suggestion>wing and a prayer</suggestion>?</message>
+    <example type="incorrect">The Lakers appeared to be hanging on a <marker>whim and a prayer</marker>.</example>
+    <example type="correct">The Lakers appeared to be hanging on a whing and a prayer.</example>
+  </rule>
+<!-- year end and year out::word=year in and year out::filter=none -->
+  <rule id="YEAR_END_AND_YEAR_OUT" name="year end (in) and year out">
+    <pattern>
+      <token>year</token>
+      <token>end</token>
+      <token>and</token>
+      <token>year</token>
+      <token>out</token>
+    </pattern>
+    <message> Did you mean <suggestion>year in and year out</suggestion>?</message>
+    <example type="incorrect"><marker>Year end and year out</marker>, we go out to the vineyards.</example>
+    <example type="correct">Year in and year out, we go to the vineyards.</example>
+  </rule>
+<!-- hand and hand::word=hand in hand::filter=none -->
+  <rule id="HAND_AND_HAND" name="hand and hand (hand in hand)">
+    <pattern>
+      <token>hand</token>
+      <token>and</token>
+      <token>hand</token>
+    </pattern>
+    <message> Did you mean <suggestion>hand in hand</suggestion>?</message>
+    <example type="incorrect">The ability to talk forever goes <marker>hand and hand</marker> with being a Brown student.</example>
+    <example type="correct">The ability to talk about nothing important goes hand in hand with being a Brown student.</example>
+  </rule>
+<!-- grasping for straws::word=grasping at straws::filter=none -->
+  <rule id="GRASPING_FOR_STRAWS" name="grasping for straws (grasping at straws)">
+    <pattern>
+      <token>grasping</token>
+      <token>for</token>
+      <token>straws</token>
+    </pattern>
+    <message> Did you mean <suggestion>grasping at straws</suggestion>?</message>
+    <example type="incorrect">At that point, the desperate gentleman was simply <marker>grasping for straws</marker>.</example>
+    <example type="correct">At the point it's just grasping at straws.</example>
+  </rule>
+<!-- grill cheese::word=grilled cheese::filter=none -->
+  <rule id="GRILL_CHEESE" name="grill (grilled) cheese">
+    <pattern>
+      <token>grill</token>
+      <token>cheese</token>
+    </pattern>
+    <message> Did you mean <suggestion>grilled cheese</suggestion>?</message>
+    <example type="incorrect">The kid only wanted to eat <marker>grill cheese</marker> sandwiches.</example>
+    <example type="correct">The kid only wanted to eat grilled cheese sandwiches.</example>
+  </rule>
+<!-- might has well::word=might as well::filter=none -->
+  <rule id="MIGHT_HAS_WELL" name="might has (as) well">
+    <pattern>
+      <token>might</token>
+      <token>has</token>
+      <token>well</token>
+    </pattern>
+    <message> Did you mean <suggestion>might as well</suggestion>?</message>
+    <example type="incorrect">You <marker>might has well</marker> take off your shoes.</example>
+    <example type="correct">You might as well take off your shoes.</example>
+  </rule>
+<!-- on the contraire::word=au contraire, on the contrary::filter=none -->
+  <rule id="ON_THE_CONTRAIRE" name="on the contraire (au contraire)">
+    <pattern>
+      <token>on</token>
+      <token>the</token>
+      <token>contraire</token>
+    </pattern>
+    <message> Did you mean <suggestion>au contraire</suggestion> or <suggestion> on the contrary</suggestion>?</message>
+    <example type="incorrect"><marker>On the contraire</marker>, you've been following me home!</example>
+    <example type="correct">On the contrary, you've been following me home!</example>
+  </rule>
+<!-- damp squid::word=damp squib::filter=none -->
+  <rule id="DAMP_SQUID" name="damp squid (squib)">
+    <pattern>
+      <token>damp</token>
+      <token>squid</token>
+    </pattern>
+    <message> Did you mean <suggestion>damp squib</suggestion>?</message>
+    <example type="incorrect">The last firework of the evening was a disappointing <marker>damp squid</marker>.</example>
+    <example type="correct">The last firework of the evening was a disappointing damp squib.</example>
+  </rule>
+<!-- cursing through veins::word=coursing through veins::filter=none -->
+  <rule id="CURSING_THROUGH_VEINS" name="cursing (coursing) through veins">
+    <pattern>
+      <token>cursing</token>
+      <token>through</token>
+      <token>veins</token>
+    </pattern>
+    <message> Did you mean <suggestion>coursing through veins</suggestion>?</message>
+    <example type="incorrect">It felt like the drugs were <marker>cursing through veins</marker>.</example>
+    <example type="correct">It felt like the drugs were coursing through veins.</example>
+  </rule>
+<!-- daring-do::word=derring-do::filter=none -->
+  <rule id="DARING-DO" name="daring-do (derring-do)">
+    <pattern>
+      <token>daring-do</token>
+    </pattern>
+    <message> Did you mean <suggestion>derring-do</suggestion>?</message>
+    <example type="incorrect">He impressed all the ladies with his <marker>daring-do</marker>.</example> 
+    <example type="correct">He impressed all the ladies with his derring-do.</example>
+  </rule>
+<!-- death nail::word=death knell::filter=none -->
+  <rule id="DEATH_NAIL" name="death nail (knell)">
+    <pattern>
+      <token>death</token>
+      <token>nail</token>
+    </pattern>
+    <message> Did you mean <suggestion>death knell</suggestion>?</message>
+    <example type="incorrect">The fall of the Berlin Wall was the <marker>death nail</marker> for the USSR.</example>
+    <example type="correct">The fall of the Berlin Wall was the death knell for the USSR.</example>
+  </rule>
+<!-- reap what you sew::word=reap what you sow::filter=none -->
+  <rule id="REAP_WHAT_YOU_SEW" name="reap what you sew (sow)">
+    <pattern>
+      <token>reap</token>
+      <token>what</token>
+      <token>you</token>
+      <token>sew</token>
+    </pattern>
+    <message> Did you mean <suggestion>reap what you sow</suggestion>?</message>
+    <example type="incorrect">You always <marker>reap what you sew</marker>.</example>
+    <example type="correct">You always reap what you sow.</example>
+  </rule>
+<!-- spare of the moment::word=spur of the moment::filter=none -->
+  <rule id="SPARE_OF_THE_MOMENT" name="spare (spur) of the moment">
+    <pattern>
+      <token>spare</token>
+      <token>of</token>
+      <token>the</token>
+      <token>moment</token>
+    </pattern>
+    <message> Did you mean <suggestion>spur of the moment</suggestion>?</message>
+    <example type="incorrect">It was a <marker>spare of the moment</marker> decision.</example>
+    <example type="correct">It was a spur of the moment decision.</example>
+  </rule>
+<!-- tongue and cheek::word=tongue in cheek::filter=none -->
+  <rule id="TONGUE_AND_CHEEK" name="tongue and (in) cheek">
+    <pattern>
+      <token>tongue</token>
+      <token>and</token>
+      <token>cheek</token>
+    </pattern>
+    <message> Did you mean <suggestion>tongue in cheek</suggestion>?</message>
+    <example type="incorrect">He said it with a fair amount of <marker>tongue and cheek</marker>.</example>
+    <example type="correct">She said it with a fair amount of tongue in cheek.</example>
+  </rule>
+<!-- urine analysis::word=urinalysis::filter=none -->
+  <rule id="URINE_ANALYSIS" name="urine analysis (urinalysis)">
+    <pattern>
+      <token>urine</token>
+      <token>analysis</token>
+    </pattern>
+    <message> Did you mean <suggestion>urinalysis</suggestion>?</message>
+    <example type="incorrect">They got the results of the <marker>urine analysis</marker> the next day.</example>
+    <example type="correct">They got the results of the urinalysis the next day.</example>
+  </rule>
+<!-- wet your appetite::word=whet your appetite::filter=none -->
+  <rule id="WET_YOUR_APPETITE" name="wet (whet) your appetite">
+    <pattern>
+      <token>wet</token>
+      <token>your</token>
+      <token>appetite</token>
+    </pattern>
+    <message> Did you mean <suggestion>whet your appetite</suggestion>?</message>
+    <example type="incorrect">The first John Wayne movie will only serve to <marker>wet your appetite</marker>.</example>
+    <example type="correct">The first Woody Allen movie will only serve to whet your appetite.</example>
+  </rule>
+<!-- tattle-tail::word=tattle-tale::filter=none -->
+  <rule id="TATTLE-TAIL" name="tattle-tail (tattle-tale)">
+    <pattern>
+      <token>tattle-tail</token>
+    </pattern>
+    <message> Did you mean <suggestion>tattle-tale</suggestion>?</message>
+    <example type="incorrect">Every child hates a <marker>tattle-tail</marker>.</example>
+    <example type="correct">Every child hates a tattle-tale.</example>
+  </rule>
+<!-- old wise tail|tale::word=old wives' tale::filter=none -->
+  <rule id="OLD_WISE_TAILTALE" name="old wise tail (old wives' tale)">
+    <pattern>
+      <token>old</token>
+      <token>wise</token>
+      <token regexp="yes">tail|tale</token>
+    </pattern>
+    <message> Did you mean <suggestion>old wives' tale</suggestion>?</message>
+    <example type="incorrect">The story of the monster was only an <marker>old wise tail</marker>.</example>
+    <example type="correct">The story of the monster was only an old wives' tale.</example>
+  </rule>
+<!-- on the lamb::word=on the lam::filter=none -->
+  <rule id="ON_THE_LAMB" name="on the lamb (lam)">
+    <pattern>
+      <token>on</token>
+      <token>the</token>
+      <token>lamb</token>
+    </pattern>
+    <message> Did you mean <suggestion>on the lam</suggestion>?</message>
+    <example type="incorrect">The criminals spent most of the summer <marker>on the lamb</marker>.</example>
+    <example type="correct">The criminals spent most of the summer on the lam.</example>
+  </rule>
+  <!-- you'll will::word=you will::filter=none -->
+  <rule id="YOULL_WILL" name="youll will (you will)">
+    <pattern>
+      <token regexp="yes">you|I|we|they|she|he</token>
+      <token>'</token>
+      <token>ll</token>
+      <token>will</token>
+    </pattern>
+    <message> Did you mean <suggestion><match no="1"/> will</suggestion>?</message>
+    <example type="incorrect"><marker>You'll will</marker> want to make sure you get the daily special.</example>
+    <example type="correct">You'll want to make sure you get some french fries.</example>
+  </rule>
+<!-- it's is::word=it is::filter=none -->
+  <rule id="ITS_IS" name="its is (it is)">
+    <pattern>
+      <token regexp="yes">it|who|she|he|there|that</token>
+      <token>'</token>
+      <token>s</token>
+      <token>is</token>
+    </pattern>
+    <message> Did you mean <suggestion><match no="1"/> is</suggestion>?</message>
+    <example type="incorrect"><marker>She's is</marker> the best dancer on the west coast.</example>
+    <example type="correct">She's the best dancer on the west coast.</example>
+  </rule>
+<!-- we're are::word=We are::filter=none -->
+  <rule id="WERE_ARE" name="were are (we are)">
+    <pattern>
+      <token regexp="yes">we|they|who</token>
+      <token>'</token>
+      <token>re</token>
+      <token>are</token>
+    </pattern>
+    <message> Did you mean <suggestion><match no="1"/> are</suggestion>?</message>
+    <example type="incorrect"><marker>We're are</marker> the favorites to win the championship.</example>
+    <example type="correct">We are the favorites to win the championship.</example>
+  </rule>
+<!-- I'm am::word=I am::filter=none -->
+  <rule id="IM_AM" name="Im am (I am)">
+    <pattern>
+      <token>I</token>
+      <token>'</token>
+      <token>m</token>
+      <token>am</token>
+    </pattern>
+    <message> Did you mean <suggestion>I am</suggestion>?</message>
+    <example type="incorrect"><marker>I'm am</marker> a madman.</example>
+    <example type="correct">I am a prodigal son.</example>
+  </rule>
+<!-- I've have::word=I have::filter=none -->
+  <rule id="IVE_HAVE" name="Ive have (I have)">
+    <pattern>
+      <token regexp="yes">I|you|we|they</token>
+      <token>'</token>
+      <token>ve</token>
+      <token>have</token>
+    </pattern>
+    <message> Did you mean <suggestion><match no="1"/> have</suggestion>?</message>
+    <example type="incorrect"><marker>I've have</marker> no problem taking the first watch.</example>
+    <example type="correct">I have no problem taking the first watch.</example>
+  </rule>
+<!-- I'd would::word=I would::filter=none -->
+  <rule id="ID_WOULD" name="Id would (I would)">
+    <pattern>
+      <token regexp="yes">I|he|she|you|we|they</token>
+      <token>'</token>
+      <token>d</token>
+      <token>would</token>
+    </pattern>
+    <message> Did you mean <suggestion><match no="1"/> would</suggestion>?</message>
+    <example type="incorrect"><marker>He'd would</marker> want to wake up early.</example>
+    <example type="correct">He'd want to wake up early.</example>
+  </rule>
+  <!-- flashpoint::word=flash point -->
+  <rule id="FLASHPOINT" name="flashpoint (flash point)">
+    <pattern>
+      <token>flashpoint</token>
+    </pattern>
+    <message> Did you mean <suggestion>flash point</suggestion>?</message>
+    <example type="incorrect">The <marker>flashpoint</marker> of lead is very high.</example>
+    <example type="correct">The flash point of lead is very high.</example>
+  </rule>
+<!-- can backup::word=can back up -->
+  <rule id="CAN_BACKUP" name="can backup (back up)">
+    <pattern>
+      <token regexp="yes">can|to</token>
+      <token>backup</token>
+    </pattern>
+    <message> Did you mean <suggestion>\1 back up</suggestion>?</message>
+    <example type="incorrect">Did you know you <marker>can backup</marker> your data on an external drive?</example>
+    <example type="correct">The car can back up out of the driveway easily.</example>
+  </rule>
+<!-- can blackout::word=can black out -->
+  <rule id="CAN_BLACKOUT" name="can blackout (black out)">
+    <pattern>
+      <token>can</token>
+      <token>blackout</token>
+    </pattern>
+    <message> Did you mean <suggestion>can black out</suggestion>?</message>
+    <example type="incorrect">You <marker>can blackout</marker> if you have any more to drink.</example>
+    <example type="correct">You can black out if you have any more to drink.</example>
+  </rule>
+<!-- can setup::word=can set up -->
+  <rule id="CAN_SETUP" name="can setup (set up)">
+    <pattern>
+      <token regexp="yes">can|got|had|has|have|help|is|to</token>
+      <token>setup</token>
+    </pattern>
+    <message> Did you mean <suggestion>\1 set up</suggestion>?</message>
+    <example type="incorrect">She <marker>can setup</marker> the tent in thirty seconds.</example>
+    <example type="correct">She can set up the tent very quickly.</example>
+  </rule>
+<!-- can workout::word=can work out -->
+  <rule id="CAN_WORKOUT" name="can workout (work out)">
+    <pattern>
+      <token>can</token>
+      <token>workout</token>
+    </pattern>
+    <message> Did you mean <suggestion>can work out</suggestion>?</message>
+    <example type="incorrect">We <marker>can workout</marker> after we get lunch.</example>
+    <example type="correct">We can work out after we eat lunch.</example>
+  </rule>
+<!-- got shutdown::word=got shut down -->
+  <rule id="GOT_SHUTDOWN" name="got shutdown (shut down)">
+    <pattern>
+      <token regexp="yes">got|to</token>
+      <token>shutdown</token>
+    </pattern>
+    <message> Did you mean <suggestion>\1 shut down</suggestion>?</message>
+    <example type="incorrect">Before he could get assigned to it, the project <marker>got shutdown</marker>.</example>
+    <example type="correct">Before he could cancel it, the project got shut down.</example>
+  </rule>
+<!-- got shutout::word=got shut out -->
+  <rule id="GOT_SHUTOUT" name="got shutout (shut out)">
+    <pattern>
+      <token>got</token>
+      <token>shutout</token>
+    </pattern>
+    <message> Did you mean <suggestion>got shut out</suggestion>?</message>
+    <example type="incorrect">The Mets <marker>got shutout</marker> by the Phillies.</example>
+    <example type="correct">The Mets got shut out by the Yankees.</example>
+  </rule>
+<!-- in along time::word=in a long time -->
+  <rule id="IN_ALONG_TIME" name="in along (a long) time">
+    <pattern>
+      <token>in</token>
+      <token>along</token>
+      <token>time</token>
+    </pattern>
+    <message> Did you mean <suggestion>in a long time</suggestion>?</message>
+    <example type="incorrect">I haven't had a shower <marker>in along time</marker>.</example>
+    <example type="correct">I haven't had a bath in a long time.</example>
+  </rule>
+<!-- in anyway::word=in any way -->
+  <rule id="IN_ANYWAY" name="in anyway (any way)">
+    <pattern>
+      <token>in</token>
+      <token>anyway</token>
+    </pattern>
+    <message> Did you mean <suggestion>in any way</suggestion>?</message>
+    <example type="incorrect">Make sure you get the plans, <marker>in anyway</marker> possible.</example>
+    <example type="correct">Make sure you get the plans, in any way possible.</example>
+  </rule>
+<!-- incase of::word=in case of -->
+  <rule id="INCASE_OF" name="incase (in case) of">
+    <pattern>
+      <token>incase</token>
+      <token>of</token>
+    </pattern>
+    <message> Did you mean <suggestion>in case of</suggestion>?</message>
+    <example type="incorrect">Always keep a baseball bat by the bed, <marker>incase of</marker> an emergency.</example>
+    <example type="correct">Always keep a bat by the bed, in case of emergency.</example>
+  </rule>
+<!-- Portland Trailblazers::word=Portland Trail Blazers -->
+  <rule id="PORTLAND_TRAILBLAZERS" name="Portland Trailblazers (Trail Blazers)">
+    <pattern case_sensitive="yes">
+      <token>Portland</token>
+      <token>Trailblazers</token>
+    </pattern>
+    <message> Did you mean <suggestion>Portland Trail Blazers</suggestion>?</message>
+    <example type="incorrect">On Tuesday the Nets play the <marker>Portland Trailblazers</marker>.</example>
+    <example type="correct">On Tuesday the Nets play the Portland Trail Blazers.</example>
+  </rule>
+<!-- take awhile::word=take a while -->
+  <rule id="TAKE_AWHILE" name="take awhile (a while)">
+    <pattern>
+      <token>take</token>
+      <token>awhile</token>
+    </pattern>
+    <message> Did you mean <suggestion>take a while</suggestion>?</message>
+    <example type="incorrect">I'm sorry sir, your laundry will <marker>take awhile</marker> longer.</example>
+    <example type="correct">I'm sorry, your laundry will take a while longer.</example>
+  </rule>
+<!-- to backout::word=to back out -->
+  <rule id="TO_BACKOUT" name="to backout (back out)">
+    <pattern>
+      <token>to</token>
+      <token>backout</token>
+    </pattern>
+    <message> Did you mean <suggestion>to back out</suggestion>?</message>
+    <example type="incorrect">There's still time <marker>to backout</marker> of the deal.</example>
+    <example type="correct">There's still time to back out of the deal.</example>
+  </rule>
+<!-- to blackout::word=to black out -->
+  <rule id="TO_BLACKOUT" name="to blackout (black out)">
+    <pattern>
+      <token>to</token>
+      <token>blackout</token>
+    </pattern>
+    <message> Did you mean <suggestion>to black out</suggestion>?</message>
+    <example type="incorrect">He didn't want <marker>to blackout</marker> in front of his professor.</example>
+    <example type="correct">He didn't want to black out in front of the professor.</example>
+  </rule>
+<!-- to comeback::word=to come back -->
+  <rule id="TO_COMEBACK" name="to comeback (come back)">
+    <pattern>
+      <token regexp="yes">to|had</token>
+      <token>comeback</token>
+    </pattern>
+    <message> Did you mean <suggestion>\1 come back</suggestion>?</message>
+    <example type="incorrect">The Mets gave the Yankees too much of a chance <marker>to comeback</marker>.</example>
+    <example type="correct">The Mets gave the Yankees too much of a chance to come back.</example>
+  </rule>
+<!-- along time::word=a long time -->
+  <rule id="ALONG_TIME" name="along (a long) time">
+    <pattern>
+      <token>along</token>
+      <token>time</token>
+    </pattern>
+    <message> Did you mean <suggestion>a long time</suggestion>?</message>
+    <example type="incorrect">After <marker>along time</marker> the lovers were reunited.</example>
+    <example type="correct">A long time has passed since we last saw each other.</example>
+  </rule>
+<!-- downpayment::word=down payment -->
+  <rule id="DOWNPAYMENT" name="downpayment (down payment)">
+    <pattern>
+      <token>downpayment</token>
+    </pattern>
+    <message> Did you mean <suggestion>down payment</suggestion>?</message>
+    <example type="incorrect">The couple made their first <marker>downpayment</marker> on their new house.</example>
+    <example type="correct">The couple made the first down payment on their new house.</example>
+  </rule>
+<!-- smartphone::word=smart phone -->
+  <rule id="SMARTPHONE" name="smartphone (smart phone)">
+    <pattern>
+      <token>smartphone</token>
+    </pattern>
+    <message> Did you mean <suggestion>smart phone</suggestion>?</message>
+    <example type="incorrect">Susie wanted to get a <marker>smartphone</marker> to impress her boyfriend.</example>
+    <example type="correct">She couldn't type very well on her new smart phone.</example>
+  </rule>
+<!-- ala mode::word=à la mode::filter=none -->
+  <rule id="ALA_MODE" name="ala mode (a la mode)">
+    <pattern>
+      <token>ala</token>
+      <token>mode</token>
+    </pattern>
+    <message> Did you mean <suggestion>à la mode</suggestion>?</message>
+    <example type="incorrect">He loves his pie <marker>ala mode</marker>.</example>
+    <example type="correct">He loves his pie à la mode.</example>
+  </rule>
+<!-- afterall::word=after all -->
+  <rule id="AFTERALL" name="afterall (after all)">
+    <pattern>
+      <token>afterall</token>
+    </pattern>
+    <message> Did you mean <suggestion>after all</suggestion>?</message>
+    <example type="incorrect"><marker>Afterall</marker>, there isn't any food to be had in this country.</example>
+    <example type="correct">After all, there isn't any food to be found in this country.</example>
+  </rule>
+  <!-- who's .*/NN::word=whose \1::pivots=who's,whose -->
+  <rule id="WHOS_NN" name="whos NN (possessive)">
+    <pattern>
+      <token>who</token>
+      <token>'</token>
+      <token>s</token>
+      <token postag="NN|NN:UN?" postag_regexp="yes"><exception postag="NN|NN:UN?" postag_regexp="yes" negate_pos="yes"/></token>
+    </pattern>
+    <message> Did you mean <suggestion>whose <match no="4"/></suggestion>?</message>
+    <example type="incorrect">Do we know <marker>who's banana</marker> this is on the table?</example>
+    <example type="correct">Do we know whose banana this is on the table?</example>
+  </rule>
+<!-- whose .*/DT::word=who's \1::pivots=whose,who's -->
+  <rule id="WHOSE_DT" name="whose DT (possessive)">
+    <pattern>
+      <token>whose</token>
+      <token postag="DT"><exception postag="DT" negate_pos="yes"/></token>
+    </pattern>
+    <message> Did you mean <suggestion>who's <match no="2"/></suggestion>?</message>
+    <example type="incorrect"><marker>Whose the</marker> boss around here?</example>
+    <example type="correct">Who's the boss around here?</example>
+  </rule>
+<!-- about who's::word=about whose::pivots=who's,whose::options=who's,whose -->
+  <rule id="ABOUT_WHOS" name="about whos (possessive)">
+    <pattern>
+      <token>about</token>
+      <token>who</token>
+      <token>'</token>
+      <token>s</token>
+    </pattern>
+    <message> Did you mean <suggestion>about whose</suggestion>?</message>
+    <example type="incorrect">What do you know <marker>about who's</marker> car that is?</example>
+    <example type="correct">What do you know about whose car that is?</example>
+  </rule>
+<!-- who's actual::word=whose actual::pivots=who's,whose::options=who's,whose -->
+  <rule id="WHOS_ACTUAL" name="whos actual (possessive)">
+    <pattern>
+      <token>who</token>
+      <token>'</token>
+      <token>s</token>
+      <token regexp="yes">actual|name|previous</token>
+    </pattern>
+    <message> Did you mean <suggestion>whose actual</suggestion>?</message>
+    <example type="incorrect"><marker>Who's actual</marker> job is it to make copies around here?</example>
+    <example type="correct">Whose actual job is it to get coffee around here?</example>
+  </rule>
   </category>
   <!-- ====================================================================== -->
   <!-- Grammar -->

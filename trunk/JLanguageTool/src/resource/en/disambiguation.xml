@@ -1048,5 +1048,50 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
 		<disambig action="remove"><wd pos="RB"/></disambig>
 		<example type="untouched">The really the interesting thing is this.</example>
 		<example type="ambiguous" inputform="meanwhile[meanwhile/JJ,meanwhile/NN:U,meanwhile/RB]" outputform="meanwhile[meanwhile/JJ,meanwhile/NN:U]">In the <marker>meanwhile</marker> the whole situation changed.</example>
-	</rule>
+    </rule>
+    <!-- AtD false alarm rules -->
+	<!-- in all ways::filter=kill -->
+  <rule id="IN_ALL_WAYS" name="in all ways">
+    <pattern>
+      <token>in</token>
+      <token>all</token>
+      <token>ways</token>
+    </pattern>
+    <disambig action="immunize"/>
+  </rule>
+  <rule id="MD_STAND_ALONE" name="MD stand alone">
+    <pattern>
+      <token postag="MD"><exception postag="MD" negate_pos="yes"/></token>
+      <token>stand</token>
+      <token>alone</token>
+    </pattern>
+    <disambig action="immunize"/>
+  </rule>
+  <rule id="TO_STAND_ALONE" name="to stand alone">
+    <pattern>
+      <token>to</token>
+      <token>stand</token>
+      <token>alone</token>
+    </pattern>
+    <disambig action="immunize"/>
+  </rule>
+<!-- &comparisons then 0END.0::filter=kill -->
+  <rule id="COMPARISONS_THEN_0END0" name="comparisons then 0END0">
+    <pattern>
+      <token regexp="yes">hotter|colder|lamer|less|lesser|more|greater|heavier|lighter|better|worse|smarter|dumber|cheaper|sexier|taller|shorter|faster|slower|older|younger|easier|harder|farther|closer|higher|lower|larger|smaller|sooner|later|weaker|stronger|louder|quieter|darker|brighter</token>
+      <token>then</token>
+      <token postag="SENT_END"></token>
+    </pattern>
+    <disambig action="immunize"/>
+  </rule>
+<!-- Who's|who's .*ing::filter=kill -->
+  <rule id="WHOSWHOS_ING" name="Whos whos ing">
+    <pattern case_sensitive="yes">
+      <token regexp="yes">Who|who</token>
+      <token>'</token>
+      <token>s</token>
+      <token regexp="yes">.*ing</token>
+    </pattern>
+    <disambig action="immunize"/>
+  </rule>
 </rules>
