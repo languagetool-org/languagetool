@@ -24,6 +24,9 @@ import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.rules.*;
 import de.danielnaber.languagetool.tagging.Tagger;
 import de.danielnaber.languagetool.tagging.be.BelarusianTagger;
+import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
+import de.danielnaber.languagetool.tokenizers.SRXSentenceTokenizer;
+
 
 /**
  * Belarusian language declarations.
@@ -33,7 +36,8 @@ import de.danielnaber.languagetool.tagging.be.BelarusianTagger;
 public class Belarusian extends Language {
 
     private Tagger tagger;
-
+    private SentenceTokenizer sentenceTokenizer;
+    
     @Override
     public Locale getLocale() {
         return new Locale(getShortName());
@@ -62,6 +66,15 @@ public class Belarusian extends Language {
         return tagger;
     }
 
+    
+      @Override
+    public SentenceTokenizer getSentenceTokenizer() {
+    if (sentenceTokenizer == null) {
+       sentenceTokenizer = new SRXSentenceTokenizer(getShortName());
+    }
+    return sentenceTokenizer;
+  }
+    
     @Override
     public Contributor[] getMaintainers() {
         return new Contributor[] { new Contributor("Alex Buloichik") };
