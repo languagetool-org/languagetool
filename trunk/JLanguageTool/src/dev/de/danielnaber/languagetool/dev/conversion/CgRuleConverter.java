@@ -7,10 +7,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Arrays;
+import java.util.Map;
 import java.util.TreeMap;
 
 import de.danielnaber.languagetool.dev.conversion.cg.CgCompositeTag;
@@ -21,8 +23,6 @@ import de.danielnaber.languagetool.dev.conversion.cg.CgTag;
 import de.danielnaber.languagetool.dev.conversion.cg.CgTextualParser;
 import de.danielnaber.languagetool.dev.conversion.cg.CgRule;
 import de.danielnaber.languagetool.dev.conversion.cg.CgContextualTest.POS;
-import de.danielnaber.languagetool.dev.conversion.cg.CgSet.ST;
-
 
 public class CgRuleConverter extends RuleConverter {
 
@@ -129,7 +129,6 @@ public class CgRuleConverter extends RuleConverter {
 
 		String cgRuleString = lines[rule.line];
 		ltRule.add("<!-- " + cgRuleString + " -->");
-		//TODO: this doesn't work
 //		ArrayList<CgRule> rules = splitUnificationRule(mainRule, grammar);
 //		for (CgRule rule : rules) {
 		ArrayList<Token> tokensList = new ArrayList<Token>();
@@ -304,48 +303,54 @@ public class CgRuleConverter extends RuleConverter {
 				}
 			}
 		}
+		
 		return list;
 	}
 	
 	/**
-	 * Actually performs the splitting for wrapper method splitForSingleRule. Only performs a single split.
+	 * Actually performs the splitting for wrapper method splitForSingleRule. Only performs a split for a single token.
 	 * @param tokens
 	 * @return
 	 */
 	public ArrayList<List<Token>> splitListForSingleRule(List<Token> tokens) {
 		ArrayList<List<Token>> list = new ArrayList<List<Token>>();
-		ArrayList<Token> list1 = new ArrayList<Token>();
-		ArrayList<Token> list2 = new ArrayList<Token>();
+		final ArrayList<Token> firstList = new ArrayList<Token>();
+		list.add(firstList);
 		int i=0;
 		for (i=0;i<tokens.size();i++) {
 			if (isOrCompatible(tokens.get(i))) {
-				list1.add(tokens.get(i));
-				list2.add(tokens.get(i));
+				firstList.add(tokens.get(i));
 			} else {
-				ArrayList<CgSet> twoSets = splitCgSet(tokens.get(i).target);
-				Token token1 = new Token(tokens.get(i));
-				Token token2 = new Token(tokens.get(i));
-				token1.target = twoSets.get(0);
-				token2.target = twoSets.get(1);
-				token1.postags = token1.target.getSingleTagPostagsString();
-				token1.baseforms = token1.target.getSingleTagBaseformsString();
-				token1.surfaceforms = token1.target.getSingleTagSurfaceformsString();
-				token1.compositeTags = token1.target.getCompositeTags();
-				token2.postags = token2.target.getSingleTagPostagsString();
-				token2.baseforms = token2.target.getSingleTagBaseformsString();
-				token2.surfaceforms = token2.target.getSingleTagSurfaceformsString();
-				token2.compositeTags = token2.target.getCompositeTags();
-				list1.add(token1);
-				list2.add(token2);
+				list.remove(firstList);
+				ArrayList<CgSet> newSets = splitCgSet(tokens.get(i).target);
+				for (CgSet set : newSets) {
+					Token newToken = new Token(tokens.get(i));
+					newToken.target = expandSetSets(set);
+					newToken.postags = newToken.target.getPostagsString();
+					newToken.baseforms = newToken.target.getSingleTagBaseformsString();
+					newToken.surfaceforms = newToken.target.getSingleTagSurfaceformsString();
+					newToken.compositeTags = newToken.target.getCompositeTags();
+					// clone the first list
+					ArrayList<Token> newList = new ArrayList<Token>();
+					for (Token token : firstList) {
+						newList.add(new Token(token));
+					}
+					// add the new token
+					newList.add(newToken);
+					// add the new list
+					list.add(newList);
+				}
+				break;
 			}
 		}
 		// finish up the list
 		for (int j=i+1;j<tokens.size();j++) {
-			list1.add(tokens.get(j));
-			list2.add(tokens.get(j));
+			for (int k=0;k<list.size();k++) {
+				ArrayList<Token> insideList = (ArrayList<Token>)list.get(k);
+				insideList.add(tokens.get(j));
+				list.set(k,insideList);
+			}
 		}
-		list.add(list1);
-		list.add(list2);
 		return list;
 	}
 	
@@ -356,12 +361,11 @@ public class CgRuleConverter extends RuleConverter {
 	 */
 	public ArrayList<CgSet> splitCgSet(CgSet target) {
 		// setting up the lists to perform the check
-		ArrayList<CgSet> twoSets = new ArrayList<CgSet>();
+		ArrayList<CgSet> newSets = new ArrayList<CgSet>();
 		CgTag[] postags = target.getSingleTagPostags();
 		CgTag[] baseforms = target.getSingleTagBaseforms();
 		CgTag[] surfaceforms = target.getSingleTagSurfaceforms();
 		CgCompositeTag[] compositePostags = target.getCompositePostags();
-		CgCompositeTag[] compositeTags = target.getCompositeTags();
 		
 		// actually checking and doing the splitting
 		if (postags.length > 0 && baseforms.length > 0) {
@@ -370,9 +374,9 @@ public class CgRuleConverter extends RuleConverter {
 			set1.single_tags.removeAll(Arrays.asList(postags));
 			set1.tags.removeAll(Arrays.asList(compositePostags));
 			set2.single_tags.removeAll(Arrays.asList(baseforms));
-			twoSets.add(set1);
-			twoSets.add(set2);
-			return twoSets;
+			newSets.add(set1);
+			newSets.add(set2);
+			return newSets;
 		}
 		if (postags.length > 0 && surfaceforms.length > 0) {
 			CgSet set1 = new CgSet(target);
@@ -380,23 +384,25 @@ public class CgRuleConverter extends RuleConverter {
 			set1.single_tags.removeAll(Arrays.asList(postags));
 			set1.tags.removeAll(Arrays.asList(compositePostags));
 			set2.single_tags.removeAll(Arrays.asList(surfaceforms));
-			twoSets.add(set1);
-			twoSets.add(set2);
-			return twoSets;
+			newSets.add(set1);
+			newSets.add(set2);
+			return newSets;
 		}
 		if (surfaceforms.length > 0 && baseforms.length > 0) {
 			CgSet set1 = new CgSet(target);
 			CgSet set2 = new CgSet(target);
 			set1.single_tags.removeAll(Arrays.asList(surfaceforms));
 			set2.single_tags.removeAll(Arrays.asList(baseforms));
-			twoSets.add(set1);
-			twoSets.add(set2);
-			return twoSets;
+			newSets.add(set1);
+			newSets.add(set2);
+			return newSets;
 		}
 		// if we didn't catch the culprit in the single tags, it must be in the composite tags,
 		// which means that there exists two composite tags that have different types of tags in them.
 		// I could try to do this in a principled way, or I could just split off each composite tag. 
 		// This seems like the better idea for now.
+		newSets = groupCompositeTags(target);
+		/*
 		for (CgCompositeTag ctag : compositeTags) {
 			CgSet set1 = new CgSet(target);
 			CgSet set2 = new CgSet(target);
@@ -409,8 +415,62 @@ public class CgRuleConverter extends RuleConverter {
 			twoSets.add(set2);
 			return twoSets;
 		}
+		*/
 		// it should never get to here, because it should never get a set that doesn't need to be split passed to it.
-		return null;
+		return newSets;
+	}
+	
+	/**
+	 * Groups the composite tags along lines that can be represented in a single LT rule
+	 * @param target
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	private ArrayList<CgSet> groupCompositeTags(CgSet target) {
+		HashMap<String,ArrayList<CgCompositeTag>> bf = new HashMap<String,ArrayList<CgCompositeTag>>();
+		HashMap<String,ArrayList<CgCompositeTag>> sf = new HashMap<String,ArrayList<CgCompositeTag>>();
+		HashMap<String,CgCompositeTag> dict = new HashMap<String,CgCompositeTag>();	// dictionary of sorts
+		for (CgCompositeTag ctag : target.tags) {
+			CgCompositeTag postags = new CgCompositeTag();
+			CgCompositeTag baseforms = new CgCompositeTag();
+			CgCompositeTag surfaceforms = new CgCompositeTag();
+			for (CgTag tag : ctag.tags) {
+				if (isBaseForm(tag.tag)) {
+					baseforms.addTag(tag);
+				} else if (isSurfaceForm(tag.tag)) {
+					surfaceforms.addTag(tag);
+				} else if (isPostag(tag.tag)) {
+					postags.addTag(tag);
+				}
+			}
+			if (!postags.isEmpty()) {
+				if (!baseforms.isEmpty()) {
+					bf = (HashMap)smartPut(bf, postags.toString(), baseforms);
+				}
+				else if (!surfaceforms.isEmpty()) {	// assumes there won't be both sf and bf in the same composite tag
+					sf = (HashMap)smartPut(sf, postags.toString(), surfaceforms);
+				}
+			}
+			dict.put(postags.toString(), postags);
+		}
+		ArrayList<CgSet> ret = new ArrayList<CgSet>();
+		for (String postagSet : bf.keySet()) {
+			CgSet newSet = new CgSet(target);
+			newSet.tags = new HashSet<CgCompositeTag>();
+			ArrayList<CgCompositeTag> bfs = bf.get(postagSet);
+			for (CgCompositeTag singleBf : bfs) {
+				CgCompositeTag newTotalTag = new CgCompositeTag();
+				for (CgTag tag : dict.get(postagSet).tags) {
+					newTotalTag.addTag(tag);
+				}
+				for (CgTag tag : singleBf.tags) {
+					newTotalTag.addTag(tag);
+				}
+				newSet.addCompositeTag(newTotalTag);
+			}
+			ret.add(newSet);
+		}
+		return ret;
 	}
 	
 	/**
@@ -541,66 +601,64 @@ public class CgRuleConverter extends RuleConverter {
 		return list;
 	}
 	
-	// takes a rule that has unification tags (e.g. $$NUMBER) and splits it into several easier to handle rules
-	// TODO: doesn't really work yet; needs to be reworked
-	public ArrayList<CgRule> splitUnificationRule(CgRule rule, CgGrammar grammar) {
-		ArrayList<CgRule> rules = new ArrayList<CgRule>();
-		// go over all the tests in the test_map, which should contain all tests for the entire rule, and every time you see a 
-		// unification tag, put in one of its component parts and add that modified rule to the list of new rules.
-		HashSet<CgSet> unifyingSets = new HashSet<CgSet>();
-		// add all the unifying sets in the rule
-		for (Iterator<Integer> iter = rule.test_map.keySet().iterator(); iter.hasNext(); ) {
-			CgContextualTest curTest = rule.test_map.get(iter.next());
-			CgSet target = grammar.getSet(curTest.target);
-			for (Integer setint : target.sets) {
-				CgSet set = grammar.getSet(setint);
-				if (set.type.contains(ST.ST_TAG_UNIFY.value)) {
-					unifyingSets.add(set);
-				}
-			}
-		}
-		CgSet targetSet = grammar.getSet(rule.target);
-		for (int setint : targetSet.sets) {
-			if (grammar.getSet(setint).type.contains(ST.ST_TAG_UNIFY.value)) {
-				unifyingSets.add(grammar.getSet(setint));
-			}
-		}
-		// if no unifying sets, just return the rule
-		if (unifyingSets.size() == 0) {
-			rules.add(rule);
-		}
-		for (CgSet unifyingSet : unifyingSets) {
-			CgSet unifyingSetExpanded = expandSetSets(unifyingSet);
-			// TODO: ALSO NEEDS COMPOSITE TAGS
-			for (CgTag tag : unifyingSetExpanded.single_tags) {
-				CgSet oldTargetSet = new CgSet(grammar.getSet(rule.target));
-				CgRule newRule = new CgRule(rule);
-				if (oldTargetSet.sets.contains(unifyingSet.hash)) {
-					oldTargetSet.sets.remove((Object)unifyingSet.hash);
-					oldTargetSet.single_tags.add(tag);
-					oldTargetSet.rehash();
-					grammar.addSet(oldTargetSet);
-					newRule.target = oldTargetSet.hash;
-				}
-				
-				for (Iterator<Integer> iter = newRule.test_map.keySet().iterator(); iter.hasNext();) {
-					int testKey = iter.next();
-					CgContextualTest test = newRule.test_map.get(testKey);
-					CgSet oldTestTargetSet = new CgSet(grammar.getSet(test.target));
-					if (oldTestTargetSet.sets.contains(unifyingSet.hash)) {
-						oldTestTargetSet.sets.remove(unifyingSet);
-						oldTestTargetSet.single_tags.add(tag);
-						oldTestTargetSet.rehash();
-						grammar.addSet(oldTestTargetSet);
-						test.target = oldTestTargetSet.hash;
-					}
-					newRule.test_map.put(testKey, test);
-				}
-				rules.add(newRule);
-			}
-		}
-		return rules;
-	}
+//	// takes a rule that has unification tags (e.g. $$NUMBER) and splits it into several easier to handle rules
+//	public ArrayList<CgRule> splitUnificationRule(CgRule rule, CgGrammar grammar) {
+//		ArrayList<CgRule> rules = new ArrayList<CgRule>();
+//		// go over all the tests in the test_map, which should contain all tests for the entire rule, and every time you see a 
+//		// unification tag, put in one of its component parts and add that modified rule to the list of new rules.
+//		HashSet<CgSet> unifyingSets = new HashSet<CgSet>();
+//		// add all the unifying sets in the rule
+//		for (Iterator<Integer> iter = rule.test_map.keySet().iterator(); iter.hasNext(); ) {
+//			CgContextualTest curTest = rule.test_map.get(iter.next());
+//			CgSet target = grammar.getSet(curTest.target);
+//			for (Integer setint : target.sets) {
+//				CgSet set = grammar.getSet(setint);
+//				if (set.type.contains(ST.ST_TAG_UNIFY.value)) {
+//					unifyingSets.add(set);
+//				}
+//			}
+//		}
+//		CgSet targetSet = grammar.getSet(rule.target);
+//		for (int setint : targetSet.sets) {
+//			if (grammar.getSet(setint).type.contains(ST.ST_TAG_UNIFY.value)) {
+//				unifyingSets.add(grammar.getSet(setint));
+//			}
+//		}
+//		// if no unifying sets, just return the rule
+//		if (unifyingSets.size() == 0) {
+//			rules.add(rule);
+//		}
+//		for (CgSet unifyingSet : unifyingSets) {
+//			CgSet unifyingSetExpanded = expandSetSets(unifyingSet);
+//			for (CgTag tag : unifyingSetExpanded.single_tags) {
+//				CgSet oldTargetSet = new CgSet(grammar.getSet(rule.target));
+//				CgRule newRule = new CgRule(rule);
+//				if (oldTargetSet.sets.contains(unifyingSet.hash)) {
+//					oldTargetSet.sets.remove((Object)unifyingSet.hash);
+//					oldTargetSet.single_tags.add(tag);
+//					oldTargetSet.rehash();
+//					grammar.addSet(oldTargetSet);
+//					newRule.target = oldTargetSet.hash;
+//				}
+//				
+//				for (Iterator<Integer> iter = newRule.test_map.keySet().iterator(); iter.hasNext();) {
+//					int testKey = iter.next();
+//					CgContextualTest test = newRule.test_map.get(testKey);
+//					CgSet oldTestTargetSet = new CgSet(grammar.getSet(test.target));
+//					if (oldTestTargetSet.sets.contains(unifyingSet.hash)) {
+//						oldTestTargetSet.sets.remove(unifyingSet);
+//						oldTestTargetSet.single_tags.add(tag);
+//						oldTestTargetSet.rehash();
+//						grammar.addSet(oldTestTargetSet);
+//						test.target = oldTestTargetSet.hash;
+//					}
+//					newRule.test_map.put(testKey, test);
+//				}
+//				rules.add(newRule);
+//			}
+//		}
+//		return rules;
+//	}
 	
 	
 	// ** METHODS THAT MODIFY A SINGLE TOKEN LIST **
@@ -739,7 +797,7 @@ public class CgRuleConverter extends RuleConverter {
 						sentEndTag.tag = SENT_END;
 						newTarget.single_tags.add(sentEndTag);
 						oldToken.target = newTarget;
-						oldToken.postags = oldToken.target.getSingleTagPostagsString();
+						oldToken.postags = oldToken.target.getPostagsString();
 						oldToken.baseforms = oldToken.target.getSingleTagBaseformsString();
 						oldToken.surfaceforms = oldToken.target.getSingleTagSurfaceformsString();
 						oldToken.compositeTags = oldToken.target.getCompositeTags();
@@ -768,7 +826,7 @@ public class CgRuleConverter extends RuleConverter {
 						sentEndTag.tag = SENT_END;
 						newTarget.single_tags.add(sentEndTag);
 						oldToken.target = newTarget;
-						oldToken.postags = oldToken.target.getSingleTagPostagsString();
+						oldToken.postags = oldToken.target.getPostagsString();
 						oldToken.baseforms = oldToken.target.getSingleTagBaseformsString();
 						oldToken.surfaceforms = oldToken.target.getSingleTagSurfaceformsString();
 						oldToken.compositeTags = oldToken.target.getCompositeTags();
@@ -789,7 +847,7 @@ public class CgRuleConverter extends RuleConverter {
 				sentStartTag.tag = SENT_START;
 				newTarget.single_tags.add(sentStartTag);
 				newToken.target = newTarget;
-				newToken.postags = newToken.target.getSingleTagPostagsString();
+				newToken.postags = newToken.target.getPostagsString();
 				newToken.baseforms = newToken.target.getSingleTagBaseformsString();
 				newToken.surfaceforms = newToken.target.getSingleTagSurfaceformsString();
 				newToken.compositeTags = newToken.target.getCompositeTags();
@@ -813,7 +871,7 @@ public class CgRuleConverter extends RuleConverter {
 				else {
 					if (oldToken.negate) {
 						oldToken.target = oldToken.barrier;
-						oldToken.postags = oldToken.target.getSingleTagPostagsString();
+						oldToken.postags = oldToken.target.getPostagsString();
 						oldToken.baseforms = oldToken.target.getSingleTagBaseformsString();
 						oldToken.surfaceforms = oldToken.target.getSingleTagSurfaceformsString();
 						oldToken.compositeTags = oldToken.target.getCompositeTags();
@@ -965,15 +1023,17 @@ public class CgRuleConverter extends RuleConverter {
 		HashSet<String> base = new HashSet<String>();
 		HashSet<String> surf = new HashSet<String>();
 		for (CgCompositeTag ctag : token.compositeTags) {
+			CgCompositeTag postagCompile = new CgCompositeTag();
 			for (CgTag tag : ctag.tags) {
 				if (isPostag(tag.tag)) {
-					pos.add(tag.tag);
+					postagCompile.addTag(tag);
 				} else if (isSurfaceForm(tag.tag)) {
 					surf.add(tag.tag);
 				} else if (isBaseForm(tag.tag)) {
 					base.add(tag.tag);
 				}
 			}
+			pos.add(postagCompile.toString());
 		}
 		if (pos.size() > 1 && (surf.size() > 1 || base.size() > 1)) {
 			return false;
@@ -995,11 +1055,12 @@ public class CgRuleConverter extends RuleConverter {
 	/**
 	 * Actual LT rule generation
 	 */
+	@SuppressWarnings("unchecked")
 	public List<String> getRuleByType(CgSet target, Token[] tokens, CgRule rule, String id, String name, String type) {
 		ArrayList<String> ltRule = new ArrayList<String>();
 		TreeMap<Integer,ArrayList<Token>> tokenmap = new TreeMap<Integer,ArrayList<Token>>();
 		for (Token token : tokens) {
-			tokenmap = smartPut(tokenmap,token.offset,token);
+			tokenmap = (TreeMap)smartPut(tokenmap,token.offset,token);
 		}
 		
 		if (name != null || id != null) {
@@ -1037,7 +1098,6 @@ public class CgRuleConverter extends RuleConverter {
 		}
 		// SELECT
 		else if (type.equals("K_SELECT")) {
-			//TODO: needs filtering on lemmas implemented
 			ltRule.add(firstIndent + filterTarget(target, mark + 1));
 		} 
 		// MAP
@@ -1061,12 +1121,27 @@ public class CgRuleConverter extends RuleConverter {
 		String surfaceforms = glueWords(cleanForms(token.surfaceforms));
 		CgCompositeTag[] compositeTags = token.compositeTags;
 		// should never have both composite tags and any of the postags/baseforms/surfaceforms
-		// also, should never have more than one composite tag
+		// also, if there're composite tags, they should have the same postags component, and not both base and surface forms
 		if (compositeTags.length != 0) {
-			postags = compositeTags[0].getPostags();
-			baseforms = compositeTags[0].getBaseform();
-			surfaceforms = compositeTags[0].getSurfaceform();
+			ArrayList<String> baseformsList = new ArrayList<String>();
+			ArrayList<String> surfaceformsList = new ArrayList<String>();
+			for (CgCompositeTag ctag : compositeTags) {
+				CgCompositeTag postagCompiled = new CgCompositeTag();
+				for (CgTag tag : ctag.tags) {
+					if (isPostag(tag.tag)) {
+						postagCompiled.addTag(tag);
+					} else if (isBaseForm(tag.tag)) {
+						baseformsList.add(tag.tag);
+					} else if (isSurfaceForm(tag.tag)) {
+						surfaceformsList.add(tag.tag);
+					}
+				}
+				postags = compositePostagToString(postagCompiled);
+			}
+			baseforms = glueWords(cleanForms(baseformsList.toArray(new String[baseformsList.size()])));
+			surfaceforms = glueWords(cleanForms(surfaceformsList.toArray(new String[surfaceformsList.size()])));
 		}
+		
 		boolean careful = token.careful;
 		boolean negate = token.negate;
 		String exceptions = token.exceptionString;
@@ -1399,6 +1474,7 @@ public class CgRuleConverter extends RuleConverter {
 			this.nextToken = another.nextToken;
 			this.prevToken = another.prevToken;
 			this.relativeOffset = another.relativeOffset;
+			this.exceptionString = another.exceptionString;
 		}
 		
 		public Token(CgSet target,
@@ -1437,6 +1513,24 @@ public class CgRuleConverter extends RuleConverter {
 				   (this.baseforms.length == 0) &&
 				   (this.surfaceforms.length == 0) &&
 				   (this.compositeTags.length == 0);
+		}
+		
+		@Override
+		public String toString() {
+			StringBuilder sb = new StringBuilder();
+			for (String postag : this.postags) {
+				sb.append(postag + " ");
+			}
+			for (String baseform : this.baseforms) {
+				sb.append(baseform + " ");
+			}
+			for (String surfaceform : this.surfaceforms) {
+				sb.append(surfaceform + " ");
+			}
+			for (CgCompositeTag ctag : this.compositeTags) {
+				sb.append(ctag.toString() + " ");
+			}
+			return sb.toString();
 		}
 	}
 	
@@ -1618,7 +1712,6 @@ public class CgRuleConverter extends RuleConverter {
 	}
 	
 	//TODO: only a stand-in for now; depends on the language-specific multiple-tag string representation
-	//TODO: THIS STILL DOESN'T WORK THAT HOT. SHOULD BE BETTER, LIKE THE TAGTOSTRING METHOD. I NEED TO THINK ABOUT THIS
 	// some complicated regex stuff going on here.
 	// only should be applied to composite postags. Composite tags with postags + s/b-forms get split in different ways
 	public static String compositePostagToString(CgCompositeTag ctag) {
@@ -1689,7 +1782,7 @@ public class CgRuleConverter extends RuleConverter {
 	 * @param value
 	 * @return
 	 */
-	public static <K,V> TreeMap<K,ArrayList<V>> smartPut(TreeMap<K,ArrayList<V>> map, K key, V value) {
+	public static <K,V> Map<K,ArrayList<V>> smartPut(Map<K,ArrayList<V>> map, K key, V value) {
 		if (map.containsKey(key)) {
 			ArrayList<V> original = map.get(key);
 			original.add(value);

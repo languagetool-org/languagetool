@@ -91,4 +91,8 @@ public class CgCompositeTag {
         }
     }
     
+    public boolean isEmpty() {
+    	return (this.tags.size() == 0);
+    }
+    
 }
