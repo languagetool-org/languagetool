@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 LanguageTool. Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
 A Russian rule file for LanguageTool 
 Copyright (C) 2008-2011 Yakov Reztsov
-$Id: grammar.xml,v 1.69 2011-08-31 17:26:12 yakovru Exp $
+$Id: grammar.xml,v 1.70 2011-09-04 15:26:12 yakovru Exp $
 #     REVISION:  $Id$
 -->
 <rules lang="ru" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -1549,7 +1549,7 @@ $Id: grammar.xml,v 1.69 2011-08-31 17:26:12 yakovru Exp $
             <pattern>
                 <!--              PREP сквозь, через -> NN:.*:V   -->
                 <token  regexp="yes">сквозь|через</token>
-                <token  postag="NN:.*:.*:.*" postag_regexp="yes"><exception postag="NN:.*:.*:V" postag_regexp="yes"></exception><exception postag="NN:.*:.*:.*" negate_pos = "yes" postag_regexp="yes"></exception></token>              
+                <token  postag="NN:.*:.*:.*" postag_regexp="yes"><exception postag="NN:.*:.*:V" postag_regexp="yes"></exception><exception postag="NN:.*:.*:Nom" postag_regexp="yes"></exception><exception postag="NN:.*:.*:.*" negate_pos = "yes" postag_regexp="yes"></exception></token>              
             </pattern>
             <message>Предлоги “сквозь” и “через” предполагают употребление существительного в винительном падеже:
             <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:V"></match></suggestion> или <suggestion><match no="2"/></suggestion></message> 
@@ -1625,7 +1625,7 @@ $Id: grammar.xml,v 1.69 2011-08-31 17:26:12 yakovru Exp $
             <pattern case_sensitive="no">
                 <!--    Управляющий предприятием    NN:.*:.*:T       -->
                 <token regexp= "yes" inflected="yes" >управляющий|командующий|заведующий</token>
-                <token  postag="NN:.*:.*:.*" postag_regexp="yes"><exception postag="NN:.*:.*:T" postag_regexp="yes"></exception><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token>              
+                <token  postag="NN:.*:.*:.*" postag_regexp="yes"><exception postag="NN:.*:.*:T" postag_regexp="yes"></exception><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception><exception regexp="yes">символ|команда</exception></token>              
             </pattern>
             <message>Существительное \1 предполагает употребление зависимого слова в творительном падеже:
             <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:T"></match></suggestion></message>  
