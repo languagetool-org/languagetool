@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../print.xsl" ?>
+<?xml-stylesheet type="text/css" href="../rules.css"
+title="Easy editing stylesheet" ?>
+<!--
+Breton Grammar and Typo Rules for LanguageTool
+Copyright (C) 2011 Dominique Pellé
+$Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
+-->
+<rules lang="eo"
+       xsi:noNamespaceSchemaLocation="../rules.xsd"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <!-- Mutations adoucissantes -->
+  <category name="Kemmadurioù">
+    <rulegroup id="KEMM_DRE_VLOTAAT" name="Kemmadur dre vlotaat">
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">da|ne|pa|re|daou|div|dindan|diwar|dre|eme|gwall|hanter|holl|na|pe|ra|seul|war</token>
+          <token regexp="yes">d.*</token>
+        </pattern>
+        <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude ar ger «\1». Fellout a ra deoc’h skrivañ <suggestion><match no="2" regexp_match="." regexp_replace="z"/></suggestion> ?</message>
+        <example type="incorrect">Re <marker>divalav</marker> eo</example>
+        <example type="correct">Re zivalav eo</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">da|ne|pa|re|daou|div|dindan|diwar|dre|eme|gwall|hanter|holl|na|pe|ra|seul|war</token>
+          <token regexp="yes">p.*</token>
+        </pattern>
+        <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude ar ger «\1». Fellout a ra deoc’h skrivañ <suggestion><match no="2" regexp_match="." regexp_replace="b"/></suggestion> ?</message>
+        <example type="incorrect">Ne <marker>plij</marker> ket din komz nederlandeg.</example>
+        <example type="correct">Ne blij ket din komz nederlandeg.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">da|ne|pa|re|daou|div|dindan|diwar|dre|eme|gwall|hanter|holl|na|pe|ra|seul|war</token>
+          <token regexp="yes">t.*</token>
+        </pattern>
+        <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude ar ger «\1». Fellout a ra deoc’h skrivañ <suggestion><match no="2" regexp_match="." regexp_replace="d"/></suggestion> ?</message>
+        <example type="incorrect">Da <marker>tad</marker> a zo er gêr.</example>
+        <example type="correct">Da dad a zo er gêr.</example>
+      </rule>
+    </rulegroup>
+
+    <!-- Mutations spirantes -->
+    <rulegroup id="KEMM_DRE_C_HWEZHADENNIN" name="Kemmadur dre c’hwezhadenniñ">
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">ma|va|he|o|em|teir|tri|peder|pevar|nav</token>
+          <token regexp="yes">t.*</token>
+        </pattern>
+        <message>Ur c’hemmadur dre a c’hwezhadenniñ zlefe bezañ goude ar ger «\1». Fellout a ra deoc’h skrivañ <suggestion><match no="2" regexp_match="." regexp_replace="z"/></suggestion> ?</message>
+        <example type="incorrect">Va <marker>tad</marker> a gomz brezhoneg.</example>
+        <example type="correct">Va zad a gomz brezhoneg.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">ma|va|he|o|em|teir|tri|peder|pevar|nav</token>
+          <token regexp="yes">k.*</token>
+        </pattern>
+        <message>Ur c’hemmadur dre a c’hwezhadenniñ zlefe bezañ goude ar ger «\1». Fellout a ra deoc’h skrivañ <suggestion><match no="2" regexp_match="." regexp_replace="c’h"/></suggestion> ?</message>
+        <example type="incorrect">Tri <marker>karr</marker> em eus.</example>
+        <example type="correct">Tri c’harr em eus.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">ma|va|he|em|teir|tri|peder|pevar|nav</token>
+          <token regexp="yes">p.*</token>
+        </pattern>
+        <message>Ur c’hemmadur dre a c’hwezhadenniñ zlefe bezañ goude ar ger «\1». Fellout a ra deoc’h skrivañ <suggestion><match no="2" regexp_match="." regexp_replace="c’h"/></suggestion> ?</message>
+        <example type="incorrect">Re ziwezhat out ma <marker>paotr</marker>!</example>
+        <example type="correct">Re ziwezhat out ma faotr!</example>
+      </rule>
+    </rulegroup>
+  </category>
+
+  <!-- Articles -->
+  <category name="Gerioù-mell">
+    <rule id="AL" name="Ger-mell al/ul/el">
+      <pattern mark_to="-1">
+        <token regexp="yes">[aeu][nr]</token>
+        <token regexp="yes">l.*</token>
+      </pattern>
+      <message>Ar ger-mell «\1» a zlefe bezañ <suggestion><match no="1" regexp_match="(.)." regexp_replace="$1l"/></suggestion> dirak ur ger a grog gant al gensonnenn «l».</message>
+      <example type="incorrect"><marker>Ur</marker> levr a zo ganin.</example>
+      <example type="incorrect"><marker>An</marker> levr a zo ganin.</example>
+      <example type="correct">Ul levr a zo ganin.</example>
+      <example type="correct">Al levr a zo ganin.</example>
+      <example type="incorrect">Al levr-mañ emañ <marker>er</marker> levraoueg.</example>
+      <example type="correct">Al levr-mañ emañ el levraoueg.</example>
+    </rule>
+    <rule id="AN" name="Ger-mell an/un/en">
+      <pattern mark_to="-1">
+        <token regexp="yes">[aeu][lr]</token>
+        <token regexp="yes">[ndthaeiou].*</token>
+      </pattern>
+      <message>A ger mell «\1» a zlefe bezañ <suggestion><match no="1" regexp_match="(.)." regexp_replace="$1n"/></suggestion> dirak ur ger a grog gant al lizherennoù «n, d, t, h, a, e, i, o u».</message>
+      <example type="incorrect">Tomm eo <marker>ar</marker> tan.</example>
+      <example type="correct">Tomm eo an tan.</example>
+    </rule>
+    <rule id="AR" name="Ger-mell ar/ur/er">
+      <pattern mark_to="-1">
+        <token regexp="yes">[aeu][ln]</token>
+        <token regexp="yes">[^lndthaeiou0-9].*</token>
+      </pattern>
+      <message>A ger mell «\1» a zlefe bezañ <suggestion><match no="1" regexp_match="(.)." regexp_replace="$1r"/></suggestion> dirak ur ger na grog ket gant al lizherennoù «n, d, t, h, a, e, i, o u».</message>
+      <example type="incorrect"><marker>An</marker> vell-droad a blij din.</example>
+      <example type="correct">Ar vell-droad a blij din.</example>
+    </rule>
+  </category>
+
+</rules>

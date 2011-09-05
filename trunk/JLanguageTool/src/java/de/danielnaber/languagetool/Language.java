@@ -46,6 +46,7 @@ import de.danielnaber.languagetool.tools.StringTools;
 public abstract class Language {
 
   // NOTE: keep in sync with array below!
+  public static final Language BRETON = new Breton();
   //public final static Language CZECH = new Czech();
   public static final Language CHINESE = new Chinese();
   public static final Language DANISH = new Danish();
@@ -83,7 +84,7 @@ public abstract class Language {
   public static Language[] LANGUAGES = {
     ENGLISH, GERMAN, POLISH, FRENCH, SPANISH, ITALIAN, KHMER, DUTCH, LITHUANIAN, UKRAINIAN, RUSSIAN,
     SLOVAK, SLOVENIAN, SWEDISH, ROMANIAN, ICELANDIC, GALICIAN, CATALAN, DANISH,
-    MALAYALAM, BELARUSIAN, ESPERANTO, CHINESE, ASTURIAN, TAGALOG, 
+    MALAYALAM, BELARUSIAN, ESPERANTO, CHINESE, ASTURIAN, TAGALOG, BRETON,
     DEMO
   };
 

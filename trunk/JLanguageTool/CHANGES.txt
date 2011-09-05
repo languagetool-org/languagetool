@@ -12,7 +12,7 @@ LanguageTool Change Log
  -French: 
    -Updated dictionary to use Dicollecte lexique 4.2
    -Added and updated a few rules.  A few rules taken from
-     Grammalecte-0.0.12 written by Olivier R.
+    Grammalecte-0.0.12 written by Olivier R.
  -Esperanto:
    -Added disambiguation for Esperanto
    -Improved SRX sentence tokenization rules
@@ -22,6 +22,7 @@ LanguageTool Change Log
    -Added Chinese rules
  -Added support for Asturian (Xesús González Rato)
  -Added support for Tagalog (Nathaniel Oco)
+ -Added support for Breton (Dominique Pelle)
  -Ukrainian:
    -Updated translation
    -Initial SRX sentence tokenization rules
@@ -33,15 +34,15 @@ LanguageTool Change Log
    -Added and updated a few rules
    -Updated and improved part-of-speech dictionary.
  -Dutch:
-  -Fixes and updates to rules (R. J. Baars)
-  -Updated the dictionaries
+   -Fixes and updates to rules (R. J. Baars)
+   -Updated the dictionaries
  -English:
    -Fixed some of the problems in the Sourceforge bug #3396850. 
 
  -Rule development:
-  -Fixed testrules.sh to not throw an AssertionFailedError error if called 
-   with a language parameter
-  -Fast Rule Evaluation is supported in "dev.index" package. 
+   -Fixed testrules.sh to not throw an AssertionFailedError error if called 
+    with a language parameter
+   -Fast Rule Evaluation is supported in "dev.index" package. 
 
  -LanguageToolGUI and LanguageTool now have support for automatic language 
   detection (Michael Bryant). On the command-line, you can use -adl or 
@@ -49,18 +50,18 @@ LanguageTool Change Log
   
  -Internal changes:
    -The disambiguator has a new action "immunize" that protects
-   token from being matched by error-detecting rules (especially
-   in XML rules).
+    token from being matched by error-detecting rules (especially
+    in XML rules).
    -The disambiguator allows removing interpretations by specifying just some
-   attributes with the <wd> tag.
-  -Allowed three character codes for languages, e.g. 'ast' for Asturian. This
-   is the ISO 639-2 code, as Asturian doesn't seem to have an ISO 639-1
-   two-character code.
-  -Fixed the bug with the special tag UNKNOWN: now it deals properly with 
-   the words at the end of sentence / paragraph.
-  -Languages now initialize their classes (tokenizers, part-of-speech taggers
-   etc.) lazily, i.e. only when the classes are actually needed. Improves
-   startup performance.
+    attributes with the <wd> tag.
+   -Allowed three character codes for languages, e.g. 'ast' for Asturian. This
+    is the ISO 639-2 code, as Asturian doesn't seem to have an ISO 639-1
+    two-character code.
+   -Fixed the bug with the special tag UNKNOWN: now it deals properly with 
+    the words at the end of sentence / paragraph.
+   -Languages now initialize their classes (tokenizers, part-of-speech taggers
+    etc.) lazily, i.e. only when the classes are actually needed. Improves
+    startup performance.
 
  
 1.4 (2011-06-26)
