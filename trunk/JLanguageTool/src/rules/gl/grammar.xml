@@ -32,8 +32,8 @@
         <token postag="VMN0000|VSN0000" postag_regexp="yes" />
       </pattern>
       <message>A perífrase formada polo verbo "ir" máis un infinitivo constrúese en galego sen preposición: <suggestion>\1 \3</suggestion></message>
-      <example type="incorrect"><marker>vou a saltar</marker> con ela.</example>
-      <example type="correct"><marker>vou saltar</marker> con ela.</example>
+      <example type="incorrect"><marker>Vou a saltar</marker> con ela.</example>
+      <example type="correct"><marker>Vou saltar</marker> con ela.</example>
     </rule>
 
     <rule id="QUENES" name="quenes (quen)">
@@ -82,7 +82,7 @@
       -->
     </rulegroup>
 
-    <rulegroup id="GRAN" name="gran día">
+    <rulegroup id="GRAN" name="gran día" default="off">
       <rule>
         <pattern mark_to="-1">
           <token>grande</token>
@@ -458,7 +458,7 @@
     </rule>
     -->
 
-    <rule id="NON_OU" name="non... ou (nin...nin)">
+    <rule id="NON_OU" name="non... ou (nin...nin)" default="off">
       <pattern mark_from="1">
         <token skip="-1">non<exception scope="next">,</exception></token>
         <token regexp="yes">ou|e</token>
@@ -520,7 +520,7 @@
     </rule>
   </category>
 
-  <category name="Léxico::Anglicismos">
+  <category name="Léxico::Estranxeirismos (agás castelanismos)">
     <rule id="BAFFLE" name="baffle (pantalla acústica)">
       <pattern>
         <token regexp="yes">baf?fles?</token>
@@ -535,7 +535,7 @@
         <token>compact</token>
         <token>disk</token>
       </pattern>
-      <message>A palabra '\1 \2' é un anglicismo. Empregue mellor <suggestion>dosco compacto</suggestion>.</message>
+      <message>A palabra '\1 \2' é un anglicismo. Empregue mellor <suggestion>disco compacto</suggestion>.</message>
       <example type="incorrect">Un <marker>compact disk</marker> mercado fóra de España non leva canon da SGAE.</example>
       <example type="correct">Un <marker>disco compacto</marker> mercado fóra de España non leva canon da SGAE.</example>
     </rule>
@@ -610,12 +610,12 @@
         <token regexp="yes">r[eé]cords?<exception scope="previous">the</exception></token>
       </pattern>
       <message>A palabra '<match no="1"/>' é un anglicismo. Empregue mellor <suggestion>marca</suggestion> (feminino).</message>
-      <example type="incorrect">O atleta non conseguíu bater o <marker>record</marker>.</example>
+      <example type="incorrect" correction="marca">O atleta non conseguíu bater o <marker>record</marker>.</example>
       <example type="correct">O atleta non conseguíu bater a <marker>marca</marker>.</example>
     </rule>
   </category>
 
-  <category name="Léxico::Homónimos">
+  <category name="Léxico::Falsos homónimos">
 
     <rule id="RACHA" name="racha (refacho)">
       <pattern>
@@ -1480,8 +1480,8 @@
         </pattern>
         <message>A palabra "<match no="1"/>" é un castelanismo. Empregue no seu sitio <suggestion>inalcanzábel</suggestion> ou <suggestion>inaccesíbel</suggestion>.</message>
         <short>Castelanismo léxico</short>
-        <example type="incorrect">O prezo actual da vivenda non é <marker>inasequíbel</marker> para moita xente no pais.</example>
-        <example type="correct">O prezo actual da vivenda non é <marker>inaccesíbel</marker> para moita xente no pais.</example>
+        <example type="incorrect">O prezo actual da vivenda é <marker>inasequíbel</marker> para moita xente no pais.</example>
+        <example type="correct">O prezo actual da vivenda é <marker>inaccesíbel</marker> para moita xente no pais.</example>
       </rule>
     </rulegroup>
 
@@ -1683,7 +1683,7 @@
         <token regexp="yes">en|de</token>
         <token>seguida</token>
       </pattern>
-      <message>As formas "<match no="1"/>" e "seguida" forman en galego unha locución que se escrebe unida. Quería vostede dicir <suggestion>\1\2</suggestion>?</message>
+      <message>As formas "<match no="1"/>" e "seguida" forman en galego unha locución que se escribe unida. Quería vostede dicir <suggestion>\1\2</suggestion>?</message>
       <example type="incorrect">Deuse conta <marker>en seguida</marker>.</example>
       <example type="correct">Deuse conta <marker>enseguida</marker>.</example>
       <example type="incorrect"><marker>De seguida</marker> nos percatamos das notas que a constitúen.</example>
@@ -1695,7 +1695,7 @@
         <token>de</token>
         <token regexp="yes">seguido|contado|contino</token>
       </pattern>
-      <message>As formas "de" e "<match no="2"/>" forman en galego unha locución que se escrebe unida. Quería vostede dicir <suggestion>\1\2</suggestion>?</message>
+      <message>As formas "de" e "<match no="2"/>" forman en galego unha locución que se escribe unida. Quería vostede dicir <suggestion>\1\2</suggestion>?</message>
       <example type="incorrect">A masa mestúrase e <marker>de seguido</marker> envásase en recipientes.</example>
       <example type="correct">A masa mestúrase e <marker>deseguido</marker> envásase en recipientes.</example>
       <example type="incorrect">Recoñecera <marker>de contado</marker> os axentes da Stasi.</example>
@@ -1717,7 +1717,7 @@
         <token>a</token>
         <token>reo</token>
       </pattern>
-      <message>As formas 'a' e 'reo' normalmente forman en galego unha locución que se escrebe preferibelmente unida. Quería vostede dicir <suggestion>\1r\2</suggestion>?</message>
+      <message>As formas 'a' e 'reo' normalmente forman en galego unha locución que se escribe preferibelmente unida. Quería vostede dicir <suggestion>\1r\2</suggestion>?</message>
       <example type="incorrect">Traballaron <marker>a reo</marker> no proxecto.</example>
       <example type="correct">Traballaron <marker>arreo</marker> no proxecto.</example>
     </rule>
