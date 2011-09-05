@@ -22,6 +22,9 @@ import java.util.*;
 
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.rules.*;
+import de.danielnaber.languagetool.rules.patterns.Unifier;
+import de.danielnaber.languagetool.rules.gl.CastWordsRule;
+import de.danielnaber.languagetool.rules.gl.SimpleReplaceRule;
 import de.danielnaber.languagetool.tagging.Tagger;
 import de.danielnaber.languagetool.tagging.gl.GalicianTagger;
 import de.danielnaber.languagetool.tokenizers.SRXSentenceTokenizer;
@@ -34,6 +37,7 @@ public class Galician extends Language {
   private Tagger tagger;
   private Tokenizer wordTokenizer;
   private SentenceTokenizer sentenceTokenizer;
+  private static final Unifier GALICIAN_UNIFIER = new Unifier();
 
   @Override
   public final Locale getLocale() {
@@ -90,9 +94,14 @@ public class Galician extends Language {
   }
 
   @Override
+  public Unifier getUnifier() {
+    return GALICIAN_UNIFIER;
+  }
+
+  @Override
   public Contributor[] getMaintainers() {
     final Contributor contributor = new Contributor("Susana Sotelo Docío");
-    contributor.setUrl("http://www.g11n.net");
+    contributor.setUrl("http://www.linguarum.net/projects/languagetool-gl");
     return new Contributor[] { contributor };
   }
 
@@ -103,8 +112,11 @@ public class Galician extends Language {
             DoublePunctuationRule.class,
             GenericUnpairedBracketsRule.class,
             UppercaseSentenceStartRule.class,
-            WordRepeatRule.class,
-            WhitespaceRule.class
+            // WordRepeatRule.class,
+            WhitespaceRule.class,
+            // Specific to Galician
+            SimpleReplaceRule.class,
+            CastWordsRule.class
     );
   }
 
