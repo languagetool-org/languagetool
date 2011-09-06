@@ -2395,6 +2395,28 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect">Wegen eines <marker>notfalls</marker> musste ich meinen Urlaub abbrechen.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="AUF_KOSTEN" name="Groß-/Kleinschreibung: 'auf jemandes kosten (Kosten)'">
+      <rule>
+        <pattern mark_from="2" case_sensitive="yes">
+          <token regexp="yes">[aA]uf</token>
+          <token regexp="yes">jemandes|meine|deine|seine|unsere|eure|[iI]hre</token>
+          <token>kosten</token>
+        </pattern>
+        <message>Bitte prüfen Sie, ob <suggestion>Kosten</suggestion> hier als Substantiv großgeschrieben werden muss.</message>
+        <example type="incorrect">Der Spaß ging auf seine <marker>kosten</marker>.</example>
+        <example type="correct">Der Spaß ging auf seine <marker>Kosten</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-1" case_sensitive="yes">
+          <token regexp="yes">[aA]uf</token>
+          <token>kosten</token>
+          <token regexp="yes">von|der|des|meine[rs]|deine[rs]|seine[rs]|unsere[rs]|eure[rs]|[iI]hre[rs]</token>
+        </pattern>
+        <message>Bitte prüfen Sie, ob <suggestion>Kosten</suggestion> hier als Substantiv großgeschrieben werden muss.</message>
+        <example type="incorrect">Das alles geschieht auf <marker>kosten</marker> des Steuerzahlers!</example>
+        <example type="correct">Der Spaß ging auf seine <marker>Kosten</marker>.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="KOSTEN_UND_MUEHEN" name="Groß-/Kleinschreibung: 'kosten (Kosten)'">
       <rule>
         <pattern case_sensitive="yes">
