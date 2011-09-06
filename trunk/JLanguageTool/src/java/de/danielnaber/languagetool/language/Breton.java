@@ -21,6 +21,8 @@ package de.danielnaber.languagetool.language;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.rules.*;
 import de.danielnaber.languagetool.tagging.Tagger;
+import de.danielnaber.languagetool.tokenizers.Tokenizer;
+import de.danielnaber.languagetool.tokenizers.br.BretonWordTokenizer;
 import de.danielnaber.languagetool.tagging.xx.DemoTagger;
 import java.util.*;
 
@@ -30,10 +32,19 @@ import java.util.*;
 public class Breton extends Language {
 
   private Tagger tagger;
+  private Tokenizer wordTokenizer;
 
   @Override
   public Locale getLocale() {
     return new Locale("br");
+  }
+
+  @Override
+  public final Tokenizer getWordTokenizer() {
+    if (wordTokenizer == null) {
+      wordTokenizer = new BretonWordTokenizer();
+    }
+    return wordTokenizer;
   }
 
   @Override
