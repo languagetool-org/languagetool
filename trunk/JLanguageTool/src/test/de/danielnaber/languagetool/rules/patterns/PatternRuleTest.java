@@ -522,7 +522,7 @@ public class PatternRuleTest extends TestCase {
    * Test XML patterns, as a help for people developing rules that are not
    * programmers.
    */
-  public static void main2(final String[] args) throws IOException {
+  public static void main(final String[] args) throws IOException {
     final PatternRuleTest test = new PatternRuleTest();
     System.out.println("Running XML pattern tests...");
     test.setUp();
