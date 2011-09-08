@@ -55,15 +55,15 @@ public class EsperantoTagger implements Tagger {
   private Set<String> setIntransitiveVerbs = null;
 
   // Verbs always end with this pattern.
-  private static final Pattern patternVerb = Pattern.compile("(.*)(as|os|is|us|u|i)$");
+  private static final Pattern patternVerb = Pattern.compile("(..+)(as|os|is|us|u|i)$");
   private static final Pattern patternPrefix = Pattern.compile("^(?:mal|mis|ek|re|fi|ne)(.*)");
   private static final Pattern patternSuffix = Pattern.compile("(.*)(?:ad|aĉ|eg|et)i$");
 
   // Participles -ant-, -int, ont-, -it-, -it-, -ot-
   private static final Pattern patternParticiple =
-    Pattern.compile("((.*)([aio])(n?)t)([aoe])(j?)(n?)$");
-  // Groups           1111111111111111  55555  66  77
-  //                   22  33333  44                 
+    Pattern.compile("((..+)([aio])(n?)t)([aoe])(j?)(n?)$");
+  // Groups           11111111111111111  55555  66  77
+  //                   222  33333  44                 
  
   private Set<String> setNonParticiple;
 
