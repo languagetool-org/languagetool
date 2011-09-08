@@ -61,6 +61,27 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
         <example type="correct">Amañ emañ da vamm.</example>
         <example type="correct">Dre ma faot.</example>
       </rule>
+
+      <rule>
+        <pattern mark_from="2">
+          <token>en</token>
+          <token>em</token>
+          <token regexp="yes">k.*</token>
+        </pattern>
+        <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude «\1 \2». Fellout a ra deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="g$1"/></suggestion>?</message>
+        <example type="incorrect">En em <marker>kavout</marker> a raimp dirak an iliz.</example>
+        <example type="correct">En em <marker>gavout</marker> a raimp dirak an iliz.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2">
+          <token>en</token>
+          <token>em</token>
+          <token regexp="yes">gw.*</token>
+        </pattern>
+        <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude ar ger «\1 \2». Fellout a ra deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="$1"/></suggestion>?</message>
+        <example type="incorrect">En em <marker>gwelet</marker> a raen.</example>
+        <example type="correct">En em <marker>welet</marker> a raen.</example>
+      </rule>
     </rulegroup>
 
     <!-- Mutations renforçantes -->
@@ -219,6 +240,33 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
         <example type="correct">Brav <marker>ha</marker> fin eo.</example>
       </rule>
     </rulegroup>
+    <rule id="DAM" name="da + ma = da’m">
+      <pattern>
+        <token>da</token>
+        <token>ma</token>
+      </pattern>
+      <message>«\1 \2» a zlefe bezañ skrivet <suggestion>\1’m</suggestion>.</message>
+      <example type="incorrect">Lavaret em eus <marker>da ma</marker> zad.</example>
+      <example type="correct">Lavaret em eus da’m zad.</example>
+    </rule>
+    <rule id="DAZ" name="da + da = da’z">
+      <pattern>
+        <token>da</token>
+        <token>da</token>
+      </pattern>
+      <message>«\1 \2» a zlefe bezañ skrivet <suggestion>\1’z</suggestion>.</message>
+      <example type="incorrect">Lavaret em eus <marker>da da</marker> dad.</example>
+      <example type="correct">Lavaret em eus da’z tad.</example>
+    </rule>
+    <rule id="EZ" name="e + da = ez">
+      <pattern>
+        <token>e</token>
+        <token>da</token>
+      </pattern>
+      <message>«\1 \2» a zlefe bezañ skrivet <suggestion>ez</suggestion>.</message>
+      <example type="incorrect">Poan az peus <marker>e da</marker> dreid?</example>
+      <example type="correct">Poan az peus ez treid?</example>
+    </rule>
     <rulegroup id="TAMM_BANNE" name="tamm pe banne">
       <rule>
         <pattern mark_to="-1">
