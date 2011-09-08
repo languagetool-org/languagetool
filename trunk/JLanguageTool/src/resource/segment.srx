@@ -4843,6 +4843,120 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 </rule>
 </languagerule>
 
+<languagerule languagerulename="Galician">
+<!-- s. XIX; s.IX; sec. XX; séc. XX -->
+<rule break="no">
+<beforebreak>\bs([eé]c)?\.\s?</beforebreak>
+<afterbreak>[IVXVDMCL]+</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b[Ee]tc\.[\p{Pe}\p{Pf}\p{Pd}"']*\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b(m[aá]x|m[ií]n|[aA]prox)\.[\p{Pe}\p{Pf}\p{Pd}"']*\s</beforebreak>
+<afterbreak>[\p{Ll}\p{N}]</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b([aA]pt?do|[aA]sdo|[aA]vd?a?|[Cc]ód|[Dd]e?pto|[Ff]ac|[Ii]nst)\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<!-- S.A.R. Felipe de Borbón -->
+<rule break="no">
+<beforebreak>\b(S\.A\.[IRS]\.|S\.R\.M\.|A\.R\.|S\.[ME]\.)\s</beforebreak>
+<afterbreak>\p{Lu}</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b([\p{Ll}\p{Lu}]\.)+[\p{Pe}\p{Pf}\p{Pd}"']*\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<!-- S.A., s. l. -->
+<rule break="no">
+<beforebreak>\b\p{L}\.\s?</beforebreak>
+<afterbreak>((\p{L}\.\s?)+|\p{Ll})</afterbreak>
+</rule>
+<!-- EE.UU; EE.UU.; EE. UU.; EE. UU -->
+<rule break="no">
+<beforebreak>\b\p{Lu}{2}\.\s?</beforebreak>
+<afterbreak>(\p{Lu}{2}\.?\s?|\p{Ll})</afterbreak>
+</rule>
+<!-- tratamento // pendente: "PP. Escolapios" vs. "do PP. Bla bla" -->
+<rule break="no">
+<beforebreak>\b([Aa]fm[oa]s?|Emcia|Ilt?m[ao]s?|Iltres?|MM|Exc?m[ao]s?|Magf[oa]|D(na)?|Sra?|Sr[ea]s|Srta|Dra?|Dr[ea]s?|Rm[ao]|Rev|Revm[ao]|Mons|Emmo|Rv?d[ao]|[Ll]icd[oa]|[Ll]ic|[Ll]d[oa]|[pP]rofs?)\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<!-- num; figs; ca -->
+<rule break="no">
+<beforebreak>\b([Nn][úu]ms?|[fF]igs?|[Pp][aá]xs?|pp?|cc?a)\.\s</beforebreak>
+<afterbreak>\p{N}</afterbreak>
+</rule>
+<!-- num; figs -->
+<rule break="no">
+<beforebreak>\b([Vv]ols?|[Cc]aps?)\.\s</beforebreak>
+<afterbreak>\p{N}|[IVXVDMCL]+</afterbreak>
+</rule>
+<!-- Admóns, admtva, Advo, Admtvos -->
+<rule break="no">
+<beforebreak>\b([Aa]dmóns?|[aA]d(mt)?v[oa]s?)\.\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<!-- abrevs, Abl, adx, Acr, conx, loc, prep, subst -->
+<rule break="no">
+<beforebreak>\b([pP]pal|[Vv]des?|[Ii]b[íi]d|[Rr]efs?|[Cc]it|[Aa]brevs?|[Aa]bl|[Aa]dx|[Aa]dv|[Aa]cr|[Cc]onx|[Ll]oc|[Pp]rep|[Ss]ubst)\.\s</beforebreak>
+<afterbreak>[^\p{Lu}]</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b([vV]id|[Cc]fr?)\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<!-- coords.; Ed.; eds.; Coord. -->
+<rule break="no">
+<beforebreak>\b([Cc]oord|[Ee]d)s?\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b([Cc]t[ae]|[Tt]e?lf|[Tt]fno|[Tt]el[eé]f|[Tt]el)s?\.\s</beforebreak>
+<afterbreak>[^\p{Lu}]</afterbreak>
+</rule>
+<!-- multielemento -->
+<rule break="no">
+<beforebreak>\b([oO]p|[lL]oc)\.\s?</beforebreak>
+<afterbreak>cit\.</afterbreak>
+</rule>
+<!-- et al. -->
+<rule break="no">
+<beforebreak>\bet [aá]l\.\s?</beforebreak>
+<afterbreak>[\p{Ll}\p{N}]</afterbreak>
+</rule>
+<!-- Don't split [.?!] when the're quoted -->
+<rule break="no">
+<beforebreak>['"\(][\.!?…]['"\)]\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bvs\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\besp\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>(…|\.\.\.)\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+
+<rule break="yes">
+<beforebreak>[\.…][\u00BB\u2019\u201D\u203A"'\u0002]*\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="yes">
+<beforebreak>\s\p{L}+[\p{Pf}\p{Pe}\u00BB\u2019\u201D\u203A"'\u0002]*[\.:!?…]+\s*</beforebreak>
+<afterbreak>[¡¿«»"'\p{Ps}]*\p{Lu}\p{L}*</afterbreak>
+</rule>
+</languagerule>
+
+
 </languagerules>
 <maprules>
 <languagemap languagepattern="[a-z]{2}_one" languagerulename="ByLineBreak"></languagemap>
@@ -4862,6 +4976,7 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <languagemap languagepattern="(EO|eo).*" languagerulename="Esperanto"></languagemap>
 <languagemap languagepattern="(UK|uk).*" languagerulename="Ukrainian"></languagemap>
 <languagemap languagepattern="(BE|be).*" languagerulename="Belarusian"></languagemap>
+<languagemap languagepattern="(GL|gl).*" languagerulename="Galician"></languagemap>
 <languagemap languagepattern=".*" languagerulename="Default"></languagemap>
 </maprules>
 </body>
