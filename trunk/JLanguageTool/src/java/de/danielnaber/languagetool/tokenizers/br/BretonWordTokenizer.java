@@ -41,18 +41,17 @@ public class BretonWordTokenizer extends WordTokenizer {
    *          - Text to tokenize
    * @return List of tokens.
    * 
-   *         Note: a special string ##EO_APOS## is used to replace apostrophe
+   *         Note: a special string ##BR_APOS## is used to replace apostrophe
    *         during tokenizing.
    */
   @Override
   public List<String> tokenize(final String text) {
-    String replaced = text.replaceAll(
-      "([Cc])['’]([Hh])",
-      "$1##EO_APOS##$2");
+    String replaced = text.replaceAll("([Cc])['’]([Hh])", "$1##BR_APOS##$2")
+                          .replaceAll("(\\p{L})['’]", "$1##BR_APOS## ");
     final List<String> tokenList = super.tokenize(replaced);
     final String[] tokens = tokenList.toArray(new String[tokenList.size()]);
     for (int i = 0; i < tokens.length; i++) {
-      tokens[i] = tokens[i].replace("##EO_APOS##", "’");
+      tokens[i] = tokens[i].replace("##BR_APOS##", "’");
     }
     return Arrays.asList(tokens);
   }

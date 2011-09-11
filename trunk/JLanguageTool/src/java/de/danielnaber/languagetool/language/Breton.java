@@ -23,7 +23,7 @@ import de.danielnaber.languagetool.rules.*;
 import de.danielnaber.languagetool.tagging.Tagger;
 import de.danielnaber.languagetool.tokenizers.Tokenizer;
 import de.danielnaber.languagetool.tokenizers.br.BretonWordTokenizer;
-import de.danielnaber.languagetool.tagging.xx.DemoTagger;
+import de.danielnaber.languagetool.tagging.br.BretonTagger;
 import java.util.*;
 
 /** 
@@ -65,7 +65,7 @@ public class Breton extends Language {
   @Override
   public Tagger getTagger() {
     if (tagger == null) {
-      tagger = new DemoTagger();
+      tagger = new BretonTagger();
     }
     return tagger;
   }

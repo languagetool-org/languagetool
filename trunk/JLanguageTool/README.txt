@@ -161,6 +161,16 @@ License:
  The words for the Tagger Dictionary were taken from the Philippine Literature Domain of Dalos D. Miguel's Comparative Analysis of Tagalog POS Taggers.
  The Tagger Dictionary and the Tagset are made available under LGPL.
 
+ Breton:
+ The Breton data for part-of-speech tagging is based on the Apertium Breton
+ dictionary under GNU General Public License with permission of its authors:
+    Copyright (C) 2008--2010 Francis Tyers <ftyers@prompsit.com>
+    Copyright (C) 2009--2010 Fulup Jakez <fulup.jakez@ofis-bzh.org>
+    Copyright (C) 2009       Gwenvael Jekel <jequelg@yahoo.fr>
+    Development supported by:
+    * Prompsit Language Engineering, S. L.
+    * Ofis ar Brezhoneg
+    * Grup Transducens, Universitat d'Alacant
 ------------------------------------------------ 
  
  English:
