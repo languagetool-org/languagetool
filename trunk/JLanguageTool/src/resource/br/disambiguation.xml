@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Breton Disambiguation Rules for LanguageTool
+Copyright (C) 2011 Dominique Pellé
+$Id$
+-->
+<rules lang="br" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="../disambiguation.xsd">
+  <rulegroup name="en ur + V" id="EN_UR">
+    <rule>
+      <pattern mark="1">
+        <token>en</token>
+        <token>ur</token>
+        <token postag="V inf"/>
+      </pattern>
+      <disambig postag="L ppre"/>
+    </rule>
+  </rulegroup>
+  <rulegroup name="Roman Number" id="XXI">
+    <rule>
+      <pattern mark="0" case_sensitive="yes">
+        <token regexp="yes">[MCDXLVI]+</token>
+      </pattern>
+      <disambig postag="K e sp"/>
+    </rule>
+    <rule>
+      <pattern mark="0" case_sensitive="yes">
+        <token regexp="yes">[MCDXLVI]+-?vet|I-?añ</token>
+      </pattern>
+      <disambig postag="K e sp o"/>
+    </rule>
+  </rulegroup>
+</rules>
