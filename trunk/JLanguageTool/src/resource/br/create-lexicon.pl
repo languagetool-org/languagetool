@@ -1,23 +1,29 @@
 #!/usr/bin/perl -w
 #
-# Convert the Breton lexicon from apertium to a lexicon suitable for
-# LanguageTool grammar checker.
+# Convert the Breton lexicon from apertium into a lexicon suitable for
+# the LanguageTool grammar checker.
 #
-# LT POS tags for Breton are more or less similar to French tags to
-# keep it simple.  This makes it easier to maintain grammar for
-# both French and Breton without too much to remember.
+# LanguageTool POS tags for Breton are more or less similar to French tags to
+# keep it simple.  This makes it easier to maintain grammar for # both French
+# and Breton without too much to remember.
 #
 # POS tags for LanguageTool simplify POS tags present in apertium.
-# Simpler POS tag makes it easier to write regular expression in
-# LanguageTool, but some information can be lost in the conversion.
+# Simpler POS tags make it easier to write regular expression in
+# LanguageTool, but information can be lost in the conversion.
 #
 # How to use this script:
 #
-# 1) download apertium dictionary at:
-#    svn co https://apertium.svn.sourceforge.net/svnroot/apertium/trunk/apertium-br-fr
-# 2) ./create-lexicon.pl
-# 3) java -jar morfologik-stemming-nodict-1.4.0.jar tab2morph -i apertium-br-fr.br.dix-LT.txt -o output.txt
-# 4) java -jar morfologik-stemming-nodict-1.4.0.jar fsa_build -i output.txt -o breton.dict
+# 1) Download apertium Breton dictionary:
+#    $ svn co https://apertium.svn.sourceforge.net/svnroot/apertium/trunk/apertium-br-fr
+# 2) Install apertium tools:
+#    $ sudo apt-get install lttoolbox
+# 3) Run the script:
+#    $ cd apertium-br-fr/
+#    $ ./create-lexicon.pl
+# 4) Use morfologik-stemming to create the LanguageTool dictionary:
+#    See http://languagetool.wikidot.com/developing-a-tagger-dictionary
+#    $ java -jar morfologik-stemming-nodict-1.4.0.jar tab2morph -i apertium-br-fr.br.dix-LT.txt -o output.txt
+#    $ java -jar morfologik-stemming-nodict-1.4.0.jar fsa_build -i output.txt -o breton.dict
 #
 # Author: Dominique Pelle <dominique.pelle@gmail.com>
 
@@ -123,12 +129,12 @@ while (<LT_EXPAND>) {
     elsif ($tags eq '<num><mf><pl>') { $tag = "K e p"; }
 
     # Ordinal numbers.
-    elsif ($tags eq '<num><ord><mf><sp>')   { $tag = "O e sp"; } # eil
-    elsif ($tags eq '<num><ord><mf><sg>')   { $tag = "O e s"; }  # trede
-    elsif ($tags eq '<num><ord><mf><pl>')   { $tag = "O e p"; }
-    elsif ($tags eq '<num><ord><m><pl>')    { $tag = "O m p"; }
-    elsif ($tags eq '<num><ord><m><sp>')    { $tag = "O m sp"; } # kentañ
-    elsif ($tags eq '<num><ord><f><pl>')    { $tag = "O f p"; }
+    elsif ($tags eq '<num><ord><mf><sp>')   { $tag = "K e sp o"; } # eil
+    elsif ($tags eq '<num><ord><mf><sg>')   { $tag = "K e s o"; }  # trede
+    elsif ($tags eq '<num><ord><mf><pl>')   { $tag = "K e p o"; }
+    elsif ($tags eq '<num><ord><m><pl>')    { $tag = "K m p o"; }
+    elsif ($tags eq '<num><ord><m><sp>')    { $tag = "K m sp o"; } # kentañ
+    elsif ($tags eq '<num><ord><f><pl>')    { $tag = "K f p o"; }
 
     # Indirect preposition.
     elsif ($tags eq '<pr>')                                { $tag = "P" }        # da
@@ -234,7 +240,7 @@ while (<LT_EXPAND>) {
     elsif ($tags eq '<vblex><imp><p2><pl>')     { $tag = "V impe 2 p" }     # komzit
     elsif ($tags eq '<vblex><imp><p3><pl>')     { $tag = "V impe 3 p" }     # komzent
 
-    # Presetn, habitual.
+    # Present, habitual.
     elsif ($tags eq '<vblex><prh><p1><sg>')     { $tag = "V preh 1 s" }        # pezan
     elsif ($tags eq '<vblex><prh><p2><sg>')     { $tag = "V preh 2 s" }        # pezez
     elsif ($tags eq '<vblex><prh><p3><sg>')     { $tag = "V preh 3 s" }        # pez
