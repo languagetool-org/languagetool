@@ -21,6 +21,8 @@ package de.danielnaber.languagetool.language;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.rules.*;
 import de.danielnaber.languagetool.tagging.Tagger;
+import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
+import de.danielnaber.languagetool.tagging.disambiguation.rules.br.BretonRuleDisambiguator;
 import de.danielnaber.languagetool.tokenizers.Tokenizer;
 import de.danielnaber.languagetool.tokenizers.br.BretonWordTokenizer;
 import de.danielnaber.languagetool.tagging.br.BretonTagger;
@@ -33,6 +35,7 @@ public class Breton extends Language {
 
   private Tagger tagger;
   private Tokenizer wordTokenizer;
+  private Disambiguator disambiguator;
 
   @Override
   public Locale getLocale() {
@@ -68,6 +71,14 @@ public class Breton extends Language {
       tagger = new BretonTagger();
     }
     return tagger;
+  }
+
+  @Override
+  public final Disambiguator getDisambiguator() {
+    if (disambiguator == null) {
+      disambiguator = new BretonRuleDisambiguator();
+    }
+    return disambiguator;
   }
 
   @Override
