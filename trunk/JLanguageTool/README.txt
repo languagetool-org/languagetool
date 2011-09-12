@@ -1,6 +1,6 @@
 LanguageTool, a proof-reading tool for English, German, Polish,
 French, Dutch, Slovenian, Russian, Romanian, Italian, Danish, and Catalan with 
-initial support for Asturian, Belarusian, Chinese, Esperanto, Galician, 
+initial support for Asturian, Belarusian, Breton, Chinese, Esperanto, Galician, 
 Icelandic, Khmer, Lithuanian, Malayalam, Slovak, Spanish, Swedish, Tagalog, 
 and Ukrainian 
 
