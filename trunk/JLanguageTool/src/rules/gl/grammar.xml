@@ -257,10 +257,10 @@
       <rule>
         <pattern>
           <!-- Exceptions: o, mailo + o, por + o, de + o, en + o, todos + o, con + o, ca + o, a + o    //   e, ou -->
-          <token>demais<exception regexp="yes" scope="previous">(mail|pol|d|n)?[ao]s?</exception><exception regexp="yes" scope="previous">tódolos?|tódalas?|coa?s?|c?[óá]s?|aos?|e|ou</exception></token>
+          <token>demais<exception regexp="yes" scope="previous">(mail|pol|d|n)?[ao]s?</exception><exception regexp="yes" scope="previous">tódolos|tódalas|coa?s?|c?[óá]s?|aos?|e|ou</exception></token>
         </pattern>
         <message>En galego 'demais' escríbese xunto só cando é pronome, e nese caso vai precedido por un artigo. Polo contexto semella estar vostede empregándoo como adverbio, que indica exceso dunha cantidade, e neste caso vai separado. Quería vostede dicir <suggestion>de máis</suggestion>?</message>
-        <example type="incorrect">Sempre fala <marker>demais</marker>.</example>
+        <example type="incorrect" correction="de máis">Sempre fala <marker>demais</marker>.</example>
         <example type="correct">Sempre fala <marker>de máis</marker>.</example>
         <example type="correct">Xaquín e mailos <marker>demais</marker> rapaces.</example>
         <example type="correct">Foi cos <marker>demais</marker> rapaces a xogar.</example>
@@ -272,7 +272,7 @@
           <token>mais</token>
         </pattern>
         <message>En galego a locución adverbial 'de máis' leva til. Quería vostede dicir <suggestion>de máis</suggestion>?</message>
-        <example type="incorrect">Sempre fala <marker>de mais</marker>.</example>
+        <example type="incorrect" correction="de máis">Sempre fala <marker>de mais</marker>.</example>
         <example type="correct">Sempre fala <marker>de máis</marker>.</example>
       </rule>
     </rulegroup>
@@ -409,7 +409,7 @@
           <token regexp="yes">m[aá]is</token>
           <token regexp="yes">[oa]s?</token>
         </pattern>
-        <message>A conxunción 'e mais' e o artigo '<match no="3"/>' contraen. Quería vostede dicir <suggestion>e <match no="2" regexp_match="(?iu)s$" regexp_replace="l"/>\3</suggestion>?</message>
+        <message>A conxunción 'e mais' e o artigo '<match no="3"/>' contraen. Quería vostede dicir <suggestion>e mail\3</suggestion>?</message>
         <example type="incorrect">Foron ao cine ela <marker>e mais a</marker> súa irmá.</example>
         <example type="correct">Foron ao cine ela <marker>e maila</marker> súa irmá.</example>
       </rule>
@@ -469,7 +469,7 @@
     <!-- Rule set to off by default, since is difficult to express by means of
          the XML formalism some important constraints, such as the presence of a
          previous verb (that could be head of the PP instead of the NP, etc 
-         TODO: Java rule for this error.
+         TODO: Java rule to check this error.
     -->
     <!--
     <rule id="SUBST_A_INF" name="substantivo + a + inf">
