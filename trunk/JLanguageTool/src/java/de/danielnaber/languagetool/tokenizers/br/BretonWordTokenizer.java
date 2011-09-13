@@ -19,8 +19,9 @@
 
 package de.danielnaber.languagetool.tokenizers.br;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Iterator;
 
 import de.danielnaber.languagetool.tokenizers.WordTokenizer;
 
@@ -36,23 +37,38 @@ public class BretonWordTokenizer extends WordTokenizer {
    * Tokenizes just like WordTokenizer with the exception that "c’h"
    * is not split. "C’h" is considered as a letter in breton (trigraph)
    * and it occurs in many words.  So tokenizer should not split it.
+   * Also split things like "n’eo" into 2 tokens only "n’" + "eo".
    * 
    * @param text
    *          - Text to tokenize
    * @return List of tokens.
    * 
-   *         Note: a special string ##BR_APOS## is used to replace apostrophe
+   *         Note: a special string ##BR_APOSx## is used to replace apostrophes
    *         during tokenizing.
    */
   @Override
   public List<String> tokenize(final String text) {
-    String replaced = text.replaceAll("([Cc])['’]([Hh])", "$1##BR_APOS##$2")
-                          .replaceAll("(\\p{L})['’]", "$1##BR_APOS## ");
+
+    // FIXME: this is a bit of a hacky way to tokenize.  It should work
+    // but I should work on a more elegant way.
+    String replaced = text.replaceAll("([Cc])'([Hh])", "$1##BR_APOS1##$2")
+                          .replaceAll("([Cc])’([Hh])", "$1##BR_APOS2##$2")
+                          .replaceAll("(\\p{L})'", "$1##BR_APOS1## ")
+                          .replaceAll("(\\p{L})’", "$1##BR_APOS2## ");
+
     final List<String> tokenList = super.tokenize(replaced);
-    final String[] tokens = tokenList.toArray(new String[tokenList.size()]);
-    for (int i = 0; i < tokens.length; i++) {
-      tokens[i] = tokens[i].replace("##BR_APOS##", "’");
+    List<String> tokens = new ArrayList<String>();
+    
+    // Put back apostrophes and remove spurious spaces.
+    Iterator<String> itr = tokenList.iterator();
+    while (itr.hasNext()) {
+      String word = itr.next().replace("##BR_APOS1##", "'")
+                              .replace("##BR_APOS2##", "’");
+      tokens.add(word);
+      if (word.endsWith("'") || word.endsWith("’")) {
+        word = itr.next(); // Skip the next spurious white space.
+      }
     }
-    return Arrays.asList(tokens);
+    return tokens;
   }
 }
