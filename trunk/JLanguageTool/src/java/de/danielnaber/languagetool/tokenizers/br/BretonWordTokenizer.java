@@ -43,7 +43,7 @@ public class BretonWordTokenizer extends WordTokenizer {
    *          - Text to tokenize
    * @return List of tokens.
    * 
-   *         Note: a special string ##BR_APOSx## is used to replace apostrophes
+   *         Note: a special string ##BR_APOS## is used to replace apostrophes
    *         during tokenizing.
    */
   @Override
@@ -51,10 +51,8 @@ public class BretonWordTokenizer extends WordTokenizer {
 
     // FIXME: this is a bit of a hacky way to tokenize.  It should work
     // but I should work on a more elegant way.
-    String replaced = text.replaceAll("([Cc])'([Hh])", "$1##BR_APOS1##$2")
-                          .replaceAll("([Cc])’([Hh])", "$1##BR_APOS2##$2")
-                          .replaceAll("(\\p{L})'", "$1##BR_APOS1## ")
-                          .replaceAll("(\\p{L})’", "$1##BR_APOS2## ");
+    String replaced = text.replaceAll("([Cc])['’]([Hh])", "$1##BR_APOS##$2")
+                          .replaceAll("(\\p{L})['’]", "$1##BR_APOS## ");
 
     final List<String> tokenList = super.tokenize(replaced);
     List<String> tokens = new ArrayList<String>();
@@ -62,10 +60,9 @@ public class BretonWordTokenizer extends WordTokenizer {
     // Put back apostrophes and remove spurious spaces.
     Iterator<String> itr = tokenList.iterator();
     while (itr.hasNext()) {
-      String word = itr.next().replace("##BR_APOS1##", "'")
-                              .replace("##BR_APOS2##", "’");
+      String word = itr.next().replace("##BR_APOS##", "’");
       tokens.add(word);
-      if (word.endsWith("'") || word.endsWith("’")) {
+      if (word.endsWith("’")) {
         word = itr.next(); // Skip the next spurious white space.
       }
     }
