@@ -41,7 +41,11 @@ public class GalicianTaggerTest extends TestCase {
     tagger = new GalicianTagger();
     tokenizer = new WordTokenizer();
   }
-  
+
+  /* testDictionary() was commented out to avoid delays (dictionary
+     grew a lot). For the moment the dictionary tests for Galician
+     will be performed locally */
+  /*  
   public void testDictionary() throws IOException {
     final Dictionary dictionary = Dictionary.read(
         this.getClass().getResource(tagger.getFileName()));
@@ -52,9 +56,11 @@ public class GalicianTaggerTest extends TestCase {
       }
     }    
   }
-  
+  */
   public void testTagger() throws IOException {
     TestTools.myAssert("Todo vai mudar",
         "Todo/[todo]DI0MS0|Todo/[todo]PI0MS000 -- vai/[ir]VMIP3S0|vai/[ir]VMM02S0 -- mudar/[mudar]VMN0000|mudar/[mudar]VMN01S0|mudar/[mudar]VMN03S0|mudar/[mudar]VMSF1S0|mudar/[mudar]VMSF3S0", tokenizer, tagger);
+    TestTools.myAssert("Se aínda somos galegos é por obra e graza do idioma",
+        "Se/[se]CS|Se/[se]PP3PN000|Se/[se]PP3SN000 -- aínda/[aínda]CS|aínda/[aínda]RG -- somos/[ser]VSIP1P0 -- galegos/[galego]AQ0MP0|galegos/[galego]NCMP000 -- é/[ser]VSIP3S0 -- por/[por]SPS00 -- obra/[obra]NCFS000|obra/[obrar]VMIP3S0|obra/[obrar]VMM02S0 -- e/[e]CC|e/[e]NCMS000 -- graza/[graza]NCFS000 -- do/[de]SPS00:DA -- idioma/[idioma]NCMS000", tokenizer, tagger);
   }
 }

@@ -11,7 +11,40 @@
 <rules lang="gl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../rules.xsd">
 
-  <category name="Gramática">
+  <unification feature="number">
+    <equivalence type="singular">
+      <token postag="(N..|[ADP]...|V....)S.*" postag_regexp="yes"></token>
+    </equivalence>
+
+    <equivalence type="plural">
+      <token postag="(N..|[ADP]...|V....)P.*" postag_regexp="yes"></token>
+    </equivalence>
+  </unification>
+
+  <unification feature="gender">
+    <equivalence type="masc">
+      <token postag="(N.|[ADP]..|V...)[MC].*" postag_regexp="yes"></token>
+    </equivalence>
+
+    <equivalence type="fem">
+      <token postag="(N.|[ADP]..|V...)[FC].*" postag_regexp="yes"></token>
+    </equivalence>
+  </unification>
+
+  <unification feature="person">
+    <equivalence type="first">
+      <token postag="(V...|PP)1.*" postag_regexp="yes"></token>
+    </equivalence>
+    <equivalence type="second">
+      <token postag="(V...|PP)2.*" postag_regexp="yes"></token>
+    </equivalence>
+    <equivalence type="third">
+      <token postag="(V...|PP)3.*" postag_regexp="yes"></token>
+    </equivalence>
+  </unification>
+
+
+  <category name="Gramática::Verbo">
 
     <rule id="IR_A_INF" name="ir máis infinitivo">
       <pattern>
@@ -22,17 +55,6 @@
       <message>A perífrase formada polo verbo "ir" máis un infinitivo constrúese en galego sen preposición: <suggestion>\1 \3</suggestion></message>
       <example type="incorrect"><marker>Vou a saltar</marker> con ela.</example>
       <example type="correct"><marker>Vou saltar</marker> con ela.</example>
-    </rule>
-
-    <rule id="QUENES" name="quenes (quen)">
-      <pattern>
-        <token>quenes</token>
-      </pattern>
-      <message>En galego o pronome 'quen' carece de plural. Empregue mellor <suggestion>quen</suggestion> ou <suggestion>os que</suggestion> segundo o contexto.</message>
-      <example type="incorrect">Non saben <marker>quenes</marker> son os encargados.</example>
-      <example type="correct">Non saben <marker>quen</marker> son os encargados.</example>
-      <example type="incorrect">Seguramente <marker>quenes</marker> máis protestan serán os que máis se beneficien.</example>
-      <example type="correct">Seguramente <marker>os que</marker> máis protestan serán os que máis se beneficien.</example>
     </rule>
 
     <!-- FIXME it offers VéN as correction when source is uppercase: VEN -->
@@ -62,6 +84,202 @@
       </rule>
     </rulegroup>
 
+    <!-- FIXME: cómpre + secuencia de advs + inf: cómpre ademais agora non ignorar as provocacións -->
+    <rulegroup id="COMPRE" name="cómpre vs. compre">
+      <!-- compre + VINF (cómpre ignorar a provocación) -->
+      <rule>
+        <pattern mark_to="-1">
+          <token>compre</token>
+          <token postag="VMN0000|VSN0000" postag_regexp="yes" />
+        </pattern>
+        <message>A forma 'compre', cando é do verbo "cumprir" (ser necesario), leva til para distinguila do verbo 'comprar'. Quería vostede dicir <suggestion>cómpre</suggestion>?</message>
+        <example type="incorrect">Agora <marker>compre</marker> analizar o proceso de constitución das listas.</example>
+        <example type="correct">Agora <marker>cómpre</marker> analizar o proceso de constitución das listas.</example>
+      </rule>
+      <!-- compre + adverbio + VINF (cómpre agora ignorar a provocación) -->
+      <rule>
+        <pattern mark_to="-2">
+          <token>compre</token>
+          <token postag="RG|RN" postag_regexp="yes" />
+          <token postag="VMN0000|VSN0000" postag_regexp="yes" />
+        </pattern>
+        <message>A forma 'compre', cando é do verbo "cumprir" (ser necesario), leva til para distinguila do verbo 'comprar'. Quería vostede dicir <suggestion>cómpre</suggestion>?</message>
+        <example type="incorrect"><marker>Compre</marker> agora analizar o proceso de constitución das listas.</example>
+        <example type="correct"><marker>Cómpre</marker> agora analizar o proceso de constitución das listas.</example>
+      </rule>
+      <!-- compre + V(ser) -->
+      <rule>
+        <pattern mark_to="-1">
+          <token>compre</token>
+          <token postag="VS..3S0" postag_regexp="yes" />
+        </pattern>
+        <message>A forma 'compre', cando é do verbo "cumprir" (ser necesario), leva til para distinguila do verbo 'comprar'. Quería vostede dicir <suggestion>cómpre</suggestion>?</message>
+        <example type="incorrect">Agora o que <marker>compre</marker> é analizar o proceso de constitución das listas.</example>
+        <example type="correct">Agora o que <marker>cómpre</marker> é analizar o proceso de constitución das listas.</example>
+      </rule>
+      <!-- compre + adverbio + V(ser) -->
+      <rule>
+        <pattern mark_to="-2">
+          <token>compre</token>
+          <token postag="RG"/>
+          <token postag="VS..3S0" postag_regexp="yes" />
+        </pattern>
+        <message>A forma 'compre', cando é do verbo "cumprir" (ser necesario), leva til para distinguila do verbo 'comprar'. Quería vostede dicir <suggestion>cómpre</suggestion>?</message>
+        <example type="incorrect">O que <marker>compre</marker> agora é analizar o proceso de constitución das listas.</example>
+        <example type="correct">O que <marker>cómpre</marker> agora é analizar o proceso de constitución das listas.</example>
+      </rule>
+      <!-- compre + que -->
+      <rule>
+        <pattern mark_to="-1">
+          <token>compre</token>
+          <token>que</token>
+        </pattern>
+        <message>A forma 'compre', cando é do verbo "cumprir" (ser necesario), leva til para distinguila do verbo 'comprar'. Quería vostede dicir <suggestion>cómpre</suggestion>?</message>
+        <example type="incorrect"><marker>Compre</marker> que a arquitectura das Nacións Unidas se axuste a ese concepto.</example>
+        <example type="correct"><marker>Cómpre</marker> que a arquitectura das Nacións Unidas se axuste a ese concepto.</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="CLITICOS" name="posición dos clíticos">
+      <rule name="volo dixen (díxenvolo)">
+        <pattern>
+          <token postag="SENT_START"/>
+          <token postag="PP......:PP......" postag_regexp="yes"/>
+          <token postag="V.*" postag_regexp="yes"/>
+        </pattern>
+        <message>Os pronomes clíticos non poden ir en galego no inicio da oración. Por favor, empregue o verbo seguido do pronome (por exemplo: 'díxenvolo' no canto de 'volo dixen').</message>
+        <short>O pronome debe ir posposto ao verbo</short>
+        <example type="incorrect"><marker>Volo dixen</marker> e non me quixestes facer caso.</example>
+        <example type="correct"><marker>Díxenvolo</marker> e non me quixestes facer caso.</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="REFLEXIVOS" name="cásome, me caso (caso)">
+      <!--enclíticos-->
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes" postag="V...1S.:PP1.S.*" postag_regexp="yes">casar|morrer|acougar|adormecer|agrelar|acedar|murchar|merar|espertar|quedar|marchar|calar|caer</token>
+        </pattern>
+        <message>Algúns verbos en galego non admiten nunca construcións reflexivas. Quería vostede dicir <suggestion><match no="1" postag="(.*):.*" postag_regexp="yes" postag_replace="$1"/></suggestion>?</message>
+        <example type="incorrect">Finalmente <marker>marcheime</marker> con Alberte.</example>
+        <example type="correct">Finalmente <marker>marchei</marker> con Alberte.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes" postag="V...2S.:PP2.S.*" postag_regexp="yes">casar|morrer|acougar|adormecer|agrelar|acedar|murchar|merar|espertar|quedar|marchar|calar|caer</token>
+        </pattern>
+        <message>Algúns verbos en galego non admiten nunca construcións reflexivas. Quería vostede dicir <suggestion><match no="1" postag="(.*):.*" postag_regexp="yes" postag_replace="$1"/></suggestion>?</message>
+        <example type="incorrect">Finalmente <marker>márchaste</marker> con Alberte?</example>
+        <example type="correct">Finalmente <marker>marchas</marker> con Alberte?</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes" postag="V...3[SP].:PP3.N.*" postag_regexp="yes">casar|morrer|acougar|adormecer|agrelar|acedar|murchar|merar|espertar|quedar|marchar|calar|caer</token>
+        </pattern>
+        <message>Algúns verbos en galego non admiten nunca construcións reflexivas. Quería vostede dicir <suggestion><match no="1" postag="(.*):.*" postag_regexp="yes" postag_replace="$1"/></suggestion>?</message>
+        <example type="incorrect">Finalmente <marker>marchouse</marker> con Alberte.</example>
+        <example type="correct">Finalmente <marker>marchou</marker> con Alberte.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes" postag="V...1P.:PP1.P.*" postag_regexp="yes">casar|morrer|acougar|adormecer|agrelar|acedar|murchar|merar|espertar|quedar|marchar|calar|caer</token>
+        </pattern>
+        <message>Algúns verbos en galego non admiten nunca construcións reflexivas. Quería vostede dicir <suggestion><match no="1" postag="(.*):.*" postag_regexp="yes" postag_replace="$1"/></suggestion>?</message>
+        <example type="incorrect">Finalmente <marker>marchámonos</marker> con Alberte.</example>
+        <example type="correct">Finalmente <marker>marchamos</marker> con Alberte.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes" postag="V...2P.:PP2.P.*" postag_regexp="yes">casar|morrer|acougar|adormecer|agrelar|acedar|murchar|merar|espertar|quedar|marchar|calar|caer</token>
+        </pattern>
+        <message>Algúns verbos en galego non admiten nunca construcións reflexivas. Quería vostede dicir <suggestion><match no="1" postag="(.*):.*" postag_regexp="yes" postag_replace="$1"/></suggestion>?</message>
+        <example type="incorrect">Finalmente <marker>marchádesvos</marker> con Alberte.</example>
+        <example type="correct">Finalmente <marker>marchades</marker> con Alberte.</example>
+      </rule>
+      <!--proclíticos-->
+      <rule>
+      <pattern>
+        <unify>
+          <feature id="person">
+            <type id="first"/>
+            <type id="second"/>
+            <type id="third"/>
+          </feature>
+          <feature id="number">
+            <type id="singular"/>
+            <type id="plural"/>
+          </feature>
+          <token regexp="yes">me|te|se|nos|vos</token>
+          <token inflected="yes" regexp="yes">casar|morrer|acougar|adormecer|agrelar|acedar|murchar|merar|espertar|quedar|marchar|calar|caer</token>
+        </unify>
+      </pattern>
+      <message>Algúns verbos en galego non admiten nunca construcións reflexivas. Quería vostede dicir <suggestion>\2</suggestion>?</message>
+      <example type="incorrect">Finalmente non <marker>me caso</marker> con Alberte.</example>
+      <example type="correct">Finalmente non <marker>caso</marker> con Alberte.</example>
+      </rule>
+    </rulegroup>
+
+    <rule id="PRON_NOS" name="nos cantamos (nós cantamos)">
+      <pattern mark_to="-1">
+        <token postag="SENT_START"/>
+        <token>nos</token>
+        <token postag="V...1P.*" postag_regexp="yes">
+          <exception negate_pos="yes" postag="V.*" postag_regexp="yes"/>
+        </token>
+      </pattern>
+      <message>A forma 'nos' ao comezo da oración e seguida por un verbo adoita ser un pronome suxeito e leva til. Quería vostede dicir <suggestion><match no="2" regexp_match="(?iu)o" regexp_replace="ó"/></suggestion>?</message>
+      <example type="incorrect"><marker>Nos</marker> cremos que a lingua é un tesouro.</example>
+      <example type="correct"><marker>Nós</marker> cremos que a lingua é un tesouro.</example>
+    </rule>
+    <rule id="PRON_VOS" name="vos cantades (vós cantades)">
+      <pattern mark_to="-1">
+        <token postag="SENT_START"/>
+        <token>vos</token>
+        <token postag="V...2P.*" postag_regexp="yes">
+          <exception negate_pos="yes" postag="V...2P.*" postag_regexp="yes"/>
+        </token>
+      </pattern>
+      <message>A forma 'vos' ao comezo da oración e seguida por un verbo adoita ser un pronome suxeito e leva til. Quería vostede dicir <suggestion><match no="2" regexp_match="(?iu)o" regexp_replace="ó"/></suggestion>?</message>
+      <example type="incorrect"><marker>Vos</marker> sabedes o que come?</example>
+      <example type="correct"><marker>Vós</marker> sabedes o que come?</example>
+    </rule>
+
+    <rulegroup id="REXIME_VERBAL" name="construción verbal">
+      <!-- Verbs with pattern: SUBJanim Verb PP(que).
+           SUBJ must be animate/human, otherwise the subordinate could act as subject (and
+           it would be a false positive: 
+           Ex. 'o asunto influíu en que un poida mudar de opinión'
+               'inflúe que ti esteas presente'
+        -->
+      <!-- V + de + que: informar -->
+      <rule>
+        <pattern>
+          <token inflected="yes">informar</token>
+          <token>que</token>
+        </pattern>
+        <message>O verbo '\1' constrúese normalmente coa preposición 'de'. Quería vostede dicir <suggestion>\1 de \2</suggestion>?</message>
+        <example type="correct">Os servizos de emerxencia <marker>informaron de que</marker> habería fortes ventos na costa.</example>
+        <example type="incorrect">Os servizos de emerxencia <marker>informaron que</marker> habería fortes ventos na costa.</example>
+      </rule>
+      <!-- V + en + que: insistir, confiar -->
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">insistir|confiar</token>
+          <token>que</token>
+        </pattern>
+        <message>O verbo '\1' constrúese normalmente coa preposición 'en'. Quería vostede dicir <suggestion>\1 en \2</suggestion>?</message>
+        <example type="correct">Os servizos de emerxencia <marker>insistiron en que</marker> habería fortes ventos na costa.</example>
+        <example type="incorrect">Os servizos de emerxencia <marker>insistiron que</marker> habería fortes ventos na costa.</example>
+        <example type="incorrect"><marker>Confío que</marker> actuarán de xeito consecuente.</example>
+        <example type="correct"><marker>Confío en que</marker> actuarán de xeito consecuente.</example>
+      </rule>
+    </rulegroup>
+
+  </category>
+
+
+  <category name="Gramática::Outros">
+
     <rulegroup id="FORA_FORA" name="fóra vs. fora">
       <rule name="preposición + fóra (de fóra)">
         <pattern mark_from="1">
@@ -83,6 +301,17 @@
       </rule>
       -->
     </rulegroup>
+
+    <rule id="QUENES" name="quenes (quen)">
+      <pattern>
+        <token>quenes</token>
+      </pattern>
+      <message>En galego o pronome 'quen' carece de plural. Empregue mellor <suggestion>quen</suggestion> ou <suggestion>os que</suggestion> segundo o contexto.</message>
+      <example type="incorrect">Non saben <marker>quenes</marker> son os encargados.</example>
+      <example type="correct">Non saben <marker>quen</marker> son os encargados.</example>
+      <example type="incorrect">Seguramente <marker>quenes</marker> máis protestan serán os que máis se beneficien.</example>
+      <example type="correct">Seguramente <marker>os que</marker> máis protestan serán os que máis se beneficien.</example>
+    </rule>
 
     <rulegroup id="GRAN" name="gran día" default="off">
       <rule>
@@ -197,27 +426,24 @@
       </rule>
     </rulegroup>
 
-    <!-- FIXME: needs synthetizer -->
-    <rulegroup id="ATA_ATE" name="ata á (ata a)" default="off">
+    <rulegroup id="ATA_ATE" name="ata á (ata a)">
     <rule>
       <pattern>
         <token regexp="yes">até|ata</token>
         <token regexp="yes">aos?|ós?|ás?</token>
       </pattern>
-      <message>A preposición '\1' non vai seguida da preposición 'a'. Quería vostede dicir <suggestion>FIXME</suggestion>?</message>
+      <message>A preposición '\1' non vai seguida da preposición 'a'. Quería vostede dicir <suggestion>\1 <match no="2" postag="SPS00:(.*)" postag_replace="$1">o</match></suggestion>?</message>
         <short>Forma incorrecta</short>
-        <example type="incorrect">Xogaron tamén un papel importante <marker>até á</marker> conquista romana.</example>
+        <example correction="até a" type="incorrect">Xogaron tamén un papel importante <marker>até á</marker> conquista romana.</example>
         <example type="correct">Xogaron tamén un papel importante <marker>até a</marker> conquista romana.</example>
     </rule>
     </rulegroup>
 
-    <!-- FIXME: segmentation does not work properly, so texts with more than one interrogative sentence joined
-                will not match the error from the second one on
+    <!-- IMPROVE: se non hai un verbo precedendo aos interrogativos o máis probable é que sexa interr. directa
+                  aínda que non vaia en SENT_START ou precedida de ¿.
 
-                Ex. Qué día é hoxe? Ónde dan viño? Cál é o director?
-
-                We should include the token '¿' and '¡' as an alternative to the SENT_START in order to mark
-                as possible error the sequence: ¿Cál|Cánto|usw ...?
+                  *Pero, logo, cándo comeza o curso?
+                  Sabes cando comeza o curso?		
     -->
     <rulegroup id="INTERROG" name="qué,cál,cómo (que,cal,como)">
       <rule>
@@ -227,18 +453,38 @@
           <token regexp="yes">\!|\?</token>
         </pattern>
         <message>En galego non é preciso acentuar as interrogativas directas. Quería vostede dicir <suggestion><match no="2" regexp_match="(?iu)á" regexp_replace="a"/></suggestion>?</message>
-        <example type="incorrect" correction="Cando"><marker>Cándo</marker> chegan teus pais?</example>
+        <example type="incorrect"><marker>Cándo</marker> chegan teus pais?</example>
         <example type="correct"><marker>Cando</marker> chegan teus pais?</example>
       </rule>
       <rule>
         <pattern mark_from="1" mark_to="-1">
-          <token postag="SENT_START"><exception regexp="yes">¡|¿</exception></token>
+          <token regexp="yes">\¿|\¡</token>
+          <token regexp="yes" skip="-1">cál|cándo|cánto</token>
+          <token regexp="yes">\!|\?</token>
+        </pattern>
+        <message>En galego non é preciso acentuar as interrogativas directas. Quería vostede dicir <suggestion><match no="2" regexp_match="(?iu)á" regexp_replace="a"/></suggestion>?</message>
+        <example type="incorrect">¿<marker>Cándo</marker> chegan teus pais?</example>
+        <example type="correct">¿<marker>Cando</marker> chegan teus pais?</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token postag="SENT_START"/>
           <token regexp="yes" skip="-1">cómo|ónde</token>
           <token regexp="yes">\!|\?</token>
         </pattern>
         <message>En galego non é preciso acentuar as interrogativas directas. Quería vostede dicir <suggestion><match no="2" regexp_match="(?iu)ó" regexp_replace="o"/></suggestion>?</message>
-        <example type="incorrect" correction="Onde"><marker>Ónde</marker> está Bretoña?</example>
+        <example type="incorrect"><marker>Ónde</marker> está Bretoña?</example>
         <example type="correct"><marker>Onde</marker> está Bretoña?</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token regexp="yes">\¿|\¡</token>
+          <token regexp="yes" skip="-1">cómo|ónde</token>
+          <token regexp="yes">\!|\?</token>
+        </pattern>
+        <message>En galego non é preciso acentuar as interrogativas directas. Quería vostede dicir <suggestion><match no="2" regexp_match="(?iu)ó" regexp_replace="o"/></suggestion>?</message>
+        <example type="incorrect">¿<marker>Ónde</marker> está Bretoña?</example>
+        <example type="correct">¿<marker>Onde</marker> está Bretoña?</example>
       </rule>
       <rule>
         <pattern mark_from="1" mark_to="-1">
@@ -247,8 +493,18 @@
           <token regexp="yes">\!|\?</token>
         </pattern>
         <message>En galego non é preciso acentuar as interrogativas directas. Quería vostede dicir <suggestion><match no="2" regexp_match="(?iu)é" regexp_replace="e"/></suggestion>?</message>
-        <example type="incorrect" correction="Que"><marker>Qué</marker> día chegan teus pais?</example>
+        <example type="incorrect"><marker>Qué</marker> día chegan teus pais?</example>
         <example type="correct"><marker>Que</marker> día chegan teus pais?</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token regexp="yes">\¿|\¡</token>
+          <token regexp="yes" skip="-1">qué|quén</token>
+          <token regexp="yes">\!|\?</token>
+        </pattern>
+        <message>En galego non é preciso acentuar as interrogativas directas. Quería vostede dicir <suggestion><match no="2" regexp_match="(?iu)é" regexp_replace="e"/></suggestion>?</message>
+        <example type="incorrect">¿<marker>Qué</marker> día chegan teus pais?</example>
+        <example type="correct">¿<marker>Que</marker> día chegan teus pais?</example>
       </rule>
     </rulegroup>
 
@@ -260,7 +516,7 @@
           <token>demais<exception regexp="yes" scope="previous">(mail|pol|d|n)?[ao]s?</exception><exception regexp="yes" scope="previous">tódolos|tódalas|coa?s?|c?[óá]s?|aos?|e|ou</exception></token>
         </pattern>
         <message>En galego 'demais' escríbese xunto só cando é pronome, e nese caso vai precedido por un artigo. Polo contexto semella estar vostede empregándoo como adverbio, que indica exceso dunha cantidade, e neste caso vai separado. Quería vostede dicir <suggestion>de máis</suggestion>?</message>
-        <example type="incorrect" correction="de máis">Sempre fala <marker>demais</marker>.</example>
+        <example type="incorrect">Sempre fala <marker>demais</marker>.</example>
         <example type="correct">Sempre fala <marker>de máis</marker>.</example>
         <example type="correct">Xaquín e mailos <marker>demais</marker> rapaces.</example>
         <example type="correct">Foi cos <marker>demais</marker> rapaces a xogar.</example>
@@ -272,7 +528,7 @@
           <token>mais</token>
         </pattern>
         <message>En galego a locución adverbial 'de máis' leva til. Quería vostede dicir <suggestion>de máis</suggestion>?</message>
-        <example type="incorrect" correction="de máis">Sempre fala <marker>de mais</marker>.</example>
+        <example type="incorrect">Sempre fala <marker>de mais</marker>.</example>
         <example type="correct">Sempre fala <marker>de máis</marker>.</example>
       </rule>
     </rulegroup>
@@ -280,91 +536,32 @@
 <!-- NOTAS:
   * Senón en inicio de oración é erro de estilo: "como xa piden algúns. Senón mediante o diálogo"
   * Cando vai seguido de pronome, verbo ou coma é erro con certeza, confundido con 'se non': "Senón existe esa singularidade"; "Senón o sabes pregunta"; "senón, pregunta". Isto vale seguramente tamén para a posición interna na oración. [comprobar]
-  * Cando vai seguido de 'que' será case sempre 'senón'
 -->
-    <!--
     <rulegroup id="SENON" name="se non, senón">
-      <rule>
-        <pattern>
-          <token postag="SENT_START"/>
-          <token regexp="yes">sen[oó]n</token>
-        </pattern>
-        <message></message>
-        <example type="incorrect"></example>
-        <example type="correct"></example>
-      </rule>
-    </rulegroup>
-    -->
-
-    <!-- FIXME: cómpre + secuencia de advs + inf: cómpre ademais agora non ignorar as provocacións -->
-    <rulegroup id="COMPRE" name="cómpre vs. compre">
-      <!-- compre + VINF (cómpre ignorar a provocación) -->
-      <rule>
-        <pattern mark_to="-1">
-          <token>compre</token>
-          <token postag="VMN0000|VSN0000" postag_regexp="yes" />
-        </pattern>
-        <message>A forma 'compre', cando é do verbo "cumprir" (ser necesario), leva til para distinguila do verbo 'comprar'. Quería vostede dicir <suggestion>cómpre</suggestion>?</message>
-        <example type="incorrect">Agora <marker>compre</marker> analizar o proceso de constitución das listas.</example>
-        <example type="correct">Agora <marker>cómpre</marker> analizar o proceso de constitución das listas.</example>
-      </rule>
-      <!-- compre + adverbio + VINF (cómpre agora ignorar a provocación) -->
-      <rule>
-        <pattern mark_to="-2">
-          <token>compre</token>
-          <token postag="RG|RN" postag_regexp="yes" />
-          <token postag="VMN0000|VSN0000" postag_regexp="yes" />
-        </pattern>
-        <message>A forma 'compre', cando é do verbo "cumprir" (ser necesario), leva til para distinguila do verbo 'comprar'. Quería vostede dicir <suggestion>cómpre</suggestion>?</message>
-        <example type="incorrect"><marker>Compre</marker> agora analizar o proceso de constitución das listas.</example>
-        <example type="correct"><marker>Cómpre</marker> agora analizar o proceso de constitución das listas.</example>
-      </rule>
-      <!-- compre + V(ser) -->
-      <rule>
-        <pattern mark_to="-1">
-          <token>compre</token>
-          <token postag="VS..3S0" postag_regexp="yes" />
-        </pattern>
-        <message>A forma 'compre', cando é do verbo "cumprir" (ser necesario), leva til para distinguila do verbo 'comprar'. Quería vostede dicir <suggestion>cómpre</suggestion>?</message>
-        <example type="incorrect">Agora o que <marker>compre</marker> é analizar o proceso de constitución das listas.</example>
-        <example type="correct">Agora o que <marker>cómpre</marker> é analizar o proceso de constitución das listas.</example>
-      </rule>
-      <!-- compre + adverbio + V(ser) -->
-      <rule>
-        <pattern mark_to="-2">
-          <token>compre</token>
-          <token postag="RG"/>
-          <token postag="VS..3S0" postag_regexp="yes" />
-        </pattern>
-        <message>A forma 'compre', cando é do verbo "cumprir" (ser necesario), leva til para distinguila do verbo 'comprar'. Quería vostede dicir <suggestion>cómpre</suggestion>?</message>
-        <example type="incorrect">O que <marker>compre</marker> agora é analizar o proceso de constitución das listas.</example>
-        <example type="correct">O que <marker>cómpre</marker> agora é analizar o proceso de constitución das listas.</example>
-      </rule>
-      <!-- compre + que -->
-      <rule>
-        <pattern mark_to="-1">
-          <token>compre</token>
+      <rule id="SE_SENON_QUE" name="se non que (senón que)">
+        <pattern mark_from="2">
+          <token skip="-1">non<exception scope="next">non</exception></token>
+          <token skip="-1">se</token>
+          <token>se</token>
+          <token>non</token>
           <token>que</token>
         </pattern>
-        <message>A forma 'compre', cando é do verbo "cumprir" (ser necesario), leva til para distinguila do verbo 'comprar'. Quería vostede dicir <suggestion>cómpre</suggestion>?</message>
-        <example type="incorrect"><marker>Compre</marker> que a arquitectura das Nacións Unidas se axuste a ese concepto.</example>
-        <example type="correct"><marker>Cómpre</marker> que a arquitectura das Nacións Unidas se axuste a ese concepto.</example>
+        <message>Despois dunha partícula negativa, a secuencia 'se non que' é normalmente unha conxunción adversativa e escríbese 'senón que'. Quería vostede dicir <suggestion>senón que</suggestion>?</message>
+        <example type="incorrect">A economía da guerra non se baseaba na empresa libre, <marker>se non que</marker> era o resultado da sectorización do gasto do goberno</example>
+        <example type="correct">A economía da guerra non se baseaba na empresa libre, <marker>senón que</marker> era o resultado da sectorización do gasto do goberno</example>
       </rule>
-    </rulegroup>
-
-<!--
-    <rulegroup id="CLITICOS" name="posición dos clíticos">
-      <rule>
-        <pattern>
-          <token postag="SENT_START"/>
-          <token postag="PP+PP"/>
+      <rule id="SENON_QUE" name="se non que (senón que)">
+        <pattern mark_from="1">
+          <token skip="-1">non</token>
+          <token>se</token>
+          <token>non</token>
+          <token>que</token>
         </pattern>
-        <message>Os pronomes clíticos non poden ir en galego no inicio da oración. Por favor, empregue '\1' despois do verbo principal (ex. 'dínllelo' no sitio de 'llelo din').</message>
-        <example type="incorrect"><marker>Volo</marker> dixen e non me quixestes facer caso.</example>
-        <example type="correct"><marker>Díxenvolo</marker> e non me quixestes facer caso.</example>
+        <message>Despois dunha partícula negativa, a secuencia 'se non que' é normalmente unha conxunción adversativa e escríbese 'senón que'. Quería vostede dicir <suggestion>senón que</suggestion>?</message>
+        <example type="incorrect">O osíxeno non é unha proba de vida, <marker>se non que</marker> é producido polo xeo de auga da superficie de Ganímedes.</example>
+        <example type="correct">O osíxeno non é unha proba de vida, <marker>senón que</marker> é producido polo xeo de auga da superficie de Ganímedes.</example>
       </rule>
     </rulegroup>
--->
 
     <rulegroup id="AMBOS_TODOS" name="ambos, ambas, todos, todas e substantivo">
       <rule>
@@ -391,18 +588,19 @@
       </rule>
     </rulegroup>
 
-    <!-- fuzzy -->
-    <rule id="POR_O" name="por o (polo)">
-      <pattern>
-        <token>por</token>
-        <token regexp="yes">[oa]s?</token>
-      </pattern>
-      <message>A preposición 'por' e o artigo '<match no="2"/>' contraen. Quería vostede dicir <suggestion><match no="1" regexp_match="(?iu)r$" regexp_replace="l"/>\2</suggestion>?</message>
-      <example type="incorrect"><marker>Por o</marker> mar abaixo vai unha troita de pé.</example>
-      <example type="correct"><marker>Polo</marker> mar abaixo vai unha troita de pé.</example>
-    </rule>
-
     <rulegroup id="CONTRACCIONS" name="contraccións">
+
+      <!-- fuzzy -->
+      <rule id="POR_O" name="por o (polo)">
+        <pattern>
+          <token>por</token>
+          <token regexp="yes">[oa]s?</token>
+        </pattern>
+        <message>A preposición 'por' e o artigo '<match no="2"/>' contraen. Quería vostede dicir <suggestion><match no="1" regexp_match="(?iu)r$" regexp_replace="l"/>\2</suggestion>?</message>
+        <example type="incorrect"><marker>Por o</marker> mar abaixo vai unha troita de pé.</example>
+        <example type="correct"><marker>Polo</marker> mar abaixo vai unha troita de pé.</example>
+      </rule>
+
       <rule id="E_MAIS_O" name="e mais o (e mailo)">
         <pattern>
           <token>e</token>
@@ -434,37 +632,6 @@
       <example type="incorrect"><marker>Tódo-los</marker> días vou mercar á praza.</example>
       <example type="correct"><marker>Tódolos</marker> días vou mercar á praza.</example>
     </rule>
-
-    <rulegroup id="REXIME_VERBAL" name="construción verbal">
-      <!-- Verbs with pattern: SUBJanim Verb PP(que).
-           SUBJ must be animate/human, otherwise the subordinate could act as subject (and
-           it would be a false positive: 
-           Ex. 'o asunto influíu en que un poida mudar de opinión'
-               'inflúe que ti esteas presente'
-        -->
-      <!-- V + de + que: informar -->
-      <rule>
-        <pattern>
-          <token inflected="yes">informar</token>
-          <token>que</token>
-        </pattern>
-        <message>O verbo '\1' constrúese normalmente coa preposición 'de'. Quería vostede dicir <suggestion>\1 de \2</suggestion>?</message>
-        <example type="correct">Os servizos de emerxencia <marker>informaron de que</marker> habería fortes ventos na costa.</example>
-        <example type="incorrect">Os servizos de emerxencia <marker>informaron que</marker> habería fortes ventos na costa.</example>
-      </rule>
-      <!-- V + en + que: insistir, confiar -->
-      <rule>
-        <pattern>
-          <token inflected="yes" regexp="yes">insistir|confiar</token>
-          <token>que</token>
-        </pattern>
-        <message>O verbo '\1' constrúese normalmente coa preposición 'en'. Quería vostede dicir <suggestion>\1 en \2</suggestion>?</message>
-        <example type="correct">Os servizos de emerxencia <marker>insistiron en que</marker> habería fortes ventos na costa.</example>
-        <example type="incorrect">Os servizos de emerxencia <marker>insistiron que</marker> habería fortes ventos na costa.</example>
-        <example type="incorrect"><marker>Confío que</marker> actuarán de xeito consecuente.</example>
-        <example type="correct"><marker>Confío en que</marker> actuarán de xeito consecuente.</example>
-      </rule>
-    </rulegroup>
 
     <!-- Rule set to off by default, since is difficult to express by means of
          the XML formalism some important constraints, such as the presence of a
@@ -513,7 +680,7 @@
           <token>elo</token>
         </pattern>
         <message>'Elo' é en galego un substantivo masculino que significa 'aro ou anel dunha cadea'. Quería vostede dicir <suggestion>isto</suggestion> ou <suggestion>iso</suggestion>?</message>
-        <example type="incorrect" correction="isto|iso">Con <marker>elo</marker> conseguimos mellorar o rendemento do proceso.</example>
+        <example type="incorrect">Con <marker>elo</marker> conseguimos mellorar o rendemento do proceso.</example>
         <example type="correct">Con <marker>iso</marker> conseguimos mellorar o rendemento do proceso.</example>
       </rule>
       <rule>
@@ -522,8 +689,52 @@
           <token>elo</token>
         </pattern>
         <message>'Elo' é en galego un substantivo masculino que significa 'aro ou anel dunha cadea'. Quería vostede dicir <suggestion>isto</suggestion> ou <suggestion>iso</suggestion>?</message>
-        <example type="incorrect" correction="isto|iso">No centro de todo <marker>elo</marker> sitúase o escudo da vila.</example>
+        <example type="incorrect">No centro de todo <marker>elo</marker> sitúase o escudo da vila.</example>
         <example type="correct">No centro de todo <marker>isto</marker> sitúase o escudo da vila.</example>
+      </rule>
+    </rulegroup>
+
+
+    <rulegroup id="ADV_POSESIVO">
+      <rule id="DETRAS_MINHA" name="detrás miña (detrás de min)">
+        <pattern>
+          <token regexp="yes">adiante|arredor|arriba|atrás|baixo|cerca|debaixo|dediante|derredor|derriba|detrás|diante|embaixo|encima|enriba|riba</token>
+          <token>miña</token>
+        </pattern>
+        <message>A expresión '\1 miña' é incorrecta. Empregue mellor <suggestion>\1 de min</suggestion> no seu lugar.</message>
+        <short>Un posesivo non pode complementar un adverbio.</short>
+        <example type="incorrect">Vén xusto <marker>detrás miña</marker>.</example>
+        <example type="correct">Vén xusto <marker>detrás de min</marker>.</example>
+      </rule>
+      <rule id="DETRAS_TUA" name="detrás túa (detrás de ti)">
+        <pattern>
+          <token regexp="yes">adiante|arredor|arriba|atrás|baixo|cerca|debaixo|dediante|derredor|derriba|detrás|diante|embaixo|encima|enriba|riba</token>
+          <token>túa</token>
+        </pattern>
+        <message>A expresión '\1 túa' é incorrecta. Empregue mellor <suggestion>\1 de ti</suggestion> no seu lugar.</message>
+        <short>Un posesivo non pode complementar un adverbio.</short>
+        <example type="incorrect">Mira <marker>detrás túa</marker>, un mono con tres cabezas!</example>
+        <example type="correct">Mira <marker>detrás de ti</marker>, un mono con tres cabezas!</example>
+      </rule>
+      <rule id="DETRAS_NOSA_VOSA" name="detrás nosa (detrás de nós)">
+        <pattern>
+          <token regexp="yes">adiante|arredor|arriba|atrás|baixo|cerca|debaixo|dediante|derredor|derriba|detrás|diante|embaixo|encima|enriba|riba</token>
+          <token regexp="yes">nosa|vosa</token>
+        </pattern>
+        <message>A expresión '\1 \2' é incorrecta. Empregue mellor <suggestion>\1 de <match no="2" regexp_match="([vn])osa" regexp_replace="$1ós"/></suggestion> no seu lugar.</message>
+        <short>Un posesivo non pode complementar un adverbio.</short>
+        <example type="incorrect">Mirade <marker>detrás vosa</marker>, un mono con tres cabezas!</example>
+        <example type="correct">Mirade <marker>detrás de vós</marker>, un mono con tres cabezas!</example>
+      </rule>
+      <rule id="DETRAS_SUA" name="detrás súa (detrás del/dela/deles/delas)">
+        <pattern>
+          <token regexp="yes">adiante|arredor|arriba|atrás|baixo|cerca|debaixo|dediante|derredor|derriba|detrás|diante|embaixo|encima|enriba|riba</token>
+          <token>súa</token>
+        </pattern>
+        <message>A expresión '\1 súa' é incorrecta. Empregue mellor, dependendo do referente, <suggestion>\1 del</suggestion>, <suggestion>\1 dela</suggestion>, <suggestion>\1 deles</suggestion>, <suggestion>\1 delas</suggestion>, <suggestion>\1 de vostede</suggestion> ou <suggestion>\1 de vostedes</suggestion> no seu lugar.</message>
+        <short>Un posesivo non pode complementar un adverbio.</short>
+        <example type="incorrect">Ese Presidente da Xunta que leva <marker>detrás súa</marker> a todo o séquito de acólitos coma avésporas chuchonas.</example>
+        <example type="correct">Ese Presidente da Xunta que leva <marker>detrás del</marker> a todo o séquito de acólitos coma avésporas chuchonas.</example>
       </rule>
     </rulegroup>
 
@@ -621,7 +832,7 @@
         <token regexp="yes">r[eé]cords?<exception scope="previous">the</exception></token>
       </pattern>
       <message>A palabra '<match no="1"/>' é un anglicismo. Empregue mellor <suggestion>marca</suggestion> (feminino).</message>
-      <example type="incorrect" correction="marca">O atleta non conseguíu bater o <marker>record</marker>.</example>
+      <example type="incorrect">O atleta non conseguíu bater o <marker>record</marker>.</example>
       <example type="correct">O atleta non conseguíu bater a <marker>marca</marker>.</example>
     </rule>
   </category>
@@ -662,10 +873,32 @@
       <pattern>
         <token inflected="yes">aportar</token>
       </pattern>
-      <message>Posíbel castelanismo: o verbo "aportar" significa en galego "chegar a porto". A forma correcta en galego para o sentido de "proporcionar" ou "presentar" é <suggestion>achegar</suggestion> ou <suggestion>facer unha achega</suggestion>.</message>
-      <short>Posíbel forma incorrecta</short>
+      <message>O verbo "aportar" significa en galego "chegar a porto". A forma correcta en galego para o sentido de "proporcionar" ou "presentar" é <suggestion>achegar</suggestion> ou <suggestion>facer unha achega</suggestion>.</message>
+      <short>Posíbel castelanismo</short>
       <example type="incorrect">Eu tamén quero <marker>aportar</marker> algo ao proxecto.</example>
       <example type="correct">Eu tamén quero <marker>achegar</marker> algo ao proxecto.</example>
+    </rule>
+
+    <rule id="BECA" name="beca (bolsa)">
+      <pattern>
+        <token inflected="yes">beca</token>
+      </pattern>
+      <message>A palabra 'beca' significa en galego "vestidura talar de cor negra". A forma correcta en galego para o sentido de "axuda económica á formación" é <suggestion>bolsa</suggestion>.</message>
+      <short>Posíbel castelanismo</short>
+      <example type="incorrect">Obtivo unha <marker>beca</marker> para o Trinity College.</example>
+      <example type="correct">Obtivo unha <marker>bolsa</marker> para o Trinity College.</example>
+    </rule>
+
+    <rule id="ABONO" name="abono (fertilizante, pagamento)">
+      <pattern>
+        <token inflected="yes">abono</token>
+      </pattern>
+      <message>Posíbel castelanismo: "abono" significa en galego "subscrición". Se vostede alude ás substancias químicas ou orgánicas que aumentan a fertilidade do solo, debe empregar <suggestion>fertilizante</suggestion>; pola contra, se falaba da acción de pagar por un obxecto ou servizo, use <suggestion>pagamento</suggestion> ou <suggestion>pago</suggestion>.</message>
+      <short>Posíbel castelanismo</short>
+      <example type="incorrect">O estudo analiza o papel dos <marker>abonos</marker> na contaminación das augas subterráneas.</example>
+      <example type="correct">O estudo analiza o papel dos <marker>fertilizantes</marker> na contaminación das augas subterráneas.</example>
+      <example type="incorrect">Xa fixo o <marker>abono</marker> das taxas de matrícula.</example> 
+      <example type="correct">Xa fixo o <marker>pagamento</marker> das taxas de matrícula.</example> 
     </rule>
 
     <rule id="GRUA" name="grua (guindastre)">
@@ -807,8 +1040,8 @@
         <token regexp="yes">promedios?</token>
       </pattern>
       <message>Palabra incorrecta: a forma "\1" non existe en galego. Quería vostede dicir <suggestion>media</suggestion> (feminino) ou <suggestion>termo medio</suggestion>?</message>
-      <example type="incorrect">Precisa averiguar o <marker>promedio</marker> de litros caídos en Santiago durante o ano 2000.</example>
-      <example type="correct">Precisa averiguar a <marker>media</marker> de litros caídos en Santiago durante o ano 2000.</example>
+      <example type="incorrect">Precisa pescudar o <marker>promedio</marker> de litros caídos en Santiago durante o ano 2000.</example>
+      <example type="correct">Precisa pescudar a <marker>media</marker> de litros caídos en Santiago durante o ano 2000.</example>
     </rule>
 
     <rule id="PREVENIDO" name="prevenido (prevido)">
@@ -926,16 +1159,6 @@
       <message>Palabra incorrecta: a forma "<match no="1"/>" non existe en galego. Quería vostede dicir <suggestion>contrasinal</suggestion> (masculino)?</message>
       <example type="incorrect">Tivo que cambiar a súa <marker>contraseña</marker> de entrada.</example>
       <example type="correct">Tivo que cambiar o seu <marker>contrasinal</marker> de entrada.</example>
-    </rule>
-
-    <!-- HACK plural (better with synthetizer) -->
-    <rule id="BURSATIL" name="bursátil (bolsista)">
-      <pattern>
-        <token regexp="yes">bursátil(es)?</token>
-      </pattern>
-      <message>Palabra incorrecta: a forma "<match no="1"/>" non existe en galego. Quería vostede dicir <suggestion><match no="1" regexp_match="bursátile?(s)?$" regexp_replace="bolsista$1"/></suggestion>?</message>
-      <example type="incorrect">O mercado <marker>bursátil</marker> está en mínimos anuais.</example>
-      <example type="correct">O mercado <marker>bolsista</marker> está en mínimos anuais.</example>
     </rule>
 
     <rule id="GRULLA" name="grulla (grou, grúa)">
@@ -1136,15 +1359,40 @@
       </rule>
     </rulegroup>
 
-    <rule id="NORABOA" name="noraboa (parabén)">
-      <pattern>
-        <token regexp="yes">noraboas?</token>
-      </pattern>
-      <message>A palabra "<match no="1"/>" é un castelanismo. Empregue no seu sitio <suggestion>parabén</suggestion> ou <suggestion>parabéns</suggestion>.</message>
-      <short>Castelanismo léxico</short>
-      <example type="incorrect">Moi bo traballo, <marker>noraboa</marker>!</example>
-      <example type="correct">Moi bo traballo, <marker>parabéns</marker>!</example>
-    </rule>
+    <rulegroup id="NORABOA" name="noraboa (parabén)">
+      <rule>
+        <pattern>
+          <token regexp="yes">noraboas?</token>
+        </pattern>
+        <message>A palabra "<match no="1"/>" é un castelanismo. Empregue no seu sitio <suggestion>parabén</suggestion> ou <suggestion>parabéns</suggestion>.</message>
+        <short>Castelanismo léxico</short>
+        <example type="incorrect">Moi bo traballo, <marker>noraboa</marker>!</example>
+        <example type="correct">Moi bo traballo, <marker>parabéns</marker>!</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">dar</token>
+          <token>a</token>
+          <token>noraboa</token>
+        </pattern>
+        <message>A expresión "<match no="1"/> a noraboa" é un castelanismo. Empregue no seu sitio <suggestion>felicitar</suggestion> ou <suggestion>parabenizar</suggestion>.</message>
+        <short>Castelanismo léxico</short>
+        <example type="incorrect">Quero <marker>dar a noraboa</marker> á miña sobriña Noelia.</example>
+        <example type="correct">Quero <marker>felicitar</marker> á miña sobriña Noelia.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">dar</token>
+          <token>a</token>
+          <token postag_regexp="yes" postag="DP.FS."/>
+          <token>noraboa</token>
+        </pattern>
+        <message>A expresión "\1 a \3 noraboa" é un castelanismo. Empregue no seu sitio <suggestion>felicitar</suggestion> ou <suggestion>parabenizar</suggestion>.</message>
+        <short>Castelanismo léxico</short>
+        <example type="incorrect">Quero <marker>dar a miña noraboa</marker> á miña sobriña Noelia.</example>
+        <example type="correct">Quero <marker>felicitar</marker> á miña sobriña Noelia.</example>
+      </rule>
+    </rulegroup>
 
     <rule id="ADOQUIN" name="adoquín (lastra)">
       <pattern>
@@ -1171,17 +1419,52 @@
         <pattern>
           <token>nembargantes</token>
         </pattern>
-        <message>A palabra'\1' non existe en galego. Empregue no seu sitio <suggestion>porén</suggestion>, <suggestion>mais</suggestion> ou <suggestion>no entanto</suggestion>.</message>
+        <message>A palabra '\1' non existe en galego. Empregue no seu sitio <suggestion>porén</suggestion>, <suggestion>mais</suggestion> ou <suggestion>no entanto</suggestion>.</message>
         <short>Castelanismo léxico</short>
         <example type="incorrect">A súa importancia débese <marker>nembargantes</marker> a outros factores.</example>
         <example type="correct">A súa importancia débese <marker>porén</marker> a outros factores.</example>
       </rule>
     </rulegroup>
 
+    <rulegroup id="CORTEZA">
+      <rule id="CORTEZA_NON_CEREBRAL" name="corteza (codia)">
+        <pattern mark_to="-1">
+          <token regexp="yes">(corteza|cortiza)s?</token>
+          <token regexp="yes" negate="yes">cerebra(l|is|les)</token>
+        </pattern>
+        <message>A palabra '\1' non existe en galego. Empregue no seu sitio <suggestion>codia</suggestion>.</message>
+        <short>Castelanismo léxico</short>
+        <example type="incorrect">Do pan prefiro comer a <marker>corteza</marker>.</example>
+        <example type="correct">Do pan prefiro comer a <marker>codia</marker>.</example>
+      </rule>
+      <rule id="CORTEZA_CEREBRAL" name="corteza cerebral (córtex cerebral)">
+        <pattern>
+          <token regexp="yes">(corteza|cortiza|codia)s?</token>
+          <token regexp="yes">cerebra(l|is|les)</token>
+        </pattern>
+        <message>O termo '\1 \2' non é correcto en galego. Empregue no seu sitio <suggestion>córtex \2</suggestion>.</message>
+        <short>Castelanismo léxico</short>
+        <example type="incorrect">O relator presentou un traballo sobre o comportamento da <marker>corteza cerebral</marker>.</example>
+        <example type="correct">O relator presentou un traballo sobre o comportamento do <marker>córtex cerebral</marker>.</example>
+      </rule>
+    </rulegroup>
+
   </category>
 
+  <category name="Léxico::Barbarismos">
+    <rule id="ADICAR" name="adicar (dedicar)">
+      <pattern>
+        <token inflected="yes">adicar</token>
+      </pattern>
+      <message>A palabra '\1'  non é aconsellábel en galego. Empregue mellor <suggestion>dedicar</suggestion>.</message>
+      <short>Castelanismo léxico</short>
+      <example type="incorrect">Acordaron <marker>adicar</marker> máis tempo ás tarefas pendentes.</example>
+      <example type="correct">Acordaron <marker>dedicar</marker> máis tempo ás tarefas pendentes.</example>
+    </rule>
+  </category>
+
+
   <!--
-  <category name="Léxico">
     <rule id="PUNTUAL" name="puntual (concreto)">
       <pattern>
         <token inflected="yes">puntual</token>
@@ -1191,12 +1474,23 @@
       <example type="incorrect"> <marker>aportar</marker> algo ao proxecto.</example>
       <example type="correct">Eu tamén quero <marker>achegar</marker> algo ao proxecto.</example>
     </rule>
-  </category>
   -->
+
 
   <!-- ############################ SPELLING RULES ############################ -->
 
   <category name="Ortografía">
+
+    <rulegroup id="ACCESIT" name="accésits (accésit)">
+      <rule>
+        <pattern>
+          <token regexp="yes">acc[eé]sits</token>
+        </pattern>
+        <message>A palabra 'accésit' non varía no plural. Empregue mellor <suggestion>accésit</suggestion>.</message>
+        <example type="incorrect">Como narrador gaña dous <marker>accésits</marker> do Pedrón de Ouro.</example>
+        <example type="correct">Como narrador gaña dous <marker>accésit</marker> do Pedrón de Ouro.</example>
+      </rule>
+    </rulegroup>
 
     <rulegroup id="REPETIDA" name="Palabra repetida">
       <rule>
@@ -1450,17 +1744,64 @@
         <example type="correct">Tivo que pagarlle <marker>danos e perdas</marker> polo incidente.</example>
       </rule>
 
-      <!-- FIXME: synthetizer -->
       <rule id="PASAR_POLO_ARO" name="pasar polo aro (vir ao rego)">
         <pattern>
           <token inflected="yes">pasar</token>
           <token>polo</token>
           <token>aro</token>
         </pattern>
-        <message>A expresión "\1 polo aro" non é correcta en galego. Empregue mellor <suggestion>vir ao rego</suggestion>.</message>
+        <message>A expresión "\1 polo aro" non é correcta en galego. Empregue mellor <suggestion><match no="1" postag="(.*)" postag_replace="$1">vir</match> ao rego</suggestion>.</message>
         <short>Locución incorrecta.</short>
-        <example type="incorrect">O alumnado non <marker>pasou polo aro</marker> cando o responsable presentou as súas propostas.</example>
-        <example type="correct">O alumnado non <marker>veu ao aro</marker> cando o responsable presentou as súas propostas.</example>
+        <example correction="veu ao rego" type="incorrect">O alumnado non <marker>pasou polo aro</marker> cando o responsable presentou as súas propostas.</example>
+        <example type="correct">O alumnado non <marker>veu ao rego</marker> cando o responsable presentou as súas propostas.</example>
+      </rule>
+
+      <rule id="ACUSE_DE_RECIBO" name="acuse de recibo (xustificante de recepción)">
+        <pattern>
+          <token regexp="yes">acuses?</token>
+          <token>de</token>
+          <token>recibo</token>
+        </pattern>
+        <message>A expresión "\1 de recibo" non é correcta en galego. Empregue mellor <suggestion>xustificante de recepción</suggestion>.</message>
+        <short>Locución incorrecta.</short>
+        <example type="incorrect">Deberá presentar o <marker>acuse de recibo</marker> cuberto e selado.</example>
+        <example type="correct">Deberá presentar o <marker>xustificante de recepción</marker> cuberto e selado.</example>
+      </rule>
+
+      <rule id="ESTIMAR_UNHA_DEMANDA" name="estimar unha demanda (admitir unha demanda)">
+        <pattern>
+          <token inflected="yes">estimar</token>
+          <token regexp="yes">a|unha</token>
+          <token>demanda</token>
+        </pattern>
+        <message>A expresión "\1 \2 demanda" non é aconsellábel en galego. Empregue mellor <suggestion>admitir \2 demanda</suggestion>.</message>
+        <short>Locución incorrecta.</short>
+        <example type="incorrect">O xuíz <marker>estimou a demanda</marker> das traballadoras.</example>
+        <example type="correct">O xuíz <marker>admitiu a demanda</marker> das traballadoras.</example>
+      </rule>
+
+      <rule id="BALANZA_DE_PAGOS" name="balanza de pagos (balanza de pagamentos)">
+        <pattern>
+          <token inflected="yes">balanza</token>
+          <token>de</token>
+          <token>pagos</token>
+        </pattern>
+        <message>A expresión "\1 de pagos" non é aconsellábel en galego. Empregue mellor <suggestion>\1 de pagamentos</suggestion>.</message>
+        <short>Locución incorrecta.</short>
+        <example type="incorrect">A situación actual é de déficit na <marker>balanza de pagos</marker>.</example>
+        <example type="correct">A situación actual é de déficit na <marker>balanza de pagamentos</marker>.</example>
+      </rule>
+
+      <rule id="BUZON_DE_SUXERENCIAS" name="buzón de suxerencias (caixa de suxestións)">
+        <pattern>
+          <token regexp="yes">buzóns?</token>
+          <token>de</token>
+          <token>suxerencias</token>
+        </pattern>
+        <message>A expresión "\1 de suxerencias" non é correcta en galego. Empregue mellor <suggestion>caixa de suxestións</suggestion>.</message>
+        <short>Locución incorrecta.</short>
+        <example type="incorrect">O cliente ten á súa disposición un <marker>buzón de suxerencias</marker>.</example>
+        <example type="correct">O cliente ten á súa disposición unha <marker>caixa de suxestións</marker>.</example>
       </rule>
     </rulegroup>
 

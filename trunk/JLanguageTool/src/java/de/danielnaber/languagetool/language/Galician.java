@@ -25,8 +25,12 @@ import de.danielnaber.languagetool.rules.*;
 import de.danielnaber.languagetool.rules.patterns.Unifier;
 import de.danielnaber.languagetool.rules.gl.CastWordsRule;
 import de.danielnaber.languagetool.rules.gl.SimpleReplaceRule;
+import de.danielnaber.languagetool.synthesis.Synthesizer;
+import de.danielnaber.languagetool.synthesis.gl.GalicianSynthesizer;
 import de.danielnaber.languagetool.tagging.Tagger;
 import de.danielnaber.languagetool.tagging.gl.GalicianTagger;
+import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
+import de.danielnaber.languagetool.tagging.disambiguation.rules.gl.GalicianRuleDisambiguator;
 import de.danielnaber.languagetool.tokenizers.SRXSentenceTokenizer;
 import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
 import de.danielnaber.languagetool.tokenizers.Tokenizer;
@@ -37,6 +41,8 @@ public class Galician extends Language {
   private Tagger tagger;
   private Tokenizer wordTokenizer;
   private SentenceTokenizer sentenceTokenizer;
+  private Synthesizer synthesizer;
+  private Disambiguator disambiguator;
   private static final Unifier GALICIAN_UNIFIER = new Unifier();
 
   @Override
@@ -91,6 +97,22 @@ public class Galician extends Language {
       wordTokenizer = new GalicianWordTokenizer();
     }
     return wordTokenizer;
+  }
+
+  @Override
+  public final Synthesizer getSynthesizer() {
+    if (synthesizer == null) {
+      synthesizer = new GalicianSynthesizer();
+    }
+    return synthesizer;
+  }
+  
+  @Override
+  public final Disambiguator getDisambiguator() {
+    if (disambiguator == null) {
+      disambiguator = new GalicianRuleDisambiguator();
+    }
+    return disambiguator;
   }
 
   @Override
