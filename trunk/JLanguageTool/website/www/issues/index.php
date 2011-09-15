@@ -2,7 +2,7 @@
 $page = "other";
 $title = "LanguageTool";
 $title2 = "Common Problems";
-$lastmod = "2011-08-14 13:30:00 CET";
+$lastmod = "2011-09-15 22:30:00 CET";
 include("../../include/header.php");
 ?>
 
@@ -67,7 +67,10 @@ include("../../include/header.php");
         is a rule that detects it. Please consider learning <a href="../development/">how to write rules</a> and help make LanguageTool 
         better by contributing your rules.</li>
     <li>For some rules there are a lot of false alarms, i.e., LanguageTool complains about text which is actually correct</li>
-    <li>LanguageTool doesn't work correctly with documents that contain revisions <!-- https://bugs.freedesktop.org/show_bug.cgi?id=36540 --></li>
+    <li>LanguageTool doesn't work correctly with documents that contain revisions
+        (<a hreF="https://issues.apache.org/ooo/show_bug.cgi?id=92013">Issue 92013</a>,
+        <a href="https://bugs.freedesktop.org/show_bug.cgi?id=36540">LibreOffice issue 36540</a>)
+    </li>
 </ul>
 
 <h2>Still need Help?</h2>
