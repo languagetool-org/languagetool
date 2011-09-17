@@ -20,6 +20,7 @@ package de.danielnaber.languagetool;
 
 import de.danielnaber.languagetool.databroker.DefaultResourceDataBroker;
 import de.danielnaber.languagetool.databroker.ResourceDataBroker;
+import de.danielnaber.languagetool.gui.ResourceBundleWithFallback;
 import de.danielnaber.languagetool.rules.Rule;
 import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.rules.patterns.FalseFriendRuleLoader;
@@ -211,8 +212,10 @@ public final class JLanguageTool {
    */
   public static ResourceBundle getMessageBundle() {
     try {
-      return ResourceBundle
-          .getBundle("de.danielnaber.languagetool.MessagesBundle");
+      final ResourceBundle bundle = ResourceBundle.getBundle("de.danielnaber.languagetool.MessagesBundle");
+      final ResourceBundle fallbackBundle = ResourceBundle.getBundle(
+          "de.danielnaber.languagetool.MessagesBundle", Locale.ENGLISH);
+      return new ResourceBundleWithFallback(bundle, fallbackBundle);
     } catch (final MissingResourceException e) {
       return ResourceBundle.getBundle(
           "de.danielnaber.languagetool.MessagesBundle", Locale.ENGLISH);
@@ -224,8 +227,11 @@ public final class JLanguageTool {
    */
   private static ResourceBundle getMessageBundle(final Language lang) {
     try {
-      return ResourceBundle.getBundle(
-          "de.danielnaber.languagetool.MessagesBundle", lang.getLocale());
+      final ResourceBundle bundle = ResourceBundle.getBundle("de.danielnaber.languagetool.MessagesBundle", 
+              lang.getLocale());
+      final ResourceBundle fallbackBundle = ResourceBundle.getBundle(
+          "de.danielnaber.languagetool.MessagesBundle", Locale.ENGLISH);
+      return new ResourceBundleWithFallback(bundle, fallbackBundle);
     } catch (final MissingResourceException e) {
       return ResourceBundle.getBundle(
           "de.danielnaber.languagetool.MessagesBundle", Locale.ENGLISH);
