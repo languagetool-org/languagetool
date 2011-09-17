@@ -497,35 +497,35 @@ public class Main extends WeakBase implements XJobExecutor,
    * Add a listener that allow re-checking the document after changing the
    * options in the configuration dialog box.
    * 
-   * @param xLinEvLis
+   * @param eventListener
    *          - the listener to be added
    * @return true if listener is non-null and has been added, false otherwise.
    */
   @Override
   public final boolean addLinguServiceEventListener(
-      final XLinguServiceEventListener xLinEvLis) {
-    if (xLinEvLis == null) {
+      final XLinguServiceEventListener eventListener) {
+    if (eventListener == null) {
       return false;
     }
-    xEventListeners.add(xLinEvLis);
+    xEventListeners.add(eventListener);
     return true;
   }
 
   /**
    * Remove a listener from the event listeners list.
    * 
-   * @param xLinEvLis
+   * @param eventListener
    *          - the listener to be removed
    * @return true if listener is non-null and has been removed, false otherwise.
    */
   @Override
   public final boolean removeLinguServiceEventListener(
-      final XLinguServiceEventListener xLinEvLis) {
-    if (xLinEvLis == null) {
+      final XLinguServiceEventListener eventListener) {
+    if (eventListener == null) {
       return false;
     }
-    if (xEventListeners.contains(xLinEvLis)) {
-      xEventListeners.remove(xLinEvLis);
+    if (xEventListeners.contains(eventListener)) {
+      xEventListeners.remove(eventListener);
       return true;
     }
     return false;
