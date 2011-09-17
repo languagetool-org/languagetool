@@ -567,7 +567,10 @@
       <rule>
         <pattern>
           <token regexp="yes">(entr)?amb[oa]s</token>
-          <token postag="NC.P000" postag_regexp="yes"><exception regexp="yes">[oa]s</exception></token>
+          <token postag="NC.P000" postag_regexp="yes">
+            <exception negate_pos="yes" postag="NC.P000" postag_regexp="yes"/>
+            <exception regexp="yes">[oa]s</exception>
+          </token>
         </pattern>
         <message>A forma "<match no="1"/>" require do artigo determinado cando vai diante dun substantivo. Quería vostede dicir <suggestion><match no="1" regexp_match="(?iu)amb([ao])s" regexp_replace="ámb$1l$1s"/> \2</suggestion> ou <suggestion><match no="1" regexp_match="(?iu)amb([ao])s" regexp_replace="amb$1s $1s"/> \2</suggestion>?</message>
         <short>Forma incorrecta</short>
@@ -578,7 +581,10 @@
       <rule>
         <pattern>
           <token regexp="yes">tod[oa]s</token>
-          <token postag="NC.P000" postag_regexp="yes"><exception regexp="yes">[oa]s</exception></token>
+          <token postag="NC.P000" postag_regexp="yes">
+            <exception negate_pos="yes" postag="NC.P000" postag_regexp="yes"/>
+            <exception regexp="yes">[oa]s</exception>
+          </token>
         </pattern>
         <message>A forma "<match no="1"/>" require do artigo determinado cando vai diante dun substantivo. Quería vostede dicir <suggestion><match no="1" regexp_match="(?iu)tod([ao])s" regexp_replace="tód$1l$1s"/></suggestion> ou <suggestion><match no="1" regexp_match="(?iu)tod([ao])s" regexp_replace="tod$1s $1s"/></suggestion>?</message>
         <short>Forma incorrecta</short>
