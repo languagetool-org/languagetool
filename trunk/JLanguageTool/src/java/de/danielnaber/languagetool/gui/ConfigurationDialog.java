@@ -125,8 +125,6 @@ public class ConfigurationDialog implements ActionListener {
     rootPane.registerKeyboardAction(actionListener, stroke,
         JComponent.WHEN_IN_FOCUSED_WINDOW);
 
-    
-    
     // JPanel
     final JPanel checkBoxPanel = new JPanel();
     checkBoxPanel.setLayout(new GridBagLayout());
@@ -164,24 +162,7 @@ public class ConfigurationDialog implements ActionListener {
           }
         }
 
-        final ActionListener ruleCheckBoxListener = new ActionListener() {
-          @Override
-          public void actionPerformed(final ActionEvent actionEvent) {
-            final JCheckBox cBox = (JCheckBox) actionEvent.getSource();
-            final boolean selected = cBox.getModel().isSelected();
-            int i = 0;
-            for (final JCheckBox chBox : checkBoxes) {
-              if (chBox.equals(cBox)) {
-                final int catNo = checkBoxesCategoryNames
-                    .indexOf(checkBoxesCategories.get(i));
-                if (selected && !categoryCheckBoxes.get(catNo).isSelected()) {
-                  categoryCheckBoxes.get(catNo).setSelected(true);
-                }
-              }
-              i++;
-            }
-          }
-        };
+        final ActionListener ruleCheckBoxListener = makeRuleCheckboxListener();
         checkBox.addActionListener(ruleCheckBoxListener);
         checkBoxes.add(checkBox);
         checkBoxesRuleIds.add(rule.getId());
@@ -202,23 +183,7 @@ public class ConfigurationDialog implements ActionListener {
             categoryCheckBox.setSelected(true);
           }
 
-          final ActionListener categoryCheckBoxListener = new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent actionEvent) {
-              final JCheckBox cBox = (JCheckBox) actionEvent.getSource();
-              final boolean selected = cBox.getModel().isSelected();
-              int i = 0;
-              for (final JCheckBox ruleBox : checkBoxes) {
-                if (ruleBox.isSelected() != selected) {
-                  if (checkBoxesCategories.get(i).equals(cBox.getText())) {
-                    ruleBox.setSelected(selected);
-                  }
-                }
-                i++;
-              }
-            }
-          };
-
+          final ActionListener categoryCheckBoxListener = makeCategoryCheckboxListener();
           categoryCheckBox.addActionListener(categoryCheckBoxListener);
           categoryCheckBoxes.add(categoryCheckBox);
           checkBoxesCategoryNames.add(rule.getCategory().getName());
@@ -235,8 +200,7 @@ public class ConfigurationDialog implements ActionListener {
     }
 
     final JPanel motherTonguePanel = new JPanel();
-    motherTonguePanel.add(new JLabel(messages.getString("guiMotherTongue")),
-        cons);
+    motherTonguePanel.add(new JLabel(messages.getString("guiMotherTongue")), cons);
     motherTongueBox = new JComboBox(getPossibleMotherTongues());
     if (motherTongue != null) {
       if (motherTongue == Language.DEMO) {
@@ -349,6 +313,46 @@ public class ConfigurationDialog implements ActionListener {
     dialog.setLocation(screenSize.width / 2 - frameSize.width / 2,
         screenSize.height / 2 - frameSize.height / 2);
     dialog.setVisible(true);
+  }
+
+  private ActionListener makeRuleCheckboxListener() {
+    return new ActionListener() {
+      @Override
+      public void actionPerformed(final ActionEvent actionEvent) {
+        final JCheckBox cBox = (JCheckBox) actionEvent.getSource();
+        final boolean selected = cBox.getModel().isSelected();
+        int i = 0;
+        for (final JCheckBox chBox : checkBoxes) {
+          if (chBox.equals(cBox)) {
+            final int catNo = checkBoxesCategoryNames
+                    .indexOf(checkBoxesCategories.get(i));
+            if (selected && !categoryCheckBoxes.get(catNo).isSelected()) {
+              categoryCheckBoxes.get(catNo).setSelected(true);
+            }
+          }
+          i++;
+        }
+      }
+    };
+  }
+
+  private ActionListener makeCategoryCheckboxListener() {
+    return new ActionListener() {
+      @Override
+      public void actionPerformed(final ActionEvent actionEvent) {
+        final JCheckBox cBox = (JCheckBox) actionEvent.getSource();
+        final boolean selected = cBox.getModel().isSelected();
+        int i = 0;
+        for (final JCheckBox ruleBox : checkBoxes) {
+          if (ruleBox.isSelected() != selected) {
+            if (checkBoxesCategories.get(i).equals(cBox.getText())) {
+              ruleBox.setSelected(selected);
+            }
+          }
+          i++;
+        }
+      }
+    };
   }
 
   private Object[] getPossibleMotherTongues() {
