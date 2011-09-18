@@ -61,7 +61,8 @@ public class Chinese extends Language {
 
   @Override
   public Contributor[] getMaintainers() {
-    return new Contributor[] { new Contributor("Tao Lin") };
+    return new Contributor[] { new Contributor("Tao Lin"), new Contributor("Fangjie Wang"),
+        new Contributor("Wenting Cheng") };
   }
 
   @Override
