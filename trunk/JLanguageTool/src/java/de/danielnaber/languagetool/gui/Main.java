@@ -326,7 +326,6 @@ public final class Main implements ActionListener {
     config.setMotherTongue(configDialog.getMotherTongue());
     config.setRunServer(configDialog.getRunServer());
     config.setServerPort(configDialog.getServerPort());
-    config.setAutoDetect(configDialog.getAutoDetect());
     // Stop server, start new server if requested:
     stopServer();
     maybeStartServer();
@@ -455,7 +454,6 @@ public final class Main implements ActionListener {
       configDialog.setDisabledCategories(config.getDisabledCategoryNames());
       configDialog.setRunServer(config.getRunServer());
       configDialog.setServerPort(config.getServerPort());
-      configDialog.setAutoDetect(config.getAutoDetect());
       configDialogs.put(language, configDialog);
     }
     return configDialog;
