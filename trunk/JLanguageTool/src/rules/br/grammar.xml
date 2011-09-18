@@ -34,14 +34,14 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
           </token>
         </pattern>
         <message>Goude ar ger-mell «\1» e zlefe bezañ ur c’hemmadur dre vlotaat gant an anv unan benel «\2» . Fellout a ra deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="g$1"/></suggestion>?</message>
-        <example type="incorrect">Ar <marker>kador</marker> a zo war an doal.</example>
-        <example type="correct">Ar gador a zo war an doal.</example>
+        <example type="incorrect">Ar <marker>kador</marker> a zo war an daol.</example>
+        <example type="correct">Ar gador a zo war an daol.</example>
       </rule>
       <rule>
         <pattern mark_from="1">
           <token regexp="yes">[au]r</token>
           <token regexp="yes" postag="N f s">p.*
-            <exception regexp="yes">plac’h(ig)?</exception>
+            <exception regexp="yes">(plac’h|gar|greg|gavotenn)(ig)?</exception>
             <exception postag="N m s"/>
           </token>
         </pattern>
@@ -116,9 +116,27 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
           <token regexp="yes">[au]n</token>
           <token>dor</token>
         </pattern>
-        <message>Fellout a ra deoc’h skrivan <suggestion>nor</suggestion>?</message>
+        <message>Fellout a ra deoc’h skrivan <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="n$1"/></suggestion>?</message>
         <example type="incorrect">Sett an <marker>dor</marker> ’ta.</example>
         <example type="correct">Sett an nor ’ta.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">[au]n</token>
+          <token>tra</token>
+        </pattern>
+        <message>Fellout a ra deoc’h skrivan <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="d$1"/></suggestion>?</message>
+        <example type="incorrect">Un <marker>tra</marker></example>
+        <example type="correct">Un <marker>dra</marker></example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">[au]r</token>
+          <token>brud</token>
+        </pattern>
+        <message>Fellout a ra deoc’h skrivan <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="v$1"/></suggestion>?</message>
+        <example type="incorrect">Ur <marker>brud</marker></example>
+        <example type="correct">Ur vrud</example>
       </rule>
     </rulegroup>
     <rulegroup id="KEMM_DRE_VLOTAAT_GER" name="kemmadur dre vlotaat goude gerioù.">
@@ -144,7 +162,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
         <pattern mark_from="1">
           <token regexp="yes">da|ne|pa|re|daou|div|dindan|diwar|dre|eme|gwall|holl|pe|seul|war</token>
           <token regexp="yes">p.*
-            <exception regexp="yes">pe|peseurt</exception>
+            <exception>pe</exception>
           </token>
         </pattern>
         <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude ar ger «\1». Fellout a ra deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="b$1"/></suggestion>?</message>
@@ -265,7 +283,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
   <category name="gerioù al, ul, el, hol">
     <rule id="AL" name="gerioù al, ul, el, hol">
       <pattern mark_to="-1">
-        <token regexp="yes">([aeu]|ho)[nr]</token>
+        <token regexp="yes">([aeu]|ho)[nr]<exception postag="L ppre"/></token>
         <token regexp="yes">l.*</token>
       </pattern>
       <message>Ar ger «\1» a zlefe bezañ <suggestion><match no="1" regexp_match="(.*)." regexp_replace="$1l"/></suggestion> dirak ur ger a grog gant ar gensonenn «l».</message>
@@ -277,15 +295,17 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <example type="correct">Al levr-mañ emañ el levraoueg.</example>
       <example type="incorrect">Tev eo <marker>hon</marker> levr.</example>
       <example type="correct">Tev eo hol levr.</example>
+      <example type="correct">Kouezhet on en ur lammat.</example>
     </rule>
     <rule id="AN" name="gerioù an, un, en, hon">
       <pattern mark_to="-1">
-        <token regexp="yes">([aeu]|ho)[lr]</token>
+        <token regexp="yes">([aeu]|ho)[lr]<exception postag="L ppre"/></token>
         <token regexp="yes">[ndthaeiou].*</token>
       </pattern>
       <message>Ar ger «\1» a zlefe bezañ <suggestion><match no="1" regexp_match="(.*)." regexp_replace="$1n"/></suggestion> dirak ur ger a grog gant al lizherennoù «n, d, t, h, a, e, i, o u».</message>
       <example type="incorrect">Tomm eo <marker>ar</marker> tan.</example>
       <example type="correct">Tomm eo an tan.</example>
+      <example type="correct">Sellet e ra en ur dreuziñ.</example>
     </rule>
     <rule id="AR" name="ger ar, ur, er, hor">
       <pattern mark_to="-1">
