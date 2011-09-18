@@ -1,9 +1,8 @@
 
 Internal documentation on how to make a LanguageTool release
 
--make a SVN update
--download latest translations from http://crowdin.net/download/project/languagetool.zip
- and put them into SVN using ./i18n_update.sh
+-make an SVN update
+-update the i18n property files by running ./i18n_update.sh
 -set version number in build.properties
 -set JLanguageTool.VERSION in JLanguageTool.java
 -update CHANGES files
@@ -25,7 +24,7 @@ Internal documentation on how to make a LanguageTool release
     -dist/*.oxt, dist/README.txt and dist/CHANGES.txt to "download"
     -run "ant javadoc" and upload dist/docs/api/* to "development"
 -run "ant jnlp" (note you need file myalias.p12 with the certificate to do this;
-	for security reasons it is not in the repository.)
+ for security reasons it is not in the repository.)
 -upload to the server:
     -dist/web/ to www/webstart/web/ (resulting from "ant jnlp")
 -commit local version number changes etc. to SVN
@@ -50,10 +49,9 @@ Internal documentation on how to make a LanguageTool release
     -freshmeat
     -http://twitter.com/languagetoolorg
     -Daniel's blog
-	-Polish blog: morfologik.blogspot.com
-	-pl.openoffice.org
-	
-	
+    -Polish blog: morfologik.blogspot.com
+    -pl.openoffice.org
+
 Community update of the Wikipedia data on community.languagetool.org (needs server access):
 
  -unzip the current release in /home/languagetool/ltcommunity/corpus/code
@@ -64,7 +62,7 @@ Community update of the Wikipedia data on community.languagetool.org (needs serv
 Community update of the rules at community.languagetool.org (needs server access):
 
  -create a new JAR of the rules and resources of the current release:
- 	zip -r LanguageTool-Rules.jar resource/ rules/
+   zip -r LanguageTool-Rules.jar resource/ rules/
  -make a backup of the libs:
   cp /home/languagetool/tomcat/webapps/ROOT/WEB-INF/lib/*.jar /home/languagetool/tomcat/backup/
  -copy the newly created LanguageTool-Rules.jar and LanguageTool.jar from the current release to
