@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 LanguageTool. Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
 A Russian rule file for LanguageTool 
 Copyright (C) 2008-2011 Yakov Reztsov
-$Id: grammar.xml,v 1.70 2011-09-04 15:26:12 yakovru Exp $
+$Id: grammar.xml,v 1.71 2011-09-24 15:00:12 yakovru Exp $
 #     REVISION:  $Id$
 -->
 <rules lang="ru" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -1625,7 +1625,7 @@ $Id: grammar.xml,v 1.70 2011-09-04 15:26:12 yakovru Exp $
             <pattern case_sensitive="no">
                 <!--    Управляющий предприятием    NN:.*:.*:T       -->
                 <token regexp= "yes" inflected="yes" >управляющий|командующий|заведующий</token>
-                <token  postag="NN:.*:.*:.*" postag_regexp="yes"><exception postag="NN:.*:.*:T" postag_regexp="yes"></exception><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception><exception regexp="yes">символ|команда</exception></token>              
+                <token  postag="NN:.*:.*:.*" postag_regexp="yes"><exception postag="NN:.*:.*:T" postag_regexp="yes"></exception><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception><exception inflected="yes" regexp="yes">символ|команда|компания</exception></token>              
             </pattern>
             <message>Существительное \1 предполагает употребление зависимого слова в творительном падеже:
             <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:T"></match></suggestion></message>  
