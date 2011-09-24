@@ -50,7 +50,7 @@
       <pattern>
         <token inflected="yes">ir</token>
         <token>a</token>
-        <token postag="VMN0000|VSN0000" postag_regexp="yes" />
+        <token postag="(VMN0000|VSN0000).*" postag_regexp="yes" />
       </pattern>
       <message>A perífrase formada polo verbo "ir" máis un infinitivo constrúese en galego sen preposición: <suggestion>\1 \3</suggestion></message>
       <example type="incorrect"><marker>Vou a saltar</marker> con ela.</example>
@@ -75,7 +75,7 @@
         <pattern mark_to="-2">
           <token>ven</token>
           <token>de</token>
-          <token postag="VMN0000|VSN0000" postag_regexp="yes" />
+          <token postag="(VMN0000|VSN0000).*" postag_regexp="yes" />
         </pattern>
         <message>A forma "<match no="1" />" seguida de infinitivo adoita ser do verbo "vir" e, polo tanto, leva til diacrítico para diferenciala da forma homónima do verbo "ver". Quería vostede dicir <suggestion>vén</suggestion>?</message>
         <short>Cando é do verbo vir, "ven" leva til</short>
@@ -90,7 +90,7 @@
       <rule>
         <pattern mark_to="-1">
           <token>compre</token>
-          <token postag="VMN0000|VSN0000" postag_regexp="yes" />
+          <token postag="(VMN0000|VSN0000).*" postag_regexp="yes" />
         </pattern>
         <message>A forma 'compre', cando é do verbo "cumprir" (ser necesario), leva til para distinguila do verbo 'comprar'. Quería vostede dicir <suggestion>cómpre</suggestion>?</message>
         <example type="incorrect">Agora <marker>compre</marker> analizar o proceso de constitución das listas.</example>
@@ -101,32 +101,11 @@
         <pattern mark_to="-2">
           <token>compre</token>
           <token postag="RG|RN" postag_regexp="yes" />
-          <token postag="VMN0000|VSN0000" postag_regexp="yes" />
+          <token postag="(VMN0000|VSN0000).*" postag_regexp="yes" />
         </pattern>
         <message>A forma 'compre', cando é do verbo "cumprir" (ser necesario), leva til para distinguila do verbo 'comprar'. Quería vostede dicir <suggestion>cómpre</suggestion>?</message>
         <example type="incorrect"><marker>Compre</marker> agora analizar o proceso de constitución das listas.</example>
         <example type="correct"><marker>Cómpre</marker> agora analizar o proceso de constitución das listas.</example>
-      </rule>
-      <!-- compre + V(ser) -->
-      <rule>
-        <pattern mark_to="-1">
-          <token>compre</token>
-          <token postag="VS..3S0" postag_regexp="yes" />
-        </pattern>
-        <message>A forma 'compre', cando é do verbo "cumprir" (ser necesario), leva til para distinguila do verbo 'comprar'. Quería vostede dicir <suggestion>cómpre</suggestion>?</message>
-        <example type="incorrect">Agora o que <marker>compre</marker> é analizar o proceso de constitución das listas.</example>
-        <example type="correct">Agora o que <marker>cómpre</marker> é analizar o proceso de constitución das listas.</example>
-      </rule>
-      <!-- compre + adverbio + V(ser) -->
-      <rule>
-        <pattern mark_to="-2">
-          <token>compre</token>
-          <token postag="RG"/>
-          <token postag="VS..3S0" postag_regexp="yes" />
-        </pattern>
-        <message>A forma 'compre', cando é do verbo "cumprir" (ser necesario), leva til para distinguila do verbo 'comprar'. Quería vostede dicir <suggestion>cómpre</suggestion>?</message>
-        <example type="incorrect">O que <marker>compre</marker> agora é analizar o proceso de constitución das listas.</example>
-        <example type="correct">O que <marker>cómpre</marker> agora é analizar o proceso de constitución das listas.</example>
       </rule>
       <!-- compre + que -->
       <rule>
@@ -228,6 +207,7 @@
         </token>
       </pattern>
       <message>A forma 'nos' ao comezo da oración e seguida por un verbo adoita ser un pronome suxeito e leva til. Quería vostede dicir <suggestion><match no="2" regexp_match="(?iu)o" regexp_replace="ó"/></suggestion>?</message>
+      <short>Acentuación de pronomes suxeito</short>
       <example type="incorrect"><marker>Nos</marker> cremos que a lingua é un tesouro.</example>
       <example type="correct"><marker>Nós</marker> cremos que a lingua é un tesouro.</example>
     </rule>
@@ -240,6 +220,7 @@
         </token>
       </pattern>
       <message>A forma 'vos' ao comezo da oración e seguida por un verbo adoita ser un pronome suxeito e leva til. Quería vostede dicir <suggestion><match no="2" regexp_match="(?iu)o" regexp_replace="ó"/></suggestion>?</message>
+      <short>Acentuación de pronomes suxeito</short>
       <example type="incorrect"><marker>Vos</marker> sabedes o que come?</example>
       <example type="correct"><marker>Vós</marker> sabedes o que come?</example>
     </rule>
@@ -254,7 +235,7 @@
       <!-- V + de + que: informar -->
       <rule>
         <pattern>
-          <token inflected="yes">informar</token>
+          <token inflected="yes"><exception negate_pos="yes" postag="V.*" postag_regexp="yes"/>informar</token>
           <token>que</token>
         </pattern>
         <message>O verbo '\1' constrúese normalmente coa preposición 'de'. Quería vostede dicir <suggestion>\1 de \2</suggestion>?</message>
@@ -572,7 +553,7 @@
             <exception regexp="yes">[oa]s</exception>
           </token>
         </pattern>
-        <message>A forma "<match no="1"/>" require do artigo determinado cando vai diante dun substantivo. Quería vostede dicir <suggestion><match no="1" regexp_match="(?iu)amb([ao])s" regexp_replace="ámb$1l$1s"/> \2</suggestion> ou <suggestion><match no="1" regexp_match="(?iu)amb([ao])s" regexp_replace="amb$1s $1s"/> \2</suggestion>?</message>
+        <message>A forma "<match no="1"/>" require do artigo determinado cando vai diante dun substantivo. Quería vostede dicir <suggestion><match no="1" regexp_match="(?iu)amb([ao])s" regexp_replace="amb$1s $1s"/> \2</suggestion> ou <suggestion><match no="1" regexp_match="(?iu)amb([ao])s" regexp_replace="ámb$1l$1s"/> \2</suggestion>?</message>
         <short>Forma incorrecta</short>
         <example type="incorrect">Visitou <marker>ambas cidades</marker> este ano.</example>
         <example type="correct">Visitou <marker>ámbalas cidades</marker> este ano.</example>
@@ -586,7 +567,7 @@
             <exception regexp="yes">[oa]s</exception>
           </token>
         </pattern>
-        <message>A forma "<match no="1"/>" require do artigo determinado cando vai diante dun substantivo. Quería vostede dicir <suggestion><match no="1" regexp_match="(?iu)tod([ao])s" regexp_replace="tód$1l$1s"/></suggestion> ou <suggestion><match no="1" regexp_match="(?iu)tod([ao])s" regexp_replace="tod$1s $1s"/></suggestion>?</message>
+        <message>A forma "<match no="1"/>" require do artigo determinado cando vai diante dun substantivo. Quería vostede dicir <suggestion><match no="1" regexp_match="(?iu)tod([ao])s" regexp_replace="tod$1s $1s"/></suggestion> ou <suggestion><match no="1" regexp_match="(?iu)tod([ao])s" regexp_replace="tód$1l$1s"/></suggestion>?</message>
         <short>Forma incorrecta</short>
         <example type="incorrect">De <marker>todos xeitos</marker> non importa moito.</example>
         <example type="correct">De <marker>todos os xeitos</marker> non importa moito.</example>
@@ -879,7 +860,7 @@
       <pattern>
         <token inflected="yes">aportar</token>
       </pattern>
-      <message>O verbo "aportar" significa en galego "chegar a porto". A forma correcta en galego para o sentido de "proporcionar" ou "presentar" é <suggestion>achegar</suggestion> ou <suggestion>facer unha achega</suggestion>.</message>
+      <message>O verbo "aportar" significa en galego "chegar a porto". A forma correcta en galego para o sentido de "proporcionar" ou "presentar" é <suggestion><match no="1" postag="(.*)" postag_replace="$1">achegar</match></suggestion> ou <suggestion><match no="1" postag="(.*)" postag_replace="$1">facer</match> unha achega</suggestion>.</message>
       <short>Posíbel castelanismo</short>
       <example type="incorrect">Eu tamén quero <marker>aportar</marker> algo ao proxecto.</example>
       <example type="correct">Eu tamén quero <marker>achegar</marker> algo ao proxecto.</example>
@@ -1462,8 +1443,8 @@
       <pattern>
         <token inflected="yes">adicar</token>
       </pattern>
-      <message>A palabra '\1'  non é aconsellábel en galego. Empregue mellor <suggestion>dedicar</suggestion>.</message>
-      <short>Castelanismo léxico</short>
+      <message>A palabra '\1' non é aconsellábel en galego. Empregue mellor <suggestion><match no="1" postag="(.*)" postag_replace="$1">dedicar</match></suggestion>.</message>
+      <short>Barbarismo</short>
       <example type="incorrect">Acordaron <marker>adicar</marker> máis tempo ás tarefas pendentes.</example>
       <example type="correct">Acordaron <marker>dedicar</marker> máis tempo ás tarefas pendentes.</example>
     </rule>

@@ -144,7 +144,7 @@ License:
 
  Galician:
  The Galician data for part-of-speech tagging were created by Susana Sotelo
- Docio based on Freeling dictionary and henceforth licensed under GPL.
+ Docio based on Freeling and Apertium dictionaries. Both are licensed under GPL.
  
  Chinese:
  The Chinese data and code for part-of-speech tagging is based on ictclas4j project
