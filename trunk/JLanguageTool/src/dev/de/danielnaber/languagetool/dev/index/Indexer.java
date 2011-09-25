@@ -30,7 +30,6 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.Field.Index;
 import org.apache.lucene.document.Field.Store;
-import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.IndexWriterConfig.OpenMode;
@@ -99,25 +98,25 @@ public class Indexer {
 
   public static void run(BufferedReader reader, Indexer indexer, boolean isSentence)
       throws IOException {
-    indexer.index(reader, isSentence);
+    indexer.index(reader, isSentence, -1);
     indexer.close();
   }
 
-  public void index(String content, boolean isSentence) throws IOException {
+  public void index(String content, boolean isSentence, int docCount) throws IOException {
     final BufferedReader br = new BufferedReader(new StringReader(content));
-    index(br, isSentence);
+    index(br, isSentence, docCount);
   }
 
-  public void index(BufferedReader reader, boolean isSentence) throws IOException {
+  public void index(BufferedReader reader, boolean isSentence, int docCount) throws IOException {
     String line = "";
     int lineNo = 1;
     while ((line = reader.readLine()) != null) {
       if (isSentence) {
-        add(lineNo, line);
+        add(lineNo, -1, line);
       } else {
         final List<String> sentences = sentenceTokenizer.tokenize(line);
         for (String sentence : sentences) {
-          add(lineNo, sentence);
+          add(lineNo, docCount, sentence);
           // System.out.println(sentence);
         }
       }
@@ -125,16 +124,19 @@ public class Indexer {
     }
   }
 
-  private void add(int lineNo, String sentence) throws IOException {
+  private void add(int lineNo, int docCount, String sentence) throws IOException {
     final Document doc = new Document();
     doc.add(new Field(PatternRuleQueryBuilder.FIELD_NAME, sentence, Store.YES, Index.ANALYZED));
     // doc.add(new Field(FIELD_LINE, lineNo + "", Store.YES, Index.NO));
+    if (docCount != -1) {
+      doc.add(new Field("docCount", docCount + "", Store.YES, Index.NO));
+    }
     writer.addDocument(doc);
-
   }
 
   public void close() throws IOException {
     writer.optimize();
     writer.close();
   }
+  
 }

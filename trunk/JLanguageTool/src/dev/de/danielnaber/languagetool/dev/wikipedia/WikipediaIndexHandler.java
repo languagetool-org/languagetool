@@ -33,7 +33,6 @@ import org.xml.sax.helpers.DefaultHandler;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.TextFilter;
 import de.danielnaber.languagetool.dev.index.Indexer;
-import de.danielnaber.languagetool.dev.tools.RomanianDiacriticsModifier;
 
 /**
  * 
@@ -43,11 +42,12 @@ import de.danielnaber.languagetool.dev.tools.RomanianDiacriticsModifier;
  */
 public class WikipediaIndexHandler extends DefaultHandler {
 
-  private int articleCount = 0;
+  private final Indexer indexer;
 
+  private int articleCount = 0;
+  
   // the number of the wiki page to start indexing
   private int start = 0;
-
   // the number of the wiki page to end indexing
   private int end = 0;
 
@@ -56,8 +56,6 @@ public class WikipediaIndexHandler extends DefaultHandler {
   private StringBuilder text = new StringBuilder();
 
   private TextFilter textFilter = new WikipediaTextFilter();
-
-  private final Indexer indexer;
 
   // ===========================================================
   // SAX DocumentHandler methods
@@ -99,7 +97,7 @@ public class WikipediaIndexHandler extends DefaultHandler {
       try {
         final String textToCheck = textFilter.filter(text.toString());
         if (!textToCheck.contains("#REDIRECT") && !textToCheck.trim().equals("")) {
-          indexer.index(textToCheck, false);
+          indexer.index(textToCheck, false, articleCount);
         }
       } catch (Exception e) {
         throw new RuntimeException("Failed checking article " + articleCount, e);
