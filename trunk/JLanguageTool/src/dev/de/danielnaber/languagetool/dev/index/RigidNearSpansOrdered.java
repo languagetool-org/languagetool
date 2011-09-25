@@ -15,10 +15,9 @@ import org.apache.lucene.search.spans.Spans;
 import org.apache.lucene.util.ArrayUtil;
 
 public class RigidNearSpansOrdered extends Spans {
+  
   private final int allowedSlop;
-
   private boolean firstTime = true;
-
   private boolean more = false;
 
   /** The spans in the same order as the SpanNearQuery */
@@ -28,9 +27,7 @@ public class RigidNearSpansOrdered extends Spans {
   private boolean inSameDoc = false;
 
   private int matchDoc = -1;
-
   private int matchStart = -1;
-
   private int matchEnd = -1;
 
   private List<byte[]> matchPayload;
@@ -59,7 +56,7 @@ public class RigidNearSpansOrdered extends Spans {
     }
     this.collectPayloads = collectPayloads;
     allowedSlop = spanNearQuery.getSlop();
-    SpanQuery[] clauses = spanNearQuery.getClauses();
+    final SpanQuery[] clauses = spanNearQuery.getClauses();
     subSpans = new Spans[clauses.length];
     matchPayload = new LinkedList<byte[]>();
     subSpansByDoc = new Spans[clauses.length];
@@ -102,7 +99,7 @@ public class RigidNearSpansOrdered extends Spans {
   // TODO: Remove warning after API has been finalized
   @Override
   public boolean isPayloadAvailable() {
-    return matchPayload.isEmpty() == false;
+    return !matchPayload.isEmpty();
   }
 
   // inherit javadocs
@@ -110,8 +107,8 @@ public class RigidNearSpansOrdered extends Spans {
   public boolean next() throws IOException {
     if (firstTime) {
       firstTime = false;
-      for (int i = 0; i < subSpans.length; i++) {
-        if (!subSpans[i].next()) {
+      for (Spans subSpan : subSpans) {
+        if (!subSpan.next()) {
           more = false;
           return false;
         }
@@ -129,8 +126,8 @@ public class RigidNearSpansOrdered extends Spans {
   public boolean skipTo(int target) throws IOException {
     if (firstTime) {
       firstTime = false;
-      for (int i = 0; i < subSpans.length; i++) {
-        if (!subSpans[i].skipTo(target)) {
+      for (Spans subSpan : subSpans) {
+        if (!subSpan.skipTo(target)) {
           more = false;
           return false;
         }
@@ -181,10 +178,10 @@ public class RigidNearSpansOrdered extends Spans {
         firstIndex = 0;
       }
     }
-    for (int i = 0; i < subSpansByDoc.length; i++) {
-      assert (subSpansByDoc[i].doc() == maxDoc) : " NearSpansOrdered.toSameDoc() spans "
-          + subSpansByDoc[0] + "\n at doc " + subSpansByDoc[i].doc() + ", but should be at "
-          + maxDoc;
+    for (Spans aSubSpansByDoc : subSpansByDoc) {
+      assert (aSubSpansByDoc.doc() == maxDoc) : " NearSpansOrdered.toSameDoc() spans "
+              + subSpansByDoc[0] + "\n at doc " + aSubSpansByDoc.doc() + ", but should be at "
+              + maxDoc;
     }
     inSameDoc = true;
     return true;
@@ -200,8 +197,8 @@ public class RigidNearSpansOrdered extends Spans {
    */
   static final boolean docSpansOrdered(Spans spans1, Spans spans2, int allowedSlop) {
     assert spans1.doc() == spans2.doc() : "doc1 " + spans1.doc() + " != doc2 " + spans2.doc();
-    int start1 = spans1.start();
-    int start2 = spans2.start();
+    final int start1 = spans1.start();
+    final int start2 = spans2.start();
     /* Do not call docSpansOrdered(int,int,int,int) to avoid invoking .end() : */
     // return (start1 == start2) ? (spans1.end() <= spans2.end()) : (start1 < start2);
     if (allowedSlop == 0) {
@@ -254,7 +251,7 @@ public class RigidNearSpansOrdered extends Spans {
     matchStart = subSpans[subSpans.length - 1].start();
     matchEnd = subSpans[subSpans.length - 1].end();
 
-    Set<byte[]> possibleMatchPayloads = new HashSet<byte[]>();
+    final Set<byte[]> possibleMatchPayloads = new HashSet<byte[]>();
     if (subSpans[subSpans.length - 1].isPayloadAvailable()) {
       possibleMatchPayloads.addAll(subSpans[subSpans.length - 1].getPayload());
     }
@@ -266,9 +263,9 @@ public class RigidNearSpansOrdered extends Spans {
     int lastEnd = matchEnd;
     for (int i = subSpans.length - 2; i >= 0; i--) {
       // System.out.println(subSpans[i].toString());
-      Spans prevSpans = subSpans[i];
+      final Spans prevSpans = subSpans[i];
       if (collectPayloads && prevSpans.isPayloadAvailable()) {
-        Collection<byte[]> payload = prevSpans.getPayload();
+        final Collection<byte[]> payload = prevSpans.getPayload();
         possiblePayload = new ArrayList<byte[]>(payload.size());
         possiblePayload.addAll(payload);
       }
@@ -285,8 +282,8 @@ public class RigidNearSpansOrdered extends Spans {
           inSameDoc = false; // The last subSpans is not advanced here.
           break; // Check remaining subSpans for last match in this document.
         } else {
-          int ppStart = prevSpans.start();
-          int ppEnd = prevSpans.end(); // Cannot avoid invoking .end()
+          final int ppStart = prevSpans.start();
+          final int ppEnd = prevSpans.end(); // Cannot avoid invoking .end()
 
           if (allowedSlop > 0 && ppStart == lastStart) {
             continue;
@@ -302,7 +299,7 @@ public class RigidNearSpansOrdered extends Spans {
             prevEnd = ppEnd;
 
             if (collectPayloads && prevSpans.isPayloadAvailable()) {
-              Collection<byte[]> payload = prevSpans.getPayload();
+              final Collection<byte[]> payload = prevSpans.getPayload();
               possiblePayload = new ArrayList<byte[]>(payload.size());
               possiblePayload.addAll(payload);
             }

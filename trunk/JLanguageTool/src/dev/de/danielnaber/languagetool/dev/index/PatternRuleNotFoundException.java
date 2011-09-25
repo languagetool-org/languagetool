@@ -22,9 +22,6 @@ import java.io.IOException;
 
 public class PatternRuleNotFoundException extends IOException {
 
-  /**
-   * 
-   */
   private static final long serialVersionUID = -220557881967037175L;
 
   public PatternRuleNotFoundException(String ruleId) {

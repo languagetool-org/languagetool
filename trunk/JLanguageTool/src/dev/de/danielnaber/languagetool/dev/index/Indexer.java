@@ -46,33 +46,23 @@ import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
  * A class with a main() method that takes a text file and indexes its sentences, including POS tags
  * 
  * @author Tao Lin
- * 
  */
 public class Indexer {
 
-  final Analyzer analyzer;
-
-  final IndexWriter writer;
-
-  final SentenceTokenizer sentenceTokenizer;
-
-  final Directory dir;
+  private final IndexWriter writer;
+  private final SentenceTokenizer sentenceTokenizer;
 
   public Indexer(Directory dir, Language language) {
     try {
-      analyzer = new LanguageToolAnalyzer(Version.LUCENE_31, new JLanguageTool(language));
+      final Analyzer analyzer = new LanguageToolAnalyzer(Version.LUCENE_31, new JLanguageTool(language));
       final IndexWriterConfig iwc = new IndexWriterConfig(Version.LUCENE_31, analyzer);
       iwc.setOpenMode(OpenMode.CREATE);
       writer = new IndexWriter(dir, iwc);
       sentenceTokenizer = language.getSentenceTokenizer();
-      this.dir = dir;
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
-
   }
-
-  public static final String FIELD_LINE = "line";
 
   public static void main(String[] args) throws IOException {
     ensureCorrectUsageOrExit(args);
@@ -96,16 +86,14 @@ public class Indexer {
       System.exit(1);
     }
     final BufferedReader reader = new BufferedReader(new FileReader(file));
-
     System.out.println("Indexing to directory '" + indexDir + "'...");
-
     run(reader, new Indexer(FSDirectory.open(new File(indexDir)), Language.ENGLISH), false);
     System.out.println("Index complete!");
   }
 
   public static void run(String content, Directory dir, Language language, boolean isSentence)
       throws IOException {
-    BufferedReader br = new BufferedReader(new StringReader(content));
+    final BufferedReader br = new BufferedReader(new StringReader(content));
     run(br, new Indexer(dir, language), isSentence);
   }
 
@@ -115,13 +103,12 @@ public class Indexer {
     indexer.close();
   }
 
-  public void index(String content, boolean isSentence) throws Exception {
-    BufferedReader br = new BufferedReader(new StringReader(content));
+  public void index(String content, boolean isSentence) throws IOException {
+    final BufferedReader br = new BufferedReader(new StringReader(content));
     index(br, isSentence);
   }
 
   public void index(BufferedReader reader, boolean isSentence) throws IOException {
-
     String line = "";
     int lineNo = 1;
     while ((line = reader.readLine()) != null) {
@@ -136,10 +123,9 @@ public class Indexer {
       }
       lineNo++;
     }
-
   }
 
-  private void add(int lineNo, String sentence) throws CorruptIndexException, IOException {
+  private void add(int lineNo, String sentence) throws IOException {
     final Document doc = new Document();
     doc.add(new Field(PatternRuleQueryBuilder.FIELD_NAME, sentence, Store.YES, Index.ANALYZED));
     // doc.add(new Field(FIELD_LINE, lineNo + "", Store.YES, Index.NO));

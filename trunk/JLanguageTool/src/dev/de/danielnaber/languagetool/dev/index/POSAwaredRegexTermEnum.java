@@ -8,32 +8,25 @@ import org.apache.lucene.search.FilteredTermEnum;
 import org.apache.lucene.search.regex.RegexCapabilities;
 
 public class POSAwaredRegexTermEnum extends FilteredTermEnum {
+  
+  private final RegexCapabilities regexImpl;
+  private final boolean isPOS;
+
   private String field = "";
-
   private String pre = "";
-
   private boolean endEnum = false;
-
-  private RegexCapabilities regexImpl;
-
-  private boolean isPOS;
-
-  private String regex;
 
   public POSAwaredRegexTermEnum(IndexReader reader, Term term, RegexCapabilities regexImpl, boolean isPOS)
       throws IOException {
     super();
     field = term.field();
-    regex = term.text();
     this.regexImpl = regexImpl;
     this.isPOS = isPOS;
-
-    regexImpl.compile(regex);
-
+    regexImpl.compile(term.text());
     pre = regexImpl.prefix();
-    if (pre == null)
+    if (pre == null) {
       pre = "";
-
+    }
     setEnum(reader.terms(new Term(term.field(), pre)));
   }
 
@@ -51,7 +44,6 @@ public class POSAwaredRegexTermEnum extends FilteredTermEnum {
         searchText = searchText.replaceFirst(LanguageToolFilter.POS_PREFIX, "");
         // System.out.println(searchText);
       }
-
       if (searchText.startsWith(pre)) {
         // System.out.println("1:" + searchText);
         // System.out.println("2:" + text);

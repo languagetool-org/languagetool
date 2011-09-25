@@ -22,9 +22,6 @@ import java.io.IOException;
 
 public class UnsupportedPatternRuleException extends IOException {
 
-  /**
-   * 
-   */
   private static final long serialVersionUID = -2346750825068970240L;
 
   public UnsupportedPatternRuleException(String message) {

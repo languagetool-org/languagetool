@@ -41,7 +41,6 @@ import de.danielnaber.languagetool.JLanguageTool;
  * A filter that index the tokens with POS tags.
  * 
  * @author Tao Lin
- * 
  */
 public class LanguageToolFilter extends TokenFilter {
 

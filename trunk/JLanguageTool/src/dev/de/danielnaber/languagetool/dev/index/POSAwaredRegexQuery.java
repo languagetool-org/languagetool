@@ -10,12 +10,9 @@ import org.apache.lucene.util.ToStringUtils;
 
 public class POSAwaredRegexQuery extends RegexQuery {
 
-  /**
-   * 
-   */
   private static final long serialVersionUID = -7478945008142212501L;
 
-  private boolean isPOS;
+  private final boolean isPOS;
 
   /** Constructs a query for terms matching <code>term</code>. */
   public POSAwaredRegexQuery(Term term, boolean isPOS) {
@@ -35,7 +32,7 @@ public class POSAwaredRegexQuery extends RegexQuery {
 
   @Override
   public String toString(String field) {
-    StringBuilder buffer = new StringBuilder();
+    final StringBuilder buffer = new StringBuilder();
     if (!this.getTerm().field().equals(field)) {
       buffer.append(this.getTerm().field());
       buffer.append(":");

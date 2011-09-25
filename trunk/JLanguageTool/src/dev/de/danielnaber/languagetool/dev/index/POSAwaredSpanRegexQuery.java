@@ -1,7 +1,6 @@
 package de.danielnaber.languagetool.dev.index;
 
 import org.apache.lucene.index.Term;
-import org.apache.lucene.search.regex.JavaUtilRegexCapabilities;
 import org.apache.lucene.search.regex.RegexCapabilities;
 import org.apache.lucene.search.regex.RegexQuery;
 import org.apache.lucene.search.regex.RegexQueryCapable;
@@ -9,7 +8,6 @@ import org.apache.lucene.search.spans.SpanMultiTermQueryWrapper;
 
 public class POSAwaredSpanRegexQuery extends SpanMultiTermQueryWrapper<RegexQuery> implements
     RegexQueryCapable {
-  private final RegexCapabilities regexImpl = new JavaUtilRegexCapabilities();
 
   public POSAwaredSpanRegexQuery(Term term, boolean isPOS) {
     super(new POSAwaredRegexQuery(term, isPOS));

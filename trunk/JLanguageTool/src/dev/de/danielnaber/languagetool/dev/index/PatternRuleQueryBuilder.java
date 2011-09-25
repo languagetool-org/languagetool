@@ -34,7 +34,6 @@ import de.danielnaber.languagetool.rules.patterns.PatternRule;
  * A factory class for building a Query from a PatternRule.
  * 
  * @author Tao Lin
- * 
  */
 public class PatternRuleQueryBuilder {
 
@@ -159,7 +158,7 @@ public class PatternRuleQueryBuilder {
     SpanQuery q = null;
     if (token != null && !token.equals("")) {
       if (!isNegation) {
-        String text = isRegularExpression ? token : Pattern.quote(token);
+        final String text = isRegularExpression ? token : Pattern.quote(token);
         final Term term = new Term(FIELD_NAME, text);
         q = new POSAwaredSpanRegexQuery(term, false);
         if (!caseSensitive) {
@@ -167,7 +166,7 @@ public class PatternRuleQueryBuilder {
               JavaUtilRegexCapabilities.FLAG_CASE_INSENSITIVE));
         }
       } else {
-        String text = isRegularExpression ? token : Pattern.quote(token);
+        final String text = isRegularExpression ? token : Pattern.quote(token);
         final Term term = new Term(FIELD_NAME, text);
         q = new POSAwaredSpanRegexNotQuery(term, false);
         if (!caseSensitive) {
@@ -179,20 +178,20 @@ public class PatternRuleQueryBuilder {
     return q;
   }
 
-  private static SpanQuery createPOSQuery(String token, boolean isNegation,
-      boolean isRegularExpression) {
+  private static SpanQuery createPOSQuery(String token, boolean isNegation, boolean isRegularExpression) {
     SpanQuery q = null;
     if (token != null && !token.equals("")) {
       if (!isNegation) {
-        String text = isRegularExpression ? token : Pattern.quote(token);
+        final String text = isRegularExpression ? token : Pattern.quote(token);
         final Term term = new Term(FIELD_NAME, text);
         q = new POSAwaredSpanRegexQuery(term, true);
       } else {
-        String text = isRegularExpression ? token : Pattern.quote(token);
+        final String text = isRegularExpression ? token : Pattern.quote(token);
         final Term term = new Term(FIELD_NAME, text);
         q = new POSAwaredSpanRegexNotQuery(term, true);
       }
     }
     return q;
   }
+  
 }

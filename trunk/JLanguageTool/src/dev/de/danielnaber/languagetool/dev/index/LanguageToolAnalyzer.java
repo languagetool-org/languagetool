@@ -31,7 +31,6 @@ import de.danielnaber.languagetool.JLanguageTool;
  * AnyCharTokenizer, and then use JLanguageTool to analyze and tag the tokens by LanguageToolFilter.
  * 
  * @author Tao Lin
- * 
  */
 public class LanguageToolAnalyzer extends Analyzer {
 

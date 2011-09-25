@@ -32,30 +32,22 @@ import org.apache.lucene.search.regex.RegexCapabilities;
  * Term enumerations are always ordered by Term.compareTo(). Each term in the enumeration is greater
  * than all that precede it.
  */
-
 public class POSAwaredRegexNotTermEnum extends FilteredTermEnum {
+  
+  private final RegexCapabilities regexImpl;
+  private final boolean isPOS;
+
   private String field = "";
-
-  private String pre = "";
-
   private boolean endEnum = false;
-
-  private RegexCapabilities regexImpl;
-
-  private String text = "";
-
-  private boolean isPOS;
 
   public POSAwaredRegexNotTermEnum(IndexReader reader, Term term, RegexCapabilities regexImpl, boolean isPOS)
       throws IOException {
     super();
     field = term.field();
-    text = term.text();
     this.regexImpl = regexImpl;
     this.isPOS = isPOS;
-
-    regexImpl.compile(text);
-
+    regexImpl.compile(term.text());
+    final String pre = "";
     setEnum(reader.terms(new Term(term.field(), pre)));
   }
 
@@ -68,12 +60,9 @@ public class POSAwaredRegexNotTermEnum extends FilteredTermEnum {
           || (!isPOS && searchText.startsWith(LanguageToolFilter.POS_PREFIX))) {
         return false;
       }
-
       if (isPOS) {
         searchText = searchText.replaceFirst(LanguageToolFilter.POS_PREFIX, "");
-
       }
-
       // System.out.println("a:" + searchText);
       // System.out.println("b:" + text);
       // System.out.println("c:" + !regexImpl.match(searchText));

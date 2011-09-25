@@ -28,7 +28,6 @@ import org.apache.lucene.search.spans.SpanMultiTermQueryWrapper;
  * within other SpanQuery subclasses.
  * 
  */
-
 public class POSAwaredSpanRegexNotQuery extends SpanMultiTermQueryWrapper<POSAwaredRegexNotQuery> implements
     RegexQueryCapable {
 

@@ -61,7 +61,7 @@ public class RigidSpanNearQuery extends SpanNearQuery {
     if (clauses.size() == 1) // optimize 1-clause case
       return clauses.get(0).getSpans(reader);
 
-    Spans spans = new RigidNearSpansOrdered(this, reader);
+    final Spans spans = new RigidNearSpansOrdered(this, reader);
     return spans;
     // return inOrder ? (Spans) new RigidNearSpansOrdered(this, reader)
     // : (Spans) new RigidNearSpansOrdered(this, reader);
@@ -71,8 +71,8 @@ public class RigidSpanNearQuery extends SpanNearQuery {
   public Query rewrite(IndexReader reader) throws IOException {
     RigidSpanNearQuery clone = null;
     for (int i = 0; i < clauses.size(); i++) {
-      SpanQuery c = clauses.get(i);
-      SpanQuery query = (SpanQuery) c.rewrite(reader);
+      final SpanQuery c = clauses.get(i);
+      final SpanQuery query = (SpanQuery) c.rewrite(reader);
       if (query != c) { // clause rewrote: must clone
         if (clone == null)
           clone = (RigidSpanNearQuery) this.clone();
@@ -88,13 +88,12 @@ public class RigidSpanNearQuery extends SpanNearQuery {
 
   @Override
   public Object clone() {
-    int sz = clauses.size();
-    SpanQuery[] newClauses = new SpanQuery[sz];
-
+    final int sz = clauses.size();
+    final SpanQuery[] newClauses = new SpanQuery[sz];
     for (int i = 0; i < sz; i++) {
       newClauses[i] = (SpanQuery) clauses.get(i).clone();
     }
-    RigidSpanNearQuery spanNearQuery = new RigidSpanNearQuery(newClauses, slop, inOrder);
+    final RigidSpanNearQuery spanNearQuery = new RigidSpanNearQuery(newClauses, slop, inOrder);
     spanNearQuery.setBoost(getBoost());
     return spanNearQuery;
   }
@@ -102,19 +101,24 @@ public class RigidSpanNearQuery extends SpanNearQuery {
   /** Returns true iff <code>o</code> is equal to this. */
   @Override
   public boolean equals(Object o) {
-    if (this == o)
+    if (this == o) {
       return true;
-    if (!(o instanceof RigidSpanNearQuery))
+    }
+    if (!(o instanceof RigidSpanNearQuery)) {
       return false;
+    }
 
     final RigidSpanNearQuery spanNearQuery = (RigidSpanNearQuery) o;
 
-    if (inOrder != spanNearQuery.inOrder)
+    if (inOrder != spanNearQuery.inOrder) {
       return false;
-    if (slop != spanNearQuery.slop)
+    }
+    if (slop != spanNearQuery.slop) {
       return false;
-    if (!clauses.equals(spanNearQuery.clauses))
+    }
+    if (!clauses.equals(spanNearQuery.clauses)) {
       return false;
+    }
 
     return getBoost() == spanNearQuery.getBoost();
   }
