@@ -1,8 +1,6 @@
 LanguageTool, a proof-reading tool for English, German, Polish,
-French, Dutch, Slovenian, Russian, Romanian, Italian, Danish, and Catalan with 
-initial support for Asturian, Belarusian, Breton, Chinese, Esperanto, Galician, 
-Icelandic, Khmer, Lithuanian, Malayalam, Slovak, Spanish, Swedish, Tagalog, 
-and Ukrainian 
+French, Dutch, Russian, Italian, Danish and more languages
+(see http://www.languagetool.org/languages/ for a list)
 
 Copyright (C) 2005-2011 Daniel Naber (naber at danielnaber de)
 Version ###VERSION###, ###DATE###
@@ -44,11 +42,11 @@ Usage:
   uninstalling LanguageTool simply by clearing the check box next to
   LanguageTool in the same dialog.
   
-  Please see http://www.languagetool.org/#commonproblems if you
+  Please see http://www.languagetool.org/issues/ if you
   experience problems
   
  -To use the simple demo GUI, first rename the .oxt file
-  to zip, then unzip it to a new directory and double click on 
+  to .zip, then unzip it to a new directory and double click on 
   the LanguageToolGUI.jar file or call
   java -jar LanguageToolGUI.jar
 

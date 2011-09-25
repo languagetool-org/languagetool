@@ -1,14 +1,21 @@
 LanguageTool Change Log
 
-1.5 (release planned for end of September 2011)
+1.5 (2011-09-25)
 
+ -Added support for Chinese (Tao Lin)
+ -Added support for Asturian (Xesús González Rato)
+ -Added support for Tagalog (Nathaniel Oco)
+ -Added support for Breton (Dominique Pelle)
+
+ -English:
+   -Fixed some of the problems in the Sourceforge bug #3396850 (false alarms)
  -German: 
    -Extended the internal part-of-speech dictionary with
     about 2000 word forms. This should improve coverage of the
     agreement rule. It mostly affects words that have a new spelling
     after the spelling reform. See http://www.danielnaber.de/morphologie/
     for the source of the new data.
-   -Added one new rule.
+   -Serveral new rules
  -French: 
    -Updated dictionary to use Dicollecte lexique 4.2
    -Added and updated a few rules.  A few rules taken from
@@ -17,12 +24,6 @@ LanguageTool Change Log
    -Added disambiguation for Esperanto
    -Improved SRX sentence tokenization rules
    -Added and updated a few rules
- -Added support for Chinese (Tao Lin):
-   -Added ChineseSentenceTokenizer, ChineseWordTokenizer, ChineseTagger
-   -Added Chinese rules
- -Added support for Asturian (Xesús González Rato)
- -Added support for Tagalog (Nathaniel Oco)
- -Added support for Breton (Dominique Pelle)
  -Ukrainian:
    -Updated translation
    -Initial SRX sentence tokenization rules
@@ -30,14 +31,12 @@ LanguageTool Change Log
    -Updated translation
    -Initial SRX sentence tokenization rules
  -Russian:
-   -Fix SourceForge bug # 3334498 (False warning about unpaired bracket)
+   -Fix SourceForge bug #3334498 (False warning about unpaired bracket)
    -Added and updated a few rules
-   -Updated and improved part-of-speech dictionary.
+   -Updated and improved part-of-speech dictionary
  -Dutch:
    -Fixes and updates to rules (R. J. Baars)
    -Updated the dictionaries
- -English:
-   -Fixed some of the problems in the Sourceforge bug #3396850. 
  -Galician:
    -Added SRX sentence tokenization rules
    -Added new rules
@@ -45,15 +44,19 @@ LanguageTool Change Log
    -Updated dictionary to support enclitics
    -Added disambiguation support and rules
    -Added synthesizer
+ -Khmer:
+   -Updated coherency rules
 
  -Rule development:
    -Fixed testrules.sh to not throw an AssertionFailedError error if called 
     with a language parameter
-   -Fast Rule Evaluation is supported in "dev.index" package. 
+   -Fast Rule Evaluation is supported in "dev.index" packag, see
+    http://languagetool.wikidot.com/how-to-use-indexer-and-searcher-for-fast-rule-evaluation
 
  -LanguageToolGUI and LanguageTool now have support for automatic language 
   detection (Michael Bryant). On the command-line, you can use -adl or 
   --autoDetect to enable automatic language detection.
+  Also see http://languagetool.wikidot.com/adding-a-new-language-to-automatic-language-detection
   
  -Internal changes:
    -The disambiguator has a new action "immunize" that protects
@@ -68,7 +71,9 @@ LanguageTool Change Log
     the words at the end of sentence / paragraph.
    -Languages now initialize their classes (tokenizers, part-of-speech taggers
     etc.) lazily, i.e. only when the classes are actually needed. Improves
-    startup performance.
+    startup performance a bit.
+   -Switched to transifex.net for translation. Also changed our code to use the
+    English string if no translation exists.
 
  
 1.4 (2011-06-26)
