@@ -2,7 +2,10 @@
 Internal documentation on how to make a LanguageTool release
 
 -make an SVN update
--update the i18n property files by running ./i18n_update.sh
+-update the i18n property files by running ./i18n_update.sh and commit any changes
+-create release branch:
+ svn cp https://languagetool.svn.sourceforge.net/svnroot/languagetool/trunk/JLanguageTool https://languagetool.svn.sourceforge.net/svnroot/languagetool/branches/V_x_y
+ and work in that branch
 -set version number in build.properties
 -set JLanguageTool.VERSION in JLanguageTool.java
 -update CHANGES files
@@ -17,7 +20,7 @@ Internal documentation on how to make a LanguageTool release
     El agua es de gratis. (es)
     Je voudrais ajouter en plus quelque chose. (fr)
     Ovviamente... è tutto a gratis! (it)
-    Dit is goed, en niet foutief. (nl)
+    Hij is de gene die het fout doet. (nl)
     Kupiłem wino chciałem też pić wodę. (pl)
     Стоимость работ составила 10 тыс рублей. (ru)
 -upload to the server:
@@ -28,8 +31,11 @@ Internal documentation on how to make a LanguageTool release
 -upload to the server:
     -dist/web/ to www/webstart/web/ (resulting from "ant jnlp")
 -commit local version number changes etc. to SVN
--tag release as V_x_y, e.g. V_1_3
- (Eclipse: 'Team -> Tag as Version' on the JLanguageTool project)
+-tag release as V_x_y, e.g. V_1_3:
+ svn cp https://languagetool.svn.sourceforge.net/svnroot/languagetool/branches/V_x_y https://languagetool.svn.sourceforge.net/svnroot/languagetool/tags/V_x_y
+ (or in Eclipse: 'Team -> Tag as Version' on the JLanguageTool project)
+-merge changes back to trunk:
+ svn merge https://languagetool.svn.sourceforge.net/svnroot/languagetool/tags/V_x_y/ (call this in trunk)
 
 -update website
     -index.php (remember to also set $lastmod)
