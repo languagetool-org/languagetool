@@ -1,4 +1,4 @@
-   /* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker 
  * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
  * 
  * This library is free software; you can redistribute it and/or
@@ -38,22 +38,21 @@ import de.danielnaber.languagetool.rules.RuleMatch;
 
 /**
  * A Khmer rule that matches words or phrases which should not be used and suggests
- * correct ones instead. Loads the relevant words  from 
+ * correct ones instead. Loads the relevant words from 
  * <code>rules/km/coherency.txt</code>, where km is a code of the language.
  * 
  * @author Andriy Rysin
  */
 public abstract class KhmerWordCoherencyRule extends KhmerRule {
 
-  private Map<String, String> wrongWords; // e.g. "вреѿті реѿт" -> "зреѿтою"
-
   private static final String FILE_NAME = "/km/coherency.txt";
+  private static final String FILE_ENCODING = "utf-8";
+
+  private final Map<String, String> wrongWords; // e.g. "вреѿті реѿт" -> "зреѿтою"
 
   public String getFileName() {
-	return FILE_NAME;
-	}
-
-  private static final String FILE_ENCODING = "utf-8";
+    return FILE_NAME;
+  }
 
   public String getEncoding() {
     return FILE_ENCODING;
@@ -125,7 +124,6 @@ public abstract class KhmerWordCoherencyRule extends KhmerRule {
     return toRuleMatchArray(ruleMatches);
   }
 
-
   private Map<String, String> loadWords(final InputStream file) throws IOException {
     final Map<String, String> map = new HashMap<String, String>();
     InputStreamReader isr = null;
@@ -134,7 +132,6 @@ public abstract class KhmerWordCoherencyRule extends KhmerRule {
       isr = new InputStreamReader(file, getEncoding());
       br = new BufferedReader(isr);
       String line;
-
       while ((line = br.readLine()) != null) {
         line = line.trim();
         if (line.length() < 1) {
@@ -143,16 +140,15 @@ public abstract class KhmerWordCoherencyRule extends KhmerRule {
         if (line.charAt(0) == '#') { // ignore comments
           continue;
         }
-final String[] parts = line.split("=");
-if (parts.length < 2) {
-    throw new IOException("Format error in file - Make sure you have removed the Unicode BOM as well as check for other errors " + JLanguageTool.getDataBroker().getFromRulesDirAsUrl(getFileName()) + ", line: " + line);
-}
-for (int i = 0; i < parts.length - 1; i++) {
-    map.put(parts[i], parts[parts.length - 1]);
-}
-
+        final String[] parts = line.split("=");
+        if (parts.length < 2) {
+          throw new IOException("Format error in file - Make sure you have removed the Unicode BOM as well as check for other errors: "
+                  + JLanguageTool.getDataBroker().getFromRulesDirAsUrl(getFileName()) + ", line: " + line);
+        }
+        for (int i = 0; i < parts.length - 1; i++) {
+          map.put(parts[i], parts[parts.length - 1]);
+        }
       }
-
     } finally {
       if (br != null) {
         br.close();
