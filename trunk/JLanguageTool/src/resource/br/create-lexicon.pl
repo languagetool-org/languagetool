@@ -47,7 +47,7 @@ while (<LT_EXPAND>) {
 
     $tags =~ s/(<adj><mf><sp>)\+.*/$1/;
     $tags =~ s/(<vblex><pri><p.><..>)\+.*/$1/;
-    $lemma = $word if ($lemma eq 'direct');
+    $lemma = $word if ($lemma eq 'direct' or $lemma eq 'prpers');
 
     my $tag = '';
 
@@ -287,3 +287,8 @@ while (<LT_EXPAND>) {
   }
 }
 print "handled [$out_count] words, unhandled [$err_count] words\n";
+
+`java -jar morfologik-stemming-nodict-1.4.0.jar tab2morph -i apertium-br-fr.br.dix-LT.txt -o output.txt`;
+`java -jar morfologik-stemming-nodict-1.4.0.jar fsa_build -i output.txt -o breton.dict`;
+
+print "Created [$out_count] words, unhandled [$err_count] words\n";

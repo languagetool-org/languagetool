@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
 Breton Disambiguation Rules for LanguageTool
-Copyright (C) 2011 Dominique Pellé
-$Id$
+Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
 -->
 <rules lang="br" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../disambiguation.xsd">
-  <rulegroup name="en ur + V" id="EN_UR">
+  <rulegroup id="EN_UR" name="en ur + V">
     <rule>
       <pattern mark="1">
         <token>en</token>
@@ -16,7 +15,7 @@ $Id$
       <disambig postag="L ppre"/>
     </rule>
   </rulegroup>
-  <rulegroup name="Roman Number" id="XXI">
+  <rulegroup id="XXI" name="Roman Number">
     <rule>
       <pattern mark="0" case_sensitive="yes">
         <token regexp="yes">[MCDXLVI]+</token>
@@ -28,6 +27,53 @@ $Id$
         <token regexp="yes">[MCDXLVI]+-?vet|I-?añ</token>
       </pattern>
       <disambig postag="K e sp o"/>
+    </rule>
+  </rulegroup>
+  <rulegroup id="PREP_A" name="preposition a">
+    <rule>
+      <pattern mark="1">
+        <token regexp="yes">meur|leizh|e-leizh</token>
+        <token>a</token>
+        <token postag="N.*" postag_regexp="yes"/>
+      </pattern>
+      <disambig postag="P"/>
+    </rule>
+  </rulegroup>
+  <rulegroup id="VERB_PARTICLE" name="verb particule">
+    <rule>
+      <pattern mark="0">
+        <token>o</token>
+        <token postag="V inf"><exception postag="N.*" postag_regexp="yes"/></token>
+      </pattern>
+      <disambig postag="L o"/>
+    </rule>
+    <rule>
+      <pattern mark="2">
+        <token postag="SENT_START"/>
+        <token postag="[VNJZ].*|R suj.*" postag_regexp="yes"/>
+        <token>a</token>
+        <token postag="V.*" postag_regexp="yes"/>
+      </pattern>
+      <disambig postag="L a"/>
+    </rule>
+    <rule>
+      <pattern mark="2">
+        <token postag="SENT_START"/>
+        <token postag="A.*" postag_regexp="yes"/>
+        <token>e</token>
+        <token postag="V.*" postag_regexp="yes"/>
+      </pattern>
+      <disambig postag="L e"/>
+    </rule>
+    <rule>
+      <pattern mark="3">
+        <token postag="SENT_START"/>
+        <token postag="D.*" postag_regexp="yes"/>
+        <token postag="N.*" postag_regexp="yes"/>
+        <token>a</token>
+        <token postag="V.*" postag_regexp="yes"/>
+      </pattern>
+      <disambig postag="L a"/>
     </rule>
   </rulegroup>
 </rules>
