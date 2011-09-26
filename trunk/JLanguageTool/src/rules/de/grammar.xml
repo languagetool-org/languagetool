@@ -3486,13 +3486,23 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
   </category>
 
   <category name="Redewendungen">
+    <rule id="EIERLEGENDE_VOLLMILCHSAU" name="Redewendung: 'eierlegende Vollmilchsau (Wollmilchsau)'">
+      <pattern mark_from="1">
+          <token regexp="yes">eierlegenden?</token>
+          <token>Vollmilchsau</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>Wollmilchsau</suggestion>? (feste Redewendung)</message>
+      <example type="correct">Er erfindet eine eierlegende <marker>Wollmilchsau</marker>.</example>
+      <example type="incorrect">Er erfindet eine eierlegende <marker>Vollmilchsau</marker>.</example>
+      <example type="incorrect">Die Legende der eierlegenden <marker>Vollmilchsau</marker>.</example>
+    </rule>
     <rule id="MIT_RUM_BEKLECKERT" name="Redewendung: 'mit Rum (Ruhm) bekleckert'">
       <pattern mark_from="2" mark_to="-1">
           <token regexp="yes">nicht|unbedingt|gerade</token>
           <token>mit</token>
           <token>Rum</token>
           <token regexp="yes">bekleckert|befleckt|bedeckt</token>
-        </pattern>
+      </pattern>
       <message>Meinten Sie <suggestion>Ruhm</suggestion>? (Redewendung)</message>
       <example type="correct">Da haben wir uns nicht gerade mit <marker>Ruhm</marker> bekleckert.</example>
       <example type="correct">Verzeihung, Sie haben sich eben mit etwas <marker>Rum</marker> bekleckert.</example>
@@ -3506,7 +3516,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>,</token>
           <token regexp="yes">mal.*</token>
           <token>zuerst</token>
-        </pattern>
+      </pattern>
       <message>Meinten Sie <suggestion>mahlt</suggestion>? (Redewendung)</message>
       <example type="correct">Wer zuerst kommt, <marker>mahlt</marker> zuerst.</example>
       <example type="incorrect">Wer zuerst kommt, <marker>malt</marker> zuerst.</example>
