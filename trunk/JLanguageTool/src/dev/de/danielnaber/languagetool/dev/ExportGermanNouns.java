@@ -45,7 +45,7 @@ public class ExportGermanNouns {
   }
   
   private Set<String> getWords() throws IOException {
-    final FSA fsa = FSA.getInstance(JLanguageTool.getDataBroker().getFromResourceDirAsStream(DICT_FILENAME));
+    final FSA fsa = FSA.read(JLanguageTool.getDataBroker().getFromResourceDirAsStream(DICT_FILENAME));
     String lastTerm = null;
     final Set<String> set = new HashSet<String>();
     for (ByteBuffer bb : fsa) {
