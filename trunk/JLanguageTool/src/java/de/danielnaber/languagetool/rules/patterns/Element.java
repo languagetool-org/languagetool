@@ -433,29 +433,7 @@ public class Element {
   }
 
   /**
-   * Sets a POS-type exception for matching string tokens.
-   * 
-   * @param posToken
-   *          The part of the speech tag in the exception.
-   * @param regExp
-   *          True if the POS is specified as a regular expression.
-   * @param negation
-   *          True if the exception is negated.
-   * @param scopeNext
-   *          True if the exception scope is next tokens.
-   * @param scopePrevious
-   *          True if the exception should match only a single previous token.
-   */
-  public final void setPosException(final String posToken, final boolean regExp,
-      final boolean negation, final boolean scopeNext, final boolean scopePrevious) {
-    final Element posException = new Element("", this.caseSensitive, false, false);
-    posException.setPosElement(posToken, regExp, negation);
-    posException.exceptionValidNext = scopeNext;
-    setException(posException, scopePrevious);
-  }
-
-  /**
-   * Sets a string-type exception for matching string tokens.
+   * Sets a string and/or pos exception for matching string tokens.
    * 
    * @param token
    *          The string in the exception.
@@ -469,15 +447,26 @@ public class Element {
    *          True if the exception scope is next tokens.
    * @param scopePrevious
    *          True if the exception should match only a single previous token.
+   * @param posToken
+   *          The part of the speech tag in the exception.
+   * @param posRegExp
+   *          True if the POS is specified as a regular expression.
+   * @param posNegation
+   *          True if the POS exception is negated.
+   *
    */
-  public final void setStringException(final String token, final boolean regExp,
-      final boolean inflected, final boolean negation, final boolean scopeNext,
-      final boolean scopePrevious) {
-    final Element stringException = new Element(token, this.caseSensitive, regExp, inflected);
-    stringException.setNegation(negation);
-    stringException.exceptionValidNext = scopeNext;
-    setException(stringException, scopePrevious);
+  public final void setStringPosException(
+      final String token, final boolean regExp, final boolean inflected,
+      final boolean negation, final boolean scopeNext, final boolean scopePrevious,
+      final String posToken, final boolean posRegExp, final boolean posNegation) {
+
+    final Element exception = new Element(token, this.caseSensitive, regExp, inflected);
+    exception.setNegation(negation);
+    exception.setPosElement(posToken, posRegExp, posNegation);
+    exception.exceptionValidNext = scopeNext;
+    setException(exception, scopePrevious);
   }
+
 
   private void setException(final Element elem, final boolean scopePrevious) {
     exceptionValidPrevious |= scopePrevious;

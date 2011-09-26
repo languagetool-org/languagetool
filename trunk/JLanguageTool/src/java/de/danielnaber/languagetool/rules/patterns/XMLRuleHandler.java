@@ -402,14 +402,11 @@ public class XMLRuleHandler extends DefaultHandler {
       exceptionSet = true;
     }
     tokenElement.setNegation(tokenNegated);
-    if (!StringTools.isEmpty(exceptions.toString())) {
-      tokenElement.setStringException(StringTools.trimWhitespace(exceptions
+    if (!StringTools.isEmpty(exceptions.toString()) || exceptionPosToken != null) {
+      tokenElement.setStringPosException(StringTools.trimWhitespace(exceptions
           .toString()), exceptionStringRegExp, exceptionStringInflected,
-          exceptionStringNegation, exceptionValidNext, exceptionValidPrev);
-    }
-    if (exceptionPosToken != null) {
-      tokenElement.setPosException(exceptionPosToken, exceptionPosRegExp,
-          exceptionPosNegation, exceptionValidNext, exceptionValidPrev);
+          exceptionStringNegation, exceptionValidNext, exceptionValidPrev,
+          exceptionPosToken, exceptionPosRegExp, exceptionPosNegation);
       exceptionPosToken = null;
     }
     if (exceptionSpaceBeforeSet) {

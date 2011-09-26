@@ -275,15 +275,11 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
         exceptionSet = true;
       }
       tokenElement.setNegation(tokenNegated);
-      if (!StringTools.isEmpty(exceptions.toString())) {
-        tokenElement.setStringException(exceptions.toString(),
+      if (!StringTools.isEmpty(exceptions.toString()) || exceptionPosToken != null) {
+        tokenElement.setStringPosException(exceptions.toString(),
             exceptionStringRegExp, exceptionStringInflected,
-            exceptionStringNegation, exceptionValidNext, exceptionValidPrev);
-      }
-      if (exceptionPosToken != null) {
-        tokenElement.setPosException(exceptionPosToken, exceptionPosRegExp,
-            exceptionPosNegation, exceptionValidNext, exceptionValidPrev);
-        exceptionPosToken = null;
+            exceptionStringNegation, exceptionValidNext, exceptionValidPrev,
+            exceptionPosToken, exceptionPosRegExp, exceptionPosNegation);
       }
     } else if (qName.equals(TOKEN)) {
       finalizeTokens();
