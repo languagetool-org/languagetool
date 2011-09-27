@@ -3559,7 +3559,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     </rule>
     <rulegroup id="VON_BIS" name="Zeichensetzung: 'von' mit Bis-Strich">
       <rule>
-        <pattern mark_from="1">
+        <pattern mark_from="1" case_sensitive="yes">
           <token regexp="yes" negate="yes">innerhalb|Verzögerung(en)?|Gewicht(s)?|Dauer|Umfang(s)?|Größe(n)?|Länge(n)?|Durchmesser([ns])?|Radius|Masse|(T|.*t)emperatur|(D|.*d)druck(s)?</token>
           <token regexp="yes">[vV]o[nm]</token>
           <token regexp="yes">([0-9]{1,5})(\-|–)([0-9]{1,5})</token>
@@ -3570,7 +3570,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect"><marker>Von 9–10</marker> Uhr.</example>
       </rule>
       <rule>
-        <pattern mark_from="0">
+        <pattern mark_from="0" case_sensitive="yes">
           <token regexp="yes">[vV]o[nm]</token>
           <token regexp="yes">([0-9]{1,5})</token>
           <token regexp="yes">\.</token>
@@ -3581,6 +3581,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <message>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus: <suggestion>\1 \2\3 bis \5\6</suggestion>.</message>
         <example type="correct"><marker>Vom 9. bis 10.</marker> April.</example>
         <example type="incorrect"><marker>Vom 9. – 10.</marker> April.</example>
+        <example type="incorrect">Und <marker>vom 9. – 10.</marker> April.</example>
       </rule>
     </rulegroup>
     <rule id="BISSTRICH" name="Zeichensetzung: Bis-Strich">
