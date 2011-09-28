@@ -19541,10 +19541,10 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="MAIGRE_COMME_UNE_ECHALOTE" name="maigre comme une échalote">
       <pattern>
-        <token regexp="yes">maigres?</token>
+        <token inflected="yes">maigre</token>
         <token>comme</token>
         <token regexp="yes">une|des</token>
-        <token regexp="yes">échalotes?</token>
+        <token inflected="yes">échalote</token>
       </pattern>
       <message>« Maigre comme un échalote » est un tour critiqué. Employez <suggestion>maigre comme un échalas</suggestion>.</message>
       <example type="incorrect"><marker>maigre comme une échalote</marker></example>
@@ -19774,14 +19774,6 @@ though, and has since been slightly modified)-->
       <example type="incorrect"><marker>n’être pas sans ignorer</marker></example>
       <example type="correct"><marker>n’être pas sans savoir</marker>.</example>
     </rule>
-    <rule id="CORDERON" name="corderon">
-      <pattern>
-        <token regexp="yes">corderons?</token>
-      </pattern>
-      <message>« Corderon » est un tour critiqué. Employez <suggestion>quart-de-rond</suggestion>.</message>
-      <example type="incorrect"><marker>corderon</marker></example>
-      <example type="correct"><marker>quart-de-rond</marker>.</example>
-    </rule>
     <rule id="EN_MOTO" name="en moto(cyclette)">
       <pattern>
         <token>en</token>
@@ -19876,34 +19868,10 @@ though, and has since been slightly modified)-->
       <example type="incorrect"><marker>lire sur le journal</marker></example>
       <example type="correct"><marker>lire dans le journal</marker>.</example>
     </rule>
-    <rule id="POURRITE" name="pourrite">
-      <pattern>
-        <token regexp="yes">pourrites?</token>
-      </pattern>
-      <message>« Pourrite » est un tour critiqué. Employez <suggestion>pourrie</suggestion>.</message>
-      <example type="incorrect"><marker>pourrite</marker></example>
-      <example type="correct"><marker>pourrie</marker>.</example>
-    </rule>
-    <rule id="LEGERTE" name="légerte">
-      <pattern>
-        <token regexp="yes">légertes?</token>
-      </pattern>
-      <message>« Légerte » est un tour critiqué. Employez <suggestion>légère</suggestion>.</message>
-      <example type="incorrect"><marker>légerte</marker></example>
-      <example type="correct"><marker>légère</marker>.</example>
-    </rule>
-    <rule id="TEINDU" name="teindu">
-      <pattern>
-        <token regexp="yes">teindue?s?</token>
-      </pattern>
-      <message>« Teindu » est un tour critiqué. Employez <suggestion>teint</suggestion>.</message>
-      <example type="incorrect"><marker>teindu</marker></example>
-      <example type="correct"><marker>teint</marker>.</example>
-    </rule>
     <rulegroup id="RUE_PASSAGERE" name="rue passagère">
       <rule>
         <pattern>
-          <token regexp="yes" skip="4">rues?</token>
+          <token inflected="yes" skip="4">rue</token>
           <token inflected="yes">passager</token>
         </pattern>
         <message>« Rue passagère » est un tour critiqué. Employez <suggestion>rue passante</suggestion>, <suggestion>rue fréquentée</suggestion>. L’adjectif « passager » signifie « de brève durée ».</message>
@@ -19912,7 +19880,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes" skip="4">artères?</token>
+          <token inflected="yes" skip="4">artère</token>
           <token inflected="yes">passager</token>
         </pattern>
         <message>« Artère passagère » est un tour critiqué. Employez <suggestion>artère passante</suggestion>, <suggestion>artère fréquentée</suggestion>. L’adjectif « passager » signifie « de brève durée ».</message>
@@ -19921,7 +19889,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes" skip="4">avenues?</token>
+          <token inflected="yes" skip="4">avenue</token>
           <token inflected="yes">passager</token>
         </pattern>
         <message>« Avenue passagère » est un tour critiqué. Employez <suggestion>avenue passante</suggestion>, <suggestion>avenue fréquentée</suggestion>. L’adjectif « passager » signifie « de brève durée ».</message>
@@ -19930,7 +19898,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes" skip="4">boulevards?</token>
+          <token inflected="yes" skip="4">boulevard</token>
           <token inflected="yes">passager</token>
         </pattern>
         <message>« Boulevard passager » est un tour critiqué. Employez <suggestion>boulevard passant</suggestion>, <suggestion>boulevard fréquenté</suggestion>. L’adjectif « passager » signifie « de brève durée ».</message>
@@ -19946,27 +19914,27 @@ though, and has since been slightly modified)-->
       <example type="incorrect"><marker>courriél</marker>.</example>
       <example type="correct"><marker>courriel</marker>.</example>
     </rule>
-    <rule id="AIRE_GLACIERE" name="aire glacière">
+    <rule id="AIRE_GLACIAIRE" name="aire glaciaire">
       <pattern>
-        <token regexp="yes">aires?</token>
-        <token regexp="yes">glacières?</token>
+        <token inflected="yes">aire</token>
+        <token inflected="yes">glaciaire</token>
       </pattern>
-      <message>« aire glacière » est un tour critiqué. Employez <suggestion>aire glaciaire</suggestion>.</message>
-      <example type="incorrect">L’<marker>aire glacière</marker>.</example>
-      <example type="correct">L’<marker>aire glaciaire</marker>.</example>
+      <message>« \1 \2 » est un tour critiqué. Employez <suggestion><match no="1" regexp_match=".*e(s?)" regexp_replace="ère$1"/> \2</suggestion>.</message>
+      <example type="incorrect">L’<marker>aire glaciaire</marker>.</example>
+      <example type="correct">L’ère glaciaire.</example>
     </rule>
     <rule id="PAREIL_COMME" name="pareil comme">
       <pattern>
-        <token regexp="yes">pareils?|pareilles?</token>
+        <token inflected="yes">pareil</token>
         <token>comme</token>
       </pattern>
-      <message>« Pareil comme » est un tour critiqué. Employez <suggestion>pareil à</suggestion>.</message>
+      <message>« \1 \2 » est un tour critiqué. Employez <suggestion>\1 à</suggestion>.</message>
       <example type="incorrect"><marker>pareil comme</marker></example>
       <example type="correct"><marker>pareil à</marker></example>
     </rule>
     <rule id="PAREIL_QUE" name="pareil que">
       <pattern>
-        <token regexp="yes">pareils?|pareilles?</token>
+        <token inflected="yes">pareil</token>
         <token>que</token>
       </pattern>
       <message>« Pareil que » est un tour critiqué. Employez <suggestion>pareil à</suggestion>.</message>
