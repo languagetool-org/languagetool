@@ -47,6 +47,7 @@ public class Searcher {
   public static TopDocs run(PatternRule rule, IndexSearcher searcher, boolean checkUnsupportedRule)
       throws IOException {
     final Query query = PatternRuleQueryBuilder.buildQuery(rule, checkUnsupportedRule);
+    //System.out.println("QUERY: " + query);
     return searcher.search(query, MAX_HITS);
   }
 
@@ -59,6 +60,7 @@ public class Searcher {
     for (PatternRule rule : rules) {
       if (rule.getId().equals(ruleId)) {
         theRule = rule;
+        // TODO: don't stop here, it means we only use the first rule of a rulegroup
         break;
       }
     }
