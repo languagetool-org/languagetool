@@ -25,6 +25,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.danielnaber.languagetool.JLanguageTool;
+import de.danielnaber.languagetool.Language;
+import de.danielnaber.languagetool.rules.RuleMatch;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
@@ -53,61 +56,94 @@ public class Searcher {
     return searcher.search(query, MAX_HITS);
   }
 
-  public List<TopDocs> run(String ruleId, File ruleXmlFile, IndexSearcher searcher,
+  public List<TopDocs> run(String ruleId, File xmlRuleFile, IndexSearcher searcher,
                             boolean checkUnsupportedRule) throws IOException {
-    final PatternRuleLoader ruleLoader = new PatternRuleLoader();
     final List<TopDocs> topDocsList = new ArrayList<TopDocs>();
-    final InputStream xmlRulesStream = new FileInputStream(ruleXmlFile);
-    try {
-      final List<PatternRule> rules = ruleLoader.getRules(xmlRulesStream, ruleXmlFile.getAbsolutePath());
-      boolean foundRule = false;
-      for (PatternRule rule : rules) {
-        if (rule.getId().equals(ruleId)) {
-          final TopDocs topDocs = run(rule, searcher, checkUnsupportedRule);
-          topDocsList.add(topDocs);
-          foundRule = true;
-        }
+    final List<PatternRule> rules = loadRules(xmlRuleFile);
+    boolean foundRule = false;
+    for (PatternRule rule : rules) {
+      if (rule.getId().equals(ruleId)) {
+        final TopDocs topDocs = run(rule, searcher, checkUnsupportedRule);
+        topDocsList.add(topDocs);
+        foundRule = true;
       }
-      if (!foundRule) {
-        throw new PatternRuleNotFoundException(ruleId);
-      }
-    } finally {
-      xmlRulesStream.close();
+    }
+    if (!foundRule) {
+      throw new PatternRuleNotFoundException(ruleId);
     }
     return topDocsList;
   }
+
+  private List<PatternRule> loadRules(File xmlRuleFile) throws IOException {
+    final InputStream xmlRulesStream = new FileInputStream(xmlRuleFile);
+    try {
+      final PatternRuleLoader ruleLoader = new PatternRuleLoader();
+      return ruleLoader.getRules(xmlRulesStream, xmlRuleFile.getAbsolutePath());
+    } finally {
+      xmlRulesStream.close();
+    }
+  }
   
-  private void run(String ruleId, File ruleXmlFile, File indexDir)
+  private void run(String ruleId, File xmlRuleFile, File indexDir)
       throws IOException {
-    if (!ruleXmlFile.exists() || !ruleXmlFile.canRead()) {
-      System.out.println("Rule XML file '" + ruleXmlFile.getAbsolutePath()
+    if (!xmlRuleFile.exists() || !xmlRuleFile.canRead()) {
+      System.out.println("Rule XML file '" + xmlRuleFile.getAbsolutePath()
           + "' does not exist or is not readable, please check the path");
       System.exit(1);
     }
     final IndexSearcher searcher = new IndexSearcher(FSDirectory.open(indexDir));
-    List<TopDocs> docsList;
+    
     try {
-      docsList = run(ruleId, ruleXmlFile, searcher, true);
+      final List<TopDocs> matchesList = run(ruleId, xmlRuleFile, searcher, true);
+      for (TopDocs matches : matchesList) {
+        printResult(matches, searcher, null);
+      }
     } catch (UnsupportedPatternRuleException e) {
-      System.out.println(e.getMessage() + " Try to search potential matches:");
-      docsList = run(ruleId, ruleXmlFile, searcher, false);
-    }
-    for (TopDocs topDocs : docsList) {
-      printResult(topDocs, searcher);
+      System.out.println(e.getMessage() + " Will run checking on potential matches (this can be slow):");
+      final List<TopDocs> potentialMatchesList = run(ruleId, xmlRuleFile, searcher, false);
+      final JLanguageTool languageTool = getLanguageToolWithOneRule(ruleId, xmlRuleFile);
+      for (TopDocs potentialMatches : potentialMatchesList) {
+        printResult(potentialMatches, searcher, languageTool);
+      }
     }
     searcher.close();
   }
 
-  private void printResult(TopDocs docs, IndexSearcher searcher)
+  private JLanguageTool getLanguageToolWithOneRule(String ruleId, File xmlRuleFile) throws IOException {
+    final JLanguageTool languageTool = new JLanguageTool(Language.DEMO);
+    final List<PatternRule> patternRules = loadRules(xmlRuleFile);
+    for (PatternRule patternRule : patternRules) {
+      if (ruleId.equals(patternRule.getId())) {
+        languageTool.addRule(patternRule);
+      }
+    }
+    return languageTool;
+  }
+
+  private void printResult(TopDocs docs, IndexSearcher searcher, JLanguageTool languageTool)
       throws IOException {
 
     final ScoreDoc[] hits = docs.scoreDocs;
-    System.out.println("Search results: " + docs.totalHits);
+    if (languageTool != null) {
+      System.out.println("Potential search results: " + docs.totalHits);
+    } else {
+      System.out.println("Search results: " + docs.totalHits);
+    }
 
-    for (int i = 0; i < docs.totalHits;) {
-      final Document doc = searcher.doc(hits[i].doc);
-      i++;
-      System.out.println(i + ": " + doc.get(PatternRuleQueryBuilder.FIELD_NAME));
+    for (int i = 0; i < Math.min(docs.totalHits, MAX_HITS);) {
+      final Document doc = searcher.doc(hits[i++].doc);
+      final String sentence = doc.get(PatternRuleQueryBuilder.FIELD_NAME);
+      if (languageTool != null) {
+        final List<RuleMatch> ruleMatches = languageTool.check(sentence);
+        if (ruleMatches.size() > 0) {
+          System.out.println(i + ": " + sentence);
+        }
+      } else {
+        System.out.println(i + ": " + sentence);
+      }
+    }
+    if (docs.totalHits > MAX_HITS) {
+      System.out.println("NOTE: matches skipped due to maximum hit limit of " + MAX_HITS);
     }
   }
 
