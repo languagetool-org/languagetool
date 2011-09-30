@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.lucene.document.Document;
@@ -51,23 +52,24 @@ public class Searcher {
     return searcher.search(query, MAX_HITS);
   }
 
-  public TopDocs run(String ruleId, InputStream ruleXMLStream, String ruleXmlFile, IndexSearcher searcher,
+  public List<TopDocs> run(String ruleId, InputStream ruleXMLStream, String ruleXmlFile, IndexSearcher searcher,
                             boolean checkUnsupportedRule) throws IOException {
     final PatternRuleLoader ruleLoader = new PatternRuleLoader();
     final List<PatternRule> rules = ruleLoader.getRules(ruleXMLStream, ruleXmlFile);
     ruleXMLStream.close();
-    PatternRule theRule = null;
+    boolean foundRule = false;
+    final List<TopDocs> topDocsList = new ArrayList<TopDocs>();
     for (PatternRule rule : rules) {
       if (rule.getId().equals(ruleId)) {
-        theRule = rule;
-        // TODO: don't stop here, it means we only use the first rule of a rulegroup
-        break;
+        final TopDocs topDocs = run(rule, searcher, checkUnsupportedRule);
+        topDocsList.add(topDocs);
+        foundRule = true;
       }
     }
-    if (theRule == null) {
+    if (!foundRule) {
       throw new PatternRuleNotFoundException(ruleId);
     }
-    return run(theRule, searcher, checkUnsupportedRule);
+    return topDocsList;
   }
   
   private void run(String ruleId, String ruleXmlFile, String indexDir)
@@ -80,15 +82,17 @@ public class Searcher {
     }
     InputStream is = new FileInputStream(xml);
     final IndexSearcher searcher = new IndexSearcher(FSDirectory.open(new File(indexDir)));
-    TopDocs docs;
+    List<TopDocs> docsList;
     try {
-      docs = run(ruleId, is, ruleXmlFile, searcher, true);
+      docsList = run(ruleId, is, ruleXmlFile, searcher, true);
     } catch (UnsupportedPatternRuleException e) {
       System.out.println(e.getMessage() + " Try to search potential matches:");
       is = new FileInputStream(xml);
-      docs = run(ruleId, is, ruleXmlFile, searcher, false);
+      docsList = run(ruleId, is, ruleXmlFile, searcher, false);
     }
-    printResult(docs, searcher);
+    for (TopDocs topDocs : docsList) {
+      printResult(topDocs, searcher);
+    }
     searcher.close();
   }
 

@@ -19,6 +19,7 @@
 package de.danielnaber.languagetool.dev.index;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.TopDocs;
@@ -55,21 +56,25 @@ public class IndexerSearcherTest extends LuceneTestCase {
 
     searcher = new IndexSearcher(directory);
     Searcher errorSearcher = new Searcher();
-    TopDocs topDocs = errorSearcher.run("BACK_AND_FOURTH", JLanguageTool.getDataBroker()
-        .getFromRulesDirAsStream("/en/grammar.xml"), "/en/grammar.xml", searcher, true);
-    assertEquals(1, topDocs.totalHits);
-
+    List<TopDocs> topDocs = errorSearcher.run("BACK_AND_FOURTH", JLanguageTool.getDataBroker()
+            .getFromRulesDirAsStream("/en/grammar.xml"), "/en/grammar.xml", searcher, true);
+    assertEquals(1, topDocs.size());
+    assertEquals(1, topDocs.get(0).totalHits);
+    
     topDocs = errorSearcher.run("BACK_AND_FOURTH", JLanguageTool.getDataBroker()
         .getFromRulesDirAsStream("/en/grammar.xml"), "/en/grammar.xml", searcher, false);
-    assertEquals(1, topDocs.totalHits);
+    assertEquals(1, topDocs.size());
+    assertEquals(1, topDocs.get(0).totalHits);
 
     topDocs = errorSearcher.run("ALL_OVER_THE_WORD", JLanguageTool.getDataBroker()
         .getFromRulesDirAsStream("/en/grammar.xml"), "/en/grammar.xml", searcher, true);
-    assertEquals(0, topDocs.totalHits);
+    assertEquals(1, topDocs.size());
+    assertEquals(0, topDocs.get(0).totalHits);
 
     topDocs = errorSearcher.run("ALL_OVER_THE_WORD", JLanguageTool.getDataBroker()
         .getFromRulesDirAsStream("/en/grammar.xml"), "/en/grammar.xml", searcher, false);
-    assertEquals(0, topDocs.totalHits);
+    assertEquals(1, topDocs.size());
+    assertEquals(0, topDocs.get(0).totalHits);
 
     try {
       errorSearcher.run("Invalid Rule Id",
@@ -94,7 +99,8 @@ public class IndexerSearcherTest extends LuceneTestCase {
           .run("EYE_BROW",
               JLanguageTool.getDataBroker().getFromRulesDirAsStream("/en/grammar.xml"), "/en/grammar.xml", searcher,
               false);
-      assertEquals(1, topDocs.totalHits);
+      assertEquals(1, topDocs.size());
+      assertEquals(1, topDocs.get(0).totalHits);
     }
 
     try {
@@ -106,7 +112,8 @@ public class IndexerSearcherTest extends LuceneTestCase {
           .run("ALL_FOR_NOT",
               JLanguageTool.getDataBroker().getFromRulesDirAsStream("/en/grammar.xml"), "/en/grammar.xml", searcher,
               false);
-      assertEquals(0, topDocs.totalHits);
+      assertEquals(1, topDocs.size());
+      assertEquals(0, topDocs.get(0).totalHits);
     }
   }
 }
