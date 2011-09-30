@@ -52,43 +52,44 @@ public class Searcher {
     return searcher.search(query, MAX_HITS);
   }
 
-  public List<TopDocs> run(String ruleId, InputStream ruleXMLStream, String ruleXmlFile, IndexSearcher searcher,
+  public List<TopDocs> run(String ruleId, File ruleXmlFile, IndexSearcher searcher,
                             boolean checkUnsupportedRule) throws IOException {
     final PatternRuleLoader ruleLoader = new PatternRuleLoader();
-    final List<PatternRule> rules = ruleLoader.getRules(ruleXMLStream, ruleXmlFile);
-    ruleXMLStream.close();
-    boolean foundRule = false;
     final List<TopDocs> topDocsList = new ArrayList<TopDocs>();
-    for (PatternRule rule : rules) {
-      if (rule.getId().equals(ruleId)) {
-        final TopDocs topDocs = run(rule, searcher, checkUnsupportedRule);
-        topDocsList.add(topDocs);
-        foundRule = true;
+    final InputStream xmlRulesStream = new FileInputStream(ruleXmlFile);
+    try {
+      final List<PatternRule> rules = ruleLoader.getRules(xmlRulesStream, ruleXmlFile.getAbsolutePath());
+      boolean foundRule = false;
+      for (PatternRule rule : rules) {
+        if (rule.getId().equals(ruleId)) {
+          final TopDocs topDocs = run(rule, searcher, checkUnsupportedRule);
+          topDocsList.add(topDocs);
+          foundRule = true;
+        }
       }
-    }
-    if (!foundRule) {
-      throw new PatternRuleNotFoundException(ruleId);
+      if (!foundRule) {
+        throw new PatternRuleNotFoundException(ruleId);
+      }
+    } finally {
+      xmlRulesStream.close();
     }
     return topDocsList;
   }
   
-  private void run(String ruleId, String ruleXmlFile, String indexDir)
+  private void run(String ruleId, File ruleXmlFile, File indexDir)
       throws IOException {
-    final File xml = new File(ruleXmlFile);
-    if (!xml.exists() || !xml.canRead()) {
-      System.out.println("Rule XML file '" + xml.getAbsolutePath()
+    if (!ruleXmlFile.exists() || !ruleXmlFile.canRead()) {
+      System.out.println("Rule XML file '" + ruleXmlFile.getAbsolutePath()
           + "' does not exist or is not readable, please check the path");
       System.exit(1);
     }
-    InputStream is = new FileInputStream(xml);
-    final IndexSearcher searcher = new IndexSearcher(FSDirectory.open(new File(indexDir)));
+    final IndexSearcher searcher = new IndexSearcher(FSDirectory.open(indexDir));
     List<TopDocs> docsList;
     try {
-      docsList = run(ruleId, is, ruleXmlFile, searcher, true);
+      docsList = run(ruleId, ruleXmlFile, searcher, true);
     } catch (UnsupportedPatternRuleException e) {
       System.out.println(e.getMessage() + " Try to search potential matches:");
-      is = new FileInputStream(xml);
-      docsList = run(ruleId, is, ruleXmlFile, searcher, false);
+      docsList = run(ruleId, ruleXmlFile, searcher, false);
     }
     for (TopDocs topDocs : docsList) {
       printResult(topDocs, searcher);
@@ -122,7 +123,7 @@ public class Searcher {
   public static void main(String[] args) throws Exception {
     ensureCorrectUsageOrExit(args);
     final Searcher searcher = new Searcher();
-    searcher.run(args[0], args[1], args[2]);
+    searcher.run(args[0], new File(args[1]), new File(args[2]));
   }
 
 }

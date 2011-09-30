@@ -43,6 +43,10 @@ import de.danielnaber.languagetool.rules.IncorrectExample;
  */
 public class PatternRuleLoader extends DefaultHandler {
 
+  /**
+   * @param is stream with the XML rules
+   * @param filename used only for verbose exception message
+   */
   public final List<PatternRule> getRules(final InputStream is,
       final String filename) throws IOException {
     try {

@@ -18,6 +18,7 @@
  */
 package de.danielnaber.languagetool.dev.index;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -26,7 +27,6 @@ import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.util.LuceneTestCase;
 
-import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
 
 public class IndexerSearcherTest extends LuceneTestCase {
@@ -56,62 +56,49 @@ public class IndexerSearcherTest extends LuceneTestCase {
 
     searcher = new IndexSearcher(directory);
     Searcher errorSearcher = new Searcher();
-    List<TopDocs> topDocs = errorSearcher.run("BACK_AND_FOURTH", JLanguageTool.getDataBroker()
-            .getFromRulesDirAsStream("/en/grammar.xml"), "/en/grammar.xml", searcher, true);
+    File ruleFile = new File("src/rules/en/grammar.xml");
+    List<TopDocs> topDocs = errorSearcher.run("BACK_AND_FOURTH", ruleFile, searcher, true);
     assertEquals(1, topDocs.size());
     assertEquals(1, topDocs.get(0).totalHits);
     
-    topDocs = errorSearcher.run("BACK_AND_FOURTH", JLanguageTool.getDataBroker()
-        .getFromRulesDirAsStream("/en/grammar.xml"), "/en/grammar.xml", searcher, false);
+    topDocs = errorSearcher.run("BACK_AND_FOURTH", ruleFile, searcher, false);
     assertEquals(1, topDocs.size());
     assertEquals(1, topDocs.get(0).totalHits);
 
-    topDocs = errorSearcher.run("ALL_OVER_THE_WORD", JLanguageTool.getDataBroker()
-        .getFromRulesDirAsStream("/en/grammar.xml"), "/en/grammar.xml", searcher, true);
+    topDocs = errorSearcher.run("ALL_OVER_THE_WORD", ruleFile, searcher, true);
     assertEquals(1, topDocs.size());
     assertEquals(0, topDocs.get(0).totalHits);
 
-    topDocs = errorSearcher.run("ALL_OVER_THE_WORD", JLanguageTool.getDataBroker()
-        .getFromRulesDirAsStream("/en/grammar.xml"), "/en/grammar.xml", searcher, false);
+    topDocs = errorSearcher.run("ALL_OVER_THE_WORD", ruleFile, searcher, false);
     assertEquals(1, topDocs.size());
     assertEquals(0, topDocs.get(0).totalHits);
 
     try {
-      errorSearcher.run("Invalid Rule Id",
-          JLanguageTool.getDataBroker().getFromRulesDirAsStream("/en/grammar.xml"), "/en/grammar.xml", searcher, true);
+      errorSearcher.run("Invalid Rule Id", ruleFile, searcher, true);
       fail("Exception should be thrown for invalid rule id.");
     } catch (PatternRuleNotFoundException expected) {
       try {
-        errorSearcher.run("Invalid Rule Id",
-            JLanguageTool.getDataBroker().getFromRulesDirAsStream("/en/grammar.xml"), "/en/grammar.xml", searcher,
-            false);
+        errorSearcher.run("Invalid Rule Id", ruleFile, searcher, false);
         fail("Exception should be thrown for invalid rule id.");
       } catch (PatternRuleNotFoundException expected2) {}
     }
 
     try {
-      errorSearcher.run("EYE_BROW",
-          JLanguageTool.getDataBroker().getFromRulesDirAsStream("/en/grammar.xml"), "/en/grammar.xml", searcher, true);
+      errorSearcher.run("EYE_BROW", ruleFile, searcher, true);
       fail("Exception should be thrown for unsupported PatternRule");
     } catch (IOException e) {
       assertTrue(e instanceof UnsupportedPatternRuleException);
-      topDocs = errorSearcher
-          .run("EYE_BROW",
-              JLanguageTool.getDataBroker().getFromRulesDirAsStream("/en/grammar.xml"), "/en/grammar.xml", searcher,
-              false);
+      topDocs = errorSearcher.run("EYE_BROW", ruleFile, searcher, false);
       assertEquals(1, topDocs.size());
       assertEquals(1, topDocs.get(0).totalHits);
     }
 
     try {
-      errorSearcher.run("ALL_FOR_NOT",
-          JLanguageTool.getDataBroker().getFromRulesDirAsStream("/en/grammar.xml"), "/en/grammar.xml", searcher, true);
+      errorSearcher.run("ALL_FOR_NOT", ruleFile, searcher, true);
       fail("Exception should be thrown for unsupported PatternRule");
     } catch (UnsupportedPatternRuleException expected) {
       topDocs = errorSearcher
-          .run("ALL_FOR_NOT",
-              JLanguageTool.getDataBroker().getFromRulesDirAsStream("/en/grammar.xml"), "/en/grammar.xml", searcher,
-              false);
+          .run("ALL_FOR_NOT", ruleFile, searcher, false);
       assertEquals(1, topDocs.size());
       assertEquals(0, topDocs.get(0).totalHits);
     }
