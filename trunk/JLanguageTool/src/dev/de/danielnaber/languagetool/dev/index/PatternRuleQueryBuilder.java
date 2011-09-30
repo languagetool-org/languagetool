@@ -41,13 +41,13 @@ public class PatternRuleQueryBuilder {
 
   private static final int MAX_SKIP = 1000;
 
-  public static Query buildQuery(PatternRule rule, boolean checkUnsupportedRule)
+  public Query buildQuery(PatternRule rule, boolean checkUnsupportedRule)
       throws UnsupportedPatternRuleException {
     return next(rule.getElements().iterator(), checkUnsupportedRule);
   }
 
   // create the next SpanQuery from the top Element in the Iterator.
-  private static SpanQuery next(Iterator<Element> it, boolean checkUnsupportedRule)
+  private SpanQuery next(Iterator<Element> it, boolean checkUnsupportedRule)
       throws UnsupportedPatternRuleException {
 
     // no more Element
@@ -57,8 +57,7 @@ public class PatternRuleQueryBuilder {
 
     final Element patternElement = it.next();
 
-    SpanQuery tokenQuery = null;
-
+    SpanQuery tokenQuery;
     SpanQuery posQuery = null;
     try {
       checkUnsupportedRule(patternElement);
@@ -98,7 +97,6 @@ public class PatternRuleQueryBuilder {
     if (patternElement.getSkipNext() >= 0) {
       skip += patternElement.getSkipNext();
     } else {
-      // skip == -1
       skip = MAX_SKIP;
     }
 
@@ -116,44 +114,35 @@ public class PatternRuleQueryBuilder {
 
   }
 
-  private static void checkUnsupportedRule(Element patternElement)
+  private void checkUnsupportedRule(Element patternElement)
       throws UnsupportedPatternRuleException {
-
-    // unsupported rule features
-
     // we need Element to expose its features of exception and whitespace testing support.
     if (patternElement.hasExceptionList()) {
       throw new UnsupportedPatternRuleException(
           "Pattern rules with token exceptions are not supported.");
     }
-
     if (patternElement.testWhitespace()) {
       throw new UnsupportedPatternRuleException(
           "Pattern rules with tokens testing \"Whitespace before\" are not supported.");
     }
-
     if (patternElement.hasAndGroup()) {
       throw new UnsupportedPatternRuleException(
           "Pattern rules with tokens in \"And Group\" are not supported.");
     }
-
     if (patternElement.isPartOfPhrase()) {
       throw new UnsupportedPatternRuleException("Pattern rules with phrases are not supported.");
     }
-
     if (patternElement.isUnified()) {
       throw new UnsupportedPatternRuleException(
           "Pattern rules with unified tokens are not supported.");
     }
-
     if (patternElement.isInflected()) {
       throw new UnsupportedPatternRuleException(
           "Pattern rules with inflected tokens are not supported.");
     }
-
   }
 
-  private static SpanQuery createTokenQuery(String token, boolean isNegation,
+  private SpanQuery createTokenQuery(String token, boolean isNegation,
       boolean isRegularExpression, boolean caseSensitive) {
     SpanQuery q = null;
     if (token != null && !token.equals("")) {
@@ -178,7 +167,7 @@ public class PatternRuleQueryBuilder {
     return q;
   }
 
-  private static SpanQuery createPOSQuery(String token, boolean isNegation, boolean isRegularExpression) {
+  private SpanQuery createPOSQuery(String token, boolean isNegation, boolean isRegularExpression) {
     SpanQuery q = null;
     if (token != null && !token.equals("")) {
       if (!isNegation) {

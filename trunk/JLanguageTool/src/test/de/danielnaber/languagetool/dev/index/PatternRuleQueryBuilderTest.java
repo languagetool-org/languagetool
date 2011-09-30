@@ -88,8 +88,9 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
 
     final List<PatternRule> rules = ruleLoader.getRules(input, "test.xml");
 
-    final Query query1 = PatternRuleQueryBuilder.buildQuery(rules.get(0), true);
-    final Query query2 = PatternRuleQueryBuilder.buildQuery(rules.get(0), false);
+    final PatternRuleQueryBuilder patternRuleQueryBuilder = new PatternRuleQueryBuilder();
+    final Query query1 = patternRuleQueryBuilder.buildQuery(rules.get(0), true);
+    final Query query2 = patternRuleQueryBuilder.buildQuery(rules.get(0), false);
     assertEquals(query1, query2);
     assertEquals(1, searcher.search(query1, null, 1000).totalHits);
     assertEquals(1, searcher.search(query2, null, 1000).totalHits);
@@ -123,16 +124,17 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
 
     final List<PatternRule> rules = ruleLoader.getRules(input, "test.xml");
 
-    Query query = PatternRuleQueryBuilder.buildQuery(rules.get(0), true);
+    final PatternRuleQueryBuilder patternRuleQueryBuilder = new PatternRuleQueryBuilder();
+    Query query = patternRuleQueryBuilder.buildQuery(rules.get(0), true);
     assertEquals(1, searcher.search(query, null, 1000).totalHits);
 
-    query = PatternRuleQueryBuilder.buildQuery(rules.get(1), true);
+    query = patternRuleQueryBuilder.buildQuery(rules.get(1), true);
     assertEquals(0, searcher.search(query, null, 1000).totalHits);
 
-    query = PatternRuleQueryBuilder.buildQuery(rules.get(2), true);
+    query = patternRuleQueryBuilder.buildQuery(rules.get(2), true);
     assertEquals(1, searcher.search(query, null, 1000).totalHits);
 
-    query = PatternRuleQueryBuilder.buildQuery(rules.get(3), true);
+    query = patternRuleQueryBuilder.buildQuery(rules.get(3), true);
     assertEquals(1, searcher.search(query, null, 1000).totalHits);
   }
 
@@ -148,13 +150,14 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
     InputStream input = new ByteArrayInputStream(sb.toString().getBytes());
     final PatternRuleLoader ruleLoader = new PatternRuleLoader();
 
+    final PatternRuleQueryBuilder patternRuleQueryBuilder = new PatternRuleQueryBuilder();
     List<PatternRule> rules = ruleLoader.getRules(input, "test.xml");
     try {
-      PatternRuleQueryBuilder.buildQuery(rules.get(0), true);
+      patternRuleQueryBuilder.buildQuery(rules.get(0), true);
       fail("Exception should be thrown for unsupported PatternRule");
     } catch (UnsupportedPatternRuleException expected) {}
     try {
-      PatternRuleQueryBuilder.buildQuery(rules.get(0), false);
+      patternRuleQueryBuilder.buildQuery(rules.get(0), false);
     } catch (UnsupportedPatternRuleException e) {
       fail("Exception should not be thrown, if not checkUnsupportedRule");
     }
@@ -162,21 +165,19 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
     sb = new StringBuilder();
 
     sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?> <rules lang=\"en\"> <category name=\"Test\"> <rule id=\"TEST_RULE\" name=\"test\"> <pattern>");
-
     sb.append("<token inflected=\"yes\">suppose</token>"); // inflated token is not supported
-
     sb.append("</pattern> </rule> </category> </rules>");
 
     input = new ByteArrayInputStream(sb.toString().getBytes());
 
     rules = ruleLoader.getRules(input, "test.xml");
     try {
-      PatternRuleQueryBuilder.buildQuery(rules.get(0), true);
+      patternRuleQueryBuilder.buildQuery(rules.get(0), true);
       fail("Exception should be thrown for unsupported PatternRule");
     } catch (UnsupportedPatternRuleException expected) {}
 
     try {
-      PatternRuleQueryBuilder.buildQuery(rules.get(0), false);
+      patternRuleQueryBuilder.buildQuery(rules.get(0), false);
     } catch (UnsupportedPatternRuleException e) {
       fail("Exception should not be thrown, if not checkUnsupportedRule");
     }

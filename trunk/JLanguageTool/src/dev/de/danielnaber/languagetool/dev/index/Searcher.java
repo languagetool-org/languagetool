@@ -45,9 +45,10 @@ public class Searcher {
 
   private static final int MAX_HITS = 1000;
 
-  public static TopDocs run(PatternRule rule, IndexSearcher searcher, boolean checkUnsupportedRule)
+  public TopDocs run(PatternRule rule, IndexSearcher searcher, boolean checkUnsupportedRule)
       throws IOException {
-    final Query query = PatternRuleQueryBuilder.buildQuery(rule, checkUnsupportedRule);
+    final PatternRuleQueryBuilder patternRuleQueryBuilder = new PatternRuleQueryBuilder();
+    final Query query = patternRuleQueryBuilder.buildQuery(rule, checkUnsupportedRule);
     //System.out.println("QUERY: " + query);
     return searcher.search(query, MAX_HITS);
   }
@@ -104,9 +105,9 @@ public class Searcher {
     System.out.println("Search results: " + docs.totalHits);
 
     for (int i = 0; i < docs.totalHits;) {
-      final Document d = searcher.doc(hits[i].doc);
+      final Document doc = searcher.doc(hits[i].doc);
       i++;
-      System.out.println(i + ": " + d.get(PatternRuleQueryBuilder.FIELD_NAME));
+      System.out.println(i + ": " + doc.get(PatternRuleQueryBuilder.FIELD_NAME));
     }
   }
 
