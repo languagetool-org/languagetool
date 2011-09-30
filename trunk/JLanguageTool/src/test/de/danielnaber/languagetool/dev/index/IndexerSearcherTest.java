@@ -54,29 +54,30 @@ public class IndexerSearcherTest extends LuceneTestCase {
     Indexer.run(content, directory, Language.ENGLISH, false);
 
     searcher = new IndexSearcher(directory);
-    TopDocs topDocs = Searcher.run("BACK_AND_FOURTH", JLanguageTool.getDataBroker()
+    Searcher errorSearcher = new Searcher();
+    TopDocs topDocs = errorSearcher.run("BACK_AND_FOURTH", JLanguageTool.getDataBroker()
         .getFromRulesDirAsStream("/en/grammar.xml"), "/en/grammar.xml", searcher, true);
     assertEquals(1, topDocs.totalHits);
 
-    topDocs = Searcher.run("BACK_AND_FOURTH", JLanguageTool.getDataBroker()
+    topDocs = errorSearcher.run("BACK_AND_FOURTH", JLanguageTool.getDataBroker()
         .getFromRulesDirAsStream("/en/grammar.xml"), "/en/grammar.xml", searcher, false);
     assertEquals(1, topDocs.totalHits);
 
-    topDocs = Searcher.run("ALL_OVER_THE_WORD", JLanguageTool.getDataBroker()
+    topDocs = errorSearcher.run("ALL_OVER_THE_WORD", JLanguageTool.getDataBroker()
         .getFromRulesDirAsStream("/en/grammar.xml"), "/en/grammar.xml", searcher, true);
     assertEquals(0, topDocs.totalHits);
 
-    topDocs = Searcher.run("ALL_OVER_THE_WORD", JLanguageTool.getDataBroker()
+    topDocs = errorSearcher.run("ALL_OVER_THE_WORD", JLanguageTool.getDataBroker()
         .getFromRulesDirAsStream("/en/grammar.xml"), "/en/grammar.xml", searcher, false);
     assertEquals(0, topDocs.totalHits);
 
     try {
-      Searcher.run("Invalid Rule Id",
+      errorSearcher.run("Invalid Rule Id",
           JLanguageTool.getDataBroker().getFromRulesDirAsStream("/en/grammar.xml"), "/en/grammar.xml", searcher, true);
       fail("Exception should be thrown for invalid rule id.");
     } catch (PatternRuleNotFoundException expected) {
       try {
-        Searcher.run("Invalid Rule Id",
+        errorSearcher.run("Invalid Rule Id",
             JLanguageTool.getDataBroker().getFromRulesDirAsStream("/en/grammar.xml"), "/en/grammar.xml", searcher,
             false);
         fail("Exception should be thrown for invalid rule id.");
@@ -84,12 +85,12 @@ public class IndexerSearcherTest extends LuceneTestCase {
     }
 
     try {
-      Searcher.run("EYE_BROW",
+      errorSearcher.run("EYE_BROW",
           JLanguageTool.getDataBroker().getFromRulesDirAsStream("/en/grammar.xml"), "/en/grammar.xml", searcher, true);
       fail("Exception should be thrown for unsupported PatternRule");
     } catch (IOException e) {
       assertTrue(e instanceof UnsupportedPatternRuleException);
-      topDocs = Searcher
+      topDocs = errorSearcher
           .run("EYE_BROW",
               JLanguageTool.getDataBroker().getFromRulesDirAsStream("/en/grammar.xml"), "/en/grammar.xml", searcher,
               false);
@@ -97,11 +98,11 @@ public class IndexerSearcherTest extends LuceneTestCase {
     }
 
     try {
-      Searcher.run("ALL_FOR_NOT",
+      errorSearcher.run("ALL_FOR_NOT",
           JLanguageTool.getDataBroker().getFromRulesDirAsStream("/en/grammar.xml"), "/en/grammar.xml", searcher, true);
       fail("Exception should be thrown for unsupported PatternRule");
     } catch (UnsupportedPatternRuleException expected) {
-      topDocs = Searcher
+      topDocs = errorSearcher
           .run("ALL_FOR_NOT",
               JLanguageTool.getDataBroker().getFromRulesDirAsStream("/en/grammar.xml"), "/en/grammar.xml", searcher,
               false);

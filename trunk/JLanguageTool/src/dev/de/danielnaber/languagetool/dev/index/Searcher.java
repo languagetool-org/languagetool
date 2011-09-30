@@ -51,7 +51,7 @@ public class Searcher {
     return searcher.search(query, MAX_HITS);
   }
 
-  public static TopDocs run(String ruleId, InputStream ruleXMLStream, String ruleXmlFile, IndexSearcher searcher,
+  public TopDocs run(String ruleId, InputStream ruleXMLStream, String ruleXmlFile, IndexSearcher searcher,
                             boolean checkUnsupportedRule) throws IOException {
     final PatternRuleLoader ruleLoader = new PatternRuleLoader();
     final List<PatternRule> rules = ruleLoader.getRules(ruleXMLStream, ruleXmlFile);
@@ -70,17 +70,7 @@ public class Searcher {
     return run(theRule, searcher, checkUnsupportedRule);
   }
   
-  private static void ensureCorrectUsageOrExit(String[] args) {
-    if (args.length != 3) {
-      System.err.println("Usage: Searcher <ruleId> <ruleXML> <indexDir>");
-      System.err.println("\truleId Id of the rule to search");
-      System.err.println("\truleXML path to a rule file, e.g. en/grammar.xml");
-      System.err.println("\tindexDir path to a directory storing the index");
-      System.exit(1);
-    }
-  }
-
-  private static void run(String ruleId, String ruleXmlFile, String indexDir)
+  private void run(String ruleId, String ruleXmlFile, String indexDir)
       throws IOException {
     final File xml = new File(ruleXmlFile);
     if (!xml.exists() || !xml.canRead()) {
@@ -102,7 +92,7 @@ public class Searcher {
     searcher.close();
   }
 
-  private static void printResult(TopDocs docs, IndexSearcher searcher)
+  private void printResult(TopDocs docs, IndexSearcher searcher)
       throws IOException {
 
     final ScoreDoc[] hits = docs.scoreDocs;
@@ -115,9 +105,20 @@ public class Searcher {
     }
   }
 
+  private static void ensureCorrectUsageOrExit(String[] args) {
+    if (args.length != 3) {
+      System.err.println("Usage: Searcher <ruleId> <ruleXML> <indexDir>");
+      System.err.println("\truleId Id of the rule to search");
+      System.err.println("\truleXML path to a rule file, e.g. en/grammar.xml");
+      System.err.println("\tindexDir path to a directory storing the index");
+      System.exit(1);
+    }
+  }
+
   public static void main(String[] args) throws Exception {
     ensureCorrectUsageOrExit(args);
-    run(args[0], args[1], args[2]);
+    final Searcher searcher = new Searcher();
+    searcher.run(args[0], args[1], args[2]);
   }
 
 }
