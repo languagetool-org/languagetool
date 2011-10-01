@@ -27,6 +27,32 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect">Er ist bekannt <marker>alt</marker> intelligent.</example>
       <example type="correct">Er ist bekannt <marker>als</marker> intelligent.</example>
     </rule>
+    <rulegroup id="NACH_NOCH" name="Möglicher Tippfehler: 'nach (noch)'">
+      <rule>
+        <pattern case_sensitive="yes" mark_from="0" mark_to="-3">
+          <token regexp="yes">(n|N)ach</token>
+          <token regexp="yes">(am|in|im)</token>
+          <token>selben</token>
+          <token regexp="yes">(Tag|Nacht|Monat|Jahr.*)</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>noch</suggestion>?</message>
+        <example type="incorrect"><marker>Nach</marker> am selben Tag ist er gekommen.</example>
+        <example type="incorrect"><marker>Nach</marker> im selben Jahrzehnt ist er gestorben.</example>
+        <example type="correct"><marker>Noch</marker> am selben Tag ist er gekommen.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="0" mark_to="-4">
+          <token regexp="yes">(n|N)ach</token>
+          <token>in</token>
+          <token regexp="yes">(der|dem)</token>
+          <token>selben</token>
+          <token regexp="yes">(Tag|Nacht|Monat|Jahr.*)</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>noch</suggestion>?</message>
+        <example type="incorrect"><marker>Nach</marker> in der selben Nacht ist er gekommen.</example>
+        <example type="correct"><marker>Noch</marker> in der selben Nacht ist er gekommen.</example>
+      </rule>
+    </rulegroup>
     <rule id="SCHRIEBT" name="Möglicher Tippfehler: 'schriebt (schreibt)'">
       <pattern mark_from="1" mark_to="-1">
         <token negate="yes">Ihr</token>
@@ -287,16 +313,41 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect"><marker>De</marker> Programmierung mit Plain Old Java Objects soll einfacher werden.</example>
       <example type="incorrect">Und <marker>de</marker> Programmierung mit Plain Old Java Objects soll einfacher werden.</example>
     </rule>
-    <rule id="BIS_BISS" name="Möglicher Tippfehler: 'biss (bis)'">
-      <pattern mark_from="1">
-        <token inflected="yes" regexp="yes">bleiben|sein</token>
-        <token>biss</token>
-      </pattern>
-      <message>Meinten Sie <suggestion>bis</suggestion>?</message>
-      <example type="correct">Ich bleibe <marker>bis</marker> Ende Juli in Berlin.</example>
-      <example type="correct">Mann <marker>biss</marker> Hund.</example>
-      <example type="incorrect">Ich bleibe <marker>biss</marker> Ende Juli in Berlin.</example>
-    </rule>
+    <rulegroup id="BIS_BISS" name="Möglicher Tippfehler: 'biss (bis)'">
+      <rule>
+        <pattern mark_from="1">
+          <token inflected="yes" regexp="yes">bleiben|sein</token>
+          <token>biss</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>bis</suggestion>?</message>
+        <example type="correct">Ich bleibe <marker>bis</marker> Ende Juli in Berlin.</example>
+        <example type="correct">Mann <marker>biss</marker> Hund.</example>
+        <example type="incorrect">Ich bleibe <marker>biss</marker> Ende Juli in Berlin.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="0" mark_to="-2">
+          <token>biss</token>
+          <token>auf</token>
+          <token>weiteres</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>bis</suggestion>?</message>
+        <example type="incorrect"><marker>Biss</marker> auf weiteres...</example>
+        <example type="correct"><marker>Bis</marker> auf weiteres...</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token regexp="yes">([0-9]*|Uhr)</token>
+          <token>biss</token>
+          <token regexp="yes">[0-9]*</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>bis</suggestion>?</message>
+        <example type="incorrect">Von 5.000 <marker>biss</marker> 6.000 Toten ist die Rede...</example>
+        <example type="correct">Von 5.000 <marker>bis</marker> 6.000 Toten ist die Rede...</example>
+        <example type="incorrect">Von 5 Uhr <marker>biss</marker> 6 Uhr Toten ist die Rede...</example>
+        <example type="incorrect">Von 5 <marker>biss</marker> 6 Uhr Toten ist die Rede...</example>
+        <example type="correct">Von 5 Uhr <marker>bis</marker> 6 Uhr Toten ist die Rede...</example>
+      </rule>
+    </rulegroup>
     <rule id="VON_HAND" name="Möglicher Tippfehler: 'van (von) Hand'">
       <pattern mark_to="-1">
         <token>van</token>
@@ -1005,19 +1056,38 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct">...sie mit einem Maulkorb rumlaufen zu <marker>lassen</marker>.</example>
       <example type="incorrect">...sie mit einem Maulkorb rumlaufen zu <marker>lasen</marker>.</example>
     </rule>
-    <rule id="OEKONOMISCH_OEKUMENISCH" name="Möglicher Tippfehler: 'ökonomischer (ökumenischer) Gottesdienst/...'">
-      <pattern mark_to="-1">
-        <token regexp="yes">ökonomische|ökonomischen|ökonomischer</token>
-        <token regexp="yes">.*Gottesdienst.*|Kirche|Kirchen|Trauung|Trauungen|Taufe|Taufen|Kirchentag|Kirchentage|Kirchentags|Kirchentages|Abendmahl|Abendmahls</token>
-      </pattern>
-      <message>Meinten Sie <suggestion>ökumenisch</suggestion> (ökonomisch = auf die Wirtschaft bezogen)?</message>
-      <example type="correct">Was ist ein <marker>ökumenischer</marker> Gottesdienst?</example>
-      <example type="incorrect">Was ist ein <marker>ökonomischer</marker> Gottesdienst?</example>
-      <example type="incorrect">Was ist ein <marker>ökonomischer</marker> Wortgottesdienst?</example>
-      <example type="incorrect">Was ist das Merkmal eines <marker>ökonomischen</marker> Gedenkgottesdienstes?</example>
-      <example type="incorrect">Was ist das Merkmal eines <marker>ökonomischen</marker> Gottesdienstes?</example>
-      <example type="incorrect">Was ist das Merkmal von <marker>ökonomischen</marker> Gottesdiensten?</example>
-    </rule>
+    <rulegroup id="OEKONOMISCH_OEKUMENISCH" name="Möglicher Tippfehler: 'ökonomischer (ökumenischer) Gottesdienst/...'">
+      <rule>
+        <pattern mark_to="-1">
+          <token regexp="yes">ökologische|ökologisches|ökologischer|ökologischen|ökologischem|ökonomische|ökonomischen|ökonomischer</token>
+          <token regexp="yes">.*Gottesdienst.*|Kirche|Kirchen|Trauung|Trauungen|Taufe|Taufen|Kirchentag|Kirchentage|Kirchentags|Kirchentages|Abendmahl|Abendmahls</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>ökumenisch</suggestion> (ökonomisch = auf die Wirtschaft bezogen)?</message>
+        <example type="correct">Was ist ein <marker>ökumenischer</marker> Gottesdienst?</example>
+        <example type="incorrect">Was ist ein <marker>ökonomischer</marker> Gottesdienst?</example>
+        <example type="incorrect">Was ist ein <marker>ökonomischer</marker> Wortgottesdienst?</example>
+        <example type="incorrect">Was ist das Merkmal eines <marker>ökonomischen</marker> Gedenkgottesdienstes?</example>
+        <example type="incorrect">Was ist das Merkmal eines <marker>ökonomischen</marker> Gottesdienstes?</example>
+        <example type="incorrect">Was ist das Merkmal von <marker>ökonomischen</marker> Gottesdiensten?</example>
+        <example type="correct">Was ist ein <marker>ökumenischer</marker> Gottesdienst?</example>
+        <example type="incorrect">Was ist ein <marker>ökologischer</marker> Gottesdienst?</example>
+        <example type="incorrect">Was ist ein <marker>ökologischer</marker> Wortgottesdienst?</example>
+        <example type="incorrect">Was ist das Merkmal eines <marker>ökologischen</marker> Gedenkgottesdienstes?</example>
+        <example type="incorrect">Was ist das Merkmal eines <marker>ökologischen</marker> Gottesdienstes?</example>
+        <example type="incorrect">Was ist das Merkmal von <marker>ökologischen</marker> Gottesdiensten?</example>
+        <example type="incorrect">Was ist die <marker>ökologische</marker> Kirche?</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">ökumenische(r|n)?</token>
+          <token regexp="yes">.*Messe.*</token>
+        </pattern>
+        <message>Bestandteil einer Messe ist das Abendmahl, welches nicht ökumenisch gefeiert wird. Meinten Sie <suggestion>ökumenischer Gottesdienst</suggestion> oder nur <suggestion>\2</suggestion>?</message>
+        <example type="correct">Das war ein schöner <marker>ökumenischer Gottesdienst</marker>.</example>
+        <example type="incorrect">Das war eine schöne <marker>ökumenische Gedenkmesse</marker>.</example>
+        <example type="incorrect">Das waren schöne <marker>ökumenische Messen</marker>.</example>
+      </rule>
+    </rulegroup>
     <rule id="ETHISCH_ETHNISCH" name="Möglicher Tippfehler: 'ethische (ethnische) Minderheiten/...'">
       <pattern mark_to="-1">
         <token regexp="yes">ethische|ethischer|ethischen</token>
@@ -1202,6 +1272,18 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
   </category>
 
   <category name="Zusammen-/Getrenntschreibung">
+    <!-- TODO: viele matches, Regel nochmal verifizieren
+    <rule id="DAS_SELBE" name="Zusammen-/Getrenntschreibung: 'das selbe (dasselbe) etc. ...'">
+      <pattern case_sensitive="no">
+        <token regexp="yes">(der|die|das|des|dem|den)</token>
+        <token regexp="yes">selbe(n)?</token>
+      </pattern>
+      <message><suggestion>\1<match no="2" case_conversion ="startlower"/></suggestion> wird zusammengeschrieben</message>
+      <example type="correct">Er trägt heute ein und <marker>denselben</marker> Pullover wie gestern.</example>
+      <example type="incorrect" correction="denselben">Er trägt heute ein und <marker>den Selben</marker> Pullover wie gestern.</example>
+      <example type="incorrect" correction="Denselben"><marker>Den selben</marker> Pullover trägt er heute.</example>
+    </rule>
+    -->
     <!-- Jan: TODO - find a rule that can distinguish "indem" from "in dem" -->
     <rule id="MOEGLICHER_WEISE_ETC" name="Zusammen-/Getrenntschreibung: 'möglicher Weise (möglicherweise) etc. ...'">
       <pattern case_sensitive="no" mark_from="1">
@@ -1755,6 +1837,61 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
   </category>
 
   <category name="Stil">
+    <rulegroup id="SINN_MACHEN" name="Stil: 'Sinn machen' entspricht dem englischen 'to make sense'" default="off">
+      <rule>
+        <pattern>
+          <token skip="4" inflected="yes">machen<exception scope="next">,</exception></token>
+          <token>Sinn</token>
+        </pattern>
+        <message>'Sinn machen' entspricht dem englischen 'to make sense'. Verwenden Sie stattdessen 'Sinn ergeben', 'Sinn stiften', 'Sinn haben' oder 'sinnvoll (bzw. sinnlos) sein'.</message>
+        <example type="incorrect">Das <marker>macht Sinn</marker>.</example>
+        <example type="incorrect">Das <marker>macht nur Sinn</marker>, wenn...</example>
+        <example type="correct">Das <marker>ist sinnvoll</marker>.</example>
+        <example type="incorrect">Das <marker>macht keinen Sinn</marker> Sinn.</example>
+        <example type="correct">Das <marker>ergibt keinen Sinn</marker>.</example>
+        <example type="correct">Das, was er macht, hat einen Sinn.</example>
+        <example type="incorrect">Das <marker>macht nie und nimmer einen Sinn</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token skip="1">Sinn</token>
+          <token inflected="yes">machen</token>
+        </pattern>
+        <message>'Sinn machen' entspricht dem englischen 'to make sense'. Verwenden Sie stattdessen 'Sinn ergeben', 'Sinn stiften', 'Sinn haben' oder 'sinnvoll (bzw. sinnlos) sein'.</message>
+        <example type="incorrect">Er sagt, dass es keinen <marker>Sinn macht</marker>.</example>
+        <example type="incorrect">Es braucht keinen <marker>Sinn zu machen</marker>.</example>
+        <example type="correct">Er sagt, dass es keinen <marker>Sinn ergibt</marker>.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="DASSELBE_DAS_GLEICHE" name="Stil: 'das gleiche (dasselbe)'">
+      <rule>
+        <pattern mark_from="2" mark_to="-2">
+          <token skip="-1" postag="SENT_START"><exception scope="next" regexp="yes">geb(urt|or).*</exception></token>
+          <token regexp="yes">(am|in|im)</token>
+          <token regexp="yes">gleiche.*</token>
+          <token regexp="yes" skip="-1">(Tag|Nacht|Monat|Jahr.*)<exception scope="next" regexp="yes">geb(urt|or).*</exception></token>
+          <token postag="SENT_END"/>
+        </pattern>
+        <message>Wenn man 'ein und dasselbe' sagen kann, sollte 'dasselbe' statt 'das gleiche' verwendet werden. Vorschlag: <suggestion><match no="3" regexp_match="gleiche" regexp_replace="selbe"/></suggestion>.</message>
+        <example type="incorrect" correction="selben">Noch am <marker>gleichen</marker> Tag ist er gekommen.</example>
+        <example type="correct">Noch am <marker>selben</marker> Tag ist er gekommen.</example>
+        <example type="correct">Er hat am <marker>gleichen</marker> Tag wie ich Geburtstag, aber nicht im selben Jahr.</example>
+        <example type="correct">Geburtstag hat er am <marker>gleichen</marker> Tag wie ich.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="3" mark_to="-2">
+          <token skip="-1" postag="SENT_START"><exception scope="next" regexp="yes">geb(urt|or).*</exception></token>
+          <token>in</token>
+          <token regexp="yes">(der|dem)</token>
+          <token regexp="yes">gleiche.*</token>
+          <token regexp="yes" skip="-1">(Tag|Nacht|Monat|Jahr.*)<exception scope="next" regexp="yes">geb(urt|or).*</exception></token>
+          <token postag="SENT_END"/>
+        </pattern>
+        <message>Wenn man 'ein und dasselbe' sagen kann, sollte 'dasselbe' statt 'das gleiche' verwendet werden. Vorschlag: <suggestion><match no="4" regexp_match="gleiche" regexp_replace="selbe"/></suggestion>.</message>
+        <example type="incorrect" correction="selben">Noch in der <marker>gleichen</marker> Nacht ist er gekommen.</example>
+        <example type="correct">Noch in der <marker>selben</marker> Nacht ist er gekommen.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="RAN_RUM_RAUF_REIN_RAUS_RUNTER" name="Umgangssprache: 'rauf (herauf)' usw. [unvollständig!]">
     <!-- TODO: add the other cases; avoid collisions with 'rein' as adjective, 'Rum' as noun, add compounds such as 'rumlaufen', etc. -->
     <!--
@@ -1900,11 +2037,12 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     </rule>
     <rule id="MAENNER_VS_LEUTE" name="Stil: 'Kaufleute' usw. statt 'Kaufmänner'">
       <pattern case_sensitive="no">
-        <token regexp="yes">(Kauf|See|Feuerwehr)männer(n)?</token>
+        <token regexp="yes">(.*Kauf|See|Feuerwehr)männer(n)?</token>
       </pattern>
-      <message>Meinten Sie <suggestion><match no="1" regexp_match="(Kauf|See|Feuerwehr)männer(n)?" regexp_replace="$1leute$2" /></suggestion>?</message>
+      <message>Meinten Sie <suggestion><match no="1" regexp_match="(Kauf|.*kauf|See|Feuerwehr)männer(n)?" regexp_replace="$1leute$2" /></suggestion>?</message>
       <example type="correct">Es waren viele <marker>Feuerwehrleute</marker> im Einsatz.</example>
       <example type="incorrect">Es waren viele <marker>Feuerwehrmänner</marker> im Einsatz.</example>
+      <example type="incorrect" correction="Industriekaufleute">Es werden viele <marker>Industriekaufmänner</marker> gesucht.</example>
     </rule>
     <rulegroup id="ZWISCHEN_SEIT_BIS" name="Stil: 'Zwischen ... bis ...'">
       <rule>
@@ -1945,6 +2083,34 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct"><marker>Von März bis Juli</marker>.</example>
         <example type="incorrect"><marker>Zwischen März bis Juli</marker>.</example>
         <example type="incorrect"><marker>Seit März bis Juli</marker>.</example>
+      </rule>
+    </rulegroup>
+    <!--TODO find a better group?-->
+    <rulegroup id="ZITAT_VGL" name="Stil: 'vgl.' bei direkten Zitaten">
+      <!-- 
+      <rule>
+        <pattern mark_from="1">
+          <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes">('|"|»|„|›|‚|‘|‹|«|)</exception></token>
+          <token>(</token>
+          <token regexp="yes">(S|Z)</token>
+        </pattern>
+        <message>Bei indirekten Zitaten steht ein 'vgl.' vor der Zeilenangabe. Vorschlag: <suggestion>(vgl. \3</suggestion></message>
+        <example type="correct">Er sagt, Rota solle kommen (vgl. S. 1).</example>
+        <example type="incorrect" correction="(vgl. S">Er sagt, Rota solle kommen <marker>(S</marker>. 1).</example>
+        <example type="correct">Am Anfang der Szene (Z. 1-11)...</example> TODO false alarm (Gliederungsangabe)
+      </rule>-->
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token regexp="yes">('|"|«|“|‹|‘|’|›|»)</token>
+          <token>(</token>
+          <token skip="-1">vgl</token>
+          <token>.</token>
+          <token regexp="yes">(S|Z)</token>
+        </pattern>
+        <message>Bei direkten Zitaten steht kein 'vgl.' vor der Zeilenangabe. Vorschlag: <suggestion>(</suggestion></message>
+        <example type="correct">„Kommen Sie, Rota, kommen Sie.“ (S. 1)</example>
+        <example type="incorrect" correction="(">„Kommen Sie, Rota, kommen Sie.“ <marker>(vgl.</marker> S. 1)</example>
+        <example type="correct">„ein Kind“ (vgl. Erbe)</example>
       </rule>
     </rulegroup>
   </category>
@@ -3224,7 +3390,54 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       </rule>
     </rulegroup>
     -->
-    <rulegroup id="WEGEN_DIR" name="Grammatik: 'wegen dir (deinetwegen)'">
+    <!-- TODO: derzeit off wegen der vielen Treffer -->
+    <rulegroup id="PREAP_GEN" name="Grammatik: Präposition mit Genitiv (abseits, ab­züg­lich, wegen)" default="off">
+      <rule>
+        <pattern mark_from="1" case_sensitive="yes">
+          <token skip="-1" postag="SENT_START"><exception scope="next" postag="SUB.*:GEN:.*" postag_regexp="yes"/></token>
+          <token regexp="yes">(wegen|abzüglich|abseits)</token>
+          <token regexp="yes">(das|dem|den|die|ein|(D|d|s|m)?eine|(D|d|s|m)?einem|(D|d|s|m)?einen|(eu|ih|Ih|unse)re|(eu|ih|Ih|unse)rem|(eu|ih|Ih|unse)ren)</token>
+        </pattern>
+        <message>Die Präposition '\2' erfordert i.d.R. den Genitiv.</message>
+        <example type="correct">von Rechts wegen die Bestrafung</example>
+        <example type="correct">Er ist der Sache wegen dem Bruder begegnet.</example>
+        <example type="incorrect">Ich bin <marker>wegen dem</marker> Unfall zu spät gekommen.</example>
+        <example type="incorrect">Ich bin <marker>wegen einem</marker> Unfall zu spät gekommen.</example>
+        <example type="incorrect">Ich bin <marker>wegen einem</marker> schweren Unfall zu spät gekommen.</example>
+        <example type="incorrect">Ich bin <marker>wegen eurem</marker> schweren Unfall zu spät gekommen.</example>
+        <example type="correct">Ich bin <marker>wegen eures</marker> schweren Unfalls zu spät gekommen.</example>
+        <example type="correct">Ich bin <marker>wegen eines</marker> Unfall zu spät gekommen.</example>
+        <example type="correct">Auf verschiedenen <marker>Wegen den</marker> Markt erobern.</example>
+        <example type="correct">Der Flächeninhalt <marker>abzüglich des</marker> Halbkreises beträgt...</example>
+        <example type="incorrect">Der Flächeninhalt <marker>abzüglich dem</marker> Halbkreis beträgt...</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token postag="SENT_START"/><token regexp="yes">(Wegen|Abzüglich|Abseits)</token>
+           <token regexp="yes">(das|dem|den|die|ein|(D|d|s|m)?eine|(D|d|s|m)?einem|(D|d|s|m)?einen|(eu|ih|Ih|unse)re|(eu|ih|Ih|unse)rem|(eu|ih|Ih|unse)ren)</token>
+        </pattern>
+        <message>Die Präposition '\2' erfordert i.d.R. den Genitiv.</message><!--TODO \2 should be lower case-->
+        <example type="incorrect"><marker>Wegen dem</marker> Unfall...</example>
+        <example type="incorrect"><marker>Wegen Ihrem</marker> Unfall...</example>
+        <example type="correct"><marker>Wegen des</marker> Unfalls...</example> 
+        <example type="correct"><marker>Wegen ihres</marker> Unfall...</example>
+        <example type="correct"><marker>wegen Diebstahl</marker> geschlossen</example>
+        <example type="correct"><marker>Abzüglich des</marker> Halbkreises beträgt...</example>
+        <example type="incorrect"><marker>Abzüglich dem</marker> Halbkreis beträgt...</example>
+        <example type="correct"><marker>Abseits des</marker> Weges...</example>
+        <example type="incorrect"><marker>Abseits dem</marker> Weg...</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="WEGEN_DIR" name="Grammatik: 'wegen dir (deinetwegen)' usw.">
+      <rule>
+        <pattern>
+          <token>wegen</token>
+          <token>mir</token>
+        </pattern>
+        <message>'\1 \2' ist möglicherweise umgangssprachlich. Ersetzen durch <suggestion>meinetwegen</suggestion>?</message>
+        <example type="incorrect"><marker>Wegen mir</marker> ist sie zu spät gekommen.</example>
+        <example type="correct"><marker>Meinetwegen</marker> ist sie zu spät gekommen.</example>
+      </rule>
       <rule>
         <pattern>
           <token>wegen</token>
@@ -3536,6 +3749,74 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
   </category>
 
   <category name="Zeichensetzung">
+    <rulegroup id="AUSLASSUNGSPUNKTE" name="Zeichensetzung: Auslassungpunkte">
+      <rule>
+        <pattern>
+          <token>.</token>
+          <token>.</token>
+          <token>.</token>
+        </pattern>
+        <message>Verwenden Sie Auslassungspunkte (<suggestion>…</suggestion>) statt drei einzelner Punkte.</message>
+        <example type="correct">Er geht […] nach Hause.</example>
+        <example type="incorrect" correction="…">Er geht [<marker>...</marker>] nach Hause.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>…</token>
+          <token>.</token>
+        </pattern>
+        <message>Auf Auslassungspunkte folgt kein Schlusspunkt. Vorschlag: <suggestion>…</suggestion></message>
+        <example type="correct">Er geht nach Hause…</example>
+        <example type="incorrect" correction="…">Er geht nach Hause<marker>….</marker></example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="EINHEIT_LEERZEICHEN" name="Zeichensetzung: Falsches/Fehlendes Leerzeichen zwischen Zahl und Einheit">
+      <rule>
+        <pattern case_sensitive="yes">
+          <token regexp="yes">(\-)?[0-9]{1,}(°C|°F|°Ra|°De|°D|°Ré|°Re|°R|°N|°Rø|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?m|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?N|(k|K|M|G|T|P|E|Z|Y){1}(i)?B)</token>
+        </pattern>
+        <message>Vor Einheitszeichen sollte ein Leerzeichen gesetzt werden. Vorschlag: <suggestion><match no="1" regexp_match="((\-)?[0-9]{1,})" regexp_replace="$1 "/></suggestion></message>
+        <example type="correct">Es ist <marker>25 °C</marker> warm.</example>
+        <example type="incorrect" correction="25 °C">Es ist <marker>25°C</marker> warm.</example>
+        <example type="correct">Es ist <marker>-25 °C</marker> warm.</example>
+        <example type="incorrect" correction="-25 °C">Es ist <marker>-25°C</marker> warm.</example>
+        <example type="incorrect" correction="5 °F">Es ist 25,<marker>5°F</marker> warm.</example>
+        <example type="correct">Es ist 25,<marker>5 °C</marker> warm.</example>
+        <example type="correct">Es ist 25,<marker>5 °Ra</marker> warm.</example>
+        <example type="correct">Er ist <marker>5 km</marker> gelaufen.</example>
+        <example type="incorrect">Er ist <marker>5km</marker> gelaufen.</example>
+        <example type="correct">Die Datei ist <marker>5 ZiB</marker> groß.</example>
+        <example type="incorrect">Die Datei ist <marker>5ZiB</marker> groß.</example>
+        <example type="correct">Die Datei ist <marker>5 kB</marker> groß.</example>
+        <example type="incorrect">Die Datei ist <marker>5kB</marker> groß.</example>
+        <example type="correct">Isotop 241Am</example>
+        <example type="correct">(AsCH3)2n</example>
+        <example type="correct">Bd. 1b</example>
+        <example type="correct">Erster bemannter Start der Saturn 1B</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">(\-)?[0-9]{1,}</token>
+          <token>°</token>
+        </pattern>
+        <message>Vor dem Gradzeichen, auf das kein Buchstabe zur Kennzeichnung der Skala folgt, steht kein Leerzeichen. Verwenden Sie <suggestion>\1°</suggestion> oder fügen Sie ggf. ein fehlendes Einheitszeichen hinzu (z. B. <suggestion>\1 °C</suggestion>).</message>
+        <example type="correct">Der Winkel ist <marker>25°</marker> groß.</example>
+        <example type="incorrect">Der Winkel ist <marker>25 °</marker> groß.</example>
+        <example type="incorrect">Es ist -25,<marker>5 °</marker> warm.</example>
+        <example type="incorrect">Es ist <marker>-25 °</marker> warm.</example>
+        <!--<example type="incorrect" correction="25°, 25 °C">Der Winkel ist <marker>25 °</marker> groß.</example>
+        <example type="incorrect" correction="-25°, -25 °C">Es ist <marker>-25,5 °</marker> warm.</example> TODO Incorrect suggestions: [[25°, 25 °C]] != [25°, 25 °C] ???-->
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">(\-)?[0-9]{1,}</token>
+          <token regexp="yes">(″)</token><!--TODO not working for ′-->
+        </pattern>
+        <message>Vor dem \2-Zeichen steht i.d.R. kein Leerzeichen. Vorschlag: <suggestion>\1\2</suggestion></message>
+        <example type="correct">3° 14′ 45,54″</example>
+        <example type="incorrect" correction="54″">45,<marker>54 ″</marker></example>
+      </rule>
+    </rulegroup>
     <rule id="MIT_FREUNDLICHEN_GRUESSEN_KOMMA" name="Zeichensetzung: Falsches Satzzeichen nach 'Mit freundlichen Grüßen'">
       <pattern>
         <token postag="SENT_START"/>
