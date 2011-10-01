@@ -315,11 +315,12 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     </rule>
     <rulegroup id="BIS_BISS" name="Möglicher Tippfehler: 'biss (bis)'">
       <rule>
-        <pattern mark_from="1">
-          <token inflected="yes" regexp="yes">bleiben|sein</token>
+        <pattern mark_from="1" case_sensitive="yes">
+          <token inflected="yes" regexp="yes">[Bb]leiben|[Ss]ein</token>
           <token>biss</token>
         </pattern>
         <message>Meinten Sie <suggestion>bis</suggestion>?</message>
+        <example type="correct">Sein <marker>Biss</marker> allein reicht zur Infektion.</example>
         <example type="correct">Ich bleibe <marker>bis</marker> Ende Juli in Berlin.</example>
         <example type="correct">Mann <marker>biss</marker> Hund.</example>
         <example type="incorrect">Ich bleibe <marker>biss</marker> Ende Juli in Berlin.</example>
