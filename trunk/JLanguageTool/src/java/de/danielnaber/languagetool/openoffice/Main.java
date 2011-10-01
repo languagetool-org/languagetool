@@ -183,6 +183,15 @@ public class Main extends WeakBase implements XJobExecutor,
             XPropertySet.class, xCursor.getText().createTextCursorByRange(
                 xCursor.getStart()));
       }
+
+      // The CharLocale and CharLocaleComplex properties may both be set, so we still cannot know
+      // whether the text is Khmer (the only "complex text layout (CTL)" language we support so far).
+      // Thus we check the text itself:
+      final KhmerDetector khmerDetector = new KhmerDetector();
+      if (khmerDetector.isKhmer(xCursor.getText().getString())) {
+        return Language.KHMER;
+      }
+      
       final Object obj = xCursorProps.getPropertyValue("CharLocale");
       if (obj == null) {
         return Language.ENGLISH; // fallback
