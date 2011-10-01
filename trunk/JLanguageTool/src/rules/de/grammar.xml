@@ -1296,15 +1296,18 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect"><marker>Möglicher Weise</marker> ist die Gelbphase zu kurz eingestellt.</example>
     </rule>
     <rule id="ZU_TEIL" name="Zusammen-/Getrenntschreibung: 'zu Teil (zuteil/zum Teil)'">
-      <pattern>
+      <pattern mark_to="-1">
         <token>zu</token>
         <token>teil</token>
+        <token negate_pos="yes" postag="ZAL" regexp="yes" negate="yes">[0-9]+</token>
       </pattern>
       <message>Meinten Sie evt. <suggestion>zum Teil</suggestion> oder <suggestion>zuteil</suggestion>?</message>
       <example type="incorrect">Diese Fehler werden <marker>zu Teil</marker> bereits erkannt.</example>
       <example type="incorrect">Mir wurde eine große Ehre <marker>zu teil</marker>.</example>
       <example type="correct">Diese Fehler werden <marker>zum Teil</marker> bereits erkannt.</example>
       <example type="correct">Mir wurde eine große Ehre <marker>zuteil</marker>.</example>
+      <example type="correct">Das offene Ende, das später den Übergang <marker>zu Teil</marker> zwei bildete, war eher scherzweise gedacht.</example>
+      <example type="correct">Das offene Ende, das später den Übergang <marker>zu Teil</marker> 2 bildete, war eher scherzweise gedacht.</example>
     </rule>
     <rule id="EINST_WEILEN" name="Zusammen-/Getrenntschreibung: 'einst weilen (einstweilen)'">
       <pattern>
