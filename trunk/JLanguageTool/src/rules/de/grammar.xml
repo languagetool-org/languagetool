@@ -1273,7 +1273,6 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
   </category>
 
   <category name="Zusammen-/Getrenntschreibung">
-    <!-- TODO: viele matches, Regel nochmal verifizieren
     <rule id="DAS_SELBE" name="Zusammen-/Getrenntschreibung: 'das selbe (dasselbe) etc. ...'">
       <pattern case_sensitive="no">
         <token regexp="yes">(der|die|das|des|dem|den)</token>
@@ -1284,7 +1283,6 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect" correction="denselben">Er trägt heute ein und <marker>den Selben</marker> Pullover wie gestern.</example>
       <example type="incorrect" correction="Denselben"><marker>Den selben</marker> Pullover trägt er heute.</example>
     </rule>
-    -->
     <!-- Jan: TODO - find a rule that can distinguish "indem" from "in dem" -->
     <rule id="MOEGLICHER_WEISE_ETC" name="Zusammen-/Getrenntschreibung: 'möglicher Weise (möglicherweise) etc. ...'">
       <pattern case_sensitive="no" mark_from="1">
@@ -3392,11 +3390,11 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     </rulegroup>
     -->
     <!-- TODO: derzeit off wegen der vielen Treffer -->
-    <rulegroup id="PREAP_GEN" name="Grammatik: Präposition mit Genitiv (abseits, ab­züg­lich, wegen)" default="off">
+    <rulegroup id="PREAP_GEN" name="Grammatik: Präposition mit Genitiv (abseits, ab­züg­lich, wegen)">
       <rule>
         <pattern mark_from="1" case_sensitive="yes">
           <token skip="-1" postag="SENT_START"><exception scope="next" postag="SUB.*:GEN:.*" postag_regexp="yes"/></token>
-          <token regexp="yes">(wegen|abzüglich|abseits)</token>
+          <token regexp="yes">(wegen|abzüglich)</token>
           <token regexp="yes">(das|dem|den|die|ein|(D|d|s|m)?eine|(D|d|s|m)?einem|(D|d|s|m)?einen|(eu|ih|Ih|unse)re|(eu|ih|Ih|unse)rem|(eu|ih|Ih|unse)ren)</token>
         </pattern>
         <message>Die Präposition '\2' erfordert i.d.R. den Genitiv.</message>
@@ -3414,8 +3412,9 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       </rule>
       <rule>
         <pattern case_sensitive="yes">
-          <token postag="SENT_START"/><token regexp="yes">(Wegen|Abzüglich|Abseits)</token>
-           <token regexp="yes">(das|dem|den|die|ein|(D|d|s|m)?eine|(D|d|s|m)?einem|(D|d|s|m)?einen|(eu|ih|Ih|unse)re|(eu|ih|Ih|unse)rem|(eu|ih|Ih|unse)ren)</token>
+          <token postag="SENT_START"/>
+          <token regexp="yes">(Wegen|Abzüglich)</token>
+          <token regexp="yes">(das|dem|den|die|ein|(D|d|s|m)?eine|(D|d|s|m)?einem|(D|d|s|m)?einen|(eu|ih|Ih|unse)re|(eu|ih|Ih|unse)rem|(eu|ih|Ih|unse)ren)</token>
         </pattern>
         <message>Die Präposition '\2' erfordert i.d.R. den Genitiv.</message><!--TODO \2 should be lower case-->
         <example type="incorrect"><marker>Wegen dem</marker> Unfall...</example>
@@ -3425,8 +3424,10 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct"><marker>wegen Diebstahl</marker> geschlossen</example>
         <example type="correct"><marker>Abzüglich des</marker> Halbkreises beträgt...</example>
         <example type="incorrect"><marker>Abzüglich dem</marker> Halbkreis beträgt...</example>
+        <!--
         <example type="correct"><marker>Abseits des</marker> Weges...</example>
         <example type="incorrect"><marker>Abseits dem</marker> Weg...</example>
+        -->
       </rule>
     </rulegroup>
     <rulegroup id="WEGEN_DIR" name="Grammatik: 'wegen dir (deinetwegen)' usw.">
