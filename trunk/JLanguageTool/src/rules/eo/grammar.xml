@@ -4,8 +4,7 @@
 title="Easy editing stylesheet" ?>
 <!--
 Esperanto Grammar and Typo Rules for LanguageTool
-Copyright (C) 2010, 2011 Dominique Pellé
-$Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
+Copyright (C) 2010, 2011 Dominique Pellé <dominique.pelle@gmail.com>
 -->
 <rules lang="eo"
        xsi:noNamespaceSchemaLocation="../rules.xsd"
@@ -2666,7 +2665,9 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <pattern case_sensitive="yes">
         <token regexp="yes">[lL]a</token>
         <and>
-          <token postag_regexp="yes" postag="[KMPRV].*"><exception>ĝis</exception></token>
+          <token postag_regexp="yes" postag="[KMPRV].*">
+            <exception regexp="yes">ĝis|ĉirkaŭ</exception>
+          </token>
           <token regexp="yes">[a-zĉĝĵĥŝ].*</token>
         </and>
       </pattern>
@@ -2674,6 +2675,7 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
       <example type="incorrect"><marker>La manĝi</marker> ne bonas</example>
       <example type="correct">La manĝaĵo ne bonas</example>
       <example type="correct">Jen aŭdiĝis ankaŭ la ĝis nun superbruita fontano.</example>
+      <example type="correct">La ĉefa parto de la ĉirkaŭ 2 miliardoj de dolaroj</example>
     </rule>
 
     <rule id="SI_SUBJ" name="si subjekto">
@@ -2861,11 +2863,14 @@ $Id: grammar.xml,v 1.34 2011-02-12 14:57:58 dominikoeo Exp $
     <rule id="P_P" name="prepozicio + prepozicio">
       <pattern>
         <token regexp="yes">al|je|(mal)?graŭ</token>
-        <token postag="P.*" postag_regexp="yes"/>
+        <token postag="P.*" postag_regexp="yes">
+          <exception>ĉirkaŭ</exception>
+        </token>
       </pattern>
       <message>Kontrolu, ĉu la du sinsekvaj prepozicioj ĝustas.</message>
       <example type="incorrect">Mi preferas vojaĝi per trajno <marker>al per</marker> aviadilo.</example>
       <example type="correct">Mi preferas vojaĝi per trajno ol per aviadilo.</example>
+      <example type="correct">Danke al ĉirkaŭ 2 miliardoj da dolaroj</example>
     </rule>
 
     <rule id="TIOJ" name="navalidaj vortoj tioj, kioj, ktp.">
