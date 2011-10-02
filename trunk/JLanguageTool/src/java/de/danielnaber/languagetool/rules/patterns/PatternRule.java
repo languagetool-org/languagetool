@@ -513,7 +513,7 @@ public class PatternRule extends AbstractPatternRule {
 
   /**
    * Replace back references generated with &lt;match&gt; and \\1 in message
-   * using Match class, and take care of skipping. *
+   * using Match class, and take care of skipping.
    * 
    * @param tokenReadings
    *          Array of AnalyzedTokenReadings that were matched against the
@@ -526,8 +526,7 @@ public class PatternRule extends AbstractPatternRule {
    *          String containing suggestion markup
    * @return String Formatted message.
    * @throws IOException
-   * 
-   **/
+   */
   private String formatMatches(final AnalyzedTokenReadings[] tokenReadings,
       final int[] positions, final int firstMatchTok, final String errorMsg)
   throws IOException {
@@ -538,19 +537,19 @@ public class PatternRule extends AbstractPatternRule {
     int errLen = errorMessage.length();
     int errMarker = errorMessage.indexOf('\\');
     boolean numberFollows = false;
-    if (errMarker > 0 && errMarker < errLen - 1) {
+    if (errMarker >= 0 && errMarker < errLen - 1) {
       numberFollows = StringTools.isPositiveNumber(errorMessage
           .charAt(errMarker + 1));
     }
-    while (errMarker > 0 && numberFollows) {
-      final int ind = errorMessage.indexOf('\\');
-      if (ind > 0 && StringTools.isPositiveNumber(errorMessage.charAt(ind + 1))) {
+    while (errMarker >= 0 && numberFollows) {
+      final int backslashPos = errorMessage.indexOf('\\');
+      if (backslashPos >= 0 && StringTools.isPositiveNumber(errorMessage.charAt(backslashPos + 1))) {
         int numLen = 1;
-        while (ind + numLen < errorMessage.length()
-            && StringTools.isPositiveNumber(errorMessage.charAt(ind + numLen))) {
+        while (backslashPos + numLen < errorMessage.length()
+            && StringTools.isPositiveNumber(errorMessage.charAt(backslashPos + numLen))) {
           numLen++;
         }
-        final int j = Integer.parseInt(errorMessage.substring(ind + 1, ind
+        final int j = Integer.parseInt(errorMessage.substring(backslashPos + 1, backslashPos
             + numLen)) - 1;
         int repTokenPos = 0;
         int nextTokenPos = 0;
@@ -566,8 +565,8 @@ public class PatternRule extends AbstractPatternRule {
             if (suggestionMatches.get(matchCounter) != null) {
               final String[] matches = concatMatches(matchCounter, j,
                   firstMatchTok + repTokenPos, tokenReadings, nextTokenPos);
-              final String leftSide = errorMessage.substring(0, ind);
-              final String rightSide = errorMessage.substring(ind + numLen);
+              final String leftSide = errorMessage.substring(0, backslashPos);
+              final String rightSide = errorMessage.substring(backslashPos + numLen);
               if (matches.length == 1) {
                 errorMessage = leftSide + matches[0] + rightSide;
               } else {
@@ -592,7 +591,7 @@ public class PatternRule extends AbstractPatternRule {
       errMarker = errorMessage.indexOf('\\');
       numberFollows = false;
       errLen = errorMessage.length();
-      if (errMarker > 0 && errMarker < errLen - 1) {
+      if (errMarker >= 0 && errMarker < errLen - 1) {
         numberFollows = StringTools.isPositiveNumber(errorMessage
             .charAt(errMarker + 1));
       }
