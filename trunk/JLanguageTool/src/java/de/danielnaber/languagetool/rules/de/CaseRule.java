@@ -79,6 +79,7 @@ public class CaseRule extends GermanRule {
   
   private static final Set<String> exceptions = new HashSet<String>();
   static {
+    exceptions.add("Gläubiger");
     exceptions.add("Biss");
     exceptions.add("Letzt");      // "zu guter Letzt"
     exceptions.add("Für");      // "das Für und Wider"
