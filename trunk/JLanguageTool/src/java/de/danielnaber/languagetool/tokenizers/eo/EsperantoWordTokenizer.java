@@ -19,11 +19,15 @@
 
 package de.danielnaber.languagetool.tokenizers.eo;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Iterator;
 
 import de.danielnaber.languagetool.tokenizers.WordTokenizer;
 
+/** 
+ * @author Dominique Pelle
+ */
 public class EsperantoWordTokenizer extends WordTokenizer {
 
   public EsperantoWordTokenizer() {
@@ -43,16 +47,26 @@ public class EsperantoWordTokenizer extends WordTokenizer {
   @Override
   public List<String> tokenize(final String text) {
     // TODO: find a cleaner implementation, this is a hack
+    
     String replaced = text.replaceAll(
       "(?<!')\\b([a-zA-ZĉĝĥĵŝŭĈĜĤĴŜŬ]+)'(?![a-zA-ZĉĝĥĵŝŭĈĜĤĴŜŬ-])",
-      "$1##EO_APOS##").replaceAll(
+      "$1##EO_APOS1##").replaceAll(
       "(?<!')\\b([a-zA-ZĉĝĥĵŝŭĈĜĤĴŜŬ]+)'(?=[a-zA-ZĉĝĥĵŝŭĈĜĤĴŜŬ-])",
-      "$1##EO_APOS## ");
+      "$1##EO_APOS2## ");
     final List<String> tokenList = super.tokenize(replaced);
-    final String[] tokens = tokenList.toArray(new String[tokenList.size()]);
-    for (int i = 0; i < tokens.length; i++) {
-      tokens[i] = tokens[i].replace("##EO_APOS##", "'");
+    List<String> tokens = new ArrayList<String>();
+
+    // Put back apostrophes and remove spurious spaces.
+    Iterator<String> itr = tokenList.iterator();
+    while (itr.hasNext()) {
+      String word = itr.next();
+      if (word.endsWith("##EO_APOS2##")) {
+        itr.next(); // Skip the next spurious white space.
+      }
+      word = word.replace("##EO_APOS1##", "'")
+                 .replace("##EO_APOS2##", "'");
+      tokens.add(word);
     }
-    return Arrays.asList(tokens);
+    return tokens;
   }
 }
