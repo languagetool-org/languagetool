@@ -41,8 +41,7 @@ public class PatternRule extends AbstractPatternRule {
   private static final String SUGG_TAG = "<suggestion>";
   private static final String END_SUGG_TAG = "</suggestion>";
 
-  private String subId; // because there can be more than one rule in a rule
-  // group
+  private String subId; // because there can be more than one rule in a rule group
 
   private String message;
   private String shortMessage;
@@ -379,16 +378,16 @@ public class PatternRule extends AbstractPatternRule {
    * @return true, if the match converts the case of the token.
    */
   private boolean matchConvertsCase() {
-	  if (suggestionMatches != null && !suggestionMatches.isEmpty()) {
-		  final int sugStart = message.indexOf(SUGG_TAG) + SUGG_TAG.length();
-		  for (Match sMatch : suggestionMatches) {
-			  if (!sMatch.isInMessageOnly() && sMatch.convertsCase()
-					  && message.charAt(sugStart) == '\\') {
-				  return true;
-			  }
-		  }
-	  }
-	  return false;
+    if (suggestionMatches != null && !suggestionMatches.isEmpty()) {
+      final int sugStart = message.indexOf(SUGG_TAG) + SUGG_TAG.length();
+      for (Match sMatch : suggestionMatches) {
+        if (!sMatch.isInMessageOnly() && sMatch.convertsCase()
+                && message.charAt(sugStart) == '\\') {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   public final void addSuggestionMatch(final Match m) {
