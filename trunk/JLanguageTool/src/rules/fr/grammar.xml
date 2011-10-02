@@ -1363,7 +1363,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern mark_to="-1">
           <token regexp="yes" skip="1">irruptions?<exception inflected="yes" scope="previous">faire</exception></token>
-          <token regexp="yes">des?|volcans?|volcaniques?</token>
+          <token regexp="yes" inflected="yes">volcan|supervolcan|volcanique</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion><match no="1" regexp_match=".*[nN](s?)" regexp_replace="éruption$1"/></suggestion> ?</message>
         <example type="incorrect">L’<marker>irruption</marker> du volcan fut violente.</example>
@@ -2138,7 +2138,7 @@ though, and has since been slightly modified)-->
       <pattern mark_from="1">
         <token postag="V .*" postag_regexp="yes" skip="1">
           <exception inflected="yes" postag="V inf|V etre .*|V avoir .*|N .*" postag_regexp="yes" regexp="yes">avoir|être|paraître|sembler|devenir|demeurer|rester</exception>
-          <exception regexp="yes" scope="current">,|tu|toutes?</exception>
+          <exception regexp="yes" scope="current">,|tu</exception>
         </token>
         <token postag="V ppa .*" postag_regexp="yes">
           <exception postag="[ZNJ] .*" postag_regexp="yes" scope="current"/>
@@ -2575,7 +2575,6 @@ though, and has since been slightly modified)-->
           <exception inflected="yes" scope="previous">avoir</exception></token>
         <token postag="V (inf|ind|sub|con|ppr).*" postag_regexp="yes">
           <exception postag="[ZN] .*" postag_regexp="yes"/>
-          <exception regexp="yes">toutes?</exception>
         </token>
       </pattern>
       <message>Après l’auxiliaire « \1 », le verbe devrait être au participe passé</message>
@@ -3860,7 +3859,6 @@ though, and has since been slightly modified)-->
           </token>
           <token postag="V.*" postag_regexp="yes">
             <exception postag="V .* 3 s|V ppa . s|V.* ppr|J.*" postag_regexp="yes"/>
-            <exception regexp="yes">toute?s?</exception>
           </token>
         </pattern>
         <message>Le verbe « \4 » devrait être à la 3e personne du singulier.</message>
