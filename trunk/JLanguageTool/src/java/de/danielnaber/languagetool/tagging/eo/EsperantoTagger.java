@@ -191,111 +191,118 @@ public class EsperantoTagger implements Tagger {
     int pos = 0;
     for (String word : sentenceTokens) {
       final List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
-      final String lWord = word.toLowerCase();
-      final String[] manualTags = manualTagger.lookup(lWord);
 
-      if (manualTags != null) {
-        // This is a closed word for which we know its lemmas and tags.
-        for (int i = 0; i < manualTags.length; i += 2) {
-          final String lemma  = manualTags[2*i];
-          final String postag = manualTags[2*i + 1];
-          l.add(new AnalyzedToken(word, postag, lemma));
-        }
-      } else {
-        // This is an open word, we need to look at the word ending 
-        // to determine its lemma and POS tag.  For verb, we also
-        // need to look up the dictionary of known transitive and
-        // intransitive verbs.
+      // No Esperanto word is made of one letter only. This check avoids
+      // spurious tagging as single letter words "A", "O", "E", etc.
+      if (word.length() > 1) {
+        final String lWord = word.toLowerCase();
+        final String[] manualTags = manualTagger.lookup(lWord);
 
-        // Tiu, kiu (tabelvortoj).
-        if ((matcher = patternTabelvorto.matcher(lWord)).find()) {
-          final String type1Group = matcher.group(1).substring(0, 1).toLowerCase();
-          final String type2Group = matcher.group(2);
-          final String plGroup    = matcher.group(3);
-          final String accGroup   = matcher.group(4);
-          final String type3Group = matcher.group(5);
-          final String type;
-          final String plural;
-          final String accusative;
-
-          if (accGroup == null) {
-            accusative = "xxx";
-          } else {
-            accusative = accGroup.toLowerCase().equals("n") ? "akz" : "nak";
+        if (manualTags != null) {
+          // This is a closed word for which we know its lemmas and tags.
+          for (int i = 0; i < manualTags.length; i += 2) {
+            final String lemma  = manualTags[2*i];
+            final String postag = manualTags[2*i + 1];
+            l.add(new AnalyzedToken(word, postag, lemma));
           }
-          if (plGroup == null) {
-            plural = " pn ";
-          } else {
-            plural = plGroup.toLowerCase().equals("j") ? " pl " : " np ";
-          }
-          type = ((type2Group == null) ? type3Group : type2Group).toLowerCase();
-
-          l.add(new AnalyzedToken(word, "T " + 
-            accusative + plural + type1Group + " " + type, null));
-
-          if ((matcher = patternTabelvortoAdverb.matcher(lWord)).find()) {
-            l.add(new AnalyzedToken(word, "E nak", lWord));
-          }
-
-        // Words ending in .*oj?n? are nouns.
-        } else if (lWord.endsWith("o")) {
-          l.add(new AnalyzedToken(word, "O nak np", lWord));
-        } else if (lWord.length() >= 2 && lWord.endsWith("'")) {
-          l.add(new AnalyzedToken(word, "O nak np", lWord.substring(0, lWord.length() - 1) + "o"));
-        } else if (lWord.endsWith("oj")) {
-          l.add(new AnalyzedToken(word, "O nak pl", lWord.substring(0, lWord.length() - 1)));
-        } else if (lWord.endsWith("on")) {
-          l.add(new AnalyzedToken(word, "O akz np", lWord.substring(0, lWord.length() - 1)));
-        } else if (lWord.endsWith("ojn")) {
-          l.add(new AnalyzedToken(word, "O akz pl", lWord.substring(0, lWord.length() - 2)));
-
-        // Words ending in .*aj?n? are nouns.
-        } else if (lWord.endsWith("a")) {
-          l.add(new AnalyzedToken(word, "A nak np", lWord));
-        } else if (lWord.endsWith("aj")) {
-          l.add(new AnalyzedToken(word, "A nak pl", lWord.substring(0, lWord.length() - 1)));
-        } else if (lWord.endsWith("an")) {
-          l.add(new AnalyzedToken(word, "A akz np", lWord.substring(0, lWord.length() - 1)));
-        } else if (lWord.endsWith("ajn")) {
-          l.add(new AnalyzedToken(word, "A akz pl", lWord.substring(0, lWord.length() - 2)));
-
-        // Words ending in .*en? are adverbs.
-        } else if (lWord.endsWith("e")) {
-          l.add(new AnalyzedToken(word, "E nak", lWord));
-        } else if (lWord.endsWith("en")) {
-          l.add(new AnalyzedToken(word, "E akz", lWord.substring(0, lWord.length() - 1)));
-
-        // Verbs.
-        } else if ((matcher = patternVerb.matcher(lWord)).find()) {
-          final String verb = matcher.group(1) + "i";
-          final String tense = matcher.group(2);
-          final String transitive = findTransitivity(verb);
-
-          l.add(new AnalyzedToken(word, "V " + transitive + " " + tense, verb));
-
-        // Irregular word (no tag).
         } else {
-          l.add(new AnalyzedToken(word, null, null));
-        }
+          // This is an open word, we need to look at the word ending 
+          // to determine its lemma and POS tag.  For verb, we also
+          // need to look up the dictionary of known transitive and
+          // intransitive verbs.
 
-        // Participle (can be combined with other tags).
-        if ((matcher = patternParticiple.matcher(lWord)).find()) {
-          if (!setNonParticiple.contains(matcher.group(1))) {
-            final String verb = matcher.group(2) + "i";
-            final String aio = matcher.group(3);
-            final String antAt = matcher.group(4).equals("n") ? "n" : "-";
-            final String aoe = matcher.group(5);
-            final String plural = matcher.group(6).equals("j") ? "pl" : "np";
-            final String accusative = matcher.group(7).equals("n") ? "akz" : "nak";
+          // Tiu, kiu (tabelvortoj).
+          if ((matcher = patternTabelvorto.matcher(lWord)).find()) {
+            final String type1Group = matcher.group(1).substring(0, 1).toLowerCase();
+            final String type2Group = matcher.group(2);
+            final String plGroup    = matcher.group(3);
+            final String accGroup   = matcher.group(4);
+            final String type3Group = matcher.group(5);
+            final String type;
+            final String plural;
+            final String accusative;
+
+            if (accGroup == null) {
+              accusative = "xxx";
+            } else {
+              accusative = accGroup.toLowerCase().equals("n") ? "akz" : "nak";
+            }
+            if (plGroup == null) {
+              plural = " pn ";
+            } else {
+              plural = plGroup.toLowerCase().equals("j") ? " pl " : " np ";
+            }
+            type = ((type2Group == null) ? type3Group : type2Group).toLowerCase();
+
+            l.add(new AnalyzedToken(word, "T " + 
+              accusative + plural + type1Group + " " + type, null));
+
+            if ((matcher = patternTabelvortoAdverb.matcher(lWord)).find()) {
+              l.add(new AnalyzedToken(word, "E nak", lWord));
+            }
+
+          // Words ending in .*oj?n? are nouns.
+          } else if (lWord.endsWith("o")) {
+            l.add(new AnalyzedToken(word, "O nak np", lWord));
+          } else if (lWord.length() >= 2 && lWord.endsWith("'")) {
+            l.add(new AnalyzedToken(word, "O nak np", lWord.substring(0, lWord.length() - 1) + "o"));
+          } else if (lWord.endsWith("oj")) {
+            l.add(new AnalyzedToken(word, "O nak pl", lWord.substring(0, lWord.length() - 1)));
+          } else if (lWord.endsWith("on")) {
+            l.add(new AnalyzedToken(word, "O akz np", lWord.substring(0, lWord.length() - 1)));
+          } else if (lWord.endsWith("ojn")) {
+            l.add(new AnalyzedToken(word, "O akz pl", lWord.substring(0, lWord.length() - 2)));
+
+          // Words ending in .*aj?n? are nouns.
+          } else if (lWord.endsWith("a")) {
+            l.add(new AnalyzedToken(word, "A nak np", lWord));
+          } else if (lWord.endsWith("aj")) {
+            l.add(new AnalyzedToken(word, "A nak pl", lWord.substring(0, lWord.length() - 1)));
+          } else if (lWord.endsWith("an")) {
+            l.add(new AnalyzedToken(word, "A akz np", lWord.substring(0, lWord.length() - 1)));
+          } else if (lWord.endsWith("ajn")) {
+            l.add(new AnalyzedToken(word, "A akz pl", lWord.substring(0, lWord.length() - 2)));
+
+          // Words ending in .*en? are adverbs.
+          } else if (lWord.endsWith("e")) {
+            l.add(new AnalyzedToken(word, "E nak", lWord));
+          } else if (lWord.endsWith("en")) {
+            l.add(new AnalyzedToken(word, "E akz", lWord.substring(0, lWord.length() - 1)));
+
+          // Verbs.
+          } else if ((matcher = patternVerb.matcher(lWord)).find()) {
+            final String verb = matcher.group(1) + "i";
+            final String tense = matcher.group(2);
             final String transitive = findTransitivity(verb);
 
-            l.add(new AnalyzedToken(word, "C " + accusative + " " + plural + " " +
-                                    transitive + " " + aio + " " + antAt + " " + aoe,
-                                    verb));
+            l.add(new AnalyzedToken(word, "V " + transitive + " " + tense, verb));
+
+          // Irregular word (no tag).
+          } else {
+            l.add(new AnalyzedToken(word, null, null));
+          }
+
+          // Participle (can be combined with other tags).
+          if ((matcher = patternParticiple.matcher(lWord)).find()) {
+            if (!setNonParticiple.contains(matcher.group(1))) {
+              final String verb = matcher.group(2) + "i";
+              final String aio = matcher.group(3);
+              final String antAt = matcher.group(4).equals("n") ? "n" : "-";
+              final String aoe = matcher.group(5);
+              final String plural = matcher.group(6).equals("j") ? "pl" : "np";
+              final String accusative = matcher.group(7).equals("n") ? "akz" : "nak";
+              final String transitive = findTransitivity(verb);
+
+              l.add(new AnalyzedToken(word, "C " + accusative + " " + plural + " " +
+                                      transitive + " " + aio + " " + antAt + " " + aoe,
+                                      verb));
+            }
           }
         }
+      } else {
+        // Single letter word (no tag).
+        l.add(new AnalyzedToken(word, null, null));
       }
-
       pos += word.length();
       tokenReadings.add(new AnalyzedTokenReadings(
         l.toArray(new AnalyzedToken[0]), 0));
