@@ -51,6 +51,8 @@ Daniel Naber (<strong>naber <span>a&#116;</span> danielnaber<span>.</span>de</st
 		a grammar checker for the Irish language</li>
 	<li><?=show_link("CoGrOO", "http://cogroo.sourceforge.net/", 0)?>
 		a Grammar Checker for Portuguese</li>
+	<li><?=show_link("Grammalecte", "http://www.dicollecte.org/grammalecte/", 0)?>
+		a Grammar Checker for French written in Python, based on Lightproof.</li>
 	<li><?=show_link("GRAC", "http://grac.sourceforge.net/", 0)?>
 		corpus-based grammar checker written in Python</li>
 	<li><?=show_link("Queequeg", "http://queequeg.sourceforge.net/index-e.html", 0)?>
