@@ -189,7 +189,7 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
         <pattern mark_from="1">
           <token regexp="yes">a|aba|da|ne|pa|re|daou|div|dindan|dre|eme|endra|gwall|holl|seul</token>
           <token regexp="yes">d.*
-            <exception>da</exception>
+            <exception inflected="yes">da</exception>
             <exception regexp="yes" inflected="yes">t.*</exception>
           </token>
         </pattern>
@@ -301,7 +301,9 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
     <rulegroup id="KEMM_DRE_C_HWEZHADENNIN" name="kemmadur dre c’hwezhadenniñ">
       <rule>
         <pattern mark_from="1">
-          <token regexp="yes">va|he|em|teir|tri|peder|pevar|nav</token>
+          <token regexp="yes">va|he|em|teir|tri|peder|pevar|nav|o
+            <exception postag="L o"/>
+          </token>
           <token regexp="yes">t.*</token>
         </pattern>
         <message>Ur c’hemmadur dre c’hwezhadenniñ zlefe bezañ goude ar ger «\1». Fellout a ra deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="z$1"/></suggestion>?</message>
@@ -310,7 +312,9 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
       </rule>
       <rule>
         <pattern mark_from="1">
-          <token regexp="yes">va|he|em|teir|tri|peder|pevar|nav</token>
+          <token regexp="yes">va|he|em|teir|tri|peder|pevar|nav|o
+            <exception postag="L o"/>
+          </token>
           <token regexp="yes">k.*</token>
         </pattern>
         <message>Ur c’hemmadur dre c’hwezhadenniñ zlefe bezañ goude ar ger «\1». Fellout a ra deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="c’h$1"/></suggestion>?</message>
@@ -319,12 +323,44 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
       </rule>
       <rule>
         <pattern mark_from="1">
-          <token regexp="yes">va|he|em|teir|tri|peder|pevar|nav</token>
+          <token regexp="yes">va|he|em|teir|tri|peder|pevar|nav|o
+            <exception postag="L o"/>
+          </token>
           <token regexp="yes">p.*</token>
         </pattern>
         <message>Ur c’hemmadur dre c’hwezhadenniñ zlefe bezañ goude ar ger «\1». Fellout a ra deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="c’h$1"/></suggestion>?</message>
         <example type="incorrect">Re ziwezhat out va <marker>paotr</marker>!</example>
         <example type="correct">Re ziwezhat out va faotr!</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2">
+          <token>da’</token>
+          <token>m</token>
+          <token regexp="yes">t.*</token>
+        </pattern>
+        <message>Ur c’hemmadur dre galetaat a zlefe bezañ goude «\1\2». Fellout a ra deoc’h skrivañ <suggestion><match no="3" regexp_match=".(.*)" regexp_replace="z$1"/></suggestion>?</message>
+        <example type="incorrect">Da’m <marker>tad</marker></example>
+        <example type="correct">Da’m zad</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2">
+          <token>da’</token>
+          <token>m</token>
+          <token regexp="yes">k.*</token>
+        </pattern>
+        <message>Ur c’hemmadur dre galetaat a zlefe bezañ goude «\1\2». Fellout a ra deoc’h skrivañ <suggestion><match no="3" regexp_match=".(.*)" regexp_replace="c’h$1"/></suggestion>?</message>
+        <example type="incorrect">Da’m <marker>ki</marker></example>
+        <example type="correct">Da’m c’hi</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2">
+          <token>da’</token>
+          <token>m</token>
+          <token regexp="yes">p.*</token>
+        </pattern>
+        <message>Ur c’hemmadur dre galetaat a zlefe bezañ goude «\1\2». Fellout a ra deoc’h skrivañ <suggestion><match no="3" regexp_match=".(.*)" regexp_replace="z$1"/></suggestion>?</message>
+        <example type="incorrect">Da’m <marker>paotr</marker></example>
+        <example type="correct">Da’m faotr</example>
       </rule>
     </rulegroup>
 
@@ -560,7 +596,7 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
   <category name="gerioù al, ul, el, hol">
     <rule id="AL" name="gerioù al, ul, el, hol">
       <pattern mark_to="-1">
-        <token regexp="yes">([aeu]|ho)[nr]<exception postag="L ppre"/></token>
+        <token regexp="yes">[aeu][nr]|hor<exception postag="L ppre"/></token>
         <token regexp="yes">l.*</token>
       </pattern>
       <message>Ar ger «\1» a zlefe bezañ <suggestion><match no="1" regexp_match="(.*)." regexp_replace="$1l"/></suggestion> dirak ur ger a grog gant ar gensonenn «l».</message>
@@ -570,7 +606,7 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
       <example type="correct">Al levr a zo ganin.</example>
       <example type="incorrect">Al levr-mañ emañ <marker>er</marker> levraoueg.</example>
       <example type="correct">Al levr-mañ emañ el levraoueg.</example>
-      <example type="incorrect">Tev eo <marker>hon</marker> levr.</example>
+      <example type="incorrect">Tev eo <marker>hor</marker> levr.</example>
       <example type="correct">Tev eo hol levr.</example>
       <example type="correct">Kouezhet on en ur lammat.</example>
     </rule>
@@ -591,7 +627,7 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
     </rule>
     <rule id="AR" name="ger ar, ur, er, hor">
       <pattern mark_to="-1">
-        <token regexp="yes">([aeu]|ho)[ln]</token>
+        <token regexp="yes">[aeu][ln]|hol</token>
         <token regexp="yes">[bcfgjkmprsvwyz].*<exception postag="K .* o" postag_regexp="yes"></exception></token>
       </pattern>
       <message>Ar ger «\1» a zlefe bezañ <suggestion><match no="1" regexp_match="(.*)." regexp_replace="$1r"/></suggestion> dirak ur ger na grog ket gant al lizherennoù «n, d, t, h, a, e, i, o u».</message>
@@ -602,7 +638,7 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
     <rule id="AR_TSAR" name="ar + tsar, tsunami, etc.">
       <pattern mark_to="-1">
         <token regexp="yes">[au][ln]</token>
-        <token regexp="yes" inflected="yes">tsunami|tsar|jean|joniged</token>
+        <token regexp="yes" inflected="yes">tsunami|tsar|jazz|jean|joniged</token>
       </pattern>
       <message>Ar ger-mell <suggestion><match no="1" regexp_match="(.*)." regexp_replace="$1r"/></suggestion> a vez implijet gant ar ger estren «\2».</message>
       <example type="incorrect"><marker>An</marker> tsunami</example>
@@ -905,6 +941,18 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
         <example type="correct">Ar brezhoneg a zo ur yezh keltiek.</example>
       </rule>
     </rulegroup>
+    <rule id="EZ_EUS" name="ez eus">
+      <pattern mark_to="-1">
+        <token>ez</token>
+        <token>eus</token>
+        <token regexp="yes">a[rln]</token>
+      </pattern>
+      <message>«ez eus» a vez implijet gant ur ger-rener amstrizh. Fellout a ra deoc’h skrivañ <suggestion>emañ</suggestion>?</message>
+      <example type="incorrect">Er stal <marker>ez eus</marker> ar bara.</example>
+      <example type="correct">Er stal emañ ar bara.</example>
+      <example type="correct">War an daol ez eus bara.</example>
+      <example type="correct">War an daol ez eus ur gontell.</example>
+    </rule>
   </category>
 
 </rules>
