@@ -344,9 +344,9 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <message>Meinten Sie <suggestion>bis</suggestion>?</message>
         <example type="incorrect">Von 5.000 <marker>biss</marker> 6.000 Toten ist die Rede...</example>
         <example type="correct">Von 5.000 <marker>bis</marker> 6.000 Toten ist die Rede...</example>
-        <example type="incorrect">Von 5 Uhr <marker>biss</marker> 6 Uhr Toten ist die Rede...</example>
-        <example type="incorrect">Von 5 <marker>biss</marker> 6 Uhr Toten ist die Rede...</example>
-        <example type="correct">Von 5 Uhr <marker>bis</marker> 6 Uhr Toten ist die Rede...</example>
+        <example type="incorrect">Von 5 Uhr <marker>biss</marker> 6 Uhr...</example>
+        <example type="incorrect">Von 5 <marker>biss</marker> 6 Uhr...</example>
+        <example type="correct">Von 5 Uhr <marker>bis</marker> 6 Uhr...</example>
       </rule>
     </rulegroup>
     <rule id="VON_HAND" name="Möglicher Tippfehler: 'van (von) Hand'">
@@ -1063,14 +1063,14 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">ökologische|ökologisches|ökologischer|ökologischen|ökologischem|ökonomische|ökonomischen|ökonomischer</token>
           <token regexp="yes">.*Gottesdienst.*|Kirche|Kirchen|Trauung|Trauungen|Taufe|Taufen|Kirchentag|Kirchentage|Kirchentags|Kirchentages|Abendmahl|Abendmahls</token>
         </pattern>
-        <message>Meinten Sie <suggestion>ökumenisch</suggestion> (ökonomisch = auf die Wirtschaft bezogen)?</message>
+        <message>Meinten Sie <suggestion>ökumenisch</suggestion> (ökologisch = die Ökologie betreffend, ökonomisch = auf die Wirtschaft bezogen)?</message>
         <example type="correct">Was ist ein <marker>ökumenischer</marker> Gottesdienst?</example>
         <example type="incorrect">Was ist ein <marker>ökonomischer</marker> Gottesdienst?</example>
         <example type="incorrect">Was ist ein <marker>ökonomischer</marker> Wortgottesdienst?</example>
         <example type="incorrect">Was ist das Merkmal eines <marker>ökonomischen</marker> Gedenkgottesdienstes?</example>
         <example type="incorrect">Was ist das Merkmal eines <marker>ökonomischen</marker> Gottesdienstes?</example>
         <example type="incorrect">Was ist das Merkmal von <marker>ökonomischen</marker> Gottesdiensten?</example>
-        <example type="correct">Was ist ein <marker>ökumenischer</marker> Gottesdienst?</example>
+        <example type="correct">Was sind <marker>ökumenische</marker> Gottesdienste?</example>
         <example type="incorrect">Was ist ein <marker>ökologischer</marker> Gottesdienst?</example>
         <example type="incorrect">Was ist ein <marker>ökologischer</marker> Wortgottesdienst?</example>
         <example type="incorrect">Was ist das Merkmal eines <marker>ökologischen</marker> Gedenkgottesdienstes?</example>
@@ -1835,6 +1835,30 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect">Das Buch ist im <marker>DTV-Verlag</marker> erschienen.</example>
         <example type="correct">Das Buch ist im <marker>DTV</marker> erschienen.</example>
       </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">ABM-Maßnahme(n)?</token>
+        </pattern>
+        <message>'ABM' steht für 'Arbeitsbeschaffungsmaßnahme' – ersetzen durch <suggestion>ABM</suggestion> oder <suggestion>Arbeitsbeschaffungsmaßnahme</suggestion>?</message>
+        <example type="incorrect">Das ist eine <marker>ABM-Maßnahme</marker>.</example>
+        <example type="correct">Das ist eine <marker>ABM</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">LCD-Display(s)?</token>
+        </pattern>
+        <message>'LCD' steht für 'Liquid Crystal Display' – ersetzen durch <suggestion>LCD</suggestion>?</message>
+        <example type="incorrect">Das ist ein <marker>LCD-Display</marker>.</example>
+        <example type="correct">Das ist ein <marker>LCD</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">HIV-(Virus|Viren)</token>
+        </pattern>
+        <message>'HIV' steht für 'Humanes Immundefizienz-Virus' – ersetzen durch <suggestion>HIV</suggestion> oder <suggestion>HI-Virus</suggestion>?</message>
+        <example type="correct">Das ist ein <marker>HI-Virus</marker>.</example>
+        <example type="incorrect">Das ist ein <marker>HIV-Virus</marker>.</example>
+      </rule>
     </rulegroup>
   </category>
 
@@ -1866,6 +1890,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       </rule>
     </rulegroup>
     <rulegroup id="DASSELBE_DAS_GLEICHE" name="Stil: 'das gleiche (dasselbe)'">
+      <!-- http://www.duden.de/rechtschreibung/derselbe#Bedeutung2 and http://www.youtube.com/watch?v=NUJtHFF8Qy0 -->
       <rule>
         <pattern mark_from="2" mark_to="-2">
           <token skip="-1" postag="SENT_START"><exception scope="next" regexp="yes">geb(urt|or).*</exception></token>
@@ -1892,6 +1917,128 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <message>Wenn man 'ein und dasselbe' sagen kann, sollte 'dasselbe' statt 'das gleiche' verwendet werden. Vorschlag: <suggestion><match no="4" regexp_match="gleiche" regexp_replace="selbe"/></suggestion>.</message>
         <example type="incorrect" correction="selben">Noch in der <marker>gleichen</marker> Nacht ist er gekommen.</example>
         <example type="correct">Noch in der <marker>selben</marker> Nacht ist er gekommen.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="VOLTZAHL" name="Stil: Umgangssprachliche Einheitsbezeichnungen ('Voltzahl', 'Stundenkilometer' etc.)">
+      <rule>
+        <pattern>
+          <token regexp="yes">(Volt(-)?zahl(en)?)</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>elektrische Spannung</suggestion>? 'Volt-Zahl' ist eine umgangssprachliche Bezeichnung.</message>
+        <example type="correct">Die <marker>elektrischen Spannungen</marker></example>
+        <example type="incorrect">Die <marker>Volt-Zahlen</marker></example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">(Ampere(-)?zahl(en)?)</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>elektrische Stromstärke</suggestion>? 'Ampere-Zahl' ist eine umgangssprachliche Bezeichnung.</message>
+        <example type="correct">Die <marker>elektrischen Stromstärken</marker></example>
+        <example type="incorrect">Die <marker>Amperezahlen</marker></example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">(Coulomb(-)?zahl(en)?)</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>elektrische Ladung</suggestion>? 'Coulomb-Zahl' ist eine umgangssprachliche Bezeichnung.</message>
+        <example type="correct">Die <marker>elektrische Ladung</marker></example>
+        <example type="incorrect">Die <marker>Coulombzahl</marker></example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>Stundenkilometer</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>Kilometer pro Stunde</suggestion> oder <suggestion><match regexp_match="Stundenkilometer" regexp_replace="km/h" case_conversion="startlower" no="1"/></suggestion>? 'Stundenkilometer' (stünde für 'Kilometer mal Stunde') ist eine umgangssprachliche Bezeichnung.</message> <!-- TODO startlower not working?-->
+        <example type="incorrect">5 <marker>Stundenkilometer</marker> schnell</example>
+        <example type="correct">5 <marker>Kilometer pro Stunde</marker> schnell</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2">
+          <token inflected="yes" skip="2">wiegen<exception scope="next">,</exception></token>
+          <token regexp="yes">[0-9]+</token>
+          <token>Kilo</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>Kilogramm</suggestion>? 'Kilo' ist eine umgangssprachliche Bezeichnung.</message>
+        <example type="incorrect">Er wiegt mehr als 5 <marker>Kilo</marker>.</example>
+        <example type="correct">Er wiegt 5 <marker>Kilogramm</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2">
+          <token inflected="yes" skip="2">wiegen<exception scope="next">,</exception></token>
+          <token postag="ZAL"/>
+          <token>Kilo</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>Kilogramm</suggestion>? 'Kilo' ist eine umgangssprachliche Bezeichnung.</message>
+        <example type="incorrect">Er wiegt mehr als fünf <marker>Kilo</marker>.</example>
+        <example type="correct">Er wiegt fünf <marker>Kilogramm</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token postag="ZAL"/>
+          <token skip="2">Kilo<exception scope="next">,</exception></token>
+          <token inflected="yes" regexp="yes">(wiegen|schwer)</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>Kilogramm</suggestion>? 'Kilo' ist eine umgangssprachliche Bezeichnung.</message>
+        <example type="incorrect">Es ist nicht schlimm, zwei <marker>Kilo</marker> schwerer zu sein.</example>
+        <example type="correct">Es ist nicht schlimm, nur vier <marker>Kilogramm</marker> zu wiegen.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token regexp="yes">[0-9]+</token>
+          <token skip="2">Kilo<exception scope="next">,</exception></token>
+          <token inflected="yes" regexp="yes">(wiegen|schwer)</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>Kilogramm</suggestion>? 'Kilo' ist eine umgangssprachliche Bezeichnung.</message>
+        <example type="incorrect">Es ist nicht schlimm, nur 4,5 <marker>Kilo</marker> zu wiegen.</example>
+        <example type="correct">Es ist nicht schlimm, nur 4,5 <marker>Kilogramm</marker> zu wiegen.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2" mark_to="-1">
+          <token inflected="yes" regexp="yes" skip="1">(schnell|langsam)<exception scope="next" postag=".*ART.*" postag_regexp="yes"/></token>
+          <token regexp="yes">[0-9]+</token>
+          <token skip="-1">Kilometer<exception scope="next" regexp="yes">(,|pro|durch|je|in)</exception></token>
+          <token postag="SENT_END"/>
+        </pattern>
+        <message>Meinten Sie <suggestion>Kilometer pro Stunde</suggestion> oder <suggestion><match regexp_match="Kilometer" regexp_replace="km/h" case_conversion="startlower" no="3"/></suggestion> (Maßeinheit der Geschwindigkeit)? 'Kilometer' ist eine Längenmaßeinheit.</message>
+<!--         <example type="incorrect">Er ist schneller als 5,3 <marker>Kilometer</marker>.</example>--><!--TODO-->
+        <example type="incorrect">Er ist schneller als 5 <marker>Kilometer</marker>.</example>
+        <example type="correct">Er ist schneller die 5 <marker>Kilometer</marker> gelaufen.</example>
+        <example type="correct">Er ist schneller als 5 <marker>Kilometer</marker> pro Stunde.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token regexp="yes">[0-9]+<exception scope="previous" postag=".*ART.*" postag_regexp="yes"/></token>
+          <token skip="2">Kilometer<exception scope="next" regexp="yes">(,|pro|durch|je|in)</exception></token>
+          <token inflected="yes" regexp="yes">(schnell|langsam)</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>Kilometer pro Stunde</suggestion> oder <suggestion><match regexp_match="Kilometer" regexp_replace="km/h" case_conversion="startlower" no="2"/></suggestion> (Maßeinheit der Geschwindigkeit)? 'Kilometer' ist eine Längenmaßeinheit.</message>
+        <example type="incorrect">Er ist 5,2 <marker>Kilometer</marker> schneller.</example>
+        <example type="correct">Er ist 5 <marker>Kilometer</marker> in der Stunde schnell.</example>
+        <example type="correct">Er ist die 5 <marker>Kilometer</marker> schneller gelaufen.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2" mark_to="-1">
+          <token inflected="yes" regexp="yes" skip="1">(schnell|langsam)<exception scope="next" postag=".*ART.*" postag_regexp="yes"/></token>
+          <token postag="ZAL"/>
+          <token skip="-1">Kilometer<exception scope="next" regexp="yes">(,|pro|durch|je|in)</exception></token>
+          <token postag="SENT_END"/>
+        </pattern>
+        <message>Meinten Sie <suggestion>Kilometer pro Stunde</suggestion> oder <suggestion><match regexp_match="Kilometer" regexp_replace="km/h" case_conversion="startlower" no="3"/></suggestion> (Maßeinheit der Geschwindigkeit)? 'Kilometer' ist eine Längenmaßeinheit.</message>
+<!--         <example type="incorrect">Er ist schneller als 5,3 <marker>Kilometer</marker>.</example>--><!--TODO-->
+        <example type="incorrect">Er ist schneller als fünf <marker>Kilometer</marker>.</example>
+        <example type="correct">Er ist schneller die fünf <marker>Kilometer</marker> gelaufen.</example>
+        <example type="correct">Er ist schneller als fünf <marker>Kilometer</marker> pro Stunde.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token postag="ZAL"><exception scope="previous" postag=".*ART.*" postag_regexp="yes"/></token>
+          <token skip="2">Kilometer<exception scope="next" regexp="yes">(,|pro|durch|je|in)</exception></token>
+          <token inflected="yes" regexp="yes">(schnell|langsam)</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>Kilometer pro Stunde</suggestion> oder <suggestion><match regexp_match="Kilometer" regexp_replace="km/h" case_conversion="startlower" no="2"/></suggestion> (Maßeinheit der Geschwindigkeit)? 'Kilometer' ist eine Längenmaßeinheit.</message>
+        <example type="incorrect">Er ist fünf <marker>Kilometer</marker> schneller.</example>
+        <example type="correct">Er ist fünf <marker>Kilometer</marker> in der Stunde schnell.</example>
+        <example type="correct">Er ist die fünf <marker>Kilometer</marker> schneller gelaufen.</example>
       </rule>
     </rulegroup>
     <rulegroup id="RAN_RUM_RAUF_REIN_RAUS_RUNTER" name="Umgangssprache: 'rauf (herauf)' usw. [unvollständig!]">
@@ -3294,17 +3441,39 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect">Und in der <marker>nähe</marker> liegt der Bahnhof.</example>
     </rule>
     <rule id="EIN_PAAR" name="Groß-/Kleinschreibung: 'ein Paar (paar)'">
-        <pattern case_sensitive="yes" mark_to="-1">
-          <token regexp="yes">[Ee]in</token>
-          <token>Paar</token>
-          <token negate="yes" regexp="yes">(.*)([Ss]chuhe|[Ss]ocken)</token>
+      <pattern case_sensitive="yes" mark_to="-1">
+        <token regexp="yes">[Ee]in</token>
+        <token>Paar</token>
+        <token negate="yes" regexp="yes">(.*)([Ss]chuhe|[Ss]ocken)</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>ein paar</suggestion>? (=einige)</message>
+      <example type="correct"><marker>Ein Paar</marker> Schuhe.</example>
+      <example type="correct"><marker>Ein Paar</marker> Wanderschuhe.</example>
+      <example type="correct"><marker>Ein paar</marker> Münzen.</example>
+      <example type="incorrect"><marker>Ein Paar</marker> Münzen.</example>
+    </rule>
+    <rulegroup id="GROSS_KLEIN_EINHEITEN" name="Groß-/Kleinschreibung: Einheiten 'KB (kB), KWh (kWh)'">
+      <rule>
+        <pattern case_sensitive="yes" mark_from="1">
+          <token regexp="yes">(\-)?[0-9]{1,}</token>
+          <token regexp="yes">(KB|kib|kiB)</token>
         </pattern>
-        <message>Meinten Sie <suggestion>ein paar</suggestion>? (=einige)</message>
-        <example type="correct"><marker>Ein Paar</marker> Schuhe.</example>
-        <example type="correct"><marker>Ein Paar</marker> Wanderschuhe.</example>
-        <example type="correct"><marker>Ein paar</marker> Münzen.</example>
-        <example type="incorrect"><marker>Ein Paar</marker> Münzen.</example>
+        <message>Meinten Sie <suggestion><match regexp_match="(KB|kib|kiB)" regexp_replace="kB" case_conversion="startlower" no="2"/></suggestion> (=1000 Byte) oder <suggestion>KiB</suggestion> (=1024 Byte)?</message>
+        <example type="correct">Die Datei ist 500 <marker>kB</marker> groß.</example>
+        <example type="correct">Die Datei ist 500 <marker>KiB</marker> groß.</example>
+        <example type="incorrect">Die Datei ist 500 <marker>KB</marker> groß.</example>
       </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="1">
+          <token regexp="yes">(\-)?[0-9]{1,}</token>
+          <token regexp="yes">(k|K)(w|W)(h|H)<exception>kWh</exception></token>
+        </pattern>
+        <message>Meinten Sie <suggestion><match regexp_match="(k|K)(w|W)(h|H)" regexp_replace="kWh" case_conversion="startlower" no="2"/></suggestion>?</message>
+        <example type="correct">Wir verbrauchen 2000 <marker>kWh</marker>.</example>
+        <example type="incorrect" correction="kWh">Wir verbrauchen 2000 <marker>KWh</marker>.</example>
+<!--         <example type="incorrect" correction="kWh">Wir Verbrauchen 2000 <marker>kwh</marker>.</example> TODO incorrect suggestion 'kwh'-->
+      </rule>
+    </rulegroup>
   </category>
 
   <category name="Grammatik">
@@ -3392,13 +3561,12 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       </rule>
     </rulegroup>
     -->
-    <!-- TODO: derzeit off wegen der vielen Treffer -->
-    <rulegroup id="PREAP_GEN" name="Grammatik: Präposition mit Genitiv (abseits, ab­züg­lich, wegen)">
+    <rulegroup id="PRAEP_GEN" name="Grammatik: Präposition mit Genitiv (ab­züg­lich, wegen)">
       <rule>
         <pattern mark_from="1" case_sensitive="yes">
           <token skip="-1" postag="SENT_START"><exception scope="next" postag="SUB.*:GEN:.*" postag_regexp="yes"/></token>
-          <token regexp="yes">(wegen|abzüglich)</token>
-          <token regexp="yes">(das|dem|den|die|ein|(D|d|s|m)?eine|(D|d|s|m)?einem|(D|d|s|m)?einen|(eu|ih|Ih|unse)re|(eu|ih|Ih|unse)rem|(eu|ih|Ih|unse)ren)</token>
+          <token regexp="yes">(wegen|abzüglich)</token><!-- TODO …liegt abseits das…-->
+          <token regexp="yes">(das|dem|den|die|ein|(D|d|s|m)?eine(m|n)?|(eu|ih|Ih|unse)re(m|n)?|(jene|deine)(m|n)?)</token>
         </pattern>
         <message>Die Präposition '\2' erfordert i.d.R. den Genitiv.</message>
         <example type="correct">von Rechts wegen die Bestrafung</example>
@@ -3412,14 +3580,17 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Auf verschiedenen <marker>Wegen den</marker> Markt erobern.</example>
         <example type="correct">Der Flächeninhalt <marker>abzüglich des</marker> Halbkreises beträgt...</example>
         <example type="incorrect">Der Flächeninhalt <marker>abzüglich dem</marker> Halbkreis beträgt...</example>
+        <example type="incorrect">Ich bin <marker>wegen deinem</marker> Auto...</example>
+        <example type="correct">Ich bin <marker>wegen jenes</marker> Auto...</example>
+        <example type="correct">Ich habe des Staus <marker>wegen deinem</marker> Freund bescheidgegeben.</example>
       </rule>
       <rule>
         <pattern case_sensitive="yes">
           <token postag="SENT_START"/>
-          <token regexp="yes">(Wegen|Abzüglich)</token>
-          <token regexp="yes">(das|dem|den|die|ein|(D|d|s|m)?eine|(D|d|s|m)?einem|(D|d|s|m)?einen|(eu|ih|Ih|unse)re|(eu|ih|Ih|unse)rem|(eu|ih|Ih|unse)ren)</token>
+          <token regexp="yes">(Wegen|Abzüglich)</token><!-- TODO Abseits das…-->
+          <token regexp="yes">(das|dem|den|die|ein|(D|d|s|m)?eine(m|n)?|(eu|ih|Ih|unse)re(m|n)?|(jene|deine)(m|n)?)</token>
         </pattern>
-        <message>Die Präposition '\2' erfordert i.d.R. den Genitiv.</message><!--TODO \2 should be lower case-->
+        <message>Die Präposition '<match no="2" case_conversion ="startlower"/>' erfordert i.d.R. den Genitiv.</message><!--TODO \2 should be lower case-->
         <example type="incorrect"><marker>Wegen dem</marker> Unfall...</example>
         <example type="incorrect"><marker>Wegen Ihrem</marker> Unfall...</example>
         <example type="correct"><marker>Wegen des</marker> Unfalls...</example> 
@@ -3427,6 +3598,8 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct"><marker>wegen Diebstahl</marker> geschlossen</example>
         <example type="correct"><marker>Abzüglich des</marker> Halbkreises beträgt...</example>
         <example type="incorrect"><marker>Abzüglich dem</marker> Halbkreis beträgt...</example>
+        <example type="incorrect"><marker>Wegen deinem</marker> Auto...</example>
+        <example type="correct"><marker>Wegen jenes</marker> Auto...</example>
         <!--
         <example type="correct"><marker>Abseits des</marker> Weges...</example>
         <example type="incorrect"><marker>Abseits dem</marker> Weg...</example>
@@ -3765,6 +3938,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Er geht […] nach Hause.</example>
         <example type="incorrect" correction="…">Er geht [<marker>...</marker>] nach Hause.</example>
       </rule>
+      <!-- Stehen Auslassungspunkte am Satzende, entfällt der Satzschlusspunkt <§ 100>. http://www.duden.de/rechtschreibregeln/auslassungspunkte#K18 -->
       <rule>
         <pattern>
           <token>…</token>
@@ -3775,36 +3949,68 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect" correction="…">Er geht nach Hause<marker>….</marker></example>
       </rule>
     </rulegroup>
+    <rulegroup id="GRAD_ZU_VIEL" name="Zeichensetzung: Gradzeichen zu viel ('°K (K)')">
+      <rule>
+        <pattern case_sensitive="yes" mark_from="1">
+          <token regexp="yes">[0-9]+</token>
+          <token>°K</token>
+        </pattern>
+        <message>'°K' wird seit 1967 nicht mehr verwendet. Vorschlag: <suggestion>K</suggestion></message>
+        <example type="correct">Es ist 25 <marker>K</marker> warm.</example>
+        <example type="incorrect" correction="K">Es ist 25 <marker>°K</marker> warm.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token regexp="yes">[0-9]+°K</token>
+        </pattern>
+        <message>'°K' wird seit 1967 nicht mehr verwendet. Vorschlag: <suggestion><match no="1" regexp_match="([0-9]*)°K" regexp_replace="$1 K"/></suggestion></message>
+        <example type="correct">Es ist <marker>25 K</marker> warm.</example>
+        <example type="incorrect" correction="25 K">Es ist <marker>25°K</marker> warm.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token>Grad</token>
+          <token>Kelvin</token>
+        </pattern>
+        <message>'Grad Kelvin' wird seit 1967 nicht mehr verwendet. Vorschlag: <suggestion>Kelvin</suggestion></message>
+        <example type="correct">Es ist 5 <marker>Kelvin</marker> warm.</example>
+        <example type="incorrect" correction="Kelvin">Es ist 5 <marker>Grad Kelvin</marker> warm.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="EINHEIT_LEERZEICHEN" name="Zeichensetzung: Falsches/Fehlendes Leerzeichen zwischen Zahl und Einheit">
       <rule>
         <pattern case_sensitive="yes">
-          <token regexp="yes">(\-)?[0-9]{1,}(°C|°F|°Ra|°De|°D|°Ré|°Re|°R|°N|°Rø|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?m|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?N|(k|K|M|G|T|P|E|Z|Y){1}(i)?B)</token>
+          <token regexp="yes">(\-)?[0-9]{1,}(°C|°F|°Ra|°De|°D|°Ré|°Re|°R|°Rø|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?m|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?N|(k|K|M|G|T|P|E|Z|Y){1}(i)?B|(k|m|µ|n|p)g|(M|k)t|kWh|GWa|MWd|MWh)</token>
         </pattern>
-        <message>Vor Einheitszeichen sollte ein Leerzeichen gesetzt werden. Vorschlag: <suggestion><match no="1" regexp_match="((\-)?[0-9]{1,})" regexp_replace="$1 "/></suggestion></message>
-        <example type="correct">Es ist <marker>25 °C</marker> warm.</example>
-        <example type="incorrect" correction="25 °C">Es ist <marker>25°C</marker> warm.</example>
-        <example type="correct">Es ist <marker>-25 °C</marker> warm.</example>
-        <example type="incorrect" correction="-25 °C">Es ist <marker>-25°C</marker> warm.</example>
-        <example type="incorrect" correction="5 °F">Es ist 25,<marker>5°F</marker> warm.</example>
+        <message>Vor Einheitenzeichen sollte ein Leerzeichen gesetzt werden. Vorschlag: <suggestion><match no="1" regexp_match="((\-)?[0-9]{1,})" regexp_replace="$1 "/></suggestion></message>
+        <example type="correct">Es ist <marker>25 °C</marker> warm.</example>
+        <example type="incorrect" correction="25 °C">Es ist <marker>25°C</marker> warm.</example>
+        <example type="correct">Es ist <marker>-25 °C</marker> warm.</example>
+        <example type="incorrect" correction="-25 °C">Es ist <marker>-25°C</marker> warm.</example>
+        <example type="incorrect" correction="5 °F">Es ist 25,<marker>5°F</marker> warm.</example>
         <example type="correct">Es ist 25,<marker>5 °C</marker> warm.</example>
-        <example type="correct">Es ist 25,<marker>5 °Ra</marker> warm.</example>
+        <example type="correct">Es ist 25,<marker>5 °Ra</marker> warm.</example>
         <example type="correct">Er ist <marker>5 km</marker> gelaufen.</example>
         <example type="incorrect">Er ist <marker>5km</marker> gelaufen.</example>
         <example type="correct">Die Datei ist <marker>5 ZiB</marker> groß.</example>
         <example type="incorrect">Die Datei ist <marker>5ZiB</marker> groß.</example>
         <example type="correct">Die Datei ist <marker>5 kB</marker> groß.</example>
         <example type="incorrect">Die Datei ist <marker>5kB</marker> groß.</example>
+        <example type="incorrect">Er wiegt <marker>5kg</marker>.</example>
+        <example type="incorrect">Er wiegt <marker>5Mt</marker>.</example>
+        <example type="correct">Er wiegt <marker>5 µg</marker>.</example>
         <example type="correct">Isotop 241Am</example>
         <example type="correct">(AsCH3)2n</example>
         <example type="correct">Bd. 1b</example>
         <example type="correct">Erster bemannter Start der Saturn 1B</example>
+        <example type="incorrect">Wie verbrauchen 2.<marker>000kWh</marker></example>
       </rule>
       <rule>
-        <pattern>
+        <pattern><!-- TODO problem with nbsp-->
           <token regexp="yes">(\-)?[0-9]{1,}</token>
           <token>°</token>
         </pattern>
-        <message>Vor dem Gradzeichen, auf das kein Buchstabe zur Kennzeichnung der Skala folgt, steht kein Leerzeichen. Verwenden Sie <suggestion>\1°</suggestion> oder fügen Sie ggf. ein fehlendes Einheitszeichen hinzu (z. B. <suggestion>\1 °C</suggestion>).</message>
+        <message>Vor dem Gradzeichen, auf das kein Buchstabe zur Kennzeichnung der Skala folgt, steht kein Leerzeichen. Verwenden Sie <suggestion>\1°</suggestion> oder fügen Sie ggf. ein fehlendes Einheitenzeichen hinzu (z. B. <suggestion>\1 °C</suggestion>).</message>
         <example type="correct">Der Winkel ist <marker>25°</marker> groß.</example>
         <example type="incorrect">Der Winkel ist <marker>25 °</marker> groß.</example>
         <example type="incorrect">Es ist -25,<marker>5 °</marker> warm.</example>
@@ -3820,6 +4026,26 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <message>Vor dem \2-Zeichen steht i.d.R. kein Leerzeichen. Vorschlag: <suggestion>\1\2</suggestion></message>
         <example type="correct">3° 14′ 45,54″</example>
         <example type="incorrect" correction="54″">45,<marker>54 ″</marker></example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="SCHRAEGSTRICH_EINHEITEN" name="Zeichensetzung: Fehlender/Zu viel gesetzter Schrägstrich bei Einheiten">
+      <rule>
+        <pattern case_sensitive="yes">
+          <token>kmh</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>km/h</suggestion> (Kilometer pro Stunde, Maßeinheit der Geschwindigkeit)?</message>
+        <example type="correct">Er fährt mit 50 km/h.</example>
+        <example type="incorrect" correction="km/h">Er fährt mit 50 <marker>kmh</marker>.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token regexp="yes">(kw|KW|kW)</token>
+          <token>/</token>
+          <token>h</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>kWh</suggestion> (Leistung mal Zeit, Maßeinheit der Arbeit)?</message>
+        <example type="correct">Wir verbrauchen 2000 kWh.</example>
+        <example type="incorrect" correction="kWh">Wir verbrauchen 2000 <marker>kw/h</marker>.</example>
       </rule>
     </rulegroup>
     <rule id="MIT_FREUNDLICHEN_GRUESSEN_KOMMA" name="Zeichensetzung: Falsches Satzzeichen nach 'Mit freundlichen Grüßen'">
