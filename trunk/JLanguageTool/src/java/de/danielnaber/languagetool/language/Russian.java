@@ -30,7 +30,7 @@ import de.danielnaber.languagetool.synthesis.Synthesizer;
 import de.danielnaber.languagetool.synthesis.ru.RussianSynthesizer;
 import de.danielnaber.languagetool.tagging.Tagger;
 import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
-import de.danielnaber.languagetool.tagging.disambiguation.rules.ru.RussianRuleDisambiguator;
+import de.danielnaber.languagetool.tagging.disambiguation.ru.RussianHybridDisambiguator;
 import de.danielnaber.languagetool.tagging.ru.RussianTagger;
 import de.danielnaber.languagetool.tokenizers.SRXSentenceTokenizer;
 import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
@@ -75,7 +75,7 @@ public class Russian extends Language {
   @Override
   public Disambiguator getDisambiguator() {
     if (disambiguator == null) {
-      disambiguator = new RussianRuleDisambiguator();
+      disambiguator = new RussianHybridDisambiguator();
     }
     return disambiguator;
   }
