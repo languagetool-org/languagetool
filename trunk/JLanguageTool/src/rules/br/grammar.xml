@@ -367,6 +367,18 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
     <rulegroup id="FAZ_KEMM_DRE_VLOTAAT_AR" name="kemmadur dre vlotaat goude ar gerr-mell.">
       <rule>
         <pattern mark_from="1">
+          <token>hor</token>
+          <token inflected="yes" regexp="yes">k.*<exception regexp="yes">c.*</exception></token>
+        </pattern>
+        <message>Fall eo ar c’hemmadur. Goude ar ger «\1» e tro «\2» da <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="c’h$1"/></suggestion>.</message>
+        <example type="incorrect">Hor <marker>kiez</marker></example>
+        <example type="correct">Hor c’hiez</example>
+        <example type="incorrect">Hor <marker>gadorioù</marker></example>
+        <example type="incorrect">Hor <marker>kadorioù</marker></example>
+        <example type="correct">Hor c’hadorioù</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
           <token regexp="yes">[au]r<exception postag="L ppre"/></token>
           <and>
             <token postag="N . s" postag_regexp="yes" regexp="yes">z.*
