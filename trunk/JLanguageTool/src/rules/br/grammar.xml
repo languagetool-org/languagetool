@@ -188,7 +188,7 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
       <rule>
         <pattern mark_from="1">
           <token regexp="yes">a|aba|da|ne|pa|re|daou|div|dindan|dre|eme|endra|gwall|holl|seul</token>
-          <token regexp="yes">d.*
+          <token regexp="yes" postag="[A-Z].*" postag_regexp="yes">d.*
             <exception inflected="yes">da</exception>
             <exception regexp="yes" inflected="yes">t.*</exception>
             <exception>dud</exception>
@@ -699,11 +699,13 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
         <token>teir</token>
         <token postag_regexp="yes" postag="N m.*">
           <exception postag_regexp="yes" postag="N f.*"/>
+          <exception>a</exception>
         </token>
       </pattern>
       <message>Implijit <suggestion><match no="1" regexp_match="eir" regexp_replace="ri"/></suggestion> dirak ar ger gourel «\2».</message>
       <example type="incorrect"><marker>Teir</marker> paotr.</example>
       <example type="correct">Tri paotr.</example>
+      <example type="correct">Unan eus an teir a zo en enezenn Breiz-Veur.</example>
     </rule>
     <rule id="PEVAR" name="pevar">
       <pattern mark_to="-1">
@@ -731,11 +733,11 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
       <rule>
         <pattern>
           <token regexp="yes">milion|miliard|bilion|trilion</token>
-          <token postag_regexp="yes" postag="N .*"><exception>a</exception></token>
+          <token postag_regexp="yes" postag="N .*"><exception regexp="yes">[ae]</exception></token>
         </pattern>
         <message>Fellout a ra deoc’h skrivañ ha «\1 a \2»?</message>
         <example type="incorrect">Ur <marker>milion zud</marker>.</example>
-        <example type="correct">Ur milion a zud.</example>
+        <example type="correct">1,7 milion a dud e 1900, 2,2 milion e 1950.</example>
       </rule>
       <rule>
         <pattern mark_from="2">
