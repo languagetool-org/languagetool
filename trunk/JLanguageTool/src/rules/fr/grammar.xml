@@ -872,7 +872,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern mark_to="-2">
-          <token regexp="yes">d[eé]s<exception scope="previous" regexp="yes">anniversaire|cap</exception></token>
+          <token regexp="yes">d[eé]s<exception inflected="yes" scope="previous" regexp="yes">approcher|anniversaire|cap</exception></token>
           <token regexp="yes">\d+|(une?|deux|trois|quatre|cinq|six|sept|huit|neuf|dix|vingt|trente|quarante|cinquante|soixante|septante|octante|huitante|nonante)(-.*)?|onze|douze|treize|quatorze|quinze|seize|cent</token>
           <token regexp="yes">ans?|heures?</token>
         </pattern>
@@ -883,6 +883,7 @@ though, and has since been slightly modified)-->
         <example type="correct"><marker>Dès</marker> 4 ans</example>
         <example type="correct">L’anniversaire des 30 ans de la libération.</example>
         <example type="correct">Le cap des 35 ans.</example>
+        <example type="correct">Elle approche des cinquante ans.</example>
       </rule>
     </rulegroup>
     <rulegroup id="A_A_ACCENT" name="A au lieu de À">
@@ -12899,7 +12900,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="ETRE_EN_CHARGE" name="être en charge">
       <pattern>
-        <token inflected="yes" skip="5">être</token>
+        <token inflected="yes" skip="1">être</token>
         <token>en</token>
         <token>charge</token>
       </pattern>
@@ -20439,12 +20440,13 @@ though, and has since been slightly modified)-->
           <!-- Obviously, the list of gentilés could be expanded here. -->
           <token regexp="yes">une?|certaine?s?|cet?|[cdl]es|cette|quelques|plusieurs|chaque<exception scope="previous" regexp="yes" inflected="yes">avoir|parler|apprendre|enseigner|étudier</exception></token>
           <token regexp="yes">(?-iu:afghan|albanais|algérien|allemand|américain|andorran|angolais|anglais|antiguais|argentin|arménien|australien|autrichien|azerbaïdjanais|bahaméen|bahreïni|bâlois|bahreïnien|bangladais|barbadien|basque|belge|bélizien|béninois|brestois|breton|bruxellois|bhoutanais|biélorusse|birman|bolivien|bordelais|bosnien|botswanais|brésilien|britannique|brunéien|bulgare|burkinais|burkinab[èé]|burundais|cambodgien|camerounais|canadien|capverdien|centrafricain|chilien|chinois|chypriote|colombien|comorien|congolais|nord-coréen|sud-coréen|corse|costaricien|croate|cubain|danois|djiboutien|dominicain|dominiquais|ivoirien|égyptien|émirati|équatorien|érythréen|estonien|espagnol|états-?unien|étasunien|éthiopien|fidjien|finlandais|formosan|français|gabonais|gambien|genévois|géorgien|ghanéen|grec|grenadien|guadeloupéen|guatémaltèque|guinéen|bissau|équato-guinéen|guyanien|haïtien|hondurien|hollandais|hongrois|indien|indochinois|indonésien|irakien|italien|iranien|irlandais|islandais|israélien|jamaïcain|japonais|jordanien|kazakh|kényan|kosovar|koweïtien|laotien|sothos|letton|libanais|libérien|libyen|liechtensteinois|lillois|lituanien|luxembourgeois|lyonnais|macédonien|malgache|malaisien|malawite|maldivien|malien|maltais|maori|marocain|marseillais|marshallais|mauricien|mauritanien|mexicain|micronésien|moldave|monégasque|monpelliérain|monténégrin|mongol|mozambicain|myanmarais|namibien|nantais|nauruan|népalais|nicaraguayen|nigérien|nigérian|niouéen|néerlandais|norvégien|néo-zélandais|omani|ougandais|ouzbek|pakistanais|palauan|palestinien|panaméen|papouasien|paraguayen|parisien|péruvien|philippin|polonais|portugais|qatari|roumain|russe|rwandais|saint-lucien|salvadorien|santoméen|sénégalais|serbe|sebo-montonégrin|sychellois|singapourien|slovaque|slovène|somalien|soudanais|srilankais|suédois|suisse|surinamais|swazi|syrien|tadjik|tanzanien|tchadien|tchèque|thaïlandais|togolais|tonguien|trinidadien|tahitien|toulousain|saoudien|strasbourgeois|sud-africain|tunisien|turkmène|turc|taïwanais|tuvaluan|ukrainien|soviétique|uruguayen|vanuatuan|vénézuélien|vietnamien|yéménite|yougoslave|zaïrois|zambien|zimbabwéen|zurichois|scandinave|lapon|polynésien)</token>
-          <token><exception regexp="yes">correct|courant|parfait|fluide</exception></token>
+          <token><exception regexp="yes">correct|courant|parfait|fluide|facile</exception></token>
         </pattern>
         <message>Les gentilés (noms des habitants) ont une majuscule (mais pas les noms des langues).</message>
         <example type="incorrect">Je travaille en anglais avec des <marker>anglais</marker>.</example>
         <example type="correct">Je travaille en anglais avec des Anglais.</example>
         <example type="correct">Même les Français ont un français qui est loin d’être parfait.</example>
+        <example type="correct">Écrit dans un anglais facile</example>
       </rule>
     </rulegroup>
     <rule id="MOYEN_AGE" name="Moyen Âge">
