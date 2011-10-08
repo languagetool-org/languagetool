@@ -2137,6 +2137,36 @@ though, and has since been slightly modified)-->
       <example type="correct">Son malaise</example>
       <example type="incorrect"><marker>Mon fille</marker></example>
     </rule>
+    <rulegroup id="COMMENT_VPPA" name="Comment + verb ppa">
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">comment|pour|pouquoi|quand|où</token>
+          <token postag="V.* ppa.*" postag_regexp="yes" regexp="yes">.*é<exception postag="V inf"/></token>
+        </pattern>
+        <message>Le verbe «\2» devrait être à l’infinitif après «\1».</message>
+        <example type="incorrect">Pour <marker>débuté</marker>, il faut acheter une grammaire.</example>
+        <example type="correct">Pour débuter, il faut acheter une grammaire.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token inflected="yes" regexp="yes">&lt;/[MTS]E&gt;|[mts]e|lui</token>
+          <token postag="V.* ppa.*" postag_regexp="yes" regexp="yes">.*é<exception postag="V inf"/></token>
+        </pattern>
+        <message>Le verbe «\2» devrait être à l’infinitif après «\1».</message>
+        <example type="incorrect">Je veux te <marker>préparé</marker></example>
+        <example type="correct">Je veux te préparer</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2">
+          <token regexp="yes">comment|pour|pouquoi|quand|où</token>
+          <token postag="A"></token>
+          <token postag="V.* ppa.*" postag_regexp="yes" regexp="yes">.*é<exception postag="V inf"/></token>
+        </pattern>
+        <message>Le verbe «\3» devrait être à l’infinitif après «\1 \2».</message>
+        <example type="incorrect">Comment bien <marker>étudié</marker></example>
+        <example type="correct">Comment bien étudier</example>
+      </rule>
+    </rulegroup>
     <rule id="VCONJ_VCONJ" name="Verbe conjugué suivi d’un verbe conjugué">
       <pattern mark_from="1">
         <token postag="V .*" postag_regexp="yes" skip="1">
@@ -2356,7 +2386,7 @@ though, and has since been slightly modified)-->
             <exception scope="next" postag="[NR].*p" postag_regexp="yes"/>
             <exception scope="next">et</exception>
           </token>
-          <token postag="Z.*|N . s|R pers suj.* s" postag_regexp="yes"/>
+          <token postag="Z . sp?|N . s|R pers suj.* s" postag_regexp="yes"/>
           <token postag="V etre .*" postag_regexp="yes"/>
           <token postag="V.* ppa .* p|J . p" postag_regexp="yes"/>
         </pattern>
@@ -2377,7 +2407,7 @@ though, and has since been slightly modified)-->
             <exception scope="next" postag="[NR].*p" postag_regexp="yes"/>
             <exception scope="next">et</exception>
           </token>
-          <token postag="Z.*|N . s|R pers suj.* s" postag_regexp="yes"/>
+          <token postag="Z . sp?|N . s|R pers suj.* s" postag_regexp="yes"/>
           <token regexp="yes" skip="1">ne?</token>
           <token postag="V etre .*" postag_regexp="yes"/>
           <token regexp="yes">pas|point|guerre|plus|jamais</token>
@@ -2395,7 +2425,7 @@ though, and has since been slightly modified)-->
             <exception scope="next" postag="[NR].*p" postag_regexp="yes"/>
             <exception scope="next">et</exception>
           </token>
-          <token postag="Z.*|N . s|R pers suj.* s" postag_regexp="yes"/>
+          <token postag="Z . sp?|N . s|R pers suj.* s" postag_regexp="yes"/>
           <token postag="V etre .*" postag_regexp="yes"/>
           <token postag="A"/>
           <token postag="V.* ppa .* p|J . p" postag_regexp="yes"/>
@@ -2410,7 +2440,7 @@ though, and has since been slightly modified)-->
             <exception scope="next" postag="[NR].*p" postag_regexp="yes"/>
             <exception scope="next">et</exception>
           </token>
-          <token postag="Z.*|N . s|R pers suj.* s" postag_regexp="yes"/>
+          <token postag="Z . sp?|N . s|R pers suj.* s" postag_regexp="yes"/>
           <token regexp="yes" skip="1">ne?</token>
           <token postag="V etre .*" postag_regexp="yes"/>
           <token regexp="yes">pas|point|guerre|plus|jamais</token>
@@ -2453,11 +2483,14 @@ though, and has since been slightly modified)-->
           <token regexp="yes" skip="1">ne?</token>
           <token postag="V etre .*" postag_regexp="yes"/>
           <token regexp="yes">pas|point|guerre|plus|jamais</token>
-          <token postag="V.* ppa .* s|J . s" postag_regexp="yes"/>
+          <token postag="V.* ppa .* s|J . s" postag_regexp="yes">
+            <exception>juste</exception>
+          </token>
         </pattern>
         <message>Le mot singulier « \6 » n’est pas accordé en nombre avec le mot pluriel « \2 ».</message>
         <example type="incorrect">Elles ne sont pas <marker>absente</marker>.</example>
         <example type="correct">Elles ne sont pas absentes.</example>
+        <example type="correct">Les mathématiques ne sont pas juste de la mémorisation de formules.</example>
       </rule>
       <rule>
         <pattern mark_from="4">
