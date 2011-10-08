@@ -782,6 +782,28 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
         <example type="correct">Emaon o paouez echuiñ va stidioù.</example>
       </rule>
     </rulegroup>
+    <rule id="EZ_EUS" name="ez eus → bez ez eus">
+      <pattern>
+        <token postag="SENT_START"/>
+        <token>ez</token>
+        <token>eus</token>
+      </pattern>
+      <message>Fellout a ra deoc’h skrivañ «Bez ez eus»?</message>
+      <example type="incorrect"><marker>Ez eus</marker> ur c‘hi el liorzh.</example>
+      <example type="correct">Bez ez eus ur c‘hi el liorzh.</example>
+    </rule>
+    <rule id="EZ_EUS_AR" name="ez eus ar → emañ ar">
+      <pattern mark_to="-1">
+        <token>ez</token>
+        <token>eus</token>
+        <token regexp="yes">a[rln]</token>
+      </pattern>
+      <message>«ez eus» a vez implijet gant ur ger-rener amstrizh. Fellout a ra deoc’h skrivañ <suggestion>emañ</suggestion>?</message>
+      <example type="incorrect">Er stal <marker>ez eus</marker> ar bara.</example>
+      <example type="correct">Er stal emañ ar bara.</example>
+      <example type="correct">War an daol ez eus bara.</example>
+      <example type="correct">War an daol ez eus ur gontell.</example>
+    </rule>
   </category>
 
   <category name="A_BEP_SORT">
@@ -989,18 +1011,6 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
         <example type="correct">Ar brezhoneg a zo ur yezh keltiek.</example>
       </rule>
     </rulegroup>
-    <rule id="EZ_EUS" name="ez eus">
-      <pattern mark_to="-1">
-        <token>ez</token>
-        <token>eus</token>
-        <token regexp="yes">a[rln]</token>
-      </pattern>
-      <message>«ez eus» a vez implijet gant ur ger-rener amstrizh. Fellout a ra deoc’h skrivañ <suggestion>emañ</suggestion>?</message>
-      <example type="incorrect">Er stal <marker>ez eus</marker> ar bara.</example>
-      <example type="correct">Er stal emañ ar bara.</example>
-      <example type="correct">War an daol ez eus bara.</example>
-      <example type="correct">War an daol ez eus ur gontell.</example>
-    </rule>
     <rulegroup id="ENO_DI" name="eno, di">
       <rule>
         <pattern mark_from="1">
