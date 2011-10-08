@@ -641,13 +641,14 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
     </rule>
     <rule id="AR" name="ger ar, ur, er, hor">
       <pattern mark_to="-1">
-        <token regexp="yes">[aeu][ln]|hol</token>
+        <token regexp="yes">[aeu][ln]|hol<exception scope="previous">ned</exception></token>
         <token regexp="yes">[bcfgjkmprsvwyz].*<exception postag="K .* o" postag_regexp="yes"></exception></token>
       </pattern>
       <message>Ar ger «\1» a zlefe bezañ <suggestion><match no="1" regexp_match="(.*)." regexp_replace="$1r"/></suggestion> dirak ur ger na grog ket gant al lizherennoù «n, d, t, h, a, e, i, o u».</message>
       <example type="incorrect"><marker>An</marker> vell-droad a blij din.</example>
       <example type="correct">Ar vell-droad a blij din.</example>
       <example type="correct">Etre an VIIvet hag an XIIvet kantved</example>
+      <example type="correct">Ned an ket d’ar skol hiziv.</example>
     </rule>
     <rule id="AR_TSAR" name="ar + tsar, tsunami, etc.">
       <pattern mark_to="-1">
@@ -748,6 +749,37 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
         <message>Un anv lies a zlefe bezañ goude «>\1 \2».</message>
         <example type="incorrect">Ur milion a <marker>den</marker>.</example>
         <example type="correct">Ur milion a zud.</example>
+      </rule>
+    </rulegroup>
+  </category>
+
+  <category name="verboù">
+    <rule id="VINF_A_OBER" name="Anv-verb + a + ober">
+      <pattern mark_to="-2">
+        <token postag="V.*" postag_regexp="yes">
+          <exception postag="V inf"/>
+        </token>
+        <token>a</token>
+        <token inflected="yes">ober</token>
+      </pattern>
+      <message>Ar ger «\1» a zlefe bezañ un anv-verb.</message>
+      <example type="incorrect"><marker>Komzan</marker> a ran re.</example>
+      <example type="correct">Komz a ran re.</example>
+      <example type="incorrect"><marker>Labour</marker> a ra bemdez.</example>
+      <example type="correct">Labourat a ra bemdez.</example>
+    </rule>
+
+    <rulegroup id="PAOUEZ" name="paoez da">
+      <rule>
+        <pattern>
+          <token inflected="yes">bezañ</token>
+          <token>o</token>
+          <token>paouez</token>
+          <token>da</token>
+        </pattern>
+        <message>Ne zlefe ket bezan «da» goude «\1 \2 3\».</message>
+        <example type="incorrect"><marker>Emaon o paouez da</marker> echuiñ va stidioù.</example>
+        <example type="correct">Emaon o paouez echuiñ va stidioù.</example>
       </rule>
     </rulegroup>
   </category>
@@ -969,6 +1001,55 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
       <example type="correct">War an daol ez eus bara.</example>
       <example type="correct">War an daol ez eus ur gontell.</example>
     </rule>
+    <rulegroup id="ENO_DI" name="eno, di">
+      <rule>
+        <pattern mark_from="1">
+          <token inflected="yes">mont</token>
+          <token>eno</token>
+        </pattern>
+        <message>Fellout a ra deoc’h skrivañ <suggestion>di</suggestion> goude ur verb evel «\1?</message>
+        <example type="incorrect">C‘hoant am eus da vont <marker>eno</marker>.</example>
+        <example type="correct">C‘hoant am eus da vont di.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token inflected="yes">chom</token>
+          <token>di</token>
+        </pattern>
+        <message>Fellout a ra deoc’h skrivañ <suggestion>eno</suggestion> goude ur verb evel «\1»?</message>
+        <example type="incorrect">C‘hoant am eus da chom <marker>di</marker>.</example>
+        <example type="correct">C‘hoant am eus da chom eno.</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="RE_A" name="re, re a">
+      <rule>
+        <pattern>
+          <token>re</token>
+          <token postag="N .*p" postag_regexp="yes">
+            <exception postag="J"/>
+            <exception>a</exception>
+          </token>
+        </pattern>
+        <message>«\1 a» a vez implijet a-raok un anv. Fellout a ra deoc’h skrivañ <suggestion>\1 a \2</suggestion></message>
+        <example type="incorrect"><marker>Re dud</marker> zo.</example>
+        <example type="correct">Re a dud zo.</example>
+        <example type="correct">Re vihan eo.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>re</token>
+          <token>a</token>
+          <token postag="J">
+            <exception postag="N .*p" postag_regexp="yes"/>
+          </token>
+        </pattern>
+        <message>«Re» hep «a» a vez implijet gant un anv-gwan. Fellout a ra deoc’h skrivañ <suggestion>\1 \2</suggestion></message>
+        <example type="incorrect"><marker>Re a vras</marker> eo.</example>
+        <example type="correct">Re vras eo.</example>
+        <example type="correct">Re a trouz zo.</example>
+      </rule>
+    </rulegroup>
   </category>
 
 </rules>
