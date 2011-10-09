@@ -33,6 +33,87 @@ my $dic_in  = 'apertium-br-fr.br.dix';
 my $dic_out = "$dic_in-LT.txt";
 my $dic_err = "$dic_in-LT.err";
 
+# List of plural masculine nouns of persons for which it matters to know
+# whether they are persons or not for the mutation after articile "ar".
+# Those are unfortunately not tagged in the Apertium dictionary.
+# So we enhance tagging here to be able to detect some incorrect mutations
+# after the article ar/an/al.
+# Only plural words that have a first letter which can mutate need to
+# be listed here. So "studerien" for example does not need to be
+# listed for example since s.* word don't mutate.
+# This list is far from being complete. The more words the more
+# mutation errors can be detected. But missing words should not
+# cause false positives.
+# Case matters!
+my @anv_lies_tud = (
+  # plural              softening         reinforcing     spirant
+  "baraerien",          "varaerien",      "paraerien",
+  "barzhed",            "varzhed",        "parzhed",
+  "beleien",            "veleien",        "peleien",
+  "beajourien",         "veajourien",     "peajourien",
+  "breudeur",           "vreudeur",       "preudeur",
+  "bugale",             "vugale",         "pugale",
+  "butuner",            "vutuner",        "putuner",
+  "dañserien",                            "tañserien",
+  "gwazed",             "wazed",          "kwazed",
+  "Gallaoued",          "C’hallaoued",    "Kallaoued",
+  "genaoueien",         "c’henaouien",    "kenaouien",
+  "goved",              "c’hoved",        "koved",
+  "gwazed",             "wazed",          "kwazed",
+  "Gwenediz",           "Wenediz",        "Kwenediz",
+  "gwerzherien",        "werzherien",     "kwerzherien",
+  "gwiaderien",         "wiaderien",      "kwiaderien",
+  "gwiaderion",         "wiaderion",      "kwiaderion",
+  "kabitened",          "gabitened",      "c’habitened",
+  "kamaraded",          "gamaraded",      "c’hamaraded",
+  "kariaded",           "gariaded",       "c’hariaded",
+  "kazetennerien",      "gazetennerien",  "c’hazetennerien",
+  "keginerien",         "geginerien",     "c’heginerien",
+  "kelennerien",        "gelennerien",    "c’helennerien",
+  "kemenerien",         "gemenerien",     "c’hemenerien",
+  "kenlabourerien",     "genlabourerien", "c’henlabourerien",
+  "kenwezherien",       "genwezherien",   "c’henwezherien",
+  "kendirvi",           "gendirvi",       "c’hendirvi",
+  "kereon",             "gereon",         "c’hereon",
+  "kigerien",           "gigerien",       "c’higerien",
+  "klañvdiourien",      "glañvdiourien",  "c’hlañvdiourien",
+  "konversañted",       "gonversañted",   "c’honversañted",
+  "krennarded",         "grennarded",     "c’hrennarded",
+  "kristenien",         "gristenien",     "c’hristenien",
+  "kristenion",         "gristenion",     "c’hristenion",
+  "maered",             "vaered",
+  "marc’hadourien",     "varc’hadourien",
+  "martoloded",         "vartoloded",
+  "medisined",          "vedisined",
+  "mevelien",           "vevelien",
+  "mezerien",           "vezeien",
+  "mibien",             "vibien",
+  "micherourien",       "vicherourien",
+  "mignoned",           "vignoned",
+  "militaerion",        "vilitaerion",
+  "milinerien",         "vilinerien",
+  "milinerien",         "vilinerien",
+  "milvezeien",         "vilvezeien",
+  "mistri",             "vistri",
+  "mistri-skol",        "vistri-skol",
+  "paeroned",           "baeroned",                        "faeroned",
+  "paotred",            "baotred",                         "faotred",
+  "paotred-al-lizhiri", "baotred-al-lizhiri",              "faotred-al-lizhiri",
+  "perc’henned",        "berc’henned",                     "ferc’henned",
+  "perukennerien",      "berukennerien",                   "ferukennerien",
+  "perukennerion",      "berukennerion",                   "ferukennerion",
+  "personed",           "bersoned",                        "fersoned",
+  "pesketaerien",       "besketaerien",                    "fesketaerien",
+  "poliserien",         "boliserien",                      "foliserien",
+  "priñsed",            "briñsed",                         "friñsed",
+  "toerien",            "doerien",                         "zoerien",
+  "touristed",          "douristed",                       "zouristed",
+  "tredanerien",        "dredanerien",                     "zredanerien",
+  "tredanerion",        "dredanerion",                     "zredanerion",
+  "tud",                "dud",                             "zud",
+);
+my %anv_lies_tud = map { $_ => 0 } @anv_lies_tud;
+
 open(LT_EXPAND, "lt-expand $dic_in |") or die "can't fork lt-expand: $!\n";
 open(OUT, "> $dic_out") or die "can't open $dic_out: $!\n";
 open(ERR, "> $dic_err") or die "can't open $dic_err: $!\n";
@@ -276,6 +357,10 @@ while (<LT_EXPAND>) {
     elsif ($tags eq '<vbloc><pii><p3><pl>')     { $tag = "V impl 3 p" }     # edont
     elsif ($tags eq '<vbloc><pii><impers><sp>') { $tag = "V impl impers" }  # emod
 
+    if ($tag =~ /N m p/ and exists $anv_lies_tud{$word}) {
+      $tag .= ' t';
+      ++$anv_lies_tud{$word};
+    }
 
     if ($tag) {
       print OUT "$word\t$lemma\t$tag\n";
@@ -287,6 +372,11 @@ while (<LT_EXPAND>) {
   }
 }
 print "handled [$out_count] words, unhandled [$err_count] words\n";
+
+# Check whether some words in anv_lies_tud have are missing in dictionary.
+foreach (sort keys %anv_lies_tud) {
+  print STDERR "*** plural noun [$_] is missing in Apertium dictionary.\n" unless ($anv_lies_tud{$_});
+}
 
 `java -jar morfologik-stemming-nodict-1.4.0.jar tab2morph -i apertium-br-fr.br.dix-LT.txt -o output.txt`;
 `java -jar morfologik-stemming-nodict-1.4.0.jar fsa_build -i output.txt -o breton.dict`;
