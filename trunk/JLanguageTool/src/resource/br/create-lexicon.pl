@@ -86,7 +86,7 @@ my @anv_lies_tud = (
   "martoloded",         "vartoloded",
   "medisined",          "vedisined",
   "mevelien",           "vevelien",
-  "mezerien",           "vezeien",
+  "mezeien",            "vezeien",
   "mibien",             "vibien",
   "micherourien",       "vicherourien",
   "mignoned",           "vignoned",
