@@ -49,18 +49,20 @@ my @anv_lies_tud = (
   # plural              softening         reinforcing     spirant
   "baraerien",          "varaerien",      "paraerien",
   "barzhed",            "varzhed",        "parzhed",
-  "beleien",            "veleien",        "peleien",
   "beajourien",         "veajourien",     "peajourien",
+  "beleien",            "veleien",        "peleien",
+  "bleinerien",         "vleinerien",     "pleinerien",
+  "bleinerion",         "vleinerion",     "pleinerion",
   "breudeur",           "vreudeur",       "preudeur",
   "bugale",             "vugale",         "pugale",
   "butuner",            "vutuner",        "putuner",
   "dañserien",                            "tañserien",
-  "gwazed",             "wazed",          "kwazed",
   "Gallaoued",          "C’hallaoued",    "Kallaoued",
+  "gaouidi",            "c’haouidi",      "kaouidi",
   "genaoueien",         "c’henaouien",    "kenaouien",
   "goved",              "c’hoved",        "koved",
   "gwazed",             "wazed",          "kwazed",
-  "Gwenediz",           "Wenediz",        "Kwenediz",
+  "gwazed",             "wazed",          "kwazed",
   "gwerzherien",        "werzherien",     "kwerzherien",
   "gwiaderien",         "wiaderien",      "kwiaderien",
   "gwiaderion",         "wiaderion",      "kwiaderion",
@@ -71,9 +73,12 @@ my @anv_lies_tud = (
   "keginerien",         "geginerien",     "c’heginerien",
   "kelennerien",        "gelennerien",    "c’helennerien",
   "kemenerien",         "gemenerien",     "c’hemenerien",
-  "kenlabourerien",     "genlabourerien", "c’henlabourerien",
-  "kenwezherien",       "genwezherien",   "c’henwezherien",
+  "kenaozerien",        "genaozerien",    "c’henaozerien",
   "kendirvi",           "gendirvi",       "c’hendirvi",
+  "kenlabourerien",     "genlabourerien", "c’henlabourerien",
+  "kenoberourien",      "genoberourien",  "c’henoberourien",
+  "kenskriverien",      "genskriverien",  "c’henskriverien",
+  "kenwezherien",       "genwezherien",   "c’henwezherien",
   "kereon",             "gereon",         "c’hereon",
   "kigerien",           "gigerien",       "c’higerien",
   "klañvdiourien",      "glañvdiourien",  "c’hlañvdiourien",
@@ -90,9 +95,9 @@ my @anv_lies_tud = (
   "mibien",             "vibien",
   "micherourien",       "vicherourien",
   "mignoned",           "vignoned",
+  "milinerien",         "vilinerien",
+  "milinerien",         "vilinerien",
   "militaerion",        "vilitaerion",
-  "milinerien",         "vilinerien",
-  "milinerien",         "vilinerien",
   "milvezeien",         "vilvezeien",
   "mistri",             "vistri",
   "mistri-skol",        "vistri-skol",
@@ -100,11 +105,12 @@ my @anv_lies_tud = (
   "paotred",            "baotred",                         "faotred",
   "paotred-al-lizhiri", "baotred-al-lizhiri",              "faotred-al-lizhiri",
   "perc’henned",        "berc’henned",                     "ferc’henned",
+  "personed",           "bersoned",                        "fersoned",
   "perukennerien",      "berukennerien",                   "ferukennerien",
   "perukennerion",      "berukennerion",                   "ferukennerion",
-  "personed",           "bersoned",                        "fersoned",
   "pesketaerien",       "besketaerien",                    "fesketaerien",
   "poliserien",         "boliserien",                      "foliserien",
+  "prederourien",       "prederourien",                    "frederourien",
   "priñsed",            "briñsed",                         "friñsed",
   "toerien",            "doerien",                         "zoerien",
   "touristed",          "douristed",                       "zouristed",
@@ -357,9 +363,11 @@ while (<LT_EXPAND>) {
     elsif ($tags eq '<vbloc><pii><p3><pl>')     { $tag = "V impl 3 p" }     # edont
     elsif ($tags eq '<vbloc><pii><impers><sp>') { $tag = "V impl impers" }  # emod
 
-    if ($tag =~ /N m p/ and exists $anv_lies_tud{$word}) {
-      $tag .= ' t';
-      ++$anv_lies_tud{$word};
+    if ($tag =~ /N m p/) {
+      if (exists $anv_lies_tud{$word} or $word =~ /[A-Z].*iz$/) {
+        $tag .= ' t';
+        ++$anv_lies_tud{$word};
+      }
     }
 
     if ($tag) {
