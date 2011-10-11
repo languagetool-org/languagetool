@@ -202,7 +202,7 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
       <rule>
         <pattern mark_from="1">
           <token regexp="yes">a|aba|da|ne|pa|re|daou|div|dindan|dre|eme|endra|gwall|holl|seul</token>
-          <token regexp="yes" postag="[A-Z]( .*)?" postag_regexp="yes">d.*
+          <token regexp="yes" postag="UNKNOWN" negate_pos="yes">d.*
             <exception inflected="yes">da</exception>
             <exception regexp="yes" inflected="yes">t.*</exception>
             <exception>dud</exception>
@@ -1006,21 +1006,21 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
       <example type="incorrect"><marker>Pegen</marker> den!</example>
       <example type="correct">Pegen brav!</example>
     </rule>
-    <rule id="PENLIZH_MIZ" name="Pennlizerennoù evit an mizioù">
+    <rule id="PENLIZH_MIZ" name="Pennlizherennoù evit an mizioù">
       <pattern case_sensitive="yes" mark_from="1">
         <token inflected="yes">miz</token>
         <token regexp="yes">genver|c’hwevrer|meurzh|ebrel|mae|mezheven|gouere|eost|gwengolo|here|du|kerzu</token>
       </pattern>
-      <message>Ar mizioù a vez skrivet gant un pennlizerenn.</message>
+      <message>Ar mizioù a vez skrivet gant ur pennlizherenn. Fellout a ra deoc’h skrivañ <suggestion><match no="2" case_conversion ="startupper"/></suggestion>?</message>
       <example type="incorrect">E miz <marker>du</marker>, teñval ha du.</example>
       <example type="correct">E miz Du, teñval ha du.</example>
     </rule>
-    <rulegroup id="PENLIZH_DEIZ" name="Pennlizerennoù evit an deizioù">
+    <rulegroup id="PENLIZH_DEIZ" name="Pennlizherennoù evit an deizioù">
       <rule>
         <pattern case_sensitive="yes">
           <token regexp="yes">lun|merc’her|yaou|gwener|sadorn|sul</token>
         </pattern>
-        <message>An deizioù a vez skrivet gant un pennlizerenn.</message>
+        <message>An deizioù a vez skrivet gant ur pennlizherenn. Fellout a ra deoc’h skrivañ <suggestion><match no="1" case_conversion ="startupper"/></suggestion>?</message>
         <example type="incorrect">Ar <marker>sul</marker> a zo hiziv.</example>
         <example type="correct">Ar Sul a zo hiziv.</example>
       </rule>
@@ -1028,7 +1028,7 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
         <pattern case_sensitive="yes">
           <token>meurzh<exception scope="previous">miz</exception></token>
         </pattern>
-        <message>An deizioù a vez skrivet gant un pennlizerenn.</message>
+        <message>An deizioù a vez skrivet gant ur pennlizherenn. Fellout a ra deoc’h skrivañ <suggestion><match no="1" case_conversion ="startupper"/></suggestion>?</message>
         <example type="incorrect">Ar <marker>meurzh</marker> a zo hiziv.</example>
         <example type="correct">Ar Meurzh a zo hiziv.</example>
       </rule>
