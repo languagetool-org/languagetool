@@ -811,13 +811,25 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
     <rule id="AR" name="ger ar, ur, er, hor">
       <pattern mark_to="-1">
         <token regexp="yes">[aeu][ln]|hol<exception scope="previous">ned</exception></token>
-        <token regexp="yes">[bcfgjkmprsvwyz].*<exception postag="K .* o" postag_regexp="yes"></exception></token>
+        <token regexp="yes">[bcfgjkmprsvwyz].*
+          <exception postag="K .* o" postag_regexp="yes"></exception></token>
       </pattern>
       <message>Ar ger «\1» a zlefe bezañ <suggestion><match no="1" regexp_match="(.*)." regexp_replace="$1r"/></suggestion> dirak ur ger na grog ket gant al lizherennoù «n, d, t, h, a, e, i, o u».</message>
       <example type="incorrect"><marker>An</marker> vell-droad a blij din.</example>
       <example type="correct">Ar vell-droad a blij din.</example>
       <example type="correct">Etre an VIIvet hag an XIIvet kantved</example>
       <example type="correct">Ned an ket d’ar skol hiziv.</example>
+      <example type="correct">Ar ouiziegezh</example>
+    </rule>
+    <rule id="AR_OUI" name="ger ar, ur, er, hor + oui">
+      <pattern mark_to="-1">
+        <token regexp="yes">[aeu][ln]|hol<exception scope="previous">ned</exception></token>
+        <token regexp="yes" inflected="yes">gou[ie].*</token>
+      </pattern>
+      <message>Ar ger «\1» a zlefe bezañ <suggestion><match no="1" regexp_match="(.*)." regexp_replace="$1r"/></suggestion> dirak ur ger a grog gant ar c’hammadur goui → oui pe goue → oue.</message>
+      <example type="incorrect"><marker>An</marker> ouiziegezh</example>
+      <example type="incorrect"><marker>Al</marker> ouel</example>
+      <example type="correct">Ar ouiziegezh</example>
     </rule>
     <rule id="AR_TSAR" name="ar + tsar, tsunami, etc.">
       <pattern mark_to="-1">
