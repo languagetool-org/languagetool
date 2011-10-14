@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 LanguageTool. Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
 A Russian rule file for LanguageTool 
 Copyright (C) 2008-2011 Yakov Reztsov
-$Id: grammar.xml,v 1.71 2011-09-24 15:00:12 yakovru Exp $
+$Id: grammar.xml,v 1.72 2011-10-14 19:29:30 yakovru Exp $
 #     REVISION:  $Id$
 -->
 <rules lang="ru" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -922,6 +922,50 @@ $Id: grammar.xml,v 1.71 2011-09-24 15:00:12 yakovru Exp $
             
         </rulegroup>       
         
+        
+        <rulegroup default="on"  id="Obobchajuchee_slovo" name="Согласование с обобщающим словом">
+     
+   <!--TO DO: добавить остальные падежи       -->            
+               
+            <rule>  
+                <pattern mark_from="2">   
+                    
+                    <!--           [NN:.*:.*:D]:  [NN:.*:.*:D] , [NN:.*:.*:D]      -->
+                    <token  postag="NN:.*:.*:D"  postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*:.*:D" postag_regexp="yes"></exception></token>                       
+                    <token>:</token>
+                    <token  postag="NN:.*:.*:.*"  postag_regexp="yes"><exception  postag="NN:.*:.*:D" postag_regexp="yes"></exception></token>                       
+                    <token>,</token>
+                    <token  postag="NN:.*:.*:.*"  postag_regexp="yes"><exception  postag="NN:.*:.*:D" postag_regexp="yes"></exception></token>                       
+                </pattern>
+                <message>Однородные члены не согласуется с обобщающим существительным по падежу.
+                    <suggestion><match no="3" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:D"></match><match no="4"></match> <match no="5" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:D"></match></suggestion>
+                </message>
+                <short>Ошибка в согласовании падежей.</short>
+                <example type="correct">На конференции работали советы по секциям: физике, математике.</example>
+                <example type="incorrect">На конференции работали  советы по секциям: <marker>химия, история</marker>.</example>
+            </rule>
+           
+            <rule>  
+                <pattern mark_from="2">   
+                    
+                    <!--           [NN:.*:.*:D]:  [NN:.*:.*:D] и [NN:.*:.*:D]      -->
+                    <token  postag="NN:.*:.*:D"  postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*:.*:D" postag_regexp="yes"></exception></token>                       
+                    <token>:</token>
+                    <token  postag="NN:.*:.*:.*"  postag_regexp="yes"><exception  postag="NN:.*:.*:D" postag_regexp="yes"></exception></token>                       
+                    <token>и</token>
+                    <token  postag="NN:.*:.*:.*"  postag_regexp="yes"><exception  postag="NN:.*:.*:D" postag_regexp="yes"></exception></token>                       
+                    
+                </pattern>    
+                <message>Однородные члены не согласуется с обобщающим существительным по падежу.
+                    <suggestion><match no="3" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:D"></match> <match no="4"></match> <match no="5" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:D"></match></suggestion>
+                </message>
+                <short>Ошибка в согласовании падежей.</short>
+                <example type="correct">На конференции работали советы по секциям: физике и математике.</example>
+                <example type="incorrect">На конференции работали  советы по секциям: <marker>химия и история</marker>.</example>
+            </rule>
+        
+        </rulegroup>       
+        
         <rulegroup default="on"  id="O_P_padeg" name="Предлоги и предложный падеж">
             <rule>  
                 <pattern mark_from="1">
@@ -1463,6 +1507,22 @@ $Id: grammar.xml,v 1.71 2011-09-24 15:00:12 yakovru Exp $
                 <example type="incorrect"><marker>Об всём</marker>.</example>
             </rule>
         </rulegroup>
+        
+         <rule default="on"  id="Verb_and_Verb" name="Глагол и глагол">  
+            <pattern>
+                <!--     VB:.*  VB:.* (VB:INF)            -->
+                <token  postag="VB:.*" postag_regexp="yes"><exception postag="VB:INF"></exception><exception>трём</exception></token>          
+                <token  postag="VB:.*" postag_regexp="yes"><exception postag="VB:INF"></exception><exception>трём</exception></token>
+                
+            </pattern>
+            <message>Два глагола в личной форме подряд. Второй глагол должен быть в неопределённой форме:
+            <suggestion><match no="1"></match> <match no="2" postag="VB:.*" postag_regexp="yes" postag_replace="VB:INF"></match></suggestion></message>
+            <short>Ошибка в примыкани.</short>
+            <example type="correct">Будет строиться всё больше жилья.</example>
+            <example type="incorrect"><marker>Будет строится</marker> всё больше жилья.</example>
+        </rule>   
+        
+        
         
         <rule default="on"  id="Verb_and_PREP" name="Глагол и предлог">  
             <pattern>
