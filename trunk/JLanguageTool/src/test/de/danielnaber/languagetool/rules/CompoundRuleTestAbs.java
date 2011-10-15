@@ -48,7 +48,7 @@ public abstract class CompoundRuleTestAbs extends TestCase {
   
   /**
    * Check the text against the compound rule.    
-   * @param expectedErrors teh number of extected errors.
+   * @param expectedErrors the number of expected errors.
    * @param text the text to check.
    * @param expSuggestions the expected suggestions.
    * @throws IOException thrown by JLanguageTool.

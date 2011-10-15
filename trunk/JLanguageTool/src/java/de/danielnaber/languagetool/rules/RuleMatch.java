@@ -62,8 +62,8 @@ public class RuleMatch implements Comparable<RuleMatch> {
   /**
    * Creates a RuleMatch object, taking the rule that triggered
    * this match, position of the match and an explanation message.
-   * This message is scanned for &lt;suggestion>...&lt;/suggestion> to get suggested
-   * fixes for the problem detected by this rule. 
+   * This message is scanned for &lt;suggestion&gt;...&lt;/suggestion&gt;
+   * to get suggested fixes for the problem detected by this rule. 
    * 
    * @param startWithUppercase whether the original text at the position
    *    of the match start with an uppercase character
@@ -214,7 +214,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
   /**
    * The text fragments which might be an appropriate fix for the problem. One
    * of these fragments can be used to replace the old text between getFromPos()
-   * to getToPos(). Text between &lt;suggestion> and &lt;/suggestion> is
+   * to getToPos(). Text between &lt;suggestion&gt; and &lt;/suggestion&gt; is
    * taken as the suggested replacement. 
    * @return List of String objects or an empty List
    */

@@ -91,7 +91,7 @@ public class SRXSentenceTokenizerTest extends TestCase {
     // Missing space after sentence end:
     testSplit(new String[] { "James is from the Ireland!", "He lives in Spain now." });
     // From the abbreviation list:
-    testSplit(new String[] { "Jones Bros. have built a succesful company." });
+    testSplit(new String[] { "Jones Bros. have built a successful company." });
     // parentheses:
     testSplit(new String[] { "It (really!) works." });
     testSplit(new String[] { "It [really!] works." });

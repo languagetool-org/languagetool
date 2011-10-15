@@ -437,7 +437,7 @@ class GeSHi {
 
     /**
      * Returns an error message associated with the last GeSHi operation,
-     * or false if no error has occured
+     * or false if no error has occurred
      *
      * @return string|false An error message if there has been an error, else false
      * @since  1.0.0

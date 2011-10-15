@@ -10,7 +10,7 @@ import de.danielnaber.languagetool.rules.patterns.PatternRuleTest;
  * 
  * This testcase is not for actual rules but for PatternRuleTest to ensure proper 
  * xml cleaning: there is a romanian rule where "<<" is used; we want 
- * "X<marker><<</marker>Y" to be tranformed into "X<<Y", not into "XY" 
+ * "X<marker><<</marker>Y" to be transformed into "X<<Y", not into "XY" 
  * (see rule id GHILIMELE_DUBLE_INTERIOR_INCEPUT in ro/grammar.xml).  
  *  
  */
