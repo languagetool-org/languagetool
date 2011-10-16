@@ -11,7 +11,7 @@ include("../../include/header.php");
 <ul class="largelist">
 <li>Did you restart OpenOffice.org - including the QuickStarter - after installation of LanguageTool? This is required,
 	even if OpenOffice.org doesn't say so. (<a href="http://qa.openoffice.org/issues/show_bug.cgi?id=88692">Issue 88692</a>)</li>
-<li>Make sure <a href="http://www.java.com/en/download/manual.jsp">Java 5.0 or later from Oracle/Sun</a>
+<li>Make sure <a href="http://www.java.com/en/download/manual.jsp">Java 6.0 or later from Oracle/Sun</a>
 	is installed on your system. Java versions which are not from Oracle/Sun may not work.</li>
 <li>Make sure this version of Java is selected in OpenOffice.org
 	(under <em>Tools -&gt; Options -&gt; Java</em>).</li>

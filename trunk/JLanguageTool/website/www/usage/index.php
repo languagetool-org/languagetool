@@ -16,7 +16,7 @@ with OpenOffice.org.</p>
 
 	<li><strong>As a stand-alone application</strong>:
 	Rename the *.oxt file so it ends with ".zip" and unzip it. If you're
-	using Java 5.0, also unzip the <tt>standalone-libs.zip</tt> that will be created.
+	using Java 6.0, also unzip the <tt>standalone-libs.zip</tt> that will be created.
 	Then start <tt>LanguageToolGUI.jar</tt> by double clicking on it. If your computer isn't
 	configured to start jar archives, start it from the command line using<br />
 	<tt>java -jar LanguageToolGUI.jar</tt><br />
