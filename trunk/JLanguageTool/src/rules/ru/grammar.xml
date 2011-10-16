@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 LanguageTool. Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
 A Russian rule file for LanguageTool 
 Copyright (C) 2008-2011 Yakov Reztsov
-$Id: grammar.xml,v 1.72 2011-10-14 19:29:30 yakovru Exp $
+$Id: grammar.xml,v 1.73 2011-10-14 21:45:30 yakovru Exp $
 #     REVISION:  $Id$
 -->
 <rules lang="ru" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -1511,9 +1511,8 @@ $Id: grammar.xml,v 1.72 2011-10-14 19:29:30 yakovru Exp $
          <rule default="on"  id="Verb_and_Verb" name="Глагол и глагол">  
             <pattern>
                 <!--     VB:.*  VB:.* (VB:INF)            -->
-                <token  postag="VB:.*" postag_regexp="yes"><exception postag="VB:INF"></exception><exception>трём</exception></token>          
-                <token  postag="VB:.*" postag_regexp="yes"><exception postag="VB:INF"></exception><exception>трём</exception></token>
-                
+                <token  postag="VB:.*" postag_regexp="yes"><exception postag="VB:INF"></exception><exception postag_regexp="yes" negate_pos="yes" postag="VB:.*"></exception><exception>трём</exception></token>          
+                <token  postag="VB:.*" postag_regexp="yes"><exception postag="VB:INF"></exception><exception postag_regexp="yes" negate_pos="yes" postag="VB:.*"></exception><exception>трём</exception></token>              
             </pattern>
             <message>Два глагола в личной форме подряд. Второй глагол должен быть в неопределённой форме:
             <suggestion><match no="1"></match> <match no="2" postag="VB:.*" postag_regexp="yes" postag_replace="VB:INF"></match></suggestion></message>
@@ -1923,8 +1922,7 @@ $Id: grammar.xml,v 1.72 2011-10-14 19:29:30 yakovru Exp $
             <example type="correct">Он - <marker>Иванович</marker>.</example>
             <example type="incorrect">Он - <marker>иванович</marker>.</example>
         </rule>
-        
-        
+ 
     </category> 
     
 </rules>
