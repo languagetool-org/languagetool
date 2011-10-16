@@ -1044,15 +1044,26 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
         <example type="correct">Ar Meurzh a zo hiziv.</example>
       </rule>
     </rulegroup>
-    <rule id="DEIZ" name="deiz">
-      <pattern mark_from="1">
-        <token regexp="yes">an|da</token>
-        <token regexp="yes">dilun|dimeurzh|dimerc’her|dir[iy]aou|digwener|disadorn|disul</token>
-      </pattern>
-      <message>Fellout a ra deoc’h skrivañ <suggestion>\2</suggestion>.</message>
-      <example type="incorrect">Mont a ran d’ar skol d’an <marker>dilun</marker>.</example>
-      <example type="correct">Mont a ran d’ar skol d'al Lun.</example>
-    </rule>
+    <rulegroup id="DEIZ" name="deiz">
+      <rule>
+        <pattern>
+          <token regexp="yes">an|da</token>
+          <token regexp="yes">dimeurzh|dimerc’her|dir[iy]aou|digwener|disadorn|disul</token>
+        </pattern>
+        <message>Fellout a ra deoc’h skrivañ <suggestion>ar <match no="2" case_conversion="startupper" regexp_match="..(.*)" regexp_replace="$1"/></suggestion>?</message>
+        <example type="incorrect">Mont a ran d’ar skol d’<marker>an disadorn</marker>.</example>
+        <example type="correct">Mont a ran d’ar skol d'ar Sardorn.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">an|da</token>
+          <token>dilun</token>
+        </pattern>
+        <message>Fellout a ra deoc’h skrivañ <suggestion>al Lun</suggestion>?</message>
+        <example type="incorrect">Mont a ran d’ar skol d’<marker>an dilun</marker>.</example>
+        <example type="correct">Mont a ran d’ar skol d'al Lun.</example>
+      </rule>
+    </rulegroup>
 
     <rulegroup id="LIES" name="lies">
       <rule>
