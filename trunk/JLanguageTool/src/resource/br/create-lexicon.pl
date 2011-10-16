@@ -47,6 +47,7 @@ my $dic_err = "$dic_in-LT.err";
 # Case matters!
 my @anv_lies_tud = (
   # plural              softening         reinforcing     spirant
+  "Gallaoued",          "C’hallaoued",    "Kallaoued",
   "baraerien",          "varaerien",      "paraerien",
   "barzhed",            "varzhed",        "parzhed",
   "beajourien",         "veajourien",     "peajourien",
@@ -57,11 +58,12 @@ my @anv_lies_tud = (
   "bugale",             "vugale",         "pugale",
   "butuner",            "vutuner",        "putuner",
   "dañserien",                            "tañserien",
-  "Gallaoued",          "C’hallaoued",    "Kallaoued",
   "gaouidi",            "c’haouidi",      "kaouidi",
-  "genaoueien",         "c’henaouien",    "kenaouien",
+  "genaoueien",         "c’henaoueien",   "kenaoueien",
+  "girzien",            "c’hirzien",      "kirzien",
+  "gouizieien",         "c’houiziein",    "kouizieien",
+  "gourdonerien",       "c’hourdonerien", "kourdonerien",
   "goved",              "c’hoved",        "koved",
-  "gwazed",             "wazed",          "kwazed",
   "gwazed",             "wazed",          "kwazed",
   "gwerzherien",        "werzherien",     "kwerzherien",
   "gwiaderien",         "wiaderien",      "kwiaderien",
@@ -70,7 +72,9 @@ my @anv_lies_tud = (
   "kamaraded",          "gamaraded",      "c’hamaraded",
   "kariaded",           "gariaded",       "c’hariaded",
   "kazetennerien",      "gazetennerien",  "c’hazetennerien",
+  "kañfarded",          "gañfarded",      "c’hañfarded",
   "keginerien",         "geginerien",     "c’heginerien",
+  "kelaouennerien",     "gelaouennerien", "c’helaouennerien",
   "kelennerien",        "gelennerien",    "c’helennerien",
   "kemenerien",         "gemenerien",     "c’hemenerien",
   "kenaozerien",        "genaozerien",    "c’henaozerien",
@@ -78,16 +82,20 @@ my @anv_lies_tud = (
   "kenlabourerien",     "genlabourerien", "c’henlabourerien",
   "kenoberourien",      "genoberourien",  "c’henoberourien",
   "kenskriverien",      "genskriverien",  "c’henskriverien",
-  "kenwezherien",       "genwezherien",   "c’henwezherien",
+  "kenwerzherien",      "genwerzherien",  "c’henwerzherien",
   "kereon",             "gereon",         "c’hereon",
+  "kevendirvi",         "gevendirvi",     "c’hevendirvi",
+  "kevnianted",         "gevnianted",     "c’hevnianted",
   "kigerien",           "gigerien",       "c’higerien",
   "klañvdiourien",      "glañvdiourien",  "c’hlañvdiourien",
   "konversañted",       "gonversañted",   "c’honversañted",
   "krennarded",         "grennarded",     "c’hrennarded",
   "kristenien",         "gristenien",     "c’hristenien",
   "kristenion",         "gristenion",     "c’hristenion",
+  "krouadurien",        "grouadurien",    "c’hrouadurien",
   "maered",             "vaered",
   "marc’hadourien",     "varc’hadourien",
+  "marc’heien",         "varc’heien",
   "martoloded",         "vartoloded",
   "medisined",          "vedisined",
   "mevelien",           "vevelien",
@@ -96,23 +104,26 @@ my @anv_lies_tud = (
   "micherourien",       "vicherourien",
   "mignoned",           "vignoned",
   "milinerien",         "vilinerien",
-  "milinerien",         "vilinerien",
-  "militaerion",        "vilitaerion",
   "milvezeien",         "vilvezeien",
   "mistri",             "vistri",
   "mistri-skol",        "vistri-skol",
+  "morlaeron",          "vorlaeron",
   "paeroned",           "baeroned",                        "faeroned",
   "paotred",            "baotred",                         "faotred",
-  "paotred-al-lizhiri", "baotred-al-lizhiri",              "faotred-al-lizhiri",
   "perc’henned",        "berc’henned",                     "ferc’henned",
   "personed",           "bersoned",                        "fersoned",
   "perukennerien",      "berukennerien",                   "ferukennerien",
   "perukennerion",      "berukennerion",                   "ferukennerion",
   "pesketaerien",       "besketaerien",                    "fesketaerien",
   "poliserien",         "boliserien",                      "foliserien",
-  "prederourien",       "prederourien",                    "frederourien",
+  "prederourien",       "brederourien",                    "frederourien",
+  "prefeded",           "brefeded",                        "frefeded",
+  "prizonidi",          "brizonidi",                       "frizonidi",
   "priñsed",            "briñsed",                         "friñsed",
+  "taihanterien",       "daihanterien",                    "zaihanterien",
   "toerien",            "doerien",                         "zoerien",
+  "tommerien",          "dommerien",                       "zommerien",
+  "tontoned",           "dontoned",                        "zontoned",
   "touristed",          "douristed",                       "zouristed",
   "tredanerien",        "dredanerien",                     "zredanerien",
   "tredanerion",        "dredanerion",                     "zredanerion",
@@ -370,6 +381,42 @@ while (<LT_EXPAND>) {
       }
     }
 
+    my ($first_letter_lemma) = $lemma =~ /^(gw|[ktpgdbm]).*/i;
+    my ($first_letter_word)  = $word  =~ /^([kg]w|c’h|[gdbzfktvp]).*/i;
+    $first_letter_lemma = lc $first_letter_lemma;
+    $first_letter_word  = lc $first_letter_word;
+
+    if ($first_letter_lemma and $first_letter_word and 
+        $first_letter_lemma ne $first_letter_word) {
+      # Add mutation tag.
+      if ($first_letter_lemma eq 'k') {
+        if    ($first_letter_word eq 'c’h') { $tag .= " M:a0:2:"; }
+        elsif ($first_letter_word eq 'g')   { $tag .= " M:1:1a:"; }
+      } elsif ($first_letter_lemma eq 't')  {
+        if    ($first_letter_word eq 'd')   { $tag .= " M:1:1a:"; }
+        elsif ($first_letter_word eq 'z')   { $tag .= " M:2:"; }
+      } elsif ($first_letter_lemma eq 'p')  {
+        if    ($first_letter_word eq 'b')   { $tag .= " M:1:1a:"; }
+        elsif ($first_letter_word eq 'f')   { $tag .= " M:2:"; }
+      } elsif ($first_letter_lemma eq 'g')  {
+        if    ($first_letter_word eq 'c’h') { $tag .= " M:1:1a:1b:4:"; }
+        elsif ($first_letter_word eq 'k')   { $tag .= " M:3:"; }
+      } elsif ($first_letter_lemma eq 'gw') {
+        if    ($first_letter_word eq 'w')   { $tag .= " M:1:1a:1b:4:"; }
+        elsif ($first_letter_word eq 'kw')  { $tag .= " M:3:"; }
+      } elsif ($first_letter_lemma eq 'd')  {
+        if    ($first_letter_word eq 'z')   { $tag .= " M:1:1b:4:"; }
+        elsif ($first_letter_word eq 't')   { $tag .= " M:3:4:"; }
+      } elsif ($first_letter_lemma eq 'b')  {
+        if    ($first_letter_word eq 'v')   { $tag .= " M:1:1a:1b:4:"; }
+        elsif ($first_letter_word eq 'p')   { $tag .= " M:3:"; }
+      } elsif ($first_letter_lemma eq 'm')  {
+        if    ($first_letter_word eq 'v')   { $tag .= " M:1:1a:1b:4:"; }
+      }
+      unless ($tag =~ /:$/) {
+        print STDERR "*** unexpected mutation [$first_letter_lemma] -> [$first_letter_word] lemma=[$lemma] -> word=[$word] tag=[$tag]\n";
+      }
+    }
     if ($tag) {
       print OUT "$word\t$lemma\t$tag\n";
       ++$out_count;
