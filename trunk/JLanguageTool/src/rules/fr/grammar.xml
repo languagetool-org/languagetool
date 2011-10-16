@@ -1810,14 +1810,14 @@ though, and has since been slightly modified)-->
         <pattern>
           <token postag="[DJN] .* s" postag_regexp="yes" skip="1">
             <!-- Following exception skip words both singular/plural as well as adverbs -->
-            <exception negate_pos="yes" postag="A|[JN] .* s?p|SENT_END" postag_regexp="yes" scope="next"/>
+            <exception negate_pos="yes" postag="A|[JNZ] .* s?p|SENT_END" postag_regexp="yes" scope="next"/>
             <exception postag="V inf" scope="current"/>
             <exception postag="&lt;/DE&gt;" scope="previous"/>
             <exception regexp="yes" scope="previous">et|de|du</exception>
             <exception regexp="yes">air|car</exception>
           </token>
-          <token postag="[JN] . p" postag_regexp="yes">
-            <exception postag="V .*|[JN] .* sp" postag_regexp="yes"/>
+          <token postag="[JNZ] . p" postag_regexp="yes">
+            <exception postag="V .*|[JNZ] .* sp" postag_regexp="yes"/>
             <exception scope="previous">peu</exception>
           </token>
         </pattern>
@@ -1841,6 +1841,8 @@ though, and has since been slightly modified)-->
         <example type="correct">Les premier et deuxième trimestres.</example>
         <example type="correct">Les montagnes ont l’air belles.</example>
         <example type="correct">Les pâtes ne sont pas bonnes car trop cuites.</example>
+        <example type="incorrect">Il est parti <marker>au États-Unis</marker> pour étudier.</example>
+        <example type="correct">Il est parti aux États-Unis pour étudier.</example>
       </rule>
       <rule name="pluriel suivi du singulier">
         <pattern mark_from="1" mark_to="-1">
@@ -1894,14 +1896,14 @@ though, and has since been slightly modified)-->
           <token postag="[DJ] m .*" postag_regexp="yes" skip="1">
             <exception postag="V .*" postag_regexp="yes"/>
             <!-- Following exception is to skip an adverb or epicene word -->
-            <exception negate_pos="yes" postag="A|[JN] [fe] .*|SENT_END" postag_regexp="yes" scope="next"/>
+            <exception negate_pos="yes" postag="A|[JNZ] [fe] .*|SENT_END" postag_regexp="yes" scope="next"/>
             <exception postag="N f .*" postag_regexp="yes"/>
             <exception scope="previous" regexp="yes">des?</exception>
             <exception scope="previous" postag="&lt;/DE&gt;"/>
             <exception>sauf</exception>
           </token>
-          <token postag="[JN] f .*" postag_regexp="yes">
-            <exception postag="V .*|[NJ] [em] .*" postag_regexp="yes"/>
+          <token postag="[JNZ] f .*" postag_regexp="yes">
+            <exception postag="V .*|[NJZ] [em] .*" postag_regexp="yes"/>
             <exception scope="previous">peu</exception>
             <exception regexp="yes">face|grâce</exception>
           </token>
@@ -1925,6 +1927,8 @@ though, and has since been slightly modified)-->
         <example type="correct"><marker>Confus face</marker> aux remarques obscures</example>
         <example type="correct">Elle est tout sauf courtoise.</example>
         <example type="correct">Il a eu le poste grâce à son anglais.</example>
+        <example type="incorrect"><marker>Le Guyane</marker> Française.</example>
+        <example type="correct">La Guyane Française.</example>
         <!-- FIXME
         <example type="correct">Je n’ai pas du <marker>tout peur</marker> des serpents.</example> -->
       </rule>
@@ -1968,10 +1972,10 @@ though, and has since been slightly modified)-->
           <token postag="[DJ] f .*" postag_regexp="yes" skip="1">
             <exception postag="[NJ] [me] .*|V .*" postag_regexp="yes"/>
             <!-- Following exception is to skip an adverb or epicene word -->
-            <exception negate_pos="yes" postag="A|[JN] [me] .*|SENT_END" postag_regexp="yes" scope="next"/>
+            <exception negate_pos="yes" postag="A|[JNZ] [me] .*|SENT_END" postag_regexp="yes" scope="next"/>
           </token>
-          <token postag="[JN] m .*" postag_regexp="yes">
-            <exception postag="V .*|C coor|[NJ] e .*" postag_regexp="yes"/>
+          <token postag="[JNZ] m .*" postag_regexp="yes">
+            <exception postag="V .*|C coor|[NJZ] e .*" postag_regexp="yes"/>
             <exception regexp="yes">.</exception>
           </token>
         </pattern>
@@ -1988,6 +1992,8 @@ though, and has since been slightly modified)-->
         <example type="correct"><marker>Sa large</marker> et bonne figure.</example>
         <example type="correct">La porte d’entrée.</example>
         <example type="correct">Son amie l’abandonne.</example>
+        <example type="incorrect"><marker>La Cameroun</marker></example>
+        <example type="correct">Le Cameroun</example>
       </rule>
       <rule name="nom féminin suivi du masculin">
         <pattern>
