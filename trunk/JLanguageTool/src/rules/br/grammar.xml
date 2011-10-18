@@ -416,6 +416,8 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
         <message>Ne zlefe ket bezañ ur c’hemmadur de vlotaat amañ.</message>
         <example type="incorrect"><marker>Zebriñ</marker> a ran.</example>
         <example type="correct"><marker>Debriñ</marker> a ran.</example>
+        <example type="incorrect"><marker>C’hallout</marker> a ran.</example>
+        <example type="correct"><marker>Gallout</marker> a ran.</example>
       </rule>
       <rule>
         <pattern mark_from="1">
@@ -1004,7 +1006,7 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
         <token>pebezh</token>
         <token><exception postag_regexp="yes" postag="N.*"></exception></token>
       </pattern>
-      <message>A ger «\1» a zlefe bezañ a-raok un anv. Fellout a ra dit skrivañ <suggestion><match no="1" regexp_match="(.).*" regexp_replace="$1egen"/></suggestion></message>
+      <message>A ger «\1» a zlefe bezañ a-raok un anv. Fellout a ra dit skrivañ <suggestion><match no="1" regexp_match="(.).*" regexp_replace="$1egen"/></suggestion>?</message>
       <example type="incorrect"><marker>Pebezh</marker> brav!</example>
       <example type="correct">Pebezh den!</example>
     </rule>
@@ -1200,7 +1202,7 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
           <token inflected="yes" regexp="yes">(levr|romant?|film)(ig)?</token>
           <token regexp="yes">alamaneg|brezhoneg|esperanteg|galleg|italianeg|kembraeg|saozneg|spagnoleg</token>
         </pattern>
-        <message>Fellout a ra deoc’h skrivañ <suggestion><match no="2" regexp_match="(.*)g" regexp_replace="$1k"/></suggestion></message>
+        <message>Fellout a ra deoc’h skrivañ <suggestion><match no="2" regexp_match="(.*)g" regexp_replace="$1k"/></suggestion>?</message>
         <example type="incorrect">Ul levr <marker>brezhoneg</marker> eo.</example>
         <example type="correct">Ul levr brezhonek eo.</example>
       </rule>
@@ -1209,7 +1211,7 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
           <token regexp="yes">a[nr]</token>
           <token regexp="yes">alamanek|brezhonek|esperantek|gallek|italianek|kembraek|saoznek|spagnolek</token>
         </pattern>
-        <message>Fellout a ra deoc’h skrivañ <suggestion><match no="2" regexp_match="(.*)k" regexp_replace="$1g"/></suggestion></message>
+        <message>Fellout a ra deoc’h skrivañ <suggestion><match no="2" regexp_match="(.*)k" regexp_replace="$1g"/></suggestion>?</message>
         <example type="incorrect">Ar <marker>brezhonek</marker> a zo ur yezh keltiek.</example>
         <example type="correct">Ar brezhoneg a zo ur yezh keltiek.</example>
       </rule>
@@ -1255,7 +1257,7 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
             <exception>a</exception>
           </token>
         </pattern>
-        <message>«\1 a» a vez implijet a-raok un anv. Fellout a ra deoc’h skrivañ <suggestion>\1 a \2</suggestion></message>
+        <message>«\1 a» a vez implijet a-raok un anv. Fellout a ra deoc’h skrivañ <suggestion>\1 a \2</suggestion>?</message>
         <example type="incorrect"><marker>Re dud</marker> zo.</example>
         <example type="correct">Re a dud zo.</example>
         <example type="correct">Re vihan eo.</example>
@@ -1268,7 +1270,7 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
             <exception postag="N .*p.*" postag_regexp="yes"/>
           </token>
         </pattern>
-        <message>«Re» hep «a» a vez implijet gant un anv-gwan. Fellout a ra deoc’h skrivañ <suggestion>\1 \2</suggestion></message>
+        <message>«Re» hep «a» a vez implijet gant un anv-gwan. Fellout a ra deoc’h skrivañ <suggestion>\1 \2</suggestion>?</message>
         <example type="incorrect"><marker>Re a vras</marker> eo.</example>
         <example type="correct">Re vras eo.</example>
         <example type="correct">Re a trouz zo.</example>
@@ -1338,6 +1340,18 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
         <message>Ne zlefe ket implijet ar ger-mell «\1» dirak ar pred «\2».</message>
         <example type="incorrect">Prest eo <marker>al</marker> lein.</example>
         <example type="correct">Prest eo lein.</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="ABAOE_LEC_H" name="Abaoe Brest → Adalek Brest">
+      <rule>
+        <pattern mark_to="-1">
+          <token>abaoe</token>
+          <token postag_regexp="yes" postag="Z . .*"/>
+        </pattern>
+        <message>«\1» a vez implijet gant an amzer hepken. Fellout a ra deoc’h skrivañ <suggestion>adalek</suggestion>?</message>
+        <example type="incorrect"><marker>Abaoe</marker> Brest e oa erc’h war an hent.</example>
+        <example type="correct">Adalek Brest e oa erc’h war an hent.</example>
       </rule>
     </rulegroup>
 
