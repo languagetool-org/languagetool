@@ -44,7 +44,7 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
         <pattern mark_from="1">
           <token regexp="yes">[au]r</token>
           <token regexp="yes" postag="N f s.*|N m p t.*" postag_regexp="yes">p.*
-            <exception regexp="yes">plac’h(ig)?</exception>
+            <exception regexp="yes">plac’h(ig)?(-(mañ|se|hont))?</exception>
             <exception postag="N m s.*" postag_regexp="yes"/>
           </token>
         </pattern>
@@ -74,7 +74,7 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
           <token regexp="yes">[au]r</token>
           <token regexp="yes" postag="N f s.*|N m p t.*" postag_regexp="yes">g[^w].*
             <exception regexp="yes" inflected="yes">k.*</exception>
-            <exception regexp="yes">(gar|gavotenn|greg)(ig)?</exception>
+            <exception regexp="yes">(gar|gavotenn|greg)(ig)?(-(mañ|se|hont))?</exception>
             <exception postag="N m s.*" postag_regexp="yes"/>
           </token>
         </pattern>
@@ -142,7 +142,7 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
       <rule>
         <pattern mark_from="1">
           <token regexp="yes">[au]n</token>
-          <token>tra</token>
+          <token regexp="yes">tra(-(mañ|se|hont))?</token>
         </pattern>
         <message>A ger «\2» a gemm evel ma vije benel. Fellout a ra deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="d$1"/></suggestion>?</message>
         <example type="incorrect">Un <marker>tra</marker></example>
@@ -151,7 +151,7 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
       <rule>
         <pattern mark_from="1">
           <token regexp="yes">[au]r</token>
-          <token>brud</token>
+          <token regexp="yes">brud(-(mañ|se|hont))?</token>
         </pattern>
         <message>Fellout a ra deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="v$1"/></suggestion>?</message>
         <example type="incorrect">Ur <marker>brud</marker></example>
@@ -209,7 +209,7 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
           <token regexp="yes" postag="UNKNOWN" negate_pos="yes">d.*
             <exception inflected="yes">da</exception>
             <exception regexp="yes" inflected="yes">t.*</exception>
-            <exception>dud</exception>
+            <exception regexp="yes">dud(-(mañ|se|hont))?</exception>
           </token>
         </pattern>
         <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude ar ger «\1». Fellout a ra deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="z$1"/></suggestion>?</message>
@@ -480,7 +480,7 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
           <token regexp="yes">[au]n</token>
           <and>
             <token postag="N m s.*|N f p.*" postag_regexp="yes" regexp="yes">[dz].*
-              <exception>dra</exception>
+              <exception regexp="yes">dra(-(mañ|se|hont))?</exception>
               <exception postag="N m s.*|N f p.*" postag_regexp="yes" regexp="yes" inflected="yes">[dz].*</exception>
             </token>
             <token postag="N m s.*|N f p.*" postag_regexp="yes" regexp="yes" inflected="yes">t.*
@@ -495,6 +495,7 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
         <example type="correct">An dour</example>
         <example type="correct">An daol</example>
         <example type="correct">An dra</example>
+        <example type="correct">An dra-se</example>
         <example type="incorrect">An <marker>domatez</marker></example>
         <example type="incorrect">An <marker>zomatez</marker></example>
         <example type="correct">An tomatez</example>
