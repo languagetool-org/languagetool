@@ -791,6 +791,45 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
       <example type="correct">Ti biv eo?</example>
     </rule>
 
+    <rulegroup id="LABOUR" name="labour var, ul labour mat">
+      <rule>
+        <pattern mark_from="2">
+          <token>ul</token>
+          <token>labour</token>
+          <token postag=".*M:.*" postag_regexp="yes">
+            <exception negate_pos="yes" postag=".*M:.*" postag_regexp="yes"/>
+          </token>
+        </pattern>
+        <message>Net zlefe ket bezañ ur c’hemmadur goude «\1 \2».</message>
+        <example type="incorrect">Ul labour <marker>vat</marker> en deus graet.</example>
+        <example type="correct">Ul labour mat en deus graet.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2">
+          <token negate="yes">ul</token>
+          <token>labour</token>
+          <token>
+            <exception negate_pos="yes" postag=".*M.*:1a:.*" postag_regexp="yes"/>
+          </token>
+        </pattern>
+        <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude «\1 \2».</message>
+        <example type="incorrect">Labour <marker>vat</marker> a ra bepred.</example>
+        <example type="correct">Labour mat a ra bepred.</example>
+        <example type="correct">Ul labour mat en deus graet.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="EUR_MINTIN" name="eur mintin">
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">eur|hiziv|w?arc’hoazh|dec’h|dilun|dimeurzh|dimerc’her|dir[iy]aou|digwener|disadorn|disul</token>
+          <token>mintin</token>
+        </pattern>
+        <message>Goude «\1» e tro «\2» da <suggestion>vintin</suggestion>.</message>
+        <example type="incorrect">Dek eur <marker>mintin</marker> eo.</example>
+        <example type="correct">Dek eur vintin eo.</example>
+      </rule>
+    </rulegroup>
+
   </category>
 
   <!-- Articles -->
