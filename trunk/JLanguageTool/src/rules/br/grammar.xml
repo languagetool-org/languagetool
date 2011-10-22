@@ -157,6 +157,15 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
         <example type="incorrect">Ur <marker>brud</marker></example>
         <example type="correct">Ur vrud</example>
       </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">[au]r</token>
+          <token regexp="yes">[fb]lac’h(ig)?(-(mañ|se|hont))?</token>
+        </pattern>
+        <message>Ar ger benel «\2» a chom digemm warlec’h ar ger-mell. Fellout a ra deoc’h skrivañ <suggestion><match no="2" regexp_match="^" regexp_replace="p"/></suggestion>?</message>
+        <example type="incorrect">Fur eo ar <marker>blac’hig-se</marker>.</example>
+        <example type="correct">Fur eo ar plac’hig-se.</example>
+      </rule>
     </rulegroup>
     <rulegroup id="KEMM_DRE_VLOTAAT_GER" name="kemmadur dre vlotaat goude gerioù.">
       <rule>
@@ -1473,8 +1482,8 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
           <token postag="Z .*" postag_regexp="yes" regexp="yes">[aeiou].*</token>
         </pattern>
         <message>Fellout a ra deoc’h skrivañ <suggestion>en</suggestion>?</message>
-        <example type="incorrect">Te zo bet <marker>da</marker> Indez c’hoazh?</example>
-        <example type="correct">Te zo bet en Indez c’hoazh?</example>
+        <example type="incorrect">Te zo bet <marker>da</marker> Iwerzhon c’hoazh?</example>
+        <example type="correct">Te zo bet en Iwerzhon c’hoazh?</example>
       </rule>
     </rulegroup>
 
