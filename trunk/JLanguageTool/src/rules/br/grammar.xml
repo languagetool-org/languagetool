@@ -5,6 +5,12 @@ title="Easy editing stylesheet" ?>
 <!--
 Breton Grammar and Typo Rules for LanguageTool
 Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
+
+Grammatical resources:
+
+* [CHALM] La grammaire bretonne pour tous (Eugène CHALM).
+* [MKKER] Le guide du bretonnant (Mark KERRAIN).
+
 -->
 <rules lang="br"
        xsi:noNamespaceSchemaLocation="../rules.xsd"
@@ -830,7 +836,7 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
     <rulegroup id="EUR_MINTIN" name="eur mintin">
       <rule>
         <pattern mark_from="1">
-          <token regexp="yes">eur|hiziv|w?arc’hoazh|dec’h|dilun|dimeurzh|dimerc’her|dir[iy]aou|digwener|disadorn|disul</token>
+          <token regexp="yes">eur|hiziv|w?arc’hoazh|dec’h|dilun|dimeurzh|dimerc’her|diriaou|digwener|disadorn|disul</token>
           <token>mintin</token>
         </pattern>
         <message>Goude «\1» e tro «\2» da <suggestion>vintin</suggestion>.</message>
@@ -897,6 +903,8 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
       <example type="incorrect"><marker>Al</marker> ouel</example>
       <example type="correct">Ar ouiziegezh</example>
     </rule>
+
+    <!-- [CHALM] L-3, page L-118 -->
     <rule id="AR_TSAR" name="ar + tsar, tsunami, etc.">
       <pattern mark_to="-1">
         <token regexp="yes">[au][ln]</token>
@@ -1505,6 +1513,78 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
         <message>Ha fellout a rae deoc’h skrivañ <suggestion>en</suggestion>?</message>
         <example type="incorrect">Te zo bet <marker>da</marker> Iwerzhon c’hoazh?</example>
         <example type="correct">Te zo bet en Iwerzhon c’hoazh?</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="E_KICHEN_ME" name="e-kichen me → em c’hichen">
+      <rule>
+        <pattern>
+          <token>e-kichen</token>
+          <token regexp="yes">me|ac’hanon</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>em c’hichen</suggestion>?</message>
+        <example type="incorrect"><marker>E-kichen me</marker> e ea.</example>
+        <example type="incorrect"><marker>E-kichen ac’hanon</marker> e ea.</example>
+        <example type="correct">Em c’hichen e ea.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>e-kichen</token>
+          <token regexp="yes">te|ac’hanout</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>ez kichen</suggestion>?</message>
+        <example type="incorrect"><marker>E-kichen te</marker> e ea.</example>
+        <example type="incorrect"><marker>E-kichen ac’hanout</marker> e ea.</example>
+        <example type="correct">Ez kichen e ea.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>e-kichen</token>
+          <token regexp="yes">eñ|anezhañ</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>en e gichen</suggestion>?</message>
+        <example type="incorrect"><marker>E-kichen anezhañ</marker> e ea.</example>
+        <example type="correct">En e gichen e ea.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>e-kichen</token>
+          <token regexp="yes">h[ei]|anezhi</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>en he c’hichen</suggestion>?</message>
+        <example type="incorrect"><marker>E-kichen hi</marker> e ea.</example>
+        <example type="incorrect"><marker>E-kichen anezhi</marker> e ea.</example>
+        <example type="correct">En he c’hichen e ea.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>e-kichen</token>
+          <token regexp="yes">ni|ac’hanomp</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>en hor c’hichen</suggestion>?</message>
+        <example type="incorrect"><marker>E-kichen ni</marker> e ea.</example>
+        <example type="incorrect"><marker>E-kichen ac’hanomp</marker> e ea.</example>
+        <example type="correct">En hor c’hichen e ea.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>e-kichen</token>
+          <token regexp="yes">c’hwi|ac’hanoc’h</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>en ho kichen</suggestion>?</message>
+        <example type="incorrect"><marker>E-kichen c’hwi</marker> e ea.</example>
+        <example type="incorrect"><marker>E-kichen ac’hanoc’h</marker> e ea.</example>
+        <example type="correct">En ho kichen e ea.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>e-kichen</token>
+          <token regexp="yes">int|anezh[oe]</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>en o c’hichen</suggestion>?</message>
+        <example type="incorrect"><marker>E-kichen int</marker> e ea.</example>
+        <example type="incorrect"><marker>E-kichen anezho</marker> e ea.</example>
+        <example type="correct">En o c’hichen e ea.</example>
       </rule>
     </rulegroup>
 
