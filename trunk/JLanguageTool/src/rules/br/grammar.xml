@@ -133,7 +133,7 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
       <rule>
         <pattern mark_from="1">
           <token regexp="yes">[au]n</token>
-          <token>dor</token>
+          <token regexp="yes">dor(-(mañ|se|hont))?</token>
         </pattern>
         <message>Direizh eo ar gemmadur gant ar ger «\2». Fellout a ra deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="n$1"/></suggestion>?</message>
         <example type="incorrect">Sett an <marker>dor</marker> ’ta.</example>
@@ -1406,6 +1406,53 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
         <message>«\1» a vez implijet gant an amzer hepken. Fellout a ra deoc’h skrivañ <suggestion>adalek</suggestion>?</message>
         <example type="incorrect"><marker>Abaoe</marker> Brest e oa erc’h war an hent.</example>
         <example type="correct">Adalek Brest e oa erc’h war an hent.</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="BET_DA" name="Bet on da Vrest → Bet on e Brest">
+      <rule>
+        <pattern mark_from="2" mark_to="-1">
+          <token>bet</token>
+          <token inflected="yes">bezañ</token>
+          <token>da</token>
+          <token postag="Z .*" postag_regexp="yes" regexp="yes">[^aeiou].*</token>
+        </pattern>
+        <message>Fellout a ra deoc’h skrivañ <suggestion>e</suggestion>?</message>
+        <example type="incorrect">Bet out <marker>da</marker> Bariz c’hoazh?</example>
+        <example type="correct">Bet out e Pariz c’hoazh?</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2" mark_to="-1">
+          <token>bet</token>
+          <token inflected="yes">bezañ</token>
+          <token>da</token>
+          <token postag="Z .*" postag_regexp="yes" regexp="yes">[aeiou].*</token>
+        </pattern>
+        <message>Fellout a ra deoc’h skrivañ <suggestion>en</suggestion>?</message>
+        <example type="incorrect">Bet out <marker>da</marker> Iwerzhon c’hoazh?</example>
+        <example type="correct">Bet out en Iwerzhon c’hoazh?</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-3">
+          <token>da</token>
+          <token postag="Z .*" postag_regexp="yes" regexp="yes">[^aeiou].*</token>
+          <token inflected="yes">bezañ</token>
+          <token>bet</token>
+        </pattern>
+        <message>Fellout a ra deoc’h skrivañ <suggestion>e</suggestion>?</message>
+        <example type="incorrect"><marker>Da</marker> Vrest on bet dec’h.</example>
+        <example type="correct">E Brest on bet dec’h.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-3">
+          <token>da</token>
+          <token postag="Z .*" postag_regexp="yes" regexp="yes">[aeiou].*</token>
+          <token inflected="yes">bezañ</token>
+          <token>bet</token>
+        </pattern>
+        <message>Fellout a ra deoc’h skrivañ <suggestion>en</suggestion>?</message>
+        <example type="incorrect"><marker>Da</marker> Izelvroioù on bet.</example>
+        <example type="correct">En Izelvroioù on bet.</example>
       </rule>
     </rulegroup>
 
