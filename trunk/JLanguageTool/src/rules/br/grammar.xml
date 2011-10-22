@@ -842,7 +842,7 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
   </category>
 
   <!-- Articles -->
-  <category name="gerioù al, ul, el, hol">
+  <category name="Gerioù al, ul, el, hol">
     <rule id="AL" name="gerioù al, ul, el, hol">
       <pattern mark_to="-1">
         <token regexp="yes">[aeu][nr]|hor<exception postag="X EN_UR"/></token>
@@ -908,7 +908,7 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
     </rule>
   </category>
 
-  <category name="NIVER">
+  <category name="Niveroù">
     <rule id="DAOU" name="daou">
       <pattern mark_to="-1">
         <token>daou</token>
@@ -1000,7 +1000,7 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
     </rulegroup>
   </category>
 
-  <category name="verboù">
+  <category name="Verboù">
     <rule id="VINF_A_OBER" name="Anv-verb + a + ober">
       <pattern mark_to="-2">
         <token postag="V.*" postag_regexp="yes">
@@ -1053,7 +1053,28 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
     </rule>
   </category>
 
-  <category name="A_BEP_SEURT">
+  <category name="Berennig-stagañ">
+    <rule id="EVEL_JUST" name="evel just → evel-just">
+      <pattern>
+        <token>evel</token>
+        <token>just</token>
+      </pattern>
+      <message>Implijit <suggestion>\1-\2</suggestion>.</message>
+      <example type="incorrect">Lakaet eo bet e brezhoneg <marker>evel just</marker>.</example>
+      <example type="correct">Lakaet eo bet e brezhoneg <marker>evel-just</marker>.</example>
+    </rule>
+    <rule id="TRO_DRO" name="tro dro → tro-dro">
+      <pattern>
+        <token>tro</token>
+        <token>dro</token>
+      </pattern>
+      <message>Implijit <suggestion>\1-\2</suggestion>.</message>
+      <example type="incorrect">E Pariz ha <marker>tro dro</marker>.</example>
+      <example type="correct">E Pariz ha <marker>tro-dro</marker>.</example>
+    </rule>
+  </category>
+
+  <category name="A bep seurt">
     <rule id="PEBEZH" name="Pebezh">
       <pattern mark_to="-1">
         <token>pebezh</token>
@@ -1405,16 +1426,6 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
         <example type="correct">Prest eo lein.</example>
       </rule>
     </rulegroup>
-
-    <rule id="EVEL_JUST" name="evel just → evel-just">
-      <pattern>
-        <token>evel</token>
-        <token>just</token>
-      </pattern>
-      <message>Implijit <suggestion>\1-\2</suggestion>.</message>
-      <example type="incorrect">Lakaet eo bet e brezhoneg <marker>evel just</marker>.</example>
-      <example type="correct">Lakaet eo bet e brezhoneg <marker>evel-just</marker>.</example>
-    </rule>
 
     <rulegroup id="ABAOE_LEC_H" name="Abaoe Brest → Adalek Brest">
       <rule>
