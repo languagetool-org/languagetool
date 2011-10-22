@@ -1454,6 +1454,28 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
         <example type="incorrect"><marker>Da</marker> Izelvroioù on bet.</example>
         <example type="correct">En Izelvroioù on bet.</example>
       </rule>
+      <rule>
+        <pattern mark_from="2" mark_to="-1">
+          <token inflected="yes">bezañ</token>
+          <token>bet</token>
+          <token>da</token>
+          <token postag="Z .*" postag_regexp="yes" regexp="yes">[^aeiou].*</token>
+        </pattern>
+        <message>Fellout a ra deoc’h skrivañ <suggestion>en</suggestion>?</message>
+        <example type="incorrect">Me zo bet <marker>da</marker> Gemper.</example>
+        <example type="correct">Me zo bet e Gemper.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2" mark_to="-1">
+          <token inflected="yes">bezañ</token>
+          <token>bet</token>
+          <token>da</token>
+          <token postag="Z .*" postag_regexp="yes" regexp="yes">[aeiou].*</token>
+        </pattern>
+        <message>Fellout a ra deoc’h skrivañ <suggestion>en</suggestion>?</message>
+        <example type="incorrect">Te zo bet <marker>da</marker> Indez c’hoazh?</example>
+        <example type="correct">Te zo bet en Indez c’hoazh?</example>
+      </rule>
     </rulegroup>
 
   </category>
