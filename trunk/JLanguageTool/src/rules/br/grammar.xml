@@ -934,15 +934,17 @@ Grammatical resources:
       <example type="correct">Ar ouiziegezh</example>
     </rule>
 
-    <!-- [CHALM] L-3, page L-118 -->
+    <!-- [CHALM] L-3, page L-118 recommande "ar tsar" mais l'usage en pratique
+         est souvent "an tsar".  LanguageTool autorise les 2 possibilités. -->
     <rule id="AR_TSAR" name="ar + tsar, tsunami, etc.">
       <pattern mark_to="-1">
-        <token regexp="yes">[au][ln]</token>
+        <token regexp="yes">[au]l</token>
         <token regexp="yes" inflected="yes">tsunami|tsar|jazz|jean|joniged</token>
       </pattern>
-      <message>Ar ger-mell <suggestion><match no="1" regexp_match="(.*)." regexp_replace="$1r"/></suggestion> a vez implijet gant ar ger estren «\2».</message>
-      <example type="incorrect"><marker>An</marker> tsunami</example>
+      <message>Ar ger-mell <suggestion><match no="1" regexp_match="(.*)." regexp_replace="$1r"/></suggestion> pe <suggestion><match no="1" regexp_match="(.*)." regexp_replace="$1n"/></suggestion> a vez implijet gant ar ger estren «\2».</message>
+      <example type="incorrect"><marker>Al</marker> tsunami</example>
       <example type="correct">Ar tsunami</example>
+      <example type="correct">An tsunami</example>
     </rule>
   </category>
 
@@ -1191,7 +1193,6 @@ Grammatical resources:
         <example type="incorrect">Daou <marker>baotred</marker></example>
         <example type="correct">Daou baotr</example>
         <example type="correct">Gant yezhadurourien</example>
-        <example type="correct">Kentañ traoù</example>
         <example type="correct">Daou geloù</example>
       </rule>
       <rule>
