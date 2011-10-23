@@ -1666,5 +1666,25 @@ Grammatical resources:
       </rule>
     </rulegroup>
 
+    <rule id="MA_EZ_EUS" name="ma ez eus → ma'z eus">
+      <pattern mark_to="-1">
+        <token>ma</token>
+        <token>ez</token>
+        <token>eus</token>
+      </pattern>
+      <message>Ret eo skrivañ <suggestion>\1’z eus</suggestion>.</message>
+      <example type="incorrect"><marker>Ma ez</marker> eus ur gudenn</example>
+      <example type="correct">Ma’z eus ur gudenn</example>
+    </rule>
+    <rule id="MAZ_EO" name="maz eo → ma'z eo">
+      <pattern>
+        <token>maz</token>
+        <token regexp="yes">eo|eus</token>
+      </pattern>
+      <message>Ret eo skrivañ <suggestion><match no="1" regexp_match=".$" regexp_replace=""/>’z \2</suggestion>.</message>
+      <example type="incorrect"><marker>Maz eo</marker> mat deoc’h</example>
+      <example type="correct"><marker>Ma’z eo</marker> mat deoc’h</example>
+    </rule>
+
   </category>
 </rules>
