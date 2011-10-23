@@ -1598,5 +1598,19 @@ Grammatical resources:
       <example type="correct">Un neubeud tud</example>
     </rule>
 
+    <rulegroup id="GER_DOUBLET" name="Ger doublet">
+      <rule>
+        <pattern>
+          <token regexp="yes">\p{L}+<exception postag="SENT_START"/></token>
+          <token spacebefore="yes"><exception postag="J.*" postag_regexp="yes"></exception><match no="0"/></token>
+        </pattern>
+        <message>Ger doublet «\1 \2». Ha fellout a rae deoc’h skrivañ <suggestion>\1</suggestion>?</message>
+        <short>Doublon</short>
+        <example type="incorrect">Pelec‘h <marker>emañ emañ</marker> an ti-gar?</example>
+        <example type="correct">Pelec‘h <marker>emañ</marker> an ti-gar?</example>
+        <example type="correct">N’eo ket fur fur.</example>
+      </rule>
+    </rulegroup>
+
   </category>
 </rules>
