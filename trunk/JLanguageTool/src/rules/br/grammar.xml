@@ -1112,6 +1112,29 @@ Grammatical resources:
       <example type="incorrect">E Pariz ha <marker>tro dro</marker>.</example>
       <example type="correct">E Pariz ha <marker>tro-dro</marker>.</example>
     </rule>
+    <rule id="KORN_BRO" name="korn bro → korn-bro">
+      <pattern>
+        <token regexp="yes">([kg]|c’h)orn(ioù)?</token>
+        <token>bro</token>
+      </pattern>
+      <message>Implijit <suggestion>\1-\2</suggestion>.</message>
+      <example type="incorrect">Ur strollad eus <marker>korn bro</marker> An Orian</example>
+      <example type="correct">Ur strollad eus <marker>korn-bro</marker> An Orian</example>
+      <example type="incorrect">Kalz a <marker>gornioù bro</marker> e Breizh-Izel</example>
+      <example type="correct">Kalz a gornioù-bro e Breizh-Izel</example>
+    </rule>
+    <rule id="CHOM_A_SAV" name="chom a sav → chom a-sav">
+      <pattern mark_from="1">
+        <token inflected="yes" skip="3">chom</token>
+        <token>a</token>
+        <token>sav</token>
+      </pattern>
+      <message>Implijit <suggestion>\2-\3</suggestion>.</message>
+      <example type="incorrect">Chomet eo an horolaj <marker>a sav</marker>.</example>
+      <example type="correct">Chomet eo an horolaj a-sav.</example>
+      <example type="incorrect">Chom <marker>a sav</marker> ar bus.</example>
+      <example type="correct">Chom a-sav ar bus.</example>
+    </rule>
   </category>
 
   <category name="A bep seurt">
