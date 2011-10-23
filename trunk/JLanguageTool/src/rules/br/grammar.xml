@@ -846,6 +846,35 @@ Grammatical resources:
       </rule>
     </rulegroup>
 
+    <rulegroup id="DEVEIZIOU_MIZ" name="D'ar pemp a viz → D'ar bemp a viz">
+      <rule>
+        <pattern mark_from="1" mark_to="-2">
+          <token>ar</token>
+          <token regexp="yes" skip="1">pevar|pemp</token>
+          <token>a</token>
+          <token>viz</token>
+        </pattern>
+        <message>Evit envel deveizhioù ar miz eo e vez graet ur c’hemmadur dre vlotaat gant an niver. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match="^." regexp_replace="b"/></suggestion>?</message>
+        <example type="incorrect">D’ar <marker>pemp</marker> a viz Gwengolo</example>
+        <example type="correct">D’ar bemp a viz Gwengolo</example>
+        <example type="incorrect">D’ar <marker>pemp</marker> warn-ugent a viz Gwengolo</example>
+        <example type="correct">D’ar bemp warn-ugent a viz Gwengolo</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-2">
+          <token>an</token>
+          <token regexp="yes" skip="1">tri|tregont</token>
+          <token>a</token>
+          <token>viz</token>
+        </pattern>
+        <message>Evit envel deveizhioù ar miz eo e vez graet ur c’hemmadur dre vlotaat gant an niver. Ha fellout a rae deoc’h skrivan <suggestion><match no="2" regexp_match="^." regexp_replace="d"/></suggestion>?</message>
+        <example type="incorrect">D’an <marker>tregont</marker> a viz Eost</example>
+        <example type="correct">D’an dregont a viz Eost</example>
+        <example type="incorrect">D’an <marker>tri</marker> warn-ugent a viz Eost</example>
+        <example type="correct">D’an dri warn-ugent a viz Eost</example>
+      </rule>
+    </rulegroup>
+
   </category>
 
   <!-- Articles -->
