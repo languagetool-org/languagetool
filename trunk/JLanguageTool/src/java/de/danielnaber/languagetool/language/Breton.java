@@ -83,7 +83,10 @@ public class Breton extends Language {
 
   @Override
   public Contributor[] getMaintainers() {
-    return new Contributor[] { Contributors.DOMINIQUE_PELLE };
+    final Contributor contributorFulup = new Contributor("Fulup Jakez");
+    return new Contributor[] {
+        Contributors.DOMINIQUE_PELLE, contributorFulup
+    };
   }
 
   @Override
