@@ -168,7 +168,7 @@ Grammatical resources:
           <token regexp="yes">[au]r</token>
           <token regexp="yes">[fb]lac’h(ig)?(-(mañ|se|hont))?</token>
         </pattern>
-        <message>Ar ger benel «\2» a chom digemm warlec’h ar ger-mell. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match="^" regexp_replace="p"/></suggestion>?</message>
+        <message>Ar ger benel «\2» a chom digemm war-lerc’h ar ger-mell. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match="^" regexp_replace="p"/></suggestion>?</message>
         <example type="incorrect">Fur eo ar <marker>blac’hig-se</marker>.</example>
         <example type="correct">Fur eo ar plac’hig-se.</example>
       </rule>
@@ -850,7 +850,7 @@ Grammatical resources:
       <rule>
         <pattern mark_from="1" mark_to="-2">
           <token>ar</token>
-          <token regexp="yes" skip="1">pevar|pemp</token>
+          <token regexp="yes" skip="1">pevar(zek)?|pemp|pemzek</token>
           <token>a</token>
           <token>viz</token>
         </pattern>
@@ -863,7 +863,7 @@ Grammatical resources:
       <rule>
         <pattern mark_from="1" mark_to="-2">
           <token>an</token>
-          <token regexp="yes" skip="1">tri|tregont</token>
+          <token regexp="yes" skip="1">tri(wec’h)?|tregont</token>
           <token>a</token>
           <token>viz</token>
         </pattern>
@@ -1091,6 +1091,18 @@ Grammatical resources:
       <example type="correct">War an daol ez eus bara.</example>
       <example type="correct">War an daol ez eus ur gontell.</example>
     </rule>
+
+    <rule id="EN_EM_FAZIAN" name="en em faziañ → faziañ">
+      <pattern>
+        <token>en</token>
+        <token>em</token>
+        <token inflected="yes" regexp="yes">diskuizhañ|faziañ|sevel</token>
+      </pattern>
+      <message>Ne vez ket implijet «en em» gant ar verb «\3». Ha fellout a rae doc’h skrivan <suggestion>\3</suggestion></message>
+      <example type="incorrect"><marker>En em faziañ</marker> a rit.</example>
+      <example type="correct">Faziañ a rit.</example>
+      <example type="correct">En em gemer a rez re ziwezhat.</example>
+    </rule>
   </category>
 
   <category name="Berennig-stagañ">
@@ -1201,6 +1213,15 @@ Grammatical resources:
         <message>Ha fellout a rae deoc’h skrivañ <suggestion>al Lun</suggestion>?</message>
         <example type="incorrect">Mont a ran d’ar skol d’<marker>an dilun</marker>.</example>
         <example type="correct">Mont a ran d’ar skol d'al Lun.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">bep</token>
+          <token regexp="yes">dilun|dimeurzh|dimerc’her|diriaou|digwener|disadorn|disul</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" case_conversion="startupper" regexp_match="..(.*)" regexp_replace="$1"/></suggestion>?</message>
+        <example type="incorrect">Bep <marker>disadorn</marker> ez an e kêr.</example>
+        <example type="correct">Bep Sadorn ez an e kêr.</example>
       </rule>
     </rulegroup>
 
@@ -1685,6 +1706,35 @@ Grammatical resources:
       <example type="incorrect"><marker>Maz eo</marker> mat deoc’h</example>
       <example type="correct"><marker>Ma’z eo</marker> mat deoc’h</example>
     </rule>
+    <rulegroup id="SETU_ACHANONON" name="setu ac’hanon → setu me">
+      <rule>
+        <pattern>
+          <token>setu</token>
+          <token>ac’hanon</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>\1 me</suggestion>?</message>
+        <example type="incorrect"><marker>Setu ac’hanon</marker></example>
+        <example type="correct"><marker>Setu me</marker></example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>setu</token>
+          <token>ac’hanout</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>\1 te</suggestion>?</message>
+        <example type="incorrect"><marker>Setu ac’hanout</marker></example>
+        <example type="correct"><marker>Setu te</marker></example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>setu</token>
+          <token>ac’hanomp</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>\1 ni</suggestion>?</message>
+        <example type="incorrect"><marker>Setu ac’hanomp</marker></example>
+        <example type="correct"><marker>Setu ni</marker></example>
+      </rule>
+    </rulegroup>
 
   </category>
 </rules>
