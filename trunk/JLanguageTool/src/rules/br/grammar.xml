@@ -5,8 +5,9 @@ title="Easy editing stylesheet" ?>
 <!--
 Breton Grammar and Typo Rules for LanguageTool
 Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
+                   Fulup Jakez <fulup.jakez@ofis-bzh.org>
 
-Grammatical resources:
+Some grammatical resources used:
 
 * [CHALM] La grammaire bretonne pour tous (Eugène CHALM).
 * [MKKER] Le guide du bretonnant (Mark KERRAIN).
@@ -427,8 +428,8 @@ Grammatical resources:
       <rule>
         <pattern mark_from="1">
           <token postag="SENT_START"/>
-          <token postag=".*M.*:1:.*" postag_regexp="yes">
-            <exception negate_pos="yes" postag=".*M:.*" postag_regexp="yes"/>
+          <token postag="[^M]*M.*:1:.*" postag_regexp="yes">
+            <exception negate_pos="yes" postag="[^M]*M:.*" postag_regexp="yes"/>
           </token>
         </pattern>
         <message>Ne zlefe ket bezañ ur c’hemmadur dre vlotaat amañ.</message>
@@ -812,8 +813,8 @@ Grammatical resources:
         <pattern mark_from="2">
           <token>ul</token>
           <token>labour</token>
-          <token postag=".*M:.*" postag_regexp="yes">
-            <exception negate_pos="yes" postag=".*M:.*" postag_regexp="yes"/>
+          <token postag="[^M]*M:.*" postag_regexp="yes">
+            <exception negate_pos="yes" postag="[^M]*M:.*" postag_regexp="yes"/>
           </token>
         </pattern>
         <message>Net zlefe ket bezañ ur c’hemmadur goude «\1 \2».</message>
@@ -825,7 +826,7 @@ Grammatical resources:
           <token negate="yes">ul</token>
           <token>labour</token>
           <token>
-            <exception negate_pos="yes" postag=".*M.*:1a:.*" postag_regexp="yes"/>
+            <exception negate_pos="yes" postag="[^M]*M.*:1a:.*" postag_regexp="yes"/>
           </token>
         </pattern>
         <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude «\1 \2».</message>
@@ -910,19 +911,34 @@ Grammatical resources:
       <example type="correct">Ur ouiziegezh</example>
       <example type="correct">Ur tsunami</example>
     </rule>
-    <rule id="AR" name="ger ar, ur, er, hor">
-      <pattern mark_to="-1">
-        <token regexp="yes">[aeu][ln]|hol<exception scope="previous">ned</exception></token>
-        <token regexp="yes">[bcfgjkmprsvwyz].*
-          <exception postag="K .* o.*" postag_regexp="yes"></exception></token>
-      </pattern>
-      <message>Ar ger «\1» a zlefe bezañ <suggestion><match no="1" regexp_match="(.*)." regexp_replace="$1r"/></suggestion> dirak ur ger na grog ket gant al lizherennoù «n, d, t, h» per ur vogalenn.</message>
-      <example type="incorrect"><marker>An</marker> vell-droad a blij din.</example>
-      <example type="correct">Ar vell-droad a blij din.</example>
-      <example type="correct">Etre ar VIIvet hag an XIIvet kantved</example>
-      <example type="correct">Ned an ket d’ar skol hiziv.</example>
-      <example type="correct">Ar ouiziegezh</example>
-    </rule>
+    <rulegroup id="AR" name="ger ar, ur, er, hor">
+      <rule>
+        <pattern mark_to="-1">
+          <token regexp="yes">[aeu]l|hol</token>
+          <token regexp="yes">[bcfgjkmprsvwyz].*</token>
+        </pattern>
+        <message>Ar ger «\1» a zlefe bezañ <suggestion><match no="1" regexp_match="(.*)." regexp_replace="$1r"/></suggestion> dirak ur ger na grog ket gant al lizherennoù «n, d, t, h» per ur vogalenn.</message>
+        <example type="incorrect"><marker>Al</marker> vell-droad a blij din.</example>
+        <example type="correct">Ar vell-droad a blij din.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token regexp="yes">[aeu]n<exception scope="previous">ned</exception></token>
+          <token regexp="yes">[bcfgjkmprsvwyz].*
+            <exception postag="K .* o.*" postag_regexp="yes"></exception>
+            <exception regexp="yes" postag="UNKNOWN">[FLMNRS]\p{Lu}*</exception>
+          </token>
+        </pattern>
+        <message>Ar ger «\1» a zlefe bezañ <suggestion><match no="1" regexp_match="(.*)." regexp_replace="$1r"/></suggestion> dirak ur ger na grog ket gant al lizherennoù «n, d, t, h» per ur vogalenn.</message>
+        <example type="incorrect"><marker>An</marker> vell-droad a blij din.</example>
+        <example type="correct">Ar vell-droad a blij din.</example>
+        <example type="correct">Etre ar VIIvet hag an XIIvet kantved</example>
+        <example type="correct">Ned an ket d’ar skol hiziv.</example>
+        <example type="correct">Ar ouiziegezh</example>
+        <example type="incorrect"><marker>AN</marker> FILM A BLIJ DIN</example>
+        <example type="correct">Gant an FSE</example>
+      </rule>
+    </rulegroup>
     <rule id="AR_OUI" name="ger ar, ur, er, hor + oui">
       <pattern mark_to="-1">
         <token regexp="yes">[aeu][ln]|hol<exception scope="previous">ned</exception></token>
@@ -1096,7 +1112,7 @@ Grammatical resources:
       <pattern>
         <token>en</token>
         <token>em</token>
-        <token inflected="yes" regexp="yes">diskuizhañ|faziañ|sevel</token>
+        <token inflected="yes" regexp="yes">diskuizhañ|ebatal|faziañ|sevel</token>
       </pattern>
       <message>Ne vez ket implijet «en em» gant ar verb «\3». Ha fellout a rae doc’h skrivan <suggestion>\3</suggestion></message>
       <example type="incorrect"><marker>En em faziañ</marker> a rit.</example>
@@ -1490,7 +1506,7 @@ Grammatical resources:
       <rule>
         <pattern mark_to="-1" case_sensitive="yes">
           <token regexp="yes">[aAeE][nr]</token>
-          <token regexp="yes">Afrika|Bro-C’hall|Bro-Saoz|Breizh|Iwerzhon|Kembre|Kernev</token>
+          <token regexp="yes">Afrika|Bro-C’hall|Bro-Saoz|Kreiz-Breizh|Breizh(-(Izel|Uhel))?|Iwerzhon|Kembre|Kernev</token>
         </pattern>
         <message>Ne vez ket implijet ar gerioù-mell dirak anvioù ar broioù.</message>
         <example type="incorrect">Brav eo <marker>ar</marker> Breizh.</example>
