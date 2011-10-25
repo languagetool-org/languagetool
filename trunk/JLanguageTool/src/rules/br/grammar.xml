@@ -335,8 +335,9 @@ Some grammatical resources used:
     <rulegroup id="KEMM_DRE_C_HWEZHADENNIN" name="kemmadur dre c’hwezhadenniñ">
       <rule>
         <pattern mark_from="1">
-          <token regexp="yes">em|he|nav|o|peder|pevar|teir|tri|va
+          <token regexp="yes">em|he|ma|nav|o|peder|pevar|teir|tri|va
             <exception postag_regexp="yes" postag="L o|X EN_EM"/>
+            <exception postag="C sub">ma</exception>
           </token>
           <and>
             <token regexp="yes" inflected="yes">t.*</token>
@@ -346,13 +347,18 @@ Some grammatical resources used:
         <message>Ur c’hemmadur dre c’hwezhadenniñ zlefe bezañ goude ar ger «\1». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="z$1"/></suggestion>?</message>
         <example type="incorrect">Va <marker>tad</marker> a gomz brezhoneg.</example>
         <example type="incorrect">Va <marker>dad</marker> a gomz brezhoneg.</example>
+        <example type="incorrect">Ma <marker>tad</marker> a gomz brezhoneg.</example>
+        <example type="incorrect">Ma <marker>dad</marker> a gomz brezhoneg.</example>
         <example type="correct">Va zad a gomz brezhoneg.</example>
+        <example type="correct">Ma zad a gomz brezhoneg.</example>
         <example type="correct">En em dermeniñ a ra evel ur skiantel.</example>
+        <example type="correct">Laouen e vefen ma teufen.</example>
       </rule>
       <rule>
         <pattern mark_from="1">
-          <token regexp="yes">em|he|nav|o|peder|pevar|teir|tri|va
+          <token regexp="yes">em|he|ma|nav|o|peder|pevar|teir|tri|va
             <exception postag_regexp="yes" postag="L o|X EN_EM"/>
+            <exception postag="C sub">ma</exception>
           </token>
           <and>
             <token regexp="yes" inflected="yes">k.*</token>
@@ -367,8 +373,9 @@ Some grammatical resources used:
       </rule>
       <rule>
         <pattern mark_from="1">
-          <token regexp="yes">em|he|nav|o|peder|pevar|teir|tri|va
+          <token regexp="yes">em|he|ma|nav|o|peder|pevar|teir|tri|va
             <exception postag_regexp="yes" postag="L o|X EN_EM"/>
+            <exception postag="C sub">ma</exception>
           </token>
           <and>
             <token regexp="yes" inflected="yes">p.*</token>
@@ -883,7 +890,7 @@ Some grammatical resources used:
     <rule id="AL" name="gerioù al, ul, el, hol">
       <pattern mark_to="-1">
         <token regexp="yes">[aeu][nr]|hor<exception postag="X EN_UR"/></token>
-        <token regexp="yes">l.*</token>
+        <token regexp="yes">l..*</token>
       </pattern>
       <message>Ar ger «\1» a zlefe bezañ <suggestion><match no="1" regexp_match="(.*)." regexp_replace="$1l"/></suggestion> dirak ur ger a grog gant ar gensonenn «l».</message>
       <example type="incorrect"><marker>Ur</marker> levr a zo ganin.</example>
@@ -895,6 +902,7 @@ Some grammatical resources used:
       <example type="incorrect">Tev eo <marker>hor</marker> levr.</example>
       <example type="correct">Tev eo hol levr.</example>
       <example type="correct">Kouezhet on en ur lammat.</example>
+      <example type="correct">An l glebiet</example>
     </rule>
     <rule id="AN" name="gerioù an, un, en, hon">
       <pattern mark_to="-1">
