@@ -78,7 +78,7 @@ public class CheckWikipediaDump {
     }
     int maxArticles = 0;
     if (args.length == 6) {
-      maxArticles = Integer.parseInt(args[4]);
+      maxArticles = Integer.parseInt(args[5]);
     }
     String[] ruleIds = null;
     if (!"-".equals(args[4])) {
