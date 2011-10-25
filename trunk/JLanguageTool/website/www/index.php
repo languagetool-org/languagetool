@@ -1,18 +1,18 @@
 <?php
 $page = "homepage";
 $title = "LanguageTool";
-$title2 = "Open Source language checker";
-$lastmod = "2011-09-25 16:20:00 CET";
+$title2 = "Style and Grammar Checker";
+$lastmod = "2011-10-24 16:20:00 CET";
 include("../include/header.php");
 ?>
 		
-<p class="firstpara"><strong>An Open Source style and grammar checker for English, French, German, Polish, 
-Dutch, Romanian, and <?=show_link("other languages", "languages/", 0) ?>.</strong>
+<p class="firstpara"><strong>LanguageTool is a style and grammar proofreading software for English, French, German, Polish, 
+Dutch, Romanian, and a lot of <?=show_link("other languages", "languages/", 0) ?>.</strong>
 You can think of LanguageTool as a software to detect errors that a simple spell checker cannot detect, e.g. mixing
 up <em>there/their</em>, <em>no/now</em> etc. It can also detect some grammar mistakes. It does not include spell checking.</p>
 
-<p>LanguageTool will only find errors for which a rule is defined in its 
-XML configuration files. Rules for more complicated errors can be  written in Java.</p>
+<p>LanguageTool will find errors for which a rule is defined in its 
+language-specific configuration files. Rules for detecting more complicated errors can be written in Java.</p>
 
 
 <h2>Download</h2>
@@ -75,7 +75,7 @@ successfully finished their projects and the results will be part of LanguageToo
 <h2>License &amp; Source Code</h2>
 
 <p>LanguageTool is freely available under the <?=show_link("LGPL", "http://www.fsf.org/licensing/licenses/lgpl.html#SEC1", 0)?>.
-The source is available <?=show_link("at Sourceforge", "http://sourceforge.net/projects/languagetool/", 1) ?> via SVN</p>
+The source is available <?=show_link("at Sourceforge", "http://sourceforge.net/projects/languagetool/", 1) ?> via SVN.</p>
 
 <div style="height:750px"></div>
 
