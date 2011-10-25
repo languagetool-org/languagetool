@@ -91,7 +91,7 @@ public class German extends Language {
   public List<Class<? extends Rule>> getRelevantRules() {
     return Arrays.asList(
             CommaWhitespaceRule.class,
-            DoublePunctuationRule.class,
+            GermanDoublePunctuationRule.class,
             GenericUnpairedBracketsRule.class,
             UppercaseSentenceStartRule.class,
             WhitespaceRule.class,

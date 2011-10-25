@@ -38,7 +38,7 @@ public class DoublePunctuationRule extends Rule {
   }
 
   @Override
-  public final String getId() {
+  public String getId() {
     return "DOUBLE_PUNCTUATION";
   }
 
@@ -70,18 +70,16 @@ public class DoublePunctuationRule extends Rule {
         startPos = tokens[i].getStartPos();
       }
       if (dotCount == 2 && !".".equals(nextToken)) {
-        final String msg = messages.getString("two_dots");
         final int fromPos = Math.max(0, startPos - 1);
         final RuleMatch ruleMatch = new RuleMatch(this, fromPos, startPos + 1,
-            msg, messages.getString("double_dots_short"));
+            getDotMessage(), messages.getString("double_dots_short"));
         ruleMatch.setSuggestedReplacement(".");
         ruleMatches.add(ruleMatch);
         dotCount = 0;
       } else if (commaCount == 2 && !",".equals(nextToken)) {
-        final String msg = messages.getString("two_commas");
         final int fromPos = Math.max(0, startPos);
         final RuleMatch ruleMatch = new RuleMatch(this, fromPos, startPos + 1,
-            msg, messages.getString("double_commas_short"));
+            getCommaMessage(), messages.getString("double_commas_short"));
         ruleMatch.setSuggestedReplacement(",");
         ruleMatches.add(ruleMatch);
         commaCount = 0;
@@ -95,6 +93,14 @@ public class DoublePunctuationRule extends Rule {
     return toRuleMatchArray(ruleMatches);
   }
 
+  protected String getDotMessage() {
+    return messages.getString("two_dots");
+  }
+
+  protected String getCommaMessage() {
+    return messages.getString("two_commas");
+  }
+  
   @Override
   public void reset() {
     // nothing
