@@ -1,13 +1,13 @@
 #!/usr/bin/perl -w
 #
-# Convert the Breton lexicon from apertium into a lexicon suitable for
+# Convert the Breton lexicon from Apertium into a lexicon suitable for
 # the LanguageTool grammar checker.
 #
 # LanguageTool POS tags for Breton are more or less similar to French tags to
-# keep it simple.  This makes it easier to maintain grammar for # both French
+# keep it simple.  This makes it easier to maintain grammar for both French
 # and Breton without too much to remember.
 #
-# POS tags for LanguageTool simplify POS tags present in apertium.
+# POS tags for LanguageTool simplify POS tags present in Apertium.
 # Simpler POS tags make it easier to write regular expression in
 # LanguageTool, but information can be lost in the conversion.
 #
@@ -34,12 +34,12 @@ my $dic_out = "$dic_in-LT.txt";
 my $dic_err = "$dic_in-LT.err";
 
 # List of plural masculine nouns of persons for which it matters to know
-# whether they are persons or not for the mutation after articile "ar".
+# whether they are persons or not for the mutation after article "ar".
 # Those are unfortunately not tagged in the Apertium dictionary.
 # So we enhance tagging here to be able to detect some incorrect mutations
 # after the article ar/an/al.
 # Only plural words that have a first letter which can mutate need to
-# be listed here. So "studerien" for example does not need to be
+# be listed here. So "studierien" for example does not need to be
 # listed for example since s.* word don't mutate.
 # This list is far from being complete. The more words the more
 # mutation errors can be detected. But missing words should not
@@ -48,6 +48,9 @@ my $dic_err = "$dic_in-LT.err";
 my @anv_lies_tud = (
   # plural              softening         reinforcing     spirant
   "Gallaoued",          "C’hallaoued",    "Kallaoued",
+  "gallegerien",        "c’hallegerien",  "kallegerien",
+  "gallegerion",        "c’hallegerion",  "kallegerion",
+  "baleerien",          "valeerien",      "paleerien",
   "baraerien",          "varaerien",      "paraerien",
   "barzhed",            "varzhed",        "parzhed",
   "beajourien",         "veajourien",     "peajourien",
@@ -55,6 +58,7 @@ my @anv_lies_tud = (
   "bleinerien",         "vleinerien",     "pleinerien",
   "bleinerion",         "vleinerion",     "pleinerion",
   "breudeur",           "vreudeur",       "preudeur",
+  "brezhonegerien",     "vrezhonegerien", "prezhonegerien",
   "bugale",             "vugale",         "pugale",
   "butuner",            "vutuner",        "putuner",
   "dañserien",                            "tañserien",
@@ -68,6 +72,7 @@ my @anv_lies_tud = (
   "gwerzherien",        "werzherien",     "kwerzherien",
   "gwiaderien",         "wiaderien",      "kwiaderien",
   "gwiaderion",         "wiaderion",      "kwiaderion",
+  "gwiniegourien",      "winiegourien",   "kwiniegourien",
   "kabitened",          "gabitened",      "c’habitened",
   "kamaraded",          "gamaraded",      "c’hamaraded",
   "kariaded",           "gariaded",       "c’hariaded",
@@ -167,7 +172,7 @@ while (<LT_EXPAND>) {
 
     # Adverbs.
     elsif ($tags eq '<cnjcoo>')           { $tag = "C coor" }    # ha, met
-    elsif ($tags eq '<cnjadv>')           { $tag = "C adv" }     # eta, michañs
+    elsif ($tags eq '<cnjadv>')           { $tag = "C adv" }     # eta, emichañs
     elsif ($tags =~ /<cnjsub>.*/)         { $tag = "C sub" }     # mar, pa
 
     # Adverbs.
@@ -179,7 +184,7 @@ while (<LT_EXPAND>) {
     # Adjectives.
     elsif ($tags eq '<adj><mf><sp>')      { $tag = "J" }     # brav, fur
     elsif ($tags eq '<adj><sint><comp>')  { $tag = "J cmp" } # bravoc’h
-    elsif ($tags eq '<adj><sint><sup>')   { $tag = "J sup" } # bravvañ
+    elsif ($tags eq '<adj><sint><sup>')   { $tag = "J sup" } # bravañ
     elsif ($tags eq '<adj><sint><excl>')  { $tag = "J exc" } # bravat
     elsif ($tags eq '<adj><itg><mf><sp>') { $tag = "J itg" } # peseurt, petore
     elsif ($tags eq '<adj><ind><mf><sp>') { $tag = "J ind" } # all, memes
@@ -203,7 +208,7 @@ while (<LT_EXPAND>) {
     elsif ($tags eq '<prn><itg><mf><sp>')      { $tag = "R itg e sp"; }  # petra, piv
     elsif ($tags eq '<prn><itg><mf><pl>')      { $tag = "R itg e p"; }   # pere
     elsif ($tags eq '<prn><dem><m><sg>')       { $tag = "R dem m s"; }   # hemañ
-    elsif ($tags eq '<prn><dem><f><sg>')       { $tag = "R dem f s"; }   # hennezh
+    elsif ($tags eq '<prn><dem><f><sg>')       { $tag = "R dem f s"; }   # homañ
     elsif ($tags eq '<prn><dem><mf><sg>')      { $tag = "R dem e s"; }   # se
     elsif ($tags eq '<prn><ind><mf><sg>')      { $tag = "R ind mf s"; }  # hini
     elsif ($tags eq '<prn><ind><mf><pl>')      { $tag = "R ind mf p"; }  # re
@@ -212,7 +217,7 @@ while (<LT_EXPAND>) {
     elsif ($tags eq '<prn><def><f><sg>')       { $tag = "R def f s"; }   # eben
 
     # Pronouns object.
-    elsif ($tags eq '<prn><obj><p1><mf><sg>') { $tag = "R e s 1 obj"; } # va
+    elsif ($tags eq '<prn><obj><p1><mf><sg>') { $tag = "R e s 1 obj"; } # ma, va
     elsif ($tags eq '<prn><obj><p1><mf><pl>') { $tag = "R e p 1 obj"; } # hon, hor, hol
     elsif ($tags eq '<prn><obj><p2><mf><sg>') { $tag = "R e s 2 obj"; } # az
     elsif ($tags eq '<prn><obj><p2><mf><pl>') { $tag = "R e p 2 obj"; } # ho
@@ -227,11 +232,11 @@ while (<LT_EXPAND>) {
     elsif ($tags eq '<num><mf><pl>') { $tag = "K e p"; }
 
     # Ordinal numbers.
-    elsif ($tags eq '<num><ord><mf><sp>')   { $tag = "K e sp o"; } # eil
-    elsif ($tags eq '<num><ord><mf><sg>')   { $tag = "K e s o"; }  # trede
+    elsif ($tags eq '<num><ord><mf><sp>')   { $tag = "K e sp o"; }
+    elsif ($tags eq '<num><ord><mf><sg>')   { $tag = "K e s o"; }
     elsif ($tags eq '<num><ord><mf><pl>')   { $tag = "K e p o"; }
     elsif ($tags eq '<num><ord><m><pl>')    { $tag = "K m p o"; }
-    elsif ($tags eq '<num><ord><m><sp>')    { $tag = "K m sp o"; } # kentañ
+    elsif ($tags eq '<num><ord><m><sp>')    { $tag = "K m sp o"; }
     elsif ($tags eq '<num><ord><f><pl>')    { $tag = "K f p o"; }
 
     # Indirect preposition.
