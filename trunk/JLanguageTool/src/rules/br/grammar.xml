@@ -692,6 +692,71 @@ Some grammatical resources used:
         <example type="correct">Ar gweleoù</example>
       </rule>
     </rulegroup>
+    <rulegroup id="KEMM_MESKET_MA" name="kemmadur mesket goude ar stagell ma">
+      <rule>
+        <pattern mark_from="1">
+          <token postag="C sub">ma<exception negate_pos="yes" postag="C sub"/></token>
+          <and>
+            <token regexp="yes" inflected="yes">g[^w].*</token>
+            <token regexp="yes" negate="yes">(c’h|k|o).*</token>
+          </and>
+        </pattern>
+        <message>Goude ar stagell «\1» e tlefe c‘hoarvezout ur c’hemmadur mesket. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="c’h$1"/></suggestion>?</message>
+        <example type="incorrect">Ma <marker>gallen</marker> mont ez ajen.</example>
+        <example type="correct">Ma c’hallen mont ez ajen.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token postag="C sub">ma<exception negate_pos="yes" postag="C sub"/></token>
+          <and>
+            <token regexp="yes" inflected="yes">gw.*</token>
+            <token regexp="yes">[gk].*</token>
+          </and>
+        </pattern>
+        <message>Goude ar stagell «\1» e tlefe c’hoarvezout ur c’hemmadur mesket. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="$1"/></suggestion>?</message>
+        <example type="incorrect">Ma <marker>gwelfes</marker> anezhañ e komprenfes.</example>
+        <example type="correct">Ma welfes anezhañ e komprenfes</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token postag="C sub">ma<exception negate_pos="yes" postag="C sub"/></token>
+          <and>
+            <token regexp="yes" inflected="yes">d.*</token>
+            <token regexp="yes">[dz].*</token>
+          </and>
+        </pattern>
+        <message>Goude ar stagell «\1» e tlefe c’hoarvezout ur c’hemmadur mesket. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="t$1"/></suggestion>?</message>
+        <example type="incorrect">Gourc‘hemen a ran ma <marker>deuio</marker>.</example>
+        <example type="incorrect">Gourc‘hemen a ran ma <marker>zeuio</marker>.</example>
+        <example type="correct">Gourc‘hemen a ran ma teuio.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token postag="C sub">ma<exception negate_pos="yes" postag="C sub"/></token>
+          <and>
+            <token regexp="yes" inflected="yes">b.*</token>
+            <token regexp="yes">[bp].*</token>
+          </and>
+        </pattern>
+        <message>Goude ar stagell «\1» e tlefe c’hoarvezout ur c’hemmadur mesket. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="v$1"/></suggestion>?</message>
+        <example type="incorrect">Ma <marker>befen</marker> amañ e vefen laouen.</example>
+        <example type="incorrect">Ma <marker>pefen</marker> amañ e vefen laouen.</example>
+        <example type="correct">Mar vefen amañ e vefen laouen.</example>
+        <example type="correct">Mar befen amañ e vefen laouen.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token postag="C sub">ma<exception negate_pos="yes" postag="C sub"/></token>
+          <and>
+            <token regexp="yes" inflected="yes">m.*</token>
+            <token regexp="yes">m.*</token>
+          </and>
+        </pattern>
+        <message>Goude ar stagell «\1» e tlefe c’hoarvezout ur c’hemmadur mesket. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="v$1"/></suggestion>?</message>
+        <example type="incorrect">A-raok ma <marker>marvas</marker></example>
+        <example type="correct">A-raok ma varvas</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="KEMM_MESKET_RANNIG_E_O" name="kemmadur mesket goude ar rannigoù-verb e pe o">
       <rule>
         <pattern mark_from="1">
