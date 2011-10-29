@@ -1912,5 +1912,32 @@ Some grammatical resources used:
       </rule>
     </rulegroup>
 
+    <rulegroup id="TOST_EUS" name="tost eus → tost da">
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token inflected="yes" skip="1">tost</token>
+          <token>eus</token>
+          <token regexp="yes">[aeiouh].*</token>
+        </pattern>
+        <message>Ha fellout a ra deoc’h skrivañ <suggestion>d’</suggestion>?</message>
+        <example type="incorrect">Tost a-walc’h <marker>eus</marker> an tan.</example>
+        <example type="incorrect">Tost <marker>eus</marker> an tan.</example>
+        <example type="correct">Tost a-walc‘h d’an tan.</example>
+        <example type="correct">Tost d’an tan.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token inflected="yes" skip="1">tost</token>
+          <token>eus</token>
+          <token negate="yes" regexp="yes">[aeiouh].*</token>
+        </pattern>
+        <message>Ha fellout a ra deoc’h skrivañ <suggestion>da</suggestion>?</message>
+        <example type="incorrect">Tost <marker>eus</marker> nav eur.</example>
+        <example type="incorrect">Tost-bras <marker>eus</marker> nav eur.</example>
+        <example type="correct">Tost da nav eur.</example>
+        <example type="correct">Tost-bras da nav eur.</example>
+      </rule>
+    </rulegroup>
+
   </category>
 </rules>
