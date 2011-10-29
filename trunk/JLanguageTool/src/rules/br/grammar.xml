@@ -247,6 +247,20 @@ Some grammatical resources used:
         <example type="correct">Ne gomprenit dre ma’z oc’h sot.</example>
       </rule>
       <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">2|a|aba|da|daou|div|dre|eme|endra|gwall|holl|ne|pa|re|seul
+            <exception postag="V.*" postag_regexp="yes">a</exception>
+          </token>
+          <and>
+            <token regexp="yes">c’h.*</token>
+            <token regexp="yes" inflected="yes">k.*</token>
+          </and>
+        </pattern>
+        <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude ar ger «\1». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match="...(.*)" regexp_replace="g$1"/></suggestion>?</message>
+        <example type="incorrect">Niver a <marker>c’hentelioù-noz</marker></example>
+        <example type="correct">Niver a gentelioù-noz</example>
+      </rule>
+      <rule>
         <pattern mark_from="2">
           <token>en</token>
           <token>em</token>
