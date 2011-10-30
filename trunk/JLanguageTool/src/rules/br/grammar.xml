@@ -1277,7 +1277,7 @@ Some grammatical resources used:
     <rule id="TI_GAR" name="ti gar → ti-gar">
       <pattern>
         <token regexp="yes">[td]i(iez)?</token>
-        <token regexp="yes">embann|kêr|krampouezh|gar|skol</token>
+        <token regexp="yes">bank|debriñ|embann|kêr|krampouezh|gar|pizza|plouz|polis|post|skol</token>
       </pattern>
       <message>Implijit <suggestion>\1-\2</suggestion>.</message>
       <example type="incorrect">Pelec’h emañ an <marker>ti gar</marker>?</example>
@@ -1660,17 +1660,19 @@ Some grammatical resources used:
         <example type="correct">Gwelet ez peus henhont?</example>
       </rule>
     </rulegroup>
-    <rule id="GOUZOUT_MA" name="N’ouzon ket ma → N’ouzon ket ha">
-      <pattern mark_from="2">
-        <token inflected="yes">gouzout</token>
-        <token>ket</token>
-        <token>ma</token>
-      </pattern>
-      <message>Ha fellout a rae deoc’h skrivañ <suggestion>ha</suggestion>, pe <suggestion>hag-eñ e</suggestion>, pe <suggestion>daoust hag-eñ e</suggestion>?</message>
-      <example type="incorrect">N’ouzon ket <marker>ma</marker> komprenez.</example>
-      <example type="correct">N’ouzon ket ha kompren a rez.</example>
-      <example type="correct">N’ouzon ket hag-eñ e komprenez.</example>
-    </rule>
+    <rulegroup id="GOUZOUT_MA" name="N’ouzon ket ma → N’ouzon ket ha">
+      <rule>
+        <pattern mark_from="2">
+          <token inflected="yes">gouzout</token>
+          <token>ket</token>
+          <token>ma</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>ha</suggestion>, pe <suggestion>hag-eñ e</suggestion>, pe <suggestion>daoust hag-eñ e</suggestion>?</message>
+        <example type="incorrect">N’ouzon ket <marker>ma</marker> komprenez.</example>
+        <example type="correct">N’ouzon ket ha kompren a rez.</example>
+        <example type="correct">N’ouzon ket hag-eñ e komprenez.</example>
+      </rule>
+    </rulegroup>
 
     <rulegroup id="AR_BREIZH" name="Ar Breizh → Breizh">
       <rule>
@@ -1878,6 +1880,16 @@ Some grammatical resources used:
         <example type="incorrect">Pelec‘h <marker>emañ emañ</marker> an ti-gar?</example>
         <example type="correct">Pelec‘h <marker>emañ</marker> an ti-gar?</example>
         <example type="correct">N’eo ket fur fur.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">\p{L}+<exception postag="SENT_START"/></token>
+          <token spacebefore="yes" postag="J.*" postag_regexp="yes"><match no="0"/></token>
+        </pattern>
+        <message>Ger doublet «\1 \2». Ha fellout a rae deoc’h skrivañ <suggestion>\1</suggestion> pe gant ur barrennig stagañ <suggestion>\1-\2</suggestion>?</message>
+        <short>Doublon</short>
+        <example type="incorrect"><marker>Brav brav</marker> eo an ti.</example>
+        <example type="correct">Brav-brav eo an ti.</example>
       </rule>
     </rulegroup>
 
