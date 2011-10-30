@@ -261,6 +261,21 @@ Some grammatical resources used:
         <example type="correct">Niver a gentelioù-noz</example>
       </rule>
       <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">2|a|aba|da|daou|div|dre|eme|endra|gwall|holl|ne|pa|re|seul</token>
+          <and>
+            <token regexp="yes">z.*
+              <exception regexp="yes" inflected="yes">d.*</exception>
+            </token>
+            <token regexp="yes" inflected="yes">t.*</token>
+          </and>
+        </pattern>
+        <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude «\1». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="d$1"/></suggestion>?</message>
+        <example type="incorrect">Re <marker>zeñval</marker> eo evit lenn.</example>
+        <example type="correct">Re deñval eo evit lenn.</example>
+      </rule>
+
+      <rule>
         <pattern mark_from="2">
           <token>en</token>
           <token>em</token>
@@ -280,6 +295,7 @@ Some grammatical resources used:
         <example type="incorrect">En em <marker>gwelet</marker> a raen.</example>
         <example type="correct">En em welet a raen.</example>
       </rule>
+
     </rulegroup>
 
     <!-- Mutations renforçantes -->
@@ -707,6 +723,7 @@ Some grammatical resources used:
         <example type="incorrect">Ar <marker>weleoù</marker></example>
         <example type="correct">Ar gweleoù</example>
       </rule>
+
     </rulegroup>
     <rulegroup id="KEMM_MESKET_MA" name="kemmadur mesket goude ar stagell ma">
       <rule>
@@ -1351,7 +1368,7 @@ Some grammatical resources used:
     <rule id="TI_GAR" name="ti gar → ti-gar">
       <pattern>
         <token regexp="yes">[td]i(iez)?</token>
-        <token regexp="yes">bank|debriñ|embann|kêr|krampouezh|gar|pizza|plouz|polis|post|skol</token>
+        <token regexp="yes">bank|debriñ|embann|feurm|kêr|krampouezh|gar|pizza|plouz|polis|post|skol</token>
       </pattern>
       <message>Implijit <suggestion>\1-\2</suggestion>.</message>
       <example type="incorrect">Pelec’h emañ an <marker>ti gar</marker>?</example>
@@ -2085,7 +2102,7 @@ Some grammatical resources used:
         <pattern>
           <token>ur</token>
           <token regexp="yes">bloaz|miz</token>
-          <token regexp="yes">zo</token>
+          <token>zo</token>
         </pattern>
         <message>Ger-mell ebet dirak «\2» pa vez lakaet dirak «\3» da ziskouez pad un amzer aet bebiou. Ha fellout a rae deoc’h skrivañ <suggestion>\2 \3</suggestion>?</message>
         <example type="incorrect"><marker>Ur miz zo</marker> e oa aet kuit.</example>
@@ -2096,7 +2113,7 @@ Some grammatical resources used:
           <token>ur</token>
           <token regexp="yes">bloaz|miz</token>
           <token inflected="yes">a</token>
-          <token regexp="yes">zo</token>
+          <token>zo</token>
         </pattern>
         <message>Ger-mell ebet dirak «\2» pa vez lakaet dirak «\4» da ziskouez pad un amzer aet bebiou. Ha fellout a rae deoc’h skrivañ <suggestion>\4</suggestion>?</message>
         <example type="incorrect"><marker>Ur miz ’zo</marker> e oa aet kuit.</example>
