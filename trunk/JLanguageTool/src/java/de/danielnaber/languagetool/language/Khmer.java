@@ -32,6 +32,7 @@ import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
 import de.danielnaber.languagetool.tagging.disambiguation.rules.km.KhmerRuleDisambiguator;
 import de.danielnaber.languagetool.tokenizers.Tokenizer;
 import de.danielnaber.languagetool.tokenizers.km.KhmerWordTokenizer;
+import de.danielnaber.languagetool.rules.km.KhmerUnpairedBracketsRule;
 
 public class Khmer extends Language {
 
@@ -102,7 +103,8 @@ public class Khmer extends Language {
     return Arrays.asList(
       // specific to Khmer:
       KhmerSimpleReplaceRule.class,
-      KhmerWordRepeatRule.class
+      KhmerWordRepeatRule.class,
+      KhmerUnpairedBracketsRule.class
     );
   }
 
