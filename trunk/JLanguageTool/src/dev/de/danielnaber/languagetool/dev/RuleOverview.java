@@ -86,11 +86,11 @@ public final class RuleOverview {
     for (final String langName : sortedLanguages) {
       final Language lang = Language.getLanguageForName(langName);
       System.out.print("<tr>");
-      System.out.print("<td>" + lang.getName() + "</td>");
+      System.out.print("<td valign=\"top\">" + lang.getName() + "</td>");
       final String xmlFile = JLanguageTool.getDataBroker().getRulesDir() + File.separator + lang.getShortName() + File.separator + "grammar.xml";
       final java.net.URL url = this.getClass().getResource(xmlFile);    
       if (url == null) {
-        System.out.println("<td align=\"right\">0</td>");
+        System.out.println("<td valign=\"top\" align=\"right\">0</td>");
       } else {
         // count XML rules:
         String xmlRules = StringTools.readFile(Tools.getStream(xmlFile));
@@ -114,7 +114,7 @@ public final class RuleOverview {
           }          
           countInRuleGroup++;
         }
-        System.out.print("<td align=\"right\">" + (count + countInRuleGroup) + " (" +
+        System.out.print("<td valign=\"top\" align=\"right\">" + (count + countInRuleGroup) + " (" +
             "<a href=\"http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/JLanguageTool/src/rules/" + lang.getShortName() + "/grammar.xml?content-type=text%2Fplain" +
             "\">show</a>/" +
             "<a href=\"http://community.languagetool.org/rule/list?lang=" +
@@ -127,18 +127,18 @@ public final class RuleOverview {
       final File dir = new File("src/java/de/danielnaber/languagetool" + 
     		  JLanguageTool.getDataBroker().getRulesDir() + "/" + lang.getShortName());
       if (!dir.exists()) {
-        System.out.print("<td align=\"right\">0</td>");
+        System.out.print("<td valign=\"top\" align=\"right\">0</td>");
       } else {
         final File[] javaRules = dir.listFiles(new JavaFilter());
         final int javaCount = javaRules.length-1;   // minus 1: one is always "<Language>Rule.java"
-        System.out.print("<td align=\"right\">" + javaCount + "</td>");
+        System.out.print("<td valign=\"top\" align=\"right\">" + javaCount + "</td>");
         overallJavaCount++;
       }
 
       // false friends
       System.out.println("<td></td>"); 
       if (falseFriendUrl == null) {
-        System.out.println("<td align=\"right\">0</td>");
+        System.out.println("<td valign=\"top\" align=\"right\">0</td>");
       } else {
         // count XML rules:
         int pos = 0;
@@ -150,10 +150,10 @@ public final class RuleOverview {
           }          
           count++;
         }
-        System.out.print("<td align=\"right\">" + count + "</td>");
+        System.out.print("<td valign=\"top\" align=\"right\">" + count + "</td>");
 
         System.out.print("<td></td>");
-        System.out.print("<td>" + (isAutoDetected(lang.getShortName()) ? "yes" : "-") + "</td>");
+        System.out.print("<td valign=\"top\">" + (isAutoDetected(lang.getShortName()) ? "yes" : "-") + "</td>");
         
         // maintainer information:
         System.out.print("<td></td>");
@@ -177,7 +177,7 @@ public final class RuleOverview {
             }
           }
         }
-        System.out.print("<td align=\"left\">" + maintainerInfo.toString() +
+        System.out.print("<td valign=\"top\" align=\"left\">" + maintainerInfo.toString() +
           "</td>");
       }
       
