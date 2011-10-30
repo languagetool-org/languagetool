@@ -390,7 +390,7 @@ public class XMLRuleHandler extends DefaultHandler {
     exceptionStringRegExp = YES.equals(attrs.getValue(REGEXP));
     if (attrs.getValue(SPACEBEFORE) != null) {
       exceptionSpaceBefore = YES.equals(attrs.getValue(SPACEBEFORE));
-      exceptionSpaceBeforeSet = !"ignore".equals(attrs.getValue(SPACEBEFORE));
+      exceptionSpaceBeforeSet = !IGNORE.equals(attrs.getValue(SPACEBEFORE));
     }
   }
 
@@ -425,8 +425,8 @@ public class XMLRuleHandler extends DefaultHandler {
     lastPhrase = false;
     tokenNegated = YES.equals(attrs.getValue(NEGATE));
     tokenInflected = YES.equals(attrs.getValue(INFLECTED));      
-    if (attrs.getValue("skip") != null) {
-      skipPos = Integer.parseInt(attrs.getValue("skip"));
+    if (attrs.getValue(SKIP) != null) {
+      skipPos = Integer.parseInt(attrs.getValue(SKIP));
     }
     elements = new StringBuilder();
     // POSElement creation
@@ -439,7 +439,7 @@ public class XMLRuleHandler extends DefaultHandler {
     
     if (attrs.getValue(SPACEBEFORE) != null) {
       tokenSpaceBefore = YES.equals(attrs.getValue(SPACEBEFORE));
-      tokenSpaceBeforeSet = !"ignore".equals(attrs.getValue(SPACEBEFORE));
+      tokenSpaceBeforeSet = !IGNORE.equals(attrs.getValue(SPACEBEFORE));
     }
 
    if (!inAndGroup) {
