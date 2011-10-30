@@ -38,7 +38,7 @@ public class ValidateXMLTest extends TestCase {
         continue;
       }
       if (verbose) {
-      	System.out.println("Running tests for " + lang.getName() + "...");
+        System.out.println("Running tests for " + lang.getName() + "...");
       }
       final String grammarFile = JLanguageTool.getDataBroker().getRulesDir() + "/" + lang.getShortName() + "/grammar.xml";
       validator.validate(grammarFile, JLanguageTool.getDataBroker().getRulesDir() + "/rules.xsd");
@@ -48,7 +48,7 @@ public class ValidateXMLTest extends TestCase {
   public void testFalseFriendsXML() throws IOException {
     final XMLValidator validator = new XMLValidator();
     validator.validate(JLanguageTool.getDataBroker().getRulesDir() + "/false-friends.xml", 
-    		JLanguageTool.getDataBroker().getRulesDir() + "/false-friends.dtd", "rules");
+        JLanguageTool.getDataBroker().getRulesDir() + "/false-friends.dtd", "rules");
   }
 
   public void testDisambiguationRuleFile() throws IOException {
