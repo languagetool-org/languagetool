@@ -41,7 +41,6 @@ import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.rules.Category;
 import de.danielnaber.languagetool.rules.IncorrectExample;
-import de.danielnaber.languagetool.tools.StringTools;
 
 /**
  * Loads {@link PatternRule}s from a false friends XML file.
@@ -100,7 +99,7 @@ public class FalseFriendRuleLoader extends DefaultHandler {
       throws ParserConfigurationException, SAXException, IOException {
     final FalseFriendRuleLoader prg = new FalseFriendRuleLoader();
     List<PatternRule> l = prg.getRules(JLanguageTool.getDataBroker()
-    		.getFromRulesDirAsStream("/false-friends.xml"), Language.ENGLISH,
+        .getFromRulesDirAsStream("/false-friends.xml"), Language.ENGLISH,
         Language.GERMAN);
     System.out.println("Hints for German native speakers:");
     for (final PatternRule rule : l) {
@@ -109,7 +108,7 @@ public class FalseFriendRuleLoader extends DefaultHandler {
     System.out.println("=======================================");
     System.out.println("Hints for English native speakers:");
     l = prg.getRules(JLanguageTool.getDataBroker()
-    		.getFromRulesDirAsStream("/false-friends.xml"),
+        .getFromRulesDirAsStream("/false-friends.xml"),
         Language.GERMAN, Language.ENGLISH);
     for (final PatternRule rule : l) {
       System.out.println(rule);
@@ -181,33 +180,6 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
       if (language == null) {
         throw new SAXException("Unknown language '" + languageStr + "'");
       }
-    } else if (qName.equals(EXCEPTION)) {
-      inException = true;
-      exceptions = new StringBuilder();
-
-      if (attrs.getValue(NEGATE) != null) {
-        exceptionStringNegation = attrs.getValue(NEGATE).equals(YES);
-      }
-      if (attrs.getValue(SCOPE) != null) {
-        exceptionValidNext = attrs.getValue(SCOPE).equals("next");
-        exceptionValidPrev = attrs.getValue(SCOPE).equals("previous");
-      }
-      if (attrs.getValue(INFLECTED) != null) {
-        exceptionStringInflected = attrs.getValue(INFLECTED).equals(YES);
-      }
-      if (attrs.getValue(POSTAG) != null) {
-        exceptionPosToken = attrs.getValue(POSTAG);
-        if (attrs.getValue(POSTAG_REGEXP) != null) {
-          exceptionPosRegExp = attrs.getValue(POSTAG_REGEXP).equals(YES);
-        }
-        if (attrs.getValue(NEGATE_POS) != null) {
-          exceptionPosNegation = attrs.getValue(NEGATE_POS).equals(YES);
-        }
-      }
-      if (attrs.getValue(REGEXP) != null) {
-        exceptionStringRegExp = attrs.getValue(REGEXP).equals(YES);
-      }
-
     } else if (qName.equals(TOKEN)) {
       setToken(attrs);
     } else if (qName.equals(TRANSLATION)) {
@@ -271,20 +243,6 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
         elementList.clear();
       }
 
-    } else if (qName.equals(EXCEPTION)) {
-      inException = false;
-      if (!exceptionSet) {
-        tokenElement = new Element(elements.toString(), caseSensitive,
-            regExpression, tokenInflected);
-        exceptionSet = true;
-      }
-      tokenElement.setNegation(tokenNegated);
-      if (!StringTools.isEmpty(exceptions.toString()) || exceptionPosToken != null) {
-        tokenElement.setStringPosException(exceptions.toString(),
-            exceptionStringRegExp, exceptionStringInflected,
-            exceptionStringNegation, exceptionValidNext, exceptionValidPrev,
-            exceptionPosToken, exceptionPosRegExp, exceptionPosNegation);
-      }
     } else if (qName.equals(TOKEN)) {
       finalizeTokens();
     } else if (qName.equals(PATTERN)) {
@@ -340,9 +298,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
   @Override
   public void characters(final char[] buf, final int offset, final int len) {
     final String s = new String(buf, offset, len);
-    if (inException) {
-      exceptions.append(s);
-    } else if (inToken && inPattern) {
+    if (inToken && inPattern) {
       elements.append(s);
     } else if (inCorrectExample) {
       correctExample.append(s);

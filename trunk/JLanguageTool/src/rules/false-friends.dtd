@@ -28,7 +28,7 @@ redundancy.
 <!ELEMENT pattern (token)*>
 <!ATTLIST pattern lang %Languages; #REQUIRED>
 
-<!ELEMENT token (#PCDATA|exception)*>
+<!ELEMENT token (#PCDATA)*>
 <!-- is token a lemma? -->
 <!ATTLIST token inflected (yes|no) "no">
 <!-- is it a regexp? -->
@@ -45,24 +45,6 @@ redundancy.
 <!-- Spaces are important for matching, leave them alone: -->
 <!ATTLIST token
  xml:space (preserve) #FIXED 'preserve'>
-
-<!-- exception element -->
-<!ELEMENT exception (#PCDATA)>
-<!-- is exception a lemma? -->
-<!ATTLIST exception inflected (yes|no) "no">
-<!-- is it a regexp? -->
-<!ATTLIST exception regexp (yes|no) "no">
-<!-- is it negated? - instead of ^ in 0.8.2 -->
-<!ATTLIST exception negate (yes|no) "no">
-<!-- POS tag -->
-<!ATTLIST exception postag CDATA #IMPLIED>
-<!ATTLIST exception postag_regexp (yes|no) "no">
-<!ATTLIST exception negate_pos (yes|no) "no">
-
-<!-- defines if the exception should apply to skipped tokens -->
-<!-- i.e., the validity scope of the exception -->
-<!ATTLIST exception scope (current|next) "current">
-
 
 <!ELEMENT translation (#PCDATA)>
 <!ATTLIST translation lang %Languages; #REQUIRED>
