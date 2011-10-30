@@ -178,6 +178,7 @@ public class XMLRuleHandler extends DefaultHandler {
   protected static final String PATTERN = "pattern";
   protected static final String MATCH = "match";
   protected static final String UNIFICATION = "unification";
+  protected static final String RULE = "rule";
   protected static final String RULEGROUP = "rulegroup";
   protected static final String NO = "no";
   protected static final String MARK_TO = "mark_to";

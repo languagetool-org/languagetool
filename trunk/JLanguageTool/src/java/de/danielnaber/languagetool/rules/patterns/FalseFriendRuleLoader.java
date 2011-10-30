@@ -49,7 +49,7 @@ import de.danielnaber.languagetool.tools.StringTools;
  * @author Daniel Naber
  */
 public class FalseFriendRuleLoader extends DefaultHandler {
-
+  
   public FalseFriendRuleLoader() {
   }
 
@@ -120,6 +120,9 @@ public class FalseFriendRuleLoader extends DefaultHandler {
 
 class FalseFriendRuleHandler extends XMLRuleHandler {
 
+  /** Definitions of values in XML files. */
+  private static final String TRANSLATION = "translation";
+  
   private final ResourceBundle messages;
   private final MessageFormat formatter;
 
@@ -160,7 +163,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
   @Override
   public void startElement(final String namespaceURI, final String lName,
       final String qName, final Attributes attrs) throws SAXException {
-    if (qName.equals("rule")) {
+    if (qName.equals(RULE)) {
       translations = new ArrayList<StringBuilder>();
       id = attrs.getValue("id");
       if (!(inRuleGroup && defaultOff)) {
@@ -171,14 +174,14 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
       }
       correctExamples = new ArrayList<String>();
       incorrectExamples = new ArrayList<IncorrectExample>();
-    } else if (qName.equals("pattern")) {
+    } else if (qName.equals(PATTERN)) {
       inPattern = true;
       final String languageStr = attrs.getValue("lang");
       language = Language.getLanguageForShortName(languageStr);
       if (language == null) {
         throw new SAXException("Unknown language '" + languageStr + "'");
       }
-    } else if (qName.equals("exception")) {
+    } else if (qName.equals(EXCEPTION)) {
       inException = true;
       exceptions = new StringBuilder();
 
@@ -207,7 +210,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
 
     } else if (qName.equals(TOKEN)) {
       setToken(attrs);
-    } else if (qName.equals("translation")) {
+    } else if (qName.equals(TRANSLATION)) {
       inTranslation = true;
       final String languageStr = attrs.getValue("lang");
       final Language tmpLang = Language.getLanguageForShortName(languageStr);
@@ -226,10 +229,10 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
         && attrs.getValue(TYPE).equals("incorrect")) {
       inIncorrectExample = true;
       incorrectExample = new StringBuilder();
-    } else if (qName.equals("message")) {
+    } else if (qName.equals(MESSAGE)) {
       inMessage = true;
       message = new StringBuilder();
-    } else if (qName.equals("rulegroup")) {
+    } else if (qName.equals(RULEGROUP)) {
       ruleGroupId = attrs.getValue("id");
       inRuleGroup = true;
       defaultOff = "off".equals(attrs.getValue(DEFAULT));
@@ -239,7 +242,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
   @Override
   public void endElement(final String namespaceURI, final String sName,
       final String qName) {
-    if (qName.equals("rule")) {
+    if (qName.equals(RULE)) {
       if (language == textLanguage && translationLanguage != null
           && translationLanguage == motherTongue && language != motherTongue
           && !translations.isEmpty()) {
@@ -268,7 +271,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
         elementList.clear();
       }
 
-    } else if (qName.equals("exception")) {
+    } else if (qName.equals(EXCEPTION)) {
       inException = false;
       if (!exceptionSet) {
         tokenElement = new Element(elements.toString(), caseSensitive,
@@ -284,9 +287,9 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
       }
     } else if (qName.equals(TOKEN)) {
       finalizeTokens();
-    } else if (qName.equals("pattern")) {  	  
+    } else if (qName.equals(PATTERN)) {
       inPattern = false;
-    } else if (qName.equals("translation")) {
+    } else if (qName.equals(TRANSLATION)) {
       if (currentTranslationLanguage == motherTongue) {
         translations.add(translation);
       }
@@ -307,9 +310,9 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
       inIncorrectExample = false;
       correctExample = new StringBuilder();
       incorrectExample = new StringBuilder();
-    } else if (qName.equals("message")) {
+    } else if (qName.equals(MESSAGE)) {
       inMessage = false;
-    } else if (qName.equals("rulegroup")) {
+    } else if (qName.equals(RULEGROUP)) {
       if (!suggestions.isEmpty()) {
         final List<String> l = new ArrayList<String>(suggestions);
         suggestionMap.put(id, l);
