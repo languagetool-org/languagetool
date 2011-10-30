@@ -18,8 +18,8 @@ Some grammatical resources used:
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
-  <!-- Mutations adoucissantes -->
-  <category name="kemmadurioù">
+  <category name="Kemmadurioù">
+    <!-- Mutations adoucissantes -->
     <rulegroup id="KEMM_DRE_VLOTAAT_AR" name="kemmadur dre vlotaat en anv goude ar ger-mell.">
       <rule>
         <pattern mark_from="1">
@@ -966,8 +966,7 @@ Some grammatical resources used:
 
   </category>
 
-  <!-- Articles -->
-  <category name="Gerioù al, ul, el, hol">
+  <category name="Gerioù-mell">
     <rule id="AL" name="gerioù al, ul, el, hol">
       <pattern mark_to="-1">
         <token regexp="yes">[aeu][nr]|hor<exception postag="X EN_UR"/></token>
@@ -1052,6 +1051,19 @@ Some grammatical resources used:
       <example type="incorrect"><marker>Al</marker> tsunami</example>
       <example type="correct">Ar tsunami</example>
       <example type="correct">An tsunami</example>
+    </rule>
+  </category>
+
+  <category name="Rannig-verb">
+    <rule id="PA_E" name="Pa + rannig-verb">
+      <pattern mark_to="-1">
+        <token>pa</token>
+        <token>e</token>
+        <token postag="V.*" postag_regexp="yes"/>
+      </pattern>
+      <message>Rannig-verb ebet goude «\1». Ha fellout a rae deoc’h skrivañ <suggestion>\1 \3</suggestion>?</message>
+      <example type="incorrect"><marker>Pa e</marker> oan yaouankoc’h</example>
+      <example type="correct">Pa oan yaouankoc’h</example>
     </rule>
   </category>
 
@@ -1225,7 +1237,7 @@ Some grammatical resources used:
         <token>ez</token>
         <token>eus</token>
       </pattern>
-      <message>Ha fellout a ra deoc’h skrivañ «Bez’ ez eus»?</message>
+      <message>Ha fellout a rae deoc’h skrivañ «Bez’ ez eus»?</message>
       <example type="incorrect"><marker>Ez eus</marker> ur c‘hi el liorzh.</example>
       <example type="correct">Bez’ ez eus ur c‘hi el liorzh.</example>
     </rule>
@@ -1235,7 +1247,7 @@ Some grammatical resources used:
         <token>eus</token>
         <token regexp="yes">a[rln]</token>
       </pattern>
-      <message>«ez eus» a vez implijet gant ur rener amstrizh. Ha fellout a ra deoc’h skrivañ <suggestion>emañ</suggestion>?</message>
+      <message>«ez eus» a vez implijet gant ur rener amstrizh. Ha fellout a rae deoc’h skrivañ <suggestion>emañ</suggestion>?</message>
       <example type="incorrect">Er stal <marker>ez eus</marker> ar bara.</example>
       <example type="correct">Er stal emañ ar bara.</example>
       <example type="correct">War an daol ez eus bara.</example>
@@ -1269,7 +1281,7 @@ Some grammatical resources used:
           <token>a-du</token>
           <token inflected="yes" postag="V pres .*" postag_regexp="yes">bezañ<exception>eo</exception></token>
         </pattern>
-        <message>Ha fellout a ra deoc’h skrivañ <suggestion>ema$2</suggestion>?</message>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>ema$2</suggestion>?</message>
         <example type="incorrect">A-du <marker>out</marker>?</example>
         <example type="correct">A-du emaout?</example>
       </rule>
@@ -1278,7 +1290,7 @@ Some grammatical resources used:
           <token>a-du</token>
           <token>eo</token>
         </pattern>
-        <message>Ha fellout a ra deoc’h skrivañ <suggestion>emañ</suggestion>?</message>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>emañ</suggestion>?</message>
         <example type="incorrect">A-du <marker>eo</marker>?</example>
         <example type="correct">A-du emañ?</example>
       </rule>
@@ -1288,7 +1300,7 @@ Some grammatical resources used:
           <token>ket</token>
           <token>a-du</token>
         </pattern>
-        <message>Ha fellout a ra deoc’h skrivañ <suggestion>emañ</suggestion>?</message>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>emañ</suggestion>?</message>
         <example type="incorrect">N’<marker>int</marker> ket a-du ganin.</example>
         <example type="correct">N’emaint ket a-du ganin.</example>
       </rule>
@@ -1298,7 +1310,7 @@ Some grammatical resources used:
           <token>ket</token>
           <token>a-du</token>
         </pattern>
-        <message>Ha fellout a ra deoc’h skrivañ <suggestion>emañ</suggestion>?</message>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>emañ</suggestion>?</message>
         <example type="incorrect">N’<marker>eo</marker> ket a-du ganin.</example>
         <example type="correct">N’emañ ket a-du ganin.</example>
       </rule>
@@ -1308,7 +1320,7 @@ Some grammatical resources used:
           <token>zo</token>
           <token>a-du</token>
         </pattern>
-        <message>Ha fellout a ra deoc’h skrivañ <suggestion>emañ</suggestion>?</message>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>emañ</suggestion>?</message>
         <example type="incorrect">Ma zad <marker>a zo</marker> a-du ganin.</example>
         <example type="incorrect">Ma zad <marker>’zo</marker> a-du ganin.</example>
         <example type="correct">Ma zad emañ a-du ganin.</example>
@@ -1319,7 +1331,7 @@ Some grammatical resources used:
           <token>zo</token>
           <token>a-du</token>
         </pattern>
-        <message>Ha fellout a ra deoc’h skrivañ <suggestion>emañ</suggestion>?</message>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>emañ</suggestion>?</message>
         <example type="incorrect">Ma zad <marker>zo</marker> a-du ganin.</example>
         <example type="correct">Ma zad emañ a-du ganin.</example>
       </rule>
@@ -1656,7 +1668,7 @@ Some grammatical resources used:
           <token regexp="yes">a[nr]</token>
           <token regexp="yes">alamanek|brezhonek|esperantek|gallek|italianek|kembraek|saoznek|spagnolek</token>
         </pattern>
-        <message>Ha fellout a ra deoc’h skrivañ <suggestion><match no="2" regexp_match="(.*)k" regexp_replace="$1g"/></suggestion>?</message>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match="(.*)k" regexp_replace="$1g"/></suggestion>?</message>
         <example type="incorrect">Ar <marker>brezhonek</marker> a zo ur yezh keltiek.</example>
         <example type="correct">Ar brezhoneg a zo ur yezh keltiek.</example>
       </rule>
@@ -2040,7 +2052,7 @@ Some grammatical resources used:
           <token>eus</token>
           <token regexp="yes">[aeiouh].*</token>
         </pattern>
-        <message>Ha fellout a ra deoc’h skrivañ <suggestion>d’</suggestion>?</message>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>d’</suggestion>?</message>
         <example type="incorrect">Tost a-walc’h <marker>eus</marker> an tan.</example>
         <example type="incorrect">Tost <marker>eus</marker> an tan.</example>
         <example type="correct">Tost a-walc‘h d’an tan.</example>
@@ -2052,7 +2064,7 @@ Some grammatical resources used:
           <token>eus</token>
           <token negate="yes" regexp="yes">[aeiouh].*</token>
         </pattern>
-        <message>Ha fellout a ra deoc’h skrivañ <suggestion>da</suggestion>?</message>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>da</suggestion>?</message>
         <example type="incorrect">Tost <marker>eus</marker> nav eur.</example>
         <example type="incorrect">Tost-bras <marker>eus</marker> nav eur.</example>
         <example type="correct">Tost da nav eur.</example>
@@ -2064,7 +2076,7 @@ Some grammatical resources used:
         <token>meur</token>
         <token regexp="yes">a[lrn]</token>
       </pattern>
-      <message>Ha fellout a ra deoc’h skrivañ <suggestion>\1 a</suggestion>?</message>
+      <message>Ha fellout a rae deoc’h skrivañ <suggestion>\1 a</suggestion>?</message>
       <example type="incorrect"><marker>Meur al</marker> levr en deus.</example>
       <example type="correct">Meur a levr en deus.</example>
     </rule>
@@ -2075,7 +2087,7 @@ Some grammatical resources used:
           <token regexp="yes">bloaz|miz</token>
           <token regexp="yes">zo</token>
         </pattern>
-        <message>Ger-mell ebet dirak «\2» pa vez lakaet dirak «\3» da ziskouez pad un amzer aet bebiou. Ha fellout a ra deoc’h skrivañ <suggestion>\2 \3</suggestion>?</message>
+        <message>Ger-mell ebet dirak «\2» pa vez lakaet dirak «\3» da ziskouez pad un amzer aet bebiou. Ha fellout a rae deoc’h skrivañ <suggestion>\2 \3</suggestion>?</message>
         <example type="incorrect"><marker>Ur miz zo</marker> e oa aet kuit.</example>
         <example type="correct">Miz zo e oa aet kuit.</example>
       </rule>
@@ -2086,10 +2098,12 @@ Some grammatical resources used:
           <token inflected="yes">a</token>
           <token regexp="yes">zo</token>
         </pattern>
-        <message>Ger-mell ebet dirak «\2» pa vez lakaet dirak «\4» da ziskouez pad un amzer aet bebiou. Ha fellout a ra deoc’h skrivañ <suggestion>\4</suggestion>?</message>
+        <message>Ger-mell ebet dirak «\2» pa vez lakaet dirak «\4» da ziskouez pad un amzer aet bebiou. Ha fellout a rae deoc’h skrivañ <suggestion>\4</suggestion>?</message>
         <example type="incorrect"><marker>Ur miz ’zo</marker> e oa aet kuit.</example>
         <example type="correct">Miz zo e oa aet kuit.</example>
       </rule>
     </rulegroup>
   </category>
+  <!-- vim: foldmethod=marker foldmarker=<category,</category:
+  -->
 </rules>
