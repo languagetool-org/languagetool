@@ -1262,6 +1262,68 @@ Some grammatical resources used:
       <example type="incorrect">Naon <marker>eñ</marker> deus.</example>
       <example type="correct">Naon en deus.</example>
     </rule>
+
+    <rulegroup id="AD_DU_ON" name="a-du on → a-du emaon">
+      <rule>
+        <pattern mark_from="1">
+          <token>a-du</token>
+          <token inflected="yes" postag="V pres .*" postag_regexp="yes">bezañ<exception>eo</exception></token>
+        </pattern>
+        <message>Ha fellout a ra deoc’h skrivañ <suggestion>ema$2</suggestion>?</message>
+        <example type="incorrect">A-du <marker>out</marker>?</example>
+        <example type="correct">A-du emaout?</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token>a-du</token>
+          <token>eo</token>
+        </pattern>
+        <message>Ha fellout a ra deoc’h skrivañ <suggestion>emañ</suggestion>?</message>
+        <example type="incorrect">A-du <marker>eo</marker>?</example>
+        <example type="correct">A-du emañ?</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-2">
+          <token inflected="yes" postag="V pres .*" postag_regexp="yes">bezañ<exception>eo</exception></token>
+          <token>ket</token>
+          <token>a-du</token>
+        </pattern>
+        <message>Ha fellout a ra deoc’h skrivañ <suggestion>emañ</suggestion>?</message>
+        <example type="incorrect">N’<marker>int</marker> ket a-du ganin.</example>
+        <example type="correct">N’emaint ket a-du ganin.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-2">
+          <token>eo</token>
+          <token>ket</token>
+          <token>a-du</token>
+        </pattern>
+        <message>Ha fellout a ra deoc’h skrivañ <suggestion>emañ</suggestion>?</message>
+        <example type="incorrect">N’<marker>eo</marker> ket a-du ganin.</example>
+        <example type="correct">N’emañ ket a-du ganin.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token inflected="yes">a</token>
+          <token>zo</token>
+          <token>a-du</token>
+        </pattern>
+        <message>Ha fellout a ra deoc’h skrivañ <suggestion>emañ</suggestion>?</message>
+        <example type="incorrect">Ma zad <marker>a zo</marker> a-du ganin.</example>
+        <example type="incorrect">Ma zad <marker>’zo</marker> a-du ganin.</example>
+        <example type="correct">Ma zad emañ a-du ganin.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token negate="yes" inflected="yes">a</token>
+          <token>zo</token>
+          <token>a-du</token>
+        </pattern>
+        <message>Ha fellout a ra deoc’h skrivañ <suggestion>emañ</suggestion>?</message>
+        <example type="incorrect">Ma zad <marker>zo</marker> a-du ganin.</example>
+        <example type="correct">Ma zad emañ a-du ganin.</example>
+      </rule>
+    </rulegroup>
   </category>
 
   <category name="Berennig-stagañ">
