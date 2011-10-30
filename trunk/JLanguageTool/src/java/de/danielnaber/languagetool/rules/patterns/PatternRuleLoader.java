@@ -100,11 +100,9 @@ class PatternRuleHandler extends XMLRuleHandler {
       } else {
         category = new Category(catName, Integer.parseInt(priorityStr));
       }
-
       if ("off".equals(attrs.getValue(DEFAULT))) {
         category.setDefaultOff();
       }
-
     } else if ("rules".equals(qName)) {
       final String languageStr = attrs.getValue("lang");
       language = Language.getLanguageForShortName(languageStr);
@@ -140,13 +138,13 @@ class PatternRuleHandler extends XMLRuleHandler {
     } else if (AND.equals(qName)) {
       inAndGroup = true;
     } else if ("unify".equals(qName)) {
-        inUnification = true;           
-        uniNegation = YES.equals(attrs.getValue(NEGATE));
+      inUnification = true;           
+      uniNegation = YES.equals(attrs.getValue(NEGATE));
     } else if ("feature".equals(qName)) {
-        uFeature = attrs.getValue("id");        
+      uFeature = attrs.getValue("id");        
     } else if (qName.equals(TYPE)) {      
-        uType = attrs.getValue("id");
-        uTypeList.add(uType);
+      uType = attrs.getValue("id");
+      uTypeList.add(uType);
     } else if (qName.equals(TOKEN)) {
       setToken(attrs);
     } else if (EXCEPTION.equals(qName)) {
@@ -222,7 +220,7 @@ class PatternRuleHandler extends XMLRuleHandler {
         for (final ArrayList<Element> phraseElement : phraseElementList) {
           processElement(phraseElement);
           final PatternRule rule = new PatternRule(id, language, phraseElement,
-                  name, message.toString(), shortMessage.toString(),
+              name, message.toString(), shortMessage.toString(),
               phraseElementList.size() > 1);
           prepareRule(rule);
           rules.add(rule);
@@ -262,8 +260,7 @@ class PatternRuleHandler extends XMLRuleHandler {
         IncorrectExample example = null;
         final String[] corrections = exampleCorrection.toString().split("\\|");
         if (corrections.length > 0 && corrections[0].length() > 0) {
-          example = new IncorrectExample(incorrectExample.toString(),
-              corrections);
+          example = new IncorrectExample(incorrectExample.toString(), corrections);
         } else {
           example = new IncorrectExample(incorrectExample.toString());
         }
@@ -281,8 +278,8 @@ class PatternRuleHandler extends XMLRuleHandler {
       inShortMessage = false;
     } else if ("match".equals(qName)) {
       if (inMessage) {
-        suggestionMatches.get(suggestionMatches.size() - 1).setLemmaString(
-            match.toString());
+        suggestionMatches.get(suggestionMatches.size() - 1).
+            setLemmaString(match.toString());
       } else if (inToken) {
         tokenReference.setLemmaString(match.toString());
       }
@@ -299,14 +296,14 @@ class PatternRuleHandler extends XMLRuleHandler {
     } else if ("phrase".equals(qName) && inPhrases) {
       finalizePhrase();
     } else if ("includephrases".equals(qName)) {
-        elementList.clear();
+      elementList.clear();
     } else if (PHRASES.equals(qName) && inPhrases) {
-        inPhrases = false;
+      inPhrases = false;
     } else if (UNIFICATION.equals(qName)) {
-        inUnificationDef = false;
+      inUnificationDef = false;
     } else if ("feature".equals(qName)) {        
-        equivalenceFeatures.put(uFeature, uTypeList);
-        uTypeList = new ArrayList<String>();
+      equivalenceFeatures.put(uFeature, uTypeList);
+      uTypeList = new ArrayList<String>();
     } else if ("unify".equals(qName)) {      
       inUnification = false;
       //clear the features...
@@ -340,11 +337,9 @@ class PatternRuleHandler extends XMLRuleHandler {
     if (defaultOff) {
       rule.setDefaultOff();
     }
-
     if (category.isDefaultOff() && !defaultOn) {
       rule.setDefaultOff();
     }
-
   }
 
   @Override
