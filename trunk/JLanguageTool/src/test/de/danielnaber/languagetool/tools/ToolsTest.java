@@ -17,7 +17,6 @@ import de.danielnaber.languagetool.rules.bitext.BitextRule;
 public class ToolsTest extends TestCase {
 
   private ByteArrayOutputStream out;
-  private ByteArrayOutputStream err;
   private PrintStream stdout;
   private PrintStream stderr;
 
@@ -26,9 +25,9 @@ public class ToolsTest extends TestCase {
     this.stdout = System.out;
     this.stderr = System.err;
     this.out = new ByteArrayOutputStream();
-    this.err = new ByteArrayOutputStream();      
+    final ByteArrayOutputStream err = new ByteArrayOutputStream();      
     System.setOut(new PrintStream(this.out));
-    System.setErr(new PrintStream(this.err));
+    System.setErr(new PrintStream(err));
   }
 
   public void tearDown() throws Exception {
@@ -49,7 +48,7 @@ public class ToolsTest extends TestCase {
 
     matches = Tools.checkText("To jest jest problem.", tool);
     output = new String(this.out.toByteArray());
-    assertTrue(output.indexOf("Rule ID: WORD_REPEAT_RULE") != -1);
+    assertTrue(output.contains("Rule ID: WORD_REPEAT_RULE"));
     assertEquals(1, matches);
   }
 
@@ -99,7 +98,7 @@ public class ToolsTest extends TestCase {
         srcTool, trgTool, 
         rules, false, StringTools.XmlPrintMode.NORMAL_XML);        
     output = new String(this.out.toByteArray());
-    assertTrue(output.indexOf("Rule ID: ACTUAL") != -1);
+    assertTrue(output.contains("Rule ID: ACTUAL"));
     assertEquals(1, matches);
   }  
 }
