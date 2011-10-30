@@ -32,6 +32,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import org.apache.commons.lang.StringUtils;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -244,14 +245,14 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
           && !translations.isEmpty()) {
         formatter.applyPattern(messages.getString("false_friend_hint"));
         final Object[] messageArguments = {
-            elements.toString().replace('|', '/'),
+            StringUtils.join(elementList, " ").replace('|', '/'),
             messages.getString(textLanguage.getShortName()),
             formatTranslations(translations),
             messages.getString(motherTongue.getShortName()) };
         final String description = formatter.format(messageArguments);
         final PatternRule rule = new PatternRule(id, language, elementList,
             messages.getString("false_friend_desc") + " "
-                + elements.toString().replace('|', '/'), description, messages
+                + StringUtils.join(elementList, " ").replace('|', '/'), description, messages
                 .getString("false_friend"));
         rule.setCorrectExamples(correctExamples);
         rule.setIncorrectExamples(incorrectExamples);
