@@ -18,7 +18,7 @@ Some grammatical resources used:
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
-  <category name="Kemmadurioù">
+  <category name="Kemmadur">
     <!-- Mutations adoucissantes -->
     <rulegroup id="KEMM_DRE_VLOTAAT_AR" name="kemmadur dre vlotaat en anv goude ar ger-mell.">
       <rule>
@@ -252,19 +252,23 @@ Some grammatical resources used:
             <exception postag="V.*" postag_regexp="yes">a</exception>
           </token>
           <and>
-            <token regexp="yes">c’h.*</token>
+            <token regexp="yes">c’h.*<exception inflected="yes" regexp="yes">c’h.*</exception>
+            </token>
             <token regexp="yes" inflected="yes">k.*</token>
           </and>
         </pattern>
         <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude ar ger «\1». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match="...(.*)" regexp_replace="g$1"/></suggestion>?</message>
         <example type="incorrect">Niver a <marker>c’hentelioù-noz</marker></example>
         <example type="correct">Niver a gentelioù-noz</example>
+        <example type="correct">C’hoant en deus da c’hoari.</example>
       </rule>
       <rule>
         <pattern mark_from="1">
           <token regexp="yes">2|a|aba|da|daou|div|dre|eme|endra|gwall|holl|ne|pa|re|seul</token>
           <and>
             <token regexp="yes">z.*
+              <exception>zo</exception>
+              <exception inflected="yes">z.*</exception>
               <exception regexp="yes" inflected="yes">d.*</exception>
             </token>
             <token regexp="yes" inflected="yes">t.*</token>
@@ -273,6 +277,7 @@ Some grammatical resources used:
         <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude «\1». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="d$1"/></suggestion>?</message>
         <example type="incorrect">Re <marker>zeñval</marker> eo evit lenn.</example>
         <example type="correct">Re deñval eo evit lenn.</example>
+        <example type="correct">Ar march’had a zo bras.</example>
       </rule>
 
       <rule>
@@ -997,7 +1002,7 @@ Some grammatical resources used:
 
   </category>
 
-  <category name="Gerioù-mell">
+  <category name="Ger-mell">
     <rule id="AL" name="gerioù al, ul, el, hol">
       <pattern mark_to="-1">
         <token regexp="yes">[aeu][nr]|hor<exception postag="X EN_UR"/></token>
@@ -1098,7 +1103,7 @@ Some grammatical resources used:
     </rule>
   </category>
 
-  <category name="Niveroù">
+  <category name="Niver">
     <rule id="DAOU" name="daou">
       <pattern mark_to="-1">
         <token>daou</token>
@@ -1233,7 +1238,7 @@ Some grammatical resources used:
     </rulegroup>
   </category>
 
-  <category name="Verboù">
+  <category name="Verb">
     <rule id="VINF_A_OBER" name="Anv-verb + a + ober">
       <pattern mark_to="-2">
         <token postag="V.*" postag_regexp="yes">
@@ -1312,7 +1317,7 @@ Some grammatical resources used:
           <token>a-du</token>
           <token inflected="yes" postag="V pres .*" postag_regexp="yes">bezañ<exception>eo</exception></token>
         </pattern>
-        <message>Ha fellout a rae deoc’h skrivañ <suggestion>ema$2</suggestion>?</message>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>ema\2</suggestion>?</message>
         <example type="incorrect">A-du <marker>out</marker>?</example>
         <example type="correct">A-du emaout?</example>
       </rule>
@@ -1331,7 +1336,7 @@ Some grammatical resources used:
           <token>ket</token>
           <token>a-du</token>
         </pattern>
-        <message>Ha fellout a rae deoc’h skrivañ <suggestion>emañ</suggestion>?</message>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>ema\1</suggestion>?</message>
         <example type="incorrect">N’<marker>int</marker> ket a-du ganin.</example>
         <example type="correct">N’emaint ket a-du ganin.</example>
       </rule>
@@ -1450,7 +1455,7 @@ Some grammatical resources used:
     <rule id="A_DREUZ" name="a dreuz → a-dreuz (hag all)">
       <pattern>
         <token>a</token>
-        <token regexp="yes">barzh|beban|belec’h|benn(adoù|-kaer)?|bik|bil|blad|blaen|blom|boan|bouez(-penn)?|boullad|c’houde(vezh)?|c’wenn|dal|dammoù|denn-askell|dizh|douez|doulladoù|drak|dreist|drek|dreñv|dreuz|drugarez|du|enep|feson|fet|feur|flav|fourch|fuilh|geñver|gleiz|greiz(-holl)?|grenn|hed(-all)?|herr|hervez|istribilh|led|leizh|nevez|ouez|raok|ratozh|rez|skouer|stlabez|viskoazh|vremañ|walc’h|wechoù|wezhioù|youl|zehou|zevri|ziabarzh|ziabell|ziadreñv|ziagent|ziaraok|ziavaez|zindan|zioc’h|ziouzh|zivout|ziwar(-(c’horre|dro|laez|lerc’h))?|zoare</token>
+        <token regexp="yes">barzh|beban|belec’h|benn(adoù|-kaer)?|bik|bil|blad|blaen|blom|boan|bouez(-penn)?|boullad|c’houde(vezh)?|c’wenn|dal|dammoù|denn-askell|dizh|douez|doulladoù|drak|dreist|drek|dreñv|dreuz|drugarez|du|enep|feson|fet|feur|flav|fourch|fuilh|geñver|gleiz|greiz(-holl)?|grenn|hed(-all)?|herr|hervez|istribilh|led|leizh|nevez|ouez|raok|ratozh|skouer|stlabez|viskoazh|vremañ|walc’h|wechoù|wezhioù|youl|zehou|zevri|ziabarzh|ziabell|ziadreñv|ziagent|ziaraok|ziavaez|zindan|zioc’h|ziouzh|zivout|ziwar(-(c’horre|dro|laez|lerc’h))?|zoare</token>
       </pattern>
       <message>Implijit <suggestion>\1-\2</suggestion>.</message>
       <example type="incorrect">Amzer <marker>a walc’h</marker> am eus.</example>
@@ -1467,6 +1472,195 @@ Some grammatical resources used:
       <example type="incorrect">Rwanda zo ur vro <marker>e kreiz</marker> Afrika.</example>
       <example type="correct">Rwanda zo ur vro e-kreiz Afrika.</example>
     </rule>
+  </category>
+
+  <category name="Araogenn">
+    <rulegroup id="GOULENN_DA" name="Goulenn da → goulenn ouzh/gant/digant">
+      <rule>
+        <pattern mark_from="1">
+          <token inflected="yes">goulenn</token>
+          <token inflected="yes">da</token>
+        </pattern>
+        <message>Ne vez ket implijet an araogenn «da» gant ar verb «\1».</message>
+        <example type="incorrect">Goulenn <marker>d’</marker>ar metr-skol.</example>
+        <example type="correct">Goulenn ouzh ar metr-skrol.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2">
+          <token inflected="yes">goulenn</token>
+          <token>ket</token>
+          <token inflected="yes">da</token>
+        </pattern>
+        <message>Ne vez ket implijet an araogenn «da» gant ar verb «\1».</message>
+        <example type="incorrect">Ne goulennin ket <marker>dezhi</marker> penaos ober.</example>
+        <example type="correct">Ne goulennin ket diganti penaos ober.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="3">
+          <token inflected="yes">goulenn</token>
+          <token>a</token>
+          <token inflected="yes">ober</token>
+          <token inflected="yes">da</token>
+        </pattern>
+        <message>Ne vez ket implijet an araogenn «da» gant ar verb «\1».</message>
+        <example type="incorrect">Goulenn a rin <marker>dezho</marker> penaos ober.</example>
+        <example type="incorrect">Goulenn a rin <marker>da</marker>‘m za.</example>
+        <example type="correct">Goulenn a rin diganto penaos ober.</example>
+        <example type="correct">Goulenn a rin digant ma za.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="3">
+          <token>goulennet</token>
+          <token regexp="yes">e[mn]|ez|ac’h|hon?|hoc’h|o</token>
+          <token regexp="yes">[dp]eus|[bpd]oa</token>
+          <token inflected="yes">da</token>
+        </pattern>
+        <message>Ne vez ket implijet an araogenn «da» gant ar verb «\1».</message>
+        <example type="incorrect">Goulennet en deus <marker>din</marker>.</example>
+        <example type="correct">Goulennet en eus diganin.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="BET_DA" name="Bet on da Vrest → Bet on e Brest">
+      <rule>
+        <pattern mark_from="2" mark_to="-1">
+          <token>bet</token>
+          <token inflected="yes">bezañ</token>
+          <token>da</token>
+          <token postag="Z .*" postag_regexp="yes" regexp="yes">[^aeiou].*</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>e</suggestion>?</message>
+        <example type="incorrect">Bet out <marker>da</marker> Bariz c’hoazh?</example>
+        <example type="correct">Bet out e Pariz c’hoazh?</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2" mark_to="-1">
+          <token>bet</token>
+          <token inflected="yes">bezañ</token>
+          <token>da</token>
+          <token postag="Z .*" postag_regexp="yes" regexp="yes">[aeiou].*</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>en</suggestion>?</message>
+        <example type="incorrect">Bet out <marker>da</marker> Iwerzhon c’hoazh?</example>
+        <example type="correct">Bet out en Iwerzhon c’hoazh?</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-3">
+          <token>da</token>
+          <token postag="Z .*" postag_regexp="yes" regexp="yes">[^aeiou].*</token>
+          <token inflected="yes">bezañ</token>
+          <token>bet</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>e</suggestion>?</message>
+        <example type="incorrect"><marker>Da</marker> Vrest on bet dec’h.</example>
+        <example type="correct">E Brest on bet dec’h.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-3">
+          <token>da</token>
+          <token postag="Z .*" postag_regexp="yes" regexp="yes">[aeiou].*</token>
+          <token inflected="yes">bezañ</token>
+          <token>bet</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>en</suggestion>?</message>
+        <example type="incorrect"><marker>Da</marker> Izelvroioù on bet.</example>
+        <example type="correct">En Izelvroioù on bet.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2" mark_to="-1">
+          <token inflected="yes">bezañ</token>
+          <token>bet</token>
+          <token>da</token>
+          <token postag="Z .*" postag_regexp="yes" regexp="yes">[^aeiou].*</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>en</suggestion>?</message>
+        <example type="incorrect">Me zo bet <marker>da</marker> Gemper.</example>
+        <example type="correct">Me zo bet e Gemper.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2" mark_to="-1">
+          <token inflected="yes">bezañ</token>
+          <token>bet</token>
+          <token>da</token>
+          <token postag="Z .*" postag_regexp="yes" regexp="yes">[aeiou].*</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>en</suggestion>?</message>
+        <example type="incorrect">Te zo bet <marker>da</marker> Iwerzhon c’hoazh?</example>
+        <example type="correct">Te zo bet en Iwerzhon c’hoazh?</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="E_KICHEN_ME" name="e-kichen me → em c’hichen">
+      <rule>
+        <pattern>
+          <token>e-kichen</token>
+          <token regexp="yes">me|ac’hanon</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>em c’hichen</suggestion>?</message>
+        <example type="incorrect"><marker>E-kichen me</marker> e ea.</example>
+        <example type="incorrect"><marker>E-kichen ac’hanon</marker> e ea.</example>
+        <example type="correct">Em c’hichen e ea.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>e-kichen</token>
+          <token regexp="yes">te|ac’hanout</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>ez kichen</suggestion>?</message>
+        <example type="incorrect"><marker>E-kichen te</marker> e ea.</example>
+        <example type="incorrect"><marker>E-kichen ac’hanout</marker> e ea.</example>
+        <example type="correct">Ez kichen e ea.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>e-kichen</token>
+          <token regexp="yes">eñ|anezhañ</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>en e gichen</suggestion>?</message>
+        <example type="incorrect"><marker>E-kichen anezhañ</marker> e ea.</example>
+        <example type="correct">En e gichen e ea.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>e-kichen</token>
+          <token regexp="yes">h[ei]|anezhi</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>en he c’hichen</suggestion>?</message>
+        <example type="incorrect"><marker>E-kichen hi</marker> e ea.</example>
+        <example type="incorrect"><marker>E-kichen anezhi</marker> e ea.</example>
+        <example type="correct">En he c’hichen e ea.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>e-kichen</token>
+          <token regexp="yes">ni|ac’hanomp</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>en hor c’hichen</suggestion>?</message>
+        <example type="incorrect"><marker>E-kichen ni</marker> e ea.</example>
+        <example type="incorrect"><marker>E-kichen ac’hanomp</marker> e ea.</example>
+        <example type="correct">En hor c’hichen e ea.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>e-kichen</token>
+          <token regexp="yes">c’hwi|ac’hanoc’h</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>en ho kichen</suggestion>?</message>
+        <example type="incorrect"><marker>E-kichen c’hwi</marker> e ea.</example>
+        <example type="incorrect"><marker>E-kichen ac’hanoc’h</marker> e ea.</example>
+        <example type="correct">En ho kichen e ea.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>e-kichen</token>
+          <token regexp="yes">int|anezh[oe]</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>en o c’hichen</suggestion>?</message>
+        <example type="incorrect"><marker>E-kichen int</marker> e ea.</example>
+        <example type="incorrect"><marker>E-kichen anezho</marker> e ea.</example>
+        <example type="correct">En o c’hichen e ea.</example>
+      </rule>
+    </rulegroup>
+
   </category>
 
   <category name="A bep seurt">
@@ -1806,6 +2000,47 @@ Some grammatical resources used:
         <example type="correct">N’ouzon ket ha kompren a rez.</example>
         <example type="correct">N’ouzon ket hag-eñ e komprenez.</example>
       </rule>
+      <rule>
+        <pattern mark_from="3">
+          <token regexp="yes">gouzout|goût</token>
+          <token>a</token>
+          <token regexp="yes" inflected="yes">ober|gouzout</token>
+          <token>ma</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>ha</suggestion>, pe <suggestion>hag-eñ e</suggestion>, pe <suggestion>daoust hag-eñ e</suggestion>?</message>
+        <example type="incorrect">Gouzout a rez <marker>ma</marker> e vo digor?</example>
+        <example type="incorrect">Gouzout a ouzez <marker>ma</marker> e vo digor?</example>
+        <example type="correct">Gouzout a rez hag-eñ e vo digor?</example>
+        <example type="correct">Gouzout a ouzez hag-eñ e vo digor?</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="HAG_EN" name="hag eñ → hag-eñ">
+      <rule>
+        <pattern mark_from="2">
+          <token inflected="yes">gouzout</token>
+          <token>ket</token>
+          <token>hag</token>
+          <token regexp="yes">e[ñn]</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>hag-eñ</suggestion>?</message>
+        <example type="incorrect">N’ouzon ket <marker>hag eñ</marker> e komprenez.</example>
+        <example type="correct">N’ouzon ket <marker>hag-eñ</marker> e komprenez.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="3">
+          <token regexp="yes">gouzout|goût</token>
+          <token>a</token>
+          <token regexp="yes" inflected="yes">ober|gouzout</token>
+          <token>hag</token>
+          <token regexp="yes">e[ñn]</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>hag-eñ</suggestion>?</message>
+        <example type="incorrect">Gouzout a rez <marker>hag eñ</marker> e komprenez.</example>
+        <example type="incorrect">Gouzout a ouzez <marker>hag eñ</marker> e komprenez.</example>
+        <example type="correct">Gouzout a rez hag-eñ e komprenez.</example>
+        <example type="correct">Gouzout a ouzez hag-eñ e komprenez.</example>
+      </rule>
     </rulegroup>
 
     <rulegroup id="AR_BREIZH" name="Ar Breizh → Breizh">
@@ -1849,147 +2084,6 @@ Some grammatical resources used:
         <message>«\1» a vez implijet gant an amzer hepken. Ha fellout a rae deoc’h skrivañ <suggestion>adalek</suggestion>?</message>
         <example type="incorrect"><marker>Abaoe</marker> Brest e oa erc’h war an hent.</example>
         <example type="correct">Adalek Brest e oa erc’h war an hent.</example>
-      </rule>
-    </rulegroup>
-
-    <rulegroup id="BET_DA" name="Bet on da Vrest → Bet on e Brest">
-      <rule>
-        <pattern mark_from="2" mark_to="-1">
-          <token>bet</token>
-          <token inflected="yes">bezañ</token>
-          <token>da</token>
-          <token postag="Z .*" postag_regexp="yes" regexp="yes">[^aeiou].*</token>
-        </pattern>
-        <message>Ha fellout a rae deoc’h skrivañ <suggestion>e</suggestion>?</message>
-        <example type="incorrect">Bet out <marker>da</marker> Bariz c’hoazh?</example>
-        <example type="correct">Bet out e Pariz c’hoazh?</example>
-      </rule>
-      <rule>
-        <pattern mark_from="2" mark_to="-1">
-          <token>bet</token>
-          <token inflected="yes">bezañ</token>
-          <token>da</token>
-          <token postag="Z .*" postag_regexp="yes" regexp="yes">[aeiou].*</token>
-        </pattern>
-        <message>Ha fellout a rae deoc’h skrivañ <suggestion>en</suggestion>?</message>
-        <example type="incorrect">Bet out <marker>da</marker> Iwerzhon c’hoazh?</example>
-        <example type="correct">Bet out en Iwerzhon c’hoazh?</example>
-      </rule>
-      <rule>
-        <pattern mark_to="-3">
-          <token>da</token>
-          <token postag="Z .*" postag_regexp="yes" regexp="yes">[^aeiou].*</token>
-          <token inflected="yes">bezañ</token>
-          <token>bet</token>
-        </pattern>
-        <message>Ha fellout a rae deoc’h skrivañ <suggestion>e</suggestion>?</message>
-        <example type="incorrect"><marker>Da</marker> Vrest on bet dec’h.</example>
-        <example type="correct">E Brest on bet dec’h.</example>
-      </rule>
-      <rule>
-        <pattern mark_to="-3">
-          <token>da</token>
-          <token postag="Z .*" postag_regexp="yes" regexp="yes">[aeiou].*</token>
-          <token inflected="yes">bezañ</token>
-          <token>bet</token>
-        </pattern>
-        <message>Ha fellout a rae deoc’h skrivañ <suggestion>en</suggestion>?</message>
-        <example type="incorrect"><marker>Da</marker> Izelvroioù on bet.</example>
-        <example type="correct">En Izelvroioù on bet.</example>
-      </rule>
-      <rule>
-        <pattern mark_from="2" mark_to="-1">
-          <token inflected="yes">bezañ</token>
-          <token>bet</token>
-          <token>da</token>
-          <token postag="Z .*" postag_regexp="yes" regexp="yes">[^aeiou].*</token>
-        </pattern>
-        <message>Ha fellout a rae deoc’h skrivañ <suggestion>en</suggestion>?</message>
-        <example type="incorrect">Me zo bet <marker>da</marker> Gemper.</example>
-        <example type="correct">Me zo bet e Gemper.</example>
-      </rule>
-      <rule>
-        <pattern mark_from="2" mark_to="-1">
-          <token inflected="yes">bezañ</token>
-          <token>bet</token>
-          <token>da</token>
-          <token postag="Z .*" postag_regexp="yes" regexp="yes">[aeiou].*</token>
-        </pattern>
-        <message>Ha fellout a rae deoc’h skrivañ <suggestion>en</suggestion>?</message>
-        <example type="incorrect">Te zo bet <marker>da</marker> Iwerzhon c’hoazh?</example>
-        <example type="correct">Te zo bet en Iwerzhon c’hoazh?</example>
-      </rule>
-    </rulegroup>
-
-    <rulegroup id="E_KICHEN_ME" name="e-kichen me → em c’hichen">
-      <rule>
-        <pattern>
-          <token>e-kichen</token>
-          <token regexp="yes">me|ac’hanon</token>
-        </pattern>
-        <message>Ha fellout a rae deoc’h skrivañ <suggestion>em c’hichen</suggestion>?</message>
-        <example type="incorrect"><marker>E-kichen me</marker> e ea.</example>
-        <example type="incorrect"><marker>E-kichen ac’hanon</marker> e ea.</example>
-        <example type="correct">Em c’hichen e ea.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>e-kichen</token>
-          <token regexp="yes">te|ac’hanout</token>
-        </pattern>
-        <message>Ha fellout a rae deoc’h skrivañ <suggestion>ez kichen</suggestion>?</message>
-        <example type="incorrect"><marker>E-kichen te</marker> e ea.</example>
-        <example type="incorrect"><marker>E-kichen ac’hanout</marker> e ea.</example>
-        <example type="correct">Ez kichen e ea.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>e-kichen</token>
-          <token regexp="yes">eñ|anezhañ</token>
-        </pattern>
-        <message>Ha fellout a rae deoc’h skrivañ <suggestion>en e gichen</suggestion>?</message>
-        <example type="incorrect"><marker>E-kichen anezhañ</marker> e ea.</example>
-        <example type="correct">En e gichen e ea.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>e-kichen</token>
-          <token regexp="yes">h[ei]|anezhi</token>
-        </pattern>
-        <message>Ha fellout a rae deoc’h skrivañ <suggestion>en he c’hichen</suggestion>?</message>
-        <example type="incorrect"><marker>E-kichen hi</marker> e ea.</example>
-        <example type="incorrect"><marker>E-kichen anezhi</marker> e ea.</example>
-        <example type="correct">En he c’hichen e ea.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>e-kichen</token>
-          <token regexp="yes">ni|ac’hanomp</token>
-        </pattern>
-        <message>Ha fellout a rae deoc’h skrivañ <suggestion>en hor c’hichen</suggestion>?</message>
-        <example type="incorrect"><marker>E-kichen ni</marker> e ea.</example>
-        <example type="incorrect"><marker>E-kichen ac’hanomp</marker> e ea.</example>
-        <example type="correct">En hor c’hichen e ea.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>e-kichen</token>
-          <token regexp="yes">c’hwi|ac’hanoc’h</token>
-        </pattern>
-        <message>Ha fellout a rae deoc’h skrivañ <suggestion>en ho kichen</suggestion>?</message>
-        <example type="incorrect"><marker>E-kichen c’hwi</marker> e ea.</example>
-        <example type="incorrect"><marker>E-kichen ac’hanoc’h</marker> e ea.</example>
-        <example type="correct">En ho kichen e ea.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>e-kichen</token>
-          <token regexp="yes">int|anezh[oe]</token>
-        </pattern>
-        <message>Ha fellout a rae deoc’h skrivañ <suggestion>en o c’hichen</suggestion>?</message>
-        <example type="incorrect"><marker>E-kichen int</marker> e ea.</example>
-        <example type="incorrect"><marker>E-kichen anezho</marker> e ea.</example>
-        <example type="correct">En o c’hichen e ea.</example>
       </rule>
     </rulegroup>
 
