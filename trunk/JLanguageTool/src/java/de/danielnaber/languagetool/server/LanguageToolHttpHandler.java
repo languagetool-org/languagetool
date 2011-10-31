@@ -134,7 +134,7 @@ class LanguageToolHttpHandler implements HttpHandler {
       }
       print("Checking bilingual text, with source length " + sourceText.length() +
           " and target length " + text.length() + " (characters), source language " +
-          motherTongue + "and target language " + langParam);
+          motherTongue + " and target language " + langParam);
       final JLanguageTool sourceLt = getLanguageToolInstance(motherTongue, null);
       final JLanguageTool targetLt = getLanguageToolInstance(lang, null);
       final List<BitextRule> bRules = Tools.getBitextRules(motherTongue, lang);
