@@ -6,6 +6,15 @@ title="Easy editing stylesheet" ?>
 <!DOCTYPE rules [
 <!ENTITY wochentage "Montag|Dienstag|Mittwoch|Donnerstag|Freitag|Samstag|Sonntag">
 <!ENTITY monate "Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember">
+<!ENTITY namengross "Zu mehrteiligen Namen gehörende Adjektive werden großgeschrieben.">
+<!ENTITY titelgross "Titel und Ehrenbezeichnungen werden großgeschrieben.">
+<!ENTITY taggross "Besondere Kalendertage werden großgeschrieben.">
+<!ENTITY anfauf "„|&quot;|»|›|‚|'">
+<!ENTITY anfzu "‘|“|‹|«|&quot;|'">
+<!ENTITY anf "&anfauf;|‘|“|‹|«">
+<!ENTITY klamauf "\(|\{|\[|&lt;">
+<!ENTITY klamzu "\)|\}|\]|&gt;">
+<!ENTITY klam "&klamauf;|&klamzu;">
 ]>
 <!--
 German grammar and typo rules for LanguageTool
@@ -864,6 +873,28 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect">Seine Träume wurden <marker>war</marker>.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="ER_WAHR" name="Möglicher Tippfehler: 'Er wahr (war)'">
+      <rule>
+        <pattern mark_from="2" mark_to="0">
+          <token postag="SENT_START" skip="1"/>
+          <token postag=".*SUB.*NOM.*SIN.*" postag_regexp="yes"/>
+          <token>wahr</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>war</suggestion> (Vergangenheit von 'sein') statt 'wahr' (wahrhaftig, authentisch)?</message>
+        <example type="incorrect">Der Lehrer <marker>wahr</marker> schnell.</example>
+        <example type="correct">Der Lehrer <marker>war</marker> schnell.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2" mark_to="0">
+          <token postag="SENT_START" skip="1"/>
+          <token postag=".*PRO.*NOM.*SIN.*" postag_regexp="yes"/>
+          <token>wahr</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>war</suggestion> (Vergangenheit von 'sein') statt 'wahr' (wahrhaftig, authentisch)?</message>
+        <example type="incorrect">Er <marker>wahr</marker> schnell.</example>
+        <example type="correct">Sie <marker>war</marker> schnell.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="DU_WUENSCHT" name="Möglicher Tippfehler: 'du wünscht (wünschst)'">
       <rule>
         <pattern mark_from="1">
@@ -1276,13 +1307,14 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     <!-- Jan: Shouldn't this one be covered by a Java rule by now?  -->
     <rule id="WIEDER_WILLEN" name="Möglicher Tippfehler: 'wieder (wider) Willen/Erwarten'">
       <pattern mark_to="-1" case_sensitive="yes">
-        <token>wieder</token>
+        <token regexp="yes">[wW]ieder</token>
         <token regexp="yes">Willen|Erwarten</token>
       </pattern>
       <message>Meinten Sie <suggestion>wider</suggestion> (wider = gegen, wieder = nochmals)?</message>
       <example type="correct">Und <marker>wieder</marker> erwarten wir Probleme.</example>
       <example type="correct">Wunschwitz wird zum Aufständler und Rebellen <marker>wider</marker> Willen.</example>
       <example type="incorrect">Wunschwitz wird zum Aufständler und Rebellen <marker>wieder</marker> Willen.</example>
+      <example type="incorrect"><marker>Wieder</marker> Erwarten.</example>
     </rule>
     <rule id="ICH_VERALTE" name="Möglicher Tippfehler: 'ich veralte (verwalte/verhalte)'">
       <pattern mark_from="1">
@@ -2007,11 +2039,27 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct"><marker>PDF</marker> ist ein plattformunabhängiges Dateiformat.</example>
         <example type="incorrect">Das <marker>PDF-Format</marker> ist ein plattformunabhängiges Dateiformat.</example>
       </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">EVN-Nachweise?s?</token>
+        </pattern>
+        <message>'EVN' steht für 'Einzelverbindungsnachweis' – ersetzen durch <suggestion>EVN</suggestion>?</message>
+        <example type="incorrect">Das sind <marker>EVN-Nachweise</marker>.</example>
+        <example type="correct">Das ist ein <marker>EVN</marker>.</example>
+      </rule>
     </rulegroup>
   </category>
 
- <!-- split category? (Umgangssprache + Stil)-->
+ <!-- TODO split category? (Umgangssprache + Stil)-->
   <category name="Stil">
+    <rule id="BAUCHWEH" name="Umgangssprache: 'Bauchweh (Bauchschmerz)'">
+      <pattern>
+        <token regexp="yes">(Bauch|Kopf|Hals|Zahn)wehe?s?n?</token>
+      </pattern>
+      <message>\1 ist umgangssprachlich. Vorschläge: <suggestion><match no="1" regexp_replace="schmerz" regexp_match="weh.*"/></suggestion>, <suggestion><match no="1" regexp_replace="schmerzen" regexp_match="weh.*"/></suggestion></message><!--TODO is this a bug?-->
+      <example type="correct">Er hat <marker>Bauchschmerzen</marker>.</example>
+      <example type="incorrect">Wegen des starken <marker>Zahnwehs</marker>...</example>
+    </rule>
     <rulegroup id="FERNSEHENGUCKEN" name="Umgangssprache: 'Fernsehen gucken (fernsehen)'">
       <rule>
         <pattern>
@@ -2026,7 +2074,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <rule>
         <pattern>
           <token skip="5" inflected="yes">gucken<exception scope="next">,</exception></token>
-          <token regexp="yes">Fernseh(en)?</token>
+          <token regexp="yes">Fernseh(e?n)?</token>
         </pattern>
         <message>'Fernsehen gucken' ist umgangssprachlich. Vorschlag: <suggestion>\1 <match include_skipped="following" no="1"/> fern</suggestion>.</message>
         <example type="incorrect" correction="gucken sehr selten fern">Wir <marker>gucken sehr selten Fernsehen</marker>.</example>
@@ -2321,7 +2369,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     <rule id="UND_SATZANFANG" name="Stil: 'Und' am Satzanfang" default="off">
       <pattern mark_from="1" mark_to="-1" case_sensitive="yes">
         <token postag="SENT_START"/>
-        <token skip="-1">Und<exception scope="next" regexp="yes">(–|\-|\)|\:|'|"|«|“|‹|‘|’|›|»|…|\?|\!|&lt;|&gt;)</exception></token>
+        <token skip="-1">Und<exception scope="next" regexp="yes">(–|\-|\)|\:|&anf;|…|\?|\!|&lt;|&gt;)</exception></token>
         <token postag="SENT_END"/>
       </pattern>
       <message>Es wird oft als unschön empfunden, einen Satz mit 'und' zu beginnen. Entfernen Sie den Punkt vor dem 'und' oder lassen Sie es weg.</message>
@@ -2481,7 +2529,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       </rule>-->
       <rule>
         <pattern mark_from="1" mark_to="-1">
-          <token regexp="yes">('|"|«|“|‹|‘|’|›|»)</token>
+          <token regexp="yes">(&anfzu;)</token>
           <token>(</token>
           <token skip="-1">vgl</token>
           <token>.</token>
@@ -2509,19 +2557,39 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect">Da regt er sich zu <marker>recht</marker> auf.</example>
     </rule>
   -->
-  <!-- TODO: make sure we don't automatically turn the suggestion to uppercase here:
-    <rule id="KREUZ_UND_QUER" name="Groß-/Kleinschreibung: 'kreuz und quer'">
-      <pattern case_sensitive="yes">
-        <token negate="yes" postag="SENT_START"/>
+    <rule id="KREUZ_UND_QUER" name="Groß-/Kleinschreibung: 'Kreuz (kreuz) und quer'">
+      <pattern case_sensitive="yes" mark_from="1">
+        <token negate_pos="yes" postag="SENT_START"/>
         <token>Kreuz</token>
         <token>und</token>
         <token>quer</token>
       </pattern>
-      <message>Die Wendung <suggestion><match case_conversion="alllower" no="1"/><match case_conversion="alllower" no="2"/><match case_conversion="alllower" no="3"/></suggestion> wird normalerweise kleingeschrieben.</message>
+      <message>Die Wendung <suggestion><match case_conversion="alllower" no="2"/> <match case_conversion="alllower" no="3"/> <match case_conversion="alllower" no="4"/></suggestion> wird normalerweise kleingeschrieben.</message>
       <example type="correct">Alle liefen <marker>kreuz und quer</marker> durcheinander.</example>
-      <example type="incorrect">Alle liefen <marker>Kreuz und quer</marker> durcheinander.</example>
+      <example type="incorrect" correction="kreuz und quer">Alle liefen <marker>Kreuz und quer</marker> durcheinander.</example>
     </rule>
-  -->
+    <rule id="WIDER_ERWARTEN" name="Groß-/Kleinschreibung: 'wider erwarten (Erwarten)'">
+      <pattern case_sensitive="yes" mark_from="1">
+        <token regexp="yes">[wW]ider</token>
+        <token>erwarten</token>
+      </pattern>
+      <message>Meinten Sie \1 <suggestion><match no="2" case_conversion="startupper"/></suggestion>?</message>
+      <example type="incorrect" correction="Erwarten">Wider <marker>erwarten</marker></example>
+      <example type="correct">Wider <marker>Erwarten</marker></example>
+    </rule>
+    <!-- Großgeschrieben wird das substantivierte Adjektiv, wenn es im Sinne von »deutsche Sprache« verwendet wird: 
+    http://www.duden.de/rechtschreibung/deutsch
+    Großgeschrieben werden ferner Sprachbezeichnungen nach einer Präposition 
+    http://www.duden.de/sprachratgeber/gross-und-kleinschreibung-1 -->
+    <rule id="AUF_ENGLISCH" name="Groß-/Kleinschreibung: 'auf englisch (Englisch)'">
+      <pattern case_sensitive="yes" mark_from="1">
+        <token regexp="yes">[iI]n|[aA]uf</token>
+        <token regexp="yes">chinesisch|deutsch|englisch|französisch|italienisch|japanisch|polnisch|portugiesisch|russisch|spanisch|türkisch|ungarisch</token>
+      </pattern>
+      <message>Meinten Sie \1 <suggestion><match no="2" case_conversion="startupper"/></suggestion> (im Sinne von 'die \2e Sprache')? Nach einer Präposition werden Sprachbezeichnungen großgeschrieben.</message>
+      <example type="incorrect" correction="Englisch">Er schreibt den Text auf <marker>englisch</marker>.</example>
+      <example type="correct">Er schreibt den Text auf <marker>Englisch</marker>.</example>
+    </rule>
     <rulegroup id="GROSSSCHREIBUNG_MEHRTEILIGE_NAMEN" name="Groß-/Kleinschreibung: Mehrteiligen Namen 'französische (Französische) Revolution etc.'">
       <!-- http://www.duden.de/rechtschreibregeln/namen#K150
         Alle zu einem mehrteiligen Namen gehörenden Adjektive, Partizipien, Pronomen und Zahlwörter schreibt man groß <§ 60>. -->
@@ -2530,7 +2598,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">französische(r|n)?</token>
           <token>Revolution</token>
         </pattern>
-        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="1"/></suggestion> \2 (1789–1799)? Zu mehrteiligen Namen gehörende Adjektive werden großgeschrieben.</message>
+        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="1"/></suggestion> \2 (1789–1799)? &namengross;</message>
         <example type="correct">Die <marker>Französische</marker> Revolution</example>
         <example type="incorrect" correction="Französischen">Die Folgen der <marker>französischen</marker> Revolution</example>
         <example type="incorrect" correction="Französischer">Die Unterschiede zwischen <marker>französischer</marker> Revolution und ...</example>
@@ -2542,7 +2610,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">(kleine(r|n)?|große(r|n)?)</token>
           <token regexp="yes">(Bär|Wagen)</token>
         </pattern>
-        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="3"/></suggestion> \4 (Sternbild)? Zu mehrteiligen Namen gehörende Adjektive werden großgeschrieben.</message>
+        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="3"/></suggestion> \4 (Sternbild)? &namengross;</message>
         <example type="correct">Das Sternbild <marker>Kleiner</marker> Bär</example>
         <example type="correct">Das ist ein <marker>kleiner</marker> Bär.</example>
         <example type="incorrect" correction="Kleiner">Das Sternbild wird auch <marker>kleiner</marker> Wagen genannt.</example>
@@ -2553,7 +2621,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes" skip="-1">(Bär|Wagen)</token>
           <token regexp="yes">.*(s|S)tern.*</token>
         </pattern>
-        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="1"/></suggestion> \2 (Sternbild)? Zu mehrteiligen Namen gehörende Adjektive werden großgeschrieben.</message>
+        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="1"/></suggestion> \2 (Sternbild)? &namengross;</message>
         <example type="correct">Der <marker>Kleine</marker> Bär</example>
         <example type="incorrect" correction="Große">Der <marker>große</marker> Wagen ist auch ein Sternbild.</example>
       </rule>
@@ -2563,17 +2631,27 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>hängenden</token>
           <token>Gärten</token>
         </pattern>
-        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="2"/></suggestion> \3? Zu mehrteiligen Namen gehörende Adjektive werden großgeschrieben.</message>
+        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="2"/></suggestion> \3? &namengross;</message>
         <example type="correct">Die <marker>Hängenden</marker> Gärten der Semiramis</example>
         <example type="incorrect" correction="Hängenden">Die Bedeutung der <marker>hängenden</marker> Gärten...</example>
       </rule>
       <rule>
         <pattern mark_to="-1" mark_from="1" case_sensitive="yes">
+          <token regexp="yes">[Dd](ie|er|en)</token>
+          <token>zehn</token>
+          <token regexp="yes">Geboten?</token>
+        </pattern>
+        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="2"/></suggestion> \3 (Religion)? &namengross;</message>
+        <example type="correct">Die <marker>Zehn</marker> Gebote</example>
+        <example type="incorrect" correction="Zehn">den <marker>zehn</marker> Geboten</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1" mark_from="1" case_sensitive="yes">
           <token regexp="yes">((D|d)(er|es|em|en)|(v|V)om|(i|I)m)</token>
           <token regexp="yes">heilige(r|n)?</token>
-          <token regexp="yes">Geist(e)?(s)?</token>
+          <token regexp="yes">Geiste?s?</token>
         </pattern>
-        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="2"/></suggestion> \3 (Christentum)? Zu mehrteiligen Namen gehörende Adjektive werden großgeschrieben.</message>
+        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="2"/></suggestion> \3 (Christentum)? &namengross;</message>
         <example type="correct">Der <marker>Heilige</marker> Geist</example>
         <example type="incorrect" correction="Heiligen">Dem <marker>heiligen</marker> Geist</example>
       </rule>
@@ -2582,30 +2660,30 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">(D|d)(er|es|em|en)</token>
           <token>hl</token>
           <token>.</token><!-- TODO that doesn't seem to work-->
-          <token regexp="yes">Geist(e)?(s)?</token>
+          <token regexp="yes">Geiste?s?</token>
         </pattern>
-        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="2"/></suggestion> \3 \4 (Christentum)? Zu mehrteiligen Namen gehörende Adjektive werden großgeschrieben.</message>
+        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="2"/></suggestion> \3 \4 (Christentum)? &namengross;</message>
         <example type="correct">Der <marker>Hl</marker>. Geist</example>
         <example type="incorrect" correction="Hl">Dem <marker>hl</marker>. Geist</example>
       </rule>
       <rule>
         <pattern mark_to="-3" mark_from="0" case_sensitive="yes">
           <token regexp="yes">schiefe(r|n|m)?</token>
-          <token regexp="yes">Turm((e)?s)?</token>
+          <token regexp="yes">Turm(e?s)?</token>
           <token>von</token>
           <token regexp="yes">(Pisa|Dausenau|Thorn|Ząbkowice|Frankenstein)</token>
         </pattern>
-        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="1"/></suggestion> \2 \3 \4? Zu mehrteiligen Namen gehörende Adjektive werden großgeschrieben.</message>
+        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="1"/></suggestion> \2 \3 \4? &namengross;</message>
         <example type="correct">Der <marker>Schiefe</marker> Turm von Pisa</example>
         <example type="incorrect" correction="Schiefen">Den <marker>schiefen</marker> Turm von Ząbkowice Śląskie</example>
       </rule>
       <rule>
         <pattern mark_to="-1" mark_from="1" case_sensitive="yes">
           <token regexp="yes">(d|D)(ie|er)</token>
-          <token regexp="yes">ewige(n)?</token>
+          <token regexp="yes">ewigen?</token>
           <token>Stadt</token>
         </pattern>
-        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="2"/></suggestion> \3 (Rom)? Zu mehrteiligen Namen gehörende Adjektive werden großgeschrieben.</message>
+        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="2"/></suggestion> \3 (Rom)? &namengross;</message>
         <example type="correct">Die <marker>Ewige</marker> Stadt</example>
         <example type="incorrect" correction="Ewigen">Die Sehenswürdigkeiten der <marker>ewigen</marker> Stadt</example>
       </rule>
@@ -2613,21 +2691,21 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <pattern mark_to="-1" mark_from="1" case_sensitive="yes">
           <token regexp="yes">((D|d)(er|es|em|en)|(v|V)om|(i|I)m)</token>
           <token regexp="yes">(pazifische(r|n)?|indische(r|n)?|atlantische(r|n)?)</token>
-          <token regexp="yes">Ozean(e)?(s)?</token>
+          <token regexp="yes">Ozeane?s?</token>
         </pattern>
-        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="2"/></suggestion> \3? Zu mehrteiligen Namen gehörende Adjektive werden großgeschrieben.</message>
+        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="2"/></suggestion> \3? &namengross;</message>
         <example type="correct">Der <marker>Pazifische</marker> Ozean</example>
         <example type="incorrect" correction="Indischen">dem <marker>indischen</marker> Ozeane schaden</example>
         <example type="incorrect" correction="Atlantischen">Im <marker>atlantischen</marker> Ozean schwimmen</example>
       </rule>
       <rule>
         <pattern mark_to="-1" mark_from="2" case_sensitive="yes">
-          <token regexp="yes">Kap(s)?</token>
+          <token regexp="yes">Kaps?</token>
           <token>der</token>
           <token>guten</token>
           <token>Hoffnung</token>
         </pattern>
-        <message>Meinten Sie \1 \2 <suggestion><match case_conversion="startupper" no="3"/></suggestion> \4? Zu mehrteiligen Namen gehörende Adjektive werden großgeschrieben.</message>
+        <message>Meinten Sie \1 \2 <suggestion><match case_conversion="startupper" no="3"/></suggestion> \4? &namengross;</message>
         <example type="correct">Das Kap der <marker>Guten</marker> Hoffnung</example>
         <example type="incorrect" correction="Guten">des Kaps der <marker>guten</marker> Hoffnung</example>
       </rule>
@@ -2637,68 +2715,68 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>vereinigten</token>
           <token>Staaten</token>
         </pattern>
-        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="2"/></suggestion> \3 (Amerika)? Zu mehrteiligen Namen gehörende Adjektive werden großgeschrieben.</message>
+        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="2"/></suggestion> \3 (Amerika)? &namengross;</message>
         <example type="correct">Die <marker>Vereinigten</marker> Staaten von Amerika</example>
         <example type="incorrect" correction="Vereinigten">Den <marker>vereinigten</marker> Staaten</example>
       </rule>
       <rule>
         <pattern mark_to="-1" mark_from="0" case_sensitive="yes">
-          <token regexp="yes">europäische(n)?</token>
+          <token regexp="yes">europäischen?</token>
           <token>Union</token>
         </pattern>
-        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="1"/></suggestion> \2? Zu mehrteiligen Namen gehörende Adjektive werden großgeschrieben.</message>
+        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="1"/></suggestion> \2? &namengross;</message>
         <example type="correct">Die <marker>Europäische</marker> Union</example>
         <example type="incorrect" correction="Europäischen">Die Gesetze der <marker>europäischen</marker> Union</example>
       </rule>
       <rule>
         <pattern mark_to="-1" mark_from="0" case_sensitive="yes">
-          <token regexp="yes">statistische(n|s)?</token>
-          <token regexp="yes">Bundesamt((e)?s)?</token>
+          <token regexp="yes">statistische[ns]?</token>
+          <token regexp="yes">Bundesamt(e?s)?</token>
         </pattern>
-        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="1"/></suggestion> \2? Zu mehrteiligen Namen gehörende Adjektive werden großgeschrieben.</message>
+        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="1"/></suggestion> \2? &namengross;</message>
         <example type="correct">Das <marker>Statistische</marker> Bundesamt</example>
         <example type="incorrect" correction="Statistischen">des <marker>statistischen</marker> Bundesamts</example>
       </rule>
       <rule>
         <pattern mark_to="-1" mark_from="0" case_sensitive="yes">
-          <token regexp="yes">(erste|zweite)(n)?</token>
-          <token regexp="yes">(d|D)eutsche(n)?</token>
-          <token regexp="yes">Fernsehen(s)?</token>
+          <token regexp="yes">(erste|zweite)n?</token>
+          <token regexp="yes">(d|D)eutschen?</token>
+          <token regexp="yes">Fernsehens?</token>
         </pattern>
-        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="1"/> <match case_conversion="startupper" no="2"/></suggestion> \3? Zu mehrteiligen Namen gehörende Adjektive werden großgeschrieben.</message>
+        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="1"/> <match case_conversion="startupper" no="2"/></suggestion> \3? &namengross;</message>
         <example type="correct">Das <marker>Erste Deutsche</marker> Fernsehen</example>
         <example type="incorrect" correction="Zweite Deutsche">Das <marker>zweite Deutsche</marker> Fernsehen</example>
         <example type="incorrect" correction="Zweite Deutsche">Das <marker>zweite deutsche</marker> Fernsehen</example>
       </rule>
       <rule>
         <pattern mark_to="-1" mark_from="0" case_sensitive="yes">
-          <token regexp="yes">((e|E)rste|(z|Z)weite)(n)?</token>
-          <token regexp="yes">deutsche(n)?</token>
-          <token regexp="yes">Fernsehen(s)?</token>
+          <token regexp="yes">((e|E)rste|(z|Z)weite)n?</token>
+          <token regexp="yes">deutschen?</token>
+          <token regexp="yes">Fernsehens?</token>
         </pattern>
-        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="1"/> <match case_conversion="startupper" no="2"/></suggestion> \3? Zu mehrteiligen Namen gehörende Adjektive werden großgeschrieben.</message>
+        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="1"/> <match case_conversion="startupper" no="2"/></suggestion> \3? &namengross;</message>
         <example type="correct">Das <marker>Erste Deutsche</marker> Fernsehen</example>
         <example type="incorrect" correction="Zweite Deutsche">Das <marker>zweite deutsche</marker> Fernsehen</example>
         <example type="incorrect" correction="Ersten Deutschen">Des <marker>Ersten deutschen</marker> Fernsehens</example>
       </rule>
       <rule>
         <pattern mark_to="-1" mark_from="0" case_sensitive="yes">
-          <token regexp="yes">(inter)?nationale(s|n)?</token>
-          <token regexp="yes">(o|O)lympische(s|n)?</token>
-          <token regexp="yes">Komitee(s)?</token>
+          <token regexp="yes">(inter)?nationale[sn]?</token>
+          <token regexp="yes">[oO]lympische[sn]?</token>
+          <token regexp="yes">Komitees?</token>
         </pattern>
-        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="1"/> <match case_conversion="startupper" no="2"/></suggestion> \3? Zu mehrteiligen Namen gehörende Adjektive werden großgeschrieben.</message>
+        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="1"/> <match case_conversion="startupper" no="2"/></suggestion> \3? &namengross;</message>
         <example type="correct">Das <marker>Internationale Olympische</marker> Komitee</example>
         <example type="incorrect" correction="Nationale Olympische">Das <marker>nationale Olympische</marker> Komitee</example>
         <example type="incorrect" correction="Nationale Olympische">Das <marker>nationale olympische</marker> Komitee</example>
       </rule>
       <rule>
         <pattern mark_to="-1" mark_from="0" case_sensitive="yes">
-          <token regexp="yes">((i|I)nter)?(n|N)ationale(s|n)?</token>
-          <token regexp="yes">olympische(s|n)?</token>
-          <token regexp="yes">Komitee(s)?</token>
+          <token regexp="yes">([iI]nter)?[n|N]ationale[sn]?</token>
+          <token regexp="yes">olympische[sn]?</token>
+          <token regexp="yes">Komitees?</token>
         </pattern>
-        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="1"/> <match case_conversion="startupper" no="2"/></suggestion> \3? Zu mehrteiligen Namen gehörende Adjektive werden großgeschrieben.</message>
+        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="1"/> <match case_conversion="startupper" no="2"/></suggestion> \3? &namengross;</message>
         <example type="correct">Das <marker>Internationale Olympische</marker> Komitee</example>
         <example type="incorrect" correction="Nationale Olympische">Das <marker>nationale olympische</marker> Komitee</example>
         <example type="incorrect" correction="Internationalen Olympischen">Des <marker>Internationalen olympischen</marker> Komitees</example>
@@ -2706,10 +2784,10 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <rule>
         <pattern mark_to="-1" mark_from="1" case_sensitive="yes">
           <token regexp="yes">((D|d)(as|es|em)|(v|V)om|(i|I|a|A)m)</token>
-          <token regexp="yes">((tote|rote)(s|n)?|schwarze(s|n))</token>
-          <token regexp="yes">Meer(e)?(s)?</token>
+          <token regexp="yes">((tote|rote|schwarze)[sn]?)</token>
+          <token regexp="yes">Meere?s?</token>
         </pattern>
-        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="2"/></suggestion> \3? Zu mehrteiligen Namen gehörende Adjektive werden großgeschrieben.</message>
+        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="2"/></suggestion> \3? &namengross;</message>
         <example type="correct">Das <marker>Schwarze</marker> Meer</example>
         <example type="correct">Das ist ein <marker>totes</marker> Meer.</example>
         <example type="incorrect" correction="Roten">Des <marker>roten</marker> Meeres</example>
@@ -2722,7 +2800,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">römische(n)?</token>
           <token regexp="yes">Reich(e)?(s)?</token>
         </pattern>
-        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="2"/> <match case_conversion="startupper" no="3"/></suggestion> \4 (bis 1806)? Zu mehrteiligen Namen gehörende Adjektive werden großgeschrieben.</message>
+        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="2"/> <match case_conversion="startupper" no="3"/></suggestion> \4 (bis 1806)? &namengross;</message>
         <example type="correct">Das <marker>Heilige Römische</marker> Reich</example>
         <example type="incorrect" correction="Heilige Römische">Das <marker>Heilige römische</marker> Reich</example>
         <example type="incorrect" correction="Heilige Römische">Das <marker>heilige römische</marker> Reich</example>
@@ -2734,7 +2812,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">(r|R)ömische(n)?</token>
           <token regexp="yes">Reich(e)?(s)?</token>
         </pattern>
-        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="2"/> <match case_conversion="startupper" no="3"/></suggestion> \4 (bis 1806)? Zu mehrteiligen Namen gehörende Adjektive werden großgeschrieben.</message>
+        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="2"/> <match case_conversion="startupper" no="3"/></suggestion> \4 (bis 1806)? &namengross;</message>
         <example type="correct">Das <marker>Heilige Römische</marker> Reich</example>
         <example type="incorrect" correction="Heilige Römische">Das <marker>heilige Römische</marker> Reich</example>
         <example type="incorrect" correction="Heilige Römische">Das <marker>heilige römische</marker> Reich</example>
@@ -2748,7 +2826,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>deutscher</token>
           <token>Nation</token>
         </pattern>
-        <message>Meinten Sie \2 \3 \4 <suggestion><match case_conversion="startupper" no="5"/></suggestion> \6 (bis 1806)? Zu mehrteiligen Namen gehörende Adjektive werden großgeschrieben.</message>
+        <message>Meinten Sie \2 \3 \4 <suggestion><match case_conversion="startupper" no="5"/></suggestion> \6 (bis 1806)? &namengross;</message>
         <example type="correct">Das Heilige Römische Reich <marker>Deutscher</marker> Nation</example>
         <example type="incorrect" correction="Deutscher">Das heilige römische Reich <marker>deutscher</marker> Nation</example>
         <example type="incorrect" correction="Deutscher">Des Heiligen römischen Reiches <marker>deutscher</marker> Nation</example>
@@ -2760,7 +2838,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">(erste|zweite)(n)?</token>
           <token>Bundesliga</token>
         </pattern>
-        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="2"/></suggestion> \3? Zu mehrteiligen Namen gehörende Adjektive werden großgeschrieben.</message>
+        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="2"/></suggestion> \3? &namengross;</message>
         <example type="correct">Die <marker>Erste</marker> Bundesliga</example>
         <example type="incorrect" correction="Zweiten">der <marker>zweiten</marker> Bundesliga</example>
       </rule>-->
@@ -2770,7 +2848,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">unbefleckte(n)?</token> 
           <token>Empfängnis</token>
         </pattern>
-        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="2"/></suggestion> \3 (Bewahrung Marias vor der Erbsünde)? Zu mehrteiligen Namen gehörende Adjektive werden großgeschrieben.</message>
+        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="2"/></suggestion> \3 (Bewahrung Marias vor der Erbsünde)? &namengross;</message>
         <example type="correct">Die <marker>Unbefleckte</marker> Empfängnis</example>
         <example type="incorrect" correction="Unbefleckte">Die <marker>unbefleckte</marker> Empfängnis</example>
       </rule>
@@ -2779,7 +2857,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">(mittlere(n)?|ferne(n)?|weite(n)?)</token>
           <token regexp="yes">(Osten(s)?)</token>
         </pattern>
-        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="1"/></suggestion> \2? Zu mehrteiligen Namen gehörende Adjektive werden großgeschrieben.</message>
+        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="1"/></suggestion> \2? &namengross;</message>
         <example type="correct">Der <marker>Mittlere</marker> Osten</example>
         <example type="incorrect" correction="Mittlere">Der <marker>mittlere</marker> Osten</example>
       </rule>
@@ -2791,7 +2869,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">heilige(r|n)?</token>
           <token regexp="yes">Vater(s)?</token>
         </pattern>
-        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="2"/></suggestion> \3 (Papst)? Titel und Ehrenbezeichnungen werden großgeschrieben.</message>
+        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="2"/></suggestion> \3 (Papst)? &titelgross;</message>
         <example type="correct">Der <marker>Heilige</marker> Vater</example>
         <example type="incorrect" correction="Heiligen">Dem <marker>heiligen</marker> Vater begegnen</example>
         <example type="incorrect" correction="Heiligen">Im <marker>heiligen</marker> Vater ein Vorbild sehen</example>
@@ -2801,7 +2879,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">königliche(n)?</token>
           <token>Hoheit</token>
         </pattern>
-        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="1"/></suggestion> \2 (Anrede)? Titel und Ehrenbezeichnungen werden großgeschrieben.</message>
+        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="1"/></suggestion> \2 (Anrede)? &titelgross;</message>
         <example type="correct">Die <marker>Königliche</marker> Hoheit</example>
         <example type="incorrect" correction="Königlichen">der <marker>königlichen</marker> Hoheit</example>
       </rule>
@@ -2812,7 +2890,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>.</token>
           <token regexp="yes">Vater(s)?</token>
         </pattern>
-        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="2"/></suggestion> \3 \4 (Papst)? Titel und Ehrenbezeichnungen werden großgeschrieben.</message>
+        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="2"/></suggestion> \3 \4 (Papst)? &titelgross;</message>
         <example type="correct">Der <marker>Hl</marker>. Vater</example>
         <example type="incorrect" correction="Hl">Der <marker>hl</marker>. Vater</example>
       </rule>
@@ -2825,7 +2903,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>deutschen</token>
           <token>Einheit</token>
         </pattern>
-        <message>Meinten Sie \1 \2 <suggestion><match case_conversion="startupper" no="3"/></suggestion> \4 (3. Oktober)? Besondere Kalendertage werden großgeschrieben.</message>
+        <message>Meinten Sie \1 \2 <suggestion><match case_conversion="startupper" no="3"/></suggestion> \4 (3. Oktober)? </message>
         <example type="correct">Der Tag der <marker>Deutschen</marker> Einheit</example>
         <example type="incorrect" correction="Deutschen">Der Termin des Tages der <marker>deutschen</marker> Einheit</example>
       </rule>
@@ -2834,7 +2912,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">weiße(r|n)</token>
           <token regexp="yes">Sonntag((e)?s)?</token>
         </pattern>
-        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="1"/></suggestion> \2 (Sonntag nach Ostern)? Besondere Kalendertage werden großgeschrieben.</message>
+        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="1"/></suggestion> \2 (Sonntag nach Ostern)? &taggross;</message>
         <example type="correct">Der <marker>Weiße</marker> Sonntag</example>
         <example type="incorrect" correction="Weißen">Am <marker>weißen</marker> Sonntag</example>
       </rule>
@@ -2844,7 +2922,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">heilige(n)</token>
           <token regexp="yes">Abend(s)?</token>
         </pattern>
-        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="2"/></suggestion> \3 (24. Dezember)? Besondere Kalendertage werden großgeschrieben.</message>
+        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="2"/></suggestion> \3 (24. Dezember)? &taggross;</message>
         <example type="correct">Der <marker>Heilige</marker> Abend</example>
         <example type="incorrect" correction="Heiligen">Am <marker>heiligen</marker> Abend</example>
       </rule>
@@ -2854,7 +2932,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">erste(n)?</token>
           <token regexp="yes">Mai(s)?</token>
         </pattern>
-        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="2"/></suggestion> \3 (Tag der Arbeit)? Besondere Kalendertage werden großgeschrieben.</message>
+        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="2"/></suggestion> \3 (Tag der Arbeit)? &taggross;</message>
         <example type="correct">Der <marker>Erste</marker> Mai</example>
         <example type="incorrect" correction="Ersten">Vom <marker>ersten</marker> Mai reden</example>
       </rule>
@@ -3149,7 +3227,17 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       </rule>
     </rulegroup>
     <rulegroup id="DANK_SUBST" name="Groß-/Kleinschreibung: 'dank (Dank)'">
-    <!-- TODO: "Das/Was war/ist jetzt/nun/dann der/euer Dank?" -->
+      <rule>
+        <pattern mark_from="3" mark_to="0" case_sensitive="yes">
+          <token regexp="yes">(D|d|W|w)as</token>
+          <token regexp="yes" skip="1">(war|ist)</token>
+          <token regexp="yes">mein|dein|sein|unser|euer|ihr|der</token>
+          <token>dank</token>
+        </pattern>
+        <message>Bitte prüfen Sie, ob <suggestion>Dank</suggestion> hier als Substantiv gebraucht wird.</message>
+        <example type="incorrect">Was ist jetzt euer <marker>dank</marker>?</example>
+        <example type="correct">Was ist jetzt euer <marker>Dank</marker>?</example>
+      </rule>
       <rule>
         <pattern mark_from="1" mark_to="-1" case_sensitive="yes">
           <token regexp="yes">[zZ]um|[dD]er|[aA]ls</token>
@@ -4247,6 +4335,39 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       </rule>
     </rulegroup>
     -->
+    <rulegroup id="SUBJ_VERBLETZTSTELLUNG" name="Grammatik: Fehlende Verbletztstellung in Nebensatz" default="off">
+      <rule>
+        <pattern mark_from="1" mark_to="-2" case_sensitive="yes">
+          <token>,</token>
+          <token regexp="yes" skip="2">dass|weil|obwohl|obgleich|sodass
+            <exception scope="next" regexp="yes">,|–|\-|;|\:|&anf;|&klam;</exception>
+          </token>
+          <token postag=".*VER.*[123].*" postag_regexp="yes">
+            <exception postag_regexp="yes" postag=".*VER.*(INF|PA).*"/>
+            <exception regexp="yes">ein.{0,2}</exception>
+          </token>
+          <token skip="-1">
+            <exception scope="next" regexp="yes">,|–|\-|;|\:|&klam;|&anf;</exception>
+            <exception regexp="yes">,|–|\-|;|\:|&klam;|&anf;</exception>
+            <exception scope="next" postag_regexp="yes" postag=".*VER.*(INF|EIZ|IMP|\:1|\:2|\:3).*"/>
+            <exception postag_regexp="yes" postag=".*VER.*" negate="yes" regexp="yes">ein.{0,2}</exception>
+          </token>
+          <token postag="SENT_END"/>
+        </pattern>
+        <message>Die Subjunktion '\2' erfordert Verbletztstellung. Stellen Sie das Verb an das Ende des Nebensatzes oder verwenden Sie eine andere Konjunktion (z. B. 'denn')</message><!-- TODO should we make a suggestion? -->
+        <example type="correct">Er mag das Spiel, <marker>weil es ihm Spaß macht</marker>.</example>
+        <example type="incorrect">Er mag das Spiel, <marker>weil es macht</marker> ihm Spaß.</example>
+        <example type="correct">Sie läuft nicht, <marker>weil sie geht</marker>.</example>
+        <example type="correct">Ich tue das, <marker>weil ich dich liebe</marker> und ehre.</example>
+        <example type="correct">Sie kommen, <marker>weil die weniger organisierten</marker> Feinde unvorbereitet sind.</example>
+        <example type="incorrect">Ich finde das gut, <marker>weil du hast</marker> dir viel Mühe gemacht.</example>
+        <example type="correct">Ich finde das gut, <marker>denn du hast</marker> dir viel Mühe gemacht.</example>
+        <example type="correct">Ich finde das gut, <marker>weil du dir viel Mühe gemacht hast </marker>.</example>
+        <example type="correct">Das ist ein Befehl, <marker>weil es über eine</marker> Aufforderung hinausgeht.</example>
+        <example type="incorrect">Hast du das gemerkt, <marker>weil du hast</marker> einen häufigen Fehler gemacht?</example>
+<!--         <example type="correct">Das ist so, weil hier drei dunkle Streifen aneinanderliegen.</example> TODO the verb isn't recognized -->
+      </rule>
+    </rulegroup>
     <rulegroup id="PRAEP_GEN" name="Grammatik: Präposition mit Genitiv (ab­züg­lich, wegen)">
       <rule>
         <pattern mark_from="1" case_sensitive="yes">
@@ -4807,7 +4928,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <rule>
         <pattern mark_from="0" mark_to="-1">
           <token regexp="yes">(M|k)bits</token>
-          <token regexp="yes" inflected="yes">(schnell|langsam|.*Geschwindigkeit|(.*Übertragungs|.*load)rate)</token>
+          <token regexp="yes" inflected="yes">(schnell|langsam|.*Geschwindigkeit|(.*Übertragungs|.*load|Daten)rate)</token>
         </pattern>
         <message>Meinten Sie <suggestion><match no="1" regexp_match="(M|k).*" regexp_replace="$1bit/s"/></suggestion> (Datenübertragungsrate) oder <suggestion><match no="1" regexp_match="(.*)s" regexp_replace="$1"/></suggestion> (Datenmenge)?</message>
         <example type="correct">Der DSL-Anschluss ist 16000 Mbit/s schnell.</example>
@@ -4837,14 +4958,16 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect">a = 5x <marker>*</marker> 5 + 7</example>
       <example type="incorrect">a <marker>*</marker> b</example>
     </rule>
+    <!-- Zwischen Zahlen werden Rechenzeichen durch kleine, feste Zwischenräume (Duden) oder genze Leerschritte (DIN 5008) von den Zahlen abgetrennt -->
     <rule id="LEERZEICHEN_RECHENZEICHEN" name="Zeichensetzung: Leerzeichen vor Rechenzeichen">
       <pattern>
-        <token regexp="yes">([0-9]+[a-z]*)(\*|×|∗|·|\+|/|÷|:|=)([0-9]+[a-z]*)</token>
+        <token regexp="yes">([0-9]+[a-z]*)((\*|×|∗|·|\+|÷|:|=)([0-9]+[a-z]*))+</token>
       </pattern>
-      <message>Rechenzeichen sollten durch (schmale, geschützte) Leerzeichen abgetrennt werden. Vorschlag: <suggestion><match no="1" regexp_match="([0-9]+[a-z]*)(\*|×|∗|·|\+|/|÷|:|=)([0-9]+[a-z]*)" regexp_replace="$1 $2 $3"/></suggestion> (Tipp: Verwenden Sie für komplexe Formeln den Formeleditor [Einfügen > Objekt > Formel])</message>
+      <message>Rechenzeichen sollten durch (schmale, geschützte) Leerzeichen abgetrennt werden. Vorschlag: <suggestion><match no="1" regexp_match="(\*|×|∗|·|\+|÷|:|=|\-|—)" regexp_replace=" $1 "/></suggestion> (Tipp: Verwenden Sie für komplexe Formeln den Formeleditor [Einfügen > Objekt > Formel])</message>
       <example type="correct">a = 2 · x² + 5</example>
       <example type="correct">4,5 × 2,5</example>
       <example type="incorrect" correction="3a = 2"><marker>3a=2</marker></example>
+      <example type="incorrect" correction="5 * 5 = 25"><marker>5*5=25</marker></example>
     </rule>
     <!-- "vor die Konjunktion sondern [ist] immer ein Komma zu setzen"
     http://www.duden.de/sprachratgeber/besonderheiten-von%2D-em-sondern%2D-em- -->
@@ -4879,9 +5002,9 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <rule>
         <!-- TODO At the moment, we simply check whether there's no comma at all. This simplifies the rule (because we do not have to take care of cases where words like ohne, sondern, meist, dadurch etc. procede the conjunction), but we fail to detect many mistakes -->
         <pattern mark_from="1" mark_to="-2" case_sensitive="yes">
-          <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes">(,|–|\-|\(|;|\:|„|"|»|›|‚|…|[0-9]+|\?|\!|&lt;|&gt;|\=|\{|\[)</exception></token>
-          <token regexp="yes" skip="-1">(dass|weil|obwohl|obgleich|sodass|wenn)<exception scope="next" regexp="yes">(,|–|\-|\(|;|\:|„|"|»|›|‚|…|[0-9]+|\?|\!|&lt;|&gt;|\=|\{|\[)</exception></token>
-          <token postag=".*VER.*" postag_regexp="yes" skip="-1"><exception scope="next" regexp="yes">(,|–|\-|\(|;|\:|„|"|»|›|‚|…|[0-9]+|\?|\!|&lt;|&gt;|\=|\{|\[)</exception></token>
+          <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes">(,|–|\-|;|\:|&anfauf;|…|[0-9]+|\?|\!|&gt;|\=|&klamauf;)</exception></token>
+          <token regexp="yes" skip="-1">(dass|weil|obwohl|obgleich|sodass|wenn)<exception scope="next" regexp="yes">(,|–|\-|;|\:|&anfauf;|…|[0-9]+|\?|\!|&gt;|\=|&klamauf;)</exception></token>
+          <token postag=".*VER.*" postag_regexp="yes" skip="-1"><exception scope="next" regexp="yes">(,|–|\-|;|\:|&anfauf;|…|[0-9]+|\?|\!|&gt;|\=|&klamauf;)</exception></token>
           <token postag="SENT_END"/>
         </pattern>
         <message>Ein mit der Subjunktion '\2' eingeleiteter Nebensatz wird i.d.R. mit (mindestens) einem Komma vom Hauptsatz abgetrennt.</message>
@@ -4899,7 +5022,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <rule>
         <pattern mark_from="1" mark_to="-1" case_sensitive="yes">
           <token postag="SENT_START"/>
-          <token skip="-1" regexp="yes">(Dass|Obwohl|Obgleich|Sodass|Wenn)<exception scope="next" regexp="yes">(,|–|\-|\(|;|\:|„|"|»|›|‚|…|[0-9]+|\?|\!|&lt;|&gt;|\=|\{|\[)</exception></token>
+          <token skip="-1" regexp="yes">(Dass|Obwohl|Obgleich|Sodass|Wenn)<exception scope="next" regexp="yes">(,|–|\-|;|\:|&anfauf;|…|[0-9]+|\?|\!|&gt;|\=|&klamauf;)</exception></token>
           <token postag="SENT_END"/>
         </pattern>
         <message>Ein mit der Subjunktion '<match case_conversion="alllower" no="2"/>' eingeleiteter Nebensatz wird i.d.R. mit einem Komma vom Hauptsatz abgetrennt.</message>
