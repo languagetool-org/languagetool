@@ -33,6 +33,10 @@ class WikipediaTextFilter implements TextFilter {
   public String filter(String s) {
     // TODO: find general HTML to Text converter?!:
     final WikiModel wikiModel = new WikiModel("${image}", "${title}");
+    // image with link:
+    s = s.replaceAll("\\[\\[Datei:.*?\\[\\[.*?\\]\\].*?\\]\\]", "");
+    // image without link:
+    s = s.replaceAll("\\[\\[Datei:.*?\\]\\]", "");
     s = wikiModel.render(s);
     //System.out.println("0####"+s);
     s = s.replaceAll("\\{\\{.*?\\}\\}", "");
@@ -46,7 +50,7 @@ class WikipediaTextFilter implements TextFilter {
     s = StringEscapeUtils.unescapeHtml(s);
     //System.out.println("1############################################\n"+s);
     //System.out.println("/############################################"+s);
-    return s;
+    return s.trim();
   }
 
 }
