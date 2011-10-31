@@ -308,10 +308,10 @@ public class PatternRule extends AbstractPatternRule {
       }
 
       if (allElementsMatch && matchingTokens == patternSize) {
-        final RuleMatch rM = createRuleMatch(tokenPositions, tokens,
+        final RuleMatch ruleMatch = createRuleMatch(tokenPositions, tokens,
             firstMatchToken, lastMatchToken, matchingTokens);
-        if (rM != null) {
-          ruleMatches.add(rM);
+        if (ruleMatch != null) {
+          ruleMatches.add(ruleMatch);
         }
       }
       i++;
