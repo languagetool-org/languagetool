@@ -4210,13 +4210,18 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <pattern case_sensitive="yes" mark_to="-1">
         <token regexp="yes">[Ee]in</token>
         <token>Paar</token>
-        <token negate="yes" regexp="yes">(.*)([Ss]chuhe|[Ss]ocken)</token>
+        <token postag_regexp="yes" postag="SUB:.*" negate="yes" regexp="yes">(.*)([Ss]chuhe|[Ss]ocken)</token>
       </pattern>
       <message>Meinten Sie <suggestion>ein paar</suggestion>? (=einige)</message>
       <example type="correct"><marker>Ein Paar</marker> Schuhe.</example>
       <example type="correct"><marker>Ein Paar</marker> Wanderschuhe.</example>
+      <example type="correct"><marker>Ein Paar</marker> Handschuhe.</example>
+      <example type="correct"><marker>Ein Paar</marker> dünne Handschuhe.</example>
       <example type="correct"><marker>Ein paar</marker> Münzen.</example>
       <example type="incorrect"><marker>Ein Paar</marker> Münzen.</example>
+      <!--
+      <example type="incorrect"><marker>Ein Paar</marker> schöne Münzen.</example>
+      -->
     </rule>
     <rulegroup id="GROSS_KLEIN_EINHEITEN" name="Groß-/Kleinschreibung: Einheiten 'KB (kB), KWh (kWh)'">
       <rule>
