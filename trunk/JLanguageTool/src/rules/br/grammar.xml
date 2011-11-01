@@ -252,7 +252,7 @@ Some grammatical resources used:
             <exception postag="V.*" postag_regexp="yes">a</exception>
           </token>
           <and>
-            <token regexp="yes">c’h.*<exception inflected="yes" regexp="yes">c’h.*</exception>
+            <token regexp="yes">c’h.*<exception inflected="yes" regexp="yes">(g|c’h).*</exception>
             </token>
             <token regexp="yes" inflected="yes">k.*</token>
           </and>
@@ -261,6 +261,7 @@ Some grammatical resources used:
         <example type="incorrect">Niver a <marker>c’hentelioù-noz</marker></example>
         <example type="correct">Niver a gentelioù-noz</example>
         <example type="correct">C’hoant en deus da c’hoari.</example>
+        <example type="correct">Ne c’hell ket bezañ.</example>
       </rule>
       <rule>
         <pattern mark_from="1">
@@ -376,7 +377,9 @@ Some grammatical resources used:
             <exception postag="C sub">ma</exception>
           </token>
           <and>
-            <token regexp="yes" inflected="yes">t.*</token>
+            <token regexp="yes" inflected="yes">t.*
+              <exception regexp="yes" inflected="yes">d.*</exception>
+            </token>
             <token regexp="yes">[td].*</token>
           </and>
         </pattern>
@@ -389,6 +392,7 @@ Some grammatical resources used:
         <example type="correct">Ma zad a gomz brezhoneg.</example>
         <example type="correct">En em dermeniñ a ra evel ur skiantel.</example>
         <example type="correct">Laouen e vefen ma teufen.</example>
+        <example type="correct">Va Doue!</example>
       </rule>
       <rule>
         <pattern mark_from="1">
@@ -1005,6 +1009,41 @@ Some grammatical resources used:
       </rule>
     </rulegroup>
 
+    <rule id="V_KEMM" name="kemmadur ebet goude ar verb">
+      <pattern mark_from="1">
+        <token postag="V.*" postag_regexp="yes">
+          <exception negate_pos="yes" postag="V.*" postag_regexp="yes"></exception>
+        </token>
+        <token postag="[^M]*M:.*" postag_regexp="yes">
+          <exception negate_pos="yes" postag="[^M]*M:.*" postag_regexp="yes"/>
+          <exception>vad</exception>
+        </token>
+      </pattern>
+      <message>Ne zlefe ket bezañ ur c’hemmadur er ger «\2» goude ur verb.</message>
+      <example type="incorrect">Gwellet em eus <marker>vagoù</marker>.</example>
+      <example type="correct">Gwellet em eus bagoù.</example>
+      <example type="incorrect">N’out ket chomet <marker>bell</marker>.</example>
+      <example type="correct">N’out ket chomet pell.</example>
+    </rule>
+
+    <rule id="GER_KEMM" name="kemmadur ebet goude gerioù">
+      <pattern mark_from="1">
+        <token regexp="yes">a-benn|arabat|abaoe|eus|evel(-se)?|hag?|hep|ke[nt]|krenn|lies|mard?|nemet|nebeu(dig)?|pas|pep|pebezh|pegen|pere|petvet|peseurt|petore|setu</token>
+        <token postag="[^M]*M:.*" postag_regexp="yes">
+          <exception negate_pos="yes" postag="[^M]*M:.*" postag_regexp="yes"/>
+        </token>
+      </pattern>
+      <message>Ne zlefe ket bezañ ur c’hemmadur er ger «\2» goude ar ger «\1».</message>
+      <example type="incorrect">Mar <marker>vefe</marker> tomm</example>
+      <example type="correct">Mar befe tomm</example>
+      <example type="correct">Ma vefe tomm</example>
+      <example type="incorrect">Arabat <marker>dreuziñ</marker> an hent!</example>
+      <example type="correct">Arabat treuziñ an hent!</example>
+      <example type="correct">Redek a ra vad.</example>
+      <example type="incorrect">Ken <marker>vras</marker> eo!</example>
+      <example type="correct">Ken bras eo!</example>
+    </rule>
+
   </category>
 
   <category name="Ger-mell">
@@ -1058,6 +1097,7 @@ Some grammatical resources used:
           <token regexp="yes">[bcfgjkmprsvwyz].*
             <exception postag="K .* o.*" postag_regexp="yes"></exception>
             <exception regexp="yes" postag="UNKNOWN">[FLMNRS]\p{Lu}*</exception>
+            <exception regexp="yes">[FLMNRS]\d*</exception>
           </token>
         </pattern>
         <message>Ar ger «\1» a zlefe bezañ <suggestion><match no="1" regexp_match="(.*)." regexp_replace="$1r"/></suggestion> dirak ur ger na grog ket gant al lizherennoù «n, d, t, h» per ur vogalenn.</message>
@@ -1068,6 +1108,7 @@ Some grammatical resources used:
         <example type="correct">Ar ouiziegezh</example>
         <example type="incorrect"><marker>AN</marker> FILM A BLIJ DIN</example>
         <example type="correct">Gant an FSE</example>
+        <example type="correct">Un S.O.S.</example>
       </rule>
     </rulegroup>
     <rule id="AR_OUI" name="ger ar, ur, er, hor + oui">
@@ -2105,7 +2146,7 @@ Some grammatical resources used:
     <rulegroup id="GER_DOUBLET" name="Ger doublet">
       <rule>
         <pattern>
-          <token regexp="yes">\p{L}+<exception postag="SENT_START"/></token>
+          <token regexp="yes">\p{L}+<exception postag="SENT_START"/><exception>ez</exception></token>
           <token spacebefore="yes"><exception postag="J.*" postag_regexp="yes"></exception><match no="0"/></token>
         </pattern>
         <message>Ger doublet «\1 \2». Ha fellout a rae deoc’h skrivañ <suggestion>\1</suggestion>?</message>
@@ -2113,6 +2154,7 @@ Some grammatical resources used:
         <example type="incorrect">Pelec‘h <marker>emañ emañ</marker> an ti-gar?</example>
         <example type="correct">Pelec‘h <marker>emañ</marker> an ti-gar?</example>
         <example type="correct">N’eo ket fur fur.</example>
+        <example type="correct">Perak ez ez kuit?</example>
       </rule>
       <rule>
         <pattern>
