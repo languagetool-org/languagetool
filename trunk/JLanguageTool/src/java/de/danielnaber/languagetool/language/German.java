@@ -83,6 +83,7 @@ public class German extends Language {
   public Contributor[] getMaintainers() {
     return new Contributor[] {
         new Contributor("Jan Schreiber"),
+        new Contributor("Markus Brenneis"),
         Contributors.DANIEL_NABER,
     };
   }
