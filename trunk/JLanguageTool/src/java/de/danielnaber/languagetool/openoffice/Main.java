@@ -404,6 +404,36 @@ public class Main extends WeakBase implements XJobExecutor,
     }
     return null;
   }
+  
+  /**
+  * LibO shortens menuitems with more than ~100 characters by dropping text in the middle
+  * that isn't really sensible, so we shorten the text here in order to preserve the important parts
+  */
+  private String shortenComment(String comment) {
+    final int maxCommentLength;
+    maxCommentLength=100;
+    
+    if(comment.length()>maxCommentLength) {
+    
+      // if there is text in brackets, drop it (beginning at the end)
+      while (comment.lastIndexOf(" [") > 0
+              && comment.lastIndexOf("]") > comment.lastIndexOf(" [")
+              && comment.length()>maxCommentLength) {
+        comment=comment.substring(0,comment.lastIndexOf(" [")) + comment.substring(comment.lastIndexOf("]")+1);
+      }
+      while (comment.lastIndexOf(" (") > 0
+              && comment.lastIndexOf(")") > comment.lastIndexOf(" (")
+              && comment.length()>maxCommentLength) {
+        comment=comment.substring(0,comment.lastIndexOf(" (")) + comment.substring(comment.lastIndexOf(")")+1);
+      }
+      
+      // in case it's still not short enough, shorten at the end
+      if(comment.length()>maxCommentLength) comment = comment.substring(0,maxCommentLength-1) + "…";
+      
+    }
+    
+    return comment;
+  }
 
   /**
    * Creates a SingleGrammarError object for use in OOo.
@@ -427,6 +457,8 @@ public class Main extends WeakBase implements XJobExecutor,
     } else {
       aError.aShortComment = aError.aFullComment;
     }
+    aError.aShortComment = shortenComment(aError.aShortComment);
+    
     aError.aSuggestions = myMatch.getSuggestedReplacements().toArray(
         new String[myMatch.getSuggestedReplacements().size()]);
     aError.nErrorStart = myMatch.getFromPos() + startIndex;
