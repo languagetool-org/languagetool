@@ -2133,15 +2133,28 @@ Some grammatical resources used:
       </rule>
     </rulegroup>
 
-    <rule id="UN_NEBEUT" name="un nebeut → un nebeud">
-      <pattern mark_from="1">
-        <token regexp="yes">[ua]n</token>
-        <token>nebeut</token>
-      </pattern>
-      <message>Skrivet eo bet <suggestion>nebeud</suggestion> pa vez un anv.</message>
-      <example type="incorrect">Un <marker>nebeut</marker> tud</example>
-      <example type="correct">Un nebeud tud</example>
-    </rule>
+    <rulegroup id="NEBEUT_NEBEUD" name="un nebeut → un nebeud">
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">[ua]n</token>
+          <token>nebeut</token>
+        </pattern>
+        <message>Skrivet eo bet <suggestion>nebeud</suggestion> pa vez un anv.</message>
+        <example type="incorrect">Un <marker>nebeut</marker> tud</example>
+        <example type="correct">Un nebeud tud</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token regexp="yes">[au]n</token>
+          <token regexp="yes">nebeud(ig)?</token>
+          <token>a</token>
+          <token postag="N.*" postag_regexp="yes"/>
+        </pattern>
+        <message>«\2» a rank bezañ implijet hep «\3». Ha fellout a rae deoc’h skrivañ <suggestion>\2</suggestion>?</message>
+        <example type="incorrect">Un <marker>nebeud a</marker> levrioù am eus.</example>
+        <example type="correct">Un nebeud levrioù am eus.</example>
+      </rule>
+    </rulegroup>
 
     <rulegroup id="GER_DOUBLET" name="Ger doublet">
       <rule>
