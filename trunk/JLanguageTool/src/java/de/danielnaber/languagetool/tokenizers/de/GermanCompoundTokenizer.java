@@ -21,7 +21,7 @@ package de.danielnaber.languagetool.tokenizers.de;
 import java.io.IOException;
 import java.util.List;
 
-import de.abelssoft.wordtools.jWordSplitter.impl.GermanWordSplitter;
+import de.abelssoft.wordtools.jwordsplitter.impl.GermanWordSplitter;
 import de.danielnaber.languagetool.tokenizers.Tokenizer;
 
 /**
