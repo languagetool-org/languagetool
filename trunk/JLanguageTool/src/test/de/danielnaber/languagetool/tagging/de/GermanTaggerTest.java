@@ -19,8 +19,10 @@
 package de.danielnaber.languagetool.tagging.de;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
+import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.JLanguageTool;
 
 import junit.framework.TestCase;
@@ -137,10 +139,24 @@ public class GermanTaggerTest extends TestCase {
     assertEquals("Haus", readings.get(1).getLemma());
     assertEquals("Haus", readings.get(2).getLemma());
   }
+
+  public void testTag() throws IOException {
+    GermanTagger tagger = new GermanTagger();
+
+    final List<String> upperCaseWord = new ArrayList<String>();
+    upperCaseWord.add("Das");
+
+    List<AnalyzedTokenReadings> readings = tagger.tag(upperCaseWord);
+    assertEquals("[Das[ART:DEF:AKK:SIN:NEU, ART:DEF:NOM:SIN:NEU, PRO:DEM:AKK:SIN:NEU, PRO:DEM:NOM:SIN:NEU, " +
+            "PRO:PER:AKK:SIN:NEU, PRO:PER:NOM:SIN:NEU]]", readings.toString());
+    
+    readings = tagger.tag(upperCaseWord, false);
+    assertEquals("[Das[null]]", readings.toString());
+  }
   
-  public void testDictionary() throws IOException {    
+  public void testDictionary() throws IOException {
     final Dictionary dictionary = Dictionary.read(
-        JLanguageTool.getDataBroker().getFromResourceDirAsUrl("/de/german.dict"));    
+        JLanguageTool.getDataBroker().getFromResourceDirAsUrl("/de/german.dict"));
     final DictionaryLookup dl = new DictionaryLookup(dictionary);
     for (WordData wd : dl) {
       if (wd.getTag() == null || wd.getTag().length() == 0) {
