@@ -198,6 +198,8 @@ public class AgreementRule extends GermanRule {
       relevantPronoun = false;
     else if (token.equalsIgnoreCase("er") || token.equalsIgnoreCase("sie") || token.equalsIgnoreCase("es"))
       relevantPronoun = false;
+    else if (token.equalsIgnoreCase("ihm"))
+      relevantPronoun = false;
     else if (token.equalsIgnoreCase("ich"))
       relevantPronoun = false;
     else if (token.equalsIgnoreCase("du"))
@@ -214,7 +216,11 @@ public class AgreementRule extends GermanRule {
       relevantPronoun = false;
     else if (token.equalsIgnoreCase("man"))
       relevantPronoun = false;
+    else if (token.equalsIgnoreCase("beide"))
+      relevantPronoun = false;
     else if (token.equalsIgnoreCase("beiden"))
+      relevantPronoun = false;
+    else if (token.equalsIgnoreCase("beider"))
       relevantPronoun = false;
     else if (token.equalsIgnoreCase("wessen"))
       relevantPronoun = false;
@@ -290,10 +296,6 @@ public class AgreementRule extends GermanRule {
 
   private RuleMatch checkDetNounAgreement(final AnalyzedGermanTokenReadings token1,
       final AnalyzedGermanTokenReadings token2) {
-    // avoid false alarm: "Gebt ihm Macht."
-    if (token1.getToken().equalsIgnoreCase("ihm")) {
-      return null;
-    }
     RuleMatch ruleMatch = null;
     final Set<String> set1 = getAgreementCategories(token1);
     if (set1 == null) {
