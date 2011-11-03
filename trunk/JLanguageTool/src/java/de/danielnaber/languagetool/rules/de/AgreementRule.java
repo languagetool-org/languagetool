@@ -107,7 +107,29 @@ public class AgreementRule extends GermanRule {
     PREPOSITIONS.add("zu");
     // TODO: add more
   }
-  
+
+  private static final Set<String> PRONOUNS_TO_BE_IGNORED = new HashSet<String>(Arrays.asList(
+    "ich",
+    "du",
+    "er", "sie", "es",
+    "ihm",
+    "dessen",
+    "deren",
+    "sich",
+    "unser",
+    "aller",
+    "man",
+    "beide",
+    "beiden",
+    "beider",
+    "wessen",
+    "a",
+    "alle",
+    "etwas",
+    "was",
+    "wer"
+  ));
+    
   public AgreementRule(final ResourceBundle messages) {
     if (messages != null)
       super.setCategory(new Category(messages.getString("category_grammar")));
@@ -194,46 +216,11 @@ public class AgreementRule extends GermanRule {
     boolean relevantPronoun = analyzedToken.hasReadingOfType(POSType.PRONOMEN);
     // avoid false alarms:
     final String token = tokens[pos].getToken();
-    if (pos > 0 && tokens[pos-1].getToken().equalsIgnoreCase("vor") && tokens[pos].getToken().equalsIgnoreCase("allem"))
+    if (pos > 0 && tokens[pos-1].getToken().equalsIgnoreCase("vor") && tokens[pos].getToken().equalsIgnoreCase("allem")) {
       relevantPronoun = false;
-    else if (token.equalsIgnoreCase("er") || token.equalsIgnoreCase("sie") || token.equalsIgnoreCase("es"))
+    } else if (PRONOUNS_TO_BE_IGNORED.contains(token.toLowerCase())) {
       relevantPronoun = false;
-    else if (token.equalsIgnoreCase("ihm"))
-      relevantPronoun = false;
-    else if (token.equalsIgnoreCase("ich"))
-      relevantPronoun = false;
-    else if (token.equalsIgnoreCase("du"))
-      relevantPronoun = false;
-    else if (token.equalsIgnoreCase("dessen"))      // avoid false alarm on: "..., dessen Leiche"
-      relevantPronoun = false;
-    else if (token.equalsIgnoreCase("deren"))
-      relevantPronoun = false;
-    else if (token.equalsIgnoreCase("sich"))      // avoid false alarm
-      relevantPronoun = false;
-    else if (token.equalsIgnoreCase("unser"))      // avoid false alarm "unser Produkt": TODO!
-      relevantPronoun = false;
-    else if (token.equalsIgnoreCase("aller"))
-      relevantPronoun = false;
-    else if (token.equalsIgnoreCase("man"))
-      relevantPronoun = false;
-    else if (token.equalsIgnoreCase("beide"))
-      relevantPronoun = false;
-    else if (token.equalsIgnoreCase("beiden"))
-      relevantPronoun = false;
-    else if (token.equalsIgnoreCase("beider"))
-      relevantPronoun = false;
-    else if (token.equalsIgnoreCase("wessen"))
-      relevantPronoun = false;
-    else if (token.equalsIgnoreCase("a"))
-      relevantPronoun = false;
-    else if (token.equalsIgnoreCase("alle"))
-      relevantPronoun = false;
-    else if (token.equalsIgnoreCase("etwas"))    // TODO: doesn't have case -- but don't just ignore
-      relevantPronoun = false;
-    else if (token.equalsIgnoreCase("was"))    // TODO: doesn't have case -- but don't just ignore
-      relevantPronoun = false;
-    else if (token.equalsIgnoreCase("wer"))
-      relevantPronoun = false;
+    }
     return relevantPronoun;
   }
 
