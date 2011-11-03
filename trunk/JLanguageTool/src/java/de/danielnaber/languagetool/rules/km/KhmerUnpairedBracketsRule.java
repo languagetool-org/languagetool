@@ -9,8 +9,8 @@ import java.util.ResourceBundle;
 
 public class KhmerUnpairedBracketsRule extends GenericUnpairedBracketsRule {
   
-  private static final String[] KM_START_SYMBOLS = { "[", "(", "{", "â€œ", "\"", "'", "«" };
-  private static final String[] KM_END_SYMBOLS   = { "]", ")", "}", "â€�", "\"", "'", "»" };
+  private static final String[] KM_START_SYMBOLS = { "[", "(", "{", "“", "\"", "'", "«" };
+  private static final String[] KM_END_SYMBOLS   = { "]", ")", "}", "”", "\"", "'", "»" };
   
   public KhmerUnpairedBracketsRule(final ResourceBundle messages, final Language language) {
     super(messages, language);
