@@ -119,23 +119,32 @@ public class CaseRule extends GermanRule {
     exceptions.add("Tausend");   // je nach Kontext groß (TODO) 
     exceptions.add("Übrigen");   // je nach Kontext groß (TODO), z.B. "im Übrigen" 
     exceptions.add("Unvorhergesehenes");   // je nach Kontext groß (TODO), z.B. "etwas Unvorhergesehenes" 
+    exceptions.add("Ähnliches");   // je nach Kontext groß (TODO), z.B. "Er hat Ähnliches erlebt" 
+    exceptions.add("Ähnlichem");
 
-    exceptions.add("Englisch");   // TODO: alle Sprachen 
-    exceptions.add("Deutsch"); 
-    exceptions.add("Französisch"); 
-    exceptions.add("Spanisch");
-    exceptions.add("Italienisch");
-    exceptions.add("Portugiesisch");
-    exceptions.add("Dänisch");
-    exceptions.add("Norwegisch");
-    exceptions.add("Schwedisch");
-    exceptions.add("Finnisch");
-    exceptions.add("Holländisch");
-    exceptions.add("Niederländisch");
-    exceptions.add("Polnisch");
-    exceptions.add("Tschechisch");
+    // TODO: alle Sprachen
     exceptions.add("Arabisch");
+    exceptions.add("Chinesisch");
+    exceptions.add("Dänisch");
+    exceptions.add("Deutsch");
+    exceptions.add("Englisch");
+    exceptions.add("Finnisch");
+    exceptions.add("Französisch");
+    exceptions.add("Griechisch");
+    exceptions.add("Holländisch");
+    exceptions.add("Italienisch");
+    exceptions.add("Japanisch");
+    exceptions.add("Niederländisch");
+    exceptions.add("Norwegisch");
     exceptions.add("Persisch");
+    exceptions.add("Polnisch");
+    exceptions.add("Portugiesisch");
+    exceptions.add("Russisch");
+    exceptions.add("Schwedisch");
+    exceptions.add("Spanisch");
+    exceptions.add("Tschechisch");
+    exceptions.add("Türkisch");
+    exceptions.add("Ungarisch");
 
     exceptions.add("Schuld");
     exceptions.add("Erwachsener");
@@ -167,6 +176,9 @@ public class CaseRule extends GermanRule {
     exceptions.add("Kurzem");
     exceptions.add("Schwarzes");    // Schwarzes Brett
     exceptions.add("Goldener");    // Goldener Schnitt
+    exceptions.add("Große");    // Alexander der Große, der Große Bär
+    exceptions.add("Kleine");    // der Kleine Bär
+    exceptions.add("Guten");    // das Kap der Guten Hoffnung
     // TODO: add more exceptions here
   }
   
@@ -239,6 +251,9 @@ public class CaseRule extends GermanRule {
         }
         continue;
       }
+      if (i > 0 && (tokens[i-1].getToken().equals("Herr") || tokens[i-1].getToken().equals("Herrn") || tokens[i-1].getToken().equals("Frau")) ) {   // "Frau Stieg" could be a name, ignore
+        continue;
+      }
       final AnalyzedGermanTokenReadings analyzedToken = (AnalyzedGermanTokenReadings)tokens[i];
       final String token = analyzedToken.getToken();
       List<AnalyzedGermanToken> readings = analyzedToken.getGermanReadings();
@@ -304,7 +319,7 @@ public class CaseRule extends GermanRule {
         !analyzedToken.hasReadingOfType(POSType.PROPER_NOUN) &&
         !analyzedToken.isSentenceEnd() &&
         !isExceptionPhrase(i, tokens)) {
-      final String msg = "Außer am Satzanfang werden nur Nomen und Eigennamen groß geschrieben";
+      final String msg = "Außer am Satzanfang werden nur Nomen und Eigennamen großgeschrieben";
       final RuleMatch ruleMatch = new RuleMatch(this, tokens[i].getStartPos(),
           tokens[i].getStartPos() + token.length(), msg);
       final String word = tokens[i].getToken();
