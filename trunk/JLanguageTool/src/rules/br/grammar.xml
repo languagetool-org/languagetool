@@ -1707,6 +1707,16 @@ Some grammatical resources used:
       </rule>
     </rulegroup>
 
+    <rule id="EVIT_DILUN" name="evit dilun → a-benn dilun">
+      <pattern mark_to="-1">
+        <token>evit</token>
+        <token regexp="yes">dilun|dimeurzh|dimerc‘her|diriaou|digwener|disadorn|disul|w?arc’hoazh|pegoulz|pedavare|pavare</token>
+      </pattern>
+      <message>Ne vez ket implijet an araogenn «evit» a-raok ar ger «\2». Ha fellout a rae deoc’h skrivañ <suggestion>a-benn</suggestion>?</message>
+      <example type="incorrect">Prest e vo <marker>evit</marker> dilun.</example>
+      <example type="correct">Prest e vo a-benn dilun.</example>
+    </rule>
+
   </category>
 
   <category name="A bep seurt">
@@ -1843,6 +1853,17 @@ Some grammatical resources used:
         <example type="incorrect">Meur a <marker>zud</marker> a chomo.</example>
         <example type="correct">Meur a zen a chomo.</example>
         <example type="correct">Meur a geloù</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token postag="N . p.*" postag_regexp="yes">
+            <exception postag="N . s.*" postag_regexp="yes"/>
+          </token>
+          <token>bennak</token>
+        </pattern>
+        <message>Ne zlefe ket bezañ ur stumm lies a-raok ar ger «bennak».</message>
+        <example type="incorrect"><marker>Traoù</marker> bennak</example>
+        <example type="correct">Un dra marker bennak</example>
       </rule>
     </rulegroup>
     <rulegroup id="HE_HEC_H" name="he, hec’h">
