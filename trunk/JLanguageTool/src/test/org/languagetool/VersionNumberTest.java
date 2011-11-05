@@ -18,40 +18,26 @@
  */
 package org.languagetool;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
+import junit.framework.TestCase;
+import org.languagetool.tools.StringTools;
+
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import junit.framework.TestCase;
-
 public class VersionNumberTest extends TestCase {
 
   public void testVersionNumber() throws IOException {
-    String buildFile = load("build.properties");
+    String buildFile = StringTools.readFile(new FileInputStream("build.properties"));
     Pattern p1 = Pattern.compile("version = ([0-9\\.]+(-dev)?)");
     Matcher m1 = p1.matcher(buildFile);
     m1.find();
-    String javaFile = load("src/java/org/languagetool/JLanguageTool.java");
+    String javaFile = StringTools.readFile(new FileInputStream("src/java/org/languagetool/JLanguageTool.java"));
     Pattern p2 = Pattern.compile("VERSION = \"(.*?)\"");
     Matcher m2 = p2.matcher(javaFile);
     m2.find();
     assertEquals(m1.group(1), m2.group(1));
-    //System.out.println(m1.group(1));
-  }
-
-  private String load(String filename) throws IOException {
-    FileReader fr = new FileReader(filename);
-    BufferedReader br = new BufferedReader(fr);
-    StringBuffer sb = new StringBuffer();
-    String line;    
-    while ((line = br.readLine()) != null) {      
-        sb.append(line);                
-    }
-    br.close();
-    fr.close();
-    return sb.toString();
   }
 
 }
