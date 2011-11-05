@@ -10,7 +10,7 @@ IF (%1)==(/help) GOTO usage
 IF (%1)==(-help) GOTO usage
 IF (%1)==(--help) GOTO usage
 
-java -Xmx512M -cp commons-lang-2.4.jar;bliki-3.0.3.jar;LanguageTool.jar de.danielnaber.languagetool.dev.wikipedia.CheckWikipediaDump - %1 %2 %3
+java -Xmx512M -cp commons-lang-2.4.jar;bliki-3.0.3.jar;LanguageTool.jar org.languagetool.dev.wikipedia.CheckWikipediaDump - %1 %2 %3
 GOTO eof
 
 :usage

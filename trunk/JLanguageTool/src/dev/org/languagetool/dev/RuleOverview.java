@@ -124,7 +124,7 @@ public final class RuleOverview {
       System.out.print("<td></td>");
 
       // count Java rules:
-      final File dir = new File("src/java/de/danielnaber/languagetool" + 
+      final File dir = new File("src/java/org/languagetool" + 
     		  JLanguageTool.getDataBroker().getRulesDir() + "/" + lang.getShortName());
       if (!dir.exists()) {
         System.out.print("<td valign=\"top\" align=\"right\">0</td>");
