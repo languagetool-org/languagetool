@@ -27,6 +27,15 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
          xsi:noNamespaceSchemaLocation="../rules.xsd">
 
   <category name="Mögliche Tippfehler">
+    <rule id="SPRACHE_VS_SPRACH" name="Möglicher Tippfehler: 'in deutscher Sprach (Sprache)'">
+      <pattern case_sensitive="yes" mark_from="1">
+        <token regexp="yes">(afrikanische|altarabische|altchinesische|altgriechische|altpersische|amerikanische|arabische|asiatische|chinesische|deutsche|englische|europäische|finnische|französische|germanische|griechische|hocharabische|hochchinesische|holländische|italienische|japanische|jugoslawische|koreanische|kroatische|lateinische|niederländische|norwegische|persische|polnische|portugiesische|romanische|russische|schwedische|semitische|serbische|serbokroatische|slawische|spanische|türkische|ukrainische)(n|r)?</token>
+        <token>Sprach</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>Sprache</suggestion>?</message>
+      <example type="incorrect">Der Text ist in russischer <marker>Sprach</marker> verfasst.</example>
+      <example type="correct">Der Text ist in russischer <marker>Sprache</marker> verfasst.</example>
+    </rule>
     <rulegroup id="MIENE" name="Möglicher Tippfehler: Mine/Miene">
       <rule>
         <pattern mark_from="1">
@@ -4528,6 +4537,17 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect"><marker>Meines Wissens nach</marker> ist diese Formulierung falsch.</example>
       <example type="correct"><marker>Meines Wissens</marker> ist diese Formulierung richtig.</example>
     </rule>
+    <rule id="MEINES_ERACHTENS_NACH" name="Grammatik: 'meines Erachtens'">
+      <pattern mark_to="-1">
+        <token>meines</token>
+        <token>Erachtens</token>
+        <token>nach</token>
+        <token postag="VER:.*" postag_regexp="yes" />
+      </pattern>
+      <message>Meinten Sie <suggestion>meines Erachtens</suggestion>?</message>
+      <example type="incorrect"><marker>Meines Erachtens nach</marker> ist diese Formulierung falsch.</example>
+      <example type="correct"><marker>Meines Erachtens</marker> ist diese Formulierung richtig.</example>
+    </rule>
     <!-- TODO: make this more general: -->
     <rulegroup id="ICH_WUENSCHE" name="Grammatik: 'Ich wünschen (wünsche)'">
       <rule>
@@ -4812,28 +4832,6 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect">1 <marker>&lt;=</marker> 3</example>
       </rule>-->
     </rulegroup>
-    <rulegroup id="AUSLASSUNGSPUNKTE" name="Zeichensetzung: Auslassungpunkte">
-      <rule>
-        <pattern>
-          <token>.</token>
-          <token>.</token>
-          <token>.</token>
-        </pattern>
-        <message>Verwenden Sie Auslassungspunkte (<suggestion>…</suggestion>) statt drei einzelner Punkte.</message>
-        <example type="correct">Er geht […] nach Hause.</example>
-        <example type="incorrect" correction="…">Er geht [<marker>...</marker>] nach Hause.</example>
-      </rule>
-      <!-- Stehen Auslassungspunkte am Satzende, entfällt der Satzschlusspunkt <§ 100>. http://www.duden.de/rechtschreibregeln/auslassungspunkte#K18 -->
-      <rule>
-        <pattern>
-          <token>…</token>
-          <token>.</token>
-        </pattern>
-        <message>Auf Auslassungspunkte folgt kein Schlusspunkt. Vorschlag: <suggestion>…</suggestion></message>
-        <example type="correct">Er geht nach Hause…</example>
-        <example type="incorrect" correction="…">Er geht nach Hause<marker>….</marker></example>
-      </rule>
-    </rulegroup>
     <rulegroup id="GRAD_ZU_VIEL" name="Zeichensetzung: Gradzeichen zu viel ('°K (K)')">
       <rule>
         <pattern case_sensitive="yes" mark_from="1">
@@ -4965,7 +4963,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect">a = 5x <marker>*</marker> 5 + 7</example>
       <example type="incorrect">a <marker>*</marker> b</example>
     </rule>
-    <!-- Zwischen Zahlen werden Rechenzeichen durch kleine, feste Zwischenräume (Duden) oder genze Leerschritte (DIN 5008) von den Zahlen abgetrennt -->
+    <!-- Zwischen Zahlen werden Rechenzeichen durch kleine, feste Zwischenräume (Duden) oder ganze Leerschritte (DIN 5008) von den Zahlen abgetrennt -->
     <rule id="LEERZEICHEN_RECHENZEICHEN" name="Zeichensetzung: Leerzeichen vor Rechenzeichen">
       <pattern>
         <token regexp="yes">([0-9]+[a-z]*)((\*|×|∗|·|\+|÷|:|=)([0-9]+[a-z]*))+</token>
@@ -5088,7 +5086,10 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect">Und <marker>vom 9. – 10.</marker> April.</example>
       </rule>
     </rulegroup>
-    <rule id="BISSTRICH" name="Zeichensetzung: Bis-Strich">
+  </category>
+
+  <category name="Typographie">
+    <rule id="BISSTRICH" name="Typographie: Bis-Strich">
       <pattern case_sensitive="yes" mark_from="1">
         <token regexp="yes">[^0-9\-]+
           <exception regexp="yes">IS[BS]N|ISO|DIN|IEC</exception>
@@ -5099,6 +5100,28 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct">Der Täter ist etwa <marker>40–50</marker> Jahre alt.</example>
       <example type="incorrect">Der Täter ist etwa <marker>40-50</marker> Jahre alt.</example>
     </rule>
+    <rulegroup id="AUSLASSUNGSPUNKTE" name="Typographie: Auslassungpunkte">
+      <rule>
+        <pattern>
+          <token>.</token>
+          <token>.</token>
+          <token>.</token>
+        </pattern>
+        <message>Verwenden Sie Auslassungspunkte (<suggestion>…</suggestion>) statt drei einzelner Punkte.</message>
+        <example type="correct">Er geht […] nach Hause.</example>
+        <example type="incorrect" correction="…">Er geht [<marker>...</marker>] nach Hause.</example>
+      </rule>
+      <!-- Stehen Auslassungspunkte am Satzende, entfällt der Satzschlusspunkt <§ 100>. http://www.duden.de/rechtschreibregeln/auslassungspunkte#K18 -->
+      <rule>
+        <pattern>
+          <token>…</token>
+          <token>.</token>
+        </pattern>
+        <message>Auf Auslassungspunkte folgt kein Schlusspunkt. Vorschlag: <suggestion>…</suggestion></message>
+        <example type="correct">Er geht nach Hause …</example>
+        <example type="incorrect" correction="…">Er geht nach Hause<marker>….</marker></example>
+      </rule>
+    </rulegroup>
   </category>
 
 </rules>
