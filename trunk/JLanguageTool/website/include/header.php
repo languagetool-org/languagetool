@@ -36,7 +36,7 @@ function makeEntry($name, $visName) {
 }
 ?>
 
-<table border="0">
+<table border="0" width="100%">
 <tr>
 	<td></td>
 	<td>
@@ -54,8 +54,9 @@ function makeEntry($name, $visName) {
 		<div id="menu">
 			<?php makeEntry(".", "Homepage"); ?>
 			<?php makeEntry("screenshots", "Screenshots"); ?>
+			<?php makeEntry("forum", "Forum"); ?>
 			<?php makeEntry("demo", "Demo"); ?>
-			<?php makeEntry("languages", "Languages"); ?>
+			<?php makeEntry("languages", "Supported Languages"); ?>
 			<?php makeEntry("usage", "Usage"); ?>
 			<?php makeEntry("development", "Development"); ?>
 			<?php makeEntry("links", "Links &amp; Resources"); ?>
