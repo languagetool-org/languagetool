@@ -165,16 +165,16 @@ public class TextConverter
 	
 	public void visit(Bold b)
 	{
-		write("**");
+		//write("**");
 		iterate(b.getContent());
-		write("**");
+		//write("**");
 	}
 	
 	public void visit(Italics i)
 	{
-		write("//");
+		//write("//");
 		iterate(i.getContent());
-		write("//");
+		//write("//");
 	}
 	
 	public void visit(XmlCharRef cr)
@@ -276,8 +276,8 @@ public class TextConverter
 		
 		newline(2);
 		write(title);
-		newline(1);
-		write(StringUtils.strrep('-', title.length()));
+		//newline(1);
+		//write(StringUtils.strrep('-', title.length()));
 		newline(2);
 		
 		noWrap = saveNoWrap;
