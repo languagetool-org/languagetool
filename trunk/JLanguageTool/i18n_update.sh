@@ -16,7 +16,7 @@ do
   curl --user $USERNAME:$PASSWORD https://www.transifex.net/api/2/project/languagetool/resource/messagesbundleproperties/translation/$lang/ \
     | grep "\"content\"" | sed 's/    "content": "//' |  sed -e 's/",$//' | sed -e 's/\\n/\n/g' | sed -e 's/\\\\/\\/g' \
     | sed -e 's/\\"/"/g' >$SOURCE
-  TARGET="../src/java/de/danielnaber/languagetool/MessagesBundle_${lang}.properties"
+  TARGET="../src/java/org/languagetool/MessagesBundle_${lang}.properties"
   SOURCE2=downloaded.tmp.ascii
   native2ascii $SOURCE >$SOURCE2
   echo "Moving $SOURCE2 to $TARGET"
