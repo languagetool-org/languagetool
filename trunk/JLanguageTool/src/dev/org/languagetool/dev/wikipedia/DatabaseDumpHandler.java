@@ -1,7 +1,7 @@
 /*
  * Created on 04.04.2010
  */
-package de.danielnaber.languagetool.dev.wikipedia;
+package org.languagetool.dev.wikipedia;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,10 +14,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
-import de.danielnaber.languagetool.JLanguageTool;
-import de.danielnaber.languagetool.Language;
-import de.danielnaber.languagetool.gui.Tools;
-import de.danielnaber.languagetool.rules.RuleMatch;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.gui.Tools;
+import org.languagetool.rules.RuleMatch;
 
 /**
  * Writes result of LanguageTool check to database. Used for community.languagetool.org.

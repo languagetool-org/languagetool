@@ -17,16 +17,16 @@
  * USA
  */
 
-package de.danielnaber.languagetool.tagging.disambiguation;
+package org.languagetool.tagging.disambiguation;
 
 import java.io.IOException;
 
 import junit.framework.TestCase;
-import de.danielnaber.languagetool.TestTools;
-import de.danielnaber.languagetool.tagging.pl.PolishTagger;
-import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
-import de.danielnaber.languagetool.tokenizers.SRXSentenceTokenizer;
-import de.danielnaber.languagetool.tokenizers.WordTokenizer;
+import org.languagetool.TestTools;
+import org.languagetool.tagging.pl.PolishTagger;
+import org.languagetool.tokenizers.SentenceTokenizer;
+import org.languagetool.tokenizers.SRXSentenceTokenizer;
+import org.languagetool.tokenizers.WordTokenizer;
 
 public class PolishChunkerTest extends TestCase {
       

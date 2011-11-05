@@ -17,22 +17,22 @@
  * USA
  */
 
-package de.danielnaber.languagetool.rules.bitext;
+package org.languagetool.rules.bitext;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 
-import de.danielnaber.languagetool.AnalyzedSentence;
-import de.danielnaber.languagetool.JLanguageTool;
-import de.danielnaber.languagetool.Language;
-import de.danielnaber.languagetool.TestTools;
-import de.danielnaber.languagetool.bitext.StringPair;
-import de.danielnaber.languagetool.rules.Rule;
-import de.danielnaber.languagetool.rules.RuleMatch;
-import de.danielnaber.languagetool.rules.patterns.PatternRule;
-import de.danielnaber.languagetool.rules.patterns.bitext.BitextPatternRule;
-import de.danielnaber.languagetool.rules.patterns.bitext.BitextPatternRuleLoader;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.TestTools;
+import org.languagetool.bitext.StringPair;
+import org.languagetool.rules.Rule;
+import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.patterns.PatternRule;
+import org.languagetool.rules.patterns.bitext.BitextPatternRule;
+import org.languagetool.rules.patterns.bitext.BitextPatternRuleLoader;
 import junit.framework.TestCase;
 
 public class BitextPatternRuleTest extends TestCase {

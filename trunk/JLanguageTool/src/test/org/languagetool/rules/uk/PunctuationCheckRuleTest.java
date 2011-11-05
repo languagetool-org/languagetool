@@ -17,15 +17,15 @@
  * USA
  */
 
-package de.danielnaber.languagetool.rules.uk;
+package org.languagetool.rules.uk;
 
 import java.io.IOException;
 
 import junit.framework.TestCase;
-import de.danielnaber.languagetool.JLanguageTool;
-import de.danielnaber.languagetool.Language;
-import de.danielnaber.languagetool.TestTools;
-import de.danielnaber.languagetool.rules.RuleMatch;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.TestTools;
+import org.languagetool.rules.RuleMatch;
 
 public class PunctuationCheckRuleTest extends TestCase {
 

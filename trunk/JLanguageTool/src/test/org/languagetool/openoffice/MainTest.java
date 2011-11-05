@@ -1,4 +1,4 @@
-package de.danielnaber.languagetool.openoffice;
+package org.languagetool.openoffice;
 
 import junit.framework.TestCase;
 

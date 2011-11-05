@@ -1,4 +1,4 @@
-package de.danielnaber.languagetool.dev.conversion.gui;
+package org.languagetool.dev.conversion.gui;
 
 import java.awt.Color;
 import java.awt.Container;
@@ -43,13 +43,13 @@ import javax.swing.border.LineBorder;
 
 import net.boplicity.xmleditor.*;
 
-import de.danielnaber.languagetool.JLanguageTool;
-import de.danielnaber.languagetool.dev.conversion.CgRuleConverter;
-import de.danielnaber.languagetool.dev.conversion.AtdRuleConverter;
-import de.danielnaber.languagetool.dev.conversion.RuleConverter;
-import de.danielnaber.languagetool.dev.conversion.RuleCoverage;
-import de.danielnaber.languagetool.rules.Rule;
-import de.danielnaber.languagetool.rules.patterns.PatternRule;
+import org.languagetool.JLanguageTool;
+import org.languagetool.dev.conversion.CgRuleConverter;
+import org.languagetool.dev.conversion.AtdRuleConverter;
+import org.languagetool.dev.conversion.RuleConverter;
+import org.languagetool.dev.conversion.RuleCoverage;
+import org.languagetool.rules.Rule;
+import org.languagetool.rules.patterns.PatternRule;
 
 public final class Main implements ActionListener {
 
@@ -1375,7 +1375,7 @@ public final class Main implements ActionListener {
 
 	// not really used very often
 	public static void showError(final Exception e) {
-		final String msg = de.danielnaber.languagetool.tools.Tools
+		final String msg = org.languagetool.tools.Tools
 				.getFullStackTrace(e);
 		JOptionPane.showMessageDialog(null, msg, "Error",
 				JOptionPane.ERROR_MESSAGE);

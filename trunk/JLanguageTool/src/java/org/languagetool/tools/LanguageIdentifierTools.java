@@ -1,4 +1,4 @@
-package de.danielnaber.languagetool.tools;
+package org.languagetool.tools;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 
 import org.apache.tika.language.*;
 
-import de.danielnaber.languagetool.JLanguageTool;
+import org.languagetool.JLanguageTool;
 
 public class LanguageIdentifierTools {
 

@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.rules.pl;
+package org.languagetool.rules.pl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,11 +25,11 @@ import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import de.danielnaber.languagetool.AnalyzedSentence;
-import de.danielnaber.languagetool.AnalyzedTokenReadings;
-import de.danielnaber.languagetool.rules.Category;
-import de.danielnaber.languagetool.rules.RuleMatch;
-import de.danielnaber.languagetool.tools.StringTools;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.rules.Category;
+import org.languagetool.rules.RuleMatch;
+import org.languagetool.tools.StringTools;
 
 /**
  * @author Marcin Miłkowski
@@ -70,7 +70,7 @@ public class PolishWordRepeatRule extends PolishRule {
   /*
    * (non-Javadoc)
    * 
-   * @see de.danielnaber.languagetool.rules.Rule#getId()
+   * @see org.languagetool.rules.Rule#getId()
    */
   @Override
   public final String getId() {
@@ -80,7 +80,7 @@ public class PolishWordRepeatRule extends PolishRule {
   /*
    * (non-Javadoc)
    * 
-   * @see de.danielnaber.languagetool.rules.Rule#getDescription()
+   * @see org.languagetool.rules.Rule#getDescription()
    */
   @Override
   public final String getDescription() {
@@ -189,7 +189,7 @@ public class PolishWordRepeatRule extends PolishRule {
   /*
    * (non-Javadoc)
    * 
-   * @see de.danielnaber.languagetool.rules.Rule#reset()
+   * @see org.languagetool.rules.Rule#reset()
    */
   @Override
   public void reset() {

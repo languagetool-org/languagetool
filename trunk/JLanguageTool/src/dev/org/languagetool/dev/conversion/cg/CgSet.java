@@ -1,11 +1,11 @@
-package de.danielnaber.languagetool.dev.conversion.cg;
+package org.languagetool.dev.conversion.cg;
 
 import java.util.HashSet;
 import java.util.ArrayList;
 import java.util.Random;
 
-import de.danielnaber.languagetool.dev.conversion.cg.CgTag.TAGS;
-import de.danielnaber.languagetool.dev.conversion.CgRuleConverter;
+import org.languagetool.dev.conversion.cg.CgTag.TAGS;
+import org.languagetool.dev.conversion.CgRuleConverter;
 
 public class CgSet {
 

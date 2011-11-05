@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.dev.index;
+package org.languagetool.dev.index;
 
 import java.io.Reader;
 
@@ -24,7 +24,7 @@ import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.util.Version;
 
-import de.danielnaber.languagetool.JLanguageTool;
+import org.languagetool.JLanguageTool;
 
 /**
  * LanguageToolAnalyzer emits the entire input (i.e. a sentence) as a single token by

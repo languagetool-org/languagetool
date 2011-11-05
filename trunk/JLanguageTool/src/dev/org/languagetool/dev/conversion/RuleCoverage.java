@@ -17,7 +17,7 @@
  * USA
  */
 
-package de.danielnaber.languagetool.dev.conversion;
+package org.languagetool.dev.conversion;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -40,13 +40,13 @@ import morfologik.stemming.DictionaryLookup;
 import morfologik.stemming.IStemmer;
 import morfologik.stemming.WordData;
 
-import de.danielnaber.languagetool.JLanguageTool;
-import de.danielnaber.languagetool.Language;
-import de.danielnaber.languagetool.rules.RuleMatch;
-import de.danielnaber.languagetool.rules.patterns.Element;
-import de.danielnaber.languagetool.rules.patterns.PatternRule;
-import de.danielnaber.languagetool.rules.patterns.PatternRuleLoader;
-import de.danielnaber.languagetool.dev.conversion.RuleConverter;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.patterns.Element;
+import org.languagetool.rules.patterns.PatternRule;
+import org.languagetool.rules.patterns.PatternRuleLoader;
+import org.languagetool.dev.conversion.RuleConverter;
 
 public class RuleCoverage {
 

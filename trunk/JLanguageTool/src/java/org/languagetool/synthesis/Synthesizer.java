@@ -16,11 +16,11 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.synthesis;
+package org.languagetool.synthesis;
 
 import java.io.IOException;
 
-import de.danielnaber.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedToken;
 
 /**
  * Part-of-speech synthesizer interface. Implementations are 

@@ -1,4 +1,4 @@
-package de.danielnaber.languagetool.dev.tools;
+package org.languagetool.dev.tools;
 
 /**
  * 

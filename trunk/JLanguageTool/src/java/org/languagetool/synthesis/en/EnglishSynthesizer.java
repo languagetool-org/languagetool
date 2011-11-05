@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.synthesis.en;
+package org.languagetool.synthesis.en;
 
 import java.io.IOException;
 import java.net.URL;
@@ -26,10 +26,10 @@ import java.util.List;
 import morfologik.stemming.Dictionary;
 import morfologik.stemming.DictionaryLookup;
 import morfologik.stemming.WordData;
-import de.danielnaber.languagetool.AnalyzedToken;
-import de.danielnaber.languagetool.JLanguageTool;
-import de.danielnaber.languagetool.rules.en.AvsAnRule;
-import de.danielnaber.languagetool.synthesis.BaseSynthesizer;
+import org.languagetool.AnalyzedToken;
+import org.languagetool.JLanguageTool;
+import org.languagetool.rules.en.AvsAnRule;
+import org.languagetool.synthesis.BaseSynthesizer;
 
 /**
  * English word form synthesizer. <br/>

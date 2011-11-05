@@ -16,12 +16,12 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.rules;
+package org.languagetool.rules;
 
 import java.io.IOException;
 
 import junit.framework.TestCase;
-import de.danielnaber.languagetool.JLanguageTool;
+import org.languagetool.JLanguageTool;
 
 /**
  * Abstract test case for CompoundRule. <br/>

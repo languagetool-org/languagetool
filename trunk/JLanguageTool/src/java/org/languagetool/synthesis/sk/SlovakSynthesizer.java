@@ -16,10 +16,10 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.synthesis.sk;
+package org.languagetool.synthesis.sk;
 
-import de.danielnaber.languagetool.JLanguageTool;
-import de.danielnaber.languagetool.synthesis.BaseSynthesizer;
+import org.languagetool.JLanguageTool;
+import org.languagetool.synthesis.BaseSynthesizer;
 
 /**
  * Slovak word form synthesizer. <br/>

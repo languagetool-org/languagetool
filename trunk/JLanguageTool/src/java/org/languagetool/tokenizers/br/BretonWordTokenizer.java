@@ -17,13 +17,13 @@
  * USA
  */
 
-package de.danielnaber.languagetool.tokenizers.br;
+package org.languagetool.tokenizers.br;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Iterator;
 
-import de.danielnaber.languagetool.tokenizers.WordTokenizer;
+import org.languagetool.tokenizers.WordTokenizer;
 
 /** 
  * @author Dominique Pelle

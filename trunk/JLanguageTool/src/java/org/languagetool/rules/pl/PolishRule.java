@@ -16,9 +16,9 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.rules.pl;
+package org.languagetool.rules.pl;
 
-import de.danielnaber.languagetool.rules.Rule;
+import org.languagetool.rules.Rule;
 
 /**
  * Abstract base class for Polish rules.

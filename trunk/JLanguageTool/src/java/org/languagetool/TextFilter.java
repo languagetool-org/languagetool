@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool;
+package org.languagetool;
 
 /**
  * Filter, i.e. clean up, text before it is checked.

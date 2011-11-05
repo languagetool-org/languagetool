@@ -16,15 +16,15 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.dev;
+package org.languagetool.dev;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-import de.danielnaber.languagetool.Language;
-import de.danielnaber.languagetool.tools.StringTools;
+import org.languagetool.Language;
+import org.languagetool.tools.StringTools;
 
 /**
  * Used for creating ooolocales.properties file that defines a property that is

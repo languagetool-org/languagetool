@@ -17,7 +17,7 @@
  * USA
  */
 
-package de.danielnaber.languagetool.dev.conversion;
+package org.languagetool.dev.conversion;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -34,7 +34,7 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import de.danielnaber.languagetool.JLanguageTool;
+import org.languagetool.JLanguageTool;
 
 import morfologik.stemming.Dictionary;
 import morfologik.stemming.DictionaryLookup;

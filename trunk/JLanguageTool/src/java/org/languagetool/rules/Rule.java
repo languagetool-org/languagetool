@@ -16,19 +16,19 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.rules;
+package org.languagetool.rules;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import de.danielnaber.languagetool.AnalyzedSentence;
-import de.danielnaber.languagetool.Language;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.Language;
 
 /**
  * Abstract rule class. A Rule describes a language error and can test whether a
- * given pre-analyzed text contains that error using the {@link Rule#match(de.danielnaber.languagetool.AnalyzedSentence)}
+ * given pre-analyzed text contains that error using the {@link Rule#match(org.languagetool.AnalyzedSentence)}
  * method.
  * 
  * @author Daniel Naber

@@ -16,11 +16,11 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.rules.uk;
+package org.languagetool.rules.uk;
 
 import java.util.ResourceBundle;
 
-import de.danielnaber.languagetool.rules.AbstractPunctuationCheckRule;
+import org.languagetool.rules.AbstractPunctuationCheckRule;
 
 /**
  * A rule that matches "..", "::", "-," but not "...", "!..", "?!!", ",-" etc
@@ -43,7 +43,7 @@ public class PunctuationCheckRule extends AbstractPunctuationCheckRule {
    * (non-Javadoc)
    * 
    * @see
-   * de.danielnaber.languagetool.rules.AbstractPunctuationCheckRule#isPunctsJoinOk
+   * org.languagetool.rules.AbstractPunctuationCheckRule#isPunctsJoinOk
    * (java.lang.String)
    */
   @Override
@@ -58,7 +58,7 @@ public class PunctuationCheckRule extends AbstractPunctuationCheckRule {
    * (non-Javadoc)
    * 
    * @see
-   * de.danielnaber.languagetool.rules.AbstractPunctuationCheckRule#isPunctuation
+   * org.languagetool.rules.AbstractPunctuationCheckRule#isPunctuation
    * (java.lang.String)
    */
   @Override
@@ -69,7 +69,7 @@ public class PunctuationCheckRule extends AbstractPunctuationCheckRule {
   /*
    * (non-Javadoc)
    * 
-   * @see de.danielnaber.languagetool.rules.AbstractPunctuationCheckRule#reset()
+   * @see org.languagetool.rules.AbstractPunctuationCheckRule#reset()
    */
   @Override
   public void reset() {

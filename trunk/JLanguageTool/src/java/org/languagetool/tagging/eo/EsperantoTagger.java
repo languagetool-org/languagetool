@@ -20,7 +20,7 @@
 /*
  * Created on 01.10.2010
  */
-package de.danielnaber.languagetool.tagging.eo;
+package org.languagetool.tagging.eo;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -34,11 +34,11 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import de.danielnaber.languagetool.AnalyzedToken;
-import de.danielnaber.languagetool.AnalyzedTokenReadings;
-import de.danielnaber.languagetool.JLanguageTool;
-import de.danielnaber.languagetool.tagging.Tagger;
-import de.danielnaber.languagetool.tagging.ManualTagger;
+import org.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
+import org.languagetool.tagging.Tagger;
+import org.languagetool.tagging.ManualTagger;
 
 /**
  * A part-of-speech tagger for Esperanto.

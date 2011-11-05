@@ -16,15 +16,15 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.openoffice;
+package org.languagetool.openoffice;
 
 import com.sun.star.awt.Rectangle;
 import com.sun.star.awt.XMessageBox;
 import com.sun.star.awt.XMessageBoxFactory;
 import com.sun.star.awt.XWindowPeer;
 import com.sun.star.uno.UnoRuntime;
-import de.danielnaber.languagetool.gui.AboutDialog;
-import de.danielnaber.languagetool.tools.StringTools;
+import org.languagetool.gui.AboutDialog;
+import org.languagetool.tools.StringTools;
 
 import java.util.ResourceBundle;
 

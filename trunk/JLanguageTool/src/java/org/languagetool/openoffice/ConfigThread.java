@@ -16,14 +16,14 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.openoffice;
+package org.languagetool.openoffice;
 
 import java.util.Set;
 
-import de.danielnaber.languagetool.JLanguageTool;
-import de.danielnaber.languagetool.Language;
-import de.danielnaber.languagetool.gui.Configuration;
-import de.danielnaber.languagetool.gui.ConfigurationDialog;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.gui.Configuration;
+import org.languagetool.gui.ConfigurationDialog;
 
 /**
  * A thread that shows the configuration dialog which lets the
@@ -36,12 +36,12 @@ class ConfigThread extends Thread {
 
   private final Language docLanguage;
   private final Configuration config;
-  private final de.danielnaber.languagetool.openoffice.Main mainThread;
+  private final org.languagetool.openoffice.Main mainThread;
   
   private final ConfigurationDialog cfgDialog;
   
   ConfigThread(final Language docLanguage, final Configuration config,
-      final de.danielnaber.languagetool.openoffice.Main main) {
+      final org.languagetool.openoffice.Main main) {
     this.docLanguage = docLanguage;
     this.config = config;
     mainThread = main; 

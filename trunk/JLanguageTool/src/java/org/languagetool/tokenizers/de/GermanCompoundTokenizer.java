@@ -16,13 +16,13 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.tokenizers.de;
+package org.languagetool.tokenizers.de;
 
 import java.io.IOException;
 import java.util.List;
 
 import de.abelssoft.wordtools.jwordsplitter.impl.GermanWordSplitter;
-import de.danielnaber.languagetool.tokenizers.Tokenizer;
+import org.languagetool.tokenizers.Tokenizer;
 
 /**
  * Split German nouns using the jWordSplitter library.

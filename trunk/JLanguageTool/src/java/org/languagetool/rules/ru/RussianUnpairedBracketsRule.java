@@ -16,14 +16,14 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.rules.ru;
+package org.languagetool.rules.ru;
 
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
-import de.danielnaber.languagetool.AnalyzedTokenReadings;
-import de.danielnaber.languagetool.Language;
-import de.danielnaber.languagetool.rules.GenericUnpairedBracketsRule;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.Language;
+import org.languagetool.rules.GenericUnpairedBracketsRule;
 
 public class RussianUnpairedBracketsRule extends GenericUnpairedBracketsRule {
 

@@ -1,4 +1,4 @@
-package de.danielnaber.languagetool.dev.conversion.cg;
+package org.languagetool.dev.conversion.cg;
 
 import java.util.ArrayList;
 import java.util.HashSet;

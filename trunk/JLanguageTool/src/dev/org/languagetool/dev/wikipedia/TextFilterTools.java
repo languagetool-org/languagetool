@@ -16,10 +16,10 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.dev.wikipedia;
+package org.languagetool.dev.wikipedia;
 
-import de.danielnaber.languagetool.Language;
-import de.danielnaber.languagetool.dev.tools.RomanianDiacriticsModifier;
+import org.languagetool.Language;
+import org.languagetool.dev.tools.RomanianDiacriticsModifier;
 
 /**
  * Helper class.

@@ -17,20 +17,20 @@
  * USA
  */
 
-package de.danielnaber.languagetool.tagging.disambiguation.rules;
+package org.languagetool.tagging.disambiguation.rules;
 
 import java.io.IOException;
 import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import de.danielnaber.languagetool.JLanguageTool;
-import de.danielnaber.languagetool.Language;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
 import org.xml.sax.SAXException;
 
-import de.danielnaber.languagetool.AnalyzedSentence;
-import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
-import de.danielnaber.languagetool.tools.Tools;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.tagging.disambiguation.Disambiguator;
+import org.languagetool.tools.Tools;
 
 /**
  * Rule-based disambiguator.
@@ -66,7 +66,7 @@ public abstract class AbstractRuleDisambiguator implements Disambiguator {
   }
 
   /**
-   * Load disambiguation rules from an XML file. Use {@link de.danielnaber.languagetool.JLanguageTool#addRule} to add
+   * Load disambiguation rules from an XML file. Use {@link org.languagetool.JLanguageTool#addRule} to add
    * these rules to the checking process.
    * 
    * @throws ParserConfigurationException

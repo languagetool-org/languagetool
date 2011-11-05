@@ -17,7 +17,7 @@
  * USA
  */
 
-package de.danielnaber.languagetool.tagging.uk;
+package org.languagetool.tagging.uk;
 
 public interface IPOSTag {
 

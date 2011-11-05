@@ -1,4 +1,4 @@
-package de.danielnaber.languagetool.gui;
+package org.languagetool.gui;
 
 import java.util.Enumeration;
 import java.util.ResourceBundle;

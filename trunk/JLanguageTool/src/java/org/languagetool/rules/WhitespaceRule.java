@@ -17,15 +17,15 @@
  * USA
  */
 
-package de.danielnaber.languagetool.rules;
+package org.languagetool.rules;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import de.danielnaber.languagetool.AnalyzedSentence;
-import de.danielnaber.languagetool.AnalyzedTokenReadings;
-import de.danielnaber.languagetool.Language;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.Language;
 
 /**
  * Check if there is duplicated whitespace in a sentence.

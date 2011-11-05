@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.dev.index;
+package org.languagetool.dev.index;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -28,8 +28,8 @@ import org.apache.lucene.analysis.tokenattributes.OffsetAttribute;
 import org.apache.lucene.analysis.tokenattributes.PositionIncrementAttribute;
 import org.apache.lucene.analysis.tokenattributes.TypeAttribute;
 
-import de.danielnaber.languagetool.JLanguageTool;
-import de.danielnaber.languagetool.Language;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
 
 public class LanguageToolFilterTest extends BaseTokenStreamTestCase {
   

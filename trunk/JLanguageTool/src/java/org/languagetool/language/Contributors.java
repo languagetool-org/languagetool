@@ -1,4 +1,4 @@
-package de.danielnaber.languagetool.language;
+package org.languagetool.language;
 
 /**
  * Constants for contributors who contribute to more than one language (use to avoid duplication).

@@ -17,7 +17,7 @@
  * USA
  */
 
-package de.danielnaber.languagetool.tools;
+package org.languagetool.tools;
 
 import java.util.ArrayList;
 import java.util.EmptyStackException;

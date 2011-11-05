@@ -1,6 +1,6 @@
-package de.danielnaber.languagetool.rules.de;
+package org.languagetool.rules.de;
 
-import de.danielnaber.languagetool.rules.DoublePunctuationRule;
+import org.languagetool.rules.DoublePunctuationRule;
 
 import java.util.ResourceBundle;
 

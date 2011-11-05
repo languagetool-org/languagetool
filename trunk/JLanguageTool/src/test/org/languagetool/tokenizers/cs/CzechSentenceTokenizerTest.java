@@ -17,11 +17,11 @@
  * USA
  */
 
-package de.danielnaber.languagetool.tokenizers.cs;
+package org.languagetool.tokenizers.cs;
 
 import junit.framework.TestCase;
-import de.danielnaber.languagetool.TestTools;
-import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
+import org.languagetool.TestTools;
+import org.languagetool.tokenizers.SentenceTokenizer;
 
 public class CzechSentenceTokenizerTest extends TestCase {
 

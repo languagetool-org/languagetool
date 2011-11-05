@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.tagging.disambiguation.rules;
+package org.languagetool.tagging.disambiguation.rules;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,11 +32,11 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import de.danielnaber.languagetool.AnalyzedToken;
-import de.danielnaber.languagetool.Language;
-import de.danielnaber.languagetool.rules.patterns.Element;
-import de.danielnaber.languagetool.rules.patterns.Match;
-import de.danielnaber.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule.DisambiguatorAction;
+import org.languagetool.AnalyzedToken;
+import org.languagetool.Language;
+import org.languagetool.rules.patterns.Element;
+import org.languagetool.rules.patterns.Match;
+import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule.DisambiguatorAction;
 
 /**
  * Loads {@link DisambiguationPatternRule}s from a disambiguation rules XML

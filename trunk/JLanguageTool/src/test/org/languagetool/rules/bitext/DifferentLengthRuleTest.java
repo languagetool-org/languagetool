@@ -17,13 +17,13 @@
  * USA
  */
 
-package de.danielnaber.languagetool.rules.bitext;
+package org.languagetool.rules.bitext;
 
 import java.io.IOException;
 
-import de.danielnaber.languagetool.JLanguageTool;
-import de.danielnaber.languagetool.Language;
-import de.danielnaber.languagetool.rules.RuleMatch;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.rules.RuleMatch;
 import junit.framework.TestCase;
 
 public class DifferentLengthRuleTest extends TestCase {

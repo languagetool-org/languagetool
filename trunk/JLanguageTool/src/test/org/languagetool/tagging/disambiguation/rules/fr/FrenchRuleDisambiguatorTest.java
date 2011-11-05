@@ -17,16 +17,16 @@
  * USA
  */
 
-package de.danielnaber.languagetool.tagging.disambiguation.rules.fr;
+package org.languagetool.tagging.disambiguation.rules.fr;
 
 import java.io.IOException;
 
 import junit.framework.TestCase;
-import de.danielnaber.languagetool.TestTools;
-import de.danielnaber.languagetool.tagging.disambiguation.xx.DemoDisambiguator;
-import de.danielnaber.languagetool.tagging.fr.FrenchTagger;
-import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
-import de.danielnaber.languagetool.tokenizers.WordTokenizer;
+import org.languagetool.TestTools;
+import org.languagetool.tagging.disambiguation.xx.DemoDisambiguator;
+import org.languagetool.tagging.fr.FrenchTagger;
+import org.languagetool.tokenizers.SentenceTokenizer;
+import org.languagetool.tokenizers.WordTokenizer;
 
 public class FrenchRuleDisambiguatorTest extends TestCase {
   private FrenchTagger tagger;

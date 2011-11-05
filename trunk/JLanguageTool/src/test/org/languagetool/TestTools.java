@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool;
+package org.languagetool;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -24,11 +24,11 @@ import java.lang.reflect.Method;
 import java.util.*;
 
 import junit.framework.Assert;
-import de.danielnaber.languagetool.tagging.Tagger;
-import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
-import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
-import de.danielnaber.languagetool.tokenizers.Tokenizer;
-import de.danielnaber.languagetool.tools.StringTools;
+import org.languagetool.tagging.Tagger;
+import org.languagetool.tagging.disambiguation.Disambiguator;
+import org.languagetool.tokenizers.SentenceTokenizer;
+import org.languagetool.tokenizers.Tokenizer;
+import org.languagetool.tools.StringTools;
 
 /**
  * @author Daniel Naber
@@ -61,7 +61,7 @@ public final class TestTools {
    */
   public static ResourceBundle getMessages(String language) {
     final ResourceBundle messages = ResourceBundle.getBundle(
-        "de.danielnaber.languagetool.MessagesBundle", new Locale(language));
+        "org.languagetool.MessagesBundle", new Locale(language));
     return messages;
   }
 

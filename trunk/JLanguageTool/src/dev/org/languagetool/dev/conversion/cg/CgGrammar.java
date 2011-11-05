@@ -1,12 +1,12 @@
-package de.danielnaber.languagetool.dev.conversion.cg;
+package org.languagetool.dev.conversion.cg;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import de.danielnaber.languagetool.dev.conversion.cg.CgStrings.STRINGS;
-import de.danielnaber.languagetool.dev.conversion.cg.CgTag.TAGS;
-import de.danielnaber.languagetool.dev.conversion.cg.CgSet.ST;
+import org.languagetool.dev.conversion.cg.CgStrings.STRINGS;
+import org.languagetool.dev.conversion.cg.CgTag.TAGS;
+import org.languagetool.dev.conversion.cg.CgSet.ST;
 
 public class CgGrammar {
     

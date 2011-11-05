@@ -1,12 +1,12 @@
-package de.danielnaber.languagetool.rules;
+package org.languagetool.rules;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import de.danielnaber.languagetool.AnalyzedSentence;
-import de.danielnaber.languagetool.AnalyzedTokenReadings;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedTokenReadings;
 
 public class LongSentenceRule extends Rule {
 

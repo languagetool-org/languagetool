@@ -16,10 +16,10 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.synthesis.nl;
+package org.languagetool.synthesis.nl;
 
-import de.danielnaber.languagetool.JLanguageTool;
-import de.danielnaber.languagetool.synthesis.BaseSynthesizer;
+import org.languagetool.JLanguageTool;
+import org.languagetool.synthesis.BaseSynthesizer;
 
 /**
  * Dutch word form synthesizer. <br/>

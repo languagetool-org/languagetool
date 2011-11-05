@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.rules.patterns;
+package org.languagetool.rules.patterns;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,10 +37,10 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import de.danielnaber.languagetool.JLanguageTool;
-import de.danielnaber.languagetool.Language;
-import de.danielnaber.languagetool.rules.Category;
-import de.danielnaber.languagetool.rules.IncorrectExample;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.rules.Category;
+import org.languagetool.rules.IncorrectExample;
 
 /**
  * Loads {@link PatternRule}s from a false friends XML file.
@@ -67,7 +67,7 @@ public class FalseFriendRuleLoader extends DefaultHandler {
     final List<PatternRule> rules = handler.getRules();
     // Add suggestions to each rule:
     final ResourceBundle messages = ResourceBundle.getBundle(
-        "de.danielnaber.languagetool.MessagesBundle", motherTongue.getLocale());
+        "org.languagetool.MessagesBundle", motherTongue.getLocale());
     for (final PatternRule rule : rules) {
       final List<String> suggestionMap = handler.getSuggestionMap().get(rule.getId());
       if (suggestionMap != null) {
@@ -144,7 +144,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
   public FalseFriendRuleHandler(final Language textLanguage,
       final Language motherTongue) {
     messages = ResourceBundle.getBundle(
-        "de.danielnaber.languagetool.MessagesBundle", motherTongue.getLocale());
+        "org.languagetool.MessagesBundle", motherTongue.getLocale());
     formatter = new MessageFormat("");
     formatter.setLocale(motherTongue.getLocale());
     this.textLanguage = textLanguage;

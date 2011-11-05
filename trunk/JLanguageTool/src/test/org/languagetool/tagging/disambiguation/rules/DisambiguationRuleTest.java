@@ -17,7 +17,7 @@
  * USA
  */
 
-package de.danielnaber.languagetool.tagging.disambiguation.rules;
+package org.languagetool.tagging.disambiguation.rules;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -26,13 +26,13 @@ import java.util.Set;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import de.danielnaber.languagetool.*;
+import org.languagetool.*;
 import junit.framework.TestCase;
 
 import org.xml.sax.SAXException;
 
-import de.danielnaber.languagetool.tagging.disambiguation.xx.DemoDisambiguator;
-import de.danielnaber.languagetool.tagging.disambiguation.xx.TrimDisambiguator;
+import org.languagetool.tagging.disambiguation.xx.DemoDisambiguator;
+import org.languagetool.tagging.disambiguation.xx.TrimDisambiguator;
 
 public class DisambiguationRuleTest extends TestCase {
 

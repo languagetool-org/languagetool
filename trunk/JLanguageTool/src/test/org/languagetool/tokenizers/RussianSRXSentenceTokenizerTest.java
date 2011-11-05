@@ -17,10 +17,10 @@
  * USA
  */
 
-package de.danielnaber.languagetool.tokenizers;
+package org.languagetool.tokenizers;
 
 import junit.framework.TestCase;
-import de.danielnaber.languagetool.TestTools;
+import org.languagetool.TestTools;
 
 /*
  * Russian SRX Sentence Tokenizer Test

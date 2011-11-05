@@ -16,13 +16,13 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool;
+package org.languagetool;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import de.danielnaber.languagetool.tagging.de.AnalyzedGermanTokenReadings;
+import org.languagetool.tagging.de.AnalyzedGermanTokenReadings;
 
 /**
  * A sentence that has been tokenized and analyzed.

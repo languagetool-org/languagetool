@@ -17,18 +17,18 @@
  * USA
  */
 
-package de.danielnaber.languagetool.rules.bitext;
+package org.languagetool.rules.bitext;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-import de.danielnaber.languagetool.AnalyzedSentence;
-import de.danielnaber.languagetool.AnalyzedTokenReadings;
-import de.danielnaber.languagetool.bitext.StringPair;
-import de.danielnaber.languagetool.rules.Rule;
-import de.danielnaber.languagetool.rules.RuleMatch;
-import de.danielnaber.languagetool.Language;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.bitext.StringPair;
+import org.languagetool.rules.Rule;
+import org.languagetool.rules.RuleMatch;
+import org.languagetool.Language;
 
 /**
  * Abstract bitext rule class. A BitextRule describes a language error and 

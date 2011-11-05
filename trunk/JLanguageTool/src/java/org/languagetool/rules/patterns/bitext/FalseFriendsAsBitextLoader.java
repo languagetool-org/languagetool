@@ -17,7 +17,7 @@
  * USA
  */
 
-package de.danielnaber.languagetool.rules.patterns.bitext;
+package org.languagetool.rules.patterns.bitext;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,9 +28,9 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import de.danielnaber.languagetool.Language;
-import de.danielnaber.languagetool.rules.patterns.FalseFriendRuleLoader;
-import de.danielnaber.languagetool.rules.patterns.PatternRule;
+import org.languagetool.Language;
+import org.languagetool.rules.patterns.FalseFriendRuleLoader;
+import org.languagetool.rules.patterns.PatternRule;
 
 /**
  * Loads the false friend rules as bitext pattern rules. Note that the resulting 

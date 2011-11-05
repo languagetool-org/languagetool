@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.tagging.de;
+package org.languagetool.tagging.de;
 
 /**
  * Constants used to describe the properties of German tokens.

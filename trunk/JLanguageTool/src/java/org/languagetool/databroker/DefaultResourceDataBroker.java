@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.databroker;
+package org.languagetool.databroker;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,7 +26,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.security.Permission;
 
-import de.danielnaber.languagetool.JLanguageTool;
+import org.languagetool.JLanguageTool;
 
 /**
  * Responsible for getting any items from the grammar checker's resource

@@ -1,4 +1,4 @@
-package de.danielnaber.languagetool.dev.index;
+package org.languagetool.dev.index;
 
 /**
 * Licensed to the Apache Software Foundation (ASF) under one or more

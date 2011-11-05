@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.rules.patterns;
+package org.languagetool.rules.patterns;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -25,11 +25,11 @@ import java.util.List;
 import java.util.TreeSet;
 import java.util.regex.Pattern;
 
-import de.danielnaber.languagetool.AnalyzedToken;
-import de.danielnaber.languagetool.AnalyzedTokenReadings;
-import de.danielnaber.languagetool.JLanguageTool;
-import de.danielnaber.languagetool.synthesis.Synthesizer;
-import de.danielnaber.languagetool.tools.StringTools;
+import org.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
+import org.languagetool.synthesis.Synthesizer;
+import org.languagetool.tools.StringTools;
 
 /**
  * Reference to a matched token in a pattern, can be formatted and used for

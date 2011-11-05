@@ -17,10 +17,10 @@
  * USA
  */
 
-package de.danielnaber.languagetool.tagging.disambiguation.rules.km;
+package org.languagetool.tagging.disambiguation.rules.km;
 
-import de.danielnaber.languagetool.Language;
-import de.danielnaber.languagetool.tagging.disambiguation.rules.AbstractRuleDisambiguator;
+import org.languagetool.Language;
+import org.languagetool.tagging.disambiguation.rules.AbstractRuleDisambiguator;
 
 public class KhmerRuleDisambiguator extends AbstractRuleDisambiguator {
 

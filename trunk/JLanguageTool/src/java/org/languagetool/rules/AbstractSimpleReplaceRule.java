@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.rules;
+package org.languagetool.rules;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -29,10 +29,10 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import de.danielnaber.languagetool.AnalyzedSentence;
-import de.danielnaber.languagetool.AnalyzedTokenReadings;
-import de.danielnaber.languagetool.JLanguageTool;
-import de.danielnaber.languagetool.tools.StringTools;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
+import org.languagetool.tools.StringTools;
 
 /**
  * A rule that matches words or phrases which should not be used and suggests

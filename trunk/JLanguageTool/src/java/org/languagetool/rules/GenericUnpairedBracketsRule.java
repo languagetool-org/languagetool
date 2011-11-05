@@ -17,7 +17,7 @@
  * USA
  */
 
-package de.danielnaber.languagetool.rules;
+package org.languagetool.rules;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,11 +26,11 @@ import java.util.HashMap;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
-import de.danielnaber.languagetool.AnalyzedSentence;
-import de.danielnaber.languagetool.AnalyzedTokenReadings;
-import de.danielnaber.languagetool.Language;
-import de.danielnaber.languagetool.tools.UnsyncStack;
-import de.danielnaber.languagetool.tools.SymbolLocator;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.Language;
+import org.languagetool.tools.UnsyncStack;
+import org.languagetool.tools.SymbolLocator;
 
 /**
  * Rule that finds unpaired quotes, brackets etc.

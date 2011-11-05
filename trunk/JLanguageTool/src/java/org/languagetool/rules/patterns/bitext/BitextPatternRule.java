@@ -17,15 +17,15 @@
  * USA
  */
 
-package de.danielnaber.languagetool.rules.patterns.bitext;
+package org.languagetool.rules.patterns.bitext;
 
 import java.io.IOException;
 
-import de.danielnaber.languagetool.AnalyzedSentence;
-import de.danielnaber.languagetool.rules.Rule;
-import de.danielnaber.languagetool.rules.RuleMatch;
-import de.danielnaber.languagetool.rules.bitext.BitextRule;
-import de.danielnaber.languagetool.rules.patterns.PatternRule;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.rules.Rule;
+import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.bitext.BitextRule;
+import org.languagetool.rules.patterns.PatternRule;
 
 /**
  * A bitext pattern rule class. A BitextPatternRule describes a language error and 

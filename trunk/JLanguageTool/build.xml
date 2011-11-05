@@ -187,11 +187,11 @@
 		<javac encoding="${encoding}" srcdir="${src.java.dir}" includes="**/*.java" destdir="${junit.classes.dir}" target="${target}" debug="${debug}">
 			<classpath refid="junit.classpath" />
 		</javac>
-		<copy todir="${junit.classes.dir}/de/danielnaber/languagetool/">
-			<fileset dir="${src.java.dir}/de/danielnaber/languagetool/">
+		<copy todir="${junit.classes.dir}/org/languagetool/">
+			<fileset dir="${src.java.dir}/org/languagetool/">
 				<include name="*.properties" />
 			</fileset>
-            <fileset dir="${src.test.dir}/de/danielnaber/languagetool/">
+            <fileset dir="${src.test.dir}/org/languagetool/">
                 <include name="**/test-en.txt" />
             </fileset>
 		</copy>
@@ -268,17 +268,17 @@
 
 		<mkdir dir="${build.classes}" />
 
-		<javac encoding="${encoding}" srcdir="${src.java.dir}" includes="de/danielnaber/**/*.java" excludes="de/danielnaber/languagetool/dev/**/*.java,de/danielnaber/languagetool/openoffice/*.java" destdir="${build.classes}" target="${target}" debug="${debug}">
+		<javac encoding="${encoding}" srcdir="${src.java.dir}" includes="org/languagetool/**/*.java" excludes="org/languagetool/dev/**/*.java,org/languagetool/openoffice/*.java" destdir="${build.classes}" target="${target}" debug="${debug}">
 			<classpath refid="classpath" />
 		</javac>
-        <javac encoding="${encoding}" srcdir="${src.java.dev.dir}" includes="de/danielnaber/languagetool/dev/**/*.java" destdir="${build.classes}" target="${target}" debug="${debug}">
+        <javac encoding="${encoding}" srcdir="${src.java.dev.dir}" includes="org/languagetool/dev/**/*.java" destdir="${build.classes}" target="${target}" debug="${debug}">
             <classpath refid="classpath" />
         </javac>
-		<javac encoding="${encoding}" srcdir="${src.test.dir}" includes="de/danielnaber/languagetool/rules/patterns/PatternRuleTest.java
-		de/danielnaber/languagetool/tagging/disambiguation/rules/DisambiguationRuleTest.java
-		de/danielnaber/languagetool/rules/bitext/BitextPatternRuleTest.java
-		de/danielnaber/languagetool/ValidateXMLTest.java
-  		de/danielnaber/languagetool/XMLValidator.java" destdir="${build.classes}" target="${target}" debug="${debug}">
+		<javac encoding="${encoding}" srcdir="${src.test.dir}" includes="org/languagetool/rules/patterns/PatternRuleTest.java
+		org/languagetool/tagging/disambiguation/rules/DisambiguationRuleTest.java
+		org/languagetool/rules/bitext/BitextPatternRuleTest.java
+		org/languagetool/ValidateXMLTest.java
+  		org/languagetool/XMLValidator.java" destdir="${build.classes}" target="${target}" debug="${debug}">
 			<classpath refid="test.classpath" />
 		</javac>
 
@@ -289,42 +289,42 @@
 	<!-- ================================================================== -->
 	<target name="build" depends="compile">
 
-		<copy todir="${build.classes}/de/danielnaber/languagetool/">
-			<fileset dir="${src.java.dir}/de/danielnaber/languagetool/">
+		<copy todir="${build.classes}/org/languagetool/">
+			<fileset dir="${src.java.dir}/org/languagetool/">
 				<include name="*.properties" />
 			</fileset>
 		</copy>
 		
 		<jar jarfile="${dist.dir}/${final.name}.jar" basedir="${build.classes}" excludes="**/*.java">
 			<manifest>
-				<attribute name="Main-Class" value="de.danielnaber.languagetool.Main" />
+				<attribute name="Main-Class" value="org.languagetool.Main" />
 				<attribute name="Class-Path" value="./ ./rules ./resource ./${morfologik.fsa.lib} ./${morfologik.stemming.lib} ./jWordSplitter.jar ./${segment.lib} ./${logging.lib} ./${tika.lib} ./${ictclas4j.lib} ./${CJFtransform.lib} ./${commons-validator.lib} ${commons.lang.lib}" />
 				<attribute name="Implementation-Version" value="${version}" />
 				<attribute name="Implementation-Date" value="${date}" />
 			</manifest>
 		</jar>
 
-		<jar jarfile="${dist.dir}/${final.name.gui}.jar" basedir="${build.classes}" includes="de/danielnaber/languagetool/gui/*.class">
+		<jar jarfile="${dist.dir}/${final.name.gui}.jar" basedir="${build.classes}" includes="org/languagetool/gui/*.class">
 			<manifest>
-				<attribute name="Main-Class" value="de.danielnaber.languagetool.gui.Main" />
+				<attribute name="Main-Class" value="org.languagetool.gui.Main" />
 				<attribute name="Class-Path" value="./LanguageTool.jar ./ ./resource ./rules ./${morfologik.fsa.lib} ./${morfologik.stemming.lib} ./jWordSplitter.jar ./${segment.lib} ./${logging.lib} ./${tika.lib} ./${ictclas4j.lib} ./${CJFtransform.lib} ./${commons-validator.lib} ${commons.lang.lib}" />
 				<attribute name="Implementation-Version" value="${version}" />
 				<attribute name="Implementation-Date" value="${date}" />
 			</manifest>
 		</jar>
 
-		<jar jarfile="${dist.dir}/${converter.name}.jar" basedir="${build.classes}" includes="de/danielnaber/languagetool/dev/conversion/*.class">
+		<jar jarfile="${dist.dir}/${converter.name}.jar" basedir="${build.classes}" includes="org/languagetool/dev/conversion/*.class">
 			<manifest>
-				<attribute name="Main-Class" value="de.danielnaber.languagetool.dev.conversion.RuleConverterMain" />
+				<attribute name="Main-Class" value="org.languagetool.dev.conversion.RuleConverterMain" />
 				<attribute name="Class-Path" value="./ ./rules ./resource ./${final.name}.jar" />
 				<attribute name="Implementation-Version" value="${version}" />
 				<attribute name="Implementation-Date" value="${date}" />
 			</manifest>
 		</jar>
 
-        <jar jarfile="${dist.dir}/RuleConverterGUI.jar" basedir="${build.classes}" includes="de/danielnaber/languagetool/dev/conversion/*.class">
+        <jar jarfile="${dist.dir}/RuleConverterGUI.jar" basedir="${build.classes}" includes="org/languagetool/dev/conversion/*.class">
             <manifest>
-                <attribute name="Main-Class" value="de.danielnaber.languagetool.dev.conversion.gui.Main" />
+                <attribute name="Main-Class" value="org.languagetool.dev.conversion.gui.Main" />
                 <attribute name="Class-Path" value="./ ./rules ./resource ./${final.name}.jar ./${xmlsyntax.lib}" />
                 <attribute name="Implementation-Version" value="${version}" />
                 <attribute name="Implementation-Date" value="${date}" />
@@ -365,11 +365,11 @@
 <!-- OpenOffice.org compile -->
 <!-- ================================================================== -->
 <target name="ooo-compile">
-<javac encoding="${encoding}" srcdir="${src.java.dir}" includes="**/*.java" excludes="de/danielnaber/languagetool/dev/*.java" destdir="${build.classes}" target="${target}" debug="${debug}">
+<javac encoding="${encoding}" srcdir="${src.java.dir}" includes="**/*.java" excludes="org/languagetool/dev/*.java" destdir="${build.classes}" target="${target}" debug="${debug}">
 	<classpath refid="ooo.classpath" />
 </javac>
-<copy todir="${build.classes}/de/danielnaber/languagetool/">
-	<fileset dir="${src.java.dir}/de/danielnaber/languagetool/">
+<copy todir="${build.classes}/org/languagetool/">
+	<fileset dir="${src.java.dir}/org/languagetool/">
 		<include name="*.properties" />
 	</fileset>
 </copy>
@@ -379,9 +379,9 @@
 <!-- OpenOffice.org compile -->
 <!-- ================================================================== -->
 <target name="ooo-build" depends="ooo-compile">
-<jar jarfile="${dist.dir}/LanguageTool.uno.jar" basedir="${build.classes}" includes="de/danielnaber/languagetool/**/*.class,de/danielnaber/languagetool/**/*.properties">
+<jar jarfile="${dist.dir}/LanguageTool.uno.jar" basedir="${build.classes}" includes="org/languagetool/**/*.class,org/languagetool/**/*.properties">
 	<manifest>
-		<attribute name="RegistrationClassName" value="de.danielnaber.languagetool.openoffice.Main" />
+		<attribute name="RegistrationClassName" value="org.languagetool.openoffice.Main" />
 		<attribute name="Implementation-Version" value="${version}" />
 		<attribute name="Implementation-Date" value="${date}" />
 		<attribute name="Class-Path" value=". ./rules ./resource ./${morfologik.fsa.lib} ./${morfologik.stemming.lib} ./jWordSplitter.jar ./${segment.lib} ./${logging.lib} ./${tika.lib} ./${ictclas4j.lib} ./${CJFtransform.lib} ./${commons-validator.lib} ${commons.lang.lib}" />
@@ -635,12 +635,12 @@
 	
 <target name="ooo-internal" depends="common">
 <!-- prepare properties file automatically -->
-<javac encoding="${encoding}" srcdir="${src.dir}/dev" includes="de/danielnaber/languagetool/dev/PrintLocales.java" destdir="${build.classes}" target="${target}" debug="${debug}">
+<javac encoding="${encoding}" srcdir="${src.dir}/dev" includes="org/languagetool/dev/PrintLocales.java" destdir="${build.classes}" target="${target}" debug="${debug}">
 </javac>
 
-<jar jarfile="${dist.dir}/printlocales.jar" basedir="${build.classes}" includes="de/danielnaber/languagetool/dev/**">
+<jar jarfile="${dist.dir}/printlocales.jar" basedir="${build.classes}" includes="org/languagetool/dev/**">
 	<manifest>
-		<attribute name="Main-Class" value="de.danielnaber.languagetool.dev.PrintLocales" />
+		<attribute name="Main-Class" value="org.languagetool.dev.PrintLocales" />
 		<attribute name="Class-Path" value="./ ./LanguageTool.uno.jar ./${segment.lib} ./${logging.lib}" />
 	</manifest>
 </jar>

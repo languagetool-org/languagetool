@@ -17,7 +17,7 @@
  * USA
  */
 
-package de.danielnaber.languagetool.tagging.disambiguation.rules;
+package org.languagetool.tagging.disambiguation.rules;
 
 /**
  * Disambiguated example. Used for testing

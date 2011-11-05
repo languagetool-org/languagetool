@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.dev;
+package org.languagetool.dev;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -24,12 +24,12 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import de.danielnaber.languagetool.JLanguageTool;
-import de.danielnaber.languagetool.Language;
-import de.danielnaber.languagetool.language.Contributor;
-import de.danielnaber.languagetool.tools.LanguageIdentifierTools;
-import de.danielnaber.languagetool.tools.StringTools;
-import de.danielnaber.languagetool.tools.Tools;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.language.Contributor;
+import org.languagetool.tools.LanguageIdentifierTools;
+import org.languagetool.tools.StringTools;
+import org.languagetool.tools.Tools;
 import org.apache.tika.language.LanguageIdentifier;
 
 /**

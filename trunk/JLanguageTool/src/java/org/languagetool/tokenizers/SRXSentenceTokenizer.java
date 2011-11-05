@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.tokenizers;
+package org.languagetool.tokenizers;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -28,7 +28,7 @@ import net.sourceforge.segment.srx.SrxDocument;
 import net.sourceforge.segment.srx.SrxParser;
 import net.sourceforge.segment.srx.SrxTextIterator;
 import net.sourceforge.segment.srx.io.Srx2Parser;
-import de.danielnaber.languagetool.JLanguageTool;
+import org.languagetool.JLanguageTool;
 
 /**
  * Class to tokenize sentences using an SRX file.

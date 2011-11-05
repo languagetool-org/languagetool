@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.rules.patterns;
+package org.languagetool.rules.patterns;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,10 +31,10 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import de.danielnaber.languagetool.JLanguageTool;
-import de.danielnaber.languagetool.Language;
-import de.danielnaber.languagetool.rules.Category;
-import de.danielnaber.languagetool.rules.IncorrectExample;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.rules.Category;
+import org.languagetool.rules.IncorrectExample;
 
 /**
  * Loads {@link PatternRule}s from an XML file.

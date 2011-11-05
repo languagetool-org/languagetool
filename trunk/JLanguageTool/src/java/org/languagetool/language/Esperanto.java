@@ -16,20 +16,20 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.language;
+package org.languagetool.language;
 
 import java.util.*;
 
-import de.danielnaber.languagetool.Language;
-import de.danielnaber.languagetool.rules.*;
-import de.danielnaber.languagetool.tagging.Tagger;
-import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
-import de.danielnaber.languagetool.tagging.disambiguation.rules.eo.EsperantoRuleDisambiguator;
-import de.danielnaber.languagetool.tagging.eo.EsperantoTagger;
-import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
-import de.danielnaber.languagetool.tokenizers.SRXSentenceTokenizer;
-import de.danielnaber.languagetool.tokenizers.Tokenizer;
-import de.danielnaber.languagetool.tokenizers.eo.EsperantoWordTokenizer;
+import org.languagetool.Language;
+import org.languagetool.rules.*;
+import org.languagetool.tagging.Tagger;
+import org.languagetool.tagging.disambiguation.Disambiguator;
+import org.languagetool.tagging.disambiguation.rules.eo.EsperantoRuleDisambiguator;
+import org.languagetool.tagging.eo.EsperantoTagger;
+import org.languagetool.tokenizers.SentenceTokenizer;
+import org.languagetool.tokenizers.SRXSentenceTokenizer;
+import org.languagetool.tokenizers.Tokenizer;
+import org.languagetool.tokenizers.eo.EsperantoWordTokenizer;
 
 public class Esperanto extends Language {
 

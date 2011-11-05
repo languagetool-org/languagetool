@@ -1,4 +1,4 @@
-package de.danielnaber.languagetool.dev.conversion.cg;
+package org.languagetool.dev.conversion.cg;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -8,12 +8,12 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import de.danielnaber.languagetool.dev.conversion.cg.CgSet.ST;
-import de.danielnaber.languagetool.dev.conversion.cg.CgStrings.KEYWORDS;
-import de.danielnaber.languagetool.dev.conversion.cg.CgStrings.STRINGS;
-import de.danielnaber.languagetool.dev.conversion.cg.CgContextualTest.POS;
-import de.danielnaber.languagetool.dev.conversion.cg.CgStrings.SFLAGS;
-import de.danielnaber.languagetool.dev.conversion.cg.CgRule.RFLAGS;
+import org.languagetool.dev.conversion.cg.CgSet.ST;
+import org.languagetool.dev.conversion.cg.CgStrings.KEYWORDS;
+import org.languagetool.dev.conversion.cg.CgStrings.STRINGS;
+import org.languagetool.dev.conversion.cg.CgContextualTest.POS;
+import org.languagetool.dev.conversion.cg.CgStrings.SFLAGS;
+import org.languagetool.dev.conversion.cg.CgRule.RFLAGS;
 
 public class CgTextualParser {
     

@@ -17,17 +17,17 @@
  * USA
  */
 
-package de.danielnaber.languagetool.rules.sk;
+package org.languagetool.rules.sk;
 
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import de.danielnaber.languagetool.AnalyzedSentence;
-import de.danielnaber.languagetool.AnalyzedTokenReadings;
-import de.danielnaber.languagetool.rules.Category;
-import de.danielnaber.languagetool.rules.RuleMatch;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.rules.Category;
+import org.languagetool.rules.RuleMatch;
 
 /**
  * @deprecated this is currently buggy, do not use

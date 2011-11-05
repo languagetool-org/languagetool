@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.dev.index;
+package org.languagetool.dev.index;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -27,8 +27,8 @@ import org.apache.lucene.search.Query;
 import org.apache.lucene.search.regex.JavaUtilRegexCapabilities;
 import org.apache.lucene.search.spans.SpanQuery;
 
-import de.danielnaber.languagetool.rules.patterns.Element;
-import de.danielnaber.languagetool.rules.patterns.PatternRule;
+import org.languagetool.rules.patterns.Element;
+import org.languagetool.rules.patterns.PatternRule;
 
 /**
  * A factory class for building a Query from a PatternRule.

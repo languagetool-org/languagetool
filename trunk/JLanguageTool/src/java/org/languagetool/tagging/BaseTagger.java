@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.tagging;
+package org.languagetool.tagging;
 
 import java.io.IOException;
 import java.net.URL;
@@ -28,9 +28,9 @@ import morfologik.stemming.Dictionary;
 import morfologik.stemming.DictionaryLookup;
 import morfologik.stemming.IStemmer;
 import morfologik.stemming.WordData;
-import de.danielnaber.languagetool.AnalyzedToken;
-import de.danielnaber.languagetool.AnalyzedTokenReadings;
-import de.danielnaber.languagetool.tools.StringTools;
+import org.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.tools.StringTools;
 
 /**
  * Base tagger using Lametyzator.
@@ -136,7 +136,7 @@ public abstract class BaseTagger implements Tagger {
    * (non-Javadoc)
    * 
    * @see
-   * de.danielnaber.languagetool.tagging.Tagger#createNullToken(java.lang.String
+   * org.languagetool.tagging.Tagger#createNullToken(java.lang.String
    * , int)
    */  
   @Override

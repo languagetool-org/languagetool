@@ -1,4 +1,4 @@
-package de.danielnaber.languagetool.dev.conversion;
+package org.languagetool.dev.conversion;
 
 import junit.framework.TestCase;
 

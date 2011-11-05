@@ -17,19 +17,19 @@
  * USA
  */
 
-package de.danielnaber.languagetool.dev;
+package org.languagetool.dev;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
 
-import de.danielnaber.languagetool.JLanguageTool;
-import de.danielnaber.languagetool.Language;
-import de.danielnaber.languagetool.TextFilter;
-import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
-import de.danielnaber.languagetool.tools.StringTools;
-import de.danielnaber.languagetool.tools.Tools;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.TextFilter;
+import org.languagetool.tokenizers.SentenceTokenizer;
+import org.languagetool.tools.StringTools;
+import org.languagetool.tools.Tools;
 
 /**
  * Uses JLanguageTol recursively on the files of the BNC (British National Corpus).

@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.dev.wikipedia;
+package org.languagetool.dev.wikipedia;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -30,9 +30,9 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import de.danielnaber.languagetool.Language;
-import de.danielnaber.languagetool.TextFilter;
-import de.danielnaber.languagetool.dev.index.Indexer;
+import org.languagetool.Language;
+import org.languagetool.TextFilter;
+import org.languagetool.dev.index.Indexer;
 
 /**
  * 

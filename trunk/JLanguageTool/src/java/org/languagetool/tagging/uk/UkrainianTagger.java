@@ -17,9 +17,9 @@
  * USA
  */
 
-package de.danielnaber.languagetool.tagging.uk;
+package org.languagetool.tagging.uk;
 
-import de.danielnaber.languagetool.tagging.Tagger;
+import org.languagetool.tagging.Tagger;
 
 public class UkrainianTagger extends UkrainianMyspellTagger implements Tagger {
 

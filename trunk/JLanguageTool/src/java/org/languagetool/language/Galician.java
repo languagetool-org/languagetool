@@ -16,25 +16,25 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.language;
+package org.languagetool.language;
 
 import java.util.*;
 
-import de.danielnaber.languagetool.Language;
-import de.danielnaber.languagetool.rules.*;
-import de.danielnaber.languagetool.rules.patterns.Unifier;
-import de.danielnaber.languagetool.rules.gl.CastWordsRule;
-import de.danielnaber.languagetool.rules.gl.SimpleReplaceRule;
-import de.danielnaber.languagetool.synthesis.Synthesizer;
-import de.danielnaber.languagetool.synthesis.gl.GalicianSynthesizer;
-import de.danielnaber.languagetool.tagging.Tagger;
-import de.danielnaber.languagetool.tagging.gl.GalicianTagger;
-import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
-import de.danielnaber.languagetool.tagging.disambiguation.rules.gl.GalicianRuleDisambiguator;
-import de.danielnaber.languagetool.tokenizers.SRXSentenceTokenizer;
-import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
-import de.danielnaber.languagetool.tokenizers.Tokenizer;
-import de.danielnaber.languagetool.tokenizers.gl.GalicianWordTokenizer;
+import org.languagetool.Language;
+import org.languagetool.rules.*;
+import org.languagetool.rules.patterns.Unifier;
+import org.languagetool.rules.gl.CastWordsRule;
+import org.languagetool.rules.gl.SimpleReplaceRule;
+import org.languagetool.synthesis.Synthesizer;
+import org.languagetool.synthesis.gl.GalicianSynthesizer;
+import org.languagetool.tagging.Tagger;
+import org.languagetool.tagging.gl.GalicianTagger;
+import org.languagetool.tagging.disambiguation.Disambiguator;
+import org.languagetool.tagging.disambiguation.rules.gl.GalicianRuleDisambiguator;
+import org.languagetool.tokenizers.SRXSentenceTokenizer;
+import org.languagetool.tokenizers.SentenceTokenizer;
+import org.languagetool.tokenizers.Tokenizer;
+import org.languagetool.tokenizers.gl.GalicianWordTokenizer;
 
 public class Galician extends Language {
 

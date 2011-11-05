@@ -17,12 +17,12 @@
  * USA
  */
 
-package de.danielnaber.languagetool.language;
+package org.languagetool.language;
 
-import de.danielnaber.languagetool.Language;
-import de.danielnaber.languagetool.rules.*;
-import de.danielnaber.languagetool.tagging.Tagger;
-import de.danielnaber.languagetool.tagging.tl.TagalogTagger;
+import org.languagetool.Language;
+import org.languagetool.rules.*;
+import org.languagetool.tagging.Tagger;
+import org.languagetool.tagging.tl.TagalogTagger;
 
 import java.util.Arrays;
 import java.util.List;

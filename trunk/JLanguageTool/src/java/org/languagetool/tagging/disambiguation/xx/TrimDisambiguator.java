@@ -17,12 +17,12 @@
  * USA
  */
 
-package de.danielnaber.languagetool.tagging.disambiguation.xx;
+package org.languagetool.tagging.disambiguation.xx;
 
-import de.danielnaber.languagetool.AnalyzedSentence;
-import de.danielnaber.languagetool.AnalyzedToken;
-import de.danielnaber.languagetool.AnalyzedTokenReadings;
-import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.tagging.disambiguation.Disambiguator;
 
 /**
  * Trivial disambiguator. Just cuts out tags from the token. It leaves only the

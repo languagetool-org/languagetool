@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool;
+package org.languagetool;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
-import de.danielnaber.languagetool.tools.StringTools;
+import org.languagetool.tools.StringTools;
 
 import junit.framework.TestCase;
 
@@ -110,7 +110,7 @@ public class TranslationTest extends TestCase {
 
   private File getTranslationFile(Language lang) {
     return new File("src" + File.separator + "java" + File.separator
-        + "de" + File.separator + "danielnaber" + File.separator + "languagetool" 
+        + "org" + File.separator + "languagetool" 
         + File.separator + "MessagesBundle_" + lang.getShortName() + ".properties");
   }
 

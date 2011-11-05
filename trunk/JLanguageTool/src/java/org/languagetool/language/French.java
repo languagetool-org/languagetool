@@ -16,18 +16,18 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.language;
+package org.languagetool.language;
 
 import java.util.*;
 
-import de.danielnaber.languagetool.Language;
-import de.danielnaber.languagetool.rules.*;
-import de.danielnaber.languagetool.rules.fr.QuestionWhitespaceRule;
-import de.danielnaber.languagetool.rules.patterns.Unifier;
-import de.danielnaber.languagetool.tagging.Tagger;
-import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
-import de.danielnaber.languagetool.tagging.disambiguation.fr.FrenchHybridDisambiguator;
-import de.danielnaber.languagetool.tagging.fr.FrenchTagger;
+import org.languagetool.Language;
+import org.languagetool.rules.*;
+import org.languagetool.rules.fr.QuestionWhitespaceRule;
+import org.languagetool.rules.patterns.Unifier;
+import org.languagetool.tagging.Tagger;
+import org.languagetool.tagging.disambiguation.Disambiguator;
+import org.languagetool.tagging.disambiguation.fr.FrenchHybridDisambiguator;
+import org.languagetool.tagging.fr.FrenchTagger;
 
 public class French extends Language {
 

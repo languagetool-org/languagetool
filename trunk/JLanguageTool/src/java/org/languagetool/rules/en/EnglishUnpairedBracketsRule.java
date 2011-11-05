@@ -17,14 +17,14 @@
  * USA
  */
 
-package de.danielnaber.languagetool.rules.en;
+package org.languagetool.rules.en;
 
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
-import de.danielnaber.languagetool.AnalyzedTokenReadings;
-import de.danielnaber.languagetool.Language;
-import de.danielnaber.languagetool.rules.GenericUnpairedBracketsRule;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.Language;
+import org.languagetool.rules.GenericUnpairedBracketsRule;
 
 public class EnglishUnpairedBracketsRule extends GenericUnpairedBracketsRule {
   

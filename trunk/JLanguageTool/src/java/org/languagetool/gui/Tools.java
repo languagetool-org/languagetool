@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.gui;
+package org.languagetool.gui;
 
 import java.awt.Frame;
 import java.io.File;
@@ -27,7 +27,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 
-import de.danielnaber.languagetool.tools.StringTools;
+import org.languagetool.tools.StringTools;
 
 /**
  * GUI-related tools.
@@ -171,7 +171,7 @@ public class Tools {
    * Show the exception (with stacktrace) in a dialog and print it to STDERR.
    */
   static void showError(final Exception e) {
-    final String msg = de.danielnaber.languagetool.tools.Tools
+    final String msg = org.languagetool.tools.Tools
         .getFullStackTrace(e);
     JOptionPane
         .showMessageDialog(null, msg, "Error", JOptionPane.ERROR_MESSAGE);

@@ -17,7 +17,7 @@
  * USA
  */
 
-package de.danielnaber.languagetool.bitext;
+package org.languagetool.bitext;
 
 import java.io.IOException;
 import java.util.Iterator;

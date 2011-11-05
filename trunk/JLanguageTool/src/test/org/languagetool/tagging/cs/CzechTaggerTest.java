@@ -16,13 +16,13 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.tagging.cs;
+package org.languagetool.tagging.cs;
 
 import java.io.IOException;
 
 import junit.framework.TestCase;
-import de.danielnaber.languagetool.TestTools;
-import de.danielnaber.languagetool.tokenizers.WordTokenizer;
+import org.languagetool.TestTools;
+import org.languagetool.tokenizers.WordTokenizer;
 
 public class CzechTaggerTest extends TestCase {
 	

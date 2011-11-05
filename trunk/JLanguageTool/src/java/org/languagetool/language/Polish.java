@@ -16,25 +16,25 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.language;
+package org.languagetool.language;
 
 import java.util.*;
 
-import de.danielnaber.languagetool.Language;
-import de.danielnaber.languagetool.rules.*;
-import de.danielnaber.languagetool.rules.patterns.Unifier;
-import de.danielnaber.languagetool.rules.pl.CompoundRule;
-import de.danielnaber.languagetool.rules.pl.PolishUnpairedBracketsRule;
-import de.danielnaber.languagetool.rules.pl.PolishWordRepeatRule;
-import de.danielnaber.languagetool.rules.pl.SimpleReplaceRule;
-import de.danielnaber.languagetool.synthesis.Synthesizer;
-import de.danielnaber.languagetool.synthesis.pl.PolishSynthesizer;
-import de.danielnaber.languagetool.tagging.Tagger;
-import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
-import de.danielnaber.languagetool.tagging.disambiguation.pl.PolishHybridDisambiguator;
-import de.danielnaber.languagetool.tagging.pl.PolishTagger;
-import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
-import de.danielnaber.languagetool.tokenizers.SRXSentenceTokenizer;
+import org.languagetool.Language;
+import org.languagetool.rules.*;
+import org.languagetool.rules.patterns.Unifier;
+import org.languagetool.rules.pl.CompoundRule;
+import org.languagetool.rules.pl.PolishUnpairedBracketsRule;
+import org.languagetool.rules.pl.PolishWordRepeatRule;
+import org.languagetool.rules.pl.SimpleReplaceRule;
+import org.languagetool.synthesis.Synthesizer;
+import org.languagetool.synthesis.pl.PolishSynthesizer;
+import org.languagetool.tagging.Tagger;
+import org.languagetool.tagging.disambiguation.Disambiguator;
+import org.languagetool.tagging.disambiguation.pl.PolishHybridDisambiguator;
+import org.languagetool.tagging.pl.PolishTagger;
+import org.languagetool.tokenizers.SentenceTokenizer;
+import org.languagetool.tokenizers.SRXSentenceTokenizer;
 
 public class Polish extends Language {
 

@@ -16,12 +16,12 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.tagging.it;
+package org.languagetool.tagging.it;
 
 import java.util.Locale;
 
-import de.danielnaber.languagetool.JLanguageTool;
-import de.danielnaber.languagetool.tagging.BaseTagger;
+import org.languagetool.JLanguageTool;
+import org.languagetool.tagging.BaseTagger;
 
 /**
  * Italian tagger

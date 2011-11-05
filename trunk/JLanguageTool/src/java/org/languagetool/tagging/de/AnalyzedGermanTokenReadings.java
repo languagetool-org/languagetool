@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.tagging.de;
+package org.languagetool.tagging.de;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -24,11 +24,11 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-import de.danielnaber.languagetool.AnalyzedToken;
-import de.danielnaber.languagetool.AnalyzedTokenReadings;
-import de.danielnaber.languagetool.tagging.de.GermanToken.POSType;
-import de.danielnaber.languagetool.tools.StringTools;
-import de.danielnaber.languagetool.JLanguageTool;
+import org.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.tagging.de.GermanToken.POSType;
+import org.languagetool.tools.StringTools;
+import org.languagetool.JLanguageTool;
 
 /**
  * All possible readings of an analyzed German word.

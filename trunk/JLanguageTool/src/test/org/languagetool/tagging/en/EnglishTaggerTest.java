@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.tagging.en;
+package org.languagetool.tagging.en;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,9 +26,9 @@ import junit.framework.TestCase;
 import morfologik.stemming.Dictionary;
 import morfologik.stemming.DictionaryLookup;
 import morfologik.stemming.WordData;
-import de.danielnaber.languagetool.AnalyzedTokenReadings;
-import de.danielnaber.languagetool.TestTools;
-import de.danielnaber.languagetool.tokenizers.WordTokenizer;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.TestTools;
+import org.languagetool.tokenizers.WordTokenizer;
 
 /**
  * @author Daniel Naber

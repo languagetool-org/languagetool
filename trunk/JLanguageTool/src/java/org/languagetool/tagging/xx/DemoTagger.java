@@ -20,14 +20,14 @@
 /*
  * Created on 23.12.2005
  */
-package de.danielnaber.languagetool.tagging.xx;
+package org.languagetool.tagging.xx;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import de.danielnaber.languagetool.AnalyzedToken;
-import de.danielnaber.languagetool.AnalyzedTokenReadings;
-import de.danielnaber.languagetool.tagging.Tagger;
+import org.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.tagging.Tagger;
 
 /**
  * A trivial tagger that does nothing than assign null

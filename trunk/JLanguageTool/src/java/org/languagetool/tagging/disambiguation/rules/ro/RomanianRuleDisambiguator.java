@@ -17,10 +17,10 @@
  * USA
  */
 
-package de.danielnaber.languagetool.tagging.disambiguation.rules.ro;
+package org.languagetool.tagging.disambiguation.rules.ro;
 
-import de.danielnaber.languagetool.Language;
-import de.danielnaber.languagetool.tagging.disambiguation.rules.AbstractRuleDisambiguator;
+import org.languagetool.Language;
+import org.languagetool.tagging.disambiguation.rules.AbstractRuleDisambiguator;
 
 public class RomanianRuleDisambiguator extends AbstractRuleDisambiguator {
 

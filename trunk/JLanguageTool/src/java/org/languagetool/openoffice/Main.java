@@ -17,7 +17,7 @@
  * USA
  */
 
-package de.danielnaber.languagetool.openoffice;
+package org.languagetool.openoffice;
 
 /** OpenOffice 3.x Integration
  * 
@@ -62,12 +62,12 @@ import com.sun.star.text.XTextViewCursorSupplier;
 import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
 
-import de.danielnaber.languagetool.JLanguageTool;
-import de.danielnaber.languagetool.Language;
-import de.danielnaber.languagetool.gui.Configuration;
-import de.danielnaber.languagetool.rules.RuleMatch;
-import de.danielnaber.languagetool.tools.StringTools;
-import de.danielnaber.languagetool.tools.Tools;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.gui.Configuration;
+import org.languagetool.rules.RuleMatch;
+import org.languagetool.tools.StringTools;
+import org.languagetool.tools.Tools;
 
 public class Main extends WeakBase implements XJobExecutor,
     XServiceDisplayName, XServiceInfo, XProofreader,
@@ -108,7 +108,7 @@ public class Main extends WeakBase implements XJobExecutor,
    */
   private static final String[] SERVICE_NAMES = {
       "com.sun.star.linguistic2.Proofreader",
-      "de.danielnaber.languagetool.openoffice.Main" };
+      "org.languagetool.openoffice.Main" };
 
   // use a different name than the stand-alone version to avoid conflicts:
   private static final String CONFIG_FILE = ".languagetool-ooo.cfg";

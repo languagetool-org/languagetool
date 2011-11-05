@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.rules.bitext;
+package org.languagetool.rules.bitext;
 
 import java.io.IOException;
 import java.util.List;
@@ -28,12 +28,12 @@ import junit.framework.TestCase;
 
 import org.xml.sax.SAXException;
 
-import de.danielnaber.languagetool.AnalyzedSentence;
-import de.danielnaber.languagetool.JLanguageTool;
-import de.danielnaber.languagetool.Language;
-import de.danielnaber.languagetool.rules.RuleMatch;
-import de.danielnaber.languagetool.rules.patterns.bitext.BitextPatternRule;
-import de.danielnaber.languagetool.rules.patterns.bitext.FalseFriendsAsBitextLoader;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.patterns.bitext.BitextPatternRule;
+import org.languagetool.rules.patterns.bitext.FalseFriendsAsBitextLoader;
 
 /**
  * @author Marcin Miłkowski

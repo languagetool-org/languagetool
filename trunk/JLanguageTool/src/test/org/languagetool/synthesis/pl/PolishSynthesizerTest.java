@@ -17,13 +17,13 @@
  * USA
  */
 
-package de.danielnaber.languagetool.synthesis.pl;
+package org.languagetool.synthesis.pl;
 
 import java.io.IOException;
 import java.util.Arrays;
 
 import junit.framework.TestCase;
-import de.danielnaber.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedToken;
 
 public class PolishSynthesizerTest extends TestCase {
   private AnalyzedToken dummyToken(String tokenStr) {

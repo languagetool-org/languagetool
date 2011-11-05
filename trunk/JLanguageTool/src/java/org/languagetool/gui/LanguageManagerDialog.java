@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.gui;
+package org.languagetool.gui;
 
 import java.awt.Container;
 import java.awt.Dimension;
@@ -42,8 +42,8 @@ import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileFilter;
 
-import de.danielnaber.languagetool.Language;
-import de.danielnaber.languagetool.language.LanguageBuilder;
+import org.languagetool.Language;
+import org.languagetool.language.LanguageBuilder;
 
 /**
  * Dialog for managing externally loaded rules.

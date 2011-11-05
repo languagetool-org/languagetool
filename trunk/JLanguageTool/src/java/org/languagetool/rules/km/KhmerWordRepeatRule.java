@@ -16,18 +16,18 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.rules.km;
+package org.languagetool.rules.km;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import de.danielnaber.languagetool.AnalyzedSentence;
-import de.danielnaber.languagetool.AnalyzedTokenReadings;
-import de.danielnaber.languagetool.Language;
-import de.danielnaber.languagetool.rules.Rule;
-import de.danielnaber.languagetool.rules.RuleMatch;
-import de.danielnaber.languagetool.rules.Category;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.Language;
+import org.languagetool.rules.Rule;
+import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.Category;
 
 /**
  * Check if a word is repeated twice in Khmer, e.g. the equivalent of "the the".

@@ -16,10 +16,10 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.tagging.uk;
+package org.languagetool.tagging.uk;
 
-import de.danielnaber.languagetool.JLanguageTool;
-import de.danielnaber.languagetool.tagging.BaseTagger;
+import org.languagetool.JLanguageTool;
+import org.languagetool.tagging.BaseTagger;
 
 /** Ukrainian Part-of-speech tagger.
  * 

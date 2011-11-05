@@ -16,18 +16,18 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.language;
+package org.languagetool.language;
 
 import java.util.*;
 
-import de.danielnaber.languagetool.Language;
-import de.danielnaber.languagetool.rules.CommaWhitespaceRule;
-import de.danielnaber.languagetool.rules.DoublePunctuationRule;
-import de.danielnaber.languagetool.rules.Rule;
-import de.danielnaber.languagetool.tagging.Tagger;
-import de.danielnaber.languagetool.tagging.cs.CzechTagger;
-import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
-import de.danielnaber.languagetool.tokenizers.cs.CzechSentenceTokenizer;
+import org.languagetool.Language;
+import org.languagetool.rules.CommaWhitespaceRule;
+import org.languagetool.rules.DoublePunctuationRule;
+import org.languagetool.rules.Rule;
+import org.languagetool.tagging.Tagger;
+import org.languagetool.tagging.cs.CzechTagger;
+import org.languagetool.tokenizers.SentenceTokenizer;
+import org.languagetool.tokenizers.cs.CzechSentenceTokenizer;
 
 public class Czech extends Language {
 

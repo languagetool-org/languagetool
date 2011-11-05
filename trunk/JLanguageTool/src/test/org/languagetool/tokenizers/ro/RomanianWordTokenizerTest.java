@@ -17,7 +17,7 @@
  * USA
  */
 
-package de.danielnaber.languagetool.tokenizers.ro;
+package org.languagetool.tokenizers.ro;
 
 import java.util.List;
 

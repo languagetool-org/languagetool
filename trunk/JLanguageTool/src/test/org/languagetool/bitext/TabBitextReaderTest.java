@@ -17,7 +17,7 @@
  * USA
  */
 
-package de.danielnaber.languagetool.bitext;
+package org.languagetool.bitext;
 
 import java.io.File;
 import java.io.FileOutputStream;

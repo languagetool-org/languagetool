@@ -1,4 +1,4 @@
-package de.danielnaber.languagetool.dev.index;
+package org.languagetool.dev.index;
 
 import java.io.IOException;
 import java.util.Iterator;

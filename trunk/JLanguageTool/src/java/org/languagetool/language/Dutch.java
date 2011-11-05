@@ -16,22 +16,22 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.language;
+package org.languagetool.language;
 
 import java.util.*;
 
-import de.danielnaber.languagetool.Language;
-import de.danielnaber.languagetool.rules.*;
-import de.danielnaber.languagetool.synthesis.Synthesizer;
-import de.danielnaber.languagetool.synthesis.nl.DutchSynthesizer;
-import de.danielnaber.languagetool.tagging.Tagger;
-import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
-import de.danielnaber.languagetool.tagging.disambiguation.rules.nl.DutchRuleDisambiguator;
-import de.danielnaber.languagetool.tagging.nl.DutchTagger;
-import de.danielnaber.languagetool.tokenizers.SRXSentenceTokenizer;
-import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
-import de.danielnaber.languagetool.tokenizers.Tokenizer;
-import de.danielnaber.languagetool.tokenizers.nl.DutchWordTokenizer;
+import org.languagetool.Language;
+import org.languagetool.rules.*;
+import org.languagetool.synthesis.Synthesizer;
+import org.languagetool.synthesis.nl.DutchSynthesizer;
+import org.languagetool.tagging.Tagger;
+import org.languagetool.tagging.disambiguation.Disambiguator;
+import org.languagetool.tagging.disambiguation.rules.nl.DutchRuleDisambiguator;
+import org.languagetool.tagging.nl.DutchTagger;
+import org.languagetool.tokenizers.SRXSentenceTokenizer;
+import org.languagetool.tokenizers.SentenceTokenizer;
+import org.languagetool.tokenizers.Tokenizer;
+import org.languagetool.tokenizers.nl.DutchWordTokenizer;
 
 public class Dutch extends Language {
 

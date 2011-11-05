@@ -16,20 +16,20 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.language;
+package org.languagetool.language;
 
 import java.util.*;
 
-import de.danielnaber.languagetool.Language;
-import de.danielnaber.languagetool.rules.*;
-import de.danielnaber.languagetool.rules.sk.CompoundRule;
-import de.danielnaber.languagetool.rules.sk.SlovakVesRule;
-import de.danielnaber.languagetool.synthesis.Synthesizer;
-import de.danielnaber.languagetool.tagging.Tagger;
-import de.danielnaber.languagetool.tagging.sk.SlovakTagger;
-import de.danielnaber.languagetool.synthesis.sk.SlovakSynthesizer;
-import de.danielnaber.languagetool.tokenizers.SRXSentenceTokenizer;
-import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
+import org.languagetool.Language;
+import org.languagetool.rules.*;
+import org.languagetool.rules.sk.CompoundRule;
+import org.languagetool.rules.sk.SlovakVesRule;
+import org.languagetool.synthesis.Synthesizer;
+import org.languagetool.tagging.Tagger;
+import org.languagetool.tagging.sk.SlovakTagger;
+import org.languagetool.synthesis.sk.SlovakSynthesizer;
+import org.languagetool.tokenizers.SRXSentenceTokenizer;
+import org.languagetool.tokenizers.SentenceTokenizer;
 
 public class Slovak extends Language {
 

@@ -17,7 +17,7 @@
  * USA
  */
 
-package de.danielnaber.languagetool.rules.patterns;
+package org.languagetool.rules.patterns;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 import junit.framework.TestCase;
-import de.danielnaber.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedToken;
 
 public class TestUnifier extends TestCase {
 

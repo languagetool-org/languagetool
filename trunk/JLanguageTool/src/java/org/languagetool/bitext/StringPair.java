@@ -17,7 +17,7 @@
  * USA
  */
 
-package de.danielnaber.languagetool.bitext;
+package org.languagetool.bitext;
 
 /**
  * A convenience class to work with bitext strings.

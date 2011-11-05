@@ -16,10 +16,10 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.tagging.disambiguation.rules.pl;
+package org.languagetool.tagging.disambiguation.rules.pl;
 
-import de.danielnaber.languagetool.Language;
-import de.danielnaber.languagetool.tagging.disambiguation.rules.AbstractRuleDisambiguator;
+import org.languagetool.Language;
+import org.languagetool.tagging.disambiguation.rules.AbstractRuleDisambiguator;
 
 public class PolishRuleDisambiguator extends AbstractRuleDisambiguator {
 

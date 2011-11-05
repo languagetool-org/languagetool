@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.rules.patterns.bitext;
+package org.languagetool.rules.patterns.bitext;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,14 +31,14 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import de.danielnaber.languagetool.Language;
-import de.danielnaber.languagetool.bitext.StringPair;
-import de.danielnaber.languagetool.rules.Category;
-import de.danielnaber.languagetool.rules.IncorrectExample;
-import de.danielnaber.languagetool.rules.bitext.IncorrectBitextExample;
-import de.danielnaber.languagetool.rules.patterns.Element;
-import de.danielnaber.languagetool.rules.patterns.Match;
-import de.danielnaber.languagetool.rules.patterns.PatternRule;
+import org.languagetool.Language;
+import org.languagetool.bitext.StringPair;
+import org.languagetool.rules.Category;
+import org.languagetool.rules.IncorrectExample;
+import org.languagetool.rules.bitext.IncorrectBitextExample;
+import org.languagetool.rules.patterns.Element;
+import org.languagetool.rules.patterns.Match;
+import org.languagetool.rules.patterns.PatternRule;
 
 /**
  * Loads {@link PatternRule}s from an XML file.

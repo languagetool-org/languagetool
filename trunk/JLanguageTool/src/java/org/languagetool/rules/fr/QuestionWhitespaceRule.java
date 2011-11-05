@@ -16,17 +16,17 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.rules.fr;
+package org.languagetool.rules.fr;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import de.danielnaber.languagetool.AnalyzedSentence;
-import de.danielnaber.languagetool.AnalyzedTokenReadings;
-import de.danielnaber.languagetool.rules.Category;
-import de.danielnaber.languagetool.rules.RuleMatch;
-import de.danielnaber.languagetool.tools.StringTools;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.rules.Category;
+import org.languagetool.rules.RuleMatch;
+import org.languagetool.tools.StringTools;
 
 /**
  * A rule that matches spaces before ?,:,; and ! (required for correct French

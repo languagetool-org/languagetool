@@ -16,13 +16,13 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.tagging.de;
+package org.languagetool.tagging.de;
 
-import de.danielnaber.languagetool.AnalyzedToken;
-import de.danielnaber.languagetool.tagging.de.GermanToken.Genus;
-import de.danielnaber.languagetool.tagging.de.GermanToken.Kasus;
-import de.danielnaber.languagetool.tagging.de.GermanToken.Numerus;
-import de.danielnaber.languagetool.tagging.de.GermanToken.POSType;
+import org.languagetool.AnalyzedToken;
+import org.languagetool.tagging.de.GermanToken.Genus;
+import org.languagetool.tagging.de.GermanToken.Kasus;
+import org.languagetool.tagging.de.GermanToken.Numerus;
+import org.languagetool.tagging.de.GermanToken.POSType;
 
 /**
  * One reading of a German word. Many words can have more

@@ -17,12 +17,12 @@
  * USA
  */
 
-package de.danielnaber.languagetool.tokenizers.nl;
+package org.languagetool.tokenizers.nl;
 
 import java.util.Arrays;
 import java.util.List;
 
-import de.danielnaber.languagetool.tokenizers.WordTokenizer;
+import org.languagetool.tokenizers.WordTokenizer;
 
 public class DutchWordTokenizer extends WordTokenizer {
 

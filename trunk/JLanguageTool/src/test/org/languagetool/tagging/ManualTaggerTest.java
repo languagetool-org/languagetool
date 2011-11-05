@@ -16,12 +16,12 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.tagging;
+package org.languagetool.tagging;
 
 import java.io.IOException;
 import java.util.Arrays;
 
-import de.danielnaber.languagetool.JLanguageTool;
+import org.languagetool.JLanguageTool;
 
 import junit.framework.TestCase;
 

@@ -17,10 +17,10 @@
  * USA
  */
 
-package de.danielnaber.languagetool.rules.patterns;
+package org.languagetool.rules.patterns;
 
-import de.danielnaber.languagetool.AnalyzedToken;
-import de.danielnaber.languagetool.JLanguageTool;
+import org.languagetool.AnalyzedToken;
+import org.languagetool.JLanguageTool;
 import junit.framework.TestCase;
 
 public class ElementTest extends TestCase {

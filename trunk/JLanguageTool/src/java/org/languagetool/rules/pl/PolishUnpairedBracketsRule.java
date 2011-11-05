@@ -17,12 +17,12 @@
  * USA
  */
 
-package de.danielnaber.languagetool.rules.pl;
+package org.languagetool.rules.pl;
 
 import java.util.ResourceBundle;
 
-import de.danielnaber.languagetool.Language;
-import de.danielnaber.languagetool.rules.GenericUnpairedBracketsRule;
+import org.languagetool.Language;
+import org.languagetool.rules.GenericUnpairedBracketsRule;
 
 public class PolishUnpairedBracketsRule extends GenericUnpairedBracketsRule {
 

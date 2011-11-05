@@ -17,7 +17,7 @@
  * USA
  */
 
-package de.danielnaber.languagetool.bitext;
+package org.languagetool.bitext;
 
 /**
  * Interface for classes that implement reading from bitext files,

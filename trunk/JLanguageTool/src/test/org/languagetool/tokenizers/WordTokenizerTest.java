@@ -17,7 +17,7 @@
  * USA
  */
 
-package de.danielnaber.languagetool.tokenizers;
+package org.languagetool.tokenizers;
 
 import junit.framework.TestCase;
 

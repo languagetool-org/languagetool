@@ -17,13 +17,13 @@
  * USA
  */
 
-package de.danielnaber.languagetool.synthesis.es;
+package org.languagetool.synthesis.es;
 
 import java.io.IOException;
 import java.util.Arrays;
 
 import junit.framework.TestCase;
-import de.danielnaber.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedToken;
 
 public class SpanishSynthesizerTest extends TestCase {
 	  private final AnalyzedToken dummyToken(String tokenStr) {

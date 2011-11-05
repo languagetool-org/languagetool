@@ -1,9 +1,9 @@
-package de.danielnaber.languagetool.dev.conversion.cg;
+package org.languagetool.dev.conversion.cg;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import de.danielnaber.languagetool.dev.conversion.CgRuleConverter;
+import org.languagetool.dev.conversion.CgRuleConverter;
 
 public class CgCompositeTag {
 

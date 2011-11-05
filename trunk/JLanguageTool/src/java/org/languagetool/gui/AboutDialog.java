@@ -16,15 +16,15 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.gui;
+package org.languagetool.gui;
 
 import java.util.ResourceBundle;
 
 import javax.swing.JOptionPane;
 
-import de.danielnaber.languagetool.JLanguageTool;
-import de.danielnaber.languagetool.Language;
-import de.danielnaber.languagetool.tools.StringTools;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.tools.StringTools;
 
 /**
  * A dialog with version and copyright information.

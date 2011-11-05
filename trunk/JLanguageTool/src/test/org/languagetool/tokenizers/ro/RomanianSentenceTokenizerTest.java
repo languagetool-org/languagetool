@@ -16,12 +16,12 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.tokenizers.ro;
+package org.languagetool.tokenizers.ro;
 
 import junit.framework.TestCase;
-import de.danielnaber.languagetool.TestTools;
-import de.danielnaber.languagetool.tokenizers.SRXSentenceTokenizer;
-import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
+import org.languagetool.TestTools;
+import org.languagetool.tokenizers.SRXSentenceTokenizer;
+import org.languagetool.tokenizers.SentenceTokenizer;
 
 /**
  * 

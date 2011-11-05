@@ -1,4 +1,4 @@
-package de.danielnaber.languagetool.openoffice;
+package org.languagetool.openoffice;
 
 /**
  * Helps detecting Khmer strings by their Unicode range.

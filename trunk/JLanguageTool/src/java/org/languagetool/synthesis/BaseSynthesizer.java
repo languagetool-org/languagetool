@@ -1,4 +1,4 @@
-package de.danielnaber.languagetool.synthesis;
+package org.languagetool.synthesis;
 
 import java.io.IOException;
 import java.net.URL;
@@ -12,8 +12,8 @@ import morfologik.stemming.DictionaryLookup;
 import morfologik.stemming.IStemmer;
 import morfologik.stemming.WordData;
 
-import de.danielnaber.languagetool.AnalyzedToken;
-import de.danielnaber.languagetool.tools.Tools;
+import org.languagetool.AnalyzedToken;
+import org.languagetool.tools.Tools;
 
 public class BaseSynthesizer implements Synthesizer {
  

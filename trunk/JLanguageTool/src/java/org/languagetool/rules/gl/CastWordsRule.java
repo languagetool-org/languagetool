@@ -16,13 +16,13 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.rules.gl;
+package org.languagetool.rules.gl;
 
 import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import de.danielnaber.languagetool.rules.AbstractSimpleReplaceRule;
+import org.languagetool.rules.AbstractSimpleReplaceRule;
 
 /**
  * A rule that matches words or phrases which should not be used and suggests

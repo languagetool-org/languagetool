@@ -16,13 +16,13 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.dev.wikipedia;
+package org.languagetool.dev.wikipedia;
 
 import info.bliki.wiki.model.WikiModel;
 
 import org.apache.commons.lang.StringEscapeUtils;
 
-import de.danielnaber.languagetool.TextFilter;
+import org.languagetool.TextFilter;
 
 /**
  * Convert Wikipedia syntax to HTML using Bliki and then try to clean it up (this is

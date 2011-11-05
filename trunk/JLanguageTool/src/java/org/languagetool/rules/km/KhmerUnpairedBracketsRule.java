@@ -1,9 +1,9 @@
 // LanguageTool, a natural language style checker 
 
-package de.danielnaber.languagetool.rules.km;
+package org.languagetool.rules.km;
 
-import de.danielnaber.languagetool.Language;
-import de.danielnaber.languagetool.rules.GenericUnpairedBracketsRule;
+import org.languagetool.Language;
+import org.languagetool.rules.GenericUnpairedBracketsRule;
 
 import java.util.ResourceBundle;
 

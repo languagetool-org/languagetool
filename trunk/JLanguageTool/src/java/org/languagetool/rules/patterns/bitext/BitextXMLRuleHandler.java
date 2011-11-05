@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.rules.patterns.bitext;
+package org.languagetool.rules.patterns.bitext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,9 +24,9 @@ import java.util.List;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
-import de.danielnaber.languagetool.bitext.StringPair;
-import de.danielnaber.languagetool.rules.bitext.IncorrectBitextExample;
-import de.danielnaber.languagetool.rules.patterns.XMLRuleHandler;
+import org.languagetool.bitext.StringPair;
+import org.languagetool.rules.bitext.IncorrectBitextExample;
+import org.languagetool.rules.patterns.XMLRuleHandler;
 
 /**
  * XML rule handler that loads rules from XML and throws

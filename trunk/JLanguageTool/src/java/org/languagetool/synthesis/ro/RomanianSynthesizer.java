@@ -16,10 +16,10 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.synthesis.ro;
+package org.languagetool.synthesis.ro;
 
-import de.danielnaber.languagetool.JLanguageTool;
-import de.danielnaber.languagetool.synthesis.BaseSynthesizer;
+import org.languagetool.JLanguageTool;
+import org.languagetool.synthesis.BaseSynthesizer;
 
 /**
  * Romanian word form synthesizer. <br/>

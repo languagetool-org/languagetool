@@ -17,9 +17,9 @@
  * USA
  */
 
-package de.danielnaber.languagetool.rules.fr;
+package org.languagetool.rules.fr;
 
-import de.danielnaber.languagetool.rules.Rule;
+import org.languagetool.rules.Rule;
 
 /**
  * Abstract base class for French rules.

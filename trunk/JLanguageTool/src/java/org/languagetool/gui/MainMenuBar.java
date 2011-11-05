@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.gui;
+package org.languagetool.gui;
 
 import java.awt.Event;
 import java.awt.event.ActionEvent;
@@ -29,7 +29,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 
-import de.danielnaber.languagetool.tools.StringTools;
+import org.languagetool.tools.StringTools;
 
 /**
  * The menu bar of the main dialog.

@@ -16,9 +16,9 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.rules.sv;
+package org.languagetool.rules.sv;
 
-import de.danielnaber.languagetool.rules.AbstractCompoundRule;
+import org.languagetool.rules.AbstractCompoundRule;
 
 import java.io.IOException;
 import java.util.ResourceBundle;

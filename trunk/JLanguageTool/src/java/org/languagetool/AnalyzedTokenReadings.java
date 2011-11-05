@@ -17,13 +17,13 @@
  * USA
  */
 
-package de.danielnaber.languagetool;
+package org.languagetool;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import de.danielnaber.languagetool.tools.StringTools;
+import org.languagetool.tools.StringTools;
 
 /**
  * An array of {@link AnalyzedToken}s used to store multiple POS tags and lemmas

@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.dev.index;
+package org.languagetool.dev.index;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -32,10 +32,10 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.util.LuceneTestCase;
 import org.apache.lucene.util.Version;
 
-import de.danielnaber.languagetool.JLanguageTool;
-import de.danielnaber.languagetool.Language;
-import de.danielnaber.languagetool.rules.patterns.PatternRule;
-import de.danielnaber.languagetool.rules.patterns.PatternRuleLoader;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.rules.patterns.PatternRule;
+import org.languagetool.rules.patterns.PatternRuleLoader;
 
 public class PatternRuleQueryBuilderTest extends LuceneTestCase {
   

@@ -1,4 +1,4 @@
-package de.danielnaber.languagetool.tools;
+package org.languagetool.tools;
 
 import org.apache.tika.language.LanguageIdentifier;
 

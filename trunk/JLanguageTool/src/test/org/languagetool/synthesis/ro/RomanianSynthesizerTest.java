@@ -17,13 +17,13 @@
  * USA
  */
 
-package de.danielnaber.languagetool.synthesis.ro;
+package org.languagetool.synthesis.ro;
 
 import java.io.IOException;
 import java.util.Arrays;
 
 import junit.framework.TestCase;
-import de.danielnaber.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedToken;
 
 public class RomanianSynthesizerTest extends TestCase {
 

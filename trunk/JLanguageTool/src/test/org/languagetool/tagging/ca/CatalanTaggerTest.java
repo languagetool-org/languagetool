@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.tagging.ca;
+package org.languagetool.tagging.ca;
 
 import java.io.IOException;
 
@@ -25,8 +25,8 @@ import morfologik.stemming.DictionaryLookup;
 import morfologik.stemming.WordData;
 
 import junit.framework.TestCase;
-import de.danielnaber.languagetool.TestTools;
-import de.danielnaber.languagetool.tokenizers.WordTokenizer;
+import org.languagetool.TestTools;
+import org.languagetool.tokenizers.WordTokenizer;
 
 public class CatalanTaggerTest extends TestCase {
 

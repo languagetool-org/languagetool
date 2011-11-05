@@ -16,18 +16,18 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.gui;
+package org.languagetool.gui;
 
-import de.danielnaber.languagetool.JLanguageTool;
-import de.danielnaber.languagetool.Language;
-import de.danielnaber.languagetool.language.RuleFilenameException;
-import de.danielnaber.languagetool.rules.Rule;
-import de.danielnaber.languagetool.rules.RuleMatch;
-import de.danielnaber.languagetool.server.HTTPServer;
-import de.danielnaber.languagetool.server.PortBindingException;
-import de.danielnaber.languagetool.tools.StringTools;
-import de.danielnaber.languagetool.tools.LanguageIdentifierTools;
-import de.danielnaber.languagetool.AnalyzedSentence;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.language.RuleFilenameException;
+import org.languagetool.rules.Rule;
+import org.languagetool.rules.RuleMatch;
+import org.languagetool.server.HTTPServer;
+import org.languagetool.server.PortBindingException;
+import org.languagetool.tools.StringTools;
+import org.languagetool.tools.LanguageIdentifierTools;
+import org.languagetool.AnalyzedSentence;
 
 import org.apache.tika.language.*;
 
@@ -408,7 +408,7 @@ public final class Main implements ActionListener {
       try {
         httpServer.run();
       } catch (final PortBindingException e) {
-        final String message = e.getMessage() + "\n\n" + de.danielnaber.languagetool.tools.Tools.getFullStackTrace(e);
+        final String message = e.getMessage() + "\n\n" + org.languagetool.tools.Tools.getFullStackTrace(e);
         JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
       }
     }
@@ -518,7 +518,7 @@ public final class Main implements ActionListener {
         matches = checkText(langTool, textArea.getText(), sb);
       } catch (final Exception e) {
         sb.append("<br><br><b><font color=\"red\">");
-        sb.append(de.danielnaber.languagetool.tools.Tools.getFullStackTrace(e).replace("\n", "<br/>"));
+        sb.append(org.languagetool.tools.Tools.getFullStackTrace(e).replace("\n", "<br/>"));
         sb.append("</font></b><br>");
       }
       final String checkDone = Tools.makeTexti18n(messages, "checkDone",
@@ -613,7 +613,7 @@ public final class Main implements ActionListener {
         });
       } else if (args.length >= 1) {
         System.out
-            .println("Usage: java de.danielnaber.languagetool.gui.Main [-t|--tray]");
+            .println("Usage: java org.languagetool.gui.Main [-t|--tray]");
         System.out
             .println("  -t, --tray: dock LanguageTool to system tray on startup");
         prg.stopServer();

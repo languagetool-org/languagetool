@@ -23,14 +23,14 @@
  * Created on 25.1.2007, 11:45
  */
 
-package de.danielnaber.languagetool.tokenizers.cs;
+package org.languagetool.tokenizers.cs;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.regex.Pattern;
 
-import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
+import org.languagetool.tokenizers.SentenceTokenizer;
 
 /**
  *

@@ -16,19 +16,19 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool;
+package org.languagetool;
 
-import de.danielnaber.languagetool.databroker.DefaultResourceDataBroker;
-import de.danielnaber.languagetool.databroker.ResourceDataBroker;
-import de.danielnaber.languagetool.gui.ResourceBundleWithFallback;
-import de.danielnaber.languagetool.rules.Rule;
-import de.danielnaber.languagetool.rules.RuleMatch;
-import de.danielnaber.languagetool.rules.patterns.FalseFriendRuleLoader;
-import de.danielnaber.languagetool.rules.patterns.PatternRule;
-import de.danielnaber.languagetool.rules.patterns.PatternRuleLoader;
-import de.danielnaber.languagetool.tagging.Tagger;
-import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
-import de.danielnaber.languagetool.tokenizers.Tokenizer;
+import org.languagetool.databroker.DefaultResourceDataBroker;
+import org.languagetool.databroker.ResourceDataBroker;
+import org.languagetool.gui.ResourceBundleWithFallback;
+import org.languagetool.rules.Rule;
+import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.patterns.FalseFriendRuleLoader;
+import org.languagetool.rules.patterns.PatternRule;
+import org.languagetool.rules.patterns.PatternRuleLoader;
+import org.languagetool.tagging.Tagger;
+import org.languagetool.tagging.disambiguation.Disambiguator;
+import org.languagetool.tokenizers.Tokenizer;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -212,13 +212,13 @@ public final class JLanguageTool {
    */
   public static ResourceBundle getMessageBundle() {
     try {
-      final ResourceBundle bundle = ResourceBundle.getBundle("de.danielnaber.languagetool.MessagesBundle");
+      final ResourceBundle bundle = ResourceBundle.getBundle("org.languagetool.MessagesBundle");
       final ResourceBundle fallbackBundle = ResourceBundle.getBundle(
-          "de.danielnaber.languagetool.MessagesBundle", Locale.ENGLISH);
+          "org.languagetool.MessagesBundle", Locale.ENGLISH);
       return new ResourceBundleWithFallback(bundle, fallbackBundle);
     } catch (final MissingResourceException e) {
       return ResourceBundle.getBundle(
-          "de.danielnaber.languagetool.MessagesBundle", Locale.ENGLISH);
+          "org.languagetool.MessagesBundle", Locale.ENGLISH);
     }
   }
 
@@ -227,14 +227,14 @@ public final class JLanguageTool {
    */
   private static ResourceBundle getMessageBundle(final Language lang) {
     try {
-      final ResourceBundle bundle = ResourceBundle.getBundle("de.danielnaber.languagetool.MessagesBundle", 
+      final ResourceBundle bundle = ResourceBundle.getBundle("org.languagetool.MessagesBundle", 
               lang.getLocale());
       final ResourceBundle fallbackBundle = ResourceBundle.getBundle(
-          "de.danielnaber.languagetool.MessagesBundle", Locale.ENGLISH);
+          "org.languagetool.MessagesBundle", Locale.ENGLISH);
       return new ResourceBundleWithFallback(bundle, fallbackBundle);
     } catch (final MissingResourceException e) {
       return ResourceBundle.getBundle(
-          "de.danielnaber.languagetool.MessagesBundle", Locale.ENGLISH);
+          "org.languagetool.MessagesBundle", Locale.ENGLISH);
     }
   }
 

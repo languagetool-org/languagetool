@@ -16,15 +16,15 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool;
+package org.languagetool;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
 import junit.framework.TestCase;
-import de.danielnaber.languagetool.JLanguageTool.ParagraphHandling;
-import de.danielnaber.languagetool.rules.RuleMatch;
+import org.languagetool.JLanguageTool.ParagraphHandling;
+import org.languagetool.rules.RuleMatch;
 
 /**
  * @author Daniel Naber

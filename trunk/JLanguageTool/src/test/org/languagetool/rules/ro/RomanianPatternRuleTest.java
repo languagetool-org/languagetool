@@ -1,7 +1,7 @@
-package de.danielnaber.languagetool.rules.ro;
+package org.languagetool.rules.ro;
 
 import junit.framework.TestCase;
-import de.danielnaber.languagetool.rules.patterns.PatternRuleTest;
+import org.languagetool.rules.patterns.PatternRuleTest;
 
 /**
  * 

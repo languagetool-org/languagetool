@@ -17,13 +17,13 @@
  * USA
  */
 
-package de.danielnaber.languagetool.synthesis.ru;
+package org.languagetool.synthesis.ru;
 
 import java.io.IOException;
 import java.util.Arrays;
 
 import junit.framework.TestCase;
-import de.danielnaber.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedToken;
 
 public class RussianSynthesizerTest extends TestCase {
   private AnalyzedToken dummyToken(String tokenStr) {

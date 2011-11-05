@@ -17,15 +17,15 @@
  * USA
  */
 
-package de.danielnaber.languagetool.language;
-import de.danielnaber.languagetool.Language;
-import de.danielnaber.languagetool.rules.*;
-import de.danielnaber.languagetool.tagging.Tagger;
-import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
-import de.danielnaber.languagetool.tagging.disambiguation.rules.br.BretonRuleDisambiguator;
-import de.danielnaber.languagetool.tokenizers.Tokenizer;
-import de.danielnaber.languagetool.tokenizers.br.BretonWordTokenizer;
-import de.danielnaber.languagetool.tagging.br.BretonTagger;
+package org.languagetool.language;
+import org.languagetool.Language;
+import org.languagetool.rules.*;
+import org.languagetool.tagging.Tagger;
+import org.languagetool.tagging.disambiguation.Disambiguator;
+import org.languagetool.tagging.disambiguation.rules.br.BretonRuleDisambiguator;
+import org.languagetool.tokenizers.Tokenizer;
+import org.languagetool.tokenizers.br.BretonWordTokenizer;
+import org.languagetool.tagging.br.BretonTagger;
 import java.util.*;
 
 /** 

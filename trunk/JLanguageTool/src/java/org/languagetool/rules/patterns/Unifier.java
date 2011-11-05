@@ -17,7 +17,7 @@
  * USA
  */
 
-package de.danielnaber.languagetool.rules.patterns;
+package org.languagetool.rules.patterns;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,8 +26,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import de.danielnaber.languagetool.AnalyzedToken;
-import de.danielnaber.languagetool.AnalyzedTokenReadings;
+import org.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedTokenReadings;
 
 /**
  * Implements unification of features over tokens.
@@ -363,7 +363,7 @@ public class Unifier {
 
   /**
    * Used for getting a unified sequence in case when simple test method
-   * {@link #isUnified(de.danielnaber.languagetool.AnalyzedToken, java.util.Map, boolean, boolean)}} was used.
+   * {@link #isUnified(org.languagetool.AnalyzedToken, java.util.Map, boolean, boolean)}} was used.
    * 
    * @return An array of {@link AnalyzedTokenReadings}
    */

@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool;
+package org.languagetool;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,18 +25,18 @@ import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-import de.danielnaber.languagetool.language.*;
-import de.danielnaber.languagetool.rules.Rule;
-import de.danielnaber.languagetool.rules.patterns.Unifier;
-import de.danielnaber.languagetool.synthesis.Synthesizer;
-import de.danielnaber.languagetool.tagging.Tagger;
-import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
-import de.danielnaber.languagetool.tagging.disambiguation.xx.DemoDisambiguator;
-import de.danielnaber.languagetool.tagging.xx.DemoTagger;
-import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
-import de.danielnaber.languagetool.tokenizers.Tokenizer;
-import de.danielnaber.languagetool.tokenizers.WordTokenizer;
-import de.danielnaber.languagetool.tools.StringTools;
+import org.languagetool.language.*;
+import org.languagetool.rules.Rule;
+import org.languagetool.rules.patterns.Unifier;
+import org.languagetool.synthesis.Synthesizer;
+import org.languagetool.tagging.Tagger;
+import org.languagetool.tagging.disambiguation.Disambiguator;
+import org.languagetool.tagging.disambiguation.xx.DemoDisambiguator;
+import org.languagetool.tagging.xx.DemoTagger;
+import org.languagetool.tokenizers.SentenceTokenizer;
+import org.languagetool.tokenizers.Tokenizer;
+import org.languagetool.tokenizers.WordTokenizer;
+import org.languagetool.tools.StringTools;
 
 /**
  * Base class for any supported language (English, German, etc).
@@ -221,7 +221,7 @@ public abstract class Language {
   }
 
   /**
-   * Start symbols used by {@link de.danielnaber.languagetool.rules.GenericUnpairedBracketsRule}.
+   * Start symbols used by {@link org.languagetool.rules.GenericUnpairedBracketsRule}.
    * Note that the array must be of equal length as {@link #getUnpairedRuleEndSymbols()} and the sequence of
    * starting symbols must match exactly the sequence of ending symbols.
    */
@@ -230,7 +230,7 @@ public abstract class Language {
   }
 
   /**
-   * End symbols used by {@link de.danielnaber.languagetool.rules.GenericUnpairedBracketsRule}.
+   * End symbols used by {@link org.languagetool.rules.GenericUnpairedBracketsRule}.
    * @see #getUnpairedRuleStartSymbols()
    */
   public String[] getUnpairedRuleEndSymbols() {

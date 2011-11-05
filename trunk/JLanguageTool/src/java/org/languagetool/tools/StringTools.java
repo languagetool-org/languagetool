@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.tools;
+package org.languagetool.tools;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -28,10 +28,10 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import de.danielnaber.languagetool.Language;
-import de.danielnaber.languagetool.gui.Tools;
-import de.danielnaber.languagetool.rules.RuleMatch;
-import de.danielnaber.languagetool.rules.patterns.PatternRule;
+import org.languagetool.Language;
+import org.languagetool.gui.Tools;
+import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.patterns.PatternRule;
 
 /**
  * Tools for reading files etc.

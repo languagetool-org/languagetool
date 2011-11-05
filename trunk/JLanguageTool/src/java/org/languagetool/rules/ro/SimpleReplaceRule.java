@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.rules.ro;
+package org.languagetool.rules.ro;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -33,16 +33,16 @@ import java.util.Queue;
 import java.util.ResourceBundle;
 import java.util.concurrent.ArrayBlockingQueue;
 
-import de.danielnaber.languagetool.AnalyzedSentence;
-import de.danielnaber.languagetool.AnalyzedTokenReadings;
-import de.danielnaber.languagetool.JLanguageTool;
-import de.danielnaber.languagetool.Language;
-import de.danielnaber.languagetool.rules.AbstractSimpleReplaceRule;
-import de.danielnaber.languagetool.rules.Category;
-import de.danielnaber.languagetool.rules.Rule;
-import de.danielnaber.languagetool.rules.RuleMatch;
-import de.danielnaber.languagetool.tokenizers.Tokenizer;
-import de.danielnaber.languagetool.tools.StringTools;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.rules.AbstractSimpleReplaceRule;
+import org.languagetool.rules.Category;
+import org.languagetool.rules.Rule;
+import org.languagetool.rules.RuleMatch;
+import org.languagetool.tokenizers.Tokenizer;
+import org.languagetool.tools.StringTools;
 
 /**
  * A rule that matches words which should not be used and suggests correct ones instead. <br/> 

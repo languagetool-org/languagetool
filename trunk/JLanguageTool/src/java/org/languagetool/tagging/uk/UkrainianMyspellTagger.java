@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.tagging.uk;
+package org.languagetool.tagging.uk;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -27,10 +27,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import de.danielnaber.languagetool.AnalyzedToken;
-import de.danielnaber.languagetool.AnalyzedTokenReadings;
-import de.danielnaber.languagetool.JLanguageTool;
-import de.danielnaber.languagetool.tagging.Tagger;
+import org.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
+import org.languagetool.tagging.Tagger;
 
 /**
  * Ukrainian Part-of-speech tagger. This class uses myspell uk_UA.dic dictionary

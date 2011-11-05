@@ -1,13 +1,13 @@
 /*
  * Created on 03.10.2009
  */
-package de.danielnaber.languagetool.rules.de;
+package org.languagetool.rules.de;
 
 import java.util.ResourceBundle;
 
-import de.danielnaber.languagetool.AnalyzedTokenReadings;
-import de.danielnaber.languagetool.Language;
-import de.danielnaber.languagetool.rules.WordRepeatRule;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.Language;
+import org.languagetool.rules.WordRepeatRule;
 
 /**
  * Check if a word is repeated twice, taking into account an exception 

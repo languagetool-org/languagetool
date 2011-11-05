@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.tokenizers.zh;
+package org.languagetool.tokenizers.zh;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +25,7 @@ import org.ictclas4j.bean.Sentence;
 import org.ictclas4j.segment.SentenceSeg;
 import org.ictclas4j.utility.Utility;
 
-import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
+import org.languagetool.tokenizers.SentenceTokenizer;
 
 public class ChineseSentenceTokenizer extends SentenceTokenizer {
 

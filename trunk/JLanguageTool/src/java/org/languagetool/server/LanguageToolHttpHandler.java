@@ -1,13 +1,13 @@
-package de.danielnaber.languagetool.server;
+package org.languagetool.server;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import de.danielnaber.languagetool.JLanguageTool;
-import de.danielnaber.languagetool.Language;
-import de.danielnaber.languagetool.rules.RuleMatch;
-import de.danielnaber.languagetool.rules.bitext.BitextRule;
-import de.danielnaber.languagetool.tools.StringTools;
-import de.danielnaber.languagetool.tools.Tools;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.bitext.BitextRule;
+import org.languagetool.tools.StringTools;
+import org.languagetool.tools.Tools;
 
 import java.io.BufferedReader;
 import java.io.IOException;

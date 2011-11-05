@@ -20,14 +20,14 @@
 /*
  * Created on 06.05.2007
  */
-package de.danielnaber.languagetool.dev;
+package org.languagetool.dev;
 
 import java.io.*;
 import java.nio.ByteBuffer;
 import java.util.HashSet;
 import java.util.Set;
 
-import de.danielnaber.languagetool.JLanguageTool;
+import org.languagetool.JLanguageTool;
 
 import morfologik.fsa.FSA;
 

@@ -17,10 +17,10 @@
  * USA
  */
 
-package de.danielnaber.languagetool.tagging.disambiguation.xx;
+package org.languagetool.tagging.disambiguation.xx;
 
-import de.danielnaber.languagetool.AnalyzedSentence;
-import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.tagging.disambiguation.Disambiguator;
 
 /**
  * Trivial disambiguator.

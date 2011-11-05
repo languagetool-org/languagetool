@@ -16,15 +16,15 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.language;
+package org.languagetool.language;
 
 import java.util.*;
 
-import de.danielnaber.languagetool.Language;
-import de.danielnaber.languagetool.rules.*;
-import de.danielnaber.languagetool.rules.sv.CompoundRule;
-import de.danielnaber.languagetool.tagging.Tagger;
-import de.danielnaber.languagetool.tagging.sv.SwedishTagger;
+import org.languagetool.Language;
+import org.languagetool.rules.*;
+import org.languagetool.rules.sv.CompoundRule;
+import org.languagetool.tagging.Tagger;
+import org.languagetool.tagging.sv.SwedishTagger;
 
 public class Swedish extends Language {
 

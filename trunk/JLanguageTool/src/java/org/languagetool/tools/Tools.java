@@ -16,20 +16,20 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.tools;
+package org.languagetool.tools;
 
-import de.danielnaber.languagetool.AnalyzedSentence;
-import de.danielnaber.languagetool.JLanguageTool;
-import de.danielnaber.languagetool.Language;
-import de.danielnaber.languagetool.bitext.BitextReader;
-import de.danielnaber.languagetool.bitext.StringPair;
-import de.danielnaber.languagetool.rules.Rule;
-import de.danielnaber.languagetool.rules.RuleMatch;
-import de.danielnaber.languagetool.rules.bitext.BitextRule;
-import de.danielnaber.languagetool.rules.patterns.PatternRule;
-import de.danielnaber.languagetool.rules.patterns.bitext.BitextPatternRuleLoader;
-import de.danielnaber.languagetool.rules.patterns.bitext.FalseFriendsAsBitextLoader;
-import de.danielnaber.languagetool.tools.StringTools.XmlPrintMode;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.bitext.BitextReader;
+import org.languagetool.bitext.StringPair;
+import org.languagetool.rules.Rule;
+import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.bitext.BitextRule;
+import org.languagetool.rules.patterns.PatternRule;
+import org.languagetool.rules.patterns.bitext.BitextPatternRuleLoader;
+import org.languagetool.rules.patterns.bitext.FalseFriendsAsBitextLoader;
+import org.languagetool.tools.StringTools.XmlPrintMode;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -366,7 +366,7 @@ public final class Tools {
   private static List<BitextRule> getAllBuiltinBitextRules(final Language language,
       final ResourceBundle messages) {
     // use reflection to get a list of all non-pattern rules under
-    // "de.danielnaber.languagetool.rules.bitext"
+    // "org.languagetool.rules.bitext"
     // generic rules first, then language-specific ones
     // TODO: the order of loading classes is not guaranteed so we may want to
     // implement rule

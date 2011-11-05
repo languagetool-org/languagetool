@@ -1,4 +1,4 @@
-package de.danielnaber.languagetool.dev.index;
+package org.languagetool.dev.index;
 
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.regex.RegexCapabilities;

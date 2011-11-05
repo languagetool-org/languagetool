@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.dev.conversion.gui;
+package org.languagetool.dev.conversion.gui;
 
 import java.awt.Event;
 import java.awt.event.ActionEvent;

@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.dev.index;
+package org.languagetool.dev.index;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,7 +27,7 @@ import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.util.LuceneTestCase;
 
-import de.danielnaber.languagetool.Language;
+import org.languagetool.Language;
 
 public class IndexerSearcherTest extends LuceneTestCase {
   private IndexSearcher searcher;

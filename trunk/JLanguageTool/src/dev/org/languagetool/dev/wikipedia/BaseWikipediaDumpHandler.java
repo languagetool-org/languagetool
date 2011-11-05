@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.dev.wikipedia;
+package org.languagetool.dev.wikipedia;
 
 import java.io.IOException;
 import java.util.Date;
@@ -26,10 +26,10 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import de.danielnaber.languagetool.JLanguageTool;
-import de.danielnaber.languagetool.Language;
-import de.danielnaber.languagetool.TextFilter;
-import de.danielnaber.languagetool.rules.RuleMatch;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.TextFilter;
+import org.languagetool.rules.RuleMatch;
 
 /**
  * Read the Wikipedia XML dump, check texts with LanguageTool, and

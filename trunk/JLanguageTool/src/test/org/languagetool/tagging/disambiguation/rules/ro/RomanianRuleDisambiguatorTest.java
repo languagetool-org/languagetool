@@ -1,13 +1,13 @@
-package de.danielnaber.languagetool.tagging.disambiguation.rules.ro;
+package org.languagetool.tagging.disambiguation.rules.ro;
 
 import java.io.IOException;
 
 import junit.framework.TestCase;
-import de.danielnaber.languagetool.TestTools;
-import de.danielnaber.languagetool.tagging.disambiguation.xx.DemoDisambiguator;
-import de.danielnaber.languagetool.tagging.ro.RomanianTagger;
-import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
-import de.danielnaber.languagetool.tokenizers.ro.RomanianWordTokenizer;
+import org.languagetool.TestTools;
+import org.languagetool.tagging.disambiguation.xx.DemoDisambiguator;
+import org.languagetool.tagging.ro.RomanianTagger;
+import org.languagetool.tokenizers.SentenceTokenizer;
+import org.languagetool.tokenizers.ro.RomanianWordTokenizer;
 
 public class RomanianRuleDisambiguatorTest extends TestCase {
 

@@ -16,23 +16,23 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.language;
+package org.languagetool.language;
 
 import java.util.*;
 
-import de.danielnaber.languagetool.Language;
-import de.danielnaber.languagetool.rules.Rule;
-import de.danielnaber.languagetool.rules.km.KhmerSimpleReplaceRule;
-import de.danielnaber.languagetool.rules.km.KhmerWordRepeatRule;
-import de.danielnaber.languagetool.tagging.Tagger;
-import de.danielnaber.languagetool.tagging.km.KhmerTagger;
-import de.danielnaber.languagetool.tokenizers.SRXSentenceTokenizer;
-import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
-import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
-import de.danielnaber.languagetool.tagging.disambiguation.rules.km.KhmerRuleDisambiguator;
-import de.danielnaber.languagetool.tokenizers.Tokenizer;
-import de.danielnaber.languagetool.tokenizers.km.KhmerWordTokenizer;
-import de.danielnaber.languagetool.rules.km.KhmerUnpairedBracketsRule;
+import org.languagetool.Language;
+import org.languagetool.rules.Rule;
+import org.languagetool.rules.km.KhmerSimpleReplaceRule;
+import org.languagetool.rules.km.KhmerWordRepeatRule;
+import org.languagetool.tagging.Tagger;
+import org.languagetool.tagging.km.KhmerTagger;
+import org.languagetool.tokenizers.SRXSentenceTokenizer;
+import org.languagetool.tokenizers.SentenceTokenizer;
+import org.languagetool.tagging.disambiguation.Disambiguator;
+import org.languagetool.tagging.disambiguation.rules.km.KhmerRuleDisambiguator;
+import org.languagetool.tokenizers.Tokenizer;
+import org.languagetool.tokenizers.km.KhmerWordTokenizer;
+import org.languagetool.rules.km.KhmerUnpairedBracketsRule;
 
 public class Khmer extends Language {
 

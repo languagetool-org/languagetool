@@ -21,7 +21,7 @@
  *
  * Created on 21.12.2006
  */
-package de.danielnaber.languagetool.dev.wikipedia;
+package org.languagetool.dev.wikipedia;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -34,11 +34,11 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import de.danielnaber.languagetool.rules.Rule;
+import org.languagetool.rules.Rule;
 import org.xml.sax.SAXException;
 
-import de.danielnaber.languagetool.JLanguageTool;
-import de.danielnaber.languagetool.Language;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
 
 /**
  * Command-line tool that checks texts from Wikipedia (download "pages-articles.xml.bz2" from

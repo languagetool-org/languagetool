@@ -16,19 +16,19 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.tagging.disambiguation.rules;
+package org.languagetool.tagging.disambiguation.rules;
 
 import java.io.IOException;
 import java.util.List;
 
-import de.danielnaber.languagetool.AnalyzedSentence;
-import de.danielnaber.languagetool.AnalyzedToken;
-import de.danielnaber.languagetool.AnalyzedTokenReadings;
-import de.danielnaber.languagetool.Language;
-import de.danielnaber.languagetool.rules.patterns.AbstractPatternRule;
-import de.danielnaber.languagetool.rules.patterns.Element;
-import de.danielnaber.languagetool.rules.patterns.Match;
-import de.danielnaber.languagetool.tools.StringTools;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.Language;
+import org.languagetool.rules.patterns.AbstractPatternRule;
+import org.languagetool.rules.patterns.Element;
+import org.languagetool.rules.patterns.Match;
+import org.languagetool.tools.StringTools;
 
 /**
  * A Rule that describes a pattern of words or part-of-speech tags used for

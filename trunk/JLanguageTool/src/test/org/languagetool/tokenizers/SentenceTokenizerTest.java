@@ -16,10 +16,10 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.tokenizers;
+package org.languagetool.tokenizers;
 
 import junit.framework.TestCase;
-import de.danielnaber.languagetool.TestTools;
+import org.languagetool.TestTools;
 
 /**
  * @author Daniel Naber

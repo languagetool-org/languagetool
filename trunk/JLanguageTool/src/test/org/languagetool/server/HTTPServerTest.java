@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.server;
+package org.languagetool.server;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,10 +27,10 @@ import java.net.URLEncoder;
 import java.util.HashSet;
 
 import junit.framework.TestCase;
-import de.danielnaber.languagetool.JLanguageTool;
-import de.danielnaber.languagetool.Language;
-import de.danielnaber.languagetool.XMLValidator;
-import de.danielnaber.languagetool.tools.StringTools;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.XMLValidator;
+import org.languagetool.tools.StringTools;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;

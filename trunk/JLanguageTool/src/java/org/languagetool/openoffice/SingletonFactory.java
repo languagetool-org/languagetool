@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.openoffice;
+package org.languagetool.openoffice;
 
 import com.sun.star.lang.XSingleComponentFactory;
 import com.sun.star.uno.XComponentContext;
@@ -30,7 +30,7 @@ import com.sun.star.uno.XComponentContext;
  */
 public class SingletonFactory implements XSingleComponentFactory {
 
-  private transient de.danielnaber.languagetool.openoffice.Main instance;
+  private transient org.languagetool.openoffice.Main instance;
 
   @Override
   public final Object createInstanceWithArgumentsAndContext(final Object[] arguments, 
@@ -41,7 +41,7 @@ public class SingletonFactory implements XSingleComponentFactory {
   @Override
   public final Object createInstanceWithContext(final XComponentContext xContext) throws com.sun.star.uno.Exception {    
     if (instance == null) {     
-      instance = new de.danielnaber.languagetool.openoffice.Main(xContext);      
+      instance = new org.languagetool.openoffice.Main(xContext);      
     } else {  
       instance.changeContext(xContext);      
     }

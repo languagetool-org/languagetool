@@ -1,9 +1,9 @@
-package de.danielnaber.languagetool.dev.conversion.cg;
+package org.languagetool.dev.conversion.cg;
 
 import java.util.HashMap;
 import java.util.HashSet;
 
-import de.danielnaber.languagetool.dev.conversion.cg.CgStrings.KEYWORDS;
+import org.languagetool.dev.conversion.cg.CgStrings.KEYWORDS;
 
 public class CgRule {
 

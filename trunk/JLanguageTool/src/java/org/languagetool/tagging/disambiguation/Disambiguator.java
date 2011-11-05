@@ -16,11 +16,11 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.tagging.disambiguation;
+package org.languagetool.tagging.disambiguation;
 
 import java.io.IOException;
 
-import de.danielnaber.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedSentence;
 
 /**
  * Disambiguator interface. Particular implementations are language-dependent.

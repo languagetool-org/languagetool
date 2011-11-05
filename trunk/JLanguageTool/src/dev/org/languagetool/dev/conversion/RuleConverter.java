@@ -17,7 +17,7 @@
  * USA
  */
 
-package de.danielnaber.languagetool.dev.conversion;
+package org.languagetool.dev.conversion;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.*;
 
-import de.danielnaber.languagetool.JLanguageTool;
+import org.languagetool.JLanguageTool;
 
 public abstract class RuleConverter {
 

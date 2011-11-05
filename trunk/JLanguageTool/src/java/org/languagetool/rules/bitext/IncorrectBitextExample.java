@@ -16,12 +16,12 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.rules.bitext;
+package org.languagetool.rules.bitext;
 
 import java.util.Arrays;
 import java.util.List;
 
-import de.danielnaber.languagetool.bitext.StringPair;
+import org.languagetool.bitext.StringPair;
 
 /**
  * A text, typically a pair of sentences that contains an error.

@@ -17,12 +17,12 @@
  * USA
  */
 
-package de.danielnaber.languagetool.tagging.ml;
+package org.languagetool.tagging.ml;
 
 import java.util.Locale;
 
-import de.danielnaber.languagetool.JLanguageTool;
-import de.danielnaber.languagetool.tagging.BaseTagger;
+import org.languagetool.JLanguageTool;
+import org.languagetool.tagging.BaseTagger;
 
 /** Malayalam Part-of-speech tagger.
  * 

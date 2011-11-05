@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool;
+package org.languagetool;
 
 import java.io.*;
 
@@ -34,12 +34,12 @@ import org.xml.sax.SAXException;
 
 import org.apache.tika.language.*;
 
-import de.danielnaber.languagetool.bitext.TabBitextReader;
-import de.danielnaber.languagetool.rules.Rule;
-import de.danielnaber.languagetool.rules.bitext.BitextRule;
-import de.danielnaber.languagetool.tools.StringTools;
-import de.danielnaber.languagetool.tools.Tools;
-import de.danielnaber.languagetool.tools.*;
+import org.languagetool.bitext.TabBitextReader;
+import org.languagetool.rules.Rule;
+import org.languagetool.rules.bitext.BitextRule;
+import org.languagetool.tools.StringTools;
+import org.languagetool.tools.Tools;
+import org.languagetool.tools.*;
 
 /**
  * The command line tool to check plain text files.
@@ -452,7 +452,7 @@ class Main {
 
   private static void exitWithUsageMessage() {
     System.out
-    .println("Usage: java de.danielnaber.languagetool.Main "
+    .println("Usage: java org.languagetool.Main "
         + "[-r|--recursive] [-v|--verbose] [-l|--language LANG] [-m|--mothertongue LANG] [-d|--disable RULES] [-adl|--autoDetect] "
         + "[-e|--enable RULES] [-c|--encoding] [-u|--list-unknown] [-t|--taggeronly] [-b] [--api] [-a|--apply] "             
         +    "[-b2|--bitext] <file>");

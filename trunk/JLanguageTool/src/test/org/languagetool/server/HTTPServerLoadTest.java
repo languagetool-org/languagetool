@@ -1,4 +1,4 @@
-package de.danielnaber.languagetool.server;
+package org.languagetool.server;
 
 import java.util.ArrayList;
 import java.util.List;

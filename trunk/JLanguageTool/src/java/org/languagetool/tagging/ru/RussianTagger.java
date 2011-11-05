@@ -16,12 +16,12 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.tagging.ru;
+package org.languagetool.tagging.ru;
 
 import java.util.Locale;
 
-import de.danielnaber.languagetool.JLanguageTool;
-import de.danielnaber.languagetool.tagging.BaseTagger;
+import org.languagetool.JLanguageTool;
+import org.languagetool.tagging.BaseTagger;
 
 /**  Part-of-speech tagger.
  * Russian dictionary originally developed by www.aot.ru and licensed under LGPL.

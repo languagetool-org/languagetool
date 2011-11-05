@@ -17,7 +17,7 @@
  * USA
  */
 
-package de.danielnaber.languagetool.tagging.disambiguation;
+package org.languagetool.tagging.disambiguation;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -28,10 +28,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import de.danielnaber.languagetool.AnalyzedSentence;
-import de.danielnaber.languagetool.AnalyzedToken;
-import de.danielnaber.languagetool.AnalyzedTokenReadings;
-import de.danielnaber.languagetool.JLanguageTool;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
 
 /**
  * Multiword tagger-chunker.

@@ -17,12 +17,12 @@
  * USA
  */
 
-package de.danielnaber.languagetool.tokenizers.sk;
+package org.languagetool.tokenizers.sk;
 
 import junit.framework.TestCase;
-import de.danielnaber.languagetool.TestTools;
-import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
-import de.danielnaber.languagetool.tokenizers.SRXSentenceTokenizer;
+import org.languagetool.TestTools;
+import org.languagetool.tokenizers.SentenceTokenizer;
+import org.languagetool.tokenizers.SRXSentenceTokenizer;
 
 public class SlovakSentenceTokenizerTest extends TestCase {
 

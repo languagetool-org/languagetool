@@ -17,14 +17,14 @@
  * USA
  */
 
-package de.danielnaber.languagetool.tagging.disambiguation.pl;
+package org.languagetool.tagging.disambiguation.pl;
 
 import java.io.IOException;
 
-import de.danielnaber.languagetool.AnalyzedSentence;
-import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
-import de.danielnaber.languagetool.tagging.disambiguation.MultiWordChunker;
-import de.danielnaber.languagetool.tagging.disambiguation.rules.pl.PolishRuleDisambiguator;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.tagging.disambiguation.Disambiguator;
+import org.languagetool.tagging.disambiguation.MultiWordChunker;
+import org.languagetool.tagging.disambiguation.rules.pl.PolishRuleDisambiguator;
 
 /**
  * Hybrid chunker-disambiguator for Polish.

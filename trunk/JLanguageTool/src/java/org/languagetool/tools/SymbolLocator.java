@@ -17,7 +17,7 @@
  * USA
  */
 
-package de.danielnaber.languagetool.tools;
+package org.languagetool.tools;
 
 /**
  * Helper class for GenericUnpairedBracketsRule to identify

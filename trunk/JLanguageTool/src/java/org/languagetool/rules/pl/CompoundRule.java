@@ -16,12 +16,12 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.rules.pl;
+package org.languagetool.rules.pl;
 
 import java.io.IOException;
 import java.util.ResourceBundle;
 
-import de.danielnaber.languagetool.rules.AbstractCompoundRule;
+import org.languagetool.rules.AbstractCompoundRule;
 
 /**
  * Checks that compounds (if in the list) are not written as separate words.

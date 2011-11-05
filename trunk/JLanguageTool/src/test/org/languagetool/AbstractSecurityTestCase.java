@@ -18,7 +18,7 @@
  */
 
 
-package de.danielnaber.languagetool;
+package org.languagetool;
 
 import junit.framework.TestCase;
 import java.security.Permission;

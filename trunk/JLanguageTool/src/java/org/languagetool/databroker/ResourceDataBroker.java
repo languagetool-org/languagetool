@@ -16,12 +16,12 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.databroker;
+package org.languagetool.databroker;
 
 import java.io.InputStream;
 import java.net.URL;
 
-import de.danielnaber.languagetool.JLanguageTool;
+import org.languagetool.JLanguageTool;
 
 /**
  * Is responsible for getting the necessary resources for the grammar checker

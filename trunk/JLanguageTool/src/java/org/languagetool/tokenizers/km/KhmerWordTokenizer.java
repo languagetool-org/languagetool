@@ -16,13 +16,13 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.tokenizers.km;
+package org.languagetool.tokenizers.km;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import de.danielnaber.languagetool.tokenizers.Tokenizer;
+import org.languagetool.tokenizers.Tokenizer;
 
 /**
  * Tokenizes a sentence into words. Punctuation and whitespace gets its own token.

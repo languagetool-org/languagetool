@@ -16,13 +16,13 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.tagging.eo;
+package org.languagetool.tagging.eo;
 
 import java.io.IOException;
 
 import junit.framework.TestCase;
-import de.danielnaber.languagetool.TestTools;
-import de.danielnaber.languagetool.tokenizers.WordTokenizer;
+import org.languagetool.TestTools;
+import org.languagetool.tokenizers.WordTokenizer;
 
 public class EsperantoTaggerTest extends TestCase {
   

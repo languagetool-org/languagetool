@@ -16,13 +16,13 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.tagging;
+package org.languagetool.tagging;
 
 import java.io.IOException;
 import java.util.List;
 
-import de.danielnaber.languagetool.AnalyzedToken;
-import de.danielnaber.languagetool.AnalyzedTokenReadings;
+import org.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedTokenReadings;
 
 /**
  * The part-of-speech tagger interface, whose implementations are usually language-dependent.

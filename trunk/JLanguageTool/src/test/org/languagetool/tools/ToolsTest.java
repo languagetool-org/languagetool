@@ -1,4 +1,4 @@
-package de.danielnaber.languagetool.tools;
+package org.languagetool.tools;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -10,9 +10,9 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 import junit.framework.TestCase;
-import de.danielnaber.languagetool.JLanguageTool;
-import de.danielnaber.languagetool.Language;
-import de.danielnaber.languagetool.rules.bitext.BitextRule;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.rules.bitext.BitextRule;
 
 public class ToolsTest extends TestCase {
 

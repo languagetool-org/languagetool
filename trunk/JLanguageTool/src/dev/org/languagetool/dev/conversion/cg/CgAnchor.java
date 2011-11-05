@@ -1,4 +1,4 @@
-package de.danielnaber.languagetool.dev.conversion.cg;
+package org.languagetool.dev.conversion.cg;
 
 public class CgAnchor {
 

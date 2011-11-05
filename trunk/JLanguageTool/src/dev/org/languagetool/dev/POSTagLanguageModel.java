@@ -17,7 +17,7 @@
  * USA
  */
 
-package de.danielnaber.languagetool.dev;
+package org.languagetool.dev;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -26,10 +26,10 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.danielnaber.languagetool.AnalyzedSentence;
-import de.danielnaber.languagetool.AnalyzedTokenReadings;
-import de.danielnaber.languagetool.JLanguageTool;
-import de.danielnaber.languagetool.Language;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
 
 /**
  * Tag text and display only POS tags to create an n-gram language model.
@@ -74,7 +74,7 @@ public class POSTagLanguageModel {
 
   private static void exitWithUsageMessage() {
     System.out
-        .println("Usage: java de.danielnaber.languagetool.dev.POSTagLanguageModel language");
+        .println("Usage: java org.languagetool.dev.POSTagLanguageModel language");
   }
 
   private static void runOnStdIn(final JLanguageTool lt) throws IOException {

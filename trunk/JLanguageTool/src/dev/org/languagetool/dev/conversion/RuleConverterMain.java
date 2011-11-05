@@ -17,12 +17,12 @@
  * USA
  */
 
-package de.danielnaber.languagetool.dev.conversion;
+package org.languagetool.dev.conversion;
 
 import java.io.*;
 import java.util.*;
 
-import de.danielnaber.languagetool.Language;
+import org.languagetool.Language;
 
 public class RuleConverterMain {
     
@@ -37,7 +37,7 @@ public class RuleConverterMain {
     
     private static void exitWithUsageMessage() {
         System.out
-        .println("Usage: java de.danielnaber.languagetool.tools.RuleConverterMain "
+        .println("Usage: java org.languagetool.tools.RuleConverterMain "
             + "[-h|--help] [-g|--generalFiletype] [-s|--specificFiletype] [-i|--inputFile] [-a|--disambigFile] " +
             "[-d|--discardFile] [-o|--outputFile]");
         System.exit(1);

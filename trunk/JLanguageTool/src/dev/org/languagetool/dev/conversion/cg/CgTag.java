@@ -1,9 +1,9 @@
-package de.danielnaber.languagetool.dev.conversion.cg;
+package org.languagetool.dev.conversion.cg;
 
 import java.util.HashSet;
 import java.util.regex.Pattern;
 
-import de.danielnaber.languagetool.dev.conversion.cg.CgStrings.STRINGS;
+import org.languagetool.dev.conversion.cg.CgStrings.STRINGS;
 
 public class CgTag {
 

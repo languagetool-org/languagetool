@@ -16,14 +16,14 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.tagging.disambiguation.rules;
+package org.languagetool.tagging.disambiguation.rules;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
-import de.danielnaber.languagetool.rules.patterns.XMLRuleHandler;
+import org.languagetool.rules.patterns.XMLRuleHandler;
 
 /**
  * XML rule handler that loads disambiguation rules from XML and throws

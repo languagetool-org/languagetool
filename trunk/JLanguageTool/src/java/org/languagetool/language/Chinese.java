@@ -16,22 +16,22 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.language;
+package org.languagetool.language;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-import de.danielnaber.languagetool.Language;
-import de.danielnaber.languagetool.rules.DoublePunctuationRule;
-import de.danielnaber.languagetool.rules.Rule;
-import de.danielnaber.languagetool.rules.WhitespaceRule;
-import de.danielnaber.languagetool.tagging.Tagger;
-import de.danielnaber.languagetool.tagging.zh.ChineseTagger;
-import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
-import de.danielnaber.languagetool.tokenizers.Tokenizer;
-import de.danielnaber.languagetool.tokenizers.zh.ChineseSentenceTokenizer;
-import de.danielnaber.languagetool.tokenizers.zh.ChineseWordTokenizer;
+import org.languagetool.Language;
+import org.languagetool.rules.DoublePunctuationRule;
+import org.languagetool.rules.Rule;
+import org.languagetool.rules.WhitespaceRule;
+import org.languagetool.tagging.Tagger;
+import org.languagetool.tagging.zh.ChineseTagger;
+import org.languagetool.tokenizers.SentenceTokenizer;
+import org.languagetool.tokenizers.Tokenizer;
+import org.languagetool.tokenizers.zh.ChineseSentenceTokenizer;
+import org.languagetool.tokenizers.zh.ChineseWordTokenizer;
 
 public class Chinese extends Language {
 

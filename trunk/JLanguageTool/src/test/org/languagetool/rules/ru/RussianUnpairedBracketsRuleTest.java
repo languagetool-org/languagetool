@@ -17,14 +17,14 @@
  * USA
  */
 
-package de.danielnaber.languagetool.rules.ru;
+package org.languagetool.rules.ru;
 
 import java.io.IOException;
 
-import de.danielnaber.languagetool.JLanguageTool;
-import de.danielnaber.languagetool.Language;
-import de.danielnaber.languagetool.TestTools;
-import de.danielnaber.languagetool.rules.RuleMatch;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.TestTools;
+import org.languagetool.rules.RuleMatch;
 import junit.framework.TestCase;
 
 public class RussianUnpairedBracketsRuleTest extends TestCase {
