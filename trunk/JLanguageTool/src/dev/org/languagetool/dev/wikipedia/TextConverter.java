@@ -49,7 +49,7 @@ import de.fau.cs.osr.ptk.common.Visitor;
 import de.fau.cs.osr.ptk.common.ast.AstNode;
 import de.fau.cs.osr.ptk.common.ast.NodeList;
 import de.fau.cs.osr.ptk.common.ast.Text;
-import de.fau.cs.osr.utils.StringUtils;
+//import de.fau.cs.osr.utils.StringUtils;
 
 /**
  * A visitor to convert an article AST into a pure text representation. To
@@ -297,8 +297,8 @@ public class TextConverter
 	
 	public void visit(HorizontalRule hr)
 	{
-		newline(1);
-		write(StringUtils.strrep('-', wrapCol));
+		//newline(1);
+		//write(StringUtils.strrep('-', wrapCol));
 		newline(2);
 	}
 	
@@ -375,7 +375,10 @@ public class TextConverter
 	private void writeNewlines(int num)
 	{
 		finishLine();
-		sb.append(StringUtils.strrep('\n', num));
+		//sb.append(StringUtils.strrep('\n', num));
+    for (int i = 0; i < num; i++) {
+      sb.append('\n');
+    }
 		needNewlines = 0;
 		needSpace = false;
 	}

@@ -54,7 +54,7 @@ abstract class BaseWikipediaDumpHandler extends DefaultHandler {
   private boolean inText = false;
   private StringBuilder text = new StringBuilder();
   
-  private TextFilter textFilter = new WikipediaTextFilter();
+  private TextFilter textFilter = new BlikiWikipediaTextFilter();
 
   private String title;
   private final Language lang;

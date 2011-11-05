@@ -20,6 +20,7 @@ package org.languagetool.dev.wikipedia;
 
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.TextFilter;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tools.StringTools;
 
@@ -86,9 +87,10 @@ public class WikipediaQuickCheck {
     if (fromPos == -1 || toPos == -1) {
       throw new RuntimeException("Sorry, no content found in article at " + apiUrl);
     }
-    final String wikiContent = completeWikiContent.substring(completeWikiContent.indexOf(">", fromPos), toPos);
-    final WikipediaTextFilter filter = new WikipediaTextFilter();
-    final String plainText = filter.filter(wikiContent).replace("&nbsp;", " ");
+    final String wikiContent = completeWikiContent.substring(completeWikiContent.indexOf(">", fromPos) + 1, toPos);
+    //final BlikiWikipediaTextFilter filter = new BlikiWikipediaTextFilter();
+    final TextFilter filter = new SwebleWikipediaTextFilter();
+    final String plainText = filter.filter(wikiContent).replace("nbsp;", " ");  //TODO
     return plainText;
   }
 

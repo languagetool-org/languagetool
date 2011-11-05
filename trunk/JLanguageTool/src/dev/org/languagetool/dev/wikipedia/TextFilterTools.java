@@ -29,10 +29,10 @@ class TextFilterTools {
   private TextFilterTools() {
   }
 
-  static WikipediaTextFilter getTextFilter(Language lang) {
-    final WikipediaTextFilter textFilter;
+  static BlikiWikipediaTextFilter getTextFilter(Language lang) {
+    final BlikiWikipediaTextFilter textFilter;
     if (Language.ROMANIAN == lang) {
-      textFilter = new WikipediaTextFilter() {
+      textFilter = new BlikiWikipediaTextFilter() {
         @Override
         public String filter(String arg0) {
           final String tmp = super.filter(arg0);
@@ -41,7 +41,7 @@ class TextFilterTools {
         }
       };
     } else {
-      textFilter = new WikipediaTextFilter();
+      textFilter = new BlikiWikipediaTextFilter();
     }
     return textFilter;
   }

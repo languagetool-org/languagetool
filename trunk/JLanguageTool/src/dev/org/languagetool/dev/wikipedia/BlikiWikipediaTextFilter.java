@@ -28,7 +28,7 @@ import org.languagetool.TextFilter;
  * Convert Wikipedia syntax to HTML using Bliki and then try to clean it up (this is
  * rather ugly).
  */
-class WikipediaTextFilter implements TextFilter {
+class BlikiWikipediaTextFilter implements TextFilter {
 
   public String filter(String s) {
     // TODO: find general HTML to Text converter?!:

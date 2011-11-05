@@ -22,16 +22,35 @@ import junit.framework.TestCase;
 
 public class WikipediaTextFilterTest extends TestCase {
 
+  final BlikiWikipediaTextFilter blikiFilter = new BlikiWikipediaTextFilter();
+  final SwebleWikipediaTextFilter swebleFilter = new SwebleWikipediaTextFilter();
+  
   public void testImageRemoval() throws Exception {
     final String input = "foo [[Datei:Bundesarchiv Bild 183-1990-0803-017.jpg|miniatur|Mit Lothar de Maizière im August 1990]] bar";
-    final WikipediaTextFilter filter = new WikipediaTextFilter();
-    assertEquals("foo  bar", filter.filter(input));
+    assertEquals("foo  bar", blikiFilter.filter(input));
+    assertEquals("foo bar", swebleFilter.filter(input));
   }
   
   public void testRemovalOfImageWithLink() throws Exception {
     final String input = "foo [[Datei:Bundesarchiv Bild 183-1990-0803-017.jpg|miniatur|Mit [[Lothar de Maizière]] im August 1990]] bar [[Link]]";
-    final WikipediaTextFilter filter = new WikipediaTextFilter();
-    assertEquals("foo  bar Link", filter.filter(input));
+    assertEquals("foo  bar Link", blikiFilter.filter(input));
+    assertEquals("foo bar Link", swebleFilter.filter(input));
   }
+
+  public void testLink1() throws Exception {
+    final String input = "foo [[Test]] bar";
+    assertEquals("foo Test bar", swebleFilter.filter(input));
+  }
+
+  public void testLink2() throws Exception {
+    final String input = "foo [[Target|visible link]] bar";
+    assertEquals("foo visible link bar", swebleFilter.filter(input));
+  }
+
+  //TODO
+  /*public void testEntity() throws Exception {
+    final String input = "rund 20&nbsp;Kilometer südlich";
+    assertEquals("rund 20 Kilometer südlich", swebleFilter.filter(input));
+  }*/
   
 }

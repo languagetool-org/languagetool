@@ -55,7 +55,7 @@ public class WikipediaIndexHandler extends DefaultHandler {
 
   private StringBuilder text = new StringBuilder();
 
-  private TextFilter textFilter = new WikipediaTextFilter();
+  private TextFilter textFilter = new BlikiWikipediaTextFilter();
 
   // ===========================================================
   // SAX DocumentHandler methods
