@@ -6,15 +6,15 @@ title="Easy editing stylesheet" ?>
 <!--
 Italian Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.10 2010-09-04 11:47:45 milek_pl Exp $
+$Id: grammar.xml,v 1.10 2010/09/04 11:47:45 milek_pl Exp $
 -->
 
 <!-- 
 ================================================================================
  Italian Grammar and Style Rules for Italian
  Paolo Bianchini
- Date: 23/2/2010
- Ver:  0.8
+ Date: 03/11/2011
+ Ver:  0.9
 ================================================================================
  Categorie delle regole
     gruppi delle regole
@@ -22,7 +22,7 @@ $Id: grammar.xml,v 1.10 2010-09-04 11:47:45 milek_pl Exp $
  nome						ID		stato
  ============================================== =============== ===============
  Grammatica - Aggettivi				GR_01 		
-   uso corretto					GR_01_01	to do
+   uso corretto					GR_01_01	add more
  
  Grammatica - Articoli				GR_02		
    uso corretto					GR_02_001	ok
@@ -88,6 +88,7 @@ Grammatica - Punteggiatura			GR_09
  PB001    Removed prepositions and two letter words in repetition check
  PB002    Added some preposition usage checks (moved a gratis rule)
  2957133  name/article concordance (un vs uno)
+ PB003    Added rule for checking the use of adverbs instead of adjectives
  ======== =========================================================================
 -->
 
@@ -95,11 +96,51 @@ Grammatica - Punteggiatura			GR_09
 <rules lang="it" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../rules.xsd">
 
-	<!-- GRAMMATICA AGGETTIVI - GR_01 
-	<category name="Grammatica - Aggettivi"> -->
-<!-- TO DO	<rulegroup name="uso corretto" id="GR_01_001">
+	<!-- GRAMMATICA AGGETTIVI - GR_01 -->
+	<category name="Grammatica - Aggettivi"> 
+		<rulegroup name="uso corretto" id="GR_01_001">
+<!-- PB003 + -->
+			<!-- meglio -->
+			<rule>
+				<pattern>
+					<token >meglio</token>
+					<token postag="(NOUN-M.s)|(NOUN-F.s)" postag_regexp="yes"></token>
+				</pattern>
+				<message>Non utilizzare un avverbio in luogo di un aggettivo: <suggestion><match no="2" /> migliore</suggestion>.</message>
+				<example type="incorrect">Bisogna cogliere la <marker>meglio occasione</marker>.</example>
+				<example type="correct">Bisogna cogliere l'<marker>occasione migliore</marker>.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token >meglio</token>
+					<token postag="(NOUN-M.p)|(NOUN-F.p)" postag_regexp="yes"></token>
+				</pattern>
+				<message>Non utilizzare un avverbio in luogo di un aggettivo: <suggestion><match no="2" /> migliori</suggestion>.</message>
+				<example type="incorrect">Bisogna cogliere le <marker>meglio occasioni</marker>.</example>
+				<example type="correct">Bisogna cogliere le <marker>occasioni migliori</marker>.</example>
+			</rule>
+			<!-- peggio -->
+			<rule>
+				<pattern>
+					<token >peggio</token>
+					<token postag="(NOUN-M.s)|(NOUN-F.s)" postag_regexp="yes"></token>
+				</pattern>
+				<message>Non utilizzare un avverbio in luogo di un aggettivo: <suggestion><match no="2" /> peggiore</suggestion>.</message>
+				<example type="incorrect">Evitiamo di fare una <marker>peggio figura</marker>.</example>
+				<example type="correct">Evitiamo di fare una <marker>figura peggiore</marker>.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token >peggio</token>
+					<token postag="(NOUN-M.p)|(NOUN-F.p)" postag_regexp="yes"></token>
+				</pattern>
+				<message>Non utilizzare un avverbio in luogo di un aggettivo: <suggestion><match no="2" /> peggiori</suggestion>.</message>
+				<example type="incorrect">Evitiamo di fare delle <marker>peggio figure</marker>.</example>
+				<example type="correct">Evitiamo di fare delle <marker>figure peggiori</marker>.</example>
+			</rule>
+<!-- PB003 - -->
 		</rulegroup>  
-	</category> -->
+	</category>
 
 	<!-- GRAMMATICA ARTICOLI - GR_02 -->
 	<category name="Grammatica - Articoli">
@@ -382,7 +423,7 @@ Grammatica - Punteggiatura			GR_09
 				<pattern mark_from="0" mark_to="-1">
 					<token>a</token>
 					<token>nome</token>
-					<token postag="NPR"/>
+					<token postag_regexp="yes" postag="NPR"/>
 				</pattern>
 				<message>La forma corretta è <suggestion>di nome</suggestion> e non a nome.</message>
 				<example type="incorrect">Una ragazza <marker>a nome</marker> Francesca.</example>
