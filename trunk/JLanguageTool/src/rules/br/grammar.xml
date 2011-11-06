@@ -1019,7 +1019,7 @@ Some grammatical resources used:
           <exception negate_pos="yes" postag="V.*" postag_regexp="yes"></exception>
         </token>
         <token postag="[^M]*M:.*" postag_regexp="yes">
-          <exception negate_pos="yes" postag="[^M]*M:.*" postag_regexp="yes"/>
+          <exception negate_pos="yes" postag="[^M]*M:.*|SENT_END" postag_regexp="yes"/>
           <exception>vad</exception>
         </token>
       </pattern>
@@ -1028,6 +1028,8 @@ Some grammatical resources used:
       <example type="correct">Gwellet em eus bagoù.</example>
       <example type="incorrect">N’out ket chomet <marker>bell</marker>.</example>
       <example type="correct">N’out ket chomet pell.</example>
+      <example type="incorrect">Boutin eo <marker>c’hentelioù-noz</marker></example>
+      <example type="correct">Boutin eo ar c’hentelioù-noz</example>
     </rule>
 
     <rule id="GER_KEMM" name="kemmadur ebet goude gerioù">
@@ -2372,6 +2374,36 @@ Some grammatical resources used:
       <example type="incorrect">Poan <marker>tre</marker> am eus.</example>
       <example type="correct">Poan vras am eus.</example>
     </rule>
+
+    <rulegroup id="KET_EBET" name="ket + ebet">
+      <rule>
+        <pattern mark_from="2" mark_to="-2">
+          <token inflected="yes">ne</token>
+          <token postag="V.*" postag_regexp="yes"/>
+          <token>ket</token>
+          <token postag="N.*" postag_regexp="yes"/>
+          <token>ebet</token>
+        </pattern>
+        <message>Ne vez ket implijet «ket» gant «ebet».</message>
+        <example type="incorrect">Ne welan <marker>ket</marker> den ebet.</example>
+        <example type="correct">Ne wellan den ebet.</example>
+        <example type="incorrect">N’eus <marker>ket</marker> boued ebet.</example>
+        <example type="correct">N‘eus boued ebet.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="KET_NEMEUR" name="ket + nemeur">
+      <rule>
+        <pattern>
+          <token inflected="yes">ne</token>
+          <token postag="V.*" postag_regexp="yes"/>
+          <token>nemeur</token>
+          <token>a</token>
+        </pattern>
+        <message>Ret eo implij «ket» gant «nemeur». Ha fellout a rae deoc’h skrivañ <suggestion>\1 \2 ket \3 \4</suggestion>?</message>
+        <example type="incorrect"><marker>N’eus nemeur a</marker> girri.</example>
+        <example type="correct">N’eus ket nemeur a girri.</example>
+      </rule>
+    </rulegroup>
   </category>
   <!-- vim: foldmethod=marker foldmarker=<category,</category:
   -->
