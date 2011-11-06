@@ -83,9 +83,19 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Das ist <marker>Email</marker>.</example>
       </rule>
     </rulegroup>
+    <rule id="ZWEIT" name="Möglicher Tippfehler: 'zweit (zweite)' etc.">
+      <pattern mark_from="1">
+        <token negate="yes">zu</token>
+        <token regexp="yes">zweit|dritt|viert|fünft|sechst|siebt|neunt|zehnt|elft|zwölft</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>\2e</suggestion> oder eine andere Form?</message>
+      <example type="correct">Wir waren zu <marker>zweit</marker>.</example>
+      <example type="correct">Das war jetzt schon das <marker>zweite</marker> Mal.</example>
+      <example type="incorrect">Das war jetzt schon das <marker>zweit</marker> Mal.</example>
+    </rule>
     <rule id="SPRACHE_VS_SPRACH" name="Möglicher Tippfehler: 'in deutscher Sprach (Sprache)'">
       <pattern case_sensitive="yes" mark_from="1">
-        <token regexp="yes">(afrikanische|altarabische|altchinesische|altgriechische|altpersische|amerikanische|arabische|asiatische|chinesische|deutsche|englische|europäische|finnische|französische|germanische|griechische|hocharabische|hochchinesische|holländische|italienische|japanische|jugoslawische|koreanische|kroatische|lateinische|niederländische|norwegische|persische|polnische|portugiesische|romanische|russische|schwedische|semitische|serbische|serbokroatische|slawische|spanische|türkische|ukrainische)(n|r)?</token>
+        <token regexp="yes">(afrikanische|altarabische|altchinesische|altgriechische|altpersische|amerikanische|arabische|asiatische|chinesische|deutsche|englische|europäische|finnische|formale|französische|germanische|griechische|hocharabische|hochchinesische|holländische|italienische|japanische|jugoslawische|koreanische|kroatische|lateinische|niederländische|norwegische|persische|polnische|portugiesische|romanische|russische|schöne|schwedische|semitische|serbische|serbokroatische|slawische|spanische|türkische|ukrainische)(n|r)?</token>
         <token>Sprach</token>
       </pattern>
       <message>Meinten Sie <suggestion>Sprache</suggestion>?</message>
@@ -1088,6 +1098,28 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct">Es gibt keine neuen Features, <marker>sondern</marker> nur Fehlerkorrekturen.</example>
       <example type="incorrect">Es gibt keine neuen Features, <marker>sonder</marker> nur Fehlerkorrekturen.</example>
     </rule>
+    <rulegroup id="WARD_VS_WART" name="Möglicher Tippfehler: 'Ward' statt 'wart'" default="on">
+      <!-- http://www.korrekturen.de/beliebte_fehler/ward.shtml -->
+	<rule>
+        <pattern mark_from="0" mark_to="-1">
+          <token>ward</token>
+          <token>ihr</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>wart</suggestion> (Form des Verbs 'sein')?</message>
+        <example type="correct">... und <marker>ward</marker> nicht mehr gesehen.</example>
+        <example type="correct"><marker>Wart</marker> ihr zufrieden?</example>
+        <example correction="Wart" type="incorrect"><marker>Ward</marker> ihr zufrieden damit?</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token>ihr</token>
+          <token>ward</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>wart</suggestion> (Form des Verbs 'sein')?</message>
+        <example type="correct">Ihr <marker>wart</marker> hoffentlich zufrieden?</example>
+        <example correction="wart" type="incorrect">Ihr <marker>ward</marker> hoffentlich zufrieden?</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="SEID_VS_SEIT" name="Möglicher Tippfehler: 'Seit' statt 'seid'" default="on">
     <!-- Jan: TODO - extend this -->
       <rule>
@@ -4229,7 +4261,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">[Ii]n</token>
           <token>kürze</token>
         </pattern>
-        <message>Meinten Sie <suggestion>Kürze</suggestion>?</message>
+        <message>Bitte prüfen Sie, ob <suggestion>Kürze</suggestion> hier als Substantiv gebraucht wird.</message>
         <example type="correct">In <marker>Kürze</marker> erscheint das neue Ubuntu.</example>
         <example type="incorrect">In <marker>kürze</marker> erscheint das neue Ubuntu.</example>
       </rule>
@@ -4239,7 +4271,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>aller</token>
           <token>kürze</token>
         </pattern>
-        <message>Meinten Sie <suggestion>Kürze</suggestion>?</message>
+        <message>Bitte prüfen Sie, ob <suggestion>Kürze</suggestion> hier als Substantiv gebraucht wird.</message>
         <example type="correct">In aller <marker>Kürze</marker> möchte ich Folgendes sagen.</example>
         <example type="incorrect">In aller <marker>kürze</marker> möchte ich Folgendes sagen.</example>
       </rule>
@@ -5096,6 +5128,17 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
   </category>
 
   <category name="Redewendungen">
+    <rule id="WART_NICHT_MEHR_GESEHEN" name="Redewendung: 'wart (ward) nicht mehr gesehen'">
+      <pattern mark_to="-3">
+          <token>wart</token>
+          <token>nicht</token>
+          <token>mehr</token>
+          <token>gesehen</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>ward</suggestion>? (feste Redewendung)</message>
+      <example type="correct">Er <marker>ward</marker> nicht mehr gesehen.</example>
+      <example type="incorrect">Er <marker>wart</marker> nicht mehr gesehen.</example>
+    </rule>
     <rule id="EIERLEGENDE_VOLLMILCHSAU" name="Redewendung: 'eierlegende Vollmilchsau (Wollmilchsau)'">
       <pattern mark_from="1">
           <token regexp="yes">eierlegenden?</token>
@@ -5470,7 +5513,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct">Der Täter ist etwa <marker>40–50</marker> Jahre alt.</example>
       <example type="incorrect">Der Täter ist etwa <marker>40-50</marker> Jahre alt.</example>
     </rule>
-    <rulegroup id="AUSLASSUNGSPUNKTE" name="Typographie: Auslassungpunkte">
+    <rulegroup id="AUSLASSUNGSPUNKTE" name="Typographie: Auslassungspunkte">
       <rule>
         <pattern>
           <token>.</token>
