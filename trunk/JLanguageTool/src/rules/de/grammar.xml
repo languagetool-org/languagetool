@@ -15,6 +15,7 @@ title="Easy editing stylesheet" ?>
 <!ENTITY klamauf "\(|\{|\[|&lt;">
 <!ENTITY klamzu "\)|\}|\]|&gt;">
 <!ENTITY klam "&klamauf;|&klamzu;">
+<!ENTITY tippformel "Tipp: Verwenden Sie für komplexe Formeln den Formeleditor [Einfügen > Objekt > Formel]">
 ]>
 <!--
 German grammar and typo rules for LanguageTool
@@ -27,6 +28,61 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
          xsi:noNamespaceSchemaLocation="../rules.xsd">
 
   <category name="Mögliche Tippfehler">
+    <rulegroup id="EMAIL" name="Möglicher Tippfehler: Email (E-Mail)">
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes" skip="-1" inflected="yes">schicke.*|sende.*|Internet.*|Web.*|.*\@.*</token>
+          <token>Email</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>E-Mail</suggestion> (elektronische Post) statt 'Email' (Schmelzüberzug)?</message>
+        <example type="incorrect" correction="E-Mail">Er schickt mir eine <marker>Email</marker>.</example>
+        <example type="incorrect" correction="E-Mail">Schicke mir eine <marker>Email</marker>.</example>
+        <example type="correct">Er schickt mir eine <marker>E-Mail</marker>.</example>
+        <example type="correct">Das ist <marker>Email</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token skip="-1">Email</token>
+          <token regexp="yes" inflected="yes">schicke.*|sende.*|Internet.*|Web.*|.*\@.*</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>E-Mail</suggestion> (elektronische Post) statt 'Email' (Schmelzüberzug)?</message>
+        <example type="incorrect" correction="E-Mail">Er hat mir eine <marker>Email</marker> geschickt.</example>
+        <example type="incorrect" correction="E-Mail">Meine <marker>Email</marker> ist me@example.com.</example>
+        <example type="correct">Er hat mir eine <marker>E-Mail</marker> geschickt.</example>
+        <example type="correct">Das ist <marker>Email</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1" mark_from="1">
+          <token postag="SENT_START"/>
+          <token>Email</token>
+          <token>:</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>E-Mail</suggestion> (elektronische Post) statt 'Email' (Schmelzüberzug)?</message>
+        <example type="incorrect" correction="E-Mail"><marker>Email</marker>: test@example.com</example>
+        <example type="correct">Er schickt mir eine <marker>E-Mail</marker>.</example>
+        <example type="correct">Das ist <marker>Email</marker>.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token regexp="yes">email|eMail|e\-Mail|e\-mail|E\-mail</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>E-Mail</suggestion>?</message>
+        <example type="incorrect" correction="E-Mail">Er schickt mir eine <marker>e-mail</marker>.</example>
+        <example type="correct">Er schickt mir eine <marker>E-Mail</marker>.</example>
+        <example type="correct">Das ist <marker>Email</marker>.</example>
+        <example type="incorrect" correction="E-Mail"><marker>eMail</marker>: ich@example.de</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token regexp="yes">eMail.+|e\-Mail.+|e\-mail.+|E\-mail.+|Email[\-]?([aA]dresse|[pP]rogramm).*</token>
+        </pattern>
+        <message>Meinten Sie <suggestion><match no="1" regexp_match=".*ail(.*)" regexp_replace="E-Mail$1"/></suggestion>?</message>
+        <example type="incorrect" correction="E-Mail-Adresse">Das ist meine <marker>eMail-Adresse</marker>.</example>
+        <example type="incorrect" correction="E-Mail-Adressen">Das sind meine <marker>Email-Adressen</marker>.</example>
+        <example type="correct">Das ist meine <marker>E-Mail-Adresse</marker>.</example>
+        <example type="correct">Das ist <marker>Email</marker>.</example>
+      </rule>
+    </rulegroup>
     <rule id="SPRACHE_VS_SPRACH" name="Möglicher Tippfehler: 'in deutscher Sprach (Sprache)'">
       <pattern case_sensitive="yes" mark_from="1">
         <token regexp="yes">(afrikanische|altarabische|altchinesische|altgriechische|altpersische|amerikanische|arabische|asiatische|chinesische|deutsche|englische|europäische|finnische|französische|germanische|griechische|hocharabische|hochchinesische|holländische|italienische|japanische|jugoslawische|koreanische|kroatische|lateinische|niederländische|norwegische|persische|polnische|portugiesische|romanische|russische|schwedische|semitische|serbische|serbokroatische|slawische|spanische|türkische|ukrainische)(n|r)?</token>
@@ -416,19 +472,34 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct">Eine <marker>vage</marker> Entscheidung</example>
       <example type="incorrect">Eine <marker>wage</marker> Entscheidung</example>
     </rule>
-    <rule id="DIE_DE" name="Möglicher Tippfehler: 'de (die)'">
-      <pattern mark_to="-1">
-        <token>de</token>
-        <token postag="SUB:.*" postag_regexp="yes"/>
-      </pattern>
-      <message>Meinten Sie <suggestion>die</suggestion>?</message>
-      <example type="correct"><marker>Die</marker> Programmierung mit Plain Old Java Objects soll einfacher werden.</example>
-      <example type="correct">Und <marker>die</marker> Programmierung mit Plain Old Java Objects soll einfacher werden.</example>
-      <example type="correct"><marker>De</marker> Beukelaer macht in Keksen.</example>
-      <example type="correct">Und <marker>de</marker> Beukelaer macht in Keksen.</example>
-      <example type="incorrect"><marker>De</marker> Programmierung mit Plain Old Java Objects soll einfacher werden.</example>
-      <example type="incorrect">Und <marker>de</marker> Programmierung mit Plain Old Java Objects soll einfacher werden.</example>
-    </rule>
+    <rulegroup id="DIE_DE" name="Möglicher Tippfehler: 'de (die)'">
+      <rule>
+        <pattern mark_from="1" mark_to="-1" case_sensitive="yes">
+          <token negate="yes">.</token>
+          <token>de</token>
+          <token postag="SUB:.*" postag_regexp="yes"/>
+        </pattern>
+        <message>Meinten Sie <suggestion>die</suggestion> oder <suggestion>der</suggestion>?</message>
+        <example type="correct">Und <marker>die</marker> Programmierung mit Plain Old Java Objects soll einfacher werden.</example>
+        <example type="correct">Und <marker>de</marker> Beukelaer macht in Keksen.</example>
+        <example type="correct">Auf example.<marker>de</marker> Fachartikel lesen.</example>
+        <example type="correct">Die Gemeinde <marker>De</marker> Panne</example>
+        <example type="incorrect" correction="die|der">Und <marker>de</marker> Programmierung mit Plain Old Java Objects soll einfacher werden.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1" mark_from="1" case_sensitive="yes">
+          <token postag="SENT_START"/>
+          <token>De</token>
+          <token postag="SUB:.*" postag_regexp="yes"/>
+        </pattern>
+        <message>Meinten Sie <suggestion>Die</suggestion> oder <suggestion>Der</suggestion>?</message>
+        <example type="correct"><marker>Die</marker> Programmierung mit Plain Old Java Objects soll einfacher werden.</example>
+        <example type="correct"><marker>De</marker> Beukelaer macht in Keksen.</example>
+        <example type="correct">Auf example.<marker>de</marker> Fachartikel lesen.</example>
+        <example type="correct">Die Gemeinde <marker>De</marker> Panne</example>
+        <example type="incorrect" correction="Die|Der"><marker>De</marker> Programmierung mit Plain Old Java Objects soll einfacher werden.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="BIS_BISS" name="Möglicher Tippfehler: 'biss (bis)'">
       <rule>
         <pattern mark_from="1" case_sensitive="yes">
@@ -864,22 +935,37 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <rule>
         <pattern mark_to="-1">
           <token>war</token>
-          <token regexp="yes">werden|wird</token>
+          <token regexp="yes">werden|wird|ist|sind|waren</token>
         </pattern>
-        <message>Meinten Sie <suggestion>wahr</suggestion> (=wahrhaftig, authentisch) statt 'war' (Vergangenheit von 'sein')?</message>
+        <message>Meinten Sie <suggestion>wahr</suggestion> (=wahrhaftig, authentisch) statt 'war' (Vergangenheit von 'sein') oder fehlt vielleicht ein Komma?</message>
         <example type="correct">Das kann schnell <marker>wahr</marker> werden.</example>
         <example type="correct">Ich glaube, dass es schnell <marker>wahr</marker> wird.</example>
         <example type="incorrect">Das kann schnell <marker>war</marker> werden.</example>
         <example type="incorrect">Ich glaube, dass es schnell <marker>war</marker> wird.</example>
+        <example type="correct"><marker>Wahr</marker> ist das nicht.</example>
+        <example type="incorrect"><marker>War</marker> ist das nicht.</example>
+        <example type="incorrect">Wann das <marker>war</marker> ist nicht bekannt.</example>
       </rule>
       <rule>
         <pattern mark_from="1">
-          <token regexp="yes">wird|wurde|wurden|würde</token>
+          <token regexp="yes">wird|wurde|wurden|würde|ist|sind|waren</token>
           <token>war</token>
         </pattern>
-        <message>Meinten Sie <suggestion>wahr</suggestion> (=wahrhaftig, authentisch) statt 'war' (Vergangenheit von 'sein')?</message>
+        <message>Meinten Sie <suggestion>wahr</suggestion> (=wahrhaftig, authentisch) statt 'war' (Vergangenheit von 'sein') oder fehlt vielleicht ein Komma?</message>
         <example type="correct">Seine Träume wurden <marker>wahr</marker>.</example>
         <example type="incorrect">Seine Träume wurden <marker>war</marker>.</example>
+        <example type="correct">Das ist <marker>wahr</marker>.</example>
+        <example type="incorrect">Das ist <marker>war</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" case_sensitive="yes">
+          <token>war</token>
+          <token>war</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>wahr</suggestion> (=wahrhaftig, authentisch) statt 'war' (Vergangenheit von 'sein') oder fehlt vielleicht ein Komma?</message>
+        <example type="incorrect">Das war <marker>war</marker>.</example>
+        <example type="correct">Das war <marker>War</marker>.</example>
+        <example type="correct">Das war <marker>wahr</marker>.</example>
       </rule>
     </rulegroup>
     <rulegroup id="ER_WAHR" name="Möglicher Tippfehler: 'Er wahr (war)'">
@@ -895,13 +981,33 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       </rule>
       <rule>
         <pattern mark_from="2" mark_to="0">
-          <token postag="SENT_START" skip="1"/>
+          <token postag="SENT_START"/>
           <token postag=".*PRO.*NOM.*SIN.*" postag_regexp="yes"/>
           <token>wahr</token>
         </pattern>
         <message>Meinten Sie <suggestion>war</suggestion> (Vergangenheit von 'sein') statt 'wahr' (wahrhaftig, authentisch)?</message>
         <example type="incorrect">Er <marker>wahr</marker> schnell.</example>
         <example type="correct">Sie <marker>war</marker> schnell.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token postag="SENT_START"/>
+          <token skip="1">Wahr</token>
+          <token postag=".*SUB.*NOM.*SIN.*" postag_regexp="yes"/>
+        </pattern>
+        <message>Meinten Sie <suggestion>war</suggestion> (Vergangenheit von 'sein') statt 'wahr' (wahrhaftig, authentisch)?</message>
+        <example type="incorrect"><marker>Wahr</marker> die Lehrerin nett?</example>
+        <example type="correct"><marker>War</marker> die Lehrerin nett?</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token postag="SENT_START"/>
+          <token>Wahr</token>
+          <token postag=".*PRO.*NOM.*SIN.*" postag_regexp="yes"/>
+        </pattern>
+        <message>Meinten Sie <suggestion>war</suggestion> (Vergangenheit von 'sein') statt 'wahr' (wahrhaftig, authentisch)?</message>
+        <example type="incorrect"><marker>Wahr</marker> sie pünktlich?</example>
+        <example type="correct"><marker>War</marker> sie pünktlich?</example>
       </rule>
     </rulegroup>
     <rulegroup id="DU_WUENSCHT" name="Möglicher Tippfehler: 'du wünscht (wünschst)'">
@@ -1138,6 +1244,18 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <message>Meinten Sie <suggestion>seit</suggestion>?</message>
         <example type="correct">Noch nie so viele Auswanderer <marker>seit</marker> Bestehen der BRD</example>
         <example type="incorrect">Noch nie so viele Auswanderer <marker>seid</marker> Bestehen der BRD</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1" case_sensitive="yes">
+          <token postag="SENT_START"/>
+          <token>Seid</token>
+          <token regexp="yes">[0-9]+|wann</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>Seit</suggestion>?</message>
+        <example type="correct"><marker>Seit</marker> 15 Jahren</example>
+        <example type="correct">Ihr <marker>seid</marker> 15 Jahre alt.</example>
+        <example type="incorrect" correction="Seit"><marker>Seid</marker> 15 Jahren</example>
+        <example type="incorrect" correction="Seit"><marker>Seid</marker> wann ist das so?</example>
       </rule>
     </rulegroup>
     <rule id="IN_DIE_ANALEN" name="Möglicher Tippfehler: 'in die Analen (Annalen)'">
@@ -2059,8 +2177,9 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     </rulegroup>
   </category>
 
- <!-- TODO split category? (Umgangssprache + Stil)-->
+ <!-- TODO split or rename category? (Umgangssprache + Stil)-->
   <category name="Stil">
+     <!-- TODO Make one Java-rule for context-independent, colloquial expressions and maintain a list -->
     <!-- message is incorrect, thus commented out for now
     <rule id="BAUCHWEH" name="Umgangssprache: 'Bauchweh (Bauchschmerz)'">
       <pattern>
@@ -2071,6 +2190,30 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect">Wegen des starken <marker>Zahnwehs</marker>...</example>
     </rule>
     -->
+    <rulegroup id="MATHE" name="Umgangssprache: 'Mathe (Mathematik) etc.'">
+      <rule>
+        <pattern>
+          <token>Mathe</token>
+        </pattern>
+        <message>'Mathe' ist umgangssprachlich. Vorschlag: <suggestion>Mathematik</suggestion>.</message>
+        <example type="incorrect">Ich liebe <marker>Mathe</marker>.</example>
+        <example type="correct">Ich liebe <marker>Mathematik</marker>.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_to="-1" mark_from="1">
+          <token regexp="yes" negate="yes">WDR|NDR|SWR|MDR</token>
+          <token regexp="yes" skip="-1">Infos?</token>
+          <token regexp="yes" negate="yes">Verlag|2-Prozessor</token>
+        </pattern>
+        <message>'Info' ist umgangssprachlich. Vorschläge: <suggestion>Information</suggestion>, <suggestion>Informationsblatt</suggestion>, <suggestion>Informatik</suggestion>.</message>
+        <example type="incorrect">Ich hasse <marker>Info</marker>.</example>
+        <example type="correct">Ich hasse <marker>Informatik</marker>.</example>
+        <example type="correct">NDR Info</example>
+        <example type="correct">example.info</example>
+        <example type="correct">Info Verlag</example>
+        <example type="correct">Virtueller Info 2-Prozessor</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="FERNSEHENGUCKEN" name="Umgangssprache: 'Fernsehen gucken (fernsehen)'">
       <rule>
         <pattern>
@@ -2103,6 +2246,45 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect" correction="als">Ich bin besser <marker>als wie</marker> du.</example>
       <example type="correct">Ich bin besser <marker>als</marker> du.</example>
     </rule>
+    <rulegroup id="KOMP_WIE" name="Umgangssprache: 'besser wie (als)'">
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token postag=".*ADJ.*KOM.*" postag_regexp="yes"/>
+          <token>wie</token>
+          <token>vor</token>
+        </pattern>
+        <message>'\1 wie' ist umgangssprachlich. Verwenden Sie zum Ausdrücken von Ungleichheit <suggestion>als</suggestion>.</message>
+        <example type="incorrect" correction="als">Ich bin besser <marker>wie</marker> vor drei Jahren.</example>
+        <example type="correct">Ich bin besser <marker>als</marker> vor drei Jahren.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2" mark_to="-2">
+          <token regexp="yes" negate="yes">wird|werden|war|waren|sein|Maße?</token>
+          <token postag=".*ADJ.*KOM.*" postag_regexp="yes"/>
+          <token>wie</token>
+          <token skip="-1" postag=".*(PRO|SUB).*NOM.*" postag_regexp="yes"><exception scope="next" regexp="yes">wird|werden|war|waren|sein</exception></token>
+          <token postag="SENT_END"/>
+        </pattern>
+        <message>'\2 wie' ist umgangssprachlich. Verwenden Sie zum Ausdrücken von Ungleichheit <suggestion>als</suggestion>.</message>
+        <example type="incorrect" correction="als">Ich bin besser <marker>wie</marker> du.</example>
+        <example type="correct">Ich bin besser <marker>als</marker> du.</example>
+        <example type="incorrect" correction="als">Sie sind klüger <marker>wie</marker> Computer.</example>
+        <example type="correct">Sie sind klüger <marker>als</marker> Computer.</example>
+        <example type="correct">Er wird später <marker>wie</marker> sein Vater.</example>
+        <example type="correct">Dass er später <marker>wie</marker> sein Vater sein soll...</example>
+        <example type="correct">Er wird im gleichen Maße besser <marker>wie</marker> sie.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token postag=".*ADJ.*KOM.*" postag_regexp="yes"/>
+          <token>wie</token>
+          <token regexp="yes">sonst|vorher|nachher</token>
+        </pattern>
+        <message>'\1 wie' ist umgangssprachlich. Verwenden Sie zum Ausdrücken von Ungleichheit <suggestion>als</suggestion>.</message>
+        <example type="incorrect" correction="als">besser <marker>wie</marker> sonst</example>
+        <example type="correct">besser <marker>als</marker> sonst</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="SINN_MACHEN" name="Umgangssprache: 'Sinn machen' entspricht dem englischen 'to make sense'" default="off">
       <rule>
         <pattern>
@@ -2475,11 +2657,14 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct"><marker>Die meisten der</marker> damaligen Hollywoodfilme ...</example>
     </rule>
     <rule id="MAENNER_VS_LEUTE" name="Stil: 'Kaufleute' usw. statt 'Kaufmänner'">
-      <pattern case_sensitive="no">
+      <pattern case_sensitive="no" mark_to="-2">
         <token regexp="yes">(.*Kauf|See|Feuerwehr)männer(n)?</token>
+        <token negate="yes">/</token>
+        <token negate="yes">-frauen</token>
       </pattern>
       <message>Meinten Sie <suggestion><match no="1" regexp_match="(Kauf|.*kauf|See|Feuerwehr)männer(n)?" regexp_replace="$1leute$2" /></suggestion>?</message>
       <example type="correct">Es waren viele <marker>Feuerwehrleute</marker> im Einsatz.</example>
+      <example type="correct">Es waren viele <marker>Kaufmänner</marker>/‑frauen im Einsatz.</example>
       <example type="incorrect">Es waren viele <marker>Feuerwehrmänner</marker> im Einsatz.</example>
       <example type="incorrect" correction="Industriekaufleute">Es werden viele <marker>Industriekaufmänner</marker> gesucht.</example>
     </rule>
@@ -2540,11 +2725,11 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       </rule>-->
       <rule>
         <pattern mark_from="1" mark_to="-1">
-          <token regexp="yes">(&anfzu;)</token>
+          <token regexp="yes">&anfzu;</token>
           <token>(</token>
           <token skip="-1">vgl</token>
           <token>.</token>
-          <token regexp="yes">(S|Z)</token>
+          <token regexp="yes">[SZ]</token>
         </pattern>
         <message>Bei direkten Zitaten steht kein 'vgl.' vor der Zeilenangabe. Vorschlag: <suggestion>(</suggestion></message>
         <example type="correct">„Kommen Sie, Rota, kommen Sie.“ (S. 1)</example>
@@ -2595,7 +2780,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     <rule id="AUF_ENGLISCH" name="Groß-/Kleinschreibung: 'auf englisch (Englisch)'">
       <pattern case_sensitive="yes" mark_from="1">
         <token regexp="yes">[iI]n|[aA]uf</token>
-        <token regexp="yes">chinesisch|deutsch|englisch|französisch|italienisch|japanisch|polnisch|portugiesisch|russisch|spanisch|türkisch|ungarisch</token>
+        <token regexp="yes">arabisch|chinesisch|dänisch|deutsch|englisch|finnisch|französisch|griechisch|italienisch|japanisch|niederländisch|norwegisch|persisch|polnisch|portugiesisch|russisch|spanisch|tschechisch|türkisch|ungarisch</token>
       </pattern>
       <message>Meinten Sie \1 <suggestion><match no="2" case_conversion="startupper"/></suggestion> (im Sinne von 'die \2e Sprache')? Nach einer Präposition werden Sprachbezeichnungen großgeschrieben.</message>
       <example type="incorrect" correction="Englisch">Er schreibt den Text auf <marker>englisch</marker>.</example>
@@ -2604,6 +2789,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     <rulegroup id="GROSSSCHREIBUNG_MEHRTEILIGE_NAMEN" name="Groß-/Kleinschreibung: Mehrteiligen Namen 'französische (Französische) Revolution etc.'">
       <!-- http://www.duden.de/rechtschreibregeln/namen#K150
         Alle zu einem mehrteiligen Namen gehörenden Adjektive, Partizipien, Pronomen und Zahlwörter schreibt man groß <§ 60>. -->
+      <!-- TODO Maybe we should make a Java-rule for this and maintain a list -->
       <rule>
         <pattern mark_to="-1" case_sensitive="yes">
           <token regexp="yes">französische(r|n)?</token>
@@ -2872,6 +3058,36 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Der <marker>Mittlere</marker> Osten</example>
         <example type="incorrect" correction="Mittlere">Der <marker>mittlere</marker> Osten</example>
       </rule>
+      <rule>
+        <pattern mark_to="-1" mark_from="1" case_sensitive="yes">
+          <token regexp="yes">([Dd](er|es|em|en)|[vV]om|[iI]m)</token>
+          <token regexp="yes">gelbe[rn]?</token>
+          <token regexp="yes">Flusse?s?</token>
+        </pattern>
+        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="2"/></suggestion> \3 (China)? &namengross;</message>
+        <example type="correct">Der <marker>Gelbe</marker> Fluss</example>
+        <example type="incorrect" correction="Gelben">Ich komme vom <marker>gelben</marker> Fluss</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1" mark_from="1" case_sensitive="yes">
+          <token regexp="yes">[Dd](ie|er|en)</token>
+          <token regexp="yes">gelben?</token>
+          <token>Seiten</token>
+        </pattern>
+        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="2"/></suggestion> \3 (Branchenverzeichnis)? &namengross;</message>
+        <example type="correct">Die <marker>Gelben</marker> Seiten</example>
+        <example type="incorrect" correction="Gelben">In den <marker>gelben</marker> Seiten</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1" mark_from="1" case_sensitive="yes">
+          <token regexp="yes">[Dd](ie|er|en)</token>
+          <token regexp="yes">gelben?</token>
+          <token regexp="yes">Engeln?</token>
+        </pattern>
+        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="2"/></suggestion> \3 (ADAC)? &namengross;</message>
+        <example type="correct">Die <marker>Gelben</marker> Engel</example>
+        <example type="incorrect" correction="Gelben">Von den <marker>gelben</marker> Engeln</example>
+      </rule>
     </rulegroup>
     <rulegroup id="GROSSSCHREIBUNG_EHRENBEZEICHNUNG" name="Groß-/Kleinschreibung: Titel und Ehrenbezeichnungen 'heiliger (Heiliger) Vater etc.'">
       <rule>
@@ -3083,6 +3299,68 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <message>Meinten Sie <suggestion>Grüße</suggestion>?</message>
         <example type="correct">Herzliche <marker>Grüße</marker></example>
         <example type="incorrect">Herzliche <marker>grüße</marker></example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="SORGEN_MACHEN" name="Groß-/Kleinschreibung: 'sorgen (Sorgen) machen etc.'">
+      <rule>
+        <pattern case_sensitive="yes" mark_from="2">
+          <token inflected="yes" regexp="yes" skip="1">[mM]achen<exception scope="next">,</exception></token>
+          <token postag="PRO:REF:DAT.*" postag_regexp="yes" skip="3"><exception scope="next">,</exception></token>
+          <token>sorgen</token>
+        </pattern>
+        <message>Bitte prüfen Sie, ob <suggestion>Sorgen</suggestion> hier als Substantiv gebraucht wird und daher großgeschrieben werden muss.</message>
+        <example type="incorrect">Er macht sich unnötig große <marker>sorgen</marker>.</example>
+        <example type="incorrect">Ich mache mir viele <marker>sorgen</marker>.</example>
+        <example type="incorrect">Machst du dir <marker>sorgen</marker>?</example>
+        <example type="correct">Er macht sich unnötig große <marker>Sorgen</marker>.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
+          <token postag="PRO:REF:DAT.*" postag_regexp="yes" skip="3"><exception scope="next">,</exception></token>
+          <token skip="1">sorgen<exception scope="next">,</exception></token>
+          <token inflected="yes">machen</token>
+        </pattern>
+        <message>Bitte prüfen Sie, ob <suggestion>Sorgen</suggestion> hier als Substantiv gebraucht wird und daher großgeschrieben werden muss.</message>
+        <example type="incorrect">Er soll sich keine unnötig große <marker>sorgen</marker> machen.</example>
+        <example type="incorrect">Es ist sinnlos, mir jetzt <marker>sorgen</marker> zu machen.</example>
+        <example type="correct">Er soll sich keine unnötig große <marker>Sorgen</marker> machen.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="1" mark_to="0">
+          <token regexp="yes">[kK]eine</token>
+          <token>sorge</token>
+        </pattern>
+        <message>Bitte prüfen Sie, ob <suggestion>Sorge</suggestion> hier als Substantiv gebraucht wird und daher großgeschrieben werden muss.</message>
+        <example type="incorrect">Keine <marker>sorge</marker>!</example>
+        <example type="correct">Keine <marker>Sorge</marker>!</example>
+      </rule>
+    </rulegroup>
+    <!-- Das Adverb "montags" wird kleingeschrieben -->
+    <rulegroup id="MONTAGS" name="Groß-/Kleinschreibung: 'Montags/montags etc.'">
+      <rule>
+        <pattern case_sensitive="yes" mark_from="1">
+          <token postag="SENT_START" negate_pos="yes"><exception postag=".*GEN.*" postag_regexp="yes"/><exception regexp="yes">&anf;</exception></token>
+          <token regexp="yes">Montags|Dienstags|Mittwochs|Donnerstags|Freitags|Samstags|Sonntags</token>
+        </pattern>
+        <message>Bitte prüfen Sie, ob <suggestion><match no="2" case_conversion="alllower"/></suggestion> hier als Adverb gebraucht wird und daher kleingeschrieben werden muss.</message>
+        <example type="incorrect" correction="montags">Der Laden hat <marker>Montags</marker> geschlossen.</example>
+        <example type="correct">Der Laden hat <marker>montags</marker> geschlossen.</example>
+        <example type="correct"><marker>Montags</marker> geschlossen.</example>
+        <example type="correct">Eines <marker>Dienstags</marker> kam er...</example>
+        <example type="correct">Er hat eines <marker>Sonntags</marker> den Zug verpasst.</example>
+        <example type="correct">Der "<marker>Mittwochs</marker> Anzeiger"</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="1">
+          <token postag="ART.*GEN.*MAS.*" postag_regexp="yes"/>
+          <token regexp="yes">montags|dienstags|mittwochs|donnerstags|freitags|samstags|sonntags</token>
+        </pattern>
+        <message>Bitte prüfen Sie, ob <suggestion><match no="2" case_conversion="startupper"/></suggestion> hier als Substantiv gebraucht wird und daher großgeschrieben werden muss.</message>
+        <example type="incorrect" correction="Montags">Der Laden hat des <marker>montags</marker> geschlossen.</example>
+        <example type="correct">Der Laden hat des <marker>Montags</marker> geschlossen.</example>
+        <example type="correct">Der Laden hat <marker>montags</marker> geschlossen.</example>
+        <example type="incorrect" correction="Dienstags">Eines <marker>dienstags</marker> kam er...</example>
+        <example type="incorrect" correction="Sonntags">Er hat eines <marker>sonntags</marker> den Zug verpasst.</example>
       </rule>
     </rulegroup>
     <rulegroup id="AUF_DER_FLUCHT" name="Groß-/Kleinschreibung: 'auf der flucht (Flucht)'">
@@ -3960,6 +4238,15 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect">Des <marker>weiteren</marker> sind alle Katzen blau.</example>
       <example type="incorrect">Und des <marker>weiteren</marker> waren alle Katzen blau.</example>
     </rule>
+    <rule id="IN_FRAGE" name="Groß-/Kleinschreibung: 'in frage (Frage)'">
+      <pattern case_sensitive="yes">
+        <token regexp="yes">[Ii]n</token>
+        <token>frage</token>
+      </pattern>
+      <message>In der Wendung <suggestion>in Frage</suggestion> wird 'Frage' großgeschrieben.</message>
+      <example type="correct">etwas <marker>in Frage</marker> stellen</example>
+      <example type="incorrect" correction="in Frage">etwas <marker>in frage</marker> stellen</example>
+    </rule>
     <rule id="DES_NACHTS" name="Groß-/Kleinschreibung: 'des nachts (Nachts), eines nachts (Nachts)'">
       <pattern case_sensitive="yes" mark_from="1">
         <token regexp="yes">[Dd]es|[Ee]ines</token>
@@ -4381,15 +4668,15 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Ich finde das gut, <marker>weil du dir viel Mühe gemacht hast </marker>.</example>
         <example type="correct">Das ist ein Befehl, <marker>weil es über eine</marker> Aufforderung hinausgeht.</example>
         <example type="incorrect">Hast du das gemerkt, <marker>weil du hast</marker> einen häufigen Fehler gemacht?</example>
-<!--         <example type="correct">Das ist so, weil hier drei dunkle Streifen aneinanderliegen.</example> TODO the verb isn't recognized -->
+<!--         <example type="correct">Das ist so, weil hier drei dunkle Streifen aneinanderliegen.</example> TODO the verb isn't recognized, use POS UNKNOWN? -->
       </rule>
     </rulegroup>
-    <rulegroup id="PRAEP_GEN" name="Grammatik: Präposition mit Genitiv (ab­züg­lich, wegen)">
+    <rulegroup id="PRAEP_GEN" name="Grammatik: Präposition mit Genitiv (ab­züg­lich, wegen etc.)">
       <rule>
         <pattern mark_from="1" case_sensitive="yes">
           <token skip="-1" postag="SENT_START"><exception scope="next" postag="SUB.*:GEN:.*" postag_regexp="yes"/></token>
-          <token regexp="yes">(wegen|abzüglich)</token><!-- TODO …liegt abseits das…-->
-          <token regexp="yes">(das|dem|den|die|ein|(D|d|s|m)?eine(m|n)?|(eu|ih|Ih|unse)re(m|n)?|(jene|deine|diese)(m|n)?)</token>
+          <token regexp="yes">wegen|(ab|zu)züglich|seitens</token><!-- TODO …liegt abseits das…-->
+          <token regexp="yes">das|dem|den|die|ein|(D|d|s|m)?eine(m|n)?|(eu|ih|Ih|unse)re(m|n)?|(jene|deine|diese)(m|n)?</token>
         </pattern>
         <message>Die Präposition '\2' erfordert i.d.R. den Genitiv.</message>
         <example type="correct">von Rechts wegen die Bestrafung</example>
@@ -4716,7 +5003,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>von</token>
           <token regexp="yes">(Pythagoras|Euklid|Thales)</token>
         </pattern>
-        <message>Meinten Sie <suggestion>\1 des \3</suggestion>?. Die Bezeichnung '\1 \2 \3' ist umgangssprachlich.</message>
+        <message>Meinten Sie <suggestion>\1 des \3</suggestion>? Die Bezeichnung '\1 \2 \3' ist umgangssprachlich.</message>
         <example type="correct">Der <marker>Satz des Pythagoras</marker>...</example>
         <example type="incorrect" correction="Satzgruppe des Pythagoras">Die <marker>Satzgruppe von Pythagoras</marker>...</example>
         <example type="incorrect" correction="Sätze des Thales">Die <marker>Sätze von Thales</marker>...</example>
@@ -4783,7 +5070,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">(\-|=){1,2}</token>
           <token>></token>
         </pattern>
-        <message>Wollen Sie einen Pfeil verwenden? Vorschläge: <suggestion>→</suggestion>, <suggestion>⇾</suggestion>, <suggestion>⇉</suggestion>, <suggestion>⇒</suggestion>, <suggestion>⇨</suggestion>, <suggestion>⇛</suggestion> (Tipp: Verwenden Sie für Formeln [Einfügen > Objekt > Formel], für Aufzählungen [Format > Nummerierung…])</message>
+        <message>Wollen Sie einen Pfeil verwenden? Vorschläge: <suggestion>→</suggestion>, <suggestion>⇾</suggestion>, <suggestion>⇉</suggestion>, <suggestion>⇒</suggestion>, <suggestion>⇨</suggestion>, <suggestion>⇛</suggestion> (&tippformel;, für Aufzählungen [Format > Nummerierung…])</message>
         <example type="correct">→ Erster Punkt</example>
         <example type="incorrect"><marker>-></marker> Erster Punkt</example>
       </rule>
@@ -4794,7 +5081,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">(\-|=){1,2}</token>
           <token negate="yes">></token>
         </pattern>
-        <message>Wollen Sie einen Pfeil oder <suggestion>≤</suggestion> verwenden? Vorschläge: <suggestion>←</suggestion>, <suggestion>⇽</suggestion>, <suggestion>⇇</suggestion>, <suggestion>⇐</suggestion>, <suggestion>⇦</suggestion>, <suggestion>⇚</suggestion> (Tipp: Verwenden Sie für Formeln [Einfügen > Objekt > Formel])</message>
+        <message>Wollen Sie einen Pfeil oder <suggestion>≤</suggestion> verwenden? Vorschläge: <suggestion>←</suggestion>, <suggestion>⇽</suggestion>, <suggestion>⇇</suggestion>, <suggestion>⇐</suggestion>, <suggestion>⇦</suggestion>, <suggestion>⇚</suggestion> (&tippformel;)</message>
         <example type="correct">A ← B</example>
         <example type="incorrect">A <marker>&lt;-</marker> B</example>
       </rule>
@@ -4804,7 +5091,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">(\-|=)</token>
           <token>></token>
         </pattern>
-        <message>Wollen Sie einen Pfeil verwenden? Vorschläge: <suggestion>↔</suggestion>, <suggestion>⇿</suggestion>, <suggestion>⇄</suggestion>, <suggestion>⇆</suggestion>, <suggestion>⇋</suggestion>, <suggestion>⇌</suggestion>, <suggestion>⇔</suggestion>  (Tipp: Verwenden Sie für Formeln [Einfügen > Objekt > Formel])</message>
+        <message>Wollen Sie einen Pfeil verwenden? Vorschläge: <suggestion>↔</suggestion>, <suggestion>⇿</suggestion>, <suggestion>⇄</suggestion>, <suggestion>⇆</suggestion>, <suggestion>⇋</suggestion>, <suggestion>⇌</suggestion>, <suggestion>⇔</suggestion>  (&tippformel;)</message>
         <example type="correct">A ⇔ B</example>
         <example type="incorrect">A <marker>&lt;=></marker> B</example>
       </rule>-->
@@ -4815,7 +5102,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>&gt;</token>
           <token>=</token>
         </pattern>
-        <message>Meinten Sie <suggestion>≥</suggestion> oder <suggestion>≧</suggestion>? (Tipp: Verwenden Sie für Formeln [Einfügen > Objekt > Formel])</message>
+        <message>Meinten Sie <suggestion>≥</suggestion> oder <suggestion>≧</suggestion>? (&tippformel;)</message>
         <example type="correct">1 ≥ 0</example>
         <example type="correct">1 = 1</example>
         <example type="incorrect">1 <marker>>=</marker> 0</example>
@@ -4827,7 +5114,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>=</token>
           <token negate="yes">></token>
         </pattern>
-        <message>Meinten Sie <suggestion>≤</suggestion> oder <suggestion>≦</suggestion>? (Tipp: Verwenden Sie für Formeln [Einfügen > Objekt > Formel])</message>
+        <message>Meinten Sie <suggestion>≤</suggestion> oder <suggestion>≦</suggestion>? (&tippformel;)</message>
         <example type="correct">1 ≤ 3</example>
         <example type="incorrect">1 <marker>&lt;=</marker> 3</example>
       </rule>-->
@@ -4898,13 +5185,13 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect">Der Winkel ist <marker>25 °</marker> groß.</example>
         <example type="incorrect">Es ist -25,<marker>5 °</marker> warm.</example>
         <example type="incorrect">Es ist <marker>-25 °</marker> warm.</example>
-        <!--<example type="incorrect" correction="25°, 25 °C">Der Winkel ist <marker>25 °</marker> groß.</example>
-        <example type="incorrect" correction="-25°, -25 °C">Es ist <marker>-25,5 °</marker> warm.</example> TODO Incorrect suggestions: [[25°, 25 °C]] != [25°, 25 °C] ???-->
+        <example type="incorrect" correction="25°|25 °C">Der Winkel ist <marker>25 °</marker> groß.</example>
+        <example type="incorrect" correction="-25°|-25 °C">Es ist <marker>-25 °</marker> warm.</example>
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">(\-)?[0-9]{1,}</token>
-          <token regexp="yes">(″)</token><!--TODO not working for ′-->
+          <token regexp="yes">\-?[0-9]+</token>
+          <token>″</token><!--TODO not working for ′-->
         </pattern>
         <message>Vor dem \2-Zeichen steht i.d.R. kein Leerzeichen. Vorschlag: <suggestion>\1\2</suggestion></message>
         <example type="correct">3° 14′ 45,54″</example>
@@ -4955,7 +5242,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token>*</token>
         <token regexp="yes">([0-9]+[a-z]*|[a-z])</token>
       </pattern>
-      <message>Wollen Sie statt des Sternchens (*) einen Mittelpunkt (<suggestion>·</suggestion>), ein Malzeichen (<suggestion>×</suggestion>) oder einen Sternoperator (<suggestion>∗</suggestion>) verwenden? (Tipp: Verwenden Sie für komplexe Formeln den Formeleditor [Einfügen > Objekt > Formel])</message>
+      <message>Wollen Sie statt des Sternchens (*) einen Mittelpunkt (<suggestion>·</suggestion>), ein Malzeichen (<suggestion>×</suggestion>) oder einen Sternoperator (<suggestion>∗</suggestion>) verwenden? (&tippformel;)</message>
       <example type="correct">a = 2 · x² + 5</example>
       <example type="correct">4,5 × 2,5</example>
       <example type="incorrect">5 <marker>*</marker> 2 = 10</example>
@@ -4968,7 +5255,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <pattern>
         <token regexp="yes">([0-9]+[a-z]*)((\*|×|∗|·|\+|÷|:|=)([0-9]+[a-z]*))+</token>
       </pattern>
-      <message>Rechenzeichen sollten durch (schmale, geschützte) Leerzeichen abgetrennt werden. Vorschlag: <suggestion><match no="1" regexp_match="(\*|×|∗|·|\+|÷|:|=|\-|—)" regexp_replace=" $1 "/></suggestion> (Tipp: Verwenden Sie für komplexe Formeln den Formeleditor [Einfügen > Objekt > Formel])</message>
+      <message>Rechenzeichen sollten durch (schmale, geschützte) Leerzeichen abgetrennt werden. Vorschlag: <suggestion><match no="1" regexp_match="(\*|×|∗|·|\+|÷|:|=|\-|—)" regexp_replace=" $1 "/></suggestion> (&tippformel;)</message>
       <example type="correct">a = 2 · x² + 5</example>
       <example type="correct">4,5 × 2,5</example>
       <example type="incorrect" correction="3a = 2"><marker>3a=2</marker></example>
