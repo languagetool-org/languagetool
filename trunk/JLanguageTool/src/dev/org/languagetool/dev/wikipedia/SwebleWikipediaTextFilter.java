@@ -12,7 +12,7 @@ import org.sweble.wikitext.engine.utils.SimpleWikiConfiguration;
  */
 public class SwebleWikipediaTextFilter implements TextFilter {
 
-  private static final int WRAP_COL = 80;
+  private static final int WRAP_COL = Integer.MAX_VALUE;
 
   @Override
   public String filter(String wikiText) {
