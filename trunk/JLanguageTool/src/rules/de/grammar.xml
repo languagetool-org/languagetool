@@ -4140,6 +4140,89 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect">Die im <marker>folgenden</marker> beschriebene Geschichte.</example>
       <example type="correct">Die im <marker>folgenden</marker> Buch beschriebene Geschichte.</example>
     </rule>
+    <rule id="ZUR_STRAFE" name="Groß-/Kleinschreibung: 'zur strafe (Strafe)'">
+      <pattern mark_from="1" case_sensitive="yes">
+        <token regexp="yes">[Zz]ur</token>
+        <token>strafe</token>
+      </pattern>
+      <message>Bitte prüfen Sie, ob <suggestion>Strafe</suggestion> hier als Substantiv gebraucht wird.</message>
+      <example type="correct">Zur <marker>Strafe</marker> bekommst du keinen Nachtisch!</example>
+      <example type="incorrect">Zur <marker>strafe</marker> bekommst du keinen Nachtisch!</example>
+    </rule>
+    <rule id="IM_LEBEN" name="Groß-/Kleinschreibung: 'im leben (Leben)'">
+      <pattern mark_from="1" case_sensitive="yes">
+        <token regexp="yes">[Ii]m</token>
+        <token>leben</token>
+      </pattern>
+      <message>Bitte prüfen Sie, ob <suggestion>Leben</suggestion> hier als Substantiv gebraucht wird.</message>
+      <example type="correct">Das funktioniert doch nie im <marker>Leben</marker>!</example>
+      <example type="incorrect">Das funktioniert doch nie im <marker>leben</marker>!</example>
+    </rule>
+    <rulegroup id="EINEN_GEFALLEN" name="Groß-/Kleinschreibung: 'einen gefallen (Gefallen) tun'">
+      <rule>
+        <pattern mark_from="1" mark_to="-1" case_sensitive="yes">
+          <token regexp="yes">[eE]inen|[kK]einen|[dD]en</token>
+          <token>gefallen</token>
+          <token inflected="yes">tun</token>
+        </pattern>
+        <message>Bitte prüfen Sie, ob <suggestion>Gefallen</suggestion> hier als Substantiv gebraucht wird.</message>
+        <example type="correct">Kannst du mir einen <marker>Gefallen</marker> tun?</example>
+        <example type="incorrect">Kannst du mir einen <marker>gefallen</marker> tun?</example>
+      </rule>
+      <rule>
+        <pattern mark_from="3" case_sensitive="yes">
+          <token inflected="yes">tun</token>
+          <token regexp="yes">mir|[dD]ir|[iI]hr|ihm|[iI]hnen|[eU]uch|sich|uns</token>
+          <token regexp="yes">(k)?einen|den</token>
+          <token>gefallen</token>
+        </pattern>
+        <message>Bitte prüfen Sie, ob <suggestion>Gefallen</suggestion> hier als Substantiv gebraucht wird.</message>
+        <example type="correct">Bitte tu mir den <marker>Gefallen</marker>!</example>
+        <example type="incorrect">Bitte tut mir den <marker>gefallen</marker>!</example>
+      </rule>
+      <rule>
+        <pattern mark_from="4" case_sensitive="yes">
+          <token inflected="yes">tun</token>
+          <token regexp="yes">mir|[dD]ir|[iI]hr|ihm|[iI]hnen|[eU]uch|sich|uns</token>
+          <token regexp="yes">damit|selb(st|er)</token>
+          <token regexp="yes">(k)?einen|den</token>
+          <token>gefallen</token>
+        </pattern>
+        <message>Bitte prüfen Sie, ob <suggestion>Gefallen</suggestion> hier als Substantiv gebraucht wird.</message>
+        <example type="correct">Ihr tut euch damit keinen <marker>Gefallen</marker>.</example>
+        <example type="incorrect">Ihr tut euch damit keinen <marker>gefallen</marker>.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="ZUR_EILE" name="Groß-/Kleinschreibung: 'zur eile (Eile)'">
+      <rule>
+        <pattern mark_from="1" case_sensitive="yes">
+          <token regexp="yes">[zZ]ur|[iI]n</token>
+          <token>eile</token>
+        </pattern>
+        <message>Bitte prüfen Sie, ob <suggestion>Eile</suggestion> hier als Substantiv gebraucht wird.</message>
+        <example type="correct">Sie mahnte zur <marker>Eile</marker>.</example>
+        <example type="incorrect">Sie mahnte zur <marker>eile</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2" case_sensitive="yes">
+          <token regexp="yes">[zZ]ur|[iI]n</token>
+          <token postag="ADJ:.*" postag_regexp="yes"/>
+          <token>eile</token>
+        </pattern>
+        <message>Bitte prüfen Sie, ob <suggestion>Eile</suggestion> hier als Substantiv gebraucht wird.</message>
+        <example type="correct">Sie mahnte zu größerer <marker>Eile</marker>.</example>
+        <example type="correct">Sie mahnte zu größerer <marker>eile</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1" case_sensitive="yes">
+          <token>eile</token>
+          <token>geboten</token>
+        </pattern>
+        <message>Bitte prüfen Sie, ob <suggestion>Eile</suggestion> hier als Substantiv gebraucht wird.</message>
+        <example type="correct">Hier ist größte <marker>Eile</marker> geboten.</example>
+        <example type="incorrect">Hier ist größte <marker>eile</marker> geboten.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="IN_KUERZE" name="Groß-/Kleinschreibung: 'in kürze (Kürze)'">
       <rule>
         <pattern mark_from="1" case_sensitive="yes">
