@@ -23,9 +23,16 @@ import org.languagetool.Language;
 import org.languagetool.TextFilter;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tools.StringTools;
+import org.xml.sax.Attributes;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
 
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringReader;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
@@ -68,7 +75,7 @@ public class WikipediaQuickCheck {
     final String apiUrl = "http://" + lang.getShortName() + ".wikipedia.org/w/api.php?titles=" 
             + pageTitle + "&action=query&prop=revisions&rvprop=content&format=xml";
     final String completeWikiContent = getContent(new URL(apiUrl));
-    final String plainText = getFilteredWikiContent(apiUrl, completeWikiContent);
+    final String plainText = getFilteredWikiContent(completeWikiContent);
 
     final JLanguageTool langTool = getLanguageTool(lang);
     final List<RuleMatch> ruleMatches = langTool.check(plainText);
@@ -81,17 +88,24 @@ public class WikipediaQuickCheck {
     }
   }
 
-  private String getFilteredWikiContent(String apiUrl, String completeWikiContent) {
-    final int fromPos = completeWikiContent.indexOf("<rev ");
-    final int toPos = completeWikiContent.indexOf("</rev>");
-    if (fromPos == -1 || toPos == -1) {
-      throw new RuntimeException("Sorry, no content found in article at " + apiUrl);
-    }
-    final String wikiContent = completeWikiContent.substring(completeWikiContent.indexOf(">", fromPos) + 1, toPos);
-    //final BlikiWikipediaTextFilter filter = new BlikiWikipediaTextFilter();
+  String getFilteredWikiContent(String completeWikiContent) {
+    final String wikiContent = getRevisionContent(completeWikiContent);
     final TextFilter filter = new SwebleWikipediaTextFilter();
-    final String plainText = filter.filter(wikiContent).replace("nbsp;", " ");  //TODO
+    final String plainText = filter.filter(wikiContent);
     return plainText;
+  }
+
+  private String getRevisionContent(String completeWikiContent) {
+    final SAXParserFactory factory = SAXParserFactory.newInstance();
+    final SAXParser saxParser;
+    final RevisionContentHandler handler  = new RevisionContentHandler();
+    try {
+      saxParser = factory.newSAXParser();
+      saxParser.parse(new InputSource(new StringReader(completeWikiContent)), handler);
+    } catch (Exception e) {
+      throw new RuntimeException("Could not parse XML: " + completeWikiContent, e);
+    }
+    return handler.getRevisionContent();
   }
 
   private JLanguageTool getLanguageTool(Language lang) throws IOException {
@@ -111,12 +125,49 @@ public class WikipediaQuickCheck {
   public static void main(String[] args) throws IOException {
     final WikipediaQuickCheck check = new WikipediaQuickCheck();
     //final String url = "http://de.wikipedia.org/wiki/Hof";
-    final String url = "http://de.wikipedia.org/wiki/Benutzer_Diskussion:Dnaber";
+    //final String url = "http://de.wikipedia.org/wiki/Benutzer_Diskussion:Dnaber";
+    //final String url = "http://de.wikipedia.org/wiki/Angela_Merkel";
+    // TODO: support enumerations:
+    final String url = "http://de.wikipedia.org/wiki/Wortschatz";
     final WikipediaQuickCheckResult checkResult = check.checkPage(new URL(url));
     for (RuleMatch ruleMatch : checkResult.getRuleMatches()) {
       System.out.println(ruleMatch.getMessage());
       final String context = StringTools.getContext(ruleMatch.getFromPos(), ruleMatch.getToPos(), checkResult.getText());
       System.out.println(context);
+    }
+  }
+  
+  class RevisionContentHandler extends DefaultHandler {
+
+    private final StringBuilder revisionText = new StringBuilder();
+    private boolean inRevision = false;
+
+    @Override
+    public void startElement(final String namespaceURI, final String lName,
+        final String qName, final Attributes attrs) throws SAXException {
+      if ("rev".equals(qName)) {
+        inRevision = true;
+      }
+    }
+
+    @Override
+    public void endElement(final String namespaceURI, final String sName,
+        final String qName) throws SAXException {
+      if ("rev".equals(qName)) {
+        inRevision = false;
+      }
+    }
+    
+    @Override
+    public void characters(final char[] buf, final int offset, final int len) {
+      final String s = new String(buf, offset, len);
+      if (inRevision) {
+        revisionText.append(s);
+      }
+    }
+
+    public String getRevisionContent() {
+      return revisionText.toString();
     }
   }
 

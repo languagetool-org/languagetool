@@ -185,7 +185,11 @@ public class TextConverter
 	public void visit(XmlEntityRef er)
 	{
 		String ch = EntityReferences.resolve(er.getName());
-		if (ch == null)
+		if ("nbsp".equals(er.getName())) 
+		{
+			write(' ');
+		}
+		else if (ch == null)
 		{
 			write('&');
 			write(er.getName());
