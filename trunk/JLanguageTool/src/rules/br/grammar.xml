@@ -791,6 +791,7 @@ Some grammatical resources used:
         <example type="incorrect">Gourc‘hemen a ran ma <marker>deuio</marker>.</example>
         <example type="incorrect">Gourc‘hemen a ran ma <marker>zeuio</marker>.</example>
         <example type="correct">Gourc‘hemen a ran ma teuio.</example>
+        <example type="correct">Ma digarezit.</example>
       </rule>
       <rule>
         <pattern mark_from="1">
@@ -1045,6 +1046,54 @@ Some grammatical resources used:
       <example type="correct">Ken bras eo!</example>
     </rule>
 
+    <rulegroup id="KEMM_N_J" name="Kemmadur en anv-gwan o tont warlec’h an anv">
+      <rule>
+        <pattern mark_from="1">
+          <token postag="N f s.*|N m p t.*" postag_regexp="yes">
+            <exception regexp="yes">.*([lnmrvaeiouù]|lh)</exception>
+          </token>
+          <and>
+            <token postag="J[^M]*M.*:1:.*" postag_regexp="yes"/>
+            <token regexp="yes">[gdb].*</token>
+          </and>
+        </pattern>
+        <message>Diglok e vez ar c’hemmadur dre vlotaat en anv-gwan gwregel unan pe anv tud gourel lies goude an anv hervez al lizherenn a echu an anv ganto. Ne zlefe ket neuze bezañ ur c’hammadur en anv-gwan «\2» goude an anv «\1».</message>
+        <example type="incorrect">Tud <marker>gozh</marker></example>
+        <example type="correct">Tud kozh</example>
+        <example type="correct">Studerien gozh</example>
+        <example type="incorrect">Paotred <marker>binvidik</marker></example>
+        <example type="correct">Paotred pinvidik</example>
+        <example type="correct">Ur var vras</example>
+        <example type="correct">Ur verc’h vat</example>
+        <example type="incorrect">Ur vuoc’h <marker>gozh</marker></example>
+        <example type="correct">Ur vuoc’h kozh</example>
+        <example type="correct">Ur gannerez trouzus</example>
+        <example type="correct">Ur plac’h vras</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token postag="N f p.*|N m s.*" postag_regexp="yes">
+            <exception postag="N f s.*|N m p t.*" postag_regexp="yes"/>
+            <exception postag="N f s.*|N m p t.*" postag_regexp="yes"/>
+            <exception regexp="yes" inflected="yes">.|re|aer|avel|brud|c’hoari|c’hwezh|lur|revr|tra</exception>
+          </token>
+          <token postag="J[^M]*M:.*" postag_regexp="yes">
+            <exception negate_pos="yes" postag="J[^M]*M:.*|SENT_END" postag_regexp="yes"/>
+          </token>
+        </pattern>
+        <message>Ne zlefe bezañ ur c’hemmadur en anv-gwan «\2» goude an anv benel unan pe gourel lies «\1».</message>
+        <example type="incorrect">Plac’hed <marker>vras</marker></example>
+        <example type="incorrect">Plac’hed <marker>vras</marker>.</example>
+        <example type="correct">Ur plac’h vras</example>
+        <example type="correct">Ur plac’h vras.</example>
+        <example type="correct">Paotred vras</example>
+        <example type="correct">Hanter zigor</example>
+        <example type="correct">Re yaouank ha re gozh</example>
+        <example type="correct">Un dra vat</example>
+        <example type="correct">An amzer gaer</example>
+      </rule>
+    </rulegroup>
+
   </category>
 
   <category name="Ger-mell">
@@ -1290,7 +1339,7 @@ Some grammatical resources used:
       <pattern mark_to="-2">
         <token postag="V.*" postag_regexp="yes">
           <exception postag="V inf.*" postag_regexp="yes"/>
-          <exception postag="N.*" postag_regexp="yes"/>
+          <exception postag="[JN].*" postag_regexp="yes"/>
         </token>
         <token>a</token>
         <token inflected="yes">ober</token>
@@ -1299,6 +1348,7 @@ Some grammatical resources used:
       <example type="incorrect"><marker>Komzan</marker> a ran re.</example>
       <example type="correct">Komz a ran re.</example>
       <example type="correct">Al labour a ra vat.</example>
+      <example type="correct">Ur banne aer fresk a raio vad din.</example>
     </rule>
 
     <rulegroup id="PAOUEZ" name="paouez da">
@@ -2310,6 +2360,16 @@ Some grammatical resources used:
         <example type="correct">Miz zo e oa aet kuit.</example>
       </rule>
     </rulegroup>
+
+    <rule id="N_TRE" name="anv + tre">
+      <pattern mark_from="1">
+        <token postag="N.*" postag_regexp="yes"><exception postag="[VJ].*" postag_regexp="yes"></exception></token>
+        <token>tre</token>
+      </pattern>
+      <message>Ne vez ket implijet «tre» war-lerc’h un anv.</message>
+      <example type="incorrect">Poan <marker>tre</marker> am eus.</example>
+      <example type="correct">Poan vras am eus.</example>
+    </rule>
   </category>
   <!-- vim: foldmethod=marker foldmarker=<category,</category:
   -->
