@@ -122,13 +122,22 @@ public class WikipediaQuickCheck {
     return StringTools.streamToString(contentStream);
   }
 
+  public static void mainTest(String[] args) throws IOException {
+      final TextFilter filter = new SwebleWikipediaTextFilter();
+      final String plainText = filter.filter("hallo\n* eins\n* zwei");
+      System.out.println(plainText);
+  }
+    
   public static void main(String[] args) throws IOException {
     final WikipediaQuickCheck check = new WikipediaQuickCheck();
     //final String url = "http://de.wikipedia.org/wiki/Hof";
-    //final String url = "http://de.wikipedia.org/wiki/Benutzer_Diskussion:Dnaber";
+    //final String url = "http://de.wikipedia.org/wiki/Gütersloh";
+    //final String url = "http://de.wikipedia.org/wiki/Bielefeld";
+    //final String url = "http://de.wikipedia.org/wiki/Berlin";
+    //final String url = "http://de.wikipedia.org/wiki/Köln";
     //final String url = "http://de.wikipedia.org/wiki/Angela_Merkel";
-    // TODO: support enumerations:
-    final String url = "http://de.wikipedia.org/wiki/Wortschatz";
+    //final String url = "http://de.wikipedia.org/wiki/Wortschatz";
+    final String url = "http://de.wikipedia.org/wiki/Benutzer_Diskussion:Dnaber";
     final WikipediaQuickCheckResult checkResult = check.checkPage(new URL(url));
     for (RuleMatch ruleMatch : checkResult.getRuleMatches()) {
       System.out.println(ruleMatch.getMessage());

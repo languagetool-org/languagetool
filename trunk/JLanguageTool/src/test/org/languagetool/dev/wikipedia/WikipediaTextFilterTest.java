@@ -47,10 +47,16 @@ public class WikipediaTextFilterTest extends TestCase {
     assertEquals("foo visible link bar", swebleFilter.filter(input));
   }
 
-  //TODO
-  /*public void testEntity() throws Exception {
+  public void testEntity() throws Exception {
     final String input = "rund 20&nbsp;Kilometer südlich";
     assertEquals("rund 20 Kilometer südlich", swebleFilter.filter(input));
-  }*/
-  
+  }
+
+  public void testLists() throws Exception {
+    final String input1 = "# one\n# two\n";
+    assertEquals("one\ntwo", swebleFilter.filter(input1));
+    final String input2 = "* one\n* two\n";
+    assertEquals("one\ntwo", swebleFilter.filter(input2));
+  }
+    
 }

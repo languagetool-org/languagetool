@@ -25,18 +25,7 @@ import org.sweble.wikitext.engine.utils.EntityReferences;
 import org.sweble.wikitext.engine.utils.SimpleWikiConfiguration;
 import org.sweble.wikitext.lazy.LinkTargetException;
 import org.sweble.wikitext.lazy.encval.IllegalCodePoint;
-import org.sweble.wikitext.lazy.parser.Bold;
-import org.sweble.wikitext.lazy.parser.ExternalLink;
-import org.sweble.wikitext.lazy.parser.HorizontalRule;
-import org.sweble.wikitext.lazy.parser.ImageLink;
-import org.sweble.wikitext.lazy.parser.InternalLink;
-import org.sweble.wikitext.lazy.parser.Italics;
-import org.sweble.wikitext.lazy.parser.MagicWord;
-import org.sweble.wikitext.lazy.parser.Paragraph;
-import org.sweble.wikitext.lazy.parser.Section;
-import org.sweble.wikitext.lazy.parser.Url;
-import org.sweble.wikitext.lazy.parser.Whitespace;
-import org.sweble.wikitext.lazy.parser.XmlElement;
+import org.sweble.wikitext.lazy.parser.*;
 import org.sweble.wikitext.lazy.preprocessor.TagExtension;
 import org.sweble.wikitext.lazy.preprocessor.Template;
 import org.sweble.wikitext.lazy.preprocessor.TemplateArgument;
@@ -148,6 +137,28 @@ public class TextConverter
 		iterate(n);
 	}
 	
+    public void visit(Itemization e)
+    {
+        iterate(e.getContent());
+    }
+
+    public void visit(ItemizationItem i)
+    {
+        newline(1);
+        iterate(i.getContent());
+    }
+    
+    public void visit(Enumeration e)
+    {
+        iterate(e.getContent());
+    }
+
+    public void visit(EnumerationItem item)
+    {
+        newline(1);
+        iterate(item.getContent());
+    }
+    
 	public void visit(Page p)
 	{
 		iterate(p.getContent());
