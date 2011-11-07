@@ -1985,7 +1985,7 @@ Some grammatical resources used:
       <rule>
         <pattern mark_to="-1">
           <token regexp="yes">tamm(ig)?</token>
-          <token regexp="yes">chug(-.*)?|dour|gwin|sitr|chistr|kafe|laezh|soubenn</token>
+          <token regexp="yes">avel|chistr|chouchenn|chug(-.*)?|dour|digor-kalon|eoul|glav|gouloù|gwin|heol|kafe|laezh|sistr|soubenn</token>
         </pattern>
         <message>Implijit <suggestion>banne</suggestion> dirak an evajoù.</message>
         <example type="incorrect">Un <marker>tamm</marker> kafe tomm am bo.</example>
@@ -1995,7 +1995,7 @@ Some grammatical resources used:
       <rule>
         <pattern mark_to="-1">
           <token regexp="yes">(banne|lomm)(ig)?</token>
-          <token regexp="yes">bara|kig</token>
+          <token regexp="yes">amanenn|bara|boued|frouezh|koad|kig|geot|sukr</token>
         </pattern>
         <message>Implijit <suggestion>tamm</suggestion>.</message>
         <example type="incorrect">Ur <marker>banne</marker> bara am bo.</example>
@@ -2377,7 +2377,7 @@ Some grammatical resources used:
       <example type="correct">Poan vras am eus.</example>
     </rule>
 
-    <rulegroup id="KET_EBET" name="ket + ebet">
+    <rulegroup id="EBET" name="ebet">
       <rule>
         <pattern mark_from="2" mark_to="-2">
           <token inflected="yes">ne</token>
@@ -2391,6 +2391,28 @@ Some grammatical resources used:
         <example type="correct">Ne welan den ebet.</example>
         <example type="incorrect">N’eus <marker>ket</marker> boued ebet.</example>
         <example type="correct">N‘eus boued ebet.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2">
+          <token inflected="yes">ne</token>
+          <token postag="V.*" postag_regexp="yes"/>
+          <token regexp="yes">avel|chistr|chouchenn|chug(-.*)?|dour|digor-kalon|eoul|glav|gouloù|gwin|heol|kafe|laezh|sistr|soubenn</token>
+          <token>ebet</token>
+        </pattern>
+        <message>Ret eo implij <suggestion>banne \3 \4</suggestion> gant ur ger hollek «\3» a-raok ar ger «\4».</message>
+        <example type="incorrect">N’eus <marker>avel ebet</marker>.</example>
+        <example type="correct">N’eus banne avel ebet.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2">
+          <token inflected="yes">ne</token>
+          <token postag="V.*" postag_regexp="yes"/>
+          <token regexp="yes">amanenn|bara|boued|frouezh|koad|kig|geot|sukr</token>
+          <token>ebet</token>
+        </pattern>
+        <message>Ret eo implij <suggestion>tamm \3 \4</suggestion> gant ur ger hollek «\3» a-raok ar ger «\4».</message>
+        <example type="incorrect">Ne zebran <marker>frouezh ebet</marker>.</example>
+        <example type="correct">Ne zebran tamm frouezh ebet.</example>
       </rule>
     </rulegroup>
     <rulegroup id="KET_NEMEUR" name="ket + nemeur">
