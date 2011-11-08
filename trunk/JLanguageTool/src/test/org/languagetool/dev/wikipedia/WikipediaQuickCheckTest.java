@@ -24,7 +24,7 @@ public class WikipediaQuickCheckTest extends TestCase {
   
   public void testGetFilteredWikiContent() {
     final WikipediaQuickCheck check = new WikipediaQuickCheck();
-    final String filteredContent = check.getFilteredWikiContent(
+    final String filteredContent = check.getPlainText(
             "<?xml version=\"1.0\"?><api><query><normalized><n from=\"Benutzer_Diskussion:Dnaber\" to=\"Benutzer Diskussion:Dnaber\" />" +
                     "</normalized><pages><page pageid=\"143424\" ns=\"3\" title=\"Benutzer Diskussion:Dnaber\"><revisions><rev xml:space=\"preserve\">\n" +
                     "Test [[Link]] Foo&amp;nbsp;bar.\n" +

@@ -51,44 +51,42 @@ public class WikipediaQuickCheck {
     return disabledRuleIds;
   }
 
-  public WikipediaQuickCheckResult checkPage(URL wikipediaUrl) throws IOException {
+  public String getMediaWikiContent(URL wikipediaUrl) throws IOException {
     validateWikipediaUrl(wikipediaUrl);
     final String shortLangName;
     final String pageTitle;
     try {
-      final int prefixLength = "http://".length();
-      shortLangName = wikipediaUrl.toString().substring(prefixLength, prefixLength + 2);
+      shortLangName = getLanguage(wikipediaUrl);
       pageTitle = wikipediaUrl.toString().substring("http://xx.wikipedia.org/wiki/".length());
     } catch (StringIndexOutOfBoundsException e) {
       throw new RuntimeException("URL does not seem to be a valid URL: " + wikipediaUrl.toString(), e);
     }
-    final Language lang = Language.getLanguageForShortName(shortLangName);
-    if (lang == null) {
-      throw new RuntimeException("Language '" + shortLangName + "' is not supported by LanguageTool");
-    }
-    
-    // TODO: remove this restriction
-    if (lang != Language.GERMAN) {
-      throw new RuntimeException("Sorry, only German is support for now");
-    }
-      
-    final String apiUrl = "http://" + lang.getShortName() + ".wikipedia.org/w/api.php?titles=" 
+    final String apiUrl = "http://" + shortLangName + ".wikipedia.org/w/api.php?titles=" 
             + pageTitle + "&action=query&prop=revisions&rvprop=content&format=xml";
-    final String completeWikiContent = getContent(new URL(apiUrl));
-    final String plainText = getFilteredWikiContent(completeWikiContent);
+    return getContent(new URL(apiUrl));
+  }
 
+  private String getLanguage(URL wikipediaUrl) {
+    final String[] parts = wikipediaUrl.getHost().split("\\.");
+    if (parts.length != 3) {
+      throw new RuntimeException("Does not look like a Wikipedia server: " + wikipediaUrl);
+    }
+    return parts[0];
+  }
+
+  public WikipediaQuickCheckResult checkPage(String plainText, Language lang) throws IOException {
     final JLanguageTool langTool = getLanguageTool(lang);
     final List<RuleMatch> ruleMatches = langTool.check(plainText);
     return new WikipediaQuickCheckResult(plainText, ruleMatches, lang.getShortName());
   }
 
-  private void validateWikipediaUrl(URL wikipediaUrl) {
+  public void validateWikipediaUrl(URL wikipediaUrl) {
     if (!wikipediaUrl.toString().matches("http://..\\.wikipedia\\.org/wiki/.*")) {
       throw new RuntimeException("URL does not seem to be a Wikipedia URL: " + wikipediaUrl);
     }
   }
 
-  String getFilteredWikiContent(String completeWikiContent) {
+  String getPlainText(String completeWikiContent) {
     final String wikiContent = getRevisionContent(completeWikiContent);
     final TextFilter filter = new SwebleWikipediaTextFilter();
     final String plainText = filter.filter(wikiContent);
@@ -137,8 +135,12 @@ public class WikipediaQuickCheck {
     //final String url = "http://de.wikipedia.org/wiki/Köln";
     //final String url = "http://de.wikipedia.org/wiki/Angela_Merkel";
     //final String url = "http://de.wikipedia.org/wiki/Wortschatz";
-    final String url = "http://de.wikipedia.org/wiki/Benutzer_Diskussion:Dnaber";
-    final WikipediaQuickCheckResult checkResult = check.checkPage(new URL(url));
+    final String urlString = "http://de.wikipedia.org/wiki/Benutzer_Diskussion:Dnaber";
+    final URL url = new URL(urlString);
+    final String language = check.getLanguage(url);
+    final String mediaWikiContent = check.getMediaWikiContent(url);
+    final String plainText = check.getPlainText(mediaWikiContent);
+    final WikipediaQuickCheckResult checkResult = check.checkPage(plainText, Language.getLanguageForShortName(language));
     for (RuleMatch ruleMatch : checkResult.getRuleMatches()) {
       System.out.println(ruleMatch.getMessage());
       final String context = StringTools.getContext(ruleMatch.getFromPos(), ruleMatch.getToPos(), checkResult.getText());
