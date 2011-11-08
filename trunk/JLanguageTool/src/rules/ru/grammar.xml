@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 LanguageTool. Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
 A Russian rule file for LanguageTool 
 Copyright (C) 2008-2011 Yakov Reztsov
-$Id: grammar.xml,v 1.73 2011-10-14 21:45:30 yakovru Exp $
+$Id: grammar.xml,v 1.74 2011-11-08 21:30:10 yakovru Exp $
 #     REVISION:  $Id$
 -->
 <rules lang="ru" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -577,6 +577,25 @@ $Id: grammar.xml,v 1.73 2011-10-14 21:45:30 yakovru Exp $
                 <example type="incorrect">Работа была сделана<marker>, как попало</marker>.</example>
             </rule>
         </rulegroup>
+         <rulegroup default="on" id="NO_VVODNOE" name="Слова, не являющиеся вводными">
+            <!-- авось, буквально, будто, вдобавок, вдруг, ведь,
+             вот, всё-таки, даже, исключительно,
+            именно,  небось, приблизительно, примерно,
+            притом, почти, поэтому, просто, решительно, словно, якобы не выделяются запятыми.
+            --> 
+            <rule>
+                <pattern>
+                    <token>,</token>
+                    <token  regexp="yes">авось|буквально|будто|вдобавок|вдруг|ведь|вот|всё-таки|даже|исключительно|именно|небось|приблизительно|примерно|притом|почти|поэтому|просто|решительно|словно|якобы</token>
+                    <token>,</token>
+                </pattern>
+                <message>Слово не является вводным. Запятые не нужны:<suggestion> \2</suggestion>.</message>
+                <short>Запятые не нужны.</short>
+                <example type="correct">Вокалисты неритмично поют,и вдобавок не те ноты.</example>
+                <example type="incorrect">Вокалисты неритмично поют,и<marker>, вдобавок,</marker>не те ноты.</example>
+            </rule>
+        </rulegroup>
+        
         <rulegroup default="on" id="NO_NE_KAK" name="“Почти как”, “не как”, ...">
             <!--Перед сравнительным оборотом стоит "не" или слова: совсем, совершенно, почти, именно  ->> запятая не ставится.
             --> 
@@ -993,7 +1012,7 @@ $Id: grammar.xml,v 1.73 2011-10-14 21:45:30 yakovru Exp $
             <rule>  
                 <pattern>
                     <token regexp= "yes">пятеро|шестеро|семеро</token>
-                    <token  postag="NN:Fem:.*" postag_regexp="yes"></token>
+                    <token  postag="NN:Fem:.*" postag_regexp="yes"><exception>были</exception></token>
                 </pattern>                
                 <!--            согласовать падежи для коррекции ошибок - выполнено
                   -->
@@ -1008,7 +1027,7 @@ $Id: grammar.xml,v 1.73 2011-10-14 21:45:30 yakovru Exp $
             <rule>  
                 <pattern>
                     <token>двое</token>
-                    <token  postag="NN:Fem:.*" postag_regexp="yes"></token>
+                    <token  postag="NN:Fem:.*" postag_regexp="yes"><exception>были</exception></token>
                 </pattern>                 
                 <message>Собирательные числительные (двое, трое, четверо, пятеро, шестеро, семеро) НЕЛЬЗЯ употреблять с существительными женского рода
                     <suggestion>две <match no="2"   postag="NN:Fem:PL:Nom"></match></suggestion>
@@ -1020,7 +1039,7 @@ $Id: grammar.xml,v 1.73 2011-10-14 21:45:30 yakovru Exp $
             <rule>  
                 <pattern>
                     <token>трое</token>
-                    <token  postag="NN:Fem:.*" postag_regexp="yes"></token>
+                    <token  postag="NN:Fem:.*" postag_regexp="yes"><exception>были</exception></token>
                 </pattern>                 
                 <message>Собирательные числительные (двое, трое, четверо, пятеро, шестеро, семеро) НЕЛЬЗЯ употреблять с существительными женского рода
                     <suggestion>три <match no="2"   postag="NN:Fem:PL:Nom"></match></suggestion>
@@ -1032,7 +1051,7 @@ $Id: grammar.xml,v 1.73 2011-10-14 21:45:30 yakovru Exp $
             <rule>  
                 <pattern>
                     <token>четверо</token>
-                    <token  postag="NN:Fem:.*" postag_regexp="yes"></token>
+                    <token  postag="NN:Fem:.*" postag_regexp="yes"><exception>были</exception></token>
                 </pattern>                 
                 <message>Собирательные числительные (двое, трое, четверо, пятеро, шестеро, семеро) НЕЛЬЗЯ употреблять с существительными женского рода
                     <suggestion>четыре <match no="2"   postag="NN:Fem:PL:Nom"></match></suggestion>
