@@ -2904,10 +2904,10 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <pattern mark_to="-2" mark_from="1" case_sensitive="yes">
           <token regexp="yes">(D|d)(er|es|em|en)</token>
           <token>hl</token>
-          <token>.</token><!-- TODO that doesn't seem to work-->
+          <token>.</token>
           <token regexp="yes">Geiste?s?</token>
         </pattern>
-        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="2"/></suggestion> \3 \4 (Christentum)? &namengross;</message>
+        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="2"/></suggestion>\3 \4 (Christentum)? &namengross;</message>
         <example type="correct">Der <marker>Hl</marker>. Geist</example>
         <example type="incorrect" correction="Hl">Dem <marker>hl</marker>. Geist</example>
       </rule>
@@ -3165,7 +3165,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>.</token>
           <token regexp="yes">Vater(s)?</token>
         </pattern>
-        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="2"/></suggestion> \3 \4 (Papst)? &titelgross;</message>
+        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="2"/></suggestion>\3 \4 (Papst)? &titelgross;</message>
         <example type="correct">Der <marker>Hl</marker>. Vater</example>
         <example type="incorrect" correction="Hl">Der <marker>hl</marker>. Vater</example>
       </rule>
@@ -4388,19 +4388,33 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect">Des <marker>nachts</marker> sind alle Katzen blau.</example>
       <example type="incorrect">Eines <marker>nachts</marker> sind alle Katzen blau.</example>
     </rule>
-    <!-- TODO: Gut und böse; gut und Böse -->
-    <rule id="GUT_UND_BOESE" name="Groß-/Kleinschreibung: 'jenseits von gut (Gut) und böse (Böse)'">
-      <pattern case_sensitive="yes" mark_from="2">
-        <token regexp="yes">[Jj]enseits</token>
-        <token>von</token>
-        <token>gut</token>
-        <token>und</token>
-        <token>böse</token>
-      </pattern>
-      <message><suggestion>Gut und Böse</suggestion> in der Wendung 'jenseits von Gut und Böse' wird großgeschrieben.</message>
-      <example type="correct">Das ist jenseits von <marker>Gut und Böse</marker>.</example>
-      <example type="incorrect">Das ist jenseits von <marker>gut und böse</marker>.</example>
-    </rule>
+    <rulegroup id="GUT_UND_BOESE" name="Groß-/Kleinschreibung: 'jenseits von gut (Gut) und böse (Böse)'">
+      <rule>
+        <pattern case_sensitive="yes" mark_from="2">
+          <token regexp="yes">[Jj]enseits</token>
+          <token>von</token>
+          <token regexp="yes">[gG]ut</token>
+          <token>und</token>
+          <token>böse</token>
+        </pattern>
+        <message><suggestion>Gut und Böse</suggestion> in der Wendung 'jenseits von Gut und Böse' wird großgeschrieben.</message>
+        <example type="correct">Das ist jenseits von <marker>Gut und Böse</marker>.</example>
+        <example type="incorrect" correction="Gut und Böse">Das ist jenseits von <marker>gut und böse</marker>.</example>
+        <example type="incorrect" correction="Gut und Böse">Das ist jenseits von <marker>Gut und böse</marker>.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="2">
+          <token regexp="yes">[Jj]enseits</token>
+          <token>von</token>
+          <token>gut</token>
+          <token>und</token>
+          <token>Böse</token>
+        </pattern>
+        <message><suggestion>Gut und Böse</suggestion> in der Wendung 'jenseits von Gut und Böse' wird großgeschrieben.</message>
+        <example type="correct">Das ist jenseits von <marker>Gut und Böse</marker>.</example>
+        <example type="incorrect" correction="Gut und Böse">Das ist jenseits von <marker>gut und Böse</marker>.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="GENUEGE" name="Groß-/Kleinschreibung: 'zur genüge (Genüge)'">
       <rule>
         <pattern case_sensitive="yes">
@@ -4611,6 +4625,15 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct">Das hatte ein Anhalten des Zuges zur <marker>Folge</marker>.</example>
       <example type="incorrect">Das hatte ein Anhalten des Zuges zur <marker>folge</marker>.</example>
       <example type="incorrect">Zur <marker>folge</marker> hatte es ein Anhalten des Zuges.</example>
+    </rule>
+    <rule id="ZUR_REDE" name="Groß-/Kleinschreibung: 'zur rede (Rede)'">
+      <pattern case_sensitive="yes" mark_from="1">
+        <token regexp="yes">(z|Z)ur</token>
+        <token>rede</token>
+      </pattern>
+      <message>Bitte prüfen Sie, ob <suggestion>Rede</suggestion> hier als Substantiv gebraucht wird und daher großgeschrieben werden muss.</message>
+      <example type="correct">Ich habe ihn zur <marker>Rede</marker> gestellt.</example>
+      <example type="incorrect" correction="Rede">Ich habe ihn zur <marker>rede</marker> gestellt.</example>
     </rule>
     <rule id="IN_RUHE" name="Groß-/Kleinschreibung: 'in ruhe (Ruhe)'">
       <pattern case_sensitive="yes" mark_from="1">
