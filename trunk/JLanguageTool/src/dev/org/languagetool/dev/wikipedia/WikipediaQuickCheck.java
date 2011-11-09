@@ -45,7 +45,7 @@ public class WikipediaQuickCheck {
   // disable some rules because of too many false alarms:
   private static final List<String> disabledRuleIds = Arrays.asList("WHITESPACE_RULE", "DE_CASE",
           "UNPAIRED_BRACKETS", "UPPERCASE_SENTENCE_START", "COMMA_PARENTHESIS_WHITESPACE",
-          "DE_AGREEMENT", "PFEILE", "BISSTRICH", "AUSLASSUNGSPUNKTE");
+          "DE_AGREEMENT", "PFEILE", "BISSTRICH", "AUSLASSUNGSPUNKTE", "MALZEICHEN");
 
   public List<String> getDisabledRuleIds() {
     return disabledRuleIds;
