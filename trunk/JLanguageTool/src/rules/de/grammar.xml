@@ -109,6 +109,16 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct">Das war jetzt schon das <marker>zweite</marker> Mal.</example>
       <example type="incorrect">Das war jetzt schon das <marker>zweit</marker> Mal.</example>
     </rule>
+    <rule id="COACH_VS_COUCH" name="Möglicher Tippfehler: 'Coach (Couch)'">
+      <pattern mark_from="2">
+        <token>auf</token>
+        <token regexp="yes">der|die</token>
+        <token>Coach</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>Couch</suggestion> (Sofa) statt Coach (Trainer)?</message>
+      <example type="correct">Wir saßen auf der <marker>Couch</marker>.</example>
+      <example type="incorrect">Wir saßen auf der <marker>Coach</marker>.</example>
+    </rule>
     <rule id="SPRACHE_VS_SPRACH" name="Möglicher Tippfehler: 'in deutscher Sprach (Sprache)'">
       <pattern case_sensitive="yes" mark_from="1">
         <token regexp="yes">(afrikanische|altarabische|altchinesische|altgriechische|altpersische|amerikanische|arabische|asiatische|chinesische|deutsche|englische|europäische|finnische|formale|französische|germanische|griechische|hocharabische|hochchinesische|holländische|italienische|japanische|jugoslawische|koreanische|kroatische|lateinische|niederländische|norwegische|persische|polnische|portugiesische|romanische|russische|schöne|schwedische|semitische|serbische|serbokroatische|slawische|spanische|türkische|ukrainische)(n|r)?</token>
