@@ -37,7 +37,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.lang.reflect.Constructor;
+import java.net.JarURLConnection;
+import java.net.URL;
 import java.util.*;
+import java.util.jar.Manifest;
 
 /**
  * The main class used for checking text against different rules:
@@ -59,6 +62,7 @@ import java.util.*;
 public final class JLanguageTool {
 
   public static final String VERSION = "1.6-dev"; // keep in sync with build.properties!
+  public static final String BUILD_DATE = getBuildDate();
 
   public static final String PATTERN_FILE = "grammar.xml";
   public static final String FALSE_FRIEND_FILE = "false-friends.xml";
@@ -67,6 +71,25 @@ public final class JLanguageTool {
   public static final String SENTENCE_END_TAGNAME = "SENT_END";
   public static final String PARAGRAPH_END_TAGNAME = "PARA_END";
 
+  /**
+   * Returns the build date or <code>null</code> if not run from JAR.
+   */
+  private static String getBuildDate() {
+    try {
+      final URL res = JLanguageTool.class.getResource(JLanguageTool.class.getSimpleName() + ".class");
+      final Object connObj = res.openConnection();
+      if (connObj instanceof JarURLConnection) {
+        final JarURLConnection conn = (JarURLConnection) connObj;
+        final Manifest manifest = conn.getManifest();
+        return manifest.getMainAttributes().getValue("Implementation-Date");
+      } else {
+        return null;
+      }
+    } catch (IOException e) {
+      throw new RuntimeException("Could not get build date from JAR", e);
+    }
+  }
+  
   private static ResourceDataBroker dataBroker = new DefaultResourceDataBroker();
 
   private final List<Rule> builtinRules = new ArrayList<Rule>();
