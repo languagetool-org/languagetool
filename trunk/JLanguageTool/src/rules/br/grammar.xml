@@ -696,7 +696,9 @@ Some grammatical resources used:
         <pattern mark_from="1">
           <token>ar</token>
           <and>
-            <token postag="N m p.*" postag_regexp="yes" regexp="yes">[bf].*où</token>
+            <token postag="N m p.*" postag_regexp="yes" regexp="yes">[bf].*où
+              <exception inflected="yes" regexp="yes">f.*</exception>
+            </token>
             <token postag="N m p.*" postag_regexp="yes" regexp="yes" inflected="yes">p.*</token>
           </and>
         </pattern>
@@ -704,6 +706,7 @@ Some grammatical resources used:
         <example type="incorrect">Ar <marker>brivezioù</marker></example>
         <example type="incorrect">Ar <marker>frivezioù</marker></example>
         <example type="correct">Ar privezioù</example>
+        <example type="correct">Ar fazioù</example>
       </rule>
       <rule>
         <pattern mark_from="1">
@@ -1081,7 +1084,7 @@ Some grammatical resources used:
           <token postag="N f p.*|N m s.*" postag_regexp="yes">
             <exception postag="N f s.*|N m p t.*" postag_regexp="yes"/>
             <exception postag="N f s.*|N m p t.*" postag_regexp="yes"/>
-            <exception regexp="yes" inflected="yes">.|re|aer|avel|brud|c’hoari|c’hwezh|lur|revr|tra</exception>
+            <exception regexp="yes" inflected="yes">.|re|aer|avel|brud|c’hoari|c’hwezh|lur|revr|tra|war</exception>
           </token>
           <token postag="J[^M]*M:.*" postag_regexp="yes">
             <exception negate_pos="yes" postag="J[^M]*M:.*|SENT_END" postag_regexp="yes"/>
@@ -1985,7 +1988,7 @@ Some grammatical resources used:
       <rule>
         <pattern mark_to="-1">
           <token regexp="yes">tamm(ig)?</token>
-          <token regexp="yes">avel|chistr|chouchenn|chug(-.*)?|dour|digor-kalon|eoul|glav|gouloù|gwin|heol|kafe|laezh|sistr|soubenn</token>
+          <token regexp="yes">avel|chistr|chouchenn|chug(-.*)?|dour|digor-kalon|eoul|glav|gouloù|gwin|heol|kafe|laezh|lambig|sistr|soubenn</token>
         </pattern>
         <message>Implijit <suggestion>banne</suggestion> dirak an evajoù.</message>
         <example type="incorrect">Un <marker>tamm</marker> kafe tomm am bo.</example>
@@ -2396,7 +2399,7 @@ Some grammatical resources used:
         <pattern mark_from="2">
           <token inflected="yes">ne</token>
           <token postag="V.*" postag_regexp="yes"/>
-          <token regexp="yes">avel|chistr|chouchenn|chug(-.*)?|dour|digor-kalon|eoul|glav|gouloù|gwin|heol|kafe|laezh|sistr|soubenn</token>
+          <token regexp="yes">avel|chistr|chouchenn|chug(-.*)?|dour|digor-kalon|eoul|glav|gouloù|gwin|heol|kafe|laezh|lambig|sistr|soubenn</token>
           <token>ebet</token>
         </pattern>
         <message>Ret eo implij <suggestion>banne \3 \4</suggestion> gant ur ger hollek «\3» a-raok ar ger «\4».</message>
