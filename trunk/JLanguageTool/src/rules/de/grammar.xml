@@ -9,6 +9,8 @@ title="Easy editing stylesheet" ?>
 <!ENTITY namengross "Zu mehrteiligen Namen gehörende Adjektive werden großgeschrieben.">
 <!ENTITY titelgross "Titel und Ehrenbezeichnungen werden großgeschrieben.">
 <!ENTITY taggross "Besondere Kalendertage werden großgeschrieben.">
+<!ENTITY subanfang "Bitte prüfen Sie, ob ">
+<!ENTITY subende " hier als Substantiv gebraucht wird und daher großgeschrieben werden muss.">
 <!ENTITY anfauf "„|&quot;|»|›|‚|'">
 <!ENTITY anfzu "‘|“|‹|«|&quot;|'">
 <!ENTITY anf "&anfauf;|‘|“|‹|«">
@@ -104,7 +106,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token negate="yes">zu</token>
         <token regexp="yes">zweit|dritt|viert|fünft|sechst|siebt|neunt|zehnt|elft|zwölft</token>
       </pattern>
-      <message>Meinten Sie <suggestion>\2e</suggestion> oder eine andere Form?</message>
+      <message>Meinten Sie <suggestion>\2e</suggestion>, <suggestion>zu \2</suggestion> oder eine andere Form?</message>
       <example type="correct">Wir waren zu <marker>zweit</marker>.</example>
       <example type="correct">Das war jetzt schon das <marker>zweite</marker> Mal.</example>
       <example type="incorrect">Das war jetzt schon das <marker>zweit</marker> Mal.</example>
@@ -2849,6 +2851,15 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         Alle zu einem mehrteiligen Namen gehörenden Adjektive, Partizipien, Pronomen und Zahlwörter schreibt man groß <§ 60>. -->
       <!-- TODO Maybe we should make a Java rule for this and maintain a list -->
       <rule>
+        <pattern case_sensitive="yes">
+          <token regexp="yes">rote(n)?</token>
+          <token>Armee</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>Rote Armee</suggestion>? &namengross;</message>
+        <example type="incorrect">Soldaten der <marker>roten Armee</marker> rückten auf Berlin vor.</example>
+        <example type="correct">Soldaten der <marker>Roten Armee</marker> rückten auf Berlin vor.</example>
+      </rule>
+      <rule>
         <pattern mark_to="-1" case_sensitive="yes">
           <token regexp="yes">französische(r|n)?</token>
           <token>Revolution</token>
@@ -3366,7 +3377,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token postag="PRO:REF:DAT.*" postag_regexp="yes" skip="3"><exception scope="next">,</exception></token>
           <token>sorgen</token>
         </pattern>
-        <message>Bitte prüfen Sie, ob <suggestion>Sorgen</suggestion> hier als Substantiv gebraucht wird und daher großgeschrieben werden muss.</message>
+        <message>&subanfang;<suggestion>Sorgen</suggestion>&subende;</message>
         <example type="incorrect">Er macht sich unnötig große <marker>sorgen</marker>.</example>
         <example type="incorrect">Ich mache mir viele <marker>sorgen</marker>.</example>
         <example type="incorrect">Machst du dir <marker>sorgen</marker>?</example>
@@ -3378,7 +3389,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token skip="1">sorgen<exception scope="next">,</exception></token>
           <token inflected="yes">machen</token>
         </pattern>
-        <message>Bitte prüfen Sie, ob <suggestion>Sorgen</suggestion> hier als Substantiv gebraucht wird und daher großgeschrieben werden muss.</message>
+        <message>&subanfang;<suggestion>Sorgen</suggestion>&subende;</message>
         <example type="incorrect">Er soll sich keine unnötig große <marker>sorgen</marker> machen.</example>
         <example type="incorrect">Es ist sinnlos, mir jetzt <marker>sorgen</marker> zu machen.</example>
         <example type="correct">Er soll sich keine unnötig große <marker>Sorgen</marker> machen.</example>
@@ -3386,9 +3397,9 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <rule>
         <pattern case_sensitive="yes" mark_from="1" mark_to="0">
           <token regexp="yes">[kK]eine</token>
-          <token>sorge</token>
+          <token regexp="yes">sorgen?</token>
         </pattern>
-        <message>Bitte prüfen Sie, ob <suggestion>Sorge</suggestion> hier als Substantiv gebraucht wird und daher großgeschrieben werden muss.</message>
+        <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
         <example type="incorrect">Keine <marker>sorge</marker>!</example>
         <example type="correct">Keine <marker>Sorge</marker>!</example>
       </rule>
@@ -3400,7 +3411,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token postag="SENT_START" negate_pos="yes"><exception postag=".*GEN.*" postag_regexp="yes"/><exception regexp="yes">&anf;</exception></token>
           <token regexp="yes">Montags|Dienstags|Mittwochs|Donnerstags|Freitags|Samstags|Sonntags</token>
         </pattern>
-        <message>Bitte prüfen Sie, ob <suggestion><match no="2" case_conversion="alllower"/></suggestion> hier als Adverb gebraucht wird und daher kleingeschrieben werden muss.</message>
+        <message>&subanfang;<suggestion><match no="2" case_conversion="alllower"/></suggestion> hier als Adverb gebraucht wird und daher kleingeschrieben werden muss.</message>
         <example type="incorrect" correction="montags">Der Laden hat <marker>Montags</marker> geschlossen.</example>
         <example type="correct">Der Laden hat <marker>montags</marker> geschlossen.</example>
         <example type="correct"><marker>Montags</marker> geschlossen.</example>
@@ -3413,7 +3424,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token postag="ART.*GEN.*MAS.*" postag_regexp="yes"/>
           <token regexp="yes">montags|dienstags|mittwochs|donnerstags|freitags|samstags|sonntags</token>
         </pattern>
-        <message>Bitte prüfen Sie, ob <suggestion><match no="2" case_conversion="startupper"/></suggestion> hier als Substantiv gebraucht wird und daher großgeschrieben werden muss.</message>
+        <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
         <example type="incorrect" correction="Montags">Der Laden hat des <marker>montags</marker> geschlossen.</example>
         <example type="correct">Der Laden hat des <marker>Montags</marker> geschlossen.</example>
         <example type="correct">Der Laden hat <marker>montags</marker> geschlossen.</example>
@@ -3477,15 +3488,6 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect">Aus irgendwelchen <marker>gründen</marker> gelang mir das nicht.</example>
       <example type="correct">Aus irgendwelchen <marker>Gründen</marker> gelang mir das nicht.</example>
     </rule>
-    <rule id="ROTE_ARMEE" name="Groß-/Kleinschreibung: 'rote (Rote) Armee'">
-      <pattern case_sensitive="yes">
-        <token regexp="yes">rote(n)?</token>
-        <token>Armee</token>
-      </pattern>
-      <message>Meinten Sie <suggestion>Rote Armee</suggestion>? Dies ist eine feste Wendung.</message>
-      <example type="incorrect">Soldaten der <marker>roten Armee</marker> rückten auf Berlin vor.</example>
-      <example type="correct">Soldaten der <marker>Roten Armee</marker> rückten auf Berlin vor.</example>
-    </rule>
     <rulegroup id="GOTT_SCHUETZE" name="Groß-/Kleinschreibung: 'Schütze (schütze)'">
       <rule>
         <pattern case_sensitive="yes" mark_from="1">
@@ -3519,6 +3521,162 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect">Das war <marker>ein Bisschen</marker> komisch.</example>
       </rule>
     </rulegroup>
+    <rule id="IM_VORAUS" name="Groß-/Kleinschreibung: 'im voraus (Voraus)'">
+      <pattern mark_from="1" case_sensitive="yes">
+        <token regexp="yes">[iI]m</token>
+        <token>voraus</token>
+      </pattern>
+      <message>In der Wendung 'im Voraus' wird <suggestion>Voraus</suggestion> großgeschrieben.</message>
+      <example type="correct">Bezahlung bitte im <marker>Voraus</marker>!</example>
+      <example type="incorrect">Bezahlung bitte im <marker>voraus</marker>!</example>
+    </rule>
+    <rule id="ZU_HAUSE" name="Groß-/Kleinschreibung: 'zu hause (Hause)'">
+      <pattern mark_from="1" case_sensitive="yes">
+        <token regexp="yes">[Zz]u</token>
+        <token>hause</token>
+      </pattern>
+      <message>In der Wendung 'zu Hause' wird <suggestion>Hause</suggestion> großgeschrieben.</message>
+      <example type="correct">Wir sind bald zu <marker>Hause</marker>.</example>
+      <example type="incorrect">Wir sind bald zu <marker>hause</marker>.</example>
+    </rule>
+    <rule id="AUF_DIE_NERVEN" name="Groß-/Kleinschreibung: 'auf die nerven (Nerven) gehen'">
+      <pattern mark_from="2" case_sensitive="yes">
+        <token regexp="yes">[aA]uf</token>
+        <token>die</token>
+        <token>nerven</token>
+      </pattern>
+      <message>&subanfang;<suggestion>Nerven</suggestion>&subende;</message>
+      <example type="correct">Du gehst mir auf die <marker>Nerven</marker>.</example>
+      <example type="incorrect">Du gehst mir auf die <marker>nerven</marker>.</example>
+    </rule>
+    <rulegroup id="ZUR_NEIGE_GEHEN" name="Groß-/Kleinschreibung: 'zur neige (Neige) gehen'">
+      <rule>
+        <pattern mark_from="1" mark_to="-1" case_sensitive="yes">
+          <token regexp="yes">[zZ]ur</token>
+          <token>neige</token>
+          <token inflected="yes">gehen</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Neige</suggestion>&subende;</message>
+        <example type="correct">Der Sauerstoff ist zur <marker>Neige</marker> gegangen.</example>
+        <example type="incorrect">Der Sauerstoff ist zur <marker>neige</marker> gegangen.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2" case_sensitive="yes">
+          <token inflected="yes">gehen</token>
+          <token>zur</token>
+          <token>neige</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Neige</suggestion>&subende;</message>
+        <example type="correct">Der Sauerstoff geht zur <marker>Neige</marker>.</example>
+        <example type="incorrect">Der Sauerstoff geht zur <marker>neige</marker>.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="EINE_REIHE_VON" name="Groß-/Kleinschreibung: 'eine reihe (Reihe) von'">
+      <rule>
+        <pattern mark_from="1" mark_to="-1" case_sensitive="yes">
+          <token regexp="yes">[eE]ine</token>
+          <token>reihe</token>
+          <token>von</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Reihe</suggestion>&subende;</message>
+        <example type="correct">Es gibt hier eine <marker>Reihe</marker> von Problemen.</example>
+        <example type="incorrect">Es gibt hier eine <marker>reihe</marker> von Problemen.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2" mark_to="-1" case_sensitive="yes">
+          <token regexp="yes">[eE]ine</token>
+          <token>ganze</token>
+          <token>reihe</token>
+          <token>von</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Reihe</suggestion>&subende;</message>
+        <example type="correct">Es gibt hier eine ganze <marker>Reihe</marker> von Problemen.</example>
+        <example type="incorrect">Es gibt hier eine ganze <marker>reihe</marker> von Problemen.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="LICHT_INS_DUNKEL" name="Groß-/Kleinschreibung: 'Licht ins dunkel (Dunkel)'">
+      <rule>
+        <pattern case_sensitive="yes">
+          <token regexp="yes">[lL]icht</token>
+          <token>ins</token>
+          <token>dunkel</token>
+        </pattern>
+        <message>In der Wendung <suggestion>Licht ins Dunkel</suggestion> werden 'Licht' und 'Dunkel' großgeschrieben.</message>
+        <example type="correct">Bringen Sie doch bitte etwas <marker>Licht ins Dunkel</marker>!</example>
+        <example type="incorrect">Bringen Sie doch bitte etwas <marker>Licht ins dunkel</marker>!</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token>licht</token>
+          <token>ins</token>
+          <token regexp="yes">[dD]unkel</token>
+        </pattern>
+        <message>In der Wendung <suggestion>Licht ins Dunkel</suggestion> werden 'Licht' und 'Dunkel' großgeschrieben.</message>
+        <example type="correct">Bringen Sie doch bitte etwas <marker>Licht ins Dunkel</marker>!</example>
+        <example type="incorrect">Bringen Sie doch bitte etwas <marker>licht ins dunkel</marker>!</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="FAHRT_SUBST" name="Groß-/Kleinschreibung: 'fahrt (Fahrt)'">
+      <rule>
+        <pattern mark_from="2" case_sensitive="yes">
+          <token regexp="yes">[iI]n|[aA]uf|[wW]ährend|[bB]ei</token>
+          <token regexp="yes">großer|voller|der</token>
+          <token>fahrt</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Fahrt</suggestion>&subende;</message>
+        <example type="correct">Während der <marker>Fahrt</marker> bitte die Fenster geschlossen halten.</example>
+        <example type="incorrect">Während der <marker>fahrt</marker> bitte die Fenster geschlossen halten.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1" case_sensitive="yes">
+          <token>fahrt</token>
+          <token inflected="yes">aufnehmen</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Fahrt</suggestion>&subende;</message>
+        <example type="correct">Als das Schiff langsam <marker>Fahrt</marker> aufnahm, ...</example>
+        <example type="incorrect">Als das Schiff langsam <marker>fahrt</marker> aufnahm, ...</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-1" case_sensitive="yes">
+          <token inflected="yes">nehmen</token>
+          <token>fahrt</token>
+          <token>auf</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Fahrt</suggestion>&subende;</message>
+        <example type="correct">Das Schiff nahm <marker>Fahrt</marker> auf.</example>
+        <example type="incorrect">Das Schiff nahm <marker>fahrt</marker> auf.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-1" case_sensitive="yes">
+          <token>in</token>
+          <token>fahrt</token>
+          <token inflected="yes">kommen</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Fahrt</suggestion>&subende;</message>
+        <example type="correct">Das Schiff ist langsam in <marker>Fahrt</marker> gekommen.</example>
+        <example type="incorrect">Das Schiff ist langsam in <marker>fahrt</marker> gekommen.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="LICHT_SUBST" name="Groß-/Kleinschreibung: 'licht (Licht)'">
+      <rule>
+        <pattern mark_from="1" case_sensitive="yes">
+          <token regexp="yes">[dD]as|[eE]in|helles?|grelles?|gleißendes?|einfallendes?|elektrisches?|gedämpftes?|schummriges?|schwaches?|flackerndes?|schiefes?|machen?|macht?|ins|ans</token>
+          <token>licht</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Licht</suggestion>&subende;</message>
+        <example type="correct">Das gleißende <marker>Licht</marker> der Scheinwerfer.</example>
+        <example type="incorrect">Das gleißende <marker>licht</marker> der Scheinwerfer.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1" case_sensitive="yes">
+          <token>licht</token>
+          <token regexp="yes" inflected="yes">aufgehen|angehen|anmachen|ausmachen|anknipsen|ausknipsen|machen|flackern|löschen|tauchen|rücken</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Licht</suggestion>&subende;</message>
+        <example type="correct">Er machte das <marker>Licht</marker> an.</example>
+        <example type="incorrect">Nachdem ich <marker>licht</marker> gemacht hatte, sah ich, was los war.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="ANGST_SUBST" name="Groß-/Kleinschreibung: 'angst (Angst)'">
       <rule>
         <pattern case_sensitive="yes" mark_from="1">
@@ -3530,7 +3688,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect">Ich hatte überhaupt keine <marker>angst</marker>.</example>
       </rule>
       <rule>
-        <pattern  case_sensitive="yes" mark_from="2">
+        <pattern case_sensitive="yes" mark_from="2">
           <token>mit</token>
           <token>der</token>
           <token>angst</token>
@@ -3547,7 +3705,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">wenigen|einigen|mehreren|vielen</token>
           <token>tagen</token>
         </pattern>
-        <message>Bitte prüfen Sie, ob <suggestion>Tagen</suggestion> hier als Substantiv gebraucht wird.</message>
+        <message>&subanfang;<suggestion>Tagen</suggestion>&subende;</message>
         <example type="correct">Seit einigen <marker>Tagen</marker> läuft es wieder.</example>
         <example type="incorrect">Seit einigen <marker>tagen</marker> läuft es wieder.</example>
       </rule>
@@ -3557,7 +3715,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token postag="ZAL"/>
           <token>tagen</token>
         </pattern>
-        <message>Bitte prüfen Sie, ob <suggestion>Tagen</suggestion> hier als Substantiv gebraucht wird.</message>
+        <message>&subanfang;<suggestion>Tagen</suggestion>&subende;</message>
         <example type="correct">Seit zwei <marker>Tagen</marker> läuft es wieder.</example>
         <example type="incorrect">Seit zwei <marker>tagen</marker> läuft es wieder.</example>
       </rule>
@@ -3568,7 +3726,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>paar</token>
           <token>tagen</token>
         </pattern>
-        <message>Bitte prüfen Sie, ob <suggestion>Tagen</suggestion> hier als Substantiv gebraucht wird.</message>
+        <message>&subanfang;<suggestion>Tagen</suggestion>&subende;</message>
         <example type="correct">Seit ein paar <marker>Tagen</marker> läuft es wieder.</example>
         <example type="incorrect">Seit ein paar <marker>tagen</marker> läuft es wieder.</example>
       </rule>
@@ -3581,7 +3739,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">mein|dein|sein|unser|euer|ihr|der</token>
           <token>dank</token>
         </pattern>
-        <message>Bitte prüfen Sie, ob <suggestion>Dank</suggestion> hier als Substantiv gebraucht wird und daher großgeschrieben werden muss.</message>
+        <message>&subanfang;<suggestion>Dank</suggestion>&subende;</message>
         <example type="incorrect">Was ist jetzt euer <marker>dank</marker>?</example>
         <example type="correct">Was ist jetzt euer <marker>Dank</marker>?</example>
       </rule>
@@ -3591,7 +3749,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>dank</token>
           <token regexp="yes">(da)?für</token>
         </pattern>
-        <message>Bitte prüfen Sie, ob <suggestion>Dank</suggestion> hier als Substantiv gebraucht wird.</message>
+        <message>&subanfang;<suggestion>Dank</suggestion>&subende;</message>
         <example type="incorrect">Zum <marker>dank</marker> für seine Leistungen wurde er dann gefeuert.</example>
         <example type="incorrect">Zum <marker>dank</marker> dafür wurde er anschließend gefeuert.</example>
         <example type="incorrect">Das war nun der <marker>dank</marker> dafür?</example>
@@ -3605,7 +3763,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>dank</token>
           <token>verpflichtet</token>
         </pattern>
-        <message>Bitte prüfen Sie, ob <suggestion>Dank</suggestion> hier als Substantiv gebraucht wird.</message>
+        <message>&subanfang;<suggestion>Dank</suggestion>&subende;</message>
         <example type="incorrect">Wir sind ihr zu <marker>dank</marker> verpflichtet.</example>
         <example type="correct">Wir sind ihr zu <marker>Dank</marker> verpflichtet.</example>
       </rule>
@@ -3616,7 +3774,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>dank</token>
           <token>verpflichtet</token>
         </pattern>
-        <message>Bitte prüfen Sie, ob <suggestion>Dank</suggestion> hier als Substantiv gebraucht wird.</message>
+        <message>&subanfang;<suggestion>Dank</suggestion>&subende;</message>
         <example type="incorrect">Wir sind ihr zu großem <marker>dank</marker> verpflichtet.</example>
         <example type="correct">Wir sind ihr zu großem <marker>Dank</marker> verpflichtet.</example>
       </rule>
@@ -3628,7 +3786,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">den|denjenigen|diesen|einfachen|einigen|leichten|manchen|mehreren|schweren|schwierigen|vielen|wenigen|zahlreichen</token>
           <token>fällen</token>
         </pattern>
-        <message>Bitte prüfen Sie, ob <suggestion>Fällen</suggestion> hier als Substantiv gebraucht wird.</message>
+        <message>&subanfang;<suggestion>Fällen</suggestion>&subende;</message>
         <example type="correct">In besonders schweren <marker>Fällen</marker> ...</example>
         <example type="correct">In manchen <marker>Fällen</marker> ...</example>
         <example type="incorrect">In manchen <marker>fällen</marker> ...</example>
@@ -3642,7 +3800,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>die</token>
           <token>breite</token>
         </pattern>
-        <message>Bitte prüfen Sie, ob <suggestion>Breite</suggestion> hier als Substantiv gebraucht wird.</message>
+        <message>&subanfang;<suggestion>Breite</suggestion>&subende;</message>
         <example type="correct">Du gehst ganz schön in die <marker>Breite</marker> in letzter Zeit.</example>
         <example type="incorrect">Du gehst in die <marker>breite</marker>.</example>
       </rule>
@@ -3653,7 +3811,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>breite</token>
           <token inflected="yes">gehen</token>
         </pattern>
-        <message>Bitte prüfen Sie, ob <suggestion>Breite</suggestion> hier als Substantiv gebraucht wird.</message>
+        <message>&subanfang;<suggestion>Breite</suggestion>&subende;</message>
         <example type="correct">Sie ist ganz schön in die <marker>Breite</marker> gegangen.</example>
         <example type="incorrect">Sie ist ganz schön in die <marker>breite</marker> gegangen.</example>
       </rule>
@@ -3667,7 +3825,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <!-- <token postag="SUB:.*" postag_regexp="yes" negate="yes"/> -->
           <token regexp="yes" negate="yes">[A-ZÄÖÜ].*</token>
         </pattern>
-        <message>Bitte prüfen Sie, ob <suggestion>Marine</suggestion> hier als Substantiv gebraucht wird.</message>
+        <message>&subanfang;<suggestion>Marine</suggestion>&subende;</message>
         <example type="correct">Eine Umgebung, in der <marker>marine</marker> Lebensformen ...</example>
         <example type="correct">Er diente in der <marker>Marine</marker>.</example>
         <example type="incorrect">Er diente in der <marker>marine</marker> als Bootsmann.</example>
@@ -3681,7 +3839,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>antike</token>
           <token regexp="yes" negate="yes">[A-ZÄÖÜ].+</token>
         </pattern>
-        <message>Bitte prüfen Sie, ob <suggestion>Antike</suggestion> hier als Substantiv gebraucht wird.</message>
+        <message>&subanfang;<suggestion>Antike</suggestion>&subende;</message>
         <example type="incorrect">In der <marker>antike</marker> war das Leben der Sklaven hart.</example>
         <example type="correct">Die Renaissance, in der <marker>antike</marker> Vorbilder ...</example>
         <example type="correct">In der <marker>Antike</marker> war das Leben der Sklaven hart.</example>
@@ -3693,7 +3851,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>spätantike</token>
           <token regexp="yes" negate="yes">[A-ZÄÖÜ].+</token>
         </pattern>
-        <message>Bitte prüfen Sie, ob <suggestion>Spätantike</suggestion> hier als Substantiv gebraucht wird.</message>
+        <message>&subanfang;<suggestion>Spätantike</suggestion>&subende;</message>
         <example type="incorrect">In der <marker>spätantike</marker> war das Leben der Sklaven hart.</example>
         <example type="correct">Die Renaissance, in der <marker>spätantike</marker> Vorbilder ...</example>
         <example type="correct">In der <marker>Spätantike</marker> war das Leben der Sklaven hart.</example>
@@ -3706,7 +3864,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">der|einer</token>
           <token>bürste</token>
         </pattern>
-        <message>Bitte prüfen Sie, ob <suggestion>Bürste</suggestion> hier als Substantiv gebraucht wird.</message>
+        <message>&subanfang;<suggestion>Bürste</suggestion>&subende;</message>
         <example type="correct">Ich habe hier eine Bürste, mit der ich Fido das Fell <marker>bürste</marker>.</example>
         <example type="correct">Ich bearbeite das Leder mit einer <marker>Bürste</marker>, bis es glänzt.</example>
         <example type="incorrect">Ich bearbeite das Leder mit der <marker>bürste</marker>.</example>
@@ -3719,7 +3877,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>hecke</token>
           <token postag="VER:.*" postag_regexp="yes"/>
         </pattern>
-        <message>Bitte prüfen Sie, ob <suggestion>Hecke</suggestion> hier als Substantiv gebraucht wird.</message>
+        <message>&subanfang;<suggestion>Hecke</suggestion>&subende;</message>
         <example type="correct">Die <marker>Hecke</marker> ist 1,20 m hoch.</example>
         <example type="incorrect">Die <marker>hecke</marker> ist 1,20 m hoch.</example>
       </rule>
@@ -3729,7 +3887,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>die</token>
           <token>hecke</token>
         </pattern>
-        <message>Bitte prüfen Sie, ob <suggestion>Hecke</suggestion> hier als Substantiv gebraucht wird.</message>
+        <message>&subanfang;<suggestion>Hecke</suggestion>&subende;</message>
         <example type="correct">Seit Wochen muss die <marker>Hecke</marker> geschnitten werden.</example>
         <example type="incorrect">Seit Wochen ist die <marker>hecke</marker> zu hoch.</example>
       </rule>
@@ -3740,7 +3898,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">[nN]ach|ins</token>
           <token>belieben</token>
         </pattern>
-        <message>Bitte prüfen Sie, ob <suggestion>Belieben</suggestion> hier als Substantiv gebraucht wird.</message>
+        <message>&subanfang;<suggestion>Belieben</suggestion>&subende;</message>
         <example type="incorrect">Damit könnt ihr ganz nach <marker>belieben</marker> verfahren.</example>
         <example type="correct">Damit könnt ihr ganz nach <marker>Belieben</marker> verfahren.</example>
       </rule>
@@ -3752,7 +3910,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">verdächtige|überlebende|verbündete|obdachlose|angestellte|abgeordnete|jugendliche</token>
           <token postag="VER:.*" postag_regexp="yes"/>
         </pattern>
-        <message>Bitte prüfen Sie, ob <suggestion><match case_conversion="startupper" no="2"/></suggestion> hier substantiviert gebraucht wird.</message>
+        <message>&subanfang;<suggestion><match case_conversion="startupper" no="2"/></suggestion> hier substantiviert gebraucht wird.</message>
         <example type="correct">Der <marker>Angestellte</marker> wurde entlassen.</example>
         <example type="correct">Der <marker>obdachlose</marker> Mann wurde überfallen.</example>
         <example type="incorrect">Der <marker>angestellte</marker> wurde entlassen.</example>
@@ -3764,7 +3922,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">(verdächtige|überlebende|verbündete|obdachlose|angestellte|abgeordnete|jugendliche)(n)</token>
           <token postag="VER:.*" postag_regexp="yes"/>
         </pattern>
-        <message>Bitte prüfen Sie, ob <suggestion><match case_conversion="startupper" no="2"/></suggestion> hier substantiviert gebraucht wird.</message>
+        <message>&subanfang;<suggestion><match case_conversion="startupper" no="2"/></suggestion> hier substantiviert gebraucht wird.</message>
         <example type="correct">Die <marker>Angestellten</marker> wurden entlassen.</example>
         <example type="correct">Die <marker>obdachlosen</marker> Männer wurden überfallen.</example>
         <example type="incorrect">Die <marker>angestellten</marker> wurden entlassen.</example>
@@ -3778,7 +3936,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>kühle</token>
           <token>nass</token>
         </pattern>
-        <message>Bitte prüfen Sie, ob <suggestion>Nass</suggestion> hier als Substantiv gebraucht wird.</message>
+        <message>&subanfang;<suggestion>Nass</suggestion>&subende;</message>
         <example type="correct">Du hast mich ganz <marker>nass</marker> gemacht!</example>
         <example type="correct">Hinein ins kühle <marker>Nass</marker>!</example>
         <example type="incorrect">Hinein ins kühle <marker>nass</marker>!</example>
@@ -3791,7 +3949,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>ganzer</token>
           <token>stolz</token>
         </pattern>
-        <message>Bitte prüfen Sie, ob <suggestion>Stolz</suggestion> hier als Substantiv gebraucht wird.</message>
+        <message>&subanfang;<suggestion>Stolz</suggestion>&subende;</message>
         <example type="correct">Sie war ganz <marker>stolz</marker> darauf.</example>
         <example type="correct">Dieses Auto ist mein ganzer <marker>Stolz</marker>.</example>
         <example type="incorrect">Dieses Auto ist mein ganzer <marker>stolz</marker>.</example>
@@ -3801,7 +3959,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">[vV]oller</token>
           <token>stolz</token>
         </pattern>
-        <message>Bitte prüfen Sie, ob <suggestion>Stolz</suggestion> hier als Substantiv gebraucht wird.</message>
+        <message>&subanfang;<suggestion>Stolz</suggestion>&subende;</message>
         <example type="correct">Sie war ganz <marker>stolz</marker> darauf.</example>
         <example type="correct">Voller <marker>Stolz</marker> präsentierte er sein neues Auto.</example>
         <example type="incorrect">Voller <marker>stolz</marker> präsentierte er sein neues Auto.</example>
@@ -3814,7 +3972,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">dieses|des|eines</token>
           <token>notfalls</token>
         </pattern>
-        <message>Bitte prüfen Sie, ob <suggestion>Notfalls</suggestion> hier als Substantiv gebraucht wird.</message>
+        <message>&subanfang;<suggestion>Notfalls</suggestion>&subende;</message>
         <example type="correct">Wir können <marker>notfalls</marker> dort übernachten.</example>
         <example type="correct">Wegen eines <marker>Notfalls</marker> musste ich meinen Urlaub abbrechen.</example>
         <example type="incorrect">Wegen eines <marker>notfalls</marker> musste ich meinen Urlaub abbrechen.</example>
@@ -3824,10 +3982,10 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <rule>
         <pattern mark_from="2" case_sensitive="yes">
           <token regexp="yes">[aA]uf</token>
-          <token regexp="yes">jemandes|meine|deine|seine|unsere|eure|[iI]hre</token>
+          <token regexp="yes">jemandes|meine|deine|seine|unsere|eure|[iI]hre|deren|wessen|eigene</token>
           <token>kosten</token>
         </pattern>
-        <message>Bitte prüfen Sie, ob <suggestion>Kosten</suggestion> hier als Substantiv großgeschrieben werden muss.</message>
+        <message>&subanfang;<suggestion>Kosten</suggestion> hier als Substantiv großgeschrieben werden muss.</message>
         <example type="incorrect">Der Spaß ging auf seine <marker>kosten</marker>.</example>
         <example type="correct">Der Spaß ging auf seine <marker>Kosten</marker>.</example>
       </rule>
@@ -3837,7 +3995,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>kosten</token>
           <token regexp="yes">von|der|des|meine[rs]|deine[rs]|seine[rs]|unsere[rs]|eure[rs]|[iI]hre[rs]</token>
         </pattern>
-        <message>Bitte prüfen Sie, ob <suggestion>Kosten</suggestion> hier als Substantiv großgeschrieben werden muss.</message>
+        <message>&subanfang;<suggestion>Kosten</suggestion>&subende;</message>
         <example type="incorrect">Das alles geschieht auf <marker>kosten</marker> des Steuerzahlers!</example>
         <example type="correct">Der Spaß ging auf seine <marker>Kosten</marker>.</example>
       </rule>
@@ -3914,7 +4072,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">allen|den|ihren</token>
           <token>löchern</token>
         </pattern>
-        <message>Bitte prüfen Sie, ob <suggestion>Löchern</suggestion> hier als Substantiv gebraucht wird.</message>
+        <message>&subanfang;<suggestion>Löchern</suggestion>&subende;</message>
         <example type="correct">Du sollst mich nicht immer <marker>löchern</marker>!</example>
         <example type="correct">Die Ratten kamen aus ihren <marker>Löchern</marker>.</example>
         <example type="incorrect">Die Ratten kamen aus ihren <marker>löchern</marker>.</example>
@@ -3927,7 +4085,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">ihren|den</token>
           <token>brüsten</token>
         </pattern>
-        <message>Bitte prüfen Sie, ob <suggestion>Brüsten</suggestion> hier als Substantiv gebraucht wird.</message>
+        <message>&subanfang;<suggestion>Brüsten</suggestion>&subende;</message>
         <example type="correct">Als Busen bezeichnet man den Spalt zwischen den <marker>Brüsten</marker>.</example>
         <example type="correct">Mit so etwas solltest du dich nicht noch <marker>brüsten</marker>!</example>
         <example type="incorrect">Als Busen bezeichnet man den Spalt zwischen den <marker>brüsten</marker>.</example>
@@ -3938,7 +4096,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">ihre|die</token>
           <token>brüste</token>
         </pattern>
-        <message>Bitte prüfen Sie, ob <suggestion>Brüste</suggestion> hier als Substantiv gebraucht wird.</message>
+        <message>&subanfang;<suggestion>Brüste</suggestion>&subende;</message>
         <example type="correct">Jetzt <marker>brüste</marker> dich nicht auch noch mit deinem Fehlverhalten!</example>
         <example type="correct">Sie steckte es zwischen ihre <marker>Brüste</marker>.</example>
         <example type="incorrect">Sie steckte es zwischen die <marker>brüste</marker>.</example>
@@ -3949,7 +4107,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">ihrer|der</token>
           <token>brüste</token>
         </pattern>
-        <message>Bitte prüfen Sie, ob <suggestion>Brüste</suggestion> hier als Substantiv gebraucht wird.</message>
+        <message>&subanfang;<suggestion>Brüste</suggestion>&subende;</message>
         <example type="correct">Jetzt <marker>brüste</marker> dich nicht auch noch mit deinem Fehlverhalten!</example>
         <example type="correct">Der Unterbrustumfang ist der Körperumfang direkt unterhalb der <marker>Brüste</marker>.</example>
         <example type="incorrect">Der Unterbrustumfang ist der Körperumfang direkt unterhalb der <marker>brüste</marker>.</example>
@@ -3959,7 +4117,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">(ihr|weich|klein|groß|winzig|riesig|entblößt|nackt|schlaff|herunterhängend|herabhängend)e(n)?</token>
           <token regexp="yes">brüste(n)?</token>
         </pattern>
-        <message>Bitte prüfen Sie, ob <suggestion><match case_conversion="startupper" no="2"/></suggestion> hier als Substantiv gebraucht wird.</message>
+        <message>&subanfang;<suggestion><match case_conversion="startupper" no="2"/></suggestion>&subende;</message>
         <example type="correct">Jetzt <marker>brüste</marker> dich nicht auch noch mit deinem Fehlverhalten!</example>
         <example type="incorrect">Im Fernsehen sorgen entblößte <marker>brüste</marker> immer wieder für Aufregung.</example>
       </rule>
@@ -3973,7 +4131,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">(gut|schlecht|katastrophal|labil|unbrauchbar|inakzeptabl)en</token>
           <token>zustand</token>
         </pattern>
-        <message>Bitte prüfen Sie, ob <suggestion>Zustand</suggestion> hier als Substantiv gebraucht wird.</message>
+        <message>&subanfang;<suggestion>Zustand</suggestion>&subende;</message>
         <example type="correct">Er hat bekommen, was ihm <marker>zustand</marker>.</example>
         <example type="correct">Es war in einem so guten <marker>Zustand</marker>, dass ihm das Wetter nichts anhaben konnte.</example>
         <example type="incorrect">Es war in einem so guten <marker>zustand</marker>, dass ihm das Wetter nichts anhaben konnte.</example>
@@ -3985,7 +4143,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">(solch|gut|schlecht|katastrophal|brauchbar|akzeptabl)en</token>
           <token>zustand</token>
         </pattern>
-        <message>Bitte prüfen Sie, ob <suggestion>Zustand</suggestion> hier als Substantiv gebraucht wird.</message>
+        <message>&subanfang;<suggestion>Zustand</suggestion>&subende;</message>
         <example type="correct">Er hat bekommen, was ihm <marker>zustand</marker>.</example>
         <example type="correct">Es war in keinem guten <marker>Zustand</marker>.</example>
         <example type="incorrect">Es war in keinem guten <marker>zustand</marker>.</example>
@@ -3996,7 +4154,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">(sein|ihr|dies|ein|gut|schlecht|katastrophal|brauchbar|akzeptabl)em</token>
           <token>zustand</token>
         </pattern>
-        <message>Bitte prüfen Sie, ob <suggestion>Zustand</suggestion> hier als Substantiv gebraucht wird.</message>
+        <message>&subanfang;<suggestion>Zustand</suggestion>&subende;</message>
         <example type="correct">Er hat bekommen, was ihm <marker>zustand</marker>.</example>
         <example type="correct">In seinem <marker>Zustand</marker> sollte er sich schonen.</example>
         <example type="incorrect">In seinem <marker>zustand</marker> sollte er sich schonen.</example>
@@ -4007,7 +4165,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>kein</token>
           <token>zustand</token>
         </pattern>
-        <message>Bitte prüfen Sie, ob <suggestion>Zustand</suggestion> hier als Substantiv gebraucht wird.</message>
+        <message>&subanfang;<suggestion>Zustand</suggestion>&subende;</message>
         <example type="correct">Er hat bekommen, was ihm <marker>zustand</marker>.</example>
         <example type="correct">Das ist doch kein <marker>Zustand</marker>.</example>
         <example type="incorrect">Das ist doch kein <marker>zustand</marker>.</example>
@@ -4019,7 +4177,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">den|(k)?einen</token>
           <token>aufstand</token>
         </pattern>
-        <message>Bitte prüfen Sie, ob <suggestion>Aufstand</suggestion> hier als Substantiv gebraucht wird.</message>
+        <message>&subanfang;<suggestion>Aufstand</suggestion>&subende;</message>
         <example type="correct">Als ich <marker>aufstand</marker>, war es bereits zehn Uhr.</example>
         <example type="correct">Kellerkinder probten den <marker>Aufstand</marker>.</example>
         <example type="incorrect">Kellerkinder probten den <marker>aufstand</marker>.</example>
@@ -4031,7 +4189,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">((bunt|chaotisch|fröhlich|verwirrend|wild|wirr)e(n|s)?)|Leipziger</token>
           <token>allerlei</token>
         </pattern>
-        <message>Bitte prüfen Sie, ob <suggestion>Allerlei</suggestion> hier als Substantiv gebraucht wird.</message>
+        <message>&subanfang;<suggestion>Allerlei</suggestion>&subende;</message>
         <example type="correct">Es gab Leipziger <marker>Allerlei</marker> in der Firmenkantine.</example>
         <example type="correct">Es war ein buntes <marker>Allerlei</marker>.</example>
         <example type="incorrect">Es war ein buntes <marker>allerlei</marker>.</example>
@@ -4044,7 +4202,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">(bunt|chaotisch|fröhlich|furchtbar|gewaltig|heillos|hektisch|hoffnungslos|schlimm|schrecklich|toll|total|unbeschreiblich|unentwirrbar|unglaublich|verwirrend|völlig|wild|wirr|wüst|ziemlich|üblich)e(n|s)?</token>
           <token>durcheinander</token>
         </pattern>
-        <message>Bitte prüfen Sie, ob <suggestion>Durcheinander</suggestion> hier als Substantiv gebraucht wird.</message>
+        <message>&subanfang;<suggestion>Durcheinander</suggestion>&subende;</message>
         <example type="correct">Sie brachte alles <marker>durcheinander</marker>.</example>
         <example type="correct">Es herrschte ein heilloses <marker>Durcheinander</marker>.</example>
         <example type="incorrect">Es herrschte ein heilloses <marker>durcheinander</marker>.</example>
@@ -4056,7 +4214,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">(freche|faustdicke|dreiste|dreckige|niederträchtige|infame|glatte|verdammte|unverschämte|rotzfreche)(n)?</token>
           <token regexp="yes">lüge(n)?</token>
         </pattern>
-        <message>Bitte prüfen Sie, ob <suggestion><match case_conversion="startupper" no="2"/></suggestion> hier als Substantiv gebraucht wird.</message>
+        <message>&subanfang;<suggestion><match case_conversion="startupper" no="2"/></suggestion>&subende;</message>
         <example type="correct">Ich <marker>lüge</marker> nur äußerst ungern.</example>
         <example type="correct">Das ist eine ganz dreiste <marker>Lüge</marker>!</example>
         <example type="incorrect">Das ist eine ganz dreiste <marker>lüge</marker>!</example>
@@ -4066,7 +4224,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>lügen</token>
           <token regexp="yes">gestraft|strafte(n)?</token>
         </pattern>
-        <message>Bitte prüfen Sie, ob <suggestion>Lügen</suggestion> hier als Substantiv gebraucht wird.</message>
+        <message>&subanfang;<suggestion>Lügen</suggestion>&subende;</message>
         <example type="correct">Seine Prognose wurde durch die Realität <marker>Lügen</marker> gestraft.</example>
         <example type="incorrect">Seine Prognose wurde durch die Realität <marker>lügen</marker> gestraft.</example>
       </rule>
@@ -4078,7 +4236,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">den|seinen|ihren</token>
           <token>klauen</token>
         </pattern>
-        <message>Bitte prüfen Sie, ob <suggestion>Klauen</suggestion> hier als Substantiv gebraucht wird.</message>
+        <message>&subanfang;<suggestion>Klauen</suggestion>&subende;</message>
         <example type="correct">In den <marker>Klauen</marker> der Angst.</example>
         <example type="incorrect">In den <marker>klauen</marker> der Angst.</example>
       </rule>
@@ -4090,7 +4248,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>den</token>
           <token>schächten</token>
         </pattern>
-        <message>Bitte prüfen Sie, ob <suggestion>Schächten</suggestion> hier als Substantiv gebraucht wird.</message>
+        <message>&subanfang;<suggestion>Schächten</suggestion>&subende;</message>
         <example type="correct">In den <marker>Schächten</marker> gab es wenig Luft.</example>
         <example type="incorrect">In den <marker>schächten</marker> gab es wenig Luft.</example>
       </rule>
@@ -4099,7 +4257,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">[Dd]ie</token>
           <token>schächte</token>
         </pattern>
-        <message>Bitte prüfen Sie, ob <suggestion>Schächte</suggestion> hier als Substantiv gebraucht wird.</message>
+        <message>&subanfang;<suggestion>Schächte</suggestion>&subende;</message>
         <example type="correct">Die <marker>Schächte</marker> liefen voll Wasser.</example>
         <example type="incorrect">Die <marker>schächte</marker> liefen voll Wasser.</example>
       </rule>
@@ -4110,7 +4268,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">seine(r)?|ihre(r)?|laute(r)?|feste(r)?|schwache(r)?|schrille(r)?|keifige(r)?|hohe(r)?|tiefe(r)?|brüchige(r)?|erstickte(r)?</token>
           <token>stimme</token>
         </pattern>
-        <message>Bitte prüfen Sie, ob <suggestion>Stimme</suggestion> hier als Substantiv gebraucht wird.</message>
+        <message>&subanfang;<suggestion>Stimme</suggestion>&subende;</message>
         <example type="correct">Ich <marker>stimme</marker> dir voll und ganz zu.</example>
         <example type="correct">Mit brüchiger <marker>Stimme</marker> nahm er Abschied.</example>
         <example type="incorrect">Mit brüchiger <marker>stimme</marker> nahm er Abschied.</example>
@@ -4123,7 +4281,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">der|die</token>
           <token>wüste</token>
         </pattern>
-        <message>Bitte prüfen Sie, ob <suggestion>Wüste</suggestion> hier als Substantiv gebraucht wird.</message>
+        <message>&subanfang;<suggestion>Wüste</suggestion>&subende;</message>
         <example type="correct">Am Hafen verwickelten mich die Schurken in eine <marker>wüste</marker> Schlägerei.</example>
         <example type="correct">Er wurde in die <marker>Wüste</marker> geschickt.</example>
         <example type="incorrect">Er wurde in die <marker>wüste</marker> geschickt.</example>
@@ -4136,7 +4294,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>den</token>
           <token>räumen</token>
         </pattern>
-        <message>Bitte prüfen Sie, ob <suggestion>Räumen</suggestion> hier als Substantiv gebraucht wird.</message>
+        <message>&subanfang;<suggestion>Räumen</suggestion>&subende;</message>
         <example type="correct">In den <marker>Räumen</marker> wurde es dunkel.</example>
         <example type="incorrect">In den <marker>räumen</marker> wurde es dunkel.</example>
       </rule>
@@ -4147,7 +4305,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token postag="ADJ:.*" postag_regexp="yes"/>
           <token>räumen</token>
         </pattern>
-        <message>Bitte prüfen Sie, ob <suggestion>Räumen</suggestion> hier als Substantiv gebraucht wird.</message>
+        <message>&subanfang;<suggestion>Räumen</suggestion>&subende;</message>
         <example type="correct">In den <marker>Räumen</marker> wurde es dunkel.</example>
         <example type="incorrect">In den fensterlosen <marker>räumen</marker> wurde es sofort dunkel.</example>
       </rule>
@@ -4159,7 +4317,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">der|seiner|ihrer|einer</token>
           <token>rolle</token>
         </pattern>
-        <message>Bitte prüfen Sie, ob <suggestion>Rolle</suggestion> hier als Substantiv gebraucht wird.</message>
+        <message>&subanfang;<suggestion>Rolle</suggestion>&subende;</message>
         <example type="correct">... mit Sean Connery in der <marker>Rolle</marker> des James Bond.</example>
         <example type="incorrect">Sie fiel aus der <marker>rolle</marker>.</example>
       </rule>
@@ -4169,7 +4327,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token postag="ADJ:.*" postag_regexp="yes"/>
           <token regexp="yes">rolle(n)?</token>
         </pattern>
-        <message>Bitte prüfen Sie, ob <suggestion>Rolle</suggestion> hier als Substantiv gebraucht wird.</message>
+        <message>&subanfang;<suggestion>Rolle</suggestion>&subende;</message>
         <example type="correct">Das spielt doch keine <marker>Rolle</marker>!</example>
         <example type="incorrect">Das spielt doch eine große <marker>rolle</marker>!</example>
       </rule>
@@ -4178,7 +4336,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">(k)?eine</token>
           <token regexp="yes">rolle(n)?</token>
         </pattern>
-        <message>Bitte prüfen Sie, ob <suggestion>Rolle</suggestion> hier als Substantiv gebraucht wird.</message>
+        <message>&subanfang;<suggestion>Rolle</suggestion>&subende;</message>
         <example type="correct">Das spielt hier doch überhaupt keine <marker>Rolle</marker>!</example>
         <example type="incorrect">Das spielt in diesem Zusammenhang doch gar keine <marker>rolle</marker>!</example>
       </rule>
@@ -4203,7 +4361,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token regexp="yes">[Zz]ur</token>
         <token>strafe</token>
       </pattern>
-      <message>Bitte prüfen Sie, ob <suggestion>Strafe</suggestion> hier als Substantiv gebraucht wird.</message>
+      <message>&subanfang;<suggestion>Strafe</suggestion>&subende;</message>
       <example type="correct">Zur <marker>Strafe</marker> bekommst du keinen Nachtisch!</example>
       <example type="incorrect">Zur <marker>strafe</marker> bekommst du keinen Nachtisch!</example>
     </rule>
@@ -4212,7 +4370,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token regexp="yes">[Ii]m</token>
         <token>leben</token>
       </pattern>
-      <message>Bitte prüfen Sie, ob <suggestion>Leben</suggestion> hier als Substantiv gebraucht wird.</message>
+      <message>&subanfang;<suggestion>Leben</suggestion>&subende;</message>
       <example type="correct">Das funktioniert doch nie im <marker>Leben</marker>!</example>
       <example type="incorrect">Das funktioniert doch nie im <marker>leben</marker>!</example>
     </rule>
@@ -4223,7 +4381,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>gefallen</token>
           <token inflected="yes">tun</token>
         </pattern>
-        <message>Bitte prüfen Sie, ob <suggestion>Gefallen</suggestion> hier als Substantiv gebraucht wird.</message>
+        <message>&subanfang;<suggestion>Gefallen</suggestion>&subende;</message>
         <example type="correct">Kannst du mir einen <marker>Gefallen</marker> tun?</example>
         <example type="incorrect">Kannst du mir einen <marker>gefallen</marker> tun?</example>
       </rule>
@@ -4234,7 +4392,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">k?einen|den|diesen</token>
           <token>gefallen</token>
         </pattern>
-        <message>Bitte prüfen Sie, ob <suggestion>Gefallen</suggestion> hier als Substantiv gebraucht wird.</message>
+        <message>&subanfang;<suggestion>Gefallen</suggestion>&subende;</message>
         <example type="correct">Bitte tu mir den <marker>Gefallen</marker>!</example>
         <example type="incorrect">Bitte tut mir den <marker>gefallen</marker>!</example>
       </rule>
@@ -4246,7 +4404,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">k?einen|den|diesen</token>
           <token>gefallen</token>
         </pattern>
-        <message>Bitte prüfen Sie, ob <suggestion>Gefallen</suggestion> hier als Substantiv gebraucht wird.</message>
+        <message>&subanfang;<suggestion>Gefallen</suggestion>&subende;</message>
         <example type="correct">Ihr tut euch damit keinen <marker>Gefallen</marker>.</example>
         <example type="incorrect">Ihr tut euch damit keinen <marker>gefallen</marker>.</example>
       </rule>
@@ -4257,7 +4415,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">[zZ]ur|[iI]n</token>
           <token>eile</token>
         </pattern>
-        <message>Bitte prüfen Sie, ob <suggestion>Eile</suggestion> hier als Substantiv gebraucht wird.</message>
+        <message>&subanfang;<suggestion>Eile</suggestion>&subende;</message>
         <example type="correct">Sie mahnte zur <marker>Eile</marker>.</example>
         <example type="incorrect">Sie mahnte zur <marker>eile</marker>.</example>
       </rule>
@@ -4267,7 +4425,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token postag="ADJ:.*" postag_regexp="yes"/>
           <token>eile</token>
         </pattern>
-        <message>Bitte prüfen Sie, ob <suggestion>Eile</suggestion> hier als Substantiv gebraucht wird.</message>
+        <message>&subanfang;<suggestion>Eile</suggestion>&subende;</message>
         <example type="correct">Sie mahnte zu größerer <marker>Eile</marker>.</example>
         <example type="correct">Sie mahnte zu größerer <marker>eile</marker>.</example>
       </rule>
@@ -4276,7 +4434,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>eile</token>
           <token>geboten</token>
         </pattern>
-        <message>Bitte prüfen Sie, ob <suggestion>Eile</suggestion> hier als Substantiv gebraucht wird.</message>
+        <message>&subanfang;<suggestion>Eile</suggestion>&subende;</message>
         <example type="correct">Hier ist größte <marker>Eile</marker> geboten.</example>
         <example type="incorrect">Hier ist größte <marker>eile</marker> geboten.</example>
       </rule>
@@ -4287,7 +4445,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">[Ii]n</token>
           <token>kürze</token>
         </pattern>
-        <message>Bitte prüfen Sie, ob <suggestion>Kürze</suggestion> hier als Substantiv gebraucht wird.</message>
+        <message>&subanfang;<suggestion>Kürze</suggestion>&subende;</message>
         <example type="correct">In <marker>Kürze</marker> erscheint das neue Ubuntu.</example>
         <example type="incorrect">In <marker>kürze</marker> erscheint das neue Ubuntu.</example>
       </rule>
@@ -4297,7 +4455,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>aller</token>
           <token>kürze</token>
         </pattern>
-        <message>Bitte prüfen Sie, ob <suggestion>Kürze</suggestion> hier als Substantiv gebraucht wird.</message>
+        <message>&subanfang;<suggestion>Kürze</suggestion>&subende;</message>
         <example type="correct">In aller <marker>Kürze</marker> möchte ich Folgendes sagen.</example>
         <example type="incorrect">In aller <marker>kürze</marker> möchte ich Folgendes sagen.</example>
       </rule>
@@ -4308,7 +4466,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token>dem</token>
         <token>öffnen</token>
       </pattern>
-      <message>Meinten Sie <suggestion>Öffnen</suggestion>?</message>
+      <message>&subanfang;<suggestion>Öffnen</suggestion>&subende;</message>
       <example type="correct">Nach dem <marker>Öffnen</marker> bitte kühl lagern.</example>
       <example type="incorrect">Nach dem <marker>öffnen</marker> bitte kühl lagern.</example>
     </rule>
@@ -4348,7 +4506,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token regexp="yes">[dD]er|[dD]ie</token>
         <token>suche</token>
       </pattern>
-      <message>Meinten Sie <suggestion>Suche</suggestion>?</message>
+      <message>&subanfang;<suggestion>Suche</suggestion>&subende;</message>
       <example type="correct">Die <marker>Suche</marker> dauerte lange.</example>
       <example type="correct">Sie waren auf der <marker>Suche</marker> nach Felix.</example>
       <example type="incorrect">Die <marker>suche</marker> dauerte lange.</example>
@@ -4631,7 +4789,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token regexp="yes">(z|Z)ur</token>
         <token>folge</token>
       </pattern>
-      <message>Meinten Sie <suggestion>Folge</suggestion>?</message>
+      <message>&subanfang;<suggestion>Folge</suggestion>&subende;</message>
       <example type="correct">Das hatte ein Anhalten des Zuges zur <marker>Folge</marker>.</example>
       <example type="incorrect">Das hatte ein Anhalten des Zuges zur <marker>folge</marker>.</example>
       <example type="incorrect">Zur <marker>folge</marker> hatte es ein Anhalten des Zuges.</example>
@@ -4641,7 +4799,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token regexp="yes">(z|Z)ur</token>
         <token>rede</token>
       </pattern>
-      <message>Bitte prüfen Sie, ob <suggestion>Rede</suggestion> hier als Substantiv gebraucht wird und daher großgeschrieben werden muss.</message>
+      <message>&subanfang;<suggestion>Rede</suggestion>&subende;</message>
       <example type="correct">Ich habe ihn zur <marker>Rede</marker> gestellt.</example>
       <example type="incorrect" correction="Rede">Ich habe ihn zur <marker>rede</marker> gestellt.</example>
     </rule>
@@ -4650,7 +4808,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token>in</token>
         <token>ruhe</token>
       </pattern>
-      <message>Meinten Sie <suggestion>Ruhe</suggestion>?</message>
+      <message>&subanfang;<suggestion>Ruhe</suggestion>&subende;</message>
       <example correction="Ruhe" type="incorrect">Lass mich in <marker>ruhe</marker>.</example>
       <example type="correct">Rabbit in Ruhe</example>
     </rule>
@@ -4660,7 +4818,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token>der</token>
         <token>nähe</token>
       </pattern>
-      <message>Meinten Sie <suggestion>Nähe</suggestion>?</message>
+      <message>&subanfang;<suggestion>Nähe</suggestion>&subende;</message>
       <example type="correct">In der <marker>Nähe</marker> liegt der Bahnhof.</example>
       <example type="correct">Und in der <marker>Nähe</marker> liegt der Bahnhof.</example>
       <example type="incorrect">In der <marker>nähe</marker> liegt der Bahnhof.</example>
