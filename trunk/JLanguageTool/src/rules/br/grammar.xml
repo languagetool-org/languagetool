@@ -177,8 +177,9 @@ Some grammatical resources used:
     <rulegroup id="KEMM_DRE_VLOTAAT_GER" name="kemmadur dre vlotaat goude gerioù zo.">
       <rule>
         <pattern mark_from="1">
-          <token regexp="yes">2|a|aba|da|daou|div|dre|eme|endra|gwall|ne|pa|re|seul
+          <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|gwall|ne|pa|re|seul
             <exception postag="V.*" postag_regexp="yes">a</exception>
+            <exception postag="P|L e" postag_regexp="yes">e</exception>
           </token>
           <token regexp="yes">k.*</token>
         </pattern>
@@ -189,18 +190,25 @@ Some grammatical resources used:
       </rule>
       <rule>
         <pattern mark_from="1">
-          <token regexp="yes">2|a|aba|da|daou|div|dre|eme|endra|gwall|ne|pa|re|seul</token>
+          <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|gwall|ne|pa|re|seul
+            <exception postag="P|L e" postag_regexp="yes">e</exception>
+          </token>
           <token regexp="yes">t.*</token>
         </pattern>
         <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude ar ger «\1». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="d$1"/></suggestion>?</message>
         <example type="incorrect">Da <marker>tad</marker> zo er gêr.</example>
         <example type="correct">Da dad zo er gêr.</example>
+        <example type="incorrect">Gant e <marker>tad</marker></example>
+        <example type="correct">Gant e dad</example>
       </rule>
       <rule>
         <pattern mark_from="1">
-          <token regexp="yes">2|a|aba|da|daou|div|dre|eme|endra|gwall|ne|pa|re|seul</token>
+          <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|gwall|ne|pa|re|seul
+            <exception postag="P|L e" postag_regexp="yes">e</exception>
+          </token>
           <token regexp="yes">p.*
             <exception>pe</exception>
+            <exception postag="P|L e" postag_regexp="yes">e</exception>
           </token>
         </pattern>
         <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude ar ger «\1». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="b$1"/></suggestion>?</message>
@@ -210,7 +218,9 @@ Some grammatical resources used:
       </rule>
       <rule>
         <pattern mark_from="1">
-          <token regexp="yes">2|a|aba|da|daou|div|dre|eme|endra|gwall|ne|pa|re|seul</token>
+          <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|gwall|ne|pa|re|seul
+            <exception postag="P|L e" postag_regexp="yes">e</exception>
+          </token>
           <token regexp="yes">gw.*</token>
         </pattern>
         <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude ar ger «\1». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match="..(.*)" regexp_replace="w$1"/></suggestion>?</message>
@@ -219,7 +229,9 @@ Some grammatical resources used:
       </rule>
       <rule>
         <pattern mark_from="1">
-          <token regexp="yes">2|a|aba|da|daou|div|dre|eme|endra|gwall|ne|pa|re|seul</token>
+          <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|gwall|ne|pa|re|seul
+            <exception postag="P|L e" postag_regexp="yes">e</exception>
+          </token>
           <token regexp="yes" postag="UNKNOWN" negate_pos="yes">d.*
             <exception inflected="yes">da</exception>
             <exception regexp="yes" inflected="yes">t.*</exception>
@@ -235,7 +247,28 @@ Some grammatical resources used:
       </rule>
       <rule>
         <pattern mark_from="1">
-          <token regexp="yes">2|a|aba|da|daou|div|dre|eme|endra|gwall|ne|pa|re|seul</token>
+          <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|gwall|ne|pa|re|seul
+            <exception postag="P|L e" postag_regexp="yes">e</exception>
+          </token>
+          <and>
+            <token regexp="yes">b.*
+              <exception inflected="yes" regexp="yes">p.*</exception>
+            </token>
+            <token regexp="yes" inflected="yes">b.*</token>
+          </and>
+        </pattern>
+        <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude ar ger «\1». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="v$1"/></suggestion>?</message>
+        <example type="incorrect">Gant e <marker>bag</marker></example>
+        <example type="correct">Gant e vag</example>
+        <example type="incorrect">Re <marker>bras</marker> eo.</example>
+        <example type="correct">Re vras eo.</example>
+        <example type="correct">Re bell e oa.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|gwall|ne|pa|re|seul
+            <exception postag="P|L e" postag_regexp="yes">e</exception>
+          </token>
           <token regexp="yes">m.*
             <exception regexp="yes" inflected="yes">[mp][ae]|ma’</exception>
           </token>
@@ -248,8 +281,9 @@ Some grammatical resources used:
       </rule>
       <rule>
         <pattern mark_from="1">
-          <token regexp="yes">2|a|aba|da|daou|div|dre|eme|endra|gwall|ne|pa|re|seul
+          <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|gwall|ne|pa|re|seul
             <exception postag="V.*" postag_regexp="yes">a</exception>
+            <exception postag="P|L e" postag_regexp="yes">e</exception>
           </token>
           <and>
             <token regexp="yes">c’h.*<exception inflected="yes" regexp="yes">(g|c’h).*</exception>
@@ -265,7 +299,9 @@ Some grammatical resources used:
       </rule>
       <rule>
         <pattern mark_from="1">
-          <token regexp="yes">2|a|aba|da|daou|div|dre|eme|endra|gwall|ne|pa|re|seul</token>
+          <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|gwall|ne|pa|re|seul
+            <exception postag="P|L e" postag_regexp="yes">e</exception>
+          </token>
           <and>
             <token regexp="yes">z.*
               <exception>zo</exception>
@@ -281,7 +317,9 @@ Some grammatical resources used:
         <example type="correct">Ar march’had a zo bras.</example>
         <example type="correct">Daou zoo</example>
       </rule>
+    </rulegroup>
 
+    <rulegroup id="KEMM_EN_EM_VLOTAAT" name="kemmadur dre vlotaat goude gerioù zo.">
       <rule>
         <pattern mark_from="2">
           <token>en</token>
