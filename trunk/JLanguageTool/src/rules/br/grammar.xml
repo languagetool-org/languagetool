@@ -1123,7 +1123,7 @@ Some grammatical resources used:
           <token postag="N f p.*|N m s.*" postag_regexp="yes">
             <exception postag="N f s.*|N m p t.*" postag_regexp="yes"/>
             <exception postag="N f s.*|N m p t.*" postag_regexp="yes"/>
-            <exception regexp="yes" inflected="yes">.|re|aer|avel|brud|c’hoari|c’hwezh|lur|revr|tra|war</exception>
+            <exception regexp="yes" inflected="yes">.|re|aer|avel|brud|c’hoari|c’hwezh|gwall|lur|revr|tra|war</exception>
           </token>
           <token postag="J[^M]*M:.*" postag_regexp="yes">
             <exception negate_pos="yes" postag="J[^M]*M:.*|SENT_END" postag_regexp="yes"/>
@@ -2470,6 +2470,16 @@ Some grammatical resources used:
         <example type="correct">N’eus ket nemeur a girri.</example>
       </rule>
     </rulegroup>
+    <rule id="HOLL_MA" name="holl ma → ma holl">
+      <pattern mark_to="-1">
+        <token>holl</token>
+        <token regexp="yes">[mvd]a|e|he|ho[nrl]?|o</token>
+        <token postag="N . p.*" postag_regexp="yes"/>
+      </pattern>
+      <message>Gallakadur: e brezhoneg e lakaer «\1» etre a ger-parc’hennnañ «\2» hag an dra berc’hennet «\3». Ha fellout a rae deoc‘h skrivañ <suggestion>\2 \1</suggestion>?</message>
+      <example type="incorrect"><marker>Holl ma</marker> levrioù</example>
+      <example type="correct">Ma holl levrioù</example>
+    </rule>
   </category>
   <!-- vim: foldmethod=marker foldmarker=<category,</category:
   -->
