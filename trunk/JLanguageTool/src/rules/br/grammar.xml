@@ -340,7 +340,48 @@ Some grammatical resources used:
         <example type="incorrect">En em <marker>gwelet</marker> a raen.</example>
         <example type="correct">En em welet a raen.</example>
       </rule>
+    </rulegroup>
 
+    <rulegroup id="KEMM_HEMAN_VLOTAAT" name="kemmadur dre vlotaat goude hemañ.">
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">h[eo]mañ|re-se|re-mañ</token>
+          <token postag="J.*" postag_regexp="yes">
+            <exception postag="J[^M]*M.*:1:.*" postag_regexp="yes"/>
+          </token>
+        </pattern>
+        <message>Ur c‘hemmadur dre vlotaat a zlefe bezañ gant an anv-gwan «\2» goude «\1».</message>
+        <example type="incorrect">Hemañ <marker>treut</marker></example>
+        <example type="incorrect">Hemañ <marker>zreut</marker></example>
+        <example type="correct">Hemañ dreut</example>
+        <example type="incorrect">Homañ <marker>plijus</marker></example>
+        <example type="incorrect">Homañ <marker>flijus</marker></example>
+        <example type="correct">Homañ blijus</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">h[eo]nnezh|h[eo]nhont|re-hont</token>
+          <token inflected="yes" postag="J.*" postag_regexp="yes" regexp="yes">[gdbm].*
+            <exception postag="J[^M]*M.*:1b:.*" postag_regexp="yes"/>
+          </token>
+        </pattern>
+        <message>Ur c‘hemmadur dre vlotaat diglok a zlefe bezañ gant an anv-gwan «\2» goude «\1».</message>
+        <example type="incorrect">Hennezh <marker>bihan</marker></example>
+        <example type="incorrect">Hennezh <marker>pihan</marker></example>
+        <example type="correct">Hennezh vihan</example>
+        <example type="incorrect">Ar re-hont <marker>glas</marker></example>
+        <example type="correct">Ar re-hont c’hlas</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">h[eo]nnezh|h[eo]nhont|re-hont</token>
+          <token inflected="yes" postag="J[^M]*M.*" postag_regexp="yes" regexp="yes">[^gdbm].*</token>
+        </pattern>
+        <message>Ne zlefe ket bezañ ur c’hemmadur en anv-gwan «\2» goude «\1».</message>
+        <example type="incorrect">Honnezh <marker>gozh</marker></example>
+        <example type="incorrect">Honnezh <marker>c’hozh</marker></example>
+        <example type="correct">Honnezh kozh</example>
+      </rule>
     </rulegroup>
 
     <!-- Mutations renforçantes -->
@@ -509,7 +550,28 @@ Some grammatical resources used:
         <example type="correct">Da’m faotr</example>
       </rule>
     </rulegroup>
-
+    <rulegroup id="KEMM_PASK" name="Sul Pask → Sul Fask">
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">Lun|Sul</token>
+          <token regexp="yes">[BP]ask</token>
+        </pattern>
+        <message>Goude ar ger «\1» e tro «Pask» da <suggestion>Fask</suggestion>.</message>
+        <example type="incorrect">Sul <marker>Pask</marker></example>
+        <example type="incorrect">Sul <marker>Bask</marker></example>
+        <example type="correct">Sul Fask</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token>Yaou</token>
+          <token regexp="yes">[FP]ask</token>
+        </pattern>
+        <message>Goude ar ger «\1» e tro «Pask» da <suggestion>Bask</suggestion>.</message>
+        <example type="incorrect">Yaou <marker>Pask</marker></example>
+        <example type="incorrect">Yaou <marker>Fask</marker></example>
+        <example type="correct">Yaou Bask</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="FAZ_KEMM_DRE_VLOTAAT_AR" name="kemmadur dre vlotaat en anv goude ar ger-mell.">
       <rule>
         <pattern mark_from="1">
@@ -2473,7 +2535,7 @@ Some grammatical resources used:
     <rule id="HOLL_MA" name="holl ma → ma holl">
       <pattern mark_to="-1">
         <token>holl</token>
-        <token regexp="yes">[mvd]a|e|he|ho[nrl]?|o</token>
+        <token regexp="yes">[mvd]a|e|he|hec’h|ho[nrl]?|o</token>
         <token postag="N . p.*" postag_regexp="yes"/>
       </pattern>
       <message>Gallakadur: e brezhoneg e lakaer «\1» etre a ger-parc’hennnañ «\2» hag an dra berc’hennet «\3». Ha fellout a rae deoc‘h skrivañ <suggestion>\2 \1</suggestion>?</message>
