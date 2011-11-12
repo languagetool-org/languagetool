@@ -34,7 +34,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
 import java.net.URL;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -42,14 +42,7 @@ import java.util.List;
  */
 public class WikipediaQuickCheck {
 
-  // disable some rules because of too many false alarms:
-  private static final List<String> disabledRuleIds = Arrays.asList("WHITESPACE_RULE", "DE_CASE",
-          "UNPAIRED_BRACKETS", "UPPERCASE_SENTENCE_START", "COMMA_PARENTHESIS_WHITESPACE",
-          "DE_AGREEMENT", "PFEILE", "BISSTRICH", "AUSLASSUNGSPUNKTE", "MALZEICHEN");
-
-  public List<String> getDisabledRuleIds() {
-    return disabledRuleIds;
-  }
+  private List<String> disabledRuleIds = new ArrayList<String>();
 
   public String getMediaWikiContent(URL wikipediaUrl) throws IOException {
     validateWikipediaUrl(wikipediaUrl);
@@ -64,6 +57,14 @@ public class WikipediaQuickCheck {
     final String apiUrl = "http://" + shortLangName + ".wikipedia.org/w/api.php?titles=" 
             + pageTitle + "&action=query&prop=revisions&rvprop=content&format=xml";
     return getContent(new URL(apiUrl));
+  }
+
+  public void setDisabledRuleIds(List<String> ruleIds) {
+    disabledRuleIds = ruleIds;
+  }
+  
+  public List<String> getDisabledRuleIds() {
+    return disabledRuleIds;
   }
 
   private String getLanguage(URL wikipediaUrl) {
