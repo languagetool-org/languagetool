@@ -75,7 +75,8 @@ successfully finished their projects and the results will be part of LanguageToo
 <h2>License &amp; Source Code</h2>
 
 <p>LanguageTool is freely available under the <?=show_link("LGPL", "http://www.fsf.org/licensing/licenses/lgpl.html#SEC1", 0)?>.
-The source is available <?=show_link("at Sourceforge", "http://sourceforge.net/projects/languagetool/", 1) ?> via SVN.</p>
+The source is available <?=show_link("at Sourceforge", "http://sourceforge.net/projects/languagetool/", 1) ?> via SVN.
+The contents of this homepage is available under <?=show_link("CC BY-SA 3.0", "http://creativecommons.org/licenses/by-sa/3.0/", 1) ?>.</p>
 
 <div style="height:750px"></div>
 
