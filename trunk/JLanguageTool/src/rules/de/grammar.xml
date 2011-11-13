@@ -813,7 +813,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     <rulegroup id="SEIT_X_JAHRE" name="Möglicher Tippfehler: 'seit X Jahre (Jahren)'">
       <rule>
         <pattern mark_from="2">
-          <token regexp="yes">vor|seit|in</token>
+          <token regexp="yes">vor|seit</token>
           <token regexp="yes">\d+</token>
           <token regexp="yes">Jahre|Tage|Monate</token>
         </pattern>
@@ -823,12 +823,13 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       </rule>
       <rule>
         <pattern mark_from="2">
-          <token regexp="yes">vor|seit|in</token>
+          <token regexp="yes">vor|seit</token>
           <token postag="ZAL"/>
           <token regexp="yes">Jahre|Tage|Monate</token>
         </pattern>
         <message>Meinten Sie <suggestion>\3n</suggestion>?</message>
         <example type="correct">Seit dreißig <marker>Jahren</marker>.</example>
+        <example type="correct">Der Roman ist analog zu den sieben Posaunen der biblischen Apokalypse in sieben <marker>Tage</marker> unterteilt.</example>
         <example type="incorrect">Seit dreißig <marker>Jahre</marker>.</example>
       </rule>
     </rulegroup>
