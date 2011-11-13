@@ -1433,7 +1433,7 @@ Some grammatical resources used:
           <token regexp="yes">milion|miliard|bilion|trilion</token>
           <token postag_regexp="yes" postag="N .*"><exception regexp="yes">[ae]</exception></token>
         </pattern>
-        <message>Ha fellout a rae deoc’h skrivañ ha «\1 a \2»?</message>
+        <message>Ha fellout a rae deoc’h skrivañ ha <suggestion>\1 a \2</suggestion>?</message>
         <example type="incorrect">Ur <marker>milion zud</marker>.</example>
         <example type="correct">1,7 milion a dud e 1900, 2,2 milion e 1950.</example>
       </rule>
@@ -1486,7 +1486,7 @@ Some grammatical resources used:
         <token>ez</token>
         <token>eus</token>
       </pattern>
-      <message>Ha fellout a rae deoc’h skrivañ «Bez’ ez eus»?</message>
+      <message>Ha fellout a rae deoc’h skrivañ <suggestion>Bez’ ez eus</suggestion>?</message>
       <example type="incorrect"><marker>Ez eus</marker> ur c‘hi el liorzh.</example>
       <example type="correct">Bez’ ez eus ur c‘hi el liorzh.</example>
     </rule>
@@ -2559,6 +2559,22 @@ Some grammatical resources used:
       <example type="incorrect"><marker>Holl ma</marker> levrioù</example>
       <example type="correct">Ma holl levrioù</example>
     </rule>
+    <rulegroup id="KET_EBET" name="n’eus ket kudenn → n’eus ket kudenn ebet.">
+      <rule>
+        <pattern mark_from="2">
+          <token inflected="yes">ne</token>
+          <token inflected="yes">bezañ</token>
+          <token>ket</token>
+          <token>kudenn</token>
+        </pattern>
+        <message>Ret eo ober gant «ebet» evit an anvioù niveradus. Ha fellout a rae deoc’h skrivañ <suggestion>\4 ebet</suggestion>?</message>
+        <example type="incorrect">N’eus <marker>ket kudenn</marker>.</example>
+        <example type="correct">N’eus kudenn ebet.</example>
+        <example type="incorrect">Ne vo <marker>ket kudenn</marker>.</example>
+        <example type="incorrect">Ne oa <marker>ket kudenn</marker>.</example>
+        <example type="correct">Ne vo kudenn ebet.</example>
+      </rule>
+    </rulegroup>
   </category>
   <!-- vim: foldmethod=marker foldmarker=<category,</category:
   -->
