@@ -111,6 +111,15 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct">Das war jetzt schon das <marker>zweite</marker> Mal.</example>
       <example type="incorrect">Das war jetzt schon das <marker>zweit</marker> Mal.</example>
     </rule>
+    <rule id="GRAT_VS_GRAD" name="Möglicher Tippfehler: 'Grad (Grat)'">
+      <pattern mark_from="1">
+        <token regexp="yes">schmale[mrn]?|dünne[mrn]?|feine[mrn]?|scharfe[mrn]?|gezackte[mrn]?</token>
+        <token>Grad</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>Grat</suggestion> (Bergrücken) statt Grad (Maßeinheit)?</message>
+      <example type="correct">Er wandelt auf einem schmalen <marker>Grat</marker>.</example>
+      <example type="incorrect">Er wandelt auf einem schmalen <marker>Grad</marker>.</example>
+    </rule>
     <rule id="COACH_VS_COUCH" name="Möglicher Tippfehler: 'Coach (Couch)'">
       <pattern mark_from="2">
         <token>auf</token>
@@ -3892,6 +3901,56 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect">Seit Wochen ist die <marker>hecke</marker> zu hoch.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="NUTZEN_SUBST" name="Groß-/Kleinschreibung: 'nutzen (Nutzen) ziehen'">
+      <rule>
+        <pattern mark_from="1" case_sensitive="yes">
+          <token inflected="yes">ziehen</token>
+          <token>nutzen</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Nutzen</suggestion>&subende;</message>
+        <example type="correct">Wer zieht <marker>Nutzen</marker> daraus?</example>
+        <example type="incorrect">Wer zieht <marker>nutzen</marker> daraus?</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1" case_sensitive="yes">
+          <token>nutzen</token>
+          <token inflected="yes">ziehen</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Nutzen</suggestion>&subende;</message>
+        <example type="correct">Wer hat daraus <marker>Nutzen</marker> gezogen?</example>
+        <example type="incorrect">Wer hat daraus <marker>nutzen</marker> gezogen?</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-2" case_sensitive="yes">
+          <token>nutzen</token>
+          <token>zu</token>
+          <token>ziehen</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Nutzen</suggestion>&subende;</message>
+        <example type="correct">Wer hat daraus <marker>Nutzen</marker> gezogen?</example>
+        <example type="incorrect">Wer hat versucht, daraus <marker>nutzen</marker> zu ziehen?</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="FALTEN_SUBST" name="Groß-/Kleinschreibung: 'falten (Falten) werfen'">
+      <rule>
+        <pattern mark_from="1" case_sensitive="yes">
+          <token regexp="yes" inflected="yes">[wW]erfen</token>
+          <token>falten</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Falten</suggestion>&subende;</message>
+        <example type="correct">Der Teppich wirft <marker>Falten</marker>.</example>
+        <example type="incorrect">Der Teppich wirft <marker>falten</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1" case_sensitive="yes">
+          <token>falten</token>
+          <token inflected="yes">werfen</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Falten</suggestion>&subende;</message>
+        <example type="correct">Schade, dass der Teppich solche <marker>Falten</marker> wirft.</example>
+        <example type="incorrect">Schade, dass der Teppich solche <marker>falten</marker> wirft.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="BELIEBEN_SUBST" name="Groß-/Kleinschreibung: 'nach/ins belieben (Belieben)'">
       <rule>
         <pattern mark_from="1" case_sensitive="yes">
@@ -4738,6 +4797,31 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct">Er hat sie auf dem <marker>Gewissen</marker>.</example>
       <example type="incorrect">Er hat sie auf dem <marker>gewissen</marker>.</example>
     </rule>
+    <rulegroup id="MIT_DEM_GEWISSEN_VEREINBAREN" name="Groß-/Kleinschreibung: 'mit dem gewissen (Gewissen) vereinbaren'">
+      <rule>
+        <pattern case_sensitive="yes" mark_from="2" mark_to="-1">
+          <token>mit</token>
+          <token regexp="yes">dem|meinem|[dD]einem|seinem|[iI]hrem|unserem|[eU]rem</token>
+          <token>gewissen</token>
+          <token inflected="yes">vereinbaren</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>Gewissen</suggestion>?</message>
+        <example type="correct">Ich kann das nicht mit meinem <marker>Gewissen</marker> vereinbaren.</example>
+        <example type="incorrect">Ich kann das nicht mit meinem <marker>gewissen</marker> vereinbaren.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="2" mark_to="-2">
+          <token>mit</token>
+          <token regexp="yes">dem|meinem|[dD]einem|seinem|[iI]hrem|unserem|[eU]rem</token>
+          <token>gewissen</token>
+          <token>zu</token>
+          <token>vereinbaren</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>Gewissen</suggestion>?</message>
+        <example type="correct">Das ist nicht mit meinem <marker>Gewissen</marker> zu vereinbaren.</example>
+        <example type="incorrect">Das ist nicht mit meinem <marker>gewissen</marker> zu vereinbaren.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="ODER_FLUSS" name="Groß-/Kleinschreibung: 'oder/Oder (der Fluss)'">
       <rule>
         <pattern case_sensitive="yes">
@@ -4960,6 +5044,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       </rule>
     </rulegroup>
     -->
+    <!-- commented for now, throws exception
     <rulegroup id="SUBJ_VERBLETZTSTELLUNG" name="Grammatik: Fehlende Verbletztstellung in Nebensatz" default="off">
       <rule>
         <pattern mark_from="1" mark_to="-2" case_sensitive="yes">
@@ -4979,7 +5064,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           </token>
           <token postag="SENT_END"/>
         </pattern>
-        <message>Die Subjunktion '\2' erfordert Verbletztstellung. Stellen Sie das Verb an das Ende des Nebensatzes oder verwenden Sie eine andere Konjunktion (z. B. 'denn')</message><!-- TODO should we make a suggestion? -->
+        <message>Die Subjunktion '\2' erfordert Verbletztstellung. Stellen Sie das Verb an das Ende des Nebensatzes oder verwenden Sie eine andere Konjunktion (z. B. 'denn')</message> TODO should we make a suggestion?
         <example type="correct">Er mag das Spiel, <marker>weil es ihm Spaß macht</marker>.</example>
         <example type="incorrect">Er mag das Spiel, <marker>weil es macht</marker> ihm Spaß.</example>
         <example type="correct">Sie läuft nicht, <marker>weil sie geht</marker>.</example>
@@ -4990,10 +5075,11 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Ich finde das gut, <marker>weil du dir viel Mühe gemacht hast </marker>.</example>
         <example type="correct">Das ist ein Befehl, <marker>weil es über eine</marker> Aufforderung hinausgeht.</example>
         <example type="incorrect">Hast du das gemerkt, <marker>weil du hast</marker> einen häufigen Fehler gemacht?</example>
-<!--         <example type="correct">Das ist so, weil hier drei dunkle Streifen aneinanderliegen.</example> TODO the verb isn't recognized, use POS UNKNOWN? -->
+        <example type="correct">Das ist so, weil hier drei dunkle Streifen aneinanderliegen.</example> TODO the verb isn't recognized, use POS UNKNOWN?
       </rule>
     </rulegroup>
-    <rulegroup id="PRAEP_GEN" name="Grammatik: Präposition mit Genitiv (ab­züg­lich, wegen etc.)">
+     -->
+   <rulegroup id="PRAEP_GEN" name="Grammatik: Präposition mit Genitiv (ab­züg­lich, wegen etc.)">
       <rule>
         <pattern mark_from="1" case_sensitive="yes">
           <token skip="-1" postag="SENT_START"><exception scope="next" postag="SUB.*:GEN:.*" postag_regexp="yes"/></token>
