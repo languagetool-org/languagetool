@@ -181,9 +181,12 @@ Some grammatical resources used:
             <exception postag="V.*" postag_regexp="yes">a</exception>
             <exception postag="P|L e" postag_regexp="yes">e</exception>
           </token>
-          <token regexp="yes">k.*</token>
+          <and>
+            <token regexp="yes">(k|c’h).*</token>
+            <token regexp="yes" inflected="yes">k.*</token>
+          </and>
         </pattern>
-        <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude ar ger «\1». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="g$1"/></suggestion>?</message>
+        <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude ar ger «\1». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match="(k|c’h)(.*)" regexp_replace="g$1"/></suggestion>?</message>
         <example type="incorrect">Gwall <marker>kozh</marker> eo da garr.</example>
         <example type="correct">Gwall gozh eo da garr.</example>
         <example type="correct">N’a ket mat en-dro an urzhiataer.</example>
@@ -1020,7 +1023,7 @@ Some grammatical resources used:
       <rule>
         <pattern mark_from="1">
           <token postag="K.*" postag_regexp="yes">
-            <exception regexp="yes">tri|pevar|pemp|nav|mil</exception>
+            <exception regexp="yes">tri|pevar|pemp|nav|[mv]il</exception>
           </token>
           <token regexp="yes">[bp]loaz</token>
         </pattern>
@@ -1028,15 +1031,18 @@ Some grammatical resources used:
         <example type="incorrect">Daou <marker>bloaz</marker></example>
         <example type="correct">Daou vloaz</example>
         <example type="correct">Tri bloaz</example>
+        <example type="correct">Daou vil bloaz</example>
       </rule>
       <rule>
         <pattern mark_from="1">
-          <token regexp="yes">tri|pevar|pemp|nav|mil</token>
+          <token regexp="yes">tri|pevar|pemp|nav|[mv]il</token>
           <token regexp="yes">[vp]loaz</token>
         </pattern>
         <message>Ar ger «bloaz» a dro da «vloaz» goude an niveroù nemet goude tri, pevar, pemp, nav, mil. Ha fellout a rae deoc’h skrivañ <suggestion>bloaz</suggestion>?</message>
         <example type="incorrect">Pemp <marker>vloaz</marker></example>
         <example type="correct">Pemp bloaz</example>
+        <example type="incorrect">Daou vil <marker>vloaz</marker></example>
+        <example type="correct">Daou vil bloaz</example>
       </rule>
     </rulegroup>
     <rule id="TI_BIV" name="ti piv -> ti biv">
