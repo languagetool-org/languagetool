@@ -1744,6 +1744,25 @@ Some grammatical resources used:
         <example type="correct">Goulennet en eus diganin.</example>
       </rule>
     </rulegroup>
+    <rule id="DIGAREZIT_DIN" name="Digarezit din → Digarezit ac’hanon">
+      <pattern mark_from="1">
+        <token regexp="yes">digarez(it)?</token>
+        <token inflected="yes">da</token>
+      </pattern>
+      <message>Ne vez ket implijet an araogenn «da» gat ar verb «\1».</message>
+      <example type="incorrect">Digarezit <marker>dimp</marker></example>
+      <example type="correct">Digarezit ac‘hanomp</example>
+    </rule>
+    <rule id="A_RAOK_DA" name="Digarezit din → Digarezit ac’hanon">
+      <pattern mark_from="1" mark_to="-1">
+        <token regexp="yes">a-raok|evit</token>
+        <token>da</token>
+        <token postag="V inf.*" postag_regexp="yes"/>
+      </pattern>
+      <message>Ne vez ket implijet an araogenn «da» goude «\1».</message>
+      <example type="incorrect">A-raok <marker>da</marker> vont</example>
+      <example type="correct">A-raok mont</example>
+    </rule>
     <rulegroup id="BET_DA" name="Bet on da Vrest → Bet on e Brest">
       <rule>
         <pattern mark_from="2" mark_to="-1">
