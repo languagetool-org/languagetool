@@ -1665,10 +1665,21 @@ Some grammatical resources used:
       <example type="incorrect">Chom <marker>a sav</marker> ar bus.</example>
       <example type="correct">Chom a-sav ar bus.</example>
     </rule>
+    <rule id="A_DU" name="a du → a-du">
+      <pattern>
+        <token>a<exception scope="previous">meur</exception></token>
+        <token regexp="yes">du|zoare</token>
+      </pattern>
+      <message>Implijit <suggestion>\1-\2</suggestion>.</message>
+      <example type="incorrect"><marker>A du</marker> emaon.</example>
+      <example type="correct">A-du emaon.</example>
+      <example type="correct">kemer perzh enno e meur a du.</example>
+      <example type="correct">Meur a zoare a zo da gemer perzh</example>
+    </rule>
     <rule id="A_DREUZ" name="a dreuz → a-dreuz (hag all)">
       <pattern>
         <token>a</token>
-        <token regexp="yes">barzh|beban|belec’h|benn(adoù|-kaer)?|bik|bil|blad|blaen|blom|boan|bouez(-penn)?|boullad|c’houde(vezh)?|c’wenn|dal|dammoù|denn-askell|dizh|douez|doulladoù|drak|dreist|drek|dreñv|dreuz|drugarez|du|enep|feson|fet|feur|flav|fourch|fuilh|geñver|gleiz|greiz(-holl)?|grenn|hed(-all)?|herr|hervez|istribilh|led|leizh|nevez|ouez|raok|ratozh|skouer|stlabez|viskoazh|vremañ|walc’h|wechoù|wezhioù|youl|zehou|zevri|ziabarzh|ziabell|ziadreñv|ziagent|ziaraok|ziavaez|zindan|zioc’h|ziouzh|zivout|ziwar(-(c’horre|dro|laez|lerc’h))?|zoare</token>
+        <token regexp="yes">barzh|beban|belec’h|benn(adoù|-kaer)?|bik|bil|blad|blaen|blom|boan|bouez(-penn)?|boullad|c’houde(vezh)?|c’wenn|dal|dammoù|denn-askell|dizh|douez|doulladoù|drak|dreist|drek|dreñv|dreuz|drugarez|enep|feson|fet|feur|flav|fourch|fuilh|geñver|gleiz|greiz(-holl)?|grenn|hed(-all)?|herr|hervez|istribilh|led|leizh|nevez|ouez|raok|ratozh|skouer|stlabez|viskoazh|vremañ|walc’h|wechoù|wezhioù|youl|zehou|zevri|ziabarzh|ziabell|ziadreñv|ziagent|ziaraok|ziavaez|zindan|zioc’h|ziouzh|zivout|ziwar(-(c’horre|dro|laez|lerc’h))?</token>
       </pattern>
       <message>Implijit <suggestion>\1-\2</suggestion>.</message>
       <example type="incorrect">Amzer <marker>a walc’h</marker> am eus.</example>
