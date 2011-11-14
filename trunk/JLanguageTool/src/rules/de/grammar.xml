@@ -143,7 +143,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     </rule>
     <rule id="SPRACHE_VS_SPRACH" name="Möglicher Tippfehler: 'in deutscher Sprach (Sprache)'">
       <pattern case_sensitive="yes" mark_from="1">
-        <token regexp="yes">(&sprachadj1;|&sprachadj2;)(en|er)?</token>
+        <token regexp="yes">(&sprachadj1;|&sprachadj2;)(e|en|er)?</token>
         <token>Sprach</token>
       </pattern>
       <message>Meinten Sie <suggestion>Sprache</suggestion>?</message>
@@ -2900,6 +2900,42 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect" correction="Erwarten">Wider <marker>erwarten</marker></example>
       <example type="correct">Wider <marker>Erwarten</marker></example>
     </rule>
+    <rulegroup id="HOEREN_UND_SEHEN" name="Groß-/Kleinschreibung: 'hören und sehen (Hören und Sehen) vergehen'">
+      <rule>
+        <pattern case_sensitive="yes" mark_to="-1">
+          <token>hören</token>
+          <token>und</token>
+          <token>sehen</token>
+          <token regexp="yes">verging(en)?|vergeh(t|en)|vergangen</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>Hören und Sehen</suggestion>?</message>
+        <example type="incorrect" correction="Hören und Sehen">Ihm werden <marker>hören und sehen</marker> vergehen.</example>
+        <example type="correct">Mir sind dabei <marker>Hören und Sehen</marker> vergangen.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="1">
+          <token regexp="yes">verging(en)?|vergeh(t|en)|vergangen</token>
+          <token>hören</token>
+          <token>und</token>
+          <token>sehen</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>Hören und Sehen</suggestion>?</message>
+        <example type="incorrect" correction="Hören und Sehen">Ihm vergingen <marker>hören und sehen</marker>.</example>
+        <example type="correct">Mir vergingen <marker>Hören und Sehen</marker>.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="2">
+          <token regexp="yes">verging(en)?|vergeh(t|en)|vergangen</token>
+          <token regexp="yes">dir|ihr|mir|ihm|euch|uns|ihnen|einem</token>
+          <token>hören</token>
+          <token>und</token>
+          <token>sehen</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>Hören und Sehen</suggestion>?</message>
+        <example type="incorrect" correction="Hören und Sehen">Da vergingen ihm <marker>hören und sehen</marker>.</example>
+        <example type="correct">Da vergingen mir <marker>Hören und Sehen</marker>.</example>
+      </rule>
+    </rulegroup>
     <!-- Großgeschrieben wird das substantivierte Adjektiv, wenn es im Sinne von »deutsche Sprache« verwendet wird: 
     http://www.duden.de/rechtschreibung/deutsch
     Großgeschrieben werden ferner Sprachbezeichnungen nach einer Präposition 
@@ -3530,6 +3566,53 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <message>&subanfang;<suggestion>Flucht</suggestion>&subende;</message>
         <example type="incorrect">Bei seiner wilden <marker>flucht</marker> stahl er ein Auto.</example>
         <example type="correct">Er wurde auf der <marker>Flucht</marker> erschossen.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="LAECHELN_SUBST" name="Groß-/Kleinschreibung: 'lächeln (Lächeln)'">
+      <rule>
+        <pattern case_sensitive="yes" mark_from="3">
+          <token regexp="yes">[mM]it</token>
+          <token>einem</token>
+          <token postag="ADJ:.*" postag_regexp="yes"/>
+          <token>lächeln</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Lächeln</suggestion>&subende;</message>
+        <example type="incorrect">Mit einem dümmlichen <marker>lächeln</marker> ...</example>
+        <example type="correct">Mit einem maliziösen <marker>Lächeln</marker> ...</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="4">
+          <token regexp="yes">[mM]it</token>
+          <token>einem</token>
+          <token postag="ADV:.*" postag_regexp="yes"/>
+          <token postag="ADJ:.*" postag_regexp="yes"/>
+          <token>lächeln</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Lächeln</suggestion>&subende;</message>
+        <example type="incorrect">Mit einem sehr dümmlichen <marker>lächeln</marker> ...</example>
+        <example type="correct">Mit einem maliziösen <marker>Lächeln</marker> ...</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="2" mark_to="-1">
+          <token regexp="yes">[mM]it</token>
+          <token>einem</token>
+          <token>lächeln</token>
+          <token postag="VER:.*" postag_regexp="yes"/>
+        </pattern>
+        <message>&subanfang;<suggestion>Lächeln</suggestion>&subende;</message>
+        <example type="incorrect">Mit einem <marker>lächeln</marker> kommt man weiter.</example>
+        <example type="correct">Mit einem maliziösen <marker>Lächeln</marker> ...</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="0" mark_to="-3">
+          <token>lächeln</token>
+          <token>auf</token>
+          <token regexp="yes">den|seinen|[iI]hren|meinen|[dDs]einen|unseren|[eE]uren</token>
+          <token>Lippen</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Lächeln</suggestion>&subende;</message>
+        <example type="incorrect">Mit einem <marker>lächeln</marker> auf den Lippen kommt man weiter.</example>
+        <example type="correct">Mit einem <marker>Lächeln</marker> auf den Lippen kommt man weiter.</example>
       </rule>
     </rulegroup>
     <rulegroup id="LEGENDE_SUBST" name="Groß-/Kleinschreibung: 'legende (Legende)'">
