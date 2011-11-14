@@ -50,14 +50,23 @@ public class WikipediaQuickCheck {
   private List<String> disabledRuleIds = new ArrayList<String>();
 
   public String getMediaWikiContent(URL wikipediaUrl) throws IOException {
-    final Matcher matcher = getUrlMatcher(wikipediaUrl.toString());
-    final String shortLangName = matcher.group(1);
-    final String pageTitle = matcher.group(2);
-    final String apiUrl = "http://" + shortLangName + ".wikipedia.org/w/api.php?titles=" 
+    final Language lang = getLanguage(wikipediaUrl);
+    final String pageTitle = getPageTitle(wikipediaUrl);
+    final String apiUrl = "http://" + lang.getShortName() + ".wikipedia.org/w/api.php?titles=" 
             + pageTitle + "&action=query&prop=revisions&rvprop=content&format=xml";
     return getContent(new URL(apiUrl));
   }
 
+  public Language getLanguage(URL url) {
+    final Matcher matcher = getUrlMatcher(url.toString());
+    return Language.getLanguageForShortName(matcher.group(1));
+  }
+
+  public String getPageTitle(URL url) {
+    final Matcher matcher = getUrlMatcher(url.toString());
+    return matcher.group(2);
+  }
+  
   private Matcher getUrlMatcher(String url) {
     final Matcher matcher1 = WIKIPEDIA_URL_REGEX.matcher(url);
     final Matcher matcher2 = SECURE_WIKIPEDIA_URL_REGEX.matcher(url);
@@ -136,10 +145,10 @@ public class WikipediaQuickCheck {
     //final String urlString = "http://de.wikipedia.org/wiki/Berlin";
     //final String urlString = "http://de.wikipedia.org/wiki/Köln";
     //final String urlString = "http://de.wikipedia.org/wiki/Angela_Merkel";
-    final String urlString = "http://de.wikipedia.org/wiki/Wortschatz";
+    //final String urlString = "http://de.wikipedia.org/wiki/Wortschatz";
     //final String urlString = "https://de.wikipedia.org/wiki/Benutzer_Diskussion:Dnaber";
     //final String urlString = "https://secure.wikimedia.org/wikipedia/de/wiki/G%C3%BCtersloh";
-    //final String urlString = "https://secure.wikimedia.org/wikipedia/de/wiki/Benutzer_Diskussion:Dnaber";
+    final String urlString = "https://secure.wikimedia.org/wikipedia/de/wiki/Benutzer_Diskussion:Dnaber";
     final URL url = new URL(urlString);
     final String mediaWikiContent = check.getMediaWikiContent(url);
     final String plainText = check.getPlainText(mediaWikiContent);
