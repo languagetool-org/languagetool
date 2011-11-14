@@ -36,27 +36,37 @@ import java.io.StringReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Check a Wikipedia page, fetching the page via the MediaWiki API.
  */
 public class WikipediaQuickCheck {
 
+  private static final Pattern WIKIPEDIA_URL_REGEX = Pattern.compile("https?://(..)\\.wikipedia\\.org/wiki/(.*)"); 
+  private static final Pattern SECURE_WIKIPEDIA_URL_REGEX = Pattern.compile("https://secure\\.wikimedia\\.org/wikipedia/(..)/wiki/(.*)"); 
+    
   private List<String> disabledRuleIds = new ArrayList<String>();
 
   public String getMediaWikiContent(URL wikipediaUrl) throws IOException {
-    validateWikipediaUrl(wikipediaUrl);
-    final String shortLangName;
-    final String pageTitle;
-    try {
-      shortLangName = getLanguage(wikipediaUrl);
-      pageTitle = wikipediaUrl.toString().substring("http://xx.wikipedia.org/wiki/".length());
-    } catch (StringIndexOutOfBoundsException e) {
-      throw new RuntimeException("URL does not seem to be a valid URL: " + wikipediaUrl.toString(), e);
-    }
+    final Matcher matcher = getUrlMatcher(wikipediaUrl.toString());
+    final String shortLangName = matcher.group(1);
+    final String pageTitle = matcher.group(2);
     final String apiUrl = "http://" + shortLangName + ".wikipedia.org/w/api.php?titles=" 
             + pageTitle + "&action=query&prop=revisions&rvprop=content&format=xml";
     return getContent(new URL(apiUrl));
+  }
+
+  private Matcher getUrlMatcher(String url) {
+    final Matcher matcher1 = WIKIPEDIA_URL_REGEX.matcher(url);
+    final Matcher matcher2 = SECURE_WIKIPEDIA_URL_REGEX.matcher(url);
+    if (matcher1.matches()) {
+      return matcher1;
+    } else if (matcher2.matches()) {
+      return matcher2;
+    }
+    throw new RuntimeException("URL does not seem to be a valid Wikipedia URL: " + url);
   }
 
   public void setDisabledRuleIds(List<String> ruleIds) {
@@ -67,14 +77,6 @@ public class WikipediaQuickCheck {
     return disabledRuleIds;
   }
 
-  private String getLanguage(URL wikipediaUrl) {
-    final String[] parts = wikipediaUrl.getHost().split("\\.");
-    if (parts.length != 3) {
-      throw new RuntimeException("Does not look like a Wikipedia server: " + wikipediaUrl);
-    }
-    return parts[0];
-  }
-
   public WikipediaQuickCheckResult checkPage(String plainText, Language lang) throws IOException {
     final JLanguageTool langTool = getLanguageTool(lang);
     final List<RuleMatch> ruleMatches = langTool.check(plainText);
@@ -82,9 +84,8 @@ public class WikipediaQuickCheck {
   }
 
   public void validateWikipediaUrl(URL wikipediaUrl) {
-    if (!wikipediaUrl.toString().matches("http://..\\.wikipedia\\.org/wiki/.*")) {
-      throw new RuntimeException("URL does not seem to be a Wikipedia URL: " + wikipediaUrl);
-    }
+    // will throw exception if URL is not valid:
+    getUrlMatcher(wikipediaUrl.toString());
   }
 
   String getPlainText(String completeWikiContent) {
@@ -121,27 +122,28 @@ public class WikipediaQuickCheck {
     return StringTools.streamToString(contentStream);
   }
 
-  public static void mainTest(String[] args) throws IOException {
+  /*public static void mainTest(String[] args) throws IOException {
       final TextFilter filter = new SwebleWikipediaTextFilter();
       final String plainText = filter.filter("hallo\n* eins\n* zwei");
       System.out.println(plainText);
-  }
+  }*/
     
   public static void main(String[] args) throws IOException {
     final WikipediaQuickCheck check = new WikipediaQuickCheck();
-    //final String url = "http://de.wikipedia.org/wiki/Hof";
-    //final String url = "http://de.wikipedia.org/wiki/Gütersloh";
-    //final String url = "http://de.wikipedia.org/wiki/Bielefeld";
-    //final String url = "http://de.wikipedia.org/wiki/Berlin";
-    //final String url = "http://de.wikipedia.org/wiki/Köln";
-    //final String url = "http://de.wikipedia.org/wiki/Angela_Merkel";
-    //final String url = "http://de.wikipedia.org/wiki/Wortschatz";
-    final String urlString = "http://de.wikipedia.org/wiki/Benutzer_Diskussion:Dnaber";
+    //final String urlString = "http://de.wikipedia.org/wiki/Hof";
+    //final String urlString = "http://de.wikipedia.org/wiki/Gütersloh";
+    //final String urlString = "http://de.wikipedia.org/wiki/Bielefeld";
+    //final String urlString = "http://de.wikipedia.org/wiki/Berlin";
+    //final String urlString = "http://de.wikipedia.org/wiki/Köln";
+    //final String urlString = "http://de.wikipedia.org/wiki/Angela_Merkel";
+    final String urlString = "http://de.wikipedia.org/wiki/Wortschatz";
+    //final String urlString = "https://de.wikipedia.org/wiki/Benutzer_Diskussion:Dnaber";
+    //final String urlString = "https://secure.wikimedia.org/wikipedia/de/wiki/G%C3%BCtersloh";
+    //final String urlString = "https://secure.wikimedia.org/wikipedia/de/wiki/Benutzer_Diskussion:Dnaber";
     final URL url = new URL(urlString);
-    final String language = check.getLanguage(url);
     final String mediaWikiContent = check.getMediaWikiContent(url);
     final String plainText = check.getPlainText(mediaWikiContent);
-    final WikipediaQuickCheckResult checkResult = check.checkPage(plainText, Language.getLanguageForShortName(language));
+    final WikipediaQuickCheckResult checkResult = check.checkPage(plainText, Language.GERMAN);
     for (RuleMatch ruleMatch : checkResult.getRuleMatches()) {
       System.out.println(ruleMatch.getMessage());
       final String context = StringTools.getContext(ruleMatch.getFromPos(), ruleMatch.getToPos(), checkResult.getText());
