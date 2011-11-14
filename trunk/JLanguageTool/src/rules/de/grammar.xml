@@ -111,9 +111,18 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct">Das war jetzt schon das <marker>zweite</marker> Mal.</example>
       <example type="incorrect">Das war jetzt schon das <marker>zweit</marker> Mal.</example>
     </rule>
+    <rule id="KARIKATIV_VS_KARITATIV" name="Möglicher Tippfehler: 'karikativ (karitativ)'">
+      <pattern mark_to="-1">
+        <token regexp="yes">karikative[rn]?</token>
+        <token regexp="yes">Einrichtung(en)?|Organisation(en)?|Verband|Verbände(n)?|Institution(en)?|Stiftung(en)?|Vereinigung(en)?</token>
+      </pattern>
+      <message>Meinten Sie <suggestion><match no="1" regexp_match="karikativ" regexp_replace="karitativ"/></suggestion> (wohltätig, humanitär)?</message>
+      <example type="correct">Sie ist bei einer <marker>karitativen</marker> Einrichtung tätig.</example>
+      <example type="incorrect">Sie ist bei einer <marker>karikativen</marker> Einrichtung tätig, die sich für Behinderte einsetzt.</example>
+    </rule>
     <rule id="GRAT_VS_GRAD" name="Möglicher Tippfehler: 'Grad (Grat)'">
       <pattern mark_from="1">
-        <token regexp="yes">schmale[mrn]?|dünne[mrn]?|feine[mrn]?|scharfe[mrn]?|gezackte[mrn]?</token>
+        <token regexp="yes">(schmale|dünne|feine|scharfe|gezackte)[mrn]?</token>
         <token>Grad</token>
       </pattern>
       <message>Meinten Sie <suggestion>Grat</suggestion> (Bergrücken) statt Grad (Maßeinheit)?</message>
@@ -260,16 +269,15 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct"><marker>Noch</marker> am selben Tag ist er gekommen.</example>
       </rule>
       <rule>
-        <pattern case_sensitive="yes" mark_from="0" mark_to="-4">
+        <pattern case_sensitive="yes" mark_from="0" mark_to="-3">
           <token regexp="yes">(n|N)ach</token>
           <token>in</token>
-          <token regexp="yes">(der|dem)</token>
-          <token>selben</token>
+          <token regexp="yes">(der|dem)selben</token>
           <token regexp="yes">(Tag|Nacht|Monat|Jahr.*)</token>
         </pattern>
         <message>Meinten Sie <suggestion>noch</suggestion>?</message>
-        <example type="incorrect"><marker>Nach</marker> in der selben Nacht ist er gekommen.</example>
-        <example type="correct"><marker>Noch</marker> in der selben Nacht ist er gekommen.</example>
+        <example type="incorrect"><marker>Nach</marker> in derselben Nacht ist er gekommen.</example>
+        <example type="correct"><marker>Noch</marker> in derselben Nacht ist er gekommen.</example>
       </rule>
     </rulegroup>
     <rule id="SCHRIEBT" name="Möglicher Tippfehler: 'schriebt (schreibt)'">
@@ -566,8 +574,8 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>weiteres</token>
         </pattern>
         <message>Meinten Sie <suggestion>bis</suggestion>?</message>
-        <example type="incorrect"><marker>Biss</marker> auf weiteres...</example>
-        <example type="correct"><marker>Bis</marker> auf weiteres...</example>
+        <example type="incorrect"><marker>Biss</marker> auf Weiteres ...</example>
+        <example type="correct"><marker>Bis</marker> auf Weiteres ...</example>
       </rule>
       <rule>
         <pattern mark_from="1" mark_to="-1">
@@ -576,11 +584,11 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">[0-9]*</token>
         </pattern>
         <message>Meinten Sie <suggestion>bis</suggestion>?</message>
-        <example type="incorrect">Von 5.000 <marker>biss</marker> 6.000 Toten ist die Rede...</example>
-        <example type="correct">Von 5.000 <marker>bis</marker> 6.000 Toten ist die Rede...</example>
-        <example type="incorrect">Von 5 Uhr <marker>biss</marker> 6 Uhr...</example>
-        <example type="incorrect">Von 5 <marker>biss</marker> 6 Uhr...</example>
-        <example type="correct">Von 5 Uhr <marker>bis</marker> 6 Uhr...</example>
+        <example type="incorrect">Von 5.000 <marker>biss</marker> 6.000 Toten ist die Rede ...</example>
+        <example type="correct">Von 5.000 <marker>bis</marker> 6.000 Toten ist die Rede ...</example>
+        <example type="incorrect">Von 5 Uhr <marker>biss</marker> 6 Uhr ...</example>
+        <example type="incorrect">Von 5 <marker>biss</marker> 6 Uhr ...</example>
+        <example type="correct">Von 5 Uhr <marker>bis</marker> 6 Uhr ...</example>
       </rule>
     </rulegroup>
     <rule id="VON_HAND" name="Möglicher Tippfehler: 'van (von) Hand'">
@@ -1138,7 +1146,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     </rule>
     <rulegroup id="WARD_VS_WART" name="Möglicher Tippfehler: 'Ward' statt 'wart'" default="on">
       <!-- http://www.korrekturen.de/beliebte_fehler/ward.shtml -->
-	<rule>
+      <rule>
         <pattern mark_from="0" mark_to="-1">
           <token>ward</token>
           <token>ihr</token>
@@ -2727,14 +2735,11 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct"><marker>Die meisten der</marker> damaligen Hollywoodfilme ...</example>
     </rule>
     <rule id="MAENNER_VS_LEUTE" name="Stil: 'Kaufleute' usw. statt 'Kaufmänner'">
-      <pattern case_sensitive="no" mark_to="-2">
-        <token regexp="yes">(.*Kauf|See|Feuerwehr)männer(n)?</token>
-        <token negate="yes">/</token>
-        <token negate="yes">-frauen</token>
+      <pattern case_sensitive="no">
+        <token regexp="yes">(.*kauf|See|Feuerwehr)männer(n)?</token>
       </pattern>
       <message>Meinten Sie <suggestion><match no="1" regexp_match="(Kauf|.*kauf|See|Feuerwehr)männer(n)?" regexp_replace="$1leute$2" /></suggestion>?</message>
       <example type="correct">Es waren viele <marker>Feuerwehrleute</marker> im Einsatz.</example>
-      <example type="correct">Es waren viele <marker>Kaufmänner</marker>/‑frauen im Einsatz.</example>
       <example type="incorrect">Es waren viele <marker>Feuerwehrmänner</marker> im Einsatz.</example>
       <example type="incorrect" correction="Industriekaufleute">Es werden viele <marker>Industriekaufmänner</marker> gesucht.</example>
     </rule>
@@ -2868,6 +2873,15 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <message>Meinten Sie <suggestion>Rote Armee</suggestion>? &namengross;</message>
         <example type="incorrect">Soldaten der <marker>roten Armee</marker> rückten auf Berlin vor.</example>
         <example type="correct">Soldaten der <marker>Roten Armee</marker> rückten auf Berlin vor.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1" case_sensitive="yes">
+          <token regexp="yes">(erste|zweite)(r|n)?</token>
+          <token regexp="yes">Weltkrieg(s)?</token>
+        </pattern>
+        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="1"/></suggestion> \2? &namengross;</message>
+        <example type="correct">Der <marker>Erste</marker> Weltkrieg.</example>
+        <example type="incorrect" correction="Ersten">Die Folgen des <marker>ersten</marker> Weltkriegs.</example>
       </rule>
       <rule>
         <pattern mark_to="-1" case_sensitive="yes">
@@ -3531,6 +3545,19 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect">Das war <marker>ein Bisschen</marker> komisch.</example>
       </rule>
     </rulegroup>
+    <rule id="GANG_KLEIN" name="Groß-/Kleinschreibung: 'gang (Gang)'">
+      <pattern case_sensitive="yes" mark_to="-2">
+          <token>gang</token>
+          <token negate="yes">und</token>
+          <token negate="yes">gäbe</token>
+      </pattern>
+      <message>Außerhalb der Wendung 'gang und gäbe' wird 'Gang' großgeschrieben. Meinten Sie <suggestion>ging</suggestion> (Vergangenheit von 'gehen') oder <suggestion>Gang</suggestion> (Substantiv)?</message>
+      <example type="correct">Das ist <marker>gang</marker> und gäbe.</example>
+      <example type="correct">Sie schaltete in den dritten <marker>Gang</marker>.</example>
+      <example type="incorrect">Sie hat in den dritten <marker>gang</marker> geschaltet.</example>
+      <example type="incorrect">Er war Mitglied dieser brutalen <marker>gang</marker>, die die Nachbarschaft terrorisierte.</example>
+      <example type="incorrect">Ich <marker>gang</marker> nach Hause.</example>
+    </rule>
     <rule id="IM_VORAUS" name="Groß-/Kleinschreibung: 'im voraus (Voraus)'">
       <pattern mark_from="1" case_sensitive="yes">
         <token regexp="yes">[iI]m</token>
@@ -5080,7 +5107,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       </rule>
     </rulegroup>
      -->
-   <rulegroup id="PRAEP_GEN" name="Grammatik: Präposition mit Genitiv (ab­züg­lich, wegen etc.)">
+   <rulegroup id="PRAEP_GEN" name="Grammatik: Präposition mit Genitiv (abzüglich, wegen etc.)">
       <rule>
         <pattern mark_from="1" case_sensitive="yes">
           <token skip="-1" postag="SENT_START"><exception scope="next" postag="SUB.*:GEN:.*" postag_regexp="yes"/></token>
@@ -5180,6 +5207,15 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <message>Meinten Sie <suggestion>gemäß dem</suggestion>? Die Präposition 'gemäß' erfordert den Dativ.</message>
       <example type="incorrect"><marker>Gemäß des</marker> Beschlusses der Kultusministerkonferenz ...</example>
       <example type="correct"><marker>Gemäß dem</marker> Beschluss der Kultusministerkonferenz ...</example>
+    </rule>
+    <rule id="EINE_MILLIONEN" name="Grammatik: 'eine Millionen (Million)'">
+      <pattern>
+        <token regexp="yes">eine(r)?</token>
+        <token>Millionen</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>eine Million</suggestion>? 'Millionen' ist der Plural von 'Million'.</message>
+      <example type="incorrect">Sie verdient <marker>eine Millionen</marker> Euro im Jahr.</example>
+      <example type="correct">Sie verdient <marker>eine Million</marker> Euro im Jahr.</example>
     </rule>
     <rulegroup id="RAF" name="Grammatik: 'Rote Armee Fraktion'">
       <rule>
@@ -5413,15 +5449,36 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">(Pythagoras|Euklid|Thales)</token>
         </pattern>
         <message>Meinten Sie <suggestion>\1 des \3</suggestion>? Die Bezeichnung '\1 \2 \3' ist umgangssprachlich.</message>
-        <example type="correct">Der <marker>Satz des Pythagoras</marker>...</example>
+        <example type="correct">Der <marker>Satz des Pythagoras</marker> ...</example>
         <example type="incorrect" correction="Satzgruppe des Pythagoras">Die <marker>Satzgruppe von Pythagoras</marker>...</example>
-        <example type="incorrect" correction="Sätze des Thales">Die <marker>Sätze von Thales</marker>...</example>
-        <example type="incorrect" correction="Höhensatz des Euklid">Der <marker>Höhensatz von Euklid</marker>...</example>
+        <example type="incorrect" correction="Sätze des Thales">Die <marker>Sätze von Thales</marker> ...</example>
+        <example type="incorrect" correction="Höhensatz des Euklid">Der <marker>Höhensatz von Euklid</marker> ...</example>
       </rule>
     </rulegroup>
   </category>
 
   <category name="Redewendungen">
+    <rule id="LEBZEITEN" name="Redewendung: 'zu seinen Lebzeiten'">
+    <!-- Quelle: Google-Häufigkeit -->
+      <pattern>
+          <token>zu</token>
+          <token regexp="yes">seiner|ihrer</token>
+          <token>Lebenszeit</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>zu <match no="2" regexp_match="r$" regexp_replace="n"/> Lebzeiten</suggestion>? Diese Redewendung ist sehr viel gebräuchlicher.</message>
+      <example type="correct">Seine Werke waren <marker>zu seinen Lebzeiten</marker> nicht besonders erfolgreich.</example>
+      <example type="incorrect">Seine Werke waren <marker>zu seiner Lebenszeit</marker> nicht besonders erfolgreich.</example>
+    </rule>
+    <rule id="GANG_UND_GEBE" name="Redewendung: 'gang und gebe (gäbe)'">
+      <pattern>
+          <token>gang</token>
+          <token>und</token>
+          <token>gebe</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>gang und gäbe</suggestion>? (feste Redewendung)</message>
+      <example type="correct">Das ist <marker>gang und gäbe</marker>.</example>
+      <example type="incorrect">Das ist <marker>gang und gebe</marker>.</example>
+    </rule>
     <rule id="WART_NICHT_MEHR_GESEHEN" name="Redewendung: 'wart (ward) nicht mehr gesehen'">
       <pattern mark_to="-3">
           <token>wart</token>
@@ -5483,6 +5540,16 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
   </category>
 
   <category name="Zeichensetzung">
+    <rule id="PUNKT_NACH_ORDINALZAHL" name="Zeichensetzung: Punkt nach Ordinalzahlen">
+      <pattern>
+        <token regexp="yes">[0-9]{1,2}</token>
+        <token regexp="yes">Jahrhundert(s)?</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>\1. \2</suggestion>? (Vergessener Punkt)</message>
+      <example type="correct">In den vergangenen <marker>20 Jahrhunderten</marker> gab es zwei Weltkriege.</example>
+      <example type="correct">Im <marker>20. Jahrhundert</marker> gab es zwei Weltkriege.</example>
+      <example type="incorrect">Im <marker>20 Jahrhundert</marker> gab es zwei Weltkriege.</example>
+    </rule>
     <rulegroup id="PFEILE" name="Zeichensetzung: -> (→)">
       <rule>
         <pattern mark_from="1">
