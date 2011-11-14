@@ -11,6 +11,8 @@ title="Easy editing stylesheet" ?>
 <!ENTITY taggross "Besondere Kalendertage werden großgeschrieben.">
 <!ENTITY subanfang "Bitte prüfen Sie, ob ">
 <!ENTITY subende " hier als Substantiv gebraucht wird und daher großgeschrieben werden muss.">
+<!ENTITY sprachadj1 "afrikanisch|altarabisch|altchinesisch|altgriechisch|altpersisch|amerikanisch|arabisch|chinesisch|dänisch|deutsch|englisch|finnisch|französisch|frühneuhochdeutsch|germanisch|griechisch|hocharabisch|hochchinesisch|hochdeutsch|holländisch|italienisch|japanisch|jiddisch|jugoslawisch|koreanisch|kroatisch|lateinisch|luxemburgisch|mittelhochdeutsch|neuhochdeutsch|niederländisch|norwegisch|persisch|polnisch|portugiesisch|russisch|schwedisch|schweizerisch|semitisch|serbisch|serbokroatisch|slawisch|spanisch|tschechisch|türkisch|ukrainisch|ungarisch|weißrussisch">
+<!ENTITY sprachadj2 "agglutinierend|algorithmisch|asiatisch|ausgestorben|bilderreich|bildlich|deutlich|dichterisch|europäisch|extensional|flektierend|formal|gesprochen|indogermanisch|intensional|klangvoll|konsonantenreich|maschinenorientiert|metaphorisch|poetisch|prosaisch|romanisch|schön|selten|vokalreich|wunderschön">
 <!ENTITY anfauf "„|&quot;|»|›|‚|'">
 <!ENTITY anfzu "‘|“|‹|«|&quot;|'">
 <!ENTITY anf "&anfauf;|‘|“|‹|«">
@@ -141,7 +143,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     </rule>
     <rule id="SPRACHE_VS_SPRACH" name="Möglicher Tippfehler: 'in deutscher Sprach (Sprache)'">
       <pattern case_sensitive="yes" mark_from="1">
-        <token regexp="yes">(afrikanische|altarabische|altchinesische|altgriechische|altpersische|amerikanische|arabische|asiatische|chinesische|deutsche|englische|europäische|finnische|formale|französische|germanische|griechische|hocharabische|hochchinesische|holländische|italienische|japanische|jugoslawische|koreanische|kroatische|lateinische|niederländische|norwegische|persische|polnische|portugiesische|romanische|russische|schöne|schwedische|semitische|serbische|serbokroatische|slawische|spanische|türkische|ukrainische)(n|r)?</token>
+        <token regexp="yes">(&sprachadj1;|&sprachadj2;)(en|er)?</token>
         <token>Sprach</token>
       </pattern>
       <message>Meinten Sie <suggestion>Sprache</suggestion>?</message>
@@ -2167,6 +2169,46 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect" correction="meistens|immer">Ich gehe <marker>immer meistens</marker> am Samstag einkaufen.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="RECHTLICH_LEGAL" name="Verdoppelung: 'rechtlich/juristisch legal' ">
+      <rule>
+        <pattern>
+          <token regexp="yes">rechtlich|juristisch</token>
+          <token inflected="yes">legal</token>
+        </pattern>
+        <message>Diese Formulierung ist redundant. Vorschlag: <suggestion>\2</suggestion>.</message>
+        <example type="incorrect">Dieses Vorgehen ist <marker>rechtlich legal</marker>.</example>
+        <example type="correct">Dieses Vorgehen ist völlig <marker>legal</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">rechtlich|juristisch</token>
+          <token regexp="yes">gesehen|betrachtet</token>
+          <token inflected="yes">legal</token>          
+        </pattern>
+        <message>Diese Formulierung ist redundant. Vorschlag: <suggestion>\3</suggestion>.</message>
+        <example type="incorrect">Dieses Vorgehen ist <marker>juristisch betrachtet legal</marker>.</example>
+        <example type="correct">Dieses Vorgehen ist völlig <marker>legal</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">rechtlich|juristisch</token>
+          <token inflected="yes">illegal</token>
+        </pattern>
+        <message>Diese Formulierung ist redundant. Vorschlag: <suggestion>\2</suggestion>.</message>
+        <example type="incorrect">Dieses Vorgehen ist <marker>rechtlich illegal</marker>.</example>
+        <example type="correct">Dieses Vorgehen ist völlig <marker>illegal</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">rechtlich|juristisch</token>
+          <token regexp="yes">gesehen|betrachtet</token>
+          <token inflected="yes">illegal</token>          
+        </pattern>
+        <message>Diese Formulierung ist redundant. Vorschlag: <suggestion>\3</suggestion>.</message>
+        <example type="incorrect">Dieses Vorgehen ist <marker>juristisch betrachtet illegal</marker>.</example>
+        <example type="correct">Dieses Vorgehen ist völlig <marker>illegal</marker>.</example>
+      </rule>      
+    </rulegroup>
     <rulegroup id="INMITTEN_IN_DER" name="Verdoppelung: 'inmitten in der (inmitten der)' ">
       <rule>
         <pattern>
@@ -2816,7 +2858,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
 
   <!--  Rules about upper/lowercase:  -->
   <category name="Groß-/Kleinschreibung">
-  <!-- Jan: TODO – distinguish legit uses of 'zu Recht', 'zu recht', and 'zurecht' (all three exist)
+    <!-- Jan: TODO – distinguish legit uses of 'zu Recht', 'zu recht', and 'zurecht' (all three exist)
     <rule id="ZU_RECHT" name="Groß-/Kleinschreibung: 'zu recht (Recht)'">
       <pattern case_sensitive="yes">
         <token regexp="yes">[Zz]u</token>
@@ -2827,7 +2869,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct">Er schneidet das zu recht kleinen Stücken.</example>
       <example type="incorrect">Da regt er sich zu <marker>recht</marker> auf.</example>
     </rule>
-  -->
+    -->
     <rule id="KREUZ_UND_QUER" name="Groß-/Kleinschreibung: 'Kreuz (kreuz) und quer'">
       <pattern case_sensitive="yes" mark_from="1">
         <token negate_pos="yes" postag="SENT_START"/>
@@ -2838,6 +2880,16 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <message>Die Wendung <suggestion><match case_conversion="alllower" no="2"/> <match case_conversion="alllower" no="3"/> <match case_conversion="alllower" no="4"/></suggestion> wird normalerweise kleingeschrieben.</message>
       <example type="correct">Alle liefen <marker>kreuz und quer</marker> durcheinander.</example>
       <example type="incorrect" correction="kreuz und quer">Alle liefen <marker>Kreuz und quer</marker> durcheinander.</example>
+    </rule>
+    <rule id="KREUZ_OHNE_QUER" name="Groß-/Kleinschreibung: 'kreuz (Kreuz)'">
+      <pattern case_sensitive="yes" mark_to="-2">
+        <token>kreuz</token>
+        <token negate="yes">und</token>
+        <token negate="yes">quer</token>
+      </pattern>
+      <message>&subanfang;<suggestion>Kreuz</suggestion>&subende;</message>
+      <example type="correct">Alle liefen <marker>kreuz</marker> und quer durcheinander.</example>
+      <example type="incorrect" correction="Kreuz">Das <marker>kreuz</marker> mit den Kreuzschmerzen.</example>
     </rule>
     <rule id="WIDER_ERWARTEN" name="Groß-/Kleinschreibung: 'wider erwarten (Erwarten)'">
       <pattern case_sensitive="yes" mark_from="1">
@@ -2855,7 +2907,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     <rule id="AUF_ENGLISCH" name="Groß-/Kleinschreibung: 'auf englisch (Englisch)'">
       <pattern case_sensitive="yes" mark_from="1">
         <token regexp="yes">[iI]n|[aA]uf</token>
-        <token regexp="yes">arabisch|chinesisch|dänisch|deutsch|englisch|finnisch|französisch|griechisch|italienisch|japanisch|niederländisch|norwegisch|persisch|polnisch|portugiesisch|russisch|spanisch|tschechisch|türkisch|ungarisch</token>
+        <token regexp="yes">&sprachadj1;</token>
       </pattern>
       <message>Meinten Sie \1 <suggestion><match no="2" case_conversion="startupper"/></suggestion> (im Sinne von 'die \2e Sprache')? Nach einer Präposition werden Sprachbezeichnungen großgeschrieben.</message>
       <example type="incorrect" correction="Englisch">Er schreibt den Text auf <marker>englisch</marker>.</example>
@@ -3414,9 +3466,9 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token inflected="yes">machen</token>
         </pattern>
         <message>&subanfang;<suggestion>Sorgen</suggestion>&subende;</message>
-        <example type="incorrect">Er soll sich keine unnötig große <marker>sorgen</marker> machen.</example>
+        <example type="incorrect">Er soll sich keine unnötig großen <marker>sorgen</marker> machen.</example>
         <example type="incorrect">Es ist sinnlos, mir jetzt <marker>sorgen</marker> zu machen.</example>
-        <example type="correct">Er soll sich keine unnötig große <marker>Sorgen</marker> machen.</example>
+        <example type="correct">Er soll sich keine unnötig großen <marker>Sorgen</marker> machen.</example>
       </rule>
       <rule>
         <pattern case_sensitive="yes" mark_from="1" mark_to="0">
@@ -3433,7 +3485,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <rule>
         <pattern case_sensitive="yes" mark_from="1">
           <token postag="SENT_START" negate_pos="yes"><exception postag=".*GEN.*" postag_regexp="yes"/><exception regexp="yes">&anf;</exception></token>
-          <token regexp="yes">Montags|Dienstags|Mittwochs|Donnerstags|Freitags|Samstags|Sonntags</token>
+          <token regexp="yes">(&wochentage;)s</token>
         </pattern>
         <message>&subanfang;<suggestion><match no="2" case_conversion="alllower"/></suggestion> hier als Adverb gebraucht wird und daher kleingeschrieben werden muss.</message>
         <example type="incorrect" correction="montags">Der Laden hat <marker>Montags</marker> geschlossen.</example>
@@ -3463,7 +3515,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">(sein|ihr|d)er</token>
           <token>flucht</token>
         </pattern>
-        <message>Meinten Sie <suggestion>Flucht</suggestion>?</message>
+        <message>&subanfang;<suggestion>Flucht</suggestion>&subende;</message>
         <example type="incorrect">Er wurde auf der <marker>flucht</marker> erschossen.</example>
         <example type="incorrect">Bei seiner <marker>flucht</marker> stahl er ein Auto.</example>
         <example type="correct">Er wurde auf der <marker>Flucht</marker> erschossen.</example>
@@ -3475,7 +3527,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token postag="ADJ:.*" postag_regexp="yes"/>
           <token>flucht</token>
         </pattern>
-        <message>Meinten Sie <suggestion>Flucht</suggestion>?</message>
+        <message>&subanfang;<suggestion>Flucht</suggestion>&subende;</message>
         <example type="incorrect">Bei seiner wilden <marker>flucht</marker> stahl er ein Auto.</example>
         <example type="correct">Er wurde auf der <marker>Flucht</marker> erschossen.</example>
       </rule>
@@ -3488,7 +3540,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>legende</token>
           <token regexp="yes">nach|zufolge</token>
         </pattern>
-        <message>Meinten Sie <suggestion>Legende</suggestion>?</message>
+        <message>&subanfang;<suggestion>Legende</suggestion>&subende;</message>
         <example type="incorrect">Einer alten <marker>legende</marker> zufolge ...</example>
         <example type="correct">Einer alten <marker>Legende</marker> zufolge ...</example>
       </rule>
@@ -3497,18 +3549,28 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">lebende(n)?|verbreitete(n)?</token>
           <token>legende</token>
         </pattern>
-        <message>Meinten Sie <suggestion>Legende</suggestion>?</message>
+        <message>&subanfang;<suggestion>Legende</suggestion>&subende;</message>
         <example type="incorrect">Einer verbreiteten <marker>legende</marker> zufolge ...</example>
         <example type="correct">Einer verbreiteten <marker>Legende</marker> zufolge ...</example>
       </rule>
     </rulegroup>
+    <rule id="SPRACHEN_SUBST" name="Groß-/Kleinschreibung: 'in asiatischen sprachen (Sprachen)'">
+      <pattern case_sensitive="yes" mark_from="2">
+        <token regexp="yes">[iI]n|[bB]ei|[aA]n</token>
+        <token regexp="yes">(&sprachadj2;)en</token>
+        <token>sprachen</token>
+      </pattern>
+      <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>&subende;</message>
+      <example type="incorrect" correction="Sprachen">Satz und Layout in asiatischen <marker>sprachen</marker>.</example>
+      <example type="correct">Wir <marker>sprachen</marker> wenig miteinander.</example>
+    </rule>
     <rule id="GRUENDE_SUBST" name="Groß-/Kleinschreibung: 'mit guten gründen (Gründen)'">
       <pattern case_sensitive="yes" mark_from="2">
         <token regexp="yes">[aA]us|[mM]it</token>
         <token regexp="yes">(zwingend|zureichend|welch|irgendwelch|gut|triftig|plausibl|stichhaltig|verständlich|taktisch|politisch|bestimmt|ersichtlich|begreiflich|gesundheitlich|nachvollziehbar|einleuchtend|wichtig)en</token>
         <token>gründen</token>
       </pattern>
-      <message>Meinten Sie <suggestion>Gründen</suggestion>?</message>
+      <message>&subanfang;<suggestion>Gründen</suggestion>&subende;</message>
       <example type="incorrect">Aus irgendwelchen <marker>gründen</marker> gelang mir das nicht.</example>
       <example type="correct">Aus irgendwelchen <marker>Gründen</marker> gelang mir das nicht.</example>
     </rule>
@@ -3575,6 +3637,19 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <message>In der Wendung 'zu Hause' wird <suggestion>Hause</suggestion> großgeschrieben.</message>
       <example type="correct">Wir sind bald zu <marker>Hause</marker>.</example>
       <example type="incorrect">Wir sind bald zu <marker>hause</marker>.</example>
+    </rule>
+    <rule id="AUF_DEM_WEG" name="Groß-/Kleinschreibung: 'auf/aus dem weg (Weg)'">
+      <pattern mark_from="2" case_sensitive="yes">
+        <token regexp="yes">[aA]u[sf]</token>
+        <token>dem</token>
+        <token>weg</token>
+      </pattern>
+      <message>&subanfang;<suggestion>Weg</suggestion>&subende;</message>
+      <example type="correct">Geh <marker>weg</marker>, du störst mich.</example>
+      <example type="correct">Geh mir aus dem <marker>Weg</marker>.</example>
+      <example type="correct">Wir sind schon auf dem <marker>Weg</marker>.</example>
+      <example type="incorrect">Wir sind auf dem <marker>weg</marker>.</example>
+      <example type="incorrect">Geh mir aus dem <marker>weg</marker>.</example>
     </rule>
     <rule id="AUF_DIE_NERVEN" name="Groß-/Kleinschreibung: 'auf die nerven (Nerven) gehen'">
       <pattern mark_from="2" case_sensitive="yes">
@@ -3697,7 +3772,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     <rulegroup id="LICHT_SUBST" name="Groß-/Kleinschreibung: 'licht (Licht)'">
       <rule>
         <pattern mark_from="1" case_sensitive="yes">
-          <token regexp="yes">[dD]as|[eE]in|helles?|grelles?|gleißendes?|einfallendes?|elektrisches?|gedämpftes?|schummriges?|schwaches?|flackerndes?|schiefes?|machen?|macht?|ins|ans</token>
+          <token regexp="yes">[dD]as|[eE]in|machen?|macht?|ins|ans|(helle|grelle|gleißende|einfallende|elektrische|gedämpfte|schummrige|schwache|unbarmherzige|flackernde|schiefe)[ns]?</token>
           <token>licht</token>
         </pattern>
         <message>&subanfang;<suggestion>Licht</suggestion>&subende;</message>
@@ -4072,7 +4147,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">jemandes|meine|deine|seine|unsere|eure|[iI]hre|deren|wessen|eigene</token>
           <token>kosten</token>
         </pattern>
-        <message>&subanfang;<suggestion>Kosten</suggestion> hier als Substantiv großgeschrieben werden muss.</message>
+        <message>&subanfang;<suggestion>Kosten</suggestion>&subende;</message>
         <example type="incorrect">Der Spaß ging auf seine <marker>kosten</marker>.</example>
         <example type="correct">Der Spaß ging auf seine <marker>Kosten</marker>.</example>
       </rule>
@@ -4821,9 +4896,19 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token>dem</token>
         <token>gewissen</token>
       </pattern>
-      <message>Meinten Sie <suggestion>Gewissen</suggestion>?</message>
+      <message>&subanfang;<suggestion>Gewissen</suggestion>&subende;</message>
       <example type="correct">Er hat sie auf dem <marker>Gewissen</marker>.</example>
       <example type="incorrect">Er hat sie auf dem <marker>gewissen</marker>.</example>
+    </rule>
+    <rule id="SCHLECHTES_GEWISSEN" name="Groß-/Kleinschreibung: 'schlechtes gewissen (Gewissen)'">
+      <pattern case_sensitive="yes" mark_from="2">
+        <token regexp="yes">mit|das|ihr|euer|[dks]?ein|dem|einem|ganz</token>
+        <token regexp="yes">(schlechte|gute|ruhige|moralische|öffentliche|beste)[mns]?</token>
+        <token>gewissen</token>
+      </pattern>
+      <message>&subanfang;<suggestion>Gewissen</suggestion>&subende;</message>
+      <example type="correct">Ihn plagte das schlechte <marker>Gewissen</marker>.</example>
+      <example type="incorrect">Ihn plagte das schlechte <marker>gewissen</marker>.</example>
     </rule>
     <rulegroup id="MIT_DEM_GEWISSEN_VEREINBAREN" name="Groß-/Kleinschreibung: 'mit dem gewissen (Gewissen) vereinbaren'">
       <rule>
@@ -4833,7 +4918,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>gewissen</token>
           <token inflected="yes">vereinbaren</token>
         </pattern>
-        <message>Meinten Sie <suggestion>Gewissen</suggestion>?</message>
+        <message>&subanfang;<suggestion>Gewissen</suggestion>&subende;</message>
         <example type="correct">Ich kann das nicht mit meinem <marker>Gewissen</marker> vereinbaren.</example>
         <example type="incorrect">Ich kann das nicht mit meinem <marker>gewissen</marker> vereinbaren.</example>
       </rule>
@@ -4845,7 +4930,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>zu</token>
           <token>vereinbaren</token>
         </pattern>
-        <message>Meinten Sie <suggestion>Gewissen</suggestion>?</message>
+        <message>&subanfang;<suggestion>Gewissen</suggestion>&subende;</message>
         <example type="correct">Das ist nicht mit meinem <marker>Gewissen</marker> zu vereinbaren.</example>
         <example type="incorrect">Das ist nicht mit meinem <marker>gewissen</marker> zu vereinbaren.</example>
       </rule>
@@ -4889,7 +4974,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token regexp="yes">außer|in</token>
         <token>betrieb</token>
       </pattern>
-      <message>Meinten Sie <suggestion>Betrieb</suggestion>?</message>
+      <message>&subanfang;<suggestion>Betrieb</suggestion>&subende;</message>
       <example type="correct">Der Fahrstuhl ist außer <marker>Betrieb</marker>.</example>
       <example type="correct">Der Fahrstuhl ist nicht in <marker>Betrieb</marker>.</example>
       <example type="incorrect">Der Fahrstuhl ist außer <marker>betrieb</marker>.</example>
