@@ -183,13 +183,14 @@ Some grammatical resources used:
           </token>
           <and>
             <token regexp="yes">(k|c’h).*</token>
-            <token regexp="yes" inflected="yes">k.*</token>
+            <token regexp="yes" inflected="yes">k.*<exception regexp="yes" inflected="yes">c’h.*</exception></token>
           </and>
         </pattern>
         <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude ar ger «\1». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match="(k|c’h)(.*)" regexp_replace="g$1"/></suggestion>?</message>
         <example type="incorrect">Gwall <marker>kozh</marker> eo da garr.</example>
         <example type="correct">Gwall gozh eo da garr.</example>
         <example type="correct">N’a ket mat en-dro an urzhiataer.</example>
+        <example type="correct">C’hoant am eus da c’hoari.</example>
       </rule>
       <rule>
         <pattern mark_from="1">
@@ -353,7 +354,7 @@ Some grammatical resources used:
             <exception postag="J[^M]*M.*:1:.*" postag_regexp="yes"/>
           </token>
         </pattern>
-        <message>Ur c‘hemmadur dre vlotaat a zlefe bezañ gant an anv-gwan «\2» goude «\1».</message>
+        <message>Ur c’hemmadur dre vlotaat a zlefe bezañ gant an anv-gwan «\2» goude «\1».</message>
         <example type="incorrect">Hemañ <marker>treut</marker></example>
         <example type="incorrect">Hemañ <marker>zreut</marker></example>
         <example type="correct">Hemañ dreut</example>
@@ -368,7 +369,7 @@ Some grammatical resources used:
             <exception postag="J[^M]*M.*:1b:.*" postag_regexp="yes"/>
           </token>
         </pattern>
-        <message>Ur c‘hemmadur dre vlotaat diglok a zlefe bezañ gant an anv-gwan «\2» goude «\1».</message>
+        <message>Ur c’hemmadur dre vlotaat diglok a zlefe bezañ gant an anv-gwan «\2» goude «\1».</message>
         <example type="incorrect">Hennezh <marker>bihan</marker></example>
         <example type="incorrect">Hennezh <marker>pihan</marker></example>
         <example type="correct">Hennezh vihan</example>
@@ -589,7 +590,7 @@ Some grammatical resources used:
         <example type="correct"><marker>Debriñ</marker> a ran.</example>
         <example type="incorrect"><marker>C’hallout</marker> a ran.</example>
         <example type="correct"><marker>Gallout</marker> a ran.</example>
-        <example type="correct">Vat a raio ur c‘hafe tomm.</example>
+        <example type="correct">Vat a raio ur c’hafe tomm.</example>
       </rule>
       <rule>
         <pattern mark_from="1">
@@ -872,7 +873,7 @@ Some grammatical resources used:
             <token regexp="yes" negate="yes">(c’h|k|o).*</token>
           </and>
         </pattern>
-        <message>Goude ar stagell «\1» e tlefe c‘hoarvezout ur c’hemmadur mesket. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="c’h$1"/></suggestion>?</message>
+        <message>Goude ar stagell «\1» e tlefe c’hoarvezout ur c’hemmadur mesket. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="c’h$1"/></suggestion>?</message>
         <example type="incorrect">Ma <marker>gallen</marker> mont ez ajen.</example>
         <example type="correct">Ma c’hallen mont ez ajen.</example>
       </rule>
@@ -897,9 +898,9 @@ Some grammatical resources used:
           </and>
         </pattern>
         <message>Goude ar stagell «\1» e tlefe c’hoarvezout ur c’hemmadur mesket. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="t$1"/></suggestion>?</message>
-        <example type="incorrect">Gourc‘hemen a ran ma <marker>deuio</marker>.</example>
-        <example type="incorrect">Gourc‘hemen a ran ma <marker>zeuio</marker>.</example>
-        <example type="correct">Gourc‘hemen a ran ma teuio.</example>
+        <example type="incorrect">Gourc’hemen a ran ma <marker>deuio</marker>.</example>
+        <example type="incorrect">Gourc’hemen a ran ma <marker>zeuio</marker>.</example>
+        <example type="correct">Gourc’hemen a ran ma teuio.</example>
         <example type="correct">Ma digarezit.</example>
       </rule>
       <rule>
@@ -940,7 +941,7 @@ Some grammatical resources used:
             <token regexp="yes" negate="yes">(c’h|o).*</token>
           </and>
         </pattern>
-        <message>Goude ar rannig-verb «\1» e tlefe c‘hoarvezout ur c’hemmadur mesket. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="c’h$1"/></suggestion>?</message>
+        <message>Goude ar rannig-verb «\1» e tlefe c’hoarvezout ur c’hemmadur mesket. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="c’h$1"/></suggestion>?</message>
         <example type="incorrect">Alies e <marker>gortozomp</marker> kalz.</example>
         <example type="incorrect">Alies e <marker>kortozomp</marker> kalz.</example>
         <example type="correct">Alies e c’hortozomp kalz.</example>
@@ -1487,8 +1488,8 @@ Some grammatical resources used:
         <token>eus</token>
       </pattern>
       <message>Ha fellout a rae deoc’h skrivañ <suggestion>Bez’ ez eus</suggestion>?</message>
-      <example type="incorrect"><marker>Ez eus</marker> ur c‘hi el liorzh.</example>
-      <example type="correct">Bez’ ez eus ur c‘hi el liorzh.</example>
+      <example type="incorrect"><marker>Ez eus</marker> ur c’hi el liorzh.</example>
+      <example type="correct">Bez’ ez eus ur c’hi el liorzh.</example>
     </rule>
     <rule id="EZ_EUS_AR" name="ez eus ar → emañ ar">
       <pattern mark_to="-1">
@@ -1703,7 +1704,7 @@ Some grammatical resources used:
       <rule>
         <pattern mark_from="1">
           <token inflected="yes">goulenn</token>
-          <token inflected="yes">da</token>
+          <token inflected="yes" regexp="yes">da’?</token>
         </pattern>
         <message>Ne vez ket implijet an araogenn «da» gant ar verb «\1».</message>
         <example type="incorrect">Goulenn <marker>d’</marker>ar metr-skol.</example>
@@ -1713,7 +1714,7 @@ Some grammatical resources used:
         <pattern mark_from="2">
           <token inflected="yes">goulenn</token>
           <token>ket</token>
-          <token inflected="yes">da</token>
+          <token inflected="yes" regexp="yes">da’?</token>
         </pattern>
         <message>Ne vez ket implijet an araogenn «da» gant ar verb «\1».</message>
         <example type="incorrect">Ne goulennin ket <marker>dezhi</marker> penaos ober.</example>
@@ -1724,20 +1725,20 @@ Some grammatical resources used:
           <token inflected="yes">goulenn</token>
           <token>a</token>
           <token inflected="yes">ober</token>
-          <token inflected="yes">da</token>
+          <token inflected="yes" regexp="yes">da’?</token>
         </pattern>
         <message>Ne vez ket implijet an araogenn «da» gant ar verb «\1».</message>
         <example type="incorrect">Goulenn a rin <marker>dezho</marker> penaos ober.</example>
-        <example type="incorrect">Goulenn a rin <marker>da</marker>‘m za.</example>
+        <example type="incorrect">Goulenn a rin <marker>da’</marker>m zad.</example>
         <example type="correct">Goulenn a rin diganto penaos ober.</example>
-        <example type="correct">Goulenn a rin digant ma za.</example>
+        <example type="correct">Goulenn a rin digant ma zad.</example>
       </rule>
       <rule>
         <pattern mark_from="3">
           <token>goulennet</token>
           <token regexp="yes">e[mn]|ez|ac’h|hon?|hoc’h|o</token>
           <token regexp="yes">[dp]eus|[bpd]oa</token>
-          <token inflected="yes">da</token>
+          <token inflected="yes" regexp="yes">da’?</token>
         </pattern>
         <message>Ne vez ket implijet an araogenn «da» gant ar verb «\1».</message>
         <example type="incorrect">Goulennet en deus <marker>din</marker>.</example>
@@ -1751,7 +1752,7 @@ Some grammatical resources used:
       </pattern>
       <message>Ne vez ket implijet an araogenn «da» gat ar verb «\1».</message>
       <example type="incorrect">Digarezit <marker>dimp</marker></example>
-      <example type="correct">Digarezit ac‘hanomp</example>
+      <example type="correct">Digarezit ac’hanomp</example>
     </rule>
     <rule id="A_RAOK_DA" name="Digarezit din → Digarezit ac’hanon">
       <pattern mark_from="1" mark_to="-1">
@@ -1839,9 +1840,9 @@ Some grammatical resources used:
           <token regexp="yes">me|ac’hanon</token>
         </pattern>
         <message>Ha fellout a rae deoc’h skrivañ <suggestion>em c’hichen</suggestion>?</message>
-        <example type="incorrect"><marker>E-kichen me</marker> e ea.</example>
-        <example type="incorrect"><marker>E-kichen ac’hanon</marker> e ea.</example>
-        <example type="correct">Em c’hichen e ea.</example>
+        <example type="incorrect"><marker>E-kichen me</marker> e oa.</example>
+        <example type="incorrect"><marker>E-kichen ac’hanon</marker> e oa.</example>
+        <example type="correct">Em c’hichen e oa.</example>
       </rule>
       <rule>
         <pattern>
@@ -1849,9 +1850,9 @@ Some grammatical resources used:
           <token regexp="yes">te|ac’hanout</token>
         </pattern>
         <message>Ha fellout a rae deoc’h skrivañ <suggestion>ez kichen</suggestion>?</message>
-        <example type="incorrect"><marker>E-kichen te</marker> e ea.</example>
-        <example type="incorrect"><marker>E-kichen ac’hanout</marker> e ea.</example>
-        <example type="correct">Ez kichen e ea.</example>
+        <example type="incorrect"><marker>E-kichen te</marker> e oa.</example>
+        <example type="incorrect"><marker>E-kichen ac’hanout</marker> e oa.</example>
+        <example type="correct">Ez kichen e oa.</example>
       </rule>
       <rule>
         <pattern>
@@ -1859,8 +1860,8 @@ Some grammatical resources used:
           <token regexp="yes">eñ|anezhañ</token>
         </pattern>
         <message>Ha fellout a rae deoc’h skrivañ <suggestion>en e gichen</suggestion>?</message>
-        <example type="incorrect"><marker>E-kichen anezhañ</marker> e ea.</example>
-        <example type="correct">En e gichen e ea.</example>
+        <example type="incorrect"><marker>E-kichen anezhañ</marker> e oa.</example>
+        <example type="correct">En e gichen e oa.</example>
       </rule>
       <rule>
         <pattern>
@@ -1868,9 +1869,9 @@ Some grammatical resources used:
           <token regexp="yes">h[ei]|anezhi</token>
         </pattern>
         <message>Ha fellout a rae deoc’h skrivañ <suggestion>en he c’hichen</suggestion>?</message>
-        <example type="incorrect"><marker>E-kichen hi</marker> e ea.</example>
-        <example type="incorrect"><marker>E-kichen anezhi</marker> e ea.</example>
-        <example type="correct">En he c’hichen e ea.</example>
+        <example type="incorrect"><marker>E-kichen hi</marker> e oa.</example>
+        <example type="incorrect"><marker>E-kichen anezhi</marker> e oa.</example>
+        <example type="correct">En he c’hichen e oa.</example>
       </rule>
       <rule>
         <pattern>
@@ -1878,9 +1879,9 @@ Some grammatical resources used:
           <token regexp="yes">ni|ac’hanomp</token>
         </pattern>
         <message>Ha fellout a rae deoc’h skrivañ <suggestion>en hor c’hichen</suggestion>?</message>
-        <example type="incorrect"><marker>E-kichen ni</marker> e ea.</example>
-        <example type="incorrect"><marker>E-kichen ac’hanomp</marker> e ea.</example>
-        <example type="correct">En hor c’hichen e ea.</example>
+        <example type="incorrect"><marker>E-kichen ni</marker> e oa.</example>
+        <example type="incorrect"><marker>E-kichen ac’hanomp</marker> e oa.</example>
+        <example type="correct">En hor c’hichen e oa.</example>
       </rule>
       <rule>
         <pattern>
@@ -1888,9 +1889,9 @@ Some grammatical resources used:
           <token regexp="yes">c’hwi|ac’hanoc’h</token>
         </pattern>
         <message>Ha fellout a rae deoc’h skrivañ <suggestion>en ho kichen</suggestion>?</message>
-        <example type="incorrect"><marker>E-kichen c’hwi</marker> e ea.</example>
-        <example type="incorrect"><marker>E-kichen ac’hanoc’h</marker> e ea.</example>
-        <example type="correct">En ho kichen e ea.</example>
+        <example type="incorrect"><marker>E-kichen c’hwi</marker> e oa.</example>
+        <example type="incorrect"><marker>E-kichen ac’hanoc’h</marker> e oa.</example>
+        <example type="correct">En ho kichen e oa.</example>
       </rule>
       <rule>
         <pattern>
@@ -1898,16 +1899,16 @@ Some grammatical resources used:
           <token regexp="yes">int|anezh[oe]</token>
         </pattern>
         <message>Ha fellout a rae deoc’h skrivañ <suggestion>en o c’hichen</suggestion>?</message>
-        <example type="incorrect"><marker>E-kichen int</marker> e ea.</example>
-        <example type="incorrect"><marker>E-kichen anezho</marker> e ea.</example>
-        <example type="correct">En o c’hichen e ea.</example>
+        <example type="incorrect"><marker>E-kichen int</marker> e oa.</example>
+        <example type="incorrect"><marker>E-kichen anezho</marker> e oa.</example>
+        <example type="correct">En o c’hichen e oa.</example>
       </rule>
     </rulegroup>
 
     <rule id="EVIT_DILUN" name="evit dilun → a-benn dilun">
       <pattern mark_to="-1">
         <token>evit</token>
-        <token regexp="yes">dilun|dimeurzh|dimerc‘her|diriaou|digwener|disadorn|disul|w?arc’hoazh|pegoulz|pedavare|pavare</token>
+        <token regexp="yes">dilun|dimeurzh|dimerc’her|diriaou|digwener|disadorn|disul|w?arc’hoazh|pegoulz|pedavare|pavare</token>
       </pattern>
       <message>Ne vez ket implijet an araogenn «evit» a-raok ar ger «\2». Ha fellout a rae deoc’h skrivañ <suggestion>a-benn</suggestion>?</message>
       <example type="incorrect">Prest e vo <marker>evit</marker> dilun.</example>
@@ -2530,7 +2531,7 @@ Some grammatical resources used:
         <example type="incorrect">Ne welan <marker>ket</marker> den ebet.</example>
         <example type="correct">Ne welan den ebet.</example>
         <example type="incorrect">N’eus <marker>ket</marker> boued ebet.</example>
-        <example type="correct">N‘eus boued ebet.</example>
+        <example type="correct">N’eus boued ebet.</example>
       </rule>
       <rule>
         <pattern mark_from="2">
@@ -2574,7 +2575,7 @@ Some grammatical resources used:
         <token regexp="yes">[mvd]a|e|he|hec’h|ho[nrl]?|o</token>
         <token postag="N . p.*" postag_regexp="yes"/>
       </pattern>
-      <message>Gallakadur: e brezhoneg e lakaer «\1» etre a ger-parc’hennnañ «\2» hag an dra berc’hennet «\3». Ha fellout a rae deoc‘h skrivañ <suggestion>\2 \1</suggestion>?</message>
+      <message>Gallakadur: e brezhoneg e lakaer «\1» etre a ger-parc’hennnañ «\2» hag an dra berc’hennet «\3». Ha fellout a rae deoc’h skrivañ <suggestion>\2 \1</suggestion>?</message>
       <example type="incorrect"><marker>Holl ma</marker> levrioù</example>
       <example type="correct">Ma holl levrioù</example>
     </rule>
