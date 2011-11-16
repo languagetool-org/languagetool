@@ -14,6 +14,99 @@ $Id: grammar.xml,v 1.0 2011-07-29 13:20:25 taolin2011 Exp $
   <!-- 拼写： 词语错误-->
   <!-- ====================================================================== -->
   <category name="词语错误">
+    <rulegroup id="HUAN_YOU" name="幻/幼">
+      <rule>
+        <pattern mark_to="-1">
+          <token>幼</token>
+          <token regexp="yes" postag_regexp="yes" postag="v|ng">想|象|像|影|觉|境|灭</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>幻</suggestion>\2”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="幻"> 这肯定是<marker>幼</marker>境。 </example>
+        <example type="correct">这肯定是幻境。</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>幼觉</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>幻觉</suggestion>”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="幻觉"> 这肯定是<marker>幼觉</marker>。 </example>
+        <example type="correct"> 这肯定是<marker>幻觉</marker>。 </example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes" postag_regexp="yes" postag="a|n">魔|虚|梦|奇</token>
+          <token>幼</token>
+        </pattern>
+        <message> 您的意思是“\1<suggestion>幻</suggestion>”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="幻"> 这里的梦<marker>幼</marker>般的风景深深地吸引了我的眼球。 </example>
+        <example type="correct">这里的梦幻般的风景深深地吸引了我的眼球。</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token>幻</token>
+          <token regexp="yes" postag_regexp="yes" postag="ng|n|a|r"
+            >儿|虫|苗|师|教|驹|林|嫩|年|时|体|童|小|稚|子</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>幼</suggestion>\2”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="幼"> 你能不要这样<marker>幻</marker>稚吗？ </example>
+        <example type="correct">你能不要这样幼稚吗？</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="HOU1_HOU2" name="侯/候">
+      <rule>
+        <pattern mark_to="-1">
+          <token>侯</token>
+          <token regexp="yes" postag_regexp="yes" postag="n|vg|v|q">车|选人|场|审|诊|补|鸟</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>候</suggestion>\2”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="候"> 他一共当了10年的<marker>侯</marker>补球员。 </example>
+        <example type="correct">他一共当了10年的候补球员。</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes" postag_regexp="yes" postag="v|n|ng|u">等|伺|问|时|气</token>
+          <token>侯</token>
+        </pattern>
+        <message> 您的意思是“\1<suggestion>候</suggestion>”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="候"> 您来的真是时<marker>侯</marker>。 </example>
+        <example type="correct">您来的真是时候。</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token>伺</token>
+          <token>侯</token>
+        </pattern>
+        <message> 您的意思是“伺<suggestion>候</suggestion>”吗？ </message>
+        <example type="incorrect" correction="候"> 这个日子过的真滋润，好吃好喝伺<marker>侯</marker>着。 </example>
+        <example type="correct">这个日子过的真滋润，好吃好喝伺候着。</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token>候</token>
+          <token regexp="yes" postag_regexp="yes" postag="n|ng">爵|门</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>侯</suggestion>\2”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="侯"> 这是清末的一个<marker>候</marker>爵的坟墓。 </example>
+        <example type="correct">这是清末的一个侯爵的坟墓。</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes" postag_regexp="yes" postag="v|r|ag">封|诸</token>
+          <token>候</token>
+        </pattern>
+        <message> 您的意思是“\1<suggestion>侯</suggestion>”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="侯"> 这是个诸<marker>候</marker>并起的年代。 </example>
+        <example type="correct">在是这个诸侯并起的年代。</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="AI_ZHONG_SHUAI" name="哀/衷/衰">
       <rule>
         <pattern mark_to="-1">
