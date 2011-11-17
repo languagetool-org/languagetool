@@ -23,7 +23,8 @@ class LanguageToolHttpHandler implements HttpHandler {
 
   private static final String CONTENT_TYPE_VALUE = "text/xml; charset=UTF-8";
   private static final int CONTEXT_SIZE = 40; // characters
-  
+  private static final String ENCODING = "utf-8";
+
   private final Set<String> allowedIps;  
   private final boolean verbose;
 
@@ -99,8 +100,8 @@ class LanguageToolHttpHandler implements HttpHandler {
   private void printListOfLanguages(HttpExchange httpExchange) throws IOException {
     httpExchange.getResponseHeaders().set("Content-Type", CONTENT_TYPE_VALUE);
     final String response = getSupportedLanguagesAsXML();
-    httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes().length);
-    httpExchange.getResponseBody().write(response.getBytes());
+    httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes(ENCODING).length);
+    httpExchange.getResponseBody().write(response.getBytes(ENCODING));
     httpExchange.close();
   }
 
@@ -143,8 +144,8 @@ class LanguageToolHttpHandler implements HttpHandler {
     httpExchange.getResponseHeaders().set("Content-Type", CONTENT_TYPE_VALUE);
     final String response = StringTools.ruleMatchesToXML(matches, text,
             CONTEXT_SIZE, StringTools.XmlPrintMode.NORMAL_XML);
-    httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes().length);
-    httpExchange.getResponseBody().write(response.getBytes());
+    httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes(ENCODING).length);
+    httpExchange.getResponseBody().write(response.getBytes(ENCODING));
     httpExchange.close();
   }
 
