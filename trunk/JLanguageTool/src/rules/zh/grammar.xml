@@ -14,6 +14,81 @@ $Id: grammar.xml,v 1.0 2011-07-29 13:20:25 taolin2011 Exp $
   <!-- 拼写： 词语错误-->
   <!-- ====================================================================== -->
   <category name="词语错误">
+    <rulegroup id="HENG_XIANG" name="亨/享">
+      <rule>
+        <pattern mark_to="-1">
+          <token>享</token>
+          <token>通</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>亨</suggestion>通”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="亨"> 祝您在新的一年里万事<marker>享</marker>通。 </example>
+        <example type="correct">祝您在新的一年里万事亨通。</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token>亨</token>
+          <token regexp="yes" postag_regexp="yes" postag="a|p|nr|n|m|ng">乐|誉|年|受|用|有|堂</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>享</suggestion>\2”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="享"> 你才这么大的年纪了，就学会<marker>亨</marker>乐了。 </example>
+        <example type="correct">你才这么大的年纪了，就学会享了。</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token postag_regexp="yes" postag="dg|v">分</token>
+          <token>亨</token>
+        </pattern>
+        <message> 您的意思是“分<suggestion>享</suggestion>”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="享"> 你应该把这个资源分<marker>亨</marker>给大家。 </example>
+        <example type="correct">你应该把这个资源分享给大家。</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="SA_JIU" name="洒/酒">
+      <rule>
+        <pattern mark_to="-1">
+          <token>酒</token>
+          <token regexp="yes" postag_regexp="yes" postag="v|n|y">扫|泪|落|脱|了</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>洒</suggestion>\2”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="洒"> 您为什么能够如此<marker>酒</marker>脱呢？ </example>
+        <example type="correct">您为什么能够如此洒脱呢？</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes" postag_regexp="yes" postag="an|v|j">挥|潇</token>
+          <token>酒</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>洒</suggestion>\2”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="洒"> 我很潇<marker>酒</marker>地离开了。 </example>
+        <example type="correct">我很潇洒地离开了。</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token>洒</token>
+          <token regexp="yes" postag_regexp="yes" postag="ng|y|v|n|q|nx|a|vg"
+            >席|筵|场|吧|保|菜|店|饭|馆|鬼|柜|会|家|浆|窖|精|具|量|龄|钱|肉|窝|醒|兴|宴|药</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>酒</suggestion>\2”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="酒"> 18岁以下不允许进入<marker>洒</marker>吧。 </example>
+        <example type="correct">18岁以下不允许进入酒吧。</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes" postag_regexp="yes" postag="j|v|n">白|啤|料|鸡|尾|茅|台|饮|喝</token>
+          <token>洒</token>
+        </pattern>
+        <message> 您的意思是“\1<suggestion>酒</suggestion>”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="酒"> 喝啤<marker>洒</marker>容易长胖。 </example>
+        <example type="correct">喝啤酒容易长胖。</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="HUAN_YOU" name="幻/幼">
       <rule>
         <pattern mark_to="-1">
