@@ -14,6 +14,7 @@ $Id: grammar.xml,v 1.0 2011-07-29 13:20:25 taolin2011 Exp $
   <!-- 拼写： 词语错误-->
   <!-- ====================================================================== -->
   <category name="词语错误">
+  
     <rulegroup id="HENG_XIANG" name="亨/享">
       <rule>
         <pattern mark_to="-1">
@@ -512,6 +513,41 @@ $Id: grammar.xml,v 1.0 2011-07-29 13:20:25 taolin2011 Exp $
   <!-- 拼写： 成语错误-->
   <!-- ====================================================================== -->
    <category name="成语错误">
+    <rule id="GANNAOTUDI" name="肝脑涂地">
+      <pattern mark_from="2" mark_to="-1">
+        <token>肝</token>
+        <token>脑</token>
+        <token>途</token>
+        <token>地</token>
+      </pattern>
+      <message> 您的意思是“肝脑<suggestion>涂</suggestion>地”吗？ </message>
+      <short>成语错误</short>
+      <example type="incorrect" correction="涂"> 我们纵然肝脑<marker>途</marker>地，在所不惜。 </example>
+      <example type="correct">我们纵然肝脑涂地，在所不惜。</example>
+    </rule>
+    <rule id="GANENFEIFU" name="感人肺腑">
+      <pattern mark_from="2" mark_to="0">
+        <token>感人</token>
+        <token>肺</token>
+        <token>府</token>
+      </pattern>
+      <message> 您的意思是“感人肺<suggestion>腑</suggestion>”吗？ </message>
+      <short>成语错误</short>
+      <example type="incorrect" correction="腑"> 他这段演讲真是感人肺<marker>府</marker>。 </example>
+      <example type="correct">他这段演讲真是感人肺腑。</example>
+    </rule>
+    <rule id="GANBAIXIAFENG" name="甘拜下风">
+      <pattern mark_from="1" mark_to="-2">
+        <token>甘</token>
+        <token>败</token>
+        <token>下</token>
+        <token>风</token>
+      </pattern>
+      <message> 您的意思是“甘<suggestion>拜</suggestion>下风”吗？ </message>
+      <short>成语错误</short>
+      <example type="incorrect" correction="拜"> 我对他甘<marker>败</marker>下风。 </example>
+      <example type="correct">我对他甘拜下风。</example>
+    </rule>
      <rule id="FENGCHENPUPU" name="风尘仆仆">
       <pattern mark_from="1" mark_to="0">
         <token>风尘</token>
