@@ -940,8 +940,123 @@ $Id: grammar.xml,v 1.75 2011-11-14 18:20:45 yakovru Exp $
             
             
         </rulegroup>       
-        
-        
+
+          <rulegroup default="on"  id="SoglasovanieNN_Verb" name="Согласование подлежащего со сказуемым по роду/числу">
+            <rule>  
+                
+                <pattern>
+                    <!--           NN:Masc:Sin:.*   VB:Past:Masc    -->
+                    <token  postag="NN:Masc:Sin:.*" postag_regexp="yes"></token>
+                    <token  postag="VB:Past:.*"  postag_regexp="yes"><exception postag="VB:Past:Masc"  /></token>               
+                </pattern>
+                
+                <message>Существительное не согласуется с глаголом по роду.
+                    <suggestion><match no="1"></match> <match no="2" postag="VB:Past:.*" postag_regexp="yes" postag_replace="VB:Past:Masc"></match></suggestion>
+                </message>
+                <short>Ошибка в согласовании по роду.</short>
+                <example type="correct">Кот грелся на солнышке.</example>
+                <example type="incorrect"><marker>Кот грелась</marker> на солнышке.</example>
+            </rule>
+      
+          <rule>  
+                
+                <pattern>
+                    <!--           NN:Fem:Sin:.*   VB:Past:Fem    -->
+                    <token  postag="NN:Fem:Sin:.*" postag_regexp="yes"></token>
+                    <token  postag="VB:Past:.*"  postag_regexp="yes"><exception postag="VB:Past:Fem" /></token>               
+                </pattern>
+                
+                <message>Существительное не согласуется с глаголом по роду.
+                    <suggestion><match no="1"></match> <match no="2" postag="VB:Past:.*" postag_regexp="yes" postag_replace="VB:Past:Fem"></match></suggestion>
+                </message>
+                <short>Ошибка в согласовании по роду.</short>
+                <example type="correct">Кошка грелась на солнышке.</example>
+                <example type="incorrect"><marker>Кошка грелся</marker> на солнышке.</example>
+            </rule>
+         
+             <rule>  
+                
+                <pattern>
+                    <!--           NN:Neut:Sin:.*   VB:Past:Neut    -->
+                    <token  postag="NN:Neut:Sin:.*" postag_regexp="yes"></token>
+                    <token  postag="VB:Past:.*"  postag_regexp="yes"><exception postag="VB:Past:Neut"  /></token>               
+                </pattern>
+                
+                <message>Существительное не согласуется с глаголом по роду.
+                    <suggestion><match no="1"></match> <match no="2" postag="VB:Past:.*" postag_regexp="yes" postag_replace="VB:Past:Neut"></match></suggestion>
+                </message>
+                <short>Ошибка в согласовании по роду.</short>
+                <example type="correct">Блюдо готовилось на сковородке.</example>
+                <example type="incorrect"><marker>Блюдо готовился</marker> на сковородке.</example>
+            </rule>
+            
+           <rule>  
+                
+                <pattern>
+                    <!--           NN:.*:PL:.*   VB:Past:PL    -->
+                    <token  postag="NN:.*:PL:.*" postag_regexp="yes"></token>
+                    <token  postag="VB:Past:.*"  postag_regexp="yes"><exception postag="VB:Past:PL" /></token>               
+                </pattern>
+                
+                <message>Существительное не согласуется с глаголом по числу.
+                    <suggestion><match no="1"></match> <match no="2" postag="VB:Past:.*" postag_regexp="yes" postag_replace="VB:Past:PL"></match></suggestion>
+                </message>
+                <short>Ошибка в согласовании по числу.</short>
+                <example type="correct">Кошки грелись на солнышке.</example>
+                <example type="incorrect"><marker>Кошки грелся</marker> на солнышке.</example>
+            </rule>
+            
+            
+              <rule>  
+                
+                <pattern>
+                    <!--           NN:Masc:Sin:.*   VB:Past:!PL   -->
+                    <token  postag="NN:Masc:Sin:.*" postag_regexp="yes"></token>
+                    <token  postag="VB:Past:PL"></token>               
+                </pattern>
+                
+                <message>Существительное не согласуется с глаголом по числу.
+                    <suggestion><match no="1"></match> <match no="2" postag="VB:Past:PL" postag_regexp="yes" postag_replace="VB:Past:Masc"></match></suggestion>
+                </message>
+                <short>Ошибка в согласовании по числу.</short>
+                <example type="correct">Кот грелся на солнышке.</example>
+                <example type="incorrect"><marker>Кот грелись</marker> на солнышке.</example>
+            </rule>
+             <rule>  
+                
+                <pattern>
+                    <!--           NN:Masc:Fem:.*   VB:Past:!PL   -->
+                    <token  postag="NN:Fem:Sin:.*" postag_regexp="yes"></token>
+                    <token  postag="VB:Past:PL"></token>               
+                </pattern>
+                
+                <message>Существительное не согласуется с глаголом по числу.
+                    <suggestion><match no="1"></match> <match no="2" postag="VB:Past:PL" postag_regexp="yes" postag_replace="VB:Past:Fem"></match></suggestion>
+                </message>
+                <short>Ошибка в согласовании по числу.</short>
+                <example type="correct">Кошка грелась на солнышке.</example>
+                <example type="incorrect"><marker>Кошка грелись</marker> на солнышке.</example>
+            </rule>
+             <rule>  
+                
+                <pattern>
+                    <!--           NN:Masc:Neut:.*   VB:Past:!PL   -->
+                    <token  postag="NN:Neut:Sin:.*" postag_regexp="yes"></token>
+                    <token  postag="VB:Past:PL"></token>               
+                </pattern>
+                
+                <message>Существительное не согласуется с глаголом по числу.
+                    <suggestion><match no="1"></match> <match no="2" postag="VB:Past:PL" postag_regexp="yes" postag_replace="VB:Past:Neut"></match></suggestion>
+                </message>
+                <short>Ошибка в согласовании по числу.</short>
+                <example type="correct">Блюдо готовилось на сковородке.</example>
+                <example type="incorrect"><marker>Блюдо готовились</marker> на сковородке.</example>
+            </rule>
+            
+            
+            
+        </rulegroup>
+           
         <rulegroup default="on"  id="Obobchajuchee_slovo" name="Согласование с обобщающим словом">
      
    <!--TO DO: добавить остальные падежи       -->            
