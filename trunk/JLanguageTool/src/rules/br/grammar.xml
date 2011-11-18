@@ -237,13 +237,16 @@ Some grammatical resources used:
             <exception postag="P|L e" postag_regexp="yes">e</exception>
           </token>
           <and>
-            <token regexp="yes">g[^w].*</token>
+            <token regexp="yes">g[^w].*
+              <exception>get</exception>
+            </token>
             <token regexp="yes" inflected="yes">g[^w].*</token>
           </and>
         </pattern>
         <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude ar ger «\1». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="c’h$1"/></suggestion>?</message>
         <example type="incorrect">Pa <marker>goulennas</marker></example>
         <example type="correct">Pa c’houlennas</example>
+        <example type="correct">Da get buan a-walc’h</example>
       </rule>
       <rule>
         <pattern mark_from="1">
@@ -1680,25 +1683,20 @@ Some grammatical resources used:
       <example type="incorrect">Chom <marker>a sav</marker> ar bus.</example>
       <example type="correct">Chom a-sav ar bus.</example>
     </rule>
-    <rule id="A_DU" name="a du → a-du">
-      <pattern>
-        <token>a<exception scope="previous">meur</exception></token>
-        <token regexp="yes">du|zoare</token>
-      </pattern>
-      <message>Implijit <suggestion>\1-\2</suggestion>.</message>
-      <example type="incorrect"><marker>A du</marker> emaon.</example>
-      <example type="correct">A-du emaon.</example>
-      <example type="correct">kemer perzh enno e meur a du.</example>
-      <example type="correct">Meur a zoare a zo da gemer perzh</example>
-    </rule>
     <rule id="A_DREUZ" name="a dreuz → a-dreuz (hag all)">
       <pattern>
-        <token>a</token>
-        <token regexp="yes">barzh|beban|belec’h|benn(adoù|-kaer)?|bik|bil|blad|blaen|blom|boan|bouez(-penn)?|boullad|c’houde(vezh)?|c’wenn|dal|dammoù|denn-askell|dizh|douez|doulladoù|drak|dreist|drek|dreñv|dreuz|drugarez|enep|feson|fet|feur|flav|fourch|fuilh|geñver|gleiz|greiz(-holl)?|grenn|hed(-all)?|herr|hervez|istribilh|led|leizh|nevez|ouez|raok|ratozh|skouer|stlabez|viskoazh|vremañ|walc’h|wechoù|wezhioù|youl|zehou|zevri|ziabarzh|ziabell|ziadreñv|ziagent|ziaraok|ziavaez|zindan|zioc’h|ziouzh|zivout|ziwar(-(c’horre|dro|laez|lerc’h))?</token>
+        <token>a<exception scope="previous" regexp="yes">kement|meur|nag</exception></token>
+        <token regexp="yes">barzh|beban|belec’h|benn(adoù|-kaer)?|bik|bil|blad|blaen|blom|boan|bouez(-penn)?|boullad|c’houde(vezh)?|c’wenn|dal|dammoù|denn-askell|dizh|douez|doulladoù|drak|dreist|drek|dreñv|dreuz|drugarez|du|enep|feson|fet|feur|flav|fourch|fuilh|geñver|gleiz|greiz(-holl)?|grenn|hed(-all)?|herr|hervez|istribilh|led|leizh|nevez|ouez|raok|ratozh|skouer|stlabez|viskoazh|vremañ|walc’h|wechoù|wezhioù|youl|zehou|zevri|ziabarzh|ziabell|ziadreñv|ziagent|ziaraok|ziavaez|zindan|zioc’h|ziouzh|zivout|ziwar(-(c’horre|dro|laez|lerc’h))?|zoare</token>
       </pattern>
       <message>Implijit <suggestion>\1-\2</suggestion>.</message>
       <example type="incorrect">Amzer <marker>a walc’h</marker> am eus.</example>
       <example type="correct">Amzer a-walc’h am eus.</example>
+      <example type="correct">Nag a boan am boa!</example>
+      <example type="correct">Kement a boan am boa!</example>
+      <example type="incorrect"><marker>A du</marker> emaon.</example>
+      <example type="correct">A-du emaon.</example>
+      <example type="correct">kemer perzh enno e meur a du.</example>
+      <example type="correct">Meur a zoare a zo da gemer perzh</example>
     </rule>
     <rule id="E_KREIZ" name="e kreiz→ e-kreiz (hag all)">
       <pattern>
