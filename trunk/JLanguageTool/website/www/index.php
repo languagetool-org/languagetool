@@ -41,7 +41,7 @@ language-specific configuration files. Rules for detecting more complicated erro
 
 <h2>News</h2>
 
-<p><strong>2011-11-18:</strong> We now offer <?=show_link("Wikicheck, a new service to check Wikipedia pages with LanguageTool", "http://community.languagetool.org/wikiCheck/index")?></p>
+<p><strong>2011-11-18:</strong> We now offer <?=show_link("Wikicheck, a new service to check Wikipedia pages with LanguageTool", "http://community.languagetool.org/wikiCheck/index", 0)?></p>
 
 <p><strong>2011-09-25:</strong> Released LanguageTool 1.5. Changes include:
 <ul>
