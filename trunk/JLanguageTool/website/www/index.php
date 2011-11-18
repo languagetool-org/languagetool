@@ -2,7 +2,7 @@
 $page = "homepage";
 $title = "LanguageTool";
 $title2 = "Style and Grammar Checker";
-$lastmod = "2011-10-24 16:20:00 CET";
+$lastmod = "2011-11-18 16:20:00 CET";
 include("../include/header.php");
 ?>
 		
@@ -40,6 +40,8 @@ language-specific configuration files. Rules for detecting more complicated erro
 <?=show_link("the snapshot directory", "download/snapshots/", 0) ?> (<?=show_link("CHANGES.txt", "http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/JLanguageTool/CHANGES.txt", 0) ?>).
 
 <h2>News</h2>
+
+<p><strong>2011-11-18:</strong> We now offer <?=show_link("Wikicheck, a new service to check Wikipedia pages with LanguageTool", "http://community.languagetool.org/wikiCheck/index")?></p>
 
 <p><strong>2011-09-25:</strong> Released LanguageTool 1.5. Changes include:
 <ul>
