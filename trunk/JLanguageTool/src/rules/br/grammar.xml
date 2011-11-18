@@ -236,6 +236,20 @@ Some grammatical resources used:
           <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|gwall|ne|pa|re|seul
             <exception postag="P|L e" postag_regexp="yes">e</exception>
           </token>
+          <and>
+            <token regexp="yes">g[^w].*</token>
+            <token regexp="yes" inflected="yes">g[^w].*</token>
+          </and>
+        </pattern>
+        <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude ar ger «\1». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="c’h$1"/></suggestion>?</message>
+        <example type="incorrect">Pa <marker>goulennas</marker></example>
+        <example type="correct">Pa c’houlennas</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|gwall|ne|pa|re|seul
+            <exception postag="P|L e" postag_regexp="yes">e</exception>
+          </token>
           <token regexp="yes" postag="UNKNOWN" negate_pos="yes">d.*
             <exception inflected="yes">da</exception>
             <exception regexp="yes" inflected="yes">t.*</exception>
