@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 LanguageTool. Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
 A Russian rule file for LanguageTool 
 Copyright (C) 2008-2011 Yakov Reztsov
-$Id: grammar.xml,v 1.77 2011-11-18 22:19:45 yakovru Exp $
+$Id: grammar.xml,v 1.78 2011-11-19 08:53:45 yakovru Exp $
 #     REVISION:  $Id$
 -->
 <rules lang="ru" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -1011,8 +1011,8 @@ $Id: grammar.xml,v 1.77 2011-11-18 22:19:45 yakovru Exp $
                 
                 <pattern>
                     <!--           NN:Masc:Sin:.*   VB:Past:!PL   -->
-                    <token  postag="NN:Masc:Sin:.*" postag_regexp="yes"></token>
-                    <token  postag="VB:Past:PL"></token>               
+                    <token  postag="NN:Masc:Sin:.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="NN:Masc:Sin:.*"  /></token>
+                    <token  postag="VB:Past:PL"><exception negate_pos="yes" postag_regexp="yes" postag="VB:Past:PL"  /></token>               
                 </pattern>
                 
                 <message>Существительное не согласуется с глаголом по числу.
@@ -1026,8 +1026,8 @@ $Id: grammar.xml,v 1.77 2011-11-18 22:19:45 yakovru Exp $
                 
                 <pattern>
                     <!--           NN:Masc:Fem:.*   VB:Past:!PL   -->
-                    <token  postag="NN:Fem:Sin:.*" postag_regexp="yes"></token>
-                    <token  postag="VB:Past:PL"></token>               
+                    <token  postag="NN:Fem:Sin:.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="NN:Fem:Sin:.*"  /></token>
+                    <token  postag="VB:Past:PL"><exception negate_pos="yes" postag_regexp="yes" postag="VB:Past:PL"  /></token>               
                 </pattern>
                 
                 <message>Существительное не согласуется с глаголом по числу.
@@ -1041,8 +1041,8 @@ $Id: grammar.xml,v 1.77 2011-11-18 22:19:45 yakovru Exp $
                 
                 <pattern>
                     <!--           NN:Masc:Neut:.*   VB:Past:!PL   -->
-                    <token  postag="NN:Neut:Sin:.*" postag_regexp="yes"></token>
-                    <token  postag="VB:Past:PL"></token>               
+                    <token  postag="NN:Neut:Sin:.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="NN:Neut:Sin:.*"  /></token>
+                    <token  postag="VB:Past:PL"><exception negate_pos="yes" postag_regexp="yes" postag="VB:Past:PL"  /></token>               
                 </pattern>
                 
                 <message>Существительное не согласуется с глаголом по числу.
