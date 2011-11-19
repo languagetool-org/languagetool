@@ -14,7 +14,60 @@ $Id: grammar.xml,v 1.0 2011-07-29 13:20:25 taolin2011 Exp $
   <!-- 拼写： 词语错误-->
   <!-- ====================================================================== -->
   <category name="词语错误">
-  
+    <rulegroup id="ZHI_JIU" name="炙/灸">
+      <rule>
+        <pattern mark_to="-1">
+          <token>灸</token>
+          <token regexp="yes" postag_regexp="yes" postag="v|a">烤|热</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>炙</suggestion>\2”吗？ </message>
+        <short>词语错误</short>
+        <example type="correct">太阳炙烤着大地。</example>
+        <example type="incorrect" correction="炙"> 太阳<marker>灸</marker>烤着大地。 </example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token postag="n">针</token>
+          <token>炙</token>
+        </pattern>
+        <message> 您的意思是“针<suggestion>灸</suggestion>”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect"> 针<marker>炙</marker>是世界医疗史的一大奇迹。 </example>
+        <example type="correct">针灸是世界医疗史上的一大奇迹。</example>
+      </rule>
+    </rulegroup>
+    <rule id="LI_SU" name="栗/粟">
+      <pattern mark_from="1">
+        <token postag="v|vg" postag_regexp="yes" regexp="yes">战|站</token>
+        <token>粟</token>
+      </pattern>
+      <message> 您的意思是“\1<suggestion>栗</suggestion>”吗？ </message>
+      <short>词语错误</short>
+      <example type="incorrect"> 襄王闻之，颜色变作，身体战<marker>粟</marker>。 </example>
+      <example type="correct" correction="栗">襄王闻之，颜色变作，身体战栗。</example>
+    </rule>
+    <rulegroup id="LIAO1_LIAO2" name="廖/寥">
+      <rule>
+        <pattern mark_to="-1">
+          <token>廖</token>
+          <token regexp="yes" postag_regexp="yes" postag="a|ng|ag">落|廓|寂</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>寥</suggestion>\2”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="寥"> 以这<marker>廖</marker>寂的天空为背景，书写华丽的篇章。 </example>
+        <example type="correct">以这寥寂的天空为背景，书写华丽的篇章。</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token>寂</token>
+          <token>廖</token>
+        </pattern>
+        <message> 您的意思是“寂<suggestion>寥</suggestion>”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="寥"> 以这寂<marker>廖</marker>的天空为背景，书写华丽的篇章。 </example>
+        <example type="correct">以这寂寥的天空为背景，书写华丽的篇章。</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="HENG_XIANG" name="亨/享">
       <rule>
         <pattern mark_to="-1">
