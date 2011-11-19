@@ -81,13 +81,22 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
       <disambig postag="L a"/>
     </rule>
   </rulegroup>
-  <rule id="EZ_AN" name="ez an">
-    <pattern mark="0">
-      <token>ez</token>
-      <token regexp="yes">an|in|aen|afen|ajen|ez|i|aes|afes|ajes|a|aio|ae|afe|aje|eomp|aimp|aemp|afemp|ajemp|it|eot|eoc’h|aec’h|afec’h|ajec’h|eont|aint|aent|afent|ajent|eer|eor|aed|afed|ajed</token>
-    </pattern>
-    <disambig postag="L e"/>
-  </rule>
+  <rulegroup id="EZ_AN" name="ez an">
+    <rule>
+      <pattern mark="0">
+        <token>ez</token>
+        <token regexp="yes">an|in|aen|afen|ajen|ez|i|aes|afes|ajes|a|aio|ae|afe|aje|eomp|aimp|aemp|afemp|ajemp|it|eot|eoc’h|aec’h|afec’h|ajec’h|eont|aint|aent|afent|ajent|eer|eor|aed|afed|ajed</token>
+      </pattern>
+      <disambig postag="L e"/>
+    </rule>
+    <rule>
+      <pattern mark="1">
+        <token>ez</token>
+        <token>an</token>
+      </pattern>
+      <disambig action="remove"><wd lemma="an" pos="D e sp"/></disambig>
+    </rule>
+  </rulegroup>
   <rule id="EN_EM" name="en em">
     <pattern mark="1">
       <token>en</token>
@@ -135,7 +144,7 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
     </rule>
     <rule>
       <pattern mark="1">
-        <token regexp="yes">en|gant</token>
+        <token regexp="yes">en|evit|gant|digant|war|diwar</token>
         <token>e</token>
       </pattern>
       <disambig action="remove"><wd lemma="e" pos="L e"/></disambig>
