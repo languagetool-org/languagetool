@@ -51,8 +51,8 @@ public class BretonWordTokenizer extends WordTokenizer {
 
     // FIXME: this is a bit of a hacky way to tokenize.  It should work
     // but I should work on a more elegant way.
-    String replaced = text.replaceAll("([Cc])['’]([Hh])", "$1##BR_APOS##$2")
-                          .replaceAll("(\\p{L})['’]", "$1##BR_APOS## ");
+    String replaced = text.replaceAll("([Cc])['’‘]([Hh])", "$1##BR_APOS##$2")
+                          .replaceAll("(\\p{L})['’‘]", "$1##BR_APOS## ");
 
     final List<String> tokenList = super.tokenize(replaced);
     List<String> tokens = new ArrayList<String>();
