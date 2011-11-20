@@ -618,21 +618,6 @@ Some grammatical resources used:
     <rulegroup id="FAZ_KEMM_DRE_VLOTAAT_AR" name="kemmadur dre vlotaat en anv goude ar ger-mell.">
       <rule>
         <pattern mark_from="1">
-          <token postag="SENT_START"/>
-          <token postag="[^M]*M.*:1:.*" postag_regexp="yes">
-            <exception negate_pos="yes" postag="[^M]*M:.*" postag_regexp="yes"/>
-            <exception>vat</exception>
-          </token>
-        </pattern>
-        <message>Ne zlefe ket bezañ ur c’hemmadur dre vlotaat amañ.</message>
-        <example type="incorrect"><marker>Zebriñ</marker> a ran.</example>
-        <example type="correct"><marker>Debriñ</marker> a ran.</example>
-        <example type="incorrect"><marker>C’hallout</marker> a ran.</example>
-        <example type="correct"><marker>Gallout</marker> a ran.</example>
-        <example type="correct">Vat a raio ur c’hafe tomm.</example>
-      </rule>
-      <rule>
-        <pattern mark_from="1">
           <token>hor</token>
           <token inflected="yes" regexp="yes">k.*<exception regexp="yes">c.*</exception></token>
         </pattern>
@@ -770,6 +755,7 @@ Some grammatical resources used:
           <and>
             <token postag="N m s.*|N f p.*" postag_regexp="yes" regexp="yes">v.*
               <exception postag="N m s.*|N f p.*" postag_regexp="yes" regexp="yes" inflected="yes">v.*</exception>
+              <exception regexp="yes">(?-i)Vouster</exception>
             </token>
             <token postag="N m s.*|N f p.*" postag_regexp="yes" regexp="yes" inflected="yes">m.*
               <exception postag="N f s.*|N m p t.*" postag_regexp="yes" regexp="yes" inflected="yes">m.*</exception>
@@ -779,6 +765,7 @@ Some grammatical resources used:
         <message>Direizh eo kemmañ ar ger «\2» amañ. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="m$1"/></suggestion>?</message>
         <example type="incorrect">Ar <marker>vammoù</marker></example>
         <example type="correct">Ar mammoù</example>
+        <example type="correct">Ar Vouster</example>
       </rule>
       <rule>
         <pattern mark_from="1">
@@ -901,8 +888,22 @@ Some grammatical resources used:
         <example type="incorrect">Ar <marker>weleoù</marker></example>
         <example type="correct">Ar gweleoù</example>
       </rule>
-
     </rulegroup>
+    <rule id="FAZ_KEMM" name="kemmadur faziet">
+      <pattern mark_from="1">
+        <token postag="SENT_START"/>
+        <token postag="[^M]*M.*" postag_regexp="yes">
+          <exception negate_pos="yes" postag="[^M]*M:.*" postag_regexp="yes"/>
+          <exception regexp="yes">va[dt]</exception>
+        </token>
+      </pattern>
+      <message>Ne zlefe ket bezañ ur c’hemmadur dre vlotaat amañ.</message>
+      <example type="incorrect"><marker>Zebriñ</marker> a ran.</example>
+      <example type="correct"><marker>Debriñ</marker> a ran.</example>
+      <example type="incorrect"><marker>C’hallout</marker> a ran.</example>
+      <example type="correct"><marker>Gallout</marker> a ran.</example>
+      <example type="correct">Vat a raio ur c’hafe tomm.</example>
+    </rule>
     <rulegroup id="KEMM_MESKET_MA" name="kemmadur mesket goude ar stagell ma">
       <rule>
         <pattern mark_from="1">
@@ -1170,7 +1171,7 @@ Some grammatical resources used:
         </token>
         <token postag="[^M]*M:.*" postag_regexp="yes">
           <exception negate_pos="yes" postag="[^M]*M:.*|SENT_END" postag_regexp="yes"/>
-          <exception>vat</exception>
+          <exception regexp="yes">va[dt]</exception>
         </token>
       </pattern>
       <message>Ne zlefe ket bezañ ur c’hemmadur er ger «\2» goude ur verb.</message>
@@ -1187,7 +1188,7 @@ Some grammatical resources used:
         <token regexp="yes">a-benn|arabat|abaoe|eus|evel(-se)?|hag?|hep|ke[nt]|krenn|lies|mard?|nemet|nebeu(dig)?|pas|pep|pebezh|pegen|pere|petvet|peseurt|petore|setu</token>
         <token postag="[^M]*M:.*" postag_regexp="yes">
           <exception negate_pos="yes" postag="[^M]*M:.*" postag_regexp="yes"/>
-          <exception>var</exception>
+          <exception>vat</exception>
         </token>
       </pattern>
       <message>Ne zlefe ket bezañ ur c’hemmadur er ger «\2» goude ar ger «\1».</message>
@@ -1357,8 +1358,8 @@ Some grammatical resources used:
     </rule>
   </category>
 
-  <category name="ELISION">
-    <rule id="DA_M" name="d’am → da‘m">
+  <category name="Elision">
+    <rule id="DA_M" name="d’am → da’m">
       <pattern>
         <token regexp="yes">[dmp]’</token>
         <token regexp="yes">a[mz]</token>
@@ -1368,8 +1369,8 @@ Some grammatical resources used:
       <example type="correct">Ur pok da'm gwaz</example>
       <example type="incorrect"><marker>P’az</marker> eer d’ar marc’had</example>
       <example type="correct">Pa’z eer d’ar marc’had</example>
-      <example type="incorrect">Abaoe <marker>m’az</marker> on yac‘h en-dro</example>
-      <example type="correct">Abaoe ma’z on yac‘h en-dro</example>
+      <example type="incorrect">Abaoe <marker>m’az</marker> on yac’h en-dro</example>
+      <example type="correct">Abaoe ma’z on yac’h en-dro</example>
     </rule>
     <rule id="D_AR" name="da’r → d’ar">
       <pattern>
@@ -1777,6 +1778,16 @@ Some grammatical resources used:
       <message>Implijit <suggestion>\1-\2</suggestion>.</message>
       <example type="incorrect">Ober a ra <marker>war dro</marker> ar saout.</example>
       <example type="correct">Ober a ra war-dro ar saout.</example>
+    </rule>
+
+    <rule id="C_HASTELL_NEVEZ" name="C’hastell Nevez → C’hastell-Nevez">
+      <pattern case_sensitive="yes">
+        <token>C’hastell</token>
+        <token regexp="yes">Bourc’h|Briant|Geron|Nevez|Noez|Paol|Tepaod</token>
+      </pattern>
+      <message>Implijit <suggestion>\1-\2</suggestion>.</message>
+      <example type="incorrect">E <marker>C’hastell Nevez</marker> emaon o chom.</example>
+      <example type="correct">E C’hastell-Nevez emaon o chom.</example>
     </rule>
   </category>
 
