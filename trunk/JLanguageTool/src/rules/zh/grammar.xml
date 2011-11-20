@@ -14,6 +14,85 @@ $Id: grammar.xml,v 1.0 2011-07-29 13:20:25 taolin2011 Exp $
   <!-- 拼写： 词语错误-->
   <!-- ====================================================================== -->
   <category name="词语错误">
+    <rulegroup id="LING_LENG" name="泠/冷">
+      <rule>
+        <pattern mark_to="-1">
+          <token>泠</token>
+          <token regexp="yes" postag_regexp="yes" postag="n|j|ng|ag|v|c|a|nx|k"
+            >天|藏|冻|僻|遇|漠|场|淡|调|风|汗|静|酷|暖|却|门|清</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>冷</suggestion>\2”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="冷">
+          <marker>泠</marker>天要多穿衣服。 </example>
+        <example type="correct">冷天要多穿衣服。</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token postag_regexp="yes" postag="n|a" regexp="yes">天|好</token>
+          <token>泠</token>
+        </pattern>
+        <message> 您的意思是“\1<suggestion>冷</suggestion>”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="冷"> 我好<marker>泠</marker>啊。 </example>
+        <example type="correct">我好冷啊。</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="LING_JIN" name="令/今">
+      <rule>
+        <pattern mark_to="-1">
+          <token postag="tg">
+            <exception postag="t"/>今 </token>
+          <token postag_regexp="yes" regexp="yes" postag="ng|r|v|vg">名|辰|闻|尊|郎|爱|我|你|他</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>令</suggestion>\2”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="令"> 他出乎意料的表现，<marker>今</marker>我不由得冒了一身冷汗。 </example>
+        <example type="correct">他出乎意料的表现，令我不由得冒了一身冷汗。</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token>今人</token>
+          <token postag="v|a|an" postag_regexp="yes"/>
+        </pattern>
+        <message> 您的意思是“<suggestion>令人</suggestion>”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="令人"> 他的举止真<marker>今人</marker>恶心。 </example>
+        <example type="correct">他的举止真令人恶心。</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes" postag="n">命|县|法</token>
+          <token>今</token>
+        </pattern>
+        <message> 您的意思是“\1<suggestion>令</suggestion>”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="令"> 我命<marker>今</marker>你马上去做作业。 </example>
+        <example type="correct">我命令你马上去做作业。</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token>令</token>
+          <token regexp="yes" postag_regexp="yes" postag="q|ng|f|tg|dg">天|生|世|番|年|后|昔|朝</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>今</suggestion>天”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="今">
+          <marker>令</marker>天天气真好啊！ </example>
+        <example type="correct">今天天气真好啊！</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token postag="r"/>
+          <token postag="v">令</token>
+          <token>生</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>今</suggestion>生”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="今"> 我<marker>令</marker>生都忘不了这件事。 </example>
+        <example type="correct">我今生都忘不了这件事。</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="ZHI_JIU" name="炙/灸">
       <rule>
         <pattern mark_to="-1">
