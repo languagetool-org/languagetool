@@ -1526,6 +1526,28 @@ Some grammatical resources used:
         <example type="correct">Ur milion a dud.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="UGENT" name="daou ugent → daou-ugent">
+      <rule>
+        <pattern>
+          <token regexp="yes">warn|daou|tri|pevar|c’hwec’h|seizh|eizh|nav</token>
+          <token>ugent</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>\1-\2</suggestion>?</message>
+        <example type="incorrect"><marker>Daou ugent</marker></example>
+        <example type="correct">Daou-ugent</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="HANTER_KANT" name="hanter kant → hanter-kant">
+      <rule>
+        <pattern>
+          <token>hanter</token>
+          <token>kant</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>\1-\2</suggestion>?</message>
+        <example type="incorrect"><marker>Hanter kant</marker></example>
+        <example type="correct">Hanter-kant</example>
+      </rule>
+    </rulegroup>
   </category>
 
   <category name="Verb">
@@ -1705,7 +1727,7 @@ Some grammatical resources used:
     <rule id="KARR_TAN" name="karr tan → karr tan">
       <pattern>
         <token regexp="yes">([kg]|c’h)(arr|irri)</token>
-        <token regexp="yes">boutin|nij|samm|tan</token>
+        <token regexp="yes">boutin|nezañ|nij|samm|tan</token>
       </pattern>
       <message>Implijit <suggestion>\1-\2</suggestion>.</message>
       <example type="incorrect">Ho pilhed <marker>karr nij</marker> mar plij.</example>
@@ -1782,12 +1804,22 @@ Some grammatical resources used:
 
     <rule id="C_HASTELL_NEVEZ" name="C’hastell Nevez → C’hastell-Nevez">
       <pattern case_sensitive="yes">
-        <token>C’hastell</token>
+        <token regexp="yes">([GK]|C’h)astell</token>
         <token regexp="yes">Bourc’h|Briant|Geron|Nevez|Noez|Paol|Tepaod</token>
       </pattern>
       <message>Implijit <suggestion>\1-\2</suggestion>.</message>
-      <example type="incorrect">E <marker>C’hastell Nevez</marker> emaon o chom.</example>
-      <example type="correct">E C’hastell-Nevez emaon o chom.</example>
+      <example type="incorrect">E <marker>Kastell Nevez</marker> emaon o chom.</example>
+      <example type="correct">E Kastell-Nevez emaon o chom.</example>
+    </rule>
+
+    <rule id="PORZH" name="porzh mor → porzh-mor">
+      <pattern>
+        <token regexp="yes">porzh|porzhioù</token>
+        <token regexp="yes">bered|brezel|c’hoari|gwint|houarn|kenwerzh|kouez|mor|pesketa|skol|yer</token>
+      </pattern>
+      <message>Implijit <suggestion>\1-\2</suggestion>.</message>
+      <example type="incorrect">Ur <marker>porzh mor</marker> bras eo Brest.</example>
+      <example type="correct">Ur porzh-mor bras eo Brest.</example>
     </rule>
   </category>
 
