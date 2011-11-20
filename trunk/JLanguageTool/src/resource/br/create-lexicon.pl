@@ -58,14 +58,15 @@ my @anv_lies_tud = (
   "bleinerien",         "vleinerien",     "pleinerien",
   "bleinerion",         "vleinerion",     "pleinerion",
   "breudeur",           "vreudeur",       "preudeur",
+  "breutaerien",        "vreutaerien",    "preutaerien",
   "brezhonegerien",     "vrezhonegerien", "prezhonegerien",
   "bugale",             "vugale",         "pugale",
-  "butuner",            "vutuner",        "putuner",
+  "butunerien",         "vutunerien",     "putunerien",
+  "butunerion",         "vutunerion",     "putunerion",
   "dañserien",                            "tañserien",
   "gaouidi",            "c’haouidi",      "kaouidi",
   "genaoueien",         "c’henaoueien",   "kenaoueien",
-  "girzien",            "c’hirzien",      "kirzien",
-  "gouizieien",         "c’houiziein",    "kouizieien",
+  "gouizieien",         "c’houizieien",   "kouizieien",
   "gourdonerien",       "c’hourdonerien", "kourdonerien",
   "goved",              "c’hoved",        "koved",
   "gwazed",             "wazed",          "kwazed",
@@ -89,11 +90,9 @@ my @anv_lies_tud = (
   "kenskriverien",      "genskriverien",  "c’henskriverien",
   "kenwerzherien",      "genwerzherien",  "c’henwerzherien",
   "kereon",             "gereon",         "c’hereon",
-  "kevendirvi",         "gevendirvi",     "c’hevendirvi",
-  "kevnianted",         "gevnianted",     "c’hevnianted",
   "kigerien",           "gigerien",       "c’higerien",
   "klañvdiourien",      "glañvdiourien",  "c’hlañvdiourien",
-  "konversañted",       "gonversañted",   "c’honversañted",
+  "koñversanted",       "goñversanted",   "c’hoñversanted",
   "krennarded",         "grennarded",     "c’hrennarded",
   "kristenien",         "gristenien",     "c’hristenien",
   "kristenion",         "gristenion",     "c’hristenion",
@@ -125,7 +124,7 @@ my @anv_lies_tud = (
   "prefeded",           "brefeded",                        "frefeded",
   "prizonidi",          "brizonidi",                       "frizonidi",
   "priñsed",            "briñsed",                         "friñsed",
-  "taihanterien",       "daihanterien",                    "zaihanterien",
+  "tailhanterien",      "dailhanterien",                   "zailhanterien",
   "toerien",            "doerien",                         "zoerien",
   "tommerien",          "dommerien",                       "zommerien",
   "tontoned",           "dontoned",                        "zontoned",
@@ -142,6 +141,8 @@ open(ERR, "> $dic_err") or die "can't open $dic_err: $!\n";
 
 # Count how many words handled and unhandled.
 my ($out_count, $err_count) = (0, 0);
+my %all_words;
+my %all_lemmas;
 
 while (<LT_EXPAND>) {
   chomp;
@@ -151,6 +152,9 @@ while (<LT_EXPAND>) {
     $tags =~ s/(<adj><mf><sp>)\+.*/$1/;
     $tags =~ s/(<vblex><pri><p.><..>)\+.*/$1/;
     $lemma = $word if ($lemma eq 'direct' or $lemma eq 'prpers');
+
+    $all_lemmas{$lemma} = 1;
+    $all_words{$word} = 1;
 
     my $tag = '';
 
@@ -260,17 +264,17 @@ while (<LT_EXPAND>) {
     elsif ($tags eq '<n><m><sp>')  { $tag = "N m sp" }
 
     # Proper nouns.
-    elsif ($tags eq '<np><top><sg>')     { $tag = "Z e s" }  # Aostria
-    elsif ($tags eq '<np><top><pl>')     { $tag = "Z e p" }  # Azorez
-    elsif ($tags eq '<np><top><m><sg>')  { $tag = "Z m s" }  # Kreiz-Breizh
-    elsif ($tags eq '<np><cog><mf><sg>') { $tag = "Z e s" }
-    elsif ($tags eq '<np><ant><m><sg>')  { $tag = "Z m s" }  # Alan
-    elsif ($tags eq '<np><ant><f><sg>')  { $tag = "Z f s" }  # Youna
-    elsif ($tags eq '<np><al><mf><sg>')  { $tag = "Z e s" }  # Leclerc
-    elsif ($tags eq '<np><al><m><sg>')   { $tag = "Z m s" }  # Ofis
-    elsif ($tags eq '<np><al><f><sg>')   { $tag = "Z f s" }  # Bibl
+    elsif ($tags eq '<np><top><sg>')     { $tag = "Z e s top" }  # Aostria
+    elsif ($tags eq '<np><top><pl>')     { $tag = "Z e p top" }  # Azorez
+    elsif ($tags eq '<np><top><m><sg>')  { $tag = "Z m s top" }  # Kreiz-Breizh
+    elsif ($tags eq '<np><cog><mf><sg>') { $tag = "Z e s cog" }
+    elsif ($tags eq '<np><ant><m><sg>')  { $tag = "Z m s ant" }  # Alan
+    elsif ($tags eq '<np><ant><f><sg>')  { $tag = "Z f s ant" }  # Youna
+    elsif ($tags eq '<np><al><mf><sg>')  { $tag = "Z e s al" }   # Leclerc
+    elsif ($tags eq '<np><al><m><sg>')   { $tag = "Z m s al" }   # Ofis
+    elsif ($tags eq '<np><al><f><sg>')   { $tag = "Z f s al" }   # Bibl
 
-    elsif ($tags eq '<n><acr><m><sg>')   { $tag = "S m s" }  # TER
+    elsif ($tags eq '<n><acr><m><sg>')   { $tag = "S m s" }      # TER
 
     # Verbs.
     elsif ($tags eq '<vblex><inf>')             { $tag = "V inf" } # komz
@@ -391,35 +395,57 @@ while (<LT_EXPAND>) {
     $first_letter_lemma = lc $first_letter_lemma;
     $first_letter_word  = lc $first_letter_word;
 
-    if ($first_letter_lemma and $first_letter_word and 
-        $first_letter_lemma ne $first_letter_word) {
+    if    ($lemma eq 'kaout')  { }
+    elsif ($word  eq 'tud')    { }
+    elsif ($word  eq 'dud')    { $tag .= "M:1:1a" }
+    elsif ($word  eq 'zud')    { $tag .= "M:2:" }
+    elsif ($word  eq 'diweuz') { }
+    elsif ($word  eq 'tiweuz') { $tag .= "M:3:" }
+    elsif ($word  eq 'ziweuz') { $tag .= "M:1:1b:" }
+    elsif ($word =~ '^kezeg-?(koad|mor|blein)?$')   { }
+    elsif ($word =~ '^gezeg-?(koad|mor|blein)?$')   { $tag .= "M:1:1a:" }
+    elsif ($word =~ '^c’hezeg-?(koad|mor|blein)?$') { $tag .= "M:2:" }
+    elsif ($word =~ '^daou(lin|lagad)$')            { }
+    elsif ($word =~ '^taou(lin|lagad)$')            { $tag .= "M:3:" }
+    elsif ($word =~ '^zaou(lin|lagad)$')            { $tag .= "M:1:1b:" }
+    elsif ($word =~ '^div(c’har|esker|rec’h|ronn|orzhed|jod|skouarn)$') { }
+    elsif ($word =~ '^tiv(c’har|esker|rec’h|ronn|orzhed|jod|skouarn)$') { $tag .= "M:3:" }
+    elsif ($word =~ '^ziv(c’har|esker|rec’h|ronn|orzhed|jod|skouarn)$') { $tag .= "M:1:1b:" }
+    elsif   ($first_letter_lemma and 
+             $first_letter_word  and 
+             $first_letter_lemma ne $first_letter_word and
+             !($first_letter_lemma eq 'k' and $first_letter_word eq 'kw')) {
       # Add mutation tag.
-      if ($first_letter_lemma eq 'k') {
-        if    ($first_letter_word eq 'c’h') { $tag .= " M:a0:2:"; }
-        elsif ($first_letter_word eq 'g')   { $tag .= " M:1:1a:"; }
-      } elsif ($first_letter_lemma eq 't')  {
-        if    ($first_letter_word eq 'd')   { $tag .= " M:1:1a:"; }
-        elsif ($first_letter_word eq 'z')   { $tag .= " M:2:"; }
-      } elsif ($first_letter_lemma eq 'p')  {
-        if    ($first_letter_word eq 'b')   { $tag .= " M:1:1a:"; }
-        elsif ($first_letter_word eq 'f')   { $tag .= " M:2:"; }
-      } elsif ($first_letter_lemma eq 'g')  {
-        if    ($first_letter_word eq 'c’h') { $tag .= " M:1:1a:1b:4:"; }
-        elsif ($first_letter_word eq 'k')   { $tag .= " M:3:"; }
-      } elsif ($first_letter_lemma eq 'gw') {
-        if    ($first_letter_word eq 'w')   { $tag .= " M:1:1a:1b:4:"; }
-        elsif ($first_letter_word eq 'kw')  { $tag .= " M:3:"; }
-      } elsif ($first_letter_lemma eq 'd')  {
-        if    ($first_letter_word eq 'z')   { $tag .= " M:1:1b:4:"; }
-        elsif ($first_letter_word eq 't')   { $tag .= " M:3:4:"; }
-      } elsif ($first_letter_lemma eq 'b')  {
-        if    ($first_letter_word eq 'v')   { $tag .= " M:1:1a:1b:4:"; }
-        elsif ($first_letter_word eq 'p')   { $tag .= " M:3:"; }
-      } elsif ($first_letter_lemma eq 'm')  {
-        if    ($first_letter_word eq 'v')   { $tag .= " M:1:1a:1b:4:"; }
+      if      ($first_letter_lemma eq 'k') {
+        if    ($first_letter_word  eq 'c’h') { $tag .= " M:a0:2:" }
+        elsif ($first_letter_word  eq 'g')   { $tag .= " M:1:1a:" }
+        elsif ($first_letter_word  eq 'gw')  { $tag .= " M:1:1a:" }
+      } elsif ($first_letter_lemma eq 't')   {
+        if    ($first_letter_word  eq 'd')   { $tag .= " M:1:1a:" }
+        elsif ($first_letter_word  eq 'z')   { $tag .= " M:2:" }
+      } elsif ($first_letter_lemma eq 'p')   {
+        if    ($first_letter_word  eq 'b')   { $tag .= " M:1:1a:" }
+        elsif ($first_letter_word  eq 'f')   { $tag .= " M:2:" }
+      } elsif ($first_letter_lemma eq 'g')   {
+        if    ($first_letter_word  eq 'c’h') { $tag .= " M:1:1a:1b:4:" }
+        elsif ($first_letter_word  eq 'k')   { $tag .= " M:3:" }
+      } elsif ($first_letter_lemma eq 'gw')  {
+        if    ($first_letter_word  eq 'w')   { $tag .= " M:1:1a:1b:4:" }
+        elsif ($first_letter_word  eq 'kw')  { $tag .= " M:3:" }
+        elsif ($first_letter_word  eq 'c’h') { $tag .= " M:4:" }
+      } elsif ($first_letter_lemma eq 'd')   {
+        if    ($first_letter_word  eq 'z')   { $tag .= " M:1:1b:4:" }
+        elsif ($first_letter_word  eq 't')   { $tag .= " M:3:4:" }
+      } elsif ($first_letter_lemma eq 'b')   {
+        if    ($first_letter_word  eq 'v')   { $tag .= " M:1:1a:1b:4:" }
+        elsif ($first_letter_word  eq 'p')   { $tag .= " M:3:" }
+      } elsif ($first_letter_lemma eq 'm')   {
+        if    ($first_letter_word  eq 'v')   { $tag .= " M:1:1a:1b:4:" }
       }
       unless ($tag =~ /:$/) {
-        print STDERR "*** unexpected mutation [$first_letter_lemma] -> [$first_letter_word] lemma=[$lemma] -> word=[$word] tag=[$tag]\n";
+        print STDERR "*** unexpected mutation [$first_letter_lemma] -> "
+                   . "[$first_letter_word] lemma=[$lemma][$first_letter_lemma] "
+                   . "-> word=[$word][$first_letter_word] tag=[$tag]\n";
       }
     }
     if ($tag) {
@@ -432,6 +458,9 @@ while (<LT_EXPAND>) {
   }
 }
 print "handled [$out_count] words, unhandled [$err_count] words\n";
+
+print "Lemma words missing from dicitionary:\n";
+foreach (sort keys %all_lemmas) { print "$_\n" unless (exists $all_words{$_}); }
 
 # Check whether some words in anv_lies_tud have are missing in dictionary.
 foreach (sort keys %anv_lies_tud) {
