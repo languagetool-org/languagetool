@@ -945,8 +945,8 @@ $Id: grammar.xml,v 1.78 2011-11-19 08:53:45 yakovru Exp $
             <rule>  
                 
                 <pattern>
-                    <!--           NN:Masc:Sin:.*   VB:Past:Masc    -->
-                    <token  postag="NN:Masc:Sin:.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="NN:Masc:Sin:.*"  /></token>
+                    <!--           NN:Masc:Sin:Nom   VB:Past:Masc    -->
+                    <token  postag="NN:Masc:Sin:Nom"><exception negate_pos="yes" postag="NN:Masc:Sin:Nom"  /></token>
                     <token  postag="VB:Past:.*"  postag_regexp="yes"><exception postag="VB:Past:Masc"  /></token>               
                 </pattern>
                 
@@ -961,8 +961,8 @@ $Id: grammar.xml,v 1.78 2011-11-19 08:53:45 yakovru Exp $
           <rule>  
                 
                 <pattern>
-                    <!--           NN:Fem:Sin:.*   VB:Past:Fem    -->
-                    <token  postag="NN:Fem:Sin:.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="NN:Fem:Sin:.*"  /></token>
+                    <!--           NN:Fem:Sin:Nom   VB:Past:Fem    -->
+                    <token  postag="NN:Fem:Sin:Nom"><exception negate_pos="yes" postag="NN:Fem:Sin:Nom"  /></token>
                     <token  postag="VB:Past:.*"  postag_regexp="yes"><exception postag="VB:Past:Fem" /></token>               
                 </pattern>
                 
@@ -977,8 +977,8 @@ $Id: grammar.xml,v 1.78 2011-11-19 08:53:45 yakovru Exp $
              <rule>  
                 
                 <pattern>
-                    <!--           NN:Neut:Sin:.*   VB:Past:Neut    -->
-                    <token  postag="NN:Neut:Sin:.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="NN:Neut:Sin:.*"  /></token>
+                    <!--           NN:Neut:Sin:Nom   VB:Past:Neut    -->
+                    <token  postag="NN:Neut:Sin:Nom" ><exception negate_pos="yes" postag_regexp="yes" postag="NN:Neut:Sin:.*"  /></token>
                     <token  postag="VB:Past:.*"  postag_regexp="yes"><exception postag="VB:Past:Neut"  /></token>               
                 </pattern>
                 
@@ -993,9 +993,9 @@ $Id: grammar.xml,v 1.78 2011-11-19 08:53:45 yakovru Exp $
            <rule>  
                 
                 <pattern>
-                    <!--           NN:.*:PL:.*   VB:Past:PL    -->
-                    <token  postag="NN:.*:PL:.*" postag_regexp="yes"></token>
-                    <token  postag="VB:Past:.*"  postag_regexp="yes"><exception postag="VB:Past:PL" /></token>               
+                    <!--           NN:.*:PL:Nom   VB:Past:PL    -->
+                    <token  postag="NN:.*:PL:Nom" postag_regexp="yes"></token>
+                    <token  postag="VB:Past:.*"  postag_regexp="yes"><exception postag="VB:Past:PL" /><exception negate_pos="yes" postag_regexp="yes" postag="VB:Past:.*"  /></token>               
                 </pattern>
                 
                 <message>Существительное не согласуется с глаголом по числу.
@@ -1010,9 +1010,9 @@ $Id: grammar.xml,v 1.78 2011-11-19 08:53:45 yakovru Exp $
               <rule>  
                 
                 <pattern>
-                    <!--           NN:Masc:Sin:.*   VB:Past:!PL   -->
-                    <token  postag="NN:Masc:Sin:.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="NN:Masc:Sin:.*"  /></token>
-                    <token  postag="VB:Past:PL"><exception negate_pos="yes" postag_regexp="yes" postag="VB:Past:PL"  /></token>               
+                    <!--           NN:Masc:Sin:Nom   VB:Past:!PL   -->
+                    <token  postag="NN:Masc:Sin:Nom" ><exception negate_pos="yes" postag="NN:Masc:Sin:Nom"  /></token>
+                    <token  postag="VB:Past:PL"><exception negate_pos="yes"  postag="VB:Past:PL"  /></token>               
                 </pattern>
                 
                 <message>Существительное не согласуется с глаголом по числу.
@@ -1025,9 +1025,9 @@ $Id: grammar.xml,v 1.78 2011-11-19 08:53:45 yakovru Exp $
              <rule>  
                 
                 <pattern>
-                    <!--           NN:Masc:Fem:.*   VB:Past:!PL   -->
-                    <token  postag="NN:Fem:Sin:.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="NN:Fem:Sin:.*"  /></token>
-                    <token  postag="VB:Past:PL"><exception negate_pos="yes" postag_regexp="yes" postag="VB:Past:PL"  /></token>               
+                    <!--           NN:Masc:Fem:Nom   VB:Past:!PL   -->
+                    <token  postag="NN:Fem:Sin:Nom" ><exception negate_pos="yes"  postag="NN:Fem:Sin:Nom"  /></token>
+                    <token  postag="VB:Past:PL"><exception negate_pos="yes"  postag="VB:Past:PL"  /></token>               
                 </pattern>
                 
                 <message>Существительное не согласуется с глаголом по числу.
@@ -1041,8 +1041,8 @@ $Id: grammar.xml,v 1.78 2011-11-19 08:53:45 yakovru Exp $
                 
                 <pattern>
                     <!--           NN:Masc:Neut:.*   VB:Past:!PL   -->
-                    <token  postag="NN:Neut:Sin:.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="NN:Neut:Sin:.*"  /></token>
-                    <token  postag="VB:Past:PL"><exception negate_pos="yes" postag_regexp="yes" postag="VB:Past:PL"  /></token>               
+                    <token  postag="NN:Neut:Sin:Nom" ><exception negate_pos="yes" postag_regexp="yes" postag="NN:Neut:Sin:.*"  /></token>
+                    <token  postag="VB:Past:PL"><exception negate_pos="yes"  postag="VB:Past:PL"  /></token>               
                 </pattern>
                 
                 <message>Существительное не согласуется с глаголом по числу.
