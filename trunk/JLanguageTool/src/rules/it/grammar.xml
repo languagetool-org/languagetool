@@ -13,8 +13,8 @@ $Id: grammar.xml,v 1.10 2010/09/04 11:47:45 milek_pl Exp $
  ================================================================================
  Italian Grammar and Style Rules for Italian
  Paolo Bianchini
- Date: 03/11/2011
- Ver:  0.9
+ Date: 20/11/2011
+ Ver:  0.9.1
  ================================================================================
  Categorie delle regole
     gruppi delle regole
@@ -61,7 +61,7 @@ $Id: grammar.xml,v 1.10 2010/09/04 11:47:45 milek_pl Exp $
 
  Stile - Espressioni 				ST_01		
    arcaiche					ST_01_001	to do
-   parlato					ST_01_002	to do
+   parlato					ST_01_002	add more
    pleonasmi					ST_01_003	add more
    regionali					ST_01_004	add more					
    straniere					ST_01_005	add more
@@ -89,6 +89,7 @@ $Id: grammar.xml,v 1.10 2010/09/04 11:47:45 milek_pl Exp $
  PB002    Added some preposition usage checks (moved a gratis rule)
  2957133  name/article concordance (un vs uno)
  PB003    Added rule for checking the use of adverbs instead of adjectives
+ PB004    Added rule for attimino and momentino in stile-parlato
  ======== =========================================================================
 -->
 
@@ -756,6 +757,31 @@ $Id: grammar.xml,v 1.10 2010/09/04 11:47:45 milek_pl Exp $
 		</rulegroup>
 -->
 <!-- PB002- -->
+
+<!-- PB004+ -->
+		<rulegroup name="parlato" id="ST_01_002">
+
+			<!-- attimino -->
+			<rule>
+				<pattern mark_from="0" case_sensitive="no">
+					<token>attimino</token>
+				</pattern>
+				<message>Si consiglia di utilizzare <suggestion>attimo</suggestion>.</message>
+				<example type="correct">Mi aspetti un <marker>attimo</marker>?</example>
+				<example type="incorrect">Mi aspetti un <marker>attimino</marker>?</example>
+			</rule>
+			<!-- momentino -->
+			<rule>
+				<pattern mark_from="0" case_sensitive="no">
+					<token>momentino</token>
+				</pattern>
+				<message>Si consiglia di utilizzare <suggestion>momento</suggestion>.</message>
+				<example type="correct">Mi aspetti un <marker>momento</marker>?</example>
+				<example type="incorrect">Mi aspetti un <marker>momentino</marker>?</example>
+			</rule>
+		</rulegroup>
+<!-- PB004- -->
+
 		<rulegroup name="pleonasmi" id="ST_01_003">
 			<!-- a me mi -->
 			<rule>
