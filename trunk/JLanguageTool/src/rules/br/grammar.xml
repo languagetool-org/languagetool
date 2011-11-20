@@ -1170,7 +1170,7 @@ Some grammatical resources used:
         </token>
         <token postag="[^M]*M:.*" postag_regexp="yes">
           <exception negate_pos="yes" postag="[^M]*M:.*|SENT_END" postag_regexp="yes"/>
-          <exception>vad</exception>
+          <exception>vat</exception>
         </token>
       </pattern>
       <message>Ne zlefe ket bezañ ur c’hemmadur er ger «\2» goude ur verb.</message>
@@ -1187,7 +1187,7 @@ Some grammatical resources used:
         <token regexp="yes">a-benn|arabat|abaoe|eus|evel(-se)?|hag?|hep|ke[nt]|krenn|lies|mard?|nemet|nebeu(dig)?|pas|pep|pebezh|pegen|pere|petvet|peseurt|petore|setu</token>
         <token postag="[^M]*M:.*" postag_regexp="yes">
           <exception negate_pos="yes" postag="[^M]*M:.*" postag_regexp="yes"/>
-          <exception>vad</exception>
+          <exception>var</exception>
         </token>
       </pattern>
       <message>Ne zlefe ket bezañ ur c’hemmadur er ger «\2» goude ar ger «\1».</message>
@@ -1196,10 +1196,10 @@ Some grammatical resources used:
       <example type="correct">Ma vefe tomm</example>
       <example type="incorrect">Arabat <marker>dreuziñ</marker> an hent!</example>
       <example type="correct">Arabat treuziñ an hent!</example>
-      <example type="correct">Redek a ra vad.</example>
+      <example type="correct">Redek a ra vat.</example>
       <example type="incorrect">Ken <marker>vras</marker> eo!</example>
       <example type="correct">Ken bras eo!</example>
-      <example type="correct">Ha vad a ra din bezañ du-hont.</example>
+      <example type="correct">Ha vat a ra din bezañ du-hont.</example>
     </rule>
 
     <rulegroup id="KEMM_N_J" name="Kemmadur en anv-gwan o tont warlec’h an anv">
@@ -1465,7 +1465,7 @@ Some grammatical resources used:
         <pattern mark_to="-1">
           <token>unan</token>
           <token regexp="yes">[bcfgjkmprsvwyz].*
-            <exception regexp="yes">[flmns]</exception>
+            <exception regexp="yes">[flmns]|[ae][mz]|bep</exception>
             <exception postag="[AJP].*" postag_regexp="yes"/>
           </token>
         </pattern>
@@ -1473,6 +1473,7 @@ Some grammatical resources used:
         <example type="incorrect"><marker>Unan</marker> paotr</example>
         <example type="correct">Ur paotr</example>
         <example type="correct">Unan bras</example>
+        <example type="correct">Unan bep sizhun</example>
       </rule>
       <rule>
         <pattern mark_to="-1">
@@ -1540,7 +1541,7 @@ Some grammatical resources used:
       <example type="incorrect"><marker>Komzan</marker> a ran re.</example>
       <example type="correct">Komz a ran re.</example>
       <example type="correct">Al labour a ra vat.</example>
-      <example type="correct">Ur banne aer fresk a raio vad din.</example>
+      <example type="correct">Ur banne aer fresk a raio vat din.</example>
     </rule>
 
     <rulegroup id="PAOUEZ" name="paouez da">
@@ -1756,7 +1757,7 @@ Some grammatical resources used:
       <example type="correct">kemer perzh enno e meur a du.</example>
       <example type="correct">Meur a zoare a zo da gemer perzh</example>
     </rule>
-    <rule id="E_KREIZ" name="e kreiz→ e-kreiz (hag all)">
+    <rule id="E_KREIZ" name="e kreiz → e-kreiz (hag all)">
       <pattern>
         <token>e</token>
         <token regexp="yes">barzh|douare|giz(-(all|mañ|se|hon))?|harz|hunan|keit(-se)?|kerz|kichen|krec’h|kreiz|lec’h|leizh|maez|pad|sell|ser|tailh|tal|touez|tro|unan</token>
@@ -1766,6 +1767,16 @@ Some grammatical resources used:
       <example type="correct">E-kichen Gwitalmeze emañ o chom.</example>
       <example type="incorrect">Rwanda zo ur vro <marker>e kreiz</marker> Afrika.</example>
       <example type="correct">Rwanda zo ur vro e-kreiz Afrika.</example>
+    </rule>
+
+    <rule id="WAR_ROAK" name="war raok → war-raok (hag all)">
+      <pattern>
+        <token>war</token>
+        <token regexp="yes">bouez|c’hed|c’horre|draoñ|dreñv|dro|du|eeun|gil|giz|hed|laez|lein|lerc’h|nes|raok|sav|souz|zu|wazh</token>
+      </pattern>
+      <message>Implijit <suggestion>\1-\2</suggestion>.</message>
+      <example type="incorrect">Ober a ra <marker>war dro</marker> ar saout.</example>
+      <example type="correct">Ober a ra war-dro ar saout.</example>
     </rule>
   </category>
 
