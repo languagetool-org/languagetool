@@ -84,7 +84,7 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
   <rulegroup id="EZ_AN" name="ez an">
     <rule>
       <pattern mark="0">
-        <token>ez</token>
+        <token regexp="yes">e?z|ned</token>
         <token regexp="yes">an|in|aen|afen|ajen|ez|i|aes|afes|ajes|a|aio|ae|afe|aje|eomp|aimp|aemp|afemp|ajemp|it|eot|eoc’h|aec’h|afec’h|ajec’h|eont|aint|aent|afent|ajent|eer|eor|aed|afed|ajed</token>
       </pattern>
       <disambig postag="L e"/>
@@ -148,6 +148,15 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
         <token>e</token>
       </pattern>
       <disambig action="remove"><wd lemma="e" pos="L e"/></disambig>
+    </rule>
+  </rulegroup>
+  <rulegroup id="NE_V" name="ne + verb">
+    <rule>
+      <pattern mark="1">
+        <token regexp="yes">ned?|n’</token>
+        <token postag="V.*" postag_regexp="yes"/>
+      </pattern>
+      <disambig><match no="1" postag_regexp="yes" postag="V.*"/></disambig>
     </rule>
   </rulegroup>
 </rules>

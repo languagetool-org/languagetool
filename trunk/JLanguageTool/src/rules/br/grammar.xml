@@ -191,19 +191,22 @@ Some grammatical resources used:
         <example type="correct">Gwall gozh eo da garr.</example>
         <example type="correct">N’a ket mat en-dro an urzhiataer.</example>
         <example type="correct">C’hoant am eus da c’hoari.</example>
+        <example type="correct">Ne c’hell ket bezañ.</example>
+        <example type="correct">Ne c’hall ket bezañ.</example>
       </rule>
       <rule>
         <pattern mark_from="1">
           <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|gwall|ne|pa|re|seul
             <exception postag="P|L e" postag_regexp="yes">e</exception>
           </token>
-          <token regexp="yes">t.*</token>
+          <token regexp="yes">t.*<exception>te</exception></token>
         </pattern>
         <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude ar ger «\1». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="d$1"/></suggestion>?</message>
         <example type="incorrect">Da <marker>tad</marker> zo er gêr.</example>
         <example type="correct">Da dad zo er gêr.</example>
         <example type="incorrect">Gant e <marker>tad</marker></example>
         <example type="correct">Gant e dad</example>
+        <example type="correct">Dre te ez a ouzhin.</example>
       </rule>
       <rule>
         <pattern mark_from="1">
@@ -238,7 +241,10 @@ Some grammatical resources used:
           </token>
           <and>
             <token regexp="yes">g[^w].*<exception>get</exception></token>
-            <token regexp="yes" inflected="yes">g[^w].*<exception inflected="yes" regexp="yes">k.*</exception></token>
+            <token regexp="yes" inflected="yes">g[^w].*
+              <exception inflected="yes" regexp="yes">k.*</exception>
+              <exception postag="UNKNOWN" postag_regexp="yes"/>
+            </token>
           </and>
         </pattern>
         <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude ar ger «\1». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="c’h$1"/></suggestion>?</message>
