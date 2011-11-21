@@ -14,6 +14,73 @@ $Id: grammar.xml,v 1.0 2011-07-29 13:20:25 taolin2011 Exp $
   <!-- 拼写： 词语错误-->
   <!-- ====================================================================== -->
   <category name="词语错误">
+    <rulegroup id="MU_MI " name="幕/幂">
+      <rule>
+        <pattern mark_to="-1">
+          <token>幂</token>
+          <token regexp="yes" postag_regexp="yes" postag="n|f|nr">布|后|府|宾|僚</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>幕</suggestion>\2”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="幕"> 原来你才是<marker>幂</marker>后黑手。 </example>
+        <example type="correct">原来你才是幕后黑手。</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes" postag_regexp="yes" postag="tg|v|n|j|ng">帐|夜|开|银|帷|序</token>
+          <token>幂</token>
+        </pattern>
+        <message> 您的意思是“\1<suggestion>幕</suggestion>”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="幕"> 夜<marker>幂</marker>慢慢降临了。 </example>
+        <example type="correct">夜幕慢慢降临了。</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token>次</token>
+          <token>幕</token>
+        </pattern>
+        <message> 您的意思是“次<suggestion>幂</suggestion>”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="幂"> 8等于2的三次<marker>幕</marker>。 </example>
+        <example type="correct">8等于2的三次幂。</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="WEI_MO" name="未/末">
+      <rule>
+        <pattern mark_to="-1">
+          <token>末</token>
+          <token regexp="yes" postag="d|v|c|r|ng|nx" postag_regexp="yes"
+            >必|来|尝|竟|及|曾|定|婚|可|免|然|有|知</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>未</suggestion>\2”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="未"> 如果有<marker>末</marker>来，我要去远方旅行。 </example>
+        <example type="correct">如果有未来，我要去远方旅行。</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token>从</token>
+          <token>
+            <exception postag="n"/>末 </token>
+        </pattern>
+        <message> 您的意思是“从<suggestion>未</suggestion>”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="未"> 我从<marker>末</marker>去过那里。 </example>
+        <example type="correct">我从未去过那里。</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token>未</token>
+          <token regexp="yes" postag_regexp="yes" postag="ng|v|ag|n|j|q|vg"
+            >梢|端|尾|代|业|技|子|班|路|年|篇|期|日|世|速|药|叶|艺|造</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>末</suggestion>\2”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="末"> 据说2012是世界<marker>未</marker>日。 </example>
+        <example type="correct">据说2012是世界末日。</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="LING_LENG" name="泠/冷">
       <rule>
         <pattern mark_to="-1">
