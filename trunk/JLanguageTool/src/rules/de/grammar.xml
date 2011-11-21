@@ -1585,7 +1585,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token regexp="yes">der|den</token>
         <token>Genus</token>
       </pattern>
-      <message>Meinten Sie <suggestion>der Genuss</suggestion> oder <suggestion>das Genus</suggestion> (gramm. Geschlecht)?</message>
+      <message>Meinten Sie <suggestion><match no="1"/> Genuss</suggestion> oder <suggestion>das Genus</suggestion> (gramm. Geschlecht)?</message>
       <example type="correct"><marker>Das Genus</marker> bezeichnet das grammatische Geschlecht.</example>
       <example type="correct"><marker>Der Genuss</marker> von Schokolade.</example>
       <example type="incorrect"><marker>Der Genus</marker> von Schokolade.</example>
@@ -3734,6 +3734,102 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect">Wir sind auf dem <marker>weg</marker>.</example>
       <example type="incorrect">Geh mir aus dem <marker>weg</marker>.</example>
     </rule>
+    <rulegroup id="AUF_SCHRITT_UND_TRITT" name="Groß-/Kleinschreibung: 'auf Schritt und Tritt'">
+      <rule>
+        <pattern case_sensitive="yes">
+          <token regexp="yes">[aA]uf</token>
+          <token>schritt</token>
+          <token>und</token>
+          <token regexp="yes">[tT]ritt</token>
+        </pattern>
+        <message>In der Wendung <suggestion>auf Schritt und Tritt</suggestion> werden 'Schritt' und 'Tritt' großgeschrieben.</message>
+        <example type="correct">Sein Hund folgte ihm auf <marker>auf Schritt und Tritt</marker>.</example>
+        <example type="incorrect">Sein Hund folgte ihm auf <marker>auf schritt und tritt</marker>.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token regexp="yes">[aA]uf</token>
+          <token regexp="yes">[sS]chritt</token>
+          <token>und</token>
+          <token>tritt</token>
+        </pattern>
+        <message>In der Wendung <suggestion>auf Schritt und Tritt</suggestion> werden 'Schritt' und 'Tritt' großgeschrieben.</message>
+        <example type="correct">Sein Hund folgte ihm auf <marker>auf Schritt und Tritt</marker>.</example>
+        <example type="incorrect">Sein Hund folgte ihm auf <marker>auf schritt und tritt</marker>.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="SCHRITT_SUBST" name="Groß-/Kleinschreibung: 'schritt (Schritt)'">
+      <rule>
+        <pattern case_sensitive="yes">
+          <token>schritt</token>
+          <token>für</token>
+          <token regexp="yes">[sS]chritt</token>
+        </pattern>
+        <message>In der Wendung <suggestion>Schritt für Schritt</suggestion> wird 'Schritt' großgeschrieben.</message>
+        <example type="correct">Wir sollten <marker>Schritt für Schritt</marker> vorgehen.</example>
+        <example type="incorrect">Wir sollten <marker>schritt für schritt</marker> vorgehen.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token regexp="yes">[sS]chritt</token>
+          <token>für</token>
+          <token>schritt</token>
+        </pattern>
+        <message>In der Wendung <suggestion>Schritt für Schritt</suggestion> wird 'Schritt' großgeschrieben.</message>
+        <example type="correct">Wir sollten <marker>Schritt für Schritt</marker> vorgehen.</example>
+        <example type="incorrect">Wir sollten <marker>schritt für schritt</marker> vorgehen.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2" case_sensitive="yes">
+          <token regexp="yes">in|In</token>
+          <token>den</token>
+          <token>schritt</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Schritt</suggestion>&subende;</message>
+        <example type="correct">Michael Jackson fasste sich auf der Bühne in den <marker>Schritt</marker>.</example>
+        <example type="incorrect">Michael Jackson fasste sich auf der Bühne in den <marker>schritt</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" case_sensitive="yes">
+          <token regexp="yes">[iI]m</token>
+          <token>schritt</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Schritt</suggestion>&subende;</message>
+        <example type="correct">Die Hose ist so eng, dass sie im <marker>Schritt</marker> kneift.</example>
+        <example type="incorrect">Die Hose ist mir im <marker>schritt</marker> viel zu eng.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-1" case_sensitive="yes">
+          <token regexp="yes">[kK]?[eE]inen</token>
+          <token>schritt</token>
+          <token regexp="yes">weiter|vorwärts|voran|zurück|rückwärts</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Schritt</suggestion>&subende;</message>
+        <example type="correct">Heute sind wir einen <marker>Schritt</marker> weiter.</example>
+        <example type="incorrect">Da sind wir einen <marker>schritt</marker> weiter.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="0" mark_to="-1" case_sensitive="yes">
+          <token>schritt</token>
+          <token regexp="yes" inflected="yes">tun|machen|wagen|vorankommen|unternehmen|zurückweichen|zurücktreten</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Schritt</suggestion>&subende;</message>
+        <example type="correct">Da haben wir einen großen <marker>Schritt</marker> getan.</example>
+        <example type="incorrect">Da haben wir einen großen <marker>schritt</marker> getan.</example>
+      </rule>
+    </rulegroup>
+    <rule id="IM_SCHNITT" name="Groß-/Kleinschreibung: 'im schnitt (Schnitt)'">
+      <pattern mark_from="1" case_sensitive="yes">
+        <token regexp="yes">[iI]m</token>
+        <token regexp="yes">(durch)?schnitt</token>
+      </pattern>
+      <message>&subanfang;<suggestion><match case_conversion="startupper" no="2"/></suggestion>&subende;</message>
+      <example type="correct">Er <marker>durchschnitt</marker> das Band.</example>
+      <example type="correct">Er verdient im <marker>Schnitt</marker> 200 € pro Abend.</example>
+      <example type="correct">Er verdient im <marker>Durchschnitt</marker> 200 € pro Abend.</example>
+      <example type="incorrect">Er verdient im <marker>schnitt</marker> 200 € pro Abend.</example>
+      <example type="incorrect">Er verdient im <marker>durchschnitt</marker> 200 € pro Abend.</example>
+    </rule>
     <rule id="AUF_DIE_NERVEN" name="Groß-/Kleinschreibung: 'auf die nerven (Nerven) gehen'">
       <pattern mark_from="2" case_sensitive="yes">
         <token regexp="yes">[aA]uf</token>
@@ -4009,6 +4105,139 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <message>&subanfang;<suggestion>Breite</suggestion>&subende;</message>
         <example type="correct">Sie ist ganz schön in die <marker>Breite</marker> gegangen.</example>
         <example type="incorrect">Sie ist ganz schön in die <marker>breite</marker> gegangen.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="IN_DIE_KNIE" name="Groß-/Kleinschreibung: 'knie (Knie)'">
+      <rule>
+        <pattern mark_from="3" case_sensitive="yes">
+          <token inflected="yes">gehen</token>
+          <token>in</token>
+          <token>die</token>
+          <token>knie</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Knie</suggestion>&subende;</message>
+        <example type="correct">Er ist unter der Last in die <marker>Knie</marker> gegangen.</example>
+        <example type="incorrect">Du gehst in die <marker>knie</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2" mark_to="-1" case_sensitive="yes">
+          <token regexp="yes">[Ii]n</token>
+          <token>die</token>
+          <token>knie</token>
+          <token inflected="yes">gehen</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Knie</suggestion>&subende;</message>
+        <example type="correct">Er ist unter der Last in die <marker>Knie</marker> gegangen.</example>
+        <example type="incorrect">Sie ist unter der Last in die <marker>knie</marker> gegangen.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="3" case_sensitive="yes">
+          <token inflected="yes">fallen</token>
+          <token>auf</token>
+          <token>die</token>
+          <token>knie</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Knie</suggestion>&subende;</message>
+        <example type="correct">Er fiel vor ihr auf die <marker>Knie</marker>.</example>
+        <example type="incorrect">Er fiel auf die <marker>knie</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2" mark_to="-1" case_sensitive="yes">
+          <token regexp="yes">[Aa]uf</token>
+          <token>die</token>
+          <token>knie</token>
+          <token inflected="yes">fallen</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Knie</suggestion>&subende;</message>
+        <example type="correct">Er ist vor ihr auf die <marker>Knie</marker> gefallen.</example>
+        <example type="incorrect">Er ist vor ihr auf die <marker>knie</marker> gefallen.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="STELLE_SUBST" name="Groß-/Kleinschreibung: 'stelle (Stelle)'">
+      <rule>
+        <pattern mark_from="2" mark_to="-1" case_sensitive="yes">
+          <token regexp="yes">[aA]uf</token>
+          <token>der</token>
+          <token>stelle</token>
+          <token inflected="yes">treten</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Stelle</suggestion>&subende;</message>
+        <example type="correct">Wir treten auf der <marker>Stelle</marker>.</example>
+        <example type="incorrect">Wenn wir auf der <marker>stelle</marker> treten, kommen wir nicht vorwärts.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="3" case_sensitive="yes">
+          <token inflected="yes">treten</token>
+          <token>auf</token>
+          <token>der</token>
+          <token>stelle</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Stelle</suggestion>&subende;</message>
+        <example type="correct">Wir treten auf der <marker>Stelle</marker>.</example>
+        <example type="incorrect">Wir treten auf der <marker>stelle</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="3" case_sensitive="yes">
+          <token regexp="yes">nicht|kaum</token>
+          <token>von</token>
+          <token>der</token>
+          <token>stelle</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Stelle</suggestion>&subende;</message>
+        <example type="correct">Wir kommen kaum von der <marker>Stelle</marker>.</example>
+        <example type="incorrect">Rühren Sie sich nicht von der <marker>stelle</marker>!</example>
+      </rule>
+      <rule>
+        <pattern mark_from="3" case_sensitive="yes">
+          <token inflected="yes">kommen</token>
+          <token>von</token>
+          <token>der</token>
+          <token>stelle</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Stelle</suggestion>&subende;</message>
+        <example type="correct">Wir kommen von der <marker>Stelle</marker>.</example>
+        <example type="incorrect">Wir kommen von der <marker>stelle</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2" mark_to="-1" case_sensitive="yes">
+          <token regexp="yes">[vV]on</token>
+          <token>der</token>
+          <token>stelle</token>
+          <token inflected="yes" regexp="yes">kommen|rühren</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Stelle</suggestion>&subende;</message>
+        <example type="correct">Wir sind bis jetzt nicht von der <marker>Stelle</marker> gekommen.</example>
+        <example type="incorrect">Wir sind bisher nicht von der <marker>stelle</marker> gekommen.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2" case_sensitive="yes">
+          <token regexp="yes">[aA]n</token>
+          <token regexp="yes">(mein|[dD]ein|sein|unser|[iI]hr|eur)er</token>
+          <token>stelle</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Stelle</suggestion>&subende;</message>
+        <example type="correct">Ich an deiner <marker>Stelle</marker> hätte genauso entschieden.</example>
+        <example type="incorrect">Ich an deiner <marker>stelle</marker> hätte genauso entschieden.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="3" case_sensitive="yes">
+          <token regexp="yes">[aA]n</token>
+          <token>Ort</token>
+          <token>und</token>
+          <token>stelle</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Stelle</suggestion>&subende;</message>
+        <example type="correct">Wir wurden gleich an Ort und <marker>Stelle</marker> fündig.</example>
+        <example type="incorrect">Wir wurden gleich an Ort und <marker>stelle</marker> fündig.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" case_sensitive="yes">
+          <token regexp="yes">[zZ]ur</token>
+          <token>stelle</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Stelle</suggestion>&subende;</message>
+        <example type="correct">Der Einsatzwagen war sofort zur <marker>Stelle</marker>.</example>
+        <example type="incorrect">Der Einsatzwagen war bald darauf zur <marker>stelle</marker>.</example>
       </rule>
     </rulegroup>
     <rulegroup id="MARINE_SUBST" name="Groß-/Kleinschreibung: 'marine (Marine)'">
