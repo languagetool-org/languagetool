@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 LanguageTool. Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
 A Russian rule file for LanguageTool 
 Copyright (C) 2008-2011 Yakov Reztsov
-$Id: grammar.xml,v 1.79 2011-11-21 18:05:45 yakovru Exp $
+$Id: grammar.xml,v 1.80 2011-11-22 18:10:01 yakovru Exp $
 #     REVISION:  $Id$
 -->
 <rules lang="ru" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -948,7 +948,7 @@ $Id: grammar.xml,v 1.79 2011-11-21 18:05:45 yakovru Exp $
                     <!--           NN:Masc:Sin:Nom   VB:Past:Masc   -->
                     <token  postag="SENT_START" skip ="-1"><exception scope="next"  postag="NN:Fem:Sin:Nom" /><exception scope="next"  postag="NN:Neut:Sin:Nom" /> <exception scope="next" postag_regexp="yes" postag="PNN:.*" /></token>
                     <token  postag="NN:Masc:Sin:Nom"><exception negate_pos="yes" postag="NN:Masc:Sin:Nom"  /></token>
-                    <token  postag="VB:Past:.*"  postag_regexp="yes"><exception postag="VB:Past:Masc"  /></token>               
+                    <token  postag="VB:Past:.*"  postag_regexp="yes"><exception postag="VB:Past:Masc"  /><exception negate_pos="yes" postag_regexp="yes" postag="VB:Past:.*"  /></token>               
                 </pattern>
                 
                 <message>Существительное не согласуется с глаголом по роду.
@@ -965,7 +965,7 @@ $Id: grammar.xml,v 1.79 2011-11-21 18:05:45 yakovru Exp $
                     <!--           NN:Fem:Sin:Nom   VB:Past:Fem    -->
                     <token  postag="SENT_START" skip ="-1"><exception scope="next"  postag="NN:Masc:Sin:Nom" /><exception scope="next"  postag="NN:Neut:Sin:Nom" /> <exception scope="next" postag_regexp="yes" postag="PNN:.*" /></token>
                     <token  postag="NN:Fem:Sin:Nom"><exception negate_pos="yes" postag="NN:Fem:Sin:Nom"  /></token>
-                    <token  postag="VB:Past:.*"  postag_regexp="yes"><exception postag="VB:Past:Fem" /></token>               
+                    <token  postag="VB:Past:.*"  postag_regexp="yes"><exception postag="VB:Past:Fem" /><exception negate_pos="yes" postag_regexp="yes" postag="VB:Past:.*"  /></token>               
                 </pattern>
                 
                 <message>Существительное не согласуется с глаголом по роду.
@@ -982,7 +982,7 @@ $Id: grammar.xml,v 1.79 2011-11-21 18:05:45 yakovru Exp $
                     <!--           NN:Neut:Sin:Nom   VB:Past:Neut    -->
                     <token  postag="SENT_START" skip ="-1"><exception scope="next"  postag="NN:Masc:Sin:Nom" /><exception scope="next"  postag="NN:Fem:Sin:Nom" /> <exception scope="next" postag_regexp="yes" postag="PNN:.*" /></token>
                     <token  postag="NN:Neut:Sin:Nom" ><exception negate_pos="yes" postag_regexp="yes" postag="NN:Neut:Sin:.*"  /></token>
-                    <token  postag="VB:Past:.*"  postag_regexp="yes"><exception postag="VB:Past:Neut"  /></token>               
+                    <token  postag="VB:Past:.*"  postag_regexp="yes"><exception postag="VB:Past:Neut"  /><exception negate_pos="yes" postag_regexp="yes" postag="VB:Past:.*"  /></token>               
                 </pattern>
                 
                 <message>Существительное не согласуется с глаголом по роду.
