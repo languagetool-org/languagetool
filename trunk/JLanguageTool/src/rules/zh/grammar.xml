@@ -14,6 +14,74 @@ $Id: grammar.xml,v 1.0 2011-07-29 13:20:25 taolin2011 Exp $
   <!-- 拼写： 词语错误-->
   <!-- ====================================================================== -->
   <category name="词语错误">
+    <rulegroup id="MING_WU" name="鸣/呜">
+      <rule>
+        <pattern mark_to="-1">
+          <token>
+            <exception>呜呜</exception>呜 </token>
+          <token regexp="yes" postag_regexp="yes" postag="v|n|g|ng|a|j"
+            >啭|唱|叫|响|奏|谢|冤|石|玉|琴|鞭|不平|笛|放|鼓|声</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>鸣</suggestion>\2”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="鸣"> 清晨，鸟儿在树枝上<marker>呜</marker>唱着动人的旋律。 </example>
+        <example type="correct">清晨，鸟儿在树枝上鸣唱着动人的旋律。</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token postag="n" regexp="yes">鸡|鸟</token>
+          <token>
+            <exception>呜呜</exception>呜 </token>
+        </pattern>
+        <message> 您的意思是“\1<suggestion>鸣</suggestion>”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="鸣"> 鸡<marker>呜</marker>了，天亮了。 </example>
+        <example type="correct">鸡鸣了，天亮了。</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token>
+            <exception>呜呜</exception>鸣 </token>
+          <token regexp="yes" postag_regexp="yes" postag="v|ag|o">恻|噎|咽|呼</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>呜</suggestion>\2”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="呜"> 一刀下去，强盗就一命<marker>鸣</marker>呼了。 </example>
+        <example type="correct">一刀下去，强盗就一命呜呼了。</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="MI_QIN" name="泌/沁">
+      <rule>
+        <pattern mark_from="1">
+          <token>分</token>
+          <token>沁</token>
+        </pattern>
+        <message> 您的意思是分“<suggestion>泌</suggestion>”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="泌"> 内分<marker>沁</marker>紊乱是很普遍的疾病。 </example>
+        <example type="correct">内分泌紊乱是很普遍的疾病。</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token>沁</token>
+          <token regexp="yes" postag="n">尿|乳</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>泌</suggestion>\2”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="泌"> 糖尿病是不是<marker>沁</marker>尿系统的疾病？ </example>
+        <example type="correct">糖尿病是不是泌尿系统的疾病？</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token>泌</token>
+          <token regexp="yes" postag_regexp="yes" postag="an|v|n">润|凉|人心|入</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>沁</suggestion>\2”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="沁"> 这声音太<marker>泌</marker>人心脾了。 </example>
+        <example type="correct">这声音太沁人心脾了。</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="MU_MI " name="幕/幂">
       <rule>
         <pattern mark_to="-1">
