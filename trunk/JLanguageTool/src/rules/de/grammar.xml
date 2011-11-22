@@ -6,6 +6,7 @@ title="Easy editing stylesheet" ?>
 <!DOCTYPE rules [
 <!ENTITY wochentage "Montag|Dienstag|Mittwoch|Donnerstag|Freitag|Samstag|Sonntag">
 <!ENTITY monate "Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember">
+<!ENTITY zeiteinheiten "Millisekunden|Hundertstelsekunden|Zehntelsekunden|Sekunden|Minuten|Minütchen|Stunden|Stündchen|Tagen|Wochen|Monaten|Semestern|Halbjahren|Jahren|Jahrzehnten|Jahrhunderten|Jahrtausenden|Jahrmillionen">
 <!ENTITY namengross "Zu mehrteiligen Namen gehörende Adjektive werden großgeschrieben.">
 <!ENTITY titelgross "Titel und Ehrenbezeichnungen werden großgeschrieben.">
 <!ENTITY taggross "Besondere Kalendertage werden großgeschrieben.">
@@ -749,16 +750,17 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect">Wie kann ich einem <marker>Leihen</marker> den Unterschied zwischen analog und digital erklären?</example>
       </rule>
     </rulegroup>
-    <rulegroup id="ART_UND_WIESE" name="Möglicher Tippfehler: 'Art und Wiese (Art und Weise)'">
+    <rulegroup id="ART_UND_WIESE" name="Möglicher Tippfehler: 'Art und Wiese/Weiße (Art und Weise)'">
       <rule>
-        <pattern mark_from="2">
+        <pattern case_sensitive="yes" mark_from="2">
           <token>Art</token>
           <token>und</token>
-          <token>Wiese</token>
+          <token regexp="yes">Wiese|Weiße</token>
         </pattern>
         <message>Meinten Sie <suggestion>Weise</suggestion>?</message>
         <example type="correct">Die Art und <marker>Weise</marker> war unerträglich.</example>
         <example type="incorrect">Die Art und <marker>Wiese</marker> war unerträglich.</example>
+        <example type="incorrect">Die Art und <marker>Weiße</marker> war unerträglich.</example>
       </rule>
     </rulegroup>
    <rulegroup id="MUEHLHEIM_A_D_RUHR" name="Möglicher Tippfehler: 'Mühlheim (Mülheim) an der Ruhr'">
@@ -785,6 +787,16 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <message>Meinten Sie <suggestion>Mülheim a. d. Ruhr</suggestion> (Mülheim ohne "h")?</message>
         <example type="correct"><marker>Mülheim a. d. Ruhr</marker> ist eine kreisfreie Stadt im westlichen Ruhrgebiet.</example>
         <example type="incorrect"><marker>Mühlheim a. d. Ruhr</marker> ist eine kreisfreie Stadt im westlichen Ruhrgebiet.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>Mühlheim</token>
+          <token>/</token>
+          <token>Ruhr</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>Mülheim/Ruhr</suggestion> (Mülheim ohne "h")?</message>
+        <example type="correct"><marker>Mülheim/Ruhr</marker> ist eine kreisfreie Stadt im westlichen Ruhrgebiet.</example>
+        <example type="incorrect"><marker>Mühlheim/Ruhr</marker> ist eine kreisfreie Stadt im westlichen Ruhrgebiet.</example>
       </rule>
     </rulegroup>
     <rulegroup id="WIE_IST_DEN" name="Möglicher Tippfehler: 'wie ist den (denn)'">
@@ -1231,7 +1243,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">schon|bereits|erst</token>
           <token>seid</token>
           <token postag="ZAL" />
-          <token regexp="yes">Millisekunden|Sekunden|Minuten|Stunden|Tagen|Wochen|Monaten|Jahren|Jahrzehnten|Jahrhunderten</token>
+          <token regexp="yes">&zeiteinheiten;</token>
         </pattern>
         <message>Meinten Sie <suggestion>seit</suggestion> (Präposition) statt "seid" (Verbform)?</message>
         <example type="correct">Mir geht es schon <marker>seit</marker> zwei Tagen wieder besser.</example>
@@ -1242,17 +1254,37 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">schon|bereits|erst</token>
           <token>seid</token>
           <token regexp="yes">[0-9]+</token>
-          <token regexp="yes">Millisekunden|Sekunden|Minuten|Stunden|Tagen|Wochen|Monaten|Jahren|Jahrzehnten|Jahrhunderten</token>
+          <token regexp="yes">&zeiteinheiten;</token>
         </pattern>
         <message>Meinten Sie <suggestion>seit</suggestion> (Präposition) statt "seid" (Verbform)?</message>
         <example type="correct">Mir geht es schon <marker>seit</marker> 13 Tagen wieder besser.</example>
         <example correction="seit" type="incorrect">Mir geht es schon <marker>seid</marker> 13 Tagen wieder besser.</example>
       </rule>
       <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token regexp="yes">schon|bereits|erst</token>
+          <token>seid</token>
+          <token regexp="yes">&zeiteinheiten;</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>seit</suggestion> (Präposition) statt "seid" (Verbform)?</message>
+        <example type="correct">Mir geht es schon <marker>seit</marker> Tagen wieder besser.</example>
+        <example correction="seit" type="incorrect">Mir geht es schon <marker>seid</marker> Jahren nicht so gut.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token regexp="yes">ist|wurden?</token>
+          <token>seid</token>
+          <token regexp="yes">&zeiteinheiten;</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>seit</suggestion> (Präposition) statt "seid" (Verbform)?</message>
+        <example type="correct">Die wurden <marker>seit</marker> Jahren nicht mehr gewartet.</example>
+        <example correction="seit" type="incorrect">Das ist <marker>seid</marker> Jahren schon kaputt.</example>
+      </rule>
+      <rule>
         <pattern mark_from="0" mark_to="-3">
           <token>seid</token>
           <token regexp="yes">einigen|wenigen|vielen|etlichen|mehreren</token>
-          <token regexp="yes">Millisekunden|Sekunden|Minuten|Stunden|Tagen|Wochen|Monaten|Jahren|Jahrzehnten|Jahrhunderten</token>
+          <token regexp="yes">&zeiteinheiten;</token>
           <token postag="VER:(AUX:)?(1:SIN|2:SIN|3:SIN|1:PLU|3:PLU).*" postag_regexp="yes" />
         </pattern>
         <message>Meinten Sie <suggestion>seit</suggestion> (Präposition) statt "seid" (Verbform)?</message>
@@ -1264,7 +1296,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token postag="VER:(AUX:)?(1:SIN|2:SIN|3:SIN|1:PLU|3:PLU).*" postag_regexp="yes" />
           <token>seid</token>
           <token regexp="yes">einigen|wenigen|vielen|etlichen|mehreren</token>
-          <token regexp="yes">Millisekunden|Sekunden|Minuten|Stunden|Tagen|Wochen|Monaten|Jahren|Jahrzehnten|Jahrhunderten</token>
+          <token regexp="yes">&zeiteinheiten;</token>
         </pattern>
         <message>Meinten Sie <suggestion>seit</suggestion> (Präposition) statt "seid" (Verbform)?</message>
         <example type="correct">Es geht <marker>seit</marker> einigen Tagen wieder.</example>
@@ -1310,7 +1342,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>seid</token>
           <token regexp="no">ein</token>
           <token regexp="no">paar</token>
-          <token regexp="yes">Millisekunden|Sekunden|Minuten|Stunden|Tagen|Wochen|Monaten|Jahren|Jahrzehnten|Jahrhunderten</token>
+          <token regexp="yes">&zeiteinheiten;</token>
         </pattern>
         <message>Meinten Sie <suggestion>seit</suggestion> (Präposition) statt "seid" (Verbform)?</message>
         <example type="correct">Es geht <marker>seit</marker> ein paar Tagen wieder.</example>
@@ -1320,11 +1352,38 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <!-- TODO: generalize -->
         <pattern mark_to="-1">
           <token>seid</token>
-          <token regexp="yes">(Bestehen|kurzem|langem)</token>
+          <token regexp="yes">Gründung|Bestehen|kurzem|langem</token>
         </pattern>
-        <message>Meinten Sie <suggestion>seit</suggestion>?</message>
+        <message>Meinten Sie <suggestion>seit</suggestion> (Präposition) statt "seid" (Verbform)?</message>
         <example type="correct">Noch nie so viele Auswanderer <marker>seit</marker> Bestehen der BRD</example>
         <example type="incorrect">Noch nie so viele Auswanderer <marker>seid</marker> Bestehen der BRD</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-3" case_sensitive="yes">
+          <token postag="SENT_START"/>
+          <token>Seid</token>
+          <token>über</token>
+          <token regexp="yes">[0-9]+</token>
+          <token regexp="yes">&zeiteinheiten;</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>seit</suggestion> (Präposition) statt "seid" (Verbform)?</message>
+        <example type="correct"><marker>Seit</marker> über 15 Jahren</example>
+        <example type="correct">Ihr <marker>seid</marker> über 15 Jahre alt.</example>
+        <example type="incorrect" correction="Seit"><marker>Seid</marker> über 15 Jahren wohne ich schon hier.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-4" case_sensitive="yes">
+          <token postag="SENT_START"/>
+          <token>Seid</token>
+          <token>mehr</token>
+          <token>als</token>
+          <token regexp="yes">[0-9]+</token>
+          <token regexp="yes">&zeiteinheiten;</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>seit</suggestion> (Präposition) statt "seid" (Verbform)?</message>
+        <example type="correct"><marker>Seit</marker> mehr als 15 Jahren</example>
+        <example type="correct">Ihr <marker>seid</marker> mehr als 15 Jahre alt.</example>
+        <example type="incorrect" correction="Seit"><marker>Seid</marker> mehr als 15 Jahren</example>
       </rule>
       <rule>
         <pattern mark_to="-1" case_sensitive="yes">
@@ -1332,7 +1391,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>Seid</token>
           <token regexp="yes">[0-9]+|wann</token>
         </pattern>
-        <message>Meinten Sie <suggestion>Seit</suggestion>?</message>
+        <message>Meinten Sie <suggestion>seit</suggestion> (Präposition) statt "seid" (Verbform)?</message>
         <example type="correct"><marker>Seit</marker> 15 Jahren</example>
         <example type="correct">Ihr <marker>seid</marker> 15 Jahre alt.</example>
         <example type="incorrect" correction="Seit"><marker>Seid</marker> 15 Jahren</example>
@@ -1340,7 +1399,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       </rule>
     </rulegroup>
     <rule id="IN_DIE_ANALEN" name="Möglicher Tippfehler: 'in die Analen (Annalen)'">
-      <pattern mark_from="2">
+      <pattern mark_from="2" case_sensitive="yes">
         <token>in</token>
         <token regexp="yes">die|den</token>
         <token>Analen</token>
@@ -3830,6 +3889,56 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct">Er verdient im <marker>Durchschnitt</marker> 200 € pro Abend.</example>
       <example type="incorrect">Er verdient im <marker>schnitt</marker> 200 € pro Abend.</example>
       <example type="incorrect">Er verdient im <marker>durchschnitt</marker> 200 € pro Abend.</example>
+    </rule>
+    <rule id="TRAEGER_VON" name="Groß-/Kleinschreibung: 'träger (Träger)'">
+      <pattern mark_from="1" mark_to="-1" case_sensitive="yes">
+        <token regexp="yes">[iI]st|[eE]in|[dD]er|[dD]ie|,</token>
+        <token>träger</token>
+        <token regexp="yes">des|von|seiner|ihrer|seines|ihres</token>
+      </pattern>
+      <message>&subanfang;<suggestion><match case_conversion="startupper" no="2"/></suggestion>&subende;</message>
+      <example type="correct">Er ist heute etwas <marker>träger</marker> als damals.</example>
+      <example type="correct">Er ist <marker>Träger</marker> des Bundesverdienstkreuzes am Bande.</example>
+      <example type="incorrect">Die <marker>träger</marker> ihres Kleides waren verrutscht.</example>
+    </rule>
+    <rule id="VERGNUEGEN_SUBST" name="Groß-/Kleinschreibung: 'zum vergnügen (Vergnügen)'">
+      <pattern mark_from="1" case_sensitive="yes">
+        <token regexp="yes">[zZ]um|k?ein</token>
+        <token>vergnügen</token>
+      </pattern>
+      <message>&subanfang;<suggestion><match case_conversion="startupper" no="2"/></suggestion>&subende;</message>
+      <example type="correct">Wir sind schließlich nicht zum <marker>Vergnügen</marker> hier.</example>
+      <example type="incorrect">Wir sind schließlich nicht zum <marker>vergnügen</marker> hier.</example>
+    </rule>
+    <rulegroup id="REDE_SUBST" name="Groß-/Kleinschreibung: 'rede (Rede)'">
+      <rule>
+        <pattern mark_from="2" case_sensitive="yes">
+          <token regexp="yes">nicht|nie</token>
+          <token>die</token>
+          <token>rede</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Rede</suggestion>&subende;</message>
+        <example type="correct">Davon war nie die <marker>Rede</marker>.</example>
+        <example type="incorrect">Davon ist noch nie die <marker>rede</marker> gewesen.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" case_sensitive="yes">
+          <token>keine</token>
+          <token>rede</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Rede</suggestion>&subende;</message>
+        <example type="correct">Davon kann keine <marker>Rede</marker> sein.</example>
+        <example type="incorrect">Davon ist noch keine <marker>rede</marker> gewesen.</example>
+      </rule>
+    </rulegroup>
+    <rule id="MEINE_SCHULD" name="Groß-/Kleinschreibung: 'jemandes schuld (Schuld) etc.'">
+      <pattern case_sensitive="yes" mark_from="1">
+        <token regexp="yes">meine|[dD]eine|seine|[iI]hre|unsere|[eE]ure|[wW]essen</token>
+        <token>schuld</token>
+      </pattern>
+      <message>&subanfang;<suggestion>Schuld</suggestion>&subende;</message>
+      <example type="correct">Das ist doch nicht meine <marker>Schuld</marker>!</example>
+      <example type="incorrect">Das ist ganz allein deine <marker>schuld</marker>!</example>
     </rule>
     <rule id="AUF_DIE_NERVEN" name="Groß-/Kleinschreibung: 'auf die nerven (Nerven) gehen'">
       <pattern mark_from="2" case_sensitive="yes">
