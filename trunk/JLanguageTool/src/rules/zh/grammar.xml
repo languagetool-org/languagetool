@@ -14,6 +14,59 @@ $Id: grammar.xml,v 1.0 2011-07-29 13:20:25 taolin2011 Exp $
   <!-- 拼写： 词语错误-->
   <!-- ====================================================================== -->
   <category name="词语错误">
+    <rulegroup id="JUAN_QUAN" name="卷_券">
+      <rule>
+        <pattern mark_to="-1">
+          <token>券</token>
+          <token postag="ng|n|k|j|v|ag" regexp="yes" postag_regexp="yes"
+            >柜|轴|子|宗|帘|入|袖|裤腿|笔|饼|尺|地皮|发|铺盖|曲|刃|逃|烟|扬|云</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>卷</suggestion>\2”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="卷"> 这是你的<marker>券</marker>子吗？ </example>
+        <example type="correct">这是你的卷子吗？</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes" postag="a|v|n" postag_regexp="yes">画|手|试|案|书|上|下</token>
+          <token>券</token>
+        </pattern>
+        <message> 您的意思是\1“<suggestion>卷</suggestion>”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="卷"> 这是你的试<marker>券</marker>吗？ </example>
+        <example type="correct">这是你的试卷吗？</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes" postag_regexp="yes" postag="n|v">债|国库|入场|证|胜</token>
+          <token>卷</token>
+        </pattern>
+        <message> 您的意思是“\1<suggestion>券</suggestion>”吗？ </message>
+        <example type="incorrect" correction="券"> 一看到他胜<marker>卷</marker>在握的样子，我就充满信心了。 </example>
+        <example type="correct">一看到他胜券在握的样子，我就充满信心了。</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="QING_JING" name="晴_睛">
+      <rule>
+        <pattern mark_to="-1">
+          <token>睛</token>
+          <token regexp="yes" postag_regexp="yes" postag="n|ag|nr">天|朗|和|丽|爽|碧</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>晴</suggestion>\2”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="晴"> 今天的天气很<marker>睛</marker>朗。 </example>
+        <example type="correct">今天的天气很晴朗。</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes" postag_regexp="yes" postag="n|v">眼|点|定</token>
+          <token regexp="yes"> 晴|晴好 </token>
+        </pattern>
+        <message> 您的意思是“\1<suggestion>睛</suggestion>”吗？ </message>
+        <example type="incorrect" correction="睛"> 我的眼<marker>晴</marker>痛啊。 </example>
+        <example type="correct">我的眼睛痛啊。</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="MING_WU" name="鸣/呜">
       <rule>
         <pattern mark_to="-1">
