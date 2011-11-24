@@ -14,6 +14,48 @@ $Id: grammar.xml,v 1.0 2011-07-29 13:20:25 taolin2011 Exp $
   <!-- 拼写： 词语错误-->
   <!-- ====================================================================== -->
   <category name="词语错误">
+    <rule id="DA_TAI" name="大/太">
+      <pattern mark_to="-1">
+        <token>太</token>
+        <token> 概<exception>概要</exception>
+        </token>
+      </pattern>
+      <message> 您的意思是“<suggestion>大</suggestion>概”吗？ </message>
+      <short>词语错误</short>
+      <example type="incorrect" correction="大"> 这车<marker>太</marker>概需要1000万。 </example>
+      <example type="correct">这车大概需要1000万。</example>
+    </rule>
+    <rule id="SHU_RONG_WU" name="戍/戎/戊">
+      <pattern mark_to="-1">
+        <token regexp="yes">戎|戊</token>
+        <token>边</token>
+      </pattern>
+      <message> 您的意思是“<suggestion>戍</suggestion>边”吗？ </message>
+      <short>词语错误</short>
+      <example type="incorrect" correction="戍">
+        <marker>戎</marker>边的战士们真的很辛苦。 </example>
+      <example type="correct">戍边的战士们真的很辛苦。</example>
+    </rule>
+    <rule id="QI_RONG" name="葺/茸">
+      <pattern mark_from="1">
+        <token>修</token>
+        <token>茸</token>
+      </pattern>
+      <message> 您的意思是“修<suggestion>葺</suggestion>”吗？ </message>
+      <short>词语错误</short>
+      <example type="incorrect" correction="葺"> 这房子急需修<marker>茸</marker>一下。 </example>
+      <example type="correct">这房子急需修葺一下。</example>
+    </rule>
+    <rule name="跚/珊/姗" id="PAN_SHAN1_SHAN2">
+      <pattern mark_from="1">
+        <token>蹒</token>
+        <token regexp="yes">珊|姗</token>
+      </pattern>
+      <message> 您的意思是“蹒<suggestion>跚</suggestion>”吗？ </message>
+      <short>词语错误</short>
+      <example type="incorrect" correction="跚"> 他蹒<marker>姗</marker>的走了过来。 </example>
+      <example type="correct">他蹒跚的走了过来。</example>
+    </rule>
     <rulegroup id="JUAN_QUAN" name="卷_券">
       <rule>
         <pattern mark_to="-1">
