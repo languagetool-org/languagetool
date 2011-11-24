@@ -14,6 +14,49 @@ $Id: grammar.xml,v 1.0 2011-07-29 13:20:25 taolin2011 Exp $
   <!-- 拼写： 词语错误-->
   <!-- ====================================================================== -->
   <category name="词语错误">
+    <rulegroup id="SHI_SHUAI" name="师/帅">
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token>为人</token>
+          <token>帅</token>
+          <token>表</token>
+        </pattern>
+        <message> 您的意思是“为人<suggestion>师</suggestion>表”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="师"> 为人<marker>帅</marker>表 </example>
+        <example type="correct">为人师表</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token postag="nr|vg" postag_regexp="yes">帅</token>
+          <token>徒</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>师</suggestion>徒”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="师"> 唐僧<marker>帅</marker>徒四人历经千难万苦才取得真经。 </example>
+        <example type="correct">唐僧师徒四人历经千难万苦才取得真经。</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token>帅</token>
+          <token postag="ng">资</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>师</suggestion>资”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="师"> 这间学校<marker>帅</marker>资强大。 </example>
+        <example type="correct">这间学校师资强大。</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes" postag_regexp="yes" postag="ng|n">工程|技</token>
+          <token>帅</token>
+        </pattern>
+        <message> 您的意思是“\1<suggestion>师</suggestion>”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="师"> 他是一名工程<marker>帅</marker>。 </example>
+        <example type="correct">他是一名工程师。</example>
+      </rule>
+    </rulegroup>
     <rule id="DA_TAI" name="大/太">
       <pattern mark_to="-1">
         <token>太</token>
