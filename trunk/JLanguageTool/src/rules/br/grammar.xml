@@ -1390,16 +1390,6 @@ Some grammatical resources used:
       <example type="incorrect">Amzer a-walc’h <marker>m’eus</marker>.</example>
       <example type="correct">Amzer a-walc’h ’m eus.</example>
     </rule>
-    <rule id="NE_M_EUS" name="N’em eus ket → Ne’m eus ket">
-      <pattern>
-        <token>n’</token>
-        <token regexp="yes">e[mz]</token>
-        <token regexp="yes">eus|[bp]oa?|[bp]eze?</token>
-      </pattern>
-      <message>Ha fellout a rae deoc’h skrivañ <suggestion>ne’m eus</suggestion>?</message>
-      <example type="incorrect"><marker>N’em eus</marker> ket naon</example>
-      <example type="correct">Ne’m eus ket naon</example>
-    </rule>
   </category>
 
   <category name="Niver">
@@ -1576,7 +1566,19 @@ Some grammatical resources used:
       <example type="correct">Al labour a ra vat.</example>
       <example type="correct">Ur banne aer fresk a raio vat din.</example>
     </rule>
-
+    <rule id="RSUJ_A_V" name="me a gomzan → me a gomz">
+      <pattern mark_from="3">
+        <token postag="SENT_START" skip="1"/>
+        <token postag_regexp="yes" postag="R suj . . ."/>
+        <token>a</token>
+        <token postag="V.*" postag_regexp="yes">
+          <exception postag="V \S* 3 s.*" postag_regexp="yes"/>
+        </token>
+      </pattern>
+      <message>Direizh eo an displegadur er verb «\4».</message>
+      <example type="incorrect">Ni a <marker>gomzomp</marker> brezhoneg.</example>
+      <example type="correct">Ni a gomz brezhoneg.</example>
+    </rule>
     <rulegroup id="PAOUEZ" name="paouez da">
       <rule>
         <pattern mark_from="3">
@@ -1745,12 +1747,14 @@ Some grammatical resources used:
     </rule>
     <rule id="TRO_DRO" name="tro dro → tro-dro">
       <pattern>
-        <token>tro</token>
+        <token regexp="yes">tro|en</token>
         <token>dro</token>
       </pattern>
       <message>Implijit <suggestion>\1-\2</suggestion>.</message>
       <example type="incorrect">E Pariz ha <marker>tro dro</marker>.</example>
       <example type="correct">E Pariz ha <marker>tro-dro</marker>.</example>
+      <example type="incorrect">N’a ket an urzhiater <marker>en dro</marker>.</example>
+      <example type="correct">N’a ket an urzhiater <marker>en-dro</marker>.</example>
     </rule>
     <rule id="KORN_BRO" name="korn bro → korn-bro">
       <pattern>
