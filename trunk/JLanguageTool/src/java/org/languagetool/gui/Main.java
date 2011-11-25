@@ -52,6 +52,8 @@ import java.util.List;
  */
 public final class Main implements ActionListener {
 
+  static final String EXTERNAL_LANGUAGE_SUFFIX = " (ext.)";
+  
   private static final String HTML_FONT_START = "<font face='Arial,Helvetica'>";
 
   private static final String HTML_FONT_END = "</font>";
@@ -59,7 +61,6 @@ public final class Main implements ActionListener {
 
   private static final String SYSTEM_TRAY_TOOLTIP = "LanguageTool";
   private static final String CONFIG_FILE = ".languagetool.cfg";
-  private static final String EXTERNAL_LANGUAGE_SUFFIX = " (ext.)";
   private static final int WINDOW_WIDTH = 600;
   private static final int WINDOW_HEIGHT = 550;
 
@@ -70,7 +71,7 @@ public final class Main implements ActionListener {
   private JFrame frame;
   private JTextArea textArea;
   private JTextPane resultArea;
-  private JComboBox languageBox;
+  private LanguageComboBox languageBox;
   private JCheckBox autoDetectBox;
 
   private HTTPServer httpServer;
@@ -123,8 +124,7 @@ public final class Main implements ActionListener {
     buttonCons.gridy = 0;
     buttonCons.anchor = GridBagConstraints.WEST;
     insidePanel.add(new JLabel(" " + messages.getString("textLanguage") + " "), buttonCons);
-    languageBox = new JComboBox();
-    populateLanguageBox(languageBox);
+    languageBox = new LanguageComboBox(messages);
     buttonCons.gridx = 1;
     buttonCons.gridy = 0;
     insidePanel.add(languageBox, buttonCons);
@@ -190,30 +190,6 @@ public final class Main implements ActionListener {
       }
     } catch (Exception ignored) {
       // Well, what can we do...
-    }
-  }
-
-  private void populateLanguageBox(final JComboBox languageBox) {
-    languageBox.removeAllItems();
-    final List<I18nLanguage> i18nLanguages = new ArrayList<I18nLanguage>();
-    for (Language language : Language.LANGUAGES) {
-      if (language != Language.DEMO) {
-        i18nLanguages.add(new I18nLanguage(language));
-      }
-    }
-    Collections.sort(i18nLanguages);
-    final String defaultLocale = Locale.getDefault().getLanguage();
-    String defaultLocaleInGui = null;
-    try {
-      defaultLocaleInGui = messages.getString(defaultLocale);
-    } catch (final MissingResourceException e) {
-      // language not supported, so don't select a default
-    }
-    for (final I18nLanguage i18nLanguage : i18nLanguages) {
-      languageBox.addItem(i18nLanguage);
-      if (i18nLanguage.toString().equals(defaultLocaleInGui)) {
-        languageBox.setSelectedItem(i18nLanguage);
-      }
     }
   }
 
@@ -304,7 +280,7 @@ public final class Main implements ActionListener {
     } catch (final RuleFilenameException e) {
       Tools.showErrorMessage(e);
     }
-    populateLanguageBox(languageBox);
+    languageBox.populateLanguageBox();
   }
 
   void showOptions() {
@@ -587,8 +563,7 @@ public final class Main implements ActionListener {
   public static void main(final String[] args) {
     try {
       final Main prg = new Main();
-      if (args.length == 1
-          && (args[0].equals("-t") || args[0].equals("--tray"))) {
+      if (args.length == 1 && (args[0].equals("-t") || args[0].equals("--tray"))) {
         // dock to systray on startup
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
           @Override
@@ -734,47 +709,6 @@ public final class Main implements ActionListener {
       return "*.txt";
     }
 
-  }
-
-  private class I18nLanguage implements Comparable<I18nLanguage> {
-
-    private final Language language;
-
-    I18nLanguage(Language language) {
-      this.language = language;
-    }
-
-    Language getLanguage() {
-      return language;
-    }
-
-    // used by the GUI:
-    @Override
-    public String toString() {
-      if (language.isExternal()) {
-        return language.getName() + EXTERNAL_LANGUAGE_SUFFIX;
-      } else {
-        return messages.getString(language.getShortName());
-      }
-    }
-
-    @Override
-    public int compareTo(I18nLanguage o) {
-      return toString().compareTo(o.toString());
-    }
-
-    @Override
-    public boolean equals(Object o) {
-      if (this == o) return true;
-      if (o == null || getClass() != o.getClass()) return false;
-      final I18nLanguage other = (I18nLanguage) o;
-      return language.toString().equals(other.toString()) && language.isExternal() == other.language.isExternal();
-    }
-
-    @Override
-    public int hashCode() {
-      return toString().hashCode();
-    }
   }
 
 }
