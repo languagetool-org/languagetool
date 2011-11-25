@@ -725,7 +725,8 @@ public final class Main implements ActionListener {
 
     @Override
     public boolean accept(final File f) {
-      return f.getName().toLowerCase().endsWith(".txt");
+        final boolean isTextFile = f.getName().toLowerCase().endsWith(".txt");
+        return isTextFile || f.isDirectory();
     }
 
     @Override
