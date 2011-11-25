@@ -34,6 +34,19 @@ $Id: grammar.xml,v 1.129 2010-11-13 23:24:21 dnaber Exp $
   <!-- Possible typos -->
   <!-- ====================================================================== -->
   <category name="Possible Typos">
+    <rule id="ARE_STILL_THE_SOME" name="are still the some (same)">
+      <pattern>
+          <token regexp="yes">are|is|was|were</token>
+          <token>still</token>
+          <token>the</token>
+          <token>some</token>
+        </pattern>
+      <message>Did you mean <suggestion>\1 still the same</suggestion> or <suggestion>\1 still some</suggestion>?</message>
+      <example type="incorrect">That means that tires <marker>are still the some</marker> of the most important components of your vehicle.</example>
+      <example type="incorrect">But it <marker>is still the some</marker> government.</example>
+      <example type="correct">That means that tires <marker>are still some</marker> of the most important components of your vehicle.</example>
+      <example type="correct">But it <marker>is still the same</marker> government.</example>
+    </rule>
     <rule id="IS_EVEN_WORST" name="is even worst (worse)">
       <pattern mark_from="2" mark_to="-1">
         <token regexp="yes">is|was|were</token>
