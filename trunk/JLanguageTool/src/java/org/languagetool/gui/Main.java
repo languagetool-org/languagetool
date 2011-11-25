@@ -202,8 +202,7 @@ public final class Main implements ActionListener {
     try {
       if (e.getActionCommand().equals(
           StringTools.getLabel(messages.getString("checkText")))) {
-        final JLanguageTool langTool = getCurrentLanguageTool();
-        checkTextAndDisplayResults(langTool, getCurrentLanguage());
+        checkTextAndDisplayResults();
       } else {
         throw new IllegalArgumentException("Unknown action " + e);
       }
@@ -222,8 +221,7 @@ public final class Main implements ActionListener {
       final String fileContents = StringTools.readFile(new FileInputStream(file
           .getAbsolutePath()));
       textArea.setText(fileContents);
-      final JLanguageTool langTool = getCurrentLanguageTool();
-      checkTextAndDisplayResults(langTool, getCurrentLanguage());
+      checkTextAndDisplayResults();
     } catch (final IOException e) {
       Tools.showError(e);
     }
@@ -308,15 +306,13 @@ public final class Main implements ActionListener {
     final String s = getClipboardText();
     restoreFromTray();
     textArea.setText(s);
-    final JLanguageTool langTool = getCurrentLanguageTool();
-    checkTextAndDisplayResults(langTool, getCurrentLanguage());
+    checkTextAndDisplayResults();
   }
 
   void checkClipboardText() {
     final String s = getClipboardText();
     textArea.setText(s);
-    final JLanguageTool langTool = getCurrentLanguageTool();
-    checkTextAndDisplayResults(langTool, getCurrentLanguage());
+    checkTextAndDisplayResults();
   }
 
   private String getClipboardText() {
@@ -461,8 +457,11 @@ public final class Main implements ActionListener {
     return langTool;
   }
 
-  private void checkTextAndDisplayResults(final JLanguageTool langTool,
-      final Language lang) {
+  private void checkTextAndDisplayResults() {
+    final Cursor prevCursor = resultArea.getCursor();
+    frame.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+    final JLanguageTool langTool = getCurrentLanguageTool();
+    final Language lang = getCurrentLanguage();
     if (StringTools.isEmpty(textArea.getText().trim())) {
       textArea.setText(messages.getString("enterText2"));
     } else {
@@ -478,7 +477,6 @@ public final class Main implements ActionListener {
       resultArea.setText(HTML_FONT_START + startCheckText + "<br>\n"
           + HTML_FONT_END);
       resultArea.repaint(); // FIXME: why doesn't this work?
-      // TODO: resultArea.setCursor(new Cursor(Cursor.WAIT_CURSOR));
       sb.append(startCheckText);
       sb.append("...<br>\n");
       int matches = 0;
@@ -496,6 +494,7 @@ public final class Main implements ActionListener {
       resultArea.setText(HTML_FONT_START + sb.toString() + HTML_FONT_END);
       resultArea.setCaretPosition(0);
     }
+    frame.setCursor(prevCursor);
   }
 
   private void tagTextAndDisplayResults(final JLanguageTool langTool) {
@@ -612,8 +611,7 @@ public final class Main implements ActionListener {
     public void keyPressed(KeyEvent e) {
       if (e.getKeyCode() == KeyEvent.VK_ENTER) {
         if ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) == KeyEvent.CTRL_DOWN_MASK) {
-          final JLanguageTool langTool = getCurrentLanguageTool();
-          checkTextAndDisplayResults(langTool, getCurrentLanguage());
+          checkTextAndDisplayResults();
         }
       }
     }
