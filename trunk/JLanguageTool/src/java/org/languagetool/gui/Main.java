@@ -228,7 +228,6 @@ public final class Main implements ActionListener {
           StringTools.getLabel(messages.getString("checkText")))) {
         final JLanguageTool langTool = getCurrentLanguageTool();
         checkTextAndDisplayResults(langTool, getCurrentLanguage());
-        // if "Tag Text" button is pressed
       } else {
         throw new IllegalArgumentException("Unknown action " + e);
       }
