@@ -1185,7 +1185,7 @@ Some grammatical resources used:
 
     <rule id="GER_KEMM" name="kemmadur ebet goude gerioù">
       <pattern mark_from="1">
-        <token regexp="yes">a-benn|arabat|abaoe|eus|evel(-se)?|hag?|hep|ke[nt]|krenn|lies|mard?|nemet|nebeu(dig)?|pas|pep|pebezh|pegen|pere|petvet|peseurt|petore|setu</token>
+        <token regexp="yes">abaoe|a-benn|arabat|a-raok|eus|evel(-se)?|goude|hag?|hep|ke[nt]|krenn|lies|mard?|met|nemet|nebeu(dig)?|pas|pep|pebezh|pegen|pere|petvet|peseurt|petore|setu</token>
         <token postag="[^M]*M:.*" postag_regexp="yes">
           <exception negate_pos="yes" postag="[^M]*M:.*" postag_regexp="yes"/>
           <exception>vat</exception>
@@ -1834,6 +1834,34 @@ Some grammatical resources used:
       <message>Implijit <suggestion>\1-\2</suggestion>.</message>
       <example type="incorrect">Ur <marker>porzh mor</marker> bras eo Brest.</example>
       <example type="correct">Ur porzh-mor bras eo Brest.</example>
+    </rule>
+
+    <rule id="TORR_PENN" name="torr penn → torr-penn">
+      <pattern>
+        <token>torr</token>
+        <token>penn</token>
+      </pattern>
+      <message>Implijit <suggestion>\1-\2</suggestion>.</message>
+      <example type="incorrect"><marker>Torr penn</marker> eo an amezeg.</example>
+      <example type="correct">Torr-penn eo an amezeg.</example>
+    </rule>
+    <rule id="KAOL_FLEUR" name="kaol fleur → kaol-fleur">
+      <pattern>
+        <token regexp="yes">([gk]|c’h)aol(enn)?</token>
+        <token regexp="yes">bleuñv|bouedek|brignennek|Brusel|fleur|go|kutuilh|moc’h|palmez|pom|saout|stlej|teal</token>
+      </pattern>
+      <message>Implijit <suggestion>\1-\2</suggestion>.</message>
+      <example type="incorrect"><marker>Kaol fleur</marker> am bo.</example>
+      <example type="correct">Kaol-fleur am bo.</example>
+    </rule>
+    <rule id="BOUED_MOR" name="boed mor → boed-mor">
+      <pattern>
+        <token regexp="yes">[bvp]oued</token>
+        <token regexp="yes">aod|mor</token>
+      </pattern>
+      <message>Implijit <suggestion>\1-\2</suggestion>.</message>
+      <example type="incorrect"><marker>Boued mor</marker> am bo gant gwin gwenn.</example>
+      <example type="incorrect">Boued-mor am bo gant gwin gwenn.</example>
     </rule>
   </category>
 
