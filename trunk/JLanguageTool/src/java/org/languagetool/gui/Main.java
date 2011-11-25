@@ -108,11 +108,8 @@ public final class Main implements ActionListener {
     resultArea.setText(HTML_FONT_START + messages.getString("resultAreaText")
         + HTML_FONT_END);
     resultArea.setEditable(false);
-    final JLabel label = new JLabel(messages.getString("enterText"));
-    final JButton button = new JButton(StringTools.getLabel(messages
-        .getString("checkText")));
-    button
-        .setMnemonic(StringTools.getMnemonic(messages.getString("checkText")));
+    final JButton button = new JButton(StringTools.getLabel(messages.getString("checkText")));
+    button.setMnemonic(StringTools.getMnemonic(messages.getString("checkText")));
     button.addActionListener(this);
 
     final JPanel panel = new JPanel();
@@ -124,22 +121,20 @@ public final class Main implements ActionListener {
     insidePanel.setLayout(new GridBagLayout());
     buttonCons.gridx = 0;
     buttonCons.gridy = 0;
-//    buttonCons.anchor = GridBagConstraints.WEST;
-    insidePanel.add(button, buttonCons);
-    buttonCons.gridx = 1;
-    buttonCons.gridy = 0;
-//    buttonCons.anchor = GridBagConstraints.WEST;
+    buttonCons.anchor = GridBagConstraints.WEST;
     insidePanel.add(new JLabel(" " + messages.getString("textLanguage") + " "), buttonCons);
     languageBox = new JComboBox();
     populateLanguageBox(languageBox);
-    buttonCons.gridx = 2;
+    buttonCons.gridx = 1;
     buttonCons.gridy = 0;
-//    buttonCons.anchor = GridBagConstraints.WEST;
     insidePanel.add(languageBox, buttonCons);
     buttonCons.gridx = 0;
     buttonCons.gridy = 0;
     panel.add(insidePanel);
-    
+    buttonCons.gridx = 2;
+    buttonCons.gridy = 0;
+    insidePanel.add(button, buttonCons);
+      
     autoDetectBox = new JCheckBox(messages.getString("atd"));
     autoDetectBox.addActionListener( new ActionListener() {
         @Override
@@ -148,14 +143,14 @@ public final class Main implements ActionListener {
             config.setAutoDetect(autoDetectBox.isSelected());
         }
     });
-    // set whether it's checked
     autoDetectBox.setSelected(config.getAutoDetect());
     languageBox.setEnabled(!autoDetectBox.isSelected());
     
-    buttonCons.gridx = 0;
+    buttonCons.gridx = 1;
     buttonCons.gridy = 1;
+    buttonCons.gridwidth = 2;
     buttonCons.anchor = GridBagConstraints.WEST;
-    panel.add(autoDetectBox, buttonCons);
+    insidePanel.add(autoDetectBox, buttonCons);
     
     final Container contentPane = frame.getContentPane();
     final GridBagLayout gridLayout = new GridBagLayout();
@@ -177,9 +172,7 @@ public final class Main implements ActionListener {
     cons.gridx = 0;
     cons.gridy = 2;
     cons.weighty = 0.0f;
-    cons.insets = new Insets(3, 3, 3, 3);
-    // cons.fill = GridBagConstraints.NONE;
-    contentPane.add(label, cons);
+    cons.insets = new Insets(1, 10, 10, 1);
     cons.gridy = 3;
     contentPane.add(panel, cons);
 
