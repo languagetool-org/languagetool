@@ -1194,7 +1194,7 @@ Some grammatical resources used:
         </token>
         <token postag="[^M]*M:.*" postag_regexp="yes">
           <exception negate_pos="yes" postag="[^M]*M:.*|SENT_END" postag_regexp="yes"/>
-          <exception regexp="yes">va[dt]</exception>
+          <exception>vat</exception>
         </token>
       </pattern>
       <message>Ne zlefe ket bezañ ur c’hemmadur er ger «\2» goude ur verb.</message>
@@ -1856,6 +1856,15 @@ Some grammatical resources used:
       <message>Implijit <suggestion>\1-\2</suggestion>.</message>
       <example type="incorrect">Ur <marker>foeter bro</marker> eo deuet da vezañ.</example>
       <example type="correct">Ur foeter-bro eo deuet da vezañ.</example>
+    </rule>
+    <rule id="LEUN_CHOUK" name="leun chouk → leun-chouk">
+      <pattern>
+        <token>leun</token>
+        <token regexp="yes">barr|chouk|chek|klok|kouch|tenn</token>
+      </pattern>
+      <message>Implijit <suggestion>\1-\2</suggestion>.</message>
+      <example type="incorrect"><marker>Leun chouk</marker> eo da valizenn.</example>
+      <example type="correct">Leun-chouk eo da valizenn.</example>
     </rule>
   </category>
 
