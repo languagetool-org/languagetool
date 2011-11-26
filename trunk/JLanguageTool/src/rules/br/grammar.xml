@@ -222,7 +222,10 @@ Some grammatical resources used:
           </token>
           <and>
             <token regexp="yes" inflected="yes">p.*</token>
-            <token regexp="yes">[pf].*<exception>pe</exception></token>
+            <token regexp="yes">[pf].*
+              <exception>pe</exception>
+              <exception regexp="yes" inflected="yes">f.*</exception>
+            </token>
           </and>
         </pattern>
         <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude ar ger «\1». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="b$1"/></suggestion>?</message>
@@ -230,6 +233,7 @@ Some grammatical resources used:
         <example type="incorrect">Ne <marker>flij</marker> ket din komz nederlandeg.</example>
         <example type="correct">Ne blij ket din komz nederlandeg.</example>
         <example type="correct">Gwelet em eus anezhañ div pe deir gwech marteze.</example>
+        <example type="correct">Da fazioù</example>
       </rule>
       <rule>
         <pattern mark_from="1">
@@ -1236,7 +1240,9 @@ Some grammatical resources used:
             <exception>gwall</exception>
           </token>
           <and>
-            <token postag="J[^M]*M.*:1:.*" postag_regexp="yes"/>
+            <token postag="J[^M]*M.*:1:.*" postag_regexp="yes">
+              <exception postag="[^M_]+" postag_regexp="yes"/>
+            </token>
             <token regexp="yes">[gdb].*</token>
           </and>
         </pattern>
@@ -1253,6 +1259,7 @@ Some grammatical resources used:
         <example type="correct">Ur gannerez trouzus</example>
         <example type="correct">Ur plac’h vras</example>
         <example type="correct">Gwall gozh eo da garr.</example>
+        <example type="correct">Ul levr a gont bemdez istor</example>
       </rule>
       <rule>
         <pattern mark_from="1">
@@ -2094,7 +2101,7 @@ Some grammatical resources used:
       <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
         <token postag="SENT_START" negate_pos="yes"/>
         <token regexp="yes">A[rln]</token>
-        <token regexp="yes">\p{Lu}.*</token>
+        <token regexp="yes">\p{Lu}.*<exception>Liamm</exception></token>
       </pattern>
       <message>Pennlizherenn ebet e gerioù-mell an anvioù divoutin pa vezont e-kreiz ul lavarenn. Ha fellout a rae deoc’h skrivañ <suggestion><match no="1" regexp_match=".(.)" regexp_replace="a$1"/>.</suggestion></message>
       <example type="incorrect">Kantonioù <marker>Ar</marker> C’hastell-Nevez</example>
@@ -2488,6 +2495,31 @@ Some grammatical resources used:
         <example type="incorrect">Gouzout a ouzout <marker>hag eñ</marker> e komprenez.</example>
         <example type="correct">Gouzout a rez hag-eñ e komprenez.</example>
         <example type="correct">Gouzout a ouzout hag-eñ e komprenez.</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="EN_A" name="en a → eñ a">
+      <rule>
+        <pattern mark_from="1" mark_to="-2">
+          <token postag="SENT_START"/>
+          <token>en</token>
+          <token>a</token>
+          <token postag="V \S* 3 s.*" postag_regexp="yes"/>
+        </pattern>
+          <message>Ha fellout a rae deoc’h skrivañ <suggestion>Eñ</suggestion>?</message>
+        <example type="incorrect"><marker>En</marker> a oar penaos ober.</example>
+        <example type="correct"><marker>Eñ</marker> a oar penaos ober.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-2">
+          <token regexp="yes">hag?|rak</token>
+          <token>en</token>
+          <token>a</token>
+          <token postag="V \S* 3 s.*" postag_regexp="yes"/>
+        </pattern>
+          <message>Ha fellout a rae deoc’h skrivañ <suggestion>eñ</suggestion>?</message>
+        <example type="incorrect">Rak <marker>en</marker> a oar penaos ober.</example>
+        <example type="correct">Rak <marker>eñ</marker> a oar penaos ober.</example>
       </rule>
     </rulegroup>
 
