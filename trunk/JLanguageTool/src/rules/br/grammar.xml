@@ -295,6 +295,7 @@ Some grammatical resources used:
         <pattern mark_from="1">
           <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|gwall|ne|pa|re|seul
             <exception postag="P|L e" postag_regexp="yes">e</exception>
+            <exception scope="previous" regexp="yes">e?z|ned</exception>
           </token>
           <and>
             <token regexp="yes">b.*
@@ -310,6 +311,7 @@ Some grammatical resources used:
         <example type="incorrect">Re <marker>bras</marker> eo.</example>
         <example type="correct">Re vras eo.</example>
         <example type="correct">Re bell e oa.</example>
+        <example type="correct">War gresk ez a <marker>bepred</marker> ar youl</example>
       </rule>
       <rule>
         <pattern mark_from="1">
@@ -1738,8 +1740,8 @@ Some grammatical resources used:
         <token>bro</token>
       </pattern>
       <message>Implijit <suggestion>\1-\2</suggestion>.</message>
-      <example type="incorrect">Ur strollad eus <marker>korn bro</marker> An Orian</example>
-      <example type="correct">Ur strollad eus <marker>korn-bro</marker> An Orian</example>
+      <example type="incorrect">Ur strollad eus <marker>korn bro</marker> an Orian</example>
+      <example type="correct">Ur strollad eus <marker>korn-bro</marker> an Orian</example>
       <example type="incorrect">Kalz a <marker>gornioù bro</marker> e Breizh-Izel</example>
       <example type="correct">Kalz a gornioù-bro e Breizh-Izel</example>
     </rule>
@@ -2088,6 +2090,17 @@ Some grammatical resources used:
   </category>
 
   <category name="A bep seurt">
+    <rule id="PENNLIZH_AR" name="Pennlizer eber gant ar/al/an">
+      <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
+        <token postag="SENT_START" negate_pos="yes"/>
+        <token regexp="yes">A[rln]</token>
+        <token regexp="yes">\p{Lu}.*</token>
+      </pattern>
+      <message>Pennlizherenn ebet e gerioù-mell an anvioù divoutin pa vezont e-kreiz ul lavarenn. Ha fellout a rae deoc’h skrivañ <suggestion><match no="1" regexp_match=".(.)" regexp_replace="a$1"/>.</suggestion></message>
+      <example type="incorrect">Kantonioù <marker>Ar</marker> C’hastell-Nevez</example>
+      <example type="correct">Kantonioù ar C’hastell-Nevez</example>
+      <example type="correct">An Orian a zo pell ac’hann.</example>
+    </rule>
     <rule id="PEBEZH" name="Pebezh">
       <pattern mark_to="-1">
         <token>pebezh</token>
