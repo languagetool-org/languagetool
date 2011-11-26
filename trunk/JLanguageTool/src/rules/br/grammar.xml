@@ -182,8 +182,8 @@ Some grammatical resources used:
             <exception postag="P|L e" postag_regexp="yes">e</exception>
           </token>
           <and>
-            <token regexp="yes">k.*<exception>kant</exception></token>
             <token regexp="yes" inflected="yes">k.*</token>
+            <token regexp="yes">k.*<exception>kant</exception></token>
           </and>
         </pattern>
         <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude ar ger «\1». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="g$1"/></suggestion>?</message>
@@ -196,27 +196,36 @@ Some grammatical resources used:
           <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|gwall|ne|pa|re|seul
             <exception postag="P|L e" postag_regexp="yes">e</exception>
           </token>
-          <token regexp="yes">t.*<exception>te</exception></token>
+          <and>
+            <token regexp="yes" inflected="yes">t.*</token>
+            <token regexp="yes">[tz].*
+              <exception regexp="yes">te|zo</exception>
+            </token>
+          </and>
         </pattern>
         <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude ar ger «\1». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="d$1"/></suggestion>?</message>
         <example type="incorrect">Da <marker>tad</marker> zo er gêr.</example>
+        <example type="incorrect">Da <marker>zad</marker> zo er gêr.</example>
         <example type="correct">Da dad zo er gêr.</example>
         <example type="incorrect">Gant e <marker>tad</marker></example>
+        <example type="incorrect">Gant e <marker>zad</marker></example>
         <example type="correct">Gant e dad</example>
         <example type="correct">Dre te ez a ouzhin.</example>
+        <example type="correct">Petra a zo c’hoarvezet?</example>
       </rule>
       <rule>
         <pattern mark_from="1">
           <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|gwall|ne|pa|re|seul
             <exception postag="P|L e" postag_regexp="yes">e</exception>
           </token>
-          <token regexp="yes">p.*
-            <exception>pe</exception>
-            <exception postag="P|L e" postag_regexp="yes">e</exception>
-          </token>
+          <and>
+            <token regexp="yes" inflected="yes">p.*</token>
+            <token regexp="yes">[pf].*<exception>pe</exception></token>
+          </and>
         </pattern>
         <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude ar ger «\1». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="b$1"/></suggestion>?</message>
         <example type="incorrect">Ne <marker>plij</marker> ket din komz nederlandeg.</example>
+        <example type="incorrect">Ne <marker>flij</marker> ket din komz nederlandeg.</example>
         <example type="correct">Ne blij ket din komz nederlandeg.</example>
         <example type="correct">Gwelet em eus anezhañ div pe deir gwech marteze.</example>
       </rule>
@@ -225,10 +234,14 @@ Some grammatical resources used:
           <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|gwall|ne|pa|re|seul
             <exception postag="P|L e" postag_regexp="yes">e</exception>
           </token>
-          <token regexp="yes">gw.*</token>
+          <and>
+            <token regexp="yes" inflected="yes">gw.*</token>
+            <token regexp="yes">[gk]w.*</token>
+          </and>
         </pattern>
         <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude ar ger «\1». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match="..(.*)" regexp_replace="w$1"/></suggestion>?</message>
         <example type="incorrect">Da <marker>gwele</marker> zo ken bras.</example>
+        <example type="incorrect">Da <marker>kwele</marker> zo ken bras.</example>
         <example type="correct">Da wele zo ken bras.</example>
       </rule>
       <rule>
@@ -237,15 +250,16 @@ Some grammatical resources used:
             <exception postag="P|L e" postag_regexp="yes">e</exception>
           </token>
           <and>
-            <token regexp="yes">g[^w].*<exception>get</exception></token>
             <token regexp="yes" inflected="yes">g[^w].*
               <exception inflected="yes" regexp="yes">k.*</exception>
-              <exception postag="UNKNOWN" postag_regexp="yes"/>
+              <exception postag="UNKNOWN"/>
             </token>
+            <token regexp="yes">[gk].*<exception>get</exception></token>
           </and>
         </pattern>
         <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude ar ger «\1». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="c’h$1"/></suggestion>?</message>
         <example type="incorrect">Pa <marker>goulennas</marker></example>
+        <example type="incorrect">Pa <marker>koulennas</marker></example>
         <example type="correct">Pa c’houlennas</example>
         <example type="correct">Da get buan a-walc’h</example>
         <example type="correct">Paouez da grenañ</example>
@@ -255,18 +269,25 @@ Some grammatical resources used:
           <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|gwall|ne|pa|re|seul
             <exception postag="P|L e" postag_regexp="yes">e</exception>
           </token>
-          <token regexp="yes" postag="UNKNOWN" negate_pos="yes">d.*
-            <exception inflected="yes">da</exception>
-            <exception regexp="yes" inflected="yes">t.*</exception>
-            <exception regexp="yes">dud(-(mañ|se|hont))?</exception>
-          </token>
+          <and>
+            <token regexp="yes" inflected="yes" postag="UNKNOWN" negate_pos="yes">d.*
+              <exception inflected="yes">da</exception>
+              <exception regexp="yes" inflected="yes">t.*</exception>
+              <exception regexp="yes">dud(-(mañ|se|hont))?</exception>
+            </token>
+            <token regexp="yes">[dt].*</token>
+          </and>
         </pattern>
         <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude ar ger «\1». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="z$1"/></suggestion>?</message>
         <example type="incorrect">Re <marker>diwezhat</marker> e oan.</example>
+        <example type="incorrect">Re <marker>tiwezhat</marker> e oan.</example>
         <example type="correct">Re ziwezhat e oan.</example>
         <example type="correct">Penaos emañ kont gant da dad-kozh?</example>
         <example type="correct">Dre da faot</example>
         <example type="correct">Muioc’h a dud</example>
+        <example type="incorrect">Pa <marker>deuio</marker></example>
+        <example type="incorrect">Pa <marker>teuio</marker></example>
+        <example type="correct">Pa <marker>zeuio</marker></example>
       </rule>
       <rule>
         <pattern mark_from="1">
@@ -1185,7 +1206,7 @@ Some grammatical resources used:
 
     <rule id="GER_KEMM" name="kemmadur ebet goude gerioù">
       <pattern mark_from="1">
-        <token regexp="yes">abaoe|a-benn|arabat|a-raok|eus|evel(-se)?|goude|hag?|hep|ke[nt]|krenn|lies|mard?|met|nemet|nebeu(dig)?|pas|pep|pebezh|pegen|pere|petvet|peseurt|petore|setu</token>
+        <token regexp="yes">abaoe|a-benn|arabat|a-raok|eget|eus|evel(-se)?|goude|hag?|hep|kalz|ke[nt]|krenn|lies|mard?|met|nemet|nebeu(dig)?|pas|pep|pebezh|pegen|pere|petvet|peseurt|petore|rak|setu</token>
         <token postag="[^M]*M:.*" postag_regexp="yes">
           <exception negate_pos="yes" postag="[^M]*M:.*" postag_regexp="yes"/>
           <exception>vat</exception>
@@ -1302,7 +1323,7 @@ Some grammatical resources used:
       </rule>
       <rule>
         <pattern mark_to="-1">
-          <token regexp="yes">[aeu]n<exception scope="previous">ned</exception></token>
+          <token regexp="yes">[aeu]n<exception scope="previous" regexp="yes">e?z|ned</exception></token>
           <token regexp="yes">[bcfgjkmprsvwyz].*
             <exception postag="K .* o.*" postag_regexp="yes"></exception>
             <exception regexp="yes" postag="UNKNOWN">[FLMNRS]\p{Lu}*</exception>
@@ -1318,11 +1339,12 @@ Some grammatical resources used:
         <example type="incorrect"><marker>AN</marker> FILM A BLIJ DIN</example>
         <example type="correct">Gant an FSE</example>
         <example type="correct">Un S.O.S.</example>
+        <example type="correct">Gustav ez an war-sav.</example>
       </rule>
     </rulegroup>
     <rule id="AR_OUI" name="ger ar, ur, er, hor + oui">
       <pattern mark_to="-1">
-        <token regexp="yes">[aeu][ln]|hol<exception scope="previous">ned</exception></token>
+        <token regexp="yes">[aeu][ln]|hol<exception scope="previous" regexp="yes">e?z|ned</exception></token>
         <token regexp="yes" inflected="yes">gou[ie].*</token>
       </pattern>
       <message>Ar ger «\1» a zlefe bezañ <suggestion><match no="1" regexp_match="(.*)." regexp_replace="$1r"/></suggestion> dirak ur ger a grog gant ar c’hemmadur goui → oui pe goue → oue.</message>
@@ -1359,19 +1381,6 @@ Some grammatical resources used:
   </category>
 
   <category name="Elision">
-    <rule id="DA_M" name="d’am → da’m">
-      <pattern>
-        <token regexp="yes">[dmp]’</token>
-        <token regexp="yes">a[mz]</token>
-      </pattern>
-      <message>Ha fellout a rae deoc’h skrivañ <suggestion><match no="1" regexp_match="^(.).*" regexp_replace="$1a"/>’m</suggestion>?</message>
-      <example type="incorrect">Ur pok <marker>d'am</marker> gwaz</example>
-      <example type="correct">Ur pok da'm gwaz</example>
-      <example type="incorrect"><marker>P’az</marker> eer d’ar marc’had</example>
-      <example type="correct">Pa’z eer d’ar marc’had</example>
-      <example type="incorrect">Abaoe <marker>m’az</marker> on yac’h en-dro</example>
-      <example type="correct">Abaoe ma’z on yac’h en-dro</example>
-    </rule>
     <rule id="D_AR" name="da’r → d’ar">
       <pattern>
         <token>da’</token>
@@ -1700,6 +1709,15 @@ Some grammatical resources used:
   </category>
 
   <category name="Berennig-stagañ">
+    <rule id="OCH_AN" name="diasoc’h diasañ → diasoc’h-diaesañ">
+      <pattern>
+        <token postag="J cmp" regexp="yes">.*oc’h</token>
+        <token postag="J sup"><match no="1" regexp_match="(.*)oc’h" regexp_replace="$1añ"/></token>
+      </pattern>
+      <message>Implijit <suggestion>\1-\2</suggestion>.</message>
+      <example type="incorrect"><marker>Diaesoc’h diaesañ</marker> eo kavout labour.</example>
+      <example type="correct">Diaesoc’h-diaesañ eo kavout labour.</example>
+    </rule>
     <rule id="EVEL_JUST" name="evel just → evel-just">
       <pattern>
         <token>evel</token>
@@ -1861,7 +1879,25 @@ Some grammatical resources used:
       </pattern>
       <message>Implijit <suggestion>\1-\2</suggestion>.</message>
       <example type="incorrect"><marker>Boued mor</marker> am bo gant gwin gwenn.</example>
-      <example type="incorrect">Boued-mor am bo gant gwin gwenn.</example>
+      <example type="correct">Boued-mor am bo gant gwin gwenn.</example>
+    </rule>
+    <rule id="KOUIGN_AMANN" name="kouign amann → kouign-amann">
+      <pattern>
+        <token regexp="yes">(k|g|c’h)ouign(où)?</token>
+        <token regexp="yes">amann|erc’h</token>
+      </pattern>
+      <message>Implijit <suggestion>\1-\2</suggestion>.</message>
+      <example type="incorrect">Pegen mat eo ho <marker>kouign amann</marker>.</example>
+      <example type="correct">Pegen mat eo ho kouign-amann.</example>
+    </rule>
+    <rule id="FOETER_BRO" name="foeter bro → foeter-bro">
+      <pattern>
+        <token>foeter</token>
+        <token>bro</token>
+      </pattern>
+      <message>Implijit <suggestion>\1-\2</suggestion>.</message>
+      <example type="incorrect">Ur <marker>foeter bro</marker> eo deuet da vezañ.</example>
+      <example type="correct">Ur foeter-bro eo deuet da vezañ.</example>
     </rule>
   </category>
 
@@ -2381,7 +2417,7 @@ Some grammatical resources used:
           <token>re</token>
           <token>a</token>
           <token postag="J.*" postag_regexp="yes">
-            <exception postag="N .*p.*" postag_regexp="yes"/>
+            <exception postag="N . s?p.*" postag_regexp="yes"/>
           </token>
         </pattern>
         <message>«Re» hep «a» a implijer dirak un anv-gwan. Ha fellout a rae deoc’h skrivañ <suggestion>\1 \2</suggestion>?</message>
