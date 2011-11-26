@@ -14,6 +14,48 @@ $Id: grammar.xml,v 1.0 2011-07-29 13:20:25 taolin2011 Exp $
   <!-- 拼写： 词语错误-->
   <!-- ====================================================================== -->
   <category name="词语错误">
+    <rulegroup id="SHU1_SHU2" name="暑/署">
+      <rule>
+        <pattern mark_to="-1">
+          <token>署</token>
+          <token regexp="yes" postag_regexp="yes">假|期|气|热</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>暑</suggestion>\2”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="暑"> 他很期待这个<marker>署</marker>假。 </example>
+        <example type="correct">他很期待这个暑假。</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token postag="ag">酷</token>
+          <token>署</token>
+        </pattern>
+        <message> 您的意思是“酷<suggestion>暑</suggestion>”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="暑"> 炎夏已至，酷<marker>署</marker>难耐。 </example>
+        <example type="correct">炎夏已至，酷暑难耐。</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token>暑</token>
+          <token postag="ng">名</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>署</suggestion>名”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="署"> 必须按照作者或者许可人指定的方式对作品进行<marker>暑</marker>名。 </example>
+        <example type="correct">必须按照作者或者许可人指定的方式对作品进行署名。</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes" postag_regexp="yes" postag="d|ng|n|v">专|宫|官|签</token>
+          <token>暑</token>
+        </pattern>
+        <message> 您的意思是“\1<suggestion>署</suggestion>”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="署"> 是他签<marker>暑</marker>的这份文件。 </example>
+        <example type="correct">是他签署的这份文件。</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="SHI_SHUAI" name="师/帅">
       <rule>
         <pattern mark_from="1" mark_to="-1">
