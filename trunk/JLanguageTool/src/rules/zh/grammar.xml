@@ -14,6 +14,62 @@ $Id: grammar.xml,v 1.0 2011-07-29 13:20:25 taolin2011 Exp $
   <!-- 拼写： 词语错误-->
   <!-- ====================================================================== -->
   <category name="词语错误">
+    <rulegroup id="SHAN_ZHAN" name="赡_瞻">
+      <rule>
+        <pattern mark_to="-1">
+          <token>瞻</token>
+          <token postag="v">养</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>赡</suggestion>养”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="赡">
+          <marker>瞻</marker>养老人是每个人应尽的职责。 </example>
+        <example type="correct">赡养老人是每个人应尽的职责。</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token>赡</token>
+          <token regexp="yes" postag="nr">拜|仰</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>瞻</suggestion>\2”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="瞻"> 澳门中学生来到中山陵，<marker>赡</marker>仰我国伟大的革命先行者孙中山先生陵墓。 </example>
+        <example type="correct">澳门中学生来到中山陵，瞻仰我国伟大的革命先行者孙中山先生陵墓。</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="CHONG_SUI" name="崇/祟">
+      <rule>
+        <pattern mark_to="-1">
+          <token>祟</token>
+          <token regexp="yes" postag_regexp="yes" postag="nr|v|ng|d">拜|奉|敬|尚|仰</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>崇</suggestion>\2”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="崇"> 有的人崇敬名人，把自己<marker>祟</marker>敬的名人作为自己的榜样,
+          激励自己像他们一样，为人民做贡献。 </example>
+        <example type="correct">有的人崇敬名人，把自己崇敬的名人作为自己的榜样, 激励自己像他们一样，为人民做贡献。</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes" postag_regexp="yes" postag="ag|v">推|尊</token>
+          <token>祟</token>
+        </pattern>
+        <message> 您的意思是“\1<suggestion>崇</suggestion>”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="崇"> 价值的尊<marker>祟</marker>和生活实践的矛盾，导致了鲁迅早期悲剧性自我的存在。 </example>
+        <example type="correct">价值的尊崇和生活实践的矛盾，导致了鲁迅早期悲剧性自我的存在。</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token postag="v">作</token>
+          <token>崇</token>
+        </pattern>
+        <message> 您的意思是“作<suggestion>祟</suggestion>”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="祟"> 失业和贫乏的幽灵一直在对他们作<marker>崇</marker>是不能否认的。 </example>
+        <example type="correct">失业和贫乏的幽灵一直在对他们作祟是不能否认的。</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="SHU1_SHU2" name="暑/署">
       <rule>
         <pattern mark_to="-1">
