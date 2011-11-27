@@ -1196,7 +1196,8 @@ Some grammatical resources used:
     <rule id="V_KEMM" name="kemmadur ebet goude ar verb">
       <pattern mark_from="1">
         <token postag="V.*" postag_regexp="yes">
-          <exception negate_pos="yes" postag="V.*" postag_regexp="yes"></exception>
+          <exception negate_pos="yes" postag="V.*" postag_regexp="yes"/>
+          <exception>eme</exception>
         </token>
         <token postag="[^M]*M:.*" postag_regexp="yes">
           <exception negate_pos="yes" postag="[^M]*M:.*|SENT_END" postag_regexp="yes"/>
@@ -1210,6 +1211,7 @@ Some grammatical resources used:
       <example type="correct">N’out ket chomet pell.</example>
       <example type="incorrect">Boutin eo <marker>c’hentelioù-noz</marker></example>
       <example type="correct">Boutin eo ar c’hentelioù-noz</example>
+      <example type="correct">"N‘ouzon ket" eme zTony.</example>
     </rule>
 
     <rule id="GER_KEMM" name="kemmadur ebet goude gerioù">
@@ -2336,8 +2338,8 @@ Some grammatical resources used:
     <rulegroup id="EK_EG" name="brezhonek ha brezhoneg (hag all)">
       <rule>
         <pattern mark_from="1">
-          <token inflected="yes" regexp="yes">(levr|romant?|film)(ig)?</token>
-          <token regexp="yes">alamaneg|brezhoneg|esperanteg|galleg|italianeg|kembraeg|saozneg|spagnoleg</token>
+          <token inflected="yes" regexp="yes">(abadenn|c’hoariva|film|kantik|levr|embannadur|kanaouenn|keloù|kentel|krennlavar|musik|pladenn|romant?|sonerezh|skrid)(ig)?</token>
+          <token regexp="yes">alamaneg|arabeg|brezhoneg|daneg|esperanteg|euskareg|gallaoueg|galleg|italianeg|iwerzhoneg|kembraeg|kerneveureg|katalaneg|lojbaneg|manaveg|nederlandeg|poloneg|portugaleg|ruseg|rusianeg|saozneg|skoseg|spagnoleg|svedeg</token>
         </pattern>
         <message>Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match="(.*)g" regexp_replace="$1k"/></suggestion>?</message>
         <example type="incorrect">Ul levr <marker>brezhoneg</marker> eo.</example>
@@ -2346,7 +2348,7 @@ Some grammatical resources used:
       <rule>
         <pattern mark_from="1">
           <token regexp="yes">a[nr]</token>
-          <token regexp="yes">alamanek|brezhonek|esperantek|gallek|italianek|kembraek|saoznek|spagnolek</token>
+          <token regexp="yes">alamanek|arabek|brezhonek|danek|esperantek|euskarek|gallaouek|gallek|italianek|iwerzhonek|c’hembraek|c’herneveurek|c’hatalanek|lojbanek|manavek|nederlandek|polonek|portugalek|rusek|rusianek|saoznek|skosek|spagnolek|svedek</token>
         </pattern>
         <message>Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match="(.*)k" regexp_replace="$1g"/></suggestion>?</message>
         <example type="incorrect">Ar <marker>brezhonek</marker> a zo ur yezh keltiek.</example>
@@ -2818,6 +2820,17 @@ Some grammatical resources used:
       <message>Ha fellout a rae deoc’h skrivañ <suggestion>boaz</suggestion>?</message>
       <example type="incorrect">Un abadenn blijus evel <marker>boas</marker>.</example>
       <example type="correct">Un abadenn blijus evel boaz.</example>
+    </rule>
+
+    <rule id="RENK_RANK" name="a renk bezañ → a rank bezañ">
+      <pattern mark_from="1" mark_to="-1">
+        <token>a</token>
+        <token>renk</token>
+        <token postag="V inf"/>
+      </pattern>
+      <message>Ha fellout a rae deoc’h skrivañ <suggestion>rank</suggestion>?</message>
+      <example type="incorrect">An dour a <marker>renk</marker> bezañ yen.</example>
+      <example type="correct">An dour a rank bezañ yen.</example>
     </rule>
   </category>
   <!-- vim: foldmethod=marker foldmarker=<category,</category:
