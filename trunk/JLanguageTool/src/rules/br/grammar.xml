@@ -1849,7 +1849,7 @@ Some grammatical resources used:
       <example type="correct">Rwanda zo ur vro e-kreiz Afrika.</example>
     </rule>
 
-    <rule id="WAR_ROAK" name="war raok → war-raok (hag all)">
+    <rule id="WAR_RAOK" name="war raok → war-raok (hag all)">
       <pattern>
         <token>war</token>
         <token regexp="yes">bouez|c’hed|c’horre|draoñ|dreñv|dro|du|eeun|gil|giz|hed|laez|lein|lerc’h|nes|raok|sav|souz|zu|wazh</token>
@@ -1857,6 +1857,16 @@ Some grammatical resources used:
       <message>Implijit <suggestion>\1-\2</suggestion>.</message>
       <example type="incorrect">Ober a ra <marker>war dro</marker> ar saout.</example>
       <example type="correct">Ober a ra war-dro ar saout.</example>
+    </rule>
+
+    <rule id="BRO" name="Bro Saoz → Bro-Saoz">
+      <pattern>
+        <token regexp="yes">[BVP]ro</token>
+        <token regexp="yes">Alamagn|Amerika|C’hall|Dreger|Gembre|Gerne|Iwerzhon|Japan|Leon|Naoned|Raez|Roazhon|Saoz|Sant-Brieg|Sant-Maloù|Skos|Suis|Ulad|Wened</token>
+      </pattern>
+      <message>Implijit <suggestion><match no="1" case_conversion ="startupper"/>-<match no="2" case_conversion ="startupper"/></suggestion>.</message>
+      <example type="incorrect">Labour a ra e <marker>Bro Amerika</marker>.</example>
+      <example type="correct">Labour a ra e <marker>Bro-Amerika</marker>.</example>
     </rule>
 
     <rule id="C_HASTELL_NEVEZ" name="C’hastell Nevez → C’hastell-Nevez">
@@ -2888,6 +2898,101 @@ Some grammatical resources used:
       <example type="incorrect">An dour a <marker>renk</marker> bezañ yen.</example>
       <example type="correct">An dour a rank bezañ yen.</example>
     </rule>
+
+    <rulegroup id="KEN_HA" name="ken bras eget → ken bras ha">
+      <rule>
+        <pattern mark_from="2" mark_to="-1">
+          <token>ken</token>
+          <token postag="J.*" postag_regexp="yes"/>
+          <token>eget</token>
+          <token regexp="yes">[aeiouh].*</token>
+        </pattern>
+        <message>Implijit <suggestion>hag</suggestion> evit an derez-kevatal.</message>
+        <example type="incorrect">Ken melen <marker>eget</marker> aour</example>
+        <example type="correct">Ken melen hag aour</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2" mark_to="-1">
+          <token>ken</token>
+          <token postag="J.*" postag_regexp="yes"/>
+          <token>eget</token>
+          <token regexp="yes">[^aeiouh].*</token>
+        </pattern>
+        <message>Implijit <suggestion>ha</suggestion> evit an derez-kevatal.</message>
+        <example type="incorrect">Ken ruz <marker>eget</marker> gwad</example>
+        <example type="correct">Ken ruz ha gwad</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2">
+          <token>ken</token>
+          <token postag="J.*" postag_regexp="yes"/>
+          <token>egedon</token>
+        </pattern>
+        <message>Implijit <suggestion>ha me</suggestion> evit an derez-kevatal.</message>
+        <example type="incorrect">Ken bras <marker>egedon</marker></example>
+        <example type="correct">Ken bras ha me</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2">
+          <token>ken</token>
+          <token postag="J.*" postag_regexp="yes"/>
+          <token>egedout</token>
+        </pattern>
+        <message>Implijit <suggestion>ha te</suggestion> evit an derez-kevatal.</message>
+        <example type="incorrect">Ken bras <marker>egedout</marker></example>
+        <example type="correct">Ken bras ha te</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2">
+          <token>ken</token>
+          <token postag="J.*" postag_regexp="yes"/>
+          <token>egetañ</token>
+        </pattern>
+        <message>Implijit <suggestion>hag eñ</suggestion> evit an derez-kevatal.</message>
+        <example type="incorrect">Ken bras <marker>egetañ</marker></example>
+        <example type="correct">Ken bras hag eñ</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2">
+          <token>ken</token>
+          <token postag="J.*" postag_regexp="yes"/>
+          <token>egeti</token>
+        </pattern>
+        <message>Implijit <suggestion>hag eñ</suggestion> evit an derez-kevatal.</message>
+        <example type="incorrect">Ken bras <marker>egeti</marker></example>
+        <example type="correct">Ken bras hag hi</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2">
+          <token>ken</token>
+          <token postag="J.*" postag_regexp="yes"/>
+          <token>egedomp</token>
+        </pattern>
+        <message>Implijit <suggestion>hag eñ</suggestion> evit an derez-kevatal.</message>
+        <example type="incorrect">Ken bras <marker>egedomp</marker></example>
+        <example type="correct">Ken bras ha ni</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2">
+          <token>ken</token>
+          <token postag="J.*" postag_regexp="yes"/>
+          <token>egedoc’h</token>
+        </pattern>
+        <message>Implijit <suggestion>ha c’hwi</suggestion> evit an derez-kevatal.</message>
+        <example type="incorrect">Ken bras <marker>egedoc’h</marker></example>
+        <example type="correct">Ken bras ha c’hwi</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2">
+          <token>ken</token>
+          <token postag="J.*" postag_regexp="yes"/>
+          <token regexp="yes">eget[eo]</token>
+        </pattern>
+        <message>Implijit <suggestion>hag int</suggestion> evit an derez-kevatal.</message>
+        <example type="incorrect">Ken bras <marker>egeto</marker></example>
+        <example type="correct">Ken bras hag int</example>
+      </rule>
+    </rulegroup>
   </category>
   <!-- vim: foldmethod=marker foldmarker=<category,</category:
   -->
