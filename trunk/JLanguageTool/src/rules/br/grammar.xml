@@ -1687,6 +1687,62 @@ Some grammatical resources used:
       <example type="incorrect"><marker>Diaesoc’h diaesañ</marker> eo kavout labour.</example>
       <example type="correct">Diaesoc’h-diaesañ eo kavout labour.</example>
     </rule>
+    <rule id="MAN_SE_HONT" name="plac’h mañ → plac’h-mañ">
+      <pattern>
+        <token postag="[JN].*" postag_regexp="yes"/>
+        <token regexp="yes">se|mañ|hont|hen</token>
+      </pattern>
+      <message>Implijit <suggestion>\1-\2</suggestion>.</message>
+      <example type="incorrect">Koant eo ar <marker>plac’h mañ</marker>.</example>
+      <example type="correct">Koant eo ar plac’h-mañ.</example>
+    </rule>
+    <rule id="SETU_ME" name="setu me → setu-me">
+      <pattern>
+        <token>setu</token>
+        <token regexp="yes">me|te|eñ|hi|ni|c’hwi|int</token>
+      </pattern>
+      <message>Implijit <suggestion>\1-\2</suggestion>.</message>
+      <example type="incorrect"><marker>Setu me</marker> o komz brezhoneg.</example>
+      <example type="correct">Setu-me o komz brezhoneg.</example>
+    </rule>
+    <rulegroup id="GANIN_ME" name="ganin me → ganin-me">
+      <rule>
+        <pattern>
+          <token regexp="yes">ganin|evidon</token>
+          <token>me</token>
+        </pattern>
+        <message>Implijit <suggestion>\1-\2</suggestion>.</message>
+        <example type="incorrect"><marker>Ganin me</marker></example>
+        <example type="correct"><marker>Ganin-me</marker></example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">ganit|evidout</token>
+          <token>te</token>
+        </pattern>
+        <message>Implijit <suggestion>\1-\2</suggestion>.</message>
+        <example type="incorrect"><marker>Ganit te</marker></example>
+        <example type="correct"><marker>Ganin-te</marker></example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">ganimp|evidomp</token>
+          <token>ni</token>
+        </pattern>
+        <message>Implijit <suggestion>\1-\2</suggestion>.</message>
+        <example type="incorrect"><marker>Ganimp ni</marker></example>
+        <example type="correct"><marker>Ganimp-ni</marker></example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">ganeoc’h|evidoc’h</token>
+          <token>c’hwi</token>
+        </pattern>
+        <message>Implijit <suggestion>\1-\2</suggestion>.</message>
+        <example type="incorrect"><marker>Ganeoc’h c’hwi</marker></example>
+        <example type="correct"><marker>Ganeoc’h-c’hwi</marker></example>
+      </rule>
+    </rulegroup>
     <rule id="EVEL_JUST" name="evel just → evel-just">
       <pattern>
         <token>evel</token>
@@ -2105,7 +2161,7 @@ Some grammatical resources used:
         <token regexp="yes">A[rln]</token>
         <token regexp="yes">\p{Lu}.*<exception>Liamm</exception></token>
       </pattern>
-      <message>Pennlizherenn ebet e gerioù-mell an anvioù divoutin pa vezont e-kreiz ul lavarenn. Ha fellout a rae deoc’h skrivañ <suggestion><match no="1" regexp_match=".(.)" regexp_replace="a$1"/>.</suggestion></message>
+      <message>Pennlizherenn ebet e gerioù-mell an anvioù divoutin pa vezont e-kreiz ul lavarenn. Ha fellout a rae deoc’h skrivañ <suggestion><match no="1" regexp_match=".(.)" regexp_replace="a$1"/></suggestion>.</message>
       <example type="incorrect">Kantonioù <marker>Ar</marker> C’hastell-Nevez</example>
       <example type="correct">Kantonioù ar C’hastell-Nevez</example>
       <example type="correct">An Orian a zo pell ac’hann.</example>
@@ -2636,7 +2692,7 @@ Some grammatical resources used:
       <example type="incorrect"><marker>Maz eo</marker> mat deoc’h</example>
       <example type="correct"><marker>Ma’z eo</marker> mat deoc’h</example>
     </rule>
-    <rulegroup id="SETU_ACHANONON" name="setu ac’hanon → setu me">
+    <rulegroup id="SETU_ACHANONON" name="setu ac’hanon → setu-me">
       <rule>
         <pattern>
           <token>setu</token>
@@ -2644,7 +2700,7 @@ Some grammatical resources used:
         </pattern>
         <message>Ha fellout a rae deoc’h skrivañ <suggestion>\1 me</suggestion>?</message>
         <example type="incorrect"><marker>Setu ac’hanon</marker></example>
-        <example type="correct"><marker>Setu me</marker></example>
+        <example type="correct"><marker>Setu-me</marker></example>
       </rule>
       <rule>
         <pattern>
@@ -2653,7 +2709,7 @@ Some grammatical resources used:
         </pattern>
         <message>Ha fellout a rae deoc’h skrivañ <suggestion>\1 te</suggestion>?</message>
         <example type="incorrect"><marker>Setu ac’hanout</marker></example>
-        <example type="correct"><marker>Setu te</marker></example>
+        <example type="correct"><marker>Setu-te</marker></example>
       </rule>
       <rule>
         <pattern>
@@ -2662,7 +2718,7 @@ Some grammatical resources used:
         </pattern>
         <message>Ha fellout a rae deoc’h skrivañ <suggestion>\1 ni</suggestion>?</message>
         <example type="incorrect"><marker>Setu ac’hanomp</marker></example>
-        <example type="correct"><marker>Setu ni</marker></example>
+        <example type="correct"><marker>Setu-ni</marker></example>
       </rule>
     </rulegroup>
 
