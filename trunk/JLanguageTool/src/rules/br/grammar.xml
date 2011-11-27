@@ -1006,7 +1006,54 @@ Some grammatical resources used:
             <exception negate_pos="yes" postag="L [eo]" postag_regexp="yes"/>
           </token>
           <and>
-            <token regexp="yes" inflected="yes">g[^w].*</token>
+            <token regexp="yes" inflected="yes">k.*</token>
+            <token regexp="yes">(g|c’h).*</token>
+          </and>
+        </pattern>
+        <message>Ne zlefe ket bezañ ur c’hemmadur goude are rannig-verb «\1» gant ur ger a grog gant «k». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match="(g|c’h)(.*)" regexp_replace="k$2"/>?</suggestion></message>
+        <example type="incorrect">Peogwir e <marker>gomprenan</marker>.</example>
+        <example type="incorrect">Peogwir e <marker>c’homprenan</marker>.</example>
+        <example type="correct">Peogwir e komprenan.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token postag="L [eo]" postag_regexp="yes">
+            <exception negate_pos="yes" postag="L [eo]" postag_regexp="yes"/>
+          </token>
+          <and>
+            <token regexp="yes" inflected="yes">t.*</token>
+            <token regexp="yes">[dz].*</token>
+          </and>
+        </pattern>
+        <message>Ne zlefe ket bezañ ur c’hemmadur goude are rannig-verb «\1» gant ur ger a grog gant «t». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="t$1"/></suggestion>?</message>
+        <example type="incorrect">Peogwir e <marker>dremenemp</marker> dre Gemper.</example>
+        <example type="incorrect">Peogwir e <marker>zremenemp</marker> dre Gemper.</example>
+        <example type="correct">Peogwir e <marker>tremenemp</marker> dre Gemper.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token postag="L [eo]" postag_regexp="yes">
+            <exception negate_pos="yes" postag="L [eo]" postag_regexp="yes"/>
+          </token>
+          <and>
+            <token regexp="yes" inflected="yes">p.*</token>
+            <token regexp="yes">[bf].*</token>
+          </and>
+        </pattern>
+        <message>Ne zlefe ket bezañ ur c’hemmadur goude are rannig-verb «\1» gant ur ger a grog gant «p». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="t$1"/></suggestion>?</message>
+        <example type="incorrect">Peogwir e <marker>bellgomzin</marker> dezhañ</example>
+        <example type="incorrect">Peogwir e <marker>fellgomzin</marker> dezhañ</example>
+        <example type="correct">Peogwir e <marker>pellgomzin</marker> dezhañ</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token postag="L [eo]" postag_regexp="yes">
+            <exception negate_pos="yes" postag="L [eo]" postag_regexp="yes"/>
+          </token>
+          <and>
+            <token regexp="yes" inflected="yes">g[^w].*
+              <exception regexp="yes" inflected="yes">k.*</exception>
+            </token>
             <token regexp="yes" negate="yes">(c’h|o).*</token>
           </and>
         </pattern>
@@ -1018,6 +1065,7 @@ Some grammatical resources used:
         <example type="incorrect">Petra emaout o <marker>kortoz</marker>?</example>
         <example type="correct">Petra emaout o c’hortoz?</example>
         <example type="correct">Warlene e ouiemp</example>
+        <example type="correct">Peogwir e selaouomp sonerezh hag e kanomp.</example>
       </rule>
       <rule>
         <pattern mark_from="1">
@@ -1689,12 +1737,15 @@ Some grammatical resources used:
     </rule>
     <rule id="MAN_SE_HONT" name="plac’h mañ → plac’h-mañ">
       <pattern>
-        <token postag="[JN].*" postag_regexp="yes"/>
+        <token postag="[JN].*" postag_regexp="yes">
+          <exception>gant</exception>
+        </token>
         <token regexp="yes">se|mañ|hont|hen</token>
       </pattern>
       <message>Implijit <suggestion>\1-\2</suggestion>.</message>
       <example type="incorrect">Koant eo ar <marker>plac’h mañ</marker>.</example>
       <example type="correct">Koant eo ar plac’h-mañ.</example>
+      <example type="correct">Echu gant se.</example>
     </rule>
     <rule id="SETU_ME" name="setu me → setu-me">
       <pattern>
@@ -2661,7 +2712,7 @@ Some grammatical resources used:
     <rulegroup id="GER_DOUBLET" name="Ger doublet">
       <rule>
         <pattern>
-          <token regexp="yes">\p{L}+<exception postag="SENT_START"/><exception>ez</exception></token>
+          <token regexp="yes">\p{L}+<exception postag="SENT_START"/><exception regexp="yes">ez|zo</exception></token>
           <token spacebefore="yes"><exception postag="J.*" postag_regexp="yes"></exception><match no="0"/></token>
         </pattern>
         <message>Ger doublet «\1 \2». Ha fellout a rae deoc’h skrivañ <suggestion>\1</suggestion>?</message>
@@ -2670,6 +2721,7 @@ Some grammatical resources used:
         <example type="correct">Pelec’h <marker>emañ</marker> an ti-gar?</example>
         <example type="correct">N’eo ket fur-fur.</example>
         <example type="correct">Perak ez ez kuit?</example>
+        <example type="correct">Tud zo zo e vakañsoù.</example>
       </rule>
       <rule>
         <pattern>
