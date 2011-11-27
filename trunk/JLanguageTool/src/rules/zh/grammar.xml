@@ -14,6 +14,37 @@ $Id: grammar.xml,v 1.0 2011-07-29 13:20:25 taolin2011 Exp $
   <!-- 拼写： 词语错误-->
   <!-- ====================================================================== -->
   <category name="词语错误">
+    <rulegroup id="TING_YAN" name="廷/延">
+      <rule>
+        <pattern mark_to="-1">
+          <token>延</token>
+          <token postag="ng">杖</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>廷</suggestion>杖”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="廷"> 始于汉明帝，此后各代均有<marker>延</marker>杖大臣之事，明后期尤甚，杖死者亦不少。 </example>
+        <example type="correct">始于汉明帝，此后各代均有廷杖大臣之事，明后期尤甚，杖死者亦不少。</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag="nr">朝延</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>朝廷</suggestion>”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="朝廷"> 最明显的一点就是忠于国变成忠于<marker>朝延</marker>。 </example>
+        <example type="correct">最明显的一点就是爱国变成爱朝廷。</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token>廷</token>
+          <token regexp="yes" postag_regexp="yes" postag="a|ad|nr|vg">迟|缓|误|续|滞</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>延</suggestion>\2”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="延"> 这班车的发车时间<marker>廷</marker>迟了。 </example>
+        <example type="correct">这班车的发车时间延迟了。</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="SHAN_ZHAN" name="赡_瞻">
       <rule>
         <pattern mark_to="-1">
