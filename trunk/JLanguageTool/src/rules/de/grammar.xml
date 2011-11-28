@@ -16,6 +16,8 @@ title="Easy editing stylesheet" ?>
 <!ENTITY getrennt "Bitte prüfen Sie die Getrenntschreibung: ">
 <!ENTITY sprachadj1 "afrikanisch|altarabisch|altchinesisch|altgriechisch|altpersisch|amerikanisch|arabisch|chinesisch|dänisch|deutsch|englisch|finnisch|französisch|frühneuhochdeutsch|germanisch|griechisch|hocharabisch|hochchinesisch|hochdeutsch|holländisch|italienisch|japanisch|jiddisch|jugoslawisch|koreanisch|kroatisch|lateinisch|luxemburgisch|mittelhochdeutsch|neuhochdeutsch|niederländisch|norwegisch|persisch|polnisch|portugiesisch|russisch|schwedisch|schweizerisch|semitisch|serbisch|serbokroatisch|slawisch|spanisch|tschechisch|türkisch|ukrainisch|ungarisch|weißrussisch">
 <!ENTITY sprachadj2 "agglutinierend|algorithmisch|asiatisch|ausgestorben|bilderreich|bildlich|deutlich|dichterisch|europäisch|extensional|flektierend|formal|gesprochen|indogermanisch|intensional|klangvoll|konsonantenreich|maschinenorientiert|metaphorisch|poetisch|prosaisch|romanisch|schön|selten|vokalreich|wunderschön">
+<!ENTITY mahlennomen "Zahn|Mühle|Korn|Weizen|Getreide|.*Mehl|Müller">
+<!ENTITY malennomen ".*Farbe|.*Bild|.*Porträt|Kunst.*|Maler">
 <!ENTITY anfauf "„|&quot;|»|›|‚|'">
 <!ENTITY anfzu "‘|“|‹|«|&quot;|'">
 <!ENTITY anf "&anfauf;|‘|“|‹|«">
@@ -216,6 +218,58 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <message>Meinten Sie <suggestion><match no="1" regexp_match="miene" regexp_replace="mine"/></suggestion>? (Miene = Gesichtsausdruck)</message>
         <example type="incorrect" correction="Kugelschreibermine">Die <marker>Kugelschreibermiene</marker></example>
         <example type="correct">Die <marker>Bleistiftmine</marker></example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="MAHLEN" name="Möglicher Tippfehler: malen/mahlen">
+      <rule>
+        <pattern mark_from="2" mark_to="-1">
+          <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">&malennomen;</exception></token>
+          <token regexp="yes" inflected="yes" skip="5">&mahlennomen;<exception scope="next" regexp="yes" inflected="yes">&malennomen;</exception></token>
+          <token inflected="yes" regexp="yes" skip="-1">(aus|ge)?mal(ene?n?|t?)<exception scope="next" regexp="yes" inflected="yes">&malennomen;</exception></token>
+          <token postag="SENT_END"/>
+        </pattern>
+        <message>Meinten Sie <suggestion><match no="3" regexp_match="al" regexp_replace="ahl"/></suggestion>? (malen = mit Farbe ein Bild erstellen)</message>
+        <example type="incorrect" correction="ausmahlen">Weizen <marker>ausmalen</marker>.</example>
+        <example type="incorrect" correction="gemahlen">Das Korn wird in den Mühlen <marker>gemalen</marker>.</example>
+        <example type="incorrect" correction="Mahlen">Eine Mühle wird zum <marker>Malen</marker> verwendet.</example>
+        <example type="correct">Ich soll Bilder einer Mühle <marker>malen</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-2">
+          <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">&malennomen;</exception></token>
+          <token inflected="yes" regexp="yes" skip="5">(aus|ge)?mal(ene?n?|t?)<exception scope="next" regexp="yes" inflected="yes">&malennomen;</exception></token>
+          <token regexp="yes" inflected="yes" skip="-1">&mahlennomen;<exception scope="next" regexp="yes" inflected="yes">&malennomen;</exception></token>
+          <token postag="SENT_END"/>
+        </pattern>
+        <message>Meinten Sie <suggestion><match no="2" regexp_match="al" regexp_replace="ahl"/></suggestion>? (malen = mit Farbe ein Bild erstellen)</message>
+        <example type="incorrect" correction="gemahlene">das <marker>gemalene</marker> Korn aus der Mühle</example>
+        <example type="incorrect" correction="Mahlen">Zum <marker>Malen</marker> verwendet man eine Mühle.</example>
+        <example type="correct">Ich male ein Bild einer Mühle.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2" mark_to="-1">
+          <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">&mahlennomen;</exception></token>
+          <token regexp="yes" inflected="yes" skip="5">&malennomen;<exception scope="next" regexp="yes" inflected="yes">&mahlennomen;</exception></token>
+          <token inflected="yes" regexp="yes" skip="-1">(aus|ge)?mahl(ene?n?|t?)<exception scope="next" regexp="yes" inflected="yes">&mahlennomen;</exception></token>
+          <token postag="SENT_END"/>
+        </pattern>
+        <message>Meinten Sie <suggestion><match no="3" regexp_match="ahl" regexp_replace="al"/></suggestion>? (mahlen = in einer Mühle zerkleinern)</message>
+        <example type="incorrect" correction="ausmalen">Du musst das Bild <marker>ausmahlen</marker>.</example>
+        <example type="incorrect" correction="gemalt">Wir haben das im Kunstunterricht <marker>gemahlt</marker>.</example>
+        <example type="incorrect" correction="gemalt">Er hat ein schönes Selbstporträt <marker>gemahlt</marker>.</example>
+        <example type="correct">Das Bild zeigt eine <marker>mahlende</marker> Mühle.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-2">
+          <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">&mahlennomen;</exception></token>
+          <token inflected="yes" regexp="yes" skip="5">(aus|ge)?mahl(ene?n?|t?)<exception scope="next" regexp="yes" inflected="yes">&mahlennomen;</exception></token>
+          <token regexp="yes" inflected="yes" skip="-1">&malennomen;<exception scope="next" regexp="yes" inflected="yes">&mahlennomen;</exception></token>
+          <token postag="SENT_END"/>
+        </pattern>
+        <message>Meinten Sie <suggestion><match no="2" regexp_match="ahl" regexp_replace="al"/></suggestion>? (mahlen = in einer Mühle zerkleinern)</message>
+        <example type="incorrect" correction="male">Ich <marker>mahle</marker> das Bild aus.</example>
+        <example type="incorrect" correction="malten">Wir <marker>mahlten</marker> im Kunstunterricht.</example>
+        <example type="correct">Eine <marker>mahlende</marker> Mühle zeigt das Bild.</example>
       </rule>
     </rulegroup>
     <!-- TODO many false alarms because of not recognizing a neuter noun and when 'das' is used as pronoun (Er sagt, das sei in Ordnung) -->
@@ -3341,6 +3395,26 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Die <marker>Gelben</marker> Engel</example>
         <example type="incorrect" correction="Gelben">Von den <marker>gelben</marker> Engeln</example>
       </rule>
+      <rule>
+        <pattern mark_to="-1" mark_from="1" case_sensitive="yes">
+          <token regexp="yes">[Dd](er|es|en|em)</token>
+          <token regexp="yes">wieners?</token>
+          <token regexp="yes">Kongress(es)?</token>
+        </pattern>
+        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="2"/></suggestion> \3 (1815)? &namengross;</message>
+        <example type="correct">auf dem <marker>Wiener</marker> Kongress</example>
+        <example type="incorrect" correction="Wiener">auf dem <marker>wiener</marker> Kongress</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1" mark_from="1" case_sensitive="yes">
+          <token regexp="yes">[Dd](er|es|en|em)|[Ii]m|[vV]om</token>
+          <token regexp="yes">deutsche(r|n)?</token>
+          <token regexp="yes">Bunde?s?</token>
+        </pattern>
+        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="2"/></suggestion> \3 (1815–1866)? &namengross;</message>
+        <example type="correct">im <marker>Deutschen</marker> Bund</example>
+        <example type="incorrect" correction="Deutschen">im <marker>deutschen</marker> Bund</example>
+      </rule>
     </rulegroup>
     <rulegroup id="GROSSSCHREIBUNG_EHRENBEZEICHNUNG" name="Groß-/Kleinschreibung: Titel und Ehrenbezeichnungen 'heiliger (Heiliger) Vater etc.'">
       <rule>
@@ -5786,7 +5860,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <pattern mark_from="1" case_sensitive="yes">
           <token skip="-1" postag="SENT_START"><exception scope="next" postag="SUB.*:GEN:.*" postag_regexp="yes"/></token>
           <token regexp="yes">wegen|(ab|zu)züglich|seitens</token><!-- TODO …liegt abseits das…-->
-          <token regexp="yes">das|dem|den|die|ein|(D|d|s|m)?eine(m|n)?|(eu|ih|Ih|unse)re(m|n)?|(jene|deine|diese)(m|n)?</token>
+          <token regexp="yes">(das|dem|den|die)(selben?)?|ein|(D|d|s|m)?eine(m|n)?|(eu|ih|Ih|unse)re(m|n)?|(jene|deine|diese)(m|n)?</token>
         </pattern>
         <message>Die Präposition '\2' erfordert i.d.R. den Genitiv.</message>
         <example type="correct">von Rechts wegen die Bestrafung</example>
@@ -5803,12 +5877,13 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect">Ich bin <marker>wegen deinem</marker> Auto...</example>
         <example type="correct">Ich bin <marker>wegen jenes</marker> Auto...</example>
         <example type="correct">Ich habe des Staus <marker>wegen deinem</marker> Freund bescheidgegeben.</example>
+        <example type="incorrect">Ich bin <marker>wegen demselben</marker> Stau...</example>
       </rule>
       <rule>
         <pattern case_sensitive="yes">
           <token postag="SENT_START"/>
           <token regexp="yes">(Wegen|Abzüglich)</token><!-- TODO Abseits das…-->
-          <token regexp="yes">(das|dem|den|die|ein|(D|d|s|m)?eine(m|n)?|(eu|ih|Ih|unse)re(m|n)?|(jene|deine|diese)(m|n)?)</token>
+          <token regexp="yes">(das|dem|den|die)(selben?)?|ein|(D|d|s|m)?eine(m|n)?|(eu|ih|Ih|unse)re(m|n)?|(jene|deine|diese)(m|n)?</token>
         </pattern>
         <message>Die Präposition '<match no="2" case_conversion ="startlower"/>' erfordert i.d.R. den Genitiv.</message><!--TODO \2 should be lower case-->
         <example type="incorrect"><marker>Wegen dem</marker> Unfall...</example>
