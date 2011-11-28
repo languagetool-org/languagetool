@@ -938,6 +938,45 @@ Some grammatical resources used:
         <pattern mark_from="1">
           <token postag="C sub">ma<exception negate_pos="yes" postag="C sub"/></token>
           <and>
+            <token regexp="yes" inflected="yes">k.*</token>
+            <token regexp="yes">(g|c’h).*</token>
+          </and>
+        </pattern>
+        <message>Ne zlefe ket bezañ ur c’hemmadur goude ar stagell «\1» gant ur ger a grog gant «k». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match="(g|c’h)(.*)" regexp_replace="k$2"/>?</suggestion></message>
+        <example type="incorrect">Ma <marker>garjen</marker></example>
+        <example type="incorrect">Ma <marker>c’harjen</marker></example>
+        <example type="correct">Ma <marker>karjen</marker></example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token postag="C sub">ma<exception negate_pos="yes" postag="C sub"/></token>
+          <and>
+            <token regexp="yes" inflected="yes">t.*</token>
+            <token regexp="yes">[dz].*</token>
+          </and>
+        </pattern>
+        <message>Ne zlefe ket bezañ ur c’hemmadur goude ar stagell «\1» gant ur ger a grog gant «t». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="t$1"/></suggestion>?</message>
+        <example type="incorrect">Ma <marker>dremenomp</marker> dre Gemper.</example>
+        <example type="incorrect">Ma <marker>zremenomp</marker> dre Gemper.</example>
+        <example type="correct">Ma <marker>tremenomp</marker> dre Gemper.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token postag="C sub">ma<exception negate_pos="yes" postag="C sub"/></token>
+          <and>
+            <token regexp="yes" inflected="yes">p.*</token>
+            <token regexp="yes">[bf].*</token>
+          </and>
+        </pattern>
+        <message>Ne zlefe ket bezañ ur c’hemmadur goude ar stagell «\1» gant ur ger a grog gant «p». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="t$1"/></suggestion>?</message>
+        <example type="incorrect">Ma <marker>bellgomzomp</marker> dezhañ</example>
+        <example type="incorrect">Ma <marker>fellgomzomp</marker> dezhañ</example>
+        <example type="correct">Ma <marker>pellgomzomp</marker> dezhañ</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token postag="C sub">ma<exception negate_pos="yes" postag="C sub"/></token>
+          <and>
             <token regexp="yes" inflected="yes">g[^w].*</token>
             <token regexp="yes" negate="yes">(c’h|k|o).*</token>
           </and>
