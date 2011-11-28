@@ -14,6 +14,50 @@ $Id: grammar.xml,v 1.0 2011-07-29 13:20:25 taolin2011 Exp $
   <!-- 拼写： 词语错误-->
   <!-- ====================================================================== -->
   <category name="词语错误">
+    <rulegroup id="TU_XI" name="徒/徙">
+      <rule>
+        <pattern mark_to="-1">
+          <token>徙</token>
+          <token regexp="yes" postag_regexp="yes" postag="ng|n|r|nr|a">步|弟|劳|然|手|孙|刑|长</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>徒</suggestion>\2”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="徒"> 近些年<marker>徙</marker>步旅行受到很多人的追捧。 </example>
+        <example type="correct">近些年徒步旅行受到很多人的追捧。</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes" postag_regexp="yes" postag="ng|n|r|nr|a|v">学|师|信|教|匪|暴|赌|叛</token>
+          <token>徙</token>
+        </pattern>
+        <message> 您的意思是“\1<suggestion>徒</suggestion>”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="徒">
+          赌<marker>徙</marker>心理，不是仅仅存在于赌徒中，可以说每个人都或多或少拥有这样的心理。 </example>
+        <example type="correct">赌徒心理，不是仅仅存在于赌徒中，可以说每个人都或多或少拥有这样的心理。</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token>徒</token>
+          <token regexp="yes" postag_regexp="yes" postag="v|d">倚|边</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>徙</suggestion>\2”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="徙">
+          <marker>徒</marker>边是古时的一种刑罚。 </example>
+        <example type="correct">徙边是古时的一种刑罚。</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token postag="v">迁</token>
+          <token>徒</token>
+        </pattern>
+        <message> 您的意思是“迁<suggestion>徙</suggestion>”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="徙"> 日前，绵竹市西南镇檀木村出现了大规模的蟾蜍迁<marker>徒</marker>。 </example>
+        <example type="correct">日前，绵竹市西南镇檀木村出现了大规模的蟾蜍迁徙。</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="TING_YAN" name="廷/延">
       <rule>
         <pattern mark_to="-1">
