@@ -458,20 +458,41 @@ Some grammatical resources used:
       <rule>
         <pattern mark_from="1">
           <token regexp="yes">ho|ez|az</token>
-          <token regexp="yes">b.*</token>
+          <and>
+            <token regexp="yes" inflected="yes">k.*</token>
+            <token regexp="yes">(g|c’h).*</token>
+          </and>
         </pattern>
-        <message>Ur c’hemmadur dre galetaat a zlefe bezañ goude ar ger «\1». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="p$1"/></suggestion>?</message>
-        <example type="incorrect">Bras eo ho <marker>breur</marker>.</example>
-        <example type="correct">Bras eo ho preur.</example>
+        <message>Ne zlefe ket bezañ ur c’hemmadur goude ar get «\1» gant ur ger a grog gant «k». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match="(g|c’h)(.*)" regexp_replace="k$1"/></suggestion>?</message>
+        <example type="incorrect">Ho <marker>c’harr</marker></example>
+        <example type="incorrect">Ho <marker>garr</marker></example>
+        <example type="correct">Ho <marker>karr</marker></example>
       </rule>
       <rule>
         <pattern mark_from="1">
           <token regexp="yes">ho|ez|az</token>
-          <token regexp="yes">d.*</token>
+          <and>
+            <token regexp="yes" inflected="yes">t.*</token>
+            <token regexp="yes">[dz].*</token>
+          </and>
         </pattern>
-        <message>Ur c’hemmadur dre galetaat a zlefe bezañ goude ar ger «\1». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="p$1"/></suggestion>?</message>
-        <example type="incorrect">Pegen brav eo ho <marker>dilhad</marker>.</example>
-        <example type="correct">Pegen brav eo ho tilhad.</example>
+        <message>Ne zlefe ket bezañ ur c’hemmadur goude ar get «\1» gant ur ger a grog gant «t». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="t$1"/></suggestion>?</message>
+        <example type="incorrect">Ho <marker>dad</marker></example>
+        <example type="incorrect">Ho <marker>zad</marker></example>
+        <example type="correct">Ho <marker>tad</marker></example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">ho|ez|az</token>
+          <and>
+            <token regexp="yes" inflected="yes">p.*</token>
+            <token regexp="yes">[bf].*</token>
+          </and>
+        </pattern>
+        <message>Ne zlefe ket bezañ ur c’hemmadur goude ar get «\1» gant ur ger a grog gant «t». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="p$1"/></suggestion>?</message>
+        <example type="incorrect">Ho <marker>benn</marker></example>
+        <example type="incorrect">Ho <marker>fenn</marker></example>
+        <example type="correct">Ho <marker>penn</marker></example>
       </rule>
       <rule>
         <pattern mark_from="1">
@@ -483,6 +504,44 @@ Some grammatical resources used:
         <example type="correct">Mat eo ho kwastell.</example>
         <example type="incorrect">Lous eo ho <marker>genoù</marker>.</example>
         <example type="correct">Lous eo ho kenoù.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">ho|ez|az</token>
+          <and>
+            <token regexp="yes" inflected="yes">d.*</token>
+            <token regexp="yes">[dz].*</token>
+          </and>
+        </pattern>
+        <message>Ur c’hemmadur dre galetaat a zlefe bezañ goude ar ger «\1». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="p$1"/></suggestion>?</message>
+        <example type="incorrect">Pegen brav eo ho <marker>dilhad</marker>.</example>
+        <example type="incorrect">Pegen brav eo ho <marker>zilhad</marker>.</example>
+        <example type="correct">Pegen brav eo ho tilhad.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">ho|ez|az</token>
+          <and>
+            <token regexp="yes" inflected="yes">b.*</token>
+            <token regexp="yes">[vb].*</token>
+          </and>
+        </pattern>
+        <message>Ur c’hemmadur dre galetaat a zlefe bezañ goude ar ger «\1». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="p$1"/></suggestion>?</message>
+        <example type="incorrect">Bras eo ho <marker>breur</marker>.</example>
+        <example type="incorrect">Bras eo ho <marker>vreur</marker>.</example>
+        <example type="correct">Bras eo ho preur.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">ho|ez|az</token>
+          <and>
+            <token regexp="yes" inflected="yes">m.*</token>
+            <token regexp="yes">v.*</token>
+          </and>
+        </pattern>
+        <message>Ne zlefe ket bezañ ur c’hemmadur goude ar get «\1» gant ur ger a grog gant «m». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="m$1"/></suggestion>?</message>
+        <example type="incorrect">Ho <marker>valizenn</marker></example>
+        <example type="correct">Ho <marker>malizenn</marker></example>
       </rule>
       <rule>
         <pattern mark_from="2">
@@ -1777,14 +1836,16 @@ Some grammatical resources used:
     <rule id="MAN_SE_HONT" name="plac’h mañ → plac’h-mañ">
       <pattern>
         <token postag="[JN].*" postag_regexp="yes">
+          <exception postag="V.*" postag_regexp="yes"/>
           <exception>gant</exception>
         </token>
-        <token regexp="yes">se|mañ|hont|hen</token>
+        <token regexp="yes">se|mañ|hont</token>
       </pattern>
       <message>Implijit <suggestion>\1-\2</suggestion>.</message>
       <example type="incorrect">Koant eo ar <marker>plac’h mañ</marker>.</example>
       <example type="correct">Koant eo ar plac’h-mañ.</example>
       <example type="correct">Echu gant se.</example>
+      <example type="correct">Ne c’hallan ket ober se.</example>
     </rule>
     <rule id="SETU_ME" name="setu me → setu-me">
       <pattern>
@@ -2015,6 +2076,15 @@ Some grammatical resources used:
       <message>Implijit <suggestion>\1-\2</suggestion>.</message>
       <example type="incorrect"><marker>Boued mor</marker> am bo gant gwin gwenn.</example>
       <example type="correct">Boued-mor am bo gant gwin gwenn.</example>
+    </rule>
+    <rule id="KABELL_TOUSEG" name="kabell touseg → kabell-touseg">
+      <pattern>
+        <token regexp="yes">([kg]|c’h)[ae]bell|[vbp]oued</token>
+        <token>touseg</token>
+      </pattern>
+      <message>Implijit <suggestion>\1-\2</suggestion>.</message>
+      <example type="incorrect">Debret em eus <marker>kebell touseg</marker>.</example>
+      <example type="correct">Debret em eus <marker>kebell-touseg</marker>.</example>
     </rule>
     <rule id="KOUIGN_AMANN" name="kouign amann → kouign-amann">
       <pattern>
