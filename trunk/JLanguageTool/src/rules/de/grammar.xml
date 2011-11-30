@@ -12,6 +12,7 @@ title="Easy editing stylesheet" ?>
 <!ENTITY taggross "Besondere Kalendertage werden großgeschrieben.">
 <!ENTITY subanfang "Bitte prüfen Sie, ob ">
 <!ENTITY subende " hier als Substantiv gebraucht wird und daher großgeschrieben werden muss.">
+<!ENTITY advende " hier als Adverb gebraucht wird und daher kleingeschrieben werden muss.">
 <!ENTITY inwend "In der Wendung ">
 <!ENTITY getrennt "Bitte prüfen Sie die Getrenntschreibung: ">
 <!ENTITY sprachadj1 "afrikanisch|altarabisch|altchinesisch|altgriechisch|altpersisch|amerikanisch|arabisch|chinesisch|dänisch|deutsch|englisch|finnisch|französisch|frühneuhochdeutsch|germanisch|griechisch|hocharabisch|hochchinesisch|hochdeutsch|holländisch|italienisch|japanisch|jiddisch|jugoslawisch|koreanisch|kroatisch|lateinisch|luxemburgisch|mittelhochdeutsch|neuhochdeutsch|niederländisch|norwegisch|persisch|polnisch|portugiesisch|russisch|schwedisch|schweizerisch|semitisch|serbisch|serbokroatisch|slawisch|spanisch|tschechisch|türkisch|ukrainisch|ungarisch|weißrussisch">
@@ -2996,6 +2997,19 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect">Da regt er sich zu <marker>recht</marker> auf.</example>
     </rule>
     -->
+    <rule id="NAMENS" name="Groß-/Kleinschreibung: 'Namens (namens)'">
+      <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
+        <token postag="UNKNOWN|SUB:.*" postag_regexp="yes"/>
+        <token>Namens</token>
+        <token postag="UNKNOWN|EIG:.*" postag_regexp="yes"/>
+      </pattern>
+      <message>&subanfang;<suggestion><match case_conversion="alllower" no="2"/></suggestion>&advende;</message>
+      <example type="incorrect" correction="namens">Eine Frau <marker>Namens</marker> Anna</example>
+      <example type="correct">Eine Frau <marker>namens</marker> Anna</example>
+      <example type="incorrect" correction="namens">Eine Familie <marker>Namens</marker> Meier</example>
+      <example type="incorrect" correction="namens">Ein HTML-Backend <marker>Namens</marker> Broadway.</example>
+      <example type="correct">Beim Höhren des <marker>Namens</marker> Anna dachte er an sie.</example>
+    </rule>
     <rule id="KREUZ_UND_QUER" name="Groß-/Kleinschreibung: 'Kreuz (kreuz) und quer'">
       <pattern case_sensitive="yes" mark_from="1">
         <token negate_pos="yes" postag="SENT_START"/>
@@ -3669,7 +3683,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token postag="SENT_START" negate_pos="yes"><exception postag=".*GEN.*" postag_regexp="yes"/><exception regexp="yes">&anf;</exception></token>
           <token regexp="yes">(&wochentage;)s</token>
         </pattern>
-        <message>&subanfang;<suggestion><match no="2" case_conversion="alllower"/></suggestion> hier als Adverb gebraucht wird und daher kleingeschrieben werden muss.</message>
+        <message>&subanfang;<suggestion><match no="2" case_conversion="alllower"/></suggestion>&advende;</message>
         <example type="incorrect" correction="montags">Der Laden hat <marker>Montags</marker> geschlossen.</example>
         <example type="correct">Der Laden hat <marker>montags</marker> geschlossen.</example>
         <example type="correct"><marker>Montags</marker> geschlossen.</example>
@@ -5260,14 +5274,16 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct">Nach dem <marker>Öffnen</marker> bitte kühl lagern.</example>
       <example type="incorrect">Nach dem <marker>öffnen</marker> bitte kühl lagern.</example>
     </rule>
-    <rule id="VON_BEGRIFF" name="Groß-/Kleinschreibung: 'von begriff (Begriff) sein'">
+    <rule id="VON_BEGRIFF" name="Groß-/Kleinschreibung: 'im/von begriff (Begriff) sein'">
       <pattern mark_from="1" case_sensitive="yes">
-        <token>von</token>
-        <token>begriff</token>
+        <token regexp="yes">von|im</token>
+        <token regexp="yes">begriffe?</token>
       </pattern>
-      <message>Meinten Sie <suggestion>Begriff</suggestion> sein?</message>
+      <message>&subanfang;<suggestion><match case_conversion="startupper" no="2"/></suggestion>&subende;</message>
       <example type="correct">Schwer von <marker>Begriff</marker> sein</example>
-      <example type="incorrect">Schwer von <marker>begriff</marker> sein</example>
+      <example type="incorrect" correction="Begriff">Schwer von <marker>begriff</marker> sein</example>
+      <example type="correct">Er ist im <marker>Begriff</marker>, etwas zu tun.</example>
+      <example type="incorrect" correction="Begriffe">Sie ist im <marker>begriffe</marker>, etwas zu tun.</example>
     </rule>
     <rulegroup id="WEITERE_VORGEHEN" name="Groß-/Kleinschreibung: 'das weitere vorgehen (Vorgehen)'">
       <rule>
