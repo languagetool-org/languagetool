@@ -18,16 +18,9 @@
  */
 package org.languagetool.rules.km;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
@@ -50,34 +43,11 @@ public abstract class KhmerWordCoherencyRule extends KhmerRule {
 
   private final Map<String, String> wrongWords; // e.g. "вреѿті реѿт" -> "зреѿтою"
 
-  public String getFileName() {
-    return FILE_NAME;
-  }
-
-  public String getEncoding() {
-    return FILE_ENCODING;
-  }
-
-  /**
-   * Indicates if the rule is case-sensitive. Default value is <code>true</code>.
-   * @return true if the rule is case-sensitive, false otherwise.
-   */
-  public boolean isCaseSensitive() {
-    return false;  
-  }
-
-  /**
-   * @return the locale used for case conversion when {@link #isCaseSensitive()} is set to <code>false</code>.
-   */
-  public Locale getLocale() {
-    return Locale.getDefault();
-  }  
-
   public KhmerWordCoherencyRule(final ResourceBundle messages) throws IOException {
     if (messages != null) {
       super.setCategory(new Category(messages.getString("category_misc")));
     }
-    wrongWords = loadWords(JLanguageTool.getDataBroker().getFromRulesDirAsStream(getFileName()));
+    wrongWords = loadWords(JLanguageTool.getDataBroker().getFromRulesDirAsStream(FILE_NAME));
   }
 
   @Override
@@ -88,14 +58,6 @@ public abstract class KhmerWordCoherencyRule extends KhmerRule {
   @Override
   public String getDescription() {
     return "Checks for wrong words/phrases";
-  }
-
-  public String getSuggestion() {
-    return " is not valid, use ";
-  }
-
-  public String getShort() {
-    return "Wrong word";
   }
 
   @Override
@@ -124,16 +86,35 @@ public abstract class KhmerWordCoherencyRule extends KhmerRule {
     return toRuleMatchArray(ruleMatches);
   }
 
+  /**
+   * Indicates if the rule is case-sensitive. Default value is <code>true</code>.
+   * @return true if the rule is case-sensitive, false otherwise.
+   */
+  private boolean isCaseSensitive() {
+    return false;
+  }
+
+  /**
+   * @return the locale used for case conversion when {@link #isCaseSensitive()} is set to <code>false</code>.
+   */
+  private Locale getLocale() {
+    return Locale.getDefault();
+  }  
+
+  private String getShort() {
+    return "Wrong word";
+  }
+
+  private String getSuggestion() {
+    return " is not valid, use ";
+  }
+
   private Map<String, String> loadWords(final InputStream file) throws IOException {
     final Map<String, String> map = new HashMap<String, String>();
-    InputStreamReader isr = null;
-    BufferedReader br = null;
+    final Scanner scanner = new Scanner(file, FILE_ENCODING);
     try {
-      isr = new InputStreamReader(file, getEncoding());
-      br = new BufferedReader(isr);
-      String line;
-      while ((line = br.readLine()) != null) {
-        line = line.trim();
+      while (scanner.hasNextLine()) {
+        final String line = scanner.nextLine().trim();
         if (line.length() < 1) {
           continue;
         }
@@ -143,19 +124,14 @@ public abstract class KhmerWordCoherencyRule extends KhmerRule {
         final String[] parts = line.split("=");
         if (parts.length < 2) {
           throw new IOException("Format error in file - Make sure you have removed the Unicode BOM as well as check for other errors: "
-                  + JLanguageTool.getDataBroker().getFromRulesDirAsUrl(getFileName()) + ", line: " + line);
+                  + JLanguageTool.getDataBroker().getFromRulesDirAsUrl(FILE_NAME) + ", line: " + line);
         }
         for (int i = 0; i < parts.length - 1; i++) {
           map.put(parts[i], parts[parts.length - 1]);
         }
       }
     } finally {
-      if (br != null) {
-        br.close();
-      }
-      if (isr != null) {
-        isr.close();
-      }
+      scanner.close();
     }
     return map;
   }

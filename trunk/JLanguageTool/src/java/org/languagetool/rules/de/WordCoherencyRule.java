@@ -18,15 +18,9 @@
  */
 package org.languagetool.rules.de;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
@@ -116,14 +110,10 @@ public class WordCoherencyRule extends GermanRule {
 
   private Map<String, String> loadWords(InputStream file) throws IOException {
     final Map<String, String> map = new HashMap<String, String>();
-    InputStreamReader isr = null;
-    BufferedReader br = null;
+    final Scanner scanner = new Scanner(file, FILE_ENCODING);
     try {
-      isr = new InputStreamReader(file, FILE_ENCODING);
-      br = new BufferedReader(isr);
-      String line;
-      while ((line = br.readLine()) != null) {
-        line = line.trim();
+      while (scanner.hasNextLine()) {
+        final String line = scanner.nextLine().trim();
         if (line.length() < 1) {
           continue;
         }
@@ -138,8 +128,7 @@ public class WordCoherencyRule extends GermanRule {
         map.put(parts[1], parts[0]);
       }
     } finally {
-      if (br != null) br.close();
-      if (isr != null) isr.close();
+      scanner.close();
     }
     return map;
   }
