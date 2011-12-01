@@ -41,18 +41,61 @@ public class WordCoherencyRuleTest extends TestCase {
     rule.reset();
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das ist aufwändig, aber nicht zu aufwändig.")).length);
     // errors:
-    rule.reset();
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Das ist aufwendig, aber nicht zu aufwändig.")).length);
-    rule.reset();
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Das ist aufwändig, aber nicht zu aufwendig.")).length);
+    assertError("Das ist aufwendig, aber nicht zu aufwändig.", langTool);
+    assertError("Das ist aufwendiger, aber nicht zu aufwändig.", langTool);
+    assertError("Das ist aufwändig, aber nicht zu aufwendig.", langTool);
+    assertError("Das ist aufwändiger, aber nicht zu aufwendig.", langTool);
+    assertError("Delfin und Delphin", langTool);
+    assertError("Delfins und Delphine", langTool);
+    assertError("essentiell und essenziell", langTool);
+    assertError("essentieller und essenzielles", langTool);
+    assertError("Differential und Differenzial", langTool);
+    assertError("Differentials und Differenzials", langTool);
+    assertError("Facette und Fassette", langTool);
+    assertError("Facetten und Fassetten", langTool);
+    assertError("Joghurt und Jogurt", langTool);
+    assertError("Joghurts und Jogurt", langTool);
+    assertError("Joghurt und Jogurts", langTool);
+    assertError("Joghurts und Jogurts", langTool);
+    assertError("Ketchup und Ketschup", langTool);
+    assertError("Ketchups und Ketschups", langTool);
+    assertError("Kommuniqué und Kommunikee", langTool);
+    assertError("Kommuniqués und Kommunikees", langTool);
+    assertError("Necessaire und Nessessär", langTool);
+    assertError("Necessaires und Nessessärs", langTool);
+    assertError("Orthographie und Orthografie", langTool);
+    assertError("Orthographien und Orthografien", langTool);
+    assertError("Potential und Potenzial", langTool);
+    assertError("Potentials und Potenziale", langTool);
+    assertError("Portemonnaie und Portmonee", langTool);
+    assertError("Portemonnaies und Portmonees", langTool);
+    assertError("potentiell und potenziell", langTool);
+    assertError("potentielles und potenzieller", langTool);
+    assertError("Schenke und Schänke", langTool);
+    // see TODO comment in WordCoherencyRule:
+    //assertError("Schenken und Schänken", langTool);
+    assertError("substantiell und substanziell", langTool);
+    assertError("substantieller und substanzielles", langTool);
+    assertError("Thunfisch und Tunfisch", langTool);
+    assertError("Thunfische und Tunfische", langTool);
+    assertError("Xylophon und Xylofon", langTool);
+    assertError("Xylophone und Xylofone", langTool);
+    assertError("selbständig und selbstständig", langTool);
+    assertError("selbständiges und selbstständiger", langTool);
+    assertError("Bahnhofsplatz und Bahnhofplatz", langTool);
+    // TODO: known to fail because jWordSplitters list is not complete:
+    //assertError("Testketchup und Testketschup", langTool);
   }
-  
+
+  private void assertError(String s, JLanguageTool langTool) throws IOException {
+    final WordCoherencyRule rule = new WordCoherencyRule(null);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence(s)).length);
+  }
+
   public void testRuleCompleteTexts() throws IOException {
     final JLanguageTool langTool;
     // complete texts:
     List<RuleMatch> matches;
-    //matches = langTool.check("Das ist aufwendig. Aber hallo. Es ist wirklich aufwendig.");
-    //assertEquals(0, matches.size());
     langTool = new JLanguageTool(Language.GERMAN);
     matches = langTool.check("Das ist aufwändig. Aber hallo. Es ist wirklich aufwändig.");
     assertEquals(0, matches.size());

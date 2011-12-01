@@ -54,13 +54,11 @@ public class WordCoherencyRule extends GermanRule {
   private final Map<String, String> relevantWords;        // e.g. "aufwendig -> aufwändig"
   private Map<String, RuleMatch> shouldNotAppearWord = new HashMap<String, RuleMatch>();  // e.g. aufwändig -> RuleMatch of aufwendig
 
-  private final GermanLemmatizer germanLemmatizer;
-  
   public WordCoherencyRule(ResourceBundle messages) throws IOException {
-    if (messages != null)
+    if (messages != null) {
       super.setCategory(new Category(messages.getString("category_misc")));
+    }
     relevantWords = loadWords(JLanguageTool.getDataBroker().getFromRulesDirAsStream(FILE_NAME)); 
-    germanLemmatizer = new GermanLemmatizer();
   }
   
   @Override
@@ -89,17 +87,11 @@ public class WordCoherencyRule extends GermanRule {
       } else {
         final String origToken = token;
         final List<AnalyzedToken> readings = tmpToken.getReadings();
-        // TODO: in theory we need to care about the other readings, too:
+        // TODO: in theory we need to care about the other readings, too (affects e.g. German "Schenke" as a noun):
         if (readings != null && readings.size() > 0) {
           final String baseform = readings.get(0).getLemma();
           if (baseform != null) {
             token = baseform;
-          } else {
-            // not all words are known by the Tagger (esp. compounds), so use the
-            // file lookup:
-            final String manualLookup = germanLemmatizer.getBaseform(origToken);
-            if (manualLookup != null)
-              token = manualLookup;
           }
         }
         if (shouldNotAppearWord.containsKey(token)) {
