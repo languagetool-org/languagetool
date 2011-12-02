@@ -14,6 +14,104 @@ $Id: grammar.xml,v 1.0 2011-07-29 13:20:25 taolin2011 Exp $
   <!-- 拼写： 词语错误-->
   <!-- ====================================================================== -->
   <category name="词语错误">
+    <rulegroup id="TU_SHI" name="土/士">
+      <rule>
+        <pattern mark_to="-1">
+          <token>士</token>
+          <token regexp="yes" postag_regexp="yes" postag="j|n">层|地|产|豆</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>土</suggestion>\2”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="土"> 她会很多种<marker>士</marker>豆的做法。 </example>
+        <example type="correct">她会很多种土豆的做法。</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token postag="vg">故</token>
+          <token>士</token>
+        </pattern>
+        <message> 您的意思是“故<suggestion>土</suggestion>”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="土">
+          故乡、故<marker>士</marker>、家园这些词变得越来越美丽，越来越文学，但实际上的故乡已经难以寻觅了。 </example>
+        <example type="correct">故乡、故土、家园这些词变得越来越美丽，越来越文学，但实际上的故乡已经难以寻觅了。</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token>土</token>
+          <token postag="ng">卒</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>士</suggestion>卒”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="士"> 冠军侯善于治军却留下了不恤<marker>土</marker>卒的恶名。 </example>
+        <example type="correct">冠军侯善于治军却留下了不恤士卒的恶名。</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes" postag_regexp="yes" postag="n|j|vn">烈|护</token>
+          <token>土</token>
+        </pattern>
+        <message> 您的意思是“\1<suggestion>士</suggestion>”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="士"> 她被称为本医院最贴心的护<marker>土</marker>。 </example>
+        <example type="correct">她被称为本医院最贴心的护士。</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="WU_NIAO" name="乌/鸟">
+      <rule>
+        <pattern mark_to="-1">
+          <token>乌</token>
+          <token regexp="yes" postag_regexp="yes" postag="g|n">瞰|枪</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>鸟</suggestion>\2”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="鸟"> 这是苏州的<marker>乌</marker>瞰图。 </example>
+        <example type="correct">这是苏州的鸟瞰图。</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token postag="v">候</token>
+          <token>乌</token>
+        </pattern>
+        <message> 您的意思是“候<suggestion>鸟</suggestion>”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="鸟"> 现在正是候<marker>乌</marker>南迁的季节。 </example>
+        <example type="correct">现在正是候鸟南迁的季节。</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="XIU_TI" name="休/体">
+      <rule>
+        <pattern mark_to="-1">
+          <token>体</token>
+          <token regexp="yes" postag_regexp="yes" postag="nr|ng|n">戚|息</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>休</suggestion>\2”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="休"> 运沙船靠岸<marker>体</marker>息。 </example>
+        <example type="correct">运沙船靠岸休息。</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token>休</token>
+          <token regexp="yes" postag_regexp="yes" postag="v|nr|ng|tg">材|操|察|罚|积|检|态|温|系|现|验</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>体</suggestion>\2”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="体">
+          <marker>休</marker>验到的东西使得我们感到真实。 </example>
+        <example type="correct">体验到的东西使得我们感到真实。</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes" postag_regexp="yes" postag="v|nr|ng|tg">身|物|群|主|固|液|文</token>
+          <token>休</token>
+        </pattern>
+        <message> 您的意思是“\1<suggestion>体</suggestion>”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="体"> 这种错误的吃法有害身<marker>休</marker>。 </example>
+        <example type="correct">这种错误的吃法有害身体。</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="TU_XI" name="徒/徙">
       <rule>
         <pattern mark_to="-1">
