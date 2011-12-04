@@ -612,8 +612,8 @@ Some grammatical resources used:
           <token regexp="yes">b.*</token>
         </pattern>
         <message>Ur c’hemmadur dre galetaat a zlefe bezañ goude «\1\2». Ha fellout a rae deoc’h skrivañ <suggestion><match no="3" regexp_match=".(.*)" regexp_replace="p$1"/></suggestion>?</message>
-        <example type="incorrect">Ret eo dit lakaat un anv da'z <marker>blog</marker>.</example>
-        <example type="correct">Ret eo dit lakaat un anv da'z plog.</example>
+        <example type="incorrect">Ret eo dit lakaat un anv da’z <marker>blog</marker>.</example>
+        <example type="correct">Ret eo dit lakaat un anv da’z plog.</example>
       </rule>
       <rule>
         <pattern mark_from="2">
@@ -1437,7 +1437,7 @@ Some grammatical resources used:
       </rule>
     </rulegroup>
 
-    <rulegroup id="DEVEIZIOU_MIZ" name="D'ar pemp a viz → D'ar bemp a viz">
+    <rulegroup id="DEVEIZIOU_MIZ" name="D’ar pemp a viz → D’ar bemp a viz">
       <rule>
         <pattern mark_from="1" mark_to="-2">
           <token>ar</token>
@@ -1639,7 +1639,7 @@ Some grammatical resources used:
       <example type="correct">Ar ouiziegezh</example>
     </rule>
 
-    <!-- [CHALM] L-3, page L-118 recommande "ar tsar" mais l'usage en pratique
+    <!-- [CHALM] L-3, page L-118 recommande "ar tsar" mais l’usage en pratique
          est souvent "an tsar".  LanguageTool autorise les 2 possibilités. -->
     <rule id="AR_TSAR" name="ar + tsar, tsunami, etc.">
       <pattern mark_to="-1">
@@ -1676,14 +1676,16 @@ Some grammatical resources used:
       <example type="incorrect"><marker>Da’r</marker> mare ma oan o tigeriñ an nor</example>
       <example type="correct">D’ar mare ma oan o tigeriñ an nor</example>
     </rule>
-    <rule id="M_EUS" name="m’eus → ’m eus">
+    <rule id="MZ_EUS" name="m’eus → ’m eus">
       <pattern>
-        <token>m’</token>
+        <token regexp="yes">[mz]’</token>
         <token>eus</token>
       </pattern>
-      <message>Ha fellout a rae deoc’h skrivañ <suggestion>’m eus</suggestion>?</message>
+      <message>Ha fellout a rae deoc’h skrivañ <suggestion>’<match no="1" regexp_match="^(.).*" regexp_replace="$1"/> eus</suggestion>?</message>
       <example type="incorrect">Amzer a-walc’h <marker>m’eus</marker>.</example>
       <example type="correct">Amzer a-walc’h ’m eus.</example>
+      <example type="incorrect">Ma <marker>z’eus</marker> ezhomm.</example>
+      <example type="correct">Ma ’z eus ezhomm.</example>
     </rule>
   </category>
 
@@ -2557,7 +2559,7 @@ Some grammatical resources used:
         </pattern>
         <message>Ha fellout a rae deoc’h skrivañ <suggestion>ar <match no="2" case_conversion="startupper" regexp_match="..(.*)" regexp_replace="$1"/></suggestion>?</message>
         <example type="incorrect">Mont a ran d’ar skol d’<marker>an disadorn</marker>.</example>
-        <example type="correct">Mont a ran d’ar skol d'ar Sadorn.</example>
+        <example type="correct">Mont a ran d’ar skol d’ar Sadorn.</example>
       </rule>
       <rule>
         <pattern>
@@ -2566,7 +2568,7 @@ Some grammatical resources used:
         </pattern>
         <message>Ha fellout a rae deoc’h skrivañ <suggestion>al Lun</suggestion>?</message>
         <example type="incorrect">Mont a ran d’ar skol d’<marker>an dilun</marker>.</example>
-        <example type="correct">Mont a ran d’ar skol d'al Lun.</example>
+        <example type="correct">Mont a ran d’ar skol d’al Lun.</example>
       </rule>
       <rule>
         <pattern mark_from="1">
@@ -3012,7 +3014,7 @@ Some grammatical resources used:
       </rule>
     </rulegroup>
 
-    <rule id="MA_EZ_EUS" name="ma ez eus → ma'z eus">
+    <rule id="MA_EZ_EUS" name="ma ez eus → ma’z eus">
       <pattern mark_to="-1">
         <token>ma</token>
         <token>ez</token>
@@ -3022,7 +3024,7 @@ Some grammatical resources used:
       <example type="incorrect"><marker>Ma ez</marker> eus ur gudenn</example>
       <example type="correct">Ma’z eus ur gudenn</example>
     </rule>
-    <rule id="MAZ_EO" name="maz eo → ma'z eo">
+    <rule id="MAZ_EO" name="maz eo → ma’z eo">
       <pattern>
         <token>maz</token>
         <token regexp="yes">eo|eus</token>
