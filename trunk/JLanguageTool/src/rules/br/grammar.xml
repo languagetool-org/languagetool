@@ -1855,6 +1855,17 @@ Some grammatical resources used:
       <example type="incorrect"><marker>Ez eus</marker> ur c’hi el liorzh.</example>
       <example type="correct">Bez’ ez eus ur c’hi el liorzh.</example>
     </rule>
+    <rule id="BEZ_EZ_EUS" name="bez’ eus → bez’ ez eus">
+      <pattern>
+        <token regexp="yes">bez’?</token>
+        <token>eus</token>
+      </pattern>
+      <message>Ha fellout a rae deoc’h skrivañ <suggestion><match no="1" regexp_match="(...).*" regexp_replace="$1’"/> ez eus</suggestion>?</message>
+      <example type="incorrect"><marker>Bez’ eus</marker> ur c’hi</example>
+      <example type="incorrect"><marker>Bez’eus</marker> ur c’hi</example>
+      <example type="incorrect"><marker>Bez eus</marker> ur c’hi</example>
+      <example type="correct">Bez’ ez eus ur c’hi</example>
+    </rule>
     <rule id="EZ_EUS_AR" name="ez eus ar → emañ ar">
       <pattern mark_to="-1">
         <token>ez</token>
