@@ -439,80 +439,35 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     </rulegroup>
     <rulegroup id="FASST_VS_FAST" name="Möglicher Tippfehler: 'fasst (fast)'">
       <rule>
-        <pattern>
-          <token>hätte</token>
+        <pattern mark_from="1">
+          <token regexp="yes">hätten?|haben?|wären?|bin|seid</token>
           <token>fasst</token>
         </pattern>
-        <message>Meinten Sie <suggestion>hätte fast</suggestion> (beinahe)?</message>
-        <example type="correct">Ich <marker>hätte fast</marker> einen Infarkt bekommen.</example>
-        <example type="incorrect">Ich <marker>hätte fasst</marker> einen Infarkt bekommen.</example>
+        <message>Meinten Sie <suggestion>fast</suggestion> (beinahe)?</message>
+        <example type="correct">Ich hätte <marker>fast</marker> einen Infarkt bekommen.</example>
+        <example type="incorrect">Ich hätte <marker>fasst</marker> einen Infarkt bekommen.</example>
+        <example type="incorrect">Ich habe <marker>fasst</marker> einen Infarkt bekommen.</example>
+        <example type="incorrect">Ich wäre <marker>fasst</marker> gestorben vor Angst.</example>
       </rule>
       <rule>
-        <pattern>
-          <token>habe</token>
-          <token>fasst</token>
-        </pattern>
-        <message>Meinten Sie <suggestion>habe fast</suggestion> (beinahe)?</message>
-        <example type="correct">Ich <marker>habe fast</marker> einen Infarkt bekommen.</example>
-        <example type="incorrect">Ich <marker>habe fasst</marker> einen Infarkt bekommen.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>wäre</token>
-          <token>fasst</token>
-        </pattern>
-        <message>Meinten Sie <suggestion>wäre fast</suggestion> (beinahe)?</message>
-        <example type="correct">Ich <marker>wäre fast</marker> gestorben vor Angst.</example>
-        <example type="incorrect">Ich <marker>wäre fasst</marker> gestorben vor Angst.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>bin</token>
-          <token>fasst</token>
-        </pattern>
-        <message>Meinten Sie <suggestion>bin fast</suggestion> (beinahe)?</message>
-        <example type="correct">Ich <marker>bin fast</marker> gestorben vor Angst.</example>
-        <example type="incorrect">Ich <marker>bin fasst</marker> gestorben vor Angst.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>hätte</token>
+        <pattern mark_from="2">
+          <token regexp="yes">hätte|habe|wäre|bin</token>
           <token>ich</token>
           <token>fasst</token>
         </pattern>
-        <message>Meinten Sie <suggestion>hätte ich fast</suggestion> (beinahe)?</message>
-        <example type="correct">Da <marker>hätte ich fast</marker> einen Infarkt bekommen.</example>
-        <example type="incorrect">Da <marker>hätte ich fasst</marker> einen Infarkt bekommen.</example>
+        <message>Meinten Sie <suggestion>fast</suggestion> (beinahe)?</message>
+        <example type="correct">Da hätte ich <marker>fast</marker> einen Infarkt bekommen.</example>
+        <example type="incorrect">Da hätte ich <marker>fasst</marker> einen Infarkt bekommen.</example>
       </rule>
       <rule>
-        <pattern>
-          <token>habe</token>
-          <token>ich</token>
+        <pattern mark_from="2">
+          <token regexp="yes">hätte|habe|wäre|ist</token>
+          <token regexp="yes">er|sie|es</token>
           <token>fasst</token>
         </pattern>
-        <message>Meinten Sie <suggestion>habe ich fast</suggestion> (beinahe)?</message>
-        <example type="correct">Da <marker>habe ich fast</marker> einen Infarkt bekommen.</example>
-        <example type="incorrect">Da <marker>habe ich fasst</marker> einen Infarkt bekommen.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>wäre</token>
-          <token>ich</token>
-          <token>fasst</token>
-        </pattern>
-        <message>Meinten Sie <suggestion>wäre ich fast</suggestion> (beinahe)?</message>
-        <example type="correct">Da <marker>wäre ich fast</marker> gestorben vor Angst.</example>
-        <example type="incorrect">Da <marker>wäre ich fasst</marker> gestorben vor Angst.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>bin</token>
-          <token>ich</token>
-          <token>fasst</token>
-        </pattern>
-        <message>Meinten Sie <suggestion>bin ich fast</suggestion> (beinahe)?</message>
-        <example type="correct">Da <marker>bin ich fast</marker> gestorben vor Angst.</example>
-        <example type="incorrect">Da <marker>bin ich fasst</marker> gestorben.</example>
+        <message>Meinten Sie <suggestion>fast</suggestion> (beinahe)?</message>
+        <example type="correct">Da hätte er <marker>fast</marker> einen Infarkt bekommen.</example>
+        <example type="incorrect">Da hätte er <marker>fasst</marker> einen Infarkt bekommen.</example>
       </rule>
     </rulegroup>
     <rulegroup id="FLAME_VS_FLAMME" name="Möglicher Tippfehler: 'Flame (Flamme)'">
