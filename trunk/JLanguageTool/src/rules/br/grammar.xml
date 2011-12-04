@@ -381,9 +381,12 @@ Some grammatical resources used:
         <pattern mark_from="2">
           <token>en</token>
           <token>em</token>
-          <token regexp="yes">k.*</token>
+          <and>
+            <token postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes">k.*</token>
+            <token postag="V.*" postag_regexp="yes" regexp="yes">(k|c’h).*</token>
+          </and>
         </pattern>
-        <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude «\1 \2». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="g$1"/></suggestion>?</message>
+        <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude «\1 \2». Ha fellout a rae deoc’h skrivañ <suggestion><match no="3" regexp_match="(k|c’h)(.*)" regexp_replace="g$1"/></suggestion>?</message>
         <example type="incorrect">En em <marker>kavout</marker> a raimp dirak an iliz.</example>
         <example type="correct">En em gavout a raimp dirak an iliz.</example>
       </rule>
@@ -391,11 +394,70 @@ Some grammatical resources used:
         <pattern mark_from="2">
           <token>en</token>
           <token>em</token>
-          <token regexp="yes">gw.*</token>
+          <and>
+            <token postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes">t.*</token>
+            <token postag="V.*" postag_regexp="yes" regexp="yes">[tz].*</token>
+          </and>
         </pattern>
-        <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude «\1 \2». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="$1"/></suggestion>?</message>
+        <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude «\1 \2». Ha fellout a rae deoc’h skrivañ <suggestion><match no="3" regexp_match=".(.*)" regexp_replace="d$1"/></suggestion>?</message>
+        <example type="incorrect">En em <marker>treiñ</marker> a rae etrezeg ennon</example>
+        <example type="incorrect">En em <marker>zreiñ</marker> a rae etrezeg ennon</example>
+        <example type="correct">En em <marker>dreiñ</marker> a rae etrezeg ennon</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2">
+          <token>en</token>
+          <token>em</token>
+          <and>
+            <token postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes">gw.*</token>
+            <token postag="V.*" postag_regexp="yes" regexp="yes">[gk]w.*</token>
+          </and>
+        </pattern>
+        <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude «\1 \2». Ha fellout a rae deoc’h skrivañ <suggestion><match no="3" regexp_match=".(.*)" regexp_replace="$1"/></suggestion>?</message>
         <example type="incorrect">En em <marker>gwelet</marker> a raen.</example>
+        <example type="incorrect">En em <marker>kwelet</marker> a raen.</example>
         <example type="correct">En em welet a raen.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2">
+          <token>en</token>
+          <token>em</token>
+          <and>
+            <token postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes">g[^w].*</token>
+            <token postag="V.*" postag_regexp="yes" regexp="yes">[gk].*</token>
+          </and>
+        </pattern>
+        <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude «\1 \2». Ha fellout a rae deoc’h skrivañ <suggestion><match no="3" regexp_match=".(.*)" regexp_replace="c’h$1"/></suggestion>?</message>
+        <example type="incorrect">En em <marker>goulenn</marker> a ran</example>
+        <example type="incorrect">En em <marker>koulenn</marker> a ran</example>
+        <example type="correct">En em c’houlenn a ran</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2">
+          <token>en</token>
+          <token>em</token>
+          <and>
+            <token postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes">d.*</token>
+            <token postag="V.*" postag_regexp="yes" regexp="yes">[dt].*</token>
+          </and>
+        </pattern>
+        <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude «\1 \2». Ha fellout a rae deoc’h skrivañ <suggestion><match no="3" regexp_match=".(.*)" regexp_replace="z$1"/></suggestion>?</message>
+        <example type="incorrect">En em <marker>dibab</marker> a reont o-unan.</example>
+        <example type="incorrect">En em <marker>tibab</marker> a reont o-unan.</example>
+        <example type="correct">En em <marker>zibab</marker> a reont o-unan.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2">
+          <token>en</token>
+          <token>em</token>
+          <and>
+            <token postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes">m.*</token>
+            <token postag="V.*" postag_regexp="yes" regexp="yes">m.*</token>
+          </and>
+        </pattern>
+        <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude «\1 \2». Ha fellout a rae deoc’h skrivañ <suggestion><match no="3" regexp_match=".(.*)" regexp_replace="v$1"/></suggestion>?</message>
+        <example type="incorrect">En em <marker>magañ</marker> a ra e-unan.</example>
+        <example type="correct">En em <marker>vagañ</marker> a ra e-unan.</example>
       </rule>
     </rulegroup>
 
