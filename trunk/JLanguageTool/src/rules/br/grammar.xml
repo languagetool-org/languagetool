@@ -646,6 +646,24 @@ Some grammatical resources used:
             <exception postag="C sub">ma</exception>
           </token>
           <and>
+            <token regexp="yes" inflected="yes">k.*<exception>dije</exception></token>
+            <token regexp="yes" negate="yes">c’h.*</token>
+          </and>
+        </pattern>
+        <message>Ur c’hemmadur dre c’hwezhadenniñ zlefe bezañ goude ar ger «\1». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="c’h$1"/></suggestion>?</message>
+        <example type="incorrect">Tri <marker>karr</marker> am eus.</example>
+        <example type="incorrect">Tri <marker>garr</marker> am eus.</example>
+        <example type="correct">Tri c’harr am eus.</example>
+        <example type="correct">En em gompren a ran.</example>
+        <example type="correct">He dije</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">em|he|ma|nav|o|peder|pevar|teir|tri|va
+            <exception postag_regexp="yes" postag="L o|X EN_EM"/>
+            <exception postag="C sub">ma</exception>
+          </token>
+          <and>
             <token regexp="yes" inflected="yes">t.*
               <exception regexp="yes" inflected="yes">d.*</exception>
             </token>
@@ -670,24 +688,6 @@ Some grammatical resources used:
             <exception postag="C sub">ma</exception>
           </token>
           <and>
-            <token regexp="yes" inflected="yes">k.*<exception>dije</exception></token>
-            <token regexp="yes" negate="yes">c’h.*</token>
-          </and>
-        </pattern>
-        <message>Ur c’hemmadur dre c’hwezhadenniñ zlefe bezañ goude ar ger «\1». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="c’h$1"/></suggestion>?</message>
-        <example type="incorrect">Tri <marker>karr</marker> am eus.</example>
-        <example type="incorrect">Tri <marker>garr</marker> am eus.</example>
-        <example type="correct">Tri c’harr am eus.</example>
-        <example type="correct">En em gompren a ran.</example>
-        <example type="correct">He dije</example>
-      </rule>
-      <rule>
-        <pattern mark_from="1">
-          <token regexp="yes">em|he|ma|nav|o|peder|pevar|teir|tri|va
-            <exception postag_regexp="yes" postag="L o|X EN_EM"/>
-            <exception postag="C sub">ma</exception>
-          </token>
-          <and>
             <token regexp="yes" inflected="yes">p.*
               <exception regexp="yes" inflected="yes">b.*</exception>
             </token>
@@ -699,6 +699,71 @@ Some grammatical resources used:
         <example type="incorrect">Re ziwezhat out va <marker>baotr</marker>!</example>
         <example type="correct">Re ziwezhat out va faotr!</example>
         <example type="correct">Va beg digor</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">em|he|ma|nav|o|peder|pevar|teir|tri|va
+            <exception postag_regexp="yes" postag="L o|X EN_EM"/>
+            <exception postag="C sub">ma</exception>
+          </token>
+          <and>
+            <token regexp="yes" inflected="yes">g.*
+              <exception regexp="yes" inflected="yes">k.*</exception>
+            </token>
+            <token regexp="yes">(c’h|[kw]).*</token>
+          </and>
+        </pattern>
+        <message>Ne zlefe ket bezañ ur c’hemmadur amañ. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match="(c’h|[kw])(.*)" regexp_replace="g$1"/></suggestion>?</message>
+        <example type="incorrect">Teir <marker>wetur</marker> en deus.</example>
+        <example type="incorrect">Teir <marker>kwetur</marker> en deus.</example>
+        <example type="correct">Teir gwetur en deus.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">em|he|ma|nav|o|peder|pevar|teir|tri|va
+            <exception postag_regexp="yes" postag="L o|X EN_EM"/>
+            <exception postag="C sub">ma</exception>
+          </token>
+          <and>
+            <token regexp="yes" inflected="yes">d.*</token>
+            <token regexp="yes">[tz].*</token>
+          </and>
+        </pattern>
+        <message>Ne zlefe ket bezañ ur c’hemmadur amañ. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="d$1"/></suggestion>?</message>
+        <example type="incorrect">Teir <marker>timezell</marker></example>
+        <example type="incorrect">Teir <marker>zimezell</marker></example>
+        <example type="correct">Teir <marker>dimezell</marker></example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">em|he|ma|nav|o|peder|pevar|teir|tri|va
+            <exception postag_regexp="yes" postag="L o|X EN_EM"/>
+            <exception postag="C sub">ma</exception>
+          </token>
+          <and>
+            <token regexp="yes" inflected="yes">b.*</token>
+            <token regexp="yes">[pv].*</token>
+          </and>
+        </pattern>
+        <message>Ne zlefe ket bezañ ur c’hemmadur amañ. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="b$1"/></suggestion>?</message>
+        <example type="incorrect">Tri <marker>vleiz</marker></example>
+        <example type="incorrect">Tri <marker>pleiz</marker></example>
+        <example type="correct">Tri <marker>bleiz</marker></example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">em|he|ma|nav|o|peder|pevar|teir|tri|va
+            <exception postag_regexp="yes" postag="L o|X EN_EM"/>
+            <exception postag="C sub">ma</exception>
+          </token>
+          <and>
+            <token regexp="yes" inflected="yes">m.*</token>
+            <token regexp="yes">v.*</token>
+          </and>
+        </pattern>
+        <message>Ne zlefe ket bezañ ur c’hemmadur amañ. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="m$1"/></suggestion>?</message>
+        <example type="incorrect">Tri <marker>vartolod</marker></example>
+        <example type="correct">Tri <marker>martolod</marker></example>
       </rule>
       <rule>
         <pattern mark_from="2">
