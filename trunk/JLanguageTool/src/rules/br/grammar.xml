@@ -279,7 +279,7 @@ Some grammatical resources used:
             <token regexp="yes" inflected="yes" postag="UNKNOWN" negate_pos="yes">d.*
               <exception inflected="yes">da</exception>
               <exception regexp="yes" inflected="yes">t.*</exception>
-              <exception regexp="yes">dud(-(mañ|se|hont))?</exception>
+              <exception regexp="yes">[dt]ud(-(mañ|se|hont))?</exception>
             </token>
             <token regexp="yes">[dt].*</token>
           </and>
@@ -2195,7 +2195,7 @@ Some grammatical resources used:
 
     <rule id="PORZH" name="porzh mor → porzh-mor">
       <pattern>
-        <token regexp="yes">porzh|porzhioù</token>
+        <token regexp="yes">[pb]orzh(ioù)?</token>
         <token regexp="yes">bered|brezel|c’hoari|gwint|houarn|kenwerzh|kouez|mor|pesketa|skol|yer</token>
       </pattern>
       <message>Implijit <suggestion>\1-\2</suggestion>.</message>
@@ -2229,6 +2229,15 @@ Some grammatical resources used:
       <message>Implijit <suggestion>\1-\2</suggestion>.</message>
       <example type="incorrect"><marker>Boued mor</marker> am bo gant gwin gwenn.</example>
       <example type="correct">Boued-mor am bo gant gwin gwenn.</example>
+    </rule>
+    <rule id="STEREDENN_DARED" name="steredenn dared → steredenn-dared">
+      <pattern>
+        <token regexp="yes">stered(enn)?</token>
+        <token regexp="yes">dared|lostek|[mv]or</token>
+      </pattern>
+      <message>Implijit <suggestion>\1-\2</suggestion>.</message>
+      <example type="incorrect">Ur <marker>steredenn vor</marker></example>
+      <example type="correct">Ur <marker>steredenn-vor</marker></example>
     </rule>
     <rule id="KABELL_TOUSEG" name="kabell touseg → kabell-touseg">
       <pattern>
@@ -2277,7 +2286,7 @@ Some grammatical resources used:
     </rule>
     <rule id="TAN_GWALL" name="tan gwall → tan-gwall">
       <pattern>
-        <token regexp="yes">tan(ioù)?</token>
+        <token regexp="yes">[dt]an(ioù)?</token>
         <token regexp="yes">arvest|gwall|noz</token>
       </pattern>
       <message>Implijit <suggestion>\1-\2</suggestion>.</message>
@@ -2292,6 +2301,15 @@ Some grammatical resources used:
       <message>Implijit <suggestion>\1-\2</suggestion>.</message>
       <example type="incorrect">War e <marker>varc’h houarn</marker> ez ae.</example>
       <example type="correct">War e <marker>varc’h-houarn</marker> ez ae.</example>
+    </rule>
+    <rule id="POUEZ_MOUEZH" name="pouez mouezh → pouez-mouezh">
+      <pattern>
+        <token regexp="yes">[pb]ouez</token>
+        <token regexp="yes">mouezh</token>
+      </pattern>
+      <message>Implijit <suggestion>\1-\2</suggestion>.</message>
+      <example type="incorrect">Dudious eo da <marker>bouez mouezh</marker></example>
+      <example type="correct">Dudious eo da <marker>bouez-mouezh</marker></example>
     </rule>
   </category>
 
@@ -2617,7 +2635,7 @@ Some grammatical resources used:
       </rule>
       <rule>
         <pattern mark_from="1">
-          <token regexp="yes">pe[tp]</token>
+          <token regexp="yes">pe[tp]|u[lnr]</token>
           <token postag="N . p.*" postag_regexp="yes">
             <exception postag="N . s.*" postag_regexp="yes"/>
           </token>
@@ -2625,6 +2643,8 @@ Some grammatical resources used:
         <message>Ne zlefe ket bezañ ur stumm lies «\2» goude ar ger «\1».</message>
         <example type="incorrect">Pet <marker>tud</marker> a zo chomet?</example>
         <example type="correct">Pet den a zo chomet?</example>
+        <example type="incorrect">Tapet en deus ul <marker>logod</marker>.</example>
+        <example type="correct">Tapet en deus ul logodenn.</example>
       </rule>
       <rule>
         <pattern mark_from="2">
@@ -2819,7 +2839,7 @@ Some grammatical resources used:
       </rule>
       <rule>
         <pattern>
-          <token>re</token>
+          <token>re<exception scope="previous">ar</exception></token>
           <token>a</token>
           <token postag="J.*" postag_regexp="yes">
             <exception postag="N . s?p.*" postag_regexp="yes"/>
@@ -2829,6 +2849,7 @@ Some grammatical resources used:
         <example type="incorrect"><marker>Re a vras</marker> eo.</example>
         <example type="correct">Re vras eo.</example>
         <example type="correct">Re a drouz zo.</example>
+        <example type="correct">Ar re a gar al lennegezh</example>
       </rule>
     </rulegroup>
 
@@ -3363,6 +3384,7 @@ Some grammatical resources used:
         <example type="correct">Brav eo an <marker>nevezamzer</marker>.</example>
       </rule>
     </rulegroup>
+
   </category>
   <!-- vim: foldmethod=marker foldmarker=<category,</category:
   -->
