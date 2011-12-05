@@ -14,6 +14,60 @@ $Id: grammar.xml,v 1.0 2011-07-29 13:20:25 taolin2011 Exp $
   <!-- 拼写： 词语错误-->
   <!-- ====================================================================== -->
   <category name="词语错误">
+    <rulegroup id="XIN_XING" name="辛/幸">
+      <rule>
+        <pattern mark_to="-1">
+          <token>幸</token>
+          <token regexp="yes" postag_regexp="yes" postag="a|vg|nr">苦|酸|亥|勤|辣</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>辛</suggestion>\2”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="辛"> 俗话说，走路不知道骑马的<marker>幸</marker>苦。 </example>
+        <example type="correct">俗话说，走路不知道骑马的辛苦。</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token postag="nr">辛</token>
+          <token postag="j">福</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>幸</suggestion>福”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="幸"> 夫妻之间恩爱才能制造<marker>辛</marker>福。 </example>
+        <example type="correct">夫妻之间恩爱才能制造幸福。</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-2">
+          <token postag="nr">辛</token>
+          <token>存</token>
+          <token>者</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>幸</suggestion>存者”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="幸"> 他是这次地震中唯一的<marker>辛</marker>存者。 </example>
+        <example type="correct">他是这次地震中唯一的幸存者。</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token>辛</token>
+          <token postag="v">亏</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>幸</suggestion>亏”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="幸">
+          <marker>辛</marker>亏在这次考试前我有好好复习。 </example>
+        <example type="correct">幸亏在这次考试前我有好好复习。</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token postag_regexp="yes" postag="v|vn">宠</token>
+          <token>辛</token>
+        </pattern>
+        <message> 您的意思是“宠<suggestion>幸</suggestion>”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="幸"> 这是何等的宠<marker>辛</marker>啊。 </example>
+        <example type="correct">这是何等的宠幸啊。</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="TU_SHI" name="土/士">
       <rule>
         <pattern mark_to="-1">
