@@ -2311,6 +2311,15 @@ Some grammatical resources used:
       <example type="incorrect">Dudious eo da <marker>bouez mouezh</marker></example>
       <example type="correct">Dudious eo da <marker>bouez-mouezh</marker></example>
     </rule>
+    <rule id="LEZ_VARN" name="lez varn → lez-varn">
+      <pattern>
+        <token regexp="yes">lez(ioù)?</token>
+        <token regexp="yes">[vb]arn</token>
+      </pattern>
+      <message>Implijit <suggestion>\1-\2</suggestion>.</message>
+      <example type="incorrect">Al <marker>lez varn</marker></example>
+      <example type="correct">Al <marker>lez-varn</marker></example>
+    </rule>
   </category>
 
   <category name="Araogenn">
@@ -2885,7 +2894,7 @@ Some grammatical resources used:
     <rulegroup id="GOUZOUT_MA" name="N’ouzon ket ma → N’ouzon ket ha">
       <rule>
         <pattern mark_from="2">
-          <token inflected="yes">gouzout</token>
+          <token inflected="yes" regexp="yes">gouzout|goût</token>
           <token>ket</token>
           <token>ma</token>
         </pattern>
@@ -2907,12 +2916,21 @@ Some grammatical resources used:
         <example type="correct">Gouzout a rez hag-eñ e vo digor?</example>
         <example type="correct">Gouzout a ouzout hag-eñ e vo digor?</example>
       </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">gouzout|goût</token>
+          <token>ma</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>ha</suggestion>, pe <suggestion>hag-eñ e</suggestion>, pe <suggestion>daoust hag-eñ e</suggestion>?</message>
+        <example type="incorrect">Ne oa ket posupl goût <marker>ma</marker> oa kinniget.</example>
+        <example type="incorrect">Ne oa ket posupl goût hag eñ e oa kinniget.</example>
+      </rule>
     </rulegroup>
 
     <rulegroup id="HAG_EN" name="hag eñ → hag-eñ">
       <rule>
         <pattern mark_from="2">
-          <token inflected="yes">gouzout</token>
+          <token inflected="yes" regexp="yes">gouzout|goût</token>
           <token>ket</token>
           <token>hag</token>
           <token regexp="yes">e[ñn]</token>
