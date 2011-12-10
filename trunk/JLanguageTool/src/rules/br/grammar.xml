@@ -926,14 +926,9 @@ Some grammatical resources used:
       <rule>
         <pattern mark_from="1">
           <token regexp="yes">[au]r<exception postag="X EN_UR"/></token>
-          <and>
-            <token postag="N m s.*|N f p.*" postag_regexp="yes" regexp="yes">g.*
-              <exception postag="N m s.*|N m p t.*" postag_regexp="yes" regexp="yes" inflected="yes">g.*</exception>
-            </token>
-            <token postag="N m s.*|N f p.*" postag_regexp="yes" regexp="yes" inflected="yes">k.*
-              <exception postag="N f s.*|N m p t.*" postag_regexp="yes" regexp="yes" inflected="yes">k.*</exception>
-            </token>
-          </and>
+          <token postag="(N m s|N f p) M.*:1:.*" postag_regexp="yes" regexp="yes">g.*
+            <exception postag="N m s|N f p" postag_regexp="yes" regexp="yes">g.*</exception>
+          </token>
         </pattern>
         <message>Direizh eo ober ur c’hemmadur dre vlotaat er ger «\2». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="c’h$1"/></suggestion>?</message>
         <example type="incorrect">Ar <marker>goñfitur</marker></example>
@@ -943,6 +938,7 @@ Some grammatical resources used:
         <example type="incorrect">Ar <marker>gentelioù</marker></example>
         <example type="correct">Ar c’hentelioù</example>
         <example type="correct">En ur gas lizhiri</example>
+        <example type="correct">Ar greun</example>
       </rule>
       <rule>
         <pattern mark_from="1">
