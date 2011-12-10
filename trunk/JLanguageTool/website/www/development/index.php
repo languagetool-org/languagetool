@@ -284,7 +284,7 @@ etc as an error:</p>
 <p><a name="javarules"><strong>Adding new Java rules</strong></a><br />
 Rules that cannot be expressed with a simple pattern in <tt>grammar.xml</tt>
 can be developed as a Java class. See 
-<tt><a href="http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/JLanguageTool/src/java/de/danielnaber/languagetool/rules/WordRepeatRule.java?revision=4635&amp;content-type=text%2Fplain">rules/WordRepeatRule.java</a></tt>
+<tt><a href="http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/JLanguageTool/src/java/org/languagetool/rules/WordRepeatRule.java?revision=4635&amp;content-type=text%2Fplain">rules/WordRepeatRule.java</a></tt>
 for a simple
 example which you can use to develop your own rules. You will also need to
 add your rule's id to <tt>&lt;YourLanguage&gt;.java</tt> to activate it.</p>
