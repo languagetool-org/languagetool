@@ -699,6 +699,9 @@ Some grammatical resources used:
         <example type="incorrect">Re ziwezhat out va <marker>baotr</marker>!</example>
         <example type="correct">Re ziwezhat out va faotr!</example>
         <example type="correct">Va beg digor</example>
+        <example type="incorrect">Bras eo o <marker>patatez</marker>.</example>
+        <example type="incorrect">Bras eo o <marker>batatez</marker>.</example>
+        <example type="correct">Bras eo o fatatez.</example>
       </rule>
       <rule>
         <pattern mark_from="1">
@@ -888,7 +891,7 @@ Some grammatical resources used:
           <token regexp="yes">[au]n</token>
           <and>
             <token postag="N m s.*|N f p.*" postag_regexp="yes" regexp="yes">[dz].*
-              <exception regexp="yes">dra(-(mañ|se|hont))?</exception>
+              <exception regexp="yes">dra(ig)?(-(mañ|se|hont))?</exception>
               <exception postag="N m s.*|N f p.*" postag_regexp="yes" regexp="yes" inflected="yes">[dz].*</exception>
             </token>
             <token postag="N m s.*|N f p.*" postag_regexp="yes" regexp="yes" inflected="yes">t.*
@@ -1563,7 +1566,7 @@ Some grammatical resources used:
     <rule id="AL" name="gerioù al, ul, el, hol">
       <pattern mark_to="-1">
         <token regexp="yes">[aeu][nr]|hor<exception postag="X EN_UR"/></token>
-        <token regexp="yes">l..*</token>
+        <token regexp="yes">l..*<exception regexp="yes" postag="UNKNOWN">L\p{Lu}*</exception></token>
       </pattern>
       <message>Ar ger «\1» a zlefe bezañ <suggestion><match no="1" regexp_match="(.*)." regexp_replace="$1l"/></suggestion> dirak ur ger a grog gant ar gensonenn «l».</message>
       <example type="incorrect"><marker>Ur</marker> levr a zo ganin.</example>
@@ -1576,6 +1579,7 @@ Some grammatical resources used:
       <example type="correct">Tev eo hol levr.</example>
       <example type="correct">Kouezhet on en ur lammat.</example>
       <example type="correct">An l glebiet</example>
+      <example type="correct">An LTB</example>
     </rule>
     <rule id="AN" name="gerioù an, un, en, hon">
       <pattern mark_to="-1">
@@ -1609,7 +1613,7 @@ Some grammatical resources used:
           <token regexp="yes">[aeu]n<exception scope="previous" regexp="yes">e?z|ned</exception></token>
           <token regexp="yes">[bcfgjkmprsvwyz].*
             <exception postag="K .* o.*" postag_regexp="yes"></exception>
-            <exception regexp="yes" postag="UNKNOWN">[FLMNRS]\p{Lu}*</exception>
+            <exception regexp="yes" postag="UNKNOWN">[FMNRS](\p{Lu}|-)*</exception>
             <exception regexp="yes">[FLMNRS]\d*</exception>
           </token>
         </pattern>
@@ -1621,6 +1625,7 @@ Some grammatical resources used:
         <example type="correct">Ar ouiziegezh</example>
         <example type="incorrect"><marker>AN</marker> FILM A BLIJ DIN</example>
         <example type="correct">Gant an FSE</example>
+        <example type="correct">An SNJ-CGT</example>
         <example type="correct">Un S.O.S.</example>
         <example type="correct">Gustav ez an war-sav.</example>
       </rule>
@@ -2141,13 +2146,14 @@ Some grammatical resources used:
     <rule id="E_KREIZ" name="e kreiz → e-kreiz (hag all)">
       <pattern>
         <token>e</token>
-        <token regexp="yes">barzh|douare|giz(-(all|mañ|se|hon))?|harz|hunan|keit(-se)?|kerz|kichen|krec’h|kreiz|lec’h|leizh|maez|pad|sell|ser|tailh|tal|touez|tro|unan</token>
+        <token regexp="yes">barzh|douare|giz(-(all|mañ|se|hon))?|harz|hunan|keit(-se)?|kerz|kichen|krec’h|kreiz|leizh|maez|pad|sell|ser|tailh|tal|touez|tro|unan</token>
       </pattern>
       <message>Implijit <suggestion>\1-\2</suggestion>.</message>
       <example type="incorrect"><marker>E kichen</marker> Gwitalmeze emañ o chom.</example>
       <example type="correct">E-kichen Gwitalmeze emañ o chom.</example>
       <example type="incorrect">Rwanda zo ur vro <marker>e kreiz</marker> Afrika.</example>
       <example type="correct">Rwanda zo ur vro e-kreiz Afrika.</example>
+      <example type="correct">E breizh hag <marker>e lec’h</marker> all.</example>
     </rule>
 
     <rule id="DIWAR_BENN" name="diwar benn → diwar-benn (hag all)">
@@ -2377,12 +2383,13 @@ Some grammatical resources used:
     </rulegroup>
     <rule id="DIGAREZIT_DIN" name="Digarezit din → Digarezit ac’hanon">
       <pattern mark_from="1">
-        <token regexp="yes">digarez(it)?</token>
+        <token regexp="yes">digarez(it)?<exception scope="previous">un</exception></token>
         <token inflected="yes">da</token>
       </pattern>
       <message>Ne vez ket implijet an araogenn «da» gat ar verb «\1».</message>
       <example type="incorrect">Digarezit <marker>dimp</marker></example>
       <example type="correct">Digarezit ac’hanomp</example>
+      <example type="correct">Un digarez da ziskouez Breizh.</example>
     </rule>
     <rule id="A_RAOK_DA" name="Digarezit din → Digarezit ac’hanon">
       <pattern mark_from="1" mark_to="-1">
