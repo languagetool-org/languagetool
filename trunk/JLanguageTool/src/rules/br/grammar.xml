@@ -1262,13 +1262,14 @@ Some grammatical resources used:
           </token>
           <and>
             <token regexp="yes" inflected="yes">p.*</token>
-            <token regexp="yes">[bf].*</token>
+            <token regexp="yes">[bf].*<exception inflected="yes" regexp="yes">[bf].*</exception></token>
           </and>
         </pattern>
         <message>Ne zlefe ket bezañ ur c’hemmadur goude ar rannig-verb «\1» gant ur ger a grog gant «p». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="t$1"/></suggestion>?</message>
         <example type="incorrect">Peogwir e <marker>bellgomzin</marker> dezhañ</example>
         <example type="incorrect">Peogwir e <marker>fellgomzin</marker> dezhañ</example>
         <example type="correct">Peogwir e <marker>pellgomzin</marker> dezhañ</example>
+        <example type="correct">O welet ar blijadur zo bet e <marker>fell</marker> deomp kinnig abadennoù all.</example>
       </rule>
       <rule>
         <pattern mark_from="1">
@@ -2305,7 +2306,7 @@ Some grammatical resources used:
     <rule id="POUEZ_MOUEZH" name="pouez mouezh → pouez-mouezh">
       <pattern>
         <token regexp="yes">[pb]ouez</token>
-        <token regexp="yes">mouezh</token>
+        <token>mouezh</token>
       </pattern>
       <message>Implijit <suggestion>\1-\2</suggestion>.</message>
       <example type="incorrect">Dudious eo da <marker>bouez mouezh</marker></example>
@@ -2320,6 +2321,16 @@ Some grammatical resources used:
       <example type="incorrect">Al <marker>lez varn</marker></example>
       <example type="correct">Al <marker>lez-varn</marker></example>
     </rule>
+    <rule id="END_EEUN" name="end eeun → end-eeun">
+      <pattern>
+        <token>end</token>
+        <token>eeun</token>
+      </pattern>
+      <message>Implijit <suggestion>\1-\2</suggestion>.</message>
+      <example type="incorrect"><marker>End eeun</marker></example>
+      <example type="correct"><marker>End-eeun</marker></example>
+    </rule>
+
   </category>
 
   <category name="Araogenn">
@@ -2923,7 +2934,7 @@ Some grammatical resources used:
         </pattern>
         <message>Ha fellout a rae deoc’h skrivañ <suggestion>ha</suggestion>, pe <suggestion>hag-eñ e</suggestion>, pe <suggestion>daoust hag-eñ e</suggestion>?</message>
         <example type="incorrect">Ne oa ket posupl goût <marker>ma</marker> oa kinniget.</example>
-        <example type="incorrect">Ne oa ket posupl goût hag eñ e oa kinniget.</example>
+        <example type="correct">Ne oa ket posupl goût hag eñ e oa kinniget.</example>
       </rule>
     </rulegroup>
 
