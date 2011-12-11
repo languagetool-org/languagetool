@@ -219,6 +219,7 @@ Some grammatical resources used:
         <pattern mark_from="1">
           <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|gwall|ne|pa|re|seul
             <exception postag="P|L e" postag_regexp="yes">e</exception>
+            <exception scope="previous">ez</exception>
           </token>
           <and>
             <token regexp="yes" inflected="yes">p.*</token>
@@ -234,6 +235,7 @@ Some grammatical resources used:
         <example type="correct">Ne blij ket din komz nederlandeg.</example>
         <example type="correct">Gwelet em eus anezhañ div pe deir gwech marteze.</example>
         <example type="correct">Da fazioù</example>
+        <example type="correct">Re vuan ez a pep tra.</example>
       </rule>
       <rule>
         <pattern mark_from="1">
@@ -641,7 +643,7 @@ Some grammatical resources used:
     <rulegroup id="KEMM_DRE_C_HWEZHADENNIN" name="kemmadur dre c’hwezhadenniñ">
       <rule>
         <pattern mark_from="1">
-          <token regexp="yes">em|he|ma|nav|o|peder|pevar|teir|tri|va
+          <token regexp="yes">am|em|he|ma|nav|o|peder|pevar|teir|tri|va
             <exception postag_regexp="yes" postag="L o|X EN_EM"/>
             <exception postag="C sub">ma</exception>
           </token>
@@ -659,7 +661,7 @@ Some grammatical resources used:
       </rule>
       <rule>
         <pattern mark_from="1">
-          <token regexp="yes">em|he|ma|nav|o|peder|pevar|teir|tri|va
+          <token regexp="yes">am|em|he|ma|nav|o|peder|pevar|teir|tri|va
             <exception postag_regexp="yes" postag="L o|X EN_EM"/>
             <exception postag="C sub">ma</exception>
           </token>
@@ -683,7 +685,7 @@ Some grammatical resources used:
       </rule>
       <rule>
         <pattern mark_from="1">
-          <token regexp="yes">em|he|ma|nav|o|peder|pevar|teir|tri|va
+          <token regexp="yes">am|em|he|ma|nav|o|peder|pevar|teir|tri|va
             <exception postag_regexp="yes" postag="L o|X EN_EM"/>
             <exception postag="C sub">ma</exception>
           </token>
@@ -705,7 +707,7 @@ Some grammatical resources used:
       </rule>
       <rule>
         <pattern mark_from="1">
-          <token regexp="yes">em|he|ma|nav|o|peder|pevar|teir|tri|va
+          <token regexp="yes">am|em|he|ma|nav|o|peder|pevar|teir|tri|va
             <exception postag_regexp="yes" postag="L o|X EN_EM"/>
             <exception postag="C sub">ma</exception>
           </token>
@@ -739,7 +741,7 @@ Some grammatical resources used:
       </rule>
       <rule>
         <pattern mark_from="1">
-          <token regexp="yes">em|he|ma|nav|o|peder|pevar|teir|tri|va
+          <token regexp="yes">am|em|he|ma|nav|o|peder|pevar|teir|tri|va
             <exception postag_regexp="yes" postag="L o|X EN_EM"/>
             <exception postag="C sub">ma</exception>
           </token>
@@ -755,7 +757,7 @@ Some grammatical resources used:
       </rule>
       <rule>
         <pattern mark_from="1">
-          <token regexp="yes">em|he|ma|nav|o|peder|pevar|teir|tri|va
+          <token regexp="yes">am|em|he|ma|nav|o|peder|pevar|teir|tri|va
             <exception postag_regexp="yes" postag="L o|X EN_EM"/>
             <exception postag="C sub">ma</exception>
           </token>
@@ -1658,7 +1660,7 @@ Some grammatical resources used:
   <category name="Rannig-verb">
     <rule id="PA_E" name="Pa + rannig-verb">
       <pattern mark_to="-1">
-        <token>pa</token>
+        <token regexp="yes">pa|mar?</token>
         <token>e</token>
         <token postag="V.*" postag_regexp="yes"/>
       </pattern>
@@ -3416,6 +3418,19 @@ Some grammatical resources used:
         <example type="correct">Brav eo an <marker>nevezamzer</marker>.</example>
       </rule>
     </rulegroup>
+
+    <rule id="RAK_V" name="rak/hogen/met + verb">
+      <pattern>
+        <token regexp="yes">hogen|met|rak</token>
+        <token>e</token>
+        <token postag="V.*" postag_regexp="yes">
+          <exception postag="N.*" postag_regexp="yes"/>
+        </token>
+      </pattern>
+      <message>Ne zlefe ket bezañ un verb goude «\1».</message>
+      <example type="incorrect"><marker>Rak e varvas</marker> e mamm.</example>
+      <example type="correct">Rak e mamm e varvas.</example>
+    </rule>
 
   </category>
   <!-- vim: foldmethod=marker foldmarker=<category,</category:
