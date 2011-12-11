@@ -12,6 +12,9 @@ Some grammatical resources used:
 * [CHALM] La grammaire bretonne pour tous (Eugène CHALM).
 * [MKKER] Le guide du bretonnant (Mark KERRAIN).
 
+Useful links:
+* http://br.wikipedia.org/wiki/Wikipedia:Fazio%C3%B9_stanka%C3%B1G
+
 -->
 <rules lang="br"
        xsi:noNamespaceSchemaLocation="../rules.xsd"
@@ -3430,6 +3433,36 @@ Some grammatical resources used:
       <message>Ne zlefe ket bezañ un verb goude «\1».</message>
       <example type="incorrect"><marker>Rak e varvas</marker> e mamm.</example>
       <example type="correct">Rak e mamm e varvas.</example>
+    </rule>
+
+    <rule id="ZOKEN_AVAT" name="zoken/avat">
+      <pattern case_sensitive="yes" mark_from="1">
+        <token postag="SENT_START"/>
+        <token regexp="yes">Avat|Zoken|Eta|'Ta</token>
+      </pattern>
+      <message>N’hall ket «\1» bezañ lakaet e penn kentañ ur frazenn.</message>
+      <example type="incorrect"><marker>Zoken</marker> ma mamm a oar se.</example>
+      <example type="correct">Ma mamm zoken a oar se.</example>
+    </rule>
+
+    <rule id="AMEZEGEZ" name="amezegez → amezek">
+      <pattern mark_from="1">
+        <token postag="N f .*" postag_regexp="yes"/>
+        <token>amezegez</token>
+      </pattern>
+      <message>N'eus stumm gwregel ebet d'an anv-gwan e brezhoneg. Ha fellout a rae deoc’h skrivañ <suggestion>amezek</suggestion>?</message>
+      <example type="incorrect">An enezenn <marker>amezegez</marker></example>
+      <example type="correct">An enezenn <marker>amezek</marker></example>
+    </rule>
+
+    <rule id="KET" name="ket hep verb">
+      <pattern>
+        <token>ha</token>
+        <token>ket</token>
+      </pattern>
+      <message>N'haller ket implij «ket» hep verb evel e galleg. Ha fellout a rae deoc’h skrivañ <suggestion>\1 n’eo ket</suggestion>?</message>
+      <example type="incorrect">Ober a ran chistr, <marker>ha ket</marker> lambig.</example>
+      <example type="correct">Ober a ran chistr, ha n’eo ket lambig.</example>
     </rule>
 
   </category>
