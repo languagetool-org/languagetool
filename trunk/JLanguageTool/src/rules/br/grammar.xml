@@ -735,13 +735,14 @@ Useful links:
           </token>
           <and>
             <token regexp="yes" inflected="yes">d.*</token>
-            <token regexp="yes">[tz].*</token>
+            <token regexp="yes">[tz].*<exception regexp="yes">[tz]ud</exception></token>
           </and>
         </pattern>
         <message>Ne zlefe ket bezañ ur c’hemmadur amañ. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="d$1"/></suggestion>?</message>
         <example type="incorrect">Teir <marker>timezell</marker></example>
         <example type="incorrect">Teir <marker>zimezell</marker></example>
         <example type="correct">Teir <marker>dimezell</marker></example>
+        <example type="correct">Gant o zud</example>
       </rule>
       <rule>
         <pattern mark_from="1">
@@ -1983,6 +1984,22 @@ Useful links:
         <example type="correct">Debret em eus.</example>
       </rule>
     </rulegroup>
+
+    <rulegroup id="ZO_EO" name="zo → eo">
+      <rule>
+        <pattern mark_from="2">
+          <token postag="SENT_START"/>
+          <token postag="[AJ]|V ppa" postag_regexp="yes">
+            <exception postag="[NZ].*" postag_regexp="yes"/>
+          </token>
+          <token regexp="yes">’?zo</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>eo</suggestion>?</message>
+        <example type="incorrect">Hir <marker>zo</marker> an hent.</example>
+        <example type="correct">Hir <marker>eo</marker> an hent.</example>
+        <example type="correct">Alan <marker>’zo</marker> fur.</example>
+      </rule>
+    </rulegroup>
   </category>
 
   <category name="Berennig-stagañ">
@@ -2059,7 +2076,7 @@ Useful links:
     <rule id="EVEL_JUST" name="evel just → evel-just">
       <pattern>
         <token>evel</token>
-        <token>just</token>
+        <token regexp="yes">just|henn</token>
       </pattern>
       <message>Implijit <suggestion>\1-\2</suggestion>.</message>
       <example type="incorrect">Lakaet eo bet e brezhoneg <marker>evel just</marker>.</example>
@@ -2183,26 +2200,6 @@ Useful links:
       <example type="correct">Ober a ra war-dro ar saout.</example>
     </rule>
 
-    <rule id="BRO" name="Bro Saoz → Bro-Saoz">
-      <pattern>
-        <token regexp="yes">[BVP]ro</token>
-        <token regexp="yes">Alamagn|Amerika|C’hall|Dreger|Gembre|Gerne|Iwerzhon|Japan|Leon|Naoned|Raez|Roazhon|Saoz|Sant-Brieg|Sant-Maloù|Skos|Suis|Ulad|Wened</token>
-      </pattern>
-      <message>Implijit <suggestion><match no="1" case_conversion ="startupper"/>-<match no="2" case_conversion ="startupper"/></suggestion>.</message>
-      <example type="incorrect">Labour a ra e <marker>Bro Amerika</marker>.</example>
-      <example type="correct">Labour a ra e <marker>Bro-Amerika</marker>.</example>
-    </rule>
-
-    <rule id="C_HASTELL_NEVEZ" name="C’hastell Nevez → C’hastell-Nevez">
-      <pattern case_sensitive="yes">
-        <token regexp="yes">([GK]|C’h)astell</token>
-        <token regexp="yes">Bourc’h|Briant|Geron|Nevez|Noez|Paol|Tepaod</token>
-      </pattern>
-      <message>Implijit <suggestion>\1-\2</suggestion>.</message>
-      <example type="incorrect">E <marker>Kastell Nevez</marker> emaon o chom.</example>
-      <example type="correct">E Kastell-Nevez emaon o chom.</example>
-    </rule>
-
     <rule id="PORZH" name="porzh mor → porzh-mor">
       <pattern>
         <token regexp="yes">[pb]orzh(ioù)?</token>
@@ -2303,6 +2300,33 @@ Useful links:
       <example type="incorrect">Un <marker>tan gwall</marker></example>
       <example type="correct">Un tan-gwall</example>
     </rule>
+    <rule id="HARZ_LABOUR" name="harz labour → harz-labour">
+      <pattern>
+        <token regexp="yes">harz|diskrog</token>
+        <token>labour</token>
+      </pattern>
+      <message>Implijit <suggestion>\1-\2</suggestion>.</message>
+      <example type="incorrect"><marker>Harz labour</marker> a vo</example>
+      <example type="correct"><marker>Harz(où)?-labour</marker> a vo</example>
+    </rule>
+    <rule id="SAL_DEBRIN" name="sal debriñ → sal-debriñ">
+      <pattern>
+        <token regexp="yes">sal(ioù)?</token>
+        <token regexp="yes">debriñ|degemer|dour|gibellañ</token>
+      </pattern>
+      <message>Implijit <suggestion>\1-\2</suggestion>.</message>
+      <example type="incorrect">Er <marker>sal debriñ</marker> emaon.</example>
+      <example type="correct">Er <marker>sal-debriñ</marker> emaon.</example>
+    </rule>
+    <rule id="SERR_PRIM" name="serr prim → serr-prim">
+      <pattern>
+        <token regexp="yes">serr(où)?</token>
+        <token regexp="yes">noz|prim</token>
+      </pattern>
+      <message>Implijit <suggestion>\1-\2</suggestion>.</message>
+      <example type="incorrect"><marker>Serr prim</marker> ma chupenn</example>
+      <example type="correct"><marker>Serr-prim</marker> ma chupenn</example>
+    </rule>
     <rule id="MARCH_HOUARN" name="marc’h houarn → marc’h-houarn">
       <pattern>
         <token regexp="yes">[vm]arc’h</token>
@@ -2338,15 +2362,6 @@ Useful links:
       <message>Implijit <suggestion>\1-\2</suggestion>.</message>
       <example type="incorrect"><marker>End eeun</marker></example>
       <example type="correct"><marker>End-eeun</marker></example>
-    </rule>
-
-    <rule id="MOR_BIHAN" name="Mor-Bihan">
-      <pattern case_sensitive="yes">
-        <token regexp="yes">Morbihan|Mor-bihan</token>
-      </pattern>
-      <message>Implijit <suggestion>Mor-Bihan</suggestion>.</message>
-      <example type="incorrect">Komzet vez brezhoneg er <marker>Morbihan</marker>.</example>
-      <example type="correct">Komzet vez brezhoneg er <marker>Mor-Bihan</marker>.</example>
     </rule>
 
     <rule id="MONT_DONT" name="mont dont → mont-dont">
@@ -2581,17 +2596,96 @@ Useful links:
 
   </category>
 
+  <category name="Douaroniezh">
+    <rulegroup id="DEPARTAMANT" name="Departament">
+      <rule>
+        <pattern case_sensitive="yes">
+          <token regexp="yes">Morbihan|Mor-bihan</token>
+        </pattern>
+        <message>Implijit <suggestion>Mor-Bihan</suggestion>.</message>
+        <example type="incorrect">Komzet vez brezhoneg er <marker>Morbihan</marker>.</example>
+        <example type="correct">Komzet vez brezhoneg er <marker>Mor-Bihan</marker>.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token>Mor</token>
+          <token>Bihan</token>
+        </pattern>
+        <message>Implijit <suggestion>Mor-Bihan</suggestion>.</message>
+        <example type="incorrect">Komzet vez brezhoneg e <marker>Mor Bihan</marker>.</example>
+        <example type="correct">Komzet vez brezhoneg e <marker>Mor-Bihan</marker>.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token regexp="yes">Penn-Ar-Bed|Finist[eè]re</token>
+        </pattern>
+        <message>Implijit <suggestion>Penn-ar-Bed</suggestion>.</message>
+        <example type="incorrect">Komzet vez brezhoneg e <marker>Penn-Ar-Bed</marker>.</example>
+        <example type="correct">Komzet vez brezhoneg e <marker>Penn-ar-Bed</marker>.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token>Penn</token>
+          <token regexp="yes">[Aa]r</token>
+          <token>Bed</token>
+        </pattern>
+        <message>Implijit <suggestion>Penn-ar-Bed</suggestion>.</message>
+        <example type="incorrect">Komzet vez brezhoneg e <marker>Penn ar Bed</marker>.</example>
+        <example type="correct">Komzet vez brezhoneg e <marker>Penn-ar-Bed</marker>.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token regexp="yes">[Cc][oôt]es-[Dd]’[Aa]rmor|Aodoù-An-Arvor</token>
+        </pattern>
+        <message>Implijit <suggestion>Aodoù-an-Arvor</suggestion>.</message>
+        <example type="incorrect">Komzet vez brezhoneg en <marker>Aodoù-An-Arvor</marker>.</example>
+        <example type="correct">Komzet vez brezhoneg en <marker>Aodoù-an-Arvor</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">c[oô]tes|aodoù</token>
+          <token regexp="yes">d’|an</token>
+          <token regexp="yes">ar[mV]or</token>
+        </pattern>
+        <message>Implijit <suggestion>Aodoù-an-Arvor</suggestion>.</message>
+        <example type="incorrect">Komzet vez brezhoneg en <marker>Aodoù an Arvor</marker>.</example>
+        <example type="correct">Komzet vez brezhoneg en <marker>Aodoù-an-Arvor</marker>.</example>
+      </rule>
+    </rulegroup>
+    <rule id="BRO" name="Broioù">
+      <pattern>
+        <token regexp="yes">[BVP]ro</token>
+        <token regexp="yes">Alamagn|Amerika|C’hall|Dreger|Gembre|Gerne|Iwerzhon|Japan|Leon|Naoned|Raez|Roazhon|Saoz|Sant-Brieg|Sant-Maloù|Skos|Suis|Ulad|Wened</token>
+      </pattern>
+      <message>Implijit <suggestion><match no="1" case_conversion ="startupper"/>-<match no="2" case_conversion ="startupper"/></suggestion>.</message>
+      <example type="incorrect">Labour a ra e <marker>Bro Amerika</marker>.</example>
+      <example type="correct">Labour a ra e <marker>Bro-Amerika</marker>.</example>
+    </rule>
+
+    <rule id="C_HASTELL_NEVEZ" name="C’hastell Nevez → C’hastell-Nevez">
+      <pattern case_sensitive="yes">
+        <token regexp="yes">([GK]|C’h)astell</token>
+        <token regexp="yes">Bourc’h|Briant|Geron|Nevez|Noez|Paol|Tepaod</token>
+      </pattern>
+      <message>Implijit <suggestion>\1-\2</suggestion>.</message>
+      <example type="incorrect">E <marker>Kastell Nevez</marker> emaon o chom.</example>
+      <example type="correct">E Kastell-Nevez emaon o chom.</example>
+    </rule>
+
+  </category>
+
   <category name="A bep seurt">
     <rule id="PENNLIZH_AR" name="Pennlizer eber gant ar/al/an">
       <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
-        <token postag="SENT_START" negate_pos="yes"/>
+        <token regexp="yes">\p{Lu}.*</token>
         <token regexp="yes">A[rln]<exception scope="previous">-</exception></token>
-        <token regexp="yes">\p{Lu}.*<exception>Liamm</exception></token>
+        <token regexp="yes">\p{Lu}.*<exception regexp="yes">Liamm|Here</exception></token>
       </pattern>
       <message>Pennlizherenn ebet e gerioù-mell an anvioù divoutin pa vezont e-kreiz ul lavarenn. Ha fellout a rae deoc’h skrivañ <suggestion><match no="1" regexp_match=".(.)" regexp_replace="a$1"/></suggestion>.</message>
       <example type="incorrect">Kantonioù <marker>Ar</marker> C’hastell-Nevez</example>
       <example type="correct">Kantonioù ar C’hastell-Nevez</example>
       <example type="correct">An Orian a zo pell ac’hann.</example>
+      <example type="correct">Ar gariadur An Here.</example>
     </rule>
     <rule id="PEBEZH" name="Pebezh">
       <pattern mark_to="-1">
@@ -2824,7 +2918,7 @@ Useful links:
       <rule>
         <pattern mark_from="1">
           <token inflected="yes" regexp="yes">(abadenn|c’hoariva|film|kantik|levr|embannadur|kanaouenn|keloù|krennlavar|musik|pladenn|romant?|sonerezh|skrid)(ig)?</token>
-          <token regexp="yes">alamaneg|arabeg|brezhoneg|daneg|esperanteg|euskareg|gallaoueg|galleg|italianeg|iwerzhoneg|kembraeg|kerneveureg|katalaneg|lojbaneg|manaveg|nederlandeg|poloneg|portugaleg|ruseg|rusianeg|saozneg|skoseg|spagnoleg|svedeg</token>
+          <token regexp="yes">alamaneg|albaneg|arabeg|belaruseg|brezhoneg|daneg|esperanteg|euskareg|finneg|frizeg|galizeg|gallaoueg|galleg|islandeg|italianeg|iwerzhoneg|katalaneg|kembraeg|kerneveureg|korseg|lojbaneg|manaveg|nederlandeg|norveveg|okitaneg|poloneg|portugaleg|roumaneg|ruseg|rusianeg|saozneg|sardeg|skoseg|skoteg|skovakeg|sorabeg|spagnoleg|svedeg|tchekeg|turkeg|ukraineg</token>
         </pattern>
         <message>Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match="(.*)g" regexp_replace="$1k"/></suggestion>?</message>
         <example type="incorrect">Ul levr <marker>brezhoneg</marker> eo.</example>
@@ -2833,7 +2927,7 @@ Useful links:
       <rule>
         <pattern mark_from="1">
           <token regexp="yes">a[nr]</token>
-          <token regexp="yes">alamanek|arabek|brezhonek|danek|esperantek|euskarek|gallaouek|gallek|italianek|iwerzhonek|c’hembraek|c’herneveurek|c’hatalanek|lojbanek|manavek|nederlandek|polonek|portugalek|rusek|rusianek|saoznek|skosek|spagnolek|svedek</token>
+          <token regexp="yes">alamanek|albanek|arabek|belarusek|brezhonek|danek|esperantek|euskarek|finnek|frizek|galizek|gallaouek|gallek|islandek|italianek|iwerzhonek|c’hatalanek|c’hembraek|c’herneveurek|c’horsek|lojbanek|manavek|nederlandek|norvevek|okitanek|polonek|portugalek|roumanek|rusek|rusianek|saoznek|sardek|skosek|skotek|slovakek|sorabek|spagnolek|svedek|tchekek|turkek|ukrainek</token>
         </pattern>
         <message>Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match="(.*)k" regexp_replace="$1g"/></suggestion>?</message>
         <example type="incorrect">Ar <marker>brezhonek</marker> a zo ur yezh keltiek.</example>
