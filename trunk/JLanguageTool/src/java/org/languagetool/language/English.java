@@ -25,6 +25,7 @@ import org.languagetool.rules.*;
 import org.languagetool.rules.en.AvsAnRule;
 import org.languagetool.rules.en.CompoundRule;
 import org.languagetool.rules.en.EnglishUnpairedBracketsRule;
+import org.languagetool.rules.en.EnglishWordRepeatBeginningRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.en.EnglishSynthesizer;
 import org.languagetool.tagging.Tagger;
@@ -122,6 +123,7 @@ public class English extends Language {
             LongSentenceRule.class,
             // specific to English:
             AvsAnRule.class,
+            EnglishWordRepeatBeginningRule.class,
             CompoundRule.class
     );
   }

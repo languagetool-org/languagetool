@@ -98,6 +98,7 @@ public class German extends Language {
             WhitespaceRule.class,
             // specific to German:
             GermanWordRepeatRule.class,
+            GermanWordRepeatBeginningRule.class,
             AgreementRule.class,
             CaseRule.class,
             CompoundRule.class,
