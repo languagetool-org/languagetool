@@ -14,6 +14,80 @@ $Id: grammar.xml,v 1.0 2011-07-29 13:20:25 taolin2011 Exp $
   <!-- 拼写： 词语错误-->
   <!-- ====================================================================== -->
   <category name="词语错误">
+    <rulegroup id="XIANG_SHANG" name="响/晌">
+      <rule>
+        <pattern mark_to="-1">
+          <token>晌</token>
+          <token regexp="yes" postag_regexp="yes" postag="ng|v">板|应|声</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>响</suggestion>\2”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="响"> 忽有<marker>晌</marker>声自东北来。 </example>
+        <example type="correct">忽有响声自东北来。</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token postag="n">音</token>
+          <token>晌</token>
+        </pattern>
+        <message> 您的意思是“音<suggestion>响</suggestion>”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="响"> 他家的音<marker>晌</marker>质量很好。 </example>
+        <example type="correct">他家的音响质量很好。</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token>响</token>
+          <token postag="tg">午</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>晌</suggestion>午”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="晌"> 还未到<marker>响</marker>午，睡的迷迷糊糊的他便被一声清脆的钟响惊醒了过来。 </example>
+        <example type="correct">还未到晌午，睡的迷迷糊糊的他便被一声清脆的钟响惊醒了过来。</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token postag="m">半</token>
+          <token>响</token>
+        </pattern>
+        <message> 您的意思是“半<suggestion>晌</suggestion>”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="晌"> 送猪货车爆胎，北京五环桥上捉猪半<marker>响</marker>拥堵。 </example>
+        <example type="correct">送猪货车爆胎，北京五环桥上捉猪半晌拥堵。</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="YAO_TA" name="杳/沓">
+      <rule>
+        <pattern mark_to="-1">
+          <token>沓</token>
+          <token postag="ag">渺</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>杳</suggestion>渺”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="杳"> 在<marker>沓</marker>渺无际的宇宙之中，是否真的只有我们地球才有智慧生命？ </example>
+        <example type="correct">在杳渺无际的宇宙之中，是否真的只有我们地球才有智慧生命？</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token>杳</token>
+          <token postag="a">杂</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>沓</suggestion>杂”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="沓"> 士兵们四处散开，满山遍野响着<marker>杳</marker>杂的脚步。 </example>
+        <example type="correct">士兵们四处散开，满山遍野响着沓杂的脚步。</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token postag="a">疲</token>
+          <token>杳</token>
+        </pattern>
+        <message> 您的意思是“疲<suggestion>沓</suggestion>”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="沓"> 这个孩子性格拖拉疲<marker>杳</marker>。 </example>
+        <example type="correct">这个孩子性格拖拉疲沓。</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="XIN_XING" name="辛/幸">
       <rule>
         <pattern mark_to="-1">
