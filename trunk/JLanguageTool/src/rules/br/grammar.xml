@@ -553,13 +553,14 @@ Useful links:
           <token regexp="yes">ho|ez|az</token>
           <and>
             <token regexp="yes" inflected="yes">p.*</token>
-            <token regexp="yes">[bf].*</token>
+            <token regexp="yes">[bf].*<exception inflected="yes" regexp="yes">[bf].*</exception></token>
           </and>
         </pattern>
         <message>Ne zlefe ket bezañ ur c’hemmadur goude ar get «\1» gant ur ger a grog gant «t». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="p$1"/></suggestion>?</message>
         <example type="incorrect">Ho <marker>benn</marker></example>
         <example type="incorrect">Ho <marker>fenn</marker></example>
         <example type="correct">Ho <marker>penn</marker></example>
+        <example type="correct">Ho <marker>fri</marker></example>
       </rule>
       <rule>
         <pattern mark_from="1">
@@ -1155,13 +1156,14 @@ Useful links:
           <token postag="C sub">ma<exception negate_pos="yes" postag="C sub"/></token>
           <and>
             <token regexp="yes" inflected="yes">p.*</token>
-            <token regexp="yes">[bf].*</token>
+            <token regexp="yes">[bf].*<exception inflected="yes" regexp="yes">[bf].*</exception></token>
           </and>
         </pattern>
         <message>Ne zlefe ket bezañ ur c’hemmadur goude ar stagell «\1» gant ur ger a grog gant «p». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="t$1"/></suggestion>?</message>
         <example type="incorrect">Ma <marker>bellgomzomp</marker> dezhañ</example>
         <example type="incorrect">Ma <marker>fellgomzomp</marker> dezhañ</example>
         <example type="correct">Ma <marker>pellgomzomp</marker> dezhañ</example>
+        <example type="correct">Ma <marker>fell</marker> deoc’h</example>
       </rule>
       <rule>
         <pattern mark_from="1">
@@ -2338,6 +2340,25 @@ Useful links:
       <example type="correct"><marker>End-eeun</marker></example>
     </rule>
 
+    <rule id="MOR_BIHAN" name="Mor-Bihan">
+      <pattern case_sensitive="yes">
+        <token regexp="yes">Morbihan|Mor-bihan</token>
+      </pattern>
+      <message>Implijit <suggestion>Mor-Bihan</suggestion>.</message>
+      <example type="incorrect">Komzet vez brezhoneg er <marker>Morbihan</marker>.</example>
+      <example type="correct">Komzet vez brezhoneg er <marker>Mor-Bihan</marker>.</example>
+    </rule>
+
+    <rule id="MONT_DONT" name="mont dont → mont-dont">
+      <pattern>
+        <token>mont</token>
+        <token>dont</token>
+      </pattern>
+      <message>Implijit <suggestion>\1-\2</suggestion>.</message>
+      <example type="incorrect">Ur bilhed <marker>mont dont</marker> evit Naoned.</example>
+      <example type="correct">Ur bilhed <marker>mont-dont</marker> evit Naoned.</example>
+    </rule>
+
   </category>
 
   <category name="Araogenn">
@@ -2564,7 +2585,7 @@ Useful links:
     <rule id="PENNLIZH_AR" name="Pennlizer eber gant ar/al/an">
       <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
         <token postag="SENT_START" negate_pos="yes"/>
-        <token regexp="yes">A[rln]</token>
+        <token regexp="yes">A[rln]<exception scope="previous">-</exception></token>
         <token regexp="yes">\p{Lu}.*<exception>Liamm</exception></token>
       </pattern>
       <message>Pennlizherenn ebet e gerioù-mell an anvioù divoutin pa vezont e-kreiz ul lavarenn. Ha fellout a rae deoc’h skrivañ <suggestion><match no="1" regexp_match=".(.)" regexp_replace="a$1"/></suggestion>.</message>
@@ -2802,7 +2823,7 @@ Useful links:
     <rulegroup id="EK_EG" name="brezhonek ha brezhoneg (hag all)">
       <rule>
         <pattern mark_from="1">
-          <token inflected="yes" regexp="yes">(abadenn|c’hoariva|film|kantik|levr|embannadur|kanaouenn|keloù|kentel|krennlavar|musik|pladenn|romant?|sonerezh|skrid)(ig)?</token>
+          <token inflected="yes" regexp="yes">(abadenn|c’hoariva|film|kantik|levr|embannadur|kanaouenn|keloù|krennlavar|musik|pladenn|romant?|sonerezh|skrid)(ig)?</token>
           <token regexp="yes">alamaneg|arabeg|brezhoneg|daneg|esperanteg|euskareg|gallaoueg|galleg|italianeg|iwerzhoneg|kembraeg|kerneveureg|katalaneg|lojbaneg|manaveg|nederlandeg|poloneg|portugaleg|ruseg|rusianeg|saozneg|skoseg|spagnoleg|svedeg</token>
         </pattern>
         <message>Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match="(.*)g" regexp_replace="$1k"/></suggestion>?</message>
@@ -3069,7 +3090,7 @@ Useful links:
     <rulegroup id="GER_DOUBLET" name="Ger doublet">
       <rule>
         <pattern>
-          <token regexp="yes">\p{L}+<exception postag="SENT_START"/><exception regexp="yes">ez|zo</exception></token>
+          <token regexp="yes">\p{L}+<exception postag="SENT_START"/><exception regexp="yes">ez|zo|ya|nann</exception></token>
           <token spacebefore="yes"><exception postag="J.*" postag_regexp="yes"></exception><match no="0"/></token>
         </pattern>
         <message>Ger doublet «\1 \2». Ha fellout a rae deoc’h skrivañ <suggestion>\1</suggestion>?</message>
@@ -3079,6 +3100,7 @@ Useful links:
         <example type="correct">N’eo ket fur-fur.</example>
         <example type="correct">Perak ez ez kuit?</example>
         <example type="correct">Tud zo zo e vakañsoù.</example>
+        <example type="correct">Ya ya m'ho peus c’hoant.</example>
       </rule>
       <rule>
         <pattern>
