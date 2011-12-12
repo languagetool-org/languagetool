@@ -34,7 +34,8 @@ import org.languagetool.Language;
  */
 public class WordRepeatBeginningRule extends Rule {
   
-  private String lastToken = "", beforeLastToken = "";
+  private String lastToken = "";
+  private String beforeLastToken = "";
   
   public WordRepeatBeginningRule(final ResourceBundle messages, final Language language) {
     super(messages);
@@ -57,7 +58,9 @@ public class WordRepeatBeginningRule extends Rule {
   
   public boolean isException(String token) {
     // avoid warning when having lists like "2007: ..." or the like
-    if (token.equals(":") || token.equals("–") || token.equals("-")) return true;
+    if (token.equals(":") || token.equals("–") || token.equals("-")) {
+        return true;
+    }
     return false;
   }
 
@@ -80,12 +83,13 @@ public class WordRepeatBeginningRule extends Rule {
       if (isWord && lastToken.equals(token)
           && !isException(token) && !isException(tokens[2].getToken()) && !isException(tokens[3].getToken())) {
         final String shortMsg;
-        if (isAdverb(token))
+        if (isAdverb(token)) {
           shortMsg = messages.getString("desc_repetition_beginning_adv");
-        else if (beforeLastToken.equals(token))
+        } else if (beforeLastToken.equals(token)) {
           shortMsg = messages.getString("desc_repetition_beginning_word");
-        else
+        } else {
           shortMsg = "";
+        }
           
         if (!shortMsg.equals("")) {
           final String msg = shortMsg + " " + messages.getString("desc_repetition_beginning_thesaurus");
