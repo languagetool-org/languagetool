@@ -18,16 +18,12 @@
  */
 package org.languagetool.rules.de;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.ResourceBundle;
-import java.util.Set;
-
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
 import org.languagetool.rules.WordRepeatBeginningRule;
+
+import java.util.HashSet;
+import java.util.ResourceBundle;
+import java.util.Set;
 
 /**
  * List of German adverbs ("Konjunktionaladverben") for WordRepeatBeginningRule
