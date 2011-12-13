@@ -385,7 +385,7 @@ Useful links:
       <rule>
         <pattern mark_from="2">
           <token>en</token>
-          <token>em</token>
+          <token regexp="yes">em|ur<exception postag="D e sp">ur</exception></token>
           <and>
             <token postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes">k.*</token>
             <token postag="V.*" postag_regexp="yes" regexp="yes">(k|c’h).*</token>
@@ -398,7 +398,7 @@ Useful links:
       <rule>
         <pattern mark_from="2">
           <token>en</token>
-          <token>em</token>
+          <token regexp="yes">em|ur<exception postag="D e sp">ur</exception></token>
           <and>
             <token postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes">t.*</token>
             <token postag="V.*" postag_regexp="yes" regexp="yes">[tz].*</token>
@@ -408,11 +408,14 @@ Useful links:
         <example type="incorrect">En em <marker>treiñ</marker> a rae etrezeg ennon</example>
         <example type="incorrect">En em <marker>zreiñ</marker> a rae etrezeg ennon</example>
         <example type="correct">En em <marker>dreiñ</marker> a rae etrezeg ennon</example>
+        <example type="incorrect">En ur <marker>treuziñ</marker></example>
+        <example type="incorrect">En ur <marker>zreuziñ</marker></example>
+        <example type="correct">En ur <marker>dreuziñ</marker></example>
       </rule>
       <rule>
         <pattern mark_from="2">
           <token>en</token>
-          <token>em</token>
+          <token regexp="yes">em|ur<exception postag="D e sp">ur</exception></token>
           <and>
             <token postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes">gw.*</token>
             <token postag="V.*" postag_regexp="yes" regexp="yes">[gk]w.*</token>
@@ -426,7 +429,7 @@ Useful links:
       <rule>
         <pattern mark_from="2">
           <token>en</token>
-          <token>em</token>
+          <token regexp="yes">em|ur<exception postag="D e sp">ur</exception></token>
           <and>
             <token postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes">g[^w].*</token>
             <token postag="V.*" postag_regexp="yes" regexp="yes">[gk].*</token>
@@ -440,7 +443,7 @@ Useful links:
       <rule>
         <pattern mark_from="2">
           <token>en</token>
-          <token>em</token>
+          <token regexp="yes">em|ur<exception postag="D e sp">ur</exception></token>
           <and>
             <token postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes">d.*</token>
             <token postag="V.*" postag_regexp="yes" regexp="yes">[dt].*</token>
@@ -454,7 +457,7 @@ Useful links:
       <rule>
         <pattern mark_from="2">
           <token>en</token>
-          <token>em</token>
+          <token regexp="yes">em|ur<exception postag="D e sp">ur</exception></token>
           <and>
             <token postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes">m.*</token>
             <token postag="V.*" postag_regexp="yes" regexp="yes">m.*</token>
@@ -921,7 +924,7 @@ Useful links:
       </rule>
       <rule>
         <pattern mark_from="1">
-          <token regexp="yes">[au]r</token>
+          <token regexp="yes">[au]r<exception postag="X EN_UR"/></token>
           <and>
             <token regexp="yes" postag="N f s.*|N m p t.*" postag_regexp="yes">z.*</token>
             <token regexp="yes" inflected="yes">t.*
@@ -952,7 +955,7 @@ Useful links:
       </rule>
       <rule>
         <pattern mark_from="1">
-          <token regexp="yes">[au]r</token>
+          <token regexp="yes">[au]r<exception postag="X EN_UR"/></token>
           <and>
             <token postag="N m s.*|N f p.*" postag_regexp="yes" regexp="yes">w.*
               <exception postag="N m s.*|N f p.*" postag_regexp="yes" regexp="yes" inflected="yes">w.*</exception>
@@ -972,7 +975,7 @@ Useful links:
       </rule>
       <rule>
         <pattern mark_from="1">
-          <token regexp="yes">[au]r</token>
+          <token regexp="yes">[au]r<exception postag="X EN_UR"/></token>
           <and>
             <token postag="N m s.*|N f p.*" postag_regexp="yes" regexp="yes">v.*
               <exception postag="N m s.*|N f p.*" postag_regexp="yes" regexp="yes" inflected="yes">v.*</exception>
@@ -990,7 +993,7 @@ Useful links:
       </rule>
       <rule>
         <pattern mark_from="1">
-          <token regexp="yes">[au]r</token>
+          <token regexp="yes">[au]r<exception postag="X EN_UR"/></token>
           <and>
             <token postag="N m s.*|N f p.*" postag_regexp="yes" regexp="yes">[vp].*
               <exception postag="N m s.*|N f p.*" postag_regexp="yes" regexp="yes" inflected="yes">[vp].*</exception>
