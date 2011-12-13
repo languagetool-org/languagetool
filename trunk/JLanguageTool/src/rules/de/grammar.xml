@@ -54,6 +54,15 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
          xsi:noNamespaceSchemaLocation="../rules.xsd">
 
   <category name="Mögliche Tippfehler">
+    <rule id="ER_EINZIGE" name="Möglicher Tippfehler: er (der) einzige">
+        <pattern mark_to="-1">
+            <token>er</token>
+            <token>Einzige</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>der</suggestion>?</message>
+        <example type="incorrect">Bin ich <marker>er</marker> Einzige, dem das so geht?</example>
+        <example type="correct">Bin ich <marker>der</marker> Einzige, dem das so geht?</example>
+    </rule>
     <rulegroup id="EMAIL" name="Möglicher Tippfehler: Email (E-Mail)">
       <rule>
         <pattern mark_from="1">
@@ -292,7 +301,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Er hat kein Stück geschrieben, <marker>das</marker> nicht erfolgreich wurde.</example>
       </rule>
     </rulegroup>
-     <rulegroup id="SODASS" name="Möglicher Tippfehler: 'so das (so dass)'">
+    <rulegroup id="SODASS" name="Möglicher Tippfehler: 'so das (so dass)'">
       <rule>
         <pattern mark_from="1" mark_to="-1" case_sensitive="yes">
           <token>,</token>
@@ -774,7 +783,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect">Die Art und <marker>Weiße</marker> war unerträglich.</example>
       </rule>
     </rulegroup>
-   <rulegroup id="MUEHLHEIM_A_D_RUHR" name="Möglicher Tippfehler: 'Mühlheim (Mülheim) an der Ruhr'">
+    <rulegroup id="MUEHLHEIM_A_D_RUHR" name="Möglicher Tippfehler: 'Mühlheim (Mülheim) an der Ruhr'">
       <rule>
         <pattern>
           <token>Mühlheim</token>
