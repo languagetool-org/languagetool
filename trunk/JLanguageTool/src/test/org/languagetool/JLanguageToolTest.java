@@ -53,7 +53,7 @@ public class JLanguageToolTest extends TestCase {
     assertEquals(0, tool.check("A test that should not give errors.").size());
     assertEquals(1, tool.check("A test test that should give errors.").size());
     assertEquals(0, tool.check("I can give you more a detailed description.").size());
-    assertEquals(9, tool.getAllRules().size());
+    assertEquals(10, tool.getAllRules().size());
     tool.activateDefaultPatternRules();
     assertTrue(tool.getAllRules().size() > 3);
     assertEquals(1, tool.check("I can give you more a detailed description.").size());

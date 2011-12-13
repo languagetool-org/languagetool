@@ -111,7 +111,8 @@ public class WordRepeatBeginningRule extends Rule {
 
   @Override
   public void reset() {
-    // nothing
+    lastToken = "";
+    beforeLastToken = "";
   }
 
 }

@@ -38,8 +38,8 @@ public class GermanWordRepeatBeginningRuleTest extends TestCase {
     // errors:
     assertEquals(1, langTool.check("Er ist nett. Er heißt Max. Er ist 11.").size());
     assertEquals(1, langTool.check("Außerdem kommt er. Außerdem kommt sie.").size());
-    // TODO:
-    //assertEquals(0, langTool.check("Außerdem ist das ein neuer Text.").size());
+    // this used to cause false alarms because reset() was not implemented
+    assertEquals(0, langTool.check("Außerdem ist das ein neuer Text.").size());
   }
 
 }
