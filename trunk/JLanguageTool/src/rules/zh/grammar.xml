@@ -14,6 +14,40 @@ $Id: grammar.xml,v 1.0 2011-07-29 13:20:25 taolin2011 Exp $
   <!-- 拼写： 词语错误-->
   <!-- ====================================================================== -->
   <category name="词语错误">
+    <rulegroup id="JI_YI" name="己/已">
+      <rule>
+        <pattern mark_to="-1">
+          <token postag="r">
+            <exception regexp="yes">你|我|他</exception>己 </token>
+          <token postag="v|c|f|y|r|p|vg" regexp="yes" postag_regexp="yes"
+            >来|去|会|走|回|定|订|讲|降|说|想|问|复|覆|而|后|矣|然|经</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>已</suggestion>\2”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="已"> 仇人<marker>己</marker>去，我该怎么办？ </example>
+        <example type="correct"> 仇人<marker>已</marker>去，我该怎么办？ </example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token postag="d">已</token>
+          <token postag_regexp="yes" postag="d|ng">方</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>己</suggestion>方”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="己"> 这项协议已被视为公会背叛<marker>已</marker>方，投向资方。 </example>
+        <example type="correct"> 这项协议已被视为公会背叛<marker>己</marker>方，投向资方。 </example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="0">
+          <token regexp="yes" postag_regexp="yes" postag="r|v|p">自|知</token>
+          <token postag="d">已</token>
+        </pattern>
+        <message> 您的意思是\“1<suggestion>己</suggestion>”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="己"> 这是我自<marker>已</marker>的问题。 </example>
+        <example type="correct"> 这是我自<marker>己</marker>的问题。 </example>
+      </rule>
+    </rulegroup>
     <rulegroup id="XIANG_SHANG" name="响/晌">
       <rule>
         <pattern mark_to="-1">
