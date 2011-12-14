@@ -1495,12 +1495,12 @@ Useful links:
       <example type="correct">N’out ket chomet pell.</example>
       <example type="incorrect">Boutin eo <marker>c’hentelioù-noz</marker></example>
       <example type="correct">Boutin eo ar c’hentelioù-noz</example>
-      <example type="correct">"N‘ouzon ket" eme zTony.</example>
+      <example type="correct">"N’ouzon ket" eme zTony.</example>
     </rule>
 
     <rule id="GER_KEMM" name="kemmadur ebet goude gerioù">
       <pattern mark_from="1">
-        <token regexp="yes">abaoe|a-benn|arabat|a-raok|eget|eus|evel(-se)?|goude|hag?|hep|kalz|ke[nt]|krenn|lies|mard?|met|nemet|nebeu(dig)?|pas|pep|pebezh|pegen|pere|petvet|peseurt|petore|rak|setu</token>
+        <token regexp="yes">abaoe|a-benn|a-wechoù|arabat|a-raok|daoust|eget|eus|[e’]vel(-se)?|e-giz|[e’]vit|goude|hag?|hep|kalz|kement|ke[nt]|krenn|lies|mard?|met|nemet|memes|nebeu(dig)?|pas|pep|pebezh|pegen|pere|petvet|peseurt|petore|rak|setu</token>
         <token postag="[^M]*M:.*" postag_regexp="yes">
           <exception negate_pos="yes" postag="[^M]*M:.*" postag_regexp="yes"/>
           <exception>vat</exception>
@@ -2366,7 +2366,6 @@ Useful links:
       <example type="incorrect"><marker>End eeun</marker></example>
       <example type="correct"><marker>End-eeun</marker></example>
     </rule>
-
     <rule id="MONT_DONT" name="mont dont → mont-dont">
       <pattern>
         <token>mont</token>
@@ -2376,7 +2375,80 @@ Useful links:
       <example type="incorrect">Ur bilhed <marker>mont dont</marker> evit Naoned.</example>
       <example type="correct">Ur bilhed <marker>mont-dont</marker> evit Naoned.</example>
     </rule>
-
+    <rule id="LABOUR_DOUAR" name="labour douar → labour-douar">
+      <pattern>
+        <token regexp="yes">labour(er(ien)?)?</token>
+        <token>douar</token>
+      </pattern>
+      <message>Implijit <suggestion>\1-\2</suggestion>.</message>
+      <example type="incorrect">Ul <marker>labourer douar</marker> a oa ma zad.</example>
+      <example type="correct">Ul labourer-douar a oa ma zad.</example>
+    </rule>
+    <rule id="LAMM_DOUR" name="lamm dour → lamm-dour">
+      <pattern>
+        <token regexp="yes">lamm(où)?</token>
+        <token>dour</token>
+      </pattern>
+      <message>Implijit <suggestion>\1-\2</suggestion>.</message>
+      <example type="incorrect">Ul <marker>lamm dour</marker></example>
+      <example type="correct">Ul <marker>lamm-dour</marker></example>
+    </rule>
+    <rule id="DERCHENT_DECH" name="derc’hent dec’h → derc’hent-dec’h">
+      <pattern>
+        <token>derc’hent</token>
+        <token>dec’h</token>
+      </pattern>
+      <message>Implijit <suggestion>\1-\2</suggestion>.</message>
+      <example type="incorrect"><marker>Derc’hent dec’h</marker></example>
+      <example type="correct"><marker>Derc’hent-dec’h</marker></example>
+    </rule>
+    <rule id="PENN_DA_BENN" name="penn da benn → penn-da-benn">
+      <pattern>
+        <token>penn</token>
+        <token>da</token>
+        <token>benn</token>
+      </pattern>
+      <message>Implijit <suggestion>\1-\2-\3</suggestion>.</message>
+      <example type="incorrect">Troet <marker>penn da benn</marker></example>
+      <example type="correct">Troet <marker>penn-da-benn</marker></example>
+    </rule>
+    <rule id="PENN_OUZH_PENN" name="penn ouzh penn → penn-ouzh-penn">
+      <pattern>
+        <token>penn</token>
+        <token>ouzh</token>
+        <token>penn</token>
+      </pattern>
+      <message>Implijit <suggestion>\1-\2-\3</suggestion>.</message>
+      <example type="incorrect">Troet <marker>penn ouzh penn</marker></example>
+      <example type="correct">Troet <marker>penn-ouzh-penn</marker></example>
+    </rule>
+    <rule id="PENN_SKANV" name="penn skañv → penn-skañv">
+      <pattern>
+        <token regexp="yes">penn(où)?</token>
+        <token>skañv</token>
+      </pattern>
+      <message>Implijit <suggestion>\1-\2</suggestion>.</message>
+      <example type="incorrect">Hennezh zo ur <marker>penn skañv</marker></example>
+      <example type="correct">Hennezh zo ur <marker>penn-skañv</marker></example>
+    </rule>
+    <rule id="DISKAR_AMZER" name="diskar amzer → diskar-amzer">
+      <pattern>
+        <token>diskar</token>
+        <token>amzer</token>
+      </pattern>
+      <message>Implijit <suggestion>\1-\2</suggestion>.</message>
+      <example type="incorrect">Deuet eo an <marker>diskar amzer</marker>.</example>
+      <example type="correct">Deuet eo an <marker>diskar-amzer</marker>.</example>
+    </rule>
+    <rule id="DIBENN_SIZHUN" name="dibenn sizhun → dibenn-sizhun">
+      <pattern>
+        <token regexp="yes">[dtz]ibenn(où)?</token>
+        <token regexp="yes">pred|sizhun</token>
+      </pattern>
+      <message>Implijit <suggestion>\1-\2</suggestion>.</message>
+      <example type="incorrect">Penaos e oa da <marker>zibenn sizhun</marker>?</example>
+      <example type="correct">Penaos e oa da <marker>zibenn-sizhun</marker>?</example>
+    </rule>
   </category>
 
   <category name="Araogenn">
@@ -3557,7 +3629,7 @@ Useful links:
     <rule id="ZOKEN_AVAT" name="zoken/avat">
       <pattern case_sensitive="yes" mark_from="1">
         <token postag="SENT_START"/>
-        <token regexp="yes">Avat|Zoken|Eta|'Ta</token>
+        <token regexp="yes">Avat|Zoken|Eta|'Ta|a-leizh</token>
       </pattern>
       <message>N’hall ket «\1» bezañ lakaet e penn kentañ ur frazenn.</message>
       <example type="incorrect"><marker>Zoken</marker> ma mamm a oar se.</example>
