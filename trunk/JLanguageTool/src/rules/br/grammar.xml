@@ -1022,19 +1022,22 @@ Useful links:
       <rule>
         <pattern mark_from="1">
           <token regexp="yes">[au]r<exception postag="X EN_UR"/></token>
-          <and>
-            <token postag="N m s.*|N f p.*" postag_regexp="yes" regexp="yes">[vp].*
-              <exception postag="N m s.*|N f p.*" postag_regexp="yes" regexp="yes" inflected="yes">[vp].*</exception>
-              <exception>vrud</exception>
-            </token>
-            <token postag="N m s.*|N f p.*" postag_regexp="yes" regexp="yes" inflected="yes">b.*
-              <exception postag="N f s.*|N m p t.*" postag_regexp="yes" regexp="yes" inflected="yes">b.*</exception>
-            </token>
-          </and>
+          <token postag="N [^M]* M.*" postag_regexp="yes" regexp="yes" inflected="yes">b.*
+            <exception postag="(N f s|N m p t) M.*:1a:.*" postag_regexp="yes"/>
+            <exception regexp="yes" inflected="yes">[vp].*</exception>
+            <exception regexp="yes">vrud(-(mañ|se|hont))?</exception>
+          </token>
         </pattern>
         <message>Direizh eo kemmañ ar ger «\2» amañ. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="b$1"/></suggestion>?</message>
         <example type="incorrect">Ar <marker>varr</marker></example>
+        <example type="incorrect">Ar <marker>parr</marker></example>
         <example type="correct">Ar barr</example>
+        <example type="incorrect">Ar <marker>peaj</marker></example>
+        <example type="correct">Ar beaj</example>
+        <example type="incorrect">Ar <marker>peajoù</marker></example>
+        <example type="correct">Ar beajoù</example>
+        <example type="correct">Ar boulloù</example>
+        <example type="correct">Ar poulloù</example>
         <example type="correct">Ar vrud</example>
       </rule>
       <rule>
