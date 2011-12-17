@@ -3734,6 +3734,28 @@ Useful links:
       <example type="correct">Ober a ran chistr, ha n’eo ket lambig.</example>
     </rule>
 
+    <rulegroup id="RED_RET" name="red e oa → ret e oa">
+      <rule>
+        <pattern mark_to="-1">
+          <token>red</token>
+          <token>eo</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>ret</suggestion>?</message>
+        <example type="incorrect"><marker>Red</marker> eo studiañ ar gentel.</example>
+        <example type="correct">Ret eo studiañ ar gentel.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-2">
+          <token>red</token>
+          <token>e</token>
+          <token regexp="yes">oa|vo|vefe|veze|vije</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>ret</suggestion>?</message>
+        <example type="incorrect"><marker>Red</marker> e oa studiañ ar gentel.</example>
+        <example type="correct">Ret e oa studiañ ar gentel.</example>
+      </rule>
+    </rulegroup>
+
   </category>
   <!-- vim: foldmethod=marker foldmarker=<category,</category:
   -->
