@@ -14,6 +14,40 @@ $Id: grammar.xml,v 1.0 2011-07-29 13:20:25 taolin2011 Exp $
   <!-- 拼写： 词语错误-->
   <!-- ====================================================================== -->
   <category name="词语错误">
+    <rulegroup id="YI1_YI2" name="奕/弈">
+      <rule>
+        <pattern mark_to="-1">
+          <token>奕</token>
+          <token postag="g|ng" regexp="yes" postag_regexp="yes">楸|谱</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>弈</suggestion>\2”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="弈"> 范世动桃花泉<marker>奕</marker>谱二卷。 </example>
+        <example type="correct"> 范世动桃花泉<marker>弈</marker>谱二卷. </example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="YAN_YING" name="赝/膺">
+      <rule>
+        <pattern mark_to="-1">
+          <token postag="vg">膺</token>
+          <token postag="k|ng|d|n" regexp="yes" postag_regexp="yes">品|碱|作|本|币</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>赝</suggestion>\2”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="赝"> 这是一个高仿真的<marker>膺</marker>品。 </example>
+        <example type="correct"> 这是一个高仿真的<marker>赝</marker>品。 </example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token postag="bg">赝</token>
+          <token postag="ng|nr|j|a|n|c" regexp="yes" postag_regexp="yes">选|赏|门|中|服|堂|运|命|任</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>膺</suggestion>\2”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="膺"> 我社<marker>赝</marker>选中国首批加入世界水理事会成员单位。 </example>
+        <example type="correct"> 我社<marker>膺</marker>选中国首批加入世界水理事会成员单位。 </example>
+      </rule>
+    </rulegroup>
     <rulegroup id="JI_YI" name="己/已">
       <rule>
         <pattern mark_to="-1">
