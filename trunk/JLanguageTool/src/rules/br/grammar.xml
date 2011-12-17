@@ -903,11 +903,11 @@ Useful links:
         <example type="correct">Yaou Bask</example>
       </rule>
     </rulegroup>
-    <rulegroup id="FAZ_KEMM_DRE_VLOTAAT_AR" name="kemmadur dre vlotaat en anv goude ar ger-mell.">
+    <rulegroup id="KEMM_HOR" name="kemmadur goude «hor»">
       <rule>
         <pattern mark_from="1">
           <token>hor</token>
-          <token inflected="yes" regexp="yes">k.*<exception regexp="yes">c.*</exception></token>
+          <token inflected="yes" regexp="yes">k.*<exception regexp="yes">c’h.*</exception></token>
         </pattern>
         <message>Kemmadur direizh. Goude ar ger «\1» e tro «\2» da <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="c’h$1"/></suggestion>.</message>
         <example type="incorrect">Hor <marker>kiez</marker></example>
@@ -916,6 +916,18 @@ Useful links:
         <example type="incorrect">Hor <marker>kadorioù</marker></example>
         <example type="correct">Hor c’hadorioù</example>
       </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token>hor</token>
+          <token postag="[^M]*M:[^0]*" postag_regexp="yes"/>
+        </pattern>
+        <message>Ne zlefe ket bezañ ur c’hemmadur goude «\1».</message>
+        <example type="incorrect">Hor <marker>vrec’h</marker></example>
+        <example type="correct">Hor brec’h</example>
+        <example type="correct">Hor c’hadorioù</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="FAZ_KEMM_DRE_VLOTAAT_AR" name="kemmadur dre vlotaat en anv goude ar ger-mell.">
       <rule>
         <pattern mark_from="1">
           <token regexp="yes">[au]r<exception postag="X EN_UR"/></token>
