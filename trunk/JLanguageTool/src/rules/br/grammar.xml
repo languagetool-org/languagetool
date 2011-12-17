@@ -2549,6 +2549,64 @@ Useful links:
       <example type="incorrect">Penaos e oa da <marker>zibenn sizhun</marker>?</example>
       <example type="correct">Penaos e oa da <marker>zibenn-sizhun</marker>?</example>
     </rule>
+    <rulegroup id="A_BEP_SEURT" name="a bep-seurt → a vil vern">
+      <rule>
+        <pattern>
+          <token>a</token>
+          <token>bep-seurt</token>
+        </pattern>
+        <message>Implijit <suggestion>\1 bep seurt</suggestion>.</message>
+        <example type="incorrect"><marker>a bep-seurt</marker></example>
+        <example type="correct">a bep seurt</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>a-bep</token>
+          <token>seurt</token>
+        </pattern>
+        <message>Implijit <suggestion><match no="1" regexp_match="(.).*" regexp_replace="$1 bep seurt"/></suggestion>.</message>
+        <example type="incorrect"><marker>a-bep seurt</marker></example>
+        <example type="correct">a bep seurt</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>a-bep-seurt</token>
+        </pattern>
+        <message>Implijit <suggestion><match no="1" regexp_match="(.).*" regexp_replace="$1 bep seurt"/></suggestion>.</message>
+        <example type="incorrect"><marker>a-bep-seurt</marker></example>
+        <example type="correct">a bep seurt</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="A_VIL_VERN" name="a vil vern → a-vil-vern">
+      <rule>
+        <pattern>
+          <token>a</token>
+          <token>vil</token>
+          <token>vern</token>
+        </pattern>
+        <message>Implijit <suggestion>\1-\2-\3</suggestion>.</message>
+        <example type="incorrect"><marker>a vil vern</marker></example>
+        <example type="correct">a-vil-vern</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>a</token>
+          <token>vil-vern</token>
+        </pattern>
+        <message>Implijit <suggestion>\1-\2</suggestion>.</message>
+        <example type="incorrect"><marker>a vil-vern</marker></example>
+        <example type="correct">a-vil-vern</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>a-vil</token>
+          <token>vern</token>
+        </pattern>
+        <message>Implijit <suggestion>\1-\2</suggestion>.</message>
+        <example type="incorrect"><marker>a-vil vern</marker></example>
+        <example type="correct">a-vil-vern</example>
+      </rule>
+    </rulegroup>
   </category>
 
   <category name="Araogenn">
