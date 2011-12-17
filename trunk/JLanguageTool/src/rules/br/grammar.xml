@@ -5,7 +5,11 @@ title="Easy editing stylesheet" ?>
 <!--
 Breton Grammar and Typo Rules for LanguageTool
 Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
-                   Fulup Jakez <fulup.jakez@ofis-bzh.org>
+
+With suggestions and corrections from:
+  Fulup Jakez <fulup.jakez@ofis-bzh.org>
+  Joseph Monfort <joseph.monfort@wanado.fr>
+  Denis Arnaud <denis.arnuad@yahoo.fr>
 
 Some grammatical resources used:
 
@@ -439,6 +443,20 @@ Useful links:
         <example type="incorrect">En ur <marker>treuziñ</marker></example>
         <example type="incorrect">En ur <marker>zreuziñ</marker></example>
         <example type="correct">En ur <marker>dreuziñ</marker></example>
+      </rule>
+      <rule>
+        <pattern mark_from="2">
+          <token>en</token>
+          <token regexp="yes">em|ur<exception postag="D e sp">ur</exception></token>
+          <and>
+            <token postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes">p.*</token>
+            <token postag="V.*" postag_regexp="yes" regexp="yes">[pf].*</token>
+          </and>
+        </pattern>
+        <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude «\1 \2». Ha fellout a rae deoc’h skrivañ <suggestion><match no="3" regexp_match=".(.*)" regexp_replace="b$1"/></suggestion>?</message>
+        <example type="incorrect">En ur <marker>pignat</marker></example>
+        <example type="incorrect">En ur <marker>fignat</marker></example>
+        <example type="correct">En ur <marker>bignat</marker></example>
       </rule>
       <rule>
         <pattern mark_from="2">
