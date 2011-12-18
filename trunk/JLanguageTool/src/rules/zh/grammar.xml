@@ -14,6 +14,39 @@ $Id: grammar.xml,v 1.0 2011-07-29 13:20:25 taolin2011 Exp $
   <!-- 拼写： 词语错误-->
   <!-- ====================================================================== -->
   <category name="词语错误">
+    <rulegroup id="YUAN_NU" name="怨/怒">
+      <rule>
+        <pattern mark_from="1" mark_to="0">
+          <token postag="nr|v" regexp="yes" postag_regexp="yes">恩|埋|抱</token>
+          <token postag="vg">怒</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>怨</suggestion>\2”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="怨"> 这是我们之间的恩<marker>怒</marker>。 </example>
+        <example type="correct"> 这是我们之间的恩<marker>怨</marker>。 </example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token postag="vg">怒</token>
+          <token postag="v|j|ng|a|vg|b|n|d" regexp="yes" postag_regexp="yes"
+            >恨|敌|府|毒|愤|女|悔|偶|声|尤</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>怨</suggestion>\2”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="怨"> 怎样才能消除他们之间的<marker>怒</marker>恨呢？ </example>
+        <example type="correct"> 怎样才能消除他们之间的<marker>怨</marker>恨呢？ </example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token postag="v|vn" postag_regexp="yes">怨</token>
+          <token postag="n|vg|nr|v" regexp="yes" postag_regexp="yes">潮|斥|放|吼|火|骂|目|容|色|视|涛</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>怒</suggestion>\2”？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="怒"> 他两眼通红，<marker>怨</marker>视着我。 </example>
+        <example type="correct"> 他两眼通红，<marker>怒</marker>视着我。 </example>
+      </rule>
+    </rulegroup>
     <rulegroup id="YI1_YI2" name="奕/弈">
       <rule>
         <pattern mark_to="-1">
