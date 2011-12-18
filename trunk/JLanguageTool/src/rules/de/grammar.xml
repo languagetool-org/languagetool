@@ -5594,7 +5594,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token regexp="yes">etwas|nichts</token>
         <token>wichtiges</token>
       </pattern>
-      <message><suggestion>Wichtiges</suggestion> als Nomen wird großgeschrieben.</message>
+      <message>&subanfang;<suggestion>Wichtiges</suggestion>&subende;</message>
       <example type="correct">Beiträge die etwas <marker>Wichtiges</marker> über den Spielverlauf verraten bitte kennzeichnen.</example>
       <example type="incorrect">Beiträge die etwas <marker>wichtiges</marker> über den Spielverlauf verraten bitte kennzeichnen.</example>
     </rule>
@@ -5603,7 +5603,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token regexp="yes">etwas|nichts</token>
         <token>gutes</token>
       </pattern>
-      <message><suggestion>Gutes</suggestion> als Nomen wird großgeschrieben.</message>
+      <message>&subanfang;<suggestion>Gutes</suggestion>&subende;</message>
       <example type="correct">Dahinter verbirgt sich nichts <marker>Gutes</marker>.</example>
       <example type="incorrect">Dahinter verbirgt sich nichts <marker>gutes</marker>.</example>
     </rule>
@@ -5639,12 +5639,12 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       </rule>
     </rulegroup>
     <rulegroup id="FRAGEN_HABEN" name="Groß-/Kleinschreibung: 'fragen (Fragen) haben/stellen'">
-      <rule>
+      <rule> <!-- TODO Ich habe nocht eine frage -->
         <pattern case_sensitive="yes" mark_to="-1">
           <token>fragen</token>
           <token inflected="yes" regexp="yes">haben|stellen</token>
         </pattern>
-        <message><suggestion>Fragen</suggestion> als Nomen wird großgeschrieben.</message>
+        <message>&subanfang;<suggestion>Fragen</suggestion>&subende;</message>
         <example type="correct">Meine <marker>Fragen</marker> hat bislang keiner gelesen.</example>
         <example type="correct">Dazu möchte ich gerne <marker>Fragen</marker> stellen.</example>
         <example type="correct">Dazu wurden <marker>Fragen</marker> gestellt.</example>
@@ -5653,16 +5653,38 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect">Dazu wurden <marker>fragen</marker> gestellt.</example>
       </rule>
       <rule>
-        <!-- TODO: "habe ein paar fragen"... -->
         <pattern case_sensitive="yes" mark_from="1">
           <token inflected="yes" regexp="yes">haben|stellen</token>
           <token>fragen</token>
         </pattern>
-        <message><suggestion>Fragen</suggestion> als Nomen wird großgeschrieben.</message>
+        <message>&subanfang;<suggestion>Fragen</suggestion>&subende;</message>
         <example type="correct">Ich habe <marker>Fragen</marker> dazu.</example>
         <example type="correct">Ich stellte <marker>Fragen</marker> dazu.</example>
         <example type="incorrect">Ich habe <marker>fragen</marker> dazu.</example>
         <example type="incorrect">Ich stellte <marker>fragen</marker> dazu.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="2">
+          <token inflected="yes" regexp="yes">haben|stellen</token>
+          <token regexp="yes">k?eine</token>
+          <token regexp="yes">fragen?</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Fragen</suggestion>&subende;</message>
+        <example type="correct">Ich habe eine <marker>Frage</marker> dazu.</example>
+        <example type="correct">Ich habe keine <marker>Frage</marker> dazu.</example>
+        <example type="incorrect">Ich habe eine <marker>frage</marker> dazu.</example>
+        <example type="incorrect">Ich habe keine <marker>fragen</marker> dazu.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="3">
+          <token inflected="yes" regexp="yes">haben|stellen</token>
+          <token>ein</token>
+          <token>paar</token>
+          <token>fragen</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Fragen</suggestion>&subende;</message>
+        <example type="correct">Ich habe ein paar <marker>Fragen</marker> dazu.</example>
+        <example type="incorrect" correction="Fragen">Ich habe ein paar <marker>fragen</marker> dazu.</example>
       </rule>
     </rulegroup>
     <rule id="SEIT_BESTEHEN" name="Groß-/Kleinschreibung: 'seit bestehen (Bestehen)'">
@@ -5671,7 +5693,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token>seit</token>
         <token>bestehen</token>
       </pattern>
-      <message>Meinten Sie <suggestion>Bestehen</suggestion>?</message>
+      <message>&subanfang;<suggestion>Bestehen</suggestion>&subende;</message>
       <example type="correct">Noch nie so viele Auswanderer seit <marker>Bestehen</marker> der BRD</example>
       <example type="incorrect">Noch nie so viele Auswanderer seit <marker>bestehen</marker> der BRD</example>
     </rule>
@@ -5680,7 +5702,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token>zum</token>
         <token>mitnehmen</token>
       </pattern>
-      <message>Meinten Sie <suggestion>Mitnehmen</suggestion>?</message>
+      <message>&subanfang;<suggestion>Mitnehmen</suggestion>&subende;</message>
       <example type="correct">Alle Gerichte auch zum <marker>Mitnehmen</marker>.</example>
       <example type="incorrect">Alle Gerichte auch zum <marker>mitnehmen</marker>.</example>
     </rule>
