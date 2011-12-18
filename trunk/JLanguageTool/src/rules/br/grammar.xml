@@ -3417,11 +3417,10 @@ Useful links:
     <rulegroup id="GER_DOUBLET" name="Ger doublet">
       <rule>
         <pattern>
-          <token regexp="yes">\p{L}+<exception postag="SENT_START"/><exception regexp="yes">ez|zo|ya|nann</exception></token>
+          <token regexp="yes">\p{L}+<exception postag="SENT_START"/><exception regexp="yes">ez|zo|ya|nann|eus</exception></token>
           <token spacebefore="yes"><exception postag="J.*" postag_regexp="yes"></exception><match no="0"/></token>
         </pattern>
         <message>Ger doublet «\1 \2». Ha fellout a rae deoc’h skrivañ <suggestion>\1</suggestion>?</message>
-        <short>Doublon</short>
         <example type="incorrect">Pelec’h <marker>emañ emañ</marker> an ti-gar?</example>
         <example type="correct">Pelec’h <marker>emañ</marker> an ti-gar?</example>
         <example type="correct">N’eo ket fur-fur.</example>
@@ -3431,11 +3430,19 @@ Useful links:
       </rule>
       <rule>
         <pattern>
+          <token>eus<exception scope="previous">ez</exception></token>
+          <token>eus</token>
+        </pattern>
+        <message>Ger doublet «\1 \2». Ha fellout a rae deoc’h skrivañ <suggestion>\1</suggestion>?</message>
+        <example type="incorrect"><marker>Eus eus</marker> Brest e oa.</example>
+        <example type="correct">Bez' ez eus eus Breizh</example>
+      </rule>
+      <rule>
+        <pattern>
           <token regexp="yes">\p{L}+<exception postag="SENT_START"/></token>
           <token spacebefore="yes" postag="J.*" postag_regexp="yes"><match no="0"/></token>
         </pattern>
         <message>Ger doublet «\1 \2». Ha fellout a rae deoc’h skrivañ <suggestion>\1</suggestion> pe gant ur barrennig stagañ <suggestion>\1-\2</suggestion>?</message>
-        <short>Doublon</short>
         <example type="incorrect"><marker>Brav brav</marker> eo an ti.</example>
         <example type="correct">Brav-brav eo an ti.</example>
       </rule>
