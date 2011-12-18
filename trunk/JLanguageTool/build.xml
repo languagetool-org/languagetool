@@ -133,10 +133,20 @@
 	</target>
 
     <target name="test-rules" description="Runs unit tests for the pattern rules only">
+        <antcall target="internal-xml-validate" />
+        <antcall target="internal-pattern-rules" />
+    </target>
+
+    <target name="internal-pattern-rules">
         <property name="testcase" value="PatternRuleTest"/>
         <antcall target="test"/>
     </target>
 
+    <target name="internal-xml-validate">
+        <property name="testcase" value="ValidateXMLTest"/>
+        <antcall target="test"/>
+    </target>
+    
 	<target name="test" depends="clean,init,build,ooo-build" description="Runs unit tests">
 
 		<mkdir dir="${junit.classes.dir}" />
