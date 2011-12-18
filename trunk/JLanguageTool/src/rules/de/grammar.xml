@@ -55,13 +55,13 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
 
   <category name="Mögliche Tippfehler">
     <rule id="ER_EINZIGE" name="Möglicher Tippfehler: er (der) einzige">
-        <pattern mark_to="-1">
-            <token>er</token>
-            <token>Einzige</token>
-        </pattern>
-        <message>Meinten Sie <suggestion>der</suggestion>?</message>
-        <example type="incorrect">Bin ich <marker>er</marker> Einzige, dem das so geht?</example>
-        <example type="correct">Bin ich <marker>der</marker> Einzige, dem das so geht?</example>
+      <pattern mark_to="-1">
+          <token>er</token>
+          <token>Einzige</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>der</suggestion>?</message>
+      <example type="incorrect">Bin ich <marker>er</marker> Einzige, dem das so geht?</example>
+      <example type="correct">Bin ich <marker>der</marker> Einzige, dem das so geht?</example>
     </rule>
     <rulegroup id="EMAIL" name="Möglicher Tippfehler: Email (E-Mail)">
       <rule>
@@ -635,13 +635,13 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect">Eine <marker>Vater Morgana</marker> entsteht durch Ablenkung des Lichtes.</example>
       </rule>
     </rulegroup>
-    <rulegroup id="WAHR_NEHMEN" name="Grammatik: 'nehme ... war'">
+    <rulegroup id="WAHR_NEHMEN" name="Möglicher Tippfehler: 'nehme ... war (wahr)'">
       <rule>
         <pattern mark_from="1">
           <token inflected="yes" skip="5">nehmen</token>
           <token>war</token>
         </pattern>
-        <message>Meinten Sie <suggestion>wahr</suggestion> wie in 'wahrnehmen'?</message>
+        <message>Meinten Sie <suggestion>wahr</suggestion> wie in 'wahrnehmen' statt 'war' (Vergangenheit von 'sein')?</message>
         <example type="correct">So nehme ich das <marker>wahr</marker>.</example>
         <example type="correct">So nimmst du das <marker>wahr</marker>.</example>
         <example type="incorrect">So nehme ich das <marker>war</marker>.</example>
@@ -2003,6 +2003,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct"><marker>unterzugehen</marker></example>
         <example type="incorrect"><marker>aus zu geben</marker></example>
         <example type="incorrect"><marker>unter zu gehen</marker></example>
+<!--         <example type="correct">Sie können versuchen, es von der CD <marker>aus zu installieren</marker></example> TODO -->
       </rule>
       <!-- Now try to catch some errors our first rule missed, mostly because of the exceptions defined above -->
       <rule>
@@ -2401,6 +2402,47 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect">Wegen des starken <marker>Zahnwehs</marker>...</example>
     </rule>
     -->
+    <rulegroup id="AUF_OFFEN" name="Umgangssprache: 'auf (offen)'">
+      <rule>
+        <pattern mark_from="2" mark_to="-1">
+          <token inflected="yes" regexp="yes">.*Fenster|.*Tür</token>
+          <token inflected="yes" postag="VER:.*" postag_regexp="yes" skip="2">sein</token>
+          <token>auf</token>
+          <token><exception postag_regexp="yes" postag=".*:DAT:.*"/></token>
+        </pattern>
+        <message>Die Verwendung von 'auf' in der Bedeutung <suggestion>offen</suggestion> oder <suggestion>geöffnet</suggestion> ist umgangssprachlich.</message>
+        <example type="correct">Die Tür ist <marker>geöffnet</marker>.</example>
+        <example type="incorrect">Das Fenster ist nicht mehr <marker>auf</marker>.</example>
+        <example type="incorrect">Die Schranktüren sind nicht <marker>auf</marker>.</example>
+        <example type="correct">Die Tür ist <marker>auf</marker> den Boden gelegt wurden.</example>
+        <example type="correct">Die Tür ist <marker>auf</marker> diesem Bild zu sehen.</example>
+        <example type="correct">Die Tür ist <marker>auf</marker> verschiedenen Bildern zu sehen.</example>
+      </rule>
+    </rulegroup>
+    <rule id="GEHIESSEN" name="Umgangssprache: 'gehießen (geheißen)'">
+      <pattern>
+        <token>gehießen</token>
+      </pattern>
+      <message>\1 ist umgangssprachlich. Vorschlag: <suggestion>geheißen</suggestion></message>
+      <example type="correct">Sie hat früher Müller <marker>geheißen</marker>.</example>
+      <example type="incorrect">Sie hat früher Müller <marker>gehießen</marker>.</example>
+    </rule>
+    <rulegroup id="LILANES" name="Umgangssprache: 'lilanes (lila) Shirt'">
+      <rule>
+        <pattern case_sensitive="yes">
+          <token regexp="yes">(lilane?|pinke|chamoise)n?s?|olive[sn]</token>
+        </pattern>
+        <message>Dieses Farbadjektiv wird standardsprachlich nicht gebeugt.</message>
+        <example type="correct">Ein <marker>lila</marker> Shirt</example>
+        <example type="correct">Ein <marker>lilafarbendes</marker> Kleid</example>
+        <example type="incorrect">Ein <marker>lilanes</marker> Shirt</example>
+        <example type="incorrect">Eine <marker>pinke</marker> Hose</example>
+        <example type="incorrect">Ein <marker>olives</marker> Kleid</example>
+        <example type="incorrect">Die <marker>pinken</marker> Kleider</example>
+        <example type="correct">Eine <marker>Olive</marker></example>
+        <example type="correct">Gregor <marker>Pinke</marker></example>
+      </rule>
+    </rulegroup>
     <rulegroup id="MATHE" name="Umgangssprache: 'Mathe (Mathematik) etc.'">
       <rule>
         <pattern>
@@ -4223,7 +4265,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">vor|keine|große(r)?|lauter|ha[sb]?t|hatte(st|n)?|bekam(st|t|en)?</token>
           <token>angst</token>
         </pattern>
-        <message>Meinten Sie: <suggestion>Angst</suggestion>?</message>
+        <message>&subanfang;<suggestion>Angst</suggestion>&subende;</message>
         <example type="correct">Ich hatte überhaupt keine <marker>Angst</marker>.</example>
         <example type="incorrect">Ich hatte überhaupt keine <marker>angst</marker>.</example>
       </rule>
@@ -4236,6 +4278,115 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <message>Meinten Sie: <suggestion>Angst</suggestion>?</message>
         <example type="correct">Ich bekam es mit der <marker>Angst</marker> zu tun.</example>
         <example type="incorrect">Ich bekam es mit der <marker>angst</marker> zu tun.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="ANGST_UND_BANGE" name="Groß-/Kleinschreibung: 'Angst/angst und Bange/bange'">
+      <rule>
+        <pattern case_sensitive="yes" mark_from="1">
+          <token inflected="yes" regexp="yes" skip="1">sein|werden</token>
+          <token>Angst</token>
+          <token>und</token>
+          <token regexp="yes">[bB]ange</token>
+        </pattern>
+        <message>&inwend;<suggestion><match no="2" case_conversion="alllower"/> und <match no="4" case_conversion="alllower"/></suggestion> werden/sein werden 'angst' und 'bange' kleingeschrieben.</message>
+        <example type="correct">Ihm ist <marker>angst und bange</marker>.</example>
+        <example type="incorrect" correction="angst und bange">Ihm ist <marker>Angst und Bange</marker>.</example>
+        <example type="incorrect" correction="angst und bange">Ihm ist nicht <marker>Angst und bange</marker>.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="1">
+          <token inflected="yes" regexp="yes" skip="1">sein|werden</token>
+          <token>angst</token>
+          <token>und</token>
+          <token>Bange</token>
+        </pattern>
+        <message>&inwend;<suggestion><match no="2" case_conversion="alllower"/> und <match no="4" case_conversion="alllower"/></suggestion> werden/sein werden 'angst' und 'bange' kleingeschrieben.</message>
+        <example type="correct">Ihm ist <marker>angst und bange</marker>.</example>
+        <example type="incorrect" correction="angst und bange">Ihm ist <marker>angst und Bange</marker>.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_to="-1" mark_from="1">
+          <token negate_pos="yes" postag="SENT_START"/>
+          <token>Angst</token>
+          <token>und</token>
+          <token regexp="yes" skip="1">[bB]ange</token>
+          <token inflected="yes" regexp="yes">sein|werden</token>
+        </pattern>
+        <message>&inwend;<suggestion><match no="2" case_conversion="alllower"/> und <match no="4" case_conversion="alllower"/></suggestion> werden/sein werden 'angst' und 'bange' kleingeschrieben.</message>
+        <example type="correct">Ihm sollte <marker>angst und bange</marker> sein.</example>
+        <example type="incorrect" correction="angst und bange">Ihm sollte <marker>Angst und Bange</marker> sein.</example>
+        <example type="correct"><marker>Angst und bange</marker> ist ihm.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_to="-1" mark_from="1">
+          <token postag="SENT_START"/>
+          <token>Angst</token>
+          <token>und</token>
+          <token skip="1">Bange</token>
+          <token inflected="yes" regexp="yes">sein|werden</token>
+        </pattern>
+        <message>&inwend;<suggestion><match no="2"/> und <match no="4" case_conversion="alllower"/></suggestion> werden/sein werden 'angst' und 'bange' kleingeschrieben.</message>
+        <example type="correct"><marker>Angst und bange</marker> ist ihm.</example>
+        <example type="incorrect" correction="Angst und bange"><marker>Angst und Bange</marker> ist ihm.</example>
+        <example type="correct"><marker>Angst und bange</marker> ist ihm.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_to="-1">
+          <token>angst</token>
+          <token>und</token>
+          <token skip="1">Bange</token>
+          <token inflected="yes" regexp="yes">sein|werden</token>
+        </pattern>
+        <message>&inwend;<suggestion><match no="1" case_conversion="alllower"/> und <match no="3" case_conversion="alllower"/></suggestion> werden/sein werden 'angst' und 'bange' kleingeschrieben.</message>
+        <example type="correct">Ihm sollte <marker>angst und bange</marker> sein.</example>
+        <example type="incorrect" correction="angst und bange">Ihm sollte <marker>angst und Bange</marker> sein.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="1">
+          <token inflected="yes" regexp="yes" skip="2">[mM]ache?n?</token>
+          <token>angst</token>
+          <token>und</token>
+          <token regexp="yes">[bB]ange</token>
+        </pattern>
+        <message>&inwend;<suggestion><match no="2" case_conversion="startupper"/> und <match no="4" case_conversion="startupper"/></suggestion> machen werden 'Angst' und 'Bange' großgeschrieben.</message>
+        <example type="correct">Er macht ihm <marker>Angst und Bange</marker>.</example>
+        <example type="incorrect" correction="Angst und Bange">Mach ihm nicht <marker>angst und Bange</marker>.</example>
+        <example type="incorrect" correction="Angst und Bange">Er macht ihm <marker>angst und Bange</marker>.</example>
+        <example type="incorrect" correction="Angst und Bange">Er macht ihm <marker>angst und bange</marker>.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="1">
+          <token inflected="yes" regexp="yes" skip="2">[mM]ache?n?</token>
+          <token>Angst</token>
+          <token>und</token>
+          <token>bange</token>
+        </pattern>
+        <message>&inwend;<suggestion><match no="2" case_conversion="startupper"/> und <match no="4" case_conversion="startupper"/></suggestion> machen werden 'Angst' und 'Bange' großgeschrieben.</message>
+        <example type="correct">Er macht ihm <marker>Angst und Bange</marker>.</example>
+        <example type="incorrect" correction="Angst und Bange">Er macht ihm <marker>Angst und bange</marker>.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_to="-1">
+          <token>angst</token>
+          <token>und</token>
+          <token regexp="yes" skip="1">[bB]ange</token>
+          <token inflected="yes">machen</token>
+        </pattern>
+        <message>&inwend;<suggestion><match no="1" case_conversion="startupper"/> und <match no="3" case_conversion="startupper"/></suggestion> machen werden 'Angst' und 'Bange' großgeschrieben.</message>
+        <example type="correct">Er hat ihm <marker>Angst und Bange</marker> gemacht.</example>
+        <example type="incorrect" correction="Angst und Bange">Er hat ihm <marker>angst und bange</marker> gemacht.</example>
+        <example type="incorrect" correction="Angst und Bange">Du sollst aufhören, ihm <marker>angst und bange</marker> zu machen.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_to="-1">
+          <token>Angst</token>
+          <token>und</token>
+          <token skip="1">bange</token>
+          <token inflected="yes">machen</token>
+        </pattern>
+        <message>&inwend;<suggestion><match no="1" case_conversion="startupper"/> und <match no="3" case_conversion="startupper"/></suggestion> machen werden 'Angst' und 'Bange' großgeschrieben.</message>
+        <example type="correct">Er hat ihm <marker>Angst und Bange</marker> gemacht.</example>
+        <example type="incorrect" correction="Angst und Bange">Er hat ihm <marker>Angst und bange</marker> gemacht.</example>
       </rule>
     </rulegroup>
     <rulegroup id="TAGEN_SUBST" name="Groß-/Kleinschreibung: 'tage (Tage)'">
