@@ -2106,9 +2106,9 @@ Useful links:
     <rule id="AZ_A" name="a za → az a">
       <pattern>
         <token>a</token>
-        <token>za</token>
+        <token regexp="yes">zae?</token>
       </pattern>
-      <message>Ha fellout a rae deoc’h skrivañ <suggestion>az a</suggestion> pe <suggestion>a ya</suggestion>?</message>
+      <message>Ha fellout a rae deoc’h skrivañ <suggestion>az <match no="2" regexp_match=".(.*)" regexp_replace="$1"/></suggestion> pe <suggestion>a y<match no="2" regexp_match=".(.*)" regexp_replace="$1"/></suggestion>?</message>
       <example type="incorrect">Bleud an diaoul <marker>a za</marker> da vrenn.</example>
       <example type="correct">Bleud an diaoul az a da vrenn.</example>
       <example type="correct">Bleud an diaoul a ya da vrenn.</example>
@@ -3869,6 +3869,16 @@ Useful links:
         <message>Ha fellout a rae deoc’h skrivañ <suggestion>ret</suggestion>?</message>
         <example type="incorrect"><marker>Red</marker> e oa studiañ ar gentel.</example>
         <example type="correct">Ret e oa studiañ ar gentel.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2">
+          <token regexp="yes">eo|oa|vo</token>
+          <token>ket</token>
+          <token>red</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>ret</suggestion>?</message>
+        <example type="incorrect">N’eo ket <marker>red</marker> ober se.</example>
+        <example type="correct">N’eo ket red ober se.</example>
       </rule>
     </rulegroup>
 
