@@ -2617,6 +2617,45 @@ Useful links:
         <example type="correct">a-vil-vern</example>
       </rule>
     </rulegroup>
+    <rulegroup id="A_HEND_ALL" name="a hend all → a-hend-all">
+      <rule>
+        <pattern>
+          <token>a</token>
+          <token>hend</token>
+          <token>all</token>
+        </pattern>
+        <message>Implijit <suggestion>\1-\2-\3</suggestion>.</message>
+        <example type="incorrect">N’hallen ket ober <marker>a hend all</marker>.</example>
+        <example type="correct">N’hallen ket ober <marker>a-hend-all</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>a-hend</token>
+          <token>all</token>
+        </pattern>
+        <message>Implijit <suggestion>\1-\2</suggestion>.</message>
+        <example type="incorrect">N’hallen ket ober <marker>a-hend all</marker>.</example>
+        <example type="correct">N’hallen ket ober <marker>a-hend-all</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>a</token>
+          <token>hend-all</token>
+        </pattern>
+        <message>Implijit <suggestion>\1-\2</suggestion>.</message>
+        <example type="incorrect">N’hallen ket ober <marker>a hend-all</marker>.</example>
+        <example type="correct">N’hallen ket ober <marker>a-hend-all</marker>.</example>
+      </rule>
+    </rulegroup>
+    <rule id="TAOL_HEOL" name="taol heol → taol-heol">
+      <pattern>
+        <token regexp="yes">[tdz]aol(ioù)?</token>
+        <token regexp="yes">chañs|esae|gwad|heol|lagad|micher|mouezh|[mv]aen|yud</token>
+      </pattern>
+      <message>Implijit <suggestion>\1-\2</suggestion>.</message>
+      <example type="incorrect">Un <marker>taol heol</marker></example>
+      <example type="correct">Un taol-heol</example>
+    </rule>
     <rule id="SKIANT_PRENET" name="skiant prenet → skian-prenet">
       <pattern>
         <token>skiant</token>
@@ -2628,7 +2667,7 @@ Useful links:
     </rule>
     <rule id="DEIZ_A_BLOAZ" name="deiz a bloaz → deiz-a-bloaz">
       <pattern>
-        <token>deiz</token>
+        <token regexp="yes">[dtz]eiz</token>
         <token>ha</token>
         <token>bloaz</token>
       </pattern>
