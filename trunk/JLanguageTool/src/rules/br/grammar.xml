@@ -1293,7 +1293,7 @@ Useful links:
         <message>Goude ar stagell «\1» e tlefe c’hoarvezout ur c’hemmadur mesket. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="v$1"/></suggestion>?</message>
         <example type="incorrect">Ma <marker>befen</marker> amañ e vefen laouen.</example>
         <example type="incorrect">Ma <marker>pefen</marker> amañ e vefen laouen.</example>
-        <example type="correct">Mar vefen amañ e vefen laouen.</example>
+        <example type="correct">Ma vefen amañ e vefen laouen.</example>
         <example type="correct">Mar befen amañ e vefen laouen.</example>
       </rule>
       <rule>
@@ -2904,8 +2904,8 @@ Useful links:
           <token regexp="yes">Morbihan|Mor-bihan</token>
         </pattern>
         <message>Implijit <suggestion>Mor-Bihan</suggestion>.</message>
-        <example type="incorrect">Komzet vez brezhoneg er <marker>Morbihan</marker>.</example>
-        <example type="correct">Komzet vez brezhoneg er <marker>Mor-Bihan</marker>.</example>
+        <example type="incorrect">Komzet e vez brezhoneg er <marker>Morbihan</marker>.</example>
+        <example type="correct">Komzet e vez brezhoneg er <marker>Mor-Bihan</marker>.</example>
       </rule>
       <rule>
         <pattern case_sensitive="yes">
@@ -2913,16 +2913,34 @@ Useful links:
           <token>Bihan</token>
         </pattern>
         <message>Implijit <suggestion>Mor-Bihan</suggestion>.</message>
-        <example type="incorrect">Komzet vez brezhoneg e <marker>Mor Bihan</marker>.</example>
-        <example type="correct">Komzet vez brezhoneg e <marker>Mor-Bihan</marker>.</example>
+        <example type="incorrect">Komzet e vez brezhoneg e <marker>Mor Bihan</marker>.</example>
+        <example type="correct">Komzet e vez brezhoneg e <marker>Mor-Bihan</marker>.</example>
       </rule>
       <rule>
         <pattern case_sensitive="yes">
           <token regexp="yes">Penn-Ar-Bed|Finist[eè]re</token>
         </pattern>
         <message>Implijit <suggestion>Penn-ar-Bed</suggestion>.</message>
-        <example type="incorrect">Komzet vez brezhoneg e <marker>Penn-Ar-Bed</marker>.</example>
-        <example type="correct">Komzet vez brezhoneg e <marker>Penn-ar-Bed</marker>.</example>
+        <example type="incorrect">Komzet e vez brezhoneg e <marker>Penn-Ar-Bed</marker>.</example>
+        <example type="correct">Komzet e vez brezhoneg e <marker>Penn-ar-Bed</marker>.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token regexp="yes">Il-Ha-Gwilen|Ile-[Ee]t-Vilaine</token>
+        </pattern>
+        <message>Implijit <suggestion>Il-ha-Gwilen</suggestion>.</message>
+        <example type="incorrect">Komzet e vez brezhoneg e <marker>Il-Ha-Gwilen</marker>.</example>
+        <example type="correct">Komzet e vez brezhoneg e <marker>Il-ha-Gwilen</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">Ile?</token>
+          <token regexp="yes">et|ha</token>
+          <token regexp="yes">Vilaine|Gwilen</token>
+        </pattern>
+        <message>Implijit <suggestion>Il-ha-Gwilen</suggestion>.</message>
+        <example type="incorrect">Komzet e vez brezhoneg en <marker>Il ha Gwilen</marker>.</example>
+        <example type="correct">Komzet e vez brezhoneg en <marker>Il-ha-Gwilen</marker>.</example>
       </rule>
       <rule>
         <pattern case_sensitive="yes">
@@ -2931,16 +2949,16 @@ Useful links:
           <token>Bed</token>
         </pattern>
         <message>Implijit <suggestion>Penn-ar-Bed</suggestion>.</message>
-        <example type="incorrect">Komzet vez brezhoneg e <marker>Penn ar Bed</marker>.</example>
-        <example type="correct">Komzet vez brezhoneg e <marker>Penn-ar-Bed</marker>.</example>
+        <example type="incorrect">Komzet e vez brezhoneg e <marker>Penn ar Bed</marker>.</example>
+        <example type="correct">Komzet e vez brezhoneg e <marker>Penn-ar-Bed</marker>.</example>
       </rule>
       <rule>
         <pattern case_sensitive="yes">
           <token regexp="yes">[Cc][oôt]es-[Dd]’[Aa]rmor|Aodoù-An-Arvor</token>
         </pattern>
         <message>Implijit <suggestion>Aodoù-an-Arvor</suggestion>.</message>
-        <example type="incorrect">Komzet vez brezhoneg en <marker>Aodoù-An-Arvor</marker>.</example>
-        <example type="correct">Komzet vez brezhoneg en <marker>Aodoù-an-Arvor</marker>.</example>
+        <example type="incorrect">Komzet e vez brezhoneg en <marker>Aodoù-An-Arvor</marker>.</example>
+        <example type="correct">Komzet e vez brezhoneg en <marker>Aodoù-an-Arvor</marker>.</example>
       </rule>
       <rule>
         <pattern>
@@ -2949,8 +2967,8 @@ Useful links:
           <token regexp="yes">ar[mV]or</token>
         </pattern>
         <message>Implijit <suggestion>Aodoù-an-Arvor</suggestion>.</message>
-        <example type="incorrect">Komzet vez brezhoneg en <marker>Aodoù an Arvor</marker>.</example>
-        <example type="correct">Komzet vez brezhoneg en <marker>Aodoù-an-Arvor</marker>.</example>
+        <example type="incorrect">Komzet e vez brezhoneg en <marker>Aodoù an Arvor</marker>.</example>
+        <example type="correct">Komzet e vez brezhoneg en <marker>Aodoù-an-Arvor</marker>.</example>
       </rule>
     </rulegroup>
     <rule id="BRO" name="Broioù">
@@ -3826,6 +3844,102 @@ Useful links:
         <example type="correct">Ken bras hag int</example>
       </rule>
     </rulegroup>
+
+    <rulegroup id="MEMES_HA" name="memes eget → memes ha">
+      <rule>
+        <pattern mark_from="2" mark_to="-1">
+          <token>memes</token>
+          <token postag="N.*" postag_regexp="yes"/>
+          <token regexp="yes">eget|evel</token>
+          <token regexp="yes">[aeiouh].*</token>
+        </pattern>
+        <message>Implijit <suggestion>hag</suggestion>.</message>
+        <example type="incorrect">Diwar ar memes patrom <marker>eget</marker> ar stummadur 6 miz.</example>
+        <example type="correct">Diwar ar memes patrom <marker>hag</marker> ar stummadur 6 miz.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2" mark_to="-1">
+          <token>memes</token>
+          <token postag="N.*" postag_regexp="yes"/>
+          <token regexp="yes">eget|evel</token>
+          <token regexp="yes">[^aeiouh].*</token>
+        </pattern>
+        <message>Implijit <suggestion>ha</suggestion>.</message>
+        <example type="incorrect">Memes oad <marker>evel</marker> Naig.</example>
+        <example type="correct">Memes oad ha Naig.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2">
+          <token>memes</token>
+          <token postag="N.*" postag_regexp="yes"/>
+          <token>egedon</token>
+        </pattern>
+        <message>Implijit <suggestion>ha me</suggestion>.</message>
+        <example type="incorrect">Memes oad <marker>egedon</marker>.</example>
+        <example type="correct">Memes oad ha me.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2">
+          <token>memes</token>
+          <token postag="N.*" postag_regexp="yes"/>
+          <token>egedout</token>
+        </pattern>
+        <message>Implijit <suggestion>ha te</suggestion>.</message>
+        <example type="incorrect">Memes oad <marker>egedout</marker>.</example>
+        <example type="correct">Memes oad ha te.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2">
+          <token>memes</token>
+          <token postag="N.*" postag_regexp="yes"/>
+          <token>egetañ</token>
+        </pattern>
+        <message>Implijit <suggestion>hag eñ</suggestion>.</message>
+        <example type="incorrect">Memes oad <marker>egetañ</marker>.</example>
+        <example type="correct">Memes oad hag eñ.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2">
+          <token>memes</token>
+          <token postag="N.*" postag_regexp="yes"/>
+          <token>egeti</token>
+        </pattern>
+        <message>Implijit <suggestion>hag hi</suggestion>.</message>
+        <example type="incorrect">Memes oad <marker>egeti</marker>.</example>
+        <example type="correct">Memes oad hag hi.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2">
+          <token>memes</token>
+          <token postag="N.*" postag_regexp="yes"/>
+          <token>egedomp</token>
+        </pattern>
+        <message>Implijit <suggestion>ha ni</suggestion>.</message>
+        <example type="incorrect">Memes oad <marker>egedomp</marker>.</example>
+        <example type="correct">Memes oad ha ni.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2">
+          <token>memes</token>
+          <token postag="N.*" postag_regexp="yes"/>
+          <token>egedoc’h</token>
+        </pattern>
+        <message>Implijit <suggestion>ha ni</suggestion>.</message>
+        <example type="incorrect">Memes oad <marker>egedoc’h</marker>.</example>
+        <example type="correct">Memes oad ha c’hwi.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2">
+          <token>memes</token>
+          <token postag="N.*" postag_regexp="yes"/>
+          <token>egeto</token>
+        </pattern>
+        <message>Implijit <suggestion>hag int</suggestion>.</message>
+        <example type="incorrect">Memes oad <marker>egeto</marker>.</example>
+        <example type="correct">Memes oad hag int.</example>
+      </rule>
+    </rulegroup>
+
     <rulegroup id="NEVEZ_AMZER" name="nevez amzer → nevezamzer">
       <rule>
         <pattern>
