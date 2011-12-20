@@ -26,6 +26,7 @@ title="Easy editing stylesheet" ?>
 <!ENTITY klamzu "\)|\}|\]|&gt;">
 <!ENTITY klam "&klamauf;|&klamzu;">
 <!ENTITY tippformel "Tipp: Verwenden Sie für komplexe Formeln den Formeleditor [Einfügen > Objekt > Formel]">
+<!ENTITY odkomma "oder fehlt vielleicht ein Komma">
 ]>
 <!--
 German grammar and typo rules for LanguageTool
@@ -1028,7 +1029,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>war</token>
           <token regexp="yes">werden|wird|ist|sind|waren</token>
         </pattern>
-        <message>Meinten Sie <suggestion>wahr</suggestion> (=wahrhaftig, authentisch) statt 'war' (Vergangenheit von 'sein') oder fehlt vielleicht ein Komma?</message>
+        <message>Meinten Sie <suggestion>wahr</suggestion> (=wahrhaftig, authentisch) statt 'war' (Vergangenheit von 'sein') &odkomma;?</message>
         <example type="correct">Das kann schnell <marker>wahr</marker> werden.</example>
         <example type="correct">Ich glaube, dass es schnell <marker>wahr</marker> wird.</example>
         <example type="incorrect">Das kann schnell <marker>war</marker> werden.</example>
@@ -5973,19 +5974,22 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       </rule>
     </rulegroup>
     -->
-    <!-- commented for now, throws exception
     <rulegroup id="SUBJ_VERBLETZTSTELLUNG" name="Grammatik: Fehlende Verbletztstellung in Nebensatz" default="off">
       <rule>
         <pattern mark_from="1" mark_to="-2" case_sensitive="yes">
           <token>,</token>
-          <token regexp="yes" skip="2">dass|weil|obwohl|obgleich|sodass
+          <token regexp="yes" skip="2">dass|weil|obwohl|obgleich|sodass|nachdem
+            <exception postag="UNKNOWN"/>
             <exception scope="next" regexp="yes">,|–|\-|;|\:|&anf;|&klam;</exception>
           </token>
           <token postag=".*VER.*[123].*" postag_regexp="yes">
+            <exception postag="UNKNOWN" regexp="yes">[a-z]{1,}</exception>
             <exception postag_regexp="yes" postag=".*VER.*(INF|PA).*"/>
             <exception regexp="yes">ein.{0,2}</exception>
           </token>
           <token skip="-1">
+            <exception scope="next" postag="UNKNOWN" regexp="yes">[a-z]{1,}</exception>
+            <exception postag="UNKNOWN" regexp="yes">[a-z]{1,}</exception>
             <exception scope="next" regexp="yes">,|–|\-|;|\:|&klam;|&anf;</exception>
             <exception regexp="yes">,|–|\-|;|\:|&klam;|&anf;</exception>
             <exception scope="next" postag_regexp="yes" postag=".*VER.*(INF|EIZ|IMP|\:1|\:2|\:3).*"/>
@@ -5993,7 +5997,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           </token>
           <token postag="SENT_END"/>
         </pattern>
-        <message>Die Subjunktion '\2' erfordert Verbletztstellung. Stellen Sie das Verb an das Ende des Nebensatzes oder verwenden Sie eine andere Konjunktion (z. B. 'denn')</message> TODO should we make a suggestion?
+        <message>Die Subjunktion '\2' erfordert Verbletztstellung. Stellen Sie das Verb an das Ende des Nebensatzes oder verwenden Sie eine andere Konjunktion (z. B. 'denn' statt 'weil').</message> <!--TODO should we make a suggestion?-->
         <example type="correct">Er mag das Spiel, <marker>weil es ihm Spaß macht</marker>.</example>
         <example type="incorrect">Er mag das Spiel, <marker>weil es macht</marker> ihm Spaß.</example>
         <example type="correct">Sie läuft nicht, <marker>weil sie geht</marker>.</example>
@@ -6004,11 +6008,10 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Ich finde das gut, <marker>weil du dir viel Mühe gemacht hast </marker>.</example>
         <example type="correct">Das ist ein Befehl, <marker>weil es über eine</marker> Aufforderung hinausgeht.</example>
         <example type="incorrect">Hast du das gemerkt, <marker>weil du hast</marker> einen häufigen Fehler gemacht?</example>
-        <example type="correct">Das ist so, weil hier drei dunkle Streifen aneinanderliegen.</example> TODO the verb isn't recognized, use POS UNKNOWN?
+        <example type="correct">Das ist so, weil hier drei dunkle Streifen aneinanderliegen.</example> <!-- used to fail because the verb isn't recognized -->
       </rule>
     </rulegroup>
-     -->
-   <rulegroup id="PRAEP_GEN" name="Grammatik: Präposition mit Genitiv (abzüglich, wegen etc.)">
+    <rulegroup id="PRAEP_GEN" name="Grammatik: Präposition mit Genitiv (abzüglich, wegen etc.)">
       <rule>
         <pattern mark_from="1" case_sensitive="yes">
           <token skip="-1" postag="SENT_START"><exception scope="next" postag="SUB.*:GEN:.*" postag_regexp="yes"/></token>
@@ -6182,6 +6185,45 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect"><marker>Meines Erachtens nach</marker> ist diese Formulierung falsch.</example>
       <example type="correct"><marker>Meines Erachtens</marker> ist diese Formulierung richtig.</example>
     </rule>
+    <rulegroup id="WORDEN_WURDEN" name="Grammatik: 'worden (wurden)'">
+      <rule>
+        <pattern case_sensitive="yes" mark_to="-1">
+          <token regexp="yes" skip="5">worden?<exception scope="next" regexp="yes">bzw|/|\-|—|–|\,|;|\:|und|oder|&klam;|&anf;</exception></token>
+          <token postag_regexp="yes" postag="PA2:PRD.*"><exception scope="current" postag_regexp="yes" postag=".*AUX.*"/></token>
+        </pattern>
+        <message>Meinten Sie <suggestion><match no="1" regexp_match="worde" regexp_replace="wurde"/></suggestion> (Hilfsverb für das Präteritum) statt '\1' (Hilfsverb für das Perfekt)?</message>
+        <example type="correct">Das Essen <marker>wurde</marker> gegessen.</example>
+        <example type="incorrect" correction="wurde">Das Essen <marker>worde</marker> gegessen.</example>
+        <example type="incorrect" correction="wurden">Das Sachen <marker>worden</marker> gegessen.</example>
+        <example type="incorrect" correction="wurde">Die Tür <marker>worde</marker> auf den Boden gelegt.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="WURDEN_WORDEN" name="Grammatik: 'wurden (worden)'">
+      <rule>
+        <pattern case_sensitive="yes" mark_to="-1" mark_from="1">
+          <token postag_regexp="yes" postag="PA2:PRD.*"/>
+          <token>wurden</token>
+          <token regexp="yes">bin|bist|ist|sind|seid|war|warst|waren|wart</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>worden</suggestion> (Hilfsverb für das Perfekt) statt '\2' (Hilfsverb für das Präteritum) &odkomma;?</message>
+        <example type="correct">Nachdem er besiegt <marker>worden</marker> war...</example>
+        <example type="incorrect" correction="worden">Nachdem er besiegt <marker>wurden</marker> war...</example><!-- NOTE WAR_WERDEN also detects an error here. -->
+        <example type="incorrect" correction="worden">Nachdem du besiegt <marker>wurden</marker> bist...</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="2">
+          <token skip="5" regexp="yes">bin|bist|ist|sind|seid|war|warst|waren|wart<exception scope="next" regexp="yes">bzw|/|\-|—|–|\,|;|\:|und|oder|&klam;|&anf;</exception></token>
+          <token postag_regexp="yes" postag="PA2:PRD.*"/>
+          <token>wurden</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>worden</suggestion> (Hilfsverb für das Perfekt) statt '\3' (Hilfsverb für das Präteritum) &odkomma;?</message>
+        <example type="correct">Die Tür ist auf den Boden gelegt <marker>worden</marker>.</example>
+        <example type="incorrect" correction="worden">Die Tür ist auf den Boden gelegt <marker>wurden</marker>.</example>
+        <example type="incorrect" correction="worden">Ihr seid auf den Boden gelegt <marker>wurden</marker>.</example>
+        <example type="correct">Nachdem sie auf den Boden gelegt <marker>wurden</marker>...</example>
+        <example type="correct">..., die ihm zuzurechnen sind bzw. gelöst wurden.</example>
+      </rule>
+    </rulegroup>
     <!-- TODO: make this more general: -->
     <rulegroup id="ICH_WUENSCHE" name="Grammatik: 'Ich wünschen (wünsche)'">
       <rule>
@@ -6683,9 +6725,16 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <rule>
         <!-- TODO At the moment, we simply check whether there's no comma at all. This simplifies the rule (because we do not have to take care of cases where words like ohne, sondern, meist, dadurch etc. procede the conjunction), but we fail to detect many mistakes -->
         <pattern mark_from="1" mark_to="-2" case_sensitive="yes">
-          <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes">(,|–|\-|;|\:|&anfauf;|…|[0-9]+|\?|\!|&gt;|\=|&klamauf;)</exception></token>
-          <token regexp="yes" skip="-1">(dass|weil|obwohl|obgleich|sodass|wenn)<exception scope="next" regexp="yes">(,|–|\-|;|\:|&anfauf;|…|[0-9]+|\?|\!|&gt;|\=|&klamauf;)</exception></token>
-          <token postag=".*VER.*" postag_regexp="yes" skip="-1"><exception scope="next" regexp="yes">(,|–|\-|;|\:|&anfauf;|…|[0-9]+|\?|\!|&gt;|\=|&klamauf;)</exception></token>
+          <token postag="SENT_START" skip="-1">
+            <exception scope="next" regexp="yes">,|–|\-|;|\:|&anfauf;|…|[0-9]+|\?|\!|&gt;|\=|&klamauf;</exception>
+          </token>
+          <token regexp="yes" skip="-1">
+            dass|weil|obwohl|obgleich|sodass|wenn
+            <exception scope="next" regexp="yes">,|–|\-|;|\:|&anfauf;|…|[0-9]+|\?|\!|&gt;|\=|&klamauf;|möglich</exception>
+          </token>
+          <token postag=".*VER.*" postag_regexp="yes" skip="-1">
+            <exception scope="next" regexp="yes">,|–|\-|;|\:|&anfauf;|…|[0-9]+|\?|\!|&gt;|\=|&klamauf;</exception>
+          </token>
           <token postag="SENT_END"/>
         </pattern>
         <message>Ein mit der Subjunktion '\2' eingeleiteter Nebensatz wird i.d.R. mit (mindestens) einem Komma vom Hauptsatz abgetrennt.</message>
@@ -6699,11 +6748,12 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect">Erst <marker>wenn</marker> es so ist kann ich dir helfen.</example>
         <example type="correct">Er ist in der freien Reichsstadt <marker>Weil</marker> geboren.</example>
         <example type="correct">Ich komme <marker>wenn</marker> möglich früher.</example>
+        <example type="correct">Falls nötig und <marker>wenn</marker> möglich wird er beendet.</example>
       </rule>
       <rule>
         <pattern mark_from="1" mark_to="-1" case_sensitive="yes">
           <token postag="SENT_START"/>
-          <token skip="-1" regexp="yes">(Dass|Obwohl|Obgleich|Sodass|Wenn)<exception scope="next" regexp="yes">(,|–|\-|;|\:|&anfauf;|…|[0-9]+|\?|\!|&gt;|\=|&klamauf;)</exception></token>
+          <token skip="-1" regexp="yes">Dass|Obwohl|Obgleich|Sodass|Wenn<exception scope="next" regexp="yes">,|–|\-|;|\:|&anfauf;|…|[0-9]+|\?|\!|&gt;|\=|&klamauf;|möglich</exception></token>
           <token postag="SENT_END"/>
         </pattern>
         <message>Ein mit der Subjunktion '<match case_conversion="alllower" no="2"/>' eingeleiteter Nebensatz wird i.d.R. mit einem Komma vom Hauptsatz abgetrennt.</message>
@@ -6712,6 +6762,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">"Obwohl das so ist!"</example>
         <example type="correct">Weil am Rhein</example>
         <example type="correct">Obwohl das der 25. ist, ist es gut.</example>
+        <example type="correct"><marker>Wenn</marker> möglich wird er beendet.</example>
       </rule>
     </rulegroup>
     <rule id="MIT_FREUNDLICHEN_GRUESSEN_KOMMA" name="Zeichensetzung: Falsches Satzzeichen nach 'Mit freundlichen Grüßen'">
