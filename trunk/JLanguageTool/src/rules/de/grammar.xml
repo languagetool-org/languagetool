@@ -6057,6 +6057,18 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         -->
       </rule>
     </rulegroup>
+    <rulegroup id="NACHDEM_PRAETERITUM" name="Grammatik: 'nachdem' mit Präteritum">
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token skip="-1">nachdem<exception scope="next" regexp="yes">,|–|\-|;|\:|&klam;|&anf;</exception></token>
+          <token postag_regexp="yes" postag="VER:.*:PRT:.*"><exception scope="current" postag_regexp="yes" postag=".*AUX.*"/></token>
+          <token>,</token>
+        </pattern>
+        <message>Die Subjunktion 'nachdem' drückt standardsprachlich Vorzeitigkeit aus und kann daher nicht mit dem Präteritum verwendet werden. Verwenden Sie das Perfekt (Präsens im Hauptsatz) oder Plusquamperfekt (Präteritum im Hauptsatz) oder die Subjunktion 'als' zum Ausdrücken von Gleichzeitigkeit.</message>
+        <example type="correct">Nachdem der Brief <marker>gekommen war</marker>, ging ich nach Hause.</example>
+        <example type="incorrect">Nachdem der Brief <marker>kam</marker>, ging ich nach Hause.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="WEGEN_DIR" name="Grammatik: 'wegen dir (deinetwegen)' usw.">
       <rule>
         <pattern>
