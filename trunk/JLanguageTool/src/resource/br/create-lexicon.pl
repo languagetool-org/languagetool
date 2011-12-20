@@ -50,17 +50,53 @@ my @anv_lies_tud = (
   "Gallaoued",          "C’hallaoued",    "Kallaoued",
   "gallegerien",        "c’hallegerien",  "kallegerien",
   "gallegerion",        "c’hallegerion",  "kallegerion",
+  "bachelourien",       "vachelourien",   "pachelourien",
+  "bac’herien",         "vac’herien",     "pac’herien",
+  "bac’herion",         "vac’herion",     "pac’herion",
+  "bagsavourien",       "vagsavourien",   "pagsavourien",
+  "bamerien",           "vamerien",       "pamerien",
+  "bamerion",           "vamerion",       "pamerion",
   "baleerien",          "valeerien",      "paleerien",
   "baraerien",          "varaerien",      "paraerien",
+  "baraerion",          "varaerion",      "paraerion",
+  "barnerien",          "varnerien",      "parnerien",
+  "barnerion",          "varnerion",      "parnerion",
   "barzhed",            "varzhed",        "parzhed",
   "beajourien",         "veajourien",     "peajourien",
+  "bedoniourien",       "vedoniourien",   "pedoniourien",
+  "begennelourien",     "vegennelourien", "pegennelourien",
   "beleien",            "veleien",        "peleien",
+  "benerien",           "venerien",       "penerien",
+  "bevoniourien",       "vevonourien",    "pevonourien",
+  "bigrierien",         "vigrierien",     "pigrierien",
+  "biniaouerien",       "viniaouerien",   "piniaouerien",
+  "biolinourien",       "violinourien",   "piolinourien",
   "bleinerien",         "vleinerien",     "pleinerien",
   "bleinerion",         "vleinerion",     "pleinerion",
+  "bonelourien",        "vonelourien",    "ponelourien",
+  "bouloñjerien",       "vouloñjerien",   "pouloñjerien",
+  "bombarderien",       "vombarderien",   "pombarderien",
+  "braventiourien",     "vraventiourien", "praventiourien",
+  "bredklañvourien",    "vredklañvourien", "predklañvourien",
+  "bredoniourien",      "vredoniourien",  "predoniourien",
+  "bresourien",         "vresourien",     "presourien",
   "breudeur",           "vreudeur",       "preudeur",
-  "breutaerien",        "vreutaerien",    "preutaerien",
+  "Bretoned",           "Vretoned",       "Pretoned",
   "brezhonegerien",     "vrezhonegerien", "prezhonegerien",
+  "Brezhoned",          "Vrezhoned",      "Prezhoned",
+  "breutaerien",        "vreutaerien",    "preutaerien",
+  "brezelourien",       "vrezelourien",   "prezelourien",
+  "brezhonegerien",     "vrezhonegerien", "prezhonegerien",
+  "brigadennourien",    "vrigadennourien", "prigadennourien",
+  "brizhkeltiegourien", "vrizhkeltiegourien", "prizhkeltiegourien",
+  "brizhkredennourien", "vrizhkredennourien", "prizhkredennourien",
+  "broadelourien",      "vroadelourien",  "proadelourien",
+  "brogarourien",       "vrogarourien",   "progarourien",
+  "brozennourien",      "vrozennourien",  "prozennourien",
+  "brudourien",         "vrudourien",     "prudourien",
+  "buhezegezhourien",   "vuhezegezhourien", "puhezegezhourien",
   "bugale",             "vugale",         "pugale",
+  "bugulien",           "vugulien",       "pugulien",
   "butunerien",         "vutunerien",     "putunerien",
   "butunerion",         "vutunerion",     "putunerion",
   "dañserien",                            "tañserien",
@@ -131,6 +167,8 @@ my @anv_lies_tud = (
   "touristed",          "douristed",                       "zouristed",
   "tredanerien",        "dredanerien",                     "zredanerien",
   "tredanerion",        "dredanerion",                     "zredanerion",
+  "tredeeged",          "dredeeged",                       "zredeeged",
+  "tredeoged",          "dredeoged",                       "zredeoged",
   "tud",                "dud",                             "zud",
 );
 my %anv_lies_tud = map { $_ => 0 } @anv_lies_tud;
@@ -383,6 +421,12 @@ while (<LT_EXPAND>) {
     elsif ($tags eq '<vbloc><pii><p3><pl>')     { $tag = "V impl 3 p" }     # edont
     elsif ($tags eq '<vbloc><pii><impers><sp>') { $tag = "V impl impers" }  # emod
 
+    # Words that we tag as both masculine, feminine
+    # even though Apertium does not tag them with both gender.
+    if ($lemma eq 'trubuilh' and $word =~ /^[tdz]rubuilh(où)?$/) {
+      $tag =~ s/^N m/N e/;
+    }
+
     if ($tag =~ /N m p/) {
       if (exists $anv_lies_tud{$word} or $word =~ /[A-Z].*iz$/) {
         $tag .= ' t';
@@ -391,26 +435,26 @@ while (<LT_EXPAND>) {
     }
 
     my ($first_letter_lemma) = $lemma =~ /^(gw|[ktpgdbm]).*/i;
-    my ($first_letter_word)  = $word  =~ /^([kg]w|c’h|[gdbzfktvp]).*/i;
+    my ($first_letter_word)  = $word  =~ /^([kg]w|c’h|[gdbzfktvpw]).*/i;
     $first_letter_lemma = lc $first_letter_lemma;
     $first_letter_word  = lc $first_letter_word;
 
-    if    ($lemma eq 'kaout')  { }
+    if    ($lemma eq 'kaout' and !($word =~ '.*aout')) { }
     elsif ($word  eq 'tud')    { }
-    elsif ($word  eq 'dud')    { $tag .= "M:1:1a" }
-    elsif ($word  eq 'zud')    { $tag .= "M:2:" }
+    elsif ($word  eq 'dud')    { $tag .= " M:1:1a" }
+    elsif ($word  eq 'zud')    { $tag .= " M:2:" }
     elsif ($word  eq 'diweuz') { }
-    elsif ($word  eq 'tiweuz') { $tag .= "M:3:" }
-    elsif ($word  eq 'ziweuz') { $tag .= "M:1:1b:" }
+    elsif ($word  eq 'tiweuz') { $tag .= " M:3:" }
+    elsif ($word  eq 'ziweuz') { $tag .= " M:1:1b:" }
     elsif ($word =~ '^kezeg-?(koad|mor|blein)?$')   { }
-    elsif ($word =~ '^gezeg-?(koad|mor|blein)?$')   { $tag .= "M:1:1a:" }
-    elsif ($word =~ '^c’hezeg-?(koad|mor|blein)?$') { $tag .= "M:2:" }
+    elsif ($word =~ '^gezeg-?(koad|mor|blein)?$')   { $tag .= " M:1:1a:" }
+    elsif ($word =~ '^c’hezeg-?(koad|mor|blein)?$') { $tag .= " M:2:" }
     elsif ($word =~ '^daou(lin|lagad)$')            { }
-    elsif ($word =~ '^taou(lin|lagad)$')            { $tag .= "M:3:" }
-    elsif ($word =~ '^zaou(lin|lagad)$')            { $tag .= "M:1:1b:" }
+    elsif ($word =~ '^taou(lin|lagad)$')            { $tag .= " M:3:" }
+    elsif ($word =~ '^zaou(lin|lagad)$')            { $tag .= " M:1:1b:" }
     elsif ($word =~ '^div(c’har|esker|rec’h|ronn|orzhed|jod|skouarn)$') { }
-    elsif ($word =~ '^tiv(c’har|esker|rec’h|ronn|orzhed|jod|skouarn)$') { $tag .= "M:3:" }
-    elsif ($word =~ '^ziv(c’har|esker|rec’h|ronn|orzhed|jod|skouarn)$') { $tag .= "M:1:1b:" }
+    elsif ($word =~ '^tiv(c’har|esker|rec’h|ronn|orzhed|jod|skouarn)$') { $tag .= " M:3:" }
+    elsif ($word =~ '^ziv(c’har|esker|rec’h|ronn|orzhed|jod|skouarn)$') { $tag .= " M:1:1b:" }
     elsif   ($first_letter_lemma and 
              $first_letter_word  and 
              $first_letter_lemma ne $first_letter_word and
@@ -426,13 +470,13 @@ while (<LT_EXPAND>) {
       } elsif ($first_letter_lemma eq 'p')   {
         if    ($first_letter_word  eq 'b')   { $tag .= " M:1:1a:" }
         elsif ($first_letter_word  eq 'f')   { $tag .= " M:2:" }
-      } elsif ($first_letter_lemma eq 'g')   {
-        if    ($first_letter_word  eq 'c’h') { $tag .= " M:1:1a:1b:4:" }
-        elsif ($first_letter_word  eq 'k')   { $tag .= " M:3:" }
       } elsif ($first_letter_lemma eq 'gw')  {
         if    ($first_letter_word  eq 'w')   { $tag .= " M:1:1a:1b:4:" }
         elsif ($first_letter_word  eq 'kw')  { $tag .= " M:3:" }
         elsif ($first_letter_word  eq 'c’h') { $tag .= " M:4:" }
+      } elsif ($first_letter_lemma eq 'g')   {
+        if    ($first_letter_word  eq 'c’h') { $tag .= " M:1:1a:1b:4:" }
+        elsif ($first_letter_word  eq 'k')   { $tag .= " M:3:" }
       } elsif ($first_letter_lemma eq 'd')   {
         if    ($first_letter_word  eq 'z')   { $tag .= " M:1:1b:4:" }
         elsif ($first_letter_word  eq 't')   { $tag .= " M:3:4:" }
