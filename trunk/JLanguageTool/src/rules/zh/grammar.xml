@@ -14,6 +14,30 @@ $Id: grammar.xml,v 1.0 2011-07-29 13:20:25 taolin2011 Exp $
   <!-- 拼写： 词语错误-->
   <!-- ====================================================================== -->
   <category name="词语错误">
+    <rulegroup id="YUAN_WU" name="元/无" default="off">
+      <rule>
+        <pattern mark_to="-1">
+          <token postag="v">无</token>
+          <token postag="n|tg|ag|j|q|a|v|m|vg|ng" regexp="yes" postag_regexp="yes"
+            >宝|旦|丰|嘉|件|老|配|气|曲|首|帅|素|宵|凶|勋|夜|音|月</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>元</suggestion>\2”吗？ </message>
+        <short>词语错误</short>
+        <example correction="元" type="incorrect"> 这件<marker>无</marker>宝不属于我。 </example>
+        <example type="correct"> 这件<marker>元</marker>宝不属于我。 </example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token postag="tg|q" postag_regexp="yes">元</token>
+          <token postag="p|v|d|vg|ag|n|ng|nr|c" regexp="yes" postag_regexp="yes"
+            >比|边|补|猜|常|偿|成|耻|从|道|敌|度|妨|非|辜|故|关|害</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>无</suggestion>\2”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="无"> 他不会<marker>元</marker>故缺席的。 </example>
+        <example type="correct"> 他不会<marker>无</marker>故缺席的。 </example>
+      </rule>
+    </rulegroup>
     <rulegroup id="YUAN_NU" name="怨/怒">
       <rule>
         <pattern mark_from="1" mark_to="0">
