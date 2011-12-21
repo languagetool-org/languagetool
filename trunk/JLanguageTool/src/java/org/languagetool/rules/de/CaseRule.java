@@ -146,6 +146,7 @@ public class CaseRule extends GermanRule {
     exceptions.add("Türkisch");
     exceptions.add("Ungarisch");
 
+    exceptions.add("Mitfahrt");
     exceptions.add("Schuld");
     exceptions.add("Erwachsener");
     exceptions.add("Jugendlicher");
