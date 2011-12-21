@@ -465,7 +465,9 @@ public final class JLanguageTool {
    * sentences against all currently active rules.
    * 
    * @param text
-   *          the text to check  
+   *          The text to check. Call this method with the complete text to check. If you call it
+   *          with smaller chunks like paragraphs or sentence, those rules that work across 
+   *          paragraphs/sentences won't work (their status gets reset whenever this).
    * @param tokenizeText
    *          If true, then the text is tokenized into sentences. 
    *          Otherwise, it is assumed it's already tokenized.
@@ -486,8 +488,7 @@ public final class JLanguageTool {
     }
     final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     final List<Rule> allRules = getAllRules();
-    printIfVerbose(allRules.size() + " rules activated for language "
-        + language);
+    printIfVerbose(allRules.size() + " rules activated for language " + language);
     int charCount = 0;
     int lineCount = 0;
     int columnCount = 1;
