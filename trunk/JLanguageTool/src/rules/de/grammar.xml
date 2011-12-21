@@ -64,6 +64,16 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect">Bin ich <marker>er</marker> Einzige, dem das so geht?</example>
       <example type="correct">Bin ich <marker>der</marker> Einzige, dem das so geht?</example>
     </rule>
+    <rule id="VERZEIHT_VERZIEHT" name="Möglicher Tippfehler: verzeiht (verzieht)">
+      <pattern mark_to="-2">
+          <token>verzeiht</token>
+          <token>keine</token>
+          <token>Miene</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>verzieht</suggestion>?</message>
+      <example type="incorrect">Er <marker>verzeiht</marker> keine Miene.</example>
+      <example type="correct">Er <marker>verzieht</marker> keine Miene.</example>
+    </rule>
     <rulegroup id="EMAIL" name="Möglicher Tippfehler: Email (E-Mail)">
       <rule>
         <pattern mark_from="1">
@@ -1730,7 +1740,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token regexp="yes">(der|die|das|des|dem|den)</token>
         <token regexp="yes">selbe(n)?</token>
       </pattern>
-      <message><suggestion>\1<match no="2" case_conversion ="startlower"/></suggestion> wird zusammengeschrieben</message>
+      <message><suggestion>\1<match no="2" case_conversion="startlower"/></suggestion> wird zusammengeschrieben.</message>
       <example type="correct">Er trägt heute ein und <marker>denselben</marker> Pullover wie gestern.</example>
       <example type="incorrect" correction="denselben">Er trägt heute ein und <marker>den Selben</marker> Pullover wie gestern.</example>
       <example type="incorrect" correction="Denselben"><marker>Den selben</marker> Pullover trägt er heute.</example>
@@ -4283,27 +4293,31 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     </rulegroup>
     <rulegroup id="ANGST_UND_BANGE" name="Groß-/Kleinschreibung: 'Angst/angst und Bange/bange'">
       <rule>
-        <pattern case_sensitive="yes" mark_from="1">
+        <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
           <token inflected="yes" regexp="yes" skip="1">sein|werden</token>
           <token>Angst</token>
           <token>und</token>
           <token regexp="yes">[bB]ange</token>
+          <token negate="yes">gemacht</token>
         </pattern>
         <message>&inwend;<suggestion><match no="2" case_conversion="alllower"/> und <match no="4" case_conversion="alllower"/></suggestion> werden/sein werden 'angst' und 'bange' kleingeschrieben.</message>
         <example type="correct">Ihm ist <marker>angst und bange</marker>.</example>
         <example type="incorrect" correction="angst und bange">Ihm ist <marker>Angst und Bange</marker>.</example>
         <example type="incorrect" correction="angst und bange">Ihm ist nicht <marker>Angst und bange</marker>.</example>
+        <example type="correct">Ihm ist <marker>Angst und Bange</marker> gemacht wurden.</example>
       </rule>
       <rule>
-        <pattern case_sensitive="yes" mark_from="1">
+        <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
           <token inflected="yes" regexp="yes" skip="1">sein|werden</token>
           <token>angst</token>
           <token>und</token>
           <token>Bange</token>
+          <token negate="yes">gemacht</token>
         </pattern>
         <message>&inwend;<suggestion><match no="2" case_conversion="alllower"/> und <match no="4" case_conversion="alllower"/></suggestion> werden/sein werden 'angst' und 'bange' kleingeschrieben.</message>
         <example type="correct">Ihm ist <marker>angst und bange</marker>.</example>
         <example type="incorrect" correction="angst und bange">Ihm ist <marker>angst und Bange</marker>.</example>
+        <example type="correct">Ihm ist <marker>Angst und Bange</marker> gemacht wurden.</example>
       </rule>
       <rule>
         <pattern case_sensitive="yes" mark_to="-1" mark_from="1">
@@ -4377,6 +4391,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Er hat ihm <marker>Angst und Bange</marker> gemacht.</example>
         <example type="incorrect" correction="Angst und Bange">Er hat ihm <marker>angst und bange</marker> gemacht.</example>
         <example type="incorrect" correction="Angst und Bange">Du sollst aufhören, ihm <marker>angst und bange</marker> zu machen.</example>
+        <example type="correct">Ihm ist <marker>Angst und Bange</marker> gemacht wurden.</example>
       </rule>
       <rule>
         <pattern case_sensitive="yes" mark_to="-1">
@@ -6055,6 +6070,133 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct"><marker>Abseits des</marker> Weges...</example>
         <example type="incorrect"><marker>Abseits dem</marker> Weg...</example>
         -->
+      </rule>
+    </rulegroup>
+    <rulegroup id="ICH_BIST" name="Grammatik: Kongruenz von Subjekt (nur Personalpronomen!) und Prädikat, z.B. 'Ich bist (bin)'">
+      <!-- TODO Should 'Ich könnt das machen.' be ignored? -->
+      <rule>
+        <pattern case_sensitive="yes" mark_from="1">
+          <token postag="SENT_START"/>
+          <token>Ich</token>
+          <token postag="VER.*:[123]:.*" postag_regexp="yes"><exception postag="VER.*:1:SIN.*" postag_regexp="yes"/></token>
+        </pattern>
+        <message>Möglicherweise fehlende grammatische Übereinstimmung zwischen Subjekt (\2) und Prädikat (\3) bezüglich Person oder Numerus (Einzahl, Mehrzahl - Beispiel: 'ich sind' statt 'ich bin').</message>
+        <example type="correct"><marker>Ich bin</marker> nett.</example>
+        <example type="incorrect"><marker>Ich bist</marker> nett.</example>
+        <example type="correct"><marker>Ich kann</marker> heute leider nicht kommen.</example>
+        <example type="incorrect"><marker>Ich kannst</marker> heute leider nicht kommen.</example>
+        <example type="correct"><marker>Ich lebe</marker>.</example>
+        <example type="incorrect"><marker>Ich leben</marker>.</example>
+        <example type="correct">Er und <marker>ich leben</marker>.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="2" mark_to="-1">
+          <token postag="SENT_START"/>
+          <token skip="1"/>
+          <token postag="VER.*:[123]:.*" postag_regexp="yes"><exception postag="VER.*:1:SIN.*" postag_regexp="yes"/></token>
+          <token skip="-1">ich<exception scope="next">und</exception></token>
+          <token postag="SENT_END"/>
+        </pattern>
+        <message>Möglicherweise fehlende grammatische Übereinstimmung zwischen Subjekt (\4) und Prädikat (\3) bezüglich Person oder Numerus (Einzahl, Mehrzahl - Beispiel: 'ich sind' statt 'ich bin').</message>
+        <example type="correct">Nett <marker>bin ich</marker>.</example>
+        <example type="incorrect">Nett <marker>bist ich</marker> nicht.</example>
+        <example type="correct">Auch morgen <marker>lebe ich</marker>.</example>
+        <example type="incorrect">Auch morgen <marker>leben ich</marker>.</example>
+        <example type="correct">Morgen <marker>kommen ich</marker> und sie.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="1">
+          <token postag="SENT_START"/>
+          <token>Du</token>
+          <token postag="VER.*:[123]:.*" postag_regexp="yes"><exception postag="VER.*:2:SIN.*" postag_regexp="yes"/></token>
+        </pattern>
+        <message>Möglicherweise fehlende grammatische Übereinstimmung zwischen Subjekt (\2) und Prädikat (\3) bezüglich Person oder Numerus (Einzahl, Mehrzahl - Beispiel: 'du seid' statt 'du bist').</message>
+        <example type="correct"><marker>Du bist</marker> nett.</example>
+        <example type="incorrect"><marker>Du bin</marker> nett.</example>
+        <example type="correct"><marker>Du kannst</marker> heute leider nicht kommen.</example>
+        <example type="incorrect"><marker>Du können</marker> heute leider nicht kommen.</example>
+        <example type="correct"><marker>Du lebst</marker>.</example>
+        <example type="incorrect"><marker>Du leben</marker>.</example>
+        <example type="correct">Er und <marker>du leben</marker>.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="2" mark_to="-1">
+          <token postag="SENT_START" skip="2"/>
+          <token skip="1"/>
+          <token postag="VER.*:[123]:.*" postag_regexp="yes"><exception postag="VER.*:2:SIN.*" postag_regexp="yes"/></token>
+          <token skip="-1">du<exception scope="next">und</exception></token>
+          <token postag="SENT_END"/>
+        </pattern>
+        <message>Möglicherweise fehlende grammatische Übereinstimmung zwischen Subjekt (\4) und Prädikat (\3) bezüglich Person oder Numerus (Einzahl, Mehrzahl - Beispiel: 'du seid' statt 'du bist').</message>
+        <example type="correct">Nett <marker>bist du</marker>.</example>
+        <example type="incorrect">Nett <marker>sind du</marker>.</example>
+        <example type="correct">Auch morgen <marker>lebst du</marker>.</example>
+        <example type="incorrect">Auch morgen <marker>leben du</marker>.</example>
+        <example type="correct">Morgen <marker>kommen du</marker> und ich.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="1">
+          <token postag="SENT_START"/>
+          <token>Er</token>
+          <token postag="VER.*:[123]:.*" postag_regexp="yes"><exception postag="VER.*:3:SIN.*" postag_regexp="yes"/></token>
+        </pattern>
+        <message>Möglicherweise fehlende grammatische Übereinstimmung zwischen Subjekt (\2) und Prädikat (\3) bezüglich Person oder Numerus (Einzahl, Mehrzahl - Beispiel: 'er sind' statt 'er ist').</message>
+        <example type="correct"><marker>Er ist</marker> nett.</example>
+        <example type="incorrect"><marker>Er bin</marker> nett.</example>
+        <example type="correct"><marker>Er kann</marker> heute leider nicht kommen.</example>
+        <example type="incorrect"><marker>Er können</marker> heute leider nicht kommen.</example>
+        <example type="correct"><marker>Er lebt</marker>.</example>
+        <example type="incorrect"><marker>Er lebst</marker>.</example>
+        <example type="correct"><marker>Er gelangt</marker> zu ihr.</example>
+        <example type="incorrect"><marker>Er gelangst</marker> zu ihr.</example>
+        <example type="correct">Sie und <marker>er leben</marker>.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="2" mark_to="-1">
+          <token postag="SENT_START" skip="2"/>
+          <token skip="1"/>
+          <token postag="VER.*:[123]:.*" postag_regexp="yes"><exception postag="VER.*:3:SIN.*" postag_regexp="yes"/></token>
+          <token skip="-1">er<exception scope="next">und</exception></token>
+          <token postag="SENT_END"/>
+        </pattern>
+        <message>Möglicherweise fehlende grammatische Übereinstimmung zwischen Subjekt (\4) und Prädikat (\3) bezüglich Person oder Numerus (Einzahl, Mehrzahl - Beispiel: 'er sind' statt 'er ist').</message>
+        <example type="correct">Nett <marker>ist er</marker>.</example>
+        <example type="incorrect">Nett <marker>sind er</marker>.</example>
+        <example type="correct">Auch morgen <marker>lebt er</marker>.</example>
+        <example type="incorrect">Auch morgen <marker>leben er</marker>.</example>
+        <example type="correct">Morgen <marker>kommen er</marker> und ich.</example>
+        <example type="correct">Morgen <marker>kommen er</marker>, den ich sehr mag, und ich.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="1">
+          <token postag="SENT_START"/>
+          <token>Wir</token>
+          <token postag="VER.*:[123]:.*" postag_regexp="yes"><exception postag="VER.*:1:PLU.*" postag_regexp="yes"/></token>
+        </pattern>
+        <message>Möglicherweise fehlende grammatische Übereinstimmung zwischen Subjekt (\2) und Prädikat (\3) bezüglich Person oder Numerus (Einzahl, Mehrzahl - Beispiel: 'wir ist' statt 'wir sind').</message>
+        <example type="correct"><marker>Wir sind</marker> nett.</example>
+        <example type="incorrect"><marker>Wir bin</marker> nett.</example>
+        <example type="correct"><marker>Wir können</marker> heute leider nicht kommen.</example>
+        <example type="incorrect"><marker>Wir könnt</marker> heute leider nicht kommen.</example>
+        <example type="correct"><marker>Wir leben</marker> noch.</example>
+        <example type="incorrect"><marker>Wir lebst</marker> noch.</example>
+        <example type="correct"><marker>Wir gelangen</marker> zu dir.</example>
+        <example type="incorrect"><marker>Wir gelangst</marker> zu ihr.</example>
+        <example type="correct">Sie lebt und <marker>wir leben</marker>.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="2" mark_to="0">
+          <token postag="SENT_START" skip="2"/>
+          <token skip="1"/>
+          <token postag="VER.*:[123]:.*" postag_regexp="yes"><exception postag="VER.*:1:PLU.*" postag_regexp="yes"/></token>
+          <token skip="-1">wir</token>
+        </pattern>
+        <message>Möglicherweise fehlende grammatische Übereinstimmung zwischen Subjekt (\4) und Prädikat (\3) bezüglich Person oder Numerus (Einzahl, Mehrzahl - Beispiel: 'wir ist' statt 'wir sind').</message>
+        <example type="correct">Nett <marker>sind wir</marker>.</example>
+        <example type="incorrect">Nett <marker>warst wir</marker>.</example>
+        <example type="correct">Auch morgen <marker>leben wir</marker> noch.</example>
+        <example type="incorrect">Auch morgen <marker>lebte wir</marker> noch.</example>
+        <example type="correct">Morgen <marker>kommen wir</marker> und sie.</example>
       </rule>
     </rulegroup>
     <rulegroup id="NACHDEM_PRAETERITUM" name="Grammatik: 'nachdem' mit Präteritum">
