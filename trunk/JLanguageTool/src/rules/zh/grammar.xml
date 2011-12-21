@@ -14,6 +14,49 @@ $Id: grammar.xml,v 1.0 2011-07-29 13:20:25 taolin2011 Exp $
   <!-- 拼写： 词语错误-->
   <!-- ====================================================================== -->
   <category name="词语错误">
+    <rulegroup id="ZHE_CHAI" name="折/拆">
+      <rule>
+        <pattern mark_to="-1">
+          <token postag="v">折</token>
+          <token postag="p|v|ng|q" regexp="yes" postag_regexp="yes">除|穿|毁|伙|建|迁|散|台|洗|卸</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>拆</suggestion>\2”吗？ </message>
+        <short>词语错误</short>
+        <example correction="拆" type="incorrect"> 那栋新建的大楼因违章而被<marker>折</marker>除。 </example>
+        <example type="correct"> 那栋新建的大楼因违章而被<marker>拆</marker>除。 </example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="0">
+          <token postag_regexp="yes" postag="ad|ng">强</token>
+          <token postag="v">折</token>
+        </pattern>
+        <message> 您的意思是“强<suggestion>拆</suggestion>”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="拆"> 湖南株洲农民为抗强<marker>折</marker>自焚重伤。 </example>
+        <example type="correct"> 湖南株洲农民为抗强<marker>拆</marker>自焚重伤。 </example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token postag="v">拆</token>
+          <token postag="o|v|n|a|ng" regexp="yes" postag_regexp="yes"
+            >叠|断|返|服|价|旧|扣|磨|射|寿|算|弯|腰|纸|枝|罪</token>
+        </pattern>
+        <message> 您的意思是“<suggestion>折</suggestion>\2”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="折"> 他把衣服<marker>拆</marker>叠得整整齐齐。 </example>
+        <example type="correct"> 他把衣服<marker>折</marker>叠得整整齐齐。 </example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="0">
+          <token postag="ag|nr" regexp="yes" postag_regexp="yes">曲|周</token>
+          <token postag="v">拆</token>
+        </pattern>
+        <message> 您的意思是“\1<suggestion>折</suggestion>”吗？ </message>
+        <short>词语错误</short>
+        <example correction="折" type="incorrect"> 这条山路真不好走，不但曲<marker>拆</marker>，而且还十分陡峭。 </example>
+        <example type="correct"> 这条山路真不好走，不但曲<marker>折</marker>，而且还十分陡峭。 </example>
+      </rule>
+    </rulegroup>
     <rulegroup id="YUAN_WU" name="元/无" default="off">
       <rule>
         <pattern mark_to="-1">
