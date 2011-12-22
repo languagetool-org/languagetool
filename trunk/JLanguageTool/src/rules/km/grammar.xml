@@ -242,7 +242,7 @@ $Id: grammar.xml,v 1.1 2010/01/14 12:42:24 milek_pl Exp $
 <rule id="WANT_NOUN" name="INCORRECT USE OF WANT WITH NOUN">
       <pattern mark_from="0" mark_to="-1">
 	<token>ចង់</token>
-	<token postag="NN"></token>
+	<token postag="NN"><exception postag="VB"></exception></token>
       </pattern>
       <message>You should write 
 	<suggestion>ចង់​បាន</suggestion> instead.
@@ -259,7 +259,7 @@ $Id: grammar.xml,v 1.1 2010/01/14 12:42:24 milek_pl Exp $
 <rule id="WANT_VERB1" name="INCORRECT USE OF WANT WITH VERB1">
       <pattern mark_from="0" mark_to="-1">
 	<token>ចង់បាន</token>
-	<token postag="VB"></token>
+	<token postag="VB"><exception postag="NN"></exception></token>
       </pattern>
       <message>You should write 
 	<suggestion>ចង់</suggestion> instead.
@@ -277,7 +277,7 @@ $Id: grammar.xml,v 1.1 2010/01/14 12:42:24 milek_pl Exp $
       <pattern mark_from="0" mark_to="-1">
 	<token>ចង់</token>
 	<token>បាន</token>
-	<token postag="VB"></token>
+	<token postag="VB"><exception postag="NN"></exception></token>
       </pattern>
       <message>You should write 
 	<suggestion>ចង់</suggestion> instead.
@@ -411,6 +411,36 @@ $Id: grammar.xml,v 1.1 2010/01/14 12:42:24 milek_pl Exp $
     ខ្ញុំ​​ទៅ​<marker>និង</marker>​មក​វិញ។
     </example>
 </rule>
-
+<rule id="TonakeatWithNoun" name="Do not use ការ​ ឬ ភាព with ទណ្ឌឃាត">
+	<pattern mark_from="1">
+	<token regexp="yes">សេចក្តី|សេចក្ដី|ការ|ភាព|អំពើ</token>
+	<token regexp="yes">(.*)(ន៍)</token>
+      </pattern>
+      <message>Remove ន៍ because the word is already a modified noun.
+	<suggestion><match no="2" regexp_match="(.*)(ន៍)" regexp_replace="$1"></match></suggestion>
+    </message>
+      <short>Remove ន៍ because the word is already a modified noun.</short>
+    <example type="correct">
+    ការ​<marker>អភិវឌ្ឍ</marker>​សង្គម។
+    </example>
+    <example type="incorrect" correction="អភិវឌ្ឍ">
+    ការ​<marker>អភិវឌ្ឍន៍</marker>​សង្គម។
+    </example>
+</rule>
+<rule id="TonakeatWithNoun2" name="Do not use ការ​ ឬ ភាព with ទណ្ឌឃាត 2">
+	<pattern>
+	<token regexp="yes">(សេចក្តី|សេចក្ដី|ការ|ភាព|អំពើ)(.*)(ន៍)</token>
+      </pattern>
+      <message>Remove ន៍ because the word is already a modified noun.
+	<suggestion><match no="1" regexp_match="(សេចក្តី|សេចក្ដី|ការ|ភាព|អំពើ)(.*)(ន៍)" regexp_replace="$1$2"></match></suggestion>
+    </message>
+      <short>Remove ន៍ because the word is already a modified noun.</short>
+    <example type="correct">
+    <marker>ការអភិវឌ្ឍ</marker>​សង្គម។
+    </example>
+    <example type="incorrect" correction="ការអភិវឌ្ឍ">
+    <marker>ការអភិវឌ្ឍន៍</marker>​សង្គម។
+    </example>
+</rule>
 </category>
 </rules>
