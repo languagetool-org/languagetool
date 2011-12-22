@@ -14,6 +14,41 @@ $Id: grammar.xml,v 1.0 2011-07-29 13:20:25 taolin2011 Exp $
   <!-- 拼写： 词语错误-->
   <!-- ====================================================================== -->
   <category name="词语错误">
+    <rulegroup id="HUN1_HUN2" name="混/浑">
+      <rule>
+        <pattern mark_to="-1">
+          <token>混</token>
+          <token regexp="yes" postag="a|b" postag_regexp="yes">厚|沦</token>
+        </pattern>
+        <message> 您的意思是"<suggestion>浑</suggestion>\2"吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="浑"> 他的声音很<marker>混</marker>厚。 </example>
+        <example type="correct">他的声音很浑厚。</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token>浑</token>
+          <token regexp="yes" postag="a|v|u|vg|ng" postag_regexp="yes">杂|淆|乱|合|战|帐</token>
+        </pattern>
+        <message> 您的意思是"<suggestion>混</suggestion>\2"吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="混">
+          <marker>浑</marker>杂的军队必败。 </example>
+        <example type="correct">混杂的军队必败。</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>浑</token>
+          <token>为</token>
+          <token>一</token>
+          <token postag="v">谈</token>
+        </pattern>
+        <message> 您的意思是"<suggestion>混\2\3\4</suggestion>"吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="混为一谈"> 别将这件事<marker>浑为一谈</marker>。 </example>
+        <example type="correct">别将这件事混为一谈。</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="ZHE_CHAI" name="折/拆">
       <rule>
         <pattern mark_to="-1">
