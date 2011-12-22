@@ -20,10 +20,6 @@
 # 3) Run the script:
 #    $ cd apertium-br-fr/
 #    $ ./create-lexicon.pl
-# 4) Use morfologik-stemming to create the LanguageTool dictionary:
-#    See http://languagetool.wikidot.com/developing-a-tagger-dictionary
-#    $ java -jar morfologik-stemming-nodict-1.4.0.jar tab2morph -i apertium-br-fr.br.dix-LT.txt -o output.txt
-#    $ java -jar morfologik-stemming-nodict-1.4.0.jar fsa_build -i output.txt -o breton.dict
 #
 # Author: Dominique Pelle <dominique.pelle@gmail.com>
 
@@ -67,6 +63,7 @@ my @anv_lies_tud = (
   "begennelourien",     "vegennelourien", "pegennelourien",
   "beleien",            "veleien",        "peleien",
   "benerien",           "venerien",       "penerien",
+  "bevezerien",         "vevezerien",     "pevezerien",
   "bevoniourien",       "vevonourien",    "pevonourien",
   "bigrierien",         "vigrierien",     "pigrierien",
   "biniaouerien",       "viniaouerien",   "piniaouerien",
@@ -503,7 +500,7 @@ while (<LT_EXPAND>) {
 }
 print "handled [$out_count] words, unhandled [$err_count] words\n";
 
-print "Lemma words missing from dicitionary:\n";
+print "Lemma words missing from dictionary:\n";
 foreach (sort keys %all_lemmas) { print "$_\n" unless (exists $all_words{$_}); }
 
 # Check whether some words in anv_lies_tud have are missing in dictionary.
