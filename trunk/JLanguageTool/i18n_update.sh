@@ -13,9 +13,8 @@ for lang in ast be br ca cs da de eo es fr gl is it km lt nl pl ro ru sk sl sv t
 do
   SOURCE=downloaded.tmp
   # download and hackish JSON cleanup:
-  curl --user $USERNAME:$PASSWORD https://www.transifex.net/api/2/project/languagetool/resource/messagesbundleproperties/translation/$lang/ \
-    | grep "\"content\"" | sed 's/    "content": "//' |  sed -e 's/",$//' | sed -e 's/\\n/\n/g' | sed -e 's/\\\\/\\/g' \
-    | sed -e 's/\\"/"/g' >$SOURCE
+  curl --user $USERNAME:$PASSWORD https://www.transifex.net/api/2/project/languagetool/resource/messagesbundleproperties/translation/$lang/?file >$SOURCE
+  recode latin1..utf8 $SOURCE
   TARGET="../src/java/org/languagetool/MessagesBundle_${lang}.properties"
   SOURCE2=downloaded.tmp.ascii
   native2ascii $SOURCE >$SOURCE2
