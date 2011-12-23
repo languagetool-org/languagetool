@@ -14,6 +14,99 @@ $Id: grammar.xml,v 1.0 2011-07-29 13:20:25 taolin2011 Exp $
   <!-- 拼写： 词语错误-->
   <!-- ====================================================================== -->
   <category name="词语错误">
+    <rulegroup id="JI1_JI2_JI3" name="记/纪/计">
+      <rule>
+        <pattern mark_to="-1">
+          <token>记</token>
+          <token postag="q">年</token>
+        </pattern>
+        <message> 您的意思是"<suggestion>纪</suggestion>年"吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="纪"> 新<marker>记</marker>年新希望。 </example>
+        <example type="correct">新纪年新希望。</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token>记</token>
+          <token regexp="yes" postag="ng|v|q" postag_regexp="yes">律|检|元</token>
+        </pattern>
+        <message> 您的意思是"<suggestion>纪</suggestion>\2"吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="纪"> 没<marker>记</marker>律的军队必败。 </example>
+        <example type="correct">没纪律的军队必败。</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token>世</token>
+          <token postag="v">记</token>
+        </pattern>
+        <message> 您的意思是"世<suggestion>纪</suggestion>"吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="纪"> 新世<marker>记</marker>新希望。 </example>
+        <example type="correct">新世纪新希望。</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token>计</token>
+          <token regexp="yes" postag="v|n" postag_regexp="yes">载|录|号|事</token>
+        </pattern>
+        <message> 您的意思是"<suggestion>记</suggestion>\2"吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="记">
+          <marker>计</marker>载着我的回忆。 </example>
+        <example type="correct">记载着我的回忆。</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token regexp="yes">纪|计</token>
+          <token regexp="yes" postag="vg|ng" postag_regexp="yes">忆|性</token>
+        </pattern>
+        <message> 您的意思是"<suggestion>记</suggestion>\2"吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="记"> 我的<marker>纪</marker>忆定格在昨天。 </example>
+        <example type="correct">我的记忆定格在昨天。</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token>纪</token>
+          <token regexp="yes" postag="u|y|v" postag_regexp="yes">得|者</token>
+        </pattern>
+        <message> 您的意思是"<suggestion>记</suggestion>\2"吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="记"> 我<marker>纪</marker>得你来过。 </example>
+        <example type="correct">我记得你来过。</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token postag="ng">日</token>
+          <token postag="ng">纪</token>
+        </pattern>
+        <message> 您的意思是“日<suggestion>记</suggestion>”吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="记"> 不准看他人的日<marker>纪</marker>。 </example>
+        <example type="correct">不准看他人的日记。</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token regexp="yes">记|纪</token>
+          <token postag="v">划</token>
+        </pattern>
+        <message> 您的意思是"<suggestion>计</suggestion>划"吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="计"> 这是我的<marker>记</marker>划。 </example>
+        <example type="correct">这是我的计划。</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token>记</token>
+          <token regexp="yes" postag="n|d" postag_regexp="yes">量|较</token>
+        </pattern>
+        <message> 您的意思是"<suggestion>计</suggestion>较"吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="计"> 别跟我<marker>记</marker>较。 </example>
+        <example type="correct">别跟我计较。</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="HUN1_HUN2" name="混/浑">
       <rule>
         <pattern mark_to="-1">
