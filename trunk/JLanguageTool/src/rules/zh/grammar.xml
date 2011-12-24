@@ -14,6 +14,60 @@ $Id: grammar.xml,v 1.0 2011-07-29 13:20:25 taolin2011 Exp $
   <!-- 拼写： 词语错误-->
   <!-- ====================================================================== -->
   <category name="词语错误">
+    <rulegroup id="JIAN1_JIAN2" name="拣/捡">
+      <rule>
+        <pattern mark_from="0" mark_to="-1">
+          <token postag="v">捡</token>
+          <token regexp="yes">菜|人|换|发|两种|肥拣瘦</token>
+        </pattern>
+        <message> 您的意思是"<suggestion>拣</suggestion>\2"吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="拣"> 妈妈去菜市场<marker>捡</marker>菜。 </example>
+        <example type="correct">妈妈去菜市场拣菜。</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="JIAO1_JIAO2" name="缴/交">
+      <rule>
+        <pattern mark_to="-1">
+          <token postag="v">交</token>
+          <token regexp="yes">枪|获|销|墙</token>
+        </pattern>
+        <message> 您的意思是"<suggestion>缴</suggestion>\2"吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="缴"> 敌人已经<marker>交</marker>枪投降。 </example>
+        <example type="correct">敌人已经缴枪投降。</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="0">
+          <token>奉</token>
+          <token>交</token>
+        </pattern>
+        <message> 您的意思是"\1<suggestion>缴</suggestion>"吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="缴"> 请奉<marker>交</marker>你的东西。 </example>
+        <example type="correct">请奉缴你的东西。</example>
+      </rule>
+      <rule>
+        <pattern mark_from="0" mark_to="-1">
+          <token>缴</token>
+          <token regexp="yes" postag="n|v|p" postag_regexp="yes">叉|错|代|往|接|友|驰|作业</token>
+        </pattern>
+        <message> 您的意思是"<suggestion>交</suggestion>\2"吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="交"> 这两条路是没有<marker>缴</marker>叉的。 </example>
+        <example type="correct">这两条路是没有交叉。</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">移|知|旧|深</token>
+          <token>缴</token>
+        </pattern>
+        <message> 您的意思是"\1<suggestion>交</suggestion>"吗？ </message>
+        <short>词语错误</short>
+        <example type="incorrect" correction="交"> 他俩是知<marker>缴</marker>好友。 </example>
+        <example type="correct">他俩是知交好友。</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="JI1_JI2_JI3" name="记/纪/计">
       <rule>
         <pattern mark_to="-1">
