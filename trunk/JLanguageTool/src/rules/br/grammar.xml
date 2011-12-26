@@ -87,6 +87,7 @@ Useful links:
         <pattern mark_from="1">
           <token regexp="yes">[au]r</token>
           <token regexp="yes" postag="N f s.*|N m p t.*" postag_regexp="yes">g[^w].*
+            <exception regexp="yes" postag="N f s.*|N m p t.*" postag_regexp="yes">gou[ei].*</exception>
             <exception regexp="yes" inflected="yes">k.*</exception>
             <exception regexp="yes">(gar|gavotenn|greg)(ig)?(-(mañ|se|hont))?</exception>
             <exception postag="N m s.*" postag_regexp="yes"/>
@@ -97,6 +98,20 @@ Useful links:
         <example type="correct">Sell ar c’hodell.</example>
         <example type="correct">Ur grampouezhenn am bo.</example>
         <example type="correct">Kanet o deus ur gavotenn.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">[au]r</token>
+          <token regexp="yes" postag="N f s.*|N m p t.*" postag_regexp="yes">gou[ei].*
+            <exception regexp="yes" inflected="yes">kou[ei].*</exception>
+            <exception postag="N m s.*" postag_regexp="yes"/>
+          </token>
+        </pattern>
+        <message>Goude ar ger-mell «\1» e tlefe bezañ ur c’hemmadur dre vlotaat en anv «\2». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="$1"/></suggestion>?</message>
+        <example type="incorrect">Ar <marker>gouiziegez</marker></example>
+        <example type="correct">Ar <marker>ouiziegez</marker></example>
+        <example type="correct">Ar <marker>gouent</marker></example>
+        <!-- <example type="correct">Ar <marker>gouerien</marker></example> -->
       </rule>
       <rule>
         <pattern mark_from="1">
@@ -290,7 +305,7 @@ Useful links:
               <exception regexp="yes" inflected="yes">t.*</exception>
               <exception regexp="yes">[dt]ud(-(mañ|se|hont))?</exception>
             </token>
-            <!-- La mutation est faculative dans le verbe dleout d'après
+            <!-- La mutation est faculative dans le verbe dleout d’après
                  Hentenn Oulpan 3, Kentel 2 p.17 -->
             <token regexp="yes">d.*<exception inflected="yes">dleout</exception></token>
           </and>
@@ -408,7 +423,7 @@ Useful links:
         <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude «\1». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="d$1"/></suggestion>?</message>
         <example type="incorrect">Re <marker>zeñval</marker> eo evit lenn.</example>
         <example type="correct">Re deñval eo evit lenn.</example>
-        <example type="correct">Ar march’had a zo bras.</example>
+        <example type="correct">Ar marc’had a zo bras.</example>
         <example type="correct">Daou zoo</example>
       </rule>
     </rulegroup>
@@ -437,9 +452,9 @@ Useful links:
           </and>
         </pattern>
         <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude «\1 \2». Ha fellout a rae deoc’h skrivañ <suggestion><match no="3" regexp_match=".(.*)" regexp_replace="d$1"/></suggestion>?</message>
-        <example type="incorrect">En em <marker>treiñ</marker> a rae etrezeg ennon</example>
-        <example type="incorrect">En em <marker>zreiñ</marker> a rae etrezeg ennon</example>
-        <example type="correct">En em <marker>dreiñ</marker> a rae etrezeg ennon</example>
+        <example type="incorrect">En em <marker>treiñ</marker> a rae etrezek ennon</example>
+        <example type="incorrect">En em <marker>zreiñ</marker> a rae etrezek ennon</example>
+        <example type="correct">En em <marker>dreiñ</marker> a rae etrezek ennon</example>
         <example type="incorrect">En ur <marker>treuziñ</marker></example>
         <example type="incorrect">En ur <marker>zreuziñ</marker></example>
         <example type="correct">En ur <marker>dreuziñ</marker></example>
@@ -2252,7 +2267,7 @@ Useful links:
       <example type="incorrect">Mont a ran d’ar <marker>fest noz</marker>.</example>
       <example type="correct">Mont a ran d’ar <marker>fest-noz</marker>.</example>
     </rule>
-    <rule id="KARR_TAN" name="karr tan → karr tan">
+    <rule id="KARR_TAN" name="karr tan → karr-tan">
       <pattern>
         <token regexp="yes">([kg]|c’h)(arr|irri)</token>
         <token regexp="yes">boutin|nezañ|nij|samm|tan</token>
@@ -2459,7 +2474,7 @@ Useful links:
       </pattern>
       <message>Implijit <suggestion>\1-\2</suggestion>.</message>
       <example type="incorrect"><marker>Harz labour</marker> a vo</example>
-      <example type="correct"><marker>Harz(où)?-labour</marker> a vo</example>
+      <example type="correct"><marker>Harz-labour</marker> a vo</example>
     </rule>
     <rule id="SAL_DEBRIN" name="sal debriñ → sal-debriñ">
       <pattern>
@@ -2494,8 +2509,8 @@ Useful links:
         <token>mouezh</token>
       </pattern>
       <message>Implijit <suggestion>\1-\2</suggestion>.</message>
-      <example type="incorrect">Dudious eo da <marker>bouez mouezh</marker></example>
-      <example type="correct">Dudious eo da <marker>bouez-mouezh</marker></example>
+      <example type="incorrect">Dudius eo da <marker>bouez mouezh</marker></example>
+      <example type="correct">Dudius eo da <marker>bouez-mouezh</marker></example>
     </rule>
     <rule id="LEZ_VARN" name="lez varn → lez-varn">
       <pattern>
@@ -2598,7 +2613,7 @@ Useful links:
       <example type="incorrect">Penaos e oa da <marker>zibenn sizhun</marker>?</example>
       <example type="correct">Penaos e oa da <marker>zibenn-sizhun</marker>?</example>
     </rule>
-    <rulegroup id="A_BEP_SEURT" name="a bep-seurt → a vil vern">
+    <rulegroup id="A_BEP_SEURT" name="a bep-seurt → a bep seurt">
       <rule>
         <pattern>
           <token>a</token>
@@ -3043,7 +3058,7 @@ Useful links:
       <example type="incorrect">Kantonioù <marker>Ar</marker> C’hastell-Nevez</example>
       <example type="correct">Kantonioù ar C’hastell-Nevez</example>
       <example type="correct">An Orian a zo pell ac’hann.</example>
-      <example type="correct">Ar gariadur An Here.</example>
+      <example type="correct">Ar geriadur An Here.</example>
     </rule>
     <rule id="PEBEZH" name="Pebezh">
       <pattern mark_to="-1">
@@ -3508,11 +3523,12 @@ Useful links:
       <rule>
         <pattern mark_to="-1">
           <token>abaoe</token>
-          <token postag_regexp="yes" postag="Z . .*"/>
+          <token postag_regexp="yes" postag="Z[^:]* top.*"/>
         </pattern>
         <message>«\1» a vez implijet gant an amzer hepken. Ha fellout a rae deoc’h skrivañ <suggestion>adalek</suggestion>?</message>
         <example type="incorrect"><marker>Abaoe</marker> Brest e oa erc’h war an hent.</example>
         <example type="correct">Adalek Brest e oa erc’h war an hent.</example>
+        <example type="correct">Abaoe Louis Bonaparte (1806-1810)</example>
       </rule>
     </rulegroup>
 
@@ -3551,7 +3567,7 @@ Useful links:
         <example type="correct">N’eo ket fur-fur.</example>
         <example type="correct">Perak ez ez kuit?</example>
         <example type="correct">Tud zo zo e vakañsoù.</example>
-        <example type="correct">Ya ya m'ho peus c’hoant.</example>
+        <example type="correct">Ya ya m’ho peus c’hoant.</example>
       </rule>
       <rule>
         <pattern>
@@ -3560,7 +3576,7 @@ Useful links:
         </pattern>
         <message>Ger doublet «\1 \2». Ha fellout a rae deoc’h skrivañ <suggestion>\1</suggestion>?</message>
         <example type="incorrect"><marker>Eus eus</marker> Brest e oa.</example>
-        <example type="correct">Bez' ez eus eus Breizh</example>
+        <example type="correct">Bez’ ez eus eus Breizh</example>
       </rule>
       <rule>
         <pattern>
@@ -4015,7 +4031,7 @@ Useful links:
     <rule id="ZOKEN_AVAT" name="zoken/avat">
       <pattern case_sensitive="yes" mark_from="1">
         <token postag="SENT_START"/>
-        <token regexp="yes">Avat|Zoken|Eta|'Ta|a-leizh</token>
+        <token regexp="yes">Avat|Zoken|Eta|’Ta|a-leizh</token>
       </pattern>
       <message>N’hall ket «\1» bezañ lakaet e penn kentañ ur frazenn.</message>
       <example type="incorrect"><marker>Zoken</marker> ma mamm a oar se.</example>
@@ -4027,7 +4043,7 @@ Useful links:
         <token postag="N f .*" postag_regexp="yes"/>
         <token>amezegez</token>
       </pattern>
-      <message>N'eus stumm gwregel ebet d'an anv-gwan e brezhoneg. Ha fellout a rae deoc’h skrivañ <suggestion>amezek</suggestion>?</message>
+      <message>N’eus stumm gwregel ebet d’an anv-gwan e brezhoneg. Ha fellout a rae deoc’h skrivañ <suggestion>amezek</suggestion>?</message>
       <example type="incorrect">An enezenn <marker>amezegez</marker></example>
       <example type="correct">An enezenn <marker>amezek</marker></example>
     </rule>
@@ -4037,7 +4053,7 @@ Useful links:
         <token>ha</token>
         <token>ket</token>
       </pattern>
-      <message>N'haller ket implij «ket» hep verb evel e galleg. Ha fellout a rae deoc’h skrivañ <suggestion>\1 n’eo ket</suggestion>?</message>
+      <message>N’haller ket implij «ket» hep verb evel e galleg. Ha fellout a rae deoc’h skrivañ <suggestion>\1 n’eo ket</suggestion>?</message>
       <example type="incorrect">Ober a ran chistr, <marker>ha ket</marker> lambig.</example>
       <example type="correct">Ober a ran chistr, ha n’eo ket lambig.</example>
     </rule>
