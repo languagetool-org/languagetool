@@ -53,95 +53,116 @@ Thanks to Marcin Miłkowski.
 	<category name="Slog - številke"> 
 		<rulegroup name="Števila, manjša od 10" id="STEVILA_DO_10">
 			<rule>
-				<pattern>
+				<pattern mark_from="0" mark_to="-1">
 					<token>0</token>
+					<token negate="yes">.</token>
 				</pattern>
 				<message><suggestion>nič</suggestion></message>
-				<example type="incorrect"><marker>0</marker></example>
-				<example type="correct"><marker>nič</marker></example>
+				<short>Številka v besedilu</short>
+				<example type="incorrect"><marker>0</marker> oseb ni manjkalo</example>
+				<example type="correct"><marker>nič</marker> oseb ni manjkalo</example>
 			</rule>
 			<rule>
-				<pattern>
+				<pattern mark_from="0" mark_to="-1">
 					<token>1</token>
+					<token negate="yes">.</token>
 				</pattern>
 				<message><suggestion>ena</suggestion></message>
-				<example type="incorrect"><marker>1</marker></example>
-				<example type="correct"><marker>ena</marker></example>
+				<short>Številka v besedilu</short>
+				<example type="incorrect"><marker>1</marker> oseba je manjkala</example>
+				<example type="correct"><marker>ena</marker> oseba je manjkala</example>
 			</rule>
 			<rule>
-				<pattern>
+				<pattern mark_from="0" mark_to="-1">
 					<token>2</token>
+					<token negate="yes">.</token>
 				</pattern>
 				<message><suggestion>dve</suggestion></message>
-				<example type="incorrect"><marker>2</marker></example>
-				<example type="correct"><marker>dve</marker></example>
+				<short>Številka v besedilu</short>
+				<example type="incorrect"><marker>2</marker> osebi sta manjkali</example>
+				<example type="correct"><marker>dve</marker> osebi sta manjkali</example>
 			</rule>
 			<rule>
-				<pattern>
+				<pattern mark_from="0" mark_to="-1">
 					<token>3</token>
+					<token negate="yes">.</token>
 				</pattern>
 				<message><suggestion>tri</suggestion></message>
-				<example type="incorrect"><marker>3</marker></example>
-				<example type="correct"><marker>tri</marker></example>
+				<short>Številka v besedilu</short>
+				<example type="incorrect"><marker>3</marker> osebe so manjkale</example>
+				<example type="correct"><marker>tri</marker> osebe so manjkale</example>
 			</rule>
 			<rule>
-				<pattern>
+				<pattern mark_from="0" mark_to="-1">
 					<token>4</token>
+					<token negate="yes">.</token>
 				</pattern>
 				<message><suggestion>štiri</suggestion></message>
-				<example type="incorrect"><marker>4</marker></example>
-				<example type="correct"><marker>štiri</marker></example>
+				<short>Številka v besedilu</short>
+				<example type="incorrect"><marker>4</marker> osebe so manjkale</example>
+				<example type="correct"><marker>štiri</marker> osebe so manjkale</example>
 			</rule>
 			<rule>
-				<pattern>
+				<pattern mark_from="0" mark_to="-1">
 					<token>5</token>
+					<token negate="yes">.</token>
 				</pattern>
 				<message><suggestion>pet</suggestion></message>
-				<example type="incorrect"><marker>5</marker></example>
-				<example type="correct"><marker>pet</marker></example>
+				<short>Številka v besedilu</short>
+				<example type="incorrect"><marker>5</marker> oseb je manjkalo</example>
+				<example type="correct"><marker>pet</marker> oseb je manjkalo</example>
 			</rule>
 			<rule>
-				<pattern>
+				<pattern mark_from="0" mark_to="-1">
 					<token>6</token>
+					<token negate="yes">.</token>
 				</pattern>
 				<message><suggestion>šest</suggestion></message>
-				<example type="incorrect"><marker>6</marker></example>
-				<example type="correct"><marker>šest</marker></example>
+				<short>Številka v besedilu</short>
+				<example type="incorrect"><marker>6</marker> oseb je manjkalo</example>
+				<example type="correct"><marker>šest</marker> oseb je manjkalo</example>
 			</rule>
 			<rule>
-				<pattern>
+				<pattern mark_from="0" mark_to="-1">
 					<token>7</token>
+					<token negate="yes">.</token>
 				</pattern>
 				<message><suggestion>sedem</suggestion></message>
-				<example type="incorrect"><marker>7</marker></example>
-				<example type="correct"><marker>sedem</marker></example>
+				<short>Številka v besedilu</short>
+				<example type="incorrect"><marker>7</marker> oseb je manjkalo</example>
+				<example type="correct"><marker>sedem</marker> oseb je manjkalo</example>
 			</rule>
 			<rule>
-				<pattern>
+				<pattern mark_from="0" mark_to="-1">
 					<token>8</token>
+					<token negate="yes">.</token>
 				</pattern>
 				<message><suggestion>osem</suggestion></message>
-				<example type="incorrect"><marker>8</marker></example>
-				<example type="correct"><marker>osem</marker></example>
+				<short>Številka v besedilu</short>
+				<example type="incorrect"><marker>8</marker> oseb je manjkalo</example>
+				<example type="correct"><marker>osem</marker> oseb je manjkalo</example>
 			</rule>
 			<rule>
-				<pattern>
+				<pattern mark_from="0" mark_to="-1">
 					<token>9</token>
+					<token negate="yes">.</token>
 				</pattern>
 				<message><suggestion>devet</suggestion></message>
-				<example type="incorrect"><marker>9</marker></example>
-				<example type="correct"><marker>devet</marker></example>
+				<short>Številka v besedilu</short>
+				<example type="incorrect"><marker>9</marker> oseb je manjkalo</example>
+				<example type="correct"><marker>devet</marker> oseb je manjkalo</example>
 			</rule>
 		</rulegroup> 
 		<rulegroup name="Števila, manjša od 100" id="STEVILA_DO_100">
 			<rule>
-				<pattern>
+				<pattern mark_from="0" mark_to="-1">
 					<token regexp="yes">[123456789][01234567890]</token>
+					<token negate="yes">.</token>
 				</pattern>
 				<message>Zamenjajte z ustrezno ubeseditvijo</message>
 				<short>Številka v besedilu</short>
-				<example type="incorrect"><marker>99</marker></example>
-				<example type="correct"><marker>devetindevetdeset</marker></example>
+				<example type="incorrect"><marker>99</marker> steklenic na omari</example>
+				<example type="correct"><marker>devetindevetdeset</marker> steklenic na omari</example>
 			</rule>
 		</rulegroup>
 	</category>
