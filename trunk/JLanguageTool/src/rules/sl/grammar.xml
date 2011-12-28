@@ -3,8 +3,8 @@
 <?xml-stylesheet type="text/css" href="../rules.css" title="Easy editing stylesheet" ?>
 <!--
 Slovenian Grammar and Typo Rules for LanguageTool
-Copyright (C) 2008, 2009 Martin Srebotnjak
-$Id: grammar.xml,v 1.14 2011-01-22 13:00:16 dnaber Exp $
+Copyright (C) 2008, 2009, 2010, 2011 Martin Srebotnjak
+$Id: grammar.xml,v 1.15 2011-12-26 18:54:16 filmsi Exp $
 Thanks to Marcin Miłkowski.
 -->
 <rules lang="sl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../rules.xsd">
@@ -50,7 +50,165 @@ Thanks to Marcin Miłkowski.
 			<token postag=".*[\.:]inst[\.:].*" postag_regexp="yes"/>
 		</equivalence>
 	</unification>
+	<category name="Slog - številke"> 
+		<rulegroup name="Števila, manjša od 10" id="STEVILA_DO_10">
+			<rule>
+				<pattern>
+					<token>0</token>
+				</pattern>
+				<message><suggestion>nič</suggestion></message>
+				<example type="incorrect"><marker>0</marker></example>
+				<example type="correct"><marker>nič</marker></example>
+			</rule>
+			<rule>
+				<pattern>
+					<token>1</token>
+				</pattern>
+				<message><suggestion>ena</suggestion></message>
+				<example type="incorrect"><marker>1</marker></example>
+				<example type="correct"><marker>ena</marker></example>
+			</rule>
+			<rule>
+				<pattern>
+					<token>2</token>
+				</pattern>
+				<message><suggestion>dve</suggestion></message>
+				<example type="incorrect"><marker>2</marker></example>
+				<example type="correct"><marker>dve</marker></example>
+			</rule>
+			<rule>
+				<pattern>
+					<token>3</token>
+				</pattern>
+				<message><suggestion>tri</suggestion></message>
+				<example type="incorrect"><marker>3</marker></example>
+				<example type="correct"><marker>tri</marker></example>
+			</rule>
+			<rule>
+				<pattern>
+					<token>4</token>
+				</pattern>
+				<message><suggestion>štiri</suggestion></message>
+				<example type="incorrect"><marker>4</marker></example>
+				<example type="correct"><marker>štiri</marker></example>
+			</rule>
+			<rule>
+				<pattern>
+					<token>5</token>
+				</pattern>
+				<message><suggestion>pet</suggestion></message>
+				<example type="incorrect"><marker>5</marker></example>
+				<example type="correct"><marker>pet</marker></example>
+			</rule>
+			<rule>
+				<pattern>
+					<token>6</token>
+				</pattern>
+				<message><suggestion>šest</suggestion></message>
+				<example type="incorrect"><marker>6</marker></example>
+				<example type="correct"><marker>šest</marker></example>
+			</rule>
+			<rule>
+				<pattern>
+					<token>7</token>
+				</pattern>
+				<message><suggestion>sedem</suggestion></message>
+				<example type="incorrect"><marker>7</marker></example>
+				<example type="correct"><marker>sedem</marker></example>
+			</rule>
+			<rule>
+				<pattern>
+					<token>8</token>
+				</pattern>
+				<message><suggestion>osem</suggestion></message>
+				<example type="incorrect"><marker>8</marker></example>
+				<example type="correct"><marker>osem</marker></example>
+			</rule>
+			<rule>
+				<pattern>
+					<token>9</token>
+				</pattern>
+				<message><suggestion>devet</suggestion></message>
+				<example type="incorrect"><marker>9</marker></example>
+				<example type="correct"><marker>devet</marker></example>
+			</rule>
+		</rulegroup> 
+		<rulegroup name="Števila, manjša od 100" id="STEVILA_DO_100">
+			<rule>
+				<pattern>
+					<token regexp="yes">[123456789][01234567890]</token>
+				</pattern>
+				<message>Zamenjajte z ustrezno ubeseditvijo</message>
+				<short>Številka v besedilu</short>
+				<example type="incorrect"><marker>99</marker></example>
+				<example type="correct"><marker>devetindevetdeset</marker></example>
+			</rule>
+		</rulegroup>
+	</category>
+	<category name="Napake pri kraticah">
+		<rulegroup name="Kratice" id="KRATICE">	
+			<rule>
+				<pattern case_sensitive="no">
+					<token>doo</token>
+				</pattern>
+				<message>Uporabite pravilno kratico: <suggestion>d. o. o.</suggestion>.</message>
+				<short>Zložene kratice brez presledkov</short>
+				<example type="incorrect">Podjetje Krivolovec, <marker>doo</marker> je šlo v stečaj.</example>
+				<example type="correct">Podjetje Krivolovec, <marker>d. o. o.</marker> je šlo v stečaj.</example>
+			</rule>
+			<rule>
+				<pattern case_sensitive="no">
+					<token>d</token>
+					<token spacebefore="no">.</token>
+					<token spacebefore="no">o</token>
+					<token spacebefore="no">.</token>
+					<token spacebefore="no">o</token>
+					<token spacebefore="no">.</token>
+				</pattern>
+				<message>Uporabite presledke: <suggestion>d. o. o.</suggestion>.</message>
+				<short>Zložene kratice brez preslekov</short>
+				<example type="incorrect">Podjetje Krivolovec, <marker>d.o.o.</marker> je šlo v stečaj.</example>
+				<example type="correct">Podjetje Krivolovec, <marker>d. o. o.</marker> je šlo v stečaj.</example>
+			</rule>
+			<rule>
+				<pattern case_sensitive="no">
+					<token>pr</token>
+					<token spacebefore="no">.</token>
+					<token spacebefore="no">n</token>
+					<token spacebefore="no">.</token>
+					<token spacebefore="no">št</token>
+					<token spacebefore="no">.</token>
+				</pattern>
+				<message>Uporabite presledke: <suggestion>pr. n. št.</suggestion>.</message>
+				<short>Zložene kratice brez preslekov</short>
+				<example type="incorrect">Umrl je 523 <marker>pr.n.št.</marker> v Atenah.</example>
+				<example type="correct">Umrl je 523 <marker>pr. n. št.</marker> v Atenah.</example>
+			</rule>
+		</rulegroup>
+	</category>
 	<category name="Napake pri postavljanju ločil">
+		<rulegroup name="Ponovljena ločila" id="PONOVLJENA_LOČILA">	
+			<rule>
+				<pattern>
+					<token>!</token>
+					<token>!</token>
+				</pattern>
+				<message>Potreben je samo en: <suggestion>!</suggestion>.</message>
+				<short>Podvojen klicaj</short>
+				<example type="incorrect">Ne prekinjaj me<marker>!!</marker></example>
+				<example type="correct">Ne prekinjaj me<marker>!</marker></example>
+			</rule>
+			<rule>
+				<pattern >
+					<token>?</token>
+					<token>?</token>
+				</pattern>
+				<message>Potreben je samo en: <suggestion>?</suggestion>.</message>
+				<short>Podvojen vprašaj</short>
+				<example type="incorrect">Kdaj greva<marker>??</marker></example>	
+				<example type="correct">Kdaj greva<marker>?</marker></example>
+			</rule>
+		</rulegroup>
 		<rulegroup name="Manjkajoča vejica pred 'toda'" id="TODA_BREZ_VEJICE">
 			<rule>
 				<pattern mark_from="1" case_sensitive="yes">
@@ -500,7 +658,7 @@ Thanks to Marcin Miłkowski.
 		<rulegroup name="Manjkajoča vejica pred 'kje'" id="KJE_BREZ_VEJICE">
 			<rule>
 				<pattern mark_from="1" case_sensitive="yes">
-					<token regexp="yes" negate="yes">[Ii]n|[Aa]li|[Tt]er|[\(;:\–,]</token>
+					<token regexp="yes" negate="yes">[Ii]z|[Ii]n|[Aa]li|[Tt]er|[\(;:\–,]</token>
 					<token>kje</token>
 				</pattern>
 				<message>V podredjih je pred 'kje' vejica: <suggestion>, kje</suggestion>!</message>
@@ -570,21 +728,10 @@ Thanks to Marcin Miłkowski.
 				<example type="incorrect">Nisem ga prepoznal<marker> vse dokler</marker> ni snel lasulje.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="POMIŠLJAJ_1" name="Zamenjaj vezaj s pomišljajem">
-			<rule>
-				<pattern>
-					<token>-</token>
-				</pattern>
-				<message>Pomišljaj je tipografsko različen od znaka za vezaj. Zato uporabite namesto vezaja znak pomišljaja (<suggestion>–</suggestion>) ali pa ga sploh ne uporabite.</message>
-				<short>Vezaj namesto pomišljaja</short>
-				<example type="incorrect" correction="–">To je primer <marker>-</marker> ali pa ne.</example>
-				<example type="correct">To je primer – ali pa ne.</example>
-			</rule>
-		</rulegroup>
-		<rulegroup id="POMIŠLJAJ_2" name="Presledek po pomišljaju">
+		<rulegroup id="POMISLJAJ_2" name="Presledek po pomišljaju">
 			<rule>
 				<pattern mark_from="0">
-					<token regexp="yes">(-)(\D.*)<exception regexp="no">-&gt;</exception></token> <!-- pozor na záporné čísla -->
+					<token regexp="yes">(-)(\D.*)<exception regexp="no">-&gt;</exception></token>
 				</pattern>
 				<message>Pred in po pomišljaju mora biti presledek. Vstavite presledek za njim (<suggestion><match no="1" regexp_match="(-)(\D.*)" regexp_replace="– $2"/></suggestion>) ali pa odstranite začetni presledek.</message>
 				<short>Manjka presledek</short>
@@ -592,10 +739,10 @@ Thanks to Marcin Miłkowski.
 				<example type="correct">To je primer – ali pa tudi ne.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="POMIŠLJAJ_3" name="Presledek pred pomišljajem">
+		<rulegroup id="POMISLJAJ_3" name="Presledek pred pomišljajem">
 			<rule>
 				<pattern>
-					<token regexp="yes">(.*\S)(-)<exception regexp="no">&lt;-</exception></token> <!-- napr. povedal- nepovedal; -->
+					<token regexp="yes">(.*\S)(-)<exception regexp="no">&lt;-</exception></token>
 				</pattern>
 				<message>Pred in po pomišljaju mora biti presledek. Vstavite presledek predenj (<suggestion><match no="1" regexp_match="(.*\S)(-)" regexp_replace="$1 –"/></suggestion>) ali pa odstranite končni presledek.</message>
 				<short>Manjka presledek</short>
@@ -605,12 +752,12 @@ Thanks to Marcin Miłkowski.
 		</rulegroup>
 		<rulegroup id="VEZAJ" name="Zamenjaj pomišljaj z vezajem">
 			<rule>
-				<pattern mark_from="0">
+				<pattern>
 					<token regexp="yes">(.*\S)([–—])(\S*)</token>
 				</pattern>
-				<message>Namesto pomišljaja uporabite vezaj: <match no="1" regexp_match="(.*)([–—])(.*)" regexp_replace="$1-$3"/></message>
+				<message>Namesto pomišljaja uporabite vezaj: <match no="1" regexp_match="(.*)([–—])(.*)" regexp_replace="$1-$3"></match></message>
 				<short>Pomišljaj namesto vezaja</short>
-				<example type="incorrect"><marker>Avstro–ogrska</marker> monarhija je razpadla 11. novembra 1918.</example>
+				<example type="incorrect"><marker>Avstro–ogrska</marker> monarhija je razpadla 11. novembra 1918 s podpisom abdikacije cesarja Karla I.</example>
 				<example type="correct">Avstro-ogrska monarhija je razpadla 11. novembra 1918 s podpisom abdikacije cesarja Karla I.</example>
 			</rule>
 		</rulegroup>
@@ -718,7 +865,7 @@ Thanks to Marcin Miłkowski.
 	<category name="Polvikanje">
 		<rulegroup name="Napačna oblika vikanja" id="STE_REKLA_STE">
 			<rule id="STE_REKLA" name="Napačno polvikanje: ste rekla">
-				<pattern case_sensitive="no" mark_from="1" >
+				<pattern case_sensitive="no" mark_from="1">
 					<token>ste</token>
 					<token>rekla</token>
 				</pattern>
@@ -728,7 +875,7 @@ Thanks to Marcin Miłkowski.
 				<example correction="rekli" type="incorrect">Da je umrl, ste <marker>rekla</marker>.</example>
 			</rule>
 			<rule id="REKLA_STE" name="Napačno polvikanje: rekla ste">
-				<pattern case_sensitive="no" mark_to="-1" >
+				<pattern case_sensitive="no" mark_to="-1">
 					<token>rekla</token>
 					<token>ste</token>
 				</pattern>
@@ -742,7 +889,7 @@ Thanks to Marcin Miłkowski.
 	<category name="Pogoste napake">
 		<rulegroup name="Manjkajoči presledek" id="MANJ_PRESLEDEK">
 			<rule id="NE_BI" name="Manjkajoči presledek: nebi">
-				<pattern case_sensitive="no" mark_from="0" >
+				<pattern case_sensitive="no" mark_from="0">
 					<token>nebi</token>
 				</pattern>
 				<message>Najverjetneje manjka presledek: <suggestion>ne bi</suggestion>!</message>
@@ -751,7 +898,7 @@ Thanks to Marcin Miłkowski.
 				<example correction="ne bi" type="incorrect">Nikoli <marker>nebi</marker> kradel.</example>
 			</rule>
 			<rule id="ČIM_PREJ" name="Manjkajoči presledek: čimprej">
-				<pattern case_sensitive="no" mark_from="0" >
+				<pattern case_sensitive="no" mark_from="0">
 					<token>čimprej</token>
 				</pattern>
 				<message>Manjka presledek: <suggestion>čim prej</suggestion>!</message>
@@ -759,8 +906,10 @@ Thanks to Marcin Miłkowski.
 				<example type="correct">Pridi <marker>čim prej</marker>!</example>
 				<example correction="čim prej" type="incorrect">Pridi <marker>čimprej</marker>!</example>
 			</rule>
+		</rulegroup>
+		<rulegroup name="Zastarela raba" id="ZASTARELA_RABA">
 			<rule id="KATERI" name="Zastarela raba: kateri">
-				<pattern case_sensitive="yes" mark_from="1" mark_to="-1" >
+				<pattern case_sensitive="yes" mark_from="1" mark_to="-1">
 					<token regexp="yes">[,\.\!\?]|\.\"</token>
 					<token regexp="yes">[Kk]ater(:?i|a|o|ega|emu)</token>
 					<token regexp="yes">je|so|bi</token>
@@ -769,6 +918,130 @@ Thanks to Marcin Miłkowski.
 				<short>Neutemeljen kateri</short>
 				<example type="correct">Kriv je voznik, <marker>ki</marker> je prehiteval.</example>
 				<example correction="ki" type="incorrect">Kriv je voznik, <marker>kateri</marker> je prehiteval.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup name="Nepravilna raba" id="NEPRAVILNA_RABA">
+			<rule id="SE_GRE" name="Nepravilna raba: za kaj 'se' gre">
+				<pattern case_sensitive="no">
+					<token>za</token>
+					<token>kaj</token>
+					<token>se</token>
+					<token>gre</token>
+				</pattern>
+				<message>Napačna raba fraze, pravilno je: <suggestion>za kaj gre</suggestion>!</message>
+				<short>Neutemeljen se</short>
+				<example type="correct">Povedala je iskreno, <marker>za kaj gre</marker>.</example>
+				<example correction="za kaj gre" type="incorrect">Povedala je iskreno, <marker>za kaj se gre</marker>.</example>
+			</rule>
+			<rule id="OTROKI" name="Nepravilna raba: otroki">
+				<pattern case_sensitive="no" mark_from="1">
+					<token negate="yes">z</token>
+					<token>otroki</token>
+				</pattern>
+				<message>Napačna raba množine besede otrok v imenovalniku, pravilno je: <suggestion>otroci</suggestion>!</message>
+				<short>Otroci/otroki</short>
+				<example type="correct">Njeni <marker>otroci</marker> so že vsi v pokoju.</example>
+				<example correction="otroci" type="incorrect">Njeni <marker>otroki</marker> so že vsi v pokoju.</example>
+			</rule>
+			<rule id="PTUJ" name="Nepravilna raba: Ptuj">
+				<pattern case_sensitive="yes" mark_to="-1">
+					<token regexp="yes">[Vv]</token>
+					<token regexp="yes">Ptuj.*</token>
+				</pattern>
+				<message>Napačna raba predloga pred krajevnim imenom, pravilno je: <suggestion>na</suggestion> Ptuju!</message>
+				<short>Nepravilno: v Ptuj</short>
+				<example type="correct"><marker>Na</marker> Ptuju so pogostili pisatelje.</example>
+				<example correction="Na" type="incorrect"><marker>V</marker> Ptuju so pogostili pisatelje.</example>
+			</rule>
+			<rule id="BLED" name="Nepravilna raba: Bled">
+				<pattern case_sensitive="yes" mark_to="-1">
+					<token regexp="yes">[Vv]</token>
+					<token regexp="yes">Bled.*</token>
+				</pattern>
+				<message>Napačna raba predloga pred krajevnim imenom, pravilno je: <suggestion>na</suggestion> Bledu!</message>
+				<short>Nepravilno: v Bled</short>
+				<example type="correct"><marker>Na</marker> Bledu sva jedla kremne rezine.</example>
+				<example correction="Na" type="incorrect"><marker>V</marker> Bledu sva jedla kremne rezine.</example>
+			</rule>
+			<rule id="IZ_KJE" name="Nepravilna raba: iz kje">
+				<pattern case_sensitive="no">
+					<token>iz</token>
+					<token>kje</token>
+				</pattern>
+				<message>Napačna raba predloga in prislova, pravilno je: <suggestion>odkod</suggestion></message>
+				<short>Nepravilno: iz kje</short>
+				<example type="correct"><marker>Odkod</marker> je ta jadrnica?</example>
+				<example correction="Odkod" type="incorrect"><marker>Iz kje</marker> je ta jadrnica?</example>
+			</rule>
+			<rule id="POTOM" name="Slogovni nasvet: potom pošte">
+				<pattern case_sensitive="no">
+					<token>potom</token>
+					<token>pošte</token>
+				</pattern>
+				<message>Neprimerno, priporočamo: <suggestion>po pošti</suggestion></message>
+				<short>Slogovni nasvet: potom pošte</short>
+				<example type="correct">Prijave pošljite <marker>po pošti</marker>.</example>
+				<example correction="po pošti" type="incorrect">Prijave pošljite <marker>potom pošte</marker>.</example>
+			</rule>
+			<rule id="NA_RAZPOLAGO" name="Slogovni nasvet: na razpolago">
+				<pattern case_sensitive="no">
+					<token>na</token>
+					<token>razpolago</token>
+				</pattern>
+				<message>Neprimerno, priporočamo: <suggestion>na voljo</suggestion></message>
+				<short>Slogovni nasvet: na razpolago</short>
+				<example type="correct">Njihova služba nam je bila ves čas <marker>na voljo</marker>.</example>
+				<example correction="na voljo" type="incorrect">Njihova služba nam je bila ves čas <marker>na razpolago</marker>.</example>
+			</rule>
+			<rule id="V_SLUCAJU" name="Slogovni nasvet: v slučaju">
+				<pattern case_sensitive="no">
+					<token>v</token>
+					<token>slučaju</token>
+				</pattern>
+				<message>Neprimerno, priporočamo: <suggestion>ob</suggestion>, obenem ustrezno spremenite sklon</message>
+				<short>Slogovni nasvet: v slučaju</short>
+				<example type="correct"><marker>Ob</marker> reklamaciji ne pozabite izpolniti obrazca.</example>
+				<example correction="Ob" type="incorrect"><marker>V slučaju</marker> reklamacije ne pozabite izpolniti obrazca.</example>
+			</rule>
+			<rule id="Z_OZIROM" name="Slogovni nasvet: z ozirom">
+				<pattern case_sensitive="no">
+					<token>z</token>
+					<token>ozirom</token>
+				</pattern>
+				<message>Neprimerno, priporočamo: <suggestion>glede</suggestion></message>
+				<short>Slogovni nasvet: z ozirom</short>
+				<example type="correct"><marker>Glede</marker> na vse težave se je dobro končalo.</example>
+				<example correction="Glede" type="incorrect"><marker>Z ozirom</marker> na vse težave se je dobro končalo.</example>
+			</rule>
+			<rule id="PREK_TELEFONA" name="Slogovni nasvet: preko telefona">
+				<pattern case_sensitive="no">
+					<token regexp="yes">prek|preko</token>
+					<token>telefona</token>
+				</pattern>
+				<message>Neprimerno, priporočamo: <suggestion>po telefonu</suggestion></message>
+				<short>Slogovni nasvet: preko telefona</short>
+				<example type="correct">Obvestili smo jih <marker>po telefonu</marker>.</example>
+				<example correction="po telefonu" type="incorrect">Obvestili smo jih <marker>preko telefona</marker>.</example>
+			</rule>
+			<rule id="KOMAD" name="Slogovni nasvet: komad">
+				<pattern case_sensitive="no">
+					<token regexp="yes">komad|kom</token>
+				</pattern>
+				<message>Neprimerno, priporočamo: <suggestion>kos</suggestion></message>
+				<short>Slogovni nasvet: komad oz. kom</short>
+				<example type="correct">V škatli je bil en sam <marker>kos</marker>.</example>
+				<example correction="kos" type="incorrect">V škatli je bil en sam <marker>komad</marker>.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="POMISLJAJ_5" name="Zamenjaj vezaj s pomišljajem 2">
+			<rule>
+				<pattern>
+					<token>-</token>
+				</pattern>
+				<message>Pomišljaj je tipografsko različen od znaka za vezaj. Zato uporabite namesto vezaja znak tipografskega pomišljaja (<suggestion>–</suggestion>) ali pa ga sploh ne uporabite.</message>
+				<short>Vezaj namesto pomišljaja</short>
+				<example correction="–" type="incorrect">To je primer <marker>-</marker> verjeli ali ne.</example>
+				<example type="correct">To je primer – verjeli ali ne.</example>
 			</rule>
 		</rulegroup>
 	</category>
@@ -786,6 +1059,5 @@ Thanks to Marcin Miłkowski.
 				<example type="correct">Ponudnik izobraževanj je znižal cene svojih storitev.</example>
 			</rule>
 		</rulegroup>
-	</category>
-	-->
+	</category> -->
 </rules>
