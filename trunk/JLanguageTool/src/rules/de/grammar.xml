@@ -434,6 +434,16 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct">Er war zu <marker>spät</marker> dran.</example>
       <example type="incorrect">Er war zu <marker>späht</marker> dran.</example>
     </rule>
+    <rule id="AUF_DER_JAGT" name="Möglicher Tippfehler: 'auf der Jagt (Jagd)'">
+      <pattern case_sensitive="yes" mark_from="2">
+        <token regexp="yes">[aA]uf|[bB]ei|[vV]on</token>
+        <token>der</token>
+        <token>Jagt</token>
+      </pattern>
+      <message>Meinten Sie das Substantiv <suggestion>Jagd</suggestion>? "Jagt" ist eine Form des Verbs "jagen".</message>
+      <example type="correct">Sie waren stets auf der <marker>Jagd</marker> nach Neuigkeiten.</example>
+      <example type="incorrect">Sie waren stets auf der <marker>Jagt</marker> nach Neuigkeiten.</example>
+    </rule>
     <rulegroup id="IN_DER_REGELN" name="Möglicher Tippfehler: 'in der Regeln (Regel)'">
       <rule>
         <pattern case_sensitive="yes">
@@ -3057,6 +3067,15 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect" correction="Erwarten">Wider <marker>erwarten</marker></example>
       <example type="correct">Wider <marker>Erwarten</marker></example>
     </rule>
+    <rule id="AUSSER_DIENST" name="Groß-/Kleinschreibung: 'außer dienst (Dienst)'">
+      <pattern case_sensitive="yes" mark_from="1">
+        <token regexp="yes">in|im|außer</token>
+        <token>dienst</token>
+      </pattern>
+      <message>&subanfang;<suggestion>Dienst</suggestion>&subende;</message>
+      <example type="incorrect" correction="Dienst">Ich bin außer <marker>dienst</marker>.</example>
+      <example type="correct">Ich bin heute nicht im <marker>Dienst</marker>.</example>
+    </rule>
     <rulegroup id="HOEREN_UND_SEHEN" name="Groß-/Kleinschreibung: 'hören und sehen (Hören und Sehen) vergehen'">
       <rule>
         <pattern case_sensitive="yes" mark_to="-1">
@@ -3721,7 +3740,87 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect" correction="Sonntags">Er hat eines <marker>sonntags</marker> den Zug verpasst.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="SPITZE_SUBST" name="Groß-/Kleinschreibung: 'an der spitze (Spitze)' etc.">
+      <rule>
+        <pattern case_sensitive="yes" mark_to="-2">
+          <token>spitze</token>
+          <token>der</token>
+          <token regexp="yes">.*[tT]abelle|Hierarchie|.*[lL]iste</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Spitze</suggestion>&subende;</message>
+        <example type="incorrect">Damit erreichten sie die <marker>spitze</marker> der Rangliste.</example>
+        <example type="correct">Damit erreichten sie die <marker>Spitze</marker> der Rangliste.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_to="-2">
+          <token>spitze</token>
+          <token>des</token>
+          <token regexp="yes">.*[fF]ingers|Eisbergs|Zuges</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Spitze</suggestion>&subende;</message>
+        <example type="incorrect">Das war nur die <marker>spitze</marker> des Eisbergs.</example>
+        <example type="correct">Das war nur die <marker>Spitze</marker> des Eisbergs.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="2" mark_to="-1">
+          <token regexp="yes">[aA]n|[aA]uf</token>
+          <token regexp="yes">der|die</token>
+          <token>spitze</token>
+          <token regexp="yes">des|der|seines|ihres</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Spitze</suggestion>&subende;</message>
+        <example type="incorrect">Auf der <marker>spitze</marker> des Kirchturms drehte sich der Wetterhahn.</example>
+        <example type="correct">Auf der <marker>Spitze</marker> des Kirchturms drehte sich der Wetterhahn.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="2" mark_to="-1">
+          <token regexp="yes">[aA]uf</token>
+          <token>die</token>
+          <token>spitze</token>
+          <token inflected="yes">treiben</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Spitze</suggestion>&subende;</message>
+        <example type="incorrect">Wir sollten es nicht auf die <marker>spitze</marker> treiben.</example>
+        <example type="correct">Wir sollten es lieber nicht auf die <marker>Spitze</marker> treiben.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="4">
+          <token inflected="yes">treiben</token>
+          <token>es</token>
+          <token>auf</token>
+          <token>die</token>
+          <token>spitze</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Spitze</suggestion>&subende;</message>
+        <example type="incorrect">Ihr treibt es auf die <marker>spitze</marker>!</example>
+        <example type="correct">Treibt es nicht auf die <marker>Spitze</marker>!</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="5">
+          <token inflected="yes">treiben</token>
+          <token>es</token>
+          <token>nicht</token>
+          <token>auf</token>
+          <token>die</token>
+          <token>spitze</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Spitze</suggestion>&subende;</message>
+        <example type="incorrect">Treibt es nicht auf die <marker>spitze</marker>!</example>
+        <example type="correct">Treibt es nicht auf die <marker>Spitze</marker>!</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="AUF_DER_FLUCHT" name="Groß-/Kleinschreibung: 'auf der flucht (Flucht)'">
+      <rule>
+        <pattern case_sensitive="yes" mark_from="2" mark_to="-1">
+          <token regexp="yes">[iI]n</token>
+          <token>die</token>
+          <token>flucht</token>
+          <token inflected="yes">schlagen</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Flucht</suggestion>&subende;</message>
+        <example type="incorrect">Wir haben die Schurken in die <marker>flucht</marker> geschlagen.</example>
+        <example type="correct">Wir haben die Schurken in die <marker>Flucht</marker> geschlagen.</example>
+      </rule>
       <rule>
         <pattern case_sensitive="yes" mark_from="2">
           <token regexp="yes">[aA]uf|[bB]ei</token>
@@ -6147,7 +6246,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect"><marker>Er können</marker> heute leider nicht kommen.</example>
         <example type="correct"><marker>Er lebt</marker>.</example>
         <example type="incorrect"><marker>Er lebst</marker>.</example>
-        <example type="correct"><marker>Er gelangt</marker> zu ihr.</example>
+        <example type="correct"><marker>Er geht</marker> zu ihr.</example>
         <example type="incorrect"><marker>Er gelangst</marker> zu ihr.</example>
         <example type="correct">Sie und <marker>er leben</marker>.</example>
       </rule>
