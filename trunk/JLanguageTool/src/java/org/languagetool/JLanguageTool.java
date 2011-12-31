@@ -61,7 +61,7 @@ import java.util.jar.Manifest;
 @SuppressWarnings({"UnusedDeclaration"})
 public final class JLanguageTool {
 
-  public static final String VERSION = "1.6-dev"; // keep in sync with build.properties!
+  public static final String VERSION = "1.6"; // keep in sync with build.properties!
   public static final String BUILD_DATE = getBuildDate();
 
   public static final String PATTERN_FILE = "grammar.xml";

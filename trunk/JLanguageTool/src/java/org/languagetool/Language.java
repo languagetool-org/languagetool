@@ -18,12 +18,7 @@
  */
 package org.languagetool;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import org.languagetool.language.*;
 import org.languagetool.rules.Rule;
@@ -300,7 +295,7 @@ public abstract class Language {
   }
   
   /**
-   * Get sorted info about all maintainers.
+   * Get sorted info about all maintainers to be used in the About dialog.
    * @since 0.9.9
    * @param messages
    *        {{@link ResourceBundle} language bundle to translate
@@ -319,13 +314,13 @@ public abstract class Language {
             names.add(contributor.getName());
           }
           toSort.add(messages.getString(lang.getShortName()) +
-              ": " + StringTools.listToString(names, ", "));
+              ": " + listToStringWithLineBreaks(names));
         }
       }            
     }    
     Collections.sort(toSort);
-    for (final String lElem : toSort) {    
-      maintainersInfo.append(lElem);    
+    for (final String lElem : toSort) {
+      maintainersInfo.append(lElem);
       maintainersInfo.append('\n');
     }
     return maintainersInfo.toString();
@@ -333,6 +328,24 @@ public abstract class Language {
 
   public boolean isExternal() {
     return false;
+  }
+
+  private static String listToStringWithLineBreaks(final Collection<String> l) {
+    final StringBuilder sb = new StringBuilder();
+    int i = 0;
+    for (final Iterator<String> iter = l.iterator(); iter.hasNext();) {
+      final String str = iter.next();
+      sb.append(str);
+      if (iter.hasNext()) {
+        if (i > 0 && i % 3 == 0) {
+          sb.append(",\n    ");
+        } else {
+          sb.append(", ");
+        }
+      }
+      i++;
+    }
+    return sb.toString();
   }
 
 }

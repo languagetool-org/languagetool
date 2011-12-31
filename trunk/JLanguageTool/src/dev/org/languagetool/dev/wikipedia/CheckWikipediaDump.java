@@ -97,9 +97,9 @@ public class CheckWikipediaDump {
 
   private static void ensureCorrectUsageOrExit(String[] args) {
     if (args.length < 5 || args.length > 6) {
-      System.err.println("Usage: CheckWikipediaDump <propertyFile> <language> <filename> <ruleIds> [maxArticleCheck]");
+      System.err.println("Usage: CheckWikipediaDump <propertyFile> <rulePropertyFile> <language> <filename> <ruleIds> [maxArticleCheck]");
       System.err.println("\tpropertyFile a file to set database access properties. Use '-' to print results to stdout.");
-      System.err.println("\tpropertyFile a file to set rules which should be disabled per language (e.g. en=RULE1,RULE2 or all=RULE3,RULE4). Use an empty file if not valid.");
+      System.err.println("\trulePropertyFile a file to set rules which should be disabled per language (e.g. en=RULE1,RULE2 or all=RULE3,RULE4). Use '-' to ignore.");
       System.err.println("\tlanguage languagecode like 'en' or 'de'");
       System.err.println("\tfilename path to unpacked Wikipedia XML dump");
       System.err.println("\truleIds comma-separated list of rule-ids to activate. Use '-' to activate the default rules.");
@@ -161,13 +161,13 @@ public class CheckWikipediaDump {
     final String filename = file.getName();
     final String[] parts = filename.split("-");
     if (parts.length < 3) {
-      throw new IOException("Unexpected filename format: " + file.getName() + ". Must be like ??wiki-????????-pages-articles.xml");
+      throw new IOException("Unexpected filename format: " + file.getName() + ", must be like ??wiki-????????-pages-articles.xml");
     }
     final SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
     try {
       return sdf.parse(parts[1]);
     } catch (ParseException e) {
-      throw new IOException("Unexpected date format: " + parts[1], e);
+      throw new IOException("Unexpected date format '" + parts[1] + "', must be yyyymmdd", e);
     }
   }
 

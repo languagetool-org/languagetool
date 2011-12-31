@@ -1,5 +1,5 @@
 LanguageTool, a proof-reading tool for English, German, Polish,
-French, Dutch, Russian, Italian, Danish and more languages
+Chinese, French, Dutch, Russian, Italian, Danish and more languages
 (see http://www.languagetool.org/languages/ for a list)
 
 Copyright (C) 2005-2011 Daniel Naber (naber at danielnaber de)
