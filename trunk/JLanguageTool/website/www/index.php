@@ -41,7 +41,7 @@ language-specific configuration files. Rules for detecting more complicated erro
 
 <h2>News</h2>
 
-<p><strong>2012-12-31:</strong> Released LanguageTool 1.6. Changes include:
+<p><strong>2011-12-31:</strong> Released LanguageTool 1.6. Changes include:
 <ul>
     <li>Rule updates for several languages (Chinese, French, Breton, and others)</li>
     <li>Renamed the Java packages from de.danielnaber.languagetool.* to org.languagetool.*</li>
