@@ -27,7 +27,7 @@ include("../../include/header.php");
  We don't have a solution yet, neither can we reproduce the problem. <a href="https://sourceforge.net/tracker/?func=detail&amp;aid=3153545&amp;group_id=110216&amp;atid=655717">Bug report</a>.
 </li>
 <li>When you get a long <strong>error message with "NoClassDefFoundError" during installation on Ubuntu <a href="../images/class_not_found.png">like this</a></strong>, you might need to
-	install the <tt>openoffice.org-java-common</tt> package. See
+	install the <tt>libreoffice-java-common</tt> or <tt>openoffice.org-java-common</tt> package. See
 	<a href="http://nancib.wordpress.com/2008/05/03/fixing-the-openofficeorg-grammar-glitch-in-ubuntu-hardy/">this blog posting</a>
 	for details.</li>
 <li>If you get <strong>"This media-type is not supported: application/vnd.sun.star.package-bundle2.0.00"</strong> during installation, please consider
