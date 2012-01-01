@@ -69,7 +69,8 @@ public class PatternRule extends AbstractPatternRule {
 
   /**
    * @param id
-   *          Id of the Rule
+   *          Id of the Rule. Used in configuration. Should not contain special characters and should
+   *          be stable over time, unless the rule changes completely.
    * @param language
    *          Language of the Rule
    * @param elements
@@ -78,8 +79,9 @@ public class PatternRule extends AbstractPatternRule {
    *          Description to be shown (name)
    * @param message
    *          Message to be displayed to the user
+   * @param shortMessage
+   *          Message to be displayed to the user in the context menu in OpenOffice.org/LibreOffice
    */
-
   public PatternRule(final String id, final Language language,
       final List<Element> elements, final String description,
       final String message, final String shortMessage) {
