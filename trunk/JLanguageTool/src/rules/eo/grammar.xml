@@ -2675,7 +2675,7 @@ Copyright (C) 2010, 2011 Dominique Pellé <dominique.pelle@gmail.com>
       <example type="incorrect"><marker>La manĝi</marker> ne bonas</example>
       <example type="correct">La manĝaĵo ne bonas</example>
       <example type="correct">Jen aŭdiĝis ankaŭ la ĝis nun superbruita fontano.</example>
-      <example type="correct">La ĉefa parto de la ĉirkaŭ 2 miliardoj de dolaroj</example>
+      <example type="correct">La ĉefa parto de la ĉirkaŭ 2 miliardoj de dolaroj.</example>
     </rule>
 
     <rule id="SI_SUBJ" name="si subjekto">
@@ -2690,6 +2690,62 @@ Copyright (C) 2010, 2011 Dominique Pellé <dominique.pelle@gmail.com>
       <example type="correct">Li ne estas si mem.</example>
       <example type="incorrect">Lin vidas <marker>si</marker>.</example>
     </rule>
+
+    <rulegroup id="SIA_SUBJ" name="si subjekto">
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token postag="SENT_START"/>
+          <token regexp="yes">siaj?</token>
+          <token postag_regexp="yes" postag="O nak.*">
+            <exception regexp="yes">.*inoj?</exception>
+          </token>
+        </pattern>
+        <message>La vorto «\2» ne povas esti subjekto. Ĉu vi intencis diri <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="l$1"/></suggestion>?</message>
+        <example type="incorrect"><marker>Sia</marker> frato alvenis.</example>
+        <example type="correct">Lia frato alvenis.</example>
+        <example type="correct">Li parolis al sia frato.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token postag="SENT_START"/>
+          <token regexp="yes">siaj?</token>
+          <token postag_regexp="yes" postag="O nak.*" regexp="yes">.*inoj?</token>
+        </pattern>
+        <message>La vorto «\2» ne povas esti subjekto. Ĉu vi intencis diri <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="ŝ$1"/></suggestion>?</message>
+        <example type="incorrect"><marker>Siaj</marker> fratinoj alvenis.</example>
+        <example type="correct">Ŝiaj frato alvenis.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="3" mark_to="-2">
+          <token postag="SENT_START"/>
+          <token/>
+          <token regexp="yes">kaj|aŭ</token>
+          <token regexp="yes">siaj?</token>
+          <token postag_regexp="yes" postag="O nak.*">
+            <exception regexp="yes">.*inoj?</exception>
+          </token>
+          <token postag_regexp="yes" postag="V.*"/>
+        </pattern>
+        <message>La vorto «\4» ne povas esti subjekto. Ĉu vi intencis diri <suggestion><match no="4" regexp_match=".(.*)" regexp_replace="l$1"/></suggestion>?</message>
+        <example type="incorrect">Tom kaj <marker>sia</marker> frato alvenis.</example>
+        <example type="correct">Tom kaj lia frato alvenis.</example>
+        <example type="correct">Kun Tom kaj sia frato parolis la intruktoj.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="3" mark_to="-2">
+          <token postag="SENT_START"/>
+          <token/>
+          <token regexp="yes">kaj|aŭ</token>
+          <token regexp="yes">siaj?</token>
+          <token postag_regexp="yes" postag="O nak.*" regexp="yes">.*inoj?</token>
+          <token postag_regexp="yes" postag="V.*"/>
+        </pattern>
+        <message>La vorto «\4» ne povas esti subjekto. Ĉu vi intencis diri <suggestion><match no="4" regexp_match=".(.*)" regexp_replace="ŝ$1"/></suggestion>?</message>
+        <example type="incorrect">Tom kaj <marker>sia</marker> fratino alvenis.</example>
+        <example type="correct">Tom kaj ŝia fratino alvenis.</example>
+        <example type="correct">Kun Tom kaj sia fratino parolis la intruktoj.</example>
+      </rule>
+    </rulegroup>
 
     <rule id="KONI" name="koni">
       <pattern mark_to="-2">
