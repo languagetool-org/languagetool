@@ -792,6 +792,41 @@ though, and has since been slightly modified)-->
         <example type="correct">Ce ris d’agneau est succulent.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="FORCEMENT" name="Forcément, Forcement">
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">au|ce|du|le|un</token>
+          <token>forcément</token>
+        </pattern>
+        <message>«\1» est un adverbe. Voulez-vous utiliser le nom <suggestion>forcement</suggestion> ?</message>
+        <example type="incorrect">Le <marker>forcément</marker> d’un coffre.</example>
+        <example type="correct">Le forcement d’un coffre.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token postag_regexp="yes" postag="[NV].*">
+            <exception regexp="yes">pas|plus</exception>
+          </token>
+          <token>forcement</token>
+        </pattern>
+        <message>«\1» est un nom. Voulez-vous utiliser l’adverbe <suggestion>forcément</suggestion> ?</message>
+        <example type="incorrect">Vous avez <marker>forcement</marker> raison.</example>
+        <example type="correct">Vous avez forcément raison.</example>
+        <example type="incorrect">La notation a un aspect <marker>forcement</marker> aléatoire.</example>
+        <example type="correct">La notation a un aspect <marker>forcément</marker> aléatoire.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">pas|plus|.+-(ce|je|tu|ils?|elles?|[nv]ous)</token>
+          <token>forcement</token>
+        </pattern>
+        <message>«\1» est un nom. Voulez-vous utiliser l'adverbe <suggestion>forcément</suggestion> ?</message>
+        <example type="incorrect">Vous n’avez pas <marker>forcement</marker> raison.</example>
+        <example type="correct">Vous n’avez pas forcément raison.</example>
+        <example type="incorrect">Est-ce <marker>forcement</marker> grave ?</example>
+        <example type="correct">Est-ce <marker>forcément</marker> grave ?</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="AMENDE" name="Amende au lieu de amande">
       <rule>
         <pattern mark_from="1" mark_to="-1">
