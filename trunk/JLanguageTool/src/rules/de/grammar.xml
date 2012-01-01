@@ -55,6 +55,15 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
          xsi:noNamespaceSchemaLocation="../rules.xsd">
 
   <category name="Mögliche Tippfehler">
+    <rule id="ES_WIR" name="Möglicher Tippfehler: es wir (wird)">
+      <pattern mark_from="1">
+          <token>es</token>
+          <token>wir</token>
+        </pattern>
+      <message>Meinten Sie <suggestion>wird</suggestion>?</message>
+      <example type="incorrect">Es <marker>wir</marker> wieder wärmer draußen.</example>
+      <example type="correct">Es <marker>wird</marker> wieder wärmer draußen.</example>
+    </rule>
     <rule id="ZUR_RUHE_GEBETET" name="Möglicher Tippfehler: zur Ruhe gebetet (gebettet)">
       <pattern mark_from="2">
           <token>zur</token>
