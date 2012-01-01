@@ -798,7 +798,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">au|ce|du|le|un</token>
           <token>forcément</token>
         </pattern>
-        <message>«\1» est un adverbe. Voulez-vous utiliser le nom <suggestion>forcement</suggestion> ?</message>
+        <message>« \1 » est un adverbe. Voulez-vous utiliser le nom <suggestion>forcement</suggestion> ?</message>
         <example type="incorrect">Le <marker>forcément</marker> d’un coffre.</example>
         <example type="correct">Le forcement d’un coffre.</example>
       </rule>
@@ -809,7 +809,7 @@ though, and has since been slightly modified)-->
           </token>
           <token>forcement</token>
         </pattern>
-        <message>«\1» est un nom. Voulez-vous utiliser l’adverbe <suggestion>forcément</suggestion> ?</message>
+        <message>« \1 » est un nom. Voulez-vous utiliser l’adverbe <suggestion>forcément</suggestion> ?</message>
         <example type="incorrect">Vous avez <marker>forcement</marker> raison.</example>
         <example type="correct">Vous avez forcément raison.</example>
         <example type="incorrect">La notation a un aspect <marker>forcement</marker> aléatoire.</example>
@@ -820,7 +820,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">pas|plus|.+-(ce|je|tu|ils?|elles?|[nv]ous)</token>
           <token>forcement</token>
         </pattern>
-        <message>«\1» est un nom. Voulez-vous utiliser l'adverbe <suggestion>forcément</suggestion> ?</message>
+        <message>« \1 » est un nom. Voulez-vous utiliser l'adverbe <suggestion>forcément</suggestion> ?</message>
         <example type="incorrect">Vous n’avez pas <marker>forcement</marker> raison.</example>
         <example type="correct">Vous n’avez pas forcément raison.</example>
         <example type="incorrect">Est-ce <marker>forcement</marker> grave ?</example>
@@ -2159,7 +2159,7 @@ though, and has since been slightly modified)-->
           <exception postag="[^NJAKZ].*" postag_regexp="yes"/>
         </token>
       </pattern>
-      <message>Le mot « \2 » ne peut pas suivre le mot « \1 ».</message>
+      <message>Le mot « \2 » ne peut pas suivre le mot « \1 ».</message>
       <example type="incorrect">Ça te <marker>gène</marker> si je fume ?</example>
       <example type="correct">Ça te gêne si je fume ?</example>
     </rule>
@@ -2185,7 +2185,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">comment|pour|pouquoi|quand|où</token>
           <token postag="V.* ppa.*" postag_regexp="yes" regexp="yes">.*é<exception postag="V inf"/></token>
         </pattern>
-        <message>Le verbe «\2» devrait être à l’infinitif après «\1».</message>
+        <message>Le verbe « \2 » devrait être à l’infinitif après « \1 ».</message>
         <example type="incorrect">Pour <marker>débuté</marker>, il faut acheter une grammaire.</example>
         <example type="correct">Pour débuter, il faut acheter une grammaire.</example>
       </rule>
@@ -2194,7 +2194,7 @@ though, and has since been slightly modified)-->
           <token inflected="yes" regexp="yes">&lt;/[MTS]E&gt;|[mts]e|lui</token>
           <token postag="V.* ppa.*" postag_regexp="yes" regexp="yes">.*é<exception postag="V inf"/></token>
         </pattern>
-        <message>Le verbe «\2» devrait être à l’infinitif après «\1».</message>
+        <message>Le verbe « \2 » devrait être à l’infinitif après « \1 ».</message>
         <example type="incorrect">Je veux te <marker>préparé</marker></example>
         <example type="correct">Je veux te préparer</example>
       </rule>
@@ -2204,7 +2204,7 @@ though, and has since been slightly modified)-->
           <token postag="A"></token>
           <token postag="V.* ppa.*" postag_regexp="yes" regexp="yes">.*é<exception postag="V inf"/></token>
         </pattern>
-        <message>Le verbe «\3» devrait être à l’infinitif après «\1 \2».</message>
+        <message>Le verbe « \3 » devrait être à l’infinitif après « \1 \2 ».</message>
         <example type="incorrect">Comment bien <marker>étudié</marker></example>
         <example type="correct">Comment bien étudier</example>
       </rule>
@@ -2701,6 +2701,17 @@ though, and has since been slightly modified)-->
       <example type="incorrect">J’ai du <marker>mangé</marker> cela.</example>
       <example type="correct">J’ai du <marker>manger</marker> cela.</example>
       <example type="correct">Ils avaient voulu cela.</example>
+    </rule>
+    <rule id="EN_TRAIN_DE" name="En train de + infinitif">
+      <pattern mark_from="3">
+        <token>en</token>
+        <token>train</token>
+        <token>de</token>
+        <token postag_regexp="yes" postag="V.*" regexp="yes">.*ée?s?</token>
+      </pattern>
+      <message>L'infinitif est attendu après « \1 \2 \3 ».</message>
+      <example type="incorrect">Il est en train de <marker>joué</marker>.</example>
+      <example type="correct">Il est en train de jouer.</example>
     </rule>
     <rulegroup id="COND_VS_FUTUR" name="probable futur avant bientôt, demain, etc.">
       <rule>
@@ -3514,7 +3525,7 @@ though, and has since been slightly modified)-->
             <exception postag="V.* ppa [me] sp?" postag_regexp="yes"/>
           </token>
         </pattern>
-        <message>Le participe « \4 » devrait être au singulier masculin.</message>
+        <message>Le participe « \4 » devrait être au singulier masculin.</message>
         <example type="incorrect">Nous avons <marker>mangés</marker> des huitres.</example>
         <example type="incorrect">Nous avons <marker>mangée</marker> des huitres.</example>
         <example type="incorrect">Nous avons <marker>mangées</marker> des huitres.</example>
@@ -3535,7 +3546,7 @@ though, and has since been slightly modified)-->
             <exception postag="V.* ppa . sp?" postag_regexp="yes"/>
           </token>
         </pattern>
-        <message>Le participe « \6 » devrait être au singulier.</message>
+        <message>Le participe « \6 » devrait être au singulier.</message>
         <example type="incorrect">Nous l’avons <marker>mangés</marker>.</example>
         <example type="incorrect">Nous l’avons <marker>mangées</marker>.</example>
         <example type="correct">Nous l’avons mangé.</example>
@@ -3551,7 +3562,7 @@ though, and has since been slightly modified)-->
             <exception postag="V.* ppa . s?p" postag_regexp="yes"/>
           </token>
         </pattern>
-        <message>Le participe « \5 » devrait être au pluriel.</message>
+        <message>Le participe « \5 » devrait être au pluriel.</message>
         <example type="incorrect">Nous les avons <marker>mangé</marker>.</example>
         <example type="incorrect">Nous les avons <marker>mangée</marker>.</example>
         <example type="correct">Nous l’avons mangés.</example>
@@ -3570,7 +3581,7 @@ though, and has since been slightly modified)-->
             <exception postag="V.* ppa [me] sp?" postag_regexp="yes"/>
           </token>
         </pattern>
-        <message>Le participe « \5 » devrait être au pluriel.</message>
+        <message>Le participe « \5 » devrait être au pluriel.</message>
         <example type="incorrect">Nous lui avons <marker>donnée</marker> un cadeau.</example>
         <example type="incorrect">Nous lui avons <marker>donnés</marker> un cadeau.</example>
         <example type="incorrect">Nous lui avons <marker>données</marker> un cadeau.</example>
@@ -3588,7 +3599,7 @@ though, and has since been slightly modified)-->
             <exception postag="V.* ppa [me] sp?" postag_regexp="yes"/>
           </token>
         </pattern>
-        <message>Le participe « \7 » devrait être au singulier masculin.</message>
+        <message>Le participe « \7 » devrait être au singulier masculin.</message>
         <example type="incorrect">Nous n’avons pas <marker>mangés</marker> des huitres.</example>
         <example type="correct">Nous n’avons pas mangé des huitres.</example>
         <example type="incorrect">Isabelle n’a jamais <marker>mangée</marker> des huitres.</example>
@@ -3607,7 +3618,7 @@ though, and has since been slightly modified)-->
             <exception postag="V.* ppa . sp?" postag_regexp="yes"/>
           </token>
         </pattern>
-        <message>Le participe « \8 » devrait être au singulier.</message>
+        <message>Le participe « \8 » devrait être au singulier.</message>
         <example type="incorrect">Nous ne t'avons pas <marker>écoutés</marker>.</example>
         <example type="incorrect">Nous ne t'avons pas <marker>écoutées</marker>.</example>
         <example type="correct">Nous ne t'avons pas écouté.</example>
@@ -3625,7 +3636,7 @@ though, and has since been slightly modified)-->
             <exception postag="V.* ppa . s?p" postag_regexp="yes"/>
           </token>
         </pattern>
-        <message>Le participe « \7 » devrait être au singulier.</message>
+        <message>Le participe « \7 » devrait être au singulier.</message>
         <example type="incorrect">Nous ne les avons pas <marker>écouté</marker>.</example>
         <example type="incorrect">Nous ne les avons pas <marker>écoutée</marker>.</example>
         <example type="correct">Nous ne les avons pas écoutés.</example>
@@ -3643,7 +3654,7 @@ though, and has since been slightly modified)-->
             <exception postag="V.* ppa [me] sp?" postag_regexp="yes"/>
           </token>
         </pattern>
-        <message>Le participe « \7 » devrait être au masculin singulier.</message>
+        <message>Le participe « \7 » devrait être au masculin singulier.</message>
         <example type="incorrect">Nous ne lui avons rien <marker>donnée</marker>.</example>
         <example type="incorrect">Nous ne lui avons rien <marker>donnés</marker>.</example>
         <example type="incorrect">Nous ne lui avons rien <marker>données</marker>.</example>
@@ -3659,7 +3670,7 @@ though, and has since been slightly modified)-->
             <exception postag="V.* ppa [me] sp?" postag_regexp="yes"/>
           </token>
         </pattern>
-        <message>Le participe « \5 » devrait être au singulier masculin.</message>
+        <message>Le participe « \5 » devrait être au singulier masculin.</message>
         <example type="incorrect">J‘ai <marker>mangés</marker> des huitres.</example>
         <example type="correct">J‘ai mangé des huitres.</example>
         <example type="incorrect">Je suis allée en Bretagne et j’ai <marker>mangée</marker> des huitres.</example>
@@ -3675,7 +3686,7 @@ though, and has since been slightly modified)-->
             <exception postag="V.* ppa [me] sp?" postag_regexp="yes"/>
           </token>
         </pattern>
-        <message>Le participe « \5 » devrait être au singulier masculin.</message>
+        <message>Le participe « \5 » devrait être au singulier masculin.</message>
         <example type="incorrect">Les élèves ont <marker>terminés</marker> leurs devoirs.</example>
         <example type="incorrect">Les élèves ont <marker>terminée</marker> leurs devoirs.</example>
         <example type="incorrect">Les élèves ont <marker>terminées</marker> leurs devoirs.</example>
@@ -3693,7 +3704,7 @@ though, and has since been slightly modified)-->
             <exception postag="V.* ppa . sp?" postag_regexp="yes"/>
           </token>
         </pattern>
-        <message>Le participe « \7 » devrait être au singulier.</message>
+        <message>Le participe « \7 » devrait être au singulier.</message>
         <example type="incorrect">Les élèves t’ont <marker>écoutés</marker>.</example>
         <example type="incorrect">Les élèves t’ont <marker>écoutées</marker>.</example>
         <example type="correct">Les élèves t’ont écouté.</example>
@@ -3710,7 +3721,7 @@ though, and has since been slightly modified)-->
             <exception postag="V.* ppa . s?p" postag_regexp="yes"/>
           </token>
         </pattern>
-        <message>Le participe « \6 » devrait être au pluriel.</message>
+        <message>Le participe « \6 » devrait être au pluriel.</message>
         <example type="incorrect">Les élèves les ont <marker>écouté</marker>.</example>
         <example type="incorrect">Les élèves les ont <marker>écoutée</marker>.</example>
         <example type="correct">Les élèves les ont écoutés.</example>
@@ -3727,7 +3738,7 @@ though, and has since been slightly modified)-->
             <exception postag="V.* ppa [me] sp?" postag_regexp="yes"/>
           </token>
         </pattern>
-        <message>Le participe « \6 » devrait être au masculin singulier.</message>
+        <message>Le participe « \6 » devrait être au masculin singulier.</message>
         <example type="incorrect">Les élèves lui ont <marker>données</marker>.</example>
         <example type="incorrect">Les élèves lui ont <marker>donnés</marker>.</example>
         <example type="incorrect">Les élèves lui ont <marker>donnée</marker>.</example>
@@ -3746,7 +3757,7 @@ though, and has since been slightly modified)-->
             <exception postag="V.* ppa [me] sp?" postag_regexp="yes"/>
           </token>
         </pattern>
-        <message>Le participe « \8 » devrait être au singulier masculin.</message>
+        <message>Le participe « \8 » devrait être au singulier masculin.</message>
         <example type="incorrect">Les élèves n’ont pas <marker>terminés</marker> leurs devoirs.</example>
         <example type="incorrect">Les élèves n’ont pas <marker>terminée</marker> leurs devoirs.</example>
         <example type="incorrect">Les élèves n’ont pas <marker>terminées</marker> leurs devoirs.</example>
@@ -3766,7 +3777,7 @@ though, and has since been slightly modified)-->
             <exception postag="V.* ppa . sp?" postag_regexp="yes"/>
           </token>
         </pattern>
-        <message>Le participe « \9 » devrait être au singulier.</message>
+        <message>Le participe « \9 » devrait être au singulier.</message>
         <example type="incorrect">Les élèves ne m’ont pas <marker>écoutés</marker>.</example>
         <example type="incorrect">Les élèves ne m’ont pas <marker>écoutées</marker>.</example>
         <example type="correct">Les élèves ne m’ont pas écouté.</example>
@@ -3785,7 +3796,7 @@ though, and has since been slightly modified)-->
             <exception postag="V.* ppa . s?p" postag_regexp="yes"/>
           </token>
         </pattern>
-        <message>Le participe « \8 » devrait être au pluriel.</message>
+        <message>Le participe « \8 » devrait être au pluriel.</message>
         <example type="incorrect">Les élèves ne les ont pas <marker>écouté</marker>.</example>
         <example type="incorrect">Les élèves ne les ont pas <marker>écoutée</marker>.</example>
         <example type="correct">Les élèves ne les ont pas écoutés.</example>
@@ -3804,7 +3815,7 @@ though, and has since been slightly modified)-->
             <exception postag="V.* ppa [me] sp?" postag_regexp="yes"/>
           </token>
         </pattern>
-        <message>Le participe « \8 » devrait être au singulier masculin singulier.</message>
+        <message>Le participe « \8 » devrait être au singulier masculin singulier.</message>
         <example type="incorrect">Les élèves ne lui ont pas <marker>écoutés</marker>.</example>
         <example type="incorrect">Les élèves ne lui ont pas <marker>écoutées</marker>.</example>
         <example type="incorrect">Les élèves ne lui ont pas <marker>écoutée</marker>.</example>
@@ -4083,7 +4094,7 @@ though, and has since been slightly modified)-->
             <exception postag="V .* 3 p|V ppa . p|V.* ppr|J . p" postag_regexp="yes"/>
           </token>
         </pattern>
-        <message>Le verbe « \6 » devrait être à la 3e personne du pluriel.</message>
+        <message>Le verbe « \6 » devrait être à la 3e personne du pluriel.</message>
         <example type="incorrect">Les camions n’<marker>arrive</marker> pas.</example>
         <example type="correct">Les camions n’arrivent pas.</example>
         <example type="correct">Les cuillères en bois commencent à moisir.</example>
@@ -20009,7 +20020,7 @@ though, and has since been slightly modified)-->
         <token inflected="yes">aire</token>
         <token inflected="yes">glaciaire</token>
       </pattern>
-      <message>« \1 \2 » est un tour critiqué. Employez <suggestion><match no="1" regexp_match=".*e(s?)" regexp_replace="ère$1"/> \2</suggestion>.</message>
+      <message>« \1 \2 » est un tour critiqué. Employez <suggestion><match no="1" regexp_match=".*e(s?)" regexp_replace="ère$1"/> \2</suggestion>.</message>
       <example type="incorrect">L’<marker>aire glaciaire</marker>.</example>
       <example type="correct">L’ère glaciaire.</example>
     </rule>
@@ -20018,7 +20029,7 @@ though, and has since been slightly modified)-->
         <token inflected="yes">pareil</token>
         <token>comme</token>
       </pattern>
-      <message>« \1 \2 » est un tour critiqué. Employez <suggestion>\1 à</suggestion>.</message>
+      <message>« \1 \2 » est un tour critiqué. Employez <suggestion>\1 à</suggestion>.</message>
       <example type="incorrect"><marker>pareil comme</marker></example>
       <example type="correct"><marker>pareil à</marker></example>
     </rule>
@@ -20279,7 +20290,7 @@ though, and has since been slightly modified)-->
         <token inflected="yes" skip="1">faire</token>
         <token>parti</token>
       </pattern>
-      <message>« Faire parti » est un tour critiqué (impropriété). Employez <suggestion>partie</suggestion>.</message>
+      <message>« Faire parti » est un tour critiqué (impropriété). Employez <suggestion>partie</suggestion>.</message>
       <example correction="partie" type="incorrect">Tu fais <marker>parti</marker> ma vie.</example>
       <example type="correct"><marker>faire partie de</marker></example>
     </rule>
@@ -20307,7 +20318,7 @@ though, and has since been slightly modified)-->
         <token>en</token>
         <token>parti</token>
       </pattern>
-      <message>« En partie » est un tour critiqué (impropriété). Employez <suggestion>partie</suggestion>.</message>
+      <message>« En partie » est un tour critiqué (impropriété). Employez <suggestion>partie</suggestion>.</message>
       <example type="incorrect">Le site a été en <marker>parti</marker> traduit.</example>
       <example type="correct">Le site a été en partie traduit.</example>
     </rule>
@@ -20316,7 +20327,7 @@ though, and has since been slightly modified)-->
         <token>en</token>
         <token regexp="yes">générale|continue</token>
       </pattern>
-      <message>« En \2 » est un tour critiqué (impropriété). Employez <suggestion><match no="1" regexp_match="(.*)e" regexp_replace="$1"/></suggestion>.</message>
+      <message>« En \2 » est un tour critiqué (impropriété). Employez <suggestion><match no="1" regexp_match="(.*)e" regexp_replace="$1"/></suggestion>.</message>
       <example type="incorrect">Il arrive en <marker>générale</marker> assez tard.</example>
       <example type="correct">Il arrive en général assez tard.</example>
     </rule>
@@ -20326,7 +20337,7 @@ though, and has since been slightly modified)-->
         <token>de</token>
         <token regexp="yes">paires?</token>
       </pattern>
-      <message>« aller de \3 » est un tour critiqué (impropriété). Employez <suggestion>pair</suggestion>.</message>
+      <message>« aller de \3 » est un tour critiqué (impropriété). Employez <suggestion>pair</suggestion>.</message>
       <example type="incorrect">Travail et talent vont de <marker>paire</marker>.</example>
       <example type="correct">Travail et talent vont de <marker>pair</marker>.</example>
     </rule>
