@@ -85,14 +85,46 @@ License:
  The Wikipedia-based training data can be downloaded from
  http://www.languagetool.org/download/language-training-data/
  
+ Asturian:
+ The Asturian data for part-of-speech tagging are from the Freeling dictionary,
+ licensed under GNU General Public License.
+ Contributor(s):
+   Xesús González Rato <esbardu@softastur.org>
+
+ Breton:
+ The Breton data for part-of-speech tagging is based on the Apertium Breton
+ dictionary under GNU General Public License with permission of its authors:
+    Copyright (C) 2008--2010 Francis Tyers <ftyers@prompsit.com>
+    Copyright (C) 2009--2010 Fulup Jakez <fulup.jakez@ofis-bzh.org>
+    Copyright (C) 2009       Gwenvael Jekel <jequelg@yahoo.fr>
+    Development supported by:
+    * Prompsit Language Engineering, S. L.
+    * Ofis ar Brezhoneg
+    * Grup Transducens, Universitat d'Alacant
+
+ Chinese:
+ The Chinese data and code for part-of-speech tagging is based on ictclas4j project
+ (http://code.google.com/p/ictclas4j/) under Apache License 2.0.
+
+ Dutch:
+ The Dutch data are partly based on Alpino parser for Dutch by Gertjan van 
+ Noord and is released on LGPL license. Alpino is available at 
+ http://www.let.rug.nl/~vannoord/alp/Alpino/. The POS tag system and values
+ come mostly from OpenTaal, www.opentaal.org.
+
+ French:
+ The French data for part-of-speech tagging are from the Dicollecte project. 
+ They are made available here under LGPL. See detailed information in 
+ resource/fr/README_lexique.txt
+
+ Galician:
+ The Galician data for part-of-speech tagging were created by Susana Sotelo
+ Docio based on Freeling and Apertium dictionaries. Both are licensed under GPL.
+ 
  German:
  The German data for part-of-speech tagging is taken from Morphy
  (http://www.wolfganglezius.de/doku.php?id=public:cl:morphy)
  under Creative Commons Attribution-Share Alike 3.0
-
- Polish:
- The Polish data for part-of-speech tagging is from Morfologik project,
- licensed on LGPL or BSD (see http://morfologik.blogspot.com).
 
  Italian:
  The Italian data for part-of-speech tagging is taken from Morph-it!, 
@@ -100,9 +132,18 @@ License:
  and the GNU Lesser General Public License (LGPL) 
  (see http://sslmitdev-online.sslmit.unibo.it/linguistics/morph-it.php).
 
+ Polish:
+ The Polish data for part-of-speech tagging is from Morfologik project,
+ licensed on LGPL or BSD (see http://morfologik.blogspot.com).
+
  Romanian:
  The Romanian data for part-of-speech tagging is developed by Ionuț Păduraru
  (http://www.archeus.ro). It's being released here on LGPL license.
+
+ Russian:
+ Russian dictionary originally developed by www.aot.ru and licensed under LGPL.
+ http://www.aot.ru/download.php file rus-src-morph.tar.gz
+ It was partially converted to fsa format in 2008 by Yakov.  
 
  Slovak:
  The Slovak data were created by Zdenko Podobný based on Slovak National
@@ -115,17 +156,6 @@ License:
 	http://garraf.epsevg.upc.es/freeling/
  It is released under the GNU General Public License.
 
- Dutch:
- The Dutch data are partly based on Alpino parser for Dutch by Gertjan van 
- Noord and is released on LGPL license. Alpino is available at 
- http://www.let.rug.nl/~vannoord/alp/Alpino/. The POS tag system and values
- come mostly from OpenTaal, www.opentaal.org.
-
- Russian:
- Russian dictionary originally developed by www.aot.ru and licensed under LGPL.
- http://www.aot.ru/download.php file rus-src-morph.tar.gz
- It was partially converted to fsa format in 2008 by Yakov.  
-
  Swedish:
  The Swedish data are based on DSSO. The Initial Developer of the Original Code is Göran Andersson.
  Contributor(s):
@@ -135,41 +165,12 @@ License:
  (the "LGPL"). 
  http://dsso.se
  
- French:
- The French data for part-of-speech tagging are from the Dicollecte project. 
- They are made available here under LGPL. See detailed information in 
- resource/fr/README_lexique.txt
-
- Galician:
- The Galician data for part-of-speech tagging were created by Susana Sotelo
- Docio based on Freeling and Apertium dictionaries. Both are licensed under GPL.
- 
- Chinese:
- The Chinese data and code for part-of-speech tagging is based on ictclas4j project
- (http://code.google.com/p/ictclas4j/) under Apache License 2.0.
-
- Asturian:
- The Asturian data for part-of-speech tagging are from the Freeling dictionary,
- licensed under GNU General Public License.
- Contributor(s):
-   Xesús González Rato <esbardu@softastur.org>
-
  Tagalog:
  The Tagalog Tagset was designed by Nathaniel Oco.
  The words for the Tagger Dictionary were taken from the Philippine Literature Domain of Dalos D. Miguel's Comparative Analysis of Tagalog POS Taggers.
  The Tagger Dictionary and the Tagset are made available under LGPL.
  The Trigram Training Data is avilable at: The Trigram Training Data is available at: https://sourceforge.net/projects/tattoi.u/files/Trigram%20Text/
 
- Breton:
- The Breton data for part-of-speech tagging is based on the Apertium Breton
- dictionary under GNU General Public License with permission of its authors:
-    Copyright (C) 2008--2010 Francis Tyers <ftyers@prompsit.com>
-    Copyright (C) 2009--2010 Fulup Jakez <fulup.jakez@ofis-bzh.org>
-    Copyright (C) 2009       Gwenvael Jekel <jequelg@yahoo.fr>
-    Development supported by:
-    * Prompsit Language Engineering, S. L.
-    * Ofis ar Brezhoneg
-    * Grup Transducens, Universitat d'Alacant
 ------------------------------------------------ 
  
  English:
