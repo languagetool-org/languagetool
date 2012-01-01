@@ -44,8 +44,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
   private int fromPos;
   private int toPos;
   private String message;
-  // for OOo context menu
-  private String shortMessage;
+  private String shortMessage;   // for OOo/LO context menu
 
   private List<String> suggestedReplacements = new ArrayList<String>();
 
@@ -65,6 +64,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
    * This message is scanned for &lt;suggestion&gt;...&lt;/suggestion&gt;
    * to get suggested fixes for the problem detected by this rule. 
    * 
+   * @param shortMessage used in OpenOffice/LibreOffice's context menu
    * @param startWithUppercase whether the original text at the position
    *    of the match start with an uppercase character
    */
