@@ -55,6 +55,16 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
          xsi:noNamespaceSchemaLocation="../rules.xsd">
 
   <category name="Mögliche Tippfehler">
+    <rule id="ZUR_RUHE_GEBETET" name="Möglicher Tippfehler: zur Ruhe gebetet (gebettet)">
+      <pattern mark_from="2">
+          <token>zur</token>
+          <token>Ruhe</token>
+          <token>gebetet</token>
+        </pattern>
+      <message>Meinten Sie <suggestion>gebettet</suggestion>?</message>
+      <example type="incorrect">Dort wurde er zur Ruhe <marker>gebetet</marker>.</example>
+      <example type="correct">Dort wurde er zur Ruhe <marker>gebettet</marker>.</example>
+    </rule>
     <rule id="ER_EINZIGE" name="Möglicher Tippfehler: er (der) einzige">
       <pattern mark_to="-1">
           <token>er</token>
