@@ -321,6 +321,7 @@ public class CaseRule extends GermanRule {
         !StringTools.isAllUppercase(token) &&
         !exceptions.contains(token) &&
         !analyzedToken.hasReadingOfType(POSType.PROPER_NOUN) &&
+        !isNilReading(analyzedToken) &&
         !analyzedToken.isSentenceEnd() &&
         !isExceptionPhrase(i, tokens)) {
       final String msg = "Außer am Satzanfang werden nur Nomen und Eigennamen großgeschrieben";
@@ -331,6 +332,17 @@ public class CaseRule extends GermanRule {
       ruleMatch.setSuggestedReplacement(fixedWord);
       ruleMatches.add(ruleMatch);
     }
+  }
+
+  /** Morphy has about 750 words tagged: wkl="NIL" tip="SUB" - ignore these. */
+  private boolean isNilReading(AnalyzedGermanTokenReadings analyzedToken) {
+    final List<AnalyzedGermanToken> germanReadings = analyzedToken.getGermanReadings();
+    if (germanReadings.size() > 0) {
+      if ("NIL:SUB".equals(germanReadings.get(0).getPOSTag())) {
+        return true;
+      }
+    }
+    return false;
   }
 
   private boolean isExceptionPhrase(int i, AnalyzedTokenReadings[] tokens) {
