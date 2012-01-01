@@ -82,9 +82,7 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
    * @param disambAction
    *          - the action to be executed on found token(s), one of the
    *          following: add, filter, remove, replace, unify.
-   * 
    */
-
   DisambiguationPatternRule(final String id, final String description,
       final Language language, final List<Element> elements,
       final String disamb, final Match posSelect,
@@ -216,8 +214,7 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
         l--;
       }
     }
-    final int fromPos = text.getOriginalPosition(firstMatchToken
-        + correctedStPos);
+    final int fromPos = text.getOriginalPosition(firstMatchToken + correctedStPos);
     final int numRead = whTokens[fromPos].getReadingsLength();   
     final boolean spaceBefore = whTokens[fromPos].isWhitespaceBefore();
     boolean filtered = false;
@@ -276,10 +273,8 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
       }
       break;
     case IMMUNIZE: 
-      for (int i = 0; i < matchingTokens - startPositionCorrection
-            + endPositionCorrection; i++) {
-      whTokens[text.getOriginalPosition(firstMatchToken + correctedStPos
-          + i)].immunize();
+      for (int i = 0; i < matchingTokens - startPositionCorrection + endPositionCorrection; i++) {
+        whTokens[text.getOriginalPosition(firstMatchToken + correctedStPos + i)].immunize();
       }
     case FILTER:
       if (matchElement == null) { // same as REPLACE if using <match>
