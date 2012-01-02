@@ -59,10 +59,16 @@ public class WordRepeatRuleTest extends TestCase {
     assertEquals(0, matches.length);
     matches = rule.match(langTool.getAnalyzedSentence("Sätze, die die testen."));
     assertEquals(0, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("Das Haus, auf das das Mädchen zeigt."));
+    assertEquals(0, matches.length);
     // incorrect sentences:
     matches = rule.match(langTool.getAnalyzedSentence("Die die Sätze zum testen."));
     assertEquals(1, matches.length);
     matches = rule.match(langTool.getAnalyzedSentence("Und die die Sätze zum testen."));
+    assertEquals(1, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("Auf der der Fensterbank steht eine Blume."));
+    assertEquals(1, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("Das Buch, in in dem es steht."));
     assertEquals(1, matches.length);
   }
   

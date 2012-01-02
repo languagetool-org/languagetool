@@ -30,8 +30,15 @@ public class GermanWordRepeatRule extends WordRepeatRule {
   public boolean ignore(final AnalyzedTokenReadings[] tokens, final int position) {
     // Don't mark error for cases like:
     // "wie Honda und Samsung, die die Bezahlung ihrer Firmenchefs..."
-    if (position >= 2 && ",".equals(tokens[position - 2].getToken())) {
-      return true;
+    // "Das Haus, in das das Kind läuft."
+    if (tokens[position - 1].getToken().length() == 3) {
+      if (position >= 2 && ",".equals(tokens[position - 2].getToken())) {
+        return true;
+      }
+      if (position >= 3 && ",".equals(tokens[position - 3].getToken()) &&  tokens[position - 2].getToken().matches("auf|nach|für|in|über")) {
+        return true;
+      }
+      return false;
     }
     return false;
   }

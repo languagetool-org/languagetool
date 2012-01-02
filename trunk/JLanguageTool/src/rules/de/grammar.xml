@@ -15,6 +15,7 @@ title="Easy editing stylesheet" ?>
 <!ENTITY advende " hier als Adverb gebraucht wird und daher kleingeschrieben werden muss.">
 <!ENTITY inwend "In der Wendung ">
 <!ENTITY getrennt "Bitte prüfen Sie die Getrenntschreibung: ">
+<!ENTITY umgangsspr " ist eine umgangssprachliche Bezeichnung.">
 <!ENTITY sprachadj1 "afrikanisch|altarabisch|altchinesisch|altgriechisch|altpersisch|amerikanisch|arabisch|chinesisch|dänisch|deutsch|englisch|finnisch|französisch|frühneuhochdeutsch|germanisch|griechisch|hocharabisch|hochchinesisch|hochdeutsch|holländisch|italienisch|japanisch|jiddisch|jugoslawisch|koreanisch|kroatisch|lateinisch|luxemburgisch|mittelhochdeutsch|neuhochdeutsch|niederländisch|norwegisch|persisch|polnisch|portugiesisch|russisch|schwedisch|schweizerisch|semitisch|serbisch|serbokroatisch|slawisch|spanisch|tschechisch|türkisch|ukrainisch|ungarisch|weißrussisch">
 <!ENTITY sprachadj2 "agglutinierend|algorithmisch|asiatisch|ausgestorben|bilderreich|bildlich|deutlich|dichterisch|europäisch|extensional|flektierend|formal|gesprochen|indogermanisch|intensional|klangvoll|konsonantenreich|maschinenorientiert|metaphorisch|poetisch|prosaisch|romanisch|schön|selten|vokalreich|wunderschön">
 <!ENTITY mahlennomen "Zahn|Mühle|Korn|Weizen|Getreide|.*Mehl|Müller">
@@ -2613,27 +2614,29 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token skip="-1" postag="SENT_START"><exception scope="next" regexp="yes">geb(urt|or).*</exception></token>
           <token regexp="yes">(am|in|im)</token>
           <token regexp="yes">gleiche.*</token>
-          <token regexp="yes" skip="-1">(Tag|Nacht|Monat|Jahr.*)<exception scope="next" regexp="yes">geb(urt|or).*</exception></token>
+          <token regexp="yes" skip="-1">Tag|Nacht|Monat|Jahr.*|(Vor|Nach)?mittag|Abend<exception scope="next" regexp="yes">geb(urt|or).*</exception></token>
           <token postag="SENT_END"/>
         </pattern>
         <message>Wenn man 'ein und dasselbe' sagen kann, sollte 'dasselbe' statt 'das gleiche' verwendet werden. Vorschlag: <suggestion><match no="3" regexp_match="gleiche" regexp_replace="selbe"/></suggestion>.</message>
         <example type="incorrect" correction="selben">Noch am <marker>gleichen</marker> Tag ist er gekommen.</example>
+        <example type="incorrect" correction="selben">Noch am <marker>gleichen</marker> Nachmittag ist er gekommen.</example>
+        <example type="incorrect" correction="selben">Noch am <marker>gleichen</marker> Mittag ist er gekommen.</example>
         <example type="correct">Noch am <marker>selben</marker> Tag ist er gekommen.</example>
         <example type="correct">Er hat am <marker>gleichen</marker> Tag wie ich Geburtstag, aber nicht im selben Jahr.</example>
         <example type="correct">Geburtstag hat er am <marker>gleichen</marker> Tag wie ich.</example>
       </rule>
       <rule>
-        <pattern mark_from="3" mark_to="-2">
+        <pattern mark_from="2" mark_to="-2">
           <token skip="-1" postag="SENT_START"><exception scope="next" regexp="yes">geb(urt|or).*</exception></token>
           <token>in</token>
           <token regexp="yes">(der|dem)</token>
           <token regexp="yes">gleiche.*</token>
-          <token regexp="yes" skip="-1">(Tag|Nacht|Monat|Jahr.*)<exception scope="next" regexp="yes">geb(urt|or).*</exception></token>
+          <token regexp="yes" skip="-1">Tag|Nacht|Monat|Jahr.*<exception scope="next" regexp="yes">geb(urt|or).*</exception></token>
           <token postag="SENT_END"/>
         </pattern>
-        <message>Wenn man 'ein und dasselbe' sagen kann, sollte 'dasselbe' statt 'das gleiche' verwendet werden. Vorschlag: <suggestion><match no="4" regexp_match="gleiche" regexp_replace="selbe"/></suggestion>.</message>
-        <example type="incorrect" correction="selben">Noch in der <marker>gleichen</marker> Nacht ist er gekommen.</example>
-        <example type="correct">Noch in der <marker>selben</marker> Nacht ist er gekommen.</example>
+        <message>Wenn man 'ein und dasselbe' sagen kann, sollte 'dasselbe' statt 'das gleiche' verwendet werden. Vorschlag: <suggestion>\3<match no="4" regexp_match="gleiche" regexp_replace="selbe"/></suggestion>.</message>
+        <example type="incorrect" correction="derselben">Noch in <marker>der gleichen</marker> Nacht ist er gekommen.</example>
+        <example type="correct">Noch in <marker>der selben</marker> Nacht ist er gekommen.</example>
       </rule>
     </rulegroup>
     <rulegroup id="VOLTZAHL" name="Umgangssprache: Einheitsbezeichnungen ('Voltzahl', 'Stundenkilometer' etc.)">
@@ -2641,7 +2644,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <pattern>
           <token regexp="yes">(Volt(-)?zahl(en)?)</token>
         </pattern>
-        <message>Meinten Sie <suggestion>elektrische Spannung</suggestion>? 'Volt-Zahl' ist eine umgangssprachliche Bezeichnung.</message>
+        <message>Meinten Sie <suggestion>elektrische Spannung</suggestion>? 'Volt-Zahl'&umgangsspr;</message>
         <example type="correct">Die <marker>elektrischen Spannungen</marker></example>
         <example type="incorrect">Die <marker>Volt-Zahlen</marker></example>
       </rule>
@@ -2649,7 +2652,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <pattern>
           <token regexp="yes">(Ampere(-)?zahl(en)?)</token>
         </pattern>
-        <message>Meinten Sie <suggestion>elektrische Stromstärke</suggestion>? 'Ampere-Zahl' ist eine umgangssprachliche Bezeichnung.</message>
+        <message>Meinten Sie <suggestion>elektrische Stromstärke</suggestion>? 'Ampere-Zahl'&umgangsspr;</message>
         <example type="correct">Die <marker>elektrischen Stromstärken</marker></example>
         <example type="incorrect">Die <marker>Amperezahlen</marker></example>
       </rule>
@@ -2657,7 +2660,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <pattern>
           <token regexp="yes">(Coulomb(-)?zahl(en)?)</token>
         </pattern>
-        <message>Meinten Sie <suggestion>elektrische Ladung</suggestion>? 'Coulomb-Zahl' ist eine umgangssprachliche Bezeichnung.</message>
+        <message>Meinten Sie <suggestion>elektrische Ladung</suggestion>? 'Coulomb-Zahl'&umgangsspr;</message>
         <example type="correct">Die <marker>elektrische Ladung</marker></example>
         <example type="incorrect">Die <marker>Coulombzahl</marker></example>
       </rule>
@@ -2665,7 +2668,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <pattern>
           <token regexp="yes">(.*Watt(-)?zahl(en)?)</token>
         </pattern>
-        <message>Meinten Sie <suggestion>Leistung</suggestion> oder <suggestion>Leistungsangabe</suggestion>? 'Watt-Zahl' ist eine umgangssprachliche Bezeichnung.</message>
+        <message>Meinten Sie <suggestion>Leistung</suggestion> oder <suggestion>Leistungsangabe</suggestion>? 'Watt-Zahl'&umgangsspr;</message>
         <example type="correct">Die <marker>Leistungsangaben</marker></example>
         <example type="incorrect">Die <marker>Kilowattzahlen</marker></example>
       </rule>
@@ -2673,7 +2676,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <pattern>
           <token regexp="yes">(.*Gramm(-)?zahl(en)?)</token>
         </pattern>
-        <message>Meinten Sie <suggestion>Masse</suggestion>? 'Gramm-Zahl' ist eine umgangssprachliche Bezeichnung.</message>
+        <message>Meinten Sie <suggestion>Masse</suggestion>? 'Gramm-Zahl'&umgangsspr;</message>
         <example type="correct">Die <marker>Masse</marker> beträgt 5 kg.</example>
         <example type="incorrect">Die <marker>Kilogrammzahl</marker> ist 5.</example>
       </rule>
@@ -2681,9 +2684,17 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <pattern>
           <token>Stundenkilometer</token>
         </pattern>
-        <message>Meinten Sie <suggestion>Kilometer pro Stunde</suggestion> oder <suggestion><match regexp_match="Stundenkilometer" regexp_replace="km/h" case_conversion="startlower" no="1"/></suggestion>? 'Stundenkilometer' (stünde für 'Kilometer mal Stunde') ist eine umgangssprachliche Bezeichnung.</message> <!-- TODO startlower not working?-->
+        <message>Meinten Sie <suggestion>Kilometer pro Stunde</suggestion> oder <suggestion><match regexp_match="Stundenkilometer" regexp_replace="km/h" case_conversion="startlower" no="1"/></suggestion>? 'Stundenkilometer' (stünde für 'Kilometer mal Stunde')&umgangsspr;</message> <!-- TODO startlower not working?-->
         <example type="incorrect">5 <marker>Stundenkilometer</marker> schnell</example>
         <example type="correct">5 <marker>Kilometer pro Stunde</marker> schnell</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>Stundenkilometern</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>Kilometern pro Stunde</suggestion> oder <suggestion><match regexp_match="Stundenkilometer" regexp_replace="km/h" case_conversion="startlower" no="1"/></suggestion>? 'Stundenkilometer' (stünde für 'Kilometer mal Stunde')&umgangsspr;</message> <!-- TODO startlower not working?-->
+        <example type="incorrect">mit 5 <marker>Stundenkilometern</marker></example>
+        <example type="correct">mit 5 <marker>Kilometern pro Stunde</marker></example>
       </rule>
       <rule>
         <pattern mark_from="2">
@@ -2691,7 +2702,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">[0-9]+</token>
           <token>Kilo</token>
         </pattern>
-        <message>Meinten Sie <suggestion>Kilogramm</suggestion>? 'Kilo' ist eine umgangssprachliche Bezeichnung.</message>
+        <message>Meinten Sie <suggestion>Kilogramm</suggestion>? 'Kilo'&umgangsspr;</message>
         <example type="incorrect">Er wiegt mehr als 5 <marker>Kilo</marker>.</example>
         <example type="correct">Er wiegt 5 <marker>Kilogramm</marker>.</example>
       </rule>
@@ -2701,7 +2712,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token postag="ZAL"/>
           <token>Kilo</token>
         </pattern>
-        <message>Meinten Sie <suggestion>Kilogramm</suggestion>? 'Kilo' ist eine umgangssprachliche Bezeichnung.</message>
+        <message>Meinten Sie <suggestion>Kilogramm</suggestion>? 'Kilo'&umgangsspr;</message>
         <example type="incorrect">Er wiegt mehr als fünf <marker>Kilo</marker>.</example>
         <example type="correct">Er wiegt fünf <marker>Kilogramm</marker>.</example>
       </rule>
@@ -2711,7 +2722,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token skip="2">Kilo<exception scope="next">,</exception></token>
           <token inflected="yes" regexp="yes">(wiegen|schwer)</token>
         </pattern>
-        <message>Meinten Sie <suggestion>Kilogramm</suggestion>? 'Kilo' ist eine umgangssprachliche Bezeichnung.</message>
+        <message>Meinten Sie <suggestion>Kilogramm</suggestion>? 'Kilo'&umgangsspr;</message>
         <example type="incorrect">Es ist nicht schlimm, zwei <marker>Kilo</marker> schwerer zu sein.</example>
         <example type="correct">Es ist nicht schlimm, nur vier <marker>Kilogramm</marker> zu wiegen.</example>
       </rule>
@@ -2721,7 +2732,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token skip="2">Kilo<exception scope="next">,</exception></token>
           <token inflected="yes" regexp="yes">(wiegen|schwer)</token>
         </pattern>
-        <message>Meinten Sie <suggestion>Kilogramm</suggestion>? 'Kilo' ist eine umgangssprachliche Bezeichnung.</message>
+        <message>Meinten Sie <suggestion>Kilogramm</suggestion>? 'Kilo'&umgangsspr;</message>
         <example type="incorrect">Es ist nicht schlimm, nur 4,5 <marker>Kilo</marker> zu wiegen.</example>
         <example type="correct">Es ist nicht schlimm, nur 4,5 <marker>Kilogramm</marker> zu wiegen.</example>
       </rule>
