@@ -54,7 +54,7 @@ public final class RuleOverview {
     System.out.println("<table>");
     System.out.println("<tr>");
     System.out.println("  <th></th>");
-    System.out.println("  <th valign='bottom' align=\"right\">XML rules</th>");
+    System.out.println("  <th valign='bottom' align=\"right\" width=\"140\">XML rules</th>");
     System.out.println("  <th>&nbsp;&nbsp;</th>");
     System.out.println("  <th align=\"right\">Java<br/>rules</th>");
     System.out.println("  <th>&nbsp;&nbsp;</th>");

@@ -20,7 +20,7 @@ Date: 2011-12-31<br /><br />
 <table>
 <tr>
   <th></th>
-  <th valign='bottom' align="right">XML rules</th>
+  <th valign='bottom' align="right" width="140">XML rules</th>
   <th>&nbsp;&nbsp;</th>
   <th align="right">Java<br/>rules</th>
   <th>&nbsp;&nbsp;</th>
