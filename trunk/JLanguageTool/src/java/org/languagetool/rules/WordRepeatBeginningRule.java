@@ -52,7 +52,7 @@ public class WordRepeatBeginningRule extends Rule {
     return messages.getString("desc_repetition_beginning");
   }
   
-  public boolean isAdverb(AnalyzedTokenReadings token) {
+  protected boolean isAdverb(AnalyzedTokenReadings token) {
     return false;
   }
   

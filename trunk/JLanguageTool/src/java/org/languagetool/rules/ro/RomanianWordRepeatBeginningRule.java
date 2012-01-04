@@ -53,7 +53,7 @@ public class RomanianWordRepeatBeginningRule extends WordRepeatBeginningRule {
   }
   
   @Override
-  public boolean isAdverb(final AnalyzedTokenReadings token) {
+  protected boolean isAdverb(final AnalyzedTokenReadings token) {
     boolean isAdverb = false;
 
     List<AnalyzedToken> readings = token.getReadings();

@@ -59,7 +59,7 @@ public class GermanWordRepeatBeginningRule extends WordRepeatBeginningRule {
   }
   
   @Override
-  public boolean isAdverb(final AnalyzedTokenReadings token) {
+  protected boolean isAdverb(final AnalyzedTokenReadings token) {
     if (ADVERBS.contains(token.getToken())) return true;
     return false;
   }
