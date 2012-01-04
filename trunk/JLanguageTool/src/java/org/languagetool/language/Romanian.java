@@ -23,6 +23,7 @@ import java.util.*;
 import org.languagetool.Language;
 import org.languagetool.rules.*;
 import org.languagetool.rules.ro.CompoundRule;
+import org.languagetool.rules.ro.RomanianWordRepeatBeginningRule;
 import org.languagetool.rules.ro.SimpleReplaceRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.ro.RomanianSynthesizer;
@@ -103,6 +104,7 @@ public class Romanian extends Language {
             GenericUnpairedBracketsRule.class,
             WordRepeatRule.class,
             // specific to Romanian:
+            RomanianWordRepeatBeginningRule.class,
             SimpleReplaceRule.class,
             CompoundRule.class
     );
