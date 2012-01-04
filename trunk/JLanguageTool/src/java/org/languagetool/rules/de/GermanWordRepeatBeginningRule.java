@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.de;
 
+import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
 import org.languagetool.rules.WordRepeatBeginningRule;
 
@@ -58,8 +59,8 @@ public class GermanWordRepeatBeginningRule extends WordRepeatBeginningRule {
   }
   
   @Override
-  public boolean isAdverb(final String token) {
-    if (ADVERBS.contains(token)) return true;
+  public boolean isAdverb(final AnalyzedTokenReadings token) {
+    if (ADVERBS.contains(token.getToken())) return true;
     return false;
   }
 
