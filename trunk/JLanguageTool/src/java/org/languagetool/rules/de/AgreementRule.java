@@ -300,8 +300,9 @@ public class AgreementRule extends GermanRule {
       final String errorDetails = errorCategories.size() > 0 ? StringTools.listToString(errorCategories, " und ") : "Kasus, Genus oder Numerus";
       final String msg = "Möglicherweise fehlende grammatische Übereinstimmung zwischen Artikel und Nomen " +
             "bezüglich " + errorDetails + ".";
+      final String shortMsg = "Möglicherweise keine Übereinstimmung bezüglich " + errorDetails;
       ruleMatch = new RuleMatch(this, token1.getStartPos(), 
-          token2.getStartPos() + token2.getToken().length(), msg);
+          token2.getStartPos() + token2.getToken().length(), msg, shortMsg);
     }
     return ruleMatch;
   }
@@ -326,8 +327,9 @@ public class AgreementRule extends GermanRule {
       final String msg = "Möglicherweise fehlende grammatische Übereinstimmung zwischen Artikel, Adjektiv und " +
             "Nomen bezüglich Kasus, Numerus oder Genus. Beispiel: 'mein kleiner Haus' " +
             "statt 'mein kleines Haus'";
+      final String shortMsg = "Möglicherweise keine Übereinstimmung bezüglich Kasus, Numerus oder Genus";
       ruleMatch = new RuleMatch(this, token1.getStartPos(), 
-          token3.getStartPos()+token3.getToken().length(), msg);
+          token3.getStartPos()+token3.getToken().length(), msg, shortMsg);
     }
     return ruleMatch;
   }
