@@ -2,7 +2,7 @@
 $page = "other";
 $title = "LanguageTool";
 $title2 = "Common Problems";
-$lastmod = "2011-12-30 12:30:00 CET";
+$lastmod = "2012-01-05 16:30:00 CET";
 include("../../include/header.php");
 ?>
 
@@ -67,9 +67,11 @@ include("../../include/header.php");
     <li>Some errors are not detected: LanguageTool uses rules to detect errors, i.e. it will only complain about errors for which there 
         is a rule that detects it. Please consider learning <a href="../development/">how to write rules</a> and help make LanguageTool 
         better by contributing your rules.</li>
+    <li>Some rules that work across sentences don't work in OpenOffice.org/LibreOffice. This also affects the rule that checks whether
+        three sentences start with the same word.</li>
     <li>For some rules there are a lot of false alarms, i.e., LanguageTool complains about text which is actually correct</li>
     <li>LanguageTool doesn't work correctly with documents that contain revisions
-        (<a hreF="https://issues.apache.org/ooo/show_bug.cgi?id=92013">Issue 92013</a>,
+        (<a href="https://issues.apache.org/ooo/show_bug.cgi?id=92013">Issue 92013</a>,
         <a href="https://bugs.freedesktop.org/show_bug.cgi?id=36540">LibreOffice issue 36540</a>)
     </li>
 </ul>
