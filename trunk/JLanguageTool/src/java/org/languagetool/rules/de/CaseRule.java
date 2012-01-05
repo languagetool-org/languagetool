@@ -82,6 +82,7 @@ public class CaseRule extends GermanRule {
     exceptions.add("Löhne");
     exceptions.add("Eindrücke");
     exceptions.add("Bände");
+    exceptions.add("Bänden");
     exceptions.add("Gläubiger");
     exceptions.add("Biss");
     exceptions.add("Letzt");      // "zu guter Letzt"
