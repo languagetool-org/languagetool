@@ -79,6 +79,9 @@ public class CaseRule extends GermanRule {
   
   private static final Set<String> exceptions = new HashSet<String>();
   static {
+    exceptions.add("Abriss");
+    exceptions.add("Durcheinander");
+    exceptions.add("Fort");
     exceptions.add("Löhne");
     exceptions.add("Eindrücke");
     exceptions.add("Bände");
@@ -197,6 +200,8 @@ public class CaseRule extends GermanRule {
     myExceptionPhrases.add("Im Großen und Ganzen");
     myExceptionPhrases.add("im Guten wie im Schlechten");
     myExceptionPhrases.add("Im Guten wie im Schlechten");
+    myExceptionPhrases.add("Russisches Reich");
+    myExceptionPhrases.add("Tel Aviv");
   }
 
   private static final Set<String> substVerbenExceptions = new HashSet<String>();

@@ -51,6 +51,7 @@ public class CaseRuleTest extends TestCase {
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Hier ein Satz. «Ein Zitat.»")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Hier ein Satz. »Ein Zitat.«")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Hier ein Satz. (Noch einer.)")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Hier geht es nach Tel Aviv.")).length);
     // "NIL" reading in Morphy that used to confuse CaseRule:
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Ein Menschenfreund.")).length);
     // works only thanks to addex.txt:
