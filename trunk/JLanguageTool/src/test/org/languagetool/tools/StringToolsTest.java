@@ -61,7 +61,7 @@ public class StringToolsTest extends TestCase {
 
   public void testReadFile() throws IOException {
     final String content = StringTools.readFile(new FileInputStream("src/test/testinput.txt"), "utf-8");
-    assertEquals("one\ntwo\nöäüß\n", content);
+    assertEquals("one\ntwo\nöäüß\nșțîâăȘȚÎÂĂ\n", content);
   }
   
   public void testIsAllUppercase() {
