@@ -14,8 +14,7 @@ title="Easy editing stylesheet" ?>
 		Version: $Id: grammar.xml,v 1.31 2011-01-24 08:12:00 archeus Exp $		
 		
 	-->
-<rules lang="ro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="../rules.xsd">
+<rules lang="ro" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 	<phrases>
 		<phrase id="FARA_GRAD_DE_COMPARATIE">
 			<token regexp="yes" inflected="yes">celebru|bestial|frigorific|perfect|rarisim|vast|optim|admirabil|superior|inferior|uriaș|imens|magnific|străvechi|teribil|metalic|bărbătesc|trunghiular|minor|enorm|plin|gol|mort|complet|întreg|principal|termogen|major|oportun|anterior|posterior|ulterior|interior|exterior|extrem|minim|maxim|suprem|ultim|asemenea|general|gigantic|petrolifer|unic|veșnic|uluitor|nemaipomenit|extraordinar|oral|desăvârșit|fantastic|formidabil|ultra|super|trăsnet|mortal|supraaglomerat|ultrasensibil|excelent|splendid|geniu|genial|calitativ|endocrin|viu</token>
@@ -24,6 +23,17 @@ title="Easy editing stylesheet" ?>
 			<token regexp="yes" inflected="yes">ianuarie|februarie|martie|aprilie|mai|iunie|iulie|august|septembrie|octombrie|noiembrie|decembrie</token>
 		</phrase>
 	</phrases>
+
+	<unification feature="numar">
+		<equivalence type="singular"><token postag_regexp="yes" postag="..s.*"></token></equivalence>
+		<equivalence type="plural"><token postag_regexp="yes" postag="..p.*"></token></equivalence>
+		<equivalence type="neutru"><token postag_regexp="yes" postag="..n.*"></token></equivalence>
+	</unification>
+	<unification feature="persoana">
+		<equivalence type="intai"><token postag_regexp="yes" postag="...1.*"></token></equivalence>
+		<equivalence type="a_doua"><token postag_regexp="yes" postag="...2.*"></token></equivalence>
+		<equivalence type="a_trea"><token postag_regexp="yes" postag="...3.*"></token></equivalence>
+	</unification>
 
 	<category name="Litere inversate">
 		<rulegroup id="LITERE_INVERSATE_LA_UN" name="Litere inversate - la nu = la un">
@@ -1128,19 +1138,78 @@ title="Easy editing stylesheet" ?>
 	<category name="Greșeli gramaticale - acord predicat">
 		<rulegroup id="SE_POT_VB" name="se pot + (verb)">
 			<rule name="se pot + (verb)">
-			<pattern mark_from="2" mark_to="0">
-				<token>se</token>
-				<token>pot</token>
-				<token postag="V0p2000iz0"></token>
-			</pattern>
-			<message>Dezacord gramatical: se folosește forma de infinitiv <suggestion><match
-				no="3" postag="V000000f00" /></suggestion>.</message>
-
-			<short>Greșeală gramaticală</short>
-			<example type="correct">Se pot <marker>alege</marker>.</example>
-			<example type="incorrect" correction="alege">Se pot <marker>alegeți</marker>.</example>
-		</rule>
+				<pattern mark_from="2" mark_to="0">
+					<token>se</token>
+					<token>pot</token>
+					<token postag="V0p2000iz0"></token>
+				</pattern>
+				<message>Dezacord gramatical: se folosește forma de infinitiv <suggestion><match
+					no="3" postag="V000000f00" /></suggestion>.</message>
+	
+				<short>Greșeală gramaticală</short>
+				<example type="correct">Se pot <marker>alege</marker>.</example>
+				<example type="incorrect" correction="alege">Se pot <marker>alegeți</marker>.</example>
+			</rule>
 		</rulegroup>
+		
+		<rule id="EU_VENEAU" name="eu + (indicativ imperfect persoana a treia plural)">
+			<pattern>
+				<token>eu</token>
+				<token postag_regexp="yes" postag="V0p3000ii0"><exception postag_regexp="yes" postag="V0s1.*"></exception></token>
+			</pattern>
+			<message>Dezacord gramatical: forma de persoana I singular a indicativ imperfect de la verbul „]a <match
+				no="2" postag="V000000f00" />” este <suggestion>eu <match
+				no="2" postag="V0s1000ii0" /></suggestion>; pentru persoana a treia plural folosiți „ei”: <suggestion>ei \2</suggestion>.</message>
+			<short>Greșeală gramaticală</short>
+			<example type="correct"><marker>Eu alergam</marker> mult.</example>
+			<example type="correct"><marker>Ei alergau</marker> mult.</example>
+			<example type="incorrect" correction="Eu veneam|Ei veneau"><marker>Eu veneau</marker> adesea la el.</example>
+			<example type="correct">Și <marker>eu veneam</marker> adesea la el.</example>
+		</rule>
+		<rule id="EU_VENEATI" name="eu + (indicativ imperfect persoana a doua plural)">
+			<pattern>
+				<token>eu</token>
+				<token postag_regexp="yes" postag="V0p2000ii0"><exception postag_regexp="yes" postag="V0s1.*"></exception></token>
+			</pattern>
+			<message>Dezacord gramatical: forma de persoana I singular a indicativ imperfect de la verbul „a <match
+				no="2" postag="V000000f00" />” este <suggestion>eu <match
+				no="2" postag="V0s1000ii0" /></suggestion>; pentru persoana a doua plural folosiți „voi”: <suggestion>voi \2</suggestion>.</message>
+			<short>Greșeală gramaticală</short>
+			<example type="correct"><marker>Voi veneați</marker> repede.</example>
+			<example type="correct"><marker>Eu veneam</marker> repede.</example>
+			<example type="incorrect" correction="Eu veneam|Voi veneați"><marker>Eu veneați</marker> adesea la el.</example>
+			<example type="correct">Și <marker>eu alergam</marker> adesea prin parc.</example>
+		</rule>			
+		<rule id="EU_VENISERATI" name="eu + (indicativ mai mult ca perfect persoana a doua plural)">
+			<pattern>
+				<token>eu</token>
+				<token postag_regexp="yes" postag="V0p2000im0"><exception postag_regexp="yes" postag="V0s1.*"></exception></token>
+			</pattern>
+			<message>Dezacord gramatical: forma de persoana I singular a indicativ mai mult ca perfect de la verbul „a <match
+				no="2" postag="V000000f00" />” este <suggestion>eu <match
+				no="2" postag="V0s1000im0" /></suggestion>; pentru persoana a doua plural folosiți „voi”: <suggestion>voi \2</suggestion>.</message>
+			<short>Greșeală gramaticală</short>
+			<example type="correct"><marker>Voi veniserăți</marker> repede.</example>
+			<example type="correct"><marker>Eu venisem</marker> repede.</example>
+			<example type="incorrect" correction="Eu venisem|Voi veniserăți"><marker>Eu veniserăți</marker> adesea la el.</example>
+			<example type="correct">Și <marker>eu venisem</marker> adesea prin parc.</example>
+		</rule>			
+
+		<!--  too greedy 
+		<rule id="PRONUME_VERB_IND_IMP" name="pronume + (verb indicativ imperfect)">
+			<pattern>
+				<unify negate="yes"><feature id="numar"/><feature id="persoana"/></unify>
+				<token postag_regexp="yes" postag="N0..a0p00p"><exception regexp="yes">voi|noi</exception><exception postag_regexp="yes" postag="N0..gap00c"/></token>
+				<token postag_regexp="yes" postag="V0..000ii0"><exception postag_regexp="yes" postag="V0..000ii0" negate="yes"></exception></token>					
+			</pattern>
+			<message>Pronumele trebuie să se acorde cu verbul indicativ.</message>
+			<short>Dezacord gramatical</short>
+			<example type="correct"><marker>Eu alergam</marker> mult.</example>
+			<example type="correct"><marker>Ei alergau</marker> mult.</example>
+			<example type="incorrect"><marker>Eu veneau</marker> adesea la el.</example>
+			<example type="correct">Și <marker>eu veneam</marker> adesea la el.</example>
+		</rule>
+		-->
 		<rule id="EU_FACUSI" name="eu + (perfectul simplu)">
 			<pattern mark_from="1">
 				<token>eu</token>
@@ -5455,6 +5524,30 @@ title="Easy editing stylesheet" ?>
 			</rule>
 		</rulegroup>
 	</category>
+	<category name="Punctuație">
+		<rule id="VIRGULA_ETC" name=", etc.">
+			<pattern>
+				<token>,</token>
+				<token>etc</token>
+			</pattern>
+			<message>Nu se pune virgulă înainte de „\2”. Ați dorit să scrieți <suggestion>\2</suggestion>?</message>
+			<short>Greșeală de punctuație</short>
+			<example type="incorrect" correction="etc">A adus mere, pere, prune <marker>, etc</marker>.</example>
+			<example type="correct">A adus mere, pere, prune etc.</example>
+		</rule>
+		<rule id="VIRGULA_CRATIMA" name=", -">
+			<pattern mark_to="-1">
+				<token>,</token>
+				<token>–</token>
+				<token><exception regexp="yes">\d+</exception></token>
+			</pattern>
+			<message>Nu se pune virgulă înainte de „\2”. Ați dorit să scrieți <suggestion>\2</suggestion>?</message>
+			<short>Greșeală de punctuație</short>
+			<example type="incorrect" correction="–">A spus <marker>, –</marker> printre altele – că nu mai vine.</example>
+			<example type="correct">A spus - printre altele - că nu mai vine.</example>
+			<example type="correct">A pus -1, -2, -3.</example>
+		</rule>
+	</category>
 	<category name="Repetiții">
 		<rule id="ETC_ETC" name="etc. etc.">
 			<pattern>
@@ -5550,6 +5643,32 @@ title="Easy editing stylesheet" ?>
 			<example type="incorrect" correction="soție de-al doilea">Și-a luat <marker>soție de-a doua</marker>.</example>
 			<example type="incorrect" correction="nevestei de-al doilea">Casa este a <marker>nevestei de-a doua</marker>.</example>
 			<example type="correct">Casa este a <marker>nevestei de-aal doilea</marker>.</example>
+		</rule>
+		<rule id="X_ZECI_SI_Y" name="două zeci și doi -> douăzeci și doi">
+			<pattern>
+				<token postag_regexp="yes" postag="M.*"/>
+				<token>zeci</token>
+				<token>și</token>
+				<token postag_regexp="yes" postag="M.*"/>
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion>\1\2 \3 \4</suggestion>?</message>
+			<short>Folosire greșită a numeralului</short>
+			<example type="incorrect" correction="douăzeci și doi">Mai are încă <marker>două zeci și doi</marker> de lei.</example>
+			<example type="correct">Mai are încă douăzeci și doi de lei.</example>
+			<example type="incorrect" correction="cincizeci și șase">Au mai rămas <marker>cinci zeci și șase</marker> de zile.</example>
+		</rule>
+		<rule id="DOUAZECI_ELEVI" name="douăzeci elevi -> douăzeci de elevi">
+			<pattern mark_from="1">
+				<token><exception>anii</exception></token>
+				<token postag="M0p3a0c000" regexp="yes">.*zeci</token>
+				<token postag_regexp="yes" postag="S.p3anc..."><exception regexp="yes">ai|pare|care|bune</exception></token>
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion>\2 de \3</suggestion>?</message>
+			<short>Folosire greșită a numeralului</short>
+			<example type="incorrect" correction="douăzeci de elevi">Mai sunt încă <marker>douăzeci elevi</marker>.</example>
+			<example type="incorrect" correction="cincizeci de cărți">Au mai rămas <marker>cincizeci cărți</marker> pe raft.</example>
+			<example type="correct">Mai are încă douăzeci de elevi.</example>
+			<example type="correct">Aici au venit în anii șaizeci formații celebreS.</example>
 		</rule>
 	</category>
 </rules>
