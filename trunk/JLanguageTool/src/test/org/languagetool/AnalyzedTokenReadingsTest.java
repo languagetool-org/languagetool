@@ -24,35 +24,35 @@ import junit.framework.TestCase;
 public class AnalyzedTokenReadingsTest extends TestCase {
 
   public void testNewTags() {
-    AnalyzedTokenReadings testanaTokRead = new AnalyzedTokenReadings(new AnalyzedToken("word", "POS", "lemma"));
-    assertEquals(false, testanaTokRead.isLinebreak());
-    assertEquals(false, testanaTokRead.isSentEnd());
-    assertEquals(false, testanaTokRead.isParaEnd());
-    assertEquals(false, testanaTokRead.isSentStart());
-    testanaTokRead.setSentEnd();
-    assertEquals(false, testanaTokRead.isSentStart());
-    assertEquals(true, testanaTokRead.isSentEnd());
+    AnalyzedTokenReadings tokenReadings = new AnalyzedTokenReadings(new AnalyzedToken("word", "POS", "lemma"));
+    assertEquals(false, tokenReadings.isLinebreak());
+    assertEquals(false, tokenReadings.isSentEnd());
+    assertEquals(false, tokenReadings.isParaEnd());
+    assertEquals(false, tokenReadings.isSentStart());
+    tokenReadings.setSentEnd();
+    assertEquals(false, tokenReadings.isSentStart());
+    assertEquals(true, tokenReadings.isSentEnd());
     //test SEND_END or PARA_END added without directly via addReading
     //which is possible e.g. in rule disambiguator 
-    testanaTokRead = new AnalyzedTokenReadings(new AnalyzedToken("word", null, "lemma"));    
-    testanaTokRead.addReading(new AnalyzedToken("word", "SENT_END", null));
-    assertEquals(true, testanaTokRead.isSentEnd());
-    assertEquals(false, testanaTokRead.isParaEnd());
-    testanaTokRead.addReading(new AnalyzedToken("word", "PARA_END", null));
-    assertEquals(true, testanaTokRead.isParaEnd());
-    assertEquals(false, testanaTokRead.isSentStart());
+    tokenReadings = new AnalyzedTokenReadings(new AnalyzedToken("word", null, "lemma"));    
+    tokenReadings.addReading(new AnalyzedToken("word", "SENT_END", null));
+    assertEquals(true, tokenReadings.isSentEnd());
+    assertEquals(false, tokenReadings.isParaEnd());
+    tokenReadings.addReading(new AnalyzedToken("word", "PARA_END", null));
+    assertEquals(true, tokenReadings.isParaEnd());
+    assertEquals(false, tokenReadings.isSentStart());
     //but you can't add SENT_START to a non-empty token
     //and get isSentStart == true
-    testanaTokRead.addReading(new AnalyzedToken("word", "SENT_START", null));
-    assertEquals(false, testanaTokRead.isSentStart());
+    tokenReadings.addReading(new AnalyzedToken("word", "SENT_START", null));
+    assertEquals(false, tokenReadings.isSentStart());
     AnalyzedToken aTok = new AnalyzedToken("word", "POS", "lemma");
     aTok.setWhitespaceBefore(true);
-    testanaTokRead = new AnalyzedTokenReadings(aTok);       
-    assertEquals(aTok, testanaTokRead.getAnalyzedToken(0));
+    tokenReadings = new AnalyzedTokenReadings(aTok);       
+    assertEquals(aTok, tokenReadings.getAnalyzedToken(0));
     AnalyzedToken aTok2 = new AnalyzedToken("word", "POS", "lemma");
-    assertTrue(!aTok2.equals(testanaTokRead.getAnalyzedToken(0)));
+    assertTrue(!aTok2.equals(tokenReadings.getAnalyzedToken(0)));
     AnalyzedToken aTok3 = new AnalyzedToken("word", "POS", "lemma");
     aTok3.setWhitespaceBefore(true);
-    assertEquals(aTok3, testanaTokRead.getAnalyzedToken(0));
+    assertEquals(aTok3, tokenReadings.getAnalyzedToken(0));
   }
 }
