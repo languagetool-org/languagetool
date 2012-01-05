@@ -54,12 +54,11 @@ public class WiederVsWiderRule extends GermanRule {
   public RuleMatch[] match(AnalyzedSentence text) {
     final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     final AnalyzedTokenReadings[] tokens = text.getTokens();
-    int pos = 0;
     boolean foundSpiegelt = false;
     boolean foundWieder = false;
     boolean foundWider = false;
-    for (AnalyzedTokenReadings token1 : tokens) {
-      final String token = token1.getToken();
+    for (int i=0; i<tokens.length; i++) {
+      final String token = tokens[i].getToken();
       if (token.trim().equals("")) {
         // ignore
       } else {
@@ -71,9 +70,12 @@ public class WiederVsWiderRule extends GermanRule {
         } else if (token.equalsIgnoreCase("wider") && foundSpiegelt) {
           foundWider = true;
         }
-        if (foundSpiegelt && foundWieder && !foundWider) {
+        if (foundSpiegelt && foundWieder && !foundWider &&
+            !(tokens.length > i + 2 && (tokens[i + 1].getToken().equals("wider") || tokens[i + 2].getToken().equals("wider")) )
+           ) {
           final String msg = "'wider' in 'widerspiegeln' wird mit 'i' statt mit 'ie' " +
                   "geschrieben, z.B. 'Das spiegelt die Situation gut wider.'";
+          final int pos = tokens[i].getStartPos();
           final RuleMatch ruleMatch = new RuleMatch(this, pos, pos + token.length(), msg);
           ruleMatch.setSuggestedReplacement("wider");
           ruleMatches.add(ruleMatch);
@@ -82,7 +84,6 @@ public class WiederVsWiderRule extends GermanRule {
           foundWider = false;
         }
       }
-      pos += token.length();
     }
     return toRuleMatchArray(ruleMatches);
   }

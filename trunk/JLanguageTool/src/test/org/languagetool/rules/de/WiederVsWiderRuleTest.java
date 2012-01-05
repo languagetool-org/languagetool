@@ -38,8 +38,7 @@ public class WiederVsWiderRuleTest extends TestCase {
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das spiegelt die Situation.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Immer wieder spiegelt das die Situation.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Immer wieder spiegelt das die Situation wider.")).length);
-    // known to match although sentence is okay:
-    //assertEquals(0, rule.match(langTool.getAnalyzedText("Das spiegelt wieder wider, wie es läuft.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das spiegelt wieder wider, wie es läuft.")).length);
     // errors:
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Das spiegelt wieder, wie es wieder läuft.")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Das spiegelt die Situation gut wieder.")).length);
