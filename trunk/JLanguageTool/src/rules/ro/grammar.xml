@@ -24,15 +24,22 @@ title="Easy editing stylesheet" ?>
 		</phrase>
 	</phrases>
 
+	<unification feature="gen">
+		<equivalence type="feninin"><token postag_regexp="yes" postag=".f..*"></token></equivalence>
+		<equivalence type="masculin"><token postag_regexp="yes" postag=".m..*"></token></equivalence>
+		<equivalence type="neutru"><token postag_regexp="yes" postag=".n..*"></token></equivalence>
+		<equivalence type="faragen"><token postag_regexp="yes" postag=".0..*"></token></equivalence>
+	</unification>
 	<unification feature="numar">
 		<equivalence type="singular"><token postag_regexp="yes" postag="..s.*"></token></equivalence>
 		<equivalence type="plural"><token postag_regexp="yes" postag="..p.*"></token></equivalence>
-		<equivalence type="neutru"><token postag_regexp="yes" postag="..n.*"></token></equivalence>
+		<equivalence type="faranumar"><token postag_regexp="yes" postag="..0.*"></token></equivalence>
 	</unification>
 	<unification feature="persoana">
 		<equivalence type="intai"><token postag_regexp="yes" postag="...1.*"></token></equivalence>
 		<equivalence type="a_doua"><token postag_regexp="yes" postag="...2.*"></token></equivalence>
 		<equivalence type="a_trea"><token postag_regexp="yes" postag="...3.*"></token></equivalence>
+		<equivalence type="farapersoana"><token postag_regexp="yes" postag="...0.*"></token></equivalence>		
 	</unification>
 
 	<category name="Litere inversate">
@@ -1155,9 +1162,9 @@ title="Easy editing stylesheet" ?>
 		<rule id="EU_VENEAU" name="eu + (indicativ imperfect persoana a treia plural)">
 			<pattern>
 				<token>eu</token>
-				<token postag_regexp="yes" postag="V0p3000ii0"><exception postag_regexp="yes" postag="V0s1.*"></exception></token>
+				<token postag="V0p3000ii0"><exception postag_regexp="yes" postag="V0s1.*"></exception></token>
 			</pattern>
-			<message>Dezacord gramatical: forma de persoana I singular a indicativ imperfect de la verbul „]a <match
+			<message>Dezacord gramatical: forma de persoana I singular a indicativ imperfect de la verbul „a <match
 				no="2" postag="V000000f00" />” este <suggestion>eu <match
 				no="2" postag="V0s1000ii0" /></suggestion>; pentru persoana a treia plural folosiți „ei”: <suggestion>ei \2</suggestion>.</message>
 			<short>Greșeală gramaticală</short>
@@ -1169,7 +1176,7 @@ title="Easy editing stylesheet" ?>
 		<rule id="EU_VENEATI" name="eu + (indicativ imperfect persoana a doua plural)">
 			<pattern>
 				<token>eu</token>
-				<token postag_regexp="yes" postag="V0p2000ii0"><exception postag_regexp="yes" postag="V0s1.*"></exception></token>
+				<token postag="V0p2000ii0"><exception postag_regexp="yes" postag="V0s1.*"></exception></token>
 			</pattern>
 			<message>Dezacord gramatical: forma de persoana I singular a indicativ imperfect de la verbul „a <match
 				no="2" postag="V000000f00" />” este <suggestion>eu <match
@@ -1183,7 +1190,7 @@ title="Easy editing stylesheet" ?>
 		<rule id="EU_VENISERATI" name="eu + (indicativ mai mult ca perfect persoana a doua plural)">
 			<pattern>
 				<token>eu</token>
-				<token postag_regexp="yes" postag="V0p2000im0"><exception postag_regexp="yes" postag="V0s1.*"></exception></token>
+				<token postag="V0p2000im0"><exception postag_regexp="yes" postag="V0s1.*"></exception></token>
 			</pattern>
 			<message>Dezacord gramatical: forma de persoana I singular a indicativ mai mult ca perfect de la verbul „a <match
 				no="2" postag="V000000f00" />” este <suggestion>eu <match
@@ -1194,6 +1201,28 @@ title="Easy editing stylesheet" ?>
 			<example type="incorrect" correction="Eu venisem|Voi veniserăți"><marker>Eu veniserăți</marker> adesea la el.</example>
 			<example type="correct">Și <marker>eu venisem</marker> adesea prin parc.</example>
 		</rule>			
+
+		<rule id="SA_IL_AJUTA" name="să + (pronume) + (conjunctiv)">
+			<pattern mark_from="2">
+				<token>să</token>
+				<token postag_regexp="yes" postag="N.*"><exception>o</exception><exception negate="yes" postag_regexp="yes" postag="N.*"></exception></token>
+				<token postag_regexp="yes" postag="V.*"><exception regexp="yes">fi|o</exception><exception postag_regexp="yes" postag=".*c.."></exception></token>
+			</pattern>
+			<message>Dezacord gramatical: formele de conjunctiv ale verbului „a <match no="3" postag="V000000f00" />” sunt: <suggestion><match 
+				no="3" postag_regexp="yes" postag="V0..000cz0" /></suggestion>.</message>
+			<short>Dezacord gramatical</short>
+			<example type="correct">Eu am încercat să îl <marker>împing</marker> mai departe.</example>
+			<example type="correct">Nu a făcut decât să îl <marker>aducă</marker> aici.</example>
+			<example type="incorrect" correction="ajut|ajutați|ajute|ajutăm|ajuți">De cele mai multe ori refuză să îl <marker>ajută</marker>.</example>
+			<example type="incorrect" correction="configurați|configurez|configureze|configurezi|configurăm">Noi am încercat să îl <marker>configuram</marker> cât mai bine.</example>
+			<example type="incorrect" correction="configurați|configurez|configureze|configurezi|configurăm">Noi am încercat să îl <marker>configura</marker> cât mai bine.</example>
+			<example type="correct">Eu am încercat să îl <marker>configurez</marker> cât mai bine.</example>
+			<example type="correct">Tu ai încercat să îl <marker>configurezi</marker> cât mai bine.</example>
+			<example type="correct">El a încercat să îl <marker>configureze</marker> cât mai bine.</example>
+			<example type="correct">Noi am încercat să îl <marker>configurăm</marker> cât mai bine.</example>
+			<example type="correct">Voi ați încercat să îl <marker>configurați</marker> cât mai bine.</example>
+			<example type="correct">Ei au încercat să îl <marker>configureze</marker> cât mai bine.</example>
+		</rule>
 
 		<!--  too greedy 
 		<rule id="PRONUME_VERB_IND_IMP" name="pronume + (verb indicativ imperfect)">
