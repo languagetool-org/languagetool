@@ -1257,6 +1257,16 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     <rulegroup id="SEID_VS_SEIT" name="Möglicher Tippfehler: 'Seit' statt 'seid'" default="on">
     <!-- Jan: TODO - extend this -->
       <rule>
+        <pattern mark_from="2">
+          <token postag="SENT_START"/>
+          <token>Ihr</token>
+          <token>seit</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>seid</suggestion> (Verbform) statt "seit" (Präposition)?</message>
+        <example type="correct">Ihr <marker>seid</marker> doch verrückt!</example>
+        <example correction="seid" type="incorrect">Ihr <marker>seit</marker> zufrieden?</example>
+      </rule>
+      <rule>
         <pattern mark_from="0" mark_to="-3">
           <token>seit</token>
           <token>ihr</token>
