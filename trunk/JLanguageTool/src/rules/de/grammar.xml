@@ -2395,7 +2395,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">DTV-Verlag(s)?</token>
+          <token regexp="yes">DTV-Verlag(e)?(s)?</token>
         </pattern>
         <message>'DTV' steht für 'Deutscher Taschenbuch-Verlag' – ersetzen durch <suggestion>DTV</suggestion>?</message>
         <example type="incorrect">Das Buch ist im <marker>DTV-Verlag</marker> erschienen.</example>
@@ -3211,12 +3211,14 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       </rule>
       <rule>
         <pattern mark_to="-1" case_sensitive="yes">
-          <token regexp="yes">(erste|zweite)(r|n)?</token>
-          <token regexp="yes">Weltkrieg(s)?</token>
+          <token regexp="yes">(erste|zweite)(r|n|m)?</token>
+          <token regexp="yes">Weltkrieg(e)?(s)?</token>
         </pattern>
         <message>Meinten Sie <suggestion><match case_conversion="startupper" no="1"/></suggestion> \2? &namengross;</message>
         <example type="correct">Der <marker>Erste</marker> Weltkrieg.</example>
         <example type="incorrect" correction="Ersten">Die Folgen des <marker>ersten</marker> Weltkriegs.</example>
+        <example type="incorrect" correction="Ersten">Die Folgen des <marker>ersten</marker> Weltkrieges.</example>
+        <example type="incorrect" correction="Erstem">Frau findet Revolver aus <marker>erstem</marker> Weltkrieg.</example>
       </rule>
       <rule>
         <pattern mark_to="-1" case_sensitive="yes">
@@ -7159,7 +7161,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     <rulegroup id="VON_BIS" name="Zeichensetzung: 'von' mit Bis-Strich">
       <rule>
         <pattern mark_from="1" case_sensitive="yes">
-          <token regexp="yes" negate="yes">innerhalb|Verzögerung(en)?|Gewicht(s)?|Dauer|Umfang(s)?|Größe(n)?|Länge(n)?|Durchmesser([ns])?|Radius|Masse|(T|.*t)emperatur|(D|.*d)druck(s)?|Anzahl(en)?|Alters?|Tagesdosis|Dosis|Bereichs?</token>
+          <token regexp="yes" negate="yes">innerhalb|Verzögerung(en)?|Gewicht(e)?(s)?|Dauer|Umfang(e)?(s)?|Größe(n)?|Länge(n)?|Durchmesser([ns])?|Radius|Masse|(T|.*t)emperatur|(D|.*d)druck(e)?(s)?|Anzahl(en)?|Alters?|Tagesdosis|Dosis|Bereichs?</token>
           <token regexp="yes">[vV]o[nm]</token>
           <token regexp="yes">([0-9]{1,5})(\-|–)([0-9]{1,5})</token>
         </pattern>
