@@ -33,6 +33,7 @@ import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.tagging.BaseTagger;
+import org.languagetool.tagging.ManualTagger;
 
 /**
  * Romanian Part-of-speech tagger 
@@ -42,8 +43,10 @@ import org.languagetool.tagging.BaseTagger;
 public class RomanianTagger extends BaseTagger {
 
   private String RESOURCE_FILENAME = "/ro/romanian.dict";
+  private String USER_DICT_FILENAME = "/ro/added.txt";
 
   private IStemmer morfologik;
+  private ManualTagger manualTagger;
   private static final Locale roLocale = new Locale("ro");
 
   @Override
@@ -56,17 +59,16 @@ public class RomanianTagger extends BaseTagger {
     setLocale(roLocale);
   }
 
-  public RomanianTagger(final String fileName) {
+  public RomanianTagger(final String dictFileName, final String userDictFileName) {
     super();
-    RESOURCE_FILENAME = fileName;
+    RESOURCE_FILENAME = dictFileName;
+    USER_DICT_FILENAME = userDictFileName;
     setLocale(roLocale);
   }
 
   @Override
   public final List<AnalyzedTokenReadings> tag(
       final List<String> sentenceTokens) throws IOException {
-    List<WordData> taggerTokens;
-
     final List<AnalyzedTokenReadings> tokenReadings = new ArrayList<AnalyzedTokenReadings>();
     int pos = 0;
     // caching Lametyzator instance - lazy init
@@ -74,10 +76,15 @@ public class RomanianTagger extends BaseTagger {
       final URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(RESOURCE_FILENAME);
       morfologik = new DictionaryLookup(Dictionary.read(url));
     }
+    if (manualTagger == null && USER_DICT_FILENAME != null) {
+        manualTagger = new ManualTagger(JLanguageTool.getDataBroker().getFromResourceDirAsStream(USER_DICT_FILENAME));
+    }
+
 
     for (final String word : sentenceTokens) {
       final List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
-      taggerTokens = morfologik.lookup(word.toLowerCase(roLocale));
+      final String lowerCaseWord = word.toLowerCase(roLocale);
+      final List<WordData> taggerTokens = morfologik.lookup(lowerCaseWord);
       if (taggerTokens != null) {
         for (WordData wd : taggerTokens) {
           final String[] tagsArr = wd.getStem().toString().split("\\+");
@@ -87,8 +94,16 @@ public class RomanianTagger extends BaseTagger {
           }
         }			
       }
+      if (manualTagger != null) { // add user tags, if any
+    	  final String[] manualTags = manualTagger.lookup(lowerCaseWord);
+    	  if (manualTags != null) {
+    		  for (int i = 0; i < manualTags.length/2; i=i+2) {
+    			  l.add(new AnalyzedToken(word, manualTags[i+1], manualTags[i]));
+			}
+    	  }
+      }
 
-      if (taggerTokens == null || taggerTokens.isEmpty()) {
+      if (l.isEmpty()) {
         l.add(new AnalyzedToken(word, null, null));
       }			
       tokenReadings.add(new AnalyzedTokenReadings(l

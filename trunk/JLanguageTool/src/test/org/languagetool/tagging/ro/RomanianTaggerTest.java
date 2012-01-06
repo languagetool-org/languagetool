@@ -74,6 +74,15 @@ public class RomanianTaggerTest extends RomanianTaggerTestAbs {
 	}
 
 	/**
+	 * Test for entries in used dictionary.
+	 * @throws Exception
+	 */
+	public void testTagger_UserDict() throws Exception {
+		assertHasLemmaAndPos("configurați", "configura", "V0p2000cz0"); // de adăugat formele pentru infinitiv și participiu
+		// to be updated when the words from added.txt are moved to romanian.dict  
+	}
+	
+	/**
 	 * the big picture: test is tagger performs well with a sentence
 	 * 
 	 * @author ionuț păduraru

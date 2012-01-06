@@ -77,6 +77,15 @@ public class RomanianSynthesizerTest extends TestCase {
 				dummyToken("legătură"), "Sfs3aac000")));
 		assertEquals("[legătură]", Arrays.toString(synth.synthesize(
 				dummyToken("legătură"), "Sfs3anc000")));
+
+		// user data (/ro/added.txt)
+		assertEquals("[configurați]", Arrays.toString(synth.synthesize(
+				dummyToken("configura"), "V0p2000cz0"))); // no reg exp
+		assertEquals("[configurați, configurezi]", Arrays.toString(synth.synthesize(
+				dummyToken("configura"), "V0.2000cz0", true))); // using reg exp
+		//		assertEquals("[enumăr]", Arrays.toString(synth.synthesize(
+		//			dummyToken("enumera"), "V0s1000cz0")));
+		// commented out as "a enumera" contains an extra form (.dict spelling error - "enumăm" instead of "enumăr"). To be fixed.
 		
 	}
 
