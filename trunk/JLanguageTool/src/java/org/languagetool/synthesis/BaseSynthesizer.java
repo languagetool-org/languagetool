@@ -27,6 +27,19 @@ public class BaseSynthesizer implements Synthesizer {
     this.resourceFileName = resourceFileName;  
     this.tagFileName = tagFileName;
   }
+
+  /**
+   * Lookup the inflected forms of a lemma defined by a part-of-speech tag.
+   * @param lemma the lemma to be inflected.
+   * @param posTag the desired part-of-speech tag.
+   * @param results the list to collect the inflected forms.
+   */
+  protected void lookup(String lemma, String posTag, List<String> results) {
+    final List<WordData> wordForms = synthesizer.lookup(lemma + "|" + posTag);
+    for (WordData wd : wordForms) {
+      results.add(wd.getStem().toString());
+    }
+  }
   
   /**
    * Get a form of a given AnalyzedToken, where the form is defined by a
@@ -41,11 +54,8 @@ public class BaseSynthesizer implements Synthesizer {
   @Override
   public String[] synthesize(final AnalyzedToken token, final String posTag) throws IOException {
     initSynthesizer();
-    final List<WordData> wordData = synthesizer.lookup(token.getLemma() + "|" + posTag);
     final List<String> wordForms = new ArrayList<String>();
-    for (WordData wd : wordData) {
-      wordForms.add(wd.getStem().toString());
-    }
+    lookup(token.getLemma(), posTag, wordForms);
     return wordForms.toArray(new String[wordForms.size()]);
   }
       
@@ -62,10 +72,7 @@ public class BaseSynthesizer implements Synthesizer {
       for (final String tag : possibleTags) {
         final Matcher m = p.matcher(tag);
         if (m.matches()) {
-          final List<WordData> wordForms = synthesizer.lookup(token.getLemma() + "|" + tag);
-          for (WordData wd : wordForms) {
-            results.add(wd.getStem().toString());
-          }
+          lookup(token.getLemma(), tag, results);
         }
       }
       return results.toArray(new String[results.size()]);
@@ -73,7 +80,7 @@ public class BaseSynthesizer implements Synthesizer {
     return synthesize(token, posTag);
   }
 
-  private void initSynthesizer() throws IOException {
+  protected void initSynthesizer() throws IOException {
     if (synthesizer == null) {
       final URL url = this.getClass().getResource(resourceFileName);
       synthesizer = new DictionaryLookup(Dictionary.read(url));
