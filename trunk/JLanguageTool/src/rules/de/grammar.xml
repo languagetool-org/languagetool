@@ -75,6 +75,16 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect">Dort wurde er zur Ruhe <marker>gebetet</marker>.</example>
       <example type="correct">Dort wurde er zur Ruhe <marker>gebettet</marker>.</example>
     </rule>
+    <rule id="AUF_ROSEN_GEBETET" name="Möglicher Tippfehler: auf Rosen gebetet (gebettet)">
+      <pattern mark_from="2">
+          <token>auf</token>
+          <token>Rosen</token>
+          <token>gebetet</token>
+        </pattern>
+      <message>Meinten Sie <suggestion>gebettet</suggestion>?</message>
+      <example type="incorrect">Dort wurde er auf Rosen <marker>gebetet</marker>.</example>
+      <example type="correct">Dort wurde er auf Rosen <marker>gebettet</marker>.</example>
+    </rule>
     <rule id="ER_EINZIGE" name="Möglicher Tippfehler: er (der) einzige">
       <pattern mark_to="-1">
           <token>er</token>
@@ -3108,6 +3118,16 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect" correction="Dienst">Ich bin außer <marker>dienst</marker>.</example>
       <example type="correct">Ich bin heute nicht im <marker>Dienst</marker>.</example>
     </rule>
+    <rule id="UNTER_SCHMERZEN" name="Groß-/Kleinschreibung: 'unter schmerzen (Schmerzen)'">
+      <pattern case_sensitive="yes" mark_from="1">
+        <token regexp="yes">[uU]nter</token>
+        <token regexp="yes">tränen|schmerzen</token>
+      </pattern>
+      <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
+      <example type="incorrect" correction="Schmerzen">Unter <marker>schmerzen</marker> sollst du deine Kinder gebären.</example>
+      <example type="incorrect" correction="Tränen">Unter <marker>tränen</marker> gestand er seine Schuld.</example>
+      <example type="correct">Unter <marker>Schmerzen</marker> sollst du deine Kinder gebären.</example>
+    </rule>
     <rulegroup id="HOEREN_UND_SEHEN" name="Groß-/Kleinschreibung: 'hören und sehen (Hören und Sehen) vergehen'">
       <rule>
         <pattern case_sensitive="yes" mark_to="-1">
@@ -3144,6 +3164,15 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Da vergingen mir <marker>Hören und Sehen</marker>.</example>
       </rule>
     </rulegroup>
+    <rule id="AUF_WIEDERSEHEN" name="Groß-/Kleinschreibung: 'auf wiedersehen (Wiedersehen)'">
+      <pattern case_sensitive="yes" mark_from="1">
+        <token regexp="yes">[aA]uf</token>
+        <token>wiedersehen</token>
+      </pattern>
+      <message>Meinten Sie \1 <suggestion><match no="2" case_conversion="startupper"/></suggestion>?</message>
+      <example type="incorrect">Auf <marker>wiedersehen</marker>!</example>
+      <example type="correct">Auf <marker>Wiedersehen</marker>!</example>
+    </rule>
     <!-- Großgeschrieben wird das substantivierte Adjektiv, wenn es im Sinne von »deutsche Sprache« verwendet wird:
     http://www.duden.de/rechtschreibung/deutsch
     Großgeschrieben werden ferner Sprachbezeichnungen nach einer Präposition
@@ -3923,6 +3952,40 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Mit einem <marker>Lächeln</marker> auf den Lippen kommt man weiter.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="RUECKEN_SUBST" name="Groß-/Kleinschreibung: 'rücken (Rücken)'">
+      <rule>
+        <pattern case_sensitive="yes" mark_from="2">
+          <token regexp="yes">[aA]uf</token>
+          <token>dem</token>
+          <token>rücken</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Rücken</suggestion>&subende;</message>
+        <example type="incorrect">Sie lag auf dem <marker>rücken</marker>.</example>
+        <example type="correct">Sie lag auf dem <marker>Rücken</marker>.</example>
+      </rule>
+    </rulegroup>    
+    <rulegroup id="VERDIENST_SUBST" name="Groß-/Kleinschreibung: 'verdienst (Verdienst)'">
+      <rule>
+        <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
+          <token regexp="yes">[dD]as</token>
+          <token>verdienst</token>
+          <token regexp="yes">ist|war</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Verdienst</suggestion>&subende;</message>
+        <example type="incorrect">Da es das <marker>verdienst</marker> ist ...</example>
+        <example type="correct">Da es das <marker>Verdienst</marker> ist ...</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="2">
+          <token regexp="yes">ist|war</token>
+          <token>das</token>
+          <token>verdienst</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Verdienst</suggestion>&subende;</message>
+        <example type="incorrect">Es ist das <marker>verdienst</marker> Müllers, hier Klarheit geschaffen zu haben.</example>
+        <example type="correct">Es ist das <marker>Verdienst</marker> Müllers, hier Klarheit geschaffen zu haben.</example>
+      </rule>
+    </rulegroup>    
     <rulegroup id="LEGENDE_SUBST" name="Groß-/Kleinschreibung: 'legende (Legende)'">
       <rule>
         <pattern case_sensitive="yes" mark_from="2" mark_to="-1">
