@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.languagetool.synthesis.ManualSynthesizer;
 import org.languagetool.tools.StringTools;
 
 
@@ -40,6 +41,8 @@ import org.languagetool.tools.StringTools;
  * File Format: <tt>fullform baseform postags</tt> (tab separated)
  * 
  * @author Daniel Naber
+ * 
+ * @see ManualSynthesizer
  */
 public class ManualTagger {
 
@@ -76,6 +79,7 @@ public class ManualTagger {
 
   private Map<String, List<LookedUpTerm>> loadMapping(final InputStream file,
       final String encoding) throws IOException {
+    // TODO consider refactoring: this is almost the same as ManualSynthesizer#loadMappings()
     final Map<String, List<LookedUpTerm>> map = new HashMap<String, List<LookedUpTerm>>();
     InputStreamReader isr = null;
     BufferedReader br = null;
