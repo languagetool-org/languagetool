@@ -79,6 +79,10 @@ public class CaseRule extends GermanRule {
   
   private static final Set<String> exceptions = new HashSet<String>();
   static {
+    exceptions.add("Letztere");
+    exceptions.add("Letzterer");
+    exceptions.add("Letzteres");
+    exceptions.add("Abgeordneter");
     exceptions.add("Abriss");
     exceptions.add("Durcheinander");
     exceptions.add("Fort");
@@ -129,7 +133,7 @@ public class CaseRule extends GermanRule {
     exceptions.add("Ähnliches");   // je nach Kontext groß (TODO), z.B. "Er hat Ähnliches erlebt" 
     exceptions.add("Ähnlichem");
 
-    // TODO: alle Sprachen
+    // TODO: alle Sprachen + flektierte Formen
     exceptions.add("Arabisch");
     exceptions.add("Chinesisch");
     exceptions.add("Dänisch");
@@ -202,6 +206,23 @@ public class CaseRule extends GermanRule {
     myExceptionPhrases.add("Im Guten wie im Schlechten");
     myExceptionPhrases.add("Russisches Reich");
     myExceptionPhrases.add("Tel Aviv");
+    myExceptionPhrases.add("Erster Weltkrieg");
+    myExceptionPhrases.add("Ersten Weltkriegs");
+    myExceptionPhrases.add("Ersten Weltkrieges");
+    myExceptionPhrases.add("Erstem Weltkrieg");
+    myExceptionPhrases.add("Zweiter Weltkrieg");
+    myExceptionPhrases.add("Zweiten Weltkriegs");
+    myExceptionPhrases.add("Zweiten Weltkrieges");
+    myExceptionPhrases.add("Zweitem Weltkrieg");
+    myExceptionPhrases.add("Vielfaches");
+    myExceptionPhrases.add("Auswärtiges Amt");
+    myExceptionPhrases.add("Auswärtigen Amt");
+    myExceptionPhrases.add("Auswärtigen Amts");
+    myExceptionPhrases.add("Auswärtigen Amtes");
+    myExceptionPhrases.add("Bürgerliches Gesetzbuch");
+    myExceptionPhrases.add("Bürgerlichen Gesetzbuch");
+    myExceptionPhrases.add("Bürgerlichen Gesetzbuchs");
+    myExceptionPhrases.add("Bürgerlichen Gesetzbuches");
   }
 
   private static final Set<String> substVerbenExceptions = new HashSet<String>();
