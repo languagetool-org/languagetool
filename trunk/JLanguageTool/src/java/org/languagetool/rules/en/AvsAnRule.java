@@ -18,14 +18,9 @@
  */
 package org.languagetool.rules.en;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
-import java.util.TreeSet;
+import java.util.*;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
@@ -49,8 +44,8 @@ public class AvsAnRule extends EnglishRule {
   private static final String FILENAME_A = "/en/det_a.txt";
   private static final String FILENAME_AN = "/en/det_an.txt";
 
-  private final TreeSet<String> requiresA;
-  private final TreeSet<String> requiresAn;
+  private final Set<String> requiresA;
+  private final Set<String> requiresAn;
   
   public AvsAnRule(final ResourceBundle messages) throws IOException {
     if (messages != null) {
@@ -122,18 +117,18 @@ public class AvsAnRule extends EnglishRule {
         if (prevToken.equals("A")) {
           replacement = "An";
         }
-        msg = "Use <suggestion>" +replacement+ "</suggestion> instead of '" +prevToken+ "' if the following "+
+        msg = "Use <suggestion>" + replacement + "</suggestion> instead of '" + prevToken + "' if the following "+
                 "word starts with a vowel sound, e.g. 'an article', 'an hour'";
       } else if (prevToken.equalsIgnoreCase("an") && doesRequireA) {
         String replacement = "a";
         if (prevToken.equals("An")) {
           replacement = "A";
         }
-        msg = "Use <suggestion>" +replacement+ "</suggestion> instead of '" +prevToken+ "' if the following "+
+        msg = "Use <suggestion>" + replacement + "</suggestion> instead of '" + prevToken + "' if the following "+
                 "word doesn't start with a vowel sound, e.g. 'a sentence', 'a university'";
       }
       if (msg != null) {
-        final RuleMatch ruleMatch = new RuleMatch(this, prevPos, prevPos+prevToken.length(), msg, "Wrong article");
+        final RuleMatch ruleMatch = new RuleMatch(this, prevPos, prevPos + prevToken.length(), msg, "Wrong article");
         ruleMatches.add(ruleMatch);
       }
       if (tokens[i].hasPosTag("DT")) {
@@ -206,20 +201,15 @@ public class AvsAnRule extends EnglishRule {
   }
   
   /**
-   * Load words, normalized to lowercase.
+   * Load words, normalized to lowercase unless starting with '*'.
    */
-  private TreeSet<String> loadWords(final InputStream file) throws IOException {
-    BufferedReader br = null;
-    final TreeSet<String> set = new TreeSet<String>();
+  private Set<String> loadWords(final InputStream file) throws IOException {
+    final Set<String> set = new TreeSet<String>();
+    final Scanner scanner = new Scanner(file, "utf-8");
     try {
-      br = new BufferedReader(new InputStreamReader(file));
-      String line;
-      while ((line = br.readLine()) != null) {
-        line = line.trim();
-        if (line.length() < 1) {
-          continue;
-        }
-        if (line.charAt(0) == '#') {
+      while (scanner.hasNextLine()) {
+        final String line = scanner.nextLine().trim();
+        if (line.length() < 1 || line.charAt(0) == '#') {
           continue;
         }
         if (line.charAt(0) == '*') {
@@ -229,9 +219,7 @@ public class AvsAnRule extends EnglishRule {
         }
       }
     } finally {
-      if (br != null) {
-        br.close();
-      }
+      scanner.close();
     }
     return set;
   }
