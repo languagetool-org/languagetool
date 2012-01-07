@@ -216,7 +216,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <message>Meinten Sie <suggestion><match no="3" regexp_match="Mine" regexp_replace="Miene"/></suggestion>? (Mine = unterirdischer Gang, Sprengkörper, Kugelschreibermine)</message>
         <example type="incorrect" correction="Miene">Er verzieht keine <marker>Mine</marker>.</example>
         <example type="incorrect" correction="Miene">Er setzt eine kalte <marker>Mine</marker> auf.</example>
-        <example type="incorrect" correction="Miene">Mit unbewegter <marker>Mine</marker>...</example>
+        <example type="incorrect" correction="Miene">Mit unbewegter <marker>Mine</marker>.</example>
         <example type="correct">Er verzieht keine <marker>Miene</marker>.</example>
       </rule>
       <rule>
@@ -420,8 +420,8 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token postag="SUB:.*" postag_regexp="yes"/>
       </pattern>
       <message>Meinten Sie <suggestion>bekannteste</suggestion>?</message>
-      <example type="incorrect">Das <marker>bekanntest</marker> Beispiel ...</example>
-      <example type="correct">Das <marker>bekannteste</marker> Beispiel ...</example>
+      <example type="incorrect">Das <marker>bekanntest</marker> Beispiel ist Linux.</example>
+      <example type="correct">Das <marker>bekannteste</marker> Beispiel ist Linux.</example>
     </rule>
     <rule id="FOND_VS_FONDS" name="Möglicher Tippfehler: 'Fond (Fonds)'">
       <pattern>
@@ -649,8 +649,8 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>weiteres</token>
         </pattern>
         <message>Meinten Sie <suggestion>bis</suggestion>?</message>
-        <example type="incorrect"><marker>Biss</marker> auf Weiteres ...</example>
-        <example type="correct"><marker>Bis</marker> auf Weiteres ...</example>
+        <example type="incorrect"><marker>Biss</marker> auf Weiteres lassen wir das so.</example>
+        <example type="correct"><marker>Bis</marker> auf Weiteres lassen wir das so.</example>
       </rule>
       <rule>
         <pattern mark_from="1" mark_to="-1">
@@ -659,11 +659,11 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">[0-9]*</token>
         </pattern>
         <message>Meinten Sie <suggestion>bis</suggestion>?</message>
-        <example type="incorrect">Von 5.000 <marker>biss</marker> 6.000 Toten ist die Rede ...</example>
-        <example type="correct">Von 5.000 <marker>bis</marker> 6.000 Toten ist die Rede ...</example>
-        <example type="incorrect">Von 5 Uhr <marker>biss</marker> 6 Uhr ...</example>
-        <example type="incorrect">Von 5 <marker>biss</marker> 6 Uhr ...</example>
-        <example type="correct">Von 5 Uhr <marker>bis</marker> 6 Uhr ...</example>
+        <example type="incorrect">Von 5.000 <marker>biss</marker> 6.000 Toten ist die Rede.</example>
+        <example type="correct">Von 5.000 <marker>bis</marker> 6.000 Toten ist die Rede.</example>
+        <example type="incorrect">Von 5 Uhr <marker>biss</marker> 6 Uhr</example>
+        <example type="incorrect">Von 5 <marker>biss</marker> 6 Uhr</example>
+        <example type="correct">Von 5 Uhr <marker>bis</marker> 6 Uhr</example>
       </rule>
     </rulegroup>
     <rule id="VON_HAND" name="Möglicher Tippfehler: 'van (von) Hand'">
@@ -1240,7 +1240,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>ihr</token>
         </pattern>
         <message>Meinten Sie <suggestion>wart</suggestion> (Form des Verbs 'sein')?</message>
-        <example type="correct">... und <marker>ward</marker> nicht mehr gesehen.</example>
+        <example type="correct">Und <marker>ward</marker> nicht mehr gesehen.</example>
         <example type="correct"><marker>Wart</marker> ihr zufrieden?</example>
         <example correction="Wart" type="incorrect"><marker>Ward</marker> ihr zufrieden damit?</example>
       </rule>
@@ -1567,8 +1567,8 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token>lasen</token>
       </pattern>
       <message>Meinten Sie 'zu <suggestion>lassen</suggestion>'?</message>
-      <example type="correct">...sie mit einem Maulkorb rumlaufen zu <marker>lassen</marker>.</example>
-      <example type="incorrect">...sie mit einem Maulkorb rumlaufen zu <marker>lasen</marker>.</example>
+      <example type="correct">Er plante, sie mit einem Maulkorb rumlaufen zu <marker>lassen</marker>.</example>
+      <example type="incorrect">Er plante, sie mit einem Maulkorb rumlaufen zu <marker>lasen</marker>.</example>
     </rule>
     <rulegroup id="OEKONOMISCH_OEKUMENISCH" name="Möglicher Tippfehler: 'ökonomischer (ökumenischer) Gottesdienst/...'">
       <rule>
@@ -1720,8 +1720,8 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token>wehrt</token>
       </pattern>
       <message>Meinten Sie <suggestion>währt</suggestion>?</message>
-      <example type="correct">Was lange <marker>währt</marker>...</example>
-      <example type="incorrect">Was lange <marker>wehrt</marker>...</example>
+      <example type="correct">Was lange <marker>währt</marker>, wird endlich gut.</example>
+      <example type="incorrect">Was lange <marker>wehrt</marker>, wird endlich gut.</example>
     </rule>
     <rule id="DER_GENUS" name="Möglicher Tippfehler: 'der Genus (Genuss)'">
       <pattern>
@@ -1893,8 +1893,8 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token regexp="yes">kennen|gründen|mitteln|lassen|fassen|sehen|gaunern|morden|schrecken|schleichen|scheinen|heischen|greifen</token>
       </pattern>
       <message>&getrennt;Meinten Sie evt. <suggestion>\2\3</suggestion>?</message>
-      <example type="correct">... zu <marker>erfassen</marker> ...</example>
-      <example type="incorrect">... zu <marker>er fassen</marker> ...</example>
+      <example type="correct">Aufgabe war es, die Daten zu <marker>erfassen</marker>.</example>
+      <example type="incorrect">Aufgabe war es, die Daten zu <marker>er fassen</marker>.</example>
     </rule>
     <rule id="ZU_ZUMUTEN" name="Zusammen-/Getrenntschreibung: 'zu zu... (zuzu...)'">
       <pattern case_sensitive="yes">
@@ -2587,7 +2587,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect" correction="als">Sie sind klüger <marker>wie</marker> Computer.</example>
         <example type="correct">Sie sind klüger <marker>als</marker> Computer.</example>
         <example type="correct">Er wird später <marker>wie</marker> sein Vater.</example>
-        <example type="correct">Dass er später <marker>wie</marker> sein Vater sein soll...</example>
+        <example type="correct">Dass er später <marker>wie</marker> sein Vater sein soll.</example>
         <example type="correct">Er wird im gleichen Maße besser <marker>wie</marker> sie.</example>
       </rule>
       <rule>
@@ -2609,7 +2609,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         </pattern>
         <message>'Sinn machen' entspricht dem englischen 'to make sense'. Verwenden Sie stattdessen 'Sinn ergeben', 'Sinn stiften', 'Sinn haben' oder 'sinnvoll (bzw. sinnlos) sein'.</message>
         <example type="incorrect">Das <marker>macht Sinn</marker>.</example>
-        <example type="incorrect">Das <marker>macht nur Sinn</marker>, wenn...</example>
+        <example type="incorrect">Das <marker>macht nur Sinn</marker>, wenn man es richtig macht.</example>
         <example type="correct">Das <marker>ist sinnvoll</marker>.</example>
         <example type="incorrect">Das <marker>macht keinen Sinn</marker> Sinn.</example>
         <example type="correct">Das <marker>ergibt keinen Sinn</marker>.</example>
@@ -2979,8 +2979,8 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token>aller</token>
       </pattern>
       <message>Was halten Sie von der Formulierung: <suggestion>\1 \2 der</suggestion>?</message>
-      <example type="incorrect"><marker>Die meisten aller</marker> Hollywoodfilme ...</example>
-      <example type="correct"><marker>Die meisten der</marker> damaligen Hollywoodfilme ...</example>
+      <example type="incorrect"><marker>Die meisten aller</marker> Hollywoodfilme spielen in den USA.</example>
+      <example type="correct"><marker>Die meisten der</marker> damaligen Hollywoodfilme spielten in den USA.</example>
     </rule>
     <rule id="MAENNER_VS_LEUTE" name="Stil: 'Kaufleute' usw. statt 'Kaufmänner'">
       <pattern case_sensitive="no">
@@ -3228,7 +3228,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <message>Meinten Sie <suggestion><match case_conversion="startupper" no="1"/></suggestion> \2 (1789–1799)? &namengross;</message>
         <example type="correct">Die <marker>Französische</marker> Revolution</example>
         <example type="incorrect" correction="Französischen">Die Folgen der <marker>französischen</marker> Revolution</example>
-        <example type="incorrect" correction="Französischer">Die Unterschiede zwischen <marker>französischer</marker> Revolution und ...</example>
+        <example type="incorrect" correction="Französischer">Die Unterschiede zwischen <marker>französischer</marker> Revolution und etwas anderem.</example>
       </rule>
       <rule>
         <pattern mark_to="-1" mark_from="2" case_sensitive="yes">
@@ -3260,7 +3260,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         </pattern>
         <message>Meinten Sie <suggestion><match case_conversion="startupper" no="2"/></suggestion> \3? &namengross;</message>
         <example type="correct">Die <marker>Hängenden</marker> Gärten der Semiramis</example>
-        <example type="incorrect" correction="Hängenden">Die Bedeutung der <marker>hängenden</marker> Gärten...</example>
+        <example type="incorrect" correction="Hängenden">Die Bedeutung der <marker>hängenden</marker> Gärten ist kaum zu unterschätzen.</example>
       </rule>
       <rule>
         <pattern mark_to="-1" mark_from="1" case_sensitive="yes">
@@ -3796,7 +3796,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect" correction="montags">Der Laden hat <marker>Montags</marker> geschlossen.</example>
         <example type="correct">Der Laden hat <marker>montags</marker> geschlossen.</example>
         <example type="correct"><marker>Montags</marker> geschlossen.</example>
-        <example type="correct">Eines <marker>Dienstags</marker> kam er...</example>
+        <example type="correct">Eines <marker>Dienstags</marker> kam er wieder zur Arbeit.</example>
         <example type="correct">Er hat eines <marker>Sonntags</marker> den Zug verpasst.</example>
         <example type="correct">Der "<marker>Mittwochs</marker> Anzeiger"</example>
       </rule>
@@ -3809,7 +3809,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect" correction="Montags">Der Laden hat des <marker>montags</marker> geschlossen.</example>
         <example type="correct">Der Laden hat des <marker>Montags</marker> geschlossen.</example>
         <example type="correct">Der Laden hat <marker>montags</marker> geschlossen.</example>
-        <example type="incorrect" correction="Dienstags">Eines <marker>dienstags</marker> kam er...</example>
+        <example type="incorrect" correction="Dienstags">Eines <marker>dienstags</marker> kam er wieder zur Arbeit.</example>
         <example type="incorrect" correction="Sonntags">Er hat eines <marker>sonntags</marker> den Zug verpasst.</example>
       </rule>
     </rulegroup>
@@ -3926,8 +3926,8 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>lächeln</token>
         </pattern>
         <message>&subanfang;<suggestion>Lächeln</suggestion>&subende;</message>
-        <example type="incorrect">Mit einem dümmlichen <marker>lächeln</marker> ...</example>
-        <example type="correct">Mit einem maliziösen <marker>Lächeln</marker> ...</example>
+        <example type="incorrect">Mit einem dümmlichen <marker>lächeln</marker></example>
+        <example type="correct">Mit einem maliziösen <marker>Lächeln</marker></example>
       </rule>
       <rule>
         <pattern case_sensitive="yes" mark_from="4">
@@ -3938,8 +3938,8 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>lächeln</token>
         </pattern>
         <message>&subanfang;<suggestion>Lächeln</suggestion>&subende;</message>
-        <example type="incorrect">Mit einem sehr dümmlichen <marker>lächeln</marker> ...</example>
-        <example type="correct">Mit einem maliziösen <marker>Lächeln</marker> ...</example>
+        <example type="incorrect">Mit einem sehr dümmlichen <marker>lächeln</marker></example>
+        <example type="correct">Mit einem maliziösen <marker>Lächeln</marker></example>
       </rule>
       <rule>
         <pattern case_sensitive="yes" mark_from="2" mark_to="-1">
@@ -3950,7 +3950,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         </pattern>
         <message>&subanfang;<suggestion>Lächeln</suggestion>&subende;</message>
         <example type="incorrect">Mit einem <marker>lächeln</marker> kommt man weiter.</example>
-        <example type="correct">Mit einem maliziösen <marker>Lächeln</marker> ...</example>
+        <example type="correct">Mit einem maliziösen <marker>Lächeln</marker></example>
       </rule>
       <rule>
         <pattern case_sensitive="yes" mark_from="0" mark_to="-3">
@@ -3979,7 +3979,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     <rulegroup id="VERDIENST_SUBST" name="Groß-/Kleinschreibung: 'verdienst (Verdienst)'">
       <rule>
         <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
-          <token regexp="yes">[dD]as</token>
+          <token regexp="yes">[dD]as|[sS]ein|[iI]hr|[eE]uer|[mMdD]ein</token>
           <token>verdienst</token>
           <token regexp="yes">ist|war</token>
         </pattern>
@@ -4007,8 +4007,8 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">nach|zufolge</token>
         </pattern>
         <message>&subanfang;<suggestion>Legende</suggestion>&subende;</message>
-        <example type="incorrect">Einer alten <marker>legende</marker> zufolge ...</example>
-        <example type="correct">Einer alten <marker>Legende</marker> zufolge ...</example>
+        <example type="incorrect">Einer alten <marker>legende</marker> zufolge</example>
+        <example type="correct">Einer alten <marker>Legende</marker> zufolge</example>
       </rule>
       <rule>
         <pattern case_sensitive="yes" mark_from="1">
@@ -4016,8 +4016,8 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>legende</token>
         </pattern>
         <message>&subanfang;<suggestion>Legende</suggestion>&subende;</message>
-        <example type="incorrect">Einer verbreiteten <marker>legende</marker> zufolge ...</example>
-        <example type="correct">Einer verbreiteten <marker>Legende</marker> zufolge ...</example>
+        <example type="incorrect">Einer verbreiteten <marker>legende</marker> zufolge</example>
+        <example type="correct">Einer verbreiteten <marker>Legende</marker> zufolge</example>
       </rule>
     </rulegroup>
     <rule id="SPRACHEN_SUBST" name="Groß-/Kleinschreibung: 'in asiatischen sprachen (Sprachen)'">
@@ -4452,8 +4452,8 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token inflected="yes">aufnehmen</token>
         </pattern>
         <message>&subanfang;<suggestion>Fahrt</suggestion>&subende;</message>
-        <example type="correct">Als das Schiff langsam <marker>Fahrt</marker> aufnahm, ...</example>
-        <example type="incorrect">Als das Schiff langsam <marker>fahrt</marker> aufnahm, ...</example>
+        <example type="correct">Als das Schiff langsam <marker>Fahrt</marker> aufnahm.</example>
+        <example type="incorrect">Als das Schiff langsam <marker>fahrt</marker> aufnahm.</example>
       </rule>
       <rule>
         <pattern mark_from="1" mark_to="-1" case_sensitive="yes">
@@ -4700,9 +4700,9 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>fällen</token>
         </pattern>
         <message>&subanfang;<suggestion>Fällen</suggestion>&subende;</message>
-        <example type="correct">In besonders schweren <marker>Fällen</marker> ...</example>
-        <example type="correct">In manchen <marker>Fällen</marker> ...</example>
-        <example type="incorrect">In manchen <marker>fällen</marker> ...</example>
+        <example type="correct">In besonders schweren <marker>Fällen</marker> auch bis zu 1.918 Euro im Monat.</example>
+        <example type="correct">In manchen <marker>Fällen</marker> auch bis zu 1.918 Euro im Monat.</example>
+        <example type="incorrect">In manchen <marker>fällen</marker> auch bis zu 1.918 Euro im Monat.</example>
       </rule>
     </rulegroup>
     <rulegroup id="IN_DIE_BREITE" name="Groß-/Kleinschreibung: 'breite (Breite)'">
@@ -4917,7 +4917,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes" negate="yes">[A-ZÄÖÜ].*</token>
         </pattern>
         <message>&subanfang;<suggestion>Marine</suggestion>&subende;</message>
-        <example type="correct">Eine Umgebung, in der <marker>marine</marker> Lebensformen ...</example>
+        <example type="correct">Eine Umgebung, in der <marker>marine</marker> Lebensformen existieren können.</example>
         <example type="correct">Er diente in der <marker>Marine</marker>.</example>
         <example type="incorrect">Er diente in der <marker>marine</marker> als Bootsmann.</example>
       </rule>
@@ -4932,7 +4932,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         </pattern>
         <message>&subanfang;<suggestion>Antike</suggestion>&subende;</message>
         <example type="incorrect">In der <marker>antike</marker> war das Leben der Sklaven hart.</example>
-        <example type="correct">Die Renaissance, in der <marker>antike</marker> Vorbilder ...</example>
+        <example type="correct">Die Renaissance, in der <marker>antike</marker> Vorbilder beliebt waren.</example>
         <example type="correct">In der <marker>Antike</marker> war das Leben der Sklaven hart.</example>
       </rule>
       <rule>
@@ -4944,7 +4944,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         </pattern>
         <message>&subanfang;<suggestion>Spätantike</suggestion>&subende;</message>
         <example type="incorrect">In der <marker>spätantike</marker> war das Leben der Sklaven hart.</example>
-        <example type="correct">Die Renaissance, in der <marker>spätantike</marker> Vorbilder ...</example>
+        <example type="correct">Die Renaissance, in der <marker>spätantike</marker> Vorbilder beliebt waren.</example>
         <example type="correct">In der <marker>Spätantike</marker> war das Leben der Sklaven hart.</example>
       </rule>
     </rulegroup>
@@ -5459,7 +5459,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>rolle</token>
         </pattern>
         <message>&subanfang;<suggestion>Rolle</suggestion>&subende;</message>
-        <example type="correct">... mit Sean Connery in der <marker>Rolle</marker> des James Bond.</example>
+        <example type="correct">Mit Sean Connery in der <marker>Rolle</marker> des James Bond.</example>
         <example type="incorrect">Sie fiel aus der <marker>rolle</marker>.</example>
       </rule>
       <rule>
@@ -5764,9 +5764,9 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token>mal</token>
       </pattern>
       <message>&inwend;'das erste/letzte Mal' wird <suggestion>Mal</suggestion> großgeschrieben.</message>
-      <example type="correct">... als du ihn das erste <marker>Mal</marker> gesehen hast?</example>
-      <example type="incorrect">... als du ihn das erste <marker>mal</marker> gesehen hast?</example>
-      <example type="incorrect">... als du ihn zum ersten <marker>mal</marker> gesehen hast?</example>
+      <example type="correct">Wann war es, als du ihn das erste <marker>Mal</marker> gesehen hast?</example>
+      <example type="incorrect">Wann war es, als du ihn das erste <marker>mal</marker> gesehen hast?</example>
+      <example type="incorrect">Wann war es, als du ihn zum ersten <marker>mal</marker> gesehen hast?</example>
     </rule>
     <rulegroup id="IN_ACHT_NEHMEN" name="Groß-/Kleinschreibung: 'in acht (Acht) nehmen'">
       <rule>
@@ -6249,12 +6249,12 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Ich bin <marker>wegen eures</marker> schweren Unfalls zu spät gekommen.</example>
         <example type="correct">Ich bin <marker>wegen eines</marker> Unfall zu spät gekommen.</example>
         <example type="correct">Auf verschiedenen <marker>Wegen den</marker> Markt erobern.</example>
-        <example type="correct">Der Flächeninhalt <marker>abzüglich des</marker> Halbkreises beträgt...</example>
-        <example type="incorrect">Der Flächeninhalt <marker>abzüglich dem</marker> Halbkreis beträgt...</example>
-        <example type="incorrect">Ich bin <marker>wegen deinem</marker> Auto...</example>
-        <example type="correct">Ich bin <marker>wegen jenes</marker> Auto...</example>
+        <example type="correct">Der Flächeninhalt <marker>abzüglich des</marker> Halbkreises beträgt 3m².</example>
+        <example type="incorrect">Der Flächeninhalt <marker>abzüglich dem</marker> Halbkreis beträgt 3m².</example>
+        <example type="incorrect">Ich bin <marker>wegen deinem</marker> Auto gekommen.</example>
+        <example type="correct">Ich bin <marker>wegen jenes</marker> Autos gekommen.</example>
         <example type="correct">Ich habe des Staus <marker>wegen deinem</marker> Freund bescheidgegeben.</example>
-        <example type="incorrect">Ich bin <marker>wegen demselben</marker> Stau...</example>
+        <example type="incorrect">Ich bin <marker>wegen demselben</marker> Stau auch zu spät gekommen.</example>
       </rule>
       <rule>
         <pattern case_sensitive="yes">
@@ -6263,15 +6263,15 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">(das|dem|den|die)(selben?)?|ein|(D|d|s|m)?eine(m|n)?|(eu|ih|Ih|unse)re(m|n)?|(jene|deine|diese)(m|n)?</token>
         </pattern>
         <message>Die Präposition '<match no="2" case_conversion ="startlower"/>' erfordert i.d.R. den Genitiv.</message><!--TODO \2 should be lower case-->
-        <example type="incorrect"><marker>Wegen dem</marker> Unfall...</example>
-        <example type="incorrect"><marker>Wegen Ihrem</marker> Unfall...</example>
-        <example type="correct"><marker>Wegen des</marker> Unfalls...</example>
-        <example type="correct"><marker>Wegen ihres</marker> Unfall...</example>
+        <example type="incorrect"><marker>Wegen dem</marker> Unfall</example>
+        <example type="incorrect"><marker>Wegen Ihrem</marker> Unfall</example>
+        <example type="correct"><marker>Wegen des</marker> Unfalls</example>
+        <example type="correct"><marker>Wegen ihres</marker> Unfall</example>
         <example type="correct"><marker>wegen Diebstahl</marker> geschlossen</example>
-        <example type="correct"><marker>Abzüglich des</marker> Halbkreises beträgt...</example>
-        <example type="incorrect"><marker>Abzüglich dem</marker> Halbkreis beträgt...</example>
-        <example type="incorrect"><marker>Wegen deinem</marker> Auto...</example>
-        <example type="correct"><marker>Wegen jenes</marker> Auto...</example>
+        <example type="correct"><marker>Abzüglich des</marker> Halbkreises beträgt die Fläche 3m².</example>
+        <example type="incorrect"><marker>Abzüglich dem</marker> Halbkreis beträgt die Fläche 3m².</example>
+        <example type="incorrect"><marker>Wegen deinem</marker> Auto</example>
+        <example type="correct"><marker>Wegen jenes</marker> Auto</example>
         <!--
         <example type="correct"><marker>Abseits des</marker> Weges...</example>
         <example type="incorrect"><marker>Abseits dem</marker> Weg...</example>
@@ -6372,7 +6372,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect">Auch morgen <marker>leben er</marker>.</example>
         <example type="correct">Morgen <marker>kommen er</marker> und ich.</example>
         <example type="correct">Morgen <marker>kommen er</marker>, den ich sehr mag, und ich.</example>
-        <example type="correct">Welche <marker>Aufgaben er</marker> dabei tatsächlich übernehmen könnte...</example>
+        <example type="correct">Welche <marker>Aufgaben er</marker> dabei tatsächlich übernehmen könnte</example>
       </rule>
       <rule>
         <pattern case_sensitive="yes" mark_from="1">
@@ -6482,8 +6482,8 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token>des</token>
       </pattern>
       <message>Meinten Sie <suggestion>gemäß dem</suggestion>? Die Präposition 'gemäß' erfordert den Dativ.</message>
-      <example type="incorrect"><marker>Gemäß des</marker> Beschlusses der Kultusministerkonferenz ...</example>
-      <example type="correct"><marker>Gemäß dem</marker> Beschluss der Kultusministerkonferenz ...</example>
+      <example type="incorrect"><marker>Gemäß des</marker> Beschlusses der Kultusministerkonferenz</example>
+      <example type="correct"><marker>Gemäß dem</marker> Beschluss der Kultusministerkonferenz</example>
     </rule>
     <rule id="EINE_MILLIONEN" name="Grammatik: 'eine Millionen (Million)'">
       <pattern>
@@ -6502,8 +6502,8 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>Fraktion</token>
         </pattern>
         <message>Meinten Sie <suggestion>Rote Armee Fraktion</suggestion>? Dies ist eine feste Wendung.</message>
-        <example type="incorrect">Mitglieder der <marker>Roten Armee Fraktion</marker> ...</example>
-        <example type="correct">Mitglieder der <marker>Rote Armee Fraktion</marker> ...</example>
+        <example type="incorrect">Mitglieder der <marker>Roten Armee Fraktion</marker></example>
+        <example type="correct">Mitglieder der <marker>Rote Armee Fraktion</marker></example>
       </rule>
       <rule>
         <pattern>
@@ -6512,8 +6512,8 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>Fraktion</token>
         </pattern>
         <message>Meinten Sie <suggestion>Rote Armee Fraktion</suggestion>?</message>
-        <example type="incorrect">Mitglieder der <marker>Rote Arme Fraktion</marker> ...</example>
-        <example type="correct">Mitglieder der <marker>Rote Armee Fraktion</marker> ...</example>
+        <example type="incorrect">Mitglieder der <marker>Rote Arme Fraktion</marker></example>
+        <example type="correct">Mitglieder der <marker>Rote Armee Fraktion</marker></example>
       </rule>
       <rule>
         <pattern case_sensitive="yes">
@@ -6522,8 +6522,8 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>Fraktion</token>
         </pattern>
         <message>Meinten Sie <suggestion>Rote Armee Fraktion</suggestion>? Dies ist eine feste Wendung.</message>
-        <example type="incorrect">Mitglieder der <marker>rote Armee Fraktion</marker> ...</example>
-        <example type="correct">Mitglieder der <marker>Rote Armee Fraktion</marker> ...</example>
+        <example type="incorrect">Mitglieder der <marker>rote Armee Fraktion</marker></example>
+        <example type="correct">Mitglieder der <marker>Rote Armee Fraktion</marker></example>
       </rule>
     </rulegroup>
     <rule id="IM_KEINEN" name="Grammatik: 'im keinen (kleinen)'">
@@ -6578,9 +6578,9 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">bin|bist|ist|sind|seid|war|warst|waren|wart</token>
         </pattern>
         <message>Meinten Sie <suggestion>worden</suggestion> (Hilfsverb für das Perfekt) statt '\2' (Hilfsverb für das Präteritum) &odkomma;?</message>
-        <example type="correct">Nachdem er besiegt <marker>worden</marker> war...</example>
-        <example type="incorrect" correction="worden">Nachdem er besiegt <marker>wurden</marker> war...</example><!-- NOTE WAR_WERDEN also detects an error here. -->
-        <example type="incorrect" correction="worden">Nachdem du besiegt <marker>wurden</marker> bist...</example>
+        <example type="correct">Nachdem er besiegt <marker>worden</marker> war, gab er völlig auf.</example>
+        <example type="incorrect" correction="worden">Nachdem er besiegt <marker>wurden</marker> war, gab er völlig auf.</example><!-- NOTE WAR_WERDEN also detects an error here. -->
+        <example type="incorrect" correction="worden">Nachdem du besiegt <marker>wurden</marker> bist, gabst du völlig auf.</example>
       </rule>
       <rule>
         <pattern case_sensitive="yes" mark_from="2">
@@ -6592,7 +6592,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Die Tür ist auf den Boden gelegt <marker>worden</marker>.</example>
         <example type="incorrect" correction="worden">Die Tür ist auf den Boden gelegt <marker>wurden</marker>.</example>
         <example type="incorrect" correction="worden">Ihr seid auf den Boden gelegt <marker>wurden</marker>.</example>
-        <example type="correct">Nachdem sie auf den Boden gelegt <marker>wurden</marker>...</example>
+        <example type="correct">Nachdem sie auf den Boden gelegt <marker>wurden</marker>.</example>
         <example type="correct">..., die ihm zuzurechnen sind bzw. gelöst wurden.</example>
       </rule>
     </rulegroup>
@@ -6743,7 +6743,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         </pattern>
         <message>Diese Form des Adjektivs "\1" ist sehr ungebräuchlich. Meinten Sie das Adverb <suggestion>sofort</suggestion> oder das Adjektiv in der Form <suggestion>\1e</suggestion> oder einer anderen flektierten Form?</message>
         <example type="correct">Die Wirkung tritt <marker>sofort</marker> ein.</example>
-        <example type="correct">... mit <marker>sofortiger</marker> Wirkung.</example>
+        <example type="correct">Das gilt mit <marker>sofortiger</marker> Wirkung.</example>
         <example type="incorrect">Die Wirkung ist <marker>sofortig</marker>.</example>
       </rule>
       <rule>
@@ -6751,9 +6751,9 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="no">etwaig</token>
         </pattern>
         <message>Diese Form des Adjektivs "\1" ist sehr ungebräuchlich. Meinten Sie das Adverb <suggestion>etwa</suggestion> oder das Adjektiv in der Form <suggestion>\1e</suggestion> oder einer anderen flektierten Form?</message>
-        <example type="correct">Bei <marker>etwaigen</marker> Verstößen ...</example>
-        <example type="correct">Sollte dagegen <marker>etwa</marker> verstoßen werden ...</example>
-        <example type="incorrect">Sollte dagegen <marker>etwaig</marker> verstoßen werden ...</example>
+        <example type="correct">Bei <marker>etwaigen</marker> Verstößen</example>
+        <example type="correct">Sollte dagegen <marker>etwa</marker> verstoßen werden</example>
+        <example type="incorrect">Sollte dagegen <marker>etwaig</marker> verstoßen werden</example>
       </rule>
     </rulegroup>
     <!-- vgl. http://www.duden.de/rechtschreibung/von_aus_ab_durch_per_seitens#Bedeutung5c -->
@@ -6765,10 +6765,10 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">(Pythagoras|Euklid|Thales)</token>
         </pattern>
         <message>Meinten Sie <suggestion>\1 des \3</suggestion>? Die Bezeichnung '\1 \2 \3' ist umgangssprachlich.</message>
-        <example type="correct">Der <marker>Satz des Pythagoras</marker> ...</example>
-        <example type="incorrect" correction="Satzgruppe des Pythagoras">Die <marker>Satzgruppe von Pythagoras</marker>...</example>
-        <example type="incorrect" correction="Sätze des Thales">Die <marker>Sätze von Thales</marker> ...</example>
-        <example type="incorrect" correction="Höhensatz des Euklid">Der <marker>Höhensatz von Euklid</marker> ...</example>
+        <example type="correct">Der <marker>Satz des Pythagoras</marker> ist einer der fundamentalen Sätze der euklidischen Geometrie.</example>
+        <example type="incorrect" correction="Satzgruppe des Pythagoras">Die <marker>Satzgruppe von Pythagoras</marker> gilt als fundamental.</example>
+        <example type="incorrect" correction="Sätze des Thales">Die <marker>Sätze von Thales</marker> gelten als fundamental.</example>
+        <example type="incorrect" correction="Höhensatz des Euklid">Der <marker>Höhensatz von Euklid</marker> gilt als fundamental.</example>
       </rule>
     </rulegroup>
   </category>
