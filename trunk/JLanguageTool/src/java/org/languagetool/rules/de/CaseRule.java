@@ -79,6 +79,11 @@ public class CaseRule extends GermanRule {
   
   private static final Set<String> exceptions = new HashSet<String>();
   static {
+    exceptions.add("Beauftragter");
+    exceptions.add("Fraß");
+    exceptions.add("Jenseits");
+    exceptions.add("Herzöge");
+    exceptions.add("Herzögen");
     exceptions.add("Allerlei");
     exceptions.add("Letztere");
     exceptions.add("Letzterer");
@@ -297,7 +302,7 @@ public class CaseRule extends GermanRule {
       AnalyzedGermanTokenReadings analyzedGermanToken2;
       
       boolean isBaseform = false;
-      if (analyzedToken.getReadingsLength() > 1 && token.equals(analyzedToken.getAnalyzedToken(0).getLemma())) {
+      if (analyzedToken.getReadingsLength() >= 1 && token.equals(analyzedToken.getAnalyzedToken(0).getLemma())) {
         isBaseform = true;
       }
       if ((readings == null || analyzedToken.getAnalyzedToken(0).getPOSTag() == null || analyzedToken.hasReadingOfType(GermanToken.POSType.VERB))
