@@ -70,19 +70,22 @@ public class PatternRuleTest extends TestCase {
       System.out.println("Running tests for " + lang.getName() + "...");
       final PatternRuleLoader ruleLoader = new PatternRuleLoader();
       final JLanguageTool languageTool = new JLanguageTool(lang);
+      final JLanguageTool allRulesLanguageTool = new JLanguageTool(lang);
+      allRulesLanguageTool.activateDefaultPatternRules();
       final String name = "/" + lang.getShortName() + "/grammar.xml";
       final List<PatternRule> rules = ruleLoader.getRules(JLanguageTool.getDataBroker().
               getFromRulesDirAsStream(name), name);
       warnIfRegexpSyntaxNotKosher(rules, lang);
-      testGrammarRulesFromXML(rules, languageTool, lang);
+      testGrammarRulesFromXML(rules, languageTool, allRulesLanguageTool, lang);
     }
   }
 
   private void testGrammarRulesFromXML(final List<PatternRule> rules,
-                                       final JLanguageTool languageTool, final Language lang) throws IOException {
+                                       final JLanguageTool languageTool, 
+                                       final JLanguageTool allRulesLanguageTool, final Language lang) throws IOException {
     final HashMap<String, PatternRule> complexRules = new HashMap<String, PatternRule>();
     for (final PatternRule rule : rules) {
-      testCorrectSentences(languageTool, lang, rule);
+      testCorrectSentences(languageTool, allRulesLanguageTool, lang, rule);
       testBadSentences(languageTool, lang, complexRules, rule);
     }
     if (!complexRules.isEmpty()) {
@@ -97,7 +100,7 @@ public class PatternRuleTest extends TestCase {
         }
       }
       if (!badRules.isEmpty()) {
-        testGrammarRulesFromXML(badRules, languageTool, lang);
+        testGrammarRulesFromXML(badRules, languageTool, allRulesLanguageTool, lang);
       }
     }
   }
@@ -349,7 +352,8 @@ public class PatternRuleTest extends TestCase {
     }
   }
 
-  private void testCorrectSentences(JLanguageTool languageTool, Language lang, PatternRule rule) throws IOException {
+  private void testCorrectSentences(JLanguageTool languageTool, JLanguageTool allRulesLanguageTool,
+                                    Language lang, PatternRule rule) throws IOException {
       final List<String> goodSentences = rule.getCorrectExamples();
       for (String goodSentence : goodSentences) {
         // enable indentation use
@@ -358,6 +362,14 @@ public class PatternRuleTest extends TestCase {
         assertTrue(goodSentence.trim().length() > 0);
         assertFalse(lang + ": Did not expect error in: " + goodSentence
             + " (Rule: " + rule + ")", match(rule, goodSentence, languageTool));
+        // avoid matches with all the *other* rules:
+        /*
+        final List<RuleMatch> matches = allRulesLanguageTool.check(goodSentence);
+        for (RuleMatch match : matches) {
+          System.err.println("WARN: " + lang.getShortName() + ": '" + goodSentence + "' did not match " 
+                  + rule.getId() + " but matched " + match.getRule().getId());
+        }
+        */
       }
   }
 
