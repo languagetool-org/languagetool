@@ -131,7 +131,7 @@ public class AnalyzedGermanToken extends AnalyzedToken {
 
   @Override
   public String toString() {
-    return getPOSTag();
+    return getLemma() + "/" + getPOSTag();
   }
   
 }
