@@ -79,84 +79,77 @@ public class AvsAnRule extends EnglishRule {
     //ignoring token 0, i.e., SENT_START
     for (int i = 1; i < tokens.length; i++) {
       String token = tokens[i].getToken();
-        boolean doesRequireA = false;
-        boolean doesRequireAn = false;
-        // check for exceptions:
-        boolean isException = false;
-        final String[] parts = token.split("[-']");  // for example, in "one-way" only "one" is relevant
-        if (parts.length >= 1 &&
-            !parts[0].equalsIgnoreCase("a")) {  // avoid false alarm on "A-levels are..."
-          token = parts[0];
+      boolean doesRequireA = false;
+      boolean doesRequireAn = false;
+      // check for exceptions:
+      boolean isException = false;
+      final String[] parts = token.split("[-']");  // for example, in "one-way" only "one" is relevant
+      if (parts.length >= 1 && !parts[0].equalsIgnoreCase("a")) {  // avoid false alarm on "A-levels are..."
+        token = parts[0];
+      }
+      token = token.replaceAll("[^a-zA-Z0-9\\.']", "");         // e.g. >>an "industry party"<<
+      if (StringTools.isEmpty(token)) {
+        continue;
+      }
+      final char tokenFirstChar = token.charAt(0);
+      if (requiresA.contains(token.toLowerCase()) || requiresA.contains(token)) {
+        isException = true;
+        doesRequireA = true;
+      }
+      if (requiresAn.contains(token.toLowerCase()) || requiresAn.contains(token)) {
+        if (isException) {
+          throw new IllegalStateException(token + " is listed in both det_a.txt and det_an.txt");
         }
-        token = token.replaceAll("[^a-zA-Z0-9\\.']", "");         // e.g. >>an "industry party"<<
-        if (StringTools.isEmpty(token)) {          
-          continue;
-        }
-        final char tokenFirstChar = token.charAt(0);
-        if (requiresA.contains(token.toLowerCase()) || requiresA.contains(token)) {
-          isException = true;
+        isException = true;
+        doesRequireAn = true;
+      }
+
+      if (!isException) {
+        if (StringTools.isAllUppercase(token) || StringTools.isMixedCase(token)) {
+          // we don't know how all-uppercase and mixed case words (often abbreviations) are pronounced, 
+          // so never complain about these:
+          doesRequireAn = false;
+          doesRequireA = false;
+        } else if (isVowel(tokenFirstChar)) {
+          doesRequireAn = true;
+        } else {
           doesRequireA = true;
         }
-        if (requiresAn.contains(token.toLowerCase()) || requiresAn.contains(token)) {
-          if (isException) {
-            throw new IllegalStateException(token + " is listed in both det_a.txt and det_an.txt");
-          }
-          isException = true;
-          doesRequireAn = true;
+      }
+      String msg = null;
+      if (prevToken.equalsIgnoreCase("a") && doesRequireAn) {
+        String replacement = "an";
+        if (prevToken.equals("A")) {
+          replacement = "An";
         }
-                
-        if (!isException) {
-          if (StringTools.isAllUppercase(token) || StringTools.isMixedCase(token)) {
-            // we don't know how all-uppercase and mixed case words (often abbreviations) are pronounced, 
-            // so never complain about these:
-            doesRequireAn = false;
-            doesRequireA = false;
-          } else if (isVowel(tokenFirstChar)) {
-            doesRequireAn = true;
-          } else {
-            doesRequireA = true;
-          }
+        msg = "Use <suggestion>" +replacement+ "</suggestion> instead of '" +prevToken+ "' if the following "+
+                "word starts with a vowel sound, e.g. 'an article', 'an hour'";
+      } else if (prevToken.equalsIgnoreCase("an") && doesRequireA) {
+        String replacement = "a";
+        if (prevToken.equals("An")) {
+          replacement = "A";
         }
-        //System.err.println(prevToken + " " +token + ", a="+doesRequireA + ", an="+doesRequireAn);
-        String msg = null;        
-        if (prevToken.equalsIgnoreCase("a") && doesRequireAn) {
-          String replacement = "an";
-          if (prevToken.equals("A")) {
-            replacement = "An";
-          }
-          msg = "Use <suggestion>" +replacement+ "</suggestion> instead of '" +prevToken+ "' if the following "+
-          "word starts with a vowel sound, e.g. 'an article', "
-          + "'an hour'";
-        } else if (prevToken.equalsIgnoreCase("an") && doesRequireA) {
-          String replacement = "a";
-          if (prevToken.equals("An")) {
-            replacement = "A";
-          }
-          msg = "Use <suggestion>" +replacement+ "</suggestion> instead of '" +prevToken+ "' if the following "+
-          "word doesn't start with a vowel sound, e.g. 'a sentence', "
-          + "'a university'";
-        }
-        if (msg != null) {          
-          final RuleMatch ruleMatch = new RuleMatch(this, prevPos, prevPos+prevToken.length(), msg, "Wrong article");
-          ruleMatches.add(ruleMatch);
-        }
-        if (tokens[i].hasPosTag("DT")) {
-          prevToken = token;
-          prevPos = tokens[i].getStartPos();
-        } else {
-          prevToken = "";
-        }
+        msg = "Use <suggestion>" +replacement+ "</suggestion> instead of '" +prevToken+ "' if the following "+
+                "word doesn't start with a vowel sound, e.g. 'a sentence', 'a university'";
+      }
+      if (msg != null) {
+        final RuleMatch ruleMatch = new RuleMatch(this, prevPos, prevPos+prevToken.length(), msg, "Wrong article");
+        ruleMatches.add(ruleMatch);
+      }
+      if (tokens[i].hasPosTag("DT")) {
+        prevToken = token;
+        prevPos = tokens[i].getStartPos();
+      } else {
+        prevToken = "";
+      }
     }
     return toRuleMatchArray(ruleMatches);
   }
 
   /**
-   * Adds "a" or "an" to the English noun. 
-   * Used for suggesting the proper form of the
-   * indefinite article.
+   * Adds "a" or "an" to the English noun. Used for suggesting the proper form of the indefinite article.
    * @param noun Word that needs an article.
-   * @return String containing the word with a determiner, 
-   * or just the word if the word is an abbreviation.
+   * @return String containing the word with a determiner, or just the word if the word is an abbreviation.
    */
   public final String suggestAorAn(final String noun) {
     String word = noun;
