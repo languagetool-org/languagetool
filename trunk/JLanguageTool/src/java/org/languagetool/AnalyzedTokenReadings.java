@@ -33,58 +33,8 @@ import org.languagetool.tools.StringTools;
  */
 public class AnalyzedTokenReadings {
 
-  @Override
-  public int hashCode() {
-    final int prime = 31;
-    int result = 1;
-    result = prime * result + Arrays.hashCode(anTokReadings);
-    result = prime * result + (isLinebreak ? 1231 : 1237);
-    result = prime * result + (isParaEnd ? 1231 : 1237);
-    result = prime * result + (isSentEnd ? 1231 : 1237);
-    result = prime * result + (isSentStart ? 1231 : 1237);
-    result = prime * result + (isWhitespace ? 1231 : 1237);
-    result = prime * result + (isWhitespaceBefore ? 1231 : 1237);
-    result = prime * result + startPos;
-    result = prime * result + ((token == null) ? 0 : token.hashCode());
-    return result;
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-    if (this == obj)
-      return true;
-    if (obj == null)
-      return false;
-    if (getClass() != obj.getClass())
-      return false;
-    final AnalyzedTokenReadings other = (AnalyzedTokenReadings) obj;
-    if (!Arrays.equals(anTokReadings, other.anTokReadings))
-      return false;
-    if (isLinebreak != other.isLinebreak)
-      return false;
-    if (isParaEnd != other.isParaEnd)
-      return false;
-    if (isSentEnd != other.isSentEnd)
-      return false;
-    if (isSentStart != other.isSentStart)
-      return false;
-    if (isWhitespace != other.isWhitespace)
-      return false;
-    if (isWhitespaceBefore != other.isWhitespaceBefore)
-      return false;
-    if (isImmunized != other.isImmunized)
-      return false;
-    if (startPos != other.startPos)
-      return false;
-    if (token == null) {
-      if (other.token != null)
-        return false;
-    } else if (!token.equals(other.token))
-      return false;
-    return true;
-  }
-
   protected AnalyzedToken[] anTokReadings;
+
   private int startPos;
   private String token;
 
@@ -104,31 +54,31 @@ public class AnalyzedTokenReadings {
   private boolean isImmunized;
   
   
-  public AnalyzedTokenReadings(final AnalyzedToken[] r, final int startPos) {
-    anTokReadings = r.clone();
+  public AnalyzedTokenReadings(final AnalyzedToken[] token, final int startPos) {
+    anTokReadings = token.clone();
     this.startPos = startPos;
     init();
   }
   
-  public AnalyzedTokenReadings(final List<AnalyzedToken> list, final int startPos) {
-    anTokReadings = list.toArray(new AnalyzedToken[list.size()]);
+  public AnalyzedTokenReadings(final List<AnalyzedToken> tokens, final int startPos) {
+    anTokReadings = tokens.toArray(new AnalyzedToken[tokens.size()]);
     this.startPos = startPos;
-    init();
-  }
-    
-  AnalyzedTokenReadings(final AnalyzedToken at) {
-    anTokReadings = new AnalyzedToken[1];
-    anTokReadings[0] = at;    
-    isWhitespaceBefore = at.isWhitespaceBefore();
     init();
   }
 
-  public AnalyzedTokenReadings(final AnalyzedToken at, final int startPos) {    
-    this(at);    
+  public AnalyzedTokenReadings(final AnalyzedToken token, final int startPos) {
+    this(token);
     this.startPos = startPos;
   }
+
+  AnalyzedTokenReadings(final AnalyzedToken token) {
+    anTokReadings = new AnalyzedToken[1];
+    anTokReadings[0] = token;
+    isWhitespaceBefore = token.isWhitespaceBefore();
+    init();
+  }
     
-  private void init() {    
+  private void init() {
     token = anTokReadings[0].getToken();
     isWhitespace = StringTools.isWhitespace(token);
     isLinebreak = "\n".equals(token) || "\r\n".equals(token)
@@ -145,17 +95,25 @@ public class AnalyzedTokenReadings {
   }
 
   /**
+   * Get a token reading 
+   * @see #getReadingsLength() getReadingsLength() for how many token readings there are
+   */
+  public final AnalyzedToken getAnalyzedToken(final int idx) {
+    return anTokReadings[idx];
+  }
+
+  /**
    * Checks if the token has a particular POS tag.
    * 
-   * @param pos
+   * @param posTag
    *          POS Tag to check
    * @return True if it does.
    */
-  public final boolean hasPosTag(final String pos) {
+  public final boolean hasPosTag(final String posTag) {
     boolean found = false;
     for (final AnalyzedToken reading : anTokReadings) {
       if (reading.getPOSTag() != null) {
-        found = pos.equals(reading.getPOSTag());
+        found = posTag.equals(reading.getPOSTag());
         if (found) {
           break;
         }
@@ -164,11 +122,7 @@ public class AnalyzedTokenReadings {
     return found;
   }
 
-  public final AnalyzedToken getAnalyzedToken(final int i) {
-    return anTokReadings[i];
-  }
-
-  public final void addReading(final AnalyzedToken tok) {
+  public final void addReading(final AnalyzedToken token) {
     final ArrayList<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
     for (int i = 0; i < anTokReadings.length - 1; i++) {
       l.add(anTokReadings[i]);
@@ -176,23 +130,22 @@ public class AnalyzedTokenReadings {
     if (anTokReadings[anTokReadings.length - 1].getPOSTag() != null) {
       l.add(anTokReadings[anTokReadings.length - 1]);
     }
-    tok.setWhitespaceBefore(isWhitespaceBefore);
-    l.add(tok);    
+    token.setWhitespaceBefore(isWhitespaceBefore);
+    l.add(token);
     anTokReadings = l.toArray(new AnalyzedToken[l.size()]);
-    if (tok.getToken().length() > token.length()) { //in case a longer token is added
-      token = tok.getToken();
+    if (token.getToken().length() > this.token.length()) { //in case a longer token is added
+      this.token = token.getToken();
     }
-    anTokReadings[anTokReadings.length - 1].
-      setWhitespaceBefore(isWhitespaceBefore);
+    anTokReadings[anTokReadings.length - 1].setWhitespaceBefore(isWhitespaceBefore);
     isParaEnd = hasPosTag(JLanguageTool.PARAGRAPH_END_TAGNAME);
     isSentEnd = hasPosTag(JLanguageTool.SENTENCE_END_TAGNAME);
     setNoRealPOStag();
   }   
 
-  public final void removeReading(final AnalyzedToken tok) {
+  public final void removeReading(final AnalyzedToken token) {
     final ArrayList<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
-    final AnalyzedToken tmpTok = new AnalyzedToken(tok.getToken(), tok
-        .getPOSTag(), tok.getLemma());
+    final AnalyzedToken tmpTok = new AnalyzedToken(token.getToken(), token
+        .getPOSTag(), token.getLemma());
     tmpTok.setWhitespaceBefore(isWhitespaceBefore);
     for (AnalyzedToken anTokReading : anTokReadings) {
       if (!anTokReading.matches(tmpTok)) {
@@ -202,15 +155,16 @@ public class AnalyzedTokenReadings {
     anTokReadings = l.toArray(new AnalyzedToken[l.size()]);
     setNoRealPOStag();
   }
+
   /** 
+   * Removes all the readings but the one that match the token token.
    * @since 1.5
-   * Removes all the readings but the one that match the token tok.
-   * @param tok Token to be matched
+   * @param token Token to be matched
    */
-  public final void leaveReading(final AnalyzedToken tok) {
+  public final void leaveReading(final AnalyzedToken token) {
     final ArrayList<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
-    final AnalyzedToken tmpTok = new AnalyzedToken(tok.getToken(), tok
-        .getPOSTag(), tok.getLemma());
+    final AnalyzedToken tmpTok = new AnalyzedToken(token.getToken(), token
+        .getPOSTag(), token.getLemma());
     tmpTok.setWhitespaceBefore(isWhitespaceBefore);
     for (AnalyzedToken anTokReading : anTokReadings) {
       if (anTokReading.matches(tmpTok)) {
@@ -296,10 +250,10 @@ public class AnalyzedTokenReadings {
     return token;
   }
 
-  public final void setWhitespaceBefore(final boolean isWhite) {
-    isWhitespaceBefore = isWhite;
+  public final void setWhitespaceBefore(final boolean isWhiteSpaceBefore) {
+    isWhitespaceBefore = isWhiteSpaceBefore;
     for (final AnalyzedToken aTok : anTokReadings) {
-      aTok.setWhitespaceBefore(isWhite);
+      aTok.setWhitespaceBefore(isWhiteSpaceBefore);
     }
   }
 
@@ -316,27 +270,25 @@ public class AnalyzedTokenReadings {
   }
   
   /**
-   * @since 1.5
    * Sets the flag on AnalyzedTokens to make matching
    * on "UNKNOWN" POS tag correct in the Element class.  
    */
-  private final void setNoRealPOStag() {    
-    boolean hasNoPOStag = !isLinebreak(); 
+  private void setNoRealPOStag() {
+    boolean hasNoPOStag = !isLinebreak();
     for (AnalyzedToken an: anTokReadings) {
       if (JLanguageTool.PARAGRAPH_END_TAGNAME.equals(an.getPOSTag())
-          || JLanguageTool.SENTENCE_END_TAGNAME.equals(an.getPOSTag())) {
-            continue;
-          }
+              || JLanguageTool.SENTENCE_END_TAGNAME.equals(an.getPOSTag())) {
+        continue;
+      }
       if (an.getPOSTag() != null) {
         hasNoPOStag = false;
       }
-      }
+    }
     for (AnalyzedToken an: anTokReadings) {
       an.setNoPOSTag(hasNoPOStag);
-    }    
+    }
   }
 
-  
   @Override
   public String toString() {
     final StringBuilder sb = new StringBuilder();
@@ -346,4 +298,55 @@ public class AnalyzedTokenReadings {
     return sb.toString();
   }
 
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + Arrays.hashCode(anTokReadings);
+    result = prime * result + (isLinebreak ? 1231 : 1237);
+    result = prime * result + (isParaEnd ? 1231 : 1237);
+    result = prime * result + (isSentEnd ? 1231 : 1237);
+    result = prime * result + (isSentStart ? 1231 : 1237);
+    result = prime * result + (isWhitespace ? 1231 : 1237);
+    result = prime * result + (isWhitespaceBefore ? 1231 : 1237);
+    result = prime * result + startPos;
+    result = prime * result + ((token == null) ? 0 : token.hashCode());
+    return result;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    final AnalyzedTokenReadings other = (AnalyzedTokenReadings) obj;
+    if (!Arrays.equals(anTokReadings, other.anTokReadings))
+      return false;
+    if (isLinebreak != other.isLinebreak)
+      return false;
+    if (isParaEnd != other.isParaEnd)
+      return false;
+    if (isSentEnd != other.isSentEnd)
+      return false;
+    if (isSentStart != other.isSentStart)
+      return false;
+    if (isWhitespace != other.isWhitespace)
+      return false;
+    if (isWhitespaceBefore != other.isWhitespaceBefore)
+      return false;
+    if (isImmunized != other.isImmunized)
+      return false;
+    if (startPos != other.startPos)
+      return false;
+    if (token == null) {
+      if (other.token != null)
+        return false;
+    } else if (!token.equals(other.token))
+      return false;
+    return true;
+  }
+  
 }
