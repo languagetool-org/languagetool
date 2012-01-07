@@ -1108,7 +1108,6 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         </pattern>
         <message>Meinten Sie <suggestion>wahr</suggestion> (=wahrhaftig, authentisch) statt 'war' (Vergangenheit von 'sein') oder fehlt vielleicht ein Komma?</message>
         <example type="incorrect">Das war <marker>war</marker>.</example>
-        <example type="correct">Das war <marker>War</marker>.</example>
         <example type="correct">Das war <marker>wahr</marker>.</example>
       </rule>
     </rulegroup>
@@ -1567,8 +1566,8 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token>lasen</token>
       </pattern>
       <message>Meinten Sie 'zu <suggestion>lassen</suggestion>'?</message>
-      <example type="correct">Er plante, sie mit einem Maulkorb rumlaufen zu <marker>lassen</marker>.</example>
-      <example type="incorrect">Er plante, sie mit einem Maulkorb rumlaufen zu <marker>lasen</marker>.</example>
+      <example type="correct">Er plante, sie mit einem Maulkorb herumlaufen zu <marker>lassen</marker>.</example>
+      <example type="incorrect">Er plante, sie mit einem Maulkorb herumlaufen zu <marker>lasen</marker>.</example>
     </rule>
     <rulegroup id="OEKONOMISCH_OEKUMENISCH" name="Möglicher Tippfehler: 'ökonomischer (ökumenischer) Gottesdienst/...'">
       <rule>
@@ -4510,7 +4509,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Ihm ist <marker>angst und bange</marker>.</example>
         <example type="incorrect" correction="angst und bange">Ihm ist <marker>Angst und Bange</marker>.</example>
         <example type="incorrect" correction="angst und bange">Ihm ist nicht <marker>Angst und bange</marker>.</example>
-        <example type="correct">Ihm ist <marker>Angst und Bange</marker> gemacht wurden.</example>
+        <example type="correct">Ihm ist <marker>Angst und Bange</marker> gemacht worden.</example>
       </rule>
       <rule>
         <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
@@ -4523,7 +4522,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <message>&inwend;<suggestion><match no="2" case_conversion="alllower"/> und <match no="4" case_conversion="alllower"/></suggestion> werden/sein werden 'angst' und 'bange' kleingeschrieben.</message>
         <example type="correct">Ihm ist <marker>angst und bange</marker>.</example>
         <example type="incorrect" correction="angst und bange">Ihm ist <marker>angst und Bange</marker>.</example>
-        <example type="correct">Ihm ist <marker>Angst und Bange</marker> gemacht wurden.</example>
+        <example type="correct">Ihm ist <marker>Angst und Bange</marker> gemacht worden.</example>
       </rule>
       <rule>
         <pattern case_sensitive="yes" mark_to="-1" mark_from="1">
@@ -4531,7 +4530,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>Angst</token>
           <token>und</token>
           <token regexp="yes" skip="1">[bB]ange</token>
-          <token inflected="yes" regexp="yes">sein|werden</token>
+          <token inflected="no" regexp="yes">sein|werden|ist|war</token>
         </pattern>
         <message>&inwend;<suggestion><match no="2" case_conversion="alllower"/> und <match no="4" case_conversion="alllower"/></suggestion> werden/sein werden 'angst' und 'bange' kleingeschrieben.</message>
         <example type="correct">Ihm sollte <marker>angst und bange</marker> sein.</example>
@@ -4597,7 +4596,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Er hat ihm <marker>Angst und Bange</marker> gemacht.</example>
         <example type="incorrect" correction="Angst und Bange">Er hat ihm <marker>angst und bange</marker> gemacht.</example>
         <example type="incorrect" correction="Angst und Bange">Du sollst aufhören, ihm <marker>angst und bange</marker> zu machen.</example>
-        <example type="correct">Ihm ist <marker>Angst und Bange</marker> gemacht wurden.</example>
+        <example type="correct">Ihm ist <marker>Angst und Bange</marker> gemacht worden.</example>
       </rule>
       <rule>
         <pattern case_sensitive="yes" mark_to="-1">
@@ -5754,7 +5753,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token>aber</token>
       </pattern>
       <message>&inwend;'ohne Wenn und Aber' wird <suggestion>Wenn und Aber</suggestion> großgeschrieben.</message>
-      <example type="correct">Das gilt von <marker>Wenn und Aber</marker>.</example>
+      <example type="correct">Das gilt ohne <marker>Wenn und Aber</marker>.</example>
       <example type="incorrect">Das gilt ohne <marker>wenn und aber</marker>.</example>
     </rule>
     <rule id="DAS_ERSTE_MAL" name="Groß-/Kleinschreibung: 'das erste mal (Mal)'">
@@ -6226,7 +6225,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Sie kommen, <marker>weil die weniger organisierten</marker> Feinde unvorbereitet sind.</example>
         <example type="incorrect">Ich finde das gut, <marker>weil du hast</marker> dir viel Mühe gemacht.</example>
         <example type="correct">Ich finde das gut, <marker>denn du hast</marker> dir viel Mühe gemacht.</example>
-        <example type="correct">Ich finde das gut, <marker>weil du dir viel Mühe gemacht hast </marker>.</example>
+        <example type="correct">Ich finde das gut, <marker>weil du dir viel Mühe gemacht hast</marker>.</example>
         <example type="correct">Das ist ein Befehl, <marker>weil es über eine</marker> Aufforderung hinausgeht.</example>
         <example type="incorrect">Hast du das gemerkt, <marker>weil du hast</marker> einen häufigen Fehler gemacht?</example>
         <example type="correct">Das ist so, weil hier drei dunkle Streifen aneinanderliegen.</example> <!-- used to fail because the verb isn't recognized -->
@@ -6247,7 +6246,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect">Ich bin <marker>wegen einem</marker> schweren Unfall zu spät gekommen.</example>
         <example type="incorrect">Ich bin <marker>wegen eurem</marker> schweren Unfall zu spät gekommen.</example>
         <example type="correct">Ich bin <marker>wegen eures</marker> schweren Unfalls zu spät gekommen.</example>
-        <example type="correct">Ich bin <marker>wegen eines</marker> Unfall zu spät gekommen.</example>
+        <example type="correct">Ich bin <marker>wegen eines</marker> Unfalls zu spät gekommen.</example>
         <example type="correct">Auf verschiedenen <marker>Wegen den</marker> Markt erobern.</example>
         <example type="correct">Der Flächeninhalt <marker>abzüglich des</marker> Halbkreises beträgt 3m².</example>
         <example type="incorrect">Der Flächeninhalt <marker>abzüglich dem</marker> Halbkreis beträgt 3m².</example>
@@ -6266,7 +6265,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect"><marker>Wegen dem</marker> Unfall</example>
         <example type="incorrect"><marker>Wegen Ihrem</marker> Unfall</example>
         <example type="correct"><marker>Wegen des</marker> Unfalls</example>
-        <example type="correct"><marker>Wegen ihres</marker> Unfall</example>
+        <example type="correct"><marker>Wegen ihres</marker> Unfalls</example>
         <example type="correct"><marker>wegen Diebstahl</marker> geschlossen</example>
         <example type="correct"><marker>Abzüglich des</marker> Halbkreises beträgt die Fläche 3m².</example>
         <example type="incorrect"><marker>Abzüglich dem</marker> Halbkreis beträgt die Fläche 3m².</example>
@@ -6593,7 +6592,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect" correction="worden">Die Tür ist auf den Boden gelegt <marker>wurden</marker>.</example>
         <example type="incorrect" correction="worden">Ihr seid auf den Boden gelegt <marker>wurden</marker>.</example>
         <example type="correct">Nachdem sie auf den Boden gelegt <marker>wurden</marker>.</example>
-        <example type="correct">..., die ihm zuzurechnen sind bzw. gelöst wurden.</example>
+        <example type="correct">Fälle, die ihm zuzurechnen sind bzw. gelöst wurden.</example>
       </rule>
     </rulegroup>
     <!-- TODO: make this more general: -->
@@ -7088,9 +7087,9 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>sondern</token>
         </pattern>
         <message>Vor der Konjunktion 'sondern' steht immer ein Komma.</message>
-        <example type="correct">Kein Bisschen hat er getan, <marker>sondern</marker> nur rumgelegen.</example>
+        <example type="correct">Kein Bisschen hat er getan, <marker>sondern</marker> nur herumgelegen.</example>
         <example type="correct">Sie sind nicht auf Jagd gegangen und <marker>sondern</marker> trotzdem Schweiß ab.</example>
-        <example type="incorrect">Kein Bisschen hat er getan <marker>sondern</marker> nur rumgelegen.</example>
+        <example type="incorrect">Kein Bisschen hat er getan <marker>sondern</marker> nur herumgelegen.</example>
       </rule>
     </rulegroup>
     <rulegroup id="SUBJUNKTION_KOMMA" name="Zeichensetzung: Fehlendes Komma bei Subjunktion">

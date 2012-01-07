@@ -79,6 +79,7 @@ public class CaseRule extends GermanRule {
   
   private static final Set<String> exceptions = new HashSet<String>();
   static {
+    exceptions.add("Allerlei");
     exceptions.add("Letztere");
     exceptions.add("Letzterer");
     exceptions.add("Letzteres");
@@ -223,6 +224,11 @@ public class CaseRule extends GermanRule {
     myExceptionPhrases.add("Bürgerlichen Gesetzbuch");
     myExceptionPhrases.add("Bürgerlichen Gesetzbuchs");
     myExceptionPhrases.add("Bürgerlichen Gesetzbuches");
+    myExceptionPhrases.add("Haute Couture");
+    myExceptionPhrases.add("aus dem Nichts");
+    myExceptionPhrases.add("Kleiner Bär");   // das Sternbild
+    myExceptionPhrases.add("Zehn Gebote");
+    myExceptionPhrases.add("Römische Reich Deutscher Nation");
   }
 
   private static final Set<String> substVerbenExceptions = new HashSet<String>();
