@@ -9083,7 +9083,7 @@ $Id: grammar.xml,v 1.129 2010-11-13 23:24:21 dnaber Exp $
       </rule>
       <rule>
         <pattern case_sensitive="yes" mark_from="2">
-          <token>"</token>
+          <token regexp="yes">"|“</token>
           <and>
             <token inflected="yes" regexp="yes">[A-Z][a-z]+</token>
             <token regexp="yes">[a-z]+</token>
@@ -9091,8 +9091,8 @@ $Id: grammar.xml,v 1.129 2010-11-13 23:24:21 dnaber Exp $
           <token postag="NN" regexp="yes">[a-z]+</token>
         </pattern>
         <message>The word \3 should probably be written in uppercase: <suggestion><match case_conversion="startupper" no="3"></match></suggestion>.</message>
-        <example correction="Monthly" type="incorrect">This is a story from "atlantic <marker>monthly</marker>".</example>
-        <example type="correct">This is a story from "The Atlantic Monthly".</example>
+        <example correction="Monthly" type="incorrect">This is a story from “atlantic <marker>monthly</marker>”.</example>
+        <example type="correct">This is a story from “The Atlantic Monthly”.</example>
       </rule>
       <rule>
         <pattern case_sensitive="yes">
