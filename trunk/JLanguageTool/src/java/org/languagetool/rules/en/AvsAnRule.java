@@ -87,7 +87,7 @@ public class AvsAnRule extends EnglishRule {
       if (parts.length >= 1 && !parts[0].equalsIgnoreCase("a")) {  // avoid false alarm on "A-levels are..."
         token = parts[0];
       }
-      token = token.replaceAll("[^a-zA-Z0-9\\.']", "");         // e.g. >>an "industry party"<<
+      token = token.replaceAll("[^αa-zA-Z0-9\\.']", "");         // e.g. >>an "industry party"<<
       if (StringTools.isEmpty(token)) {
         continue;
       }
