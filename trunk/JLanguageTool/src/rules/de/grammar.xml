@@ -74,16 +74,29 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect">Es <marker>wir</marker> wieder wärmer draußen.</example>
       <example type="correct">Es <marker>wird</marker> wieder wärmer draußen.</example>
     </rule>
-    <rule id="ZUR_RUHE_GEBETET" name="Möglicher Tippfehler: zur Ruhe gebetet (gebettet)">
-      <pattern mark_from="2">
-          <token>zur</token>
-          <token>Ruhe</token>
-          <token>gebetet</token>
-        </pattern>
-      <message>Meinten Sie <suggestion>gebettet</suggestion>?</message>
-      <example type="incorrect">Dort wurde er zur Ruhe <marker>gebetet</marker>.</example>
-      <example type="correct">Dort wurde er zur Ruhe <marker>gebettet</marker>.</example>
-    </rule>
+    <rulegroup id="ZUR_RUHE_GEBETET" name="Möglicher Tippfehler: zur Ruhe gebetet (gebettet)">
+      <rule>
+        <pattern mark_from="2">
+            <token>zur</token>
+            <token>Ruhe</token>
+            <token>gebetet</token>
+          </pattern>
+        <message>Meinten Sie <suggestion>gebettet</suggestion>?</message>
+        <example type="incorrect">Dort wurde er zur Ruhe <marker>gebetet</marker>.</example>
+        <example type="correct">Dort wurde er zur Ruhe <marker>gebettet</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="3">
+            <token>zur</token>
+            <token>letzten</token>
+            <token>Ruhe</token>
+            <token>gebetet</token>
+          </pattern>
+        <message>Meinten Sie <suggestion>gebettet</suggestion>?</message>
+        <example type="incorrect">Dort wurde er zur letzten Ruhe <marker>gebetet</marker>.</example>
+        <example type="correct">Dort wurde er zur Ruhe <marker>gebettet</marker>.</example>
+      </rule>
+    </rulegroup>
     <rule id="AUF_ROSEN_GEBETET" name="Möglicher Tippfehler: auf Rosen gebetet (gebettet)">
       <pattern mark_from="2">
           <token>auf</token>
@@ -3146,6 +3159,41 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect" correction="Tränen">Unter <marker>tränen</marker> gestand er seine Schuld.</example>
       <example type="correct">Unter <marker>Schmerzen</marker> sollst du deine Kinder gebären.</example>
     </rule>
+    <rulegroup id="IM_STICH_LASSEN" name="Groß-/Kleinschreibung: 'im stich (Stich) lassen'">
+      <rule>
+        <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
+          <token>im</token>
+          <token>stich</token>
+          <token inflected="yes">lassen</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Stich</suggestion>&subende;</message>
+        <example type="incorrect" correction="Stich">Wir werden euch nicht im <marker>stich</marker> lassen.</example>
+        <example type="correct">Wir werden euch nicht im <marker>Stich</marker> lassen.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="3">
+          <token inflected="yes">lassen</token>
+          <token regexp="yes">euch|uns|[dDm]ich|sie|ihn</token>
+          <token>im</token>
+          <token>stich</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Stich</suggestion>&subende;</message>
+        <example type="incorrect" correction="Stich">Ihr lasst uns im <marker>stich</marker>.</example>
+        <example type="correct">Wir werden euch nicht im <marker>Stich</marker> lassen.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="4">
+          <token inflected="yes">lassen</token>
+          <token regexp="yes">euch|uns|[dDm]ich|sie|ihn</token>
+          <token>nicht</token>
+          <token>im</token>
+          <token>stich</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Stich</suggestion>&subende;</message>
+        <example type="incorrect" correction="Stich">Wir lassen euch nicht im <marker>stich</marker>.</example>
+        <example type="correct">Wir werden euch nicht im <marker>Stich</marker> lassen.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="HOEREN_UND_SEHEN" name="Groß-/Kleinschreibung: 'hören und sehen (Hören und Sehen) vergehen'">
       <rule>
         <pattern case_sensitive="yes" mark_to="-1">
@@ -3983,7 +4031,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect">Sie lag auf dem <marker>rücken</marker>.</example>
         <example type="correct">Sie lag auf dem <marker>Rücken</marker>.</example>
       </rule>
-    </rulegroup>    
+    </rulegroup>
     <rulegroup id="VERDIENST_SUBST" name="Groß-/Kleinschreibung: 'verdienst (Verdienst)'">
       <rule>
         <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
@@ -4005,7 +4053,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect">Es ist das <marker>verdienst</marker> Müllers, hier Klarheit geschaffen zu haben.</example>
         <example type="correct">Es ist das <marker>Verdienst</marker> Müllers, hier Klarheit geschaffen zu haben.</example>
       </rule>
-    </rulegroup>    
+    </rulegroup>
     <rulegroup id="LEGENDE_SUBST" name="Groß-/Kleinschreibung: 'legende (Legende)'">
       <rule>
         <pattern case_sensitive="yes" mark_from="2" mark_to="-1">
