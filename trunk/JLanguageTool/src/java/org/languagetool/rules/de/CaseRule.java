@@ -691,6 +691,7 @@ public class CaseRule extends GermanRule {
     exceptions.add("Schlinge");
     exceptions.add("Schlingen");
     exceptions.add("Schmelze");
+    exceptions.add("Schmerzen");
     exceptions.add("Schmiede");
     exceptions.add("Schnäbeln");
     exceptions.add("Schnalle");
