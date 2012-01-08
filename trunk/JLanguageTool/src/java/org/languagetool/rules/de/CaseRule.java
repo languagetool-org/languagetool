@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -41,17 +41,16 @@ import org.languagetool.tools.StringTools;
 /**
  * Check that adjectives and verbs are not written with an uppercase
  * first letter (except at the start of a sentence) and cases
- * like this: <tt>Das laufen f&auml;llt mir leicht.</tt> (<tt>laufen</tt> needs
- * to be uppercased).
- *   
+ * like this: Das laufen fällt mir leicht. (laufen needs to be uppercased).
+ *
  * @author Daniel Naber
  */
 public class CaseRule extends GermanRule {
 
   private final GermanTagger tagger = (GermanTagger) Language.GERMAN.getTagger();
 
-  // wenn hinter diesen Wörtern ein Verb steht, ist es wohl ein substantiviertes Verb,
-  // muss also groß geschrieben werden:
+  // Wenn hinter diesen Wörtern ein Verb steht, ist es wohl ein substantiviertes Verb,
+  // muss also großgeschrieben werden:
   private static final Set<String> nounIndicators = new HashSet<String>();
   static {
     nounIndicators.add("das");
@@ -64,7 +63,7 @@ public class CaseRule extends GermanRule {
     //indicator.add("ihres");
     //indicator.add("ihren");
   }
-  
+
   private static final Set<String> sentenceStartExceptions = new HashSet<String>();
   static {
     sentenceStartExceptions.add("(");
@@ -76,17 +75,19 @@ public class CaseRule extends GermanRule {
     sentenceStartExceptions.add("«");
     sentenceStartExceptions.add("»");
   }
-  
+
   private static final Set<String> exceptions = new HashSet<String>();
   static {
 
     exceptions.add("Abends");
     exceptions.add("Abfahrt");
+    exceptions.add("Abfuhr");
     exceptions.add("Abgeordnete");
     exceptions.add("Abgeordneten");
     exceptions.add("Abgeordneter");
     exceptions.add("Abriss");
     exceptions.add("Absage");
+    exceptions.add("Absagen");
     exceptions.add("Abschnitt");
     exceptions.add("Abschnitten");
     exceptions.add("Absteige");
@@ -96,7 +97,7 @@ public class CaseRule extends GermanRule {
     exceptions.add("Ahne");
     exceptions.add("Ahnen");
     exceptions.add("Ähnlichem");
-    exceptions.add("Ähnliches");   // je nach Kontext groß (TODO), z.B. "Er hat Ähnliches erlebt" 
+    exceptions.add("Ähnliches");   // je nach Kontext groß (TODO), z.B. "Er hat Ähnliches erlebt"
     exceptions.add("Allerlei");
     exceptions.add("Alter");
     exceptions.add("Alters");
@@ -145,6 +146,7 @@ public class CaseRule extends GermanRule {
     exceptions.add("Ausgaben");
     exceptions.add("Auslagen");
     exceptions.add("Ausmaßen");
+    exceptions.add("Ausritt");
     exceptions.add("Ausritte");
     exceptions.add("Ausritten");
     exceptions.add("Aussage");
@@ -181,16 +183,20 @@ public class CaseRule extends GermanRule {
     exceptions.add("Bergen");
     exceptions.add("Berufe");
     exceptions.add("Berufen");
+    exceptions.add("Bescheid");
     exceptions.add("Bescheide");
-    exceptions.add("besonderes");   // je nach Kontext groß (TODO): "etwas Besonderes" 
+    exceptions.add("Bescheiden");
+    exceptions.add("besonderes");   // je nach Kontext groß (TODO): "etwas Besonderes"
     exceptions.add("Bestand");
     exceptions.add("Betrieb");
     exceptions.add("Betten");
     exceptions.add("Beute");
     exceptions.add("Biss");
+    exceptions.add("Bissen");
     exceptions.add("Blase");
     exceptions.add("Blasen");
     exceptions.add("Blick");
+    exceptions.add("Blicken");
     exceptions.add("Block");
     exceptions.add("Brauch");
     exceptions.add("Breite");
@@ -201,7 +207,9 @@ public class CaseRule extends GermanRule {
     exceptions.add("Buche");
     exceptions.add("Buchen");
     exceptions.add("Bündel");
+    exceptions.add("Bündeln");
     exceptions.add("Bürde");
+    exceptions.add("Bürden");
     exceptions.add("Bürgern");
     exceptions.add("Burleske");
     exceptions.add("Bürste");
@@ -209,7 +217,7 @@ public class CaseRule extends GermanRule {
     exceptions.add("Creme");
     exceptions.add("Dank");
     exceptions.add("Dauertest");
-    exceptions.add("De");    // "De Morgan" etc
+    exceptions.add("De");    // "De Morgan" etc.
     exceptions.add("Deckeln");
     exceptions.add("Delinquent");
     exceptions.add("Delinquenten");
@@ -222,7 +230,6 @@ public class CaseRule extends GermanRule {
     exceptions.add("Diminutiven");
     exceptions.add("Diminutives");
     exceptions.add("Dingen");
-    exceptions.add("Dollen");
     exceptions.add("Double");
     exceptions.add("Dr");
     exceptions.add("Dreißigern");
@@ -245,10 +252,12 @@ public class CaseRule extends GermanRule {
     exceptions.add("Eile");
     exceptions.add("Einband");
     exceptions.add("Eindrücke");
+    exceptions.add("Eindrücken");
     exceptions.add("Eingaben");
     exceptions.add("Eingriff");
     exceptions.add("Eingriffen");
     exceptions.add("Einreise");
+    exceptions.add("Einreisen");
     exceptions.add("Einschnitt");
     exceptions.add("Einschnitten");
     exceptions.add("Eislaufen");
@@ -268,17 +277,26 @@ public class CaseRule extends GermanRule {
     exceptions.add("Fächern");
     exceptions.add("Faches");
     exceptions.add("Faden");
+    exceptions.add("Fahrt");
+    exceptions.add("Fall");
+    exceptions.add("Falle");
+    exceptions.add("Fallen");
+    exceptions.add("Fälle");
+    exceptions.add("Fällen");
     exceptions.add("Falte");
     exceptions.add("Falten");
     exceptions.add("Feile");
     exceptions.add("Feind");
     exceptions.add("Ferne");
     exceptions.add("Fest");
+    exceptions.add("Feste");
+    exceptions.add("Festen");
     exceptions.add("Fett");
     exceptions.add("Fette");
     exceptions.add("Fetten");
     exceptions.add("Fiedeln");
     exceptions.add("Filme");
+    exceptions.add("Filmen");
     exceptions.add("Filz");
     exceptions.add("Filze");
     exceptions.add("Fingern");
@@ -288,9 +306,11 @@ public class CaseRule extends GermanRule {
     exceptions.add("Flaute");    // 'flaute ab'
     exceptions.add("Flauten");
     exceptions.add("Fliege");
+    exceptions.add("Fliegen");
     exceptions.add("Fliese");
     exceptions.add("Fliesen");
     exceptions.add("Flöße");
+    exceptions.add("Flößen");
     exceptions.add("Flöte");
     exceptions.add("Flöten");
     exceptions.add("Flotte");
@@ -333,6 +353,7 @@ public class CaseRule extends GermanRule {
     exceptions.add("Gier");
     exceptions.add("Gläubiger");
     exceptions.add("Gleichstand");
+    exceptions.add("Goldene");
     exceptions.add("Goldener");    // Goldener Schnitt
     exceptions.add("Graben");
     exceptions.add("Grade");
@@ -342,6 +363,7 @@ public class CaseRule extends GermanRule {
     exceptions.add("Grenze");
     exceptions.add("Grenzen");
     exceptions.add("Große");    // Alexander der Große, der Große Bär
+    exceptions.add("Großen");
     exceptions.add("Großtat");
     exceptions.add("Großtaten");
     exceptions.add("Großteils");
@@ -356,6 +378,8 @@ public class CaseRule extends GermanRule {
     exceptions.add("Hacken");
     exceptions.add("Haken");
     exceptions.add("Halbtotale");
+    exceptions.add("Halbtotalen");
+    exceptions.add("Halle");
     exceptions.add("Hallen");
     exceptions.add("Hamstern");
     exceptions.add("Hanteln");
@@ -372,6 +396,7 @@ public class CaseRule extends GermanRule {
     exceptions.add("Herzen");
     exceptions.add("Herzöge");
     exceptions.add("Herzögen");
+    exceptions.add("Hexe");
     exceptions.add("Hexen");
     exceptions.add("Hieb");
     exceptions.add("Hiebe");
@@ -383,7 +408,7 @@ public class CaseRule extends GermanRule {
     exceptions.add("Höhlen");
     exceptions.add("Humanoide");
     exceptions.add("Humanoiden");
-    exceptions.add("Hundert");   // je nach Kontext groß (TODO) 
+    exceptions.add("Hundert");   // je nach Kontext groß (TODO)
     exceptions.add("Hungers");
     exceptions.add("Ihnen");
     exceptions.add("Ihr");
@@ -397,8 +422,11 @@ public class CaseRule extends GermanRule {
     exceptions.add("Infrarot");
     exceptions.add("Initiale");
     exceptions.add("Initialen");
+    exceptions.add("Intrigant");
     exceptions.add("Intriganten");
     exceptions.add("Invalide");
+    exceptions.add("Invaliden");
+    exceptions.add("Invalider");
     exceptions.add("Jenseits");
     exceptions.add("Jugendliche");
     exceptions.add("Jugendlichen");
@@ -408,11 +436,13 @@ public class CaseRule extends GermanRule {
     exceptions.add("Jünger");
     exceptions.add("Kabeln");
     exceptions.add("Kante");
+    exceptions.add("Kanten");
     exceptions.add("Kapern");
     exceptions.add("Kapital");
     exceptions.add("Kappe");
     exceptions.add("Kappen");
     exceptions.add("Karre");
+    exceptions.add("Karren");
     exceptions.add("Käse");
     exceptions.add("Kästen");
     exceptions.add("Kegel");
@@ -423,6 +453,7 @@ public class CaseRule extends GermanRule {
     exceptions.add("Kellnern");
     exceptions.add("Kesseln");
     exceptions.add("Klage");
+    exceptions.add("Klagen");
     exceptions.add("Klammer");
     exceptions.add("Klammern");
     exceptions.add("Klang");
@@ -489,6 +520,7 @@ public class CaseRule extends GermanRule {
     exceptions.add("Legende");
     exceptions.add("Legenden");
     exceptions.add("Lehre");
+    exceptions.add("Lehren");
     exceptions.add("Leid");
     exceptions.add("Leiste");
     exceptions.add("Leisten");
@@ -497,6 +529,7 @@ public class CaseRule extends GermanRule {
     exceptions.add("Letzterer");
     exceptions.add("Letzteres");
     exceptions.add("Leuchte");
+    exceptions.add("Leuchten");
     exceptions.add("Licht");
     exceptions.add("Lichter");
     exceptions.add("Liebe");
@@ -563,6 +596,7 @@ public class CaseRule extends GermanRule {
     exceptions.add("Norden");
     exceptions.add("Notfalls");
     exceptions.add("Nr");
+    exceptions.add("Nudeln");
     exceptions.add("Nutzen");
     exceptions.add("Obdachlose");
     exceptions.add("Obdachlosen");
@@ -644,6 +678,9 @@ public class CaseRule extends GermanRule {
     exceptions.add("Retrospektive");
     exceptions.add("Reue");
     exceptions.add("Riegeln");
+    exceptions.add("Ring");
+    exceptions.add("Ringe");
+    exceptions.add("Ringen");
     exceptions.add("Robbe");
     exceptions.add("Robben");
     exceptions.add("Rolle");
@@ -653,6 +690,8 @@ public class CaseRule extends GermanRule {
     exceptions.add("Rüde");
     exceptions.add("Rüden");
     exceptions.add("Ruf");
+    exceptions.add("Rufe");
+    exceptions.add("Rufen");
     exceptions.add("Rüge");
     exceptions.add("Rügen");
     exceptions.add("Ruhe");
@@ -660,20 +699,26 @@ public class CaseRule extends GermanRule {
     exceptions.add("Rümpfen");    // über die Rümpfe rümpfe ich die Nase
     exceptions.add("Runde");
     exceptions.add("Runden");
+    exceptions.add("Sachverständige");
+    exceptions.add("Sachverständigen");
     exceptions.add("Sachverständiger");
     exceptions.add("Sahne");
     exceptions.add("Samt");     // 'in Samt und Seide' vs. 'samt und sonders'
     exceptions.add("Sankt");
     exceptions.add("Säume");
+    exceptions.add("Säumen");
     exceptions.add("Säure");
     exceptions.add("Schächte");
     exceptions.add("Schächten");
     exceptions.add("Schaden");
     exceptions.add("Schal");
+    exceptions.add("Schale");
+    exceptions.add("Schalen");
     exceptions.add("Schau");
     exceptions.add("Schäume");
     exceptions.add("Scheine");
     exceptions.add("Scheinen");
+    exceptions.add("Scheiße");
     exceptions.add("Schere");
     exceptions.add("Scheren");
     exceptions.add("Scherze");
@@ -712,6 +757,8 @@ public class CaseRule extends GermanRule {
     exceptions.add("Schuften");
     exceptions.add("Schuld");
     exceptions.add("Schulden");
+    exceptions.add("Schule");
+    exceptions.add("Schulen");
     exceptions.add("Schund");
     exceptions.add("Schürze");
     exceptions.add("Schürzen");
@@ -720,6 +767,8 @@ public class CaseRule extends GermanRule {
     exceptions.add("Schwamm");
     exceptions.add("Schwänze");
     exceptions.add("Schwänzen");
+    exceptions.add("Schwärme");
+    exceptions.add("Schwärmen");
     exceptions.add("Schwarzes");    // Schwarzes Brett
     exceptions.add("Schwebe");    // in der Schwebe
     exceptions.add("Sie");
@@ -763,10 +812,13 @@ public class CaseRule extends GermanRule {
     exceptions.add("Stolz"); // mein ganzer Stolz
     exceptions.add("Stoß");  // "Stoß zu!"
     exceptions.add("Störe"); // Fische
+    exceptions.add("Stören");
     exceptions.add("Strafe");
     exceptions.add("Strafen");
     exceptions.add("Strecke");
     exceptions.add("Strecken");
+    exceptions.add("Streiche");
+    exceptions.add("Streichen");
     exceptions.add("Strich");
     exceptions.add("Strichen");
     exceptions.add("Strippe");
@@ -786,25 +838,29 @@ public class CaseRule extends GermanRule {
     exceptions.add("Tasten");
     exceptions.add("Tat");
     exceptions.add("Taten");
-    exceptions.add("Tausend");   // je nach Kontext groß (TODO) 
+    exceptions.add("Tausend");   // je nach Kontext groß (TODO)
     exceptions.add("Texte");
     exceptions.add("Texten");
     exceptions.add("Textil");
     exceptions.add("Throne");
+    exceptions.add("Tote");
+    exceptions.add("Toten");
     exceptions.add("Toter");
     exceptions.add("Touren");
     exceptions.add("Träger");
     exceptions.add("Träume");
     exceptions.add("Träumen");
+    exceptions.add("Treue");
     exceptions.add("Trieb");
     exceptions.add("Trieben");
     exceptions.add("Tritt");
-    exceptions.add("Trotz"); // aller Vernunft zum Trotz 
+    exceptions.add("Trotz"); // aller Vernunft zum Trotz
     exceptions.add("tun");   // "Sie müssen das tun"
     exceptions.add("Türke");
     exceptions.add("Türken");
     exceptions.add("Übergriff");
-    exceptions.add("Übrigen");   // je nach Kontext groß (TODO), z.B. "im Übrigen" 
+    exceptions.add("Übergriffen");
+    exceptions.add("Übrigen");   // je nach Kontext groß (TODO), z.B. "im Übrigen"
     exceptions.add("Ufern");
     exceptions.add("Umriss");
     exceptions.add("Umrissen");
@@ -813,7 +869,9 @@ public class CaseRule extends GermanRule {
     exceptions.add("Unterschied");
     exceptions.add("Unterschieden");
     exceptions.add("Untertan");
-    exceptions.add("Unvorhergesehenes");   // je nach Kontext groß (TODO), z.B. "etwas Unvorhergesehenes" 
+    exceptions.add("Unvorhergesehene");
+    exceptions.add("Unvorhergesehenen");
+    exceptions.add("Unvorhergesehenes");   // je nach Kontext groß (TODO), z.B. "etwas Unvorhergesehenes"
     exceptions.add("Variable");
     exceptions.add("Variablen");
     exceptions.add("Verantwortliche");
@@ -830,8 +888,11 @@ public class CaseRule extends GermanRule {
     exceptions.add("Verriss");
     exceptions.add("Vertrauen");
     exceptions.add("Vertrieb");
+    exceptions.add("Verwandte");
+    exceptions.add("Verwandten");
     exceptions.add("Verwandter");
     exceptions.add("Verzehr");
+    exceptions.add("Vielfache");
     exceptions.add("Vielfaches");
     exceptions.add("Virtuose");
     exceptions.add("Virtuosen");
@@ -867,6 +928,7 @@ public class CaseRule extends GermanRule {
     exceptions.add("Weg");
     exceptions.add("Wegen");
     exceptions.add("Weide");
+    exceptions.add("Weiden");
     exceptions.add("Weihe");
     exceptions.add("Weile");
     exceptions.add("Wein");
@@ -884,8 +946,10 @@ public class CaseRule extends GermanRule {
     exceptions.add("Wicht");
     exceptions.add("Wichtiges");
     exceptions.add("Widerstand");
+    exceptions.add("Widerstände");
     exceptions.add("Widerständen");
     exceptions.add("Wiege");
+    exceptions.add("Wiese");
     exceptions.add("Wiesen");
     exceptions.add("Wild");
     exceptions.add("Wolle");
@@ -894,6 +958,7 @@ public class CaseRule extends GermanRule {
     exceptions.add("Wünsche");
     exceptions.add("Wünschen");
     exceptions.add("Würde");
+    exceptions.add("Würden");
     exceptions.add("Würze");
     exceptions.add("Wüste");
     exceptions.add("Wüsten");
@@ -988,17 +1053,23 @@ public class CaseRule extends GermanRule {
     exceptions.add("Weißrussisch");
 
     // Änderungen an der Rechtschreibreform 2006 erlauben hier Großschreibung:
-    exceptions.add("Du");
-    exceptions.add("Dir");
-    exceptions.add("Dich");
+    exceptions.add("Dein");
     exceptions.add("Deine");
-    exceptions.add("Deinen");
     exceptions.add("Deinem");
-    exceptions.add("Deines");
+    exceptions.add("Deinen");
     exceptions.add("Deiner");
+    exceptions.add("Deines");
+    exceptions.add("Dich");
+    exceptions.add("Dir");
+    exceptions.add("Du");
     exceptions.add("Euch");
+    exceptions.add("Euer");
+    exceptions.add("Eure");
+    exceptions.add("Eurem");
+    exceptions.add("Euren");
+    exceptions.add("Eures");
   }
-  
+
   private static final Set<String> myExceptionPhrases = new HashSet<String>();
   static {
     // use proper upper/lowercase spelling here:
@@ -1065,7 +1136,7 @@ public class CaseRule extends GermanRule {
     if (messages != null)
       super.setCategory(new Category(messages.getString("category_case")));
   }
-  
+
   @Override
   public String getId() {
     return "DE_CASE";
@@ -1080,7 +1151,7 @@ public class CaseRule extends GermanRule {
   public RuleMatch[] match(final AnalyzedSentence text) throws IOException {
     final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
-    
+
     boolean prevTokenIsDas = false;
     for (int i = 0; i < tokens.length; i++) {
       //FIXME: defaulting to the first analysis don't know if it's safe
@@ -1101,7 +1172,7 @@ public class CaseRule extends GermanRule {
       final String token = analyzedToken.getToken();
       List<AnalyzedGermanToken> readings = analyzedToken.getGermanReadings();
       AnalyzedGermanTokenReadings analyzedGermanToken2;
-      
+
       boolean isBaseform = false;
       if (analyzedToken.getReadingsLength() >= 1 && token.equals(analyzedToken.getAnalyzedToken(0).getLemma())) {
         isBaseform = true;
