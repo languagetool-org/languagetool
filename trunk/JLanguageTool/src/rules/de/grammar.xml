@@ -6841,6 +6841,32 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct">Seine Werke waren <marker>zu seinen Lebzeiten</marker> nicht besonders erfolgreich.</example>
       <example type="incorrect">Seine Werke waren <marker>zu seiner Lebenszeit</marker> nicht besonders erfolgreich.</example>
     </rule>
+    <rulegroup id="INSOFERN_ALS_DASS" name="Redewendung: 'insofern, als dass (als)'">
+    <!-- Quelle: http://www.spiegel.de/kultur/zwiebelfisch/0,1518,340036,00.html -->
+      <rule>
+        <pattern mark_from="2">
+            <token>insofern</token>
+            <token>,</token>
+            <token>als</token>
+            <token>dass</token>
+        </pattern>
+        <message>'Insofern' steht mit der Konjunktion <suggestion>als</suggestion>.</message>
+        <example type="correct">Das gilt insofern, <marker>als</marker> obige Bedingungen erfüllt sind.</example>
+        <example type="incorrect">Das gilt insofern, <marker>als dass</marker> obige Bedingungen erfüllt sind.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="3">
+            <token>insofern</token>
+            <token regexp="yes">.+</token>
+            <token>,</token>
+            <token>als</token>
+            <token>dass</token>
+        </pattern>
+        <message>'Insofern' steht mit der Konjunktion <suggestion>als</suggestion>.</message>
+        <example type="correct">Das trifft insofern zu, <marker>als</marker> obige Bedingungen erfüllt sind.</example>
+        <example type="incorrect">Das trifft insofern zu, <marker>als dass</marker> obige Bedingungen erfüllt sind.</example>
+      </rule>
+    </rulegroup>
     <rule id="GANG_UND_GEBE" name="Redewendung: 'gang und gebe (gäbe)'">
       <pattern>
           <token>gang</token>
