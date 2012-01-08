@@ -56,6 +56,15 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
          xsi:noNamespaceSchemaLocation="../rules.xsd">
 
   <category name="Mögliche Tippfehler">
+    <rule id="INS_UNS" name="Möglicher Tippfehler: ins (in) uns">
+      <pattern mark_to="-1">
+          <token>ins</token>
+          <token>uns</token>
+        </pattern>
+      <message>Meinten Sie <suggestion>in</suggestion>?</message>
+      <example type="incorrect">Der Teufel steckt <marker>ins</marker> uns.</example>
+      <example type="correct">Der Teufel steckt <marker>in</marker> uns.</example>
+    </rule>
     <rule id="ES_WIR" name="Möglicher Tippfehler: es wir (wird)">
       <pattern mark_from="1">
           <token>es</token>
