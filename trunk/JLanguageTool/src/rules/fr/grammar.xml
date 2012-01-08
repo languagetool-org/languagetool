@@ -820,7 +820,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">pas|plus|.+-(ce|je|tu|ils?|elles?|[nv]ous)</token>
           <token>forcement</token>
         </pattern>
-        <message>« \1 » est un nom. Voulez-vous utiliser l'adverbe <suggestion>forcément</suggestion> ?</message>
+        <message>« \1 » est un nom. Voulez-vous utiliser l’adverbe <suggestion>forcément</suggestion> ?</message>
         <example type="incorrect">Vous n’avez pas <marker>forcement</marker> raison.</example>
         <example type="correct">Vous n’avez pas forcément raison.</example>
         <example type="incorrect">Est-ce <marker>forcement</marker> grave ?</example>
@@ -2179,6 +2179,40 @@ though, and has since been slightly modified)-->
       <example type="correct">Son malaise</example>
       <example type="incorrect"><marker>Mon fille</marker></example>
     </rule>
+    <rulegroup id="FAIRE_VPPA" name="Comment + verb ppa">
+      <rule>
+        <pattern mark_from="1">
+          <token inflected="yes" regexp="yes">aimer|aller|désirer|devoir|esperer|faire|pouvoir|savoir|souhaiter|vouloir</token>
+          <token postag="V.*" postag_regexp="yes" regexp="yes">.*ée?s?</token>
+        </pattern>
+        <message>Le verbe « \2 » devrait être à l’infinitif après le verbe « \1 ».</message>
+        <example type="incorrect">J’aimerais <marker>changé</marker> de travail.</example>
+        <example type="correct">J’aimerais changer de travail.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="3">
+          <token>ne</token>
+          <token inflected="yes" regexp="yes">désirer|devoir|faire|pouvoir|savoir|souhaiter|vouloir</token>
+          <token regexp="yes">pas|plus|point|guère|jamais</token>
+          <token postag="V.*" postag_regexp="yes" regexp="yes">.*ée?s?</token>
+        </pattern>
+        <message>Le verbe « \2 » devrait être à l’infinitif après le verbe « \1 ».</message>
+        <example type="incorrect">Je ne veux pas <marker>changé</marker> d’école.</example>
+        <example type="correct">Je ne veux pas <marker>changer</marker> d’école.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="4">
+          <token>n</token>
+          <token regexp="yes">[’´'‛′‘]</token>
+          <token inflected="yes" regexp="yes">aimer|aller|esperer|faire|pouvoir|savoir|souhaiter|vouloir</token>
+          <token regexp="yes">pas|plus|point|guère|jamais</token>
+          <token postag="V.*" postag_regexp="yes" regexp="yes">.*ée?s?</token>
+        </pattern>
+        <message>Le verbe « \2 » devrait être à l’infinitif après le verbe « \1 ».</message>
+        <example type="incorrect">Je n’aime pas <marker>changé</marker> d’école.</example>
+        <example type="correct">Je n’aime pas <marker>changer</marker> d’école.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="COMMENT_VPPA" name="Comment + verb ppa">
       <rule>
         <pattern mark_from="1">
@@ -2320,7 +2354,7 @@ though, and has since been slightly modified)-->
           <token postag="[NZ] m .*|R pers suj 3 m .*" postag_regexp="yes"/>
           <token regexp="yes" skip="1">ne?</token>
           <token postag="V etre.* 3 .*" postag_regexp="yes"/>
-          <token regexp="yes">pas|point|guerre|plus|jamais</token>
+          <token regexp="yes">pas|point|guère|plus|jamais</token>
           <token postag="V.* ppa f .*|J f .*" postag_regexp="yes">
             <exception>même</exception>
           </token>
@@ -2353,7 +2387,7 @@ though, and has since been slightly modified)-->
           <token postag="[NZ] m .*|R pers suj 3 m .*" postag_regexp="yes"/>
           <token regexp="yes" skip="1">ne?</token>
           <token postag="V etre.* 3 .*" postag_regexp="yes"/>
-          <token regexp="yes">pas|point|guerre|plus|jamais</token>
+          <token regexp="yes">pas|point|guère|plus|jamais</token>
           <token postag="A"/>
           <token postag="V.* ppa f .*|J f .*" postag_regexp="yes"/>
         </pattern>
@@ -2385,7 +2419,7 @@ though, and has since been slightly modified)-->
           <token postag="[NZ] f .*|R pers suj 3 f .*" postag_regexp="yes"/>
           <token regexp="yes" skip="1">ne?</token>
           <token postag="V etre.* 3 .*" postag_regexp="yes"/>
-          <token regexp="yes">pas|point|guerre|plus|jamais</token>
+          <token regexp="yes">pas|point|guère|plus|jamais</token>
           <token postag="V.* ppa m .*|J m .*" postag_regexp="yes"/>
         </pattern>
         <message>Le mot masculin « \6 » n’est pas accordé en genre avec le mot féminin « \2 ».</message>
@@ -2414,7 +2448,7 @@ though, and has since been slightly modified)-->
           <token postag="[NZ] f .*|R pers suj 3 f .*" postag_regexp="yes"/>
           <token regexp="yes" skip="1">ne?</token>
           <token postag="V etre.* 3 .*" postag_regexp="yes"/>
-          <token regexp="yes">pas|point|guerre|plus|jamais</token>
+          <token regexp="yes">pas|point|guère|plus|jamais</token>
           <token postag="A"/>
           <token postag="V.* ppa m .*|J m .*" postag_regexp="yes"/>
         </pattern>
@@ -2452,14 +2486,14 @@ though, and has since been slightly modified)-->
           <token postag="Z . sp?|N . s|R pers suj.* s" postag_regexp="yes"/>
           <token regexp="yes" skip="1">ne?</token>
           <token postag="V etre .*" postag_regexp="yes"/>
-          <token regexp="yes">pas|point|guerre|plus|jamais</token>
+          <token regexp="yes">pas|point|guère|plus|jamais</token>
           <token postag="V.* ppa .* p|J . p" postag_regexp="yes"/>
         </pattern>
         <message>Le mot pluriel « \6 » n’est pas accordé en nombre avec le mot singulier « \2 ».</message>
         <example type="incorrect">Elle ne sera pas <marker>contentes</marker>.</example>
         <example type="correct">Elle ne sera pas contente.</example>
-        <example type="incorrect">Martine n’était guerre <marker>ennuyeuses</marker>.</example>
-        <example type="correct">Martine n’était guerre ennuyeuse.</example>
+        <example type="incorrect">Martine n’était guère <marker>ennuyeuses</marker>.</example>
+        <example type="correct">Martine n’était guère ennuyeuse.</example>
       </rule>
       <rule>
         <pattern mark_from="4">
@@ -2485,7 +2519,7 @@ though, and has since been slightly modified)-->
           <token postag="Z . sp?|N . s|R pers suj.* s" postag_regexp="yes"/>
           <token regexp="yes" skip="1">ne?</token>
           <token postag="V etre .*" postag_regexp="yes"/>
-          <token regexp="yes">pas|point|guerre|plus|jamais</token>
+          <token regexp="yes">pas|point|guère|plus|jamais</token>
           <token postag="A"/>
           <token postag="V.* ppa .* p|J . p" postag_regexp="yes"/>
         </pattern>
@@ -2524,7 +2558,7 @@ though, and has since been slightly modified)-->
           <token postag="N . p|R pers suj [13].* p" postag_regexp="yes"/>
           <token regexp="yes" skip="1">ne?</token>
           <token postag="V etre .*" postag_regexp="yes"/>
-          <token regexp="yes">pas|point|guerre|plus|jamais</token>
+          <token regexp="yes">pas|point|guère|plus|jamais</token>
           <token postag="V.* ppa .* s|J . s" postag_regexp="yes">
             <exception>juste</exception>
           </token>
@@ -2556,7 +2590,7 @@ though, and has since been slightly modified)-->
           <token postag="N . p|R pers suj [13].* p" postag_regexp="yes"/>
           <token regexp="yes" skip="1">ne?</token>
           <token postag="V etre .*" postag_regexp="yes"/>
-          <token regexp="yes">pas|point|guerre|plus|jamais</token>
+          <token regexp="yes">pas|point|guère|plus|jamais</token>
           <token postag="A"/>
           <token postag="V.* ppa .* s|J . s" postag_regexp="yes"/>
         </pattern>
@@ -2709,7 +2743,7 @@ though, and has since been slightly modified)-->
         <token>de</token>
         <token postag_regexp="yes" postag="V.*" regexp="yes">.*ée?s?</token>
       </pattern>
-      <message>L'infinitif est attendu après « \1 \2 \3 ».</message>
+      <message>L’infinitif est attendu après « \1 \2 \3 ».</message>
       <example type="incorrect">Il est en train de <marker>joué</marker>.</example>
       <example type="correct">Il est en train de jouer.</example>
     </rule>
@@ -2722,7 +2756,7 @@ though, and has since been slightly modified)-->
           </token>
           <token regexp="yes">demain|après-demain|bientôt</token>
         </pattern>
-        <message>Vérifier si le verbe « \1 » ne devrait pas être au futur plutôt qu'au conditionnel.</message>
+        <message>Vérifier si le verbe « \1 » ne devrait pas être au futur plutôt qu’au conditionnel.</message>
         <example type="incorrect">Je <marker>viendrais</marker> demain.</example>
         <example type="correct">Je viendrai demain.</example>
       </rule>
@@ -2732,7 +2766,7 @@ though, and has since been slightly modified)-->
           <token skip="3" regexp="yes">après|dans</token>
           <token regexp="yes">secondes?|minutes?|heures?|jours|semaines?|mois|années?|instants?</token>
         </pattern>
-        <message>Vérifier si le verbe « \1 » ne devrait pas être au futur plutôt qu'au conditionnel.</message>
+        <message>Vérifier si le verbe « \1 » ne devrait pas être au futur plutôt qu’au conditionnel.</message>
         <example type="incorrect">Je <marker>viendrais</marker> dans trois jours.</example>
         <example type="correct">Je viendrai dans trois jours.</example>
       </rule>
@@ -3594,7 +3628,7 @@ though, and has since been slightly modified)-->
           <token>n</token>
           <token regexp="yes">[’´'‛′‘]</token>
           <token inflected="yes">avoir</token>
-          <token regexp="yes">pas|guerre|point|rien|jamais</token>
+          <token regexp="yes">pas|guère|point|rien|jamais</token>
           <token postag="V.* ppa.*" postag_regexp="yes">
             <exception postag="V.* ppa [me] sp?" postag_regexp="yes"/>
           </token>
@@ -3613,16 +3647,16 @@ though, and has since been slightly modified)-->
           <token regexp="yes">[lmt]</token>
           <token regexp="yes">[’´'‛′‘]</token>
           <token inflected="yes">avoir</token>
-          <token regexp="yes">pas|guerre|point|rien|jamais</token>
+          <token regexp="yes">pas|guère|point|rien|jamais</token>
           <token postag="V.* ppa.*" postag_regexp="yes">
             <exception postag="V.* ppa . sp?" postag_regexp="yes"/>
           </token>
         </pattern>
         <message>Le participe « \8 » devrait être au singulier.</message>
-        <example type="incorrect">Nous ne t'avons pas <marker>écoutés</marker>.</example>
-        <example type="incorrect">Nous ne t'avons pas <marker>écoutées</marker>.</example>
-        <example type="correct">Nous ne t'avons pas écouté.</example>
-        <example type="correct">Nous ne t'avons pas écoutée.</example>
+        <example type="incorrect">Nous ne t’avons pas <marker>écoutés</marker>.</example>
+        <example type="incorrect">Nous ne t’avons pas <marker>écoutées</marker>.</example>
+        <example type="correct">Nous ne t’avons pas écouté.</example>
+        <example type="correct">Nous ne t’avons pas écoutée.</example>
       </rule>
       <rule>
         <pattern mark_from="6">
@@ -3631,7 +3665,7 @@ though, and has since been slightly modified)-->
           <token>ne</token>
           <token>les</token>
           <token inflected="yes">avoir</token>
-          <token regexp="yes">pas|guerre|point|rien|jamais</token>
+          <token regexp="yes">pas|guère|point|rien|jamais</token>
           <token postag="V.* ppa.*" postag_regexp="yes">
             <exception postag="V.* ppa . s?p" postag_regexp="yes"/>
           </token>
@@ -3649,7 +3683,7 @@ though, and has since been slightly modified)-->
           <token>ne</token>
           <token regexp="yes">lui|leur</token>
           <token inflected="yes">avoir</token>
-          <token regexp="yes">pas|guerre|point|rien|jamais</token>
+          <token regexp="yes">pas|guère|point|rien|jamais</token>
           <token postag="V.* ppa.*" postag_regexp="yes">
             <exception postag="V.* ppa [me] sp?" postag_regexp="yes"/>
           </token>
@@ -3752,7 +3786,7 @@ though, and has since been slightly modified)-->
           <token>n</token>
           <token regexp="yes">[’´'‛′‘]</token>
           <token inflected="yes">avoir</token>
-          <token regexp="yes">pas|guerre|point|rien|jamais</token>
+          <token regexp="yes">pas|guère|point|rien|jamais</token>
           <token postag="V.* ppa.*" postag_regexp="yes">
             <exception postag="V.* ppa [me] sp?" postag_regexp="yes"/>
           </token>
@@ -3772,7 +3806,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">[mtl]</token>
           <token regexp="yes">[’´'‛′‘]</token>
           <token inflected="yes">avoir</token>
-          <token regexp="yes">pas|guerre|point|rien|jamais</token>
+          <token regexp="yes">pas|guère|point|rien|jamais</token>
           <token postag="V.* ppa.*" postag_regexp="yes">
             <exception postag="V.* ppa . sp?" postag_regexp="yes"/>
           </token>
@@ -3791,7 +3825,7 @@ though, and has since been slightly modified)-->
           <token>ne</token>
           <token>les</token>
           <token inflected="yes">avoir</token>
-          <token regexp="yes">pas|guerre|point|rien|jamais</token>
+          <token regexp="yes">pas|guère|point|rien|jamais</token>
           <token postag="V.* ppa.*" postag_regexp="yes">
             <exception postag="V.* ppa . s?p" postag_regexp="yes"/>
           </token>
@@ -3810,7 +3844,7 @@ though, and has since been slightly modified)-->
           <token>ne</token>
           <token regexp="yes">lui|leur</token>
           <token inflected="yes">avoir</token>
-          <token regexp="yes">pas|guerre|point|rien|jamais</token>
+          <token regexp="yes">pas|guère|point|rien|jamais</token>
           <token postag="V.* ppa.*" postag_regexp="yes">
             <exception postag="V.* ppa [me] sp?" postag_regexp="yes"/>
           </token>
@@ -4004,7 +4038,7 @@ though, and has since been slightly modified)-->
         <example type="correct">Le passé n’éclairant pas l’avenir.</example>
         <example type="incorrect">Comment se fait-il que le réveil n’<marker>ai</marker> pas sonné.</example>
         <example type="correct">Comment se fait-il que le réveil n’ait pas sonné.</example>
-        <example type="correct">les employés et la direction n'aboutirent à aucun résultat.</example>
+        <example type="correct">les employés et la direction n’aboutirent à aucun résultat.</example>
       </rule>
       <rule name="sujet singulier + 3 tokens + verbe pluriel">
         <pattern mark_from="6">
@@ -4065,7 +4099,7 @@ though, and has since been slightly modified)-->
         <example type="correct">Ces <marker>rues désertes</marker></example>
         <example type="correct">Nos <marker>bagages étant</marker> enregistrés</example>
         <example type="correct">Tout Paris est à la fête.</example>
-        <example type="correct">L'eau des lacs et des rivières est douce.</example>
+        <example type="correct">L’eau des lacs et des rivières est douce.</example>
         <example type="correct">Lequel des élèves est sorti ?</example>
       </rule>
       <rule name="sujet pluriel + 1 token + verbe singulier">
@@ -4502,7 +4536,7 @@ though, and has since been slightly modified)-->
         <token>tous</token>
         <token>cas</token>
       </pattern>
-      <message>Employez <suggestion>tout</suggestion> dans l'expression « en tout cas ».</message>
+      <message>Employez <suggestion>tout</suggestion> dans l’expression « en tout cas ».</message>
       <example type="incorrect">En <marker>tous</marker> cas, je vous donnerai des nouvelles.</example>
       <example type="correct">En tout cas, je vous donnerai des nouvelles.</example>
     </rule>
@@ -18728,7 +18762,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">[’´'‛′‘]</token>
           <token>égout</token>
         </pattern>
-        <message>Voulez-vous dire <suggestion>\1-à-l'égout</suggestion> ?</message>
+        <message>Voulez-vous dire <suggestion>\1-à-l’égout</suggestion> ?</message>
         <example type="incorrect">Avez-vous le <marker>tout à l’égout</marker> ?</example>
         <example type="correct">Avez-vous le tout-à-l’égout ?</example>
       </rule>
