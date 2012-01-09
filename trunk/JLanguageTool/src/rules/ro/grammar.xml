@@ -4738,7 +4738,19 @@ title="Easy editing stylesheet" ?>
 				<example type="incorrect" correction="de meditație|de reculegere">Acolo era un loc <marker>de meditație și de reculegere</marker>.</example>
 				<example type="correct">Acolo era un loc de <marker>reculegere</marker>.</example>
 			</rule>  		
-		 </rulegroup> 
+		 </rulegroup>
+		 <rule id="IN_PRIMA_AUDITIE" name="a asculta în primă audiție">
+		 	<pattern>
+		 		<token inflected="yes">asculta</token>
+		 		<token>în</token>
+		 		<token>primă</token>
+		 		<token>audiție</token>
+		 	</pattern>
+		 	<message>Ați dorit să scrieți </message>
+		 	<short>Plenasm</short>
+ 		 	<example type="correct">Astăzi ne-a prezentat <marker>în primă audiție</marker> o compoziție a sa.</example>
+ 		 	<example type="incorrect">Astăzi am <marker>ascultat în primă audiție</marker> o compoziție a sa.</example> 
+		 </rule> 
 	</category>  
 	
 	<category name="Cacofonie">
@@ -5722,7 +5734,98 @@ title="Easy editing stylesheet" ?>
 			<example type="incorrect" correction="douăzeci de elevi">Mai sunt încă <marker>douăzeci elevi</marker>.</example>
 			<example type="incorrect" correction="cincizeci de cărți">Au mai rămas <marker>cincizeci cărți</marker> pe raft.</example>
 			<example type="correct">Mai are încă douăzeci de elevi.</example>
-			<example type="correct">Aici au venit în anii șaizeci formații celebreS.</example>
+			<example type="correct">Aici au venit în anii șaizeci formații celebre.</example>
 		</rule>
+		<rule id="AL_DOUAZECI_SI_UNU" name="al douăzeci și unu -> al douăzeci și unulea">
+			<pattern>
+				<token>al</token>
+				<token postag="M0p3a0c000" regexp="yes">.*zeci</token>
+				<token>și</token>
+				<token>unu</token>
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion>\1 \2 \3 unulea</suggestion>?</message>
+			<short>Folosire greșită a numeralului</short>
+			<example type="incorrect" correction="al douăzeci și unulea">Irinel a ieșit <marker>al douăzeci și unu</marker>.</example>
+			<example type="incorrect" correction="al cincizeci și unulea">Era <marker>al cincizeci și unu</marker> pe listă.</example>
+			<example type="correct">A ajuns al optzeci și unulea.</example>
+		</rule>
+		<rule id="AL_DOUASPREZECELEA" name="al douăsprezecelea -> al doisprezecelea">
+			<pattern>
+				<token>al</token>
+				<token>douăsprezecelea</token>
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion>al doisprezecelea</suggestion>?</message>
+			<short>Folosire greșită a numeralului</short>
+			<example type="incorrect" correction="al doisprezecelea">Irinel a ieșit <marker>al douăsprezecelea</marker>.</example>
+			<example type="correct">Irinel a ajuns al doisprezecelea.</example>
+		</rule>
+		<rulegroup id="CELEI_DE_A_TREIA_ZI">
+			<rule name="celei de-a treia zi -> zile">
+				<pattern>
+					<token>celei</token>
+					<token>de</token>
+					<token spacebefore="no">-</token>
+					<token spacebefore="no">a</token>
+					<token postag="Mfs3aao000"/>
+					<token postag="Sfs3anc000"><exception postag="Sfp3anc000"/></token>
+				</pattern>
+				<message>Ați dorit să scrieți <suggestion>celei de-a <match no="5"/> <match 
+						no="6" postag_regexp="yes" postag="Sfs3anc000" postag_replace="Sfp3anc000"></match></suggestion>?</message>
+				<short>Folosire greșită a numeralului</short>
+				<example type="incorrect" correction="celei de-a treia zile">Irina a venit abia la începutul <marker>celei de-a treia zi</marker>.</example>
+				<example type="incorrect" correction="celei de-a treia zile">Era la stârșitul <marker>celei de-a treia zi</marker> de vacanță.</example>
+				<example type="correct">A ajuns abia în zori celei de-a treia zile.</example>
+			</rule>
+			<rule name="celei de a treia zi -> zile">
+				<pattern>
+					<token>celei</token>
+					<token>de</token>
+					<token>a</token>
+					<token postag="Mfs3aao000"/>
+					<token postag="Sfs3anc000"><exception postag="Sfp3anc000"/></token>
+				</pattern>
+				<message>Ați dorit să scrieți <suggestion>celei de a <match no="4"/> <match 
+						no="5" postag_regexp="yes" postag="Sfs3anc000" postag_replace="Sfp3anc000"></match></suggestion>?</message>
+				<short>Folosire greșită a numeralului</short>
+				<example type="incorrect" correction="celei de a treia zile">Irina a venit abia la începutul <marker>celei de a treia zi</marker>.</example>
+				<example type="incorrect" correction="celei de a treia zile">Era la stârșitul <marker>celei de a treia zi</marker> de vacanță.</example>
+				<example type="correct">A ajuns abia în zori celei de a treia zile.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="CELEI_DE_A_TREIA_ZILE_TORIDA">
+			<rule name="celei de a treia zile toridă -> toride">
+				<pattern>
+					<token>celei</token>
+					<token>de</token>
+					<token>a</token>
+					<token postag="Mfs3aao000"/>
+					<token postag="Sfp3anc000"/>
+					<token postag="Afs3an0000"><exception postag_regexp="yes" postag="P.*|Afp3an0000"/></token>
+				</pattern>
+				<message>Ați dorit să scrieți <suggestion>celei de a <match no="4"/> <match no="5"/> <match 
+						no="6" postag_regexp="yes" postag="Afs3an0000" postag_replace="Afp3an0000"></match></suggestion>?</message>
+				<short>Folosire greșită a numeralului</short>
+				<example type="incorrect" correction="celei de a treia zile toride">Irina a venit abia la începutul <marker>celei de a treia zile toridă</marker>.</example>
+				<example type="incorrect" correction="celei de a treia zile toride">Era la stârșitul <marker>celei de a treia zile toridă</marker> de vacanță.</example>
+				<example type="correct">A ajuns abia în zori celei de a treia zile toride.</example>
+			</rule>
+			<rule name="celei de-a treia zile toridă -> toride">
+				<pattern>
+					<token>celei</token>
+					<token>de</token>
+					<token spacebefore="no">-</token>
+					<token spacebefore="no">a</token>
+					<token postag="Mfs3aao000"/>
+					<token postag="Sfp3anc000"/>
+					<token postag="Afs3an0000"><exception postag_regexp="yes" postag="P.*|Afp3an0000"/></token>
+				</pattern>
+				<message>Ați dorit să scrieți <suggestion>celei de-a <match no="5"/> <match no="6"/> <match 
+						no="7" postag_regexp="yes" postag="Afs3an0000" postag_replace="Afp3an0000"/></suggestion>?</message>
+				<short>Folosire greșită a numeralului</short>
+				<example type="incorrect" correction="celei de-a treia zile toride">Irina a venit abia la începutul <marker>celei de-a treia zile toridă</marker>.</example>
+				<example type="incorrect" correction="celei de-a treia zile toride">Era la stârșitul <marker>celei de-a treia zile toridă</marker> de vacanță.</example>
+				<example type="correct">A ajuns abia în zori celei de-a treia zile toride.</example>
+			</rule>
+		</rulegroup>
 	</category>
 </rules>
