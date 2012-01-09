@@ -7087,6 +7087,16 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
   </category>
 
   <category name="Zeichensetzung">
+    <rule id="APOSTROPH_S" name="Zeichensetzung: Apostroph vor Genitiv-s">
+      <pattern>
+        <token postag="EIG:.*" postag_regexp="yes"/>
+        <token>'</token>
+        <token>s</token>
+      </pattern>
+      <message>Normalerweise wird vor einem Genitiv-s kein Apostroph gesetzt: <suggestion>\1s</suggestion>.</message>
+      <example type="correct"><marker>Peters</marker> Bude.</example>
+      <example type="incorrect"><marker>Peter's</marker> Bude.</example>
+    </rule>
     <rule id="PUNKT_UND_KLAMMER" name="Zeichensetzung: Punkt und Klammer">
       <pattern>
         <token postag="SENT_START"/>
