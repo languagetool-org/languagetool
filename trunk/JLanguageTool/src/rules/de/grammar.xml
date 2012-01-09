@@ -2664,7 +2664,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect" correction="als">Sie sind klüger <marker>wie</marker> Computer.</example>
         <example type="correct">Sie sind klüger <marker>als</marker> Computer.</example>
         <example type="correct">Er wird später <marker>wie</marker> sein Vater.</example>
-        <example type="correct">Dass er später <marker>wie</marker> sein Vater sein soll.</example>
+        <example type="correct">Dass er später <marker>wie</marker> sein Vater sein soll, ist nicht vorgesehen.</example>
         <example type="correct">Er wird im gleichen Maße besser <marker>wie</marker> sie.</example>
       </rule>
       <rule>
@@ -2674,8 +2674,8 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">sonst|vorher|nachher</token>
         </pattern>
         <message>'\1 wie' ist umgangssprachlich. Verwenden Sie zum Ausdrücken von Ungleichheit <suggestion>als</suggestion>.</message>
-        <example type="incorrect" correction="als">besser <marker>wie</marker> sonst</example>
-        <example type="correct">besser <marker>als</marker> sonst</example>
+        <example type="incorrect" correction="als">Er ist besser <marker>wie</marker> sonst.</example>
+        <example type="correct">Er ist besser <marker>als</marker> sonst.</example>
       </rule>
     </rulegroup>
     <rulegroup id="SINN_MACHEN" name="Umgangssprache: 'Sinn machen' entspricht dem englischen 'to make sense'" default="off">
@@ -2733,7 +2733,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         </pattern>
         <message>Wenn man 'ein und dasselbe' sagen kann, sollte 'dasselbe' statt 'das gleiche' verwendet werden. Vorschlag: <suggestion>\3<match no="4" regexp_match="gleiche" regexp_replace="selbe"/></suggestion>.</message>
         <example type="incorrect" correction="derselben">Noch in <marker>der gleichen</marker> Nacht ist er gekommen.</example>
-        <example type="correct">Noch in <marker>der selben</marker> Nacht ist er gekommen.</example>
+        <example type="correct">Noch in <marker>derselben</marker> Nacht ist er gekommen.</example>
       </rule>
     </rulegroup>
     <rulegroup id="VOLTZAHL" name="Umgangssprache: Einheitsbezeichnungen ('Voltzahl', 'Stundenkilometer' etc.)">
@@ -2790,8 +2790,8 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>Stundenkilometern</token>
         </pattern>
         <message>Meinten Sie <suggestion>Kilometern pro Stunde</suggestion> oder <suggestion><match regexp_match="Stundenkilometer" regexp_replace="km/h" case_conversion="startlower" no="1"/></suggestion>? 'Stundenkilometer' (stünde für 'Kilometer mal Stunde')&umgangsspr;</message> <!-- TODO startlower not working?-->
-        <example type="incorrect">mit 5 <marker>Stundenkilometern</marker></example>
-        <example type="correct">mit 5 <marker>Kilometern pro Stunde</marker></example>
+        <example type="incorrect">Er fährt mit 5 <marker>Stundenkilometern</marker>.</example>
+        <example type="correct">Er fährt mit 5 <marker>Kilometern pro Stunde</marker>.</example>
       </rule>
       <rule>
         <pattern mark_from="2">
@@ -3699,8 +3699,8 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">Kongress(es)?</token>
         </pattern>
         <message>Meinten Sie <suggestion><match case_conversion="startupper" no="2"/></suggestion> \3 (1815)? &namengross;</message>
-        <example type="correct">auf dem <marker>Wiener</marker> Kongress</example>
-        <example type="incorrect" correction="Wiener">auf dem <marker>wiener</marker> Kongress</example>
+        <example type="correct">Auf dem <marker>Wiener</marker> Kongress war viel los.</example>
+        <example type="incorrect" correction="Wiener">Auf dem <marker>wiener</marker> Kongress war viel los.</example>
       </rule>
       <rule>
         <pattern mark_to="-1" mark_from="1" case_sensitive="yes">
@@ -4245,6 +4245,16 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect">Aus irgendwelchen <marker>gründen</marker> gelang mir das nicht.</example>
       <example type="correct">Aus irgendwelchen <marker>Gründen</marker> gelang mir das nicht.</example>
     </rule>
+    <rule id="LAUFE_SUBST" name="Groß-/Kleinschreibung: 'im laufe (Laufe) des Tages'">
+      <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
+        <token regexp="yes">[iI]m</token>
+        <token>laufe</token>
+        <token postag=".*GEN.*" postag_regexp="yes"/>
+      </pattern>
+      <message>&subanfang;<suggestion>Laufe</suggestion>&subende;</message>
+      <example type="incorrect" correction="Laufe">Im <marker>laufe</marker> des Tages ist nichts passiert.</example>
+      <example type="correct">Im <marker>Laufe</marker> des Tages ist nichts passiert.</example>
+    </rule>
     <rulegroup id="GOTT_SCHUETZE" name="Groß-/Kleinschreibung: 'Schütze (schütze)'">
       <rule>
         <pattern case_sensitive="yes" mark_from="1">
@@ -4331,8 +4341,8 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">[tT]ritt</token>
         </pattern>
         <message>&inwend;<suggestion>auf Schritt und Tritt</suggestion> werden 'Schritt' und 'Tritt' großgeschrieben.</message>
-        <example type="correct">Sein Hund folgte ihm auf <marker>auf Schritt und Tritt</marker>.</example>
-        <example type="incorrect">Sein Hund folgte ihm auf <marker>auf schritt und tritt</marker>.</example>
+        <example type="correct">Sein Hund folgte ihm <marker>auf Schritt und Tritt</marker>.</example>
+        <example type="incorrect">Sein Hund folgte ihm <marker>auf schritt und tritt</marker>.</example>
       </rule>
       <rule>
         <pattern case_sensitive="yes">
@@ -4342,8 +4352,8 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>tritt</token>
         </pattern>
         <message>&inwend;<suggestion>auf Schritt und Tritt</suggestion> werden 'Schritt' und 'Tritt' großgeschrieben.</message>
-        <example type="correct">Sein Hund folgte ihm auf <marker>auf Schritt und Tritt</marker>.</example>
-        <example type="incorrect">Sein Hund folgte ihm auf <marker>auf schritt und tritt</marker>.</example>
+        <example type="correct">Sein Hund folgte ihm <marker>auf Schritt und Tritt</marker>.</example>
+        <example type="incorrect">Sein Hund folgte ihm <marker>auf schritt und tritt</marker>.</example>
       </rule>
     </rulegroup>
     <rulegroup id="SCHRITT_SUBST" name="Groß-/Kleinschreibung: 'schritt (Schritt)'">
