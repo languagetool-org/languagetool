@@ -74,6 +74,52 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect">Es <marker>wir</marker> wieder wärmer draußen.</example>
       <example type="correct">Es <marker>wird</marker> wieder wärmer draußen.</example>
     </rule>
+    <rulegroup id="ES_KANN_NICHT_SEIEN" name="Möglicher Tippfehler: es kann nicht seien (sein)">
+      <rule>
+        <pattern mark_from="2">
+            <token>kann</token>
+            <token>nicht</token>
+            <token>seien</token>
+          </pattern>
+        <message>Meinten Sie den Infinitiv <suggestion>sein</suggestion>?</message>
+        <example type="incorrect">Das kann nicht <marker>seien</marker>.</example>
+        <example type="correct">Das kann nicht <marker>sein</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="3">
+            <token>kann</token>
+            <token>doch</token>
+            <token>nicht</token>
+            <token>seien</token>
+          </pattern>
+        <message>Meinten Sie den Infinitiv <suggestion>sein</suggestion>?</message>
+        <example type="incorrect">Das kann doch nicht <marker>seien</marker>.</example>
+        <example type="correct">Das kann doch nicht <marker>sein</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="3">
+            <token>kann</token>
+            <token>gar</token>
+            <token>nicht</token>
+            <token>seien</token>
+          </pattern>
+        <message>Meinten Sie den Infinitiv <suggestion>sein</suggestion>?</message>
+        <example type="incorrect">Das kann gar nicht <marker>seien</marker>.</example>
+        <example type="correct">Das kann gar nicht <marker>sein</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="4">
+            <token>kann</token>
+            <token>doch</token>
+            <token>gar</token>
+            <token>nicht</token>
+            <token>seien</token>
+          </pattern>
+        <message>Meinten Sie den Infinitiv <suggestion>sein</suggestion>?</message>
+        <example type="incorrect">Das kann doch gar nicht <marker>seien</marker>.</example>
+        <example type="correct">Das kann doch gar nicht <marker>sein</marker>.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="ZUR_RUHE_GEBETET" name="Möglicher Tippfehler: zur Ruhe gebetet (gebettet)">
       <rule>
         <pattern mark_from="2">
@@ -2385,7 +2431,17 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Dieses Vorgehen ist völlig <marker>illegal</marker>.</example>
       </rule>
     </rulegroup>
-    <rulegroup id="INMITTEN_IN_DER" name="Verdoppelung: 'inmitten in der (inmitten der)' ">
+    <rule id="SO_DERMASSEN" name="Verdoppelung: 'so dermaßen (so/dermaßen)'">
+      <pattern>
+        <token>so</token>
+        <token>dermaßen</token>
+      </pattern>
+      <message>'so dermaßen' ist eine Doppelung – verwenden Sie <suggestion>so</suggestion> oder <suggestion>dermaßen</suggestion>.</message>
+      <example type="incorrect">Das Stück war <marker>so dermaßen</marker> langweilig.</example>
+      <example type="correct">Das Stück war <marker>dermaßen</marker> langweilig.</example>
+      <example type="correct">Das Stück war <marker>so</marker> langweilig.</example>
+    </rule>
+    <rulegroup id="INMITTEN_IN_DER" name="Verdoppelung: 'inmitten in der (inmitten der)'">
       <rule>
         <pattern>
           <token>inmitten</token>
@@ -3230,6 +3286,68 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Da vergingen mir <marker>Hören und Sehen</marker>.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="IM_ALTER" name="Groß-/Kleinschreibung: 'im alter (Alter)'">
+      <rule>
+	  <pattern case_sensitive="yes" mark_from="1">
+          <token regexp="yes">[iI]m</token>
+          <token>alter</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Alter</suggestion>&subende;</message>
+        <example type="incorrect">Im <marker>alter</marker> von zwölf Jahren lernte er das Klavierspiel.</example>
+        <example type="correct">Im <marker>Alter</marker> von zwölf Jahren lernte er das Klavierspiel.</example>
+      </rule>
+      <rule>
+	  <pattern case_sensitive="yes" mark_from="2">
+          <token regexp="yes">[iI]n</token>
+          <token regexp="yes">[msdD]einem|[iI]hrem|[eE]urem|unserem</token>
+          <token>alter</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Alter</suggestion>&subende;</message>
+        <example type="incorrect">In seinem <marker>alter</marker> sollte er sich schonen.</example>
+        <example type="correct">In seinem <marker>Alter</marker> sollte er sich schonen.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="IM_GRIFF" name="Groß-/Kleinschreibung: 'im griff (Griff)'">
+      <rule>
+	  <pattern case_sensitive="yes" mark_from="1">
+          <token regexp="yes">[iI]m</token>
+          <token>griff</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Griff</suggestion>&subende;</message>
+        <example type="incorrect">Ich habe alles im <marker>griff</marker>!</example>
+        <example type="correct">Ich habe alles im <marker>Griff</marker>!</example>
+      </rule>
+      <rule>
+	  <pattern case_sensitive="yes" mark_from="2">
+          <token regexp="yes">[iI]n</token>
+          <token>den</token>
+          <token>griff</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Griff</suggestion>&subende;</message>
+        <example type="incorrect">Ich bekomme das Problem nicht in den <marker>griff</marker>!</example>
+        <example type="correct">Ich bekomme das Problem nicht in den <marker>Griff</marker>!</example>
+      </rule>
+    </rulegroup>
+    <rule id="IN_ALLER_SCHAERFE" name="Groß-/Kleinschreibung: 'in aller schärfe (Schärfe)'">
+      <pattern case_sensitive="yes" mark_from="2">
+        <token regexp="yes">[iI]n</token>
+        <token regexp="yes">(a|vo)ller</token>
+        <token>schärfe</token>
+      </pattern>
+      <message>&subanfang;<suggestion>Schärfe</suggestion>&subende;</message>
+      <example type="incorrect">In aller <marker>schärfe</marker> zeigt eine neue Studie, wie groß die sozialen Gegensätze in Deutschland sind.</example>
+      <example type="correct">In aller <marker>Schärfe</marker> zeigt eine neue Studie, wie groß die sozialen Gegensätze in Deutschland sind.</example>
+    </rule>
+    <rule id="AUF_DIE_REISE" name="Groß-/Kleinschreibung: 'auf die reise (Reise)'">
+      <pattern case_sensitive="yes" mark_from="2">
+        <token regexp="yes">[aA]uf</token>
+        <token regexp="yes">die|der</token>
+        <token>reise</token>
+      </pattern>
+      <message>&subanfang;<suggestion>Reise</suggestion>&subende;</message>
+      <example type="incorrect">Auf der <marker>reise</marker> nach Berlin traf ich eine Metzgerin.</example>
+      <example type="correct">Auf der <marker>Reise</marker> nach Berlin traf ich eine Metzgerin.</example>
+    </rule>
     <rule id="AUF_WIEDERSEHEN" name="Groß-/Kleinschreibung: 'auf wiedersehen (Wiedersehen)'">
       <pattern case_sensitive="yes" mark_from="1">
         <token regexp="yes">[aA]uf</token>
@@ -3577,7 +3695,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <rule>
         <pattern mark_to="-1" mark_from="1" case_sensitive="yes">
           <token regexp="yes">[Dd](er|es|en|em)</token>
-          <token regexp="yes">wieners?</token>
+          <token>wiener</token>
           <token regexp="yes">Kongress(es)?</token>
         </pattern>
         <message>Meinten Sie <suggestion><match case_conversion="startupper" no="2"/></suggestion> \3 (1815)? &namengross;</message>
@@ -4018,6 +4136,37 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <message>&subanfang;<suggestion>Lächeln</suggestion>&subende;</message>
         <example type="incorrect">Mit einem <marker>lächeln</marker> auf den Lippen kommt man weiter.</example>
         <example type="correct">Mit einem <marker>Lächeln</marker> auf den Lippen kommt man weiter.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="UNTERSCHIED_SUBST" name="Groß-/Kleinschreibung: 'unterschied (Unterschied)'">
+      <rule>
+        <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
+          <token regexp="yes">[iI]m</token>
+          <token>unterschied</token>
+          <token>zu</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Unterschied</suggestion>&subende;</message>
+        <example type="incorrect">Im <marker>unterschied</marker> zu dir bin ich gut darin.</example>
+        <example type="correct">Im <marker>Unterschied</marker> zu dir bin ich gut darin.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="1">
+          <token regexp="yes">k?einen</token>
+          <token>unterschied</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Unterschied</suggestion>&subende;</message>
+        <example type="incorrect">Ich sehe keinen <marker>unterschied</marker> zwischen den beiden.</example>
+        <example type="correct">Ich sehe keinen <marker>Unterschied</marker> zwischen den beiden.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="2">
+          <token regexp="yes">k?einen</token>
+          <token postag="ADJ:.*" postag_regexp="yes"/>
+          <token>unterschied</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Unterschied</suggestion>&subende;</message>
+        <example type="incorrect">Ich sehe keinen großen <marker>unterschied</marker> zwischen den beiden.</example>
+        <example type="correct">Ich sehe keinen großen <marker>Unterschied</marker> zwischen den beiden.</example>
       </rule>
     </rulegroup>
     <rulegroup id="RUECKEN_SUBST" name="Groß-/Kleinschreibung: 'rücken (Rücken)'">
@@ -6938,6 +7087,18 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
   </category>
 
   <category name="Zeichensetzung">
+    <rule id="PUNKT_UND_KLAMMER" name="Zeichensetzung: Punkt und Klammer">
+      <pattern>
+        <token postag="SENT_START"/>
+        <token regexp="yes">[0-9]{1,2}</token>
+        <token>.</token>
+        <token>)</token>
+      </pattern>
+      <message>Bitte verwenden Sie in Aufzählungen entweder Punkt oder Klammer, nicht beides: <suggestion>\2.</suggestion>; <suggestion>\2)</suggestion>.</message>
+      <example type="correct"><marker>1)</marker> Element der Aufzählung.</example>
+      <example type="correct"><marker>2.</marker> Element der Aufzählung.</example>
+      <example type="incorrect"><marker>3.)</marker> Element der Aufzählung.</example>
+    </rule>
     <rule id="PUNKT_NACH_ORDINALZAHL" name="Zeichensetzung: Punkt nach Ordinalzahlen">
       <pattern>
         <token regexp="yes">[0-9]{1,2}</token>
