@@ -1202,27 +1202,52 @@ title="Easy editing stylesheet" ?>
 			<example type="correct">Și <marker>eu venisem</marker> adesea prin parc.</example>
 		</rule>			
 
-		<rule id="SA_IL_AJUTA" name="să + (pronume) + (conjunctiv)">
-			<pattern mark_from="2">
-				<token>să</token>
-				<token postag_regexp="yes" postag="N.*"><exception>o</exception><exception negate="yes" postag_regexp="yes" postag="N.*"></exception></token>
-				<token postag_regexp="yes" postag="V.*"><exception regexp="yes">fi|o</exception><exception postag_regexp="yes" postag=".*c.."></exception></token>
-			</pattern>
-			<message>Dezacord gramatical: formele de conjunctiv ale verbului „a <match no="3" postag="V000000f00" />” sunt: <suggestion><match 
-				no="3" postag_regexp="yes" postag="V0..000cz0" /></suggestion>.</message>
-			<short>Dezacord gramatical</short>
-			<example type="correct">Eu am încercat să îl <marker>împing</marker> mai departe.</example>
-			<example type="correct">Nu a făcut decât să îl <marker>aducă</marker> aici.</example>
-			<example type="incorrect" correction="ajut|ajutați|ajute|ajutăm|ajuți">De cele mai multe ori refuză să îl <marker>ajută</marker>.</example>
-			<example type="incorrect" correction="configurați|configurez|configureze|configurezi|configurăm">Noi am încercat să îl <marker>configuram</marker> cât mai bine.</example>
-			<example type="incorrect" correction="configurați|configurez|configureze|configurezi|configurăm">Noi am încercat să îl <marker>configura</marker> cât mai bine.</example>
-			<example type="correct">Eu am încercat să îl <marker>configurez</marker> cât mai bine.</example>
-			<example type="correct">Tu ai încercat să îl <marker>configurezi</marker> cât mai bine.</example>
-			<example type="correct">El a încercat să îl <marker>configureze</marker> cât mai bine.</example>
-			<example type="correct">Noi am încercat să îl <marker>configurăm</marker> cât mai bine.</example>
-			<example type="correct">Voi ați încercat să îl <marker>configurați</marker> cât mai bine.</example>
-			<example type="correct">Ei au încercat să îl <marker>configureze</marker> cât mai bine.</example>
-		</rule>
+		<rulegroup id="SA_IL_AJUTA" name="să [+ nu] + (pronume) + (conjunctiv)" default="on">
+			<rule>
+				<pattern mark_from="2" mark_to="-1">
+					<token>să</token>
+					<token postag_regexp="yes" postag="N.*"><exception>o</exception><exception negate="yes" postag_regexp="yes" postag="N.*"/></token>
+					<token postag_regexp="yes" postag="V.*"><exception regexp="yes">fi|o</exception><exception postag_regexp="yes" postag=".*c.."/></token>
+					<token><exception>-</exception></token>
+				</pattern>
+				<message>Dezacord gramatical: formele de conjunctiv ale verbului „a <match no="3" postag="V000000f00" />” sunt: <suggestion><match 
+					no="3" postag_regexp="yes" postag="V0..000cz0" /></suggestion>.</message>
+				<short>Dezacord gramatical</short>
+				<example type="correct">Eu am încercat să îl <marker>împing</marker> mai departe.</example>
+				<example type="correct">Nu a făcut decât să îl <marker>aducă</marker> aici.</example>
+				<example type="incorrect" correction="ajut|ajutați|ajute|ajutăm|ajuți">De cele mai multe ori refuză să îl <marker>ajută</marker>.</example>
+				<example type="incorrect" correction="configurați|configurez|configureze|configurezi|configurăm">Noi am încercat să îl <marker>configuram</marker> cât mai bine.</example>
+				<example type="incorrect" correction="configurați|configurez|configureze|configurezi|configurăm">Noi am încercat să îl <marker>configura</marker> cât mai bine.</example>
+				<example type="correct">Eu am încercat să îl <marker>configurez</marker> cât mai bine.</example>
+				<example type="correct">Tu ai încercat să îl <marker>configurezi</marker> cât mai bine.</example>
+				<example type="correct">El a încercat să îl <marker>configureze</marker> cât mai bine.</example>
+				<example type="correct">Noi am încercat să îl <marker>configurăm</marker> cât mai bine.</example>
+				<example type="correct">Voi ați încercat să îl <marker>configurați</marker> cât mai bine.</example>
+				<example type="correct">Ei au încercat să îl <marker>configureze</marker> cât mai bine.</example>
+			</rule>
+			<rule>
+				<pattern mark_from="3">
+					<token>să</token>
+					<token>nu</token>
+					<token postag_regexp="yes" postag="N.*"><exception>o</exception><exception negate="yes" postag_regexp="yes" postag="N.*"/></token>
+					<token postag_regexp="yes" postag="V.*"><exception regexp="yes">fi|o</exception><exception postag_regexp="yes" postag=".*c.."/></token>
+				</pattern>
+				<message>Dezacord gramatical: formele de conjunctiv ale verbului „a <match no="4" postag="V000000f00" />” sunt: <suggestion><match 
+					no="4" postag_regexp="yes" postag="V0..000cz0" /></suggestion>.</message>
+				<short>Dezacord gramatical</short>
+				<example type="correct">Eu am încercat să nu îl <marker>împing</marker> mai departe.</example>
+				<example type="correct">A vrut să nu îl <marker>aducă</marker> aici.</example>
+				<example type="incorrect" correction="ajut|ajutați|ajute|ajutăm|ajuți">De cele mai multe ori refuză să nu îl <marker>ajută</marker>.</example>
+				<example type="incorrect" correction="configurați|configurez|configureze|configurezi|configurăm">Noi am încercat să nu îl <marker>configuram</marker> cât mai bine.</example>
+				<example type="incorrect" correction="configurați|configurez|configureze|configurezi|configurăm">Noi am încercat să nu îl <marker>configura</marker> cât mai bine.</example>
+				<example type="correct">Eu am încercat să nu îl <marker>configurez</marker> rău.</example>
+				<example type="correct">Tu ai încercat să nu îl <marker>configurezi</marker> rău.</example>
+				<example type="correct">El a încercat să nu îl <marker>configureze</marker> rău.</example>
+				<example type="correct">Noi am încercat să nu îl <marker>configurăm</marker> rău.</example>
+				<example type="correct">Voi ați încercat să nu îl <marker>configurați</marker> rău.</example>
+				<example type="correct">Ei au încercat să nu îl <marker>configureze</marker> rău.</example>
+			</rule>
+		</rulegroup>
 
 		<!--  too greedy 
 		<rule id="PRONUME_VERB_IND_IMP" name="pronume + (verb indicativ imperfect)">
