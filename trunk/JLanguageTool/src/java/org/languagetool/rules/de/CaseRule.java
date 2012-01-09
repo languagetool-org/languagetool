@@ -79,68 +79,134 @@ public class CaseRule extends GermanRule {
   
   private static final Set<String> exceptions = new HashSet<String>();
   static {
-    exceptions.add("Verwandter");
+    exceptions.add("Abends");
+    exceptions.add("Abgeordneter");
+    exceptions.add("Abriss");
+    exceptions.add("Ahne");
+    exceptions.add("Ähnlichem");
+    exceptions.add("Ähnliches");   // je nach Kontext groß (TODO), z.B. "Er hat Ähnliches erlebt" 
+    exceptions.add("Allerlei");
+    exceptions.add("Anklang");
+    exceptions.add("Anstrich");
+    exceptions.add("Armes");
+    exceptions.add("Aus");    // "vor dem Aus stehen"
+    exceptions.add("Ausdrücke");
+    exceptions.add("Auswüchsen");
+    exceptions.add("Bände");
+    exceptions.add("Bänden");
     exceptions.add("Beauftragter");
+    exceptions.add("Belange");
+    exceptions.add("besonderes");   // je nach Kontext groß (TODO): "etwas Besonderes" 
+    exceptions.add("Biss");
+    exceptions.add("De");    // "De Morgan" etc
+    exceptions.add("Dr");
+    exceptions.add("Durcheinander");
+    exceptions.add("Eindrücke");
+    exceptions.add("Erwachsener");
+    exceptions.add("Flöße");
+    exceptions.add("Folgendes");   // je nach Kontext groß (TODO)...
+    exceptions.add("Fort");
     exceptions.add("Fraß");
-    exceptions.add("Jenseits");
+    exceptions.add("Für");      // "das Für und Wider"
+    exceptions.add("Genüge");
+    exceptions.add("Gläubiger");
+    exceptions.add("Goldener");    // Goldener Schnitt
+    exceptions.add("Große");    // Alexander der Große, der Große Bär
+    exceptions.add("Großen");
+    exceptions.add("Guten");    // das Kap der Guten Hoffnung
+    exceptions.add("Hechte");
     exceptions.add("Herzöge");
     exceptions.add("Herzögen");
-    exceptions.add("Allerlei");
+    exceptions.add("Hinfahrt");
+    exceptions.add("Hundert");   // je nach Kontext groß (TODO) 
+    exceptions.add("Ihnen");
+    exceptions.add("Ihr");
+    exceptions.add("Ihre");
+    exceptions.add("Ihrem");
+    exceptions.add("Ihren");
+    exceptions.add("Ihrer");
+    exceptions.add("Ihres");
+    exceptions.add("Infrarot");
+    exceptions.add("Jenseits");
+    exceptions.add("Jugendlicher");
+    exceptions.add("Jünger");
+    exceptions.add("Klaue");
+    exceptions.add("Kleine");    // der Kleine Bär
+    exceptions.add("Konditional");
+    exceptions.add("Krähe");
+    exceptions.add("Kurzem");
+    exceptions.add("Landwirtschaft");
+    exceptions.add("Langem");
+    exceptions.add("Längerem");
+    exceptions.add("Las");   // Las Vegas, nicht "lesen"
+    exceptions.add("Le");    // "Le Monde" etc
+    exceptions.add("Letzt");
+    exceptions.add("Letzt");      // "zu guter Letzt"
     exceptions.add("Letztere");
     exceptions.add("Letzterer");
     exceptions.add("Letzteres");
-    exceptions.add("Abgeordneter");
-    exceptions.add("Abriss");
-    exceptions.add("Durcheinander");
-    exceptions.add("Fort");
+    exceptions.add("Link");
+    exceptions.add("Links");
     exceptions.add("Löhne");
-    exceptions.add("Eindrücke");
-    exceptions.add("Bände");
-    exceptions.add("Bänden");
-    exceptions.add("Gläubiger");
-    exceptions.add("Biss");
-    exceptions.add("Letzt");      // "zu guter Letzt"
-    exceptions.add("Für");      // "das Für und Wider"
-    exceptions.add("Wider");    // "das Für und Wider"
-    exceptions.add("Nachts");   // "des Nachts", "eines Nachts"
-    exceptions.add("Genüge");
-    exceptions.add("Zusage");
-    exceptions.add("Nachfrage");
-    exceptions.add("Sachverständiger");
-    exceptions.add("Nr");
-    exceptions.add("Sankt");
-    exceptions.add("Toter");
-    exceptions.add("Verantwortlicher");
-    exceptions.add("Wichtiges");
-    exceptions.add("Dr");
-    exceptions.add("Prof");
+    exceptions.add("Luden");
+    exceptions.add("Mitfahrt");
     exceptions.add("Mr");
+    exceptions.add("Mrd");
     exceptions.add("Mrs");
-    exceptions.add("De");    // "De Morgan" etc
-    exceptions.add("Le");    // "Le Monde" etc
-    exceptions.add("Ihr");
-    exceptions.add("Ihre");
-    exceptions.add("Ihres");
-    exceptions.add("Ihren");
-    exceptions.add("Ihnen");
-    exceptions.add("Ihrem");
-    exceptions.add("Ihrer");
-    exceptions.add("Sie");
-    exceptions.add("Aus");    // "vor dem Aus stehen"
+    exceptions.add("Nachfrage");
+    exceptions.add("Nachts");   // "des Nachts", "eines Nachts"
+    exceptions.add("Nähte");
+    exceptions.add("Nähten");
+    exceptions.add("Neuem");
+    exceptions.add("Nr");
+    exceptions.add("Obdachloser");
     exceptions.add("Oder");   // der Fluss
-    exceptions.add("tun");   // "Sie müssen das tun"
+    exceptions.add("Patsche");
+    exceptions.add("Pfiffe");
+    exceptions.add("Pfiffen");
+    exceptions.add("Prof");
+    exceptions.add("Puste");
+    exceptions.add("Sachverständiger");
+    exceptions.add("Sankt");
+    exceptions.add("Scheine");
+    exceptions.add("Scheiße");
+    exceptions.add("Schuft");
+    exceptions.add("Schufte");
+    exceptions.add("Schuld");
+    exceptions.add("Schwärme");
+    exceptions.add("Schwarzes");    // Schwarzes Brett
+    exceptions.add("Sie");
+    exceptions.add("Spitz");
     exceptions.add("St");   // Paris St. Germain
-    exceptions.add("Las");   // Las Vegas, nicht "lesen"
-    exceptions.add("Folgendes");   // je nach Kontext groß (TODO)...
-    exceptions.add("besonderes");   // je nach Kontext groß (TODO): "etwas Besonderes" 
-    exceptions.add("Hundert");   // je nach Kontext groß (TODO) 
+    exceptions.add("Stereotyp");
+    exceptions.add("Störe");
     exceptions.add("Tausend");   // je nach Kontext groß (TODO) 
+    exceptions.add("Toter");
+    exceptions.add("tun");   // "Sie müssen das tun"
     exceptions.add("Übrigen");   // je nach Kontext groß (TODO), z.B. "im Übrigen" 
     exceptions.add("Unvorhergesehenes");   // je nach Kontext groß (TODO), z.B. "etwas Unvorhergesehenes" 
-    exceptions.add("Ähnliches");   // je nach Kontext groß (TODO), z.B. "Er hat Ähnliches erlebt" 
-    exceptions.add("Ähnlichem");
+    exceptions.add("Verantwortlicher");
+    exceptions.add("Verwandter");
+    exceptions.add("Vielfaches");
+    exceptions.add("Vorsitzender");
+    exceptions.add("Weitem");
+    exceptions.add("Weiteres");
+    exceptions.add("Wicht");
+    exceptions.add("Wichtiges");
+    exceptions.add("Wider");    // "das Für und Wider"
+    exceptions.add("Wild");
+    exceptions.add("Zeche");
+    exceptions.add("Zusage");
+    exceptions.add("Zwinge");
 
     // TODO: alle Sprachen + flektierte Formen
+    exceptions.add("Afrikanisch");
+    exceptions.add("Altarabisch");
+    exceptions.add("Altchinesisch");
+    exceptions.add("Altgriechisch");
+    exceptions.add("Althochdeutsch");
+    exceptions.add("Altpersisch");
+    exceptions.add("Amerikanisch");
     exceptions.add("Arabisch");
     exceptions.add("Chinesisch");
     exceptions.add("Dänisch");
@@ -148,10 +214,23 @@ public class CaseRule extends GermanRule {
     exceptions.add("Englisch");
     exceptions.add("Finnisch");
     exceptions.add("Französisch");
+    exceptions.add("Frühneuhochdeutsch");
+    exceptions.add("Germanisch");
     exceptions.add("Griechisch");
+    exceptions.add("Hocharabisch");
+    exceptions.add("Hochchinesisch");
+    exceptions.add("Hochdeutsch");
     exceptions.add("Holländisch");
     exceptions.add("Italienisch");
     exceptions.add("Japanisch");
+    exceptions.add("Jiddisch");
+    exceptions.add("Jugoslawisch");
+    exceptions.add("Koreanisch");
+    exceptions.add("Kroatisch");
+    exceptions.add("Lateinisch");
+    exceptions.add("Luxemburgisch");
+    exceptions.add("Mittelhochdeutsch");
+    exceptions.add("Neuhochdeutsch");
     exceptions.add("Niederländisch");
     exceptions.add("Norwegisch");
     exceptions.add("Persisch");
@@ -159,46 +238,33 @@ public class CaseRule extends GermanRule {
     exceptions.add("Portugiesisch");
     exceptions.add("Russisch");
     exceptions.add("Schwedisch");
+    exceptions.add("Schweizerisch");
+    exceptions.add("Serbisch");
+    exceptions.add("Serbokroatisch");
+    exceptions.add("Slawisch");
     exceptions.add("Spanisch");
     exceptions.add("Tschechisch");
     exceptions.add("Türkisch");
+    exceptions.add("Ukrainisch");
     exceptions.add("Ungarisch");
+    exceptions.add("Weißrussisch");
 
-    exceptions.add("Mitfahrt");
-    exceptions.add("Schuld");
-    exceptions.add("Erwachsener");
-    exceptions.add("Jugendlicher");
-    exceptions.add("Link");
-    exceptions.add("Ausdrücke");
-    exceptions.add("Landwirtschaft");
-    exceptions.add("Flöße");
-    exceptions.add("Wild");
-    exceptions.add("Vorsitzender");
-    exceptions.add("Mrd");
-    exceptions.add("Links");
     // Änderungen an der Rechtschreibreform 2006 erlauben hier Großschreibung:
-    exceptions.add("Du");
-    exceptions.add("Dir");
-    exceptions.add("Dich");
+    exceptions.add("Dein");
     exceptions.add("Deine");
-    exceptions.add("Deinen");
     exceptions.add("Deinem");
-    exceptions.add("Deines");
+    exceptions.add("Deinen");
     exceptions.add("Deiner");
+    exceptions.add("Deines");
+    exceptions.add("Dich");
+    exceptions.add("Dir");
+    exceptions.add("Du");
     exceptions.add("Euch");
-
-    exceptions.add("Neuem");
-    exceptions.add("Weitem");
-    exceptions.add("Weiteres");
-    exceptions.add("Langem");
-    exceptions.add("Längerem");
-    exceptions.add("Kurzem");
-    exceptions.add("Schwarzes");    // Schwarzes Brett
-    exceptions.add("Goldener");    // Goldener Schnitt
-    exceptions.add("Große");    // Alexander der Große, der Große Bär
-    exceptions.add("Kleine");    // der Kleine Bär
-    exceptions.add("Guten");    // das Kap der Guten Hoffnung
-    // TODO: add more exceptions here
+    exceptions.add("Euer");
+    exceptions.add("Eure");
+    exceptions.add("Eurem");
+    exceptions.add("Euren");
+    exceptions.add("Eures");
   }
   
   private static final Set<String> myExceptionPhrases = new HashSet<String>();
