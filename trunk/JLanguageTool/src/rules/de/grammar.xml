@@ -18,6 +18,7 @@ title="Easy editing stylesheet" ?>
 <!ENTITY umgangsspr " ist eine umgangssprachliche Bezeichnung.">
 <!ENTITY sprachadj1 "afrikanisch|altarabisch|altchinesisch|altgriechisch|altpersisch|amerikanisch|arabisch|chinesisch|dänisch|deutsch|englisch|finnisch|französisch|frühneuhochdeutsch|germanisch|griechisch|hocharabisch|hochchinesisch|hochdeutsch|holländisch|italienisch|japanisch|jiddisch|jugoslawisch|koreanisch|kroatisch|lateinisch|luxemburgisch|mittelhochdeutsch|neuhochdeutsch|niederländisch|norwegisch|persisch|polnisch|portugiesisch|russisch|schwedisch|schweizerisch|semitisch|serbisch|serbokroatisch|slawisch|spanisch|tschechisch|türkisch|ukrainisch|ungarisch|weißrussisch">
 <!ENTITY sprachadj2 "agglutinierend|algorithmisch|asiatisch|ausgestorben|bilderreich|bildlich|deutlich|dichterisch|europäisch|extensional|flektierend|formal|gesprochen|indogermanisch|intensional|klangvoll|konsonantenreich|maschinenorientiert|metaphorisch|poetisch|prosaisch|romanisch|schön|selten|vokalreich|wunderschön">
+<!ENTITY bundesstaaten "Alabama|Alaska|Arizona|Arkansas|Colorado|Connecticut|Delaware|Florida|Georgia|Hawaii|Idaho|Illinois|Indiana|Iowa|Kalifornien|Kansas|Kentucky|Louisiana|Maine|Maryland|Massachusetts|Michigan|Minnesota|Mississippi|Missouri|Montana|Nebraska|Nevada|New|North|Ohio|Oklahoma|Oregon|Pennsylvania|Rhode|South|Tennessee|Texas|Utah|Vermont|Virginia|Washington|West|Wisconsin|Wyoming">
 <!ENTITY mahlennomen "Zahn|Mühle|Korn|Weizen|Getreide|.*Mehl|Müller">
 <!ENTITY malennomen ".*Farbe|.*Bild|.*Porträt|Kunst.*|Maler">
 <!ENTITY anfauf "„|&quot;|»|›|‚|'">
@@ -254,6 +255,56 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <message>Meinten Sie <suggestion>Grat</suggestion> (Bergrücken) statt Grad (Maßeinheit)?</message>
       <example type="correct">Er wandelt auf einem schmalen <marker>Grat</marker>.</example>
       <example type="incorrect">Er wandelt auf einem schmalen <marker>Grad</marker>.</example>
+    </rule>
+    <rule id="STATT_VS_STAAT" name="Möglicher Tippfehler: 'Statt (Staat) Alabama' etc.">
+      <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
+        <token negate_pos="yes" postag="SENT_START"/>
+        <token>Statt</token>
+        <token regexp="yes">&bundesstaaten;</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>Staat</suggestion>?</message>
+      <example type="correct">Im <marker>Staat</marker> New York wird heute gewählt.</example>
+      <example type="incorrect" correction="Staat">Im <marker>Statt</marker> New York wird heute gewählt.</example>
+    </rule>
+    <rule id="INS_LEERE" name="Möglicher Tippfehler: 'ins Lehre (Leere)'">
+      <pattern case_sensitive="yes" mark_from="1">
+        <token>ins</token>
+        <token regexp="yes">leere|[lL]ehre</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>Leere</suggestion> (das Leersein)?</message>
+      <example type="correct">Seine Augen starrten ins <marker>Leere</marker>.</example>
+      <example type="correct">Die Kampagne lief ins <marker>Leere</marker>.</example>
+      <example type="incorrect">Die Kampagne lief ins <marker>Lehre</marker>.</example>
+    </rule>
+    <rule id="GAEHNENDE_LEERE" name="Möglicher Tippfehler: 'gähnende Lehre (Leere)'">
+      <pattern case_sensitive="yes" mark_from="1">
+        <token regexp="yes">(bodenlose|völlige|gähnende|innere)[nr]?</token>
+        <token regexp="yes">leere|[lL]ehre</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>Leere</suggestion> (das Leersein)?</message>
+      <example type="correct">Seine Augen starrten ins <marker>Leere</marker>.</example>
+      <example type="correct">Die Kampagne lief ins <marker>Leere</marker>.</example>
+      <example type="incorrect">Das Gefühl der inneren <marker>Lehre</marker> wurde stärker.</example>
+    </rule>
+    <rule id="KEINE_WAL" name="Möglicher Tippfehler: 'Wal (Wahl)'">
+      <pattern case_sensitive="yes" mark_from="1">
+        <token regexp="yes">keine|andere</token>
+        <token regexp="yes">Wall?</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>Wahl</suggestion> (Auswahl, Abstimmung)?</message>
+      <example type="correct">Wir müssen das tun, uns bleibt keine <marker>Wahl</marker>.</example>
+      <example type="incorrect">Wir müssen das tun, uns bleibt keine <marker>Wal</marker>.</example>
+      <example type="incorrect">Wir haben keine andere <marker>Wal</marker>.</example>
+    </rule>
+    <rule id="QUAL_DER_WAL" name="Möglicher Tippfehler: 'Wal (Wahl)'">
+      <pattern mark_from="2">
+        <token>Qual</token>
+        <token>der</token>
+        <token regexp="yes">Wall?</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>Wahl</suggestion> (Auswahl, Abstimmung)?</message>
+      <example type="correct">Wir haben die Qual der <marker>Wahl</marker>.</example>
+      <example type="incorrect">Wir haben die Qual der <marker>Wal</marker>.</example>
     </rule>
     <rule id="COACH_VS_COUCH" name="Möglicher Tippfehler: 'Coach (Couch)'">
       <pattern mark_from="2">
@@ -3153,6 +3204,29 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect">Da regt er sich zu <marker>recht</marker> auf.</example>
     </rule>
     -->
+    <rule id="SUBSTANTIVE_FEM_SG" name="Groß-/Kleinschreibung: Substantive, die auch Verben oder Adjektive sein können" >
+    <!-- Quite surprisingly, this rule didn't cause ANY alarms when tested on ~ 3000 Wikipedia articles. -->
+	<pattern mark_from="2" mark_to="-1" case_sensitive="yes">
+        <token postag="SENT_START"/>
+        <token regexp="yes">Die|Diese|Seine|Ihre|Meine|Deine|Eure|Unsere</token>
+        <token regexp="yes">abfahrt|abgeordnete|absage|absteige|angst|ansage|antike|ausfuhr|aussage|blase|breite|bremse|bürde|burleske|bürste|dichte|düse|ebbe|ecke|ehe|ehre|eiche|eile|einreise|erde|fahrt|falle|falte|feile|ferne|fliege|fliese|flotte|flucht|folge|frage|fremde|fresse|geige|grenze|großtat|hacke|härte|hecke|heimfahrt|herfahrt|hinfahrt|höhle|kappe|klammer|klappe|klaue|klinge|klingel|kommode|kontroverse|kraft|krähe|kralle|kürze|kutsche|leere|lehre|leiste|leuchte|liebe|liege|liste|lüge|macht|marine|matte|messe|mühe|nachfrage|naht|nähe|offensive|pauke|pauschale|pause|perle|pfeife|platte|pleite|post|predigt|presse|probe|puste|quelle|rast|ratsche|rede|reihe|reise|reue|robbe|rolle|rückfrage|rüge|ruhe|runde|sahne|säure|schau|scheide|scheiße|schere|schiene|schippe|schlampe|schleuse|schlinge|schmelze|schmiede|schnalle|schneide|spritze|schuld|schürze|schwebe|schwelle|sorge|speise|spitze|stärke|stelle|stimme|strafe|strecke|strippe|stufe|stunde|stütze|suche|taste|tat|variable|wache|wand|wärme|weide|weihe|weile|weise|welle|werft|wiege|wiese|wolle|würde|würze|wüste|zahl|zeche|zeit|zentrale|zier|zufuhr|zwinge</token>
+        <token postag="VER:3:SIN:.*" postag_regexp="yes"/>
+      </pattern>
+      <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>&subende;</message>
+      <example type="incorrect" correction="Aussage">Diese <marker>aussage</marker> ist falsch.</example>
+      <example type="incorrect" correction="Flucht">Seine <marker>flucht</marker> belastet ihn zusätzlich.</example>
+      <example type="incorrect" correction="Abfahrt">Unsere <marker>abfahrt</marker> verzögert sich etwas.</example>
+      <example type="incorrect" correction="Angst">Die <marker>angst</marker> geht um.</example>
+      <example type="incorrect" correction="Scheide">Ihre <marker>scheide</marker> wurde feucht.</example>
+      <example type="incorrect" correction="Schneide">Die <marker>schneide</marker> wurde stumpf.</example>
+      <example type="incorrect" correction="Spitze">Die <marker>spitze</marker> ist stumpf.</example>
+      <example type="incorrect" correction="Klinge">Die <marker>klinge</marker> ist schartig.</example>
+      <example type="incorrect" correction="Blase">Die <marker>blase</marker> platzte am Mittwoch.</example>
+      <example type="incorrect" correction="Kontroverse">Die <marker>kontroverse</marker> ist noch unentschieden.</example>
+      <example type="incorrect" correction="Wüste">Die <marker>wüste</marker> lebt.</example>
+      <example type="correct">Die <marker>Zentrale</marker> war ahnungslos.</example>
+      <example type="correct">Die <marker>Fahrt</marker> war schnell vorbei.</example>
+    </rule>
     <rule id="NAMENS" name="Groß-/Kleinschreibung: 'Namens (namens)'">
       <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
         <token postag="UNKNOWN|SUB:.*" postag_regexp="yes"/>
@@ -3215,6 +3289,20 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect" correction="Tränen">Unter <marker>tränen</marker> gestand er seine Schuld.</example>
       <example type="correct">Unter <marker>Schmerzen</marker> sollst du deine Kinder gebären.</example>
     </rule>
+    <rulegroup id="IN_DIE_TAT_UMSETZEN" name="Groß-/Kleinschreibung: 'in die tat (Tat) umsetzen'">
+      <rule>
+        <pattern case_sensitive="yes" mark_from="2" mark_to="-1">
+          <token>in</token>
+          <token>die</token>
+          <token>tat</token>
+          <token inflected="yes">umsetzen</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Tat</suggestion>&subende;</message>
+        <example type="incorrect" correction="Tat">Wir haben das Vorhaben in die <marker>tat</marker> umgesetzt.</example>
+        <example type="incorrect" correction="Tat">Wir werden das Vorhaben in die <marker>tat</marker> umsetzen.</example>
+        <example type="correct">Wir werden das Vorhaben in die <marker>Tat</marker> umsetzen.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="IM_STICH_LASSEN" name="Groß-/Kleinschreibung: 'im stich (Stich) lassen'">
       <rule>
         <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
@@ -4449,6 +4537,26 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect">Wir sind schließlich nicht zum <marker>vergnügen</marker> hier.</example>
     </rule>
     <rulegroup id="REDE_SUBST" name="Groß-/Kleinschreibung: 'rede (Rede)'">
+      <rule>
+        <pattern mark_from="1" mark_to="-1" case_sensitive="yes">
+          <token>eine</token>
+          <token>rede</token>
+          <token inflected="yes">halten</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Rede</suggestion>&subende;</message>
+        <example type="correct">Er wird morgen eine <marker>Rede</marker> halten.</example>
+        <example type="incorrect">Er wird dort eine <marker>rede</marker> halten.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2" case_sensitive="yes">
+          <token inflected="yes">halten</token>
+          <token>eine</token>
+          <token>rede</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Rede</suggestion>&subende;</message>
+        <example type="correct">Er hielt eine <marker>Rede</marker>.</example>
+        <example type="incorrect">Er hielt eine <marker>rede</marker>.</example>
+      </rule>
       <rule>
         <pattern mark_from="2" case_sensitive="yes">
           <token regexp="yes">nicht|nie</token>
@@ -5954,13 +6062,23 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <rule>
         <pattern case_sensitive="yes">
           <token>genüge</token>
-          <token regexp="yes">tun|tut|tust|getan</token>
+          <token regexp="yes">tat|taten|tun|tut|tust|getan</token>
         </pattern>
         <message>'Genüge' wird hier großgeschrieben: <suggestion>Genüge \2</suggestion></message>
         <example type="correct">Der Gerechtigkeit wurde <marker>Genüge getan</marker>.</example>
         <example type="incorrect">Der Gerechtigkeit wurde <marker>genüge getan</marker>.</example>
       </rule>
     </rulegroup>
+    <rule id="FEHL_UND_TADEL" name="Groß-/Kleinschreibung: 'ohne fehl (Fehl) und Tadel'">
+      <pattern case_sensitive="yes">
+        <token>fehl</token>
+        <token>und</token>
+        <token>Tadel</token>
+      </pattern>
+      <message>&inwend;'ohne Fehl und Tadel' wird <suggestion>Fehl und Tadel</suggestion> großgeschrieben.</message>
+      <example type="correct">Ein Mann ohne <marker>Fehl und Tadel</marker>.</example>
+      <example type="incorrect">Ein Politiker ohne <marker>fehl und Tadel</marker>.</example>
+    </rule>
     <rule id="WENN_UND_ABER" name="Groß-/Kleinschreibung: 'ohne wenn (Wenn) und aber (Aber)'">
       <pattern case_sensitive="yes" mark_from="1">
         <token regexp="yes">[Oo]hne</token>
