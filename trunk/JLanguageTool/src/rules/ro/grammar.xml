@@ -135,6 +135,43 @@ title="Easy editing stylesheet" ?>
 		</rulegroup>
 	</category>
 	<category name="Diverse">
+		<rulegroup id="UN_O" name="un o">
+			<rule name="un o (subst. masc.)">
+				<pattern>
+					<token>un</token>
+					<token>o</token>
+					<token postag_regexp="yes" postag="Sm.*"/>
+				</pattern>
+				<message>Ați dorit să scrieți <suggestion>\1 \3</suggestion></message>
+				<short>Posibilă greșeală.</short>
+				<example type="incorrect" correction="un om">Au găsit <marker>un o om</marker> de încredere.</example>
+				<example type="correct">Au găsit un om de încredere.</example>
+			</rule>
+			<rule name="un o (subst. fem.)">
+				<pattern>
+					<token>un</token>
+					<token>o</token>
+					<token postag_regexp="yes" postag="Sf.*"/>
+				</pattern>
+				<message>Ați dorit să scrieți <suggestion>\2 \3</suggestion></message>
+				<short>Posibilă greșeală.</short>
+				<example type="incorrect" correction="o serie">Au găsit <marker>un o serie</marker> de coroane.</example>
+				<example type="correct">Au găsit o serie de coroane.</example>
+			</rule>
+			<rule name="un o">
+				<pattern>
+					<token>un</token>
+					<token>o</token>
+					<token><exception postag_regexp="yes" postag="S(m|f).*|P.*"/></token>
+				</pattern>
+				<message>Ați dorit să scrieți <suggestion>\1 \3</suggestion> sau <suggestion>\2 \3</suggestion></message>
+				<short>Posibilă greșeală.</short>
+				<example type="incorrect">Au găsit <marker>un o altă</marker> ordine.</example>
+				<example type="correct">Au găsit o altă ordine.</example>
+				<example type="correct">Se va folosi un O pentru om și un M pentru animal.</example>
+				<!-- false alarm <example type="correct">Se pronunță ca un o lung.</example> -->
+			</rule>
+		</rulegroup>
 		<rulegroup id="SPUS_CA_SA_L_ASTEPT" name="a spus ca să-l aștept">
 			<rule> 
 		        <pattern>
@@ -1426,6 +1463,30 @@ title="Easy editing stylesheet" ?>
 	</category>
 
 	<category name="Pleonasme">
+			<rule id="TRIUMVIRAT_TREI" name="triumvirat în trei">
+				<pattern>
+					<token inflected="yes">triumvirat</token>
+					<token regexp="yes">de|în|din|cu|a|al</token>
+					<token>trei</token>
+				</pattern>
+				<message>"triumvivat" implică alianța a trei conducători</message>
+				<short>Pleonasm</short>
+				<example type="incorrect">Regiunea era sub influența unui <marker>triumvirat din trei</marker> persoane importante.</example>
+				<example type="correct">Regiunea era sub influența unui triumvirat foarte vechi.</example>
+			</rule>
+			<rule id="INTOARCE_TIMPUL_INAPOI" name="a întoarce timpul înapoi">
+				<pattern>
+					<token inflected="yes">întoarce</token>
+					<token/>
+					<token>înapoi</token>
+				</pattern>
+				<message>Ați vrut să scrieți <suggestion>\1 \2</suggestion> sau <suggestion><match no="1" postag=".*" postag_regexp="yes">da</match> <match no="2"/> <match no="3"/></suggestion>?</message>
+				<short>Pleonasm</short>
+				<example type="incorrect" correction="întoarce timpul|da timpul înapoi">Dacă am putea <marker>întoarce timpul înapoi</marker>...</example>
+				<example type="incorrect" correction="întoarcem timpul|dăm timpul înapoi">Dacă am putea să <marker>întoarcem timpul înapoi</marker>...</example>
+				<example type="incorrect" correction="întorci anii|dai anii înapoi">Dacă ai putea să <marker>întorci anii înapoi</marker>...</example>
+				<example type="correct">Dacă am putea întoarce timpul ar fi foarte bine</example>
+			</rule>
 			<rule id="A_ADAUGA_O_COMPLETARE" name="a adăuga o completare">
 				<pattern>
 					<token inflected="yes">adăuga</token>
@@ -5651,6 +5712,42 @@ title="Easy editing stylesheet" ?>
 			<example type="incorrect" correction="A cincea"><marker>A cincia</marker> lucrare era a lui.</example>
 			<example type="correct"><marker>A cincea</marker> lucrare era a lui.</example>
 		</rule>
+		<rule id="A_DOISPREZECEA" name="a doisprezecea -> a douăsprezecea">
+			<pattern>
+				<token>a</token>
+				<token>doisprezecea</token>
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion>\1 douăsprezecea</suggestion>?</message>
+			<short>Folosire greșită a numeralului</short>
+			<example type="incorrect" correction="A douăsprezecea"><marker>A doisprezecea</marker> lucrare era a lui.</example>
+			<example type="correct"><marker>A douăsprezecea</marker> lucrare era a lui.</example>
+		</rule>
+		<rule id="ORA_UNA" name="ora una -> ora unu">
+			<pattern>
+				<token>ora</token>
+				<token>una</token>
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion>ora unu</suggestion>?</message>
+			<short>Folosire greșită a numeralului</short>
+			<example type="incorrect" correction="ora unu">S-au întâlnit la <marker>ora una</marker>.</example>
+			<example type="correct" >S-au întâlnit la <marker>ora unu</marker>.</example>
+		</rule>
+		<rule id="UN_PACHET_JUMATATE" name="un pachet jumătate -> un pachet și jumătate">
+			<pattern mark_from="1">
+				<token><exception regexp="yes">cu|-</exception></token>
+				<token regexp="yes">un|o</token>
+				<token postag_regexp="yes" postag="S.*"><exception regexp="yes">monstru|ființă</exception></token>
+				<token>jumătate</token>
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion>\2 \3 și \4</suggestion>?</message>
+			<short>Posibilă folosire greșită a numeralului</short>
+			<example type="incorrect" correction="un pachet și jumătate">I-a trimis doar <marker>un pachet jumătate</marker>.</example>
+			<example type="correct">A primit doar un pachet și jumătate.</example>
+			<example type="correct">Era îmbrăcat într-un costum jumătate alb, jumătate negru.</example>
+			<example type="correct">Din apă a apărut un monstru jumătate pește, jumătate șarpe.</example>
+			<example type="correct">A tăit cu un cuțit jumătate din pâine.</example>
+			
+		</rule>	
 		<rule id="AL_OPTELEA" name="al optelea - al optulea">
 			<pattern >
 				<token regexp="yes">al|a</token>
