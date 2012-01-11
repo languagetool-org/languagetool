@@ -1738,6 +1738,47 @@ Useful links:
       <example type="incorrect">E berr <marker>komzoù</marker>.</example>
       <example type="correct">E berr <marker>gomzoù</marker>.</example>
     </rule>
+    <rule id="GWIR_ANV" name="Gwir Bretoned → Gwir Vretoned">
+      <pattern mark_from="2">
+        <token postag="[CD].*|SENT_START" postag_regexp="yes"/>
+        <token>gwir</token>
+        <token postag="N.*" postag_regexp="yes" inflected="yes" regexp="yes">[ktpgdbm].*
+          <exception postag="N[^M]*M.*:1:.*" postag_regexp="yes" inflected="yes" regexp="yes">[ktpgdbm].*</exception>
+        </token>
+      </pattern>
+      <message>Ur c’hemmadur glok dre vlotaat a zlefe bezañ goude an anv-gwan «\2».</message>
+      <example type="incorrect">Gwir <marker>Bretoned</marker></example>
+      <example type="correct">Gwir <marker>Vretoned</marker></example>
+      <example type="incorrect">Ur gwir <marker>plijadur</marker></example>
+      <example type="correct">Ur gwir <marker>blijadur</marker></example>
+      <example type="correct">Ur gwir <marker>istor</marker></example>
+    </rule>
+    <rulegroup id="CHOZH_ANV" name="Ur c’hozh vachin → Ur c’hozh machin">
+      <rule>
+        <pattern mark_from="2">
+          <token postag="[CD].*|SENT_START" postag_regexp="yes"/>
+          <token>c’hozh</token>
+          <token postag="N.*" postag_regexp="yes" inflected="yes" regexp="yes">[gdbm].*
+            <exception postag="N[^M]*M.*:1b:.*" postag_regexp="yes" inflected="yes" regexp="yes">[gdbm].*</exception>
+          </token>
+        </pattern>
+        <message>Ur c’hemmadur dre vlotaat diglok a zlefe bezañ goude an anv-gwan «\2» dirak an anv a grog gant «g, d, b, b».</message>
+        <example type="incorrect">Ur c’hozh <marker>machin</marker></example>
+        <example type="correct">Ur c’hozh <marker>vachin</marker></example>
+        <example type="correct">Ur c’hozh <marker>kemener</marker></example>
+      </rule>
+      <rule>
+        <pattern mark_from="2">
+          <token postag="[CD].*|SENT_START" postag_regexp="yes"/>
+          <token>c’hozh</token>
+          <token postag="N[^M]*M:.*" postag_regexp="yes" inflected="yes" regexp="yes">[ktp].*</token>
+        </pattern>
+        <message>Ur c’hemmadur dre vlotaat diglok a zlefe bezañ goude an anv-gwan «\2» dirak an anv a grog gant «g, d, b, b» hepken.</message>
+        <example type="incorrect">Ur c’hozh <marker>gemener</marker></example>
+        <example type="incorrect">Ur c’hozh <marker>c’hemener</marker></example>
+        <example type="correct">Ur c’hozh <marker>kemener</marker></example>
+      </rule>
+    </rulegroup>
   </category>
 
   <category name="Ger-mell">
