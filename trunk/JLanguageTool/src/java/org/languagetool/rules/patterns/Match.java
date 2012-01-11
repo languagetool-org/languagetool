@@ -250,7 +250,6 @@ public class Match {
         formattedString[0] = pRegexMatch.matcher(formattedString[0])
             .replaceAll(regexReplace);
       }
-      formattedString[0] = convertCase(formattedString[0]);
       if (posTag != null) {
         if (synthesizer == null) {
           formattedString[0] = formattedToken.getToken();
@@ -306,6 +305,11 @@ public class Match {
         }
       }
     }    
+    final String original = formattedToken != null ?  formattedToken.getToken() : "";
+    for (int i = 0; i < formattedString.length; i++) {
+    	formattedString[i] = convertCase(formattedString[i], original);
+    }
+    // TODO should case conversion happen before or after including skipped tokens?
     if (includeSkipped != IncludeRange.NONE 
         && skippedTokens != null && !"".equals(skippedTokens)) {      
       final String[] helper = new String[formattedString.length];
@@ -416,15 +420,28 @@ public class Match {
    * Converts case of the string token according to match element attributes.
    * 
    * @param s Token to be converted.
+   * @param sample the sample string used to determine how the original string looks like (used on case preservation) 
    * @return Converted string.
    */
-  private String convertCase(final String s) {
+  private String convertCase(final String s, String sample) {
     if (StringTools.isEmpty(s)) {
       return s;
     }
     String token = s;
     switch (caseConversionType) {
-    case NONE:
+    case NONE: // preserve case
+      /* 
+        
+        temporary commented out until we agree if this is correct
+        
+      if (StringTools.startsWithUppercase(sample)) {
+        if (StringTools.isAllUppercase(formattedToken.getToken())) {
+          token =  token.toUpperCase();
+        } else {
+          token = StringTools.uppercaseFirstChar(token);
+        }
+      }
+      */ 
       break;
     case STARTLOWER:
       token = token.substring(0, 1).toLowerCase() + token.substring(1);
@@ -472,7 +489,7 @@ public class Match {
     	/* only replace if it is something to replace*/
         token = pRegexMatch.matcher(token).replaceAll(regexReplace);
       }
-      token = convertCase(token);
+      token = convertCase(token, token);
       if (posTag != null) {
         final int numRead = formattedToken.getReadingsLength();
         if (postagRegexp) {
