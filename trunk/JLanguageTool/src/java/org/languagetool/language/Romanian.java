@@ -22,6 +22,7 @@ import java.util.*;
 
 import org.languagetool.Language;
 import org.languagetool.rules.*;
+import org.languagetool.rules.patterns.Unifier;
 import org.languagetool.rules.ro.CompoundRule;
 import org.languagetool.rules.ro.RomanianWordRepeatBeginningRule;
 import org.languagetool.rules.ro.SimpleReplaceRule;
@@ -48,6 +49,8 @@ public class Romanian extends Language {
   private Disambiguator disambiguator;
   private Tokenizer wordTokenizer;
   private SentenceTokenizer sentenceTokenizer;
+  private Unifier unifier;
+  private Unifier disambiguationUnifier;
 
   @Override
   public Locale getLocale() {
@@ -141,4 +144,21 @@ public class Romanian extends Language {
     }
     return sentenceTokenizer;
   }
+  
+  @Override
+  public Unifier getUnifier() {
+    if (unifier == null) {
+      unifier = new Unifier();
+    }
+    return unifier;
+  }
+
+  @Override
+  public Unifier getDisambiguationUnifier() {
+    if (disambiguationUnifier == null) {
+    	disambiguationUnifier = new Unifier();
+    }
+    return disambiguationUnifier; 
+  }
+
 }
