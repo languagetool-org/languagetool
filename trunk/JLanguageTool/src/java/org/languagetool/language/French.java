@@ -33,7 +33,8 @@ public class French extends Language {
 
   private Tagger tagger;
   private Disambiguator disambiguator;
-  private static final Unifier FRENCH_UNIFIER = new Unifier();
+  private Unifier unifier;
+  private Unifier disambiguationUnifier;
   
   @Override
   public Locale getLocale() {
@@ -86,7 +87,18 @@ public class French extends Language {
   
   @Override
   public Unifier getUnifier() {
-    return FRENCH_UNIFIER;
+    if (unifier == null) {
+    	unifier = new Unifier();
+    }
+    return unifier;
+  }
+
+  @Override
+  public Unifier getDisambiguationUnifier() {
+    if (disambiguationUnifier == null) {
+      disambiguationUnifier = new Unifier();
+    }
+    return disambiguationUnifier;
   }
 
   @Override
