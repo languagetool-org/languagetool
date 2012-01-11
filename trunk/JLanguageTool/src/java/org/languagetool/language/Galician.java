@@ -43,7 +43,8 @@ public class Galician extends Language {
   private SentenceTokenizer sentenceTokenizer;
   private Synthesizer synthesizer;
   private Disambiguator disambiguator;
-  private static final Unifier GALICIAN_UNIFIER = new Unifier();
+  private Unifier unifier;
+  private Unifier disambiguationUnifier;
 
   @Override
   public final Locale getLocale() {
@@ -117,7 +118,18 @@ public class Galician extends Language {
 
   @Override
   public Unifier getUnifier() {
-    return GALICIAN_UNIFIER;
+    if (unifier == null) {
+      unifier = new Unifier();
+    }
+    return unifier;
+  }
+
+  @Override
+  public Unifier getDisambiguationUnifier() {
+    if (disambiguationUnifier == null) {
+    	disambiguationUnifier = new Unifier();
+    }
+    return disambiguationUnifier; 
   }
 
   @Override

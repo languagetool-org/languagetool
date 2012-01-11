@@ -36,13 +36,13 @@ import org.languagetool.tokenizers.es.SpanishWordTokenizer;
 
 public class Spanish extends Language {
 
-  private static final Unifier SPANISH_UNIFIER = new Unifier();
-
   private SentenceTokenizer sentenceTokenizer;
   private Tokenizer wordTokenizer;
   private Synthesizer synthesizer;
   private Tagger tagger;
   private Disambiguator disambiguator;
+  private Unifier unifier;
+  private Unifier disambiguationUnifier;
 
   @Override
   public Locale getLocale() {
@@ -96,7 +96,18 @@ public class Spanish extends Language {
   
   @Override
   public Unifier getUnifier() {
-    return SPANISH_UNIFIER;
+    if (unifier == null) {
+      unifier = new Unifier();
+    }
+    return unifier;
+  }
+
+  @Override
+  public Unifier getDisambiguationUnifier() {
+    if (disambiguationUnifier == null) {
+    	disambiguationUnifier = new Unifier();
+    }
+    return disambiguationUnifier; 
   }
   
   @Override
