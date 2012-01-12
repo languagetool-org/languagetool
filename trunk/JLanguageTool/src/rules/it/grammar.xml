@@ -13,8 +13,8 @@ $Id: grammar.xml,v 1.10 2010/09/04 11:47:45 milek_pl Exp $
  ================================================================================
  Italian Grammar and Style Rules for Italian
  Paolo Bianchini
- Date: 20/11/2011
- Ver:  0.9.1
+ Date: 12/12/2012
+ Ver:  0.9.2
  ================================================================================
  Categorie delle regole
     gruppi delle regole
@@ -90,6 +90,7 @@ $Id: grammar.xml,v 1.10 2010/09/04 11:47:45 milek_pl Exp $
  2957133  name/article concordance (un vs uno)
  PB003    Added rule for checking the use of adverbs instead of adjectives
  PB004    Added rule for attimino and momentino in stile-parlato
+ PB005    Fixed rule for dà to exclude "se da" pattern voted as useless
  ======== =========================================================================
 -->
 
@@ -720,7 +721,12 @@ $Id: grammar.xml,v 1.10 2010/09/04 11:47:45 milek_pl Exp $
 			<!-- dare -->
 			<rule>
 				<pattern mark_from="1">
+<!-- PB005+ -->
+<!--
 					<token postag_regexp="yes" postag="PRO-PERS-CLI.*"/>
+-->
+					<token postag_regexp="yes" postag="PRO-PERS-CLI.*"><exception postag="CON" postag_regexp="yes"></exception></token>
+<!-- PB005- -->
 					<token>da</token>
 				</pattern>
 				<message>Probabilmente si scrive con accento: <suggestion>dà</suggestion>.</message>
