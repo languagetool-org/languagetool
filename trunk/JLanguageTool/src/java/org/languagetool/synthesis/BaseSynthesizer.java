@@ -19,7 +19,7 @@ public class BaseSynthesizer implements Synthesizer {
  
   protected IStemmer synthesizer;
 
-  private ArrayList<String> possibleTags;
+  protected ArrayList<String> possibleTags;
   private final String tagFileName;
   private final String resourceFileName;
   
@@ -63,10 +63,8 @@ public class BaseSynthesizer implements Synthesizer {
   public String[] synthesize(final AnalyzedToken token, final String posTag,
       final boolean posTagRegExp) throws IOException {
     if (posTagRegExp) {
-      if (possibleTags == null) {
-        possibleTags = SynthesizerTools.loadWords(Tools.getStream(tagFileName));
-      }
       initSynthesizer();
+      initPossibleTags();
       final Pattern p = Pattern.compile(posTag);
       final ArrayList<String> results = new ArrayList<String>();
       for (final String tag : possibleTags) {
@@ -78,6 +76,12 @@ public class BaseSynthesizer implements Synthesizer {
       return results.toArray(new String[results.size()]);
     }
     return synthesize(token, posTag);
+  }
+
+  protected void initPossibleTags() throws IOException {
+    if (possibleTags == null) {
+      possibleTags = SynthesizerTools.loadWords(Tools.getStream(tagFileName));
+    }
   }
 
   protected void initSynthesizer() throws IOException {

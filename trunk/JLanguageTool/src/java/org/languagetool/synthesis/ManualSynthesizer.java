@@ -23,9 +23,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.languagetool.tagging.ManualTagger;
 import org.languagetool.tools.StringTools;
@@ -43,13 +46,22 @@ import org.languagetool.tools.StringTools;
  */
 public class ManualSynthesizer {
 
-  /** a map with the key composed by the lema and POS (separated by "|"). The values are lists of inflected forms. */ 
+  /** a map with the key composed by the lemma and POS (separated by "|"). The values are lists of inflected forms. */ 
   private final Map<String, List<String>> mapping;
+  private Set<String> possibleTags = new HashSet<String>();
 
   public ManualSynthesizer(final InputStream file) throws IOException {
     mapping = loadMapping(file, "utf8");
+    possibleTags = Collections.unmodifiableSet(possibleTags); // lock
   }
 
+  /**
+   * Retrieve all the possible POS values.
+   */
+  public Set<String> getPossibleTags() {
+	return possibleTags;
+  }
+  
   /**
    * Look up a word's inflected form as specified by the lemma and POS tag.
    * 
@@ -84,6 +96,7 @@ public class ManualSynthesizer {
           map.put(key, new ArrayList<String>());
         }
         map.get(key).add(parts[0]);
+        possibleTags.add(parts[2]); // POS 
       }
     } finally {
       if (br != null) {

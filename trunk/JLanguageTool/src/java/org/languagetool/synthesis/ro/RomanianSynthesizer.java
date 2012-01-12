@@ -61,4 +61,14 @@ public class RomanianSynthesizer extends BaseSynthesizer {
 			manualSynthesizer = new ManualSynthesizer(JLanguageTool.getDataBroker().getFromResourceDirAsStream(USER_DICT_FILENAME));
 		}
 	}
+	@Override
+	protected void initPossibleTags() throws IOException {
+		super.initPossibleTags();
+		// add any possible tag from manual synthesiser
+		for (String tag : manualSynthesizer.getPossibleTags()) {
+			if (!possibleTags.contains(tag)) {
+				possibleTags.add(tag);
+			}
+		}
+	}
 }
