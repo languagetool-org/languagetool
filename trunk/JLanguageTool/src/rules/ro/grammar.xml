@@ -25,21 +25,21 @@ title="Easy editing stylesheet" ?>
 	</phrases>
 
 	<unification feature="gen">
-		<equivalence type="feninin"><token postag_regexp="yes" postag=".f..*"></token></equivalence>
+		<equivalence type="feminin"><token postag_regexp="yes" postag=".f..*"></token></equivalence>
 		<equivalence type="masculin"><token postag_regexp="yes" postag=".m..*"></token></equivalence>
 		<equivalence type="neutru"><token postag_regexp="yes" postag=".n..*"></token></equivalence>
-		<equivalence type="faragen"><token postag_regexp="yes" postag=".0..*"></token></equivalence>
+		<equivalence type="fara_gen"><token postag_regexp="yes" postag=".0..*"></token></equivalence>
 	</unification>
 	<unification feature="numar">
 		<equivalence type="singular"><token postag_regexp="yes" postag="..s.*"></token></equivalence>
 		<equivalence type="plural"><token postag_regexp="yes" postag="..p.*"></token></equivalence>
-		<equivalence type="faranumar"><token postag_regexp="yes" postag="..0.*"></token></equivalence>
+		<equivalence type="fara_numar"><token postag_regexp="yes" postag="..0.*"></token></equivalence>
 	</unification>
 	<unification feature="persoana">
 		<equivalence type="intai"><token postag_regexp="yes" postag="...1.*"></token></equivalence>
 		<equivalence type="a_doua"><token postag_regexp="yes" postag="...2.*"></token></equivalence>
 		<equivalence type="a_trea"><token postag_regexp="yes" postag="...3.*"></token></equivalence>
-		<equivalence type="farapersoana"><token postag_regexp="yes" postag="...0.*"></token></equivalence>		
+		<equivalence type="fara_persoana"><token postag_regexp="yes" postag="...0.*"></token></equivalence>		
 	</unification>
 
 	<category name="Litere inversate">
@@ -135,6 +135,17 @@ title="Easy editing stylesheet" ?>
 		</rulegroup>
 	</category>
 	<category name="Diverse">
+		<rule id="STARE_CIVILA" name="stare civila -> stare civilă"> 
+			<pattern>
+				<token inflected="yes">stare</token>
+				<token>civila</token>
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion><match no="1"/> <match no="2" case_conversion="preserve" postag_regexp="yes" postag="Afs3aa0000" postag_replace="Afs3an0000"/></suggestion>?</message>
+			<example type="incorrect" correction="starea civilă">L-am întrebat de <marker>starea civila</marker>.</example>
+			<example type="incorrect" correction="Starea Civilă">L-am trimis la <marker>Starea Civila</marker>.</example>
+			<example type="incorrect" correction="STAREA CIVILĂ">L-am trimis la <marker>STAREA CIVILA</marker>.</example>
+			<example type="correct">L-am întrebat de starea civilă.</example>
+		</rule>    
 		<rulegroup id="UN_O" name="un o">
 			<rule name="un o (subst. masc.)">
 				<pattern>
@@ -1463,6 +1474,109 @@ title="Easy editing stylesheet" ?>
 	</category>
 
 	<category name="Pleonasme">
+			<rulegroup id="COBORI_JOS" name="a coborî [în] jos">
+				<rule name="a coborî jos">
+					<pattern>
+						<token inflected="yes">coborî</token>
+						<token>jos</token>
+					</pattern>
+					<message>Ați dorit să scrieți <suggestion>\1</suggestion>?</message>
+					<short>Pleonasm</short>
+					<example type="incorrect" correction="coborând">L-am văzut <marker>coborând jos</marker> de pe munte.</example>
+					<example type="correct">S-a liniștit doar după ce a coborât de pe munte.</example>
+					<example type="correct">S-a liniștit doar după ce a coborât foarte jos.</example>
+				</rule>
+				<rule name="a coborî jos">
+					<pattern>
+						<token inflected="yes">coborî</token>
+						<token>în</token>
+						<token>jos</token>
+					</pattern>
+					<message>Ați dorit să scrieți <suggestion>\1</suggestion>?</message>
+					<short>Pleonasm</short>
+					<example type="incorrect" correction="coborând">L-am văzut <marker>coborând în jos</marker> de pe munte.</example>
+					<example type="correct">S-a liniștit doar după ce a coborât de pe munte.</example>
+					<example type="correct">S-a liniștit doar după ce a coborât foarte jos.</example>
+				</rule>
+			</rulegroup>
+			<rulegroup id="URCA_SUS" name="a urca sus">
+				<rule name="a urca sus">
+					<pattern mark_to="-1">
+						<token inflected="yes">urca</token>
+						<token>sus</token>
+						<token><exception>de</exception></token>
+					</pattern>
+					<message>Ați dorit să scrieți <suggestion>\1</suggestion>?</message>
+					<short>Pleonasm</short>
+					<example type="incorrect" correction="urcând">L-am văzut <marker>urcând sus</marker> pe munte.</example>
+					<example type="correct">S-a liniștit doar după ce a urcat pe munte.</example>
+					<example type="correct">S-a liniștit doar după ce a urcat sus de tot.</example>
+				</rule>
+				<rule name="a urca în sus">
+					<pattern mark_to="-1">
+						<token inflected="yes">urca</token>
+						<token>în</token>
+						<token>sus</token>
+						<token><exception>de</exception></token>
+					</pattern>
+					<message>Ați dorit să scrieți <suggestion>\1</suggestion>?</message>
+					<short>Pleonasm</short>
+					<example type="incorrect" correction="urcând">L-am văzut <marker>urcând în sus</marker> pe munte.</example>
+					<example type="correct">S-a liniștit doar după ce a urcat pe munte.</example>
+					<example type="correct">S-a liniștit doar după ce a urcat sus de tot.</example>
+				</rule>
+			</rulegroup>
+			<rule id="AMBELE_DOUA" name="ambele două">
+				<pattern>
+					<token inflected="yes">ambii</token>
+					<token inflected="yes" regexp="yes">doi|amândoi|amândouă</token>
+				</pattern>
+				<message>Ați dorit să scrieți <suggestion>\1</suggestion>?</message>
+				<short>Pleonasm</short>
+				<example type="incorrect" correction="ambele">A trimis scrisoarea către <marker>ambele două</marker> surori.</example>
+				<example type="incorrect" correction="ambilor">A trimis scrisoarea <marker>ambilor doi</marker> foști colegi.</example>
+				<example type="incorrect" correction="ambilor">A trimis scrisoarea <marker>ambilor amândoi</marker> foști colegi.</example>
+				<example type="correct">A trimis scrisoarea <marker>ambilor</marker> colegi</example>
+			</rule>
+			<rule id="BICICLETA_CU_DOUA_ROTI" name="bicicletă cu două roți">
+				<pattern>
+					<token inflected="yes">bicicletă</token>
+					<token>cu</token>
+					<token>două</token>
+					<token>roți</token>
+				</pattern>
+				<message>Ați dorit să scrieți <suggestion>\1</suggestion>?</message>
+				<short>Pleonasm</short>
+				<example type="incorrect" correction="bicicletă">El nu a vrut să folosescă o <marker>bicicletă cu două roți</marker>.</example>
+				<example type="incorrect" correction="bicicletei">Nu a vrut să dea drumul <marker>bicicletei cu două roți</marker>.</example>
+				<example type="correct">El nu a vrut să folosească o bicicletă.</example>
+			</rule>
+			<rule id="TRICICLETA_CU_TREI_ROTI" name="tricicletă cu trei roți">
+				<pattern>
+					<token inflected="yes">tricicletă</token>
+					<token>cu</token>
+					<token>trei</token>
+					<token>roți</token>
+				</pattern>
+				<message>Ați dorit să scrieți <suggestion>\1</suggestion>?</message>
+				<short>Pleonasm</short>
+				<example type="incorrect" correction="tricicletă">El nu a vrut să folosescă o <marker>tricicletă cu trei roți</marker>.</example>
+				<example type="incorrect" correction="tricicletei">Nu a vrut să dea drumul <marker>tricicletei cu trei roți</marker>.</example>
+				<example type="correct">El nu a vrut să folosească o tricicletă.</example>
+			</rule>
+			<rule id="CERE_O_SOLICITARE" name="a cere o solicitare">
+				<pattern>
+					<token inflected="yes">cere</token>
+					<token>o</token>
+					<token>solicitare</token>
+				</pattern>
+				<message>Ați dorit să scrieți <suggestion><match no="1" postag_regexp="yes" postag="(..*)" postag_replace="$1">face</match> <match no="2"/> <match no="3"
+						/></suggestion> sau <suggestion><match no="1" postag_regexp="yes" postag="(..*)" postag_replace="$1">solicita</match></suggestion>?</message>
+				<short>Pleonasm</short>
+				<example type="incorrect" correction="facă o solicitare|solicite">El nu a vrut să <marker>ceară o solicitare</marker> scrisă.</example>
+				<example type="incorrect" correction="făcut o solicitare|solicitat">El a <marker>cerut o solicitare</marker>.</example>
+				<example type="correct">El nu a vrut să facă o solicitare scrisă.</example>
+			</rule>
 			<rule id="TRIUMVIRAT_TREI" name="triumvirat în trei">
 				<pattern>
 					<token inflected="yes">triumvirat</token>
