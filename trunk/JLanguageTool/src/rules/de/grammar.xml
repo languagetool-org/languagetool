@@ -101,6 +101,17 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect">Es <marker>wir</marker> wieder wärmer draußen.</example>
       <example type="correct">Es <marker>wird</marker> wieder wärmer draußen.</example>
     </rule>
+    <rule id="ZU_SEIEN" name="Möglicher Tippfehler: zu seien (sein/seinen)">
+      <pattern mark_from="1">
+        <token>zu</token>
+        <token>seien</token>
+      </pattern>
+      <message>Meinten Sie den Infinitiv <suggestion>sein</suggestion> oder das Possessivpronomen <suggestion>seinen</suggestion>?</message>
+      <example type="incorrect">Er ist gut zu <marker>seien</marker> Haustieren.</example>
+      <example type="correct">Er ist gut zu <marker>seinen</marker> Haustieren.</example>
+      <example type="incorrect">Es scheint kaputt zu <marker>seien</marker>.</example>
+      <example type="correct">Es scheint defekt zu <marker>sein</marker>.</example>
+    </rule>
     <rulegroup id="ES_KANN_NICHT_SEIEN" name="Möglicher Tippfehler: es kann nicht seien (sein)">
       <rule>
         <pattern mark_from="2">
@@ -6233,14 +6244,16 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct">Zur <marker>Strafe</marker> bekommst du keinen Nachtisch!</example>
       <example type="incorrect">Zur <marker>strafe</marker> bekommst du keinen Nachtisch!</example>
     </rule>
-    <rule id="IM_LEBEN" name="Groß-/Kleinschreibung: 'im leben (Leben)'">
+    <rule id="IM_LEBEN" name="Groß-/Kleinschreibung: 'im/am leben (Leben)'">
       <pattern mark_from="1" case_sensitive="yes">
-        <token regexp="yes">[Ii]m</token>
+        <token regexp="yes">[IiAa]m</token>
         <token>leben</token>
       </pattern>
       <message>&subanfang;<suggestion>Leben</suggestion>&subende;</message>
+      <example type="correct">Als die Retter eintrafen, war sie schon nicht mehr am <marker>Leben</marker>.</example>
       <example type="correct">Das funktioniert doch nie im <marker>Leben</marker>!</example>
       <example type="incorrect">Das funktioniert doch nie im <marker>leben</marker>!</example>
+      <example type="incorrect">Als die Retter eintrafen, war sie schon nicht mehr am <marker>leben</marker>.</example>
     </rule>
     <rulegroup id="EINEN_GEFALLEN" name="Groß-/Kleinschreibung: 'einen gefallen (Gefallen) tun'">
       <rule>
