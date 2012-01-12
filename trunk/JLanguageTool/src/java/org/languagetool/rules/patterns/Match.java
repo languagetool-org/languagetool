@@ -41,7 +41,7 @@ public class Match {
 
   /** Possible string case conversions. **/
   public enum CaseConversion {
-    NONE, STARTLOWER, STARTUPPER, ALLLOWER, ALLUPPER;
+    NONE, STARTLOWER, STARTUPPER, ALLLOWER, ALLUPPER, PRESERVE;
 
     /**
      * Converts string to the constant enum.
@@ -429,11 +429,9 @@ public class Match {
     }
     String token = s;
     switch (caseConversionType) {
-    case NONE: // preserve case
-      /* 
-        
-        temporary commented out until we agree if this is correct
-        
+    case NONE: 
+    	break;
+    case PRESERVE:
       if (StringTools.startsWithUppercase(sample)) {
         if (StringTools.isAllUppercase(formattedToken.getToken())) {
           token =  token.toUpperCase();
@@ -441,7 +439,6 @@ public class Match {
           token = StringTools.uppercaseFirstChar(token);
         }
       }
-      */ 
       break;
     case STARTLOWER:
       token = token.substring(0, 1).toLowerCase() + token.substring(1);
