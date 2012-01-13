@@ -24,6 +24,8 @@ title="Easy editing stylesheet" ?>
 <!ENTITY bundesstaaten "Alabama|Alaska|Arizona|Arkansas|Colorado|Connecticut|Delaware|Florida|Georgia|Hawaii|Idaho|Illinois|Indiana|Iowa|Kalifornien|Kansas|Kentucky|Louisiana|Maine|Maryland|Massachusetts|Michigan|Minnesota|Mississippi|Missouri|Montana|Nebraska|Nevada|New|North|Ohio|Oklahoma|Oregon|Pennsylvania|Rhode|South|Tennessee|Texas|Utah|Vermont|Virginia|Washington|West|Wisconsin|Wyoming">
 <!ENTITY mahlennomen "Zahn|Mühle|Korn|Weizen|Getreide|.*Mehl|Müller">
 <!ENTITY malennomen ".*Farbe|.*Bild|.*Porträt|Kunst.*|Maler">
+<!ENTITY seitewoerter ".*Buch|.*Lektüre">
+<!ENTITY saitewoerter "aufziehen|.*Bass(es)?|.*Bratsche|.*Cellos?|.*Harfe|.*Geige|.*Gitarre|.*Viola|.*Violine">
 <!ENTITY anfauf "„|&quot;|»|›|‚|'">
 <!ENTITY anfzu "‘|“|‹|«|&quot;|'">
 <!ENTITY anf "&anfauf;|‘|“|‹|«">
@@ -953,6 +955,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect">Das <marker>Für und Wieder</marker> wird erwogen.</example>
       </rule>
     </rulegroup>
+    <!-- TODO should this be combined with SEITE_SAITE? -->
     <rulegroup id="ANDERE_SEITEN_AUFZIEHEN" name="Möglicher Tippfehler: 'andere Seiten (Saiten) aufziehen'">
       <rule>
         <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
@@ -965,6 +968,54 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Bei der UNO müssen andere <marker>Saiten</marker> aufgezogen werden.</example>
         <example type="incorrect">Die UNO muss andere <marker>Seiten</marker> aufziehen.</example>
         <example type="incorrect">Bei der UNO müssen andere <marker>Seiten</marker> aufgezogen werden.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="SEITE_SAITE" name="Möglicher Tippfehler: Seite/Saite">
+      <rule>
+        <pattern mark_from="2" mark_to="-1">
+          <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">&seitewoerter;</exception></token>
+          <token regexp="yes" inflected="yes" skip="5">&saitewoerter;<exception scope="next" regexp="yes" inflected="yes">&seitewoerter;</exception></token>
+          <token inflected="yes" skip="-1">Seite<exception scope="next" regexp="yes" inflected="yes">&seitewoerter;</exception></token>
+          <token postag="SENT_END"/>
+        </pattern>
+        <message>Meinten Sie <suggestion><match no="3" regexp_match="ei" regexp_replace="ai"/></suggestion>? (Seite = Buchseite)</message>
+        <example type="incorrect" correction="Saite">Die E-Gitarre hat eine sechste <marker>Seite</marker>.</example>
+        <example type="correct">Dieses Buch über die Gatarre hat nur sechs <marker>Seiten</marker>.</example>
+        <example type="correct">Diese Gitarre hat sechs <marker>Saiten</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-2">
+          <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">&seitewoerter;</exception></token>
+          <token inflected="yes" skip="5">Seite<exception scope="next" regexp="yes" inflected="yes">&seitewoerter;</exception></token>
+          <token regexp="yes" inflected="yes" skip="-1">&saitewoerter;<exception scope="next" regexp="yes" inflected="yes">&seitewoerter;</exception></token>
+          <token postag="SENT_END"/>
+        </pattern>
+        <message>Meinten Sie <suggestion><match no="2" regexp_match="ei" regexp_replace="ai"/></suggestion>? (Seite = Buchseite)</message>
+        <example type="incorrect" correction="Saiten">Die <marker>Seiten</marker> des Violoncellos sind kurz.</example>
+        <example type="incorrect" correction="Saiten">Die <marker>Seiten</marker> des Kontrabasses sind gerissen.</example>
+        <example type="correct">Die <marker>Saiten</marker> des Violoncellos sind kurz.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2" mark_to="-1">
+          <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">&saitewoerter;</exception></token>
+          <token regexp="yes" inflected="yes" skip="5">&seitewoerter;<exception scope="next" regexp="yes" inflected="yes">&saitewoerter;</exception></token>
+          <token inflected="yes" skip="-1">Saite<exception scope="next" regexp="yes" inflected="yes">&saitewoerter;</exception></token>
+          <token postag="SENT_END"/>
+        </pattern>
+        <message>Meinten Sie <suggestion><match no="3" regexp_match="ai" regexp_replace="ei"/></suggestion>? (Saite = Saiteninstrument)</message>
+        <example type="incorrect" correction="Seiten">Dieses Buch hat sechs <marker>Saiten</marker>.</example>
+        <example type="correct">Dieses Buch über die Gatarre hat nur sechs <marker>Seiten</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-2">
+          <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">&saitewoerter;</exception></token>
+          <token inflected="yes" skip="5">Saite<exception scope="next" regexp="yes" inflected="yes">&saitewoerter;</exception></token>
+          <token regexp="yes" inflected="yes" skip="-1">&seitewoerter;<exception scope="next" regexp="yes" inflected="yes">&saitewoerter;</exception></token>
+          <token postag="SENT_END"/>
+        </pattern>
+        <message>Meinten Sie <suggestion><match no="2" regexp_match="ai" regexp_replace="ei"/></suggestion>? (Saite = Saiteninstrument)</message>
+        <example type="incorrect" correction="Seiten">Die <marker>Saiten</marker> des Buches sind beschrieben.</example>
+        <example type="correct">Die <marker>Seiten</marker> des Buches sind beschrieben.</example>
       </rule>
     </rulegroup>
     <rulegroup id="EINEM_LEIHEN" name="Möglicher Tippfehler: 'einem Leihen (Laien)'">
@@ -4210,8 +4261,8 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">Bunde?s?</token>
         </pattern>
         <message>Meinten Sie <suggestion><match case_conversion="startupper" no="2"/></suggestion> \3 (1815–1866)? &namengross;</message>
-        <example type="correct">im <marker>Deutschen</marker> Bund</example>
-        <example type="incorrect" correction="Deutschen">im <marker>deutschen</marker> Bund</example>
+        <example type="correct">Im <marker>Deutschen</marker> Bund ist nichts los.</example>
+        <example type="incorrect" correction="Deutschen">Im <marker>deutschen</marker> Bund ist nichts los.</example>
       </rule>
     </rulegroup>
     <rulegroup id="GROSSSCHREIBUNG_EHRENBEZEICHNUNG" name="Groß-/Kleinschreibung: Titel und Ehrenbezeichnungen 'heiliger (Heiliger) Vater etc.'">
