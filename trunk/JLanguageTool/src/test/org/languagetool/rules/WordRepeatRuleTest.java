@@ -70,6 +70,8 @@ public class WordRepeatRuleTest extends TestCase {
     assertEquals(1, matches.length);
     matches = rule.match(langTool.getAnalyzedSentence("Das Buch, in in dem es steht."));
     assertEquals(1, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("Das Haus, auf auf das Mädchen zurennen."));
+    assertEquals(1, matches.length);
   }
   
   public void testRulePolish() throws IOException {

@@ -31,7 +31,7 @@ public class GermanWordRepeatRule extends WordRepeatRule {
     // Don't mark error for cases like:
     // "wie Honda und Samsung, die die Bezahlung ihrer Firmenchefs..."
     // "Das Haus, in das das Kind läuft."
-    if (tokens[position - 1].getToken().length() == 3) {
+    if (tokens[position - 1].getToken().length() == 3 && tokens[position - 1].getToken().charAt(0) == 'd' ) {
       if (position >= 2 && ",".equals(tokens[position - 2].getToken())) {
         return true;
       }
