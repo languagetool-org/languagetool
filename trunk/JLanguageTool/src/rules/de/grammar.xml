@@ -1150,7 +1150,26 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect">Peter <marker>lies</marker> den Boden neu machen.</example>
       </rule>
     </rulegroup>
-    <rule id="LEERZEICHEN_UND" name="Möglicher Tippfehler: vergessenes Leerzeichen'">
+    <rule id="ZWEIUNDVIERZIG" name="Möglicher Tippfehler: '42 (die Antwort auf die Frage nach dem Leben, dem Universum und dem ganzen Rest)'" default="off">
+      <pattern>
+        <token>42</token>
+      </pattern>
+      <message>Ersetzen durch <suggestion>die Antwort auf die Frage nach dem Leben, dem Universum und dem ganzen Rest</suggestion>?</message>
+      <example type="incorrect">Die Antwort lautet: <marker>42</marker>.</example>
+      <example type="correct"><marker>Die Antwort auf die Frage nach dem Leben, dem Universum und dem ganzen Rest</marker> ist bekannt. Nur die Frage nicht.</example>
+    </rule>
+    <rule id="WURST_DES_TODES" name="Möglicher Tippfehler: 'Wurst des Todes'" default="off">
+      <pattern case_sensitive="yes" mark_from="1">
+        <token regexp="yes">[dD]ie</token>
+        <token>Wurst</token>
+        <token>des</token>
+        <token>Todes</token>
+      </pattern>
+      <message>Möglicherweise sind Sie verrückt: "Wurst des Todes" ist <suggestion>eine völlig absurde Wortverbindung</suggestion>.</message>
+      <example type="incorrect">Das ist die <marker>Wurst des Todes</marker>.</example>
+      <example type="correct">Diese Regel ist <marker>ein Scherz</marker>.</example>
+    </rule>
+    <rule id="LEERZEICHEN_UND" name="Möglicher Tippfehler: vergessenes Leerzeichen">
       <pattern>
         <token regexp="yes">(.*)-(und|oder|bzw)</token>
       </pattern>
@@ -2081,6 +2100,17 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect"><marker>Kantor</marker>-Medaille</example>
       </rule>
       -->
+    </rulegroup>
+    <rulegroup id="ALBERT_SCHWEITZER" name="Eigenname: 'Albert Schweizer (Schweitzer)'">
+      <rule>
+	  <pattern case_sensitive="yes" mark_from="1">
+        <token>Albert</token>
+        <token>Schweizer</token>
+        </pattern>
+        <message>Meinten Sie Albert <suggestion>Schweitzer</suggestion> (den Arzt)?</message>
+        <example type="correct">Albert <marker>Schweitzer</marker> war ein berühmter Arzt.</example>
+        <example type="incorrect">Albert <marker>Schweizer</marker> war ein berühmter Arzt.</example>
+      </rule>
     </rulegroup>
     <rulegroup id="GOTTFRIED_WILHELM_LEIBNIZ" name="Eigenname: 'Leibnitz (Leibniz)'">
       <rule>
@@ -6350,6 +6380,45 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <message>&subanfang;<suggestion>Öffnen</suggestion>&subende;</message>
       <example type="correct">Nach dem <marker>Öffnen</marker> bitte kühl lagern.</example>
       <example type="incorrect">Nach dem <marker>öffnen</marker> bitte kühl lagern.</example>
+    </rule>
+    <rule id="UM_DIE_ECKE" name="Groß-/Kleinschreibung: 'um die ecke (Ecke)'">
+      <pattern mark_from="2" case_sensitive="yes">
+        <token>um</token>
+        <token>die</token>
+        <token>ecke</token>
+      </pattern>
+      <message>&subanfang;<suggestion>Ecke</suggestion>&subende;</message>
+      <example type="correct">Da kamen die Jungs um die <marker>Ecke</marker>.</example>
+      <example type="incorrect">Da kamen die Jungs um die <marker>ecke</marker>.</example>
+    </rule>
+    <rule id="ANGRIFF_AUF" name="Groß-/Kleinschreibung: 'angriff (Angriff)'">
+      <pattern mark_to="-1" case_sensitive="yes">
+        <token>angriff</token>
+        <token>auf</token>
+      </pattern>
+      <message>&subanfang;<suggestion>Angriff</suggestion>&subende;</message>
+      <example type="correct">Das ist ein <marker>Angriff</marker> auf die Menschenwürde.</example>
+      <example type="incorrect">Das ist ein <marker>angriff</marker> auf die Menschenwürde.</example>
+    </rule>
+    <rule id="DICHTER_UND_DENKER" name="Groß-/Kleinschreibung: 'dichter (Dichter) und Denker'">
+      <pattern mark_to="-2" case_sensitive="yes">
+        <token>dichter</token>
+        <token>und</token>
+        <token>Denker</token>
+      </pattern>
+      <message>&subanfang;<suggestion>Dichter</suggestion>&subende;</message>
+      <example type="correct">Das Land der <marker>Dichter</marker> und Denker.</example>
+      <example type="incorrect">Das Land der <marker>dichter</marker> und Denker.</example>
+    </rule>
+    <rule id="SAMT_UND_SEIDE" name="Groß-/Kleinschreibung: 'Samt und Seide'">
+      <pattern mark_to="-2" case_sensitive="yes">
+        <token>samt</token>
+        <token>und</token>
+        <token regexp="yes">[sS]eide</token>
+      </pattern>
+      <message>&subanfang;<suggestion>Samt</suggestion>&subende;</message>
+      <example type="correct">Sie kamen in <marker>Samt</marker> und Seide.</example>
+      <example type="incorrect">Sie kamen in <marker>samt</marker> und Seide.</example>
     </rule>
     <rule id="VON_BEGRIFF" name="Groß-/Kleinschreibung: 'im/von begriff (Begriff) sein'">
       <pattern mark_from="1" case_sensitive="yes">
