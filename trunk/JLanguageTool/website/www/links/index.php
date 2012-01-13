@@ -2,7 +2,7 @@
 $page = "links";
 $title = "LanguageTool";
 $title2 = "Links &amp; Resources";
-$lastmod = "2011-02-20 12:35:00 CET";
+$lastmod = "2012-01-13 12:35:00 CET";
 include("../../include/header.php");
 ?>
 
@@ -16,6 +16,14 @@ Daniel Naber (<strong>naber <span>a&#116;</span> danielnaber<span>.</span>de</st
 <ul style="list-style:none">
 	<li><?=show_link("Bug reports", "http://sourceforge.net/tracker/?limit=25&amp;func=&amp;group_id=110216&amp;atid=655717&amp;assignee=&amp;status=&amp;category=&amp;artgroup=&amp;keyword=&amp;submitter=&amp;artifact_id=&amp;assignee=&amp;status=1&amp;category=&amp;artgroup=&amp;submitter=&amp;keyword=&amp;artifact_id=&amp;submit=Filter", 0)?></li>
 	<li><?=show_link("Feature requests", "http://sourceforge.net/tracker/?limit=25&amp;func=&amp;group_id=110216&amp;atid=655720&amp;assignee=&amp;status=&amp;category=&amp;artgroup=&amp;keyword=&amp;submitter=&amp;artifact_id=&amp;assignee=&amp;status=1&amp;category=&amp;artgroup=&amp;submitter=&amp;keyword=&amp;artifact_id=&amp;submit=Filter", 0)?></li>
+</ul>
+
+<a href="http://www.cloudbees.com"><img border="0" src="../images/cloudbees-logo.png" alt="CloudBees Logo" align="right"/></a>
+
+<p><strong>Continuous Integration:</strong></p>
+
+<ul style="list-style:none">
+	<li><?=show_link("LanguageTool at CloudBees", "https://languagetool.ci.cloudbees.com/", 0)?></li>
 </ul>
 
 <p><strong>Mailing lists:</strong></p>
