@@ -34,6 +34,9 @@ import org.languagetool.Language;
 public class StringToolsTest extends TestCase {
 
   public void testAssureSet() {
+      
+    fail("fake failure for testing CI");
+      
     String s = "";
     try {
       StringTools.assureSet(s, "varName");
