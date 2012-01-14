@@ -127,11 +127,20 @@
 	<!-- TEST -->
 	<!-- ================================================================== -->
 
-	<target name="test-failfast" description="Runs unit tests, stopping on failure">
-		<property name="haltonfailure" value="yes"/>
+    <target name="test" description="Runs unit tests, stopping on failure">
+        <property name="haltonfailure" value="yes"/>
+        <antcall target="test-internal"/>
+    </target>
+
+	<target name="test-failfast" description="Runs unit tests, stopping on failure (same as 'test')">
 		<antcall target="test"/>
 	</target>
 
+    <target name="test-failslow" description="Runs unit tests, not immediately stopping on failure">
+        <property name="haltonfailure" value="no"/>
+        <antcall target="test-internal"/>
+    </target>
+    
     <target name="test-rules" description="Runs unit tests for the pattern rules only">
         <antcall target="internal-xml-validate" />
         <antcall target="internal-pattern-rules" />
@@ -147,7 +156,7 @@
         <antcall target="test"/>
     </target>
     
-	<target name="test" depends="clean,init,build,ooo-build" description="Runs unit tests">
+	<target name="test-internal" depends="clean,init,build,ooo-build" description="Runs unit tests">
 
 		<mkdir dir="${junit.classes.dir}" />
 		<mkdir dir="${dist.dir}/report/tests" />
