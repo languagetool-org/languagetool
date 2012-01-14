@@ -980,7 +980,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         </pattern>
         <message>Meinten Sie <suggestion><match no="3" regexp_match="ei" regexp_replace="ai"/></suggestion>? (Seite = Buchseite)</message>
         <example type="incorrect" correction="Saite">Die E-Gitarre hat eine sechste <marker>Seite</marker>.</example>
-        <example type="correct">Dieses Buch über die Gatarre hat nur sechs <marker>Seiten</marker>.</example>
+        <example type="correct">Dieses Buch über die Gitarre hat nur sechs <marker>Seiten</marker>.</example>
         <example type="correct">Diese Gitarre hat sechs <marker>Saiten</marker>.</example>
       </rule>
       <rule>
@@ -1004,7 +1004,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         </pattern>
         <message>Meinten Sie <suggestion><match no="3" regexp_match="ai" regexp_replace="ei"/></suggestion>? (Saite = Saiteninstrument)</message>
         <example type="incorrect" correction="Seiten">Dieses Buch hat sechs <marker>Saiten</marker>.</example>
-        <example type="correct">Dieses Buch über die Gatarre hat nur sechs <marker>Seiten</marker>.</example>
+        <example type="correct">Dieses Buch über die Gitarre hat nur sechs <marker>Seiten</marker>.</example>
       </rule>
       <rule>
         <pattern mark_from="1" mark_to="-2">
@@ -2052,7 +2052,15 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect"><marker>Mühlheim/Ruhr</marker> ist eine kreisfreie Stadt im westlichen Ruhrgebiet.</example>
       </rule>
     </rulegroup>
-
+    <rule id="LAS_VEGAS" name="Ortsname: 'las (Las) Vegas'">
+      <pattern case_sensitive="yes" mark_to="-1">
+        <token>las</token>
+        <token>Vegas</token>
+      </pattern>
+      <message>Als Bestandteil des Namens 'Las Vegas' wird <suggestion>Las</suggestion> großgeschrieben.</message>
+      <example type="correct">Das ist jetzt der letzte Schrei in <marker>Las</marker> Vegas.</example>
+      <example type="incorrect">Das ist jetzt der letzte Schrei in <marker>las</marker> Vegas.</example>
+    </rule>
     <!-- Prominente -->
     <rulegroup id="BERTRAND_RUSSELL" name="Eigenname: 'Russel (Russell)'">
       <rule>
@@ -3667,6 +3675,17 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct">Das ist jetzt der letzte <marker>Schrei</marker>.</example>
       <example type="incorrect">Das ist jetzt der letzte <marker>schrei</marker>.</example>
     </rule>
+    <rule id="MEHR_GLUECK_ALS_VERSTAND" name="Groß-/Kleinschreibung: 'Mehr Glück als verstand (Verstand)'">
+      <pattern case_sensitive="yes" mark_from="3">
+        <token regexp="yes">[mM]ehr</token>
+        <token>Glück</token>
+        <token>als</token>
+        <token>verstand</token>
+      </pattern>
+      <message>&subanfang;<suggestion>Verstand</suggestion>&subende;</message>
+      <example type="correct">Da haben wir mehr Glück als <marker>Verstand</marker> gehabt.</example>
+      <example type="incorrect">Da haben wir mehr Glück als <marker>verstand</marker> gehabt.</example>
+    </rule>
     <rulegroup id="ANKLANG_FINDEN" name="Groß-/Kleinschreibung: 'anklang (Anklang) finden'">
       <rule>
         <pattern case_sensitive="yes" mark_to="-1">
@@ -3742,6 +3761,15 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <message>&subanfang;<suggestion>Dienst</suggestion>&subende;</message>
       <example type="incorrect" correction="Dienst">Ich bin außer <marker>dienst</marker>.</example>
       <example type="correct">Ich bin heute nicht im <marker>Dienst</marker>.</example>
+    </rule>
+    <rule id="OEFFENTLICHER_DIENST" name="Groß-/Kleinschreibung: 'öffentlicher dienst (Dienst)'">
+      <pattern case_sensitive="yes" mark_from="1">
+        <token regexp="yes">[öÖ]ffentliche[rn]?</token>
+        <token>dienst</token>
+      </pattern>
+      <message>&subanfang;<suggestion>Dienst</suggestion>&subende;</message>
+      <example type="incorrect" correction="Dienst">Ich bin im öffentlichen <marker>dienst</marker> tätig.</example>
+      <example type="correct" correction="Dienst">Ich bin im öffentlichen <marker>Dienst</marker> tätig.</example>
     </rule>
     <rule id="UNTER_SCHMERZEN" name="Groß-/Kleinschreibung: 'unter schmerzen (Schmerzen)'">
       <pattern case_sensitive="yes" mark_from="1">
@@ -4741,6 +4769,72 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect">Alle Zimmer sind mit <marker>dusche</marker> und WC ausgestattet.</example>
         <example type="incorrect">Das wirkte wie eine kalte <marker>dusche</marker>.</example>
         <example type="correct">Das wirkte wie eine kalte <marker>Dusche</marker>.</example>
+        <example type="correct">Ich <marker>dusche</marker> gerne kalt.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="SCHADEN_SUBST" name="Groß-/Kleinschreibung: 'schaden (Schaden)'">
+      <rule>
+        <pattern case_sensitive="yes" mark_to="-1">
+          <token>schaden</token>
+          <token regexp="yes" inflected="yes">abwenden|begrenzen|zufügen</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Schaden</suggestion>&subende;</message>
+        <example type="incorrect">Er versuchte den <marker>schaden</marker> abzuwenden.</example>
+        <example type="correct">Er versuchte den <marker>Schaden</marker> abzuwenden.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="AERGER_SUBST" name="Groß-/Kleinschreibung: 'ärger (Ärger)'">
+      <rule>
+        <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
+          <token negate="yes">es</token>
+          <token>ärger</token>
+          <token inflected="yes">machen</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Ärger</suggestion>&subende;</message>
+        <example type="incorrect">Willst du hier <marker>ärger</marker> machen?</example>
+        <example type="correct">Willst du hier <marker>Ärger</marker> machen?</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="2">
+          <token inflected="yes" regexp="yes">[mM]achen</token>
+          <token regexp="yes">mir|ihm|keinen|nur|euch|dir|ihr|ihnen</token>
+          <token>ärger</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Ärger</suggestion>&subende;</message>
+        <example type="incorrect">Die machen keinen <marker>ärger</marker> mehr.</example>
+        <example type="correct">Mach keinen <marker>Ärger</marker>!</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="1" mark_to="-2">
+          <token negate="yes">es</token>
+          <token>ärger</token>
+          <token>zu</token>
+          <token inflected="yes">machen</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Ärger</suggestion>&subende;</message>
+        <example type="incorrect">Er versuchte <marker>ärger</marker> zu machen.</example>
+        <example type="correct">Er versuchte <marker>Ärger</marker> zu machen.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="HERZEN_SUBST" name="Groß-/Kleinschreibung: 'von herzen (Herzen)'">
+      <rule>
+        <pattern case_sensitive="yes" mark_from="1">
+          <token regexp="yes">[vV]on</token>
+          <token>herzen</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Herzen</suggestion>&subende;</message>
+        <example type="incorrect">Es kommt von <marker>herzen</marker>.</example>
+        <example type="correct">Es kommt von <marker>Herzen</marker>.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="2">
+          <token regexp="yes">[aA]uf</token>
+          <token>dem</token>
+          <token>herzen</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Herzen</suggestion>&subende;</message>
+        <example type="incorrect">Sie hat doch etwas auf dem <marker>herzen</marker>.</example>
+        <example type="correct">Sie hat doch etwas auf dem <marker>Herzen</marker>.</example>
       </rule>
     </rulegroup>
     <rulegroup id="RUECKEN_SUBST" name="Groß-/Kleinschreibung: 'rücken (Rücken)'">
