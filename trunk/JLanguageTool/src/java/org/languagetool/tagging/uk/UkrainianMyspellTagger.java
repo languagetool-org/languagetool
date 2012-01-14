@@ -26,6 +26,8 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
@@ -68,6 +70,11 @@ public class UkrainianMyspellTagger implements Tagger {
       final BufferedReader input = new BufferedReader(new InputStreamReader(
           resourceFile, Charset.forName("UTF-8")));
 
+      final Pattern pattern1 = Pattern.compile("[abcdefghijklmnop]+");
+      final Pattern pattern2 = Pattern.compile("[ABCDEFGHIJKLMN]+");
+      final Pattern pattern3 = Pattern.compile("[BDFHJLN]+");
+      final Pattern pattern4 = Pattern.compile("[UV]+");
+
       String line;
       while ((line = input.readLine()) != null) {
         line = line.trim();
@@ -80,17 +87,17 @@ public class UkrainianMyspellTagger implements Tagger {
           final String flags = wrd[1];
           final List<String> posTags = new ArrayList<String>();
 
-          if (flags.matches("[abcdefghijklmnop]+")) {
+          if (pattern1.matcher(flags).matches()) {
             posTags.add(IPOSTag.TAG_NOUN);
             if (flags.equals("b")) {
               posTags.add(IPOSTag.TAG_PLURAL);
             }
-          } else if (flags.matches("[ABCDEFGHIJKLMN]+")) {
+          } else if (pattern2.matcher(flags).matches()) {
             posTags.add(IPOSTag.TAG_VERB);
-            if (flags.matches("^[BDFHJLN]+")) {
+            if (pattern3.matcher(flags).matches()) {
               posTags.add(IPOSTag.TAG_REFL);
             }
-          } else if (flags.matches("[UV]+")) {
+          } else if (pattern4.matcher(flags).matches()) {
             posTags.add(IPOSTag.TAG_ADJ);
           }
 
