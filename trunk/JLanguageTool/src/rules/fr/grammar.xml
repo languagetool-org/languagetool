@@ -1604,7 +1604,27 @@ though, and has since been slightly modified)-->
         <example type="correct">Elle semblait décrépite par les années.</example>
       </rule>
     </rulegroup>
-
+    <rulegroup id="ENSEMBLES" name="ensembles ou ensemble">
+      <rule>
+        <pattern mark_from="1">
+          <token postag="V.* p" postag_regexp="yes"/>
+          <token>ensembles</token>
+        </pattern>
+        <message>L’adverbe «\2» est invariable. Voulez-vous écrire <suggestion>ensemble</suggestion></message>
+        <example type="incorrect">Ils partent <marker>ensembles</marker> à la montagne.</example>
+        <example type="correct">Ils partent <marker>ensemble</marker> à la montagne.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2">
+          <token postag="V.* p" postag_regexp="yes"/>
+          <token regexp="yes">tous|toutes|pas|guère|plus|toujours|parfois</token>
+          <token>ensembles</token>
+        </pattern>
+        <message>L’adverbe «\2» est invariable. Voulez-vous écrire <suggestion>ensemble</suggestion></message>
+        <example type="incorrect">Ils partent toujours <marker>ensembles</marker> à la montagne.</example>
+        <example type="correct">Ils partent toujours <marker>ensemble</marker> à la montagne.</example>
+      </rule>
+    </rulegroup>
   </category>
   <category name="Élision">
     <!-- I find conflicting information about élision, so this needs to be reviewed.
