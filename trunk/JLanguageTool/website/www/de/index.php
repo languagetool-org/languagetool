@@ -22,7 +22,7 @@ include("../../include/header.php");
     </li>
     <li>Prüfung der Großschreibung am Satzanfang</li>
     <li>Prüfung vieler Komposita auf Zusammenschreibung: <span class="errorMarker" title="Dieses Kompositum wird mit Bindestrich geschrieben">DLG prämierter</span></li>
-    <li>Aber: LanguageTool hat <strong>keine Rechtschreibprüfung</strong></li>
+    <li>Aber: LanguageTool hat keine Rechtschreibprüfung</li>
 </ul>
 
 Die über 600 deutschen Fehler-Regeln können auf <a href="http://community.languagetool.org/rule/list?lang=de">der Community-Website</a>
