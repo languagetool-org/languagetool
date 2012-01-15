@@ -1644,6 +1644,36 @@ Useful links:
 
     <rulegroup id="KEMM_N_J" name="Kemmadur en anv-gwan o tont warlec’h an anv">
       <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token postag="N f s.*|N m p t.*" postag_regexp="yes"/>
+          <token postag="J.*" postag_regexp="yes" inflected="yes" regexp="yes">[gdbm].*
+            <exception postag="J M.*:1:.*" postag_regexp="yes"/>
+          </token>
+          <token negate="yes">ha</token>
+        </pattern>
+        <message>Ur c’hemmadur dra vlotaat a zlefe bezañ en anv-gwan «\2» goude un anv benel unan pe un anv tud gourel tud lies.</message>
+        <example type="incorrect">Ur vag <marker>bras</marker>.</example>
+        <example type="correct">Ur vag vras.</example>
+        <example type="incorrect">Ur chapel <marker>bihan</marker>.</example>
+        <example type="correct">Ur chapel vihan.</example>
+        <example type="correct">Ur chapel bihan ha brav.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token postag="N f s.*|N m p t.*" postag_regexp="yes" regexp="yes">.*[lmnrvaeiouwy]
+          </token>
+          <token postag="J.*" postag_regexp="yes" inflected="yes" regexp="yes">[ktp].*
+            <exception postag="J M.*:1:.*" postag_regexp="yes"/>
+          </token>
+          <token negate="yes">ha</token>
+        </pattern>
+        <message>Ur c’hemmadur dra vlotaat diglok a zlefe bezañ en anv-gwan «\2» goude un anv benel unan pe un anv tud gourel tud lies.</message>
+        <example type="incorrect">Kendirvi <marker>pinvidik</marker>.</example>
+        <example type="correct">Kendirvi binvidik.</example>
+        <example type="correct">Tud kozh.</example>
+        <example type="correct">Paotred pinvidik.</example>
+      </rule>
+      <rule>
         <pattern mark_from="1">
           <token postag="N f s.*|N m p t.*" postag_regexp="yes">
             <exception regexp="yes">.*([lnmrvaeiouù]|lh)</exception>
@@ -1656,7 +1686,7 @@ Useful links:
             <token regexp="yes">[gdb].*</token>
           </and>
         </pattern>
-        <message>Diglok e vez ar c’hemmadur dre vlotaat en anv-gwan gwregel unan pe anv tud gourel lies goude an anv hervez al lizherenn a echu an anv ganto. Ne zlefe ket neuze bezañ ur c’hammadur en anv-gwan «\2» goude an anv «\1».</message>
+        <message>Diglok e vez ar c’hemmadur dre vlotaat en anv-gwan benel unan pe anv tud gourel lies goude an anv hervez al lizherenn a echu an anv ganto. Ne zlefe ket neuze bezañ ur c’hammadur en anv-gwan «\2» goude an anv «\1».</message>
         <example type="incorrect">Tud <marker>gozh</marker></example>
         <example type="correct">Tud kozh</example>
         <example type="correct">Studierien gozh</example>
