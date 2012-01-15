@@ -80,7 +80,13 @@ public final class RuleOverview {
     for (final String langName : sortedLanguages) {
       final Language lang = Language.getLanguageForName(langName);
       System.out.print("<tr>");
-      System.out.print("<td valign=\"top\">" + lang.getName() + "</td>");
+      final File webDir = new File("website", "www");
+      final File langSpecificWebsite = new File(webDir, lang.getShortName());
+      if (langSpecificWebsite.isDirectory()) {
+        System.out.print("<td valign=\"top\"><a href=\"../" + lang.getShortName() + "/\">" + lang.getName() + "</a></td>");
+      } else {
+        System.out.print("<td valign=\"top\">" + lang.getName() + "</td>");
+      }
       final String xmlFile = JLanguageTool.getDataBroker().getRulesDir() + File.separator + lang.getShortName() + File.separator + "grammar.xml";
       final URL url = this.getClass().getResource(xmlFile);    
       if (url == null) {
