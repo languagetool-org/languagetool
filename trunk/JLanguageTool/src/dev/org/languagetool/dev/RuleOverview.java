@@ -21,6 +21,7 @@ package org.languagetool.dev;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -45,7 +46,7 @@ public final class RuleOverview {
   }
   
   private RuleOverview() {
-    // no constructor
+    // no public constructor
   }
   
   private void run() throws IOException {
@@ -66,18 +67,11 @@ public final class RuleOverview {
     System.out.println("  <th>&nbsp;&nbsp;</th>");
     System.out.println("  <th valign='bottom' align=\"left\">Rule Maintainers</th>");
     System.out.println("</tr>");
-    final List<String> sortedLanguages = new ArrayList<String>();
-    for (Language element : Language.LANGUAGES) {
-      if (element == Language.DEMO) {
-        continue;
-      }
-      sortedLanguages.add(element.getName());
-    }
-    Collections.sort(sortedLanguages);
+    final List<String> sortedLanguages = getSortedLanguages();
 
     //setup false friends counting
     final String falseFriendFile = JLanguageTool.getDataBroker().getRulesDir() + File.separator + "false-friends.xml";
-    final java.net.URL falseFriendUrl = this.getClass().getResource(falseFriendFile);
+    final URL falseFriendUrl = this.getClass().getResource(falseFriendFile);
     final String falseFriendRules = StringTools.readFile(Tools.getStream(falseFriendFile))
       .replaceAll("(?s)<!--.*?-->", "")
       .replaceAll("(?s)<rules.*?>", "");
@@ -88,7 +82,7 @@ public final class RuleOverview {
       System.out.print("<tr>");
       System.out.print("<td valign=\"top\">" + lang.getName() + "</td>");
       final String xmlFile = JLanguageTool.getDataBroker().getRulesDir() + File.separator + lang.getShortName() + File.separator + "grammar.xml";
-      final java.net.URL url = this.getClass().getResource(xmlFile);    
+      final URL url = this.getClass().getResource(xmlFile);    
       if (url == null) {
         System.out.println("<td valign=\"top\" align=\"right\">0</td>");
       } else {
@@ -96,24 +90,8 @@ public final class RuleOverview {
         String xmlRules = StringTools.readFile(Tools.getStream(xmlFile));
         xmlRules = xmlRules.replaceAll("(?s)<!--.*?-->", "");
         xmlRules = xmlRules.replaceAll("(?s)<rules.*?>", "");
-        int pos = 0;
-        int count = 0;
-        while (true) {
-          pos = xmlRules.indexOf("<rule ", pos + 1);          
-          if (pos == -1) {
-            break;
-          }          
-          count++;
-        }
-        pos = 0;
-        int countInRuleGroup = 0;
-        while (true) {
-          pos = xmlRules.indexOf("<rule>", pos + 1);          
-          if (pos == -1) {
-            break;
-          }          
-          countInRuleGroup++;
-        }
+        final int count = countXmlRules(xmlRules);
+        final int countInRuleGroup = countXmlRuleGroupRules(xmlRules);
         System.out.print("<td valign=\"top\" align=\"right\">" + (count + countInRuleGroup) + " (" +
             "<a href=\"http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/JLanguageTool/src/rules/" + lang.getShortName() + "/grammar.xml?content-type=text%2Fplain" +
             "\">show</a>/" +
@@ -125,12 +103,12 @@ public final class RuleOverview {
 
       // count Java rules:
       final File dir = new File("src/java/org/languagetool" + 
-    		  JLanguageTool.getDataBroker().getRulesDir() + "/" + lang.getShortName());
+              JLanguageTool.getDataBroker().getRulesDir() + "/" + lang.getShortName());
       if (!dir.exists()) {
         System.out.print("<td valign=\"top\" align=\"right\">0</td>");
       } else {
         final File[] javaRules = dir.listFiles(new JavaFilter());
-        final int javaCount = javaRules.length-1;   // minus 1: one is always "<Language>Rule.java"
+        final int javaCount = javaRules.length - 1;   // minus 1: one is always "<Language>Rule.java"
         System.out.print("<td valign=\"top\" align=\"right\">" + javaCount + "</td>");
         overallJavaCount++;
       }
@@ -140,16 +118,7 @@ public final class RuleOverview {
       if (falseFriendUrl == null) {
         System.out.println("<td valign=\"top\" align=\"right\">0</td>");
       } else {
-        // count XML rules:
-        int pos = 0;
-        int count = 0;
-        while (true) {
-          pos = falseFriendRules.indexOf("<pattern lang=\""+ lang.getShortName(), pos + 1);
-          if (pos == -1) {
-            break;
-          }          
-          count++;
-        }
+        final int count = countFalseFriendRules(falseFriendRules, lang);
         System.out.print("<td valign=\"top\" align=\"right\">" + count + "</td>");
 
         System.out.print("<td></td>");
@@ -157,28 +126,8 @@ public final class RuleOverview {
         
         // maintainer information:
         System.out.print("<td></td>");
-        final StringBuilder maintainerInfo = new StringBuilder();
-        if (lang.getMaintainers() != null) {
-          for (Contributor contributor : lang.getMaintainers()) {
-            if (!StringTools.isEmpty(maintainerInfo. toString())) {
-              maintainerInfo.append(", ");
-            }
-            if (contributor.getUrl() != null) {
-              maintainerInfo.append("<a href=\""); 
-              maintainerInfo.append(contributor.getUrl()); 
-              maintainerInfo.append("\">");
-            }
-            maintainerInfo.append(contributor.getName());
-            if (contributor.getUrl() != null) {
-              maintainerInfo.append("</a>");
-            }
-            if (contributor.getRemark() != null) {
-              maintainerInfo.append("&nbsp;(" + contributor.getRemark() + ")");
-            }
-          }
-        }
-        System.out.print("<td valign=\"top\" align=\"left\">" + maintainerInfo.toString() +
-          "</td>");
+        final StringBuilder maintainerInfo = getMaintainerInfo(lang);
+        System.out.print("<td valign=\"top\" align=\"left\">" + maintainerInfo.toString() + "</td>");
       }
       
       System.out.println("</tr>");    
@@ -188,9 +137,84 @@ public final class RuleOverview {
       throw new RuntimeException("No Java rules found");
     }
 
-    System.out.println("</table>");    
+    System.out.println("</table>");
   }
-  
+
+  private List<String> getSortedLanguages() {
+    final List<String> sortedLanguages = new ArrayList<String>();
+    for (Language element : Language.LANGUAGES) {
+      if (element == Language.DEMO) {
+        continue;
+      }
+      sortedLanguages.add(element.getName());
+    }
+    Collections.sort(sortedLanguages);
+    return sortedLanguages;
+  }
+
+  private int countXmlRules(String xmlRules) {
+    int pos = 0;
+    int count = 0;
+    while (true) {
+      pos = xmlRules.indexOf("<rule ", pos + 1);
+      if (pos == -1) {
+        break;
+      }
+      count++;
+    }
+    return count;
+  }
+
+  private int countXmlRuleGroupRules(String xmlRules) {
+    int pos = 0;
+    int countInRuleGroup = 0;
+    while (true) {
+      pos = xmlRules.indexOf("<rule>", pos + 1);
+      if (pos == -1) {
+        break;
+      }
+      countInRuleGroup++;
+    }
+    return countInRuleGroup;
+  }
+
+  private int countFalseFriendRules(String falseFriendRules, Language lang) {
+    int pos = 0;
+    int count = 0;
+    while (true) {
+      pos = falseFriendRules.indexOf("<pattern lang=\"" + lang.getShortName(), pos + 1);
+      if (pos == -1) {
+        break;
+      }
+      count++;
+    }
+    return count;
+  }
+
+  private StringBuilder getMaintainerInfo(Language lang) {
+    final StringBuilder maintainerInfo = new StringBuilder();
+    if (lang.getMaintainers() != null) {
+      for (Contributor contributor : lang.getMaintainers()) {
+        if (!StringTools.isEmpty(maintainerInfo.toString())) {
+          maintainerInfo.append(", ");
+        }
+        if (contributor.getUrl() != null) {
+          maintainerInfo.append("<a href=\"");
+          maintainerInfo.append(contributor.getUrl());
+          maintainerInfo.append("\">");
+        }
+        maintainerInfo.append(contributor.getName());
+        if (contributor.getUrl() != null) {
+          maintainerInfo.append("</a>");
+        }
+        if (contributor.getRemark() != null) {
+          maintainerInfo.append("&nbsp;(" + contributor.getRemark() + ")");
+        }
+      }
+    }
+    return maintainerInfo;
+  }
+
   private boolean isAutoDetected(String code) {
     if (LanguageIdentifier.getSupportedLanguages().contains(code)) {
       return true;
