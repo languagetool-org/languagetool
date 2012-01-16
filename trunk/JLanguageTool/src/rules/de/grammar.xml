@@ -5199,12 +5199,13 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     </rule>
     <rule id="ZU_HAUSE" name="Groß-/Kleinschreibung: 'zu hause (Hause)'">
       <pattern mark_from="1" case_sensitive="yes">
-        <token regexp="yes">[Zz]u</token>
+        <token regexp="yes">[Zz]u|[Nn]ach</token>
         <token>hause</token>
       </pattern>
-      <message>&inwend;'zu Hause' wird <suggestion>Hause</suggestion> großgeschrieben.</message>
+      <message>&inwend;'\1 Hause' wird <suggestion>Hause</suggestion> großgeschrieben.</message>
       <example type="correct">Wir sind bald zu <marker>Hause</marker>.</example>
       <example type="incorrect">Wir sind bald zu <marker>hause</marker>.</example>
+      <example type="incorrect">Wann kommst du nach <marker>hause</marker>?</example>
     </rule>
     <rule id="AUF_DEM_WEG" name="Groß-/Kleinschreibung: 'auf/aus dem weg (Weg)'">
       <pattern mark_from="2" case_sensitive="yes">
@@ -7572,6 +7573,20 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect"><marker>Gemäß des</marker> Beschlusses der Kultusministerkonferenz</example>
       <example type="correct"><marker>Gemäß dem</marker> Beschluss der Kultusministerkonferenz</example>
     </rule>
+    <rulegroup id="ER_BIST" name="Grammatik: Kongruenz von Subjekt und Prädikat (nur 1. u. 2. Person), z.B. 'Er bist (ist)'">
+    <!-- TODO the same for 1:SIN, 2:PLU, and 3:PLU -->
+      <rule>
+        <pattern mark_from="1" mark_to="-1" case_sensitive="yes">
+          <token postag="SENT_START" skip="5"><exception scope="next" regexp="yes">[Dd]u</exception></token>
+          <token postag="VER.*:2:SIN.*" postag_regexp="yes" regexp="yes" skip="-1">[a-zäüö].*<exception scope="current" postag="VER.*:2:SIN.*" postag_regexp="yes" negate_pos="yes"/><exception scope="next" regexp="yes">[Dd]u</exception></token>
+          <token postag="SENT_END"/>
+        </pattern>
+        <message>Möglicherweise fehlende grammatische Übereinstimmung zwischen Subjekt und Prädikat (\2) bezüglich Person oder Numerus (Einzahl, Mehrzahl - Beispiel: 'er bist' statt 'er ist').</message>
+        <example type="correct">Die Unterlagen <marker>solltet</marker> ihr gründlich durcharbeiten.</example>
+        <example type="incorrect">Die Unterlagen <marker>solltest</marker> ihr gründlich durcharbeiten.</example>
+        <example type="correct">Er reagierte <marker>äußerst</marker> negativ.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="ICH_BIST" name="Grammatik: Kongruenz von Subjekt (nur Personalpronomen!) und Prädikat, z.B. 'Ich bist (bin)'">
       <!-- TODO Should 'Ich könnt das machen.' be ignored? -->
       <rule>
@@ -7702,25 +7717,49 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     </rulegroup>
     <rulegroup id="NACHDEM_PRAETERITUM" name="Grammatik: 'nachdem' mit Präteritum">
       <rule>
-        <pattern mark_from="1" mark_to="-1">
-          <token skip="-1">nachdem<exception scope="next" regexp="yes">,|–|\-|;|\:|&klam;|&anf;</exception></token>
-          <token postag_regexp="yes" postag="VER:.*:PRT:.*"><exception scope="current" postag_regexp="yes" postag=".*AUX.*"/></token>
+        <pattern mark_from="1" mark_to="-1" case_sensitive="yes">
+          <token skip="-1" regexp="yes">[Nn]achdem<exception scope="next" regexp="yes">,|–|\-|;|\:|&klam;|&anf;</exception></token>
+          <token postag_regexp="yes" postag="VER:.*:PRT:.*" regexp="yes">[a-zäüö].*<exception scope="current" postag_regexp="yes" postag=".*AUX.*"/></token>
           <token>,</token>
         </pattern>
         <message>Die Subjunktion 'nachdem' drückt standardsprachlich Vorzeitigkeit aus und kann daher nicht mit dem Präteritum verwendet werden. Verwenden Sie das Perfekt (Präsens im Hauptsatz) oder Plusquamperfekt (Präteritum im Hauptsatz) oder die Subjunktion 'als' zum Ausdrücken von Gleichzeitigkeit.</message>
         <example type="correct">Nachdem der Brief <marker>gekommen war</marker>, ging ich nach Hause.</example>
         <example type="incorrect">Nachdem der Brief <marker>kam</marker>, ging ich nach Hause.</example>
+        <example type="correct">Nachdem sich jedes Teilchen in einem <marker>Zustand</marker>, der nicht gut war, befunden hatte, ging es weiter.</example>
       </rule>
       <rule>
-        <pattern mark_from="2" mark_to="-1">
+        <pattern mark_from="2" mark_to="-1" case_sensitive="yes">
           <token>,</token>
           <token skip="-1">nachdem<exception scope="next" regexp="yes">,|–|\-|;|\:|&klam;|&anf;</exception></token>
-          <token postag_regexp="yes" postag="VER:.*:PRT:.*"><exception scope="current" postag_regexp="yes" postag=".*AUX.*"/></token>
+          <token postag_regexp="yes" postag="VER:.*:PRT:.*" regexp="yes">[a-zäüö].*<exception scope="current" postag_regexp="yes" postag=".*AUX.*"/></token>
           <token postag="SENT_END"/>
         </pattern>
         <message>Die Subjunktion 'nachdem' drückt standardsprachlich Vorzeitigkeit aus und kann daher nicht mit dem Präteritum verwendet werden. Verwenden Sie das Perfekt (Präsens im Hauptsatz) oder Plusquamperfekt (Präteritum im Hauptsatz) oder die Subjunktion 'als' zum Ausdrücken von Gleichzeitigkeit.</message>
         <example type="correct">Ich ging nach Hause, nachdem der Brief <marker>gekommen war</marker>.</example>
         <example type="incorrect">Ich ging nach Hause, nachdem der Brief <marker>kam</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-1" case_sensitive="yes">
+          <token skip="-1" regexp="yes">[Nn]achdem<exception scope="next" regexp="yes">,|–|\-|;|\:|&klam;|&anf;</exception><exception postag_regexp="yes" postag=".*:PA.*|UNKNOWN" scope="next"/></token>
+          <token postag_regexp="yes" postag="VER:AUX:.*:PRT.*" regexp="yes">[a-zäüö].*</token>
+          <token>,</token>
+        </pattern>
+        <message>Die Subjunktion 'nachdem' drückt standardsprachlich Vorzeitigkeit aus und kann daher nicht mit dem Präteritum verwendet werden. Verwenden Sie das Perfekt (Präsens im Hauptsatz) oder Plusquamperfekt (Präteritum im Hauptsatz) oder die Subjunktion 'als' zum Ausdrücken von Gleichzeitigkeit.</message>
+        <example type="correct">Nachdem ich den Brief abgeschickt <marker>hatte</marker>, ging ich nach Hause.</example>
+        <example type="incorrect">Nachdem ich eine Stellungnahme <marker>hatte</marker>, ging ich nach Hause.</example>
+        <example type="correct">Nachdem ich eine Stellungnahme bekommen <marker>hatte</marker>, ging ich nach Hause.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2" mark_to="-1" case_sensitive="yes">
+          <token>,</token>
+          <token skip="-1">nachdem<exception scope="next" regexp="yes">,|–|\-|;|\:|&klam;|&anf;</exception><exception postag_regexp="yes" postag=".*:PA.*|UNKNOWN" scope="next"/></token>
+          <token postag_regexp="yes" postag="VER:AUX:.*:PRT.*" regexp="yes">[a-zäüö].*</token>
+          <token postag="SENT_END"/>
+        </pattern>
+        <message>Die Subjunktion 'nachdem' drückt standardsprachlich Vorzeitigkeit aus und kann daher nicht mit dem Präteritum verwendet werden. Verwenden Sie das Perfekt (Präsens im Hauptsatz) oder Plusquamperfekt (Präteritum im Hauptsatz) oder die Subjunktion 'als' zum Ausdrücken von Gleichzeitigkeit.</message>
+        <example type="correct">Ich ging nach Hause, nachdem ich den Brief abgeschickt <marker>hatte</marker>.</example>
+        <example type="incorrect">Ich ging nach Hause, nachdem ich eine Stellungnahme <marker>hatte</marker>.</example>
+        <example type="correct">Ich ging nach Hause, nachdem ich eine Stellungnahme bekommen <marker>hatte</marker>.</example>
       </rule>
     </rulegroup>
     <rulegroup id="WEGEN_DIR" name="Grammatik: 'wegen dir (deinetwegen)' usw.">
