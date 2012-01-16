@@ -21,21 +21,22 @@ package org.languagetool.rules.patterns;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import junit.framework.TestCase;
-import morfologik.stemming.IStemmer;
-import morfologik.stemming.WordData;
 
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
+import org.languagetool.language.Demo;
 import org.languagetool.rules.patterns.Match.CaseConversion;
 import org.languagetool.rules.patterns.Match.IncludeRange;
-import org.languagetool.synthesis.BaseSynthesizer;
 import org.languagetool.synthesis.ManualSynthesizer;
+import org.languagetool.synthesis.ManualSynthesizerAdapter;
 import org.languagetool.synthesis.Synthesizer;
+import org.languagetool.tagging.ManualTagger;
+import org.languagetool.tagging.Tagger;
+import org.languagetool.tokenizers.ManualTaggerAdapter;
 
 /**
  * Test class for {@link Match}.
@@ -43,65 +44,65 @@ import org.languagetool.synthesis.Synthesizer;
  */
 public class MatchTest extends TestCase {
 
-	/**
-	 *  Adapter from {@link ManualSynthesizer} to {@link Synthesizer}. <br/> 
-	 *  Note: This could be extracted as a standalone class.
-	 */
-	public static class ManualSynthesizerAdapter extends BaseSynthesizer implements Synthesizer  {
-		private ManualSynthesizer manualSynthesizer;
-		public ManualSynthesizerAdapter(ManualSynthesizer manualSynthesizer) {
-			super(null, null); // no file
-			this.manualSynthesizer = manualSynthesizer;
-		}
-		@Override
-		protected void initSynthesizer() throws IOException {
-			synthesizer = new IStemmer() { // null synthesiser 
-				@Override
-				public List<WordData> lookup(CharSequence word) {
-					return new ArrayList<WordData>();
-				}
-			};
-		}
-		@Override
-		protected void initPossibleTags() throws IOException {
-			if (possibleTags == null) {
-				possibleTags = new ArrayList<String>(manualSynthesizer.getPossibleTags());
-			}
-		}
-		@Override
-		protected void lookup(String lemma, String posTag, List<String> results) {
-			super.lookup(lemma, posTag, results);
-			// add words that are missing from the romanian_synth.dict file
-			final List<String> manualForms = manualSynthesizer.lookup(lemma.toLowerCase(), posTag);
-			if (manualForms != null) {
-				results.addAll(manualForms); 
-			}
-		}
-	}
+	final static String TEST_DATA = 
+			"# some test data\n" +
+					"inflectedform11\tlemma1\tPOS1\n" +
+					"inflectedform121\tlemma1\tPOS2\n" +
+					"inflectedform122\tlemma1\tPOS2\n" +
+					"inflectedform123\tlemma1\tPOS3\n" +
+					"inflectedform2\tlemma2\tPOS1\n"
+					;
+
+	protected JLanguageTool languageTool;
+	protected Synthesizer synthesizer;
+	protected Tagger tagger;
+	
 	
 	//-- helper methods
 	
-	private Synthesizer getTestSynthesizer() throws UnsupportedEncodingException, IOException {
-		 final String data = 
-			      "# some test data\n" +
-			      "inflectedform11\tlemma1\tPOS1\n" +
-			      "inflectedform121\tlemma1\tPOS2\n" +
-			      "inflectedform122\tlemma1\tPOS2\n" +
-			      "inflectedform2\tlemma2\tPOS1\n"
-			      ;
-		return new ManualSynthesizerAdapter(new ManualSynthesizer(new ByteArrayInputStream(data.getBytes("UTF-8"))));
+	private AnalyzedTokenReadings[] getAnalyzedTokenReadings(final String input) throws IOException {
+	   return languageTool.getAnalyzedSentence(input).getTokensWithoutWhitespace();
 	}
-
+	
 	private AnalyzedTokenReadings getAnalyzedTokenReadings(String token, String posTag, String lemma) {
 		return new AnalyzedTokenReadings(new AnalyzedToken(token, posTag, lemma), 0);
 	}
 
 	private Match getMatch(String posTag, String posTagReplace, CaseConversion caseConversion) throws UnsupportedEncodingException, IOException {
 		Match match = new Match(posTag, posTagReplace, true, null, null, caseConversion, false, IncludeRange.NONE);
-		match.setSynthesizer(getTestSynthesizer());
+		match.setSynthesizer(synthesizer);
 		return match;
 	}
 
+	private Match getMatch(String posTag, String posTagReplace, IncludeRange includeRange) throws UnsupportedEncodingException, IOException {
+		Match match = new Match(posTag, posTagReplace, true, null, null, CaseConversion.NONE, false, includeRange);
+		match.setSynthesizer(synthesizer);
+		return match;
+	}
+
+	//-- setup
+
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+		tagger = new ManualTaggerAdapter(new ManualTagger(new ByteArrayInputStream(TEST_DATA.getBytes("UTF-8"))));
+		synthesizer = new ManualSynthesizerAdapter(new ManualSynthesizer(new ByteArrayInputStream(TEST_DATA.getBytes("UTF-8"))));
+		languageTool = new JLanguageTool(new Demo() {
+			@Override
+			public String getName() {
+				return "TEST";
+			}
+			@Override
+			public Synthesizer getSynthesizer() {
+				return MatchTest.this.synthesizer;
+			}
+			@Override
+			public Tagger getTagger() {
+				return MatchTest.this.tagger;
+			}
+		});
+	}
+	
 	//-- test methods
 	
 		//-- CASE CONVERSION
@@ -145,7 +146,7 @@ public class MatchTest extends TestCase {
 	public void testPreserveAllUpper() throws Exception {
 		Match match = getMatch("POS1", "POS2", Match.CaseConversion.PRESERVE);
 		match.setToken(getAnalyzedTokenReadings("INFLECTEDFORM11", "POS1", "Lemma1"));
-		assertEquals("[INFLECTEDFORM121, INFLECTEDFORM122]", Arrays.toString( match.toFinalString()));
+		assertEquals("[INFLECTEDFORM121, INFLECTEDFORM122]", Arrays.toString(match.toFinalString()));
 	}
 	
 	public void testPreserveMixed() throws Exception {
@@ -173,4 +174,34 @@ public class MatchTest extends TestCase {
 		assertEquals("[inflectedform121, inflectedform122]", Arrays.toString(match.toFinalString()));
 	}
 
+		//-- INCLUDE RANGE 
+	
+	public void testSimpleIncludeFollowing() throws Exception {
+		Match match = getMatch(null, null, Match.IncludeRange.FOLLOWING);
+		match.setToken(getAnalyzedTokenReadings("inflectedform11 inflectedform2 inflectedform122 inflectedform122"), 1, 3);
+		assertEquals("[inflectedform2 inflectedform122]", Arrays.toString(match.toFinalString()));
+	}
+
+	public void testPOSIncludeFollowing() throws Exception {
+		// POS is ignored when using IncludeRange.Following
+		Match match = getMatch("POS2", "POS33", Match.IncludeRange.FOLLOWING); 
+		match.setToken(getAnalyzedTokenReadings("inflectedform11 inflectedform2 inflectedform122 inflectedform122"), 1, 3);
+		assertEquals("[inflectedform2 inflectedform122]", Arrays.toString(match.toFinalString()));
+	}
+	
+	public void testIncludeAll() throws Exception {
+		Match match = getMatch(null, null, Match.IncludeRange.ALL);
+		match.setToken(getAnalyzedTokenReadings("inflectedform11 inflectedform2 inflectedform122 inflectedform122"), 1, 3);
+		assertEquals("[inflectedform11inflectedform2 inflectedform122]", Arrays.toString(match.toFinalString()));
+		// the first two tokens come together, it a known issue
+	}
+
+	public void testPOSIncludeAll() throws Exception {
+		Match match = getMatch("POS1", "POS3", Match.IncludeRange.ALL); 
+		match.setToken(getAnalyzedTokenReadings("inflectedform11 inflectedform2 inflectedform122 inflectedform122"), 1, 3);
+		assertEquals("[inflectedform123inflectedform2 inflectedform122]", Arrays.toString(match.toFinalString()));
+		// Note that in this case the first token has the requested POS (POS3 replaces POS1)
+		// the first two tokens come together, it a known issue. 
+	}
+	
 }
