@@ -4,7 +4,7 @@ title="Pretty print" ?>
 <?xml-stylesheet type="text/css" href="../rules.css" 
 title="Easy editing stylesheet" ?>
 	<!--
-		Romanian Grammar and Typo Rules for LanguageTool Copyright (C) 2009
+		Romanian Grammar and Typo Rules for LanguageTool Copyright (C) 2009-2011
 		Ionuț Păduraru
 		
 		Current status for Romanian xml rules is available at http://code.google.com/p/languagetoolro/issues
@@ -14,13 +14,18 @@ title="Easy editing stylesheet" ?>
 		Version: $Id: grammar.xml,v 1.31 2011-01-24 08:12:00 archeus Exp $		
 		
 	-->
+<!DOCTYPE rules [
+<!ENTITY LunileAnului "ianuarie|februarie|martie|aprilie|mai|iunie|iulie|august|septembrie|octombrie|noiembrie|decembrie|ian|feb|mart|apr|iun|iul|aug|sept|oct|nov|dec">
+<!ENTITY UnIn "[u|î]n">
+
+]>
 <rules lang="ro" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 	<phrases>
 		<phrase id="FARA_GRAD_DE_COMPARATIE">
 			<token regexp="yes" inflected="yes">celebru|bestial|frigorific|perfect|rarisim|vast|optim|admirabil|superior|inferior|uriaș|imens|magnific|străvechi|teribil|metalic|bărbătesc|trunghiular|minor|enorm|plin|gol|mort|complet|întreg|principal|termogen|major|oportun|anterior|posterior|ulterior|interior|exterior|extrem|minim|maxim|suprem|ultim|asemenea|general|gigantic|petrolifer|unic|veșnic|uluitor|nemaipomenit|extraordinar|oral|desăvârșit|fantastic|formidabil|ultra|super|trăsnet|mortal|supraaglomerat|ultrasensibil|excelent|splendid|geniu|genial|calitativ|endocrin|viu</token>
 		</phrase>
 		<phrase id="LUNILE_ANULUI">
-			<token regexp="yes" inflected="yes">ianuarie|februarie|martie|aprilie|mai|iunie|iulie|august|septembrie|octombrie|noiembrie|decembrie</token>
+			<token regexp="yes">&LunileAnului;</token>
 		</phrase>
 	</phrases>
 
@@ -141,6 +146,7 @@ title="Easy editing stylesheet" ?>
 				<token>civila</token>
 			</pattern>
 			<message>Ați dorit să scrieți <suggestion><match no="1"/> <match no="2" case_conversion="preserve" postag_regexp="yes" postag="Afs3aa0000" postag_replace="Afs3an0000"/></suggestion>?</message>
+			<short>Dezacord sau diacritice lispă.</short>
 			<example type="incorrect" correction="starea civilă">L-am întrebat de <marker>starea civila</marker>.</example>
 			<example type="incorrect" correction="Starea Civilă">L-am trimis la <marker>Starea Civila</marker>.</example>
 			<example type="incorrect" correction="STAREA CIVILĂ">L-am trimis la <marker>STAREA CIVILA</marker>.</example>
@@ -1138,6 +1144,20 @@ title="Easy editing stylesheet" ?>
 		</rule>
 	</category>
 	<category name="Greșeli gramaticale - acord adjectiv" >
+			<rule id="CELOR_MAI_MULTOR" name="celor mai multor -> celor mai mulți">
+				<pattern>
+					<token>celor</token>
+					<token>mai</token>
+					<token postag_regexp="yes" postag="A[m|f]p3ga0000"><exception negate="yes" postag_regexp="yes" postag="A[m|f]p3ga0000"></exception></token>
+				</pattern>
+				<message>Cazul genitiv sau dativ trebuie să fie marcat o singură dată: <suggestion><match no="1"/> <match no="2"/> <match
+					no="3" postag_regexp="yes" postag="A(m|f)p3ga0000" postag_replace="A$1p3an0000"/></suggestion>.</message>
+				<short>Dezacord gramatical</short>
+				<example type="correct">Părerea celor mai mulți colegi nu este favorabilă.</example>
+				<example type="correct">Le-a spus celor mai mulți să nu vină.</example>
+				<example type="incorrect" correction="celor mai multe|celor mai mulți">Părerea <marker>celor mai multor</marker> nu a contat.</example>
+				<example type="incorrect" correction="celor mai multe|celor mai mulți">El a captat atenția <marker>celor mai multor</marker> persoane cu studii superioare.</example>
+			</rule>	
 			<rule id="O_ADJ_ART_TERMINAT_IN_A" name="o + (adj fem art) - o + (adj fem neart)">
 				<pattern mark_from="2">
 					<token><exception>-</exception></token>
@@ -3366,7 +3386,7 @@ title="Easy editing stylesheet" ?>
 			<rule>  
 				<pattern mark_from="1">
 					<token negate="yes">-</token>
-					<token regexp="yes">un|în</token>
+					<token regexp="yes">&UnIn;</token>
 					<token regexp="yes">procent|procentaj</token>
 					<token>de</token>
 					<token regexp="yes">([0-9])*</token>
@@ -3382,7 +3402,7 @@ title="Easy editing stylesheet" ?>
 			<rule>  
 				<pattern mark_from="1">
 					<token negate="yes">-</token>
-					<token regexp="yes">un|în</token>
+					<token regexp="yes">&UnIn;</token>
 					<token regexp="yes">procent|procentaj</token>
 					<token>de</token>
 					<token postag="M.*" postag_regexp="yes"></token>
@@ -3429,7 +3449,7 @@ title="Easy editing stylesheet" ?>
 			<rule> 
 				<pattern mark_from="1">
 					<token negate="yes">-</token>
-					<token regexp="yes">un|în</token>
+					<token regexp="yes">&UnIn;</token>
 					<token regexp="yes">procent|procentaj</token>
 					<token>de</token>
 					<token regexp="yes">([0-9])*</token>
@@ -3445,7 +3465,7 @@ title="Easy editing stylesheet" ?>
 			<rule> 
 				<pattern mark_from="1">
 					<token negate="yes">-</token>
-					<token regexp="yes">un|în</token>
+					<token regexp="yes">&UnIn;</token>
 					<token regexp="yes">procent|procentaj</token>
 					<token>de</token>
 					<token postag="M.*" postag_regexp="yes"></token>
@@ -3525,7 +3545,7 @@ title="Easy editing stylesheet" ?>
 			</rule>
 			<rule> 
 				<pattern mark_from="1">
-					<token><exception regexp="yes">un|în</exception></token>
+					<token><exception regexp="yes">&UnIn;</exception></token>
 					<token regexp="yes">procent|procentaj</token>
 					<token>de</token>
 					<token postag="M.*" postag_regexp="yes"></token>
@@ -3539,7 +3559,7 @@ title="Easy editing stylesheet" ?>
 			</rule>
 			<rule> 
 				<pattern mark_from="1">
-					<token><exception regexp="yes">un|în</exception></token>
+					<token><exception regexp="yes">&UnIn;</exception></token>
 					<token regexp="yes">procent|procentaj</token>
 					<token>de</token>
 					<token regexp="yes">([0-9])*</token>
@@ -4931,8 +4951,8 @@ title="Easy editing stylesheet" ?>
 	<category name="Cacofonie">
 		<rule id="CACOFONIE__CA" name="cacofonie: ...ca ca...">
 			<pattern case_sensitive="yes">
-				<token regexp="yes">.*ca|Ca|.*cî|.*că|Că<exception regexp="yes">Biserica|biserica|aortică</exception></token>
-				<token regexp="yes">ca.*|câ.*|că.*<exception regexp="yes">C.*</exception></token>
+				<token regexp="yes">.*c[a|î|ă]|C[ă|a]<exception regexp="yes">Biserica|biserica|aortică</exception></token>
+				<token regexp="yes">c[a|â|ă].*<exception regexp="yes">C.*</exception></token>
 			</pattern>
 			<message>Cacofonie: încercați să evitați astfel de formulări.</message>
 			<short>Cacofonie</short>
@@ -4949,8 +4969,8 @@ title="Easy editing stylesheet" ?>
 		</rule>
 		<rule id="CACOFONIE__CO_CO" name="cacofonie: ...co/cu/ca/că co/cu...">
 			<pattern>
-				<token regexp="yes">.*co|.*că|.*ca</token> 
-				<token regexp="yes">co.*|cu.*</token>
+				<token regexp="yes">.*c[o|ă|a]</token> 
+				<token regexp="yes">c[o|u].*</token>
 			</pattern>
 			<message>Cacofonie: încercați să evitați astfel de formulări.</message>
 			<short>Cacofonie</short>
@@ -5816,6 +5836,34 @@ title="Easy editing stylesheet" ?>
 		</rule>
 	</category>
 	<category name="Numeral">
+		<rule id="_20_DE_PAGINI" name="20 pagini -> 20 de pagini">
+			<pattern mark_from="1">
+				<token><exception regexp="yes">,|.|cele</exception></token>
+				<token regexp="yes"><![CDATA[\d*[2-9]\d|[2-9]0+]]></token>
+				<token postag="S.p..n.*" postag_regexp="yes" regexp="yes">.{2,}<exception regexp="yes">&LunileAnului;|î|p|pm|am</exception><exception 
+						negate_pos="yes" postag_regexp="yes" postag="S.p..n.*"/></token>
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion><match no="2"/> de <match no="3"/></suggestion>?</message>
+			<short>Posibilă folosire greșită a numeralului</short>
+			<example type="incorrect" correction="20 de pagini">Doar <marker>20 pagini</marker> din lucrare erau ale lui.</example>
+			<example type="incorrect" correction="22 de minute">Tonul se schimbă la fiecare <marker>22 minute</marker>.</example>
+			<example type="incorrect" correction="200 de minute">Tonul se schimbă la fiecare <marker>200 minute</marker>.</example>
+			<example type="incorrect">Războiul a durat <marker>2000 ani</marker>.</example>
+			
+			<example type="correct">Războiul a durat 2001 ani.</example>
+			<example type="correct">Războiul a durat 201 ani.</example>
+			<example type="correct">Războiul a durat 102 ani.</example>
+			<example type="correct">Războiul a durat 107 ani.</example>
+			<example type="correct">Din cele 407 biblioteci existente pe cuprinsul județului 87 sunt biblioteci sunt noi.</example>
+			<example type="correct">Tricoul are numărul 20.</example>
+			<example type="correct">Lucrarea avea peste <marker>200 de pagini</marker>.</example>
+			<example type="correct">Cetatea datează din anul 200 î.H..</example>
+			<example type="correct">Lucrarea este din 20 martie.</example>
+			<example type="correct">El a organizat aproximativ în anul 1200 primul cor pe mai multe voci</example>
+			<example type="correct">Este s-a lansat pe 13 decembrie 1996 la Sala Polivalentă</example>
+			<example type="correct">Tonul se schimbă la fiecare 10 secunde.</example>
+			<example type="correct">Tonul se schimbă la fiecare 202 secunde.</example>
+		</rule>
 		<rule id="A_CINCIA" name="a cincia - a cincea">
 			<pattern>
 				<token>a</token>
