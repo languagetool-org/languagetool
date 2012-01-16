@@ -136,6 +136,21 @@ public class RomanianSentenceTokenizerTest extends TestCase {
 	    testSplit(new String[] { "Are mere, pere, etc. ", "Nu are alune." });
 	    // ş.a. - şi altele
 	    testSplit(new String[] { "Are mere, pere, ș.a. dar nu are alune." });
+
+        // pag, leg, art
+	    testSplit(new String[] { "Lecția începe la pag. următoare și are trei pagini." });
+	    testSplit(new String[] { "Lecția începe la pag. 20 și are trei pagini." });
+	    testSplit(new String[] { "A acționat în conformitate cu lg. 144, art. 33." });
+	    testSplit(new String[] { "A acționat în conformitate cu leg. 144, art. 33." });
+	    testSplit(new String[] { "A acționat în conformitate cu legea nr. 11." });
+	    testSplit(new String[] { "Lupta a avut loc în anul 2000 î.H. și a durat trei ani." });
+	    
+	    // lunile anului, abreviate
+	    testSplit(new String[] { "Discuția a avut loc pe data de douăzeci aug. și a durat două ore." });
+	    testSplit(new String[] { "Discuția a avut loc pe data de douăzeci ian. și a durat două ore." });
+	    testSplit(new String[] { "Discuția a avut loc pe data de douăzeci feb. și a durat două ore." });
+	    testSplit(new String[] { "Discuția a avut loc pe data de douăzeci ian.", "A durat două ore." });
+	    
 	    // M.Ap.N. - Ministerul Apărării Nationale
 	    // there are 2 rules for this in segment.srx. Can this be done with only one rule?
 	    testSplit(new String[] { "A fost și la M.Ap.N. dar nu l-au primit. " });
