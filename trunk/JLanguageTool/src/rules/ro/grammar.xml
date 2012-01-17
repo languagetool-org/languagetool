@@ -140,6 +140,20 @@ title="Easy editing stylesheet" ?>
 		</rulegroup>
 	</category>
 	<category name="Diverse">
+		<rule id="TRECUT_IN_NEFIINTA" name="a trece în neființă"> 
+			<pattern>
+				<token inflected="yes">trece</token>
+				<token>în</token>
+				<token>neființă</token>
+			</pattern>
+			<message>Inadvertenţă gramaticală între verbul „a trece” şi substantivul „nefiinţă”. Puteți folosi <suggestion>\1 la cele veșnice</suggestion>, <suggestion>\1 la cele sfinte</suggestion>, <suggestion><match 
+				no="1" postag="(.*)" postag_replace="$1" postag_regexp="yes" case_conversion="preserve">pleca</match> dintre noi</suggestion>, <suggestion><match 
+				no="1" postag="(.*)" postag_replace="$1" postag_regexp="yes" case_conversion="preserve">înceta</match> din viață</suggestion> etc.</message>
+			<short>Formă nerecomandată.</short>
+			<example type="incorrect" correction="trecuse la cele veșnice|trecuse la cele sfinte|plecase dintre noi|încetase din viață">A <marker>trecuse în neființă</marker> destul de devreme.</example>
+			<example type="incorrect" correction="Trece la cele veșnice|Trece la cele sfinte|Pleacă dintre noi|Încetează din viață"><marker>Trece în neființă</marker> la vârsta de 39 de ani.</example>
+			<example type="correct">A trecut la cele veșnice prea devreme.</example>
+		</rule>    
 		<rule id="STARE_CIVILA" name="stare civila -> stare civilă"> 
 			<pattern>
 				<token inflected="yes">stare</token>
@@ -584,7 +598,19 @@ title="Easy editing stylesheet" ?>
 	</category>
 
 	<category name="Greșeli de exprimare">
-
+		<rule id="A_DA_SFARA_IN_TARA" name="a da sfară în țară">
+			<pattern>
+				<token inflected="yes">da</token>
+				<token>sfoară</token>
+				<token>în</token>
+				<token/>
+			</pattern>
+			<message>Pentru sensul „a da de știre” folosiți „sfară”, nu „sfoară”: <suggestion>\1 sfară \3 \4</suggestion>.</message>
+			<short>Greșeală de exprimare.</short>
+			<example type="correct">A dat sfară în țară că va demisiona.</example>
+			<example type="incorrect">A vrut să <marker>dea sfoară în țară</marker> că va nu este de aceeași părere.</example>
+			<example type="incorrect">A vrut să <marker>dea sfoară în târg</marker> că va nu este de aceeași părere.</example>
+		</rule>
 		<rulegroup id="CARE__PE_CARE" name="Care/pe care">
 			<rule id="CARE_PE_CARE__CARTEA_CARE_TI-AM" name="(s ac art) + care ți-am + (v part)">
 				<pattern mark_from="1" mark_to="-6">
@@ -1494,6 +1520,47 @@ title="Easy editing stylesheet" ?>
 	</category>
 
 	<category name="Pleonasme">
+			<rule id="ACUM_DOUA_ZILE_IN_URMA" name="acum două zile în urmă">
+				<pattern>
+					<token>acum</token>
+					<token/>
+					<token regexp="yes">minute|ore|zile|săptămâni|luni|ani</token>
+					<token>în</token>
+					<token>urmă</token>
+				</pattern>
+				<message>Ați dorit să scrieți <suggestion>\1 \2 \3</suggestion> sau <suggestion>cu \2 \3 \4 \5</suggestion>?</message>
+				<short>Pleonasm</short>
+				<example type="incorrect" correction="acum două zile|cu două zile în urmă">A plecat spre tine <marker>acum două zile în urmă</marker> dar nu a ajuns încă.</example>
+				<example type="incorrect" correction="acum câțiva ani|cu câțiva ani în urmă">A plecat din oraș <marker>acum câțiva ani în urmă</marker> și nu s-a mai întors.</example>
+				<example type="correct">Și-a luat concediu acum două zile.</example>
+								<example type="correct">Și-a luat concediu cu două zile în urmă.</example>
+				<example type="correct">A trebuit să plec, drept care nu am mai discutat.</example>
+			</rule> 
+			<rule id="DREPT_PENTRU_CARE" name="drept pentru care">
+				<pattern mark_from="1">
+					<token><exception>un</exception></token>
+					<token>drept</token>
+					<token>pentru</token>
+					<token>care</token>
+				</pattern>
+				<message>Ați dorit să scrieți <suggestion>\2 \4</suggestion> sau <suggestion>\3 \4</suggestion>?</message>
+				<short>Pleonasm</short>
+				<example type="incorrect" correction="drept care|pentru care">Nu ne-am mai întâlnit cu el, <marker>drept pentru care</marker> nu i-am putut da cartean înapoi.</example>
+				<example type="correct">Libertatea este un drept pentru care s-au purtat multe războaie.</example>
+				<example type="correct">A trebuit să plec, drept care nu am mai discutat.</example>
+			</rule> 
+			<rule id="UN_CUPLU_DE_DOI" name="un cuplu de doi">
+				<pattern>
+					<token>cuplu</token>
+					<token>de</token>
+					<token regexp="yes">doi|două</token>
+				</pattern>
+				<message>Ați dorit să scrieți <suggestion>\1 \2</suggestion>?</message>
+				<short>Pleonasm</short>
+				<example type="incorrect" correction="cuplu de">Ne-am întâlnit cu un <marker>cuplu de doi</marker> italieni.</example>
+                <example type="incorrect" correction="cuplu de">Veriga este un <marker>cuplu de două</marker> utilaje între care se stabilește o relație...</example> 
+				<example type="correct">A venit și un cuplu de mexicani.</example>
+			</rule> 
 			<rulegroup id="COBORI_JOS" name="a coborî [în] jos">
 				<rule name="a coborî jos">
 					<pattern>
