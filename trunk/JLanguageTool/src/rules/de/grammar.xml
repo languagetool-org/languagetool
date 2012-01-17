@@ -64,6 +64,17 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
          xsi:noNamespaceSchemaLocation="../rules.xsd">
 
   <category name="Mögliche Tippfehler">
+    <rulegroup id="NAEHREN_VS_NAEHEREN" name="Möglicher Tippfehler: nähre (nähere) Hinweise etc.">
+      <rule>
+        <pattern mark_to="-1">
+            <token regexp="yes">nähren?</token>
+            <token regexp="yes">Einzelheiten|Infos|Informationen|Umgebung|Angaben|Auskünften?|Erkenntnissen?</token>
+          </pattern>
+        <message>Meinten Sie <suggestion><match no="1" regexp_match="ähre" regexp_replace="ähere"/></suggestion>?</message>
+        <example type="incorrect">Die <marker>nähren</marker> Informationen bekommen Sie vor Ort.</example>
+        <example type="correct">Die <marker>näheren</marker> Informationen bekommen Sie vor Ort.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="NAEHREN_VS_NAEHERN" name="Möglicher Tippfehler: sich nähren (nähern) etc.">
       <rule>
         <pattern mark_to="-1">
@@ -2451,7 +2462,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct">Das ist <marker>weitaus</marker> besser als das andere.</example>
       <example type="incorrect">Das ist <marker>weit aus</marker> besser als das andere.</example>
     </rule>
-    <rule id="IRGENDWANN" name="Zusammen-/Getrenntschreibung: 'irgend wann/wo/wie (irgendwann ...)'">
+    <rule id="IRGEND_WANN" name="Zusammen-/Getrenntschreibung: 'irgend wann/wo/wie (irgendwann ...)'">
       <pattern>
         <token>irgend</token>
         <token regexp="yes">wann|wie|wo</token>
@@ -3061,6 +3072,16 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Die Tür ist <marker>auf</marker> verschiedenen Bildern zu sehen.</example>
       </rule>
     </rulegroup>
+    <rule id="SCHEISS_HAMMER_RIESEN" name="Umgangssprache: 'riesen' u.ä. als Adjektiv">
+      <pattern case_sensitive="yes" mark_from="1">
+        <token postag_regexp="yes" postag="ART:.*" />
+        <token regexp="yes">scheiß|hammer|super|riesen|mega</token>
+        <token postag_regexp="yes" postag="SUB:.*" />
+      </pattern>
+      <message>Dies ist eine sehr umgangssprachliche Ausdrucksweise. Möglicherweise möchten Sie je nach Anlass eine andere Formulierung in Betracht ziehen.</message>
+      <example type="incorrect">Wir haben ein <marker>riesen Problem</marker>.</example>
+      <example type="correct">Wir haben ein <marker>gewaltiges Problem</marker>.</example>
+    </rule>
     <rule id="GEHIESSEN" name="Umgangssprache: 'gehießen (geheißen)'">
       <pattern>
         <token>gehießen</token>
@@ -3850,9 +3871,29 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token>letzte</token>
         <token>schrei</token>
       </pattern>
-      <message>In der Wendung 'der letzte Schrei' wird <suggestion>Schrei</suggestion> großgeschrieben.</message>
+      <message>&inwend;'der letzte Schrei' wird <suggestion>Schrei</suggestion> großgeschrieben.</message>
       <example type="correct">Das ist jetzt der letzte <marker>Schrei</marker>.</example>
       <example type="incorrect">Das ist jetzt der letzte <marker>schrei</marker>.</example>
+    </rule>
+    <rule id="MIT_OHNE_VERSTAND" name="Groß-/Kleinschreibung: 'mit/ohne verstand (Verstand)'">
+      <pattern case_sensitive="yes" mark_from="1">
+        <token regexp="yes">[mM]it|[oO]hne</token>
+        <token>verstand</token>
+      </pattern>
+      <message>&subanfang;<suggestion>Verstand</suggestion>&subende;</message>
+      <example type="correct">Trink mit <marker>Verstand</marker>!</example>
+      <example type="incorrect">Trink mit <marker>verstand</marker>!</example>
+    </rule>
+    <rule id="SINN_UND_VERSTAND" name="Groß-/Kleinschreibung: 'mit/ohne Sinn und verstand (Verstand)'">
+      <pattern case_sensitive="yes" mark_from="3">
+        <token regexp="yes" skip="1">[mM]it|[oO]hne</token>
+        <token>Sinn</token>
+        <token regexp="yes">und|oder</token>
+        <token>verstand</token>
+      </pattern>
+      <message>&subanfang;<suggestion>Verstand</suggestion>&subende;</message>
+      <example type="correct">Aber bitte mit Sinn und <marker>Verstand</marker>!</example>
+      <example type="incorrect">Aber bitte mit Sinn und <marker>verstand</marker>!</example>
     </rule>
     <rule id="MEHR_GLUECK_ALS_VERSTAND" name="Groß-/Kleinschreibung: 'Mehr Glück als verstand (Verstand)'">
       <pattern case_sensitive="yes" mark_from="3">
@@ -5470,6 +5511,16 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       </rule>
     </rulegroup>
     <rulegroup id="REDE_SUBST" name="Groß-/Kleinschreibung: 'rede (Rede)'">
+      <rule>
+        <pattern mark_to="-2" case_sensitive="yes">
+          <token>rede</token>
+          <token>und</token>
+          <token>Antwort</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Rede</suggestion>&subende;</message>
+        <example type="correct">Er stand <marker>Rede</marker> und Antwort.</example>
+        <example type="incorrect">Er stand <marker>rede</marker> und Antwort.</example>
+      </rule>
       <rule>
         <pattern mark_from="1" mark_to="-1" case_sensitive="yes">
           <token>eine</token>
@@ -8344,6 +8395,16 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
   </category>
 
   <category name="Zeichensetzung">
+    <rule id="DOPPELTES_AUSRUFEZEICHEN" name="Zeichensetzung: mehrere Ausrufezeichen etc.">
+      <pattern>
+        <token regexp="yes">\!|\?</token>
+        <token regexp="yes">\!|\?</token>
+      </pattern>
+      <message>Die Verwendung von mehreren Frage- oder Ausrufezeichen wirkt oft übertrieben emphatisch. Vorschlag: <suggestion>\1</suggestion>.</message>
+      <example type="correct">Das ist kein Problem<marker>!</marker></example>
+      <example type="incorrect">Das ist kein Problem<marker>!!</marker></example>
+      <example type="incorrect">Ist das ein Problem<marker>?!!</marker></example>
+    </rule>
     <rule id="APOSTROPH_S" name="Zeichensetzung: Apostroph vor Genitiv-s">
       <pattern>
         <token postag="EIG:.*" postag_regexp="yes"/>
