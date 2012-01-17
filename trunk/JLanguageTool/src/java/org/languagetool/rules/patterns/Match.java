@@ -89,7 +89,7 @@ public class Match {
 
   /**
    * True if this match element formats a statically defined lemma which is
-   * enclosed by the element, e.g., <tt>&lt;match...&gt;word&lt;/word&gt;</tt>.
+   * enclosed by the element, e.g., <tt>&lt;match...&gt;word&lt;/match&gt;</tt>.
    */
   private boolean staticLemma;
 
@@ -305,7 +305,12 @@ public class Match {
         }
       }
     }    
-    final String original = formattedToken != null ?  formattedToken.getToken() : "";
+    final String original;
+    if (staticLemma) {
+    	original = matchedToken != null ? matchedToken.getToken() : "";
+    } else {
+    	original = formattedToken != null ?  formattedToken.getToken() : "";
+    }
     for (int i = 0; i < formattedString.length; i++) {
     	formattedString[i] = convertCase(formattedString[i], original);
     }
@@ -433,7 +438,7 @@ public class Match {
     	break;
     case PRESERVE:
       if (StringTools.startsWithUppercase(sample)) {
-        if (StringTools.isAllUppercase(formattedToken.getToken())) {
+        if (StringTools.isAllUppercase(sample)) {
           token =  token.toUpperCase();
         } else {
           token = StringTools.uppercaseFirstChar(token);

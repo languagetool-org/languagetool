@@ -137,6 +137,31 @@ public class MatchTest extends TestCase {
 		assertEquals("[Inflectedform121, Inflectedform122]", Arrays.toString(match.toFinalString()));
 	}
 	
+	public void testStaticLemmaPreserveStartLower() throws Exception {
+		Match match = getMatch("POS2", "POS1", Match.CaseConversion.PRESERVE);
+		match.setLemmaString("lemma2");
+		match.setToken(getAnalyzedTokenReadings("inflectedform121", "POS2", "Lemma1"));
+		assertEquals("[inflectedform2]", Arrays.toString(match.toFinalString()));
+	}
+	public void testStaticLemmaPreserveStartUpper() throws Exception {
+		Match match = getMatch("POS2", "POS1", Match.CaseConversion.PRESERVE);
+		match.setLemmaString("lemma2");
+		match.setToken(getAnalyzedTokenReadings("InflectedForm121", "POS2", "Lemma1"));
+		assertEquals("[Inflectedform2]", Arrays.toString(match.toFinalString()));
+	}
+	public void testStaticLemmaPreserveAllUpper() throws Exception {
+		Match match = getMatch("POS2", "POS1", Match.CaseConversion.PRESERVE);
+		match.setLemmaString("lemma2");
+		match.setToken(getAnalyzedTokenReadings("INFLECTEDFORM121", "POS2", "Lemma1"));
+		assertEquals("[INFLECTEDFORM2]", Arrays.toString(match.toFinalString()));
+	}
+	public void testStaticLemmaPreserveMixed() throws Exception {
+		Match match = getMatch("POS2", "POS1", Match.CaseConversion.PRESERVE);
+		match.setLemmaString("lemma2");
+		match.setToken(getAnalyzedTokenReadings("infleCtedForm121", "POS2", "Lemma1"));
+		assertEquals("[inflectedform2]", Arrays.toString(match.toFinalString()));
+	}
+	
 	public void testPreserveStartLower() throws Exception {
 		Match match = getMatch("POS1", "POS2", Match.CaseConversion.PRESERVE);
 		match.setToken(getAnalyzedTokenReadings("inflectedForm11", "POS1", "Lemma1"));
@@ -203,5 +228,7 @@ public class MatchTest extends TestCase {
 		// Note that in this case the first token has the requested POS (POS3 replaces POS1)
 		// the first two tokens come together, it a known issue. 
 	}
+	
+	// TODO ad tests for using Match.IncludeRange with {@link Match#staticLemma}
 	
 }
