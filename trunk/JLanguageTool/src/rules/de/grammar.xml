@@ -2410,6 +2410,56 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct">Hinter <marker>alledem</marker> steht die Universität.</example>
       <example type="incorrect">Hinter <marker>alle dem</marker> steht die Universität.</example>
     </rule>
+    <rulegroup id="VONSTATTEN_GEHEN" name="Zusammen-/Getrenntschreibung: 'vonstatten gehen (vonstattengehen)'">
+    <!-- http://www.canoo.net/services/Controller?dispatch=spelling&input=vonstattengehen -->
+      <rule>
+        <pattern>
+          <token>vonstatten</token>
+          <token inflected="yes">gehen</token>
+        </pattern>
+        <message>&getrennt;Meinten Sie <suggestion>\1\2</suggestion>?</message>
+        <example type="correct">Das wird recht langsam <marker>vonstattengehen</marker>.</example>
+        <example type="incorrect">Das wird recht langsam <marker>vonstatten gehen</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>von</token>
+          <token>statten</token>
+          <token inflected="yes">gehen</token>
+        </pattern>
+        <message>&getrennt;Meinten Sie <suggestion>\1\2\3</suggestion>?</message>
+        <example type="correct">Das wird recht langsam <marker>vonstattengehen</marker>.</example>
+        <example type="incorrect">Das wird recht langsam <marker>von statten gehen</marker>.</example>
+      </rule>
+    </rulegroup>
+    <rule id="VON_STATTEN" name="Zusammen-/Getrenntschreibung: 'von statten (vonstatten)'">
+      <pattern>
+          <token>von</token>
+          <token>statten</token>
+      </pattern>
+      <message>&getrennt;Meinten Sie <suggestion>\1\2</suggestion>?</message>
+      <example type="correct">Das ging recht langsam <marker>vonstatten</marker>.</example>
+      <example type="incorrect">Das ging recht langsam <marker>von statten</marker>.</example>
+    </rule>
+    <rule id="WEIT_AUS" name="Zusammen-/Getrenntschreibung: 'weit aus (weitaus)'">
+      <pattern mark_to="-1">
+        <token>weit</token>
+        <token>aus</token>
+        <token postag="ADJ:.+:KOM.*" postag_regexp="yes"/>
+      </pattern>
+      <message>&getrennt;Meinten Sie <suggestion>weitaus</suggestion>?</message>
+      <example type="correct">Das ist <marker>weitaus</marker> besser als das andere.</example>
+      <example type="incorrect">Das ist <marker>weit aus</marker> besser als das andere.</example>
+    </rule>
+    <rule id="IRGENDWANN" name="Zusammen-/Getrenntschreibung: 'irgend wann/wo/wie (irgendwann ...)'">
+      <pattern>
+        <token>irgend</token>
+        <token regexp="yes">wann|wie|wo</token>
+      </pattern>
+      <message>&getrennt;Meinten Sie <suggestion>irgend\2</suggestion>?</message>
+      <example type="correct">Wir alle sterben <marker>irgendwann</marker>.</example>
+      <example type="incorrect">Wir alle sterben <marker>irgend wann</marker>.</example>
+    </rule>
     <rule id="WO_ANDERS" name="Zusammen-/Getrenntschreibung: 'wo anders (woanders)'">
       <pattern>
         <token>wo</token>
@@ -4024,6 +4074,17 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Wir werden das Vorhaben in die <marker>Tat</marker> umsetzen.</example>
       </rule>
     </rulegroup>
+    <rule id="IN_DER_TAT" name="Groß-/Kleinschreibung: 'in der tat (Tat)'">
+    <!-- FIXME "Das war seine Paradedisziplin, in der tat er sich besonders hervor." -->
+      <pattern case_sensitive="yes" mark_from="2">
+        <token regexp="yes">[Ii]n</token>
+        <token>der</token>
+        <token>tat</token>
+      </pattern>
+      <message>&subanfang;<suggestion>Tat</suggestion>&subende;</message>
+      <example type="correct">In der <marker>Tat</marker> – dort liegt der Bahnhof.</example>
+      <example type="incorrect">In der <marker>tat</marker> – dort liegt der Bahnhof.</example>
+    </rule>
     <rulegroup id="IM_STICH_LASSEN" name="Groß-/Kleinschreibung: 'im stich (Stich) lassen'">
       <rule>
         <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
@@ -5012,6 +5073,33 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Er versuchte den <marker>Schaden</marker> abzuwenden.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="KOENNEN_SUBST" name="Groß-/Kleinschreibung: 'sein können (Können) unter Beweis stellen'">
+      <rule>
+        <pattern case_sensitive="yes" mark_from="1" mark_to="-3">
+          <token postag="PRO:POS:AKK:SIN:NEU.*" postag_regexp="yes"/>
+          <token skip="2">können</token>
+          <token>unter</token>
+          <token>Beweis</token>
+          <token inflected="yes">stellen</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Können</suggestion>&subende;</message>
+        <example type="incorrect">Er hat sein <marker>können</marker> bereits oft unter Beweis gestellt.</example>
+        <example type="correct">Er hat sein <marker>Können</marker> unter Beweis gestellt.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="2" mark_to="-2">
+          <token inflected="yes" skip="2">stellen</token>
+          <token postag="PRO:POS:AKK:SIN:NEU.*" postag_regexp="yes"/>
+          <token>können</token>
+          <token>unter</token>
+          <token>Beweis</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Können</suggestion>&subende;</message>
+        <example type="incorrect">Dort stellen sie ihr <marker>können</marker> unter Beweis.</example>
+        <example type="incorrect">Dort stellten die Schüler ihr <marker>können</marker> unter Beweis.</example>
+        <example type="correct">Dort stellen sie ihr <marker>Können</marker> unter Beweis.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="AERGER_SUBST" name="Groß-/Kleinschreibung: 'ärger (Ärger)'">
       <rule>
         <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
@@ -5035,14 +5123,15 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       </rule>
       <rule>
         <pattern case_sensitive="yes" mark_from="1" mark_to="-2">
-          <token negate="yes">es</token>
+          <token negate="yes" regexp="yes">es|noch</token>
           <token>ärger</token>
           <token>zu</token>
-          <token inflected="yes">machen</token>
+          <token>machen</token>
         </pattern>
         <message>&subanfang;<suggestion>Ärger</suggestion>&subende;</message>
         <example type="incorrect">Er versuchte <marker>ärger</marker> zu machen.</example>
         <example type="correct">Er versuchte <marker>Ärger</marker> zu machen.</example>
+        <example type="correct">Um es noch <marker>ärger</marker> zu machen, fiel ich danach die Treppe herunter.</example>
       </rule>
     </rulegroup>
     <rulegroup id="HERZEN_SUBST" name="Groß-/Kleinschreibung: 'von herzen (Herzen)'">
@@ -5057,7 +5146,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       </rule>
       <rule>
         <pattern case_sensitive="yes" mark_from="2">
-          <token regexp="yes">[aA]uf</token>
+          <token regexp="yes">[aA]uf|[mM]it</token>
           <token>dem</token>
           <token>herzen</token>
         </pattern>
@@ -5145,7 +5234,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Einer verbreiteten <marker>Legende</marker> zufolge</example>
       </rule>
     </rulegroup>
-    <rule id="SPRACHEN_SUBST" name="Groß-/Kleinschreibung: 'in asiatischen sprachen (Sprachen)'">
+    <rule id="SPRACHEN_SUBST" name="Groß-/Kleinschreibung: 'in asiatischen sprachen (Sprachen)' etc.">
       <pattern case_sensitive="yes" mark_from="2">
         <token regexp="yes">[iI]n|[bB]ei|[aA]n</token>
         <token regexp="yes">(&sprachadj2;)en</token>
@@ -5164,6 +5253,16 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <message>&subanfang;<suggestion>Gründen</suggestion>&subende;</message>
       <example type="incorrect">Aus irgendwelchen <marker>gründen</marker> gelang mir das nicht.</example>
       <example type="correct">Aus irgendwelchen <marker>Gründen</marker> gelang mir das nicht.</example>
+    </rule>
+    <rule id="WUERDE_SUBST" name="Groß-/Kleinschreibung: 'die würde (Würde) des Gerichts' etc.">
+      <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
+        <token regexp="yes">[dD]ie</token>
+        <token>würde</token>
+        <token postag=".*GEN.*" postag_regexp="yes"/>
+      </pattern>
+      <message>&subanfang;<suggestion>Würde</suggestion>&subende;</message>
+      <example type="incorrect" correction="Würde">Die <marker>würde</marker> des Menschen ist antastbar.</example>
+      <example type="correct">Die <marker>Würde</marker> des Menschen ist unantastbar.</example>
     </rule>
     <rule id="LAUFE_SUBST" name="Groß-/Kleinschreibung: 'im laufe (Laufe) des Tages'">
       <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
@@ -5336,6 +5435,40 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct">Wir sind schließlich nicht zum <marker>Vergnügen</marker> hier.</example>
       <example type="incorrect">Wir sind schließlich nicht zum <marker>vergnügen</marker> hier.</example>
     </rule>
+    <rulegroup id="ENDE_SUBST" name="Groß-/Kleinschreibung: 'ende (Ende)'">
+      <rule>
+        <pattern mark_from="1" case_sensitive="yes">
+          <token regexp="yes">ohne|am|zu|zum|gegen</token>
+          <token>ende</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Ende</suggestion>&subende;</message>
+        <example type="correct">Unsere Fahrt ist zu <marker>Ende</marker>.</example>
+        <example type="incorrect">Unsere Fahrt ist zu <marker>ende</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-2" case_sensitive="yes">
+          <token>ende</token>
+          <token>mit</token>
+          <token>Schrecken</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Ende</suggestion>&subende;</message>
+        <example type="correct">Besser ein <marker>Ende</marker> mit Schrecken als Schrecken ohne Ende.</example>
+        <example type="incorrect">Besser ein <marker>ende</marker> mit Schrecken als Schrecken ohne Ende.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-1" case_sensitive="yes">
+          <token regexp="yes" skip="1">k?ein</token>
+          <token skip="2">ende</token>
+          <token inflected="yes" regexp="yes">nehmen|finden|absehen</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Ende</suggestion>&subende;</message>
+        <example type="correct">Das wird ein schlimmes <marker>Ende</marker> nehmen.</example>
+        <example type="incorrect">Es wird noch ein schlimmes <marker>ende</marker> mit dir nehmen.</example>
+        <example type="incorrect">Weil der Protest ein jähes <marker>ende</marker> fand.</example>
+        <example type="incorrect">Das droht ein schlimmes <marker>ende</marker> zu nehmen.</example>
+        <example type="incorrect">Es ist noch kein <marker>ende</marker> abzusehen.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="REDE_SUBST" name="Groß-/Kleinschreibung: 'rede (Rede)'">
       <rule>
         <pattern mark_from="1" mark_to="-1" case_sensitive="yes">
@@ -7253,6 +7386,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct">Rabbit in Ruhe</example>
     </rule>
     <rule id="IN_DER_NAEHE" name="Groß-/Kleinschreibung: 'in der nähe (Nähe)'">
+    <!-- FIXME "Das ist die Nähstube, in der nähe ich Kleider." -->
       <pattern case_sensitive="yes" mark_from="2">
         <token regexp="yes">[Ii]n</token>
         <token>der</token>
@@ -7268,13 +7402,17 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <pattern case_sensitive="yes" mark_to="-1">
         <token regexp="yes">[Ee]in</token>
         <token>Paar</token>
-        <token postag_regexp="yes" postag="SUB:.*" negate="yes" regexp="yes">(.*)([Ss]chuhe|[Ss]ocken)</token>
+        <token postag_regexp="yes" postag="SUB:.*" negate="yes" regexp="yes">(.*)([Ss]chuhe|[Ss]ocken|[Ss]trümpfe|[Hh]osen)</token>
       </pattern>
       <message>Meinten Sie <suggestion>ein paar</suggestion>? (=einige)</message>
       <example type="correct"><marker>Ein Paar</marker> Schuhe.</example>
       <example type="correct"><marker>Ein Paar</marker> Wanderschuhe.</example>
       <example type="correct"><marker>Ein Paar</marker> Handschuhe.</example>
       <example type="correct"><marker>Ein Paar</marker> dünne Handschuhe.</example>
+      <example type="correct"><marker>Ein Paar</marker> Kniebundhosen.</example>
+      <example type="correct"><marker>Ein Paar</marker> Kniestrümpfe.</example>
+      <example type="correct"><marker>Ein Paar</marker> Nylonstrümpfe.</example>
+      <example type="correct"><marker>Ein Paar</marker> Nylonstrumpfhosen.</example>
       <example type="correct"><marker>Ein paar</marker> Münzen.</example>
       <example type="incorrect"><marker>Ein Paar</marker> Münzen.</example>
       <!--
