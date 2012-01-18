@@ -119,6 +119,29 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Seine <marker>eigenen</marker> Leute haben ihn ermordet.</example>
       </rule>
     </rulegroup>
+    <rule id="SICH_WAEHREN" name="Möglicher Tippfehler: sich währen (wehren)">
+      <pattern mark_from="1">
+          <token regexp="yes" skip="1">sich|mich|uns|euch</token>
+          <token>währen</token>
+        </pattern>
+      <message>Meinten Sie das Verb <suggestion>wehren</suggestion> (Synonym: <suggestion>verteidigen</suggestion>) oder die Präposition <suggestion>während</suggestion>?</message>
+      <example type="incorrect">Der PC schaltet sich <marker>währen</marker> des Spiels ab.</example>
+      <example type="incorrect">Wie kann man sich dagegen <marker>währen</marker>?</example>
+      <example type="correct">Wie kann man sich dagegen <marker>wehren</marker>?</example>
+      <example type="correct"><marker>Während</marker> der Fahrt bitte nicht rauchen!</example>
+    </rule>
+    <rule id="WAEHREN_DER" name="Möglicher Tippfehler: währen (während) der/des etc.">
+      <pattern mark_to="-1">
+          <token>währen</token>
+          <token regexp="yes">ich|sich|du|er|der|des</token>
+        </pattern>
+      <message>Meinten Sie die Präposition <suggestion>während</suggestion> oder das Verb das Verb <suggestion>wehren</suggestion> (verteidigen)?</message>
+      <example type="incorrect"><marker>Währen</marker> du schliefst.</example>
+      <example type="incorrect"><marker>Währen</marker> der Fahrt bitte nicht rauchen!</example>
+      <example type="correct"><marker>Währen</marker> die Probleme schon lange?</example>
+      <example type="correct"><marker>Währen</marker> sie lange?</example>
+      <example type="correct"><marker>Während</marker> der Fahrt bitte nicht rauchen!</example>
+    </rule>
     <rule id="INS_UNS" name="Möglicher Tippfehler: ins (in) uns">
       <pattern mark_to="-1">
           <token>ins</token>
@@ -3584,9 +3607,9 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     </rule>
     <rule id="MAENNER_VS_LEUTE" name="Stil: 'Kaufleute' usw. statt 'Kaufmänner'">
       <pattern case_sensitive="no">
-        <token regexp="yes">(.*kauf|See|Feuerwehr|Edel)männer(n)?</token>
+        <token regexp="yes">(.*kauf|See|Feuerwehr|Gewährs|Edel)männer(n)?</token>
       </pattern>
-      <message>Meinten Sie <suggestion><match no="1" regexp_match="(Kauf|.*kauf|See|Feuerwehr|Edel)männer(n)?" regexp_replace="$1leute$2" /></suggestion>?</message>
+      <message>Meinten Sie <suggestion><match no="1" regexp_match="(Kauf|.*kauf|See|Feuerwehr|Gewährs|Edel)männer(n)?" regexp_replace="$1leute$2" /></suggestion>?</message>
       <example type="correct">Es waren viele <marker>Feuerwehrleute</marker> im Einsatz.</example>
       <example type="incorrect">Es waren viele <marker>Feuerwehrmänner</marker> im Einsatz.</example>
       <example type="incorrect" correction="Industriekaufleute">Es werden viele <marker>Industriekaufmänner</marker> gesucht.</example>
@@ -3704,7 +3727,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
 	  <pattern mark_from="1" mark_to="-3" case_sensitive="yes">
           <token regexp="yes">[dD]ie</token>
           <token regexp="yes">&subkleinplural;</token>
-          <token regexp="yes">des|eines|dieses</token>
+          <token regexp="yes">des|eines|dieses|seines|meines|ihres|deines|unseres|eures</token>
           <token postag="SUB:GEN:SIN:(MAS|NEU)" postag_regexp="yes"/>
           <token postag="VER:3:PLU:.*" postag_regexp="yes">
 	      <exception regexp="yes" scope="current">einen|deutschen|langen|längen</exception>
@@ -3719,7 +3742,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
 	  <pattern mark_from="1" mark_to="-2" case_sensitive="yes">
           <token regexp="yes">[dD]er</token>
           <token regexp="yes">&massubklein;</token>
-          <token regexp="yes">des|eines|dieses</token>
+          <token regexp="yes">des|eines|dieses|seines|meines|ihres|deines|unseres|eures</token>
           <token postag="SUB:GEN:SIN:(MAS|NEU)" postag_regexp="yes"/>
         </pattern>
         <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
@@ -3774,10 +3797,23 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Dieser unverschämte <marker>Angriff</marker> kommt Sie teuer zu stehen.</example>
       </rule>
       <rule>
+	  <pattern mark_from="1" mark_to="-3" case_sensitive="yes">
+          <token regexp="yes">[dD]ie</token>
+          <token regexp="yes">&femsubklein;</token>
+          <token>,</token>
+          <token regexp="yes">an|auf|bei|in|mit|über|unter|von|während|wegen|zu</token>
+          <token>der</token>
+        </pattern>
+        <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
+        <example type="incorrect" correction="Rolle">Die <marker>rolle</marker>, wegen der sie gekommen ist.</example>
+        <example type="incorrect" correction="Aussage">Die <marker>aussage</marker>, zu der sie sich durchgerungen hat.</example>
+        <example type="correct">Die <marker>Zentrale</marker>, in der das Telefon nicht stillsteht.</example>
+      </rule>
+      <rule>
 	  <pattern mark_from="1" mark_to="-2" case_sensitive="yes">
           <token regexp="yes">[dD]ie</token>
           <token regexp="yes">&femsubklein;</token>
-          <token regexp="yes">des|eines|dieses</token>
+          <token regexp="yes">des|eines|dieses|seines|meines|ihres|deines|unseres|eures</token>
           <token postag="SUB:GEN:SIN:(MAS|NEU)" postag_regexp="yes"/>
         </pattern>
         <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
