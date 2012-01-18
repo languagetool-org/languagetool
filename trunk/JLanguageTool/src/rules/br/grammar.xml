@@ -1115,7 +1115,7 @@ Useful links:
       <rule>
         <pattern mark_from="1">
           <token regexp="yes">[au]r<exception postag="X EN_UR"/></token>
-          <token postag="N [^M]* M.*" postag_regexp="yes" regexp="yes" inflected="yes">b.*
+          <token postag="N [^M]*M.*" postag_regexp="yes" regexp="yes" inflected="yes">b.*
             <exception postag="(N f s|N m p t) M.*:1a:.*" postag_regexp="yes"/>
             <exception regexp="yes" inflected="yes">[vp].*</exception>
             <exception regexp="yes">vrud(-(mañ|se|hont))?</exception>
@@ -1647,7 +1647,7 @@ Useful links:
         <pattern mark_from="1" mark_to="-1">
           <token regexp="yes">aer|amzer|avel|brud|c’hoari|c’hwezh|lann|lur|revr|tra</token>
           <token postag="J.*" postag_regexp="yes" inflected="yes" regexp="yes">[ktpgbm].*
-            <exception postag="J M.*:1:.*" postag_regexp="yes"/>
+            <exception postag="J[^M]*M.*:1:.*" postag_regexp="yes"/>
             <exception postag="[^J].*" postag_regexp="yes"/>
           </token>
           <token negate="yes">ha</token>
@@ -1663,7 +1663,7 @@ Useful links:
         <pattern mark_from="1" mark_to="-1">
           <token postag="N f s.*|N m p t.*" postag_regexp="yes"/>
           <token postag="J.*" postag_regexp="yes" inflected="yes" regexp="yes">[gbm].*
-            <exception postag="J M.*:1:.*" postag_regexp="yes"/>
+            <exception postag="J[^M]*M.*:1:.*" postag_regexp="yes"/>
             <exception postag="[^J].*" postag_regexp="yes"/>
             <!-- bennak is marked as an adjective in the diction, it
                  should be an adverb -->
@@ -1678,13 +1678,15 @@ Useful links:
         <example type="correct">Ur chapel vihan.</example>
         <example type="correct">Ur chapel bihan ha brav.</example>
         <example type="correct">Trugarez memes tra.</example>
+        <example type="incorrect">Al lodenn <marker>brasañ</marker>.</example>
+        <example type="correct">Al lodenn vrasañ.</example>
       </rule>
       <rule>
         <pattern mark_from="1" mark_to="-1">
           <token postag="N f s.*|N m p t.*" postag_regexp="yes" regexp="yes">.*[lmnrvaeiouwy]
           </token>
           <token postag="J.*" postag_regexp="yes" inflected="yes" regexp="yes">[ktp].*
-            <exception postag="J M.*:1:.*" postag_regexp="yes"/>
+            <exception postag="J[^M]*M.*:1:.*" postag_regexp="yes"/>
             <exception postag="[^J].*" postag_regexp="yes"/>
             <!-- bennak is marked as an adjective in the diction, it
                  should be an adverb -->
@@ -1706,7 +1708,7 @@ Useful links:
           </token>
           <and>
             <token postag="J[^M]*M.*:1:.*" postag_regexp="yes">
-              <exception postag="[^M_]+" postag_regexp="yes"/>
+              <exception negate_pos="yes" postag="SENT_END|[^M]*M.*" postag_regexp="yes"/>
             </token>
             <token regexp="yes">[gdb].*</token>
           </and>
