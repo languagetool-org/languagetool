@@ -452,13 +452,16 @@ Useful links:
           <token>en</token>
           <token regexp="yes">em|ur<exception postag="D e sp">ur</exception></token>
           <and>
-            <token postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes">k.*</token>
+            <token postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes">k.*
+              <exception postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes">c’h.*</exception>
+            </token>
             <token postag="V.*" postag_regexp="yes" regexp="yes">(k|c’h).*</token>
           </and>
         </pattern>
         <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude «\1 \2». Ha fellout a rae deoc’h skrivañ <suggestion><match no="3" regexp_match="(k|c’h)(.*)" regexp_replace="g$2"/></suggestion>?</message>
         <example type="incorrect">En em <marker>kavout</marker> a raimp dirak an iliz.</example>
         <example type="correct">En em gavout a raimp dirak an iliz.</example>
+        <example type="correct">En ur c’hoari.</example>
       </rule>
       <rule>
         <pattern mark_from="2">
@@ -1680,6 +1683,8 @@ Useful links:
         <example type="correct">Trugarez memes tra.</example>
         <example type="incorrect">Al lodenn <marker>brasañ</marker>.</example>
         <example type="correct">Al lodenn vrasañ.</example>
+        <example type="incorrect">Ur gevredigezh <marker>gouiziek</marker>.</example>
+        <example type="correct">Ur gevredigezh ouiziek.</example>
       </rule>
       <rule>
         <pattern mark_from="1" mark_to="-1">
@@ -2406,7 +2411,7 @@ Useful links:
     <rule id="HENT_HOUARN" name="hent houarn → hent-houarn (hag all)">
       <pattern>
         <token regexp="yes">hent(où)?</token>
-        <token regexp="yes">bleiz|bras|dall|don|gwenn|houarn|karr|kirri|kroaz|meur|sant-(Jakez|Jalm)|treuz|tro|troad</token>
+        <token regexp="yes">(bleiz|bras|dall|don|gwenn|houarn|karr|kirri|kroaz|meur|sant-(Jakez|Jalm)|treuz|tro|troad)(-(mañ|se|hont))?</token>
       </pattern>
       <message>Implijit <suggestion>\1-\2</suggestion>.</message>
       <example type="incorrect">Labourat a ra en <marker>hent houarn</marker></example>
@@ -2415,7 +2420,7 @@ Useful links:
     <rule id="TOUR_TAN" name="tour tan → tour-tan">
       <pattern>
         <token regexp="yes">tour(ioù)?</token>
-        <token regexp="yes">dour|iliz|meur|tan</token>
+        <token regexp="yes">(dour|iliz|meur|tan)(-(mañ|se|hont))?</token>
       </pattern>
       <message>Implijit <suggestion>\1-\2</suggestion>.</message>
       <example type="incorrect">Uhel eo an <marker>tour tan</marker>.</example>
@@ -2424,7 +2429,7 @@ Useful links:
     <rule id="BLEIZ_MOR" name="bleiz mor → bleiz-mor">
       <pattern>
         <token regexp="yes">bleizi?</token>
-        <token regexp="yes">bouzel|broc’h(ed)?|garv|koad|mor|noz|piz|teil|yod</token>
+        <token regexp="yes">(bouzel|broc’h(ed)?|garv|koad|mor|noz|piz|teil|yod)(-(mañ|se|hont))?</token>
       </pattern>
       <message>Implijit <suggestion>\1-\2</suggestion>.</message>
       <example type="incorrect">Ur <marker>bleiz mor</marker> am eus gwelet.</example>
@@ -2433,7 +2438,7 @@ Useful links:
     <rule id="GRILH_MOR" name="grilh mor → grilh-mor">
       <pattern>
         <token regexp="yes">grilh(ed)?</token>
-        <token regexp="yes">douar|dour|koad|maen|mor|oaled|prad|saoz|traezh</token>
+        <token regexp="yes">(douar|dour|koad|maen|mor|oaled|prad|saoz|traezh)(-(mañ|se|hont))?</token>
       </pattern>
       <message>Implijit <suggestion>\1-\2</suggestion>.</message>
       <example type="incorrect">Ur <marker>grilh mor</marker> am eus tapet.</example>
@@ -2442,7 +2447,7 @@ Useful links:
     <rule id="ANV_BIHAN" name="anv bihan → anv-bihan (hag all)">
       <pattern>
         <token regexp="yes">anv(ioù)?</token>
-        <token regexp="yes">badez|bihan|familh|gwan|kadarn|pluenn|stroll|stiegezh|verb</token>
+        <token regexp="yes">(badez|bihan|familh|gwan|kadarn|pluenn|stroll|stiegezh|verb)(-(mañ|se|hont))?</token>
       </pattern>
       <message>Implijit <suggestion>\1-\2</suggestion>.</message>
       <example type="incorrect">Petra zo da <marker>anv bihan</marker>?</example>
@@ -2477,8 +2482,8 @@ Useful links:
     </rule>
     <rule id="TI_GAR" name="ti gar → ti-gar">
       <pattern>
-        <token regexp="yes">[td]i(iez)?</token>
-        <token regexp="yes">bank|debriñ|embann|feurm|kêr|krampouezh|gar|pizza|plouz|polis|post|skol</token>
+        <token regexp="yes">[td]i(ie[rz])?</token>
+        <token regexp="yes">(bank|debriñ|embann|feurm|kêr|krampouezh|gar|pizza|plouz|polis|post|skol)(-(mañ|se|hont))?</token>
       </pattern>
       <message>Implijit <suggestion>\1-\2</suggestion>.</message>
       <example type="incorrect">Pelec’h emañ an <marker>ti gar</marker>?</example>
@@ -2487,7 +2492,7 @@ Useful links:
     <rule id="SKOL_VEUR" name="skol veur → skol-veur">
       <pattern>
         <token regexp="yes">skol|skolioù</token>
-        <token regexp="yes">[mv]eur|[mv]amm</token>
+        <token regexp="yes">([mv]eur|[mv]amm)(-(mañ|se|hont))?</token>
       </pattern>
       <message>Implijit <suggestion>\1-\2</suggestion>.</message>
       <example type="incorrect">Pelec’h emañ ar <marker>skol veur</marker>?</example>
@@ -2496,7 +2501,7 @@ Useful links:
     <rule id="BALAFENN_NOZ" name="balafenn noz → balafenn-noz">
       <pattern>
         <token regexp="yes">[bpv]alafenn(ed)?</token>
-        <token regexp="yes">erc’h|noz|deiz</token>
+        <token regexp="yes">(erc’h|noz|deiz)(-(mañ|se|hont))?</token>
       </pattern>
       <message>Implijit <suggestion>\1-\2</suggestion>.</message>
       <example type="incorrect">Ur <marker>valafenn noz</marker>.</example>
