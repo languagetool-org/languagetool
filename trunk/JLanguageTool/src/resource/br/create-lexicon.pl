@@ -13,9 +13,9 @@
 #
 # How to use this script:
 #
-# 1) Download apertium Breton dictionary:
+# 1) Download the Apertium Breton dictionary:
 #    $ svn co https://apertium.svn.sourceforge.net/svnroot/apertium/trunk/apertium-br-fr
-# 2) Install apertium tools:
+# 2) Install Apertium tools:
 #    $ sudo apt-get install lttoolbox
 # 3) Run the script:
 #    $ cd apertium-br-fr/
@@ -34,25 +34,52 @@ my $dic_err = "$dic_in-LT.err";
 # Those are unfortunately not tagged in the Apertium dictionary.
 # So we enhance tagging here to be able to detect some incorrect mutations
 # after the article ar/an/al.
-# Only plural words that have a first letter which can mutate need to
-# be listed here. So "studierien" for example does not need to be
-# listed for example since s.* word don't mutate.
+#
+# The tag "N m p t" (N masculine plural tud) is used not only for mutation
+# after ar/an/al (such as *Ar Kelted* -> "Ar Gelted") but also for
+# mutations of adjective after noun such as:
+# *Ar studierien pinvidik* -> "Ar studierien binvidik"
+#
 # This list is far from being complete. The more words the more
 # mutation errors can be detected. But missing words should not
 # cause false positives.
 # Case matters!
 my @anv_lies_tud = (
   # plural              softening         reinforcing     spirant
+  "Afrikaned",
+  "Alamaned",
+  "alouberien",
+  "ambrougerien",
+  "Amerikaned",
+  "amezeien",
+  "amprevanoniourien",
+  "annezerien",
+  "aozerien",
+  "apotikerien",
+  "arboellerien",
+  "archerien",
+  "ardivikerien",
+  "arvesterien",
+  "arzourien",
+  "aterserien",
+  "atletourien",
+  "Bretoned",           "Vretoned",       "Pretoned",
+  "Brezhoned",          "Vrezhoned",      "Prezhoned",
   "Gallaoued",          "C’hallaoued",    "Kallaoued",
-  "gallegerien",        "c’hallegerien",  "kallegerien",
-  "gallegerion",        "c’hallegerion",  "kallegerion",
+  "Kabiled",            "Gabiled",        "c’habiled",
+  "Karnuted",           "Garnuted",       "C’harnuted",
+  "Kelted",             "Gelted",         "C’helted",
+  "Kuriosolited",       "Guriosolited",   "C’huriosolited",
+  "Muzulmaned",         "Vuzulmaned",
+  "Palestinianed",      "Balestinianed",                   "Falestinianed",
+  "Parizianed",         "Barizianed",                      "Farizianed",
   "bachelourien",       "vachelourien",   "pachelourien",
   "bac’herien",         "vac’herien",     "pac’herien",
   "bac’herion",         "vac’herion",     "pac’herion",
   "bagsavourien",       "vagsavourien",   "pagsavourien",
+  "baleerien",          "valeerien",      "paleerien",
   "bamerien",           "vamerien",       "pamerien",
   "bamerion",           "vamerion",       "pamerion",
-  "baleerien",          "valeerien",      "paleerien",
   "baraerien",          "varaerien",      "paraerien",
   "baraerion",          "varaerion",      "paraerion",
   "barnerien",          "varnerien",      "parnerien",
@@ -70,19 +97,17 @@ my @anv_lies_tud = (
   "biolinourien",       "violinourien",   "piolinourien",
   "bleinerien",         "vleinerien",     "pleinerien",
   "bleinerion",         "vleinerion",     "pleinerion",
+  "bombarderien",       "vombarderien",   "pombarderien",
   "bonelourien",        "vonelourien",    "ponelourien",
   "bouloñjerien",       "vouloñjerien",   "pouloñjerien",
-  "bombarderien",       "vombarderien",   "pombarderien",
   "braventiourien",     "vraventiourien", "praventiourien",
   "bredklañvourien",    "vredklañvourien", "predklañvourien",
   "bredoniourien",      "vredoniourien",  "predoniourien",
   "bresourien",         "vresourien",     "presourien",
   "breudeur",           "vreudeur",       "preudeur",
-  "Bretoned",           "Vretoned",       "Pretoned",
-  "brezhonegerien",     "vrezhonegerien", "prezhonegerien",
-  "Brezhoned",          "Vrezhoned",      "Prezhoned",
   "breutaerien",        "vreutaerien",    "preutaerien",
   "brezelourien",       "vrezelourien",   "prezelourien",
+  "brezhonegerien",     "vrezhonegerien", "prezhonegerien",
   "brezhonegerien",     "vrezhonegerien", "prezhonegerien",
   "brigadennourien",    "vrigadennourien", "prigadennourien",
   "brizhkeltiegourien", "vrizhkeltiegourien", "prizhkeltiegourien",
@@ -91,82 +116,308 @@ my @anv_lies_tud = (
   "brogarourien",       "vrogarourien",   "progarourien",
   "brozennourien",      "vrozennourien",  "prozennourien",
   "brudourien",         "vrudourien",     "prudourien",
-  "buhezegezhourien",   "vuhezegezhourien", "puhezegezhourien",
   "bugale",             "vugale",         "pugale",
   "bugulien",           "vugulien",       "pugulien",
+  "buhezegezhourien",   "vuhezegezhourien", "puhezegezhourien",
   "butunerien",         "vutunerien",     "putunerien",
   "butunerion",         "vutunerion",     "putunerion",
-  "dañserien",                            "tañserien",
+  "dañser`ien",                            "tañserien",
+  "eilrenerien",
+  "embannerien",
+  "emgannerien",
+  "emrenerien",
+  "emsaverien",
+  "emstriverien",
+  "emzivaded",
+  "enbroidi",
+  "eneberien",
+  "enebourien",
+  "engraverien",
+  "enklaskerien",
+  "ensellerien",
+  "eontred-kozh",
+  "eosterien",
+  "erbederien",
+  "ergerzherien",
+  "eveshaerien",
+  "evezhierien",
+  "evnoniourien",
+  "falc’herien",
+  "falserien",
+  "farderien",
+  "farserien",
+  "feizidi",
+  "fistoulerien",
+  "fizikourien",
+  "flatrerien",
+  "fougaserien",
+  "Frañsizien",
+  "furcherien",
+  "gallegerien",        "c’hallegerien",  "kallegerien",
+  "gallegerion",        "c’hallegerion",  "kallegerion",
   "gaouidi",            "c’haouidi",      "kaouidi",
   "genaoueien",         "c’henaoueien",   "kenaoueien",
+  "gouerien",           "c’houerien",     "kouerien",
   "gouizieien",         "c’houizieien",   "kouizieien",
   "gourdonerien",       "c’hourdonerien", "kourdonerien",
   "goved",              "c’hoved",        "koved",
   "gwazed",             "wazed",          "kwazed",
+  "gwenanerien",        "wenanerien",     "kwenanerien",
   "gwerzherien",        "werzherien",     "kwerzherien",
   "gwiaderien",         "wiaderien",      "kwiaderien",
   "gwiaderion",         "wiaderion",      "kwiaderion",
   "gwiniegourien",      "winiegourien",   "kwiniegourien",
+  "haderien",
+  "hailhoned",
+  "hanterourien",
+  "hañvourien",
+  "hegazerien",
+  "hemolc’herien",
+  "hendraourien",
+  "henoniourien",
+  "ijinourien",
+  "imbrouderien",
+  "impalaerien",
+  "implijidi",
+  "implijerien",
+  "irrinnerien",
+  "ispiserien",
+  "isrenerien",
+  "istorourien",
+  "Italianed",
+  "jedoniourien",
+  "jiboesaourien",
+  "jubennourien",
   "kabitened",          "gabitened",      "c’habitened",
+  "kamaladed",          "gamaladed",      "c’hamaladed",
   "kamaraded",          "gamaraded",      "c’hamaraded",
+  "kanerien",           "ganerien",       "c’hanerien",
+  "kannerien",          "gannerien",      "c’hannerien",
+  "kantennerien",       "gantennerien",   "c’hantennerien",
+  "kantreerien",        "gantreerien",    "c’hantreerien",
   "kariaded",           "gariaded",       "c’hariaded",
+  "karngerzherien",     "garngerzherien", "c’harngerzherien",
+  "karrellerien",       "garrellerien",   "c’harrellerien",
+  "karrerien",          "garrerien",      "c’harrerien",
   "kazetennerien",      "gazetennerien",  "c’hazetennerien",
   "kañfarded",          "gañfarded",      "c’hañfarded",
   "keginerien",         "geginerien",     "c’heginerien",
   "kelaouennerien",     "gelaouennerien", "c’helaouennerien",
+  "kelaouerien",        "gelaouerien",    "c’helaouerien",
   "kelennerien",        "gelennerien",    "c’helennerien",
   "kemenerien",         "gemenerien",     "c’hemenerien",
   "kenaozerien",        "genaozerien",    "c’henaozerien",
+  "kenderc’herien",     "genderc’herien", "c’henderc’herien",
   "kendirvi",           "gendirvi",       "c’hendirvi",
   "kenlabourerien",     "genlabourerien", "c’henlabourerien",
   "kenoberourien",      "genoberourien",  "c’henoberourien",
+  "kenseurted",         "genseurted",     "c’henseurted",
   "kenskriverien",      "genskriverien",  "c’henskriverien",
+  "kenstriverien",      "genstriverien",  "c’henstriverien",
   "kenwerzherien",      "genwerzherien",  "c’henwerzherien",
   "kereon",             "gereon",         "c’hereon",
+  "kerzherien",         "gerzherien",     "c’herzherien",
+  "kevellerien",        "gevellerien",    "c’hevellerien",
+  "kevezerien",         "gevezerien",     "c’hevezerien",
   "kigerien",           "gigerien",       "c’higerien",
+  "kinnigerien",        "ginnigerien",    "c’hinnigerien",
+  "kizellerien",        "gizellerien",    "c’hizellerien",
+  "klaskerien",         "glaskerien",     "c’hlaskerien",
   "klañvdiourien",      "glañvdiourien",  "c’hlañvdiourien",
+  "kouronkerien",       "gouronkerien",   "c’houronkerien",
+  "kourserien",         "gourserien",     "c’hourserien",
+  "kouvierien",         "gouverien",      "c’houverien",
   "koñversanted",       "goñversanted",   "c’hoñversanted",
+  "krakaotrouien",      "grakaotrouien",  "c’hrakaotrouien",
+  "krampouezherien",    "grampouezherien", "c’hampouezherien",
   "krennarded",         "grennarded",     "c’hrennarded",
   "kristenien",         "gristenien",     "c’hristenien",
   "kristenion",         "gristenion",     "c’hristenion",
   "krouadurien",        "grouadurien",    "c’hrouadurien",
+  "labourerien",
+  "labourerien-douar",
+  "laeron",
+  "lagadourien",
+  "lamponed",
+  "lavarerien",
+  "lazherien",
+  "leaned",
+  "lemmerien",
+  "lennerien",
+  "levraouaerien",
+  "levraouegerien",
+  "levrierien",
+  "liorzherien",
+  "liorzhourien",
+  "liperien",
+  "lipouzerien",
+  "loenoniourien",
+  "lonkerien",
+  "louzaouerien",
+  "louzawourien",
+  "lubanerien",
+  "luc’hskeudennerien",
+  "luc’hvannerien",
+  "lunederien",
+  "luskerien",
+  "madoberourien",      "vadoberourien",
   "maered",             "vaered",
+  "maesaerien",         "vaesarien",
+  "magerien",           "vagerien",
+  "mailhed",            "vailhed",
+  "maltouterien",       "valtouterien",
+  "maodierned",         "vaodierned",
   "marc’hadourien",     "varc’hadourien",
   "marc’heien",         "varc’heien",
+  "marc’hergerien",     "varc’hergerien",
+  "marc’homerien",      "varc’homerien",
+  "margodennerien",     "vargodennerien",
+  "markizien",          "varkizien",
   "martoloded",         "vartoloded",
+  "marvailherien",      "varvailherien",
+  "mañsonerien",        "vañsonerien",
+  "mederien",           "vederien",
   "medisined",          "vedisined",
+  "mekanikerien",       "vekanikerien",
+  "mendemerien",        "vendemerien",
+  "menec’h",            "venec’h",
+  "merc’hetaerien",     "verc’hetaerien",
+  "mererien",           "vererien",
+  "merourien",          "verourien",
+  "merzherien",         "verzherien",
+  "meveled",            "veveled",
   "mevelien",           "vevelien",
   "mezeien",            "vezeien",
+  "mezvierien",         "vezvierien",
   "mibien",             "vibien",
+  "mibien-gaer",        "vibien-gaer",
+  "mibien-vihan",       "vibien-vihan",
   "micherourien",       "vicherourien",
+  "mic’hieien",         "vic’hieien",
   "mignoned",           "vignoned",
   "milinerien",         "vilinerien",
   "milvezeien",         "vilvezeien",
+  "ministred",          "vinistred",
+  "misionerien",        "visionerien",
   "mistri",             "vistri",
   "mistri-skol",        "vistri-skol",
+  "mistri-vicherour",   "vistri-vicherour",
+  "monitorien",         "vonitourien",
   "morlaeron",          "vorlaeron",
+  "moruteaerien",       "voruteaerien",
+  "mouezhierien",       "vouezhierien",
+  "moullerien",         "voullerien",
+  "mudien",             "vudien",
+  "muntrerien",         "vutrerien",
+  "munuzerien",         "vunuzerien",
+  "neuñverien",
+  "nized",
+  "nizien",
+  "notered",
+  "noterien",
+  "oadourien",
+  "obererien",
+  "oberourien",
+  "orfebourien",
+  "paeerien",           "baeerien",                        "faeerien",
   "paeroned",           "baeroned",                        "faeroned",
+  "palerien",           "balerien",                        "falerien",
+  "paluderien",         "baluderien",                      "faluderien",
   "paotred",            "baotred",                         "faotred",
+  "paramantourien",     "baramantourien",                  "faramantourien",
+  "pardonerien",        "bardonerien",                     "fardonerien",
+  "pec’herien",         "bec’herien",                      "fec’herien",
+  "pellskriverien",     "bellskriverien",                  "fellskriverien",
+  "peorien",            "beorien",                         "feorien",
   "perc’henned",        "berc’henned",                     "ferc’henned",
+  "perc’herined",       "berc’herined",                    "ferc’herined",
   "personed",           "bersoned",                        "fersoned",
   "perukennerien",      "berukennerien",                   "ferukennerien",
   "perukennerion",      "berukennerion",                   "ferukennerion",
+  "peskedoniourien",    "beskedoniourien",                 "feskedoniourien",
   "pesketaerien",       "besketaerien",                    "fesketaerien",
+  "pianoourien",        "bianoourien",                     "fianoourien",
+  "piaouerien",         "biaouerien",                      "fiaouerien",
+  "pibien",             "bibien",                          "fibien",
+  "pilhaouaerien",      "bilhaouaerien",                   "filhaouaerien",
   "poliserien",         "boliserien",                      "foliserien",
+  "politikerien",       "bolitikerien",                    "folitikerien",
   "prederourien",       "brederourien",                    "frederourien",
   "prefeded",           "brefeded",                        "frefeded",
+  "prezidanted",        "presidanted",                     "frezidanted",
   "prizonidi",          "brizonidi",                       "frizonidi",
   "priñsed",            "briñsed",                         "friñsed",
+  "rakprenerien",
+  "randonerien",
+  "ratouzed",
+  "rederien",
+  "rederien-vro",
+  "rederien-vor",
+  "renerien",
+  "riblerien",
+  "riboderien",
+  "riboderien",
+  "Romaned",
+  "Rusianed",
+  "ruzarded",
+  "ruzerien",
+  "salverien",
+  "saverien",
+  "saveteerien",
+  "savourien",
+  "selaouerien",
+  "sellerien",
+  "sonerien",
+  "sonaozourien",
+  "soroc’horien",
+  "soudarded",
+  "splujerien",
+  "sponterien",
+  "sportourien",
+  "steredourien",
+  "steredoniourien",
+  "stranerien",
+  "strobinellerien",
+  "studierien",
+  "sturierien",
+  "tagerien",           "dagerien",                        "zagerien",
   "tailhanterien",      "dailhanterien",                   "zailhanterien",
+  "talabarderien",      "dalabarderien",                   "zalabarderien",
+  "teknikourien",       "deknikourien",                    "zeknikourien",
+  "telennourien",       "delennourien",                    "zelennourien",
+  "tennerien",          "dennerien",                       "zennerien",
+  "teñzorierien",       "deñzorierien",                    "zeñzorierien",
+  "tinellerien",        "dinellerien",                     "zinellerien",
+  "titourerien",        "ditourerien",                     "zitourerien",
   "toerien",            "doerien",                         "zoerien",
+  "togerien",           "dogerien",                        "zogerien",
   "tommerien",          "dommerien",                       "zommerien",
   "tontoned",           "dontoned",                        "zontoned",
+  "torfedourien",       "dorfedourien",                    "zorfedourien",
+  "touellerien",        "douellerien",                     "zouellerien",
+  "toullerien",         "doullerien",                      "zoullerien",
+  "toullerien-buñsoù",  "doullerien-buñsoù",               "zoullerien-buñsoù",
+  "toullerien-vezioù",  "doullerien-vezioù",               "zoullerien-vezioù",
   "touristed",          "douristed",                       "zouristed",
   "tredanerien",        "dredanerien",                     "zredanerien",
   "tredanerion",        "dredanerion",                     "zredanerion",
   "tredeeged",          "dredeeged",                       "zredeeged",
   "tredeoged",          "dredeoged",                       "zredeoged",
+  "treitourien",        "dreitourien",                     "zreitourien",
+  "treizherien",        "dreizherien",                     "zreizherien",
+  "tresourien",         "dresourien",                      "zresourien",
+  "trevadennerien",     "drevadennerien",                  "zrevadennerien",
+  "troadeien",          "droadeien",                       "zroadeien",
+  "troerien",           "droerien",                        "zroerien",
+  "troerien-douar",     "droerien-douar",                  "zroerien-douar",
+  "trubarded",          "drubarded",                       "zrubarded",
+  "truilhenned",        "druilhenned",                     "zruilhenned",
   "tud",                "dud",                             "zud",
+  "tudonourien",        "dudonourien",                     "zudonourien",
+  "uzurerien",
+  "Vikinged",
+  "yezherien",
+  "yunerien",
 );
 my %anv_lies_tud = map { $_ => 0 } @anv_lies_tud;
 
@@ -446,42 +697,46 @@ while (<LT_EXPAND>) {
     elsif ($word =~ '^kezeg-?(koad|mor|blein)?$')   { }
     elsif ($word =~ '^gezeg-?(koad|mor|blein)?$')   { $tag .= " M:1:1a:" }
     elsif ($word =~ '^c’hezeg-?(koad|mor|blein)?$') { $tag .= " M:2:" }
-    elsif ($word =~ '^daou(lin|lagad)$')            { }
-    elsif ($word =~ '^taou(lin|lagad)$')            { $tag .= " M:3:" }
-    elsif ($word =~ '^zaou(lin|lagad)$')            { $tag .= " M:1:1b:" }
-    elsif ($word =~ '^div(c’har|esker|rec’h|ronn|orzhed|jod|skouarn)$') { }
-    elsif ($word =~ '^tiv(c’har|esker|rec’h|ronn|orzhed|jod|skouarn)$') { $tag .= " M:3:" }
-    elsif ($word =~ '^ziv(c’har|esker|rec’h|ronn|orzhed|jod|skouarn)$') { $tag .= " M:1:1b:" }
-    elsif   ($first_letter_lemma and 
+    elsif ($word =~ '^daou(ividig|lin|lagad|ufern)$') { }
+    elsif ($word =~ '^taou(ividig|lin|lagad|ufern)$') { $tag .= " M:3:" }
+    elsif ($word =~ '^zaou(ividig|lin|lagad|ufern)$') { $tag .= " M:1:1b:" }
+    elsif ($word =~ '^div(abrant|c’har|esker|lez|rec’h|ronn|orzhed|jod|skoaz|skouarn)$') { }
+    elsif ($word =~ '^tiv(abrant|c’har|esker|lez|rec’h|ronn|orzhed|jod|skoaz|skouarn)$') { $tag .= " M:3:" }
+    elsif ($word =~ '^ziv(abrant|c’har|esker|lez|rec’h|ronn|orzhed|jod|skoaz|skouarn)$') { $tag .= " M:1:1b:" }
+    elsif ($lemma =~ /^gou[ei]/i){
+      if  ($word  =~ /^ou[ei]/i) { $tag .= " M:1:1a:1b:4:" }
+      elsif ($first_letter_word  eq 'k')   { $tag .= " M:3:" }
+      elsif ($first_letter_word  eq 'c’h') { $tag .= " M:4:" }
+    } elsif ($first_letter_lemma and 
              $first_letter_word  and 
              $first_letter_lemma ne $first_letter_word and
              !($first_letter_lemma eq 'k' and $first_letter_word eq 'kw')) {
       # Add mutation tag.
       if      ($first_letter_lemma eq 'k') {
-        if    ($first_letter_word  eq 'c’h') { $tag .= " M:a0:2:" }
-        elsif ($first_letter_word  eq 'g')   { $tag .= " M:1:1a:" }
-        elsif ($first_letter_word  eq 'gw')  { $tag .= " M:1:1a:" }
-      } elsif ($first_letter_lemma eq 't')   {
-        if    ($first_letter_word  eq 'd')   { $tag .= " M:1:1a:" }
-        elsif ($first_letter_word  eq 'z')   { $tag .= " M:2:" }
-      } elsif ($first_letter_lemma eq 'p')   {
-        if    ($first_letter_word  eq 'b')   { $tag .= " M:1:1a:" }
-        elsif ($first_letter_word  eq 'f')   { $tag .= " M:2:" }
-      } elsif ($first_letter_lemma eq 'gw')  {
-        if    ($first_letter_word  eq 'w')   { $tag .= " M:1:1a:1b:4:" }
-        elsif ($first_letter_word  eq 'kw')  { $tag .= " M:3:" }
-        elsif ($first_letter_word  eq 'c’h') { $tag .= " M:4:" }
-      } elsif ($first_letter_lemma eq 'g')   {
-        if    ($first_letter_word  eq 'c’h') { $tag .= " M:1:1a:1b:4:" }
-        elsif ($first_letter_word  eq 'k')   { $tag .= " M:3:" }
-      } elsif ($first_letter_lemma eq 'd')   {
-        if    ($first_letter_word  eq 'z')   { $tag .= " M:1:1b:4:" }
-        elsif ($first_letter_word  eq 't')   { $tag .= " M:3:4:" }
-      } elsif ($first_letter_lemma eq 'b')   {
-        if    ($first_letter_word  eq 'v')   { $tag .= " M:1:1a:1b:4:" }
-        elsif ($first_letter_word  eq 'p')   { $tag .= " M:3:" }
-      } elsif ($first_letter_lemma eq 'm')   {
-        if    ($first_letter_word  eq 'v')   { $tag .= " M:1:1a:1b:4:" }
+        if    ($first_letter_word  eq 'c’h')      { $tag .= " M:a0:2:" }
+        elsif ($first_letter_word  eq 'g')        { $tag .= " M:1:1a:" }
+        elsif ($first_letter_word  eq 'gw')       { $tag .= " M:1:1a:" }
+      } elsif ($first_letter_lemma eq 't')        {
+        if    ($first_letter_word  eq 'd')        { $tag .= " M:1:1a:" }
+        elsif ($first_letter_word  eq 'z')        { $tag .= " M:2:" }
+      } elsif ($first_letter_lemma eq 'p')        {
+        if    ($first_letter_word  eq 'b')        { $tag .= " M:1:1a:" }
+        elsif ($first_letter_word  eq 'f')        { $tag .= " M:2:" }
+      } elsif ($first_letter_lemma eq 'gw')       {
+        if    ($first_letter_word  eq 'w')        { $tag .= " M:1:1a:1b:4:" }
+        elsif ($first_letter_word  eq 'kw')       { $tag .= " M:3:" }
+        elsif ($first_letter_word  eq 'c’h')      { $tag .= " M:4:" }
+      } elsif ($first_letter_lemma eq 'g')        {
+        if    ($first_letter_word  eq 'c’h')      { $tag .= " M:1:1a:1b:4:" }
+        elsif ($first_letter_word  eq 'k')        { $tag .= " M:3:" }
+      } elsif ($first_letter_lemma eq 'd')        {
+        if    ($first_letter_word  eq 'z')        { $tag .= " M:1:1b:4:" }
+        elsif ($first_letter_word  eq 't')        { $tag .= " M:3:4:" }
+      } elsif ($first_letter_lemma eq 'b')        {
+        if    ($first_letter_word  eq 'v')        { $tag .= " M:1:1a:1b:4:" }
+        elsif ($first_letter_word  eq 'p')        { $tag .= " M:3:" }
+      } elsif ($first_letter_lemma eq 'm')        {
+        if    ($first_letter_word  eq 'v')        { $tag .= " M:1:1a:1b:4:" }
       }
       unless ($tag =~ /:$/) {
         print STDERR "*** unexpected mutation [$first_letter_lemma] -> "
