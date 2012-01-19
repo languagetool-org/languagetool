@@ -48,20 +48,21 @@ import org.languagetool.tools.*;
  */
 class Main {
 
-  private JLanguageTool lt;
   private final boolean verbose;
   private final boolean apiFormat;
   private final boolean taggerOnly;
   private final boolean applySuggestions;
+  private final boolean autoDetect;
+  private final boolean singleLineBreakMarksParagraph;
+  private final String[] enabledRules;
+  private final String[] disabledRules;
+  private final Language motherTongue;
+  
+  private JLanguageTool lt;
   private boolean profileRules;
   private boolean bitextMode;
-  private boolean autoDetect;
-  private boolean singleLineBreakMarksParagraph;
-  private String[] enabledRules;
-  private String[] disabledRules;
-  private Language motherTongue;
   private JLanguageTool srcLt;
-  List<BitextRule> bRules;
+  private List<BitextRule> bRules;
   private Rule currentRule;
 
   /* maximum file size to read in a single read */
@@ -163,7 +164,7 @@ class Main {
     boolean oneTime = false;
     if (!"-".equals(filename)) {
       if (autoDetect) {
-          Language language = getLanguageFromFile(filename, encoding);
+          Language language = detectLanguageOfFile(filename, encoding);
           if (language == null) {
               System.err.println("Could not detect language well enough, using English");
               language = Language.ENGLISH;
@@ -256,7 +257,7 @@ class Main {
           lineCount++;    
           // to detect language from the first input line
           if (lineCount == 1 && autoDetect) {     
-              Language language = getLanguageFromString(line, false);
+              Language language = detectLanguageOfString(line);
               if (language == null) {
                   System.err.println("Could not detect language well enough, using English");
                   language = Language.ENGLISH;
@@ -496,12 +497,10 @@ class Main {
       } else if (args[i].equals("-t") || args[i].equals("--taggeronly")) {
         taggerOnly = true;
         if (listUnknown) {
-          throw new IllegalArgumentException(
-          "You cannot list unknown words when tagging only.");
+          throw new IllegalArgumentException("You cannot list unknown words when tagging only.");
         }
         if (applySuggestions) {
-          throw new IllegalArgumentException(
-          "You cannot apply suggestions when tagging only.");
+          throw new IllegalArgumentException("You cannot apply suggestions when tagging only.");
         }
       } else if (args[i].equals("-r") || args[i].equals("--recursive")) {
         recursive = true;
@@ -509,8 +508,7 @@ class Main {
         bitext = true;        
       } else if (args[i].equals("-d") || args[i].equals("--disable")) {
         if (enabledRules.length > 0) {
-          throw new IllegalArgumentException(
-          "You cannot specify both enabled and disabled rules");
+          throw new IllegalArgumentException("You cannot specify both enabled and disabled rules");
         }
         checkArguments("-d/--disable", i, args);
         final String rules = args[++i];
@@ -535,40 +533,33 @@ class Main {
       } else if (args[i].equals("-u") || args[i].equals("--list-unknown")) {
         listUnknown = true;
         if (taggerOnly) {
-          throw new IllegalArgumentException(
-          "You cannot list unknown words when tagging only.");
+          throw new IllegalArgumentException("You cannot list unknown words when tagging only.");
         }
       } else if (args[i].equals("-b")) {
         singleLineBreakMarksParagraph = true;
       } else if (args[i].equals("--api")) {
         apiFormat = true;
         if (applySuggestions) {
-          throw new IllegalArgumentException(
-          "API format makes no sense for automatic application of suggestions.");
+          throw new IllegalArgumentException("API format makes no sense for automatic application of suggestions.");
         }
       } else if (args[i].equals("-a") || args[i].equals("--apply")) {
         applySuggestions = true;
         if (taggerOnly) {
-          throw new IllegalArgumentException(
-          "You cannot apply suggestions when tagging only.");
+          throw new IllegalArgumentException("You cannot apply suggestions when tagging only.");
         }
         if (apiFormat) {
-          throw new IllegalArgumentException(
-          "API format makes no sense for automatic application of suggestions.");
+          throw new IllegalArgumentException("API format makes no sense for automatic application of suggestions.");
         }
       } else if (args[i].equals("-p") || args[i].equals("--profile")) {
         profile = true;        
         if (apiFormat) {
-          throw new IllegalArgumentException(
-          "API format makes no sense for profiling.");
+          throw new IllegalArgumentException("API format makes no sense for profiling.");
         }
         if (applySuggestions) {
-          throw new IllegalArgumentException(
-          "Applying suggestions makes no sense for profiling.");
+          throw new IllegalArgumentException("Applying suggestions makes no sense for profiling.");
         }
         if (taggerOnly) {
-          throw new IllegalArgumentException(
-          "Tagging makes no sense for profiling.");
+          throw new IllegalArgumentException("Tagging makes no sense for profiling.");
         }        
       }  else if (i == args.length - 1) {
         filename = args[i];
@@ -582,10 +573,8 @@ class Main {
     }
     
     if (language == null) {
-      if (!apiFormat) {
-        if (!autoDetect) {
-            System.err.println("No language specified, using English");
-        }
+      if (!apiFormat && !autoDetect) {
+        System.err.println("No language specified, using English");
       } 
       language = Language.ENGLISH;
     } else if (!apiFormat && !applySuggestions) {
@@ -600,10 +589,9 @@ class Main {
     if (profile) {
       prg.setProfilingMode();
     }
-    if (bitext) {      
+    if (bitext) {
       if (motherTongue == null) {
-        throw new IllegalArgumentException(
-        "You have to set the source language (as mother tongue).");
+        throw new IllegalArgumentException("You have to set the source language (as mother tongue) in bitext mode.");
       }
       prg.setBitextMode(motherTongue, disabledRules, enabledRules);
     }
@@ -622,35 +610,31 @@ class Main {
 
   // for language auto detect
   // TODO: alter tika's language profiles so they are in line with LT's supported languages
-  private static Language getLanguageFromFile(String filename, String encoding)    throws IOException {
-      Language lang = null;
-      LanguageIdentifier li;
-      String text = StringTools.readFile(new FileInputStream(filename), encoding);
-      li = new LanguageIdentifier(text);
-      lang = Language.getLanguageForShortName(li.getLanguage());      
-      return lang;
+  private static Language detectLanguageOfFile(String filename, String encoding) throws IOException {
+    final String text = StringTools.readFile(new FileInputStream(filename), encoding);
+    final LanguageIdentifier identifier = new LanguageIdentifier(text);
+    final Language lang = Language.getLanguageForShortName(identifier.getLanguage());
+    return lang;
   }
   
-  private static Language getLanguageFromString(String string, boolean print) {
-      LanguageIdentifier li = new LanguageIdentifier(string);
-      Language lang = Language.getLanguageForShortName(li.getLanguage());
-      return lang;
+  private static Language detectLanguageOfString(String string) {
+    final LanguageIdentifier identifier = new LanguageIdentifier(string);
+    final Language lang = Language.getLanguageForShortName(identifier.getLanguage());
+    return lang;
   }
   
-  private static Language getLanguageOrExit(final String lang) {
+  private static Language getLanguageOrExit(final String userSuppliedLang) {
     Language language = null;
-    boolean foundLanguage = false;
     final List<String> supportedLanguages = new ArrayList<String>();
-    for (final Language tmpLang : Language.LANGUAGES) {
-      supportedLanguages.add(tmpLang.getShortName());
-      if (lang.equals(tmpLang.getShortName())) {
-        language = tmpLang;
-        foundLanguage = true;
+    for (final Language lang : Language.LANGUAGES) {
+      supportedLanguages.add(lang.getShortName());
+      if (userSuppliedLang.equals(lang.getShortName())) {
+        language = lang;
         break;
       }
     }
-    if (!foundLanguage) {
-      System.out.println("Unknown language '" + lang
+    if (language == null) {
+      System.out.println("Unknown language '" + userSuppliedLang
           + "'. Supported languages are: " + supportedLanguages);
       exitWithUsageMessage();
     }
