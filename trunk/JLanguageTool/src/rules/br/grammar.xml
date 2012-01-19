@@ -2308,6 +2308,39 @@ Useful links:
       <example type="correct">Bleud an diaoul az a da vrenn.</example>
       <example type="correct">Bleud an diaoul a ya da vrenn.</example>
     </rule>
+
+    <rulegroup id="AM_BOA" name="am poa → am boa">
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">[ae]m|hor</token>
+          <token regexp="yes">pez|dez|poa?|doa?</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="b$1"/></suggestion>?</message>
+        <example type="incorrect">Amzer am <marker>poa</marker>.</example>
+        <example type="incorrect">Amzer am <marker>doa</marker>.</example>
+        <example type="correct">Amzer am <marker>boa</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">[ae]z|ho</token>
+          <token regexp="yes">dez|bez|doa?|boa?|deus</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="p$1"/></suggestion>?</message>
+        <example type="incorrect">Amzer az <marker>boa</marker>.</example>
+        <example type="incorrect">Amzer az <marker>doa</marker>.</example>
+        <example type="correct">Amzer az <marker>poa</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">en|o</token>
+          <token regexp="yes">bez|pez|boa?|poa?|peus</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="d$1"/></suggestion>?</message>
+        <example type="incorrect">Amzer en <marker>boa</marker>.</example>
+        <example type="incorrect">Amzer en <marker>poa</marker>.</example>
+        <example type="correct">Amzer en <marker>doa</marker>.</example>
+      </rule>
+    </rulegroup>
   </category>
 
   <category name="Barrennig-stagañ">
