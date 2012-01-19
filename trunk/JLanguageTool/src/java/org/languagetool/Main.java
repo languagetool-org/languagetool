@@ -612,29 +612,23 @@ class Main {
   // TODO: alter tika's language profiles so they are in line with LT's supported languages
   private static Language detectLanguageOfFile(String filename, String encoding) throws IOException {
     final String text = StringTools.readFile(new FileInputStream(filename), encoding);
+    return detectLanguageOfString(text);
+  }
+      
+  private static Language detectLanguageOfString(String text) {
     final LanguageIdentifier identifier = new LanguageIdentifier(text);
     final Language lang = Language.getLanguageForShortName(identifier.getLanguage());
     return lang;
   }
   
-  private static Language detectLanguageOfString(String string) {
-    final LanguageIdentifier identifier = new LanguageIdentifier(string);
-    final Language lang = Language.getLanguageForShortName(identifier.getLanguage());
-    return lang;
-  }
-  
-  private static Language getLanguageOrExit(final String userSuppliedLang) {
-    Language language = null;
-    final List<String> supportedLanguages = new ArrayList<String>();
-    for (final Language lang : Language.LANGUAGES) {
-      supportedLanguages.add(lang.getShortName());
-      if (userSuppliedLang.equals(lang.getShortName())) {
-        language = lang;
-        break;
-      }
-    }
+  private static Language getLanguageOrExit(final String userSuppliedLangCode) {
+    final Language language = Language.getLanguageForShortName(userSuppliedLangCode);
     if (language == null) {
-      System.out.println("Unknown language '" + userSuppliedLang
+      final List<String> supportedLanguages = new ArrayList<String>();
+      for (final Language lang : Language.LANGUAGES) {
+        supportedLanguages.add(lang.getShortName());
+      }
+      System.out.println("Unknown language '" + userSuppliedLangCode
           + "'. Supported languages are: " + supportedLanguages);
       exitWithUsageMessage();
     }
