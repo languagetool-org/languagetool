@@ -570,6 +570,24 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Er hat kein Stück geschrieben, <marker>das</marker> nicht erfolgreich wurde.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="DASS_MIT_VERB" name="Möglicher Tippfehler: 'dass (das) ist' etc.">
+      <rule>
+        <pattern mark_from="1" mark_to="-1" case_sensitive="no">
+          <token negate="yes">so</token>
+          <token>dass</token>
+          <token postag="VER:(AUX:)?(2|3):.+" postag_regexp="yes"><exception postag="(PA2|SUB|ART|ADJ):.+" postag_regexp="yes" scope="current"/><exception regexp="yes" scope="current">sieben|gilt|äußerst|anstelle|einst|meinen?|tausenden?|!(hat)</exception></token>
+        </pattern>
+        <message>Meinten Sie <suggestion>das</suggestion>? Die Subjunktion 'dass' scheint an dieser Stelle nicht zu passen.</message>
+        <example type="incorrect">Er sagt, <marker>dass</marker> sei richtig, aber er irrt.</example>
+        <example type="incorrect">Aber <marker>dass</marker> ist doch nicht richtig.</example>
+        <example type="incorrect">Aber <marker>dass</marker> scheinst du vergessen zu haben.</example>
+        <example type="incorrect">Aber <marker>dass</marker> hat nichts damit zu tun.</example>
+        <example type="incorrect">Aber <marker>dass</marker> hast du vergessen.</example>
+        <example type="incorrect">Aber <marker>dass</marker> warst du gar nicht.</example>
+        <example type="correct">Er sagt, <marker>dass</marker> du kommst, aber er irrt.</example>
+        <example type="correct">Er sagt, <marker>das</marker> sei richtig, aber er irrt.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="SODASS" name="Möglicher Tippfehler: 'so das (so dass)'">
       <rule>
         <pattern mark_from="1" mark_to="-1" case_sensitive="yes">
@@ -1249,6 +1267,42 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Dabei hat er ein <marker>Bein</marker> verloren.</example>
         <example type="incorrect"><marker>Bein</marker> überraschenden Sieg.</example>
         <example type="incorrect"><marker>Bein</marker> eingeplanten Sieg.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="LES_VS_LIES" name="Möglicher Tippfehler: les/ließ (lies) dir das durch'">
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token negate="yes">ich</token>
+          <token>les</token>
+          <token>dir</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>lies</suggestion> (die Befehlsform von 'lesen')?</message>
+        <example type="correct">Ich <marker>lese</marker> dir das mal vor.</example>
+        <example type="incorrect"><marker>Les</marker> dir das bitte mal durch.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-2">
+          <token postag="SENT_START"/>
+          <token>Ließ</token>
+          <token skip="3">dir</token>
+          <token>durch</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>Lies</suggestion> (die Befehlsform von 'lesen')?</message>
+        <example type="correct"><marker>Lies</marker> dir das bitte mal durch.</example>
+        <example type="incorrect"><marker>Ließ</marker> dir das bitte mal durch.</example>
+        <example type="incorrect"><marker>Ließ</marker> dir bitte mal durch, was die anderen geschrieben haben.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2" mark_to="-2">
+          <token postag="SENT_START"/>
+          <token>Bitte</token>
+          <token>ließ</token>
+          <token skip="3">dir</token>
+          <token>durch</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>lies</suggestion> (die Befehlsform von 'lesen')?</message>
+        <example type="correct">Bitte <marker>lies</marker> dir das mal durch.</example>
+        <example type="incorrect">Bitte <marker>ließ</marker> dir das mal durch.</example>
       </rule>
     </rulegroup>
     <rulegroup id="ER_LIES" name="Möglicher Tippfehler: er lies (ließ)'">
