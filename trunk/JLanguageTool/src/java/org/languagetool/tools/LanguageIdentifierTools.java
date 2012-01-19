@@ -23,18 +23,18 @@ public class LanguageIdentifierTools {
     final String PROFILE_ENCODING = "UTF-8";
 
     try {
-      LanguageProfile profile = new LanguageProfile();
+      final LanguageProfile profile = new LanguageProfile();
       final String languageFilePath = JLanguageTool.getDataBroker().getResourceDir() +
               "/" + language + "/" + language + PROFILE_SUFFIX;
 
-      InputStream stream = JLanguageTool.class.getResourceAsStream(languageFilePath);
+      final InputStream stream = JLanguageTool.class.getResourceAsStream(languageFilePath);
       try {
-        BufferedReader reader =
+        final BufferedReader reader =
                 new BufferedReader(new InputStreamReader(stream, PROFILE_ENCODING));
         String line = reader.readLine();
         while (line != null) {
           if (line.length() > 0 && !line.startsWith("#")) {
-            int space = line.indexOf(' ');
+            final int space = line.indexOf(' ');
             profile.add(
                     line.substring(0, space),
                     Long.parseLong(line.substring(space + 1)));
