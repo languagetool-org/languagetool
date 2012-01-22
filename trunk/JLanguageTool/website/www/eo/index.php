@@ -1,6 +1,6 @@
 <?php
 $page = "hejmpaĝo";
-$title = "Lingvoilo (LanguageTool)";
+$title = "Lingvoilo";
 $title2 = "Stila kaj gramatika kontrolilo";
 $lastmod = "2012-01-22 16:08 CET";
 include("../../include/header.php");
