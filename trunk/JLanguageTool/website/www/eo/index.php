@@ -79,7 +79,7 @@ kontrolilo.</p>
   Tio frazo enhavas eraron. 
   ^^^^^^^^^                 
 </pre>
-  <li>Eblas ankaŭ uzi Lingvoilon <a href="http://www.vim.org/scripts/script.php?script_id=3223">en Vim</a>, <a href="http://wiki.lyx.org/Tools/LyX-GrammarChecker">en Lyx</a>, <a href="http://sourceforge.net/projects/omegat-plugins/files/OmegaT-LanguageTool/">en OmegaT</a>, <a href="http://www.opentag.com/okapi/wiki/index.php?title=CheckMate">en CheckMate</a> kaj <href="https://addons.mozilla.org/en-US/thunderbird/addon/grammar-checker/">en Thundirbird</a>.</li>
+  <li>Eblas ankaŭ uzi Lingvoilon <a href="http://www.vim.org/scripts/script.php?script_id=3223">en Vim</a>, <a href="http://wiki.lyx.org/Tools/LyX-GrammarChecker">en Lyx</a>, <a href="http://sourceforge.net/projects/omegat-plugins/files/OmegaT-LanguageTool/">en OmegaT</a>, <a href="http://www.opentag.com/okapi/wiki/index.php?title=CheckMate">en CheckMate</a> kaj <a href="https://addons.mozilla.org/en-US/thunderbird/addon/grammar-checker/">en Thundirbird</a>.</li>
   </li>
   <li>Legu ankaŭ <?=show_link("Usage", "../usage/", 0)?>.</li>
 </ul>
