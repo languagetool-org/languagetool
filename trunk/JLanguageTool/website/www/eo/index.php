@@ -56,10 +56,9 @@ kontrolilo.</p>
 <h2>Elŝutado</h2>
 
 <ul>
-<li><?=show_link("Elŝuti Lingvoilo-1.6 (29&nbsp;MB)", "../download/LanguageTool-1.6.oxt", 0) ?>.</li>
+<li>Elŝuti <?=show_link("Lingvoilo-1.6 (29&nbsp;MB)", "../download/LanguageTool-1.6.oxt", 0) ?>.</li>
 <li>Pli freŝaj sed ne testitaj versioj de Lingvoilo ĝisdatigitaj ĉiutage
-<?=show_link("haveblas tie", "../download/snapshots/", 0) ?>
-(<?=show_link("CHANGES.txt", "http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/JLanguageTool/CHANGES.txt", 0) ?>).</li>
+<?=show_link("haveblas tie", "../download/snapshots/", 0) ?> (<?=show_link("CHANGES.txt", "http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/JLanguageTool/CHANGES.txt", 0) ?>).</li>
 </ul>
 
 <h2>Instalo kaj uzado</h2>
