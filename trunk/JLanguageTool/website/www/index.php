@@ -66,7 +66,7 @@ successfully finished their projects and the results will be part of LanguageToo
 
 <ul>
 	<li><strong>In OpenOffice.org/LibreOffice</strong>:
-	Double click <tt>LanguageTool-1.5.oxt</tt> to install it.
+	Double click <tt>LanguageTool-1.6.oxt</tt> to install it.
 	If that doesn't work, call <em>Tools -&gt; Extension Manager -&gt; Add...</em>
 	to install it. Close OpenOffice.org and re-start it. Type some text
 	with an error (e.g. "This is an test." &ndash; make sure the text language is set
