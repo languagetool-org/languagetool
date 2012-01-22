@@ -85,13 +85,13 @@ Lingvoilo atentigas pri tiuj eraroj, kiujn literuma kontrolilo ne trovas, kiel e
 
 <p>Bonvolu vidi  <?=show_link("liston de la plej oftaj problemoj", "../issues", 0)?>.</p>
 
-<h2>Permesiloj kaj kodofonto</h2>
+<h2>Permesilo kaj kodofonto</h2>
 
 <p>Lingvoilo libere haveblas sub la permesilo <?=show_link("LGPL", "http://www.fsf.org/licensing/licenses/lgpl.html#SEC1", 0)?>.
 Kodofonto elŝuteblas ĉe <?=show_link("Sourceforge", "http://sourceforge.net/projects/languagetool/", 1) ?> per SVN.
 La enhavo de la hejmpaĝo haveblas sub la permesilo <?=show_link("CC BY-SA 3.0", "http://creativecommons.org/licenses/by-sa/3.0/", 1) ?>.</p>
 
-<div style="height:750px"></div>
+<div style="height:50px"></div>
 
 <?php
 include("../../include/footer.php");
