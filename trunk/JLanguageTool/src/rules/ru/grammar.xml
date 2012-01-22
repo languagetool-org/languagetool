@@ -6,8 +6,8 @@ title="Easy editing stylesheet" ?>
 <!--
 LanguageTool. Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
 A Russian rule file for LanguageTool 
-Copyright (C) 2008-2011 Yakov Reztsov
-$Id: grammar.xml,v 1.80 2011-11-22 18:10:01 yakovru Exp $
+Copyright (C) 2008-2012 Yakov Reztsov
+$Id: grammar.xml,v 1.82 2012-01-22 18:10:01 yakovru Exp $
 #     REVISION:  $Id$
 -->
 <rules lang="ru" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -941,7 +941,62 @@ $Id: grammar.xml,v 1.80 2011-11-22 18:10:01 yakovru Exp $
             
         </rulegroup>       
 
-          <rulegroup default="on"  id="SoglasovanieNN_Verb" name="Согласование подлежащего со сказуемым по роду/числу">
+                <rulegroup default="on"  id="SoglasovaniePNN_Verb" name="Согласование подлежащего (местоимения) со сказуемым по роду/числу">
+            <rule>  
+                
+                <pattern>
+                    <!--           Он (PNN:Masc)   VB:Past:Masc   -->
+                    <token>он</token>
+                    <token  postag="VB:Past:.*"  postag_regexp="yes"><exception postag="VB:Past:Masc"  /><exception negate_pos="yes" postag_regexp="yes" postag="VB:Past:.*"  /></token>               
+                </pattern>
+                
+                <message>Местоимение не согласуется с глаголом по роду.
+                    <suggestion><match no="1"></match> <match no="2" postag="VB:Past:.*" postag_regexp="yes" postag_replace="VB:Past:Masc"></match></suggestion>
+                </message>
+                <short>Ошибка в согласовании по роду.</short>
+                <example type="correct">Во дворе он грелся на солнышке.</example>
+                <example type="incorrect">Во дворе <marker>он грелась</marker> на солнышке.</example>
+            </rule>
+  
+            
+        <rule>  
+                
+                <pattern>
+                    <!--          она (PNN:Fem)   VB:Past:Fem    -->
+                    <token>она</token>
+                    <token  postag="VB:Past:.*"  postag_regexp="yes"><exception postag="VB:Past:Fem" /><exception negate_pos="yes" postag_regexp="yes" postag="VB:Past:.*"  /></token>               
+                </pattern>
+                
+                <message>Местоимение не согласуется с глаголом по роду.
+                    <suggestion><match no="1"></match> <match no="2" postag="VB:Past:.*" postag_regexp="yes" postag_replace="VB:Past:Fem"></match></suggestion>
+                </message>
+                <short>Ошибка в согласовании по роду.</short>
+                <example type="correct">Она грелась на солнышке.</example>
+                <example type="incorrect"><marker>Она грелся</marker> на солнышке.</example>
+            </rule>            
+            
+             <rule>  
+                
+                <pattern>
+                    <!--        оно   (PNN:Neut)   VB:Past:Neut    -->
+                    <token>оно</token>
+                    <token  postag="VB:Past:.*"  postag_regexp="yes"><exception postag="VB:Past:Neut"  /><exception negate_pos="yes" postag_regexp="yes" postag="VB:Past:.*"  /></token>               
+                </pattern>
+                
+                <message>Местоимение не согласуется с глаголом по роду.
+                    <suggestion><match no="1"></match> <match no="2" postag="VB:Past:.*" postag_regexp="yes" postag_replace="VB:Past:Neut"></match></suggestion>
+                </message>
+                <short>Ошибка в согласовании по роду.</short>
+                <example type="correct">Оно готовилось на сковородке.</example>
+                <example type="incorrect"><marker>Оно готовился</marker> на сковородке.</example>
+            </rule>
+            
+            
+            
+            
+          </rulegroup>
+        
+          <rulegroup default="on"  id="SoglasovanieNN_Verb" name="Согласование подлежащего (существительного) со сказуемым по роду/числу">
             <rule>  
                 
                 <pattern mark_from="1">
