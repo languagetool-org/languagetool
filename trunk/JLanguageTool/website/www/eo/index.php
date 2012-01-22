@@ -11,7 +11,46 @@ Lingvoilo atentigas pri tiuj eraroj, kiujn literuma kontrolilo ne trovas, kiel e
 
 <p>Lingvoilo trovas erarojn por kiuj estas difinitaj reguloj en aparta agarda XML-dosiero. Reguloj por detekti pli malsimplajn erarojn povas ankaŭ esti difinitaj en Java.</p>
 
-<h2>Ekrankopio</h2>
+<h2>Provu Lingvoilo-n rete sen instali ĝin</h2>
+
+<form name="checkform" action="http://community.languagetool.org" method="post">
+    <textarea onfocus="javascript: if(document.checkform.text.value == 'Alglui vian kontrolendan tekston ĉi tie...') { document.checkform.text.value='' } " 
+        style="width:100%; max-width:800px;height:100px" name="text">Alglui vian kontrolendan tekston ĉi tie...</textarea>
+    <br />
+    <input type="submit" name="_action_checkText" value="Kontroli tekston"/>
+    Lingvo: <select name="lang" id="lang" >
+    
+        <option value="auto">aŭtomate detekti</option>
+        <option value="en" >angla</option>
+        <option value="ast" >asturia</option>
+        <option value="be" >belarusa</option>
+        <option value="br" >bretona</option>
+        <option value="zh" >ĉina</option>
+        <option value="da" >dana</option>
+        <option value="eo" >Esperanto</option>
+        <option value="fr" >franca</option>
+        <option value="gl" >galega</option>
+        <option value="de" >germana</option>
+        <option value="es" >hispana</option>
+        <option value="is" >islanda</option>
+        <option value="it" >itala</option>
+        <option value="ca" >kataluna</option>
+        <option value="km" >kmera</option>
+        <option value="lt" >litova</option>
+        <option value="ml" >malajala</option>
+        <option value="nl" >nederlanda</option>
+        <option value="pl" >pola</option>
+        <option value="ro" >rumana</option>
+        <option value="ru" >rusa</option>
+        <option value="sk" >slovaka</option>
+        <option value="sl" >slovena</option>
+        <option value="sv" >sveda</option>
+        <option value="tl" >togaloga</option>
+        <option value="uk" >ukraina</option>
+    </select>
+</form>
+
+<h2>Ekrankopio en LibreOffice</h2>
 
 <img src="images/Lingvoilo-LibreOffice.png" alt="Lingvoilo"/>
 
