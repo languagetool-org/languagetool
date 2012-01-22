@@ -14,14 +14,6 @@ kiel eraroj de akuzativo (mi lernas <em>Esperanto</em>). Ĝi ne atentigas
 pri misliterumoj, sed eblas uzi Lingvoilon samtempe kune kun literuma 
 kontrolilo.</p>
 
-<p>Lingvoilo funkcias en LibreOffice/OpenOffice per Vindozo, Linukso aŭ Mak’. 
-Eblas ankaŭ uzi Lingvoilo
-<a href="http://www.vim.org/scripts/script.php?script_id=3223">en Vim</a>,
-<a href="http://wiki.lyx.org/Tools/LyX-GrammarChecker">en Lyx</a>,
-<a href="http://sourceforge.net/projects/omegat-plugins/files/OmegaT-LanguageTool/">en OmegaT</a>,
-<a href="http://www.opentag.com/okapi/wiki/index.php?title=CheckMate">en CheckMate</a>
-kaj <href="https://addons.mozilla.org/en-US/thunderbird/addon/grammar-checker/">en Thundirbird</a>.
-
 <h2>Provu Lingvoilo-n rete sen instali ĝin</h2>
 
 <form name="checkform" action="http://community.languagetool.org" method="post">
@@ -61,26 +53,14 @@ kaj <href="https://addons.mozilla.org/en-US/thunderbird/addon/grammar-checker/">
     </select>
 </form>
 
-<h2>Ekrankopio en LibreOffice</h2>
-
-<img src="images/Lingvoilo-LibreOffice.png" alt="Lingvoilo"/>
-
 <h2>Elŝutado</h2>
 
-<div class="downloadSection">
-	<h2><?=show_link("Elŝuti Lingvoilo-1.6 (29&nbsp;MB)", "../download/LanguageTool-1.6.oxt", 0) ?></h2>
-	<ul>
-		<li><?=show_link("Java", "http://www.java.com/en/download/manual.jsp", 1)?>&nbsp;6.0
-			aŭ pli nova estas bezonata.
-                        Vi bezonos <strong>restartigi OpenOffice.org/LibreOffice</strong> post la instalado de tiu kromprogramo.</li>
-		<li>Bonvolu atentigi pri cimoj ĉe <?=show_link("Sourceforge", "http://sourceforge.net/tracker/?group_id=110216&amp;atid=655717", 1)?>
-			aŭ sendu komentojn al naber <i>at</i> danielnaber.de aŭ dominique.pelle <i>at</i> gmail.com pri la Esperanta versio de Lingvoilo.</li>
-	</ul>
-</div>
-
-<p>Pli freŝaj sed ne testitaj versioj de Lingvoilo ĝisdatigitaj ĉiutage
+<ul>
+<li><?=show_link("Elŝuti Lingvoilo-1.6 (29&nbsp;MB)", "../download/LanguageTool-1.6.oxt", 0) ?>.</li>
+<li>Pli freŝaj sed ne testitaj versioj de Lingvoilo ĝisdatigitaj ĉiutage
 <?=show_link("haveblas tie", "../download/snapshots/", 0) ?>
-(<?=show_link("../CHANGES.txt", "http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/JLanguageTool/CHANGES.txt", 0) ?>).
+(<?=show_link("CHANGES.txt", "http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/JLanguageTool/CHANGES.txt", 0) ?>).</li>
+</il>
 
 <h2>Instalo kaj uzado</h2>
 
@@ -90,7 +70,7 @@ kaj <href="https://addons.mozilla.org/en-US/thunderbird/addon/grammar-checker/">
   Se tio ne funkcias, alvoku <em>Iloj → Aldonaĵa mastrumilo</em> ekde
   la ĉefa menuo de LibreOffice, kaj poste restartigu LibreOffice.
   </p>
-  <li>En komanda linio:
+  <li><strong>En komanda linio</strong>:
 <pre>  $ echo "Tio frazo enhavas eraron." | java -jar languagetool/dist/LanguageTool.jar -c utf-8 -l eo
   Expected text language: Esperanto
   Working on STDIN...
@@ -98,22 +78,37 @@ kaj <href="https://addons.mozilla.org/en-US/thunderbird/addon/grammar-checker/">
   Message: Ne povas esti «Tio» antaŭ o-vorto «frazo». Ĉu vi intencis «Tiu frazo»?
   Tio frazo enhavas eraron. 
   ^^^^^^^^^                 
+  <li>Eblas ankaŭ uzi Lingvoilon
+<a href="http://www.vim.org/scripts/script.php?script_id=3223">en Vim</a>,
+<a href="http://wiki.lyx.org/Tools/LyX-GrammarChecker">en Lyx</a>,
+<a href="http://sourceforge.net/projects/omegat-plugins/files/OmegaT-LanguageTool/">en OmegaT</a>,
+<a href="http://www.opentag.com/okapi/wiki/index.php?title=CheckMate">en CheckMate</a>
+kaj <href="https://addons.mozilla.org/en-US/thunderbird/addon/grammar-checker/">en Thundirbird</a>.</li>
+
 </pre>
   </li>
   <li>Legu ankaŭ <?=show_link("Usage", "../usage/", 0)?>.</li>
 </ul>
 
+<h2>Ekrankopio en LibreOffice</h2>
+
+<img src="images/Lingvoilo-LibreOffice.png" alt="Lingvoilo"/>
+
 <h2>Ĉu vi bezonas helpon?</h2>
 
 <p>Bonvolu vidi <?=show_link("liston de la plej oftaj problemoj", "../issues", 0)?>.</p>
+Por plia helpo, vi povas demandi aŭ en <a href="http://www.languagetool.org/forum/">la
+forumo</a>, aŭ en la <a href="https://lists.sourceforge.net/lists/listinfo/languagetool-devel">retpoŝta
+dissendlisto/a> aŭ retpoŝti al la
+<a href="mailto:dominique.pelle@gmail.com">verkisto de la Esperanta versio</a>.
 
 <h2>Ligiloj al aliaj Esperantaj kontroliloj</h2>
 
 Lingvoilo ne estas la nura Esperanta gramatika kontrolilo. Vidu ankaŭ:
 
 <ul>
-  <li><a href="http://lingvohelpilo.ikso.net/">Lingvohelpilo</li>
-  <li><a href="http://www.esperantilo.org/index.html">Esperantilo</li>
+  <li><a href="http://lingvohelpilo.ikso.net/">Lingvohelpilo</a></li>
+  <li><a href="http://www.esperantilo.org/index.html">Esperantilo</a></li>
 </ul>
 
 <h2>Permesilo kaj kodofonto</h2>
