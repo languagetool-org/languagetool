@@ -35,7 +35,7 @@ Lingvoilo atentigas pri tiuj eraroj, kiujn literuma kontrolilo ne trovas, kiel e
 
 <ul>
 	<li><strong>En OpenOffice.org/LibreOffice</strong>:
-	Duoble klaku sur <tt>LanguageTool-1.5.oxt</tt> por instali ĝin.
+	Duoble klaku sur <tt>LanguageTool-1.6.oxt</tt> por instali ĝin.
         Se tio ne funkcias, alvoku <em>Iloj → Aldonaĵa mastrumilo</em> ekde
         la ĉefa menuo de LibreOffice, kaj poste restartigu LibreOffice.
 	<li>Legu ankaŭ <?=show_link("Usage", "../usage/", 0)?> por uzado de Lingvoilo ekster LibreOffice.</li>
