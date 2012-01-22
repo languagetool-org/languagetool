@@ -10,7 +10,7 @@
 <?php
 list($usec, $sec) = explode(" ", microtime()); 
 $start_time = ((float)$usec + (float)$sec);
-include("../help.php");
+include("help.php");
 
 function makeEntry($name, $visName) {
 	global $page;
@@ -20,7 +20,7 @@ function makeEntry($name, $visName) {
 		<?php
 	} else {
 		$url = $name;
-		if ($page == "hejpaĝo") {
+		if ($page == "hejmpaĝo") {
 			$url = $name;
 		} else {
 			if (substr($name, 0, 7) == "http://") {
