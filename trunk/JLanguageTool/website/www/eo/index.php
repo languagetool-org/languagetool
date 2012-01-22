@@ -3,7 +3,7 @@ $page = "hejmpaĝo";
 $title = "Lingvoilo";
 $title2 = "Stila kaj gramatika kontrolilo";
 $lastmod = "2012-01-22 16:08 CET";
-include("../../include/eo/header.php");
+include("../../include/header.php");
 ?>
 		
 <p class="firstpara"><strong>Lingvoilo (LanguageTool) estas programo por kontroli stilon kaj gramatikon en Esperanto sed ankaŭ en multaj aliaj lingvoj (en la angla, franca, germana, pola, nederlanda, kaj <?=show_link("multaj aliaj lingvoj", "../languages/", 0) ?>.</strong>
