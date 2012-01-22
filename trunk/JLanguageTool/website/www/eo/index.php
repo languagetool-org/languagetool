@@ -6,7 +6,7 @@ $lastmod = "2012-01-22 16:08 CET";
 include("../../include/header.php");
 ?>
 		
-<p class="firstpara"><strong>Lingvoilo (LanguageTool) estas programo por kontroli stilon kaj gramatikon en Esperanto sed ankaŭ en multaj aliaj lingvoj (en la angla, franca, germana, pola, nederlanda, kaj <?=show_link("multaj aliaj lingvoj", "../languages/", 0) ?>.</strong>
+<p class="firstpara"><strong>Lingvoilo (LanguageTool) estas programo por kontroli stilon kaj gramatikon en Esperanto sed ankaŭ en multaj aliaj lingvoj (en la angla, franca, germana, pola, nederlanda, kaj <?=show_link("multaj aliaj lingvoj", "../languages/", 0) ?>).</strong>
 Lingvoilo atentigas pri tiuj eraroj, kiujn literuma kontrolilo ne trovas, kiel eraroj de akuzativo (mi lernas <em>Esperanto</em>). Ĝi ne atentigas pri misliterumoj, sed eblas uzi Lingvoilon samtempe kune kun literuma kontrolilo.</p>
 
 <p>Lingvoilo trovas erarojn por kiuj estas difinitaj reguloj en aparta agarda XML-dosiero. Reguloj por detekti pli malsimplajn erarojn povas ankaŭ esti difinitaj en Java.</p>
