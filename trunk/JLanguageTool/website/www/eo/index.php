@@ -27,7 +27,7 @@ Lingvoilo atentigas pri tiuj eraroj, kiujn literuma kontrolilo ne trovas, kiel e
         <option value="br" >bretona</option>
         <option value="zh" >ĉina</option>
         <option value="da" >dana</option>
-        <option value="eo" >Esperanto</option>
+        <option selected value="eo" >Esperanto</option>
         <option value="fr" >franca</option>
         <option value="gl" >galega</option>
         <option value="de" >germana</option>
