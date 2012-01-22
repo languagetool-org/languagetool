@@ -2,7 +2,7 @@
 $page = "homepage";
 $title = "LanguageTool";
 $title2 = "Style and Grammar Checker";
-$lastmod = "2011-12-31 17:20:00 CET";
+$lastmod = "2012-01-22 17:20:00 CET";
 include("../include/header.php");
 ?>
 		
@@ -13,6 +13,49 @@ up <em>there/their</em>, <em>no/now</em> etc. It can also detect some grammar mi
 
 <p>LanguageTool will find errors for which a rule is defined in its 
 language-specific configuration files. Rules for detecting more complicated errors can be written in Java.</p>
+
+
+<h2>Try it online</h2>
+
+<form name="checkform" action="http://community.languagetool.org" method="post">
+    <textarea onfocus="javascript: if(document.checkform.text.value == 'Paste your text here...') { document.checkform.text.value='' } " 
+        style="width:100%; max-width:800px;height:100px" name="text">Paste your text here...</textarea>
+    <br />
+    <input type="submit" name="_action_checkText" value="Check Text"/>
+    Language: <select name="lang" id="lang" >
+    
+        <option value="auto">try to auto-detect</option>
+        <option value="ast" >Asturian</option>
+        <option value="be" >Belarusian</option>
+        <option value="br" >Breton</option>
+        <option value="ca" >Catalan</option>
+        <option value="zh" >Chinese</option>
+        <option value="da" >Danish</option>
+        <option value="nl" >Dutch</option>
+        <option value="en" >English</option>
+        
+        <option value="eo" >Esperanto</option>
+        <option value="fr" >French</option>
+        <option value="gl" >Galician</option>
+        <option value="de" >German</option>
+        <option value="is" >Icelandic</option>
+        <option value="it" >Italian</option>
+        <option value="km" >Khmer</option>
+        <option value="lt" >Lithuanian</option>
+        <option value="ml" >Malayalam</option>
+        
+        <option value="pl" >Polish</option>
+        <option value="ro" >Romanian</option>
+        <option value="ru" >Russian</option>
+        <option value="sk" >Slovak</option>
+        <option value="sl" >Slovenian</option>
+        <option value="es" >Spanish</option>
+        <option value="sv" >Swedish</option>
+        <option value="tl" >Tagalog</option>
+        <option value="uk" >Ukrainian</option>
+    
+    </select>
+</form>
 
 
 <h2>Download</h2>
@@ -87,7 +130,7 @@ successfully finished their projects and the results will be part of LanguageToo
 The source is available <?=show_link("at Sourceforge", "http://sourceforge.net/projects/languagetool/", 1) ?> via SVN.
 The contents of this homepage is available under <?=show_link("CC BY-SA 3.0", "http://creativecommons.org/licenses/by-sa/3.0/", 1) ?>.</p>
 
-<div style="height:750px"></div>
+<div style="height:50px"></div>
 
 <?php
 include("../include/footer.php");
