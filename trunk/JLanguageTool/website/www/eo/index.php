@@ -9,10 +9,9 @@ include("../../include/header.php");
 <p class="firstpara"><strong>Lingvoilo (LanguageTool) estas libera plurlingva 
 programo por kontroli stilon kaj gramatikon en Esperanto sed ankaŭ en 
 <a href="../languages/">multaj aliaj lingvoj</a>.</strong>
-Lingvoilo atentigas pri tiuj eraroj, kiujn literuma kontrolilo ne trovas, 
-kiel eraroj de akuzativo (mi lernas <em>Esperanto</em>). Ĝi ne atentigas 
-pri misliterumoj, sed eblas uzi Lingvoilon samtempe kune kun literuma 
-kontrolilo.</p>
+Lingvoilo atentigas pri tiuj eraroj, kiujn literuma kontrolilo ne trovas.
+Ĝi ne atentigas pri misliterumoj, sed eblas uzi Lingvoilon samtempe kune
+kun literuma kontrolilo.</p>
 
 <h2>Provu Lingvoilo-n rete sen instali ĝin</h2>
 
