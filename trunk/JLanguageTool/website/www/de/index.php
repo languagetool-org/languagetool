@@ -18,7 +18,7 @@ LanguageTool erkennt <a href="http://community.languagetool.org/rule/list?lang=d
     <li>Grammatik
         <ul>
             <li><span class="errorMarker" title="Möglicherweise fehlende grammatische Übereinstimmung zwischen Artikel und Nomen bezüglich Genus">Der Haus</span> ist groß.</li>
-            <li>Ich bin <span class="errorMarker" title="Die Präpotion 'wegen' erfordert i.d.R. den Genitiv">wegen diesem</span> Stau zu spät gekommen.</span></li>
+            <li>Ich bin <span class="errorMarker" title="Die Präposition 'wegen' erfordert i.d.R. den Genitiv.">wegen diesem</span> Stau zu spät gekommen.</span></li>
         </ul>
     </li>
     <li>Groß-/Kleinschreibung
@@ -35,7 +35,7 @@ LanguageTool erkennt <a href="http://community.languagetool.org/rule/list?lang=d
     <li>Zeichensetzung
         <ul>
             <li>Ich fragte sie<span class="errorMarker" title="Nur hinter einem Komma steht ein Leerzeichen, aber nicht davor."> ,</span> ob sie kommen möchte.</li>
-            <li> Ich lerne <span class="errorMarker" title="Ein mit der Subjunktion 'weil' eingeleiteter Nebensatz wird i.d.R. mit (mindestens) einem Komma vom Hauptsatz abgetrennt.">weil</span> ich gut Noten haben will.</li>
+            <li>Ich lerne <span class="errorMarker" title="Ein mit der Subjunktion 'weil' eingeleiteter Nebensatz wird i.d.R. mit (mindestens) einem Komma vom Hauptsatz abgetrennt.">weil</span> ich gut Noten haben will.</li>
         </ul>
     </li>
     <li>Mögliche Tippfehler
@@ -45,7 +45,7 @@ LanguageTool erkennt <a href="http://community.languagetool.org/rule/list?lang=d
             <li>Geht es<span class="errorMarker" title="Möglicher Tippfehler: mehr als ein Leerzeichen hintereinander">&nbsp;&nbsp;</span>dir gut?
         </ul>
     </li>
-    <li>Umganssprache
+    <li>Umgangssprache
         <ul>
             <li>Es wird eine höhere <span class="errorMarker" title="Meinten Sie 'elektrische Spannung'? 'Volt-Zahl' ist eine umgangssprachliche Ausdrucksweise.">Volt-Zahl</span> benötigt.</li>
         </ul>
