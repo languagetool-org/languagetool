@@ -18,8 +18,11 @@ language-specific configuration files. Rules for detecting more complicated erro
 <h2>Try it online</h2>
 
 <form name="checkform" action="http://community.languagetool.org" method="post">
-    <textarea onfocus="javascript: if(document.checkform.text.value == 'Paste your text here...') { document.checkform.text.value='' } " 
-        style="width:100%; max-width:800px;height:100px" name="text">Paste your text here...</textarea>
+    <?php
+    $demoText = "Paste your own text here... or check this text too see a few of the problems that that LanguageTool can detect. Did you notice that their is no spelcheckin included?";
+    ?>
+    <textarea onfocus="javascript: if(document.checkform.text.value == '<?php print $demoText ?>') { document.checkform.text.value='' } " 
+        style="width:100%; max-width:800px;height:100px" name="text"><?php print $demoText ?></textarea>
     <div style="margin-top:4px">
         <input type="submit" name="_action_checkText" value="Check Text"/>
         Language: <select name="lang" id="lang" >
