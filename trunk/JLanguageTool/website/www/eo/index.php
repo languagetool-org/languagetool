@@ -66,7 +66,7 @@ kontrolilo.</p>
 <ul>
   <li><strong>En OpenOffice.org/LibreOffice</strong>:
   Duoble klaku sur <tt>LanguageTool-1.6.oxt</tt> por instali ĝin.
-  Se tio ne funkcias, alvoku <em>Iloj → Aldonaĵa mastrumilo</em> ekde
+  Se tio ne funkcias, alvoku «<em>Iloj → Aldonaĵa mastrumilo</em>» ekde
   la ĉefa menuo de LibreOffice, kaj poste restartigu LibreOffice.
   </p>
   <li><strong>En komanda linio</strong>: 
@@ -110,9 +110,10 @@ Lingvoilo ne estas la nura Esperanta gramatika kontrolilo. Vidu ankaŭ:
 <p>Lingvoilo libere haveblas sub la permesilo <a href="http://www.fsf.org/licensing/licenses/lgpl.html#SEC1">LGPL</a>.
 Kodofonto elŝuteblas ĉe <a href="http://sourceforge.net/projects/languagetool/">Sourceforge</a> per SVN:
 <pre>$ svn co https://languagetool.svn.sourceforge.net/svnroot/languagetool/trunk/JLanguageTool languagetool
-</pre>
-La enhavo de la hejmpaĝo haveblas sub la permesilo
-<a href="http://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0.</p>
+</pre></p>
+
+<p>La enhavo de la hejmpaĝo haveblas sub la permesilo
+<a href="http://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a>.</p>
 
 <div style="height:30px"></div>
 
