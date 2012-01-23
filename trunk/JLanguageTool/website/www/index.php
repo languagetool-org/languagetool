@@ -20,41 +20,42 @@ language-specific configuration files. Rules for detecting more complicated erro
 <form name="checkform" action="http://community.languagetool.org" method="post">
     <textarea onfocus="javascript: if(document.checkform.text.value == 'Paste your text here...') { document.checkform.text.value='' } " 
         style="width:100%; max-width:800px;height:100px" name="text">Paste your text here...</textarea>
-    <br />
-    <input type="submit" name="_action_checkText" value="Check Text"/>
-    Language: <select name="lang" id="lang" >
-    
-        <option value="auto">try to auto-detect</option>
-        <option value="ast" >Asturian</option>
-        <option value="be" >Belarusian</option>
-        <option value="br" >Breton</option>
-        <option value="ca" >Catalan</option>
-        <option value="zh" >Chinese</option>
-        <option value="da" >Danish</option>
-        <option value="nl" >Dutch</option>
-        <option value="en" >English</option>
+    <div style="margin-top:4px">
+        <input type="submit" name="_action_checkText" value="Check Text"/>
+        Language: <select name="lang" id="lang" >
         
-        <option value="eo" >Esperanto</option>
-        <option value="fr" >French</option>
-        <option value="gl" >Galician</option>
-        <option value="de" >German</option>
-        <option value="is" >Icelandic</option>
-        <option value="it" >Italian</option>
-        <option value="km" >Khmer</option>
-        <option value="lt" >Lithuanian</option>
-        <option value="ml" >Malayalam</option>
+            <option value="auto">try to auto-detect</option>
+            <option value="ast" >Asturian</option>
+            <option value="be" >Belarusian</option>
+            <option value="br" >Breton</option>
+            <option value="ca" >Catalan</option>
+            <option value="zh" >Chinese</option>
+            <option value="da" >Danish</option>
+            <option value="nl" >Dutch</option>
+            <option value="en" >English</option>
+            
+            <option value="eo" >Esperanto</option>
+            <option value="fr" >French</option>
+            <option value="gl" >Galician</option>
+            <option value="de" >German</option>
+            <option value="is" >Icelandic</option>
+            <option value="it" >Italian</option>
+            <option value="km" >Khmer</option>
+            <option value="lt" >Lithuanian</option>
+            <option value="ml" >Malayalam</option>
+            
+            <option value="pl" >Polish</option>
+            <option value="ro" >Romanian</option>
+            <option value="ru" >Russian</option>
+            <option value="sk" >Slovak</option>
+            <option value="sl" >Slovenian</option>
+            <option value="es" >Spanish</option>
+            <option value="sv" >Swedish</option>
+            <option value="tl" >Tagalog</option>
+            <option value="uk" >Ukrainian</option>
         
-        <option value="pl" >Polish</option>
-        <option value="ro" >Romanian</option>
-        <option value="ru" >Russian</option>
-        <option value="sk" >Slovak</option>
-        <option value="sl" >Slovenian</option>
-        <option value="es" >Spanish</option>
-        <option value="sv" >Swedish</option>
-        <option value="tl" >Tagalog</option>
-        <option value="uk" >Ukrainian</option>
-    
-    </select>
+        </select>
+    </div>
 </form>
 
 
