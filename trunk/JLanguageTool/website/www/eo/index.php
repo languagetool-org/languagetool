@@ -8,7 +8,7 @@ include("../../include/header.php");
 		
 <p class="firstpara"><strong>Lingvoilo (LanguageTool) estas libera plurlingva 
 programo por kontroli stilon kaj gramatikon en Esperanto sed ankaŭ en 
-<?=show_link("multaj aliaj lingvoj", "../languages/", 0) ?>.</strong>
+<a href="../languages/">multaj aliaj lingvoj</a>.</strong>
 Lingvoilo atentigas pri tiuj eraroj, kiujn literuma kontrolilo ne trovas, 
 kiel eraroj de akuzativo (mi lernas <em>Esperanto</em>). Ĝi ne atentigas 
 pri misliterumoj, sed eblas uzi Lingvoilon samtempe kune kun literuma 
@@ -56,9 +56,9 @@ kontrolilo.</p>
 <h2>Elŝutado</h2>
 
 <ul>
-<li>Elŝuti <?=show_link("Lingvoilo-1.6 (29&nbsp;MB)", "../download/LanguageTool-1.6.oxt", 0) ?>.</li>
+<li>Elŝuti <a href="../download/LanguageTool-1.6.oxt">Lingvoilon-1.6</a> (29&nbsp;MB).</li>
 <li>Pli freŝaj sed ne testitaj versioj de Lingvoilo ĝisdatigitaj ĉiutage
-<?=show_link("haveblas tie", "../download/snapshots/", 0) ?> (<?=show_link("CHANGES.txt", "http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/JLanguageTool/CHANGES.txt", 0) ?>).</li>
+<a href="../download/snapshots/">haveblas tie</a> (<a href="http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/JLanguageTool/CHANGES.txt">CHANGES.txt</a>).</li>
 </ul>
 
 <h2>Instalo kaj uzado</h2>
@@ -81,7 +81,7 @@ kontrolilo.</p>
 </pre>
   <li>Eblas ankaŭ uzi Lingvoilon <a href="http://www.vim.org/scripts/script.php?script_id=3223">en Vim</a>, <a href="http://wiki.lyx.org/Tools/LyX-GrammarChecker">en Lyx</a>, <a href="http://sourceforge.net/projects/omegat-plugins/files/OmegaT-LanguageTool/">en OmegaT</a>, <a href="http://www.opentag.com/okapi/wiki/index.php?title=CheckMate">en CheckMate</a> kaj <a href="https://addons.mozilla.org/en-US/thunderbird/addon/grammar-checker/">en Thundirbird</a>.</li>
   </li>
-  <li>Legu ankaŭ <?=show_link("Usage", "../usage/", 0)?>.</li>
+  <li>Legu plie pri <a href="../usage/">uzadoj</a> de Lingvoilo.</li>
 </ul>
 
 <h2>Ekrankopio en LibreOffice</h2>
@@ -90,7 +90,7 @@ kontrolilo.</p>
 
 <h2>Ĉu vi bezonas helpon?</h2>
 
-<p>Bonvolu vidi <?=show_link("liston de la plej oftaj problemoj", "../issues", 0)?>.</p>
+<p>Bonvolu vidi <a href="../issues">liston de la plej oftaj problemoj</a>.</p>
 Por plia helpo, vi povas demandi aŭ en <a href="http://www.languagetool.org/forum/">la
 forumo</a>, aŭ en la <a href="https://lists.sourceforge.net/lists/listinfo/languagetool-devel">retpoŝta
 dissendlisto/a> aŭ retpoŝti al la
@@ -107,11 +107,14 @@ Lingvoilo ne estas la nura Esperanta gramatika kontrolilo. Vidu ankaŭ:
 
 <h2>Permesilo kaj kodofonto</h2>
 
-<p>Lingvoilo libere haveblas sub la permesilo <?=show_link("LGPL", "http://www.fsf.org/licensing/licenses/lgpl.html#SEC1", 0)?>.
-Kodofonto elŝuteblas ĉe <?=show_link("Sourceforge", "http://sourceforge.net/projects/languagetool/", 1) ?> per SVN.
-La enhavo de la hejmpaĝo haveblas sub la permesilo <?=show_link("CC BY-SA 3.0", "http://creativecommons.org/licenses/by-sa/3.0/", 1) ?>.</p>
+<p>Lingvoilo libere haveblas sub la permesilo <a href="http://www.fsf.org/licensing/licenses/lgpl.html#SEC1">LGPL</a>.
+Kodofonto elŝuteblas ĉe <a href="http://sourceforge.net/projects/languagetool/">Sourceforge</a> per SVN:
+<pre>
+</pre>
+La enhavo de la hejmpaĝo haveblas sub la permesilo
+<a href="http://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0.</p>
 
-<div style="height:50px"></div>
+<div style="height:30px"></div>
 
 <?php
 include("../../include/footer.php");
