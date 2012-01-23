@@ -70,14 +70,14 @@ kontrolilo.</p>
   la ĉefa menuo de LibreOffice, kaj poste restartigu LibreOffice.
   </p>
   <li><strong>En komanda linio</strong>: 
-<pre>  $ unzip <a href="../download/LanguageTool-1.6.oxt">LanguageTool-1.6.oxt</a>
-  $ echo "Tio frazo enhavas eraron." | java -jar LanguageTool.jar -c utf-8 -l eo
-  Expected text language: Esperanto
-  Working on STDIN...
-  1.) Line 1, column 1, Rule ID: IO_O[1]
-  Message: Ne povas esti «Tio» antaŭ o-vorto «frazo». Ĉu vi intencis «Tiu frazo»?
-  Tio frazo enhavas eraron. 
-  ^^^^^^^^^                 
+<pre>$ unzip <a href="../download/LanguageTool-1.6.oxt">LanguageTool-1.6.oxt</a>
+$ echo "Tio frazo enhavas eraron." | java -jar LanguageTool.jar -c utf-8 -l eo
+Expected text language: Esperanto
+Working on STDIN...
+1.) Line 1, column 1, Rule ID: IO_O[1]
+Message: Ne povas esti «Tio» antaŭ o-vorto «frazo». Ĉu vi intencis «Tiu frazo»?
+Tio frazo enhavas eraron. 
+^^^^^^^^^                 
 </pre>
   <li>Eblas ankaŭ uzi Lingvoilon <a href="http://www.vim.org/scripts/script.php?script_id=3223">en Vim</a>, <a href="http://wiki.lyx.org/Tools/LyX-GrammarChecker">en Lyx</a>, <a href="http://sourceforge.net/projects/omegat-plugins/files/OmegaT-LanguageTool/">en OmegaT</a>, <a href="http://www.opentag.com/okapi/wiki/index.php?title=CheckMate">en CheckMate</a> kaj <a href="https://addons.mozilla.org/en-US/thunderbird/addon/grammar-checker/">en Thundirbird</a>.</li>
   </li>
@@ -90,11 +90,11 @@ kontrolilo.</p>
 
 <h2>Ĉu vi bezonas helpon?</h2>
 
-<p>Bonvolu vidi <a href="../issues">liston de la plej oftaj problemoj</a>.</p>
+<p>Bonvolu vidi <a href="../issues">liston de la plej oftaj problemoj</a>.
 Por plia helpo, vi povas demandi aŭ en <a href="http://www.languagetool.org/forum/">la
 forumo</a>, aŭ en la <a href="https://lists.sourceforge.net/lists/listinfo/languagetool-devel">retpoŝta
-dissendlisto/a> aŭ retpoŝti al la
-<a href="mailto:dominique.pelle@gmail.com">verkisto de la Esperanta versio</a>.
+dissendlisto</a> aŭ retpoŝti al la
+<a href="mailto:dominique.pelle@gmail.com">verkisto de la Esperanta versio</a>.</p>
 
 <h2>Ligiloj al aliaj Esperantaj kontroliloj</h2>
 
@@ -109,7 +109,7 @@ Lingvoilo ne estas la nura Esperanta gramatika kontrolilo. Vidu ankaŭ:
 
 <p>Lingvoilo libere haveblas sub la permesilo <a href="http://www.fsf.org/licensing/licenses/lgpl.html#SEC1">LGPL</a>.
 Kodofonto elŝuteblas ĉe <a href="http://sourceforge.net/projects/languagetool/">Sourceforge</a> per SVN:
-<pre>
+<pre>$ svn co https://languagetool.svn.sourceforge.net/svnroot/languagetool/trunk/JLanguageTool languagetool
 </pre>
 La enhavo de la hejmpaĝo haveblas sub la permesilo
 <a href="http://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0.</p>
