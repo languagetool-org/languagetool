@@ -2228,6 +2228,27 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect"><marker>Jimi Hendricks</marker> starb jung.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="HEINRICH_HERTZ" name="Eigenname: 'Heinrich Herz (Hertz)'">
+      <rule>
+        <pattern mark_from="1">
+          <token>Heinrich</token>
+          <token>Herz</token>
+        </pattern>
+        <message>Meinten Sie den deutschen Physiker Heinrich Rudolf <suggestion>Hertz</suggestion>?</message>
+        <example type="correct">Heinrich <marker>Hertz</marker></example>
+        <example type="incorrect">Heinrich <marker>Herz</marker></example>
+      </rule>
+      <rule>
+        <pattern mark_from="2">
+          <token>Heinrich</token>
+          <token>Rudolf</token>
+          <token>Herz</token>
+        </pattern>
+        <message>Meinten Sie den deutschen Physiker Heinrich Rudolf <suggestion>Hertz</suggestion>?</message>
+        <example type="correct">Heinrich <marker>Hertz</marker></example>
+        <example type="incorrect">Heinrich Rudolf <marker>Herz</marker></example>
+      </rule>
+    </rulegroup>
     <rulegroup id="ULRIKE_MEINHOF" name="Eigenname: 'Ulrike Meinhoff (Meinhof)'">
       <rule>
         <pattern mark_from="1">
@@ -2413,6 +2434,29 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
 
   <category name="Zusammen-/Getrenntschreibung">
     <!-- Jan: TODO - find a rule that can distinguish "indem" from "in dem" -->
+    <rulegroup id="DA_NACH_PLUS_VERB" name="Zusammen-/Getrenntschreibung: 'Da nach (danach) war Ruhe' etc.">
+      <rule>
+        <pattern mark_from="0" mark_to="-1" case_sensitive="no">
+          <token>da</token>
+          <token>nach</token>
+          <token postag="VER:(AUX:)?(1|2|3):.+" postag_regexp="yes"><exception postag="(PA2|SUB|ART|ADJ):.+" postag_regexp="yes" scope="current"/><exception regexp="yes" scope="current">sieben|gilt|äußerst|einst|meinen?|tausenden?|!(hat)</exception></token>
+        </pattern>
+        <message>&getrennt;Meinten Sie <suggestion>danach</suggestion>?</message>
+        <example type="incorrect">Was <marker>da nach</marker> kam, war Krieg.</example>
+        <example type="incorrect"><marker>Da nach</marker> hat sie mich verlassen.</example>
+        <example type="correct"><marker>Danach</marker> hat sie mich verlassen.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" case_sensitive="yes">
+          <token postag="SENT_START" negate_pos="yes"><exception regexp="yes" scope="current">[,;]</exception></token>
+          <token>da</token>
+          <token>nach</token>
+        </pattern>
+        <message>&getrennt;Meinten Sie <suggestion>danach</suggestion>?</message>
+        <example type="incorrect">Ich konnte <marker>da nach</marker> nicht wieder einschlafen.</example>
+        <example type="correct"><marker>Danach</marker> hat sie mich verlassen.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="NACHDEM_NACH_DEM" name="Zusammen-/Getrenntschreibung: 'nachdem (nach dem) Essen etc. ...'">
       <rule>
         <pattern case_sensitive="no" mark_to="-2">
