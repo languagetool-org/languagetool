@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 LanguageTool. Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
 A Russian rule file for LanguageTool 
 Copyright (C) 2008-2012 Yakov Reztsov
-$Id: grammar.xml,v 1.82 2012-01-22 18:10:01 yakovru Exp $
+$Id: grammar.xml,v 1.83 2012-01-24 18:12:01 yakovru Exp $
 #     REVISION:  $Id$
 -->
 <rules lang="ru" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -854,7 +854,7 @@ $Id: grammar.xml,v 1.82 2012-01-22 18:10:01 yakovru Exp $
                 <example type="incorrect">Они думали о <marker>родного доме</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup default="on"  id="SoglasovanieG" name="Согласование слов по роду/числу">
+        <rulegroup default="on"  id="SoglasovanieG" name="Согласование существительного с прилагательным по роду/числу">
             <rule>  
                 
                 <pattern mark_from="1" mark_to="-1">
@@ -941,7 +941,7 @@ $Id: grammar.xml,v 1.82 2012-01-22 18:10:01 yakovru Exp $
             
         </rulegroup>       
 
-                <rulegroup default="on"  id="SoglasovaniePNN_Verb" name="Согласование подлежащего (местоимения) со сказуемым по роду/числу">
+                <rulegroup default="on"  id="SoglasovaniePNN_Verb" name="Согласование подлежащего (местоимения) со сказуемым">
             <rule>  
                 
                 <pattern>
@@ -991,14 +991,26 @@ $Id: grammar.xml,v 1.82 2012-01-22 18:10:01 yakovru Exp $
                 <example type="incorrect"><marker>Оно готовился</marker> на сковородке.</example>
             </rule>
             
-            
-            
+         <rule>  
+                
+                <pattern>
+                    <!--        оно   (PNN:PL)   VB:Past:PL    -->
+                    <token>они</token>
+                    <token  postag="VB:Past:.*"  postag_regexp="yes"><exception postag="VB:Past:PL"  /><exception negate_pos="yes" postag_regexp="yes" postag="VB:Past:.*"  /></token>               
+                </pattern>
+                
+                <message>Местоимение не согласуется с глаголом по числу.
+                    <suggestion><match no="1"></match> <match no="2" postag="VB:Past:.*" postag_regexp="yes" postag_replace="VB:Past:PL"></match></suggestion>
+                </message>
+                <short>Ошибка в согласовании по числу.</short>
+                <example type="correct">Они готовились на сковородке.</example>
+                <example type="incorrect"><marker>Они готовился</marker> на сковородке.</example>
+            </rule>
             
           </rulegroup>
         
-          <rulegroup default="on"  id="SoglasovanieNN_Verb" name="Согласование подлежащего (существительного) со сказуемым по роду/числу">
-            <rule>  
-                
+          <rulegroup default="on"  id="SoglasovanieNN_Verb" name="Согласование подлежащего (существительного) со сказуемым">
+            <rule>                 
                 <pattern mark_from="1">
                     <!--           NN:Masc:Sin:Nom   VB:Past:Masc   -->
                     <token  postag="SENT_START" skip ="-1"><exception scope="next"  postag="NN:Fem:Sin:Nom" /><exception scope="next"  postag="NN:Neut:Sin:Nom" /> <exception scope="next" postag_regexp="yes" postag="PNN:.*" /></token>
@@ -1113,10 +1125,7 @@ $Id: grammar.xml,v 1.82 2012-01-22 18:10:01 yakovru Exp $
                 <short>Ошибка в согласовании по числу.</short>
                 <example type="correct">Блюдо готовилось на сковородке.</example>
                 <example type="incorrect"><marker>Блюдо готовились</marker> на сковородке.</example>
-            </rule>
-            
-            
-            
+            </rule>                     
         </rulegroup>
            
         <rulegroup default="on"  id="Obobchajuchee_slovo" name="Согласование с обобщающим словом">
@@ -1191,9 +1200,7 @@ $Id: grammar.xml,v 1.82 2012-01-22 18:10:01 yakovru Exp $
                     <token regexp= "yes">пятеро|шестеро|семеро</token>
                     <token  postag="NN:Fem:.*" postag_regexp="yes"><exception>были</exception></token>
                 </pattern>                
-                <!--            согласовать падежи для коррекции ошибок - выполнено
-                  -->
-                <message>Собирательные числительные (двое, трое, четверо, пятеро, шестеро, семеро) НЕЛЬЗЯ употреблять с существительными женского рода
+                    <message>Собирательные числительные (двое, трое, четверо, пятеро, шестеро, семеро) НЕЛЬЗЯ употреблять с существительными женского рода
                     <suggestion><match no="1"   regexp_match="(пят|шест|сем)еро" regexp_replace="$1ь" ></match> <match no="2"></match></suggestion>
                 </message>            
                 <short>Грамматическая ошибка.</short>
