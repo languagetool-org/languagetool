@@ -18,6 +18,7 @@ title="Easy editing stylesheet" ?>
 <!ENTITY getrennt "Bitte prüfen Sie die Getrenntschreibung: ">
 <!ENTITY umgangsspr " ist eine umgangssprachliche Ausdrucksweise.">
 <!ENTITY unstimmig "Diese Formulierung ist möglicherweise unstimmig: ">
+<!ENTITY verw "Mögliche Wortverwechslung erkannt: ">
 <!ENTITY meindein "mein|dein|sein|unser|euer|ihr">
 <!ENTITY massubklein "abgeordnete|abriss|abschnitt|abstieg|ahne|angriff|anklang|anstieg|anstrich|ärger|arm|aufriss|aufschnitt|aufstand|aufstieg|auftritt|ausschnitt|austritt|band|beistand|beitritt|belang|bestand|betrieb|blick|block|brauch|dank|dichter|durchschnitt|einband|eingriff|einschnitt|ernst|feind|filz|forscher|fortschritt|fremde|gefreite|gläubiger|gleichstand|graben|herzog|junge|jünger|knebel|knick|knoten|koch|komparativ|kragen|krieg|laden|lappen|lauf|laut|lumpen|morgen|nachkomme|pfiff|plan|planer|platz|plural|rang|rausschmiss|reifen|rüde|samt|schal|scherz|schiefer|schlag|schnitt|schnupfen|schock|schotte|schrecken|schritt|schubs|schuft|schund|schütze|schwamm|sitz|spitz|stand|stecken|stillstand|stolz|stoß|strich|träger|trieb|tritt|trotz|türke|übergriff|umriss|unterschied|untertan|verdienst|verlass|vermerk|verriss|verstand|vertrieb|verzehr|virtuose|vokal|vorbehalt|vorgriff|vorstand|vorwärtsschritt|wagen|weg|wein|weise|wert|wettstreit|wicht|widerstand|zank|zeuge|zügel|zugriff|zusammenschnitt|zustand|zutritt|zweifel">
 <!ENTITY femsubklein "abfahrt|abfuhr|abgeordnete|absage|absteige|alternative|angst|anklage|ansage|antike|ausfuhr|aussage|bitte|blase|breite|bremse|bürde|burleske|bürste|dichte|dusche|düse|ebbe|ebene|ecke|ehe|ehre|eiche|eile|einreise|erde|fahrt|falle|falte|feile|ferne|fliege|fliese|flotte|flucht|folge|frage|fremde|fresse|gerade|geige|grenze|großtat|hacke|halle|härte|hast|hecke|heimfahrt|herfahrt|hinfahrt|höhle|kappe|klammer|klappe|klaue|klinge|klingel|kommode|konstante|kontroverse|kraft|krähe|kralle|kürze|kutsche|last|leere|lehre|leiste|leuchte|liebe|liege|liste|lüge|macht|marine|matte|menge|messe|miete|mühe|nachfrage|naht|nähe|offensive|pauke|parallele|pauschale|pause|perle|pfeife|platte|pleite|post|predigt|presse|probe|pumpe|puste|quelle|rast|ratsche|rede|reibe|reihe|reise|reue|robbe|rolle|rückfrage|rüge|ruhe|runde|sage|säge|sahne|säure|schau|scheide|scheiße|schere|schiene|schippe|schlampe|schleife|schleuse|schlinge|schmelze|schmiede|schnalle|schneide|spritze|schuld|schule|schürze|schwebe|schwelle|sehne|sorge|speise|spitze|stärke|stelle|stimme|strafe|strecke|strippe|stufe|stunde|stütze|suche|sucht|summe|taste|tat|trage|treue|variable|vorfahrt|wache|wand|wärme|weide|weihe|weile|weise|welle|werft|wiege|wiese|wolle|würde|würze|wüste|zahl|zeche|zeit|zentrale|zier|zufahrt|zufuhr|zwinge">
@@ -349,24 +350,6 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct">Das war jetzt schon das <marker>zweite</marker> Mal.</example>
       <example type="incorrect">Das war jetzt schon das <marker>zweit</marker> Mal.</example>
     </rule>
-    <rule id="KARIKATIV_VS_KARITATIV" name="Möglicher Tippfehler: 'karikativ (karitativ)'">
-      <pattern mark_to="-1">
-        <token regexp="yes">karikative[rn]?</token>
-        <token regexp="yes">Einrichtung(en)?|Organisation(en)?|Verband|Verbände(n)?|Institution(en)?|Stiftung(en)?|Vereinigung(en)?</token>
-      </pattern>
-      <message>Meinten Sie <suggestion><match no="1" regexp_match="karikativ" regexp_replace="karitativ"/></suggestion> (wohltätig, humanitär)?</message>
-      <example type="correct">Sie ist bei einer <marker>karitativen</marker> Einrichtung tätig.</example>
-      <example type="incorrect">Sie ist bei einer <marker>karikativen</marker> Einrichtung tätig, die sich für Behinderte einsetzt.</example>
-    </rule>
-    <rule id="GRAT_VS_GRAD" name="Möglicher Tippfehler: 'Grad (Grat)'">
-      <pattern mark_from="1">
-        <token regexp="yes">(schmale|dünne|feine|scharfe|gezackte)[mrn]?</token>
-        <token>Grad</token>
-      </pattern>
-      <message>Meinten Sie <suggestion>Grat</suggestion> (Bergrücken) statt Grad (Maßeinheit)?</message>
-      <example type="correct">Er wandelt auf einem schmalen <marker>Grat</marker>.</example>
-      <example type="incorrect">Er wandelt auf einem schmalen <marker>Grad</marker>.</example>
-    </rule>
     <rule id="STATT_VS_STAAT" name="Möglicher Tippfehler: 'Statt (Staat) Alabama' etc.">
       <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
         <token negate_pos="yes" postag="SENT_START"/>
@@ -417,16 +400,6 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct">Wir haben die Qual der <marker>Wahl</marker>.</example>
       <example type="incorrect">Wir haben die Qual der <marker>Wal</marker>.</example>
     </rule>
-    <rule id="COACH_VS_COUCH" name="Möglicher Tippfehler: 'Coach (Couch)'">
-      <pattern mark_from="2">
-        <token>auf</token>
-        <token regexp="yes">der|die</token>
-        <token>Coach</token>
-      </pattern>
-      <message>Meinten Sie <suggestion>Couch</suggestion> (Sofa) statt Coach (Trainer)?</message>
-      <example type="correct">Wir saßen auf der <marker>Couch</marker>.</example>
-      <example type="incorrect">Wir saßen auf der <marker>Coach</marker>.</example>
-    </rule>
     <rule id="SPRACHE_VS_SPRACH" name="Möglicher Tippfehler: 'in deutscher Sprach (Sprache)'">
       <pattern case_sensitive="yes" mark_from="1">
         <token regexp="yes">(&sprachadj1;|&sprachadj2;)(e|en|er)?</token>
@@ -436,174 +409,6 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect">Der Text ist in russischer <marker>Sprach</marker> verfasst.</example>
       <example type="correct">Der Text ist in russischer <marker>Sprache</marker> verfasst.</example>
     </rule>
-    <rulegroup id="MIENE" name="Möglicher Tippfehler: Mine/Miene">
-      <rule>
-        <pattern mark_from="1">
-          <!--<token regexp="yes" inflected="yes" skip="1">verziehen|aufsetzen|gekränkt|unbewegt|setzen</token>--><!-- TODO that doesn't work-->
-          <token regexp="yes" skip="2">verzieh(en|t)|auf(zu)?setzen|setzen|setzt|gekränkt.*|unbewegt.*</token>
-          <token regexp="yes">Mine(n)?</token>
-        </pattern>
-        <message>Meinten Sie <suggestion><match no="3" regexp_match="Mine" regexp_replace="Miene"/></suggestion>? (Mine = unterirdischer Gang, Sprengkörper, Kugelschreibermine)</message>
-        <example type="incorrect" correction="Miene">Er verzieht keine <marker>Mine</marker>.</example>
-        <example type="incorrect" correction="Miene">Er setzt eine kalte <marker>Mine</marker> auf.</example>
-        <example type="incorrect" correction="Miene">Mit unbewegter <marker>Mine</marker>.</example>
-        <example type="correct">Er verzieht keine <marker>Miene</marker>.</example>
-      </rule>
-      <rule>
-        <pattern mark_from="0" mark_to="-1">
-          <token regexp="yes" skip="1">Mine(n)?</token>
-          <token regexp="yes" inflected="yes">verzieh(en|t)|auf(zu)?setzen|setzen|setzt|gekränkt.*|unbewegt.*</token>
-        </pattern>
-        <message>Meinten Sie <suggestion><match no="1" regexp_match="Mine" regexp_replace="Miene"/></suggestion>? (Mine = unterirdischer Gang, Sprengkörper, Kugelschreibermine)</message>
-        <example type="incorrect" correction="Miene">Er versucht, keine <marker>Mine</marker> zu verziehen.</example>
-        <example type="correct">Er versucht, keine <marker>Miene</marker> zu verziehen.</example>
-      </rule>
-      <rule>
-        <pattern mark_from="1" mark_to="-1">
-          <token>gute</token>
-          <token>Mine</token>
-          <token>zum</token>
-        </pattern>
-        <message>Meinten Sie <suggestion>Miene</suggestion>? (Mine = unterirdischer Gang, Sprengkörper, Kugelschreibermine)</message>
-        <example type="incorrect" correction="Miene">Er hat gute <marker>Mine</marker> zum bösen Spiel gemacht.</example>
-        <example type="correct">Er hat gute <marker>Miene</marker> zum bösen Spiel gemacht.</example>
-      </rule>
-      <rule>
-        <pattern mark_from="1">
-          <token regexp="yes" inflected="yes" skip="5">(explodieren|unterirdisch.*|Kugelschreiber|.*stift|Explosion|.*stürzen|.*spreng.*|.*gestürzt)<exception scope="next">,</exception></token>
-          <token regexp="yes">Miene(n)?</token>
-        </pattern>
-        <message>Meinten Sie <suggestion><match no="2" regexp_match="Miene" regexp_replace="Mine"/></suggestion>? (Miene = Gesichtsausdruck)</message>
-        <example type="incorrect" correction="Minen">Explodieren die <marker>Mienen</marker>?</example>
-        <example type="incorrect" correction="Mine">Er sagt, die unterirdische <marker>Miene</marker> sei zusammengestürzt.</example>
-        <example type="incorrect" correction="Mine">Der Bleistift hat eine <marker>Miene</marker>.</example>
-        <example type="incorrect" correction="Minen">Die Sprengung mit <marker>Mienen</marker></example>
-        <example type="correct">Die Explosion der <marker>Mine</marker>.</example>
-      </rule>
-      <rule>
-        <pattern mark_to="-1">
-          <token regexp="yes" skip="5">Miene(n)?<exception scope="next">,</exception></token>
-          <token regexp="yes" inflected="yes">(explodieren|unterirdisch|Kugelschreiber|.*stift|Explosion|einstürzen|.*spreng.*)</token>
-        </pattern>
-        <message>Meinten Sie <suggestion><match no="1" regexp_match="Miene" regexp_replace="Mine"/></suggestion>? (Miene = Gesichtsausdruck)</message>
-        <example type="incorrect" correction="Minen">Die <marker>Mienen</marker> sind gestern Abend explodiert.</example>
-        <example type="incorrect" correction="Mine">Die <marker>Miene</marker> ist eingestürzt.</example>
-        <example type="incorrect" correction="Mine">Die <marker>Miene</marker> des Kugelschreibers ist leer.</example>
-        <example type="incorrect" correction="Minen">Er hat das mit den <marker>Mienen</marker> weggesprengt.</example>
-        <example type="correct">Die <marker>Mine</marker> ist explodiert.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token regexp="yes">(Kugelschreiber|Bleistift)miene(n)?</token>
-        </pattern>
-        <message>Meinten Sie <suggestion><match no="1" regexp_match="miene" regexp_replace="mine"/></suggestion>? (Miene = Gesichtsausdruck)</message>
-        <example type="incorrect" correction="Kugelschreibermine">Die <marker>Kugelschreibermiene</marker></example>
-        <example type="correct">Die <marker>Bleistiftmine</marker></example>
-      </rule>
-    </rulegroup>
-    <rulegroup id="MAHLEN" name="Möglicher Tippfehler: malen/mahlen">
-      <rule>
-        <pattern mark_from="2" mark_to="-1">
-          <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">&malennomen;</exception></token>
-          <token regexp="yes" inflected="yes" skip="5">&mahlennomen;<exception scope="next" regexp="yes" inflected="yes">&malennomen;</exception></token>
-          <token inflected="yes" regexp="yes" skip="-1">(aus|ge)?mal(ene?n?|t?)<exception scope="next" regexp="yes" inflected="yes">&malennomen;</exception></token>
-          <token postag="SENT_END"/>
-        </pattern>
-        <message>Meinten Sie <suggestion><match no="3" regexp_match="al" regexp_replace="ahl"/></suggestion>? (malen = mit Farbe ein Bild erstellen)</message>
-        <example type="incorrect" correction="ausmahlen">Weizen <marker>ausmalen</marker>.</example>
-        <example type="incorrect" correction="gemahlen">Das Korn wird in den Mühlen <marker>gemalen</marker>.</example>
-        <example type="incorrect" correction="Mahlen">Eine Mühle wird zum <marker>Malen</marker> verwendet.</example>
-        <example type="correct">Ich soll Bilder einer Mühle <marker>malen</marker>.</example>
-      </rule>
-      <rule>
-        <pattern mark_from="1" mark_to="-2">
-          <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">&malennomen;</exception></token>
-          <token inflected="yes" regexp="yes" skip="5">(aus|ge)?mal(ene?n?|t?)<exception scope="next" regexp="yes" inflected="yes">&malennomen;</exception></token>
-          <token regexp="yes" inflected="yes" skip="-1">&mahlennomen;<exception scope="next" regexp="yes" inflected="yes">&malennomen;</exception></token>
-          <token postag="SENT_END"/>
-        </pattern>
-        <message>Meinten Sie <suggestion><match no="2" regexp_match="al" regexp_replace="ahl"/></suggestion>? (malen = mit Farbe ein Bild erstellen)</message>
-        <example type="incorrect" correction="gemahlene">das <marker>gemalene</marker> Korn aus der Mühle</example>
-        <example type="incorrect" correction="Mahlen">Zum <marker>Malen</marker> verwendet man eine Mühle.</example>
-        <example type="correct">Ich male ein Bild einer Mühle.</example>
-      </rule>
-      <rule>
-        <pattern mark_from="2" mark_to="-1">
-          <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">&mahlennomen;</exception></token>
-          <token regexp="yes" inflected="yes" skip="5">&malennomen;<exception scope="next" regexp="yes" inflected="yes">&mahlennomen;</exception></token>
-          <token inflected="yes" regexp="yes" skip="-1">(aus|ge)?mahl(ene?n?|t?)<exception scope="next" regexp="yes" inflected="yes">&mahlennomen;</exception></token>
-          <token postag="SENT_END"/>
-        </pattern>
-        <message>Meinten Sie <suggestion><match no="3" regexp_match="ahl" regexp_replace="al"/></suggestion>? (mahlen = in einer Mühle zerkleinern)</message>
-        <example type="incorrect" correction="ausmalen">Du musst das Bild <marker>ausmahlen</marker>.</example>
-        <example type="incorrect" correction="gemalt">Wir haben das im Kunstunterricht <marker>gemahlt</marker>.</example>
-        <example type="incorrect" correction="gemalt">Er hat ein schönes Selbstporträt <marker>gemahlt</marker>.</example>
-        <example type="correct">Das Bild zeigt eine <marker>mahlende</marker> Mühle.</example>
-      </rule>
-      <rule>
-        <pattern mark_from="1" mark_to="-2">
-          <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">&mahlennomen;</exception></token>
-          <token inflected="yes" regexp="yes" skip="5">(aus|ge)?mahl(ene?n?|t?)<exception scope="next" regexp="yes" inflected="yes">&mahlennomen;</exception></token>
-          <token regexp="yes" inflected="yes" skip="-1">&malennomen;<exception scope="next" regexp="yes" inflected="yes">&mahlennomen;</exception></token>
-          <token postag="SENT_END"/>
-        </pattern>
-        <message>Meinten Sie <suggestion><match no="2" regexp_match="ahl" regexp_replace="al"/></suggestion>? (mahlen = in einer Mühle zerkleinern)</message>
-        <example type="incorrect" correction="male">Ich <marker>mahle</marker> das Bild aus.</example>
-        <example type="incorrect" correction="malten">Wir <marker>mahlten</marker> im Kunstunterricht.</example>
-        <example type="correct">Eine <marker>mahlende</marker> Mühle zeigt das Bild.</example>
-      </rule>
-    </rulegroup>
-    <!-- TODO many false alarms because of not recognizing a neuter noun and when 'das' is used as pronoun (Er sagt, das sei in Ordnung) -->
-    <rulegroup id="DASS" name="Möglicher Tippfehler: 'das (dass)'" default="off">
-      <rule>
-        <pattern mark_from="3" mark_to="-1" case_sensitive="yes">
-          <token postag="SENT_START" skip="-1"><exception scope="next" postag=".*NEU.*" postag_regexp="yes"/></token>
-          <token regexp="yes" inflected="yes">(sagen|berichten|meinen|glauben|schreiben|denken)</token>
-          <token>,</token>
-          <token skip="-1">das<exception scope="next" postag=".*NEU.*" postag_regexp="yes"/><exception scope="next">heißt</exception></token>
-          <token postag="SENT_END"/>
-        </pattern>
-        <message>Meinten Sie <suggestion>dass</suggestion> (Subjunktion)? Für das Relativpronomen 'das' wurde kein Beziehungswort gefunden.</message>
-        <example type="incorrect">Er sagt, <marker>das</marker> er sie liebt.</example>
-        <example type="incorrect">Er hat geschrieben, <marker>das</marker> er sie liebt.</example>
-        <example type="correct">Er sagt, <marker>dass</marker> er sie liebt.</example>
-        <example type="correct">Er sagt, <marker>das</marker> ihm gehörende Haus sei schön.</example>
-        <example type="correct">Er meint, <marker>das</marker> heißt nichts.</example>
-        <example type="correct">Er hat kein Stück geschrieben, <marker>das</marker> nicht erfolgreich wurde.</example>
-      </rule>
-    </rulegroup>
-    <rulegroup id="DASS_MIT_VERB" name="Möglicher Tippfehler: 'dass (das) ist' etc.">
-      <rule>
-        <pattern mark_from="1" mark_to="-1" case_sensitive="no">
-          <token negate="yes">so</token>
-          <token>dass</token>
-          <token postag="VER:(AUX:)?(2|3):.+" postag_regexp="yes"><exception postag="(PA2|SUB|ART|ADJ):.+" postag_regexp="yes" scope="current"/><exception regexp="yes" scope="current">sieben|gilt|äußerst|anstelle|einst|meinen?|tausenden?|!(hat)</exception></token>
-        </pattern>
-        <message>Meinten Sie <suggestion>das</suggestion>? Die Subjunktion 'dass' scheint an dieser Stelle nicht zu passen.</message>
-        <example type="incorrect">Er sagt, <marker>dass</marker> sei richtig, aber er irrt.</example>
-        <example type="incorrect">Aber <marker>dass</marker> ist doch nicht richtig.</example>
-        <example type="incorrect">Aber <marker>dass</marker> scheinst du vergessen zu haben.</example>
-        <example type="incorrect">Aber <marker>dass</marker> hat nichts damit zu tun.</example>
-        <example type="incorrect">Aber <marker>dass</marker> hast du vergessen.</example>
-        <example type="incorrect">Aber <marker>dass</marker> warst du gar nicht.</example>
-        <example type="correct">Er sagt, <marker>dass</marker> du kommst, aber er irrt.</example>
-        <example type="correct">Er sagt, <marker>das</marker> sei richtig, aber er irrt.</example>
-      </rule>
-    </rulegroup>
-    <rulegroup id="SODASS" name="Möglicher Tippfehler: 'so das (so dass)'">
-      <rule>
-        <pattern mark_from="1" mark_to="-1" case_sensitive="yes">
-          <token>,</token>
-          <token>so</token>
-          <token skip="-1">das<exception scope="next" postag=".*NEU.*" postag_regexp="yes"/></token>
-          <token postag="SENT_END"/>
-        </pattern>
-        <message>Meinten Sie <suggestion>so dass</suggestion>? Für den Artikel 'das' wurde kein Beziehungswort gefunden.</message>
-        <example type="incorrect">Er war erkältet, <marker>so das</marker> er nicht kommen konnte.</example>
-        <example type="correct">Er war erkältet, <marker>so dass</marker> er nicht kommen konnte.</example>
-        <example type="correct">Er soll gestürzt werden, <marker>so das</marker> Volk.</example>
-      </rule>
-    </rulegroup>
     <rule id="BEKANNT_ALT" name="Möglicher Tippfehler: 'bekannt alt (als)'">
       <pattern mark_from="1">
         <token>bekannt</token>
@@ -670,14 +475,6 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <message>Meinten Sie <suggestion>bekannteste</suggestion>?</message>
       <example type="incorrect">Das <marker>bekanntest</marker> Beispiel ist Linux.</example>
       <example type="correct">Das <marker>bekannteste</marker> Beispiel ist Linux.</example>
-    </rule>
-    <rule id="FOND_VS_FONDS" name="Möglicher Tippfehler: 'Fond (Fonds)'">
-      <pattern>
-        <token regexp="yes">(Ablösungs|Absatz|Absatzförderungs|Abschreibungs|Agrar|Aktiendach|Aktien|Aktions|Alterssicherungs|Angestelltenpensions|Anlage|Anpassungs|Anteil|Arbeitnehmer|Arbeitskräfte|Arbeitszeit|Aufbauhilfe|Ausbildungs|Ausgleichs|Auslands|Auswanderungs|Bau|Bausparkassensicherungs|Berufsbildungs|Betriebserweiterungs|Betriebs|Bevölkerungs|Bildungs|Biogas|Bodenreserve|Branchen|Bundes|Dach|Deckungs|Devisenausgleichs|Dispositions|Eigenkapital|Einlagensicherungs|Einwanderungs|Einzel|Entschädigungs|Entwicklungs|Entwicklungshilfe|Erneuerungs|Ersatz|Ethik|Familien|Fernseh|Film|Filmförderungs|Finanzierungs|Finanzmittel|Fluthilfe|Förder|Förderungs|Forschungs|Forst|Fortbildungs|Frauenförder|Fremd|Futtermittel|Garantie|Gedächtnis|Geheim|Geld|Geldmarkt|Gemeinschafts|Gewinnbeteiligungs|Gewinn|Grund|Grundmittel|Grundstücks|Haftungs|Handels|Härte|Hauptstadtkultur|Hilfe|Hilfs|Holzabsatz|Immobilien|Index|Inlands|Internet|Investitions|Investment|Kapitalanlage|Kapitalentwicklungs|Kapital|Katastrophen|Katastrophenhilfe|Kinderhilfs|Klimaschutz|Kloster|Kranken|Kreisschul|Kultur|Kunst|Landes|Landschafts|Landwirtschafts|Laufzeit|Lehrstellen|Leistungs|Liegenschafts|Literatur|Lohn|Lotterie|Medien|Milliarden|Mindestgarantie|National|Naturschutz|Nothilfe|Öko|Öl|Opfer|Pensions|Pensionsinvestment|Petroleum|Polizeireserve|Preis|Privat|Produktionsanlage|Produktions|Produktionsgrund|Produktionsmittel|Produktionsumlauf|Publikums|Rechtshilfe|Regional|Renten|Repräsentations|Reserve|Rettungs|Risiko|Schiffs|Schmiergeld|Schuldentilgungs|Schulgeld|Sicherheits|Sicherungs|Solidaritäts|Sonder|Sozial|Spekulations|Spenden|Spezial|Staats|Stabilisierungs|Stadterweiterungs|Streik|Struktur|Tarif|Teil|Tierschutz|Tilgungs|Treuhand|Umlauf|Umlaufmittel|Umwelt|Universitäts|Unterstützungs|Vermögensbildungs|Vermögens|Verteidigungs|Wahl|Wahlkampf|Währungsausgleich|Währungsausgleichs|Währungs|Waren|Weltbevölkerungs|Weltwährungs|Werbe|Wissenschafts|Zeit|Ziel|Zukunfts|Zwangsarbeiter)fond</token>
-      </pattern>
-      <message>Meinten Sie <suggestion>\1s</suggestion> (Bestand)?</message>
-      <example type="incorrect">Der <marker>Absatzförderungsfond</marker>.</example>
-      <example type="correct">Der <marker>Absatzförderungsfonds</marker>.</example>
     </rule>
     <rule id="WOLLTE_GRAD" name="Möglicher Tippfehler: 'Grad (gerade)'">
       <pattern mark_from="3">
@@ -923,17 +720,6 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct"><marker>von</marker> Hand</example>
       <example type="incorrect"><marker>van</marker> Hand</example>
     </rule>
-    <rulegroup id="VATER_MORGANA" name="Möglicher Tippfehler: Vater (Fata) Morgana'">
-      <rule>
-        <pattern>
-          <token>Vater</token>
-          <token>Morgana</token>
-        </pattern>
-        <message>Meinten Sie <suggestion>Fata Morgana</suggestion> (eine Luftspiegelung)?</message>
-        <example type="correct">Eine <marker>Fata Morgana</marker> entsteht durch Ablenkung des Lichtes.</example>
-        <example type="incorrect">Eine <marker>Vater Morgana</marker> entsteht durch Ablenkung des Lichtes.</example>
-      </rule>
-    </rulegroup>
     <rulegroup id="WAHR_NEHMEN" name="Möglicher Tippfehler: 'nehme ... war (wahr)'">
       <rule>
         <pattern mark_from="2">
@@ -1043,69 +829,6 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <message>Meinten Sie <suggestion>Für und Wider</suggestion>?</message>
         <example type="correct">Das <marker>Für und Wider</marker> sollte gründlich abgewogen werden.</example>
         <example type="incorrect">Das <marker>Für und Wieder</marker> wird erwogen.</example>
-      </rule>
-    </rulegroup>
-    <!-- TODO should this be combined with SEITE_SAITE? -->
-    <rulegroup id="ANDERE_SEITEN_AUFZIEHEN" name="Möglicher Tippfehler: 'andere Seiten (Saiten) aufziehen'">
-      <rule>
-        <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
-          <token>andere</token>
-          <token>Seiten</token>
-          <token regexp="yes">aufziehen|aufgezogen|aufziehst|aufziehe|aufzieht</token>
-        </pattern>
-        <message>Die Redewendung lautet: andere <suggestion>Saiten</suggestion> aufziehen (= strenger werden)</message>
-        <example type="correct">Die UNO muss andere <marker>Saiten</marker> aufziehen.</example>
-        <example type="correct">Bei der UNO müssen andere <marker>Saiten</marker> aufgezogen werden.</example>
-        <example type="incorrect">Die UNO muss andere <marker>Seiten</marker> aufziehen.</example>
-        <example type="incorrect">Bei der UNO müssen andere <marker>Seiten</marker> aufgezogen werden.</example>
-      </rule>
-    </rulegroup>
-    <rulegroup id="SEITE_SAITE" name="Möglicher Tippfehler: Seite/Saite">
-      <rule>
-        <pattern mark_from="2" mark_to="-1">
-          <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">&seitewoerter;</exception></token>
-          <token regexp="yes" inflected="yes" skip="5">&saitewoerter;<exception scope="next" regexp="yes" inflected="yes">&seitewoerter;</exception></token>
-          <token inflected="yes" skip="-1">Seite<exception scope="next" regexp="yes" inflected="yes">&seitewoerter;</exception></token>
-          <token postag="SENT_END"/>
-        </pattern>
-        <message>Meinten Sie <suggestion><match no="3" regexp_match="ei" regexp_replace="ai"/></suggestion>? (Seite = Buchseite)</message>
-        <example type="incorrect" correction="Saite">Die E-Gitarre hat eine sechste <marker>Seite</marker>.</example>
-        <example type="correct">Dieses Buch über die Gitarre hat nur sechs <marker>Seiten</marker>.</example>
-        <example type="correct">Diese Gitarre hat sechs <marker>Saiten</marker>.</example>
-      </rule>
-      <rule>
-        <pattern mark_from="1" mark_to="-2">
-          <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">&seitewoerter;</exception></token>
-          <token inflected="yes" skip="5">Seite<exception scope="next" regexp="yes" inflected="yes">&seitewoerter;</exception></token>
-          <token regexp="yes" inflected="yes" skip="-1">&saitewoerter;<exception scope="next" regexp="yes" inflected="yes">&seitewoerter;</exception></token>
-          <token postag="SENT_END"/>
-        </pattern>
-        <message>Meinten Sie <suggestion><match no="2" regexp_match="ei" regexp_replace="ai"/></suggestion>? (Seite = Buchseite)</message>
-        <example type="incorrect" correction="Saiten">Die <marker>Seiten</marker> des Violoncellos sind kurz.</example>
-        <example type="incorrect" correction="Saiten">Die <marker>Seiten</marker> des Kontrabasses sind gerissen.</example>
-        <example type="correct">Die <marker>Saiten</marker> des Violoncellos sind kurz.</example>
-      </rule>
-      <rule>
-        <pattern mark_from="2" mark_to="-1">
-          <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">&saitewoerter;</exception></token>
-          <token regexp="yes" inflected="yes" skip="5">&seitewoerter;<exception scope="next" regexp="yes" inflected="yes">&saitewoerter;</exception></token>
-          <token inflected="yes" skip="-1">Saite<exception scope="next" regexp="yes" inflected="yes">&saitewoerter;</exception></token>
-          <token postag="SENT_END"/>
-        </pattern>
-        <message>Meinten Sie <suggestion><match no="3" regexp_match="ai" regexp_replace="ei"/></suggestion>? (Saite = Saiteninstrument)</message>
-        <example type="incorrect" correction="Seiten">Dieses Buch hat sechs <marker>Saiten</marker>.</example>
-        <example type="correct">Dieses Buch über die Gitarre hat nur sechs <marker>Seiten</marker>.</example>
-      </rule>
-      <rule>
-        <pattern mark_from="1" mark_to="-2">
-          <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">&saitewoerter;</exception></token>
-          <token inflected="yes" skip="5">Saite<exception scope="next" regexp="yes" inflected="yes">&saitewoerter;</exception></token>
-          <token regexp="yes" inflected="yes" skip="-1">&seitewoerter;<exception scope="next" regexp="yes" inflected="yes">&saitewoerter;</exception></token>
-          <token postag="SENT_END"/>
-        </pattern>
-        <message>Meinten Sie <suggestion><match no="2" regexp_match="ai" regexp_replace="ei"/></suggestion>? (Saite = Saiteninstrument)</message>
-        <example type="incorrect" correction="Seiten">Die <marker>Saiten</marker> des Buches sind beschrieben.</example>
-        <example type="correct">Die <marker>Seiten</marker> des Buches sind beschrieben.</example>
       </rule>
     </rulegroup>
     <rulegroup id="EINEM_LEIHEN" name="Möglicher Tippfehler: 'einem Leihen (Laien)'">
@@ -1917,16 +1640,6 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect">Das waren schöne <marker>ökumenische Messen</marker>.</example>
       </rule>
     </rulegroup>
-    <rule id="ETHISCH_ETHNISCH" name="Möglicher Tippfehler: 'ethische (ethnische) Minderheiten/...'">
-      <pattern mark_to="-1">
-        <token regexp="yes">ethische|ethischer|ethischen</token>
-        <token regexp="yes">Minderheit|Minderheiten|Säuberung|Säuberungen|Herkunft|Konflikt|Konflikte</token>
-      </pattern>
-      <message>Meinten Sie <suggestion>ethnisch</suggestion> (ethisch = Ethik/Moral betreffend, ethnisch = zu einer bestimmten Ethnie/Volksgruppe gehörend)?</message>
-      <example type="correct">Bücher über <marker>ethnische</marker> Minderheiten und Vertriebene</example>
-      <example type="incorrect">Bücher über <marker>ethische</marker> Minderheiten und Vertriebene</example>
-      <example type="incorrect"><marker>Ethische</marker> Minderheiten und Vertriebene</example>
-    </rule>
     <rule id="DENN_DEN" name="Möglicher Tippfehler: 'aber denn (dann)'">
       <pattern mark_from="1">
         <token regexp="yes">aber|doch|und</token>
@@ -2017,16 +1730,6 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct">Auffächerung der Altersgruppen <marker>in</marker> Bezug zu den Einwohnerzahlen.</example>
       <example type="incorrect">Auffächerung der Altersgruppen <marker>ins</marker> Bezug zu den Einwohnerzahlen.</example>
     </rule>
-    <rule id="AUFS_TRAPEZ_BRINGEN" name="Möglicher Tippfehler: 'aufs Trapez (Tapet) bringen'">
-      <pattern mark_from="1" mark_to="-1">
-        <token>aufs</token>
-        <token>Trapez</token>
-        <token inflected="yes">bringen</token>
-      </pattern>
-      <message>Meinten Sie <suggestion>Tapet</suggestion>?</message>
-      <example type="correct">Dieses Thema habe ich auch aufs <marker>Tapet</marker> gebracht.</example>
-      <example type="incorrect">Dieses Thema habe ich auch aufs <marker>Trapez</marker> gebracht.</example>
-    </rule>
     <rule id="WAS_LANGE_WEHRT" name="Möglicher Tippfehler: 'was lange wehrt (währt)'">
       <pattern mark_from="2">
         <token>was</token>
@@ -2037,7 +1740,335 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct">Was lange <marker>währt</marker>, wird endlich gut.</example>
       <example type="incorrect">Was lange <marker>wehrt</marker>, wird endlich gut.</example>
     </rule>
-    <rule id="DER_GENUS" name="Möglicher Tippfehler: 'der Genus (Genuss)'">
+    <rule id="AUF_DEM_ERSTEN_BLICK" name="Möglicher Tippfehler: 'auf dem (den) ersten Blick'">
+      <pattern mark_from="1" mark_to="-2">
+        <token>auf</token>
+        <token>dem</token>
+        <token>ersten</token>
+        <token>Blick</token>
+      </pattern>
+      <message>Meinten Sie: auf <suggestion>den</suggestion> ersten Blick?</message>
+      <example type="correct">Auf <marker>den</marker> ersten Blick ist kein Unterschied zu erkennen.</example>
+      <example type="incorrect">Auf <marker>dem</marker> ersten Blick ist kein Unterschied zu erkennen.</example>
+    </rule>
+  </category>
+
+  <category name="Leicht zu verwechselnde Wörter">
+    <rule id="GROSSER_STIEL" name="Mögliche Wortverwechslung: Stiel/Stil">
+      <pattern case_sensitive="yes" mark_from="2">
+        <token regexp="yes" skip="1">[iI][nm]</token>
+        <token regexp="yes">große[nm]</token>
+        <token>Stiel</token>
+      </pattern>
+      <message>&verw;Meinten Sie <suggestion>Stil</suggestion>?</message>
+      <example type="incorrect" correction="Stil">Das ist Betrug im ganz großen <marker>Stiel</marker>.</example>
+      <example type="correct">Das ist Betrug im großen <marker>Stil</marker>.</example>
+    </rule>
+    <rule id="SCHLECHTER_STIEL" name="Mögliche Wortverwechslung: Stiel/Stil">
+      <pattern case_sensitive="yes" mark_from="1">
+        <token regexp="yes">(gute|schlechte)[rnm]?</token>
+        <token>Stiel</token>
+      </pattern>
+      <message>&verw;Meinten Sie <suggestion>Stil</suggestion> (Anstand, Ausdrucksweise, Art und Weise)?</message>
+      <example type="incorrect" correction="Stil">Das ist schlechter <marker>Stiel</marker>.</example>
+      <example type="correct">Das ist schlechter <marker>Stil</marker>.</example>
+    </rule>
+    <rule id="KARIKATIV_VS_KARITATIV" name="Mögliche Wortverwechslung: karikativ/karitativ">
+      <pattern mark_to="-1">
+        <token regexp="yes">karikative[rn]?</token>
+        <token regexp="yes">Einrichtung(en)?|Organisation(en)?|Verband|Verbände(n)?|Institution(en)?|Stiftung(en)?|Vereinigung(en)?</token>
+      </pattern>
+      <message>&verw;Meinten Sie <suggestion><match no="1" regexp_match="karikativ" regexp_replace="karitativ"/></suggestion> (wohltätig, humanitär)?</message>
+      <example type="correct">Sie ist bei einer <marker>karitativen</marker> Einrichtung tätig.</example>
+      <example type="incorrect">Sie ist bei einer <marker>karikativen</marker> Einrichtung tätig, die sich für Behinderte einsetzt.</example>
+    </rule>
+    <rule id="GRAT_VS_GRAD" name="Mögliche Wortverwechslung: Grad/Grat">
+      <pattern mark_from="1">
+        <token regexp="yes">(schmale|dünne|feine|scharfe|gezackte)[mrn]?</token>
+        <token>Grad</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>Grat</suggestion> (Bergrücken) statt Grad (Maßeinheit)?</message>
+      <example type="correct">Er wandelt auf einem schmalen <marker>Grat</marker>.</example>
+      <example type="incorrect">Er wandelt auf einem schmalen <marker>Grad</marker>.</example>
+    </rule>
+    <rule id="COACH_VS_COUCH" name="Mögliche Wortverwechslung: Coach/Couch">
+      <pattern mark_from="2">
+        <token>auf</token>
+        <token regexp="yes">der|die</token>
+        <token>Coach</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>Couch</suggestion> (Sofa) statt Coach (Trainer)?</message>
+      <example type="correct">Wir saßen auf der <marker>Couch</marker>.</example>
+      <example type="incorrect">Wir saßen auf der <marker>Coach</marker>.</example>
+    </rule>
+    <rulegroup id="MIENE" name="Mögliche Wortverwechslung: Mine/Miene">
+      <rule>
+        <pattern mark_from="1">
+          <!--<token regexp="yes" inflected="yes" skip="1">verziehen|aufsetzen|gekränkt|unbewegt|setzen</token>--><!-- TODO that doesn't work-->
+          <token regexp="yes" skip="2">verzieh(en|t)|auf(zu)?setzen|setzen|setzt|gekränkt.*|unbewegt.*</token>
+          <token regexp="yes">Mine(n)?</token>
+        </pattern>
+        <message>Meinten Sie <suggestion><match no="3" regexp_match="Mine" regexp_replace="Miene"/></suggestion>? (Mine = unterirdischer Gang, Sprengkörper, Kugelschreibermine)</message>
+        <example type="incorrect" correction="Miene">Er verzieht keine <marker>Mine</marker>.</example>
+        <example type="incorrect" correction="Miene">Er setzt eine kalte <marker>Mine</marker> auf.</example>
+        <example type="incorrect" correction="Miene">Mit unbewegter <marker>Mine</marker>.</example>
+        <example type="correct">Er verzieht keine <marker>Miene</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="0" mark_to="-1">
+          <token regexp="yes" skip="1">Mine(n)?</token>
+          <token regexp="yes" inflected="yes">verzieh(en|t)|auf(zu)?setzen|setzen|setzt|gekränkt.*|unbewegt.*</token>
+        </pattern>
+        <message>Meinten Sie <suggestion><match no="1" regexp_match="Mine" regexp_replace="Miene"/></suggestion>? (Mine = unterirdischer Gang, Sprengkörper, Kugelschreibermine)</message>
+        <example type="incorrect" correction="Miene">Er versucht, keine <marker>Mine</marker> zu verziehen.</example>
+        <example type="correct">Er versucht, keine <marker>Miene</marker> zu verziehen.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token>gute</token>
+          <token>Mine</token>
+          <token>zum</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>Miene</suggestion>? (Mine = unterirdischer Gang, Sprengkörper, Kugelschreibermine)</message>
+        <example type="incorrect" correction="Miene">Er hat gute <marker>Mine</marker> zum bösen Spiel gemacht.</example>
+        <example type="correct">Er hat gute <marker>Miene</marker> zum bösen Spiel gemacht.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes" inflected="yes" skip="5">(explodieren|unterirdisch.*|Kugelschreiber|.*stift|Explosion|.*stürzen|.*spreng.*|.*gestürzt)<exception scope="next">,</exception></token>
+          <token regexp="yes">Miene(n)?</token>
+        </pattern>
+        <message>Meinten Sie <suggestion><match no="2" regexp_match="Miene" regexp_replace="Mine"/></suggestion>? (Miene = Gesichtsausdruck)</message>
+        <example type="incorrect" correction="Minen">Explodieren die <marker>Mienen</marker>?</example>
+        <example type="incorrect" correction="Mine">Er sagt, die unterirdische <marker>Miene</marker> sei zusammengestürzt.</example>
+        <example type="incorrect" correction="Mine">Der Bleistift hat eine <marker>Miene</marker>.</example>
+        <example type="incorrect" correction="Minen">Die Sprengung mit <marker>Mienen</marker></example>
+        <example type="correct">Die Explosion der <marker>Mine</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token regexp="yes" skip="5">Miene(n)?<exception scope="next">,</exception></token>
+          <token regexp="yes" inflected="yes">(explodieren|unterirdisch|Kugelschreiber|.*stift|Explosion|einstürzen|.*spreng.*)</token>
+        </pattern>
+        <message>Meinten Sie <suggestion><match no="1" regexp_match="Miene" regexp_replace="Mine"/></suggestion>? (Miene = Gesichtsausdruck)</message>
+        <example type="incorrect" correction="Minen">Die <marker>Mienen</marker> sind gestern Abend explodiert.</example>
+        <example type="incorrect" correction="Mine">Die <marker>Miene</marker> ist eingestürzt.</example>
+        <example type="incorrect" correction="Mine">Die <marker>Miene</marker> des Kugelschreibers ist leer.</example>
+        <example type="incorrect" correction="Minen">Er hat das mit den <marker>Mienen</marker> weggesprengt.</example>
+        <example type="correct">Die <marker>Mine</marker> ist explodiert.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">(Kugelschreiber|Bleistift)miene(n)?</token>
+        </pattern>
+        <message>Meinten Sie <suggestion><match no="1" regexp_match="miene" regexp_replace="mine"/></suggestion>? (Miene = Gesichtsausdruck)</message>
+        <example type="incorrect" correction="Kugelschreibermine">Die <marker>Kugelschreibermiene</marker></example>
+        <example type="correct">Die <marker>Bleistiftmine</marker></example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="MAHLEN" name="Mögliche Wortverwechslung: malen/mahlen">
+      <rule>
+        <pattern mark_from="2" mark_to="-1">
+          <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">&malennomen;</exception></token>
+          <token regexp="yes" inflected="yes" skip="5">&mahlennomen;<exception scope="next" regexp="yes" inflected="yes">&malennomen;</exception></token>
+          <token inflected="yes" regexp="yes" skip="-1">(aus|ge)?mal(ene?n?|t?)<exception scope="next" regexp="yes" inflected="yes">&malennomen;</exception></token>
+          <token postag="SENT_END"/>
+        </pattern>
+        <message>Meinten Sie <suggestion><match no="3" regexp_match="al" regexp_replace="ahl"/></suggestion>? (malen = mit Farbe ein Bild erstellen)</message>
+        <example type="incorrect" correction="ausmahlen">Weizen <marker>ausmalen</marker>.</example>
+        <example type="incorrect" correction="gemahlen">Das Korn wird in den Mühlen <marker>gemalen</marker>.</example>
+        <example type="incorrect" correction="Mahlen">Eine Mühle wird zum <marker>Malen</marker> verwendet.</example>
+        <example type="correct">Ich soll Bilder einer Mühle <marker>malen</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-2">
+          <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">&malennomen;</exception></token>
+          <token inflected="yes" regexp="yes" skip="5">(aus|ge)?mal(ene?n?|t?)<exception scope="next" regexp="yes" inflected="yes">&malennomen;</exception></token>
+          <token regexp="yes" inflected="yes" skip="-1">&mahlennomen;<exception scope="next" regexp="yes" inflected="yes">&malennomen;</exception></token>
+          <token postag="SENT_END"/>
+        </pattern>
+        <message>Meinten Sie <suggestion><match no="2" regexp_match="al" regexp_replace="ahl"/></suggestion>? (malen = mit Farbe ein Bild erstellen)</message>
+        <example type="incorrect" correction="gemahlene">das <marker>gemalene</marker> Korn aus der Mühle</example>
+        <example type="incorrect" correction="Mahlen">Zum <marker>Malen</marker> verwendet man eine Mühle.</example>
+        <example type="correct">Ich male ein Bild einer Mühle.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2" mark_to="-1">
+          <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">&mahlennomen;</exception></token>
+          <token regexp="yes" inflected="yes" skip="5">&malennomen;<exception scope="next" regexp="yes" inflected="yes">&mahlennomen;</exception></token>
+          <token inflected="yes" regexp="yes" skip="-1">(aus|ge)?mahl(ene?n?|t?)<exception scope="next" regexp="yes" inflected="yes">&mahlennomen;</exception></token>
+          <token postag="SENT_END"/>
+        </pattern>
+        <message>Meinten Sie <suggestion><match no="3" regexp_match="ahl" regexp_replace="al"/></suggestion>? (mahlen = in einer Mühle zerkleinern)</message>
+        <example type="incorrect" correction="ausmalen">Du musst das Bild <marker>ausmahlen</marker>.</example>
+        <example type="incorrect" correction="gemalt">Wir haben das im Kunstunterricht <marker>gemahlt</marker>.</example>
+        <example type="incorrect" correction="gemalt">Er hat ein schönes Selbstporträt <marker>gemahlt</marker>.</example>
+        <example type="correct">Das Bild zeigt eine <marker>mahlende</marker> Mühle.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-2">
+          <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">&mahlennomen;</exception></token>
+          <token inflected="yes" regexp="yes" skip="5">(aus|ge)?mahl(ene?n?|t?)<exception scope="next" regexp="yes" inflected="yes">&mahlennomen;</exception></token>
+          <token regexp="yes" inflected="yes" skip="-1">&malennomen;<exception scope="next" regexp="yes" inflected="yes">&mahlennomen;</exception></token>
+          <token postag="SENT_END"/>
+        </pattern>
+        <message>Meinten Sie <suggestion><match no="2" regexp_match="ahl" regexp_replace="al"/></suggestion>? (mahlen = in einer Mühle zerkleinern)</message>
+        <example type="incorrect" correction="male">Ich <marker>mahle</marker> das Bild aus.</example>
+        <example type="incorrect" correction="malten">Wir <marker>mahlten</marker> im Kunstunterricht.</example>
+        <example type="correct">Eine <marker>mahlende</marker> Mühle zeigt das Bild.</example>
+      </rule>
+    </rulegroup>
+    <!-- TODO many false alarms because of not recognizing a neuter noun and when 'das' is used as pronoun (Er sagt, das sei in Ordnung) -->
+    <rulegroup id="DASS" name="Mögliche Wortverwechslung: 'das (dass)'" default="off">
+      <rule>
+        <pattern mark_from="3" mark_to="-1" case_sensitive="yes">
+          <token postag="SENT_START" skip="-1"><exception scope="next" postag=".*NEU.*" postag_regexp="yes"/></token>
+          <token regexp="yes" inflected="yes">(sagen|berichten|meinen|glauben|schreiben|denken)</token>
+          <token>,</token>
+          <token skip="-1">das<exception scope="next" postag=".*NEU.*" postag_regexp="yes"/><exception scope="next">heißt</exception></token>
+          <token postag="SENT_END"/>
+        </pattern>
+        <message>Meinten Sie <suggestion>dass</suggestion> (Subjunktion)? Für das Relativpronomen 'das' wurde kein Beziehungswort gefunden.</message>
+        <example type="incorrect">Er sagt, <marker>das</marker> er sie liebt.</example>
+        <example type="incorrect">Er hat geschrieben, <marker>das</marker> er sie liebt.</example>
+        <example type="correct">Er sagt, <marker>dass</marker> er sie liebt.</example>
+        <example type="correct">Er sagt, <marker>das</marker> ihm gehörende Haus sei schön.</example>
+        <example type="correct">Er meint, <marker>das</marker> heißt nichts.</example>
+        <example type="correct">Er hat kein Stück geschrieben, <marker>das</marker> nicht erfolgreich wurde.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="DASS_MIT_VERB" name="Mögliche Wortverwechslung: 'dass (das) ist' etc.">
+      <rule>
+        <pattern mark_from="1" mark_to="-1" case_sensitive="no">
+          <token negate="yes">so</token>
+          <token>dass</token>
+          <token postag="VER:(AUX:)?(2|3):.+" postag_regexp="yes"><exception postag="(PA2|SUB|ART|ADJ):.+" postag_regexp="yes" scope="current"/><exception regexp="yes" scope="current">sieben|gilt|äußerst|anstelle|einst|meinen?|tausenden?|!(hat)</exception></token>
+        </pattern>
+        <message>Meinten Sie <suggestion>das</suggestion>? Die Subjunktion 'dass' scheint an dieser Stelle nicht zu passen.</message>
+        <example type="incorrect">Er sagt, <marker>dass</marker> sei richtig, aber er irrt.</example>
+        <example type="incorrect">Aber <marker>dass</marker> ist doch nicht richtig.</example>
+        <example type="incorrect">Aber <marker>dass</marker> scheinst du vergessen zu haben.</example>
+        <example type="incorrect">Aber <marker>dass</marker> hat nichts damit zu tun.</example>
+        <example type="incorrect">Aber <marker>dass</marker> hast du vergessen.</example>
+        <example type="incorrect">Aber <marker>dass</marker> warst du gar nicht.</example>
+        <example type="correct">Er sagt, <marker>dass</marker> du kommst, aber er irrt.</example>
+        <example type="correct">Er sagt, <marker>das</marker> sei richtig, aber er irrt.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="SODASS" name="Mögliche Wortverwechslung: 'so das (so dass)'">
+      <rule>
+        <pattern mark_from="1" mark_to="-1" case_sensitive="yes">
+          <token>,</token>
+          <token>so</token>
+          <token skip="-1">das<exception scope="next" postag=".*NEU.*" postag_regexp="yes"/></token>
+          <token postag="SENT_END"/>
+        </pattern>
+        <message>Meinten Sie <suggestion>so dass</suggestion>? Für den Artikel 'das' wurde kein Beziehungswort gefunden.</message>
+        <example type="incorrect">Er war erkältet, <marker>so das</marker> er nicht kommen konnte.</example>
+        <example type="correct">Er war erkältet, <marker>so dass</marker> er nicht kommen konnte.</example>
+        <example type="correct">Er soll gestürzt werden, <marker>so das</marker> Volk.</example>
+      </rule>
+    </rulegroup>
+    <rule id="FOND_VS_FONDS" name="Mögliche Wortverwechslung: Fond/Fonds">
+      <pattern>
+        <token regexp="yes">(Ablösungs|Absatz|Absatzförderungs|Abschreibungs|Agrar|Aktiendach|Aktien|Aktions|Alterssicherungs|Angestelltenpensions|Anlage|Anpassungs|Anteil|Arbeitnehmer|Arbeitskräfte|Arbeitszeit|Aufbauhilfe|Ausbildungs|Ausgleichs|Auslands|Auswanderungs|Bau|Bausparkassensicherungs|Berufsbildungs|Betriebserweiterungs|Betriebs|Bevölkerungs|Bildungs|Biogas|Bodenreserve|Branchen|Bundes|Dach|Deckungs|Devisenausgleichs|Dispositions|Eigenkapital|Einlagensicherungs|Einwanderungs|Einzel|Entschädigungs|Entwicklungs|Entwicklungshilfe|Erneuerungs|Ersatz|Ethik|Familien|Fernseh|Film|Filmförderungs|Finanzierungs|Finanzmittel|Fluthilfe|Förder|Förderungs|Forschungs|Forst|Fortbildungs|Frauenförder|Fremd|Futtermittel|Garantie|Gedächtnis|Geheim|Geld|Geldmarkt|Gemeinschafts|Gewinnbeteiligungs|Gewinn|Grund|Grundmittel|Grundstücks|Haftungs|Handels|Härte|Hauptstadtkultur|Hilfe|Hilfs|Holzabsatz|Immobilien|Index|Inlands|Internet|Investitions|Investment|Kapitalanlage|Kapitalentwicklungs|Kapital|Katastrophen|Katastrophenhilfe|Kinderhilfs|Klimaschutz|Kloster|Kranken|Kreisschul|Kultur|Kunst|Landes|Landschafts|Landwirtschafts|Laufzeit|Lehrstellen|Leistungs|Liegenschafts|Literatur|Lohn|Lotterie|Medien|Milliarden|Mindestgarantie|National|Naturschutz|Nothilfe|Öko|Öl|Opfer|Pensions|Pensionsinvestment|Petroleum|Polizeireserve|Preis|Privat|Produktionsanlage|Produktions|Produktionsgrund|Produktionsmittel|Produktionsumlauf|Publikums|Rechtshilfe|Regional|Renten|Repräsentations|Reserve|Rettungs|Risiko|Schiffs|Schmiergeld|Schuldentilgungs|Schulgeld|Sicherheits|Sicherungs|Solidaritäts|Sonder|Sozial|Spekulations|Spenden|Spezial|Staats|Stabilisierungs|Stadterweiterungs|Streik|Struktur|Tarif|Teil|Tierschutz|Tilgungs|Treuhand|Umlauf|Umlaufmittel|Umwelt|Universitäts|Unterstützungs|Vermögensbildungs|Vermögens|Verteidigungs|Wahl|Wahlkampf|Währungsausgleich|Währungsausgleichs|Währungs|Waren|Weltbevölkerungs|Weltwährungs|Werbe|Wissenschafts|Zeit|Ziel|Zukunfts|Zwangsarbeiter)fond</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>\1s</suggestion> (Bestand)?</message>
+      <example type="incorrect">Der <marker>Absatzförderungsfond</marker>.</example>
+      <example type="correct">Der <marker>Absatzförderungsfonds</marker>.</example>
+    </rule>
+    <rulegroup id="VATER_MORGANA" name="Mögliche Wortverwechslung: Vater (Fata) Morgana'">
+      <rule>
+        <pattern>
+          <token>Vater</token>
+          <token>Morgana</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>Fata Morgana</suggestion> (eine Luftspiegelung)?</message>
+        <example type="correct">Eine <marker>Fata Morgana</marker> entsteht durch Ablenkung des Lichtes.</example>
+        <example type="incorrect">Eine <marker>Vater Morgana</marker> entsteht durch Ablenkung des Lichtes.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="SEITE_SAITE" name="Mögliche Wortverwechslung: Seite/Saite">
+      <rule>
+        <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
+          <token>andere</token>
+          <token>Seiten</token>
+          <token regexp="yes">aufziehen|aufgezogen|aufziehst|aufziehe|aufzieht</token>
+        </pattern>
+        <message>Die Redewendung lautet: andere <suggestion>Saiten</suggestion> aufziehen (= strenger werden)</message>
+        <example type="correct">Die UNO muss andere <marker>Saiten</marker> aufziehen.</example>
+        <example type="correct">Bei der UNO müssen andere <marker>Saiten</marker> aufgezogen werden.</example>
+        <example type="incorrect">Die UNO muss andere <marker>Seiten</marker> aufziehen.</example>
+        <example type="incorrect">Bei der UNO müssen andere <marker>Seiten</marker> aufgezogen werden.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2" mark_to="-1">
+          <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">&seitewoerter;</exception></token>
+          <token regexp="yes" inflected="yes" skip="5">&saitewoerter;<exception scope="next" regexp="yes" inflected="yes">&seitewoerter;</exception></token>
+          <token inflected="yes" skip="-1">Seite<exception scope="next" regexp="yes" inflected="yes">&seitewoerter;</exception></token>
+          <token postag="SENT_END"/>
+        </pattern>
+        <message>Meinten Sie <suggestion><match no="3" regexp_match="ei" regexp_replace="ai"/></suggestion>? (Seite = Buchseite)</message>
+        <example type="incorrect" correction="Saite">Die E-Gitarre hat eine sechste <marker>Seite</marker>.</example>
+        <example type="correct">Dieses Buch über die Gitarre hat nur sechs <marker>Seiten</marker>.</example>
+        <example type="correct">Diese Gitarre hat sechs <marker>Saiten</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-2">
+          <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">&seitewoerter;</exception></token>
+          <token inflected="yes" skip="5">Seite<exception scope="next" regexp="yes" inflected="yes">&seitewoerter;</exception></token>
+          <token regexp="yes" inflected="yes" skip="-1">&saitewoerter;<exception scope="next" regexp="yes" inflected="yes">&seitewoerter;</exception></token>
+          <token postag="SENT_END"/>
+        </pattern>
+        <message>Meinten Sie <suggestion><match no="2" regexp_match="ei" regexp_replace="ai"/></suggestion>? (Seite = Buchseite)</message>
+        <example type="incorrect" correction="Saiten">Die <marker>Seiten</marker> des Violoncellos sind kurz.</example>
+        <example type="incorrect" correction="Saiten">Die <marker>Seiten</marker> des Kontrabasses sind gerissen.</example>
+        <example type="correct">Die <marker>Saiten</marker> des Violoncellos sind kurz.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2" mark_to="-1">
+          <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">&saitewoerter;</exception></token>
+          <token regexp="yes" inflected="yes" skip="5">&seitewoerter;<exception scope="next" regexp="yes" inflected="yes">&saitewoerter;</exception></token>
+          <token inflected="yes" skip="-1">Saite<exception scope="next" regexp="yes" inflected="yes">&saitewoerter;</exception></token>
+          <token postag="SENT_END"/>
+        </pattern>
+        <message>Meinten Sie <suggestion><match no="3" regexp_match="ai" regexp_replace="ei"/></suggestion>? (Saite = Saiteninstrument)</message>
+        <example type="incorrect" correction="Seiten">Dieses Buch hat sechs <marker>Saiten</marker>.</example>
+        <example type="correct">Dieses Buch über die Gitarre hat nur sechs <marker>Seiten</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-2">
+          <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">&saitewoerter;</exception></token>
+          <token inflected="yes" skip="5">Saite<exception scope="next" regexp="yes" inflected="yes">&saitewoerter;</exception></token>
+          <token regexp="yes" inflected="yes" skip="-1">&seitewoerter;<exception scope="next" regexp="yes" inflected="yes">&saitewoerter;</exception></token>
+          <token postag="SENT_END"/>
+        </pattern>
+        <message>Meinten Sie <suggestion><match no="2" regexp_match="ai" regexp_replace="ei"/></suggestion>? (Saite = Saiteninstrument)</message>
+        <example type="incorrect" correction="Seiten">Die <marker>Saiten</marker> des Buches sind beschrieben.</example>
+        <example type="correct">Die <marker>Seiten</marker> des Buches sind beschrieben.</example>
+      </rule>
+    </rulegroup>
+    <rule id="ETHISCH_ETHNISCH" name="Mögliche Wortverwechslung: ethisch/ethnisch">
+      <pattern mark_to="-1">
+        <token regexp="yes">ethische|ethischer|ethischen</token>
+        <token regexp="yes">Minderheit|Minderheiten|Säuberung|Säuberungen|Herkunft|Konflikt|Konflikte</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>ethnisch</suggestion> (ethisch = Ethik/Moral betreffend, ethnisch = zu einer bestimmten Ethnie/Volksgruppe gehörend)?</message>
+      <example type="correct">Bücher über <marker>ethnische</marker> Minderheiten und Vertriebene</example>
+      <example type="incorrect">Bücher über <marker>ethische</marker> Minderheiten und Vertriebene</example>
+      <example type="incorrect"><marker>Ethische</marker> Minderheiten und Vertriebene</example>
+    </rule>
+    <rule id="AUFS_TRAPEZ_BRINGEN" name="Mögliche Wortverwechslung: Trapez/Tapet">
+      <pattern mark_from="1" mark_to="-1">
+        <token>aufs</token>
+        <token>Trapez</token>
+        <token inflected="yes">bringen</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>Tapet</suggestion>?</message>
+      <example type="correct">Dieses Thema habe ich auch aufs <marker>Tapet</marker> gebracht.</example>
+      <example type="incorrect">Dieses Thema habe ich auch aufs <marker>Trapez</marker> gebracht.</example>
+    </rule>
+    <rule id="DER_GENUS" name="Mögliche Wortverwechslung: Genus/Genuss">
       <pattern>
         <token regexp="yes">der|den</token>
         <token>Genus</token>
@@ -2047,7 +2078,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct"><marker>Der Genuss</marker> von Schokolade.</example>
       <example type="incorrect"><marker>Der Genus</marker> von Schokolade.</example>
     </rule>
-    <rulegroup id="NIVEA" name="Möglicher Tippfehler: 'Nivea (Niveau)'">
+    <rulegroup id="NIVEA" name="Mögliche Wortverwechslung: Nivea/Niveau">
       <rule>
         <pattern mark_from="1" mark_to="0">
           <token regexp="yes">hohe(n|m|s)?</token>
@@ -2067,17 +2098,6 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect">Das <marker>Nivea</marker> ist sehr hoch.</example>
       </rule>
     </rulegroup>
-    <rule id="DEM_ERSTEN_BLICK" name="Möglicher Tippfehler: 'auf dem (den) ersten Blick'">
-      <pattern mark_from="1" mark_to="-2">
-        <token>auf</token>
-        <token>dem</token>
-        <token>ersten</token>
-        <token>Blick</token>
-      </pattern>
-      <message>Meinten Sie: auf <suggestion>den</suggestion> ersten Blick?</message>
-      <example type="correct">Auf <marker>den</marker> ersten Blick ist kein Unterschied zu erkennen.</example>
-      <example type="incorrect">Auf <marker>dem</marker> ersten Blick ist kein Unterschied zu erkennen.</example>
-    </rule>
   </category>
 
   <category name="Falschschreibung prominenter/geographischer Eigennamen">
@@ -2393,18 +2413,32 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
 
   <category name="Zusammen-/Getrenntschreibung">
     <!-- Jan: TODO - find a rule that can distinguish "indem" from "in dem" -->
-    <rule id="NACHDEM_NACH_DEM" name="Zusammen-/Getrenntschreibung: 'nachdem (nach dem) Essen etc. ...'">
-      <pattern case_sensitive="no" mark_to="-1">
-        <token regexp="yes">(nach|trotz|seit)dem</token>
-        <token postag="SUB:DAT:SIN:(MAS|NEU)" postag_regexp="yes" />
-        <token postag="VER:(AUX:)?(1|2|3):.+" postag_regexp="yes"><exception postag="(PA2|SUB|ART|ADJ):.+" postag_regexp="yes" scope="current"/><exception regexp="yes" scope="current">sieben|äußerst|anstelle|einst|meinen?|tausenden?</exception></token>
-      </pattern>
-      <message>Möglicherweise muss <suggestion><match no="1" regexp_replace="" regexp_match="dem"/> dem</suggestion> hier getrennt geschrieben werden.</message>
-      <example type="incorrect" correction="nach dem">Die Ruhe <marker>nachdem</marker> Sturm.</example>
-      <example type="incorrect" correction="Seit dem"><marker>Seitdem</marker> Kampf bin ich müde.</example>
-      <example type="incorrect" correction="Nach dem"><marker>Nachdem</marker> Kampf wurde ich müde.</example>
-      <example type="correct"><marker>Nach dem</marker> Essen zwei Tabletten.</example>
-    </rule>
+    <rulegroup id="NACHDEM_NACH_DEM" name="Zusammen-/Getrenntschreibung: 'nachdem (nach dem) Essen etc. ...'">
+      <rule>
+        <pattern case_sensitive="no" mark_to="-2">
+          <token regexp="yes">(nach|trotz|seit)dem</token>
+          <token postag="SUB:DAT:SIN:(MAS|NEU)" postag_regexp="yes" />
+          <token postag="(SENT_END)|VER:(AUX:)?(1|2|3):.+" postag_regexp="yes"><exception postag="(PA2|SUB|ART|ADJ):.+" postag_regexp="yes" scope="current"/><exception regexp="yes" scope="current">sieben|äußerst|anstelle|einst|meinen?|tausenden?</exception></token>
+        </pattern>
+        <message>Möglicherweise muss <suggestion><match no="1" regexp_replace="" regexp_match="dem"/> dem</suggestion> hier getrennt geschrieben werden.</message>
+        <example type="incorrect" correction="nach dem">Die Ruhe <marker>nachdem</marker> Sturm ist vollkommen.</example>
+        <example type="incorrect" correction="nach dem">Was machst du <marker>nachdem</marker> Abitur?</example>
+        <example type="incorrect" correction="Seit dem"><marker>Seitdem</marker> Kampf bin ich müde.</example>
+        <example type="incorrect" correction="Nach dem"><marker>Nachdem</marker> Frühstück wurde ich müde.</example>
+        <example type="correct"><marker>Nach dem</marker> Essen zwei Tabletten.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_to="-2">
+          <token regexp="yes">([nN]ach|[sS]eit)dem</token>
+          <token>Essen</token>
+          <token postag="(SENT_END)|VER:(AUX:)?(1|2|3):.+" postag_regexp="yes"><exception postag="(PA2|SUB|ART|ADJ):.+" postag_regexp="yes" scope="current"/><exception regexp="yes" scope="current">sieben|äußerst|anstelle|einst|meinen?|tausenden?</exception></token>
+        </pattern>
+        <message>Möglicherweise muss <suggestion><match no="1" regexp_replace="" regexp_match="dem"/> dem</suggestion> hier getrennt geschrieben werden.</message>
+        <example type="incorrect" correction="Seit dem"><marker>Seitdem</marker> Essen bin ich müde.</example>
+        <example type="incorrect" correction="Nach dem"><marker>Nachdem</marker> Essen wurde ich müde.</example>
+        <example type="correct"><marker>Nach dem</marker> Essen zwei Tabletten.</example>
+      </rule>
+    </rulegroup>
     <rule id="DAS_SELBE" name="Zusammen-/Getrenntschreibung: 'das selbe (dasselbe) etc. ...'">
       <pattern case_sensitive="no">
         <token regexp="yes">(der|die|das|des|dem|den)</token>
@@ -2996,7 +3030,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Das ist mir auch <marker>schon</marker> oft passiert.</example>
         <example type="incorrect" correction="schon|bereits">Das ist <marker>schon bereits</marker> gestern passiert.</example>
       </rule>
-       <rule>
+      <rule>
         <pattern>
           <token>bereits</token>
           <token>schon</token>
@@ -3005,6 +3039,36 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Das ist <marker>bereits</marker> geschehen.</example>
         <example type="correct">Das ist mir auch <marker>schon</marker> oft passiert.</example>
         <example type="incorrect" correction="schon|bereits">Das ist <marker>bereits schon</marker> gestern passiert.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>bald</token>
+          <token>demnächst</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>bald</suggestion> oder <suggestion>demnächst</suggestion>?</message>
+        <example type="correct">Das Gebäude ist <marker>bald</marker> fertig.</example>
+        <example type="correct">Es ist <marker>demnächst</marker> so weit.</example>
+        <example type="incorrect" correction="bald|demnächst">Das ist <marker>bald demnächst</marker> fertig.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>ausschließlich</token>
+          <token>nur</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>ausschließlich</suggestion> oder <suggestion>nur</suggestion>?</message>
+        <example type="correct">Das Gebäude ist <marker>ausschließlich</marker> für die Lagerung bestimmt.</example>
+        <example type="correct">Es ist <marker>nur</marker> gerecht.</example>
+        <example type="incorrect" correction="ausschließlich|nur">Das ist <marker>ausschließlich nur</marker> dein Problem.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>nur</token>
+          <token>ausschließlich</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>ausschließlich</suggestion> oder <suggestion>nur</suggestion>?</message>
+        <example type="correct">Das Gebäude ist <marker>ausschließlich</marker> für die Lagerung bestimmt.</example>
+        <example type="correct">Das ist <marker>nur</marker> gerecht.</example>
+        <example type="incorrect" correction="ausschließlich|nur">Das ist <marker>nur ausschließlich</marker> deine Sache.</example>
       </rule>
       <rule>
         <pattern>
@@ -4052,19 +4116,6 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Die rasante <marker>Fahrt</marker> war schnell vorbei.</example>
       </rule>
     </rulegroup>
-    <rule id="NAMENS" name="Groß-/Kleinschreibung: 'Namens (namens)'">
-      <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
-        <token postag="UNKNOWN|SUB:.*" postag_regexp="yes"/>
-        <token>Namens</token>
-        <token postag="UNKNOWN|EIG:.*" postag_regexp="yes"/>
-      </pattern>
-      <message>&subanfang;<suggestion><match case_conversion="alllower" no="2"/></suggestion>&advende;</message>
-      <example type="incorrect" correction="namens">Eine Frau <marker>Namens</marker> Anna</example>
-      <example type="correct">Eine Frau <marker>namens</marker> Anna</example>
-      <example type="incorrect" correction="namens">Eine Familie <marker>Namens</marker> Meier</example>
-      <example type="incorrect" correction="namens">Ein HTML-Backend <marker>Namens</marker> Broadway.</example>
-      <example type="correct">Beim Hören des <marker>Namens</marker> Anna dachte er an sie.</example>
-    </rule>
     <rule id="DER_LETZTE_SCHREI" name="Groß-/Kleinschreibung: 'der letzte schrei (Schrei)'">
       <pattern case_sensitive="yes" mark_from="2">
         <token regexp="yes">[dD]er</token>
@@ -5225,6 +5276,70 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <message>&subanfang;<suggestion>Flucht</suggestion>&subende;</message>
         <example type="incorrect">Bei seiner wilden <marker>flucht</marker> stahl er ein Auto.</example>
         <example type="correct">Er wurde auf der <marker>Flucht</marker> erschossen.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="VOR_DEM_AUS" name="Groß-/Kleinschreibung: 'vor dem aus (Aus)'">
+      <rule>
+        <pattern case_sensitive="yes" mark_from="2" mark_to="-1">
+          <token>vor</token>
+          <token>dem</token>
+          <token>aus</token>
+          <token postag="SENT_END" />
+        </pattern>
+        <message>&inwend;'vor dem Aus stehen' wird <suggestion>Aus</suggestion> großgeschrieben.</message>
+        <example type="incorrect">Der Betrieb steht vor dem <marker>aus</marker>.</example>
+        <example type="correct">Der Betrieb steht vor dem <marker>Aus</marker>.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="3" mark_to="-1">
+          <token inflected="yes" skip="1">stehen</token>
+          <token>vor</token>
+          <token>dem</token>
+          <token>aus</token>
+          <token>,</token>
+        </pattern>
+        <message>&inwend;'vor dem Aus stehen' wird <suggestion>Aus</suggestion> großgeschrieben.</message>
+        <example type="incorrect">Der Betrieb steht vor dem <marker>aus</marker>, weil er schon so lange rote Zahlen schreibt.</example>
+        <example type="correct">Der Betrieb steht vor dem <marker>Aus</marker>.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="2" mark_to="-1">
+          <token>vor</token>
+          <token>dem</token>
+          <token>aus</token>
+          <token inflected="yes">stehen</token>
+        </pattern>
+        <message>&inwend;'vor dem Aus stehen' wird <suggestion>Aus</suggestion> großgeschrieben.</message>
+        <example type="incorrect">Der Betrieb wird bald vor dem <marker>aus</marker> stehen.</example>
+        <example type="correct">Der Betrieb steht vor dem <marker>Aus</marker>.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="NICHT_MEHR_DER_JUENGSTE" name="Groß-/Kleinschreibung: 'nicht mehr der Jüngste' etc.">
+      <rule>
+        <pattern case_sensitive="yes" mark_from="4" mark_to="-1">
+          <token regexp="yes" skip="2">ist|bist|sind|seid</token>
+          <token>nicht</token>
+          <token>mehr</token>
+          <token regexp="yes">die|der</token>
+          <token regexp="yes">jüngsten?</token>
+          <token postag="SENT_END" />
+        </pattern>
+        <message>&inwend;'er/sie ist auch nicht mehr der/die Jüngste' usw. wird <suggestion><match no="5" regexp_match="jüngste" regexp_replace="Jüngste"/></suggestion> großgeschrieben.</message>
+        <example type="incorrect">Du bist schließlich auch nicht mehr der <marker>jüngste</marker>.</example>
+        <example type="correct">Du bist schließlich auch nicht mehr der <marker>Jüngste</marker>.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="3" mark_to="-1">
+          <token>nicht</token>
+          <token>mehr</token>
+          <token regexp="yes">die|der</token>
+          <token regexp="yes">jüngsten?</token>
+          <token regexp="yes">ist|bist|sind|seid</token>
+        </pattern>
+        <message>&inwend;'er/sie ist auch nicht mehr der/die Jüngste' usw. wird <suggestion><match no="4" regexp_match="jüngste" regexp_replace="Jüngste"/></suggestion> großgeschrieben.</message>
+        <example type="incorrect">Hier zeigt sich, dass du auch nicht mehr der <marker>jüngste</marker> bist.</example>
+        <example type="correct">Hier zeigt sich, dass du auch nicht mehr der <marker>Jüngste</marker> bist.</example>
+        <example type="correct">Du bist schließlich auch nicht mehr der <marker>Jüngste</marker>.</example>
       </rule>
     </rulegroup>
     <rulegroup id="LAECHELN_SUBST" name="Groß-/Kleinschreibung: 'lächeln (Lächeln)'">
@@ -7277,18 +7392,6 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect">Die <marker>suche</marker> dauerte lange.</example>
       <example type="incorrect">Sie waren auf der <marker>suche</marker> nach Felix.</example>
     </rule>
-    <rule id="GUTEN_UND_SCHLECHTEN" name="Groß-/Kleinschreibung: 'in Guten (guten) wie in Schlechten (schlechten) Zeiten'">
-      <pattern case_sensitive="yes">
-        <token regexp="yes">[Ii]n</token>
-        <token>Guten</token>
-        <token>wie</token>
-        <token>in</token>
-        <token>Schlechten</token>
-      </pattern>
-      <message><suggestion>in guten wie in schlechten Zeiten</suggestion> wird in dieser Wendung klein geschrieben.</message>
-      <example type="correct"><marker>In guten wie in schlechten</marker> Zeiten.</example>
-      <example type="incorrect"><marker>In Guten wie in Schlechten</marker> Zeiten.</example>
-    </rule>
     <rule id="DES_WEITEREN" name="Groß-/Kleinschreibung: 'des weiteren (Weiteren)'">
       <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
         <token regexp="yes">[Dd]es</token>
@@ -7793,6 +7896,31 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Um des lieben Friedens <marker>willen</marker> habe ich geschwiegen.</example>
       </rule>
     </rulegroup>
+    <rule id="GUTEN_UND_SCHLECHTEN" name="Groß-/Kleinschreibung: 'in Guten (guten) wie in Schlechten (schlechten) Zeiten'">
+      <pattern case_sensitive="yes">
+        <token regexp="yes">[Ii]n</token>
+        <token>Guten</token>
+        <token>wie</token>
+        <token>in</token>
+        <token>Schlechten</token>
+      </pattern>
+      <message><suggestion>in guten wie in schlechten Zeiten</suggestion> wird in dieser Wendung kleingeschrieben.</message>
+      <example type="correct"><marker>In guten wie in schlechten</marker> Zeiten.</example>
+      <example type="incorrect"><marker>In Guten wie in Schlechten</marker> Zeiten.</example>
+    </rule>
+    <rule id="NAMENS" name="Groß-/Kleinschreibung: 'Namens (namens)'">
+      <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
+        <token postag="UNKNOWN|SUB:.*" postag_regexp="yes"/>
+        <token>Namens</token>
+        <token postag="UNKNOWN|EIG:.*" postag_regexp="yes"/>
+      </pattern>
+      <message>&subanfang;<suggestion><match case_conversion="alllower" no="2"/></suggestion>&advende;</message>
+      <example type="incorrect" correction="namens">Eine Frau <marker>Namens</marker> Anna</example>
+      <example type="correct">Eine Frau <marker>namens</marker> Anna</example>
+      <example type="incorrect" correction="namens">Eine Familie <marker>Namens</marker> Meier</example>
+      <example type="incorrect" correction="namens">Ein HTML-Backend <marker>Namens</marker> Broadway.</example>
+      <example type="correct">Beim Hören des <marker>Namens</marker> Anna dachte er an sie.</example>
+    </rule>
     <rulegroup id="GOTT_SCHUETZE" name="Groß-/Kleinschreibung: 'Schütze (schütze)'">
       <rule>
         <pattern case_sensitive="yes" mark_from="1">
