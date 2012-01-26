@@ -40,8 +40,7 @@ public class ManualSynthesizerTest extends TestCase {
       "InflectedForm11\tLemma1\tPOS1\n" +
       "InflectedForm121\tLemma1\tPOS2\n" +
       "InflectedForm122\tLemma1\tPOS2\n" +
-      "InflectedForm2\tLemma2\tPOS1\n"
-      ;
+      "InflectedForm2\tLemma2\tPOS1\n";
     synthesizer = new ManualSynthesizer(new ByteArrayInputStream(data.getBytes("UTF-8")));
   }
 

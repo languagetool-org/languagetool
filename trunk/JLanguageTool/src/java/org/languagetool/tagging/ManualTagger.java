@@ -18,38 +18,29 @@
  */
 package org.languagetool.tagging;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.languagetool.synthesis.ManualSynthesizer;
 import org.languagetool.tools.StringTools;
 
-
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.*;
 
 /**
  * A tagger that reads the POS information from a plain (UTF-8) text file. This
  * makes it possible for the user to edit the text file to let the system know
  * about new words or missing readings in the *.dict file.
  * 
- * <p>
- * File Format: <tt>fullform baseform postags</tt> (tab separated)
+ * <p>File Format: <tt>fullform baseform postags</tt> (tab separated)
  * 
  * @author Daniel Naber
- * 
  * @see ManualSynthesizer
  */
 public class ManualTagger {
 
   private final Map<String, List<LookedUpTerm>> mapping;
 
-  public ManualTagger(final InputStream file) throws IOException {
-    mapping = loadMapping(file, "utf8");
+  public ManualTagger(final InputStream inputStream) throws IOException {
+    mapping = loadMapping(inputStream, "utf8");
   }
 
   /**
@@ -77,41 +68,28 @@ public class ManualTagger {
     return plainResult.toArray(new String[]{});
   }
 
-  private Map<String, List<LookedUpTerm>> loadMapping(final InputStream file,
-      final String encoding) throws IOException {
-    // TODO consider refactoring: this is almost the same as ManualSynthesizer#loadMappings()
+  private Map<String, List<LookedUpTerm>> loadMapping(final InputStream inputStream, final String encoding) throws IOException {
     final Map<String, List<LookedUpTerm>> map = new HashMap<String, List<LookedUpTerm>>();
-    InputStreamReader isr = null;
-    BufferedReader br = null;
+    final Scanner scanner = new Scanner(inputStream, encoding);
     try {
-      isr = new InputStreamReader(file, encoding);
-      br = new BufferedReader(isr);
-      String line;
-      while ((line = br.readLine()) != null) {
-        if (StringTools.isEmpty(line) || line.charAt(0)=='#') {
+      while (scanner.hasNextLine()) {
+        final String line = scanner.nextLine();
+        if (StringTools.isEmpty(line) || line.charAt(0) == '#') {
           continue;
         }
         final String[] parts = line.split("\t");
         if (parts.length != 3) {
-          throw new IOException("Unknown format in " + file + ": " + line);
+          throw new IOException("Unknown line format when loading manual tagger dictionary: " + line);
         }
-        if (map.containsKey(parts[0])) {
-          final List<LookedUpTerm> l = map.get(parts[0]);
-          l.add(new LookedUpTerm(parts[1], parts[2]));
-          map.put(parts[0], l);
-        } else {
-          final List<LookedUpTerm> l = new ArrayList<LookedUpTerm>();
-          l.add(new LookedUpTerm(parts[1], parts[2]));
-          map.put(parts[0], l);
+        List<LookedUpTerm> terms = map.get(parts[0]);
+        if (terms == null) {
+          terms = new ArrayList<LookedUpTerm>();
         }
+        terms.add(new LookedUpTerm(parts[1], parts[2]));
+        map.put(parts[0], terms);
       }
     } finally {
-      if (br != null) {
-        br.close();
-      }
-      if (isr != null) {
-        isr.close();
-      }
+      scanner.close();
     }
     return map;
   }

@@ -18,20 +18,12 @@
  */
 package org.languagetool.synthesis;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.languagetool.tagging.ManualTagger;
 import org.languagetool.tools.StringTools;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.*;
 
 /**
  * A synthesizer that reads the inflected form and POS information from a plain (UTF-8) text file. <br/>
@@ -50,8 +42,8 @@ public class ManualSynthesizer {
   private final Map<String, List<String>> mapping;
   private Set<String> possibleTags = new HashSet<String>();
 
-  public ManualSynthesizer(final InputStream file) throws IOException {
-    mapping = loadMapping(file, "utf8");
+  public ManualSynthesizer(final InputStream inputStream) throws IOException {
+    mapping = loadMapping(inputStream, "utf8");
     possibleTags = Collections.unmodifiableSet(possibleTags); // lock
   }
 
@@ -59,7 +51,7 @@ public class ManualSynthesizer {
    * Retrieve all the possible POS values.
    */
   public Set<String> getPossibleTags() {
-	return possibleTags;
+    return possibleTags;
   }
   
   /**
@@ -73,23 +65,18 @@ public class ManualSynthesizer {
     return mapping.get(lemma + "|" + posTag);
   }
 
-  private Map<String, List<String>> loadMapping(final InputStream file,
-      final String encoding) throws IOException {
-    // TODO consider refactoring: this is almost the same as BaseSynthesizer#loadMappings()
+  private Map<String, List<String>> loadMapping(final InputStream inputStream, final String encoding) throws IOException {
     final Map<String, List<String>> map = new HashMap<String, List<String>>();
-    InputStreamReader isr = null;
-    BufferedReader br = null;
+    final Scanner scanner = new Scanner(inputStream, encoding);
     try {
-      isr = new InputStreamReader(file, encoding);
-      br = new BufferedReader(isr);
-      String line;
-      while ((line = br.readLine()) != null) {
-        if (StringTools.isEmpty(line) || line.charAt(0)=='#') {
+      while (scanner.hasNextLine()) {
+        final String line = scanner.nextLine();
+        if (StringTools.isEmpty(line) || line.charAt(0) == '#') {
           continue;
         }
         final String[] parts = line.split("\t");
         if (parts.length != 3) {
-          throw new IOException("Unknown format in " + file + ": " + line);
+          throw new IOException("Unknown line format when loading manual synthesizer dictionary: " + line);
         }
         final String key = parts[1] + "|" + parts[2];
         if (!map.containsKey(key)) {
@@ -99,12 +86,7 @@ public class ManualSynthesizer {
         possibleTags.add(parts[2]); // POS 
       }
     } finally {
-      if (br != null) {
-        br.close();
-      }
-      if (isr != null) {
-        isr.close();
-      }
+      scanner.close();
     }
     return map;
   }
