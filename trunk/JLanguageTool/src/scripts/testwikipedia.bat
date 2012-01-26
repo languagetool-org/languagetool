@@ -20,7 +20,7 @@ ECHO Where:
 ECHO - lang is a language code such as 'en' or 'de'
 ECHO - wikipediaXmlDump is the path to an unpacked Wikipedia XML dump
 ECHO - ruleIds is a comma-separated list of rules to be activated, or '-' for the default rules
-ECHO - maxNumArticles is the maximum nuber of articles to check (optional)
+ECHO - maxNumArticles is the maximum number of articles to check (optional)
 ECHO Examples:
 ECHO - %0 de dewiki-20111012-pages-articles-partly.xml -
 ECHO - %0 de dewiki-20111012-pages-articles-partly.xml GROSSER_STIEL 50
