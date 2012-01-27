@@ -79,8 +79,13 @@ public class CaseRule extends GermanRule {
   
   private static final Set<String> exceptions = new HashSet<String>();
   static {
+    exceptions.add("Stift");
+    exceptions.add("Belange");
+    exceptions.add("Geistlicher");
+    exceptions.add("Jenseits");
     exceptions.add("Abends");
     exceptions.add("Abgeordneter");
+    exceptions.add("Angestellter");
     exceptions.add("Abriss");
     exceptions.add("Ahne");
     exceptions.add("Ähnlichem");
