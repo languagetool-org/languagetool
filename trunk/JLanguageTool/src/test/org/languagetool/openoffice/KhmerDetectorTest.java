@@ -10,7 +10,8 @@ public class KhmerDetectorTest extends TestCase {
     assertTrue(detector.isKhmer("ប៉ុ"));
     assertTrue(detector.isKhmer("ប៉ុន្តែ​តើ"));
     assertTrue(detector.isKhmer("ហើយដោយ​ព្រោះ​"));
-    
+    assertTrue(detector.isKhmer("«ទៅ​បាន​។ «"));
+
     assertFalse(detector.isKhmer("Hallo"));
     assertFalse(detector.isKhmer("öäü"));
 
