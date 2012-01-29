@@ -199,7 +199,11 @@ public class PatternRuleTest extends TestCase {
    * Predicate to check whether two exceptions are identical or whether
    * one exception always implies the other.
    *
-   * There is no reason for a token to have two identical exceptions.
+   * Example #1, useless identical exceptions:
+   * <exception>xx</exception><exception>xx</exception>
+   *
+   * Example #2, first exception implies the second exception:
+   * <exception>xx</exception><exception postag="A">xx</exception>
    */
   private static boolean equalException(final Element exception1,
                                         final Element exception2)
@@ -213,7 +217,7 @@ public class PatternRuleTest extends TestCase {
       string1 = string1.toLowerCase();
       string2 = string2.toLowerCase();
     }
-    if (!string1.isEmpty() || !string2.isEmpty()) {
+    if (!string1.isEmpty() && !string2.isEmpty()) {
       if (!string1.equals(string2)) {
         return false;
       }
@@ -221,10 +225,15 @@ public class PatternRuleTest extends TestCase {
 
     final String posTag1 = exception1.getPOStag() == null ? "" : exception1.getPOStag();
     final String posTag2 = exception2.getPOStag() == null ? "" : exception2.getPOStag();
-    if (!posTag1.isEmpty() || !posTag2.isEmpty()) {
+    if (!posTag1.isEmpty() && !posTag2.isEmpty()) {
       if (!posTag1.equals(posTag2)) {
         return false;
       }
+    }
+
+    if ( string1.isEmpty() != string2.isEmpty()
+      && posTag1.isEmpty() != posTag2.isEmpty()) {
+      return false;
     }
 
     // We should not need to check for: 
