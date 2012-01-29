@@ -120,6 +120,7 @@ public class PatternRuleTest extends TestCase {
           element.getString(),
           element.isRegularExpression(),
           element.getCaseSensitive(),
+          element.getNegation(),
           element.isInflected(),
           lang, rule.getId() + ":" + rule.getSubId());
 
@@ -128,8 +129,9 @@ public class PatternRuleTest extends TestCase {
           element.getPOStag() == null ? "" : element.getPOStag(),
           element.isPOStagRegularExpression(),
           element.getCaseSensitive(),
+          element.getPOSNegation(),
           false,
-          lang, rule.getId() + ":" + rule.getSubId() + " (exception in POS tag) ");
+          lang, rule.getId() + ":" + rule.getSubId() + " (POS tag)");
 
         List<Element> exceptionElements = new ArrayList<Element>();
         if (element.getExceptionList() != null) {
@@ -138,6 +140,7 @@ public class PatternRuleTest extends TestCase {
             if (exception.hasNextException() && element.getSkipNext() == 0) {
               System.err.println("The " + lang.toString() + " rule: "
                   + rule.getId() + ":" + rule.getSubId()
+                  + " (exception in token [" + i + "])"
                   + " in token [" + i + "]"
                   + " has no skip=\"...\" and yet contains scope=\"next\""
                   + " so the exception never applies. "
@@ -152,18 +155,20 @@ public class PatternRuleTest extends TestCase {
                 exception.getString(),
                 exception.isRegularExpression(),
                 exception.getCaseSensitive(),
+                exception.getNegation(),
                 exception.isInflected(),
                 lang,
-                rule.getId() + ":" + rule.getSubId() + " (exception in token [" + i + "]) ");
+                rule.getId() + ":" + rule.getSubId()+ " (exception in token [" + i + "])");
             }
             // Check postag="..." of exception is consistent with postag_regexp="..."
             warnIfElementNotKosher(
               exception.getPOStag() == null ? "" : exception.getPOStag(),
               exception.isPOStagRegularExpression(),
               exception.getCaseSensitive(),
+              exception.getPOSNegation(),
               false,
               lang,
-              rule.getId() + ":" + rule.getSubId() + " (exception in POS tag of token [" + i + "]) ");
+              rule.getId() + ":" + rule.getSubId() + " (exception in POS tag of token [" + i + "])");
 
             // Search for duplicate exceptions (which are useless).
             // Since there are 2 nested loops on the list of exceptions,
@@ -199,27 +204,27 @@ public class PatternRuleTest extends TestCase {
   private static boolean equalException(final Element exception1,
                                         final Element exception2)
   {
-    String string1 = exception1.getString();
-    String string2 = exception2.getString();
+    String string1 = exception1.getString() == null ? "" : exception1.getString();
+    String string2 = exception2.getString() == null ? "" : exception2.getString();
     if (!exception1.getCaseSensitive() || !exception2.getCaseSensitive()) {
       // String comparison is done case insensitive if one or both strings
-      // are case insensitive, because the case insensive one would imply
+      // are case insensitive, because the case insensitive one would imply
       // the case sensitive one.
       string1 = string1.toLowerCase();
       string2 = string2.toLowerCase();
     }
-    final boolean equalStrings = (string1 == null || string2 == null)
-      ? string1 == string2 : string1.equals(string2);
-    if (!equalStrings) {
-      return false;
+    if (!string1.isEmpty() || !string2.isEmpty()) {
+      if (!string1.equals(string2)) {
+        return false;
+      }
     }
 
-    final String posTag1 = exception1.getPOStag();
-    final String posTag2 = exception2.getPOStag();
-    final boolean equalPosTags = (posTag1 == null || posTag2 == null)
-      ? posTag1 == posTag2 : posTag1.equals(posTag2);
-    if (!equalPosTags) {
-      return false;
+    final String posTag1 = exception1.getPOStag() == null ? "" : exception1.getPOStag();
+    final String posTag2 = exception2.getPOStag() == null ? "" : exception2.getPOStag();
+    if (!posTag1.isEmpty() || !posTag2.isEmpty()) {
+      if (!posTag1.equals(posTag2)) {
+        return false;
+      }
     }
 
     // We should not need to check for: 
@@ -241,6 +246,7 @@ public class PatternRuleTest extends TestCase {
       final String stringValue,
       final boolean isRegularExpression,
       final boolean isCaseSensitive,
+      final boolean isNegated,
       final boolean isInflected,
       final Language lang, final String ruleId) {
 
@@ -251,7 +257,7 @@ public class PatternRuleTest extends TestCase {
           + "\" that is not marked as regular expression but probably is one.");
     }
 
-    if (isRegularExpression && "".equals(stringValue)) {
+    if (isRegularExpression && stringValue.isEmpty()) {
       System.err.println("The " + lang.toString() + " rule: "
           + ruleId + " contains an empty string " + "\"" + stringValue
           + "\" that is marked as regular expression.");
@@ -263,7 +269,11 @@ public class PatternRuleTest extends TestCase {
           + "\" that is marked as regular expression but probably is not one.");
     }
 
-    if (isInflected && "".equals(stringValue)) {
+    if (isNegated && stringValue.isEmpty()) {
+      System.err.println("The " + lang.toString() + " rule: "
+          + ruleId + " marked as negated but is empty so the negation is useless. Did you mix up negated and pos_negated?");
+    }
+    if (isInflected && stringValue.isEmpty()) {
       System.err.println("The " + lang.toString() + " rule: "
           + ruleId + " contains " + "\"" + stringValue
           + "\" that is marked as inflected but is empty, so the attribute is redundant.");
@@ -274,6 +284,7 @@ public class PatternRuleTest extends TestCase {
           + "regular expression \".*\" which is useless: "
           + "(use an empty string without regexp=\"yes\" such as <token/>)");
     }
+
 
     if (isRegularExpression && !isCaseSensitive) {
       final Matcher matcher = CASE_PATTERN.matcher(stringValue);
