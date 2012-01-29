@@ -141,7 +141,7 @@ public class PatternRuleTest extends TestCase {
                   + " in token [" + i + "]"
                   + " has no skip=\"...\" and yet contains scope=\"next\""
                   + " so the exception never applies. "
-                  + " Did you forget skip=\"...\"");
+                  + " Did you forget skip=\"...\"?");
             }
 
             // Check whether exception value is consistent with regexp="..."
