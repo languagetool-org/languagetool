@@ -1664,7 +1664,9 @@ Useful links:
       </rule>
       <rule>
         <pattern mark_from="1" mark_to="-1">
-          <token postag="N f s.*|N m p t.*" postag_regexp="yes"/>
+          <token postag="N f s.*|N m p t.*" postag_regexp="yes">
+            <exception postag="N f p.*|N m s.*|N m p|N m p [^t].*" postag_regexp="yes"/>
+          </token>
           <token postag="J.*" postag_regexp="yes" inflected="yes" regexp="yes">[gbm].*
             <exception postag="J[^M]*M.*:1:.*" postag_regexp="yes"/>
             <exception postag="[^J].*" postag_regexp="yes"/>
@@ -1685,10 +1687,12 @@ Useful links:
         <example type="correct">Al lodenn vrasañ.</example>
         <example type="incorrect">Ur gevredigezh <marker>gouiziek</marker>.</example>
         <example type="correct">Ur gevredigezh ouiziek.</example>
+        <example type="correct">Ur gouel bras.</example>
       </rule>
       <rule>
         <pattern mark_from="1" mark_to="-1">
           <token postag="N f s.*|N m p t.*" postag_regexp="yes" regexp="yes">.*[lmnrvaeiouwy]
+            <exception postag="N f p.*|N m s.*|N m p|N m p [^t].*" postag_regexp="yes"/>
           </token>
           <token postag="J.*" postag_regexp="yes" inflected="yes" regexp="yes">[ktp].*
             <exception postag="J[^M]*M.*:1:.*" postag_regexp="yes"/>
@@ -1708,6 +1712,7 @@ Useful links:
       <rule>
         <pattern mark_from="1">
           <token postag="N f s.*|N m p t.*" postag_regexp="yes">
+            <exception postag="N f p.*|N m s.*|N m p|N m p [^t].*" postag_regexp="yes"/>
             <exception regexp="yes">.*([lnmrvaeiouù]|lh)</exception>
             <exception>gwall</exception>
           </token>
@@ -1736,7 +1741,6 @@ Useful links:
       <rule>
         <pattern mark_from="1">
           <token postag="N f p.*|N m s.*" postag_regexp="yes">
-            <exception postag="N f s.*|N m p t.*" postag_regexp="yes"/>
             <exception postag="N f s.*|N m p t.*" postag_regexp="yes"/>
             <exception regexp="yes" inflected="yes">.|re|aer|avel|brud|c’hoari|c’hwezh|gwall|lur|revr|seul|tra|war</exception>
           </token>
@@ -1957,6 +1961,36 @@ Useful links:
       <example type="incorrect">Hag <marker>ha</marker> zo</example>
       <example type="correct">Hag a zo</example>
     </rule>
+
+    <rulegroup id="PEOGWIR" name="peogwin + e">
+      <rule>
+        <pattern mark_to="-1">
+          <token>peogwir</token>
+          <token negate="yes">e<exception inflected="yes" regexp="yes">bezañ|ne</exception></token>
+          <token negate="yes" inflected="yes" regexp="yes">bezañ|kaout
+            <exception regexp="yes">[pd]?eus|[bpd](oa|ez|efe|ije)</exception>
+          </token>
+        </pattern>
+        <message>Ar ger «peogwir» a c’oulenn atav ar rannig-verb «e».</message>
+        <example type="incorrect"><marker>Peogwir plijout</marker> a ra din.</example>
+        <example type="correct">Peogwir e plij din.</example>
+        <example type="correct">Peogwir ez eo deut.</example>
+        <example type="correct">Peogwir en deus labour.</example>
+        <example type="correct">Peogwir out trist.</example>
+        <example type="correct">Peogwir n’hon eus ket arc’hant.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token>peogwir</token>
+          <token regexp="yes">am|az|ac’h</token>
+          <token inflected="yes">bezañ</token>
+        </pattern>
+        <message>Ar ger «peogwir» a c’houlenn atav ar rannig-verb «e». Ha fellout a rae skrivañ <suggestion><match no="1" regexp_match=".(.*)" regexp_replace="e$1"/></suggestion>?</message>
+        <example type="incorrect">Peogwir <marker>am</marker> eus amzer a-walc’h.</example>
+        <example type="correct">Peogwir em eus amzer a-walc’h.</example>
+      </rule>
+    </rulegroup>
+
   </category>
 
   <category name="Elision">
