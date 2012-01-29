@@ -645,6 +645,7 @@ though, and has since been slightly modified)-->
           <token>d</token>
           <token regexp="yes">[’´'‛′‘]</token>
           <token regexp="yes">avantages?</token>
+          <token negate="yes" regexp="yes">de|du|d</token> <!-- avoids reporting error twice -->
         </pattern>
         <message>Voulez-vous écrire <suggestion>davantage</suggestion> ?</message>
         <example type="incorrect">Je pense <marker>d’avantage</marker> à cette solution.</example>
@@ -3882,8 +3883,8 @@ though, and has since been slightly modified)-->
           <token negate="yes" regexp="yes">plus|moins|de|à|appareil|[’´'‛′‘]/</token>
           <token postag="N . p" postag_regexp="yes"/>
           <token regexp="yes" skip="2">que?</token>
-          <token postag="V avoir ind.*" postag_regexp="yes" skip="2"><exception postag="A" scope="next"/></token>
-          <token postag="V ppa.* s" postag_regexp="yes" skip="1"><exception postag="V inf" scope="next"/></token>
+          <token postag="V avoir ind.*" postag_regexp="yes" skip="2"/>
+          <token postag="V ppa.* s" postag_regexp="yes"/>
         </pattern>
         <message>Si « \2 » est l’antécédent du relatif « \3 », vérifiez l’accord du participe « \5 » en nombre.</message>
         <example type="correct">Les documents qu’ils <marker>ont achetés</marker>.</example>
@@ -3897,7 +3898,7 @@ though, and has since been slightly modified)-->
           <token postag="N . s" postag_regexp="yes"/>
           <token regexp="yes" skip="2">que?</token>
           <token postag="V avoir ind.*" postag_regexp="yes" skip="2"/>
-          <token postag="V ppa.* p" postag_regexp="yes"><exception postag="V inf" scope="next"/></token>
+          <token postag="V ppa.* p" postag_regexp="yes"/>
         </pattern>
         <message>Si « \2 » est l’antécédent du relatif « \3 », vérifiez l’accord du participe « \5 » en nombre.</message>
         <example type="correct">Le document qu’ils <marker>ont acheté</marker>.</example>
@@ -3909,7 +3910,7 @@ though, and has since been slightly modified)-->
           <token postag="N f .*" postag_regexp="yes"><exception regexp="yes">impression|fois</exception></token>
           <token regexp="yes" skip="2">que?</token>
           <token postag="V avoir ind.*" postag_regexp="yes" skip="2"/>
-          <token postag="V ppa m .*" postag_regexp="yes"><exception postag="V inf" scope="next"/></token>
+          <token postag="V ppa m .*" postag_regexp="yes"></token>
         </pattern>
         <message>Si « \2 » est l’antécédent du relatif « \3 », vérifiez l’accord du participe « \5 » en genre.</message>
         <example type="correct">La femme que j’<marker>ai aidée</marker>.</example>
@@ -3927,7 +3928,7 @@ though, and has since been slightly modified)-->
           <token postag="N m .*" postag_regexp="yes"/>
           <token regexp="yes" skip="2">que?</token>
           <token postag="V avoir ind.*" postag_regexp="yes" skip="2"/>
-          <token postag="V ppa f .*" postag_regexp="yes"><exception postag="V inf" scope="next"/></token>
+          <token postag="V ppa f .*" postag_regexp="yes"></token>
         </pattern>
         <message>Si « \2 » est l’antécédent du relatif « \3 », vérifiez l’accord du participe « \5 » en genre.</message>
         <example type="correct">L’homme que j’<marker>ai aidé</marker>.</example>
@@ -19861,12 +19862,13 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="ETRE_GRE" name="être gré">
       <pattern mark_to="-1">
-        <token inflected="yes" skip="2">être</token>
+        <token inflected="yes">être</token>
         <token>gré</token>
       </pattern>
       <message>« Être gré » est un tour critiqué. Employez <suggestion>savoir</suggestion>.</message>
       <example type="incorrect"><marker>être</marker> gré</example>
       <example type="correct"><marker>savoir gré</marker></example>
+      <example type="correct">Le contrat est négocié de gré à gré.</example>
     </rule>
     <rulegroup id="PIRE_ALLER" name="pire(-)aller">
       <rule>
