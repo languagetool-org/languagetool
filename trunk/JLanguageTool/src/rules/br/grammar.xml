@@ -4538,6 +4538,31 @@ Useful links:
       </rule>
     </rulegroup>
 
+    <rulegroup id="PEP_BEP" name="bep ha pep">
+      <rule>
+        <pattern mark_to="-1">
+          <token>pep</token>
+          <token regexp="yes">gwech|gwezh|segond|munut|eur|deiz|noz|mintin|beure|enderv|abardae|sizhun|miz|kantved|Lun|Merc’her|Yaou|Gwener|Sadorn|Sul|Genver|C’hwevrer|Meurzh|Ebrel|Mae|Even|Mezheven|Gouere|Gouhere|Eost|Gwengolo|Here|Du|Kerdu|Kerzu</token>
+        </pattern>
+        <message><suggestion>bep</suggestion> a vez implijet a-raok un anv amazer.</message>
+        <example type="incorrect">Dont a ra amañ <marker>pep</marker> Sul.</example>
+        <example type="correct">Dont a ra amañ bep Sul.</example>
+        <example type="correct">Ar pep retañ eo ober se.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-2">
+          <token>pep</token>
+          <token postag="K.*" postag_regexp="yes"/>
+          <token regexp="yes">gwech|gwezh|segond|munut|eur|deiz|noz|mintin|beure|enderv|abardae|sizhun|miz|kantved|Lun|Merc’her|Yaou|Gwener|Sadorn|Sul|Genver|C’hwevrer|Meurzh|Ebrel|Mae|Even|Mezheven|Gouere|Gouhere|Eost|Gwengolo|Here|Du|Kerdu|Kerzu</token>
+        </pattern>
+        <message><suggestion>bep</suggestion> a vez implijet a-raok un anv amazer.</message>
+        <example type="incorrect">Dont a ra amañ <marker>pep</marker> eil Sul.</example>
+        <example type="correct">Dont a ra amañ bep eil Sul.</example>
+        <example type="incorrect"><marker>Pep</marker> pemp munut</example>
+        <example type="correct"><marker>Bep</marker> pemp munut</example>
+      </rule>
+    </rulegroup>
+
   </category>
   <!-- vim: foldmethod=marker foldmarker=<category,</category:
   -->
