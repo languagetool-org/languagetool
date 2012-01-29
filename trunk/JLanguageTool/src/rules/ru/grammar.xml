@@ -1098,7 +1098,7 @@ $Id: grammar.xml,v 1.83 2012-01-24 18:12:01 yakovru Exp $
                 
                 <pattern mark_from="1">
                     <!--           NN:Masc:Fem:Nom   VB:Past:!PL   -->
-                    <token  postag="SENT_START" skip ="-1"><exception scope="next" postag_regexp="yes" postag="NN:.*:PL:Nom" /><exception scope="next" postag_regexp="yes" postag="PNN:.*" /><exception scope="next" postag_regexp="yes" postag="PNN:.*" /></token>                 
+                    <token  postag="SENT_START" skip ="-1"><exception scope="next" postag_regexp="yes" postag="NN:.*:PL:Nom" /><exception scope="next" postag_regexp="yes" postag="PNN:.*" /></token>                 
                     <token  postag="NN:Fem:Sin:Nom" ><exception negate_pos="yes"  postag="NN:Fem:Sin:Nom"  /><exception scope="previous" regexp="yes" >и|,</exception></token>
                     <token  postag="VB:Past:PL"><exception negate_pos="yes"  postag="VB:Past:PL"  /></token>               
                 </pattern>
@@ -1729,7 +1729,7 @@ $Id: grammar.xml,v 1.83 2012-01-24 18:12:01 yakovru Exp $
         <rule default="on"  id="Verb_and_PREP" name="Глагол и предлог">  
             <pattern case_sensitive="yes">
                 <!--              PREP VB:.*    -->
-                <token  postag="PREP" regexp="yes"><exception negate_pos="yes" postag="PREP" ></exception><exception regexp ="yes">спустя|ради|[А-Я][А-Я]*</exception></token>
+                <token  postag="PREP"><exception negate_pos="yes" postag="PREP" ></exception><exception regexp ="yes">спустя|ради|[А-Я][А-Я]*</exception></token>
                 <token  postag="VB:.*" postag_regexp="yes"><exception negate_pos="yes" postag="VB:.*" postag_regexp="yes"></exception><exception>трём</exception></token>
                 
             </pattern>
