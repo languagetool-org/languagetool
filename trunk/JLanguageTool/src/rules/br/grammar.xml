@@ -1990,6 +1990,33 @@ Useful links:
         <example type="correct">Peogwir em eus amzer a-walc’h.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="ADV_E" name="adverb + e">
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token postag="A"><exception>a-walc’h</exception></token>
+          <token regexp="yes">a[mz]|ac’h</token>
+          <token regexp="yes">p?eus|[bp]oa?</token>
+        </pattern>
+        <message>Lakaet e vez a rannig verb «e» goude an adverb. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="e$1"/></suggestion>?</message>
+        <example type="incorrect">Alies <marker>am</marker> eus debret se.</example>
+        <example type="correct">Alies em eus debret se.</example>
+        <example type="correct">Amzer a-walc’h am eus.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="ARAOGENN_E" name="araogenn + e">
+      <rule>
+        <pattern mark_from="3" mark_to="-1">
+          <token postag="SENT_START"/>
+          <token postag="P"/>
+          <token postag="N.*" postag_regexp="yes"/>
+          <token regexp="yes">a[mz]|ac’h</token>
+          <token regexp="yes">p?eus|[bp]oa?</token>
+        </pattern>
+        <message>Lakaet e vez a rannig verb «e» goude ar ranadenn dieeun. Ha fellout a rae deoc’h skrivañ <suggestion><match no="4" regexp_match=".(.*)" regexp_replace="e$1"/></suggestion>?</message>
+        <example type="incorrect">E Breizh <marker>am</marker> eus kavet se.</example>
+        <example type="correct">E Breizh <marker>em</marker> eus kavet se.</example>
+      </rule>
+    </rulegroup>
 
   </category>
 
