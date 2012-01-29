@@ -255,13 +255,11 @@ public class Main extends WeakBase implements XJobExecutor,
   private synchronized ProofreadingResult doGrammarCheckingInternal(
       final String paraText, final Locale locale, final ProofreadingResult paRes) {
 
-    if (!StringTools.isEmpty(paraText)
-        && hasLocale(locale)) {
+    if (!StringTools.isEmpty(paraText) && hasLocale(locale)) {
         // caching the instance of LT
-        if (!Language.getLanguageForShortName(locale.Language).equals(
-            docLanguage)
-            || langTool == null || recheck) {
-          docLanguage = Language.getLanguageForShortName(locale.Language);
+        final Language langForShortName = Language.getLanguageForShortName(locale.Language);
+        if (!langForShortName.equals(docLanguage) || langTool == null || recheck) {
+          docLanguage = langForShortName;
           if (docLanguage == null) {
             return paRes;
           }

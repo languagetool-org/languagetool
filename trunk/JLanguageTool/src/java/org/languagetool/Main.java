@@ -164,22 +164,16 @@ class Main {
     boolean oneTime = false;
     if (!"-".equals(filename)) {
       if (autoDetect) {
-          Language language = detectLanguageOfFile(filename, encoding);
-          if (language == null) {
-              System.err.println("Could not detect language well enough, using English");
-              language = Language.ENGLISH;
-          }
-          try {
-              changeLanguage(language, motherTongue, disabledRules, enabledRules);
-          } catch (SAXException e) {
-              e.printStackTrace();
-          } catch (ParserConfigurationException e) {
-              e.printStackTrace();
-          }
-          System.out.println("Using " + language.getName() + " for file " + filename);
+        Language language = detectLanguageOfFile(filename, encoding);
+        if (language == null) {
+          System.err.println("Could not detect language well enough, using English");
+          language = Language.ENGLISH;
+        }
+        changeLanguage(language, motherTongue, disabledRules, enabledRules);
+        System.out.println("Using " + language.getName() + " for file " + filename);
       }
       final File file = new File(filename);
-      // run once on file if the file size < MAXFILESIZE or
+      // run once on file if the file size < MAX_FILE_SIZE or
       // when we use the bitext mode (we use a bitext reader
       // instead of a direct file access)
       oneTime = file.length() < MAX_FILE_SIZE || bitextMode;
@@ -256,22 +250,16 @@ class Main {
           sb.append(line);
           lineCount++;    
           // to detect language from the first input line
-          if (lineCount == 1 && autoDetect) {     
-              Language language = detectLanguageOfString(line);
-              if (language == null) {
-                  System.err.println("Could not detect language well enough, using English");
-                  language = Language.ENGLISH;
-              }
-              System.out.println("Language used is: " + language.getName());
-              language.getSentenceTokenizer().setSingleLineBreaksMarksParagraph(
-                        singleLineBreakMarksParagraph);
-              try {
-                  changeLanguage(language, motherTongue, disabledRules, enabledRules);
-              } catch (SAXException e) {
-                  e.printStackTrace();
-              } catch (ParserConfigurationException e) {
-                  e.printStackTrace();
-              }
+          if (lineCount == 1 && autoDetect) {
+            Language language = detectLanguageOfString(line);
+            if (language == null) {
+              System.err.println("Could not detect language well enough, using English");
+              language = Language.ENGLISH;
+            }
+            System.out.println("Language used is: " + language.getName());
+            language.getSentenceTokenizer().setSingleLineBreaksMarksParagraph(
+                    singleLineBreakMarksParagraph);
+            changeLanguage(language, motherTongue, disabledRules, enabledRules);
           }
           sb.append('\n');
           tmpLineOffset++;
@@ -634,9 +622,10 @@ class Main {
     }
     return language;
   }
-  
-  private void changeLanguage(Language language, Language motherTongue, 
-          String[] disabledRules, String[] enabledRules ) throws IOException, SAXException, ParserConfigurationException {
+
+  private void changeLanguage(Language language, Language motherTongue,
+                              String[] disabledRules, String[] enabledRules) {
+    try {
       lt = new JLanguageTool(language, motherTongue);
       lt.activateDefaultPatternRules();
       lt.activateDefaultFalseFriendRules();
@@ -644,6 +633,9 @@ class Main {
       if (verbose) {
         lt.setOutput(System.err);
       }
+    } catch (Exception e) {
+      throw new RuntimeException("Could not create LanguageTool instance for language " + language, e);
+    }
   }
 
 }
