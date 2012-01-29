@@ -588,6 +588,16 @@ public class Element {
   }
 
   /**
+   * Checks if the element has an exception for a next scope.
+   * (only used for testing)
+   * 
+   * @return True if the element has exception for the next scope.
+   */
+  public final boolean hasNextException() {
+    return exceptionValidNext;
+  }
+
+  /**
    * Negates the meaning of match().
    * 
    * @param negation

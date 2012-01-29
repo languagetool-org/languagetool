@@ -121,7 +121,7 @@ public class PatternRuleTest extends TestCase {
           element.isRegularExpression(),
           element.getCaseSensitive(),
           element.isInflected(),
-          lang, rule.getId());
+          lang, rule.getId() + ":" + rule.getSubId());
 
         // Check postag="..." is consistent with postag_regexp="..."
         warnIfElementNotKosher(
@@ -129,10 +129,21 @@ public class PatternRuleTest extends TestCase {
           element.isPOStagRegularExpression(),
           element.getCaseSensitive(),
           false,
-          lang, rule.getId() + " (exception in POS tag) ");
+          lang, rule.getId() + ":" + rule.getSubId() + " (exception in POS tag) ");
 
+        List<Element> exceptionElements = new ArrayList<Element>();
         if (element.getExceptionList() != null) {
           for (final Element exception: element.getExceptionList()) {
+            // Detect useless exception or missing skip="...".
+            if (exception.hasNextException() && element.getSkipNext() == 0) {
+              System.err.println("The " + lang.toString() + " rule: "
+                  + rule.getId() + ":" + rule.getSubId()
+                  + " in token [" + i + "]"
+                  + " has no skip=\"...\" and yet contains scope=\"next\""
+                  + " so the exception never applies. "
+                  + " Did you forget skip=\"...\"");
+            }
+
             // Check whether exception value is consistent with regexp="..."
             // Don't check string "." since it is sometimes used as a regexp
             // and sometimes used as non regexp.
@@ -142,7 +153,8 @@ public class PatternRuleTest extends TestCase {
                 exception.isRegularExpression(),
                 exception.getCaseSensitive(),
                 exception.isInflected(),
-                lang, rule.getId() + " (exception in token [" + i + "]) ");
+                lang,
+                rule.getId() + ":" + rule.getSubId() + " (exception in token [" + i + "]) ");
             }
             // Check postag="..." of exception is consistent with postag_regexp="..."
             warnIfElementNotKosher(
@@ -150,11 +162,79 @@ public class PatternRuleTest extends TestCase {
               exception.isPOStagRegularExpression(),
               exception.getCaseSensitive(),
               false,
-              lang, rule.getId() + " (exception in POS tag of token [" + i + "]) ");
+              lang,
+              rule.getId() + ":" + rule.getSubId() + " (exception in POS tag of token [" + i + "]) ");
+
+            // Search for duplicate exceptions (which are useless).
+            // Since there are 2 nested loops on the list of exceptions,
+            // this has thus a O(n^2) complexity, where n is the number
+            // of exception in a token. But n is small and it is also
+            // for testing only so that's OK.
+            for (final Element otherException: exceptionElements) {
+              if (equalException(exception, otherException)) {
+                System.err.println("The " + lang.toString() + " rule: "
+                    + rule.getId() + ":" + rule.getSubId()
+                    + " in token [" + i + "]"
+                    + " contains duplicate exceptions with"
+                    + " string=[" + exception.getString() + "]"
+                    + " POS tag=[" + exception.getPOStag() + "]"
+                    + " negate=[" + exception.getNegation() + "]"
+                    + " POS negate=[" + exception.getPOSNegation() + "]");
+                break;
+              }
+            }
+            exceptionElements.add(exception);
           }
         }
       }
     }
+  }
+
+  /**
+   * Predicate to check whether two exceptions are identical or whether
+   * one exception always implies the other.
+   *
+   * There is no reason for a token to have two identical exceptions.
+   */
+  private static boolean equalException(final Element exception1,
+                                        final Element exception2)
+  {
+    String string1 = exception1.getString();
+    String string2 = exception2.getString();
+    if (!exception1.getCaseSensitive() || !exception2.getCaseSensitive()) {
+      // String comparison is done case insensitive if one or both strings
+      // are case insensitive, because the case insensive one would imply
+      // the case sensitive one.
+      string1 = string1.toLowerCase();
+      string2 = string2.toLowerCase();
+    }
+    final boolean equalStrings = (string1 == null || string2 == null)
+      ? string1 == string2 : string1.equals(string2);
+    if (!equalStrings) {
+      return false;
+    }
+
+    final String posTag1 = exception1.getPOStag();
+    final String posTag2 = exception2.getPOStag();
+    final boolean equalPosTags = (posTag1 == null || posTag2 == null)
+      ? posTag1 == posTag2 : posTag1.equals(posTag2);
+    if (!equalPosTags) {
+      return false;
+    }
+
+    // We should not need to check for: 
+    // - isCaseSensitive() since an exception without isCaseSensitive
+    //   imply the one with isCaseSensitive.
+    // - isInflected() since an exception with inflected="yes"
+    //   implies the one without inflected="yes" if they have
+    //   identical strings.
+    //   without inflected="yes".
+    // - isRegularExpression() since a given string is either
+    //   a regexp or not.
+    return exception1.getNegation() == exception2.getNegation()
+        && exception1.getPOSNegation() == exception2.getPOSNegation()
+        && exception1.hasNextException() == exception2.hasNextException()
+        && exception1.hasPreviousException() == exception2.hasPreviousException();
   }
 
   private void warnIfElementNotKosher(
