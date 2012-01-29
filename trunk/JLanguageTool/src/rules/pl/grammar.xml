@@ -1388,7 +1388,7 @@ $Id: grammar.xml,v 1.231 2011-02-13 12:30:11 milek_pl Exp $
       </rule>
       <rule>
         <pattern mark_from="2">
-          <token>bądź<exception regexp="yes" scope="next">[\(…,;–\-—„”]</exception></token>
+          <token skip="-1">bądź<exception regexp="yes" scope="next">[\(…,;–\-—„”]</exception></token>
           <token skip="-1"><exception regexp="yes">,|co</exception><exception regexp="yes" scope="next">[\.\?!…:,;–\-—„”]+</exception></token>
           <token>bądź</token>
         </pattern>
@@ -1507,7 +1507,7 @@ $Id: grammar.xml,v 1.231 2011-02-13 12:30:11 milek_pl Exp $
         <pattern mark_from="3">
           <token postag="SENT_START"></token>
           <token postag="(adj|ppas|pact):sg:nom\.voc:f.*" postag_regexp="yes"><exception postag="verb:.*(sg|pl).*" postag_regexp="yes"></exception></token>
-          <token postag="subst:sg:nom:f" skip="-1"><exception postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes"></exception><exception postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes"></exception><exception inflected="yes" regexp="yes" scope="next">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception regexp="yes" scope="current">nic|co|jak</exception><exception postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes"></exception><exception inflected="yes" regexp="yes" scope="next">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception postag="verb:(praet:|pot:|fin:|)sg:ter.*|pcon:imperf|pant:perf" postag_regexp="yes" scope="next"></exception></token>
+          <token postag="subst:sg:nom:f" skip="-1"><exception postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes"></exception><exception inflected="yes" regexp="yes" scope="next">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception regexp="yes" scope="current">nic|co|jak</exception><exception postag="verb:(praet:|pot:|fin:|)sg:ter.*|pcon:imperf|pant:perf" postag_regexp="yes" scope="next"></exception></token>
           <token>,</token>
           <token postag="verb:(praet:|pot:|fin:|)sg:ter.*" postag_regexp="yes"></token>
         </pattern>
@@ -1521,7 +1521,7 @@ $Id: grammar.xml,v 1.231 2011-02-13 12:30:11 milek_pl Exp $
         <pattern mark_from="3">
           <token postag="SENT_START"></token>
           <token postag="(adj|ppas|pact):sg:nom\.voc:f.*" postag_regexp="yes"><exception postag="verb:.*(sg|pl).*" postag_regexp="yes"></exception></token>
-          <token postag="subst:sg:nom:f" skip="-1"><exception postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes"></exception><exception postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes"></exception><exception inflected="yes" regexp="yes" scope="next">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception regexp="yes" scope="current">nic|co|jak</exception><exception postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes"></exception><exception inflected="yes" regexp="yes" scope="next">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception postag="verb:(praet:|pot:|fin:|)sg:ter.*|pcon:imperf|pant:perf" postag_regexp="yes" scope="next"></exception></token>
+          <token postag="subst:sg:nom:f" skip="-1"><exception postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes"></exception><exception inflected="yes" regexp="yes" scope="next">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception regexp="yes" scope="current">nic|co|jak</exception><exception postag="verb:(praet:|pot:|fin:|)sg:ter.*|pcon:imperf|pant:perf" postag_regexp="yes" scope="next"></exception></token>
           <token>,</token>
           <token>to</token>
         </pattern>
@@ -1534,7 +1534,7 @@ $Id: grammar.xml,v 1.231 2011-02-13 12:30:11 milek_pl Exp $
         <pattern mark_from="3">
           <token postag="SENT_START"></token>
           <token postag="(adj|ppas|pact):sg:acc\.nom\.voc:n.*" postag_regexp="yes"></token>
-          <token postag="subst:sg:acc\.nom.*:n" postag_regexp="yes" skip="-1"><exception postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes"></exception><exception postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes"></exception><exception inflected="yes" regexp="yes" scope="next">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception regexp="yes" scope="current">nic|co|jak</exception><exception postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes"></exception><exception inflected="yes" regexp="yes" scope="next">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception postag="verb:(praet:|pot:|fin:|)sg:ter.*|pcon:imperf|pant:perf" postag_regexp="yes" scope="next"></exception></token>
+          <token postag="subst:sg:acc\.nom.*:n" postag_regexp="yes" skip="-1"><exception postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes"></exception><exception inflected="yes" regexp="yes" scope="next">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception regexp="yes" scope="current">nic|co|jak</exception><exception postag="verb:(praet:|pot:|fin:|)sg:ter.*|pcon:imperf|pant:perf" postag_regexp="yes" scope="next"></exception></token>
           <token>,</token>
           <token postag="verb:(praet:|pot:|fin:|)sg:ter.*" postag_regexp="yes"></token>
         </pattern>
@@ -1547,7 +1547,7 @@ $Id: grammar.xml,v 1.231 2011-02-13 12:30:11 milek_pl Exp $
         <pattern mark_from="3">
           <token postag="SENT_START"></token>
           <token postag="(adj|ppas|pact):sg:acc\.nom\.voc:n.*" postag_regexp="yes"></token>
-          <token postag="subst:sg:acc\.nom.*:n" postag_regexp="yes" skip="-1"><exception postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes"></exception><exception postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes"></exception><exception inflected="yes" regexp="yes" scope="next">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception regexp="yes" scope="current">nic|co|jak</exception><exception postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes"></exception><exception inflected="yes" regexp="yes" scope="next">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception postag="verb:(praet:|pot:|fin:|)sg:ter.*|pcon:imperf|pant:perf" postag_regexp="yes" scope="next"></exception></token>
+          <token postag="subst:sg:acc\.nom.*:n" postag_regexp="yes" skip="-1"><exception postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes"></exception><exception inflected="yes" regexp="yes" scope="next">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception regexp="yes" scope="current">nic|co|jak</exception><exception postag="verb:(praet:|pot:|fin:|)sg:ter.*|pcon:imperf|pant:perf" postag_regexp="yes" scope="next"></exception></token>
           <token>,</token>
           <token>to</token>
         </pattern>
@@ -1560,7 +1560,7 @@ $Id: grammar.xml,v 1.231 2011-02-13 12:30:11 milek_pl Exp $
         <pattern mark_from="3">
           <token postag="SENT_START"></token>
           <token postag="(adj|ppas|pact):sg:nom.*:m.*" postag_regexp="yes"></token>
-          <token postag="subst:sg:nom.*:m[\d]*" postag_regexp="yes" skip="-1"><exception postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes"></exception><exception inflected="yes" regexp="yes" scope="next">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception regexp="yes" scope="current">nic|co|jak</exception><exception postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes"></exception><exception inflected="yes" regexp="yes" scope="next">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception postag="verb:(praet:|pot:|fin:|)sg:ter.*|pcon:imperf|pant:perf" postag_regexp="yes" scope="next"></exception></token>
+          <token postag="subst:sg:nom.*:m[\d]*" postag_regexp="yes" skip="-1"><exception postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes"></exception><exception inflected="yes" regexp="yes" scope="next">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception regexp="yes" scope="current">nic|co|jak</exception><exception postag="verb:(praet:|pot:|fin:|)sg:ter.*|pcon:imperf|pant:perf" postag_regexp="yes" scope="next"></exception></token>
           <token>,</token>
           <token postag="verb:(praet:|pot:|fin:|)sg:ter.*" postag_regexp="yes"></token>
         </pattern>
@@ -1573,7 +1573,7 @@ $Id: grammar.xml,v 1.231 2011-02-13 12:30:11 milek_pl Exp $
         <pattern mark_from="3">
           <token postag="SENT_START"></token>
           <token postag="(adj|ppas|pact):sg:nom.*:m.*" postag_regexp="yes"></token>
-          <token postag="subst:sg:nom.*:m[\d]*" postag_regexp="yes" skip="-1"><exception postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes"></exception><exception inflected="yes" regexp="yes" scope="next">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception regexp="yes" scope="current">nic|co|jak</exception><exception postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes"></exception><exception inflected="yes" regexp="yes" scope="next">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception postag="verb:(praet:|pot:|fin:|)sg:ter.*|pcon:imperf|pant:perf" postag_regexp="yes" scope="next"></exception></token>
+          <token postag="subst:sg:nom.*:m[\d]*" postag_regexp="yes" skip="-1"><exception postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes"></exception><exception inflected="yes" regexp="yes" scope="next">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception regexp="yes" scope="current">nic|co|jak</exception><exception postag="verb:(praet:|pot:|fin:|)sg:ter.*|pcon:imperf|pant:perf" postag_regexp="yes" scope="next"></exception></token>
           <token>,</token>
           <token>to</token>
         </pattern>
@@ -11688,9 +11688,9 @@ $Id: grammar.xml,v 1.231 2011-02-13 12:30:11 milek_pl Exp $
     </rule>
     <rule id="STAWAC_KIM" name="„stawać/stać kim” (stawać/stać się kim)">
       <pattern mark_from="1" mark_to="-2">
-        <token postag="SENT_START"><exception scope="next">się</exception></token>
+        <token skip="-1" postag="SENT_START"><exception scope="next">się</exception></token>
         <token inflected="yes" regexp="yes">stawać|stać</token>
-        <token postag=".*inst.*" postag_regexp="yes"><exception scope="next">się</exception></token>
+        <token skip="-1" postag=".*inst.*" postag_regexp="yes"><exception scope="next">się</exception></token>
         <token postag="SENT_END"></token>
       </pattern>
       <message>W tym zdaniu prawdopodobnie brakuje wyrazu „się”: <suggestion>się \2</suggestion>.</message>
