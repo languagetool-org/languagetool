@@ -232,7 +232,7 @@ public abstract class RuleConverter {
     public static ArrayList<String> fileToListNoBlanks(String filename) {
         ArrayList<String> returnList = new ArrayList<String>();
         Scanner in = null;
-        InputStream is = null;
+        InputStream is;
         try {
         	is = JLanguageTool.getDataBroker().getFromResourceDirAsStream(filename);
             in = new Scanner(is);
@@ -243,9 +243,11 @@ public abstract class RuleConverter {
                 }
             } 
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException("Could not load " + filename, e);
         } finally {
+          if (in != null) {
             in.close();
+          }
         }
         return returnList;
     }

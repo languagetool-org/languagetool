@@ -46,7 +46,6 @@ import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.Element;
 import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.rules.patterns.PatternRuleLoader;
-import org.languagetool.dev.conversion.RuleConverter;
 
 public class RuleCoverage {
 
@@ -317,7 +316,7 @@ public class RuleCoverage {
         	int numResets = 0;
             while (numResets < 2) {
             	if (!dictIterator.hasNext()) {
-            		dictIterator = resetDictIter();
+            		dictIterator = resetDictIterator();
             		numResets++;
             	}
                 String word = dictIterator.next().getWord().toString();
@@ -389,7 +388,7 @@ public class RuleCoverage {
             int numResets = 0;
             while (numResets < 2) {
             	if (!dictIterator.hasNext()) {
-            		dictIterator = resetDictIter();
+            		dictIterator = resetDictIterator();
             		numResets++;
             	}
                 String word = dictIterator.next().getWord().toString();
@@ -783,19 +782,18 @@ public class RuleCoverage {
     
     // ** DICTIONARY METHODS ** 
     
-    private DictionaryIterator resetDictIter() {
+    private DictionaryIterator resetDictIterator() {
         DictionaryIterator ret = null;
         try {
         	ret = new DictionaryIterator(Dictionary.read(dictFile), Charset.forName("utf8").newDecoder(), true);
         } catch (IOException e) {
-        	e.printStackTrace();
+        	throw new RuntimeException("Could not read " + dictFile, e);
         }
         return ret;        
     }
     
     private IStemmer loadDictionary() throws IOException {
-        IStemmer dictLookup = null;
-        dictLookup = new DictionaryLookup(Dictionary.read(dictFile));
+        IStemmer dictLookup = new DictionaryLookup(Dictionary.read(dictFile));
         return dictLookup;
     }
     
@@ -806,7 +804,7 @@ public class RuleCoverage {
    						language.getShortName() + "/" + language.getName().toLowerCase() + ".dict";
    			dictFile = new File(filename);
         	dictLookup = (DictionaryLookup) loadDictionary();
-        	dictIterator = resetDictIter();
+        	dictIterator = resetDictIterator();
         } catch (IOException e) {
         	try {
         		// a different formulation of the filename
@@ -814,9 +812,9 @@ public class RuleCoverage {
 							language.getShortName() + "/" + language.getName().toLowerCase() + ".dict";
         		dictFile = new File(filename);
         		dictLookup = (DictionaryLookup) loadDictionary();
-            	dictIterator = resetDictIter();
+            dictIterator = resetDictIterator();
         	} catch (IOException e2) {
-        		e2.printStackTrace();
+        		throw new RuntimeException(e2);
         	}
         }
     }

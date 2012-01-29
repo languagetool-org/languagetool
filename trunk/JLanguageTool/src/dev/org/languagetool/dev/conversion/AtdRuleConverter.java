@@ -41,16 +41,16 @@ import morfologik.stemming.DictionaryLookup;
 import morfologik.stemming.IStemmer;
 import morfologik.stemming.WordData;
 
-
 public class AtdRuleConverter extends RuleConverter {
     
     private static final Pattern nounInPattern = Pattern.compile("NN(?!P|S|\\.)");
     private static final Pattern wordReference = Pattern.compile("\\\\(\\d+)"); // a word reference, e.g. \1
     private static final Pattern wordReferenceTransform = Pattern.compile("\\\\(\\d+):([^:]+)");
     private static final Pattern uppercase = Pattern.compile("[A-Z]");
-    
+    private static final String ENGLISH_DICT = "/en/english.dict";
+
     private static IStemmer dictLookup = (DictionaryLookup) loadDictionary();
-    
+
     private String avoidMessage = "";
     
     // default constructor
@@ -206,15 +206,14 @@ public class AtdRuleConverter extends RuleConverter {
     /**
      * Takes a HashMap of an AtD rule, and returns a list of lines of XML in LT format.
      * 
-     * @param rule: HashMap of values like "pattern" and "message"
+     * @param ruleObject: HashMap of values like "pattern" and "message"
      * @param id: String of rule id
      * @param name: String of rule name
      * 
      * @return list of XML lines
-     * 
      */
     @SuppressWarnings("unchecked")
-	@Override
+	  @Override
     public List<String> ltRuleAsList(Object ruleObject, String id, String name, String type) {
         ArrayList<HashMap<String,String>> outerList = new ArrayList<HashMap<String,String>>();
         HashMap<String,String> mainRule = (HashMap<String,String>)ruleObject;
@@ -811,26 +810,25 @@ public class AtdRuleConverter extends RuleConverter {
     // changes for later
     private static boolean inDictionary(String word) {
         if (dictLookup == null) {
-            dictLookup = (DictionaryLookup) loadDictionary();
+            dictLookup = loadDictionary();
         }
         return !dictLookup.lookup(word).isEmpty();
     }
     
     // this should be general, not specific to English
     private static IStemmer loadDictionary() {
-        IStemmer dictLookup = null;
-        String fileName = "/en/english.dict";
-        URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(fileName);
-        File dictFile = null;
+        IStemmer dictLookup;
+        URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(ENGLISH_DICT);
+        File dictFile;
         try {
         	dictFile = new File(url.toURI());
         } catch (URISyntaxException e) {
-        	e.printStackTrace();
+        	throw new RuntimeException("Could not load " + ENGLISH_DICT, e);
         }
         try {
-            dictLookup = new DictionaryLookup(Dictionary.read(dictFile));
+          dictLookup = new DictionaryLookup(Dictionary.read(dictFile));
         } catch (IOException e) {
-            e.printStackTrace();
+          throw new RuntimeException("Could not load " + dictFile, e);
         }
         return dictLookup;
     }
@@ -838,23 +836,23 @@ public class AtdRuleConverter extends RuleConverter {
     /**
      * Checks if an element of the AtD pattern has a specific postag.
      * @param word: an element of an AtD pattern; (accepts both .\*\/NN and <word> types)
-     * @param postag: a specific postag (no regexes)
+     * @param posTag: a specific postag (no regexes)
      * @return
      */
-    public static boolean hasSpecificPosTag(String word, String postag) {
+    public static boolean hasSpecificPosTag(String word, String posTag) {
     	if (dictLookup == null) {
     		dictLookup = (DictionaryLookup) loadDictionary();
     	}
     	if (hasPosTag(word)) {
-    		String[] splitWord = word.split("/");
-    		if (Pattern.matches(splitWord[1], postag)) {
+    		final String[] splitWord = word.split("/");
+    		if (Pattern.matches(splitWord[1], posTag)) {
     			return true;
     		}
     		return false;
     	}
-    	List<WordData> lwd = dictLookup.lookup(word);
+    	final List<WordData> lwd = dictLookup.lookup(word);
     	for (WordData wd : lwd) {
-    		if (wd.getTag().toString().equals(postag)) {
+    		if (wd.getTag().toString().equals(posTag)) {
     			return true;
     		}
     	}

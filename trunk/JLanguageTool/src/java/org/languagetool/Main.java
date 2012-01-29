@@ -48,6 +48,9 @@ import org.languagetool.tools.*;
  */
 class Main {
 
+  /* maximum file size to read in a single read */
+  private static final int MAX_FILE_SIZE = 64000;
+
   private final boolean verbose;
   private final boolean apiFormat;
   private final boolean taggerOnly;
@@ -64,9 +67,6 @@ class Main {
   private JLanguageTool srcLt;
   private List<BitextRule> bRules;
   private Rule currentRule;
-
-  /* maximum file size to read in a single read */
-  private static final int MAX_FILE_SIZE = 64000;
 
   Main(final boolean verbose, final boolean taggerOnly,
       final Language language, final Language motherTongue,
@@ -92,9 +92,13 @@ class Main {
     lt.activateDefaultFalseFriendRules();
     selectRules(lt, disabledRules, enabledRules);
   }
-  
+
+  JLanguageTool getJLanguageTool() {
+    return lt;
+  }
+
   private void selectRules(final JLanguageTool lt, final String[] disabledRules, final String[] enabledRules) {
- // disable rules that are disabled explicitly:
+    // disable rules that are disabled explicitly:
     for (final String disabledRule : disabledRules) {
       lt.disableRule(disabledRule);
     }
@@ -126,18 +130,18 @@ class Main {
       final String[] disabledRules, final String[] enabledRules) throws IOException, ParserConfigurationException, SAXException {
     bitextMode = true;
     final Language target = lt.getLanguage();
-    lt = new JLanguageTool(target, null);    
+    lt = new JLanguageTool(target, null);
     srcLt = new JLanguageTool(sourceLang);
     lt.activateDefaultPatternRules();
     selectRules(lt, disabledRules, enabledRules);
     selectRules(srcLt, disabledRules, enabledRules);
     bRules = Tools.getBitextRules(sourceLang, lt.getLanguage());
 
-    List<BitextRule> bRuleList = new ArrayList<BitextRule>(bRules);    
-    for (final BitextRule br : bRules) {
+    List<BitextRule> bRuleList = new ArrayList<BitextRule>(bRules);
+    for (final BitextRule bitextRule : bRules) {
       for (final String disabledRule : disabledRules) {
-        if (br.getId().equals(disabledRule)) {        
-          bRuleList.remove(br);
+        if (bitextRule.getId().equals(disabledRule)) {
+          bRuleList.remove(bitextRule);
         }
       }
     }
@@ -145,18 +149,14 @@ class Main {
     if (enabledRules.length > 0) {
       bRuleList = new ArrayList<BitextRule>();
       for (final String enabledRule : enabledRules) {
-        for (final BitextRule br : bRules) {
-          if (br.getId().equals(enabledRule)) {
-            bRuleList.add(br);
+        for (final BitextRule bitextRule : bRules) {
+          if (bitextRule.getId().equals(enabledRule)) {
+            bRuleList.add(bitextRule);
           }
         }
       }
       bRules = bRuleList;
     }
-  }
-
-  JLanguageTool getJLanguageTool() {
-    return lt;
   }
 
   private void runOnFile(final String filename, final String encoding,
@@ -296,7 +296,6 @@ class Main {
           }
         }
       } finally {
-
         if (sb.length() > 0) {
           matches = handleLine(matches, tmpLineOffset - 1, sb);
           sentences += lt.getSentenceCount();
@@ -304,15 +303,14 @@ class Main {
             sentences += lt.sentenceTokenize(sb.toString()).size();
           }
           if (listUnknownWords && !taggerOnly) {
-            for (String word : lt.getUnknownWords())
+            for (String word : lt.getUnknownWords()) {
               if (!unknownWords.contains(word)) {
                 unknownWords.add(word);
               }
+            }
           }
         }
-
         printTimingInformation(listUnknownWords, rules, unknownWords, ruleIndex, matches, sentences, startTime);
-
         if (br != null) {
           br.close();
         }
@@ -323,7 +321,8 @@ class Main {
     }
   }
 
-  private InputStreamReader getInputStreamReader(String filename, String encoding, InputStreamReader isr) throws UnsupportedEncodingException, FileNotFoundException {
+  private InputStreamReader getInputStreamReader(String filename, String encoding, InputStreamReader isr)
+          throws UnsupportedEncodingException, FileNotFoundException {
     if (!"-".equals(filename)) {
       final File file = new File(filename);
       if (encoding != null) {
@@ -335,8 +334,7 @@ class Main {
       }
     } else {
       if (encoding != null) {
-        isr = new InputStreamReader(new BufferedInputStream(System.in),
-            encoding);
+        isr = new InputStreamReader(new BufferedInputStream(System.in), encoding);
       } else {
         isr = new InputStreamReader(new BufferedInputStream(System.in));
       }
@@ -402,8 +400,7 @@ class Main {
   }
 
   private void runRecursive(final String filename, final String encoding,
-      final boolean listUnknown) throws IOException,
-      ParserConfigurationException, SAXException {
+      final boolean listUnknown) throws IOException, ParserConfigurationException, SAXException {
     final File dir = new File(filename);
     if (!dir.isDirectory()) {
       throw new IllegalArgumentException(dir.getAbsolutePath()
@@ -422,12 +419,8 @@ class Main {
   /**
    * Loads filename and filters out XML. Note that the XML
    * filtering can lead to incorrect positions in the list of matching rules.
-   * 
-   * @param filename
-   * @throws IOException
    */
-  private String getFilteredText(final String filename, final String encoding)
-  throws IOException {
+  private String getFilteredText(final String filename, final String encoding) throws IOException {
     if (verbose) {
       lt.setOutput(System.err);
     }
@@ -439,20 +432,25 @@ class Main {
     return StringTools.filterXML(fileContents);
   }
 
-  private static void exitWithUsageMessage() {
-    System.out
-    .println("Usage: java org.languagetool.Main "
-        + "[-r|--recursive] [-v|--verbose] [-l|--language LANG] [-m|--mothertongue LANG] [-d|--disable RULES] [-adl|--autoDetect] "
-        + "[-e|--enable RULES] [-c|--encoding] [-u|--list-unknown] [-t|--taggeronly] [-b] [--api] [-a|--apply] "             
-        +    "[-b2|--bitext] <file>");
-    System.exit(1);
+  private void changeLanguage(Language language, Language motherTongue,
+                              String[] disabledRules, String[] enabledRules) {
+    try {
+      lt = new JLanguageTool(language, motherTongue);
+      lt.activateDefaultPatternRules();
+      lt.activateDefaultFalseFriendRules();
+      selectRules(lt, disabledRules, enabledRules);
+      if (verbose) {
+        lt.setOutput(System.err);
+      }
+    } catch (Exception e) {
+      throw new RuntimeException("Could not create LanguageTool instance for language " + language, e);
+    }
   }
 
   /**
    * Command line tool to check plain text files.
    */
-  public static void main(final String[] args) throws IOException,
-  ParserConfigurationException, SAXException {
+  public static void main(final String[] args) throws IOException, ParserConfigurationException, SAXException {
     if (args.length < 1 || args.length > 10) {
       exitWithUsageMessage();
     }
@@ -493,7 +491,7 @@ class Main {
       } else if (args[i].equals("-r") || args[i].equals("--recursive")) {
         recursive = true;
       } else if (args[i].equals("-b2") || args[i].equals("--bitext")) {
-        bitext = true;        
+        bitext = true;
       } else if (args[i].equals("-d") || args[i].equals("--disable")) {
         if (enabledRules.length > 0) {
           throw new IllegalArgumentException("You cannot specify both enabled and disabled rules");
@@ -539,7 +537,7 @@ class Main {
           throw new IllegalArgumentException("API format makes no sense for automatic application of suggestions.");
         }
       } else if (args[i].equals("-p") || args[i].equals("--profile")) {
-        profile = true;        
+        profile = true;
         if (apiFormat) {
           throw new IllegalArgumentException("API format makes no sense for profiling.");
         }
@@ -548,7 +546,7 @@ class Main {
         }
         if (taggerOnly) {
           throw new IllegalArgumentException("Tagging makes no sense for profiling.");
-        }        
+        }
       }  else if (i == args.length - 1) {
         filename = args[i];
       } else {
@@ -559,16 +557,16 @@ class Main {
     if (filename == null) {
       filename = "-";
     }
-    
+
     if (language == null) {
       if (!apiFormat && !autoDetect) {
         System.err.println("No language specified, using English");
-      } 
+      }
       language = Language.ENGLISH;
     } else if (!apiFormat && !applySuggestions) {
       System.out.println("Expected text language: " + language.getName());
-    }    
-    
+    }
+
     language.getSentenceTokenizer().setSingleLineBreaksMarksParagraph(
         singleLineBreakMarksParagraph);
     final Main prg = new Main(verbose, taggerOnly, language, motherTongue,
@@ -590,6 +588,15 @@ class Main {
     }
   }
 
+  private static void exitWithUsageMessage() {
+    System.out
+            .println("Usage: java org.languagetool.Main "
+                    + "[-r|--recursive] [-v|--verbose] [-l|--language LANG] [-m|--mothertongue LANG] [-d|--disable RULES] [-adl|--autoDetect] "
+                    + "[-e|--enable RULES] [-c|--encoding] [-u|--list-unknown] [-t|--taggeronly] [-b] [--api] [-a|--apply] "
+                    +    "[-b2|--bitext] <file>");
+    System.exit(1);
+  }
+
   private static void checkArguments(String option, int argParsingPos, String[] args) {
     if (argParsingPos + 1 >= args.length) {
       throw new IllegalArgumentException("Missing argument to " + option + " command line option.");
@@ -602,13 +609,13 @@ class Main {
     final String text = StringTools.readFile(new FileInputStream(filename), encoding);
     return detectLanguageOfString(text);
   }
-      
+
   private static Language detectLanguageOfString(String text) {
     final LanguageIdentifier identifier = new LanguageIdentifier(text);
     final Language lang = Language.getLanguageForShortName(identifier.getLanguage());
     return lang;
   }
-  
+
   private static Language getLanguageOrExit(final String userSuppliedLangCode) {
     final Language language = Language.getLanguageForShortName(userSuppliedLangCode);
     if (language == null) {
@@ -621,21 +628,6 @@ class Main {
       exitWithUsageMessage();
     }
     return language;
-  }
-
-  private void changeLanguage(Language language, Language motherTongue,
-                              String[] disabledRules, String[] enabledRules) {
-    try {
-      lt = new JLanguageTool(language, motherTongue);
-      lt.activateDefaultPatternRules();
-      lt.activateDefaultFalseFriendRules();
-      selectRules(lt, disabledRules, enabledRules);
-      if (verbose) {
-        lt.setOutput(System.err);
-      }
-    } catch (Exception e) {
-      throw new RuntimeException("Could not create LanguageTool instance for language " + language, e);
-    }
   }
 
 }

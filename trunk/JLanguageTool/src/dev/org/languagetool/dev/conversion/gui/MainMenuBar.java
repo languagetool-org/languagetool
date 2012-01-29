@@ -221,7 +221,7 @@ class MainMenuBar extends JMenuBar implements ActionListener {
     	try {
     		prg.writeRulesToFile();
     	} catch (IOException ex) {
-    		ex.printStackTrace();
+    		throw new RuntimeException("Could not write rules to file", ex);
     	}
     } else if (e.getActionCommand().equals(nextRuleText)) {
     	prg.nextRule();

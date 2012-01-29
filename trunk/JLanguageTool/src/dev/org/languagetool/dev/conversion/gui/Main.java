@@ -1073,7 +1073,7 @@ public final class Main implements ActionListener {
 				displayCoveredBy();
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 	}
 
