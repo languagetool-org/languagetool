@@ -46,6 +46,14 @@ RB => Règles Brutes
     </pattern>
     <disambig postag="N m sp"/>
   </rule>
+  <rule name="est" id="EST">
+    <pattern mark="2">
+      <token regexp="yes">[dl]</token>
+      <token regexp="yes">[’´'‛′‘]</token>
+      <token>est</token>
+    </pattern>
+    <disambig postag="N m s"/>
+  </rule>
 
   <rule name="la (pronom pers))" id="LA_R">
     <pattern mark="1">
@@ -401,7 +409,7 @@ RB => Règles Brutes
     <rule>
       <pattern mark="2">
         <token>n</token>
-        <token>[’´'‛′‘]</token>
+        <token regexp="yes">[’´'‛′‘]</token>
         <token postag="V.*" postag_regexp="yes"/>
       </pattern>
       <disambig><match no="2" postag_regexp="yes" postag="V.*"/></disambig>
@@ -562,7 +570,6 @@ RB => Règles Brutes
     </rule>
   </rulegroup>
 
-
   <rulegroup name="RP : a - est" id="RP-A_EST">
     <rule name="a">
       <pattern mark="0">
@@ -572,7 +579,7 @@ RB => Règles Brutes
     </rule>
     <rule name="est">
       <pattern mark="0">
-        <token>est</token>
+        <token postag="V.*" postag_regexp="yes">est</token>
       </pattern>
       <disambig postag="V etre ind pres 3 s"/>
     </rule>

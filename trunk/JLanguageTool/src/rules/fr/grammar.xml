@@ -4395,12 +4395,14 @@ though, and has since been slightly modified)-->
         <pattern>
           <token postag="V .* 3 p" postag_regexp="yes">
             <exception postag="R pers suj .*" postag_regexp="yes" scope="previous"/>
+            <exception scope="previous">ce</exception>
           </token>
           <token postag="R pers suj 3 . p" postag_regexp="yes"/>
         </pattern>
         <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
         <example type="incorrect">Que <marker>mangent ils</marker> ?</example>
         <example type="correct">Que mangent-il ?</example>
+        <example type="correct">Ce sont elles qui parlent.</example>
       </rule>
       <rule>
         <pattern>
@@ -4464,7 +4466,7 @@ though, and has since been slightly modified)-->
     <rulegroup id="TOUT_LES" name="Accord avec adjectifs tout/tous/toute/toutes">
       <rule>
         <pattern mark_to="-2">
-          <token>tout<exception scope="previous" regexp="yes">avant|en</exception></token>
+          <token>tout<exception scope="previous" regexp="yes">avant|en|du</exception></token>
           <token postag="D.*" postag_regexp="yes">
             <exception>des</exception>
           </token>
@@ -4477,6 +4479,7 @@ though, and has since been slightly modified)-->
         <example type="correct">Tous les cours d’eau.</example>
         <example type="correct">Il ignore tout des oiseaux.</example>
         <example type="correct">Ce qui fait en tout deux personnes.</example>
+        <example type="correct">Ils n’utilisent pas du tout les pieds.</example>
       </rule>
       <rule>
         <pattern mark_to="-2">
@@ -20696,8 +20699,12 @@ though, and has since been slightly modified)-->
     <rulegroup id="FRENCH_WORD_REPEAT_RULE" name="Doublon (« pour pour », « je je », etc.)">
       <rule>
         <pattern>
-          <token regexp="yes">\p{L}+<exception postag="SENT_START"/></token>
-          <token spacebefore="yes"><exception regexp="yes">vous|nous|mieux|faire|en|donnant</exception><match no="0"/></token>
+          <token regexp="yes">\p{L}+<exception postag="SENT_START"/>
+            <exception postag="N m s">est</exception>
+          </token>
+          <token spacebefore="yes">
+            <exception regexp="yes">vous|nous|mieux|faire|en|donnant</exception><match no="0"/>
+          </token>
         </pattern>
         <message>Faute de frappe possible : un mot est répété : \1 \2. Correction : <suggestion>\1</suggestion>.</message>
         <short>Doublon</short>
@@ -20707,6 +20714,8 @@ though, and has since been slightly modified)-->
         <example type="correct">Il est capable de te <marker>faire faire</marker> des choses surprenantes.</example>
         <example type="correct">En en demandant deux</example>
         <example type="correct">C’est donnant donnant</example>
+        <example type="incorrect">Il <marker>est est</marker> de ce coté.</example>
+        <example type="correct">L’est est de ce coté.</example>
       </rule>
       <rule>
         <pattern>
