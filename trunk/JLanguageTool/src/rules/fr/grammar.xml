@@ -1653,6 +1653,19 @@ though, and has since been slightly modified)-->
         <example type="correct">Ils partent toujours <marker>ensemble</marker> à la montagne.</example>
       </rule>
     </rulegroup>
+    <rule id="COMME_MEME" name="comme même → quand même">
+      <pattern mark_to="-1">
+        <token>comme</token>
+        <token skip="1">même</token>
+        <token postag="M.*" postag_regexp="yes"/>
+      </pattern>
+      <message>Voulez-vous écrire <suggestion>quand même</suggestion> ?</message>
+      <example type="incorrect">Tu viendras <marker>comme même</marker>.</example>
+      <example type="correct">Tu viendras quand même.</example>
+      <example type="incorrect">Tu viendras <marker>comme même</marker> ?</example>
+      <example type="correct">Tu viendras quand même ?</example>
+      <example type="correct">Comme même ses meilleurs amis n’étaient pas venus, il était triste.</example>
+    </rule>
   </category>
   <category name="Élision">
     <!-- I find conflicting information about élision, so this needs to be reviewed.
