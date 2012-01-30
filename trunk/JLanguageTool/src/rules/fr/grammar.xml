@@ -1146,7 +1146,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern mark_to="-2">
           <token>se</token>
-          <token>sont</token>
+          <token regexp="yes">sont|seraient|seront|furent</token>
           <token regexp="yes">eux|(ceux|celles)-(là|ci)|de?|[cdl]es|certaines|quelques|plusieurs</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>ce</suggestion> ?</message>
@@ -1156,6 +1156,17 @@ though, and has since been slightly modified)-->
         <example type="correct">Ce sont de grands enfants.</example>
         <example type="correct">Ils se sont tous inscrits.</example>
         <example type="correct">Ils se sont aimés.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-2">
+          <token>se</token>
+          <token regexp="yes">sera|serait|soit|fut</token>
+          <token regexp="yes">une?|du|des|chaque|l[ae]?|ce|cette</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>ce</suggestion> ?</message>
+        <example type="incorrect"><marker>Se</marker> sera une fille.</example>
+        <example type="correct">Ce sera une fille.</example>
+        <example type="correct">Il se sera d’abord lavé.</example>
       </rule>
     </rulegroup>
     <rule id="CE_SE" name="CE au lieu de SE">
