@@ -280,7 +280,7 @@ public class PatternRuleTest extends TestCase {
 
     if (isNegated && stringValue.isEmpty()) {
       System.err.println("The " + lang.toString() + " rule: "
-          + ruleId + " marked as negated but is empty so the negation is useless. Did you mix up negated and pos_negated?");
+          + ruleId + " marked as negated but is empty so the negation is useless. Did you mix up negate=\"yes\" and negate_pos=\"yes\"?");
     }
     if (isInflected && stringValue.isEmpty()) {
       System.err.println("The " + lang.toString() + " rule: "
