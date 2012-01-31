@@ -1666,6 +1666,40 @@ though, and has since been slightly modified)-->
       <example type="correct">Tu viendras quand même ?</example>
       <example type="correct">Comme même ses meilleurs amis n’étaient pas venus, il était triste.</example>
     </rule>
+    <rulegroup id="IMMINENT_EMINENT" name="imminent et éminent">
+      <rule>
+        <pattern mark_to="-1">
+          <token inflected="yes">imminent</token>
+          <token inflected="yes" regexp="yes">.*logue|.*iste|acteur|confrère|collègue|dignité|dirigeant|dissident|entrepreneur|expert|défenseur|intellectuel|personnage|personnalité|professeur|physicien|mathématicien|musicien|pédiatre|personalité|rabbin|représantant|savant|(neuro)?(chirurgien|scientifique)|service|spécialite</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="im(.*)" regexp_replace="é$1"/></suggestion> ?</message>
+        <example type="incorrect">Mon <marker>imminent</marker> collègue.</example>
+        <example type="correct">Mon <marker>éminent</marker> collègue.</example>
+        <example type="correct">L’arrivée des imminente.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token inflected="yes" regexp="yes" skip="2">.*logue|.*iste|acteur|confrère|collègue|dignité|défenseur|dirigeant|dissident|entrepreneur|expert|défenseur|intellectuel|professeur|physicien|mathématicien|musicien|pédiatre|personnage|personalité|rabbin|représentant|savant|(neuro)?(chirurgien|scientifique)|service|spécialite</token>
+          <token inflected="yes">imminent</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="im(.*)" regexp_replace="é$1"/></suggestion> ?</message>
+        <example type="incorrect">Des scientifiques les plus <marker>imminents</marker>.</example>
+        <example type="correct">Des scientifiques les plus <marker>éminents</marker>.</example>
+        <example type="correct">L’arrivée des imminente.</example>
+        <example type="incorrect">Un paléontologue <marker>imminent</marker>.</example>
+        <example type="correct">Des paléontologues éminents.</example>
+      </rule>
+
+      <rule>
+        <pattern mark_from="1">
+          <token inflected="yes" regexp="yes" skip="2">accouchement|accord|arrivée|assaut|attérissage|cataclysme|changement|conflit|crash|danger|décolage|départ|désarmement|déclenchement|effondrement|erruption|lancement|orage|tempête|remaniement|réponse|résultat|retour|sémisme|tsunami|verdict</token>
+          <token inflected="yes">éminent</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="é(.*)" regexp_replace="im$1"/></suggestion> ?</message>
+        <example type="incorrect">L’orage est <marker>éminent</marker>.</example>
+        <example type="correct">L’orage est <marker>imminent</marker>.</example>
+      </rule>
+    </rulegroup>
   </category>
   <category name="Élision">
     <!-- I find conflicting information about élision, so this needs to be reviewed.
