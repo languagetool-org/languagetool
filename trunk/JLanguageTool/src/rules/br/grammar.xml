@@ -4,7 +4,7 @@
 title="Easy editing stylesheet" ?>
 <!--
 Breton Grammar and Typo Rules for LanguageTool
-Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
+Copyright (C) 2011, 2012 Dominique Pellé <dominique.pelle@gmail.com>
 
 With suggestions and corrections from:
   Fulup Jakez <fulup.jakez@ofis-bzh.org>
@@ -642,7 +642,7 @@ Useful links:
             <token regexp="yes">(g|c’h).*</token>
           </and>
         </pattern>
-        <message>Ne zlefe ket bezañ ur c’hemmadur goude ar get «\1» gant ur ger a grog gant «k». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match="(g|c’h)(.*)" regexp_replace="k$2"/></suggestion>?</message>
+        <message>Ne zlefe ket bezañ ur c’hemmadur goude ar ger «\1» gant ur ger a grog gant «k». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match="(g|c’h)(.*)" regexp_replace="k$2"/></suggestion>?</message>
         <example type="incorrect">Ho <marker>c’harr</marker></example>
         <example type="incorrect">Ho <marker>garr</marker></example>
         <example type="correct">Ho <marker>karr</marker></example>
@@ -655,7 +655,7 @@ Useful links:
             <token regexp="yes">[dz].*</token>
           </and>
         </pattern>
-        <message>Ne zlefe ket bezañ ur c’hemmadur goude ar get «\1» gant ur ger a grog gant «t». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="t$1"/></suggestion>?</message>
+        <message>Ne zlefe ket bezañ ur c’hemmadur goude ar ger «\1» gant ur ger a grog gant «t». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="t$1"/></suggestion>?</message>
         <example type="incorrect">Ho <marker>dad</marker></example>
         <example type="incorrect">Ho <marker>zad</marker></example>
         <example type="correct">Ho <marker>tad</marker></example>
@@ -668,7 +668,7 @@ Useful links:
             <token regexp="yes">[bf].*<exception inflected="yes" regexp="yes">[bf].*</exception></token>
           </and>
         </pattern>
-        <message>Ne zlefe ket bezañ ur c’hemmadur goude ar get «\1» gant ur ger a grog gant «t». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="p$1"/></suggestion>?</message>
+        <message>Ne zlefe ket bezañ ur c’hemmadur goude ar ger «\1» gant ur ger a grog gant «t». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="p$1"/></suggestion>?</message>
         <example type="incorrect">Ho <marker>benn</marker></example>
         <example type="incorrect">Ho <marker>fenn</marker></example>
         <example type="correct">Ho <marker>penn</marker></example>
@@ -719,7 +719,7 @@ Useful links:
             <token regexp="yes">v.*</token>
           </and>
         </pattern>
-        <message>Ne zlefe ket bezañ ur c’hemmadur goude ar get «\1» gant ur ger a grog gant «m». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="m$1"/></suggestion>?</message>
+        <message>Ne zlefe ket bezañ ur c’hemmadur goude ar ger «\1» gant ur ger a grog gant «m». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="m$1"/></suggestion>?</message>
         <example type="incorrect">Ho <marker>valizenn</marker></example>
         <example type="correct">Ho <marker>malizenn</marker></example>
       </rule>
@@ -1625,25 +1625,40 @@ Useful links:
       <example type="correct">"N’ouzon ket" eme zTony.</example>
     </rule>
 
-    <rule id="GER_KEMM" name="kemmadur ebet goude gerioù">
-      <pattern mark_from="1">
-        <token regexp="yes">abaoe|a-benn|a-wechoù|arabat|a-raok|daoust|eget|ent|eus|[e’]vel(-se)?|e-giz|[e’]vit|goude|hag?|hep|kalz|kement|ke[nt]|krenn|lies|mard?|met|nemet|memes|nebeu(dig)?|pas|pep|pebezh|pegen|pere|petvet|peseurt|petore|rak|setu</token>
-        <token postag="[^M]*M:.*" postag_regexp="yes">
-          <exception negate_pos="yes" postag="[^M]*M:.*" postag_regexp="yes"/>
-          <exception>vat</exception>
-        </token>
-      </pattern>
-      <message>Ne zlefe ket bezañ ur c’hemmadur er ger «\2» goude ar ger «\1».</message>
-      <example type="incorrect">Mar <marker>vefe</marker> tomm</example>
-      <example type="correct">Mar befe tomm</example>
-      <example type="correct">Ma vefe tomm</example>
-      <example type="incorrect">Arabat <marker>dreuziñ</marker> an hent!</example>
-      <example type="correct">Arabat treuziñ an hent!</example>
-      <example type="correct">Redek a ra vat.</example>
-      <example type="incorrect">Ken <marker>vras</marker> eo!</example>
-      <example type="correct">Ken bras eo!</example>
-      <example type="correct">Ha vat a ra din bezañ du-hont.</example>
-    </rule>
+    <rulegroup id="GER_KEMM" name="kemmadur ebet goude gerioù">
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">abaoe|a-benn|a-wechoù|arabat|a-raok|daoust|eget|ent|eus|[e’]vel(-se)?|e-giz|[e’]vit|goude|hag?|hep|kalz|kement|ke[nt]|krenn|lies|mard?|met|nemet|memes|nebeu(dig)?|pas|pep|pebezh|pegen|pere|petvet|peseurt|petore|rak|setu</token>
+          <token postag="[^M]*M:.*" postag_regexp="yes">
+            <exception negate_pos="yes" postag="[^M]*M:.*" postag_regexp="yes"/>
+            <exception>vat</exception>
+          </token>
+        </pattern>
+        <message>Ne zlefe ket bezañ ur c’hemmadur er ger «\2» goude ar ger «\1».</message>
+        <example type="incorrect">Mar <marker>vefe</marker> tomm</example>
+        <example type="correct">Mar befe tomm</example>
+        <example type="correct">Ma vefe tomm</example>
+        <example type="incorrect">Arabat <marker>dreuziñ</marker> an hent!</example>
+        <example type="correct">Arabat treuziñ an hent!</example>
+        <example type="correct">Redek a ra vat.</example>
+        <example type="incorrect">Ken <marker>vras</marker> eo!</example>
+        <example type="correct">Ken bras eo!</example>
+        <example type="correct">Ha vat a ra din bezañ du-hont.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token inflected="yes" postag="P .*" postag_regexp="yes">da</token>
+          <token postag="[^M]*M:.*" postag_regexp="yes">
+            <exception negate_pos="yes" postag="[^M]*M:.*" postag_regexp="yes"/>
+          </token>
+        </pattern>
+        <message>Ne zlefe ket bezañ ur c’hemmadur er ger «\2» goude ar ger «\1».</message>
+        <example type="incorrect">Ret eo din <marker>gavout</marker> labour.</example>
+        <example type="incorrect">Ret eo din <marker>c'havout</marker> labour.</example>
+        <example type="correct">Ret eo din kavout labour.</example>
+        <example type="correct">Diaes eo da gavout.</example>
+      </rule>
+    </rulegroup>
 
     <rulegroup id="KEMM_N_J" name="Kemmadur en anv-gwan o tont warlec’h an anv">
       <rule>
@@ -2017,6 +2032,17 @@ Useful links:
         <example type="correct">E Breizh <marker>em</marker> eus kavet se.</example>
       </rule>
     </rulegroup>
+    <rule id="V_PPA_EM" name="Gwelet am eus → Gwelet em eus">
+      <pattern mark_from="2" mark_to="-1">
+        <token postag="SENT_START|C coor" postag_regexp="yes"/>
+        <token postag="V ppa"/>
+        <token regexp="yes">a[mz]|ac’h</token>
+        <token regexp="yes">p?eus|[bp]oa?</token>
+      </pattern>
+      <message>Lakaet e vez a rannig verb «e» goude an anv-gwan-verb. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="e$1"/></suggestion>?</message>
+      <example type="incorrect">Gwelet <marker>am</marker> eus anezhi.</example>
+      <example type="correct">Gwelet <marker>em</marker> eus anezhi.</example>
+    </rule>
 
   </category>
 
