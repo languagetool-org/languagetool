@@ -2428,6 +2428,40 @@ Useful links:
         <example type="correct">Amzer en <marker>doa</marker>.</example>
       </rule>
     </rulegroup>
+
+    <rulegroup id="V_PPA_EO_BET_UR" name="digoret eo bet ur skol → digoret ez eus bet ur skol">
+      <rule>
+        <pattern mark_from="1" mark_to="-2">
+          <token postag="V ppa"/>
+          <token regexp="yes">[ez]o</token>
+          <token>bet</token>
+          <token regexp="yes">u[nrl]</token>
+        </pattern>
+        <message>Ret eo implij <suggestion>ez eus</suggestion>.</message>
+        <example type="incorrect">Digoret <marker>eo</marker> bet ur skol nevez.</example>
+        <example type="correct">Digoret ez eus bet bet ur skol nevez.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token postag="V ppa"/>
+          <token regexp="yes">[ez]o</token>
+          <token regexp="yes">u[nlr]</token>
+        </pattern>
+        <message>Ret eo implij <suggestion>ez eus</suggestion>.</message>
+        <example type="incorrect">Digoret <marker>eo</marker> ur skol nevez.</example>
+        <example type="correct">Digoret ez eus ur skol nevez.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token>erru</token>
+          <token regexp="yes">[ez]o</token>
+          <token regexp="yes">u[nlr]</token>
+        </pattern>
+        <message>Ret eo implij <suggestion>ez eus</suggestion>.</message>
+        <example type="incorrect">Erru <marker>eo</marker> ur paotr.</example>
+        <example type="correct">Erru <marker>ez eus</marker> ur paotr.</example>
+      </rule>
+    </rulegroup>
   </category>
 
   <category name="Barrennig-stagañ">
