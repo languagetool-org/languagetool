@@ -58,7 +58,7 @@ Useful links:
         <pattern mark_from="1">
           <token regexp="yes">[au]r</token>
           <token regexp="yes" postag="N f s.*|N m p t.*" postag_regexp="yes">p.*
-            <exception regexp="yes">plac’h(ig)?(-(mañ|se|hont))?</exception>
+            <exception regexp="yes">plac’h(ig)?(-(mañ|se|hont))?|psi.*</exception>
             <exception postag="N m s.*" postag_regexp="yes"/>
           </token>
         </pattern>
@@ -68,6 +68,7 @@ Useful links:
         <example type="correct">Ur plac’h koant eo.</example>
         <example type="incorrect">Ar <marker>pesketaerien</marker></example>
         <example type="correct">Ar besketaerien</example>
+        <example type="correct">Ar psikologourien</example>
       </rule>
       <rule>
         <pattern mark_from="1">
@@ -1566,7 +1567,7 @@ Useful links:
     <rulegroup id="EUR_MINTIN" name="eur mintin">
       <rule>
         <pattern mark_from="1">
-          <token regexp="yes">eur|hiziv|w?arc’hoazh|dec’h|dilun|dimeurzh|dimerc’her|diriaou|digwener|disadorn|disul</token>
+          <token regexp="yes">eur|hiziv|w?arc’hoazh|dec’h|(di)?(lun|meurzh|merc’her|gwener|sadorn|sul)|diriaou|yaou</token>
           <token>mintin</token>
         </pattern>
         <message>Goude «\1» e tro «\2» da <suggestion>vintin</suggestion>.</message>
@@ -1628,7 +1629,7 @@ Useful links:
     <rulegroup id="GER_KEMM" name="kemmadur ebet goude gerioù">
       <rule>
         <pattern mark_from="1">
-          <token regexp="yes">abaoe|a-benn|a-wechoù|arabat|a-raok|daoust|eget|ent|eus|[e’]vel(-se)?|e-giz|[e’]vit|goude|hag?|hep|kalz|kement|ke[nt]|krenn|lies|mard?|met|nemet|memes|nebeu(dig)?|pas|pep|pebezh|pegen|pere|petvet|peseurt|petore|rak|setu</token>
+          <token regexp="yes">abaoe|a-benn|a-wechoù|arabat|a-raok|daoust|eget|ent|eus|[e’]vel(-se)?|e-giz|[e’]vit|goude|hag?|hep|hevelep|kalz|kement|ke[nt]|krenn|lies|mard?|met|nemet|memes|nebeu(dig)?|nep|ouzhpenn|pas|pep|pebezh|pegen|pere|petvet|peseurt|petore|rak|setu|seurt</token>
           <token postag="[^M]*M:.*" postag_regexp="yes">
             <exception negate_pos="yes" postag="[^M]*M:.*" postag_regexp="yes"/>
             <exception>vat</exception>
@@ -1858,6 +1859,20 @@ Useful links:
         <example type="incorrect">Ur c’hozh <marker>gemener</marker></example>
         <example type="incorrect">Ur c’hozh <marker>c’hemener</marker></example>
         <example type="correct">Ur c’hozh <marker>kemener</marker></example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token regexp="yes">[au]r</token>
+          <token regexp="yes">[kg]ozh</token>
+          <token postag="N.*" postag_regexp="yes"/>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>c’hozh</suggestion>?</message>
+        <example type="incorrect">Ur <marker>kozh</marker> ti.</example>
+        <example type="incorrect">Ur <marker>gozh</marker> ti.</example>
+        <example type="correct">Ur c’hozh ti.</example>
+        <example type="incorrect">Ur <marker>kozh</marker> wetur.</example>
+        <example type="incorrect">Ur <marker>gozh</marker> wetur.</example>
+        <example type="correct">Ur c’hozh wetur.</example>
       </rule>
     </rulegroup>
   </category>
