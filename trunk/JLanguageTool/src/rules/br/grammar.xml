@@ -2740,10 +2740,39 @@ Useful links:
       <example type="incorrect">Chom <marker>a sav</marker> ar bus.</example>
       <example type="correct">Chom a-sav ar bus.</example>
     </rule>
+    <rulegroup id="A_YOUL_VAT" name="a youl vat → a-youl vat">
+      <rule>
+        <pattern>
+          <token>a</token>
+          <token>youl</token>
+          <token>vat</token>
+        </pattern>
+        <message>Implijit <suggestion>\1-\2 \3</suggestion>.</message>
+        <example type="incorrect">An dud <marker>a youl vat</marker>.</example>
+        <example type="correct">An dud a-youl vat.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>a</token>
+          <token regexp="yes">youl-?vat</token>
+        </pattern>
+        <message>Implijit <suggestion>\1-youl vat</suggestion>.</message>
+        <example type="incorrect">An dud <marker>a youl-vat</marker>.</example>
+        <example type="correct">An dud a-youl vat.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">a-?youl-?vat</token>
+        </pattern>
+        <message>Implijit <suggestion>a-youl vat</suggestion>.</message>
+        <example type="incorrect">An dud <marker>a-youl-vat</marker>.</example>
+        <example type="correct">An dud a-youl vat.</example>
+      </rule>
+    </rulegroup>
     <rule id="A_DREUZ" name="a dreuz → a-dreuz (hag all)">
       <pattern>
         <token>a<exception scope="previous" regexp="yes">kement|meur|nag</exception></token>
-        <token regexp="yes">barzh|beban|belec’h|benn(adoù|-kaer)?|bik|bil|blad|blaen|blom|boan|bouez(-penn)?|boullad|c’houde(vezh)?|c’wenn|dal|dammoù|denn-askell|dizh|douez|doulladoù|drak|dreist|drek|dreñv|dreuz|drugarez|du|enep|feson|fet|feur|flav|fourch|fuilh|geñver|gleiz|greiz(-holl)?|grenn|hed(-all)?|herr|hervez|istribilh|led|leizh|nevez|ouez|raok|ratozh|skouer|stlabez|viskoazh|vremañ|walc’h|wechoù|wezhioù|youl|zehou|zevri|ziabarzh|ziabell|ziadreñv|ziagent|ziaraok|ziavaez|zindan|zioc’h|ziouzh|zivout|ziwar(-(c’horre|dro|laez|lerc’h))?|zoare</token>
+        <token regexp="yes">barzh|beban|belec’h|benn(adoù|-kaer)?|bik|bil|blad|blaen|blom|boan|bouez(-penn)?|boullad|c’houde(vezh)?|c’wenn|dal|dammoù|denn-askell|dizh|douez|doulladoù|drak|dreist|drek|dreñv|dreuz|drugarez|du|enep|feson|fet|feur|flav|fourch|fuilh|geñver|gleiz|greiz(-holl)?|grenn|hed(-all)?|herr|hervez|istribilh|led|leizh|nevez|ouez|raok|ratozh|skouer|stlabez|viskoazh|vremañ|walc’h|wechoù|wezhioù|zehou|zevri|ziabarzh|ziabell|ziadreñv|ziagent|ziaraok|ziavaez|zindan|zioc’h|ziouzh|zivout|ziwar(-(c’horre|dro|laez|lerc’h))?|zoare</token>
       </pattern>
       <message>Implijit <suggestion>\1-\2</suggestion>.</message>
       <example type="incorrect">Amzer <marker>a walc’h</marker> am eus.</example>
