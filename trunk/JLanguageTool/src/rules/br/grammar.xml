@@ -1160,6 +1160,22 @@ Useful links:
       </rule>
       <rule>
         <pattern mark_from="1">
+          <token regexp="yes">[au]r</token>
+          <token postag="(N m s|N f p) M.*:1:.*" postag_regexp="yes" regexp="yes">c’h.*
+            <exception regexp="yes" inflected="yes">c’h.*</exception>
+            <exception postag="(N m s|N f p) M.*:0a:.*" postag_regexp="yes" regexp="yes" inflected="yes">k.*</exception>
+            <exception postag="(N f s|N m p t) M:.*:1:.*" postag_regexp="yes" regexp="yes" inflected="yes">g.*</exception>
+          </token>
+        </pattern>
+        <message>Direizh eo ober ur c’hemmadur dre vlotaat er ger «\2» amañ. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match="...(.*)" regexp_replace="g$1"/></suggestion>?</message>
+        <example type="incorrect">Ar <marker>c’hourfenn</marker>.</example>
+        <example type="correct">Ar <marker>gourfenn</marker>.</example>
+        <example type="correct">Ar <marker>c’harr-tan</marker>.</example>
+        <example type="correct">Ar <marker>c’hodell</marker>.</example>
+        <example type="correct">Ar <marker>c’hoarezed</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
           <token regexp="yes">a[nr]</token>
           <and>
             <token postag="N m p.*" postag_regexp="yes" regexp="yes">[dz].*où
