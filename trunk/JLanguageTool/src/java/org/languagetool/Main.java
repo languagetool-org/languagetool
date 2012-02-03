@@ -30,6 +30,8 @@ import java.util.Set;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.languagetool.commandline.CommandLineOptions;
+import org.languagetool.commandline.CommandLineParser;
 import org.xml.sax.SAXException;
 
 import org.apache.tika.language.*;
@@ -39,7 +41,6 @@ import org.languagetool.rules.Rule;
 import org.languagetool.rules.bitext.BitextRule;
 import org.languagetool.tools.StringTools;
 import org.languagetool.tools.Tools;
-import org.languagetool.tools.*;
 
 /**
  * The command line tool to check plain text files.
@@ -451,155 +452,51 @@ class Main {
    * Command line tool to check plain text files.
    */
   public static void main(final String[] args) throws IOException, ParserConfigurationException, SAXException {
-    if (args.length < 1 || args.length > 10) {
-      exitWithUsageMessage();
-    }
-    boolean verbose = false;
-    boolean recursive = false;
-    boolean taggerOnly = false;
-    boolean singleLineBreakMarksParagraph = false;
-    boolean apiFormat = false;
-    boolean listUnknown = false;
-    boolean applySuggestions = false;
-    boolean profile = false;
-    boolean bitext = false;
-    boolean autoDetect = false;
-    Language language = null;
-    Language motherTongue = null;
-    String encoding = null;
-    String filename = null;
-    String[] disabledRules = new String[0];
-    String[] enabledRules = new String[0];
-    for (int i = 0; i < args.length; i++) {
-      if (args[i].equals("-h") || args[i].equals("-help")
-          || args[i].equals("--help") || args[i].equals("--?")) {
-        exitWithUsageMessage();
-      } else if (args[i].equals("-adl") || args[i].equals("--autoDetect")) {    // set autoDetect flag
-        // also initialize the other language profiles for the LanguageIdentifier
-        LanguageIdentifierTools.addLtProfiles();
-        autoDetect = true;
-      } else if (args[i].equals("-v") || args[i].equals("--verbose")) {
-        verbose = true;
-      } else if (args[i].equals("-t") || args[i].equals("--taggeronly")) {
-        taggerOnly = true;
-        if (listUnknown) {
-          throw new IllegalArgumentException("You cannot list unknown words when tagging only.");
-        }
-        if (applySuggestions) {
-          throw new IllegalArgumentException("You cannot apply suggestions when tagging only.");
-        }
-      } else if (args[i].equals("-r") || args[i].equals("--recursive")) {
-        recursive = true;
-      } else if (args[i].equals("-b2") || args[i].equals("--bitext")) {
-        bitext = true;
-      } else if (args[i].equals("-d") || args[i].equals("--disable")) {
-        if (enabledRules.length > 0) {
-          throw new IllegalArgumentException("You cannot specify both enabled and disabled rules");
-        }
-        checkArguments("-d/--disable", i, args);
-        final String rules = args[++i];
-        disabledRules = rules.split(",");
-      } else if (args[i].equals("-e") || args[i].equals("--enable")) {
-        if (disabledRules.length > 0) {
-          throw new IllegalArgumentException(
-          "You cannot specify both enabled and disabled rules");
-        }
-        checkArguments("-e/--enable", i, args);
-        final String rules = args[++i];
-        enabledRules = rules.split(",");
-      } else if (args[i].equals("-l") || args[i].equals("--language")) {
-        checkArguments("-l/--language", i, args);
-        language = getLanguageOrExit(args[++i]);
-      } else if (args[i].equals("-m") || args[i].equals("--mothertongue")) {
-        checkArguments("-m/--mothertongue", i, args);
-        motherTongue = getLanguageOrExit(args[++i]);
-      } else if (args[i].equals("-c") || args[i].equals("--encoding")) {
-        checkArguments("-c/--encoding", i, args);
-        encoding = args[++i];
-      } else if (args[i].equals("-u") || args[i].equals("--list-unknown")) {
-        listUnknown = true;
-        if (taggerOnly) {
-          throw new IllegalArgumentException("You cannot list unknown words when tagging only.");
-        }
-      } else if (args[i].equals("-b")) {
-        singleLineBreakMarksParagraph = true;
-      } else if (args[i].equals("--api")) {
-        apiFormat = true;
-        if (applySuggestions) {
-          throw new IllegalArgumentException("API format makes no sense for automatic application of suggestions.");
-        }
-      } else if (args[i].equals("-a") || args[i].equals("--apply")) {
-        applySuggestions = true;
-        if (taggerOnly) {
-          throw new IllegalArgumentException("You cannot apply suggestions when tagging only.");
-        }
-        if (apiFormat) {
-          throw new IllegalArgumentException("API format makes no sense for automatic application of suggestions.");
-        }
-      } else if (args[i].equals("-p") || args[i].equals("--profile")) {
-        profile = true;
-        if (apiFormat) {
-          throw new IllegalArgumentException("API format makes no sense for profiling.");
-        }
-        if (applySuggestions) {
-          throw new IllegalArgumentException("Applying suggestions makes no sense for profiling.");
-        }
-        if (taggerOnly) {
-          throw new IllegalArgumentException("Tagging makes no sense for profiling.");
-        }
-      }  else if (i == args.length - 1) {
-        filename = args[i];
-      } else {
-        System.err.println("Unknown option: " + args[i]);
-        exitWithUsageMessage();
-      }
-    }
-    if (filename == null) {
-      filename = "-";
+    final CommandLineParser commandLineParser = new CommandLineParser();
+    CommandLineOptions options = null;
+    try {
+       options = commandLineParser.parseOptions(args);
+    } catch (IllegalArgumentException e) {
+      System.out
+              .println("Usage: java org.languagetool.Main "
+                      + "[-r|--recursive] [-v|--verbose] [-l|--language LANG] [-m|--mothertongue LANG] [-d|--disable RULES] [-adl|--autoDetect] "
+                      + "[-e|--enable RULES] [-c|--encoding] [-u|--list-unknown] [-t|--taggeronly] [-b] [--api] [-a|--apply] "
+                      +    "[-b2|--bitext] <file>");
+      System.exit(1);
     }
 
-    if (language == null) {
-      if (!apiFormat && !autoDetect) {
+    if (options.getFilename() == null) {
+      options.setFilename("-");
+    }
+
+    if (options.getLanguage() == null) {
+      if (!options.isApiFormat() && !options.isAutoDetect()) {
         System.err.println("No language specified, using English");
       }
-      language = Language.ENGLISH;
-    } else if (!apiFormat && !applySuggestions) {
-      System.out.println("Expected text language: " + language.getName());
+      options.setLanguage(Language.ENGLISH);
+    } else if (!options.isApiFormat() && !options.isApplySuggestions()) {
+      System.out.println("Expected text language: " + options.getLanguage().getName());
     }
 
-    language.getSentenceTokenizer().setSingleLineBreaksMarksParagraph(
-        singleLineBreakMarksParagraph);
-    final Main prg = new Main(verbose, taggerOnly, language, motherTongue,
-        disabledRules, enabledRules, apiFormat, applySuggestions, autoDetect, singleLineBreakMarksParagraph);
-    prg.setListUnknownWords(listUnknown);
-    if (profile) {
+    options.getLanguage().getSentenceTokenizer().setSingleLineBreaksMarksParagraph(
+            options.isSingleLineBreakMarksParagraph());
+    final Main prg = new Main(options.isVerbose(), options.isTaggerOnly(), options.getLanguage(), options.getMotherTongue(),
+            options.getDisabledRules(), options.getEnabledRules(), options.isApiFormat(), options.isApplySuggestions(),
+            options.isAutoDetect(), options.isSingleLineBreakMarksParagraph());
+    prg.setListUnknownWords(options.isListUnknown());
+    if (options.isProfile()) {
       prg.setProfilingMode();
     }
-    if (bitext) {
-      if (motherTongue == null) {
+    if (options.isBitext()) {
+      if (options.getMotherTongue() == null) {
         throw new IllegalArgumentException("You have to set the source language (as mother tongue) in bitext mode.");
       }
-      prg.setBitextMode(motherTongue, disabledRules, enabledRules);
+      prg.setBitextMode(options.getMotherTongue(), options.getDisabledRules(), options.getEnabledRules());
     }
-    if (recursive) {
-      prg.runRecursive(filename, encoding, listUnknown);
+    if (options.isRecursive()) {
+      prg.runRecursive(options.getFilename(), options.getEncoding(), options.isListUnknown());
     } else {
-      prg.runOnFile(filename, encoding, listUnknown);
-    }
-  }
-
-  private static void exitWithUsageMessage() {
-    System.out
-            .println("Usage: java org.languagetool.Main "
-                    + "[-r|--recursive] [-v|--verbose] [-l|--language LANG] [-m|--mothertongue LANG] [-d|--disable RULES] [-adl|--autoDetect] "
-                    + "[-e|--enable RULES] [-c|--encoding] [-u|--list-unknown] [-t|--taggeronly] [-b] [--api] [-a|--apply] "
-                    +    "[-b2|--bitext] <file>");
-    System.exit(1);
-  }
-
-  private static void checkArguments(String option, int argParsingPos, String[] args) {
-    if (argParsingPos + 1 >= args.length) {
-      throw new IllegalArgumentException("Missing argument to " + option + " command line option.");
+      prg.runOnFile(options.getFilename(), options.getEncoding(), options.isListUnknown());
     }
   }
 
@@ -614,20 +511,6 @@ class Main {
     final LanguageIdentifier identifier = new LanguageIdentifier(text);
     final Language lang = Language.getLanguageForShortName(identifier.getLanguage());
     return lang;
-  }
-
-  private static Language getLanguageOrExit(final String userSuppliedLangCode) {
-    final Language language = Language.getLanguageForShortName(userSuppliedLangCode);
-    if (language == null) {
-      final List<String> supportedLanguages = new ArrayList<String>();
-      for (final Language lang : Language.LANGUAGES) {
-        supportedLanguages.add(lang.getShortName());
-      }
-      System.out.println("Unknown language '" + userSuppliedLangCode
-          + "'. Supported languages are: " + supportedLanguages);
-      exitWithUsageMessage();
-    }
-    return language;
   }
 
 }
