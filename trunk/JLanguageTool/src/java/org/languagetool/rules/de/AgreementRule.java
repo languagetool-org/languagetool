@@ -115,6 +115,7 @@ public class AgreementRule extends GermanRule {
     "mir",
     "euch",
     "ihm",
+    "ihn",
     "dessen",
     "deren",
     "sich",
