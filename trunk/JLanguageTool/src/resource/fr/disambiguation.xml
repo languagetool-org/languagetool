@@ -416,6 +416,33 @@ RB => Règles Brutes
     </rule>
   </rulegroup>
 
+  <rulegroup id="SON" name="non (nom)">
+    <rule>
+      <pattern mark="1">
+        <token regexp="yes">le|un|au|[mts]on</token>
+        <token>son</token>
+      </pattern>
+      <disambig postag="N m s"/>
+    </rule>
+    <rule>
+      <pattern mark="0">
+        <token>son</token>
+        <token>de</token>
+        <token regexp="yes">cloches?</token>
+      </pattern>
+      <disambig postag="N m s"/>
+    </rule>
+    <rule>
+      <pattern mark="0">
+        <token>son</token>
+        <token>d</token>
+        <token regexp="yes">[’´'‛′‘]</token>
+        <token regexp="yes">instruments?</token>
+      </pattern>
+      <disambig postag="N m s"/>
+    </rule>
+  </rulegroup>
+
   <rule name ="RP : En + participe présent" id="RP-EN_VPPR">
     <pattern mark="1">
       <token>en</token>
@@ -427,7 +454,7 @@ RB => Règles Brutes
   <rulegroup name="RP : mon/ton/son" id="RP-MON_TON_SON">
     <rule name="mon">
       <pattern mark="0">
-        <token regexp="yes" >mon|ton|son</token>
+        <token regexp="yes" postag="N m s" negate_pos="yes">mon|ton|son</token>
       </pattern>
       <disambig postag="D e s"/>
     </rule>
@@ -784,15 +811,6 @@ RB => Règles Brutes
     <disambig action="filter" postag="V.*"/>
     <example type="ambiguous" inputform="aura[aura/N f s,avoir/V avoir ind futu 3 s]" outputform="aura[avoir/V avoir ind futu 3 s]">La rentrée scolaire <marker>aura</marker> lieu comme prévu la semaine prochaine.</example>
     <example type="untouched">Mon petit conseil pour une belle aura...</example>
-    </rule>
-
-    <rule id="SON" name="non (nom)">
-      <pattern mark="0">
-        <token>son</token>
-        <token>de</token>
-        <token regexp="yes">cloches?</token>
-      </pattern>
-      <disambig postag="N m s"/>
     </rule>
 
     <rule id="MEME_ADV" name="même adverbe">

@@ -3452,6 +3452,8 @@ though, and has since been slightly modified)-->
         <example type="correct">Regarde-la bien.</example>
         <example type="correct">Allez le voir.</example>
         <example type="correct">Lis le plus vite possible.</example>
+        <example type="correct">Montez le son.</example>
+        <example type="correct">Monte le son.</example>
       </rule>
       <rule>
         <pattern mark_from="1" mark_to="-1">
@@ -20282,20 +20284,24 @@ though, and has since been slightly modified)-->
       <example type="incorrect"><marker>tâcher moyen que</marker></example>
       <example type="correct"><marker>tâcher que</marker></example>
     </rule>
-    <rule id="A_L_INTENTION_DE" name="à l’intention de">
-      <pattern>
-        <token>à</token>
-        <token>l</token>
-        <token regexp="yes" skip="1">[’´'‛′‘]</token>
-        <token>intention</token>
-        <token regexp="yes">de?</token>
-      </pattern>
-      <message>« à l’intention de » est un tour critiqué (impropriété). Employez <suggestion>à l’attention de</suggestion>.</message>
-      <example type="incorrect"><marker>À l’intention de</marker></example>
-      <example type="incorrect"><marker>À l’aimable intention de</marker></example>
-      <example type="correct"><marker>À l’attention de</marker></example>
-      <example type="correct"><marker>À l’aimable attention de</marker></example>
-    </rule>
+    <rulegroup id="A_L_INTENTION_DE" name="à l’intention de">
+      <rule>
+        <pattern>
+          <token postag="SENT_START"/>
+          <token>À</token>
+          <token>l</token>
+          <token regexp="yes" skip="1">[’´'‛′‘]</token>
+          <token>intention</token>
+          <token regexp="yes">de?</token>
+        </pattern>
+        <message>« à l’intention de » est un tour critiqué (impropriété). Employez <suggestion>à l’attention de</suggestion>.</message>
+        <example type="incorrect"><marker>À l’intention de</marker></example>
+        <example type="incorrect"><marker>À l’aimable intention de</marker></example>
+        <example type="correct"><marker>À l’attention de</marker></example>
+        <example type="correct"><marker>À l’aimable attention de</marker></example>
+        <example type="correct">Un cadeau à l'intention de ma femme.</example>
+      </rule>
+    </rulegroup>
     <rule id="AU_DIABLE_VERT" name="au diable (au) vert">
       <pattern>
         <token>au</token>
