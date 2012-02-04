@@ -47,7 +47,7 @@ import java.util.List;
 
 /**
  * A simple GUI to check texts with.
- * 
+ *
  * @author Daniel Naber
  */
 public final class Main implements ActionListener {
@@ -55,6 +55,7 @@ public final class Main implements ActionListener {
   static final String EXTERNAL_LANGUAGE_SUFFIX = " (ext.)";
   
   private static final String HTML_FONT_START = "<font face='Arial,Helvetica'>";
+  private static final String HTML_GREY_FONT_START = "<font face='Arial,Helvetica' color='#666666'>";
 
   private static final String HTML_FONT_END = "</font>";
   private static final String SYSTEM_TRAY_ICON_NAME = "/TrayIcon.png";
@@ -106,8 +107,7 @@ public final class Main implements ActionListener {
     textArea.addKeyListener(new ControlReturnTextCheckingListener());
     resultArea = new JTextPane();
     resultArea.setContentType("text/html");
-    resultArea.setText(HTML_FONT_START + messages.getString("resultAreaText")
-        + HTML_FONT_END);
+    resultArea.setText(HTML_GREY_FONT_START + messages.getString("resultAreaText") + HTML_FONT_END);
     resultArea.setEditable(false);
     final JButton button = new JButton(StringTools.getLabel(messages.getString("checkText")));
     button.setMnemonic(StringTools.getMnemonic(messages.getString("checkText")));
@@ -472,10 +472,9 @@ public final class Main implements ActionListener {
       } else {
         langName = lang.getTranslatedName(messages);
       }
-      final String startCheckText = Tools.makeTexti18n(messages,
-          "startChecking", new Object[] { langName });
-      resultArea.setText(HTML_FONT_START + startCheckText + "<br>\n"
-          + HTML_FONT_END);
+      final String startCheckText = HTML_GREY_FONT_START + Tools.makeTexti18n(messages,
+          "startChecking", new Object[] { langName }) + HTML_FONT_END;
+      resultArea.setText(startCheckText);
       resultArea.repaint(); // FIXME: why doesn't this work?
       sb.append(startCheckText);
       sb.append("...<br>\n");
@@ -489,7 +488,9 @@ public final class Main implements ActionListener {
       }
       final String checkDone = Tools.makeTexti18n(messages, "checkDone",
           new Object[] {matches});
+      sb.append(HTML_GREY_FONT_START);
       sb.append(checkDone);
+      sb.append(HTML_FONT_END);
       sb.append("<br>\n");
       resultArea.setText(HTML_FONT_START + sb.toString() + HTML_FONT_END);
       resultArea.setCaretPosition(0);
@@ -549,9 +550,11 @@ public final class Main implements ActionListener {
       i++;
     }
     final long endTime = System.currentTimeMillis();
+    sb.append(HTML_GREY_FONT_START);
     sb.append(Tools.makeTexti18n(messages, "resultTime", new Object[] {
             endTime - startTime,
             endTime - startTimeMatching}));
+    sb.append(HTML_FONT_END);
     return ruleMatches.size();
   }
 
