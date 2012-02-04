@@ -37,7 +37,7 @@ import org.languagetool.tools.StringTools;
 public class Tools {
 
   private static final int DEFAULT_CONTEXT_SIZE = 40; // characters
-  private static final String MARKER_START = "<b><font color=\"red\">";
+  private static final String MARKER_START = "<b><font bgcolor=\"#ff8b8b\">";
   private static final String MARKER_END = "</font></b>";
 
   private Tools() {
