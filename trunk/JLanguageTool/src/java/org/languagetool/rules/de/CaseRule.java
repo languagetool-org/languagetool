@@ -311,6 +311,7 @@ public class CaseRule extends GermanRule {
 
   private static final Set<String> substVerbenExceptions = new HashSet<String>();
   static {
+    substVerbenExceptions.add("einen");
     substVerbenExceptions.add("gehören");
     substVerbenExceptions.add("bedeutet");    // "und das bedeutet..."
     substVerbenExceptions.add("ermöglicht");    // "und das ermöglicht..."
