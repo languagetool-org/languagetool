@@ -19616,6 +19616,78 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category name="Tours critiqués divers (barbarismes, impropriétés, solécismes, etc.)">
+    <rulegroup id="RAPPELER_DE" name="se rappeler de → se rappeller">
+      <rule>
+        <pattern mark_to="-1">
+          <token inflected="yes">rappeler</token>
+          <token>de</token>
+          <token>
+            <exception postag="V inf"/>
+            <exception regexp="yes">quelle|[mst]oi|[nv]ous|lui|[mst]e</exception>
+          </token>
+        </pattern>
+        <message>« Se rappelle de » est une impropriété. On se rappelle quelque chose, ou on se souvient de quelque chose. Employez <suggestion>\1</suggestion>.</message>
+        <example type="incorrect">Je me <marker>rappelle de</marker> ce moment.</example>
+        <example type="correct">Je me rappelle ce moment.</example>
+        <example type="correct">J’ai reçu le rappel de la facture.</example>
+        <example type="correct">Je me rappelle de quelle manière il a dit cela.</example>
+        <example type="correct">Il faut lui rappeller de refaire tout cela.</example>
+        <example type="correct">Il faut lui rappeller de me téléphoner.</example>
+        <example type="correct">Tu te rappelles de moi ?</example>
+        <example type="correct">Elle me rappelle de me rendre à la banque.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token inflected="yes">rappeler</token>
+          <token>d</token>
+          <token regexp="yes">[’´'‛′‘]</token>
+          <token>
+            <exception postag="V inf"/>
+            <exception regexp="yes">eux|elles?</exception>
+          </token>
+        </pattern>
+        <message>« Se rappelle de » est une impropriété. On se rappelle quelque chose, ou on se souvient de quelque chose. Employez <suggestion>\1</suggestion>.</message>
+        <example type="incorrect">Je me <marker>rappelle d’</marker>Anne.</example>
+        <example type="correct">Je me rappelle Anne.</example>
+        <example type="correct">Je me souviens d’Anne.</example>
+        <example type="correct">Il faut lui rapeller d’envoyer la lettre.</example>
+        <example type="correct">Tu te rappelles d’eux ?</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token inflected="yes">rappeler</token>
+          <token regexp="yes">plus|pas|bien|peu|mal|souvent|parfois|toujours</token>
+          <token>de</token>
+          <token>
+            <exception postag="V inf"/>
+            <exception regexp="yes">[mts]oi|lui|[nv]ous|[mts]e</exception>
+          </token>
+        </pattern>
+        <message>« Se rappelle de » est une impropriété. On se rappelle quelque chose, ou on se souvient de quelque chose. Employez <suggestion>\1</suggestion>.</message>
+        <example type="incorrect">Je ne me <marker>rappelle pas de</marker> ce moment.</example>
+        <example type="correct">Je ne me rappelle pas ce moment.</example>
+        <example type="correct">Je me rapelle de quelle manière il a dit cela.</example>
+        <example type="correct">Je dois me rappelle de tout ranger.</example>
+        <example type="correct">Ils se rappellent bien de moi.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token inflected="yes">rappeler</token>
+          <token regexp="yes">plus|pas|bien|peu|mal|souvent|parfois|toujours</token>
+          <token>d</token>
+          <token regexp="yes">[’´'‛′‘]</token>
+          <token>
+            <exception postag="V inf"/>
+            <exception regexp="yes">eux|elles?</exception>
+          </token>
+        </pattern>
+        <message>« Se rappelle de » est une impropriété. On se rappelle quelque chose, ou on se souvient de quelque chose. Employez <suggestion>\1 \2</suggestion>.</message>
+        <example type="incorrect">Je me <marker>rappelle bien d’</marker>Anne.</example>
+        <example type="correct">Je me rappelle bien Anne.</example>
+        <example type="correct">Je me rappelle toujours d’allumer la lumière.</example>
+        <example type="correct">Ils se rappellent bien d’elle.</example>
+      </rule>
+    </rulegroup>
     <rule id="ALLER_AU_COIFFEUR" name="aller au coiffeur">
       <pattern mark_from="1" mark_to="-1">
         <token inflected="yes">aller</token>
