@@ -19,7 +19,7 @@
 package org.languagetool.tagging.ro;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import morfologik.stemming.Dictionary;
@@ -97,15 +97,15 @@ public abstract class RomanianTaggerTestAbs extends TestCase {
 	 */
 	protected void assertHasLemmaAndPos(String inflected, String lemma,
 			String posTag) throws IOException {
-		List<AnalyzedTokenReadings> tags = tagger.tag(createList(inflected));
-		StringBuilder allTags = new StringBuilder();
+		final List<AnalyzedTokenReadings> tags = tagger.tag(Arrays.asList(inflected));
+		final StringBuilder allTags = new StringBuilder();
 		boolean found = false;
 		for (AnalyzedTokenReadings analyzedTokenReadings : tags) {
-			int length = analyzedTokenReadings.getReadingsLength();
+			final int length = analyzedTokenReadings.getReadingsLength();
 			for (int i = 0; i < length; i++) {
-				AnalyzedToken token = analyzedTokenReadings.getAnalyzedToken(i);
-				String crtLemma = token.getLemma();
-				String crtPOSTag = token.getPOSTag();
+				final AnalyzedToken token = analyzedTokenReadings.getAnalyzedToken(i);
+				final String crtLemma = token.getLemma();
+				final String crtPOSTag = token.getPOSTag();
 				allTags.append(String.format("[%s/%s]", crtLemma, crtPOSTag));
 				found = ((null == lemma) || (lemma.equals(crtLemma)))
 						&& ((null == posTag) || (posTag.equals(crtPOSTag)));
@@ -118,22 +118,6 @@ public abstract class RomanianTaggerTestAbs extends TestCase {
 		assertTrue(String.format("Lemma and POS not found for word [%s]! "
 				+ "Expected [%s/%s]. Actual: %s", inflected, lemma, posTag,
 				allTags.toString()), found);
-	}
-
-	/**
-	 * Create a List containing some words
-	 * 
-	 * @author Ionuț Păduraru
-	 * @since 20.02.2009 19:13:57
-	 * @param words
-	 * @return
-	 */
-	private List<String> createList(String... words) {
-		List<String> res = new ArrayList<String>();
-		for (String s : words) {
-			res.add(s);
-		}
-		return res;
 	}
 
 	public RomanianTagger getTagger() {
