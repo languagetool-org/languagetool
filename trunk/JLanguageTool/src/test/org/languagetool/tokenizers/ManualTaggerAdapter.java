@@ -31,7 +31,7 @@ public class ManualTaggerAdapter implements Tagger {
 			final List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
 			final String[] manualTags = manualTagger.lookup(word.toLowerCase());
 			if (manualTags != null) {
-				for (int i = 0; i < manualTags.length / 2; i = i + 2) {
+				for (int i = 0; i < manualTags.length; i = i + 2) {
 					l.add(new AnalyzedToken(word, manualTags[i + 1],
 							manualTags[i]));
 				}
