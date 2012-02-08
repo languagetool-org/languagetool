@@ -2627,6 +2627,18 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct"><marker>Nach dem</marker> Essen zwei Tabletten.</example>
       </rule>
     </rulegroup>
+    <rule id="VIEL_ZAHL" name="Zusammen-/Getrenntschreibung: 'eine viel Zahl (Vielzahl)'">
+      <pattern case_sensitive="no" mark_from="1">
+          <token regexp="yes">die|der|eine</token>
+          <token>viel</token>
+          <token>zahl</token>
+        </pattern>
+      <message>Meinten Sie <suggestion>Vielzahl</suggestion>?</message>
+      <example type="correct">Wir haben eine <marker>Viel-Zahl</marker> innovativer Konstruktionen gesehen.</example>
+      <example type="correct">Wir haben eine <marker>Vielzahl</marker> innovativer Konstruktionen gesehen.</example>
+      <example type="incorrect">Wir haben eine <marker>viel zahl</marker> innovativer Konstruktionen gesehen.</example>
+      <example type="incorrect">Wir haben eine <marker>viel Zahl</marker> innovativer Konstruktionen gesehen.</example>
+    </rule>
     <rule id="JE_NACH_DEM" name="Zusammen-/Getrenntschreibung: 'je nach dem (je nachdem)'">
       <pattern case_sensitive="no">
         <token>je</token>
