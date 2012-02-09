@@ -7704,6 +7704,17 @@ $Id: grammar.xml,v 1.129 2010-11-13 23:24:21 dnaber Exp $
       <example type="correct">Increase ease <marker>of</marker> use.</example>
       <example type="incorrect">Increase ease <marker>off</marker> use.</example>
     </rule>
+    <rule id="I_WANDER_IF" name="I wander (wonder) if">
+      <pattern mark_from="1" mark_to="-1">
+        <token>I</token>
+        <token>wander</token>
+        <token>if</token>
+      </pattern>
+      <message>Did you mean <suggestion>wonder</suggestion>?</message>
+      <short>Possible typo</short>
+      <example type="correct">I <marker>wonder</marker> if I'm studying enough?</example>
+      <example type="incorrect">I <marker>wander</marker> if I'm studying enough?</example>
+    </rule>
     <rule id="WORTH_THAN" name="worth (worse) than">
       <pattern mark_from="1" mark_to="-1">
         <token negate="yes" regexp="yes">more|less</token>
