@@ -39,15 +39,14 @@ public class HTTPServer {
   /** The default port on which the server is running (8081). */
   public static final int DEFAULT_PORT = 8081;
 
-  private static final Set<String> DEFAULT_ALLOWED_IPS= new HashSet<String>(Arrays.asList(
+  private static final Set<String> DEFAULT_ALLOWED_IPS = new HashSet<String>(Arrays.asList(
           "0:0:0:0:0:0:0:1",     // Suse Linux IPv6 stuff
           "0:0:0:0:0:0:0:1%0",   // some(?) Mac OS X
           "127.0.0.1"
   ));
 
   private final int port;
-
-  private HttpServer server;
+  private final HttpServer server;
   
   /**
    * Prepare a server on the given port - use run() to start it. Accepts
