@@ -53,20 +53,20 @@ public class HTTPServerTest extends TestCase {
     assertEquals("<?xml version=\"1.0\" encoding=\""+enc+"\"?>\n<matches>\n</matches>\n", check(Language.GERMAN, ""));
     assertEquals("<?xml version=\"1.0\" encoding=\""+enc+"\"?>\n<matches>\n</matches>\n", check(Language.GERMAN, "Ein kleiner test"));
     // one error:
-    assertTrue(check(Language.GERMAN, "ein kleiner test").indexOf("UPPERCASE_SENTENCE_START") != -1);
+    assertTrue(check(Language.GERMAN, "ein kleiner test").contains("UPPERCASE_SENTENCE_START"));
     // two errors:
     final String result = check(Language.GERMAN, "ein kleiner test. Und wieder Erwarten noch was: \u00f6\u00e4\u00fc\u00df.");
-    assertTrue(result.indexOf("UPPERCASE_SENTENCE_START") != -1);
-    assertTrue(result.indexOf("WIEDER_WILLEN") != -1);
+    assertTrue(result.contains("UPPERCASE_SENTENCE_START"));
+    assertTrue(result.contains("WIEDER_WILLEN"));
     assertTrue("Expected special chars, got: '" + result+ "'",
-        result.indexOf("\u00f6\u00e4\u00fc\u00df") != -1);   // special chars are intact
+            result.contains("\u00f6\u00e4\u00fc\u00df"));   // special chars are intact
     final XMLValidator validator = new XMLValidator();
     validator.validateXMLString(result, JLanguageTool.getDataBroker().getResourceDir() + "/api-output.dtd", "matches");
     validator.checkSimpleXMLString(result);
     //System.err.println(result);
     // make sure XML chars are escaped in the result to avoid invalid XML
     // and XSS attacks:
-    assertTrue(check(Language.GERMAN, "bla <script>").indexOf("<script>") == -1);
+    assertTrue(!check(Language.GERMAN, "bla <script>").contains("<script>"));
 
     // other tests for special characters
     final String germanSpecialChars = check(Language.GERMAN, "ein kleiner test. Und wieder Erwarten noch was: öäüß öäüß.");
@@ -76,7 +76,7 @@ public class HTTPServerTest extends TestCase {
     final String polishSpecialChars = check(Language.POLISH, "Mówiła długo, żeby tylko mówić mówić długo.");
     assertTrue("Expected special chars, got: '" + polishSpecialChars+ "'", polishSpecialChars.contains("mówić"));
     // test http POST
-    assertTrue(checkByPOST(Language.ROMANIAN, "greșit greșit").indexOf("greșit") != -1);
+    assertTrue(checkByPOST(Language.ROMANIAN, "greșit greșit").contains("greșit"));
     // test supported language listing
     final URL url = new URL("http://localhost:" + HTTPServer.DEFAULT_PORT + "/Languages");
     final String languagesXML = StringTools.streamToString((InputStream) url.getContent());
@@ -86,12 +86,12 @@ public class HTTPServerTest extends TestCase {
     // tests for "&" character
     assertTrue(check(Language.ENGLISH, "Me & you you").contains("&"));
     // tests for mother tongue (copy from link {@link FalseFriendRuleTest})   
-    assertTrue(check(Language.ENGLISH, Language.GERMAN, "We will berate you").indexOf("BERATE") != -1);
-    assertTrue(check(Language.GERMAN, Language.ENGLISH, "Man sollte ihn nicht so beraten.").indexOf("BERATE") != -1);
-    assertTrue(check(Language.POLISH, Language.ENGLISH, "To jest frywolne.").indexOf("FRIVOLOUS") != -1);
+    assertTrue(check(Language.ENGLISH, Language.GERMAN, "We will berate you").contains("BERATE"));
+    assertTrue(check(Language.GERMAN, Language.ENGLISH, "Man sollte ihn nicht so beraten.").contains("BERATE"));
+    assertTrue(check(Language.POLISH, Language.ENGLISH, "To jest frywolne.").contains("FRIVOLOUS"));
     //tests for bitext
-    assertTrue(bitextCheck(Language.POLISH, Language.ENGLISH, "This is frivolous.", "To jest frywolne.").indexOf("FRIVOLOUS") != -1);
-    assertTrue(bitextCheck(Language.POLISH, Language.ENGLISH, "This is something else.", "To jest frywolne.").indexOf("FRIVOLOUS") == -1);
+    assertTrue(bitextCheck(Language.POLISH, Language.ENGLISH, "This is frivolous.", "To jest frywolne.").contains("FRIVOLOUS"));
+    assertTrue(!bitextCheck(Language.POLISH, Language.ENGLISH, "This is something else.", "To jest frywolne.").contains("FRIVOLOUS"));
   }
 
   public void testAccessDenied() throws Exception {
@@ -142,16 +142,19 @@ public class HTTPServerTest extends TestCase {
    * Same as {@link #check(Language, String)} but using HTTP POST method instead of GET
    */
   private String checkByPOST(Language lang, String text) throws IOException {
-    String postData = "language=" + lang.getShortName();
-    postData += "&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like polish, romanian, etc
+    final String postData = "language=" + lang.getShortName() + "&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like polish, romanian, etc
     final URL url = new URL("http://localhost:" + HTTPServer.DEFAULT_PORT);
     final URLConnection connection = url.openConnection();
     connection.setDoOutput(true);
     final OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream());
-    wr.write(postData);
-    wr.flush();
-    final String result = StringTools.streamToString(connection.getInputStream());
-    return result;
+    try {
+        wr.write(postData);
+        wr.flush();
+        final String result = StringTools.streamToString(connection.getInputStream());
+        return result;
+    } finally {
+      wr.close();
+    }
   }
   
 }
