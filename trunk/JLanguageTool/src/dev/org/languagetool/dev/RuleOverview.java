@@ -52,21 +52,19 @@ public final class RuleOverview {
   private void run() throws IOException {
     System.out.println("<b>Rules in LanguageTool " + JLanguageTool.VERSION + "</b><br />");
     System.out.println("Date: " + new SimpleDateFormat("yyyy-MM-dd").format(new Date()) + "<br /><br />\n");
-    System.out.println("<table>");
+    System.out.println("<table class=\"tablesorter sortable\">");
+    System.out.println("<thead>");
     System.out.println("<tr>");
+    System.out.println("  <th valign='bottom' width=\"70\">Language</th>");
+    System.out.println("  <th valign='bottom' align=\"left\" width=\"60\">XML<br/>rules</th>");
     System.out.println("  <th></th>");
-    System.out.println("  <th valign='bottom' align=\"right\" width=\"140\">XML rules</th>");
-    System.out.println("  <th>&nbsp;&nbsp;</th>");
-    System.out.println("  <th align=\"right\">Java<br/>rules</th>");
-    System.out.println("  <th>&nbsp;&nbsp;</th>");
-    System.out.println("  <th align=\"right\">" +
-        "<a href=\"http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/JLanguageTool/src/rules/false-friends.xml?content-type=text%2Fplain" +
-        "\">False<br/>friends</a></th>");
-    System.out.println("  <th>&nbsp;&nbsp;</th>");
-    System.out.println("  <th valign='bottom'>Auto-<br/>detected</th>");
-    System.out.println("  <th>&nbsp;&nbsp;</th>");
+    System.out.println("  <th align=\"left\" width=\"60\">Java<br/>rules</th>");
+    System.out.println("  <th align=\"left\" width=\"60\">False<br/>friends</th>");
+    System.out.println("  <th valign='bottom' width=\"65\">Auto-<br/>detected</th>");
     System.out.println("  <th valign='bottom' align=\"left\">Rule Maintainers</th>");
     System.out.println("</tr>");
+    System.out.println("</thead>");
+    System.out.println("<tbody>");
     final List<String> sortedLanguages = getSortedLanguages();
 
     //setup false friends counting
@@ -98,14 +96,14 @@ public final class RuleOverview {
         xmlRules = xmlRules.replaceAll("(?s)<rules.*?>", "");
         final int count = countXmlRules(xmlRules);
         final int countInRuleGroup = countXmlRuleGroupRules(xmlRules);
-        System.out.print("<td valign=\"top\" align=\"right\">" + (count + countInRuleGroup) + " (" +
+        System.out.print("<td valign=\"top\" align=\"right\">" + (count + countInRuleGroup) + "</td>");
+        System.out.print("<td valign=\"top\" align=\"right\">" +
             "<a href=\"http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/JLanguageTool/src/rules/" + lang.getShortName() + "/grammar.xml?content-type=text%2Fplain" +
             "\">show</a>/" +
             "<a href=\"http://community.languagetool.org/rule/list?lang=" +
             lang.getShortName() + "\">browse</a>" +
-            ")</td>");
+            "</td>");
       }
-      System.out.print("<td></td>");
 
       // count Java rules:
       final File dir = new File("src/java/org/languagetool" + 
@@ -120,18 +118,15 @@ public final class RuleOverview {
       }
 
       // false friends
-      System.out.println("<td></td>"); 
       if (falseFriendUrl == null) {
         System.out.println("<td valign=\"top\" align=\"right\">0</td>");
       } else {
         final int count = countFalseFriendRules(falseFriendRules, lang);
         System.out.print("<td valign=\"top\" align=\"right\">" + count + "</td>");
 
-        System.out.print("<td></td>");
         System.out.print("<td valign=\"top\">" + (isAutoDetected(lang.getShortName()) ? "yes" : "-") + "</td>");
         
         // maintainer information:
-        System.out.print("<td></td>");
         final StringBuilder maintainerInfo = getMaintainerInfo(lang);
         System.out.print("<td valign=\"top\" align=\"left\">" + maintainerInfo.toString() + "</td>");
       }
@@ -143,6 +138,7 @@ public final class RuleOverview {
       throw new RuntimeException("No Java rules found");
     }
 
+    System.out.println("</tbody>");
     System.out.println("</table>");
   }
 
