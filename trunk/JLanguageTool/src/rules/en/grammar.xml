@@ -7704,6 +7704,21 @@ $Id: grammar.xml,v 1.129 2010-11-13 23:24:21 dnaber Exp $
       <example type="correct">Increase ease <marker>of</marker> use.</example>
       <example type="incorrect">Increase ease <marker>off</marker> use.</example>
     </rule>
+    <rule id="TAKING_CASE_OF_IT" name="take case (care) of it">
+      <pattern mark_from="1" mark_to="-2">
+        <!-- needs to be this specific to avoid false alarm on e.g. "Michigan court won't take case of boy's broken wrist" -->
+        <token inflected="yes">take</token>
+        <token>case</token>
+        <token>of</token>
+        <token>it</token>
+      </pattern>
+      <message>Did you mean <suggestion>care</suggestion>?</message>
+      <short>Possible typo</short>
+      <example type="correct">We need to take <marker>care</marker> of it.</example>
+      <example type="correct">We're taking <marker>care</marker> of it.</example>
+      <example type="incorrect">We need to take <marker>case</marker> of it.</example>
+      <example type="incorrect">We took <marker>case</marker> of it.</example>
+    </rule>
     <rule id="I_WANDER_IF" name="I wander (wonder) if">
       <pattern mark_from="1" mark_to="-1">
         <token>I</token>
