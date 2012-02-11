@@ -338,7 +338,7 @@ public final class StringTools {
       xml.append(" msg=\"" + escapeXMLForAPIOutput(msg) + "\"");
       final String START_MARKER = "__languagetool_start_marker";
       String context = Tools.getContext(match.getFromPos(), match.getToPos(),
-          text, contextSize, START_MARKER, "", true);
+          text, contextSize, START_MARKER, "", false);
       xml.append(" replacements=\""
           + escapeXMLForAPIOutput(listToString(
               match.getSuggestedReplacements(), "#")) + "\"");
@@ -346,10 +346,9 @@ public final class StringTools {
       final int contextOffset = context.indexOf(START_MARKER);
       context = context.replaceFirst(START_MARKER, "");
       context = context.replaceAll("[\n\r]", " ");
-      xml.append(" context=\"" + context + "\"");
+      xml.append(" context=\"" + StringTools.escapeXML(context) + "\"");
       xml.append(" contextoffset=\"" + contextOffset + "\"");
-      xml.append(" errorlength=\"" + (match.getToPos() - match.getFromPos())
-          + "\"");
+      xml.append(" errorlength=\"" + (match.getToPos() - match.getFromPos()) + "\"");
       xml.append("/>\n");
     }
     if (xmlMode == XmlPrintMode.END_XML || xmlMode == XmlPrintMode.NORMAL_XML) {

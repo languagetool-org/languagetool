@@ -167,6 +167,22 @@ public class StringToolsTest extends TestCase {
         "</matches>\n", xml);
   }
 
+  public void testRuleMatchesToXMLEscapeBug() throws IOException {
+    final List<RuleMatch> matches = new ArrayList<RuleMatch>();
+    final String text = "This is \"an test sentence. Here's another sentence with more text.";
+    final RuleMatch match = new RuleMatch(new AvsAnRule(null), 9, 11, "myMessage");
+    match.setColumn(99);
+    match.setEndColumn(100);
+    match.setLine(44);
+    match.setEndLine(45);
+    matches.add(match);
+    final String xml = StringTools.ruleMatchesToXML(matches, text, 5, StringTools.XmlPrintMode.NORMAL_XML);
+    assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+        "<matches>\n" +
+        "<error fromy=\"44\" fromx=\"98\" toy=\"45\" tox=\"99\" ruleId=\"EN_A_VS_AN\" msg=\"myMessage\" replacements=\"\" context=\"... is &quot;an test...\" contextoffset=\"8\" errorlength=\"2\"/>\n" +
+        "</matches>\n", xml);
+  }
+
   public void testListToString() {
     final List<String> list = new ArrayList<String>();
     list.add("foo");
