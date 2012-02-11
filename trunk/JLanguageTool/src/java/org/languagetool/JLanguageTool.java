@@ -517,7 +517,7 @@ public final class JLanguageTool {
       // calculate matching column:      
       final int lineBreakPos = sentence.indexOf('\n');
       if (lineBreakPos == -1) {
-        columnCount += sentence.length() -1;        
+        columnCount += sentence.length();
       } else {
         if (lineBreakPos == 0) {
           columnCount = sentence.length();

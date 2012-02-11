@@ -76,6 +76,17 @@ public class JLanguageToolTest extends TestCase {
     assertEquals("[I, can, detailed, give, more, you]", tool.getUnknownWords().toString());    
   }
 
+  public void testPositionsWithGerman() throws IOException {
+    final JLanguageTool tool = new JLanguageTool(Language.GERMAN);
+    tool.activateDefaultPatternRules();
+    final List<RuleMatch> matches = tool.check("Stundenkilometer");
+    assertEquals(1, matches.size());
+    final RuleMatch match = matches.get(0);
+    // TODO: values should be either 0-based or 1-based, it should not be mixed up!
+    assertEquals(0, match.getLine());
+    assertEquals(1, match.getColumn());
+  }
+
   public void testDutch() throws IOException {
     final JLanguageTool tool = new JLanguageTool(Language.DUTCH);
     tool.activateDefaultPatternRules();
@@ -117,24 +128,24 @@ public class JLanguageToolTest extends TestCase {
     assertEquals("[Polish, This, is]", tool.getUnknownWords().toString());
     //check positions relative to sentence ends    
     matches = tool.check("To jest tekst.\nTest 1. To jest linia w której nie ma przecinka.");
-    assertEquals(16, matches.get(0).getColumn());
+    assertEquals(17, matches.get(0).getColumn());
     //with a space...
     matches = tool.check("To jest tekst. \nTest 1. To jest linia w której nie ma przecinka.");
     assertEquals(16, matches.get(0).getColumn());
     matches = tool.check("To jest tekst. Test 1. To jest linia w której nie ma przecinka.");
-    assertEquals(30, matches.get(0).getColumn());
+    assertEquals(32, matches.get(0).getColumn());
     //recheck with the -b mode...
     final Language lang = Language.POLISH;
     lang.getSentenceTokenizer().setSingleLineBreaksMarksParagraph(true);
     tool = new JLanguageTool(lang);
     tool.activateDefaultPatternRules();
     matches = tool.check("To jest tekst.\nTest 1. To jest linia w której nie ma przecinka.");
-    assertEquals(16, matches.get(0).getColumn());
+    assertEquals(17, matches.get(0).getColumn());
     //with a space...
     matches = tool.check("To jest tekst. \nTest 1. To jest linia w której nie ma przecinka.");
-    assertEquals(16, matches.get(0).getColumn());
+    assertEquals(17, matches.get(0).getColumn());
     matches = tool.check("To jest tekst. To jest linia w której nie ma przecinka.");
-    assertEquals(23, matches.get(0).getColumn());
+    assertEquals(24, matches.get(0).getColumn());
   }
   
   public void testSlovenian() throws IOException {
