@@ -166,6 +166,16 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
       <disambig action="remove"><wd lemma="e" pos="L e"/></disambig>
     </rule>
   </rulegroup>
+  <rulegroup id="E_P" name="e preposition">
+    <rule>
+      <pattern mark="1">
+        <token inflected="yes" regexp="yes">trein|lakaat|skrivañ</token>
+        <token postag="P">e</token>
+        <token postag_regexp="yes" postag="N.*" regexp="yes">.*eg</token>
+      </pattern>
+      <disambig postag="P"/>
+    </rule>
+  </rulegroup>
   <rulegroup id="NE_V" name="ne + verb">
     <rule>
       <pattern mark="1">
@@ -173,6 +183,22 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
         <token postag="V.*" postag_regexp="yes"/>
       </pattern>
       <disambig><match no="1" postag_regexp="yes" postag="V.*"/></disambig>
+    </rule>
+  </rulegroup>
+  <rulegroup id="UR_N" name="ur + anv">
+    <rule>
+      <pattern mark="1">
+        <token>ur<exception scope="previous">en</exception></token>
+        <token postag="V.*" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="filter" postag="N.*"/>
+    </rule>
+    <rule>
+      <pattern mark="1">
+        <token regexp="yes">u[ln]|a[nlr]</token>
+        <token postag="V.*" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="filter" postag="N.*"/>
     </rule>
   </rulegroup>
 </rules>

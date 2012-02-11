@@ -1680,10 +1680,10 @@ Useful links:
     <rulegroup id="KEMM_N_J" name="Kemmadur en anv-gwan o tont warlec’h an anv">
       <rule>
         <pattern mark_from="1" mark_to="-1">
-          <token regexp="yes">aer|amzer|avel|brud|c’hoari|c’hwezh|lann|lur|revr|tra</token>
+          <token regexp="yes">aer|amzer|avel|brud|c’hoari|c’hwezh|lann|lur|revr|[dt]ra</token>
           <token postag="J.*" postag_regexp="yes" inflected="yes" regexp="yes">[ktpgbm].*
             <exception postag="J[^M]*M.*:1:.*" postag_regexp="yes"/>
-            <exception postag="[^J].*" postag_regexp="yes"/>
+            <exception postag="J.*|K e sp o" postag_regexp="yes" negate_pos="yes"/>
           </token>
           <token negate="yes">ha</token>
         </pattern>
@@ -1693,15 +1693,17 @@ Useful links:
         <example type="correct">An avel <marker>greñv</marker>.</example>
         <example type="correct">Ur skol <marker>divyezhek</marker>.</example>
         <example type="correct">Ur skol <marker>zivyezhek</marker>.</example>
+        <example type="incorrect">An dra <marker>kentañ</marker>.</example>
+        <example type="correct">An dra <marker>gentañ</marker>.</example>
       </rule>
       <rule>
         <pattern mark_from="1" mark_to="-1">
           <token postag="N f s.*|N m p t.*" postag_regexp="yes">
-            <exception postag="N f p.*|N m s.*|N m p|N m p [^t].*" postag_regexp="yes"/>
+            <exception postag="N f p.*|N m s.*|N m p|N m p [^t].*|V.*" postag_regexp="yes"/>
           </token>
           <token postag="J.*" postag_regexp="yes" inflected="yes" regexp="yes">[gbm].*
             <exception postag="J[^M]*M.*:1:.*" postag_regexp="yes"/>
-            <exception postag="[^J].*" postag_regexp="yes"/>
+            <exception postag="J.*" postag_regexp="yes" negate_pos="yes"/>
             <!-- bennak is marked as an adjective in the diction, it
                  should be an adverb -->
             <exception>bennak</exception>
@@ -1724,11 +1726,11 @@ Useful links:
       <rule>
         <pattern mark_from="1" mark_to="-1">
           <token postag="N f s.*|N m p t.*" postag_regexp="yes" regexp="yes">.*[lmnrvaeiouwy]
-            <exception postag="N f p.*|N m s.*|N m p|N m p [^t].*" postag_regexp="yes"/>
+            <exception postag="N f p.*|N m s.*|N m p|N m p [^t].*|V.*" postag_regexp="yes"/>
           </token>
           <token postag="J.*" postag_regexp="yes" inflected="yes" regexp="yes">[ktp].*
             <exception postag="J[^M]*M.*:1:.*" postag_regexp="yes"/>
-            <exception postag="[^J].*" postag_regexp="yes"/>
+            <exception postag="J.*|K e sp o" postag_regexp="yes" negate_pos="yes"/>
             <!-- bennak is marked as an adjective in the diction, it
                  should be an adverb -->
             <exception>bennak</exception>
@@ -1740,6 +1742,8 @@ Useful links:
         <example type="correct">Kendirvi binvidik.</example>
         <example type="correct">Tud kozh.</example>
         <example type="correct">Paotred pinvidik.</example>
+        <example type="incorrect">An dro <marker>kentañ</marker>.</example>
+        <example type="correct">An dro gentañ.</example>
       </rule>
       <rule>
         <pattern mark_from="1">
@@ -1749,8 +1753,8 @@ Useful links:
             <exception>gwall</exception>
           </token>
           <and>
-            <token postag="J[^M]*M.*:1:.*" postag_regexp="yes">
-              <exception negate_pos="yes" postag="SENT_END|[^M]*M.*" postag_regexp="yes"/>
+            <token postag="J.*" postag_regexp="yes">
+              <exception negate_pos="yes" postag="SENT_END|J[^M]*M.*:1:.*" postag_regexp="yes"/>
             </token>
             <token regexp="yes">[gdb].*</token>
           </and>
@@ -1777,10 +1781,10 @@ Useful links:
             <exception regexp="yes" inflected="yes">.|re|aer|avel|brud|c’hoari|c’hwezh|gwall|lur|revr|seul|tra|war</exception>
           </token>
           <token postag="J[^M]*M:.*" postag_regexp="yes">
-            <exception negate_pos="yes" postag="J[^M]*M:.*|SENT_END" postag_regexp="yes"/>
+            <exception negate_pos="yes" postag="J[^M]*M.*:1:.*|SENT_END" postag_regexp="yes"/>
           </token>
         </pattern>
-        <message>Ne zlefe bezañ ur c’hemmadur en anv-gwan «\2» goude an anv benel unan pe gourel lies «\1».</message>
+        <message>Ne zlefe bezañ ur c’hemmadur en anv-gwan «\2» goude an anv gourel unan pe benel lies «\1».</message>
         <example type="incorrect">Plac’hed <marker>vras</marker></example>
         <example type="incorrect">Plac’hed <marker>vras</marker>.</example>
         <example type="correct">Ur plac’h vras</example>
@@ -1891,6 +1895,16 @@ Useful links:
         <example type="correct">Ur c’hozh wetur.</example>
       </rule>
     </rulegroup>
+    <rule id="P_E" name="kemmadur ebet gant an araogenn «e»">
+      <pattern mark_from="1">
+        <token postag="P">e<exception negate_pos="yes" postag="P"/></token>
+        <token postag="N [^M]*M:.*" postag_regexp="yes"><exception postag="N [^M]*" postag_regexp="yes"/></token>
+      </pattern>
+      <message>Ne zlefe ket bezañ ur c’hemmadur goude an araogenn «e».</message>
+      <example type="incorrect">Lakaet e <marker>vrezhoneg</marker>.</example>
+      <example type="correct">Lakaet e brezhoneg.</example>
+      <example type="correct">Lenn a ra evit gwellaat e vrezhoneg.</example>
+    </rule>
   </category>
 
   <category name="Ger-mell">
