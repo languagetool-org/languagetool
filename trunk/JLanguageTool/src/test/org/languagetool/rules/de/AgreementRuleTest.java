@@ -108,7 +108,8 @@ public class AgreementRuleTest extends TestCase {
     assertGood("Das Stuttgarter Auto.");
     assertGood("Das Bielefelder Radio.");
     assertGood("Das Gütersloher Radio.");
-    
+    assertGood("Das wirklich Wichtige kommt jetzt erst.");
+
     // incorrect sentences:
     assertBad("Es sind die Tisch.");
     assertBad("Es sind das Tisch.");

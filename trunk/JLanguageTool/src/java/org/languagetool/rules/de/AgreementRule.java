@@ -21,10 +21,7 @@ package org.languagetool.rules.de;
 import java.io.IOException;
 import java.util.*;
 
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
+import org.languagetool.*;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tagging.de.AnalyzedGermanToken;
@@ -44,7 +41,9 @@ import org.languagetool.tools.StringTools;
  * 
  * Note that this rule only checks agreement inside the noun phrase, not whether
  * e.g. the correct case is used. For example, "Es ist das Haus dem Mann" is not
- * detected as incorrect. 
+ * detected as incorrect.
+ *
+ * <p>TODO: the implementation could use a re-write that first detects the relevant noun phrases and then checks agreement
  *  
  * @author Daniel Naber
  */
@@ -112,6 +111,7 @@ public class AgreementRule extends GermanRule {
     "ich",
     "du",
     "er", "sie", "es",
+    //"wir",
     "mir",
     "euch",
     "ihm",
@@ -186,7 +186,7 @@ public class AgreementRule extends GermanRule {
           break;
         AnalyzedGermanTokenReadings nextToken = (AnalyzedGermanTokenReadings)tokens[tokenPos];
         nextToken = maybeAddAdjectiveReadings(nextToken, tokens, tokenPos);
-        if (nextToken.hasReadingOfType(POSType.ADJEKTIV)) {
+        if (isNonPredicativeAdjective(nextToken)) {
           tokenPos = i + 2; 
           if (tokenPos >= tokens.length)
             break;
@@ -212,6 +212,18 @@ public class AgreementRule extends GermanRule {
       pos += tokens[i].getToken().length();
     }
     return toRuleMatchArray(ruleMatches);
+  }
+
+  private boolean isNonPredicativeAdjective(AnalyzedGermanTokenReadings tokensReadings) {
+    for (AnalyzedToken reading : tokensReadings.getReadings()) {
+      if (reading instanceof AnalyzedGermanToken) {
+        final AnalyzedGermanToken germanReading = (AnalyzedGermanToken) reading;
+        if (germanReading.getType() == POSType.ADJEKTIV && !germanReading.getPOSTag().contains("PRD")) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   private boolean isRelevantPronoun(AnalyzedTokenReadings[] tokens, int pos) {
