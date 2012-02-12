@@ -585,7 +585,7 @@ Useful links:
       <rule>
         <pattern mark_from="1">
           <token regexp="yes">h[eo]mañ|re-se|re-mañ</token>
-          <token postag="J.*" postag_regexp="yes">
+          <token postag="J.*" postag_regexp="yes" inflected="yes" regexp="yes">[ktpgdbm].*
             <exception postag="J[^M]*M.*:1:.*" postag_regexp="yes"/>
           </token>
         </pattern>
@@ -596,6 +596,7 @@ Useful links:
         <example type="incorrect">Homañ <marker>plijus</marker></example>
         <example type="incorrect">Homañ <marker>flijus</marker></example>
         <example type="correct">Homañ blijus</example>
+        <example type="correct">Gant homañ just a-walc'h</example>
       </rule>
       <rule>
         <pattern mark_from="1">
@@ -614,7 +615,7 @@ Useful links:
       <rule>
         <pattern mark_from="1">
           <token regexp="yes">h[eo]nnezh|h[eo]nhont|re-hont</token>
-          <token inflected="yes" postag="J[^M]*M.*" postag_regexp="yes" regexp="yes">[^gdbm].*</token>
+          <token inflected="yes" postag="J[^M]*M.*" postag_regexp="yes" regexp="yes">[ktp].*</token>
         </pattern>
         <message>Ne zlefe ket bezañ ur c’hemmadur en anv-gwan «\2» goude «\1».</message>
         <example type="incorrect">Honnezh <marker>gozh</marker></example>
@@ -2122,7 +2123,7 @@ Useful links:
         <pattern>
           <token regexp="yes">n[ae]</token>
           <token regexp="yes" postag="V.*" postag_regexp="yes">[aeiou].*
-            <exception regexp="yes" inflected="yes">gouzout</exception>
+            <exception inflected="yes">gouzout</exception>
             <exception inflected="yes" postag="V impa.*" postag_regexp="yes">bezañ</exception>
           </token>
         </pattern>
@@ -3333,6 +3334,59 @@ Useful links:
         <message>Implijit <suggestion>dreistordinal</suggestion>.</message>
         <example type="incorrect">Un dra <marker>dreist-ordinal</marker> zo c’hoarvezet.</example>
         <example type="correct">Un dra <marker>dreistordinal</marker> zo c’hoarvezet.</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="MA_ME" name="ma lunedoù me → ma lunedoù-me (hag all)">
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">[mv]a</token>
+          <token postag="N.*" postag_regexp="yes"/>
+          <token>me</token>
+        </pattern>
+        <message>Implijit <suggestion>\2-\3</suggestion>.</message>
+        <example type="incorrect">Ma <marker>lunedoù me</marker>.</example>
+        <example type="correct">Ma lunedoù-me.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token>da</token>
+          <token postag="N.*" postag_regexp="yes"/>
+          <token>te</token>
+        </pattern>
+        <message>Implijit <suggestion>\2-\3</suggestion>.</message>
+        <example type="incorrect">Da <marker>lunedoù te</marker>.</example>
+        <example type="correct">Da lunedoù-te.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">he|hec’h</token>
+          <token postag="N.*" postag_regexp="yes"/>
+          <token>hi</token>
+        </pattern>
+        <message>Implijit <suggestion>\2-\3</suggestion>.</message>
+        <example type="incorrect">He <marker>lunedoù hi</marker>.</example>
+        <example type="correct">He lunedoù-hi.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">ho[rln]</token>
+          <token postag="N.*" postag_regexp="yes"/>
+          <token>ni</token>
+        </pattern>
+        <message>Implijit <suggestion>\2-\3</suggestion>.</message>
+        <example type="incorrect">Hol <marker>lunedoù ni</marker>.</example>
+        <example type="correct">Hol lunedoù-ni.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">ho|hoc’h</token>
+          <token postag="N.*" postag_regexp="yes"/>
+          <token>c’hwi</token>
+        </pattern>
+        <message>Implijit <suggestion>\2-\3</suggestion>.</message>
+        <example type="incorrect">Ho <marker>lunedoù c’hwi</marker>.</example>
+        <example type="correct">Ho lunedoù-c’hwi.</example>
       </rule>
     </rulegroup>
   </category>
