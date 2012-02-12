@@ -27,7 +27,7 @@ Useful links:
 
   <category name="Kemmadur">
     <!-- Mutations adoucissantes -->
-    <rulegroup id="KEMM_DRE_VLOTAAT_AR" name="kemmadur dre vlotaat en anv goude ar ger-mell.">
+    <rulegroup id="KEMM_DRE_C_HWEZHADENNIN_AR" name="kemmadur dre c’hwezhadenniñ en anv goude ar ger-mell.">
       <rule>
         <pattern mark_from="1">
           <token regexp="yes">[au]r</token>
@@ -35,12 +35,14 @@ Useful links:
             <exception postag="N f s.*|N m p t.*" postag_regexp="yes"/>
           </token>
         </pattern>
-        <message>Goude ar ger-mell «\1» e tlefe bezañ ur c’hemmadur dre vlotaat en anv «\2». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="c’h$1"/></suggestion>?</message>
+        <message>Goude ar ger-mell «\1» e tlefe bezañ ur c’hemmadur dre c’hwezhadenniñ en anv «\2». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="c’h$1"/></suggestion>?</message>
         <example type="incorrect">Ur <marker>karr</marker> nevez am eus prenet.</example>
         <example type="correct">Ur c’harr nevez am eus prenet.</example>
         <example type="incorrect">Ar <marker>kadorioù</marker></example>
         <example type="correct">Ar c’hadorioù</example>
       </rule>
+    </rulegroup>
+    <rulegroup id="KEMM_DRE_VLOTAAT_AR" name="kemmadur dre vlotaat en anv goude ar ger-mell.">
       <rule>
         <pattern mark_from="1">
           <token regexp="yes">[au]r</token>
@@ -1671,7 +1673,7 @@ Useful links:
         </pattern>
         <message>Ne zlefe ket bezañ ur c’hemmadur er ger «\2» goude ar ger «\1».</message>
         <example type="incorrect">Ret eo din <marker>gavout</marker> labour.</example>
-        <example type="incorrect">Ret eo din <marker>c'havout</marker> labour.</example>
+        <example type="incorrect">Ret eo din <marker>c’havout</marker> labour.</example>
         <example type="correct">Ret eo din kavout labour.</example>
         <example type="correct">Diaes eo da gavout.</example>
       </rule>
@@ -2121,7 +2123,7 @@ Useful links:
           <token regexp="yes">n[ae]</token>
           <token regexp="yes" postag="V.*" postag_regexp="yes">[aeiou].*
             <exception regexp="yes" inflected="yes">gouzout</exception>
-            <exception regexp="yes" inflected="yes" postag="V impa.*" postag_regexp="yes">bezañ</exception>
+            <exception inflected="yes" postag="V impa.*" postag_regexp="yes">bezañ</exception>
           </token>
         </pattern>
         <message>Ha fellout a rae deoc’h skrivañ <suggestion><match no="1" regexp_match="(.)." regexp_replace="$1"/>’\2</suggestion>?</message>
@@ -2133,7 +2135,7 @@ Useful links:
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">n’</token>
+          <token>n’</token>
           <and>
             <token regexp="yes" postag="V.*" postag_regexp="yes">(oar|oui).*</token>
             <token inflected="yes" postag="V.*" postag_regexp="yes">gouzout</token>
