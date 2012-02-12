@@ -2114,6 +2114,38 @@ Useful links:
       <example type="incorrect">Ma <marker>z’eus</marker> ezhomm.</example>
       <example type="correct">Ma ’z eus ezhomm.</example>
     </rule>
+
+    <rulegroup id="NA_NE" name="ne/na → n’">
+      <rule>
+        <pattern>
+          <token regexp="yes">n[ae]</token>
+          <token regexp="yes" postag="V.*" postag_regexp="yes">[aeiou].*
+            <exception regexp="yes" inflected="yes">gouzout</exception>
+            <exception regexp="yes" inflected="yes" postag="V impa.*" postag_regexp="yes">bezañ</exception>
+          </token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion><match no="1" regexp_match="(.)." regexp_replace="$1"/>’\2</suggestion>?</message>
+        <example type="incorrect"><marker>Ne anavezan</marker> ket anezhi.</example>
+        <example type="correct"><marker>N’anavezan</marker> ket anezhi.</example>
+        <example type="correct">Ne oa ket gwir.</example>
+        <example type="correct">Ne oa ket gwir.</example>
+        <example type="correct">Ne oar ket penaos ober.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">n’</token>
+          <and>
+            <token regexp="yes" postag="V.*" postag_regexp="yes">(oar|oui).*</token>
+            <token inflected="yes" postag="V.*" postag_regexp="yes">gouzout</token>
+          </and>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion><match no="1" regexp_match="(.)." regexp_replace="$1e"/> \2</suggestion>?</message>
+        <example type="incorrect"><marker>N’ouien</marker> ket ober se.</example>
+        <example type="correct">Ne ouien ket ober se.</example>
+        <example type="correct">N’ouzon ket ober se.</example>
+      </rule>
+    </rulegroup>
+
   </category>
 
   <category name="Niver">
