@@ -41,15 +41,19 @@ import org.apache.tika.language.LanguageIdentifier;
 public final class RuleOverview {
 
   public static void main(final String[] args) throws IOException {
+    if (args.length != 1) {
+      System.out.println("Usage: " + RuleOverview.class.getName() + " <webRoot>");
+      System.exit(1);
+    }
     final RuleOverview prg = new RuleOverview();
-    prg.run();
+    prg.run(new File(args[0]));
   }
   
   private RuleOverview() {
     // no public constructor
   }
   
-  private void run() throws IOException {
+  private void run(File webRoot) throws IOException {
     System.out.println("<b>Rules in LanguageTool " + JLanguageTool.VERSION + "</b><br />");
     System.out.println("Date: " + new SimpleDateFormat("yyyy-MM-dd").format(new Date()) + "<br /><br />\n");
     System.out.println("<table class=\"tablesorter sortable\">");
@@ -75,13 +79,14 @@ public final class RuleOverview {
       .replaceAll("(?s)<rules.*?>", "");
 
     int overallJavaCount = 0;
+    int langSpecificWebsiteCount = 0;
     for (final String langName : sortedLanguages) {
       final Language lang = Language.getLanguageForName(langName);
       System.out.print("<tr>");
-      final File webDir = new File("website", "www");
-      final File langSpecificWebsite = new File(webDir, lang.getShortName());
+      final File langSpecificWebsite = new File(webRoot, lang.getShortName());
       if (langSpecificWebsite.isDirectory()) {
         System.out.print("<td valign=\"top\"><a href=\"../" + lang.getShortName() + "/\">" + lang.getName() + "</a></td>");
+        langSpecificWebsiteCount++;
       } else {
         System.out.print("<td valign=\"top\">" + lang.getName() + "</td>");
       }
@@ -135,7 +140,12 @@ public final class RuleOverview {
     }
       
     if (overallJavaCount == 0) {
-      throw new RuntimeException("No Java rules found");
+      throw new RuntimeException("No Java rules found - start this script from the LanguageTool directory so " +
+              "that the sources are at 'src/java/org/languagetool'");
+    }
+    if (langSpecificWebsiteCount == 0) {
+      throw new RuntimeException("No language specific websites found - please let the web root parameter " +
+              "point to the 'www' directory (current value: '" + webRoot + "')");
     }
 
     System.out.println("</tbody>");
