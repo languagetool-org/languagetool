@@ -24,6 +24,7 @@ import java.util.List;
 import junit.framework.TestCase;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.TestTools;
 
 /**
  * @author Daniel Naber
@@ -94,5 +95,21 @@ public class UppercaseSentenceStartRuleTest extends TestCase {
     matches = langTool.check("To jest lista punktowana:\n\npunkt pierwszy,\n\npunkt drugi,\n\npunkt trzeci.");
     assertEquals(0, matches.size());
   }
-  
+
+  public void testUkrainian() throws IOException {
+    final UppercaseSentenceStartRule rule = new UppercaseSentenceStartRule(TestTools.getEnglishMessages(), Language.UKRAINIAN);
+
+    final JLanguageTool langTool = new JLanguageTool(Language.UKRAINIAN);
+
+    // correct sentences:
+    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("Автор написав це речення з великої літери."));
+    assertEquals(0, matches.length);
+
+    // incorrect sentences:
+    matches = rule.match(langTool.getAnalyzedSentence("автор написав це речення з маленької літери."));
+    assertEquals(1, matches.length);
+    assertEquals(1, matches[0].getSuggestedReplacements().size());
+    assertEquals("Автор", matches[0].getSuggestedReplacements().get(0));
+  }
+
 }

@@ -124,9 +124,9 @@ public class UkrainianMyspellTagger implements Tagger {
         if (!word.equals(lowerWord)) {
           lowerPosTags = wordsToPos.get(lowerWord);
           if (lowerPosTags != null) {
-            for (String lowerPosTag : lowerPosTags)
-              analyzedTokens.add(new AnalyzedToken(lowerWord, lowerPosTag,
-                      lowerWord));
+            for (String lowerPosTag : lowerPosTags) {
+              analyzedTokens.add(new AnalyzedToken(word, lowerPosTag, lowerWord));
+            }
           }
         }
         // else {
