@@ -458,6 +458,11 @@ public class Main extends WeakBase implements XJobExecutor,
     aError.nErrorStart = myMatch.getFromPos() + startIndex;
     aError.nErrorLength = myMatch.getToPos() - myMatch.getFromPos();
     aError.aRuleIdentifier = myMatch.getRule().getId();
+    // LibreOffice since version 3.5 supports an URL that provides more information for the error:
+    //final PropertyValue[] propertyValues = new PropertyValue[] {
+    //        new PropertyValue("FullCommentURL", -1, myMatch.getRule().getUrl(), PropertyState.DIRECT_VALUE)
+    //};
+    //aError.aProperties = propertyValues;
     aError.aProperties = new PropertyValue[0];
     return aError;
   }
