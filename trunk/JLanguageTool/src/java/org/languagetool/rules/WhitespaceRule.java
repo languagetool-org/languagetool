@@ -62,14 +62,16 @@ public class WhitespaceRule extends Rule {
     //token no. 0 is guaranteed to be SENT_START
     int i = 1;
     while (i < tokens.length) {
-      if (tokens[i].isWhitespace() && prevWhite && !tokens[i -1].isLinebreak()) {
+      final boolean tokenIsTab = tokens[i].getToken().equals("\t");
+      final boolean prevTokenIsLinebreak = tokens[i -1].isLinebreak();
+      if (tokens[i].isWhitespace() && prevWhite && !tokenIsTab && !prevTokenIsLinebreak) {
         final int pos = tokens[i -1].getStartPos();
         while (i < tokens.length && tokens[i].isWhitespace()) {
           prevLen += tokens[i].getToken().length();
           i++;
         }
-        final RuleMatch ruleMatch = new RuleMatch(this, prevPos, pos + prevLen, messages
-            .getString("whitespace_repetition"));
+        final String message = messages.getString("whitespace_repetition");
+        final RuleMatch ruleMatch = new RuleMatch(this, prevPos, pos + prevLen, message);
         ruleMatch.setSuggestedReplacement(" ");
         ruleMatches.add(ruleMatch);
       }

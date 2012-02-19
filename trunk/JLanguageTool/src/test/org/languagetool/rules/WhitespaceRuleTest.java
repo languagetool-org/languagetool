@@ -43,7 +43,9 @@ public class WhitespaceRuleTest extends TestCase {
       assertEquals(0, matches.length);
       matches = rule.match(langTool.getAnalyzedSentence("\n\tThis is a test sentence..."));
       assertEquals(0, matches.length);
-      
+      matches = rule.match(langTool.getAnalyzedSentence("Multiple tabs\t\tare okay"));
+      assertEquals(0, matches.length);
+
       // incorrect sentences:
       matches = rule.match(langTool.getAnalyzedSentence("This  is a test sentence."));
       assertEquals(1, matches.length);
