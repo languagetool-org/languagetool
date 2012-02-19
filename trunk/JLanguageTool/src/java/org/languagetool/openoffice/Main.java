@@ -407,12 +407,9 @@ public class Main extends WeakBase implements XJobExecutor,
   * LibO shortens menuitems with more than ~100 characters by dropping text in the middle
   * that isn't really sensible, so we shorten the text here in order to preserve the important parts
   */
-  public String shortenComment(String comment) {
-    final int maxCommentLength;
-    maxCommentLength = 100;
-    
+  String shortenComment(String comment) {
+    final int maxCommentLength = 100;
     if(comment.length() > maxCommentLength) {
-    
       // if there is text in brackets, drop it (beginning at the end)
       while (comment.lastIndexOf(" [") > 0
               && comment.lastIndexOf("]") > comment.lastIndexOf(" [")
@@ -424,12 +421,11 @@ public class Main extends WeakBase implements XJobExecutor,
               && comment.length() > maxCommentLength) {
         comment = comment.substring(0,comment.lastIndexOf(" (")) + comment.substring(comment.lastIndexOf(")")+1);
       }
-      
       // in case it's still not short enough, shorten at the end
-      if(comment.length() > maxCommentLength) comment = comment.substring(0,maxCommentLength-1) + "…";
-      
+      if(comment.length() > maxCommentLength) {
+        comment = comment.substring(0,maxCommentLength-1) + "…";
+      }
     }
-    
     return comment;
   }
 
