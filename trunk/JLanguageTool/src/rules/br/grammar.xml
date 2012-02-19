@@ -768,7 +768,10 @@ Useful links:
             <exception postag="C sub">ma</exception>
           </token>
           <and>
-            <token regexp="yes" inflected="yes">k.*<exception>dije</exception></token>
+            <token regexp="yes" inflected="yes">k.*
+              <exception>dije</exception>
+              <exception inflected="yes" regexp="yes" postag="N[^M]*" postag_regexp="yes">g.*</exception>
+            </token>
             <token regexp="yes" negate="yes">c’h.*</token>
           </and>
         </pattern>
@@ -778,6 +781,7 @@ Useful links:
         <example type="correct">Tri c’harr am eus.</example>
         <example type="correct">En em gompren a ran.</example>
         <example type="correct">He dije</example>
+        <example type="correct">He ger</example>
       </rule>
       <rule>
         <pattern mark_from="1">
