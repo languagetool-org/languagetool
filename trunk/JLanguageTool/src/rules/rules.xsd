@@ -105,6 +105,7 @@
 			<xs:sequence>
 				<xs:element ref="pattern" />
 				<xs:element ref="message" />
+        <xs:element ref="url" minOccurs="0" maxOccurs="1" />
 				<xs:element ref="short" minOccurs="0" />								
 				<xs:element ref="example" minOccurs="2" maxOccurs="unbounded" />
 			</xs:sequence>
@@ -142,7 +143,7 @@
 	<xs:annotation>
 		<xs:documentation xml:lang="en"> A short description of
 			the error detected by this rule displayed on the
-			context menu in OOo.
+			context menu in LibreOffice/OpenOffice.org.
  		</xs:documentation>
 	</xs:annotation>
 	<xs:element name="short" type="xs:token" />
@@ -160,6 +161,12 @@
       </xs:choice>
     </xs:complexType>
   </xs:element>
+
+    <xs:annotation>
+    		<xs:documentation xml:lang="en">URL with further information
+                about the rule behind this error.</xs:documentation>
+  	</xs:annotation>
+    <xs:element name="url" type="xs:anyURI" />
 
 	<xs:annotation>
 		<xs:documentation xml:lang="en"> Suggestion displayed to
