@@ -91,7 +91,7 @@ public class UppercaseSentenceStartRule extends Rule {
     boolean noException = false;
     //fix for lists; note - this will not always work for the last point in OOo,
     //as OOo might serve paragraphs in any order.
-    if ((language == Language.RUSSIAN || language == Language.POLISH)
+    if ((language == Language.RUSSIAN || language == Language.POLISH || language == Language.UKRAINIAN)
         && (";".equals(lastParagraphString) || ";".equals(lastToken)
             || ",".equals(lastParagraphString) || ",".equals(lastToken))) {
       noException = true;
@@ -99,7 +99,7 @@ public class UppercaseSentenceStartRule extends Rule {
     //fix for comma in last paragraph; note - this will not always work for the last point in OOo,
     //as OOo might serve paragraphs in any order.
     if ((language == Language.RUSSIAN || language == Language.ITALIAN 
-        || language == Language.POLISH || language == Language.GERMAN)
+        || language == Language.POLISH || language == Language.GERMAN || language == Language.UKRAINIAN)
         && (",".equals(lastParagraphString))) {
       noException = true;
     }

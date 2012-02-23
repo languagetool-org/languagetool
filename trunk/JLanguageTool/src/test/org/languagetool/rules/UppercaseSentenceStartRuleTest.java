@@ -110,6 +110,16 @@ public class UppercaseSentenceStartRuleTest extends TestCase {
     assertEquals(1, matches.length);
     assertEquals(1, matches[0].getSuggestedReplacements().size());
     assertEquals("Автор", matches[0].getSuggestedReplacements().get(0));
+    
+    List<RuleMatch> matches_list;
+    matches_list = langTool.check("Це список з декількох рядків:\n\nрядок 1,\n\nрядок 2,\n\nрядок 3.");
+    assertEquals(0, matches_list.size());
+    
+    matches_list = langTool.check("Це список з декількох рядків:\n\nрядок 1;\n\nрядок 2;\n\nрядок 3.");
+    assertEquals(0, matches_list.size());
+
+    matches_list = langTool.check("Це список з декількох рядків:\n\n 1) рядок 1;\n\n2) рядок 2;\n\n3)рядок 3.");
+    assertEquals(0, matches_list.size());
   }
 
 }
