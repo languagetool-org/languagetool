@@ -1700,6 +1700,17 @@ though, and has since been slightly modified)-->
         <example type="correct">L’orage est <marker>imminent</marker>.</example>
       </rule>
     </rulegroup>
+    <rule id="LANGUE_D_OC" name="langue d’hoc → langue d’oc">
+      <pattern mark_from="3">
+        <token>langue</token>
+        <token>d</token>
+        <token regexp="yes">[’´'‛′‘]</token>
+        <token>hoc</token>
+      </pattern>
+      <message>Voulez-vous écrire <suggestion>oc</suggestion> ?</message>
+      <example type="incorrect">La langue d’<marker>hoc</marker>.</example>
+      <example type="correct">La langue d’<marker>oc</marker>.</example>
+    </rule>
   </category>
   <category name="Élision">
     <!-- I find conflicting information about élision, so this needs to be reviewed.
@@ -6927,7 +6938,7 @@ though, and has since been slightly modified)-->
       <example type="incorrect"><marker>agent de bord</marker> de Charlevoix a son charme.</example>
       <example type="correct">Le <marker>steward</marker> de Charlevoix a son charme.</example>
     </rule>
-    <rule id="TOUT_AZIMUT" name="tout azimut (tous azimut)">
+    <rule id="TOUS_AZIMUTS" name="toutes azimuts → tous azimuts">
       <pattern>
         <token regexp="yes">toute?s?</token>
         <token regexp="yes">azimuts?</token>
@@ -6935,6 +6946,36 @@ though, and has since been slightly modified)-->
       <message>Employez <suggestion>tous azimuts</suggestion>.</message>
       <example type="incorrect">Une répression <marker>tout azimut</marker></example>
       <example type="correct">Une répression tous azimuts</example>
+    </rule>
+    <rule id="DE_TOUT_TEMPS" name="de tous temps → de tout temps">
+      <pattern>
+        <token>de</token>
+        <token>tous</token>
+        <token>temps</token>
+      </pattern>
+      <message>Employez <suggestion>\1 tout \3</suggestion>.</message>
+      <example type="incorrect"><marker>De tous temps</marker></example>
+      <example type="correct"><marker>De tout temps</marker></example>
+    </rule>
+    <rule id="A_TOUT_PRIX" name="à tous prix → à tout prix">
+      <pattern>
+        <token>à</token>
+        <token>tous</token>
+        <token>prix</token>
+      </pattern>
+      <message>Employez <suggestion>\1 tout \3</suggestion>.</message>
+      <example type="incorrect"><marker>À tous prix</marker></example>
+      <example type="correct"><marker>À tout prix</marker></example>
+    </rule>
+    <rule id="DE_TOUTE_FACON" name="de toutes façons → de toute façon">
+      <pattern>
+        <token>de</token>
+        <token>toutes</token>
+        <token regexp="yes">façons?</token>
+      </pattern>
+      <message>Employez <suggestion>\1 toute façon</suggestion>.</message>
+      <example type="incorrect"><marker>De toutes façons</marker></example>
+      <example type="correct"><marker>De toute façon</marker></example>
     </rule>
   </category>
   <category name="Anglicismes (calques, emprunts directs, etc.)">
