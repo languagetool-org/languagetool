@@ -4042,7 +4042,7 @@ Useful links:
         </pattern>
         <message>«\1 a» a implijer dirak un anv. Ha fellout a rae deoc’h skrivañ <suggestion>\1 a \2</suggestion>?</message>
         <example type="incorrect"><marker>Re dud</marker> zo.</example>
-        <example type="correct">Re a dud zo.</example>
+        <example type="correct">Re a zud zo.</example>
         <example type="correct">Re vihan eo.</example>
       </rule>
       <rule>
@@ -4860,24 +4860,92 @@ Useful links:
     <rulegroup id="DEVEZ_DEVEZH" name="devez → devezh">
       <rule>
         <pattern mark_from="1"> 
-          <token regexp="yes">[au]n|pet</token>
+          <token regexp="yes" skip="1">[aeu]n|eil|e-pad|evit|pebezh|kentañ|pep|pet</token>
           <token>devez</token>
         </pattern>
         <message>«\2» ’zo ur verb. Ha fellout a rae deoc’h implijout an anv <suggestion>devezh</suggestion> kentoc’h?</message>
         <example type="incorrect">Un <marker>devez</marker> pe zaou.</example>
         <example type="correct">Un devezh pe zaou.</example>
+        <example type="incorrect">En <marker>devez</marker> ar pardon</example>
+        <example type="correct">En devezh ar pardon</example>
       </rule>
       <rule>
         <pattern mark_from="1"> 
-          <token postag_regexp="yes" postag="K . ."/>
+          <token postag_regexp="yes" postag="SENT_START|K . ."/>
           <token regexp="yes">[dz]evez</token>
         </pattern>
         <message>«\2» ’zo ur verb. Ha fellout a rae deoc’h implijout an anv <suggestion>devezh</suggestion> kentoc’h?</message>
         <example type="incorrect">Daou <marker>zevez</marker>.</example>
         <example type="correct">Daou zevezh.</example>
+        <example type="incorrect"><marker>Devez</marker> an douar.</example>
+        <example type="correct">Devezh an douar.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2"> 
+          <token regexp="yes" skip="1">[aeu][lnr]</token>
+          <token postag="J.*" postag_regexp="yes"/>
+          <token>devez</token>
+        </pattern>
+        <message>«\2» ’zo ur verb. Ha fellout a rae deoc’h implijout an anv <suggestion>devezh</suggestion> kentoc’h?</message>
+        <example type="incorrect">Ar bempvet <marker>devez</marker></example>
+        <example type="correct">Ar bempvet devezh</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1"> 
+          <token regexp="yes">[tdz]evez
+            <exception scope="previous" regexp="yes">[aeu]n|eil|e-pad|evit|pebezh|kentañ|pep|pet</exception>
+            <exception scope="previous" postag_regexp="yes" postag="SENT_START|K . ."/>
+          </token>
+          <token regexp="yes">a-benn|bennak|(etre)?broadel|mat|laouenn|staj|skolaj|studi</token>
+        </pattern>
+        <message>«devez» ’zo ur verb. Ha fellout a rae deoc’h implijout an anv <suggestion><match no="1" regexp_match="z" regexp_replace="zh"/></suggestion> kentoc’h?</message>
+        <example type="incorrect">E <marker>devez</marker> etrebroadel</example>
+        <example type="correct">E devezh etrebroadel</example>
+      </rule>
+      <rule>
+        <pattern> 
+          <token regexp="yes">[dtz]evez-(mañ|se|hont|ara[dt]|studi)</token>
+        </pattern>
+        <message>«devez» ’zo ur verb. Ha fellout a rae deoc’h implijout an anv <suggestion><match no="1" regexp_match="z" regexp_replace="zh"/></suggestion> kentoc’h?</message>
+        <example type="incorrect">An <marker>devez-se</marker></example>
+        <example type="correct">An devezh-se</example>
       </rule>
     </rulegroup>
-
+    <rulegroup id="SUP_AR" name="Lodenn vrasañ ar boblañs → Al lodenn vrasañ eus ar bolañs">
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token postag_regexp="yes" postag="SENT_START|V.*"/>
+          <token postag_regexp="yes" postag="N.*" regexp="yes">l.*</token>
+          <token postag_regexp="yes" postag="J sup.*"/>
+          <token regexp="yes">a[lnr]</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>al <match no="2" case_conversion="alllower"/> \3 eus \4</suggestion>?</message>
+        <example type="incorrect"><marker>Lodenn vrasañ</marker> ar boblañ</example>
+        <example type="correct">Al lodenn vrasañ eus ar boblañ</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token postag_regexp="yes" postag="SENT_START|V.*"/>
+          <token postag_regexp="yes" postag="N.*" regexp="yes">[bcfgjkmprsvwyz].*</token>
+          <token postag_regexp="yes" postag="J sup.*"/>
+          <token regexp="yes">a[lnr]</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>ar <match no="2" case_conversion="alllower"/> \3 eus \4</suggestion>?</message>
+        <example type="incorrect"><marker>Paotr brasañ</marker> ar skol.</example>
+        <example type="correct">Ar paotr brasañ eus ar skol.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token postag_regexp="yes" postag="SENT_START|V.*"/>
+          <token postag_regexp="yes" postag="N.*" regexp="yes">[ndthaeiou].*</token>
+          <token postag_regexp="yes" postag="J sup.*"/>
+          <token regexp="yes">a[lnr]</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>an <match no="2" case_conversion="alllower"/> \3 eus \4</suggestion>?</message>
+        <example type="incorrect"><marker>Noz tommañ</marker> an hañv.</example>
+        <example type="correct"><marker>An noz tommañ eus</marker> an hañv.</example>
+      </rule>
+    </rulegroup>
   </category>
   <!-- vim: foldmethod=marker foldmarker=<category,</category:
   -->
