@@ -2497,7 +2497,7 @@ Useful links:
           <token>bet</token>
           <token regexp="yes">u[nrl]</token>
         </pattern>
-        <message>Ret eo implij <suggestion>ez eus</suggestion>.</message>
+        <message>Ret eo implijout <suggestion>ez eus</suggestion>.</message>
         <example type="incorrect">Digoret <marker>eo</marker> bet ur skol nevez.</example>
         <example type="correct">Digoret ez eus bet bet ur skol nevez.</example>
       </rule>
@@ -2507,7 +2507,7 @@ Useful links:
           <token regexp="yes">[ez]o</token>
           <token regexp="yes">u[nlr]</token>
         </pattern>
-        <message>Ret eo implij <suggestion>ez eus</suggestion>.</message>
+        <message>Ret eo implijout <suggestion>ez eus</suggestion>.</message>
         <example type="incorrect">Digoret <marker>eo</marker> ur skol nevez.</example>
         <example type="correct">Digoret ez eus ur skol nevez.</example>
       </rule>
@@ -2517,7 +2517,7 @@ Useful links:
           <token regexp="yes">[ez]o</token>
           <token regexp="yes">u[nlr]</token>
         </pattern>
-        <message>Ret eo implij <suggestion>ez eus</suggestion>.</message>
+        <message>Ret eo implijout <suggestion>ez eus</suggestion>.</message>
         <example type="incorrect">Erru <marker>eo</marker> ur paotr.</example>
         <example type="correct">Erru <marker>ez eus</marker> ur paotr.</example>
       </rule>
@@ -4422,7 +4422,7 @@ Useful links:
           <token regexp="yes">avel|chistr|chouchenn|chug(-.*)?|dour|digor-kalon|eoul|glav|gouloù|gwin|heol|kafe|laezh|lambig|sistr|soubenn</token>
           <token>ebet</token>
         </pattern>
-        <message>Ret eo implij <suggestion>banne \3 \4</suggestion> gant ur ger hollek «\3» a-raok ar ger «\4».</message>
+        <message>Ret eo implijout <suggestion>banne \3 \4</suggestion> gant ur ger hollek «\3» a-raok ar ger «\4».</message>
         <example type="incorrect">N’eus <marker>avel ebet</marker>.</example>
         <example type="correct">N’eus banne avel ebet.</example>
       </rule>
@@ -4433,7 +4433,7 @@ Useful links:
           <token regexp="yes">amanenn|bara|boued|frouezh|koad|kig|geot|sukr</token>
           <token>ebet</token>
         </pattern>
-        <message>Ret eo implij <suggestion>tamm \3 \4</suggestion> gant ur ger hollek «\3» a-raok ar ger «\4».</message>
+        <message>Ret eo implijout <suggestion>tamm \3 \4</suggestion> gant ur ger hollek «\3» a-raok ar ger «\4».</message>
         <example type="incorrect">Ne zebran <marker>frouezh ebet</marker>.</example>
         <example type="correct">Ne zebran tamm frouezh ebet.</example>
       </rule>
@@ -4446,7 +4446,7 @@ Useful links:
           <token>nemeur</token>
           <token>a</token>
         </pattern>
-        <message>Ret eo implij «ket» gant «nemeur». Ha fellout a rae deoc’h skrivañ <suggestion>\1 \2 ket \3 \4</suggestion>?</message>
+        <message>Ret eo implijout «ket» gant «nemeur». Ha fellout a rae deoc’h skrivañ <suggestion>\1 \2 ket \3 \4</suggestion>?</message>
         <example type="incorrect"><marker>N’eus nemeur a</marker> girri.</example>
         <example type="correct">N’eus ket nemeur a girri.</example>
       </rule>
@@ -4746,7 +4746,7 @@ Useful links:
         <token>ha</token>
         <token>ket</token>
       </pattern>
-      <message>N’haller ket implij «ket» hep verb evel e galleg. Ha fellout a rae deoc’h skrivañ <suggestion>\1 n’eo ket</suggestion>?</message>
+      <message>N’haller ket implijout «ket» hep verb evel e galleg. Ha fellout a rae deoc’h skrivañ <suggestion>\1 n’eo ket</suggestion>?</message>
       <example type="incorrect">Ober a ran chistr, <marker>ha ket</marker> lambig.</example>
       <example type="correct">Ober a ran chistr, ha n’eo ket lambig.</example>
     </rule>
@@ -4856,6 +4856,27 @@ Useful links:
       <example type="incorrect"><marker>Beñ ya</marker>!</example>
       <example type="correct"><marker>Feiz ya</marker>!</example>
     </rule>
+
+    <rulegroup id="DEVEZ_DEVEZH" name="devez → devezh">
+      <rule>
+        <pattern mark_from="1"> 
+          <token regexp="yes">[au]n|pet</token>
+          <token>devez</token>
+        </pattern>
+        <message>«\2» ’zo ur verb. Ha fellout a rae deoc’h implijout an anv <suggestion>devezh</suggestion> kentoc’h?</message>
+        <example type="incorrect">Un <marker>devez</marker> pe zaou.</example>
+        <example type="correct">Un devezh pe zaou.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1"> 
+          <token postag_regexp="yes" postag="K . ."/>
+          <token regexp="yes">[dz]evez</token>
+        </pattern>
+        <message>«\2» ’zo ur verb. Ha fellout a rae deoc’h implijout an anv <suggestion>devezh</suggestion> kentoc’h?</message>
+        <example type="incorrect">Daou <marker>zevez</marker>.</example>
+        <example type="correct">Daou zevezh.</example>
+      </rule>
+    </rulegroup>
 
   </category>
   <!-- vim: foldmethod=marker foldmarker=<category,</category:
