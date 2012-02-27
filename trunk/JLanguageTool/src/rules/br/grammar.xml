@@ -2532,6 +2532,31 @@ Useful links:
       <example type="incorrect">Asantet <marker>oc’h eus</marker>.</example>
       <example type="correct">Asantet <marker>hoc’h eus</marker>.</example>
     </rule>
+
+    <rulegroup id="EZ_EUS_E_VEZ" name="ez eus → e vez">
+      <rule>
+        <pattern mark_from="2">
+          <token>bep</token>
+          <token regexp="yes">gwech|gwezh|segond|munut|eur|deiz|noz|mintin|beure|enderv|abardae|sizhun|pemzektez|miz|trimiziad|kantved|Lun|Merc’her|Yaou|Gwener|Sadorn|Sul|Genver|C’hwevrer|Meurzh|Ebrel|Mae|Even|Mezheven|Gouere|Gouhere|Eost|Gwengolo|Here|Du|Kerdu|Kerzu</token>
+          <token>ez</token>
+          <token>eus</token>
+        </pattern>
+        <message>Stumm boas ur droienn a verk ur prantad amzer a zistro ingal. A fellout a rae deoc’h skrivañ <suggestion>e vez</suggestion>?</message>
+        <example type="incorrect">Bep sizhun <marker>ez eus</marker> atalieroù komz.</example>
+        <example type="correct">Bep sizhun <marker>e vez</marker> atalieroù komz.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="3">
+          <token>bep</token>
+          <token regexp="yes">gwech|gwezh|segond|munut|eur|deiz|noz|mintin|beure|enderv|abardae|sizhun|pemzektez|miz|trimiziad|kantved|Lun|Merc’her|Yaou|Gwener|Sadorn|Sul|Genver|C’hwevrer|Meurzh|Ebrel|Mae|Even|Mezheven|Gouere|Gouhere|Eost|Gwengolo|Here|Du|Kerdu|Kerzu</token>
+          <token>e</token>
+          <token>oa</token>
+        </pattern>
+        <message>Stumm boas ur droienn a verk ur prantad amzer a zistro ingal. A fellout a rae deoc’h skrivañ <suggestion>e veze</suggestion>?</message>
+        <example type="incorrect">Bep sizhun e <marker>oa</marker> atalieroù komz.</example>
+        <example type="correct">Bep sizhun e <marker>veze</marker> atalieroù komz.</example>
+      </rule>
+    </rulegroup>
   </category>
 
   <category name="Barrennig-stagañ">
@@ -2561,11 +2586,13 @@ Useful links:
     <rule id="J_TRE" name="fentus tre → fentus-tre (hag all)">
       <pattern>
         <token postag="J.*" postag_regexp="yes"/>
-        <token regexp="yes">kenañ|meurbet|tre</token>
+        <token regexp="yes">kenañ|mat|meurbet|tre</token>
       </pattern>
       <message>Implijit <suggestion>\1-\2</suggestion>.</message>
       <example type="incorrect"><marker>Fentus tre</marker> eo.</example>
       <example type="correct">Fentus-tre eo.</example>
+      <example type="incorrect"><marker>Brudet mat</marker> eo.</example>
+      <example type="correct"><marker>Brudet-mat</marker> eo.</example>
     </rule>
     <rule id="SETU_ME" name="setu me → setu-me (hag all)">
       <pattern>
@@ -4826,7 +4853,7 @@ Useful links:
       <rule>
         <pattern mark_to="-1">
           <token>pep</token>
-          <token regexp="yes">gwech|gwezh|segond|munut|eur|deiz|noz|mintin|beure|enderv|abardae|sizhun|miz|kantved|Lun|Merc’her|Yaou|Gwener|Sadorn|Sul|Genver|C’hwevrer|Meurzh|Ebrel|Mae|Even|Mezheven|Gouere|Gouhere|Eost|Gwengolo|Here|Du|Kerdu|Kerzu</token>
+          <token regexp="yes">gwech|gwezh|segond|munut|eur|deiz|noz|mintin|beure|enderv|abardae|sizhun|pemzektez|miz|trimiziad|kantved|Lun|Merc’her|Yaou|Gwener|Sadorn|Sul|Genver|C’hwevrer|Meurzh|Ebrel|Mae|Even|Mezheven|Gouere|Gouhere|Eost|Gwengolo|Here|Du|Kerdu|Kerzu</token>
         </pattern>
         <message><suggestion>bep</suggestion> a vez implijet a-raok un anv amazer.</message>
         <example type="incorrect">Dont a ra amañ <marker>pep</marker> Sul.</example>
@@ -4837,7 +4864,7 @@ Useful links:
         <pattern mark_to="-2">
           <token>pep</token>
           <token postag="K.*" postag_regexp="yes"/>
-          <token regexp="yes">gwech|gwezh|segond|munut|eur|deiz|noz|mintin|beure|enderv|abardae|sizhun|miz|kantved|Lun|Merc’her|Yaou|Gwener|Sadorn|Sul|Genver|C’hwevrer|Meurzh|Ebrel|Mae|Even|Mezheven|Gouere|Gouhere|Eost|Gwengolo|Here|Du|Kerdu|Kerzu</token>
+          <token regexp="yes">gwech|gwezh|segond|munut|eur|deiz|noz|mintin|beure|enderv|abardae|sizhun|miz|trimiziad|kantved|Lun|Merc’her|Yaou|Gwener|Sadorn|Sul|Genver|C’hwevrer|Meurzh|Ebrel|Mae|Even|Mezheven|Gouere|Gouhere|Eost|Gwengolo|Here|Du|Kerdu|Kerzu</token>
         </pattern>
         <message><suggestion>bep</suggestion> a vez implijet a-raok un anv amazer.</message>
         <example type="incorrect">Dont a ra amañ <marker>pep</marker> eil Sul.</example>
