@@ -256,10 +256,10 @@ public class MainTest extends AbstractSecurityTestCase {
     w.println("To jest świnia która się ślini.");
     w.close();
 
-    String[] args = new String[] {"-l", "pl", "--api", input.getAbsolutePath()};
+    String[] args = new String[] {"-l", "pl", "--api", "-c", "utf-8", input.getAbsolutePath()};
 
     Main.main(args);
-    String output = new String(this.out.toByteArray());
+    String output = new String(this.out.toByteArray(),"UTF-8");
     assertTrue(output.indexOf("<?xml version=\"1.0\" encoding=\"UTF-8\"?>") == 0);
     assertTrue(output.indexOf("<error fromy=\"0\" fromx=\"8\" toy=\"0\" tox=\"21\" ruleId=\"BRAK_PRZECINKA_KTORY\" subId=\"5\"") != -1);
     //This tests whether XML encoding is actually UTF-8:
@@ -282,10 +282,10 @@ public class MainTest extends AbstractSecurityTestCase {
     w.println("Test który wykaże błąd.");
     w.close();
 
-    String[] args = new String[] {"-l", "pl", input.getAbsolutePath()};
+    String[] args = new String[] {"-l", "pl", "-c", "utf-8", input.getAbsolutePath()};
 
     Main.main(args);
-    String output = new String(this.out.toByteArray());
+    String output = new String(this.out.toByteArray(),"UTF-8");
     assertTrue(output.indexOf("Expected text language: Polish") == 0);
     assertTrue(output.indexOf("Line 8, column 1, Rule ID: BRAK_PRZECINKA_KTORY") != -1);
   }

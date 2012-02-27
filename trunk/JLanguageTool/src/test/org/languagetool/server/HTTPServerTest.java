@@ -79,7 +79,7 @@ public class HTTPServerTest extends TestCase {
     assertTrue(checkByPOST(Language.ROMANIAN, "greșit greșit").contains("greșit"));
     // test supported language listing
     final URL url = new URL("http://localhost:" + HTTPServer.DEFAULT_PORT + "/Languages");
-    final String languagesXML = StringTools.streamToString((InputStream) url.getContent());
+    final String languagesXML = StringTools.streamToString((InputStream) url.getContent(), "UTF-8");
     if (!languagesXML.contains("Romanian") || !languagesXML.contains("English")) {
       fail("Error getting supported languages: " + languagesXML);
     }
@@ -122,7 +122,7 @@ public class HTTPServerTest extends TestCase {
     }
     final URL url = new URL("http://localhost:" + HTTPServer.DEFAULT_PORT + urlOptions);
     final InputStream stream = (InputStream)url.getContent();
-    final String result = StringTools.streamToString(stream);
+    final String result = StringTools.streamToString(stream, "UTF-8");
     return result;
   }
   
@@ -134,7 +134,7 @@ public class HTTPServerTest extends TestCase {
     }
     final URL url = new URL("http://localhost:" + HTTPServer.DEFAULT_PORT + urlOptions);
     final InputStream stream = (InputStream)url.getContent();
-    final String result = StringTools.streamToString(stream);
+    final String result = StringTools.streamToString(stream, "UTF-8");
     return result;
   }
   
@@ -150,7 +150,7 @@ public class HTTPServerTest extends TestCase {
     try {
         wr.write(postData);
         wr.flush();
-        final String result = StringTools.streamToString(connection.getInputStream());
+        final String result = StringTools.streamToString(connection.getInputStream(), "UTF-8");
         return result;
     } finally {
       wr.close();

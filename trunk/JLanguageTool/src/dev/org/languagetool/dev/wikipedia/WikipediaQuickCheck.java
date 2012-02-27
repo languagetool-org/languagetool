@@ -128,7 +128,7 @@ public class WikipediaQuickCheck {
 
   private String getContent(URL wikipediaUrl) throws IOException {
     final InputStream contentStream = (InputStream) wikipediaUrl.getContent();
-    return StringTools.streamToString(contentStream);
+    return StringTools.streamToString(contentStream,"UTF-8");
   }
 
   /*public static void mainTest(String[] args) throws IOException {

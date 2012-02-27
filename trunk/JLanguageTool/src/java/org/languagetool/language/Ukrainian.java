@@ -82,7 +82,9 @@ public class Ukrainian extends Language {
   
   @Override
   public Contributor[] getMaintainers() {
-    return new Contributor[] {new Contributor("Andriy Rysin")};
+    return new Contributor[] {
+	    new Contributor("Andriy Rysin"),
+        new Contributor("Maksym Davydov")};
   }
 
   @Override

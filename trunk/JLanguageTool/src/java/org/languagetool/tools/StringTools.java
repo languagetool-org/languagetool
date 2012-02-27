@@ -247,6 +247,15 @@ public final class StringTools {
     }
   }
 
+   public static String streamToString(final InputStream is, String charsetName) throws IOException {
+    final InputStreamReader isr = new InputStreamReader(is, charsetName);
+    try {
+      return readerToString(isr);
+    } finally {
+      isr.close();
+    }
+  } 
+  
   /**
    * Calls escapeHTML(String).
    */
