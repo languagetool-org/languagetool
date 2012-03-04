@@ -2526,12 +2526,13 @@ Useful links:
 
     <rule id="HOCH_EUS" name="oc’h eus → hoc’h eus">
       <pattern>
-        <token>oc’h</token>
+        <token>oc’h<exception scope="previous">distroet</exception></token>
         <token>eus</token>
       </pattern>
       <message>Ha fellout a rae deoc’h skrivañ <suggestion>hoc’h eus</suggestion>?</message>
       <example type="incorrect">Asantet <marker>oc’h eus</marker>.</example>
       <example type="correct">Asantet <marker>hoc’h eus</marker>.</example>
+      <example type="correct">Distroet oc’h eus ho vakañsoù.</example>
     </rule>
 
     <rulegroup id="EZ_EUS_E_VEZ" name="ez eus → e vez">
@@ -3648,6 +3649,17 @@ Useful links:
       <message>Ne vez ket implijet an araogenn «evit» a-raok ar ger «\2». Ha fellout a rae deoc’h skrivañ <suggestion>a-benn</suggestion>?</message>
       <example type="incorrect">Prest e vo <marker>evit</marker> dilun.</example>
       <example type="correct">Prest e vo a-benn dilun.</example>
+    </rule>
+
+    <rule id="LEVR_EUS" name="levr eus → levr gant">
+      <pattern mark_from="1" mark_to="-1">
+        <token regexp="yes">levr(ioù)|levrig(où)?|([dtz]anevell|film|romant)(ig)?(où)?|[bfp]ezh(ioù)?-c’hoari</token>
+        <token>eus</token>
+        <token postag_regexp="yes" postag="Z . . ant" regexp="yes">\p{Lu}.*</token>
+      </pattern>
+      <message>Ha fellout a rae deoc’h skrivañ <suggestion>gant</suggestion>?</message>
+      <example type="incorrect">Ur film <marker>eus</marker> Jacques Tati.</example>
+      <example type="correct">Ur film gant Jacques Tati.</example>
     </rule>
 
   </category>
