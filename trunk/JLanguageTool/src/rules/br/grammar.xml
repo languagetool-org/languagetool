@@ -5020,6 +5020,30 @@ Useful links:
         <example type="correct"><marker>An noz tommañ eus</marker> an hañv.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="BISKOAZH_BIKEN" name="biskoazh, biken">
+      <rule>
+        <pattern mark_to="-2">
+          <token>biskoazh</token>
+          <token regexp="yes">n[e‘]</token>
+          <token postag="V futu.*" postag_regexp="yes"/>
+        </pattern>
+        <message>«Biskoazh» a zo evit an amzer dremenet hepken. A fellout a rae deoc’h skrivañ <suggestion>biken</suggestion>?</message>
+        <example type="incorrect"><marker>Biskoazh</marker> ne welin Amerika.</example>
+        <example type="correct">Biken ne welin Amerika.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-2">
+          <token>biken</token>
+          <token regexp="yes">n[e‘]</token>
+          <token postag="V (impa|pass).*" postag_regexp="yes"/>
+        </pattern>
+        <message>«Biken» a zo evit an amzer da zont hepken. A fellout a rae deoc’h skrivañ <suggestion>biskoazh</suggestion>?</message>
+        <example type="incorrect"><marker>Biken</marker> ne oa aet ket pell.</example>
+        <example type="correct">Biskoazh ne oa aet ket pell.</example>
+        <example type="incorrect"><marker>Biken</marker> ne c'hoarvezas an emgann.</example>
+        <example type="correct">Biskoazh ne c'hoarvezas an emgann.</example>
+      </rule>
+    </rulegroup>
   </category>
   <!-- vim: foldmethod=marker foldmarker=<category,</category:
   -->
