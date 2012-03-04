@@ -3446,7 +3446,7 @@ Useful links:
       </rule>
       <rule>
         <pattern mark_from="2">
-          <token inflected="yes">goulenn</token>
+          <token inflected="yes" regexp="yes">goulenn|gwelout|klevout</token>
           <token>ket</token>
           <token inflected="yes" regexp="yes">da’?</token>
         </pattern>
@@ -3456,7 +3456,7 @@ Useful links:
       </rule>
       <rule>
         <pattern mark_from="3">
-          <token inflected="yes">goulenn</token>
+          <token regexp="yes">galven|gelver|gervel|goulenn|gwelout|klevout</token>
           <token>a</token>
           <token inflected="yes">ober</token>
           <token inflected="yes" regexp="yes">da’?</token>
@@ -3469,7 +3469,7 @@ Useful links:
       </rule>
       <rule>
         <pattern mark_from="3">
-          <token>goulennet</token>
+          <token regexp="yes">galvet|goulennet|gwelet|klevet</token>
           <token regexp="yes">e[mn]|ez|ac’h|hon?|hoc’h|o</token>
           <token regexp="yes">[dp]eus|[bpd]oa</token>
           <token inflected="yes" regexp="yes">da’?</token>
@@ -3477,6 +3477,30 @@ Useful links:
         <message>Ne vez ket implijet an araogenn «da» gant ar verb «\1».</message>
         <example type="incorrect">Goulennet en deus <marker>din</marker>.</example>
         <example type="correct">Goulennet en eus diganin.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="DA_A" name="da → a">
+      <rule>
+        <pattern mark_from="3">
+          <token regexp="yes">lavaret|pellgomzet|poket|telefonet|skrivet</token>
+          <token regexp="yes">e[mn]|ez|ac’h|hon?|hoc’h|o</token>
+          <token regexp="yes">[dp]eus|[bpd]oa</token>
+          <token regexp="yes">ac’han(on|out|omp|oc’h)|anezh(añ|[ioe])</token>
+        </pattern>
+        <message>Ne vez ket implijet an araogenn «\4» gant ar verb «\1». Implijit «din/dit…»</message>
+        <example type="incorrect">Pellgomzet en deus <marker>ac’hanon</marker>.</example>
+        <example type="correct">Pellgomzet en deus <marker>din</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="3">
+          <token inflected="yes" regexp="yes">lavarout|pellgomz|pokat|telefonañ|skrivañ</token>
+          <token>a</token>
+          <token inflected="yes">ober</token>
+          <token regexp="yes">ac’han(on|out|omp|oc’h)|anezh(añ|[ioe])</token>
+        </pattern>
+        <message>Ne vez ket implijet an araogenn «\4» gant ar verb «\1». Implijit «din/dit…»</message>
+        <example type="incorrect">Pellgomz a rin <marker>ac’hanout</marker>.</example>
+        <example type="correct">Pellgomz a rin <marker>dit</marker>.</example>
       </rule>
     </rulegroup>
     <rule id="DIGAREZIT_DIN" name="Digarezit din → Digarezit ac’hanon">
