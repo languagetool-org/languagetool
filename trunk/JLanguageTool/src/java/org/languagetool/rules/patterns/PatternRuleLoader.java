@@ -110,6 +110,7 @@ class PatternRuleHandler extends XMLRuleHandler {
         throw new SAXException("Unknown language '" + languageStr + "'");
       }
     } else if ("rule".equals(qName)) {
+      shortMessage = new StringBuilder();
       id = attrs.getValue("id");
       if (inRuleGroup) {
         subId++;

@@ -115,6 +115,7 @@ class PatternRuleHandler extends BitextXMLRuleHandler {
         throw new SAXException("Unknown language '" + languageStr + "'");
       }
     } else if (qName.equals("rule")) {
+      shortMessage = new StringBuilder();
       id = attrs.getValue("id");
       if (inRuleGroup)
         subId++;
