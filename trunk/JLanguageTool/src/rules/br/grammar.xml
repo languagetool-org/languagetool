@@ -2206,7 +2206,7 @@ Useful links:
           <token postag_regexp="yes" postag="N .*"><exception regexp="yes">[ae]</exception></token>
         </pattern>
         <message>Ha fellout a rae deoc’h skrivañ ha <suggestion>\1 a \2</suggestion>?</message>
-        <example type="incorrect">Ur <marker>milion zud</marker>.</example>
+        <example type="incorrect">Ur <marker>milion tud</marker>.</example>
         <example type="correct">1,7 milion a dud e 1900, 2,2 milion e 1950.</example>
       </rule>
       <rule>
@@ -3948,7 +3948,7 @@ Useful links:
           </token>
         </pattern>
         <message>Ne zlefe ket bezañ ur stumm lies goude «\1 \2».</message>
-        <example type="incorrect">Meur a <marker>zud</marker> a chomo.</example>
+        <example type="incorrect">Meur a <marker>dud</marker> a chomo.</example>
         <example type="correct">Meur a zen a chomo.</example>
         <example type="correct">Meur a geloù</example>
       </rule>
@@ -4106,7 +4106,7 @@ Useful links:
         </pattern>
         <message>«\1 a» a implijer dirak un anv. Ha fellout a rae deoc’h skrivañ <suggestion>\1 a \2</suggestion>?</message>
         <example type="incorrect"><marker>Re dud</marker> zo.</example>
-        <example type="correct">Re a zud zo.</example>
+        <example type="correct">Re a dud zo.</example>
         <example type="correct">Re vihan eo.</example>
       </rule>
       <rule>
@@ -5032,6 +5032,18 @@ Useful links:
         <example type="correct">Biken ne welin Amerika.</example>
       </rule>
       <rule>
+        <pattern mark_to="-4">
+          <token>biskoazh</token>
+          <token>n’</token>
+          <token>en</token>
+          <token>em</token>
+          <token postag="V futu.*" postag_regexp="yes"/>
+        </pattern>
+        <message>«Biskoazh» a zo evit an amzer dremenet hepken. A fellout a rae deoc’h skrivañ <suggestion>biken</suggestion>?</message>
+        <example type="incorrect"><marker>Biskoazh</marker> n’en em garimp.</example>
+        <example type="correct">Biken n’en em garimp.</example>
+      </rule>
+      <rule>
         <pattern mark_to="-2">
           <token>biken</token>
           <token regexp="yes">n[e‘]</token>
@@ -5042,6 +5054,29 @@ Useful links:
         <example type="correct">Biskoazh ne oa aet ket pell.</example>
         <example type="incorrect"><marker>Biken</marker> ne c'hoarvezas an emgann.</example>
         <example type="correct">Biskoazh ne c'hoarvezas an emgann.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-4">
+          <token>biken</token>
+          <token>n’</token>
+          <token>en</token>
+          <token>em</token>
+          <token postag="V (impa|pass).*" postag_regexp="yes"/>
+        </pattern>
+        <message>«Biken» a zo evit an amzer da zont hepken. A fellout a rae deoc’h skrivañ <suggestion>biskoazh</suggestion>?</message>
+        <example type="incorrect"><marker>Biken</marker> n’en em wele.</example>
+        <example type="correct">Biskoazh n’en em wele.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-3">
+          <token>biken</token>
+          <token>n’</token>
+          <token regexp="yes">e[nmz]?|ec’h|he|ho[rn]?|o</token>
+          <token regexp="yes">[bpd]?o[ae]|devo[ae]|[bdpv]eze</token>
+        </pattern>
+        <message>«Biken» a zo evit an amzer da zont hepken. A fellout a rae deoc’h skrivañ <suggestion>biskoazh</suggestion>?</message>
+        <example type="incorrect"><marker>Biken</marker> n’em boa gwelet kement a girri.</example>
+        <example type="correct">Biskoazh n’em boa gwelet kement a girri.</example>
       </rule>
     </rulegroup>
   </category>
