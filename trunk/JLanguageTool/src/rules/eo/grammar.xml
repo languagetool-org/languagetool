@@ -236,6 +236,47 @@ Copyright (C) 2010, 2011 Dominique Pellé <dominique.pelle@gmail.com>
       <example type="correct">Ŝi <marker>rigardis</marker> lin.</example>
     </rule>
 
+    <rulegroup id="ADULTO_ADOLTO" name="adulto kaj adolto">
+      <rule>
+        <pattern mark_from="2">
+          <token regexp="yes">[mcvlŝnv]i|ili</token>
+          <token inflected="yes" skip="1">esti</token>
+          <token regexp="yes">adultoj?</token>
+        </pattern>
+        <message>Ĉu vi intencis skribi <suggestion><match no="3" regexp_match="u" regexp_replace="o"/></suggestion>?</message>
+        <example type="incorrect">Li estas jam <marker>adulto</marker>.</example>
+        <example type="correct">Li estas jam adolto.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-2">
+          <token inflected="yes">adulto</token>
+          <token regexp="yes" skip="1">,|kaj|aŭ</token>
+          <token regexp="yes" inflected="yes">(ge)?(infan|junul|beb|knab|fil)(in)?o</token>
+        </pattern>
+        <message>Ĉu vi intencis skribi <suggestion><match no="1" regexp_match="u" regexp_replace="o"/></suggestion>?</message>
+        <example type="incorrect"><marker>Adultoj</marker> kaj liaj infanoj rajtas partopreni.</example>
+        <example type="correct"><marker>Adoltoj</marker> kaj liaj infanoj rajtas partopreni.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2">
+          <token regexp="yes" inflected="yes">(ge)?(infan|junul|beb|knab|fil)(in)?o</token>
+          <token regexp="yes">,|kaj|aŭ</token>
+          <token inflected="yes" regexp="yes">adulto</token>
+        </pattern>
+        <message>Ĉu vi intencis skribi <suggestion><match no="3" regexp_match="u" regexp_replace="o"/></suggestion>?</message>
+        <example type="incorrect">Infanoj kaj <marker>adultoj</marker> partoprenis.</example>
+        <example type="correct">Infanoj kaj <marker>adoltoj</marker> partoprenis.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes" inflected="yes">geadult(in)?o|(ge)?adultino</token>
+        </pattern>
+        <message>Ĉu vi intencis skribi <suggestion><match no="3" regexp_match="u" regexp_replace="o"/></suggestion>?</message>
+        <example type="incorrect">Maria baldaŭ fariĝos <marker>adultino</marker>.</example>
+        <example type="correct">Maria baldaŭ fariĝos adoltino.</example>
+      </rule>
+    </rulegroup>
+
   </category>
   <category name="Evitindaĵoj">
     <rule id="NE_JAM" name="ne + jam (ankoraŭ ne)">
@@ -1966,7 +2007,7 @@ Copyright (C) 2010, 2011 Dominique Pellé <dominique.pelle@gmail.com>
       <pattern mark_from="1" mark_to="-1">
         <token negate_pos="yes" postag_regexp="yes" postag="[AOET] .*"/>
         <token>ĉi</token>
-        <token negate_pos="yes" postag_regexp="yes" postag="[AOET] .*"/>
+        <token negate_pos="yes" postag_regexp="yes" postag="[AOET] .*|SENT_END"/>
       </pattern>
       <message>Tiu uzo de «\2» ne eblas.  Ĉu vi eblis intencis skribi <suggestion>ĉu</suggestion>?</message>
       <example type="incorrect">Mi scivolas <marker>ĉi</marker> li venos.</example>
@@ -2503,6 +2544,18 @@ Copyright (C) 2010, 2011 Dominique Pellé <dominique.pelle@gmail.com>
         <example type="correct">Estas tio, kio komputilo estas.</example>
         <example type="correct">Pro tio homoj ne komprenas.</example>
       </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token postag="P .ak" postag_regexp="yes"/>
+          <token postag="T nak .. [^k] o" postag_regexp="yes"/>
+          <token postag="O nak .*" postag_regexp="yes"/>
+          <token regexp="yes">[\.,:;\?!…]</token>
+        </pattern>
+        <message>Ne povas esti «\2» antaŭ o-vorto «\3». Ĉu vi intencis «<match no="2" regexp_match="(.*)o(j?)" regexp_replace="$1u$2"/> \3»?</message>
+        <example type="incorrect">Temas pri <marker>io libro</marker>.</example>
+        <example type="correct">Temas pri <marker>iu libro</marker>.</example>
+        <example type="correct">Pro tio homoj ne komprenas.</example>
+      </rule>
 
       <rule>
         <pattern>
@@ -2510,7 +2563,7 @@ Copyright (C) 2010, 2011 Dominique Pellé <dominique.pelle@gmail.com>
           <token>la</token>
           <token postag="O akz .*" postag_regexp="yes"/>
         </pattern>
-        <message>Ne povas esti «\1» antaŭ o-vorto «\4».</message>
+        <message>Ne povas esti «\1» antaŭ o-vorto «\3».</message>
         <example type="incorrect">Mi legis <marker>ĉion la libron</marker>.</example>
         <example type="correct">Mi legis la tutan libron.</example>
       </rule>
