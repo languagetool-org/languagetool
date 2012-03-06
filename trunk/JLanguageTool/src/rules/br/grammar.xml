@@ -2092,18 +2092,6 @@ Useful links:
         <example type="correct">E Breizh <marker>em</marker> eus kavet se.</example>
       </rule>
     </rulegroup>
-    <rule id="V_PPA_EM" name="Gwelet am eus → Gwelet em eus">
-      <pattern mark_from="2" mark_to="-1">
-        <token postag="SENT_START|C coor" postag_regexp="yes"/>
-        <token postag="V ppa"/>
-        <token regexp="yes">a[mz]|ac’h</token>
-        <token regexp="yes">p?eus|[bp]oa?</token>
-      </pattern>
-      <message>Lakaet e vez a rannig verb «e» goude an anv-gwan-verb. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="e$1"/></suggestion>?</message>
-      <example type="incorrect">Gwelet <marker>am</marker> eus anezhi.</example>
-      <example type="correct">Gwelet <marker>em</marker> eus anezhi.</example>
-    </rule>
-
   </category>
 
   <category name="Elision">
@@ -2408,7 +2396,7 @@ Useful links:
         <pattern mark_from="1" mark_to="-1">
           <token postag="V ppa"/>
           <token regexp="yes">a[mz]|ac’h</token>
-          <token regexp="yes">p?eus</token>
+          <token regexp="yes">p?eus|[bp](oa?|e[fz]e?|ije)</token>
         </pattern>
         <message>Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="e$1"/></suggestion>?</message>
         <example type="incorrect">Debret <marker>am</marker> eus.</example>
@@ -5079,6 +5067,15 @@ Useful links:
         <example type="correct">Biskoazh n’em boa gwelet kement a girri.</example>
       </rule>
     </rulegroup>
+    <rule id="CH" name="C’H → C’h">
+      <pattern case_sensitive="yes">
+        <token regexp="yes">C’H\p{Ll}+</token>
+      </pattern>
+      <message>Gwelloc’h eo skrivañ <suggestion>C<match no="1" regexp_match=".(.*)" regexp_replace="$1" case_conversion="alllower"/></suggestion></message>
+      <example type="incorrect"><marker>C’Hoant</marker> am eus da zont.</example>
+      <example type="correct"><marker>C’hoant</marker> am eus da zont.</example>
+      <example type="correct"><marker>C’HOANT</marker> AM EUS DA ZONT.</example>
+    </rule>
   </category>
   <!-- vim: foldmethod=marker foldmarker=<category,</category:
   -->
