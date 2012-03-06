@@ -303,7 +303,7 @@ my @anv_lies_tud = (
   "mistri",             "vistri",
   "mistri-skol",        "vistri-skol",
   "mistri-vicherour",   "vistri-vicherour",
-  "monitorien",         "vonitourien",
+  "monitourien",        "vonitourien",
   "morlaeron",          "vorlaeron",
   "moruteaerien",       "voruteaerien",
   "mouezhierien",       "vouezhierien",
