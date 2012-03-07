@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 LanguageTool. Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
 A Russian rule file for LanguageTool 
 Copyright (C) 2008-2012 Yakov Reztsov
-$Id: grammar.xml,v 1.85 2012-02-04 19:05:35 yakovru Exp $
+$Id: grammar.xml,v 1.86 2012-03-07 20:02:07 yakovru Exp $
 #     REVISION:  $Id$
 -->
 <rules lang="ru" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -736,7 +736,7 @@ $Id: grammar.xml,v 1.85 2012-02-04 19:05:35 yakovru Exp $
         
         <rule default="on"  id="PUNKT_KAVITCHKI" name="Кавычки и знаки препинания">
             <pattern>
-                <token spacebefore="no" regexp="yes">;|:|-|—</token>                
+                <token spacebefore="no" regexp="yes"><exception scope = "previous" regexp="yes" >;|:</exception>;|:|-|—</token>                
                 <token regexp="yes">»|\)</token>
             </pattern>
             <message>Знаки препинания должны стоять после закрывающихся кавычек или скобок.  Должно быть: <suggestion>\2\1</suggestion></message>
