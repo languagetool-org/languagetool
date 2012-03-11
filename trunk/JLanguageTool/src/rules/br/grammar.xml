@@ -3456,6 +3456,17 @@ Useful links:
       <example type="incorrect">An hañv <marker>a-zeu</marker>.</example>
       <example type="correct">An hañv <marker>a zeu</marker>.</example>
     </rule>
+    <rule id="ALL" name="en tu-all → en tu all (hag all)">
+      <pattern>
+        <!-- Exception avoids double error in *a hend-all* already
+             detected by rule A_HEND_ALL -->
+        <token regexp="yes" postag="UNKNOWN">.*-all<exception>hend</exception></token>
+      </pattern>
+      <message>Implijit <suggestion><match no="1" regexp_match="(.*)-([^-]*)" regexp_replace="$1 $2"/></suggestion>.</message>
+      <example type="incorrect">En <marker>tu-all</marker></example>
+      <example type="correct">En tu all</example>
+      <example type="correct">Biskoazh kemend-all!</example>
+    </rule>
   </category>
 
   <category name="Araogenn">
@@ -5106,12 +5117,26 @@ Useful links:
     </rulegroup>
     <rule id="CH" name="C’H → C’h">
       <pattern case_sensitive="yes">
-        <token regexp="yes">C’H\p{Ll}+</token>
+        <token regexp="yes">C’?H\p{Ll}+</token>
       </pattern>
       <message>Gwelloc’h eo skrivañ <suggestion>C<match no="1" regexp_match=".(.*)" regexp_replace="$1" case_conversion="alllower"/></suggestion></message>
       <example type="incorrect"><marker>C’Hoant</marker> am eus da zont.</example>
       <example type="correct"><marker>C’hoant</marker> am eus da zont.</example>
       <example type="correct"><marker>C’HOANT</marker> AM EUS DA ZONT.</example>
+    </rule>
+    <rule id="PA" name="pa + verb diouzhtu">
+      <pattern>
+        <token regexp="yes">pa|mar</token>
+        <token>
+          <exception postag="V.*|UNKNOWN" postag_regexp="yes"/>
+          <exception regexp="yes">n?[e’]</exception>
+        </token>
+      </pattern>
+      <message>Lakaet e vez a verb diouzhtu goude «\1».</message>
+      <example type="incorrect"><marker>Pa me</marker> a lavar dit.</example>
+      <example type="correct">Pa lavaran dit.</example>
+      <example type="correct">Pa ne labouran ket.</example>
+      <example type="correct">Pa ’z on skuizh.</example>
     </rule>
   </category>
   <!-- vim: foldmethod=marker foldmarker=<category,</category:
