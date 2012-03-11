@@ -4287,8 +4287,8 @@ though, and has since been slightly modified)-->
       <rule name="quelque soit le">
         <pattern mark_to="-1">
           <token regexp="yes">quelques?</token>
-          <token postag="V.*" postag_regexp="yes" skip="1"/>
-          <token postag="D m s"/>
+          <token>soit</token>
+          <token postag="D m s" postag_regexp="yes"/>
         </pattern>
         <message>« \1 \2 » est incorrect. Employez <suggestion>Quel que soit</suggestion>.</message>
         <example type="incorrect"><marker>Quelque soit</marker> le problème</example>
@@ -4297,7 +4297,7 @@ though, and has since been slightly modified)-->
       <rule name="quelque soit la">
         <pattern mark_to="-1">
           <token regexp="yes">quelques?</token>
-          <token postag="V.*" postag_regexp="yes" skip="1"/>
+          <token>soit</token>
           <token postag="D f s"/>
         </pattern>
         <message>« \1 \2 » est incorrect. Employez <suggestion>Quelle que soit</suggestion>.</message>
@@ -4307,10 +4307,30 @@ though, and has since been slightly modified)-->
       <rule name="quelque soit les">
         <pattern mark_to="-1">
           <token regexp="yes">quelques?</token>
-          <token postag="V.*" postag_regexp="yes" skip="1"/>
+          <token>soient</token>
           <token postag="D . p" postag_regexp="yes"/>
         </pattern>
         <message>« \1 \2 » est incorrect. Employez <suggestion>Quels que soient</suggestion> ou <suggestion>Quelles que soient \3</suggestion>.</message>
+        <example type="incorrect"><marker>Quelque soient</marker> vos raisons</example>
+        <example type="correct"><marker>Quelles que soient</marker> vos raisons</example>
+      </rule>
+      <rule name="quelques_puissent">
+        <pattern mark_to="-1">
+          <token regexp="yes">quelques?</token>
+          <token>puisse</token>
+          <token>être</token>
+        </pattern>
+        <message>« \1 \2 » est incorrect. Employez <suggestion>Quel que puisse</suggestion> ou <suggestion>Quelle que puissent</suggestion>.</message>
+        <example type="incorrect"><marker>Quelque puisse</marker> être sa raison</example>
+        <example type="correct"><marker>Quelle que puisse</marker> être sa raison</example>
+      </rule>
+      <rule name="quelques_puissent">
+        <pattern mark_to="-1">
+          <token regexp="yes">quelques?</token>
+          <token>puissent</token>
+          <token>être</token>
+        </pattern>
+        <message>« \1 \2 » est incorrect. Employez <suggestion>Quels que puissent</suggestion> ou <suggestion>Quelles que puissent</suggestion>.</message>
         <example type="incorrect"><marker>Quelques puissent</marker> être vos raisons</example>
         <example type="correct">Quelles que puissent être vos raisons</example>
       </rule>
