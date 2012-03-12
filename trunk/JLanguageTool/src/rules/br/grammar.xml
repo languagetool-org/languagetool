@@ -95,8 +95,8 @@ Useful links:
           </token>
         </pattern>
         <message>Goude ar ger-mell «\1» e tlefe bezañ ur c’hemmadur dre vlotaat en anv «\2». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="c’h$1"/></suggestion>?</message>
-        <example type="incorrect">Sell ar <marker>godell</marker>.</example>
-        <example type="correct">Sell ar c’hodell.</example>
+        <example type="incorrect">Sell ouzh ar <marker>godell</marker>.</example>
+        <example type="correct">Sell ouzh ar c’hodell.</example>
         <example type="correct">Ur grampouezhenn am bo.</example>
         <example type="correct">Kanet o deus ur gavotenn.</example>
       </rule>
@@ -200,13 +200,15 @@ Useful links:
     <rulegroup id="KEMM_DRE_VLOTAAT_GER" name="kemmadur dre vlotaat goude gerioù zo.">
       <rule>
         <pattern mark_from="1">
-          <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|ez|gwall|ne|pa|pe|re|seul
+          <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|gwall|ne|pa|pe|re|seul
             <exception postag="V.*" postag_regexp="yes">a</exception>
             <exception postag="P|L e" postag_regexp="yes">e</exception>
             <exception postag="C coor">pe</exception>
           </token>
           <and>
-            <token regexp="yes" inflected="yes">k.*</token>
+            <token regexp="yes" inflected="yes">k.*
+              <exception regexp="yes">k[gm]|kPa|kHz</exception>
+            </token>
             <token regexp="yes">k.*<exception>kant</exception></token>
           </and>
         </pattern>
@@ -214,10 +216,12 @@ Useful links:
         <example type="incorrect">Gwall <marker>kozh</marker> eo da garr.</example>
         <example type="correct">Gwall gozh eo da garr.</example>
         <example type="correct">N’a ket mat en-dro an urzhiataer.</example>
+        <example type="correct">Daou km</example>
+        <example type="correct">Daou kg</example>
       </rule>
       <rule>
         <pattern mark_from="1">
-          <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|ez|gwall|ne|pa|pe|re|seul
+          <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|gwall|ne|pa|pe|re|seul
             <exception postag="P|L e" postag_regexp="yes">e</exception>
             <exception postag="C coor">pe</exception>
           </token>
@@ -244,7 +248,7 @@ Useful links:
       </rule>
       <rule>
         <pattern mark_from="1">
-          <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|ez|gwall|ne|pa|pe|re|seul
+          <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|gwall|ne|pa|pe|re|seul
             <exception postag="P|L e" postag_regexp="yes">e</exception>
             <exception scope="previous">ez</exception>
             <exception postag="C coor">pe</exception>
@@ -267,7 +271,7 @@ Useful links:
       </rule>
       <rule>
         <pattern mark_from="1">
-          <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|ez|gwall|ne|pa|pe|re|seul
+          <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|gwall|ne|pa|pe|re|seul
             <exception postag="P|L e" postag_regexp="yes">e</exception>
             <exception postag="C coor">pe</exception>
           </token>
@@ -283,7 +287,7 @@ Useful links:
       </rule>
       <rule>
         <pattern mark_from="1">
-          <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|ez|gwall|ne|pa|pe|re|seul
+          <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|gwall|ne|pa|pe|re|seul
             <exception postag="P|L e" postag_regexp="yes">e</exception>
               <exception postag="C coor">pe</exception>
           </token>
@@ -304,7 +308,7 @@ Useful links:
       </rule>
       <rule>
         <pattern mark_from="1">
-          <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|ez|gwall|ne|pa|pe|re|seul
+          <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|gwall|ne|pa|pe|re|seul
             <exception postag="P|L e" postag_regexp="yes">e</exception>
             <exception postag="C coor">pe</exception>
           </token>
@@ -322,7 +326,7 @@ Useful links:
       </rule>
       <rule>
         <pattern mark_from="1">
-          <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|ez|gwall|ne|pa|pe|re|seul
+          <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|gwall|ne|pa|pe|re|seul
             <exception postag="P|L e" postag_regexp="yes">e</exception>
             <exception postag="C coor">pe</exception>
           </token>
@@ -352,7 +356,7 @@ Useful links:
       </rule>
       <rule>
         <pattern mark_from="1">
-          <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|ez|gwall|ne|pa|pe|re|seul
+          <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|gwall|ne|pa|pe|re|seul
             <exception postag="P|L e" postag_regexp="yes">e</exception>
             <exception postag="C coor">pe</exception>
           </token>
@@ -379,7 +383,7 @@ Useful links:
       </rule>
       <rule>
         <pattern mark_from="1">
-          <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|ez|gwall|ne|pa|pe|re|seul
+          <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|gwall|ne|pa|pe|re|seul
             <exception postag="P|L e" postag_regexp="yes">e</exception>
             <exception scope="previous" regexp="yes">e?z|ned</exception>
             <exception postag="C coor">pe</exception>
@@ -402,12 +406,12 @@ Useful links:
       </rule>
       <rule>
         <pattern mark_from="1">
-          <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|ez|gwall|ne|pa|pe|re|seul
+          <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|gwall|ne|pa|pe|re|seul
             <exception postag="P|L e" postag_regexp="yes">e</exception>
             <exception postag="C coor">pe</exception>
           </token>
           <token regexp="yes">m.*
-            <exception regexp="yes" inflected="yes">[mp][ae]|ma’|meur</exception>
+            <exception regexp="yes" inflected="yes">[mp][ae]|ma’|meur|mHz|mm</exception>
           </token>
         </pattern>
         <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude ar ger «\1». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="v$1"/></suggestion>?</message>
@@ -419,7 +423,7 @@ Useful links:
       </rule>
       <rule>
         <pattern mark_from="1">
-          <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|ez|gwall|ne|pa|pe|re|seul
+          <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|gwall|ne|pa|pe|re|seul
             <exception postag="V.*" postag_regexp="yes">a</exception>
             <exception postag="P|L e" postag_regexp="yes">e</exception>
             <exception postag="C coor">pe</exception>
@@ -442,7 +446,7 @@ Useful links:
       </rule>
       <rule>
         <pattern mark_from="1">
-          <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|ez|gwall|ne|pa|pe|re|seul
+          <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|gwall|ne|pa|pe|re|seul
             <exception postag="P|L e" postag_regexp="yes">e</exception>
             <exception postag="C coor">pe</exception>
           </token>
@@ -2502,7 +2506,7 @@ Useful links:
         </pattern>
         <message>Ret eo implijout <suggestion>ez eus</suggestion>.</message>
         <example type="incorrect">Digoret <marker>eo</marker> bet ur skol nevez.</example>
-        <example type="correct">Digoret ez eus bet bet ur skol nevez.</example>
+        <example type="correct">Digoret ez eus bet ur skol nevez.</example>
       </rule>
       <rule>
         <pattern mark_from="1" mark_to="-1">
@@ -4513,7 +4517,7 @@ Useful links:
         <example type="incorrect">Ne welan <marker>ket</marker> den ebet.</example>
         <example type="correct">Ne welan den ebet.</example>
         <example type="incorrect">N’eus <marker>ket</marker> boued ebet.</example>
-        <example type="correct">N’eus boued ebet.</example>
+        <example type="correct">N’eus tamm boued ebet.</example>
       </rule>
       <rule>
         <pattern mark_from="2">
@@ -4928,8 +4932,8 @@ Useful links:
         <token regexp="yes">(?-i)Are</token>
       </pattern>
       <message>Gallekadur: ha fellout a rae deoc’h skrivañ <suggestion>menez Are</suggestion>?</message>
-      <example type="incorrect">Deomp d'an <marker>menezioù Are</marker>.</example>
-      <example type="correct">Deomp d'an menez Are.</example>
+      <example type="incorrect">Deomp d'ar <marker>menezioù Are</marker>.</example>
+      <example type="correct">Deomp d'ar menez Are.</example>
     </rule>
 
     <rulegroup id="PEP_BEP" name="bep ha pep">
