@@ -2073,7 +2073,7 @@ Useful links:
           <token>peogwir</token>
           <token negate="yes">e<exception inflected="yes" regexp="yes">bezañ|ne</exception></token>
           <token negate="yes" inflected="yes" regexp="yes">bezañ|kaout
-            <exception regexp="yes">[pd]?eus|[bpd](oa|ez|efe|ije)</exception>
+            <exception regexp="yes">[pd]?eus|[bpd](oa|eze?|efe|ije)</exception>
           </token>
         </pattern>
         <message>Lakaet e vez atav ar verb goude «peogwir» gant ar rannig-verb «e».</message>
@@ -2263,6 +2263,16 @@ Useful links:
   </category>
 
   <category name="Verb">
+    <rule id="V_GWAN" name="verb gwan ">
+      <pattern>
+        <token postag="V ppa.*" postag_regexp="yes" regexp="yes" inflected="yes">dont|kouezhañ|koustañ|padout</token>
+        <token regexp="yes">e[mz]|ec’h|en|he|ho[nr]?|o</token>
+        <token regexp="yes">[pd]?eus|[bpd](oa?|eze?|efe|ije)</token>
+      </pattern>
+      <message>Implijet et vez ar verb skoazell «bezañ» gant ar verb gwan «\1».</message>
+      <example type="incorrect"><marker>Padet en deus</marker> pell.</example>
+      <example type="correct">Padet eo pell.</example>
+    </rule>
     <rule id="VINF_A_OBER" name="Anv-verb + a + ober">
       <pattern mark_to="-2">
         <token postag="V.*" postag_regexp="yes">
