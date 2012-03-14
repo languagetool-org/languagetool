@@ -5047,12 +5047,20 @@ Useful links:
     <rulegroup id="DEVEZ_DEVEZH" name="devez → devezh">
       <rule>
         <pattern mark_from="1"> 
-          <token regexp="yes" skip="1">[aeu]n|eil|e-pad|evit|pebezh|kentañ|pep|pet</token>
+          <token regexp="yes" skip="1">[au]n|eil|e-pad|evit|pebezh|kentañ|pep|pet</token>
           <token>devez</token>
         </pattern>
         <message>«\2» ’zo ur verb. Ha fellout a rae deoc’h implijout an anv <suggestion>devezh</suggestion> kentoc’h?</message>
         <example type="incorrect">Un <marker>devez</marker> pe zaou.</example>
         <example type="correct">Un devezh pe zaou.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2"> 
+          <token postag="SENT_START"/>
+          <token>En</token>
+          <token>devez</token>
+        </pattern>
+        <message>«\3» ’zo ur verb. Ha fellout a rae deoc’h implijout an anv <suggestion>devezh</suggestion> kentoc’h?</message>
         <example type="incorrect">En <marker>devez</marker> ar pardon</example>
         <example type="correct">En devezh ar pardon</example>
       </rule>
