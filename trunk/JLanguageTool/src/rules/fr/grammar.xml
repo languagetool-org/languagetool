@@ -20922,6 +20922,26 @@ though, and has since been slightly modified)-->
         <example type="correct">Un homme d’<marker>Église</marker>.</example>
       </rule>
       <rule>
+        <pattern mark_to="-1">
+          <token regexp="yes">(?-i)Églises?</token>
+          <token regexp="yes">(baroque|gothique|romane)s?</token>
+        </pattern>
+        <message>Employez <suggestion><match no="1" case_conversion ="startlower"/></suggestion> avec minuscule quand il s’agit du bâtiment et une majuscule quand il s’agit d’une institution.</message>
+        <example type="incorrect">L’<marker>Église</marker> gothique va être rénovée.</example>
+        <example type="correct">L’église gothique va être rénovée.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2" mark_to="-1">
+          <token>l</token>
+          <token regexp="yes">[’´'‛′‘]</token>
+          <token regexp="yes">(?-i)Églises?</token>
+          <token regexp="yes">(st|saint)(-.*)?</token>
+        </pattern>
+        <message>Employez <suggestion><match no="3" case_conversion ="startlower"/></suggestion> avec minuscule quand il s’agit du bâtiment et une majuscule quand il s’agit d’une institution.</message>
+        <example type="incorrect">L’<marker>Église</marker> Saint-Paul</example>
+        <example type="correct">L’<marker>église</marker> Saint-Paul</example>
+      </rule>
+      <rule>
         <pattern mark_from="4">
           <token inflected="yes">aller</token>
           <token>à</token>
@@ -20929,7 +20949,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">[’´'‛′‘]</token>
           <token regexp="yes">(?-i)Église</token>
         </pattern>
-        <message>Employez <suggestion><match no="5" case_conversion ="startlower">église</match></suggestion> avec minuscule quand il s’agit du bâtiment et une majuscule quand il s’agit d’une institution.</message>
+        <message>Employez <suggestion><match no="5" case_conversion ="startlower"/></suggestion> avec minuscule quand il s’agit du bâtiment et une majuscule quand il s’agit d’une institution.</message>
         <example type="incorrect">Je vais à l’<marker>Église</marker> dimanche.</example>
         <example type="correct">Je vais à l’<marker>église</marker> dimanche.</example>
       </rule>
