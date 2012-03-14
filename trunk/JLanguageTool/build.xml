@@ -161,7 +161,7 @@
 		<mkdir dir="${junit.classes.dir}" />
 		<mkdir dir="${dist.dir}/report/tests" />
 
-		<javac encoding="${encoding}" srcdir="${src.test.dir}" includes="**/*Test.java" destdir="${junit.classes.dir}" target="${target}" debug="${debug}">
+		<javac encoding="${encoding}" srcdir="${src.test.dir}" includes="**/*Test.java" destdir="${junit.classes.dir}" source="${source}" target="${target}" debug="${debug}">
 			<classpath refid="junit.classpath" />
 		</javac>
 
@@ -205,10 +205,10 @@
 		<mkdir dir="${junit.classes.dir}" />
 		<mkdir dir="${dist.dir}/report/tests" />
 
-		<javac encoding="${encoding}" srcdir="${src.test.dir}" includes="**/*Test.java,**/XMLValidator.java,**/TestTools.java" destdir="${junit.classes.dir}" target="${target}" debug="${debug}">
+		<javac encoding="${encoding}" srcdir="${src.test.dir}" includes="**/*Test.java,**/XMLValidator.java,**/TestTools.java" destdir="${junit.classes.dir}" source="${source}" target="${target}" debug="${debug}">
 			<classpath refid="junit.classpath" />
 		</javac>
-		<javac encoding="${encoding}" srcdir="${src.java.dir}" includes="**/*.java" destdir="${junit.classes.dir}" target="${target}" debug="${debug}">
+		<javac encoding="${encoding}" srcdir="${src.java.dir}" includes="**/*.java" destdir="${junit.classes.dir}" source="${source}" target="${target}" debug="${debug}">
 			<classpath refid="junit.classpath" />
 		</javac>
 		<copy todir="${junit.classes.dir}/org/languagetool/">
@@ -292,17 +292,17 @@
 
 		<mkdir dir="${build.classes}" />
 
-		<javac encoding="${encoding}" srcdir="${src.java.dir}" includes="org/languagetool/**/*.java" excludes="org/languagetool/dev/**/*.java,org/languagetool/openoffice/*.java" destdir="${build.classes}" target="${target}" debug="${debug}">
+		<javac encoding="${encoding}" srcdir="${src.java.dir}" includes="org/languagetool/**/*.java" excludes="org/languagetool/dev/**/*.java,org/languagetool/openoffice/*.java" destdir="${build.classes}" source="${source}" target="${target}" debug="${debug}">
 			<classpath refid="classpath" />
 		</javac>
-        <javac encoding="${encoding}" srcdir="${src.java.dev.dir}" includes="org/languagetool/dev/**/*.java" destdir="${build.classes}" target="${target}" debug="${debug}">
+        <javac encoding="${encoding}" srcdir="${src.java.dev.dir}" includes="org/languagetool/dev/**/*.java" destdir="${build.classes}" source="${source}" target="${target}" debug="${debug}">
             <classpath refid="classpath" />
         </javac>
 		<javac encoding="${encoding}" srcdir="${src.test.dir}" includes="org/languagetool/rules/patterns/PatternRuleTest.java
 		org/languagetool/tagging/disambiguation/rules/DisambiguationRuleTest.java
 		org/languagetool/rules/bitext/BitextPatternRuleTest.java
 		org/languagetool/ValidateXMLTest.java
-  		org/languagetool/XMLValidator.java" destdir="${build.classes}" target="${target}" debug="${debug}">
+  		org/languagetool/XMLValidator.java" destdir="${build.classes}" source="${source}" target="${target}" debug="${debug}">
 			<classpath refid="test.classpath" />
 		</javac>
 
@@ -389,7 +389,7 @@
 <!-- OpenOffice.org compile -->
 <!-- ================================================================== -->
 <target name="ooo-compile">
-<javac encoding="${encoding}" srcdir="${src.java.dir}" includes="**/*.java" excludes="org/languagetool/dev/*.java" destdir="${build.classes}" target="${target}" debug="${debug}">
+<javac encoding="${encoding}" srcdir="${src.java.dir}" includes="**/*.java" excludes="org/languagetool/dev/*.java" destdir="${build.classes}" source="${source}" target="${target}" debug="${debug}">
 	<classpath refid="ooo.classpath" />
 </javac>
 <copy todir="${build.classes}/org/languagetool/">
@@ -659,7 +659,7 @@
 	
 <target name="ooo-internal" depends="common">
 <!-- prepare properties file automatically -->
-<javac encoding="${encoding}" srcdir="${src.dir}/dev" includes="org/languagetool/dev/PrintLocales.java" destdir="${build.classes}" target="${target}" debug="${debug}">
+<javac encoding="${encoding}" srcdir="${src.dir}/dev" includes="org/languagetool/dev/PrintLocales.java" destdir="${build.classes}" source="${source}" target="${target}" debug="${debug}">
 </javac>
 
 <jar jarfile="${dist.dir}/printlocales.jar" basedir="${build.classes}" includes="org/languagetool/dev/**">
