@@ -2283,7 +2283,7 @@ Useful links:
           <token>a</token>
           <token postag_regexp="yes" postag="N . s.*"/>
         </pattern>
-        <message>Un anv lies a zlefe bezañ goude «>\1 \2».</message>
+        <message>Un anv lies a zlefe bezañ goude «\1 \2».</message>
         <example type="incorrect">Ur milion a <marker>den</marker>.</example>
         <example type="correct">Ur milion a dud.</example>
       </rule>
@@ -2310,6 +2310,18 @@ Useful links:
         <example type="correct">Hanter-kant</example>
       </rule>
     </rulegroup>
+
+    <rule id="DOUSENN" name="un dousenn vi → un dousenn vioù">
+      <pattern mark_from="1">
+        <token regexp="yes">dousenn(ad)?</token>
+        <token postag="N . s" postag_regexp="yes">
+          <exception postag="N . .?p" postag_regexp="yes"/>
+        </token>
+      </pattern>
+      <message>Un anv lies a zlefe bezañ goude «\1».</message>
+      <example type="incorrect">Un dousenn <marker>vi</marker>.</example>
+      <example type="correct">Un dousenn vioù.</example>
+    </rule>
   </category>
 
   <category name="Verb">
