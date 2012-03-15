@@ -48,7 +48,7 @@ public class AboutDialog {
 
   protected String getAboutText() {
     return "LanguageTool " + JLanguageTool.VERSION + "\n"
-        + "Copyright (C) 2005-2011 Daniel Naber\n"
+        + "Copyright (C) 2005-2012 Daniel Naber\n"
         + "This software is licensed under the GNU Lesser General Public License.\n"
         + "LanguageTool Homepage: http://www.languagetool.org\n\n"
         + "Maintainers of the language modules:\n\n"

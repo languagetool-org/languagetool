@@ -2,7 +2,7 @@ LanguageTool, a proof-reading tool for English, German, Polish,
 Chinese, French, Dutch, Russian, Italian, Danish and more languages
 (see http://www.languagetool.org/languages/ for a list)
 
-Copyright (C) 2005-2011 Daniel Naber (naber at danielnaber de)
+Copyright (C) 2005-2012 Daniel Naber (naber at danielnaber de)
 Version ###VERSION###, ###DATE###
 Homepage: http://www.languagetool.org
 
