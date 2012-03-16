@@ -524,7 +524,8 @@ public final class StringTools {
 
   /**
    * Checks if a string contains only whitespace, including all Unicode
-   * whitespace.
+   * whitespace. This differs a bit from the definition of whitespace in Java 7
+   * because of the way we want to interpret Khmer.
    * 
    * @param str
    *          String to check
@@ -540,6 +541,10 @@ public final class StringTools {
       return true;
     }
     if (trimStr.length() == 1) {
+      if ("\u200B".equals(str)) {
+        // We need u200B​​ to be detected as whitespace for Khmer, as it was the case before Java 7.
+        return true;
+      }
       return java.lang.Character.isWhitespace(trimStr.charAt(0));
     }
     return false;
