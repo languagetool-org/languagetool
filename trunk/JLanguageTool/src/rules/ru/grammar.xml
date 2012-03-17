@@ -1192,7 +1192,7 @@ $Id: grammar.xml,v 1.87 2012-03-17 12:33:07 yakovru Exp $
         <rulegroup default="on"  id="O_P_padeg" name="Предлоги и предложный падеж">
             <rule>  
                 <pattern mark_from="1" case_sensitive="yes">
-                    <token postag="SENT_START" skip ="-1"><exception regexp="yes" scope="next"  >о|обо|об|в|во|при|по|на|и|или|но|да</exception></token>
+                    <token postag="SENT_START" skip ="-1"><exception regexp="yes" scope="next"  >о|обо|об|в|во|при|по|на|и|или|но|да|О|Обо|Об|В|Во|При|По|На|И|Или|Но|Да</exception></token>
                     <token  postag="NN:.*:.*:P" postag_regexp="yes" regexp="yes">[а-я].*<exception negate_pos="yes" postag="NN:.*:.*:P" postag_regexp="yes"></exception><exception regexp="yes" scope="previous">«|[\p{Punct}]|[\p{Digit}]*</exception></token>
                 </pattern>                
                 <message>Предложный падеж предполагает наличие предлога (о – обо – об; в – во; при; по; на): <suggestion>о \2</suggestion>, <suggestion>об \2</suggestion>, <suggestion>обо \2</suggestion>, <suggestion>в \2</suggestion>, <suggestion>во \2</suggestion>, <suggestion>при \2</suggestion>, <suggestion>по \2</suggestion>, <suggestion>на \2</suggestion>.</message>
