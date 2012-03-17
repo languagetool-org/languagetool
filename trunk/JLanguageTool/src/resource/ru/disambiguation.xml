@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
 Disambiguation Russian Rules for LanguageTool (www.languagetool.org)
-Copyright (C) 2009-2011 Yakov Reztsov				
-$Id: disambiguation.xml,v 1.9 2011-01-25 21:31:37 yakovru Exp $
+Copyright (C) 2009-2012 Yakov Reztsov				
+$Id: disambiguation.xml,v 1.10 2012-03-17 12:22:01 yakovru Exp $
 -->
 <rules lang="ru"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../disambiguation.xsd">	
@@ -186,5 +186,19 @@ $Id: disambiguation.xml,v 1.9 2011-01-25 21:31:37 yakovru Exp $
             <token regexp="yes" >ощупь|плаву|поруки|прицел|редкость|рысях|скаку|славу|совесть|страже|ура|ходу|цыпочках|четвереньках|излёте|измор|износ|исходе|корточках|корточки|лад|лету|манер|миг|мировую|отлично</token>
         </pattern>
         <disambig><match no="2" postag="ADV"/></disambig>
+    </rule>
+    
+    <!-- disambiguation for prounouns' -->
+    <rule name="Nee_nejo" id="Nee_nejo">
+        <pattern mark="0">
+            <token>нее</token>
+        </pattern>
+        <disambig action="add"><wd lemma="она" pos="PNN:Sin:R:P3">нее</wd></disambig>
+    </rule>
+     <rule name="Nee_nejo_V" id="Nee_nejo_V">
+        <pattern mark="0">
+            <token>нее</token>
+        </pattern>
+        <disambig action="add"><wd lemma="она" pos="PNN:Sin:V:P3">нее</wd></disambig>
     </rule>
 </rules>
