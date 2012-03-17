@@ -866,13 +866,31 @@ Useful links:
             <exception postag="C sub">ma</exception>
           </token>
           <and>
-            <token regexp="yes" inflected="yes">g.*
+            <token regexp="yes" inflected="yes">g[^w].*
               <exception regexp="yes" inflected="yes">k.*</exception>
             </token>
             <token regexp="yes">(c’h|[kw]).*</token>
           </and>
         </pattern>
         <message>Ne zlefe ket bezañ ur c’hemmadur amañ. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match="(c’h|[kw])(.*)" regexp_replace="g$2"/></suggestion>?</message>
+        <example type="incorrect">Tri <marker>kouarnamant</marker>.</example>
+        <example type="incorrect">Tri <marker>c’houarnamant</marker>.</example>
+        <example type="correct">Tri <marker>gouarnamant</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">am|em|he|ma|nav|o|peder|pevar|teir|tri|va
+            <exception postag_regexp="yes" postag="L o|X EN_EM"/>
+            <exception postag="C sub">ma</exception>
+          </token>
+          <and>
+            <token regexp="yes" inflected="yes">gw.*
+              <exception regexp="yes" inflected="yes">k.*</exception>
+            </token>
+            <token regexp="yes">k?w.*</token>
+          </and>
+        </pattern>
+        <message>Ne zlefe ket bezañ ur c’hemmadur amañ. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match="k?w(.*)" regexp_replace="gw$1"/></suggestion>?</message>
         <example type="incorrect">Teir <marker>wetur</marker> en deus.</example>
         <example type="incorrect">Teir <marker>kwetur</marker> en deus.</example>
         <example type="correct">Teir gwetur en deus.</example>
