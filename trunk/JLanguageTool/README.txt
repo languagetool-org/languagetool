@@ -143,7 +143,8 @@ License:
  Russian:
  Russian dictionary originally developed by www.aot.ru and licensed under LGPL.
  http://www.aot.ru/download.php file rus-src-morph.tar.gz
- It was partially converted to fsa format in 2008 by Yakov.  
+ or http://seman.svn.sourceforge.net/viewvc/seman/trunk/Dicts/SrcMorph/RusSrc/morphs.mrd?revision=99
+ It was partially converted to fsa format in 2008-2011 by Yakov Reztsov.  
 
  Slovak:
  The Slovak data were created by Zdenko Podobný based on Slovak National
