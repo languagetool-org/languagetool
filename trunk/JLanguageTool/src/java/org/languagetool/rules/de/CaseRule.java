@@ -79,6 +79,14 @@ public class CaseRule extends GermanRule {
   
   private static final Set<String> exceptions = new HashSet<String>();
   static {
+    exceptions.add("Gesandter");
+    exceptions.add("Durchfahrt");
+    exceptions.add("Durchgriff");
+    exceptions.add("Überfahrt");
+    exceptions.add("Zeche");
+    exceptions.add("Sparte");
+    exceptions.add("Sparten");
+    exceptions.add("Heiliger");
     exceptions.add("Reisender");
     exceptions.add("Hochdeutsch");
     exceptions.add("Pest");
@@ -209,6 +217,25 @@ public class CaseRule extends GermanRule {
     exceptions.add("Zeche");
     exceptions.add("Zusage");
     exceptions.add("Zwinge");
+
+    exceptions.add("Erster");   // "er wurde Erster im Langlauf"
+    exceptions.add("Zweiter");
+    exceptions.add("Dritter");
+    exceptions.add("Vierter");
+    exceptions.add("Fünfter");
+    exceptions.add("Sechster");
+    exceptions.add("Siebter");
+    exceptions.add("Achter");
+    exceptions.add("Neunter");
+    exceptions.add("Erste");   // "sie wurde Erste im Langlauf"
+    exceptions.add("Zweite");
+    exceptions.add("Dritte");
+    exceptions.add("Vierte");
+    exceptions.add("Fünfte");
+    exceptions.add("Sechste");
+    exceptions.add("Siebte");
+    exceptions.add("Achte");
+    exceptions.add("Neunte");
 
     // TODO: alle Sprachen + flektierte Formen
     exceptions.add("Afrikanisch");
