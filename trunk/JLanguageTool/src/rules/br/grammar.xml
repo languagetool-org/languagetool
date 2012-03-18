@@ -1219,7 +1219,10 @@ Useful links:
           <token regexp="yes">[au]r</token>
           <token postag="(N m s|N f p) M.*:1:.*" postag_regexp="yes" regexp="yes">c’h.*
             <exception regexp="yes" inflected="yes">c’h.*</exception>
-            <exception postag="(N m s|N f p) M.*:0a:.*" postag_regexp="yes" regexp="yes" inflected="yes">k.*</exception>
+            <!-- FIXME: postag should be 0a instead of a0 but using a0 works
+                 around a bug in tags of the Breton dictionary, which will be
+                 fixed when upgrading the dictionary 'breton.dict'. -->
+            <exception postag="(N m s|N f p) M.*:a0:.*" postag_regexp="yes" regexp="yes" inflected="yes">k.*</exception>
             <exception postag="(N f s|N m p t) M:.*:1:.*" postag_regexp="yes" regexp="yes" inflected="yes">g.*</exception>
           </token>
         </pattern>
@@ -1229,6 +1232,9 @@ Useful links:
         <example type="correct">Ar <marker>c’harr-tan</marker>.</example>
         <example type="correct">Ar <marker>c’hodell</marker>.</example>
         <example type="correct">Ar <marker>c’hoarezed</marker>.</example>
+        <example type="correct">Ar <marker>c’hoar</marker>.</example>
+        <example type="correct">Ar <marker>c’houst</marker>.</example>
+        <example type="correct">Ar <marker>goust</marker>.</example>
       </rule>
       <rule>
         <pattern mark_from="1">
