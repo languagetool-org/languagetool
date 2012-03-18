@@ -109,8 +109,8 @@ Useful links:
           </token>
         </pattern>
         <message>Goude ar ger-mell «\1» e tlefe bezañ ur c’hemmadur dre vlotaat en anv «\2». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="$1"/></suggestion>?</message>
-        <example type="incorrect">Ar <marker>gouiziegez</marker></example>
-        <example type="correct">Ar <marker>ouiziegez</marker></example>
+        <example type="incorrect">Ar <marker>gouiziegezh</marker></example>
+        <example type="correct">Ar <marker>ouiziegezh</marker></example>
         <example type="correct">Ar <marker>gouent</marker></example>
         <!-- <example type="correct">Ar <marker>gouerien</marker></example> -->
       </rule>
@@ -1025,12 +1025,15 @@ Useful links:
       <rule>
         <pattern mark_from="1">
           <token>hor</token>
-          <token postag="[^M]*M:[^0]*" postag_regexp="yes"/>
+          <token postag="[^M]*M:[^0]*" postag_regexp="yes">
+            <exception postag="[NJ][^M]*" postag_regexp="yes" inflected="yes" regexp="yes">[^k].*</exception>
+          </token>
         </pattern>
         <message>Ne zlefe ket bezañ ur c’hemmadur goude «\1».</message>
         <example type="incorrect">Hor <marker>vrec’h</marker></example>
         <example type="correct">Hor brec’h</example>
         <example type="correct">Hor c’hadorioù</example>
+        <example type="correct">Hor bed.</example>
       </rule>
     </rulegroup>
     <rulegroup id="FAZ_KEMM_DRE_VLOTAAT_AR" name="kemmadur dre vlotaat en anv goude ar ger-mell.">
@@ -1219,10 +1222,7 @@ Useful links:
           <token regexp="yes">[au]r</token>
           <token postag="(N m s|N f p) M.*:1:.*" postag_regexp="yes" regexp="yes">c’h.*
             <exception regexp="yes" inflected="yes">c’h.*</exception>
-            <!-- FIXME: postag should be 0a instead of a0 but using a0 works
-                 around a bug in tags of the Breton dictionary, which will be
-                 fixed when upgrading the dictionary 'breton.dict'. -->
-            <exception postag="(N m s|N f p) M.*:a0:.*" postag_regexp="yes" regexp="yes" inflected="yes">k.*</exception>
+            <exception postag="(N m s|N f p) M.*:0a:.*" postag_regexp="yes" regexp="yes" inflected="yes">k.*</exception>
             <exception postag="(N f s|N m p t) M:.*:1:.*" postag_regexp="yes" regexp="yes" inflected="yes">g.*</exception>
           </token>
         </pattern>
