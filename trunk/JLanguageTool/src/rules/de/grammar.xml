@@ -69,6 +69,84 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
          xsi:noNamespaceSchemaLocation="../rules.xsd">
 
   <category name="Mögliche Tippfehler">
+    <rulegroup id="JA_MEHR" name="Möglicher Tippfehler: ja (je) mehr">
+      <rule>
+        <pattern mark_to="-2">
+          <token>ja</token>
+          <token skip="-1">mehr</token>
+          <token>desto</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>je</suggestion>?</message>
+        <example type="incorrect"><marker>Ja</marker> mehr ich schreibe, desto mehr Fehler mache ich.</example>
+        <example type="correct"><marker>Je</marker> mehr ich schreibe, desto mehr Fehler mache ich.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-2">
+          <token>ja</token>
+          <token skip="-1" postag="ADJ:.*:KOM.*" postag_regexp="yes"/>
+          <token>desto</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>je</suggestion>?</message>
+        <example type="incorrect"><marker>Ja</marker> schneller ich schreibe, desto mehr Fehler mache ich.</example>
+        <example type="correct"><marker>Je</marker> schneller ich schreibe, desto mehr Fehler mache ich.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="VERMEIDEN_VERMIEDEN" name="Möglicher Tippfehler: vermeiden (vermieden)">
+      <rule>
+        <pattern mark_to="-1">
+          <token>vermeiden</token>
+          <token>werden</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>vermieden</suggestion>?</message>
+        <example type="incorrect">Da das nicht gut ist, sollten Hintergrundgeräusche <marker>vermeiden</marker> werden.</example>
+        <example type="correct">Da das nicht gut ist, sollten Hintergrundgeräusche <marker>vermieden</marker> werden.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="GEGEN_GEGEBEN" name="Möglicher Tippfehler: gegen (gegeben)">
+      <rule>
+        <pattern mark_to="-1" mark_from="1">
+          <token inflected="yes" skip="-1">haben</token>
+          <token>gegen</token>
+          <token postag="SENT_END"/>
+        </pattern>
+        <message>Meinten Sie <suggestion>gegeben</suggestion>?</message>
+<!--         <example type="incorrect">Hast du ihm das Buch <marker>gegen</marker>?</example> TODO Hast not tagged as verb-->
+<!--         <example type="correct">Hast du ihm das Buch <marker>gegeben</marker>?</example> -->
+        <example type="incorrect">Wieso hast du ihm das Buch <marker>gegen</marker>?</example>
+        <example type="correct">Wieso hast du ihm das Buch <marker>gegeben</marker>?</example> 
+      </rule>
+      <rule>
+        <pattern mark_to="-2">
+          <token>gegen</token>
+          <token inflected="yes" skip="-1">haben</token>
+          <token postag="SENT_END"/>
+        </pattern>
+        <message>Meinten Sie <suggestion>gegeben</suggestion>?</message>
+        <example type="incorrect">Ich fragte, ob du ihm das <marker>gegen</marker> hast.</example>
+        <example type="correct">Ich fragte, ob du ihm das <marker>gegeben</marker> hast.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token>gegen</token>
+          <token regexp="yes">wurde|werden</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>gegeben</suggestion>?</message>
+        <example type="incorrect">Man hat herausgefunden, dass ihnen wenig <marker>gegen</marker> wurde.</example>
+        <example type="incorrect">Man hat herausgefunden, dass ihm Hinweise <marker>gegen</marker> werden.</example>
+        <example type="correct">Man hat herausgefunden, dass ihnen wenig <marker>gegeben</marker> wurde.</example>
+        <example type="correct">Man hat herausgefunden, dass ihm Hinweise <marker>gegeben</marker> werden.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-2">
+          <token>gegen</token>
+          <token>worden</token>
+          <token inflected="yes" postag="VER:.*" postag_regexp="yes">sein</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>gegeben</suggestion>?</message>
+        <example type="incorrect">Man hat herausgefunden, dass ihnen wenig <marker>gegen</marker> worden ist.</example>
+        <example type="correct">Man hat herausgefunden, dass ihnen wenig <marker>gegeben</marker> worden ist.</example>
+      </rule>
+    </rulegroup>
     <rule id="FLEKTIERTES_ADJEKTIV_AM_SATZENDE" name="Möglicher Tippfehler: 'Er ist schnelle (schnell).' etc.">
       <pattern mark_from="1" mark_to="-1">
         <token regexp="yes">ist|sind|war(st|t|en)?|bin|bist|seid</token>
@@ -1302,13 +1380,13 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect">Es gibt keine neuen Features, <marker>sonder</marker> nur Fehlerkorrekturen.</example>
     </rule>
     <rulegroup id="WARD_VS_WART" name="Möglicher Tippfehler: 'Ward' statt 'wart'" default="on">
-      <!-- http://www.korrekturen.de/beliebte_fehler/ward.shtml -->
       <rule>
         <pattern mark_from="0" mark_to="-1">
           <token>ward</token>
           <token>ihr</token>
         </pattern>
         <message>Meinten Sie <suggestion>wart</suggestion> (Form des Verbs 'sein')?</message>
+        <url>http://www.korrekturen.de/beliebte_fehler/ward.shtml</url>
         <example type="correct">Und <marker>ward</marker> nicht mehr gesehen.</example>
         <example type="correct"><marker>Wart</marker> ihr zufrieden?</example>
         <example correction="Wart" type="incorrect"><marker>Ward</marker> ihr zufrieden damit?</example>
@@ -3753,6 +3831,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token postag="SENT_END"/>
         </pattern>
         <message>Wenn man 'ein und dasselbe' sagen kann, sollte 'dasselbe' statt 'das gleiche' verwendet werden. Vorschlag: <suggestion><match no="3" regexp_match="gleiche" regexp_replace="selbe"/></suggestion>.</message>
+        <url>http://www.youtube.com/watch?v=hePMxBhJK3E</url>
         <example type="incorrect" correction="selben">Noch am <marker>gleichen</marker> Tag ist er gekommen.</example>
         <example type="incorrect" correction="selben">Noch am <marker>gleichen</marker> Nachmittag ist er gekommen.</example>
         <example type="incorrect" correction="selben">Noch am <marker>gleichen</marker> Mittag ist er gekommen.</example>
@@ -4824,6 +4903,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token regexp="yes">&sprachadj1;</token>
       </pattern>
       <message>Meinten Sie \1 <suggestion><match no="2" case_conversion="startupper"/></suggestion> (im Sinne von 'die \2e Sprache')? Nach einer Präposition werden Sprachbezeichnungen großgeschrieben.</message>
+      <url>http://www.duden.de/sprachratgeber/gross-und-kleinschreibung-1</url>
       <example type="incorrect" correction="Englisch">Er schreibt den Text auf <marker>englisch</marker>.</example>
       <example type="correct">Er schreibt den Text auf <marker>Englisch</marker>.</example>
     </rule>
@@ -9384,8 +9464,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect" correction="3a = 2"><marker>3a=2</marker></example>
       <example type="incorrect" correction="5 * 5 = 25"><marker>5*5=25</marker></example>
     </rule>
-    <!-- "vor die Konjunktion sondern [ist] immer ein Komma zu setzen"
-    http://www.duden.de/sprachratgeber/besonderheiten-von%2D-em-sondern%2D-em- -->
+    <!-- "vor die Konjunktion sondern [ist] immer ein Komma zu setzen" (cf. url) -->
     <rulegroup id="SONDERN_KOMMA" name="Zeichensetzung: Fehlendes Komma vor 'sondern'">
       <rule>
         <pattern case_sensitive="yes" mark_from="3">
@@ -9395,6 +9474,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>sondern</token>
         </pattern>
         <message>Vor der Konjunktion 'sondern' steht immer ein Komma.</message>
+        <url>http://www.duden.de/sprachratgeber/besonderheiten-von%2D-em-sondern%2D-em-</url>
         <example type="correct">Sie geht nicht, <marker>sondern</marker> schwimmt.</example>
         <example type="correct">Sie laufen nicht und <marker>sondern</marker> trotzdem Schweiß ab.</example>
         <example type="incorrect">Sie geht nicht <marker>sondern</marker> sie schwimmt.</example>
@@ -9530,13 +9610,14 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Er geht […] nach Hause.</example>
         <example type="incorrect" correction="…">Er geht [<marker>...</marker>] nach Hause.</example>
       </rule>
-      <!-- Stehen Auslassungspunkte am Satzende, entfällt der Satzschlusspunkt <§ 100>. http://www.duden.de/rechtschreibregeln/auslassungspunkte#K18 -->
+      <!-- Stehen Auslassungspunkte am Satzende, entfällt der Satzschlusspunkt <§ 100>. (cf. url) -->
       <rule>
         <pattern>
           <token>…</token>
           <token>.</token>
         </pattern>
         <message>Auf Auslassungspunkte folgt kein Schlusspunkt. Vorschlag: <suggestion>…</suggestion></message>
+        <url> http://www.duden.de/rechtschreibregeln/auslassungspunkte#K18</url>
         <example type="correct">Er geht nach Hause …</example>
         <example type="incorrect" correction="…">Er geht nach Hause <marker>….</marker></example>
       </rule>
