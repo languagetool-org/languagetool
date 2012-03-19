@@ -1181,7 +1181,9 @@ Useful links:
           <token postag="N [^M]*M.*" postag_regexp="yes" regexp="yes" inflected="yes">b.*
             <exception postag="(N f s|N m p t) M.*:1a:.*" postag_regexp="yes"/>
             <exception regexp="yes" inflected="yes">[vp].*</exception>
-            <exception regexp="yes">vrud(-(mañ|se|hont))?</exception>
+            <!-- Evit gouzout hiroc'h diwar-benn "ar vugaligoù", sellit amañ:
+                 http://arbres.iker.univ-pau.fr/index.php/Doublage_des_marques_de_pluriel_sur_les_noms -->   
+            <exception regexp="yes">(vrud|vugaligoù)(-(mañ|se|hont))?</exception>
           </token>
         </pattern>
         <message>Direizh eo kemmañ ar ger «\2» amañ. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="b$1"/></suggestion>?</message>
@@ -1195,6 +1197,10 @@ Useful links:
         <example type="correct">Ar boulloù</example>
         <example type="correct">Ar poulloù</example>
         <example type="correct">Ar vrud</example>
+        <example type="incorrect">Ar <marker>vrezelioù</marker></example>
+        <example type="incorrect">Ar <marker>prezelioù</marker></example>
+        <example type="correct">Ar brezelioù</example>
+        <example type="correct">Ar vugaligoù.</example>
       </rule>
       <rule>
         <pattern mark_from="1">
@@ -1280,19 +1286,6 @@ Useful links:
         <message>Ne zlefe ket bezañ a gemmadur dre vlotaat er ger «\2» amañ. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="c’h$1"/></suggestion>?</message>
         <example type="incorrect">Ar <marker>goadoù</marker></example>
         <example type="correct">Ar koadoù</example>
-      </rule>
-      <rule>
-        <pattern mark_from="1">
-          <token>ar</token>
-          <and>
-            <token postag="N m p.*" postag_regexp="yes" regexp="yes">[vp].*où</token>
-            <token postag="N m p.*" postag_regexp="yes" regexp="yes" inflected="yes">b.*</token>
-          </and>
-        </pattern>
-        <message>Ne zlefe ket bezañ a gemmadur er ger «\2» amañ. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="b$1"/></suggestion>?</message>
-        <example type="incorrect">Ar <marker>vrezelioù</marker></example>
-        <example type="incorrect">Ar <marker>prezelioù</marker></example>
-        <example type="correct">Ar brezelioù</example>
       </rule>
       <rule>
         <pattern mark_from="1">
