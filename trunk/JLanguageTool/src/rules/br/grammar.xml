@@ -146,6 +146,8 @@ Useful links:
         <example type="correct">Pelec’h emañ ar baner?</example>
         <example type="incorrect">Ar <marker>beleien</marker></example>
         <example type="correct">Ar veleien</example>
+        <example type="incorrect">Ar <marker>bugaligoù</marker>.</example>
+        <example type="correct">Ar <marker>vugaligoù</marker>.</example>
       </rule>
       <rule>
         <pattern mark_from="1">
@@ -722,6 +724,15 @@ Useful links:
       <rule>
         <pattern mark_from="1">
           <token regexp="yes">ho|ez|az</token>
+          <token regexp="yes" postag="[^M]*M.*:1:.*" postag_regexp="yes">w.*</token>
+        </pattern>
+        <message>Ur c’hemmadur dre galetaat a zlefe bezañ goude ar ger «\1». Ha fellout a rae deoc’h skrivañ <suggestion>k\2</suggestion>?</message>
+        <example type="incorrect">Ho <marker>wazh</marker>.</example>
+        <example type="correct">Ho kwazh.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">ho|ez|az</token>
           <and>
             <token regexp="yes" inflected="yes">d.*</token>
             <token regexp="yes">[dz].*</token>
@@ -1181,9 +1192,7 @@ Useful links:
           <token postag="N [^M]*M.*" postag_regexp="yes" regexp="yes" inflected="yes">b.*
             <exception postag="(N f s|N m p t) M.*:1a:.*" postag_regexp="yes"/>
             <exception regexp="yes" inflected="yes">[vp].*</exception>
-            <!-- Evit gouzout hiroc’h diwar-benn "ar vugaligoù", sellit amañ:
-                 http://arbres.iker.univ-pau.fr/index.php/Doublage_des_marques_de_pluriel_sur_les_noms -->   
-            <exception regexp="yes">(vrud|vugaligoù)(-(mañ|se|hont))?</exception>
+            <exception regexp="yes">vrud(-(mañ|se|hont))?</exception>
           </token>
         </pattern>
         <message>Direizh eo kemmañ ar ger «\2» amañ. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="b$1"/></suggestion>?</message>
@@ -1200,7 +1209,6 @@ Useful links:
         <example type="incorrect">Ar <marker>vrezelioù</marker></example>
         <example type="incorrect">Ar <marker>prezelioù</marker></example>
         <example type="correct">Ar brezelioù</example>
-        <example type="correct">Ar vugaligoù.</example>
       </rule>
       <rule>
         <pattern mark_from="1">
@@ -1264,6 +1272,7 @@ Useful links:
           <and>
             <token postag="N m p.*" postag_regexp="yes" regexp="yes">[bf].*où
               <exception inflected="yes" regexp="yes">[bf].*</exception>
+              <exception postag="N m p t M:1:.*" postag_regexp="yes"/>
             </token>
             <token postag="N m p.*" postag_regexp="yes" regexp="yes" inflected="yes">p.*</token>
           </and>
@@ -1274,6 +1283,8 @@ Useful links:
         <example type="correct">Ar privezioù</example>
         <example type="correct">Ar fazioù</example>
         <example type="correct">Ar bodadoù</example>
+        <example type="correct">Ar baotredigoù.</example>
+        <example type="correct">Ar baotredoù.</example>
       </rule>
       <rule>
         <pattern mark_from="1">
@@ -5252,6 +5263,33 @@ Useful links:
       <example type="correct">Pa ne labouran ket.</example>
       <example type="correct">Pa ’z on skuizh.</example>
     </rule>
+
+    <rulegroup id="HEMAN_HOUMAN" name="hemañ ha houmañ">
+      <rule>
+        <pattern mark_from="4">
+          <token postag="SENT_START"/>
+          <token postag="N m s.*" postag_regexp="yes"/>
+          <token>piv</token>
+          <token>eo</token>
+          <token regexp="yes">hou?mañ|hou?nnezh</token>
+        </pattern>
+        <message>Implijit <suggestion><match no="4" regexp_match="...(.*)" regexp_replace="hen$1"/></suggestion> gant un anv gourel.</message>
+        <example type="incorrect">Karr piv eo <marker>hounnezh</marker>?</example>
+        <example type="correct">Karr piv eo hennezh?</example>
+      </rule>
+      <rule>
+        <pattern mark_from="4">
+          <token postag="SENT_START"/>
+          <token postag="N f s.*" postag_regexp="yes"/>
+          <token>piv</token>
+          <token>eo</token>
+          <token regexp="yes">hemañ|hennezh</token>
+        </pattern>
+        <message>Implijit <suggestion><match no="4" regexp_match="..(.*)" regexp_replace="hou$1"/></suggestion> gant un anv benel.</message>
+        <example type="incorrect">Keniterv piv eo <marker>hennezh</marker>?</example>
+        <example type="correct">Keniterv piv eo hounnezh?</example>
+      </rule>
+    </rulegroup>
   </category>
   <!-- vim: foldmethod=marker foldmarker=<category,</category:
   -->
