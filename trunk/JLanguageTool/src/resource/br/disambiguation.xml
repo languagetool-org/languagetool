@@ -151,13 +151,22 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
       <disambig postag="C sub"/>
     </rule>
   </rulegroup>
-  <rule id="EM_EUS" name="em eus">
-    <pattern mark="1">
-      <token regexp="yes">[ea]m</token>
-      <token>eus</token>
-    </pattern>
-    <disambig postag="V pres 3 s"/>
-  </rule>
+  <rulegroup id="KAOUT" name="kaout">
+    <rule>
+      <pattern mark="0">
+        <token regexp="yes">[ea]([mnz]|c’h)|he|hon|hoc’h|o</token>
+        <token regexp="yes">[pd]?eus|[bpd](eze?|oa?)</token>
+      </pattern>
+      <disambig postag="X KAOUT1"/>
+    </rule>
+    <rule>
+      <pattern mark="1">
+        <token regexp="yes">[ea]([mnz]|c’h)|he|hon|hoc’h|o</token>
+        <token regexp="yes">[pd]?eus|[bpd](eze?|oa?)</token>
+      </pattern>
+      <disambig postag="X KAOUT2"/>
+    </rule>
+  </rulegroup>
   <rulegroup id="E_R" name="e pronom">
     <rule>
       <pattern mark="1">
