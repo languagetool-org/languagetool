@@ -38,7 +38,7 @@ public class SentenceTokenizer implements Tokenizer {
   // end of sentence marker:
   protected static final String EOS = "\0";
   //private final static String EOS = "#"; // for testing only
-  protected static final String P = "[\\.!?…]"; // PUNCTUATION
+  protected static final String P = "[\\.!?]"; // PUNCTUATION
   protected static final String AP = "(?:'|«|\"||\\)|\\]|\\})?"; // AFTER PUNCTUATION
   protected static final String PAP = P + AP;
   protected static final String PARENS = "[\\(\\)\\[\\]]"; // parentheses
