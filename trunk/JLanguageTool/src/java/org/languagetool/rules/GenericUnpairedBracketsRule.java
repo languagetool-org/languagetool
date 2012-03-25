@@ -39,6 +39,13 @@ import org.languagetool.tools.SymbolLocator;
  */
 public class GenericUnpairedBracketsRule extends Rule {
 
+  private static final Pattern NUMERALS_EN =
+      Pattern.compile("(?i)\\d{1,2}?[a-z']*|M*(D?C{0,3}|C[DM])(L?X{0,3}|X[LC])(V?I{0,3}|I[VX])$");
+  private static final Pattern PUNCTUATION = Pattern.compile("\\p{Punct}");
+  private static final Pattern PUNCTUATION_NO_DOT =
+      Pattern.compile("[\\p{Punct}&&[^\\.]]");
+
+  protected Pattern numerals;
   protected String[] startSymbols;
   protected String[] endSymbols;
   
@@ -47,37 +54,22 @@ public class GenericUnpairedBracketsRule extends Rule {
    */
   protected final UnsyncStack<SymbolLocator> symbolStack = new UnsyncStack<SymbolLocator>();
 
-  /**
-   * Stack of rule matches.
-   */
+  // Stack of rule matches.
   private final UnsyncStack<RuleMatchLocator> ruleMatchStack = new UnsyncStack<RuleMatchLocator>();
 
   private boolean endOfParagraph;
-
-  private static final Pattern PUNCTUATION = Pattern.compile("\\p{Punct}");
-  private static final Pattern PUNCTUATION_NO_DOT = Pattern
-      .compile("[\\p{Punct}&&[^\\.]]");
-  
-  public static  Pattern NUMERALS;
-  
-  private static final Pattern NUMERALS_EN = Pattern
-      .compile("(?i)\\d{1,2}?[a-z']*|M*(D?C{0,3}|C[DM])(L?X{0,3}|X[LC])(V?I{0,3}|I[VX])$");
-  
   private int ruleMatchIndex;
   private List<RuleMatch> ruleMatches;
-  
   private Map<String,Boolean> uniqueMap;
 
   public GenericUnpairedBracketsRule(final ResourceBundle messages,
       final Language language) {
     super(messages);
     super.setCategory(new Category(messages.getString("category_misc")));
-
     setParagraphBackTrack(true);
     startSymbols = language.getUnpairedRuleStartSymbols();
     endSymbols = language.getUnpairedRuleEndSymbols();
-    
-    NUMERALS=NUMERALS_EN;
+    numerals = NUMERALS_EN;
     uniqueMapInit();
   }
 
@@ -98,7 +90,7 @@ public class GenericUnpairedBracketsRule extends Rule {
       int found = 0;
       for (String endSymbol1 : endSymbols) {
         if (endSymbol1.equals(endSymbol)) {
-            found++;
+          found++;
         }
       }
       uniqueMap.put(endSymbol, found == 1);
@@ -108,16 +100,11 @@ public class GenericUnpairedBracketsRule extends Rule {
   /**
    * Generic method to specify an exception. For unspecified
    * language, it simply returns true, which means no exception.
-   * @param token
-   *        String token
-   * @param tokens
-   *        Sentence tokens
-   * @param i
-   *        Current token index
-   * @param precSpace
-   *        boolean: is preceded with space
-   * @param follSpace
-   *        boolean: is followed with space
+   * @param token String token
+   * @param tokens Sentence tokens
+   * @param i Current token index
+   * @param precSpace is preceded with space
+   * @param follSpace is followed with space
    * @return
    */
   protected boolean isNoException(final String token,
@@ -167,7 +154,7 @@ public class GenericUnpairedBracketsRule extends Rule {
           } else if (noException && followedByWhitespace
               && token.equals(endSymbols[j])) {            
             if (i > 1 && endSymbols[j].equals(")") 
-                && (NUMERALS.matcher(tokens[i - 1].getToken()).matches() 
+                && (numerals.matcher(tokens[i - 1].getToken()).matches()
                 && !(!symbolStack.empty() 
                && "(".equals(symbolStack.peek().symbol)))) {        
             } else {
@@ -224,7 +211,6 @@ public class GenericUnpairedBracketsRule extends Rule {
             ruleMatches.remove(rLoc.myIndex);
             ruleMatchStack.pop();
             return null;
-            // if (ruleMatches.get(rLoc.myIndex).getFromPos())
           }
           if (isInMatches(rLoc.index)) {
             setAsDeleted(rLoc.index);
@@ -234,8 +220,7 @@ public class GenericUnpairedBracketsRule extends Rule {
         }
       }
     }
-    ruleMatchStack.push(new RuleMatchLocator(symbol, ruleMatchIndex,
-        ruleMatches.size()));
+    ruleMatchStack.push(new RuleMatchLocator(symbol, ruleMatchIndex, ruleMatches.size()));
     ruleMatchIndex++;
     return new RuleMatch(this, startPos, startPos + symbol.length(), messages
         .getString("unpaired_brackets"));

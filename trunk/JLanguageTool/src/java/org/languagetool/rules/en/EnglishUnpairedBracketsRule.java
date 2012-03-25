@@ -47,14 +47,13 @@ public class EnglishUnpairedBracketsRule extends GenericUnpairedBracketsRule {
   }
   
   @Override
-  protected boolean isNoException(final String token,
+  protected boolean isNoException(final String tokenStr,
       final AnalyzedTokenReadings[] tokens, final int i, final int j, final boolean precSpace,
       final boolean follSpace) {
        
-    
-//TODO: add an', o', 'till, 'tain't, 'cept, 'fore in the disambiguator
-//and mark up as contractions somehow
-// add exception for dates like '52    
+    //TODO: add an', o', 'till, 'tain't, 'cept, 'fore in the disambiguator
+    //and mark up as contractions somehow
+    // add exception for dates like '52
    
     if (i <= 1) {
       return true;
@@ -62,25 +61,26 @@ public class EnglishUnpairedBracketsRule extends GenericUnpairedBracketsRule {
     
     if (!precSpace && follSpace) {
       // exception for English inches, e.g., 20"
-      if ("\"".equals(token)
-          && NUMBER.matcher(tokens[i - 1].getToken()).matches()) {
+      final AnalyzedTokenReadings prevToken = tokens[i - 1];
+      if ("\"".equals(tokenStr)
+          && NUMBER.matcher(prevToken.getToken()).matches()) {
         return false;
       }
-      // Exception for English plural Saxon genetive
+      // Exception for English plural Saxon genitive
       // current disambiguation scheme is a bit too greedy
       // for adjectives
-      if ("'".equals(token) && tokens[i].hasPosTag("POS")) {
+      if ("'".equals(tokenStr) && tokens[i].hasPosTag("POS")) {
         return false;
       }
       // puttin' on the Ritz
-      if ("'".equals(token) && tokens[i - 1].hasPosTag("VBG")
-          && tokens[i - 1].getToken().endsWith("in")) {
+      if ("'".equals(tokenStr) && prevToken.hasPosTag("VBG")
+          && prevToken.getToken().endsWith("in")) {
         return false;
       }
     }
     if (precSpace && !follSpace) {
       // hold 'em!
-      if ("'".equals(token) && i + 1 < tokens.length
+      if ("'".equals(tokenStr) && i + 1 < tokens.length
           && "em".equals(tokens[i + 1].getToken())) {
         return false;
       }
