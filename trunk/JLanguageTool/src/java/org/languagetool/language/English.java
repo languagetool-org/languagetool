@@ -22,10 +22,7 @@ import java.util.*;
 
 import org.languagetool.Language;
 import org.languagetool.rules.*;
-import org.languagetool.rules.en.AvsAnRule;
-import org.languagetool.rules.en.CompoundRule;
-import org.languagetool.rules.en.EnglishUnpairedBracketsRule;
-import org.languagetool.rules.en.EnglishWordRepeatBeginningRule;
+import org.languagetool.rules.en.*;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.en.EnglishSynthesizer;
 import org.languagetool.tagging.Tagger;
@@ -119,7 +116,7 @@ public class English extends Language {
             EnglishUnpairedBracketsRule.class,
             UppercaseSentenceStartRule.class,
             WhitespaceRule.class,
-            WordRepeatRule.class,
+            EnglishWordRepeatRule.class,
             LongSentenceRule.class,
             // specific to English:
             AvsAnRule.class,
