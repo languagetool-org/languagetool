@@ -7,8 +7,9 @@ Version ###VERSION###, ###DATE###
 Homepage: http://www.languagetool.org
 
 Requirements:
- -Java 6.0 or later (Sun/Oracle Java or IcedTea; GIJ is not supported)
- -For OpenOffice.org integration, OpenOffice 3.0.1 or later.
+ -Java 6.0 or later (Oracle Java or IcedTea; GIJ is not supported)
+ -For OpenOffice.org/LibreOffice integration: OpenOffice 3.0.1 or later
+  or LibreOffice.
 
 Usage:
  -To integrate LanguageTool into OpenOffice.org or LibreOffice, you
@@ -28,6 +29,10 @@ Usage:
   You should see a blue underline under the word "an". Opening
   the context menu with the right mouse button offers you a
   description of the error and, if available, a correction.
+
+  If you are using LibreOffice 3.5+ and you want to check English texts:
+  Use Options -> Language Settings -> Writing Aids -> Edit... to disable
+  LightProof and enable LanguageTool for English.
   
   Note that there will also be a new menu item "LanguageTool"
   under the "Tools" menu which you might need to use if 
