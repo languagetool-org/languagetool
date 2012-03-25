@@ -27,6 +27,9 @@ import org.languagetool.TestTools;
 
 public class GenericUnpairedBracketsRuleTest extends TestCase {
 
+  private GenericUnpairedBracketsRule rule;
+  private JLanguageTool langTool;
+  
   public void testStartSymbolCountEqualsEndSymbolCount() throws IOException {
     for (Language language : Language.LANGUAGES) {
       final int startSymbols = language.getUnpairedRuleStartSymbols().length;
@@ -35,153 +38,77 @@ public class GenericUnpairedBracketsRuleTest extends TestCase {
     }
   }
   
-  public void testRuleGerman() throws IOException {
-    GenericUnpairedBracketsRule rule = new GenericUnpairedBracketsRule(TestTools
-        .getEnglishMessages(), Language.GERMAN);
-    RuleMatch[] matches;
-    JLanguageTool langTool = new JLanguageTool(Language.GERMAN);
+  public void testGermanRule() throws IOException {
+    setUpRule(Language.GERMAN);
     // correct sentences:
-    matches = rule.match(langTool.getAnalyzedSentence("(Das sind die Sätze, die die testen sollen)."));
-    assertEquals(0, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("(Das sind die «Sätze», die die testen sollen)."));
-    assertEquals(0, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("(Das sind die »Sätze«, die die testen sollen)."));
-    assertEquals(0, matches.length);
+    assertMatches("(Das sind die Sätze, die sie testen sollen).", 0);
+    assertMatches("(Das sind die «Sätze», die sie testen sollen).", 0);
+    assertMatches("(Das sind die »Sätze«, die sie testen sollen).", 0);
+    assertMatches("(Das sind die Sätze (noch mehr Klammern [schon wieder!]), die sie testen sollen).", 0);
     // incorrect sentences:
-    matches = rule.match(langTool.getAnalyzedSentence("Die „Sätze zum testen."));
-    assertEquals(1, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("Die «Sätze zum testen."));
-    assertEquals(1, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("Die »Sätze zum testen."));
-    assertEquals(1, matches.length);
+    assertMatches("Die „Sätze zum Testen.", 1);
+    assertMatches("Die «Sätze zum Testen.", 1);
+    assertMatches("Die »Sätze zum Testen.", 1);
   }
 
-  public void testRuleSpanish() throws IOException {
-    GenericUnpairedBracketsRule rule = new GenericUnpairedBracketsRule(TestTools
-        .getEnglishMessages(), Language.SPANISH);
-    RuleMatch[] matches;
-    JLanguageTool langTool = new JLanguageTool(Language.SPANISH);
+  public void testSpanishRule() throws IOException {
+    setUpRule(Language.SPANISH);
     // correct sentences:
-    matches = rule.match(langTool
-        .getAnalyzedSentence("Soy un hombre (muy honrado)."));
-    assertEquals(0, matches.length);
+    assertMatches("Soy un hombre (muy honrado).", 0);
     // incorrect sentences:
-    matches = rule.match(langTool.getAnalyzedSentence("De dónde vas?"));
-    assertEquals(1, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("¡Atención"));
-    assertEquals(1, matches.length);
+    assertMatches("De dónde vas?", 1);
+    assertMatches("¡Atención", 1);
   }
 
-  public void testRuleFrench() throws IOException {
-    GenericUnpairedBracketsRule rule = new GenericUnpairedBracketsRule(TestTools
-        .getEnglishMessages(), Language.FRENCH);
-    RuleMatch[] matches;
-    JLanguageTool langTool = new JLanguageTool(Language.FRENCH);
+  public void testFrenchRule() throws IOException {
+    setUpRule(Language.FRENCH);
     // correct sentences:
-    matches = rule.match(langTool
-        .getAnalyzedSentence("(Qu'est ce que c'est ?)"));
-    assertEquals(0, matches.length);
+    assertMatches("(Qu'est ce que c'est ?)", 0);
     // incorrect sentences:
-    matches = rule
-        .match(langTool.getAnalyzedSentence("(Qu'est ce que c'est ?"));
-    assertEquals(1, matches.length);
+    assertMatches("(Qu'est ce que c'est ?", 1);
   }
 
-  public void testRuleDutch() throws IOException {
-    GenericUnpairedBracketsRule rule = new GenericUnpairedBracketsRule(TestTools
-        .getEnglishMessages(), Language.DUTCH);
-    RuleMatch[] matches;
-    JLanguageTool langTool = new JLanguageTool(Language.DUTCH);
+  public void testDutchRule() throws IOException {
+    setUpRule(Language.DUTCH);
     // correct sentences:
-    matches = rule
-        .match(langTool
-            .getAnalyzedSentence("Het centrale probleem van het werk is de ‘dichterlijke kuischheid’."));
-    assertEquals(0, matches.length);
+    assertMatches("Het centrale probleem van het werk is de ‘dichterlijke kuischheid’.", 0);
     //this was a bug as there are several pairs that start with the same char:
-    matches = rule
-    .match(langTool
-        .getAnalyzedSentence(" Eurlings: “De gegevens van de dienst zijn van cruciaal belang voor de veiligheid van de luchtvaart en de scheepvaart”."));
-    assertEquals(0, matches.length);
-    matches = rule
-    .match(langTool
-        .getAnalyzedSentence(" Eurlings: \u201eDe gegevens van de dienst zijn van cruciaal belang voor de veiligheid van de luchtvaart en de scheepvaart\u201d."));
-    assertEquals(0, matches.length);
+    assertMatches(" Eurlings: “De gegevens van de dienst zijn van cruciaal belang voor de veiligheid van de luchtvaart en de scheepvaart”.", 0);
+    assertMatches(" Eurlings: \u201eDe gegevens van de dienst zijn van cruciaal belang voor de veiligheid van de luchtvaart en de scheepvaart\u201d.", 0);
     // incorrect sentences:
-    matches = rule
-        .match(langTool
-            .getAnalyzedSentence("Het centrale probleem van het werk is de „dichterlijke kuischheid."));
-    assertEquals(1, matches.length);
-    matches = rule
-    .match(langTool
-        .getAnalyzedSentence(" Eurlings: “De gegevens van de dienst zijn van cruciaal belang voor de veiligheid van de luchtvaart en de scheepvaart."));
-    assertEquals(1, matches.length);
-    
+    assertMatches("Het centrale probleem van het werk is de „dichterlijke kuischheid.", 1);
+    assertMatches(" Eurlings: “De gegevens van de dienst zijn van cruciaal belang voor de veiligheid van de luchtvaart en de scheepvaart.", 1);
   }
 
-  public void testRuleRomanian() throws IOException {
-    GenericUnpairedBracketsRule rule = new GenericUnpairedBracketsRule(TestTools
-        .getEnglishMessages(), Language.ROMANIAN);
-    RuleMatch[] matches;
-    JLanguageTool langTool = new JLanguageTool(Language.ROMANIAN);
+  public void testRomanianRule() throws IOException {
+    setUpRule(Language.ROMANIAN);
     // correct sentences:
-    matches = rule.match(langTool
-        .getAnalyzedSentence("A fost plecat (pentru puțin timp)."));
-    assertEquals(0, matches.length);
-    // correct sentences:
-    matches = rule.match(langTool
-        .getAnalyzedSentence("Nu's de prin locurile astea."));
-    assertEquals(0, matches.length);
-    // cross-bracket matching
-    // incorrect sentences:
-    matches = rule.match(langTool
-        .getAnalyzedSentence("A fost )plecat( pentru (puțin timp)."));
-    assertEquals(2, matches.length); 
-    // cross-bracket matching
-    // incorrect sentences:
-    matches = rule.match(langTool
-        .getAnalyzedSentence("A fost {plecat) pentru (puțin timp}."));
-    assertEquals(4, matches.length); 
-    // correct sentences:
-    matches = rule.match(langTool
-        .getAnalyzedSentence("A fost plecat pentru „puțin timp”."));
-    assertEquals(0, matches.length);
-    // correct sentences:
-    matches = rule.match(langTool
-        .getAnalyzedSentence("A fost plecat „pentru... puțin timp”."));
-    assertEquals(0, matches.length);
-    // correct sentences:
-    matches = rule.match(langTool
-        .getAnalyzedSentence("A fost plecat „pentru... «puțin» timp”."));
-    assertEquals(0, matches.length);
+    assertMatches("A fost plecat (pentru puțin timp).", 0);
+    assertMatches("Nu's de prin locurile astea.", 0);
+    assertMatches("A fost plecat pentru „puțin timp”.", 0);
+    assertMatches("A fost plecat „pentru... puțin timp”.", 0);
+    assertMatches("A fost plecat „pentru... «puțin» timp”.", 0);
     // correct sentences ( " is _not_ a Romanian symbol - just
     // ignore it, the correct form is [„] (start quote) and [”] (end quote)
-    matches = rule.match(langTool
-        .getAnalyzedSentence("A fost plecat \"pentru puțin timp."));
-    assertEquals(0, matches.length);
+    assertMatches("A fost plecat \"pentru puțin timp.", 0);
     // incorrect sentences:
-    matches = rule.match(langTool
-        .getAnalyzedSentence("A fost plecat „pentru... puțin timp."));
-    assertEquals(1, matches.length);
-    // incorrect sentences:
-    matches = rule.match(langTool.getAnalyzedSentence("A fost plecat «puțin."));
-    assertEquals(1, matches.length);
-    // incorrect sentences:
-    matches = rule.match(langTool
-        .getAnalyzedSentence("A fost plecat „pentru «puțin timp”."));
-    assertEquals(3, matches.length);
-    // incorrect sentences:
-    matches = rule.match(langTool
-        .getAnalyzedSentence("A fost plecat „pentru puțin» timp”."));
-    assertEquals(3, matches.length);
-    // incorrect sentences:
-    matches = rule.match(langTool
-        .getAnalyzedSentence("A fost plecat „pentru... puțin» timp”."));
-    assertEquals(3, matches.length);
-    // cross-bracket matching
-    // incorrect sentences:
-    matches = rule
-    .match(langTool
-    .getAnalyzedSentence("A fost plecat „pentru... «puțin” timp»."));
-    assertEquals(4, matches.length);
+    assertMatches("A fost )plecat( pentru (puțin timp).", 2);
+    assertMatches("A fost {plecat) pentru (puțin timp}.", 4);
+    assertMatches("A fost plecat „pentru... puțin timp.", 1);
+    assertMatches("A fost plecat «puțin.", 1);
+    assertMatches("A fost plecat „pentru «puțin timp”.", 3);
+    assertMatches("A fost plecat „pentru puțin» timp”.", 3);
+    assertMatches("A fost plecat „pentru... puțin» timp”.", 3);
+    assertMatches("A fost plecat „pentru... «puțin” timp».", 4);
+  }
+
+  private void setUpRule(Language language) throws IOException {
+    rule = new GenericUnpairedBracketsRule(TestTools.getEnglishMessages(), language);
+    langTool = new JLanguageTool(language);
+  }
+
+  private void assertMatches(String input, int expectedMatches) throws IOException {
+    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(input));
+    assertEquals(expectedMatches, matches.length);
   }
 }
