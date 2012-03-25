@@ -41,12 +41,18 @@ public class GenericUnpairedBracketsRuleTest extends TestCase {
     RuleMatch[] matches;
     JLanguageTool langTool = new JLanguageTool(Language.GERMAN);
     // correct sentences:
-    matches = rule.match(langTool
-        .getAnalyzedSentence("(Das sind die Sätze, die die testen sollen)."));
+    matches = rule.match(langTool.getAnalyzedSentence("(Das sind die Sätze, die die testen sollen)."));
+    assertEquals(0, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("(Das sind die «Sätze», die die testen sollen)."));
+    assertEquals(0, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("(Das sind die »Sätze«, die die testen sollen)."));
     assertEquals(0, matches.length);
     // incorrect sentences:
-    matches = rule
-        .match(langTool.getAnalyzedSentence("Die „Sätze zum testen."));
+    matches = rule.match(langTool.getAnalyzedSentence("Die „Sätze zum testen."));
+    assertEquals(1, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("Die «Sätze zum testen."));
+    assertEquals(1, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("Die »Sätze zum testen."));
     assertEquals(1, matches.length);
   }
 

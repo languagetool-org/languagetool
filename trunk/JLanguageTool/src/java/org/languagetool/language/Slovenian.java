@@ -51,12 +51,12 @@ public class Slovenian extends Language {
 
   @Override
   public String[] getUnpairedRuleStartSymbols() {
-    return new String[]{ "[", "(", "{", "„", "»", "\"" };
+    return new String[]{ "[", "(", "{", "„", "»", "«", "\"" };
   }
 
   @Override
   public String[] getUnpairedRuleEndSymbols() {
-    return new String[]{ "]", ")", "}", "”", "«", "\"" };
+    return new String[]{ "]", ")", "}", "”", "«", "»", "\"" };
   }
   
   @Override
