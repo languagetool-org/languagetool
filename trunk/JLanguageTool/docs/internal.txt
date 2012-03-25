@@ -65,6 +65,8 @@ Internal documentation on LanguageTool
     -LanguageTool mailing list
     -http://extensions.services.openoffice.org/project/languagetool
     -http://extensions.libreoffice.org/extension-center/languagetool
+     (Make sure to set "language neutral" on the meta data page and to set a release date, otherwise it might
+      not appear. Also maybe set the "State" to "final release".)
     -freecode.com (formerly freshmeat)
     -http://twitter.com/languagetoolorg
     -http://www.languagetool.org/forum/
@@ -86,7 +88,7 @@ Community update of the rules at community.languagetool.org (needs server access
  -make a backup of the libs:
   cp /home/languagetool/tomcat/webapps/ROOT/WEB-INF/lib/*.jar /home/languagetool/tomcat/backup/
  -copy the newly created LanguageTool-Rules.jar and LanguageTool.jar from the current release to
-  /home/languagetool/tomcat/webapps/ROOT/WEB-INF/lib
- -maybe update the other JARs, too
- -restart tomcat
- 
+  the web app's lib directory:
+  cp LanguageTool-Rules.jar LanguageTool.jar /home/languagetool/tomcat/webapps/ROOT/WEB-INF/lib/
+ -update the other JARs, too, if they have been changed in this release
+ -restart tomcat: ~/restart.sh
