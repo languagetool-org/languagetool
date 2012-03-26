@@ -1259,17 +1259,19 @@ Useful links:
         <pattern mark_from="1">
           <token regexp="yes">a[nr]</token>
           <and>
-            <token postag="N m p.*" postag_regexp="yes" regexp="yes">[dz].*où
+            <token postag="N m p M:.*" postag_regexp="yes" regexp="yes">[dz].*où
               <exception postag="N f p" regexp="yes">d.*</exception>
+              <exception postag="N m p" inflected="yes" regexp="yes">d.*</exception>
             </token>
             <token postag="N m p.*" postag_regexp="yes" regexp="yes" inflected="yes">t.*</token>
           </and>
         </pattern>
-        <message>Ne zlefe ket bezañ a gemmadur dre vlotaat er ger «\2» amañ. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="t$1"/></suggestion>?</message>
+        <message>Ne zlefe ket bezañ a gemmadur er ger «\2» amañ. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="t$1"/></suggestion>?</message>
         <example type="incorrect">An <marker>dadoù</marker></example>
         <example type="incorrect">Ar <marker>zadoù</marker></example>
         <example type="correct">An tadoù</example>
         <example type="correct">An dorioù</example>
+        <example type="correct">An dourioù lous.</example>
       </rule>
       <rule>
         <pattern mark_from="1">
