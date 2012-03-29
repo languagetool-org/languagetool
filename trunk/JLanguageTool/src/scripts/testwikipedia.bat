@@ -11,6 +11,7 @@ IF (%1)==(/help) GOTO usage
 IF (%1)==(-help) GOTO usage
 IF (%1)==(--help) GOTO usage
 
+IF (%1)==(de) CHCP 1252
 java -Xmx512M -cp commons-lang-2.4.jar;bliki-3.0.3.jar;LanguageTool.jar org.languagetool.dev.wikipedia.CheckWikipediaDump - disabled_rules.txt %1 %2 %3 %4
 GOTO eof
 
@@ -24,5 +25,6 @@ ECHO - maxNumArticles is the maximum number of articles to check (optional)
 ECHO Examples:
 ECHO - %0 de dewiki-20111012-pages-articles-partly.xml -
 ECHO - %0 de dewiki-20111012-pages-articles-partly.xml GROSSER_STIEL 50
+ECHO - %0 de dewiki-20111012-pages-articles-partly.xml "GROSSER_STIEL,BISSTRICH"
 
 :eof
