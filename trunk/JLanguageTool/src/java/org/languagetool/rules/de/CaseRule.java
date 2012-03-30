@@ -178,6 +178,7 @@ public class CaseRule extends GermanRule {
     exceptions.add("Nähten");
     exceptions.add("Neuem");
     exceptions.add("Nr");
+    exceptions.add("Nutze");   // zu Nutze
     exceptions.add("Obdachloser");
     exceptions.add("Oder");   // der Fluss
     exceptions.add("Patsche");
