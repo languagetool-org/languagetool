@@ -134,6 +134,10 @@ public class AnalyzedSentence {
 
   @Override
   public final String toString() {
+    return toString(",");
+  }
+  
+  public final String toString(String posTagDelimiter) {
     final StringBuilder sb = new StringBuilder();
     for (final AnalyzedTokenReadings element : tokens) {
       if (!element.isWhitespace()) {
@@ -158,7 +162,7 @@ public class AnalyzedSentence {
           if (!element.isWhitespace()) {
             sb.append(element.getAnalyzedToken(j));
             if (j < element.getReadingsLength() - 1) {
-              sb.append(',');
+              sb.append(posTagDelimiter);
             }
           }
         }

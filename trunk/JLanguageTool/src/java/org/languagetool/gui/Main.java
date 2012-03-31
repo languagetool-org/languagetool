@@ -508,14 +508,15 @@ public final class Main implements ActionListener {
       try {
         for (String sent : sentences) {
           final AnalyzedSentence analyzedText = langTool.getAnalyzedSentence(sent);
-          sb.append(analyzedText.toString());
+          final String analyzedTextString = StringTools.escapeHTML(analyzedText.toString(", ")).
+                  replace("[", "<font color='#888888'>[").replace("]", "]</font>");
+          sb.append(analyzedTextString);
           sb.append("\n");
         }
       } catch (IOException e) {
         sb.append("An error occurred while tagging the text: " + e.getMessage());
       }
-      final String s = sb.toString().replaceAll("<S>", "SENT_START").replaceAll("</S>", "");
-      resultArea.setText(HTML_FONT_START + StringTools.escapeHTML(s) + HTML_FONT_END);
+      resultArea.setText(HTML_FONT_START + sb.toString() + HTML_FONT_END);
     }
   }
 
