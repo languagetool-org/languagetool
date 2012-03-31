@@ -41,10 +41,10 @@ public class CatalanUnpairedExclamationMarksRule extends GenericUnpairedBrackets
     uniqueMapInit();
   }
 
-    @Override
-    public String getDescription() {
-        return "Exigeix signe d'exclamació inicial";
-    }
+  @Override
+  public String getDescription() {
+    return "Exigeix signe d'exclamació inicial";
+  }
 
   @Override
   public String getId() {
