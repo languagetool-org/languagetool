@@ -22,20 +22,31 @@ import java.util.*;
 
 import org.languagetool.Language;
 import org.languagetool.rules.*;
+import org.languagetool.rules.patterns.Unifier;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.ca.CatalanSynthesizer;
 import org.languagetool.tagging.Tagger;
+import org.languagetool.tagging.disambiguation.Disambiguator;
+//import org.languagetool.tagging.disambiguation.rules.ca.CatalanRuleDisambiguator;
+import org.languagetool.tagging.disambiguation.ca.CatalanHybridDisambiguator;
 import org.languagetool.tagging.ca.CatalanTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
-import org.languagetool.rules.ca.CastellanismesReplaceRule;
-import org.languagetool.rules.ca.AccentuacioReplaceRule;
+import org.languagetool.tokenizers.Tokenizer;
+import org.languagetool.tokenizers.ca.CatalanWordTokenizer;
+import org.languagetool.rules.ca.CatalanUnpairedQuestionMarksRule;
+import org.languagetool.rules.ca.CatalanUnpairedExclamationMarksRule;
+//import org.languagetool.rules.ca.CastellanismesReplaceRule;
+//import org.languagetool.rules.ca.AccentuacioReplaceRule;
 
 public class Catalan extends Language {
 
   private Tagger tagger;
   private SentenceTokenizer sentenceTokenizer;
+  private Tokenizer wordTokenizer;
   private Synthesizer synthesizer;
+  private Disambiguator disambiguator;
+  private Unifier unifier;
 
   @Override
   public Locale getLocale() {
@@ -50,6 +61,16 @@ public class Catalan extends Language {
   @Override
   public String[] getCountryVariants() {
     return new String[]{"ES"};
+  }
+  
+  @Override
+  public String[] getUnpairedRuleStartSymbols() {
+    return new String[]{ "[", "(", "{", "“", "«"};   
+  }
+
+  @Override
+  public String[] getUnpairedRuleEndSymbols() {
+    return new String[]{ "]", ")", "}", "”", "»"};  
   }
   
   @Override
@@ -70,9 +91,13 @@ public class Catalan extends Language {
             GenericUnpairedBracketsRule.class,
             UppercaseSentenceStartRule.class,
             WhitespaceRule.class,
+            WordRepeatRule.class,            
+            LongSentenceRule.class,
             // specific to Catalan:
-            CastellanismesReplaceRule.class,
-            AccentuacioReplaceRule.class
+            CatalanUnpairedQuestionMarksRule.class,
+            CatalanUnpairedExclamationMarksRule.class
+            //CastellanismesReplaceRule.class,
+            //AccentuacioReplaceRule.class
     );
   }
 
@@ -98,6 +123,30 @@ public class Catalan extends Language {
       sentenceTokenizer = new SRXSentenceTokenizer(getShortName());
     }
     return sentenceTokenizer;
+  }
+  
+  @Override
+  public Unifier getUnifier() {
+    if (unifier == null) {
+    	unifier = new Unifier();
+    }
+    return unifier;
+  }
+  
+  @Override
+  public Disambiguator getDisambiguator() {
+    if (disambiguator == null) {
+      disambiguator = new CatalanHybridDisambiguator();
+    }
+    return disambiguator;
+  }  
+  
+  @Override
+  public final Tokenizer getWordTokenizer() {
+    if (wordTokenizer == null) {
+      wordTokenizer = new CatalanWordTokenizer();
+    }
+    return wordTokenizer;
   }
 
 }
