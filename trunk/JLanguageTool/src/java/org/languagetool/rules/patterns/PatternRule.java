@@ -26,7 +26,6 @@ import java.util.List;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
-import org.languagetool.rules.IncorrectExample;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tools.StringTools;
 
@@ -186,70 +185,8 @@ public class PatternRule extends AbstractPatternRule {
    * @since 0.9.3
    */
   public final String toXML() {
-    final StringBuilder sb = new StringBuilder();
-    sb.append("<rule id=\"");
-    sb.append(StringTools.escapeXML(getId()));
-    sb.append("\" name=\"");
-    sb.append(StringTools.escapeXML(getDescription()));
-    sb.append("\">\n");
-    sb.append("<pattern mark_from=\"");
-    sb.append(startPositionCorrection);
-    sb.append("\" mark_to=\"");
-    sb.append(endPositionCorrection);
-    sb.append('"');
-    // for now, case sensitivity is per pattern, not per element,
-    // so just use the setting of the first element:
-    if (!patternElements.isEmpty() && patternElements.get(0).getCaseSensitive()) {
-      sb.append(" case_sensitive=\"yes\"");
-    }
-    sb.append(">\n");
-    for (Element patternElement : patternElements) {
-      sb.append("<token");
-      if (patternElement.getNegation()) {
-        sb.append(" negate=\"yes\"");
-      }
-      if (patternElement.isRegularExpression()) {
-        sb.append(" regexp=\"yes\"");
-      }
-      if (patternElement.getPOStag() != null) {
-        sb.append(" postag=\"");
-        sb.append(patternElement.getPOStag());
-        sb.append('"');
-      }
-      if (patternElement.getPOSNegation()) {
-        sb.append(" negate_pos=\"yes\"");
-      }
-      if (patternElement.isInflected()) {
-        sb.append(" inflected=\"yes\"");
-      }
-      sb.append('>');
-      if (patternElement.getString() != null) {
-        sb.append(StringTools.escapeXML(patternElement.getString()));
-      } else {
-        // TODO
-      }
-      sb.append("</token>\n");
-    }
-    sb.append("</pattern>\n");
-    sb.append("<message>");
-    sb.append(StringTools.escapeXML(message));
-    sb.append("</message>\n");
-    if (getIncorrectExamples() != null) {
-      for (IncorrectExample example : getIncorrectExamples()) {
-        sb.append("<example type=\"incorrect\">");
-        sb.append(StringTools.escapeXML(example.getExample()));
-        sb.append("</example>\n");
-      }
-    }
-    if (getCorrectExamples() != null) {
-      for (String example : getCorrectExamples()) {
-        sb.append("<example type=\"correct\">");
-        sb.append(StringTools.escapeXML(example));
-        sb.append("</example>\n");
-      }
-    }
-    sb.append("</rule>");
-    return sb.toString();
+    final PatternRuleXmlCreator xmlCreator = new PatternRuleXmlCreator();
+    return xmlCreator.toXML(this);
   }
 
   public final void setMessage(final String message) {
