@@ -626,7 +626,7 @@ public class PatternRuleTest extends TestCase {
       final String left, final String right) throws Exception {
     final Class[] argClasses = { String[].class, String.class, String.class };
     final Object[] argObjects = { suggestions, left, right };
-    return TestTools.callStringStaticMethod(PatternRule.class,
+    return TestTools.callStringStaticMethod(PatternRuleMatcher.class,
         "formatMultipleSynthesis", argClasses, argObjects);
   }
 
