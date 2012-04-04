@@ -4756,6 +4756,27 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect">Sie legt keinen großen <marker>wert</marker> auf ihr Äußeres.</example>
       <example type="incorrect">Sie legt <marker>wert</marker> auf ihr Äußeres.</example>
     </rule>
+    <rule id="HAUT_UND_KNOCHEN" name="Groß-/Kleinschreibung: 'haut (Haut) und Knochen'">
+      <pattern case_sensitive="yes" mark_to="-2">
+        <token>haut</token>
+        <token>und</token>
+        <token>Knochen</token>
+      </pattern>
+      <message>&subanfang;<suggestion>Haut</suggestion>&subende;</message>
+      <example type="correct">Nach der Diät war sie nur noch <marker>Haut</marker> und Knochen.</example>
+      <example type="incorrect">Nach der Diät war sie nur noch <marker>haut</marker> und Knochen.</example>
+    </rule>
+    <rule id="STUMPF_UND_STIEL" name="Groß-/Kleinschreibung: 'mit stumpf (Stumpf) und Stiel'">
+      <pattern case_sensitive="yes" mark_from="1" mark_to="-2">
+        <token regexp="yes">[mM]it</token>
+        <token>stumpf</token>
+        <token>und</token>
+        <token>Stiel</token>
+      </pattern>
+      <message>&inwend; 'mit Stumpf und Stiel' wird <suggestion>Stumpf</suggestion> großgeschrieben.</message>
+      <example type="correct">Mit <marker>Stumpf</marker> und Stiel haben Unbekannte den Apparat aus dem Erdreich gerissen.</example>
+      <example type="incorrect">Mit <marker>stumpf</marker> und Stiel haben Unbekannte den Apparat aus dem Erdreich gerissen.</example>
+    </rule>
     <rule id="KREUZ_UND_QUER" name="Groß-/Kleinschreibung: 'Kreuz (kreuz) und quer'">
       <pattern case_sensitive="yes" mark_from="1">
         <token negate_pos="yes" postag="SENT_START"/>
@@ -4910,6 +4931,27 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Da vergingen mir <marker>Hören und Sehen</marker>.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="ZEIT_SUBST" name="Groß-/Kleinschreibung: 'zeit (Zeit) haben' etc.">
+      <rule>
+	  <pattern case_sensitive="yes" mark_from="1">
+          <token regexp="yes">[kK]eine</token>
+          <token>zeit</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Zeit</suggestion>&subende;</message>
+        <example type="incorrect">Keine <marker>zeit</marker>, ich muss gerade die Welt vor dem Untergang retten!</example>
+        <example type="correct">Keine <marker>Zeit</marker>, ich muss gerade die Welt vor dem Untergang retten!</example>
+      </rule>
+      <rule>
+	  <pattern case_sensitive="yes" mark_from="1">
+          <token inflected="yes" skip="2" regexp="yes">haben|Haben</token>
+          <token>zeit</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Zeit</suggestion>&subende;</message>
+        <example type="incorrect">Ich habe viel <marker>zeit</marker>.</example>
+        <example type="incorrect">Haben Sie gerade <marker>zeit</marker>?</example>
+        <example type="correct">Ich habe viel <marker>Zeit</marker>.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="IM_ALTER" name="Groß-/Kleinschreibung: 'im alter (Alter)'">
       <rule>
 	  <pattern case_sensitive="yes" mark_from="1">
@@ -4971,6 +5013,40 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <message>&subanfang;<suggestion>Reise</suggestion>&subende;</message>
       <example type="incorrect">Auf der <marker>reise</marker> nach Berlin traf ich eine Metzgerin.</example>
       <example type="correct">Auf der <marker>Reise</marker> nach Berlin traf ich eine Metzgerin.</example>
+    </rule>
+    <rulegroup id="AUF_DER_STRECKE" name="Groß-/Kleinschreibung: 'auf der strecke (Strecke) bleiben'">
+      <rule>
+        <pattern case_sensitive="yes" mark_from="2" mark_to="-1">
+          <token regexp="yes">[aA]uf</token>
+          <token>der</token>
+          <token>strecke</token>
+          <token inflected="yes">bleiben</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Strecke</suggestion>&subende;</message>
+        <example type="incorrect">Wenn Schüler auf der <marker>strecke</marker> bleiben.</example>
+        <example type="correct">Wenn Schüler auf der <marker>Strecke</marker> bleiben.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="3">
+          <token inflected="yes" skip="2">bleiben</token>
+          <token>auf</token>
+          <token>der</token>
+          <token>strecke</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Strecke</suggestion>&subende;</message>
+        <example type="incorrect">Die Menschlichkeit bleibt dabei auf der <marker>strecke</marker>.</example>
+        <example type="correct">Die Menschlichkeit bleibt dabei auf der <marker>Strecke</marker>.</example>
+      </rule>
+    </rulegroup>
+    <rule id="AN_DER_SCHWELLE" name="Groß-/Kleinschreibung: 'an der schwelle (Schwelle)'">
+      <pattern case_sensitive="yes" mark_from="2">
+        <token regexp="yes">[aA](n|uf)</token>
+        <token>der</token>
+        <token>schwelle</token>
+      </pattern>
+      <message>&subanfang;<suggestion>Schwelle</suggestion>&subende;</message>
+      <example type="incorrect">Auf der <marker>schwelle</marker> zum 21. Jahrhundert erscheint die Sache in neuem Licht.</example>
+      <example type="correct">Auf der <marker>Schwelle</marker> zum 21. Jahrhundert erscheint die Sache in neuem Licht.</example>
     </rule>
     <rule id="AUF_WIEDERSEHEN" name="Groß-/Kleinschreibung: 'auf wiedersehen (Wiedersehen)'">
       <pattern case_sensitive="yes" mark_from="1">
@@ -9266,6 +9342,30 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct">Das ist <marker>gang und gäbe</marker>.</example>
       <example type="incorrect">Das ist <marker>gang und gebe</marker>.</example>
     </rule>
+    <rulegroup id="STUMPF_UND_STIL" name="Redewendung: 'mit Stumpf und Stil (Stiel)'">
+      <rule>
+	  <pattern>
+          <token>mit</token>
+          <token>Stumpf</token>
+          <token>und</token>
+          <token>Stil</token>
+        </pattern>
+        <message>Meinten Sie die Redewendung <suggestion>mit Stumpf und Stiel</suggestion> (im Sinne von 'vollständig')?</message>
+        <example type="correct"><marker>Mit Stumpf und Stiel</marker> haben Unbekannte den Apparat aus dem Erdreich gerissen.</example>
+        <example type="incorrect"><marker>Mit Stumpf und Stil</marker> haben Unbekannte den Apparat aus dem Erdreich gerissen.</example>
+      </rule>
+      <rule>
+	  <pattern>
+          <token>mit</token>
+          <token>Sumpf</token>
+          <token>und</token>
+          <token>Stiel</token>
+        </pattern>
+        <message>Meinten Sie die Redewendung <suggestion>mit Stumpf und Stiel</suggestion> (im Sinne von 'vollständig')?</message>
+        <example type="correct"><marker>Mit Stumpf und Stiel</marker> haben Unbekannte den Apparat aus dem Erdreich gerissen.</example>
+        <example type="incorrect"><marker>Mit Sumpf und Stiel</marker> haben Unbekannte den Apparat aus dem Erdreich gerissen.</example>
+      </rule>
+    </rulegroup>
     <rule id="WART_NICHT_MEHR_GESEHEN" name="Redewendung: 'wart (ward) nicht mehr gesehen'">
       <pattern mark_to="-3">
           <token>wart</token>
@@ -9744,7 +9844,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>.</token>
         </pattern>
         <message>Auf Auslassungspunkte folgt kein Schlusspunkt. Vorschlag: <suggestion>…</suggestion></message>
-        <url> http://www.duden.de/rechtschreibregeln/auslassungspunkte#K18</url>
+        <url>http://www.duden.de/rechtschreibregeln/auslassungspunkte#K18</url>
         <example type="correct">Er geht nach Hause …</example>
         <example type="incorrect" correction="…">Er geht nach Hause <marker>….</marker></example>
       </rule>
