@@ -78,6 +78,78 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
          xsi:noNamespaceSchemaLocation="../rules.xsd">
 
   <category name="Mögliche Tippfehler">
+    <rulegroup id="KEIN_KANN" name="Möglicher Tippfehler: 'das kein (kann) nicht sein'">
+      <rule>
+        <pattern mark_to="-2">
+          <token skip="3">kein
+            <exception scope="next" postag="SUB:.*" postag_regexp="yes"/>
+            <exception scope="next" postag="UNKNOWN"/>
+            <exception scope="next" regexp="yes">[a-z0-9]</exception>
+            <exception scope="next">,</exception>
+          </token>
+          <token postag="VER.*INF.*" postag_regexp="yes"/>
+          <token postag="SENT_END"/>
+        </pattern>
+        <message>Meinten Sie <suggestion>kann</suggestion>?</message>
+        <example type="incorrect">Das <marker>kein</marker> doch nicht wahr sein!</example>
+        <example type="correct">Das <marker>kann</marker> doch nicht wahr sein!</example>
+        <example type="correct">Es soll <marker>kein</marker> solches z existieren.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-2">
+          <token skip="3">kein
+            <exception scope="next" postag="SUB:.*" postag_regexp="yes"/>
+            <exception scope="next" postag="UNKNOWN"/>
+            <exception scope="next" regexp="yes">[a-z0-9]</exception>
+            <exception scope="next">,</exception>
+          </token>
+          <token postag="VER.*INF.*" postag_regexp="yes"/>
+          <token>,</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>kann</suggestion>?</message>
+        <example type="incorrect">Das <marker>kein</marker> doch nicht wahr sein, dass du wieder zu spät bist!</example>
+        <example type="correct">Das <marker>kann</marker> doch nicht wahr sein, dass du wieder zu spät bist!</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token postag="VER.*INF.*" postag_regexp="yes"/>
+          <token>kein</token>
+          <token postag="SENT_END"/>
+        </pattern>
+        <message>Meinten Sie <suggestion>kann</suggestion>?</message>
+        <example type="incorrect">Es ist deutlich geworden, dass es nicht sinnvoll sein <marker>kein</marker>.</example>
+        <example type="correct">Es ist deutlich geworden, dass es nicht sinnvoll sein <marker>kann</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token postag="VER.*INF.*" postag_regexp="yes"/>
+          <token>kein</token>
+          <token>,</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>kann</suggestion>?</message>
+        <example type="incorrect">Dass es nicht sinnvoll sein <marker>kein</marker>, ihn zu kritisieren, ist deutlich geworden.</example>
+        <example type="correct">Dass es nicht sinnvoll sein <marker>kann</marker>, ihn zu kritisieren, ist deutlich geworden.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="ACHTZIGIGSTEN" name="Möglicher Tippfehler: '80igsten (80sten)' etc.">
+      <rule>
+        <pattern mark_from="0">
+          <token regexp="yes">[1-9]*[2-9][0-9](z?i)?gste[nr]</token>
+        </pattern>
+        <message>Meinten Sie <suggestion><match no="1" regexp_match="(z?i)?g" regexp_replace=""/></suggestion>?</message>
+        <example type="correct">Es ist ihr <marker>80ster</marker> Geburtstag.</example>
+        <example type="incorrect" correction="80ster">Es ist ihr <marker>80gster</marker> Geburtstag.</example>
+        <example type="incorrect" correction="120sten">Wir feieren den <marker>120zigsten</marker> Geburtstag.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="0">
+          <token regexp="yes">[1-9]*[2-9][0-9](z?i)?gern?</token>
+        </pattern>
+        <message>Meinten Sie <suggestion><match no="1" regexp_match="(z?i)?g" regexp_replace=""/></suggestion>?</message>
+        <example type="correct">Wir sind nicht in den <marker>80ern</marker>.</example>
+        <example type="incorrect" correction="80ern">Wir sind nicht in den <marker>80gern</marker>.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="JA_MEHR" name="Möglicher Tippfehler: 'ja (je) mehr'">
       <rule>
         <pattern mark_to="-2">
@@ -2606,7 +2678,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     </rule>
     <rulegroup id="GEORG_CANTOR" name="Eigenname: 'Georg Kantor (Cantor)'">
       <rule>
-	  <pattern case_sensitive="yes">
+        <pattern case_sensitive="yes">
           <token regexp="yes">Kantorsche[ns]?</token>
         </pattern>
         <message>Meinten Sie <suggestion><match no="1" regexp_replace="Can" regexp_match="Kan"/></suggestion> (nach dem Mathematiker G. Cantor)?</message>
@@ -2615,7 +2687,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect">Das <marker>Kantorsche</marker> Diagonalverfahren</example>
       </rule>
       <rule>
-	  <pattern case_sensitive="yes" mark_from="1">
+        <pattern case_sensitive="yes" mark_from="1">
           <token regexp="yes">Georg|Mathematiker</token>
           <token>Kantor</token>
         </pattern>
@@ -2623,18 +2695,14 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Georg <marker>Cantor</marker></example>
         <example type="incorrect">Georg <marker>Kantor</marker></example>
       </rule>
-      <!-- no worky òÓ
-	<rule>
-	  <pattern case_sensitive="yes" mark_to="-2">
-          <token>Kantor</token>
-          <token>-</token>
-          <token>Medaille</token>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token>Kantor-Medaille</token>
         </pattern>
-        <message>Meinten Sie den Mathematiker Georg <suggestion>Cantor</suggestion>?</message>
-        <example type="correct"><marker>Cantor</marker>-Medaille</example>
-        <example type="incorrect"><marker>Kantor</marker>-Medaille</example>
+        <message>Meinten Sie den Mathematiker Georg <suggestion>Cantor-Medaille</suggestion>?</message>
+        <example type="correct"><marker>Cantor-Medaille</marker></example>
+        <example type="incorrect"><marker>Kantor-Medaille</marker></example>
       </rule>
-      -->
     </rulegroup>
     <rulegroup id="HEINRICH_HERTZ" name="Eigenname: 'Heinrich Herz (Hertz)'">
       <rule>
@@ -2659,18 +2727,105 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     </rulegroup>
     <rulegroup id="ALBERT_SCHWEITZER" name="Eigenname: 'Albert Schweizer (Schweitzer)'">
       <rule>
-	  <pattern case_sensitive="yes" mark_from="1">
-        <token>Albert</token>
-        <token>Schweizer</token>
+        <pattern case_sensitive="yes" mark_from="1">
+          <token>Albert</token>
+          <token>Schweizer</token>
         </pattern>
         <message>Meinten Sie Albert <suggestion>Schweitzer</suggestion> (den Arzt)?</message>
         <example type="correct">Albert <marker>Schweitzer</marker> war ein berühmter Arzt.</example>
         <example type="incorrect">Albert <marker>Schweizer</marker> war ein berühmter Arzt.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="EMIL_LENZ" name="Eigenname: 'Lentz (Lenz)'">
+      <rule>
+        <pattern mark_from="3">
+          <token>Heinrich</token>
+          <token>Friedrich</token>
+          <token>Emil</token>
+          <token>Lentz</token>
+        </pattern>
+        <message>Meinten Sie Heinrich Friedrich Emil <suggestion>Lenz</suggestion> (Physiker)?</message>
+        <example type="correct">Heinrich Friedrich Emil <marker>Lenz</marker> war ein Physiker.</example>
+        <example type="incorrect">Heinrich Friedrich Emil <marker>Lentz</marker> war ein Physiker.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">Lentzsche.*</token>
+          <token regexp="yes">Regel|Gesetz</token>
+        </pattern>
+        <message>Meinten Sie <suggestion><match no="1" regexp_match="entz" regexp_replace="enz"/> \2</suggestion>?</message>
+        <example type="correct">Nach der <marker>Lenzschen Regel</marker> wird durch eine Änderung des magnetischen Flusses…</example>
+        <example type="incorrect" correction="Lenzschen Regel">Nach der <marker>Lentzschen Regel</marker> wird durch eine Änderung des magnetischen Flusses…</example>
+        <example type="incorrect" correction="Lenzsche Gesetz">Das <marker>Lentzsche Gesetz</marker> ist wichtig.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>Lentz</token>
+          <token regexp="yes">’|'</token>
+          <token regexp="yes">sche.*</token>
+          <token regexp="yes">Regel|Gesetz</token>
+        </pattern>
+        <message>Meinten Sie <suggestion><match no="1" regexp_match="entz" regexp_replace="enz"/>’\3 \4</suggestion>?</message>
+        <example type="correct">Nach der <marker>Lenz’schen Regel</marker> wird durch eine Änderung des magnetischen Flusses…</example>
+        <example type="incorrect" correction="Lenz’schen Regel">Nach der <marker>Lentz’schen Regel</marker> wird durch eine Änderung des magnetischen Flusses…</example>
+        <example type="incorrect" correction="Lenz’sche Gesetz">Das <marker>Lentz'sche Gesetz</marker> ist wichtig.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>Regel</token>
+          <token>von</token>
+          <token>Lentz</token>
+        </pattern>
+        <message>Meinten Sie die <suggestion>Regel von Lenz</suggestion>?</message>
+        <example type="correct">Das ist die <marker>Regel von Lenz</marker>.</example>
+        <example type="incorrect" correction="Regel von Lenz">Das ist die <marker>Regel von Lentz</marker>.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="HENDRIK_LORENTZ" name="Eigenname: 'Lorenz (Lorentz)'">
+      <rule>
+        <pattern>
+          <token regexp="yes">Hendric?k</token>
+          <token regexp="yes">Antoo?n</token>
+          <token>Lorenz</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>Hendrik Antoon Lorentz</suggestion> (Physiker und Mathematiker)?</message>
+        <example type="correct"><marker>Hendrik Antoon Lorentz</marker> war ein Physiker.</example>
+        <example type="incorrect"><marker>Hendrik Anton Lorenz</marker> war ein Physiker.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">Lorenz\-?(kraft|transformation).*</token>
+        </pattern>
+        <message>Meinten Sie <suggestion><match no="1" regexp_match="enz" regexp_replace="entz"/></suggestion> (benannt nach Hendrik Antoon Lorentz)?</message>
+        <example type="correct">Es wirkt eine <marker>Lorentzkraft</marker> auf die Elektronen.</example>
+        <example type="incorrect" correction="Lorentzkraft">Es wirkt eine <marker>Lorenzkraft</marker> auf die Elektronen.</example>
+        <example type="incorrect" correction="Lorentz-Transformationen">Die <marker>Lorenz-Transformationen</marker> sind schön.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="LUDVIG_LORENZ" name="Eigenname: 'Lorentz (Lorenz)'">
+      <rule>
+        <pattern>
+          <token>Ludvig</token>
+          <token>Valentin</token>
+          <token>Lorentz</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>Ludvig Valentin Lorenz</suggestion> (Physiker)?</message>
+        <example type="correct"><marker>Ludvig Valentin Lorenz</marker> war ein Physiker.</example>
+        <example type="incorrect"><marker>Ludvig Valentin Lorentz</marker> war ein Physiker.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">Lorentz\-?(eichung|mie).*</token>
+        </pattern>
+        <message>Meinten Sie <suggestion><match no="1" regexp_match="entz" regexp_replace="enz"/></suggestion> (benannt nach Ludvig Valentin Lorenz)?</message>
+        <example type="correct">Die <marker>Lorenz-Eichung</marker> ist interessant.</example>
+        <example type="incorrect" correction="Lorenz-Eichung">Die <marker>Lorentz-Eichung</marker> ist interessant.</example>
+        <example type="incorrect" correction="Lorenz-Mie-Streuung">Die <marker>Lorentz-Mie-Streuung</marker> ist interessant.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="GOTTFRIED_WILHELM_LEIBNIZ" name="Eigenname: 'Leibnitz (Leibniz)'">
       <rule>
-	  <pattern case_sensitive="yes">
+        <pattern case_sensitive="yes">
           <token regexp="yes">Leibnitzsche[ns]?</token>
         </pattern>
         <message>Meinten Sie <suggestion><match no="1" regexp_replace="niz" regexp_match="nitz"/></suggestion> (nach dem Philosophen Leibniz)?</message>
@@ -2678,7 +2833,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect">Das <marker>Leibnitzsche</marker> Gesetz</example>
       </rule>
       <rule>
-	  <pattern case_sensitive="yes" mark_from="2">
+        <pattern case_sensitive="yes" mark_from="2">
           <token>Freiherr</token>
           <token>von</token>
           <token>Leibnitz</token>
@@ -2688,7 +2843,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect">Freiherr von <marker>Leibnitz</marker></example>
       </rule>
       <rule>
-	  <pattern case_sensitive="yes" mark_from="2">
+        <pattern case_sensitive="yes" mark_from="2">
           <token>Gottfried</token>
           <token>Wilhelm</token>
           <token>Leibnitz</token>
@@ -2698,7 +2853,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect">Gottfried Wilhelm <marker>Leibnitz</marker></example>
       </rule>
       <rule>
-	  <pattern case_sensitive="yes" mark_from="3">
+        <pattern case_sensitive="yes" mark_from="3">
           <token>Gottfried</token>
           <token>W</token>
           <token>.</token>
@@ -2709,13 +2864,41 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect">Gottfried W. <marker>Leibnitz</marker></example>
       </rule>
       <rule>
-	  <pattern case_sensitive="yes" mark_from="1">
+        <pattern case_sensitive="yes" mark_from="1">
           <token regexp="yes">Philosoph(en)?|Universalgelehrten?|Universalgenies?</token>
           <token>Leibnitz</token>
         </pattern>
         <message>Meinten Sie den Philosophen <suggestion>Leibniz</suggestion>?</message>
         <example type="correct">Der Philosoph <marker>Leibniz</marker></example>
         <example type="incorrect">Der Philosoph <marker>Leibnitz</marker></example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>Leibnitz</token>
+          <token>Universität</token>
+        </pattern>
+        <message>Meinten Sie die <suggestion>Leibniz Universität</suggestion> Hannover?</message>
+        <example type="correct">Ich gehe zur Gottfried Wilhelm <marker>Leibniz Universität</marker> Hannover.</example>
+        <example type="incorrect">Ich gehe zur Gottfried Wilhelm <marker>Leibnitz Universität</marker> Hannover.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>Intel</token>
+          <token>Leibnitz</token>
+          <token>Challenge</token>
+        </pattern>
+        <message>Meinten Sie die <suggestion>Intel Leibniz Challenge</suggestion>?</message>
+        <example type="correct">Ich mache bei der <marker>Intel Leibniz Challenge</marker> mit.</example>
+        <example type="incorrect">Ich mache bei der <marker>Intel Leibnitz Challenge</marker> mit.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">Leibnitz.*keks.*</token>
+        </pattern>
+        <message>Meinten Sie <suggestion><match no="1" regexp_match="Leibnitz" regexp_replace="Leibniz"/></suggestion>?</message>
+        <example type="correct">Ich esse <marker>Leibniz-Kekse</marker> mit.</example>
+        <example type="incorrect" correction="Leibniz-Kekse">Ich esse <marker>Leibnitz-Kekse</marker>.</example>
+        <example type="incorrect" correction="Leibniz-Butterkeks">Ich esse einen <marker>Leibnitz-Butterkeks</marker>.</example>
       </rule>
     </rulegroup>
   </category>
@@ -3336,11 +3519,11 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token inflected="yes">scheinen</token>
           <token regexp="yes" skip="2">anscheinend|scheinbar</token>
           <token>zu</token>
-          <token postag="VER:INF:NON"/>
+          <token postag="VER:INF.*" postag_regexp="yes"/>
         </pattern>
         <message>&redundanz;Ersetzen durch <suggestion>\1</suggestion>?</message>
         <example type="correct">Das <marker>scheint</marker> zu stimmen.</example>
-        <example type="correct">Das <marker>scheint anscheinend</marker> zu stimmen.</example>
+        <example type="incorrect">Das <marker>scheint anscheinend</marker> zu stimmen.</example>
       </rule>
     </rulegroup>
     <rulegroup id="VERDOPPELUNG" name="Verdoppelung: 'meistens immer', 'schon bereits' ...">
@@ -4337,6 +4520,15 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
 
   <!-- Rules about upper/lowercase: -->
   <category name="Groß-/Kleinschreibung">
+    <rule id="AUSSAGE_SUBST" name="Groß-/Kleinschreibung: 'laut aussage (Aussage)'">
+      <pattern case_sensitive="yes" mark_from="1">
+        <token regexp="yes">[lL]aut|[gG]emäß</token>
+        <token>aussage</token>
+      </pattern>
+      <message>&subanfang;<suggestion>Aussage</suggestion>&subende;</message>
+      <example type="correct">Gemäß <marker>Aussage</marker> der Bewohner ist die Wohnung gut</example>
+      <example type="incorrect" correction="Aussage">Gemäß <marker>aussage</marker> der Bewohner ist die Wohnung gut</example>
+    </rule>
     <rule id="ZU_NUTZE" name="Groß-/Kleinschreibung: 'zu nutze (Nutze)'">
       <pattern case_sensitive="yes">
         <token regexp="yes">[Zz]u</token>
@@ -8897,6 +9089,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>,</token>
         </pattern>
         <message>Die Subjunktion 'nachdem' drückt standardsprachlich Vorzeitigkeit aus und kann daher nicht mit dem Präteritum verwendet werden. Verwenden Sie das Perfekt (Präsens im Hauptsatz) oder Plusquamperfekt (Präteritum im Hauptsatz) oder die Subjunktion 'als' zum Ausdrücken von Gleichzeitigkeit.</message>
+        <short>'Nachdem' kann standardsprachlich nicht mit dem Präteritum verwendet werden. Verwenden Sie Perfekt bzw. Plusquamperfekt.</short>
         <example type="correct">Nachdem der Brief <marker>gekommen war</marker>, ging ich nach Hause.</example>
         <example type="incorrect">Nachdem der Brief <marker>kam</marker>, ging ich nach Hause.</example>
         <example type="correct">Nachdem sich jedes Teilchen in einem <marker>Zustand</marker>, der nicht gut war, befunden hatte, ging es weiter.</example>
@@ -8909,6 +9102,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token postag="SENT_END"/>
         </pattern>
         <message>Die Subjunktion 'nachdem' drückt standardsprachlich Vorzeitigkeit aus und kann daher nicht mit dem Präteritum verwendet werden. Verwenden Sie das Perfekt (Präsens im Hauptsatz) oder Plusquamperfekt (Präteritum im Hauptsatz) oder die Subjunktion 'als' zum Ausdrücken von Gleichzeitigkeit.</message>
+        <short>'Nachdem' kann standardsprachlich nicht mit dem Präteritum verwendet werden. Verwenden Sie Perfekt bzw. Plusquamperfekt.</short>
         <example type="correct">Ich ging nach Hause, nachdem der Brief <marker>gekommen war</marker>.</example>
         <example type="incorrect">Ich ging nach Hause, nachdem der Brief <marker>kam</marker>.</example>
       </rule>
@@ -8919,6 +9113,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>,</token>
         </pattern>
         <message>Die Subjunktion 'nachdem' drückt standardsprachlich Vorzeitigkeit aus und kann daher nicht mit dem Präteritum verwendet werden. Verwenden Sie das Perfekt (Präsens im Hauptsatz) oder Plusquamperfekt (Präteritum im Hauptsatz) oder die Subjunktion 'als' zum Ausdrücken von Gleichzeitigkeit.</message>
+        <short>'Nachdem' kann standardsprachlich nicht mit dem Präteritum verwendet werden. Verwenden Sie Perfekt bzw. Plusquamperfekt.</short>
         <example type="correct">Nachdem ich den Brief abgeschickt <marker>hatte</marker>, ging ich nach Hause.</example>
         <example type="incorrect">Nachdem ich eine Stellungnahme <marker>hatte</marker>, ging ich nach Hause.</example>
         <example type="correct">Nachdem ich eine Stellungnahme bekommen <marker>hatte</marker>, ging ich nach Hause.</example>
@@ -8931,6 +9126,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token postag="SENT_END"/>
         </pattern>
         <message>Die Subjunktion 'nachdem' drückt standardsprachlich Vorzeitigkeit aus und kann daher nicht mit dem Präteritum verwendet werden. Verwenden Sie das Perfekt (Präsens im Hauptsatz) oder Plusquamperfekt (Präteritum im Hauptsatz) oder die Subjunktion 'als' zum Ausdrücken von Gleichzeitigkeit.</message>
+        <short>'Nachdem' kann standardsprachlich nicht mit dem Präteritum verwendet werden. Verwenden Sie Perfekt bzw. Plusquamperfekt.</short>
         <example type="correct">Ich ging nach Hause, nachdem ich den Brief abgeschickt <marker>hatte</marker>.</example>
         <example type="incorrect">Ich ging nach Hause, nachdem ich eine Stellungnahme <marker>hatte</marker>.</example>
         <example type="correct">Ich ging nach Hause, nachdem ich eine Stellungnahme bekommen <marker>hatte</marker>.</example>
