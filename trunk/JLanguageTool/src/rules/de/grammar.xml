@@ -6427,11 +6427,40 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <rule>
         <pattern case_sensitive="yes" mark_to="-1">
           <token>schaden</token>
-          <token regexp="yes" inflected="yes">abwenden|begrenzen|zufügen</token>
+          <token regexp="yes" inflected="yes">nehmen|abwenden|begrenzen|zufügen</token>
         </pattern>
         <message>&subanfang;<suggestion>Schaden</suggestion>&subende;</message>
         <example type="incorrect">Er versuchte den <marker>schaden</marker> abzuwenden.</example>
         <example type="correct">Er versuchte den <marker>Schaden</marker> abzuwenden.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="1">
+          <token regexp="yes">[zZ]um</token>
+          <token>schaden</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Schaden</suggestion>&subende;</message>
+        <example type="incorrect">Zum <marker>schaden</marker> aller.</example>
+        <example type="correct">Zum <marker>Schaden</marker> aller.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
+          <token regexp="yes">[zZ]u</token>
+          <token>schaden</token>
+          <token inflected="yes">kommen</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Schaden</suggestion>&subende;</message>
+        <example type="incorrect">Der Unfall, bei dem 3 Personen zu <marker>schaden</marker> kamen.</example>
+        <example type="correct">Der Unfall, bei dem 3 Personen zu <marker>Schaden</marker> kamen.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="2">
+          <token inflected="yes" skip="2">kommen</token>
+          <token>zu</token>
+          <token>schaden</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Schaden</suggestion>&subende;</message>
+        <example type="incorrect">Drei Personen kamen dabei zu <marker>schaden</marker>.</example>
+        <example type="correct">Drei Personen kamen zu <marker>Schaden</marker>.</example>
       </rule>
     </rulegroup>
     <rulegroup id="KOENNEN_SUBST" name="Groß-/Kleinschreibung: 'sein können (Können) unter Beweis stellen'">
