@@ -1,11 +1,20 @@
 #!/bin/bash
-javac ltdiff.java -Xlint:deprecation
-
 if [ ! $# -eq 2 ]; then
   echo Usage: ./ltdiff.bash old_branch new_branch
   echo e.g. ./ltdiff.bash V_1_6 V_1_7
   exit -1
 fi
+
+
+javac ltdiff.java -Xlint:deprecation
+
+if [ ! $? -eq 0 ]; then
+  echo javac failed
+  exit 1
+fi
+
+oldv=`echo $1 | sed "s/_/./g" | sed "s/V.//g"`
+newv=`echo $2 | sed "s/_/./g" | sed "s/V.//g"`
 
 i=1
 while read line
@@ -16,6 +25,8 @@ done<gen.txt
 
 cat changes_a.html | sed "s/1title/${string[1]}/g" | sed "s/2intro/${string[2]}/g" | sed "s/3nothing/${string[3]}/g" > changes.html
 
+rm -r changes~
+mv changes changes~
 mkdir changes
 
 for l in `ls -d ../src/rules/*/ -l | awk -F / '{print $(NF-1)}'`
@@ -27,7 +38,12 @@ do
   
   wget http://languagetool.svn.sourceforge.net/viewvc/languagetool/branches/$1/src/rules/$l/grammar.xml -O old
   wget http://languagetool.svn.sourceforge.net/viewvc/languagetool/branches/$2/src/rules/$l/grammar.xml -O new
-  diff -c old new > grammar_$l.xml.diff
+  
+  # remove xml comments
+  gawk -v RS='<!--|-->' 'NR%2' old > old~
+  gawk -v RS='<!--|-->' 'NR%2' new > new~
+  mv old~ old
+  mv new~ new
   
   java ltdiff $l
   
@@ -47,10 +63,11 @@ do
   
   new_count=`grep "4NEWRULE" changes_$l.html | wc -l`
   removed_count=`grep "5REMOVEDRULE" changes_$l.html | wc -l`
+  improved_count=`grep "6IMPROVEDRULE" changes_$l.html | wc -l`
   
   mv changes_$l.html changes_$l.html~
   cat changes_a.html | sed "s/1title/${string[1]}/g" | sed "s/2intro/${string[2]}/g" | sed "s/3nothing/${string[3]}/g" > changes_$l.html
-  cat changes_$l.html~ | sed "s/4NEWRULE/${string[4]}/g" | sed "s/5REMOVEDRULE/${string[5]}/g" >> changes_$l.html
+  cat changes_$l.html~ | sed "s/4NEWRULE/${string[4]}/g" | sed "s/5REMOVEDRULE/${string[5]}/g" | sed "s/6IMPROVEDRULE/${string[6]}/g" | sed "s/7FINDERR/${string[7]}/g" | sed "s/8FINDNOTERR/${string[8]}/g" >> changes_$l.html
   cat changes_b.html >> changes_$l.html
   
   if [ ! $new_count -eq 0 ]; then
@@ -59,21 +76,21 @@ do
   if [ ! $removed_count -eq 0 ]; then
     removed_count="<b>$removed_count</b>"
   fi
-  echo "<tr class=\"lang\"><td><a href=\"changes_$l.html\">$l</a></td><td>$new_count new rules, $removed_count rules removed</td></tr>" >> changes.html
+  if [ ! $improved_count -eq 0 ]; then
+    improved_count="<b>$improved_count</b>"
+  fi
+  echo "<tr class=\"lang\"><td><a href=\"changes_$l.html\">$l</a></td><td>$new_count new, $improved_count improved, $removed_count removed</td></tr>" >> changes.html
   
   rm changes_$l.html~
   rm old
   rm new
-  rm grammar_$l.xml.diff
   
   mv changes_$l.html changes
 done
 
-cat changes_b.html >> changes.html
+cat changes_b.html | sed "s\</div>\</div><div class=\"gray\">new: The rule did not exist in version $oldv, but does in version $newv. Examples of errors which the new rule can detect are shown while hovering over its name.<br/>improved: The rule in version $newv has more examples than the rule in version $oldv. The new examples are shown while hovering over the name of the rule.<br>removed: The rule did exist in version $oldv, but does not exist in version $newv. Usually this means that the error is now detected by a more general rule.</div>\g" >> changes.html
 
 mv changes.html changes/index.html
 cp ltdiff.css changes
-rm -r ../website/www/changes
-mv -i changes ../website/www
 
 exit 0
