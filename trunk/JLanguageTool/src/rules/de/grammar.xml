@@ -366,7 +366,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     </rulegroup>
     <rulegroup id="SICH_BEWEHREN" name="Möglicher Tippfehler: 'sich bewehren (bewähren)'">
       <rule>
-	  <pattern mark_from="1">
+        <pattern mark_from="1">
           <token>sich</token>
           <token>bewehrt</token>
         </pattern>
@@ -375,7 +375,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Diese Idee hat sich <marker>bewährt</marker>.</example>
       </rule>
       <rule>
-	  <pattern mark_to="-1">
+        <pattern mark_to="-1">
           <token>bewehrt</token>
           <token>sich</token>
         </pattern>
@@ -384,7 +384,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Diese Idee hat sich <marker>bewährt</marker>.</example>
       </rule>
       <rule>
-	  <pattern mark_from="2">
+        <pattern mark_from="2">
           <token>sich</token>
           <token>nicht</token>
           <token>bewehrt</token>
@@ -2072,8 +2072,8 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <rule>
         <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
           <token>
-	      <exception regexp="yes">damit|nicht|schon|komme|kommen|kommt|kommst|sich|uns|euch|etwas|mir|mich</exception>
-	    </token>
+            <exception regexp="yes">damit|nicht|schon|komme|kommen|kommt|kommst|sich|uns|euch|etwas|mir|mich</exception>
+          </token>
           <token regexp="yes">[Zz]u</token>
           <token>recht</token>
           <token>
@@ -4611,13 +4611,13 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Diese <marker>stellen</marker> einen großen Teil der Auswanderer.</example>
       </rule>
       <rule>
-	  <pattern mark_from="1" mark_to="-3" case_sensitive="yes">
+        <pattern mark_from="1" mark_to="-3" case_sensitive="yes">
           <token regexp="yes">[dD]ie</token>
           <token regexp="yes">&subkleinplural;</token>
           <token regexp="yes">des|eines|dieses|seines|meines|ihres|deines|unseres|eures</token>
           <token postag="SUB:GEN:SIN:(MAS|NEU)" postag_regexp="yes"/>
           <token postag="VER:3:PLU:.*" postag_regexp="yes">
-	      <exception regexp="yes" scope="current">einen|deutschen|langen|längen</exception>
+            <exception regexp="yes" scope="current">einen|deutschen|langen|längen</exception>
           </token>
         </pattern>
         <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
@@ -4626,7 +4626,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Die <marker>Lumpen</marker> des Bettlers stanken erbärmlich.</example>
       </rule>
       <rule>
-	  <pattern mark_from="1" mark_to="-2" case_sensitive="yes">
+        <pattern mark_from="1" mark_to="-2" case_sensitive="yes">
           <token regexp="yes">[dD]er</token>
           <token regexp="yes">&massubklein;</token>
           <token regexp="yes">des|eines|dieses|seines|meines|ihres|deines|unseres|eures</token>
@@ -4637,7 +4637,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Der <marker>Angriff</marker> des Gegners kam unerwartet.</example>
       </rule>
       <rule>
-	  <pattern mark_from="1" mark_to="-2" case_sensitive="yes">
+        <pattern mark_from="1" mark_to="-2" case_sensitive="yes">
           <token regexp="yes">[dD]er</token>
           <token regexp="yes">&massubklein;</token>
           <token regexp="yes">der|einer|dieser</token>
@@ -4648,7 +4648,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Der <marker>Angriff</marker> der Person kam unerwartet.</example>
       </rule>
       <rule>
-	  <pattern mark_from="2" mark_to="-2" case_sensitive="yes">
+        <pattern mark_from="2" mark_to="-2" case_sensitive="yes">
           <token regexp="yes">[dD]er</token>
           <token postag="ADJ:NOM:SIN:MAS:.*" postag_regexp="yes"/>
           <token regexp="yes">&massubklein;</token>
@@ -4660,7 +4660,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Der schnelle <marker>Angriff</marker> dieser Person ist überraschend.</example>
       </rule>
       <rule>
-	  <pattern mark_from="2" mark_to="-1" case_sensitive="yes">
+        <pattern mark_from="2" mark_to="-1" case_sensitive="yes">
           <token postag="SENT_START"/>
           <token regexp="yes">Der|Dieser|Sein|Ihr|Mein|Dein|Euer|Unser</token>
           <token regexp="yes">&massubklein;</token>
@@ -4671,7 +4671,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Der <marker>Angriff</marker> war schnell vorbei.</example>
       </rule>
       <rule>
-	  <pattern mark_from="3" mark_to="-1" case_sensitive="yes">
+        <pattern mark_from="3" mark_to="-1" case_sensitive="yes">
           <token postag="SENT_START"/>
           <token regexp="yes">Der|Dieser|Sein|Ihr|Mein|Dein|Euer|Unser</token>
           <token postag="ADJ:NOM:SIN:MAS:.*" postag_regexp="yes"/>
@@ -4684,7 +4684,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Dieser unverschämte <marker>Angriff</marker> kommt Sie teuer zu stehen.</example>
       </rule>
       <rule>
-	  <pattern mark_from="1" mark_to="-3" case_sensitive="yes">
+        <pattern mark_from="1" mark_to="-3" case_sensitive="yes">
           <token regexp="yes">[dD]ie</token>
           <token regexp="yes">&femsubklein;</token>
           <token>,</token>
@@ -4697,7 +4697,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Die <marker>Zentrale</marker>, in der das Telefon nicht stillsteht.</example>
       </rule>
       <rule>
-	  <pattern mark_from="1" mark_to="-2" case_sensitive="yes">
+        <pattern mark_from="1" mark_to="-2" case_sensitive="yes">
           <token regexp="yes">[dD]ie</token>
           <token regexp="yes">&femsubklein;</token>
           <token regexp="yes">des|eines|dieses|seines|meines|ihres|deines|unseres|eures</token>
@@ -4709,7 +4709,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Die <marker>Zentrale</marker> des Vereins ist in Hamburg.</example>
       </rule>
       <rule>
-	  <pattern mark_from="1" mark_to="-2" case_sensitive="yes">
+        <pattern mark_from="1" mark_to="-2" case_sensitive="yes">
           <token regexp="yes">[dD]ie</token>
           <token regexp="yes">&femsubklein;</token>
           <token regexp="yes">der|einer|dieser</token>
@@ -4720,7 +4720,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Die <marker>Zentrale</marker> der Vereinigung ist in Hamburg.</example>
       </rule>
       <rule>
-	  <pattern mark_from="2" mark_to="-2" case_sensitive="yes">
+        <pattern mark_from="2" mark_to="-2" case_sensitive="yes">
           <token regexp="yes">[dD]ie</token>
           <token postag="ADJ:NOM:SIN:FEM:.*" postag_regexp="yes"/>
           <token regexp="yes">&femsubklein;</token>
@@ -4733,7 +4733,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Die neue <marker>Zentrale</marker> der Vereinigung ist in Hamburg.</example>
       </rule>
       <rule>
-	  <pattern mark_from="2" mark_to="-1" case_sensitive="yes">
+        <pattern mark_from="2" mark_to="-1" case_sensitive="yes">
           <token postag="SENT_START"/>
           <token regexp="yes">Die|Diese|Seine|Ihre|Meine|Deine|Eure|Unsere</token>
           <token regexp="yes">&femsubklein;</token>
@@ -4755,7 +4755,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Die <marker>Fahrt</marker> war schnell vorbei.</example>
       </rule>
       <rule>
-	  <pattern mark_from="3" mark_to="-1" case_sensitive="yes">
+        <pattern mark_from="3" mark_to="-1" case_sensitive="yes">
           <token postag="SENT_START"/>
           <token regexp="yes">Die|Diese|Seine|Ihre|Meine|Deine|Eure|Unsere</token>
           <token postag="ADJ:NOM:SIN:FEM:.*" postag_regexp="yes"/>
@@ -4775,7 +4775,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Die rasante <marker>Fahrt</marker> war schnell vorbei.</example>
       </rule>
       <rule>
-	  <pattern mark_from="1" mark_to="-3" case_sensitive="yes">
+        <pattern mark_from="1" mark_to="-3" case_sensitive="yes">
           <token regexp="yes">[dD]as</token>
           <token regexp="yes">&neusubklein;</token>
           <token>,</token>
@@ -4787,7 +4787,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Das <marker>Gerät</marker>, mit dem ich arbeiten muss, ist schon sehr alt.</example>
       </rule>
       <rule>
-	  <pattern mark_from="1" mark_to="-2" case_sensitive="yes">
+        <pattern mark_from="1" mark_to="-2" case_sensitive="yes">
           <token regexp="yes">[dD]as</token>
           <token regexp="yes">&neusubklein;</token>
           <token regexp="yes">des|eines|dieses|seines|meines|ihres|deines|unseres|eures</token>
@@ -4798,7 +4798,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Das <marker>Ende</marker> des Buches ist überraschend.</example>
       </rule>
       <rule>
-	  <pattern mark_from="1" mark_to="-2" case_sensitive="yes">
+        <pattern mark_from="1" mark_to="-2" case_sensitive="yes">
           <token regexp="yes">[dD]as</token>
           <token regexp="yes">&neusubklein;</token>
           <token regexp="yes">der|einer|dieser</token>
@@ -4809,7 +4809,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Das <marker>Alter</marker> der Person ist mir nicht bekannt.</example>
       </rule>
       <rule>
-	  <pattern mark_from="2" mark_to="-2" case_sensitive="yes">
+        <pattern mark_from="2" mark_to="-2" case_sensitive="yes">
           <token regexp="yes">[dD]as</token>
           <token postag="ADJ:NOM:SIN:NEU:.*" postag_regexp="yes"/>
           <token regexp="yes">&neusubklein;</token>
@@ -4821,7 +4821,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Das böse <marker>Ende</marker> der Geschichte folgte auf dem Fuße.</example>
       </rule>
       <rule>
-	  <pattern mark_from="2" mark_to="-1" case_sensitive="yes">
+        <pattern mark_from="2" mark_to="-1" case_sensitive="yes">
           <token postag="SENT_START"/>
           <token regexp="yes">Das|Dieses|Sein|Ihr|Mein|Dein|Euer|Unser</token>
           <token regexp="yes">&neusubklein;</token>
@@ -4832,7 +4832,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Das <marker>Ende</marker> war völlig überraschend.</example>
       </rule>
       <rule>
-	  <pattern mark_from="3" mark_to="-1" case_sensitive="yes">
+        <pattern mark_from="3" mark_to="-1" case_sensitive="yes">
           <token postag="SENT_START"/>
           <token regexp="yes">Das|Dieses|Sein|Ihr|Mein|Dein|Euer|Unser</token>
           <token postag="ADJ:NOM:SIN:NEU:.*" postag_regexp="yes"/>
@@ -5283,7 +5283,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     </rulegroup>
     <rulegroup id="ZEIT_SUBST" name="Groß-/Kleinschreibung: 'zeit (Zeit) haben' etc.">
       <rule>
-	  <pattern case_sensitive="yes" mark_from="1">
+        <pattern case_sensitive="yes" mark_from="1">
           <token regexp="yes">[kK]eine</token>
           <token>zeit</token>
         </pattern>
@@ -5292,7 +5292,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Keine <marker>Zeit</marker>, ich muss gerade die Welt vor dem Untergang retten!</example>
       </rule>
       <rule>
-	  <pattern case_sensitive="yes" mark_from="1">
+        <pattern case_sensitive="yes" mark_from="1">
           <token inflected="yes" skip="2" regexp="yes">haben|Haben</token>
           <token>zeit</token>
         </pattern>
@@ -5304,7 +5304,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     </rulegroup>
     <rulegroup id="IM_ALTER" name="Groß-/Kleinschreibung: 'im alter (Alter)'">
       <rule>
-	  <pattern case_sensitive="yes" mark_from="1">
+        <pattern case_sensitive="yes" mark_from="1">
           <token regexp="yes">[iI]m</token>
           <token>alter</token>
         </pattern>
@@ -5313,7 +5313,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Im <marker>Alter</marker> von zwölf Jahren lernte er das Klavierspiel.</example>
       </rule>
       <rule>
-	  <pattern case_sensitive="yes" mark_from="2">
+        <pattern case_sensitive="yes" mark_from="2">
           <token regexp="yes">[iI]n</token>
           <token regexp="yes">[msdD]einem|[iI]hrem|[eE]urem|unserem</token>
           <token>alter</token>
@@ -5325,7 +5325,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     </rulegroup>
     <rulegroup id="IM_GRIFF" name="Groß-/Kleinschreibung: 'im griff (Griff)'">
       <rule>
-	  <pattern case_sensitive="yes" mark_from="1">
+        <pattern case_sensitive="yes" mark_from="1">
           <token regexp="yes">[iI]m</token>
           <token>griff</token>
         </pattern>
@@ -5334,7 +5334,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Ich habe alles im <marker>Griff</marker>!</example>
       </rule>
       <rule>
-	  <pattern case_sensitive="yes" mark_from="2">
+        <pattern case_sensitive="yes" mark_from="2">
           <token regexp="yes">[iI]n</token>
           <token>den</token>
           <token>griff</token>
@@ -8843,7 +8843,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     <!-- falsche Großschreibung -->
     <rulegroup id="UM_WILLEN" name="Groß-/Kleinschreibung: 'um ... Willen (willen)'">
     <!-- http://www.canoo.net/services/GermanSpelling/Regeln/Gross-klein/Denominalisierung.html#Anchor-Die-11481 -->
-	<rule>
+      <rule>
         <pattern case_sensitive="yes" mark_from="2">
           <token regexp="yes">[uU]m</token>
           <token regexp="yes">Gottes|Himmels</token>
@@ -8853,7 +8853,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect">Um Gottes <marker>Willen</marker>, sei endlich ruhig!</example>
         <example type="correct">Um Gottes <marker>willen</marker>, sei endlich ruhig!</example>
       </rule>
-	<rule>
+      <rule>
         <pattern case_sensitive="yes" mark_from="3">
           <token regexp="yes">[uU]m</token>
           <token postag="ART:DEF:GEN:.*" postag_regexp="yes"/>
@@ -8864,7 +8864,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect">Um des Friedens <marker>Willen</marker> habe ich geschwiegen.</example>
         <example type="correct">Um des Friedens <marker>willen</marker> habe ich geschwiegen.</example>
       </rule>
-	<rule>
+      <rule>
         <pattern case_sensitive="yes" mark_from="3">
           <token regexp="yes">[uU]m</token>
           <token postag="PRO:POS:GEN:.*" postag_regexp="yes"/>
@@ -8875,7 +8875,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect">Um unserer Kinder <marker>Willen</marker> habe ich das getan.</example>
         <example type="correct">Um unserer Kinder <marker>willen</marker> habe ich das getan.</example>
       </rule>
-	<rule>
+      <rule>
         <pattern case_sensitive="yes" mark_from="4">
           <token regexp="yes">[uU]m</token>
           <token postag="ART:DEF:GEN:.*" postag_regexp="yes"/>
@@ -9773,7 +9773,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     </rule>
     <rulegroup id="STUMPF_UND_STIL" name="Redewendung: 'mit Stumpf und Stil (Stiel)'">
       <rule>
-	  <pattern>
+        <pattern>
           <token>mit</token>
           <token>Stumpf</token>
           <token>und</token>
@@ -9784,7 +9784,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect"><marker>Mit Stumpf und Stil</marker> haben Unbekannte den Apparat aus dem Erdreich gerissen.</example>
       </rule>
       <rule>
-	  <pattern>
+        <pattern>
           <token>mit</token>
           <token>Sumpf</token>
           <token>und</token>
