@@ -10,9 +10,9 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.Comparator;
 
-class rule implements Comparable<rule> {
+class Rule implements Comparable<Rule> {
   public String id;
-  public String name;
+  public String name="";
   public ArrayList<String> correct = new ArrayList<String>();
   public ArrayList<String> incorrect = new ArrayList<String>();
   
@@ -41,26 +41,26 @@ class rule implements Comparable<rule> {
   }
   
   @Override
-  public int compareTo(rule r) {
+  public int compareTo(Rule r) {
     return this.name.compareTo(r.name);
   }
 }
 
-public class ltdiff {
+class VersionDiffGenerator {
   
   public static void main(String[] args) {
     
     String lang = args[0];
     
-    ArrayList<rule> old_rules = new ArrayList<rule>(); // rules in old grammar.xml
-    ArrayList<rule> new_rules = new ArrayList<rule>(); // rules in new grammar.xml
-    ArrayList<rule> modified_rules = new ArrayList<rule>();
+    ArrayList<Rule> old_rules = new ArrayList<Rule>(); // rules in old grammar.xml
+    ArrayList<Rule> new_rules = new ArrayList<Rule>(); // rules in new grammar.xml
+    ArrayList<Rule> modified_rules = new ArrayList<Rule>();
     
     try {
       
       for (int i=0; i<2; i++) {
         
-        ArrayList<rule> rules;
+        ArrayList<Rule> rules;
         
         if(i==0)
           rules = old_rules;
@@ -70,7 +70,7 @@ public class ltdiff {
         BufferedReader in = new BufferedReader(new FileReader(i==0 ? "old" : "new"));
         String line;
         
-        rule r = new rule();
+        Rule r = new Rule();
         
         // loop through all lines
         while ((line = in.readLine()) != null) {
@@ -80,16 +80,16 @@ public class ltdiff {
             if (!line.contains("name=\"")) // merge with the following line if the name is there (e.g. sk)
               line += in.readLine();
             
-            if (r.correct.size() > 0) {
+            if (r.numberOfExamples() > 0) {
               rules.add(r);
-              r = new rule();
+              r = new Rule();
             }
             
             r.id = line;
             r.name = line;
             
             r.id = r.id.replaceAll(".*id=\"","").replaceAll("\".*","");
-            r.name= r.name.replaceAll(".*name=\"","").replaceAll("\".*","");
+            r.name = r.name.replaceAll(".*name=\"","").replaceAll("\".*","");
             
             for (int j = 0; j < rules.size(); j++) { // ensure that the name is unique
               if (r.name.equals(rules.get(j).name)) {
@@ -144,7 +144,7 @@ public class ltdiff {
             
             if (new_rules.get(i).numberOfExamples() > old_rules.get(j).numberOfExamples()) { // if the new rules has more examples, it is considered to be improved
             
-              rule r = new_rules.get(i);
+              Rule r = new_rules.get(i);
               
               for (int k = 0; k < r.correct.size(); k++) { // remove examples which already exist in old rule
               
