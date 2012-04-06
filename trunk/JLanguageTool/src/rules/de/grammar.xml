@@ -139,7 +139,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <message>Meinten Sie <suggestion><match no="1" regexp_match="(z?i)?g" regexp_replace=""/></suggestion>?</message>
         <example type="correct">Es ist ihr <marker>80ster</marker> Geburtstag.</example>
         <example type="incorrect" correction="80ster">Es ist ihr <marker>80gster</marker> Geburtstag.</example>
-        <example type="incorrect" correction="120sten">Wir feieren den <marker>120zigsten</marker> Geburtstag.</example>
+        <example type="incorrect" correction="120sten">Wir feiern den <marker>120zigsten</marker> Geburtstag.</example>
       </rule>
       <rule>
         <pattern mark_from="0">
@@ -213,10 +213,10 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token postag="SENT_END"/>
         </pattern>
         <message>Meinten Sie <suggestion>gegeben</suggestion>?</message>
-<!--         <example type="incorrect">Hast du ihm das Buch <marker>gegen</marker>?</example> TODO Hast not tagged as verb-->
-<!--         <example type="correct">Hast du ihm das Buch <marker>gegeben</marker>?</example> -->
+        <!-- <example type="incorrect">Hast du ihm das Buch <marker>gegen</marker>?</example> TODO Hast not tagged as verb -->
+        <!-- <example type="correct">Hast du ihm das Buch <marker>gegeben</marker>?</example> -->
         <example type="incorrect">Wieso hast du ihm das Buch <marker>gegen</marker>?</example>
-        <example type="correct">Wieso hast du ihm das Buch <marker>gegeben</marker>?</example> 
+        <example type="correct">Wieso hast du ihm das Buch <marker>gegeben</marker>?</example>
       </rule>
       <rule>
         <pattern mark_to="-2">
@@ -2729,7 +2729,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <pattern case_sensitive="yes">
           <token>Kantor-Medaille</token>
         </pattern>
-        <message>Meinten Sie den Mathematiker Georg <suggestion>Cantor-Medaille</suggestion>?</message>
+        <message>Meinten Sie die nach dem Mathematiker Georg Cantor benannte <suggestion>Cantor-Medaille</suggestion>?</message>
         <example type="correct"><marker>Cantor-Medaille</marker></example>
         <example type="incorrect"><marker>Kantor-Medaille</marker></example>
       </rule>
@@ -2784,8 +2784,8 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">Regel|Gesetz</token>
         </pattern>
         <message>Meinten Sie <suggestion><match no="1" regexp_match="entz" regexp_replace="enz"/> \2</suggestion>?</message>
-        <example type="correct">Nach der <marker>Lenzschen Regel</marker> wird durch eine Änderung des magnetischen Flusses…</example>
-        <example type="incorrect" correction="Lenzschen Regel">Nach der <marker>Lentzschen Regel</marker> wird durch eine Änderung des magnetischen Flusses…</example>
+        <example type="correct">Nach der <marker>Lenzschen Regel</marker> wird durch eine Änderung des magnetischen Flusses …</example>
+        <example type="incorrect" correction="Lenzschen Regel">Nach der <marker>Lentzschen Regel</marker> wird durch eine Änderung des magnetischen Flusses …</example>
         <example type="incorrect" correction="Lenzsche Gesetz">Das <marker>Lentzsche Gesetz</marker> ist wichtig.</example>
       </rule>
       <rule>
@@ -2796,8 +2796,8 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">Regel|Gesetz</token>
         </pattern>
         <message>Meinten Sie <suggestion><match no="1" regexp_match="entz" regexp_replace="enz"/>’\3 \4</suggestion>?</message>
-        <example type="correct">Nach der <marker>Lenz’schen Regel</marker> wird durch eine Änderung des magnetischen Flusses…</example>
-        <example type="incorrect" correction="Lenz’schen Regel">Nach der <marker>Lentz’schen Regel</marker> wird durch eine Änderung des magnetischen Flusses…</example>
+        <example type="correct">Nach der <marker>Lenz’schen Regel</marker> wird durch eine Änderung des magnetischen Flusses …</example>
+        <example type="incorrect" correction="Lenz’schen Regel">Nach der <marker>Lentz’schen Regel</marker> wird durch eine Änderung des magnetischen Flusses …</example>
         <example type="incorrect" correction="Lenz’sche Gesetz">Das <marker>Lentz'sche Gesetz</marker> ist wichtig.</example>
       </rule>
       <rule>
@@ -9124,7 +9124,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <rule>
         <pattern mark_from="1" case_sensitive="yes">
           <token skip="-1" postag="SENT_START"><exception scope="next" postag="SUB.*:GEN:.*" postag_regexp="yes"/></token>
-          <token regexp="yes">wegen|(ab|zu)züglich|seitens</token><!-- TODO …liegt abseits das…-->
+          <token regexp="yes">wegen|(ab|zu)züglich|seitens</token><!-- TODO … liegt abseits das …-->
           <token regexp="yes">(das|dem|den|die)(selben?)?|ein|(D|d|s|m)?eine(m|n)?|(eu|ih|Ih|unse)re(m|n)?|(jene|deine|diese)(m|n)?</token>
         </pattern>
         <message>Die Präposition '\2' erfordert i.d.R. den Genitiv.</message>
@@ -9147,7 +9147,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <rule>
         <pattern case_sensitive="yes">
           <token postag="SENT_START"/>
-          <token regexp="yes">(Wegen|Abzüglich)</token><!-- TODO Abseits das…-->
+          <token regexp="yes">(Wegen|Abzüglich)</token><!-- TODO Abseits das …-->
           <token regexp="yes">(das|dem|den|die)(selben?)?|ein|(D|d|s|m)?eine(m|n)?|(eu|ih|Ih|unse)re(m|n)?|(jene|deine|diese)(m|n)?</token>
         </pattern>
         <message>Die Präposition '<match no="2" case_conversion ="startlower"/>' erfordert i.d.R. den Genitiv.</message><!--TODO \2 should be lower case-->
@@ -9161,8 +9161,8 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect"><marker>Wegen deinem</marker> Auto</example>
         <example type="correct"><marker>Wegen jenes</marker> Auto</example>
         <!--
-        <example type="correct"><marker>Abseits des</marker> Weges...</example>
-        <example type="incorrect"><marker>Abseits dem</marker> Weg...</example>
+        <example type="correct"><marker>Abseits des</marker> Weges …</example>
+        <example type="incorrect"><marker>Abseits dem</marker> Weg …</example>
         -->
       </rule>
     </rulegroup>
@@ -9180,7 +9180,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct"><marker>Im mentalen</marker> Lexikon ist viel gespeichert.</example>
         <example type="correct">In <marker>dem heißen</marker> Ofen ist heiße Luft.</example>
         <example type="correct">Die Sachen, <marker>die menschlichem</marker> Handeln entsprechen.</example>
-<!--         <example type="correct">Die Fragen <marker>der unterschiedlichem</marker> Glauben angehörigen Menschen sind schwer.</example> TODO -->
+        <!-- <example type="correct">Die Fragen <marker>der unterschiedlichem</marker> Glauben angehörigen Menschen sind schwer.</example> TODO -->
       </rule>
     </rulegroup>
     <rule id="GEMAESS_DES" name="Grammatik: 'gemäß des (dem)'">
