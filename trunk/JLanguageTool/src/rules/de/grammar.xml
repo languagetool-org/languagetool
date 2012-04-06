@@ -78,31 +78,6 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
          xsi:noNamespaceSchemaLocation="../rules.xsd">
 
   <category name="Mögliche Tippfehler">
-    <rule id="WIR_WIE" name="Möglicher Tippfehler: 'im selben Stall wir (wie)'">
-      <pattern mark_from="2">
-        <token regexp="yes">gleich.*|.*selbe.*</token>
-        <token skip="1"><exception scope="next" postag="VER.*:1:PLU.*|UNKNOWN" postag_regexp="yes"/></token>
-        <token>wir</token>
-      </pattern>
-      <message>Meinten Sie <suggestion>wie</suggestion>?</message>
-      <example type="incorrect">Die Datei muss ich im selben Verzeichnis sein <marker>wir</marker> dart.</example>
-      <example type="incorrect">Ich habe das gleiche Kleid <marker>wir</marker> sie.</example>
-      <example type="correct">Ich habe das gleiche Kleid <marker>wie</marker> sie.</example>
-      <example type="correct">Im selben Boot sitzen <marker>wir</marker>.</example>
-    </rule>
-    <rule id="DU_DIE" name="Möglicher Tippfehler: 'du (die)'">
-      <pattern mark_from="1" mark_to="-2">
-        <token><exception postag="VER.*:2:SIN.*" postag_regexp="yes"/><exception postag="UNKNOWN"/></token>
-        <token>du</token>
-        <token skip="-1" postag="SUB:(NOM:SIN:FEM|AKK:SIN:FEM|NOM:PLU|AKK:PLU).*" postag_regexp="yes"><exception scope="next" postag="VER.*2:SIN.*" postag_regexp="yes"/><!--<exception scope="next" postag="UNKNOWN"/>TODO not working--></token>
-        <token postag="SENT_END" />
-      </pattern>
-      <message>Meinten Sie <suggestion>die</suggestion>?</message>
-      <example type="incorrect">Wie bereits erwähnt, stellen Kinder <marker>du</marker> Produktion von Lauten ein.</example>
-      <example type="correct">Wie bereits erwähnt, stellen Kinder <marker>die</marker> Produktion von Lauten ein.</example>
-      <example type="correct">Mache, worauf <marker>du</marker> Lust hast.</example>
-      <example type="correct">Hier steht, wie <marker>du</marker> Datumsangaben machen solltest.</example>
-    </rule>
     <rulegroup id="KEIN_KANN" name="Möglicher Tippfehler: 'das kein (kann) nicht sein'">
       <rule>
         <pattern mark_to="-2">
@@ -238,8 +213,8 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token postag="SENT_END"/>
         </pattern>
         <message>Meinten Sie <suggestion>gegeben</suggestion>?</message>
-        <example type="incorrect">Hast du ihm das Buch <marker>gegen</marker>?</example>
-        <example type="correct">Hast du ihm das Buch <marker>gegeben</marker>?</example>
+        <!-- <example type="incorrect">Hast du ihm das Buch <marker>gegen</marker>?</example> TODO Hast not tagged as verb -->
+        <!-- <example type="correct">Hast du ihm das Buch <marker>gegeben</marker>?</example> -->
         <example type="incorrect">Wieso hast du ihm das Buch <marker>gegen</marker>?</example>
         <example type="correct">Wieso hast du ihm das Buch <marker>gegeben</marker>?</example>
       </rule>
@@ -5478,6 +5453,15 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <message>&subanfang;<suggestion>Schwelle</suggestion>&subende;</message>
       <example type="incorrect">Auf der <marker>schwelle</marker> zum 21. Jahrhundert erscheint die Sache in neuem Licht.</example>
       <example type="correct">Auf der <marker>Schwelle</marker> zum 21. Jahrhundert erscheint die Sache in neuem Licht.</example>
+    </rule>
+    <rule id="AUF_VERLANGEN" name="Groß-/Kleinschreibung: 'auf verlangen (Verlangen)'">
+      <pattern case_sensitive="yes" mark_from="1">
+        <token regexp="yes">[aA]uf</token>
+        <token>verlangen</token>
+      </pattern>
+      <message>Meinten Sie \1 <suggestion><match no="2" case_conversion="startupper"/></suggestion>?</message>
+      <example type="incorrect">Auf <marker>verlangen</marker> des Staatsanwalts wurde die Verhandlung unterbrochen.</example>
+      <example type="correct">Auf <marker>Verlangen</marker> der Verteidigerin wurde die Verhandlung unterbrochen.</example>
     </rule>
     <rule id="AUF_WIEDERSEHEN" name="Groß-/Kleinschreibung: 'auf wiedersehen (Wiedersehen)'">
       <pattern case_sensitive="yes" mark_from="1">
