@@ -13,7 +13,7 @@ else
   path_new="http://languagetool.svn.sourceforge.net/viewvc/languagetool/branches/$2/src/rules"
 fi
 
-javac ltdiff.java -Xlint:deprecation
+javac VersionDiffGenerator.java -Xlint:deprecation
 
 if [ ! $? -eq 0 ]; then
   echo javac failed
