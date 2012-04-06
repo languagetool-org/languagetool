@@ -6679,6 +6679,16 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect" correction="Würde">Die <marker>würde</marker> des Menschen ist antastbar.</example>
       <example type="correct">Die <marker>Würde</marker> des Menschen ist unantastbar.</example>
     </rule>
+    <rule id="RECHT_SUBST" name="Groß-/Kleinschreibung: 'ein/das recht (Recht) auf' etc.">
+      <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
+        <token regexp="yes">[dD]as|[eE]in|einem|dem</token>
+        <token>recht</token>
+        <token regexp="yes">darauf|auf|dazu</token>
+      </pattern>
+      <message>&subanfang;<suggestion>Recht</suggestion>&subende;</message>
+      <example type="incorrect" correction="Recht">Umstritten ist jedoch die Frage, ob sich aus dem <marker>recht</marker> auf Leben auch ein Recht auf den Tod ergibt.</example>
+      <example type="correct">Ein <marker>Recht</marker> auf einen gnädigen Tod.</example>
+    </rule>
     <rule id="LAUFE_SUBST" name="Groß-/Kleinschreibung: 'im laufe (Laufe) des Tages'">
       <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
         <token regexp="yes">[iI]m</token>
