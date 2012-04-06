@@ -38,7 +38,7 @@ rm -r $folder~
 mv $folder $folder~
 mkdir $folder
 
-for l in `ls -d ../../../rules/*/ -l | awk -F / '{print $(NF-1)}'`
+for l in `ls -d ../src/rules/*/ -l | awk -F / '{print $(NF-1)}'`
 # for l in de en
 do
   echo $(tput setaf 2)------------------
