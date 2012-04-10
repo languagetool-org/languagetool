@@ -63,7 +63,9 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
 <!ENTITY mahlennomen "Zahn|Mühle|Korn|Weizen|Getreide|.*Mehl|Müller">
 <!ENTITY malennomen ".*Farbe|.*Bild|.*Porträt|Kunst.*|Maler">
 <!ENTITY seitewoerter ".*Buch|.*Lektüre">
-<!ENTITY saitewoerter "aufziehen|.*Bass(es)?|.*Bratsche|.*Cellos?|.*Harfe|.*Geige|.*Gitarre|.*Viola|.*Violine">
+<!ENTITY saitewoerter "aufziehen|.*Bass(es)?|.*Bratsche|.*Cellos?|.*Harfen?|.*Geigen?|.*Gitarren?|.*Violas?|.*Violinen?">
+<!ENTITY lidwoerter "Auge.*|entzünde.*|.*röte.*|.*zuck.*">
+<!ENTITY liedwoerter "Melodie.*|Note.*|sing.*|sang.*|gesungen.*">
 <!ENTITY anfauf "„|&quot;|»|›|‚|'">
 <!ENTITY anfzu "‘|“|‹|«|&quot;|'">
 <!ENTITY anf "&anfauf;|‘|“|‹|«">
@@ -2351,13 +2353,21 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     <rulegroup id="DASS" name="Mögliche Wortverwechslung: 'das (dass)'" default="off">
       <rule>
         <pattern mark_from="3" mark_to="-1" case_sensitive="yes">
-          <token postag="SENT_START" skip="-1"><exception scope="next" postag=".*NEU.*" postag_regexp="yes"/></token>
+          <token postag="SENT_START" skip="-1">
+            <exception scope="next" postag=".*NEU.*|UNKNOWN" postag_regexp="yes"/>
+            <exception scope="next" postag="UNKNOWN"/>
+          </token>
           <token regexp="yes" inflected="yes">(sagen|berichten|meinen|glauben|schreiben|denken)</token>
           <token>,</token>
-          <token skip="-1">das<exception scope="next" postag=".*NEU.*" postag_regexp="yes"/><exception scope="next">heißt</exception></token>
+          <token skip="-1">das
+            <exception scope="next" postag=".*NEU.*" postag_regexp="yes"/>
+<!--             <exception scope="next" postag="UNKNOWN"/> TODO not working-->
+            <exception scope="next">heißt</exception>
+          </token>
           <token postag="SENT_END"/>
         </pattern>
         <message>Meinten Sie <suggestion>dass</suggestion> (Subjunktion)? Für das Relativpronomen 'das' wurde kein Beziehungswort gefunden.</message>
+        <url>http://www.duden.de/rechtschreibung/dass#bi-artikel-div-block_1</url>
         <example type="incorrect">Er sagt, <marker>das</marker> er sie liebt.</example>
         <example type="incorrect">Er hat geschrieben, <marker>das</marker> er sie liebt.</example>
         <example type="correct">Er sagt, <marker>dass</marker> er sie liebt.</example>
@@ -2376,6 +2386,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>dass</token>
         </pattern>
         <message>Meinten Sie das Relativpronomen <suggestion>das</suggestion>?</message>
+        <url>http://www.duden.de/rechtschreibung/dass#bi-artikel-div-block_1</url>
         <example type="correct">Das Kind, <marker>das</marker> dort spielt.</example>
         <example type="incorrect">Das Kind, <marker>dass</marker> dort spielt.</example>
       </rule>
@@ -2388,6 +2399,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token postag="VER:(AUX:)?(2|3):.+" postag_regexp="yes"><exception postag="(PA2|SUB|ART|ADJ):.+" postag_regexp="yes" scope="current"/><exception regexp="yes" scope="current">sieben|gilt|äußerst|anstelle|einst|meinen?|tausenden?|!(hat)</exception></token>
         </pattern>
         <message>Meinten Sie <suggestion>das</suggestion>? Die Subjunktion 'dass' scheint an dieser Stelle nicht zu passen.</message>
+        <url>http://www.duden.de/rechtschreibung/dass#bi-artikel-div-block_1</url>
         <example type="incorrect">Er sagt, <marker>dass</marker> sei richtig, aber er irrt.</example>
         <example type="incorrect">Aber <marker>dass</marker> ist doch nicht richtig.</example>
         <example type="incorrect">Aber <marker>dass</marker> scheinst du vergessen zu haben.</example>
@@ -2419,6 +2431,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token postag="SENT_END"/>
         </pattern>
         <message>Meinten Sie <suggestion>so dass</suggestion>? Für den Artikel 'das' wurde kein Beziehungswort gefunden.</message>
+        <url>http://www.duden.de/rechtschreibung/dass#bi-artikel-div-block_1</url>
         <example type="incorrect">Er war erkältet, <marker>so das</marker> er nicht kommen konnte.</example>
         <example type="correct">Er war erkältet, <marker>so dass</marker> er nicht kommen konnte.</example>
         <example type="correct">Er soll gestürzt werden, <marker>so das</marker> Volk.</example>
@@ -2481,6 +2494,14 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Die <marker>Saiten</marker> des Violoncellos sind kurz.</example>
       </rule>
       <rule>
+        <pattern>
+          <token regexp="yes">(&saitewoerter;)seite</token>
+        </pattern>
+        <message>Meinten Sie <suggestion><match no="2" regexp_match="ei" regexp_replace="ai"/></suggestion>? (Seite = Buchseite)</message>
+        <example type="incorrect" correction="Gitarrensaite">Die <marker>Gitarrenseite</marker> ist gerissen.</example>
+        <example type="correct">Die <marker>Gitarrensaite</marker> ist gerissen.</example>
+      </rule>
+      <rule>
         <pattern mark_from="2" mark_to="-1">
           <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">&saitewoerter;</exception></token>
           <token regexp="yes" inflected="yes" skip="5">&seitewoerter;<exception scope="next" regexp="yes" inflected="yes">&saitewoerter;</exception></token>
@@ -2501,6 +2522,52 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <message>Meinten Sie <suggestion><match no="2" regexp_match="ai" regexp_replace="ei"/></suggestion>? (Saite = Saiteninstrument)</message>
         <example type="incorrect" correction="Seiten">Die <marker>Saiten</marker> des Buches sind beschrieben.</example>
         <example type="correct">Die <marker>Seiten</marker> des Buches sind beschrieben.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="LID_LIED" name="Mögliche Wortverwechslung: Lid/Lied">
+      <rule>
+        <pattern mark_from="2" mark_to="-1">
+          <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">&liedwoerter;</exception></token>
+          <token regexp="yes" inflected="yes" skip="5">&lidwoerter;<exception scope="next" regexp="yes" inflected="yes">&liedwoerter;</exception></token>
+          <token inflected="yes" skip="-1">Lied<exception scope="next" regexp="yes" inflected="yes">&liedwoerter;</exception></token>
+          <token postag="SENT_END"/>
+        </pattern>
+        <message>Meinten Sie <suggestion><match no="3" regexp_match="ied" regexp_replace="id"/></suggestion>? (Lied = gesungenes Musikstück)</message>
+        <example type="incorrect" correction="Lider">Er hat entzündete <marker>Lieder</marker>.</example>
+        <example type="correct">Er hat entzündete <marker>Lider</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-2">
+          <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">&liedwoerter;</exception></token>
+          <token inflected="yes" skip="5">Lied<exception scope="next" regexp="yes" inflected="yes">&liedwoerter;</exception></token>
+          <token regexp="yes" inflected="yes" skip="-1">&lidwoerter;<exception scope="next" regexp="yes" inflected="yes">&liedwoerter;</exception></token>
+          <token postag="SENT_END"/>
+        </pattern>
+        <message>Meinten Sie <suggestion><match no="2" regexp_match="ied" regexp_replace="id"/></suggestion>? (Lied = gesungenes Musikstück)</message>
+        <example type="incorrect" correction="Lider">Ihre <marker>Lieder</marker> sind entzündet.</example>
+        <example type="correct">hre <marker>Lider</marker> sind entzündet.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2" mark_to="-1">
+          <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">&lidwoerter;</exception></token>
+          <token regexp="yes" inflected="yes" skip="5">&liedwoerter;<exception scope="next" regexp="yes" inflected="yes">&lidwoerter;</exception></token>
+          <token inflected="yes" skip="-1">Lid<exception scope="next" regexp="yes" inflected="yes">&lidwoerter;</exception></token>
+          <token postag="SENT_END"/>
+        </pattern>
+        <message>Meinten Sie <suggestion><match no="3" regexp_match="id" regexp_replace="ied"/></suggestion>? (Lid = Augenlid)</message>
+        <example type="incorrect" correction="Lieder">Wir singen gemeinsam <marker>Lider</marker>.</example>
+        <example type="correct">Wir singen gemeinsam <marker>Lieder</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-2">
+          <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">&lidwoerter;</exception></token>
+          <token inflected="yes" skip="5">Lid<exception scope="next" regexp="yes" inflected="yes">&lidwoerter;</exception></token>
+          <token regexp="yes" inflected="yes" skip="-1">&liedwoerter;<exception scope="next" regexp="yes" inflected="yes">&lidwoerter;</exception></token>
+          <token postag="SENT_END"/>
+        </pattern>
+        <message>Meinten Sie <suggestion><match no="2" regexp_match="id" regexp_replace="ied"/></suggestion>? (Lid = Augenlid)</message>
+        <example type="incorrect" correction="Lieder"><marker>Lider</marker> singen wir.</example>
+        <example type="correct"><marker>Lieder</marker> singen wir.</example>
       </rule>
     </rulegroup>
     <rule id="ETHISCH_ETHNISCH" name="Mögliche Wortverwechslung: ethisch/ethnisch">
@@ -8730,7 +8797,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <pattern mark_from="1" mark_to="-1" case_sensitive="yes">
         <token regexp="yes">[Ii]m</token>
         <token>folgenden</token>
-        <token postag="(VER|PA2):.*" postag_regexp="yes"/>
+        <token postag="(VER|PA2):.*|ART:.*" postag_regexp="yes" regexp="yes">[a-zäöü].*</token>
       </pattern>
       <message><suggestion>Folgenden</suggestion> wird als Substantivierung großgeschrieben.</message>
       <example type="correct">Im <marker>Folgenden</marker> geht es um Fahrräder.</example>
@@ -8740,6 +8807,10 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect">Diese These werde ich im <marker>folgenden</marker> ausführen.</example>
       <example type="incorrect">Die im <marker>folgenden</marker> beschriebene Geschichte.</example>
       <example type="correct">Die im <marker>folgenden</marker> Buch beschriebene Geschichte.</example>
+      <example type="incorrect">Ich werde im <marker>folgenden</marker> die Ursachen untersuchen.</example>
+      <example type="incorrect">Ich werde im <marker>folgenden</marker> eine Ursache untersuchen.</example>
+      <example type="correct">Ich werde im <marker>Folgenden</marker> die Ursachen untersuchen.</example>
+      <example type="correct">Dies wird im <marker>folgenden</marker> Abschnitt genau behandelt.</example>
     </rule>
     <rule id="ZUR_STRAFE" name="Groß-/Kleinschreibung: 'zur strafe (Strafe)'">
       <pattern mark_from="1" case_sensitive="yes">
