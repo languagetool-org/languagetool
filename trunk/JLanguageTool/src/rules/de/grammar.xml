@@ -1571,11 +1571,11 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect">Als Anlage <marker>erhälst</marker> Du mein Testament.</example>
       </rule>
     </rulegroup>
-    <rule id="HIN_UNS_WIEDER" name="Möglicher Tippfehler: 'hin uns (und) wieder'">
+    <rule id="HIN_UNS_WIEDER" name="Möglicher Tippfehler: 'hin uns (und) wieder/her'">
       <pattern mark_from="1" mark_to="-1">
         <token>hin</token>
         <token>uns</token>
-        <token>wieder</token>
+        <token regexp="yes">wieder|her</token>
       </pattern>
       <message>Meinten Sie <suggestion>und</suggestion>?</message>
       <example type="correct">Hin <marker>und</marker> wieder kann man es machen.</example>
@@ -1943,7 +1943,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token>zu</token>
         <token>lasen</token>
       </pattern>
-      <message>Meinten Sie 'zu <suggestion>lassen</suggestion>'?</message>
+      <message>Meinten Sie 'zu <suggestion>lassen</suggestion>' oder 'zu <suggestion>Lasten</suggestion>'?</message>
       <example type="correct">Er plante, sie mit einem Maulkorb herumlaufen zu <marker>lassen</marker>.</example>
       <example type="incorrect">Er plante, sie mit einem Maulkorb herumlaufen zu <marker>lasen</marker>.</example>
     </rule>
@@ -3067,6 +3067,20 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
   </category>
 
   <category name="Zusammen-/Getrenntschreibung">
+    <!--
+    <rulegroup id="HIN_UND_HER" name="Zusammen-/Getrenntschreibung: 'hin- und hergehen (hin und her gehen)">
+      <rule>
+        <pattern mark_from="0" mark_to="-1" case_sensitive="no">
+          <token>hin-</token>
+          <token>und</token>
+          <token regexp="yes">her(gehen|laufen|wandern|gehe|geht|gehst|ging|gingen|läuft|läufst|lief|liefen|wandert|wanderst|gegangen|gelaufen|gewandert)</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>TODO</suggestion>?</message>
+        <example type="incorrect">Sie ist <marker>hin- und hergelaufen</marker> ...</example>
+        <example type="correct">Sie ist <marker>hin und her gelaufen</marker> ...</example>
+      </rule>
+    </rulegroup>
+    -->
     <!-- Jan: TODO - find a rule that can distinguish "indem" from "in dem" -->
     <rulegroup id="DA_NACH_PLUS_VERB" name="Zusammen-/Getrenntschreibung: 'Da nach (danach) war Ruhe' etc.">
       <rule>
@@ -3091,7 +3105,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct"><marker>Danach</marker> hat sie mich verlassen.</example>
       </rule>
     </rulegroup>
-    <rulegroup id="NACHDEM_NACH_DEM" name="Zusammen-/Getrenntschreibung: 'nachdem (nach dem) Essen etc. ...'">
+    <rulegroup id="NACHDEM_NACH_DEM" name="Zusammen-/Getrenntschreibung: 'nachdem (nach dem) Essen etc.'">
       <rule>
         <pattern case_sensitive="no" mark_to="-2">
           <token regexp="yes">(nach|trotz|seit)dem</token>
@@ -3291,13 +3305,13 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect">Hinter <marker>alle dem</marker> steht die Universität.</example>
     </rule>
     <rulegroup id="VONSTATTEN_GEHEN" name="Zusammen-/Getrenntschreibung: 'vonstatten gehen (vonstattengehen)'">
-    <!-- http://www.canoo.net/services/Controller?dispatch=spelling&input=vonstattengehen -->
       <rule>
         <pattern>
           <token>vonstatten</token>
           <token inflected="yes">gehen</token>
         </pattern>
         <message>&getrennt;: Meinten Sie <suggestion>\1\2</suggestion>?</message>
+        <url>http://www.canoo.net/services/Controller?dispatch=spelling&amp;input=vonstattengehen</url>
         <example type="correct">Das wird recht langsam <marker>vonstattengehen</marker>.</example>
         <example type="incorrect">Das wird recht langsam <marker>vonstatten gehen</marker>.</example>
       </rule>
@@ -3308,6 +3322,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token inflected="yes">gehen</token>
         </pattern>
         <message>&getrennt;: Meinten Sie <suggestion>\1\2\3</suggestion>?</message>
+        <url>http://www.canoo.net/services/Controller?dispatch=spelling&amp;input=vonstattengehen</url>
         <example type="correct">Das wird recht langsam <marker>vonstattengehen</marker>.</example>
         <example type="incorrect">Das wird recht langsam <marker>von statten gehen</marker>.</example>
       </rule>
@@ -3480,6 +3495,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       </rule>
     </rulegroup>
     <rulegroup id="INFINITIV_MIT_ZU" name="Zusammen-/Getrenntschreibung: Infinitiv mit 'zu'">
+      <!-- siehe auch die Regel ZU_ZUMUTEN -->
       <rule>
         <pattern>
           <token postag=".*PRP:.*" postag_regexp="yes"><exception scope="current">gegenüber</exception><exception scope="current">anstatt</exception><exception scope="current">ohne</exception><exception scope="current">entsprechend</exception><exception scope="current">um</exception><exception scope="current">als</exception><exception scope="current">an</exception><exception scope="current">auf</exception><exception scope="current">bis</exception><exception scope="current">zu</exception><exception scope="current">je</exception></token>
@@ -3498,7 +3514,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <pattern mark_from="1">
           <!-- Exceptions - don't match 'hört auf zu atmen' etc. -->
           <token regexp="yes" negate="yes">hör(e|n|st|t|te|ten|tet|test)</token>
-          <!-- <token postag="ADV:.*" postag_regexp="yes" negate="yes"/> // doesn't work atm -->
+          <!-- <token postag="ADV:.*" postag_regexp="yes" negate_pos="yes"/> -->
           <token>auf</token>
           <token>zu</token>
           <token regexp="yes">arbeiten|atmen|bahren|bauen|begehren|bereiten|bessern|bewahren|bieten|binden|blähen|blasen|blättern|blicken|blinken|bohren|brauchen|brechen|bringen|brummen|bürden|dampfen|decken|drängen|drehen|drücken|erlegen|erwecken|essen|fächern|fahren|fallen|fangen|fassen|finden|fischen|fliegen|fordern|forsten|frischen|führen|füllen|geben|gehen|geilen|gliedern|glühen|greifen|halten|hängen|häufen|heben|heitern|heizen|helfen|hellen|hetzen|heulen|holen|hören|kaufen|klären|klauben|kleben|knöpfen|knüpfen|kommen|kreuzen|kündigen|laden|lassen|lasten|laufen|leben|legen|lehnen|lesen|leuchten|listen|lockern|lösen|machen|mauern|muntern|nehmen|opfern|passen|pfen|pfropfen|picken|polieren|prägen|raffen|rauen|räumen|rechnen|regen|reiben|reißen|reizen|richten|rollen|rücken|rufen|rüsten|rütteln|sammeln|sammelnden|schauen|scheinen|schichten|schieben|schlagen|schließen|schlüsseln|schneiden|schnüren|schrecken|schreiben|schreien|schwingen|sehen|setzen|spalten|sparen|sperren|spielen|spießen|springen|spüren|stacheln|stauen|stecken|stehen|steigen|stellen|stöbern|stocken|stoßen|suchen|summieren|tauchen|teilen|tischen|tragen|treffen|treiben|trennen|treten|tun|wachen|wachsen|wärmen|warten|wecken|weichen|weisen|weiten|werfen|werten|wiegeln|wiegen|wühlen|zählen|zehren|zeichnen|zeigen|ziehen|zwingen</token>
@@ -3700,6 +3716,31 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect">LanguageTool gibt es <marker>für umsonst</marker>, aber nicht vergebens.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="UEBERHAUPT_GAR_NICHT" name="Umgangssprachliche Verdoppelung: 'überhaupt gar nicht/kein' etc.">
+      <rule>
+        <pattern>
+          <token>überhaupt</token>
+          <token>gar</token>
+          <token regexp="yes">nichts?|niemand(en)?|kein|keine[nmsr]?</token>
+        </pattern>
+        <message>Die Wendung '\1 \2 \3' ist umgangssprachlich. Ersetzen durch <suggestion>\1 \3</suggestion> oder <suggestion>\2 \3</suggestion>?</message>
+        <example type="incorrect" correction="überhaupt nichts|gar nichts">LanguageTool kostet <marker>überhaupt gar nichts</marker>.</example>
+        <example type="correct">LanguageTool kostet <marker>überhaupt nichts</marker>.</example>
+        <example type="correct">LanguageTool kostet <marker>gar nichts</marker>.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="ETC_PUNKTE" name="Verdoppelung: 'etc. …'">
+      <rule>
+        <pattern>
+          <token regexp="yes">etc|usw</token>
+          <token>.</token>
+          <token>…</token>
+        </pattern>
+        <message>&redundanz; Ersetzen durch <suggestion>\1.</suggestion> oder <suggestion>\3</suggestion>?</message>
+        <example type="incorrect">Da ist einiges zu tun <marker>etc. …</marker></example>
+        <example type="correct">Da ist einiges zu tun <marker>…</marker></example>
+      </rule>
+    </rulegroup>
     <rulegroup id="SCHEINT_ANSCHEINEND" name="Verdoppelung: 'scheint anscheinend'">
       <rule>
         <pattern mark_to="-2">
@@ -3713,7 +3754,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect">Das <marker>scheint anscheinend</marker> zu stimmen.</example>
       </rule>
     </rulegroup>
-    <rulegroup id="VERDOPPELUNG" name="Verdoppelung: 'meistens immer', 'schon bereits' ...">
+    <rulegroup id="VERDOPPELUNG" name="Verdoppelung: 'meistens immer', 'schon bereits' etc.">
       <rule>
         <pattern>
           <token>plötzlich</token>
@@ -9850,7 +9891,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <pattern case_sensitive="yes" mark_from="3">
           <token inflected="yes">tun</token>
           <token regexp="yes">mir|ihm|ihr|euch|[iI]hnen|uns</token>
-          <token regexp="yes">wirklich|sehr|ausgesprochen|echt|noch</token>
+          <token regexp="yes">wirklich|sehr|ausgesprochen|echt|voll|total|noch</token>
           <token>Leid</token>
         </pattern>
         <message>&inwend;'jemandem leid tun' wird <suggestion><match case_conversion="alllower" no="4"/></suggestion> kleingeschrieben.</message>
@@ -9861,7 +9902,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <rule>
         <pattern case_sensitive="yes" mark_from="2" mark_to="-1">
           <token regexp="yes">mir|ihm|ihr|euch|[iI]hnen|uns</token>
-          <token regexp="yes">wirklich|sehr|ausgesprochen|echt|noch</token>
+          <token regexp="yes">wirklich|sehr|ausgesprochen|echt|voll|total|noch</token>
           <token>Leid</token>
           <token inflected="yes">tun</token>
         </pattern>
@@ -11155,6 +11196,72 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct"><marker>Vom 9. bis 10.</marker> April.</example>
         <example type="incorrect"><marker>Vom 9. – 10.</marker> April.</example>
         <example type="incorrect">Und <marker>vom 9. – 10.</marker> April.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="ANFUEHRUNG_KOMPOSITA" name="Zeichensetzung: Komposita mit Anführungszeichen statt Bindestrichen, z.B. „Geht nicht“-Einstellung">
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token postag="SENT_START" skip="-1"/>
+          <token regexp="yes">&anfauf;</token>
+          <token/><token/>
+          <token regexp="yes">&anfzu;</token>
+          <token regexp="yes" skip="-1">(\-|–).+</token>
+          <token postag="SENT_END"/>
+        </pattern>
+        <message>Wollten Sie ein Kompositum bilden? Lassen Sie bitte die Anführungszeichen weg und verwenden Sie Bindestriche:
+          <suggestion>\3-\4\6</suggestion>
+        </message>
+        <short>Lassen Sie bitte die Anführungszeichen weg und verwenden Sie Bindestriche.</short>
+        <example type="correct"><marker>Geht-nicht-Einstellung</marker></example>
+        <example type="incorrect">Du mit deiner <marker>„Geht nicht“-Einstellung</marker>!</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token postag="SENT_START" skip="-1"/>
+          <token regexp="yes">&anfauf;</token>
+          <token/><token/><token/>
+          <token regexp="yes">&anfzu;</token>
+          <token regexp="yes" skip="-1">(\-|–).+</token>
+          <token postag="SENT_END"/>
+        </pattern>
+        <message>Wollten Sie ein Kompositum bilden? Lassen Sie bitte die Anführungszeichen weg und verwenden Sie Bindestriche:
+          <suggestion>\3-\4-\5\7</suggestion>
+        </message>
+        <short>Lassen Sie bitte die Anführungszeichen weg und verwenden Sie Bindestriche.</short>
+        <example type="correct"><marker>Geht-gar-nicht-Einstellung</marker></example>
+        <example type="incorrect">Du mit deiner <marker>„Geht gar nicht“-Einstellung</marker>!</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token postag="SENT_START" skip="-1"/>
+          <token regexp="yes">&anfauf;</token>
+          <token/><token/><token/><token/>
+          <token regexp="yes">&anfzu;</token>
+          <token regexp="yes" skip="-1">(\-|–).+</token>
+          <token postag="SENT_END"/>
+        </pattern>
+        <message>Wollten Sie ein Kompositum bilden? Lassen Sie bitte die Anführungszeichen weg und verwenden Sie Bindestriche:
+          <suggestion>\3-\4-\5-\6\8</suggestion>
+        </message>
+        <short>Lassen Sie bitte die Anführungszeichen weg und verwenden Sie Bindestriche.</short>
+        <example type="correct"><marker>Geht-ja-gar-nicht-Einstellung</marker></example>
+        <example type="incorrect">Du mit deiner <marker>„Geht ja gar nicht“-Einstellung</marker>!</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token postag="SENT_START" skip="-1"/>
+          <token regexp="yes">&anfauf;</token>
+          <token/><token/><token/><token/><token/>
+          <token regexp="yes">&anfzu;</token>
+          <token regexp="yes" skip="-1">(\-|–).+</token>
+          <token postag="SENT_END"/>
+        </pattern>
+        <message>Wollten Sie ein Kompositum bilden? Lassen Sie bitte die Anführungszeichen weg und verwenden Sie Bindestriche:
+          <suggestion>\3-\4-\5-\6-\7\9</suggestion>
+        </message>
+        <short>Lassen Sie bitte die Anführungszeichen weg und verwenden Sie Bindestriche.</short>
+        <example type="correct"><marker>Geht-ja-überhaupt-gar-nicht-Einstellung</marker></example>
+        <example type="incorrect">Du mit deiner <marker>„Geht ja überhaupt gar nicht“-Einstellung</marker>!</example>
       </rule>
     </rulegroup>
   </category>
