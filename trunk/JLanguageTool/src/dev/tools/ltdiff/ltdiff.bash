@@ -1,8 +1,8 @@
 #!/bin/bash
-if [ ! $# -eq 2 ]; then
-  echo Usage: ./ltdiff.bash old_branch new_branch
+if [ ! $# -eq 2 ] && [ ! $# -eq 3 ]; then
+  echo Usage: ./ltdiff.bash old_branch new_branch [lang]
   echo e.g. ./ltdiff.bash V_1_6 V_1_7
-  echo "     ./ltdiff.bash V_1_7 trunk"
+  echo "     ./ltdiff.bash V_1_7 trunk en"
   exit -1
 fi
 
@@ -38,8 +38,13 @@ rm -r $folder~
 mv $folder $folder~
 mkdir $folder
 
-for l in `ls -d ../../../rules/*/ -l | awk -F / '{print $(NF-1)}'`
-# for l in de en
+if [ $# -eq 2 ]; then
+  langs=`ls -d ../../../rules/*/ -l | awk -F / '{print $(NF-1)}'`
+else
+  langs=$3
+fi
+
+for l in $langs
 do
   echo $(tput setaf 2)------------------
   echo $l
