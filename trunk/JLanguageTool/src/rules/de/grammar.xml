@@ -4457,11 +4457,12 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">(.*Watt(-)?zahl(en)?)</token>
+          <token regexp="yes">(.*Watt|kw|PS)\-?zahl(en)?</token>
         </pattern>
-        <message>Meinten Sie <suggestion>Leistung</suggestion> oder <suggestion>Leistungsangabe</suggestion>? 'Watt-Zahl'&umgangsspr;</message>
+        <message>Meinten Sie <suggestion>Leistung</suggestion> oder <suggestion>Leistungsangabe</suggestion>? '<match no="1" regexp_match="\-?[Zz]ahl(en)?" regexp_replace=""/>-Zahl'&umgangsspr;</message>
         <example type="correct">Die <marker>Leistungsangaben</marker></example>
         <example type="incorrect">Die <marker>Kilowattzahlen</marker></example>
+        <example type="incorrect">Die <marker>PS-Zahl</marker> ist hoch.</example>
       </rule>
       <rule>
         <pattern>
