@@ -5,10 +5,11 @@ title="Pretty print" ?>
 title="Easy editing stylesheet" ?>
 
 <!--
-German grammar and typo rules for LanguageTool
-See resource/de/tagset.txt for the meaning of the POS tags
-Copyright (C) 2001-2012 Markus Brenneis, Daniel Naber, Jan Schreiber
-(http://www.languagetool.org)
+German grammar and typo rules for LanguageTool.
+See resource/de/tagset.txt for the meaning of the POS tags.
+
+Copyright © 2001–2012 Markus Brenneis, Daniel Naber, Jan Schreiber
+http://www.languagetool.org
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -22,8 +23,7 @@ Lesser General Public License for more details.
 
 You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
-Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
-USA
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
 $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
 -->
@@ -61,12 +61,12 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
 <!ENTITY sprachadj1 "afrikanisch|altarabisch|altchinesisch|altgriechisch|altpersisch|amerikanisch|arabisch|chinesisch|dänisch|deutsch|englisch|finnisch|französisch|frühneuhochdeutsch|germanisch|griechisch|hocharabisch|hochchinesisch|hochdeutsch|holländisch|italienisch|japanisch|jiddisch|jugoslawisch|koreanisch|kroatisch|lateinisch|luxemburgisch|mittelhochdeutsch|neuhochdeutsch|niederländisch|norwegisch|persisch|polnisch|portugiesisch|russisch|schwedisch|schweizerisch|semitisch|serbisch|serbokroatisch|slawisch|spanisch|tschechisch|türkisch|ukrainisch|ungarisch|weißrussisch">
 <!ENTITY sprachadj2 "agglutinierend|algorithmisch|asiatisch|ausgestorben|bilderreich|bildlich|deutlich|dichterisch|europäisch|extensional|flektierend|formal|gesprochen|indogermanisch|intensional|klangvoll|konsonantenreich|maschinenorientiert|metaphorisch|poetisch|prosaisch|romanisch|schön|selten|vokalreich|wunderschön">
 <!ENTITY bundesstaaten "Alabama|Alaska|Arizona|Arkansas|Colorado|Connecticut|Delaware|Florida|Georgia|Hawaii|Idaho|Illinois|Indiana|Iowa|Kalifornien|Kansas|Kentucky|Louisiana|Maine|Maryland|Massachusetts|Michigan|Minnesota|Mississippi|Missouri|Montana|Nebraska|Nevada|New|North|Ohio|Oklahoma|Oregon|Pennsylvania|Rhode|South|Tennessee|Texas|Utah|Vermont|Virginia|Washington|West|Wisconsin|Wyoming">
-<!ENTITY mahlennomen "Zahn|Mühle|Korn|Weizen|Getreide|.*Mehl|Müller">
-<!ENTITY malennomen ".*Farbe|.*Bild|.*Porträt|Kunst.*|Maler">
+<!ENTITY mahlennomen "Zahn|Mühle|Korn|Weizen|Roggen|Hafer|Dinkel|Getreide|.*Mehl|Müller">
+<!ENTITY malennomen ".*Farbe|.*Bild|.*Porträt|Kunst.*|Malern?">
 <!ENTITY seitewoerter ".*Buch|.*Lektüre">
-<!ENTITY saitewoerter "aufziehen|.*Bass(es)?|.*Bratsche|.*Cellos?|.*Harfen?|.*Geigen?|.*Gitarren?|.*Violas?|.*Violinen?">
-<!ENTITY lidwoerter "Auge.*|entzünde.*|.*röte.*|.*zuck.*">
-<!ENTITY liedwoerter "Melodie.*|Note.*|sing.*|sang.*|gesungen.*">
+<!ENTITY saitewoerter "aufziehen|.*Bass(es)?|.*Bratsche|.*Cellos?|.*Harfen?|.*Geigen?|.*Gitarren?|.*Violas?|.*Violinen?|Klavier">
+<!ENTITY lidwoerter "Auge.*|entzünde.*|.*röt(e|lich).*|.*zuck.*|.*geschlossen.*|gesenkt.*|zusammengekniffen.*|zusammenkneif.+">
+<!ENTITY liedwoerter "Melodie.*|Note.*|sing.*|sang.*|gesungen.*|komponi.+|Musik|Strophen?|Balladen?|Gesang.*|Gesängen?|Arien?|Opern?">
 <!ENTITY anfauf "„|&quot;|»|›|‚|'">
 <!ENTITY anfzu "‘|“|‹|«|&quot;|'">
 <!ENTITY anf "&anfauf;|‘|“|‹|«">
@@ -75,12 +75,11 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
 <!ENTITY klam "&klamauf;|&klamzu;">
 <!ENTITY alnum "&lsqb;0-9a-zäöüßáàâêéèëòóôûíìçñ&rsqb;">
 <!ENTITY meindein "&lsqb;mds&rsqb;ein|unser|euer|ihr">
-<!ENTITY tippformel "Tipp: Verwenden Sie für komplexe Formeln den Formeleditor &lsqb;Einfügen &gt; Objekt &gt; Formel&rsqb;">
+<!ENTITY tippformel "Tipp: Verwenden Sie in OpenOffice.org/LibreOffice für komplexe Formeln den Formeleditor &lsqb;Einfügen &gt; Objekt &gt; Formel&rsqb;">
 <!ENTITY odkomma "oder fehlt vielleicht ein Komma">
 ]>
 
-<rules lang="de" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="../rules.xsd">
+<rules lang="de" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../rules.xsd">
 
   <category name="Mögliche Tippfehler">
     <rulegroup id="ETWAS_ETWA" name="Möglicher Tippfehler: 'vor etwas (etwa) einem Jahr' etc.">
@@ -1376,8 +1375,8 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">genügen|ausreichen</token>
         </pattern>
         <message>Meinten Sie ein Partizip, z.B. 'genügend' statt 'genügen'?</message>
-        <example type="correct">Gibt es nicht <marker>genügend</marker> davon.</example>
-        <example type="incorrect">Gibt es nicht <marker>genügen</marker> davon.</example>
+        <example type="correct">Gibt es nicht <marker>genügend</marker> davon?</example>
+        <example type="incorrect">Gibt es nicht <marker>genügen</marker> davon?</example>
       </rule>
     </rulegroup>
     <rulegroup id="MIR_ZIEMLICH_SICH" name="Möglicher Tippfehler: 'mir ziemlich sich (sicher)'">
@@ -1591,7 +1590,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       </rule>
     </rulegroup>
     <rulegroup id="DU_WUENSCHT" name="Möglicher Tippfehler: 'du wünscht (wünschst)'">
-      <!--TODO is this covered by ICH_BIST? -->
+      <!-- TODO is this covered by ICH_BIST? -->
       <rule>
         <pattern mark_from="1">
           <token>du</token>
@@ -2569,7 +2568,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token inflected="yes" skip="-1">Saite<exception scope="next" regexp="yes" inflected="yes">&saitewoerter;</exception></token>
           <token postag="SENT_END"/>
         </pattern>
-        <message>Meinten Sie <suggestion><match no="3" regexp_match="ai" regexp_replace="ei"/></suggestion>? (Saite = Saiteninstrument)</message>
+        <message>Meinten Sie <suggestion><match no="3" regexp_match="ai" regexp_replace="ei"/></suggestion>? (Saite = Saite eines Musikinstruments)</message>
         <example type="incorrect" correction="Seiten">Dieses Buch hat sechs <marker>Saiten</marker>.</example>
         <example type="correct">Dieses Buch über die Gitarre hat nur sechs <marker>Seiten</marker>.</example>
       </rule>
@@ -2580,7 +2579,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes" inflected="yes" skip="-1">&seitewoerter;<exception scope="next" regexp="yes" inflected="yes">&saitewoerter;</exception></token>
           <token postag="SENT_END"/>
         </pattern>
-        <message>Meinten Sie <suggestion><match no="2" regexp_match="ai" regexp_replace="ei"/></suggestion>? (Saite = Saiteninstrument)</message>
+        <message>Meinten Sie <suggestion><match no="2" regexp_match="ai" regexp_replace="ei"/></suggestion>? (Saite = Saite eines Musikinstruments)</message>
         <example type="incorrect" correction="Seiten">Die <marker>Saiten</marker> des Buches sind beschrieben.</example>
         <example type="correct">Die <marker>Seiten</marker> des Buches sind beschrieben.</example>
       </rule>
@@ -2629,6 +2628,17 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <message>Meinten Sie <suggestion><match no="2" regexp_match="id" regexp_replace="ied"/></suggestion>? (Lid = Augenlid)</message>
         <example type="incorrect" correction="Lieder"><marker>Lider</marker> singen wir.</example>
         <example type="correct"><marker>Lieder</marker> singen wir.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2" case_sensitive="yes">
+          <token>Ende</token>
+          <token>vom</token>
+          <token>Lid</token>
+        </pattern>
+        <message>&verw; Meinten Sie <suggestion>Lied</suggestion>? (Lid = Augenlid)</message>
+        <short>&verw;</short>
+        <example type="incorrect">Das war das Ende vom <marker>Lid</marker>.</example>
+        <example type="correct">Das war das Ende vom <marker>Lied</marker>.</example>
       </rule>
     </rulegroup>
     <rule id="ETHISCH_ETHNISCH" name="Mögliche Wortverwechslung: ethisch/ethnisch">
@@ -4053,7 +4063,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">rechtlich|juristisch</token>
           <token inflected="yes">legal</token>
         </pattern>
-        <message>Diese Formulierung ist möglicherweise redundant. Vorschlag: <suggestion>\2</suggestion>.</message>
+        <message>&redundanz;Vorschlag: <suggestion>\2</suggestion>.</message>
         <example type="incorrect">Dieses Vorgehen ist <marker>rechtlich legal</marker>.</example>
         <example type="correct">Dieses Vorgehen ist völlig <marker>legal</marker>.</example>
       </rule>
@@ -4063,7 +4073,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">gesehen|betrachtet</token>
           <token inflected="yes">legal</token>
         </pattern>
-        <message>Diese Formulierung ist möglicherweise redundant. Vorschlag: <suggestion>\3</suggestion>.</message>
+        <message>&redundanz;Vorschlag: <suggestion>\3</suggestion>.</message>
         <example type="incorrect">Dieses Vorgehen ist <marker>juristisch betrachtet legal</marker>.</example>
         <example type="correct">Dieses Vorgehen ist völlig <marker>legal</marker>.</example>
       </rule>
@@ -4072,7 +4082,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">rechtlich|juristisch</token>
           <token inflected="yes">illegal</token>
         </pattern>
-        <message>Diese Formulierung ist möglicherweise redundant. Vorschlag: <suggestion>\2</suggestion>.</message>
+        <message>&redundanz;Vorschlag: <suggestion>\2</suggestion>.</message>
         <example type="incorrect">Dieses Vorgehen ist <marker>rechtlich illegal</marker>.</example>
         <example type="correct">Dieses Vorgehen ist völlig <marker>illegal</marker>.</example>
       </rule>
@@ -4082,7 +4092,8 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">gesehen|betrachtet</token>
           <token inflected="yes">illegal</token>
         </pattern>
-        <message>Diese Formulierung ist möglicherweise redundant. Vorschlag: <suggestion>\3</suggestion>.</message>
+        <message>&redundanz;Vorschlag: <suggestion>\3</suggestion>.</message>
+        <short>&redundanz;</short>
         <example type="incorrect">Dieses Vorgehen ist <marker>juristisch betrachtet illegal</marker>.</example>
         <example type="correct">Dieses Vorgehen ist völlig <marker>illegal</marker>.</example>
       </rule>
@@ -4093,7 +4104,8 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token>dermaßen</token>
       </pattern>
       <message>'So dermaßen' ist eine Doppelung – verwenden Sie <suggestion>so</suggestion> oder <suggestion>dermaßen</suggestion>.</message>
-      <example type="incorrect">Das Stück war <marker>so dermaßen</marker> langweilig.</example>
+      <short>&redundanz;</short>
+      <example type="incorrect" correction="so|dermaßen">Das Stück war <marker>so dermaßen</marker> langweilig.</example>
       <example type="correct">Das Stück war <marker>dermaßen</marker> langweilig.</example>
       <example type="correct">Das Stück war <marker>so</marker> langweilig.</example>
     </rule>
@@ -4290,9 +4302,10 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">Fernseh(e?n)?</token>
         </pattern>
         <message>'Fernsehen gucken' ist umgangssprachlich. Vorschlag: <suggestion>\1 <match include_skipped="following" no="1"/> fern</suggestion>.</message>
-        <example type="incorrect" correction="gucken sehr selten fern">Wir <marker>gucken sehr selten Fernsehen</marker>.</example>
-        <example type="incorrect" correction="gucke sehr oft fern">Ich <marker>gucke sehr oft Fernsehen</marker>.</example>
+        <example type="incorrect">Wir <marker>gucken sehr selten Fernsehen</marker>.</example>
+        <example type="incorrect">Ich <marker>gucke sehr oft Fernsehen</marker>.</example>
         <example type="correct">Wir <marker>gucken sehr selten fern</marker>.</example>
+        <example type="correct">Wir <marker>sehen sehr selten fern</marker>.</example>
       </rule>
     </rulegroup>
     <rule id="ALS_WIE" name="Umgangssprache: 'als wie (wie)'">
@@ -4351,10 +4364,11 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>Sinn</token>
         </pattern>
         <message>'Sinn machen' ist umgangssprachlich. Verwenden Sie stattdessen 'Sinn ergeben', 'Sinn stiften', 'Sinn haben' oder 'sinnvoll (bzw. sinnlos) sein'.</message>
+        <short>'Sinn machen' ist umgangssprachlich.</short>
         <example type="incorrect">Das <marker>macht Sinn</marker>.</example>
         <example type="incorrect">Das <marker>macht nur Sinn</marker>, wenn man es richtig macht.</example>
         <example type="correct">Das <marker>ist sinnvoll</marker>.</example>
-        <example type="incorrect">Das <marker>macht keinen Sinn</marker> Sinn.</example>
+        <example type="incorrect">Das <marker>macht keinen Sinn</marker>.</example>
         <example type="correct">Das <marker>ergibt keinen Sinn</marker>.</example>
         <example type="correct">Das, was er macht, hat einen Sinn.</example>
         <example type="incorrect">Das <marker>macht nie und nimmer einen Sinn</marker>.</example>
@@ -4365,6 +4379,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token inflected="yes">machen</token>
         </pattern>
         <message>'Sinn machen' ist umgangssprachlich. Verwenden Sie stattdessen 'Sinn ergeben', 'Sinn stiften', 'Sinn haben' oder 'sinnvoll (bzw. sinnlos) sein'.</message>
+        <short>'Sinn machen' ist umgangssprachlich.</short>
         <example type="incorrect">Er sagt, dass es keinen <marker>Sinn macht</marker>.</example>
         <example type="incorrect">Es braucht keinen <marker>Sinn zu machen</marker>.</example>
         <example type="correct">Er sagt, dass es keinen <marker>Sinn ergibt</marker>.</example>
@@ -4788,7 +4803,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect"><marker>Seit März bis Juli</marker>.</example>
       </rule>
     </rulegroup>
-    <!--TODO find a better group?-->
+    <!-- TODO find a better group?-->
     <rulegroup id="ZITAT_VGL" name="Stil: 'vgl.' bei direkten Zitaten">
       <!--
       <rule>
@@ -10542,7 +10557,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">(Wegen|Abzüglich)</token><!-- TODO Abseits das …-->
           <token regexp="yes">(das|dem|den|die)(selben?)?|ein|(D|d|s|m)?eine(m|n)?|(eu|ih|Ih|unse)re(m|n)?|(jene|deine|diese)(m|n)?</token>
         </pattern>
-        <message>Die Präposition '<match no="2" case_conversion ="startlower"/>' erfordert i.d.R. den Genitiv.</message><!--TODO \2 should be lower case-->
+        <message>Die Präposition '<match no="2" case_conversion ="startlower"/>' erfordert i.d.R. den Genitiv.</message><!--TODO \2 should be lowercase-->
         <example type="incorrect"><marker>Wegen dem</marker> Unfall</example>
         <example type="incorrect"><marker>Wegen Ihrem</marker> Unfall</example>
         <example type="correct"><marker>Wegen des</marker> Unfalls</example>
@@ -11308,10 +11323,11 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token regexp="yes">\!|\?</token>
         <token regexp="yes">\!|\?</token>
       </pattern>
-      <message>Die Verwendung von mehreren Frage- oder Ausrufezeichen wirkt oft übertrieben emphatisch. Vorschlag: <suggestion>\1</suggestion>.</message>
+      <message>Die Verwendung von mehreren Frage- oder Ausrufezeichen wirkt oft übertrieben emphatisch. Vorschlag: <suggestion>\1</suggestion></message>
       <example type="correct">Das ist kein Problem<marker>!</marker></example>
-      <example type="incorrect">Das ist kein Problem<marker>!!</marker></example>
-      <example type="incorrect">Ist das ein Problem<marker>?!</marker></example>
+      <example type="correct">Das ist doch kein Problem<marker>?</marker></example>
+      <example type="incorrect" correction="!">Das ist kein Problem<marker>!!</marker></example>
+      <example type="incorrect" correction="?">Ist das ein Problem für dich<marker>?!</marker></example>
     </rule>
     <rule id="APOSTROPH_S" name="Zeichensetzung: Apostroph vor Genitiv-s">
       <pattern>
@@ -11337,6 +11353,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect"><marker>3.)</marker> Element der Aufzählung.</example>
     </rule>
     <rule id="PUNKT_NACH_ORDINALZAHL" name="Zeichensetzung: Punkt nach Ordinalzahlen">
+    <!-- TODO: allgemeiner -->
       <pattern>
         <token regexp="yes">[0-9]{1,2}</token>
         <token regexp="yes">Jahrhundert(s)?</token>
@@ -11344,7 +11361,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <message>Meinten Sie <suggestion>\1. \2</suggestion>? (Vergessener Punkt)</message>
       <example type="correct">In den vergangenen <marker>20 Jahrhunderten</marker> gab es zwei Weltkriege.</example>
       <example type="correct">Im <marker>20. Jahrhundert</marker> gab es zwei Weltkriege.</example>
-      <example type="incorrect">Im <marker>20 Jahrhundert</marker> gab es zwei Weltkriege.</example>
+      <example type="incorrect" correction="20. Jahrhundert">Im <marker>20 Jahrhundert</marker> gab es zwei Weltkriege.</example>
     </rule>
     <rulegroup id="PFEILE" name="Zeichensetzung: -> (→)">
       <rule>
@@ -11390,7 +11407,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">1 = 1</example>
         <example type="incorrect">1 <marker>>=</marker> 0</example>
       </rule>
-      <!--TODO tests fail (because of &lt;?)
+      <!-- TODO tests fail (because of &lt;?)
       <rule>
         <pattern mark_to="-1">
           <token>&lt;</token>
@@ -11533,8 +11550,8 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect">a = 5x <marker>*</marker> 5 + 7</example>
       <example type="incorrect">a <marker>*</marker> b</example>
     </rule>
-    <!-- Zwischen Zahlen werden Rechenzeichen durch kleine, feste Zwischenräume (Duden) oder ganze Leerschritte (DIN 5008) von den Zahlen abgetrennt -->
     <rule id="LEERZEICHEN_RECHENZEICHEN" name="Zeichensetzung: Leerzeichen vor Rechenzeichen">
+      <!-- Zwischen Zahlen werden Rechenzeichen durch kleine, feste Zwischenräume (Duden) oder ganze Leerschritte (DIN 5008) von den Zahlen abgetrennt -->
       <pattern>
         <token regexp="yes">([0-9]+[a-z]*)((\*|×|∗|·|\+|÷|:|=)([0-9]+[a-z]*))+</token>
       </pattern>
@@ -11545,7 +11562,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect" correction="5 * 5 = 25"><marker>5*5=25</marker></example>
     </rule>
     <rulegroup id="KOMMA_KONJ_ADV" name="Zeichensetzung: Fehlendes Komma vor bestimmten Adverbien und Konjunktionen">
-      <!--TODO zum einen/anderen; nicht nur/sondern auch; suggestion-->
+      <!-- TODO zum einen/anderen; nicht nur/sondern auch; suggestion -->
       <rule>
         <pattern mark_from="2">
           <token postag="SENT_START"/>
@@ -11567,8 +11584,8 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Je mehr ich schreibe<marker>, desto</marker> mehr Fehler mache ich.</example>
       </rule>
     </rulegroup>
-    <!-- "vor die Konjunktion sondern [ist] immer ein Komma zu setzen" (cf. url) -->
     <rulegroup id="SONDERN_KOMMA" name="Zeichensetzung: Fehlendes Komma vor 'sondern'">
+      <!-- "vor die Konjunktion 'sondern' [ist] immer ein Komma zu setzen" (cf. url) -->
       <rule>
         <pattern case_sensitive="yes" mark_from="3">
           <token postag="SENT_START" skip="-1"/>
@@ -11703,7 +11720,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         </message>
         <short>Lassen Sie bitte die Anführungszeichen weg und verwenden Sie Bindestriche.</short>
         <example type="correct"><marker>Geht-nicht-Einstellung</marker></example>
-        <example type="incorrect">Du mit deiner <marker>„Geht nicht“-Einstellung</marker>!</example>
+        <example type="incorrect" correction="Geht-nicht-Einstellung">Du mit deiner <marker>„Geht nicht“-Einstellung</marker>!</example>
       </rule>
       <rule>
         <pattern mark_from="1" mark_to="-1">
@@ -11766,7 +11783,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       </pattern>
       <message>Meinten Sie <suggestion><match no="2" regexp_match="\-" regexp_replace="–"/></suggestion>? Als Bis-Strich wird i.A. der Gedankenstrich verwendet.</message>
       <example type="correct">Der Täter ist etwa <marker>40–50</marker> Jahre alt.</example>
-      <example type="incorrect">Der Täter ist etwa <marker>40-50</marker> Jahre alt.</example>
+      <example type="incorrect" correction="40–50">Der Täter ist etwa <marker>40-50</marker> Jahre alt.</example>
     </rule>
     <rulegroup id="AUSLASSUNGSPUNKTE" name="Typographie: Auslassungspunkte">
       <rule>
