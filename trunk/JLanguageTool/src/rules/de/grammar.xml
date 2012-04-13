@@ -5023,6 +5023,40 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
 
   <!-- Rules about upper/lowercase: -->
   <category name="Groß-/Kleinschreibung">
+    <rulegroup id="ABSAGE_SUBST" name="Groß-/Kleinschreibung: 'eine absage (Absage) erteilen'">
+      <rule>
+        <pattern case_sensitive="yes" mark_to="-1">
+          <token>absage</token>
+          <token inflected="yes">erteilen</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Absage</suggestion>&subende;</message>
+        <short>&prgk;.</short>
+        <example type="correct">Ihm wurde eine klare <marker>Absage</marker> erteilt.</example>
+        <example type="incorrect" correction="Absage">Ihm wurde eine klare <marker>absage</marker> erteilt.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_to="-2">
+          <token>absage</token>
+          <token>zu</token>
+          <token inflected="yes">erteilen</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Absage</suggestion>&subende;</message>
+        <short>&prgk;.</short>
+        <example type="correct">Es gilt ihm eine klare <marker>Absage</marker> zu erteilen.</example>
+        <example type="incorrect" correction="Absage">Es gilt ihm eine klare <marker>absage</marker> zu erteilen.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="2">
+          <token inflected="yes" skip="2">erteilen</token>
+          <token skip="1">eine</token>
+          <token>absage</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Absage</suggestion>&subende;</message>
+        <short>&prgk;.</short>
+        <example type="correct">Wir erteilten ihm eine klare <marker>Absage</marker>.</example>
+        <example type="incorrect" correction="Absage">Wir erteilten ihm eine klare <marker>absage</marker>.</example>
+      </rule>
+    </rulegroup>
     <rule id="AUSSAGE_SUBST" name="Groß-/Kleinschreibung: 'laut aussage (Aussage)'">
       <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
         <token regexp="yes">[lL]aut|[gG]emäß</token>
