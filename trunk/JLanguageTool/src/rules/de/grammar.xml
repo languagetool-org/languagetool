@@ -260,7 +260,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     </rulegroup>
     <rulegroup id="ZU_KOENNE" name="Möglicher Tippfehler: 'um das zu könne (können)'">
       <rule>
-        <pattern mark_to="-1" mark_from="1">
+        <pattern case_sensitive="yes" mark_to="-1" mark_from="1">
           <token>zu</token>
           <token postag="(VER:IMP:SIN.*)|(VER:MOD:1:SIN.*)" postag_regexp="yes" regexp="yes">[a-zäöü].*<exception postag="VER.*" postag_regexp="yes" negate_pos="yes"/><exception scope="current" postag="VER:.*INF.*" postag_regexp="yes"/></token>
           <token>,</token>
@@ -270,7 +270,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Um die Frage beantworten zu <marker>können</marker>, muss man schlau sein.</example>
       </rule>
       <rule>
-        <pattern mark_to="-1" mark_from="1">
+        <pattern case_sensitive="yes" mark_to="-1" mark_from="1">
           <token>zu</token>
           <token postag="(VER:IMP:SIN.*)|(VER:MOD:1:SIN.*)" postag_regexp="yes" regexp="yes">[a-zäöü].*<exception postag="VER.*" postag_regexp="yes" negate_pos="yes"/><exception scope="current" postag="VER:.*INF.*" postag_regexp="yes"/></token>
           <token postag="SENT_END"/>
@@ -278,6 +278,27 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <message>Meinten Sie <suggestion>\2n</suggestion>?</message>
         <example type="incorrect" correction="können">Man muss schlau sein, um die Frage beantworten zu <marker>könne</marker>.</example>
         <example type="correct">Man muss schlau sein, um die Frage beantworten zu <marker>können</marker>.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="ANSTRENGEN_PHASE" name="Möglicher Tippfehler: 'die anstrengen (anstrengende) Phase'" default="off">
+      <!-- TODO many adjectives tagged as verb -->
+      <rule>
+        <pattern case_sensitive="yes" mark_to="-1" mark_from="1">
+          <token postag="ART:DEF.*" postag_regexp="yes"/>
+          <and>
+            <token postag="VER:INF.*" postag_regexp="yes">
+              <exception negate_pos="yes" postag="VER:(INF|[13]:PLU:KJ1|[13]:PLU:PRÄ|).*" postag_regexp="yes"/>
+            </token>
+            <token postag="VER:1:PLU:KJ1.*" postag_regexp="yes"/>
+            <token postag="VER:3:PLU:PRÄ.*" postag_regexp="yes"/>
+          </and>
+          <token postag="SUB:.*" postag_regexp="yes"/>
+        </pattern>
+        <message>Möglicher Tippfehler</message>
+        <example type="incorrect">In der <marker>anstrengen</marker> Fragephase ist Geduld erforderlich.</example>
+        <example type="correct">In der <marker>anstrengenden</marker> Fragephase ist Geduld erforderlich.</example>
+        <example type="correct">Der Haushalt umfasste 2010 Ausgaben von 100 Mrd. Euro, dem <marker>standen</marker> Einnahmen von 110 Mrd. Euro gegenüber.</example>
+<!--         <example type="correct">Die <marker>ortstreuen</marker> Weibchen verpaaren sich</example> TODO -->
       </rule>
     </rulegroup>
     <rulegroup id="VERMEIDEN_VERMIEDEN" name="Möglicher Tippfehler: 'vermeiden (vermieden)'">
@@ -2505,16 +2526,17 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Er sagt, <marker>das</marker> sei richtig, aber er irrt.</example>
       </rule>
       <rule>
-        <pattern mark_from="1" mark_to="-2" case_sensitive="no">
+        <pattern mark_from="1" mark_to="-3" case_sensitive="no">
           <token postag="SENT_START"/>
           <token>Dass</token>
           <token postag="SUB:NOM:SIN:NEU"/>
           <token postag="VER:(AUX:)?3:SIN:PRÄ:.*" postag_regexp="yes"/>
+          <token negate="yes">,</token>
         </pattern>
         <message>Meinten Sie den Artikel <suggestion>Das</suggestion>?</message>
         <example type="correct"><marker>Das</marker> Kind spielt.</example>
         <example type="incorrect"><marker>Dass</marker> Kind spielt.</example>
-        <!-- FIXME "Dass Auto fährt, wer es nicht kann, das ärgert den Herrn Saubermann." -->
+        <example type="correct"><marker>Dass</marker> Auto fährt, wer es nicht kann, das ärgert den Herrn Saubermann.</example>
       </rule>
     </rulegroup>
     <rulegroup id="SODASS" name="Mögliche Wortverwechslung: 'so das (so dass)'">
@@ -3634,15 +3656,16 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect">Am <marker>Dienstag Abend</marker> geht es rund!</example>
     </rule>
     <rulegroup id="DESWEGEN" name="Zusammen-/Getrenntschreibung: 'des wegen (deswegen)'">
-    <!-- FIXME "des wegen Mordes vorbestraften Verbrechers" -->
       <rule>
-        <pattern>
+        <pattern mark_to="-1">
           <token>des</token>
           <token>wegen</token>
+          <token negate_pos="yes" postag_regexp="yes" postag=".*:GEN:.*"/>
         </pattern>
         <message>&getrennt;: Meinten Sie <suggestion>deswegen</suggestion>?</message>
         <example type="correct"><marker>Deswegen</marker> fuhren sie nach Hause.</example>
         <example type="incorrect"><marker>Des wegen</marker> fuhren sie nach Hause.</example>
+        <example type="correct">Die Strafe <marker>des wegen</marker> Mordes vorbestraften Verbrechers wird hoch ausfallen.</example>
       </rule>
     </rulegroup>
     <rulegroup id="CONTRA_PRODUKTIV" name="Zusammen-/Getrenntschreibung: 'contra produktiv (kontraproduktiv)'">
