@@ -9891,6 +9891,75 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect">Das funktioniert doch nie im <marker>leben</marker>!</example>
       <example type="incorrect">Als die Retter eintrafen, war sie schon nicht mehr am <marker>leben</marker>.</example>
     </rule>
+    <rulegroup id="SCHWAECHE_SUBST" name="Groß-/Kleinschreibung: 'eine schwäche (Schwäche) haben' etc.">
+      <!-- TODO: Dasselbe für 'Stärke' -->
+      <rule>
+        <pattern mark_from="1" case_sensitive="yes">
+          <token regexp="yes" skip="1">[tT]rotz</token>
+          <token>schwächen</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Schwächen</suggestion>&subende;</message>
+        <short>&prgk;.</short>
+        <example type="correct">Trotz gewisser <marker>Schwächen</marker> funktioniert das System.</example>
+        <example type="incorrect" correction="Schwächen">Trotz gewisser <marker>schwächen</marker> funktioniert das System.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" case_sensitive="yes">
+          <token inflected="yes" skip="1">haben</token>
+          <token>schwächen</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Schwächen</suggestion>&subende;</message>
+        <short>&prgk;.</short>
+        <example type="correct">Es hat gewisse <marker>Schwächen</marker>.</example>
+        <example type="incorrect" correction="Schwächen">Es hat gewisse <marker>schwächen</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2" case_sensitive="yes">
+          <token inflected="yes">haben</token>
+          <token skip="1">eine</token>
+          <token>schwäche</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Schwäche</suggestion>&subende;</message>
+        <short>&prgk;.</short>
+        <example type="correct">Es hat eine große <marker>Schwäche</marker>.</example>
+        <example type="incorrect" correction="Schwäche">Es hat eine große <marker>schwäche</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-1" case_sensitive="yes">
+          <token regexp="yes" skip="1">[eE]ine</token>
+          <token>schwäche</token>
+          <token inflected="yes">haben</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Schwäche</suggestion>&subende;</message>
+        <short>&prgk;.</short>
+        <example type="correct">Eine <marker>Schwäche</marker> hat das System freilich: Es funktioniert nicht.</example>
+        <example type="incorrect" correction="Schwäche">Eine kleine <marker>schwäche</marker> hat das System freilich: Es funktioniert nicht.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-2" case_sensitive="yes">
+          <token regexp="yes" skip="1">[eE]ine</token>
+          <token>schwäche</token>
+          <token>zu</token>
+          <token>haben</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Schwäche</suggestion>&subende;</message>
+        <short>&prgk;.</short>
+        <example type="correct">Es scheint eine <marker>Schwäche</marker> zu haben: Es funktioniert nicht.</example>
+        <example type="incorrect" correction="Schwäche">Es scheint eine kleine <marker>schwäche</marker> zu haben: Es funktioniert nicht.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-2" case_sensitive="yes">
+          <token regexp="yes" skip="1">[eE]ine</token>
+          <token>schwäche</token>
+          <token skip="3">für</token>
+          <token inflected="yes">haben</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Schwäche</suggestion>&subende;</message>
+        <short>&prgk;.</short>
+        <example type="correct">Er scheint eine <marker>Schwäche</marker> für das Glücksspiel zu haben.</example>
+        <example type="incorrect" correction="Schwäche">Er scheint eine <marker>schwäche</marker> für das Glücksspiel zu haben.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="BITTE_SUBST" name="Groß-/Kleinschreibung: 'eine bitte (Bitte) haben' etc.">
       <rule>
         <pattern mark_from="1" mark_to="-1" case_sensitive="yes">
