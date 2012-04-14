@@ -2602,7 +2602,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect">Der <marker>Absatzförderungsfond</marker>.</example>
       <example type="correct">Der <marker>Absatzförderungsfonds</marker>.</example>
     </rule>
-    <rulegroup id="VATER_MORGANA" name="Mögliche Wortverwechslung: Vater (Fata) Morgana'">
+    <rulegroup id="VATER_MORGANA" name="Mögliche Wortverwechslung: 'Vater (Fata) Morgana'">
       <rule>
         <pattern>
           <token>Vater</token>
@@ -6325,6 +6325,47 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <short>&prgk;.</short>
         <example type="incorrect" correction="Macht">Mit aller <marker>macht</marker> schlug sie gegen die Tür.</example>
         <example type="correct">Mit aller <marker>Macht</marker> schlug sie gegen die Tür.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="MORGEN_SUBST" name="Groß-/Kleinschreibung: 'am nächsten/frühen morgen (Morgen)' etc.">
+      <rule>
+        <pattern case_sensitive="yes" mark_from="2">
+          <token regexp="yes">[aA]m</token>
+          <token regexp="yes">nächsten|frühen|anderen</token>
+          <token>morgen</token>
+        </pattern>
+        <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>&subende;</message>
+        <short>&prgk;.</short>
+        <example type="incorrect" correction="Morgen">Am nächsten <marker>morgen</marker> reiste er ab.</example>
+        <example type="correct">Am nächsten <marker>Morgen</marker> reiste er ab.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="FADEN_SUBST" name="Groß-/Kleinschreibung: 'am seidenen faden (Faden)' etc.">
+      <rule>
+        <pattern case_sensitive="yes" mark_from="2">
+          <token regexp="yes">[aA]m</token>
+          <token regexp="yes">seidenen|langen|brüchigen</token>
+          <token>faden</token>
+        </pattern>
+        <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>&subende;</message>
+        <short>&prgk;.</short>
+        <example type="incorrect" correction="Faden">Die Sache hängt am seidenen <marker>faden</marker>.</example>
+        <example type="correct">Die Sache hängt am seidenen <marker>Faden</marker>.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="ANGELN_SUBST" name="Groß-/Kleinschreibung: 'aus den angeln (Angeln) heben' etc.">
+      <rule>
+        <pattern case_sensitive="yes" mark_from="2">
+          <token regexp="yes">[aA]us</token>
+          <token>den</token>
+          <token regexp="yes">angeln|federn|fugen</token>
+        </pattern>
+        <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>&subende;</message>
+        <short>&prgk;.</short>
+        <example type="incorrect" correction="Federn">Wir kamen nicht rechtzeitig aus den <marker>federn</marker>.</example>
+        <example type="incorrect" correction="Angeln">Gebt mir einen festen Punkt, und ich werde die Erde aus den <marker>angeln</marker> heben.</example>
+        <example type="correct">Die Welt ist aus den <marker>Fugen</marker>.</example>
+        <example type="correct">Ich gehe morgen <marker>angeln</marker>.</example>
       </rule>
     </rulegroup>
     <rulegroup id="RASEN_SUBST" name="Groß-/Kleinschreibung: 'auf dem rasen (Rasen)' etc.">
