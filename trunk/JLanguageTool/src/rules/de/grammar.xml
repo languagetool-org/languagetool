@@ -11866,15 +11866,34 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect" correction="!">Das ist kein Problem<marker>!!</marker></example>
       <example type="incorrect" correction="?">Ist das ein Problem für dich<marker>?!</marker></example>
     </rule>
-    <rule id="APOSTROPH_S" name="Zeichensetzung: Apostroph vor Genitiv-s">
+    <rule id="ANS_OHNE_APOSTROPH" name="Zeichensetzung: Kein Apostroph bei 'ans' und 'ins'">
       <pattern>
-        <token postag="EIG:.*" postag_regexp="yes"/>
-        <token>'</token>
+        <token regexp="yes">an|in</token>
+        <token regexp="yes">['’´`‘]</token>
         <token>s</token>
       </pattern>
-      <message>Normalerweise wird vor einem Genitiv-s kein Apostroph gesetzt: <suggestion>\1s</suggestion>.</message>
+      <message>Das Wort <suggestion>\1s</suggestion> wird standardsprachlich ohne Apostroph geschrieben.</message>
+      <url>http://www.canoo.net/services/OnlineGrammar/Wort/Artikel/Prep-Art/Form.html</url>
+      <short>'Ans' und 'ins' sollten ohne Apostroph geschrieben werden.</short>
+      <example type="correct">Ich ging <marker>ans</marker> Fenster.</example>
+      <example type="correct">Ich hab’s <marker>ins</marker> Klo geschmissen.</example>
+      <example type="incorrect" correction="ins">Ich hab’s <marker>in’s</marker> Klo geschmissen.</example>
+      <example type="incorrect" correction="ins">Ich hab's <marker>in's</marker> Klo geschmissen.</example>
+      <example type="incorrect" correction="ans">Ich trat <marker>an's</marker> Fenster.</example>
+    </rule>
+    <rule id="APOSTROPH_S" name="Zeichensetzung: Apostroph vor Genitiv-s">
+      <pattern>
+        <token postag="EIG:.*" postag_regexp="yes">
+          <exception>McDonald</exception>
+        </token>
+        <token regexp="yes">'|’</token>
+        <token>s</token>
+      </pattern>
+      <message>Normalerweise wird im Deutschen vor einem Genitiv-s kein Apostroph gesetzt: <suggestion>\1s</suggestion>. In Ausnahmefällen wie bei dem Firmennamen 'McDonald’s' kann der Apostroph aber richtig sein.</message>
+      <short>Normalerweise wird im Deutschen vor einem Genitiv-s kein Apostroph gesetzt.</short>
       <example type="correct"><marker>Peters</marker> Bude.</example>
-      <example type="incorrect"><marker>Peter's</marker> Bude.</example>
+      <example type="incorrect" correction="Peters"><marker>Peter's</marker> Bude.</example>
+      <example type="incorrect" correction="Peters"><marker>Peter’s</marker> Bude.</example>
     </rule>
     <rule id="PUNKT_UND_KLAMMER" name="Zeichensetzung: Punkt und Klammer bei Aufzählungen, z.B. '1.)'" default="off">
     <!-- Quelle: Hans Friedrich Ebel/Claus Bliefert, Bachelor-, Master- und Doktorarbeit. Wiley, ISBN 9783527324774 -->
@@ -12311,6 +12330,20 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
   </category>
 
   <category name="Typographie">
+    <rule id="AKZENT_STATT_APOSTROPH" name="Zeichensetzung/Typographie: Akzent statt Apostroph">
+      <pattern>
+        <token postag="UNKNOWN" negate_pos="yes"/>
+        <token regexp="yes">´|`|‘</token>
+        <token regexp="yes">s|sche[mrns]?</token>
+      </pattern>
+      <message>Wollten Sie einen Apostroph verwenden? Vorschlag: <suggestion>\1's</suggestion> oder <suggestion>\1’s</suggestion></message>
+      <short>Akzent statt Apostroph</short>
+      <example type="correct"><marker>McDonald’s</marker></example>
+      <example type="correct"><marker>McDonald's</marker></example>
+      <example type="incorrect" correction="Geht's|Geht’s"><marker>Geht´s</marker> noch?</example>
+      <example type="incorrect" correction="McDonald's|McDonald’s"><marker>McDonald´s</marker></example>
+      <example type="incorrect" correction="McDonald's|McDonald’s"><marker>McDonald`s</marker></example>
+    </rule>
     <rule id="BISSTRICH" name="Typographie: Bis-Strich">
       <pattern case_sensitive="yes" mark_from="1">
         <token regexp="yes">[^0-9\-]+
