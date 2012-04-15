@@ -81,6 +81,21 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
 <rules lang="de" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../rules.xsd">
 
   <category name="Mögliche Tippfehler">
+    <rulegroup id="DE_PHRASE_REPETITION" name="Wiederholung von zwei Wörtern ('auf der auf der')">
+      <!-- copied from en -->
+      <rule>
+        <pattern>
+          <token negate_pos="yes" postag="SENT_START" regexp="yes"><exception>und</exception>\p{L}+</token>
+          <token regexp="yes"><exception>und</exception>\p{L}+</token>
+          <token><match no="0"></match></token>
+          <token><match no="1"></match></token>
+        </pattern>
+        <message>Hier werden zwei Wörter widerholt. Meinten Sie <suggestion>\1 \2</suggestion>?</message>
+        <short>Wiederholung von zwei Wörtern</short>
+        <example correction="auf der" type="incorrect">Wir standen <marker>auf der auf der</marker> Brücke.</example>
+        <example type="correct">Wir standen <marker>auf der</marker> Brücke.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="HAARE_VS_HARRE" name="Möglicher Tippfehler: 'Harre (Haare) schneiden'">
       <rule>
         <pattern case_sensitive="no" mark_to="-1">
@@ -5243,6 +5258,41 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct">Da regt er sich ganz <marker>zu Unrecht</marker> auf.</example>
       <example type="incorrect">Da regt er sich ganz <marker>zu unrecht</marker> auf.</example>
     </rule>
+    <rulegroup id="SCHNAUZE_SUBST" name="Groß-/Kleinschreibung: 'die schnauze (Schnauze) halten' usw.">
+      <rule>
+        <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
+          <token regexp="yes">[dD]ie</token>
+          <token>schnauze</token>
+          <token>voll</token>
+        </pattern>
+        <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
+        <short>&prgk;.</short>
+        <example type="correct">Ich hab die <marker>Schnauze</marker> voll!</example>
+        <example type="incorrect">Ich hab die <marker>schnauze</marker> voll!</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
+          <token regexp="yes">[dD]ie</token>
+          <token regexp="yes">fresse|schnauze</token>
+          <token inflected="yes">halten</token>
+        </pattern>
+        <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
+        <short>&prgk;.</short>
+        <example type="correct">Könnt ihr mal die <marker>Fresse</marker> halten?</example>
+        <example type="incorrect">Könnt ihr mal die <marker>fresse</marker> halten?</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="2">
+          <token inflected="yes" skip="1">halten</token>
+          <token>die</token>
+          <token regexp="yes">fresse|schnauze</token>
+        </pattern>
+        <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>&subende;</message>
+        <short>&prgk;.</short>
+        <example type="correct">Jetzt haltet doch die <marker>Fresse</marker>.</example>
+        <example type="incorrect">Jetzt haltet doch die <marker>fresse</marker>.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="SUBSTANTIVE_KLEIN" name="Groß-/Kleinschreibung: Substantive, die auch Verben oder Adjektive sein können" >
       <rule>
         <pattern mark_from="2" mark_to="-1" case_sensitive="yes">
@@ -12346,6 +12396,19 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct"><marker>Mit freundlichen Grüßen</marker></example>
       <example correction="Mit freundlichen Grüßen" type="incorrect"><marker>Mit freundlichen Grüßen,</marker></example>
     </rule>
+    <rule id="BISSTRICH_STATT_WAEHRUNG" name="Zeichensetzung: Bis-Strich statt Währungssymbol">
+      <pattern mark_from="3">
+        <token regexp="yes">[0-9]{1,4}</token>
+        <token>,</token>
+        <token regexp="yes">[0-9]{2}</token>
+        <token>,</token>
+        <token>–</token>
+      </pattern>
+      <message>Wollten Sie ein Währungssymbol (beispielsweise <suggestion>€</suggestion> oder <suggestion>$</suggestion>) verwenden?</message>
+      <example type="correct">10<marker>,–</marker> €</example>
+      <example type="correct">9<marker>,99</marker> €</example>
+      <example type="incorrect" correction="€|$">9,99<marker>,–</marker></example>
+    </rule>
     <rule id="ZWISCHEN_BISSTRICH" name="Zeichensetzung: 'zwischen' mit Bis-Strich">
       <pattern mark_from="0">
         <token regexp="yes">seit|zwischen</token>
@@ -12363,6 +12426,8 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">([0-9]{1,5})(\-|–)([0-9]{1,5})</token>
         </pattern>
         <message>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus: <suggestion><match no="2"/> <match no="3" regexp_match="([0-9]{1,5})(\-|–)([0-9]{1,5})" regexp_replace="$1 bis $3"/></suggestion>.</message>
+        <url>http://de.wikipedia.org/wiki/Halbgeviertstrich#Bis-Strich</url>
+        <short>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus.</short>
         <example type="correct"><marker>Von 9 bis 10</marker> Uhr.</example>
         <example type="correct"><marker>9–10</marker> Stunden lang.</example>
         <example type="incorrect"><marker>Von 9–10</marker> Uhr.</example>
