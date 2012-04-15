@@ -7472,10 +7472,20 @@ $Id: grammar.xml,v 1.129 2010-11-13 23:24:21 dnaber Exp $
       <example type="correct">This is important – as far as I know.</example>
       <example correction="…" type="incorrect">This is important<marker>...</marker> as far as I know.</example>
     </rule>
+    <rule id="WRONG_APOSTROPHE" name="shouldn´t">
+      <pattern>
+        <token regexp="yes">(ain|aren|can|couldn|didn|doesn|don|hadn|hasn|haven|isn|mayn|mightn|mustn|needn|oughtn|shan|shouldn|wasn|weren|won|wouldn)(´|`)t</token>
+      </pattern>
+      <message>You used an accent character instead of an apostrophe. Please use either <suggestion><match no="1" regexp_match="´|`" regexp_replace="'"/></suggestion> or <suggestion><match no="1" regexp_match="´|`" regexp_replace="’"/></suggestion>.</message>
+      <short>Accent character misused as apostrophe</short>
+      <example correction="shouldn't|shouldn’t" type="incorrect">You <marker>shouldn´t</marker> do it!</example>
+      <example type="correct">You shouldn't do it!</example>
+      <example type="correct">You shouldn’t do it!</example>
+    </rule>
     <rule id="CONTRACTED_FORM_NOT" name="shouldn't not (shouldn't)">
       <pattern>
-        <token regexp="yes">ain|aren|can|couldn|didn|doesn|don|hasn|isn|mightn|mustn|shan|shouldn|weren|won|wouldn</token>
-        <token>'</token>
+        <token regexp="yes">ain|aren|can|couldn|didn|doesn|don|hadn|hasn|haven|isn|mayn|mightn|mustn|needn|oughtn|shan|shouldn|wasn|weren|won|wouldn</token>
+        <token regexp="yes">’|'</token>
         <token>t</token>
         <token>not</token>
       </pattern>
