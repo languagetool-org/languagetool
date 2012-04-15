@@ -83,6 +83,39 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
 <rules lang="de" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../rules.xsd">
 
   <category name="Mögliche Tippfehler">
+    <rulegroup id="ABREITEN_VS_ARBEITEN" name="Möglicher Tippfehler: 'abreitet (arbeitet) daran' etc.">
+      <rule>
+        <pattern case_sensitive="no" mark_from="2">
+          <token regexp="yes">wohnt|lebt</token>
+          <token>und</token>
+          <token>abreitet</token>
+        </pattern>
+        <message>Möglicher Tippfehler: Meinten Sie <suggestion><match no="3" regexp_match="abrei" regexp_replace="arbei"/></suggestion>?</message>
+        <short>Möglicher Tippfehler</short>
+        <example type="correct">Er lebt und <marker>arbeitet</marker> in Essen.</example>
+        <example type="incorrect" correction="arbeitet">Er lebt und <marker>abreitet</marker> in Essen.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="no" mark_from="1">
+          <token regexp="yes" skip="1">an|hart|daran|als|in|für|mit|viel|zu</token>
+          <token regexp="yes">abreite(n|s?t)</token>
+        </pattern>
+        <message>Möglicher Tippfehler: Meinten Sie <suggestion><match no="2" regexp_match="abrei" regexp_replace="arbei"/></suggestion>?</message>
+        <short>Möglicher Tippfehler</short>
+        <example type="correct">Er sollte daran <marker>arbeiten</marker>.</example>
+        <example type="incorrect" correction="arbeiten">Er sollte daran <marker>abreiten</marker>.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="no" mark_to="-1">
+          <token regexp="yes" skip="1">abreite(n|s?t)</token>
+          <token regexp="yes">an|hart|daran|als|in|für|mit|viel</token>
+        </pattern>
+        <message>Möglicher Tippfehler: Meinten Sie <suggestion><match no="1" regexp_match="abrei" regexp_replace="arbei"/></suggestion>?</message>
+        <short>Möglicher Tippfehler</short>
+        <example type="correct">Er <marker>arbeitet</marker> als Kellner.</example>
+        <example type="incorrect" correction="arbeitet">Er <marker>abreitet</marker> als Kellner.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="HAARE_VS_HARRE" name="Möglicher Tippfehler: 'Harre (Haare) schneiden'">
       <rule>
         <pattern case_sensitive="no" mark_to="-1">
