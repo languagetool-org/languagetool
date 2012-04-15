@@ -11187,6 +11187,31 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       </rule>
     </rulegroup>
     -->
+    <rulegroup id="KEIN_PLURAL_WAEHRUNG" name="Grammatik: Kein Plural bei Geldbeträgen, z.B. fünf Euros (Euro)">
+      <!-- TODO andere Währungen, evt. allgemeiner für Einheiten: '6 Fuß (nicht: Füße) groß' usw. -->
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">[0-9]{1,6}</token>
+          <token>Euros</token>
+        </pattern>
+        <message>Bei der Angabe von Geldbeträgen steht die Währung im Singular: \1 <suggestion>Euro</suggestion></message>
+        <url>http://www.duden.de/rechtschreibung/Euro_Waehrung#block_7</url>
+        <short>Bei der Angabe von Geldbeträgen steht die Währung im Singular</short>
+        <example type="correct">Das kostet 10 <marker>Euro</marker>.</example>
+        <example type="incorrect" correction="Euro">Das kostet 10 <marker>Euros</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token postag="ZAL"/>
+          <token>Euros</token>
+        </pattern>
+        <message>Bei der Angabe von Geldbeträgen steht die Währung im Singular: \1 <suggestion>Euro</suggestion></message>
+        <url>http://www.duden.de/rechtschreibung/Euro_Waehrung#block_7</url>
+        <short>Bei der Angabe von Geldbeträgen steht die Währung im Singular</short>
+        <example type="correct">Das kostet fünf <marker>Euro</marker></example>
+        <example type="incorrect" correction="Euro">Das kostet fünf <marker>Euros</marker></example>
+      </rule>
+    </rulegroup>
     <rulegroup id="SUBJ_VERBLETZTSTELLUNG" name="Grammatik: Fehlende Verbletztstellung in Nebensatz" default="off">
       <rule>
         <pattern mark_from="1" mark_to="-2" case_sensitive="yes">
