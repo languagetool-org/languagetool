@@ -53,6 +53,8 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
 <!ENTITY unstimmig "Diese Formulierung ist möglicherweise unstimmig: ">
 <!ENTITY verw "Mögliche Wortverwechslung erkannt: ">
 <!ENTITY redundanz "Diese Wendung ist möglicherweise redundant. ">
+<!ENTITY also "also|folglich|demnach|deshalb|mithin|somit">
+<!ENTITY modal "halt|eben|doch|wohl|eigentlich|auch|schon|aber|recht|ziemlich">
 <!ENTITY neusubklein "alter|ansinnen|band|bedenken|bündel|delta|differential|double|drittel|eck|eislaufen|elend|ende|erbe|erbrecht|fach|fest|fett|gebrechen|gemach|gerät|gewissen|gut|gutachten|junge|kapital|kollektiv|konditional|können|leben|leck|leid|licht|lokal|los|mal|manifest|maß|mittelalter|morden|paar|patent|pfeifen|präsent|recht|reich|rennen|scheitern|schweigen|sitzen|stillschweigen|totem|unrecht|verbot|verdeck|verdienst|verfahren|vergnügen|verhör|verlangen|vermögen|versprechen|wettrennen|wohl|wunder|zeug|ziel|zimmer">
 <!ENTITY massubklein "abgeordnete|abkomme|abriss|abschied|abschnitt|abstieg|ahne|andrang|angriff|anklang|anschnitt|anstieg|anstrich|antrieb|antritt|ärger|arm|aufriss|aufschnitt|aufstand|aufstieg|aufstrich|auftritt|ausklang|ausritt|ausschnitt|ausstand|ausstieg|austritt|band|bau|bedarf|begriff|beistand|beitritt|belang|bestand|betrieb|betrug|blick|block|brauch|dank|dichter|durchschnitt|einband|eingriff|einschnitt|einstand|einstieg|eintritt|ernst|ertrag|feind|filz|floh|forscher|fortschritt|fremde|gefreite|gläubiger|gleichstand|graben|herzog|junge|jünger|knebel|knick|knoten|koch|komparativ|kragen|krieg|laden|lappen|lauf|laut|lumpen|mitschnitt|morgen|nachklang|nachkomme|nachwuchs|pfiff|plan|planer|platz|plural|pole|rang|rasen|rausschmiss|reifen|rücken|rüde|samt|schal|scherz|schiefer|schlag|schluck|schnitt|schnupfen|schock|schotte|schrecken|schritt|schubs|schuft|schund|schütze|schwamm|sitz|spitz|stand|stecken|stillstand|stolz|stoß|strich|strick|träger|trieb|tritt|tropfen|trotz|türke|übergriff|übertritt|umriss|unterschied|untertan|verband|verbrauch|verdacht|verdienst|verkauf|verkehr|verlass|verlauf|verleih|vermerk|verriss|verschlag|verstand|verstoß|versuch|vertrieb|verzehr|virtuose|vokal|vorbehalt|vorgriff|vorstand|vortritt|vorwärtsschritt|wagen|weg|wein|weise|wert|wettstreit|wicht|widerstand|zank|zeuge|zügel|zugriff|zusammenschnitt|zustand|zutritt|zweifel">
 <!ENTITY femsubklein "abbitte|abfahrt|abfrage|abfuhr|abgeordnete|ablöse|abreise|absage|absteige|acht|alternative|anfahrt|anfrage|angst|anklage|anreise|anrichte|ansage|antike|anzeige|auffahrt|ausbeute|ausfahrt|ausfuhr|ausleihe|auslese|ausrede|ausreise|aussage|band|beichte|beule|binde|bitte|blase|breite|bremse|buche|bürde|burleske|bürste|decke|defensive|dichte|drei|durchfahrt|durchreiche|durchreise|durchsage|dürre|dusche|düse|ebbe|ebene|ecke|ehe|ehre|eiche|eile|einfahrt|einreise|eins|elf|erde|fahrt|falle|falte|feige|feile|ferne|flamme|fliege|fliese|flotte|flucht|folge|frage|fremde|fresse|fünf|geige|gerade|gnade|grenze|großtat|groteske|hacke|halle|härte|hast|haut|hecke|heimfahrt|herfahrt|hinfahrt|höhle|illustrierte|kante|kappe|keule|kippe|klage|klammer|klappe|klaue|klemme|klinge|klingel|kommode|konstante|kontroverse|kraft|krähe|kralle|kürze|kutsche|last|leere|legende|lehre|leine|leiste|leuchte|liebe|liege|linse|liste|lüge|macht|marine|matte|menge|messe|miete|mühe|nachfrage|nachlese|nachrede|nähe|naht|neun|oder|offensive|parallele|pauke|pauschale|pause|perle|pfeife|platte|pleite|post|predigt|presse|probe|pumpe|puste|quelle|rast|ratsche|rede|reibe|reife|reihe|reise|reue|robbe|rolle|rückfrage|rüge|ruhe|runde|rutsche|sage|säge|sahne|salbe|säure|schanze|schau|scheide|scheiße|schere|schiene|schippe|schlampe|schleife|schleuse|schlinge|schmelze|schmiede|schnalle|schneide|schuld|schule|schürze|schwäche|schwärze|schwebe|schwelle|sechs|sehne|sieben|sonne|sorge|spalte|speise|spitze|spritze|stärke|stelle|stille|stimme|strafe|strecke|strippe|stufe|stunde|stütze|suche|sucht|summe|taste|tat|taufe|tiefe|trage|träne|treue|variable|vier|vollmacht|voraussage|vorfahrt|vorhersage|vormacht|vorrede|vorsitzende|vorsorge|wache|wand|wärme|weide|weihe|weile|weise|welle|wende|werft|wiege|wiese|winde|wolle|würde|würze|wüste|zahl|zeche|zehn|zeit|zentrale|zier|zufahrt|zufuhr|zusage|zwei|zwinge|zwölf">
@@ -4031,6 +4033,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">nichts?|niemand(en)?|kein|keine[nmsr]?</token>
         </pattern>
         <message>Die Wendung '\1 \2 \3' ist umgangssprachlich. Ersetzen durch <suggestion>\1 \3</suggestion> oder <suggestion>\2 \3</suggestion>?</message>
+        <short>&redundanz;</short>
         <example type="incorrect" correction="überhaupt nichts|gar nichts">LanguageTool kostet <marker>überhaupt gar nichts</marker>.</example>
         <example type="correct">LanguageTool kostet <marker>überhaupt nichts</marker>.</example>
         <example type="correct">LanguageTool kostet <marker>gar nichts</marker>.</example>
@@ -4044,6 +4047,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>…</token>
         </pattern>
         <message>&redundanz; Ersetzen durch <suggestion>\1.</suggestion> oder <suggestion>\3</suggestion>?</message>
+        <short>&redundanz;</short>
         <example type="incorrect">Da ist einiges zu tun <marker>etc. …</marker></example>
         <example type="correct">Da ist einiges zu tun <marker>…</marker></example>
       </rule>
@@ -4057,6 +4061,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token postag="VER:INF.*" postag_regexp="yes"/>
         </pattern>
         <message>&redundanz;Ersetzen durch <suggestion>\1</suggestion>?</message>
+        <short>&redundanz;</short>
         <example type="correct">Das <marker>scheint</marker> zu stimmen.</example>
         <example type="incorrect">Das <marker>scheint anscheinend</marker> zu stimmen.</example>
       </rule>
@@ -4070,6 +4075,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>einmal</token>
         </pattern>
         <message>&redundanz;Meinten Sie <suggestion>plötzlich \2</suggestion> oder <suggestion>auf einmal \2</suggestion>?</message>
+        <short>&redundanz;</short>
         <example type="correct"><marker>Plötzlich</marker> lief wieder alles rund.</example>
         <example type="correct"><marker>Auf einmal</marker> ging wieder alles glatt.</example>
         <example type="incorrect"><marker>Plötzlich ging auf einmal</marker> wieder alles glatt.</example>
@@ -4081,6 +4087,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>einmal</token>
         </pattern>
         <message>&redundanz;Meinten Sie <suggestion>plötzlich</suggestion> oder <suggestion>auf einmal</suggestion>?</message>
+        <short>&redundanz;</short>
         <example type="correct">Es lief <marker>plötzlich</marker> wieder alles glatt.</example>
         <example type="correct">Es lief <marker>auf einmal</marker> wieder alles glatt.</example>
         <example type="incorrect" correction="plötzlich|auf einmal">Es lief <marker>plötzlich auf einmal</marker> wieder alles glatt.</example>
@@ -4092,6 +4099,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>plötzlich</token>
         </pattern>
         <message>&redundanz;Meinten Sie <suggestion>plötzlich</suggestion> oder <suggestion>auf einmal</suggestion>?</message>
+        <short>&redundanz;</short>
         <example type="correct">Es lief <marker>auf einmal</marker> wieder alles glatt.</example>
         <example type="correct">Es lief <marker>plötzlich</marker> wieder alles glatt.</example>
         <example type="incorrect" correction="plötzlich|auf einmal">Es lief <marker>auf einmal plötzlich</marker> wieder alles glatt.</example>
@@ -4102,6 +4110,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>genau</token>
         </pattern>
         <message>&redundanz;Meinten Sie <suggestion>exakt</suggestion> oder <suggestion>genau</suggestion>?</message>
+        <short>&redundanz;</short>
         <example type="correct">Es lief <marker>exakt</marker> wie beim letzten Mal.</example>
         <example type="correct">Es lief <marker>genau</marker> wie beim letzten Mal.</example>
         <example type="incorrect" correction="exakt|genau">Es war <marker>exakt genau</marker> wie beim letzten Mal.</example>
@@ -4112,29 +4121,21 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>genauso</token>
         </pattern>
         <message>&redundanz;Meinten Sie <suggestion>exakt so</suggestion> oder <suggestion>genauso</suggestion>?</message>
+        <short>&redundanz;</short>
         <example type="correct">Es lief <marker>exakt so</marker> wie beim letzten Mal.</example>
         <example type="correct">Es lief <marker>genauso</marker> wie beim letzten Mal.</example>
         <example type="incorrect" correction="exakt so|genauso">Es lief wieder <marker>exakt genauso</marker> wie beim letzten Versuch.</example>
       </rule>
       <rule>
         <pattern>
-          <token>also</token>
-          <token>folglich</token>
+          <token regexp="yes">&also;</token>
+          <token regexp="yes">&also;</token>
         </pattern>
-        <message>&redundanz;Die Wörter <suggestion>also</suggestion> und <suggestion>folglich</suggestion> drücken etwa dasselbe aus.</message>
+        <message>&redundanz;Die Wörter <suggestion>\1</suggestion> und <suggestion>\2</suggestion> drücken etwa dasselbe aus.</message>
+        <short>&redundanz;</short>
         <example type="correct">Wir sollten <marker>also</marker> sofort handeln.</example>
         <example type="correct">Wir sollten <marker>folglich</marker> sofort handeln.</example>
         <example type="incorrect" correction="also|folglich">Wir sollten <marker>also folglich</marker> sofort handeln.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>folglich</token>
-          <token>also</token>
-        </pattern>
-        <message>&redundanz;Die Wörter <suggestion>also</suggestion> und <suggestion>folglich</suggestion> drücken etwa dasselbe aus.</message>
-        <example type="correct">Wir sollten <marker>also</marker> sofort handeln.</example>
-        <example type="correct">Wir sollten <marker>folglich</marker> sofort handeln.</example>
-        <example type="incorrect" correction="also|folglich">Wir sollten <marker>folglich also</marker> sofort handeln.</example>
       </rule>
       <rule>
         <pattern>
@@ -4142,6 +4143,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>gegenseitig</token>
         </pattern>
         <message>&redundanz;Meinten Sie <suggestion>einander</suggestion> oder <suggestion>sich gegenseitig</suggestion>?</message>
+        <short>&redundanz;</short>
         <example type="correct">Sie hatten <marker>einander</marker> so lieb.</example>
         <example type="correct">Sie mochten <marker>sich gegenseitig</marker> nicht besonders.</example>
         <example type="incorrect" correction="einander|sich gegenseitig">Sie hatten <marker>einander gegenseitig</marker> so lieb.</example>
@@ -4152,6 +4154,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>vielleicht</token>
         </pattern>
         <message>&redundanz;Meinten Sie <suggestion>eventuell</suggestion> oder <suggestion>vielleicht</suggestion>?</message>
+        <short>&redundanz;</short>
         <example type="correct">Das ist <marker>eventuell</marker> gar nicht so gut.</example>
         <example type="correct">Das ist <marker>vielleicht</marker> gar nicht so gut.</example>
         <example type="incorrect" correction="eventuell|vielleicht">Das ist <marker>eventuell vielleicht</marker> so passiert; zumindest steht es in der Zeitung.</example>
@@ -4162,6 +4165,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>eventuell</token>
         </pattern>
         <message>&redundanz;Meinten Sie <suggestion>eventuell</suggestion> oder <suggestion>vielleicht</suggestion>?</message>
+        <short>&redundanz;</short>
         <example type="correct">Das ist <marker>eventuell</marker> gar nicht so gut.</example>
         <example type="correct">Das ist <marker>vielleicht</marker> gar nicht so gut.</example>
         <example type="incorrect" correction="eventuell|vielleicht">Das ist <marker>vielleicht eventuell</marker> so passiert; zumindest steht es in der Zeitung.</example>
@@ -4172,6 +4176,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>bereits</token>
         </pattern>
         <message>&redundanz;Meinten Sie <suggestion>schon</suggestion> oder <suggestion>bereits</suggestion>?</message>
+        <short>&redundanz;</short>
         <example type="correct">Das ist <marker>bereits</marker> geschehen.</example>
         <example type="correct">Das ist mir auch <marker>schon</marker> oft passiert.</example>
         <example type="incorrect" correction="schon|bereits">Das ist <marker>schon bereits</marker> gestern passiert.</example>
@@ -4182,6 +4187,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>schon</token>
         </pattern>
         <message>&redundanz;Meinten Sie <suggestion>schon</suggestion> oder <suggestion>bereits</suggestion>?</message>
+        <short>&redundanz;</short>
         <example type="correct">Das ist <marker>bereits</marker> geschehen.</example>
         <example type="correct">Das ist mir auch <marker>schon</marker> oft passiert.</example>
         <example type="incorrect" correction="schon|bereits">Das ist <marker>bereits schon</marker> gestern passiert.</example>
@@ -4192,6 +4198,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>demnächst</token>
         </pattern>
         <message>&redundanz;Meinten Sie <suggestion>bald</suggestion> oder <suggestion>demnächst</suggestion>?</message>
+        <short>&redundanz;</short>
         <example type="correct">Das Gebäude ist <marker>bald</marker> fertig.</example>
         <example type="correct">Es ist <marker>demnächst</marker> so weit.</example>
         <example type="incorrect" correction="bald|demnächst">Das ist <marker>bald demnächst</marker> fertig.</example>
@@ -4202,6 +4209,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>nur</token>
         </pattern>
         <message>&redundanz;Meinten Sie <suggestion>ausschließlich</suggestion> oder <suggestion>nur</suggestion>?</message>
+        <short>&redundanz;</short>
         <example type="correct">Das Gebäude ist <marker>ausschließlich</marker> für die Lagerung bestimmt.</example>
         <example type="correct">Es ist <marker>nur</marker> gerecht.</example>
         <example type="incorrect" correction="ausschließlich|nur">Das ist <marker>ausschließlich nur</marker> dein Problem.</example>
@@ -4212,6 +4220,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>ausschließlich</token>
         </pattern>
         <message>&redundanz;Meinten Sie <suggestion>ausschließlich</suggestion> oder <suggestion>nur</suggestion>?</message>
+        <short>&redundanz;</short>
         <example type="correct">Das Gebäude ist <marker>ausschließlich</marker> für die Lagerung bestimmt.</example>
         <example type="correct">Das ist <marker>nur</marker> gerecht.</example>
         <example type="incorrect" correction="ausschließlich|nur">Das ist <marker>nur ausschließlich</marker> deine Sache.</example>
@@ -4222,6 +4231,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>immer</token>
         </pattern>
         <message>&redundanz;Meinten Sie <suggestion><match no="1"/></suggestion> oder <suggestion>immer</suggestion>?</message>
+        <short>&redundanz;</short>
         <example type="correct">Ich gehe <marker>immer</marker> am Samstag einkaufen.</example>
         <example type="correct">Ich gehe <marker>meistens</marker> am Samstag einkaufen.</example>
         <example type="correct">Ich gehe <marker>meist</marker> am Samstag einkaufen.</example>
@@ -4233,6 +4243,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">meist(ens)?</token>
         </pattern>
         <message>&redundanz;Meinten Sie <suggestion><match no="2"/></suggestion> oder <suggestion>immer</suggestion>?</message>
+        <short>&redundanz;</short>
         <example type="correct">Ich gehe <marker>immer</marker> am Samstag einkaufen.</example>
         <example type="correct">Ich gehe <marker>meistens</marker> am Samstag einkaufen.</example>
         <example type="correct">Ich gehe <marker>meist</marker> am Samstag einkaufen.</example>
@@ -4246,6 +4257,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token inflected="yes">Bedeutung</token>
         </pattern>
         <message>Diese Formulierung ist möglicherweise redundant; 'semantisch' heißt 'auf die Bedeutung bezogen'. Vorschlag: <suggestion>\2</suggestion>.</message>
+        <short>&redundanz;</short>
         <example type="incorrect">Das Wort hat eine <marker>semantische Bedeutung</marker>.</example>
         <example type="correct">Das Wort hat eine <marker>Bedeutung</marker>.</example>
       </rule>
@@ -4255,6 +4267,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">bedeute(n|t)</token>
         </pattern>
         <message>Diese Formulierung ist möglicherweise redundant; 'semantisch' heißt 'auf die Bedeutung bezogen'. Vorschlag: <suggestion>\2</suggestion>.</message>
+        <short>&redundanz;</short>
         <example type="incorrect">Mir ist nicht klar, was das <marker>semantisch bedeuten</marker> soll.</example>
         <example type="correct">Mir ist nicht klar, was das <marker>bedeuten</marker> soll.</example>
       </rule>
@@ -4264,6 +4277,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>semantisch</token>
         </pattern>
         <message>Diese Formulierung ist möglicherweise redundant; 'semantisch' heißt 'auf die Bedeutung bezogen'. Vorschlag: <suggestion>\1</suggestion>.</message>
+        <short>&redundanz;</short>
         <example type="incorrect">Das <marker>bedeutet semantisch</marker> gar nichts.</example>
         <example type="correct">Das <marker>bedeutet</marker> gar nichts.</example>
       </rule>
@@ -4275,6 +4289,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">Bedeutung(en)?</token>
         </pattern>
         <message>&unstimmig;Nicht Bedeutungen, sondern Ausdrücke sind synonym, nämlich dann, wenn sie dieselbe Bedeutung haben. Vorschlag: <suggestion><match no="1" regexp_replace="gleich" regexp_match="synonym"/> \2</suggestion></message>
+        <short>&redundanz;</short>
         <example type="incorrect">Diese Wörter haben eine <marker>synonyme Bedeutung</marker>.</example>
         <example type="correct">Diese Wörter haben <marker>dieselbe Bedeutung</marker>.</example>
       </rule>
@@ -4286,6 +4301,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">Namen?</token>
         </pattern>
         <message>&unstimmig;Nicht Namen, sondern Personen sind anonym, nämlich dann, wenn sie ihren Namen verschweigen.</message>
+        <short>&redundanz;</short>
         <example type="incorrect">Ich war unter <marker>anonymem Namen</marker> unterwegs.</example>
         <example type="correct">Ich war <marker>anonym</marker> unterwegs.</example>
       </rule>
@@ -4296,6 +4312,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>anonym</token>
         </pattern>
         <message>&unstimmig;Nicht Namen, sondern Personen sind anonym, nämlich dann, wenn sie ihren Namen verschweigen.</message>
+        <short>&redundanz;</short>
         <example type="incorrect">Der <marker>Name bleibt anonym</marker>.</example>
         <example type="correct">Der <marker>Name bleibt geheim</marker>.</example>
         <example type="correct">Der <marker>Name bleibt ungenannt</marker>.</example>
@@ -4308,6 +4325,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token inflected="yes">legal</token>
         </pattern>
         <message>&redundanz;Vorschlag: <suggestion>\2</suggestion>.</message>
+        <short>&redundanz;</short>
         <example type="incorrect">Dieses Vorgehen ist <marker>rechtlich legal</marker>.</example>
         <example type="correct">Dieses Vorgehen ist völlig <marker>legal</marker>.</example>
       </rule>
@@ -4318,6 +4336,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token inflected="yes">legal</token>
         </pattern>
         <message>&redundanz;Vorschlag: <suggestion>\3</suggestion>.</message>
+        <short>&redundanz;</short>
         <example type="incorrect">Dieses Vorgehen ist <marker>juristisch betrachtet legal</marker>.</example>
         <example type="correct">Dieses Vorgehen ist völlig <marker>legal</marker>.</example>
       </rule>
@@ -4327,6 +4346,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token inflected="yes">illegal</token>
         </pattern>
         <message>&redundanz;Vorschlag: <suggestion>\2</suggestion>.</message>
+        <short>&redundanz;</short>
         <example type="incorrect">Dieses Vorgehen ist <marker>rechtlich illegal</marker>.</example>
         <example type="correct">Dieses Vorgehen ist völlig <marker>illegal</marker>.</example>
       </rule>
@@ -4360,6 +4380,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>in</token>
         </pattern>
         <message>'inmitten in' ist eine Doppelung – meinten Sie <suggestion>inmitten</suggestion>?</message>
+        <short>&redundanz;</short>
         <example type="incorrect"><marker>Inmitten in</marker> der Stadt.</example>
         <example type="incorrect"><marker>Inmitten in</marker> einer intakten Landschaft.</example>
         <example type="correct"><marker>Inmitten</marker> der Stadt.</example>
@@ -4371,6 +4392,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">ISBN-Nummer(n)?</token>
         </pattern>
         <message>'ISBN' steht für 'International Standard Book Number' – ersetzen durch <suggestion>ISBN</suggestion>?</message>
+        <short>&redundanz;</short>
         <example type="incorrect">Die <marker>ISBN-Nummer</marker> des Buches.</example>
         <example type="correct">Die <marker>ISBN</marker> des Buches.</example>
       </rule>
@@ -4379,6 +4401,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">PIN-Nummer(n)?</token>
         </pattern>
         <message>'PIN' steht für 'Personal Identification Number' – ersetzen durch <suggestion>PIN</suggestion>?</message>
+        <short>&redundanz;</short>
         <example type="incorrect">Sie gab ihre <marker>PIN-Nummer</marker> ein.</example>
         <example type="correct">Sie gab ihre <marker>PIN</marker> ein.</example>
       </rule>
@@ -4387,6 +4410,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">DTV-Verlag(e)?(s)?</token>
         </pattern>
         <message>'DTV' steht für 'Deutscher Taschenbuch-Verlag' – ersetzen durch <suggestion>DTV</suggestion>?</message>
+        <short>&redundanz;</short>
         <example type="incorrect">Das Buch ist im <marker>DTV-Verlag</marker> erschienen.</example>
         <example type="correct">Das Buch ist im <marker>DTV</marker> erschienen.</example>
       </rule>
@@ -4395,6 +4419,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">ABM-Maßnahme(n)?</token>
         </pattern>
         <message>'ABM' steht für 'Arbeitsbeschaffungsmaßnahme' – ersetzen durch <suggestion>ABM</suggestion> oder <suggestion>Arbeitsbeschaffungsmaßnahme</suggestion>?</message>
+        <short>&redundanz;</short>
         <example type="incorrect">Das ist eine <marker>ABM-Maßnahme</marker>.</example>
         <example type="correct">Das ist eine <marker>ABM</marker>.</example>
       </rule>
@@ -4403,6 +4428,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">LCD-Display(s)?</token>
         </pattern>
         <message>'LCD' steht für 'Liquid Crystal Display' – ersetzen durch <suggestion>LCD</suggestion>?</message>
+        <short>&redundanz;</short>
         <example type="incorrect">Das ist ein <marker>LCD-Display</marker>.</example>
         <example type="correct">Das ist ein <marker>LCD</marker>.</example>
       </rule>
@@ -4411,6 +4437,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">HIV-(Virus|Viren)</token>
         </pattern>
         <message>'HIV' steht für 'Humanes Immundefizienz-Virus' – ersetzen durch <suggestion>HIV</suggestion> oder <suggestion>HI-Virus</suggestion>?</message>
+        <short>&redundanz;</short>
         <example type="correct">Das ist ein <marker>HI-Virus</marker>.</example>
         <example type="incorrect">Das ist ein <marker>HIV-Virus</marker>.</example>
       </rule>
@@ -4419,6 +4446,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">La-Ola-Wellen?</token>
         </pattern>
         <message>'La Ola' bedeutet 'die Welle' – ersetzen durch <suggestion>La Ola</suggestion>?</message>
+        <short>&redundanz;</short>
         <example type="correct">Die Entstehung einer <marker>La Ola</marker></example>
         <example type="incorrect" correction="La Ola">Die Entstehung einer <marker>La-Ola-Welle</marker></example>
       </rule>
@@ -4427,6 +4455,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">PDF-Formate?s?</token>
         </pattern>
         <message>'PDF' steht für 'Portable Document Format' – ersetzen durch <suggestion>PDF</suggestion>?</message>
+        <short>&redundanz;</short>
         <example type="correct"><marker>PDF</marker> ist ein plattformunabhängiges Dateiformat.</example>
         <example type="incorrect">Das <marker>PDF-Format</marker> ist ein plattformunabhängiges Dateiformat.</example>
       </rule>
@@ -4435,6 +4464,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">EVN-Nachweise?s?</token>
         </pattern>
         <message>'EVN' steht für 'Einzelverbindungsnachweis' – ersetzen durch <suggestion>EVN</suggestion>?</message>
+        <short>&redundanz;</short>
         <example type="incorrect">Das sind <marker>EVN-Nachweise</marker>.</example>
         <example type="correct">Das ist ein <marker>EVN</marker>.</example>
       </rule>
@@ -4552,6 +4582,18 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Wir <marker>sehen sehr selten fern</marker>.</example>
       </rule>
     </rulegroup>
+    <rule id="MODALPARTIKELN" name="Stil: Häufung von Modalpartikeln (z.B. 'dann doch eigentlich auch')">
+      <pattern mark_from="0">
+        <token regexp="yes" skip="1">&modal;</token>
+        <token regexp="yes" skip="1">&modal;</token>
+        <token regexp="yes" skip="1">&modal;</token>
+        <token regexp="yes">&modal;</token>
+      </pattern>
+      <message>Diese Formulierung enthält eine ungewöhnliche Häufung von Modalpartikeln. Das kann stilistisch gewollt sein, möglicherweise möchten Sie aber auf eine andere Formulierung ausweichen.</message>
+      <short>Diese Formulierung enthält eine ungewöhnliche Häufung von Modalpartikeln.</short>
+      <example type="incorrect">Ich bin <marker>doch eigentlich aber auch</marker> groß.</example>
+      <example type="correct">Ich bin <marker>aber doch schon</marker> groß.</example>
+    </rule>
     <rule id="ALS_WIE" name="Umgangssprache: 'als wie (wie)'">
       <pattern mark_from="1">
         <token postag=".*ADJ.*KOM.*" postag_regexp="yes"/>
