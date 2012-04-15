@@ -81,21 +81,6 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
 <rules lang="de" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../rules.xsd">
 
   <category name="Mögliche Tippfehler">
-    <rulegroup id="DE_PHRASE_REPETITION" name="Wiederholung von zwei Wörtern ('auf der auf der')">
-      <!-- copied from en -->
-      <rule>
-        <pattern>
-          <token negate_pos="yes" postag="SENT_START" regexp="yes"><exception>und</exception>\p{L}+</token>
-          <token regexp="yes"><exception>und</exception>\p{L}+</token>
-          <token><match no="0"></match></token>
-          <token><match no="1"></match></token>
-        </pattern>
-        <message>Hier werden zwei Wörter widerholt. Meinten Sie <suggestion>\1 \2</suggestion>?</message>
-        <short>Wiederholung von zwei Wörtern</short>
-        <example correction="auf der" type="incorrect">Wir standen <marker>auf der auf der</marker> Brücke.</example>
-        <example type="correct">Wir standen <marker>auf der</marker> Brücke.</example>
-      </rule>
-    </rulegroup>
     <rulegroup id="HAARE_VS_HARRE" name="Möglicher Tippfehler: 'Harre (Haare) schneiden'">
       <rule>
         <pattern case_sensitive="no" mark_to="-1">
@@ -11187,7 +11172,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       </rule>
     </rulegroup>
     -->
-    <rulegroup id="KEIN_PLURAL_WAEHRUNG" name="Grammatik: Kein Plural bei Geldbeträgen, z.B. fünf Euros (Euro)">
+    <rulegroup id="KEIN_PLURAL_WAEHRUNG" name="Grammatik: Kein Plural bei Geldbeträgen, z.B. 'fünf Euros (Euro)'">
       <!-- TODO andere Währungen, evt. allgemeiner für Einheiten: '6 Fuß (nicht: Füße) groß' usw. -->
       <rule>
         <pattern mark_from="1">
@@ -12250,7 +12235,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect" correction="54″">45,<marker>54 ″</marker></example>
       </rule>
     </rulegroup>
-    <rulegroup id="SCHRAEGSTRICH_EINHEITEN" name="Zeichensetzung: Fehlender/Zu viel gesetzter Schrägstrich bei Einheiten">
+    <rulegroup id="SCHRAEGSTRICH_EINHEITEN" name="Zeichensetzung: Fehlender/zu viel gesetzter Schrägstrich bei Einheiten">
       <rule>
         <pattern case_sensitive="yes">
           <token>kmh</token>
@@ -12593,6 +12578,24 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <url>http://www.duden.de/rechtschreibregeln/auslassungspunkte#K18</url>
         <example type="correct">Er geht nach Hause …</example>
         <example type="incorrect" correction="…">Er geht nach Hause <marker>….</marker></example>
+      </rule>
+    </rulegroup>
+  </category>
+
+  <category name="Sonstiges">
+    <rulegroup id="DE_PHRASE_REPETITION" name="Wiederholung von Wortgruppen (z.B. 'auf der auf der Straße')">
+      <!-- copied from en -->
+      <rule>
+        <pattern>
+          <token negate_pos="yes" postag="SENT_START" regexp="yes"><exception>und</exception>\p{L}+</token>
+          <token regexp="yes"><exception>und</exception>\p{L}+</token>
+          <token><match no="0"></match></token>
+          <token><match no="1"></match></token>
+        </pattern>
+        <message>Hier werden zwei Wörter widerholt. Meinten Sie <suggestion>\1 \2</suggestion>?</message>
+        <short>Wiederholung von zwei Wörtern</short>
+        <example correction="auf der" type="incorrect">Wir standen <marker>auf der auf der</marker> Brücke.</example>
+        <example type="correct">Wir standen <marker>auf der</marker> Brücke.</example>
       </rule>
     </rulegroup>
   </category>
