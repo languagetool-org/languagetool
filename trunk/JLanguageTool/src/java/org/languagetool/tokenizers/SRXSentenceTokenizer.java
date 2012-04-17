@@ -19,43 +19,65 @@
 package org.languagetool.tokenizers;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import net.sourceforge.segment.TextIterator;
 import net.sourceforge.segment.srx.SrxDocument;
 import net.sourceforge.segment.srx.SrxParser;
 import net.sourceforge.segment.srx.SrxTextIterator;
-import net.sourceforge.segment.srx.io.Srx2Parser;
+import net.sourceforge.segment.srx.io.Srx2SaxParser;
+
 import org.languagetool.JLanguageTool;
 
 /**
  * Class to tokenize sentences using an SRX file.
  * 
  * @author Marcin Miłkowski
- * 
+ * @author Jarek Lipski
  */
 public class SRXSentenceTokenizer extends SentenceTokenizer {
-
-  private final BufferedReader srxReader;
-  private final SrxDocument document;
+	
   private final String language;
   private String parCode;
 
-  static final String RULES = "/segment.srx";
+  private static final String RULES = "/segment.srx";
+  
+  private static final SrxDocument document = createSrxDocument();
 
-  public SRXSentenceTokenizer(final String language) {
-    this.language = language;
+  private static SrxDocument createSrxDocument() {
+    BufferedReader srxReader = null; 
     try {
       srxReader = new BufferedReader(new InputStreamReader(
-  		  JLanguageTool.getDataBroker().getFromResourceDirAsStream(RULES), "utf-8"));
-    } catch (Exception e) {
+          JLanguageTool.getDataBroker().getFromResourceDirAsStream(RULES), "utf-8"));
+      
+      Map<String, Object> parserParameters = new HashMap<String, Object>();
+      parserParameters.put(Srx2SaxParser.VALIDATE_PARAMETER, true);
+      SrxParser srxParser = new Srx2SaxParser(parserParameters);
+      
+      SrxDocument document = srxParser.parse(srxReader);
+      return document;
+    } catch (IOException e) {
       throw new RuntimeException("Could not load rules " + RULES + " from resource dir "
-         + JLanguageTool.getDataBroker().getResourceDir(), e);
+          + JLanguageTool.getDataBroker().getResourceDir(), e);
+    } finally {
+      if (srxReader != null) {
+        try {
+          srxReader.close();
+        } catch (IOException e) {
+          // can't throw exception in final block, so logging an error.
+          System.err.println("Error closing SRX file reader.");
+        }
+      }
     }
-    final SrxParser srxParser = new Srx2Parser();
-    document = srxParser.parse(srxReader);
+  }
+  
+  public SRXSentenceTokenizer(final String language) {
+    this.language = language;
     setSingleLineBreaksMarksParagraph(false);
   }
 
@@ -89,14 +111,6 @@ public class SRXSentenceTokenizer extends SentenceTokenizer {
     } else {
       parCode = "_two";
     }
-  }
-
-  @Override
-  protected final void finalize() throws Throwable {
-    if (srxReader != null) {
-      srxReader.close();
-    }
-    super.finalize();
   }
 
 }
