@@ -6173,7 +6173,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     <rule id="UNTER_SCHMERZEN" name="Groß-/Kleinschreibung: 'unter schmerzen (Schmerzen)' etc.">
       <pattern case_sensitive="yes" mark_from="1">
         <token regexp="yes">[uU]nter</token>
-        <token regexp="yes">tränen|schmerzen|freunden</token>
+        <token regexp="yes">tränen|schmerzen|freunden|vorbehalten</token>
       </pattern>
       <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
       <short>&prgk;.</short>
@@ -6807,7 +6807,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <rule>
         <pattern case_sensitive="yes" mark_from="1">
           <token regexp="yes">[iI]m</token>
-          <token regexp="yes">glauben|wissen|sinne</token>
+          <token regexp="yes">glauben|wissen|sinne|sterben</token>
         </pattern>
         <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
         <short>&prgk;.</short>
@@ -8216,7 +8216,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     <rulegroup id="HERZEN_SUBST" name="Groß-/Kleinschreibung: 'von herzen (Herzen)'">
       <rule>
         <pattern case_sensitive="yes" mark_from="1">
-          <token regexp="yes">[vV]on</token>
+          <token regexp="yes">[vV]o[nm]|[iIaA]m</token>
           <token>herzen</token>
         </pattern>
         <message>&subanfang;<suggestion>Herzen</suggestion>&subende;</message>
@@ -8453,6 +8453,15 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <message>&inwend;'aus Liebe' wird <suggestion>Liebe</suggestion> in der Regel großgeschrieben.</message>
       <example type="correct">Nur nicht aus <marker>Liebe</marker> weinen, es gibt im Leben nicht nur den einen.</example>
       <example type="incorrect">Nur nicht aus <marker>liebe</marker> weinen, es gibt im Leben nicht nur den einen.</example>
+    </rule>
+    <rule id="IN_FRIEDEN" name="Groß-/Kleinschreibung: 'in frieden (Frieden)'">
+      <pattern mark_from="1" case_sensitive="yes">
+        <token regexp="yes">[iI][mMnN]</token>
+        <token>frieden</token>
+      </pattern>
+      <message>&inwend;'in Frieden' wird <suggestion>Frieden</suggestion> großgeschrieben.</message>
+      <example type="correct">Lasst mich in <marker>Frieden</marker> weiterziehen.</example>
+      <example type="incorrect">Lasst mich in <marker>frieden</marker> weiterziehen.</example>
     </rule>
     <rule id="IN_EHREN" name="Groß-/Kleinschreibung: 'in ehren (Ehren)'">
       <pattern mark_from="1" case_sensitive="yes">
@@ -11969,8 +11978,8 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect">Sollte dagegen <marker>etwaig</marker> verstoßen werden</example>
       </rule>
     </rulegroup>
-    <!-- vgl. http://www.duden.de/rechtschreibung/von_aus_ab_durch_per_seitens#Bedeutung5c -->
     <rulegroup id="SATZ_VON" name="Grammatik: 'Satz von (des) Pythagoras usw.'">
+      <!-- vgl. http://www.duden.de/rechtschreibung/von_aus_ab_durch_per_seitens#Bedeutung5c -->
       <rule>
         <pattern>
           <token regexp="yes">.*S(a|ä)tz.*</token>
@@ -11984,18 +11993,66 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect" correction="Höhensatz des Euklid">Der <marker>Höhensatz von Euklid</marker> gilt als fundamental.</example>
       </rule>
     </rulegroup>
-    <rule id="VIELZAHL_PLUS_SINGULAR" name="Grammatik: 'eine Vielzahl von Möglichkeit (Möglichkeiten)' etc. (falscher Singular)">
-      <pattern case_sensitive="no" mark_from="3">
-        <token regexp="yes">die|der|eine|ganze</token>
-        <token regexp="yes">Vielzahl|Reihe</token>
-        <token>von</token>
-        <token postag="SUB:DAT:SIN:.+" postag_regexp="yes"><exception postag="SUB:(.+):PLU:.+" postag_regexp="yes"/><exception regexp="yes">.*teilen|Übereinkommen</exception></token>
-      </pattern>
-      <message>Müsste dieses Wort im Plural stehen?</message>
-      <example type="incorrect">Wir haben eine Vielzahl von <marker>Möglichkeit</marker>.</example>
-      <example type="incorrect">Wir haben eine Reihe von <marker>Möglichkeit</marker>.</example>
-      <example type="correct">Wir haben eine Reihe von <marker>Möglichkeiten</marker>.</example>
-    </rule>
+    <rulegroup id="VIELZAHL_PLUS_SINGULAR" name="Grammatik: 'eine Vielzahl von Möglichkeit (Möglichkeiten)' etc. (falscher Singular)">
+      <rule>
+        <pattern case_sensitive="no" mark_from="3">
+          <token regexp="yes">die|der|eine|ganze</token>
+          <token regexp="yes">Vielzahl|Reihe</token>
+          <token>von</token>
+          <token postag="SUB:DAT:SIN:.+" postag_regexp="yes"><exception postag="SUB:(.+):PLU:.+" postag_regexp="yes"/><exception regexp="yes">.*teilen|Übereinkommen</exception></token>
+        </pattern>
+        <message>Müsste dieses Wort im Plural stehen?</message>
+        <short>Müsste dieses Wort im Plural stehen?</short>
+        <example type="incorrect">Wir haben eine Vielzahl von <marker>Möglichkeit</marker>.</example>
+        <example type="incorrect">Wir haben eine Reihe von <marker>Möglichkeit</marker>.</example>
+        <example type="correct">Wir haben eine Reihe von <marker>Möglichkeiten</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2">
+          <token>ein</token>
+          <token>paar</token>
+          <token postag="SUB:.+:SIN:.+" postag_regexp="yes">
+            <exception postag=".+:ADJ" postag_regexp="yes"/>
+            <exception postag="SUB:(.+):PLU:.+" postag_regexp="yes"/>
+            <exception regexp="yes">Bier|Wasser|Glas|.*teilen|Übereinkommen|Mal|.*Prozent|Fuß|Paar|Mark|Reichsmark|Pfund|Dollar|Euro|Stück|Grad|Gramm|Kilo.*|Milli.+|Mann|Schuss</exception>
+          </token>
+        </pattern>
+        <message>Möglicher Tippfehler: Müsste dieses Wort im Plural stehen?</message>
+        <short>Müsste dieses Wort im Plural stehen?</short>
+        <example type="incorrect">Wir haben ein paar <marker>Ei</marker> gegessen.</example>
+        <example type="correct">Wir haben ein paar <marker>Eier</marker> gegessen.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token postag="ZAL"><exception postag="ART:.*" postag_regexp="yes"/></token>
+          <token postag="SUB:.+:SIN:.+" postag_regexp="yes">
+            <exception postag=".+:ADJ" postag_regexp="yes"/>
+            <exception postag="SUB:(.+):PLU:.+" postag_regexp="yes"/>
+            <exception regexp="yes">Bier|Wasser|Glas|.*teilen|Übereinkommen|Mal|.*Prozent|Fuß|Paar|Mark|Reichsmark|Pfund|Dollar|Euro|Stück|Grad|Gramm|Kilo.*|Milli.+|Mann|Schuss|Uhr</exception>
+          </token>
+        </pattern>
+        <message>Möglicher Tippfehler: Müsste dieses Wort im Plural stehen?</message>
+        <short>Müsste dieses Wort im Plural stehen?</short>
+        <example type="incorrect">Wir haben drei <marker>Möglichkeit</marker>.</example>
+        <example type="correct">Wir haben hier drei <marker>Möglichkeiten</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">(viele|etliche|einige)n?</token>
+          <token postag="SUB:.+:SIN:.+" postag_regexp="yes">
+            <exception postag="SUB:AKK:SIN:MAS"/>
+            <exception postag=".+:ADJ" postag_regexp="yes"/>
+            <exception postag="SUB:(.+):PLU:.+" postag_regexp="yes"/>
+            <exception regexp="yes">Bier|Wasser|Glas|.*teilen|Übereinkommen|Mal|.*Prozent|Paar|Stück|Fuß|Grad|Gramm|Kilo.*|Milli.+|Mark|Reichsmark|Zeit|Irritation|Pfund</exception>
+          </token>
+        </pattern>
+        <message>Möglicher Tippfehler: Müsste dieses Wort im Plural stehen?</message>
+        <short>Müsste dieses Wort im Plural stehen?</short>
+        <example type="incorrect">Wir haben viele <marker>Möglichkeit</marker>.</example>
+        <example type="correct">Wir haben hier viele <marker>Möglichkeiten</marker>.</example>
+        <example type="correct">Er hatte einigen <marker>Erfolg</marker> mit seiner Idee.</example>
+      </rule>
+    </rulegroup>
   </category>
 
   <category name="Redewendungen">
@@ -12699,6 +12756,24 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
   </category>
 
   <category name="Sonstiges">
+    <!-- Funktioniert so nicht, wegen Appositionen ('Die Spezies Tulpe')
+    <rule id="DEPPENLEERZEICHEN" name="Komposita ohne Bindestrich">
+      <pattern mark_from="1" mark_to="-1">
+        <token postag="ART:(DEF|IND):NOM:SIN:FEM" postag_regexp="yes"/>
+        <token postag="SUB:NOM:SIN:.*" postag_regexp="yes">
+          <exception postag="SUB:.*" postag_regexp="yes" negate_pos="yes"/>
+          <exception postag=".+:ADJ" postag_regexp="yes"/>
+          <exception regexp="yes">Art|Abteilung|Bezeichnung|Abkürzung|.*Einheit|Zahl</exception>
+        </token>
+        <token postag="SUB:NOM:SIN:FEM"/>
+        <token postag="VER:3:SIN:.*" postag_regexp="yes"/>
+      </pattern>
+      <message>Hier folgen anscheinend zwei Substantive aufeinander. Möglicherweise haben Sie sich verschrieben, oder wollten Sie ein zusammengesetztes Wort (<suggestion>\2<match case_conversion="alllower" no="3"/></suggestion>) bilden?</message>
+      <short>Evt. Kompositum ohne Bindestrich</short>
+      <example type="incorrect">Die <marker>Stein Säule</marker> steht dort.</example>
+      <example type="correct">Die <marker>Frauenfrage</marker> ist strittig.</example>
+    </rule>
+    -->
     <rule id="DE_PHRASE_REPETITION" name="Wiederholung von Wortgruppen (z.B. 'auf der auf der Straße')">
     <!-- copied from en -->
       <pattern>
