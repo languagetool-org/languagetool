@@ -84,6 +84,19 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
 <rules lang="de" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../rules.xsd">
 
   <category name="Mögliche Tippfehler">
+    <rulegroup id="GESETZ_DEN_FALL" name="Möglicher Tippfehler: 'Gesetz (Gesetzt) den Fall'">
+      <rule>
+        <pattern case_sensitive="yes">
+          <token>Gesetz</token>
+          <token>den</token>
+          <token>Fall</token>
+        </pattern>
+        <message>Möglicher Tippfehler: Meinten Sie die Redewendung <suggestion>Gesetzt den Fall</suggestion> (im Sinne von 'falls')?</message>
+        <short>Möglicher Tippfehler</short>
+        <example type="correct"><marker>Gesetzt den Fall</marker>, er kommt rechtzeitig, werden wir ...</example>
+        <example type="incorrect" correction="Gesetzt den Fall"><marker>Gesetz den Fall</marker>, er kommt rechtzeitig, werden wir ...</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="ABREITEN_VS_ARBEITEN" name="Möglicher Tippfehler: 'abreitet (arbeitet) daran' etc.">
       <rule>
         <pattern case_sensitive="no" mark_from="2">
@@ -2373,6 +2386,29 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Das war echt <marker>Scheiße</marker>.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="SALZSAEURE_SALZSAEULE" name="Mögliche Wortverwechslung: Salzsäule/Salzsäure">
+      <rule>
+        <pattern case_sensitive="yes" mark_from="1">
+          <token regexp="yes" skip="1">.*konzentrier.+|.*verdünnt.*|zersetz.+|auflös.+</token>
+          <token>Salzsäule</token>
+        </pattern>
+        <message>&verw;Meinten Sie <suggestion>Salzsäure</suggestion>?</message>
+        <short>Mögliche Wortverwechslung erkannt</short>
+        <example type="incorrect" correction="Salzsäure">In konzentrierter <marker>Salzsäule</marker> löst sich das schnell auf.</example>
+        <example type="correct">In konzentrierter <marker>Salzsäure</marker> löst sich das schnell auf.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_to="-1">
+          <token skip="1">Salzsäule</token>
+          <token regexp="yes">.*konzentrier.+|.*verdünnt.*|zersetz.+|auflös.+|aufgelöst.*</token>
+        </pattern>
+        <message>&verw;Meinten Sie <suggestion>Salzsäure</suggestion>?</message>
+        <short>Mögliche Wortverwechslung erkannt</short>
+        <example type="incorrect" correction="Salzsäure">Ich habe es in <marker>Salzsäule</marker> aufgelöst.</example>
+        <example type="correct">In konzentrierter <marker>Salzsäure</marker> löst sich das schnell auf.</example>
+        <example type="correct">Ich erstarrte zur <marker>Salzsäule</marker>.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="UHRZEIT_URZEIT" name="Mögliche Wortverwechslung: Uhrzeit/Urzeit">
       <rule>
         <pattern case_sensitive="yes" mark_from="1">
@@ -3150,6 +3186,45 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect">Ulrike <marker>Meinhoff</marker></example>
       </rule>
     </rulegroup>
+    <rulegroup id="JOHANNES_GUTENBERG" name="Eigenname: 'Johannes Guttenberg (Gutenberg)'">
+      <!-- TODO: extend this ('Buchdruck' ...) -->
+      <rule>
+        <pattern mark_from="1">
+          <token>Johannes</token>
+          <token>Guttenberg</token>
+        </pattern>
+        <message>Meinten Sie Johannes <suggestion>Gutenberg</suggestion>, den Erfinder des Buchdrucks?</message>
+        <short>&eigenname;</short>
+        <example type="correct">Johannes <marker>Gutenberg</marker> ist der Erfinder des Buchdrucks mit beweglichen Lettern.</example>
+        <example type="correct">Karl Theodor zu <marker>Guttenberg</marker> ist wegen einer Plagiatsaffäre zurückgetreten.</example>
+        <example type="incorrect">Johannes <marker>Guttenberg</marker> ist der Erfinder des Buchdrucks mit beweglichen Lettern.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="3">
+          <token>von</token>
+          <token>und</token>
+          <token>zu</token>
+          <token>Gutenberg</token>
+        </pattern>
+        <message>Meinten Sie Karl-Theodor zu <suggestion>Guttenberg</suggestion>, den ehemaligen Bundesminister der Verteidigung?</message>
+        <short>&eigenname;</short>
+        <example type="correct">Ich sagte zu <marker>Gutenberg</marker>: "Erfinde doch mal den Buchdruck mit beweglichen Lettern."</example>
+        <example type="correct">Johannes <marker>Gutenberg</marker> ist der Erfinder des Buchdrucks mit beweglichen Lettern.</example>
+        <example type="correct">Karl-Theodor zu <marker>Guttenberg</marker> ist wegen einer Plagiatsaffäre zurückgetreten.</example>
+        <example type="incorrect">Karl-Theodor von und zu <marker>Gutenberg</marker> ist wegen einer Plagiatsaffäre zurückgetreten.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes" skip="1">Theodor|.*Minister</token>
+          <token>Gutenberg</token>
+        </pattern>
+        <message>Meinten Sie Karl-Theodor zu <suggestion>Guttenberg</suggestion>, den ehemaligen Bundesminister der Verteidigung?</message>
+        <short>&eigenname;</short>
+        <example type="correct">Johannes <marker>Gutenberg</marker> ist der Erfinder des Buchdrucks mit beweglichen Lettern.</example>
+        <example type="correct">Karl-Theodor zu <marker>Guttenberg</marker> ist wegen einer Plagiatsaffäre zurückgetreten.</example>
+        <example type="incorrect">Karl Theodor zu <marker>Gutenberg</marker> ist wegen einer Plagiatsaffäre zurückgetreten.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="ANDREAS_BAADER" name="Eigenname: 'Andreas Bader (Baader)'">
       <rule>
         <pattern mark_from="1">
@@ -3659,12 +3734,23 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <pattern case_sensitive="yes" mark_from="1">
           <token regexp="yes">[zZ]um|[bB]eim</token>
           <token>Haare</token>
-          <token regexp="yes">[sS]chneiden</token>
+          <token regexp="yes">[sS]chneiden|[wW]aschen</token>
         </pattern>
-        <message><suggestion>Haareschneiden</suggestion> wird in dieser Wendung zusammengeschrieben. Sie können alternativ auch eine Genitivkonstruktion ('zum Schneiden der Haare') verwenden.</message>
-        <short>'Haareschneiden' wird in dieser Wendung zusammengeschrieben.</short>
+        <message>Meinten Sie <suggestion><match no="2"/><match case_conversion="startlower" no="3"/></suggestion>? Sie können alternativ auch eine Genitivkonstruktion ('zum Schneiden der Haare') o.ä. verwenden.</message>
+        <short>&getrennt;.</short>
         <example type="correct">Beim <marker>Haareschneiden</marker> kommen mir die besten Einfälle.</example>
         <example type="incorrect" correction="Haareschneiden">Beim <marker>Haare schneiden</marker> kommen mir die besten Einfälle.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="1">
+          <token regexp="yes">[zZ]um|[bB]eim</token>
+          <token>Auto</token>
+          <token regexp="yes">[fF]ahren</token>
+        </pattern>
+        <message>Meinten Sie <suggestion><match no="2"/><match case_conversion="startlower" no="3"/></suggestion>? Sie können alternativ auch eine Genitivkonstruktion ('zum Schneiden der Haare') o.ä. verwenden.</message>
+        <short>&getrennt;.</short>
+        <example type="correct">Beim <marker>Autofahren</marker> kommen mir die besten Einfälle.</example>
+        <example type="incorrect" correction="Autofahren">Beim <marker>Auto fahren</marker> kommen mir die besten Einfälle.</example>
       </rule>
       <rule>
         <pattern case_sensitive="yes" mark_from="1">
@@ -12559,6 +12645,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token>Lebenszeit</token>
       </pattern>
       <message>Meinten Sie <suggestion>zu <match no="2" regexp_match="r$" regexp_replace="n"/> Lebzeiten</suggestion>? Diese Redewendung ist sehr viel gebräuchlicher.</message>
+      <short>Möglicherweise falsch verwendete Redewendung</short>
       <example type="correct">Seine Werke waren <marker>zu seinen Lebzeiten</marker> nicht besonders erfolgreich.</example>
       <example type="incorrect">Seine Werke waren <marker>zu seiner Lebenszeit</marker> nicht besonders erfolgreich.</example>
     </rule>
@@ -12572,6 +12659,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>dass</token>
         </pattern>
         <message>'Insofern' steht mit der Konjunktion <suggestion>als</suggestion>.</message>
+        <short>Möglicherweise falsch verwendete Redewendung</short>
         <example type="correct">Das gilt insofern, <marker>als</marker> obige Bedingungen erfüllt sind.</example>
         <example type="incorrect">Das gilt insofern, <marker>als dass</marker> obige Bedingungen erfüllt sind.</example>
       </rule>
@@ -12583,6 +12671,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>dass</token>
         </pattern>
         <message>'Insofern' steht mit der Konjunktion <suggestion>als</suggestion>.</message>
+        <short>Möglicherweise falsch verwendete Redewendung</short>
         <example type="correct">Das trifft insofern zu, <marker>als</marker> obige Bedingungen erfüllt sind.</example>
         <example type="incorrect">Das trifft insofern zu, <marker>als dass</marker> obige Bedingungen erfüllt sind.</example>
         <example type="incorrect">Das ist insofern eine Schweinerei, <marker>als dass</marker> sie uns getäuscht haben.</example>
@@ -12595,6 +12684,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token>verrennt</token>
       </pattern>
       <message>Meinten Sie die Redewendung <suggestion>die Zeit verrinnt</suggestion>?</message>
+      <short>Möglicherweise falsch verwendete Redewendung</short>
       <example type="correct"><marker>Die Zeit verrinnt</marker> so schnell.</example>
       <example type="incorrect"><marker>Die Zeit verrennt</marker> so schnell.</example>
     </rule>
@@ -12605,6 +12695,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token>gebe</token>
       </pattern>
       <message>Meinten Sie <suggestion>gang und gäbe</suggestion>? (feste Redewendung)</message>
+      <short>Möglicherweise falsch verwendete Redewendung</short>
       <example type="correct">Das ist <marker>gang und gäbe</marker>.</example>
       <example type="incorrect">Das ist <marker>gang und gebe</marker>.</example>
     </rule>
@@ -12617,6 +12708,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>Stil</token>
         </pattern>
         <message>Meinten Sie die Redewendung <suggestion>mit Stumpf und Stiel</suggestion> (im Sinne von 'vollständig')?</message>
+        <short>Möglicherweise falsch verwendete Redewendung</short>
         <example type="correct"><marker>Mit Stumpf und Stiel</marker> haben Unbekannte den Apparat aus dem Erdreich gerissen.</example>
         <example type="incorrect"><marker>Mit Stumpf und Stil</marker> haben Unbekannte den Apparat aus dem Erdreich gerissen.</example>
       </rule>
@@ -12628,6 +12720,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>Stiel</token>
         </pattern>
         <message>Meinten Sie die Redewendung <suggestion>mit Stumpf und Stiel</suggestion> (im Sinne von 'vollständig')?</message>
+        <short>Möglicherweise falsch verwendete Redewendung</short>
         <example type="correct"><marker>Mit Stumpf und Stiel</marker> haben Unbekannte den Apparat aus dem Erdreich gerissen.</example>
         <example type="incorrect"><marker>Mit Sumpf und Stiel</marker> haben Unbekannte den Apparat aus dem Erdreich gerissen.</example>
       </rule>
@@ -12640,6 +12733,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token>gesehen</token>
       </pattern>
       <message>Meinten Sie <suggestion>ward</suggestion>? (feste Redewendung)</message>
+      <short>Möglicherweise falsch verwendete Redewendung</short>
       <example type="correct">Er <marker>ward</marker> nicht mehr gesehen.</example>
       <example type="incorrect">Er <marker>wart</marker> nicht mehr gesehen.</example>
     </rule>
@@ -12649,10 +12743,37 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token>Vollmilchsau</token>
       </pattern>
       <message>Meinten Sie <suggestion>Wollmilchsau</suggestion>? (feste Redewendung)</message>
+      <short>Möglicherweise falsch verwendete Redewendung</short>
       <example type="correct">Er erfindet eine eierlegende <marker>Wollmilchsau</marker>.</example>
       <example type="incorrect">Er erfindet eine eierlegende <marker>Vollmilchsau</marker>.</example>
       <example type="incorrect">Die Legende der eierlegenden <marker>Vollmilchsau</marker>.</example>
     </rule>
+    <rulegroup id="ZUR_SALZSAEURE" name="Redewendung: 'zur Salzsäure (-säule) erstarren'">
+      <rule>
+        <pattern mark_from="2">
+          <token inflected="yes" skip="1">erstarren</token>
+          <token regexp="yes">zur?</token>
+          <token regexp="yes">Salzsäu.*<exception>Salzsäule</exception></token>
+        </pattern>
+        <message>Meinten Sie <suggestion>Salzsäule</suggestion>? (biblische Redewendung)</message>
+        <url>http://www.bibleserver.com/index.php?ref=1.mos19%2C26&amp;trl_desig=EU&amp;language=de&amp;gw=go</url>
+        <short>Möglicherweise falsch verwendete Redewendung</short>
+        <example type="correct">Ich erstarrte zur <marker>Salzsäule</marker>.</example>
+        <example type="incorrect">Ich erstarrte zur <marker>Salzsäure</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token regexp="yes">zur?</token>
+          <token regexp="yes">Salzsäu.*<exception>Salzsäule</exception></token>
+          <token inflected="yes">erstarren</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>Salzsäule</suggestion>? (biblische Redewendung)</message>
+        <url>http://www.bibleserver.com/index.php?ref=1.mos19%2C26&amp;trl_desig=EU&amp;language=de&amp;gw=go</url>
+        <short>Möglicherweise falsch verwendete Redewendung</short>
+        <example type="correct">Ich bin zur <marker>Salzsäule</marker> erstarrt.</example>
+        <example type="incorrect">Ich bin zur <marker>Salzsäure</marker> erstarrt.</example>
+      </rule>
+    </rulegroup>
     <rule id="MIT_RUM_BEKLECKERT" name="Redewendung: 'mit Rum (Ruhm) bekleckert'">
       <pattern mark_from="2" mark_to="-1">
         <token regexp="yes">nicht|unbedingt|gerade</token>
@@ -12661,6 +12782,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token regexp="yes">bekleckert|befleckt|bedeckt</token>
       </pattern>
       <message>Meinten Sie <suggestion>Ruhm</suggestion>? (Redewendung)</message>
+      <short>Möglicherweise falsch verwendete Redewendung</short>
       <example type="correct">Da haben wir uns nicht gerade mit <marker>Ruhm</marker> bekleckert.</example>
       <example type="correct">Verzeihung, Sie haben sich eben mit etwas <marker>Rum</marker> bekleckert.</example>
       <example type="incorrect">Da haben wir uns nicht gerade mit <marker>Rum</marker> bekleckert.</example>
@@ -12675,6 +12797,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token>zuerst</token>
       </pattern>
       <message>Meinten Sie <suggestion>mahlt</suggestion>? (Redewendung)</message>
+      <short>Möglicherweise falsch verwendete Redewendung</short>
       <example type="correct">Wer zuerst kommt, <marker>mahlt</marker> zuerst.</example>
       <example type="incorrect">Wer zuerst kommt, <marker>malt</marker> zuerst.</example>
     </rule>
@@ -12686,6 +12809,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token>entstanden</token>
       </pattern>
       <message>Meinten Sie <suggestion>aus dem Nichts entstanden</suggestion> oder <suggestion>aus der Luft gegriffen</suggestion>?</message>
+      <short>Möglicherweise falsch verwendete Redewendung</short>
       <example type="correct">Die Vorwürfe sind doch nicht einfach <marker>aus dem Nichts entstanden</marker>.</example>
       <example type="correct">Die Vorwürfe sind doch nicht einfach <marker>aus der Luft gegriffen</marker>.</example>
       <example type="incorrect">Die Vorwürfe sind doch nicht einfach <marker>aus der Luft entstanden</marker>.</example>
@@ -12693,6 +12817,19 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
   </category>
 
   <category name="Zeichensetzung">
+    <rule id="ROCK_N_ROLL" name="Zeichensetzung: Apostroph in 'Rock 'n' Roll'">
+      <pattern>
+        <token>Rock</token>
+        <token skip="1"><exception regexp="yes">and|’n’|'n'</exception></token>
+        <token>Roll</token>
+      </pattern>
+      <message>Meinten Sie den Musikstil aus den fünfziger Jahren? Gängige Schreibweisen: <suggestion>Rock ’n’ Roll</suggestion>, <suggestion>Rock 'n' Roll</suggestion>, <suggestion>Rock and Roll</suggestion></message>
+      <example type="correct">Das ist <marker>Rock ’n’ Roll</marker>, Baby!</example>
+      <example type="correct">Das ist <marker>Rock 'n' Roll</marker>, Baby!</example>
+      <example type="correct">Das ist <marker>Rock and Roll</marker>, Baby!</example>
+      <example type="incorrect" correction="Rock ’n’ Roll|Rock 'n' Roll|Rock and Roll">Das ist <marker>Rock n´ Roll</marker>, Baby!</example>
+      <example type="incorrect" correction="Rock ’n’ Roll|Rock 'n' Roll|Rock and Roll">Das ist <marker>Rock n' Roll</marker>, Baby!</example>
+    </rule>
     <rule id="DOPPELTES_AUSRUFEZEICHEN" name="Zeichensetzung: mehrere Ausrufezeichen etc.">
       <pattern>
         <token regexp="yes">\!|\?</token>
