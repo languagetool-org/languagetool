@@ -3092,7 +3092,8 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     <!-- Produktnamen -->
     <rulegroup id="OPENOFFICE" name="Eigenname: 'OpenOffice (OpenOffice.org)'">
       <rule>
-        <pattern mark_from="0" mark_to="-1">
+        <pattern mark_from="1" mark_to="-1">
+          <token negate="yes">Apache</token>
           <token>OpenOffice</token>
           <token negate="yes">.</token>
         </pattern>
@@ -3101,7 +3102,6 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct"><marker>OpenOffice.org</marker> ist freie Software.</example>
         <example type="incorrect" correction="OpenOffice.org|Open Office"><marker>OpenOffice</marker> ist freie Software.</example>
         <example type="incorrect" correction="OpenOffice.org|Open Office">Oracle <marker>Openoffice</marker> war keine freie Software.</example>
-        <!-- TODO Apache OpenOffice is okay -->
       </rule>
     </rulegroup>
     <!-- Prominente -->
@@ -3268,6 +3268,17 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <short>&eigenname;</short>
       <example type="correct"><marker>Joseph</marker> Goebbels</example>
       <example type="incorrect"><marker>Josef</marker> Goebbels</example>
+    </rule>
+    <rule id="BARBRA_STREISAND" name="Eigenname: 'Barbara (Barbra) Streisand'">
+      <pattern case_sensitive="yes" mark_to="-1">
+        <token>Barbara</token>
+        <token>Streisand</token>
+      </pattern>
+      <message>Meinen Sie die amerikanische Schauspielerin und Sängerin <suggestion>Barbra</suggestion> Streisand? (Das ist die von ihr selbst bevorzugte Schreibweise des Vornamens.)</message>
+      <url>http://de.wikipedia.org/wiki/Barbra_Streisand</url>
+      <short>&eigenname;</short>
+      <example type="correct"><marker>Barbra</marker> Streisand</example>
+      <example type="incorrect" correction="Barbra"><marker>Barbara</marker> Streisand</example>
     </rule>
     <rule id="BERTOLT_BRECHT" name="Eigenname: 'Berthold (Bertolt) Brecht'">
       <pattern case_sensitive="yes" mark_to="-1">
@@ -4460,7 +4471,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token skip="1">freiwillig</token>
           <token regexp="yes">gewollt(e[nsr]?)?</token>
         </pattern>
-        <message>&redundanz;Die Wörter <suggestion>\1</suggestion> und <suggestion>\2</suggestion> drücken etwa dasselbe aus.</message>
+        <message>&redundanz;Vorschläge: <suggestion>\1 getan</suggestion>, <suggestion>selbst \2</suggestion></message>
         <short>&redundanz;</short>
         <example type="incorrect">Das hast du <marker>freiwillig so gewollt</marker>.</example>
         <example type="correct">Das hast du doch <marker>selbst so gewollt</marker>.</example>
@@ -4641,6 +4652,16 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       </rule>
     </rulegroup>
     <rulegroup id="RUNDE_KUGEL" name="Verdoppelung: 'runde Kugel' u.ä.">
+      <rule>
+        <pattern case_sensitive="yes">
+          <token regexp="yes">schriftlichen?</token>
+          <token regexp="yes">Klausur(en)?</token>
+        </pattern>
+        <message>Die Bedeutung des Substantivs \2 beinhaltet bereits das durch das Adjektiv \1 ausgedrückte Merkmal. In vielen Kontexten kann diese Formulierung deswegen redundant erscheinen. Vorschlag: <suggestion>\2</suggestion></message>
+        <short>&redundanz;</short>
+        <example type="incorrect" correction="Klausuren">Hier sind die <marker>schriftlichen Klausuren</marker>.</example>
+        <example type="correct">Das sind die <marker>Klausuren</marker>.</example>
+      </rule>
       <rule>
         <pattern case_sensitive="yes">
           <token regexp="yes">üblichen?</token>
