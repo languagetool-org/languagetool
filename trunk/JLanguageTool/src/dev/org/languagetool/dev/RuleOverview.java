@@ -61,7 +61,7 @@ public final class RuleOverview {
     System.out.println("<tr>");
     System.out.println("  <th valign='bottom' width=\"70\">Language</th>");
     System.out.println("  <th valign='bottom' align=\"left\" width=\"60\">XML<br/>rules</th>");
-    System.out.println("  <th></th>");
+    System.out.println("  <th width=\"120\"></th>");
     System.out.println("  <th align=\"left\" width=\"60\">Java<br/>rules</th>");
     System.out.println("  <th align=\"left\" width=\"60\">False<br/>friends</th>");
     System.out.println("  <th valign='bottom' width=\"65\">Auto-<br/>detected</th>");
@@ -101,12 +101,12 @@ public final class RuleOverview {
         xmlRules = xmlRules.replaceAll("(?s)<rules.*?>", "");
         final int count = countXmlRules(xmlRules);
         final int countInRuleGroup = countXmlRuleGroupRules(xmlRules);
+        final String ruleBase = "http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/JLanguageTool/src/rules/";
         System.out.print("<td valign=\"top\" align=\"right\">" + (count + countInRuleGroup) + "</td>");
         System.out.print("<td valign=\"top\" align=\"right\">" +
-            "<a href=\"http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/JLanguageTool/src/rules/" + lang.getShortName() + "/grammar.xml?content-type=text%2Fplain" +
-            "\">show</a>/" +
-            "<a href=\"http://community.languagetool.org/rule/list?lang=" +
-            lang.getShortName() + "\">browse</a>" +
+            "<a href=\"" + ruleBase + lang.getShortName() + "/grammar.xml" + "\">Show</a> / " +
+            "<a href=\"" + ruleBase + lang.getShortName() + "/grammar.xml?content-type=text%2Fplain" + "\">XML</a> / " +
+            "<a href=\"http://community.languagetool.org/rule/list?lang=" + lang.getShortName() + "\">Browse</a>" +
             "</td>");
       }
 
