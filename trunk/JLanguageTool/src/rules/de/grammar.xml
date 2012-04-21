@@ -7895,6 +7895,17 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Die Menschlichkeit bleibt dabei auf der <marker>Strecke</marker>.</example>
       </rule>
     </rulegroup>
+    <rule id="ANTRIEB_SUBST" name="Groß-/Kleinschreibung: 'aus eigenem antrieb (Antrieb)' etc.">
+      <pattern case_sensitive="yes" mark_from="2">
+        <token regexp="yes">[aA]us</token>
+        <token postag="ADJ:DAT:SIN:MAS.*" postag_regexp="yes"/>
+        <token>antrieb</token>
+      </pattern>
+      <message>&subanfang;<suggestion>Antrieb</suggestion>&subende;</message>
+      <short>&prgk;.</short>
+      <example type="incorrect" correction="Antrieb">Er handelte aus eigenem <marker>antrieb</marker>.</example>
+      <example type="correct">Er handelte aus eigenem <marker>Antrieb</marker>.</example>
+    </rule>
     <rule id="AN_DER_SCHWELLE" name="Groß-/Kleinschreibung: 'an der schwelle (Schwelle)'">
       <pattern case_sensitive="yes" mark_from="2">
         <token regexp="yes">[aA](n|uf)</token>
