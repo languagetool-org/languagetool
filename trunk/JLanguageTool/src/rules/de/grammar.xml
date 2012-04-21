@@ -860,6 +860,15 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Das ist <marker>Email</marker>.</example>
       </rule>
       <rule>
+        <pattern mark_from="1">
+          <token>per</token>
+          <token>Email</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>E-Mail</suggestion> (elektronische Post) statt 'Email' (Schmelzüberzug)?</message>
+        <example type="incorrect" correction="E-Mail">Ich regle die Angelegenheit per <marker>Email</marker>.</example>
+        <example type="correct">Ich regle die Angelegenheit per <marker>E-Mail</marker>.</example>
+      </rule>
+      <rule>
         <pattern case_sensitive="yes">
           <token regexp="yes">email|eMail|e\-Mail|e\-mail|E\-mail</token>
         </pattern>
@@ -3097,9 +3106,10 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>OpenOffice</token>
           <token negate="yes">.</token>
         </pattern>
-        <message>Meinten Sie das freie <suggestion>OpenOffice.org</suggestion> oder das eingestellte Oracle <suggestion>Open Office</suggestion>?</message>
+        <message>Meinten Sie das freie <suggestion>OpenOffice.org</suggestion> oder das eingestellte Oracle <suggestion>Open Office</suggestion>? Wenn Sie Apache OpenOffice meinen, ist die Schreibweise korrekt.</message>
         <short>&eigenname;</short>
         <example type="correct"><marker>OpenOffice.org</marker> ist freie Software.</example>
+        <example type="correct">Apache <marker>OpenOffice</marker> ist freie Software.</example>
         <example type="incorrect" correction="OpenOffice.org|Open Office"><marker>OpenOffice</marker> ist freie Software.</example>
         <example type="incorrect" correction="OpenOffice.org|Open Office">Oracle <marker>Openoffice</marker> war keine freie Software.</example>
       </rule>
@@ -5200,6 +5210,115 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect" correction="dasselbe">Das ist doch ein und <marker>das gleiche</marker>!</example>
         <example type="incorrect" correction="dieselben">Das sind ein und <marker>die gleichen</marker> Probleme!</example>
         <example type="correct">Das ist doch ein und <marker>dasselbe</marker>!</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="MACHEN_UMGANGSSPRACHE" name="Umgangssprache: umgangssprachliche Verwendung von 'machen'">
+      <rule>
+        <pattern>
+          <token>zumachen</token>
+        </pattern>
+        <message>'Zumachen'&umgangsspr; Vorschläge: <suggestion>schließen</suggestion>, <suggestion>sich verschließen</suggestion>, <suggestion>sich beeilen</suggestion>.</message>
+        <example type="incorrect">Kannst du das Fenster <marker>zumachen</marker>?</example>
+        <example type="correct">Kannst du das Fenster <marker>schließen</marker>?</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>mach</token>
+          <token>zu</token>
+        </pattern>
+        <message>'Zumachen'&umgangsspr; Vorschläge: <suggestion>schließen</suggestion>, <suggestion>sich verschließen</suggestion>, <suggestion>sich beeilen</suggestion>.</message>
+        <example type="incorrect"><marker>Mach zu</marker>!</example>
+        <example type="correct"><marker>Beeile dich</marker>!</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token skip="1" inflected="yes">Ableitung</token>
+          <token inflected="yes">machen</token>
+        </pattern>
+        <message>'Ableitung machen'&umgangsspr; Vorschläge: <suggestion>\1 <match no="1" include_skipped="following"/> bilden</suggestion>, <suggestion>ableiten</suggestion>.</message>
+        <example type="incorrect" correction="Ableitung zu bilden|Ableiten">Ich habe keine Lust, die <marker>Ableitung zu machen</marker>.</example>
+        <example type="incorrect" correction="Ableitungen zu bilden|Ableiten">Die <marker>Ableitungen zu machen</marker> ist einfach.</example>
+        <example type="correct">Ich habe keine Lust, die <marker>Ableitung zu bilden</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token skip="1" inflected="yes">machen</token>
+          <token inflected="yes">Ableitung</token>
+        </pattern>
+        <message>'Ableitung machen'&umgangsspr; Vorschläge: <suggestion>bilden <match no="1" include_skipped="following"/> \2</suggestion>, <suggestion>ableiten</suggestion>.</message>
+        <example type="incorrect" correction="Bilden von Ableitungen|Ableiten">Das <marker>Machen von Ableitungen</marker> ist einfach.</example>
+        <example type="correct">Das <marker>Bilden von Ableitungen</marker> is einfach.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="PLUS_RECHNEN" name="Umgangssprache: 'plus rechnen (addieren)' etc.">
+      <rule>
+        <pattern case_sensitive="yes">
+          <token>plus</token>
+          <token inflected="yes">rechnen</token>
+        </pattern>
+        <message>'Plus rechnen'&umgangsspr; Vorschlag: <suggestion>addieren</suggestion>.</message>
+        <example type="incorrect">Du musst <marker>plus rechnen</marker>.</example>
+        <example type="correct">Du musst <marker>addieren</marker>.</example>
+        <example type="correct">Du kannst mit einem <marker>Plus rechnen</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>Plus-Rechnen</token>
+        </pattern>
+        <message>'Plus-Rechnen'&umgangsspr; Vorschläge: <suggestion>Addition</suggestion>, <suggestion>addieren</suggestion>.</message>
+        <example type="incorrect"><marker>Plus-Rechnen</marker> ist einfach.</example>
+        <example type="correct"><marker>Addieren</marker> ist einfach.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token>minus</token>
+          <token inflected="yes">rechnen</token>
+        </pattern>
+        <message>'Minus rechnen'&umgangsspr; Vorschlag: <suggestion>subtrahieren</suggestion>.</message>
+        <example type="incorrect">Du musst <marker>minus rechnen</marker>.</example>
+        <example type="correct">Du musst <marker>subtrahieren</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>Minus-Rechnen</token>
+        </pattern>
+        <message>'Minus-Rechnen'&umgangsspr; Vorschläge: <suggestion>Subtraktion</suggestion>, <suggestion>Subtrahieren</suggestion>.</message>
+        <example type="incorrect"><marker>Minus-Rechnen</marker> ist einfach.</example>
+        <example type="correct"><marker>Subtrahieren</marker> ist einfach.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token>mal</token>
+          <token inflected="yes" regexp="yes">rechnen|nehmen</token>
+        </pattern>
+        <message>'Mal rechnen'&umgangsspr; Vorschlag: <suggestion>multiplizieren</suggestion>.</message>
+        <example type="incorrect">Du musst <marker>mal nehmen</marker>.</example>
+        <example type="correct">Du musst <marker>multiplizieren</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>Mal-Rechnen</token>
+        </pattern>
+        <message>'Mal-Rechnen'&umgangsspr; Vorschläge: <suggestion>Multiplikation</suggestion>, <suggestion>Multiplizieren</suggestion>.</message>
+        <example type="incorrect"><marker>Mal-Rechnen</marker> ist einfach.</example>
+        <example type="correct"><marker>Multiplizieren</marker> ist einfach.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token>geteilt</token>
+          <token inflected="yes">rechnen</token>
+        </pattern>
+        <message>'Geteilt rechnen'&umgangsspr; Vorschlag: <suggestion>dividieren</suggestion>.</message>
+        <example type="incorrect">Du musst <marker>geteilt rechnen</marker>.</example>
+        <example type="correct">Du musst <marker>dividieren</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>Geteilt-Rechnen</token>
+        </pattern>
+        <message>'Geteilt-Rechnen'&umgangsspr; Vorschläge: <suggestion>Division</suggestion>, <suggestion>Dividieren</suggestion>.</message>
+        <example type="incorrect"><marker>Geteilt-Rechnen</marker> ist einfach.</example>
+        <example type="correct"><marker>Dividieren</marker> ist einfach.</example>
       </rule>
     </rulegroup>
     <rulegroup id="VOLTZAHL" name="Umgangssprache: Einheitsbezeichnungen ('Voltzahl', 'Stundenkilometer' etc.)">
