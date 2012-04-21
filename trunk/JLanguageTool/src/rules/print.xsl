@@ -48,7 +48,7 @@
 
     <xsl:template match="//rule[@id!='']">
         <li>
-            <xsl:value-of select="@name" />            
+            <xsl:value-of select="@name" />
         </li>
         <ul>
             <xsl:apply-templates select="*" />
@@ -64,6 +64,14 @@
         </ul>
     </xsl:template>
 
+    <xsl:template match="//rule/url">
+        <li>
+            <xsl:element name="a">
+                <xsl:attribute name="href"><xsl:value-of select="." /></xsl:attribute>
+                <xsl:value-of select="."/>
+            </xsl:element>
+        </li>
+    </xsl:template>
 
     <xsl:template match="//rule/example[@type='incorrect']">
         <li>
