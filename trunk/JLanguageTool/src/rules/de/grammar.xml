@@ -386,6 +386,84 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Da das nicht gut ist, sollten Hintergrundgeräusche <marker>vermieden</marker> werden.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="STARTE_STARRTE" name="Möglicher Tippfehler: 'er starte (starrte) mich an' u.ä.">
+      <rule>
+        <pattern mark_to="-2" case_sensitive="yes">
+          <token regexp="yes">starten?</token>
+          <token>ins</token>
+          <token>Leere</token>
+        </pattern>
+        <message>Meinten Sie <suggestion><match no="1" regexp_match="start" regexp_replace="starrt"/></suggestion>? (anstarren = starr ansehen; starten = in Gang bringen)</message>
+        <example type="incorrect" correction="starrte">Er <marker>starte</marker> ins Leere.</example>
+        <example type="correct">Er <marker>starrte</marker> mich an.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-2">
+          <token>sie</token>
+          <token>starten</token>
+          <token>auf</token>
+          <token regexp="yes" skip="1">den|die|das</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>starrten</suggestion>? (anstarren = starr ansehen; starten = in Gang bringen)</message>
+        <example type="incorrect" correction="starrten">Sie <marker>starten</marker> auf den Monitor.</example>
+        <example type="correct">Er <marker>starrte</marker> auf den Monitor.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-2">
+          <token regexp="yes">er|sie|es|ich</token>
+          <token>starte</token>
+          <token>auf</token>
+          <token regexp="yes" skip="1">den|die|das</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>starrte</suggestion>? (anstarren = starr ansehen; starten = in Gang bringen)</message>
+        <example type="incorrect" correction="starrte">Er <marker>starte</marker> auf den Monitor.</example>
+        <example type="correct">Er <marker>starrte</marker> mich an.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-2">
+          <token regexp="yes">er|sie|es|ich</token>
+          <token>starte</token>
+          <token regexp="yes" skip="1">mich|dich|ihn|sie|es|uns|euch</token>
+          <token>an</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>starrte</suggestion>? (anstarren = starr ansehen; starten = in Gang bringen)</message>
+        <example type="incorrect" correction="starrte">Er <marker>starte</marker> mich an.</example>
+        <example type="correct">Er <marker>starrte</marker> mich an.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-2">
+          <token>sie</token>
+          <token>starten</token>
+          <token regexp="yes" skip="1">mich|dich|ihn|sie|es|uns|euch</token>
+          <token>an</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>starrten</suggestion>? (anstarren = starr ansehen; starten = in Gang bringen)</message>
+        <example type="incorrect" correction="starrten">Sie <marker>starten</marker> uns ungläubig an.</example>
+        <example type="correct">Der Mann <marker>starrte</marker> mich an.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-2">
+          <token postag="SUB:[A-Z]{3}:SIN:.+" postag_regexp="yes"/>
+          <token>starte</token>
+          <token regexp="yes" skip="1">mich|dich|ihn|sie|es|uns|euch</token>
+          <token>an</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>starrte</suggestion>? (anstarren = starr ansehen; starten = in Gang bringen)</message>
+        <example type="incorrect" correction="starrte">Der Mann <marker>starte</marker> mich an.</example>
+        <example type="correct">Der Mann <marker>starrte</marker> mich an.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-2">
+          <token postag="SUB:[A-Z]{3}:PLU:.+" postag_regexp="yes"/>
+          <token>starten</token>
+          <token regexp="yes" skip="1">mich|dich|ihn|sie|es|uns|euch</token>
+          <token>an</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>starrten</suggestion>? (anstarren = starr ansehen; starten = in Gang bringen)</message>
+        <example type="incorrect" correction="starrten">Die Frauen <marker>starten</marker> uns ungläubig an.</example>
+        <example type="correct">Der Mann <marker>starrte</marker> mich an.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="GEGEN_GEGEBEN" name="Möglicher Tippfehler: 'gegen (gegeben)'">
       <rule>
         <pattern mark_to="-1" mark_from="1">
