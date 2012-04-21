@@ -5947,7 +5947,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <pattern case_sensitive="yes" mark_to="-2">
           <token>absage</token>
           <token>zu</token>
-          <token inflected="yes">erteilen</token>
+          <token>erteilen</token>
         </pattern>
         <message>&subanfang;<suggestion>Absage</suggestion>&subende;</message>
         <short>&prgk;.</short>
@@ -5964,6 +5964,85 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <short>&prgk;.</short>
         <example type="correct">Wir erteilten ihm eine klare <marker>Absage</marker>.</example>
         <example type="incorrect" correction="Absage">Wir erteilten ihm eine klare <marker>absage</marker>.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="WIDERSTAND_SUBST" name="Groß-/Kleinschreibung: 'widerstand (Widerstand) leisten' etc.">
+      <rule>
+        <pattern case_sensitive="yes" mark_to="-1">
+          <token>widerstand</token>
+          <token inflected="yes">leisten</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Widerstand</suggestion>&subende;</message>
+        <short>&prgk;.</short>
+        <example type="correct">Er hat keinen <marker>Widerstand</marker> geleistet.</example>
+        <example type="incorrect" correction="Widerstand">Er hat keinen <marker>widerstand</marker> geleistet.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_to="-2">
+          <token>widerstand</token>
+          <token>zu</token>
+          <token>leisten</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Widerstand</suggestion>&subende;</message>
+        <short>&prgk;.</short>
+        <example type="correct">Es gilt <marker>Widerstand</marker> zu leisten.</example>
+        <example type="incorrect" correction="Widerstand">Es gilt <marker>widerstand</marker> zu leisten.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="1">
+          <token inflected="yes" skip="2">leisten</token>
+          <token>widerstand</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Widerstand</suggestion>&subende;</message>
+        <short>&prgk;.</short>
+        <example type="correct">Wir leisteten erbitterten <marker>Widerstand</marker>.</example>
+        <example type="incorrect" correction="Widerstand">Wir leisteten dagegen erbitterten <marker>widerstand</marker>.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="2">
+          <token regexp="yes">[gG]egen</token>
+          <token regexp="yes">den|meinen|deinen|seinen|unseren|euren|ihren|dessen|deren</token>
+          <token>widerstand</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Widerstand</suggestion>&subende;</message>
+        <short>&prgk;.</short>
+        <example type="correct">Gegen den <marker>Widerstand</marker> der Opposition wurde das Gesetz verabschiedet.</example>
+        <example type="incorrect" correction="Widerstand">Gegen den <marker>widerstand</marker> der Opposition wurde das Gesetz verabschiedet.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="3">
+          <token regexp="yes">[gG]egen</token>
+          <token regexp="yes">den|meinen|deinen|seinen|unseren|euren|ihren|dessen|deren</token>
+          <token postag="ADJ:AKK:SIN:MAS.*" postag_regexp="yes"/>
+          <token>widerstand</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Widerstand</suggestion>&subende;</message>
+        <short>&prgk;.</short>
+        <example type="correct">Gegen den erbitterten <marker>Widerstand</marker> der Opposition wurde das Gesetz verabschiedet.</example>
+        <example type="incorrect" correction="Widerstand">Gegen den heftigen <marker>widerstand</marker> der Opposition wurde das Gesetz verabschiedet.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="1">
+          <token regexp="yes">auf|zum|im|&meindein;</token>
+          <token>widerstand</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Widerstand</suggestion>&subende;</message>
+        <short>&prgk;.</short>
+        <example type="correct">Wir haben das Recht auf <marker>Widerstand</marker>.</example>
+        <example type="incorrect" correction="Widerstand">Wir haben das Recht auf <marker>widerstand</marker>.</example>
+        <example type="incorrect" correction="Widerstand">Damit stieß ich auf <marker>widerstand</marker>.</example>
+        <example type="incorrect" correction="Widerstand">Das ist ein Aufruf zum <marker>widerstand</marker>.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="2">
+          <token>auf</token>
+          <token postag="ADJ:AKK:SIN:MAS.*" postag_regexp="yes"/>
+          <token>widerstand</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Widerstand</suggestion>&subende;</message>
+        <short>&prgk;.</short>
+        <example type="correct">Wir haben das Recht auf heftigen <marker>Widerstand</marker>.</example>
+        <example type="incorrect" correction="Widerstand">Damit stieß ich auf heftigen <marker>widerstand</marker>.</example>
       </rule>
     </rulegroup>
     <rule id="ANGRIFF_SUBST" name="Groß-/Kleinschreibung: 'zum angriff (Angriff)'">
@@ -6306,6 +6385,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         </pattern>
         <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>&subende;</message>
         <short>&prgk;.</short>
+        <example type="incorrect" correction="Widerstand">Der anfängliche <marker>widerstand</marker> der Opposition war bald vorbei.</example>
         <example type="incorrect" correction="Anstieg">Der schnelle <marker>anstieg</marker> der Zahl der Arbeitslosen ist erschreckend.</example>
         <example type="correct">Der schnelle <marker>Angriff</marker> dieser Person ist überraschend.</example>
       </rule>
@@ -11849,6 +11929,18 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <short>&prgk;.</short>
         <example correction="Ruhe" type="incorrect">Ihn bringt so leicht nichts aus der <marker>ruhe</marker>.</example>
         <example type="correct">Er ließ sich nicht aus der <marker>Ruhe</marker> bringen.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="2">
+          <token regexp="yes">[mM]it</token>
+          <token>der</token>
+          <token>ruhe</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Ruhe</suggestion>&subende;</message>
+        <short>&prgk;.</short>
+        <example correction="Ruhe" type="incorrect">Mit der <marker>ruhe</marker> war es bald vorbei.</example>
+        <example correction="Ruhe" type="incorrect">Immer mit der <marker>ruhe</marker>!</example>
+        <example type="correct">Immer mit der <marker>Ruhe</marker>!</example>
       </rule>
     </rulegroup>
     <rule id="IN_DER_NAEHE" name="Groß-/Kleinschreibung: 'in/aus der nähe (Nähe)'">
