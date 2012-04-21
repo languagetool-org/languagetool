@@ -83,6 +83,9 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
 
 <rules lang="de" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../rules.xsd">
 
+  <!-- ====================================================================== -->
+  <!-- Tippfehler -->
+  <!-- ====================================================================== -->
   <category name="Mögliche Tippfehler">
     <rulegroup id="GESETZ_DEN_FALL" name="Möglicher Tippfehler: 'Gesetz (Gesetzt) den Fall'">
       <rule>
@@ -890,9 +893,10 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       </rule>
     </rulegroup>
     <rule id="ZWEIT" name="Möglicher Tippfehler: 'zweit (zweite)' etc.">
+      <!-- please note that 'siebt' (verb) and 'acht' are intentionally omitted -->
       <pattern mark_from="1">
         <token negate="yes">zu</token>
-        <token regexp="yes">zweit|dritt|viert|fünft|sechst|siebt|neunt|zehnt|elft|zwölft</token>
+        <token regexp="yes">zweit|dritt|viert|fünft|sechst|neunt|zehnt|elft|zwölft</token>
       </pattern>
       <message>Meinten Sie <suggestion>\2e</suggestion>, <suggestion>zu \2</suggestion> oder eine andere Form?</message>
       <example type="correct">Wir waren zu <marker>zweit</marker>.</example>
@@ -2267,6 +2271,9 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     </rule>
   </category>
 
+  <!-- ====================================================================== -->
+  <!-- Verwechslungen -->
+  <!-- ====================================================================== -->
   <category name="Leicht zu verwechselnde Wörter">
     <rulegroup id="ZU_RECHT" name="Mögliche Wortverwechslung: zurecht/zu Recht">
       <rule>
@@ -2517,12 +2524,12 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         </pattern>
         <message>Meinten Sie <suggestion>ökumenisch</suggestion> (ökologisch = die Ökologie betreffend, ökonomisch = auf die Wirtschaft bezogen)?</message>
         <example type="correct">Was ist ein <marker>ökumenischer</marker> Gottesdienst?</example>
+        <example type="correct">Was sind <marker>ökumenische</marker> Gottesdienste?</example>
         <example type="incorrect">Was ist ein <marker>ökonomischer</marker> Gottesdienst?</example>
         <example type="incorrect">Was ist ein <marker>ökonomischer</marker> Wortgottesdienst?</example>
         <example type="incorrect">Was ist das Merkmal eines <marker>ökonomischen</marker> Gedenkgottesdienstes?</example>
         <example type="incorrect">Was ist das Merkmal eines <marker>ökonomischen</marker> Gottesdienstes?</example>
         <example type="incorrect">Was ist das Merkmal von <marker>ökonomischen</marker> Gottesdiensten?</example>
-        <example type="correct">Was sind <marker>ökumenische</marker> Gottesdienste?</example>
         <example type="incorrect">Was ist ein <marker>ökologischer</marker> Gottesdienst?</example>
         <example type="incorrect">Was ist ein <marker>ökologischer</marker> Wortgottesdienst?</example>
         <example type="incorrect">Was ist das Merkmal eines <marker>ökologischen</marker> Gedenkgottesdienstes?</example>
@@ -2971,6 +2978,9 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     </rulegroup>
   </category>
 
+  <!-- ====================================================================== -->
+  <!-- Eigennamen -->
+  <!-- ====================================================================== -->
   <category name="Falschschreibung prominenter/geographischer Eigennamen">
     <!-- geographische Namen u.ä. -->
     <rule id="DOM_VS_DON" name="Eigennamen: 'Kölner Don (Dom)' etc.">
@@ -3156,7 +3166,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>Groucho</token>
           <token>Max</token>
         </pattern>
-        <message>Meinten Sie die <suggestion>Groucho Marx</suggestion>?</message>
+        <message>Meinten Sie <suggestion>Groucho Marx</suggestion>?</message>
         <short>&eigenname;</short>
         <example type="correct">Ich bin ein großer Fan von <marker>Groucho Marx</marker>.</example>
         <example type="incorrect" correction="Groucho Marx">Ich bin ein Fan von <marker>Groucho Max</marker>.</example>
@@ -3590,6 +3600,9 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     </rulegroup>
   </category>
 
+  <!-- ====================================================================== -->
+  <!-- Zusammenschreibung -->
+  <!-- ====================================================================== -->
   <category name="Zusammen-/Getrenntschreibung">
     <!--
     <rulegroup id="HIN_UND_HER" name="Zusammen-/Getrenntschreibung: 'hin- und hergehen (hin und her gehen)">
@@ -3755,7 +3768,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <pattern case_sensitive="yes" mark_from="1">
           <token regexp="yes">[zZ]um|[bB]eim</token>
           <token>Haare</token>
-          <token regexp="yes">[sS]chneiden|[wW]aschen</token>
+          <token regexp="yes">[sS]chneiden|[wW]aschen|[fF]ärben</token>
         </pattern>
         <message>Meinten Sie <suggestion><match no="2"/><match case_conversion="startlower" no="3"/></suggestion>? Sie können alternativ auch eine Genitivkonstruktion ('zum Schneiden der Haare') o.ä. verwenden.</message>
         <short>&getrennt;.</short>
@@ -4286,6 +4299,9 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     </rulegroup>
   </category>
 
+  <!-- ====================================================================== -->
+  <!-- Redundanz -->
+  <!-- ====================================================================== -->
   <category name="Redundanz">
   <!-- Jan: TODO – Add more stuff like "Haarfrisur, Fußpedal, Altveteran, langsam kriechen, schnell rasen ..." -->
     <rulegroup id="UNGEFAEHR_GENAU" name="Unstimmigkeit: 'ungefähr genau'">
@@ -4633,6 +4649,22 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Das <marker>bedeutet</marker> gar nichts.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="KLEINE_-CHEN" name="Verdoppelung: 'kleines Häuschen' u.ä.">
+      <rule>
+        <pattern case_sensitive="yes">
+          <token regexp="yes">kleine[ns]?</token>
+          <token regexp="yes" postag="SUB:[A-Z]{3}:SIN:NEU" postag_regexp="yes">[A-ZÄÖÜ][a-zäöüß]+chen
+            <exception postag="SUB:.+:NEU" postag_regexp="yes" negate_pos="yes"/>
+            <exception>Mädchen</exception>
+          </token>
+        </pattern>
+        <message>Die Endung '-chen' beinhaltet bereits das Merkmal 'klein'. In manchen Kontexten kann diese Formulierung deswegen redundant (oder übermäßig verniedlichend) erscheinen. Vorschlag: <suggestion>\2</suggestion></message>
+        <short>&redundanz;</short>
+        <example type="incorrect">Mein <marker>kleines Mäuschen</marker> ist so süß.</example>
+        <example type="correct">Meine <marker>kleine Maus</marker> ist so süß.</example>
+        <example type="correct">Mein <marker>Mäuschen</marker> ist so süß.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="WEIBLICHE_-INNEN" name="Verdoppelung: 'weibliche Benutzerin' u.ä.">
       <!-- TODO 'Magd', 'Hexe' etc. -->
       <rule>
@@ -4662,6 +4694,16 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       </rule>
     </rulegroup>
     <rulegroup id="RUNDE_KUGEL" name="Verdoppelung: 'runde Kugel' u.ä.">
+      <rule>
+        <pattern case_sensitive="yes">
+          <token regexp="yes">problematische[ns]?</token>
+          <token regexp="yes">Problem(e?n)?|Problems</token>
+        </pattern>
+        <message>Die Bedeutung des Substantivs \2 beinhaltet bereits das durch das Adjektiv \1 ausgedrückte Merkmal. In vielen Kontexten kann diese Formulierung deswegen redundant erscheinen. Vorschlag: <suggestion>\2</suggestion>, oder weichen Sie auf ein anderes Adjektiv wie 'schwierig' aus.</message>
+        <short>&redundanz;</short>
+        <example type="incorrect" correction="Problem">Das ist ein wirklich <marker>problematisches Problem</marker>.</example>
+        <example type="correct">Das ist ein wirklich <marker>schwieriges Problem</marker>.</example>
+      </rule>
       <rule>
         <pattern case_sensitive="yes">
           <token regexp="yes">schriftlichen?</token>
@@ -4967,6 +5009,9 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     </rulegroup>
   </category>
 
+  <!-- ====================================================================== -->
+  <!-- Stil/Sprachebene -->
+  <!-- ====================================================================== -->
   <!-- TODO split or rename category? (Umgangssprache + Stil) -->
   <category name="Stil">
     <!-- TODO Make one Java-rule for context-independent, colloquial expressions and maintain a list -->
@@ -5470,7 +5515,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     </rulegroup>
     <rulegroup id="RAN_RUM_RAUF_REIN_RAUS_RUNTER" name="Umgangssprache: 'rauf (herauf)' usw. [unvollständig!]">
     <!-- TODO: add the other cases; avoid collisions with 'rein' as adjective, 'Rum' as noun, add compounds such as 'rumlaufen', etc. -->
-    <!--
+      <!--
       <rule>
         <pattern>
           <token>rauf</token>
@@ -5489,7 +5534,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Er lief in den Tunnel <marker>hinein</marker>.</example>
         <example type="correct">Er kam in den Tunnel <marker>herein</marker>.</example>
       </rule>
-    -->
+      -->
       <rule>
         <pattern>
           <token regexp="yes">raus(bekommen|gaben|geben|gebt|gefahren|gefahrenen|gegangen|gegangenen|gegeben|gegebenen|gehen|gehst|geht|gejagt|gekitzelt|geklettert|gekommen|gekriegt|gekrochen|gelassen|gelaufen|gelegt|gelesen|gelockt|gemacht|genommen|gepickt|geplatzt|geputzt|gequollen|geredet|gerissen|gerückt|gerutscht|geschaut|geschickt|geschlüpft|gesetzt|gesprudelt|gestellt|geströmt|gestürmt|gestürzt|gesucht|getragen|geworfen|geworfenen|gezerrt|gezogen|gucken|guckten|haben|hauen|holen|klettern|kletterten|klingeln|klingelten|krabbeln|kriechen|kriegen|kriegten|lassen|laufen|legen|ließen|locken|nehmen|platzen|platzten|rannten|rannte|reden|redeten|reißen|rennen|riefen|rutschen|rutschten|schauen|schauten|schicken|schickten|schmeißen|schmuggeln|suchen|suchten|warfen|werfen|zerren|ziehen)</token>
@@ -5726,7 +5771,9 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     </rulegroup>
   </category>
 
-  <!-- Rules about upper/lowercase: -->
+  <!-- ====================================================================== -->
+  <!-- Groß- und Kleinschreibung -->
+  <!-- ====================================================================== -->
   <category name="Groß-/Kleinschreibung">
     <rulegroup id="ABSAGE_SUBST" name="Groß-/Kleinschreibung: 'eine absage (Absage) erteilen'">
       <rule>
@@ -7007,7 +7054,6 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       </rule>
     </rulegroup>
     <rule id="IN_DER_TAT" name="Groß-/Kleinschreibung: 'in der tat (Tat)'">
-    <!-- FIXME "Das war seine Paradedisziplin, in der tat er sich besonders hervor." -->
       <pattern case_sensitive="yes" mark_from="2" mark_to="-1">
         <token regexp="yes">[Ii]n</token>
         <token>der</token>
@@ -11407,7 +11453,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     <rule id="OHNE_FRAGE" name="Groß-/Kleinschreibung: 'ohne frage (Frage)'">
       <pattern case_sensitive="yes" mark_from="1">
         <token>ohne</token>
-        <token regexp="yes">frage|verschulden</token>
+        <token regexp="yes">frage|verschulden|murren|widerstand</token>
       </pattern>
       <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
       <short>&prgk;.</short>
@@ -11933,6 +11979,9 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     </rulegroup>
   </category>
 
+  <!-- ====================================================================== -->
+  <!-- Grammatik -->
+  <!-- ====================================================================== -->
   <category name="Grammatik">
     <!-- TODO: testen!!
     <rulegroup id="DIE_DER" name="Grammatik: 'der/die' (Genitiv Plural für Substantive)">
@@ -12776,6 +12825,9 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     </rulegroup>
   </category>
 
+  <!-- ====================================================================== -->
+  <!-- Redewendungen -->
+  <!-- ====================================================================== -->
   <category name="Redewendungen">
     <rule id="LEBZEITEN" name="Redewendung: 'zu seinen Lebzeiten'">
     <!-- Quelle: Google-Häufigkeit -->
@@ -12956,6 +13008,9 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     </rule>
   </category>
 
+  <!-- ====================================================================== -->
+  <!-- Zeichensetzung -->
+  <!-- ====================================================================== -->
   <category name="Zeichensetzung">
     <rule id="ROCK_N_ROLL" name="Zeichensetzung: Apostroph in 'Rock 'n' Roll'">
       <pattern>
@@ -13359,10 +13414,10 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token>,</token>
         <token>–</token>
       </pattern>
-      <message>Wollten Sie ein Währungssymbol (beispielsweise <suggestion>€</suggestion> oder <suggestion>$</suggestion>) verwenden?</message>
+      <message>Wollten Sie ein Währungssymbol (beispielsweise <suggestion> €</suggestion> oder <suggestion> $</suggestion>) verwenden?</message>
       <example type="correct">10<marker>,–</marker> €</example>
       <example type="correct">9<marker>,99</marker> €</example>
-      <example type="incorrect" correction="€|$">9,99<marker>,–</marker></example>
+      <example type="incorrect" correction=" €| $">9,99<marker>,–</marker></example>
     </rule>
     <rule id="ZWISCHEN_BISSTRICH" name="Zeichensetzung: 'zwischen' mit Bis-Strich">
       <pattern mark_from="0">
@@ -13474,6 +13529,9 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     </rulegroup>
   </category>
 
+  <!-- ====================================================================== -->
+  <!-- Typographie -->
+  <!-- ====================================================================== -->
   <category name="Typographie">
     <rule id="AKZENT_STATT_APOSTROPH" name="Zeichensetzung/Typographie: Akzent statt Apostroph">
       <pattern>
@@ -13489,7 +13547,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect" correction="McDonald's|McDonald’s"><marker>McDonald´s</marker></example>
       <example type="incorrect" correction="McDonald's|McDonald’s"><marker>McDonald`s</marker></example>
     </rule>
-    <rule id="BISSTRICH" name="Typographie: Bis-Strich">
+    <rule id="BISSTRICH" name="Typographie: Bis-Strich vs. Bindestrich">
       <pattern case_sensitive="yes" mark_from="1">
         <token regexp="yes">[^0-9\-]+
           <exception regexp="yes">IS[BS]N|ISO|DIN|IEC</exception>
@@ -13527,6 +13585,9 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     </rulegroup>
   </category>
 
+  <!-- ====================================================================== -->
+  <!-- Sonstiges -->
+  <!-- ====================================================================== -->
   <category name="Sonstiges">
     <!-- Funktioniert so nicht, wegen Appositionen ('Die Spezies Tulpe')
     <rule id="DEPPENLEERZEICHEN" name="Komposita ohne Bindestrich">
@@ -13547,7 +13608,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     </rule>
     -->
     <rule id="DE_PHRASE_REPETITION" name="Wiederholung von Wortgruppen (z.B. 'auf der auf der Straße')">
-    <!-- copied from en -->
+    <!-- adapted from en -->
       <pattern>
         <token negate_pos="yes" postag="SENT_START" regexp="yes"><exception>und</exception>\p{L}+</token>
         <token regexp="yes"><exception>und</exception>\p{L}+</token>
