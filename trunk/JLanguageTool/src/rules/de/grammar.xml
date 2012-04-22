@@ -6057,7 +6057,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     </rule>
     <rule id="AUSNAHME_SUBST" name="Groß-/Kleinschreibung: 'keine ausnahmen (Ausnahmen)'">
       <pattern case_sensitive="yes" mark_from="1">
-        <token regexp="yes">[kK]eine</token>
+        <token regexp="yes">[kK]eine|ohne</token>
         <token>ausnahmen</token>
       </pattern>
       <message>&subanfang;<suggestion>Ausnahmen</suggestion>&subende;</message>
@@ -6964,17 +6964,55 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect">Sie legt keinen großen <marker>wert</marker> auf ihr Äußeres.</example>
       <example type="incorrect">Sie legt <marker>wert</marker> auf ihr Äußeres.</example>
     </rule>
-    <rule id="HAUT_UND_KNOCHEN" name="Groß-/Kleinschreibung: 'haut (Haut) und Knochen'">
-      <pattern case_sensitive="yes" mark_to="-2">
-        <token>haut</token>
-        <token>und</token>
-        <token>Knochen</token>
-      </pattern>
-      <message>&subanfang;<suggestion>Haut</suggestion>&subende;</message>
-      <short>&prgk;.</short>
-      <example type="correct">Nach der Diät war sie nur noch <marker>Haut</marker> und Knochen.</example>
-      <example type="incorrect">Nach der Diät war sie nur noch <marker>haut</marker> und Knochen.</example>
-    </rule>
+    <rulegroup id="HAUT_SUBST" name="Groß-/Kleinschreibung: 'haut (Haut) und Knochen' etc.">
+      <rule>
+        <pattern case_sensitive="yes" mark_to="-2">
+          <token>haut</token>
+          <token>und</token>
+          <token>Knochen</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Haut</suggestion>&subende;</message>
+        <short>&prgk;.</short>
+        <example type="correct">Nach der Diät war sie nur noch <marker>Haut</marker> und Knochen.</example>
+        <example type="incorrect">Nach der Diät war sie nur noch <marker>haut</marker> und Knochen.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="2" mark_to="-1">
+          <token regexp="yes">[aA]us</token>
+          <token>der</token>
+          <token skip="1">haut</token>
+          <token inflected="yes">fahren</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Haut</suggestion>&subende;</message>
+        <short>&prgk;.</short>
+        <example type="correct">Ich könnte aus der <marker>Haut</marker> fahren.</example>
+        <example type="incorrect" correction="Haut">Ich könnte aus der <marker>haut</marker> fahren.</example>
+        <example type="incorrect" correction="Haut">Wer wird denn gleich aus der <marker>haut</marker> fahren.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="3">
+          <token inflected="yes" skip="1">fahren</token>
+          <token>aus</token>
+          <token>der</token>
+          <token>haut</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Haut</suggestion>&subende;</message>
+        <short>&prgk;.</short>
+        <example type="correct">Ich fahre gleich aus der <marker>Haut</marker>!</example>
+        <example type="incorrect" correction="Haut">Ich fahre gleich aus der <marker>haut</marker>!</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="2">
+          <token>aus</token>
+          <token regexp="yes">(&meindein;)er</token>
+          <token>haut</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Haut</suggestion>&subende;</message>
+        <short>&prgk;.</short>
+        <example type="correct">Ich kann nun einmal nicht aus meiner <marker>Haut</marker>!</example>
+        <example type="incorrect" correction="Haut">Ich kann nun einmal nicht aus meiner <marker>haut</marker>!</example>
+      </rule>
+    </rulegroup>
     <rule id="STUMPF_UND_STIEL" name="Groß-/Kleinschreibung: 'mit stumpf (Stumpf) und Stiel'">
       <pattern case_sensitive="yes" mark_from="1" mark_to="-2">
         <token regexp="yes">[mM]it</token>
@@ -7056,26 +7094,42 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect" correction="Erwarten">Wider <marker>erwarten</marker></example>
       <example type="correct">Wider <marker>Erwarten</marker></example>
     </rule>
-    <rule id="AUSSER_DIENST" name="Groß-/Kleinschreibung: 'außer dienst (Dienst)'">
-      <pattern case_sensitive="yes" mark_from="1">
-        <token regexp="yes">in|im|außer</token>
-        <token>dienst</token>
-      </pattern>
-      <message>&subanfang;<suggestion>Dienst</suggestion>&subende;</message>
-      <short>&prgk;.</short>
-      <example type="incorrect" correction="Dienst">Ich bin außer <marker>dienst</marker>.</example>
-      <example type="correct">Ich bin heute nicht im <marker>Dienst</marker>.</example>
-    </rule>
-    <rule id="OEFFENTLICHER_DIENST" name="Groß-/Kleinschreibung: 'öffentlicher dienst (Dienst)'">
-      <pattern case_sensitive="yes" mark_from="1">
-        <token regexp="yes">[öÖ]ffentliche[rn]?</token>
-        <token>dienst</token>
-      </pattern>
-      <message>&subanfang;<suggestion>Dienst</suggestion>&subende;</message>
-      <short>&prgk;.</short>
-      <example type="incorrect" correction="Dienst">Ich bin im öffentlichen <marker>dienst</marker> tätig.</example>
-      <example type="correct" correction="Dienst">Ich bin im öffentlichen <marker>Dienst</marker> tätig.</example>
-    </rule>
+    <rulegroup id="DIENST_SUBST" name="Groß-/Kleinschreibung: 'dienst (Dienst) erweisen' etc.">
+      <rule>
+        <pattern case_sensitive="yes" mark_to="-1">
+          <token skip="1">dienst</token>
+          <token inflected="yes">erweisen</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Dienst</suggestion>&subende;</message>
+        <short>&prgk;.</short>
+        <example type="correct">Er hat sich keinen guten <marker>Dienst</marker> erwiesen.</example>
+        <example type="incorrect" correction="Dienst">Er hat sich keinen guten <marker>dienst</marker> erwiesen.</example>
+        <example type="correct">Es geht hier nicht darum, mir einen <marker>Dienst</marker> zu erweisen.</example>
+        <example type="incorrect" correction="Dienst">Es geht nicht darum, mir einen <marker>dienst</marker> zu erweisen.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="1">
+          <token regexp="yes">in|im|außer|keinen|kein</token>
+          <token>dienst</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Dienst</suggestion>&subende;</message>
+        <short>&prgk;.</short>
+        <example type="incorrect" correction="Dienst">Ich bin außer <marker>dienst</marker>.</example>
+        <example type="incorrect" correction="Dienst">Ich habe heute keinen <marker>dienst</marker>.</example>
+        <example type="correct">Ich bin heute nicht im <marker>Dienst</marker>.</example>
+        <example type="correct">Ich habe heute keinen <marker>Dienst</marker>.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="1">
+          <token regexp="yes">[öÖ]ffentliche[rn]?</token>
+          <token>dienst</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Dienst</suggestion>&subende;</message>
+        <short>&prgk;.</short>
+        <example type="incorrect" correction="Dienst">Ich bin im öffentlichen <marker>dienst</marker> tätig.</example>
+        <example type="correct" correction="Dienst">Ich bin im öffentlichen <marker>Dienst</marker> tätig.</example>
+      </rule>
+    </rulegroup>
     <rule id="UNTER_OPFERN" name="Groß-/Kleinschreibung: 'unter großen opfern (Opfern)' etc.">
       <pattern mark_from="2" case_sensitive="yes">
         <token regexp="yes">[uU]nter</token>
@@ -9656,15 +9710,109 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect">Davon ist noch keine <marker>rede</marker> gewesen.</example>
       </rule>
     </rulegroup>
-    <rule id="MEINE_SCHULD" name="Groß-/Kleinschreibung: 'jemandes schuld (Schuld) etc.'">
-      <pattern case_sensitive="yes" mark_from="1">
-        <token regexp="yes">meine|[dD]eine|seine|[iI]hre|unsere|[eE]ure|[wW]essen</token>
-        <token>schuld</token>
-      </pattern>
-      <message>&subanfang;<suggestion>Schuld</suggestion>&subende;</message>
-      <example type="correct">Das ist doch nicht meine <marker>Schuld</marker>!</example>
-      <example type="incorrect">Das ist ganz allein deine <marker>schuld</marker>!</example>
-    </rule>
+    <rulegroup id="MEINE_SCHULD" name="Groß-/Kleinschreibung: 'jemandes schuld (Schuld) etc.'">
+      <rule>
+        <pattern case_sensitive="yes" mark_from="2" mark_to="-1">
+          <token inflected="yes" skip="2">schieben</token>
+          <token regexp="yes" skip="1">die|alle</token>
+          <token>schuld</token>
+          <token regexp="yes">(dar)?auf|in|zu</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Schuld</suggestion>&subende;</message>
+        <short>&prgk;.</short>
+        <example type="correct">Ihr schiebt mir wieder die <marker>Schuld</marker> in die Schuhe!</example>
+        <example type="incorrect" correction="Schuld">Ihr schiebt mir die <marker>schuld</marker> in die Schuhe!</example>
+        <example type="incorrect" correction="Schuld">Ihr schiebt mir wieder die <marker>schuld</marker> zu!</example>
+        <example type="incorrect" correction="Schuld">Ihr schiebt mir wieder die ganze <marker>schuld</marker> zu!</example>
+        <example type="incorrect" correction="Schuld">Ihr schiebt die ganze <marker>schuld</marker> auf mich!</example>
+        <example type="incorrect" correction="Schuld">Wir schieben die <marker>schuld</marker> auf Alex!</example>
+        <example type="incorrect" correction="Schuld">Wir schieben jetzt alle <marker>schuld</marker> auf Alex!</example>
+        <example type="incorrect" correction="Schuld">Wir schieben jetzt alle <marker>schuld</marker> darauf, dass Alex zu doof ist!</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_to="-1">
+          <token>schuld</token>
+          <token inflected="yes">zuschieben</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Schuld</suggestion>&subende;</message>
+        <short>&prgk;.</short>
+        <example type="correct">Mir wurde wie immer die <marker>Schuld</marker> zugeschoben.</example>
+        <example type="incorrect" correction="Schuld">Ihm wurde die <marker>schuld</marker> zugeschoben.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_to="-1">
+          <token>schuld</token>
+          <token inflected="yes">tragen</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Schuld</suggestion>&subende;</message>
+        <short>&prgk;.</short>
+        <example type="correct">Er hat keine <marker>Schuld</marker> getragen.</example>
+        <example type="incorrect" correction="Schuld">Er hat keine <marker>schuld</marker> getragen.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_to="-2">
+          <token>schuld</token>
+          <token>zu</token>
+          <token>tragen</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Schuld</suggestion>&subende;</message>
+        <short>&prgk;.</short>
+        <example type="correct">Daran die <marker>Schuld</marker> zu tragen, macht mir zu schaffen.</example>
+        <example type="incorrect" correction="Schuld">Daran die <marker>schuld</marker> zu tragen, macht mir zu schaffen.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="1">
+          <token inflected="yes" skip="2">tragen</token>
+          <token>schuld</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Schuld</suggestion>&subende;</message>
+        <short>&prgk;.</short>
+        <example type="correct">Wir tragen daran <marker>Schuld</marker>.</example>
+        <example type="incorrect" correction="Schuld">Wir tragen daran <marker>schuld</marker>.</example>
+        <example type="incorrect" correction="Schuld">Wir tragen die <marker>schuld</marker> daran.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_to="-2">
+          <token>schuld</token>
+          <token>von</token>
+          <token regexp="yes">mir|dir|sich|uns|euch</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Schuld</suggestion>&subende;</message>
+        <example type="correct">Ich weise alle <marker>Schuld</marker> von mir.</example>
+        <example type="incorrect" correction="Schuld">Ich weise alle <marker>schuld</marker> von mir.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_to="-2">
+          <token>schuld</token>
+          <token>auf</token>
+          <token regexp="yes">mich|dich|sich|uns|euch</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Schuld</suggestion>&subende;</message>
+        <example type="correct">Wir haben schwere <marker>Schuld</marker> auf uns geladen.</example>
+        <example type="incorrect" correction="Schuld">Wir haben schwere <marker>schuld</marker> auf uns geladen.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_to="-2">
+          <token>schuld</token>
+          <token>und</token>
+          <token regexp="yes">[sS]ühne</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Schuld</suggestion>&subende;</message>
+        <example type="correct">Du redest hier von <marker>Schuld</marker> und Sühne, als ob du etwas davon verstündest.</example>
+        <example type="incorrect" correction="Schuld">Du redest hier von <marker>schuld</marker> und Sühne, als ob du etwas davon verstündest.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="1">
+          <token regexp="yes">meine|[dD]eine|seine|[iI]hre|unsere|[eE]ure|[wW]essen|niemandes|jemandes|keine|ohne</token>
+          <token>schuld</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Schuld</suggestion>&subende;</message>
+        <example type="correct">Das ist doch nicht meine <marker>Schuld</marker>!</example>
+        <example type="incorrect" correction="Schuld">Das ist ganz allein deine <marker>schuld</marker>!</example>
+        <example type="incorrect" correction="Schuld">Dich trifft keine <marker>schuld</marker>!</example>
+        <example type="incorrect" correction="Schuld">Wer von euch ohne <marker>schuld</marker> ist, der werfe den ersten Stein.</example>
+      </rule>
+    </rulegroup>
     <rule id="AUF_DIE_NERVEN" name="Groß-/Kleinschreibung: 'auf die nerven (Nerven) gehen'">
       <pattern mark_from="2" case_sensitive="yes">
         <token regexp="yes">[aA]uf</token>
@@ -11096,18 +11244,43 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect">Es ist zum <marker>wohl</marker> der Bevölkerung.</example>
       </rule>
     </rulegroup>
-    <rule id="IM_LEBEN" name="Groß-/Kleinschreibung: 'im/am leben (Leben)'">
-      <pattern mark_from="1" case_sensitive="yes">
-        <token regexp="yes">[IiAa]m</token>
-        <token>leben</token>
-      </pattern>
-      <message>&subanfang;<suggestion>Leben</suggestion>&subende;</message>
-      <short>&prgk;.</short>
-      <example type="correct">Als die Retter eintrafen, war sie schon nicht mehr am <marker>Leben</marker>.</example>
-      <example type="correct">Das funktioniert doch nie im <marker>Leben</marker>!</example>
-      <example type="incorrect">Das funktioniert doch nie im <marker>leben</marker>!</example>
-      <example type="incorrect">Als die Retter eintrafen, war sie schon nicht mehr am <marker>leben</marker>.</example>
-    </rule>
+    <rulegroup id="IM_LEBEN" name="Groß-/Kleinschreibung: 'im/am leben (Leben)'">
+      <rule>
+        <pattern mark_from="2" case_sensitive="yes">
+          <token regexp="yes">[Ii]n</token>
+          <token regexp="yes">(&meindein;)em|diesem</token>
+          <token>leben</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Leben</suggestion>&subende;</message>
+        <short>&prgk;.</short>
+        <example type="incorrect" correction="Leben">Das wird in diesem <marker>leben</marker> wohl nichts mehr.</example>
+        <example type="correct">Das wird in diesem <marker>Leben</marker> wohl nichts mehr.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="3" case_sensitive="yes">
+          <token regexp="yes">[Ii]n</token>
+          <token regexp="yes">(&meindein;)em|diesem</token>
+          <token postag="ADJ:DAT:SIN:NEU.*" postag_regexp="yes"/>
+          <token>leben</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Leben</suggestion>&subende;</message>
+        <short>&prgk;.</short>
+        <example type="incorrect" correction="Leben">Das habe ich in meinem ganzen <marker>leben</marker> noch nicht erlebt.</example>
+        <example type="correct">Das habe ich in meinem ganzen <marker>Leben</marker> noch nicht erlebt.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" case_sensitive="yes">
+          <token regexp="yes">[IiAa]m</token>
+          <token>leben</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Leben</suggestion>&subende;</message>
+        <short>&prgk;.</short>
+        <example type="correct">Als die Retter eintrafen, war sie schon nicht mehr am <marker>Leben</marker>.</example>
+        <example type="correct">Das funktioniert doch nie im <marker>Leben</marker>!</example>
+        <example type="incorrect">Das funktioniert doch nie im <marker>leben</marker>!</example>
+        <example type="incorrect">Als die Retter eintrafen, war sie schon nicht mehr am <marker>leben</marker>.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="SCHWAECHE_SUBST" name="Groß-/Kleinschreibung: 'eine schwäche (Schwäche) haben' etc.">
       <!-- TODO: Dasselbe für 'Stärke' -->
       <rule>
@@ -13027,7 +13200,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <rule>
         <pattern case_sensitive="no" mark_from="3">
           <token regexp="yes">die|der|eine|ganze</token>
-          <token regexp="yes">Vielzahl|Reihe</token>
+          <token regexp="yes">Vielzahl|Reihe|Fülle</token>
           <token>von</token>
           <token postag="SUB:DAT:SIN:.+" postag_regexp="yes"><exception postag="SUB:(.+):PLU:.+" postag_regexp="yes"/><exception regexp="yes">.*teilen|Übereinkommen</exception></token>
         </pattern>
