@@ -65,7 +65,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
 <!ENTITY bundesstaaten "Alabama|Alaska|Arizona|Arkansas|Colorado|Connecticut|Delaware|Florida|Georgia|Hawaii|Idaho|Illinois|Indiana|Iowa|Kalifornien|Kansas|Kentucky|Louisiana|Maine|Maryland|Massachusetts|Michigan|Minnesota|Mississippi|Missouri|Montana|Nebraska|Nevada|New|North|Ohio|Oklahoma|Oregon|Pennsylvania|Rhode|South|Tennessee|Texas|Utah|Vermont|Virginia|Washington|West|Wisconsin|Wyoming">
 <!ENTITY mahlennomen "Zahn|Mühle|Korn|Weizen|Roggen|Hafer|Dinkel|Getreide|.*Mehl|Müller">
 <!ENTITY malennomen ".*Farbe|.*Bild|.*Porträt|Kunst.*|Malern?">
-<!ENTITY seitewoerter ".*Buch|.*Lektüre">
+<!ENTITY seitewoerter ".*Buch|.*Lektüre|umblätter\w\w?|umgeblättert|umzublättern">
 <!ENTITY saitewoerter "aufziehen|.*Bass(es)?|.*Bratsche|.*Cellos?|.*Harfen?|.*Geigen?|.*Gitarren?|.*Violas?|.*Violinen?|Klavier">
 <!ENTITY lidwoerter "Auge.*|entzünde.*|.*röt(e|lich).*|.*zuck.*|.*geschlossen.*|gesenkt.*|zusammengekniffen.*|zusammenkneif.+">
 <!ENTITY liedwoerter "Melodie.*|Note.*|sing.*|sang.*|gesungen.*|komponi.+|Musik|Strophen?|Balladen?|Gesang.*|Gesängen?|Arien?|Opern?">
@@ -87,6 +87,55 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
   <!-- Tippfehler -->
   <!-- ====================================================================== -->
   <category name="Mögliche Tippfehler">
+    <rulegroup id="ANREDE" name="Möglicher Tippfehler: 'Sehr geehrte (geehrter) Herr Müller' u.ä.">
+      <!-- TODO check for comma at the end -->
+      <rule>
+        <pattern case_sensitive="no" mark_from="2" mark_to="-1">
+          <token postag="SENT_START"/>
+          <token>Sehr</token>
+          <token regexp="yes">geehrt.*<exception>geehrter</exception>
+          </token>
+          <token>Herr</token>
+        </pattern>
+        <message>Möglicher Tippfehler: Meinten Sie die Anredeformel \2 <suggestion>geehrter</suggestion> \4?</message>
+        <short>Möglicher Tippfehler</short>
+        <example type="correct">Sehr <marker>geehrter</marker> Herr ...</example>
+        <example type="incorrect" correction="geehrter">Sehr <marker>geehrte</marker> Herr ...</example>
+        <example type="incorrect" correction="geehrter">Sehr <marker>geehrt</marker> Herr ...</example>
+        <example type="incorrect" correction="geehrter">Sehr <marker>geehrten</marker> Herr ...</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="no" mark_from="2" mark_to="-1">
+          <token postag="SENT_START"/>
+          <token>Sehr</token>
+          <token regexp="yes">geehrt.*<exception>geehrte</exception>
+          </token>
+          <token regexp="yes">Frau|Damen</token>
+        </pattern>
+        <message>Möglicher Tippfehler: Meinten Sie die Anredeformel \2 <suggestion>geehrte</suggestion> \4?</message>
+        <short>Möglicher Tippfehler</short>
+        <example type="correct">Sehr <marker>geehrte</marker> Frau ...</example>
+        <example type="correct">Sehr <marker>geehrte</marker> Damen und Herren</example>
+        <example type="incorrect" correction="geehrte">Sehr <marker>geehrt</marker> Damen und Herren</example>
+        <example type="incorrect" correction="geehrte">Sehr <marker>geehrter</marker> Frau ...</example>
+        <example type="incorrect" correction="geehrte">Sehr <marker>geehrt</marker> Frau ...</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="no">
+          <token postag="SENT_START"/>
+          <token>Sehr</token>
+          <token regexp="yes">geehrte\w?</token>
+          <token regexp="yes">Dame\w?</token>
+          <token>und</token>
+          <token regexp="yes">Herrn?</token>
+        </pattern>
+        <message>Möglicher Tippfehler: Meinten Sie die Anredeformel <suggestion>Sehr geehrte Damen und Herren</suggestion>?</message>
+        <short>Möglicher Tippfehler</short>
+        <example type="correct"><marker>Sehr geehrte Damen und Herren</marker></example>
+        <example type="incorrect" correction="Sehr geehrte Damen und Herren"><marker>Sehr geehrte Damen und Herrn</marker></example>
+        <example type="incorrect" correction="Sehr geehrte Damen und Herren"><marker>Sehr geehrte Dame und Herrn</marker></example>
+      </rule>
+    </rulegroup>
     <rulegroup id="GESETZ_DEN_FALL" name="Möglicher Tippfehler: 'Gesetz (Gesetzt) den Fall'">
       <rule>
         <pattern case_sensitive="yes">
@@ -2721,7 +2770,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       </pattern>
       <message>&verw;Meinten Sie <suggestion>Grat</suggestion> (Bergrücken) statt Grad (Maßeinheit)?</message>
       <example type="correct">Er wandelt auf einem schmalen <marker>Grat</marker>.</example>
-      <example type="incorrect">Er wandelt auf einem schmalen <marker>Grad</marker>.</example>
+      <example type="incorrect" correction="Grat">Er wandelt auf einem schmalen <marker>Grad</marker>.</example>
     </rule>
     <rule id="COACH_VS_COUCH" name="Mögliche Wortverwechslung: Coach/Couch">
       <pattern mark_from="2">
@@ -2731,7 +2780,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       </pattern>
       <message>&verw;Meinten Sie <suggestion>Couch</suggestion> (Sofa) statt Coach (Trainer)?</message>
       <example type="correct">Wir saßen auf der <marker>Couch</marker>.</example>
-      <example type="incorrect">Wir saßen auf der <marker>Coach</marker>.</example>
+      <example type="incorrect" correction="Couch">Wir saßen auf der <marker>Coach</marker>.</example>
     </rule>
     <rulegroup id="MIENE" name="Mögliche Wortverwechslung: Mine/Miene">
       <rule>
@@ -4865,7 +4914,39 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Die <marker>Schülerinnen</marker> haben Sport bei Frau Müller.</example>
       </rule>
     </rulegroup>
-    <rulegroup id="RUNDE_KUGEL" name="Verdoppelung: 'runde Kugel' u.ä.">
+    <rulegroup id="RUNDE_KUGEL" name="Verdoppelung: 'runde Kugel' u.ä. (nur für wenige Fälle)">
+      <rule>
+        <pattern case_sensitive="yes">
+          <token regexp="yes">[aA]kustische[nr]?</token>
+          <token>Klang</token>
+        </pattern>
+        <message>Die Bedeutung des Substantivs \2 beinhaltet bereits das durch das Adjektiv \1 ausgedrückte Merkmal. In vielen Kontexten kann diese Formulierung deswegen redundant erscheinen. Vorschlag: <suggestion>\2</suggestion>, oder weichen Sie auf ein anderes Adjektiv aus.</message>
+        <short>&redundanz;</short>
+        <example type="incorrect" correction="Klang">Der <marker>akustische Klang</marker> hörte sich gut an.</example>
+        <example type="correct">Der <marker>Klang</marker> war gut.</example>
+        <example type="correct">Die <marker>Akustik</marker> war gut.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token regexp="yes">[oO]ptische[snr]?|[vV]isuelle[srnm]?</token>
+          <token regexp="yes">Bild(ern?)?</token>
+        </pattern>
+        <message>Die Bedeutung des Substantivs \2 beinhaltet bereits das durch das Adjektiv \1 ausgedrückte Merkmal. In vielen Kontexten kann diese Formulierung deswegen redundant erscheinen. Vorschlag: <suggestion>\2</suggestion>, oder weichen Sie auf ein anderes Adjektiv aus.</message>
+        <short>&redundanz;</short>
+        <example type="incorrect" correction="Bild">Ich sehe ein <marker>optisches Bild</marker> mit meinen Augen.</example>
+        <example type="correct">Ich sehe ein <marker>Bild</marker>.</example>
+        <example type="correct">Ich habe einen <marker>visuellen Eindruck</marker>.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token regexp="yes">[bB]rutale[nr]?</token>
+          <token>Gewalt</token>
+        </pattern>
+        <message>Die Bedeutung des Substantivs \2 beinhaltet bereits das durch das Adjektiv \1 ausgedrückte Merkmal. In vielen Kontexten kann diese Formulierung deswegen redundant erscheinen. Vorschlag: <suggestion>\2</suggestion>, oder weichen Sie auf ein anderes Adjektiv wie 'roh' aus.</message>
+        <short>&redundanz;</short>
+        <example type="incorrect" correction="Gewalt">Mit <marker>brutaler Gewalt</marker> kann ich das auch.</example>
+        <example type="correct">Mit <marker>roher Gewalt</marker> kann ich das auch.</example>
+      </rule>
       <rule>
         <pattern case_sensitive="yes">
           <token regexp="yes">problematische[ns]?</token>
@@ -7457,6 +7538,18 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <short>&prgk;.</short>
         <example type="incorrect" correction="Hören und Sehen">Da vergingen ihm <marker>hören und sehen</marker>.</example>
         <example type="correct">Da vergingen mir <marker>Hören und Sehen</marker>.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="FLIEGE_SUBST" name="Groß-/Kleinschreibung: 'keiner fliege (Fliege)' etc.">
+      <rule>
+        <pattern case_sensitive="yes" mark_from="1">
+          <token regexp="yes">[kK]einer?</token>
+          <token>fliege</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Fliege</suggestion>&subende;</message>
+        <short>&prgk;.</short>
+        <example type="incorrect" correction="Fliege">Ich kann keiner <marker>fliege</marker> etwas zuleide tun!</example>
+        <example type="correct">Ich kann keiner <marker>Fliege</marker> etwas zuleide tun!</example>
       </rule>
     </rulegroup>
     <rulegroup id="ZEIT_SUBST" name="Groß-/Kleinschreibung: 'zeit (Zeit) haben' etc.">
@@ -12292,7 +12385,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       </pattern>
       <message>&subanfang;<suggestion><match case_conversion="alllower" no="2"/></suggestion>&advende;</message>
       <url>http://www.canoo.net/services/GermanSpelling/Regeln/Gross-klein/Denominalisierung.html#Anchor-Die-11481</url>
-      <short>&prgk;</short>
+      <short>&prgk;.</short>
       <example type="incorrect" correction="namens">Eine Frau <marker>Namens</marker> Anna</example>
       <example type="correct">Eine Frau <marker>namens</marker> Anna</example>
       <example type="incorrect" correction="namens">Eine Familie <marker>Namens</marker> Meier</example>
