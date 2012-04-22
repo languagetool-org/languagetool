@@ -20,6 +20,8 @@ package org.languagetool.rules.patterns;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -111,6 +113,7 @@ class PatternRuleHandler extends XMLRuleHandler {
       }
     } else if ("rule".equals(qName)) {
       shortMessage = new StringBuilder();
+      url = new StringBuilder();
       id = attrs.getValue("id");
       if (inRuleGroup) {
         subId++;
@@ -118,7 +121,6 @@ class PatternRuleHandler extends XMLRuleHandler {
       if (!(inRuleGroup && defaultOff)) {
         defaultOff = "off".equals(attrs.getValue(DEFAULT));
       }
-
       if (!(inRuleGroup && defaultOn)) {
         defaultOn = "on".equals(attrs.getValue(DEFAULT));
       }
@@ -169,6 +171,9 @@ class PatternRuleHandler extends XMLRuleHandler {
     } else if ("short".equals(qName)) {
       inShortMessage = true;
       shortMessage = new StringBuilder();
+    } else if ("url".equals(qName)) {
+      inUrl = true;
+      url = new StringBuilder();
     } else if ("rulegroup".equals(qName)) {
       ruleGroupId = attrs.getValue("id");
       ruleGroupDescription = attrs.getValue("name");
@@ -277,6 +282,8 @@ class PatternRuleHandler extends XMLRuleHandler {
       inMessage = false;
     } else if ("short".equals(qName)) {
       inShortMessage = false;
+    } else if ("url".equals(qName)) {
+      inUrl = false;
     } else if ("match".equals(qName)) {
       if (inMessage) {
         suggestionMatches.get(suggestionMatches.size() - 1).
@@ -312,7 +319,7 @@ class PatternRuleHandler extends XMLRuleHandler {
     }
   }
 
-    private void prepareRule(final PatternRule rule) {
+  private void prepareRule(final PatternRule rule) {
     rule.setStartPositionCorrection(startPositionCorrection);
     rule.setEndPositionCorrection(endPositionCorrection);
     startPositionCorrection = 0;
@@ -322,8 +329,7 @@ class PatternRuleHandler extends XMLRuleHandler {
     rule.setCategory(category);
     if (inRuleGroup) {
       rule.setSubId(Integer.toString(subId));
-    }
-    else {
+    } else {
       rule.setSubId("1");
     }
     caseSensitive = false;
@@ -340,6 +346,13 @@ class PatternRuleHandler extends XMLRuleHandler {
     }
     if (category.isDefaultOff() && !defaultOn) {
       rule.setDefaultOff();
+    }
+    if (url != null && url.length() > 0) {
+      try {
+        rule.setUrl(new URL(url.toString()));
+      } catch (MalformedURLException e) {
+        throw new RuntimeException("Could not parse URL for rule: " + rule + ": '" + url + "'", e);
+      }
     }
   }
 
@@ -360,6 +373,8 @@ class PatternRuleHandler extends XMLRuleHandler {
       message.append(s);
     } else if (inShortMessage) {
       shortMessage.append(s);
+    } else if (inUrl) {
+      url.append(s);
     }
   }
 

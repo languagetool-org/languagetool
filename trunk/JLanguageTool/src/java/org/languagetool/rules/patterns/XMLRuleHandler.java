@@ -139,7 +139,9 @@ public class XMLRuleHandler extends DefaultHandler {
   protected int andGroupCounter;
 
   protected StringBuilder shortMessage = new StringBuilder();
+  protected StringBuilder url = new StringBuilder();
   protected boolean inShortMessage;
+  protected boolean inUrl;
 
   protected boolean inUnification;
   protected boolean inUnificationDef;

@@ -37,6 +37,7 @@ import javax.swing.UIManager;
 
 import com.sun.star.awt.XWindow;
 import com.sun.star.awt.XWindowPeer;
+import com.sun.star.beans.PropertyState;
 import com.sun.star.beans.PropertyValue;
 import com.sun.star.beans.XPropertySet;
 import com.sun.star.frame.XDesktop;
@@ -458,12 +459,15 @@ public class Main extends WeakBase implements XJobExecutor,
     aError.nErrorStart = myMatch.getFromPos() + startIndex;
     aError.nErrorLength = myMatch.getToPos() - myMatch.getFromPos();
     aError.aRuleIdentifier = myMatch.getRule().getId();
-    // LibreOffice since version 3.5 supports an URL that provides more information for the error:
-    //final PropertyValue[] propertyValues = new PropertyValue[] {
-    //        new PropertyValue("FullCommentURL", -1, myMatch.getRule().getUrl(), PropertyState.DIRECT_VALUE)
-    //};
-    //aError.aProperties = propertyValues;
-    aError.aProperties = new PropertyValue[0];
+    // LibreOffice since version 3.5 supports an URL that provides more information about the error,
+    // older version will simply ignore the property:
+    if (myMatch.getRule().getUrl() != null) {
+      aError.aProperties = new PropertyValue[] {
+              new PropertyValue("FullCommentURL", -1, myMatch.getRule().getUrl().toString(), PropertyState.DIRECT_VALUE)
+      };
+    } else {
+      aError.aProperties = new PropertyValue[0];
+    }
     return aError;
   }
 

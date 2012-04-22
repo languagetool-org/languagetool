@@ -19,6 +19,7 @@
 package org.languagetool.rules;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -38,6 +39,7 @@ public abstract class Rule {
   private List<String> correctExamples;
   private List<IncorrectExample> incorrectExamples;
   private Category category;
+  private URL url;
   /** If true, then the rule is turned off by default. */
   private boolean defaultOff;
   /** Used by paragraph rules to signal that they can remove previous rule matches */
@@ -219,4 +221,19 @@ public abstract class Rule {
     defaultOff = true;
   }
 
+  /**
+   * An URL describing the rule match in more detail. Typically points to a dictionary or grammar website
+   * with explanations and examples.
+   * @since 1.8
+   */
+  public URL getUrl() {
+    return url;
+  }
+
+  /**
+   * @since 1.8
+   */
+  public void setUrl(URL url) {
+    this.url = url;
+  }
 }
