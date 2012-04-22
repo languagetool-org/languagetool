@@ -3202,6 +3202,21 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect"><marker>Rotenburg</marker> ob der Tauber ist eine Kleinstadt in Mittelfranken.</example>
       </rule>
       <rule>
+        <pattern case_sensitive="yes">
+          <token regexp="yes">Roth?enburg</token>
+          <token>ob</token>
+          <token>der</token>
+          <token regexp="yes">Taube\w?
+            <exception>Tauber</exception>
+          </token>
+        </pattern>
+        <message>Meinten Sie <suggestion>Rothenburg ob der Tauber</suggestion> (Kleinstadt in Franken)?</message>
+        <short>&eigenname;</short>
+        <example type="correct"><marker>Rothenburg ob der Tauber</marker> ist eine Kleinstadt in Mittelfranken.</example>
+        <example type="incorrect" correction="Rothenburg ob der Tauber"><marker>Rotenburg ob der Taube</marker> ist eine Kleinstadt in Mittelfranken.</example>
+        <example type="incorrect" correction="Rothenburg ob der Tauber"><marker>Rothenburg ob der Tauben</marker> ist eine Kleinstadt in Mittelfranken.</example>
+      </rule>
+      <rule>
         <pattern mark_to="-5">
           <token>Rotenburg</token>
           <token>o</token>
@@ -3360,7 +3375,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <message>Meinten Sie Ulrike <suggestion>Meinhof</suggestion> (Mitglied der RAF)?</message>
         <short>&eigenname;</short>
         <example type="correct">Ulrike <marker>Meinhof</marker></example>
-        <example type="incorrect">Ulrike <marker>Meinhoff</marker></example>
+        <example type="incorrect" correction="Meinhof">Ulrike <marker>Meinhoff</marker></example>
       </rule>
     </rulegroup>
     <rulegroup id="JOHANNES_GUTENBERG" name="Eigenname: 'Johannes Guttenberg (Gutenberg)'">
@@ -3374,7 +3389,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <short>&eigenname;</short>
         <example type="correct">Johannes <marker>Gutenberg</marker> ist der Erfinder des Buchdrucks mit beweglichen Lettern.</example>
         <example type="correct">Karl Theodor zu <marker>Guttenberg</marker> ist wegen einer Plagiatsaffäre zurückgetreten.</example>
-        <example type="incorrect">Johannes <marker>Guttenberg</marker> ist der Erfinder des Buchdrucks mit beweglichen Lettern.</example>
+        <example type="incorrect" correction="Gutenberg">Johannes <marker>Guttenberg</marker> ist der Erfinder des Buchdrucks mit beweglichen Lettern.</example>
       </rule>
       <rule>
         <pattern mark_from="3">
@@ -3388,7 +3403,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Ich sagte zu <marker>Gutenberg</marker>: "Erfinde doch mal den Buchdruck mit beweglichen Lettern."</example>
         <example type="correct">Johannes <marker>Gutenberg</marker> ist der Erfinder des Buchdrucks mit beweglichen Lettern.</example>
         <example type="correct">Karl-Theodor zu <marker>Guttenberg</marker> ist wegen einer Plagiatsaffäre zurückgetreten.</example>
-        <example type="incorrect">Karl-Theodor von und zu <marker>Gutenberg</marker> ist wegen einer Plagiatsaffäre zurückgetreten.</example>
+        <example type="incorrect" correction="Guttenberg">Karl-Theodor von und zu <marker>Gutenberg</marker> ist wegen einer Plagiatsaffäre zurückgetreten.</example>
       </rule>
       <rule>
         <pattern mark_from="1">
@@ -3399,7 +3414,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <short>&eigenname;</short>
         <example type="correct">Johannes <marker>Gutenberg</marker> ist der Erfinder des Buchdrucks mit beweglichen Lettern.</example>
         <example type="correct">Karl-Theodor zu <marker>Guttenberg</marker> ist wegen einer Plagiatsaffäre zurückgetreten.</example>
-        <example type="incorrect">Karl Theodor zu <marker>Gutenberg</marker> ist wegen einer Plagiatsaffäre zurückgetreten.</example>
+        <example type="incorrect" correction="Guttenberg">Karl Theodor zu <marker>Gutenberg</marker> ist wegen einer Plagiatsaffäre zurückgetreten.</example>
       </rule>
     </rulegroup>
     <rulegroup id="ANDREAS_BAADER" name="Eigenname: 'Andreas Bader (Baader)'">
@@ -3411,7 +3426,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <message>Meinten Sie Andreas <suggestion>Baader</suggestion> (Mitglied der RAF)?</message>
         <short>&eigenname;</short>
         <example type="correct">Andreas <marker>Baader</marker></example>
-        <example type="incorrect">Andreas <marker>Bader</marker></example>
+        <example type="incorrect" correction="Baader">Andreas <marker>Bader</marker></example>
       </rule>
     </rulegroup>
     <rulegroup id="BERTRAND_RUSSELL" name="Eigenname: 'Russel (Russell)'">
@@ -3423,7 +3438,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <message>Meinten Sie den Philosophen und Mathematiker Lord Bertrand <suggestion>Russell</suggestion>?</message>
         <short>&eigenname;</short>
         <example type="correct">Bertrand <marker>Russell</marker></example>
-        <example type="incorrect">Bertrand <marker>Russel</marker></example>
+        <example type="incorrect" correction="Russell">Bertrand <marker>Russel</marker></example>
       </rule>
       <rule>
         <pattern mark_from="0" mark_to="-1">
@@ -3433,7 +3448,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <message>Meinten Sie: <suggestion><match no="1" regexp_match="(Russel)(sche|schen)" regexp_replace="$1l$2"/></suggestion>?</message>
         <short>&eigenname;</short>
         <example type="correct"><marker>Russellsche</marker> Antinomie</example>
-        <example type="incorrect"><marker>Russelsche</marker> Antinomie</example>
+        <example type="incorrect" correction="Russellsche"><marker>Russelsche</marker> Antinomie</example>
       </rule>
     </rulegroup>
     <rule id="JOSEPH_GOEBBELS" name="Eigenname: 'Josef (Joseph) Goebbels'">
@@ -3444,7 +3459,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <message>Meinen Sie <suggestion>Joseph</suggestion> Goebbels, den Propagandaminister des Dritten Reiches?</message>
       <short>&eigenname;</short>
       <example type="correct"><marker>Joseph</marker> Goebbels</example>
-      <example type="incorrect"><marker>Josef</marker> Goebbels</example>
+      <example type="incorrect" correction="Joseph"><marker>Josef</marker> Goebbels</example>
     </rule>
     <rule id="BARBRA_STREISAND" name="Eigenname: 'Barbara (Barbra) Streisand'">
       <pattern case_sensitive="yes" mark_to="-1">
@@ -3465,7 +3480,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <message>Meinen Sie den deutschen Dramatiker <suggestion>Bertolt</suggestion> Brecht? (Das ist die von ihm selbst bevorzugte Schreibweise des Vornamens.)</message>
       <short>&eigenname;</short>
       <example type="correct"><marker>Bertolt</marker> Brecht</example>
-      <example type="incorrect"><marker>Berthold</marker> Brecht</example>
+      <example type="incorrect" correction="Bertolt"><marker>Berthold</marker> Brecht</example>
     </rule>
     <rule id="IMMANUEL_KANT" name="Eigenname: 'Emanuel (Immanuel) Kant'">
       <pattern case_sensitive="yes" mark_to="-1">
@@ -3475,7 +3490,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <message>Meinten Sie <suggestion>Immanuel</suggestion> Kant (Philosoph der Aufklärung)?</message>
       <short>&eigenname;</short>
       <example type="correct"><marker>Immanuel</marker> Kant</example>
-      <example type="incorrect"><marker>Emanuel</marker> Kant</example>
+      <example type="incorrect" correction="Immanuel"><marker>Emanuel</marker> Kant</example>
     </rule>
     <rule id="SIGMUND_FREUD" name="Eigenname: 'Siegmund (Sigmund) Freud'">
       <pattern case_sensitive="yes" mark_to="-1">
@@ -3485,7 +3500,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <message>Meinten Sie <suggestion>Sigmund</suggestion> Freud (Begründer der Psychoanalyse)?</message>
       <short>&eigenname;</short>
       <example type="correct"><marker>Sigmund</marker> Freud</example>
-      <example type="incorrect"><marker>Siegmund</marker> Freud</example>
+      <example type="incorrect" correction="Sigmund"><marker>Siegmund</marker> Freud</example>
     </rule>
     <rule id="GOTTLOB_FREGE" name="Eigenname: 'Gottlieb (Gottlob) Frege'">
       <pattern case_sensitive="yes" mark_to="-1">
@@ -3495,7 +3510,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <message>Meinten Sie <suggestion>Gottlob</suggestion> Frege (Begründer der modernen Logik)?</message>
       <short>&eigenname;</short>
       <example type="correct"><marker>Gottlob</marker> Frege</example>
-      <example type="incorrect"><marker>Gottlieb</marker> Frege</example>
+      <example type="incorrect" correction="Gottlob"><marker>Gottlieb</marker> Frege</example>
     </rule>
     <rule id="CARL_FRIEDRICH_GAUSS" name="Eigenname: 'Karl (Carl) Friedrich Gauß'">
       <pattern case_sensitive="yes" mark_to="-2">
@@ -3506,7 +3521,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <message>Meinten Sie <suggestion>Carl</suggestion> Friedrich Gauß (Mathematiker)?</message>
       <short>&eigenname;</short>
       <example type="correct"><marker>Carl</marker> Friedrich Gauß</example>
-      <example type="incorrect"><marker>Karl</marker> Friedrich Gauß</example>
+      <example type="incorrect" correction="Carl"><marker>Karl</marker> Friedrich Gauß</example>
     </rule>
     <rulegroup id="GEORG_CANTOR" name="Eigenname: 'Georg Kantor (Cantor)'">
       <rule>
@@ -3517,7 +3532,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <short>&eigenname;</short>
         <example type="correct">Die <marker>Cantorsche</marker> Paradoxie</example>
         <example type="correct">Das <marker>Cantorsche</marker> Diagonalverfahren</example>
-        <example type="incorrect">Das <marker>Kantorsche</marker> Diagonalverfahren</example>
+        <example type="incorrect" correction="Cantorsche">Das <marker>Kantorsche</marker> Diagonalverfahren</example>
       </rule>
       <rule>
         <pattern case_sensitive="yes" mark_from="1">
@@ -3527,7 +3542,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <message>Meinten Sie den Mathematiker Georg <suggestion>Cantor</suggestion>?</message>
         <short>&eigenname;</short>
         <example type="correct">Georg <marker>Cantor</marker></example>
-        <example type="incorrect">Georg <marker>Kantor</marker></example>
+        <example type="incorrect" correction="Cantor">Georg <marker>Kantor</marker></example>
       </rule>
       <rule>
         <pattern case_sensitive="yes">
@@ -3548,7 +3563,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <message>Meinten Sie den deutschen Physiker Heinrich Rudolf <suggestion>Hertz</suggestion>?</message>
         <short>&eigenname;</short>
         <example type="correct">Heinrich <marker>Hertz</marker></example>
-        <example type="incorrect">Heinrich <marker>Herz</marker></example>
+        <example type="incorrect" correction="Hertz">Heinrich <marker>Herz</marker></example>
       </rule>
       <rule>
         <pattern mark_from="2">
@@ -3559,7 +3574,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <message>Meinten Sie den deutschen Physiker Heinrich Rudolf <suggestion>Hertz</suggestion>?</message>
         <short>&eigenname;</short>
         <example type="correct">Heinrich <marker>Hertz</marker></example>
-        <example type="incorrect">Heinrich Rudolf <marker>Herz</marker></example>
+        <example type="incorrect" correction="Hertz">Heinrich Rudolf <marker>Herz</marker></example>
       </rule>
     </rulegroup>
     <rulegroup id="ALBERT_SCHWEITZER" name="Eigenname: 'Albert Schweizer (Schweitzer)'">
@@ -3571,7 +3586,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <message>Meinten Sie Albert <suggestion>Schweitzer</suggestion> (den Arzt)?</message>
         <short>&eigenname;</short>
         <example type="correct">Albert <marker>Schweitzer</marker> war ein berühmter Arzt.</example>
-        <example type="incorrect">Albert <marker>Schweizer</marker> war ein berühmter Arzt.</example>
+        <example type="incorrect" correction="Schweitzer">Albert <marker>Schweizer</marker> war ein berühmter Arzt.</example>
       </rule>
     </rulegroup>
     <rulegroup id="EMIL_LENZ" name="Eigenname: 'Lentz (Lenz)'">
@@ -3688,7 +3703,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <message>Meinten Sie den Philosophen <suggestion>Leibniz</suggestion>?</message>
         <short>&eigenname;</short>
         <example type="correct">Freiherr von <marker>Leibniz</marker></example>
-        <example type="incorrect">Freiherr von <marker>Leibnitz</marker></example>
+        <example type="incorrect" correction="Leibniz">Freiherr von <marker>Leibnitz</marker></example>
       </rule>
       <rule>
         <pattern case_sensitive="yes" mark_from="2">
@@ -3699,7 +3714,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <message>Meinten Sie den Philosophen <suggestion>Leibniz</suggestion>?</message>
         <short>&eigenname;</short>
         <example type="correct">Gottfried Wilhelm <marker>Leibniz</marker></example>
-        <example type="incorrect">Gottfried Wilhelm <marker>Leibnitz</marker></example>
+        <example type="incorrect" correction="Leibniz">Gottfried Wilhelm <marker>Leibnitz</marker></example>
       </rule>
       <rule>
         <pattern case_sensitive="yes" mark_from="3">
@@ -3711,7 +3726,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <message>Meinten Sie den Philosophen <suggestion>Leibniz</suggestion>?</message>
         <short>&eigenname;</short>
         <example type="correct">Gottfried W. <marker>Leibniz</marker></example>
-        <example type="incorrect">Gottfried W. <marker>Leibnitz</marker></example>
+        <example type="incorrect" correction="Leibniz">Gottfried W. <marker>Leibnitz</marker></example>
       </rule>
       <rule>
         <pattern case_sensitive="yes" mark_from="1">
@@ -3721,7 +3736,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <message>Meinten Sie den Philosophen <suggestion>Leibniz</suggestion>?</message>
         <short>&eigenname;</short>
         <example type="correct">Der Philosoph <marker>Leibniz</marker></example>
-        <example type="incorrect">Der Philosoph <marker>Leibnitz</marker></example>
+        <example type="incorrect" correction="Leibniz">Der Philosoph <marker>Leibnitz</marker></example>
       </rule>
       <rule>
         <pattern>
@@ -9610,12 +9625,12 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     </rule>
     <rule id="VERGNUEGEN_SUBST" name="Groß-/Kleinschreibung: 'zum vergnügen (Vergnügen)'">
       <pattern mark_from="1" case_sensitive="yes">
-        <token regexp="yes">[zZ]um|k?ein</token>
+        <token regexp="yes">k?ein</token>
         <token>vergnügen</token>
       </pattern>
       <message>&subanfang;<suggestion><match case_conversion="startupper" no="2"/></suggestion>&subende;</message>
-      <example type="correct">Wir sind schließlich nicht zum <marker>Vergnügen</marker> hier.</example>
-      <example type="incorrect">Wir sind schließlich nicht zum <marker>vergnügen</marker> hier.</example>
+      <example type="correct">Das ist doch kein <marker>Vergnügen</marker> hier.</example>
+      <example type="incorrect" correction="Vergnügen">Das ist doch schließlich kein <marker>vergnügen</marker> hier.</example>
     </rule>
     <rulegroup id="ENDE_SUBST" name="Groß-/Kleinschreibung: 'ende (Ende)'">
       <rule>
@@ -11904,6 +11919,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <message>Das Verb <suggestion><match no="2" case_conversion="startupper"/></suggestion> scheint hier substantiviert verwendet zu werden und muss dann großgeschrieben werden.</message>
         <short>Substantivierte Verben werden großgeschrieben.</short>
         <example type="correct">Alle Gerichte auch zum <marker>Mitnehmen</marker>.</example>
+        <example type="incorrect" correction="Vergnügen">Wir sind schließlich nicht zum <marker>vergnügen</marker> hier.</example>
         <example type="incorrect" correction="Mitnehmen">Alle Gerichte auch zum <marker>mitnehmen</marker>.</example>
         <example type="incorrect" correction="Stehen">Ich bin fast im <marker>stehen</marker> eingeschlafen.</example>
         <example type="incorrect" correction="Suchen">Beim <marker>suchen</marker> fiel mir etwas ein.</example>
@@ -12189,7 +12205,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <message>&inwend;'um ... willen' wird <suggestion><match case_conversion="alllower" no="3"/></suggestion> kleingeschrieben.</message>
         <url>http://www.canoo.net/services/GermanSpelling/Regeln/Gross-klein/Denominalisierung.html#Anchor-Die-11481</url>
         <short>&prgk;.</short>
-        <example type="incorrect">Um Gottes <marker>Willen</marker>, sei endlich ruhig!</example>
+        <example type="incorrect" correction="willen">Um Gottes <marker>Willen</marker>, sei endlich ruhig!</example>
         <example type="correct">Um Gottes <marker>willen</marker>, sei endlich ruhig!</example>
       </rule>
       <rule>
@@ -12200,8 +12216,9 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>Willen</token>
         </pattern>
         <message>&inwend;'um ... willen' wird <suggestion><match case_conversion="alllower" no="4"/></suggestion> kleingeschrieben.</message>
+        <url>http://www.canoo.net/services/GermanSpelling/Regeln/Gross-klein/Denominalisierung.html#Anchor-Die-11481</url>
         <short>&prgk;.</short>
-        <example type="incorrect">Um des Friedens <marker>Willen</marker> habe ich geschwiegen.</example>
+        <example type="incorrect" correction="willen">Um des Friedens <marker>Willen</marker> habe ich geschwiegen.</example>
         <example type="correct">Um des Friedens <marker>willen</marker> habe ich geschwiegen.</example>
       </rule>
       <rule>
@@ -12212,8 +12229,9 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>Willen</token>
         </pattern>
         <message>&inwend;'um ... willen' wird <suggestion><match case_conversion="alllower" no="4"/></suggestion> kleingeschrieben.</message>
+        <url>http://www.canoo.net/services/GermanSpelling/Regeln/Gross-klein/Denominalisierung.html#Anchor-Die-11481</url>
         <short>&prgk;.</short>
-        <example type="incorrect">Um unserer Kinder <marker>Willen</marker> habe ich das getan.</example>
+        <example type="incorrect" correction="willen">Um unserer Kinder <marker>Willen</marker> habe ich das getan.</example>
         <example type="correct">Um unserer Kinder <marker>willen</marker> habe ich das getan.</example>
       </rule>
       <rule>
@@ -12225,8 +12243,9 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>Willen</token>
         </pattern>
         <message>&inwend;'um ... willen' wird <suggestion><match case_conversion="alllower" no="5"/></suggestion> kleingeschrieben.</message>
+        <url>http://www.canoo.net/services/GermanSpelling/Regeln/Gross-klein/Denominalisierung.html#Anchor-Die-11481</url>
         <short>&prgk;.</short>
-        <example type="incorrect">Um des lieben Friedens <marker>Willen</marker> habe ich geschwiegen.</example>
+        <example type="incorrect" correction="willen">Um des lieben Friedens <marker>Willen</marker> habe ich geschwiegen.</example>
         <example type="correct">Um des lieben Friedens <marker>willen</marker> habe ich geschwiegen.</example>
       </rule>
     </rulegroup>
@@ -12407,7 +12426,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <url>http://www.canoo.net/services/Controller?dispatch=spelling&amp;input=x-Achse</url>
         <short>&prgk;.</short>
         <example type="correct">Die <marker>x-Achse</marker> oder Abszissenachse</example>
-        <example type="incorrect">Die <marker>X-Achse</marker> oder Abszissenachse</example>
+        <example type="incorrect" correction="x-Achse">Die <marker>X-Achse</marker> oder Abszissenachse</example>
       </rule>
     </rulegroup>
   </category>
@@ -12570,6 +12589,8 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">(das|dem|den|die)(selben?)?|ein|(D|d|s|m)?eine(m|n)?|(eu|ih|Ih|unse)re(m|n)?|(jene|deine|diese)(m|n)?</token>
         </pattern>
         <message>Die Präposition '\2' erfordert i.d.R. den Genitiv.</message>
+        <url>http://www.canoo.net/services/OnlineGrammar/Wort/Praeposition/Kasus/Genitiv.html</url>
+        <short>Diese Präposition erfordert den Genitiv</short>
         <example type="correct">von Rechts wegen die Bestrafung</example>
         <example type="correct">Er ist der Sache wegen dem Bruder begegnet.</example>
         <example type="incorrect">Ich bin <marker>wegen dem</marker> Unfall zu spät gekommen.</example>
@@ -12593,6 +12614,8 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">(das|dem|den|die)(selben?)?|ein|(D|d|s|m)?eine(m|n)?|(eu|ih|Ih|unse)re(m|n)?|(jene|deine|diese)(m|n)?</token>
         </pattern>
         <message>Die Präposition '<match no="2" case_conversion ="startlower"/>' erfordert i.d.R. den Genitiv.</message><!--TODO \2 should be lowercase-->
+        <url>http://www.canoo.net/services/OnlineGrammar/Wort/Praeposition/Kasus/Genitiv.html</url>
+        <short>Diese Präposition erfordert den Genitiv</short>
         <example type="incorrect"><marker>Wegen dem</marker> Unfall</example>
         <example type="incorrect"><marker>Wegen Ihrem</marker> Unfall</example>
         <example type="correct"><marker>Wegen des</marker> Unfalls</example>
@@ -12640,12 +12663,15 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct"><marker>Das Auto.</marker></example>
     </rule>
     <rule id="GEMAESS_DES" name="Grammatik: 'gemäß des (dem)'">
+      <!-- TODO allgemeiner, idealerweise folgendes Substantiv auch in den Dativ setzen -->
       <pattern>
         <token>gemäß</token>
         <token>des</token>
       </pattern>
       <message>Meinten Sie <suggestion>gemäß dem</suggestion>? Die Präposition 'gemäß' erfordert den Dativ.</message>
-      <example type="incorrect"><marker>Gemäß des</marker> Beschlusses der Kultusministerkonferenz</example>
+      <url>http://www.canoo.net/services/OnlineGrammar/Wort/Praeposition/Kasus/Dativ.html</url>
+      <short>Diese Präposition erfordert den Dativ</short>
+      <example type="incorrect" correction="Gemäß dem"><marker>Gemäß des</marker> Beschlusses der Kultusministerkonferenz</example>
       <example type="correct"><marker>Gemäß dem</marker> Beschluss der Kultusministerkonferenz</example>
     </rule>
     <rulegroup id="ER_BIST" name="Grammatik: Kongruenz von Subjekt und Prädikat (nur 1. u. 2. Person), z.B. 'Er bist (ist)'">
