@@ -92,15 +92,44 @@ public class CaseRuleTest extends TestCase {
 
     // correct sentences:
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das fahrende Auto.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das Fahren ist einfach.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Denn das Fahren ist einfach.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das können wir so machen.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Denn das Fahren ist einfach.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das Fahren ist einfach.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das Gehen fällt mir leicht.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das Ernten der Kartoffeln ist mühsam.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Entschuldige das späte Weiterleiten.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Ich liebe das Lesen.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das Betreten des Rasens ist verboten.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das haben wir aus eigenem Antrieb getan.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das haben wir.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das haben wir schon.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das lesen sie doch sicher in einer Minute durch.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das lesen Sie doch sicher in einer Minute durch!")).length);
+
+    // Source of the following examples: http://www.canoo.net/services/GermanSpelling/Amtlich/GrossKlein/pgf57-58.html
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das Lesen fällt mir schwer.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Sie hörten ein starkes Klopfen.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Wer erledigt das Fensterputzen?")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Viele waren am Zustandekommen des Vertrages beteiligt.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Die Sache kam ins Stocken.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das ist zum Lachen.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Euer Fernbleiben fiel uns auf.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Uns half nur noch lautes Rufen.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Die Mitbewohner begnügten sich mit Wegsehen und Schweigen.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Sie wollte auf Biegen und Brechen gewinnen.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Er klopfte mit Zittern und Zagen an.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Ich nehme die Tabletten auf Anraten meiner Ärztin.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Sie hat ihr Soll erfüllt.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Dies ist ein absolutes Muss.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das Lesen fällt mir schwer.")).length);
+
     // incorrect sentences:
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Das fahren ist einfach.")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Denn das fahren ist einfach.")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Denn das laufen ist einfach.")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Denn das essen ist einfach.")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Denn das gehen ist einfach.")).length);
+    // TODO: detect all the cases not preceded with 'das'
   }
 
   public void testPhraseExceptions() throws IOException {

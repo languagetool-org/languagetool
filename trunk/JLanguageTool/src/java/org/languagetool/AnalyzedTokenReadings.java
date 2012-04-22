@@ -105,15 +105,32 @@ public class AnalyzedTokenReadings {
   /**
    * Checks if the token has a particular POS tag.
    * 
-   * @param posTag
-   *          POS Tag to check
-   * @return True if it does.
+   * @param posTag POS tag to look for
    */
   public final boolean hasPosTag(final String posTag) {
     boolean found = false;
     for (final AnalyzedToken reading : anTokReadings) {
       if (reading.getPOSTag() != null) {
         found = posTag.equals(reading.getPOSTag());
+        if (found) {
+          break;
+        }
+      }
+    }
+    return found;
+  }
+
+  /**
+   * Checks if the token has a particular POS tag, whereas a part of the given POS tag needs to match.
+   *
+   * @param posTag POS tag substring to look for
+   * @since 1.8
+   */
+  public final boolean hasPartialPosTag(final String posTag) {
+    boolean found = false;
+    for (final AnalyzedToken reading : anTokReadings) {
+      if (reading.getPOSTag() != null) {
+        found = reading.getPOSTag().contains(posTag);
         if (found) {
           break;
         }

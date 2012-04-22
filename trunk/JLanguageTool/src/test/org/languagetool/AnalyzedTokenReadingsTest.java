@@ -55,4 +55,26 @@ public class AnalyzedTokenReadingsTest extends TestCase {
     aTok3.setWhitespaceBefore(true);
     assertEquals(aTok3, tokenReadings.getAnalyzedToken(0));
   }
+
+  public void testHasPosTag() {
+    AnalyzedTokenReadings tokenReadings = new AnalyzedTokenReadings(new AnalyzedToken("word", "POS:FOO:BAR", "lemma"));
+    assertTrue(tokenReadings.hasPosTag("POS:FOO:BAR"));
+    assertFalse(tokenReadings.hasPosTag("POS:FOO:bar"));
+    assertFalse(tokenReadings.hasPosTag("POS:FOO"));
+    assertFalse(tokenReadings.hasPosTag("xaz"));
+  }
+
+  public void testHasPartialPosTag() {
+    AnalyzedTokenReadings tokenReadings = new AnalyzedTokenReadings(new AnalyzedToken("word", "POS:FOO:BAR", "lemma"));
+    assertTrue(tokenReadings.hasPartialPosTag("POS:FOO:BAR"));
+    assertTrue(tokenReadings.hasPartialPosTag("POS:FOO:"));
+    assertTrue(tokenReadings.hasPartialPosTag("POS:FOO"));
+    assertTrue(tokenReadings.hasPartialPosTag(":FOO:"));
+    assertTrue(tokenReadings.hasPartialPosTag("FOO:BAR"));
+
+    assertFalse(tokenReadings.hasPartialPosTag("POS:FOO:BARX"));
+    assertFalse(tokenReadings.hasPartialPosTag("POS:foo:BAR"));
+    assertFalse(tokenReadings.hasPartialPosTag("xaz"));
+  }
+
 }

@@ -340,6 +340,8 @@ public class CaseRule extends GermanRule {
     myExceptionPhrases.add("Kleiner Bär");   // das Sternbild
     myExceptionPhrases.add("Zehn Gebote");
     myExceptionPhrases.add("Römische Reich Deutscher Nation");
+    myExceptionPhrases.add("ein absolutes Muss");
+    myExceptionPhrases.add("ein Muss");
   }
 
   private static final Set<String> substVerbenExceptions = new HashSet<String>();
@@ -419,7 +421,12 @@ public class CaseRule extends GermanRule {
         if (analyzedGermanToken2 != null) {
           readings = analyzedGermanToken2.getGermanReadings();
         }
-        potentiallyAddLowercaseMatch(ruleMatches, tokens[i], prevTokenIsDas, token);
+        boolean nextTokenIsPersonalPronoun = false;
+        if (i < tokens.length - 1) {
+          // avoid false alarm for "Das haben wir getan." etc:
+          nextTokenIsPersonalPronoun = tokens[i + 1].hasPartialPosTag("PRO:PER") || tokens[i + 1].getToken().equals("Sie");
+        }
+        potentiallyAddLowercaseMatch(ruleMatches, tokens[i], prevTokenIsDas, token, nextTokenIsPersonalPronoun);
       }
       prevTokenIsDas = nounIndicators.contains(tokens[i].getToken().toLowerCase());
       if (readings == null) {
@@ -444,8 +451,8 @@ public class CaseRule extends GermanRule {
     return toRuleMatchArray(ruleMatches);
   }
 
-  private void potentiallyAddLowercaseMatch(List<RuleMatch> ruleMatches, AnalyzedTokenReadings tokenReadings, boolean prevTokenIsDas, String token) {
-    if (prevTokenIsDas) {
+  private void potentiallyAddLowercaseMatch(List<RuleMatch> ruleMatches, AnalyzedTokenReadings tokenReadings, boolean prevTokenIsDas, String token, boolean nextTokenIsPersonalPronoun) {
+    if (prevTokenIsDas && !nextTokenIsPersonalPronoun) {
       // e.g. essen -> Essen
       if (Character.isLowerCase(token.charAt(0)) && !substVerbenExceptions.contains(token)) {
         final String msg = "Substantivierte Verben werden groß geschrieben.";
