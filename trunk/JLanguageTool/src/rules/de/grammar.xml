@@ -807,6 +807,16 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect">Wie kann man sich dagegen <marker>währen</marker>?</example>
       <example type="correct">Wie kann man sich dagegen <marker>wehren</marker>?</example>
     </rule>
+    <rule id="WAS_LANGE_WEHRT" name="Möglicher Tippfehler: 'was lange wehrt (währt)'">
+      <pattern mark_from="2">
+        <token>was</token>
+        <token>lange</token>
+        <token>wehrt</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>währt</suggestion>?</message>
+      <example type="correct">Was lange <marker>währt</marker>, wird endlich gut.</example>
+      <example type="incorrect" correction="währt">Was lange <marker>wehrt</marker>, wird endlich gut.</example>
+    </rule>
     <rule id="WAEHREN_DER" name="Möglicher Tippfehler: 'währen (während) der/des' etc.">
       <pattern mark_to="-1">
         <token>währen</token>
@@ -2454,16 +2464,6 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct">Auffächerung der Altersgruppen <marker>in</marker> Bezug zu den Einwohnerzahlen.</example>
       <example type="incorrect">Auffächerung der Altersgruppen <marker>ins</marker> Bezug zu den Einwohnerzahlen.</example>
     </rule>
-    <rule id="WAS_LANGE_WEHRT" name="Möglicher Tippfehler: 'was lange wehrt (währt)'">
-      <pattern mark_from="2">
-        <token>was</token>
-        <token>lange</token>
-        <token>wehrt</token>
-      </pattern>
-      <message>Meinten Sie <suggestion>währt</suggestion>?</message>
-      <example type="correct">Was lange <marker>währt</marker>, wird endlich gut.</example>
-      <example type="incorrect">Was lange <marker>wehrt</marker>, wird endlich gut.</example>
-    </rule>
     <rule id="AUF_DEM_ERSTEN_BLICK" name="Möglicher Tippfehler: 'auf dem (den) ersten Blick'">
       <pattern mark_from="1" mark_to="-2">
         <token>auf</token>
@@ -2606,6 +2606,19 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <short>Mögliche Wortverwechslung</short>
         <example type="incorrect" correction="Scheiße">Das war echt <marker>Schieße</marker>.</example>
         <example type="correct">Das war echt <marker>Scheiße</marker>.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="LINKEN_VERLINKEN" name="Mögliche Wortverwechslung: linken/verlinken">
+      <rule>
+        <pattern case_sensitive="yes" mark_to="-1">
+          <token regexp="yes">gelinkte[nmrs]?</token>
+          <token regexp="yes">Dokument(en?)?|(Internet)?Seiten?|URLs?|URIs?|Websites?|Datei(en)?</token>
+        </pattern>
+        <message>&verw;Möchten Sie lieber <suggestion><match no="1" regexp_match="^gelink" regexp_replace="verlink"/></suggestion> schreiben? Das Verb 'linken' bedeutet auch 'täuschen'.</message>
+        <url>http://www.openthesaurus.de/synonyme/linken</url>
+        <short>Mögliche Wortverwechslung</short>
+        <example type="incorrect" correction="verlinkten">Ich sah mir die Änderungen an <marker>gelinkten</marker> Seiten an.</example>
+        <example type="correct">Ich sah mir die Änderungen an <marker>verlinkten</marker> Seiten an.</example>
       </rule>
     </rulegroup>
     <rulegroup id="SALZSAEURE_SALZSAEULE" name="Mögliche Wortverwechslung: Salzsäule/Salzsäure">
@@ -12724,6 +12737,18 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         -->
       </rule>
     </rulegroup>
+    <rule id="GEMAESS_DES" name="Grammatik: 'gemäß des (dem)'">
+      <!-- TODO allgemeiner, idealerweise folgendes Substantiv auch in den Dativ setzen -->
+      <pattern>
+        <token>gemäß</token>
+        <token>des</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>gemäß dem</suggestion>? Die Präposition 'gemäß' erfordert den Dativ.</message>
+      <url>http://www.canoo.net/services/OnlineGrammar/Wort/Praeposition/Kasus/Dativ.html</url>
+      <short>Diese Präposition erfordert den Dativ</short>
+      <example type="incorrect" correction="Gemäß dem"><marker>Gemäß des</marker> Beschlusses der Kultusministerkonferenz</example>
+      <example type="correct"><marker>Gemäß dem</marker> Beschluss der Kultusministerkonferenz</example>
+    </rule>
     <rulegroup id="ART_ADJ_SOL" name="Grammatik: Stark flektiertes Adjektiv nach Artikel, z.B. 'im heißem (heißen) Ofen'">
       <rule>
         <pattern mark_from="1" mark_to="0">
@@ -12754,18 +12779,6 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect"><marker>Das Konzept eines intelligenten Autos nicht neu.</marker></example>
       <example type="correct"><marker>Das Konzept eines intelligenten Autos ist nicht neu.</marker></example>
       <example type="correct"><marker>Das Auto.</marker></example>
-    </rule>
-    <rule id="GEMAESS_DES" name="Grammatik: 'gemäß des (dem)'">
-      <!-- TODO allgemeiner, idealerweise folgendes Substantiv auch in den Dativ setzen -->
-      <pattern>
-        <token>gemäß</token>
-        <token>des</token>
-      </pattern>
-      <message>Meinten Sie <suggestion>gemäß dem</suggestion>? Die Präposition 'gemäß' erfordert den Dativ.</message>
-      <url>http://www.canoo.net/services/OnlineGrammar/Wort/Praeposition/Kasus/Dativ.html</url>
-      <short>Diese Präposition erfordert den Dativ</short>
-      <example type="incorrect" correction="Gemäß dem"><marker>Gemäß des</marker> Beschlusses der Kultusministerkonferenz</example>
-      <example type="correct"><marker>Gemäß dem</marker> Beschluss der Kultusministerkonferenz</example>
     </rule>
     <rulegroup id="ER_BIST" name="Grammatik: Kongruenz von Subjekt und Prädikat (nur 1. u. 2. Person), z.B. 'Er bist (ist)'">
     <!-- TODO the same for 1:SIN, 2:PLU, and 3:PLU -->
@@ -13550,7 +13563,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token>aus</token>
         <token>der</token>
         <token>Luft</token>
-        <token>entstanden</token>
+        <token regexp="yes">entstanden|gesaugt</token>
       </pattern>
       <message>Meinten Sie <suggestion>aus dem Nichts entstanden</suggestion> oder <suggestion>aus der Luft gegriffen</suggestion>?</message>
       <short>Möglicherweise falsch verwendete Redewendung</short>
@@ -13564,6 +13577,43 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
   <!-- Zeichensetzung -->
   <!-- ====================================================================== -->
   <category name="Zeichensetzung">
+    <rulegroup id="FRAGE_OHNE_FRAGEZEICHEN" name="Zeichensetzung: Punkt statt Fragezeichen (nur in wenigen einfachen Fällen, Regel ist in Arbeit)" default="off">
+      <rule>
+        <pattern mark_from="4">
+          <token postag="SENT_START"/>
+          <token postag="VER:(AUX:)?2:SIN:.+" postag_regexp="yes"/>
+          <token>du</token>
+          <token postag="ADJ:PRD:(GRU|KOM)|ADV:.+" postag_regexp="yes"/>
+          <token postag="SENT_END">
+            <exception>?</exception>
+          </token>
+        </pattern>
+        <message>Wenn dieser Satz eine Frage ist, verwenden Sie bitte ein Fragezeichen. Das gilt auch für rhetorische Fragen. Vorschlag:
+          <suggestion>?</suggestion>
+        </message>
+        <short>Möglicherweise falsches Satzzeichen</short>
+        <example type="correct">Bist du blöd<marker>?</marker></example>
+        <example type="incorrect">Bist du blöd<marker>.</marker></example>
+      </rule>
+      <rule>
+        <pattern mark_from="4">
+          <token postag="SENT_START"/>
+          <token postag="VER:(AUX:)?3:SIN:.+" postag_regexp="yes"/>
+          <token postag="PRO:PER:NOM:SIN:(MAS|FEM|NEU)|EIG:.+" postag_regexp="yes"/>
+          <token postag="ADJ:PRD:(GRU|KOM)|ADV:.+" postag_regexp="yes"/>
+          <token postag="SENT_END">
+            <exception>?</exception>
+          </token>
+        </pattern>
+        <message>Wenn dieser Satz eine Frage ist, verwenden Sie bitte ein Fragezeichen. Das gilt auch für rhetorische Fragen. Vorschlag:
+          <suggestion>?</suggestion>
+        </message>
+        <short>Möglicherweise falsches Satzzeichen</short>
+        <example type="correct">Ist er blöd<marker>?</marker></example>
+        <example type="incorrect">Ist er blöd<marker>.</marker></example>
+        <example type="incorrect">Ist Peter blöd<marker>.</marker></example>
+      </rule>
+    </rulegroup>
     <rule id="ROCK_N_ROLL" name="Zeichensetzung: Apostroph in 'Rock 'n' Roll'">
       <pattern>
         <token>Rock</token>
