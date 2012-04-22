@@ -1724,7 +1724,7 @@ Useful links:
           <token regexp="yes">abaoe|a-benn|ahont|amañ|a-wechoù|arabat|a-raok|aze|daoust|eget|ent|eus|[e’]vel(-se)?|e-giz|[e’]vit|goude|hag?|hep|hevelep|kalz|kement|ke[nt]|krenn|lies|mard?|met|nemet|memes|nebeu(dig)?|nep|ouzhpenn|pas|pep|pebezh|pegen|pere|petvet|peseurt|petore|rak|setu|seurt</token>
           <token postag="[^M]*M:.*" postag_regexp="yes">
             <exception negate_pos="yes" postag="[^M]*M:.*" postag_regexp="yes"/>
-            <exception>vat</exception>
+            <exception regexp="yes">va[nt]</exception>
           </token>
         </pattern>
         <message>Ne zlefe ket bezañ ur c’hemmadur er ger «\2» goude ar ger «\1».</message>
@@ -1737,6 +1737,7 @@ Useful links:
         <example type="incorrect">Ken <marker>vras</marker> eo!</example>
         <example type="correct">Ken bras eo!</example>
         <example type="correct">Ha vat a ra din bezañ du-hont.</example>
+        <example type="correct">Ne ra ket van outo.</example>
       </rule>
       <rule>
         <pattern mark_from="1">
@@ -2237,28 +2238,59 @@ Useful links:
   </category>
 
   <category name="Niver">
-    <rule id="DAOU" name="daou">
-      <pattern mark_to="-1">
-        <token>daou</token>
-        <token postag_regexp="yes" postag="N f.*">
-          <exception postag_regexp="yes" postag="N m.*"/>
-        </token>
-      </pattern>
-      <message>Implijit <suggestion><match no="1" regexp_match="aou" regexp_replace="iv"/></suggestion> dirak ar ger benel «\2».</message>
-      <example type="incorrect"><marker>Daou</marker> blac’h.</example>
-      <example type="correct">Div blac’h.</example>
-    </rule>
-    <rule id="DIV" name="div">
-      <pattern mark_to="-1">
-        <token>div</token>
-        <token postag_regexp="yes" postag="N m.*">
-          <exception postag_regexp="yes" postag="N f.*"/>
-        </token>
-      </pattern>
-      <message>Implijit <suggestion><match no="1" regexp_match="iv" regexp_replace="aou"/></suggestion> dirak ar ger gourel «\2».</message>
-      <example type="incorrect"><marker>Div</marker> paotr.</example>
-      <example type="correct">Daou baotr.</example>
-    </rule>
+    <rulegroup id="DAOU" name="daou">
+      <rule>
+        <pattern mark_to="-1">
+          <token>daou</token>
+          <token postag_regexp="yes" postag="N f.*">
+            <exception postag_regexp="yes" postag="N m.*"/>
+            <exception>a</exception>
+          </token>
+        </pattern>
+        <message>Implijit <suggestion><match no="1" regexp_match="aou" regexp_replace="iv"/></suggestion> dirak ar ger benel «\2».</message>
+        <example type="incorrect"><marker>Daou</marker> blac’h.</example>
+        <example type="correct">Div blac’h.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-2">
+          <token>daou</token>
+          <token>a</token>
+          <token postag_regexp="yes" postag="N f.*">
+            <exception postag_regexp="yes" postag="N m.*"/>
+          </token>
+        </pattern>
+        <message>Implijit <suggestion><match no="1" regexp_match="aou" regexp_replace="iv"/></suggestion> dirak ar ger benel «\3».</message>
+        <example type="incorrect"><marker>Daou</marker> a blac’h.</example>
+        <example type="correct">Div a blac’h.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="DIV" name="div">
+      <rule>
+        <pattern mark_to="-1">
+          <token>div</token>
+          <token postag_regexp="yes" postag="N m.*">
+            <exception postag_regexp="yes" postag="N f.*"/>
+            <exception>a</exception>
+          </token>
+        </pattern>
+        <message>Implijit <suggestion><match no="1" regexp_match="iv" regexp_replace="aou"/></suggestion> dirak ar ger gourel «\2».</message>
+        <example type="incorrect"><marker>Div</marker> paotr.</example>
+        <example type="correct">Daou baotr.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-2">
+          <token>div</token>
+          <token>a</token>
+          <token postag_regexp="yes" postag="N m.*">
+            <exception postag_regexp="yes" postag="N f.*"/>
+            <exception>a</exception>
+          </token>
+        </pattern>
+        <message>Implijit <suggestion><match no="1" regexp_match="iv" regexp_replace="aou"/></suggestion> dirak ar ger gourel «\3».</message>
+        <example type="incorrect"><marker>Div</marker> a paotr.</example>
+        <example type="correct">Daou a baotr.</example>
+      </rule>
+    </rulegroup>
     <rule id="TRI" name="tri">
       <pattern mark_to="-1">
         <token>tri</token>
