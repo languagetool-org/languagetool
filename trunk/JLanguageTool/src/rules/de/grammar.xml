@@ -136,6 +136,19 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect" correction="Sehr geehrte Damen und Herren"><marker>Sehr geehrte Dame und Herrn</marker></example>
       </rule>
     </rulegroup>
+    <rulegroup id="LIEB_GRUESSE" name="Möglicher Tippfehler: 'Lieb (Liebe) Grüße'">
+      <rule>
+        <pattern case_sensitive="yes" mark_from="1">
+          <token postag="SENT_START"/>
+          <token regexp="yes">[lL]ieb.*<exception>Liebe</exception></token>
+          <token>Grüße</token>
+        </pattern>
+        <message>Möglicher Tippfehler: Meinten Sie die Schlussformel <suggestion>Liebe Grüße</suggestion>?</message>
+        <short>Möglicher Tippfehler</short>
+        <example type="correct"><marker>Liebe Grüße</marker></example>
+        <example type="incorrect"><marker>Lieb Grüße</marker></example>
+      </rule>
+    </rulegroup>
     <rulegroup id="GESETZ_DEN_FALL" name="Möglicher Tippfehler: 'Gesetz (Gesetzt) den Fall'">
       <rule>
         <pattern case_sensitive="yes">
@@ -3867,7 +3880,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     </rulegroup>
     -->
     <!-- Jan: TODO - find a rule that can distinguish "indem" from "in dem" -->
-    <rulegroup id="ZAHL_JAHRELANG" name="Zusammen-/Getrenntschreibung: 'einige jahrelang (Jahre lang)' etc.">
+    <rulegroup id="ZAHL_JAHRELANG" name="Zusammen-/Getrenntschreibung: 'einige jahrelang (Jahre lang)' etc." default="off">
       <!-- TODO needs work -->
       <rule>
         <pattern mark_from="2" mark_to="0" case_sensitive="no">
@@ -3875,10 +3888,46 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token postag="ZAL"><exception scope="previous" postag=".*ART.*" postag_regexp="yes"/></token>
           <token>Jahrelang</token>
         </pattern>
-        <message>&getrennt;: &inwend;\2 <suggestion>Jahre lang</suggestion> wird 'Jahre lang' getrennt geschrieben.</message>
+        <message>&getrennt;: &inwend;\2 <suggestion>Jahre lang</suggestion> muss 'Jahre lang' meist getrennt geschrieben werden.</message>
         <short>&getrennt;.</short>
         <example type="incorrect" correction="Jahre lang">Wir haben zwei <marker>jahrelang</marker> gesucht.</example>
         <example type="correct">Wir haben zwei <marker>Jahre lang</marker> gesucht.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2" mark_to="0" case_sensitive="no">
+          <token postag="VER:(AUX:)?(1|2|3):.+" postag_regexp="yes"><exception postag="(PA2|SUB|ART|ADJ):.+" postag_regexp="yes" scope="current"/></token>
+          <token regexp="yes">einige|viele|etliche|mehrere</token>
+          <token>Jahrelang</token>
+        </pattern>
+        <message>&getrennt;: &inwend;\2 <suggestion>Jahre lang</suggestion> muss 'Jahre lang' meist getrennt geschrieben werden.</message>
+        <short>&getrennt;.</short>
+        <example type="incorrect" correction="Jahre lang">Wir haben mehrere <marker>jahrelang</marker> gesucht.</example>
+        <example type="correct">Wir haben mehrere <marker>Jahre lang</marker> gesucht.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="VIELMEHR_VIEL_MEHR" name="Zusammen-/Getrenntschreibung: 'sehr vielmehr (viel mehr)'">
+      <!-- some false pos. extend to 'vielmehr als nur' -->
+      <rule>
+        <pattern mark_from="2" case_sensitive="no">
+          <token negate="yes">wie</token>
+          <token>sehr</token>
+          <token>vielmehr</token>
+        </pattern>
+        <message>Falls <suggestion>viel mehr</suggestion> hier als Steigerung von 'viel' verwendet wird, schreiben Sie es bitte getrennt. Das zusammengeschriebene 'vielmehr' bedeutet so viel wie 'sondern'.</message>
+        <short>&getrennt;.</short>
+        <example type="incorrect">... und noch sehr <marker>vielmehr</marker>!</example>
+        <example type="correct">... wie sehr <marker>vielmehr</marker> schon das erste Landrecht hierin von den alten Gebräuchen abweicht.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-1" case_sensitive="no">
+          <token negate="yes">sondern</token>
+          <token>vielmehr</token>
+          <token>als</token>
+        </pattern>
+        <message>Falls <suggestion>viel mehr</suggestion> hier als Steigerung von 'viel' verwendet wird, schreiben Sie es bitte getrennt. Das zusammengeschriebene 'vielmehr' bedeutet so viel wie 'sondern'.</message>
+        <short>&getrennt;.</short>
+        <example type="incorrect">Das ist <marker>vielmehr</marker> als nur ein Wort.</example>
+        <example type="correct">Nicht als Professor, sondern <marker>vielmehr</marker> als Lehrbeauftragter.</example>
       </rule>
     </rulegroup>
     <rulegroup id="DA_NACH_PLUS_VERB" name="Zusammen-/Getrenntschreibung: 'Da nach (danach) war Ruhe' etc.">
@@ -13562,6 +13611,24 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect">Er erfindet eine eierlegende <marker>Vollmilchsau</marker>.</example>
       <example type="incorrect">Die Legende der eierlegenden <marker>Vollmilchsau</marker>.</example>
     </rule>
+    <rulegroup id="LICHT_UNTER_DEN_SCHEMEL" name="Redewendung: 'sein Licht unter den Schemel (Scheffel) stellen'">
+      <rule>
+        <pattern mark_from="6">
+          <token regexp="yes">stellen|stellt|stell|stelle</token>
+          <token regexp="yes">dein|euer|sein|ihr|mein|unser</token>
+          <token skip="1">Licht</token>
+          <token skip="1">nicht</token>
+          <token>unter</token>
+          <token>den</token>
+          <token><exception>Scheffel</exception></token>
+        </pattern>
+        <message>Meinten Sie <suggestion>Scheffel</suggestion>? (biblische Redewendung)</message>
+        <url>http://www.bibleserver.com/text/LUT/Matth%C3%A4us5,15</url>
+        <short>Möglicherweise falsch verwendete Redewendung</short>
+        <example type="correct">Nun stell dein Licht doch nicht unter den <marker>Scheffel</marker>.</example>
+        <example type="incorrect">Nun stell dein Licht doch nicht unter den <marker>Schemel</marker>.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="ZUR_SALZSAEURE" name="Redewendung: 'zur Salzsäure (-säule) erstarren'">
       <rule>
         <pattern mark_from="2">
