@@ -65,7 +65,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
 <!ENTITY bundesstaaten "Alabama|Alaska|Arizona|Arkansas|Colorado|Connecticut|Delaware|Florida|Georgia|Hawaii|Idaho|Illinois|Indiana|Iowa|Kalifornien|Kansas|Kentucky|Louisiana|Maine|Maryland|Massachusetts|Michigan|Minnesota|Mississippi|Missouri|Montana|Nebraska|Nevada|New|North|Ohio|Oklahoma|Oregon|Pennsylvania|Rhode|South|Tennessee|Texas|Utah|Vermont|Virginia|Washington|West|Wisconsin|Wyoming">
 <!ENTITY mahlennomen "Zahn|Mühle|Korn|Weizen|Roggen|Hafer|Dinkel|Getreide|.*Mehl|Müller">
 <!ENTITY malennomen ".*Farbe|.*Bild|.*Porträt|Kunst.*|Malern?">
-<!ENTITY seitewoerter ".*Buch|.*Lektüre|umblätter\w\w?|umgeblättert|umzublättern">
+<!ENTITY seitewoerter ".*Buch|.*Lektüre|umblätter\w\w?|umgeblättert|umzublättern|(ge)?lesen|las(en)?|geschrieben|schreiben?">
 <!ENTITY saitewoerter "aufziehen|.*Bass(es)?|.*Bratsche|.*Cellos?|.*Harfen?|.*Geigen?|.*Gitarren?|.*Violas?|.*Violinen?|Klavier">
 <!ENTITY lidwoerter "Auge.*|entzünde.*|.*röt(e|lich).*|.*zuck.*|.*geschlossen.*|gesenkt.*|zusammengekniffen.*|zusammenkneif.+">
 <!ENTITY liedwoerter "Melodie.*|Note.*|sing.*|sang.*|gesungen.*|komponi.+|Musik|Strophen?|Balladen?|Gesang.*|Gesängen?|Arien?|Opern?">
@@ -3867,6 +3867,20 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     </rulegroup>
     -->
     <!-- Jan: TODO - find a rule that can distinguish "indem" from "in dem" -->
+    <rulegroup id="ZAHL_JAHRELANG" name="Zusammen-/Getrenntschreibung: 'einige jahrelang (Jahre lang)' etc.">
+      <!-- TODO needs work -->
+      <rule>
+        <pattern mark_from="2" mark_to="0" case_sensitive="no">
+          <token postag="VER:(AUX:)?(1|2|3):.+" postag_regexp="yes"><exception postag="(PA2|SUB|ART|ADJ):.+" postag_regexp="yes" scope="current"/></token>
+          <token postag="ZAL"><exception scope="previous" postag=".*ART.*" postag_regexp="yes"/></token>
+          <token>Jahrelang</token>
+        </pattern>
+        <message>&getrennt;: &inwend;\2 <suggestion>Jahre lang</suggestion> wird 'Jahre lang' getrennt geschrieben.</message>
+        <short>&getrennt;.</short>
+        <example type="incorrect" correction="Jahre lang">Wir haben zwei <marker>jahrelang</marker> gesucht.</example>
+        <example type="correct">Wir haben zwei <marker>Jahre lang</marker> gesucht.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="DA_NACH_PLUS_VERB" name="Zusammen-/Getrenntschreibung: 'Da nach (danach) war Ruhe' etc.">
       <rule>
         <pattern mark_from="0" mark_to="-1" case_sensitive="no">
@@ -9560,12 +9574,35 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct">Er war guter <marker>Dinge</marker>.</example>
       <example type="incorrect">Er war guter <marker>dinge</marker>.</example>
     </rule>
+    <rule id="VOR_ALLEN_DINGEN" name="Groß-/Kleinschreibung: 'vor allen dingen (Dingen)'">
+      <pattern mark_from="2" case_sensitive="yes">
+        <token regexp="yes">[vV]or</token>
+        <token>allen</token>
+        <token>dingen</token>
+      </pattern>
+      <message>&subanfang;<suggestion>Dingen</suggestion>&subende;.</message>
+      <short>&prgk;.</short>
+      <example type="correct">Vor allen <marker>Dingen</marker> brauchen wir Sicherheit.</example>
+      <example type="incorrect" correction="Dingen">Vor allen <marker>dingen</marker> brauchen wir Sicherheit.</example>
+    </rule>
+    <rule id="IN_ALLEN_FORMEN" name="Groß-/Kleinschreibung: 'in allen formen (Formen)'">
+      <pattern mark_from="2" case_sensitive="yes">
+        <token regexp="yes">[iI]n</token>
+        <token>allen</token>
+        <token>formen</token>
+      </pattern>
+      <message>&subanfang;<suggestion>Formen</suggestion>&subende;.</message>
+      <short>&prgk;.</short>
+      <example type="correct">Es gibt sie in allen <marker>Formen</marker> und Größen.</example>
+      <example type="incorrect" correction="Formen">Es gibt sie in allen <marker>formen</marker> und Größen.</example>
+    </rule>
     <rule id="AUS_LIEBE" name="Groß-/Kleinschreibung: 'aus liebe (Liebe)'">
       <pattern mark_from="1" case_sensitive="yes">
         <token regexp="yes">[aA]us</token>
         <token>liebe</token>
       </pattern>
       <message>&inwend;'aus Liebe' wird <suggestion>Liebe</suggestion> in der Regel großgeschrieben.</message>
+      <short>&prgk;.</short>
       <example type="correct">Nur nicht aus <marker>Liebe</marker> weinen, es gibt im Leben nicht nur den einen.</example>
       <example type="incorrect">Nur nicht aus <marker>liebe</marker> weinen, es gibt im Leben nicht nur den einen.</example>
     </rule>
@@ -9575,6 +9612,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token>frieden</token>
       </pattern>
       <message>&inwend;'in Frieden' wird <suggestion>Frieden</suggestion> großgeschrieben.</message>
+      <short>&prgk;.</short>
       <example type="correct">Lasst mich in <marker>Frieden</marker> weiterziehen.</example>
       <example type="incorrect">Lasst mich in <marker>frieden</marker> weiterziehen.</example>
     </rule>
@@ -9584,6 +9622,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token>ehren</token>
       </pattern>
       <message>&inwend;'in Ehren' wird <suggestion>Ehren</suggestion> großgeschrieben.</message>
+      <short>&prgk;.</short>
       <example type="correct">Ein in <marker>Ehren</marker> ergrauter Meisterdieb.</example>
       <example type="incorrect">Ein in <marker>ehren</marker> ergrauter Meisterdieb.</example>
     </rule>
@@ -9593,6 +9632,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token>flammen</token>
       </pattern>
       <message>&inwend;'in Flammen' wird <suggestion>Flammen</suggestion> in der Regel großgeschrieben.</message>
+      <short>&prgk;.</short>
       <example type="correct">Rhein in <marker>Flammen</marker>.</example>
       <example type="incorrect">Rhein in <marker>flammen</marker>.</example>
     </rule>
@@ -9602,6 +9642,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token>voraus</token>
       </pattern>
       <message>&inwend;'im Voraus' wird <suggestion>Voraus</suggestion> in der Regel großgeschrieben.</message>
+      <short>&prgk;.</short>
       <example type="correct">Bezahlung bitte im <marker>Voraus</marker>!</example>
       <example type="incorrect">Bezahlung bitte im <marker>voraus</marker>!</example>
     </rule>
@@ -9611,6 +9652,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token>hause</token>
       </pattern>
       <message>&inwend;'\1 Hause' wird <suggestion>Hause</suggestion> großgeschrieben.</message>
+      <short>&prgk;.</short>
       <example type="correct">Wir sind bald zu <marker>Hause</marker>.</example>
       <example type="incorrect">Wir sind bald zu <marker>hause</marker>.</example>
       <example type="incorrect">Wann kommst du nach <marker>hause</marker>?</example>
@@ -9622,6 +9664,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token>weg</token>
       </pattern>
       <message>&subanfang;<suggestion>Weg</suggestion>&subende;</message>
+      <short>&prgk;.</short>
       <example type="correct">Geh <marker>weg</marker>, du störst mich.</example>
       <example type="correct">Geh mir aus dem <marker>Weg</marker>.</example>
       <example type="correct">Wir sind schon auf dem <marker>Weg</marker>.</example>
