@@ -2614,11 +2614,25 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">gelinkte[nmrs]?</token>
           <token regexp="yes">Dokument(en?)?|(Internet)?Seiten?|URLs?|URIs?|Websites?|Datei(en)?</token>
         </pattern>
-        <message>&verw;Möchten Sie lieber <suggestion><match no="1" regexp_match="^gelink" regexp_replace="verlink"/></suggestion> schreiben? Das Verb 'linken' bedeutet auch 'täuschen'.</message>
+        <message>Möchten Sie lieber <suggestion><match no="1" regexp_match="^gelink" regexp_replace="verlink"/></suggestion> schreiben? Das Verb 'linken' bedeutet auch 'täuschen'.</message>
         <url>http://www.openthesaurus.de/synonyme/linken</url>
         <short>Mögliche Wortverwechslung</short>
         <example type="incorrect" correction="verlinkten">Ich sah mir die Änderungen an <marker>gelinkten</marker> Seiten an.</example>
         <example type="correct">Ich sah mir die Änderungen an <marker>verlinkten</marker> Seiten an.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="PERDU_PARTOUT" name="Mögliche Wortverwechslung: perdu/partout">
+      <rule>
+        <pattern case_sensitive="no" mark_from="1" mark_to="-1">
+          <token regexp="yes" negate="yes">enfant|temps|corps|fonds</token>
+          <token>perdu</token>
+          <token regexp="yes">nichts?|kein(en?)?</token>
+        </pattern>
+        <message>&verw;Meinten Sie eventuell <suggestion>partout</suggestion> (unbedingt)? 'perdu' = franz. 'verloren'</message>
+        <url>http://www.duden.de/rechtschreibung/perdu</url>
+        <short>Mögliche Wortverwechslung</short>
+        <example type="incorrect" correction="partout">Ich komme <marker>perdu</marker> nicht ins Internet.</example>
+        <example type="correct">Ich komme <marker>partout</marker> nicht ins Internet.</example>
       </rule>
     </rulegroup>
     <rulegroup id="SALZSAEURE_SALZSAEULE" name="Mögliche Wortverwechslung: Salzsäule/Salzsäure">
