@@ -8,7 +8,7 @@ LanguageTool. Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
 
 A Russian grammar rule file for LanguageTool (http://www.languagetool.org)
 Copyright (C) 2008-2012 Yakov Reztsov
-$Id: grammar.xml,v 1.90 2012-04-22 20:10:07 yakovru Exp $
+$Id: grammar.xml,v 1.91 2012-04-23 19:20:27 yakovru Exp $
 #     REVISION:  $Id$
 -->
 <rules lang="ru" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -582,6 +582,7 @@ $Id: grammar.xml,v 1.90 2012-04-22 20:10:07 yakovru Exp $
                     <token spacebefore="yes" regexp="yes">-[а-я].*</token>
                 </pattern>
                 <message>Перед дефисом не должно быть пробела: <suggestion>\1\2</suggestion></message>
+                <url>http://ru.wikipedia.org/wiki/%D0%94%D0%B5%D1%84%D0%B8%D1%81</url>
                 <short>Лишний пробел.</short>
                 <example type="correct">Кое-кто пошёл в магазин.</example>
                 <example type="incorrect"><marker>Кое -кто</marker> пошёл в магазин.</example>
@@ -1354,6 +1355,7 @@ $Id: grammar.xml,v 1.90 2012-04-22 20:10:07 yakovru Exp $
                     <token regexp= "yes">ихний|ихняя|ихнее|ихнего|ихнему|ихним|ихнем|ихней|ихнюю</token>
                 </pattern>                
                 <message>Правильная форма - <suggestion>их</suggestion>.</message>
+                <url>http://ru.wikipedia.org/wiki/%D0%9C%D0%B5%D1%81%D1%82%D0%BE%D0%B8%D0%BC%D0%B5%D0%BD%D0%B8%D0%B5_%D0%B2_%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%BE%D0%BC_%D1%8F%D0%B7%D1%8B%D0%BA%D0%B5</url>
                 <short>Правильная форма - "их".</short>
                 <example type="correct">Там находится их дом.</example>
                 <example type="incorrect">Там находится <marker>ихний</marker> дом.</example>
@@ -1796,6 +1798,7 @@ $Id: grammar.xml,v 1.90 2012-04-22 20:10:07 yakovru Exp $
             </pattern>
             <message>Два глагола в личной форме подряд. Второй глагол должен быть в неопределённой форме:
             <suggestion><match no="1"></match> <match no="2" postag="VB:.*" postag_regexp="yes" postag_replace="VB:INF"></match></suggestion></message>
+            <url>http://ru.wikipedia.org/wiki/%D0%A1%D0%BA%D0%B0%D0%B7%D1%83%D0%B5%D0%BC%D0%BE%D0%B5#.D0.A1.D0.BE.D1.81.D1.82.D0.B0.D0.B2.D0.BD.D0.BE.D0.B5_.D0.B3.D0.BB.D0.B0.D0.B3.D0.BE.D0.BB.D1.8C.D0.BD.D0.BE.D0.B5_.D1.81.D0.BA.D0.B0.D0.B7.D1.83.D0.B5.D0.BC.D0.BE.D0.B5</url>
             <short>Ошибка в примыкани.</short>
             <example type="correct">Здесь будет строиться всё больше жилья.</example>
             <example type="incorrect">Здесь <marker>будет строится</marker> всё больше жилья.</example>
@@ -1811,6 +1814,7 @@ $Id: grammar.xml,v 1.90 2012-04-22 20:10:07 yakovru Exp $
                 
             </pattern>
             <message>Предлог перед глаголом не употребляется. Должно быть: <suggestion>\2</suggestion> или <suggestion>\2 \1</suggestion>.</message>
+            <url>http://ru.wikipedia.org/wiki/%D0%9F%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B3</url>
             <short>Предлог перед глаголом не употребляется.</short>
             <example type="correct">Он пошёл в лес.</example>
             <example type="incorrect">Он <marker>в пошёл</marker> лес.</example>
@@ -1828,6 +1832,7 @@ $Id: grammar.xml,v 1.90 2012-04-22 20:10:07 yakovru Exp $
                 <token  postag="SENT_END"></token>
             </pattern>
             <message>У местоимений 3 лица в косвенных падежах пишется начальная н, если эти местоимения употребляются после предлогов: <suggestion>\1 н\2</suggestion>.</message>
+            <url>http://ru.wikipedia.org/wiki/%D0%9B%D0%B8%D1%87%D0%BD%D1%8B%D0%B5_%D0%BC%D0%B5%D1%81%D1%82%D0%BE%D0%B8%D0%BC%D0%B5%D0%BD%D0%B8%D1%8F</url>
             <short>Пропущена начальная буква “н”</short>
             <example type="correct">Он пошёл к нему.</example>
             <example type="correct">Дело удалось благодаря его усилиям.</example>
@@ -2035,6 +2040,7 @@ $Id: grammar.xml,v 1.90 2012-04-22 20:10:07 yakovru Exp $
                     <token  postag=".*:Talk" postag_regexp="yes"><exception negate_pos="yes" postag=".*:Talk" postag_regexp="yes"></exception></token>
                 </pattern>
                 <message>Разговорная форма слова.</message>
+                <url>http://ru.wikipedia.org/wiki/%D0%A0%D0%B0%D0%B7%D0%B3%D0%BE%D0%B2%D0%BE%D1%80%D0%BD%D1%8B%D0%B9_%D1%81%D1%82%D0%B8%D0%BB%D1%8C</url>
                 <short>Разговорная форма слова.</short>
                 <example type="correct">Иван Иванович</example>
                 <example type="incorrect">Иван <marker>Иваныч</marker>.</example>
@@ -2047,6 +2053,7 @@ $Id: grammar.xml,v 1.90 2012-04-22 20:10:07 yakovru Exp $
                     <token></token>
                 </pattern>
                 <message>Слова нет в словаре LanguageTool.</message>
+                <url>http://www.aot.ru/demo/morph.html</url>
                 <short>Нет в словаре.</short>
                 <example type="correct">Проверка текста.</example>
                 <example type="correct">Проверка текста и т.п.</example>
@@ -2188,6 +2195,7 @@ $Id: grammar.xml,v 1.90 2012-04-22 20:10:07 yakovru Exp $
                 <token  postag="NNN:.*" postag_regexp="yes"><exception regexp="yes">\p{Lu}.*</exception><exception regexp="yes">е|мадам|леди|пани|ежи|шоу|обл</exception><exception  negate_pos="yes" postag="NNN:.*" postag_regexp="yes"/></token>
             </pattern>
             <message>Имя пишется с большой буквы: <suggestion><match no="1" case_conversion ="startupper"/></suggestion></message>
+            <url>http://ru.wikipedia.org/wiki/%D0%97%D0%B0%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F_%D0%B1%D1%83%D0%BA%D0%B2%D0%B0</url>
             <short>Заглавные буквы.</short>
             <example type="correct">Он - <marker>Иван</marker>.</example>
             <example type="incorrect">Он - <marker>иван</marker>.</example>
@@ -2198,6 +2206,7 @@ $Id: grammar.xml,v 1.90 2012-04-22 20:10:07 yakovru Exp $
                 <token  postag="NNP:.*" postag_regexp="yes"><exception regexp="yes">\p{Lu}.*</exception><exception>e</exception><exception  negate_pos="yes" postag="NNP:.*" postag_regexp="yes"/></token>
             </pattern>
             <message>Отчество пишется с большой буквы: <suggestion><match no="1" case_conversion ="startupper"/></suggestion></message>
+            <url>http://ru.wikipedia.org/wiki/%D0%97%D0%B0%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F_%D0%B1%D1%83%D0%BA%D0%B2%D0%B0</url>
             <short>Заглавные буквы.</short>
             <example type="correct">Он - <marker>Иванович</marker>.</example>
             <example type="incorrect">Он - <marker>иванович</marker>.</example>
