@@ -5007,6 +5007,16 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     <rulegroup id="RUNDE_KUGEL" name="Verdoppelung: 'runde Kugel' u.ä. (nur für wenige Fälle)">
       <rule>
         <pattern case_sensitive="yes">
+          <token regexp="yes">[eE]invernehmliche[nr]?</token>
+          <token>Konsens</token>
+        </pattern>
+        <message>Die Bedeutung des Substantivs \2 beinhaltet bereits das durch das Adjektiv \1 ausgedrückte Merkmal. In vielen Kontexten kann diese Formulierung deswegen redundant erscheinen. Vorschlag: <suggestion>\2</suggestion>, oder weichen Sie auf ein anderes Adjektiv aus.</message>
+        <short>&redundanz;</short>
+        <example type="incorrect" correction="Konsens">Der <marker>einvernehmliche Konsens</marker> war, dass wir es tun sollten.</example>
+        <example type="correct">Der <marker>Konsens</marker> war, dass wir es tun sollten.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
           <token regexp="yes">[aA]kustische[nr]?</token>
           <token>Klang</token>
         </pattern>
@@ -13634,13 +13644,15 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <pattern mark_from="2">
           <token inflected="yes" skip="1">erstarren</token>
           <token regexp="yes">zur?</token>
-          <token regexp="yes">Salzsäu.*<exception>Salzsäule</exception></token>
+          <token regexp="yes">Salz.+<exception>Salzsäule</exception></token>
         </pattern>
         <message>Meinten Sie <suggestion>Salzsäule</suggestion>? (biblische Redewendung)</message>
-        <url>http://www.bibleserver.com/index.php?ref=1.mos19%2C26&amp;trl_desig=EU&amp;language=de&amp;gw=go</url>
+        <url>http://www.bibleserver.com/text/LUT/1.Mose19,26</url>
         <short>Möglicherweise falsch verwendete Redewendung</short>
         <example type="correct">Ich erstarrte zur <marker>Salzsäule</marker>.</example>
         <example type="incorrect">Ich erstarrte zur <marker>Salzsäure</marker>.</example>
+        <example type="incorrect">Ich erstarrte zur <marker>Salzeule</marker>.</example>
+        <example type="incorrect">Ich erstarrte zur <marker>Salzkeule</marker>.</example>
       </rule>
       <rule>
         <pattern mark_from="1" mark_to="-1">
@@ -13649,7 +13661,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token inflected="yes">erstarren</token>
         </pattern>
         <message>Meinten Sie <suggestion>Salzsäule</suggestion>? (biblische Redewendung)</message>
-        <url>http://www.bibleserver.com/index.php?ref=1.mos19%2C26&amp;trl_desig=EU&amp;language=de&amp;gw=go</url>
+        <url>http://www.bibleserver.com/text/LUT/1.Mose19,26</url>
         <short>Möglicherweise falsch verwendete Redewendung</short>
         <example type="correct">Ich bin zur <marker>Salzsäule</marker> erstarrt.</example>
         <example type="incorrect">Ich bin zur <marker>Salzsäure</marker> erstarrt.</example>
