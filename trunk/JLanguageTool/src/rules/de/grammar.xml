@@ -5007,6 +5007,16 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     <rulegroup id="RUNDE_KUGEL" name="Verdoppelung: 'runde Kugel' u.ä. (nur für wenige Fälle)">
       <rule>
         <pattern case_sensitive="yes">
+          <token regexp="yes">([fF]inanzielle|[mM]onetäre)[mnrs]?</token>
+          <token regexp="yes">Geld.*</token>
+        </pattern>
+        <message>Die Bedeutung des Substantivs \2 beinhaltet bereits das durch das Adjektiv \1 ausgedrückte Merkmal. In vielen Kontexten kann diese Formulierung deswegen redundant erscheinen. Vorschlag: <suggestion>\2</suggestion>, oder weichen Sie auf ein anderes Adjektiv aus.</message>
+        <short>&redundanz;</short>
+        <example type="incorrect" correction="Geldprobleme">Die <marker>finanziellen Geldprobleme</marker> sind groß.</example>
+        <example type="correct">Die <marker>finanziellen Probleme</marker> sind groß.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
           <token regexp="yes">[eE]invernehmliche[nr]?</token>
           <token>Konsens</token>
         </pattern>
@@ -5139,6 +5149,46 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect" correction="woher|von wo">Man merkte gleich, <marker>von woher</marker> sie herkam.</example>
         <example type="correct">Man merkte gleich, <marker>wo</marker> sie herkam.</example>
         <example type="correct">Man merkte gleich, <marker>woher</marker> sie kam.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="WOHIN_HIN" name="Verdoppelung: 'wohin ... hin'">
+      <!-- TODO expect some false pos. Not covered: 'wohin ist er hingegangen' etc. – reg. expr. -->
+      <rule>
+        <pattern case_sensitive="no">
+          <token>wohin</token>
+          <token>
+            <exception postag="SENT_END"/>
+          </token>
+          <token>
+            <exception postag="SENT_END"/>
+          </token>
+          <token>hin</token>
+        </pattern>
+        <message>Bitte verwenden Sie 'wo' und 'wohin' nicht zusammen. Vorschläge: <suggestion>wo \2 \3 hin</suggestion>, <suggestion>wohin \2 \3</suggestion>.</message>
+        <short>&redundanz;</short>
+        <example type="incorrect" correction="Wo gehst du hin|Wohin gehst du"><marker>Wohin gehst du hin</marker>?</example>
+        <example type="incorrect" correction="Wo wollte er hin|Wohin wollte er"><marker>Wohin wollte er hin</marker>?</example>
+        <example type="correct"><marker>Wo wollte er hin</marker>?</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="no">
+          <token>wohin</token>
+          <token>
+            <exception postag="SENT_END"/>
+          </token>
+          <token>
+            <exception postag="SENT_END"/>
+          </token>
+          <token skip="1">
+            <exception postag="SENT_END"/>
+          </token>
+          <token>hin</token>
+        </pattern>
+        <message>Bitte verwenden Sie 'wo' und 'wohin' nicht zusammen. Vorschläge: <suggestion>wo \2 \3 \4 hin</suggestion>, <suggestion>wohin \2 \3 \4</suggestion>.</message>
+        <short>&redundanz;</short>
+        <example type="incorrect" correction="Wo gehst du denn hin|Wohin gehst du denn"><marker>Wohin gehst du denn hin</marker>?</example>
+        <example type="incorrect" correction="Wo wollte er denn hin|Wohin wollte er denn"><marker>Wohin wollte er denn hin</marker>?</example>
+        <example type="correct"><marker>Wo wollte er denn hin</marker>?</example>
       </rule>
     </rulegroup>
     <rulegroup id="WAEHREND_DES_VERLAUFS" name="Verdoppelung: 'während des Verlaufs'">
@@ -6307,16 +6357,17 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect" correction="Angaben">Nach <marker>angaben</marker> der Rebellen wurde gestern die Hauptstadt eingenommen.</example>
     </rule>
     <rule id="BESTAND_SUBST" name="Groß-/Kleinschreibung: 'der bestand (Bestand) an'">
-      <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
+      <pattern case_sensitive="yes" mark_from="1" mark_to="-2">
         <token regexp="yes">[dD]er</token>
         <token>bestand</token>
         <token>an</token>
+        <token postag="SUB:DAT:.+" postag_regexp="yes" />
       </pattern>
       <message>&subanfang;<suggestion>Bestand</suggestion>&subende;</message>
       <short>&prgk;.</short>
       <example type="correct">Der <marker>Bestand</marker> an Wildtieren geht ständig zurück.</example>
       <example type="correct">Der <marker>bestand</marker> aus Stahl.</example>
-      <example type="incorrect" correction="Bestand">Der <marker>bestand</marker> an Wildtieren geht ständig zurück.</example>
+      <example type="incorrect" correction="Bestand">Der <marker>bestand</marker> an Tieren geht ständig zurück.</example>
     </rule>
     <rulegroup id="TROPFEN_SUBST" name="Groß-/Kleinschreibung: 'Steter tropfen (Tropfen)' etc.">
       <rule>
