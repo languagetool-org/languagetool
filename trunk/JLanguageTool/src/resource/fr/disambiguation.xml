@@ -73,6 +73,17 @@ RB => Règles Brutes
     <disambig postag="D f s"/>
   </rule>
 
+  <!-- So that word "faute" (etc) as in "des faute", "une fautes" is marked as
+       a noun and not a verb, otherwise we don't find the incorrect
+       accord in number -->
+  <rule name="nom" id="N">
+    <pattern mark="1">
+      <token regexp="yes">des|quelques|plusieurs|nombreuses|une|chaque</token>
+      <token postag="N.*" postag_regexp="yes"/>
+    </pattern>
+    <disambig action="filter" postag="N.*"/>
+  </rule>
+
   <rulegroup name="été (nom)" id="ETE">
     <rule>
       <pattern mark="1">
