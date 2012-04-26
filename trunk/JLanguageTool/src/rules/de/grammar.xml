@@ -732,7 +732,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     <rulegroup id="BESSERN_VS_BESSEREN" name="Möglicher Tippfehler: 'den bessern (besseren) Computer' etc.">
       <rule>
         <pattern mark_from="1" mark_to="-1">
-          <token regexp="yes">(eine|de)[mn]</token>
+          <token regexp="yes">(eine|de)[mn]|zum</token>
           <token>bessern</token>
           <token postag="SUB:(AKK|DAT):SIN:MAS" postag_regexp="yes"/>
         </pattern>
@@ -853,6 +853,32 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect">Was kann man <marker>währenden</marker> des Ansehens von Filmen machen?</example>
       <example type="correct">Was kann man <marker>während</marker> des Ansehens von Filmen machen?</example>
     </rule>
+    <rulegroup id="HERZ_HERTZ" name="Möglicher Tippfehler: '50 Herz (Hertz)'">
+      <rule>
+        <!-- TODO add some typical phrases, 'blutendes Herz' ... -->
+        <pattern mark_from="1">
+          <token regexp="yes">&meindein;</token>
+          <token>Hertz</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>Herz</suggestion> (Organ) statt 'Hertz' (physikalische Einheit der Frequenz)?</message>
+        <short>Möglicher Tippfehler</short>
+        <example type="incorrect">Mein <marker>Hertz</marker> schlug wie wild.</example>
+        <example type="correct">1 <marker>Hertz</marker> ist definiert als 1/s.</example>
+        <example type="correct">Mein <marker>Herz</marker> schlug wie wild.</example>
+      </rule>
+      <rule>
+        <!-- TODO add some typical phrases, 'Frequenz von' ... -->
+        <pattern mark_from="2">
+          <token regexp="yes">von|mit|als|Frequenz</token>
+          <token regexp="yes">[0-9]+</token>
+          <token>Herz</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>Hertz</suggestion> (Einheit der Frequenz) statt 'Herz' (Organ)?</message>
+        <short>Möglicher Tippfehler</short>
+        <example type="correct">1 <marker>Hertz</marker> ist definiert als 1/s.</example>
+        <example type="incorrect">Mit einer Frequenz von 10 <marker>Herz</marker>.</example>
+      </rule>
+    </rulegroup>
     <rule id="INS_UNS" name="Möglicher Tippfehler: 'ins (in) uns'">
       <pattern mark_to="-1">
         <token>ins</token>
@@ -2679,7 +2705,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         </pattern>
         <message>&verw;Meinten Sie <suggestion>Urzeiten</suggestion>?</message>
         <short>Mögliche Wortverwechslung</short>
-        <example type="incorrect" correction="Urzeiten">Schon vor <marker>Uhrzeiten</marker> habe ich einen Rechner gekauft.</example>
+        <example type="incorrect" correction="Urzeiten">Schon vor <marker>Uhrzeiten</marker> habe ich diesen Rechner gekauft.</example>
         <example type="correct">Das ist schon seit <marker>Urzeiten</marker> so.</example>
       </rule>
       <rule>
@@ -3222,6 +3248,153 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect">Das <marker>Nivea</marker> ist sehr hoch.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="PUNK_PUNKT" name="Mögliche Wortverwechslung: Punk/Punkt">
+      <rule>
+        <pattern mark_from="1" mark_to="0">
+          <token regexp="yes">(grün|wichtig|strittig|schwach|wund|heikl|zentral|neuralgisch)e[rmn]</token>
+          <token>Punk</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>Punkt</suggestion> statt 'Punk' (Musikstil)?</message>
+        <short>Mögliche Wortverwechslung</short>
+        <example type="correct">Das ist <marker>Punk</marker>.</example>
+        <example type="correct">Das ist ein heikler <marker>Punkt</marker>.</example>
+        <example type="incorrect" correction="Punkt">Das ist ein etwas heikler <marker>Punk</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="0" mark_to="-1">
+          <token skip="1">Punk</token>
+          <token>Komma</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>Punkt</suggestion> statt 'Punk' (Musikstil)?</message>
+        <short>Mögliche Wortverwechslung</short>
+        <example type="correct">Das ist <marker>Punk</marker>.</example>
+        <example type="correct">Sie redet ohne <marker>Punkt</marker> und Komma.</example>
+        <example type="incorrect" correction="Punkt">Punkt, <marker>Punk</marker>, Komma, Strich ...</example>
+        <example type="incorrect" correction="Punkt">Sie redet ohne <marker>Punk</marker> und Komma.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="KOMA_KOMMA" name="Mögliche Wortverwechslung: Koma/Komma">
+      <rule>
+        <pattern mark_from="1" mark_to="0">
+          <token skip="1">Punkt</token>
+          <token>Koma</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>Komma</suggestion> (Satzzeichen)?</message>
+        <short>Mögliche Wortverwechslung</short>
+        <example type="correct">Sie liegt im <marker>Koma</marker>.</example>
+        <example type="correct">Sie redet ohne Punkt und <marker>Komma</marker>.</example>
+        <example type="incorrect" correction="Komma">Sie redet ohne Punkt und <marker>Koma</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2" mark_to="0">
+          <token skip="2" inflected="yes" regexp="yes">fallen|liegen</token>
+          <token regexp="yes">ins|im</token>
+          <token>Komma</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>Koma</suggestion> (Bewusstlosigkeit)?</message>
+        <short>Mögliche Wortverwechslung</short>
+        <example type="correct">Sie liegt im <marker>Koma</marker>.</example>
+        <example type="correct">Sie fiel plötzlich ins <marker>Koma</marker>.</example>
+        <example type="correct">Sie redet ohne Punkt und <marker>Komma</marker>.</example>
+        <example type="incorrect" correction="Koma">Sie fiel plötzlich ins <marker>Komma</marker>.</example>
+        <example type="incorrect" correction="Koma">Er liegt seit gestern im <marker>Komma</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token regexp="yes">ins|im</token>
+          <token>Komma</token>
+          <token regexp="yes">gefallen|gelegen</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>Koma</suggestion> (Bewusstlosigkeit)?</message>
+        <short>Mögliche Wortverwechslung</short>
+        <example type="correct">Sie fiel plötzlich ins <marker>Koma</marker>.</example>
+        <example type="correct">Sie redet ohne Punkt und <marker>Komma</marker>.</example>
+        <example type="incorrect" correction="Koma">Sie ist plötzlich ins <marker>Komma</marker> gefallen.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="IDEN_IDEEN" name="Mögliche Wortverwechslung: Ideen/Iden">
+      <rule>
+        <pattern mark_from="0" mark_to="-1">
+          <token>Iden</token>
+          <token negate="yes">des</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>Ideen</suggestion> (Einfälle) statt 'Iden' (röm. Kalendertage)?</message>
+        <short>Mögliche Wortverwechslung</short>
+        <example type="correct">Sind heute die <marker>Iden</marker> des März?</example>
+        <example type="correct">Deine <marker>Ideen</marker> sind gut!</example>
+        <example type="incorrect" correction="Ideen">Deine <marker>Iden</marker> sind gut!</example>
+      </rule>
+      <rule>
+        <pattern mark_from="0" mark_to="-2">
+          <token>Ideen</token>
+          <token>des</token>
+          <token regexp="yes">&monate;</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>Iden</suggestion> (röm. Kalendertage) statt 'Ideen'?</message>
+        <short>Mögliche Wortverwechslung</short>
+        <example type="correct">Deine <marker>Ideen</marker> sind gut!</example>
+        <example type="correct">Sind heute die <marker>Iden</marker> des März?</example>
+        <example type="incorrect" correction="Iden">Sind heute die <marker>Ideen</marker> des März?</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="DER_SCHILD" name="Mögliche Wortverwechslung: das/der Schild">
+      <rule>
+        <pattern mark_from="0" mark_to="0">
+          <token>das</token>
+          <token regexp="yes">.*(Schutz|Abfang|Abwehr)schild</token>
+        </pattern>
+        <message>'Schild' im Sinne von 'Schutzwaffe' ist ein maskulines Nomen. Vorschlag: <suggestion>der \2</suggestion></message>
+        <url>http://www.duden.de/rechtschreibung/Schild_Schutzwaffe_Schirm</url>
+        <short>'Schild' im Sinne von 'Schutzwaffe' ist ein maskulines Nomen.</short>
+        <example type="correct">Hier ist <marker>der Schutzschild</marker>.</example>
+        <example type="incorrect">Hier ist <marker>das Schutzschild</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="0" mark_to="0">
+          <token postag="ADJ:NOM:SIN:NEU.*" postag_regexp="yes" regexp="yes">.+es<exception postag="ADJ:.+:SIN:MAS.*" postag_regexp="yes"/></token>
+          <token regexp="yes">.*(Schutz|Abfang|Abwehr)schild</token>
+        </pattern>
+        <message>'Schild' im Sinne von 'Schutzwaffe' ist ein maskulines Nomen. Vorschlag: <suggestion><match no="1" regexp_replace="er" regexp_match="es$"/> \2</suggestion></message>
+        <url>http://www.duden.de/rechtschreibung/Schild_Schutzwaffe_Schirm</url>
+        <short>'Schild' im Sinne von 'Schutzwaffe' ist ein maskulines Nomen.</short>
+        <example type="correct">Ein <marker>menschlicher Schutzschild</marker>.</example>
+        <example type="incorrect">Ein <marker>menschliches Schutzschild</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="0" mark_to="0">
+          <token regexp="yes">.*(Schutz|Abfang|Abwehr)schildern?</token>
+        </pattern>
+        <message>Der Plural von 'Schild' im Sinne von 'Schutzwaffe' lautet 'Schilde'. Vorschlag: <suggestion><match no="1" regexp_replace="e$1" regexp_match="er(n)?$"/></suggestion></message>
+        <url>http://www.duden.de/rechtschreibung/Schild_Schutzwaffe_Schirm</url>
+        <short>Mögliche Wortverwechslung</short>
+        <example type="correct">Die menschlichen <marker>Schutzschilde</marker>.</example>
+        <example type="incorrect" correction="Schutzschilde">Die menschlichen <marker>Schutzschilder</marker>.</example>
+        <example type="incorrect" correction="Schutzschilden">Den menschlichen <marker>Schutzschildern</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="0" mark_to="0">
+          <token>der</token>
+          <token regexp="yes">.*(Verkehrs|Verbots|Namens|Hinweis)schild</token>
+        </pattern>
+        <message>'Schild' im Sinne von 'Zeichen, Tafel' ist ein Neutrum. Vorschlag: <suggestion>das \2</suggestion></message>
+        <url>http://www.duden.de/rechtschreibung/Schild_Tafel_Platte_Fleck</url>
+        <short>'Schild' im Sinne von 'Zeichen' ist ein Neutrum.</short>
+        <example type="correct">Hier ist <marker>der Schutzschild</marker>.</example>
+        <example type="correct">Hier ist <marker>das Verkehrsschild</marker>.</example>
+        <example type="incorrect">Hier ist <marker>der Verkehrsschild</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="0">
+          <token negate="yes">dem</token> <!-- Dativ-e -->
+          <token regexp="yes">.*(Verkehrs|Verbots|Namens|Hinweis)schilden?</token>
+        </pattern>
+        <message>Der Plural von 'Schild' im Sinne von 'Zeichen, Tafel' lautet 'Schilder'. Vorschlag: <suggestion><match no="2" regexp_replace="er$1" regexp_match="e(n)?$"/></suggestion></message>
+        <short>Mögliche Wortverwechslung</short>
+        <example type="correct">Die <marker>Verkehrsschilder</marker>.</example>
+        <example type="incorrect" correction="Verkehrsschilder">Die <marker>Verkehrsschilde</marker>.</example>
+        <example type="incorrect" correction="Verkehrsschildern">Den <marker>Verkehrsschilden</marker>.</example>
+      </rule>
+    </rulegroup>
   </category>
 
   <!-- ====================================================================== -->
@@ -3540,16 +3713,52 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect" correction="Russellsche"><marker>Russelsche</marker> Antinomie</example>
       </rule>
     </rulegroup>
-    <rule id="JOSEPH_GOEBBELS" name="Eigenname: 'Josef (Joseph) Goebbels'">
-      <pattern case_sensitive="yes" mark_to="-1">
-        <token>Josef</token>
-        <token>Goebbels</token>
-      </pattern>
-      <message>Meinen Sie <suggestion>Joseph</suggestion> Goebbels, den Propagandaminister des Dritten Reiches?</message>
-      <short>&eigenname;</short>
-      <example type="correct"><marker>Joseph</marker> Goebbels</example>
-      <example type="incorrect" correction="Joseph"><marker>Josef</marker> Goebbels</example>
-    </rule>
+    <rulegroup id="MARINA_WEISBAND" name="Eigenname: 'Marita (Marina) Weisband'">
+      <rule>
+        <pattern case_sensitive="yes">
+          <token regexp="yes">Mari\w?a<exception>Marina</exception></token>
+          <token regexp="yes">Weisband|Weißband</token>
+        </pattern>
+        <message>Meinen Sie die Politikerin <suggestion>Marina Weisband</suggestion>?</message>
+        <short>&eigenname;</short>
+        <example type="correct"><marker>Marina Weisband</marker></example>
+        <example type="incorrect" correction="Marina Weisband"><marker>Maria Weißband</marker></example>
+        <example type="incorrect" correction="Marina Weisband"><marker>Marita Weisband</marker></example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token>Marina</token>
+          <token regexp="yes">Wei\w\w?band|Weißband<exception>Weisband</exception></token>
+        </pattern>
+        <message>Meinen Sie die Politikerin <suggestion>Marina Weisband</suggestion>?</message>
+        <short>&eigenname;</short>
+        <example type="correct"><marker>Marina Weisband</marker></example>
+        <example type="incorrect" correction="Marina Weisband"><marker>Marina Weißband</marker></example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="JOSEPH_GOEBBELS" name="Eigenname: 'Josef (Joseph) Goebbels'">
+      <rule>
+        <pattern case_sensitive="yes">
+          <token>Josef</token>
+          <token regexp="yes">G(oe|ö)bbels</token>
+        </pattern>
+        <message>Meinen Sie <suggestion>Joseph Goebbels</suggestion>, den Propagandaminister des Dritten Reiches?</message>
+        <short>&eigenname;</short>
+        <example type="correct"><marker>Joseph Goebbels</marker></example>
+        <example type="incorrect" correction="Joseph Goebbels"><marker>Josef Goebbels</marker></example>
+        <example type="incorrect" correction="Joseph Goebbels"><marker>Josef Göbbels</marker></example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token>Joseph</token>
+          <token>Göbbels</token>
+        </pattern>
+        <message>Meinen Sie <suggestion>Joseph Goebbels</suggestion>, den Propagandaminister des Dritten Reiches?</message>
+        <short>&eigenname;</short>
+        <example type="correct"><marker>Joseph Goebbels</marker></example>
+        <example type="incorrect" correction="Joseph Goebbels"><marker>Joseph Göbbels</marker></example>
+      </rule>
+    </rulegroup>
     <rule id="BARBRA_STREISAND" name="Eigenname: 'Barbara (Barbra) Streisand'">
       <pattern case_sensitive="yes" mark_to="-1">
         <token>Barbara</token>
@@ -4085,6 +4294,17 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <short>&getrennt;.</short>
         <example type="correct">Beim <marker>Haareschneiden</marker> kommen mir die besten Einfälle.</example>
         <example type="incorrect" correction="Haareschneiden">Beim <marker>Haare schneiden</marker> kommen mir die besten Einfälle.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="1">
+          <token regexp="yes">[zZ]um|[bB]eim</token>
+          <token>Korrektur</token>
+          <token regexp="yes">[lL]esen</token>
+        </pattern>
+        <message>Meinten Sie <suggestion><match no="2"/><match case_conversion="startlower" no="3"/></suggestion>?</message>
+        <short>&getrennt;.</short>
+        <example type="correct">Beim <marker>Korrekturlesen</marker> kommen mir die besten Einfälle.</example>
+        <example type="incorrect" correction="Korrekturlesen">Beim <marker>Korrektur lesen</marker> kommen mir die besten Einfälle.</example>
       </rule>
       <rule>
         <pattern case_sensitive="yes" mark_from="1">
@@ -5189,6 +5409,44 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect" correction="Wo gehst du denn hin|Wohin gehst du denn"><marker>Wohin gehst du denn hin</marker>?</example>
         <example type="incorrect" correction="Wo wollte er denn hin|Wohin wollte er denn"><marker>Wohin wollte er denn hin</marker>?</example>
         <example type="correct"><marker>Wo wollte er denn hin</marker>?</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="no">
+          <token>woher</token>
+          <token>
+            <exception postag="SENT_END"/>
+          </token>
+          <token>
+            <exception postag="SENT_END"/>
+          </token>
+          <token>her</token>
+        </pattern>
+        <message>Bitte verwenden Sie 'wo' und 'woher' nicht zusammen. Vorschläge: <suggestion>wo \2 \3 her</suggestion>, <suggestion>woher \2 \3</suggestion>.</message>
+        <short>&redundanz;</short>
+        <example type="incorrect" correction="Wo kommst du her|Woher kommst du"><marker>Woher kommst du her</marker>?</example>
+        <example type="incorrect" correction="Wo kam er her|Woher kam er"><marker>Woher kam er her</marker>?</example>
+        <example type="correct"><marker>Wo kam er her</marker>?</example>
+        <example type="correct"><marker>Woher kam er</marker>?</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="no">
+          <token>woher</token>
+          <token>
+            <exception postag="SENT_END"/>
+          </token>
+          <token>
+            <exception postag="SENT_END"/>
+          </token>
+          <token skip="1">
+            <exception postag="SENT_END"/>
+          </token>
+          <token>her</token>
+        </pattern>
+        <message>Bitte verwenden Sie 'wo' und 'woher' nicht zusammen. Vorschläge: <suggestion>wo \2 \3 \4 her</suggestion>, <suggestion>woher \2 \3 \4</suggestion>.</message>
+        <short>&redundanz;</short>
+        <example type="incorrect" correction="Wo kommst du denn her|Woher kommst du denn"><marker>Woher kommst du denn her</marker>?</example>
+        <example type="incorrect" correction="Wo kam er denn her|Woher kam er denn"><marker>Woher kam er denn her</marker>?</example>
+        <example type="correct"><marker>Wo kam er denn her</marker>?</example>
       </rule>
     </rulegroup>
     <rulegroup id="WAEHREND_DES_VERLAUFS" name="Verdoppelung: 'während des Verlaufs'">
@@ -8245,7 +8503,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     <rule id="AUF_VERLANGEN" name="Groß-/Kleinschreibung: 'auf verlangen (Verlangen)'">
       <pattern case_sensitive="yes" mark_from="1">
         <token regexp="yes">[aA]uf</token>
-        <token regexp="yes">verlangen|bitten|nachfrage</token>
+        <token regexp="yes">verlangen|bitten|nachfrage|anfrage</token>
       </pattern>
       <message>Meinten Sie \1 <suggestion><match no="2" case_conversion="startupper"/></suggestion>?</message>
       <short>&prgk;.</short>
@@ -10963,7 +11221,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <rule>
         <pattern mark_from="1" mark_to="-1" case_sensitive="yes">
           <token regexp="yes">([dD](er|ie))|([eE]ine)</token>
-          <token regexp="yes">verdächtige|überlebende|verbündete|obdachlose|angestellte|abgeordnete|jugendliche</token>
+          <token regexp="yes">verdächtige|überlebende|verbündete|prostituierte|obdachlose|angestellte|abgeordnete|jugendliche</token>
           <token postag="VER:.*" postag_regexp="yes"/>
         </pattern>
         <message>&subanfang;<suggestion><match case_conversion="startupper" no="2"/></suggestion> hier substantiviert gebraucht wird.</message>
@@ -13574,7 +13832,6 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect">Seine Werke waren <marker>zu seiner Lebenszeit</marker> nicht besonders erfolgreich.</example>
     </rule>
     <rulegroup id="INSOFERN_ALS_DASS" name="Redewendung: 'insofern, als dass (als)'">
-    <!-- Quelle: http://www.spiegel.de/kultur/zwiebelfisch/0,1518,340036,00.html -->
       <rule>
         <pattern mark_from="2">
           <token>insofern</token>
@@ -13582,7 +13839,8 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>als</token>
           <token>dass</token>
         </pattern>
-        <message>'Insofern' steht mit der Konjunktion <suggestion>als</suggestion>.</message>
+        <message>'Insofern' steht gewöhnlich mit der Konjunktion <suggestion>als</suggestion>.</message>
+        <url>http://www.spiegel.de/kultur/zwiebelfisch/0,1518,340036,00.html</url>
         <short>Möglicherweise falsch verwendete Redewendung</short>
         <example type="correct">Das gilt insofern, <marker>als</marker> obige Bedingungen erfüllt sind.</example>
         <example type="incorrect">Das gilt insofern, <marker>als dass</marker> obige Bedingungen erfüllt sind.</example>
@@ -13594,7 +13852,8 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>als</token>
           <token>dass</token>
         </pattern>
-        <message>'Insofern' steht mit der Konjunktion <suggestion>als</suggestion>.</message>
+        <message>'Insofern' steht gewöhnlich mit der Konjunktion <suggestion>als</suggestion>.</message>
+        <url>http://www.spiegel.de/kultur/zwiebelfisch/0,1518,340036,00.html</url>
         <short>Möglicherweise falsch verwendete Redewendung</short>
         <example type="correct">Das trifft insofern zu, <marker>als</marker> obige Bedingungen erfüllt sind.</example>
         <example type="incorrect">Das trifft insofern zu, <marker>als dass</marker> obige Bedingungen erfüllt sind.</example>
@@ -13718,19 +13977,47 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect">Ich bin zur <marker>Salzsäure</marker> erstarrt.</example>
       </rule>
     </rulegroup>
-    <rule id="MIT_RUM_BEKLECKERT" name="Redewendung: 'mit Rum (Ruhm) bekleckert'">
-      <pattern mark_from="2" mark_to="-1">
-        <token regexp="yes">nicht|unbedingt|gerade</token>
-        <token>mit</token>
-        <token>Rum</token>
-        <token regexp="yes">bekleckert|befleckt|bedeckt</token>
-      </pattern>
-      <message>Meinten Sie <suggestion>Ruhm</suggestion>? (Redewendung)</message>
-      <short>Möglicherweise falsch verwendete Redewendung</short>
-      <example type="correct">Da haben wir uns nicht gerade mit <marker>Ruhm</marker> bekleckert.</example>
-      <example type="correct">Verzeihung, Sie haben sich eben mit etwas <marker>Rum</marker> bekleckert.</example>
-      <example type="incorrect">Da haben wir uns nicht gerade mit <marker>Rum</marker> bekleckert.</example>
-    </rule>
+    <rulegroup id="APPEL_UND_EI" name="Redewendung: 'für einen Apfel und ein Eis (Ei)'">
+      <rule>
+        <pattern mark_from="4">
+          <token skip="1">für</token>
+          <token inflected="yes">Apfel</token>
+          <token>und</token>
+          <token>ein</token>
+          <token regexp="yes">\w?ei\w?<exception>Ei</exception></token>
+        </pattern>
+        <message>Meinten Sie <suggestion>Ei</suggestion>? (Redewendung)</message>
+        <short>Möglicherweise falsch verwendete Redewendung</short>
+        <example type="correct">Ich geb es dir für einen Apfel und ein <marker>Ei</marker>.</example>
+        <example type="incorrect">Ich geb es dir für einen Apfel und ein <marker>Eis</marker>.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="MIT_RUM_BEKLECKERT" name="Redewendung: 'mit Rum (Ruhm) bekleckert'">
+      <rule>
+        <pattern mark_from="2" mark_to="-1">
+          <token regexp="yes">nicht|unbedingt|gerade</token>
+          <token>mit</token>
+          <token>Rum</token>
+          <token regexp="yes">bekleckert|befleckt|bedeckt</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>Ruhm</suggestion>? (Redewendung)</message>
+        <short>Möglicherweise falsch verwendete Redewendung</short>
+        <example type="correct">Da haben wir uns nicht gerade mit <marker>Ruhm</marker> bekleckert.</example>
+        <example type="correct">Verzeihung, Sie haben sich eben mit etwas <marker>Rum</marker> bekleckert.</example>
+        <example type="incorrect">Da haben wir uns nicht gerade mit <marker>Rum</marker> bekleckert.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-2" case_sensitive="yes">
+          <token>Rum</token>
+          <token>und</token>
+          <token>Ehre</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>Ruhm</suggestion>?</message>
+        <short>Möglicherweise falsch verwendete Redewendung</short>
+        <example type="correct">Ich tat es für <marker>Ruhm</marker> und Ehre.</example>
+        <example type="incorrect">Ich tat es für <marker>Rum</marker> und Ehre.</example>
+      </rule>
+    </rulegroup>
     <rule id="MALT_MAHLT" name="Redewendung: 'malt (mahlt) zuerst'">
       <pattern mark_from="4" mark_to="-1">
         <token>wer</token>
