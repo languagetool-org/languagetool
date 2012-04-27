@@ -69,6 +69,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
 <!ENTITY saitewoerter "aufziehen|.*Bass(es)?|.*Bratsche|.*Cellos?|.*Harfen?|.*Geigen?|.*Gitarren?|.*Violas?|.*Violinen?|Klavier">
 <!ENTITY lidwoerter "Auge.*|entzünde.*|.*röt(e|lich).*|.*zuck.*|.*geschlossen.*|gesenkt.*|zusammengekniffen.*|zusammenkneif.+">
 <!ENTITY liedwoerter "Melodie.*|Note.*|sing.*|sang.*|gesungen.*|komponi.+|Musik|Strophen?|Balladen?|Gesang.*|Gesängen?|Arien?|Opern?">
+<!ENTITY leidwoerter "Angst|Armut|Bevölkerung|Blut(vergießens?)?|Einsamkeit|Elend|Entbehrung|Entsagung|Flüchtlinge?n?|Gewalt|Krankheit|Mitleid|Not|Ohnmacht|Qual|Schaden|Schrecken|Unterdrückung|Vertreibung|Verzweiflung|Zerstörung|Zivilbevölkerung|bitteres|endloses|ertragen|geschieht|geteiltes|psychisches|unendliches|unermessliches|unerträgliches|ungeheures|unsagbares|unsägliches|unvorstellbares|vermeidbares|verursacht|zugefügt">
 <!ENTITY anfauf "„|&quot;|»|›|‚|'">
 <!ENTITY anfzu "‘|“|‹|«|&quot;|'">
 <!ENTITY anf "&anfauf;|‘|“|‹|«">
@@ -2647,6 +2648,45 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Das war echt <marker>Scheiße</marker>.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="GEWOHNT_GEWOEHNT" name="Mögliche Wortverwechslung: gewöhnt/gewohnt">
+      <rule>
+        <pattern mark_to="-1" mark_from="1">
+          <token skip="1">es</token>
+          <token>gewöhnt</token>
+          <token inflected="yes" postag="VER:.*" postag_regexp="yes">sein</token>
+        </pattern>
+        <message>&verw;Meinten Sie <suggestion>gewohnt</suggestion>?</message>
+        <url>http://www.spiegel.de/kultur/zwiebelfisch/0,1518,314582,00.html</url>
+        <short>Mögliche Wortverwechslung</short>
+        <example type="incorrect" correction="gewohnt">... weil ich es so <marker>gewöhnt</marker> bin.</example>
+        <example type="correct">... weil ich es so <marker>gewohnt</marker> bin.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="0" mark_from="2">
+          <token inflected="yes" postag="VER:.*" postag_regexp="yes">sein</token>
+          <token skip="1">es</token>
+          <token>gewöhnt</token>
+        </pattern>
+        <message>&verw;Meinten Sie <suggestion>gewohnt</suggestion>?</message>
+        <url>http://www.spiegel.de/kultur/zwiebelfisch/0,1518,314582,00.html</url>
+        <short>Mögliche Wortverwechslung</short>
+        <example type="incorrect" correction="gewohnt">Ich bin es so <marker>gewöhnt</marker>.</example>
+        <example type="correct">Ich bin es so <marker>gewohnt</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="0" mark_from="3">
+          <token>das</token>
+          <token skip="1" inflected="yes" postag="VER:.*" postag_regexp="yes">sein</token>
+          <token regexp="yes">nicht|so</token>
+          <token>gewöhnt</token>
+        </pattern>
+        <message>&verw;Meinten Sie <suggestion>gewohnt</suggestion>?</message>
+        <url>http://www.spiegel.de/kultur/zwiebelfisch/0,1518,314582,00.html</url>
+        <short>Mögliche Wortverwechslung</short>
+        <example type="incorrect" correction="gewohnt">Das bin ich so <marker>gewöhnt</marker>.</example>
+        <example type="correct">Ich bin es so <marker>gewohnt</marker>.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="LINKEN_VERLINKEN" name="Mögliche Wortverwechslung: linken/verlinken">
       <rule>
         <pattern case_sensitive="yes" mark_to="-1">
@@ -3374,7 +3414,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <rule>
         <pattern mark_from="0" mark_to="0">
           <token>der</token>
-          <token regexp="yes">.*(Verkehrs|Verbots|Namens|Hinweis)schild</token>
+          <token regexp="yes">.*(Verkehrs|Verbots|Namens|Hinweis|Warn)schild</token>
         </pattern>
         <message>'Schild' im Sinne von 'Zeichen, Tafel' ist ein Neutrum. Vorschlag: <suggestion>das \2</suggestion></message>
         <url>http://www.duden.de/rechtschreibung/Schild_Tafel_Platte_Fleck</url>
@@ -3386,7 +3426,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <rule>
         <pattern mark_from="1" mark_to="0">
           <token negate="yes">dem</token> <!-- Dativ-e -->
-          <token regexp="yes">.*(Verkehrs|Verbots|Namens|Hinweis)schilden?</token>
+          <token regexp="yes">.*(Verkehrs|Verbots|Namens|Hinweis|Warn)schilden?</token>
         </pattern>
         <message>Der Plural von 'Schild' im Sinne von 'Zeichen, Tafel' lautet 'Schilder'. Vorschlag: <suggestion><match no="2" regexp_replace="er$1" regexp_match="e(n)?$"/></suggestion></message>
         <short>Mögliche Wortverwechslung</short>
@@ -3402,6 +3442,16 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
   <!-- ====================================================================== -->
   <category name="Falschschreibung prominenter/geographischer Eigennamen">
     <!-- geographische Namen u.ä. -->
+    <rule id="AM_REIN" name="Eigennamen: 'am Rein (Rhein)'">
+      <pattern mark_from="1" case_sensitive="yes">
+        <token>am</token>
+        <token>Rein</token>
+      </pattern>
+      <message>Meinten Sie den <suggestion>Rhein</suggestion> (den Fluss)?</message>
+      <short>&eigenname;</short>
+      <example type="correct">Warum ist es am <marker>Rhein</marker> so schön?</example>
+      <example type="incorrect" correction="Rhein">Warum ist es am <marker>Rein</marker> so schön?</example>
+    </rule>
     <rule id="DOM_VS_DON" name="Eigennamen: 'Kölner Don (Dom)' etc.">
       <pattern mark_from="1">
         <token regexp="yes">Aachener|Bremer|Erfurter|Freisinger|Hamburger|Hildesheimer|Kölner|Magdeburger|Münchner|Paderborner</token>
@@ -3410,7 +3460,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <message>Meinten Sie den <suggestion>Dom</suggestion> (die Kirche)?</message>
       <short>&eigenname;</short>
       <example type="correct">Der Kölner <marker>Dom</marker> ist das Wahrzeichen der Stadt.</example>
-      <example type="incorrect">Der Kölner <marker>Don</marker> ist das Wahrzeichen der Stadt.</example>
+      <example type="incorrect" correction="Dom">Der Kölner <marker>Don</marker> ist das Wahrzeichen der Stadt.</example>
     </rule>
     <rulegroup id="ROTHENBURG_VS_ROTENBURG" name="Ortsnamen: 'Rotenburg (Rothenburg) ob der Tauber' etc.">
       <rule>
@@ -3423,7 +3473,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <message>Meinten Sie <suggestion>Rotenburg</suggestion> an der Fulda (Rotenburg ohne "h")?</message>
         <short>&eigenname;</short>
         <example type="correct"><marker>Rotenburg</marker> an der Fulda liegt in Hessen.</example>
-        <example type="incorrect"><marker>Rothenburg</marker> an der Fulda liegt in Hessen.</example>
+        <example type="incorrect" correction="Rotenburg"><marker>Rothenburg</marker> an der Fulda liegt in Hessen.</example>
       </rule>
       <rule>
         <pattern mark_to="-5">
@@ -3437,7 +3487,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <message>Meinten Sie <suggestion>Rotenburg</suggestion> an der Fulda (Rotenburg ohne "h")?</message>
         <short>&eigenname;</short>
         <example type="correct"><marker>Rotenburg</marker> an der Fulda liegt in Hessen.</example>
-        <example type="incorrect"><marker>Rothenburg</marker> a. d. Fulda liegt in Hessen.</example>
+        <example type="incorrect" correction="Rotenburg"><marker>Rothenburg</marker> a. d. Fulda liegt in Hessen.</example>
       </rule>
       <rule>
         <pattern mark_to="-3">
@@ -3461,7 +3511,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <message>Meinten Sie <suggestion>Rothenburg</suggestion> ob der Tauber (Rothenburg mit "h")?</message>
         <short>&eigenname;</short>
         <example type="correct"><marker>Rothenburg</marker> ob der Tauber ist eine Kleinstadt in Mittelfranken.</example>
-        <example type="incorrect"><marker>Rotenburg</marker> ob der Tauber ist eine Kleinstadt in Mittelfranken.</example>
+        <example type="incorrect" correction="Rothenburg"><marker>Rotenburg</marker> ob der Tauber ist eine Kleinstadt in Mittelfranken.</example>
       </rule>
       <rule>
         <pattern case_sensitive="yes">
@@ -3504,7 +3554,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <message>Meinten Sie <suggestion>Mülheim an der Ruhr</suggestion> (Mülheim ohne "h")?</message>
         <short>&eigenname;</short>
         <example type="correct"><marker>Mülheim an der Ruhr</marker> ist eine kreisfreie Stadt im westlichen Ruhrgebiet.</example>
-        <example type="incorrect"><marker>Mühlheim an der Ruhr</marker> ist eine kreisfreie Stadt im westlichen Ruhrgebiet.</example>
+        <example type="incorrect" correction="Mülheim an der Ruhr"><marker>Mühlheim an der Ruhr</marker> ist eine kreisfreie Stadt im westlichen Ruhrgebiet.</example>
       </rule>
       <rule>
         <pattern>
@@ -3518,7 +3568,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <message>Meinten Sie <suggestion>Mülheim a. d. Ruhr</suggestion> (Mülheim ohne "h")?</message>
         <short>&eigenname;</short>
         <example type="correct"><marker>Mülheim a. d. Ruhr</marker> ist eine kreisfreie Stadt im westlichen Ruhrgebiet.</example>
-        <example type="incorrect"><marker>Mühlheim a. d. Ruhr</marker> ist eine kreisfreie Stadt im westlichen Ruhrgebiet.</example>
+        <example type="incorrect" correction="Mülheim a. d. Ruhr"><marker>Mühlheim a. d. Ruhr</marker> ist eine kreisfreie Stadt im westlichen Ruhrgebiet.</example>
       </rule>
       <rule>
         <pattern>
@@ -3529,7 +3579,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <message>Meinten Sie <suggestion>Mülheim/Ruhr</suggestion> (Mülheim ohne "h")?</message>
         <short>&eigenname;</short>
         <example type="correct"><marker>Mülheim/Ruhr</marker> ist eine kreisfreie Stadt im westlichen Ruhrgebiet.</example>
-        <example type="incorrect"><marker>Mühlheim/Ruhr</marker> ist eine kreisfreie Stadt im westlichen Ruhrgebiet.</example>
+        <example type="incorrect" correction="Mülheim/Ruhr"><marker>Mühlheim/Ruhr</marker> ist eine kreisfreie Stadt im westlichen Ruhrgebiet.</example>
       </rule>
     </rulegroup>
     <rule id="LAS_VEGAS" name="Ortsname: 'las (Las) Vegas'">
@@ -3540,7 +3590,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <message>Als Bestandteil des Namens 'Las Vegas' wird <suggestion>Las</suggestion> großgeschrieben.</message>
       <short>&eigenname;</short>
       <example type="correct">Das ist jetzt der letzte Schrei in <marker>Las</marker> Vegas.</example>
-      <example type="incorrect">Das ist jetzt der letzte Schrei in <marker>las</marker> Vegas.</example>
+      <example type="incorrect" correction="Las">Das ist jetzt der letzte Schrei in <marker>las</marker> Vegas.</example>
     </rule>
     <!-- Produktnamen -->
     <rulegroup id="OPENOFFICE" name="Eigenname: 'OpenOffice (OpenOffice.org)'">
@@ -14507,7 +14557,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     <rulegroup id="VON_BIS" name="Zeichensetzung: 'von' mit Bis-Strich">
       <rule>
         <pattern mark_from="1" case_sensitive="yes">
-          <token regexp="yes" negate="yes">Breiten?|innerhalb|Verzögerung(en)?|Gewicht(e)?(s)?|Dauer|Umfang(e)?(s)?|Größe(n)?|Länge(n)?|Durchmesser([ns])?|Radius|Masse|(T|.*t)emperatur|(D|.*d)druck(e)?(s)?|Anzahl(en)?|Alters?|Tagesdosis|Dosis|Bereichs?</token>
+          <token regexp="yes" negate="yes">Breiten?|innerhalb|Verzögerung(en)?|Gewicht(e)?(s)?|Dauer|Umfang(e)?(s)?|Größe(n)?|Länge(n)?|Durchmesser([ns])?|Radius|Masse|(T|.*t)emperatur|(D|.*d)druck(e)?(s)?|Anzahl(en)?|Alters?|Tagesdosis|Dosis|Bereichs?|.*Wert(e?n)?</token>
           <token regexp="yes">[vV]o[nm]</token>
           <token regexp="yes">([0-9]{1,5})(\-|–)([0-9]{1,5})</token>
         </pattern>
@@ -14609,20 +14659,35 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
   <!-- Typographie -->
   <!-- ====================================================================== -->
   <category name="Typographie">
-    <rule id="AKZENT_STATT_APOSTROPH" name="Zeichensetzung/Typographie: Akzent statt Apostroph">
-      <pattern>
-        <token postag="UNKNOWN" negate_pos="yes"/>
-        <token regexp="yes">´|`|‘</token>
-        <token regexp="yes">s|sche[mrns]?</token>
-      </pattern>
-      <message>Wollten Sie einen Apostroph verwenden? Vorschlag: <suggestion>\1's</suggestion> oder <suggestion>\1’s</suggestion></message>
-      <short>Akzent statt Apostroph</short>
-      <example type="correct"><marker>McDonald’s</marker></example>
-      <example type="correct"><marker>McDonald's</marker></example>
-      <example type="incorrect" correction="Geht's|Geht’s"><marker>Geht´s</marker> noch?</example>
-      <example type="incorrect" correction="McDonald's|McDonald’s"><marker>McDonald´s</marker></example>
-      <example type="incorrect" correction="McDonald's|McDonald’s"><marker>McDonald`s</marker></example>
-    </rule>
+    <rulegroup id="AKZENT_STATT_APOSTROPH" name="Zeichensetzung/Typographie: Akzent statt Apostroph">
+      <rule>
+        <pattern>
+          <token postag="UNKNOWN" negate_pos="yes"/>
+          <token regexp="yes">´|`|‘</token>
+          <token regexp="yes">s|sche[mrns]?</token>
+        </pattern>
+        <message>Wollten Sie einen Apostroph verwenden? Vorschlag: <suggestion>\1's</suggestion> oder <suggestion>\1’s</suggestion></message>
+        <short>Akzent statt Apostroph</short>
+        <example type="correct"><marker>McDonald’s</marker></example>
+        <example type="correct"><marker>McDonald's</marker></example>
+        <example type="incorrect" correction="Geht's|Geht’s"><marker>Geht´s</marker> noch?</example>
+        <example type="incorrect" correction="McDonald's|McDonald’s"><marker>McDonald´s</marker></example>
+        <example type="incorrect" correction="McDonald's|McDonald’s"><marker>McDonald`s</marker></example>
+      </rule>
+      <rule>
+        <pattern>
+          <token spacebefore="yes" regexp="yes">´|`|‘</token>
+          <token regexp="yes">n|nen?</token>
+        </pattern>
+        <message>Wollten Sie einen Apostroph verwenden? Vorschlag: <suggestion>'\2</suggestion> oder <suggestion>’\2</suggestion></message>
+        <short>Akzent statt Apostroph</short>
+        <example type="correct">Das war vielleicht <marker>’ne</marker> Party!</example>
+        <example type="correct">Das war vielleicht <marker>'ne</marker> Party!</example>
+        <example type="incorrect" correction="'ne|’ne">Das war vielleicht <marker>´ne</marker> Party!</example>
+        <example type="incorrect" correction="'ne|’ne">Das war vielleicht <marker>´ne</marker> Party!</example>
+        <example type="incorrect" correction="'ne|’ne">Das war vielleicht <marker>‘ne</marker> Party!</example>
+      </rule>
+    </rulegroup>
     <rule id="BISSTRICH" name="Typographie: Bis-Strich vs. Bindestrich">
       <pattern case_sensitive="yes" mark_from="1">
         <token regexp="yes">[^0-9\-]+
@@ -14644,6 +14709,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>.</token>
         </pattern>
         <message>Verwenden Sie Auslassungspunkte (<suggestion>…</suggestion>) statt drei einzelner Punkte.</message>
+        <short>Bitte verwenden Sie Auslassungspunkte.</short>
         <example type="correct">Er geht […] nach Hause.</example>
         <example type="incorrect" correction="…">Er geht [<marker>...</marker>] nach Hause.</example>
       </rule>
@@ -14655,8 +14721,20 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         </pattern>
         <message>Auf Auslassungspunkte folgt kein Schlusspunkt. Vorschlag: <suggestion>…</suggestion></message>
         <url>http://www.duden.de/rechtschreibregeln/auslassungspunkte#K18</url>
+        <short>Auf Auslassungspunkte folgt kein Schlusspunkt.</short>
         <example type="correct">Er geht nach Hause …</example>
         <example type="incorrect" correction="…">Er geht nach Hause <marker>….</marker></example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token negate="yes">&nbsp;</token>
+          <token spacebefore="no">…</token>
+        </pattern>
+        <message>Vor Auslassungspunkten sollte ein geschütztes Leerzeichen stehen. Vorschlag: <suggestion>&nbsp;…</suggestion></message>
+        <url>http://de.wikipedia.org/wiki/Auslassungspunkte</url>
+        <short>Vor Auslassungspunkten sollte ein geschütztes Leerzeichen stehen.</short>
+        <example type="correct">Er geht nach Hause&nbsp;…</example>
+        <example type="incorrect" correction="&nbsp;…">Er geht nach Hause<marker>…</marker></example>
       </rule>
     </rulegroup>
   </category>
