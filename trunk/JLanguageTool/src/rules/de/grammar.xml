@@ -2396,15 +2396,6 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct">Alle Angaben ohne <marker>Gewähr</marker>.</example>
       <example type="incorrect">Alle Angaben ohne <marker>Gewehr</marker>.</example>
     </rule>
-    <rule id="PER_NACHNAME" name="Möglicher Tippfehler: 'per Nachname (Nachnahme)'">
-      <pattern case_sensitive="yes" mark_from="1">
-        <token>per</token>
-        <token>Nachname</token>
-      </pattern>
-      <message>Meinten Sie <suggestion>Nachnahme</suggestion> ('Nachnahme' = Versandart, 'Nachname' = Familienname)?</message>
-      <example type="correct">Warum liefern Firmen lieber per <marker>Nachnahme</marker>?</example>
-      <example type="incorrect">Warum liefern Firmen lieber per <marker>Nachname</marker>?</example>
-    </rule>
     <rule id="LASEN_LASSEN" name="Möglicher Tippfehler: 'zu lasen (lassen)'">
       <pattern case_sensitive="yes" mark_from="1">
         <token>zu</token>
@@ -2646,6 +2637,66 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <short>Mögliche Wortverwechslung</short>
         <example type="incorrect" correction="Scheiße">Das war echt <marker>Schieße</marker>.</example>
         <example type="correct">Das war echt <marker>Scheiße</marker>.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="GEHANGEN_GEHAENGT" name="Mögliche Wortverwechslung: gehängt/gehangen">
+      <!-- Vielleicht besser in Grammatik verschieben? -->
+      <rule>
+        <pattern mark_to="0" mark_from="3">
+          <token regexp="yes">an|auf|über|in</token>
+          <token regexp="yes">den|die|das</token>
+          <token postag="SUB:AKK:.+" postag_regexp="yes"><exception postag="SUB:DAT:PLU.+" postag_regexp="yes"/></token>
+          <token>gehangen</token>
+        </pattern>
+        <message>&verw;Meinten Sie <suggestion>gehängt</suggestion>?	'Hängen' als transitives Verb wird regelmäßig flektiert.</message>
+        <url>http://www.duden.de/rechtschreibung/haengen_verbinden_befestigen</url>
+        <short>Mögliche Wortverwechslung</short>
+        <example type="incorrect" correction="gehängt">Ich habe es in den Schrank <marker>gehangen</marker>.</example>
+        <example type="incorrect" correction="gehängt">Ich habe es über die Leine <marker>gehangen</marker>.</example>
+        <example type="incorrect" correction="gehängt">Ich habe es an die Wand <marker>gehangen</marker>.</example>
+        <example type="correct">Es hat auf dem Haken <marker>gehangen</marker>.</example>
+        <example type="correct">Es hat am Haken <marker>gehangen</marker>.</example>
+        <example type="correct">Es hat im Schrank <marker>gehangen</marker>.</example>
+        <example type="correct">Ich habe es auf den Haken <marker>gehängt</marker>.</example>
+        <example type="correct">Ich habe es über den Stuhl <marker>gehängt</marker>.</example>
+      </rule>
+    </rulegroup>
+    <rule id="PER_NACHNAME" name="Mögliche Wortverwechslung: 'per Nachname (Nachnahme)'">
+      <pattern case_sensitive="yes" mark_from="1">
+        <token>per</token>
+        <token>Nachname</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>Nachnahme</suggestion> ('Nachnahme' = Versandart, 'Nachname' = Familienname)?</message>
+      <short>Mögliche Wortverwechslung</short>
+      <example type="correct">Warum liefern Firmen lieber per <marker>Nachnahme</marker>?</example>
+      <example type="incorrect">Warum liefern Firmen lieber per <marker>Nachname</marker>?</example>
+    </rule>
+    <rulegroup id="MIT_VORNAHMEN" name="Mögliche Wortverwechslung: 'heißt ... mit Nachnahmen (Nachnamen)'">
+      <rule>
+        <pattern case_sensitive="yes" mark_from="2">
+          <token skip="1" regexp="yes">hieß(en)?|heißt|heißen?</token>
+          <token>mit</token>
+          <token regexp="yes">(Vor|Nach)nahmen</token>
+        </pattern>
+        <message>Meinten Sie <suggestion><match no="3" regexp_match="nahm" regexp_replace="nam"/></suggestion> ('Nachnahme' = Versandart, 'Nachname' = Familienname)?</message>
+        <short>Mögliche Wortverwechslung</short>
+        <example type="incorrect" correction="Nachnamen">Wie heißt Claudia mit <marker>Nachnahmen</marker>?</example>
+        <example type="incorrect" correction="Nachnamen">Wie heißen Sie mit <marker>Nachnahmen</marker>?</example>
+        <example type="incorrect" correction="Vornamen">Wie heißen Sie mit <marker>Vornahmen</marker>?</example>
+        <example type="incorrect" correction="Vornamen">Ich heiße mit <marker>Vornahmen</marker> Jan.</example>
+        <example type="correct">Wie heißen Sie mit <marker>Nachnamen</marker>?</example>
+        <example type="correct">Warum liefern Firmen lieber per <marker>Nachnahme</marker>?</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
+          <token>mit</token>
+          <token regexp="yes">(Vor|Nach)nahmen</token>
+          <token skip="1" regexp="yes">hieß(en)?|heißt|(ge)?heißen?</token>
+        </pattern>
+        <message>Meinten Sie <suggestion><match no="2" regexp_match="nahm" regexp_replace="nam"/></suggestion> ('Nachnahme' = Versandart, 'Nachname' = Familienname)?</message>
+        <short>Mögliche Wortverwechslung</short>
+        <example type="incorrect" correction="Nachnamen">Wie kann man nur Müller mit <marker>Nachnahmen</marker> heißen?</example>
+        <example type="correct">Wie hat Wittgenstein mit <marker>Vornamen</marker> geheißen?</example>
       </rule>
     </rulegroup>
     <rulegroup id="GEWOHNT_GEWOEHNT" name="Mögliche Wortverwechslung: gewöhnt/gewohnt">
