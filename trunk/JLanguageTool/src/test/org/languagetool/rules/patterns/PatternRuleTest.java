@@ -86,7 +86,7 @@ public class PatternRuleTest extends TestCase {
     final HashMap<String, PatternRule> complexRules = new HashMap<String, PatternRule>();
     for (final PatternRule rule : rules) {
       testCorrectSentences(languageTool, allRulesLanguageTool, lang, rule);
-      testBadSentences(languageTool, lang, complexRules, rule);
+      testBadSentences(languageTool, allRulesLanguageTool, lang, complexRules, rule);
     }
     if (!complexRules.isEmpty()) {
       final Set<String> set = complexRules.keySet();
@@ -345,7 +345,7 @@ public class PatternRuleTest extends TestCase {
     }
   }
 
-  private void testBadSentences(JLanguageTool languageTool, Language lang,
+  private void testBadSentences(JLanguageTool languageTool, JLanguageTool allRulesLanguageTool, Language lang,
                                 HashMap<String, PatternRule> complexRules, PatternRule rule) throws IOException {
     final List<IncorrectExample> badSentences = rule.getIncorrectExamples();
       for (IncorrectExample origBadExample : badSentences) {
@@ -425,8 +425,29 @@ public class PatternRuleTest extends TestCase {
             assertSuggestionsDoNotCreateErrors(languageTool, rule, badSentence, matches);
           }
         }
+        
+        // check for overlapping rules
+        /*matches = getMatches(rule, badSentence, languageTool);
+        final List<RuleMatch> matchesAllRules = allRulesLanguageTool.check(badSentence);
+        for (RuleMatch match : matchesAllRules) {
+          if (!match.getRule().getId().equals(rule.getId()) && matches.length != 0
+              && rangeIsOverlapping(matches[0].getFromPos(), matches[0].getToPos(), match.getFromPos(), match.getToPos()))
+            System.err.println("WARN: " + lang.getShortName() + ": '" + badSentence + "' in " 
+                    + rule.getId() + " also matched " + match.getRule().getId());
+        }*/
 
       }
+  }
+  
+  /**
+   * returns true if [a, b] has at least one number in common with [x, y]
+   */
+  private boolean rangeIsOverlapping(int a, int b, int x, int y) {
+    if (a < x) {
+      return x <= b ? true : false;
+    } else {
+      return a <= y ? true : false;
+    }
   }
 
   private void assertSuggestions(List<String> suggestedCorrections, Language lang, RuleMatch[] matches, Rule rule) {
