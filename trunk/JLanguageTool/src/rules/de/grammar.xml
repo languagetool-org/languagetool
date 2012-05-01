@@ -14650,6 +14650,35 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     </rule>
     <rulegroup id="VON_BIS" name="Zeichensetzung: 'von' mit Bis-Strich">
       <rule>
+        <pattern mark_from="1" mark_to="-1" case_sensitive="no">
+          <token>von</token>
+          <token>a-z</token>
+          <token negate="yes">bis</token>
+        </pattern>
+        <message>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus: <suggestion>A bis Z</suggestion>.</message>
+        <url>http://de.wikipedia.org/wiki/Halbgeviertstrich#Bis-Strich</url>
+        <short>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus.</short>
+        <example type="correct"><marker>Pilze von A bis Z</marker>.</example>
+        <example type="correct">Die Buchstaben <marker>A–Z</marker>.</example>
+        <example type="incorrect" correction="A bis Z">Pilze von <marker>A-Z</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-1" case_sensitive="no">
+          <token>von</token>
+          <token>a</token>
+          <token regexp="yes">(\-|–)</token>
+          <token>z</token>
+          <token negate="yes">bis</token>
+        </pattern>
+        <message>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus: <suggestion>\2 bis \4</suggestion>.</message>
+        <url>http://de.wikipedia.org/wiki/Halbgeviertstrich#Bis-Strich</url>
+        <short>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus.</short>
+        <example type="correct"><marker>Pilze von A bis Z</marker>.</example>
+        <example type="correct">Die Buchstaben <marker>A–Z</marker>.</example>
+        <example type="incorrect" correction="A bis Z">Pilze von <marker>A - Z</marker>.</example>
+        <example type="incorrect" correction="A bis Z">Pilze von <marker>A – Z</marker>.</example>
+      </rule>
+      <rule>
         <pattern mark_from="1" case_sensitive="yes">
           <token regexp="yes" negate="yes">Breiten?|innerhalb|Verzögerung(en)?|Gewicht(e)?(s)?|Dauer|Umfang(e)?(s)?|Größe(n)?|Länge(n)?|Durchmesser([ns])?|Radius|Masse|(T|.*t)emperatur|(D|.*d)druck(e)?(s)?|Anzahl(en)?|Alters?|Tagesdosis|Dosis|Bereichs?|.*Wert(e?n)?</token>
           <token regexp="yes">[vV]o[nm]</token>
@@ -14710,7 +14739,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <url>http://de.wikipedia.org/wiki/Leerzeichen_in_Komposita</url>
         <short>Lassen Sie bitte die Anführungszeichen weg und verwenden Sie Bindestriche.</short>
         <example type="correct"><marker>Geht-gar-nicht-Einstellung</marker></example>
-        <example type="incorrect">Du mit deiner <marker>„Geht gar nicht“-Einstellung</marker>!</example>
+        <example type="incorrect" correction="Geht-gar-nicht-Einstellung">Du mit deiner <marker>„Geht gar nicht“-Einstellung</marker>!</example>
       </rule>
       <rule>
         <pattern mark_from="1" mark_to="-1">
@@ -14727,7 +14756,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <url>http://de.wikipedia.org/wiki/Leerzeichen_in_Komposita</url>
         <short>Lassen Sie bitte die Anführungszeichen weg und verwenden Sie Bindestriche.</short>
         <example type="correct"><marker>Geht-ja-gar-nicht-Einstellung</marker></example>
-        <example type="incorrect">Du mit deiner <marker>„Geht ja gar nicht“-Einstellung</marker>!</example>
+        <example type="incorrect" correction="Geht-ja-gar-nicht-Einstellung">Du mit deiner <marker>„Geht ja gar nicht“-Einstellung</marker>!</example>
       </rule>
       <rule>
         <pattern mark_from="1" mark_to="-1">
