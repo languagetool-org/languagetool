@@ -2631,6 +2631,21 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect">Da regt er sich völlig <marker>zu recht</marker> drüber auf.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="TOT_TOD" name="Mögliche Wortverwechslung: tot/Tod">
+      <rule>
+        <pattern case_sensitive="no" mark_from="1">
+          <token regexp="yes">auf|um|über|zwischen</token>
+          <token>leben</token>
+          <token>und</token>
+          <token>tot</token>
+        </pattern>
+        <message>&verw;Meinten Sie <suggestion>Leben und Tod</suggestion>? Das Substantiv 'Tod' wird mit d geschrieben.</message>
+        <short>Mögliche Wortverwechslung</short>
+        <example type="incorrect" correction="Leben und Tod">Es geht um <marker>leben und tot</marker>.</example>
+        <example type="correct">Es geht um <marker>Leben und Tod</marker>.</example>
+        <example type="correct"><marker>Leben und tot</marker> sein schließt sich bekanntlich gegenseitig aus.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="SCHEISSEN_SCHIESSEN" name="Mögliche Wortverwechslung: schießen/scheißen">
       <!-- Since this is such an awkward typo and can particularly easily happen to non-native speakers, this rule should be extended. -->
       <rule>
@@ -2663,7 +2678,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token postag="SUB:AKK:.+" postag_regexp="yes"><exception postag="SUB:DAT:PLU.+" postag_regexp="yes"/></token>
           <token>gehangen</token>
         </pattern>
-        <message>&verw;Meinten Sie <suggestion>gehängt</suggestion>?	'Hängen' als transitives Verb wird regelmäßig flektiert.</message>
+        <message>&verw;Meinten Sie <suggestion>gehängt</suggestion>? 'Hängen' als transitives Verb wird regelmäßig flektiert.</message>
         <url>http://www.duden.de/rechtschreibung/haengen_verbinden_befestigen</url>
         <short>Mögliche Wortverwechslung</short>
         <example type="incorrect" correction="gehängt">Ich habe es in den Schrank <marker>gehangen</marker>.</example>
