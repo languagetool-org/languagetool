@@ -8,7 +8,7 @@ LanguageTool. Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
 
 A Russian grammar rule file for LanguageTool (http://www.languagetool.org)
 Copyright (C) 2008-2012 Yakov Reztsov
-$Id: grammar.xml,v 1.91 2012-04-23 19:20:27 yakovru Exp $
+$Id: grammar.xml,v 1.92 2012-05-05 20:53:53 yakovru Exp $
 #     REVISION:  $Id$
 -->
 <rules lang="ru" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -1328,8 +1328,8 @@ $Id: grammar.xml,v 1.91 2012-04-23 19:20:27 yakovru Exp $
                     <token regexp= "yes">оба|обоих|обоим|обоими</token>
                     <token  postag="NN:Fem:.*" postag_regexp="yes"><exception negate_pos="yes" postag="NN:Fem:.*" postag_regexp="yes"></exception></token>
                 </pattern>                
-                <message>Числительное оба (обоих, обоим, обоими) употребляется  только с существительными мужского рода: <suggestion>обе \2</suggestion>,<suggestion>обеих \2</suggestion>,<suggestion>обеим \2</suggestion>,<suggestion>обеими \2</suggestion>.</message>
-                <url>http://ru.wikipedia.org/wiki/%D0%A1%D0%BE%D0%B1%D0%B8%D1%80%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5_%D1%87%D0%B8%D1%81%D0%BB%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5</url>
+              <message>Числительное оба (обоих, обоим, обоими) употребляется  только с существительными мужского рода: <suggestion><match no="1" postag="Num:.*:(.*)" postag_regexp="yes" postag_replace="Num:Fem:$1"></match> <match no="2" /></suggestion>.</message>
+              <url>http://ru.wikipedia.org/wiki/%D0%A1%D0%BE%D0%B1%D0%B8%D1%80%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5_%D1%87%D0%B8%D1%81%D0%BB%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5</url>
                 <short>Грамматическая ошибка.</short>
                 <example type="correct">По обеим сторонам.</example>
                 <example type="incorrect">По <marker>обоим сторонам</marker>.</example>
@@ -1340,7 +1340,7 @@ $Id: grammar.xml,v 1.91 2012-04-23 19:20:27 yakovru Exp $
                     <token regexp= "yes">обе|обеих|обеим|обеими</token>
                     <token  postag="NN:Masc:.*" postag_regexp="yes"><exception negate_pos="yes" postag="NN:Masc:.*" postag_regexp="yes"></exception></token>
                 </pattern>                
-                <message>Числительное обe (обеих, обеим, обеими) употребляется  только с существительными женского рода: <suggestion>оба \2</suggestion>,<suggestion>обоих \2</suggestion>,<suggestion>обоим \2</suggestion>,<suggestion>обоими \2</suggestion>.</message>
+                <message>Числительное обe (обеих, обеим, обеими) употребляется  только с существительными женского рода: <suggestion><match no="1" postag="Num:.*:(.*)" postag_regexp="yes" postag_replace="Num:Masc:$1"></match> <match no="2" /></suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%A1%D0%BE%D0%B1%D0%B8%D1%80%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5_%D1%87%D0%B8%D1%81%D0%BB%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5</url>
                 <short>Грамматическая ошибка.</short>
                 <example type="correct">На обоих столах.</example>
