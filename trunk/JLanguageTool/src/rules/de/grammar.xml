@@ -78,7 +78,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
 <!ENTITY klamauf "\(|\{|\&lsqb;|&lt;">
 <!ENTITY klamzu "\)|\}|\&rsqb;|&gt;">
 <!ENTITY klam "&klamauf;|&klamzu;">
-<!ENTITY alnum "&lsqb;0-9a-zäöüßáàâêéèëíìîïòóôõûçñšž&rsqb;">
+<!ENTITY alnum "&lsqb;0-9A-ZÄÖÜa-zäöüßáàâêéèëíìîïòóôõûçñšž&rsqb;">
 <!ENTITY meindein "&lsqb;mds&rsqb;ein|unser|euer|ihr">
 <!ENTITY tippformel "Tipp: Verwenden Sie in OpenOffice.org/LibreOffice für komplexe Formeln den Formeleditor &lsqb;Einfügen &gt; Objekt &gt; Formel&rsqb;">
 <!ENTITY odkomma "oder fehlt vielleicht ein Komma">
@@ -14148,6 +14148,38 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect">Er erfindet eine eierlegende <marker>Vollmilchsau</marker>.</example>
       <example type="incorrect">Die Legende der eierlegenden <marker>Vollmilchsau</marker>.</example>
     </rule>
+    <rulegroup id="STREU_VOM_WEIZEN" name="Redewendung: 'Streu (Spreu) vom Weizen trennen'">
+      <rule>
+        <pattern mark_from="1" mark_to="-2" case_sensitive="yes">
+          <token inflected="yes" skip="1">trennen</token>
+          <token regexp="yes">den|die|das</token>
+          <token regexp="yes">&alnum;{1,3}eu<exception>Spreu</exception></token>
+          <token>vom</token>
+          <token>Weizen</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>die Spreu</suggestion>? (Redewendung)</message>
+        <url>http://www.korrekturen.de/beliebte_fehler/streu_vom_weizen.shtml</url>
+        <short>Möglicherweise falsch verwendete Redewendung</short>
+        <example type="correct">Hier trennt sich <marker>die Spreu</marker> vom Weizen.</example>
+        <example type="incorrect" correction="die Spreu">Hier trennt sich <marker>die Streu</marker> vom Weizen.</example>
+        <example type="incorrect" correction="die Spreu">Hier trennt sich <marker>das Heu</marker> vom Weizen.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="0" mark_to="-3" case_sensitive="yes">
+          <token regexp="yes">den|die|das</token>
+          <token regexp="yes">&alnum;{1,3}eu<exception>Spreu</exception></token>
+          <token>vom</token>
+          <token skip="1">Weizen</token>
+          <token inflected="yes">trennen</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>die Spreu</suggestion>? (Redewendung)</message>
+        <url>http://www.korrekturen.de/beliebte_fehler/streu_vom_weizen.shtml</url>
+        <short>Möglicherweise falsch verwendete Redewendung</short>
+        <example type="correct">Wir werden <marker>die Spreu</marker> vom Weizen trennen.</example>
+        <example type="correct">Wir versuchten <marker>die Spreu</marker> vom Weizen zu trennen.</example>
+        <example type="incorrect" correction="die Spreu">Wir versuchten <marker>die Streu</marker> vom Weizen zu trennen.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="LICHT_UNTER_DEN_SCHEMEL" name="Redewendung: 'sein Licht unter den Schemel (Scheffel) stellen'">
       <rule>
         <pattern mark_from="6">
