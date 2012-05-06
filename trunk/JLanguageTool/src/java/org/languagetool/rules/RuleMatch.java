@@ -40,15 +40,15 @@ public class RuleMatch implements Comparable<RuleMatch> {
   private int endLine = -1;
   private int endColumn = -1;
 
-  private Rule rule;
-  private int fromPos;
-  private int toPos;
-  private String message;
-  private String shortMessage;   // for OOo/LO context menu
+  private final Rule rule;
+  private final int fromPos;
+  private final int toPos;
+  private final String message;
+  private final String shortMessage;   // for OOo/LO context menu
 
   private List<String> suggestedReplacements = new ArrayList<String>();
 
-//TODO: remove this one after all rules get their short comments in place 
+  //TODO: remove this one after all rules get their short comments in place
   public RuleMatch(Rule rule, int fromPos, int toPos, String message) {
     this(rule, fromPos, toPos, message, null, false);
   }
@@ -227,6 +227,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
     return rule.getId() + ":" + fromPos + "-" + toPos + ":" + message;
   }
 
+  /** Compare by start position. */
   @Override
   public int compareTo(final RuleMatch other) {
     if (other == null)
