@@ -2570,7 +2570,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>zurecht</token>
           <token regexp="yes" inflected="yes">kommen|finden|biegen|legen|machen|rücken|schneiden|schnitzen|weisen|zimmern</token>
         </pattern>
-        <message>Als Bestandteil von Fügungen mit Verben wie 'zurechtkommen', '-finden' schreiben Sie bitte zusammen: <suggestion>zurecht\2</suggestion>. Wenn Sie dagegen <suggestion>berechtigterweise</suggestion> meinen, schreiben Sie bitte getrennt: <suggestion>zu Recht \2</suggestion>.</message>
+        <message>Als Bestandteil von Fügungen mit Verben wie 'zurechtkommen', '-finden' schreiben Sie bitte zusammen: <suggestion>zurecht\2</suggestion>. Wenn Sie dagegen <suggestion>berechtigterweise \2</suggestion> meinen, schreiben Sie bitte getrennt: <suggestion>zu Recht \2</suggestion>.</message>
         <short>'zu Recht' (berechtigterweise) ≠ 'zurecht' (wie in 'zurechtkommen')</short>
         <example type="correct">Er ist <marker>zurechtgekommen</marker>.</example>
         <example type="incorrect">Er ist <marker>zurecht gekommen</marker>.</example>
@@ -4446,13 +4446,16 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       </rule>
     </rulegroup>
     <rule id="JE_NACH_DEM" name="Zusammen-/Getrenntschreibung: 'je nach dem (je nachdem)'">
-      <pattern case_sensitive="no">
+      <pattern case_sensitive="no" mark_to="-1">
         <token>je</token>
         <token>nach</token>
         <token>dem</token>
+        <token><exception postag="(ADJ|SUB):DAT:SIN:(MAS|NEU).*" postag_regexp="yes"/></token>
       </pattern>
       <message>&inwend;<suggestion>je nachdem</suggestion> wird 'nachdem' in der Regel zusammengeschrieben.</message>
       <example type="correct">Man konnte traurig oder fröhlich werden, <marker>je nachdem</marker>.</example>
+      <example type="correct">Man konnte traurig oder fröhlich werden, <marker>je nach dem</marker> jeweiligen Gemütszustand.</example>
+      <example type="correct">Man konnte traurig oder fröhlich werden, <marker>je nach dem</marker> Zustand.</example>
       <example type="incorrect">Man konnte traurig oder fröhlich werden, <marker>je nach dem</marker>.</example>
     </rule>
     <rule id="NACH_DEM_NACHDEM" name="Zusammen-/Getrenntschreibung: 'Nach dem (nachdem) er ...'">
@@ -14462,20 +14465,35 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect" correction="ins">Ich hab's <marker>in's</marker> Klo geschmissen.</example>
       <example type="incorrect" correction="ans">Ich trat <marker>an's</marker> Fenster.</example>
     </rule>
-    <rule id="APOSTROPH_S" name="Zeichensetzung: Apostroph vor Genitiv-s">
-      <pattern>
-        <token postag="EIG:.*" postag_regexp="yes">
-          <exception>McDonald</exception>
-        </token>
-        <token regexp="yes">'|’</token>
-        <token>s</token>
-      </pattern>
-      <message>Normalerweise wird im Deutschen vor einem Genitiv-s kein Apostroph gesetzt: <suggestion>\1s</suggestion>. In Ausnahmefällen wie bei dem Firmennamen 'McDonald’s' kann der Apostroph aber richtig sein.</message>
-      <short>Normalerweise wird im Deutschen vor einem Genitiv-s kein Apostroph gesetzt.</short>
-      <example type="correct"><marker>Peters</marker> Bude.</example>
-      <example type="incorrect" correction="Peters"><marker>Peter's</marker> Bude.</example>
-      <example type="incorrect" correction="Peters"><marker>Peter’s</marker> Bude.</example>
-    </rule>
+    <rulegroup id="APOSTROPH_S" name="Zeichensetzung: Apostroph vor Genitiv-s">
+      <rule>
+        <pattern>
+          <token postag="EIG:.*" postag_regexp="yes">
+            <exception>McDonald</exception>
+          </token>
+          <token regexp="yes">'|’</token>
+          <token>s</token>
+        </pattern>
+        <message>Normalerweise wird im Deutschen vor einem Genitiv-s kein Apostroph gesetzt: <suggestion>\1s</suggestion>. In Ausnahmefällen wie bei dem Firmennamen 'McDonald’s' kann der Apostroph aber richtig sein.</message>
+        <short>Normalerweise wird im Deutschen vor einem Genitiv-s kein Apostroph gesetzt.</short>
+        <example type="correct"><marker>Peters</marker> Bude.</example>
+        <example type="incorrect" correction="Peters"><marker>Peter's</marker> Bude.</example>
+        <example type="incorrect" correction="Peters"><marker>Peter’s</marker> Bude.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token>des</token>
+          <token postag="SUB:NOM:SIN:(MAS|NEU)" postag_regexp="yes"/>
+          <token regexp="yes">'|’</token>
+          <token>s</token>
+        </pattern>
+        <message>Normalerweise wird im Deutschen vor einem Genitiv-s kein Apostroph gesetzt: <suggestion>\2s</suggestion>. In Ausnahmefällen wie bei dem Firmennamen 'Kaiser’s' kann der Apostroph aber richtig sein.</message>
+        <short>Normalerweise wird im Deutschen vor einem Genitiv-s kein Apostroph gesetzt.</short>
+        <example type="correct">Des <marker>Kaisers</marker> neue Kleider.</example>
+        <example type="incorrect" correction="Kaisers">Des <marker>Kaiser's</marker> neue Kleider.</example>
+        <example type="incorrect" correction="Müllers">Das Wandern ist des <marker>Müller’s</marker> Lust.</example>
+      </rule>
+    </rulegroup>
     <rule id="PUNKT_UND_KLAMMER" name="Zeichensetzung: Punkt und Klammer bei Aufzählungen, z.B. '1.)'" default="off">
     <!-- Quelle: Hans Friedrich Ebel/Claus Bliefert, Bachelor-, Master- und Doktorarbeit. Wiley, ISBN 9783527324774 -->
       <pattern>
@@ -14485,9 +14503,10 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token>)</token>
       </pattern>
       <message>Bitte verwenden Sie in Aufzählungen entweder Punkt oder Klammer, nicht beides: <suggestion>\2.</suggestion> oder <suggestion>\2)</suggestion>.</message>
+      <short>Bitte verwenden Sie in Aufzählungen entweder Punkt oder Klammer, nicht beides.</short>
       <example type="correct"><marker>1)</marker> Element der Aufzählung.</example>
       <example type="correct"><marker>2.</marker> Element der Aufzählung.</example>
-      <example type="incorrect"><marker>3.)</marker> Element der Aufzählung.</example>
+      <example type="incorrect" correction="3.|3)"><marker>3.)</marker> Element der Aufzählung.</example>
     </rule>
     <rule id="PUNKT_NACH_ORDINALZAHL" name="Zeichensetzung: Punkt nach Ordinalzahlen">
     <!-- TODO: allgemeiner -->
@@ -14981,11 +15000,12 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">´|`|‘</token>
           <token regexp="yes">s|sche[mrns]?</token>
         </pattern>
-        <message>Wollten Sie einen Apostroph verwenden? Vorschlag: <suggestion>\1's</suggestion> oder <suggestion>\1’s</suggestion></message>
+        <message>Wollten Sie einen Apostroph verwenden? Vorschlag: <suggestion>\1'\3</suggestion> oder <suggestion>\1’\3</suggestion></message>
         <short>Akzent statt Apostroph</short>
         <example type="correct"><marker>McDonald’s</marker></example>
         <example type="correct"><marker>McDonald's</marker></example>
         <example type="incorrect" correction="Geht's|Geht’s"><marker>Geht´s</marker> noch?</example>
+        <example type="incorrect" correction="Beck'sche|Beck’sche">Die <marker>Beck´sche</marker> Reihe</example>
         <example type="incorrect" correction="McDonald's|McDonald’s"><marker>McDonald´s</marker></example>
         <example type="incorrect" correction="McDonald's|McDonald’s"><marker>McDonald`s</marker></example>
       </rule>
@@ -14999,7 +15019,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Das war vielleicht <marker>’ne</marker> Party!</example>
         <example type="correct">Das war vielleicht <marker>'ne</marker> Party!</example>
         <example type="incorrect" correction="'ne|’ne">Das war vielleicht <marker>´ne</marker> Party!</example>
-        <example type="incorrect" correction="'ne|’ne">Das war vielleicht <marker>´ne</marker> Party!</example>
+        <example type="incorrect" correction="'ne|’ne">Das war vielleicht <marker>`ne</marker> Party!</example>
         <example type="incorrect" correction="'ne|’ne">Das war vielleicht <marker>‘ne</marker> Party!</example>
       </rule>
     </rulegroup>
