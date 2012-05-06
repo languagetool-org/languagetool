@@ -5347,28 +5347,36 @@ Useful links:
     <rulegroup id="DIN_DA" name="posupl eo din da">
       <rule>
         <pattern mark_from="2">
-          <token regexp="yes">gwelloc’h|posupl|ret</token>
+          <token regexp="yes" skip="1">arabat|dañjerus|dav|koulz|gwelloc’h|mat|poent|posupl|ret</token>
           <token>eo</token>
-          <token inflected="yes" postag="P e . .*" postag_regexp="yes">da</token>
+          <token inflected="yes" regexp="yes" postag="P e . .*" postag_regexp="yes">da|gant</token>
           <token>da</token>
           <token postag="V inf.*" postag_regexp="yes"/>
         </pattern>
         <message>Ha fellout a rae deoc’h skrivañ <suggestion>\3 \5</suggestion>?</message>
         <example type="incorrect">Posupl eo <marker>din da chom</marker>?</example>
         <example type="correct">Posupl eo din chom?</example>
+        <example type="incorrect">Poent bras eo <marker>dit da mont</marker> kuit.</example>
+        <example type="correct">Poent bras eo dit mont kuit.</example>
+        <example type="incorrect">Gwelloc’h eo <marker>ganin da mont</marker> mont.</example>
+        <example type="correct">Gwelloc’h eo ganin mont kuit.</example>
       </rule>
       <rule>
         <pattern mark_from="3">
-          <token regexp="yes">gwelloc‘h|posupl|ret</token>
+          <token regexp="yes" skip="1">arabat|dañjerus|dav|koulz|gwelloc’h|mat|poent|posupl|ret</token>
           <token>e</token>
           <token regexp="yes">oa|voe?|vefe|vije</token>
-          <token inflected="yes" postag="P e . .*" postag_regexp="yes">da</token>
+          <token inflected="yes" regexp="yes" postag="P e . .*" postag_regexp="yes">da|gant</token>
           <token>da</token>
           <token postag="V inf.*" postag_regexp="yes"/>
         </pattern>
         <message>Ha fellout a rae deoc’h skrivañ <suggestion>\4 \6</suggestion>?</message>
         <example type="incorrect">Posupl e oa <marker>din da chom</marker>?</example>
         <example type="correct">Posupl e oa din chom?</example>
+        <example type="incorrect">Poent bras e oa <marker>dit da mont</marker> kuit.</example>
+        <example type="correct">Poent bras e oa dit mont kuit.</example>
+        <example type="incorrect">Gwelloc’h e vefe <marker>ganin da mont</marker> kuit.</example>
+        <example type="correct">Gwelloc’h e vefe ganin mont kuit.</example>
       </rule>
     </rulegroup>
   </category>
