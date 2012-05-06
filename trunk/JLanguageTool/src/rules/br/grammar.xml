@@ -1803,6 +1803,7 @@ Useful links:
         <example type="incorrect">Ur gevredigezh <marker>gouiziek</marker>.</example>
         <example type="correct">Ur gevredigezh ouiziek.</example>
         <example type="correct">Ur gouel bras.</example>
+        <example type="correct">Gwelet em eus <marker>paot mat</marker> a dud eno.</example>
       </rule>
       <rule>
         <pattern mark_from="1" mark_to="-1">
@@ -3050,13 +3051,16 @@ Useful links:
       <rule>
         <pattern>
           <token regexp="yes">ma|da|e|he|hec’h|hon|hoc’h|o</token>
-          <token regexp="yes">unan(i[gk])?(-penn)?</token>
+          <token regexp="yes">unan(i[gk])?(-penn)?
+            <exception postag="X A_UNAN_DA_UNAN"/>
+          </token>
         </pattern>
         <message>Implijit <suggestion>\1-\2</suggestion>.</message>
         <example type="incorrect">Desket em eus <marker>ma unan</marker>.</example>
         <example type="incorrect">Desket em eus <marker>ma unan-penn</marker>.</example>
         <example type="correct">Desket em eus <marker>ma-unan</marker>.</example>
         <example type="correct">Desket em eus <marker>ma-unan-penn</marker>.</example>
+        <example type="correct">A unan da unan.</example>
       </rule>
       <rule>
         <pattern>
@@ -4104,6 +4108,7 @@ Useful links:
         <example type="correct">Daou baotr</example>
         <example type="correct">Gant yezhadurourien</example>
         <example type="correct">Daou geloù</example>
+        <example type="correct">Ken ar c’hentañ mignoned.</example>
       </rule>
       <rule>
         <pattern mark_from="1">
