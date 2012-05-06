@@ -2690,6 +2690,18 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Ich habe es auf den Haken <marker>gehängt</marker>.</example>
         <example type="correct">Ich habe es über den Stuhl <marker>gehängt</marker>.</example>
       </rule>
+      <rule>
+        <pattern mark_to="-1" mark_from="0">
+          <token>gehangen</token>
+          <token>worden</token>
+        </pattern>
+        <message>&verw;Meinten Sie <suggestion>gehängt</suggestion>? 'Hängen' als transitives Verb wird regelmäßig flektiert.</message>
+        <url>http://www.duden.de/rechtschreibung/haengen_verbinden_befestigen</url>
+        <short>Mögliche Wortverwechslung</short>
+        <example type="incorrect" correction="gehängt">Es ist in den Schrank <marker>gehangen</marker> worden.</example>
+        <example type="correct">Es hat auf dem Haken <marker>gehangen</marker>.</example>
+        <example type="correct">Es ist über den Stuhl <marker>gehängt</marker> worden.</example>
+      </rule>
     </rulegroup>
     <rule id="PER_NACHNAME" name="Mögliche Wortverwechslung: 'per Nachname (Nachnahme)'">
       <pattern case_sensitive="yes" mark_from="1">
