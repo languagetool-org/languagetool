@@ -26,6 +26,7 @@ import org.languagetool.tagging.disambiguation.rules.br.BretonRuleDisambiguator;
 import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tokenizers.br.BretonWordTokenizer;
 import org.languagetool.tagging.br.BretonTagger;
+import org.languagetool.rules.br.TopoReplaceRule;
 import java.util.*;
 
 /** 
@@ -95,7 +96,8 @@ public class Breton extends Language {
             CommaWhitespaceRule.class,
             DoublePunctuationRule.class,
             UppercaseSentenceStartRule.class,
-            WhitespaceRule.class
+            WhitespaceRule.class,
+            TopoReplaceRule.class
     );
   }
 
