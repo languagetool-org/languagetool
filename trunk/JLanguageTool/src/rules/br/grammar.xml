@@ -3890,6 +3890,42 @@ Useful links:
       <example type="correct">Ur film gant Jacques Tati.</example>
     </rule>
 
+    <rulegroup id="DIN_DA" name="posupl eo din da">
+      <rule>
+        <pattern mark_from="2">
+          <token regexp="yes" skip="1">arabat|dañjerus|dav|koulz|gwelloc’h|mat|poent|posupl|ret</token>
+          <token>eo</token>
+          <token inflected="yes" regexp="yes" postag="P e . .*" postag_regexp="yes">da|gant</token>
+          <token>da</token>
+          <token postag="V inf.*" postag_regexp="yes"/>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>\3 \5</suggestion>?</message>
+        <example type="incorrect">Posupl eo <marker>din da chom</marker>?</example>
+        <example type="correct">Posupl eo din chom?</example>
+        <example type="incorrect">Poent bras eo <marker>dit da mont</marker> kuit.</example>
+        <example type="correct">Poent bras eo dit mont kuit.</example>
+        <example type="incorrect">Gwelloc’h eo <marker>ganin da mont</marker> mont.</example>
+        <example type="correct">Gwelloc’h eo ganin mont kuit.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="3">
+          <token regexp="yes" skip="1">arabat|dañjerus|dav|koulz|gwelloc’h|mat|poent|posupl|ret</token>
+          <token>e</token>
+          <token regexp="yes">oa|voe?|vefe|vije</token>
+          <token inflected="yes" regexp="yes" postag="P e . .*" postag_regexp="yes">da|gant</token>
+          <token>da</token>
+          <token postag="V inf.*" postag_regexp="yes"/>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>\4 \6</suggestion>?</message>
+        <example type="incorrect">Posupl e oa <marker>din da chom</marker>?</example>
+        <example type="correct">Posupl e oa din chom?</example>
+        <example type="incorrect">Poent bras e oa <marker>dit da mont</marker> kuit.</example>
+        <example type="correct">Poent bras e oa dit mont kuit.</example>
+        <example type="incorrect">Gwelloc’h e vefe <marker>ganin da mont</marker> kuit.</example>
+        <example type="correct">Gwelloc’h e vefe ganin mont kuit.</example>
+      </rule>
+    </rulegroup>
+
   </category>
 
   <category name="Douaroniezh">
@@ -3966,6 +4002,14 @@ Useful links:
         <example type="correct">Komzet e vez brezhoneg en <marker>Aodoù-an-Arvor</marker>.</example>
       </rule>
     </rulegroup>
+    <rule id="ROSTRENN" name="Rostrenn → Rostrenenn">
+      <pattern>
+        <token regexp="yes">Rostrenn?|Rostrenen</token>
+      </pattern>
+      <message>Gwelloc’h eo skrivañ <suggestion>Rostrenenn</suggestion>.</message>
+      <example type="incorrect"><marker>Rostrenn</marker> zo ur gumun e departamant Aodoù-an-Arvor.</example>
+      <example type="correct">Rostrenenn zo ur gumun e departamant Aodoù-an-Arvor.</example>
+    </rule>
     <rule id="BRO" name="Broioù">
       <pattern>
         <token regexp="yes">[BVP]ro</token>
@@ -5091,6 +5135,18 @@ Useful links:
       </rule>
     </rulegroup>
 
+    <rule id="MEMES_MA_V" name="memes ma + verb → ha pa + verb">
+      <pattern>
+        <token>memes</token>
+        <token>ma</token>
+        <token postag="V.*" postag_regexp="yes"/>
+      </pattern>
+      <message>Gallekadur: implijit <suggestion>ha pa</suggestion> gant ur verb en doare gourc’hemenn a-vremañ pe dremenet.</message>
+      <example type="incorrect"><marker>Memes ma c’hall</marker> dont.</example>
+      <example type="correct">Ha pa c’hallfe dont.</example>
+      <example type="correct">Ha pa c’hallje dont.</example>
+    </rule>
+
     <rule id="MENEZIOU_ARE" name="menezioù Are → menez Are">
       <pattern>
         <token regexp="yes">[mv]enezioù</token>
@@ -5342,41 +5398,6 @@ Useful links:
         <message>Implijit <suggestion><match no="4" regexp_match="..(.*)" regexp_replace="hou$1"/></suggestion> gant un anv benel.</message>
         <example type="incorrect">Keniterv piv eo <marker>hennezh</marker>?</example>
         <example type="correct">Keniterv piv eo hounnezh?</example>
-      </rule>
-    </rulegroup>
-    <rulegroup id="DIN_DA" name="posupl eo din da">
-      <rule>
-        <pattern mark_from="2">
-          <token regexp="yes" skip="1">arabat|dañjerus|dav|koulz|gwelloc’h|mat|poent|posupl|ret</token>
-          <token>eo</token>
-          <token inflected="yes" regexp="yes" postag="P e . .*" postag_regexp="yes">da|gant</token>
-          <token>da</token>
-          <token postag="V inf.*" postag_regexp="yes"/>
-        </pattern>
-        <message>Ha fellout a rae deoc’h skrivañ <suggestion>\3 \5</suggestion>?</message>
-        <example type="incorrect">Posupl eo <marker>din da chom</marker>?</example>
-        <example type="correct">Posupl eo din chom?</example>
-        <example type="incorrect">Poent bras eo <marker>dit da mont</marker> kuit.</example>
-        <example type="correct">Poent bras eo dit mont kuit.</example>
-        <example type="incorrect">Gwelloc’h eo <marker>ganin da mont</marker> mont.</example>
-        <example type="correct">Gwelloc’h eo ganin mont kuit.</example>
-      </rule>
-      <rule>
-        <pattern mark_from="3">
-          <token regexp="yes" skip="1">arabat|dañjerus|dav|koulz|gwelloc’h|mat|poent|posupl|ret</token>
-          <token>e</token>
-          <token regexp="yes">oa|voe?|vefe|vije</token>
-          <token inflected="yes" regexp="yes" postag="P e . .*" postag_regexp="yes">da|gant</token>
-          <token>da</token>
-          <token postag="V inf.*" postag_regexp="yes"/>
-        </pattern>
-        <message>Ha fellout a rae deoc’h skrivañ <suggestion>\4 \6</suggestion>?</message>
-        <example type="incorrect">Posupl e oa <marker>din da chom</marker>?</example>
-        <example type="correct">Posupl e oa din chom?</example>
-        <example type="incorrect">Poent bras e oa <marker>dit da mont</marker> kuit.</example>
-        <example type="correct">Poent bras e oa dit mont kuit.</example>
-        <example type="incorrect">Gwelloc’h e vefe <marker>ganin da mont</marker> kuit.</example>
-        <example type="correct">Gwelloc’h e vefe ganin mont kuit.</example>
       </rule>
     </rulegroup>
   </category>
