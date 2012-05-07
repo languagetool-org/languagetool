@@ -115,7 +115,7 @@ public class AgreementRule extends GermanRule {
     "ich",
     "du",
     "er", "sie", "es",
-    //"wir",
+    "wir",
     "mir",
     "uns",
     "ihnen",

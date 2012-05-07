@@ -109,6 +109,7 @@ public class AgreementRuleTest extends TestCase {
     assertGood("Das Bielefelder Radio.");
     assertGood("Das Gütersloher Radio.");
     assertGood("Das wirklich Wichtige kommt jetzt erst.");
+    assertGood("Besonders wenn wir Wermut oder Absinth trinken.");
 
     // incorrect sentences:
     assertBad("Es sind die Tisch.");
@@ -135,9 +136,8 @@ public class AgreementRuleTest extends TestCase {
     assertBad("Das Dach meinem großen Autos.");
     assertBad("Das Dach mein großen Autos.");
 
-    assertBad("Erst recht wir fleißiges Arbeiter.");
-
     // TODO: not yet detected:
+    //assertBad("Erst recht wir fleißiges Arbeiter.");
     //assertBad("Erst recht ich fleißiges Arbeiter.");
     //assertBad("Das Dach meine großen Autos.");
     //assertBad("Das Dach meinen großen Autos.");
