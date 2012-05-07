@@ -89,6 +89,7 @@ public class AgreementRule extends GermanRule {
     REL_PRONOUN.add("deren");
     REL_PRONOUN.add("dem");
     REL_PRONOUN.add("den");
+    REL_PRONOUN.add("denen");
     REL_PRONOUN.add("welche");
     REL_PRONOUN.add("welcher");
     REL_PRONOUN.add("welchen");
@@ -104,6 +105,9 @@ public class AgreementRule extends GermanRule {
     PREPOSITIONS.add("ab");
     PREPOSITIONS.add("für");
     PREPOSITIONS.add("zu");
+    PREPOSITIONS.add("bei");
+    PREPOSITIONS.add("nach");
+    PREPOSITIONS.add("über");
     // TODO: add more
   }
 
@@ -113,8 +117,11 @@ public class AgreementRule extends GermanRule {
     "er", "sie", "es",
     //"wir",
     "mir",
+    "uns",
+    "ihnen",
     "euch",
     "ihm",
+    "ihr",
     "ihn",
     "dessen",
     "deren",
@@ -162,7 +169,7 @@ public class AgreementRule extends GermanRule {
         continue;
       //AnalyzedGermanToken analyzedToken = new AnalyzedGermanToken(tokens[i]);
       
-    	final AnalyzedGermanTokenReadings analyzedToken = (AnalyzedGermanTokenReadings)tokens[i];
+      final AnalyzedGermanTokenReadings analyzedToken = (AnalyzedGermanTokenReadings)tokens[i];
       final boolean relevantPronoun = isRelevantPronoun(tokens, i);
      
       boolean ignore = couldBeRelativeClause(tokens, i);
