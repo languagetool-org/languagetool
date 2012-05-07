@@ -3601,28 +3601,8 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
   <!-- Eigennamen -->
   <!-- ====================================================================== -->
   <category name="Falschschreibung prominenter/geographischer Eigennamen">
-    <!-- geographische Namen u.ä. -->
-    <rule id="JOSEF_HAYDN" name="Eigennamen: 'Josef (Joseph) Haydn'">
-      <pattern mark_to="-1" case_sensitive="yes">
-        <token>Josef</token>
-        <token regexp="yes">Haydns?</token>
-      </pattern>
-      <message>Meinten Sie den Komponisten Franz <suggestion>Joseph</suggestion> Haydn?</message>
-      <short>&eigenname;</short>
-      <example type="correct"><marker>Joseph</marker> Haydn komponierte die Kaiserhymne.</example>
-      <example type="incorrect" correction="Joseph"><marker>Josef</marker> Haydn komponierte die Kaiserhymne.</example>
-    </rule>
-    <rule id="HERMAN_REUTTER" name="Eigennamen: 'Herman (Hermann) Reutter'">
-      <pattern mark_to="-1" case_sensitive="yes">
-        <token>Herman</token>
-        <token regexp="yes">Reutters?</token>
-      </pattern>
-      <message>Meinten Sie den Komponisten <suggestion>Hermann</suggestion> Reutter?</message>
-      <short>&eigenname;</short>
-      <example type="correct"><marker>Hermann</marker> Reutter komponierte die Melodie der Hymne an Deutschland.</example>
-      <example type="incorrect" correction="Hermann"><marker>Herman</marker> Reutter komponierte die Melodie der Hymne an Deutschland.</example>
-    </rule>
-    <rule id="AM_REIN" name="Eigennamen: 'am Rein (Rhein)'">
+    <!-- geographische Namen u. ä. -->
+    <rule id="AM_REIN" name="Eigenname: 'am Rein (Rhein)'">
       <pattern mark_from="1" case_sensitive="yes">
         <token>am</token>
         <token>Rein</token>
@@ -3632,7 +3612,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct">Warum ist es am <marker>Rhein</marker> so schön?</example>
       <example type="incorrect" correction="Rhein">Warum ist es am <marker>Rein</marker> so schön?</example>
     </rule>
-    <rule id="DOM_VS_DON" name="Eigennamen: 'Kölner Don (Dom)' etc.">
+    <rule id="DOM_VS_DON" name="Eigenname: 'Kölner Don (Dom)' etc.">
       <pattern mark_from="1">
         <token regexp="yes">Aachener|Bremer|Erfurter|Freisinger|Hamburger|Hildesheimer|Kölner|Magdeburger|Münchner|Paderborner</token>
         <token>Don</token>
@@ -3642,7 +3622,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct">Der Kölner <marker>Dom</marker> ist das Wahrzeichen der Stadt.</example>
       <example type="incorrect" correction="Dom">Der Kölner <marker>Don</marker> ist das Wahrzeichen der Stadt.</example>
     </rule>
-    <rulegroup id="ROTHENBURG_VS_ROTENBURG" name="Ortsnamen: 'Rotenburg (Rothenburg) ob der Tauber' etc.">
+    <rulegroup id="ROTHENBURG_VS_ROTENBURG" name="Ortsname: 'Rotenburg (Rothenburg) ob der Tauber' etc.">
       <rule>
         <pattern mark_to="-3">
           <token>Rothenburg</token>
@@ -3773,7 +3753,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect" correction="Las">Das ist jetzt der letzte Schrei in <marker>las</marker> Vegas.</example>
     </rule>
     <!-- Produktnamen -->
-    <rulegroup id="OPENOFFICE" name="Eigenname: 'OpenOffice (OpenOffice.org)'">
+    <rulegroup id="OPENOFFICE" name="Produktname: 'OpenOffice (OpenOffice.org)'">
       <rule>
         <pattern mark_from="1" mark_to="-1">
           <token negate="yes">Apache</token>
@@ -3789,6 +3769,26 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       </rule>
     </rulegroup>
     <!-- Prominente -->
+    <rule id="JOSEF_HAYDN" name="Eigenname: 'Josef (Joseph) Haydn'">
+      <pattern mark_to="-1" case_sensitive="yes">
+        <token>Josef</token>
+        <token regexp="yes">Haydns?</token>
+      </pattern>
+      <message>Meinten Sie den Komponisten Franz <suggestion>Joseph</suggestion> Haydn?</message>
+      <short>&eigenname;</short>
+      <example type="correct"><marker>Joseph</marker> Haydn komponierte die Kaiserhymne.</example>
+      <example type="incorrect" correction="Joseph"><marker>Josef</marker> Haydn komponierte die Kaiserhymne.</example>
+    </rule>
+    <rule id="HERMAN_REUTTER" name="Eigenname: 'Herman (Hermann) Reutter'">
+      <pattern mark_to="-1" case_sensitive="yes">
+        <token>Herman</token>
+        <token regexp="yes">Reutters?</token>
+      </pattern>
+      <message>Meinten Sie den Komponisten <suggestion>Hermann</suggestion> Reutter?</message>
+      <short>&eigenname;</short>
+      <example type="correct"><marker>Hermann</marker> Reutter komponierte die Melodie der Hymne an Deutschland.</example>
+      <example type="incorrect" correction="Hermann"><marker>Herman</marker> Reutter komponierte die Melodie der Hymne an Deutschland.</example>
+    </rule>
     <rulegroup id="ABRAHAM_LINCOLN" name="Eigenname: 'Abraham Linken (Lincoln)'">
       <!-- phonetische Schreibweise -->
       <rule>
@@ -3845,7 +3845,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <message>Meinten Sie <suggestion>Jimi Hendrix</suggestion> (Musiker)?</message>
         <short>&eigenname;</short>
         <example type="correct"><marker>Jimi Hendrix</marker> starb jung.</example>
-        <example type="incorrect"><marker>Jimmy Hendrix</marker> starb jung.</example>
+        <example type="incorrect" correction="Jimi Hendrix"><marker>Jimmy Hendrix</marker> starb jung.</example>
       </rule>
       <rule>
         <pattern mark_from="0">
@@ -3855,7 +3855,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <message>Meinten Sie <suggestion>Jimi Hendrix</suggestion> (Musiker)?</message>
         <short>&eigenname;</short>
         <example type="correct"><marker>Jimi Hendrix</marker> starb jung.</example>
-        <example type="incorrect"><marker>Jimi Hendricks</marker> starb jung.</example>
+        <example type="incorrect" correction="Jimi Hendrix"><marker>Jimi Hendricks</marker> starb jung.</example>
       </rule>
     </rulegroup>
     <rulegroup id="ULRIKE_MEINHOF" name="Eigenname: 'Ulrike Meinhoff (Meinhof)'">
@@ -4320,6 +4320,38 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Ich esse <marker>Leibniz-Kekse</marker> mit.</example>
         <example type="incorrect" correction="Leibniz-Kekse">Ich esse <marker>Leibnitz-Kekse</marker>.</example>
         <example type="incorrect" correction="Leibniz-Butterkeks">Ich esse einen <marker>Leibnitz-Butterkeks</marker>.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="RAF" name="Eigenname: 'Rote Armee Fraktion'">
+      <rule>
+        <pattern>
+          <token regexp="yes">Rote(n|r)</token>
+          <token>Armee</token>
+          <token>Fraktion</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>Rote Armee Fraktion</suggestion>? Dies ist eine feste Wendung, die wie ein Eigenname behandelt wird.</message>
+        <example type="incorrect" correction="Rote Armee Fraktion">Mitglieder der <marker>Roten Armee Fraktion</marker></example>
+        <example type="correct">Mitglieder der <marker>Rote Armee Fraktion</marker></example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>Rote</token>
+          <token>Arme</token>
+          <token>Fraktion</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>Rote Armee Fraktion</suggestion>?</message>
+        <example type="incorrect" correction="Rote Armee Fraktion">Mitglieder der <marker>Rote Arme Fraktion</marker></example>
+        <example type="correct">Mitglieder der <marker>Rote Armee Fraktion</marker></example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token>rote</token>
+          <token>Armee</token>
+          <token>Fraktion</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>Rote Armee Fraktion</suggestion>? Dies ist eine feste Wendung.</message>
+        <example type="incorrect" correction="Rote Armee Fraktion">Mitglieder der <marker>rote Armee Fraktion</marker></example>
+        <example type="correct">Mitglieder der <marker>Rote Armee Fraktion</marker></example>
       </rule>
     </rulegroup>
   </category>
@@ -6533,7 +6565,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct">Internet <marker>ohne</marker> Schnur</example>
       <example type="incorrect">Internet <marker>mit ohne</marker> Schnur</example>
     </rule>
-    <rule id="NICHTSDESTOTROTZ" name="Stil: 'nichtsdestotrotz' ist eine umgangssprachliche Verballhornung von 'nichtsdestoweniger'">
+    <rule id="NICHTSDESTOTROTZ" name="Stil: 'nichtsdestotrotz' (ugs. Verballhornung)">
       <pattern>
         <token>nichtsdestotrotz</token>
       </pattern>
@@ -6541,7 +6573,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct"><marker>Nichtsdestoweniger</marker> wird einfach weiter geplant.</example>
       <example type="incorrect"><marker>Nichtsdestotrotz</marker> wird einfach weiter geplant.</example>
     </rule>
-    <rulegroup id="MURKSEN" name="Umgangssprache: 'abmurksen' etc.">
+    <rulegroup id="MURKSEN" name="Umgangssprache: 'abmurksen' etc. [unvollständige Markierung ugs. Ausdrucksweisen]">
       <rule>
         <pattern>
           <token regexp="yes">(ab|abzu|herum|herumzu)?(murksen|knutschen|wichsen)</token>
@@ -6615,7 +6647,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       </pattern>
       <message>Meinten Sie <suggestion><match no="1" regexp_match="(Kauf|.*kauf|See|Feuerwehr|Gewährs|Edel)männer(n)?" regexp_replace="$1leute$2"/></suggestion>?</message>
       <example type="correct">Es waren viele <marker>Feuerwehrleute</marker> im Einsatz.</example>
-      <example type="incorrect">Es waren viele <marker>Feuerwehrmänner</marker> im Einsatz.</example>
+      <example type="incorrect" correction="Feuerwehrleute">Es waren viele <marker>Feuerwehrmänner</marker> im Einsatz.</example>
       <example type="incorrect" correction="Industriekaufleute">Es werden viele <marker>Industriekaufmänner</marker> gesucht.</example>
     </rule>
     <rulegroup id="ZWISCHEN_SEIT_BIS" name="Stil: 'Zwischen ... bis ...'">
@@ -6627,10 +6659,11 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">[0-9]{1,4}</token>
         </pattern>
         <message>'Zwischen' steht mit 'und', nicht mit 'bis': <suggestion>zwischen \2 und \4</suggestion>, <suggestion>von \2 bis \4</suggestion>.</message>
+        <short>'Zwischen' steht mit 'und', nicht mit 'bis'.</short>
         <example type="correct"><marker>Zwischen 10 und 11</marker> Uhr.</example>
         <example type="correct"><marker>Von 9 bis 10</marker> Uhr.</example>
-        <example type="incorrect"><marker>Zwischen 10 bis 11</marker> Uhr.</example>
-        <example type="incorrect"><marker>Seit 10 bis 11</marker> Uhr.</example>
+        <example type="incorrect" correction="Zwischen 10 und 11|Von 10 bis 11"><marker>Zwischen 10 bis 11</marker> Uhr.</example>
+        <example type="incorrect" correction="Zwischen 10 und 11|Von 10 bis 11"><marker>Seit 10 bis 11</marker> Uhr.</example>
       </rule>
       <rule>
         <pattern mark_from="0">
@@ -6640,6 +6673,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">&wochentage;</token>
         </pattern>
         <message>'Zwischen' steht mit 'und', nicht mit 'bis': <suggestion>zwischen \2 und \4</suggestion>, <suggestion>von \2 bis \4</suggestion>.</message>
+        <short>'Zwischen' steht mit 'und', nicht mit 'bis'.</short>
         <example type="correct"><marker>Zwischen Montag und Freitag</marker>.</example>
         <example type="correct"><marker>Von Montag bis Freitag</marker>.</example>
         <example type="incorrect"><marker>Zwischen Montag bis Freitag</marker>.</example>
@@ -6653,6 +6687,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">&monate;</token>
         </pattern>
         <message>'Zwischen' steht mit 'und', nicht mit 'bis': <suggestion>zwischen \2 und \4</suggestion>, <suggestion>von \2 bis \4</suggestion>.</message>
+        <short>'Zwischen' steht mit 'und', nicht mit 'bis'.</short>
         <example type="correct"><marker>Zwischen März und Juli</marker>.</example>
         <example type="correct"><marker>Von März bis Juli</marker>.</example>
         <example type="incorrect"><marker>Zwischen März bis Juli</marker>.</example>
@@ -13414,7 +13449,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">wegen|(ab|zu)züglich|seitens</token><!-- TODO … liegt abseits das …-->
           <token regexp="yes">(das|dem|den|die)(selben?)?|ein|(D|d|s|m)?eine(m|n)?|(eu|ih|Ih|unse)re(m|n)?|(jene|deine|diese)(m|n)?</token>
         </pattern>
-        <message>Die Präposition '\2' erfordert i.d.R. den Genitiv.</message>
+        <message>Die Präposition '\2' erfordert in der Regel den Genitiv.</message>
         <url>http://www.canoo.net/services/OnlineGrammar/Wort/Praeposition/Kasus/Genitiv.html</url>
         <short>Diese Präposition erfordert den Genitiv</short>
         <example type="correct">von Rechts wegen die Bestrafung</example>
@@ -13439,7 +13474,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">(Wegen|Abzüglich)</token><!-- TODO Abseits das …-->
           <token regexp="yes">(das|dem|den|die)(selben?)?|ein|(D|d|s|m)?eine(m|n)?|(eu|ih|Ih|unse)re(m|n)?|(jene|deine|diese)(m|n)?</token>
         </pattern>
-        <message>Die Präposition '<match no="2" case_conversion ="startlower"/>' erfordert i.d.R. den Genitiv.</message><!--TODO \2 should be lowercase-->
+        <message>Die Präposition '<match no="2" case_conversion ="startlower"/>' erfordert in der Regel den Genitiv.</message><!--TODO \2 should be lowercase-->
         <url>http://www.canoo.net/services/OnlineGrammar/Wort/Praeposition/Kasus/Genitiv.html</url>
         <short>Diese Präposition erfordert den Genitiv</short>
         <example type="incorrect"><marker>Wegen dem</marker> Unfall</example>
@@ -13457,7 +13492,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         -->
       </rule>
     </rulegroup>
-    <rule id="GEMAESS_DES" name="Grammatik: 'gemäß des (dem)'">
+    <rule id="GEMAESS_DES" name="Grammatik: Präposition/Kasus – 'gemäß des (dem)'">
       <!-- TODO allgemeiner, idealerweise folgendes Substantiv auch in den Dativ setzen -->
       <pattern>
         <token>gemäß</token>
@@ -13479,7 +13514,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token postag="(ADJ|SUB):DAT:(SIN|PLU):FEM.*" postag_regexp="yes"/>
           <token><exception postag="ADJ:AKK:.+" postag_regexp="yes"/><exception>nach</exception></token>
         </pattern>
-        <message>Die Präposition '\1' erfordert i.d.R. den Akkusativ.</message>
+        <message>Die Präposition '\1' erfordert in der Regel den Akkusativ.</message>
         <url>http://www.canoo.net/services/OnlineGrammar/Wort/Praeposition/Kasus/Akkusativ.html</url>
         <short>Diese Präposition erfordert den Akkusativ</short>
         <example type="correct">Das ist wider <marker>die Vernunft</marker>.</example>
@@ -13497,7 +13532,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token postag="(ADJ|SUB):DAT:SIN:(MAS|NEU)" postag_regexp="yes"/>
           <token><exception postag="ADJ:AKK:.+" postag_regexp="yes"/><exception>nach</exception></token>
         </pattern>
-        <message>Die Präposition '\1' erfordert i.d.R. den Akkusativ.</message>
+        <message>Die Präposition '\1' erfordert in der Regel den Akkusativ.</message>
         <url>http://www.canoo.net/services/OnlineGrammar/Wort/Praeposition/Kasus/Akkusativ.html</url>
         <short>Diese Präposition erfordert den Akkusativ</short>
         <example type="correct">Das ist wider <marker>den Verstand</marker>.</example>
@@ -13513,7 +13548,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token postag="(ADJ|SUB):DAT:PLU:(MAS|NEU)" postag_regexp="yes"><exception postag="(ADJ|SUB):AKK:(SIN|PLU):(MAS|NEU)" postag_regexp="yes"/></token>
           <token><exception postag="ADJ:AKK:.+" postag_regexp="yes"/><exception>nach</exception></token>
         </pattern>
-        <message>Die Präposition '\1' erfordert i.d.R. den Akkusativ.</message>
+        <message>Die Präposition '\1' erfordert in der Regel den Akkusativ.</message>
         <url>http://www.canoo.net/services/OnlineGrammar/Wort/Praeposition/Kasus/Akkusativ.html</url>
         <short>Diese Präposition erfordert den Akkusativ</short>
         <example type="correct">Das ist für <marker>die Bilder</marker>.</example>
@@ -13529,7 +13564,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">der|die|das|des|dem|den|im</token>
           <token postag="ADJ:.*:SOL" postag_regexp="yes" regexp="yes">[a-zäüö].*<exception scope="current" postag="ADJ:.*:(DEF|IND)" postag_regexp="yes"/></token>
         </pattern>
-        <message>Nach einem Artikel steht i.d.R. kein stark flektiertes Adjektiv (Beispiel: 'im heißem Ofen' statt 'im heißen Ofen').</message>
+        <message>Nach einem Artikel steht in der Regel kein stark flektiertes Adjektiv (Beispiel: 'im heißem Ofen' statt 'im heißen Ofen').</message>
         <url>http://www.canoo.net/services/OnlineGrammar/Wort/Adjektiv/Deklinationstyp/index.html?MenuId=Word313#Anchor-Deklinationstypen-35882</url>
         <example type="incorrect"><marker>Im mentalem</marker> Lexikon ist viel gespeichert.</example>
         <example type="incorrect">In <marker>dem heißem</marker> Ofen ist heiße Luft.</example>
@@ -13801,38 +13836,6 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect">Sie verdient <marker>eine Millionen</marker> Euro im Jahr.</example>
       <example type="correct">Sie verdient <marker>eine Million</marker> Euro im Jahr.</example>
     </rule>
-    <rulegroup id="RAF" name="Grammatik: 'Rote Armee Fraktion'">
-      <rule>
-        <pattern>
-          <token>Roten</token>
-          <token>Armee</token>
-          <token>Fraktion</token>
-        </pattern>
-        <message>Meinten Sie <suggestion>Rote Armee Fraktion</suggestion>? Dies ist eine feste Wendung.</message>
-        <example type="incorrect">Mitglieder der <marker>Roten Armee Fraktion</marker></example>
-        <example type="correct">Mitglieder der <marker>Rote Armee Fraktion</marker></example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>Rote</token>
-          <token>Arme</token>
-          <token>Fraktion</token>
-        </pattern>
-        <message>Meinten Sie <suggestion>Rote Armee Fraktion</suggestion>?</message>
-        <example type="incorrect">Mitglieder der <marker>Rote Arme Fraktion</marker></example>
-        <example type="correct">Mitglieder der <marker>Rote Armee Fraktion</marker></example>
-      </rule>
-      <rule>
-        <pattern case_sensitive="yes">
-          <token>rote</token>
-          <token>Armee</token>
-          <token>Fraktion</token>
-        </pattern>
-        <message>Meinten Sie <suggestion>Rote Armee Fraktion</suggestion>? Dies ist eine feste Wendung.</message>
-        <example type="incorrect">Mitglieder der <marker>rote Armee Fraktion</marker></example>
-        <example type="correct">Mitglieder der <marker>Rote Armee Fraktion</marker></example>
-      </rule>
-    </rulegroup>
     <rule id="IM_KEINEN" name="Grammatik: 'im keinen (kleinen)'">
       <pattern mark_from="1">
         <token>im</token>
@@ -14013,7 +14016,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect">Ich antworte <marker>den</marker> Mann.</example>
       </rule>
     </rulegroup>
-    <rule id="AN_HERR" name="Grammatik: 'an/für Herr (Herrn)'">
+    <rule id="AN_HERR" name="Grammatik: Präposition/Kasus – 'an/für Herr (Herrn)' etc.">
       <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
         <token regexp="yes">[Aa]n|[Zz]u|[Ff]ür|[Dd]es|[Vv]on</token>
         <token>Herr</token>
@@ -14714,7 +14717,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">\-?[0-9]+</token>
           <token>″</token><!--TODO not working for ′-->
         </pattern>
-        <message>Vor dem \2-Zeichen steht i.d.R. kein Leerzeichen. Vorschlag: <suggestion>\1\2</suggestion></message>
+        <message>Vor dem \2-Zeichen steht in der Regel kein Leerzeichen. Vorschlag: <suggestion>\1\2</suggestion></message>
         <example type="correct">3° 14′ 45,54″</example>
         <example type="incorrect" correction="54″">45,<marker>54 ″</marker></example>
       </rule>
@@ -14850,7 +14853,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           </token>
           <token postag="SENT_END"/>
         </pattern>
-        <message>Ein mit der Subjunktion '\2' eingeleiteter Nebensatz wird i.d.R. mit (mindestens) einem Komma vom Hauptsatz abgetrennt.</message>
+        <message>Ein mit der Subjunktion '\2' eingeleiteter Nebensatz wird in der Regel mit (mindestens) einem Komma vom Hauptsatz abgetrennt.</message>
         <example type="correct">Er mag das Spiel, <marker>weil</marker> es ihm Spaß macht.</example>
         <example type="correct">Er mag das Spiel, auch <marker>weil</marker> es Spaß macht.</example>
         <example type="incorrect">Er mag das Spiel <marker>weil</marker> es ihm Spaß macht.</example>
@@ -14869,7 +14872,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token skip="-1" regexp="yes">Dass|Obwohl|Obgleich|Sodass|Wenn<exception scope="next" regexp="yes">,|–|\-|;|\:|&anfauf;|…|[0-9]+|\?|\!|&gt;|\=|&klamauf;|möglich</exception></token>
           <token postag="SENT_END"/>
         </pattern>
-        <message>Ein mit der Subjunktion '<match case_conversion="alllower" no="2"/>' eingeleiteter Nebensatz wird i.d.R. mit einem Komma vom Hauptsatz abgetrennt.</message>
+        <message>Ein mit der Subjunktion '<match case_conversion="alllower" no="2"/>' eingeleiteter Nebensatz wird in der Regel mit einem Komma vom Hauptsatz abgetrennt.</message>
         <example type="correct">Obwohl er groß ist, kommt er dran.</example>
         <example type="incorrect"><marker>Obwohl</marker> er groß ist kommt er dran.</example>
         <example type="correct">"Obwohl das so ist!"</example>
@@ -15078,10 +15081,8 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     </rulegroup>
     <rule id="BISSTRICH" name="Typographie: Bis-Strich vs. Bindestrich">
       <pattern case_sensitive="yes" mark_from="1">
-        <token regexp="yes">[^0-9\-]+
-          <exception regexp="yes">IS[BS]N|ISO|DIN|IEC</exception>
-        </token>
-        <token regexp="yes">([0-9]{1,5})(\-)([0-9]{1,5})</token>
+        <token negate="yes" regexp="yes">IS[BS]N|ISO|DIN|IEC</token>
+        <token spacebefore="yes" regexp="yes">([0-9]{1,5})(\-)([0-9]{1,5})</token>
       </pattern>
       <message>Meinten Sie <suggestion><match no="2" regexp_match="\-" regexp_replace="–"/></suggestion>? Als Bis-Strich wird i.A. der Gedankenstrich verwendet. Zur Unterteilung von Zifferngruppen (ISBN u.ä.) ist der Bindestrich jedoch korrekt.</message>
       <url>http://typefacts.com/artikel/grundlagen/bindestrich-gedankenstrich</url>
@@ -15119,7 +15120,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes" negate="yes">&nbsp;|&nnbsp;|&thinsp;|&klamauf;|&anfauf;|[a-z]</token>
           <token spacebefore="no">…</token>
         </pattern>
-        <message>Vor Auslassungspunkten sollte i.d.R. ein geschütztes Leerzeichen stehen, außer wenn es sich um eine Auslassung mitten im Wort handelt. Vorschlag: <suggestion>&nbsp;…</suggestion></message>
+        <message>Vor Auslassungspunkten sollte in der Regel ein geschütztes Leerzeichen stehen, außer wenn es sich um eine Auslassung mitten im Wort handelt. Vorschlag: <suggestion>&nbsp;…</suggestion></message>
         <url>http://de.wikipedia.org/wiki/Auslassungspunkte</url>
         <short>Vor Auslassungspunkten sollte meist ein geschütztes Leerzeichen stehen.</short>
         <example type="correct">Er geht […] nach Hause.</example>
