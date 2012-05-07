@@ -13469,6 +13469,59 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect" correction="Gemäß dem"><marker>Gemäß des</marker> Beschlusses der Kultusministerkonferenz</example>
       <example type="correct"><marker>Gemäß dem</marker> Beschluss der Kultusministerkonferenz</example>
     </rule>
+    <rulegroup id="PRAEP_AKK" name="Grammatik: Präposition mit Akkusativ (ohne, für etc.)">
+      <!-- Please note that 'um' is omitted intentionally because it generates false positives. -->
+      <rule>
+      <!-- FEM -->
+        <pattern mark_from="1" mark_to="-1" case_sensitive="yes">
+          <token regexp="yes">betreffend|durch|für|gegen|kontra|ohne|via|wider</token>
+          <token regexp="yes">der(selben)?|(D|d|s|m)?einer|(eu|ih|Ih|unse)rer|(jede|jene|diese|alle)r</token>
+          <token postag="(ADJ|SUB):DAT:(SIN|PLU):FEM.*" postag_regexp="yes"/>
+          <token><exception postag="ADJ:AKK:.+" postag_regexp="yes"/><exception>nach</exception></token>
+        </pattern>
+        <message>Die Präposition '\1' erfordert i.d.R. den Akkusativ.</message>
+        <url>http://www.canoo.net/services/OnlineGrammar/Wort/Praeposition/Kasus/Akkusativ.html</url>
+        <short>Diese Präposition erfordert den Akkusativ</short>
+        <example type="correct">Das ist wider <marker>die Vernunft</marker>.</example>
+        <example type="correct">Das ist wider <marker>alle Vernunft</marker>.</example>
+        <example type="correct">Das ist für <marker>deine Frau</marker>.</example>
+        <example type="incorrect">Das ist wider <marker>der Vernunft</marker>.</example>
+        <example type="incorrect">Das ist wider <marker>aller Vernunft</marker>.</example>
+        <example type="incorrect">Das ist für <marker>deiner Frau</marker>.</example>
+      </rule>
+      <rule>
+      <!-- MAS|NEU SIN -->
+        <pattern mark_from="1" mark_to="-1" case_sensitive="yes">
+          <token regexp="yes">betreffend|durch|für|gegen|kontra|ohne|via|wider</token>
+          <token regexp="yes">dem(selben)?|(D|d|s|m)?einem|(eu|ih|Ih|unse)rem|(jede|jene|diese|alle)m</token>
+          <token postag="(ADJ|SUB):DAT:SIN:(MAS|NEU)" postag_regexp="yes"/>
+          <token><exception postag="ADJ:AKK:.+" postag_regexp="yes"/><exception>nach</exception></token>
+        </pattern>
+        <message>Die Präposition '\1' erfordert i.d.R. den Akkusativ.</message>
+        <url>http://www.canoo.net/services/OnlineGrammar/Wort/Praeposition/Kasus/Akkusativ.html</url>
+        <short>Diese Präposition erfordert den Akkusativ</short>
+        <example type="correct">Das ist wider <marker>den Verstand</marker>.</example>
+        <example type="correct">Das ist für <marker>das Bild</marker>.</example>
+        <example type="incorrect">Das ist für <marker>dem Bild</marker>.</example>
+        <example type="incorrect">Das ist für <marker>deinem Mann</marker>.</example>
+      </rule>
+      <rule>
+      <!-- MAS|NEU PLU -->
+        <pattern mark_from="1" mark_to="-1" case_sensitive="yes">
+          <token regexp="yes">betreffend|durch|für|gegen|kontra|ohne|via|wider</token>
+          <token regexp="yes">den(selben)?|(D|d|s|m)?einen|(eu|ih|Ih|unse)ren|(jede|jene|diese|alle)n</token>
+          <token postag="(ADJ|SUB):DAT:PLU:(MAS|NEU)" postag_regexp="yes"><exception postag="(ADJ|SUB):AKK:(SIN|PLU):(MAS|NEU)" postag_regexp="yes"/></token>
+          <token><exception postag="ADJ:AKK:.+" postag_regexp="yes"/><exception>nach</exception></token>
+        </pattern>
+        <message>Die Präposition '\1' erfordert i.d.R. den Akkusativ.</message>
+        <url>http://www.canoo.net/services/OnlineGrammar/Wort/Praeposition/Kasus/Akkusativ.html</url>
+        <short>Diese Präposition erfordert den Akkusativ</short>
+        <example type="correct">Das ist für <marker>die Bilder</marker>.</example>
+        <example type="correct">Das ist für <marker>den Menschen</marker> unschädlich.</example>
+        <example type="incorrect">Das ist für <marker>den Bildern</marker>.</example>
+        <example type="incorrect">Das ist für <marker>den Männern</marker>.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="ART_ADJ_SOL" name="Grammatik: Stark flektiertes Adjektiv nach Artikel, z.B. 'im heißem (heißen) Ofen'">
       <rule>
         <pattern mark_from="1" mark_to="0">
