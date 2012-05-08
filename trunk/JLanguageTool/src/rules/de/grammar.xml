@@ -5614,8 +5614,19 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         </pattern>
         <message>Die Bedeutung des Substantivs \2 beinhaltet bereits das durch das Adjektiv \1 ausgedrückte Merkmal. In vielen Kontexten kann diese Formulierung deswegen redundant erscheinen. Vorschlag: <suggestion>\2</suggestion></message>
         <short>&redundanz;</short>
-        <example type="incorrect">Die <marker>jüdische Synagoge</marker> befindet sich in einer Seitenstraße.</example>
+        <example type="incorrect" correction="Synagoge">Die <marker>jüdische Synagoge</marker> befindet sich in einer Seitenstraße.</example>
         <example type="correct">Die <marker>Synagoge</marker> befindet sich in einer Seitenstraße.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token regexp="yes">islamischen?</token>
+          <token regexp="yes">Moscheen?</token>
+        </pattern>
+        <message>Die Bedeutung des Substantivs \2 beinhaltet bereits das durch das Adjektiv \1 ausgedrückte Merkmal. In vielen Kontexten kann diese Formulierung deswegen redundant erscheinen. Vorschlag: <suggestion>\2</suggestion></message>
+        <url>http://de.wikipedia.org/wiki/Moschee</url>
+        <short>&redundanz;</short>
+        <example type="incorrect" correction="Moschee">Die <marker>islamische Moschee</marker> befindet sich in einer Seitenstraße.</example>
+        <example type="correct">Die <marker>Moschee</marker> befindet sich in einer Seitenstraße.</example>
       </rule>
       <rule>
         <pattern case_sensitive="yes">
