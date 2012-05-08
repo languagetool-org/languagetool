@@ -10707,6 +10707,42 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect">Der Sauerstoff geht zur <marker>neige</marker>.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="MENGE_SUBST" name="Groß-/Kleinschreibung: 'in größeren mengen (Mengen)' usw.">
+      <rule>
+        <pattern case_sensitive="yes" mark_from="2">
+          <token skip="1" regexp="yes">[iI]n</token>
+          <token regexp="yes">großen|größeren|klein(er)?en|riesigen|rauen|solchen</token>
+          <token>mengen</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Mengen</suggestion>&subende;</message>
+        <short>&prgk;.</short>
+        <example type="incorrect" correction="Mengen">Es ist beim Verzehr in größeren <marker>mengen</marker> gesundheitsschädlich.</example>
+        <example type="correct">Es ist beim Verzehr in größeren <marker>Mengen</marker> gesundheitsschädlich.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="2">
+          <token skip="1" regexp="yes">[eE]ine</token>
+          <token regexp="yes">ganze|große|größere|klein(er)?e|riesige|solche</token>
+          <token>menge</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Menge</suggestion>&subende;</message>
+        <short>&prgk;.</short>
+        <example type="incorrect" correction="Menge">Wir haben eine größere <marker>menge</marker> Mehl im Schrank.</example>
+        <example type="correct">Wir haben eine größere <marker>Menge</marker> Mehl im Schrank.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="1" mark_to="-2">
+          <token skip="1" regexp="yes">[dD](ie|er)</token>
+          <token>menge</token>
+          <token skip="1">der</token>
+          <token>Zahlen</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Menge</suggestion>&subende;</message>
+        <short>&prgk;.</short>
+        <example type="incorrect" correction="Menge">Die <marker>menge</marker> der natürlichen Zahlen ist unendlich groß.</example>
+        <example type="correct">Die <marker>Menge</marker> der natürlichen Zahlen ist unendlich groß.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="REIHE_SUBST" name="Groß-/Kleinschreibung: 'an die reihe (Reihe) kommen' etc.">
       <rule>
         <pattern mark_from="1" mark_to="-1" case_sensitive="yes">
@@ -12408,6 +12444,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token>suche</token>
       </pattern>
       <message>&subanfang;<suggestion>Suche</suggestion>&subende;</message>
+      <short>&prgk;.</short>
       <example type="correct">Die <marker>Suche</marker> dauerte lange.</example>
       <example type="correct">Sie waren auf der <marker>Suche</marker> nach Felix.</example>
       <example type="incorrect">Die <marker>suche</marker> dauerte lange.</example>
@@ -12420,6 +12457,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token postag="VER:.*" postag_regexp="yes"/>
       </pattern>
       <message>&inwend;'des Weiteren' wird <suggestion>Weiteren</suggestion> großgeschrieben.</message>
+      <short>&prgk;.</short>
       <example type="correct">Des <marker>Weiteren</marker> sind alle Katzen blau.</example>
       <example type="correct">Und des <marker>Weiteren</marker> waren alle Katzen blau.</example>
       <example type="correct">Die Rechtsvorschrift zur Sicherung des <marker>weiteren</marker> Aufenthaltsrechtes.</example>
@@ -12432,6 +12470,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token>frage</token>
       </pattern>
       <message>&inwend;<suggestion>in Frage</suggestion> wird 'Frage' großgeschrieben.</message>
+      <short>&prgk;.</short>
       <example type="correct">etwas <marker>in Frage</marker> stellen</example>
       <example type="incorrect" correction="in Frage">etwas <marker>in frage</marker> stellen</example>
     </rule>
@@ -12505,6 +12544,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token>Tadel</token>
       </pattern>
       <message>&inwend;'ohne Fehl und Tadel' wird <suggestion>Fehl und Tadel</suggestion> großgeschrieben.</message>
+      <short>&prgk;.</short>
       <example type="correct">Ein Mann ohne <marker>Fehl und Tadel</marker>.</example>
       <example type="incorrect">Ein Politiker ohne <marker>fehl und Tadel</marker>.</example>
     </rule>
@@ -12516,16 +12556,18 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token>aber</token>
       </pattern>
       <message>&inwend;'ohne Wenn und Aber' wird <suggestion>Wenn und Aber</suggestion> großgeschrieben.</message>
+      <short>&prgk;.</short>
       <example type="correct">Das gilt ohne <marker>Wenn und Aber</marker>.</example>
       <example type="incorrect">Das gilt ohne <marker>wenn und aber</marker>.</example>
     </rule>
     <rule id="DAS_ERSTE_MAL" name="Groß-/Kleinschreibung: 'das erste mal (Mal)'">
       <pattern case_sensitive="yes" mark_from="2">
         <token regexp="yes">[Bb]eim|[Zz]um|[Dd]as</token>
-        <token regexp="yes">erste|ersten|letzte|letzten|vorige|vorigen</token>
+        <token regexp="yes">ersten?|letzten?|vorigen?</token>
         <token>mal</token>
       </pattern>
       <message>&inwend;'das erste/letzte Mal' wird <suggestion>Mal</suggestion> großgeschrieben.</message>
+      <short>&prgk;.</short>
       <example type="correct">Wann war es, als du ihn das erste <marker>Mal</marker> gesehen hast?</example>
       <example type="incorrect">Wann war es, als du ihn das erste <marker>mal</marker> gesehen hast?</example>
       <example type="incorrect">Wann war es, als du ihn zum ersten <marker>mal</marker> gesehen hast?</example>
@@ -12603,17 +12645,35 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct">Die SPD meuchelt aus <marker>Versehen</marker> ihren Chef.</example>
       <example type="incorrect">Die SPD meuchelt aus <marker>versehen</marker> ihren Chef.</example>
     </rule>
-    <rule id="AUF_DEM_LAUFENDEN" name="Groß-/Kleinschreibung: 'auf dem laufenden (Laufenden)'">
-      <pattern case_sensitive="yes" mark_from="2">
-        <token>auf</token>
-        <token>dem</token>
-        <token>laufenden</token>
-      </pattern>
-      <message>&inwend;'auf dem Laufenden' wird <suggestion>Laufenden</suggestion> großgeschrieben.</message>
-      <short>&prgk;.</short>
-      <example type="correct">Bitte halte mich auf dem <marker>Laufenden</marker>.</example>
-      <example type="incorrect">Bitte halte mich auf dem <marker>laufenden</marker></example>
-    </rule>
+    <rulegroup id="AUF_DEM_LAUFENDEN" name="Groß-/Kleinschreibung: 'auf dem laufenden (Laufenden) halten'">
+      <rule>
+        <pattern case_sensitive="yes" mark_from="4">
+          <token inflected="yes">halten</token>
+          <token regexp="yes">mich|[dD]ich|[sS]ie|[eE]uch|uns|ihn|jemand(en)?|einen</token>
+          <token>auf</token>
+          <token>dem</token>
+          <token>laufenden</token>
+        </pattern>
+        <message>&inwend;'jmd. auf dem Laufenden halten' wird <suggestion>Laufenden</suggestion> großgeschrieben.</message>
+        <short>&prgk;.</short>
+        <example type="correct">Bitte halte mich auf dem <marker>Laufenden</marker>.</example>
+        <example type="incorrect">Bitte halte mich auf dem <marker>laufenden</marker></example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="2" mark_to="-1">
+          <token regexp="yes">[aA]uf</token>
+          <token>dem</token>
+          <token skip="1">laufenden<exception postag="SENT_END" scope="next"/></token>
+          <token inflected="yes">halten</token>
+        </pattern>
+        <message>&inwend;'jmd. auf dem Laufenden halten' wird <suggestion>Laufenden</suggestion> großgeschrieben.</message>
+        <short>&prgk;.</short>
+        <example type="correct">Bitte versucht mich auf dem <marker>Laufenden</marker> zu halten.</example>
+        <example type="correct">Auf dem <marker>laufenden</marker> Band läuft das schmutzige Geschirr in die Spülmaschine.</example>
+        <example type="incorrect" correction="Laufenden">Bitte versucht mich auf dem <marker>laufenden</marker> zu halten.</example>
+        <example type="incorrect" correction="Laufenden">Wir werden dich auf dem <marker>laufenden</marker> halten.</example>
+      </rule>
+    </rulegroup>
     <rule id="ETWAS_WICHTIGES" name="Groß-/Kleinschreibung: 'etwas/nichts wichtiges (Wichtiges)'">
       <pattern case_sensitive="yes" mark_from="1">
         <token regexp="yes">etwas|nichts</token>
@@ -12681,16 +12741,78 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect" correction="Gute">Ich habe ganz vergessen, alles <marker>gute</marker> zu wünschen!</example>
       </rule>
     </rulegroup>
-    <rule id="ZU_BUCHE" name="Groß-/Kleinschreibung: 'zu buche (Buche) schlagen'">
-      <pattern case_sensitive="yes" mark_from="1">
-        <token>zu</token>
-        <token>buche</token>
-      </pattern>
-      <message>&inwend;'zu Buche schlagen' schreibt man <suggestion>Buche</suggestion> groß.</message>
-      <short>&prgk;.</short>
-      <example type="correct">Das schlägt nicht so sehr zu <marker>Buche</marker>.</example>
-      <example type="incorrect">Das schlägt nicht so sehr zu <marker>buche</marker>.</example>
-    </rule>
+    <rulegroup id="ZU_BUCHE" name="Groß-/Kleinschreibung: 'zu buche (Buche) schlagen'">
+      <rule>
+        <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
+          <token>zu</token>
+          <token skip="1">buche<exception postag="SENT_END" scope="next"/></token>
+          <token inflected="yes">schlagen</token>
+        </pattern>
+        <message>&inwend;'zu Buche schlagen' schreibt man <suggestion>Buche</suggestion> groß.</message>
+        <short>&prgk;.</short>
+        <example type="correct">Das wird mit 50,– € zu <marker>Buche</marker> schlagen.</example>
+        <example type="incorrect" correction="Buche">Das wird mit 50,– € zu <marker>buche</marker> schlagen.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="2">
+          <token inflected="yes" skip="4">schlagen<exception postag="SENT_END" scope="next"/></token>
+          <token>zu</token>
+          <token>buche</token>
+        </pattern>
+        <message>&inwend;'zu Buche schlagen' schreibt man <suggestion>Buche</suggestion> groß.</message>
+        <short>&prgk;.</short>
+        <example type="correct">Das schlägt nicht so sehr zu <marker>Buche</marker>.</example>
+        <example type="incorrect">Das schlägt nicht so sehr zu <marker>buche</marker>.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="ZUM_BESTEN_GEBEN" name="Groß-/Kleinschreibung: 'zum besten (Besten) geben'">
+      <rule>
+        <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
+          <token>zum</token>
+          <token skip="1">besten<exception postag="SENT_END" scope="next"/></token>
+          <token inflected="yes">geben</token>
+        </pattern>
+        <message>&inwend;'zum Besten geben' schreibt man <suggestion>Besten</suggestion> groß.</message>
+        <short>&prgk;.</short>
+        <example type="correct">Da hat er sein Standardrepertoire zum <marker>Besten</marker> gegeben.</example>
+        <example type="incorrect" correction="Besten">Da hat er sein Standardrepertoire zum <marker>besten</marker> gegeben.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="2">
+          <token inflected="yes" skip="4">geben<exception postag="SENT_END" scope="next"/></token>
+          <token>zum</token>
+          <token>besten</token>
+        </pattern>
+        <message>&inwend;'zum Besten geben' schreibt man <suggestion>Besten</suggestion> groß.</message>
+        <short>&prgk;.</short>
+        <example type="correct">Da gibt er es wieder zum <marker>Besten</marker>.</example>
+        <example type="incorrect" correction="Besten">Da gibt er es wieder zum <marker>besten</marker>.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="ZUM_NARREN_HALTEN" name="Groß-/Kleinschreibung: 'zum narren (Narren) halten'">
+      <rule>
+        <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
+          <token>zum</token>
+          <token skip="1">narren<exception postag="SENT_END" scope="next"/></token>
+          <token inflected="yes">halten</token>
+        </pattern>
+        <message>&inwend;'zum Narren halten' schreibt man <suggestion>Narren</suggestion> groß.</message>
+        <short>&prgk;.</short>
+        <example type="correct">Da hat er mich zum <marker>Narren</marker> gehalten.</example>
+        <example type="incorrect" correction="Narren">Da hat er mich zum <marker>narren</marker> gehalten.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="2">
+          <token inflected="yes" skip="2">halten<exception postag="SENT_END" scope="next"/></token>
+          <token>zum</token>
+          <token>narren</token>
+        </pattern>
+        <message>&inwend;'zum Narren halten' schreibt man <suggestion>Narren</suggestion> groß.</message>
+        <short>&prgk;.</short>
+        <example type="correct">Du hältst mich hier zum <marker>Narren</marker>.</example>
+        <example type="incorrect" correction="Narren">Du hältst mich hier zum <marker>narren</marker>.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="DIE_FRAGE_IST" name="Groß-/Kleinschreibung: 'die frage (Frage) ist' etc.">
       <rule>
         <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
@@ -14270,7 +14392,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <rule>
         <pattern>
           <token>mit</token>
-          <token>Sumpf</token>
+          <token regexp="yes">S(tr)?umpf</token>
           <token>und</token>
           <token>Stiel</token>
         </pattern>
