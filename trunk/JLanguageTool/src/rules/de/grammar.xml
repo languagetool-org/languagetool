@@ -5527,6 +5527,16 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       </rule>
       <rule>
         <pattern case_sensitive="yes">
+          <token regexp="yes">[kK]atholische[mnr]?</token>
+          <token inflected="yes">Papst</token>
+        </pattern>
+        <message>Die Bedeutung des Substantivs \2 beinhaltet bereits das durch das Adjektiv \1 ausgedrückte Merkmal. In vielen Kontexten kann diese Formulierung deswegen redundant erscheinen. Vorschlag: <suggestion>\2</suggestion>, oder weichen Sie auf ein anderes Adjektiv aus.</message>
+        <short>&redundanz;</short>
+        <example type="incorrect" correction="Papst">Der <marker>katholische Papst</marker> kommt zu Besuch.</example>
+        <example type="correct">Der <marker>Papst</marker> kommt zu Besuch.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
           <token regexp="yes">[eE]invernehmliche[nr]?</token>
           <token>Konsens</token>
         </pattern>
@@ -15075,10 +15085,27 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token postag="SENT_END"/>
         </pattern>
         <message>Innerhalb von doppelten Anführungszeichen sollten einfache verwendet werden. Vorschlag: <suggestion>‚<match no="3" include_skipped="following"/>‘</suggestion></message>
-        <short>Verwenden Sie einfache Anführungszeichen.</short>
+        <url>http://de.wikipedia.org/wiki/Anf%C3%BChrungszeichen#Typografische_Anf.C3.BChrungszeichen</url>
+        <short>Verwenden Sie hier bitte einfache Anführungszeichen.</short>
         <example type="correct">„Verschachtelte <marker>‚Anführungszeichen‘</marker>“ sind kompliziert.</example>
         <example type="incorrect" correction="‚Anführungszeichen‘">„Verschachtelte <marker>„Anführungszeichen“</marker> sind kompliziert.“ Hier geht der Text weiter.</example>
         <example type="incorrect" correction="‚Anführungszeichen‘">Sie sagte: „Verschachtelte <marker>„Anführungszeichen“</marker> sind kompliziert.“ Hier geht der Text weiter.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2" mark_to="-2">
+          <token skip="-1" postag="SENT_START"/>
+          <token skip="-1">»<exception scope="next">«</exception></token>
+          <token skip="-1" spacebefore="yes">»</token>
+          <token skip="-1" spacebefore="no">«</token>
+          <token skip="-1" spacebefore="no">«<exception scope="next">«</exception></token>
+          <token postag="SENT_END"/>
+        </pattern>
+        <message>Innerhalb von doppelten Anführungszeichen sollten einfache verwendet werden. Vorschlag: <suggestion>›<match no="3" include_skipped="following"/>‹</suggestion></message>
+        <url>http://de.wikipedia.org/wiki/Anf%C3%BChrungszeichen#Typografische_Anf.C3.BChrungszeichen</url>
+        <short>Verwenden Sie hier bitte einfache Anführungszeichen.</short>
+        <example type="correct">»Verschachtelte <marker>›Anführungszeichen‹</marker>« sind kompliziert.</example>
+        <example type="incorrect" correction="›Anführungszeichen‹">»Verschachtelte <marker>»Anführungszeichen«</marker> sind kompliziert.« Hier geht der Text weiter.</example>
+        <example type="incorrect" correction="›Anführungszeichen‹">Sie sagte: »Verschachtelte <marker>»Anführungszeichen«</marker> sind kompliziert.« Hier geht der Text weiter.</example>
       </rule>
     </rulegroup>
     <rulegroup id="AKZENT_STATT_APOSTROPH" name="Zeichensetzung/Typographie: Akzent statt Apostroph">
