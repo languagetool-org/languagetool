@@ -78,6 +78,8 @@ $Id: grammar.xml,v 1.10 2010/09/04 11:47:45 milek_pl Exp $
    in cifre se minori di 10			ST_04_001	ok
    in cifre se minori di 100			ST_04_002	ok
 
+ Errori comuni                                  ER_01
+
  ================================================================================
 -->
 
@@ -425,7 +427,7 @@ $Id: grammar.xml,v 1.10 2010/09/04 11:47:45 milek_pl Exp $
 				<pattern mark_from="0" mark_to="-1">
 					<token>a</token>
 					<token>nome</token>
-					<token postag_regexp="yes" postag="NPR"/>
+                                       <token postag="NPR"/>
 				</pattern>
 				<message>La forma corretta è <suggestion>di nome</suggestion> e non a nome.</message>
 				<example type="incorrect">Una ragazza <marker>a nome</marker> Francesca.</example>
@@ -725,7 +727,7 @@ $Id: grammar.xml,v 1.10 2010/09/04 11:47:45 milek_pl Exp $
 <!--
 					<token postag_regexp="yes" postag="PRO-PERS-CLI.*"/>
 -->
-					<token postag_regexp="yes" postag="PRO-PERS-CLI.*"><exception postag="CON" postag_regexp="yes"></exception></token>
+                                       <token postag_regexp="yes" postag="PRO-PERS-CLI.*"><exception postag="CON" ></exception></token>
 <!-- PB005- -->
 					<token>da</token>
 				</pattern>
@@ -1185,9 +1187,250 @@ $Id: grammar.xml,v 1.10 2010/09/04 11:47:45 milek_pl Exp $
 		</rulegroup>
 	</category>
 
-</rules>
+       <!-- ERRORI COMUNI - ER_01 -->
+       <category name="Errori comuni - voci del verbo 'avere'"> 
+               <rulegroup name="scambio di 'a' ed 'ha'" id="ER_01_001">
+                       <rule>
+                               <!-- "a" + un participio passato -->
+                               <pattern>
+                                       <token>a</token>
+                                       <token postag="VER:part.+past.*" postag_regexp="yes" />
+                               </pattern>
+                               <message>Forse volevi dire <suggestion>ha <match no="2"/></suggestion>?</message>
+                               <example type="incorrect">La mamma <marker>a fatto</marker> la spesa.</example>
+                               <example type="correct">La mamma <marker>ha fatto</marker> la spesa.</example>
+                       </rule>
+                       <rule>
+                               <!-- "a" + un sostantivo plurale -->
+                               <pattern>
+                                       <token>a</token>
+                                       <token postag="NOUN.+p" postag_regexp="yes" />
+                               </pattern>
+                               <message>Forse volevi dire <suggestion>ha <match no="2"/></suggestion>?</message>
+                               <example type="incorrect">Piero <marker>a soldi</marker> con sé?.</example>
+                               <example type="correct">Piero <marker>ha soldi</marker> con se?.</example>
+                       </rule>
+                       <rule default="off" name="suggerisci sempre lo scambio di 'a' con 'ha'" id="ER_01_001a">
+                               <pattern>
+                                       <token>a</token>
+                               </pattern>
+                               <message>Forse volevi dire <suggestion>ha</suggestion>?</message>
+                               <example type="incorrect">Piero <marker>a</marker> un cane.</example>
+                               <example type="correct">Piero <marker>ha</marker> un cane.</example>
+                       </rule>
+               </rulegroup>
+               <rulegroup name="scambio di 'ai' ed 'hai'" id="ER_01_002">
+                       <rule>
+                               <!-- "ai" + un participio passato -->
+                               <pattern>
+                                       <token>ai</token>
+                                       <token postag="VER:part.+past.*" postag_regexp="yes" />
+                               </pattern>
+                               <message>Forse volevi dire <suggestion>hai <match no="2"/></suggestion>?</message>
+                               <example type="incorrect"><marker>Ai fatto</marker> i compiti?</example>
+                               <example type="correct"><marker>Hai fatto</marker> i compiti?</example>
+                       </rule>
+                       <rule>
+                               <!-- "ai" + un sostantivo singolare -->
+                               <pattern>
+                                       <token>ai</token>
+                                       <token postag="NOUN.+s" postag_regexp="yes" />
+                               </pattern>
+                               <message>Forse volevi dire <suggestion>hai <match no="2"/></suggestion>?</message>
+                               <example type="incorrect"><marker>Ai fame</marker>?</example>
+                               <example type="correct"><marker>Hai fame</marker>?</example>
+                       </rule>
+                       <rule>
+                               <!-- "ai" + articolo/aggettivo/etc singolare -->
+                               <pattern>
+                                       <token>ai</token>
+                                       <token postag="(ADJ|ART|ARTPRE|DET-INDEF|DET-NUM-CARD).+s" postag_regexp="yes" />
+                               </pattern>
+                               <message>Forse volevi dire <suggestion>ha <match no="2"/></suggestion>?</message>
+                               <example type="incorrect">Tu <marker>ai un</marker> bel cane.</example>
+                               <example type="correct">Tu <marker>hai un</marker> bel cane.</example>
+                       </rule>
+                       <rule default="off" name="suggerisci sempre lo scambio di 'ai' con 'hai'" id="ER_01_002a">
+                               <pattern>
+                                       <token>ai</token>
+                               </pattern>
+                               <message>Forse volevi dire <suggestion>hai</suggestion>?</message>
+                               <example type="incorrect">Piero, tu <marker>ai</marker> un cane?</example>
+                               <example type="correct">Piero, tu <marker>hai</marker> un cane?</example>
+                       </rule>
+               </rulegroup>
+               <rulegroup name="scambio di 'anno' ed 'hanno'" id="ER_01_003">
+                       <rule>
+                               <!-- "anno" + un participio passato -->
+                               <pattern>
+                                       <token>anno</token>
+                                       <token postag="VER:part.+past.*" postag_regexp="yes" />
+                               </pattern>
+                               <message>Forse volevi dire <suggestion>hanno <match no="2"/></suggestion>?</message>
+                               <example type="incorrect"><marker>Anno fatto</marker> i compiti?</example>
+                               <example type="correct"><marker>Hanno fatto</marker> i compiti?</example>
+                       </rule>
+                       <rule>
+                               <!-- "anno" + articolo -->
+                               <pattern>
+                                       <token>anno</token>
+                                       <token postag="(ART|ARTPRE|DET-INDEF|DET-NUM-CARD).*" postag_regexp="yes" />
+                               </pattern>
+                               <message>Forse volevi dire <suggestion>ha <match no="2"/></suggestion>?</message>
+                               <example type="incorrect">Piero e Cinzia <marker>anno un</marker> bel cane.</example>
+                               <example type="correct">Piero e Cinzia <marker>hanno un</marker> bel cane.</example>
+                       </rule>
+               </rulegroup>
+               <rule name="scambio di 'o' ed 'ho'" id="ER_01_004">
+                 <!-- "o" + un participio passato -->
+                 <pattern>
+                   <token>o</token>
+                   <token postag="VER:part.+past.*" postag_regexp="yes" />
+                 </pattern>
+                 <message>Forse volevi dire <suggestion>ho <match no="2"/></suggestion>?</message>
+                 <example type="incorrect">Non <marker>o fatto</marker> i compiti.</example>
+                 <example type="correct">Non <marker>ho fatto</marker> i compiti.</example>
+               </rule>
+       </category>
 
-
-
-
+       <category name="Errori comuni - ortografia"> 
+         <!-- 
+              Casi in cui il correttore ortografico non interviene
+              perché entrambi i lemmi esistono in italiano.
+         -->
+         <rulegroup name="scambio di 'ala' ed 'alla'" id="ER_02_001">
+           <rule>
+             <!-- "ala" + sostantivo -->
+             <pattern>
+               <token>ala</token>
+               <token postag="NOUN-F.*" postag_regexp="yes" />
+             </pattern>
+             <message>Forse volevi dire <suggestion>alla <match no="2"/></suggestion>?</message>
+             <example type="incorrect">Ho dato un bacio <marker>ala mamma</marker>.</example>
+             <example type="correct">Ho dato un bacio <marker>alla mamma</marker>.</example>
+           </rule>
+           <rule>
+             <!-- "ala" + aggettivo + sostantivo -->
+             <pattern>
+               <token>ala</token>
+               <token postag="(ADJ|DET).*" postag_regexp="yes" />
+               <token postag="NOUN-F.*" postag_regexp="yes" />
+             </pattern>
+             <message>Forse volevi dire <suggestion>alla <match no="2"/> <match no="3"/></suggestion>?</message>
+             <example type="incorrect">Ho dato un bacio <marker>ala mia mamma</marker>.</example>
+             <example type="correct">Ho dato un bacio <marker>alla mia mamma</marker>.</example>
+           </rule>
+         </rulegroup>
+         <rulegroup name="scambio di 'la' e 'al'" id="ER_02_002">
+           <rule>
+             <!-- "la" + sostantivo maschile -->
+             <pattern>
+               <token>la</token>
+               <token postag="NOUN-M:s" />
+             </pattern>
+             <message>Forse volevi dire <suggestion>al <match no="2"/></suggestion>?</message>
+             <example type="incorrect">Sono andato <marker>la circo</marker>.</example>
+             <example type="correct">Sono andato <marker>al circo</marker>.</example>
+           </rule>
+           <rule>
+             <!-- "la" + aggettivo maschile -->
+             <pattern>
+               <token>la</token>
+               <!-- serve il "\+m" con ADJ perché la 'm' compare anche in 'ADJ:comp+f' -->
+               <token postag="(ADJ.+\+m|DET.+:m).*" postag_regexp="yes" />
+             </pattern>
+             <message>Forse volevi dire <suggestion>al <match no="2"/></suggestion>?</message>
+             <example type="incorrect">Ho portato un regalo <marker>la mio</marker> papà.</example>
+             <example type="correct">Ho portato un regalo <marker>al mio</marker> papà.</example>
+           </rule>
+           <rule>
+             <!-- "al" + sostantivo femminile -->
+             <pattern>
+               <token>al</token>
+               <token postag="NOUN-F:s" />
+             </pattern>
+             <message>Forse volevi dire <suggestion>la <match no="2"/></suggestion>?</message>
+             <example type="incorrect">Ho mangiato <marker>al mela</marker>.</example>
+             <example type="correct">Ho mangiato <marker>la mela</marker>.</example>
+           </rule>
+           <rule>
+             <!-- "al" + aggettivo + sostantivo femminile -->
+             <pattern>
+               <token>al</token>
+               <token postag="(ADJ.+\+f|DET.+:f).*" postag_regexp="yes" />
+             </pattern>
+             <message>Forse volevi dire <suggestion>la <match no="2"/></suggestion>?</message>
+             <example type="incorrect">Ho mangiato <marker>al tua</marker> merenda.</example>
+             <example type="correct">Ho mangiato <marker>la tua</marker> merenda.</example>
+           </rule>
+         </rulegroup>
+         <rulegroup name="scambio di 'li' e 'il'" id="ER_02_003">
+           <rule>
+             <!-- "li" + sostantivo maschile -->
+             <pattern>
+               <token>li</token>
+               <token postag="NOUN-M:s" />
+             </pattern>
+             <message>Forse volevi dire <suggestion>il <match no="2"/></suggestion>?</message>
+             <example type="incorrect"><marker>Li gatto</marker> dormiva tranquillo.</example>
+             <example type="correct"><marker>Il gatto</marker> dormiva tranquillo.</example>
+           </rule>
+           <rule>
+             <!-- "li" + aggettivo + sostantivo maschile -->
+             <pattern>
+               <token>li</token>
+               <!-- serve il "\+m" con ADJ perché la 'm' compare anche in 'ADJ:comp+f' -->
+               <token postag="(ADJ.+\+m|DET.+:m).*" postag_regexp="yes" />
+             </pattern>
+             <message>Forse volevi dire <suggestion>il <match no="2"/></suggestion>?</message>
+             <example type="incorrect"><marker>Li mio</marker> gatto dormiva tranquillo.</example>
+             <example type="correct"><marker>Il mio</marker> gatto dormiva tranquillo.</example>
+             <example type="incorrect"><marker>Li bel</marker> gatto dormiva tranquillo.</example>
+             <example type="correct"><marker>Il bel</marker> gatto dormiva tranquillo.</example>
+           </rule>
+         </rulegroup>
+         <rulegroup name="scambio di 'là' e 'la'" id="ER_02_004">
+           <rule>
+             <!-- 'là' + sostantivo femminile quasi certamente è 'la' -->
+             <pattern>
+               <token>là</token>
+               <token postag="NOUN-F.*" postag_regexp="yes" />
+             </pattern>
+             <message>Forse volevi dire <suggestion>la <match no="2"/></suggestion>?</message>
+             <example type="incorrect"><marker>Là gatta</marker> dormiva tranquilla.</example>
+             <example type="correct"><marker>La gatta</marker> dormiva tranquilla.</example>
+           </rule>
+           <rule>
+             <!-- 'là' + aggettivo/articolo/etc. femminile quasi certamente è 'la' -->
+             <pattern>
+               <token>là</token>
+               <token postag="(ADJ.+\+f|DET.+:f).*" postag_regexp="yes" />
+             </pattern>
+             <message>Forse volevi dire <suggestion>la <match no="2"/></suggestion>?</message>
+             <example type="incorrect"><marker>Là mia</marker> gatta dormiva tranquilla.</example>
+             <example type="correct"><marker>La mia</marker> gatta dormiva tranquilla.</example>
+           </rule>
+           <rule>
+             <!-- 'la' prima della punteggiatura quasi certamente è 'là' -->
+             <pattern>
+               <token>la</token>
+               <token regexp="yes">\.|,|;|:|!|\?</token>
+             </pattern>
+             <message>Forse volevi dire <suggestion>là<match no="2"/></suggestion>?</message>
+             <example type="incorrect">Mettilo <marker>la.</marker></example>
+             <example type="correct">Mettilo <marker>là.</marker></example>
+           </rule>
+           <rule>
+             <!-- 'la' in fine di frase quasi certamente è 'là' -->
+             <pattern>
+               <token>la</token>
+               <token postag="SENT"/>
+             </pattern>
+             <message>Forse volevi dire <suggestion>là<match no="2"/></suggestion>?</message>
+             <example type="incorrect">Mettilo <marker>la.</marker></example>
+             <example type="correct">Mettilo <marker>là.</marker></example>
+           </rule>
+         </rulegroup>
+       </category>
  	  	 
+</rules>
