@@ -14471,19 +14471,34 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect">Ist Peter blöd<marker>.</marker></example>
       </rule>
     </rulegroup>
-    <rule id="ROCK_N_ROLL" name="Zeichensetzung: Apostroph in 'Rock 'n' Roll'">
-      <pattern>
-        <token>Rock</token>
-        <token skip="1"><exception regexp="yes">and|’n’|'n'</exception></token>
-        <token>Roll</token>
-      </pattern>
-      <message>Meinten Sie den Musikstil aus den fünfziger Jahren? Gängige Schreibweisen: <suggestion>Rock ’n’ Roll</suggestion>, <suggestion>Rock 'n' Roll</suggestion>, <suggestion>Rock and Roll</suggestion></message>
-      <example type="correct">Das ist <marker>Rock ’n’ Roll</marker>, Baby!</example>
-      <example type="correct">Das ist <marker>Rock 'n' Roll</marker>, Baby!</example>
-      <example type="correct">Das ist <marker>Rock and Roll</marker>, Baby!</example>
-      <example type="incorrect" correction="Rock ’n’ Roll|Rock 'n' Roll|Rock and Roll">Das ist <marker>Rock n´ Roll</marker>, Baby!</example>
-      <example type="incorrect" correction="Rock ’n’ Roll|Rock 'n' Roll|Rock and Roll">Das ist <marker>Rock n' Roll</marker>, Baby!</example>
-    </rule>
+    <rulegroup id="ROCK_N_ROLL" name="Zeichensetzung: Apostroph in 'Rock 'n' Roll'">
+      <rule>
+        <pattern>
+          <token>Rock</token>
+          <token skip="1"><exception regexp="yes">and|’n’|'n'</exception></token>
+          <token>Roll</token>
+        </pattern>
+        <message>Meinten Sie den Musikstil aus den fünfziger Jahren? Gängige Schreibweisen: <suggestion>Rock ’n’ Roll</suggestion>, <suggestion>Rock 'n' Roll</suggestion>, <suggestion>Rock and Roll</suggestion></message>
+        <example type="correct">Das ist <marker>Rock ’n’ Roll</marker>, Baby!</example>
+        <example type="correct">Das ist <marker>Rock 'n' Roll</marker>, Baby!</example>
+        <example type="correct">Das ist <marker>Rock and Roll</marker>, Baby!</example>
+        <example type="incorrect" correction="Rock ’n’ Roll|Rock 'n' Roll|Rock and Roll">Das ist <marker>Rock n´ Roll</marker>, Baby!</example>
+        <example type="incorrect" correction="Rock ’n’ Roll|Rock 'n' Roll|Rock and Roll">Das ist <marker>Rock n' Roll</marker>, Baby!</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>Rhythm</token>
+          <token skip="1"><exception regexp="yes">and|’n’|'n'</exception></token>
+          <token>Blues</token>
+        </pattern>
+        <message>Meinten Sie den Musikstil aus den vierziger Jahren? Gängige Schreibweisen: <suggestion>Rhythm ’n’ Blues</suggestion>, <suggestion>Rhythm 'n' Blues</suggestion>, <suggestion>Rhythm and Blues</suggestion></message>
+        <example type="correct">Das ist <marker>Rhythm ’n’ Blues</marker>.</example>
+        <example type="correct">Das ist <marker>Rhythm 'n' Blues</marker>.</example>
+        <example type="correct">Das ist <marker>Rhythm and Blues</marker>.</example>
+        <example type="incorrect" correction="Rhythm ’n’ Blues|Rhythm 'n' Blues|Rhythm and Blues">Das ist <marker>Rhythm n´ Blues</marker>.</example>
+        <example type="incorrect" correction="Rhythm ’n’ Blues|Rhythm 'n' Blues|Rhythm and Blues">Das ist <marker>Rhythm n' Blues</marker>.</example>
+      </rule>
+    </rulegroup>
     <rule id="DOPPELTES_AUSRUFEZEICHEN" name="Zeichensetzung: mehrere Ausrufezeichen etc.">
       <pattern>
         <token regexp="yes">\!|\?</token>
@@ -15049,6 +15064,23 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
   <!-- Typographie -->
   <!-- ====================================================================== -->
   <category name="Typographie">
+    <rulegroup id="ANFUEHRUNG_VERSCHACHTELT" name="Zeichensetzung/Typographie: „Verschachtelte ‚Anführungszeichen‘“">
+      <rule>
+        <pattern mark_from="2" mark_to="-2">
+          <token skip="-1" postag="SENT_START"/>
+          <token skip="-1">„<exception scope="next">“</exception></token>
+          <token skip="-1" spacebefore="yes">„</token>
+          <token skip="-1" spacebefore="no">“</token>
+          <token skip="-1" spacebefore="no">“<exception scope="next">“</exception></token>
+          <token postag="SENT_END"/>
+        </pattern>
+        <message>Innerhalb von doppelten Anführungszeichen sollten einfache verwendet werden. Vorschlag: <suggestion>‚<match no="3" include_skipped="following"/>‘</suggestion></message>
+        <short>Verwenden Sie einfache Anführungszeichen.</short>
+        <example type="correct">„Verschachtelte <marker>‚Anführungszeichen‘</marker>“ sind kompliziert.</example>
+        <example type="incorrect" correction="‚Anführungszeichen‘">„Verschachtelte <marker>„Anführungszeichen“</marker> sind kompliziert.“ Hier geht der Text weiter.</example>
+        <example type="incorrect" correction="‚Anführungszeichen‘">Sie sagte: „Verschachtelte <marker>„Anführungszeichen“</marker> sind kompliziert.“ Hier geht der Text weiter.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="AKZENT_STATT_APOSTROPH" name="Zeichensetzung/Typographie: Akzent statt Apostroph">
       <rule>
         <pattern>
@@ -15117,10 +15149,10 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       </rule>
       <rule>
         <pattern mark_from="1">
-          <token regexp="yes" negate="yes">&nbsp;|&nnbsp;|&thinsp;|&klamauf;|&anfauf;|[a-z]</token>
+          <token regexp="yes" negate="yes">&nbsp;|&nnbsp;|&thinsp;|&klamauf;|&anfauf;|[a-zäöüÄÖÜ]</token>
           <token spacebefore="no">…</token>
         </pattern>
-        <message>Vor Auslassungspunkten sollte in der Regel ein geschütztes Leerzeichen stehen, außer wenn es sich um eine Auslassung mitten im Wort handelt. Vorschlag: <suggestion>&nbsp;…</suggestion></message>
+        <message>Vor Auslassungspunkten sollte in der Regel ein geschütztes Leerzeichen stehen, außer wenn es sich um eine Auslassung im Wortinneren handelt. Vorschlag: <suggestion>&nbsp;…</suggestion></message>
         <url>http://de.wikipedia.org/wiki/Auslassungspunkte</url>
         <short>Vor Auslassungspunkten sollte meist ein geschütztes Leerzeichen stehen.</short>
         <example type="correct">Er geht […] nach Hause.</example>
