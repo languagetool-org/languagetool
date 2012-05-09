@@ -21,8 +21,7 @@ package org.languagetool;
 import org.languagetool.databroker.DefaultResourceDataBroker;
 import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.gui.ResourceBundleWithFallback;
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.*;
 import org.languagetool.rules.patterns.FalseFriendRuleLoader;
 import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.rules.patterns.PatternRuleLoader;
@@ -521,8 +520,7 @@ public final class JLanguageTool {
       } else {
         if (lineBreakPos == 0) {
           columnCount = sentence.length();
-          if (!language.getSentenceTokenizer().
-              singleLineBreaksMarksPara()) {
+          if (!language.getSentenceTokenizer().singleLineBreaksMarksPara()) {
             columnCount--;
           }
         } else {
@@ -590,7 +588,8 @@ public final class JLanguageTool {
         }
       }
     }
-    return sentenceMatches;
+    final RuleMatchFilter filter = new SameRuleGroupFilter();
+    return filter.filter(sentenceMatches);
   }
 
   /**

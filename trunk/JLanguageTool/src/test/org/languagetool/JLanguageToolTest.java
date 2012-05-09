@@ -19,12 +19,17 @@
 package org.languagetool;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import junit.framework.TestCase;
 import org.languagetool.JLanguageTool.ParagraphHandling;
+import org.languagetool.rules.Category;
+import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.patterns.Element;
+import org.languagetool.rules.patterns.PatternRule;
 
 /**
  * @author Daniel Naber
@@ -210,5 +215,32 @@ public class JLanguageToolTest extends TestCase {
       i++;
     }
   }
-  
+
+  public void testOverlapFilter() throws IOException {
+    final Category category = new Category("test category");
+    final List<Element> elements1 = Arrays.asList(new Element("one", true, false, false));
+    final PatternRule rule1 = new PatternRule("id1", Language.ENGLISH, elements1, "desc1", "msg1", "shortMsg1");
+    rule1.setSubId("1");
+    rule1.setCategory(category);
+
+    final List<Element> elements2 = Arrays.asList(new Element("one", true, false, false), new Element("two", true, false, false));
+    final PatternRule rule2 = new PatternRule("id1", Language.ENGLISH, elements2, "desc2", "msg2", "shortMsg2");
+    rule2.setSubId("2");
+    rule2.setCategory(category);
+
+    final JLanguageTool tool = new JLanguageTool(Language.ENGLISH);
+    tool.addRule(rule1);
+    tool.addRule(rule2);
+
+    final List<RuleMatch> ruleMatches1 = tool.check("And one two three.");
+    assertEquals("one overlapping rule must be filtered out", 1, ruleMatches1.size());
+    assertEquals("msg1", ruleMatches1.get(0).getMessage());
+
+    final String sentence = "And one two three.";
+    final AnalyzedSentence analyzedSentence = tool.getAnalyzedSentence(sentence);
+    final List<Rule> bothRules = new ArrayList<Rule>(Arrays.asList(rule1, rule2));
+    final List<RuleMatch> ruleMatches2 = tool.checkAnalyzedSentence(ParagraphHandling.NORMAL, bothRules, 0, 0, 0, sentence, analyzedSentence);
+    assertEquals("one overlapping rule must be filtered out", 1, ruleMatches2.size());
+    assertEquals("msg1", ruleMatches2.get(0).getMessage());
+  }
 }
