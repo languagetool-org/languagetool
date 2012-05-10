@@ -25,107 +25,68 @@ import java.util.List;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.TestTools;
+import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import junit.framework.TestCase;
 
 public class EnglishUnpairedBracketsRuleTest extends TestCase {
 
+  private Rule rule;
+  private JLanguageTool langTool;
+  
+  @Override
+  public void setUp() throws IOException {
+    rule = new EnglishUnpairedBracketsRule(TestTools.getEnglishMessages(), Language.ENGLISH);
+    langTool = new JLanguageTool(Language.ENGLISH);
+  }
+  
   public void testRule() throws IOException {
-    EnglishUnpairedBracketsRule rule = new EnglishUnpairedBracketsRule(TestTools
-        .getEnglishMessages(), Language.ENGLISH);
-    RuleMatch[] matches;
-    JLanguageTool langTool = new JLanguageTool(Language.ENGLISH);
     // correct sentences:
-    matches = rule.match(langTool
-        .getAnalyzedSentence("(This is a test sentence)."));
-    assertEquals(0, matches.length);
-    matches = rule
-        .match(langTool.getAnalyzedSentence("This is a word 'test'."));
-    assertEquals(0, matches.length);
-    matches = rule.match(langTool
-        .getAnalyzedSentence("This is the joint presidents' declaration."));
-    assertEquals(0, matches.length);
-    matches = rule.match(langTool
-        .getAnalyzedSentence("The screen is 20\" wide."));
-    assertEquals(0, matches.length);
-    matches = rule.match(langTool
-        .getAnalyzedSentence("This is a [test] sentence..."));
-    assertEquals(0, matches.length);
-    matches = rule
-        .match(langTool
-            .getAnalyzedSentence("The plight of Tamil refugees caused a surge of support from most of the Tamil political parties.[90]"));
-    assertEquals(0, matches.length);
-    matches = rule
-        .match(langTool
-            .getAnalyzedSentence("This is what he said: \"We believe in freedom. This is what we do.\""));
-    assertEquals(0, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("(([20] [20] [20]))"));
-    assertEquals(0, matches.length);
+    assertCorrect("(This is a test sentence).");
+    assertCorrect("This is a word 'test'.");
+    assertCorrect("This is the joint presidents' declaration.");
+    assertCorrect("The screen is 20\" wide.");
+    assertCorrect("This is a [test] sentence...");
+    assertCorrect("The plight of Tamil refugees caused a surge of support from most of the Tamil political parties.[90]");
+    assertCorrect("This is what he said: \"We believe in freedom. This is what we do.\"");
+    assertCorrect("(([20] [20] [20]))");
     // test for a case that created a false alarm after disambiguation
-    matches = rule.match(langTool
-        .getAnalyzedSentence("This is a \"special test\", right?"));
-    assertEquals(0, matches.length);
+    assertCorrect("This is a \"special test\", right?");
     // numerical bullets
-    matches = rule.match(langTool
-        .getAnalyzedSentence("We discussed this in Chapter 1)."));
-    assertEquals(0, matches.length);
-    matches = rule.match(langTool
-        .getAnalyzedSentence("The jury recommended that: (1) Four additional deputies be employed."));
-    assertEquals(0, matches.length);
-    matches = rule.match(langTool
-        .getAnalyzedSentence("We discussed this in section 1a)."));
-    assertEquals(0, matches.length);
-    matches = rule.match(langTool
-        .getAnalyzedSentence("We discussed this in section iv)."));
-    assertEquals(0, matches.length);
-
+    assertCorrect("We discussed this in Chapter 1).");
+    assertCorrect("The jury recommended that: (1) Four additional deputies be employed.");
+    assertCorrect("We discussed this in section 1a).");
+    assertCorrect("We discussed this in section iv).");
     //inches exception shouldn't match " here:
-    matches = rule.match(langTool
-        .getAnalyzedSentence("In addition, the government would pay a $1,000 \"cost of education\" grant to the schools."));
-    assertEquals(0, matches.length);
+    assertCorrect("In addition, the government would pay a $1,000 \"cost of education\" grant to the schools.");
+    assertCorrect("Paradise lost to the alleged water needs of Texas' big cities Thursday.");
+    assertCorrect("Kill 'em all!");
+    assertCorrect("Puttin' on the Ritz");
 
-    matches = rule.match(langTool
-        .getAnalyzedSentence("Paradise lost to the alleged water needs of Texas' big cities Thursday."));
-    assertEquals(0, matches.length);
-
-    matches = rule.match(langTool
-        .getAnalyzedSentence("Kill 'em all!"));
-    assertEquals(0, matches.length);
-
-    matches = rule.match(langTool
-        .getAnalyzedSentence("Puttin' on the Ritz"));
-    assertEquals(0, matches.length);    
-    
     // incorrect sentences:
-    matches = rule.match(langTool
-        .getAnalyzedSentence("(This is a test sentence."));
-    assertEquals(1, matches.length);
-    
-    //tests for Edward's bug
-    matches = rule.match(langTool
-        .getAnalyzedSentence("This is a test with an apostrophe &'."));
-    assertEquals(1, matches.length);
-    matches = rule.match(langTool
-        .getAnalyzedSentence("&'"));
-    assertEquals(1, matches.length);
-    matches = rule.match(langTool
-        .getAnalyzedSentence("!'"));
-    assertEquals(1, matches.length);
-    matches = rule.match(langTool
-        .getAnalyzedSentence("What?'"));
-    assertEquals(1, matches.length);
-    //
-    matches = rule.match(langTool
-        .getAnalyzedSentence("(This is a test” sentence."));
+    assertIncorrect("(This is a test sentence.");
+    assertIncorrect("This is a test with an apostrophe &'.");
+    assertIncorrect("&'");
+    assertIncorrect("!'");
+    assertIncorrect("What?'");
+
+    RuleMatch[] matches;
+    matches = rule.match(langTool.getAnalyzedSentence("(This is a test” sentence."));
     assertEquals(2, matches.length);
-    matches = rule.match(langTool
-        .getAnalyzedSentence("This is a {test sentence."));
-    assertEquals(1, matches.length);
-    matches = rule.match(langTool
-        .getAnalyzedSentence("This [is (a test} sentence."));
+    matches = rule.match(langTool.getAnalyzedSentence("This [is (a test} sentence."));
     assertEquals(3, matches.length);
   }
 
+  private void assertCorrect(String sentence) throws IOException {
+    final RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(sentence));
+    assertEquals(0, matches.length);
+  }
+
+  private void assertIncorrect(String sentence) throws IOException {
+    final RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(sentence));
+    assertEquals(1, matches.length);
+  }
+  
   public void testMultipleSentences() throws IOException {
     final JLanguageTool tool = new JLanguageTool(Language.ENGLISH);
     tool.enableRule("EN_UNPAIRED_BRACKETS");
@@ -147,5 +108,4 @@ public class EnglishUnpairedBracketsRuleTest extends TestCase {
     assertEquals(2, matches.size());
   }
 
-  
 }
