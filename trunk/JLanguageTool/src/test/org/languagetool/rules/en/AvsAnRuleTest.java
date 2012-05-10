@@ -91,6 +91,11 @@ public class AvsAnRuleTest extends TestCase {
 
     //Test on apostrophes    
     assertCorrect("Its name in English is a[1] (), plural A's, As, as, or a's.");
+
+    // Both are correct according to Merriam Webster (http://www.merriam-webster.com/dictionary/a%5B2%5D),
+    // although some people disagree (http://www.theslot.com/a-an.html):
+    assertCorrect("An historic event");
+    assertCorrect("A historic event");
   }
 
   private void assertCorrect(String sentence) throws IOException {

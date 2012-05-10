@@ -93,10 +93,14 @@ public class AvsAnRule extends EnglishRule {
       }
       if (requiresAn.contains(token.toLowerCase()) || requiresAn.contains(token)) {
         if (isException) {
-          throw new IllegalStateException(token + " is listed in both det_a.txt and det_an.txt");
+          // some words allow both 'a' and 'an', e.g. 'historical':
+          isException = true;
+          doesRequireA = false;
+          doesRequireAn = false;
+        } else {
+          isException = true;
+          doesRequireAn = true;
         }
-        isException = true;
-        doesRequireAn = true;
       }
 
       if (!isException) {
