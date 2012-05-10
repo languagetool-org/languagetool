@@ -5165,6 +5165,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       </rule>
     </rulegroup>
     <rulegroup id="FUER_UMSONST" name="Umgangssprachliche Verdoppelung: 'für umsonst'" default="off">
+      <!-- Recherchieren: Sagt das überhaupt irgendwer außerhalb des Ruhrgebiets? -->
       <rule>
         <pattern>
           <token>für</token>
@@ -5214,6 +5215,28 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <short>&redundanz;</short>
         <example type="correct">Das <marker>scheint</marker> zu stimmen.</example>
         <example type="incorrect">Das <marker>scheint anscheinend</marker> zu stimmen.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="ZEITLICH_SYNCHRON" name="Verdoppelung: 'zeitlich synchron'">
+      <rule>
+        <pattern>
+          <token>zeitlich</token>
+          <token inflected="yes">synchron</token>
+        </pattern>
+        <message>&redundanz;Das Adjektiv <suggestion>\2</suggestion> (von gr. χρόνος [chrónos] 'Zeit') beinhaltet bereits das Merkmal \1.</message>
+        <short>&redundanz;</short>
+        <example type="correct">Wir sollten das <marker>zeitlich</marker> aufeinander abstimmen.</example>
+        <example type="incorrect" correction="synchron">Die Prozesse laufen <marker>zeitlich synchron</marker> ab.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">zeitlichen?</token>
+          <token regexp="yes">Synchroni(zi)?tät</token>
+        </pattern>
+        <message>Die Bedeutung des Substantivs <suggestion>\2</suggestion> (von gr. χρόνος [chrónos] 'Zeit') beinhaltet bereits das durch das Adjektiv \1 ausgedrückte Merkmal. In vielen Kontexten kann diese Formulierung deswegen redundant erscheinen.</message>
+        <short>&redundanz;</short>
+        <example type="correct">Die <marker>Synchronität</marker> herzustellen ist nicht ganz leicht.</example>
+        <example type="incorrect" correction="Synchronität">Die <marker>zeitliche Synchronität</marker> herzustellen ist nicht ganz leicht.</example>
       </rule>
     </rulegroup>
     <rulegroup id="VERDOPPELUNG" name="Verdoppelung: 'meistens immer', 'schon bereits' etc.">
@@ -5653,6 +5676,17 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <short>&redundanz;</short>
         <example type="incorrect" correction="Moschee">Die <marker>islamische Moschee</marker> befindet sich in einer Seitenstraße.</example>
         <example type="correct">Die <marker>Moschee</marker> befindet sich in einer Seitenstraße.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token regexp="yes">(künstlich|geschaffen)e(n|s)?</token>
+          <token regexp="yes">Artefakt(en?)?</token>
+        </pattern>
+        <message>Die Bedeutung des Substantivs \2 beinhaltet bereits das durch das Adjektiv \1 ausgedrückte Merkmal. In vielen Kontexten kann diese Formulierung deswegen redundant erscheinen. Vorschlag: <suggestion>\2</suggestion></message>
+        <url>http://de.wikipedia.org/wiki/Moschee</url>
+        <short>&redundanz;</short>
+        <example type="incorrect" correction="Artefakt">Das ist ein <marker>künstliches Artefakt</marker>.</example>
+        <example type="correct">Das ist ein <marker>Artefakt</marker>.</example>
       </rule>
       <rule>
         <pattern case_sensitive="yes">
@@ -14082,6 +14116,21 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect"><marker>Meines Erachtens nach</marker> ist diese Formulierung falsch.</example>
       <example type="correct"><marker>Meines Erachtens</marker> ist diese Formulierung richtig.</example>
     </rule>
+    <rulegroup id="ERSATZINFINITIV" name="Grammatik: 'ich habe es kommen gesehen (sehen)' u.ä." default="off">
+      <!-- FIXME -->
+      <rule>
+        <pattern case_sensitive="yes">
+          <token postag="VER:INF:.+" postag_regexp="yes"/>
+          <token regexp="yes">gedurft|gewollt|gesollt|gemusst|gesehen|gehört|gelassen</token>
+        </pattern>
+        <message>Das ist falsch.</message>
+        <!-- <message>Meinten Sie <suggestion>TODO</suggestion>?</message> -->
+        <url>http://www.magazin.institut1.de/690_Sprache_heissen_machen_lassen_als_Hilfsverben.html</url>
+        <short>Ersatzinfinitiv</short>
+        <example type="correct">Ich habe es <marker>kommen sehen</marker>.</example>
+        <example type="incorrect">Ich habe es <marker>kommen gesehen</marker>.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="WORDEN_WURDEN" name="Grammatik: 'worden (wurden)'">
       <rule>
         <pattern case_sensitive="yes" mark_to="-1">
