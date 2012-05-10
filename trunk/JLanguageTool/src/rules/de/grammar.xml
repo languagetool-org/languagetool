@@ -5440,7 +5440,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">meist(ens)?</token>
+          <token regexp="yes">meist(ens)?|jederzeit</token>
           <token>immer</token>
         </pattern>
         <message>&redundanz;Meinten Sie <suggestion><match no="1"/></suggestion> oder <suggestion>immer</suggestion>?</message>
@@ -5453,7 +5453,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <rule>
         <pattern>
           <token>immer</token>
-          <token regexp="yes">meist(ens)?</token>
+          <token regexp="yes">meist(ens)?|jederzeit</token>
         </pattern>
         <message>&redundanz;Meinten Sie <suggestion><match no="2"/></suggestion> oder <suggestion>immer</suggestion>?</message>
         <short>&redundanz;</short>
@@ -5461,6 +5461,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Ich gehe <marker>meistens</marker> am Samstag einkaufen.</example>
         <example type="correct">Ich gehe <marker>meist</marker> am Samstag einkaufen.</example>
         <example type="incorrect" correction="meistens|immer">Ich gehe <marker>immer meistens</marker> am Samstag einkaufen.</example>
+        <example type="incorrect" correction="jederzeit|immer">Ich gehe <marker>immer jederzeit</marker> samstags einkaufen.</example>
       </rule>
     </rulegroup>
     <rulegroup id="SEMANTISCHE_BEDEUTUNG" name="Verdoppelung: 'semantische Bedeutung'">
@@ -5993,6 +5994,15 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <short>&redundanz;</short>
         <example type="correct"><marker>PDF</marker> ist ein plattformunabhängiges Dateiformat.</example>
         <example type="incorrect">Das <marker>PDF-Format</marker> ist ein plattformunabhängiges Dateiformat.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">ODF-Formate?s?</token>
+        </pattern>
+        <message>'ODF' steht für 'Open Document Format' – ersetzen durch <suggestion>ODF</suggestion>?</message>
+        <short>&redundanz;</short>
+        <example type="correct"><marker>ODF</marker> ist ein plattformunabhängiges Dateiformat.</example>
+        <example type="incorrect" correction="ODF">Das <marker>ODF-Format</marker> ist ein plattformunabhängiges Dateiformat.</example>
       </rule>
       <rule>
         <pattern>
