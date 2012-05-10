@@ -30,109 +30,92 @@ import org.languagetool.rules.RuleMatch;
  */
 public class AvsAnRuleTest extends TestCase {
 
+  private AvsAnRule rule;
+  private JLanguageTool langTool;
+
+  @Override
+  public void setUp() throws IOException {
+    rule = new AvsAnRule(null);
+    langTool = new JLanguageTool(Language.ENGLISH);
+  }
+
   public void testRule() throws IOException {
-    AvsAnRule rule = new AvsAnRule(null);
-    RuleMatch[] matches;
-    JLanguageTool langTool = new JLanguageTool(Language.ENGLISH);
+
     // correct sentences:
-    matches = rule.match(langTool.getAnalyzedSentence("This is a test sentence."));
-    assertEquals(0, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("It was an hour ago."));
-    assertEquals(0, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("A university is ..."));
-    assertEquals(0, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("A one-way street ..."));
-    assertEquals(0, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("An hour's work ..."));
-    assertEquals(0, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("Going to an \"industry party\"."));
-    assertEquals(0, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("An 8-year old boy ..."));
-    assertEquals(0, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("An 18-year old boy ..."));
-    assertEquals(0, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("The A-levels are ..."));
-    assertEquals(0, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("An NOP check ..."));
-    assertEquals(0, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("A USA-wide license ..."));
-    assertEquals(0, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("...asked a UN member."));
-    assertEquals(0, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("In an un-united Germany..."));
-    assertEquals(0, matches.length);
-    
+    assertCorrect("This is a test sentence.");
+    assertCorrect("It was an hour ago.");
+    assertCorrect("A university is ...");
+    assertCorrect("A one-way street ...");
+    assertCorrect("An hour's work ...");
+    assertCorrect("Going to an \"industry party\".");
+    assertCorrect("An 8-year old boy ...");
+    assertCorrect("An 18-year old boy ...");
+    assertCorrect("The A-levels are ...");
+    assertCorrect("An NOP check ...");
+    assertCorrect("A USA-wide license ...");
+    assertCorrect("...asked a UN member.");
+    assertCorrect("In an un-united Germany...");
     //fixed false alarms:
-    matches = rule.match(langTool.getAnalyzedSentence("Here, a and b are supplementary angles."));
-    assertEquals(0, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("The Qur'an was translated into Polish."));
-    assertEquals(0, matches.length);
+    assertCorrect("Here, a and b are supplementary angles.");
+    assertCorrect("The Qur'an was translated into Polish.");
 
     // errors:
-    matches = rule.match(langTool.getAnalyzedSentence("It was a hour ago."));
-    assertEquals(1, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("It was an sentence that's long."));
-    assertEquals(1, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("It was a uninteresting talk."));
-    assertEquals(1, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("An university"));
-    assertEquals(1, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("A unintersting ..."));
-    assertEquals(1, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("It was a uninteresting talk with an long sentence."));
+    assertIncorrect("It was a hour ago.");
+    assertIncorrect("It was an sentence that's long.");
+    assertIncorrect("It was a uninteresting talk.");
+    assertIncorrect("An university");
+    assertIncorrect("A unintersting ...");
+    assertIncorrect("A hour's work ...");
+    assertIncorrect("Going to a \"industry party\".");
+    final RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("It was a uninteresting talk with an long sentence."));
     assertEquals(2, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("A hour's work ..."));
-    assertEquals(1, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("Going to a \"industry party\"."));
-    assertEquals(1, matches.length);
+
     // With uppercase letters:
-    matches = rule.match(langTool.getAnalyzedSentence("A University"));
-    assertEquals(0, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("A Europe wide something"));
-    assertEquals(0, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("then an University sdoj fixme sdoopsd"));
-    assertEquals(1, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("A 8-year old boy ..."));
-    assertEquals(1, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("A 18-year old boy ..."));
-    assertEquals(1, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("...asked an UN member."));
-    assertEquals(1, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("In a un-united Germany..."));
-    assertEquals(1, matches.length);
+    assertCorrect("A University");
+    assertCorrect("A Europe wide something");
+
+    assertIncorrect("then an University sdoj fixme sdoopsd");
+    assertIncorrect("A 8-year old boy ...");
+    assertIncorrect("A 18-year old boy ...");
+    assertIncorrect("...asked an UN member.");
+    assertIncorrect("In a un-united Germany...");
 
     //Test on acronyms/initials:
-    matches = rule.match(langTool.getAnalyzedSentence("A. R.J. Turgot"));
-    assertEquals(0, matches.length);
-    
+    assertCorrect("A. R.J. Turgot");
+
     //mixed case as dictionary-based exception
-    matches = rule.match(langTool.getAnalyzedSentence("Anyone for an MSc?"));
-    assertEquals(0, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("Anyone for a MSc?"));
-    assertEquals(1, matches.length);
+    assertCorrect("Anyone for an MSc?");
+    assertIncorrect("Anyone for a MSc?");
     //mixed case from general case
-    matches = rule.match(langTool.getAnalyzedSentence("Anyone for an XMR-based writer?"));
-    assertEquals(0, matches.length);
-    
+    assertCorrect("Anyone for an XMR-based writer?");
+
     //Test on apostrophes    
-    matches = rule.match(langTool.getAnalyzedSentence("Its name in English is a[1] (), plural A's, As, as, or a's."));
-    assertEquals(0, matches.length);    
+    assertCorrect("Its name in English is a[1] (), plural A's, As, as, or a's.");
   }
-    
+
+  private void assertCorrect(String sentence) throws IOException {
+    final RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(sentence));
+    assertEquals(0, matches.length);
+  }
+
+  private void assertIncorrect(String sentence) throws IOException {
+    final RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(sentence));
+    assertEquals(1, matches.length);
+  }
+
   public void testSuggestions() throws IOException {
-    AvsAnRule rule = new AvsAnRule(null);
+    final AvsAnRule rule = new AvsAnRule(null);
     assertEquals("a string", rule.suggestAorAn("string"));
     assertEquals("a university", rule.suggestAorAn("university"));
     assertEquals("an hour", rule.suggestAorAn("hour"));
     assertEquals("an all-terrain", rule.suggestAorAn("all-terrain"));    
     assertEquals("a UNESCO", rule.suggestAorAn("UNESCO"));
-    
   }
   
   public void testPositions() throws IOException {
-    AvsAnRule rule = new AvsAnRule(null);
+    final AvsAnRule rule = new AvsAnRule(null);
     RuleMatch[] matches;
-    JLanguageTool langTool = new JLanguageTool(Language.ENGLISH);
+    final JLanguageTool langTool = new JLanguageTool(Language.ENGLISH);
     // no quotes etc.:
     matches = rule.match(langTool.getAnalyzedSentence("a industry standard."));
     assertEquals(0, matches[0].getFromPos());
@@ -162,6 +145,5 @@ public class AvsAnRuleTest extends TestCase {
     matches = rule.match(langTool.getAnalyzedSentence("Like many \"an desperado\" before him, Bart headed south into Mexico."));
     assertEquals(11, matches[0].getFromPos());
     assertEquals(13, matches[0].getToPos());
-    
   }
 }
