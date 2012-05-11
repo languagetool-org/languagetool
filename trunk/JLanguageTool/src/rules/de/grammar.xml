@@ -4667,6 +4667,57 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct">Das offene Ende, das später den Übergang <marker>zu Teil</marker> zwei bildete, war eher scherzweise gedacht.</example>
       <example type="correct">Das offene Ende, das später den Übergang <marker>zu Teil</marker> 2 bildete, war eher scherzweise gedacht.</example>
     </rule>
+    <rule id="RUND_UM" name="Zusammen-/Getrenntschreibung: 'rund um (rundum) sorglos' etc.">
+      <pattern case_sensitive="no" mark_to="-1">
+        <token>rund</token>
+        <token>um</token>
+        <token postag="(ADJ:|VER:).+" postag_regexp="yes"></token>
+      </pattern>
+      <message>Das Adverb <suggestion>rundum</suggestion> wird zusammengeschrieben.</message>
+      <url>http://www.duden.de/rechtschreibung/rundum</url>
+      <short>&getrennt;.</short>
+      <example type="correct"><marker>Rundum</marker> zufrieden.</example>
+      <example type="incorrect" correction="Rundum"><marker>Rund um</marker> zufrieden.</example>
+    </rule>
+    <rulegroup id="EIN_DANKE_SCHOEN" name="Zusammen-/Getrenntschreibung: 'ein danke schön (Dankeschön)'">
+      <rule>
+        <pattern case_sensitive="no" mark_from="1">
+          <token regexp="yes">als|ein|das</token>
+          <token>danke</token>
+          <token>schön</token>
+        </pattern>
+        <message>Das Wort <suggestion>Dankeschön</suggestion> als Substantiv wird zusammengeschrieben.</message>
+        <short>&getrennt;.</short>
+        <example type="correct">Als <marker>Dankeschön</marker> überreichen wir Dir dieses kleine Präsent.</example>
+        <example type="incorrect" correction="Dankeschön">Als <marker>Danke schön</marker> überreichen wir Dir dieses kleine Präsent.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="no" mark_from="2">
+          <token regexp="yes">als|ein|das</token>
+          <token postag="ADJ:AKK:SIN:NEU.*" postag_regexp="yes"></token>
+          <token>danke</token>
+          <token>schön</token>
+        </pattern>
+        <message>Das Wort <suggestion>Dankeschön</suggestion> als Substantiv wird zusammengeschrieben.</message>
+        <short>&getrennt;.</short>
+        <example type="correct">Als kleines <marker>Dankeschön</marker> überreichen wir Dir dieses Präsent.</example>
+        <example type="incorrect" correction="Dankeschön">Als kleines <marker>Danke schön</marker> überreichen wir Dir dieses Präsent.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="no" mark_from="2">
+          <token regexp="yes">als|ein|das</token>
+          <token postag="ADJ:AKK:SIN:NEU.*" postag_regexp="yes"></token>
+          <token regexp="yes">&anfauf;</token>
+          <token>danke</token>
+          <token>schön</token>
+          <token regexp="yes">&anfzu;</token>
+        </pattern>
+        <message>Das Wort <suggestion>Dankeschön</suggestion> als Substantiv wird zusammengeschrieben.</message>
+        <short>&getrennt;.</short>
+        <example type="correct">Als kleines <marker>Dankeschön</marker> überreichen wir Dir dieses Präsent.</example>
+        <example type="incorrect" correction="Dankeschön">Als kleines <marker>„Danke schön“</marker> überreichen wir Dir dieses Präsent.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="ZUM_HAARESCHNEIDEN" name="Zusammen-/Getrenntschreibung: 'zum/beim Haare schneiden (Haareschneiden)'">
       <rule>
         <pattern case_sensitive="yes" mark_from="1">
