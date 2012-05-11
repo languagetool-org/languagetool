@@ -5314,10 +5314,9 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
   </category>
 
   <!-- ====================================================================== -->
-  <!-- Redundanz -->
+  <!-- Semantische Unstimmigkeiten -->
   <!-- ====================================================================== -->
-  <category name="Redundanz">
-  <!-- Jan: TODO – Add more stuff like "Haarfrisur, Fußpedal, Altveteran, langsam kriechen, schnell rasen ..." -->
+  <category name="Semantische Unstimmigkeiten (bisher nur wenige Regeln)">
     <rulegroup id="UNGEFAEHR_GENAU" name="Unstimmigkeit: 'ungefähr genau'">
       <rule>
         <pattern>
@@ -5332,6 +5331,24 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Diese Wörter haben dieselbe Bedeutung.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="RUNDE_ECKEN" name="Unstimmigkeit: 'runde Ecken'">
+      <rule>
+        <pattern case_sensitive="yes" mark_to="-1">
+          <token regexp="yes">runden?</token>
+          <token regexp="yes">Ecken?</token>
+        </pattern>
+        <message>&unstimmig; Vielleicht ist die Formulierung <suggestion><match no="1" regexp_match="^rund" regexp_replace="abgerundet"/></suggestion> gefälliger.</message>
+        <example type="incorrect" correction="abgerundeten">Die <marker>runden</marker> Ecken sind hübsch.</example>
+        <example type="correct">Die <marker>abgerundeten</marker> Ecken sind hübsch.</example>
+      </rule>
+    </rulegroup>
+  </category>
+
+  <!-- ====================================================================== -->
+  <!-- Redundanz -->
+  <!-- ====================================================================== -->
+  <category name="Redundanz">
+  <!-- Jan: TODO – Add more stuff like "Haarfrisur, Fußpedal, Altveteran, langsam kriechen, schnell rasen ..." -->
     <rulegroup id="FUER_UMSONST" name="Umgangssprachliche Verdoppelung: 'für umsonst'" default="off">
       <!-- Recherchieren: Sagt das überhaupt irgendwer außerhalb des Ruhrgebiets? -->
       <rule>
@@ -5340,6 +5357,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>umsonst</token>
         </pattern>
         <message>Die Wendung 'für umsonst' ist umgangssprachlich. Ersetzen durch <suggestion>umsonst</suggestion> (Synonym: <suggestion>gratis</suggestion>)?</message>
+        <short>&redundanz;</short>
         <example type="correct">LanguageTool gibt es <marker>umsonst</marker>, aber nicht vergebens.</example>
         <example type="incorrect">LanguageTool gibt es <marker>für umsonst</marker>, aber nicht vergebens.</example>
       </rule>
@@ -5610,24 +5628,24 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <rule>
         <pattern>
           <token>ausschließlich</token>
-          <token>nur</token>
+          <token regexp="yes">bloß|nur</token>
         </pattern>
-        <message>&redundanz;Meinten Sie <suggestion>ausschließlich</suggestion> oder <suggestion>nur</suggestion>?</message>
+        <message>&redundanz;Meinten Sie <suggestion>ausschließlich</suggestion>, <suggestion>bloß</suggestion> oder <suggestion>nur</suggestion>?</message>
         <short>&redundanz;</short>
         <example type="correct">Das Gebäude ist <marker>ausschließlich</marker> für die Lagerung bestimmt.</example>
         <example type="correct">Es ist <marker>nur</marker> gerecht.</example>
-        <example type="incorrect" correction="ausschließlich|nur">Das ist <marker>ausschließlich nur</marker> dein Problem.</example>
+        <example type="incorrect" correction="ausschließlich|bloß|nur">Das ist <marker>ausschließlich nur</marker> dein Problem.</example>
       </rule>
       <rule>
         <pattern>
-          <token>nur</token>
+          <token regexp="yes">bloß|nur</token>
           <token>ausschließlich</token>
         </pattern>
-        <message>&redundanz;Meinten Sie <suggestion>ausschließlich</suggestion> oder <suggestion>nur</suggestion>?</message>
+        <message>&redundanz;Meinten Sie <suggestion>ausschließlich</suggestion>, <suggestion>bloß</suggestion> oder <suggestion>nur</suggestion>?</message>
         <short>&redundanz;</short>
         <example type="correct">Das Gebäude ist <marker>ausschließlich</marker> für die Lagerung bestimmt.</example>
         <example type="correct">Das ist <marker>nur</marker> gerecht.</example>
-        <example type="incorrect" correction="ausschließlich|nur">Das ist <marker>nur ausschließlich</marker> deine Sache.</example>
+        <example type="incorrect" correction="ausschließlich|bloß|nur">Das ist <marker>nur ausschließlich</marker> deine Sache.</example>
       </rule>
       <rule>
         <pattern>
@@ -5851,7 +5869,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token regexp="yes">Artefakt(en?)?</token>
         </pattern>
         <message>Die Bedeutung des Substantivs \2 beinhaltet bereits das durch das Adjektiv \1 ausgedrückte Merkmal. In vielen Kontexten kann diese Formulierung deswegen redundant erscheinen. Vorschlag: <suggestion>\2</suggestion></message>
-        <url>http://de.wikipedia.org/wiki/Moschee</url>
+        <url>http://www.duden.de/rechtschreibung/Artefakt</url>
         <short>&redundanz;</short>
         <example type="incorrect" correction="Artefakt">Das ist ein <marker>künstliches Artefakt</marker>.</example>
         <example type="correct">Das ist ein <marker>Artefakt</marker>.</example>
@@ -5873,8 +5891,18 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         </pattern>
         <message>Die Bedeutung des Substantivs \2 beinhaltet bereits das durch das Adjektiv \1 ausgedrückte Merkmal. In vielen Kontexten kann diese Formulierung deswegen redundant erscheinen. Vorschlag: <suggestion>\2</suggestion></message>
         <short>&redundanz;</short>
-        <example type="incorrect">Die <marker>runden Kugeln</marker> rollen.</example>
+        <example type="incorrect" correction="Kugeln">Die <marker>runden Kugeln</marker> rollen.</example>
         <example type="correct">Die <marker>Kugeln</marker> rollen.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token regexp="yes">(recht|vier)?eckige(s|n|m)?</token>
+          <token regexp="yes">Quadrat(en?)?|(Recht|Vier)eck(e[ns]?)?</token>
+        </pattern>
+        <message>Die Bedeutung des Substantivs \2 beinhaltet bereits das durch das Adjektiv \1 ausgedrückte Merkmal. In vielen Kontexten kann diese Formulierung deswegen redundant erscheinen. Vorschlag: <suggestion>\2</suggestion></message>
+        <short>&redundanz;</short>
+        <example type="incorrect" correction="Quadrate">Die <marker>viereckigen Quadrate</marker> rollen nicht, weil sie eckig sind.</example>
+        <example type="correct">Die <marker>Quadrate</marker> – wen wundert's – sind rechteckig.</example>
       </rule>
       <rule>
         <pattern case_sensitive="yes">
@@ -5883,7 +5911,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         </pattern>
         <message>Die Bedeutung des Substantivs \2 beinhaltet bereits das durch das Adjektiv \1 ausgedrückte Merkmal. In vielen Kontexten kann diese Formulierung deswegen redundant erscheinen. Vorschlag: <suggestion>\2</suggestion></message>
         <short>&redundanz;</short>
-        <example type="incorrect">Die <marker>toten Leichen</marker> lagen dort.</example>
+        <example type="incorrect" correction="Leichen">Die <marker>toten Leichen</marker> lagen dort.</example>
         <example type="correct">Die <marker>Leichen</marker> lagen dort.</example>
       </rule>
       <rule>
@@ -5893,7 +5921,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         </pattern>
         <message>Die Bedeutung des Substantivs \2 beinhaltet bereits das durch das Adjektiv \1 ausgedrückte Merkmal. In vielen Kontexten kann diese Formulierung deswegen redundant erscheinen. Vorschlag: <suggestion>\2</suggestion></message>
         <short>&redundanz;</short>
-        <example type="incorrect">Die <marker>schwarzen Rappen</marker> galoppierten.</example>
+        <example type="incorrect" correction="Rappen">Die <marker>schwarzen Rappen</marker> galoppierten.</example>
         <example type="correct">Die <marker>Rappen</marker> galoppierten.</example>
       </rule>
     </rulegroup>
@@ -6195,7 +6223,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <message>'PDF' steht für 'Portable Document Format' – ersetzen durch <suggestion>PDF</suggestion>?</message>
         <short>&redundanz;</short>
         <example type="correct"><marker>PDF</marker> ist ein plattformunabhängiges Dateiformat.</example>
-        <example type="incorrect">Das <marker>PDF-Format</marker> ist ein plattformunabhängiges Dateiformat.</example>
+        <example type="incorrect" correction="PDF">Das <marker>PDF-Format</marker> ist ein plattformunabhängiges Dateiformat.</example>
       </rule>
       <rule>
         <pattern>
@@ -6258,8 +6286,20 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token postag_regexp="yes" postag="SUB:.*"/>
       </pattern>
       <message>Dies ist eine sehr umgangssprachliche Ausdrucksweise. Möglicherweise möchten Sie je nach Anlass eine andere Formulierung in Betracht ziehen.</message>
+      <short>>&umgangsspr;</short>
       <example type="incorrect">Wir haben ein <marker>riesen Problem</marker>.</example>
       <example type="correct">Wir haben ein <marker>gewaltiges Problem</marker>.</example>
+    </rule>
+    <rule id="VOLL_BLOED" name="Umgangssprache: 'voll' als Adverb, z.B. 'das ist voll blöd'">
+      <pattern case_sensitive="no" mark_from="0">
+        <token regexp="yes">voll|echt</token>
+        <token postag_regexp="yes" postag="(ADJ|VER):.*"/>
+      </pattern>
+      <message>Dies ist eine sehr umgangssprachliche Ausdrucksweise. Möglicherweise möchten Sie je nach Anlass eine andere Formulierung in Betracht ziehen.</message>
+      <short>&umgangsspr;</short>
+      <example type="incorrect">Das ist <marker>voll blöd</marker>.</example>
+      <example type="incorrect">Das ist eine <marker>echt blöde</marker> Situation.</example>
+      <example type="correct">Das ist <marker>doch ziemlich blöde</marker>.</example>
     </rule>
     <rule id="GEHIESSEN" name="Umgangssprache: 'gehießen (geheißen)'">
       <pattern>
