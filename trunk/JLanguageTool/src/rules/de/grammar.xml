@@ -2632,6 +2632,44 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect">Da regt er sich völlig <marker>zu recht</marker> drüber auf.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="JE_DESTO" name="Mögliche Wortverwechslung: je/desto" default="on">
+      <rule>
+        <pattern case_sensitive="no" mark_from="2" mark_to="-1">
+          <token>je</token>
+          <token postag="ADJ:PRD:KOM" skip="-1"><exception postag="SENT_END" scope="next"/></token>
+          <token>je</token>
+          <token postag="ADJ:PRD:KOM"/>
+        </pattern>
+        <message>Die Konjunktion 'je' wird standardsprachlich mit den Partnerwörtern <suggestion>desto</suggestion> oder <suggestion>umso</suggestion> verwendet. 'je ... je ...' gilt als altertümlich und ist nur noch in einzelnen festen Wendungen wie 'je länger, je lieber' oder 'je oller, je doller' gebräuchlich.</message>
+        <url>http://www.spiegel.de/kultur/zwiebelfisch/0,1518,435248,00.html</url>
+        <short>Je ... desto ...</short>
+        <example type="correct">Je größer, <marker>desto</marker> besser.</example>
+        <example type="incorrect" correction="desto|umso">Je größer, <marker>je</marker> besser.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="CHAMPIGNON_CHAMPION" name="Mögliche Wortverwechslung: Champignon/Champion">
+      <rule>
+        <pattern case_sensitive="no" mark_from="1">
+          <token regexp="yes">Dosen?|Glas|Gläsern?|(frisch|gedünstet|gehackt|geschnitten|gebraten|gefüllt)en?</token>
+          <token regexp="yes">Champions?</token>
+        </pattern>
+        <message>&verw;Meinten Sie <suggestion><match no="2" regexp_match="^Champion" regexp_replace="Champignon"/></suggestion> (Speisepilz)?</message>
+        <short>Mögliche Wortverwechslung</short>
+        <example type="incorrect" correction="Champignons">Pizza mit frischen <marker>Champions</marker>.</example>
+        <example type="correct">Pizza mit frischen <marker>Champignons</marker>.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_to="-2">
+          <token regexp="yes">Champions?</token>
+          <token skip="1">aus</token>
+          <token regexp="yes">Dosen?|Glas|Gläsern?</token>
+        </pattern>
+        <message>&verw;Meinten Sie <suggestion><match no="1" regexp_match="^Champion" regexp_replace="Champignon"/></suggestion> (Speisepilz)?</message>
+        <short>Mögliche Wortverwechslung</short>
+        <example type="incorrect" correction="Champignons"><marker>Champions</marker> aus der Dose.</example>
+        <example type="correct"><marker>Champignons</marker> aus der Dose.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="TOT_TOD" name="Mögliche Wortverwechslung: tot/Tod">
       <rule>
         <pattern case_sensitive="no" mark_from="1">
@@ -4428,28 +4466,46 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Nicht als Professor, sondern <marker>vielmehr</marker> als Lehrbeauftragter.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="JE_UM_SO" name="Zusammen-/Getrenntschreibung: 'je ... um so (umso) ...'" default="on">
+      <rule>
+        <pattern case_sensitive="no" mark_from="2" mark_to="-1">
+          <token>je</token>
+          <token postag="ADJ:PRD:KOM" skip="-1"><exception postag="SENT_END" scope="next"/></token>
+          <token>um</token>
+          <token>so</token>
+          <token postag="ADJ:PRD:KOM"/>
+        </pattern>
+        <message>&getrennt;: Meinten Sie <suggestion>umso</suggestion> (Synonym: <suggestion>desto</suggestion>)?</message>
+        <url>http://www.duden.de/rechtschreibung/umso</url>
+        <short>&getrennt;.</short>
+        <example type="correct">Je größer, <marker>umso</marker> besser.</example>
+        <example type="incorrect" correction="umso|desto">Je größer, <marker>um so</marker> besser.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="DA_NACH_PLUS_VERB" name="Zusammen-/Getrenntschreibung: 'Da nach (danach) war Ruhe' etc.">
       <rule>
         <pattern mark_from="0" mark_to="-1" case_sensitive="no">
           <token>da</token>
-          <token>nach</token>
-          <token postag="VER:(AUX:)?(1|2|3):.+" postag_regexp="yes"><exception postag="(PA2|SUB|ART|ADJ):.+" postag_regexp="yes" scope="current"/><exception regexp="yes" scope="current">sieben|gilt|äußerst|einst|meinen?|tausenden?|!(hat)</exception></token>
+          <token regexp="yes">nach|neben|ran|rauf|runter</token>
+          <token postag="VER:(AUX:|MOD:)?(1|2|3):.+" postag_regexp="yes"><exception postag="(PA2|SUB|ART|ADJ):.+" postag_regexp="yes" scope="current"/><exception regexp="yes" scope="current">sieben|gilt|äußerst|einst|meinen?|tausenden?|!(hat)</exception></token>
         </pattern>
-        <message>&getrennt;: Meinten Sie <suggestion>danach</suggestion>?</message>
+        <message>&getrennt;: Meinten Sie <suggestion>da\2</suggestion>?</message>
         <short>&getrennt;.</short>
-        <example type="incorrect">Was <marker>da nach</marker> kam, war Krieg.</example>
-        <example type="incorrect"><marker>Da nach</marker> hat sie mich verlassen.</example>
+        <example type="incorrect" correction="danach">Was <marker>da nach</marker> kam, war Krieg.</example>
+        <example type="incorrect" correction="Darauf"><marker>Da rauf</marker> kann ich verzichten.</example>
+        <example type="incorrect" correction="Danach"><marker>Da nach</marker> hat sie mich verlassen.</example>
         <example type="correct"><marker>Danach</marker> hat sie mich verlassen.</example>
       </rule>
       <rule>
         <pattern mark_from="1" case_sensitive="yes">
           <token postag="SENT_START" negate_pos="yes"><exception regexp="yes" scope="current">[,;]</exception></token>
           <token>da</token>
-          <token>nach</token>
+          <token regexp="yes">nach|neben|ran|rauf|runter</token>
         </pattern>
-        <message>&getrennt;: Meinten Sie <suggestion>danach</suggestion>?</message>
+        <message>&getrennt;: Meinten Sie <suggestion>da\3</suggestion>?</message>
         <short>&getrennt;.</short>
-        <example type="incorrect">Ich konnte <marker>da nach</marker> nicht wieder einschlafen.</example>
+        <example type="incorrect" correction="danach">Ich konnte <marker>da nach</marker> nicht wieder einschlafen.</example>
+        <example type="incorrect" correction="daran">Ich will <marker>da ran</marker> nicht denken.</example>
         <example type="correct"><marker>Danach</marker> hat sie mich verlassen.</example>
       </rule>
     </rulegroup>
@@ -4536,6 +4592,19 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <short>&getrennt;.</short>
       <example type="correct">Wir haben einen <marker>Pflegefall</marker> zu versorgen.</example>
       <example type="incorrect" correction="Pflegefall">Wir haben einen <marker>Pflege Fall</marker> zu versorgen.</example>
+    </rule>
+    <rule id="BAR_GELD" name="Zusammen-/Getrenntschreibung: 'Bar Geld (Bargeld)'">
+      <pattern case_sensitive="no" mark_from="1">
+        <token regexp="yes">zu|ohne|kein|mit|viel|wenig|etwas|bisschen|Blixa</token>
+        <token>Bar</token>
+        <token>Geld</token>
+      </pattern>
+      <message>&getrennt;: Meinten Sie <suggestion>Bargeld</suggestion>?</message>
+      <short>&getrennt;.</short>
+      <example type="incorrect" correction="Bargeld">Ohne <marker>Bar Geld</marker> gehe ich ungern aus dem Haus.</example>
+      <example type="incorrect" correction="Bargeld">Ich zahle immer mit <marker>Bar Geld</marker>.</example>
+      <example type="correct">Ich zahle immer mit <marker>Bargeld</marker>.</example>
+      <example type="correct">Ich gebe an der <marker>Bar Geld</marker> aus.</example>
     </rule>
     <rule id="VIEL_ZAHL" name="Zusammen-/Getrenntschreibung: 'eine viel Zahl (Vielzahl)'">
       <pattern case_sensitive="no" mark_from="1">
@@ -6054,7 +6123,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
   <!-- Stil/Sprachebene -->
   <!-- ====================================================================== -->
   <!-- TODO split or rename category? (Umgangssprache + Stil) -->
-  <category name="Stil">
+  <category name="Stil (allgemein)">
     <!-- TODO Make one Java-rule for context-independent, colloquial expressions and maintain a list -->
     <!-- message is incorrect, thus commented out for now
     <rule id="BAUCHWEH" name="Umgangssprache: 'Bauchweh (Bauchschmerz)'">
@@ -6811,6 +6880,37 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">„Kommen Sie, Rota, kommen Sie.“ (S. 1)</example>
         <example type="incorrect" correction="(">„Kommen Sie, Rota, kommen Sie.“ <marker>(vgl.</marker> S. 1)</example>
         <example type="correct">„ein Kind“ (vgl. Erbe)</example>
+      </rule>
+    </rulegroup>
+  </category>
+
+  <!-- ====================================================================== -->
+  <!-- Stil/Korrespondenz -->
+  <!-- ====================================================================== -->
+  <category name="Stil (Briefe und E-Mails)">
+    <rulegroup id="MFG_LG" name="Stil: Schlussformeln sollten nicht abgekürzt werden" default="off">
+      <rule>
+        <pattern case_sensitive="no" mark_from="1">
+          <token postag="SENT_START"/>
+          <token>mfg</token>
+        </pattern>
+        <message>Das Abkürzen von Schlussformeln kann als unhöflich empfunden werden. Vorschlag: <suggestion>Mit freundlichen Grüßen</suggestion></message>
+        <short>Schlussformeln sollten nicht abgekürzt werden</short>
+        <example type="correct"><marker>OMFG</marker> LOL!</example>
+        <example type="correct"><marker>Mit freundlichen Grüßen</marker></example>
+        <example type="incorrect" correction="Mit freundlichen Grüßen"><marker>MFG</marker></example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="no" mark_from="1">
+          <token postag="SENT_START"/>
+          <token>LG</token>
+        </pattern>
+        <message>Das Abkürzen von Schlussformeln kann als unhöflich empfunden werden. Vorschlag: <suggestion>Liebe Grüße</suggestion></message>
+        <short>Schlussformeln sollten nicht abgekürzt werden</short>
+        <example type="correct">Nach einem Urteil des <marker>OLG</marker> ...</example>
+        <example type="correct"><marker>Mit freundlichen Grüßen</marker></example>
+        <example type="correct"><marker>Liebe Grüße</marker></example>
+        <example type="incorrect" correction="Liebe Grüße"><marker>LG</marker></example>
       </rule>
     </rulegroup>
   </category>
@@ -13350,7 +13450,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <pattern case_sensitive="yes" mark_to="-1">
         <token regexp="yes">[Ee]in</token>
         <token>Paar</token>
-        <token postag_regexp="yes" postag="SUB:.*" negate="yes" regexp="yes">(.*)([Ss]chuhe|[Ss]ocken|[Ss]trümpfe|[Hh]osen)</token>
+        <token postag_regexp="yes" postag="SUB:.*" negate="yes" regexp="yes">(.*)([Ss]chuhe|[Ss]ocken|[Ss]trümpfe|[Hh]osen|[aA]ugen|[oO]hren)</token>
       </pattern>
       <message>Meinten Sie <suggestion>ein paar</suggestion> (=einige), im Unterschied zu 'ein Paar' (=genau zwei)?</message>
       <url>http://www.canoo.net/services/GermanSpelling/Regeln/Gross-klein/Denominalisierung.html#Anchor-Die-14210</url>
@@ -14116,21 +14216,36 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect"><marker>Meines Erachtens nach</marker> ist diese Formulierung falsch.</example>
       <example type="correct"><marker>Meines Erachtens</marker> ist diese Formulierung richtig.</example>
     </rule>
-    <rulegroup id="ERSATZINFINITIV" name="Grammatik: 'ich habe es kommen gesehen (sehen)' u.ä." default="off">
-      <!-- FIXME -->
+    <!-- FIXME: replacement doesn't seem to work
+    <rulegroup id="ERSATZINFINITIV" name="Grammatik: 'ich habe es kommen gesehen (sehen)' u.ä." default="on">
       <rule>
-        <pattern case_sensitive="yes">
+        <pattern case_sensitive="yes" mark_from="1">
           <token postag="VER:INF:.+" postag_regexp="yes"/>
-          <token regexp="yes">gedurft|gewollt|gesollt|gemusst|gesehen|gehört|gelassen</token>
+          <token regexp="yes">gesehen|gehört</token>
         </pattern>
-        <message>Das ist falsch.</message>
-        <!-- <message>Meinten Sie <suggestion>TODO</suggestion>?</message> -->
+        <message>Einige Verben der sinnlichen Wahrnehmung und Hilfsverben erfordern statt des Partizips mit 'ge-' den Infinitiv: <suggestion><match no="2" postag="PA2:PRD:GRU:VER" postag_regexp="yes" postag_replace="VER:INF:SFT"/></suggestion>.</message>
         <url>http://www.magazin.institut1.de/690_Sprache_heissen_machen_lassen_als_Hilfsverben.html</url>
-        <short>Ersatzinfinitiv</short>
-        <example type="correct">Ich habe es <marker>kommen sehen</marker>.</example>
-        <example type="incorrect">Ich habe es <marker>kommen gesehen</marker>.</example>
+        <short>Ersatzinfinitiv statt Partizip Perfekt erforderlich.</short>
+        <example type="correct">Ich habe es kommen <marker>sehen</marker>.</example>
+        <example type="incorrect" correction="sehen">Ich habe es ja kommen <marker>gesehen</marker>.</example>
+        <example type="incorrect" correction="hören">Ich habe dich gar nicht kommen <marker>gehört</marker>.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="1">
+          <token postag="VER:INF:.+" postag_regexp="yes"/>
+          <token regexp="yes">gekonnt|gedurft|gewollt|gesollt|gemusst|gelassen</token>
+        </pattern>
+        <message>Modalverben erfordern statt des Partizips mit 'ge-' den Infinitiv: <suggestion><match no="2" postag="PA2:PRD:GRU:VER:MOD" postag_regexp="yes" postag_replace="VER:MOD:INF"/></suggestion>.</message>
+        <url>http://www.magazin.institut1.de/690_Sprache_heissen_machen_lassen_als_Hilfsverben.html</url>
+        <short>Ersatzinfinitiv statt Partizip Perfekt erforderlich.</short>
+        <example type="correct">Ich habe leider nicht kommen <marker>können</marker>.</example>
+        <example type="incorrect" correction="müssen">Das hat ja so kommen <marker>gemusst</marker>.</example>
+        <example type="incorrect" correction="können">Ich habe leider nicht kommen <marker>gekonnt</marker>.</example>
+        <example type="incorrect" correction="wollen">Ich habe nicht kommen <marker>gewollt</marker>.</example>
+        <example type="incorrect" correction="lassen">Ich habe dich am ausgestreckten Arm verhungern <marker>gelassen</marker>.</example>
       </rule>
     </rulegroup>
+    -->
     <rulegroup id="WORDEN_WURDEN" name="Grammatik: 'worden (wurden)'">
       <rule>
         <pattern case_sensitive="yes" mark_to="-1">
