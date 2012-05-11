@@ -3800,11 +3800,32 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token negate="yes">.</token>
         </pattern>
         <message>Meinten Sie das freie <suggestion>OpenOffice.org</suggestion> oder das eingestellte Oracle <suggestion>Open Office</suggestion>? Wenn Sie Apache OpenOffice meinen, ist die Schreibweise korrekt.</message>
-        <short>&eigenname;</short>
+        <short>Möglicherweise falsch geschriebene Produktbezeichnung.</short>
         <example type="correct"><marker>OpenOffice.org</marker> ist freie Software.</example>
         <example type="correct">Apache <marker>OpenOffice</marker> ist freie Software.</example>
         <example type="incorrect" correction="OpenOffice.org|Open Office"><marker>OpenOffice</marker> ist freie Software.</example>
         <example type="incorrect" correction="OpenOffice.org|Open Office">Oracle <marker>Openoffice</marker> war keine freie Software.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="IPHONE" name="Produktname: 'I-Phone (iPhone)' etc.">
+      <rule>
+        <pattern mark_from="0" mark_to="0">
+          <token regexp="yes">i-phon(es?)?</token>
+        </pattern>
+        <message>Mit i beginnende Produktnamen von Apple wie <suggestion><match no="1" case_conversion="startlower" regexp_match="^[iI]\-[pP]" regexp_replace="iP"/></suggestion>, 'iPad' oder 'iPod' werden in der Regel zusammen, mit kleinem i und großem P geschrieben.</message>
+        <short>Möglicherweise falsch geschriebene Produktbezeichnung.</short>
+        <example type="correct">Ich habe jetzt ein <marker>iPhone</marker>.</example>
+        <example type="incorrect" correction="iPhone">Ich habe jetzt ein <marker>i-Phone</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="0" mark_to="0">
+          <token regexp="yes">i-p[ao]ds?</token>
+        </pattern>
+        <message>Mit i beginnende Produktnamen von Apple wie <suggestion><match no="1" case_conversion="startlower" regexp_match="^[iI]\-[pP]" regexp_replace="iP"/></suggestion> oder 'iPhone' werden in der Regel zusammen, mit kleinem i und großem P geschrieben.</message>
+        <short>Möglicherweise falsch geschriebene Produktbezeichnung.</short>
+        <example type="correct">Ich habe jetzt ein <marker>iPad</marker>.</example>
+        <example type="incorrect" correction="iPad">Ich habe jetzt ein <marker>i-Pad</marker>.</example>
+        <example type="incorrect" correction="iPod">Ich habe jetzt einen <marker>i-Pod</marker>.</example>
       </rule>
     </rulegroup>
     <!-- Prominente -->
@@ -4464,6 +4485,33 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <short>&getrennt;.</short>
         <example type="incorrect">Das ist <marker>vielmehr</marker> als nur ein Wort.</example>
         <example type="correct">Nicht als Professor, sondern <marker>vielmehr</marker> als Lehrbeauftragter.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="ZEIT_LEBENS" name="Zusammen-/Getrenntschreibung: 'zeit Lebens (zeitlebens)'" default="on">
+      <rule>
+        <pattern case_sensitive="no" mark_from="1" mark_to="0">
+          <token><exception postag="SENT_START"/></token>
+          <token>zeit</token>
+          <token>Lebens</token>
+        </pattern>
+        <message>&getrennt;: Meinten Sie das Adverb <suggestion><match no="2" case_conversion="alllower"/><match no="3" case_conversion="alllower"/></suggestion>?</message>
+        <url>http://www.duden.de/rechtschreibung/zeitlebens</url>
+        <short>&getrennt;.</short>
+        <example type="correct">Er war <marker>zeitlebens</marker> ein armer Schlucker.</example>
+        <example type="incorrect" correction="zeitlebens">Er war <marker>zeit Lebens</marker> ein armer Schlucker.</example>
+        <example type="incorrect" correction="zeitlebens">Er war <marker>Zeit Lebens</marker> ein armer Schlucker.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="no" mark_from="1" mark_to="0">
+          <token postag="SENT_START"/>
+          <token>Zeit</token>
+          <token>Lebens</token>
+        </pattern>
+        <message>&getrennt;: Meinten Sie das Adverb <suggestion>Zeit<match no="3" case_conversion="alllower"/></suggestion>?</message>
+        <url>http://www.duden.de/rechtschreibung/zeitlebens</url>
+        <short>&getrennt;.</short>
+        <example type="correct"><marker>Zeitlebens</marker> war er ein armer Schlucker.</example>
+        <example type="incorrect" correction="Zeitlebens"><marker>Zeit Lebens</marker> war er ein armer Schlucker.</example>
       </rule>
     </rulegroup>
     <rulegroup id="JE_UM_SO" name="Zusammen-/Getrenntschreibung: 'je ... um so (umso) ...'" default="on">
@@ -13592,7 +13640,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <message>&inwend;'jemandem leid tun' wird <suggestion><match case_conversion="alllower" no="3"/></suggestion> kleingeschrieben.</message>
         <url>http://www.canoo.net/services/GermanSpelling/Regeln/Gross-klein/Denominalisierung.html#Anchor-Die-49575</url>
         <short>&prgk;.</short>
-        <example type="incorrect">Das tut mir <marker>Leid</marker>.</example>
+        <example type="incorrect" correction="leid">Das tut mir <marker>Leid</marker>.</example>
         <example type="correct">Das tut mir <marker>leid</marker>.</example>
       </rule>
       <rule>
@@ -13605,7 +13653,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <message>&inwend;'jemandem leid tun' wird <suggestion><match case_conversion="alllower" no="4"/></suggestion> kleingeschrieben.</message>
         <url>http://www.canoo.net/services/GermanSpelling/Regeln/Gross-klein/Denominalisierung.html#Anchor-Die-49575</url>
         <short>&prgk;.</short>
-        <example type="incorrect">Das tut mir sehr <marker>Leid</marker>.</example>
+        <example type="incorrect" correction="leid">Das tut mir sehr <marker>Leid</marker>.</example>
         <example type="correct">Das tut mir wirklich <marker>leid</marker>.</example>
       </rule>
       <rule>
@@ -13618,8 +13666,24 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <message>&inwend;'jemandem leid tun' wird <suggestion><match case_conversion="alllower" no="3"/></suggestion> kleingeschrieben.</message>
         <url>http://www.canoo.net/services/GermanSpelling/Regeln/Gross-klein/Denominalisierung.html#Anchor-Die-49575</url>
         <short>&prgk;.</short>
-        <example type="incorrect">Das wird mir noch <marker>Leid</marker> tun.</example>
+        <example type="incorrect" correction="leid">Das wird mir noch <marker>Leid</marker> tun.</example>
         <example type="correct">Ich fürchte, das wird mir noch <marker>leid</marker> tun.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="ZEIT_SEINES_LEBENS" name="Groß-/Kleinschreibung: '... Zeit (zeit) seines Lebens'" default="on">
+      <rule>
+        <pattern case_sensitive="yes" mark_from="1" mark_to="-2">
+          <token postag="VER:.+" postag_regexp="yes"><exception postag="SENT_START"/></token>
+          <token>Zeit</token>
+          <token regexp="yes">(&meindein;)es</token>
+          <token>Lebens</token>
+        </pattern>
+        <message>Meinten Sie die Präposition <suggestion><match no="2" case_conversion="alllower"/></suggestion>?</message>
+        <url>http://www.duden.de/rechtschreibung/zeit</url>
+        <short>&prgk;.</short>
+        <example type="correct">Er war <marker>zeit</marker> seines Lebens ein armer Schlucker.</example>
+        <example type="incorrect" correction="zeit">Er war <marker>Zeit</marker> seines Lebens ein armer Schlucker.</example>
+        <example type="incorrect" correction="zeit">Ich war <marker>Zeit</marker> meines Lebens ein armer Schlucker.</example>
       </rule>
     </rulegroup>
     <rulegroup id="TONARTEN" name="Groß-/Kleinschreibung bei Tonarten: 'A-Moll (a-Moll)/c-Dur (C-Dur)' usw.">
