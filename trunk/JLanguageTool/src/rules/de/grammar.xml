@@ -7113,7 +7113,88 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
   <!-- ====================================================================== -->
   <!-- Stil/Korrespondenz -->
   <!-- ====================================================================== -->
-  <category name="Stil (Briefe und E-Mails)">
+  <category name="Stil (Briefe und E-Mails)" default="off">
+    <rulegroup id="VERBLEIBEN_WIR" name="Stil: 'verbleibe ich' (altmodische Formel)" default="off">
+      <rule>
+        <pattern case_sensitive="no" mark_from="0">
+          <token regexp="yes">verbleiben?</token>
+          <token regexp="yes">ich|wir</token>
+        </pattern>
+        <message>Diese Wendung könnte als altmodisch empfunden werden.</message>
+        <short>Diese Wendung könnte als altmodisch empfunden werden.</short>
+        <example type="incorrect">... <marker>verbleibe ich</marker> Mit freundlichen Grüßen</example>
+        <example type="correct"><marker>Irgendetwas anderes</marker></example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="BEZUG_NEHMEND" name="Stil: 'Bezug nehmend auf Ihr Schreiben' (Papierdeutsch)" default="off">
+      <rule>
+        <pattern case_sensitive="no" mark_from="0">
+          <token>Bezug</token>
+          <token>nehmend</token>
+          <token>auf</token>
+          <token regexp="yes">Ihr(en?)?</token>
+          <token/>
+        </pattern>
+        <message>Diese Wendung könnte als verstaubtes Papierdeutsch empfunden werden.</message>
+        <short>Floskel</short>
+        <example type="incorrect"><marker>Bezug nehmend auf Ihre Anfrage</marker> vom Donnerstag möchten wir Ihnen in geschwollener Sprache mitteilen, dass wir das gewünschte Produkt zu unserem Bedauern nicht mehr auf Lager haben.</example>
+        <example type="correct"><marker>Fast alles ist besser.</marker></example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="FREUNDLICHE_KENNTNISNAHME" name="Stil: 'zu Ihrer freundlichen Kenntnisnahme' (Papierdeutsch)" default="off">
+      <rule>
+        <pattern case_sensitive="no" mark_from="0">
+          <token regexp="yes" skip="2">zur?</token>
+          <token>Kenntnisnahme</token>
+        </pattern>
+        <message>Diese Wendung könnte als verstaubtes Papierdeutsch empfunden werden.</message>
+        <short>Floskel</short>
+        <example type="incorrect"><marker>Zur freundlichen Kenntnisnahme</marker> übersenden wir Ihnen in geschwollener Sprache die Anlage.</example>
+        <example type="incorrect"><marker>Zu Ihrer freundlichen Kenntnisnahme</marker> übersenden wir Ihnen in geschwollener Sprache die Anlage.</example>
+        <example type="correct"><marker>Fast alles ist besser.</marker></example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="UEBERSENDEN" name="Stil: 'übersenden wir' (Papierdeutsch)" default="off">
+      <rule>
+        <pattern case_sensitive="no" mark_from="0">
+          <token regexp="yes">übersende\w?</token>
+        </pattern>
+        <message>Diese Wendung könnte als verstaubtes Papierdeutsch empfunden werden.</message>
+        <short>Floskel</short>
+        <example type="incorrect">Zur freundlichen Kenntnisnahme <marker>übersenden</marker> wir Ihnen in geschwollener Sprache die Anlage.</example>
+        <example type="correct"><marker>Fast alles ist besser.</marker></example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="AUCH_NACH_FEIERABEND" name="Stil: 'ich stehe Ihnen jederzeit zur Verfügung' (Floskel)" default="off">
+      <rule>
+        <pattern case_sensitive="no" mark_from="0">
+          <token regexp="yes" skip="2">stehen?</token>
+          <token skip="4">jederzeit</token>
+          <token>zur</token>
+          <token>Verfügung</token>
+        </pattern>
+        <message>Diese Wendung könnte als unangebracht devote Floskel aufgefasst werden.</message>
+        <short>Floskel</short>
+        <example type="incorrect">Ich <marker>stehe jederzeit für ein persönliches Gespräch zur Verfügung</marker> – besonders nachts und am Wochenende.</example>
+        <example type="correct"><marker>Irgendetwas weniger Blödes.</marker></example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="SCHNELLE_ANTWORT" name="Stil: 'danke für die schnelle Antwort' (Floskel)" default="off">
+      <rule>
+        <pattern case_sensitive="no" mark_from="0">
+          <token regexp="yes" skip="1">(be)?dank(en?)?</token>
+          <token>für</token>
+          <token regexp="yes">Ihre|deine|die</token>
+          <token regexp="yes">schnelle|prompte</token>
+          <token>Antwort</token>
+        </pattern>
+        <message>Diese Wendung könnte als nichtssagende Floskel aufgefasst werden.</message>
+        <short>Floskel</short>
+        <example type="incorrect">Ich <marker>bedanke mich für die schnelle Antwort</marker>.</example>
+        <example type="incorrect"><marker>Danke für die schnelle Antwort</marker>.</example>
+        <example type="correct"><marker>Irgendetwas weniger Belangloses.</marker></example>
+      </rule>
+    </rulegroup>
     <rulegroup id="MFG_LG" name="Stil: Schlussformeln sollten nicht abgekürzt werden" default="off">
       <rule>
         <pattern case_sensitive="no" mark_from="1">
@@ -14862,9 +14943,22 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <token>verrennt</token>
       </pattern>
       <message>Meinten Sie die Redewendung <suggestion>die Zeit verrinnt</suggestion>?</message>
+      <url>http://www.duden.de/rechtschreibung/verrinnen</url>
       <short>Möglicherweise falsch verwendete Redewendung</short>
       <example type="correct"><marker>Die Zeit verrinnt</marker> so schnell.</example>
       <example type="incorrect"><marker>Die Zeit verrennt</marker> so schnell.</example>
+    </rule>
+    <rule id="AUF_WEITEM_FLUR" name="Redewendung: 'auf weitem (weiter) Flur'">
+      <pattern>
+        <token>auf</token>
+        <token>weitem</token>
+        <token>Flur</token>
+      </pattern>
+      <message>Meinten Sie die Redewendung <suggestion>auf weiter Flur</suggestion>?</message>
+      <url>http://www.duden.de/rechtschreibung/Flur_Boden_Land_Feld</url>
+      <short>Möglicherweise falsch verwendete Redewendung</short>
+      <example type="correct">Ich war allein <marker>auf weiter Flur</marker>.</example>
+      <example type="incorrect" correction="auf weiter Flur">Ich war allein <marker>auf weitem Flur</marker>.</example>
     </rule>
     <rule id="GANG_UND_GEBE" name="Redewendung: 'gang und gebe (gäbe)'">
       <pattern>
