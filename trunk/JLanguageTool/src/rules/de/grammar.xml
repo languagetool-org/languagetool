@@ -15916,6 +15916,124 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="incorrect" correction="&nbsp;…">Er geht nach Hause<marker>…</marker></example>
       </rule>
     </rulegroup>
+    <rulegroup id="ABKUERZUNG_LEERZEICHEN" name="Typographie: geschütztes Leerzeichen bei Abkürzungen wie 'z. B.'">
+      <!-- Generalize? How can we make sure we're not only replacing part of an abbreviation? -->
+      <rule>
+        <pattern mark_from="0" case_sensitive="yes">
+          <token regexp="yes">s|S</token>
+          <token spacebefore="no">.</token>
+          <token regexp="yes">o|u<exception scope="previous">&nbsp;|&nnbsp;|&thinsp;</exception></token>
+          <token spacebefore="no">.</token>
+        </pattern>
+        <message>Innerhalb von Abkürzungen, die aus mehreren Buchstaben bestehen, sollten (außer bei Schriftarten mit fester Breite) in der Regel geschützte Leerzeichen verwendet werden: <suggestion>\1\2&nbsp;\3\4</suggestion></message>
+        <url>http://de.wikipedia.org/wiki/Abk%C3%BCrzung#Abk.C3.BCrzungen_mit_Punkt_und_Leerzeichen</url>
+        <short>Geschütztes Leerzeichen bei Abkürzungen.</short>
+        <example type="correct">Das ist richtig, s.&nbsp;u.</example>
+        <example type="incorrect" correction="s.&nbsp;u.">Das ist falsch, <marker>s.u.</marker></example>
+        <example type="incorrect" correction="s.&nbsp;o.">Das ist auch nicht gut, <marker>s. o.</marker></example>
+      </rule>
+      <rule>
+        <pattern mark_from="0" case_sensitive="yes">
+          <token regexp="yes">d|D</token>
+          <token spacebefore="no">.</token>
+          <token>h<exception scope="previous">&nbsp;|&nnbsp;|&thinsp;</exception></token>
+          <token spacebefore="no">.</token>
+        </pattern>
+        <message>Innerhalb von Abkürzungen, die aus mehreren Buchstaben bestehen, sollten (außer bei Schriftarten mit fester Breite) in der Regel geschützte Leerzeichen verwendet werden: <suggestion>\1\2&nbsp;\3\4</suggestion></message>
+        <url>http://de.wikipedia.org/wiki/Abk%C3%BCrzung#Abk.C3.BCrzungen_mit_Punkt_und_Leerzeichen</url>
+        <short>Geschütztes Leerzeichen bei Abkürzungen.</short>
+        <example type="correct">Das ist richtig, d.&nbsp;h. gut.</example>
+        <example type="incorrect" correction="d.&nbsp;h.">Das ist falsch, <marker>d.h.</marker> schlecht.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="0" case_sensitive="yes">
+          <token regexp="yes">z|Z</token>
+          <token spacebefore="no">.</token>
+          <token regexp="yes">B|Zt|Hd?<exception scope="previous">&nbsp;|&nnbsp;|&thinsp;</exception></token>
+          <token spacebefore="no">.</token>
+        </pattern>
+        <message>Innerhalb von Abkürzungen, die aus mehreren Buchstaben bestehen, sollten (außer bei Schriftarten mit fester Breite) in der Regel geschützte Leerzeichen verwendet werden: <suggestion>\1\2&nbsp;\3\4</suggestion></message>
+        <url>http://de.wikipedia.org/wiki/Abk%C3%BCrzung#Abk.C3.BCrzungen_mit_Punkt_und_Leerzeichen</url>
+        <short>Geschütztes Leerzeichen bei Abkürzungen.</short>
+        <example type="correct">Das ist z.&nbsp;B. richtig.</example>
+        <example type="incorrect" correction="z.&nbsp;B.">Das ist <marker>z.B.</marker> falsch.</example>
+        <example type="incorrect" correction="z.&nbsp;B.">Das ist <marker>z. B.</marker> auch nicht gut.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="0" case_sensitive="yes">
+          <token regexp="yes">v|n</token>
+          <token spacebefore="no">.</token>
+          <token>Chr<exception scope="previous">&nbsp;|&nnbsp;|&thinsp;</exception></token>
+          <token spacebefore="no">.</token>
+        </pattern>
+        <message>Innerhalb von Abkürzungen, die aus mehreren Buchstaben bestehen, sollten (außer bei Schriftarten mit fester Breite) in der Regel geschützte Leerzeichen verwendet werden: <suggestion>\1\2&nbsp;\3\4</suggestion></message>
+        <url>http://de.wikipedia.org/wiki/Abk%C3%BCrzung#Abk.C3.BCrzungen_mit_Punkt_und_Leerzeichen</url>
+        <short>Geschütztes Leerzeichen bei Abkürzungen.</short>
+        <example type="correct">Das war um 100 n.&nbsp;Chr.</example>
+        <example type="incorrect" correction="n.&nbsp;Chr.">Das war um 100 <marker>n.Chr.</marker></example>
+      </rule>
+      <rule>
+        <pattern mark_from="0" case_sensitive="yes">
+          <token regexp="yes">c|s</token>
+          <token spacebefore="no">.</token>
+          <token>t<exception scope="previous">&nbsp;|&nnbsp;|&thinsp;</exception></token>
+          <token spacebefore="no">.</token>
+        </pattern>
+        <message>Innerhalb von Abkürzungen, die aus mehreren Buchstaben bestehen, sollten (außer bei Schriftarten mit fester Breite) in der Regel geschützte Leerzeichen verwendet werden: <suggestion>\1\2&nbsp;\3\4</suggestion></message>
+        <url>http://de.wikipedia.org/wiki/Abk%C3%BCrzung#Abk.C3.BCrzungen_mit_Punkt_und_Leerzeichen</url>
+        <short>Geschütztes Leerzeichen bei Abkürzungen.</short>
+        <example type="correct">Das Seminar beginnt um 16 Uhr c.&nbsp;t.</example>
+        <example type="incorrect" correction="c.&nbsp;t.">Das Seminar beginnt um 16 Uhr <marker>c.t.</marker></example>
+      </rule>
+      <rule>
+        <pattern mark_from="0" case_sensitive="no">
+          <token regexp="yes">u|o|i</token>
+          <token spacebefore="no">.</token>
+          <token regexp="yes">ö|ä|a|dgl<exception scope="previous">&nbsp;|&nnbsp;|&thinsp;</exception></token>
+          <token spacebefore="no">.</token>
+        </pattern>
+        <message>Innerhalb von Abkürzungen, die aus mehreren Buchstaben bestehen, sollten (außer bei Schriftarten mit fester Breite) in der Regel geschützte Leerzeichen verwendet werden: <suggestion>\1\2&nbsp;\3\4</suggestion></message>
+        <url>http://de.wikipedia.org/wiki/Abk%C3%BCrzung#Abk.C3.BCrzungen_mit_Punkt_und_Leerzeichen</url>
+        <short>Geschütztes Leerzeichen bei Abkürzungen.</short>
+        <example type="correct">Das u.&nbsp;a. ist richtig.</example>
+        <example type="incorrect" correction="u.&nbsp;a.">Das ist <marker>u.a.</marker> falsch.</example>
+        <example type="incorrect" correction="i.&nbsp;A.">Das ist <marker>i.A.</marker> falsch.</example>
+        <example type="incorrect" correction="u.&nbsp;ä.">Das <marker>u. ä.</marker> ist auch nicht gut.</example>
+        <example type="incorrect" correction="u.&nbsp;dgl.">Das hier <marker>u. dgl.</marker> ist auch nicht gut.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="0" case_sensitive="no">
+          <token>u</token>
+          <token spacebefore="no">.</token>
+          <token>v<exception scope="previous">&nbsp;|&nnbsp;|&thinsp;</exception></token>
+          <token spacebefore="no">.</token>
+          <token regexp="yes">m|a<exception scope="previous">&nbsp;|&nnbsp;|&thinsp;</exception></token>
+          <token spacebefore="no">.</token>
+        </pattern>
+        <message>Innerhalb von Abkürzungen, die aus mehreren Buchstaben bestehen, sollten (außer bei Schriftarten mit fester Breite) in der Regel geschützte Leerzeichen verwendet werden: <suggestion>\1\2&nbsp;\3\4&nbsp;\5\6</suggestion></message>
+        <url>http://de.wikipedia.org/wiki/Abk%C3%BCrzung#Abk.C3.BCrzungen_mit_Punkt_und_Leerzeichen</url>
+        <short>Geschütztes Leerzeichen bei Abkürzungen.</short>
+        <example type="correct">Das u.&nbsp;v.&nbsp;a. ist richtig.</example>
+        <example type="correct">Das u.&nnbsp;v.&nnbsp;m. ist richtig.</example>
+        <example type="incorrect" correction="u.&nbsp;v.&nbsp;a.">Das <marker>u.v.a.</marker> ist falsch.</example>
+        <example type="incorrect" correction="u.&nbsp;v.&nbsp;m.">Das <marker>u. v. m.</marker> ist auch nicht gut.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="0" case_sensitive="yes">
+          <token regexp="yes">i|I</token>
+          <token spacebefore="no">.</token>
+          <token>d<exception scope="previous">&nbsp;|&nnbsp;|&thinsp;</exception></token>
+          <token spacebefore="no">.</token>
+          <token>R<exception scope="previous">&nbsp;|&nnbsp;|&thinsp;</exception></token>
+          <token spacebefore="no">.</token>
+        </pattern>
+        <message>Innerhalb von Abkürzungen, die aus mehreren Buchstaben bestehen, sollten (außer bei Schriftarten mit fester Breite) in der Regel geschützte Leerzeichen verwendet werden: <suggestion>\1\2&nbsp;\3\4&nbsp;\5\6</suggestion></message>
+        <url>http://de.wikipediR.org/wiki/Abk%C3%BCrzung#Abk.C3.BCrzungen_mit_Punkt_und_Leerzeichen</url>
+        <short>Geschütztes Leerzeichen bei Abkürzungen.</short>
+        <example type="correct">Das ist i.&nbsp;d.&nbsp;R. richtig.</example>
+        <example type="incorrect" correction="i.&nbsp;d.&nbsp;R.">Das ist <marker>i.d.R.</marker> falsch.</example>
+      </rule>
+    </rulegroup>
   </category>
 
   <!-- ====================================================================== -->
