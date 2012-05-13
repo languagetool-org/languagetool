@@ -4479,6 +4479,76 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Wir haben eine <marker>Zeit lang</marker> gesucht.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="EINMALEINS" name="Zusammen-/Getrenntschreibung: 'das ein mal eins (Einmaleins)' etc." default="on">
+      <rule>
+        <pattern mark_from="1" mark_to="0" case_sensitive="no">
+          <token>das</token>
+          <token>ein</token>
+          <token>mal</token>
+          <token>eins</token>
+        </pattern>
+        <message>&getrennt;. Das Substantiv wird groß und zusammen geschrieben. Vorschlag: <suggestion>Einmaleins</suggestion>.</message>
+        <url>http://www.duden.de/rechtschreibung/Einmaleins</url>
+        <short>&getrennt;.</short>
+        <example type="incorrect" correction="Einmaleins">Das <marker>ein mal eins</marker> des Handwerks.</example>
+        <example type="correct">Das <marker>Einmaleins</marker> des Handwerks.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="0" case_sensitive="no">
+          <token>das</token>
+          <token regexp="yes">&anfauf;</token>
+          <token>ein</token>
+          <token>mal</token>
+          <token>eins</token>
+          <token regexp="yes">&anfzu;</token>
+        </pattern>
+        <message>&getrennt;. Das Substantiv wird groß und zusammen geschrieben. Vorschlag: <suggestion>Einmaleins</suggestion>.</message>
+        <url>http://www.duden.de/rechtschreibung/Einmaleins</url>
+        <short>&getrennt;.</short>
+        <example type="incorrect" correction="Einmaleins">Das <marker>„ein mal eins“</marker> des Handwerks.</example>
+        <example type="correct">Das <marker>Einmaleins</marker> des Handwerks.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2" mark_to="0" case_sensitive="no">
+          <token>das</token>
+          <token postag="ADJ:NOM:SIN:NEU.*" postag_regexp="yes"/>
+          <token>ein</token>
+          <token>mal</token>
+          <token>eins</token>
+        </pattern>
+        <message>&getrennt;. Das Substantiv wird groß und zusammen geschrieben. Vorschlag: <suggestion>Einmaleins</suggestion>.</message>
+        <url>http://www.duden.de/rechtschreibung/Einmaleins</url>
+        <short>&getrennt;.</short>
+        <example type="incorrect" correction="Einmaleins">Das kleine <marker>ein mal eins</marker> des Handwerks.</example>
+        <example type="correct">Das kleine <marker>Einmaleins</marker> des Handwerks.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="ACHTMALVIER" name="Zusammen-/Getrenntschreibung: 'acht mal (achtmal)' etc." default="on">
+      <rule>
+        <pattern mark_from="0" mark_to="-1" case_sensitive="no">
+          <token postag="ZAL"></token>
+          <token>mal</token>
+          <token><exception postag="ZAL"/></token>
+        </pattern>
+        <message>&getrennt;: <suggestion>\1<match no="2" case_conversion="alllower"/></suggestion> sollte meist zusammen geschrieben werden, außer wenn das Wort 'Mal' besonders betont werden soll.</message>
+        <url>http://www.duden.de/rechtschreibung/achtmal</url>
+        <short>&getrennt;.</short>
+        <example type="incorrect" correction="achtmal">Wir haben es <marker>acht mal</marker> versucht.</example>
+        <example type="correct">Wir haben es <marker>achtmal</marker> versucht.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="0" mark_to="-1" case_sensitive="no">
+          <token regexp="yes">(ein|zwei|drei|vier|fünf|sechs|sieben|acht|neun|zehn|elf|zwölf|hundert|tausend|(zwanz|dreiß|vierz|fünfz|sechz|siebz|achtz|neunz)ig)mal</token>
+          <token postag="ZAL"/>
+          <token regexp="yes">ist|sind|ergibt</token>
+        </pattern>
+        <message>Falls das Wort 'mal' hier eine Multiplikation ausdrücken soll, sollte <suggestion><match no="1" regexp_replace="" regexp_match="mal$"/> mal \2</suggestion> getrennt geschrieben werden.</message>
+        <url>http://www.duden.de/rechtschreibung/achtmal</url>
+        <short>&getrennt;.</short>
+        <example type="incorrect" correction="Acht mal zwei"><marker>Achtmal zwei</marker> ist 16.</example>
+        <example type="correct"><marker>Acht mal zwei</marker> ist 16.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="UEBER_DEN_WEGLAUFEN" name="Zusammen-/Getrenntschreibung: 'über den weggelaufen (über den Weg gelaufen)'">
       <rule>
         <pattern mark_from="2" case_sensitive="no">
@@ -4486,11 +4556,24 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>den</token>
           <token regexp="yes">weg(ge|zu)?laufen?|wegläufs?t</token>
         </pattern>
-        <message>&getrennt;. Meinten Sie: über den <suggestion>Weg <match no="3" regexp_replace="" regexp_match="^[wW]eg"/></suggestion>?</message>
+        <message>Bitte überprüfen Sie die Schreibweise. Meinten Sie: über den <suggestion>Weg <match no="3" regexp_replace="" regexp_match="^[wW]eg"/></suggestion>?</message>
         <short>&getrennt;.</short>
         <example type="incorrect" correction="Weg gelaufen">Ich bin ihm zufällig über den <marker>weggelaufen</marker>.</example>
         <example type="incorrect" correction="Weg gelaufen">Ich bin ihm zufällig über den <marker>Weggelaufen</marker>.</example>
         <example type="correct">Ich bin ihm zufällig über den <marker>Weg gelaufen</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2" case_sensitive="no">
+          <token>aus</token>
+          <token>dem</token>
+          <token regexp="yes">weg(zu)?gehen?|weggegangen|weggehs?t|wegging(en)?</token>
+        </pattern>
+        <message>Bitte überprüfen Sie die Schreibweise. Meinten Sie: über den <suggestion>Weg <match no="3" regexp_replace="" regexp_match="^[wW]eg"/></suggestion>?</message>
+        <short>&getrennt;.</short>
+        <example type="incorrect" correction="Weg gegangen">Ich bin ihm aus dem <marker>weggegangen</marker>.</example>
+        <example type="incorrect" correction="Weg gegangen">Ich bin ihm aus dem <marker>Weggegangen</marker>.</example>
+        <example type="correct">Ich bin ihm aus dem <marker>Weg gegangen</marker>.</example>
+        <example type="correct">Ich bin <marker>weggegangen</marker>.</example>
       </rule>
     </rulegroup>
     <rulegroup id="VIELMEHR_VIEL_MEHR" name="Zusammen-/Getrenntschreibung: 'sehr vielmehr (viel mehr)'">
