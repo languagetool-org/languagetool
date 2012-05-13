@@ -4576,6 +4576,22 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Ich bin <marker>weggegangen</marker>.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="GUTHABEN_GUT_HABEN" name="Zusammen-/Getrenntschreibung: 'ihr sollt es guthaben (gut haben)'">
+      <rule>
+        <pattern mark_from="2" case_sensitive="yes">
+          <token inflected="yes" postag="VER:.+" postag_regexp="yes">sollen</token>
+          <token skip="2">es<exception scope="next" postag="SENT_END"/></token>
+          <token>guthaben</token>
+        </pattern>
+        <message>Wenn sie 'es <suggestion>gut haben</suggestion>' im Sinne von 'es geht jmd. gut' meinen, schreiben Sie bitte getrennt. Das zusammengeschriebene 'guthaben' bedeutet so viel wie 'eine Gegenleistung erwarten können'.</message>
+        <url>http://www.duden.de/rechtschreibung/guthaben</url>
+        <short>&getrennt;.</short>
+        <example type="incorrect" correction="gut haben">Meine Kinder sollen es später mal <marker>guthaben</marker>!</example>
+        <example type="incorrect" correction="gut haben">Du sollst es bei mir <marker>guthaben</marker>!</example>
+        <example type="correct">Meine Kinder sollen es später mal <marker>gut haben</marker>!</example>
+        <example type="correct">Sie haben noch <marker>Guthaben</marker> auf Ihrem Konto.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="VIELMEHR_VIEL_MEHR" name="Zusammen-/Getrenntschreibung: 'sehr vielmehr (viel mehr)'">
       <!-- some false pos. extend to 'vielmehr als nur' -->
       <rule>
