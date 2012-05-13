@@ -45,7 +45,7 @@ import java.util.Map;
  */
 public class MarkerConverter {
 
-  private static final Language LANGUAGE = Language.GERMAN;
+  private static final Language LANGUAGE = Language.CATALAN;
 
   public static void main(String[] args) throws SAXException, ParserConfigurationException, IOException {
     final ConverterHandler handler = new ConverterHandler();
@@ -195,7 +195,7 @@ public class MarkerConverter {
     @Override
     public void comment(char[] buf, int offset, int len) throws SAXException {
       final String s = new String(buf, offset, len);
-      System.out.print("<!--" + StringTools.escapeXML(s) + "-->");
+      System.out.print("<!--" + s + "-->");
     }
   }
 
