@@ -85,6 +85,8 @@ class PatternRuleHandler extends XMLRuleHandler {
   private Category category;
   private String name;
   private String ruleGroupDescription;
+  private int startPos = -1;
+  private int endPos = -1;
 
   // ===========================================================
   // SAX DocumentHandler methods
@@ -150,6 +152,8 @@ class PatternRuleHandler extends XMLRuleHandler {
       uTypeList.add(uType);
     } else if (qName.equals(TOKEN)) {
       setToken(attrs);
+    } else if (qName.equals("marker") && inPattern) {
+      startPos = tokenCounter;
     } else if (EXCEPTION.equals(qName)) {
       setExceptions(attrs);
     } else if (qName.equals(EXAMPLE)
@@ -245,6 +249,8 @@ class PatternRuleHandler extends XMLRuleHandler {
       tokenCounter++;
     } else if (qName.equals(TOKEN)) {
       finalizeTokens();
+    } else if (qName.equals("marker") && inPattern) {
+      endPos = tokenCounter;
     } else if (qName.equals(PATTERN)) {
       checkMarkPositions();
       inPattern = false;
@@ -320,8 +326,15 @@ class PatternRuleHandler extends XMLRuleHandler {
   }
 
   private void prepareRule(final PatternRule rule) {
-    rule.setStartPositionCorrection(startPositionCorrection);
-    rule.setEndPositionCorrection(endPositionCorrection);
+    if (startPos != -1 && endPos != -1) {
+      rule.setStartPositionCorrection(startPos);
+      rule.setEndPositionCorrection(endPos - elementList.size());
+    } else {
+      rule.setStartPositionCorrection(startPositionCorrection);
+      rule.setEndPositionCorrection(endPositionCorrection);
+    }
+    startPos = -1;
+    endPos = -1;
     startPositionCorrection = 0;
     endPositionCorrection = 0;
     rule.setCorrectExamples(correctExamples);

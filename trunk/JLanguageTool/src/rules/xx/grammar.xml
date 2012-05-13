@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../print.xsl" 
 title="Pretty print" ?>
 <?xml-stylesheet type="text/css" href="../rules.css" 
@@ -7,9 +6,7 @@ title="Easy editing stylesheet" ?>
 A demo rule file for LanguageTool
 Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
 $Id: grammar.xml,v 1.22 2010-07-17 17:15:40 dnaber Exp $
--->
-<rules lang="xx" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="../rules.xsd">
+--><rules lang="xx" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../rules.xsd">
   <!-- tests for phrase syntax -->
   <unification feature="case_sensitivity">
     <equivalence type="startupper">
@@ -23,9 +20,9 @@ $Id: grammar.xml,v 1.22 2010-07-17 17:15:40 dnaber Exp $
     <phrase id="UNIFICATION_PHRASE">
       <unify>
       <feature id="case_sensitivity">
-      	<type id="startupper"/>
+      	<type id="startupper"></type>
       </feature>
-        <token/>
+        <token></token>
         <token>York</token>
       </unify>
     </phrase>
@@ -38,7 +35,7 @@ $Id: grammar.xml,v 1.22 2010-07-17 17:15:40 dnaber Exp $
     <phrase id="COMPLEX_PHRASE">
       <token>complex</token>
       <includephrases>
-        <phraseref idref="NP"/>
+        <phraseref idref="NP"></phraseref>
       </includephrases>
       <token>another</token>
     </phrase>
@@ -54,9 +51,9 @@ $Id: grammar.xml,v 1.22 2010-07-17 17:15:40 dnaber Exp $
     <phrase id="COMPLEX_MULTIPLE">
       <token>first</token>
       <includephrases>
-        <phraseref idref="DUMMY_VB1"/>
-        <phraseref idref="DUMMY_VB2"/>
-        <phraseref idref="DUMMY_VB3"/>
+        <phraseref idref="DUMMY_VB1"></phraseref>
+        <phraseref idref="DUMMY_VB2"></phraseref>
+        <phraseref idref="DUMMY_VB3"></phraseref>
       </includephrases>
       <token>last</token>
     </phrase>
@@ -66,46 +63,50 @@ $Id: grammar.xml,v 1.22 2010-07-17 17:15:40 dnaber Exp $
     <phrase id="TEST_INCLUDE">
       <token>beginning</token>
       <includephrases>
-        <phraseref idref="COMPLEX_MULTIPLE"/>
-        <phraseref idref="SINGLE_TOKEN"/>
+        <phraseref idref="COMPLEX_MULTIPLE"></phraseref>
+        <phraseref idref="SINGLE_TOKEN"></phraseref>
       </includephrases>
       <token>end</token>
     </phrase>
     <phrase id="trivial_include">
       <includephrases>
-        <phraseref idref="DUMMY_VB1"/>
+        <phraseref idref="DUMMY_VB1"></phraseref>
       </includephrases>
       <includephrases>
-        <phraseref idref="DUMMY_VB2"/>
+        <phraseref idref="DUMMY_VB2"></phraseref>
       </includephrases>
     </phrase>
   </phrases>
 
   <category name="misc">
-    <!-- a trivial demo rule that matches "foo" followed by "bar" -->
+    <!-- a trivial demo rule that matches &quot;foo&quot; followed by &quot;bar&quot; -->
     <rule id="DEMO_RULE" name="Find 'foo bar'">
-      <pattern case_sensitive="no" mark_from="0">
+      <pattern case_sensitive="no">
         <token>foo</token>
         <token>bar</token>
       </pattern>
-      <message>Did you mean <suggestion><match no="1"/> fuu bah</suggestion>?</message>
+      <message>Did you mean <suggestion><match no="1"></match> fuu bah</suggestion>?</message>
       <url>http://fake-server.org/foo-bar-error-explained</url>
       <example type="correct">This is <marker>fuu bah</marker>.</example>
       <example correction="foo fuu bah" type="incorrect">This is <marker>foo bar</marker>.</example>
     </rule>
     <rule id="API_OUTPUT_TEST_RULE" name="Find 'foo bar'">
-      <pattern case_sensitive="no" mark_from="1">
+      <pattern case_sensitive="no">
         <token>ach</token>
-        <token>thosnaíos-sa</token>
+        <marker>
+            <token>thosnaíos-sa</token>
+        </marker>
       </pattern>
       <message>Did you mean <suggestion>fuu bah</suggestion>?</message>
       <example type="correct">This is ach <marker>fuu bah</marker>.</example>
       <example type="incorrect">This is ach <marker>thosnaíos-sa</marker>.</example>
     </rule>
     <rule id="NEGATION_TOKEN" name="test negation">
-      <pattern mark_from="1">
+      <pattern>
         <token>small</token>
-        <token negate="yes">test</token>
+        <marker>
+            <token negate="yes">test</token>
+        </marker>
       </pattern>
       <message>test</message>
       <example type="correct">a small <marker>test</marker></example>
@@ -114,7 +115,7 @@ $Id: grammar.xml,v 1.22 2010-07-17 17:15:40 dnaber Exp $
     <rule id="TEST_GO" name="another test of phrases">
       <pattern>
         <token>foo</token>
-        <phraseref idref="DUMMY_VB1"/>
+        <phraseref idref="DUMMY_VB1"></phraseref>
       </pattern>
       <message>Error!</message>
       <example type="correct">foo bar</example>
@@ -124,28 +125,28 @@ $Id: grammar.xml,v 1.22 2010-07-17 17:15:40 dnaber Exp $
     </rule>
     <rule id="TEST_PHRASES1" name="test phrases mechanism">
       <pattern>
-        <phraseref idref="COMPLEX_MULTIPLE"/>
+        <phraseref idref="COMPLEX_MULTIPLE"></phraseref>
         <token>there</token>
       </pattern>
-      <message>This is the matched text: <match no="1"/><match no="2"/></message>
+      <message>This is the matched text: <match no="1"></match><match no="2"></match></message>
       <example type="correct">go here</example>
       <example type="incorrect"><marker>first goes last there</marker>, please!</example>
     </rule>
     <rule id="test_include" name="test two includeblocks">
       <pattern>
-        <phraseref idref="TEST_INCLUDE"/>
+        <phraseref idref="TEST_INCLUDE"></phraseref>
       </pattern>
-      <message>Matched: <suggestion>test <match no="1"/>trala</suggestion></message>
+      <message>Matched: <suggestion>test <match no="1"></match>trala</suggestion></message>
       <example type="correct">Any string.</example>
       <example type="incorrect">Some words, <marker>beginning first go last end</marker></example>
     </rule>
     <rule id="test_include_and_skip" name="test two includeblocks">
       <pattern>
         <token skip="2">any</token>
-        <phraseref idref="TEST_INCLUDE"/>
+        <phraseref idref="TEST_INCLUDE"></phraseref>
         <token>word</token>
       </pattern>
-      <message>Matched: <suggestion><match no="1"/> test</suggestion></message>
+      <message>Matched: <suggestion><match no="1"></match> test</suggestion></message>
       <example type="correct">Any string.</example>
       <example type="incorrect">Some words, <marker>any word beginning first go last end word</marker></example>
     </rule>
@@ -153,24 +154,26 @@ $Id: grammar.xml,v 1.22 2010-07-17 17:15:40 dnaber Exp $
 		disjunction for some obscure reason! -->
     <rule id="test_two_phrases" name="test two phrases">
       <pattern>
-        <phraseref idref="COMPLEX_MULTIPLE"/>
-        <phraseref idref="SINGLE_TOKEN"/>
+        <phraseref idref="COMPLEX_MULTIPLE"></phraseref>
+        <phraseref idref="SINGLE_TOKEN"></phraseref>
       </pattern>
-      <message>Matched: <match no="1"/></message>
+      <message>Matched: <match no="1"></match></message>
       <example type="correct">Any string.</example>
       <example type="incorrect">First words and <marker>first go last</marker></example>
     </rule>
     <rule id="test_and_operator" name="test logical AND">
-      <pattern mark_to="-1">
+      <pattern>
+        <marker>
         <and>
-          <token regexp="yes">A.*</token>
+            <token regexp="yes">A.*</token>
           <token regexp="yes">[A-Z]B.*</token>
           <token negate="yes">ABC</token>
           <token regexp="yes">.*D<exception>ABED</exception></token>
         </and>
+        </marker>
         <token>test</token>
       </pattern>
-      <message>Matched: <match no="1"/></message>
+      <message>Matched: <match no="1"></match></message>
       <example type="correct">CB test</example>
       <example type="correct">ABC test</example>
       <example type="incorrect"><marker>ABCD</marker> test</example>
@@ -179,9 +182,9 @@ $Id: grammar.xml,v 1.22 2010-07-17 17:15:40 dnaber Exp $
     </rule>
     <rule id="test_match_ref" name="testing match element...">
       <pattern>
-        <token/>
+        <token></token>
         <token>by</token>
-        <token><match no="0"/></token>
+        <token><match no="0"></match></token>
       </pattern>
       <message>Found \1 \2 \3.</message>
       <example type="incorrect"><marker>Step by step</marker>.</example>
@@ -190,9 +193,9 @@ $Id: grammar.xml,v 1.22 2010-07-17 17:15:40 dnaber Exp $
     </rule>
     <rule id="test_match_ref_superb" name="testing match element on steroids...">
       <pattern>
-        <token/>
+        <token></token>
         <token>by</token>
-        <token><match no="0"/>on</token>
+        <token><match no="0"></match>on</token>
       </pattern>
       <message>Found \1 \2 \3.</message>
       <example type="correct"><marker>Step by step</marker>.</example>
@@ -208,13 +211,13 @@ $Id: grammar.xml,v 1.22 2010-07-17 17:15:40 dnaber Exp $
           <token>3</token>
           <token>4</token>
           <token>5</token>
-          <token/>
+          <token></token>
           <token>7</token>
           <token>8</token>
-          <token/>
+          <token></token>
           <token>10</token>
         </pattern>
-        <message>I suggest: <suggestion><match no="10"/> blahblah</suggestion>.</message>
+        <message>I suggest: <suggestion><match no="10"></match> blahblah</suggestion>.</message>
         <example type="correct">blah</example>
         <example correction="10 blahblah" type="incorrect"><marker>1 2 3 4 5 6 7 8 9 10</marker>.</example>
       </rule>
@@ -225,10 +228,10 @@ $Id: grammar.xml,v 1.22 2010-07-17 17:15:40 dnaber Exp $
           <token>3</token>
           <token>4</token>
           <token>5</token>
-          <token/>
+          <token></token>
           <token>7</token>
           <token>8</token>
-          <token/>
+          <token></token>
           <token>10</token>
         </pattern>
         <message>I suggest: <suggestion>\10 blahblah</suggestion>.</message>
@@ -241,34 +244,38 @@ $Id: grammar.xml,v 1.22 2010-07-17 17:15:40 dnaber Exp $
         <token>new-york</token>
         <token>cafe</token>
       </pattern>
-      <message>This name should be uppercase: <suggestion>New <match case_conversion="startupper" no="1" regexp_match="[Nn]ew-(.*)" regexp_replace="$1"/> Cafe</suggestion></message>
+      <message>This name should be uppercase: <suggestion>New <match case_conversion="startupper" no="1" regexp_match="[Nn]ew-(.*)" regexp_replace="$1"></match> Cafe</suggestion></message>
       <example type="correct">New York Cafe</example>
       <example correction="New York Cafe" type="incorrect">This is a new coffeshop in the middle of nowhere called <marker>new-york cafe</marker>.</example>
     </rule>
     <rule id="test_unification" name="Test unification of character case">
-      <pattern case_sensitive="yes" mark_from="1">
+      <pattern case_sensitive="yes">
         <token>abc</token>
+        <marker>
         <unify> <feature id="case_sensitivity">
-        		<type id="startupper"/>
+        		<type id="startupper"></type>
         		</feature>
-          <token/>
+          <token></token>
           <token>York</token>
         </unify>
+        </marker>
       </pattern>
       <message>Warning: \1 \2 \3!</message>
       <example type="incorrect">abc <marker>New York</marker></example>
       <example type="correct">abc new York</example>
     </rule>
     <rule id="test_unification_negate" name="Test negated unification of character case">
-      <pattern case_sensitive="yes" mark_from="1">
+      <pattern case_sensitive="yes">
         <token>abc</token>
+        <marker>
         <unify negate="yes">
         	<feature id="case_sensitivity">
-        		<type id="startupper"/>
+        		<type id="startupper"></type>
         	</feature>        
-          <token/>
-          <token regexp="yes">[yY]ork</token>
+            <token></token>
+            <token regexp="yes">[yY]ork</token>
         </unify>
+        </marker>
       </pattern>
       <message>Warning: \1 \2 \3!</message>
       <example type="incorrect">abc <marker>new York</marker></example>
@@ -277,9 +284,11 @@ $Id: grammar.xml,v 1.22 2010-07-17 17:15:40 dnaber Exp $
       <example type="correct">abc New York</example>
     </rule>
     <rule id="test_unification_phrase" name="Test unification of characters' case via phrase">
-      <pattern case_sensitive="yes" mark_from="1">
+      <pattern case_sensitive="yes">
         <token>abc</token>
-        <phraseref idref="UNIFICATION_PHRASE"/>
+        <marker>
+            <phraseref idref="UNIFICATION_PHRASE"></phraseref>
+        </marker>
       </pattern>
       <message>Warning: \1 \2 \3!</message>
       <example type="incorrect">abc <marker>New York</marker></example>
@@ -290,7 +299,7 @@ $Id: grammar.xml,v 1.22 2010-07-17 17:15:40 dnaber Exp $
     		<token skip="-1">abc</token>
     		<token>end</token>
     	</pattern>
-    	<message>Warning: <suggestion><match no="1" include_skipped="all"/> xyz</suggestion></message>
+    	<message>Warning: <suggestion><match no="1" include_skipped="all"></match> xyz</suggestion></message>
     	<example type="incorrect" correction="abcdef ghi xyz">This is <marker>abc def ghi end</marker>.</example>
     	<example type="correct">foobar</example>
     </rule>
@@ -298,13 +307,13 @@ $Id: grammar.xml,v 1.22 2010-07-17 17:15:40 dnaber Exp $
     <pattern case_sensitive="yes">
     	<token>Test1</token>
     	<unify>
-    		<feature id="case_sensitivity"/>    			        	
+    		<feature id="case_sensitivity"></feature>    			        	
     		<token skip="-1"><exception scope="next">Ghj</exception></token>
     		<token regexp="yes">[xX]yz</token> 		
     	</unify>
     	<token>end</token>
     </pattern>
-    <message>This is not visible anyway<suggestion><match no="2" include_skipped="all"/></suggestion>.</message>
+    <message>This is not visible anyway<suggestion><match no="2" include_skipped="all"></match></suggestion>.</message>
     <example type="incorrect" correction="Abc">This is <marker>Test1 Abc Xyz end</marker>.</example>
     <example type="incorrect" correction="AbcDef">This is <marker>Test1 Abc Def Xyz end</marker>.</example>
     <!-- skipped elements are NOT unified -->

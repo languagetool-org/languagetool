@@ -131,10 +131,17 @@ public abstract class AbstractPatternRule extends Rule {
     this.startPositionCorrection = startPositionCorrection;
   }
 
+  public final int getStartPositionCorrection() {
+    return this.startPositionCorrection;
+  }
+
   public final void setEndPositionCorrection(final int endPositionCorrection) {
     this.endPositionCorrection = endPositionCorrection;
   }
 
+  public final int getEndPositionCorrection() {
+    return this.endPositionCorrection;
+  }
 
   protected void setupAndGroup(final int firstMatchToken,
       final Element elem, final AnalyzedTokenReadings[] tokens)
