@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet type="text/xsl" href="../print.xsl" 
-title="Pretty print" ?>
-<?xml-stylesheet type="text/css" href="../rules.css" 
-title="Easy editing stylesheet" ?>
+<?xml-stylesheet type="text/xsl" href="../print.xsl"
+        title="Pretty print" ?>
+<?xml-stylesheet type="text/css" href="../rules.css"
+        title="Easy editing stylesheet" ?>
 <!--
 Spanish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
@@ -10,1482 +10,1488 @@ Copyright (C) 2010 Juan Martorell
 $Id: grammar.xml,v 1.18 2010-12-10 01:07:04 jmartorell Exp $
 -->
 <rules lang="es" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <category name="Miscelánea">
-    <!-- EN_BASE_A En base a -> con base en (o basado en) (o sobre la base de) (http://cvc.cervantes.es/alhabla/museo_horrores/museo_039.htm)-->
+    <category name="Miscelánea">
+        <!-- EN_BASE_A En base a -> con base en (o basado en) (o sobre la base de) (http://cvc.cervantes.es/alhabla/museo_horrores/museo_039.htm)-->
 
-    <rule id="EN_BASE_A" name="en base a">
-      <pattern>
-        <token>en</token>
+        <rule id="EN_BASE_A" name="en base a">
+            <pattern>
+                <token>en</token>
 
-        <token>base</token>
+                <token>base</token>
 
-        <token>a</token>
-      </pattern>
+                <token>a</token>
+            </pattern>
 
-      <message>En español, la expresión «en base a» no existe. Puede cambiarse por <suggestion>basándonos en</suggestion>, <suggestion>basándose en</suggestion>, <suggestion>sobre la base de</suggestion>, <suggestion>en relación con</suggestion>,
-      <suggestion>según</suggestion> o <suggestion>por</suggestion>.</message>
+            <message>En español, la expresión «en base a» no existe. Puede cambiarse por <suggestion>basándonos en</suggestion>, <suggestion>basándose en</suggestion>, <suggestion>sobre la base de</suggestion>, <suggestion>en relación con</suggestion>,
+                <suggestion>según</suggestion> o <suggestion>por</suggestion>.</message>
 
-      <short>En español, la expresión «en base a» no existe.</short>
+            <short>En español, la expresión «en base a» no existe.</short>
 
-      <example correction="basándonos en|basándose en|sobre la base de|en relación con|según|por" type="incorrect">Se puede regresar a la zona <marker>en base a</marker> lo expuesto por las autoridades.</example>
+            <example correction="basándonos en|basándose en|sobre la base de|en relación con|según|por" type="incorrect">Se puede regresar a la zona <marker>en base a</marker> lo expuesto por las autoridades.</example>
 
-      <example type="correct">Se ha reducido la cadencia de los trenes basándose en la estadistica elaborada.</example>
-    </rule>
-  </category>
+            <example type="correct">Se ha reducido la cadencia de los trenes basándose en la estadistica elaborada.</example>
+        </rule>
+    </category>
 
-  <category name="Ortografía (tipográficos)">
-    <!--AE_COMIDO Tiempos compuestos por «a» o «e» + participio-->
+    <category name="Ortografía (tipográficos)">
+        <!--AE_COMIDO Tiempos compuestos por «a» o «e» + participio-->
 
-    <rulegroup id="AE_COMIDO" name="Tiempos compuestos 'a' o 'e' + participio">
-      <!--A_PARTICIPIO a comido-->
+        <rulegroup id="AE_COMIDO" name="Tiempos compuestos 'a' o 'e' + participio">
+            <!--A_PARTICIPIO a comido-->
 
-      <rule id="A_PARTICIPIO" name="a + participio">
-        <pattern mark_from="1" mark_to="-1">
-          <token postag=".*" postag_regexp="yes"><exception inflected="yes" regexp="yes">oler|saber|gustar</exception></token>
+            <rule id="A_PARTICIPIO" name="a + participio">
+                <pattern>
+                    <token postag=".*" postag_regexp="yes"><exception inflected="yes" regexp="yes">oler|saber|gustar</exception></token>
 
-          <token>a</token>
+                    <marker>
+                        <token>a</token>
+                    </marker>
 
-          <token postag="V[ASM]P00SM" postag_regexp="yes"></token>
-        </pattern>
+                    <token postag="V[ASM]P00SM" postag_regexp="yes"></token>
+                </pattern>
 
-        <message>El verbo 'haber' lleva hache: <suggestion>ha</suggestion></message>
+                <message>El verbo 'haber' lleva hache: <suggestion>ha</suggestion></message>
 
-        <short>El verbo «haber» lleva hache.</short>
+                <short>El verbo «haber» lleva hache.</short>
 
-        <example correction="ha" type="incorrect">El atleta <marker>a</marker> corrido de forma espectacular.</example>
+                <example correction="ha" type="incorrect">El atleta <marker>a</marker> corrido de forma espectacular.</example>
 
-        <example type="correct">El atleta <marker>ha</marker> corrido de forma espectacular.</example>
-      </rule>
+                <example type="correct">El atleta <marker>ha</marker> corrido de forma espectacular.</example>
+            </rule>
 
-      <!--E_PARTICIPIO e comido-->
+            <!--E_PARTICIPIO e comido-->
 
-      <rule id="E_PARTICIPIO" name="e+ participio">
-        <pattern mark_to="-1">
-          <token>e</token>
+            <rule id="E_PARTICIPIO" name="e+ participio">
+                <pattern>
+                    <marker>
+                        <token>e</token>
+                    </marker>
 
-          <token postag="V[ASM]P00SM" postag_regexp="yes"><!--Excluímos las palabras que empiezan por «i», ya que «e» puede actuar de conjunción--><exception regexp="yes">^h?[ií].* </exception></token>
-        </pattern>
+                    <token postag="V[ASM]P00SM" postag_regexp="yes"><!--Excluímos las palabras que empiezan por «i», ya que «e» puede actuar de conjunción--><exception regexp="yes">^h?[ií].* </exception></token>
+                </pattern>
 
-        <message>El verbo 'haber' lleva hache: <suggestion>he</suggestion></message>
+                <message>El verbo 'haber' lleva hache: <suggestion>he</suggestion></message>
 
-        <short>El verbo «haber» lleva hache.</short>
+                <short>El verbo «haber» lleva hache.</short>
 
-        <example correction="he" type="incorrect">Siempre <marker>e</marker> comido bien.</example>
+                <example correction="he" type="incorrect">Siempre <marker>e</marker> comido bien.</example>
 
-        <example type="correct">Nos llevamos como anfitrión <marker>e</marker> invitado.</example>
-      </rule>
+                <example type="correct">Nos llevamos como anfitrión <marker>e</marker> invitado.</example>
+            </rule>
 
-      <!--PRON_E_PARTICIPIO me e comido-->
+            <!--PRON_E_PARTICIPIO me e comido-->
 
-      <rule id="PRON_E_PARTICIPIO" name="pronombre + e + participio">
-        <!--Con pronombre al principio, «e» es siempre incorrecto antes de participio.-->
+            <rule id="PRON_E_PARTICIPIO" name="pronombre + e + participio">
+                <!--Con pronombre al principio, «e» es siempre incorrecto antes de participio.-->
 
-        <pattern mark_from="1" mark_to="-1">
-          <token postag="PP.*" postag_regexp="yes"></token>
+                <pattern>
+                    <token postag="PP.*" postag_regexp="yes"></token>
 
-          <token>e</token>
+                    <marker>
+                        <token>e</token>
+                    </marker>
 
-          <token postag="V[ASM]P00SM" postag_regexp="yes" regexp="yes">^h?[ií].*</token>
-        </pattern>
+                    <token postag="V[ASM]P00SM" postag_regexp="yes" regexp="yes">^h?[ií].*</token>
+                </pattern>
 
-        <message>El verbo 'haber' lleva hache: <suggestion>he</suggestion></message>
+                <message>El verbo 'haber' lleva hache: <suggestion>he</suggestion></message>
 
-        <short>El verbo «haber» lleva hache.</short>
+                <short>El verbo «haber» lleva hache.</short>
 
-        <example correction="he" type="incorrect">Nos <marker>e</marker> incluido en la lista.</example>
+                <example correction="he" type="incorrect">Nos <marker>e</marker> incluido en la lista.</example>
 
-        <example type="correct">Les <marker>he</marker> invitado.</example>
-      </rule>
-    </rulegroup>
+                <example type="correct">Les <marker>he</marker> invitado.</example>
+            </rule>
+        </rulegroup>
 
-    <!--AH_INF  ah acabar-->
+        <!--AH_INF  ah acabar-->
 
-    <rule id="AH_INF" name="ah + infinitivo (a)">
-      <pattern case_sensitive="no">
-        <token>ah</token>
+        <rule id="AH_INF" name="ah + infinitivo (a)">
+            <pattern case_sensitive="no">
+                <token>ah</token>
 
-        <token postag="V[ASM]N0000" postag_regexp="yes"></token>
-      </pattern>
+                <token postag="V[ASM]N0000" postag_regexp="yes"></token>
+            </pattern>
 
-      <message>La preposición se escribe sin h: <suggestion>a \2</suggestion>.</message>
+            <message>La preposición se escribe sin h: <suggestion>a \2</suggestion>.</message>
 
-      <short>La preposición «a» se escribe sin «h»</short>
+            <short>La preposición «a» se escribe sin «h»</short>
 
-      <example correction="a hablar" type="incorrect">Voy <marker>ah hablar</marker> con ella.</example>
+            <example correction="a hablar" type="incorrect">Voy <marker>ah hablar</marker> con ella.</example>
 
-      <example type="correct">Voy <marker>a hablar</marker> con ella.</example>
-    </rule>
+            <example type="correct">Voy <marker>a hablar</marker> con ella.</example>
+        </rule>
 
-    <!--VOY_HA_INF ir + ha + INF-->
+        <!--VOY_HA_INF ir + ha + INF-->
 
-    <rule id="VOY_HA_INF" name="ir ha + infinitivo (a)">
-      <pattern>
-        <token inflected="yes">ir</token>
+        <rule id="VOY_HA_INF" name="ir ha + infinitivo (a)">
+            <pattern>
+                <token inflected="yes">ir</token>
 
-        <token>ha</token>
+                <token>ha</token>
 
-        <token postag="V[ASM]N0000" postag_regexp="yes"></token>
-      </pattern>
+                <token postag="V[ASM]N0000" postag_regexp="yes"></token>
+            </pattern>
 
-      <message>Esta palabra se escribe sin h: <suggestion>\1 a \3</suggestion>.</message>
+            <message>Esta palabra se escribe sin h: <suggestion>\1 a \3</suggestion>.</message>
 
-      <short>La preposición «a» se escribe sin «h»</short>
+            <short>La preposición «a» se escribe sin «h»</short>
 
-      <example correction="Voy a hablar" type="incorrect"><marker>Voy ha hablar</marker> con ella.</example>
+            <example correction="Voy a hablar" type="incorrect"><marker>Voy ha hablar</marker> con ella.</example>
 
-      <example type="correct"><marker>Voy a hablar</marker> con ella.</example>
-    </rule>
+            <example type="correct"><marker>Voy a hablar</marker> con ella.</example>
+        </rule>
 
-    <!--VOY_INF ir + infinitivo (a)-->
+        <!--VOY_INF ir + infinitivo (a)-->
 
-    <rule id="VOY_INF" name="ir + infinitivo (a)">
-      <pattern>
-        <token inflected="yes">ir<exception inflected="yes" regexp="yes">ver|ser</exception></token>
+        <rule id="VOY_INF" name="ir + infinitivo (a)">
+            <pattern>
+                <token inflected="yes">ir<exception inflected="yes" regexp="yes">ver|ser</exception></token>
 
-        <token postag="V[ASM]N0000" postag_regexp="yes"></token>
-      </pattern>
+                <token postag="V[ASM]N0000" postag_regexp="yes"></token>
+            </pattern>
 
-      <message>La construcción «ir» mas infinitivo exige la presencia de la preposición «a»: <suggestion>\1 a \2</suggestion>.</message>
+            <message>La construcción «ir» mas infinitivo exige la presencia de la preposición «a»: <suggestion>\1 a \2</suggestion>.</message>
 
-      <short>La construcción «ir» mas infinitivo exige la presencia de la preposición «a»</short>
+            <short>La construcción «ir» mas infinitivo exige la presencia de la preposición «a»</short>
 
-      <example correction="Voy a hablar" type="incorrect"><marker>Voy hablar</marker> con ella.</example>
+            <example correction="Voy a hablar" type="incorrect"><marker>Voy hablar</marker> con ella.</example>
 
-      <example type="correct"><marker>Voy a hablar</marker> con ella.</example>
-    </rule>
+            <example type="correct"><marker>Voy a hablar</marker> con ella.</example>
+        </rule>
 
-    <!-- PRONOM_TILDE Pronombres personales con o sin tilde -->
+        <!-- PRONOM_TILDE Pronombres personales con o sin tilde -->
 
-    <!-- Pronombres personales cuyo tilde se olvida o se pone impropiamente.
+        <!-- Pronombres personales cuyo tilde se olvida o se pone impropiamente.
  Atención: estas reglas pueden generar muchos falsos positivos.-->
 
-    <rulegroup id="PRONOM_TILDE" name="Pronombres personales con o sin tilde">
-      <!-- TU_VERBO_P2 tu + verbo en 2a persona-->
+        <rulegroup id="PRONOM_TILDE" name="Pronombres personales con o sin tilde">
+            <!-- TU_VERBO_P2 tu + verbo en 2a persona-->
 
-      <rule id="TU_VERBO_P2" name="Tu + verbo en 2a">
-        <pattern mark_to="-1">
-          <token>tu</token>
+            <rule id="TU_VERBO_P2" name="Tu + verbo en 2a">
+                <pattern>
+                    <marker>
+                        <token>tu</token>
+                    </marker>
 
-          <token postag="V.{3}2.*" postag_regexp="yes"><exception negate_pos="yes" postag="V.{3}2.*" postag_regexp="yes"></exception></token>
-        </pattern>
+                    <token postag="V.{3}2.*" postag_regexp="yes"><exception negate_pos="yes" postag="V.{3}2.*" postag_regexp="yes"></exception></token>
+                </pattern>
 
-        <message>El pronombre personal <suggestion>tú</suggestion> lleva tilde.</message>
+                <message>El pronombre personal <suggestion>tú</suggestion> lleva tilde.</message>
 
-        <short>El pronombre personal lleva tilde.</short>
+                <short>El pronombre personal lleva tilde.</short>
 
-        <example correction="tú" type="incorrect">Cuando <marker>tu</marker> vuelves, yo voy.</example>
+                <example correction="tú" type="incorrect">Cuando <marker>tu</marker> vuelves, yo voy.</example>
 
-        <example type="correct">Me alegra tu vuelta al trabajo.</example>
-      </rule>
+                <example type="correct">Me alegra tu vuelta al trabajo.</example>
+            </rule>
 
-      <!-- TU_PARTICULA_VERBO_P2 tu no te lo pierdas
-Anulamos si entremedias hay al menos un nombre-->
+            <!-- TU_PARTICULA_VERBO_P2 tu no te lo pierdas
+     Anulamos si entremedias hay al menos un nombre-->
 
-      <rule id="TU_PARTICULA_VERBO_P2" name="Tu + partícula + verbo en 2a">
-        <pattern mark_to="-2">
-          <token>tu</token>
+            <rule id="TU_PARTICULA_VERBO_P2" name="Tu + partícula + verbo en 2a">
+                <pattern>
+                    <marker>
+                        <token>tu</token>
+                    </marker>
 
-          <token postag="[RPC].*|UNKNOWN" postag_regexp="yes" skip="3"><exception postag="A.*|DI0.S0" postag_regexp="yes"></exception><exception postag="A.*|DI0.S0" postag_regexp="yes" scope="next"></exception><exception regexp="yes"
-          scope="next">[,;-_—]</exception></token>
+                    <token postag="[RPC].*|UNKNOWN" postag_regexp="yes" skip="3"><exception postag="A.*|DI0.S0" postag_regexp="yes"></exception><exception postag="A.*|DI0.S0" postag_regexp="yes" scope="next"></exception><exception regexp="yes" scope="next">[,;-_—]</exception></token>
 
-          <token postag="V.{3}2.*" postag_regexp="yes"><exception regexp="yes" scope="previous">[,;-_—]</exception><exception postag="A.*|DI0.S0" postag_regexp="yes" scope="previous"></exception><exception negate_pos="yes" postag="V.{3}2.*"
-          postag_regexp="yes"></exception></token>
-        </pattern>
+                    <token postag="V.{3}2.*" postag_regexp="yes"><exception regexp="yes" scope="previous">[,;-_—]</exception><exception postag="A.*|DI0.S0" postag_regexp="yes" scope="previous"></exception><exception negate_pos="yes" postag="V.{3}2.*" postag_regexp="yes"></exception></token>
+                </pattern>
 
-        <message>El pronombre personal <suggestion>tú</suggestion> lleva tilde.</message>
+                <message>El pronombre personal <suggestion>tú</suggestion> lleva tilde.</message>
 
-        <short>El pronombre personal lleva tilde.</short>
+                <short>El pronombre personal lleva tilde.</short>
 
-        <example correction="tú" type="incorrect">Cuando <marker>tu</marker> no vuelves, yo voy.</example>
+                <example correction="tú" type="incorrect">Cuando <marker>tu</marker> no vuelves, yo voy.</example>
 
-        <example type="correct">Me alegra tu feliz vuelta al trabajo.</example>
-      </rule>
+                <example type="correct">Me alegra tu feliz vuelta al trabajo.</example>
+            </rule>
 
-      <!-- EL_VERBO_P3 El + verbo 3a persona lleva tilde-->
+            <!-- EL_VERBO_P3 El + verbo 3a persona lleva tilde-->
 
-      <rule id="EL_VERBO_P3" name="el + verbo en 3a">
-        <pattern case_sensitive="yes" mark_to="-1">
-          <token regexp="yes">[E|e]l</token>
+            <rule id="EL_VERBO_P3" name="el + verbo en 3a">
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token regexp="yes">[E|e]l</token>
+                    </marker>
 
-          <token postag="V.{3}3.*" postag_regexp="yes"><exception postag="N.*|P.*|AQ.*" postag_regexp="yes"></exception><exception regexp="yes">\p{Lu}.*</exception></token>
-        </pattern>
+                    <token postag="V.{3}3.*" postag_regexp="yes"><exception postag="N.*|P.*|AQ.*" postag_regexp="yes"></exception><exception regexp="yes">\p{Lu}.*</exception></token>
+                </pattern>
 
-        <message>El pronombre personal <suggestion>él</suggestion> lleva tilde.</message>
+                <message>El pronombre personal <suggestion>él</suggestion> lleva tilde.</message>
 
-        <short>El pronombre personal lleva tilde.</short>
+                <short>El pronombre personal lleva tilde.</short>
 
-        <example correction="él" type="incorrect">Cuando <marker>el</marker> llegó, yo me fui.</example>
+                <example correction="él" type="incorrect">Cuando <marker>el</marker> llegó, yo me fui.</example>
 
-        <example type="correct">Me alegra tu vuelta al trabajo.</example>
-      </rule>
+                <example type="correct">Me alegra tu vuelta al trabajo.</example>
+            </rule>
 
-      <!-- TU_FINAL Tu al final de la oración. Siempre será nominativo.-->
+            <!-- TU_FINAL Tu al final de la oración. Siempre será nominativo.-->
 
-      <rule id="TU_FINAL" name="Pronombre tú al final de la oración.">
-        <pattern mark_to="-1">
-          <token>tu</token>
+            <rule id="TU_FINAL" name="Pronombre tú al final de la oración.">
+                <pattern>
+                    <marker>
+                        <token>tu</token>
+                    </marker>
 
-          <token postag="SENT_END"></token>
-        </pattern>
+                    <token postag="SENT_END"></token>
+                </pattern>
 
-        <message>El pronombre personal <suggestion>tú</suggestion> lleva tilde.</message>
+                <message>El pronombre personal <suggestion>tú</suggestion> lleva tilde.</message>
 
-        <short>El pronombre personal lleva tilde.</short>
+                <short>El pronombre personal lleva tilde.</short>
 
-        <example correction="tú" type="incorrect">Tu hermnana es como <marker>tu</marker>.</example>
+                <example correction="tú" type="incorrect">Tu hermnana es como <marker>tu</marker>.</example>
 
-        <example type="correct">¿Te puedes ocupar tú?</example>
-      </rule>
+                <example type="correct">¿Te puedes ocupar tú?</example>
+            </rule>
 
-      <!-- EL_FINAL Él al final de la oración-->
+            <!-- EL_FINAL Él al final de la oración-->
 
-      <rule id="EL_FINAL" name="Pronombre sin tilde al final de la oración">
-        <pattern mark_to="-1">
-          <token>el</token>
+            <rule id="EL_FINAL" name="Pronombre sin tilde al final de la oración">
+                <pattern>
+                    <marker>
+                        <token>el</token>
+                    </marker>
 
-          <token postag="SENT_END"></token>
-        </pattern>
+                    <token postag="SENT_END"></token>
+                </pattern>
 
-        <message>El pronombre personal <suggestion>él</suggestion> lleva tilde.</message>
+                <message>El pronombre personal <suggestion>él</suggestion> lleva tilde.</message>
 
-        <short>El pronombre personal lleva tilde.</short>
+                <short>El pronombre personal lleva tilde.</short>
 
-        <example correction="él" type="incorrect">Se encargará <marker>el</marker>.</example>
+                <example correction="él" type="incorrect">Se encargará <marker>el</marker>.</example>
 
-        <example type="correct">Esa caja es para él.</example>
-      </rule>
+                <example type="correct">Esa caja es para él.</example>
+            </rule>
 
-      <!-- LO_SE lo sé-->
+            <!-- LO_SE lo sé-->
 
-      <rule id="LO_SE" name="lo se (sé)">
-        <pattern mark_from="1">
-          <token regexp="yes">l[oae]</token>
+            <rule id="LO_SE" name="lo se (sé)">
+                <pattern>
+                    <token regexp="yes">l[oae]</token>
 
-          <token>se</token>
-        </pattern>
+                    <marker>
+                        <token>se</token>
+                    </marker>
+                </pattern>
 
-        <message>El presente de indicativo primera persona del verbo saber es <suggestion>sé</suggestion>.</message>
+                <message>El presente de indicativo primera persona del verbo saber es <suggestion>sé</suggestion>.</message>
 
-        <short>El presente de indicativo primera persona de «saber» lleva tilde.</short>
+                <short>El presente de indicativo primera persona de «saber» lleva tilde.</short>
 
-        <example correction="sé" type="incorrect">Yo lo <marker>se</marker> desde hace tiempo</example>
+                <example correction="sé" type="incorrect">Yo lo <marker>se</marker> desde hace tiempo</example>
 
-        <example type="correct">Si lo sé, no vengo.</example>
-      </rule>
+                <example type="correct">Si lo sé, no vengo.</example>
+            </rule>
 
-      <!-- SE_FINAL se al final de la oración simepre es verbo. -->
+            <!-- SE_FINAL se al final de la oración simepre es verbo. -->
 
-      <rule id="SE_FINAL" name="se al final de la oración. (sé)">
-        <pattern mark_to="-1">
-          <token><!--Included «lo» to avoid overlap with LO_SE rule--><exception regexp="yes" scope="previous">per|lo</exception>se</token>
+            <rule id="SE_FINAL" name="se al final de la oración. (sé)">
+                <pattern>
+                    <marker>
+                        <token><!--Included «lo» to avoid overlap with LO_SE rule--><exception regexp="yes" scope="previous">per|lo</exception>se</token>
+                    </marker>
 
-          <token postag="SENT_END"></token>
-        </pattern>
+                    <token postag="SENT_END"></token>
+                </pattern>
 
-        <message>El presente de indicativo primera persona del verbo saber es <suggestion>sé</suggestion>.</message>
+                <message>El presente de indicativo primera persona del verbo saber es <suggestion>sé</suggestion>.</message>
 
-        <short>El presente de indicativo primera persona de «saber» lleva tilde.</short>
+                <short>El presente de indicativo primera persona de «saber» lleva tilde.</short>
 
-        <example correction="sé" type="incorrect">Hay quien programa, pero yo no <marker>se</marker>.</example>
+                <example correction="sé" type="incorrect">Hay quien programa, pero yo no <marker>se</marker>.</example>
 
-        <example type="correct">Hay que saber tocar y yo sé.</example>
-      </rule>
-    </rulegroup>
-  </category>
+                <example type="correct">Hay que saber tocar y yo sé.</example>
+            </rule>
+        </rulegroup>
+    </category>
 
-  <category name="Ortografía (concepto)">
-    <!-- HABER_AVER Uso incorrecto de «haber» por «a ver»-->
+    <category name="Ortografía (concepto)">
+        <!-- HABER_AVER Uso incorrecto de «haber» por «a ver»-->
 
-    <rulegroup id="HABER_AVER" name="Uso incorrecto de «haber» por «a ver»">
-      <rule>
-        <!--HABER_QUE-->
+        <rulegroup id="HABER_AVER" name="Uso incorrecto de «haber» por «a ver»">
+            <rule>
+                <!--HABER_QUE-->
 
-        <pattern>
-          <token>haber</token>
+                <pattern>
+                    <token>haber</token>
 
-          <token regexp="yes">qu[eé]</token>
-        </pattern>
+                    <token regexp="yes">qu[eé]</token>
+                </pattern>
 
-        <message>Verifique que no quiso decir <suggestion>a ver qué</suggestion>.</message>
+                <message>Verifique que no quiso decir <suggestion>a ver qué</suggestion>.</message>
 
-        <short>Posible confusión del verbo «ver» con el verbo «haber»</short>
+                <short>Posible confusión del verbo «ver» con el verbo «haber»</short>
 
-        <example correction="a ver qué" type="incorrect">Mirad esto, <marker>haber que</marker> opináis.</example>
+                <example correction="a ver qué" type="incorrect">Mirad esto, <marker>haber que</marker> opináis.</example>
 
-        <example type="correct">Tiene en su haber el Campeonato del Mundo.</example>
-      </rule>
+                <example type="correct">Tiene en su haber el Campeonato del Mundo.</example>
+            </rule>
 
-      <rule>
-        <!--HABER_SI-->
+            <rule>
+                <!--HABER_SI-->
 
-        <pattern mark_from="1">
-          <token postag="SENT_START"></token>
+                <pattern>
+                    <token postag="SENT_START"></token>
 
-          <token>haber</token>
+                    <marker>
+                        <token>haber</token>
 
-          <token>si</token>
-        </pattern>
+                        <token>si</token>
+                    </marker>
+                </pattern>
 
-        <message>Verifique que no quiso decir <suggestion>a ver si</suggestion>.</message>
+                <message>Verifique que no quiso decir <suggestion>a ver si</suggestion>.</message>
 
-        <short>Posible confusión del verbo «ver» con el verbo «haber»</short>
+                <short>Posible confusión del verbo «ver» con el verbo «haber»</short>
 
-        <example correction="A ver si" type="incorrect"><marker>Haber si</marker> puedes arreglar esto.</example>
+                <example correction="A ver si" type="incorrect"><marker>Haber si</marker> puedes arreglar esto.</example>
 
-        <example type="correct">No va a haber si se ha acabado.</example>
-      </rule>
-    </rulegroup>
+                <example type="correct">No va a haber si se ha acabado.</example>
+            </rule>
+        </rulegroup>
 
-    <!-- Y_E_O_U confusión en el nexo -->
+        <!-- Y_E_O_U confusión en el nexo -->
 
-    <rulegroup id="Y_E_O_U" name="y Italia, o Honduras">
-      <!-- Y_E Cambio e por y-->
+        <rulegroup id="Y_E_O_U" name="y Italia, o Honduras">
+            <!-- Y_E Cambio e por y-->
 
-      <rule id="Y_E" name="e ante palabras empezando por i">
-        <pattern>
-          <token>y<exception scope="previous">¿</exception></token>
+            <rule id="Y_E" name="e ante palabras empezando por i">
+                <pattern>
+                    <token>y<exception scope="previous">¿</exception></token>
 
-          <token regexp="yes">^h?[ií].* <exception regexp="yes">^h?ih?[aeouáéóú].*</exception><!--Números romanos--><exception regexp="yes">[ivxlcdm]+</exception></token>
-        </pattern>
+                    <token regexp="yes">^h?[ií].* <exception regexp="yes">^h?ih?[aeouáéóú].*</exception><!--Números romanos--><exception regexp="yes">[ivxlcdm]+</exception></token>
+                </pattern>
 
-        <message>Cuando precede a palabras que comienzan por «i-» (o «hi-»), la conjunción «y» se transforma en «e»: <suggestion>e <match no="2"></match></suggestion></message>
+                <message>Cuando precede a palabras que comienzan por «i-» (o «hi-»), la conjunción «y» se transforma en «e»: <suggestion>e <match no="2"></match></suggestion></message>
 
-        <short>Cuando precede a palabras que comienzan por «i-» (o «hi-»), la conjunción «y» se transforma en «e»</short>
+                <short>Cuando precede a palabras que comienzan por «i-» (o «hi-»), la conjunción «y» se transforma en «e»</short>
 
-        <example correction="e Italia" type="incorrect">Alemania <marker>y Italia</marker> disputarán el torneo.</example>
+                <example correction="e Italia" type="incorrect">Alemania <marker>y Italia</marker> disputarán el torneo.</example>
 
-        <example type="correct">Alemania <marker>e Italia</marker> disputarán el torneo.</example>
+                <example type="correct">Alemania <marker>e Italia</marker> disputarán el torneo.</example>
 
-        <example type="correct">¿<marker>Y Irene</marker>?</example>
-      </rule>
+                <example type="correct">¿<marker>Y Irene</marker>?</example>
+            </rule>
 
-      <!-- O_U Cambio u por o-->
+            <!-- O_U Cambio u por o-->
 
-      <rule id="O_U" name="cambio de o ante palabras empezando por o">
-        <pattern>
-          <token>o</token>
+            <rule id="O_U" name="cambio de o ante palabras empezando por o">
+                <pattern>
+                    <token>o</token>
 
-          <token regexp="yes">^h?[oó].*</token>
-        </pattern>
+                    <token regexp="yes">^h?[oó].*</token>
+                </pattern>
 
-        <message>Cuando precede a palabras que comienzan por «o-» (u «ho-»), la conjunción «o» se transforma en «u»: <suggestion>u <match no="2"></match></suggestion></message>
+                <message>Cuando precede a palabras que comienzan por «o-» (u «ho-»), la conjunción «o» se transforma en «u»: <suggestion>u <match no="2"></match></suggestion></message>
 
-        <short>Cuando precede a palabras que comienzan por «o-» (u «ho-»), la conjunción «o» se transforma en «u»</short>
+                <short>Cuando precede a palabras que comienzan por «o-» (u «ho-»), la conjunción «o» se transforma en «u»</short>
 
-        <example correction="u Honduras" type="incorrect">El torneo lo disputarán Alemania <marker>o Honduras</marker>.</example>
+                <example correction="u Honduras" type="incorrect">El torneo lo disputarán Alemania <marker>o Honduras</marker>.</example>
 
-        <example type="correct">El torneo lo disputarán Alemania <marker>u Honduras</marker>.</example>
-      </rule>
-    </rulegroup>
+                <example type="correct">El torneo lo disputarán Alemania <marker>u Honduras</marker>.</example>
+            </rule>
+        </rulegroup>
 
-    <!-- AFRENTAR_DIFICULTADES http://cvc.cervantes.es/alhabla/museo_horrores/museo_050.htm-->
+        <!-- AFRENTAR_DIFICULTADES http://cvc.cervantes.es/alhabla/museo_horrores/museo_050.htm-->
 
-    <rule id="AFRENTAR_DIFICULTADES" name="afrentar dificultades o problemas (afrontar)">
-      <pattern>
-        <token inflected="yes" skip="1">afrentar</token>
+        <rule id="AFRENTAR_DIFICULTADES" name="afrentar dificultades o problemas (afrontar)">
+            <pattern>
+                <token inflected="yes" skip="1">afrentar</token>
 
-        <token inflected="yes" regexp="yes">dificultad|problema|vicisitud</token>
-      </pattern>
+                <token inflected="yes" regexp="yes">dificultad|problema|vicisitud</token>
+            </pattern>
 
-      <message>La forma correcta es usando el verbo «afrontar»: <suggestion><match include_skipped="none" no="1" postag="(.*)" postag_replace="$1">afrontar</match> <match include_skipped="following" no="1"></match> <match
-      no="2"></match></suggestion>"</message>
+            <message>La forma correcta es usando el verbo «afrontar»: <suggestion><match include_skipped="none" no="1" postag="(.*)" postag_replace="$1">afrontar</match> <match include_skipped="following" no="1"></match> <match no="2"></match></suggestion>&quot;</message>
 
-      <short>Confusión entre «afrontar» y «afrentar»</short>
+            <short>Confusión entre «afrontar» y «afrentar»</short>
 
-      <example correction="afrontar muchos problemas" type="incorrect">Tuvo que <marker>afrentar muchos problemas</marker> con la mudanza.</example>
+            <example correction="afrontar muchos problemas" type="incorrect">Tuvo que <marker>afrentar muchos problemas</marker> con la mudanza.</example>
 
-      <example type="correct">Afrontaron muchas dificultades en la travesía.</example>
-    </rule>
+            <example type="correct">Afrontaron muchas dificultades en la travesía.</example>
+        </rule>
 
-    <!-- DESTORNILLAR_RISA http://cvc.cervantes.es/alhabla/museo_horrores/museo_015.htm-->
+        <!-- DESTORNILLAR_RISA http://cvc.cervantes.es/alhabla/museo_horrores/museo_015.htm-->
 
-    <rule id="DESTORNILLAR_RISA" name="destornillarse de risa (desternillarse)">
-      <pattern>
-        <token inflected="yes" skip="1">destornillar</token>
+        <rule id="DESTORNILLAR_RISA" name="destornillarse de risa (desternillarse)">
+            <pattern>
+                <token inflected="yes" skip="1">destornillar</token>
 
-        <token>de</token>
+                <token>de</token>
 
-        <token>risa</token>
-      </pattern>
+                <token>risa</token>
+            </pattern>
 
-      <message>La forma correcta es usando el verbo «desternillar»: <suggestion><match include_skipped="none" no="1" postag="(.*)" postag_replace="$1">desternillar</match> <match include_skipped="all" no="2"></match> <match
-      no="3"></match></suggestion>"</message>
+            <message>La forma correcta es usando el verbo «desternillar»: <suggestion><match include_skipped="none" no="1" postag="(.*)" postag_replace="$1">desternillar</match> <match include_skipped="all" no="2"></match> <match no="3"></match></suggestion>&quot;</message>
 
-      <short>Confusión entre «desternillar» y «destornillar»</short>
+            <short>Confusión entre «desternillar» y «destornillar»</short>
 
-      <example correction="desternilló de risa" type="incorrect">Con ese chiste, se <marker>destornilló de risa</marker>.</example>
+            <example correction="desternilló de risa" type="incorrect">Con ese chiste, se <marker>destornilló de risa</marker>.</example>
 
-      <example type="correct">Casi te desternillas de risa el otro día.</example>
-    </rule>
+            <example type="correct">Casi te desternillas de risa el otro día.</example>
+        </rule>
 
-    <!-- CONTRA_MAS http://cvc.cervantes.es/alhabla/museo_horrores/museo_034.htm-->
+        <!-- CONTRA_MAS http://cvc.cervantes.es/alhabla/museo_horrores/museo_034.htm-->
 
-    <rule id="CONTRA_MAS" name="Contra más (cuanto más)">
-      <pattern>
-        <token>contra</token>
+        <rule id="CONTRA_MAS" name="Contra más (cuanto más)">
+            <pattern>
+                <token>contra</token>
 
-        <token>más</token>
-      </pattern>
+                <token>más</token>
+            </pattern>
 
-      <message>La forma correcta es <suggestion>cuanto más</suggestion> excepto en el contexto de litigar o luchar y no en el contexto de sumar.</message>
+            <message>La forma correcta es <suggestion>cuanto más</suggestion> excepto en el contexto de litigar o luchar y no en el contexto de sumar.</message>
 
-      <short>Expresión incorrecta excepto en el contexto de luchar o litigar.</short>
+            <short>Expresión incorrecta excepto en el contexto de luchar o litigar.</short>
 
-      <example correction="cuanto más" type="incorrect">Seguro que <marker>contra más</marker> estudias, más aprendes</example>
+            <example correction="cuanto más" type="incorrect">Seguro que <marker>contra más</marker> estudias, más aprendes</example>
 
-      <example type="correct">Cuanto más insistas, menos caso te haré.</example>
-    </rule>
+            <example type="correct">Cuanto más insistas, menos caso te haré.</example>
+        </rule>
 
-    <!-- SIN_ECUANIME confusión «sin ecuánime» «sine qua non» -->
+        <!-- SIN_ECUANIME confusión «sin ecuánime» «sine qua non» -->
 
-    <rule id="SIN_ECUANIME" name="sin ecuánime (sine qua non)">
-      <pattern>
-        <token inflected="yes" regexp="yes">condición|requisito</token>
+        <rule id="SIN_ECUANIME" name="sin ecuánime (sine qua non)">
+            <pattern>
+                <token inflected="yes" regexp="yes">condición|requisito</token>
 
-        <token>sin</token>
+                <token>sin</token>
 
-        <token>ecuánime</token>
-      </pattern>
+                <token>ecuánime</token>
+            </pattern>
 
-      <message>La forma correcta es <suggestion>\1 sine qua non</suggestion>.</message>
+            <message>La forma correcta es <suggestion>\1 sine qua non</suggestion>.</message>
 
-      <short>Confusión entre «sine qua non» y «sin ecuánime»</short>
+            <short>Confusión entre «sine qua non» y «sin ecuánime»</short>
 
-      <example correction="condición sine qua non" type="incorrect">Para aprobar, la <marker>condición sin ecuánime</marker> es obtener un 5.</example>
+            <example correction="condición sine qua non" type="incorrect">Para aprobar, la <marker>condición sin ecuánime</marker> es obtener un 5.</example>
 
-      <example type="correct">Es condición sine qua non tener permiso para entrar en el local.</example>
-    </rule>
-  </category>
+            <example type="correct">Es condición sine qua non tener permiso para entrar en el local.</example>
+        </rule>
+    </category>
 
-  <category name="Gramática">
-    <!-- DE_GRATIS (http://buscon.rae.es/dpdI/SrvltConsulta?lema=gratis)-->
+    <category name="Gramática">
+        <!-- DE_GRATIS (http://buscon.rae.es/dpdI/SrvltConsulta?lema=gratis)-->
 
-    <rule id="DE_GRATIS" name="«de gratis» (gratis)">
-      <pattern case_sensitive="no" mark_from="0">
-        <token>de</token>
+        <rule id="DE_GRATIS" name="«de gratis» (gratis)">
+            <pattern case_sensitive="no">
+                <token>de</token>
 
-        <token>gratis</token>
-      </pattern>
+                <token>gratis</token>
+            </pattern>
 
-      <message>La forma correcta es decir <suggestion>gratis</suggestion> o <suggestion>de balde</suggestion>.</message>
+            <message>La forma correcta es decir <suggestion>gratis</suggestion> o <suggestion>de balde</suggestion>.</message>
 
-      <short>Confusión entre dos formas equivalentes</short>
+            <short>Confusión entre dos formas equivalentes</short>
 
-      <example type="correct">El agua es gratis.</example>
+            <example type="correct">El agua es gratis.</example>
 
-      <example correction="gratis|de balde" type="incorrect">El agua es <marker>de gratis</marker>.</example>
-    </rule>
+            <example correction="gratis|de balde" type="incorrect">El agua es <marker>de gratis</marker>.</example>
+        </rule>
 
-    <!-- Dequeísmo y queísmo: utilización incorrecta de DE + QUE
-Fuentes: http://cvc.cervantes.es/ALHABLA/MUSEO_HORRORES/museo_010.htm -->
+        <!-- Dequeísmo y queísmo: utilización incorrecta de DE + QUE
+      Fuentes: http://cvc.cervantes.es/ALHABLA/MUSEO_HORRORES/museo_010.htm -->
 
-    <rulegroup id="DEQUEISMO_QUEISMO" name="Queísmos y dequeismos">
-      <!--INF_PP_QUE Queísmo: convenceros que -> convenceros de que -->
+        <rulegroup id="DEQUEISMO_QUEISMO" name="Queísmos y dequeismos">
+            <!--INF_PP_QUE Queísmo: convenceros que -> convenceros de que -->
 
-      <rule id="INF_PP_QUE" name="Infinitivo tipo convencer + pron.pers + que">
-        <pattern>
-          <token regexp="yes">(alegrar|enterar|informar|dudar|convencer|hartar|quejar|protestar)(me|te|l[ea][s]?|se|nos|os)</token>
+            <rule id="INF_PP_QUE" name="Infinitivo tipo convencer + pron.pers + que">
+                <pattern>
+                    <token regexp="yes">(alegrar|enterar|informar|dudar|convencer|hartar|quejar|protestar)(me|te|l[ea][s]?|se|nos|os)</token>
 
-          <token>que</token>
-        </pattern>
+                    <token>que</token>
+                </pattern>
 
-        <message>En este contexto, el verbo va seguido normalmente de la preposición 'de': <suggestion>\1 de \2</suggestion></message>
+                <message>En este contexto, el verbo va seguido normalmente de la preposición 'de': <suggestion>\1 de \2</suggestion></message>
 
-        <short>Posible dequeísmo.</short>
+                <short>Posible dequeísmo.</short>
 
-        <example correction="alegrarse de que" type="incorrect">Está bien <marker>alegrarse que</marker> haya dinero para todos.</example>
+                <example correction="alegrarse de que" type="incorrect">Está bien <marker>alegrarse que</marker> haya dinero para todos.</example>
 
-        <example type="correct">No pareces <marker>enterarte de que</marker> todo está resuelto.</example>
-      </rule>
+                <example type="correct">No pareces <marker>enterarte de que</marker> todo está resuelto.</example>
+            </rule>
 
-      <!-- ESTAR_SEGURO_QUE Queísmo: Estoy seguro que -> Estoy seguro de que -->
+            <!-- ESTAR_SEGURO_QUE Queísmo: Estoy seguro que -> Estoy seguro de que -->
 
-      <rule id="ESTAR_SEGURO_QUE" name="Estar + seguro + que">
-        <pattern>
-          <token inflected="yes"><exception postag="VAIP3S0"></exception>estar</token>
+            <rule id="ESTAR_SEGURO_QUE" name="Estar + seguro + que">
+                <pattern>
+                    <token inflected="yes"><exception postag="VAIP3S0"></exception>estar</token>
 
-          <token inflected="yes" regexp="yes">seguro|alegre|triste|entristecer|sorprender|convencer|agobiar|preocupar|harto|cansar|aburrir</token>
+                    <token inflected="yes" regexp="yes">seguro|alegre|triste|entristecer|sorprender|convencer|agobiar|preocupar|harto|cansar|aburrir</token>
 
-          <token>que</token>
-        </pattern>
+                    <token>que</token>
+                </pattern>
 
-        <message>En este contexto, el verbo va seguido normalmente de la preposición 'de': <suggestion>\1 \2 de \3</suggestion></message>
+                <message>En este contexto, el verbo va seguido normalmente de la preposición 'de': <suggestion>\1 \2 de \3</suggestion></message>
 
-        <short>Posible queísmo.</short>
+                <short>Posible queísmo.</short>
 
-        <example correction="Estamos seguros de que" type="incorrect"><marker>Estamos seguros que</marker> falta poco para acabar.</example>
+                <example correction="Estamos seguros de que" type="incorrect"><marker>Estamos seguros que</marker> falta poco para acabar.</example>
 
-        <example type="correct"><marker>Está segura de que</marker> lo que decís es cierto.</example>
-      </rule>
+                <example type="correct"><marker>Está segura de que</marker> lo que decís es cierto.</example>
+            </rule>
 
-      <!-- PP_V_QUE Queísmo: me alegro que -> me alegro de que -->
+            <!-- PP_V_QUE Queísmo: me alegro que -> me alegro de que -->
 
-      <rule id="PP_V_QUE" name="PP + verbo tipo alegrar + que">
-        <pattern>
-          <token postag="PP[12]C[SP]000" postag_regexp="yes"></token>
+            <rule id="PP_V_QUE" name="PP + verbo tipo alegrar + que">
+                <pattern>
+                    <token postag="PP[12]C[SP]000" postag_regexp="yes"></token>
 
-          <token inflected="yes" regexp="yes">alegrar|sorprender|entristecer|agobiar|emocionar|aburrir|preocupar<exception postag="VM.*3.*" postag_regexp="yes"></exception></token>
+                    <token inflected="yes" regexp="yes">alegrar|sorprender|entristecer|agobiar|emocionar|aburrir|preocupar<exception postag="VM.*3.*" postag_regexp="yes"></exception></token>
 
-          <token>que</token>
-        </pattern>
+                    <token>que</token>
+                </pattern>
 
-        <message>En este contexto, el verbo va seguido normalmente de la preposición 'de': <suggestion>\1 \2 de que</suggestion></message>
+                <message>En este contexto, el verbo va seguido normalmente de la preposición 'de': <suggestion>\1 \2 de que</suggestion></message>
 
-        <short>Posible queísmo.</short>
+                <short>Posible queísmo.</short>
 
-        <example correction="Nos alegramos de que" type="incorrect"><marker>Nos alegramos que</marker> haya comida para todos</example>
+                <example correction="Nos alegramos de que" type="incorrect"><marker>Nos alegramos que</marker> haya comida para todos</example>
 
-        <example type="correct">Fue cuando <marker>os enterasteis de que</marker> se acabó la temporada.</example>
-      </rule>
+                <example type="correct">Fue cuando <marker>os enterasteis de que</marker> se acabó la temporada.</example>
+            </rule>
 
-      <!-- VERBO_DE_QUE Queísmo: Pienso de que -> Pienso que -->
+            <!-- VERBO_DE_QUE Queísmo: Pienso de que -> Pienso que -->
 
-      <rule id="VERBO_DE_QUE" name="verbo tipo pensar + de que">
-        <pattern>
-          <token inflected="yes" regexp="yes">pensar|opinar|creer|comentar|expresar|decir|deducir|inferir|colegir|razonar|comunicar|confirmar|corroborar|desmentir|constar|resultar|aconsejar|ver|observar</token>
+            <rule id="VERBO_DE_QUE" name="verbo tipo pensar + de que">
+                <pattern>
+                    <token inflected="yes" regexp="yes">pensar|opinar|creer|comentar|expresar|decir|deducir|inferir|colegir|razonar|comunicar|confirmar|corroborar|desmentir|constar|resultar|aconsejar|ver|observar</token>
 
-          <token>de</token>
+                    <token>de</token>
 
-          <token>que</token>
-        </pattern>
+                    <token>que</token>
+                </pattern>
 
-        <message>Posible dequeísmo: <suggestion>\1 \3</suggestion>.</message>
+                <message>Posible dequeísmo: <suggestion>\1 \3</suggestion>.</message>
 
-        <short>Posible dequeísmo.</short>
+                <short>Posible dequeísmo.</short>
 
-        <example correction="Pienso que" type="incorrect"><marker>Pienso de que</marker> estamos mejorando mucho.</example>
+                <example correction="Pienso que" type="incorrect"><marker>Pienso de que</marker> estamos mejorando mucho.</example>
 
-        <example type="correct">Creemos <marker>que</marker> podemos mejorar más.</example>
-      </rule>
+                <example type="correct">Creemos <marker>que</marker> podemos mejorar más.</example>
+            </rule>
 
-      <!-- ESTAR_CLARO_DE_QUE Queísmo: Está claro de que -> Está claro que -->
+            <!-- ESTAR_CLARO_DE_QUE Queísmo: Está claro de que -> Está claro que -->
 
-      <rule id="ESTAR_CLARO_DE_QUE" name="Verbo tipo estar + AQ + de que">
-        <pattern>
-          <token inflected="yes" regexp="yes">ser|estar|encontrar|ver|entender</token>
+            <rule id="ESTAR_CLARO_DE_QUE" name="Verbo tipo estar + AQ + de que">
+                <pattern>
+                    <token inflected="yes" regexp="yes">ser|estar|encontrar|ver|entender</token>
 
-          <token postag="RG|AQ.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">seguro|libre|consciente|harto</exception></token>
+                    <token postag="RG|AQ.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">seguro|libre|consciente|harto</exception></token>
 
-          <token>de</token>
+                    <token>de</token>
 
-          <token>que</token>
-        </pattern>
+                    <token>que</token>
+                </pattern>
 
-        <message>Posible dequeísmo: <suggestion>\1 \2 \4</suggestion>.</message>
+                <message>Posible dequeísmo: <suggestion>\1 \2 \4</suggestion>.</message>
 
-        <short>Posible dequeísmo.</short>
+                <short>Posible dequeísmo.</short>
 
-        <example correction="Es fácil que" type="incorrect"><marker>Es fácil de que</marker> volvamos a encontrarnos</example>
+                <example correction="Es fácil que" type="incorrect"><marker>Es fácil de que</marker> volvamos a encontrarnos</example>
 
-        <example type="correct"><marker>Encontrarás útil que</marker> hayan cambiado el cartel</example>
-      </rule>
+                <example type="correct"><marker>Encontrarás útil que</marker> hayan cambiado el cartel</example>
+            </rule>
 
-      <!-- V3_DE_QUE Dequeísmo: Me alegra de que -> Me alegra que -->
+            <!-- V3_DE_QUE Dequeísmo: Me alegra de que -> Me alegra que -->
 
-      <rule id="V3_DE_QUE" name="Verbo en 3a + de que">
-        <pattern>
-          <token postag="PP[123]C[SP][0D]00" postag_regexp="yes"></token>
+            <rule id="V3_DE_QUE" name="Verbo en 3a + de que">
+                <pattern>
+                    <token postag="PP[123]C[SP][0D]00" postag_regexp="yes"></token>
 
-          <token regexp="yes">alegra|entristece|agobia|importa|resbala|harta|emociona|altera|aburre|falta|preocupa</token>
+                    <token regexp="yes">alegra|entristece|agobia|importa|resbala|harta|emociona|altera|aburre|falta|preocupa</token>
 
-          <token>de</token>
+                    <token>de</token>
 
-          <token>que</token>
-        </pattern>
+                    <token>que</token>
+                </pattern>
 
-        <message>Posible dequeísmo: <suggestion>\1 \2 \4</suggestion>.</message>
+                <message>Posible dequeísmo: <suggestion>\1 \2 \4</suggestion>.</message>
 
-        <short>Posible dequeísmo.</short>
+                <short>Posible dequeísmo.</short>
 
-        <example correction="Me alegra que" type="incorrect"><marker>Me alegra de que</marker> volvamos a encontrarnos</example>
+                <example correction="Me alegra que" type="incorrect"><marker>Me alegra de que</marker> volvamos a encontrarnos</example>
 
-        <example type="correct"><marker>Me entristece que</marker> hayan cambiado el cartel</example>
-      </rule>
+                <example type="correct"><marker>Me entristece que</marker> hayan cambiado el cartel</example>
+            </rule>
 
-      <!-- INSISTIR_DE_QUE Dequeísmo: Insisto de que -> Insisto en que -->
+            <!-- INSISTIR_DE_QUE Dequeísmo: Insisto de que -> Insisto en que -->
 
-      <rule id="INSISTIR_DE_QUE" name="Verbo tipo insistir + de que">
-        <pattern>
-          <token inflected="yes">insistir</token>
+            <rule id="INSISTIR_DE_QUE" name="Verbo tipo insistir + de que">
+                <pattern>
+                    <token inflected="yes">insistir</token>
 
-          <token>de</token>
+                    <token>de</token>
 
-          <token>que</token>
-        </pattern>
+                    <token>que</token>
+                </pattern>
 
-        <message>Posible dequeísmo: <suggestion>\1 en \3</suggestion>.</message>
+                <message>Posible dequeísmo: <suggestion>\1 en \3</suggestion>.</message>
 
-        <short>Posible dequeísmo.</short>
+                <short>Posible dequeísmo.</short>
 
-        <example correction="insistas en que" type="incorrect">No <marker>insistas de que</marker> vayamos al cine</example>
+                <example correction="insistas en que" type="incorrect">No <marker>insistas de que</marker> vayamos al cine</example>
 
-        <example type="correct"><marker>Inisitieron en que</marker> les faltaba un documento.</example>
-      </rule>
-    </rulegroup>
+                <example type="correct"><marker>Inisitieron en que</marker> les faltaba un documento.</example>
+            </rule>
+        </rulegroup>
 
-    <!--DETRAS_PX http://cvc.cervantes.es/alhabla/museo_horrores/museo_025.htm-->
+        <!--DETRAS_PX http://cvc.cervantes.es/alhabla/museo_horrores/museo_025.htm-->
 
-    <rulegroup id="DETRAS_PX" name="Preposición de posición + posesivo">
-      <!--1ª Singular: detrás mío.-->
+        <rulegroup id="DETRAS_PX" name="Preposición de posición + posesivo">
+            <!--1ª Singular: detrás mío.-->
 
-      <rule>
-        <pattern>
-          <token regexp="yes">detrás|delante|debajo|encima|cerca</token>
+            <rule>
+                <pattern>
+                    <token regexp="yes">detrás|delante|debajo|encima|cerca</token>
 
-          <token postag="PX1.S0S0" postag_regexp="yes"></token>
-        </pattern>
+                    <token postag="PX1.S0S0" postag_regexp="yes"></token>
+                </pattern>
 
-        <message>La expresión correcta es «<suggestion>\1 de <match no="2" postag="PX(\d).S0S0" postag_regexp="yes" postag_replace="PP$1CSO00">mí</match></suggestion>».</message>
+                <message>La expresión correcta es «<suggestion>\1 de <match no="2" postag="PX(\d).S0S0" postag_regexp="yes" postag_replace="PP$1CSO00">mí</match></suggestion>».</message>
 
-        <short>Los posesivos nunca pueden acompañar a los adverbios.</short>
+                <short>Los posesivos nunca pueden acompañar a los adverbios.</short>
 
-        <example correction="detrás de mí" type="incorrect">Venían <marker>detrás mío</marker>.</example>
+                <example correction="detrás de mí" type="incorrect">Venían <marker>detrás mío</marker>.</example>
 
-        <example type="correct">Tengo a los niños encima de mí.</example>
-      </rule>
+                <example type="correct">Tengo a los niños encima de mí.</example>
+            </rule>
 
-      <!--2ª Singular: debajo tuyo/tuya-->
+            <!--2ª Singular: debajo tuyo/tuya-->
 
-      <rule>
-        <pattern>
-          <token regexp="yes">detrás|delante|debajo|encima|cerca</token>
+            <rule>
+                <pattern>
+                    <token regexp="yes">detrás|delante|debajo|encima|cerca</token>
 
-          <token postag="PX2.S0S0" postag_regexp="yes"></token>
-        </pattern>
+                    <token postag="PX2.S0S0" postag_regexp="yes"></token>
+                </pattern>
 
-        <message>La expresión correcta es «<suggestion>\1 de <match no="2" postag="PX(\d).S0S0" postag_regexp="yes" postag_replace="PP$1CSO00">ti</match></suggestion>».</message>
+                <message>La expresión correcta es «<suggestion>\1 de <match no="2" postag="PX(\d).S0S0" postag_regexp="yes" postag_replace="PP$1CSO00">ti</match></suggestion>».</message>
 
-        <short>Los posesivos nunca pueden acompañar a los adverbios.</short>
+                <short>Los posesivos nunca pueden acompañar a los adverbios.</short>
 
-        <example correction="detrás de ti" type="incorrect">Venían <marker>detrás tuyo</marker>.</example>
+                <example correction="detrás de ti" type="incorrect">Venían <marker>detrás tuyo</marker>.</example>
 
-        <example type="correct">Tienes a los niños encima de ti.</example>
-      </rule>
+                <example type="correct">Tienes a los niños encima de ti.</example>
+            </rule>
 
-      <!--1ª plural: delante nuestro/a.-->
+            <!--1ª plural: delante nuestro/a.-->
 
-      <rule>
-        <pattern>
-          <token regexp="yes">detrás|delante|debajo|encima|cerca</token>
+            <rule>
+                <pattern>
+                    <token regexp="yes">detrás|delante|debajo|encima|cerca</token>
 
-          <token postag="PX1.S0P0" postag_regexp="yes"></token>
-        </pattern>
+                    <token postag="PX1.S0P0" postag_regexp="yes"></token>
+                </pattern>
 
-        <message>La expresión correcta es «<suggestion>\1 de nosotros</suggestion>» o «<suggestion>\1 de nosotras</suggestion>».</message>
+                <message>La expresión correcta es «<suggestion>\1 de nosotros</suggestion>» o «<suggestion>\1 de nosotras</suggestion>».</message>
 
-        <short>Los posesivos nunca pueden acompañar a los adverbios.</short>
+                <short>Los posesivos nunca pueden acompañar a los adverbios.</short>
 
-        <example correction="detrás de nosotros|detrás de nosotras" type="incorrect">Venían <marker>detrás nuestro</marker>.</example>
+                <example correction="detrás de nosotros|detrás de nosotras" type="incorrect">Venían <marker>detrás nuestro</marker>.</example>
 
-        <example type="correct">Tenemos a los niños encima de nosotros.</example>
-      </rule>
+                <example type="correct">Tenemos a los niños encima de nosotros.</example>
+            </rule>
 
-      <!--2ª plural: cerca vuestro/a-->
+            <!--2ª plural: cerca vuestro/a-->
 
-      <rule>
-        <pattern>
-          <token regexp="yes">detrás|delante|debajo|encima|cerca</token>
+            <rule>
+                <pattern>
+                    <token regexp="yes">detrás|delante|debajo|encima|cerca</token>
 
-          <token postag="PX2.S0P0" postag_regexp="yes"></token>
-        </pattern>
+                    <token postag="PX2.S0P0" postag_regexp="yes"></token>
+                </pattern>
 
-        <message>La expresión correcta es «<suggestion>\1 de vosotros</suggestion>» o «<suggestion>\1 de vosotras</suggestion>».</message>
+                <message>La expresión correcta es «<suggestion>\1 de vosotros</suggestion>» o «<suggestion>\1 de vosotras</suggestion>».</message>
 
-        <short>Los posesivos nunca pueden acompañar a los adverbios.</short>
+                <short>Los posesivos nunca pueden acompañar a los adverbios.</short>
 
-        <example correction="detrás de vosotros|detrás de vosotras" type="incorrect">Venían <marker>detrás vuestro</marker>.</example>
+                <example correction="detrás de vosotros|detrás de vosotras" type="incorrect">Venían <marker>detrás vuestro</marker>.</example>
 
-        <example type="correct">Tenemos a los niños encima de vosotros.</example>
-      </rule>
+                <example type="correct">Tenemos a los niños encima de vosotros.</example>
+            </rule>
 
-      <!--3ª: detrás suyo-->
+            <!--3ª: detrás suyo-->
 
-      <rule>
-        <pattern>
-          <token regexp="yes">detrás|delante|debajo|encima|cerca</token>
+            <rule>
+                <pattern>
+                    <token regexp="yes">detrás|delante|debajo|encima|cerca</token>
 
-          <token postag="PX3.{2}0C0" postag_regexp="yes"></token>
-        </pattern>
+                    <token postag="PX3.{2}0C0" postag_regexp="yes"></token>
+                </pattern>
 
-        <message>La expresión correcta es «<suggestion>\1 de él</suggestion>» o «<suggestion>\1 de ella</suggestion>» o «<suggestion>\1 de ello</suggestion>» o «<suggestion>\1 de ellos</suggestion>» o «<suggestion>\1 de ellas</suggestion>» o
-        «<suggestion>\1 de usted</suggestion>» o «<suggestion>\1 de ustedes</suggestion>».</message>
+                <message>La expresión correcta es «<suggestion>\1 de él</suggestion>» o «<suggestion>\1 de ella</suggestion>» o «<suggestion>\1 de ello</suggestion>» o «<suggestion>\1 de ellos</suggestion>» o «<suggestion>\1 de ellas</suggestion>» o
+                    «<suggestion>\1 de usted</suggestion>» o «<suggestion>\1 de ustedes</suggestion>».</message>
 
-        <short>Los posesivos nunca pueden acompañar a los adverbios.</short>
+                <short>Los posesivos nunca pueden acompañar a los adverbios.</short>
 
-        <example correction="detrás de él|detrás de ella|detrás de ello|detrás de ellos|detrás de ellas|detrás de usted|detrás de ustedes" type="incorrect">Venían <marker>detrás suya</marker>.</example>
+                <example correction="detrás de él|detrás de ella|detrás de ello|detrás de ellos|detrás de ellas|detrás de usted|detrás de ustedes" type="incorrect">Venían <marker>detrás suya</marker>.</example>
 
-        <example type="correct">Tienen a los niños encima de ellos.</example>
-      </rule>
-    </rulegroup>
+                <example type="correct">Tienen a los niños encima de ellos.</example>
+            </rule>
+        </rulegroup>
 
-    <!--http://roble.pntic.mec.es/acid0002/index_archivos/Gramatica/imperativo.htm
-cantad [cantar/VMM02P0]
-cantéis[cantar/VMSP2P0]
+        <!--http://roble.pntic.mec.es/acid0002/index_archivos/Gramatica/imperativo.htm
+        cantad [cantar/VMM02P0]
+        cantéis[cantar/VMSP2P0]
 
-ven   [venir/VMM02S0
-vengas[venir/VMSP2S0]-->
+        ven   [venir/VMM02S0
+        vengas[venir/VMSP2S0]-->
 
-    <!--NO_IMPERATIVO No + imperativo-->
+        <!--NO_IMPERATIVO No + imperativo-->
 
-    <rule id="NO_IMPERATIVO" name="no + imperativo">
-      <pattern>
-        <token regexp="yes">no|nunca|jamás</token>
+        <rule id="NO_IMPERATIVO" name="no + imperativo">
+            <pattern>
+                <token regexp="yes">no|nunca|jamás</token>
 
-        <token postag="VMM.*" postag_regexp="yes"><exception negate_pos="yes" postag="VMM.*" postag_regexp="yes"></exception></token>
-      </pattern>
+                <token postag="VMM.*" postag_regexp="yes"><exception negate_pos="yes" postag="VMM.*" postag_regexp="yes"></exception></token>
+            </pattern>
 
-      <message>Con la partícula negativa \1, en lugar del imperativo \2 debe usarse el subjuntivo <suggestion>\1 <match no="2" postag="VMM.(.{3})" postag_regexp="yes" postag_replace="VMSP$1"></match></suggestion>.</message>
+            <message>Con la partícula negativa \1, en lugar del imperativo \2 debe usarse el subjuntivo <suggestion>\1 <match no="2" postag="VMM.(.{3})" postag_regexp="yes" postag_replace="VMSP$1"></match></suggestion>.</message>
 
-      <short>Con sentido negado, en lugar del imperativo debe emplearse el subjuntivo.</short>
+            <short>Con sentido negado, en lugar del imperativo debe emplearse el subjuntivo.</short>
 
-      <example correction="No contéis" type="incorrect"><marker>No contad</marker> con nosotros.</example>
+            <example correction="No contéis" type="incorrect"><marker>No contad</marker> con nosotros.</example>
 
-      <example type="correct">Nunca contéis conmigo.</example>
-    </rule>
+            <example type="correct">Nunca contéis conmigo.</example>
+        </rule>
 
-    <!--PP_SE: te se -> se te-->
+        <!--PP_SE: te se -> se te-->
 
-    <rule id="PP_SE" name="te se, me se">
-      <pattern>
-        <token postag="PP.CS[0D]00" postag_regexp="yes"></token>
+        <rule id="PP_SE" name="te se, me se">
+            <pattern>
+                <token postag="PP.CS[0D]00" postag_regexp="yes"></token>
 
-        <token>se</token>
-      </pattern>
+                <token>se</token>
+            </pattern>
 
-      <message>El orden de las partículas debe invertirse: «<suggestion>\2 \1</suggestion>».</message>
+            <message>El orden de las partículas debe invertirse: «<suggestion>\2 \1</suggestion>».</message>
 
-      <short>El pronombre reflexivo debe ir antes.</short>
+            <short>El pronombre reflexivo debe ir antes.</short>
 
-      <example correction="se te" type="incorrect">¡Como te agarre, <marker>te se</marker> cae el pelo!</example>
+            <example correction="se te" type="incorrect">¡Como te agarre, <marker>te se</marker> cae el pelo!</example>
 
-      <example type="correct">Lo agarraron y se le cayó el pelo.</example>
-    </rule>
+            <example type="correct">Lo agarraron y se le cayó el pelo.</example>
+        </rule>
 
-    <!--MAS_BUENO_MALO más + bueno/malo = mejor/peor-->
+        <!--MAS_BUENO_MALO más + bueno/malo = mejor/peor-->
 
-    <rulegroup id="MAS_BUENO_MALO" name="más + bueno/malo (mejor/peor)">
-      <!--MAS_BUENA más buena = mejor-->
+        <rulegroup id="MAS_BUENO_MALO" name="más + bueno/malo (mejor/peor)">
+            <!--MAS_BUENA más buena = mejor-->
 
-      <rule id="MAS_BUENA">
-        <pattern>
-          <token>más</token>
+            <rule id="MAS_BUENA">
+                <pattern>
+                    <token>más</token>
 
-          <token inflected="yes" postag="AQ.*" postag_regexp="yes">bueno</token>
-        </pattern>
+                    <token inflected="yes" postag="AQ.*" postag_regexp="yes">bueno</token>
+                </pattern>
 
-        <message>Se utiliza el término <suggestion><match no="2" postag="AQ.{2}(.)." postag_replace="AQ0C$10">mejor</match></suggestion></message>
+                <message>Se utiliza el término <suggestion><match no="2" postag="AQ.{2}(.)." postag_replace="AQ0C$10">mejor</match></suggestion></message>
 
-        <short>Confusión con el comparativo.</short>
+                <short>Confusión con el comparativo.</short>
 
-        <example correction="mejor" type="incorrect">Este pan está <marker>más bueno</marker> que el otro</example>
+                <example correction="mejor" type="incorrect">Este pan está <marker>más bueno</marker> que el otro</example>
 
-        <example type="correct">Cuando una solución es la más simple es mejor que cualquier otra.</example>
-      </rule>
+                <example type="correct">Cuando una solución es la más simple es mejor que cualquier otra.</example>
+            </rule>
 
-      <!--MAS_MALA más mala = peor-->
+            <!--MAS_MALA más mala = peor-->
 
-      <rule id="MAS_MALA">
-        <pattern>
-          <token>más</token>
+            <rule id="MAS_MALA">
+                <pattern>
+                    <token>más</token>
 
-          <token inflected="yes" postag="AQ.*" postag_regexp="yes">malo</token>
-        </pattern>
+                    <token inflected="yes" postag="AQ.*" postag_regexp="yes">malo</token>
+                </pattern>
 
-        <message>Se utiliza el término <suggestion><match no="2" postag="AQ.{2}(.)." postag_replace="AQ0C$10">peor</match></suggestion></message>
+                <message>Se utiliza el término <suggestion><match no="2" postag="AQ.{2}(.)." postag_replace="AQ0C$10">peor</match></suggestion></message>
 
-        <short>Confusión con el comparativo.</short>
+                <short>Confusión con el comparativo.</short>
 
-        <example correction="peor" type="incorrect">Este pan está <marker>más malo</marker> que el otro</example>
+                <example correction="peor" type="incorrect">Este pan está <marker>más malo</marker> que el otro</example>
 
-        <example type="correct">Cuando una solución es la más complicada es peor que cualquier otra.</example>
-      </rule>
-    </rulegroup>
+                <example type="correct">Cuando una solución es la más complicada es peor que cualquier otra.</example>
+            </rule>
+        </rulegroup>
 
-    <!--GROSSO_MODO
-http://buscon.rae.es/dpdI/SrvltConsulta?lema=grosso-->
+        <!--GROSSO_MODO
+        http://buscon.rae.es/dpdI/SrvltConsulta?lema=grosso-->
 
-    <rule id="GROSSO_MODO" name="A grosso modo --&gt; grosso modo">
-      <pattern>
-        <token postag="SP.*" postag_regexp="yes"></token>
+        <rule id="GROSSO_MODO" name="A grosso modo --> grosso modo">
+            <pattern>
+                <token postag="SP.*" postag_regexp="yes"></token>
 
-        <token regexp="yes">gross?o</token>
+                <token regexp="yes">gross?o</token>
 
-        <token>modo</token>
-      </pattern>
+                <token>modo</token>
+            </pattern>
 
-      <message>La expresión latina <suggestion>grosso modo</suggestion> se usa sin preposición.</message>
+            <message>La expresión latina <suggestion>grosso modo</suggestion> se usa sin preposición.</message>
 
-      <short>La expresión latina se usa sin preposición.</short>
+            <short>La expresión latina se usa sin preposición.</short>
 
-      <example correction="grosso modo" type="incorrect">Las cifras indican <marker>a grosso modo</marker> que la gestión es correcta.</example>
+            <example correction="grosso modo" type="incorrect">Las cifras indican <marker>a grosso modo</marker> que la gestión es correcta.</example>
 
-      <example type="correct">La Tierra se encuentra, dicho grosso modo, a ocho minutos-luz del Sol.</example>
-    </rule>
+            <example type="correct">La Tierra se encuentra, dicho grosso modo, a ocho minutos-luz del Sol.</example>
+        </rule>
 
-    <!--SIN_ENCAMBIO Sin en cambio = Sin embargo/en cambio-->
+        <!--SIN_ENCAMBIO Sin en cambio = Sin embargo/en cambio-->
 
-    <rule id="SIN_ENCAMBIO" name="Sin en cambio --&gt; Sin embargo, en cambio">
-      <pattern>
-        <token>sin</token>
+        <rule id="SIN_ENCAMBIO" name="Sin en cambio --> Sin embargo, en cambio">
+            <pattern>
+                <token>sin</token>
 
-        <token>en</token>
+                <token>en</token>
 
-        <token>cambio</token>
-      </pattern>
+                <token>cambio</token>
+            </pattern>
 
-      <message>Se utiliza <suggestion>en cambio</suggestion> o <suggestion>sin embargo</suggestion></message>
+            <message>Se utiliza <suggestion>en cambio</suggestion> o <suggestion>sin embargo</suggestion></message>
 
-      <short>fusión errónea de dos expresiones distintas.</short>
+            <short>fusión errónea de dos expresiones distintas.</short>
 
-      <example correction="en cambio|sin embargo" type="incorrect">Imagino que <marker>sin en cambio</marker> está de acuerdo.</example>
+            <example correction="en cambio|sin embargo" type="incorrect">Imagino que <marker>sin en cambio</marker> está de acuerdo.</example>
 
-      <example type="correct">La Tierra se encuentra, en cambio, a ocho minutos-luz del Sol.</example>
-    </rule>
+            <example type="correct">La Tierra se encuentra, en cambio, a ocho minutos-luz del Sol.</example>
+        </rule>
 
-    <!--SI_QUIERA Si quiera = siquiera-->
+        <!--SI_QUIERA Si quiera = siquiera-->
 
-    <rule id="SI_QUIERA" name="Si quiera--&gt; Siquiera">
-      <pattern>
-        <token>si</token>
+        <rule id="SI_QUIERA" name="Si quiera--> Siquiera">
+            <pattern>
+                <token>si</token>
 
-        <token>quiera</token>
-      </pattern>
+                <token>quiera</token>
+            </pattern>
 
-      <message>Se utiliza <suggestion>siquiera</suggestion></message>
+            <message>Se utiliza <suggestion>siquiera</suggestion></message>
 
-      <short>Separación incorrecta del adverbio o conjunción.</short>
+            <short>Separación incorrecta del adverbio o conjunción.</short>
 
-      <example correction="siquiera" type="incorrect">Imagino que ni <marker>si quiera</marker> está de acuerdo.</example>
+            <example correction="siquiera" type="incorrect">Imagino que ni <marker>si quiera</marker> está de acuerdo.</example>
 
-      <example type="correct">La que sí quiera, puede venir.</example>
-    </rule>
-  </category>
+            <example type="correct">La que sí quiera, puede venir.</example>
+        </rule>
+    </category>
 
-  <category name="Concordancia">
-    <!--CONC_NUM Concordancias de número-->
+    <category name="Concordancia">
+        <!--CONC_NUM Concordancias de número-->
 
-    <rulegroup id="CONC_NUM" name="Concordancias de número">
-      <!-- Exclusiones deliberadas: 
-        Las formas estilísticas adjetivo + nombre (casos S->P y P->S)
-        Razón: Son costosas (x2) y poco comunes para justificar su inclusión.
-        TODO: Incluir una categoría por defecto desactivada con esas reglas.
- No se sintetiza porque es muy difícil saber la intención del autor y más que ayudar puede despistar.
- TODO: Simplificar con desambiguación.
- TODO: sugerencias múltiples-->
+        <rulegroup id="CONC_NUM" name="Concordancias de número">
+            <!-- Exclusiones deliberadas:
+                 Las formas estilísticas adjetivo + nombre (casos S->P y P->S)
+                 Razón: Son costosas (x2) y poco comunes para justificar su inclusión.
+                 TODO: Incluir una categoría por defecto desactivada con esas reglas.
+          No se sintetiza porque es muy difícil saber la intención del autor y más que ayudar puede despistar.
+          TODO: Simplificar con desambiguación.
+          TODO: sugerencias múltiples-->
 
-      <!-- DET_NOM_SING Concordancia (el pavos) -->
+            <!-- DET_NOM_SING Concordancia (el pavos) -->
 
-      <rule id="DET_NOM_SING" name="Concordancia singular en Determinante + nombre">
-        <pattern case_sensitive="yes">
-          <token postag="D.{3}S.*" postag_regexp="yes"><exception postag="DI0CS0"></exception></token>
+            <rule id="DET_NOM_SING" name="Concordancia singular en Determinante + nombre">
+                <pattern case_sensitive="yes">
+                    <token postag="D.{3}S.*" postag_regexp="yes"><exception postag="DI0CS0"></exception></token>
 
-          <token postag="N.{2}P.*" postag_regexp="yes"><!--TODO: Include adjectives: N.{2}P.*|AQ.{2}P. --><exception negate_pos="yes" postag="N.{2}P.*" postag_regexp="yes"></exception><exception regexp="yes">[Bb]otones|\p{Lu}\p{L}*</exception></token>
-        </pattern>
+                    <token postag="N.{2}P.*" postag_regexp="yes"><!--TODO: Include adjectives: N.{2}P.*|AQ.{2}P. --><exception negate_pos="yes" postag="N.{2}P.*" postag_regexp="yes"></exception><exception regexp="yes">[Bb]otones|\p{Lu}\p{L}*</exception></token>
+                </pattern>
 
-        <message>Posible falta de concordancia de número entre «\1» y «\2».</message>
+                <message>Posible falta de concordancia de número entre «\1» y «\2».</message>
 
-        <short>Concordancia de número dudosa.</short>
+                <short>Concordancia de número dudosa.</short>
 
-        <example type="incorrect">Acércame <marker>la sillas</marker>, por favor.</example>
+                <example type="incorrect">Acércame <marker>la sillas</marker>, por favor.</example>
 
-        <example type="correct">Acércame las sillas, por favor.</example>
-      </rule>
+                <example type="correct">Acércame las sillas, por favor.</example>
+            </rule>
 
-      <!-- DEL_NOM_SING Concordancia (del pavos) -->
+            <!-- DEL_NOM_SING Concordancia (del pavos) -->
 
-      <rule id="DEL_NOM_SING" name="Concordancia singular en «del» + nombre">
-        <pattern case_sensitive="yes">
-          <token regexp="yes">del|al</token>
+            <rule id="DEL_NOM_SING" name="Concordancia singular en «del» + nombre">
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">del|al</token>
 
-          <token postag="N.{2}P.*" postag_regexp="yes"><!--TODO: Include adjectives: N.{2}P.*|AQ.{2}P. --><exception negate_pos="yes" postag="N.{2}P.*" postag_regexp="yes"></exception><exception regexp="yes">\p{Lu}\p{L}*</exception></token>
-        </pattern>
+                    <token postag="N.{2}P.*" postag_regexp="yes"><!--TODO: Include adjectives: N.{2}P.*|AQ.{2}P. --><exception negate_pos="yes" postag="N.{2}P.*" postag_regexp="yes"></exception><exception regexp="yes">\p{Lu}\p{L}*</exception></token>
+                </pattern>
 
-        <message>Posible falta de concordancia de número entre «\1» y «\2».</message>
+                <message>Posible falta de concordancia de número entre «\1» y «\2».</message>
 
-        <short>Concordancia de número dudosa.</short>
+                <short>Concordancia de número dudosa.</short>
 
-        <example type="incorrect">Ha vuelto <marker>del parques</marker> pronto.</example>
+                <example type="incorrect">Ha vuelto <marker>del parques</marker> pronto.</example>
 
-        <example type="correct">Ha vuelto del parque pronto.</example>
-      </rule>
+                <example type="correct">Ha vuelto del parque pronto.</example>
+            </rule>
 
-      <!-- DET_NOM_PLUR Concordancia (los pavo) -->
+            <!-- DET_NOM_PLUR Concordancia (los pavo) -->
 
-      <rule id="DET_NOM_PLUR" name="Concordancia plural en Determinante + nombre">
-        <pattern case_sensitive="yes">
-          <token postag="D.{3}P.*" postag_regexp="yes"></token>
+            <rule id="DET_NOM_PLUR" name="Concordancia plural en Determinante + nombre">
+                <pattern case_sensitive="yes">
+                    <token postag="D.{3}P.*" postag_regexp="yes"></token>
 
-          <token postag="N.{2}S.*" postag_regexp="yes"><!--TODO: Include adjectives: N.{2}S.*|AQ.{2}S. --><exception negate_pos="yes" postag="N.{2}S.*" postag_regexp="yes"></exception><exception regexp="yes">\p{Lu}\p{L}*</exception></token>
-        </pattern>
+                    <token postag="N.{2}S.*" postag_regexp="yes"><!--TODO: Include adjectives: N.{2}S.*|AQ.{2}S. --><exception negate_pos="yes" postag="N.{2}S.*" postag_regexp="yes"></exception><exception regexp="yes">\p{Lu}\p{L}*</exception></token>
+                </pattern>
 
-        <message>Posible falta de concordancia de número entre «\1» y «\2».</message>
+                <message>Posible falta de concordancia de número entre «\1» y «\2».</message>
 
-        <short>Concordancia de número dudosa.</short>
+                <short>Concordancia de número dudosa.</short>
 
-        <example type="incorrect">Ordenamos <marker>las silla</marker> por colores.</example>
+                <example type="incorrect">Ordenamos <marker>las silla</marker> por colores.</example>
 
-        <example type="correct">Ordenamos las sillas por colores.</example>
-      </rule>
+                <example type="correct">Ordenamos las sillas por colores.</example>
+            </rule>
 
-      <!-- NOM_ADJ_SINGULAR Concordancia (pavo rojos) -->
+            <!-- NOM_ADJ_SINGULAR Concordancia (pavo rojos) -->
 
-      <rule id="NOM_ADJ_SINGULAR" name="Concordancia singular Nombre + adjetivo">
-        <pattern case_sensitive="yes" mark_to="-1">
-          <token postag="N.{2}S.*" postag_regexp="yes" skip="1"><exception postag="C.*|SP.*" postag_regexp="yes" scope="previous"></exception><exception postag="[VRCD].*|SP.*" postag_regexp="yes"></exception><exception
-          regexp="yes">mayoría|minoría|parte|número|mitad|vez|modo|manera|guisa|forma</exception><exception postag="N.*" postag_regexp="yes" scope="next"></exception><exception regexp="yes"
-          scope="next">[^\p{L}].*|al|del|suficientemente</exception></token>
+            <rule id="NOM_ADJ_SINGULAR" name="Concordancia singular Nombre + adjetivo">
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token postag="N.{2}S.*" postag_regexp="yes" skip="1"><exception postag="C.*|SP.*" postag_regexp="yes" scope="previous"></exception><exception postag="[VRCD].*|SP.*" postag_regexp="yes"></exception><exception regexp="yes">mayoría|minoría|parte|número|mitad|vez|modo|manera|guisa|forma</exception><exception postag="N.*" postag_regexp="yes" scope="next"></exception><exception regexp="yes" scope="next">[^\p{L}].*|al|del|suficientemente</exception></token>
 
-          <token postag="A.{3}P.*" postag_regexp="yes"><exception postag="[VRCD].*|SP.*" postag_regexp="yes" scope="previous"></exception><exception postag="D.*|SP.*" postag_regexp="yes"></exception><exception
-          regexp="yes">\p{Lu}\p{L}+|juntos</exception></token>
+                        <token postag="A.{3}P.*" postag_regexp="yes"><exception postag="[VRCD].*|SP.*" postag_regexp="yes" scope="previous"></exception><exception postag="D.*|SP.*" postag_regexp="yes"></exception><exception regexp="yes">\p{Lu}\p{L}+|juntos</exception></token>
+                    </marker>
 
-          <token postag=".+" postag_regexp="yes"><exception postag="N.{2}P.*" postag_regexp="yes" scope="current"></exception></token>
-        </pattern>
+                    <token postag=".+" postag_regexp="yes"><exception postag="N.{2}P.*" postag_regexp="yes" scope="current"></exception></token>
+                </pattern>
 
-        <message>Posible falta de concordancia de número entre «\1» y «\2».</message>
+                <message>Posible falta de concordancia de número entre «\1» y «\2».</message>
 
-        <short>Concordancia de número dudosa.</short>
+                <short>Concordancia de número dudosa.</short>
 
-        <example type="incorrect">Hay <marker>silla rojas</marker> en esa tienda.</example>
+                <example type="incorrect">Hay <marker>silla rojas</marker> en esa tienda.</example>
 
-        <example type="correct">Hay sillas verdes en esa tienda.</example>
-      </rule>
+                <example type="correct">Hay sillas verdes en esa tienda.</example>
+            </rule>
 
-      <!-- NOM_ADJ_PLURAL Concordancia (pavos rojo) -->
+            <!-- NOM_ADJ_PLURAL Concordancia (pavos rojo) -->
 
-      <rule id="NOM_ADJ_PLURAL" name="Concordancia plural Nombre + adjetivo">
-        <pattern case_sensitive="yes" mark_to="-1">
-          <token postag="N.{2}P.*|P.{3}P.*" postag_regexp="yes" skip="1"><exception postag="SP.*" postag_regexp="yes" scope="previous"></exception><exception regexp="yes">\p{Lu}\p{L}*</exception><exception negate_pos="yes" postag="N.{2}P.*|P.{3}P.*"
-          postag_regexp="yes"></exception><exception inflected="yes" postag="" regexp="yes">me|nos|mí|conmigo|ti|contigo|lo|le|les|se|consigo|la|do</exception><exception regexp="yes">botones|veces</exception><exception regexp="yes"
-          scope="next">[^\p{L}].*|al|del</exception></token>
+            <rule id="NOM_ADJ_PLURAL" name="Concordancia plural Nombre + adjetivo">
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token postag="N.{2}P.*|P.{3}P.*" postag_regexp="yes" skip="1"><exception postag="SP.*" postag_regexp="yes" scope="previous"></exception><exception regexp="yes">\p{Lu}\p{L}*</exception><exception negate_pos="yes" postag="N.{2}P.*|P.{3}P.*" postag_regexp="yes"></exception><exception inflected="yes" postag="" regexp="yes">me|nos|mí|conmigo|ti|contigo|lo|le|les|se|consigo|la|do</exception><exception regexp="yes">botones|veces</exception><exception regexp="yes" scope="next">[^\p{L}].*|al|del</exception></token>
 
-          <token postag="A.{3}S.*" postag_regexp="yes"><exception postag="[VRCD].*|SP.*" postag_regexp="yes" scope="previous"></exception><exception scope="previous">del</exception><exception postag="R.*|SP.*" postag_regexp="yes"></exception><exception
-          regexp="yes">clave|guía|extra|\p{Lu}\p{L}+</exception></token>
+                        <token postag="A.{3}S.*" postag_regexp="yes"><exception postag="[VRCD].*|SP.*" postag_regexp="yes" scope="previous"></exception><exception scope="previous">del</exception><exception postag="R.*|SP.*" postag_regexp="yes"></exception><exception regexp="yes">clave|guía|extra|\p{Lu}\p{L}+</exception></token>
+                    </marker>
 
-          <token postag=".+" postag_regexp="yes"><exception postag="C.*" postag_regexp="yes" regexp="yes">[;,]</exception></token>
-        </pattern>
+                    <token postag=".+" postag_regexp="yes"><exception postag="C.*" postag_regexp="yes" regexp="yes">[;,]</exception></token>
+                </pattern>
 
-        <message>Posible falta de concordancia de número entre «\1» y «\2».</message>
+                <message>Posible falta de concordancia de número entre «\1» y «\2».</message>
 
-        <short>Concordancia de número dudosa.</short>
+                <short>Concordancia de número dudosa.</short>
 
-        <example type="incorrect">Pintaremos las <marker>sillas verde</marker> de otro color.</example>
+                <example type="incorrect">Pintaremos las <marker>sillas verde</marker> de otro color.</example>
 
-        <example type="correct">Pintaremos las sillas verdes de otro color.</example>
-      </rule>
-    </rulegroup>
+                <example type="correct">Pintaremos las sillas verdes de otro color.</example>
+            </rule>
+        </rulegroup>
 
-    <!-- CONC_GENERO Concordancias de género -->
+        <!-- CONC_GENERO Concordancias de género -->
 
-    <rulegroup id="CONC_GENERO" name="Concordancias de género">
-      <!-- Exclusiones deliberadas: 
-        Las formas estilísticas adjetivo + nombre (casos M->F y F->M)
-        Razón: Son costosas (x2) y poco comunes para justificar su inclusión.
-        TODO: Incluir una categoría por defecto desactivada con esas reglas.
-        
-        El grupo completo se ha copiado del de concordancias de género,
-        sustituyendo S y P por F y M respectivamente y ajustando los textos
-        y las posiciones.
- TODO: Simplificar con desambiguación.
- TODO: Realizar sugerencias múltiples.        
-    -->
+        <rulegroup id="CONC_GENERO" name="Concordancias de género">
+            <!-- Exclusiones deliberadas:
+                Las formas estilísticas adjetivo + nombre (casos M->F y F->M)
+                Razón: Son costosas (x2) y poco comunes para justificar su inclusión.
+                TODO: Incluir una categoría por defecto desactivada con esas reglas.
 
-      <!-- DET_NOM_FEM Concordancia (la pavo) -->
+                El grupo completo se ha copiado del de concordancias de género,
+                sustituyendo S y P por F y M respectivamente y ajustando los textos
+                y las posiciones.
+         TODO: Simplificar con desambiguación.
+         TODO: Realizar sugerencias múltiples.
+            -->
 
-      <rule id="DET_NOM_FEM" name="Concordancia femenino en Determinante + nombre">
-        <pattern case_sensitive="yes">
-          <token postag="D.{2}F.*" postag_regexp="yes"></token>
+            <!-- DET_NOM_FEM Concordancia (la pavo) -->
 
-          <token postag="N.{1}M.*" postag_regexp="yes"><exception negate_pos="yes" postag="N.{1}M.*" postag_regexp="yes" scope="current"></exception><exception regexp="yes">botones|\p{Lu}\p{L}*</exception><exception inflected="yes"
-          regexp="yes">la|do|número</exception></token>
-        </pattern>
+            <rule id="DET_NOM_FEM" name="Concordancia femenino en Determinante + nombre">
+                <pattern case_sensitive="yes">
+                    <token postag="D.{2}F.*" postag_regexp="yes"></token>
 
-        <message>Posible falta de concordancia de género entre «\1» y «\2».</message>
+                    <token postag="N.{1}M.*" postag_regexp="yes"><exception negate_pos="yes" postag="N.{1}M.*" postag_regexp="yes" scope="current"></exception><exception regexp="yes">botones|\p{Lu}\p{L}*</exception><exception inflected="yes" regexp="yes">la|do|número</exception></token>
+                </pattern>
 
-        <short>Concordancia de género dudosa.</short>
+                <message>Posible falta de concordancia de género entre «\1» y «\2».</message>
 
-        <example type="incorrect">Me gusta <marker>esa teléfono</marker> para ti.</example>
+                <short>Concordancia de género dudosa.</short>
 
-        <example type="correct">Me gusta ese coche para ti.</example>
-      </rule>
+                <example type="incorrect">Me gusta <marker>esa teléfono</marker> para ti.</example>
 
-      <!-- DET_FEM_NOM_FEM Palabras que empiezan por fonema A tónico. -->
+                <example type="correct">Me gusta ese coche para ti.</example>
+            </rule>
 
-      <rule id="DET_FEM_NOM_FEM" name="Palabras que empiezan por fonema A tónico">
-        <pattern case_sensitive="no">
-          <token>la</token>
+            <!-- DET_FEM_NOM_FEM Palabras que empiezan por fonema A tónico. -->
 
-          <!--Eliminado "alta" por tener valor femenino y masculino.-->
+            <rule id="DET_FEM_NOM_FEM" name="Palabras que empiezan por fonema A tónico">
+                <pattern case_sensitive="no">
+                    <token>la</token>
 
-          <token
-          regexp="yes">aura|ágata|ágora|águila|álgebra|áncora|ánfora|ánima|área|árnica|acta|afta|agua|aguasal|aguaviva|ala|alba|alga|algia|alma|alza|ama|anca|ancla|ansia|ara|arca|archa|aria|arma|arpa|arria|arte|asa|ascua|asma|aspa|asta|aula|ave|aya|haba|habla|hacha|hada|hambre|hampa|haya</token>
-        </pattern>
+                    <!--Eliminado "alta" por tener valor femenino y masculino.-->
 
-        <message>Antes de una palabra que empieza por "a" o "ha" tónicas, se emplea el determinante masculino: <suggestion>el \2</suggestion>.</message>
+                    <token regexp="yes">aura|ágata|ágora|águila|álgebra|áncora|ánfora|ánima|área|árnica|acta|afta|agua|aguasal|aguaviva|ala|alba|alga|algia|alma|alza|ama|anca|ancla|ansia|ara|arca|archa|aria|arma|arpa|arria|arte|asa|ascua|asma|aspa|asta|aula|ave|aya|haba|habla|hacha|hada|hambre|hampa|haya</token>
+                </pattern>
 
-        <short>Determinante incorrecto.</short>
+                <message>Antes de una palabra que empieza por &quot;a&quot; o &quot;ha&quot; tónicas, se emplea el determinante masculino: <suggestion>el \2</suggestion>.</message>
 
-        <example correction="el agua" type="incorrect">Me gusta <marker>la agua</marker> que hay ahí.</example>
+                <short>Determinante incorrecto.</short>
 
-        <example type="correct">Me gusta el agua que hay ahí.</example>
-      </rule>
+                <example correction="el agua" type="incorrect">Me gusta <marker>la agua</marker> que hay ahí.</example>
 
-      <!-- DET_NOM_MASC Concordancia (ese pava) -->
+                <example type="correct">Me gusta el agua que hay ahí.</example>
+            </rule>
 
-      <rule id="DET_NOM_MASC" name="Concordancia masculino en Determinante + nombre">
-        <pattern case_sensitive="yes">
-          <token postag="D[^P].{1}M.*" postag_regexp="yes"><exception regexp="yes">[Ee]l|(([Aa]l|[Nn]in)g)?[Uuú]n</exception><exception postag="R.*" postag_regexp="yes"></exception></token>
+            <!-- DET_NOM_MASC Concordancia (ese pava) -->
 
-          <token postag="N.{1}F.*" postag_regexp="yes"><exception negate_pos="yes" postag="N.{1}F.*" postag_regexp="yes" scope="current"></exception><exception regexp="yes">\p{Lu}\p{L}*</exception></token>
-        </pattern>
+            <rule id="DET_NOM_MASC" name="Concordancia masculino en Determinante + nombre">
+                <pattern case_sensitive="yes">
+                    <token postag="D[^P].{1}M.*" postag_regexp="yes"><exception regexp="yes">[Ee]l|(([Aa]l|[Nn]in)g)?[Uuú]n</exception><exception postag="R.*" postag_regexp="yes"></exception></token>
 
-        <message>Posible falta de concordancia de género entre «\1» y «\2».</message>
+                    <token postag="N.{1}F.*" postag_regexp="yes"><exception negate_pos="yes" postag="N.{1}F.*" postag_regexp="yes" scope="current"></exception><exception regexp="yes">\p{Lu}\p{L}*</exception></token>
+                </pattern>
 
-        <short>Concordancia de género dudosa.</short>
+                <message>Posible falta de concordancia de género entre «\1» y «\2».</message>
 
-        <example type="incorrect">Me gusta <marker>ese silla</marker> que hay ahí.</example>
+                <short>Concordancia de género dudosa.</short>
 
-        <example type="correct">Me gusta esa silla que hay ahí.</example>
-      </rule>
+                <example type="incorrect">Me gusta <marker>ese silla</marker> que hay ahí.</example>
 
-      <!-- EL_NOM_MASC Concordancia (el pava) -->
+                <example type="correct">Me gusta esa silla que hay ahí.</example>
+            </rule>
 
-      <rule id="EL_NOM_MASC" name="Concordancia masculino en «el» + nombre">
-        <pattern case_sensitive="yes">
-          <token postag="DA0MS0"></token>
+            <!-- EL_NOM_MASC Concordancia (el pava) -->
 
-          <token postag="N.{1}F.*" postag_regexp="yes"><exception negate_pos="yes" postag="N.{1}F.*" postag_regexp="yes" scope="current"></exception><exception
-          regexp="yes">\p{Lu}\p{L}*|aura|ágata|ágora|águila|álgebra|áncora|ánfora|ánima|área|árnica|acta|afta|agua|aguasal|aguaviva|ala|alba|alga|algia|alma|alta|alza|ama</exception><exception
-          regexp="yes">anca|ancla|ansia|ara|arca|archa|aria|arma|arpa|arria|arte|asa|ascua|asma|aspa|asta|aula|ave|aya|haba|habla|hacha|hada|hambre|hampa|haya</exception></token>
-        </pattern>
+            <rule id="EL_NOM_MASC" name="Concordancia masculino en «el» + nombre">
+                <pattern case_sensitive="yes">
+                    <token postag="DA0MS0"></token>
 
-        <message>Posible falta de concordancia de género entre «\1» y «\2».</message>
+                    <token postag="N.{1}F.*" postag_regexp="yes"><exception negate_pos="yes" postag="N.{1}F.*" postag_regexp="yes" scope="current"></exception><exception regexp="yes">\p{Lu}\p{L}*|aura|ágata|ágora|águila|álgebra|áncora|ánfora|ánima|área|árnica|acta|afta|agua|aguasal|aguaviva|ala|alba|alga|algia|alma|alta|alza|ama</exception><exception regexp="yes">anca|ancla|ansia|ara|arca|archa|aria|arma|arpa|arria|arte|asa|ascua|asma|aspa|asta|aula|ave|aya|haba|habla|hacha|hada|hambre|hampa|haya</exception></token>
+                </pattern>
 
-        <short>Concordancia de género dudosa.</short>
+                <message>Posible falta de concordancia de género entre «\1» y «\2».</message>
 
-        <example type="incorrect">Me gusta <marker>el silla</marker> que hay ahí.</example>
+                <short>Concordancia de género dudosa.</short>
 
-        <example type="correct">Me gusta esa silla que hay ahí.</example>
-      </rule>
+                <example type="incorrect">Me gusta <marker>el silla</marker> que hay ahí.</example>
 
-      <!-- DEL_NOM_MASC Concordancia (del pava)-->
+                <example type="correct">Me gusta esa silla que hay ahí.</example>
+            </rule>
 
-      <rule id="DEL_NOM_MASC" name="Concordancia masculino en «del» + nombre">
-        <pattern case_sensitive="yes">
-          <token regexp="yes">[Dd]el|[Aa]l</token>
+            <!-- DEL_NOM_MASC Concordancia (del pava)-->
 
-          <token postag="N.{1}F.*" postag_regexp="yes"><exception postag="AQ.*|N.{1}M.*|SP.*" postag_regexp="yes" scope="current"></exception><exception
-          regexp="yes">\p{Lu}\p{L}*|aura|ágata|ágora|águila|álgebra|áncora|ánfora|ánima|área|árnica|acta|afta|agua|aguasal|aguaviva|ala|alba|alga|algia|alma|alta|alza|ama</exception><exception
-          regexp="yes">anca|ancla|ansia|ara|arca|archa|aria|arma|arpa|arria|arte|asa|ascua|asma|aspa|asta|aula|ave|aya|haba|habla|hacha|hada|hambre|hampa|haya</exception></token>
-        </pattern>
+            <rule id="DEL_NOM_MASC" name="Concordancia masculino en «del» + nombre">
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[Dd]el|[Aa]l</token>
 
-        <message>Posible falta de concordancia de género entre «\1» y «\2».</message>
+                    <token postag="N.{1}F.*" postag_regexp="yes"><exception postag="AQ.*|N.{1}M.*|SP.*" postag_regexp="yes" scope="current"></exception><exception regexp="yes">\p{Lu}\p{L}*|aura|ágata|ágora|águila|álgebra|áncora|ánfora|ánima|área|árnica|acta|afta|agua|aguasal|aguaviva|ala|alba|alga|algia|alma|alta|alza|ama</exception><exception regexp="yes">anca|ancla|ansia|ara|arca|archa|aria|arma|arpa|arria|arte|asa|ascua|asma|aspa|asta|aula|ave|aya|haba|habla|hacha|hada|hambre|hampa|haya</exception></token>
+                </pattern>
 
-        <short>Concordancia de género dudosa.</short>
+                <message>Posible falta de concordancia de género entre «\1» y «\2».</message>
 
-        <example type="incorrect"><marker>Del silla</marker></example>
+                <short>Concordancia de género dudosa.</short>
 
-        <example type="correct">Del paso</example>
-      </rule>
+                <example type="incorrect"><marker>Del silla</marker></example>
 
-      <!-- NOM_ADJ_FEM Concordancia (pava rojo) -->
+                <example type="correct">Del paso</example>
+            </rule>
 
-      <rule id="NOM_ADJ_FEM" name="Concordancia femenino Nombre + adjetivo">
-        <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
-          <token postag=".*" postag_regexp="yes"></token>
+            <!-- NOM_ADJ_FEM Concordancia (pava rojo) -->
 
-          <token postag="N.{1}F.*|PD0F.*" postag_regexp="yes" skip="1"><exception postag="SP.*|C." postag_regexp="yes" scope="previous"></exception><!--Previously excluded C.*|SP.*|R.* without negated POS--><exception negate_pos="yes"
-          postag="N.{1}F.*|PD0F.*" postag_regexp="yes"></exception><exception regexp="yes">\p{Lu}\p{L}*|\w</exception><exception inflected="yes" regexp="yes">mayoría|minoría|mitad|parte|vez|era|eres</exception><exception postag="[NVRCD].*|SP.*|PR.*"
-          postag_regexp="yes" scope="next"></exception><exception regexp="yes" scope="next">\W*</exception><exception regexp="yes" scope="next">del|al</exception></token>
+            <rule id="NOM_ADJ_FEM" name="Concordancia femenino Nombre + adjetivo">
+                <pattern case_sensitive="yes">
+                    <token postag=".*" postag_regexp="yes"></token>
 
-          <token postag="A.{2}M.*" postag_regexp="yes"><exception regexp="yes">\p{Lu}\p{L}+|juntos</exception></token>
+                    <marker>
+                        <token postag="N.{1}F.*|PD0F.*" postag_regexp="yes" skip="1"><exception postag="SP.*|C." postag_regexp="yes" scope="previous"></exception><!--Previously excluded C.*|SP.*|R.* without negated POS--><exception negate_pos="yes" postag="N.{1}F.*|PD0F.*" postag_regexp="yes"></exception><exception regexp="yes">\p{Lu}\p{L}*|\w</exception><exception inflected="yes" regexp="yes">mayoría|minoría|mitad|parte|vez|era|eres</exception><exception postag="[NVRCD].*|SP.*|PR.*" postag_regexp="yes" scope="next"></exception><exception regexp="yes" scope="next">\W*</exception><exception regexp="yes" scope="next">del|al</exception></token>
 
-          <token postag=".+" postag_regexp="yes"><exception postag="N.{1}M.*" postag_regexp="yes" scope="current"></exception></token>
-        </pattern>
+                        <token postag="A.{2}M.*" postag_regexp="yes"><exception regexp="yes">\p{Lu}\p{L}+|juntos</exception></token>
+                    </marker>
 
-        <message>Posible falta de concordancia de género entre «\2» y «\3».</message>
+                    <token postag=".+" postag_regexp="yes"><exception postag="N.{1}M.*" postag_regexp="yes" scope="current"></exception></token>
+                </pattern>
 
-        <short>Concordancia de género dudosa.</short>
+                <message>Posible falta de concordancia de género entre «\2» y «\3».</message>
 
-        <example type="incorrect">La <marker>silla feo</marker> está al fondo.</example>
+                <short>Concordancia de género dudosa.</short>
 
-        <example type="correct">La silla roja está al fondo</example>
-      </rule>
+                <example type="incorrect">La <marker>silla feo</marker> está al fondo.</example>
 
-      <!-- NOM_ADJ_MASC Concordancia (pavo roja) -->
+                <example type="correct">La silla roja está al fondo</example>
+            </rule>
 
-      <rule id="NOM_ADJ_MASC" name="Concordancia masculino Nombre + adjetivo">
-        <pattern case_sensitive="yes" mark_to="-1">
-          <token postag="N.{1}M.*|P.{2}M.*" postag_regexp="yes" skip="1"><exception negate_pos="yes" postag="N.{1}M.*|P.{2}M.*" postag_regexp="yes"></exception><exception>dos</exception><exception regexp="yes" scope="next">[^\p{L}]+</exception><exception
-          postag="[VCD].*|SP.*" postag_regexp="yes" scope="next"></exception></token>
+            <!-- NOM_ADJ_MASC Concordancia (pavo roja) -->
 
-          <token postag="A.{2}F.*" postag_regexp="yes"><exception regexp="yes">\p{Lu}\p{L}+</exception><exception postag="N.*" postag_regexp="yes" scope="next"></exception></token>
+            <rule id="NOM_ADJ_MASC" name="Concordancia masculino Nombre + adjetivo">
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token postag="N.{1}M.*|P.{2}M.*" postag_regexp="yes" skip="1"><exception negate_pos="yes" postag="N.{1}M.*|P.{2}M.*" postag_regexp="yes"></exception><exception>dos</exception><exception regexp="yes" scope="next">[^\p{L}]+</exception><exception postag="[VCD].*|SP.*" postag_regexp="yes" scope="next"></exception></token>
 
-          <token postag=".+" postag_regexp="yes"><exception postag="N.{1}F.*" postag_regexp="yes" scope="current"></exception></token>
-        </pattern>
+                        <token postag="A.{2}F.*" postag_regexp="yes"><exception regexp="yes">\p{Lu}\p{L}+</exception><exception postag="N.*" postag_regexp="yes" scope="next"></exception></token>
+                    </marker>
 
-        <message>Posible falta de concordancia de género entre «\1» y «\2».</message>
+                    <token postag=".+" postag_regexp="yes"><exception postag="N.{1}F.*" postag_regexp="yes" scope="current"></exception></token>
+                </pattern>
 
-        <short>Concordancia de género dudosa.</short>
+                <message>Posible falta de concordancia de género entre «\1» y «\2».</message>
 
-        <example type="incorrect">El <marker>sillón roja</marker> está al fondo.</example>
+                <short>Concordancia de género dudosa.</short>
 
-        <example type="correct">El sillón rojo está al fondo.</example>
-      </rule>
+                <example type="incorrect">El <marker>sillón roja</marker> está al fondo.</example>
 
-      <!-- CADA_UNA_DE_LOS Concordancia (Concordancia M/F) -->
+                <example type="correct">El sillón rojo está al fondo.</example>
+            </rule>
 
-      <rule id="CADA_UNA_DE_LOS" name="Concordancia «Cada una de los»">
-        <pattern case_sensitive="no">
-          <token postag="SENT_START"></token>
+            <!-- CADA_UNA_DE_LOS Concordancia (Concordancia M/F) -->
 
-          <token>cada</token>
+            <rule id="CADA_UNA_DE_LOS" name="Concordancia «Cada una de los»">
+                <pattern case_sensitive="no">
+                    <token postag="SENT_START"></token>
 
-          <token>una</token>
+                    <token>cada</token>
 
-          <token>de</token>
+                    <token>una</token>
 
-          <token>los</token>
-        </pattern>
+                    <token>de</token>
 
-        <message>Posible falta de concordancia de género entre «\3» y «\5».</message>
+                    <token>los</token>
+                </pattern>
 
-        <short>Concordancia de género dudosa en la forma distributiva cada... de...</short>
+                <message>Posible falta de concordancia de género entre «\3» y «\5».</message>
 
-        <example type="incorrect"><marker>Cada una de los</marker> caballeros está ocupado.</example>
+                <short>Concordancia de género dudosa en la forma distributiva cada... de...</short>
 
-        <example type="correct">Cada uno de los caballeros está ocupado.</example>
-      </rule>
+                <example type="incorrect"><marker>Cada una de los</marker> caballeros está ocupado.</example>
 
-      <!-- CADA_UNO_DE_LAS Concordancia (Concordancia F/M) -->
+                <example type="correct">Cada uno de los caballeros está ocupado.</example>
+            </rule>
 
-      <rule id="CADA_UNO_DE_LAS" name="Concordancia «Cada una de las»">
-        <pattern case_sensitive="no">
-          <token postag="SENT_START"></token>
+            <!-- CADA_UNO_DE_LAS Concordancia (Concordancia F/M) -->
 
-          <token>cada</token>
+            <rule id="CADA_UNO_DE_LAS" name="Concordancia «Cada una de las»">
+                <pattern case_sensitive="no">
+                    <token postag="SENT_START"></token>
 
-          <token>uno</token>
+                    <token>cada</token>
 
-          <token>de</token>
+                    <token>uno</token>
 
-          <token>las</token>
-        </pattern>
+                    <token>de</token>
 
-        <message>Posible falta de concordancia de género entre «\3» y «\5».</message>
+                    <token>las</token>
+                </pattern>
 
-        <short>Concordancia de género dudosa en la forma distributiva cada... de...</short>
+                <message>Posible falta de concordancia de género entre «\3» y «\5».</message>
 
-        <example type="incorrect"><marker>Cada uno de las</marker> damas está ocupada.</example>
+                <short>Concordancia de género dudosa en la forma distributiva cada... de...</short>
 
-        <example type="correct">Cada una de las damas está ocupada.</example>
-      </rule>
-    </rulegroup>
+                <example type="incorrect"><marker>Cada uno de las</marker> damas está ocupada.</example>
 
-    <!--Concordancias con verbos-->
+                <example type="correct">Cada una de las damas está ocupada.</example>
+            </rule>
+        </rulegroup>
 
-    <!--CONC_V_PERSONA Concordancia de persona-->
+        <!--Concordancias con verbos-->
 
-    <rulegroup id="CONC_V_PERSONA" name="Concordancia de persona">
-      <!--Concordancica de persona (pronombre personal nominativo + verbo)
-TODO: Simplificar con desambiguación
-TODO: Ofrecer sugerencias múltiples-->
+        <!--CONC_V_PERSONA Concordancia de persona-->
 
-      <!-- PP_V_1 Concordancia (yo entregas)-->
+        <rulegroup id="CONC_V_PERSONA" name="Concordancia de persona">
+            <!--Concordancica de persona (pronombre personal nominativo + verbo)
+         TODO: Simplificar con desambiguación
+         TODO: Ofrecer sugerencias múltiples-->
 
-      <rule id="PP_V_1" name="Concordancia 1ª persona">
-        <pattern>
-          <token postag="PP1(.{2}N|CN0|MP0).*" postag_regexp="yes"><exception postag="SP.*" postag_regexp="yes" scope="previous"></exception><exception postag="V.{3}1.*|C.*|SP.*" postag_regexp="yes"></exception></token>
+            <!-- PP_V_1 Concordancia (yo entregas)-->
 
-          <token postag="V.{3}[23].*" postag_regexp="yes"><exception postag="V.{3}1.*|AQ.*" postag_regexp="yes"></exception></token>
-        </pattern>
+            <rule id="PP_V_1" name="Concordancia 1ª persona">
+                <pattern>
+                    <token postag="PP1(.{2}N|CN0|MP0).*" postag_regexp="yes"><exception postag="SP.*" postag_regexp="yes" scope="previous"></exception><exception postag="V.{3}1.*|C.*|SP.*" postag_regexp="yes"></exception></token>
 
-        <message>Posible falta de concordancia de persona entre «\1» y «\2».</message>
+                    <token postag="V.{3}[23].*" postag_regexp="yes"><exception postag="V.{3}1.*|AQ.*" postag_regexp="yes"></exception></token>
+                </pattern>
 
-        <short>Concordancia de persona dudosa.</short>
+                <message>Posible falta de concordancia de persona entre «\1» y «\2».</message>
 
-        <example type="incorrect"><marker>Yo vienes</marker></example>
+                <short>Concordancia de persona dudosa.</short>
 
-        <example type="correct">Yo vengo</example>
-      </rule>
+                <example type="incorrect"><marker>Yo vienes</marker></example>
 
-      <!-- PP_V_2 Concordancia (tú entrego)-->
+                <example type="correct">Yo vengo</example>
+            </rule>
 
-      <rule id="PP_V_2" name="Concordancia 2ª persona">
-        <pattern case_sensitive="no">
-          <token postag="PP2(.{2}N|CN0|MP0).*" postag_regexp="yes"><exception postag="SP*" postag_regexp="yes" scope="previous"></exception></token>
+            <!-- PP_V_2 Concordancia (tú entrego)-->
 
-          <token postag="V.{3}[13].*" postag_regexp="yes"><exception postag="AQ.*|SP.*" postag_regexp="yes"></exception><!--TODO: generalizar.--><exception regexp="yes">como|una|obra</exception></token>
-        </pattern>
+            <rule id="PP_V_2" name="Concordancia 2ª persona">
+                <pattern case_sensitive="no">
+                    <token postag="PP2(.{2}N|CN0|MP0).*" postag_regexp="yes"><exception postag="SP*" postag_regexp="yes" scope="previous"></exception></token>
 
-        <message>Posible falta de concordancia de persona entre «\1» y «\2».</message>
+                    <token postag="V.{3}[13].*" postag_regexp="yes"><exception postag="AQ.*|SP.*" postag_regexp="yes"></exception><!--TODO: generalizar.--><exception regexp="yes">como|una|obra</exception></token>
+                </pattern>
 
-        <short>Concordancia de persona dudosa.</short>
+                <message>Posible falta de concordancia de persona entre «\1» y «\2».</message>
 
-        <example type="incorrect"><marker>Tú vengo</marker></example>
+                <short>Concordancia de persona dudosa.</short>
 
-        <example type="correct">Tú vienes</example>
-      </rule>
+                <example type="incorrect"><marker>Tú vengo</marker></example>
 
-      <!-- PP_V_3 Concordancia (él entrego)-->
+                <example type="correct">Tú vienes</example>
+            </rule>
 
-      <rule id="PP_V_3" name="Concordancia 3ª persona">
-        <pattern case_sensitive="no">
-          <token postag="PP3(.*000|CN0|MP0).*" postag_regexp="yes"><exception postag="SP.*" postag_regexp="yes" scope="previous"></exception></token>
+            <!-- PP_V_3 Concordancia (él entrego)-->
 
-          <token postag="V.{3}[12].*" postag_regexp="yes"><exception postag="V.{3}3.*|C.*|SP.*" postag_regexp="yes" scope="next"></exception><exception postag="V.{3}3.*|AQ.*|[NCR].*" postag_regexp="yes"></exception></token>
-        </pattern>
+            <rule id="PP_V_3" name="Concordancia 3ª persona">
+                <pattern case_sensitive="no">
+                    <token postag="PP3(.*000|CN0|MP0).*" postag_regexp="yes"><exception postag="SP.*" postag_regexp="yes" scope="previous"></exception></token>
 
-        <message>Posible falta de concordancia de persona entre «\1» y «\2».</message>
+                    <token postag="V.{3}[12].*" postag_regexp="yes"><exception postag="V.{3}3.*|C.*|SP.*" postag_regexp="yes" scope="next"></exception><exception postag="V.{3}3.*|AQ.*|[NCR].*" postag_regexp="yes"></exception></token>
+                </pattern>
 
-        <short>Concordancia de persona dudosa.</short>
+                <message>Posible falta de concordancia de persona entre «\1» y «\2».</message>
 
-        <example type="incorrect"><marker>Él vengo</marker></example>
+                <short>Concordancia de persona dudosa.</short>
 
-        <example type="correct">Él viene</example>
-      </rule>
+                <example type="incorrect"><marker>Él vengo</marker></example>
 
-      <!-- PP_V_SINGULAR Concordancia singular (él vienen)-->
+                <example type="correct">Él viene</example>
+            </rule>
 
-      <rule id="PP_V_SINGULAR" name="Concordancia singular Nombre + verbo">
-        <!-- Eliminados sustantivos y otros pronombres por elevado número de falsos positivos. -->
+            <!-- PP_V_SINGULAR Concordancia singular (él vienen)-->
 
-        <pattern>
-          <token postag="PP.{2}S.*" postag_regexp="yes"><exception postag="SP.*|C.*|PT.*" postag_regexp="yes" scope="previous"></exception><exception negate_pos="yes" postag="PP.{2}S.*" postag_regexp="yes"></exception><exception postag="PP.C.[0D]00"
-          postag_regexp="yes"></exception></token>
+            <rule id="PP_V_SINGULAR" name="Concordancia singular Nombre + verbo">
+                <!-- Eliminados sustantivos y otros pronombres por elevado número de falsos positivos. -->
 
-          <token postag="V.{4}P.*" postag_regexp="yes"></token>
-        </pattern>
+                <pattern>
+                    <token postag="PP.{2}S.*" postag_regexp="yes"><exception postag="SP.*|C.*|PT.*" postag_regexp="yes" scope="previous"></exception><exception negate_pos="yes" postag="PP.{2}S.*" postag_regexp="yes"></exception><exception postag="PP.C.[0D]00" postag_regexp="yes"></exception></token>
 
-        <message>Posible falta de concordancia de número entre «\1» y «\2».</message>
+                    <token postag="V.{4}P.*" postag_regexp="yes"></token>
+                </pattern>
 
-        <short>Concordancia de persona dudosa.</short>
+                <message>Posible falta de concordancia de número entre «\1» y «\2».</message>
 
-        <example type="incorrect"><marker>Yo venimos</marker></example>
+                <short>Concordancia de persona dudosa.</short>
 
-        <example type="correct">Yo vengo</example>
-      </rule>
+                <example type="incorrect"><marker>Yo venimos</marker></example>
 
-      <!-- PP_V_PLURAL Concordancia (ellos viene)-->
+                <example type="correct">Yo vengo</example>
+            </rule>
 
-      <rule id="PP_V_PLURAL" name="Concordancia plural Nombre + verbo">
-        <!-- Eliminados los sustantivos y otros pronombres por exceso de falsos positivos.-->
+            <!-- PP_V_PLURAL Concordancia (ellos viene)-->
 
-        <pattern>
-          <token postag="PP.{2}P.*" postag_regexp="yes"><exception postag="SP.*|CS.*|PT.*" postag_regexp="yes" scope="previous"></exception> <exception postag="AQ.*|V.*|PP[12]C.000|PP3.{2}[AD]00" postag_regexp="yes"></exception></token>
+            <rule id="PP_V_PLURAL" name="Concordancia plural Nombre + verbo">
+                <!-- Eliminados los sustantivos y otros pronombres por exceso de falsos positivos.-->
 
-          <token postag="V.{4}S.*" postag_regexp="yes"><exception negate_pos="yes" postag="V.*" postag_regexp="yes"></exception></token>
-        </pattern>
+                <pattern>
+                    <token postag="PP.{2}P.*" postag_regexp="yes"><exception postag="SP.*|CS.*|PT.*" postag_regexp="yes" scope="previous"></exception> <exception postag="AQ.*|V.*|PP[12]C.000|PP3.{2}[AD]00" postag_regexp="yes"></exception></token>
 
-        <message>Posible falta de concordancia de número entre «\1» y «\2».</message>
+                    <token postag="V.{4}S.*" postag_regexp="yes"><exception negate_pos="yes" postag="V.*" postag_regexp="yes"></exception></token>
+                </pattern>
 
-        <short>Concordancia de número dudosa.</short>
+                <message>Posible falta de concordancia de número entre «\1» y «\2».</message>
 
-        <example type="incorrect">sólo <marker>ellos vuela</marker> por el cielo</example>
+                <short>Concordancia de número dudosa.</short>
 
-        <example type="correct">aviones vuelan</example>
-      </rule>
-    </rulegroup>
-  </category>
+                <example type="incorrect">sólo <marker>ellos vuela</marker> por el cielo</example>
 
-  <category default="off" name="Concordancia predicativa">
-    <!-- SUJ_PRED_ATRIB_SINGULAR Concordancia (pavo es rojos) -->
+                <example type="correct">aviones vuelan</example>
+            </rule>
+        </rulegroup>
+    </category>
 
-    <rule id="SUJ_PRED_ATRIB_SINGULAR" name="Concordancia de sujeto y predicado en singular en oraciones atributivas">
-      <pattern case_sensitive="yes">
-        <token postag="N.{2}S.*|P.{3}S.*" postag_regexp="yes" skip="1"><exception scope="previous">del|al</exception><exception postag="SP.*|C.*" postag_regexp="yes" scope="previous"></exception><exception postag="PP.C.[DO0]00|R.*|C.*|SP.*"
-        postag_regexp="yes"></exception><exception regexp="yes">mayoría|minoría|parte|número</exception><exception postag="[NC].*" postag_regexp="yes" scope="next"></exception></token>
+    <category default="off" name="Concordancia predicativa">
+        <!-- SUJ_PRED_ATRIB_SINGULAR Concordancia (pavo es rojos) -->
 
-        <token inflected="yes" regexp="yes" skip="1"><exception regexp="yes" scope="previous">[^\w].*|se</exception><exception postag="C.*|SP.*" postag_regexp="yes" scope="previous"></exception><exception postag="C.*|SP.*" postag_regexp="yes"
-        scope="next"></exception>ser|parecer</token>
+        <rule id="SUJ_PRED_ATRIB_SINGULAR" name="Concordancia de sujeto y predicado en singular en oraciones atributivas">
+            <pattern case_sensitive="yes">
+                <token postag="N.{2}S.*|P.{3}S.*" postag_regexp="yes" skip="1"><exception scope="previous">del|al</exception><exception postag="SP.*|C.*" postag_regexp="yes" scope="previous"></exception><exception postag="PP.C.[DO0]00|R.*|C.*|SP.*" postag_regexp="yes"></exception><exception regexp="yes">mayoría|minoría|parte|número</exception><exception postag="[NC].*" postag_regexp="yes" scope="next"></exception></token>
 
-        <token postag="N.{2}P.*|A.{3}P.*" postag_regexp="yes"><exception postag="V.*" scope="previous"></exception><exception postag="SP.*|[CDRV].*" postag_regexp="yes"></exception></token>
-      </pattern>
+                <token inflected="yes" regexp="yes" skip="1"><exception regexp="yes" scope="previous">[^\w].*|se</exception><exception postag="C.*|SP.*" postag_regexp="yes" scope="previous"></exception><exception postag="C.*|SP.*" postag_regexp="yes" scope="next"></exception>ser|parecer</token>
 
-      <message>Posible falta de concordancia de número entre «\1» y «\3».</message>
+                <token postag="N.{2}P.*|A.{3}P.*" postag_regexp="yes"><exception postag="V.*" scope="previous"></exception><exception postag="SP.*|[CDRV].*" postag_regexp="yes"></exception></token>
+            </pattern>
 
-      <short>Concordancia de número dudosa.</short>
+            <message>Posible falta de concordancia de número entre «\1» y «\3».</message>
 
-      <example type="incorrect">Esa <marker>cortina parece suaves</marker></example>
+            <short>Concordancia de número dudosa.</short>
 
-      <example type="correct">Los aviones son azules</example>
-    </rule>
+            <example type="incorrect">Esa <marker>cortina parece suaves</marker></example>
 
-    <!-- SUJ_PRED_ATRIB_PLURAL Concordancia (pavos es rojo) -->
+            <example type="correct">Los aviones son azules</example>
+        </rule>
 
-    <rule id="SUJ_PRED_ATRIB_PLURAL" name="Concordancia de sujeto y predicado en número en oraciones atributivas">
-      <pattern>
-        <token postag="N.{2}P.*|P.{3}P" postag_regexp="yes" skip="1"><exception postag="SP.*" postag_regexp="yes" scope="previous"></exception><exception>botones</exception><exception postag="PP.C.[DO0]00" postag_regexp="yes"></exception><exception
-        postag="[NC].*" postag_regexp="yes" scope="next"></exception></token>
+        <!-- SUJ_PRED_ATRIB_PLURAL Concordancia (pavos es rojo) -->
 
-        <token inflected="yes" regexp="yes" skip="1"><exception regexp="yes" scope="previous">[^\w].*|se</exception><exception postag="VM[NG]0000" postag_regexp="yes" scope="next"></exception>ser|estar|parecer</token>
+        <rule id="SUJ_PRED_ATRIB_PLURAL" name="Concordancia de sujeto y predicado en número en oraciones atributivas">
+            <pattern>
+                <token postag="N.{2}P.*|P.{3}P" postag_regexp="yes" skip="1"><exception postag="SP.*" postag_regexp="yes" scope="previous"></exception><exception>botones</exception><exception postag="PP.C.[DO0]00" postag_regexp="yes"></exception><exception postag="[NC].*" postag_regexp="yes" scope="next"></exception></token>
 
-        <token postag="N.{2}S.*|A.{3}S.*" postag_regexp="yes"><exception postag="SP.*|[CD].*" postag_regexp="yes" scope="previous"></exception><exception postag="SP.*|[CDRV].*" postag_regexp="yes"></exception></token>
-      </pattern>
+                <token inflected="yes" regexp="yes" skip="1"><exception regexp="yes" scope="previous">[^\w].*|se</exception><exception postag="VM[NG]0000" postag_regexp="yes" scope="next"></exception>ser|estar|parecer</token>
 
-      <message>Posible falta de concordancia de número entre «\1» y «\3».</message>
+                <token postag="N.{2}S.*|A.{3}S.*" postag_regexp="yes"><exception postag="SP.*|[CD].*" postag_regexp="yes" scope="previous"></exception><exception postag="SP.*|[CDRV].*" postag_regexp="yes"></exception></token>
+            </pattern>
 
-      <short>Concordancia de número dudosa.</short>
+            <message>Posible falta de concordancia de número entre «\1» y «\3».</message>
 
-      <example type="incorrect">Las <marker>cortinas parecen suave</marker></example>
+            <short>Concordancia de número dudosa.</short>
 
-      <example type="correct">Los aviones son azules</example>
-    </rule>
+            <example type="incorrect">Las <marker>cortinas parecen suave</marker></example>
 
-    <!-- SUJ_PRED_ATRIB_FEM Concordancia (pava es rojo)-->
+            <example type="correct">Los aviones son azules</example>
+        </rule>
 
-    <rule id="SUJ_PRED_ATRIB_FEM" name="Concordancia de sujeto y predicado en femenino en oraciones atributivas">
-      <!--*Quitados los pronombres: Eso es cal-->
+        <!-- SUJ_PRED_ATRIB_FEM Concordancia (pava es rojo)-->
 
-      <pattern>
-        <token postag="N.{1}F.*" postag_regexp="yes" skip="1"><exception postag="SP.*" postag_regexp="yes" scope="previous"></exception><exception postag="[RC].*" postag_regexp="yes"></exception><exception postag="N.*|C.*" postag_regexp="yes"
-        scope="next"></exception></token>
+        <rule id="SUJ_PRED_ATRIB_FEM" name="Concordancia de sujeto y predicado en femenino en oraciones atributivas">
+            <!--*Quitados los pronombres: Eso es cal-->
 
-        <token inflected="yes" regexp="yes" skip="2"><exception regexp="yes" scope="previous">[^\w].*|se</exception>ser|parecer</token>
+            <pattern>
+                <token postag="N.{1}F.*" postag_regexp="yes" skip="1"><exception postag="SP.*" postag_regexp="yes" scope="previous"></exception><exception postag="[RC].*" postag_regexp="yes"></exception><exception postag="N.*|C.*" postag_regexp="yes" scope="next"></exception></token>
 
-        <token postag="A.{2}M.*" postag_regexp="yes"><exception postag="SP.*|[CDRV].*" postag_regexp="yes"></exception><exception regexp="yes">la|do</exception></token>
-      </pattern>
+                <token inflected="yes" regexp="yes" skip="2"><exception regexp="yes" scope="previous">[^\w].*|se</exception>ser|parecer</token>
 
-      <message>Posible falta de concordancia de género entre «\1» y «\3».</message>
+                <token postag="A.{2}M.*" postag_regexp="yes"><exception postag="SP.*|[CDRV].*" postag_regexp="yes"></exception><exception regexp="yes">la|do</exception></token>
+            </pattern>
 
-      <short>Concordancia de género dudosa.</short>
+            <message>Posible falta de concordancia de género entre «\1» y «\3».</message>
 
-      <example type="incorrect">La <marker>cortina es amarillo</marker></example>
+            <short>Concordancia de género dudosa.</short>
 
-      <example type="correct">Los aviones son amarillos</example>
-    </rule>
+            <example type="incorrect">La <marker>cortina es amarillo</marker></example>
 
-    <!-- SUJ_PRED_ATRIB_MASC Concordancia (pavo es roja) -->
+            <example type="correct">Los aviones son amarillos</example>
+        </rule>
 
-    <rule id="SUJ_PRED_ATRIB_MASC" name="Concordancia de sujeto y predicado en masculino en oraciones atributivas">
-      <pattern>
-        <token postag="N.{1}M.*" postag_regexp="yes" skip="1"><exception postag="RN"></exception><exception regexp="yes">botones|la|do</exception><exception postag="N.*|CS" postag_regexp="yes" scope="next"></exception></token>
+        <!-- SUJ_PRED_ATRIB_MASC Concordancia (pavo es roja) -->
 
-        <token inflected="yes" regexp="yes" skip="2"><exception regexp="yes" scope="previous">[^\w].*|se</exception>ser|estar|parecer</token>
+        <rule id="SUJ_PRED_ATRIB_MASC" name="Concordancia de sujeto y predicado en masculino en oraciones atributivas">
+            <pattern>
+                <token postag="N.{1}M.*" postag_regexp="yes" skip="1"><exception postag="RN"></exception><exception regexp="yes">botones|la|do</exception><exception postag="N.*|CS" postag_regexp="yes" scope="next"></exception></token>
 
-        <token postag="A.{2}F.*" postag_regexp="yes"><exception postag="SP.*|[CDRV].*" postag_regexp="yes"></exception></token>
-      </pattern>
+                <token inflected="yes" regexp="yes" skip="2"><exception regexp="yes" scope="previous">[^\w].*|se</exception>ser|estar|parecer</token>
 
-      <message>Posible falta de concordancia de género entre «\1» y «\3».</message>
+                <token postag="A.{2}F.*" postag_regexp="yes"><exception postag="SP.*|[CDRV].*" postag_regexp="yes"></exception></token>
+            </pattern>
 
-      <short>Concordancia de género dudosa.</short>
+            <message>Posible falta de concordancia de género entre «\1» y «\3».</message>
 
-      <example type="incorrect"><marker>Este es amarilla</marker></example>
+            <short>Concordancia de género dudosa.</short>
 
-      <example type="correct">La avioneta será costosa</example>
-    </rule>
-  </category>
+            <example type="incorrect"><marker>Este es amarilla</marker></example>
 
-  <category name="Estilo">
-    <!-- LOOR : La forma preferida es OLOR (http://cvc.cervantes.es/alhabla/museo_horrores/museo_014.htm)-->
+            <example type="correct">La avioneta será costosa</example>
+        </rule>
+    </category>
 
-    <rule id="LOOR" name="Loor de multitudes">
-      <pattern>
-        <token>loor</token>
+    <category name="Estilo">
+        <!-- LOOR : La forma preferida es OLOR (http://cvc.cervantes.es/alhabla/museo_horrores/museo_014.htm)-->
 
-        <token>de</token>
+        <rule id="LOOR" name="Loor de multitudes">
+            <pattern>
+                <token>loor</token>
 
-        <token>multitudes</token>
-      </pattern>
+                <token>de</token>
 
-      <message>Se prefiere la expresion «<suggestion>olor de multitudes</suggestion>».</message>
+                <token>multitudes</token>
+            </pattern>
 
-      <short>Expresión incorrecta.</short>
+            <message>Se prefiere la expresion «<suggestion>olor de multitudes</suggestion>».</message>
 
-      <example correction="olor de multitudes" type="incorrect">Entraron en <marker>loor de multitudes</marker></example>
+            <short>Expresión incorrecta.</short>
 
-      <example type="correct">Entraron en olor de multiitudes</example>
-    </rule>
+            <example correction="olor de multitudes" type="incorrect">Entraron en <marker>loor de multitudes</marker></example>
 
-    <!--ELLOS_ELLAS: El neutro en español se forma igual que el masculino (http://buscon.rae.es/dpdI/SrvltGUIBusDPD?origen=RAE&lema=g%E9nero2#22)-->
+            <example type="correct">Entraron en olor de multiitudes</example>
+        </rule>
 
-    <rulegroup id="ELLOS_ELLAS" name="Redundancias no sexistas incorrectas">
-      <!-- TODAS_Y_TODOS : Primero ellas y luego ellos, sin partículas-->
+        <!--ELLOS_ELLAS: El neutro en español se forma igual que el masculino (http://buscon.rae.es/dpdI/SrvltGUIBusDPD?origen=RAE&lema=g%E9nero2#22)-->
 
-      <rule id="TODAS_Y_TODOS" name="Redundancia neutro - femenino + masculino">
-        <pattern>
-          <token postag="(P.|N).FP.+" postag_regexp="yes"></token>
+        <rulegroup id="ELLOS_ELLAS" name="Redundancias no sexistas incorrectas">
+            <!-- TODAS_Y_TODOS : Primero ellas y luego ellos, sin partículas-->
 
-          <token postag="CC"><exception>sino</exception></token>
+            <rule id="TODAS_Y_TODOS" name="Redundancia neutro - femenino + masculino">
+                <pattern>
+                    <token postag="(P.|N).FP.+" postag_regexp="yes"></token>
 
-          <token><match no="0" postag="(P.|N)(.)F(.+)" postag_regexp="yes" postag_replace="$1$2M$3"></match></token>
-        </pattern>
+                    <token postag="CC"><exception>sino</exception></token>
 
-        <message>Posible redundancia. Si no se quiere remarcar la diferencia de género, es suficiente con <suggestion>\3</suggestion>.</message>
+                    <token><match no="0" postag="(P.|N)(.)F(.+)" postag_regexp="yes" postag_replace="$1$2M$3"></match></token>
+                </pattern>
 
-        <short>Redundancia. El neutro es suficiente.</short>
+                <message>Posible redundancia. Si no se quiere remarcar la diferencia de género, es suficiente con <suggestion>\3</suggestion>.</message>
 
-        <example correction="todos" type="incorrect">Hemos llegado <marker>todas y todos</marker></example>
+                <short>Redundancia. El neutro es suficiente.</short>
 
-        <example type="correct">Defenderemos a nuestros compañeros.</example>
-      </rule>
+                <example correction="todos" type="incorrect">Hemos llegado <marker>todas y todos</marker></example>
 
-      <!-- TODOS_Y_TODAS : Primero ellos y luego ellas, sin partículas-->
+                <example type="correct">Defenderemos a nuestros compañeros.</example>
+            </rule>
 
-      <rule id="TODOS_Y_TODAS" name="Redundancia neutro - masculino + femenino">
-        <pattern>
-          <token postag="(P.|N).MP.+" postag_regexp="yes"></token>
+            <!-- TODOS_Y_TODAS : Primero ellos y luego ellas, sin partículas-->
 
-          <token postag="CC"><exception>sino</exception></token>
+            <rule id="TODOS_Y_TODAS" name="Redundancia neutro - masculino + femenino">
+                <pattern>
+                    <token postag="(P.|N).MP.+" postag_regexp="yes"></token>
 
-          <token><match no="0" postag="(P.|N)(.)[MC](.+)" postag_regexp="yes" postag_replace="$1$2F$3"></match></token>
-        </pattern>
+                    <token postag="CC"><exception>sino</exception></token>
 
-        <message>Posible redundancia. Si no se quiere remarcar la diferencia de género, es suficiente con <suggestion>\1</suggestion>.</message>
+                    <token><match no="0" postag="(P.|N)(.)[MC](.+)" postag_regexp="yes" postag_replace="$1$2F$3"></match></token>
+                </pattern>
 
-        <short>Redundancia. El neutro es suficiente.</short>
+                <message>Posible redundancia. Si no se quiere remarcar la diferencia de género, es suficiente con <suggestion>\1</suggestion>.</message>
 
-        <example correction="todos" type="incorrect">Hemos llegado <marker>todos y todas</marker></example>
+                <short>Redundancia. El neutro es suficiente.</short>
 
-        <example type="correct">Defenderemos a nuestros compañeros.</example>
-      </rule>
+                <example correction="todos" type="incorrect">Hemos llegado <marker>todos y todas</marker></example>
 
-      <!--LAS_TIAS_Y_LOS_TIOS : Primero ellas y luego ellos, con preposiciones y artículos-->
+                <example type="correct">Defenderemos a nuestros compañeros.</example>
+            </rule>
 
-      <rule id="LAS_TIAS_Y_LOS_TIOS" name="Redundancia neutro - femenino + masculino con partículas">
-        <pattern>
-          <token postag="[DS].+" postag_regexp="yes"><exception postag="P.*" postag_regexp="yes"></exception></token>
+            <!--LAS_TIAS_Y_LOS_TIOS : Primero ellas y luego ellos, con preposiciones y artículos-->
 
-          <token postag="(P.|N).FP.+" postag_regexp="yes"></token>
+            <rule id="LAS_TIAS_Y_LOS_TIOS" name="Redundancia neutro - femenino + masculino con partículas">
+                <pattern>
+                    <token postag="[DS].+" postag_regexp="yes"><exception postag="P.*" postag_regexp="yes"></exception></token>
 
-          <token postag="CC"><exception>sino</exception></token>
+                    <token postag="(P.|N).FP.+" postag_regexp="yes"></token>
 
-          <token postag="[DS].+" postag_regexp="yes"><exception postag="P.*" postag_regexp="yes"></exception></token>
+                    <token postag="CC"><exception>sino</exception></token>
 
-          <token><match no="1" postag="(P.|N)(.)F(.+)" postag_regexp="yes" postag_replace="$1$2M$3"></match></token>
-        </pattern>
+                    <token postag="[DS].+" postag_regexp="yes"><exception postag="P.*" postag_regexp="yes"></exception></token>
 
-        <message>Posible redundancia. Si no se quiere remarcar la diferencia de género, es suficiente con <suggestion><match include_skipped="following" no="4"></match> <match no="5"></match></suggestion>.</message>
+                    <token><match no="1" postag="(P.|N)(.)F(.+)" postag_regexp="yes" postag_replace="$1$2M$3"></match></token>
+                </pattern>
 
-        <short>Redundancia. El neutro es suficiente.</short>
+                <message>Posible redundancia. Si no se quiere remarcar la diferencia de género, es suficiente con <suggestion><match include_skipped="following" no="4"></match> <match no="5"></match></suggestion>.</message>
 
-        <example correction="los mozos" type="incorrect">Mira cómo se divierten <marker>las mozas y los mozos</marker></example>
+                <short>Redundancia. El neutro es suficiente.</short>
 
-        <example type="correct">Queda sopa para todos los alumnos y para todas las jugadoras.</example>
-      </rule>
+                <example correction="los mozos" type="incorrect">Mira cómo se divierten <marker>las mozas y los mozos</marker></example>
 
-      <!--LOS_TIOS_Y_LAS_TIAS : Primero ellos y luego ellas, con preposiciones y artículos-->
+                <example type="correct">Queda sopa para todos los alumnos y para todas las jugadoras.</example>
+            </rule>
 
-      <rule id="LOS_TIOS_Y_LAS_TIAS" name="Redundancia neutro - masculino + femenino con partículas">
-        <pattern>
-          <token postag="[DS].+" postag_regexp="yes"><exception postag="P.*" postag_regexp="yes"></exception></token>
+            <!--LOS_TIOS_Y_LAS_TIAS : Primero ellos y luego ellas, con preposiciones y artículos-->
 
-          <token postag="(P.|N).[MC]P.+" postag_regexp="yes"></token>
+            <rule id="LOS_TIOS_Y_LAS_TIAS" name="Redundancia neutro - masculino + femenino con partículas">
+                <pattern>
+                    <token postag="[DS].+" postag_regexp="yes"><exception postag="P.*" postag_regexp="yes"></exception></token>
 
-          <token postag="CC"><exception>sino</exception></token>
+                    <token postag="(P.|N).[MC]P.+" postag_regexp="yes"></token>
 
-          <token postag="[DS].+" postag_regexp="yes" skip="1"><exception postag="P.*" postag_regexp="yes"></exception></token>
+                    <token postag="CC"><exception>sino</exception></token>
 
-          <token><match no="1" postag="(P.|N)(.)[MC](.+)" postag_regexp="yes" postag_replace="$1$2F$3"></match></token>
-        </pattern>
+                    <token postag="[DS].+" postag_regexp="yes" skip="1"><exception postag="P.*" postag_regexp="yes"></exception></token>
 
-        <message>Posible redundancia. Si no se quiere remarcar la diferencia de género, es suficiente con <suggestion><match include_skipped="following" no="1"></match> <match no="2"></match></suggestion>.</message>
+                    <token><match no="1" postag="(P.|N)(.)[MC](.+)" postag_regexp="yes" postag_replace="$1$2F$3"></match></token>
+                </pattern>
 
-        <short>Redundancia. El neutro es suficiente.</short>
+                <message>Posible redundancia. Si no se quiere remarcar la diferencia de género, es suficiente con <suggestion><match include_skipped="following" no="1"></match> <match no="2"></match></suggestion>.</message>
 
-        <example correction="los mozos" type="incorrect">Debemos ayudar a <marker>los mozos y las mozas</marker></example>
+                <short>Redundancia. El neutro es suficiente.</short>
 
-        <example type="correct">Debemos ayudar a los alumnos.</example>
-      </rule>
-    </rulegroup>
-  </category>
+                <example correction="los mozos" type="incorrect">Debemos ayudar a <marker>los mozos y las mozas</marker></example>
+
+                <example type="correct">Debemos ayudar a los alumnos.</example>
+            </rule>
+        </rulegroup>
+    </category>
 </rules>
