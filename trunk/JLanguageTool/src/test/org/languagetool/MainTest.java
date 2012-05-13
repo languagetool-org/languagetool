@@ -76,7 +76,7 @@ public class MainTest extends AbstractSecurityTestCase {
       fail("LT should have exited with status 0!");
     } catch (ExitException e) {
       String output = new String(this.out.toByteArray());
-      assertTrue(output.indexOf("Usage: java org.languagetool.Main [-r|--recursive] [-v|--verbose") != -1);
+      assertTrue(output.indexOf("Usage: java -jar LanguageTool.jar") != -1);
       assertEquals("Exit status", 1, e.status);
     }
   }
