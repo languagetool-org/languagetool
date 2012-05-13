@@ -45,13 +45,15 @@ import java.util.Map;
  */
 public class MarkerConverter {
 
+  private static final Language LANGUAGE = Language.GERMAN;
+
   public static void main(String[] args) throws SAXException, ParserConfigurationException, IOException {
     final ConverterHandler handler = new ConverterHandler();
     final SAXParserFactory factory = SAXParserFactory.newInstance();
     final SAXParser saxParser = factory.newSAXParser();
     saxParser.getXMLReader().setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
     saxParser.getXMLReader().setProperty("http://xml.org/sax/properties/lexical-handler", new MyLexicalHandler());
-    saxParser.parse(new FileInputStream("/home/dnaber/prg/languagetool-svn/trunk/JLanguageTool/src/rules/xx/grammar.xml"), handler);
+    saxParser.parse(new FileInputStream("/home/dnaber/prg/languagetool-svn/trunk/JLanguageTool/src/rules/" + LANGUAGE.getShortName() + "/grammar.xml"), handler);
   }
 
   static class ConverterHandler extends DefaultHandler {
@@ -60,7 +62,7 @@ public class MarkerConverter {
     private final Map<String, Integer> endPos = new HashMap<String, Integer>();
 
     ConverterHandler() throws IOException {
-      final JLanguageTool languageTool = new JLanguageTool(Language.DEMO);
+      final JLanguageTool languageTool = new JLanguageTool(LANGUAGE);
       languageTool.activateDefaultPatternRules();
       final List<Rule> rules = languageTool.getAllRules();
       for (Rule rule : rules) {
