@@ -4463,6 +4463,22 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Wir haben mehrere <marker>Jahre lang</marker> gesucht.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="ZEITLANG_ZEIT_LANG" name="Zusammen-/Getrenntschreibung: 'eine gewisse Zeitlang (Zeit lang)' u.ä.">
+      <rule>
+        <pattern mark_from="2" case_sensitive="no">
+          <token>eine</token>
+          <token postag="ADJ:NOM:SIN:FEM.*" postag_regexp="yes"/>
+          <token>Zeitlang</token>
+        </pattern>
+        <message>&inwend;\1 \2<suggestion>Zeit lang</suggestion> schreiben Sie 'Zeit lang' bitte getrennt.</message>
+        <url>http://www.canoo.net/services/Controller?dispatch=spelling&amp;input=Zeitlang</url>
+        <short>&getrennt;.</short>
+        <example type="incorrect" correction="Zeit lang">Wir haben eine gewisse <marker>Zeitlang</marker> gesucht.</example>
+        <example type="correct">Wir haben eine ganze <marker>Zeit lang</marker> gesucht.</example>
+        <example type="correct">Wir haben eine <marker>Zeitlang</marker> gesucht.</example>
+        <example type="correct">Wir haben eine <marker>Zeit lang</marker> gesucht.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="VIELMEHR_VIEL_MEHR" name="Zusammen-/Getrenntschreibung: 'sehr vielmehr (viel mehr)'">
       <!-- some false pos. extend to 'vielmehr als nur' -->
       <rule>
@@ -4474,7 +4490,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <message>Falls <suggestion>viel mehr</suggestion> hier als Steigerung von 'viel' verwendet wird, schreiben Sie es bitte getrennt. Das zusammengeschriebene 'vielmehr' bedeutet so viel wie 'sondern'.</message>
         <url>http://www.duden.de/rechtschreibung/vielmehr_sondern</url>
         <short>&getrennt;.</short>
-        <example type="incorrect">... und noch sehr <marker>vielmehr</marker>!</example>
+        <example type="incorrect" correction="viel mehr">... und noch sehr <marker>vielmehr</marker>!</example>
         <example type="correct">... wie sehr <marker>vielmehr</marker> schon das erste Landrecht hierin von den alten Gebräuchen abweicht.</example>
       </rule>
       <rule>
