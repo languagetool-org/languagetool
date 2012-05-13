@@ -72,9 +72,11 @@ $Id: grammar.xml,v 1.6 2010-12-23 17:20:55 dnaber Exp $
     <rulegroup id="heder_hedder" name="heder→hedder">
       <!-- heder_hedder mønster -->
       <rule>
-        <pattern mark_from="1" mark_to="-1"> 
+        <pattern>
           <token regexp="yes">I|jeg|du|vi|de|den|det|han|hun|hvad|nu</token>
-          <token>heder</token>
+          <marker>
+            <token>heder</token>
+          </marker>
           <token><exception regexp="yes">på|vil|skal|kan|er|har</exception></token>
         </pattern>
         <message>Mente du: <suggestion>hedder</suggestion>=navn eller heder=lyngarealer</message>
@@ -85,9 +87,11 @@ $Id: grammar.xml,v 1.6 2010-12-23 17:20:55 dnaber Exp $
         <example type="correct">Jeg heder vil vandre.</example>
       </rule>
       <rule>
-        <pattern mark_from="1" mark_to="-1"> 
+        <pattern>
           <token>det</token>
-          <token>heder</token>
+          <marker>
+            <token>heder</token>
+          </marker>
           <token><exception regexp="yes">vil|skal|kan|er|har</exception></token>
         </pattern>
         <message>Mente du: <suggestion>hedder</suggestion>=navn eller heder=lyngarealer</message>
@@ -97,9 +101,11 @@ $Id: grammar.xml,v 1.6 2010-12-23 17:20:55 dnaber Exp $
       </rule>
       <!-- heder_hedder Egennavn efter -->
       <rule>
-        <pattern mark_from="1" mark_to="-1">
-          <token><exception>de</exception></token> 
-          <token>heder</token>
+        <pattern>
+          <token><exception>de</exception></token>
+          <marker>
+            <token>heder</token>
+          </marker>
           <token postag="pro:.*" postag_regexp="yes"><exception regexp="yes">Jylland|Vestjylland</exception></token>
         </pattern>
         <message>Mente du: <suggestion>hedder</suggestion>=navn eller heder=lyngarealer</message>
@@ -110,9 +116,11 @@ $Id: grammar.xml,v 1.6 2010-12-23 17:20:55 dnaber Exp $
       </rule>
       <!-- heder_hedder Egennavn før -->
       <rule>
-        <pattern mark_from="1">
+        <pattern>
           <token postag="pro:nom"/>
-          <token>heder</token>        
+          <marker>
+            <token>heder</token>
+          </marker>
         </pattern>
         <message>Mente du: <suggestion>hedder</suggestion>=navn eller heder=lyngarealer</message>
         <short>Mulige ordforveksling</short>
@@ -124,8 +132,10 @@ $Id: grammar.xml,v 1.6 2010-12-23 17:20:55 dnaber Exp $
     <!-- kunne_kunde -->
     <rulegroup id="kunne_kunde" name="kunne↔kunde">
       <rule>
-        <pattern mark_from="0" mark_to="-1">
-          <token>kunne</token>
+        <pattern>
+          <marker>
+            <token>kunne</token>
+          </marker>
           <token regexp="yes">har|købte</token>
         </pattern>
         <message>Mente du: <suggestion>kunde</suggestion>=butikskunde eller kunne=kan</message>
@@ -134,9 +144,11 @@ $Id: grammar.xml,v 1.6 2010-12-23 17:20:55 dnaber Exp $
         <example type="correct">Som kunde har du fri support.</example>
       </rule>
       <rule>
-        <pattern mark_from="1">
+        <pattern>
           <token regexp="yes">bliv(|e)</token>
-          <token>kunne</token>
+          <marker>
+            <token>kunne</token>
+          </marker>
         </pattern>
         <message>Mente du: <suggestion>kunde</suggestion>=butikskunde eller kunne=kan</message>
         <short>Mulige ordforveksling - stumt d</short>
@@ -144,8 +156,10 @@ $Id: grammar.xml,v 1.6 2010-12-23 17:20:55 dnaber Exp $
         <example type="correct">Vil du blive kunde hos os.</example>
       </rule>
       <rule>
-        <pattern mark_from="0" mark_to="-1">
-          <token>kunde</token>
+        <pattern>
+          <marker>
+            <token>kunde</token>
+          </marker>
           <token regexp="yes">forstå|stikke|være</token>
         </pattern>
         <message>Mente du: <suggestion>kunne</suggestion>=kan eller kunde=butikskunde</message>
@@ -154,9 +168,11 @@ $Id: grammar.xml,v 1.6 2010-12-23 17:20:55 dnaber Exp $
         <example type="correct">Ville vi kunne forstå Gorm den Gamle?</example>
       </rule>
       <rule>
-        <pattern mark_from="1">
+        <pattern>
           <token regexp="yes">det|hvornår</token>
-          <token>kunde</token>
+          <marker>
+            <token>kunde</token>
+          </marker>
         </pattern>
         <message>Mente du: <suggestion>kunne</suggestion>=kan eller kunde=butikskunde</message>
         <short>Mulige ordforveksling - uden stumt d</short>
@@ -167,9 +183,11 @@ $Id: grammar.xml,v 1.6 2010-12-23 17:20:55 dnaber Exp $
         <example type="correct">Hvordan bilver vi kunde?</example>
       </rule>
       <rule>
-        <pattern mark_from="1" mark_to="-1">
+        <pattern>
           <token regexp="yes">han|hun|vi</token>
-          <token>kunde</token>
+          <marker>
+            <token>kunde</token>
+          </marker>
           <!-- TODO: Make token postag for verbs, when they becomes available in tagger.  -->
           <token regexp="yes">ha'|have|ikke|være|købe</token>
         </pattern>
@@ -181,8 +199,10 @@ $Id: grammar.xml,v 1.6 2010-12-23 17:20:55 dnaber Exp $
     </rulegroup>
     <rulegroup id="natural_naturel" name="natural→naturel">
       <rule>
-        <pattern mark_from="0" mark_to="-1">
-          <token>natural</token>
+        <pattern>
+          <marker>
+            <token>natural</token>
+          </marker>
           <token regexp="yes">yoghurt|tun|hummer|a38|Aloe|flødeost|soya|tufu|ylette|østers|krabbekød</token>
         </pattern>
         <message>Mente du: <suggestion>naturel</suggestion>=i sin naturlige, ubearbejdede, rene form især om mad</message>
@@ -194,7 +214,9 @@ $Id: grammar.xml,v 1.6 2010-12-23 17:20:55 dnaber Exp $
       <rule>
         <pattern mark_from="1">
           <token regexp="yes">yoghurt|tun|hummer|contrat|a38|Vera|flødeost|soya|tufu|ylette|østers|krabbekød</token>
-          <token>natural</token>
+          <marker>
+            <token>natural</token>
+          </marker>
         </pattern>
         <message>Mente du: <suggestion>naturel</suggestion>=i sin naturlige, ubearbejdede, rene form især om mad</message>
         <short>Mulige ordforveksling</short>
@@ -218,7 +240,7 @@ $Id: grammar.xml,v 1.6 2010-12-23 17:20:55 dnaber Exp $
   <!-- ====================================================================== -->
   <category name="Mulige ordforveksling med sjældent ord">
     <rule id="egenavn_egennavn" name="egenavn→egennavn">
-      <pattern mark_from="0" >
+      <pattern>
         <token regexp="yes">(egenavn)(|et|e|ene|s|ets|es|enes)</token>
       </pattern>
       <message>Et egenavn er navnet på et specifik egetræ, f.eks. Dun-Eg og Vinter-Eg. Hvor <suggestion><match no="1" regexp_match="(egenavn)(|et|e|ene|s|ets|es|enes)" regexp_replace="egennavn$2"/></suggestion> er alle navne f.eks. Jens, Sørnsen, Odense, og Vestas.</message>      
@@ -227,7 +249,7 @@ $Id: grammar.xml,v 1.6 2010-12-23 17:20:55 dnaber Exp $
       <example type="correct">Et egennavn skrives med stort begyndelsesbogstav.</example>
     </rule>
     <rule id="overbord" name="overbord→over bord">
-      <pattern mark_from="0" >
+      <pattern>
         <token>overbord</token>
       </pattern>
       <message>Et overbord er et bord der kan skubbes hen over et andet bord, hvor man falder <suggestion>over bord</suggestion> på et skib.</message>      
@@ -237,7 +259,7 @@ $Id: grammar.xml,v 1.6 2010-12-23 17:20:55 dnaber Exp $
       <!-- <example type="correct">Det er et fint overbord, men der er ridser i underbordet.</example> -->
     </rule>
     <rule id="standart_standard" name="standart→standard">
-      <pattern mark_from="0"> 
+      <pattern>
         <token regexp="yes">.*standart.*</token>
       </pattern>
       <message>Mente du: <suggestion><match no="1" regexp_match="(.*)standart(.*)" regexp_replace="$1standard$2"/></suggestion> som standard=niveau, procedure, el. norm eller standart=fane</message>
@@ -246,9 +268,11 @@ $Id: grammar.xml,v 1.6 2010-12-23 17:20:55 dnaber Exp $
       <example type="correct">Den der dokumentstandard følger vi.</example>
     </rule>
     <rule id="vad" name="vad→hvad">
-      <pattern mark_from="1" >
-	<token><exception postag="pro:.*" postag_regexp="yes"/></token>
-        <token>vad</token>
+      <pattern>
+	    <token><exception postag="pro:.*" postag_regexp="yes"/></token>
+        <marker>
+          <token>vad</token>
+        </marker>
       </pattern>
       <message>Vad er et efternavn eller et vadested, mener du <suggestion>hvad</suggestion>.</message>      
       <short>Mulige ordforveksling</short>
@@ -261,7 +285,7 @@ $Id: grammar.xml,v 1.6 2010-12-23 17:20:55 dnaber Exp $
   <!-- ====================================================================== -->
   <category name="Forkortelser med eller uden punktum">
     <rule id="fx" name="fx.→fx">
-      <pattern mark_from="0" > 
+      <pattern>
         <token>fx</token>
         <token>.</token>
       </pattern>
@@ -277,10 +301,12 @@ $Id: grammar.xml,v 1.6 2010-12-23 17:20:55 dnaber Exp $
   <!-- ====================================================================== -->
   <category name="Grammatik">
     <rule id="adj-ube-sin-utr-pos" name="(fejlbehæftet regel) Tillægsord ental ubestemt i forkert bøjningsform" default="off">
-      <pattern mark_from="1" > 
+      <pattern>
         <token regexp="yes">et|det</token>
         <!-- TODO: Make exception for adverbs, when they becomes available in tagger or analyzes the relationship between adjectives and other parts of speech.  -->
-        <token postag="adj:ube:sin:utr:pos" regexp="yes">.*[a-s,u-å]<exception postag="sub:.*:neu:.*" postag_regexp="yes">før</exception></token>
+        <marker>
+          <token postag="adj:ube:sin:utr:pos" regexp="yes">.*[a-s,u-å]<exception postag="sub:.*:neu:.*" postag_regexp="yes">før</exception></token>
+        </marker>
       </pattern>
       <message>Ved at der står "\1" skal tilægsord <suggestion>\2t</suggestion> være intetkøn</message>      
       <short>Muligvis tillægsord i forker form</short>
