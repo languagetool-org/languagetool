@@ -4479,6 +4479,20 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Wir haben eine <marker>Zeit lang</marker> gesucht.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="UEBER_DEN_WEGLAUFEN" name="Zusammen-/Getrenntschreibung: 'über den weggelaufen (über den Weg gelaufen)'">
+      <rule>
+        <pattern mark_from="2" case_sensitive="no">
+          <token>über</token>
+          <token>den</token>
+          <token regexp="yes">weg(ge|zu)?laufen?|wegläufs?t</token>
+        </pattern>
+        <message>&getrennt;. Meinten Sie: über den <suggestion>Weg <match no="3" regexp_replace="" regexp_match="^[wW]eg"/></suggestion>?</message>
+        <short>&getrennt;.</short>
+        <example type="incorrect" correction="Weg gelaufen">Ich bin ihm zufällig über den <marker>weggelaufen</marker>.</example>
+        <example type="incorrect" correction="Weg gelaufen">Ich bin ihm zufällig über den <marker>Weggelaufen</marker>.</example>
+        <example type="correct">Ich bin ihm zufällig über den <marker>Weg gelaufen</marker>.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="VIELMEHR_VIEL_MEHR" name="Zusammen-/Getrenntschreibung: 'sehr vielmehr (viel mehr)'">
       <!-- some false pos. extend to 'vielmehr als nur' -->
       <rule>
@@ -10879,20 +10893,36 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="incorrect">Wir sind bald zu <marker>hause</marker>.</example>
       <example type="incorrect">Wann kommst du nach <marker>hause</marker>?</example>
     </rule>
-    <rule id="AUF_DEM_WEG" name="Groß-/Kleinschreibung: 'auf/aus dem weg (Weg)'">
-      <pattern mark_from="2" case_sensitive="yes">
-        <token regexp="yes">[aA]u[sf]</token>
-        <token>dem</token>
-        <token>weg</token>
-      </pattern>
-      <message>&subanfang;<suggestion>Weg</suggestion>&subende;</message>
-      <short>&prgk;.</short>
-      <example type="correct">Geh <marker>weg</marker>, du störst mich.</example>
-      <example type="correct">Geh mir aus dem <marker>Weg</marker>.</example>
-      <example type="correct">Wir sind schon auf dem <marker>Weg</marker>.</example>
-      <example type="incorrect">Wir sind auf dem <marker>weg</marker>.</example>
-      <example type="incorrect">Geh mir aus dem <marker>weg</marker>.</example>
-    </rule>
+    <rulegroup id="AUF_DEM_WEG" name="Groß-/Kleinschreibung: 'auf/aus dem weg (Weg)'">
+      <rule>
+        <pattern mark_from="2" case_sensitive="yes">
+          <token regexp="yes">[aA]u[sf]</token>
+          <token>dem</token>
+          <token>weg</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Weg</suggestion>&subende;</message>
+        <short>&prgk;.</short>
+        <example type="correct">Geh <marker>weg</marker>, du störst mich.</example>
+        <example type="correct">Geh mir aus dem <marker>Weg</marker>.</example>
+        <example type="correct">Wir sind schon auf dem <marker>Weg</marker>.</example>
+        <example type="incorrect" correction="Weg">Wir sind auf dem <marker>weg</marker>.</example>
+        <example type="incorrect" correction="Weg">Geh mir aus dem <marker>weg</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2" case_sensitive="yes">
+          <token regexp="yes">[üÜ]ber</token>
+          <token>den</token>
+          <token>weg</token>
+        </pattern>
+        <message>&subanfang;<suggestion>Weg</suggestion>&subende;</message>
+        <short>&prgk;.</short>
+        <example type="correct">Geh <marker>weg</marker>, du störst mich.</example>
+        <example type="correct">Ich bin vor ihm <marker>weggelaufen</marker>.</example>
+        <example type="correct">Ich traue ihm nicht über den <marker>Weg</marker>.</example>
+        <example type="incorrect" correction="Weg">Ich traue ihm nicht über den <marker>weg</marker>.</example>
+        <example type="incorrect" correction="Weg">Ich bin ihm zufällig über den <marker>weg</marker> gelaufen.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="AUF_SCHRITT_UND_TRITT" name="Groß-/Kleinschreibung: 'auf Schritt und Tritt'">
       <rule>
         <pattern case_sensitive="yes">
