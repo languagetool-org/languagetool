@@ -4568,7 +4568,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
           <token>dem</token>
           <token regexp="yes">weg(zu)?gehen?|weggegangen|weggehs?t|wegging(en)?</token>
         </pattern>
-        <message>Bitte überprüfen Sie die Schreibweise. Meinten Sie: über den <suggestion>Weg <match no="3" regexp_replace="" regexp_match="^[wW]eg"/></suggestion>?</message>
+        <message>Bitte überprüfen Sie die Schreibweise. Meinten Sie: aus dem <suggestion>Weg <match no="3" regexp_replace="" regexp_match="^[wW]eg"/></suggestion>?</message>
         <short>&getrennt;.</short>
         <example type="incorrect" correction="Weg gegangen">Ich bin ihm aus dem <marker>weggegangen</marker>.</example>
         <example type="incorrect" correction="Weg gegangen">Ich bin ihm aus dem <marker>Weggegangen</marker>.</example>
@@ -4603,7 +4603,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <example type="correct">Nicht als Professor, sondern <marker>vielmehr</marker> als Lehrbeauftragter.</example>
       </rule>
     </rulegroup>
-    <rulegroup id="ZWEI_UND_VIERZIG" name="Zusammenschreibung von Zahlen: 'zwei und vierzig (zweiundvierzig)' etc." default="on">
+    <rulegroup id="ZWEI_UND_VIERZIG" name="Zusammenschreibung von Zahlwörtern: 'zwei und vierzig (zweiundvierzig)' etc." default="on">
       <rule>
         <pattern mark_from="0" mark_to="-1" case_sensitive="no">
           <token regexp="yes">.*hundert|.*tausend|ein|zwei|drei|vier|fünf|sechs|sieben|acht|neun</token>
@@ -7485,6 +7485,17 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <short>&prgk;.</short>
       <example type="correct">Zum <marker>Angriff</marker>!</example>
       <example type="incorrect" correction="Angriff">Zum <marker>angriff</marker>!</example>
+    </rule>
+    <rule id="LUEFTE_SUBST" name="Groß-/Kleinschreibung: 'durch die lüfte (Lüfte)'">
+      <pattern case_sensitive="yes" mark_from="2">
+        <token regexp="yes">[dD]urch|[iI]n</token>
+        <token>die</token>
+        <token>lüfte</token>
+      </pattern>
+      <message>&subanfang;<suggestion>Lüfte</suggestion>&subende;</message>
+      <short>&prgk;.</short>
+      <example type="correct">Frühling lässt sein blaues Band wieder flattern durch die <marker>Lüfte</marker>.</example>
+      <example type="incorrect" correction="Lüfte">Frühling lässt sein blaues Band wieder flattern durch die <marker>lüfte</marker>.</example>
     </rule>
     <rule id="AUSNAHME_SUBST" name="Groß-/Kleinschreibung: 'keine ausnahmen (Ausnahmen)'">
       <pattern case_sensitive="yes" mark_from="1">
