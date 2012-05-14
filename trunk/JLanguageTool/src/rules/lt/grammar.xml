@@ -80,9 +80,11 @@ http://www3.lrs.lt/pls/inter3/dokpaieska.showdoc_l?p_id=283837
 				<example type="incorrect">Linux yra geresnė <marker>sistema tačiau</marker> dauguma lietuvių jos net nebandė.</example>
 			</rule>
 			<rule>
-				<pattern case_sensitive="yes" mark_from="1" mark_to="-1">
+				<pattern case_sensitive="yes">
 					<token negate="yes" regexp="yes">\p{Punct}|–|—<exception postag="SENT_START"/></token>
-					<token>bet</token>
+						<marker>
+					    <token>bet</token>
+						</marker>
 					<token regexp="yes" negate="yes">kiek|kas|ko|kam|ką|kuo|kame|kada|kur|kuris|kurio|kuriam|kurį|kuriuo|kuriame|kurie|kurių|kuriems|kuriuos|kuriais|kuriuose|kuri|kurios|kuriai|kurią|kuria|kurioje|kurioms|kurias|kuriomis|kuriose|koks|kokio|kokiam|kokį|kokiu|kokiame|kokie|kokių|kokiems|kokius|kokiais|kokiuose|kokia|kokios|kokiai|kokią|kokioje|kokioms|kokias|kokiomis|kokiose</token>
 				</pattern>
 				<message>Prieš jungtuką „bet“ šiuo atveju reiktų kablelio: <suggestion>\1, \2 \3</suggestion> </message>
