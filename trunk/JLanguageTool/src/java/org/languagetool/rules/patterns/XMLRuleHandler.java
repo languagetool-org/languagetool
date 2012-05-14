@@ -281,6 +281,7 @@ public class XMLRuleHandler extends DefaultHandler {
   }
   
   protected void startPattern(final Attributes attrs) throws SAXException {
+    tokenCounter = 0;
     inPattern = true;
     if (attrs.getValue(MARK_FROM) != null) {
       startPositionCorrection = Integer.parseInt(attrs.getValue(MARK_FROM));
@@ -458,7 +459,7 @@ public class XMLRuleHandler extends DefaultHandler {
           + pLocator.getLineNumber() + ", column: "
           + pLocator.getColumnNumber() + ".");
     }
-    if (tokenCounter +add - endPositionCorrection < 0) {
+    if (tokenCounter + add - endPositionCorrection < 0) {
       throw new SAXException(
           "Attempt to mark a token no. ("+ endPositionCorrection +") that is outside the pattern ("
           + tokenCounter + " elements). End positions should be negative but not larger than the token count!"
