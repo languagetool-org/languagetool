@@ -45,7 +45,7 @@ import java.util.Map;
  */
 public class MarkerConverter {
 
-  private static final Language LANGUAGE = Language.CATALAN;
+  private static final Language LANGUAGE = Language.GERMAN;
 
   public static void main(String[] args) throws SAXException, ParserConfigurationException, IOException {
     final ConverterHandler handler = new ConverterHandler();
@@ -122,7 +122,7 @@ public class MarkerConverter {
           if (qName1.equals("mark_from") || qName1.equals("mark_to")) {
             continue;
           }
-          System.out.print(" " + qName1 + "=\"" + attrs.getValue(qName1) + "\"");
+          System.out.print(" " + qName1 + "=\"" + StringTools.escapeXML(attrs.getValue(qName1)) + "\"");
         }
         System.out.print(">");
       } else {
