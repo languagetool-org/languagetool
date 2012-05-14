@@ -114,10 +114,12 @@ title="Easy editing stylesheet" ?>
     </rule>
     <!-- Ett försök att fånga upp anföringsverb som ska föregås av ett kommatecken -->
     <rule id="KommaInnanAnfoeringsverb" name="Komma innan anföringsverb" default="off">
-      <pattern mark_from="1">
+      <pattern>
         <token><exception regexp="yes">,|vad|visst</exception></token>
-        <token regexp="yes">sade|sa|menade|viskade|skrek</token>
-        <token postag="PM:.*" postag_regexp="yes"/>
+        <marker>
+          <token regexp="yes">sade|sa|menade|viskade|skrek</token>
+          <token postag="PM:.*" postag_regexp="yes"/>
+        </marker>
       </pattern>
       <message>Kommatecken ska sättas ut innan anföringsverb, dvs. <suggestion>, \2 \3</suggestion></message>
       <example type="correct">Det var finfint<marker>, sade Johan</marker>.</example>
@@ -186,7 +188,9 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule id="LOS" name="los ...">
       <pattern mark_to="-1">
-        <token>los</token>
+        <marker>
+          <token>los</token>
+        </marker>
         <token>
           <exception regexp="yes">angeles|lobos</exception>
         </token>
