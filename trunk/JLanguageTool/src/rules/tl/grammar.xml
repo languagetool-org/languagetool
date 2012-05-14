@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../print.xsl" ?>
-<?xml-stylesheet type="text/css" href="../rules.css" 
-title="Easy editing stylesheet" ?>
+<?xml-stylesheet type="text/css" href="../rules.css"
+        title="Easy editing stylesheet" ?>
 <!--
 Tagalog Grammar and Typo Rules for LanguageTool
 See tagset.txt for the different POS, Lexical Categories, and corresponding attributes
@@ -9,552 +9,598 @@ Copyright (C) 2011 Nathaniel Oco and Allan Borra (http://www.dlsu.edu.ph/researc
 $Id: grammar.xml,v 1.129 2010/11/13 23:24:21 dnaber Exp $
 -->
 <rules lang="tl" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-	<category name="Alternation of D and R">
-		<rule id="D_WORDS" name="Sound and Letter Change from 'd' to 'r'">
-			<pattern case_sensitive="no" mark_from="1">
-				<token regexp="yes">.*[aeiou]</token>
-				<token regexp="yes">ding?|dito|ditong|daw|diyang?|dyang?|doong?</token>
-			</pattern>
-			<message> Do you mean <suggestion><match no="2" case_conversion="startlower" regexp_match=".(.*)" regexp_replace="r$1"/></suggestion>? If the preceding word ends with a vowel, <match no="2"/> should start with the letter R.</message>
-			<short>Alternation of 'd' and 'r'</short>
-			<example correction="rin" type="incorrect">Baka ang tingin mo ay talo ka <marker>din</marker>.</example>
-			<example correction="rito" type="incorrect">Kinuha ko ito <marker>dito</marker>.</example>
-			<example correction="raw" type="incorrect">Natalo ka <marker>daw</marker> sa pustahan.</example>
-			<example correction="riyan" type="incorrect">Iniwan ko <marker>diyan</marker> ang pantasa.</example>
-			<example correction="roon" type="incorrect">Baka ang tingin mo <marker>doon</marker> ay bahay ko.</example>
-			<example type="correct">Baka ang tingin mo ay talo ka <marker>rin</marker>.</example>
-			<example type="correct">Sa DLSU <marker>rin</marker> ako nag-aral.</example>
-			<example type="correct">Sa UP <marker>din</marker> ako nag-aral.</example>
-			<example type="correct">Kinuha ko ito <marker>rito</marker>.</example>
-			<example type="correct">Sinaksak niya ang biktima <marker>rito</marker>, sa puso.</example>
-			<example type="correct">Ibalik mo iyan <marker>dito</marker> mamaya.</example>
-			<example type="correct">Natalo ka <marker>raw</marker> sa pustahan.</example>
-			<example type="correct">Tinalo ka <marker>raw</marker> ng kaklase mo.</example>
-			<example type="correct">Ikaw <marker>daw</marker> ang panalo</example>
-			<example type="correct">Iniwan ko <marker>riyan</marker> ang pantasa.</example>
-			<example type="correct">Bakit mo <marker>riyan</marker> linagay ang lapis?</example>
-			<example type="correct">Bakit <marker>diyan</marker> walang mansanas?</example>
-			<example type="correct">Baka ang tingin mo <marker>roon</marker> ay bahay ko.</example>
-			<example type="correct">Kumakain ka ba <marker>roon</marker>?</example>
-			<example type="correct">Baka ang tingin mo ay <marker>doon</marker> ako nakatira.</example>
-		</rule>
-		<rule id="DAAN" name="daan (raan)">
-			<pattern case_sensitive="no" mark_from="2">
-				<token regexp="yes">apat|anim|siyam</token>
-				<token>na</token>
-				<token regexp="yes">daang?</token>
-			</pattern>
-			<message> Do you mean <suggestion><match no="3" case_conversion="startlower" regexp_match=".(.*)" regexp_replace="r$1"/></suggestion>? If the preceding word ends with a vowel, <match no="3"/> should start with the letter R.</message>
-			<short>Alternation of 'd' and 'r'</short>
-			<example correction="raan" type="incorrect">Nasa apat na <marker>daan</marker> ang dumating.</example>
-			<example correction="raang" type="incorrect">Nasa apat na <marker>daang</marker> tao ang dumating.</example>
-			<example type="correct">Nasa apat na <marker>raan</marker> ang dumating.</example>
-			<example type="correct">Nagbayad sila ng anim na <marker>raan</marker> sa tindera.</example>
-			<example type="correct">May limang <marker>daan</marker> ka ba?</example>
-			<example type="correct">Nasa apat na <marker>raang</marker> tao ang dumating.</example>
-			<example type="correct">Nagbayad sila ng anim na <marker>raang</marker> piso sa tindera.</example>
-			<example type="correct">May limang <marker>daang</marker> piso ka ba?</example>
-		</rule>
-		<rule id="R_WORDS" name="Sound and Letter Change from 'r' to 'd'">
-			<pattern case_sensitive="no" mark_from="1">
-				<token regexp="yes">.*[bcdfghjklmnpqrstvwxyz]</token>
-				<token regexp="yes">ring?|rito|ritong|raw|riyang?|roong?</token>
-			</pattern>
-			<message> Do you mean <suggestion><match no="2" case_conversion="startlower" regexp_match=".(.*)" regexp_replace="d$1"/></suggestion>? If the preceding word ends with a vowel, <match no="2"/> should start with the letter D.</message>
-			<short>Alternation of 'd' and 'r'</short>
-			<example correction="din" type="incorrect">Baka ang tingin mo ay pangit <marker>rin</marker> ikaw.</example>
-			<example correction="dito" type="incorrect">Kinuha ko itong lapis <marker>rito</marker>.</example>
-			<example correction="daw" type="incorrect">Matapang <marker>raw</marker> ikaw.</example>
-			<example correction="diyan" type="incorrect">Iniwan ko ang lapis <marker>riyan</marker>.</example>
-			<example correction="doon" type="incorrect">Baka ang tingin mo ay <marker>roon</marker> ang papunta sa bahay nila.</example>
-			<example type="correct">Baka ang tingin mo ay pangit <marker>din</marker> ikaw.</example>
-			<example type="correct">Sa UP <marker>din</marker> ako nag-aral.</example>
-			<example type="correct">Sa DLSU <marker>rin</marker> ako nag-aral.</example>
-			<example type="correct">Kinuha ko itong lapis <marker>dito</marker>.</example>
-			<example type="correct">Ibalik mo iyan <marker>dito</marker> mamaya.</example>
-			<example type="correct">Sinaksak niya ang biktima <marker>rito</marker>, sa puso.</example>
-			<example type="correct">Matapang <marker>daw</marker> ikaw.</example>
-			<example type="correct">Ikaw <marker>daw</marker> ang panalo.</example>				
-			<example type="correct">Tinalo ka <marker>raw</marker> ng kaklase mo.</example>
-			<example type="correct">Iniwan ko ang lapis <marker>diyan</marker>.</example>
-			<example type="correct">Bakit <marker>diyan</marker> walang mansanas?</example>
-			<example type="correct">Bakit mo <marker>riyan</marker> linagay ang lapis?</example>
-			<example type="correct">Baka <marker>roon</marker> ang papunta sa bahay nila.</example>
-			<example type="correct">Baka ang tingin mo ay <marker>doon</marker> ako nakatira.</example>
-			<example type="correct">Kumakain ka ba <marker>roon</marker>?</example>
-		</rule>
-		<rule id="RAAN" name="raan (daan)">
-			<pattern case_sensitive="no" mark_from="1">
-				<token regexp="yes">isang|dalawang|tatlong|limang|pitong|walong</token>
-				<token regexp="yes">raang?</token>
-			</pattern>
-			<message> Do you mean <suggestion><match no="2" case_conversion="startlower" regexp_match=".(.*)" regexp_replace="d$1"/></suggestion>? If the preceding word ends with a vowel, <match no="2"/> should start with the letter D.</message>
-			<short>Alternation of 'd' and 'r'</short>
-			<example correction="daan" type="incorrect">Nasa tatlong <marker>raan</marker> ang dumating.</example>
-			<example correction="daang" type="incorrect">Nasa tatlong <marker>raang</marker> tao ang dumating.</example>
-			<example type="correct">Nasa tatlong <marker>daan</marker> ang dumating.</example>
-			<example type="correct">Nagbayad sila ng pitong <marker>daan</marker> sa tindera.</example>
-			<example type="correct">May apat na <marker>raan</marker> ka ba?</example>
-			<example type="correct">Nasa tatlong <marker>daang</marker> tao ang dumating.</example>
-			<example type="correct">Nagbayad sila ng pitong <marker>daang</marker> piso sa tindera.</example>
-			<example type="correct">May apat na <marker>raang</marker> piso ka ba?</example>
-		</rule>
-	</category>
-	<category name="Affix Usage">
-		<rule id="NAG-" name="nag- (-um-)">
-			<pattern case_sensitive="yes" mark_from="0">
-				<token regexp="yes">nag(bisita|buhay|bulong|bunot|buo|daing|damay|dapo|dating|dayo)</token>
-			</pattern>
-			<message>Do you mean <suggestion><match no="1" regexp_match="nag(.)(.*)" regexp_replace="$1um$2"></match></suggestion>?</message>
-			<short>Wrong Actor Affix</short>
-			<example correction="bumunot" type="incorrect">Ang dentista ay <marker>nagbunot</marker> ng ngipin.</example>
-			<example type="correct">Ang dentista ay<marker>bumunot</marker> ng ngipin</example>
-		</rule>
-		<rule id="NAG-_SS" name="Nag- (CL-um-)">
-			<pattern case_sensitive="yes" mark_from="0">
-				<token regexp="yes">Nag(bisita|buhay|bulong|bunot|buo|daing|damay|dapo|dating|dayo)</token>
-			</pattern>
-			<message>Do you mean <suggestion><match no="1" case_conversion="startupper" regexp_match="Nag(.)(.*)" regexp_replace="$1um$2"></match></suggestion>?</message>
-			<short>Wrong Actor Affix</short>
-			<example correction="Bumunot" type="incorrect"><marker>Nagbunot</marker> ng ngipin ang dentista.</example>
-			<example type="correct"><marker>Bumunot</marker> ng ngipin ang dentista.</example>
-		</rule>
-	</category>
-	<category name="Ligature Usage">
-		<rule id="ADJECTIVE-C_COMMON_NOUN" name="adjective-c (adjective-c na)">
-			<pattern case_sensitive="no" mark_from="0">
-				<token postag="(ADMO|ADCO|ADSU|ADNU|ADUN|ADOT).*" postag_regexp="yes" regexp="yes" inflected="yes">.*[bcdfghjklmpqrstvwxyz]</token>
-				<token postag="(NCOM).*" postag_regexp="yes"/>
-			</pattern>
-			<message>Do you mean <suggestion>\1 na \2</suggestion>? If the adjective ends with a consonant, except the letter N, the ligature "na" should be added.</message>
-			<short>Wrong Ligature</short>
-			<example correction="asul na mata" type="incorrect">Baka ang tingin mo ay <marker>asul mata</marker> ang meron siya.</example>
-			<example type="correct">Baka ang tingin mo ay <marker>asul na mata</marker> and meron siya.</example>
-		</rule>
-		<rule id="ADJECTIVE-N_COMMON_NOUN" name="adjective-n (adjective-ng)">
-			<pattern case_sensitive="no" mark_from="0">
-				<token postag="(ADMO|ADCO|ADSU|ADNU|ADUN|ADOT).*" postag_regexp="yes" regexp="yes" inflected="no">.*[n]</token>
-				<token postag="(NCOM).*" postag_regexp="yes"/>
-			</pattern>
-			<message>Do you mean <suggestion>\1g \2</suggestion>? If the adjective ends with the letter N, the ligature "-g" should be added.</message>
-			<short>Wrong Ligature</short>
-			<example correction="madasaling bata" type="incorrect">Siya ay isang <marker>madasalin bata</marker>.</example>
-			<example type="correct">Siya ay isang <marker>madalasing bata</marker>.</example>
-		</rule>
-		<rule id="ADJECTIVE-V_COMMON_NOUN" name="adjective-v (adjective-v-ng)">
-			<pattern case_sensitive="no" mark_from="0">
-				<token postag="(ADMO|ADCO|ADSU|ADNU|ADUN|ADOT).*" postag_regexp="yes" regexp="yes" inflected="no">.*[aeiou]</token>
-				<token postag="(NCOM).*" postag_regexp="yes"/>
-			</pattern>
-			<message>Do you mean <suggestion>\1ng \2</suggestion>? If the adjective ends with a vowel, the ligature "-ng" should be added.</message>
-			<short>Wrong Ligature</short>
-			<example correction="mababang bata" type="incorrect">Siya ay isang <marker>mababa bata</marker>.</example>
-			<example type="correct">Siya ay isang <marker>mababang bata</marker>.</example>
-		</rule>
-	</category>
-	<category name="Ng and Nang">
-		<rule id="VERB_NG_ADVERB" name="verb ng adverb (verb nang adverb)">
-			<pattern case_sensitive="no" mark_from="1">
-				<token postag="(VACF|VOBF|VBEF|VLOF|VINF).*" postag_regexp="yes"/>
-				<token>ng</token>
-				<token postag="(AVMA|AVNU|AVDE|AVEO|AVET|AVCO|AVCT|AVSO|AVST|AVAY|AVGI|AVAG|AVPA).*" postag_regexp="yes"/>
-			</pattern>
-			<message>Do you mean <suggestion>nang \3</suggestion>? The adjective marker should be the conjunction "nang".</message>
-			<short>Ng and Nang Usage</short>
-			<example correction="nang maayos" type="incorrect">Kumain <marker>ng maayos</marker>.</example>
-			<example type="correct">Kumain <marker>nang maayos</marker>.</example>
-		</rule>
-		<rule id="VERB_NG_DI_ADVERB" name="verb ng di adverb (verb nang di adverb)">
-			<pattern case_sensitive="no" mark_from="1">
-				<token postag="(VACF|VOBF|VBEF|VLOF|VINF).*" postag_regexp="yes"/>
-				<token>ng</token>
-				<token regexp="yes">hindi|di</token>
-				<token postag="(AVSC).*" postag_regexp="yes"/>
-			</pattern>
-			<message>Do you mean <suggestion>nang \3 \4</suggestion>? The adjective marker should be the conjunction "nang".</message>
-			<short>Ng and Nang Usage</short>
-			<example correction="nang di gaanong" type="incorrect">Kumain <marker>ng di gaanong</marker> maayos.</example>
-			<example type="correct">Kumain <marker>nang di gaanong</marker> maayos.</example>
-		</rule>
-		<rule id="VERB_NG_DI_ADVERB2" name="verb ng 'di adverb (verb nang contdi adverb)">
-			<pattern case_sensitive="no" mark_from="1">
-				<token postag="(VACF|VOBF|VBEF|VLOF|VINF).*" postag_regexp="yes"/>
-				<token>ng</token>
-				<token>'</token>
-				<token>di</token>
-				<token postag="(AVSC).*" postag_regexp="yes"/>
-			</pattern>
-			<message>Do you mean <suggestion>nang \3\4 \5</suggestion>? The adjective marker should be the conjunction "nang".</message>
-			<short>Ng and Nang Usage</short>
-			<example correction="nang 'di gaanong" type="incorrect">Kumain <marker>ng 'di gaanong</marker> maayos.</example>
-			<example type="correct">Kumain <marker>nang 'di gaanong</marker> maayos.</example>
-		</rule>
-	</category>
-	<category name="Adjective Plurality">
-		<rule id="ADJECTIVE-PL_AKO" name="adjective-pl ako (adjective-pl kami)">
-			<pattern case_sensitive="no" mark_from="2">
-				<token negate="yes">at</token>
-				<token postag="ADMO P"/>
-				<token>ako</token>
-			</pattern>
-			<message>Do you mean <suggestion>kami</suggestion>? If the adjective is plural, the nominal phrase should also be plural.</message>
-			<short>Plurality Agreement</short>
-			<example correction="kami" type="incorrect">Magaganda <marker>ako</marker>.</example>
-			<example type="correct">Magaganda <marker>kami</marker>.</example>
-			<example type="correct">Magaganda <marker>tayo</marker>.</example>
-			<example type="correct">Maganda <marker>ako</marker>.</example>
-		</rule>
-		<rule id="ADJECTIVE-PL_AKONG" name="adjective-pl akong (adjective-pl kaming)">
-			<pattern case_sensitive="no" mark_from="2">
-				<token negate="yes">at</token>
-				<token postag="ADMO P"/>
-				<token>akong</token>
-			</pattern>
-			<message>Do you mean <suggestion>kaming</suggestion>? If the adjective is plural, the nominal phrase should also be plural.</message>
-			<short>Plurality Agreement</short>
-			<example correction="kaming" type="incorrect">Magaganda <marker>akong</marker> bata.</example>
-			<example type="correct">Magaganda <marker>kaming</marker> bata.</example>
-			<example type="correct">Magaganda <marker>tayong</marker> bata.</example>
-			<example type="correct">Maganda <marker>akong</marker> bata.</example>
-		</rule>
-		<rule id="ADJECTIVE-PL_KA" name="adjective-pl ka (adjective-pl kayo)">
-			<pattern case_sensitive="no" mark_from="2">
-				<token negate="yes">at</token>
-				<token postag="ADMO P"/>
-				<token regexp="yes">ikaw|ka</token>
-			</pattern>
-			<message>Do you mean <suggestion>kayo</suggestion>? If the adjective is plural, the nominal phrase should also be plural.</message>
-			<short>Plurality Agreement</short>
-			<example correction="kayo" type="incorrect">Magaganda <marker>ka</marker>.</example>
-			<example type="correct">Magaganda <marker>kayo</marker>.</example>
-			<example type="correct">Maganda <marker>ka</marker>.</example>
-		</rule>
-		<rule id="ADJECTIVE-PL_KANG" name="adjective-pl kang (adjective-pl kayong)">
-			<pattern case_sensitive="no" mark_from="2">
-				<token negate="yes">at</token>
-				<token postag="ADMO P"/>
-				<token>kang</token>
-			</pattern>
-			<message>Do you mean <suggestion>kayong</suggestion>? If the adjective is plural, the nominal phrase should also be plural.</message>
-			<short>Plurality Agreement</short>
-			<example correction="kayong" type="incorrect">Magaganda <marker>kang</marker> bata.</example>
-			<example type="correct">Magaganda <marker>kayong</marker> bata.</example>
-			<example type="correct">Maganda <marker>kang</marker> bata.</example>
-		</rule>
-		<rule id="ADJECTIVE-PL_SIYA" name="adjective-pl siya (adjective-pl sila)">
-			<pattern case_sensitive="no" mark_from="2">
-				<token negate="yes">at</token>
-				<token postag="ADMO P"/>
-				<token>siya</token>
-			</pattern>
-			<message>Do you mean <suggestion>sila</suggestion>? If the adjective is plural, the nominal phrase should also be plural.</message>
-			<short>Plurality Agreement</short>
-			<example correction="sila" type="incorrect">Magaganda <marker>siya</marker>.</example>
-			<example type="correct">Magaganda <marker>sila</marker>.</example>
-			<example type="correct">Maganda <marker>siya</marker>.</example>
-		</rule>
-		<rule id="ADJECTIVE-PL_SIYANG" name="adjective-pl siyang (adjective-pl silang)">
-			<pattern case_sensitive="no" mark_from="2">
-				<token negate="yes">at</token>
-				<token postag="ADMO P"/>
-				<token>siyang</token>
-			</pattern>
-			<message>Do you mean <suggestion>silang</suggestion>? If the adjective is plural, the nominal phrase should also be plural.</message>
-			<short>Plurality Agreement</short>
-			<example correction="silang" type="incorrect">Magaganda <marker>siyang</marker> bata.</example>
-			<example type="correct">Magaganda <marker>silang</marker> bata.</example>
-			<example type="correct">Maganda <marker>siyang</marker> bata.</example>
-		</rule>
-		<rule id="ADJECTIVE-PL_SI" name="adjective-pl si (adjective-pl sina)">
-			<pattern case_sensitive="no" mark_from="2" mark_to="-1">
-				<token negate="yes">at</token>
-				<token postag="ADMO P"/>
-				<token>si</token>
-				<token postag="(NPRO|NCOM).*" postag_regexp="yes"/>
-			</pattern>
-			<message>Do you mean <suggestion>sina</suggestion>? If the adjective is plural, the nominal phrase should also be plural.</message>
-			<short>Plurality Agreement</short>
-			<example correction="sina" type="incorrect">Magaganda <marker>si</marker> Maria.</example>
-			<example type="correct">Magaganda <marker>sina</marker> Maria.</example>
-			<example type="correct">Maganda <marker>si</marker> Maria.</example>
-		</rule>
-	</category>	
-	<category name="Wrong Determiner">
-		<rule id="SI_COMMON_NOUN" name="si (ang)">
-			<pattern case_sensitive="no" mark_from="0">
-				<token>si</token>
-				<token postag="NCOM.*" postag_regexp="yes"/>
-			</pattern>
-			<message>Do you mean <suggestion>ang \2</suggestion>? "si" is a personal name marker.</message>
-			<short>Wrong Determiner</short>
-			<example correction="ang abogado" type="incorrect">Pinalakad ni Maria <marker>si abogado</marker>.</example>
-			<example type="correct">Pinalakad ni Maria <marker>ang abogado</marker>.</example>
-		</rule>
-		<rule id="NI_COMMON_NOUN" name="ni (ng)">
-			<pattern case_sensitive="no" mark_from="0">
-				<token>ni</token>
-				<token postag="NCOM.*" postag_regexp="yes"/>
-			</pattern>
-			<message>Do you mean <suggestion>ng \2</suggestion>? "ni" is a personal name marker.</message>
-			<short>Wrong Determiner</short>
-			<example correction="ng abogado" type="incorrect">Pinalakad <marker>ni abogado</marker> si Maria.</example>
-			<example type="correct">Pinalakad <marker>ng abogado</marker>si Maria.</example>
-		</rule>
-		<rule id="KAY_COMMON_NOUN" name="kay (sa)">
-			<pattern case_sensitive="no" mark_from="0">
-				<token>kay</token>
-				<token postag="NCOM.*" postag_regexp="yes"/>
-			</pattern>
-			<message>Do you mean <suggestion>sa \2</suggestion>? "kay" is a personal name marker.</message>
-			<short>Wrong Determiner</short>
-			<example correction="sa abogado" type="incorrect">Pinalakad <marker>kay abogado</marker> ang lupa.</example>
-			<example type="correct">Pinalakad <marker>sa abogado</marker> ang lupa.</example>
-		</rule>
-	</category>	
-	<category name="Word Repetition">
-		<rule id="ANG_ANG" name="ang ang (ang mga)">
-			<pattern case_sensitive="no" mark_from="0">
-				<token>ang</token>
-				<token>ang</token>
-			</pattern>
-			<message>Do you mean <suggestion>\1 mga</suggestion>? "ang" can not be followed by another "ang".</message>
-			<short>Word Repetition</short>
-			<example correction="ang mga" type="incorrect">Maganda <marker>ang ang</marker> tanawin.</example>
-			<example type="correct">Maganda <marker>ang mga</marker> tanawin.</example>
-		</rule>
-		<rule id="MGA_MGA" name="mga mga (ang mga)">
-			<pattern case_sensitive="no" mark_from="0">
-				<token>mga</token>
-				<token>mga</token>
-			</pattern>
-			<message>Do you mean <suggestion>ang \2</suggestion>? "mga" can not be followed by another "mga".</message>
-			<short>Word Repetition</short>
-			<example correction="ang mga" type="incorrect">Maganda <marker>mga mga</marker> tanawin.</example>
-			<example type="correct">Maganda <marker>ang mga</marker> tanawin.</example>
-		</rule>
-		<rule id="NG_NG" name="ng ng (ng mga)">
-			<pattern case_sensitive="no" mark_from="0">
-				<token>ng</token>
-				<token>ng</token>
-			</pattern>
-			<message>Do you mean <suggestion>\1 mga</suggestion>? "ng" can not be followed by another "ng".</message>
-			<short>Word Repetition</short>
-			<example correction="ng mga" type="incorrect">Pinalakad <marker>ng ng</marker> abogado si Maria.</example>
-			<example type="correct">Pinalakad <marker>ng mga</marker> abogado si Maria.</example>
-		</rule>
-	</category>
-	<category name="False Friend">
-		<rule id="LAGGING" name="lagging (laging)">
-			<pattern case_sensitive="no" mark_from="0">
-				<token>lagging</token>
-			</pattern>
-			<message>Do you mean <suggestion>laging</suggestion>?</message>
-			<short>Possible Typo</short>
-			<example correction="laging" type="incorrect">Kapag <marker>lagging</marker> kapiling kita, sumasaya ako.</example>
-			<example type="correct">Kapag <marker>laging</marker> kapiling kita, sumasaya ako.</example>
-		</rule>
-		<rule id="NAGGING" name="nagging (naging)">
-			<pattern case_sensitive="no" mark_from="0">
-				<token>nagging</token>
-			</pattern>
-			<message>Do you mean <suggestion>naging</suggestion>?</message>
-			<short>Possible Typo</short>
-			<example correction="naging" type="incorrect">Siya ay <marker>nagging</marker> aso.</example>
-			<example type="correct">Siya ay <marker>naging</marker> aso.</example>
-		</rule>
-	</category>
-	<category name="Loan Words">
-		<rule id="CAKE" name="cake (keyk)">
-			<pattern case_sensitive="no" mark_from="0">
-				<token>cake</token>
-			</pattern>
-			<message>Do you mean <suggestion>keyk</suggestion>?</message>
-			<short>Loan Word</short>
-			<example correction="keyk" type="incorrect">Kumain kami ng <marker>cake</marker> kagabi.</example>
-			<example type="correct">Kumain kami ng <marker>keyk</marker> kagabi.</example>
-		</rule>
-		<rule id="SCORE" name="score (iskor)">
-			<pattern case_sensitive="no" mark_from="0">
-				<token>score</token>
-			</pattern>
-			<message>Do you mean <suggestion>iskor</suggestion>?</message>
-			<short>Loan Word</short>
-			<example correction="iskor" type="incorrect">Ano na ang <marker>score</marker>?</example>
-			<example type="correct">Ano na ang <marker>iskor</marker>?</example>
-		</rule>
-		<rule id="LIQUID" name="liquid (likido)">
-			<pattern case_sensitive="no" mark_from="0">
-				<token>liquid</token>
-			</pattern>
-			<message>Do you mean <suggestion>likido</suggestion>?</message>
-			<short>Loan Word</short>
-			<example correction="likido" type="incorrect">Bakit may <marker>liquid</marker>?</example>
-			<example type="correct">Bakit may <marker>likido</marker>?</example>
-		</rule>
-		<rule id="JEEP" name="jeep (dyip)">
-			<pattern case_sensitive="no" mark_from="0">
-				<token>jeep</token>
-			</pattern>
-			<message>Do you mean <suggestion>dyip</suggestion>?</message>
-			<short>Loan Word</short>
-			<example correction="dyip" type="incorrect">Pumara ka ng <marker>jeep</marker>.</example>
-			<example type="correct">Pumara ka ng <marker>dyip</marker>.</example>
-		</rule>
-		<rule id="RESEARCH" name="research (riserts)">
-			<pattern case_sensitive="no" mark_from="0">
-				<token>research</token>
-			</pattern>
-			<message>Do you mean <suggestion>riserts</suggestion>?</message>
-			<short>Loan Word</short>
-			<example correction="riserts" type="incorrect">Gumawa tayo ng <marker>research</marker>.</example>
-			<example type="correct">Gumawa tayo ng <marker>riserts</marker>.</example>
-		</rule>
-		<rule id="RAID" name="raid (reyd)">
-			<pattern case_sensitive="no" mark_from="0">
-				<token regexp="yes">(.*)raid</token>
-			</pattern>
-			<message>Do you mean <suggestion><match no="1" regexp_match="(.*)raid" regexp_replace="$1reyd"></match></suggestion>?</message>
-			<short>Loan Word</short>
-			<example correction="nagreyd" type="incorrect">May <marker>nagraid</marker> daw dito kagabi?</example>
-			<example type="correct">May <marker>nagreyd</marker> daw dito kagabi?</example>
-		</rule>
-	</category>
-	<category name="Code-switching">
-		<rule id="WHERE" name="where (nasaan)">
-			<pattern case_sensitive="no" mark_from="0">
-				<token>where</token>
-			</pattern>
-			<message>Do you mean <suggestion>nasaan</suggestion>?</message>
-			<short>Code-switching</short>
-			<example correction="nasaan" type="incorrect">Ano ba, <marker>where</marker> na kayo?</example>
-			<example type="correct">Ano ba, <marker>nasaan</marker> na kayo?</example>
-		</rule>
-		<rule id="YOU" name="you (ikaw)">
-			<pattern case_sensitive="no" mark_from="0">
-				<token>you</token>
-			</pattern>
-			<message>Do you mean <suggestion>ikaw</suggestion>?</message>
-			<short>Code-switching</short>
-			<example correction="ikaw" type="incorrect">Ano ba, nasaan na <marker>you</marker>?</example>
-			<example type="correct">Ano ba, nasaan na <marker>ikaw</marker>?</example>
-		</rule>
-	</category>
-	<category name="Missing Determiner">
-		<rule id="ADJECTIVE_PROPER_NOUN" name="adjective (adjective si)">
-			<pattern case_sensitive="no" mark_from="1" mark_to="-1">
-				<token regexp="yes" negate="yes">si|sina</token>
-				<token postag="(ADMO|ADCO|ADSU|ADNU|ADUN|ADOT).*" postag_regexp="yes"/>
-				<token postag="NPRO.*" postag_regexp="yes"/>
-				<token regexp="yes" negate="yes">si|sina</token>
-			</pattern>
-			<message>Do you mean <suggestion>\2 si \3</suggestion>? A proper noun should be preceded by a determiner.</message>
-			<short>Missing Determiner</short>
-			<example correction="Matalino si Maria" type="incorrect"><marker>Matalino Maria</marker>.</example>
-			<example type="correct"><marker>Matalino si Maria</marker>.</example>
-		</rule>
-	</category>	
-	<category name="Missing Lexical Marker">
-		<rule id="SI_PROPER_NOUN_ADJECTIVE" name="si... adjective (si... ay adjective)">
-			<pattern case_sensitive="no" mark_from="2" mark_to="-1">
-				<token negate="yes">ay</token>
-				<token regexp="yes">si|sina|kay|kina</token>
-				<token postag="NPRO.*" postag_regexp="yes"/>
-				<token postag="(ADMO|ADCO|ADSU|ADNU|ADUN|ADOT).*" postag_regexp="yes"/>
-				<token negate="yes">ay</token>
-			</pattern>
-			<message>Do you mean <suggestion>\3 ay \4</suggestion>? Missing lexical marker "ay".</message>
-			<short>Missing Lexical Marker</short>
-			<example correction="Maria ay maganda" type="incorrect">Si <marker>Maria maganda</marker>.</example>
-			<example type="correct">Si <marker>Maria ay maganda</marker>.</example>
-		</rule>
-		<rule id="ANG_COMMON_NOUN_ADJECTIVE" name="ang... adjective (ang... ay adjective)">
-			<pattern case_sensitive="no" mark_from="2" mark_to="-1">
-				<token negate="yes">ay</token>
-				<token>ang</token>
-				<token postag="NCOM.*" postag_regexp="yes"/>
-				<token postag="(ADMO|ADCO|ADSU|ADNU|ADUN|ADOT).*" postag_regexp="yes"/>
-				<token negate="yes">ay</token>
-			</pattern>
-			<message>Do you mean <suggestion>\3 ay \4</suggestion>? Missing lexical marker "ay".</message>
-			<short>Missing Lexical Marker</short>
-			<example correction="ibon ay maganda" type="incorrect">Ang <marker>ibon maganda</marker>.</example>
-			<example type="correct">Ang <marker>ibon ay maganda</marker>.</example>
-		</rule>
-		<rule id="MGA_COMMON_NOUN_ADJECTIVE" name="mga... adjective (mga... ay adjective)">
-			<pattern case_sensitive="no" mark_from="3" mark_to="-1">
-				<token negate="yes">ay</token>
-				<token>ang</token>
-				<token>mga</token>
-				<token postag="NCOM.*" postag_regexp="yes"/>
-				<token postag="(ADMO|ADCO|ADSU|ADNU|ADUN|ADOT).*" postag_regexp="yes"/>
-				<token negate="yes">ay</token>
-			</pattern>
-			<message>Do you mean <suggestion>\4 ay \5</suggestion>? Missing lexical marker "ay".</message>
-			<short>Missing Lexical Marker</short>
-			<example correction="ibon ay maganda" type="incorrect">Ang mga <marker>ibon maganda</marker>.</example>
-			<example type="correct">Ang mga <marker>ibon ay maganda</marker>.</example>
-		</rule>
-		<rule id="SI_PROPER_NOUN_VERB" name="si... verb (si... ay verb)">
-			<pattern case_sensitive="no" mark_from="2" mark_to="-1">
-				<token negate="yes">ay</token>
-				<token regexp="yes">si|sina|kay|kina</token>
-				<token postag="NPRO.*" postag_regexp="yes"/>
-				<token postag="(VACF|VOBF|VBEF|VLOF|VINF).*" postag_regexp="yes"/>
-				<token negate="yes">ay</token>
-			</pattern>
-			<message>Do you mean <suggestion>\3 ay \4</suggestion>? Missing lexical marker "ay".</message>
-			<short>Missing Lexical Marker</short>
-			<example correction="Maria ay kumakain" type="incorrect">Si <marker>Maria kumakain</marker>.</example>
-			<example type="correct">Si <marker>Maria ay kumakain</marker>.</example>
-		</rule>
-	</category>	
-	<category name="Missing Last Word">
-		<rule id="SI_LAST_WORD_MISSING" name="si is the last word">
-			<pattern case_sensitive="no" mark_from="1">
-				<token postag="(MALM|VACF|VOBF|VBEF|VLOF|VINF|ADMO|ADCO|ADSU|ADNU|ADUN|ADOT).*" postag_regexp="yes"/>
-				<token regexp="yes">si|sina</token>
-				<token postag="(PSNP|PSNQ|PSNE|PSNC)" postag_regexp="yes"/>
-			</pattern>
-			<message>Probably a proper noun is missing. A determiner can not be the last word of a sentence or of a phrase.</message>
-			<short>Missing Last Word</short>
-			<example type="incorrect">Maganda <marker>si.</marker></example>
-			<example type="correct">Maganda si Maria.</example>
-		</rule>
-		<rule id="ANG_LAST_WORD_MISSING" name="ang is the last word">
-			<pattern case_sensitive="no" mark_from="1">
-				<token postag="(MALM|VACF|VOBF|VBEF|VLOF|VINF|ADMO|ADCO|ADSU|ADNU|ADUN|ADOT).*" postag_regexp="yes"/>
-				<token>ang</token>
-				<token postag="(PSNP|PSNQ|PSNE|PSNC)" postag_regexp="yes"/>
-			</pattern>
-			<message>Probably a noun is missing. A determiner can not be the last word of a sentence or of a phrase.</message>
-			<short>Missing Last Word</short>
-			<example type="incorrect">Maganda <marker>ang.</marker></example>
-			<example type="correct">Maganda ang tanawin.</example>
-		</rule>
-		<rule id="MGA_LAST_WORD_MISSING" name="mga is the last word">
-			<pattern case_sensitive="no" mark_from="2">
-				<token postag="(MALM|VACF|VOBF|VBEF|VLOF|VINF|ADMO|ADCO|ADSU|ADNU|ADUN|ADOT).*" postag_regexp="yes"/>
-				<token>ang</token>
-				<token>mga</token>
-				<token postag="(PSNP|PSNQ|PSNE|PSNC)" postag_regexp="yes"/>
-			</pattern>
-			<message>Probably a noun is missing. A determiner can not be the last word of a sentence or of a phrase.</message>
-			<short>Missing Last Word</short>
-			<example type="incorrect">Maganda ang <marker>mga.</marker></example>
-			<example type="correct">Maganda ang mga halaman.</example>
-		</rule>
-	</category>
-	<category name="Exchange Word Positions">
-		<rule id="PROPER_NOUN_SI_PUNCT" name="... si (si...)">
-			<pattern case_sensitive="no" mark_from="0" mark_to="-1">
-				<token postag="(NPRO|NCOM).*" postag_regexp="yes"/>
-				<token regexp="yes">si|sina</token>
-				<token postag="(PSNP|PSNQ|PSNE|PSNC)" postag_regexp="yes"/>
-			</pattern>
-			<message>Do you mean <suggestion><match no="2" case_conversion="startlower"/> \1</suggestion>? Irregular POS sequence due to transposition of words.</message>
-			<short>Exchange Word Positions</short>
-			<example correction="si Maria" type="incorrect">Maganda <marker>Maria si</marker>.</example>
-			<example type="correct">Maganda <marker>si Maria</marker>.</example>
-		</rule>
-	</category>
+    <category name="Alternation of D and R">
+        <rule id="D_WORDS" name="Sound and Letter Change from 'd' to 'r'">
+            <pattern case_sensitive="no">
+                <token regexp="yes">.*[aeiou]</token>
+                <marker>
+                    <token regexp="yes">ding?|dito|ditong|daw|diyang?|dyang?|doong?</token>
+                </marker>
+            </pattern>
+            <message> Do you mean <suggestion><match no="2" case_conversion="startlower" regexp_match=".(.*)" regexp_replace="r$1"></match></suggestion>? If the preceding word ends with a vowel, <match no="2"></match> should start with the letter R.</message>
+            <short>Alternation of 'd' and 'r'</short>
+            <example correction="rin" type="incorrect">Baka ang tingin mo ay talo ka <marker>din</marker>.</example>
+            <example correction="rito" type="incorrect">Kinuha ko ito <marker>dito</marker>.</example>
+            <example correction="raw" type="incorrect">Natalo ka <marker>daw</marker> sa pustahan.</example>
+            <example correction="riyan" type="incorrect">Iniwan ko <marker>diyan</marker> ang pantasa.</example>
+            <example correction="roon" type="incorrect">Baka ang tingin mo <marker>doon</marker> ay bahay ko.</example>
+            <example type="correct">Baka ang tingin mo ay talo ka <marker>rin</marker>.</example>
+            <example type="correct">Sa DLSU <marker>rin</marker> ako nag-aral.</example>
+            <example type="correct">Sa UP <marker>din</marker> ako nag-aral.</example>
+            <example type="correct">Kinuha ko ito <marker>rito</marker>.</example>
+            <example type="correct">Sinaksak niya ang biktima <marker>rito</marker>, sa puso.</example>
+            <example type="correct">Ibalik mo iyan <marker>dito</marker> mamaya.</example>
+            <example type="correct">Natalo ka <marker>raw</marker> sa pustahan.</example>
+            <example type="correct">Tinalo ka <marker>raw</marker> ng kaklase mo.</example>
+            <example type="correct">Ikaw <marker>daw</marker> ang panalo</example>
+            <example type="correct">Iniwan ko <marker>riyan</marker> ang pantasa.</example>
+            <example type="correct">Bakit mo <marker>riyan</marker> linagay ang lapis?</example>
+            <example type="correct">Bakit <marker>diyan</marker> walang mansanas?</example>
+            <example type="correct">Baka ang tingin mo <marker>roon</marker> ay bahay ko.</example>
+            <example type="correct">Kumakain ka ba <marker>roon</marker>?</example>
+            <example type="correct">Baka ang tingin mo ay <marker>doon</marker> ako nakatira.</example>
+        </rule>
+        <rule id="DAAN" name="daan (raan)">
+            <pattern case_sensitive="no">
+                <token regexp="yes">apat|anim|siyam</token>
+                <token>na</token>
+                <marker>
+                    <token regexp="yes">daang?</token>
+                </marker>
+            </pattern>
+            <message> Do you mean <suggestion><match no="3" case_conversion="startlower" regexp_match=".(.*)" regexp_replace="r$1"></match></suggestion>? If the preceding word ends with a vowel, <match no="3"></match> should start with the letter R.</message>
+            <short>Alternation of 'd' and 'r'</short>
+            <example correction="raan" type="incorrect">Nasa apat na <marker>daan</marker> ang dumating.</example>
+            <example correction="raang" type="incorrect">Nasa apat na <marker>daang</marker> tao ang dumating.</example>
+            <example type="correct">Nasa apat na <marker>raan</marker> ang dumating.</example>
+            <example type="correct">Nagbayad sila ng anim na <marker>raan</marker> sa tindera.</example>
+            <example type="correct">May limang <marker>daan</marker> ka ba?</example>
+            <example type="correct">Nasa apat na <marker>raang</marker> tao ang dumating.</example>
+            <example type="correct">Nagbayad sila ng anim na <marker>raang</marker> piso sa tindera.</example>
+            <example type="correct">May limang <marker>daang</marker> piso ka ba?</example>
+        </rule>
+        <rule id="R_WORDS" name="Sound and Letter Change from 'r' to 'd'">
+            <pattern case_sensitive="no">
+                <token regexp="yes">.*[bcdfghjklmnpqrstvwxyz]</token>
+                <marker>
+                    <token regexp="yes">ring?|rito|ritong|raw|riyang?|roong?</token>
+                </marker>
+            </pattern>
+            <message> Do you mean <suggestion><match no="2" case_conversion="startlower" regexp_match=".(.*)" regexp_replace="d$1"></match></suggestion>? If the preceding word ends with a vowel, <match no="2"></match> should start with the letter D.</message>
+            <short>Alternation of 'd' and 'r'</short>
+            <example correction="din" type="incorrect">Baka ang tingin mo ay pangit <marker>rin</marker> ikaw.</example>
+            <example correction="dito" type="incorrect">Kinuha ko itong lapis <marker>rito</marker>.</example>
+            <example correction="daw" type="incorrect">Matapang <marker>raw</marker> ikaw.</example>
+            <example correction="diyan" type="incorrect">Iniwan ko ang lapis <marker>riyan</marker>.</example>
+            <example correction="doon" type="incorrect">Baka ang tingin mo ay <marker>roon</marker> ang papunta sa bahay nila.</example>
+            <example type="correct">Baka ang tingin mo ay pangit <marker>din</marker> ikaw.</example>
+            <example type="correct">Sa UP <marker>din</marker> ako nag-aral.</example>
+            <example type="correct">Sa DLSU <marker>rin</marker> ako nag-aral.</example>
+            <example type="correct">Kinuha ko itong lapis <marker>dito</marker>.</example>
+            <example type="correct">Ibalik mo iyan <marker>dito</marker> mamaya.</example>
+            <example type="correct">Sinaksak niya ang biktima <marker>rito</marker>, sa puso.</example>
+            <example type="correct">Matapang <marker>daw</marker> ikaw.</example>
+            <example type="correct">Ikaw <marker>daw</marker> ang panalo.</example>
+            <example type="correct">Tinalo ka <marker>raw</marker> ng kaklase mo.</example>
+            <example type="correct">Iniwan ko ang lapis <marker>diyan</marker>.</example>
+            <example type="correct">Bakit <marker>diyan</marker> walang mansanas?</example>
+            <example type="correct">Bakit mo <marker>riyan</marker> linagay ang lapis?</example>
+            <example type="correct">Baka <marker>roon</marker> ang papunta sa bahay nila.</example>
+            <example type="correct">Baka ang tingin mo ay <marker>doon</marker> ako nakatira.</example>
+            <example type="correct">Kumakain ka ba <marker>roon</marker>?</example>
+        </rule>
+        <rule id="RAAN" name="raan (daan)">
+            <pattern case_sensitive="no">
+                <token regexp="yes">isang|dalawang|tatlong|limang|pitong|walong</token>
+                <marker>
+                    <token regexp="yes">raang?</token>
+                </marker>
+            </pattern>
+            <message> Do you mean <suggestion><match no="2" case_conversion="startlower" regexp_match=".(.*)" regexp_replace="d$1"></match></suggestion>? If the preceding word ends with a vowel, <match no="2"></match> should start with the letter D.</message>
+            <short>Alternation of 'd' and 'r'</short>
+            <example correction="daan" type="incorrect">Nasa tatlong <marker>raan</marker> ang dumating.</example>
+            <example correction="daang" type="incorrect">Nasa tatlong <marker>raang</marker> tao ang dumating.</example>
+            <example type="correct">Nasa tatlong <marker>daan</marker> ang dumating.</example>
+            <example type="correct">Nagbayad sila ng pitong <marker>daan</marker> sa tindera.</example>
+            <example type="correct">May apat na <marker>raan</marker> ka ba?</example>
+            <example type="correct">Nasa tatlong <marker>daang</marker> tao ang dumating.</example>
+            <example type="correct">Nagbayad sila ng pitong <marker>daang</marker> piso sa tindera.</example>
+            <example type="correct">May apat na <marker>raang</marker> piso ka ba?</example>
+        </rule>
+    </category>
+    <category name="Affix Usage">
+        <rule id="NAG-" name="nag- (-um-)">
+            <pattern case_sensitive="yes">
+                <token regexp="yes">nag(bisita|buhay|bulong|bunot|buo|daing|damay|dapo|dating|dayo)</token>
+            </pattern>
+            <message>Do you mean <suggestion><match no="1" regexp_match="nag(.)(.*)" regexp_replace="$1um$2"></match></suggestion>?</message>
+            <short>Wrong Actor Affix</short>
+            <example correction="bumunot" type="incorrect">Ang dentista ay <marker>nagbunot</marker> ng ngipin.</example>
+            <example type="correct">Ang dentista ay<marker>bumunot</marker> ng ngipin</example>
+        </rule>
+        <rule id="NAG-_SS" name="Nag- (CL-um-)">
+            <pattern case_sensitive="yes">
+                <token regexp="yes">Nag(bisita|buhay|bulong|bunot|buo|daing|damay|dapo|dating|dayo)</token>
+            </pattern>
+            <message>Do you mean <suggestion><match no="1" case_conversion="startupper" regexp_match="Nag(.)(.*)" regexp_replace="$1um$2"></match></suggestion>?</message>
+            <short>Wrong Actor Affix</short>
+            <example correction="Bumunot" type="incorrect"><marker>Nagbunot</marker> ng ngipin ang dentista.</example>
+            <example type="correct"><marker>Bumunot</marker> ng ngipin ang dentista.</example>
+        </rule>
+    </category>
+    <category name="Ligature Usage">
+        <rule id="ADJECTIVE-C_COMMON_NOUN" name="adjective-c (adjective-c na)">
+            <pattern case_sensitive="no">
+                <token postag="(ADMO|ADCO|ADSU|ADNU|ADUN|ADOT).*" postag_regexp="yes" regexp="yes" inflected="yes">.*[bcdfghjklmpqrstvwxyz]</token>
+                <token postag="(NCOM).*" postag_regexp="yes"></token>
+            </pattern>
+            <message>Do you mean <suggestion>\1 na \2</suggestion>? If the adjective ends with a consonant, except the letter N, the ligature &quot;na&quot; should be added.</message>
+            <short>Wrong Ligature</short>
+            <example correction="asul na mata" type="incorrect">Baka ang tingin mo ay <marker>asul mata</marker> ang meron siya.</example>
+            <example type="correct">Baka ang tingin mo ay <marker>asul na mata</marker> and meron siya.</example>
+        </rule>
+        <rule id="ADJECTIVE-N_COMMON_NOUN" name="adjective-n (adjective-ng)">
+            <pattern case_sensitive="no">
+                <token postag="(ADMO|ADCO|ADSU|ADNU|ADUN|ADOT).*" postag_regexp="yes" regexp="yes" inflected="no">.*[n]</token>
+                <token postag="(NCOM).*" postag_regexp="yes"></token>
+            </pattern>
+            <message>Do you mean <suggestion>\1g \2</suggestion>? If the adjective ends with the letter N, the ligature &quot;-g&quot; should be added.</message>
+            <short>Wrong Ligature</short>
+            <example correction="madasaling bata" type="incorrect">Siya ay isang <marker>madasalin bata</marker>.</example>
+            <example type="correct">Siya ay isang <marker>madalasing bata</marker>.</example>
+        </rule>
+        <rule id="ADJECTIVE-V_COMMON_NOUN" name="adjective-v (adjective-v-ng)">
+            <pattern case_sensitive="no">
+                <token postag="(ADMO|ADCO|ADSU|ADNU|ADUN|ADOT).*" postag_regexp="yes" regexp="yes" inflected="no">.*[aeiou]</token>
+                <token postag="(NCOM).*" postag_regexp="yes"></token>
+            </pattern>
+            <message>Do you mean <suggestion>\1ng \2</suggestion>? If the adjective ends with a vowel, the ligature &quot;-ng&quot; should be added.</message>
+            <short>Wrong Ligature</short>
+            <example correction="mababang bata" type="incorrect">Siya ay isang <marker>mababa bata</marker>.</example>
+            <example type="correct">Siya ay isang <marker>mababang bata</marker>.</example>
+        </rule>
+    </category>
+    <category name="Ng and Nang">
+        <rule id="VERB_NG_ADVERB" name="verb ng adverb (verb nang adverb)">
+            <pattern case_sensitive="no">
+                <token postag="(VACF|VOBF|VBEF|VLOF|VINF).*" postag_regexp="yes"></token>
+                <marker>
+                    <token>ng</token>
+                    <token postag="(AVMA|AVNU|AVDE|AVEO|AVET|AVCO|AVCT|AVSO|AVST|AVAY|AVGI|AVAG|AVPA).*" postag_regexp="yes"></token>
+                </marker>
+            </pattern>
+            <message>Do you mean <suggestion>nang \3</suggestion>? The adjective marker should be the conjunction &quot;nang&quot;.</message>
+            <short>Ng and Nang Usage</short>
+            <example correction="nang maayos" type="incorrect">Kumain <marker>ng maayos</marker>.</example>
+            <example type="correct">Kumain <marker>nang maayos</marker>.</example>
+        </rule>
+        <rule id="VERB_NG_DI_ADVERB" name="verb ng di adverb (verb nang di adverb)">
+            <pattern case_sensitive="no">
+                <token postag="(VACF|VOBF|VBEF|VLOF|VINF).*" postag_regexp="yes"></token>
+                <marker>
+                    <token>ng</token>
+                    <token regexp="yes">hindi|di</token>
+                    <token postag="(AVSC).*" postag_regexp="yes"></token>
+                </marker>
+            </pattern>
+            <message>Do you mean <suggestion>nang \3 \4</suggestion>? The adjective marker should be the conjunction &quot;nang&quot;.</message>
+            <short>Ng and Nang Usage</short>
+            <example correction="nang di gaanong" type="incorrect">Kumain <marker>ng di gaanong</marker> maayos.</example>
+            <example type="correct">Kumain <marker>nang di gaanong</marker> maayos.</example>
+        </rule>
+        <rule id="VERB_NG_DI_ADVERB2" name="verb ng 'di adverb (verb nang contdi adverb)">
+            <pattern case_sensitive="no">
+                <token postag="(VACF|VOBF|VBEF|VLOF|VINF).*" postag_regexp="yes"></token>
+                <marker>
+                    <token>ng</token>
+                    <token>'</token>
+                    <token>di</token>
+                    <token postag="(AVSC).*" postag_regexp="yes"></token>
+                </marker>
+            </pattern>
+            <message>Do you mean <suggestion>nang \3\4 \5</suggestion>? The adjective marker should be the conjunction &quot;nang&quot;.</message>
+            <short>Ng and Nang Usage</short>
+            <example correction="nang 'di gaanong" type="incorrect">Kumain <marker>ng 'di gaanong</marker> maayos.</example>
+            <example type="correct">Kumain <marker>nang 'di gaanong</marker> maayos.</example>
+        </rule>
+    </category>
+    <category name="Adjective Plurality">
+        <rule id="ADJECTIVE-PL_AKO" name="adjective-pl ako (adjective-pl kami)">
+            <pattern case_sensitive="no">
+                <token negate="yes">at</token>
+                <token postag="ADMO P"></token>
+                <marker>
+                    <token>ako</token>
+                </marker>
+            </pattern>
+            <message>Do you mean <suggestion>kami</suggestion>? If the adjective is plural, the nominal phrase should also be plural.</message>
+            <short>Plurality Agreement</short>
+            <example correction="kami" type="incorrect">Magaganda <marker>ako</marker>.</example>
+            <example type="correct">Magaganda <marker>kami</marker>.</example>
+            <example type="correct">Magaganda <marker>tayo</marker>.</example>
+            <example type="correct">Maganda <marker>ako</marker>.</example>
+        </rule>
+        <rule id="ADJECTIVE-PL_AKONG" name="adjective-pl akong (adjective-pl kaming)">
+            <pattern case_sensitive="no">
+                <token negate="yes">at</token>
+                <token postag="ADMO P"></token>
+                <marker>
+                    <token>akong</token>
+                </marker>
+            </pattern>
+            <message>Do you mean <suggestion>kaming</suggestion>? If the adjective is plural, the nominal phrase should also be plural.</message>
+            <short>Plurality Agreement</short>
+            <example correction="kaming" type="incorrect">Magaganda <marker>akong</marker> bata.</example>
+            <example type="correct">Magaganda <marker>kaming</marker> bata.</example>
+            <example type="correct">Magaganda <marker>tayong</marker> bata.</example>
+            <example type="correct">Maganda <marker>akong</marker> bata.</example>
+        </rule>
+        <rule id="ADJECTIVE-PL_KA" name="adjective-pl ka (adjective-pl kayo)">
+            <pattern case_sensitive="no">
+                <token negate="yes">at</token>
+                <token postag="ADMO P"></token>
+                <marker>
+                    <token regexp="yes">ikaw|ka</token>
+                </marker>
+            </pattern>
+            <message>Do you mean <suggestion>kayo</suggestion>? If the adjective is plural, the nominal phrase should also be plural.</message>
+            <short>Plurality Agreement</short>
+            <example correction="kayo" type="incorrect">Magaganda <marker>ka</marker>.</example>
+            <example type="correct">Magaganda <marker>kayo</marker>.</example>
+            <example type="correct">Maganda <marker>ka</marker>.</example>
+        </rule>
+        <rule id="ADJECTIVE-PL_KANG" name="adjective-pl kang (adjective-pl kayong)">
+            <pattern case_sensitive="no">
+                <token negate="yes">at</token>
+                <token postag="ADMO P"></token>
+                <marker>
+                    <token>kang</token>
+                </marker>
+            </pattern>
+            <message>Do you mean <suggestion>kayong</suggestion>? If the adjective is plural, the nominal phrase should also be plural.</message>
+            <short>Plurality Agreement</short>
+            <example correction="kayong" type="incorrect">Magaganda <marker>kang</marker> bata.</example>
+            <example type="correct">Magaganda <marker>kayong</marker> bata.</example>
+            <example type="correct">Maganda <marker>kang</marker> bata.</example>
+        </rule>
+        <rule id="ADJECTIVE-PL_SIYA" name="adjective-pl siya (adjective-pl sila)">
+            <pattern case_sensitive="no">
+                <token negate="yes">at</token>
+                <token postag="ADMO P"></token>
+                <marker>
+                    <token>siya</token>
+                </marker>
+            </pattern>
+            <message>Do you mean <suggestion>sila</suggestion>? If the adjective is plural, the nominal phrase should also be plural.</message>
+            <short>Plurality Agreement</short>
+            <example correction="sila" type="incorrect">Magaganda <marker>siya</marker>.</example>
+            <example type="correct">Magaganda <marker>sila</marker>.</example>
+            <example type="correct">Maganda <marker>siya</marker>.</example>
+        </rule>
+        <rule id="ADJECTIVE-PL_SIYANG" name="adjective-pl siyang (adjective-pl silang)">
+            <pattern case_sensitive="no">
+                <token negate="yes">at</token>
+                <token postag="ADMO P"></token>
+                <marker>
+                    <token>siyang</token>
+                </marker>
+            </pattern>
+            <message>Do you mean <suggestion>silang</suggestion>? If the adjective is plural, the nominal phrase should also be plural.</message>
+            <short>Plurality Agreement</short>
+            <example correction="silang" type="incorrect">Magaganda <marker>siyang</marker> bata.</example>
+            <example type="correct">Magaganda <marker>silang</marker> bata.</example>
+            <example type="correct">Maganda <marker>siyang</marker> bata.</example>
+        </rule>
+        <rule id="ADJECTIVE-PL_SI" name="adjective-pl si (adjective-pl sina)">
+            <pattern case_sensitive="no">
+                <token negate="yes">at</token>
+                <token postag="ADMO P"></token>
+                <marker>
+                    <token>si</token>
+                </marker>
+                <token postag="(NPRO|NCOM).*" postag_regexp="yes"></token>
+            </pattern>
+            <message>Do you mean <suggestion>sina</suggestion>? If the adjective is plural, the nominal phrase should also be plural.</message>
+            <short>Plurality Agreement</short>
+            <example correction="sina" type="incorrect">Magaganda <marker>si</marker> Maria.</example>
+            <example type="correct">Magaganda <marker>sina</marker> Maria.</example>
+            <example type="correct">Maganda <marker>si</marker> Maria.</example>
+        </rule>
+    </category>
+    <category name="Wrong Determiner">
+        <rule id="SI_COMMON_NOUN" name="si (ang)">
+            <pattern case_sensitive="no">
+                <token>si</token>
+                <token postag="NCOM.*" postag_regexp="yes"></token>
+            </pattern>
+            <message>Do you mean <suggestion>ang \2</suggestion>? &quot;si&quot; is a personal name marker.</message>
+            <short>Wrong Determiner</short>
+            <example correction="ang abogado" type="incorrect">Pinalakad ni Maria <marker>si abogado</marker>.</example>
+            <example type="correct">Pinalakad ni Maria <marker>ang abogado</marker>.</example>
+        </rule>
+        <rule id="NI_COMMON_NOUN" name="ni (ng)">
+            <pattern case_sensitive="no">
+                <token>ni</token>
+                <token postag="NCOM.*" postag_regexp="yes"></token>
+            </pattern>
+            <message>Do you mean <suggestion>ng \2</suggestion>? &quot;ni&quot; is a personal name marker.</message>
+            <short>Wrong Determiner</short>
+            <example correction="ng abogado" type="incorrect">Pinalakad <marker>ni abogado</marker> si Maria.</example>
+            <example type="correct">Pinalakad <marker>ng abogado</marker>si Maria.</example>
+        </rule>
+        <rule id="KAY_COMMON_NOUN" name="kay (sa)">
+            <pattern case_sensitive="no">
+                <token>kay</token>
+                <token postag="NCOM.*" postag_regexp="yes"></token>
+            </pattern>
+            <message>Do you mean <suggestion>sa \2</suggestion>? &quot;kay&quot; is a personal name marker.</message>
+            <short>Wrong Determiner</short>
+            <example correction="sa abogado" type="incorrect">Pinalakad <marker>kay abogado</marker> ang lupa.</example>
+            <example type="correct">Pinalakad <marker>sa abogado</marker> ang lupa.</example>
+        </rule>
+    </category>
+    <category name="Word Repetition">
+        <rule id="ANG_ANG" name="ang ang (ang mga)">
+            <pattern case_sensitive="no">
+                <token>ang</token>
+                <token>ang</token>
+            </pattern>
+            <message>Do you mean <suggestion>\1 mga</suggestion>? &quot;ang&quot; can not be followed by another &quot;ang&quot;.</message>
+            <short>Word Repetition</short>
+            <example correction="ang mga" type="incorrect">Maganda <marker>ang ang</marker> tanawin.</example>
+            <example type="correct">Maganda <marker>ang mga</marker> tanawin.</example>
+        </rule>
+        <rule id="MGA_MGA" name="mga mga (ang mga)">
+            <pattern case_sensitive="no">
+                <token>mga</token>
+                <token>mga</token>
+            </pattern>
+            <message>Do you mean <suggestion>ang \2</suggestion>? &quot;mga&quot; can not be followed by another &quot;mga&quot;.</message>
+            <short>Word Repetition</short>
+            <example correction="ang mga" type="incorrect">Maganda <marker>mga mga</marker> tanawin.</example>
+            <example type="correct">Maganda <marker>ang mga</marker> tanawin.</example>
+        </rule>
+        <rule id="NG_NG" name="ng ng (ng mga)">
+            <pattern case_sensitive="no">
+                <token>ng</token>
+                <token>ng</token>
+            </pattern>
+            <message>Do you mean <suggestion>\1 mga</suggestion>? &quot;ng&quot; can not be followed by another &quot;ng&quot;.</message>
+            <short>Word Repetition</short>
+            <example correction="ng mga" type="incorrect">Pinalakad <marker>ng ng</marker> abogado si Maria.</example>
+            <example type="correct">Pinalakad <marker>ng mga</marker> abogado si Maria.</example>
+        </rule>
+    </category>
+    <category name="False Friend">
+        <rule id="LAGGING" name="lagging (laging)">
+            <pattern case_sensitive="no">
+                <token>lagging</token>
+            </pattern>
+            <message>Do you mean <suggestion>laging</suggestion>?</message>
+            <short>Possible Typo</short>
+            <example correction="laging" type="incorrect">Kapag <marker>lagging</marker> kapiling kita, sumasaya ako.</example>
+            <example type="correct">Kapag <marker>laging</marker> kapiling kita, sumasaya ako.</example>
+        </rule>
+        <rule id="NAGGING" name="nagging (naging)">
+            <pattern case_sensitive="no">
+                <token>nagging</token>
+            </pattern>
+            <message>Do you mean <suggestion>naging</suggestion>?</message>
+            <short>Possible Typo</short>
+            <example correction="naging" type="incorrect">Siya ay <marker>nagging</marker> aso.</example>
+            <example type="correct">Siya ay <marker>naging</marker> aso.</example>
+        </rule>
+    </category>
+    <category name="Loan Words">
+        <rule id="CAKE" name="cake (keyk)">
+            <pattern case_sensitive="no">
+                <token>cake</token>
+            </pattern>
+            <message>Do you mean <suggestion>keyk</suggestion>?</message>
+            <short>Loan Word</short>
+            <example correction="keyk" type="incorrect">Kumain kami ng <marker>cake</marker> kagabi.</example>
+            <example type="correct">Kumain kami ng <marker>keyk</marker> kagabi.</example>
+        </rule>
+        <rule id="SCORE" name="score (iskor)">
+            <pattern case_sensitive="no">
+                <token>score</token>
+            </pattern>
+            <message>Do you mean <suggestion>iskor</suggestion>?</message>
+            <short>Loan Word</short>
+            <example correction="iskor" type="incorrect">Ano na ang <marker>score</marker>?</example>
+            <example type="correct">Ano na ang <marker>iskor</marker>?</example>
+        </rule>
+        <rule id="LIQUID" name="liquid (likido)">
+            <pattern case_sensitive="no">
+                <token>liquid</token>
+            </pattern>
+            <message>Do you mean <suggestion>likido</suggestion>?</message>
+            <short>Loan Word</short>
+            <example correction="likido" type="incorrect">Bakit may <marker>liquid</marker>?</example>
+            <example type="correct">Bakit may <marker>likido</marker>?</example>
+        </rule>
+        <rule id="JEEP" name="jeep (dyip)">
+            <pattern case_sensitive="no">
+                <token>jeep</token>
+            </pattern>
+            <message>Do you mean <suggestion>dyip</suggestion>?</message>
+            <short>Loan Word</short>
+            <example correction="dyip" type="incorrect">Pumara ka ng <marker>jeep</marker>.</example>
+            <example type="correct">Pumara ka ng <marker>dyip</marker>.</example>
+        </rule>
+        <rule id="RESEARCH" name="research (riserts)">
+            <pattern case_sensitive="no">
+                <token>research</token>
+            </pattern>
+            <message>Do you mean <suggestion>riserts</suggestion>?</message>
+            <short>Loan Word</short>
+            <example correction="riserts" type="incorrect">Gumawa tayo ng <marker>research</marker>.</example>
+            <example type="correct">Gumawa tayo ng <marker>riserts</marker>.</example>
+        </rule>
+        <rule id="RAID" name="raid (reyd)">
+            <pattern case_sensitive="no">
+                <token regexp="yes">(.*)raid</token>
+            </pattern>
+            <message>Do you mean <suggestion><match no="1" regexp_match="(.*)raid" regexp_replace="$1reyd"></match></suggestion>?</message>
+            <short>Loan Word</short>
+            <example correction="nagreyd" type="incorrect">May <marker>nagraid</marker> daw dito kagabi?</example>
+            <example type="correct">May <marker>nagreyd</marker> daw dito kagabi?</example>
+        </rule>
+    </category>
+    <category name="Code-switching">
+        <rule id="WHERE" name="where (nasaan)">
+            <pattern case_sensitive="no">
+                <token>where</token>
+            </pattern>
+            <message>Do you mean <suggestion>nasaan</suggestion>?</message>
+            <short>Code-switching</short>
+            <example correction="nasaan" type="incorrect">Ano ba, <marker>where</marker> na kayo?</example>
+            <example type="correct">Ano ba, <marker>nasaan</marker> na kayo?</example>
+        </rule>
+        <rule id="YOU" name="you (ikaw)">
+            <pattern case_sensitive="no">
+                <token>you</token>
+            </pattern>
+            <message>Do you mean <suggestion>ikaw</suggestion>?</message>
+            <short>Code-switching</short>
+            <example correction="ikaw" type="incorrect">Ano ba, nasaan na <marker>you</marker>?</example>
+            <example type="correct">Ano ba, nasaan na <marker>ikaw</marker>?</example>
+        </rule>
+    </category>
+    <category name="Missing Determiner">
+        <rule id="ADJECTIVE_PROPER_NOUN" name="adjective (adjective si)">
+            <pattern case_sensitive="no">
+                <token regexp="yes" negate="yes">si|sina</token>
+                <marker>
+                    <token postag="(ADMO|ADCO|ADSU|ADNU|ADUN|ADOT).*" postag_regexp="yes"></token>
+                    <token postag="NPRO.*" postag_regexp="yes"></token>
+                </marker>
+                <token regexp="yes" negate="yes">si|sina</token>
+            </pattern>
+            <message>Do you mean <suggestion>\2 si \3</suggestion>? A proper noun should be preceded by a determiner.</message>
+            <short>Missing Determiner</short>
+            <example correction="Matalino si Maria" type="incorrect"><marker>Matalino Maria</marker>.</example>
+            <example type="correct"><marker>Matalino si Maria</marker>.</example>
+        </rule>
+    </category>
+    <category name="Missing Lexical Marker">
+        <rule id="SI_PROPER_NOUN_ADJECTIVE" name="si... adjective (si... ay adjective)">
+            <pattern case_sensitive="no">
+                <token negate="yes">ay</token>
+                <token regexp="yes">si|sina|kay|kina</token>
+                <marker>
+                    <token postag="NPRO.*" postag_regexp="yes"></token>
+                    <token postag="(ADMO|ADCO|ADSU|ADNU|ADUN|ADOT).*" postag_regexp="yes"></token>
+                </marker>
+                <token negate="yes">ay</token>
+            </pattern>
+            <message>Do you mean <suggestion>\3 ay \4</suggestion>? Missing lexical marker &quot;ay&quot;.</message>
+            <short>Missing Lexical Marker</short>
+            <example correction="Maria ay maganda" type="incorrect">Si <marker>Maria maganda</marker>.</example>
+            <example type="correct">Si <marker>Maria ay maganda</marker>.</example>
+        </rule>
+        <rule id="ANG_COMMON_NOUN_ADJECTIVE" name="ang... adjective (ang... ay adjective)">
+            <pattern case_sensitive="no">
+                <token negate="yes">ay</token>
+                <token>ang</token>
+                <marker>
+                    <token postag="NCOM.*" postag_regexp="yes"></token>
+                    <token postag="(ADMO|ADCO|ADSU|ADNU|ADUN|ADOT).*" postag_regexp="yes"></token>
+                </marker>
+                <token negate="yes">ay</token>
+            </pattern>
+            <message>Do you mean <suggestion>\3 ay \4</suggestion>? Missing lexical marker &quot;ay&quot;.</message>
+            <short>Missing Lexical Marker</short>
+            <example correction="ibon ay maganda" type="incorrect">Ang <marker>ibon maganda</marker>.</example>
+            <example type="correct">Ang <marker>ibon ay maganda</marker>.</example>
+        </rule>
+        <rule id="MGA_COMMON_NOUN_ADJECTIVE" name="mga... adjective (mga... ay adjective)">
+            <pattern case_sensitive="no">
+                <token negate="yes">ay</token>
+                <token>ang</token>
+                <token>mga</token>
+                <marker>
+                    <token postag="NCOM.*" postag_regexp="yes"></token>
+                    <token postag="(ADMO|ADCO|ADSU|ADNU|ADUN|ADOT).*" postag_regexp="yes"></token>
+                </marker>
+                <token negate="yes">ay</token>
+            </pattern>
+            <message>Do you mean <suggestion>\4 ay \5</suggestion>? Missing lexical marker &quot;ay&quot;.</message>
+            <short>Missing Lexical Marker</short>
+            <example correction="ibon ay maganda" type="incorrect">Ang mga <marker>ibon maganda</marker>.</example>
+            <example type="correct">Ang mga <marker>ibon ay maganda</marker>.</example>
+        </rule>
+        <rule id="SI_PROPER_NOUN_VERB" name="si... verb (si... ay verb)">
+            <pattern case_sensitive="no">
+                <token negate="yes">ay</token>
+                <token regexp="yes">si|sina|kay|kina</token>
+                <marker>
+                    <token postag="NPRO.*" postag_regexp="yes"></token>
+                    <token postag="(VACF|VOBF|VBEF|VLOF|VINF).*" postag_regexp="yes"></token>
+                </marker>
+                <token negate="yes">ay</token>
+            </pattern>
+            <message>Do you mean <suggestion>\3 ay \4</suggestion>? Missing lexical marker &quot;ay&quot;.</message>
+            <short>Missing Lexical Marker</short>
+            <example correction="Maria ay kumakain" type="incorrect">Si <marker>Maria kumakain</marker>.</example>
+            <example type="correct">Si <marker>Maria ay kumakain</marker>.</example>
+        </rule>
+    </category>
+    <category name="Missing Last Word">
+        <rule id="SI_LAST_WORD_MISSING" name="si is the last word">
+            <pattern case_sensitive="no">
+                <token postag="(MALM|VACF|VOBF|VBEF|VLOF|VINF|ADMO|ADCO|ADSU|ADNU|ADUN|ADOT).*" postag_regexp="yes"></token>
+                <marker>
+                    <token regexp="yes">si|sina</token>
+                    <token postag="(PSNP|PSNQ|PSNE|PSNC)" postag_regexp="yes"></token>
+                </marker>
+            </pattern>
+            <message>Probably a proper noun is missing. A determiner can not be the last word of a sentence or of a phrase.</message>
+            <short>Missing Last Word</short>
+            <example type="incorrect">Maganda <marker>si.</marker></example>
+            <example type="correct">Maganda si Maria.</example>
+        </rule>
+        <rule id="ANG_LAST_WORD_MISSING" name="ang is the last word">
+            <pattern case_sensitive="no">
+                <token postag="(MALM|VACF|VOBF|VBEF|VLOF|VINF|ADMO|ADCO|ADSU|ADNU|ADUN|ADOT).*" postag_regexp="yes"></token>
+                <marker>
+                    <token>ang</token>
+                    <token postag="(PSNP|PSNQ|PSNE|PSNC)" postag_regexp="yes"></token>
+                </marker>
+            </pattern>
+            <message>Probably a noun is missing. A determiner can not be the last word of a sentence or of a phrase.</message>
+            <short>Missing Last Word</short>
+            <example type="incorrect">Maganda <marker>ang.</marker></example>
+            <example type="correct">Maganda ang tanawin.</example>
+        </rule>
+        <rule id="MGA_LAST_WORD_MISSING" name="mga is the last word">
+            <pattern case_sensitive="no">
+                <token postag="(MALM|VACF|VOBF|VBEF|VLOF|VINF|ADMO|ADCO|ADSU|ADNU|ADUN|ADOT).*" postag_regexp="yes"></token>
+                <token>ang</token>
+                <marker>
+                    <token>mga</token>
+                    <token postag="(PSNP|PSNQ|PSNE|PSNC)" postag_regexp="yes"></token>
+                </marker>
+            </pattern>
+            <message>Probably a noun is missing. A determiner can not be the last word of a sentence or of a phrase.</message>
+            <short>Missing Last Word</short>
+            <example type="incorrect">Maganda ang <marker>mga.</marker></example>
+            <example type="correct">Maganda ang mga halaman.</example>
+        </rule>
+    </category>
+    <category name="Exchange Word Positions">
+        <rule id="PROPER_NOUN_SI_PUNCT" name="... si (si...)">
+            <pattern case_sensitive="no">
+                <marker>
+                    <token postag="(NPRO|NCOM).*" postag_regexp="yes"></token>
+                    <token regexp="yes">si|sina</token>
+                </marker>
+                <token postag="(PSNP|PSNQ|PSNE|PSNC)" postag_regexp="yes"></token>
+            </pattern>
+            <message>Do you mean <suggestion><match no="2" case_conversion="startlower"></match> \1</suggestion>? Irregular POS sequence due to transposition of words.</message>
+            <short>Exchange Word Positions</short>
+            <example correction="si Maria" type="incorrect">Maganda <marker>Maria si</marker>.</example>
+            <example type="correct">Maganda <marker>si Maria</marker>.</example>
+        </rule>
+    </category>
 </rules>
