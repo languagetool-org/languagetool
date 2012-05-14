@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../print.xsl" 
-title="Pretty print" ?>
-<?xml-stylesheet type="text/css" href="../rules.css" 
-title="Easy editing stylesheet" ?>
+<?xml-stylesheet type="text/xsl" href="../print.xsl"
+        title="Pretty print" ?>
+<?xml-stylesheet type="text/css" href="../rules.css"
+        title="Easy editing stylesheet" ?>
 <!--
 Italian Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
 $Id: grammar.xml,v 1.10 2010/09/04 11:47:45 milek_pl Exp $
 -->
-
-<!-- 
+<!--
  ================================================================================
  Italian Grammar and Style Rules for Italian
  Paolo Bianchini
@@ -96,1341 +95,1357 @@ $Id: grammar.xml,v 1.10 2010/09/04 11:47:45 milek_pl Exp $
  ======== =========================================================================
 -->
 
+<rules lang="it" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../rules.xsd">
 
-<rules lang="it" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="../rules.xsd">
+    <!-- GRAMMATICA AGGETTIVI - GR_01 -->
+    <category name="Grammatica - Aggettivi">
+        <rulegroup name="uso corretto" id="GR_01_001">
+            <!-- PB003 + -->
+            <!-- meglio -->
+            <rule>
+                <pattern>
+                    <token>meglio</token>
+                    <token postag="(NOUN-M.s)|(NOUN-F.s)" postag_regexp="yes"></token>
+                </pattern>
+                <message>Non utilizzare un avverbio in luogo di un aggettivo: <suggestion><match no="2"></match> migliore</suggestion>.</message>
+                <example type="incorrect">Bisogna cogliere la <marker>meglio occasione</marker>.</example>
+                <example type="correct">Bisogna cogliere l'<marker>occasione migliore</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>meglio</token>
+                    <token postag="(NOUN-M.p)|(NOUN-F.p)" postag_regexp="yes"></token>
+                </pattern>
+                <message>Non utilizzare un avverbio in luogo di un aggettivo: <suggestion><match no="2"></match> migliori</suggestion>.</message>
+                <example type="incorrect">Bisogna cogliere le <marker>meglio occasioni</marker>.</example>
+                <example type="correct">Bisogna cogliere le <marker>occasioni migliori</marker>.</example>
+            </rule>
+            <!-- peggio -->
+            <rule>
+                <pattern>
+                    <token>peggio</token>
+                    <token postag="(NOUN-M.s)|(NOUN-F.s)" postag_regexp="yes"></token>
+                </pattern>
+                <message>Non utilizzare un avverbio in luogo di un aggettivo: <suggestion><match no="2"></match> peggiore</suggestion>.</message>
+                <example type="incorrect">Evitiamo di fare una <marker>peggio figura</marker>.</example>
+                <example type="correct">Evitiamo di fare una <marker>figura peggiore</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>peggio</token>
+                    <token postag="(NOUN-M.p)|(NOUN-F.p)" postag_regexp="yes"></token>
+                </pattern>
+                <message>Non utilizzare un avverbio in luogo di un aggettivo: <suggestion><match no="2"></match> peggiori</suggestion>.</message>
+                <example type="incorrect">Evitiamo di fare delle <marker>peggio figure</marker>.</example>
+                <example type="correct">Evitiamo di fare delle <marker>figure peggiori</marker>.</example>
+            </rule>
+            <!-- PB003 - -->
+        </rulegroup>
+    </category>
 
-	<!-- GRAMMATICA AGGETTIVI - GR_01 -->
-	<category name="Grammatica - Aggettivi"> 
-		<rulegroup name="uso corretto" id="GR_01_001">
-<!-- PB003 + -->
-			<!-- meglio -->
-			<rule>
-				<pattern>
-					<token >meglio</token>
-					<token postag="(NOUN-M.s)|(NOUN-F.s)" postag_regexp="yes"></token>
-				</pattern>
-				<message>Non utilizzare un avverbio in luogo di un aggettivo: <suggestion><match no="2" /> migliore</suggestion>.</message>
-				<example type="incorrect">Bisogna cogliere la <marker>meglio occasione</marker>.</example>
-				<example type="correct">Bisogna cogliere l'<marker>occasione migliore</marker>.</example>
-			</rule>
-			<rule>
-				<pattern>
-					<token >meglio</token>
-					<token postag="(NOUN-M.p)|(NOUN-F.p)" postag_regexp="yes"></token>
-				</pattern>
-				<message>Non utilizzare un avverbio in luogo di un aggettivo: <suggestion><match no="2" /> migliori</suggestion>.</message>
-				<example type="incorrect">Bisogna cogliere le <marker>meglio occasioni</marker>.</example>
-				<example type="correct">Bisogna cogliere le <marker>occasioni migliori</marker>.</example>
-			</rule>
-			<!-- peggio -->
-			<rule>
-				<pattern>
-					<token >peggio</token>
-					<token postag="(NOUN-M.s)|(NOUN-F.s)" postag_regexp="yes"></token>
-				</pattern>
-				<message>Non utilizzare un avverbio in luogo di un aggettivo: <suggestion><match no="2" /> peggiore</suggestion>.</message>
-				<example type="incorrect">Evitiamo di fare una <marker>peggio figura</marker>.</example>
-				<example type="correct">Evitiamo di fare una <marker>figura peggiore</marker>.</example>
-			</rule>
-			<rule>
-				<pattern>
-					<token >peggio</token>
-					<token postag="(NOUN-M.p)|(NOUN-F.p)" postag_regexp="yes"></token>
-				</pattern>
-				<message>Non utilizzare un avverbio in luogo di un aggettivo: <suggestion><match no="2" /> peggiori</suggestion>.</message>
-				<example type="incorrect">Evitiamo di fare delle <marker>peggio figure</marker>.</example>
-				<example type="correct">Evitiamo di fare delle <marker>figure peggiori</marker>.</example>
-			</rule>
-<!-- PB003 - -->
-		</rulegroup>  
-	</category>
+    <!-- GRAMMATICA ARTICOLI - GR_02 -->
+    <category name="Grammatica - Articoli">
+        <rulegroup name="uso corretto" id="GR_02_001">
+            <!-- la -->
+            <rule>
+                <pattern>
+                    <token regexp="yes">il|lo|i|gli|le</token>
+                    <token postag="NOUN-F.s" postag_regexp="yes"><exception postag="(NOUN-F.p)|(NOUN-M.s)" postag_regexp="yes"></exception></token>
+                </pattern>
+                <message>L'articolo non concorda: <suggestion>la <match no="2"></match></suggestion>.</message>
+                <example type="incorrect">Vidi <marker>il mucca</marker> pascolare nel campo.</example>
+                <example type="correct">Vidi <marker>la mucca</marker> pascolare nel campo.</example>
+            </rule>
+            <!-- le -->
+            <rule>
+                <pattern>
+                    <token regexp="yes">il|lo|i|gli|la</token>
+                    <token postag="NOUN-F.p" postag_regexp="yes"><exception postag="(NOUN-F.s)|(NOUN-M.p)" postag_regexp="yes"></exception></token>
+                </pattern>
+                <message>L'articolo non concorda: <suggestion>le <match no="2"></match></suggestion>.</message>
+                <example type="incorrect">Vidi <marker>il mucche</marker> pascolare nel campo.</example>
+                <example type="correct">Vidi <marker>le mucche</marker> pascolare nel campo.</example>
+            </rule>
+            <!-- una -->
+            <rule>
+                <pattern>
+                    <token regexp="yes">un|uno</token>
+                    <token postag="NOUN-F.s" postag_regexp="yes"><exception postag="(NOUN-F.p)|(NOUN-M.s)" postag_regexp="yes"></exception></token>
+                </pattern>
+                <message>L'articolo non concorda: <suggestion>una <match no="2"></match></suggestion>.</message>
+                <example type="incorrect">Vidi <marker>un mucca</marker> pascolare nel campo.</example>
+                <example type="correct">Vidi <marker>una mucche</marker> pascolare nel campo.</example>
+            </rule>
+            <!-- il -->
+            <rule>
+                <pattern>
+                    <token regexp="yes">lo|la|i|gli|le</token>
+                    <token postag="NOUN-M.s" postag_regexp="yes" regexp="yes">[bcdfghlmnpqrstv][aeiou].*|[bcdfglmnqrtv][bcdfglmnpqrtv].*<exception postag="(NOUN-M.p)|(NOUN-F.s)" postag_regexp="yes"></exception></token>
+                </pattern>
+                <message>L'articolo non concorda: <suggestion>il <match no="2"></match></suggestion>.</message>
+                <example type="incorrect">Quanto costa <marker>lo vino</marker>?</example>
+                <example type="correct">Quanto costa <marker>il vino</marker>?</example>
+            </rule>
+            <!-- i -->
+            <rule>
+                <pattern>
+                    <token regexp="yes">lo|la|il|gli|le</token>
+                    <token postag="NOUN-M.p" postag_regexp="yes" regexp="yes">[bcdfghlmnpqrstv][aeiou].*|[bcdfglmnqrtv][bcdfglmnpqrtv].*<exception postag="(NOUN-M.s)|(NOUN-F.p)" postag_regexp="yes"></exception></token>
+                </pattern>
+                <message>L'articolo non concorda: <suggestion>i <match no="2"></match></suggestion>.</message>
+                <example type="incorrect">Hai fatto <marker>le compiti</marker>?</example>
+                <example type="correct">Hai fatto <marker>i compiti</marker>?</example>
+            </rule>
+            <!-- un -->
+            <rule>
+                <pattern>
+                    <token regexp="yes">uno|una</token>
+                    <token postag="NOUN-M.s" postag_regexp="yes" regexp="yes">[bcdfghlmnpqrstv][aeiou].*|[bcdfghlmnqrtv][bcdfghlmnpqrtv].*<exception postag="(NOUN-M.p)|(NOUN-F.s)" postag_regexp="yes"></exception></token>
+                </pattern>
+                <message>L'articolo non concorda: <suggestion>un <match no="2"></match></suggestion>.</message>
+                <example type="incorrect">Mi insegni <marker>uno trucco</marker>?</example>
+                <example type="correct">Mi insegni <marker>un trucco</marker>?</example>
+            </rule>
+            <!-- lo -->
+            <rule>
+                <pattern>
+                    <token regexp="yes">i|la|il|gli|le</token>
+                    <token postag="NOUN-M.s" postag_regexp="yes" regexp="yes">[zx].*|s[bcdfghlmnpqrstv].*|p[ns].*|gn.*|[iy][aeiou].*<exception postag="(NOUN-M.p)|(NOUN-F.s)" postag_regexp="yes"></exception></token>
+                </pattern>
+                <message>L'articolo non concorda: <suggestion>lo <match no="2"></match></suggestion>.</message>
+                <example type="incorrect">Ho forato <marker>il pneumatico</marker>.</example>
+                <example type="correct">Hai forato <marker>lo pneumatico</marker>.</example>
+            </rule>
+            <!-- gli -->
+            <rule>
+                <pattern>
+                    <token regexp="yes">i|la|il|lo|le</token>
+                    <token postag="NOUN-M.p" postag_regexp="yes" regexp="yes">[zx].*|s[bcdfghlmnpqrstv].*|p[ns].*|gn.*|[iy][aeiou].*<exception postag="(NOUN-M.s)|(NOUN-F.p)" postag_regexp="yes"></exception></token>
+                </pattern>
+                <message>L'articolo non concorda: <suggestion>gli <match no="2"></match></suggestion>.</message>
+                <example type="incorrect">Come raccontano <marker>i storici</marker>...</example>
+                <example type="correct">Come raccontano <marker>gli storici</marker>...</example>
+            </rule>
+            <!-- uno -->
+            <rule>
+                <pattern>
+                    <token regexp="yes">un|una</token>
+                    <!-- 2957133 + -->
+                    <!--
+                                        <token postag="NOUN-M.s" postag_regexp="yes" regexp="yes">[zx].*|s[bcdfghlmnpqrstv].*|p[ns].*|[gn].*|[iy][aeiou].*<exception postag="(NOUN-M.p)|(NOUN-F.s)" postag_regexp="yes"/></token>
+                    -->
+                    <token postag="NOUN-M.s" postag_regexp="yes" regexp="yes">[zx].*|s[bcdfghlmnpqrstv].*|p[ns].*|gn.*|[iy][aeiou].*<exception postag="(NOUN-M.p)|(NOUN-F.s)" postag_regexp="yes"></exception></token>
+                    <!-- 2957133 - -->
+                </pattern>
+                <message>L'articolo non concorda: <suggestion>uno <match no="2"></match></suggestion>.</message>
+                <example type="incorrect">Devi andare da <marker>un psicologo</marker>.</example>
+                <example type="correct">Devi andare da <marker>uno psicologo</marker>.</example>
+            </rule>
+        </rulegroup>
+    </category>
 
-	<!-- GRAMMATICA ARTICOLI - GR_02 -->
-	<category name="Grammatica - Articoli">
-		<rulegroup name="uso corretto" id="GR_02_001">
-			<!-- la -->
-			<rule>
-				<pattern >
-					<token regexp="yes">il|lo|i|gli|le</token>
-					<token postag="NOUN-F.s" postag_regexp="yes"><exception postag="(NOUN-F.p)|(NOUN-M.s)" postag_regexp="yes"/></token>
-				</pattern>
-				<message>L'articolo non concorda: <suggestion>la <match no="2" /></suggestion>.</message>
-				<example type="incorrect">Vidi <marker>il mucca</marker> pascolare nel campo.</example>
-				<example type="correct">Vidi <marker>la mucca</marker> pascolare nel campo.</example>
-			</rule>
-			<!-- le -->
-			<rule>
-				<pattern >
-					<token regexp="yes">il|lo|i|gli|la</token>
-					<token postag="NOUN-F.p" postag_regexp="yes"><exception postag="(NOUN-F.s)|(NOUN-M.p)" postag_regexp="yes"/></token>
-				</pattern>
-				<message>L'articolo non concorda: <suggestion>le <match no="2" /></suggestion>.</message>
-				<example type="incorrect">Vidi <marker>il mucche</marker> pascolare nel campo.</example>
-				<example type="correct">Vidi <marker>le mucche</marker> pascolare nel campo.</example>
-			</rule>
-			<!-- una -->
-			<rule>
-				<pattern >
-					<token regexp="yes">un|uno</token>
-					<token postag="NOUN-F.s" postag_regexp="yes"><exception postag="(NOUN-F.p)|(NOUN-M.s)" postag_regexp="yes"/></token>
-				</pattern>
-				<message>L'articolo non concorda: <suggestion>una <match no="2" /></suggestion>.</message>
-				<example type="incorrect">Vidi <marker>un mucca</marker> pascolare nel campo.</example>
-				<example type="correct">Vidi <marker>una mucche</marker> pascolare nel campo.</example>
-			</rule>
-			<!-- il -->
-			<rule>
-				<pattern >
-					<token regexp="yes">lo|la|i|gli|le</token>
-					<token postag="NOUN-M.s" postag_regexp="yes" regexp="yes">[bcdfghlmnpqrstv][aeiou].*|[bcdfglmnqrtv][bcdfglmnpqrtv].*<exception postag="(NOUN-M.p)|(NOUN-F.s)" postag_regexp="yes"/></token>
-				</pattern>
-				<message>L'articolo non concorda: <suggestion>il <match no="2" /></suggestion>.</message>
-				<example type="incorrect">Quanto costa <marker>lo vino</marker>?</example>
-				<example type="correct">Quanto costa <marker>il vino</marker>?</example>
-			</rule>
-			<!-- i -->
-			<rule>
-				<pattern >
-					<token regexp="yes">lo|la|il|gli|le</token>
-					<token postag="NOUN-M.p" postag_regexp="yes" regexp="yes">[bcdfghlmnpqrstv][aeiou].*|[bcdfglmnqrtv][bcdfglmnpqrtv].*<exception postag="(NOUN-M.s)|(NOUN-F.p)" postag_regexp="yes"/></token>
-				</pattern>
-				<message>L'articolo non concorda: <suggestion>i <match no="2" /></suggestion>.</message>
-				<example type="incorrect">Hai fatto <marker>le compiti</marker>?</example>
-				<example type="correct">Hai fatto <marker>i compiti</marker>?</example>
-			</rule>
-			<!-- un -->
-			<rule>
-				<pattern >
-					<token regexp="yes">uno|una</token>
-					<token postag="NOUN-M.s" postag_regexp="yes" regexp="yes">[bcdfghlmnpqrstv][aeiou].*|[bcdfghlmnqrtv][bcdfghlmnpqrtv].*<exception postag="(NOUN-M.p)|(NOUN-F.s)" postag_regexp="yes"/></token>
-				</pattern>
-				<message>L'articolo non concorda: <suggestion>un <match no="2" /></suggestion>.</message>
-				<example type="incorrect">Mi insegni <marker>uno trucco</marker>?</example>
-				<example type="correct">Mi insegni <marker>un trucco</marker>?</example>
-			</rule>
-			<!-- lo -->
-			<rule>
-				<pattern >
-					<token regexp="yes">i|la|il|gli|le</token>
-					<token postag="NOUN-M.s" postag_regexp="yes" regexp="yes">[zx].*|s[bcdfghlmnpqrstv].*|p[ns].*|gn.*|[iy][aeiou].*<exception postag="(NOUN-M.p)|(NOUN-F.s)" postag_regexp="yes"/></token>
-				</pattern>
-				<message>L'articolo non concorda: <suggestion>lo <match no="2" /></suggestion>.</message>
-				<example type="incorrect">Ho forato <marker>il pneumatico</marker>.</example>
-				<example type="correct">Hai forato <marker>lo pneumatico</marker>.</example>
-			</rule>
-			<!-- gli -->
-			<rule>
-				<pattern >
-					<token regexp="yes">i|la|il|lo|le</token>
-					<token postag="NOUN-M.p" postag_regexp="yes" regexp="yes">[zx].*|s[bcdfghlmnpqrstv].*|p[ns].*|gn.*|[iy][aeiou].*<exception postag="(NOUN-M.s)|(NOUN-F.p)" postag_regexp="yes"/></token>
-				</pattern>
-				<message>L'articolo non concorda: <suggestion>gli <match no="2" /></suggestion>.</message>
-				<example type="incorrect">Come raccontano <marker>i storici</marker>...</example>
-				<example type="correct">Come raccontano <marker>gli storici</marker>...</example>
-			</rule>
-			<!-- uno -->
-			<rule>
-				<pattern >
-					<token regexp="yes">un|una</token>
-<!-- 2957133 + -->
-<!--
-					<token postag="NOUN-M.s" postag_regexp="yes" regexp="yes">[zx].*|s[bcdfghlmnpqrstv].*|p[ns].*|[gn].*|[iy][aeiou].*<exception postag="(NOUN-M.p)|(NOUN-F.s)" postag_regexp="yes"/></token>
--->
-					<token postag="NOUN-M.s" postag_regexp="yes" regexp="yes">[zx].*|s[bcdfghlmnpqrstv].*|p[ns].*|gn.*|[iy][aeiou].*<exception postag="(NOUN-M.p)|(NOUN-F.s)" postag_regexp="yes"/></token>
-<!-- 2957133 - -->
-				</pattern>
-				<message>L'articolo non concorda: <suggestion>uno <match no="2" /></suggestion>.</message>
-				<example type="incorrect">Devi andare da <marker>un psicologo</marker>.</example>
-				<example type="correct">Devi andare da <marker>uno psicologo</marker>.</example>
-			</rule>
-		</rulegroup>
-	</category>
+    <!-- GRAMMATICA CONCORDANZA - GR_03 -->
+    <!--  category name="Grammatica - Concordanza"> -->
+    <!-- TO DO	<rulegroup name="tra genere e numero" id="GR_03_001">
+          </rulegroup>
+          <rulegroup name="tra soggetto e verbo" id="GR_03_002">
+          </rulegroup>
+      </category> -->
 
-	<!-- GRAMMATICA CONCORDANZA - GR_03 --> 
-	<!--  category name="Grammatica - Concordanza"> -->
-<!-- TO DO	<rulegroup name="tra genere e numero" id="GR_03_001">
-		</rulegroup>
-		<rulegroup name="tra soggetto e verbo" id="GR_03_002">
-		</rulegroup> 
-	</category> -->
+    <!-- GRAMMATICA ELSIONI E TRONCAMENTI - GR_04 -->
+    <category name="Grammatica - Elisioni e troncamenti">
+        <rulegroup name="apocopi vocaliche" id="GR_04_001">
+            <!-- Qual è -->
+            <rule>
+                <pattern case_sensitive="no">
+                    <token>qual</token>
+                    <token>'</token>
+                    <token>è</token>
+                </pattern>
+                <message>L'apostrofo non è rischiesto in quanto non si tratta di elisione: <suggestion>qual è</suggestion>.</message>
+                <example type="incorrect">Da professionista <marker>qual'è</marker>.</example>
+                <example type="correct">Da professionista qual è.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup name="Elisioni" id="GR_04_002">
+            <!-- togli togli di metti d' -->
+            <rule>
+                <pattern>
+                    <token>di</token>
+                    <token regexp="yes">i.*</token>
+                </pattern>
+                <message>Si consiglia di sostituire la preposizione di con la forma apostrofata <suggestion>d'<match no="2"></match></suggestion></message>
+                <example type="incorrect">Ho bisogno <marker>di informazioni</marker>.</example>
+                <example type="correct">Ho bisogno <marker>d'informazioni</marker>.</example>
+            </rule>
+            <!-- e' -->
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>e</token>
+                    <token>'</token>
+                </pattern>
+                <message>Si suggerisce di non usare l'apostrofo per scrivere il verbo essere: <suggestion>è</suggestion>.</message>
+                <example type="incorrect">L'uva <marker>e'</marker> sul tavolo.</example>
+                <example type="correct">L'uva è sul tavolo.</example>
+            </rule>
+            <!-- perche' -->
+            <rule>
+                <pattern>
+                    <token regexp="yes">perché|poiché|affinché|giacché|finché|altroché</token>
+                    <token>'</token>
+                </pattern>
+                <message>Togliere l'apostrofo in quanto la parola è già accentata: <suggestion><match no="1"></match></suggestion>.</message>
+                <example type="incorrect">Ve lo dico solo <marker>perché'</marker> mi siete simpatici.</example>
+                <example type="correct">Ve lo dico solo <marker>perché</marker> mi siete simpatici.</example>
+            </rule>
+            <!-- E' -->
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>E</token>
+                    <token>'</token>
+                </pattern>
+                <message>Si suggerisce di non usare l'apostrofo per il verbo essere: <suggestion>È</suggestion>.</message>
+                <example type="incorrect"><marker>E'</marker> un peccato!</example>
+                <example type="correct">È un peccato!</example>
+            </rule>
+            <!-- da' -->
+            <rule>
+                <pattern>
+                    <token>da</token>
+                    <token>'</token>
+                </pattern>
+                <message>Non utilizzare l'apostrofo per accentare: <suggestion>dà</suggestion>.</message>
+                <example type="incorrect">Mi <marker>da'</marker> una mano per favore?</example>
+                <example type="correct">Mi <marker>dà</marker> una mano per favore?</example>
+            </rule>
+        </rulegroup>
+    </category>
 
-	<!-- GRAMMATICA ELSIONI E TRONCAMENTI - GR_04 -->
-	<category name="Grammatica - Elisioni e troncamenti"> 
-		<rulegroup name="apocopi vocaliche" id="GR_04_001">
-			<!-- Qual è -->			
-			<rule>
-				<pattern  case_sensitive="no">
-					<token>qual</token>
-					<token>'</token>
-					<token>è</token>
-				</pattern>
-				<message>L'apostrofo non è rischiesto in quanto non si tratta di elisione: <suggestion>qual è</suggestion>.</message>
-				<example type="incorrect">Da professionista <marker>qual'è</marker>.</example>
-				<example type="correct">Da professionista qual è.</example>
-			</rule>
-		</rulegroup>
-		<rulegroup name="Elisioni" id="GR_04_002">
-			<!-- togli togli di metti d' -->			
-			<rule>
-				<pattern>
-					<token>di</token>
-					<token regexp="yes">i.*</token>
-				</pattern>
-				<message>Si consiglia di sostituire la preposizione di con la forma apostrofata <suggestion>d'<match no="2" /></suggestion></message>
-				<example type="incorrect">Ho bisogno <marker>di informazioni</marker>.</example>
-				<example type="correct">Ho bisogno <marker>d'informazioni</marker>.</example>
-			</rule>
-			<!-- e' -->
-			<rule>
-				<pattern  case_sensitive="yes">
-					<token>e</token>
-					<token>'</token>
-				</pattern>
-				<message>Si suggerisce di non usare l'apostrofo per scrivere il verbo essere: <suggestion>è</suggestion>.</message>
-				<example type="incorrect">L'uva <marker>e'</marker> sul tavolo.</example>
-				<example type="correct">L'uva è sul tavolo.</example>
-			</rule>
-			<!-- perche' -->
-			<rule>
-				<pattern>
-					<token regexp="yes">perché|poiché|affinché|giacché|finché|altroché</token>
-					<token>'</token>
-				</pattern>
-				<message>Togliere l'apostrofo in quanto la parola è già accentata: <suggestion><match no="1" /></suggestion>.</message>
-				<example type="incorrect">Ve lo dico solo <marker>perché'</marker> mi siete simpatici.</example>
-				<example type="correct">Ve lo dico solo <marker>perché</marker> mi siete simpatici.</example>
-			</rule>
-			<!-- E' -->
-			<rule>
-				<pattern  case_sensitive="yes">
-					<token>E</token>
-					<token>'</token>
-				</pattern>
-				<message>Si suggerisce di non usare l'apostrofo per il verbo essere: <suggestion>È</suggestion>.</message>
-				<example type="incorrect"><marker>E'</marker> un peccato!</example>
-				<example type="correct">È un peccato!</example>
-			</rule>
-			<!-- da' --> 
-			<rule>
-				<pattern>
-					<token>da</token>
-					<token>'</token>
-				</pattern>
-				<message>Non utilizzare l'apostrofo per accentare: <suggestion>dà</suggestion>.</message>
-				<example type="incorrect">Mi <marker>da'</marker> una mano per favore?</example>
-				<example type="correct">Mi <marker>dà</marker> una mano per favore?</example>
-			</rule>
-		</rulegroup>
-	</category>
+    <!-- GRAMMATICA FRASE - GR_05 -->
+    <category name="Grammatica - Frase">
+        <!-- TO DO	<rulegroup name="altri elementi" id="GR_05_001">
+            </rulegroup> -->
+        <rulegroup name="struttura" id="GR_05_002">
+            <!-- non iniziare la frase con una congiunzione -->
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"></token>
+                    <token postag="CON"></token>
+                </pattern>
+                <message>Si consiglia di non iniziare una frase con una congiunzione.</message>
+                <example type="incorrect"><marker>E</marker> non si capisce il perchè di tanta paura.</example>
+                <example type="correct">Non si capisce il perchè di tanta paura.</example>
+            </rule>
+        </rulegroup>
+    </category>
 
-	<!-- GRAMMATICA FRASE - GR_05 -->
-	<category name="Grammatica - Frase"> 
-<!-- TO DO	<rulegroup name="altri elementi" id="GR_05_001">
-		</rulegroup> -->
-		<rulegroup name="struttura" id="GR_05_002">
-			<!-- non iniziare la frase con una congiunzione -->
-			<rule>
-				<pattern>
-					<token postag="SENT_START" />
-					<token postag="CON" />
-				</pattern>
-				<message>Si consiglia di non iniziare una frase con una congiunzione.</message>
-				<example type="incorrect"><marker>E</marker> non si capisce il perchè di tanta paura.</example>
-				<example type="correct">Non si capisce il perchè di tanta paura.</example>
-			</rule>
-		</rulegroup>
-	</category>
+    <!-- GRAMMATICA MAIUSCOLE - GR_06
+      <category name="Grammatica - Maiuscole"> -->
+    <!-- TO DO	<rulegroup name="uso corretto" id="GR_06_001">
+          </rulegroup>
+      </category> -->
 
-	<!-- GRAMMATICA MAIUSCOLE - GR_06 
-	<category name="Grammatica - Maiuscole"> --> 
-<!-- TO DO	<rulegroup name="uso corretto" id="GR_06_001">
-		</rulegroup> 
-	</category> -->
+    <!-- GRAMMATICA PREPOSIZIONI - GR_07 -->
+    <category name="Grammatica - Preposizioni">
+        <rulegroup name="uso corretto" id="GR_07_001">
+            <!-- da -->
+            <rule>
+                <pattern>
+                    <token postag_regexp="yes" postag="VER:ind.*"></token>
+                    <marker>
+                        <token>dà</token>
+                    </marker>
+                </pattern>
+                <message>Probabilmente si scrive senza accento: <suggestion>da</suggestion>.</message>
+                <example type="incorrect">Vengo <marker>dà</marker> Roma.</example>
+                <example type="correct">Vengo da Roma.</example>
+            </rule>
+            <!-- PB002+ -->
+            <!-- assolvere a... -->
+            <rule>
+                <pattern>
+                    <token regexp="yes">assolv.*|assols.*|assolt.*</token>
+                    <marker>
+                        <token>a</token>
+                    </marker>
+                </pattern>
+                <message>Non si assolve a qualcosa, si assolve qualcosa. Rimuovere a <suggestion></suggestion></message>
+                <example type="incorrect">Assolvere <marker>a</marker> un compito.</example>
+                <example type="correct">Assolvere<marker></marker> un compito.</example>
+            </rule>
+            <!-- interessarsi a... -->
+            <rule>
+                <pattern>
+                    <token regexp="yes">mi|ti|si|ci|vi</token>
+                    <token regexp="yes">interes.*</token>
+                    <marker>
+                        <token>a</token>
+                    </marker>
+                </pattern>
+                <message>Non ci si interessa a ma ci si interessa <suggestion>di</suggestion>...</message>
+                <example type="incorrect">Mi interesso <marker>a</marker> qualcosa.</example>
+                <example type="correct">Mi interesso di qualcosa.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">interessar[mtscv]i</token>
+                    <marker>
+                        <token>a</token>
+                    </marker>
+                </pattern>
+                <message>Non ci si interessa a ma ci si interessa <suggestion>di</suggestion>...</message>
+                <example type="incorrect">Interessarsi <marker>a</marker> qualcosa.</example>
+                <example type="correct">Interessarsi di qualcosa.</example>
+            </rule>
+            <!-- promuovere a... -->
+            <rule>
+                <pattern>
+                    <token regexp="yes">promuov.*|promoss.*</token>
+                    <marker>
+                        <token>a</token>
+                    </marker>
+                </pattern>
+                <message>Non si promuove a qualcosa, si promuove qualcosa. Rimuovere a <suggestion></suggestion></message>
+                <example type="incorrect">Fui promosso <marker>a</marker> direttore.</example>
+                <example type="correct">Fui promosso<marker></marker> direttore.</example>
+            </rule>
+            <!-- insistere a... -->
+            <rule>
+                <pattern>
+                    <token regexp="yes">insist.*</token>
+                    <marker>
+                        <token>a</token>
+                    </marker>
+                </pattern>
+                <message>Non si insistste a, si insiste <suggestion>nel</suggestion></message>
+                <example type="incorrect">Insisto <marker>a</marker> dire che è così.</example>
+                <example type="correct">Insisto <marker>nel</marker> dire che è così.</example>
+            </rule>
+            <!-- a gratis -->
+            <rule>
+                <pattern case_sensitive="no">
+                    <token>a</token>
+                    <token>gratis</token>
+                </pattern>
+                <message>Si scrive <suggestion>gratis</suggestion> (senza la preposizione).</message>
+                <example type="incorrect">Ovviamente... è tutto <marker>a gratis</marker>!</example>
+                <example type="correct">Ovviamente... è tutto <marker>gratis</marker>!</example>
+            </rule>
+            <!-- a nome Giuliano -->
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>a</token>
+                        <token>nome</token>
+                    </marker>
+                    <token postag="NPR"></token>
+                </pattern>
+                <message>La forma corretta è <suggestion>di nome</suggestion> e non a nome.</message>
+                <example type="incorrect">Una ragazza <marker>a nome</marker> Francesca.</example>
+                <example type="correct">Una ragazza <marker>di nome</marker> Francesca.</example>
+            </rule>
+            <!-- biglietto da visita -->
+            <rule>
+                <pattern>
+                    <token regexp="yes">bigliett.*</token>
+                    <marker>
+                        <token>di</token>
+                    </marker>
+                    <token>visita</token>
+                </pattern>
+                <message>Biglietto <suggestion>da</suggestion> visita</message>
+                <example type="incorrect">Ecco il mio biglietto <marker>di</marker> visita.</example>
+                <example type="correct">Ecco il mio biglietto <marker>da</marker> visita.</example>
+            </rule>
 
-	<!-- GRAMMATICA PREPOSIZIONI - GR_07 -->
-	<category name="Grammatica - Preposizioni"> 
-		<rulegroup name="uso corretto" id="GR_07_001">
-			<!-- da -->
-			<rule>
-				<pattern mark_from="1">
-					<token postag_regexp="yes" postag="VER:ind.*"/>
-					<token>dà</token>
-				</pattern>
-				<message>Probabilmente si scrive senza accento: <suggestion>da</suggestion>.</message>
-				<example type="incorrect">Vengo <marker>dà</marker> Roma.</example>
-				<example type="correct">Vengo da Roma.</example>
-			</rule>
-<!-- PB002+ -->
-			<!-- assolvere a... -->			
-			<rule>
-				<pattern mark_from="1">
-					<token regexp="yes">assolv.*|assols.*|assolt.*</token>
-					<token>a</token>
-				</pattern>
-				<message>Non si assolve a qualcosa, si assolve qualcosa. Rimuovere a <suggestion></suggestion></message>
-				<example type="incorrect">Assolvere <marker>a</marker> un compito.</example>
-				<example type="correct">Assolvere<marker></marker> un compito.</example>
-			</rule>
-			<!-- interessarsi a... -->			
-			<rule>
-				<pattern mark_from="2">
-					<token regexp="yes">mi|ti|si|ci|vi</token>
-					<token regexp="yes">interes.*</token>
-					<token>a</token>
-				</pattern>
-				<message>Non ci si interessa a ma ci si interessa <suggestion>di</suggestion>...</message>
-				<example type="incorrect">Mi interesso <marker>a</marker> qualcosa.</example>
-				<example type="correct">Mi interesso di qualcosa.</example>
-			</rule>
-			<rule>
-				<pattern mark_from="1">
-					<token regexp="yes">interessar[mtscv]i</token>
-					<token>a</token>
-				</pattern>
-				<message>Non ci si interessa a ma ci si interessa <suggestion>di</suggestion>...</message>
-				<example type="incorrect">Interessarsi <marker>a</marker> qualcosa.</example>
-				<example type="correct">Interessarsi di qualcosa.</example>
-			</rule>
-			<!-- promuovere a... -->
-			<rule>
-				<pattern mark_from="1">
-					<token regexp="yes">promuov.*|promoss.*</token>
-					<token>a</token>
-				</pattern>
-				<message>Non si promuove a qualcosa, si promuove qualcosa. Rimuovere a <suggestion></suggestion></message>
-				<example type="incorrect">Fui promosso <marker>a</marker> direttore.</example>
-				<example type="correct">Fui promosso<marker></marker> direttore.</example>
-			</rule>
-			<!-- insistere a... -->
-			<rule>
-				<pattern mark_from="1">
-					<token regexp="yes">insist.*</token>
-					<token>a</token>
-				</pattern>
-				<message>Non si insistste a, si insiste <suggestion>nel</suggestion></message>
-				<example type="incorrect">Insisto <marker>a</marker> dire che è così.</example>
-				<example type="correct">Insisto <marker>nel</marker> dire che è così.</example>
-			</rule>
-			<!-- a gratis -->
-			<rule>
-				<pattern mark_from="0" case_sensitive="no">
-					<token>a</token>
-					<token>gratis</token>
-				</pattern>
-				<message>Si scrive <suggestion>gratis</suggestion> (senza la preposizione).</message>
-				<example type="incorrect">Ovviamente... è tutto <marker>a gratis</marker>!</example>
-				<example type="correct">Ovviamente... è tutto <marker>gratis</marker>!</example>
-			</rule>
-			<!-- a nome Giuliano -->
-			<rule>
-				<pattern mark_from="0" mark_to="-1">
-					<token>a</token>
-					<token>nome</token>
-                                       <token postag="NPR"/>
-				</pattern>
-				<message>La forma corretta è <suggestion>di nome</suggestion> e non a nome.</message>
-				<example type="incorrect">Una ragazza <marker>a nome</marker> Francesca.</example>
-				<example type="correct">Una ragazza <marker>di nome</marker> Francesca.</example>
-			</rule>
-			<!-- biglietto da visita -->
-			<rule>
-				<pattern mark_from="1" mark_to="-1">
-					<token regexp="yes">bigliett.*</token>
-					<token>di</token>
-					<token>visita</token>
-				</pattern>
-				<message>Biglietto <suggestion>da</suggestion> visita</message>
-				<example type="incorrect">Ecco il mio biglietto <marker>di</marker> visita.</example>
-				<example type="correct">Ecco il mio biglietto <marker>da</marker> visita.</example>
-			</rule>
+            <!-- PB002- -->
+        </rulegroup>
+    </category>
 
-<!-- PB002- -->
-		</rulegroup>
-	</category>
+    <!-- GRAMMATICA PRONOMI - GR_08
+      <category name="Grammatica - Pronomi"> -->
+    <!-- TO DO	<rulegroup name="uso corretto" id="GR_08_001">
+          </rulegroup>
+      </category> -->
 
-	<!-- GRAMMATICA PRONOMI - GR_08 
-	<category name="Grammatica - Pronomi"> --> 
-<!-- TO DO	<rulegroup name="uso corretto" id="GR_08_001">
-		</rulegroup> 
-	</category> -->
+    <!-- GRAMMATICA PUNTEGGIATURA - GR_09 -->
+    <category name="Grammatica - Punteggiatura">
+        <rulegroup name="asterischi di omissione (***)" id="GR_09_001">
+            <rule>
+                <pattern>
+                    <token regexp="no">**</token>
+                </pattern>
+                <message>L’asterisco si usa per un’omissione nel numero di tre consecutivi: <suggestion>***</suggestion>.</message>
+                <example type="incorrect">Preferisco non pensare a quel <marker>**</marker></example>
+                <example type="correct">Preferisco non pensare a quel <marker>***</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="no">****</token>
+                </pattern>
+                <message>L’asterisco si usa per un’omissione nel numero di tre consecutivi: <suggestion>***</suggestion>.</message>
+                <example type="incorrect">Preferisco non pensare a quel <marker>****</marker></example>
+                <example type="correct">Preferisco non pensare a quel <marker>***</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="no">*****</token>
+                </pattern>
+                <message>L’asterisco si usa per un’omissione nel numero di tre consecutivi: <suggestion>***</suggestion>.</message>
+                <example type="incorrect">Preferisco non pensare a quel <marker>*****</marker></example>
+                <example type="correct">Preferisco non pensare a quel <marker>***</marker></example>
+            </rule>
+        </rulegroup>
+        <rulegroup name="puntini di sospensione (...)" id="GR_09_002">
+            <rule>
+                <pattern>
+                    <token>.</token>
+                    <token>.</token>
+                    <token>.</token>
+                    <token>.</token>
+                </pattern>
+                <message>I puntini di sospensione si usano sempre nel numero di tre, per indicare la sospensione del discorso: <suggestion>...</suggestion>.</message>
+                <example type="incorrect">Lasciami pensare<marker>....</marker></example>
+                <example type="correct">Lasciami pensare<marker>...</marker></example>
+            </rule>
+        </rulegroup>
+        <rulegroup name="ripetizioni" id="GR_09_003">
+            <!-- Punto esclamativo ripetuto (!) -->
+            <rule>
+                <pattern>
+                    <token>!</token>
+                    <token>!</token>
+                </pattern>
+                <message>Se ne mette uno solo: <suggestion>!</suggestion>.</message>
+                <example type="incorrect">Fammi parlare<marker>!!</marker></example>
+                <example type="correct">Fammi parlare<marker>!</marker></example>
+            </rule>
+            <!-- Punto interrogativo ripetuto (?) -->
+            <rule>
+                <pattern>
+                    <token>?</token>
+                    <token>?</token>
+                </pattern>
+                <message>Se ne mette uno solo: <suggestion>?</suggestion>.</message>
+                <example type="incorrect">Quando vieni<marker>??</marker></example>
+                <example type="correct">Quando vieni<marker>?</marker></example>
+            </rule>
+        </rulegroup>
+        <rulegroup name="sigle" id="GR_09_004">
+            <!-- S.p.A. -->
+            <rule>
+                <pattern>
+                    <token>spa</token>
+                </pattern>
+                <message>Utilizzare la sigla corretta: <suggestion>S.p.A.</suggestion>.</message>
+                <example type="incorrect">La Nomedifantasia <marker>spa</marker> offre nuovi servizi.</example>
+                <example type="correct">La Nomedifantasia <marker>S.p.A.</marker> offre nuovi servizi.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>S</token>
+                    <token>.</token>
+                    <token>P</token>
+                    <token>.</token>
+                    <token>A</token>
+                    <token>.</token>
+                </pattern>
+                <message>Utilizzare la sigla corretta: <suggestion>S.p.A.</suggestion>.</message>
+                <example type="incorrect">La Nomedifantasia <marker>S.P.A.</marker> offre nuovi servizi.</example>
+                <example type="correct">La Nomedifantasia <marker>S.p.A.</marker> offre nuovi servizi.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>S</token>
+                    <token>.</token>
+                    <token>p</token>
+                    <token>.</token>
+                    <token>a</token>
+                    <token>.</token>
+                </pattern>
+                <message>Utilizzare la sigla corretta: <suggestion>S.p.A.</suggestion>.</message>
+                <example type="incorrect">La Nomedifantasia <marker>S.p.a.</marker> offre nuovi servizi.</example>
+                <example type="correct">La Nomedifantasia <marker>S.p.A.</marker> offre nuovi servizi.</example>
+            </rule>
+            <!-- S.R.L. -->
+            <rule>
+                <pattern>
+                    <token>srl</token>
+                </pattern>
+                <message>Utilizzare la sigla corretta: <suggestion>S.R.L.</suggestion>.</message>
+                <example type="incorrect">La Nomedifantasia <marker>srl</marker> offre nuovi servizi.</example>
+                <example type="correct">La Nomedifantasia <marker>S.R.L.</marker> offre nuovi servizi.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>S</token>
+                    <token>.</token>
+                    <token>R</token>
+                    <token>.</token>
+                    <token>l</token>
+                    <token>.</token>
+                </pattern>
+                <message>Utilizzare la sigla corretta: <suggestion>S.R.L.</suggestion>.</message>
+                <example type="incorrect">La Nomedifantasia <marker>S.R.l.</marker> offre nuovi servizi.</example>
+                <example type="correct">La Nomedifantasia <marker>S.R.L.</marker> offre nuovi servizi.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>S</token>
+                    <token>.</token>
+                    <token>r</token>
+                    <token>.</token>
+                    <token>l</token>
+                    <token>.</token>
+                </pattern>
+                <message>Utilizzare la sigla corretta: <suggestion>S.R.L.</suggestion>.</message>
+                <example type="incorrect">La Nomedifantasia <marker>S.r.l.</marker> offre nuovi servizi.</example>
+                <example type="correct">La Nomedifantasia <marker>S.R.L.</marker> offre nuovi servizi.</example>
+            </rule>
+            <!-- S.N.C. -->
+            <rule>
+                <pattern>
+                    <token>snc</token>
+                </pattern>
+                <message>Utilizzare la sigla corretta: <suggestion>S.N.C.</suggestion>.</message>
+                <example type="incorrect">La Nomedifantasia <marker>snc</marker> offre nuovi servizi.</example>
+                <example type="correct">La Nomedifantasia <marker>S.R.L.</marker> offre nuovi servizi.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>S</token>
+                    <token>.</token>
+                    <token>N</token>
+                    <token>.</token>
+                    <token>c</token>
+                    <token>.</token>
+                </pattern>
+                <message>Utilizzare la sigla corretta: <suggestion>S.N.C.</suggestion>.</message>
+                <example type="incorrect">La Nomedifantasia <marker>S.N.c.</marker> offre nuovi servizi.</example>
+                <example type="correct">La Nomedifantasia <marker>S.N.C.</marker> offre nuovi servizi.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>S</token>
+                    <token>.</token>
+                    <token>n</token>
+                    <token>.</token>
+                    <token>c</token>
+                    <token>.</token>
+                </pattern>
+                <message>Utilizzare la sigla corretta: <suggestion>S.N.C.</suggestion>.</message>
+                <example type="incorrect">La Nomedifantasia <marker>S.n.c.</marker> offre nuovi servizi.</example>
+                <example type="correct">La Nomedifantasia <marker>S.N.C.</marker> offre nuovi servizi.</example>
+            </rule>
+            <!-- S.A.S. -->
+            <rule>
+                <pattern>
+                    <token>sas</token>
+                </pattern>
+                <message>Utilizzare la sigla corretta: <suggestion>S.A.S.</suggestion>.</message>
+                <example type="incorrect">La Nomedifantasia <marker>sas</marker> offre nuovi servizi.</example>
+                <example type="correct">La Nomedifantasia <marker>S.A.S.</marker> offre nuovi servizi.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>S</token>
+                    <token>.</token>
+                    <token>A</token>
+                    <token>.</token>
+                    <token>s</token>
+                    <token>.</token>
+                </pattern>
+                <message>Utilizzare la sigla corretta: <suggestion>S.A.S.</suggestion>.</message>
+                <example type="incorrect">La Nomedifantasia <marker>S.A.s.</marker> offre nuovi servizi.</example>
+                <example type="correct">La Nomedifantasia <marker>S.A.S.</marker> offre nuovi servizi.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>S</token>
+                    <token>.</token>
+                    <token>a</token>
+                    <token>.</token>
+                    <token>s</token>
+                    <token>.</token>
+                </pattern>
+                <message>Utilizzare la sigla corretta: <suggestion>S.A.S.</suggestion>.</message>
+                <example type="incorrect">La Nomedifantasia <marker>S.a.s.</marker> offre nuovi servizi.</example>
+                <example type="correct">La Nomedifantasia <marker>S.A.S.</marker> offre nuovi servizi.</example>
+            </rule>
+        </rulegroup>
+    </category>
 
-	<!-- GRAMMATICA PUNTEGGIATURA - GR_09 -->
-	<category name="Grammatica - Punteggiatura"> 
-		<rulegroup name="asterischi di omissione (***)" id="GR_09_001">
-			<rule>
-				<pattern >
-					<token regexp="no">**</token>
-				</pattern>
-				<message>L’asterisco si usa per un’omissione nel numero di tre consecutivi: <suggestion>***</suggestion>.</message>
-				<example type="incorrect">Preferisco non pensare a quel <marker>**</marker></example>
-				<example type="correct">Preferisco non pensare a quel <marker>***</marker></example>
-			</rule>
-			<rule>
-				<pattern >
-					<token regexp="no">****</token>
-				</pattern>
-				<message>L’asterisco si usa per un’omissione nel numero di tre consecutivi: <suggestion>***</suggestion>.</message>
-				<example type="incorrect">Preferisco non pensare a quel <marker>****</marker></example>
-				<example type="correct">Preferisco non pensare a quel <marker>***</marker></example>
-			</rule>
-			<rule>
-				<pattern >
-					<token regexp="no">*****</token>
-				</pattern>
-				<message>L’asterisco si usa per un’omissione nel numero di tre consecutivi: <suggestion>***</suggestion>.</message>
-				<example type="incorrect">Preferisco non pensare a quel <marker>*****</marker></example>
-				<example type="correct">Preferisco non pensare a quel <marker>***</marker></example>
-			</rule>
-		</rulegroup>
-		<rulegroup name="puntini di sospensione (...)" id="GR_09_002">
-			<rule>
-				<pattern>
-					<token>.</token>
-					<token>.</token>
-					<token>.</token>
-					<token>.</token>
-				</pattern>
-				<message>I puntini di sospensione si usano sempre nel numero di tre, per indicare la sospensione del discorso: <suggestion>...</suggestion>.</message>
-				<example type="incorrect">Lasciami pensare<marker>....</marker></example>
-				<example type="correct">Lasciami pensare<marker>...</marker></example>
-			</rule>
-		</rulegroup>
-		<rulegroup name="ripetizioni" id="GR_09_003">		
-			<!-- Punto esclamativo ripetuto (!) -->		
-			<rule>
-				<pattern>
-					<token>!</token>
-					<token>!</token>
-				</pattern>
-				<message>Se ne mette uno solo: <suggestion>!</suggestion>.</message>
-				<example type="incorrect">Fammi parlare<marker>!!</marker></example>
-				<example type="correct">Fammi parlare<marker>!</marker></example>
-			</rule>
-			<!-- Punto interrogativo ripetuto (?) -->
-			<rule>
-				<pattern >
-					<token>?</token>
-					<token>?</token>
-				</pattern>
-				<message>Se ne mette uno solo: <suggestion>?</suggestion>.</message>
-				<example type="incorrect">Quando vieni<marker>??</marker></example>	
-				<example type="correct">Quando vieni<marker>?</marker></example>
-			</rule>
-		</rulegroup>
-		<rulegroup name="sigle" id="GR_09_004">
-			<!-- S.p.A. -->		
-			<rule>
-				<pattern>
-					<token>spa</token>
-				</pattern>
-				<message>Utilizzare la sigla corretta: <suggestion>S.p.A.</suggestion>.</message>
-				<example type="incorrect">La Nomedifantasia <marker>spa</marker> offre nuovi servizi.</example>
-				<example type="correct">La Nomedifantasia <marker>S.p.A.</marker> offre nuovi servizi.</example>
-			</rule>
-			<rule>
-				<pattern  case_sensitive="yes">
-					<token>S</token>
-					<token>.</token>
-					<token>P</token>
-					<token>.</token>
-					<token>A</token>
-					<token>.</token>
-				</pattern>
-				<message>Utilizzare la sigla corretta: <suggestion>S.p.A.</suggestion>.</message>
-				<example type="incorrect">La Nomedifantasia <marker>S.P.A.</marker> offre nuovi servizi.</example>
-				<example type="correct">La Nomedifantasia <marker>S.p.A.</marker> offre nuovi servizi.</example>
-			</rule>
-			<rule>
-				<pattern  case_sensitive="yes">
-					<token>S</token>
-					<token>.</token>
-					<token>p</token>
-					<token>.</token>
-					<token>a</token>
-					<token>.</token>
-				</pattern>
-				<message>Utilizzare la sigla corretta: <suggestion>S.p.A.</suggestion>.</message>
-				<example type="incorrect">La Nomedifantasia <marker>S.p.a.</marker> offre nuovi servizi.</example>
-				<example type="correct">La Nomedifantasia <marker>S.p.A.</marker> offre nuovi servizi.</example>
-			</rule>
-			<!-- S.R.L. -->		
-			<rule>
-				<pattern>
-					<token>srl</token>
-				</pattern>
-				<message>Utilizzare la sigla corretta: <suggestion>S.R.L.</suggestion>.</message>
-				<example type="incorrect">La Nomedifantasia <marker>srl</marker> offre nuovi servizi.</example>
-				<example type="correct">La Nomedifantasia <marker>S.R.L.</marker> offre nuovi servizi.</example>
-			</rule>
-			<rule>
-				<pattern  case_sensitive="yes">
-					<token>S</token>
-					<token>.</token>
-					<token>R</token>
-					<token>.</token>
-					<token>l</token>
-					<token>.</token>
-				</pattern>
-				<message>Utilizzare la sigla corretta: <suggestion>S.R.L.</suggestion>.</message>
-				<example type="incorrect">La Nomedifantasia <marker>S.R.l.</marker> offre nuovi servizi.</example>
-				<example type="correct">La Nomedifantasia <marker>S.R.L.</marker> offre nuovi servizi.</example>
-			</rule>
-			<rule>
-				<pattern  case_sensitive="yes">
-					<token>S</token>
-					<token>.</token>
-					<token>r</token>
-					<token>.</token>
-					<token>l</token>
-					<token>.</token>
-				</pattern>
-				<message>Utilizzare la sigla corretta: <suggestion>S.R.L.</suggestion>.</message>
-				<example type="incorrect">La Nomedifantasia <marker>S.r.l.</marker> offre nuovi servizi.</example>
-				<example type="correct">La Nomedifantasia <marker>S.R.L.</marker> offre nuovi servizi.</example>
-			</rule>
-			<!-- S.N.C. -->		
-			<rule>
-				<pattern>
-					<token>snc</token>
-				</pattern>
-				<message>Utilizzare la sigla corretta: <suggestion>S.N.C.</suggestion>.</message>
-				<example type="incorrect">La Nomedifantasia <marker>snc</marker> offre nuovi servizi.</example>
-				<example type="correct">La Nomedifantasia <marker>S.R.L.</marker> offre nuovi servizi.</example>
-			</rule>
-			<rule>
-				<pattern  case_sensitive="yes">
-					<token>S</token>
-					<token>.</token>
-					<token>N</token>
-					<token>.</token>
-					<token>c</token>
-					<token>.</token>
-				</pattern>
-				<message>Utilizzare la sigla corretta: <suggestion>S.N.C.</suggestion>.</message>
-				<example type="incorrect">La Nomedifantasia <marker>S.N.c.</marker> offre nuovi servizi.</example>
-				<example type="correct">La Nomedifantasia <marker>S.N.C.</marker> offre nuovi servizi.</example>
-			</rule>
-			<rule>
-				<pattern  case_sensitive="yes">
-					<token>S</token>
-					<token>.</token>
-					<token>n</token>
-					<token>.</token>
-					<token>c</token>
-					<token>.</token>
-				</pattern>
-				<message>Utilizzare la sigla corretta: <suggestion>S.N.C.</suggestion>.</message>
-				<example type="incorrect">La Nomedifantasia <marker>S.n.c.</marker> offre nuovi servizi.</example>
-				<example type="correct">La Nomedifantasia <marker>S.N.C.</marker> offre nuovi servizi.</example>
-			</rule>
-			<!-- S.A.S. -->		
-			<rule>
-				<pattern>
-					<token>sas</token>
-				</pattern>
-				<message>Utilizzare la sigla corretta: <suggestion>S.A.S.</suggestion>.</message>
-				<example type="incorrect">La Nomedifantasia <marker>sas</marker> offre nuovi servizi.</example>
-				<example type="correct">La Nomedifantasia <marker>S.A.S.</marker> offre nuovi servizi.</example>
-			</rule>
-			<rule>
-				<pattern  case_sensitive="yes">
-					<token>S</token>
-					<token>.</token>
-					<token>A</token>
-					<token>.</token>
-					<token>s</token>
-					<token>.</token>
-				</pattern>
-				<message>Utilizzare la sigla corretta: <suggestion>S.A.S.</suggestion>.</message>
-				<example type="incorrect">La Nomedifantasia <marker>S.A.s.</marker> offre nuovi servizi.</example>
-				<example type="correct">La Nomedifantasia <marker>S.A.S.</marker> offre nuovi servizi.</example>
-			</rule>
-			<rule>
-				<pattern  case_sensitive="yes">
-					<token>S</token>
-					<token>.</token>
-					<token>a</token>
-					<token>.</token>
-					<token>s</token>
-					<token>.</token>
-				</pattern>
-				<message>Utilizzare la sigla corretta: <suggestion>S.A.S.</suggestion>.</message>
-				<example type="incorrect">La Nomedifantasia <marker>S.a.s.</marker> offre nuovi servizi.</example>
-				<example type="correct">La Nomedifantasia <marker>S.A.S.</marker> offre nuovi servizi.</example>
-			</rule>
-		</rulegroup>
-	</category>
-
-	<!-- GRAMMATICA VERBI - GR_10 -->
-	<category name="Grammatica - Verbi"> 
-		<rulegroup name="concordanza tempi delle coordinate" id="GR_10_001">
-			<rule name="Indicativo Presente">
-				<pattern>
-					<token skip="-1" postag="VER.ind.pres.*.*" postag_regexp="yes"><exception scope="previous" postag="(ART-F.*)|(ART-M.*)" postag_regexp="yes"/></token>
-					<token skip="-1" regexp="yes">e|o|ma</token>
-					<token postag="(VER.ind.pas.*.*)|(VER.ind.imp.*.*)|(VER.ind.fut.*.*)" postag_regexp="yes"/>
-				</pattern>
-				<message>Controllare il tempo dei verbi utilizzati nella frase.</message>
-				<example type="incorrect">La barca <marker>naviga ma si dirigeva</marker> nella direzione sbagliata.</example>
-				<example type="correct">La barca <marker>naviga ma si dirige</marker> nella direzione sbagliata.</example>
-			</rule>
-			<rule name="Indicativo Futuro">
-				<pattern>
-					<token skip="-1" postag="VER.ind.fut.*.*" postag_regexp="yes"/>
-					<token skip="-1" regexp="yes">e|o|ma</token>
-					<token postag="(VER.ind.pas.*.*)|(VER.ind.imp.*.*)|(VER.ind.pres.*.*)" postag_regexp="yes"><exception scope="previous" postag="(ART-F.*)|(ART-M.*)" postag_regexp="yes"/></token>
-				</pattern>
-				<message>Controllare il tempo dei verbi utilizzati nella frase.</message>
-				<example type="incorrect">Questa notte <marker>camminerò nel buio e rischio</marker> di andare a sbattere contro una porta.</example>
-				<example type="correct">Questa notte <marker>camminerò nel buio e rischierò</marker> di andare a sbattere contro una porta.</example>
-			</rule>
-			<rule name="Indicativo Imperfetto">
-				<pattern>
-					<token skip="-1" postag="VER.ind.imp.*.*" postag_regexp="yes"/>
-					<token skip="-1" regexp="yes">e|o|ma</token>
-					<token postag="(VER.ind.pas.*.*)|(VER.ind.fut.*.*)|(VER.ind.pres.*.*)" postag_regexp="yes"><exception scope="previous" postag="(ART-F.*)|(ART-M.*)" postag_regexp="yes"/></token>
-				</pattern>
-				<message>Controllare il tempo dei verbi utilizzati nella frase.</message>
-				<example type="incorrect">Clara <marker>aspettava il tram e decide</marker> di telefonare.</example>
-				<example type="correct">Clara <marker>aspettava il tram e decideva</marker> di telefonare.</example>
-			</rule>
-			<rule name="Indicativo Passato">
-				<pattern>
-					<token skip="-1" postag="VER.ind.pas.*.*" postag_regexp="yes"/>
-					<token skip="-1" postag="CON" />
-					<!-- <token skip="-1" regexp="yes">e|o|ma</token> -->
-					<token postag="(VER.ind.imp.*.*)|(VER.ind.fut.*.*)|(VER.ind.pres.*.*)" postag_regexp="yes"><exception scope="previous" postag="(ART-F.*)|(ART-M.*)" postag_regexp="yes"/></token>
-				</pattern>
-				<message>Controllare il tempo dei verbi utilizzati nella frase.</message>
-				<example type="incorrect">Clara <marker>aspettò il tram e decide</marker> di telefonare.</example>
-				<example type="correct">Clara <marker>aspettò il tram e decise</marker> di telefonare.</example>
-			</rule>
-		</rulegroup>
-<!-- TO DO	<rulegroup name="Cocordanza tempi nelle subordinate" id="GR_10_002">
-			<rule name="Indicativo Presente">
-				<pattern>
-					<token skip="-1" postag="VER.ind.*.*.*" postag_regexp="yes"><exception scope="previous" postag="(ART-F.*)|(ART-M.*)" postag_regexp="yes"/></token>
-					<token skip="-1" regexp="yes">che|se</token>
-					<token postag="(VER.ind.*.*.*)" postag_regexp="yes"/>
-				</pattern>
-				<message>Controllare il tempo dei verbi utilizzati nella frase.</message>
-				<example type="incorrect">Gianna <marker>pensa che è</marker> meglio rimanere a casa.</example>
-				<example type="correct">Gianna <marker>pensa che sia</marker> meglio rimanere a casa.</example>
-			</rule>
-		</rulegroup> -->
-		<rulegroup name="uso corretto" id="GR_10_003">
-			<!-- dare -->
-			<rule>
-				<pattern mark_from="1">
-<!-- PB005+ -->
-<!--
-					<token postag_regexp="yes" postag="PRO-PERS-CLI.*"/>
--->
-                                       <token postag_regexp="yes" postag="PRO-PERS-CLI.*"><exception postag="CON" ></exception></token>
-<!-- PB005- -->
-					<token>da</token>
-				</pattern>
-				<message>Probabilmente si scrive con accento: <suggestion>dà</suggestion>.</message>
-				<example type="incorrect">Luigi mi <marker>da</marker> la mano.</example>
-				<example type="correct">Luigi mi dà la mano.</example>
-			</rule>
-		</rulegroup>
-	</category>
+    <!-- GRAMMATICA VERBI - GR_10 -->
+    <category name="Grammatica - Verbi">
+        <rulegroup name="concordanza tempi delle coordinate" id="GR_10_001">
+            <rule name="Indicativo Presente">
+                <pattern>
+                    <token skip="-1" postag="VER.ind.pres.*.*" postag_regexp="yes"><exception scope="previous" postag="(ART-F.*)|(ART-M.*)" postag_regexp="yes"></exception></token>
+                    <token skip="-1" regexp="yes">e|o|ma</token>
+                    <token postag="(VER.ind.pas.*.*)|(VER.ind.imp.*.*)|(VER.ind.fut.*.*)" postag_regexp="yes"></token>
+                </pattern>
+                <message>Controllare il tempo dei verbi utilizzati nella frase.</message>
+                <example type="incorrect">La barca <marker>naviga ma si dirigeva</marker> nella direzione sbagliata.</example>
+                <example type="correct">La barca <marker>naviga ma si dirige</marker> nella direzione sbagliata.</example>
+            </rule>
+            <rule name="Indicativo Futuro">
+                <pattern>
+                    <token skip="-1" postag="VER.ind.fut.*.*" postag_regexp="yes"></token>
+                    <token skip="-1" regexp="yes">e|o|ma</token>
+                    <token postag="(VER.ind.pas.*.*)|(VER.ind.imp.*.*)|(VER.ind.pres.*.*)" postag_regexp="yes"><exception scope="previous" postag="(ART-F.*)|(ART-M.*)" postag_regexp="yes"></exception></token>
+                </pattern>
+                <message>Controllare il tempo dei verbi utilizzati nella frase.</message>
+                <example type="incorrect">Questa notte <marker>camminerò nel buio e rischio</marker> di andare a sbattere contro una porta.</example>
+                <example type="correct">Questa notte <marker>camminerò nel buio e rischierò</marker> di andare a sbattere contro una porta.</example>
+            </rule>
+            <rule name="Indicativo Imperfetto">
+                <pattern>
+                    <token skip="-1" postag="VER.ind.imp.*.*" postag_regexp="yes"></token>
+                    <token skip="-1" regexp="yes">e|o|ma</token>
+                    <token postag="(VER.ind.pas.*.*)|(VER.ind.fut.*.*)|(VER.ind.pres.*.*)" postag_regexp="yes"><exception scope="previous" postag="(ART-F.*)|(ART-M.*)" postag_regexp="yes"></exception></token>
+                </pattern>
+                <message>Controllare il tempo dei verbi utilizzati nella frase.</message>
+                <example type="incorrect">Clara <marker>aspettava il tram e decide</marker> di telefonare.</example>
+                <example type="correct">Clara <marker>aspettava il tram e decideva</marker> di telefonare.</example>
+            </rule>
+            <rule name="Indicativo Passato">
+                <pattern>
+                    <token skip="-1" postag="VER.ind.pas.*.*" postag_regexp="yes"></token>
+                    <token skip="-1" postag="CON"></token>
+                    <!-- <token skip="-1" regexp="yes">e|o|ma</token> -->
+                    <token postag="(VER.ind.imp.*.*)|(VER.ind.fut.*.*)|(VER.ind.pres.*.*)" postag_regexp="yes"><exception scope="previous" postag="(ART-F.*)|(ART-M.*)" postag_regexp="yes"></exception></token>
+                </pattern>
+                <message>Controllare il tempo dei verbi utilizzati nella frase.</message>
+                <example type="incorrect">Clara <marker>aspettò il tram e decide</marker> di telefonare.</example>
+                <example type="correct">Clara <marker>aspettò il tram e decise</marker> di telefonare.</example>
+            </rule>
+        </rulegroup>
+        <!-- TO DO	<rulegroup name="Cocordanza tempi nelle subordinate" id="GR_10_002">
+                <rule name="Indicativo Presente">
+                    <pattern>
+                        <token skip="-1" postag="VER.ind.*.*.*" postag_regexp="yes"><exception scope="previous" postag="(ART-F.*)|(ART-M.*)" postag_regexp="yes"/></token>
+                        <token skip="-1" regexp="yes">che|se</token>
+                        <token postag="(VER.ind.*.*.*)" postag_regexp="yes"/>
+                    </pattern>
+                    <message>Controllare il tempo dei verbi utilizzati nella frase.</message>
+                    <example type="incorrect">Gianna <marker>pensa che è</marker> meglio rimanere a casa.</example>
+                    <example type="correct">Gianna <marker>pensa che sia</marker> meglio rimanere a casa.</example>
+                </rule>
+            </rulegroup> -->
+        <rulegroup name="uso corretto" id="GR_10_003">
+            <!-- dare -->
+            <rule>
+                <pattern>
+                    <!-- PB005+ -->
+                    <!--
+                                        <token postag_regexp="yes" postag="PRO-PERS-CLI.*"/>
+                    -->
+                    <token postag_regexp="yes" postag="PRO-PERS-CLI.*"><exception postag="CON"></exception></token>
+                    <!-- PB005- -->
+                    <marker>
+                        <token>da</token>
+                    </marker>
+                </pattern>
+                <message>Probabilmente si scrive con accento: <suggestion>dà</suggestion>.</message>
+                <example type="incorrect">Luigi mi <marker>da</marker> la mano.</example>
+                <example type="correct">Luigi mi dà la mano.</example>
+            </rule>
+        </rulegroup>
+    </category>
 
 
 
 
-	<!-- STILE ESPRESSIONI - ST_01 -->
-	<category name="Stile - Espressioni"> 
-<!-- TO DO	<rulegroup name="arcaiche" id="ST_01_001">
-		</rulegroup> -->
-<!-- PB002+ -->
-<!--
-		<rulegroup name="parlato" id="ST_01_002">
--->
-<!-- PB002- -->
-			<!-- a gratis -->
-<!-- PB002+ -->
-<!--
-			<rule>
-				<pattern mark_from="0" case_sensitive="no">
-					<token>a</token>
-					<token>gratis</token>
-				</pattern>
-				<message>Si scrive <suggestion>gratis</suggestion> (senza la preposizione).</message>
-				<example type="correct">Ovviamente... è tutto <marker>gratis</marker>!</example>
-				<example type="incorrect">Ovviamente... è tutto <marker>a gratis</marker>!</example>
-			</rule>
-		</rulegroup>
--->
-<!-- PB002- -->
+    <!-- STILE ESPRESSIONI - ST_01 -->
+    <category name="Stile - Espressioni">
+        <!-- TO DO	<rulegroup name="arcaiche" id="ST_01_001">
+            </rulegroup> -->
+        <!-- PB002+ -->
+        <!--
+                <rulegroup name="parlato" id="ST_01_002">
+        -->
+        <!-- PB002- -->
+        <!-- a gratis -->
+        <!-- PB002+ -->
+        <!--
+                    <rule>
+                        <pattern mark_from="0" case_sensitive="no">
+                            <token>a</token>
+                            <token>gratis</token>
+                        </pattern>
+                        <message>Si scrive <suggestion>gratis</suggestion> (senza la preposizione).</message>
+                        <example type="correct">Ovviamente... è tutto <marker>gratis</marker>!</example>
+                        <example type="incorrect">Ovviamente... è tutto <marker>a gratis</marker>!</example>
+                    </rule>
+                </rulegroup>
+        -->
+        <!-- PB002- -->
 
-<!-- PB004+ -->
-		<rulegroup name="parlato" id="ST_01_002">
+        <!-- PB004+ -->
+        <rulegroup name="parlato" id="ST_01_002">
 
-			<!-- attimino -->
-			<rule>
-				<pattern mark_from="0" case_sensitive="no">
-					<token>attimino</token>
-				</pattern>
-				<message>Si consiglia di utilizzare <suggestion>attimo</suggestion>.</message>
-				<example type="correct">Mi aspetti un <marker>attimo</marker>?</example>
-				<example type="incorrect">Mi aspetti un <marker>attimino</marker>?</example>
-			</rule>
-			<!-- momentino -->
-			<rule>
-				<pattern mark_from="0" case_sensitive="no">
-					<token>momentino</token>
-				</pattern>
-				<message>Si consiglia di utilizzare <suggestion>momento</suggestion>.</message>
-				<example type="correct">Mi aspetti un <marker>momento</marker>?</example>
-				<example type="incorrect">Mi aspetti un <marker>momentino</marker>?</example>
-			</rule>
-		</rulegroup>
-<!-- PB004- -->
+            <!-- attimino -->
+            <rule>
+                <pattern case_sensitive="no">
+                    <token>attimino</token>
+                </pattern>
+                <message>Si consiglia di utilizzare <suggestion>attimo</suggestion>.</message>
+                <example type="correct">Mi aspetti un <marker>attimo</marker>?</example>
+                <example type="incorrect">Mi aspetti un <marker>attimino</marker>?</example>
+            </rule>
+            <!-- momentino -->
+            <rule>
+                <pattern case_sensitive="no">
+                    <token>momentino</token>
+                </pattern>
+                <message>Si consiglia di utilizzare <suggestion>momento</suggestion>.</message>
+                <example type="correct">Mi aspetti un <marker>momento</marker>?</example>
+                <example type="incorrect">Mi aspetti un <marker>momentino</marker>?</example>
+            </rule>
+        </rulegroup>
+        <!-- PB004- -->
 
-		<rulegroup name="pleonasmi" id="ST_01_003">
-			<!-- a me mi -->
-			<rule>
-				<pattern case_sensitive="no">	
-					<token>a</token>
-					<token regexp="yes">me|noi</token>
-					<token regexp="yes">mi|ci</token>
-				</pattern>
-			<message>Si tratta di una ripetizione. Meglio scegliere una delle due forme: <suggestion><match no="1" /> <match no="2" /></suggestion> oppure <suggestion><match no="3" /></suggestion>.</message>
-			<example type="incorrect"><marker>A me mi</marker> piace il gelato.</example>
-			<example type="correct">Mi piace il gelato.</example>
-			</rule>
-			<rule>
-				<pattern case_sensitive="no">
-					<token>a</token>
-					<token regexp="yes">te|voi</token>
-					<token regexp="yes">ti|vi</token>
-				</pattern>
-				<message>Si tratta di una ripetizione. Meglio scegliere una delle due forme: <suggestion><match no="1" /> <match no="2" /></suggestion> oppure <suggestion><match no="3" /></suggestion>.</message>
-				<example type="incorrect"><marker>A te ti</marker> pare strano.</example>
-				<example type="correct">Ti pare strano.</example>
-			</rule>
-			<rule>
-				<pattern case_sensitive="no">
-					<token>a</token>
-					<token regexp="yes">lui|lei</token>
-					<token regexp="yes">gli|le</token>
-				</pattern>
-				<message>Si tratta di una ripetizione. Meglio scegliere una delle due forme: <suggestion><match no="1" /> <match no="2" /></suggestion> oppure <suggestion><match no="3" /></suggestion>.</message>
-				<example type="incorrect"><marker>A lui gli</marker> faceva comodo.</example>
-				<example type="correct">Gli faceva comodo.</example>
-			</rule>
-			<rule>
-				<pattern case_sensitive="no">
-					<token>a</token>
-					<token>loro</token>
-					<token>gli</token>
-				</pattern>
-				<message>Si tratta di una ripetizione. Meglio scegliere una delle due forme: <suggestion><match no="1" /> <match no="2" /></suggestion> oppure <suggestion><match no="3" /></suggestion>.</message>
-				<example type="incorrect"><marker>A loro gli</marker> era utile.</example>
-				<example type="correct">Gli era utile.</example>
-			</rule>
-			<!-- abolire interamente -->
-			<rule>
-				<pattern>
-					<token inflected="yes" skip="4" regexp="yes">abolire|eliminare|abrogare|togliere|levare|depennare|cancellare|cassare</token>
-					<token regexp="yes">interamente|completamente|totalmente|integralmente</token>
-				</pattern>
-				<message>Si tratta di una ripetizione, meglio usare <suggestion>\1</suggestion>.</message>
-				<example type="correct">La commissione ha <marker>abolito</marker> il provvedimento.</example>
-				<example type="incorrect">La commissione ha <marker>abolito interamente</marker> il provvedimento.</example>
-			</rule>
-			<!-- io personalmente -->
-			<rule>
-				<pattern>
-					<token>io</token>
-					<token>personalmente</token>
-				</pattern>
-				<message>Si consiglia di evitare questa ridondanza a meno che non si intenda, ad esempio, tenere distinte le proprie opinioni personali da quelle che competono alla propria funzione, al proprio "ruolo istituzionale".</message>
-				<example type="incorrect">Verrò <marker>io personalmente</marker> a trovarla.</example>
-				<example type="correct">Verrò <marker>personalmente</marker> a trovarla.</example>
-			</rule>
-			<!-- più migliore -->
-			<rule>
-				<pattern>
-					<token>più</token>
-					<token regexp="yes">migliore|peggiore|superiore|inferiore|maggiore|ulteriore|posteriore|interiore|esteriore|citeriore|anteriore</token>
-				</pattern>
-				<message>Il più è ridondante in quanto la gradazione di comparazione è già contemplata nell'aggettivo. Sostituire con: <suggestion><match no="2" /></suggestion>.</message>
-				<example type="incorrect">Usa questo prodotto che è <marker>più migliore</marker> del tuo.</example>
-				<example type="correct">Usa questo prodotto che è <marker>migliore</marker> del tuo.</example>
-			</rule>
-			<!-- più molto -->
-			<rule>
-				<pattern>
-					<token>più</token>
-					<token>molto</token>
-				</pattern>
-				<message>E' un errore creare il comparativo di maggioranza degli avverbi molto e poco. Si scrive <suggestion>di più</suggestion>.</message>
-				<example type="incorrect">Il calcio mi piace, ma il motociclismo mi piace <marker>più molto</marker>.</example>
-				<example type="correct">Il calcio mi piace, ma il motociclismo mi piace di più.</example>
-			</rule>
-			<!-- più poco -->
-			<rule>
-				<pattern>
-					<token>più</token>
-					<token>poco</token>
-				</pattern>
-				<message>E' un errore creare il comparativo di maggioranza degli avverbi molto e poco. Si scrive <suggestion>meno</suggestion>.</message>
-				<example type="incorrect">Stasera abbiamo ballato <marker>più poco</marker> del solito.</example>
-				<example type="correct">Stasera abbiamo ballato meno del solito.</example>
-			</rule>		
-		</rulegroup>
-		<rulegroup name="regionali" id="ST_01_004">
-			<!-- anguria -->
-			<rule>
-				<pattern>
-					<token regexp="yes">anguria|angurie</token>
-				</pattern>
-				<message>Sostituire forme dialettali con l'equivalente Italiano per migliorare al leggibilità: <suggestion>cocomero</suggestion>.</message>
-				<example type="incorrect">Abbiamo mangiato un'<marker>anguria</marker>.</example>
-				<example type="correct">Abbiamo mangiato un <marker>cocomero</marker>.</example>
-			</rule>
-			<!-- asparagio -->
-			<rule>
-				<pattern>
-					<token>asparagio</token>
-				</pattern>
-				<message>Sostituire forme dialettali con l'equivalente Italiano per migliorare al leggibilità: <suggestion>asparago</suggestion>.</message>
-				<example type="incorrect">Ho colto un <marker>asparagio</marker>.</example>
-				<example type="correct">Ho colto un <marker>asparago</marker>.</example>
-			</rule>
-			<!-- pedalino -->			
-			<rule>
-				<pattern>
-					<token regexp="yes">pedalino|pedalini</token>
-				</pattern>
-				<message>Sostituire forme dialettali con l'equivalente Italiano per migliorare al leggibilità: <suggestion>calza</suggestion>.</message>
-				<example type="incorrect">Mauro portava un paio di <marker>pedalini</marker> bianchi.</example>
-				<example type="correct">Mauro portava un paio di <marker>calze</marker> bianche.</example>
-			</rule>
-			<!-- pomidoro -->			
-			<rule>
-				<pattern>
-					<token regexp="yes">pomidoro|pomidori</token>
-				</pattern>
-				<message>Sostituire forme dialettali con l'equivalente Italiano per migliorare al leggibilità: <suggestion>pomodoro</suggestion>.</message>
-				<example type="incorrect">Il <marker>pomidoro</marker> era maturo.</example>
-				<example type="correct">Il <marker>pomodoro</marker> era maturo.</example>
-			</rule>
-		</rulegroup>
-		<rulegroup name="straniere" id="ST_01_005">
-			<!-- budget -->			
-			<rule>
-				<pattern>
-					<token>budget</token>
-				</pattern>
-				<message><suggestion>bilancio</suggestion> <suggestion>bilancio di previsione</suggestion> <suggestion>stanziamento</suggestion></message>
-				<example type="incorrect"><marker>budget</marker></example>
-				<example type="correct"><marker>bilancio</marker></example>
-			</rule>
-			<!-- input -->
-			<rule>
-				<pattern>
-					<token>input</token>
-				</pattern>
-				<message><suggestion>ingresso</suggestion> <suggestion>entrata</suggestion> <suggestion>immissione</suggestion></message>
-				<example type="incorrect"><marker>input</marker></example>
-				<example type="correct"><marker>ingresso</marker></example>
-			</rule>
-			<!-- output -->
-			<rule>
-				<pattern>
-					<token>output</token>
-				</pattern>
-				<message><suggestion>uscita</suggestion> <suggestion>prodotto</suggestion> <suggestion>produzione</suggestion></message>
-				<example type="incorrect"><marker>output</marker></example>
-				<example type="correct"><marker>uscita</marker></example>
-			</rule>
-			<!-- penalty -->
-			<rule>
-				<pattern>
-					<token>penalty</token>
-				</pattern>
-				<message><suggestion>rigore</suggestion> <suggestion>calcio di rigore</suggestion> <suggestion>punizione</suggestion></message>
-				<example type="incorrect"><marker>penalty</marker></example>
-				<example type="correct"><marker>rigore</marker></example>
-			</rule>
-			<!-- show -->			
-			<rule>
-				<pattern>
-					<token>show</token>
-				</pattern>
-				<message><suggestion>spettacolo</suggestion></message>
-				<example type="incorrect"><marker>show</marker></example>
-				<example type="correct"><marker>spettacolo</marker></example>
-			</rule>
-			<!-- trend -->			
-			<rule>
-				<pattern>
-					<token>trend</token>
-				</pattern>
-				<message><suggestion>tendenza</suggestion> <suggestion>orientamento</suggestion> <suggestion>corso</suggestion> <suggestion>evoluzione</suggestion></message>
-				<example type="incorrect"><marker>trend</marker></example>
-				<example type="correct"><marker>tendenza</marker></example>
-			</rule>
+        <rulegroup name="pleonasmi" id="ST_01_003">
+            <!-- a me mi -->
+            <rule>
+                <pattern case_sensitive="no">
+                    <token>a</token>
+                    <token regexp="yes">me|noi</token>
+                    <token regexp="yes">mi|ci</token>
+                </pattern>
+                <message>Si tratta di una ripetizione. Meglio scegliere una delle due forme: <suggestion><match no="1"></match> <match no="2"></match></suggestion> oppure <suggestion><match no="3"></match></suggestion>.</message>
+                <example type="incorrect"><marker>A me mi</marker> piace il gelato.</example>
+                <example type="correct">Mi piace il gelato.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="no">
+                    <token>a</token>
+                    <token regexp="yes">te|voi</token>
+                    <token regexp="yes">ti|vi</token>
+                </pattern>
+                <message>Si tratta di una ripetizione. Meglio scegliere una delle due forme: <suggestion><match no="1"></match> <match no="2"></match></suggestion> oppure <suggestion><match no="3"></match></suggestion>.</message>
+                <example type="incorrect"><marker>A te ti</marker> pare strano.</example>
+                <example type="correct">Ti pare strano.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="no">
+                    <token>a</token>
+                    <token regexp="yes">lui|lei</token>
+                    <token regexp="yes">gli|le</token>
+                </pattern>
+                <message>Si tratta di una ripetizione. Meglio scegliere una delle due forme: <suggestion><match no="1"></match> <match no="2"></match></suggestion> oppure <suggestion><match no="3"></match></suggestion>.</message>
+                <example type="incorrect"><marker>A lui gli</marker> faceva comodo.</example>
+                <example type="correct">Gli faceva comodo.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="no">
+                    <token>a</token>
+                    <token>loro</token>
+                    <token>gli</token>
+                </pattern>
+                <message>Si tratta di una ripetizione. Meglio scegliere una delle due forme: <suggestion><match no="1"></match> <match no="2"></match></suggestion> oppure <suggestion><match no="3"></match></suggestion>.</message>
+                <example type="incorrect"><marker>A loro gli</marker> era utile.</example>
+                <example type="correct">Gli era utile.</example>
+            </rule>
+            <!-- abolire interamente -->
+            <rule>
+                <pattern>
+                    <token inflected="yes" skip="4" regexp="yes">abolire|eliminare|abrogare|togliere|levare|depennare|cancellare|cassare</token>
+                    <token regexp="yes">interamente|completamente|totalmente|integralmente</token>
+                </pattern>
+                <message>Si tratta di una ripetizione, meglio usare <suggestion>\1</suggestion>.</message>
+                <example type="correct">La commissione ha <marker>abolito</marker> il provvedimento.</example>
+                <example type="incorrect">La commissione ha <marker>abolito interamente</marker> il provvedimento.</example>
+            </rule>
+            <!-- io personalmente -->
+            <rule>
+                <pattern>
+                    <token>io</token>
+                    <token>personalmente</token>
+                </pattern>
+                <message>Si consiglia di evitare questa ridondanza a meno che non si intenda, ad esempio, tenere distinte le proprie opinioni personali da quelle che competono alla propria funzione, al proprio &quot;ruolo istituzionale&quot;.</message>
+                <example type="incorrect">Verrò <marker>io personalmente</marker> a trovarla.</example>
+                <example type="correct">Verrò <marker>personalmente</marker> a trovarla.</example>
+            </rule>
+            <!-- più migliore -->
+            <rule>
+                <pattern>
+                    <token>più</token>
+                    <token regexp="yes">migliore|peggiore|superiore|inferiore|maggiore|ulteriore|posteriore|interiore|esteriore|citeriore|anteriore</token>
+                </pattern>
+                <message>Il più è ridondante in quanto la gradazione di comparazione è già contemplata nell'aggettivo. Sostituire con: <suggestion><match no="2"></match></suggestion>.</message>
+                <example type="incorrect">Usa questo prodotto che è <marker>più migliore</marker> del tuo.</example>
+                <example type="correct">Usa questo prodotto che è <marker>migliore</marker> del tuo.</example>
+            </rule>
+            <!-- più molto -->
+            <rule>
+                <pattern>
+                    <token>più</token>
+                    <token>molto</token>
+                </pattern>
+                <message>E' un errore creare il comparativo di maggioranza degli avverbi molto e poco. Si scrive <suggestion>di più</suggestion>.</message>
+                <example type="incorrect">Il calcio mi piace, ma il motociclismo mi piace <marker>più molto</marker>.</example>
+                <example type="correct">Il calcio mi piace, ma il motociclismo mi piace di più.</example>
+            </rule>
+            <!-- più poco -->
+            <rule>
+                <pattern>
+                    <token>più</token>
+                    <token>poco</token>
+                </pattern>
+                <message>E' un errore creare il comparativo di maggioranza degli avverbi molto e poco. Si scrive <suggestion>meno</suggestion>.</message>
+                <example type="incorrect">Stasera abbiamo ballato <marker>più poco</marker> del solito.</example>
+                <example type="correct">Stasera abbiamo ballato meno del solito.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup name="regionali" id="ST_01_004">
+            <!-- anguria -->
+            <rule>
+                <pattern>
+                    <token regexp="yes">anguria|angurie</token>
+                </pattern>
+                <message>Sostituire forme dialettali con l'equivalente Italiano per migliorare al leggibilità: <suggestion>cocomero</suggestion>.</message>
+                <example type="incorrect">Abbiamo mangiato un'<marker>anguria</marker>.</example>
+                <example type="correct">Abbiamo mangiato un <marker>cocomero</marker>.</example>
+            </rule>
+            <!-- asparagio -->
+            <rule>
+                <pattern>
+                    <token>asparagio</token>
+                </pattern>
+                <message>Sostituire forme dialettali con l'equivalente Italiano per migliorare al leggibilità: <suggestion>asparago</suggestion>.</message>
+                <example type="incorrect">Ho colto un <marker>asparagio</marker>.</example>
+                <example type="correct">Ho colto un <marker>asparago</marker>.</example>
+            </rule>
+            <!-- pedalino -->
+            <rule>
+                <pattern>
+                    <token regexp="yes">pedalino|pedalini</token>
+                </pattern>
+                <message>Sostituire forme dialettali con l'equivalente Italiano per migliorare al leggibilità: <suggestion>calza</suggestion>.</message>
+                <example type="incorrect">Mauro portava un paio di <marker>pedalini</marker> bianchi.</example>
+                <example type="correct">Mauro portava un paio di <marker>calze</marker> bianche.</example>
+            </rule>
+            <!-- pomidoro -->
+            <rule>
+                <pattern>
+                    <token regexp="yes">pomidoro|pomidori</token>
+                </pattern>
+                <message>Sostituire forme dialettali con l'equivalente Italiano per migliorare al leggibilità: <suggestion>pomodoro</suggestion>.</message>
+                <example type="incorrect">Il <marker>pomidoro</marker> era maturo.</example>
+                <example type="correct">Il <marker>pomodoro</marker> era maturo.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup name="straniere" id="ST_01_005">
+            <!-- budget -->
+            <rule>
+                <pattern>
+                    <token>budget</token>
+                </pattern>
+                <message><suggestion>bilancio</suggestion> <suggestion>bilancio di previsione</suggestion> <suggestion>stanziamento</suggestion></message>
+                <example type="incorrect"><marker>budget</marker></example>
+                <example type="correct"><marker>bilancio</marker></example>
+            </rule>
+            <!-- input -->
+            <rule>
+                <pattern>
+                    <token>input</token>
+                </pattern>
+                <message><suggestion>ingresso</suggestion> <suggestion>entrata</suggestion> <suggestion>immissione</suggestion></message>
+                <example type="incorrect"><marker>input</marker></example>
+                <example type="correct"><marker>ingresso</marker></example>
+            </rule>
+            <!-- output -->
+            <rule>
+                <pattern>
+                    <token>output</token>
+                </pattern>
+                <message><suggestion>uscita</suggestion> <suggestion>prodotto</suggestion> <suggestion>produzione</suggestion></message>
+                <example type="incorrect"><marker>output</marker></example>
+                <example type="correct"><marker>uscita</marker></example>
+            </rule>
+            <!-- penalty -->
+            <rule>
+                <pattern>
+                    <token>penalty</token>
+                </pattern>
+                <message><suggestion>rigore</suggestion> <suggestion>calcio di rigore</suggestion> <suggestion>punizione</suggestion></message>
+                <example type="incorrect"><marker>penalty</marker></example>
+                <example type="correct"><marker>rigore</marker></example>
+            </rule>
+            <!-- show -->
+            <rule>
+                <pattern>
+                    <token>show</token>
+                </pattern>
+                <message><suggestion>spettacolo</suggestion></message>
+                <example type="incorrect"><marker>show</marker></example>
+                <example type="correct"><marker>spettacolo</marker></example>
+            </rule>
+            <!-- trend -->
+            <rule>
+                <pattern>
+                    <token>trend</token>
+                </pattern>
+                <message><suggestion>tendenza</suggestion> <suggestion>orientamento</suggestion> <suggestion>corso</suggestion> <suggestion>evoluzione</suggestion></message>
+                <example type="incorrect"><marker>trend</marker></example>
+                <example type="correct"><marker>tendenza</marker></example>
+            </rule>
 
-		</rulegroup>
-<!-- TO DO	<rulegroup name="uso errato" id="ST_01_006">
-		</rulegroup> -->
-	</category>
+        </rulegroup>
+        <!-- TO DO	<rulegroup name="uso errato" id="ST_01_006">
+            </rulegroup> -->
+    </category>
 
-	<!-- STILE FRASE - ST_02 -->
-	<category name="Stile - Frase"> 
-		<rulegroup name="frasi lunghe" id="ST_02_001">
-			<!-- 40 parole -->
-			<rule>
-				<pattern>
-					<token postag="SENT_START" />
-					<token /><token /><token /><token /><token />
-					<token /><token /><token /><token /><token />
-					<token /><token /><token /><token /><token />
-					<token /><token /><token /><token /><token />
-					<token /><token /><token /><token /><token />
-					<token /><token /><token /><token /><token />
-					<token /><token /><token /><token /><token />
-					<token /><token /><token /><token /><token skip="-1"/>
-					<token postag="SENT_END" />					
-				</pattern>
-				<message>Si suggerisce di frammentare questa frase perché risulta troppo lunga.</message>
-				<example type="incorrect"><marker>La casa aveva tante cose da vedere e da toccare con mano attenta a non romperle e occhio pronto ad ammirarle in tutto lo splendore infuso loro dalla cura maniacale per la perfezione che la padrona esibiva in qualunque sua attività ogni giorno che passava.</marker></example>
-				<example type="correct"><marker>La casa era piena di cose.</marker></example>
-			</rule>
-		</rulegroup>
-	</category>
+    <!-- STILE FRASE - ST_02 -->
+    <category name="Stile - Frase">
+        <rulegroup name="frasi lunghe" id="ST_02_001">
+            <!-- 40 parole -->
+            <rule>
+                <pattern>
+                    <token postag="SENT_START" />
+                    <token /><token /><token /><token /><token />
+                    <token /><token /><token /><token /><token />
+                    <token /><token /><token /><token /><token />
+                    <token /><token /><token /><token /><token />
+                    <token /><token /><token /><token /><token />
+                    <token /><token /><token /><token /><token />
+                    <token /><token /><token /><token /><token />
+                    <token /><token /><token /><token /><token skip="-1"/>
+                    <token postag="SENT_END" />
+                </pattern>
+                <message>Si suggerisce di frammentare questa frase perché risulta troppo lunga.</message>
+                <example type="incorrect"><marker>La casa aveva tante cose da vedere e da toccare con mano attenta a non romperle e occhio pronto ad ammirarle in tutto lo splendore infuso loro dalla cura maniacale per la perfezione che la padrona esibiva in qualunque sua attività ogni giorno che passava.</marker></example>
+                <example type="correct"><marker>La casa era piena di cose.</marker></example>
+            </rule>
+        </rulegroup>
+    </category>
 
-	<!-- STILE FRASE - ST_03 -->
-	<category name="Stile - Leggibilità"> 
-		<rulegroup name="eufoniche" id="ST_03_001">
-			<!-- togli ad (escludi ad esempio) -->			
-			<rule>
-				<pattern>
-					<token>ad</token>
-					<token regexp="yes">[eiou].*<exception>esempio</exception></token>
-				</pattern>
-				<message>L'uso della d eufonica dovrebbe essere limitato ai casi di incontro della stessa vocale: <suggestion>a <match no="2" /></suggestion>.</message>
-				<example type="incorrect">Provo <marker>ad interpretare</marker> il tuo pensiero.</example>
-				<example type="correct">Provo <marker>a interpretare</marker> il tuo pensiero.</example>
-				<example type="correct">Io, <marker>ad esempio</marker>, non ci sono cascato.</example>
-			</rule>
-			<!-- togli ed -->			
-			<rule>
-				<pattern>
-					<token>ed</token>
-					<token regexp="yes">[aiou].*</token>
-				</pattern>
-				<message>L'uso della 'd' eufonica dovrebbe essere limitato ai casi di incontro della stessa vocale: <suggestion>e <match no="2" /></suggestion>.</message>
-				<example type="incorrect">Ti dico <marker>ed insisto</marker> che è vero.</example>
-				<example type="correct">Ti dico <marker>e insisto</marker> che è vero.</example>
-			</rule>
-			<!-- togli od -->			
-			<rule>
-				<pattern>
-					<token>od</token>
-					<token regexp="yes">[aieu].*</token>
-				</pattern>
-				<message>L'uso della 'd' eufonica dovrebbe essere limitato ai casi di incontro della stessa vocale: <suggestion>o <match no="2" /></suggestion>.</message>
-				<example type="incorrect">Si consiglia un farmaco blando <marker>od un</marker> omeopatico.</example>
-				<example type="correct">Si consiglia un farmaco blando <marker>o un</marker> omeopatico.</example>
-			</rule>
+    <!-- STILE FRASE - ST_03 -->
+    <category name="Stile - Leggibilità">
+        <rulegroup name="eufoniche" id="ST_03_001">
+            <!-- togli ad (escludi ad esempio) -->
+            <rule>
+                <pattern>
+                    <token>ad</token>
+                    <token regexp="yes">[eiou].*<exception>esempio</exception></token>
+                </pattern>
+                <message>L'uso della d eufonica dovrebbe essere limitato ai casi di incontro della stessa vocale: <suggestion>a <match no="2"></match></suggestion>.</message>
+                <example type="incorrect">Provo <marker>ad interpretare</marker> il tuo pensiero.</example>
+                <example type="correct">Provo <marker>a interpretare</marker> il tuo pensiero.</example>
+                <example type="correct">Io, <marker>ad esempio</marker>, non ci sono cascato.</example>
+            </rule>
+            <!-- togli ed -->
+            <rule>
+                <pattern>
+                    <token>ed</token>
+                    <token regexp="yes">[aiou].*</token>
+                </pattern>
+                <message>L'uso della 'd' eufonica dovrebbe essere limitato ai casi di incontro della stessa vocale: <suggestion>e <match no="2"></match></suggestion>.</message>
+                <example type="incorrect">Ti dico <marker>ed insisto</marker> che è vero.</example>
+                <example type="correct">Ti dico <marker>e insisto</marker> che è vero.</example>
+            </rule>
+            <!-- togli od -->
+            <rule>
+                <pattern>
+                    <token>od</token>
+                    <token regexp="yes">[aieu].*</token>
+                </pattern>
+                <message>L'uso della 'd' eufonica dovrebbe essere limitato ai casi di incontro della stessa vocale: <suggestion>o <match no="2"></match></suggestion>.</message>
+                <example type="incorrect">Si consiglia un farmaco blando <marker>od un</marker> omeopatico.</example>
+                <example type="correct">Si consiglia un farmaco blando <marker>o un</marker> omeopatico.</example>
+            </rule>
 
-			<!-- metti ad -->			
-			<rule>
-				<pattern>
-					<token>a</token>
-					<token regexp="yes">[a].*|esempio</token>
-				</pattern>
-				<message>In questo caso l'uso della 'd' eufonica è ammesso: <suggestion>ad <match no="2" /></suggestion>.</message>
-				<example type="incorrect">Provo <marker>a arrivare</marker> prima di te.</example>
-				<example type="correct">Provo <marker>ad arrivare</marker> prima di te.</example>
-				<example type="correct">Io, <marker>ad esempio</marker>, non ci sono cascato.</example>
-			</rule>
-			<!-- metti ed -->			
-			<rule>
-				<pattern>
-					<token>e</token>
-					<token regexp="yes">[e].*</token>
-				</pattern>
-				<message>In questo caso l'uso della 'd' eufonica è ammesso: <suggestion>ed <match no="2" /></suggestion>.</message>
-				<example type="incorrect">Si concentra <marker>e effettua</marker> una bella manovra.</example>
-				<example type="correct">Si concentra <marker>ed effettua</marker> una bella manovra.</example>
-			</rule>
-			<!-- togli od -->			
-			<rule>
-				<pattern>
-					<token>o</token>
-					<token regexp="yes">[o].*</token>
-				</pattern>
-				<message>In questo caso l'uso della 'd' eufonica è ammesso: <suggestion>ed <match no="2" /></suggestion>.</message>
-				<example type="incorrect">Puoi vederlo ogni mattina <marker>o ogni</marker> sera.</example>
-				<example type="correct">Puoi vederlo ogni mattina <marker>od ogni</marker> sera.</example>
-			</rule>
-		</rulegroup>
-		<rulegroup name="ripetizioni" id="ST_03_002">
-			<rule>
-				<pattern>
-<!-- PB001+ -->
-<!--
-					<token skip="-1" regexp="yes">[qwertyuiopasdfghjklzxcvbnm].*<exception postag="ART.*|CON" postag_regexp="yes"/></token>
--->
-					<token skip="-1" regexp="yes">[qwertyuiopasdfghjklzxcvbnm].*<exception postag="PRE|ARTPRE.*|ART.*|CON|PON" postag_regexp="yes"/><exception regexp="yes">l|dell|all|sull|dall|nell</exception></token>
-<!-- PB001- -->
-					<token><match no="0" /></token>
-				</pattern>
-				<message>Si consiglia di rivedere la frase al fine di eliminare la ripetizione della parola: <match no="1" />.</message>
-				<example type="incorrect">Il <marker>bambino aveva capito bene l'altro bambino</marker> di fronte a se.</example>
-				<example type="correct">Il bambino aveva capito bene l'altro fanciullo di fronte a se.</example>
-			</rule>			
-		</rulegroup>
-	</category>
+            <!-- metti ad -->
+            <rule>
+                <pattern>
+                    <token>a</token>
+                    <token regexp="yes">[a].*|esempio</token>
+                </pattern>
+                <message>In questo caso l'uso della 'd' eufonica è ammesso: <suggestion>ad <match no="2"></match></suggestion>.</message>
+                <example type="incorrect">Provo <marker>a arrivare</marker> prima di te.</example>
+                <example type="correct">Provo <marker>ad arrivare</marker> prima di te.</example>
+                <example type="correct">Io, <marker>ad esempio</marker>, non ci sono cascato.</example>
+            </rule>
+            <!-- metti ed -->
+            <rule>
+                <pattern>
+                    <token>e</token>
+                    <token regexp="yes">[e].*</token>
+                </pattern>
+                <message>In questo caso l'uso della 'd' eufonica è ammesso: <suggestion>ed <match no="2"></match></suggestion>.</message>
+                <example type="incorrect">Si concentra <marker>e effettua</marker> una bella manovra.</example>
+                <example type="correct">Si concentra <marker>ed effettua</marker> una bella manovra.</example>
+            </rule>
+            <!-- togli od -->
+            <rule>
+                <pattern>
+                    <token>o</token>
+                    <token regexp="yes">[o].*</token>
+                </pattern>
+                <message>In questo caso l'uso della 'd' eufonica è ammesso: <suggestion>ed <match no="2"></match></suggestion>.</message>
+                <example type="incorrect">Puoi vederlo ogni mattina <marker>o ogni</marker> sera.</example>
+                <example type="correct">Puoi vederlo ogni mattina <marker>od ogni</marker> sera.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup name="ripetizioni" id="ST_03_002">
+            <rule>
+                <pattern>
+                    <!-- PB001+ -->
+                    <!--
+                                        <token skip="-1" regexp="yes">[qwertyuiopasdfghjklzxcvbnm].*<exception postag="ART.*|CON" postag_regexp="yes"/></token>
+                    -->
+                    <token skip="-1" regexp="yes">[qwertyuiopasdfghjklzxcvbnm].*<exception postag="PRE|ARTPRE.*|ART.*|CON|PON" postag_regexp="yes"></exception><exception regexp="yes">l|dell|all|sull|dall|nell</exception></token>
+                    <!-- PB001- -->
+                    <token><match no="0"></match></token>
+                </pattern>
+                <message>Si consiglia di rivedere la frase al fine di eliminare la ripetizione della parola: <match no="1"></match>.</message>
+                <example type="incorrect">Il <marker>bambino aveva capito bene l'altro bambino</marker> di fronte a se.</example>
+                <example type="correct">Il bambino aveva capito bene l'altro fanciullo di fronte a se.</example>
+            </rule>
+        </rulegroup>
+    </category>
 
-	<!-- STILE NUMERI - ST_04 -->
-	<category name="Stile - Numeri"> 
-		<rulegroup name="in cifre se minori di 10" id="ST_04_001">
-			<rule>
-				<pattern>
-					<token>0</token>
-				</pattern>
-				<message><suggestion>zero</suggestion></message>
-				<example type="incorrect"><marker>0</marker></example>
-				<example type="correct"><marker>zero</marker></example>
-			</rule>
-			<rule>
-				<pattern>
-					<token>1</token>
-				</pattern>
-				<message><suggestion>uno</suggestion></message>
-				<example type="incorrect"><marker>1</marker></example>
-				<example type="correct"><marker>uno</marker></example>
-			</rule>
-			<rule>
-				<pattern>
-					<token>2</token>
-				</pattern>
-				<message><suggestion>due</suggestion></message>
-				<example type="incorrect"><marker>2</marker></example>
-				<example type="correct"><marker>due</marker></example>
-			</rule>
-			<rule>
-				<pattern>
-					<token>3</token>
-				</pattern>
-				<message><suggestion>tre</suggestion></message>
-				<example type="incorrect"><marker>3</marker></example>
-				<example type="correct"><marker>tre</marker></example>
-			</rule>
-			<rule>
-				<pattern>
-					<token>4</token>
-				</pattern>
-				<message><suggestion>quattro</suggestion></message>
-				<example type="incorrect"><marker>4</marker></example>
-				<example type="correct"><marker>quattro</marker></example>
-			</rule>
-			<rule>
-				<pattern>
-					<token>5</token>
-				</pattern>
-				<message><suggestion>cinque</suggestion></message>
-				<example type="incorrect"><marker>5</marker></example>
-				<example type="correct"><marker>cinque</marker></example>
-			</rule>
-			<rule>
-				<pattern>
-					<token>6</token>
-				</pattern>
-				<message><suggestion>sei</suggestion></message>
-				<example type="incorrect"><marker>6</marker></example>
-				<example type="correct"><marker>sei</marker></example>
-			</rule>
-			<rule>
-				<pattern>
-					<token>7</token>
-				</pattern>
-				<message><suggestion>sette</suggestion></message>
-				<example type="incorrect"><marker>7</marker></example>
-				<example type="correct"><marker>sette</marker></example>
-			</rule>
-			<rule>
-				<pattern>
-					<token>8</token>
-				</pattern>
-				<message><suggestion>otto</suggestion></message>
-				<example type="incorrect"><marker>8</marker></example>
-				<example type="correct"><marker>otto</marker></example>
-			</rule>
-			<rule>
-				<pattern>
-					<token>9</token>
-				</pattern>
-				<message><suggestion>nove</suggestion></message>
-				<example type="incorrect"><marker>9</marker></example>
-				<example type="correct"><marker>nove</marker></example>
-			</rule>
-		</rulegroup> 
-		<rulegroup name="in cifre se minori di 100" id="ST_04_002">
-			<rule>
-				<pattern>
-					<token regexp="yes">[123456789][01234567890]</token>
-				</pattern>
-				<message>Cambiare con il corrispondente in cifre</message>
-				<example type="incorrect"><marker>99</marker></example>
-				<example type="correct"><marker>novantanove</marker></example>
-			</rule>
-		</rulegroup>
-	</category>
+    <!-- STILE NUMERI - ST_04 -->
+    <category name="Stile - Numeri">
+        <rulegroup name="in cifre se minori di 10" id="ST_04_001">
+            <rule>
+                <pattern>
+                    <token>0</token>
+                </pattern>
+                <message><suggestion>zero</suggestion></message>
+                <example type="incorrect"><marker>0</marker></example>
+                <example type="correct"><marker>zero</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>1</token>
+                </pattern>
+                <message><suggestion>uno</suggestion></message>
+                <example type="incorrect"><marker>1</marker></example>
+                <example type="correct"><marker>uno</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>2</token>
+                </pattern>
+                <message><suggestion>due</suggestion></message>
+                <example type="incorrect"><marker>2</marker></example>
+                <example type="correct"><marker>due</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>3</token>
+                </pattern>
+                <message><suggestion>tre</suggestion></message>
+                <example type="incorrect"><marker>3</marker></example>
+                <example type="correct"><marker>tre</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>4</token>
+                </pattern>
+                <message><suggestion>quattro</suggestion></message>
+                <example type="incorrect"><marker>4</marker></example>
+                <example type="correct"><marker>quattro</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>5</token>
+                </pattern>
+                <message><suggestion>cinque</suggestion></message>
+                <example type="incorrect"><marker>5</marker></example>
+                <example type="correct"><marker>cinque</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>6</token>
+                </pattern>
+                <message><suggestion>sei</suggestion></message>
+                <example type="incorrect"><marker>6</marker></example>
+                <example type="correct"><marker>sei</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>7</token>
+                </pattern>
+                <message><suggestion>sette</suggestion></message>
+                <example type="incorrect"><marker>7</marker></example>
+                <example type="correct"><marker>sette</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>8</token>
+                </pattern>
+                <message><suggestion>otto</suggestion></message>
+                <example type="incorrect"><marker>8</marker></example>
+                <example type="correct"><marker>otto</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>9</token>
+                </pattern>
+                <message><suggestion>nove</suggestion></message>
+                <example type="incorrect"><marker>9</marker></example>
+                <example type="correct"><marker>nove</marker></example>
+            </rule>
+        </rulegroup>
+        <rulegroup name="in cifre se minori di 100" id="ST_04_002">
+            <rule>
+                <pattern>
+                    <token regexp="yes">[123456789][01234567890]</token>
+                </pattern>
+                <message>Cambiare con il corrispondente in cifre</message>
+                <example type="incorrect"><marker>99</marker></example>
+                <example type="correct"><marker>novantanove</marker></example>
+            </rule>
+        </rulegroup>
+    </category>
 
-       <!-- ERRORI COMUNI - ER_01 -->
-       <category name="Errori comuni - voci del verbo 'avere'"> 
-               <rulegroup name="scambio di 'a' ed 'ha'" id="ER_01_001">
-                       <rule>
-                               <!-- "a" + un participio passato -->
-                               <pattern>
-                                       <token>a</token>
-                                       <token postag="VER:part.+past.*" postag_regexp="yes" />
-                               </pattern>
-                               <message>Forse volevi dire <suggestion>ha <match no="2"/></suggestion>?</message>
-                               <example type="incorrect">La mamma <marker>a fatto</marker> la spesa.</example>
-                               <example type="correct">La mamma <marker>ha fatto</marker> la spesa.</example>
-                       </rule>
-                       <rule>
-                               <!-- "a" + un sostantivo plurale -->
-                               <pattern>
-                                       <token>a</token>
-                                       <token postag="NOUN.+p" postag_regexp="yes" />
-                               </pattern>
-                               <message>Forse volevi dire <suggestion>ha <match no="2"/></suggestion>?</message>
-                               <example type="incorrect">Piero <marker>a soldi</marker> con sé?.</example>
-                               <example type="correct">Piero <marker>ha soldi</marker> con se?.</example>
-                       </rule>
-                       <rule default="off" name="suggerisci sempre lo scambio di 'a' con 'ha'" id="ER_01_001a">
-                               <pattern>
-                                       <token>a</token>
-                               </pattern>
-                               <message>Forse volevi dire <suggestion>ha</suggestion>?</message>
-                               <example type="incorrect">Piero <marker>a</marker> un cane.</example>
-                               <example type="correct">Piero <marker>ha</marker> un cane.</example>
-                       </rule>
-               </rulegroup>
-               <rulegroup name="scambio di 'ai' ed 'hai'" id="ER_01_002">
-                       <rule>
-                               <!-- "ai" + un participio passato -->
-                               <pattern>
-                                       <token>ai</token>
-                                       <token postag="VER:part.+past.*" postag_regexp="yes" />
-                               </pattern>
-                               <message>Forse volevi dire <suggestion>hai <match no="2"/></suggestion>?</message>
-                               <example type="incorrect"><marker>Ai fatto</marker> i compiti?</example>
-                               <example type="correct"><marker>Hai fatto</marker> i compiti?</example>
-                       </rule>
-                       <rule>
-                               <!-- "ai" + un sostantivo singolare -->
-                               <pattern>
-                                       <token>ai</token>
-                                       <token postag="NOUN.+s" postag_regexp="yes" />
-                               </pattern>
-                               <message>Forse volevi dire <suggestion>hai <match no="2"/></suggestion>?</message>
-                               <example type="incorrect"><marker>Ai fame</marker>?</example>
-                               <example type="correct"><marker>Hai fame</marker>?</example>
-                       </rule>
-                       <rule>
-                               <!-- "ai" + articolo/aggettivo/etc singolare -->
-                               <pattern>
-                                       <token>ai</token>
-                                       <token postag="(ADJ|ART|ARTPRE|DET-INDEF|DET-NUM-CARD).+s" postag_regexp="yes" />
-                               </pattern>
-                               <message>Forse volevi dire <suggestion>ha <match no="2"/></suggestion>?</message>
-                               <example type="incorrect">Tu <marker>ai un</marker> bel cane.</example>
-                               <example type="correct">Tu <marker>hai un</marker> bel cane.</example>
-                       </rule>
-                       <rule default="off" name="suggerisci sempre lo scambio di 'ai' con 'hai'" id="ER_01_002a">
-                               <pattern>
-                                       <token>ai</token>
-                               </pattern>
-                               <message>Forse volevi dire <suggestion>hai</suggestion>?</message>
-                               <example type="incorrect">Piero, tu <marker>ai</marker> un cane?</example>
-                               <example type="correct">Piero, tu <marker>hai</marker> un cane?</example>
-                       </rule>
-               </rulegroup>
-               <rulegroup name="scambio di 'anno' ed 'hanno'" id="ER_01_003">
-                       <rule>
-                               <!-- "anno" + un participio passato -->
-                               <pattern>
-                                       <token>anno</token>
-                                       <token postag="VER:part.+past.*" postag_regexp="yes" />
-                               </pattern>
-                               <message>Forse volevi dire <suggestion>hanno <match no="2"/></suggestion>?</message>
-                               <example type="incorrect"><marker>Anno fatto</marker> i compiti?</example>
-                               <example type="correct"><marker>Hanno fatto</marker> i compiti?</example>
-                       </rule>
-                       <rule>
-                               <!-- "anno" + articolo -->
-                               <pattern>
-                                       <token>anno</token>
-                                       <token postag="(ART|ARTPRE|DET-INDEF|DET-NUM-CARD).*" postag_regexp="yes" />
-                               </pattern>
-                               <message>Forse volevi dire <suggestion>ha <match no="2"/></suggestion>?</message>
-                               <example type="incorrect">Piero e Cinzia <marker>anno un</marker> bel cane.</example>
-                               <example type="correct">Piero e Cinzia <marker>hanno un</marker> bel cane.</example>
-                       </rule>
-               </rulegroup>
-               <rule name="scambio di 'o' ed 'ho'" id="ER_01_004">
-                 <!-- "o" + un participio passato -->
-                 <pattern>
-                   <token>o</token>
-                   <token postag="VER:part.+past.*" postag_regexp="yes" />
-                 </pattern>
-                 <message>Forse volevi dire <suggestion>ho <match no="2"/></suggestion>?</message>
-                 <example type="incorrect">Non <marker>o fatto</marker> i compiti.</example>
-                 <example type="correct">Non <marker>ho fatto</marker> i compiti.</example>
-               </rule>
-       </category>
+    <!-- ERRORI COMUNI - ER_01 -->
+    <category name="Errori comuni - voci del verbo 'avere'">
+        <rulegroup name="scambio di 'a' ed 'ha'" id="ER_01_001">
+            <rule>
+                <!-- "a" + un participio passato -->
+                <pattern>
+                    <token>a</token>
+                    <token postag="VER:part.+past.*" postag_regexp="yes"></token>
+                </pattern>
+                <message>Forse volevi dire <suggestion>ha <match no="2"></match></suggestion>?</message>
+                <example type="incorrect">La mamma <marker>a fatto</marker> la spesa.</example>
+                <example type="correct">La mamma <marker>ha fatto</marker> la spesa.</example>
+            </rule>
+            <rule>
+                <!-- "a" + un sostantivo plurale -->
+                <pattern>
+                    <token>a</token>
+                    <token postag="NOUN.+p" postag_regexp="yes"></token>
+                </pattern>
+                <message>Forse volevi dire <suggestion>ha <match no="2"></match></suggestion>?</message>
+                <example type="incorrect">Piero <marker>a soldi</marker> con sé?.</example>
+                <example type="correct">Piero <marker>ha soldi</marker> con se?.</example>
+            </rule>
+            <rule default="off" name="suggerisci sempre lo scambio di 'a' con 'ha'" id="ER_01_001a">
+                <pattern>
+                    <token>a</token>
+                </pattern>
+                <message>Forse volevi dire <suggestion>ha</suggestion>?</message>
+                <example type="incorrect">Piero <marker>a</marker> un cane.</example>
+                <example type="correct">Piero <marker>ha</marker> un cane.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup name="scambio di 'ai' ed 'hai'" id="ER_01_002">
+            <rule>
+                <!-- "ai" + un participio passato -->
+                <pattern>
+                    <token>ai</token>
+                    <token postag="VER:part.+past.*" postag_regexp="yes"></token>
+                </pattern>
+                <message>Forse volevi dire <suggestion>hai <match no="2"></match></suggestion>?</message>
+                <example type="incorrect"><marker>Ai fatto</marker> i compiti?</example>
+                <example type="correct"><marker>Hai fatto</marker> i compiti?</example>
+            </rule>
+            <rule>
+                <!-- "ai" + un sostantivo singolare -->
+                <pattern>
+                    <token>ai</token>
+                    <token postag="NOUN.+s" postag_regexp="yes"></token>
+                </pattern>
+                <message>Forse volevi dire <suggestion>hai <match no="2"></match></suggestion>?</message>
+                <example type="incorrect"><marker>Ai fame</marker>?</example>
+                <example type="correct"><marker>Hai fame</marker>?</example>
+            </rule>
+            <rule>
+                <!-- "ai" + articolo/aggettivo/etc singolare -->
+                <pattern>
+                    <token>ai</token>
+                    <token postag="(ADJ|ART|ARTPRE|DET-INDEF|DET-NUM-CARD).+s" postag_regexp="yes"></token>
+                </pattern>
+                <message>Forse volevi dire <suggestion>ha <match no="2"></match></suggestion>?</message>
+                <example type="incorrect">Tu <marker>ai un</marker> bel cane.</example>
+                <example type="correct">Tu <marker>hai un</marker> bel cane.</example>
+            </rule>
+            <rule default="off" name="suggerisci sempre lo scambio di 'ai' con 'hai'" id="ER_01_002a">
+                <pattern>
+                    <token>ai</token>
+                </pattern>
+                <message>Forse volevi dire <suggestion>hai</suggestion>?</message>
+                <example type="incorrect">Piero, tu <marker>ai</marker> un cane?</example>
+                <example type="correct">Piero, tu <marker>hai</marker> un cane?</example>
+            </rule>
+        </rulegroup>
+        <rulegroup name="scambio di 'anno' ed 'hanno'" id="ER_01_003">
+            <rule>
+                <!-- "anno" + un participio passato -->
+                <pattern>
+                    <token>anno</token>
+                    <token postag="VER:part.+past.*" postag_regexp="yes"></token>
+                </pattern>
+                <message>Forse volevi dire <suggestion>hanno <match no="2"></match></suggestion>?</message>
+                <example type="incorrect"><marker>Anno fatto</marker> i compiti?</example>
+                <example type="correct"><marker>Hanno fatto</marker> i compiti?</example>
+            </rule>
+            <rule>
+                <!-- "anno" + articolo -->
+                <pattern>
+                    <token>anno</token>
+                    <token postag="(ART|ARTPRE|DET-INDEF|DET-NUM-CARD).*" postag_regexp="yes"></token>
+                </pattern>
+                <message>Forse volevi dire <suggestion>ha <match no="2"></match></suggestion>?</message>
+                <example type="incorrect">Piero e Cinzia <marker>anno un</marker> bel cane.</example>
+                <example type="correct">Piero e Cinzia <marker>hanno un</marker> bel cane.</example>
+            </rule>
+        </rulegroup>
+        <rule name="scambio di 'o' ed 'ho'" id="ER_01_004">
+            <!-- "o" + un participio passato -->
+            <pattern>
+                <token>o</token>
+                <token postag="VER:part.+past.*" postag_regexp="yes"></token>
+            </pattern>
+            <message>Forse volevi dire <suggestion>ho <match no="2"></match></suggestion>?</message>
+            <example type="incorrect">Non <marker>o fatto</marker> i compiti.</example>
+            <example type="correct">Non <marker>ho fatto</marker> i compiti.</example>
+        </rule>
+    </category>
 
-       <category name="Errori comuni - ortografia"> 
-         <!-- 
-              Casi in cui il correttore ortografico non interviene
-              perché entrambi i lemmi esistono in italiano.
-         -->
-         <rulegroup name="scambio di 'ala' ed 'alla'" id="ER_02_001">
-           <rule>
-             <!-- "ala" + sostantivo -->
-             <pattern>
-               <token>ala</token>
-               <token postag="NOUN-F.*" postag_regexp="yes" />
-             </pattern>
-             <message>Forse volevi dire <suggestion>alla <match no="2"/></suggestion>?</message>
-             <example type="incorrect">Ho dato un bacio <marker>ala mamma</marker>.</example>
-             <example type="correct">Ho dato un bacio <marker>alla mamma</marker>.</example>
-           </rule>
-           <rule>
-             <!-- "ala" + aggettivo + sostantivo -->
-             <pattern>
-               <token>ala</token>
-               <token postag="(ADJ|DET).*" postag_regexp="yes" />
-               <token postag="NOUN-F.*" postag_regexp="yes" />
-             </pattern>
-             <message>Forse volevi dire <suggestion>alla <match no="2"/> <match no="3"/></suggestion>?</message>
-             <example type="incorrect">Ho dato un bacio <marker>ala mia mamma</marker>.</example>
-             <example type="correct">Ho dato un bacio <marker>alla mia mamma</marker>.</example>
-           </rule>
-         </rulegroup>
-         <rulegroup name="scambio di 'la' e 'al'" id="ER_02_002">
-           <rule>
-             <!-- "la" + sostantivo maschile -->
-             <pattern>
-               <token>la</token>
-               <token postag="NOUN-M:s" />
-             </pattern>
-             <message>Forse volevi dire <suggestion>al <match no="2"/></suggestion>?</message>
-             <example type="incorrect">Sono andato <marker>la circo</marker>.</example>
-             <example type="correct">Sono andato <marker>al circo</marker>.</example>
-           </rule>
-           <rule>
-             <!-- "la" + aggettivo maschile -->
-             <pattern>
-               <token>la</token>
-               <!-- serve il "\+m" con ADJ perché la 'm' compare anche in 'ADJ:comp+f' -->
-               <token postag="(ADJ.+\+m|DET.+:m).*" postag_regexp="yes" />
-             </pattern>
-             <message>Forse volevi dire <suggestion>al <match no="2"/></suggestion>?</message>
-             <example type="incorrect">Ho portato un regalo <marker>la mio</marker> papà.</example>
-             <example type="correct">Ho portato un regalo <marker>al mio</marker> papà.</example>
-           </rule>
-           <rule>
-             <!-- "al" + sostantivo femminile -->
-             <pattern>
-               <token>al</token>
-               <token postag="NOUN-F:s" />
-             </pattern>
-             <message>Forse volevi dire <suggestion>la <match no="2"/></suggestion>?</message>
-             <example type="incorrect">Ho mangiato <marker>al mela</marker>.</example>
-             <example type="correct">Ho mangiato <marker>la mela</marker>.</example>
-           </rule>
-           <rule>
-             <!-- "al" + aggettivo + sostantivo femminile -->
-             <pattern>
-               <token>al</token>
-               <token postag="(ADJ.+\+f|DET.+:f).*" postag_regexp="yes" />
-             </pattern>
-             <message>Forse volevi dire <suggestion>la <match no="2"/></suggestion>?</message>
-             <example type="incorrect">Ho mangiato <marker>al tua</marker> merenda.</example>
-             <example type="correct">Ho mangiato <marker>la tua</marker> merenda.</example>
-           </rule>
-         </rulegroup>
-         <rulegroup name="scambio di 'li' e 'il'" id="ER_02_003">
-           <rule>
-             <!-- "li" + sostantivo maschile -->
-             <pattern>
-               <token>li</token>
-               <token postag="NOUN-M:s" />
-             </pattern>
-             <message>Forse volevi dire <suggestion>il <match no="2"/></suggestion>?</message>
-             <example type="incorrect"><marker>Li gatto</marker> dormiva tranquillo.</example>
-             <example type="correct"><marker>Il gatto</marker> dormiva tranquillo.</example>
-           </rule>
-           <rule>
-             <!-- "li" + aggettivo + sostantivo maschile -->
-             <pattern>
-               <token>li</token>
-               <!-- serve il "\+m" con ADJ perché la 'm' compare anche in 'ADJ:comp+f' -->
-               <token postag="(ADJ.+\+m|DET.+:m).*" postag_regexp="yes" />
-             </pattern>
-             <message>Forse volevi dire <suggestion>il <match no="2"/></suggestion>?</message>
-             <example type="incorrect"><marker>Li mio</marker> gatto dormiva tranquillo.</example>
-             <example type="correct"><marker>Il mio</marker> gatto dormiva tranquillo.</example>
-             <example type="incorrect"><marker>Li bel</marker> gatto dormiva tranquillo.</example>
-             <example type="correct"><marker>Il bel</marker> gatto dormiva tranquillo.</example>
-           </rule>
-         </rulegroup>
-         <rulegroup name="scambio di 'là' e 'la'" id="ER_02_004">
-           <rule>
-             <!-- 'là' + sostantivo femminile quasi certamente è 'la' -->
-             <pattern>
-               <token>là</token>
-               <token postag="NOUN-F.*" postag_regexp="yes" />
-             </pattern>
-             <message>Forse volevi dire <suggestion>la <match no="2"/></suggestion>?</message>
-             <example type="incorrect"><marker>Là gatta</marker> dormiva tranquilla.</example>
-             <example type="correct"><marker>La gatta</marker> dormiva tranquilla.</example>
-           </rule>
-           <rule>
-             <!-- 'là' + aggettivo/articolo/etc. femminile quasi certamente è 'la' -->
-             <pattern>
-               <token>là</token>
-               <token postag="(ADJ.+\+f|DET.+:f).*" postag_regexp="yes" />
-             </pattern>
-             <message>Forse volevi dire <suggestion>la <match no="2"/></suggestion>?</message>
-             <example type="incorrect"><marker>Là mia</marker> gatta dormiva tranquilla.</example>
-             <example type="correct"><marker>La mia</marker> gatta dormiva tranquilla.</example>
-           </rule>
-           <rule>
-             <!-- 'la' prima della punteggiatura quasi certamente è 'là' -->
-             <pattern>
-               <token>la</token>
-               <token regexp="yes">\.|,|;|:|!|\?</token>
-             </pattern>
-             <message>Forse volevi dire <suggestion>là<match no="2"/></suggestion>?</message>
-             <example type="incorrect">Mettilo <marker>la.</marker></example>
-             <example type="correct">Mettilo <marker>là.</marker></example>
-           </rule>
-           <rule>
-             <!-- 'la' in fine di frase quasi certamente è 'là' -->
-             <pattern>
-               <token>la</token>
-               <token postag="SENT"/>
-             </pattern>
-             <message>Forse volevi dire <suggestion>là<match no="2"/></suggestion>?</message>
-             <example type="incorrect">Mettilo <marker>la.</marker></example>
-             <example type="correct">Mettilo <marker>là.</marker></example>
-           </rule>
-         </rulegroup>
-       </category>
- 	  	 
+    <category name="Errori comuni - ortografia">
+        <!--
+             Casi in cui il correttore ortografico non interviene
+             perché entrambi i lemmi esistono in italiano.
+        -->
+        <rulegroup name="scambio di 'ala' ed 'alla'" id="ER_02_001">
+            <rule>
+                <!-- "ala" + sostantivo -->
+                <pattern>
+                    <token>ala</token>
+                    <token postag="NOUN-F.*" postag_regexp="yes"></token>
+                </pattern>
+                <message>Forse volevi dire <suggestion>alla <match no="2"></match></suggestion>?</message>
+                <example type="incorrect">Ho dato un bacio <marker>ala mamma</marker>.</example>
+                <example type="correct">Ho dato un bacio <marker>alla mamma</marker>.</example>
+            </rule>
+            <rule>
+                <!-- "ala" + aggettivo + sostantivo -->
+                <pattern>
+                    <token>ala</token>
+                    <token postag="(ADJ|DET).*" postag_regexp="yes"></token>
+                    <token postag="NOUN-F.*" postag_regexp="yes"></token>
+                </pattern>
+                <message>Forse volevi dire <suggestion>alla <match no="2"></match> <match no="3"></match></suggestion>?</message>
+                <example type="incorrect">Ho dato un bacio <marker>ala mia mamma</marker>.</example>
+                <example type="correct">Ho dato un bacio <marker>alla mia mamma</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup name="scambio di 'la' e 'al'" id="ER_02_002">
+            <rule>
+                <!-- "la" + sostantivo maschile -->
+                <pattern>
+                    <token>la</token>
+                    <token postag="NOUN-M:s"></token>
+                </pattern>
+                <message>Forse volevi dire <suggestion>al <match no="2"></match></suggestion>?</message>
+                <example type="incorrect">Sono andato <marker>la circo</marker>.</example>
+                <example type="correct">Sono andato <marker>al circo</marker>.</example>
+            </rule>
+            <rule>
+                <!-- "la" + aggettivo maschile -->
+                <pattern>
+                    <token>la</token>
+                    <!-- serve il "\+m" con ADJ perché la 'm' compare anche in 'ADJ:comp+f' -->
+                    <token postag="(ADJ.+\+m|DET.+:m).*" postag_regexp="yes"></token>
+                </pattern>
+                <message>Forse volevi dire <suggestion>al <match no="2"></match></suggestion>?</message>
+                <example type="incorrect">Ho portato un regalo <marker>la mio</marker> papà.</example>
+                <example type="correct">Ho portato un regalo <marker>al mio</marker> papà.</example>
+            </rule>
+            <rule>
+                <!-- "al" + sostantivo femminile -->
+                <pattern>
+                    <token>al</token>
+                    <token postag="NOUN-F:s"></token>
+                </pattern>
+                <message>Forse volevi dire <suggestion>la <match no="2"></match></suggestion>?</message>
+                <example type="incorrect">Ho mangiato <marker>al mela</marker>.</example>
+                <example type="correct">Ho mangiato <marker>la mela</marker>.</example>
+            </rule>
+            <rule>
+                <!-- "al" + aggettivo + sostantivo femminile -->
+                <pattern>
+                    <token>al</token>
+                    <token postag="(ADJ.+\+f|DET.+:f).*" postag_regexp="yes"></token>
+                </pattern>
+                <message>Forse volevi dire <suggestion>la <match no="2"></match></suggestion>?</message>
+                <example type="incorrect">Ho mangiato <marker>al tua</marker> merenda.</example>
+                <example type="correct">Ho mangiato <marker>la tua</marker> merenda.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup name="scambio di 'li' e 'il'" id="ER_02_003">
+            <rule>
+                <!-- "li" + sostantivo maschile -->
+                <pattern>
+                    <token>li</token>
+                    <token postag="NOUN-M:s"></token>
+                </pattern>
+                <message>Forse volevi dire <suggestion>il <match no="2"></match></suggestion>?</message>
+                <example type="incorrect"><marker>Li gatto</marker> dormiva tranquillo.</example>
+                <example type="correct"><marker>Il gatto</marker> dormiva tranquillo.</example>
+            </rule>
+            <rule>
+                <!-- "li" + aggettivo + sostantivo maschile -->
+                <pattern>
+                    <token>li</token>
+                    <!-- serve il "\+m" con ADJ perché la 'm' compare anche in 'ADJ:comp+f' -->
+                    <token postag="(ADJ.+\+m|DET.+:m).*" postag_regexp="yes"></token>
+                </pattern>
+                <message>Forse volevi dire <suggestion>il <match no="2"></match></suggestion>?</message>
+                <example type="incorrect"><marker>Li mio</marker> gatto dormiva tranquillo.</example>
+                <example type="correct"><marker>Il mio</marker> gatto dormiva tranquillo.</example>
+                <example type="incorrect"><marker>Li bel</marker> gatto dormiva tranquillo.</example>
+                <example type="correct"><marker>Il bel</marker> gatto dormiva tranquillo.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup name="scambio di 'là' e 'la'" id="ER_02_004">
+            <rule>
+                <!-- 'là' + sostantivo femminile quasi certamente è 'la' -->
+                <pattern>
+                    <token>là</token>
+                    <token postag="NOUN-F.*" postag_regexp="yes"></token>
+                </pattern>
+                <message>Forse volevi dire <suggestion>la <match no="2"></match></suggestion>?</message>
+                <example type="incorrect"><marker>Là gatta</marker> dormiva tranquilla.</example>
+                <example type="correct"><marker>La gatta</marker> dormiva tranquilla.</example>
+            </rule>
+            <rule>
+                <!-- 'là' + aggettivo/articolo/etc. femminile quasi certamente è 'la' -->
+                <pattern>
+                    <token>là</token>
+                    <token postag="(ADJ.+\+f|DET.+:f).*" postag_regexp="yes"></token>
+                </pattern>
+                <message>Forse volevi dire <suggestion>la <match no="2"></match></suggestion>?</message>
+                <example type="incorrect"><marker>Là mia</marker> gatta dormiva tranquilla.</example>
+                <example type="correct"><marker>La mia</marker> gatta dormiva tranquilla.</example>
+            </rule>
+            <rule>
+                <!-- 'la' prima della punteggiatura quasi certamente è 'là' -->
+                <pattern>
+                    <token>la</token>
+                    <token regexp="yes">\.|,|;|:|!|\?</token>
+                </pattern>
+                <message>Forse volevi dire <suggestion>là<match no="2"></match></suggestion>?</message>
+                <example type="incorrect">Mettilo <marker>la.</marker></example>
+                <example type="correct">Mettilo <marker>là.</marker></example>
+            </rule>
+            <rule>
+                <!-- 'la' in fine di frase quasi certamente è 'là' -->
+                <pattern>
+                    <token>la</token>
+                    <token postag="SENT"></token>
+                </pattern>
+                <message>Forse volevi dire <suggestion>là<match no="2"></match></suggestion>?</message>
+                <example type="incorrect">Mettilo <marker>la.</marker></example>
+                <example type="correct">Mettilo <marker>là.</marker></example>
+            </rule>
+        </rulegroup>
+    </category>
+
 </rules>
