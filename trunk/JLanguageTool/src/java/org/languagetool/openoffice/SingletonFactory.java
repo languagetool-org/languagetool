@@ -18,6 +18,7 @@
  */
 package org.languagetool.openoffice;
 
+import com.sun.star.lang.XServiceInfo;
 import com.sun.star.lang.XSingleComponentFactory;
 import com.sun.star.uno.XComponentContext;
 
@@ -28,7 +29,7 @@ import com.sun.star.uno.XComponentContext;
  *
  * @author Marcin Miłkowski
  */
-public class SingletonFactory implements XSingleComponentFactory {
+public class SingletonFactory implements XSingleComponentFactory, XServiceInfo {
 
   private transient org.languagetool.openoffice.Main instance;
 
@@ -47,4 +48,24 @@ public class SingletonFactory implements XSingleComponentFactory {
     }
     return instance;
   }  
+
+  @Override
+  public final String getImplementationName() {
+    return Main.class.getName();
+  }
+
+  @Override
+  public final boolean supportsService(String serviceName) {
+    for (String s : getSupportedServiceNames()) {
+      if (s.equals(serviceName)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  @Override
+  public final String[] getSupportedServiceNames() {
+    return Main.getServiceNames();
+  }
 }
