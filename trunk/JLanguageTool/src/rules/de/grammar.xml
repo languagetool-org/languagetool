@@ -5268,6 +5268,61 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
       <example type="correct"><marker>Nichtsdestoweniger</marker> finde ich es einfach ungerecht.</example>
       <example type="incorrect"><marker>Nichts desto weniger</marker> finde ich es einfach ungerecht.</example>
     </rule>
+    <rulegroup id="VORNHEREIN" name="Zusammen-/Getrenntschreibung: 'von vorn herein (vornherein)'">
+      <rule>
+        <pattern>
+          <token>von</token>
+          <token regexp="yes">vorne?</token>
+          <token>herein</token>
+        </pattern>
+        <message>&getrennt;: Falls <suggestion><match no="1"/> <match no="2" case_conversion="alllower"/><match no="3" case_conversion="alllower"/></suggestion> im Sinne von <suggestion>von Anfang an</suggestion> gemeint ist, schreiben Sie 'vornherein' bitte zusammen.</message>
+        <url>http://www.duden.de/rechtschreibung/vornherein</url>
+        <short>&getrennt;.</short>
+        <example type="correct">Das habe ich <marker>von vornherein</marker> geahnt.</example>
+        <example type="incorrect" correction="von vorneherein|von Anfang an">Das habe ich <marker>von vorne herein</marker> geahnt.</example>
+        <example type="incorrect" correction="von vornherein|von Anfang an">Das habe ich <marker>von vorn herein</marker> geahnt.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token negate="yes">von</token>
+          <token regexp="yes">vorne?herein</token>
+        </pattern>
+        <message>Außerhalb der Wendung 'von vornherein' wird <suggestion>vorne herein</suggestion> getrennt geschrieben.</message>
+        <url>http://www.duden.de/rechtschreibung/vornherein</url>
+        <short>&getrennt;.</short>
+        <example type="correct">Das habe ich von <marker>vornherein</marker> geahnt.</example>
+        <example type="correct">Er kam vorne <marker>herein</marker>.</example>
+        <example type="incorrect" correction="vorne herein">Er kam <marker>vorneherein</marker>.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="VORHINEIN" name="Zusammen-/Getrenntschreibung: 'im vor hinein (Vorhinein)'">
+      <rule>
+        <pattern>
+          <token>im</token>
+          <token>vor</token>
+          <token>hinein</token>
+        </pattern>
+        <message>&getrennt;: &inwend;<suggestion>im Vorhinein</suggestion> wird 'Vorhinein' groß und zusammen geschrieben.</message>
+        <url>http://www.duden.de/rechtschreibung/Vorhinein</url>
+        <short>&getrennt;.</short>
+        <example type="correct">Das habe ich <marker>im Vorhinein</marker> geahnt.</example>
+        <example type="incorrect" correction="im Vorhinein">Das habe ich <marker>im vor hinein</marker> geahnt.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="HOERENSAGEN" name="Zusammen-/Getrenntschreibung: 'vom Hören sagen (Hörensagen)'">
+      <rule>
+        <pattern>
+          <token>vom</token>
+          <token>Hören</token>
+          <token>sagen</token>
+        </pattern>
+        <message>&getrennt;: &inwend;<suggestion>vom Hörensagen</suggestion> (im Sinne von [nur] <suggestion>durch Zeugnis anderer</suggestion>, <suggestion>nicht aus eigener Erfahrung</suggestion>) wird 'Hörensagen' groß und zusammen geschrieben.</message>
+        <url>http://www.duden.de/rechtschreibung/Hoerensagen</url>
+        <short>&getrennt;.</short>
+        <example type="correct">Das kenne ich nur <marker>vom Hörensagen</marker>.</example>
+        <example type="incorrect" correction="vom Hörensagen|durch Zeugnis anderer|nicht aus eigener Erfahrung">Das kenne ich nur <marker>vom Hören sagen</marker>.</example>
+      </rule>
+    </rulegroup>
     <rule id="INWIEFERN" name="Zusammen-/Getrenntschreibung: 'in wie fern (inwiefern)' etc.">
       <pattern>
         <token>in</token>
