@@ -12354,7 +12354,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                     <marker>
                         <token>rücken</token>
                     </marker>
-                    <token>herunter</token>
+                    <token regexp="yes">herunter|stärken?|gestärkt</token>
                 </pattern>
                 <message>&subanfang;<suggestion>Rücken</suggestion>&subende;</message>
                 <short>&prgk;.</short>
@@ -12469,7 +12469,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                 </marker>
             </pattern>
             <message>&subanfang;<suggestion>Gründen</suggestion>&subende;</message>
-            <example type="incorrect">Aus irgendwelchen <marker>gründen</marker> gelang mir das nicht.</example>
+            <example type="incorrect" correction="Gründen">Aus irgendwelchen <marker>gründen</marker> gelang mir das nicht.</example>
             <example type="correct">Aus irgendwelchen <marker>Gründen</marker> gelang mir das nicht.</example>
         </rule>
         <rule id="WUERDE_SUBST" name="Groß-/Kleinschreibung: 'die würde (Würde) des Gerichts' etc.">
@@ -12532,7 +12532,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
             </pattern>
             <message>&inwend;'trautes Heim' wird <suggestion>Heim</suggestion> großgeschrieben.</message>
             <example type="correct">Trautes <marker>Heim</marker>, Glück allein.</example>
-            <example type="incorrect">Trautes <marker>heim</marker>, Glück allein.</example>
+            <example type="incorrect" correction="Heim">Trautes <marker>heim</marker>, Glück allein.</example>
         </rule>
         <rule id="IN_ALLER_MUNDE" name="Groß-/Kleinschreibung: 'in aller munde (Munde)'">
             <pattern case_sensitive="yes">
@@ -12555,7 +12555,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
             </pattern>
             <message>&inwend;'auf Erden' wird <suggestion>Erden</suggestion> in der Regel großgeschrieben.</message>
             <example type="correct">Der liebste Ort, den ich auf <marker>Erden</marker> hab, das ist die Rasenbank am Elterngrab.</example>
-            <example type="incorrect">Der liebste Ort, den ich auf <marker>erden</marker> hab, das ist die Rasenbank am Elterngrab.</example>
+            <example type="incorrect" correction="Erden">Der liebste Ort, den ich auf <marker>erden</marker> hab, das ist die Rasenbank am Elterngrab.</example>
         </rule>
         <rule id="AUF_DER_ERDE" name="Groß-/Kleinschreibung: 'auf der erde (Erde)'">
             <pattern case_sensitive="yes">
@@ -12567,7 +12567,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
             </pattern>
             <message>&subanfang;<suggestion>Erde</suggestion>&subende;</message>
             <short>&prgk;.</short>
-            <example type="incorrect">Die Fallbeschleunigung auf der <marker>erde</marker> beträgt 9,81 m/s².</example>
+            <example type="incorrect" correction="Erde">Die Fallbeschleunigung auf der <marker>erde</marker> beträgt 9,81 m/s².</example>
             <example type="correct">Die Fallbeschleunigung auf der <marker>Erde</marker> beträgt 9,81 m/s².</example>
         </rule>
         <rule id="HIMMEL_UND_ERDE" name="Groß-/Kleinschreibung: 'Himmel und erde (Erde)'">
@@ -12580,7 +12580,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
             </pattern>
             <message>&subanfang;<suggestion>Erde</suggestion>&subende;</message>
             <short>&prgk;.</short>
-            <example type="incorrect">Es gibt mehr Dinge zwischen Himmel und <marker>erde</marker>, als mancher glaubt.</example>
+            <example type="incorrect" correction="Erde">Es gibt mehr Dinge zwischen Himmel und <marker>erde</marker>, als mancher glaubt.</example>
             <example type="correct">Es gibt mehr Dinge zwischen Himmel und <marker>Erde</marker>, als mancher glaubt.</example>
         </rule>
         <rule id="GUTER_DINGE" name="Groß-/Kleinschreibung: 'guter dinge (Dinge)'">
@@ -12592,7 +12592,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
             </pattern>
             <message>&subanfang;<suggestion>Dinge</suggestion>&subende;.</message>
             <example type="correct">Er war guter <marker>Dinge</marker>.</example>
-            <example type="incorrect">Er war guter <marker>dinge</marker>.</example>
+            <example type="incorrect" correction="Dinge">Er war guter <marker>dinge</marker>.</example>
         </rule>
         <rule id="VOR_ALLEN_DINGEN" name="Groß-/Kleinschreibung: 'vor allen dingen (Dingen)'">
             <pattern case_sensitive="yes">
@@ -12630,7 +12630,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
             <message>&inwend;'aus Liebe' wird <suggestion>Liebe</suggestion> in der Regel großgeschrieben.</message>
             <short>&prgk;.</short>
             <example type="correct">Nur nicht aus <marker>Liebe</marker> weinen, es gibt im Leben nicht nur den einen.</example>
-            <example type="incorrect">Nur nicht aus <marker>liebe</marker> weinen, es gibt im Leben nicht nur den einen.</example>
+            <example type="incorrect" correction="Liebe">Nur nicht aus <marker>liebe</marker> weinen, es gibt im Leben nicht nur den einen.</example>
         </rule>
         <rule id="IN_FRIEDEN" name="Groß-/Kleinschreibung: 'in frieden (Frieden)'">
             <pattern case_sensitive="yes">
@@ -15491,29 +15491,24 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                 <example type="incorrect" correction="Laufenden">Wir werden dich auf dem <marker>laufenden</marker> halten.</example>
             </rule>
         </rulegroup>
-        <rule id="ETWAS_WICHTIGES" name="Groß-/Kleinschreibung: 'etwas/nichts wichtiges (Wichtiges)'">
-            <pattern case_sensitive="yes">
-                <token regexp="yes">etwas|nichts</token>
-                <marker>
-                    <token>wichtiges</token>
-                </marker>
-            </pattern>
-            <message>&subanfang;<suggestion>Wichtiges</suggestion>&subende;</message>
-            <short>&prgk;.</short>
-            <example type="correct">Beiträge die etwas <marker>Wichtiges</marker> über den Spielverlauf verraten bitte kennzeichnen.</example>
-            <example type="incorrect">Beiträge die etwas <marker>wichtiges</marker> über den Spielverlauf verraten bitte kennzeichnen.</example>
-        </rule>
         <rule id="ETWAS_GUTES" name="Groß-/Kleinschreibung: 'etwas/nichts gutes (Gutes)'">
             <pattern case_sensitive="yes">
+                <token><exception regexp="yes">[eE]in</exception></token>
                 <token regexp="yes">etwas|nichts</token>
                 <marker>
-                    <token>gutes</token>
+                    <token postag="ADJ:NOM:SIN:NEU:GRU:IND" regexp="yes">[a-zäöü].+es<exception>anderes</exception></token>
                 </marker>
+                <token><exception postag="SUB:NOM:SIN:NEU"/></token>
             </pattern>
-            <message>&subanfang;<suggestion>Gutes</suggestion>&subende;</message>
+            <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion> hier großgeschrieben werden muss.</message>
             <short>&prgk;.</short>
             <example type="correct">Dahinter verbirgt sich nichts <marker>Gutes</marker>.</example>
-            <example type="incorrect">Dahinter verbirgt sich nichts <marker>gutes</marker>.</example>
+            <example type="correct">Dahinter verbirgt sich nichts <marker>anderes</marker> als eine Lüge.</example>
+            <example type="correct">Ich habe ein etwas <marker>seltsames</marker> Gefühl.</example>
+            <example type="correct">Ich kaufe etwas <marker>schmackhaftes</marker> Brot.</example>
+            <example type="correct">Beiträge, die etwas <marker>Wichtiges</marker> über den Spielverlauf verraten, bitte kennzeichnen.</example>
+            <example type="incorrect" correction="Wichtiges">Beiträge die etwas <marker>wichtiges</marker> über den Spielverlauf verraten bitte kennzeichnen.</example>
+            <example type="incorrect" correction="Gutes">Dahinter verbirgt sich nichts <marker>gutes</marker>.</example>
         </rule>
         <rulegroup id="ALLES_GUTE" name="Groß-/Kleinschreibung: 'alles gute (Gute)' [Glückwunschformel]">
             <rule>
