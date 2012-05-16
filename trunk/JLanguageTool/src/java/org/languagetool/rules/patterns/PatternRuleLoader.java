@@ -99,7 +99,6 @@ class PatternRuleHandler extends XMLRuleHandler {
     if ("category".equals(qName)) {
       final String catName = attrs.getValue("name");
       final String priorityStr = attrs.getValue("priority");
-      // int prio = 0;
       if (priorityStr == null) {
         category = new Category(catName);        
       } else {
@@ -259,7 +258,6 @@ class PatternRuleHandler extends XMLRuleHandler {
     } else if (qName.equals("marker") && inPattern) {
       endPos = tokenCountForMarker;
     } else if (qName.equals(PATTERN)) {
-      checkMarkPositions();
       inPattern = false;
       if (lastPhrase) {
         elementList.clear();
@@ -276,7 +274,7 @@ class PatternRuleHandler extends XMLRuleHandler {
       if (inCorrectExample) {
         correctExamples.add(correctExample.toString());
       } else if (inIncorrectExample) {
-        IncorrectExample example = null;
+        final IncorrectExample example;
         final String[] corrections = exampleCorrection.toString().split("\\|");
         if (corrections.length > 0 && corrections[0].length() > 0) {
           example = new IncorrectExample(incorrectExample.toString(), corrections);
@@ -336,14 +334,9 @@ class PatternRuleHandler extends XMLRuleHandler {
     if (startPos != -1 && endPos != -1) {
       rule.setStartPositionCorrection(startPos);
       rule.setEndPositionCorrection(endPos - tokenCountForMarker);
-    } else {
-      rule.setStartPositionCorrection(startPositionCorrection);
-      rule.setEndPositionCorrection(endPositionCorrection);
     }
     startPos = -1;
     endPos = -1;
-    startPositionCorrection = 0;
-    endPositionCorrection = 0;
     rule.setCorrectExamples(correctExamples);
     rule.setIncorrectExamples(incorrectExamples);
     rule.setCategory(category);
