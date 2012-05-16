@@ -249,8 +249,7 @@ public class XMLRuleHandler extends DefaultHandler {
         if (elementList.isEmpty()) {
           phraseElementList.add(new ArrayList<Element>(curPhrEl));
         } else {
-          final ArrayList<Element> prevList = new ArrayList<Element>(
-              elementList);
+          final ArrayList<Element> prevList = new ArrayList<Element>(elementList);
           prevList.addAll(curPhrEl);
           phraseElementList.add(new ArrayList<Element>(prevList));
           prevList.clear();
@@ -350,29 +349,34 @@ public class XMLRuleHandler extends DefaultHandler {
       //add incorrect XML character for simplicity
       message.append("\u0001\\");
       message.append(attrs.getValue("no"));
-      if (StringTools.isEmpty(attrs.getValue("no"))) {
-        throw new SAXException("References cannot be empty: " + "\n Line: "
-            + pLocator.getLineNumber() + ", column: "
-            + pLocator.getColumnNumber() + ".");
-      } else if (Integer.parseInt(attrs.getValue("no")) < 1) {
-        throw new SAXException("References must be larger than 0: "
-            + attrs.getValue("no") + "\n Line: " + pLocator.getLineNumber()
-            + ", column: " + pLocator.getColumnNumber() + ".");
-      }
+      checkNumber(attrs);
     } else if (inToken && attrs.getValue("no") != null) {
       final int refNumber = Integer.parseInt(attrs.getValue("no"));
-      if (refNumber > elementList.size()) {
-        throw new SAXException(
-            "Only backward references in match elements are possible, tried to specify token "
-            + refNumber
-            + "\n Line: "
-            + pLocator.getLineNumber()
-            + ", column: " + pLocator.getColumnNumber() + ".");
-      }
+      checkRefNumber(refNumber);
       mWorker.setTokenRef(refNumber);
       tokenReference = mWorker;
       elements.append('\\');
       elements.append(refNumber);
+    }
+  }
+
+  private void checkNumber(Attributes attrs) throws SAXException {
+    if (StringTools.isEmpty(attrs.getValue("no"))) {
+      throw new SAXException("References cannot be empty: " + "\n Line: "
+          + pLocator.getLineNumber() + ", column: "
+          + pLocator.getColumnNumber() + ".");
+    } else if (Integer.parseInt(attrs.getValue("no")) < 1) {
+      throw new SAXException("References must be larger than 0: "
+          + attrs.getValue("no") + "\n Line: " + pLocator.getLineNumber()
+          + ", column: " + pLocator.getColumnNumber() + ".");
+    }
+  }
+
+  private void checkRefNumber(int refNumber) throws SAXException {
+    if (refNumber > elementList.size()) {
+      throw new SAXException("Only backward references in match elements are possible, tried to specify token "
+                      + refNumber + "\n" + "Line: " + pLocator.getLineNumber()
+                      + ", column: " + pLocator.getColumnNumber() + ".");
     }
   }
 
