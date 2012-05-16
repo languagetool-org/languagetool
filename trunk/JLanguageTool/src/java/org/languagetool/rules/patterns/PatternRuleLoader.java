@@ -87,6 +87,7 @@ class PatternRuleHandler extends XMLRuleHandler {
   private String ruleGroupDescription;
   private int startPos = -1;
   private int endPos = -1;
+  private int tokenCountForMarker = 0;
 
   // ===========================================================
   // SAX DocumentHandler methods
@@ -140,8 +141,10 @@ class PatternRuleHandler extends XMLRuleHandler {
       }
     } else if (PATTERN.equals(qName)) {
       startPattern(attrs);     
+      tokenCountForMarker = 0;
     } else if (AND.equals(qName)) {
       inAndGroup = true;
+      tokenCountForMarker++;
     } else if ("unify".equals(qName)) {
       inUnification = true;           
       uniNegation = YES.equals(attrs.getValue(NEGATE));
@@ -152,6 +155,9 @@ class PatternRuleHandler extends XMLRuleHandler {
       uTypeList.add(uType);
     } else if (qName.equals(TOKEN)) {
       setToken(attrs);
+      if (!inAndGroup) {
+        tokenCountForMarker++;
+      }
     } else if (qName.equals("marker") && inPattern) {
       startPos = tokenCounter;
     } else if (EXCEPTION.equals(qName)) {
@@ -207,6 +213,7 @@ class PatternRuleHandler extends XMLRuleHandler {
       phraseId = attrs.getValue("id");
     } else if ("phraseref".equals(qName) && (attrs.getValue("idref") != null)) {
       preparePhrase(attrs);
+      tokenCountForMarker++;
     }    
   }
 
@@ -250,7 +257,7 @@ class PatternRuleHandler extends XMLRuleHandler {
     } else if (qName.equals(TOKEN)) {
       finalizeTokens();
     } else if (qName.equals("marker") && inPattern) {
-      endPos = tokenCounter;
+      endPos = tokenCountForMarker;
     } else if (qName.equals(PATTERN)) {
       checkMarkPositions();
       inPattern = false;
@@ -328,7 +335,7 @@ class PatternRuleHandler extends XMLRuleHandler {
   private void prepareRule(final PatternRule rule) {
     if (startPos != -1 && endPos != -1) {
       rule.setStartPositionCorrection(startPos);
-      rule.setEndPositionCorrection(endPos - elementList.size());
+      rule.setEndPositionCorrection(endPos - tokenCountForMarker);
     } else {
       rule.setStartPositionCorrection(startPositionCorrection);
       rule.setEndPositionCorrection(endPositionCorrection);
