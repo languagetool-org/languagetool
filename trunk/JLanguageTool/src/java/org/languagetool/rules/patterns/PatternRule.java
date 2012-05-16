@@ -210,5 +210,9 @@ public class PatternRule extends AbstractPatternRule {
     return suggestionMatches;
   }
 
+  @Override
+  public final String toString() {
+    return getId() + "[" + subId + "]" + ":" + patternElements + ":" + getDescription();
+  }
   
 }

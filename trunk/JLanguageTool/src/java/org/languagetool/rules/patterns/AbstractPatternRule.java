@@ -102,7 +102,7 @@ public abstract class AbstractPatternRule extends Rule {
   }
 
   @Override
-  public final String toString() {
+  public String toString() {
     return id + ":" + patternElements + ":" + description;
   }
 
