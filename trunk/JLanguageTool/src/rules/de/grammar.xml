@@ -94,105 +94,6 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     <!-- Tippfehler -->
     <!-- ====================================================================== -->
     <category name="Mögliche Tippfehler">
-        <rulegroup id="ANREDE" name="Möglicher Tippfehler: 'Sehr geehrte (geehrter) Herr Müller' u.ä.">
-            <!-- TODO check for comma at the end -->
-            <rule>
-                <pattern case_sensitive="no">
-                    <token postag="SENT_START"></token>
-                    <token>Sehr</token>
-                    <marker>
-                        <token regexp="yes">geehrt.*<exception>geehrter</exception>
-                        </token>
-                    </marker>
-                    <token>Herr</token>
-                </pattern>
-                <message>Möglicher Tippfehler: Meinten Sie die Anredeformel \2 <suggestion>geehrter</suggestion> \4?</message>
-                <short>Möglicher Tippfehler</short>
-                <example type="correct">Sehr <marker>geehrter</marker> Herr ...</example>
-                <example type="incorrect" correction="geehrter">Sehr <marker>geehrte</marker> Herr ...</example>
-                <example type="incorrect" correction="geehrter">Sehr <marker>geehrt</marker> Herr ...</example>
-                <example type="incorrect" correction="geehrter">Sehr <marker>geehrten</marker> Herr ...</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="no">
-                    <token postag="SENT_START"></token>
-                    <token>Sehr</token>
-                    <marker>
-                        <token regexp="yes">geehrt.*<exception>geehrte</exception>
-                        </token>
-                    </marker>
-                    <token regexp="yes">Frau|Damen</token>
-                </pattern>
-                <message>Möglicher Tippfehler: Meinten Sie die Anredeformel \2 <suggestion>geehrte</suggestion> \4?</message>
-                <short>Möglicher Tippfehler</short>
-                <example type="correct">Sehr <marker>geehrte</marker> Frau ...</example>
-                <example type="correct">Sehr <marker>geehrte</marker> Damen und Herren</example>
-                <example type="incorrect" correction="geehrte">Sehr <marker>geehrt</marker> Damen und Herren</example>
-                <example type="incorrect" correction="geehrte">Sehr <marker>geehrter</marker> Frau ...</example>
-                <example type="incorrect" correction="geehrte">Sehr <marker>geehrt</marker> Frau ...</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="no">
-                    <token postag="SENT_START"></token>
-                    <token>Sehr</token>
-                    <token regexp="yes">geehrte\w?</token>
-                    <token regexp="yes">Dame\w?</token>
-                    <token>und</token>
-                    <token regexp="yes">Herrn?</token>
-                </pattern>
-                <message>Möglicher Tippfehler: Meinten Sie die Anredeformel <suggestion>Sehr geehrte Damen und Herren</suggestion>?</message>
-                <short>Möglicher Tippfehler</short>
-                <example type="correct"><marker>Sehr geehrte Damen und Herren</marker></example>
-                <example type="incorrect" correction="Sehr geehrte Damen und Herren"><marker>Sehr geehrte Damen und Herrn</marker></example>
-                <example type="incorrect" correction="Sehr geehrte Damen und Herren"><marker>Sehr geehrte Dame und Herrn</marker></example>
-            </rule>
-        </rulegroup>
-        <rulegroup id="LIEBER_ANNA" name="Möglicher Tippfehler: 'Lieber (Liebe) Anna, ...'">
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token postag="SENT_START"></token>
-                    <marker>
-                        <token regexp="yes">[lL]ieb.*<exception>Liebe</exception></token>
-                    </marker>
-                    <token postag="EIG:NOM:SIN:FEM:(.*)VOR" postag_regexp="yes"><exception postag="EIG:NOM:SIN:MAS:(.*)VOR" postag_regexp="yes"></exception></token>
-                    <token>,</token>
-                </pattern>
-                <message>Möglicher Tippfehler: Meinten Sie <suggestion>Liebe</suggestion>?</message>
-                <short>Möglicher Tippfehler</short>
-                <example type="correct"><marker>Liebe</marker> Anna, ...</example>
-                <example type="incorrect" correction="Liebe"><marker>Lieber</marker> Anna, ...</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token postag="SENT_START"></token>
-                    <marker>
-                        <token regexp="yes">[lL]ieb.*<exception>Lieber</exception></token>
-                    </marker>
-                    <token postag="EIG:NOM:SIN:MAS:(.*)VOR" postag_regexp="yes"><exception postag="EIG:NOM:SIN:FEM:(.*)VOR" postag_regexp="yes"></exception></token>
-                    <token>,</token>
-                </pattern>
-                <message>Möglicher Tippfehler: Meinten Sie <suggestion>Lieber</suggestion>?</message>
-                <short>Möglicher Tippfehler</short>
-                <example type="correct"><marker>Lieber</marker> Dieter, ...</example>
-                <example type="correct">Ich <marker>liebe</marker> Dieter, weil ...</example>
-                <example type="incorrect" correction="Lieber"><marker>Liebe</marker> Dieter, ...</example>
-            </rule>
-        </rulegroup>
-        <rulegroup id="LIEB_GRUESSE" name="Möglicher Tippfehler: 'Lieb (Liebe) Grüße'">
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token postag="SENT_START"></token>
-                    <marker>
-                        <token regexp="yes">[lL]ieb.*<exception>Liebe</exception></token>
-                        <token>Grüße</token>
-                    </marker>
-                </pattern>
-                <message>Möglicher Tippfehler: Meinten Sie die Schlussformel <suggestion>Liebe Grüße</suggestion>?</message>
-                <short>Möglicher Tippfehler</short>
-                <example type="correct"><marker>Liebe Grüße</marker></example>
-                <example type="incorrect" correction="Liebe Grüße"><marker>Lieb Grüße</marker></example>
-            </rule>
-        </rulegroup>
         <rulegroup id="KOMMA_TLD" name="Möglicher Tippfehler: 'example,com (example.com)'">
             <rule>
                 <pattern case_sensitive="yes">
@@ -1101,7 +1002,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
             <rule>
                 <pattern>
                     <token>kann</token>
-                    <token>doch</token>
+                    <token regexp="yes">doch|gar</token>
                     <token>nicht</token>
                     <marker>
                         <token>seien</token>
@@ -1111,20 +1012,6 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                 <short>Möglicher Tippfehler</short>
                 <example type="incorrect" correction="sein">Das kann doch nicht <marker>seien</marker>.</example>
                 <example type="correct">Das kann doch nicht <marker>sein</marker>.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>kann</token>
-                    <token>gar</token>
-                    <token>nicht</token>
-                    <marker>
-                        <token>seien</token>
-                    </marker>
-                </pattern>
-                <message>Meinten Sie den Infinitiv <suggestion>sein</suggestion>?</message>
-                <short>Möglicher Tippfehler</short>
-                <example type="incorrect" correction="sein">Das kann gar nicht <marker>seien</marker>.</example>
-                <example type="correct">Das kann gar nicht <marker>sein</marker>.</example>
             </rule>
             <rule>
                 <pattern>
@@ -5067,19 +4954,19 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     <!-- ====================================================================== -->
     <category name="Zusammen-/Getrenntschreibung">
         <!--
-    <rulegroup id="HIN_UND_HER" name="Zusammen-/Getrenntschreibung: 'hin- und hergehen (hin und her gehen)">
-      <rule>
-        <pattern mark_from="0" mark_to="-1" case_sensitive="no">
-          <token>hin-</token>
-          <token>und</token>
-          <token regexp="yes">her(gehen|laufen|wandern|gehe|geht|gehst|ging|gingen|läuft|läufst|lief|liefen|wandert|wanderst|gegangen|gelaufen|gewandert)</token>
-        </pattern>
-        <message>Meinten Sie <suggestion>TODO</suggestion>?</message>
-        <example type="incorrect">Sie ist <marker>hin- und hergelaufen</marker> ...</example>
-        <example type="correct">Sie ist <marker>hin und her gelaufen</marker> ...</example>
-      </rule>
-    </rulegroup>
-    -->
+        <rulegroup id="HIN_UND_HER" name="Zusammen-/Getrenntschreibung: 'hin- und hergehen (hin und her gehen)">
+          <rule>
+            <pattern mark_from="0" mark_to="-1" case_sensitive="no">
+              <token>hin-</token>
+              <token>und</token>
+              <token regexp="yes">her(gehen|laufen|wandern|gehe|geht|gehst|ging|gingen|läuft|läufst|lief|liefen|wandert|wanderst|gegangen|gelaufen|gewandert)</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>TODO</suggestion>?</message>
+            <example type="incorrect">Sie ist <marker>hin- und hergelaufen</marker> ...</example>
+            <example type="correct">Sie ist <marker>hin und her gelaufen</marker> ...</example>
+          </rule>
+        </rulegroup>
+        -->
         <!-- Jan: TODO - find a rule that can distinguish "indem" from "in dem" -->
         <rulegroup id="ZAHL_JAHRELANG" name="Zusammen-/Getrenntschreibung: 'einige jahrelang (Jahre lang)' etc." default="off">
             <!-- TODO needs work -->
@@ -7141,7 +7028,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                 <token>so</token>
                 <token>dermaßen</token>
             </pattern>
-            <message>'So dermaßen' ist eine Doppelung – verwenden Sie <suggestion>so</suggestion> oder <suggestion>dermaßen</suggestion>.</message>
+            <message>'So dermaßen' ist eine Doppelung – bitte verwenden Sie <suggestion>so</suggestion> oder <suggestion>dermaßen</suggestion>, aber nicht beides.</message>
             <short>&redundanz;</short>
             <example type="incorrect" correction="so|dermaßen">Das Stück war <marker>so dermaßen</marker> langweilig.</example>
             <example type="correct">Das Stück war <marker>dermaßen</marker> langweilig.</example>
@@ -7151,7 +7038,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
             <rule>
                 <pattern>
                     <token regexp="yes">entstamm((en?)|s?t|ten?)</token>
-                    <token>aus</token>
+                    <token regexp="yes">aus|von</token>
                 </pattern>
                 <message><suggestion>\1</suggestion> wird mit dem Dativ und ohne die Präposition 'aus' verwendet, z.B. 'Sie entstammt einem guten Haus'. Alternativen: <suggestion><match no="1" regexp_replace="" regexp_match="^ent"></match> aus</suggestion>, <suggestion><match no="1" regexp_replace="ko" regexp_match="^entsta"></match> aus</suggestion>.</message>
                 <url>http://www.duden.de/rechtschreibung/entstammen</url>
@@ -7173,7 +7060,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                 <example type="correct"><marker>Inmitten</marker> der Stadt.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="ISBN-NUMMER" name="Verdoppelung bei Abkürzungen: 'ISBN-Nummer (ISBN)' u.ä.">
+        <rulegroup id="ISBN-NUMMER" name="Verdoppelung bei Komposita: 'ISBN-Nummer (ISBN)' u.ä.">
             <rule>
                 <pattern>
                     <token regexp="yes">SMS-Services?</token>
@@ -7288,19 +7175,19 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     <!-- ====================================================================== -->
     <!-- Stil/Sprachebene -->
     <!-- ====================================================================== -->
-    <!-- TODO split or rename category? (Umgangssprache + Stil) -->
-    <category name="Stil (allgemein)">
+    <!-- TODO split category? (Umgangssprache + Stil) -->
+    <category name="Umgangssprache, Stil">
         <!-- TODO Make one Java-rule for context-independent, colloquial expressions and maintain a list -->
         <!-- message is incorrect, thus commented out for now
-    <rule id="BAUCHWEH" name="Umgangssprache: 'Bauchweh (Bauchschmerz)'">
-      <pattern>
-        <token regexp="yes">(Bauch|Kopf|Hals|Zahn)wehe?s?n?</token>
-      </pattern>
-      <message>\1 ist umgangssprachlich. Vorschläge: <suggestion><match no="1" regexp_replace="schmerz" regexp_match="weh.*"/></suggestion>, <suggestion><match no="1" regexp_replace="schmerzen" regexp_match="weh.*"/></suggestion></message>
-      <example type="correct">Er hat <marker>Bauchschmerzen</marker>.</example>
-      <example type="incorrect">Wegen des starken <marker>Zahnwehs</marker>...</example>
-    </rule>
-    -->
+        <rule id="BAUCHWEH" name="Umgangssprache: 'Bauchweh (Bauchschmerz)'">
+          <pattern>
+            <token regexp="yes">(Bauch|Kopf|Hals|Zahn)wehe?s?n?</token>
+          </pattern>
+          <message>\1 ist umgangssprachlich. Vorschläge: <suggestion><match no="1" regexp_replace="schmerz" regexp_match="weh.*"/></suggestion>, <suggestion><match no="1" regexp_replace="schmerzen" regexp_match="weh.*"/></suggestion></message>
+          <example type="correct">Er hat <marker>Bauchschmerzen</marker>.</example>
+          <example type="incorrect">Wegen des starken <marker>Zahnwehs</marker>...</example>
+        </rule>
+        -->
         <rulegroup id="AUF_OFFEN" name="Umgangssprache: 'auf (offen)'">
             <rule>
                 <pattern>
@@ -7840,25 +7727,25 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <rulegroup id="RAN_RUM_RAUF_REIN_RAUS_RUNTER" name="Umgangssprache: 'rauf (herauf)' usw. [unvollständig!]">
             <!-- TODO: add the other cases; avoid collisions with 'rein' as adjective, 'Rum' as noun, add compounds such as 'rumlaufen', etc. -->
             <!--
-      <rule>
-        <pattern>
-          <token>rauf</token>
-        </pattern>
-        <message>Möchten Sie 'rauf' durch <suggestion>herauf</suggestion> bzw. <suggestion>hinauf</suggestion> ersetzen?</message>
-        <example type="incorrect">Er lief den Hügel <marker>rauf</marker>.</example>
-        <example type="correct">Er lief den Hügel <marker>hinauf</marker>.</example>
-        <example type="correct">Er kam den Hügel <marker>herauf</marker>.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>rein</token>
-        </pattern>
-        <message>Möchten Sie 'rein' durch <suggestion>herein</suggestion> bzw. <suggestion>hinein</suggestion> ersetzen?</message>
-        <example type="incorrect">Er lief in den Tunnel <marker>rein</marker>.</example>
-        <example type="correct">Er lief in den Tunnel <marker>hinein</marker>.</example>
-        <example type="correct">Er kam in den Tunnel <marker>herein</marker>.</example>
-      </rule>
-      -->
+            <rule>
+              <pattern>
+                <token>rauf</token>
+              </pattern>
+              <message>Möchten Sie 'rauf' durch <suggestion>herauf</suggestion> bzw. <suggestion>hinauf</suggestion> ersetzen?</message>
+              <example type="incorrect">Er lief den Hügel <marker>rauf</marker>.</example>
+              <example type="correct">Er lief den Hügel <marker>hinauf</marker>.</example>
+              <example type="correct">Er kam den Hügel <marker>herauf</marker>.</example>
+            </rule>
+            <rule>
+              <pattern>
+                <token>rein</token>
+              </pattern>
+              <message>Möchten Sie 'rein' durch <suggestion>herein</suggestion> bzw. <suggestion>hinein</suggestion> ersetzen?</message>
+              <example type="incorrect">Er lief in den Tunnel <marker>rein</marker>.</example>
+              <example type="correct">Er lief in den Tunnel <marker>hinein</marker>.</example>
+              <example type="correct">Er kam in den Tunnel <marker>herein</marker>.</example>
+            </rule>
+            -->
             <rule>
                 <pattern>
                     <token regexp="yes">raus(bekommen|gaben|geben|gebt|gefahren|gefahrenen|gegangen|gegangenen|gegeben|gegebenen|gehen|gehst|geht|gejagt|gekitzelt|geklettert|gekommen|gekriegt|gekrochen|gelassen|gelaufen|gelegt|gelesen|gelockt|gemacht|genommen|gepickt|geplatzt|geputzt|gequollen|geredet|gerissen|gerückt|gerutscht|geschaut|geschickt|geschlüpft|gesetzt|gesprudelt|gestellt|geströmt|gestürmt|gestürzt|gesucht|getragen|geworfen|geworfenen|gezerrt|gezogen|gucken|guckten|haben|hauen|holen|klettern|kletterten|klingeln|klingelten|krabbeln|kriechen|kriegen|kriegten|lassen|laufen|legen|ließen|locken|nehmen|platzen|platzten|rannten|rannte|reden|redeten|reißen|rennen|riefen|rutschen|rutschten|schauen|schauten|schicken|schickten|schmeißen|schmuggeln|suchen|suchten|warfen|werfen|zerren|ziehen)</token>
@@ -8078,18 +7965,18 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <!-- TODO find a better group?-->
         <rulegroup id="ZITAT_VGL" name="Stil: 'vgl.' bei direkten Zitaten">
             <!--
-      <rule>
-        <pattern mark_from="1">
-          <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes">('|"|»|„|›|‚|‘|‹|«|)</exception></token>
-          <token>(</token>
-          <token regexp="yes">(S|Z)</token>
-        </pattern>
-        <message>Bei indirekten Zitaten steht ein 'vgl.' vor der Zeilenangabe. Vorschlag: <suggestion>(vgl. \3</suggestion></message>
-        <example type="correct">Er sagt, Rota solle kommen (vgl. S. 1).</example>
-        <example type="incorrect" correction="(vgl. S">Er sagt, Rota solle kommen <marker>(S</marker>. 1).</example>
-        <example type="correct">Am Anfang der Szene (Z. 1-11)...</example> TODO false alarm (Gliederungsangabe)
-      </rule>
-      -->
+            <rule>
+              <pattern mark_from="1">
+                <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes">('|"|»|„|›|‚|‘|‹|«|)</exception></token>
+                <token>(</token>
+                <token regexp="yes">(S|Z)</token>
+              </pattern>
+              <message>Bei indirekten Zitaten steht ein 'vgl.' vor der Zeilenangabe. Vorschlag: <suggestion>(vgl. \3</suggestion></message>
+              <example type="correct">Er sagt, Rota solle kommen (vgl. S. 1).</example>
+              <example type="incorrect" correction="(vgl. S">Er sagt, Rota solle kommen <marker>(S</marker>. 1).</example>
+              <example type="correct">Am Anfang der Szene (Z. 1-11)...</example> TODO false alarm (Gliederungsangabe)
+            </rule>
+            -->
             <rule>
                 <pattern>
                     <token regexp="yes">&anfzu;</token>
@@ -8109,9 +7996,143 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     </category>
 
     <!-- ====================================================================== -->
-    <!-- Stil/Korrespondenz -->
+    <!-- Korrespondenz -->
     <!-- ====================================================================== -->
-    <category name="Stil (Briefe und E-Mails)" default="off">
+    <category name="Briefe und E-Mails" default="off">
+        <rulegroup id="ANREDE" name="Möglicher Tippfehler: 'Sehr geehrte (geehrter) Herr Müller' u.ä.">
+            <!-- TODO check for comma at the end -->
+            <rule>
+                <pattern case_sensitive="no">
+                    <token postag="SENT_START"></token>
+                    <token>Sehr</token>
+                    <marker>
+                        <token regexp="yes">geehrt.*<exception>geehrter</exception>
+                        </token>
+                    </marker>
+                    <token>Herr</token>
+                </pattern>
+                <message>Möglicher Tippfehler: Meinten Sie die Anredeformel \2 <suggestion>geehrter</suggestion> \4?</message>
+                <short>Möglicher Tippfehler</short>
+                <example type="correct">Sehr <marker>geehrter</marker> Herr ...</example>
+                <example type="incorrect" correction="geehrter">Sehr <marker>geehrte</marker> Herr ...</example>
+                <example type="incorrect" correction="geehrter">Sehr <marker>geehrt</marker> Herr ...</example>
+                <example type="incorrect" correction="geehrter">Sehr <marker>geehrten</marker> Herr ...</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="no">
+                    <token postag="SENT_START"></token>
+                    <token>Sehr</token>
+                    <marker>
+                        <token regexp="yes">geehrt.*<exception>geehrte</exception>
+                        </token>
+                    </marker>
+                    <token regexp="yes">Frau|Damen</token>
+                </pattern>
+                <message>Möglicher Tippfehler: Meinten Sie die Anredeformel \2 <suggestion>geehrte</suggestion> \4?</message>
+                <short>Möglicher Tippfehler</short>
+                <example type="correct">Sehr <marker>geehrte</marker> Frau ...</example>
+                <example type="correct">Sehr <marker>geehrte</marker> Damen und Herren</example>
+                <example type="incorrect" correction="geehrte">Sehr <marker>geehrt</marker> Damen und Herren</example>
+                <example type="incorrect" correction="geehrte">Sehr <marker>geehrter</marker> Frau ...</example>
+                <example type="incorrect" correction="geehrte">Sehr <marker>geehrt</marker> Frau ...</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="no">
+                    <token postag="SENT_START"></token>
+                    <token>Sehr</token>
+                    <token regexp="yes">geehrte\w?</token>
+                    <token regexp="yes">Dame\w?</token>
+                    <token>und</token>
+                    <token regexp="yes">Herrn?</token>
+                </pattern>
+                <message>Möglicher Tippfehler: Meinten Sie die Anredeformel <suggestion>Sehr geehrte Damen und Herren</suggestion>?</message>
+                <short>Möglicher Tippfehler</short>
+                <example type="correct"><marker>Sehr geehrte Damen und Herren</marker></example>
+                <example type="incorrect" correction="Sehr geehrte Damen und Herren"><marker>Sehr geehrte Damen und Herrn</marker></example>
+                <example type="incorrect" correction="Sehr geehrte Damen und Herren"><marker>Sehr geehrte Dame und Herrn</marker></example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="LIEBER_ANNA" name="Möglicher Tippfehler: 'Lieber (Liebe) Anna, ...' (als Anredeformel)">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START"></token>
+                    <marker>
+                        <token regexp="yes">[lL]ieb.*<exception>Liebe</exception></token>
+                    </marker>
+                    <token postag="EIG:NOM:SIN:FEM:(.*)VOR" postag_regexp="yes"><exception postag="EIG:NOM:SIN:MAS:(.*)VOR" postag_regexp="yes"></exception></token>
+                    <token>,</token>
+                </pattern>
+                <message>Möglicher Tippfehler: Meinten Sie <suggestion>Liebe</suggestion>?</message>
+                <short>Möglicher Tippfehler</short>
+                <example type="correct"><marker>Liebe</marker> Anna, ...</example>
+                <example type="incorrect" correction="Liebe"><marker>Lieber</marker> Anna, ...</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START"></token>
+                    <marker>
+                        <token regexp="yes">[lL]ieb.*<exception>Lieber</exception></token>
+                    </marker>
+                    <token postag="EIG:NOM:SIN:MAS:(.*)VOR" postag_regexp="yes"><exception postag="EIG:NOM:SIN:FEM:(.*)VOR" postag_regexp="yes"></exception></token>
+                    <token>,</token>
+                </pattern>
+                <message>Möglicher Tippfehler: Meinten Sie <suggestion>Lieber</suggestion>?</message>
+                <short>Möglicher Tippfehler</short>
+                <example type="correct"><marker>Lieber</marker> Dieter, ...</example>
+                <example type="correct">Ich <marker>liebe</marker> Dieter, weil ...</example>
+                <example type="incorrect" correction="Lieber"><marker>Liebe</marker> Dieter, ...</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START"></token>
+                    <marker>
+                        <token regexp="yes">Lieb.*<exception>Lieber</exception></token>
+                    </marker>
+                    <token>Herr</token>
+                    <token regexp="yes">[A-ZÄÖÜ].+</token>
+                    <token>,</token>
+                </pattern>
+                <message>Möglicher Tippfehler: Meinten Sie <suggestion>Lieber</suggestion>?</message>
+                <short>Möglicher Tippfehler</short>
+                <example type="correct"><marker>Lieber</marker> Herr Müller, ...</example>
+                <example type="correct">Ich <marker>liebe</marker> Herrn Müller, weil ...</example>
+                <example type="correct">Der <marker>liebe</marker> Herr Müller hat mir geholfen.</example>
+                <example type="incorrect" correction="Lieber"><marker>Liebe</marker> Herr Müller, ...</example>
+                <example type="incorrect" correction="Lieber"><marker>Lieben</marker> Herr Müller, ...</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START"></token>
+                    <marker>
+                        <token regexp="yes">Lieb.*<exception>Liebe</exception></token>
+                    </marker>
+                    <token>Frau</token>
+                    <token regexp="yes">[A-ZÄÖÜ].+</token>
+                    <token>,</token>
+                </pattern>
+                <message>Möglicher Tippfehler: Meinten Sie <suggestion>Liebe</suggestion>?</message>
+                <short>Möglicher Tippfehler</short>
+                <example type="correct"><marker>Liebe</marker> Frau Müller, ...</example>
+                <example type="correct"><marker>Lieber</marker> Frau Müller als Herrn Schmidt.</example>
+                <example type="incorrect" correction="Liebe"><marker>Lieber</marker> Frau Müller, ...</example>
+                <example type="incorrect" correction="Liebe"><marker>Lieb</marker> Frau Müller, ...</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="LIEB_GRUESSE" name="Möglicher Tippfehler: 'Lieb (Liebe) Grüße'">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START"></token>
+                    <marker>
+                        <token regexp="yes">[lL]ieb.*<exception>Liebe</exception></token>
+                        <token>Grüße</token>
+                    </marker>
+                </pattern>
+                <message>Möglicher Tippfehler: Meinten Sie die Schlussformel <suggestion>Liebe Grüße</suggestion>?</message>
+                <short>Möglicher Tippfehler</short>
+                <example type="correct"><marker>Liebe Grüße</marker></example>
+                <example type="incorrect" correction="Liebe Grüße"><marker>Lieb Grüße</marker></example>
+            </rule>
+        </rulegroup>
         <rulegroup id="VERBLEIBEN_WIR" name="Stil: 'verbleibe ich' (altmodische Formel)" default="off">
             <rule>
                 <pattern case_sensitive="no">
@@ -8249,6 +8270,18 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                 <example type="incorrect" correction="Sie">Wenn <marker>sie</marker> wollen ...</example>
             </rule>
         </rulegroup>
+        <rule id="MIT_FREUNDLICHEN_GRUESSEN_KOMMA" name="Zeichensetzung: Falsches Satzzeichen nach 'Mit freundlichen Grüßen'">
+            <pattern>
+                <token postag="SENT_START"></token>
+                <token>Mit</token>
+                <token>freundlichen</token>
+                <token>Grüßen</token>
+                <token regexp="yes">(,|\.|:|!|;)</token>
+            </pattern>
+            <message>Nach der Grußformel <suggestion>Mit freundlichen Grüßen</suggestion> steht laut Empfehlung des Duden kein Satzzeichen.</message>
+            <example type="correct"><marker>Mit freundlichen Grüßen</marker></example>
+            <example correction="Mit freundlichen Grüßen" type="incorrect"><marker>Mit freundlichen Grüßen,</marker></example>
+        </rule>
     </category>
 
     <!-- ====================================================================== -->
@@ -10773,9 +10806,9 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
             <example type="correct">Auf <marker>Wiedersehen</marker>!</example>
         </rule>
         <!-- Großgeschrieben wird das substantivierte Adjektiv, wenn es im Sinne von »deutsche Sprache« verwendet wird:
-    http://www.duden.de/rechtschreibung/deutsch
-    Großgeschrieben werden ferner Sprachbezeichnungen nach einer Präposition
-    http://www.duden.de/sprachratgeber/gross-und-kleinschreibung-1 -->
+          http://www.duden.de/rechtschreibung/deutsch
+          Großgeschrieben werden ferner Sprachbezeichnungen nach einer Präposition
+          http://www.duden.de/sprachratgeber/gross-und-kleinschreibung-1 -->
         <rule id="AUF_ENGLISCH" name="Groß-/Kleinschreibung: 'auf englisch (Englisch)'">
             <pattern case_sensitive="yes">
                 <token regexp="yes">[iI]n|[aA]uf</token>
@@ -10815,7 +10848,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         </rulegroup>
         <rulegroup id="GROSSSCHREIBUNG_MEHRTEILIGE_NAMEN" name="Groß-/Kleinschreibung: Mehrteilige Namen 'französische (Französische) Revolution etc.'">
             <!-- http://www.duden.de/rechtschreibregeln/namen#K150
-        Alle zu einem mehrteiligen Namen gehörenden Adjektive, Partizipien, Pronomen und Zahlwörter schreibt man groß <§ 60>. -->
+                 Alle zu einem mehrteiligen Namen gehörenden Adjektive, Partizipien, Pronomen und Zahlwörter schreibt man groß <§ 60>. -->
             <!-- TODO Maybe we should make a Java rule for this and maintain a list -->
             <rule>
                 <pattern case_sensitive="yes">
@@ -11160,16 +11193,16 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                 <example type="incorrect" correction="Deutscher">Des Heiligen römischen Reiches <marker>deutscher</marker> Nation</example>
             </rule>
             <!-- TODO I don't know whether it's capitalized only if referring to soccer
-      <rule>
-        <pattern mark_to="-1" mark_from="1" case_sensitive="yes">
-          <token regexp="yes">(D|d)(ie|er)</token>
-          <token regexp="yes">(erste|zweite)(n)?</token>
-          <token>Bundesliga</token>
-        </pattern>
-        <message>Meinten Sie <suggestion><match case_conversion="startupper" no="2"/></suggestion> \3? &namengross;</message>
-        <example type="correct">Die <marker>Erste</marker> Bundesliga</example>
-        <example type="incorrect" correction="Zweiten">der <marker>zweiten</marker> Bundesliga</example>
-      </rule>-->
+            <rule>
+              <pattern mark_to="-1" mark_from="1" case_sensitive="yes">
+                <token regexp="yes">(D|d)(ie|er)</token>
+                <token regexp="yes">(erste|zweite)(n)?</token>
+                <token>Bundesliga</token>
+              </pattern>
+              <message>Meinten Sie <suggestion><match case_conversion="startupper" no="2"/></suggestion> \3? &namengross;</message>
+              <example type="correct">Die <marker>Erste</marker> Bundesliga</example>
+              <example type="incorrect" correction="Zweiten">der <marker>zweiten</marker> Bundesliga</example>
+            </rule>-->
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">(d|D)(ie|er)</token>
@@ -11356,7 +11389,8 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         </rulegroup>
         <rulegroup id="KLEINSCHREIBUNG_KEIN_NAME" name="Groß-/Kleinschreibung: Kein Eigenname 'Schwarzer (schwarzer) Tee etc.'">
             <!-- http://www.duden.de/rechtschreibregeln/namen#K151
-        Es gibt Wortgruppen (feste Begriffe), die keine Namen sind, obwohl sie oft als Namen angesehen werden. Hier schreibt man die Adjektive in der Regel klein <§ 63>. -->
+                 Es gibt Wortgruppen (feste Begriffe), die keine Namen sind, obwohl sie oft als Namen angesehen werden.
+                 Hier schreibt man die Adjektive in der Regel klein <§ 63>. -->
             <rule>
                 <pattern case_sensitive="yes">
                     <token negate_pos="yes" postag="SENT_START"></token>
@@ -16020,8 +16054,8 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
             <example type="correct"><marker>Ein paar</marker> Münzen.</example>
             <example type="incorrect"><marker>Ein Paar</marker> Münzen.</example>
             <!--
-      <example type="incorrect"><marker>Ein Paar</marker> schöne Münzen.</example>
-      -->
+            <example type="incorrect"><marker>Ein Paar</marker> schöne Münzen.</example>
+            -->
         </rule>
         <rule id="GUTEN_UND_SCHLECHTEN" name="Groß-/Kleinschreibung: 'in Guten (guten) wie in Schlechten (schlechten) Zeiten'">
             <pattern case_sensitive="yes">
@@ -16217,89 +16251,89 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     <!-- ====================================================================== -->
     <category name="Grammatik">
         <!-- TODO: testen!!
-    <rulegroup id="DIE_DER" name="Grammatik: 'der/die' (Genitiv Plural für Substantive)">
-      <rule>
-        <pattern mark_from="1" mark_to="-1">
-          <token postag="SUB:.*" postag_regexp="yes"/>
-          <token>die</token>
-          <token postag="SUB:GEN:PLU:.*" postag_regexp="yes"/>
-        </pattern>
-        <message>Kasusfehler: Beim Genitiv Plural braucht man den Artikel <suggestion>der</suggestion>.</message>
-        <example type="incorrect">Die Frau <marker>die</marker> Männer ist schön.</example>
-        <example type="correct">Die Frau <marker>der</marker> Männer ist schön.</example>
-      </rule>
-    </rulegroup>
-    -->
+        <rulegroup id="DIE_DER" name="Grammatik: 'der/die' (Genitiv Plural für Substantive)">
+          <rule>
+            <pattern mark_from="1" mark_to="-1">
+              <token postag="SUB:.*" postag_regexp="yes"/>
+              <token>die</token>
+              <token postag="SUB:GEN:PLU:.*" postag_regexp="yes"/>
+            </pattern>
+            <message>Kasusfehler: Beim Genitiv Plural braucht man den Artikel <suggestion>der</suggestion>.</message>
+            <example type="incorrect">Die Frau <marker>die</marker> Männer ist schön.</example>
+            <example type="correct">Die Frau <marker>der</marker> Männer ist schön.</example>
+          </rule>
+        </rulegroup>
+        -->
         <!-- TODO: testen!!
-    <rulegroup id="EINER_EINE" name="Grammatik: 'unbestimmter weiblicher Artikel im Akkusativ'">
-      <rule>
-        <pattern mark_from="0">
-          <token>einer</token>
-          <token postag="SUB:AKK:SIN:FEM:.*"/>
-        </pattern>
-        <message>Kasusfehler: Beim Akkusativ Plural braucht man den unbestimmten Artikel <suggestion>eine</suggestion>.</message>
-        <example type="correct">Wir möchten gerne <marker>eine</marker> Lizenz erwerben.</example>
-        <example type="incorrect">Wir möchten gerne <marker>einer</marker> Lizenz erwerben.</example>
-      </rule>
-    </rulegroup>
-    -->
+        <rulegroup id="EINER_EINE" name="Grammatik: 'unbestimmter weiblicher Artikel im Akkusativ'">
+          <rule>
+            <pattern mark_from="0">
+              <token>einer</token>
+              <token postag="SUB:AKK:SIN:FEM:.*"/>
+            </pattern>
+            <message>Kasusfehler: Beim Akkusativ Plural braucht man den unbestimmten Artikel <suggestion>eine</suggestion>.</message>
+            <example type="correct">Wir möchten gerne <marker>eine</marker> Lizenz erwerben.</example>
+            <example type="incorrect">Wir möchten gerne <marker>einer</marker> Lizenz erwerben.</example>
+          </rule>
+        </rulegroup>
+        -->
         <!-- TODO: testen!!
-    <rulegroup id="DES_DER" name="Grammatik: 'der/des' (Genitiv Singular für männliche Substantive">
-      <rule>
-        <pattern mark_from="1" mark_to="-1">
-          <token postag="SUB:.*" postag_regexp="yes"/>
-          <token regexp="yes">der|dem|den</token>
-          <token postag="SUB:GEN:SIN:MAS:.*" postag_regexp="yes"/>
-        </pattern>
-        <message>Kasusfehler: Beim Genitiv Singular Maskulin braucht man den Artikel <suggestion>des</suggestion>.</message>
-        <example type="correct">Die Tochter <marker>des</marker> Vaters.</example>
-        <example type="incorrect">Die Tochter <marker>dem</marker> Vater</example>
-      </rule>
-    </rulegroup>
-    -->
+        <rulegroup id="DES_DER" name="Grammatik: 'der/des' (Genitiv Singular für männliche Substantive">
+          <rule>
+            <pattern mark_from="1" mark_to="-1">
+              <token postag="SUB:.*" postag_regexp="yes"/>
+              <token regexp="yes">der|dem|den</token>
+              <token postag="SUB:GEN:SIN:MAS:.*" postag_regexp="yes"/>
+            </pattern>
+            <message>Kasusfehler: Beim Genitiv Singular Maskulin braucht man den Artikel <suggestion>des</suggestion>.</message>
+            <example type="correct">Die Tochter <marker>des</marker> Vaters.</example>
+            <example type="incorrect">Die Tochter <marker>dem</marker> Vater</example>
+          </rule>
+        </rulegroup>
+        -->
         <!-- TODO: Fix false alarms like in "Seite zum Suchen von Abkürzungen"
-    <rulegroup id="ZUM_ZUR" name="Grammatik: 'zum (zur) Trennung'">
-      <rule>
-        <pattern case_sensitive="no" mark_to="-1">
-          <token regexp="yes">zum|vom</token>
-          <token postag="SUB:.*FEM" postag_regexp="yes"/>
-        </pattern>
-        <message>Meinten Sie <suggestion>zur</suggestion> ?</message>
-        <example type="correct">Eine einfache Java-Bibliothek Software <marker>zur</marker> Trennung von Komposita.</example>
-        <example type="incorrect">Eine einfache Java-Bibliothek Software <marker>zum</marker> Trennung von Komposita.</example>
-      </rule>
-    </rulegroup>
-    -->
+        <rulegroup id="ZUM_ZUR" name="Grammatik: 'zum (zur) Trennung'">
+          <rule>
+            <pattern case_sensitive="no" mark_to="-1">
+              <token regexp="yes">zum|vom</token>
+              <token postag="SUB:.*FEM" postag_regexp="yes"/>
+            </pattern>
+            <message>Meinten Sie <suggestion>zur</suggestion> ?</message>
+            <example type="correct">Eine einfache Java-Bibliothek Software <marker>zur</marker> Trennung von Komposita.</example>
+            <example type="incorrect">Eine einfache Java-Bibliothek Software <marker>zum</marker> Trennung von Komposita.</example>
+          </rule>
+        </rulegroup>
+        -->
         <!-- TODO: make this more generic + avoid false alarm in "helfen ihm zu finden"
-    <rule id="HELFEN_DATIV" name="Grammatik: 'Dativ nach 'helfen'">
-      <pattern mark_from="1">
-        <token regexp="yes">helfen|hilft|helfe|hilfst|helft|half|halfst|halfen|halft</token>
-        <token>ihn</token>
-      </pattern>
-      <message>Kasusfehler: Das Personalpronomen nach 'helfen' muss im Dativ stehen (z.B. 'ihm').</message>
-      <example type="correct">Sie hilft <marker>ihm</marker> gerne.</example>
-      <example type="correct">Sie hilft <marker>ihnen</marker> gerne.</example>
-      <example type="correct">Sie helfen <marker>mir</marker> gerne.</example>
-      <example type="correct">Sie helfen <marker>dir</marker> gerne.</example>
-      <example type="correct">Sie helfen <marker>uns</marker> gerne.</example>
-      <example type="incorrect">Sie hilft <marker>ihn</marker> gerne.</example>
-    </rule>
-    -->
+        <rule id="HELFEN_DATIV" name="Grammatik: 'Dativ nach 'helfen'">
+          <pattern mark_from="1">
+            <token regexp="yes">helfen|hilft|helfe|hilfst|helft|half|halfst|halfen|halft</token>
+            <token>ihn</token>
+          </pattern>
+          <message>Kasusfehler: Das Personalpronomen nach 'helfen' muss im Dativ stehen (z.B. 'ihm').</message>
+          <example type="correct">Sie hilft <marker>ihm</marker> gerne.</example>
+          <example type="correct">Sie hilft <marker>ihnen</marker> gerne.</example>
+          <example type="correct">Sie helfen <marker>mir</marker> gerne.</example>
+          <example type="correct">Sie helfen <marker>dir</marker> gerne.</example>
+          <example type="correct">Sie helfen <marker>uns</marker> gerne.</example>
+          <example type="incorrect">Sie hilft <marker>ihn</marker> gerne.</example>
+        </rule>
+        -->
         <!-- TODO: too many false alarms
-    <rulegroup id="SEIT_PREP_TEILGRUPPE_MIT_NACH_ETC" name="Grammatik: 'seit/nach/... des (dem)'">
-      <rule>
-        <pattern case_sensitive="no" mark_from="1">
-          <token regexp="yes">mit|nach|bei|von|aus|zu|seit</token>
-          <token postag=".*:DEF:(GEN|NOM|AKK).*" postag_regexp="yes"/>
-          <token/>
-        </pattern>
-        <message>Meinten Sie den Dativ?</message>
-        <example type="correct">Seit <marker>dem Umzug</marker> auf einen neuen Server...</example>
-        <example type="correct">Aber nach <marker>einer Warnung</marker> hielt er an.</example>
-        <example type="incorrect">Seit <marker>des Umzuges</marker> auf einen neuen Server...</example>
-      </rule>
-    </rulegroup>
-    -->
+        <rulegroup id="SEIT_PREP_TEILGRUPPE_MIT_NACH_ETC" name="Grammatik: 'seit/nach/... des (dem)'">
+          <rule>
+            <pattern case_sensitive="no" mark_from="1">
+              <token regexp="yes">mit|nach|bei|von|aus|zu|seit</token>
+              <token postag=".*:DEF:(GEN|NOM|AKK).*" postag_regexp="yes"/>
+              <token/>
+            </pattern>
+            <message>Meinten Sie den Dativ?</message>
+            <example type="correct">Seit <marker>dem Umzug</marker> auf einen neuen Server...</example>
+            <example type="correct">Aber nach <marker>einer Warnung</marker> hielt er an.</example>
+            <example type="incorrect">Seit <marker>des Umzuges</marker> auf einen neuen Server...</example>
+          </rule>
+        </rulegroup>
+        -->
         <rulegroup id="KEIN_PLURAL_WAEHRUNG" name="Grammatik: Kein Plural bei Geldbeträgen, z.B. 'fünf Euros (Euro)'">
             <!-- TODO andere Währungen, evt. allgemeiner für Einheiten: '6 Fuß (nicht: Füße) groß' usw. -->
             <rule>
@@ -16402,7 +16436,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                     <token regexp="yes">(Wegen|Abzüglich)</token><!-- TODO Abseits das …-->
                     <token regexp="yes">(das|dem|den|die)(selben?)?|ein|(D|d|s|m)?eine(m|n)?|(eu|ih|Ih|unse)re(m|n)?|(jene|deine|diese)(m|n)?</token>
                 </pattern>
-                <message>Die Präposition '<match no="2" case_conversion="startlower"></match>' erfordert in der Regel den Genitiv.</message><!--TODO \2 should be lowercase-->
+                <message>Die Präposition '<match no="2" case_conversion="startlower"></match>' erfordert in der Regel den Genitiv.</message> <!-- TODO \2 should be lowercase-->
                 <url>http://www.canoo.net/services/OnlineGrammar/Wort/Praeposition/Kasus/Genitiv.html</url>
                 <short>Diese Präposition erfordert den Genitiv</short>
                 <example type="incorrect"><marker>Wegen dem</marker> Unfall</example>
@@ -16415,9 +16449,9 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                 <example type="incorrect"><marker>Wegen deinem</marker> Auto</example>
                 <example type="correct"><marker>Wegen jenes</marker> Auto</example>
                 <!--
-        <example type="correct"><marker>Abseits des</marker> Weges …</example>
-        <example type="incorrect"><marker>Abseits dem</marker> Weg …</example>
-        -->
+                <example type="correct"><marker>Abseits des</marker> Weges …</example>
+                <example type="incorrect"><marker>Abseits dem</marker> Weg …</example>
+                -->
             </rule>
         </rulegroup>
         <rule id="GEMAESS_DES" name="Grammatik: Präposition/Kasus – 'gemäß des (dem)'">
@@ -16867,21 +16901,21 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                 <example type="incorrect" correction="lassen">Ich habe dich am ausgestreckten Arm verhungern <marker>gelassen</marker>.</example>
             </rule>
             <!-- FIXME: replacement doesn't work, as discussed on the mailing list around May 11, 2012
-      <rule>
-        <pattern case_sensitive="yes" mark_from="1">
-          <token postag="VER:INF:.+" postag_regexp="yes"/>
-          <token regexp="yes">gekonnt|gedurft|gewollt|gesollt|gemusst|gehört</token>
-        </pattern>
-        <message>Modalverben erfordern statt des Partizips mit 'ge-' den Infinitiv: <suggestion><match no="2" postag="PA2:PRD:GRU:VER:MOD" postag_regexp="yes" postag_replace="VER:MOD:INF"/></suggestion>.</message>
-        <url>http://www.magazin.institut1.de/690_Sprache_heissen_machen_lassen_als_Hilfsverben.html</url>
-        <short>Ersatzinfinitiv statt Partizip Perfekt erforderlich.</short>
-        <example type="correct">Ich habe leider nicht kommen <marker>können</marker>.</example>
-        <example type="incorrect" correction="müssen">Das hat ja so kommen <marker>gemusst</marker>.</example>
-        <example type="incorrect" correction="können">Ich habe leider nicht kommen <marker>gekonnt</marker>.</example>
-        <example type="incorrect" correction="wollen">Ich habe nicht kommen <marker>gewollt</marker>.</example>
-        <example type="incorrect" correction="hören">Ich habe dich gar nicht kommen <marker>gehört</marker>.</example>
-      </rule>
-      -->
+            <rule>
+              <pattern case_sensitive="yes" mark_from="1">
+                <token postag="VER:INF:.+" postag_regexp="yes"/>
+                <token regexp="yes">gekonnt|gedurft|gewollt|gesollt|gemusst|gehört</token>
+              </pattern>
+              <message>Modalverben erfordern statt des Partizips mit 'ge-' den Infinitiv: <suggestion><match no="2" postag="PA2:PRD:GRU:VER:MOD" postag_regexp="yes" postag_replace="VER:MOD:INF"/></suggestion>.</message>
+              <url>http://www.magazin.institut1.de/690_Sprache_heissen_machen_lassen_als_Hilfsverben.html</url>
+              <short>Ersatzinfinitiv statt Partizip Perfekt erforderlich.</short>
+              <example type="correct">Ich habe leider nicht kommen <marker>können</marker>.</example>
+              <example type="incorrect" correction="müssen">Das hat ja so kommen <marker>gemusst</marker>.</example>
+              <example type="incorrect" correction="können">Ich habe leider nicht kommen <marker>gekonnt</marker>.</example>
+              <example type="incorrect" correction="wollen">Ich habe nicht kommen <marker>gewollt</marker>.</example>
+              <example type="incorrect" correction="hören">Ich habe dich gar nicht kommen <marker>gehört</marker>.</example>
+            </rule>
+            -->
         </rulegroup>
         <rulegroup id="WORDEN_WURDEN" name="Grammatik: 'worden (wurden)'">
             <rule>
@@ -17788,26 +17822,26 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                 <example type="incorrect"><marker>-&gt;</marker> Erster Punkt</example>
             </rule>
             <!-- TODO tests fail (because of &lt;?)
-      <rule>
-        <pattern mark_to="-1">
-          <token>&lt;</token>
-          <token regexp="yes">(\-|=){1,2}</token>
-          <token negate="yes">></token>
-        </pattern>
-        <message>Wollen Sie einen Pfeil oder <suggestion>≤</suggestion> verwenden? Vorschläge: <suggestion>←</suggestion>, <suggestion>⇽</suggestion>, <suggestion>⇇</suggestion>, <suggestion>⇐</suggestion>, <suggestion>⇦</suggestion>, <suggestion>⇚</suggestion> (&tippformel;)</message>
-        <example type="correct">A ← B</example>
-        <example type="incorrect">A <marker>&lt;-</marker> B</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>&lt;</token>
-          <token regexp="yes">(\-|=)</token>
-          <token>></token>
-        </pattern>
-        <message>Wollen Sie einen Pfeil verwenden? Vorschläge: <suggestion>↔</suggestion>, <suggestion>⇿</suggestion>, <suggestion>⇄</suggestion>, <suggestion>⇆</suggestion>, <suggestion>⇋</suggestion>, <suggestion>⇌</suggestion>, <suggestion>⇔</suggestion> (&tippformel;)</message>
-        <example type="correct">A ⇔ B</example>
-        <example type="incorrect">A <marker>&lt;=></marker> B</example>
-      </rule>-->
+            <rule>
+              <pattern mark_to="-1">
+                <token>&lt;</token>
+                <token regexp="yes">(\-|=){1,2}</token>
+                <token negate="yes">></token>
+              </pattern>
+              <message>Wollen Sie einen Pfeil oder <suggestion>≤</suggestion> verwenden? Vorschläge: <suggestion>←</suggestion>, <suggestion>⇽</suggestion>, <suggestion>⇇</suggestion>, <suggestion>⇐</suggestion>, <suggestion>⇦</suggestion>, <suggestion>⇚</suggestion> (&tippformel;)</message>
+              <example type="correct">A ← B</example>
+              <example type="incorrect">A <marker>&lt;-</marker> B</example>
+            </rule>
+            <rule>
+              <pattern>
+                <token>&lt;</token>
+                <token regexp="yes">(\-|=)</token>
+                <token>></token>
+              </pattern>
+              <message>Wollen Sie einen Pfeil verwenden? Vorschläge: <suggestion>↔</suggestion>, <suggestion>⇿</suggestion>, <suggestion>⇄</suggestion>, <suggestion>⇆</suggestion>, <suggestion>⇋</suggestion>, <suggestion>⇌</suggestion>, <suggestion>⇔</suggestion> (&tippformel;)</message>
+              <example type="correct">A ⇔ B</example>
+              <example type="incorrect">A <marker>&lt;=></marker> B</example>
+            </rule>-->
         </rulegroup>
         <rulegroup id="GROESSERALS" name="Zeichensetzung: &gt;= (≥)">
             <rule>
@@ -17821,16 +17855,17 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                 <example type="incorrect">1 <marker>&gt;=</marker> 0</example>
             </rule>
             <!-- TODO tests fail (because of &lt;?)
-      <rule>
-        <pattern mark_to="-1">
-          <token>&lt;</token>
-          <token>=</token>
-          <token negate="yes">></token>
-        </pattern>
-        <message>Meinten Sie <suggestion>≤</suggestion> oder <suggestion>≦</suggestion>? (&tippformel;)</message>
-        <example type="correct">1 ≤ 3</example>
-        <example type="incorrect">1 <marker>&lt;=</marker> 3</example>
-      </rule>-->
+            <rule>
+              <pattern mark_to="-1">
+                <token>&lt;</token>
+                <token>=</token>
+                <token negate="yes">></token>
+              </pattern>
+              <message>Meinten Sie <suggestion>≤</suggestion> oder <suggestion>≦</suggestion>? (&tippformel;)</message>
+              <example type="correct">1 ≤ 3</example>
+              <example type="incorrect">1 <marker>&lt;=</marker> 3</example>
+            </rule>
+           -->
         </rulegroup>
         <rulegroup id="GRAD_ZU_VIEL" name="Zeichensetzung: Gradzeichen zu viel ('°K (K)')">
             <rule>
@@ -18104,18 +18139,6 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                 <example type="correct"><marker>Wenn</marker> möglich wird er beendet.</example>
             </rule>
         </rulegroup>
-        <rule id="MIT_FREUNDLICHEN_GRUESSEN_KOMMA" name="Zeichensetzung: Falsches Satzzeichen nach 'Mit freundlichen Grüßen'">
-            <pattern>
-                <token postag="SENT_START"></token>
-                <token>Mit</token>
-                <token>freundlichen</token>
-                <token>Grüßen</token>
-                <token regexp="yes">(,|\.|:|!|;)</token>
-            </pattern>
-            <message>Nach der Grußformel <suggestion>Mit freundlichen Grüßen</suggestion> steht laut Empfehlung des Duden kein Satzzeichen.</message>
-            <example type="correct"><marker>Mit freundlichen Grüßen</marker></example>
-            <example correction="Mit freundlichen Grüßen" type="incorrect"><marker>Mit freundlichen Grüßen,</marker></example>
-        </rule>
         <rule id="BISSTRICH_STATT_WAEHRUNG" name="Zeichensetzung: Bis-Strich statt Währungssymbol">
             <pattern>
                 <token regexp="yes">[0-9]{1,4}</token>
@@ -18562,23 +18585,23 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     <!-- ====================================================================== -->
     <category name="Sonstiges">
         <!-- Funktioniert so nicht, wegen Appositionen ('Die Spezies Tulpe')
-    <rule id="DEPPENLEERZEICHEN" name="Komposita ohne Bindestrich">
-      <pattern mark_from="1" mark_to="-1">
-        <token postag="ART:(DEF|IND):NOM:SIN:FEM" postag_regexp="yes"/>
-        <token postag="SUB:NOM:SIN:.*" postag_regexp="yes">
-          <exception postag="SUB:.*" postag_regexp="yes" negate_pos="yes"/>
-          <exception postag=".+:ADJ" postag_regexp="yes"/>
-          <exception regexp="yes">Art|Abteilung|Bezeichnung|Abkürzung|.*Einheit|Zahl</exception>
-        </token>
-        <token postag="SUB:NOM:SIN:FEM"/>
-        <token postag="VER:3:SIN:.*" postag_regexp="yes"/>
-      </pattern>
-      <message>Hier folgen anscheinend zwei Substantive aufeinander. Möglicherweise haben Sie sich verschrieben, oder wollten Sie ein zusammengesetztes Wort (<suggestion>\2<match case_conversion="alllower" no="3"/></suggestion>) bilden?</message>
-      <short>Evt. Kompositum ohne Bindestrich</short>
-      <example type="incorrect">Die <marker>Stein Säule</marker> steht dort.</example>
-      <example type="correct">Die <marker>Frauenfrage</marker> ist strittig.</example>
-    </rule>
-    -->
+        <rule id="DEPPENLEERZEICHEN" name="Komposita ohne Bindestrich">
+          <pattern mark_from="1" mark_to="-1">
+            <token postag="ART:(DEF|IND):NOM:SIN:FEM" postag_regexp="yes"/>
+            <token postag="SUB:NOM:SIN:.*" postag_regexp="yes">
+              <exception postag="SUB:.*" postag_regexp="yes" negate_pos="yes"/>
+              <exception postag=".+:ADJ" postag_regexp="yes"/>
+              <exception regexp="yes">Art|Abteilung|Bezeichnung|Abkürzung|.*Einheit|Zahl</exception>
+            </token>
+            <token postag="SUB:NOM:SIN:FEM"/>
+            <token postag="VER:3:SIN:.*" postag_regexp="yes"/>
+          </pattern>
+          <message>Hier folgen anscheinend zwei Substantive aufeinander. Möglicherweise haben Sie sich verschrieben, oder wollten Sie ein zusammengesetztes Wort (<suggestion>\2<match case_conversion="alllower" no="3"/></suggestion>) bilden?</message>
+          <short>Evt. Kompositum ohne Bindestrich</short>
+          <example type="incorrect">Die <marker>Stein Säule</marker> steht dort.</example>
+          <example type="correct">Die <marker>Frauenfrage</marker> ist strittig.</example>
+        </rule>
+        -->
         <rule id="DE_PHRASE_REPETITION" name="Wiederholung von Wortgruppen (z.B. 'auf der auf der Straße')">
             <!-- adapted from en -->
             <pattern>
@@ -18592,7 +18615,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
             <example correction="auf der" type="incorrect">Wir standen <marker>auf der auf der</marker> Brücke.</example>
             <example type="correct">Wir standen <marker>auf der</marker> Brücke.</example>
         </rule>
-        <rule id="SPELLCHECK" name="Nicht im LT-Wörterbuch enthaltene Wörter markieren (NICHT EMPFOHLEN)" default="off">
+        <rule id="SPELLCHECK" name="(NICHT EMPFOHLEN) Nicht im LT-Wörterbuch enthaltene Wörter markieren" default="off">
             <!-- this rule allows to abuse LT if no spell checker is at hand -->
             <pattern>
                 <token postag="UNKNOWN" regexp="yes">[A-ZÄÖÜa-zäöüßáàâêéèëíìîïòóôõûçñšž]{2,45}</token>
