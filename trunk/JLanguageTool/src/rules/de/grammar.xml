@@ -17106,29 +17106,19 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
             <example type="incorrect">Treffpunkt ist im <marker>keinen</marker> Saal.</example>
             <example type="correct">Treffpunkt ist im <marker>kleinen</marker> Saal.</example>
         </rule>
-        <rule id="MEINES_WISSENS_NACH" name="Grammatik: 'meines Wissens'">
+        <rule id="MEINES_WISSENS_NACH" name="Grammatik: 'meines Wissens nach (meines Wissens)'">
+            <!-- TODO Generalize, but don't match 'Sie geht meines Wissens nach Hause.' etc. -->
             <pattern>
                 <marker>
                     <token>meines</token>
-                    <token>Wissens</token>
+                    <token regexp="yes">Wissens|Erachtens</token>
                     <token>nach</token>
                 </marker>
-                <token postag="VER:.*" postag_regexp="yes"></token>
+                <token postag="VER:.*" postag_regexp="yes"/>
             </pattern>
             <message>Meinten Sie <suggestion>meines Wissens</suggestion>?</message>
             <example type="incorrect"><marker>Meines Wissens nach</marker> ist diese Formulierung falsch.</example>
             <example type="correct"><marker>Meines Wissens</marker> ist diese Formulierung richtig.</example>
-        </rule>
-        <rule id="MEINES_ERACHTENS_NACH" name="Grammatik: 'meines Erachtens'">
-            <pattern>
-                <marker>
-                    <token>meines</token>
-                    <token>Erachtens</token>
-                    <token>nach</token>
-                </marker>
-                <token postag="VER:.*" postag_regexp="yes"></token>
-            </pattern>
-            <message>Meinten Sie <suggestion>meines Erachtens</suggestion>?</message>
             <example type="incorrect"><marker>Meines Erachtens nach</marker> ist diese Formulierung falsch.</example>
             <example type="correct"><marker>Meines Erachtens</marker> ist diese Formulierung richtig.</example>
         </rule>
