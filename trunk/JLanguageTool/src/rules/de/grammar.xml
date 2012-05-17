@@ -8485,6 +8485,102 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                 <example type="incorrect" correction="Weiche">Er hat die <marker>weiche</marker> gestellt.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="EHE_SUBST" name="Groß-/Kleinschreibung: 'die ehe (Ehe) versprechen' etc.">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[dD]ie</token>
+                    <marker>
+                        <token>ehe</token>
+                    </marker>
+                    <token inflected="yes" postag="VER:.+" postag_regexp="yes" regexp="yes">versprechen|brechen|zerbrechen</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Ehe</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Er hat die <marker>Ehe</marker> gebrochen.</example>
+                <example type="incorrect" correction="Ehe">Er hat die <marker>ehe</marker> gebrochen.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>ehe</token>
+                    </marker>
+                    <token>und</token>
+                    <token>Familie</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Ehe</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Der Schutz von <marker>Ehe</marker> und Familie ist im Grundgesetz verankert.</example>
+                <example type="incorrect" correction="Ehe">Der Schutz von <marker>ehe</marker> und Familie ist im Grundgesetz verankert.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="IN_EHREN" name="Groß-/Kleinschreibung: 'bei meiner ehre (Ehre)' etc.">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[iI]n</token>
+                    <marker>
+                        <token>ehren</token>
+                    </marker>
+                </pattern>
+                <message>&inwend;'in Ehren' wird <suggestion>Ehren</suggestion> großgeschrieben.</message>
+                <short>&prgk;.</short>
+                <example type="correct">Ein in <marker>Ehren</marker> ergrauter Meisterdieb.</example>
+                <example type="incorrect" correction="Ehren">Ein in <marker>ehren</marker> ergrauter Meisterdieb.</example>
+                <example type="incorrect" correction="Ehren">Ich werde es in <marker>ehren</marker> halten.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[bB]ei|[iI]n|[zZ]u</token>
+                    <token regexp="yes">(&meindein;)er|jemandes|der</token>
+                    <marker>
+                        <token>ehre</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Ehre</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Bei meiner <marker>Ehre</marker>: Ich war es nicht, das war schon so, als ich kam.</example>
+                <example type="incorrect" correction="Ehre">Bei meiner <marker>ehre</marker>: Ich war es nicht, das war schon so, als ich kam.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[zZ]ur</token>
+                    <marker>
+                        <token>ehre</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Ehre</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Dieses Buch ist zur <marker>Ehre</marker> Gottes geschrieben.</example>
+                <example type="incorrect" correction="Ehre">Dieses Buch ist zur <marker>ehre</marker> Gottes geschrieben.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[zZ]u</token>
+                    <marker>
+                        <token>ehren</token>
+                    </marker>
+                    <token regexp="yes">des|der|(&meindein;)e(r|s)</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Ehren</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Zu <marker>Ehren</marker> der Präsidentin.</example>
+                <example type="incorrect" correction="Ehren">Zu <marker>ehren</marker> der Präsidentin.</example>
+                <example type="incorrect" correction="Ehren">Zu <marker>ehren</marker> unserer Präsidentin.</example>
+                <example type="incorrect" correction="Ehren">Zu <marker>ehren</marker> meines Vaters.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>ehre</token>
+                    </marker>
+                    <token>und</token>
+                    <token>Gewissen</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Ehre</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Auf <marker>Ehre</marker> und Gewissen: Ich war es nicht, das war schon so.</example>
+                <example type="incorrect" correction="Ehre">Auf <marker>ehre</marker> und Gewissen: Ich war es nicht, das war schon so, als ich kam.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="SCHAU_SUBST" name="Groß-/Kleinschreibung: 'die schau (Schau) stehlen' etc.">
             <rule>
                 <pattern case_sensitive="yes">
@@ -12644,18 +12740,6 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
             <short>&prgk;.</short>
             <example type="correct">Lasst mich in <marker>Frieden</marker> weiterziehen.</example>
             <example type="incorrect">Lasst mich in <marker>frieden</marker> weiterziehen.</example>
-        </rule>
-        <rule id="IN_EHREN" name="Groß-/Kleinschreibung: 'in ehren (Ehren)'">
-            <pattern case_sensitive="yes">
-                <token regexp="yes">[iI]n</token>
-                <marker>
-                    <token>ehren</token>
-                </marker>
-            </pattern>
-            <message>&inwend;'in Ehren' wird <suggestion>Ehren</suggestion> großgeschrieben.</message>
-            <short>&prgk;.</short>
-            <example type="correct">Ein in <marker>Ehren</marker> ergrauter Meisterdieb.</example>
-            <example type="incorrect">Ein in <marker>ehren</marker> ergrauter Meisterdieb.</example>
         </rule>
         <rule id="IN_FLAMMEN" name="Groß-/Kleinschreibung: 'in flammen (Flammen)'">
             <pattern case_sensitive="yes">
