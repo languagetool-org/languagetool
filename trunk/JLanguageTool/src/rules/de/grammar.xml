@@ -8558,7 +8558,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                     <marker>
                         <token>ehren</token>
                     </marker>
-                    <token regexp="yes">des|der|(&meindein;)e(r|s)</token>
+                    <token regexp="yes">von|des|der|(&meindein;)e(r|s)</token>
                 </pattern>
                 <message>&subanfang;<suggestion>Ehren</suggestion>&subende;</message>
                 <short>&prgk;.</short>
@@ -18815,6 +18815,21 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                 <short>&gla;</short>
                 <example type="correct">Das ist i.&nbsp;d.&nbsp;R. richtig.</example>
                 <example type="incorrect" correction="i.&nbsp;d.&nbsp;R.">Das ist <marker>i.d.R.</marker> falsch.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">b|B</token>
+                    <token spacebefore="no">.</token>
+                    <token>a<exception scope="previous">&nbsp;|&nnbsp;|&thinsp;</exception></token>
+                    <token spacebefore="no">.</token>
+                    <token>W<exception scope="previous">&nbsp;|&nnbsp;|&thinsp;</exception></token>
+                    <token spacebefore="no">.</token>
+                </pattern>
+                <message>&glalong;<suggestion>\1\2&nbsp;\3\4&nbsp;\5\6</suggestion>&glalongende;</message>
+                <url>http://de.wikipediR.org/wiki/Abk%C3%BCrzung#Abk.C3.BCrzungen_mit_Punkt_und_Leerzeichen</url>
+                <short>&gla;</short>
+                <example type="correct">Das ist b.&nbsp;a.&nbsp;W. akzeptabel.</example>
+                <example type="incorrect" correction="b.&nbsp;a.&nbsp;W.">Das ist <marker>b.a.W.</marker> inakzeptabel.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
