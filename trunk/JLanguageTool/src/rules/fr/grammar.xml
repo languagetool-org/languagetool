@@ -3219,7 +3219,7 @@ though, and has since been slightly modified)-->
                 <pattern>
                     <token>je</token>
                     <!-- Not all combinations of 3 tokens between je and verb are actually possible -->
-                    <token regexp="yes">[mnt]|ne</token>
+                    <token regexp="yes">[mnt]e?</token>
                     <token regexp="yes">[’´'‛′‘]|[lmt]e?|[vn]ous|lui|leur</token>
                     <token regexp="yes">[’´'‛′‘]|l[ea]|[vn]ous|lui|leur|en|y</token>
                     <token postag="V .*" postag_regexp="yes"><exception postag="V .* 1 s" postag_regexp="yes"></exception></token>
@@ -3237,6 +3237,8 @@ though, and has since been slightly modified)-->
                 <example type="correct"><marker>Je ne leur en veux</marker> pas.</example>
                 <example type="incorrect"><marker>Je ne le lui achètes</marker> pas.</example>
                 <example type="correct"><marker>Je ne le lui achète</marker> pas.</example>
+                <example type="incorrect"><marker>Je te l’avait</marker> donné.</example>
+                <example type="correct"><marker>Je te l’avais</marker> donné.</example>
             </rule>
             <rule name="je + 4 tokens + verbe">
                 <pattern>
@@ -3296,7 +3298,7 @@ though, and has since been slightly modified)-->
                 <pattern>
                     <token>tu</token>
                     <!-- Not all combinations of 3 tokens between tu and verb are actually possible -->
-                    <token regexp="yes">[mnt]|ne</token>
+                    <token regexp="yes">[mnt]e?</token>
                     <token regexp="yes">[’´'‛′‘]|[lmt]e?|[vn]ous|lui|leur</token>
                     <token regexp="yes">[’´'‛′‘]|l[ea]|[vn]ous|lui|leur|en|y</token>
                     <token postag="V .*" postag_regexp="yes"><exception postag="V.*(ind|sub|con) .* 2 s" postag_regexp="yes"></exception></token>
@@ -3310,6 +3312,8 @@ though, and has since been slightly modified)-->
                 <example type="correct"><marker>Tu n’y vas</marker> pas</example>
                 <example type="incorrect"><marker>Tu ne me le prend</marker> pas.</example>
                 <example type="correct"><marker>Tu ne me le prends</marker> pas.</example>
+                <example type="incorrect"><marker>Tu me l’a</marker> offert.</example>
+                <example type="correct">Tu me l’as offert.</example>
             </rule>
             <rule name="tu + 4 tokens + verbe">
                 <pattern>
@@ -3395,7 +3399,7 @@ though, and has since been slightly modified)-->
                         <exception scope="previous">comme</exception>
                     </token>
                     <!-- Not all combinations of 3 tokens between il/elle/on and verb are actually possible -->
-                    <token regexp="yes">[mnst]|ne</token>
+                    <token regexp="yes">[mnst]e?</token>
                     <token regexp="yes">[’´'‛′‘]|[lmst]e?|[vn]ous|lui|leur</token>
                     <token regexp="yes">[’´'‛′‘]|l[ea]|[vn]ous|lui|leur|en|y</token>
                     <token postag="V .*" postag_regexp="yes"><exception postag="V .* 3 s" postag_regexp="yes"></exception></token>
@@ -3405,6 +3409,8 @@ though, and has since been slightly modified)-->
                 <example type="correct"><marker>Cela ne t’aidera</marker> pas.</example>
                 <example type="incorrect"><marker>Elle m’en parlent</marker></example>
                 <example type="correct"><marker>Elle m’en parle</marker></example>
+                <example type="incorrect"><marker>Elle me l’avais</marker> donné.</example>
+                <example type="correct"><marker>Elle me l’avait donné.</marker></example>
             </rule>
             <rule name="il/elle/on + 4 tokens + Verbe">
                 <pattern>
