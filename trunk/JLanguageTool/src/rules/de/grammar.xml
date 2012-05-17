@@ -15576,25 +15576,44 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                 <example type="incorrect" correction="Laufenden">Wir werden dich auf dem <marker>laufenden</marker> halten.</example>
             </rule>
         </rulegroup>
-        <rule id="ETWAS_GUTES" name="Groß-/Kleinschreibung: 'etwas/nichts gutes (Gutes)'">
-            <pattern case_sensitive="yes">
-                <token><exception regexp="yes">[eE]in</exception></token>
-                <token regexp="yes">etwas|nichts</token>
-                <marker>
-                    <token postag="ADJ:NOM:SIN:NEU:GRU:IND" regexp="yes">[a-zäöü].+es<exception>anderes</exception></token>
-                </marker>
-                <token><exception postag="SUB:NOM:SIN:NEU"/></token>
-            </pattern>
-            <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion> hier großgeschrieben werden muss.</message>
-            <short>&prgk;.</short>
-            <example type="correct">Dahinter verbirgt sich nichts <marker>Gutes</marker>.</example>
-            <example type="correct">Dahinter verbirgt sich nichts <marker>anderes</marker> als eine Lüge.</example>
-            <example type="correct">Ich habe ein etwas <marker>seltsames</marker> Gefühl.</example>
-            <example type="correct">Ich kaufe etwas <marker>schmackhaftes</marker> Brot.</example>
-            <example type="correct">Beiträge, die etwas <marker>Wichtiges</marker> über den Spielverlauf verraten, bitte kennzeichnen.</example>
-            <example type="incorrect" correction="Wichtiges">Beiträge die etwas <marker>wichtiges</marker> über den Spielverlauf verraten bitte kennzeichnen.</example>
-            <example type="incorrect" correction="Gutes">Dahinter verbirgt sich nichts <marker>gutes</marker>.</example>
-        </rule>
+        <rulegroup id="ETWAS_GUTES" name="Groß-/Kleinschreibung: 'etwas/nichts gutes (Gutes)'">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token><exception regexp="yes">[eE]in</exception></token>
+                    <token regexp="yes">etwas|nichts</token>
+                    <marker>
+                        <token postag="ADJ:NOM:SIN:NEU:GRU:IND" regexp="yes">[a-zäöü].+es<exception>anderes</exception></token>
+                    </marker>
+                    <token><exception postag="SUB:NOM:SIN:NEU"/></token>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion> hier großgeschrieben werden muss.</message>
+                <short>&prgk;.</short>
+                <example type="correct">Dahinter verbirgt sich nichts <marker>Gutes</marker>.</example>
+                <example type="correct">Dahinter verbirgt sich nichts <marker>anderes</marker> als eine Lüge.</example>
+                <example type="correct">Ich habe ein etwas <marker>seltsames</marker> Gefühl.</example>
+                <example type="correct">Ich kaufe etwas <marker>schmackhaftes</marker> Brot.</example>
+                <example type="correct">Beiträge, die etwas <marker>Wichtiges</marker> über den Spielverlauf verraten, bitte kennzeichnen.</example>
+                <example type="incorrect" correction="Wichtiges">Beiträge die etwas <marker>wichtiges</marker> über den Spielverlauf verraten bitte kennzeichnen.</example>
+                <example type="incorrect" correction="Gutes">Dahinter verbirgt sich nichts <marker>gutes</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token><exception regexp="yes">[eE]in</exception></token>
+                    <token regexp="yes">etwas|nichts</token>
+                    <token regexp="yes">sehr|besonders|allzu|ziemlich</token>
+                    <marker>
+                        <token postag="ADJ:NOM:SIN:NEU:GRU:IND" regexp="yes">[a-zäöü].+es<exception>anderes</exception></token>
+                    </marker>
+                    <token><exception postag="SUB:NOM:SIN:NEU"/></token>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="4" case_conversion="startupper"/></suggestion> hier großgeschrieben werden muss.</message>
+                <short>&prgk;.</short>
+                <example type="correct">Dahinter verbirgt sich nichts allzu <marker>Gutes</marker>.</example>
+                <example type="correct">Beiträge, die etwas sehr <marker>Wichtiges</marker> über den Spielverlauf verraten, bitte kennzeichnen.</example>
+                <example type="incorrect" correction="Wichtiges">Beiträge die etwas sehr <marker>wichtiges</marker> über den Spielverlauf verraten bitte kennzeichnen.</example>
+                <example type="incorrect" correction="Gutes">Dahinter verbirgt sich nichts allzu <marker>gutes</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ALLES_GUTE" name="Groß-/Kleinschreibung: 'alles gute (Gute)' [Glückwunschformel]">
             <rule>
                 <pattern case_sensitive="yes">
