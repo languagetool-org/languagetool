@@ -28,8 +28,8 @@ public class Category {
 
   private static final int DEFAULT_PRIORITY = 50;
   
-  private int priority;
-  private String name;
+  private final int priority;
+  private final String name;
   private boolean defaultOff;
 
   /**
