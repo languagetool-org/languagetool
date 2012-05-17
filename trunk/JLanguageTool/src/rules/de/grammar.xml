@@ -18699,6 +18699,20 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
             <!-- Generalize? How can we make sure we're not only replacing part of an abbreviation? -->
             <rule>
                 <pattern case_sensitive="yes">
+                    <token>Dr</token>
+                    <token spacebefore="no">.</token>
+                    <token regexp="yes">iur|med|oec|phil|theol<exception scope="previous">&nbsp;|&nnbsp;|&thinsp;</exception></token>
+                    <token spacebefore="no">.</token>
+                </pattern>
+                <message>&glalong;<suggestion>\1\2&nbsp;\3\4</suggestion>&glalongende;</message>
+                <url>http://de.wikipedia.org/wiki/Abk%C3%BCrzung#Abk.C3.BCrzungen_mit_Punkt_und_Leerzeichen</url>
+                <short>&gla;</short>
+                <example type="correct">Dr.&nbsp;med. Hans Müller</example>
+                <example type="incorrect" correction="Dr.&nbsp;med."><marker>Dr.med.</marker> Hans Müller</example>
+                <example type="incorrect" correction="Dr.&nbsp;phil."><marker>Dr.phil.</marker> Hans Müller</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
                     <token regexp="yes">s|S</token>
                     <token spacebefore="no">.</token>
                     <token regexp="yes">o|u<exception scope="previous">&nbsp;|&nnbsp;|&thinsp;</exception></token>
@@ -18854,6 +18868,38 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                 <short>&gla;</short>
                 <example type="correct">Vgl. Radebrecher, a.&nbsp;a.&nbsp;O.</example>
                 <example type="incorrect" correction="a.&nbsp;a.&nbsp;O.">Vgl. Radebrecher, <marker>a.a.O.</marker></example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>Dr</token>
+                    <token spacebefore="no">.</token>
+                    <token>med<exception scope="previous">&nbsp;|&nnbsp;|&thinsp;</exception></token>
+                    <token spacebefore="no">.</token>
+                    <token regexp="yes">dent|vet<exception scope="previous">&nbsp;|&nnbsp;|&thinsp;</exception></token>
+                    <token spacebefore="no">.</token>
+                </pattern>
+                <message>&glalong;<suggestion>\1\2&nbsp;\3\4&nbsp;\5\6</suggestion>&glalongende;</message>
+                <url>http://de.wikipedia.org/wiki/Abk%C3%BCrzung#Abk.C3.BCrzungen_mit_Punkt_und_Leerzeichen</url>
+                <short>&gla;</short>
+                <example type="correct">Dr.&nbsp;med.&nbsp;dent. Hans Müller</example>
+                <example type="incorrect" correction="Dr.&nbsp;med.&nbsp;dent."><marker>Dr.med.dent.</marker> Hans Müller</example>
+                <example type="incorrect" correction="Dr.&nbsp;med.&nbsp;vet."><marker>Dr.med. vet.</marker> Hans Müller</example>
+                <example type="incorrect" correction="Dr.&nbsp;med.&nbsp;vet."><marker>Dr. med.vet.</marker> Hans Müller</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>Dr</token>
+                    <token spacebefore="no">.</token>
+                    <token>rer<exception scope="previous">&nbsp;|&nnbsp;|&thinsp;</exception></token>
+                    <token spacebefore="no">.</token>
+                    <token regexp="yes">nat|pol<exception scope="previous">&nbsp;|&nnbsp;|&thinsp;</exception></token>
+                    <token spacebefore="no">.</token>
+                </pattern>
+                <message>&glalong;<suggestion>\1\2&nbsp;\3\4&nbsp;\5\6</suggestion>&glalongende;</message>
+                <url>http://de.wikipedia.org/wiki/Abk%C3%BCrzung#Abk.C3.BCrzungen_mit_Punkt_und_Leerzeichen</url>
+                <short>&gla;</short>
+                <example type="correct">Dr.&nbsp;rer.&nbsp;pol. Hans Müller</example>
+                <example type="incorrect" correction="Dr.&nbsp;rer.&nbsp;pol."><marker>Dr.rer.pol.</marker> Hans Müller</example>
             </rule>
         </rulegroup>
     </category>
