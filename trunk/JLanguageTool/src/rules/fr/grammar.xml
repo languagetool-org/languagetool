@@ -3582,7 +3582,7 @@ though, and has since been slightly modified)-->
                         <exception scope="previous">comme</exception>
                     </token>
                     <!-- Not all combinations of 3 tokens between ils/elles and verb are actually possible -->
-                    <token regexp="yes">[mnst]|ne</token>
+                    <token regexp="yes">[mnst]e?</token>
                     <token regexp="yes">[’´'‛′‘]|[lmst]e?|[vn]ous|lui|leur</token>
                     <token regexp="yes">[’´'‛′‘]|l[ea]|[vn]ous|lui|leur|en|y</token>
                     <token postag="V .*" postag_regexp="yes">
@@ -3591,6 +3591,8 @@ though, and has since been slightly modified)-->
                 <message>Vérifiez l’accord entre le pronom « \1 » et le verbe « \5 ».</message>
                 <example type="incorrect"><marker>Ils ne m’attends</marker> pas.</example>
                 <example type="correct"><marker>Ils ne m’attendent</marker> pas.</example>
+                <example type="incorrect"><marker>Ils me l’avait</marker> donné.</example>
+                <example type="correct"><marker>Ils me l’avaient</marker> donné.</example>
             </rule>
             <rule name="ils/elles + 4 tokens + Verbe">
                 <pattern>
