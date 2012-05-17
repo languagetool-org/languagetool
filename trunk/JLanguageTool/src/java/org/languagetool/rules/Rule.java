@@ -70,15 +70,18 @@ public abstract class Rule {
    */
   public abstract String getId();
 
+  /**
+   * A short description of the error this rule can detect, usually in the language of the text
+   * that is checked.
+   */
   public abstract String getDescription();
 
   /**
    * Check whether the given text matches this error rule, i.e. whether the text
    * contains this error.
    *
-   * @param text
-   *          a pre-analyzed sentence
-   * @return an array of RuleMatch object for each match.
+   * @param text a pre-analyzed sentence
+   * @return an array of {@link RuleMatch} objects
    */
   public abstract RuleMatch[] match(AnalyzedSentence text) throws IOException;
 
@@ -216,7 +219,7 @@ public abstract class Rule {
 
   /**
    * Turns the rule off by default.
-   **/
+   */
   public final void setDefaultOff() {
     defaultOff = true;
   }
