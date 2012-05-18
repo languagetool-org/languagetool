@@ -49,7 +49,7 @@ public class FalseFriendsAsBitextLoaderTest extends TestCase {
     final String name = "/false-friends.xml";
     final List<BitextPatternRule> rules = ruleLoader.
     getFalseFriendsAsBitext(        
-        JLanguageTool.getDataBroker().getRulesDir() + name,         
+        name,
         Language.ENGLISH, Language.POLISH);    
     
     assertErrors(1, rules, "This is an absurd.", "To absurd.", langTool, trgTool);       

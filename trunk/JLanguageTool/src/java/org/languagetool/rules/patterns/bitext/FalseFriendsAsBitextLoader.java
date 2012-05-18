@@ -28,45 +28,47 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
+import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.rules.patterns.FalseFriendRuleLoader;
 import org.languagetool.rules.patterns.PatternRule;
 
 /**
- * Loads the false friend rules as bitext pattern rules. Note that the resulting 
+ * Loads the false friend rules as bitext pattern rules. Note that the resulting
  * rules have suggestions that are not really customizable, in contradistinction
  * to the 'real' bitext pattern rules.
  * 
  * @author Marcin Miłkowski
- *
+ * 
  */
 public class FalseFriendsAsBitextLoader {
-  
-  public List<BitextPatternRule> getFalseFriendsAsBitext(final String filename,
-      final Language motherTongue, final Language language) throws ParserConfigurationException, SAXException, IOException {
-    final FalseFriendRuleLoader ruleLoader = new FalseFriendRuleLoader();
-    List<BitextPatternRule> bRules = new ArrayList<BitextPatternRule>();
-    List<PatternRule> rules1 =  
-    ruleLoader.getRules(this.getClass().getResourceAsStream(filename),
-          motherTongue, language);
-    List<PatternRule> rules2 =  
-      ruleLoader.getRules(this.getClass().getResourceAsStream(filename),
-          language, motherTongue);
-    HashMap<String, PatternRule> srcRules = new HashMap<String, PatternRule>();
-    for (PatternRule rule : rules1) {
-     srcRules.put(rule.getId(), rule);
-    }    
-    for (PatternRule rule : rules2) {
-      if (srcRules.containsKey(rule.getId())) {
-        BitextPatternRule bRule = new BitextPatternRule(
-            srcRules.get(rule.getId()), rule); 
-        bRule.setSourceLang(motherTongue);
-        bRule.setCategory(rule.getCategory());
-        bRules.add(bRule);
-      }
-    }
-  return bRules;
-  }
+
+	public List<BitextPatternRule> getFalseFriendsAsBitext(
+			final String filename, final Language motherTongue,
+			final Language language) throws ParserConfigurationException,
+			SAXException, IOException {
+		final FalseFriendRuleLoader ruleLoader = new FalseFriendRuleLoader();
+		List<BitextPatternRule> bRules = new ArrayList<BitextPatternRule>();
+		List<PatternRule> rules1 = ruleLoader.getRules(JLanguageTool
+				.getDataBroker().getFromRulesDirAsStream(filename),
+				motherTongue, language);
+		List<PatternRule> rules2 = ruleLoader.getRules(JLanguageTool
+				.getDataBroker().getFromRulesDirAsStream(filename),
+				language, motherTongue);
+		HashMap<String, PatternRule> srcRules = new HashMap<String, PatternRule>();
+		for (PatternRule rule : rules1) {
+			srcRules.put(rule.getId(), rule);
+		}
+		for (PatternRule rule : rules2) {
+			if (srcRules.containsKey(rule.getId())) {
+				BitextPatternRule bRule = new BitextPatternRule(
+						srcRules.get(rule.getId()), rule);
+				bRule.setSourceLang(motherTongue);
+				bRule.setCategory(rule.getCategory());
+				bRules.add(bRule);
+			}
+		}
+		return bRules;
+	}
 
 }
-

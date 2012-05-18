@@ -353,8 +353,7 @@ public final class Tools {
     final FalseFriendsAsBitextLoader fRuleLoader = new FalseFriendsAsBitextLoader();
     final String fName = "/false-friends.xml";
     bRules.addAll(fRuleLoader.
-    getFalseFriendsAsBitext(        
-        JLanguageTool.getDataBroker().getRulesDir() + fName,
+    getFalseFriendsAsBitext(fName,
         source, target));    
 
     //load Java bitext rules
