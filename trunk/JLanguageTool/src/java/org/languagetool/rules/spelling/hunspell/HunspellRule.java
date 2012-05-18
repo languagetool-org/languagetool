@@ -33,6 +33,7 @@ import org.languagetool.Language;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.spelling.SpellingCheckRule;
+import org.languagetool.tools.StringTools;
 
 /**
  * A hunspell-based spellchecking-rule.
@@ -109,7 +110,7 @@ public class HunspellRule extends SpellingCheckRule {
 			boolean isAlphabetic = true;
 			if (word.length() == 1) { // hunspell dicts usually do not contain punctuation
 				isAlphabetic =
-						Character.isAlphabetic(word.charAt(0));
+						StringTools.isAlphabetic(word.charAt(0));
 			}
 			if (isAlphabetic && dictionary.misspelled(word)) {
 				final RuleMatch ruleMatch = new RuleMatch(this,
