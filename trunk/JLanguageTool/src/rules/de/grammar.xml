@@ -5159,6 +5159,38 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                 <example type="correct">Sie haben noch <marker>Guthaben</marker> auf Ihrem Konto.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="ENTWEDER_ODER" name="Zusammen-/Getrenntschreibung: 'ein entweder oder (Entweder-oder)'">
+            <rule>
+                <pattern case_sensitive="no">
+                    <token regexp="yes">ein|das</token>
+                    <marker>
+                        <token>entweder</token>
+                        <token>oder</token>
+                    </marker>
+                </pattern>
+                <message>Falls <suggestion>Entweder-oder</suggestion> hier als Substantiv im Sinne von 'sich gegenseitig ausschließende Möglichkeiten' verwendet wird, schreiben Sie es bitte groß und mit Bindestrich.</message>
+                <url>http://www.duden.de/sprachratgeber/beispiele-zur-neuen-rechtschreibung/3</url>
+                <short>&getrennt;.</short>
+                <example type="incorrect" correction="Entweder-oder">Es läuft auf ein <marker>entweder oder</marker> hinaus.</example>
+                <example type="correct">Es läuft auf ein <marker>Entweder-oder</marker> hinaus.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="no">
+                    <token regexp="yes">ein|das</token>
+                    <marker>
+                        <token>entweder</token>
+                        <token regexp="yes">\-|–</token>
+                        <token>oder</token>
+                    </marker>
+                </pattern>
+                <message>Falls <suggestion>Entweder-oder</suggestion> hier als Substantiv im Sinne von 'sich gegenseitig ausschließende Möglichkeiten' verwendet wird, schreiben Sie es bitte groß und mit Bindestrich.</message>
+                <url>http://www.duden.de/sprachratgeber/beispiele-zur-neuen-rechtschreibung/3</url>
+                <short>&getrennt;.</short>
+                <example type="incorrect" correction="Entweder-oder">Es läuft auf ein <marker>Entweder – Oder</marker> hinaus.</example>
+                <example type="incorrect" correction="Entweder-oder">Es läuft auf ein <marker>entweder - oder</marker> hinaus.</example>
+                <example type="correct">Es läuft auf ein <marker>Entweder-oder</marker> hinaus.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="VIELMEHR_VIEL_MEHR" name="Zusammen-/Getrenntschreibung: 'sehr vielmehr (viel mehr)'">
             <!-- some false pos. extend to 'vielmehr als nur' -->
             <rule>
