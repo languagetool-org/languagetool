@@ -38,7 +38,9 @@
 		<pathelement location="${dist.dir}/rules" />
 		<!-- tika lib -->
 		<pathelement location="${ext.tika.lib}" />
-        <!-- -->
+        <!-- JNA-->
+		<pathelement location="${ext.jna.lib}" />
+		<!-- -->
         <pathelement location="${ext.xmlsyntax.lib}" />
         <pathelement location="${ext.sweble.engine}" />
         <pathelement location="${ext.sweble.parser}" />
@@ -172,15 +174,16 @@
 			<pathelement location="${ext.junit.lib}" />
 			<pathelement location="${junit.classes.dir}" />
 			<pathelement location="${dist.dir}/LanguageTool.uno.jar" />
-			<pathelement location="${src.test.dir}" />
+			<pathelement location="${src.test.dir}" />	
+			<pathelement location="${ext.dir}/native-lib" />
 			<path refid="common.classpath" />
 		</path>
-
+			
 		<junit printsummary="true" failureproperty="tests.failed" showoutput="true" maxmemory="180M" fork="yes" forkmode="once" haltonfailure="${haltonfailure}">
 
 			<formatter type="xml" usefile="true" />
 			<formatter type="brief" usefile="false" />
-			<classpath refid="test.classpath" />
+			<classpath refid="test.classpath" />			
 
 			<batchtest fork="yes" todir="${dist.dir}/report/tests" unless="testcase" haltonfailure="${haltonfailure}">
 				<fileset dir="${src.test.dir}" includes="**/*Test.java" />
@@ -574,6 +577,8 @@
 	<copy file="${resource.dir}/pl/compounds.txt" todir="${dist.dir}/resource/pl" />
 	<copy file="${resource.dir}/pl/multiwords.txt" todir="${dist.dir}/resource/pl" />
 	<copy file="${resource.dir}/pl/disambiguation.xml" todir="${dist.dir}/resource/pl" />
+	<copy file="${resource.dir}/pl/pl_PL.aff" todir="${dist.dir}/resource/pl" />
+	<copy file="${resource.dir}/pl/pl_PL.dic" todir="${dist.dir}/resource/pl" />
 
 	<copy file="${resource.dir}/nl/dutch.dict" todir="${dist.dir}/resource/nl" />
 	<copy file="${resource.dir}/nl/dutch.info" todir="${dist.dir}/resource/nl" />
