@@ -22,6 +22,7 @@ import java.util.*;
 
 import org.languagetool.Language;
 import org.languagetool.rules.*;
+import org.languagetool.rules.spelling.hunspell.HunspellRule;
 import org.languagetool.rules.patterns.Unifier;
 import org.languagetool.rules.pl.CompoundRule;
 import org.languagetool.rules.pl.PolishUnpairedBracketsRule;
@@ -118,6 +119,7 @@ public class Polish extends Language {
     return Arrays.asList(
             CommaWhitespaceRule.class,
             DoublePunctuationRule.class,
+            HunspellRule.class,
             UppercaseSentenceStartRule.class,
             WordRepeatRule.class,
             WhitespaceRule.class,
@@ -125,7 +127,7 @@ public class Polish extends Language {
             PolishUnpairedBracketsRule.class,
             PolishWordRepeatRule.class,
             CompoundRule.class,
-            SimpleReplaceRule.class
+            SimpleReplaceRule.class            
     );
   }
 
