@@ -18,15 +18,14 @@
  */
 package org.languagetool.rules.patterns;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.xml.sax.Attributes;
-import org.xml.sax.Locator;
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
+import org.xml.sax.*;
 import org.xml.sax.helpers.DefaultHandler;
 
 import org.languagetool.Language;
@@ -570,6 +569,23 @@ public class XMLRuleHandler extends DefaultHandler {
       tokenElement.setWhitespaceBefore(tokenSpaceBefore);
     }
     resetToken();
+  }
+
+  @Override
+  public InputSource resolveEntity(String publicId, String systemId) throws SAXException, IOException {
+    if (systemId.startsWith("classpath:")) {
+      final String path = systemId.substring("classpath:".length());
+      final InputStream stream = this.getClass().getResourceAsStream(path);
+      if (stream == null) {
+        throw new RuntimeException("Could not find " + path + " in classpath");
+      } else {
+        final InputSource source = new InputSource(stream);
+        source.setPublicId(publicId);
+        source.setSystemId(systemId);
+        return source;
+      }
+    }
+    return null;
   }
 
 }

@@ -34,6 +34,9 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
+import com.sun.org.apache.xerces.internal.dom.DOMInputImpl;
+import org.w3c.dom.ls.LSInput;
+import org.w3c.dom.ls.LSResourceResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
@@ -129,7 +132,22 @@ public final class XMLValidator {
     final Schema schema = sf.newSchema(xmlSchema);
     final Validator validator = schema.newValidator();
     validator.setErrorHandler(new ErrorHandler());
-    validator.validate(new StreamSource(xml));        
+    validator.setResourceResolver(new LSResourceResolver() {
+        @Override
+        public LSInput resolveResource(String type, String namespaceURI, String publicId, String systemId, String baseURI) {
+            if (systemId.startsWith("classpath:")) {
+              final String path = systemId.substring("classpath:".length());
+              final InputStream stream = this.getClass().getResourceAsStream(path);
+              if (stream == null) {
+                throw new RuntimeException("Could not find " + path + " in classpath");
+              } else {
+                return new DOMInputImpl(publicId, systemId, baseURI, stream, "utf-8");
+              }
+            }
+            return null;
+        }
+    });
+    validator.validate(new StreamSource(xml));
   }
 
 }
