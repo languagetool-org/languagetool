@@ -23,11 +23,10 @@ public class LanguageIdentifierTools {
     final String PROFILE_ENCODING = "UTF-8";
 
     try {
-      final LanguageProfile profile = new LanguageProfile();
-      final String languageFilePath = JLanguageTool.getDataBroker().getResourceDir() +
-              "/" + language + "/" + language + PROFILE_SUFFIX;
+      final LanguageProfile profile = new LanguageProfile();      
 
-      final InputStream stream = JLanguageTool.class.getResourceAsStream(languageFilePath);
+      final InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(
+              "/" + language + "/" + language + PROFILE_SUFFIX);
       try {
         final BufferedReader reader =
                 new BufferedReader(new InputStreamReader(stream, PROFILE_ENCODING));
