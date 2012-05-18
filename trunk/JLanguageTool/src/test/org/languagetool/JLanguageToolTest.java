@@ -124,12 +124,12 @@ public class JLanguageToolTest extends TestCase {
     tool.activateDefaultPatternRules();
     matches = tool.check("Premier drapie się w ucho co i rusz.");
     assertEquals(1, matches.size());
-    // Polish rule has no effect with English error:
+    // Polish rule has no effect with English error but will get spelling activated:
     matches = tool.check("I can give you more a detailed description");
-    assertEquals(0, matches.size());
+    assertEquals(5, matches.size());
     tool.setListUnknownWords(true);
     matches = tool.check("This is not a Polish text.");
-    assertEquals(0, matches.size());
+    assertEquals(3, matches.size());
     assertEquals("[Polish, This, is]", tool.getUnknownWords().toString());
     //check positions relative to sentence ends    
     matches = tool.check("To jest tekst.\nTest 1. To jest linia w której nie ma przecinka.");

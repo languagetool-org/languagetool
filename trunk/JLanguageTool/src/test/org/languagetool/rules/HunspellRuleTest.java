@@ -45,6 +45,7 @@ public class HunspellRuleTest {
 	    // correct sentences:
 	    assertEquals(0, rule.match(langTool.getAnalyzedSentence("To jest test bez jakiegokolwiek błędu.")).length);
 	    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Żółw na starość wydziela dziwną woń.")).length);
+	    assertEquals(0, rule.match(langTool.getAnalyzedSentence(",")).length);
 	    
 	    //incorrect sentences:
 	    
@@ -54,13 +55,7 @@ public class HunspellRuleTest {
 	    assertEquals(0, matches[0].getFromPos());
 	    assertEquals(4, matches[0].getToPos());	    
 	    assertEquals("Żółw", matches[0].getSuggestedReplacements().get(9));
-	    
-	    matches = rule.match(langTool.getAnalyzedSentence(","));
-	    // check match positions:
-	    assertEquals(1, matches.length);
-	    assertEquals(0, matches[0].getFromPos());
-	    assertEquals(1, matches[0].getToPos());	    
-	    assertEquals("a", matches[0].getSuggestedReplacements().get(0));
+	    	    
 	}
 
 }
