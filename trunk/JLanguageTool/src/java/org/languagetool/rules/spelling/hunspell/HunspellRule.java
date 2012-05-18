@@ -61,7 +61,7 @@ public class HunspellRule extends SpellingCheckRule {
 
 		final String shortDicPath = "/"
 				+ language.getShortName()
-				+ "/"
+				+ "/hunspell/"
 				+ language.getShortName()
 				+ "_" 
 				+ language.getCountryVariants()[0];
