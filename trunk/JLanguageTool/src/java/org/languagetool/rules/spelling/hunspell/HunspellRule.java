@@ -127,8 +127,7 @@ public class HunspellRule extends SpellingCheckRule {
 
 	@Override
 	public String getDescription() {
-		// TODO Auto-generated method stub
-		return null;
+		return messages.getString("desc_spelling");
 	}
 
 	@Override
@@ -149,11 +148,11 @@ public class HunspellRule extends SpellingCheckRule {
 				isAlphabetic =
 						StringTools.isAlphabetic(word.charAt(0));
 			}
-			if (isAlphabetic && dictionary.misspelled(word)) {
+			if (isAlphabetic && dictionary.misspelled(word)) {				
 				final RuleMatch ruleMatch = new RuleMatch(this,
 						tokens[i].getStartPos(), tokens[i].getStartPos() + word.length(),
-						messages.getString("category_typo"),
-						messages.getString("category_typo"));
+						messages.getString("spelling"),
+						messages.getString("desc_spelling_short"));
 				List<String> suggestions = dictionary.suggest(word);
 				if (suggestions != null) {
 					ruleMatch.setSuggestedReplacements(suggestions);
