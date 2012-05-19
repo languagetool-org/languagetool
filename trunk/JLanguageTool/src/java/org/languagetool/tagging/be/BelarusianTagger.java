@@ -35,13 +35,11 @@ public class BelarusianTagger implements Tagger {
     @Override
     public List<AnalyzedTokenReadings> tag(List<String> sentenceTokens) {
       final List<AnalyzedTokenReadings> tokenReadings = new ArrayList<AnalyzedTokenReadings>();
-      int pos = 0;
       for (String word : sentenceTokens) {
         final List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
         // a real tagger would need to assign a POS tag
         // in the next line instead of null:
         l.add(new AnalyzedToken(word, null, null));
-        pos += word.length();
         tokenReadings.add(new AnalyzedTokenReadings(l
                 .toArray(new AnalyzedToken[0]), 0));
       }

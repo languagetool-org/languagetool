@@ -20,7 +20,6 @@
 package org.languagetool.rules.ca;
 
 import java.util.ResourceBundle;
-import java.util.regex.Pattern;
 
 import org.languagetool.Language;
 import org.languagetool.rules.GenericUnpairedBracketsRule;
@@ -30,8 +29,6 @@ public class CatalanUnpairedExclamationMarksRule extends GenericUnpairedBrackets
   private static final String[] CA_START_SYMBOLS = { "¡"};
   private static final String[] CA_END_SYMBOLS   = { "!"};
   
-  private static final Pattern NUMBER = Pattern.compile("\\d+");
-
   public CatalanUnpairedExclamationMarksRule(final ResourceBundle messages,
       final Language language) {
     super(messages, language);

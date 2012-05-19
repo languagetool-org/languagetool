@@ -26,7 +26,6 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.languagetool.AnalyzedToken;
@@ -39,7 +38,7 @@ import org.languagetool.tagging.Tagger;
  * file to assign tags to words. It only supports lemmas and three main parts of
  * speech: noun, verb and adjective
  * 
- * @author Adriy Rysin
+ * @author Andriy Rysin
  */
 public class UkrainianMyspellTagger implements Tagger {
 

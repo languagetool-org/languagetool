@@ -124,10 +124,7 @@ class Main {
   }
   
   private void cleanUp() {
-	  lt.removeTemporaryFiles();
-	  if (srcLt != null) {
-		  srcLt.removeTemporaryFiles();
-	  }
+	  JLanguageTool.removeTemporaryFiles();	  
   }
   
 

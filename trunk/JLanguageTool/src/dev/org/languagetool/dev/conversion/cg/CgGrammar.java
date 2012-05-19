@@ -264,8 +264,8 @@ public class CgGrammar {
     public CgSet addCompositeTagToSet(CgSet set, CgCompositeTag tag) {
         if (tag != null && !tag.tags.isEmpty()) {
             if (tag.tags.size() == 1) {
-                CgTag rtag = tag.tags.get(0);
-                CgSet s = this.addTagToSet(rtag, set);
+                //CgTag rtag = tag.tags.get(0);
+                //CgSet s = this.addTagToSet(rtag, set);
             }
             else {
                 tag = addCompositeTag(tag);

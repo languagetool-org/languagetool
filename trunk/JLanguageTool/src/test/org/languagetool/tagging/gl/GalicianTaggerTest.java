@@ -20,10 +20,6 @@ package org.languagetool.tagging.gl;
 
 import java.io.IOException;
 
-import morfologik.stemming.Dictionary;
-import morfologik.stemming.DictionaryLookup;
-import morfologik.stemming.WordData;
-
 import junit.framework.TestCase;
 import org.languagetool.TestTools;
 import org.languagetool.tokenizers.WordTokenizer;

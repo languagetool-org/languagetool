@@ -20,9 +20,7 @@
 package org.languagetool.rules.ca;
 
 import java.util.ResourceBundle;
-import java.util.regex.Pattern;
 
-import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
 import org.languagetool.rules.GenericUnpairedBracketsRule;
 
@@ -31,8 +29,6 @@ public class CatalanUnpairedQuestionMarksRule extends GenericUnpairedBracketsRul
   private static final String[] CA_START_SYMBOLS = { "¿"};
   private static final String[] CA_END_SYMBOLS   = { "?"};
   
-  private static final Pattern NUMBER = Pattern.compile("\\d+");
-
   public CatalanUnpairedQuestionMarksRule(final ResourceBundle messages,
       final Language language) {
     super(messages, language);

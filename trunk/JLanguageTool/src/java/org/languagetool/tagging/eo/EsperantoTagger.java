@@ -26,7 +26,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.HashSet;
@@ -187,8 +186,7 @@ public class EsperantoTagger implements Tagger {
     Matcher matcher;
 
     final List<AnalyzedTokenReadings> tokenReadings = 
-      new ArrayList<AnalyzedTokenReadings>();
-    int pos = 0;
+      new ArrayList<AnalyzedTokenReadings>();    
     for (String word : sentenceTokens) {
       final List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
 
@@ -303,7 +301,6 @@ public class EsperantoTagger implements Tagger {
         // Single letter word (no tag).
         l.add(new AnalyzedToken(word, null, null));
       }
-      pos += word.length();
       tokenReadings.add(new AnalyzedTokenReadings(
         l.toArray(new AnalyzedToken[0]), 0));
     }

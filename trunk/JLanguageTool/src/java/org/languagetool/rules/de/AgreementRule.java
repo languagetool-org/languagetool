@@ -158,8 +158,7 @@ public class AgreementRule extends GermanRule {
   @Override
   public RuleMatch[] match(final AnalyzedSentence text) {
     final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
-    final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
-    int pos = 0;
+    final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();    
     for (int i = 0; i < tokens.length; i++) {
       //defaulting to the first reading
       //TODO: check for all readings
@@ -215,8 +214,7 @@ public class AgreementRule extends GermanRule {
           }
         }
       }
-     
-      pos += tokens[i].getToken().length();
+           
     }
     return toRuleMatchArray(ruleMatches);
   }
