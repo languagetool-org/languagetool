@@ -3,7 +3,7 @@
 
 # Transifex username and password
 USERNAME=dnaber
-PASSWORD=59,,867dfr
+PASSWORD=fixme
 
 rm -I i18n-temp
 mkdir i18n-temp
