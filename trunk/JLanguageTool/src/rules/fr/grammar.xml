@@ -1023,11 +1023,37 @@ though, and has since been slightly modified)-->
                     <marker>
                         <token>a</token>
                     </marker>
-                    <token regexp="yes">autrui|bord|cause|condition|côté|court|défaut|droite|force|laquelle|gauche|mesure|midi|minuit|part|peine|propos|proximité|rebours|travers|se|quels?|quelles?|comment|no[ëe]l|p[aâ]ques|[mts]e|[mst]oi|lui|elles?|eux|[nv]ous|vitesse|vélo</token>
+                    <token regexp="yes">autrui|bord|cause|condition|côté|court|défaut|droite|force|laquelle|gauche|mesure|midi|minuit|part|peine|propos|proximité|rebours|travers|se|quels?|quelles?|comment|no[ëe]l|p[aâ]ques|[mts]e|[mst]oi|lui|elles?|eux|sec|[nv]ous|vitesse|vélo</token>
                 </pattern>
                 <message>Voulez-vous écrire <suggestion>à</suggestion> ?</message>
                 <example type="incorrect">L’adresse <marker>a</marker> laquelle tu l’as envoyé</example>
                 <example type="correct">L’adresse <marker>à</marker> laquelle tu l’as envoyé</example>
+                <example type="incorrect">Le nettoyage <marker>a</marker> sec.</example>
+                <example type="correct">Le nettoyage à sec.</example>
+            </rule>
+            <rule>
+              <pattern>
+                <token>tout</token>
+                <marker><token>a</token></marker>
+                <token regexp="yes">fait|coup|loisirs</token>
+              </pattern>
+              <message>Voulez-vous écrire <suggestion>à</suggestion> ?</message>
+              <example type="incorrect">Tout <marker>a</marker> fait !</example>
+              <example type="correct">Tout à fait !</example>
+              <example type="incorrect">Il est tombé tout <marker>a</marker> coup.</example>
+              <example type="correct">Il est tombé tout à coup.</example>
+            </rule>
+            <rule>
+              <pattern>
+                <token>tout</token>
+                <marker><token>a</token></marker>
+                <token>l</token>
+                <token regexp="yes">[’´'‛′‘]</token>
+                <token regexp="yes">heure|envers</token>
+              </pattern>
+              <message>Voulez-vous écrire <suggestion>à</suggestion> ?</message>
+              <example type="incorrect">Je parlais tout <marker>a</marker> l’heure avec ma femme.</example>
+              <example type="correct">Je parlais tout à l’heure avec ma femme.</example>
             </rule>
             <rule>
                 <pattern>
