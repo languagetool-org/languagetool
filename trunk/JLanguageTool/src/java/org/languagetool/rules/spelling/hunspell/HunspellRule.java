@@ -19,9 +19,12 @@
 
 package org.languagetool.rules.spelling.hunspell;
 
-import java.io.FileNotFoundException;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -49,8 +52,7 @@ public class HunspellRule extends SpellingCheckRule {
 	Hunspell.Dictionary dictionary = null;
 
 	public HunspellRule(final ResourceBundle messages, final Language language)
-			throws FileNotFoundException, UnsupportedEncodingException,
-			UnsatisfiedLinkError, UnsupportedOperationException {
+			throws UnsatisfiedLinkError, UnsupportedOperationException, IOException {
 		super(messages, language);
 		super.setCategory(new Category(messages.getString("category_typo")));
 
@@ -59,33 +61,65 @@ public class HunspellRule extends SpellingCheckRule {
 		// in the Language class declaration is important!
 		// we might support country variants in the near future
 
+		final String langCountry = language.getShortName()
+				+ "_" 
+				+ language.getCountryVariants()[0]; 
+		
 		final String shortDicPath = "/"
 				+ language.getShortName()
 				+ "/hunspell/"
-				+ language.getShortName()
-				+ "_" 
-				+ language.getCountryVariants()[0]
+				+ langCountry
 				+ ".dic";
 
 		//set dictionary only if there are dictionary files
 		if (JLanguageTool.getDataBroker().resourceExists(shortDicPath)) {
-			// FIXME: need to change behavior of hunspell library, this is a hack to 
-			// test hunspell		
-			String dictionaryPath = 
-					JLanguageTool.getDataBroker().getFromResourceDirAsUrl(
-							shortDicPath).getPath();
 
-			dictionaryPath = dictionaryPath.substring(0, dictionaryPath.length() - 4);
-
-			// Note: the class will silently ignore the non-existence of
-			// dictionaries!
-			if (JLanguageTool.getDataBroker().getFromResourceDirAsUrl(
-					shortDicPath) != null) {
-				dictionary = Hunspell.getInstance().getDictionary(dictionaryPath);
-			}
+			dictionary = Hunspell.getInstance().
+					getDictionary(getDictionaryPath(langCountry, shortDicPath));
+			
 		}
 	}
-
+	
+	private final String getDictionaryPath(final String dicName, 
+			final String originalPath) throws IOException {
+		
+		URL dictURL = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(
+				originalPath); 
+		
+		String dictionaryPath = dictURL.getPath();
+		
+		//in the webstart version, we need to copy the files outside the jar
+		//to the local temporary directory
+		if ("jar".equals(dictURL.getProtocol())) {
+			File tempDir = new File(System.getProperty("java.io.tmpdir"));
+			File temporaryFile = new File(tempDir, dicName + ".dic");
+			JLanguageTool.addTemporaryFile(temporaryFile);
+			fileCopy(JLanguageTool.getDataBroker().
+					getFromResourceDirAsStream(originalPath), temporaryFile);
+			temporaryFile = new File(tempDir, dicName + ".aff");
+			JLanguageTool.addTemporaryFile(temporaryFile);
+			fileCopy(JLanguageTool.getDataBroker().
+					getFromResourceDirAsStream(originalPath.
+							replaceFirst(".dic$", ".aff")), temporaryFile);					 			  			
+			
+			dictionaryPath = tempDir.getAbsolutePath() + "/" + dicName;
+		} else {		
+			dictionaryPath = dictionaryPath.substring(0, dictionaryPath.length() - 4);
+		}		
+		return dictionaryPath;
+	}
+	
+	private void fileCopy(final InputStream in, final File targetFile) throws IOException {
+		OutputStream out = new FileOutputStream(targetFile);
+		byte[] buf = new byte[1024];
+		  int len;
+		  while ((len = in.read(buf)) > 0){
+			  out.write(buf, 0, len);
+		  }
+		  in.close();
+		  out.close();
+	}
+	
 	@Override
 	public String getId() {
 		return "HUNSPELL_RULE";

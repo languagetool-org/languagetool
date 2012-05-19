@@ -363,6 +363,7 @@ public final class Main implements ActionListener {
       Tools.showError(e);
     }
     frame.setVisible(false);
+    JLanguageTool.removeTemporaryFiles();
     System.exit(0);
   }
 

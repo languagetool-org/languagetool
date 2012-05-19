@@ -122,6 +122,14 @@ class Main {
   private void setListUnknownWords(final boolean listUnknownWords) {
     lt.setListUnknownWords(listUnknownWords);
   }
+  
+  private void cleanUp() {
+	  lt.removeTemporaryFiles();
+	  if (srcLt != null) {
+		  srcLt.removeTemporaryFiles();
+	  }
+  }
+  
 
   private void setProfilingMode() {
     profileRules = true;
@@ -414,7 +422,7 @@ class Main {
       } else {
         runOnFile(file.getAbsolutePath(), encoding, listUnknown);
       }
-    }
+    }    
   }
 
   /**
@@ -512,6 +520,7 @@ class Main {
     } else {
       prg.runOnFile(options.getFilename(), options.getEncoding(), options.isListUnknown());
     }
+    prg.cleanUp();
   }
 
   // for language auto detect

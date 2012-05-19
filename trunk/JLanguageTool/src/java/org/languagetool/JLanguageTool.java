@@ -31,6 +31,8 @@ import org.languagetool.tokenizers.Tokenizer;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
+
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -110,7 +112,7 @@ public final class JLanguageTool {
   private int sentenceCount;
 
   private boolean listUnknownWords;
-  private Set<String> unknownWords;
+  private Set<String> unknownWords;  
 
   /**
    * Constants for correct paragraph-rule handling. 
@@ -129,6 +131,8 @@ public final class JLanguageTool {
      */
     ONLYNONPARA
   }
+  
+   private static List<File> temporaryFiles = new ArrayList<File>(); 
   
   // just for testing:
   /*
@@ -793,6 +797,25 @@ public final class JLanguageTool {
     if (printStream != null) {
       printStream.println(s);
     }
+  }
+  
+  /**
+   * Adds a temporary file to the internal list
+   * @param f - the file to be added.
+   */
+  public static void addTemporaryFile(final File f) {
+	  temporaryFiles.add(f);
+  }
+  
+  /**
+   * Clean up all temporary files, if there are any.
+   */
+  public static void removeTemporaryFiles() {
+	  if (!temporaryFiles.isEmpty()) {
+		  for (File f : temporaryFiles) {
+			  f.delete();
+		  }
+	  }
   }
 
 }
