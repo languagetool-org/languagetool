@@ -324,7 +324,7 @@
 		<jar jarfile="${dist.dir}/${final.name}.jar" basedir="${build.classes}" excludes="**/*.java">
 			<manifest>
 				<attribute name="Main-Class" value="org.languagetool.Main" />
-				<attribute name="Class-Path" value="./ ./rules ./resource ./${morfologik.fsa.lib} ./${morfologik.stemming.lib} ./jWordSplitter.jar ./${segment.lib} ./${logging.lib} ./${tika.lib} ./${ictclas4j.lib} ./${CJFtransform.lib} ./${commons-validator.lib} ${commons.lang.lib}" />
+				<attribute name="Class-Path" value="./ ./rules ./resource ./${morfologik.fsa.lib} ./${morfologik.stemming.lib} ./jWordSplitter.jar ./${segment.lib} ./${logging.lib} ./${tika.lib} ./${ictclas4j.lib} ./${CJFtransform.lib} ./${commons-validator.lib} ./${commons.lang.lib} ./${jna.lib}" />
 				<attribute name="Implementation-Version" value="${version}" />
 				<attribute name="Implementation-Date" value="${date}" />
 			</manifest>
@@ -333,7 +333,7 @@
 		<jar jarfile="${dist.dir}/${final.name.gui}.jar" basedir="${build.classes}" includes="org/languagetool/gui/*.class">
 			<manifest>
 				<attribute name="Main-Class" value="org.languagetool.gui.Main" />
-				<attribute name="Class-Path" value="./LanguageTool.jar ./ ./resource ./rules ./${morfologik.fsa.lib} ./${morfologik.stemming.lib} ./jWordSplitter.jar ./${segment.lib} ./${logging.lib} ./${tika.lib} ./${ictclas4j.lib} ./${CJFtransform.lib} ./${commons-validator.lib} ${commons.lang.lib}" />
+				<attribute name="Class-Path" value="./LanguageTool.jar ./ ./resource ./rules ./${morfologik.fsa.lib} ./${morfologik.stemming.lib} ./jWordSplitter.jar ./${segment.lib} ./${logging.lib} ./${tika.lib} ./${ictclas4j.lib} ./${CJFtransform.lib} ./${commons-validator.lib} ./${commons.lang.lib} ./${jna.lib}" />
 				<attribute name="Implementation-Version" value="${version}" />
 				<attribute name="Implementation-Date" value="${date}" />
 			</manifest>
@@ -491,7 +491,8 @@
 	<copy file="${ext.commons-validator.lib}" todir="${dist.dir}" />
 	<copy file="${ext.lucene-core.lib}" todir="${dist.dir}" />
 	<copy file="${ext.lucene-queries.lib}" todir="${dist.dir}" />
-	
+	<copy file="${ext.jna.lib}" todir="${dist.dir}" />
+
 
 	<copy file="${src.scripts.dir}/testrules.sh" todir="${dist.dir}" />
 	<copy file="${src.scripts.dir}/testrules.bat" todir="${dist.dir}" />
