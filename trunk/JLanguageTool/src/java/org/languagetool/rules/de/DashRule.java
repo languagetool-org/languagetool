@@ -53,7 +53,6 @@ public class DashRule extends GermanRule {
   public RuleMatch[] match(final AnalyzedSentence text) {
     final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
-    int pos = 0;
     String prevToken = null;
     for (int i = 0; i < tokens.length; i++) {
       final String token = tokens[i].getToken();
@@ -75,7 +74,6 @@ public class DashRule extends GermanRule {
         }
       }      
       prevToken = token;
-      pos += token.length();
     }
     return toRuleMatchArray(ruleMatches);
   }
