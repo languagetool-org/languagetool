@@ -439,19 +439,33 @@
 <zip compress="yes" destfile="${dist.dir}/LanguageTool-${version}-src.zip" basedir="${dist.dir}" includes="**" excludes="turn.sh,deploy.sh,undeploy.sh" />
 </target>
 
+
+<!-- ========================================================================= -->
+<!-- LanguageTool standalone with hunspell, without OpenOffice.org integration -->
+<!-- ========================================================================= -->
+
+<target name="dist-standalone" depends="common" description="Builds a ZIP for stand-alone use">
+	<zip compress="yes" destfile="${dist.dir}/LanguageTool-${version}.zip" basedir="${dist.dir}" includes="**" 
+		excludes="deploy.sh,undeploy.sh,turn.sh,printlocales.jar,LanguageTool.uno.jar" />
+</target>
+
+	
+	
 <!-- ================================================================== -->
 <!-- LanguageTool including OpenOffice.org integration -->
 <!-- ================================================================== -->
 
-<target name="dist" depends="ooo-internal" description="Builds one ZIP for both OpenOffice.org and stand-alone use">
-<zip compress="yes" destfile="${dist.dir}/LanguageTool-${version}.oxt" basedir="${dist.dir}" includes="**" excludes="deploy.sh,undeploy.sh,turn.sh,printlocales.jar" />
+<target name="dist" depends="ooo-internal" description="Builds LibreOffice/ApacheOpenOffice extension">
+<zip compress="yes" destfile="${dist.dir}/LanguageTool-${version}.oxt" basedir="${dist.dir}" includes="**" 
+	excludes="deploy.sh,undeploy.sh,turn.sh,printlocales.jar,**/hunspell/**,${bliki.lib},junit.jar,Rule*.jar,
+	lucene*.jar,testwikipedia.*,LanguageTool.jar,LanguageToolGUI.jar,*.xsl,${jna.lib}" />
 </target>
 
 <target name="fast" depends="ooo-internal" description="like dist, but without ZIP compression (for development only)">
 <zip compress="no" destfile="${dist.dir}/LanguageTool-${version}.oxt" basedir="${dist.dir}" includes="**" excludes="deploy.sh,undeploy.sh,turn.sh,printlocales.jar" />
 </target>
 
-<target name="common" depends="clean,init,build,ooo-build">
+<target name="common" depends="clean,init,build">
 	<copy file="${resource.dir}/TrayIcon.png" todir="${dist.dir}/resource/" />
 	<filter filtersFile="build.properties" />
 
@@ -490,7 +504,7 @@
 	<copy file="${ext.CJFtransform.lib}" todir="${dist.dir}" />
 	<copy file="${ext.commons-validator.lib}" todir="${dist.dir}" />
 	<copy file="${ext.lucene-core.lib}" todir="${dist.dir}" />
-	<copy file="${ext.lucene-queries.lib}" todir="${dist.dir}" />
+	<copy file="${ext.lucene-queries.lib}" todir="${dist.dir}" />		
 	<copy file="${ext.jna.lib}" todir="${dist.dir}" />
 
 
@@ -578,9 +592,7 @@
 	<copy file="${resource.dir}/pl/compounds.txt" todir="${dist.dir}/resource/pl" />
 	<copy file="${resource.dir}/pl/multiwords.txt" todir="${dist.dir}/resource/pl" />
 	<copy file="${resource.dir}/pl/disambiguation.xml" todir="${dist.dir}/resource/pl" />
-	<copy file="${resource.dir}/pl/hunspell/pl_PL.aff" todir="${dist.dir}/resource/pl/hunspell" />
-	<copy file="${resource.dir}/pl/hunspell/pl_PL.dic" todir="${dist.dir}/resource/pl/hunspell" />
-
+	
 	<copy file="${resource.dir}/nl/dutch.dict" todir="${dist.dir}/resource/nl" />
 	<copy file="${resource.dir}/nl/dutch.info" todir="${dist.dir}/resource/nl" />
 	<copy file="${resource.dir}/nl/dutch_synth.dict" todir="${dist.dir}/resource/nl" />
@@ -664,9 +676,18 @@
 		<fileset dir="src/rules" excludes="CVS" />
 	</copy>
 
+	<!-- general pattern for all hunspell-related files, including any license or readme files -->
+	<copy todir="${dist.dir}/resource">
+		<fileset dir="${resource.dir}" includes="**/hunspell/*.*"/>
+	</copy>
+	<copy file="${ext.jna.lib}" todir="${dist.dir}" />
+	<copy todir="${dist.dir}">
+		<fileset dir="${ext.dir}/native-lib" />
+	</copy>
+	
 </target>
 	
-<target name="ooo-internal" depends="common">
+<target name="ooo-internal" depends="common,ooo-build">
 <!-- prepare properties file automatically -->
 <javac encoding="${encoding}" srcdir="${src.dir}/dev" includes="org/languagetool/dev/PrintLocales.java" destdir="${build.classes}" source="${source}" target="${target}" debug="${debug}">
 </javac>
@@ -684,6 +705,8 @@
 
 <java jar="${dist.dir}/printlocales.jar" fork="true" />
 
+<delete file="${dist.dir}/printlocales.jar" />
+	
 <filter filtersFile="ooolocales.properties" />
 <copy filtering="true" encoding="${encoding}" todir="${dist.dir}/">
 	<fileset dir="openoffice/" includes="description.xml,*.xcu,Options.xdl,META-INF/**" />
@@ -693,28 +716,117 @@
 </copy>
 </target>
 
+	
+<!-- ================================================================== -->
+<!-- LanguageTool Java Web Start compile -->
+<!-- ================================================================== -->
+	
+	
 <target name="jnlp" depends="common" description="Builds JNLP distribution file">
 <mkdir dir="${dist.dir}/web" />
-<mkdir dir="${dist.dir}/web/linux" />
-<mkdir dir="${dist.dir}/web/windows" />
-<mkdir dir="${dist.dir}/web/sunos" />
 
 <filter filtersFile="build.properties" />
-<copy file="./LanguageTool.jnlp" todir="${dist.dir}/web" filtering="true" />
-<copy file="./LanguageToolServer.jnlp" todir="${dist.dir}/web" filtering="true" />	
+<copy file="jnlp/LanguageTool.jnlp" todir="${dist.dir}/web" filtering="true" />
+<copy file="jnlp/LanguageToolServer.jnlp" todir="${dist.dir}/web" filtering="true" />
+<copy file="jnlp/LanguageToolBig.gif" todir="${dist.dir}/web" />	
 
 <copy todir="${dist.dir}/web/">
 	<fileset dir="${dist.dir}" casesensitive="yes">
 	  <include name="**/*.jar" />
-	  <exclude name="**/printlocales.jar"/>
 	  <exclude name="**/LanguageTool.uno.jar"/>
 	  <exclude name="**/junit.jar"/>
+	  <exclude name="**/Rule*.jar"/>
 	  <exclude name="**/${bliki.lib}"/>
-	</fileset>
+	</fileset>	
 </copy>
 
 <jar compress="yes" basedir="${dist.dir}" destfile="${dist.dir}/web/resource.jar" includes="resource/**" />
 <jar compress="yes" basedir="${dist.dir}" destfile="${dist.dir}/web/rules.jar" includes="rules/**" />
+	
+	
+<!--
+	  Split the monolithic jna file into a shared one with java code and
+	  platform specifc ones for each supported platform, this is needed for
+	  webstart that handles native libs.
+-->
+	 <zip destfile="${dist.dir}/web/jna.jar">
+		<zipfileset src="${ext.jna.lib}">
+		  <exclude name="**/*.dll" />
+		  <exclude name="**/*.so" />
+		  <exclude name="**/*.jnilib" />
+		  <exclude name="**/*.dylib" />
+	    </zipfileset>
+	  </zip>
+
+	      <zip destfile="${dist.dir}/web/jna-linux-i386.jar">
+			<zipfileset src="${ext.jna.lib}" includes="com/sun/jna/linux-i386/libjnidispatch.so" fullpath="libjnidispatch.so"/>
+	      </zip>
+
+	      <zip destfile="${dist.dir}/web/jna-linux-amd64.jar">
+			<zipfileset src="${ext.jna.lib}" includes="com/sun/jna/linux-amd64/libjnidispatch.so" fullpath="libjnidispatch.so"/>
+	      </zip>
+
+	      <zip destfile="${dist.dir}/web/jna-darwin.jar">
+			<zipfileset src="${ext.jna.lib}" includes="com/sun/jna/darwin/libjnidispatch.jnilib" fullpath="libjnidispatch.jnilib"/>
+	      </zip>
+
+	      <zip destfile="${dist.dir}/web/jna-win32-x86.jar">
+			<zipfileset src="${ext.jna.lib}" includes="com/sun/jna/win32-x86/jnidispatch.dll" fullpath="jnidispatch.dll"/>
+	      </zip>
+
+	      <zip destfile="${dist.dir}/web/jna-win32-amd64.jar">
+			<zipfileset src="${ext.jna.lib}" includes="com/sun/jna/win32-amd64/jnidispatch.dll" fullpath="jnidispatch.dll"/>
+	      </zip>
+
+		  <!-- 
+			   Create separate jar files with the hunspell natives as well.
+			-->
+	      <!-- jar destfile="${dist.dir}/web/hunspell-jws.jar">
+			<fileset dir="build/classes"/> 
+		  </jar -->
+
+	      <zip destfile="${dist.dir}/web/hunspell-win32-x86.jar">
+			<fileset dir="${ext.dir}/native-lib">
+			  <filename name="hunspell-win-x86-32.dll"/>
+		    </fileset>
+	      </zip>
+
+	      <zip destfile="${dist.dir}/web/hunspell-win32-amd64.jar">
+			<fileset dir="${ext.dir}/native-lib">
+			  <filename name="hunspell-win-x86-64.dll"/>
+		    </fileset>
+	      </zip>
+
+	      <zip destfile="${dist.dir}/web/hunspell-linux-i386.jar">
+			<fileset dir="${ext.dir}/native-lib">
+			  <filename name="libhunspell-linux-x86-32.so"/>
+		    </fileset>
+	      </zip>
+
+	      <zip destfile="${dist.dir}/web/hunspell-linux-amd64.jar">
+			<fileset dir="${ext.dir}/native-lib">
+			  <filename name="libhunspell-linux-x86-64.so"/>
+		    </fileset>
+	      </zip>
+
+	      <zip destfile="${dist.dir}/web/hunspell-darwin-i386.jar">
+			<fileset dir="${ext.dir}/native-lib">
+			  <filename name="hunspell-darwin-x86-32.*"/>
+		    </fileset>
+	      </zip>
+
+	      <zip destfile="${dist.dir}/web/hunspell-darwin-amd64.jar">
+			<fileset dir="${ext.dir}/native-lib">
+			  <filename name="hunspell-darwin-x86-64.*"/>
+		    </fileset>
+	      </zip>
+
+	      <zip destfile="${dist.dir}/web/hunspell-darwin-ppc.jar">
+			<fileset dir="${ext.dir}/native-lib">
+			  <filename name="hunspell-darwin-ppc-32.*"/>
+		    </fileset>
+	      </zip>
+	
 	
 <signjar keypass="blabla" keystore="./myalias.p12" 
 	storetype="pkcs12" storepass="blabla" alias="8ac09659-7332-11e1-ba27-8c89a57cdeaa">

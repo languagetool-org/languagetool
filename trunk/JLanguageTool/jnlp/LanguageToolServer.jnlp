@@ -24,18 +24,43 @@
 
 	<resources>
 		<j2se version="1.6+" />
-		<jar href="morfologik-stemming-1.5.2.jar" />
-		<jar href="morfologik-fsa-1.5.2.jar" />
-		<jar href="tika-core-0.9.jar" />
+		<jar href="@morfologik.stemming.lib@" />
+		<jar href="@morfologik.fsa.lib@" />
+		<jar href="@tika.lib@" />
 		<jar href="@segment.lib@" />
 		<jar href="@logging.lib@" />
-		<jar href="commons-lang-2.4.jar" />
+		<jar href="@commons.lang.lib@" />
 		<jar href="rules.jar" />
 		<jar href="resource.jar" />
 		<jar href="jWordSplitter.jar" />
-		<jar href="ictclas4j-1.0.jar" />
-		<jar href="CJFtransform_v1.0.1_bin.jar" />
-		<jar href="LanguageTool.jar" main="true" />
+		<jar href="@ictclas4j.lib@" />
+		<jar href="@CJFtransform.lib@" />
+		<jar href="LanguageTool.jar" />
+		<jar href="LanguageToolGUI.jar" main="true" />
+		<jar href="jna.jar" />
+	</resources>
+
+
+	<resources os="Windows" arch="x86">
+		<jar href="hunspell-win32-x86.jar" />		
+	</resources>
+	<resources os="Windows" arch="amd64">
+		<jar href="hunspell-win32-amd64.jar" />		
+	</resources>
+	<resources os="Linux" arch="x86">
+		<jar href="hunspell-linux-i386.jar" />		
+	</resources>		
+	<resources os="Linux" arch="amd64">
+		<jar href="hunspell-linux-amd64.jar" />		
+	</resources>
+	<resources os="Mac OS X" arch="x86">
+		<jar href="hunspell-darwin-i386.jar" />		
+	</resources>	
+	<resources os="Mac OS X" arch="amd64">
+		<jar href="hunspell-darwin-amd64.jar" />		
+	</resources>
+	<resources os="Mac OS X" arch="ppc">
+		<jar href="hunspell-darwin-ppc.jar" />		
 	</resources>
 
 	<application-desc main-class="org.languagetool.server.HTTPServer">
