@@ -215,6 +215,20 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue(output.indexOf("1.) Line 1, column 31, Rule ID: PL_WORD_REPEAT") != -1);
   }
   
+  public void testPolishSpelling() throws IOException, ParserConfigurationException, SAXException {
+	    final String test = "Zwuasdac?";
+	    final byte[] b = test.getBytes();
+	    System.setIn(new ByteArrayInputStream(b));
+	    String[] args = new String[] {"-l", "pl", "-e", "HUNSPELL_RULE", "-"};
+
+	    Main.main(args);
+	    String output = new String(this.out.toByteArray());
+	    assertTrue(output.indexOf("Expected text language: Polish") == 0);
+	    assertTrue(output.indexOf("Working on STDIN...") != -1);
+	    assertTrue(output.indexOf("1.) Line 1, column 1, Rule ID: HUNSPELL_RULE") != -1);
+	  }
+
+  
   public void testEnglishFileRuleDisabled() throws URISyntaxException, IOException, ParserConfigurationException, SAXException {
     final URL url = this.getClass().getResource(ENGLISH_TEST_FILE);
     final URI uri = new URI (url.toString());
