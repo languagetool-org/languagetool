@@ -55,14 +55,12 @@ public class CommaWhitespaceRule extends Rule {
     final AnalyzedTokenReadings[] tokens = text.getTokens();
     String prevToken = "";
     String prevPrevToken = "";
-    boolean prevWhite = false;
-    int pos = 0;
+    boolean prevWhite = false;    
     int prevLen = 0;
     for (int i = 0; i < tokens.length; i++) {
       final String token = tokens[i].getToken();
       final boolean isWhite = tokens[i].isWhitespace() 
-      || tokens[i].isFieldCode();
-      pos += token.length();
+      || tokens[i].isFieldCode();      
       String msg = null;
       int fixLen = 0;
       String suggestionText = null;
