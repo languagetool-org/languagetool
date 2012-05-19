@@ -64,22 +64,25 @@ public class HunspellRule extends SpellingCheckRule {
 				+ "/hunspell/"
 				+ language.getShortName()
 				+ "_" 
-				+ language.getCountryVariants()[0];
-		
-		// FIXME: need to change behavior of hunspell library, this is a hack to 
-		// test hunspell
-		
-		String dictionaryPath = 
-				JLanguageTool.getDataBroker().getFromResourceDirAsUrl(
-				shortDicPath + ".dic").getPath();
-		
-		dictionaryPath = dictionaryPath.substring(0, dictionaryPath.length() - 4);
+				+ language.getCountryVariants()[0]
+				+ ".dic";
 
-		// Note: the class will silently ignore the non-existence of
-		// dictionaries!
-		if (JLanguageTool.getDataBroker().getFromResourceDirAsUrl(
-				shortDicPath + ".dic") != null) {
-			dictionary = Hunspell.getInstance().getDictionary(dictionaryPath);
+		//set dictionary only if there are dictionary files
+		if (JLanguageTool.getDataBroker().resourceExists(shortDicPath)) {
+			// FIXME: need to change behavior of hunspell library, this is a hack to 
+			// test hunspell		
+			String dictionaryPath = 
+					JLanguageTool.getDataBroker().getFromResourceDirAsUrl(
+							shortDicPath).getPath();
+
+			dictionaryPath = dictionaryPath.substring(0, dictionaryPath.length() - 4);
+
+			// Note: the class will silently ignore the non-existence of
+			// dictionaries!
+			if (JLanguageTool.getDataBroker().getFromResourceDirAsUrl(
+					shortDicPath) != null) {
+				dictionary = Hunspell.getInstance().getDictionary(dictionaryPath);
+			}
 		}
 	}
 
@@ -102,7 +105,7 @@ public class HunspellRule extends SpellingCheckRule {
 
 		// some languages might not have a dictionary, be silent about it
 		if (dictionary == null)
-			return null;
+			return toRuleMatchArray(ruleMatches);
 
 		// starting with the first token to skip the zero-length START_SENT
 		for (int i = 1; i < tokens.length; i++) {

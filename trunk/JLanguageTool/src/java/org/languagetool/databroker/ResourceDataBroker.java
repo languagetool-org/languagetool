@@ -74,8 +74,22 @@ public interface ResourceDataBroker {
    *         wasn't found.
    */
   public URL getFromResourceDirAsUrl(String path);
-
+  
   /**
+   * Checks if a resource in the grammar checker's {@code /resource} exists.
+   * @param path Path to an item from the {@code /resource} directory.
+   * @return {@code true} if the resource file exists.
+   */
+  public boolean resourceExists(String path);
+  
+  /**
+   * Checks if a resource in the grammar checker's {@code /rules} exists.
+   * @param path Path to an item from the {@code /rules} directory.
+   * @return {@code true} if the resource file exists.
+   */
+  public boolean ruleFileExists(String path);
+  
+   /**
    * Gets any resource from the grammar checker's {@code /resource} directory.
    *
    * @param path Path to an item from the {@code /resource} directory.

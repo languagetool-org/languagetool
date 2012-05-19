@@ -261,6 +261,31 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
   }
 
   /**
+   * See: {@link ResourceDataBroker#resourceExists(java.lang.String)}
+   * 
+   * Checks if a resource in the grammar checker's {@code /resource} exists.
+   * @param path Path to an item from the {@code /resource} directory.
+   * @return {@code true} if the resource file exists.
+   */
+  public boolean resourceExists(String path) {
+	  final String completePath = this.getCompleteResourceUrl(path);
+	  return ResourceDataBroker.class.getResource(completePath) != null;  
+  }
+  
+  /**
+   * See: {@link ResourceDataBroker#ruleFileExists(java.lang.String)}
+   * 
+   * Checks if a resource in the grammar checker's {@code /rules} exists.
+   * @param path Path to an item from the {@code /rules} directory.
+   * @return {@code true} if the resource file exists.
+   */
+  public boolean ruleFileExists(String path) {
+	  final String completePath = this.getCompleteRulesUrl(path);
+	  return ResourceDataBroker.class.getResource(completePath) != null;	      
+  }
+
+  
+  /**
    * @return The directory's name of the grammar checker's resource directory.
    *         The default value equals
    *         {@link ResourceDataBroker#RESOURCE_DIR}.
