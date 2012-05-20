@@ -63,7 +63,6 @@ public class DisambiguationRuleLoader extends DefaultHandler {
 
 class DisambiguationRuleHandler extends DisambXMLRuleHandler {
 
-  private static final String MARK = "mark";
   private static final String WD = "wd";
   private static final String ACTION = "action";
   private static final String DISAMBIG = "disambig";
@@ -79,8 +78,6 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
 
   private String disambiguatedPOS;
 
-  private int endPositionCorrection;
-  private boolean singleTokenCorrection;
   private int startPos = -1;
   private int endPos = -1;
   private int tokenCountForMarker = 0;
@@ -124,34 +121,7 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
     } else if (qName.equals(PATTERN)) {
       inPattern = true;
       tokenCountForMarker = 0;
-      if (attrs.getValue(MARK) != null && (attrs.getValue(MARK_FROM) != null)) {
-        throw new SAXException(
-            "You cannot use both mark and mark_from attributes." + "\n Line: "
-                + pLocator.getLineNumber() + ", column: "
-                + pLocator.getColumnNumber() + ".");
-      }
-      if (attrs.getValue(MARK) != null && (attrs.getValue(MARK_TO) != null)) {
-        throw new SAXException(
-            "You cannot use both mark and mark_to attributes." + "\n Line: "
-                + pLocator.getLineNumber() + ", column: "
-                + pLocator.getColumnNumber() + ".");
-      }
-
-      if (attrs.getValue(MARK_TO) == null) {
-        singleTokenCorrection = true;
-      } else {
-        endPositionCorrection = Integer.parseInt(attrs.getValue(MARK_TO));
-        if (endPositionCorrection > 0) {
-          throw new SAXException("End position correction (mark_to="
-              + endPositionCorrection
-              + ") cannot be larger than 0: " + "\n Line: "
-              + pLocator.getLineNumber() + ", column: "
-              + pLocator.getColumnNumber() + ".");
-        }
-        singleTokenCorrection = false;
-      }
-      if (attrs.getValue(CASE_SENSITIVE) != null
-          && YES.equals(attrs.getValue(CASE_SENSITIVE))) {
+      if (attrs.getValue(CASE_SENSITIVE) != null && YES.equals(attrs.getValue(CASE_SENSITIVE))) {
         caseSensitive = true;
       }
     } else if (qName.equals(EXCEPTION)) {
@@ -318,6 +288,7 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
             + "\n Line: " + pLocator.getLineNumber() + ", column: "
             + pLocator.getColumnNumber() + ".");
       }
+      final boolean singleTokenCorrection = endPos - startPos > 1;
       if ((!singleTokenCorrection && (disambigAction == DisambiguatorAction.FILTER || disambigAction == DisambiguatorAction.REPLACE))
           && (matchedTokenCount > 1)) {
         throw new SAXException(
