@@ -2082,12 +2082,13 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
             <example type="incorrect" correction="Völlig absurde Wortverbindung">Das ist die <marker>Wurst des Todes</marker>.</example>
             <example type="correct">Diese Regel ist <marker>nicht ganz ernst gemeint</marker>.</example>
         </rule>
-        <rule id="LEERZEICHEN_UND" name="Möglicher Tippfehler: vergessenes Leerzeichen">
-            <pattern>
-                <token regexp="yes">(.*)-(und|oder|bzw)</token>
+        <rule id="LEERZEICHEN_UND" name="Möglicher Tippfehler: vergessenes Leerzeichen nach Bindestrich">
+            <pattern case_sensitive="yes">
+                <token regexp="yes">(.*)-(und|oder|bzw)<exception scope="current">Entweder-oder</exception></token>
             </pattern>
             <message>Möglicherweise fehlt ein Leerzeichen nach dem Bindestrich: <suggestion><match no="1" regexp_match="(.*)-(und|oder|bzw)" regexp_replace="$1- $2"></match></suggestion>.</message>
             <example type="correct">Das ist <marker>Haus- bzw</marker>. Grundbesitz.</example>
+            <example type="correct">Das ist keine Frage des <marker>Entweder-oder</marker>.</example>
             <example correction="Haus- bzw" type="incorrect">Das ist <marker>Haus-bzw</marker>. Grundbesitz.</example>
             <example type="correct">Das ist <marker>Haus- und</marker> Grundbesitz.</example>
             <example correction="Haus- und" type="incorrect">Das ist <marker>Haus-und</marker> Grundbesitz.</example>
@@ -5246,9 +5247,9 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         </rulegroup>
         <rulegroup id="HERUM_GELAUFEN" name="Zusammen-/Getrenntschreibung: 'herum gelaufen (herumgelaufen)' etc." default="on">
             <rule>
-                <pattern case_sensitive="no">
+                <pattern case_sensitive="yes">
                     <token>herum</token>
-                    <token postag="PA2:PRD:GRU:VER"></token>
+                    <token regexp="yes">ge(albert|bastelt|bohrt|bracht|brüllt|bummelt|dreht|drückt|fragt|fuchtelt|führt|gammelt|hackt|horcht|hüpft|hurt|irrt|klettert|knobelt|knutscht|kramt|laufen|kratzt|kriegt|krittelt|kritzelt|kurvt|lungert|paddelt|pfuscht|plagt|quält|rannt|rätselt|redet|reicht|reist|rutscht|schaut|schickt|schlendert|schleppt|schleudert|schnüffelt|schraubt|schubst|schwenkt|schwirrt|spielt|stänkert|stöbert|streunt|strolcht|stümpert|sucht|tänzelt|tappt|tastet|tobt|tollt|trampelt|trödelt|turnt|wälzt|wandert|werkelt|wickelt|winselt|wirbelt|wühlt|wurstelt|zankt|zappelt|zeigt|zerrt)</token>
                 </pattern>
                 <message>&getrennt;: Meinten Sie eventuell <suggestion>\1\2</suggestion>?</message>
                 <short>&getrennt;.</short>
@@ -5599,20 +5600,24 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
             <example type="incorrect" correction="denselben">Er trägt heute ein und <marker>den Selben</marker> Pullover wie gestern.</example>
             <example type="incorrect" correction="Denselben"><marker>Den selben</marker> Pullover trägt er heute.</example>
         </rule>
-        <rule id="MOEGLICHER_WEISE_ETC" name="Zusammen-/Getrenntschreibung: 'möglicher Weise (möglicherweise)' etc.">
-            <pattern case_sensitive="no">
-                <token negate="yes">in</token>
-                <!-- <token regexp="yes" negate="yes">(äußerst|sehr|ausgesprochen)</token> -->
-                <marker>
-                    <token regexp="yes">(absurd|auffällig|bedauerlich|bedauernswert|begreiflich|beklagenswert|bemerkenswert|berechtigt|betrüblich|bevorzugt|bezeichnend|billig|blöd|charakteristisch|dankenswert|drollig|ehrlich|eigenartig|eigenmächtig|eigentümlich|entgegenkommend|enttäuschend|erfreulich|erklärlich|erstaunlich|evident|fair|fälschlich|fatal|folgend|frech|freundlich|gebührend|gemein|gerecht|gewöhnlich|gleich|glied|glücklich|gnädig|günstig|heimlich|heimtückisch|herkömmlich|ideal|idiotisch|inkonsequent|inkorrekt|interessant|ironisch|irreführend|irrig|irritierend|irrtümlich|klar|klassisch|kleck|klug|komisch|konsequent|kontingent|korrekt|kurios|laienhaft|legitim|leichtsinnig|liebenswürdig|listig|lobenswert|löblich|logisch|merkwürdig|missverständlich|möglich|naheliegend|naiv|natürlich|nett|normal|notwendig|originell|paradox|passend|pikant|plausibl|praktisch|realistisch|richtig|riskant|schlau|seltsam|sinnig|sinnvoll|solch|sonderbar|traditionell|tragisch|traurig|trickreich|trivial|typisch|unachtsam|unerklärlich|unerlaubt|unerwartet|ungeschickt|unglücklich|unnötig|unstrittig|unverdient|unvermeidlich|unverständlich|unvorsichtig|verdient|vernünftig|verständlich|widersinnig|wunderbar|wunderlich|zufällig|zulässig|zweckmäßig)er</token>
-                    <token>Weise</token>
-                </marker>
-            </pattern>
-            <message><suggestion>\2weise</suggestion> wird (als Adverb) meist zusammengeschrieben.</message>
-            <short>&getrennt;.</short>
-            <example type="correct"><marker>Möglicherweise</marker> ist die Gelbphase der Ampel zu kurz eingestellt.</example>
-            <example type="incorrect"><marker>Möglicher Weise</marker> ist die Gelbphase zu kurz eingestellt.</example>
-        </rule>
+        <rulegroup id="MOEGLICHER_WEISE_ETC" name="Zusammen-/Getrenntschreibung: 'möglicher Weise (möglicherweise)' etc.">
+            <rule>
+                <pattern case_sensitive="no">
+                    <token/>
+                    <marker>
+                        <token regexp="yes">(absurd|auffällig|bedauerlich|bedauernswert|begreiflich|beklagenswert|bemerkenswert|berechtigt|betrüblich|bevorzugt|bezeichnend|billig|blöd|charakteristisch|dankenswert|drollig|ehrlich|eigenartig|eigenmächtig|eigentümlich|entgegenkommend|enttäuschend|erfreulich|erklärlich|erstaunlich|evident|fair|fälschlich|fatal|folgend|frech|freundlich|gebührend|gemein|gerecht|gewöhnlich|gleich|glied|glücklich|gnädig|günstig|heimlich|heimtückisch|herkömmlich|ideal|idiotisch|inkonsequent|inkorrekt|interessant|ironisch|irreführend|irrig|irritierend|irrtümlich|klar|klassisch|kleck|klug|komisch|konsequent|kontingent|korrekt|kurios|laienhaft|legitim|leichtsinnig|liebenswürdig|listig|lobenswert|löblich|logisch|merkwürdig|missverständlich|möglich|naheliegend|naiv|natürlich|nett|normal|notwendig|originell|paradox|passend|pikant|plausibl|praktisch|realistisch|richtig|riskant|schlau|seltsam|sinnig|sinnvoll|solch|sonderbar|traditionell|tragisch|traurig|trickreich|trivial|typisch|unachtsam|unerklärlich|unerlaubt|unerwartet|ungeschickt|unglücklich|unnötig|unstrittig|unverdient|unvermeidlich|unverständlich|unvorsichtig|verdient|vernünftig|verständlich|widersinnig|wunderbar|wunderlich|zufällig|zulässig|zweckmäßig)er<exception scope="previous">in</exception></token>
+                        <token>Weise</token>
+                    </marker>
+                </pattern>
+                <message><suggestion>\2weise</suggestion> wird (als Adverb) meist zusammengeschrieben.</message>
+                <short>&getrennt;.</short>
+                <!-- <example type="correct">In für ihn <marker>typischer Weise</marker> hat er das getan.</example> -->
+                <example type="correct">In <marker>typischer Weise</marker> hat er das getan.</example>
+                <example type="correct">Doch <marker>möglicherweise</marker> ist die Gelbphase der Ampel zu kurz eingestellt.</example>
+                <example type="incorrect" correction="möglicherweise">Doch <marker>möglicher Weise</marker> ist die Gelbphase zu kurz eingestellt.</example>
+                <example type="incorrect" correction="Möglicherweise"><marker>Möglicher Weise</marker> ist die Gelbphase zu kurz eingestellt.</example>
+            </rule>
+        </rulegroup>
         <rule id="ZU_TEIL" name="Zusammen-/Getrenntschreibung: 'zu Teil (zuteil/zum Teil)'">
             <pattern>
                 <marker>
@@ -7317,16 +7322,17 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     <!-- Stil/Sprachebene -->
     <!-- ====================================================================== -->
     <!-- TODO split category? (Umgangssprache + Stil) -->
-    <category name="Umgangssprache, Stil">
+    <category name="Stil, Umgangssprache">
         <!-- TODO Make one Java-rule for context-independent, colloquial expressions and maintain a list -->
-        <!-- message is incorrect, thus commented out for now
+        <!-- TODO suggestion is incorrect, commented for now
         <rule id="BAUCHWEH" name="Umgangssprache: 'Bauchweh (Bauchschmerz)'">
-          <pattern>
-            <token regexp="yes">(Bauch|Kopf|Hals|Zahn)wehe?s?n?</token>
-          </pattern>
-          <message>\1 ist umgangssprachlich. Vorschläge: <suggestion><match no="1" regexp_replace="schmerz" regexp_match="weh.*"/></suggestion>, <suggestion><match no="1" regexp_replace="schmerzen" regexp_match="weh.*"/></suggestion></message>
-          <example type="correct">Er hat <marker>Bauchschmerzen</marker>.</example>
-          <example type="incorrect">Wegen des starken <marker>Zahnwehs</marker>...</example>
+            <pattern>
+                <token regexp="yes">(Bauch|Kopf|Hals|Zahn)wehs?</token>
+            </pattern>
+            <message>\1 ist umgangssprachlich. Vorschläge: <suggestion><match no="1" regexp_replace="schmerz" regexp_match="wehs?$"/></suggestion>, <suggestion><match no="1" regexp_replace="schmerzen" regexp_match="schmerz$"/></suggestion>.\nBitte beachten Sie, dass etwaige Ajektive an das neue Genus angepasst werden müssen.</message>
+            <example type="correct">Er hat <marker>Bauchschmerzen</marker>.</example>
+            <example type="incorrect" correction="Bauchschmerz|Bauchschmerzen">Er hat <marker>Bauchweh</marker>.</example>
+            <example type="incorrect">Wegen des starken <marker>Zahnwehs</marker>...</example>
         </rule>
         -->
         <rulegroup id="AUF_OFFEN" name="Umgangssprache: 'auf (offen)'">
@@ -7363,15 +7369,21 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
             <example type="correct">Wir haben ein <marker>gewaltiges Problem</marker>.</example>
         </rule>
         <rule id="VOLL_BLOED" name="Umgangssprache: 'voll' als Adverb, z.B. 'das ist voll blöd'">
-            <pattern case_sensitive="no">
-                <token regexp="yes">voll|echt|scheiße</token>
-                <token postag_regexp="yes" postag="(ADJ|VER):.*"></token>
+            <pattern case_sensitive="yes">
+                <marker>
+                    <token regexp="yes">voll|echt|scheiße</token>
+                </marker>
+                <token postag_regexp="yes" postag="(ADJ|VER):.*"><exception postag_regexp="yes" postag="SUB:.*"/><exception postag_regexp="yes" postag="VER:.*" inflected="yes">sein</exception><exception regexp="yes">ausführen|ausgearbeitet(e\w?)?|ausgebildet(e\w?)?|ausgelastet(e\w?)?|ausgereift(e\w?)?|auswirken|besetzt(e\w?)?|enthalten(e\w?)?|erhalten|erklärten|(funktions|einsatz)(fähig|tüchtig)(e\w?)?|golden(e\w)?|größer(e\w?)?|isoliert(e\w?)?|kleiner(e\w?)?|silbern(e\w?)|umfass(en?|te?n?)|umsetz(t|en?)|umgesetzt(e\w?)?|verwirklicht(e\w?)?</exception></token>
             </pattern>
-            <message>Dies ist eine sehr umgangssprachliche Ausdrucksweise. Möglicherweise möchten Sie je nach Anlass eine andere Formulierung in Betracht ziehen.</message>
+            <message>Die Verwendung von 'voll' und 'echt' als Adverb kann je nach Kontext sehr umgangssprachlich wirken. Möglicherweise möchten Sie je nach Anlass eine andere Formulierung in Betracht ziehen, z.B. <suggestion>sehr</suggestion> \2.</message>
             <short>&umgangsspr;</short>
-            <example type="incorrect">Das ist <marker>voll blöd</marker>.</example>
-            <example type="incorrect">Das ist eine <marker>echt blöde</marker> Situation.</example>
-            <example type="correct">Das ist <marker>doch ziemlich blöde</marker>.</example>
+            <example type="incorrect">Das ist <marker>voll</marker> blöd.</example>
+            <example type="incorrect">Das ist eine <marker>echt</marker> blöde Situation.</example>
+            <example type="correct">Das ist <marker>doch ziemlich</marker> blöde.</example>
+            <example type="correct">Wenn das Maß <marker>voll</marker> ist.</example>
+            <example type="correct">Das Gerät ist <marker>voll</marker> funktionsfähig.</example>
+            <example type="correct">Das Gerät ist nicht <marker>voll</marker> einsatzfähig.</example>
+            <example type="correct">Wenn der Brief <marker>echt</marker> ist.</example>
         </rule>
         <rule id="GEHIESSEN" name="Umgangssprache: 'gehießen (geheißen)'">
             <pattern>
@@ -8086,8 +8098,8 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                 <short>'Zwischen' steht mit 'und', nicht mit 'bis'.</short>
                 <example type="correct"><marker>Zwischen Montag und Freitag</marker>.</example>
                 <example type="correct"><marker>Von Montag bis Freitag</marker>.</example>
-                <example type="incorrect"><marker>Zwischen Montag bis Freitag</marker>.</example>
-                <example type="incorrect"><marker>Seit Montag bis Freitag</marker>.</example>
+                <example type="incorrect" correction="Zwischen Montag und Freitag|Von Montag bis Freitag"><marker>Zwischen Montag bis Freitag</marker>.</example>
+                <example type="incorrect" correction="Zwischen Montag und Freitag|Von Montag bis Freitag"><marker>Seit Montag bis Freitag</marker>.</example>
             </rule>
             <rule>
                 <pattern>
@@ -8100,8 +8112,8 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                 <short>'Zwischen' steht mit 'und', nicht mit 'bis'.</short>
                 <example type="correct"><marker>Zwischen März und Juli</marker>.</example>
                 <example type="correct"><marker>Von März bis Juli</marker>.</example>
-                <example type="incorrect"><marker>Zwischen März bis Juli</marker>.</example>
-                <example type="incorrect"><marker>Seit März bis Juli</marker>.</example>
+                <example type="incorrect" correction="Zwischen März und Juli|Von März bis Juli"><marker>Zwischen März bis Juli</marker>.</example>
+                <example type="incorrect" correction="Zwischen März und Juli|Von März bis Juli"><marker>Seit März bis Juli</marker>.</example>
             </rule>
         </rulegroup>
         <!-- TODO find a better group?-->
@@ -12801,7 +12813,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                     <token>dinge</token>
                 </marker>
             </pattern>
-            <message>&subanfang;<suggestion>Dinge</suggestion>&subende;.</message>
+            <message>&subanfang;<suggestion>Dinge</suggestion>&subende;</message>
             <example type="correct">Er war guter <marker>Dinge</marker>.</example>
             <example type="incorrect" correction="Dinge">Er war guter <marker>dinge</marker>.</example>
         </rule>
@@ -12813,7 +12825,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                     <token>dingen</token>
                 </marker>
             </pattern>
-            <message>&subanfang;<suggestion>Dingen</suggestion>&subende;.</message>
+            <message>&subanfang;<suggestion>Dingen</suggestion>&subende;</message>
             <short>&prgk;.</short>
             <example type="correct">Vor allen <marker>Dingen</marker> brauchen wir Sicherheit.</example>
             <example type="incorrect" correction="Dingen">Vor allen <marker>dingen</marker> brauchen wir Sicherheit.</example>
@@ -12826,7 +12838,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                     <token>formen</token>
                 </marker>
             </pattern>
-            <message>&subanfang;<suggestion>Formen</suggestion>&subende;.</message>
+            <message>&subanfang;<suggestion>Formen</suggestion>&subende;</message>
             <short>&prgk;.</short>
             <example type="correct">Es gibt sie in allen <marker>Formen</marker> und Größen.</example>
             <example type="incorrect" correction="Formen">Es gibt sie in allen <marker>formen</marker> und Größen.</example>
@@ -12852,7 +12864,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                     </marker>
                     <token regexp="yes">zu(r|m)?</token>
                 </pattern>
-                <message>&subanfang;<suggestion>Liebe</suggestion>&subende;.</message>
+                <message>&subanfang;<suggestion>Liebe</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example type="correct">Die <marker>Liebe</marker> zu meinen Kindern gibt mir die Kraft.</example>
                 <example type="incorrect" correction="Liebe">Die <marker>liebe</marker> zu meinen Kindern gibt mir die Kraft.</example>
@@ -16548,7 +16560,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <rulegroup id="ZEIT_SEINES_LEBENS" name="Groß-/Kleinschreibung: '... Zeit (zeit) seines Lebens'" default="on">
             <rule>
                 <pattern case_sensitive="yes">
-                    <token postag="VER:.+" postag_regexp="yes"><exception postag="SENT_START"></exception></token>
+                    <token postag="VER:.+" postag_regexp="yes"><exception postag="SENT_START"/><exception postag="ADJ:.+" postag_regexp="yes"/></token>
                     <marker>
                         <token>Zeit</token>
                     </marker>
@@ -16559,6 +16571,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                 <url>http://www.duden.de/rechtschreibung/zeit</url>
                 <short>&prgk;.</short>
                 <example type="correct">Er war <marker>zeit</marker> seines Lebens ein armer Schlucker.</example>
+                <example type="correct">Er war einige <marker>Zeit</marker> seines Lebens damit beschäftigt.</example>
                 <example type="incorrect" correction="zeit">Er war <marker>Zeit</marker> seines Lebens ein armer Schlucker.</example>
                 <example type="incorrect" correction="zeit">Ich war <marker>Zeit</marker> meines Lebens ein armer Schlucker.</example>
             </rule>
@@ -17255,18 +17268,21 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <rulegroup id="ERSATZINFINITIV" name="Grammatik: 'ich habe es kommen gesehen (sehen)' u.ä." default="on">
             <rule>
                 <pattern case_sensitive="yes">
-                    <token postag="VER:INF:.+" postag_regexp="yes"></token>
+                    <token postag="VER:AUX.+" postag_regexp="yes" inflected="yes" skip="4">haben<exception scope="next" postag="SENT_END"/></token>
+                    <token postag="VER:INF:.+" postag_regexp="yes"/>
                     <marker>
                         <token regexp="yes">gesehen|gelassen</token>
                     </marker>
                 </pattern>
-                <message>Einige Verben der sinnlichen Wahrnehmung und Hilfsverben erfordern statt des Partizips mit 'ge-' den Infinitiv: <suggestion><match no="2" regexp_match="^ge" regexp_replace=""></match></suggestion>.</message>
+                <message>Einige Verben der sinnlichen Wahrnehmung und Hilfsverben erfordern statt des Partizips mit 'ge-' den Infinitiv: <suggestion><match no="3" regexp_match="^ge" regexp_replace=""></match></suggestion>.</message>
                 <!-- <message>Einige Verben der sinnlichen Wahrnehmung und Hilfsverben erfordern statt des Partizips mit 'ge-' den Infinitiv: <suggestion><match no="2" postag="PA2:PRD:GRU:VER" postag_regexp="yes" postag_replace="VER:INF:SFT"/></suggestion>.</message> -->
                 <url>http://www.magazin.institut1.de/690_Sprache_heissen_machen_lassen_als_Hilfsverben.html</url>
-                <short>Ersatzinfinitiv statt Partizip Perfekt erforderlich.</short>
+                <short>Evt. Ersatzinfinitiv statt Partizip Perfekt erforderlich.</short>
                 <example type="correct">Ich habe es kommen <marker>sehen</marker>.</example>
+                <example type="incorrect" correction="sehen">Ich habe es schon lange kommen <marker>gesehen</marker>.</example>
                 <example type="incorrect" correction="sehen">Ich habe es ja kommen <marker>gesehen</marker>.</example>
                 <example type="incorrect" correction="lassen">Ich habe dich am ausgestreckten Arm verhungern <marker>gelassen</marker>.</example>
+                <example type="incorrect" correction="lassen">Du hast ihn kommen <marker>gelassen</marker>.</example>
             </rule>
             <!-- FIXME: replacement doesn't work, as discussed on the mailing list around May 11, 2012
             <rule>
@@ -17720,7 +17736,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token inflected="yes">schlagen</token>
+                    <token inflected="yes" skip="1">schlagen</token>
                     <token>über</token>
                     <token>die</token>
                     <marker>
@@ -18584,9 +18600,9 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                 <token regexp="yes">seit|zwischen</token>
                 <token regexp="yes">([0-9]{1,5})(\-|–)([0-9]{1,5})</token>
             </pattern>
-            <message>'Zwischen' steht mit 'und', nicht mit dem Bis-Strich: <suggestion><match no="1"></match> <match no="2" regexp_match="([0-9]{1,5})(\-|–)([0-9]{1,5})" regexp_replace="$1 und $3"></match></suggestion>.</message>
+            <message>'Zwischen' steht in der Regel mit 'und', nicht mit dem Bis-Strich: <suggestion><match no="1"></match> <match no="2" regexp_match="([0-9]{1,5})(\-|–)([0-9]{1,5})" regexp_replace="$1 und $3"></match></suggestion>.</message>
             <example type="correct"><marker>Zwischen 9 und 10</marker> Uhr.</example>
-            <example type="incorrect"><marker>Zwischen 9–10</marker> Uhr.</example>
+            <example type="incorrect" correction="Zwischen 9 und 10"><marker>Zwischen 9–10</marker> Uhr.</example>
         </rule>
         <rulegroup id="VON_BIS" name="Zeichensetzung: 'von' mit Bis-Strich">
             <rule>
@@ -18624,7 +18640,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes" negate="yes">Breiten?|innerhalb|Verzögerung(en)?|Gewicht(e)?(s)?|Dauer|Umfang(e)?(s)?|Größe(n)?|Länge(n)?|Durchmesser([ns])?|Radius|Masse|(T|.*t)emperatur|(D|.*d)druck(e)?(s)?|Anzahl(en)?|Alters?|Tagesdosis|Dosis|Bereichs?|.*Wert(e?n)?</token>
+                    <token regexp="yes" negate="yes">Breiten?|[A-ZÄÖÜ].+breiten?|innerhalb|Verzögerung(en)?|Gewicht(e)?(s)?|[A-ZÄÖÜ].+gewicht(e)?(s)?|Dauer|Umfang(e)?(s)?|Größe(n)?|Länge(n)?|Durchmesser([ns])?|(R|.+r)adius|Masse|(T|.+t)emperatur(en)?|(D|.+d)ruck(e?s)?|Anzahl(en)?|Alters?|Tagesdosis|Dosis|Bereichs?|[A-ZÄÖÜ].+wert(en?)?|Wert(en?)?|(A|[A-ZÄÖÜ].+a)nteil(s|en?)?|(K|.+k)onzentration(en)?|(R|[A-ZÄÖÜ].+r)aten?|(B|[A-ZÄÖÜ].+b)estand(e?s)?|(G|[A-ZÄÖÜ].+g)eschwindigkeit(en)?|Tragfähigkeit</token>
                     <marker>
                         <token regexp="yes">[vV]o[nm]</token>
                         <token regexp="yes">([0-9]{1,5})(\-|–)([0-9]{1,5})</token>
@@ -18635,7 +18651,11 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                 <short>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus.</short>
                 <example type="correct"><marker>Von 9 bis 10</marker> Uhr.</example>
                 <example type="correct"><marker>9–10</marker> Stunden lang.</example>
-                <example type="incorrect"><marker>Von 9–10</marker> Uhr.</example>
+                <example type="correct">Temperaturen von <marker>9–10</marker> Grad.</example>
+                <example type="correct">Höchsttemperaturen von <marker>9–10</marker> Grad.</example>
+                <example type="correct">Ein Gewicht von <marker>90–100</marker> Tonnen.</example>
+                <example type="correct">Eine Breite von <marker>90–100</marker> Zentimetern.</example>
+                <example type="incorrect" correction="Von 9 bis 10"><marker>Von 9–10</marker> Uhr.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -18648,8 +18668,8 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                 </pattern>
                 <message>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus: <suggestion>\1 \2\3 bis \5\6</suggestion>.</message>
                 <example type="correct"><marker>Vom 9. bis 10.</marker> April.</example>
-                <example type="incorrect"><marker>Vom 9. – 10.</marker> April.</example>
-                <example type="incorrect">Und <marker>vom 9. – 10.</marker> April.</example>
+                <example type="incorrect" correction="Vom 9. bis 10."><marker>Vom 9. – 10.</marker> April.</example>
+                <example type="incorrect" correction="vom 9. bis 10.">Und <marker>vom 9. – 10.</marker> April.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ANFUEHRUNG_KOMPOSITA" name="Zeichensetzung: Komposita mit Anführungszeichen statt Bindestrichen, z.B. „Geht nicht“-Einstellung">
