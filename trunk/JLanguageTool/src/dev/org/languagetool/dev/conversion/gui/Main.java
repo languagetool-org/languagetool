@@ -56,11 +56,11 @@ public final class Main implements ActionListener {
 	// Display elements
 	private JFrame frame; // main frame
 
-	private JComboBox<String> rulesBox;
+	private JComboBox rulesBox;
 	private XmlTextPane resultArea;
 
-	private JComboBox<String> ruleTypeBox;
-	private JComboBox<String> specificRuleTypeBox;
+	private JComboBox ruleTypeBox;
+	private JComboBox specificRuleTypeBox;
 
 	private JTextPane coveredByPane;
 	private JTextPane warningPane;
@@ -165,7 +165,7 @@ public final class Main implements ActionListener {
 		scrollPane.setMinimumSize(new Dimension(10, 10));
 
 		// original rule combo box
-		rulesBox = new JComboBox<String>();
+		rulesBox = new JComboBox();
 		rulesBox.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -176,7 +176,7 @@ public final class Main implements ActionListener {
 		});
 
 		// rule type combo box
-		ruleTypeBox = new JComboBox<String>();
+		ruleTypeBox = new JComboBox();
 		ruleTypeBox.addItem(atdString);
 		ruleTypeBox.addItem(cgString);
 		ruleTypeBox.addActionListener(new ActionListener() {
@@ -186,7 +186,7 @@ public final class Main implements ActionListener {
 			}
 		});
 		// specific rule type
-		specificRuleTypeBox = new JComboBox<String>();
+		specificRuleTypeBox = new JComboBox();
 		populateSpecificRuleType();
 
 		// rule file pane
