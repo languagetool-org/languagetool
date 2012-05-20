@@ -37,17 +37,29 @@ phraseref:before {
 }
 
 pattern:before {
-	content: "mark_from"
-		number-field(attribute, mark_from, data-type, int, columns, 2,
-		remove-value, "yes") "mark_to"
-		number-field(attribute, mark_to, data-type, int, columns, 2,
-		remove-value, "yes") " case sensitive: "
+	content: " case sensitive: "
 		radio-buttons(attribute, case_sensitive, values, "yes\A no",
 		checked-value, "no", remove-value, "yes") insert-button() collapser()
 		" ";
 }
 
-marker,suggestion {
+pattern>marker {
+	display:block;
+	background:silver;
+}
+
+pattern>marker:before {
+	content:icon(down);	
+	color:navy;
+}
+
+pattern>marker:after {
+	content:icon(up);	
+	color:navy;
+}
+
+
+suggestion>marker, suggestion {
 	display: inline;
 	font-weight: bold;
 }
@@ -188,6 +200,11 @@ message {
 	margin-bottom: 10px;
 	white-space: pre;
 	collapsible: yes;
+}
+
+url:before {
+	content: insert-before-button() "Documentation URL: ";	
+	display: block;
 }
 
 * {
