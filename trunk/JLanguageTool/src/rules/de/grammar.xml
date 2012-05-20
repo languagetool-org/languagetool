@@ -6354,9 +6354,9 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                     <token>ungefähr</token>
                     <token regexp="yes">genau(so)?</token>
                 </pattern>
-                <message>&unstimmig; Wählen Sie zwischen <suggestion>\1</suggestion> und <suggestion>\2</suggestion>.</message>
-                <example type="incorrect">Die sehen <marker>ungefähr genauso</marker> aus.</example>
-                <example type="incorrect">Diese Wörter haben <marker>ungefähr genau</marker> dieselbe Bedeutung.</example>
+                <message>&unstimmig; Bitte wählen Sie zwischen <suggestion>\1</suggestion> und <suggestion>\2</suggestion>.</message>
+                <example type="incorrect" correction="ungefähr|genauso">Die sehen <marker>ungefähr genauso</marker> aus.</example>
+                <example type="incorrect" correction="ungefähr|genau">Diese Wörter haben <marker>ungefähr genau</marker> dieselbe Bedeutung.</example>
                 <example type="correct">Diese Wörter haben <marker>ungefähr</marker> dieselbe Bedeutung.</example>
                 <example type="correct">Diese Wörter haben <marker>genau</marker> dieselbe Bedeutung.</example>
                 <example type="correct">Diese Wörter haben dieselbe Bedeutung.</example>
@@ -19136,7 +19136,6 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         </rule>
         -->
         <rule id="DE_PHRASE_REPETITION" name="Wiederholung von Wortgruppen (z.B. 'auf der auf der Straße')">
-            <!-- adapted from en -->
             <pattern>
                 <token negate_pos="yes" postag="SENT_START" regexp="yes"><exception>und</exception>\p{L}+</token>
                 <token regexp="yes"><exception>und</exception>\p{L}+</token>
@@ -19148,8 +19147,8 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
             <example correction="auf der" type="incorrect">Wir standen <marker>auf der auf der</marker> Brücke.</example>
             <example type="correct">Wir standen <marker>auf der</marker> Brücke.</example>
         </rule>
+        <!-- Commented for the time being
         <rule id="SPELLCHECK" name="(NICHT EMPFOHLEN) Nicht im LT-Wörterbuch enthaltene Wörter markieren" default="off">
-            <!-- this rule allows to abuse LT if no spell checker is at hand -->
             <pattern>
                 <token postag="UNKNOWN" regexp="yes">[A-ZÄÖÜa-zäöüßáàâêéèëíìîïòóôõûçñšž]{2,45}</token>
             </pattern>
@@ -19158,6 +19157,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
             <example type="incorrect">Wir waren <marker>stoltz</marker> darauf.</example>
             <example type="correct">Wir waren <marker>stolz</marker> darauf.</example>
         </rule>
+        -->
     </category>
 
 </rules>
