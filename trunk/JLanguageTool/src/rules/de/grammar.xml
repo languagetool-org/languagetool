@@ -18881,6 +18881,20 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
             <!-- Generalize? How can we make sure we're not only replacing part of an abbreviation? -->
             <rule>
                 <pattern case_sensitive="yes">
+                    <token>Prof</token>
+                    <token spacebefore="no">.</token>
+                    <token spacebefore="no">Dr<exception scope="previous">&nbsp;|&nnbsp;|&thinsp;</exception></token>
+                    <token spacebefore="no">.</token>
+                </pattern>
+                <message>Die Abkürzung <suggestion>\1\2 \3\4</suggestion> sollte durch ein Leerzeichen getrennt werden.</message>
+                <url>http://de.wikipedia.org/wiki/Abk%C3%BCrzung#Abk.C3.BCrzungen_mit_Punkt_und_Leerzeichen</url>
+                <short>Abkürzungen sollten durch Leerzeichen getrennt werden.</short>
+                <example type="correct">Prof. Dr. Hans Müller</example>
+                <example type="correct">Prof.&nbsp;Dr.&nbsp;med. Hans Müller</example>
+                <example type="incorrect" correction="Prof. Dr."><marker>Prof.Dr.</marker> med. Hans Müller</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
                     <token>Dr</token>
                     <token spacebefore="no">.</token>
                     <token regexp="yes">iur|med|oec|phil|theol<exception scope="previous">&nbsp;|&nnbsp;|&thinsp;</exception></token>
@@ -18919,6 +18933,19 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                 <short>&gla;</short>
                 <example type="correct">Das ist richtig, d.&nbsp;h. gut.</example>
                 <example type="incorrect" correction="d.&nbsp;h.">Das ist falsch, <marker>d.h.</marker> schlecht.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">m|M</token>
+                    <token spacebefore="no">.</token>
+                    <token>E<exception scope="previous">&nbsp;|&nnbsp;|&thinsp;</exception></token>
+                    <token spacebefore="no">.</token>
+                </pattern>
+                <message>&glalong;<suggestion>\1\2&nbsp;\3\4</suggestion>&glalongende;</message>
+                <url>http://de.wikipedia.org/wiki/Abk%C3%BCrzung#Abk.C3.BCrzungen_mit_Punkt_und_Leerzeichen</url>
+                <short>&gla;</short>
+                <example type="correct">Das ist m.&nbsp;E. richtig.</example>
+                <example type="incorrect" correction="m.&nbsp;E.">Das ist <marker>m.E.</marker> schlecht.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
