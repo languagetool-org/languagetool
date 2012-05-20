@@ -310,7 +310,7 @@ public class RuleCoverage {
         		andGroup.set(a,and);
         	}
         	// get exceptions in attribute form for faster processings
-        	ArrayList<ArrayList> exceptionAttributes = getExceptionAttributes(allExceptions);
+        	ArrayList<ArrayList<Pattern>> exceptionAttributes = getExceptionAttributes(allExceptions);
         	
         	// do the dictionary iteration thing; this part could take a while, depending on how far through the dict we have to go
         	int numResets = 0;
@@ -329,7 +329,7 @@ public class RuleCoverage {
                 	}
                 }
                 if (matched) {
-                	if (!inExceptionList(word,exceptionAttributes,allExceptions)) {
+                	if (!inExceptionList(word, exceptionAttributes, allExceptions)) {
                 		return word;
                 	}
                 } 
@@ -348,7 +348,7 @@ public class RuleCoverage {
             }
             exceptions.addAll(prevExceptions);
             
-            ArrayList<ArrayList> exceptionAttributes = getExceptionAttributes(exceptions);
+            ArrayList<ArrayList<Pattern>> exceptionAttributes = getExceptionAttributes(exceptions);
 
             if (e.isSentStart()) {
                 return "";
@@ -424,12 +424,12 @@ public class RuleCoverage {
      * @return
      */
     @SuppressWarnings("unchecked")
-	private ArrayList<ArrayList> getExceptionAttributes(List<Element> exceptions) {
+	private ArrayList<ArrayList<Pattern>> getExceptionAttributes(List<Element> exceptions) {
     	if (exceptions.size() == 0) {
-    		return new ArrayList<ArrayList>();
+    		return new ArrayList<ArrayList<Pattern>>();
     	} 
     	int size = exceptions.size();
-    	ArrayList<ArrayList> ret = new ArrayList<ArrayList>(6);
+    	ArrayList<ArrayList<Pattern>> ret = new ArrayList<ArrayList<Pattern>>(6);
     	ArrayList<Pattern> tokenPatterns = new ArrayList<Pattern>(size);
     	ArrayList<Pattern> posPatterns = new ArrayList<Pattern>(size);
     	for (Element e : exceptions) {
@@ -473,7 +473,7 @@ public class RuleCoverage {
      * @return
      */
     @SuppressWarnings("unchecked")
-	private boolean inExceptionList(String word, ArrayList<ArrayList> exceptionAttributes, List<Element> exceptions) {
+	private boolean inExceptionList(String word, ArrayList<ArrayList<Pattern>> exceptionAttributes, List<Element> exceptions) {
     	if (exceptions.size() == 0) {
     		return false;
     	}
