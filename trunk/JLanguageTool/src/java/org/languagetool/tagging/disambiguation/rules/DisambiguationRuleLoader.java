@@ -79,9 +79,11 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
 
   private String disambiguatedPOS;
 
-  private int positionCorrection;
   private int endPositionCorrection;
   private boolean singleTokenCorrection;
+  private int startPos = -1;
+  private int endPos = -1;
+  private int tokenCountForMarker = 0;
 
   private Match posSelector;
 
@@ -121,6 +123,7 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
       language = Language.getLanguageForShortName(attrs.getValue("lang"));
     } else if (qName.equals(PATTERN)) {
       inPattern = true;
+      tokenCountForMarker = 0;
       if (attrs.getValue(MARK) != null && (attrs.getValue(MARK_FROM) != null)) {
         throw new SAXException(
             "You cannot use both mark and mark_from attributes." + "\n Line: "
@@ -134,23 +137,17 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
                 + pLocator.getColumnNumber() + ".");
       }
 
-      if (attrs.getValue(MARK) != null) {
-        positionCorrection = Integer.parseInt(attrs.getValue(MARK));
-      }
-      if (attrs.getValue(MARK_FROM) != null) {
-        positionCorrection = Integer.parseInt(attrs.getValue(MARK_FROM));
-      }
       if (attrs.getValue(MARK_TO) == null) {
         singleTokenCorrection = true;
       } else {
         endPositionCorrection = Integer.parseInt(attrs.getValue(MARK_TO));
         if (endPositionCorrection > 0) {
-          throw new SAXException("End position correction (mark_to=" 
+          throw new SAXException("End position correction (mark_to="
               + endPositionCorrection
               + ") cannot be larger than 0: " + "\n Line: "
               + pLocator.getLineNumber() + ", column: "
               + pLocator.getColumnNumber() + ".");
-        }        
+        }
         singleTokenCorrection = false;
       }
       if (attrs.getValue(CASE_SENSITIVE) != null
@@ -161,6 +158,7 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
       setExceptions(attrs);
     } else if (qName.equals(AND)) {
       inAndGroup = true;
+      tokenCountForMarker++;
     } else if (qName.equals(UNIFY)) {
       inUnification = true;           
       uniNegation = YES.equals(attrs.getValue(NEGATE));
@@ -172,6 +170,9 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
       uTypeList.add(uType);      
     } else if (qName.equals(TOKEN)) {
       setToken(attrs);
+      if (!inAndGroup) {
+        tokenCountForMarker++;
+      }
     } else if (qName.equals(DISAMBIG)) {
       inDisambiguation = true;
       disambiguatedPOS = attrs.getValue(POSTAG);
@@ -264,6 +265,9 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
       example = new StringBuilder();
     } else if ("marker".equals(qName)) {
       example.append("<marker>");
+      if (inPattern) {
+        startPos = tokenCounter;
+      }
     }
   }
 
@@ -274,21 +278,24 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
       final DisambiguationPatternRule rule = new DisambiguationPatternRule(id,
           name, language, elementList, disambiguatedPOS, posSelector,
           disambigAction);
-      rule.setStartPositionCorrection(positionCorrection);
-      if (singleTokenCorrection) {
-        endPositionCorrection = 1 - (elementList.size() - positionCorrection);
+
+      endPositionCorrection = endPos - tokenCountForMarker;
+      if (startPos != -1 && endPos != -1) {
+        rule.setStartPositionCorrection(startPos);
         rule.setEndPositionCorrection(endPositionCorrection);
       } else {
-        rule.setEndPositionCorrection(endPositionCorrection);
+        startPos = 0;
+        endPos = tokenCountForMarker;
       }
+
+      final int matchedTokenCount = endPos - startPos;
       if (newWdList != null) {
-        if (disambigAction == DisambiguatorAction.ADD
-            || disambigAction == DisambiguatorAction.REMOVE) {
-          if (newWdList.size() != (elementList.size() - positionCorrection + endPositionCorrection)) {
+        if (disambigAction == DisambiguatorAction.ADD || disambigAction == DisambiguatorAction.REMOVE) {
+          if (newWdList.size() != matchedTokenCount) {
             throw new SAXException(
                 language.getName() + " rule error. The number of interpretations specified with wd: "
                     + newWdList.size()
-                    + " must be equal to the number of matched tokens (" + (elementList.size() - positionCorrection + endPositionCorrection) + ")" 
+                    + " must be equal to the number of matched tokens (" + matchedTokenCount + ")"
                     + "\n Line: " + pLocator.getLineNumber() + ", column: "
                     + pLocator.getColumnNumber() + ".");
           }
@@ -305,15 +312,14 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
         rule.setUntouchedExamples(untouchedExamples);
       }
       rules.add(rule);
-      if (disambigAction == DisambiguatorAction.UNIFY
-          && (elementList.size() - positionCorrection + endPositionCorrection) != uniCounter) {
+      if (disambigAction == DisambiguatorAction.UNIFY && matchedTokenCount != uniCounter) {
         throw new SAXException(language.getName() + " rule error. The number unified tokens: "
-            + uniCounter + " must be equal to the number of matched tokens."
+            + uniCounter + " must be equal to the number of matched tokens: " + matchedTokenCount
             + "\n Line: " + pLocator.getLineNumber() + ", column: "
             + pLocator.getColumnNumber() + ".");
       }
       if ((!singleTokenCorrection && (disambigAction == DisambiguatorAction.FILTER || disambigAction == DisambiguatorAction.REPLACE))
-          && ((elementList.size() - positionCorrection + endPositionCorrection) > 1)) {
+          && (matchedTokenCount > 1)) {
         throw new SAXException(
             language.getName() + " rule error. Cannot replace or filter more than one token at a time."
                 + "\n Line: " + pLocator.getLineNumber() + ", column: "
@@ -323,6 +329,8 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
       posSelector = null;
       disambExamples = null;
       untouchedExamples = null;
+      startPos = -1;
+      endPos = -1;
     } else if (qName.equals(EXCEPTION)) {
       finalizeExceptions();
     } else if (qName.equals(AND)) {
@@ -376,18 +384,6 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
       resetToken();
     } else if (qName.equals(PATTERN)) {
       inPattern = false;
-      if (positionCorrection >= tokenCounter) {
-        throw new SAXException(
-            "Attempt to mark a token no. ("+ positionCorrection +") that is outside the pattern (" + tokenCounter + "). Pattern elements are numbered starting from 0!" + "\n Line: "
-                + pLocator.getLineNumber() + ", column: "
-                + pLocator.getColumnNumber() + ".");
-      }
-      if (tokenCounter - endPositionCorrection < 0 ) {
-        throw new SAXException(
-            "Attempt to mark a token no. ("+ endPositionCorrection +") that is outside the pattern (" + tokenCounter + "). Pattern elements are numbered starting from 0!" + "\n Line: "
-                + pLocator.getLineNumber() + ", column: "
-                + pLocator.getColumnNumber() + ".");
-      }
       tokenCounter = 0;
     } else if (qName.equals(MATCH)) {
       if (inDisambiguation) {
@@ -402,6 +398,7 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
       inRuleGroup = false;
     } else if (qName.equals(UNIFICATION) && inUnificationDef) {
       inUnificationDef = false;
+      tokenCounter = 0;
     } else if ("feature".equals(qName)) {      
       equivalenceFeatures.put(uFeature, uTypeList);
       uTypeList = new ArrayList<String>();
@@ -420,6 +417,9 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
       }
     } else if ("marker".equals(qName)) {
       example.append("</marker>");
+      if (inPattern) {
+        endPos = tokenCountForMarker;
+      }
     }
   }
 

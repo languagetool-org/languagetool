@@ -4,264 +4,322 @@ Breton Disambiguation Rules for LanguageTool
 Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
 -->
 <rules lang="br" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="../disambiguation.xsd">
-  <rulegroup id="EN_UR" name="en ur + V">
-    <rule>
-      <pattern mark="1">
-        <token>en</token>
-        <token>ur</token>
-        <token postag="V inf.*" postag_regexp="yes"/>
-      </pattern>
-      <disambig postag="X EN_UR"/>
+       xsi:noNamespaceSchemaLocation="../disambiguation.xsd">
+    <rulegroup id="EN_UR" name="en ur + V">
+        <rule>
+            <pattern>
+                <token>en</token>
+                <marker>
+                    <token>ur</token>
+                </marker>
+                <token postag="V inf.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig postag="X EN_UR"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token>en</token>
+                <marker>
+                    <token>ur</token>
+                </marker>
+                <token postag="UNKNOWN" regexp="yes">.*[ai]ñ</token>
+            </pattern>
+            <disambig postag="X EN_UR"/>
+        </rule>
+    </rulegroup>
+    <rulegroup id="XXI" name="Roman Number">
+        <rule>
+            <pattern case_sensitive="yes">
+                <token regexp="yes">[MCDXLVI]+</token>
+            </pattern>
+            <disambig postag="K e sp"/>
+        </rule>
+        <rule>
+            <pattern  case_sensitive="yes">
+                <token regexp="yes">[MCDXLVI]+-?vet|I-?añ</token>
+            </pattern>
+            <disambig postag="K e sp o"/>
+        </rule>
+    </rulegroup>
+    <rulegroup id="PREP_A" name="preposition a">
+        <rule>
+            <pattern>
+                <token regexp="yes">meur|niver|leizh|e-leizh</token>
+                <marker>
+                    <token>a</token>
+                </marker>
+                <token postag="N.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig postag="P"/>
+        </rule>
+    </rulegroup>
+    <rule id="O_R" name="O pronoun">
+        <pattern>
+            <marker>
+                <token>o</token>
+            </marker>
+            <token postag="N .*" postag_regexp="yes"><exception postag="V inf.*" postag_regexp="yes"/></token>
+        </pattern>
+        <disambig postag="R e p 3 obj"/>
     </rule>
-    <rule>
-      <pattern mark="1">
-        <token>en</token>
-        <token>ur</token>
-        <token postag="UNKNOWN" regexp="yes">.*[ai]ñ</token>
-      </pattern>
-      <disambig postag="X EN_UR"/>
+    <rulegroup id="VERB_PARTICLE" name="verb particule">
+        <rule>
+            <pattern>
+                <marker>
+                    <token>o</token>
+                </marker>
+                <token postag="V inf.*" postag_regexp="yes"><exception postag="N.*" postag_regexp="yes"/></token>
+            </pattern>
+            <disambig postag="L o"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="SENT_START"/>
+                <token postag="[VNJZ].*|R suj.*" postag_regexp="yes"/>
+                <marker>
+                    <token>a</token>
+                </marker>
+                <token postag="V.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig postag="L a"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token>peogwir</token>
+                <marker>
+                    <token>e</token>
+                </marker>
+            </pattern>
+            <disambig postag="L e"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>e</token>
+                </marker>
+                <token postag="V.*" postag_regexp="yes"><exception postag="N.*|V inf.*" postag_regexp="yes"/></token>
+            </pattern>
+            <disambig postag="L e"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="SENT_START"/>
+                <token postag="D.*" postag_regexp="yes"/>
+                <token postag="N.*" postag_regexp="yes"/>
+                <marker>
+                    <token>a</token>
+                </marker>
+                <token postag="V.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig postag="L a"/>
+        </rule>
+    </rulegroup>
+    <rulegroup id="EZ_AN" name="ez an">
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">e?z|ned</token>
+                </marker>
+                <token regexp="yes">an|in|aen|afen|ajen|ez|i|aes|afes|ajes|a|aio|ae|afe|aje|eomp|aimp|aemp|afemp|ajemp|it|eot|eoc’h|aec’h|afec’h|ajec’h|eont|aint|aent|afent|ajent|eer|eor|aed|afed|ajed</token>
+            </pattern>
+            <disambig postag="L e"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token>ez</token>
+                <marker>
+                    <token>an</token>
+                </marker>
+            </pattern>
+            <disambig action="remove"><wd lemma="an" pos="D e sp"/></disambig>
+        </rule>
+    </rulegroup>
+    <rule id="EN_EM" name="en em">
+        <pattern>
+            <token regexp="yes">e?n</token>
+            <marker>
+                <token>em</token>
+            </marker>
+        </pattern>
+        <disambig postag="X EN_EM"/>
     </rule>
-  </rulegroup>
-  <rulegroup id="XXI" name="Roman Number">
-    <rule>
-      <pattern mark="0" case_sensitive="yes">
-        <token regexp="yes">[MCDXLVI]+</token>
-      </pattern>
-      <disambig postag="K e sp"/>
+    <rulegroup id="EZ_A" name="ez a">
+        <rule>
+            <pattern>
+                <token>ez</token>
+                <marker>
+                    <token>a</token>
+                </marker>
+            </pattern>
+            <disambig postag="V pres 3 s"/>
+        </rule>
+    </rulegroup>
+    <rulegroup id="MA" name="ma">
+        <rule>
+            <pattern>
+                <marker>
+                    <token>ma</token>
+                </marker>
+                <token regexp="yes">digarez(it)?</token>
+            </pattern>
+            <disambig postag="R e s 1 obj"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>ma</token>
+                </marker>
+                <token postag="N.*" postag_regexp="yes"><exception postag="V.*" postag_regexp="yes"/></token>
+            </pattern>
+            <disambig postag="D e sp"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>ma</token>
+                </marker>
+                <token postag="V.*" postag_regexp="yes"><exception postag="N.*" postag_regexp="yes"/><exception regexp="yes">digarez(it)?</exception></token>
+            </pattern>
+            <disambig postag="C sub"/>
+        </rule>
+    </rulegroup>
+    <rulegroup id="KAOUT" name="kaout">
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">[ea]([mnz]|c’h)|he|ho[nr]?|hoc’h|o</token>
+                </marker>
+                <token regexp="yes">[pd]?eus|[bpd](e[fz][eo]|ije|ez|oa?)|deveze?|devoe</token>
+            </pattern>
+            <disambig postag="X KAOUT1"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">[ea]([mnz]|c’h)|he|ho[nr]?|hoc’h|o</token>
+                <marker>
+                    <token regexp="yes">[pd]?eus|[bpd](e[fz][eo]|ije|ez|oa?)|deveze?|devoe</token>
+                </marker>
+            </pattern>
+            <disambig postag="X KAOUT2"/>
+        </rule>
+    </rulegroup>
+    <rulegroup id="E_R" name="e pronom">
+        <rule>
+            <pattern>
+                <token regexp="yes">dirak|en|e-pad|eus|evit|(di)?(gant|ouzh|war)</token>
+                <marker>
+                    <token>e</token>
+                </marker>
+            </pattern>
+            <disambig action="remove"><wd lemma="e" pos="P"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">dirak|en|e-pad|eus|evit|(di)?(gant|ouzh|war)</token>
+                <marker>
+                    <token>e</token>
+                </marker>
+            </pattern>
+            <disambig action="remove"><wd lemma="e" pos="L e"/></disambig>
+        </rule>
+    </rulegroup>
+    <rulegroup id="E_P" name="e preposition">
+        <rule>
+            <pattern>
+                <token inflected="yes" regexp="yes">trein|lakaat|skrivañ</token>
+                <marker>
+                    <token postag="P">e</token>
+                </marker>
+                <token postag_regexp="yes" postag="N.*" regexp="yes">.*eg</token>
+            </pattern>
+            <disambig postag="P"/>
+        </rule>
+    </rulegroup>
+    <rulegroup id="NE_V" name="ne + verb">
+        <rule>
+            <pattern>
+                <token regexp="yes">ned?|n’</token>
+                <marker>
+                    <token postag="V.*" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <disambig><match no="1" postag_regexp="yes" postag="V.*"/></disambig>
+        </rule>
+    </rulegroup>
+    <rulegroup id="UR_N" name="ur + anv">
+        <rule>
+            <pattern>
+                <token>ur<exception scope="previous">en</exception></token>
+                <marker>
+                    <token postag="V.*" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="N.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">u[ln]|a[nlr]</token>
+                <marker>
+                    <token postag="V.*" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="N.*"/>
+        </rule>
+    </rulegroup>
+    <rule id="PE_INT" name="pe interrogatif">
+        <pattern>
+            <token postag="SENT_START"/>
+            <marker>
+                <token>pe</token>
+            </marker>
+            <token postag="N.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig postag="J itg"/>
     </rule>
-    <rule>
-      <pattern mark="0" case_sensitive="yes">
-        <token regexp="yes">[MCDXLVI]+-?vet|I-?añ</token>
-      </pattern>
-      <disambig postag="K e sp o"/>
+    <rule id="RA" name="particule ra">
+        <pattern>
+            <token postag="SENT_START"/>
+            <marker>
+                <token>ra</token>
+            </marker>
+            <token postag="V (futu|conf) .*" postag_regexp="yes"/>
+        </pattern>
+        <disambig postag="L r"/>
     </rule>
-  </rulegroup>
-  <rulegroup id="PREP_A" name="preposition a">
-    <rule>
-      <pattern mark="1">
-        <token regexp="yes">meur|niver|leizh|e-leizh</token>
-        <token>a</token>
-        <token postag="N.*" postag_regexp="yes"/>
-      </pattern>
-      <disambig postag="P"/>
+    <rule id="KOZH" name="kozh">
+        <pattern>
+            <token regexp="yes">([kg]|c’h)ozh</token>
+        </pattern>
+        <disambig action="filter" postag="J.*"/>
     </rule>
-  </rulegroup>
-  <rule id="O_R" name="O pronoun">
-    <pattern mark="0">
-      <token>o</token>
-      <token postag="N .*" postag_regexp="yes"><exception postag="V inf.*" postag_regexp="yes"/></token>
-    </pattern>
-    <disambig postag="R e p 3 obj"/>
-  </rule>
-  <rulegroup id="VERB_PARTICLE" name="verb particule">
-    <rule>
-      <pattern mark="0">
-        <token>o</token>
-        <token postag="V inf.*" postag_regexp="yes"><exception postag="N.*" postag_regexp="yes"/></token>
-      </pattern>
-      <disambig postag="L o"/>
+    <rule id="PAOT_MAT" name="paot mat">
+        <pattern>
+            <marker>
+                <token>paot</token>
+            </marker>
+            <token>mat</token>
+        </pattern>
+        <disambig action="filter" postag="J"/>
     </rule>
-    <rule>
-      <pattern mark="2">
-        <token postag="SENT_START"/>
-        <token postag="[VNJZ].*|R suj.*" postag_regexp="yes"/>
-        <token>a</token>
-        <token postag="V.*" postag_regexp="yes"/>
-      </pattern>
-      <disambig postag="L a"/>
+    <rule id="CHENTAN" name="c'hentañ">
+        <pattern>
+            <token>ken</token>
+            <token>ar</token>
+            <marker>
+                <token>c’hentañ</token>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="J.*"/>
     </rule>
-    <rule>
-      <pattern mark="1">
-        <token>peogwir</token>
-        <token>e</token>
-      </pattern>
-      <disambig postag="L e"/>
+    <rule id="A_UNAN_DA_UNAN" name="a unan da unan">
+        <pattern>
+            <token>a</token>
+            <token>unan</token>
+            <token>da</token>
+            <marker>
+                <token>unan</token>
+            </marker>
+        </pattern>
+        <disambig postag="X A_UNAN_DA_UNAN"/>
     </rule>
-    <rule>
-      <pattern mark="0">
-        <token>e</token>
-        <token postag="V.*" postag_regexp="yes"><exception postag="N.*|V inf.*" postag_regexp="yes"/></token>
-      </pattern>
-      <disambig postag="L e"/>
-    </rule>
-    <rule>
-      <pattern mark="3">
-        <token postag="SENT_START"/>
-        <token postag="D.*" postag_regexp="yes"/>
-        <token postag="N.*" postag_regexp="yes"/>
-        <token>a</token>
-        <token postag="V.*" postag_regexp="yes"/>
-      </pattern>
-      <disambig postag="L a"/>
-    </rule>
-  </rulegroup>
-  <rulegroup id="EZ_AN" name="ez an">
-    <rule>
-      <pattern mark="0">
-        <token regexp="yes">e?z|ned</token>
-        <token regexp="yes">an|in|aen|afen|ajen|ez|i|aes|afes|ajes|a|aio|ae|afe|aje|eomp|aimp|aemp|afemp|ajemp|it|eot|eoc’h|aec’h|afec’h|ajec’h|eont|aint|aent|afent|ajent|eer|eor|aed|afed|ajed</token>
-      </pattern>
-      <disambig postag="L e"/>
-    </rule>
-    <rule>
-      <pattern mark="1">
-        <token>ez</token>
-        <token>an</token>
-      </pattern>
-      <disambig action="remove"><wd lemma="an" pos="D e sp"/></disambig>
-    </rule>
-  </rulegroup>
-  <rule id="EN_EM" name="en em">
-    <pattern mark="1">
-      <token regexp="yes">e?n</token>
-      <token>em</token>
-    </pattern>
-    <disambig postag="X EN_EM"/>
-  </rule>
-  <rulegroup id="EZ_A" name="ez a">
-    <rule>
-      <pattern mark="1">
-        <token>ez</token>
-        <token>a</token>
-      </pattern>
-      <disambig postag="V pres 3 s"/>
-    </rule>
-  </rulegroup>
-  <rulegroup id="MA" name="ma">
-    <rule>
-      <pattern mark="0">
-        <token>ma</token>
-        <token regexp="yes">digarez(it)?</token>
-      </pattern>
-      <disambig postag="R e s 1 obj"/>
-    </rule>
-    <rule>
-      <pattern mark="0">
-        <token>ma</token>
-        <token postag="N.*" postag_regexp="yes"><exception postag="V.*" postag_regexp="yes"/></token>
-      </pattern>
-      <disambig postag="D e sp"/>
-    </rule>
-    <rule>
-      <pattern mark="0">
-        <token>ma</token>
-        <token postag="V.*" postag_regexp="yes"><exception postag="N.*" postag_regexp="yes"/><exception regexp="yes">digarez(it)?</exception></token>
-      </pattern>
-      <disambig postag="C sub"/>
-    </rule>
-  </rulegroup>
-  <rulegroup id="KAOUT" name="kaout">
-    <rule>
-      <pattern mark="0">
-        <token regexp="yes">[ea]([mnz]|c’h)|he|ho[nr]?|hoc’h|o</token>
-        <token regexp="yes">[pd]?eus|[bpd](e[fz][eo]|ije|ez|oa?)|deveze?|devoe</token>
-      </pattern>
-      <disambig postag="X KAOUT1"/>
-    </rule>
-    <rule>
-      <pattern mark="1">
-        <token regexp="yes">[ea]([mnz]|c’h)|he|ho[nr]?|hoc’h|o</token>
-        <token regexp="yes">[pd]?eus|[bpd](e[fz][eo]|ije|ez|oa?)|deveze?|devoe</token>
-      </pattern>
-      <disambig postag="X KAOUT2"/>
-    </rule>
-  </rulegroup>
-  <rulegroup id="E_R" name="e pronom">
-    <rule>
-      <pattern mark="1">
-        <token regexp="yes">dirak|en|e-pad|eus|evit|(di)?(gant|ouzh|war)</token>
-        <token>e</token>
-      </pattern>
-      <disambig action="remove"><wd lemma="e" pos="P"/></disambig>
-    </rule>
-    <rule>
-      <pattern mark="1">
-        <token regexp="yes">dirak|en|e-pad|eus|evit|(di)?(gant|ouzh|war)</token>
-        <token>e</token>
-      </pattern>
-      <disambig action="remove"><wd lemma="e" pos="L e"/></disambig>
-    </rule>
-  </rulegroup>
-  <rulegroup id="E_P" name="e preposition">
-    <rule>
-      <pattern mark="1">
-        <token inflected="yes" regexp="yes">trein|lakaat|skrivañ</token>
-        <token postag="P">e</token>
-        <token postag_regexp="yes" postag="N.*" regexp="yes">.*eg</token>
-      </pattern>
-      <disambig postag="P"/>
-    </rule>
-  </rulegroup>
-  <rulegroup id="NE_V" name="ne + verb">
-    <rule>
-      <pattern mark="1">
-        <token regexp="yes">ned?|n’</token>
-        <token postag="V.*" postag_regexp="yes"/>
-      </pattern>
-      <disambig><match no="1" postag_regexp="yes" postag="V.*"/></disambig>
-    </rule>
-  </rulegroup>
-  <rulegroup id="UR_N" name="ur + anv">
-    <rule>
-      <pattern mark="1">
-        <token>ur<exception scope="previous">en</exception></token>
-        <token postag="V.*" postag_regexp="yes"/>
-      </pattern>
-      <disambig action="filter" postag="N.*"/>
-    </rule>
-    <rule>
-      <pattern mark="1">
-        <token regexp="yes">u[ln]|a[nlr]</token>
-        <token postag="V.*" postag_regexp="yes"/>
-      </pattern>
-      <disambig action="filter" postag="N.*"/>
-    </rule>
-  </rulegroup>
-  <rule id="PE_INT" name="pe interrogatif">
-    <pattern mark="1">
-      <token postag="SENT_START"/>
-      <token>pe</token>
-      <token postag="N.*" postag_regexp="yes"/>
-    </pattern>
-    <disambig postag="J itg"/>
-  </rule>
-  <rule id="RA" name="particule ra">
-    <pattern mark="1">
-      <token postag="SENT_START"/>
-      <token>ra</token>
-      <token postag="V (futu|conf) .*" postag_regexp="yes"/>
-    </pattern>
-    <disambig postag="L r"/>
-  </rule>
-  <rule id="KOZH" name="kozh">
-    <pattern mark="0">
-      <token regexp="yes">([kg]|c’h)ozh</token>
-    </pattern>
-    <disambig action="filter" postag="J.*"/>
-  </rule>
-  <rule id="PAOT_MAT" name="paot mat">
-    <pattern mark="0">
-      <token>paot</token>
-      <token>mat</token>
-    </pattern>
-    <disambig action="filter" postag="J"/>
-  </rule>
-  <rule id="CHENTAN" name="c'hentañ">
-    <pattern mark="2">
-      <token>ken</token>
-      <token>ar</token>
-      <token>c’hentañ</token>
-    </pattern>
-    <disambig action="filter" postag="J.*"/>
-  </rule>
-  <rule id="A_UNAN_DA_UNAN" name="a unan da unan">
-    <pattern mark="3">
-      <token>a</token>
-      <token>unan</token>
-      <token>da</token>
-      <token>unan</token>
-    </pattern>
-    <disambig postag="X A_UNAN_DA_UNAN"/>
-  </rule>
 </rules>

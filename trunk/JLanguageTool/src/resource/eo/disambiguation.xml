@@ -5,46 +5,56 @@ Copyright (C) 2011 Dominique Pellé
 $Id$
 -->
 <rules lang="eo" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="../disambiguation.xsd">
-  <rulegroup name="prepozicio + la + -o vorto -> nedirekta objekto" id="NEDIREKTA_OBJEKTO">
-    <rule>
-      <pattern mark="2">
-        <token postag="P .*" postag_regexp="yes"/>
-        <token>la</token>
-        <token postag="O .*" postag_regexp="yes"/>
-      </pattern>
-      <disambig action="add"><wd pos="X ndo"/></disambig>
+       xsi:noNamespaceSchemaLocation="../disambiguation.xsd">
+    <rulegroup name="prepozicio + la + -o vorto -> nedirekta objekto" id="NEDIREKTA_OBJEKTO">
+        <rule>
+            <pattern>
+                <token postag="P .*" postag_regexp="yes"/>
+                <token>la</token>
+                <marker>
+                    <token postag="O .*" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <disambig action="add"><wd pos="X ndo"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="P .*" postag_regexp="yes"/>
+                <marker>
+                    <token postag="O .*" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <disambig action="add"><wd pos="X ndo"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="P .*" postag_regexp="yes"/>
+                <token postag="[AO] .*" postag_regexp="yes"/>
+                <marker>
+                    <token postag="[OA] .*" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <disambig action="add"><wd pos="X ndo"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="P .*" postag_regexp="yes"/>
+                <token>la</token>
+                <token postag="[AO] .*" postag_regexp="yes"/>
+                <marker>
+                    <token postag="[OA] .*" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <disambig action="add"><wd pos="X ndo"/></disambig>
+        </rule>
+    </rulegroup>
+    <rule id="DEM_KRI" name="demandosigno + krisigno">
+        <pattern>
+            <token>?</token>
+            <marker>
+                <token>!</token>
+            </marker>
+        </pattern>
+        <disambig action="add"><wd pos="X demkri"/></disambig>
     </rule>
-    <rule>
-      <pattern mark="1">
-        <token postag="P .*" postag_regexp="yes"/>
-        <token postag="O .*" postag_regexp="yes"/>
-      </pattern>
-      <disambig action="add"><wd pos="X ndo"/></disambig>
-    </rule>
-    <rule>
-      <pattern mark="2">
-        <token postag="P .*" postag_regexp="yes"/>
-        <token postag="[AO] .*" postag_regexp="yes"/>
-        <token postag="[OA] .*" postag_regexp="yes"/>
-      </pattern>
-      <disambig action="add"><wd pos="X ndo"/></disambig>
-    </rule>
-    <rule>
-      <pattern mark="3">
-        <token postag="P .*" postag_regexp="yes"/>
-        <token>la</token>
-        <token postag="[AO] .*" postag_regexp="yes"/>
-        <token postag="[OA] .*" postag_regexp="yes"/>
-      </pattern>
-      <disambig action="add"><wd pos="X ndo"/></disambig>
-    </rule>
-  </rulegroup>
-  <rule id="DEM_KRI" name="demandosigno + krisigno">
-    <pattern mark="1">
-      <token>?</token>
-      <token>!</token>
-    </pattern>
-    <disambig action="add"><wd pos="X demkri"/></disambig>
-  </rule>
 </rules>
