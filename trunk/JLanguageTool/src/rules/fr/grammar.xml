@@ -2608,7 +2608,7 @@ though, and has since been slightly modified)-->
             <pattern>
                 <token postag="V .*" postag_regexp="yes" skip="1">
                     <exception inflected="yes" postag="V inf|V etre .*|V avoir .*|N .*" postag_regexp="yes" regexp="yes">avoir|être|paraître|sembler|devenir|demeurer|rester</exception>
-                    <exception regexp="yes" scope="current">,|tu</exception>
+                    <exception regexp="yes" scope="current">,|tu|à</exception>
                 </token>
                 <marker>
                     <token postag="V ppa .*" postag_regexp="yes">
@@ -2704,7 +2704,7 @@ though, and has since been slightly modified)-->
                     <token postag="SENT_START" skip="-1">
                         <exception scope="next" postag="[NRZ].* [fe] .*" postag_regexp="yes"></exception>
                     </token>
-                    <token postag="[NZ] m .*|R pers suj 3 m .*" postag_regexp="yes"></token>
+                    <token postag="[NZ] m .*|R pers suj 3 m .*|R dem m .*" postag_regexp="yes"></token>
                     <token postag="V etre.* 3 .*" postag_regexp="yes"></token>
                     <marker>
                         <token postag="V.* ppa f .*|J f .*" postag_regexp="yes">
@@ -2718,13 +2718,15 @@ though, and has since been slightly modified)-->
                 <example type="incorrect">Antoine est <marker>mariée</marker>.</example>
                 <example type="correct">Antoine est <marker>marié</marker>.</example>
                 <example type="correct">Ils sont même resté ici.</example>
+                <example type="incorrect">Celui-ci est <marker>restée</marker>.</example>
+                <example type="correct">Celui-ci est resté.</example>
             </rule>
             <rule>
                 <pattern>
                     <token postag="SENT_START" skip="-1">
                         <exception scope="next" postag="[NRZ].* [fe] .*" postag_regexp="yes"></exception>
                     </token>
-                    <token postag="[NZ] m .*|R pers suj 3 m .*" postag_regexp="yes"></token>
+                    <token postag="[NZ] m .*|R pers suj 3 m .*|R dem m .*" postag_regexp="yes"></token>
                     <token regexp="yes" skip="1">ne?</token>
                     <token postag="V etre.* 3 .*" postag_regexp="yes"></token>
                     <token regexp="yes">pas|point|guère|plus|jamais</token>
@@ -2743,7 +2745,7 @@ though, and has since been slightly modified)-->
                     <token postag="SENT_START" skip="-1">
                         <exception scope="next" postag="[NRZ].* [fe] .*" postag_regexp="yes"></exception>
                     </token>
-                    <token postag="[NZ] m .*|R pers suj 3 m .*" postag_regexp="yes"></token>
+                    <token postag="[NZ] m .*|R pers suj 3 m .*|R dem m .*" postag_regexp="yes"></token>
                     <token postag="V etre.* 3 .*" postag_regexp="yes"></token>
                     <token postag="A"></token>
                     <marker>
@@ -2761,7 +2763,7 @@ though, and has since been slightly modified)-->
                     <token postag="SENT_START" skip="-1">
                         <exception scope="next" postag="[NRZ].* [fe] .*" postag_regexp="yes"></exception>
                     </token>
-                    <token postag="[NZ] m .*|R pers suj 3 m .*" postag_regexp="yes"></token>
+                    <token postag="[NZ] m .*|R pers suj 3 m .*|R dem m .*" postag_regexp="yes"></token>
                     <token regexp="yes" skip="1">ne?</token>
                     <token postag="V etre.* 3 .*" postag_regexp="yes"></token>
                     <token regexp="yes">pas|point|guère|plus|jamais</token>
@@ -2779,7 +2781,7 @@ though, and has since been slightly modified)-->
                     <token postag="SENT_START" skip="-1">
                         <exception scope="next" postag="[NRZ].* [me] .*|V inf" postag_regexp="yes"></exception>
                     </token>
-                    <token postag="[NZ] f .*|R pers suj 3 f .*" postag_regexp="yes"></token>
+                    <token postag="[NZ] f .*|R pers suj 3 f .*|R dem f .*" postag_regexp="yes"></token>
                     <token postag="V etre.* 3 .*" postag_regexp="yes"></token>
                     <marker>
                         <token postag="V.* ppa m .*|J m .*" postag_regexp="yes"></token>
@@ -2797,7 +2799,7 @@ though, and has since been slightly modified)-->
                     <token postag="SENT_START" skip="-1">
                         <exception scope="next" postag="[NRZ].* [me] .*|V inf" postag_regexp="yes"></exception>
                     </token>
-                    <token postag="[NZ] f .*|R pers suj 3 f .*" postag_regexp="yes"></token>
+                    <token postag="[NZ] f .*|R pers suj 3 f .*|R dem f .*" postag_regexp="yes"></token>
                     <token regexp="yes" skip="1">ne?</token>
                     <token postag="V etre.* 3 .*" postag_regexp="yes"></token>
                     <token regexp="yes">pas|point|guère|plus|jamais</token>
@@ -2814,7 +2816,7 @@ though, and has since been slightly modified)-->
                     <token postag="SENT_START" skip="-1">
                         <exception scope="next" postag="[NRZ].* [me] .*|V inf" postag_regexp="yes"></exception>
                     </token>
-                    <token postag="[NZ] f .*|R pers suj 3 f .*" postag_regexp="yes"></token>
+                    <token postag="[NZ] f .*|R pers suj 3 f .*|R dem f .*" postag_regexp="yes"></token>
                     <token postag="V etre.* 3 .*" postag_regexp="yes"></token>
                     <token postag="A"></token>
                     <marker>
@@ -2830,7 +2832,7 @@ though, and has since been slightly modified)-->
                     <token postag="SENT_START" skip="-1">
                         <exception scope="next" postag="[NRZ].* [me] .*|V inf" postag_regexp="yes"></exception>
                     </token>
-                    <token postag="[NZ] f .*|R pers suj 3 f .*" postag_regexp="yes"></token>
+                    <token postag="[NZ] f .*|R pers suj 3 f .*|R dem f .*" postag_regexp="yes"></token>
                     <token regexp="yes" skip="1">ne?</token>
                     <token postag="V etre.* 3 .*" postag_regexp="yes"></token>
                     <token regexp="yes">pas|point|guère|plus|jamais</token>
@@ -2849,7 +2851,7 @@ though, and has since been slightly modified)-->
                         <exception scope="next" postag="[NR].*p" postag_regexp="yes"></exception>
                         <exception scope="next">et</exception>
                     </token>
-                    <token postag="Z . sp?|N . s|R pers suj.* s" postag_regexp="yes"></token>
+                    <token postag="Z . sp?|N . s|R pers suj.* s|R dem.* s" postag_regexp="yes"></token>
                     <token postag="V etre .*" postag_regexp="yes"></token>
                     <marker>
                         <token postag="V.* ppa .* p|J . p" postag_regexp="yes"></token>
@@ -2865,6 +2867,8 @@ though, and has since been slightly modified)-->
                 <example type="correct">Lui et son équipage furent perdus en mer.</example>
                 <example type="incorrect">Tu étais <marker>jeunes</marker>.</example>
                 <example type="correct">Tu étais jeune.</example>
+                <example type="incorrect">Celle-là est <marker>folles</marker>.</example>
+                <example type="correct">Celle-là est folle.</example>
             </rule>
             <rule>
                 <pattern>
@@ -2872,7 +2876,7 @@ though, and has since been slightly modified)-->
                         <exception scope="next" postag="[NR].*p" postag_regexp="yes"></exception>
                         <exception scope="next">et</exception>
                     </token>
-                    <token postag="Z . sp?|N . s|R pers suj.* s" postag_regexp="yes"></token>
+                    <token postag="Z . sp?|N . s|R pers suj.* s|R dem.* s" postag_regexp="yes"></token>
                     <token regexp="yes" skip="1">ne?</token>
                     <token postag="V etre .*" postag_regexp="yes"></token>
                     <token regexp="yes">pas|point|guère|plus|jamais</token>
@@ -2892,7 +2896,7 @@ though, and has since been slightly modified)-->
                         <exception scope="next" postag="[NR].*p" postag_regexp="yes"></exception>
                         <exception scope="next">et</exception>
                     </token>
-                    <token postag="Z . sp?|N . s|R pers suj.* s" postag_regexp="yes"></token>
+                    <token postag="Z . sp?|N . s|R pers suj.* s|R dem.* s" postag_regexp="yes"></token>
                     <token postag="V etre .*" postag_regexp="yes"></token>
                     <token postag="A"></token>
                     <marker>
@@ -2909,7 +2913,7 @@ though, and has since been slightly modified)-->
                         <exception scope="next" postag="[NR].*p" postag_regexp="yes"></exception>
                         <exception scope="next">et</exception>
                     </token>
-                    <token postag="Z . sp?|N . s|R pers suj.* s" postag_regexp="yes"></token>
+                    <token postag="Z . sp?|N . s|R pers suj.* s|R dem.* s" postag_regexp="yes"></token>
                     <token regexp="yes" skip="1">ne?</token>
                     <token postag="V etre .*" postag_regexp="yes"></token>
                     <token regexp="yes">pas|point|guère|plus|jamais</token>
@@ -2927,7 +2931,7 @@ though, and has since been slightly modified)-->
                     <token postag="SENT_START" skip="-1">
                         <exception scope="next" postag="[NR].*sp?|V inf" postag_regexp="yes"></exception>
                     </token>
-                    <token postag="N . p|R pers suj [13].* p" postag_regexp="yes"></token>
+                    <token postag="N . p|R pers suj [13].* p|R dem.* p" postag_regexp="yes"></token>
                     <token postag="V etre .*" postag_regexp="yes"></token>
                     <marker>
                         <token postag="V.* ppa .* s|J . s" postag_regexp="yes">
@@ -2946,13 +2950,15 @@ though, and has since been slightly modified)-->
                 <example type="incorrect">Nous étions <marker>fatigué</marker>.</example>
                 <example type="correct">Nous étions <marker>fatigués</marker>.</example>
                 <example type="correct">Ils sont même allés faire la guerre.</example>
+                <example type="incorrect">Celles-là sont <marker>folle</marker>.</example>
+                <example type="correct">Celles-là sont folles.</example>
             </rule>
             <rule>
                 <pattern>
                     <token postag="SENT_START" skip="-1">
                         <exception scope="next" postag="[NR].*sp?|V inf" postag_regexp="yes"></exception>
                     </token>
-                    <token postag="N . p|R pers suj [13].* p" postag_regexp="yes"></token>
+                    <token postag="N . p|R pers suj [13].* p|R dem.* p" postag_regexp="yes"></token>
                     <token regexp="yes" skip="1">ne?</token>
                     <token postag="V etre .*" postag_regexp="yes"></token>
                     <token regexp="yes">pas|point|guère|plus|jamais</token>
@@ -2972,7 +2978,7 @@ though, and has since been slightly modified)-->
                     <token postag="SENT_START" skip="-1">
                         <exception scope="next" postag="[NR].*sp?|V inf" postag_regexp="yes"></exception>
                     </token>
-                    <token postag="N . p|R pers suj [13].* p" postag_regexp="yes"></token>
+                    <token postag="N . p|R pers suj [13].* p|R dem.* p" postag_regexp="yes"></token>
                     <token postag="V etre .*" postag_regexp="yes"></token>
                     <token postag="A"></token>
                     <marker>
@@ -2988,7 +2994,7 @@ though, and has since been slightly modified)-->
                     <token postag="SENT_START" skip="-1">
                         <exception scope="next" postag="[NR].*sp?|V inf" postag_regexp="yes"></exception>
                     </token>
-                    <token postag="N . p|R pers suj [13].* p" postag_regexp="yes"></token>
+                    <token postag="N . p|R pers suj [13].* p|R dem.* p" postag_regexp="yes"></token>
                     <token regexp="yes" skip="1">ne?</token>
                     <token postag="V etre .*" postag_regexp="yes"></token>
                     <token regexp="yes">pas|point|guère|plus|jamais</token>
@@ -20235,7 +20241,7 @@ though, and has since been slightly modified)-->
                     </marker>
                     <token>
                         <exception postag="V inf"></exception>
-                        <exception regexp="yes">quelle|[mst]oi|[nv]ous|lui|[mst]e|loin|près|plus|moins</exception>
+                        <exception regexp="yes">quelle|[mst]oi|[nv]ous|lui|[mst]e|loin|près|plus|moins|temps</exception>
                     </token>
                 </pattern>
                 <message>« Se rappelle de » est une impropriété. On se rappelle quelque chose, ou on se souvient de quelque chose. Employez <suggestion>\1</suggestion>.</message>
@@ -20249,6 +20255,7 @@ though, and has since been slightly modified)-->
                 <example type="correct">Elle me rappelle de me rendre à la banque.</example>
                 <example type="correct">Cela me rappelle de loin mon enfance.</example>
                 <example type="correct">Je me rappelle de moins en mois mon enfance.</example>
+                <example type="correct">Je me rappelle de temps en temps mon enfance.</example>
             </rule>
             <rule>
                 <pattern>
@@ -21453,7 +21460,7 @@ though, and has since been slightly modified)-->
                     <marker>
                         <token regexp="yes">(?-iu:(afghan|algérien|arménien|australien|autrichien|bahaméen|bahreïnien|barbadien|bélizien|breton|bolivien|bosnien|brésilien|brunéien|cambodgien|canadien|capverdien|chilien|colombien|comorien|costaricien|djiboutien|équatorien|équato-guinéen|érythréen|estonien|états-?unien|étasunien|éthiopien|fidjien|gambien|guyanien|haïtien|hondurien|indien|ivoirien|égyptien|ghanéen|géorgien|guadeloupéen|grenadien|guinéen|indonésien|irakien|italien|iranien|israélien|jordanien|koweïtien|laotien|letton|libérien|lituanien|libyen|macédonien|malaisien|maldivien|malien|mauricien|mauritanien|namibien|nicaraguayen|nord-coréen|niouéen|nigérien|norvégien|micronésien|palestinien|panaméen|papouasien|paraguayen|parisien|péruvien|polynésien|qatarien|saint-lucien|salvadorien|santoméen|saoudien|singapourien|somalien|sud-coréen|surinamien|syrien|tahitien|tanzanien|tchadien|tonguien|trinidadien|tunisien|ukrainien|uruguayen|vénézuélien|vietnamien|zambien|zimbabwéen)(s|nes?)?|(albanais|allemand|angolais|anglais|antiguais|azerbaïdjanais|bâlois|bangladais|béninois|bhoutanais|bordelais|birman|botswanais|brestois|bruxellois|burkinais|burundais|camerounais|chinois|congolais|danois|dominiquais|finlandais|français|gabonais|genévois|hollandais|hongrois|indochinois|irlandais|islandais|lapon|libanais|liechtensteinois|lillois|luxembourgeois|japonais|lyonnais|maltais|marseillais|marshallais|myanmarais|nantais|nauruan|néerlandais|néo-zélandais|népalais|omanais|ougandais|pakistanais|paluan|polonais|portugais|rwandais|sénégalais|soudanais|srilankais|suédois|strasbourgeois|sychellois|taïwanais|thaïlandais|togolais|zaïrois|zurichois)(es)?|(andorran|américain|argentin|burkinab[èé]|centrafricain|cubain|dominicain|espagnol|jamaïcain|kényan|kosovar|maori|marocain|mexicain|mongol|monpelliérain|monténégrin|mozambicain|omani|philippin|roumain|sud-africain|toulousain|tuvaluan)e?s?|(basque|belge|biélorusse|britannique|bulgare|chypriote|corse|croate|guatémaltèque|malgache|malawite|moldave|monégasque|russe|slovaque|slovène|suisse|scandinave|serbe|soviétique|tchèque|turkmène|yéménite|yougoslave)s?|bahreïni|émirati|formosan|grec(que)?s?|bissau|kazakhs?|sothos|ouzbeks?|qatariotes?|swazi|tadjiks?|turcs?|turques?|vanuatuan)</token>
                     </marker>
-                    <token><exception regexp="yes">correct|courant|parfait|fluide|facile</exception></token>
+                    <token><exception regexp="yes">correct|courant|parfait|fluide|facile|universel</exception></token>
                 </pattern>
                 <message>Les gentilés (noms des habitants) ont une majuscule (mais pas les noms des langues).</message>
                 <example type="incorrect">Je travaille en anglais avec des <marker>anglais</marker>.</example>
