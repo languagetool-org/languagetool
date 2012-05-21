@@ -5559,8 +5559,21 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
             <short>&getrennt;.</short>
             <example type="correct">Wir haben eine <marker>Viel-Zahl</marker> innovativer Konstruktionen gesehen.</example>
             <example type="correct">Wir haben eine <marker>Vielzahl</marker> innovativer Konstruktionen gesehen.</example>
-            <example type="incorrect">Wir haben eine <marker>viel zahl</marker> innovativer Konstruktionen gesehen.</example>
-            <example type="incorrect">Wir haben eine <marker>viel Zahl</marker> innovativer Konstruktionen gesehen.</example>
+            <example type="incorrect" correction="Vielzahl">Wir haben eine <marker>viel zahl</marker> innovativer Konstruktionen gesehen.</example>
+            <example type="incorrect" correction="Vielzahl">Wir haben eine <marker>viel Zahl</marker> innovativer Konstruktionen gesehen.</example>
+        </rule>
+        <rule id="NACH_LAESSIGKEIT" name="Zusammen-/Getrenntschreibung: 'aus nach Lässigkeit (Nachlässigkeit)'">
+            <pattern case_sensitive="yes">
+                <token regexp="yes">[aA]us</token>
+                <marker>
+                    <token regexp="yes">[nN]ach</token>
+                    <token>Lässigkeit</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie <suggestion>Nachlässigkeit</suggestion>?</message>
+            <short>&getrennt;.</short>
+            <example type="correct">Wir haben aus <marker>Nachlässigkeit</marker> etwas übersehen.</example>
+            <example type="incorrect" correction="Nachlässigkeit">Wir haben aus <marker>nach Lässigkeit</marker> etwas übersehen.</example>
         </rule>
         <rule id="FRAGE_ZEICHEN" name="Zusammen-/Getrenntschreibung: 'ein Fragezeichen (Fragezeichen)'">
             <pattern case_sensitive="no">
@@ -5588,6 +5601,21 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
             <short>Das Verb 'hinweisen' wird zusammengeschrieben.</short>
             <example type="correct">Ich wollte nur darauf <marker>hinweisen</marker>.</example>
             <example type="incorrect">Ich wollte nur darauf <marker>hin weisen</marker>.</example>
+        </rule>
+        <rule id="ZWEIT_BESTER" name="Zusammen-/Getrenntschreibung: 'zweit bester (zweitbester)' etc.">
+            <pattern>
+                <token negate="yes">zu</token>
+                <marker>
+                    <!-- please note that 'erst' and 'siebt' (verb) are intentionally omitted -->
+                    <token regexp="yes">zweit|dritt|viert|fünft|sechst|acht|neunt|zehnt|elft|zwölft</token>
+                    <token postag="ADJ:.+:SUP.*" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <message>&getrennt;: Meinten Sie evt. <suggestion>\2\3</suggestion>?</message>
+            <url>http://www.duden.de/rechtschreibung/zweitbeste</url>
+            <short>&getrennt;.</short>
+            <example type="correct">Wir waren die <marker>Zweitbesten</marker>.</example>
+            <example type="incorrect" correction="zweitbeste">Sie war die <marker>zweit beste</marker> Läuferin.</example>
         </rule>
         <rule id="DAS_SELBE" name="Zusammen-/Getrenntschreibung: 'das selbe (dasselbe)' etc.">
             <pattern case_sensitive="no">
@@ -13381,12 +13409,13 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                     <token skip="1" regexp="yes">[eE]ine</token>
                     <token regexp="yes">ganze|große|größere|klein(er)?e|riesige|solche</token>
                     <marker>
-                        <token>menge</token>
+                        <token regexp="yes">menge|fülle|summe</token>
                     </marker>
                 </pattern>
-                <message>&subanfang;<suggestion>Menge</suggestion>&subende;</message>
+                <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example type="incorrect" correction="Menge">Wir haben eine größere <marker>menge</marker> Mehl im Schrank.</example>
+                <example type="incorrect" correction="Fülle">Wir haben eine ganze <marker>fülle</marker> davon.</example>
                 <example type="correct">Wir haben eine größere <marker>Menge</marker> Mehl im Schrank.</example>
             </rule>
             <rule>
@@ -16550,11 +16579,43 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                     </marker>
                     <token inflected="yes">tun</token>
                 </pattern>
-                <message>&inwend;'jemandem leid tun' wird <suggestion><match case_conversion="alllower" no="3"></match></suggestion> kleingeschrieben.</message>
+                <message>&inwend;'jemandem leid tun' wird <suggestion><match case_conversion="alllower" no="3"/></suggestion> kleingeschrieben.</message>
                 <url>http://www.canoo.net/services/GermanSpelling/Regeln/Gross-klein/Denominalisierung.html#Anchor-Die-49575</url>
                 <short>&prgk;.</short>
                 <example type="incorrect" correction="leid">Das wird mir noch <marker>Leid</marker> tun.</example>
                 <example type="correct">Ich fürchte, das wird mir noch <marker>leid</marker> tun.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="SOMMERS_WIE_WINTERS" name="Groß-/Kleinschreibung: 'sommers wie winters'" default="on">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token><exception postag="SENT_START"/></token>
+                    <marker>
+                        <token>Sommers</token>
+                        <token>wie</token>
+                        <token>Winters</token>
+                    </marker>
+                </pattern>
+                <message>&inwend;<suggestion><match no="2" case_conversion="alllower"/> wie <match no="4" case_conversion="alllower"/></suggestion> müssen die Adverbien 'sommers' und 'winters' in der Regel kleingeschrieben werden.</message>
+                <url>http://www.duden.de/rechtschreibung/winters</url>
+                <short>&prgk;.</short>
+                <example type="correct">Er ging <marker>sommers wie winters</marker> täglich spazieren.</example>
+                <example type="incorrect" correction="sommers wie winters">Er ging <marker>Sommers wie Winters</marker> täglich spazieren.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START"/>
+                    <token>Sommers</token>
+                    <token>wie</token>
+                    <marker>
+                        <token>Winters</token>
+                    </marker>
+                </pattern>
+                <message>&inwend;'<match no="2" case_conversion="alllower"/> wie <suggestion><match no="4" case_conversion="alllower"/></suggestion>' müssen die Adverbien 'sommers' und 'winters' in der Regel kleingeschrieben werden.</message>
+                <url>http://www.duden.de/rechtschreibung/winters</url>
+                <short>&prgk;.</short>
+                <example type="correct">Sommers wie <marker>winters</marker> ging er täglich spazieren.</example>
+                <example type="incorrect" correction="winters">Sommers wie <marker>Winters</marker> ging er täglich spazieren.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ZEIT_SEINES_LEBENS" name="Groß-/Kleinschreibung: '... Zeit (zeit) seines Lebens'" default="on">
