@@ -94,27 +94,25 @@ class PatternRuleHandler extends BitextXMLRuleHandler {
   @Override
   public void startElement(final String namespaceURI, final String lName,
       final String qName, final Attributes attrs) throws SAXException {
-    if (qName.equals("category")) {
+    if ("category".equals(qName)) {
       final String catName = attrs.getValue("name");
       final String priorityStr = attrs.getValue("priority");
-      // int prio = 0;
-      if (priorityStr != null) {
-        category = new Category(catName, Integer.parseInt(priorityStr));
-      } else {
+      if (priorityStr == null) {
         category = new Category(catName);
+      } else {
+        category = new Category(catName, Integer.parseInt(priorityStr));
       }
 
       if ("off".equals(attrs.getValue(DEFAULT))) {
         category.setDefaultOff();
       }
-
-    } else if (qName.equals("rules")) {
+    } else if ("rules".equals(qName)) {
       final String languageStr = attrs.getValue("targetLang");
       language = Language.getLanguageForShortName(languageStr);
       if (language == null) {
         throw new SAXException("Unknown language '" + languageStr + "'");
       }
-    } else if (qName.equals("rule")) {
+    } else if ("rule".equals(qName)) {
       shortMessage = new StringBuilder();
       id = attrs.getValue("id");
       if (inRuleGroup)
@@ -142,10 +140,10 @@ class PatternRuleHandler extends BitextXMLRuleHandler {
       startPattern(attrs);     
     } else if (AND.equals(qName)) {
       inAndGroup = true;
-    } else if (UNIFY.equals(qName)) {
+    } else if ("unify".equals(qName)) {
       inUnification = true;           
       uniNegation = YES.equals(attrs.getValue(NEGATE));
-    } else if (qName.equals("feature")) {
+    } else if ("feature".equals(qName)) {
       uFeature = attrs.getValue("id");        
     } else if (qName.equals(TYPE)) {      
       uType = attrs.getValue("id");
@@ -158,7 +156,7 @@ class PatternRuleHandler extends BitextXMLRuleHandler {
         && attrs.getValue(TYPE).equals("correct")) {
       inCorrectExample = true;
       correctExample = new StringBuilder();
-    } else if (EXAMPLE.equals(qName)
+    } else if (qName.equals(EXAMPLE)
         && attrs.getValue(TYPE).equals("incorrect")) {
       inIncorrectExample = true;
       incorrectExample = new StringBuilder();
@@ -166,40 +164,40 @@ class PatternRuleHandler extends BitextXMLRuleHandler {
       if (attrs.getValue("correction") != null) {
         exampleCorrection.append(attrs.getValue("correction"));
       }
-    } else if (MESSAGE.equals(qName)) {
+    } else if ("message".equals(qName)) {
       inMessage = true;
       message = new StringBuilder();
-    } else if (qName.equals("short")) {
+    } else if ("short".equals(qName)) {
       inShortMessage = true;
       shortMessage = new StringBuilder();
-    } else if (qName.equals(RULEGROUP)) {
+    } else if ("rulegroup".equals(qName)) {
       ruleGroupId = attrs.getValue("id");
       ruleGroupDescription = attrs.getValue("name");
       defaultOff = "off".equals(attrs.getValue(DEFAULT));
       defaultOn = "on".equals(attrs.getValue(DEFAULT));
       inRuleGroup = true;
       subId = 0;
-    } else if (qName.equals("suggestion") && inMessage) {
+    } else if ("suggestion".equals(qName) && inMessage) {
       message.append("<suggestion>");
       inSuggestion = true;
-    } else if (qName.equals("match")) {
+    } else if ("match".equals(qName)) {
       setMatchElement(attrs);
     } else if (qName.equals(MARKER) && inCorrectExample) {
       correctExample.append("<marker>");
     } else if (qName.equals(MARKER) && inIncorrectExample) {
       incorrectExample.append("<marker>");
-    } else if (qName.equals("unification")) {
+    } else if (UNIFICATION.equals(qName)) {
       uFeature = attrs.getValue("feature");
       inUnificationDef = true;
-    } else if (qName.equals("equivalence")) {
+    } else if ("equivalence".equals(qName)) {
       uType = attrs.getValue(TYPE);
-    } else if (qName.equals("phrases")) {
+    } else if (PHRASES.equals(qName)) {
       inPhrases = true;
-    } else if (qName.equals("includephrases")) {
+    } else if ("includephrases".equals(qName)) {
       phraseElementInit();
-    } else if (qName.equals("phrase") && inPhrases) {
+    } else if ("phrase".equals(qName) && inPhrases) {
       phraseId = attrs.getValue("id");
-    } else if (qName.equals("phraseref") && (attrs.getValue("idref") != null)) {
+    } else if ("phraseref".equals(qName) && (attrs.getValue("idref") != null)) {
       preparePhrase(attrs);
     } else if (qName.equals("source")) {
       srcLang = Language.getLanguageForShortName(attrs.getValue("lang"));        
@@ -291,33 +289,54 @@ class PatternRuleHandler extends BitextXMLRuleHandler {
         tokenReference.setLemmaString(match.toString());
       }
       inMatch = false;
-    } else if (qName.equals("rulegroup")) {
+    } else if ("rulegroup".equals(qName)) {
       inRuleGroup = false;
-    } else if (qName.equals("suggestion") && inMessage) {
+    } else if ("suggestion".equals(qName) && inMessage) {
       message.append("</suggestion>");
       inSuggestion = false;
     } else if (qName.equals(MARKER) && inCorrectExample) {
       correctExample.append("</marker>");
     } else if (qName.equals(MARKER) && inIncorrectExample) {
       incorrectExample.append("</marker>");
-    } else if (qName.equals("phrase") && inPhrases) {
+    } else if ("phrase".equals(qName) && inPhrases) {
       finalizePhrase();
-    } else if (qName.equals("includephrases")) {
+    } else if ("includephrases".equals(qName)) {
       elementList.clear();
-    } else if (qName.equals("phrases") && inPhrases) {
+    } else if (PHRASES.equals(qName) && inPhrases) {
       inPhrases = false;
-    } else if (qName.equals("unification")) {
+    } else if (UNIFICATION.equals(qName)) {
       inUnificationDef = false;
-    } else if (qName.equals("feature")) {        
+    } else if ("feature".equals(qName)) {
       equivalenceFeatures.put(uFeature, uTypeList);
       uTypeList = new ArrayList<String>();
-    } else if (qName.equals("unify")) {      
+    } else if ("unify".equals(qName)) {
       inUnification = false;
       //clear the features...
       equivalenceFeatures = new HashMap<String, List<String>>();
     }
   }  
-  
+
+  private void prepareRule(final PatternRule rule) {
+    rule.setStartPositionCorrection(startPositionCorrection);
+    rule.setEndPositionCorrection(endPositionCorrection);
+    startPositionCorrection = 0;
+    endPositionCorrection = 0;
+    rule.setCategory(category);
+    if (inRuleGroup)
+      rule.setSubId(Integer.toString(subId));
+    else
+      rule.setSubId("1");
+    caseSensitive = false;
+    if (defaultOff) {
+      rule.setDefaultOff();
+    }
+
+    if (category.isDefaultOff() && !defaultOn) {
+      rule.setDefaultOff();
+    }
+
+  }
+
   private IncorrectExample setExample() {
     IncorrectExample example = null;
     if (inCorrectExample) {
@@ -366,26 +385,6 @@ class PatternRuleHandler extends BitextXMLRuleHandler {
     startPositionCorrection = 0;
     endPositionCorrection = 0;    
     return rule;
-  }
-  private void prepareRule(final PatternRule rule) {
-    rule.setStartPositionCorrection(startPositionCorrection);
-    rule.setEndPositionCorrection(endPositionCorrection);
-    startPositionCorrection = 0;
-    endPositionCorrection = 0;    
-    rule.setCategory(category);
-    if (inRuleGroup)
-      rule.setSubId(Integer.toString(subId));
-    else
-      rule.setSubId("1");
-    caseSensitive = false;    
-    if (defaultOff) {
-      rule.setDefaultOff();
-    }
-
-    if (category.isDefaultOff() && !defaultOn) {
-      rule.setDefaultOff();
-    }
-
   }
 
     @Override
