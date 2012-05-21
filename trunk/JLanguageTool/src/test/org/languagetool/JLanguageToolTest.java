@@ -126,7 +126,7 @@ public class JLanguageToolTest extends TestCase {
     assertEquals(1, matches.size());
     // Polish rule has no effect with English error but will get spelling activated:
     matches = tool.check("I can give you more a detailed description");
-    assertEquals(5, matches.size());
+    assertEquals(6, matches.size());
     tool.setListUnknownWords(true);
     matches = tool.check("This is not a Polish text.");
     assertEquals(3, matches.size());
