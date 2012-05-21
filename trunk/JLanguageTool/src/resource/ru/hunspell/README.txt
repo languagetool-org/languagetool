@@ -5,7 +5,7 @@ License: LGPL.
 Source dictionary:
 http://seman.svn.sourceforge.net/viewvc/seman/trunk/Dicts/SrcMorph/RusSrc/morphs.mrd?revision=99
 Corrections:  Yakov Reztsov
-Version: 0.2.8  Create date: 17 Octovber 2011.
+Version: 0.2.8  Create date: 17 October 2011.
 This dictionary is also available as LibreOffice extensions at 
 http://extensions.libreoffice.org/extension-center/russian-spellcheck-dictionary.-based-on-works-of-aot-group
 
