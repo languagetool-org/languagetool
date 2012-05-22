@@ -90,9 +90,12 @@ public class ConfigurationDialog implements ActionListener {
   private Language motherTongue;
   private boolean serverMode;
   private int serverPort;
+  private boolean useGUIConfig;
 
   private final Frame owner;
   private final boolean insideOOo;
+
+private JCheckBox serverSettingsCheckbox;
 
   public ConfigurationDialog(Frame owner, boolean insideOOo) {
     this.owner = owner;
@@ -238,6 +241,14 @@ public class ConfigurationDialog implements ActionListener {
         }
       });
       portPanel.add(serverPortField, cons);
+      cons.gridx = 0;
+      cons.gridy = 10;
+      serverSettingsCheckbox = new JCheckBox(StringTools.getLabel(messages
+    		  .getString("useGUIConfig")));
+      serverSettingsCheckbox.setMnemonic(StringTools.getMnemonic(messages
+    		  .getString("useGUIConfig")));
+      serverSettingsCheckbox.setSelected(useGUIConfig);
+      portPanel.add(serverSettingsCheckbox, cons);
     }
 
     final JPanel buttonPanel = new JPanel();
@@ -397,6 +408,9 @@ public class ConfigurationDialog implements ActionListener {
         serverMode = serverCheckbox.isSelected();
         serverPort = Integer.parseInt(serverPortField.getText());
       }
+      if (serverSettingsCheckbox != null) {
+          useGUIConfig = serverSettingsCheckbox.isSelected();          
+        }
       dialog.setVisible(false);
     } else if (e.getSource() == cancelButton) {
       dialog.setVisible(false);
@@ -458,6 +472,18 @@ public class ConfigurationDialog implements ActionListener {
   public void setRunServer(boolean serverMode) {
     this.serverMode = serverMode;
   }
+  
+  public void setUseGUIConfig(boolean useGUIConfig) {
+	  this.useGUIConfig = useGUIConfig;
+  }
+  
+  public boolean getUseGUIConfig() {
+	  if (serverSettingsCheckbox == null) {
+		  return false;
+	  }
+	  return serverSettingsCheckbox.isSelected();
+  }  
+
 
   public boolean getRunServer() {
     if (serverCheckbox == null) {

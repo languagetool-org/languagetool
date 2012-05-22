@@ -95,7 +95,7 @@ public class HTTPServerTest extends TestCase {
   }
 
   public void testAccessDenied() throws Exception {
-    final HTTPServer server = new HTTPServer(HTTPServer.DEFAULT_PORT, false, new HashSet<String>());
+    final HTTPServer server = new HTTPServer(HTTPServer.DEFAULT_PORT, false, false, new HashSet<String>());
     try {
       server.run();
       try {

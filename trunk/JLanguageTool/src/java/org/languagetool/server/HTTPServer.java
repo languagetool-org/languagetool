@@ -50,6 +50,11 @@ public class HTTPServer {
   private final HttpServer server;
   
   /**
+   * True if the server was started from the GUI.
+   */
+  private boolean runInternally = false;
+  
+  /**
    * Prepare a server on the given port - use run() to start it. Accepts
    * connections from localhost only.
    */
@@ -73,32 +78,47 @@ public class HTTPServer {
    * @throws PortBindingException if we cannot bind to the given port, e.g. because something else is running there
    */
   public HTTPServer(int port, boolean verbose) {
-    this(port, verbose, DEFAULT_ALLOWED_IPS);
+    this(port, verbose, false, DEFAULT_ALLOWED_IPS);
   }
 
+  
+  /**
+   * Prepare a server on localhost on the given port - use run() to start it. Accepts
+   * connections from localhost only.
+   * @param verbose if true, the text to be checked will be displayed in case of exceptions
+   * @param runInternally if true, then the server was started from the GUI.
+   * @throws PortBindingException if we cannot bind to the given port, e.g. because something else is running there
+   */
+  public HTTPServer(int port, boolean verbose, boolean runInternally) {	
+    this(port, verbose, runInternally, DEFAULT_HOST, DEFAULT_ALLOWED_IPS);    
+  }
+
+  
   /**
    * Prepare a server on localhost on the given port - use run() to start it. The server will bind to localhost.
    * @param verbose if true, the text to be checked will be displayed in case of exceptions
+   * @param runInternally if true, then the server was started from the GUI.
    * @param allowedIps the IP addresses from which connections are allowed
    * @throws PortBindingException if we cannot bind to the given port, e.g. because something else is running there
    */
-  public HTTPServer(int port, boolean verbose, Set<String> allowedIps) {
-    this(port, verbose, DEFAULT_HOST, allowedIps);
+  public HTTPServer(int port, boolean verbose, boolean runInternally, Set<String> allowedIps) {
+    this(port, verbose, runInternally, DEFAULT_HOST, allowedIps);
   }
   
   /**
    * Prepare a server on the given host and port - use run() to start it.
    * @param verbose if true, the text to be checked will be displayed in case of exceptions
+   * @param runInternally if true, then the server was started from the GUI.
    * @param host the host to bind to, e.g. <code>"localhost"</code> or <code>InetAddress.anyLocalAddress()</code>
    * @param allowedIps the IP addresses from which connections are allowed
    * @throws PortBindingException if we cannot bind to the given port, e.g. because something else is running there
    * @since 1.7
    */
-  public HTTPServer(int port, boolean verbose, String host, Set<String> allowedIps) {
+  public HTTPServer(int port, boolean verbose, boolean runInternally, String host, Set<String> allowedIps) {
     this.port = port;
     try {
       server = HttpServer.create(new InetSocketAddress(host, port), 0);
-      server.createContext("/", new LanguageToolHttpHandler(verbose, allowedIps));
+      server.createContext("/", new LanguageToolHttpHandler(verbose, allowedIps, runInternally));
     } catch (Exception e) {
       throw new PortBindingException(
           "LanguageTool server could not be started on host '" + host + "', port " + port
@@ -125,13 +145,14 @@ public class HTTPServer {
       System.out.println("Server stopped");
     }
   }
-
+  
   public static void main(String[] args) throws IOException {
     if (args.length > 3) {
       System.out.println("Usage: " + HTTPServer.class.getSimpleName() + " [-p|--port port]");
       System.exit(1);
     }
     boolean verbose = false;
+    boolean runInternal = false;
     int port = DEFAULT_PORT;
     for (int i = 0; i < args.length; i++) {
       if ("-p".equals(args[i]) || "--port".equals(args[i])) {
@@ -142,7 +163,7 @@ public class HTTPServer {
     }
     try {
       final HttpServer server = HttpServer.create(new InetSocketAddress(DEFAULT_HOST, port), 0);
-      server.createContext("/", new LanguageToolHttpHandler(verbose, DEFAULT_ALLOWED_IPS));
+      server.createContext("/", new LanguageToolHttpHandler(verbose, DEFAULT_ALLOWED_IPS, runInternal));
       server.start();
       System.out.println("Started LanguageTool HTTP server on " + DEFAULT_HOST + ", port " + port + ".");
     } catch (Exception e) {

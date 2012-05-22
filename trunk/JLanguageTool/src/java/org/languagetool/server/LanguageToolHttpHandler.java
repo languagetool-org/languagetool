@@ -4,12 +4,14 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.gui.Configuration;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.bitext.BitextRule;
 import org.languagetool.tools.StringTools;
 import org.languagetool.tools.Tools;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
@@ -27,10 +29,18 @@ class LanguageToolHttpHandler implements HttpHandler {
 
   private final Set<String> allowedIps;  
   private final boolean verbose;
-
-  LanguageToolHttpHandler(boolean verbose, Set<String> allowedIps) {
+  private final boolean internalServer;
+  
+  private static final String CONFIG_FILE = ".languagetool.cfg";
+  
+  private final Configuration config;
+ 
+  LanguageToolHttpHandler(boolean verbose, Set<String> allowedIps,
+		  boolean internal) throws IOException {
     this.verbose = verbose;
     this.allowedIps = allowedIps;
+    this.internalServer = internal;
+    config = new Configuration(new File(System.getProperty("user.home")), CONFIG_FILE);
   }
 
   @Override
@@ -193,8 +203,37 @@ class LanguageToolHttpHandler implements HttpHandler {
     final JLanguageTool newLanguageTool = new JLanguageTool(lang, motherTongue);
     newLanguageTool.activateDefaultPatternRules();
     newLanguageTool.activateDefaultFalseFriendRules();
+    if (internalServer && config.getUseGUIConfig()) { // use the GUI config values
+    	configureGUI(lang, newLanguageTool);
+    }
     return newLanguageTool;
   }
+      
+  private void configureGUI(Language language, JLanguageTool langTool) {	  
+	  print("Using options configured in the GUI");
+	  //TODO: add a parameter to config to set language
+	    final Set<String> disabledRules = config.getDisabledRuleIds();
+	    if (disabledRules != null) {
+	      for (final String ruleId : disabledRules) {
+	        langTool.disableRule(ruleId);
+	      }
+	    }
+	    final Set<String> disabledCategories = config.
+	    		getDisabledCategoryNames();
+	    if (disabledCategories != null) {
+	      for (final String categoryName : disabledCategories) {
+	        langTool.disableCategory(categoryName);
+	      }
+	    }
+	    final Set<String> enabledRules = config.getEnabledRuleIds();
+	    if (enabledRules != null) {
+	      for (String ruleName : enabledRules) {
+	        langTool.enableDefaultOffRule(ruleName);
+	        langTool.enableRule(ruleName);
+	      }
+	    }	    
+	  }
+ 
 
   /**
    * Construct an xml string containing all supported languages. <br/>The xml format is:<br/>

@@ -45,6 +45,7 @@ public class Configuration {
   private static final String AUTO_DETECT_CONFIG_KEY = "autoDetect";
   private static final String SERVER_RUN_CONFIG_KEY = "serverMode";
   private static final String SERVER_PORT_CONFIG_KEY = "serverPort";
+  private static final String USE_GUI_CONFIG_KEY = "useGUIConfig";
   private static final String DELIMITER = ",";
 
   private File configFile;
@@ -54,6 +55,7 @@ public class Configuration {
   private Language motherTongue;
   private boolean runServer;
   private boolean autoDetect;
+  private boolean guiConfig;
   private int serverPort = HTTPServer.DEFAULT_PORT;
 
   public Configuration(final File baseDir, final String filename)
@@ -121,6 +123,15 @@ public class Configuration {
     return serverPort;
   }
 
+  public void setUseGUIConfig(final boolean useGUIConfg) {
+	    this.guiConfig = useGUIConfg;
+	  }
+
+ public boolean getUseGUIConfig() {
+	    return guiConfig;
+}
+
+  
   public void setServerPort(final int serverPort) {
     this.serverPort = serverPort;
   }
@@ -144,16 +155,11 @@ public class Configuration {
       if (motherTongueStr != null) {
         motherTongue = Language.getLanguageForShortName(motherTongueStr);
       }
-      
-      final String autoDetectStr = (String) props.get(AUTO_DETECT_CONFIG_KEY);
-      if (autoDetectStr != null) {
-          autoDetect = autoDetectStr.equals("true");
-      }
-      
-      final String runServerString = (String) props.get(SERVER_RUN_CONFIG_KEY);
-      if (runServerString != null) {
-        runServer = runServerString.equals("true");
-      }
+            
+      autoDetect = "true".equals((String) props.get(AUTO_DETECT_CONFIG_KEY));            
+      guiConfig = "true".equals((String) props.get(USE_GUI_CONFIG_KEY));
+      runServer = "true".equals((String) props.get(SERVER_RUN_CONFIG_KEY));
+
       final String serverPortString = (String) props.get(SERVER_PORT_CONFIG_KEY);
       if (serverPortString != null) {
         serverPort = Integer.parseInt(serverPortString);
@@ -186,8 +192,9 @@ public class Configuration {
       props.setProperty(MOTHER_TONGUE_CONFIG_KEY, motherTongue.getShortName());
     }
     props.setProperty(AUTO_DETECT_CONFIG_KEY, Boolean.valueOf(autoDetect).toString());
+    props.setProperty(USE_GUI_CONFIG_KEY, Boolean.valueOf(guiConfig).toString());
     props.setProperty(SERVER_RUN_CONFIG_KEY, Boolean.valueOf(runServer).toString());
-    props.setProperty(SERVER_PORT_CONFIG_KEY, Integer.valueOf(serverPort).toString());
+    props.setProperty(SERVER_PORT_CONFIG_KEY, Integer.valueOf(serverPort).toString());    
     final FileOutputStream fos = new FileOutputStream(configFile);
     try {
       props.store(fos, "LanguageTool configuration");

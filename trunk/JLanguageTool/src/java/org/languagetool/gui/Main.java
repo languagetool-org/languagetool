@@ -291,9 +291,15 @@ public final class Main implements ActionListener {
     config.setDisabledCategoryNames(configDialog.getDisabledCategoryNames());
     config.setMotherTongue(configDialog.getMotherTongue());
     config.setRunServer(configDialog.getRunServer());
+    config.setUseGUIConfig(configDialog.getUseGUIConfig());
     config.setServerPort(configDialog.getServerPort());
+    try { //save config - needed for the server
+        config.saveConfiguration();
+      } catch (final IOException e) {
+        Tools.showError(e);
+      }
     // Stop server, start new server if requested:
-    stopServer();
+    stopServer();        
     maybeStartServer();
   }
 
@@ -369,9 +375,9 @@ public final class Main implements ActionListener {
 
   private void maybeStartServer() {
     if (config.getRunServer()) {
-      httpServer = new HTTPServer(config.getServerPort());
+      httpServer = new HTTPServer(config.getServerPort(), false, true);
       try {
-        httpServer.run();
+    	httpServer.run();        
       } catch (final PortBindingException e) {
         final String message = e.getMessage() + "\n\n" + org.languagetool.tools.Tools.getFullStackTrace(e);
         JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
@@ -419,6 +425,7 @@ public final class Main implements ActionListener {
       configDialog.setDisabledCategories(config.getDisabledCategoryNames());
       configDialog.setRunServer(config.getRunServer());
       configDialog.setServerPort(config.getServerPort());
+      configDialog.setUseGUIConfig(config.getUseGUIConfig());
       configDialogs.put(language, configDialog);
     }
     return configDialog;
