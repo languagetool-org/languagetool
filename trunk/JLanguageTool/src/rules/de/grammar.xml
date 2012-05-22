@@ -5356,9 +5356,9 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
             <rule>
                 <pattern case_sensitive="no">
                     <marker>
-                        <token regexp="yes">(nach|trotz|seit)dem</token>
+                        <token regexp="yes">(nach|trotz|seit|außer|in)dem</token>
                     </marker>
-                    <token postag="SUB:DAT:SIN:(MAS|NEU)" postag_regexp="yes"></token>
+                    <token postag="SUB:DAT:SIN:(MAS|NEU)" postag_regexp="yes"/>
                     <token postag="(SENT_END)|VER:(AUX:)?(1|2|3):.+" postag_regexp="yes"><exception postag="(PA2|SUB|ART|ADJ):.+" postag_regexp="yes" scope="current"></exception><exception regexp="yes" scope="current">sieben|äußerst|anstelle|einst|meinen?|tausenden?</exception></token>
                 </pattern>
                 <message>Möglicherweise muss <suggestion><match no="1" regexp_replace="" regexp_match="dem"></match> dem</suggestion> hier getrennt geschrieben werden.</message>
@@ -5371,14 +5371,43 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
             <rule>
                 <pattern case_sensitive="yes">
                     <marker>
-                        <token regexp="yes">([nN]ach|[sS]eit)dem</token>
+                        <token regexp="yes">([nN]ach|[sS]eit|[tT]rotz|[aA]ußer|[iI]n)dem</token>
                     </marker>
-                    <token>Essen</token>
+                    <token postag="SUB:DAT:SIN:(MAS|NEU)" postag_regexp="yes"/>
+                    <!-- token>Essen</token -->
                     <token postag="(SENT_END)|VER:(AUX:)?(1|2|3):.+" postag_regexp="yes"><exception postag="(PA2|SUB|ART|ADJ):.+" postag_regexp="yes" scope="current"></exception><exception regexp="yes" scope="current">sieben|äußerst|anstelle|einst|meinen?|tausenden?</exception></token>
                 </pattern>
-                <message>Möglicherweise muss <suggestion><match no="1" regexp_replace="" regexp_match="dem"></match> dem</suggestion> hier getrennt geschrieben werden.</message>
-                <example type="incorrect" correction="Seit dem"><marker>Seitdem</marker> Essen bin ich müde.</example>
-                <example type="incorrect" correction="Nach dem"><marker>Nachdem</marker> Essen wurde ich müde.</example>
+                <message>Möglicherweise muss <suggestion><match no="1" regexp_replace="" regexp_match="dem"/> dem</suggestion> hier getrennt geschrieben werden.</message>
+                <example type="incorrect" correction="Seit dem"><marker>Seitdem</marker> Frühstück bin ich müde.</example>
+                <example type="incorrect" correction="Außer dem"><marker>Außerdem</marker> Frühstück hat das Hotel noch einiges mehr zu bieten.</example>
+                <example type="incorrect" correction="Nach dem"><marker>Nachdem</marker> Frühstück wurde ich müde.</example>
+                <example type="correct"><marker>Nach dem</marker> Essen zwei Tabletten.</example>
+                <example type="correct"><marker>Nachdem</marker> Essen gegen Stuttgart verloren hatte, waren wir geknickt.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token postag="SENT_START"/>
+                        <token>Seit</token>
+                        <token>dem</token>
+                    </marker>
+                    <token postag="PRO:PER:NOM:.+" postag_regexp="yes"/>
+                </pattern>
+                <message>Möglicherweise muss <suggestion>\2\3</suggestion> (als Konjunktion im Sinne von <suggestion>\2</suggestion>) zusammengeschrieben werden, sofern es sich hier nicht um einen elliptischen Satz handelt, z.B. "[Der Tag] Seit dem er das tut".</message>
+                <example type="incorrect" correction="Seitdem|Seit"><marker>Seit dem</marker> er gewonnen hat, ist er nicht zu bremsen.</example>
+                <example type="correct"><marker>Seit dem</marker> Essen bin ich müde.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token postag="SENT_START"/>
+                        <token regexp="yes">Nach|In</token>
+                        <token>dem</token>
+                    </marker>
+                    <token postag="PRO:PER:NOM:.+" postag_regexp="yes"/>
+                </pattern>
+                <message>Möglicherweise muss <suggestion>\2\3</suggestion> (als Konjunktion) zusammengeschrieben werden, sofern es sich hier nicht um einen elliptischen Satz handelt, z.B. "[Das Spiel] In dem er gewonnen hat".</message>
+                <example type="incorrect" correction="Nachdem"><marker>Nach dem</marker> er gewonnen hatte, war er nicht zu bremsen.</example>
                 <example type="correct"><marker>Nach dem</marker> Essen zwei Tabletten.</example>
             </rule>
         </rulegroup>
@@ -7029,10 +7058,10 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                 <pattern case_sensitive="no">
                     <token>wohin</token>
                     <token>
-                        <exception postag="SENT_END"></exception>
+                        <exception postag="SENT_END"/>
                     </token>
                     <token>
-                        <exception postag="SENT_END"></exception>
+                        <exception postag="SENT_END"/>
                     </token>
                     <token>hin</token>
                 </pattern>
@@ -7046,13 +7075,13 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                 <pattern case_sensitive="no">
                     <token>wohin</token>
                     <token>
-                        <exception postag="SENT_END"></exception>
+                        <exception postag="SENT_END"/>
                     </token>
                     <token>
-                        <exception postag="SENT_END"></exception>
+                        <exception postag="SENT_END"/>
                     </token>
                     <token skip="1">
-                        <exception postag="SENT_END"></exception>
+                        <exception postag="SENT_END"/>
                     </token>
                     <token>hin</token>
                 </pattern>
@@ -7066,10 +7095,10 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                 <pattern case_sensitive="no">
                     <token>woher</token>
                     <token>
-                        <exception postag="SENT_END"></exception>
+                        <exception postag="SENT_END"/>
                     </token>
                     <token>
-                        <exception postag="SENT_END"></exception>
+                        <exception postag="SENT_END"/>
                     </token>
                     <token>her</token>
                 </pattern>
@@ -7084,13 +7113,13 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                 <pattern case_sensitive="no">
                     <token>woher</token>
                     <token>
-                        <exception postag="SENT_END"></exception>
+                        <exception postag="SENT_END"/>
                     </token>
                     <token>
-                        <exception postag="SENT_END"></exception>
+                        <exception postag="SENT_END"/>
                     </token>
                     <token skip="1">
-                        <exception postag="SENT_END"></exception>
+                        <exception postag="SENT_END"/>
                     </token>
                     <token>her</token>
                 </pattern>
@@ -7099,6 +7128,23 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                 <example type="incorrect" correction="Wo kommst du denn her|Woher kommst du denn"><marker>Woher kommst du denn her</marker>?</example>
                 <example type="incorrect" correction="Wo kam er denn her|Woher kam er denn"><marker>Woher kam er denn her</marker>?</example>
                 <example type="correct"><marker>Wo kam er denn her</marker>?</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="no">
+                    <token>daher</token>
+                    <token>
+                        <exception postag="SENT_END"/>
+                    </token>
+                    <token>
+                        <exception postag="SENT_END"/>
+                    </token>
+                    <token>her</token>
+                </pattern>
+                <message>Bitte verwenden Sie 'da' und 'daher' nicht zusammen. Vorschläge: <suggestion>da \2 \3 \4</suggestion>, <suggestion>daher \2 \3</suggestion>.</message>
+                <short>&redundanz;</short>
+                <example type="incorrect" correction="Da kommst du her|Daher kommst du"><marker>Daher kommst du her</marker>.</example>
+                <example type="incorrect" correction="Da kam er her|Daher kam er"><marker>Daher kam er her</marker>?</example>
+                <example type="correct"><marker>Da kam er her</marker>?</example>
             </rule>
         </rulegroup>
         <rulegroup id="WAEHREND_DES_VERLAUFS" name="Verdoppelung: 'während des Verlaufs'">
@@ -7371,7 +7417,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                     <marker>
                         <token>auf</token>
                     </marker>
-                    <token><exception postag_regexp="yes" postag=".*:DAT:.*"></exception></token>
+                    <token><exception postag_regexp="yes" postag=".*:DAT:.*"/></token>
                 </pattern>
                 <message>Die Verwendung von 'auf' in der Bedeutung <suggestion>offen</suggestion> oder <suggestion>geöffnet</suggestion> ist umgangssprachlich.</message>
                 <example type="correct">Die Tür ist <marker>geöffnet</marker>.</example>
@@ -7851,7 +7897,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
             </rule>
             <rule>
                 <pattern>
-                    <token inflected="yes" regexp="yes" skip="1">(schnell|langsam)<exception scope="next" postag=".*ART.*" postag_regexp="yes"></exception></token>
+                    <token inflected="yes" regexp="yes" skip="1">(schnell|langsam)<exception scope="next" postag=".*ART.*" postag_regexp="yes"/></token>
                     <token regexp="yes">[0-9]+</token>
                     <marker>
                         <token skip="-1">Kilometer<exception scope="next" regexp="yes">(,|pro|durch|je|in)</exception></token>
@@ -7866,7 +7912,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">[0-9]+<exception scope="previous" postag=".*ART.*" postag_regexp="yes"></exception></token>
+                    <token regexp="yes">[0-9]+<exception scope="previous" postag=".*ART.*" postag_regexp="yes"/></token>
                     <marker>
                         <token skip="2">Kilometer<exception scope="next" regexp="yes">(,|pro|durch|je|in)</exception></token>
                     </marker>
@@ -7879,7 +7925,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
             </rule>
             <rule>
                 <pattern>
-                    <token inflected="yes" regexp="yes" skip="1">(schnell|langsam)<exception scope="next" postag=".*ART.*" postag_regexp="yes"></exception></token>
+                    <token inflected="yes" regexp="yes" skip="1">(schnell|langsam)<exception scope="next" postag=".*ART.*" postag_regexp="yes"/></token>
                     <token postag="ZAL"></token>
                     <marker>
                         <token skip="-1">Kilometer<exception scope="next" regexp="yes">(,|pro|durch|je|in)</exception></token>
@@ -7894,7 +7940,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
             </rule>
             <rule>
                 <pattern>
-                    <token postag="ZAL"><exception scope="previous" postag=".*ART.*" postag_regexp="yes"></exception></token>
+                    <token postag="ZAL"><exception scope="previous" postag=".*ART.*" postag_regexp="yes"/></token>
                     <marker>
                         <token skip="2">Kilometer<exception scope="next" regexp="yes">(,|pro|durch|je|in)</exception></token>
                     </marker>
@@ -8048,7 +8094,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <rulegroup id="VOLTMETER" name="Umgangssprache: 'Voltmeter (Spannungsmessgerät)' etc.">
             <rule>
                 <pattern>
-                    <token postag="SENT_START" skip="-1"><exception scope="next" postag="ZAL"></exception><exception scope="next" regexp="yes">([0-9]+|pro|je|Einheit)</exception></token>
+                    <token postag="SENT_START" skip="-1"><exception scope="next" postag="ZAL"/><exception scope="next" regexp="yes">([0-9]+|pro|je|Einheit)</exception></token>
                     <marker>
                         <token regexp="yes">Voltmeter(s|n)?</token>
                     </marker>
@@ -8060,7 +8106,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
             </rule>
             <rule>
                 <pattern>
-                    <token postag="SENT_START" skip="-1"><exception scope="next" postag="ZAL"></exception><exception scope="next" regexp="yes">([0-9]+|pro|je|Einheit)</exception></token>
+                    <token postag="SENT_START" skip="-1"><exception scope="next" postag="ZAL"/><exception scope="next" regexp="yes">([0-9]+|pro|je|Einheit)</exception></token>
                     <marker>
                         <token regexp="yes">Amperemeter(s|n)?</token>
                     </marker>
@@ -8240,7 +8286,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                     <marker>
                         <token regexp="yes">[lL]ieb.*<exception>Liebe</exception></token>
                     </marker>
-                    <token postag="EIG:NOM:SIN:FEM:(.*)VOR" postag_regexp="yes"><exception postag="EIG:NOM:SIN:MAS:(.*)VOR" postag_regexp="yes"></exception></token>
+                    <token postag="EIG:NOM:SIN:FEM:(.*)VOR" postag_regexp="yes"><exception postag="EIG:NOM:SIN:MAS:(.*)VOR" postag_regexp="yes"/></token>
                     <token>,</token>
                 </pattern>
                 <message>Möglicher Tippfehler: Meinten Sie <suggestion>Liebe</suggestion>?</message>
@@ -8254,7 +8300,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                     <marker>
                         <token regexp="yes">[lL]ieb.*<exception>Lieber</exception></token>
                     </marker>
-                    <token postag="EIG:NOM:SIN:MAS:(.*)VOR" postag_regexp="yes"><exception postag="EIG:NOM:SIN:FEM:(.*)VOR" postag_regexp="yes"></exception></token>
+                    <token postag="EIG:NOM:SIN:MAS:(.*)VOR" postag_regexp="yes"><exception postag="EIG:NOM:SIN:FEM:(.*)VOR" postag_regexp="yes"/></token>
                     <token>,</token>
                 </pattern>
                 <message>Möglicher Tippfehler: Meinten Sie <suggestion>Lieber</suggestion>?</message>
@@ -8390,7 +8436,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                     <token>nehmend</token>
                     <token>auf</token>
                     <token regexp="yes">Ihr(en?)?</token>
-                    <token></token>
+                    <token/>
                 </pattern>
                 <message>Diese Wendung könnte als verstaubtes Papierdeutsch empfunden werden.</message>
                 <short>Floskel</short>
@@ -8581,8 +8627,8 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token inflected="yes" skip="2">erteilen<exception scope="next" postag="SENT_END"></exception></token>
-                    <token skip="1">eine<exception scope="next" postag="SENT_END"></exception></token>
+                    <token inflected="yes" skip="2">erteilen<exception scope="next" postag="SENT_END"/></token>
+                    <token skip="1">eine<exception scope="next" postag="SENT_END"/></token>
                     <marker>
                         <token>absage</token>
                     </marker>
@@ -8723,7 +8769,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <rulegroup id="SCHAU_SUBST" name="Groß-/Kleinschreibung: 'die schau (Schau) stehlen' etc.">
             <rule>
                 <pattern case_sensitive="yes">
-                    <token postag="VER:.+" postag_regexp="yes" skip="1"><exception scope="next" postag="SENT_END"></exception></token>
+                    <token postag="VER:.+" postag_regexp="yes" skip="1"><exception scope="next" postag="SENT_END"/></token>
                     <token regexp="yes">die|zur</token>
                     <marker>
                         <token>schau</token>
@@ -10255,7 +10301,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                 <message>&subanfang;<suggestion>Runden</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example type="correct">Ich werde schon über die <marker>Runden</marker> kommen.</example>
-                <example type="incorrect">Ich werde schon über die <marker>runden</marker> kommen.</example>
+                <example type="incorrect" correction="Runden">Ich werde schon über die <marker>runden</marker> kommen.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -10269,7 +10315,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                 <message>&subanfang;<suggestion>Runden</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example type="correct">Ich komme schon über die <marker>Runden</marker>.</example>
-                <example type="incorrect">Ich komme schon über die <marker>runden</marker>.</example>
+                <example type="incorrect" correction="Runden">Ich komme schon über die <marker>runden</marker>.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -10282,7 +10328,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                 <message>&inwend;'die Runde machen' wird <suggestion>Runde</suggestion> großgeschrieben.</message>
                 <short>&prgk;.</short>
                 <example type="correct">Das Gerücht wird die <marker>Runde</marker> machen.</example>
-                <example type="incorrect">Das Gerücht wird die <marker>runde</marker> machen.</example>
+                <example type="incorrect" correction="Runde">Das Gerücht wird die <marker>runde</marker> machen.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -10296,7 +10342,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                 <message>&inwend;'die Runde machen' wird <suggestion>Runde</suggestion> großgeschrieben.</message>
                 <short>&prgk;.</short>
                 <example type="correct">Das Gerücht machte die <marker>Runde</marker>.</example>
-                <example type="incorrect">Das Gerücht machte die <marker>runde</marker>.</example>
+                <example type="incorrect" correction="Runde">Das Gerücht machte die <marker>runde</marker>.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -10310,8 +10356,42 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                 <message>&subanfang;<suggestion>Runde</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example type="correct">Die nächste <marker>Runde</marker> geht auf mich.</example>
-                <example type="incorrect">Die nächste <marker>runde</marker> geht auf mich.</example>
-                <example type="incorrect">Die Verhandlungen gehen in die nächste <marker>runde</marker>.</example>
+                <example type="incorrect" correction="Runde">Die nächste <marker>runde</marker> geht auf mich.</example>
+                <example type="incorrect" correction="Runde">Die Verhandlungen gehen in die nächste <marker>runde</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="WUNDER_SUBST" name="Groß-/Kleinschreibung: 'kein wunder (Wunder)'">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[kK]?[eE]in</token>
+                    <marker>
+                        <token>wunder</token>
+                    </marker>
+                    <token><exception postag="SUB:NOM:SIN:MAS"/></token>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Das ist kein <marker>wunder</marker> Punkt, sondern eine klaffende Wunde.</example>
+                <example type="correct">Das ist ein <marker>wunder</marker> Punkt bei der Sache.</example>
+                <example type="correct">Kein <marker>Wunder</marker>.</example>
+                <example type="incorrect" correction="Wunder">Ist ja kein <marker>wunder</marker>.</example>
+                <example type="incorrect" correction="Wunder">Ein <marker>wunder</marker>!</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="LEHRE_SUBST" name="Groß-/Kleinschreibung: 'eine lehre (Lehre) erteilen' usw.">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="PRO:REF:DAT:.*" postag_regexp="yes"/>
+                    <token>eine</token>
+                    <marker>
+                        <token>lehre</token>
+                    </marker>
+                    <token postag="VER:.+" postag_regexp="yes"/>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Das wird mir eine <marker>Lehre</marker> sein.</example>
+                <example type="incorrect" correction="Lehre">Das wird mir eine <marker>lehre</marker> sein.</example>
             </rule>
         </rulegroup>
         <rulegroup id="TAUFE_SUBST" name="Groß-/Kleinschreibung: 'aus der taufe (Taufe) heben' etc.">
@@ -10980,10 +11060,11 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
             </rule>
         </rulegroup>
         <rule id="INS_SCHLEUDERN" name="Groß-/Kleinschreibung: 'ins schleudern (Schleudern) kommen' etc.">
+            <!-- TODO generalize -->
             <pattern case_sensitive="yes">
                 <token regexp="yes">[iI]ns</token>
                 <marker>
-                    <token regexp="yes">schleudern|schwanken|grübeln</token>
+                    <token regexp="yes">schleudern|schwanken|schwitzen|grübeln</token>
                 </marker>
             </pattern>
             <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"></match></suggestion>&subende;</message>
@@ -11990,7 +12071,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
             <!-- Das Adverb "montags" wird kleingeschrieben -->
             <rule>
                 <pattern case_sensitive="yes">
-                    <token postag="SENT_START" negate_pos="yes"><exception postag=".*GEN.*" postag_regexp="yes"></exception><exception regexp="yes">&anf;</exception></token>
+                    <token postag="SENT_START" negate_pos="yes"><exception postag=".*GEN.*" postag_regexp="yes"/><exception regexp="yes">&anf;</exception></token>
                     <marker>
                         <token regexp="yes">(&wochentage;)s</token>
                     </marker>
@@ -14498,7 +14579,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                     <marker>
                         <token regexp="yes">jugendlichen?</token>
                     </marker>
-                    <token><exception postag="SUB:.*" postag_regexp="yes"></exception></token>
+                    <token><exception postag="SUB:.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>&subanfang;<suggestion><match case_conversion="startupper" no="3"></match></suggestion> hier substantiviert gebraucht wird und deswegen großgeschrieben werden muss.</message>
                 <short>&prgk;.</short>
@@ -15735,7 +15816,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                     <token regexp="yes">[aA]uf</token>
                     <token>dem</token>
                     <marker>
-                        <token skip="1">laufenden<exception postag="SENT_END" scope="next"></exception></token>
+                        <token skip="1">laufenden<exception postag="SENT_END" scope="next"/></token>
                     </marker>
                     <token inflected="yes">halten</token>
                 </pattern>
@@ -15845,7 +15926,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                 <pattern case_sensitive="yes">
                     <token>zu</token>
                     <marker>
-                        <token skip="1">buche<exception postag="SENT_END" scope="next"></exception></token>
+                        <token skip="1">buche<exception postag="SENT_END" scope="next"/></token>
                     </marker>
                     <token inflected="yes">schlagen</token>
                 </pattern>
@@ -15856,7 +15937,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token inflected="yes" skip="4">schlagen<exception postag="SENT_END" scope="next"></exception></token>
+                    <token inflected="yes" skip="4">schlagen<exception postag="SENT_END" scope="next"/></token>
                     <token>zu</token>
                     <marker>
                         <token>buche</token>
@@ -15873,7 +15954,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                 <pattern case_sensitive="yes">
                     <token>zum</token>
                     <marker>
-                        <token skip="1">besten<exception postag="SENT_END" scope="next"></exception></token>
+                        <token skip="1">besten<exception postag="SENT_END" scope="next"/></token>
                     </marker>
                     <token inflected="yes">geben</token>
                 </pattern>
@@ -15884,7 +15965,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token inflected="yes" skip="4">geben<exception postag="SENT_END" scope="next"></exception></token>
+                    <token inflected="yes" skip="4">geben<exception postag="SENT_END" scope="next"/></token>
                     <token>zum</token>
                     <marker>
                         <token>besten</token>
@@ -15901,7 +15982,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                 <pattern case_sensitive="yes">
                     <token>zum</token>
                     <marker>
-                        <token skip="1">narren<exception postag="SENT_END" scope="next"></exception></token>
+                        <token skip="1">narren<exception postag="SENT_END" scope="next"/></token>
                     </marker>
                     <token inflected="yes">halten</token>
                 </pattern>
@@ -15912,7 +15993,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token inflected="yes" skip="2">halten<exception postag="SENT_END" scope="next"></exception></token>
+                    <token inflected="yes" skip="2">halten<exception postag="SENT_END" scope="next"/></token>
                     <token>zum</token>
                     <marker>
                         <token>narren</token>
@@ -16044,7 +16125,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                     <token regexp="yes">[zZ]um|[bB]eim|im</token>
                     <marker>
                         <token postag="VER:INF.*" postag_regexp="yes" regexp="yes">[a-zäöü].+
-                            <exception postag_regexp="yes" postag="ADJ:.*"></exception>
+                            <exception postag_regexp="yes" postag="ADJ:.*"/>
                             <exception regexp="yes" scope="current">öden|regen|rauen|apologetischen|wachen|achten|.*genetischen|einen|.*romantischen|.+haften|.*dramatischen|starren|sieben|.+werten</exception>
                         </token>
                     </marker>
@@ -16063,7 +16144,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                     <token>dem</token>
                     <marker>
                         <token postag="VER:INF.*" postag_regexp="yes" regexp="yes">[a-zäöü].+
-                            <exception postag_regexp="yes" postag="ADJ:.*"></exception>
+                            <exception postag_regexp="yes" postag="ADJ:.*"/>
                             <exception regexp="yes" scope="current">öden|regen|rauen|apologetischen|wachen|achten|.*genetischen|einen|.*romantischen|.+haften|.*dramatischen|starren|sieben|.+werten</exception>
                         </token>
                     </marker>
@@ -16817,12 +16898,12 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                     <token>,</token>
                     <marker>
                         <token regexp="yes" skip="2">dass|weil|obwohl|obgleich|sodass|nachdem
-                            <exception postag="UNKNOWN"></exception>
+                            <exception postag="UNKNOWN"/>
                             <exception scope="next" regexp="yes">,|–|\-|;|\:|&anf;|&klam;</exception>
                         </token>
                         <token postag=".*VER.*[123].*" postag_regexp="yes">
                             <exception postag="UNKNOWN" regexp="yes">[a-z]{1,}</exception>
-                            <exception postag_regexp="yes" postag=".*VER.*(INF|PA).*"></exception>
+                            <exception postag_regexp="yes" postag=".*VER.*(INF|PA).*"/>
                             <exception regexp="yes">ein.{0,2}</exception>
                         </token>
                     </marker>
@@ -16831,7 +16912,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                         <exception postag="UNKNOWN" regexp="yes">[a-z]{1,}</exception>
                         <exception scope="next" regexp="yes">,|–|\-|;|\:|&klam;|&anf;</exception>
                         <exception regexp="yes">,|–|\-|;|\:|&klam;|&anf;</exception>
-                        <exception scope="next" postag_regexp="yes" postag=".*VER.*(INF|EIZ|IMP|\:1|\:2|\:3).*"></exception>
+                        <exception scope="next" postag_regexp="yes" postag=".*VER.*(INF|EIZ|IMP|\:1|\:2|\:3).*"/>
                         <exception postag_regexp="yes" postag=".*VER.*" negate="yes" regexp="yes">ein.{0,2}</exception>
                     </token>
                     <token postag="SENT_END"></token>
@@ -16853,7 +16934,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <rulegroup id="PRAEP_GEN" name="Grammatik: Präposition mit Genitiv (abzüglich, wegen etc.)">
             <rule>
                 <pattern case_sensitive="yes">
-                    <token skip="-1" postag="SENT_START"><exception scope="next" postag="SUB.*:GEN:.*" postag_regexp="yes"></exception></token>
+                    <token skip="-1" postag="SENT_START"><exception scope="next" postag="SUB.*:GEN:.*" postag_regexp="yes"/></token>
                     <marker>
                         <token regexp="yes">wegen|(ab|zu)züglich|seitens</token><!-- TODO … liegt abseits das …-->
                         <token regexp="yes">(das|dem|den|die)(selben?)?|ein|(D|d|s|m)?eine(m|n)?|(eu|ih|Ih|unse)re(m|n)?|(jene|deine|diese)(m|n)?</token>
@@ -16939,7 +17020,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                         <token regexp="yes">der(selben)?|(D|d|s|m)?einer|(eu|ih|Ih|unse)rer|(jede|jene|diese|alle)r</token>
                         <token postag="(ADJ|SUB):DAT:(SIN|PLU):FEM.*" postag_regexp="yes"></token>
                     </marker>
-                    <token><exception postag="ADJ:AKK:.+" postag_regexp="yes"></exception><exception>nach</exception></token>
+                    <token><exception postag="ADJ:AKK:.+" postag_regexp="yes"/><exception>nach</exception></token>
                 </pattern>
                 <message>Die Präposition '\1' erfordert in der Regel den Akkusativ.</message>
                 <url>http://www.canoo.net/services/OnlineGrammar/Wort/Praeposition/Kasus/Akkusativ.html</url>
@@ -16959,7 +17040,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                         <token regexp="yes">dem(selben)?|(D|d|s|m)?einem|(eu|ih|Ih|unse)rem|(jede|jene|diese|alle)m</token>
                         <token postag="(ADJ|SUB):DAT:SIN:(MAS|NEU)" postag_regexp="yes"></token>
                     </marker>
-                    <token><exception postag="ADJ:AKK:.+" postag_regexp="yes"></exception><exception>nach</exception></token>
+                    <token><exception postag="ADJ:AKK:.+" postag_regexp="yes"/><exception>nach</exception></token>
                 </pattern>
                 <message>Die Präposition '\1' erfordert in der Regel den Akkusativ.</message>
                 <url>http://www.canoo.net/services/OnlineGrammar/Wort/Praeposition/Kasus/Akkusativ.html</url>
@@ -16975,9 +17056,9 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                     <token regexp="yes">betreffend|durch|für|gegen|kontra|ohne|via|wider</token>
                     <marker>
                         <token regexp="yes">den(selben)?|(D|d|s|m)?einen|(eu|ih|Ih|unse)ren|(jede|jene|diese|alle)n</token>
-                        <token postag="(ADJ|SUB):DAT:PLU:(MAS|NEU)" postag_regexp="yes"><exception postag="(ADJ|SUB):AKK:(SIN|PLU):(MAS|NEU)" postag_regexp="yes"></exception></token>
+                        <token postag="(ADJ|SUB):DAT:PLU:(MAS|NEU)" postag_regexp="yes"><exception postag="(ADJ|SUB):AKK:(SIN|PLU):(MAS|NEU)" postag_regexp="yes"/></token>
                     </marker>
-                    <token><exception postag="ADJ:AKK:.+" postag_regexp="yes"></exception><exception>nach</exception></token>
+                    <token><exception postag="ADJ:AKK:.+" postag_regexp="yes"/><exception>nach</exception></token>
                 </pattern>
                 <message>Die Präposition '\1' erfordert in der Regel den Akkusativ.</message>
                 <url>http://www.canoo.net/services/OnlineGrammar/Wort/Praeposition/Kasus/Akkusativ.html</url>
@@ -16994,7 +17075,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                     <token negate="yes">,</token>
                     <marker>
                         <token regexp="yes">der|die|das|des|dem|den|im</token>
-                        <token postag="ADJ:.*:SOL" postag_regexp="yes" regexp="yes">[a-zäüö].*<exception scope="current" postag="ADJ:.*:(DEF|IND)" postag_regexp="yes"></exception></token>
+                        <token postag="ADJ:.*:SOL" postag_regexp="yes" regexp="yes">[a-zäüö].*<exception scope="current" postag="ADJ:.*:(DEF|IND)" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>Nach einem Artikel steht in der Regel kein stark flektiertes Adjektiv (Beispiel: 'im heißem Ofen' statt 'im heißen Ofen').</message>
@@ -17009,11 +17090,11 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         </rulegroup>
         <rule id="SATZ_OHNE_PRAED" name="Grammatik: Satz ohne Prädikat" default="off">
             <pattern>
-                <token postag="SENT_START" skip="3"><exception scope="next" postag="VER:[123]:.*|UNKNOWN" postag_regexp="yes"></exception></token>
-                <token postag=".*:NOM:.*" postag_regexp="yes"><exception postag="VER:[123]:.*|UNKNOWN" postag_regexp="yes"></exception></token>
-                <token><exception postag="VER:[123]:.*|UNKNOWN" postag_regexp="yes"></exception></token>
-                <token><exception postag="VER:[123]:.*|UNKNOWN" postag_regexp="yes"></exception></token>
-                <token skip="-1"><exception postag="VER:[123]:.*|UNKNOWN" postag_regexp="yes"></exception><exception scope="next" postag="VER:[123]:.*" postag_regexp="yes"></exception></token>
+                <token postag="SENT_START" skip="3"><exception scope="next" postag="VER:[123]:.*|UNKNOWN" postag_regexp="yes"/></token>
+                <token postag=".*:NOM:.*" postag_regexp="yes"><exception postag="VER:[123]:.*|UNKNOWN" postag_regexp="yes"/></token>
+                <token><exception postag="VER:[123]:.*|UNKNOWN" postag_regexp="yes"/></token>
+                <token><exception postag="VER:[123]:.*|UNKNOWN" postag_regexp="yes"/></token>
+                <token skip="-1"><exception postag="VER:[123]:.*|UNKNOWN" postag_regexp="yes"/><exception scope="next" postag="VER:[123]:.*" postag_regexp="yes"/></token>
                 <token postag="SENT_END">.</token>
             </pattern>
             <message>In diesem Satz fehlt ein Prädikat.</message>
@@ -17027,7 +17108,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START" skip="5"><exception scope="next" regexp="yes">[Dd]u</exception></token>
                     <marker>
-                        <token postag="VER.*:2:SIN.*" postag_regexp="yes" regexp="yes" skip="-1">[a-zäüö].*<exception scope="current" postag="VER.*:2:SIN.*" postag_regexp="yes" negate_pos="yes"></exception><exception scope="next" regexp="yes">[Dd]u</exception></token>
+                        <token postag="VER.*:2:SIN.*" postag_regexp="yes" regexp="yes" skip="-1">[a-zäüö].*<exception scope="current" postag="VER.*:2:SIN.*" postag_regexp="yes" negate_pos="yes"/><exception scope="next" regexp="yes">[Dd]u</exception></token>
                     </marker>
                     <token postag="SENT_END"></token>
                 </pattern>
@@ -17043,7 +17124,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                     <token postag="SENT_START"></token>
                     <marker>
                         <token>Ich</token>
-                        <token postag="VER.*:[123]:.*" postag_regexp="yes" regexp="yes">[a-zäüö].*<exception postag="VER.*:1:SIN.*" postag_regexp="yes"></exception></token>
+                        <token postag="VER.*:[123]:.*" postag_regexp="yes" regexp="yes">[a-zäüö].*<exception postag="VER.*:1:SIN.*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>Möglicherweise fehlende grammatische Übereinstimmung zwischen Subjekt (\2) und Prädikat (\3) bezüglich Person oder Numerus (Einzahl, Mehrzahl - Beispiel: 'ich sind' statt 'ich bin').</message>
@@ -17060,7 +17141,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                     <token postag="SENT_START"></token>
                     <token skip="1"></token>
                     <marker>
-                        <token postag="VER.*:[123]:.*" postag_regexp="yes" regexp="yes">[a-zäüö].*<exception postag="VER.*:1:SIN.*" postag_regexp="yes"></exception></token>
+                        <token postag="VER.*:[123]:.*" postag_regexp="yes" regexp="yes">[a-zäüö].*<exception postag="VER.*:1:SIN.*" postag_regexp="yes"/></token>
                         <token skip="-1">ich<exception scope="next">und</exception></token>
                     </marker>
                     <token postag="SENT_END"></token>
@@ -17077,7 +17158,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                     <token postag="SENT_START"></token>
                     <marker>
                         <token>Du</token>
-                        <token postag="VER.*:[123]:.*" postag_regexp="yes" regexp="yes">[a-zäüö].*<exception postag="VER.*:2:SIN.*" postag_regexp="yes"></exception></token>
+                        <token postag="VER.*:[123]:.*" postag_regexp="yes" regexp="yes">[a-zäüö].*<exception postag="VER.*:2:SIN.*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>Möglicherweise fehlende grammatische Übereinstimmung zwischen Subjekt (\2) und Prädikat (\3) bezüglich Person oder Numerus (Einzahl, Mehrzahl - Beispiel: 'du seid' statt 'du bist').</message>
@@ -17096,7 +17177,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                     <token postag="SENT_START" skip="2"></token>
                     <token skip="1"></token>
                     <marker>
-                        <token postag="VER.*:[123]:.*" postag_regexp="yes" regexp="yes">[a-zäüö].*<exception postag="VER.*:2:SIN.*" postag_regexp="yes"></exception></token>
+                        <token postag="VER.*:[123]:.*" postag_regexp="yes" regexp="yes">[a-zäüö].*<exception postag="VER.*:2:SIN.*" postag_regexp="yes"/></token>
                         <token skip="-1">du<exception scope="next">und</exception></token>
                     </marker>
                     <token postag="SENT_END"></token>
@@ -17115,7 +17196,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                     <token postag="SENT_START"></token>
                     <marker>
                         <token>Er</token>
-                        <token postag="VER.*:[123]:.*" postag_regexp="yes" regexp="yes">[a-zäüö].*<exception postag="VER.*:3:SIN.*" postag_regexp="yes"></exception></token>
+                        <token postag="VER.*:[123]:.*" postag_regexp="yes" regexp="yes">[a-zäüö].*<exception postag="VER.*:3:SIN.*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>Möglicherweise fehlende grammatische Übereinstimmung zwischen Subjekt (\2) und Prädikat (\3) bezüglich Person oder Numerus (Einzahl, Mehrzahl - Beispiel: 'er sind' statt 'er ist').</message>
@@ -17134,7 +17215,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                     <token postag="SENT_START" skip="2"></token>
                     <token skip="1"></token>
                     <marker>
-                        <token postag="VER.*:[123]:.*" postag_regexp="yes" regexp="yes">[a-zäüö].*<exception postag="VER.*:3:SIN.*" postag_regexp="yes"></exception></token>
+                        <token postag="VER.*:[123]:.*" postag_regexp="yes" regexp="yes">[a-zäüö].*<exception postag="VER.*:3:SIN.*" postag_regexp="yes"/></token>
                         <token skip="-1">er<exception scope="next">und</exception></token>
                     </marker>
                     <token postag="SENT_END"></token>
@@ -17153,7 +17234,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                     <token postag="SENT_START"></token>
                     <marker>
                         <token>Wir</token>
-                        <token postag="VER.*:[123]:.*" postag_regexp="yes" regexp="yes">[a-zäüö].*<exception postag="VER.*:1:PLU.*" postag_regexp="yes"></exception></token>
+                        <token postag="VER.*:[123]:.*" postag_regexp="yes" regexp="yes">[a-zäüö].*<exception postag="VER.*:1:PLU.*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>Möglicherweise fehlende grammatische Übereinstimmung zwischen Subjekt (\2) und Prädikat (\3) bezüglich Person oder Numerus (Einzahl, Mehrzahl - Beispiel: 'wir ist' statt 'wir sind').</message>
@@ -17172,7 +17253,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                     <token postag="SENT_START" skip="2"></token>
                     <token skip="1"></token>
                     <marker>
-                        <token postag="VER.*:[123]:.*" postag_regexp="yes" regexp="yes">[a-zäüö].*<exception postag="VER.*:1:PLU.*" postag_regexp="yes"></exception></token>
+                        <token postag="VER.*:[123]:.*" postag_regexp="yes" regexp="yes">[a-zäüö].*<exception postag="VER.*:1:PLU.*" postag_regexp="yes"/></token>
                         <token skip="-1">wir</token>
                     </marker>
                 </pattern>
@@ -17189,7 +17270,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                 <pattern case_sensitive="yes">
                     <token skip="-1" regexp="yes">[Nn]achdem<exception scope="next" regexp="yes">,|–|\-|;|\:|&klam;|&anf;</exception></token>
                     <marker>
-                        <token postag_regexp="yes" postag="VER:.*:PRT:.*" regexp="yes">[a-zäüö].*<exception scope="current" postag_regexp="yes" postag=".*AUX.*"></exception></token>
+                        <token postag_regexp="yes" postag="VER:.*:PRT:.*" regexp="yes">[a-zäüö].*<exception scope="current" postag_regexp="yes" postag=".*AUX.*"/></token>
                     </marker>
                     <token>,</token>
                 </pattern>
@@ -17204,7 +17285,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                     <token>,</token>
                     <token skip="-1">nachdem<exception scope="next" regexp="yes">,|–|\-|;|\:|&klam;|&anf;</exception></token>
                     <marker>
-                        <token postag_regexp="yes" postag="VER:.*:PRT:.*" regexp="yes">[a-zäüö].*<exception scope="current" postag_regexp="yes" postag=".*AUX.*"></exception></token>
+                        <token postag_regexp="yes" postag="VER:.*:PRT:.*" regexp="yes">[a-zäüö].*<exception scope="current" postag_regexp="yes" postag=".*AUX.*"/></token>
                     </marker>
                     <token postag="SENT_END"></token>
                 </pattern>
@@ -17215,7 +17296,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token skip="-1" regexp="yes">[Nn]achdem<exception scope="next" regexp="yes">,|–|\-|;|\:|&klam;|&anf;</exception><exception postag_regexp="yes" postag=".*:PA.*|UNKNOWN" scope="next"></exception></token>
+                    <token skip="-1" regexp="yes">[Nn]achdem<exception scope="next" regexp="yes">,|–|\-|;|\:|&klam;|&anf;</exception><exception postag_regexp="yes" postag=".*:PA.*|UNKNOWN" scope="next"/></token>
                     <marker>
                         <token postag_regexp="yes" postag="VER:AUX:.*:PRT.*" regexp="yes">[a-zäüö].*</token>
                     </marker>
@@ -17230,7 +17311,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
             <rule>
                 <pattern case_sensitive="yes">
                     <token>,</token>
-                    <token skip="-1">nachdem<exception scope="next" regexp="yes">,|–|\-|;|\:|&klam;|&anf;</exception><exception postag_regexp="yes" postag=".*:PA.*|UNKNOWN" scope="next"></exception></token>
+                    <token skip="-1">nachdem<exception scope="next" regexp="yes">,|–|\-|;|\:|&klam;|&anf;</exception><exception postag_regexp="yes" postag=".*:PA.*|UNKNOWN" scope="next"/></token>
                     <marker>
                         <token postag_regexp="yes" postag="VER:AUX:.*:PRT.*" regexp="yes">[a-zäüö].*</token>
                     </marker>
@@ -17368,7 +17449,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                     <marker>
                         <token regexp="yes" skip="5">worden?<exception scope="next" regexp="yes">bzw|/|\-|—|–|\,|;|\:|und|oder|&klam;|&anf;</exception></token>
                     </marker>
-                    <token postag_regexp="yes" postag="PA2:PRD.*"><exception scope="current" postag_regexp="yes" postag=".*AUX.*"></exception></token>
+                    <token postag_regexp="yes" postag="PA2:PRD.*"><exception scope="current" postag_regexp="yes" postag=".*AUX.*"/></token>
                 </pattern>
                 <message>Meinten Sie <suggestion><match no="1" regexp_match="worde" regexp_replace="wurde"></match></suggestion> (Hilfsverb für das Präteritum) statt '\1' (Hilfsverb für das Perfekt)?</message>
                 <example type="correct">Das Essen <marker>wurde</marker> gegessen.</example>
@@ -17632,7 +17713,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                     <token regexp="yes">Vielzahl|Reihe|Fülle</token>
                     <token>von</token>
                     <marker>
-                        <token postag="SUB:DAT:SIN:.+" postag_regexp="yes"><exception postag="SUB:(.+):PLU:.+" postag_regexp="yes"></exception><exception regexp="yes">.*teilen|Übereinkommen</exception></token>
+                        <token postag="SUB:DAT:SIN:.+" postag_regexp="yes"><exception postag="SUB:(.+):PLU:.+" postag_regexp="yes"/><exception regexp="yes">.*teilen|Übereinkommen</exception></token>
                     </marker>
                 </pattern>
                 <message>Müsste dieses Wort im Plural stehen?</message>
@@ -17647,8 +17728,8 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                     <token>paar</token>
                     <marker>
                         <token postag="SUB:.+:SIN:.+" postag_regexp="yes">
-                            <exception postag=".+:ADJ" postag_regexp="yes"></exception>
-                            <exception postag="SUB:(.+):PLU:.+" postag_regexp="yes"></exception>
+                            <exception postag=".+:ADJ" postag_regexp="yes"/>
+                            <exception postag="SUB:(.+):PLU:.+" postag_regexp="yes"/>
                             <exception regexp="yes">Bier|Wasser|Glas|.*teilen|Übereinkommen|Mal|.*Prozent|Fuß|Paar|Mark|Reichsmark|Pfund|Dollar|Euro|Stück|Grad|Gramm|Kilo.*|Milli.+|Mann|Schuss</exception>
                         </token>
                     </marker>
@@ -17660,11 +17741,11 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
             </rule>
             <rule>
                 <pattern>
-                    <token postag="ZAL"><exception postag="ART:.*" postag_regexp="yes"></exception></token>
+                    <token postag="ZAL"><exception postag="ART:.*" postag_regexp="yes"/></token>
                     <marker>
                         <token postag="SUB:.+:SIN:.+" postag_regexp="yes">
-                            <exception postag=".+:ADJ" postag_regexp="yes"></exception>
-                            <exception postag="SUB:(.+):PLU:.+" postag_regexp="yes"></exception>
+                            <exception postag=".+:ADJ" postag_regexp="yes"/>
+                            <exception postag="SUB:(.+):PLU:.+" postag_regexp="yes"/>
                             <exception regexp="yes">Bier|Wasser|Glas|.*teilen|Übereinkommen|Mal|.*Prozent|Fuß|Paar|Mark|Reichsmark|Pfund|Dollar|Euro|Stück|Grad|Gramm|Kilo.*|Milli.+|Mann|Schuss|Uhr</exception>
                         </token>
                     </marker>
@@ -17679,9 +17760,9 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                     <token regexp="yes">(viele|etliche|einige|mehrere|zahlreiche)n?</token>
                     <marker>
                         <token postag="SUB:.+:SIN:.+" postag_regexp="yes">
-                            <exception postag="SUB:AKK:SIN:MAS"></exception>
-                            <exception postag=".+:ADJ" postag_regexp="yes"></exception>
-                            <exception postag="SUB:(.+):PLU:.+" postag_regexp="yes"></exception>
+                            <exception postag="SUB:AKK:SIN:MAS"/>
+                            <exception postag=".+:ADJ" postag_regexp="yes"/>
+                            <exception postag="SUB:(.+):PLU:.+" postag_regexp="yes"/>
                             <exception regexp="yes">Bier|Wasser|Glas|.*teilen|Übereinkommen|Mal|.*Prozent|Paar|Stück|Fuß|Grad|Gramm|Kilo.*|Milli.+|Mark|Reichsmark|Zeit|Irritation|Pfund</exception>
                         </token>
                     </marker>
@@ -17893,6 +17974,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         </rulegroup>
         <rule id="WART_NICHT_MEHR_GESEHEN" name="Redewendung: 'wart (ward) nicht mehr gesehen'">
             <pattern>
+                <token negate="yes">ihr</token>
                 <marker>
                     <token>wart</token>
                 </marker>
@@ -17903,7 +17985,8 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
             <message>Meinten Sie <suggestion>ward</suggestion>? (feste Redewendung)</message>
             <short>Möglicherweise falsch verwendete Redewendung</short>
             <example type="correct">Er <marker>ward</marker> nicht mehr gesehen.</example>
-            <example type="incorrect">Er <marker>wart</marker> nicht mehr gesehen.</example>
+            <example type="correct">Ihr <marker>wart</marker> nicht mehr gesehen worden.</example>
+            <example type="incorrect" correction="ward">Er <marker>wart</marker> nicht mehr gesehen.</example>
         </rule>
         <rule id="EIERLEGENDE_VOLLMILCHSAU" name="Redewendung: 'eierlegende Vollmilchsau (Wollmilchsau)'">
             <pattern>
@@ -17915,8 +17998,8 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
             <message>Meinten Sie <suggestion>Wollmilchsau</suggestion>? (feste Redewendung)</message>
             <short>Möglicherweise falsch verwendete Redewendung</short>
             <example type="correct">Er erfindet eine eierlegende <marker>Wollmilchsau</marker>.</example>
-            <example type="incorrect">Er erfindet eine eierlegende <marker>Vollmilchsau</marker>.</example>
-            <example type="incorrect">Die Legende der eierlegenden <marker>Vollmilchsau</marker>.</example>
+            <example type="incorrect" correction="Wollmilchsau">Er erfindet eine eierlegende <marker>Vollmilchsau</marker>.</example>
+            <example type="incorrect" correction="Wollmilchsau">Die Legende der eierlegenden <marker>Vollmilchsau</marker>.</example>
         </rule>
         <rulegroup id="STREU_VOM_WEIZEN" name="Redewendung: 'Streu (Spreu) vom Weizen trennen'">
             <rule>
@@ -18258,7 +18341,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                     <token regexp="yes">im|zum|beim|am</token>
                     <marker>
                         <token regexp="yes">[0-9]{1,2}</token>
-                        <token postag="SUB:DAT:SIN:(MAS|NEU)" postag_regexp="yes"><exception postag="SUB:.+:PLU:.+" postag_regexp="yes"></exception></token>
+                        <token postag="SUB:DAT:SIN:(MAS|NEU)" postag_regexp="yes"><exception postag="SUB:.+:PLU:.+" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>Meinten Sie <suggestion>\2. \3</suggestion>? Möglicherweise haben Sie einen Punkt nach '\2' vergessen, oder '\3' müsste im Plural stehen.</message>
@@ -18274,7 +18357,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                     <token>den</token>
                     <marker>
                         <token regexp="yes">[0-9]{1,2}</token>
-                        <token postag="SUB:AKK:SIN:(MAS|NEU)" postag_regexp="yes"><exception postag="SUB:.+:PLU:.+" postag_regexp="yes"></exception></token>
+                        <token postag="SUB:AKK:SIN:(MAS|NEU)" postag_regexp="yes"><exception postag="SUB:.+:PLU:.+" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>Meinten Sie <suggestion>\3. \4</suggestion>? Möglicherweise haben Sie einen Punkt nach '\3' vergessen, oder '\4' müsste im Plural stehen.</message>
@@ -19007,6 +19090,19 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                 <short>&gla;</short>
                 <example type="correct">Das ist m.&nbsp;E. richtig.</example>
                 <example type="incorrect" correction="m.&nbsp;E.">Das ist <marker>m.E.</marker> schlecht.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">B|M</token>
+                    <token spacebefore="no">.</token>
+                    <token>A<exception scope="previous">&nbsp;|&nnbsp;|&thinsp;</exception></token>
+                    <token spacebefore="no">.</token>
+                </pattern>
+                <message>&glalong;<suggestion>\1\2&nbsp;\3\4</suggestion>&glalongende;</message>
+                <url>http://de.wikipedia.org/wiki/Abk%C3%BCrzung#Abk.C3.BCrzungen_mit_Punkt_und_Leerzeichen</url>
+                <short>&gla;</short>
+                <example type="correct">Hans Müller, M.&nbsp;A.</example>
+                <example type="incorrect" correction="M.&nbsp;A.">Hans Müller, <marker>M.A.</marker></example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
