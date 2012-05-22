@@ -2123,22 +2123,6 @@ $Id: grammar.xml,v 1.92 2012-05-05 20:53:53 yakovru Exp $
         <example type="incorrect">Иван <marker>Иваныч</marker>.</example>
     </rule>
 </rulegroup>
-<rulegroup default="off" id="Unknown_words" name="Неизвестные слова (проверка орфографии)">
-    <rule>
-        <pattern>
-            <marker>
-                <token postag="UNKNOWN" regexp="yes">[а-я]([а-я].*)</token>
-            </marker>
-            <token></token>
-        </pattern>
-        <message>Слова нет в словаре LanguageTool.</message>
-        <url>http://www.aot.ru/demo/morph.html</url>
-        <short>Нет в словаре.</short>
-        <example type="correct">Проверка текста.</example>
-        <example type="correct">Проверка текста и т.п.</example>
-        <example type="incorrect">Это только <marker>теест</marker> проверка.</example>
-    </rule>
-</rulegroup>
 
 <rulegroup default="on" id="Prep_Soglasno" name="Предлог “согласно”">
     <rule>
@@ -2265,6 +2249,26 @@ $Id: grammar.xml,v 1.92 2012-05-05 20:53:53 yakovru Exp $
         <short>4 согласных подряд.</short>
         <example type="correct">Гимнаст активно тренировался.</example>
         <example type="incorrect"><marker>Гимнаст тренировался</marker>.</example>
+    </rule>
+</rulegroup>
+</category>
+
+<category name="Опечатка">
+
+<rulegroup default="off" id="Unknown_words" name="Поиск неизвестных слов">
+    <rule>
+        <pattern>
+            <marker>
+                <token postag="UNKNOWN" regexp="yes">[а-я]([а-я].*)</token>
+            </marker>
+            <token></token>
+        </pattern>
+        <message>Слова нет в словаре LanguageTool.</message>
+        <url>http://www.aot.ru/demo/morph.html</url>
+        <short>Нет в словаре.</short>
+        <example type="correct">Проверка текста.</example>
+        <example type="correct">Проверка текста и т.п.</example>
+        <example type="incorrect">Это только <marker>теест</marker> проверка.</example>
     </rule>
 </rulegroup>
 </category>
