@@ -223,6 +223,7 @@ private JCheckBox serverSettingsCheckbox;
     cons.fill = GridBagConstraints.NONE;
     cons.weightx = 0.0f;
     if (!insideOOo) {
+    	
       serverCheckbox = new JCheckBox(StringTools.getLabel(messages
           .getString("guiRunOnPort")));
       serverCheckbox.setMnemonic(StringTools.getMnemonic(messages
@@ -231,6 +232,8 @@ private JCheckBox serverSettingsCheckbox;
       portPanel.add(serverCheckbox, cons);
       serverPortField = new JTextField(Integer.toString(serverPort));
       serverPortField.setEnabled(serverCheckbox.isSelected());
+      serverSettingsCheckbox = new JCheckBox(StringTools.getLabel(messages
+    		  .getString("useGUIConfig")));
       // TODO: without this the box is just a few pixels small, but why??:
       serverPortField.setMinimumSize(new Dimension(100, 25));
       cons.gridx = 1;
@@ -238,16 +241,16 @@ private JCheckBox serverSettingsCheckbox;
         @Override
         public void actionPerformed(@SuppressWarnings("unused") ActionEvent e) {
           serverPortField.setEnabled(serverCheckbox.isSelected());
+          serverSettingsCheckbox.setEnabled(serverCheckbox.isSelected());
         }
       });
       portPanel.add(serverPortField, cons);
       cons.gridx = 0;
-      cons.gridy = 10;
-      serverSettingsCheckbox = new JCheckBox(StringTools.getLabel(messages
-    		  .getString("useGUIConfig")));
+      cons.gridy = 10;      
       serverSettingsCheckbox.setMnemonic(StringTools.getMnemonic(messages
     		  .getString("useGUIConfig")));
       serverSettingsCheckbox.setSelected(useGUIConfig);
+      serverSettingsCheckbox.setEnabled(serverMode);
       portPanel.add(serverSettingsCheckbox, cons);
     }
 
