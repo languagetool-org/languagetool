@@ -89,9 +89,30 @@ public class HTTPServerTest extends TestCase {
     assertTrue(check(Language.ENGLISH, Language.GERMAN, "We will berate you").contains("BERATE"));
     assertTrue(check(Language.GERMAN, Language.ENGLISH, "Man sollte ihn nicht so beraten.").contains("BERATE"));
     assertTrue(check(Language.POLISH, Language.ENGLISH, "To jest frywolne.").contains("FRIVOLOUS"));
+      
     //tests for bitext
     assertTrue(bitextCheck(Language.POLISH, Language.ENGLISH, "This is frivolous.", "To jest frywolne.").contains("FRIVOLOUS"));
     assertTrue(!bitextCheck(Language.POLISH, Language.ENGLISH, "This is something else.", "To jest frywolne.").contains("FRIVOLOUS"));
+    
+    //test for no changed if no options set
+    String[] nothing = new String[0];
+    assertEquals(check(Language.ENGLISH, Language.GERMAN, "We will berate you"), 
+    		checkWithOptions(Language.ENGLISH, Language.GERMAN, "We will berate you", nothing, nothing));
+    
+    //disabling
+    String[] disableAvsAn = new String[1];
+    disableAvsAn[0] = "EN_A_VS_AN";
+    assertTrue(!checkWithOptions(
+    		Language.ENGLISH, Language.GERMAN, "This is an test", nothing, disableAvsAn).contains("an test"));
+
+    //enabling
+    assertTrue(checkWithOptions(
+    		Language.ENGLISH, Language.GERMAN, "This is an test", disableAvsAn, nothing).contains("an test"));
+    //should also mean disabling all other rules...
+    assertTrue(!checkWithOptions(
+    		Language.ENGLISH, Language.GERMAN, "We will berate you", disableAvsAn, nothing).contains("BERATE"));
+    
+    
   }
 
   public void testAccessDenied() throws Exception {
@@ -138,6 +159,28 @@ public class HTTPServerTest extends TestCase {
     return result;
   }
   
+  private String checkWithOptions(Language lang, Language motherTongue, String text, 
+		  String[] enabledRules, String[] disabledRules) throws IOException {
+	  String urlOptions = "/?language=" + lang.getShortName();
+	    urlOptions += "&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like polish, romanian, etc
+	    if (null != motherTongue) {
+	    	urlOptions += "&motherTongue=" + motherTongue.getShortName();
+	    }
+	    	    
+	    if (disabledRules.length > 0) { 	    
+	    	urlOptions += "&disabled=" + join(disabledRules, ",");
+	    }
+	    if (enabledRules.length > 0) {
+	    	urlOptions += "&enabled=" + join(enabledRules, ",");
+	    }
+	    
+	    final URL url = new URL("http://localhost:" + HTTPServer.DEFAULT_PORT + urlOptions);
+	    final InputStream stream = (InputStream)url.getContent();
+	    final String result = StringTools.streamToString(stream, "UTF-8");
+	    return result;
+	  
+  }
+  
   /**
    * Same as {@link #check(Language, String)} but using HTTP POST method instead of GET
    */
@@ -156,5 +199,14 @@ public class HTTPServerTest extends TestCase {
       wr.close();
     }
   }
+  
+  private static String join(String[] s, String delimiter) {
+	    if (s == null || s.length == 0 ) return "";
+	    StringBuilder builder = new StringBuilder(s[0]);
+	    for (int i = 1; i < s.length; i++) {
+	        builder.append(delimiter).append(s);
+	    }
+	    return builder.toString();
+	}
   
 }

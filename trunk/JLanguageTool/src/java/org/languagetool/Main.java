@@ -91,34 +91,13 @@ class Main {
     lt = new JLanguageTool(language, motherTongue);
     lt.activateDefaultPatternRules();
     lt.activateDefaultFalseFriendRules();
-    selectRules(lt, disabledRules, enabledRules);
+    Tools.selectRules(lt, disabledRules, enabledRules);
   }
 
   JLanguageTool getJLanguageTool() {
     return lt;
   }
-
-  private void selectRules(final JLanguageTool lt, final String[] disabledRules, final String[] enabledRules) {
-    // disable rules that are disabled explicitly:
-    for (final String disabledRule : disabledRules) {
-      lt.disableRule(disabledRule);
-    }
-    // disable all rules except those enabled explicitly, if any:
-    if (enabledRules.length > 0) {
-      final Set<String> enabledRuleIDs = new HashSet<String>(Arrays
-          .asList(enabledRules));
-      for (String ruleName : enabledRuleIDs) {
-        lt.enableDefaultOffRule(ruleName);
-        lt.enableRule(ruleName);
-      }
-      for (Rule rule : lt.getAllRules()) {
-        if (!enabledRuleIDs.contains(rule.getId())) {
-          lt.disableRule(rule.getId());
-        }
-      }
-    }
-  }
-
+  
   private void setListUnknownWords(final boolean listUnknownWords) {
     lt.setListUnknownWords(listUnknownWords);
   }
@@ -139,8 +118,8 @@ class Main {
     lt = new JLanguageTool(target, null);
     srcLt = new JLanguageTool(sourceLang);
     lt.activateDefaultPatternRules();
-    selectRules(lt, disabledRules, enabledRules);
-    selectRules(srcLt, disabledRules, enabledRules);
+    Tools.selectRules(lt, disabledRules, enabledRules);
+    Tools.selectRules(srcLt, disabledRules, enabledRules);
     bRules = Tools.getBitextRules(sourceLang, lt.getLanguage());
 
     List<BitextRule> bRuleList = new ArrayList<BitextRule>(bRules);
@@ -444,7 +423,7 @@ class Main {
       lt = new JLanguageTool(language, motherTongue);
       lt.activateDefaultPatternRules();
       lt.activateDefaultFalseFriendRules();
-      selectRules(lt, disabledRules, enabledRules);
+      Tools.selectRules(lt, disabledRules, enabledRules);
       if (verbose) {
         lt.setOutput(System.err);
       }

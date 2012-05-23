@@ -31,6 +31,11 @@ class LanguageToolHttpHandler implements HttpHandler {
   private final boolean internalServer;
   
   private final Configuration config;
+  
+  private boolean useQuerySettings;
+  
+  private String[] enabledRules = new String[0];
+  private String[] disabledRules = new String[0];
  
   LanguageToolHttpHandler(boolean verbose, Set<String> allowedIps,
 		  boolean internal) throws IOException {
@@ -127,9 +132,20 @@ class LanguageToolHttpHandler implements HttpHandler {
       motherTongue = Language.getLanguageForShortName(motherTongueParam);
     }
 
-    // TODO: how to take options from the client?
-    // TODO: customize LT here after reading client options
-
+    final String enabledParam = parameters.get("enabled");
+    enabledRules = new String[0];
+    if (null != enabledParam) {
+    	enabledRules = enabledParam.split(",");
+    }
+    
+    final String disabledParam = parameters.get("disabled");
+    disabledRules = new String[0];
+    if (null != disabledParam) {
+    	disabledRules = disabledParam.split(",");
+    }
+    
+    useQuerySettings = enabledRules.length > 0 || disabledRules.length > 0; 
+    
     final List<RuleMatch> matches;
     final String sourceText = parameters.get("srctext");
     if (sourceText == null) {
@@ -200,9 +216,14 @@ class LanguageToolHttpHandler implements HttpHandler {
     final JLanguageTool newLanguageTool = new JLanguageTool(lang, motherTongue);
     newLanguageTool.activateDefaultPatternRules();
     newLanguageTool.activateDefaultFalseFriendRules();
-    if (internalServer && config.getUseGUIConfig()) { // use the GUI config values
+    if (!useQuerySettings && internalServer && config.getUseGUIConfig()) { // use the GUI config values
     	configureGUI(lang, newLanguageTool);
     }
+    
+    if (useQuerySettings) {
+    	Tools.selectRules(newLanguageTool, disabledRules, enabledRules);
+    }
+    
     return newLanguageTool;
   }
       
