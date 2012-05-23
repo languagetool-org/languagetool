@@ -25,6 +25,37 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 </header>
 <body>
 <languagerules>
+
+<languagerule languagerulename="Greek">
+<!--κ.λπ. - και λοιπά-->
+<rule break="no">
+<beforebreak>\bκ\.λπ\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<!--π.χ. - παραδείγματος χάριν-->
+<rule break="no">
+<beforebreak>\bπ\.χ\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<!--months-->
+<rule break="no">
+<beforebreak>\b(Ιαν|Φεβ|Μαρ|Απρ|Μαϊ|Ιουν|Ιουλ|Αυγ|Σεπ|Οκτ|Νοε|Δεκ)\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="yes">
+<beforebreak>[\.!;…][\u00BB\u2019\u201D\u203A"'\p{Pe}\u0002]*\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="yes">
+<beforebreak>[\.!;…]['"\u00BB\u2019\u201D\u203A\p{Pe}\u0002]*</beforebreak>
+<afterbreak>\p{Lu}[^\p{Lu}]</afterbreak>
+</rule>
+<rule break="yes">
+<beforebreak>\s\p{L}[\.!;…]\s</beforebreak>
+<afterbreak>\p{Lu}\p{Ll}</afterbreak>
+</rule>
+</languagerule>
+
 <languagerule languagerulename="Polish">
 <rule break="no">
 <beforebreak>\badw\.\s</beforebreak>
@@ -5017,6 +5048,7 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <maprules>
 <languagemap languagepattern="[a-z]{2}_one" languagerulename="ByLineBreak"></languagemap>
 <languagemap languagepattern="[a-z]{2}_two" languagerulename="ByTwoLineBreaks"></languagemap>
+<languagemap languagepattern="(EL|el).*" languagerulename="Greek"></languagemap>
 <languagemap languagepattern="(PL|pl).*" languagerulename="Polish"></languagemap>
 <languagemap languagepattern="(EN|en).*" languagerulename="English"></languagemap>
 <languagemap languagepattern="(NL|nl).*" languagerulename="Dutch"></languagemap>

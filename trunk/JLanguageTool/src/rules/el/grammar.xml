@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../print.xsl" ?>
+<?xml-stylesheet type="text/css" href="../rules.css" 
+title="Easy editing stylesheet" ?>
+
+<rules lang="el" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<category name="Agreement">
+		<rule id="HAVE_INF" name="έχω_απαρέμφατο">
+			<pattern>
+				<token inflected="yes">έχω</token>
+				<marker>
+					<token postag="V"/>
+				</marker>
+			</pattern>
+			<message>Πιθανόν να χρειάζεται να χρησιμοποιήσετε τον απαρεμφατικό τύπο <suggestion><match no="2" postag="INF"/></suggestion></message>
+			<short>Πρόβλημα συμφωνίας</short>
+			<example type="incorrect">Είχα <marker>πάω</marker>.</example>
+			<example type="correct">Είχα πάει.</example>
+		</rule>
+	</category>
+	<category name="Orthography">
+		<rule id="GREEK_WHERE-" name="πού;">
+			<pattern>
+				<token postag="SENT_START" />
+				<marker>
+					<token skip="-1">που</token>
+				</marker>
+				<token>;</token>
+			</pattern>
+			<message>Στις ερωτηματικές προτάσεις το <suggestion>πού</suggestion> τονίζεται</message>
+			<short>Πρόβλημα ορθογραφίας</short>
+			<example type="incorrect"><marker>Που</marker> πας;</example>
+			<example type="correct">Πού πας;</example>
+		</rule>
+		<rule id="GREEK_HOW-" name="πώς;">
+			<pattern>
+				<token postag="SENT_START" />
+				<marker>
+					<token skip="-1">πως</token>
+				</marker>
+				<token>;</token>
+			</pattern>
+			<message>Στις ερωτηματικές προτάσεις το <suggestion>πώς</suggestion> τονίζεται</message>
+			<short>Πρόβλημα ορθογραφίας</short>
+			<example type="incorrect"><marker>Πως</marker> είσαι;</example>
+			<example type="correct">Πώς είσαι;</example>
+		</rule>
+		<rule id="GREEK_NUMERAL_ONE_WORD" name="αριθμητικά">
+			<pattern>
+				<token>δέκα</token>
+				<token regexp="yes">τρία|τριών|τέσσερα|τέσσερεις|τεσσάρων|πέντε|έξι|επτά|εφτά|οχτώ|οκτώ|εννιά|εννέα</token>
+			</pattern>
+			<message>Τα αριθμητικά από το 13 μέχρι το 19 γράφονται με μια λέξη <suggestion>δεκα\2</suggestion></message>
+			<short>Πρόβλημα ορθογραφίας</short>
+			<example type="incorrect"><marker>Δέκα τρία</marker>.</example>
+			<example type="correct">Δέκατρία.</example>
+		</rule>
+		<rule id="GREEK_COMMON_ERRORS_1" name="πώς και πώς">
+			<pattern>
+				<token>πως</token>
+				<token>και</token>
+				<token>πως</token>
+			</pattern>
+			<message><suggestion>πώς και πώς</suggestion></message>
+			<short>Πρόβλημα ορθογραφίας</short>
+			<example type="incorrect"><marker>Πως και πως</marker>.</example>
+			<example type="correct">Πώς και πώς.</example>
+		</rule>
+		<rule id="GREEK_COMMON_ERRORS_2" name="πού και πού">
+			<pattern>
+				<token>που</token>
+				<token>και</token>
+				<token>που</token>
+			</pattern>
+			<message><suggestion>πού και πού</suggestion></message>
+			<short>Πρόβλημα ορθογραφίας</short>
+			<example type="incorrect"><marker>Που και που</marker>.</example>
+			<example type="correct">Πού και πού.</example>
+		</rule>
+		<rule id="GREEK_COMMON_ERRORS_3" name="αραιά και πού">
+			<pattern>
+				<token>αραιά</token>
+				<token>και</token>
+				<token>που</token>
+			</pattern>
+			<message><suggestion>αραιά και πού</suggestion></message>
+			<short>Πρόβλημα ορθογραφίας</short>
+			<example type="incorrect"><marker>Αραιά και που</marker>.</example>
+			<example type="correct">Αραιά και πού.</example>
+		</rule>
+		<rule id="GREEK_COMMON_ERRORS_4" name="πού κι ως πού">
+			<pattern>
+				<token>που</token>
+				<token>κι</token>
+				<token>ως</token>
+				<token>που</token>
+			</pattern>
+			<message><suggestion>πού κι ως πού</suggestion></message>
+			<short>Πρόβλημα ορθογραφίας</short>
+			<example type="incorrect">Από <marker>που κι ως που</marker>.</example>
+			<example type="correct">Από πού κι ως πού.</example>
+		</rule>
+	</category>
+</rules>
