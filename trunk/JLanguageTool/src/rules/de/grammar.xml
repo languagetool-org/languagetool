@@ -4592,7 +4592,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
         <rule id="BERTOLT_BRECHT" name="Eigenname: 'Berthold (Bertolt) Brecht'">
             <pattern case_sensitive="yes">
                 <marker>
-                    <token>Berthold</token>
+                    <token regexp="yes">Berth?old</token>
                 </marker>
                 <token>Brecht</token>
             </pattern>
@@ -4600,6 +4600,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
             <short>&eigenname;</short>
             <example type="correct"><marker>Bertolt</marker> Brecht</example>
             <example type="incorrect" correction="Bertolt"><marker>Berthold</marker> Brecht</example>
+            <example type="incorrect" correction="Bertolt"><marker>Bertold</marker> Brecht</example>
         </rule>
         <rule id="IMMANUEL_KANT" name="Eigenname: 'Emanuel (Immanuel) Kant'">
             <pattern case_sensitive="yes">
