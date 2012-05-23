@@ -11,7 +11,6 @@ import org.languagetool.tools.StringTools;
 import org.languagetool.tools.Tools;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
@@ -31,8 +30,6 @@ class LanguageToolHttpHandler implements HttpHandler {
   private final boolean verbose;
   private final boolean internalServer;
   
-  private static final String CONFIG_FILE = ".languagetool.cfg";
-  
   private final Configuration config;
  
   LanguageToolHttpHandler(boolean verbose, Set<String> allowedIps,
@@ -40,7 +37,7 @@ class LanguageToolHttpHandler implements HttpHandler {
     this.verbose = verbose;
     this.allowedIps = allowedIps;
     this.internalServer = internal;
-    config = new Configuration(new File(System.getProperty("user.home")), CONFIG_FILE);
+    config = new Configuration();
   }
 
   @Override

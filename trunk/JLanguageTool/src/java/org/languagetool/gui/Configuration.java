@@ -58,6 +58,15 @@ public class Configuration {
   private boolean guiConfig;
   private int serverPort = HTTPServer.DEFAULT_PORT;
 
+  /**
+   * Uses the configuration file from the default location.
+   *  
+   * @throws IOException
+   */
+  public Configuration() throws IOException {
+	  this(new File(System.getProperty("user.home")), CONFIG_FILE);
+  }
+  
   public Configuration(final File baseDir, final String filename)
       throws IOException {
     if (!baseDir.isDirectory()) {
