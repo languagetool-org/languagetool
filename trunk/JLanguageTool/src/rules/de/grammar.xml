@@ -7489,7 +7489,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
             </pattern>
             <message>\1 ist umgangssprachlich. Vorschlag: <suggestion>geheißen</suggestion></message>
             <example type="correct">Sie hat früher Müller <marker>geheißen</marker>.</example>
-            <example type="incorrect">Sie hat früher Müller <marker>gehießen</marker>.</example>
+            <example type="incorrect" correction="geheißen">Sie hat früher Müller <marker>gehießen</marker>.</example>
         </rule>
         <rulegroup id="LILANES" name="Umgangssprache: 'lilanes (lila) Shirt'">
             <rule>
@@ -7507,13 +7507,24 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                 <example type="correct">Gregor <marker>Pinke</marker></example>
             </rule>
         </rulegroup>
+        <rulegroup id="MEIN_INTERNET" name="Umgangssprache: 'mein Internet (meine Internetverbindung)'">
+            <rule>
+                <pattern>
+                    <token regexp="yes">&meindein;</token>
+                    <token>Internet</token>
+                </pattern>
+                <message>Diese Wendung ist möglicherweise umgangssprachlich. Alternativvorschläge: <suggestion>\1e \2verbindung</suggestion>, <suggestion>\1 \2zugang</suggestion>.</message>
+                <example type="incorrect" correction="Meine Internetverbindung|Mein Internetzugang"><marker>Mein Internet</marker> geht nicht.</example>
+                <example type="correct"><marker>Meine Internetverbindung</marker> ist gestört.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="MATHE" name="Umgangssprache: 'Mathe (Mathematik) etc.'">
             <rule>
                 <pattern>
                     <token>Mathe</token>
                 </pattern>
                 <message>'Mathe' ist umgangssprachlich. Vorschlag: <suggestion>Mathematik</suggestion>.</message>
-                <example type="incorrect">Ich liebe <marker>Mathe</marker>.</example>
+                <example type="incorrect" correction="Mathematik">Ich liebe <marker>Mathe</marker>.</example>
                 <example type="correct">Ich liebe <marker>Mathematik</marker>.</example>
             </rule>
             <rule>
