@@ -112,6 +112,32 @@ public class HTTPServerTest extends TestCase {
     assertTrue(!checkWithOptions(
     		Language.ENGLISH, Language.GERMAN, "We will berate you", disableAvsAn, nothing).contains("BERATE"));
     
+    //test if two rules get enabled as well
+    
+    String[] twoRules = new String[2];
+    twoRules[0] ="EN_A_VS_AN";
+    twoRules[1] = "BERATE";
+    
+    String resultEn = checkWithOptions(
+    		Language.ENGLISH, Language.GERMAN, "This is an test. We will berate you.", twoRules, nothing);
+    
+    assertTrue(resultEn.contains("EN_A_VS_AN"));
+    assertTrue(resultEn.contains("BERATE"));
+
+    //check two disabled options
+    resultEn = checkWithOptions(
+    		Language.ENGLISH, Language.GERMAN, "This is an test. We will berate you.", nothing, twoRules);
+    
+    assertTrue(!resultEn.contains("EN_A_VS_AN"));
+    assertTrue(!resultEn.contains("BERATE"));
+    
+    //two disabled, one enabled, so enabled wins
+    
+    resultEn = checkWithOptions(
+    		Language.ENGLISH, Language.GERMAN, "This is an test. We will berate you.", disableAvsAn, twoRules);
+
+    assertTrue(resultEn.contains("EN_A_VS_AN"));
+    assertTrue(!resultEn.contains("BERATE"));
     
   }
 
@@ -204,7 +230,7 @@ public class HTTPServerTest extends TestCase {
 	    if (s == null || s.length == 0 ) return "";
 	    StringBuilder builder = new StringBuilder(s[0]);
 	    for (int i = 1; i < s.length; i++) {
-	        builder.append(delimiter).append(s);
+	        builder.append(delimiter).append(s[i]);
 	    }
 	    return builder.toString();
 	}
