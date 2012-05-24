@@ -4359,6 +4359,29 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                 <example type="incorrect" correction="Max Brod"><marker>Max Brot</marker> war ein Freund von Kafka.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="JANE_AUSTEN" name="Eigenname: 'Jane Austin (Austen)'">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>Jane</token>
+                    <token>Austin</token>
+                </pattern>
+                <message>Meinten Sie evt. <suggestion>Jane Austen</suggestion>, die britische Schriftstellerin?</message>
+                <short>&eigenname;</short>
+                <example type="correct"><marker>Jane Austen</marker> war eine britische Schriftstellerin.</example>
+                <example type="incorrect" correction="Jane Austen"><marker>Jane Austin</marker> war eine britische Schriftstellerin.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">J(e|o)?an</token>
+                    <token>Austen</token>
+                </pattern>
+                <message>Meinten Sie evt. <suggestion>Jane Austen</suggestion>, die britische Schriftstellerin?</message>
+                <short>&eigenname;</short>
+                <example type="correct"><marker>Jane Austen</marker> war eine britische Schriftstellerin.</example>
+                <example type="incorrect" correction="Jane Austen"><marker>Jan Austen</marker> war eine britische Schriftstellerin.</example>
+                <example type="incorrect" correction="Jane Austen"><marker>Jean Austen</marker> war eine britische Schriftstellerin.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="MARX_BROTHERS" name="Eigenname: 'Max (Marx) Brothers'">
             <rule>
                 <pattern case_sensitive="yes">
@@ -4981,7 +5004,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                         <token>Jahrelang</token>
                     </marker>
                 </pattern>
-                <message>&getrennt;: &inwend;\2 <suggestion>Jahre lang</suggestion> muss 'Jahre lang' meist getrennt geschrieben werden.</message>
+                <message>&getrennt;: &inwend;\2 <suggestion>Jahre lang</suggestion> muss 'Jahre lang' meist getrennt geschrieben werden, nämlich wenn sich '\2' auf das Substantiv 'Jahre' bezieht.</message>
                 <short>&getrennt;.</short>
                 <example type="incorrect" correction="Jahre lang">Wir haben zwei <marker>jahrelang</marker> gesucht.</example>
                 <example type="correct">Wir haben zwei <marker>Jahre lang</marker> gesucht.</example>
@@ -4994,7 +5017,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                         <token>Jahrelang</token>
                     </marker>
                 </pattern>
-                <message>&getrennt;: &inwend;\2 <suggestion>Jahre lang</suggestion> muss 'Jahre lang' meist getrennt geschrieben werden.</message>
+                <message>&getrennt;: &inwend;\2 <suggestion>Jahre lang</suggestion> muss 'Jahre lang' meist getrennt geschrieben werden, nämlich wenn sich '\2' auf das Substantiv 'Jahre' bezieht.</message>
                 <short>&getrennt;.</short>
                 <example type="incorrect" correction="Jahre lang">Wir haben mehrere <marker>jahrelang</marker> gesucht.</example>
                 <example type="correct">Wir haben mehrere <marker>Jahre lang</marker> gesucht.</example>
@@ -7515,6 +7538,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                     <token>Internet</token>
                 </pattern>
                 <message>Diese Wendung ist möglicherweise umgangssprachlich. Alternativvorschläge: <suggestion>\1e \2verbindung</suggestion>, <suggestion>\1 \2zugang</suggestion>.</message>
+                <short>Diese Wendung ist möglicherweise umgangssprachlich.</short>
                 <example type="incorrect" correction="Meine Internetverbindung|Mein Internetzugang"><marker>Mein Internet</marker> geht nicht.</example>
                 <example type="correct"><marker>Meine Internetverbindung</marker> ist gestört.</example>
             </rule>
@@ -16666,7 +16690,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                         <token>Leid</token>
                     </marker>
                 </pattern>
-                <message>&inwend;'jemandem leid tun' wird <suggestion><match case_conversion="alllower" no="3"/></suggestion> kleingeschrieben.</message>
+                <message>&inwend;'jemandem leidtun' wird <suggestion><match case_conversion="alllower" no="3"/></suggestion> kleingeschrieben.</message>
                 <url>http://www.canoo.net/services/GermanSpelling/Regeln/Gross-klein/Denominalisierung.html#Anchor-Die-49575</url>
                 <short>&prgk;.</short>
                 <example type="incorrect" correction="leid">Das tut mir <marker>Leid</marker>.</example>
@@ -16681,7 +16705,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                         <token>Leid</token>
                     </marker>
                 </pattern>
-                <message>&inwend;'jemandem leid tun' wird <suggestion><match case_conversion="alllower" no="4"/></suggestion> kleingeschrieben.</message>
+                <message>&inwend;'jemandem leidtun' wird <suggestion><match case_conversion="alllower" no="4"/></suggestion> kleingeschrieben.</message>
                 <url>http://www.canoo.net/services/GermanSpelling/Regeln/Gross-klein/Denominalisierung.html#Anchor-Die-49575</url>
                 <short>&prgk;.</short>
                 <example type="incorrect" correction="leid">Das tut mir sehr <marker>Leid</marker>.</example>
@@ -16692,15 +16716,15 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                     <token regexp="yes">mir|ihm|ihr|euch|[iI]hnen|uns</token>
                     <token regexp="yes">wirklich|sehr|ausgesprochen|echt|voll|total|noch|irgendwann</token>
                     <marker>
-                        <token>Leid</token>
+                        <token regexp="yes">[lL]eid</token>
+                        <token inflected="yes">tun</token>
                     </marker>
-                    <token inflected="yes">tun</token>
                 </pattern>
-                <message>&inwend;'jemandem leid tun' wird <suggestion><match case_conversion="alllower" no="3"/></suggestion> kleingeschrieben.</message>
-                <url>http://www.canoo.net/services/GermanSpelling/Regeln/Gross-klein/Denominalisierung.html#Anchor-Die-49575</url>
-                <short>&prgk;.</short>
-                <example type="incorrect" correction="leid">Das wird mir noch <marker>Leid</marker> tun.</example>
-                <example type="correct">Ich fürchte, das wird mir noch <marker>leid</marker> tun.</example>
+                <message>&inwend;'jemandem leidtun' wird <suggestion><match case_conversion="alllower" no="3"/><match case_conversion="alllower" no="4"/></suggestion> kleingeschrieben.</message>
+                <url>http://www.duden.de/rechtschreibung/leidtun</url>
+                <short>'leidtun' wird klein und zusammen geschrieben.</short>
+                <example type="incorrect" correction="leidtun">Das wird mir noch <marker>Leid tun</marker>.</example>
+                <example type="correct">Ich fürchte, das wird mir noch <marker>leidtun</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SOMMERS_WIE_WINTERS" name="Groß-/Kleinschreibung: 'sommers wie winters'" default="on">
