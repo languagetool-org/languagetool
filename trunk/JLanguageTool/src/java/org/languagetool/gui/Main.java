@@ -556,6 +556,15 @@ public final class Main implements ActionListener {
           .getToPos(), text);
       sb.append("<b>" + messages.getString("errorContext") + "</b> " + context);
       sb.append("<br>\n");
+            
+      /* too much hassle getting hyperlinks work in JTextPane
+       * especially when we want to replace it soon with sth nicer... 
+      if (match.getRule().getUrl() != null) {
+    	  sb.append("<a href=\"");
+    	  sb.append(match.getRule().getUrl().toString());
+    	  sb.append("\">More info...</a><br>\n");
+      }
+      */
       i++;
     }
     final long endTime = System.currentTimeMillis();
