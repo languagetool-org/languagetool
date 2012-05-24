@@ -416,7 +416,7 @@ public final class Tools {
   public static void profileRulesOnText(final String contents, 
       final JLanguageTool lt) throws IOException {
     final long[] workTime = new long[10];
-    final List<Rule> rules = lt.getAllRules();
+    final List<Rule> rules = lt.getAllActiveRules();
     final int ruleCount = rules.size();
     System.out.printf("Testing %d rules\n", ruleCount);
     System.out.println("Rule ID\tTime\tSentences\tMatches\tSentences per sec.");

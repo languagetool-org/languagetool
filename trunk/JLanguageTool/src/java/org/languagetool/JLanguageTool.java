@@ -784,6 +784,30 @@ public final class JLanguageTool {
     }
     return rules;
   }
+  
+  /**
+   * Get all active (not disabled) 
+   * rules for the current language that are built-in or that have been
+   * added using {@link #addRule(Rule)}.
+   * @return a List of {@link Rule} objects
+   */
+  public List<Rule> getAllActiveRules() {
+    final List<Rule> rules = new ArrayList<Rule>();
+    final List<Rule> rulesActive = new ArrayList<Rule>();
+    rules.addAll(builtinRules);
+    rules.addAll(userRules);
+    // Some rules have an internal state so they can do checks over sentence
+    // boundaries. These need to be reset so the checks don't suddenly
+    // work on different texts with the same data. However, it could be useful
+    // to keep the state information if we're checking a continuous text.    
+    for (final Rule rule : rules) {
+      rule.reset();
+      if (!disabledRules.contains(rule.getId())) {
+    	  rulesActive.add(rule);
+      }
+    }    
+    return rulesActive;
+  }
 
   /**
    * Number of sentences the latest call to check() has checked.

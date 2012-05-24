@@ -209,7 +209,7 @@ class Main {
       }
     }
     int runCount = 1;
-    final List<Rule> rules = lt.getAllRules();
+    final List<Rule> rules = lt.getAllActiveRules();
     if (profileRules) {
       System.out.printf("Testing %d rules\n", rules.size());
       System.out.println("Rule ID\tTime\tSentences\tMatches\tSentences per sec.");
