@@ -2696,6 +2696,7 @@ though, and has since been slightly modified)-->
                 <message>« \5 » n’est pas un verbe.</message>
                 <example type="incorrect">Je ne l’<marker>abandon</marker> pas.</example>
                 <example type="correct">Je ne l’<marker>abandonne</marker> pas.</example>
+                <example type="correct">Il ne l'<marker>est</marker> que durant l'élection.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ETRE_VPPA_OU_ADJ" name="être + participe présent">
@@ -5615,6 +5616,20 @@ though, and has since been slightly modified)-->
             <example type="correct">Plusieurs de ces langues vont disparaitre.</example>
         </rule>
 
+        <rulegroup id="ATTENDU" name="Accord des participes attendu, compris, entendu…">
+          <rule>
+            <pattern>
+              <token postag="SENT_START"></token>
+              <marker><token regexp="yes">(attendu|entendu|excepté|ôté|ouï|passé|supposé|vu)(es?|e?s)|(non-)?comprises?</token></marker>
+              <token postag="D.*" postag_regexp="yes"/>
+              <token postag="[JN].*" postag_regexp="yes"/>
+            </pattern>
+            <message>Les participes passés « attendu, compris, non-compris, y compris, entendu, excepté, ôté, ouï, passé, supposé, vu » sont invariables quand ils sont placés devant le nom ou le pronom. Voulez-vous dire <suggestion><match no="2" regexp_match="e?s?$" regexp_replace=""/></suggestion> ?</message>
+            <example type="incorrect"><marker>Passées</marker> les premières années à l’école, il s’assagit.</example>
+            <example type="correct">Passé les premières années à l’école, il s’assagit.</example>
+            <example type="correct">Les années sont passées vite.</example>
+          </rule>
+        </rulegroup>
     </category>
     <category default="off" name="Régionalismes">
         <!--The following rules were created by Hugo Voisard-->
