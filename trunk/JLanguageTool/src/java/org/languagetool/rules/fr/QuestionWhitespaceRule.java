@@ -21,6 +21,8 @@ package org.languagetool.rules.fr;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
@@ -37,6 +39,10 @@ import org.languagetool.tools.StringTools;
  * @author Marcin Miłkowski
  */
 public class QuestionWhitespaceRule extends FrenchRule {
+
+  // Pattern used to avoid false positive when signaling missing
+  // space before and after colon ':' in URL with common schemes.
+  private static final Pattern patternUrl = Pattern.compile("^(file|s?ftp|finger|git|gopher|hdl|https?|shttp|imap|mailto|mms|nntp|s?news(post|reply)?|prospero|rsync|rtspu|sips?|svn|svn\\+ssh|telnet|wais)$");
 
   public QuestionWhitespaceRule(final ResourceBundle messages) {
     // super(messages);
@@ -93,7 +99,7 @@ public class QuestionWhitespaceRule extends FrenchRule {
           fixLen = 1;
         }        
       } else {
-        // Stricly speaking, the character before ?!;: should be an
+        // Strictly speaking, the character before ?!;: should be an
         // "espace fine insécable" (U+202f).  In practise, an
         // "espace insécable" (U+00a0) is also often used. Let's accept both.
         if (token.equals("?") && !prevToken.equals("!")
@@ -114,12 +120,16 @@ public class QuestionWhitespaceRule extends FrenchRule {
           // non-breaking space
           suggestionText = prevToken + " ;";
           fixLen = 1;
-        } else if (token.equals(":") 
+        } else if (token.equals(":")
             && !prevToken.equals("\u00a0") && !prevToken.equals("\u202f")) {
-          msg = "Deux-points précédés d'une espace fine insécable.";
-          // non-breaking space
-          suggestionText = prevToken + " :";
-          fixLen = 1;
+          // Avoid false positive for URL like http://www.languagetool.org.
+          final Matcher matcherUrl = patternUrl.matcher(prevToken);
+          if (!matcherUrl.find()) {
+            msg = "Deux-points précédés d'une espace fine insécable.";
+            // non-breaking space
+            suggestionText = prevToken + " :";
+            fixLen = 1;
+          }
         } else if (token.equals("»")
             && !prevToken.equals("\u00a0") && !prevToken.equals("\u202f")) {
           msg = "Le guillemet fermant est précédé d'une espace fine insécable.";
