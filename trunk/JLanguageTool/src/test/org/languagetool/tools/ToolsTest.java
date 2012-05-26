@@ -46,7 +46,7 @@ public class ToolsTest extends TestCase {
     assertEquals(0, output.indexOf("Time:"));
     assertEquals(0, matches);
 
-    matches = Tools.checkText("To jest jest problem.", tool);
+    matches = Tools.checkText("To jest problem problem.", tool);
     output = new String(this.out.toByteArray());
     assertTrue(output.contains("Rule ID: WORD_REPEAT_RULE"));
     assertEquals(1, matches);

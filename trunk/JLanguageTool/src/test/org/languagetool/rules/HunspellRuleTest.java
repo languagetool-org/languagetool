@@ -54,7 +54,7 @@ public class HunspellRuleTest {
 	    assertEquals(1, matches.length);
 	    assertEquals(0, matches[0].getFromPos());
 	    assertEquals(4, matches[0].getToPos());	    
-	    assertEquals("Żółw", matches[0].getSuggestedReplacements().get(9));
+	    assertEquals("Żółw", matches[0].getSuggestedReplacements().get(0));
 	    	    
 	}
 
