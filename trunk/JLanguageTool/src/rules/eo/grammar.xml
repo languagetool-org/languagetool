@@ -1950,12 +1950,15 @@ Copyright (C) 2010, 2011 Dominique Pellé <dominique.pelle@gmail.com>
                     <token postag="[RO] nak.*" postag_regexp="yes"></token>
                     <token postag="V nt .*" postag_regexp="yes" skip="1"></token>
                     <marker>
-                        <token postag="[ROAT] nak np.*" postag_regexp="yes"></token>
+                        <token postag="[ROAT] nak np.*" postag_regexp="yes">
+                          <exception postag="T .* en?" postag_regexp="yes"/>
+                        </token>
                     </marker>
                 </pattern>
                 <message>Ne kongrua pluralo inter «\2», «\4» kaj «\6».</message>
                 <example type="incorrect">Mi kaj li estas <marker>viro</marker>.</example>
                 <example type="correct">Mi kaj li estas <marker>viroj</marker>.</example>
+                <example type="correct">Piero kaj Marko estis ĉi tie.</example>
             </rule>
 
             <rule>
