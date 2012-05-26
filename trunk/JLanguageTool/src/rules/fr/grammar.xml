@@ -21636,6 +21636,30 @@ though, and has since been slightly modified)-->
                 <example type="correct">L’<marker>État</marker> français</example>
             </rule>
         </rulegroup>
+        <rulegroup id="NORD_SUD" name="Majuscules aux points cardinaux">
+          <rule>
+            <pattern>
+              <token regexp="yes">afrique|amérique|asie|corée|galles|europe|irlande|soudan|rhodésie|territoire</token>
+              <token>du</token>
+              <marker><token regexp="yes">(?-i)(nord|sud)</token></marker>
+            </pattern>
+            <message>Employez <suggestion><match no="3" case_conversion="startupper"/></suggestion> avec une majuscule dans les noms géographiques.</message>
+            <example type="incorrect">Il vit en Afrique du <marker>sud</marker>.</example>
+            <example type="correct">Il vit en Afrique du Sud.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token regexp="yes">afrique|(ex-)?allemagne|asie|europe|pays</token>
+              <token>de</token>
+              <token>l</token>
+              <token regexp="yes">[’´'‛′‘]</token>
+              <marker><token regexp="yes">(?-i)est|ouest</token></marker>
+            </pattern>
+            <message>Employez <suggestion><match no="5" case_conversion="startupper"/></suggestion> avec une majuscule dans les noms géographiques.</message>
+            <example type="incorrect">Il vivait en Allemagne de l’<marker>est</marker>.</example>
+            <example type="correct">Il vivait en Allemagne de l’Est.</example>
+          </rule>
+        </rulegroup>
     </category>
     <category name="Règles de base">
         <rulegroup id="FRENCH_WORD_REPEAT_RULE" name="Doublon (« pour pour », « je je », etc.)">
