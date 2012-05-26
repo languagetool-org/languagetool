@@ -455,36 +455,6 @@ public class XMLRuleHandler extends DefaultHandler {
    }
   }
   
-  protected void checkPositions(final int add) throws SAXException {
-    if (startPositionCorrection >= tokenCounter + add) {
-      throw new SAXException(
-          "Attempt to mark a token no. ("+ startPositionCorrection +") that is outside the pattern ("
-          + tokenCounter + "). Pattern elements are numbered starting from 0!" + "\n Line: "
-          + pLocator.getLineNumber() + ", column: "
-          + pLocator.getColumnNumber() + ".");
-    }
-    if (tokenCounter + add - endPositionCorrection < 0) {
-      throw new SAXException(
-          "Attempt to mark a token no. ("+ endPositionCorrection +") that is outside the pattern ("
-          + tokenCounter + " elements). End positions should be negative but not larger than the token count!"
-          + "\n Line: "
-          + pLocator.getLineNumber() + ", column: "
-          + pLocator.getColumnNumber() + ".");
-    } 
-  }
-
-  protected void checkMarkPositions() {
-    if (phraseElementList == null || phraseElementList.size() == 0) {
-      final int endMarker = elementList.size() + endPositionCorrection;
-      if (endMarker <= startPositionCorrection) {
-        throw new RuntimeException("Invalid combination of mark_from (" + startPositionCorrection
-            + ") and mark_to (" + endPositionCorrection + ") for rule " + id
-            + " with " + elementList.size() 
-            + " tokens: the error position created by mark_from and mark_to is less than one token");
-      }
-    }
-  }
-  
   /**
    * Adds Match objects for all references to tokens
    * (including '\1' and the like). 

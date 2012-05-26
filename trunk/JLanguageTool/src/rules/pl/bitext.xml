@@ -8,16 +8,19 @@
                     <token>is</token>
                     <token><exception regexp="yes">no|nothing|nobody</exception></token>
                 </source>
-                <target mark_to="-1">
-                    <token>nie</token>
-                    <token regexp="yes">ma|jest</token>
+                <target>
+                    <marker>
+                        <token>nie</token>
+                        <token regexp="yes">ma|jest</token>
+                    </marker>
                     <token/>
                 </target>
             </pattern>
             <message>Czy chodziło o <suggestion>istnieje</suggestion>?</message>
             <example type="correct">
                 <srcExample>There is a dog.</srcExample>
-                <trgExample>Jest pies.</trgExample></example>
+                <trgExample>Jest pies.</trgExample>
+            </example>
             <example type="incorrect">
                 <srcExample><marker>There is a</marker> dog.</srcExample>
                 <trgExample><marker>Nie ma</marker> psa.</trgExample>

@@ -96,6 +96,7 @@
 			<xs:element ref="phraseref" />
 			<xs:element ref="and" />
 			<xs:element ref="unify" />
+			<xs:element ref="marker" minOccurs="0" maxOccurs="1" />
 		</xs:choice>
 		<xs:attribute name="case_sensitive" type="binaryYesNo"
 			use="optional" />
@@ -114,12 +115,7 @@
 	<xs:element name="target">
 		<xs:complexType>
 			<xs:complexContent>
-				<xs:extension base="elementPattern">
-					<xs:attribute name="mark_from" type="xs:nonNegativeInteger"
-						use="optional" />
-					<xs:attribute name="mark_to" type="xs:nonPositiveInteger"
-						use="optional" />
-				</xs:extension>
+				<xs:extension base="elementPattern"/>
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
