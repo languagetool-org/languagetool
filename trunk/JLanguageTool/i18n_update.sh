@@ -9,7 +9,7 @@ rm -I i18n-temp
 mkdir i18n-temp
 cd i18n-temp
 
-for lang in ast be br ca cs da de eo es fr gl is it km lt nl pl ro ru sk sl sv tl uk zh
+for lang in ast be br ca cs da de eo es fr gl is it km lt nl pl ro ru sk sl sv tl uk zh el
 do
   SOURCE=downloaded.tmp
   # download and hackish JSON cleanup:
