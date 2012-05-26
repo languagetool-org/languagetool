@@ -87,8 +87,6 @@ public class BitextPatternRule extends BitextRule {
 
   @Override
   public void reset() {
-    // TODO Auto-generated method stub
-
   }
 
 }

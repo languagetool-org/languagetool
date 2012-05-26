@@ -183,8 +183,6 @@ public class XMLRuleHandler extends DefaultHandler {
   protected static final String RULE = "rule";
   protected static final String RULEGROUP = "rulegroup";
   protected static final String NO = "no";
-  protected static final String MARK_TO = "mark_to";
-  protected static final String MARK_FROM = "mark_from";
   protected static final String PHRASES = "phrases";
   protected static final String MESSAGE = "message";
 
@@ -282,18 +280,6 @@ public class XMLRuleHandler extends DefaultHandler {
   protected void startPattern(final Attributes attrs) throws SAXException {
     tokenCounter = 0;
     inPattern = true;
-    if (attrs.getValue(MARK_FROM) != null) {
-      startPositionCorrection = Integer.parseInt(attrs.getValue(MARK_FROM));
-    }
-    if (attrs.getValue(MARK_TO) != null) {
-      endPositionCorrection = Integer.parseInt(attrs.getValue(MARK_TO));
-      if (endPositionCorrection > 0) {
-        throw new SAXException("End position correction (mark_to="+ endPositionCorrection
-            + ") cannot be larger than 0: " + "\n Line: "
-            + pLocator.getLineNumber() + ", column: "
-            + pLocator.getColumnNumber() + ".");
-      }
-    }
     caseSensitive = YES.equals(attrs.getValue(CASE_SENSITIVE));
   }  
   
@@ -516,8 +502,7 @@ public class XMLRuleHandler extends DefaultHandler {
     }
 
     if (inAndGroup && andGroupCounter > 0) {
-      elementList.get(elementList.size() - 1)
-          .setAndGroupElement(tokenElement);
+      elementList.get(elementList.size() - 1).setAndGroupElement(tokenElement);
     } else {
       elementList.add(tokenElement);
     }

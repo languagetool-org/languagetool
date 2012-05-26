@@ -216,8 +216,7 @@ public class Unifier {
             if (featuresFound.get(i)
                 && equivalencesMatched.get(i).containsKey(feat.getKey())
                 && equivalencesMatched.get(i).get(feat.getKey()).contains(typeName)) {
-              final Element testElem = equivalenceTypes
-              .get(new EquivalenceTypeLocator(feat.getKey(), typeName));
+              final Element testElem = equivalenceTypes.get(new EquivalenceTypeLocator(feat.getKey(), typeName));
               featUnified = featUnified || testElem.isMatched(aToken);
             }
           }
@@ -319,8 +318,8 @@ public class Unifier {
       }
       firstUnified = true;
     }
-    final AnalyzedTokenReadings[] atr = tokSequence
-    .toArray(new AnalyzedTokenReadings[tokSequence.size()]);
+    final AnalyzedTokenReadings[] atr =
+            tokSequence.toArray(new AnalyzedTokenReadings[tokSequence.size()]);
     return atr;
   }
 
