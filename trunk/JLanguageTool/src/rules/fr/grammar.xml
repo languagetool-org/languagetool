@@ -5518,6 +5518,20 @@ though, and has since been slightly modified)-->
                 <example type="correct">Quoique je te <marker>dise</marker>.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="INC_SUBJ" name="subjonctif non-attendu">
+          <rule>
+            <pattern>
+              <token inflected="yes">être</token>
+              <token regexp="yes">clair|exacte|certaine?s?|sûre?s?|évident|probable|vrai|vraisemblable</token>
+              <token>que</token>
+              <token postag="R pers suj.*|Z.*" postag_regexp="yes"/>
+              <marker><token postag="V.* sub.*" postag_regexp="yes"><exception postag="V.* (ind|con).*" postag_regexp="yes"/></token></marker>
+            </pattern>
+            <message>Le verbe « \5 » devrait être à l'indicatif ou au conditionnel (et non au subjonctif) après « \1 \2 \3 \4 » qui exprime la certitude ou une forte vraisemblance de manière positive.</message>
+            <example type="incorrect">Elle est certaine que vous <marker>soyez</marker> un espion.</example>
+            <example type="correct">Elle est certaine que vous <marker>êtes</marker> un espion.</example>
+          </rule>
+        </rulegroup>
         <rulegroup id="P_V_PAS" name="négation sans NE">
             <rule>
                 <pattern>
@@ -14907,7 +14921,7 @@ though, and has since been slightly modified)-->
             <example type="incorrect"><marker>feeling</marker></example>
             <example type="correct"><marker>impression</marker></example>
         </rule>
-        <rule default="off" id="FAX" name="fax">
+        <rule id="FAX" name="fax">
             <pattern>
                 <token regexp="yes">fax|faxs</token>
             </pattern>
