@@ -8261,6 +8261,35 @@ $Id: grammar.xml,v 1.129 2010-11-13 23:24:21 dnaber Exp $
             <example type="correct">Increase ease <marker>of</marker> use.</example>
             <example type="incorrect">Increase ease <marker>off</marker> use.</example>
         </rule>
+        <rulegroup id="NOT_AD_ALL" name="not ad (at) all">
+            <rule>
+                <pattern>
+                    <token>not</token>
+                    <marker>
+                        <token>ad</token>
+                    </marker>
+                    <token>all</token>
+                </pattern>
+                <message>Did you mean <suggestion>at</suggestion>?</message>
+                <short>Possible typo</short>
+                <example type="correct">No, not <marker>at</marker> all.</example>
+                <example type="incorrect">No, not <marker>ad</marker> all.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>not</token>
+                    <token postag="JJ"/>
+                    <marker>
+                        <token>ad</token>
+                    </marker>
+                    <token>all</token>
+                </pattern>
+                <message>Did you mean <suggestion>at</suggestion>?</message>
+                <short>Possible typo</short>
+                <example type="correct">This is not true <marker>at</marker> all.</example>
+                <example type="incorrect">This is not true <marker>ad</marker> all.</example>
+            </rule>
+        </rulegroup>
         <rule id="TAKING_CASE_OF_IT" name="take case (care) of it">
             <pattern>
                 <!-- needs to be this specific to avoid false alarm on e.g. &quot;Michigan court won't take case of boy's broken wrist&quot; -->
