@@ -49,7 +49,7 @@ public class HunspellRule extends SpellingCheckRule {
 	/**
 	 * The dictionary file
 	 */
-	Hunspell.Dictionary dictionary = null;
+	private Hunspell.Dictionary dictionary = null;
 
 	public HunspellRule(final ResourceBundle messages, final Language language)
 			throws UnsatisfiedLinkError, UnsupportedOperationException, IOException {
@@ -80,10 +80,10 @@ public class HunspellRule extends SpellingCheckRule {
 		}
 	}
 	
-	private final String getDictionaryPath(final String dicName, 
+	private String getDictionaryPath(final String dicName,
 			final String originalPath) throws IOException {
 		
-		URL dictURL = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(
+		final URL dictURL = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(
 				originalPath); 
 		
 		String dictionaryPath = dictURL.getPath();
@@ -91,7 +91,7 @@ public class HunspellRule extends SpellingCheckRule {
 		//in the webstart version, we need to copy the files outside the jar
 		//to the local temporary directory
 		if ("jar".equals(dictURL.getProtocol())) {
-			File tempDir = new File(System.getProperty("java.io.tmpdir"));
+			final File tempDir = new File(System.getProperty("java.io.tmpdir"));
 			File temporaryFile = new File(tempDir, dicName + ".dic");
 			JLanguageTool.addTemporaryFile(temporaryFile);
 			fileCopy(JLanguageTool.getDataBroker().
@@ -110,10 +110,10 @@ public class HunspellRule extends SpellingCheckRule {
 	}
 	
 	private void fileCopy(final InputStream in, final File targetFile) throws IOException {
-		OutputStream out = new FileOutputStream(targetFile);
-		byte[] buf = new byte[1024];
+		final OutputStream out = new FileOutputStream(targetFile);
+		final byte[] buf = new byte[1024];
 		  int len;
-		  while ((len = in.read(buf)) > 0){
+		  while ((len = in.read(buf)) > 0) {
 			  out.write(buf, 0, len);
 		  }
 		  in.close();
@@ -137,8 +137,9 @@ public class HunspellRule extends SpellingCheckRule {
 				.getTokensWithoutWhitespace();
 
 		// some languages might not have a dictionary, be silent about it
-		if (dictionary == null)
+		if (dictionary == null) {
 			return toRuleMatchArray(ruleMatches);
+    }
 
 		// starting with the first token to skip the zero-length START_SENT
 		for (int i = 1; i < tokens.length; i++) {
@@ -153,7 +154,7 @@ public class HunspellRule extends SpellingCheckRule {
 						tokens[i].getStartPos(), tokens[i].getStartPos() + word.length(),
 						messages.getString("spelling"),
 						messages.getString("desc_spelling_short"));
-				List<String> suggestions = dictionary.suggest(word);
+				final List<String> suggestions = dictionary.suggest(word);
 				if (suggestions != null) {
 					ruleMatch.setSuggestedReplacements(suggestions);
 				}
