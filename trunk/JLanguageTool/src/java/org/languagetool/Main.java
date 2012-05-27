@@ -438,25 +438,10 @@ class Main {
     try {
        options = commandLineParser.parseOptions(args);
     } catch (IllegalArgumentException e) {
-      System.out.println("Usage: java -jar LanguageTool.jar [OPTION]... FILE\n"
-                      + " FILE                      plain text file to be checked\n"
-                      + " Available options:\n"
-                      + "  -r, --recursive          work recursively on directory, not on a single file\n"
-                      + "  -c, --encoding ENC       character set of the input text, e.g. utf-8 or latin1\n"
-                      + "  -b                       assume that a single line break marks the end of a paragraph\n"
-                      + "  -l, --language LANG      the language code of the text, e.g. en for English\n"
-                      + "  -adl, --autoDetect       auto-detect the language of the input text\n"
-                      + "  -m, --mothertongue LANG  the language code of your first language, used to activate false-friend checking\n"
-                      + "  -d, --disable RULES      a comma-separated list of rule ids to be disabled (use no spaces between ids)\n"
-                      + "  -e, --enable RULES       a comma-separated list of rule ids to be enabled (use no spaces between ids)\n"
-                      + "  -t, --taggeronly         don't check, but only print text analysis (sentences, part-of-speech tags)\n"
-                      + "  -u, --list-unknown       also print a summary of words from the input that LanguageTool doesn't know\n"
-                      + "  -b2, --bitext            check bilingual texts with a tab-separated input file,\n"
-                      + "                           see http://languagetool.wikidot.com/checking-translations-bilingual-texts\n"
-                      + "  --api                    print results as XML\n"
-                      + "  -p, --profile            print performance measurements\n"
-                      + "  -v, --verbose            print text analysis (sentences, part-of-speech tags) to STDERR\n"
-                      + "  -a, --apply              automatically apply suggestions if available, printing result to STDOUT");
+      if (e.getMessage() != null) {
+        System.err.println(e.getMessage());
+      }
+      commandLineParser.printUsage();
       System.exit(1);
     }
 
