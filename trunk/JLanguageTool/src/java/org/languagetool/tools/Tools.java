@@ -177,6 +177,10 @@ public final class Tools {
       }
       System.out.println(StringTools.getContext(match.getFromPos(), match
           .getToPos(), contents, contextSize));
+      if (match.getRule().getUrl() != null) {
+    	  System.out.println("More info: " + 
+    			  match.getRule().getUrl().toString());
+      }
       if (i < ruleMatches.size()) {
         System.out.println();
       }
