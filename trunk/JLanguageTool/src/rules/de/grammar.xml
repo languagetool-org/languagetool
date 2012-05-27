@@ -8117,14 +8117,26 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
             <example type="correct">Internet <marker>ohne</marker> Schnur</example>
             <example type="incorrect">Internet <marker>mit ohne</marker> Schnur</example>
         </rule>
-        <rule id="NICHTSDESTOTROTZ" name="Stil: 'nichtsdestotrotz' (ugs. Verballhornung)">
-            <pattern>
-                <token>nichtsdestotrotz</token>
-            </pattern>
-            <message>Meinten Sie <suggestion>nichtsdestoweniger</suggestion>? 'Nichtsdestotrotz' ist eine umgangssprachliche Verballhornung.</message>
-            <example type="correct"><marker>Nichtsdestoweniger</marker> wird einfach weiter geplant.</example>
-            <example type="incorrect"><marker>Nichtsdestotrotz</marker> wird einfach weiter geplant.</example>
-        </rule>
+        <rulegroup id="NICHTSDESTOTROTZ" name="Stil: 'nichtsdestotrotz' (ugs. Verballhornung)">
+            <rule>
+                <pattern>
+                    <token>nichtsdestotrotz</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>nichtsdestoweniger</suggestion>? 'Nichtsdestotrotz' ist eine umgangssprachliche Verballhornung.</message>
+                <example type="correct"><marker>Nichtsdestoweniger</marker> wird einfach weiter geplant.</example>
+                <example type="incorrect" correction="Nichtsdestoweniger"><marker>Nichtsdestotrotz</marker> wird einfach weiter geplant.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>nichts</token>
+                    <token>desto</token>
+                    <token>trotz</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>nichtsdestoweniger</suggestion>? 'Nichtsdestotrotz' ist eine umgangssprachliche Verballhornung und wird außerdem zusammengeschrieben.</message>
+                <example type="correct"><marker>Nichtsdestoweniger</marker> finde ich es einfach ungerecht.</example>
+                <example type="incorrect" correction="Nichtsdestoweniger"><marker>Nichts desto trotz</marker> wird einfach weiter geplant.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="MURKSEN" name="Umgangssprache: 'abmurksen' etc. [unvollständige Markierung ugs. Ausdrucksweisen]">
             <rule>
                 <pattern>
@@ -10547,6 +10559,21 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                 <example type="incorrect" correction="Decke">Die stecken doch alle unter einer <marker>decke</marker>.</example>
                 <example type="incorrect" correction="Decke">Ich gehe gleich an die <marker>decke</marker>.</example>
                 <example type="correct">Ich <marker>decke</marker> dich zu.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="WAND_SUBST" name="Groß-/Kleinschreibung: 'an die wand (Wand) nageln' etc.">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[aA]n</token>
+                    <token regexp="yes">einer?|der|die|(&meindein;)er?</token>
+                    <marker>
+                        <token>wand</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Wand</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="Wand">Ich hänge es an die <marker>wand</marker>.</example>
+                <example type="correct">Ich hänge es an die <marker>Wand</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="IN_DIE_TAT_UMSETZEN" name="Groß-/Kleinschreibung: 'in die tat (Tat) umsetzen'">
