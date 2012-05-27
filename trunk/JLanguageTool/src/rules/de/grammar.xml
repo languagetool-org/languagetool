@@ -8659,34 +8659,6 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category name="Groß-/Kleinschreibung">
-        <rulegroup id="AUSSER_ACHT" name="Groß-/Kleinschreibung: 'außer acht (Acht) lassen'">
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token>außer</token>
-                    <marker>
-                        <token>acht</token>
-                    </marker>
-                    <token inflected="yes">lassen</token>
-                </pattern>
-                <message>&inwend;'außer Acht lassen' wird <suggestion>Acht</suggestion> großgeschrieben.</message>
-                <short>&prgk;.</short>
-                <example type="correct">Das wurde leider außer <marker>Acht</marker> gelassen.</example>
-                <example type="incorrect">Das wurde leider außer <marker>acht</marker> gelassen.</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token skip="3" regexp="yes">(?i)ließe|lässt|lasse|lassen</token>
-                    <token>außer</token>
-                    <marker>
-                        <token>acht</token>
-                    </marker>
-                </pattern>
-                <message>&inwend;'außer Acht lassen' wird <suggestion>Acht</suggestion> großgeschrieben.</message>
-                <short>&prgk;.</short>
-                <example type="correct">Lässt man unwichtiges außer <marker>Acht</marker>, fällt die Entscheidung leichter.</example>
-                <example type="incorrect">Lässt man unwichtiges außer <marker>acht</marker>, fällt die Entscheidung leichter.</example>
-            </rule>
-        </rulegroup>
         <rulegroup id="ABSAGE_SUBST" name="Groß-/Kleinschreibung: 'eine absage (Absage) erteilen'">
             <rule>
                 <pattern case_sensitive="yes">
@@ -15812,7 +15784,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                 <url>http://www.duden.de/sprachratgeber/beispiele-zur-neuen-rechtschreibung/2</url>
                 <short>&prgk;.</short>
                 <example type="correct">Nimm dich in <marker>Acht</marker>!</example>
-                <example type="incorrect">Er nahm sich in <marker>acht</marker>.</example>
+                <example type="incorrect" correction="Acht">Er nahm sich in <marker>acht</marker>.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -15823,10 +15795,28 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                     <token regexp="yes">nimmt|nimmst|nehmen?|nahm|genommen</token>
                 </pattern>
                 <message>&inwend;'(sich) in Acht nehmen' wird <suggestion>Acht</suggestion> großgeschrieben.</message>
+                <url>http://www.duden.de/sprachratgeber/beispiele-zur-neuen-rechtschreibung/2</url>
                 <short>&prgk;.</short>
                 <example type="correct">Er sollte sich in <marker>Acht</marker> nehmen.</example>
-                <example type="incorrect">Er sollte sich in <marker>acht</marker> nehmen.</example>
+                <example type="incorrect" correction="Acht">Er sollte sich in <marker>acht</marker> nehmen.</example>
             </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>in</token>
+                    <marker>
+                        <token>acht</token>
+                    </marker>
+                    <token>zu</token>
+                    <token>nehmen</token>
+                </pattern>
+                <message>&inwend;'(sich) in Acht nehmen' wird <suggestion>Acht</suggestion> großgeschrieben.</message>
+                <url>http://www.duden.de/sprachratgeber/beispiele-zur-neuen-rechtschreibung/2</url>
+                <short>&prgk;.</short>
+                <example type="correct">Ich würde dir raten, dich in <marker>Acht</marker> zu nehmen.</example>
+                <example type="incorrect" correction="Acht">Ich würde dir raten, dich in <marker>acht</marker> zu nehmen.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AUSSER_ACHT_LASSEN" name="Groß-/Kleinschreibung: 'außer acht (Acht) lassen'">
             <rule>
                 <pattern case_sensitive="yes">
                     <token>außer</token>
@@ -15840,10 +15830,12 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                 <short>&prgk;.</short>
                 <example type="correct">Das habt ihr außer <marker>Acht</marker> gelassen.</example>
                 <example type="incorrect" correction="Acht">Das habt ihr außer <marker>acht</marker> gelassen.</example>
+                <example type="incorrect" correction="Acht">Das wurde leider außer <marker>acht</marker> gelassen.</example>
+                <example type="incorrect" correction="Acht">Das sollten wir außer <marker>acht</marker> lassen.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token inflected="yes" skip="2">lassen</token>
+                    <token inflected="yes" skip="3">lassen<exception scope="next" postag="SENT_END"/></token>
                     <token>außer</token>
                     <marker>
                         <token>acht</token>
@@ -15853,7 +15845,9 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                 <url>http://www.duden.de/sprachratgeber/beispiele-zur-neuen-rechtschreibung/2</url>
                 <short>&prgk;.</short>
                 <example type="correct">Das lassen wir außer <marker>Acht</marker>.</example>
+                <example type="incorrect" correction="Acht">Das ließen wir nicht außer <marker>acht</marker>.</example>
                 <example type="incorrect" correction="Acht">Das lassen wir außer <marker>acht</marker>.</example>
+                <example type="incorrect" correction="Acht">Lässt man Unwichtiges außer <marker>acht</marker>, fällt die Entscheidung leichter.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
