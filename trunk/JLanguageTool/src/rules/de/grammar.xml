@@ -8659,6 +8659,35 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category name="Groß-/Kleinschreibung">
+        <rulegroup id="AUSSER_ACHT" name="Groß-/Kleinschreibung: 'außer acht (Acht) lassen'">
+            <rule>
+                <!-- TODO: Lässt man die Semantik außer acht.-->
+                <pattern case_sensitive="yes">
+                    <token>außer</token>
+                    <marker>
+                        <token>acht</token>
+                    </marker>
+                    <token inflected="yes">lassen</token>
+                </pattern>
+                <message>&inwend;'außer Acht lassen' wird <suggestion>Acht</suggestion> großgeschrieben.</message>
+                <short>&prgk;.</short>
+                <example type="correct">Das wurde leider außer <marker>Acht</marker> gelassen.</example>
+                <example type="incorrect">Das wurde leider außer <marker>acht</marker> gelassen.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token skip="3" regexp="yes">(?i)ließe|lässt|lasse|lassen</token>
+                    <token>außer</token>
+                    <marker>
+                        <token>acht</token>
+                    </marker>
+                </pattern>
+                <message>&inwend;'außer Acht lassen' wird <suggestion>Acht</suggestion> großgeschrieben.</message>
+                <short>&prgk;.</short>
+                <example type="correct">Lässt man unwichtiges außer <marker>Acht</marker>, fällt die Entscheidung leichter.</example>
+                <example type="incorrect">Lässt man unwichtiges außer <marker>acht</marker>, fällt die Entscheidung leichter.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ABSAGE_SUBST" name="Groß-/Kleinschreibung: 'eine absage (Absage) erteilen'">
             <rule>
                 <pattern case_sensitive="yes">
