@@ -1737,7 +1737,7 @@ Ligiloj al la retejo Lernu.net kun permeso la la teamo de Lernu.
                 </marker>
             </pattern>
             <message>Ĉu vi forgesis akuzativon post transitiva verbo «\2»?</message>
-            <url>http://eo.lernu.net/lernado/gramatiko/demandoj/oe-havas_hundo.php</ur>
+            <url>http://eo.lernu.net/lernado/gramatiko/demandoj/oe-havas_hundo.php</url>
             <example type="incorrect">Mi forgesis la <marker>akuzativo</marker>.</example>
             <example type="correct">Mi forgesis la <marker>akuzativon</marker>.</example>
             <example type="correct">Mi kantas kun amiko.</example>
@@ -2828,11 +2828,11 @@ Ligiloj al la retejo Lernu.net kun permeso la la teamo de Lernu.
                     <token postag="R nak .*" postag_regexp="yes" skip="3">
                         <exception scope="next" negate="yes" regexp="yes">tiom|tro|pli|malpli|.*e|.*aŭ|jam|nur|.*[ui]|.*[aiuo]s</exception>
                     </token>
-                    <token inflected="yes">plaĉi</token>
+                    <token inflected="yes" regexp="yes">(ne|mal)?plaĉ(et|eg)?i</token>
                 </marker>
                 <token negate="yes">al</token>
             </pattern>
-            <message>«\2» ne povas esti subjekto de la verbo «\3». Ĉu vi intencis <suggestion>\2 <match no="3" regexp_match=".*(([aiou]s)|[iu])" regexp_replace="ŝat$1"></match></suggestion>?</message>
+            <message>«\2» ne povas esti subjekto de la verbo «\3». Ĉu vi intencis <suggestion>\2 <match no="3" regexp_match="plaĉ" regexp_replace="ŝat"></match></suggestion>?</message>
             <example type="incorrect"><marker>Mi plaĉas</marker> legi.</example>
             <example type="incorrect"><marker>Mi ne tiom plaĉas</marker> legi.</example>
             <example type="correct">Mi plaĉas al vi</example>
@@ -2840,7 +2840,15 @@ Ligiloj al la retejo Lernu.net kun permeso la la teamo de Lernu.
             <example type="correct">Mi ŝatas legi.</example>
             <example type="correct">Esperanto plaĉas al mi.</example>
         </rule>
-
+        <rule id="ŜATOS_AL" name="ŝati al → plaĉi al">
+          <pattern>
+            <marker><token inflected="yes" regexp="yes">(mal|ne)?ŝat(et|eg)?i</token></marker>
+            <token>al</token>
+          </pattern>
+          <message>La prepozicio «al» ne povas stari post la verbo «\1». Ĉu vi intencis uzi la verbon <suggestion><match no="1" regexp_match="ŝat" regexp_replace="plaĉ"/></suggestion>?</message>
+          <example type="incorrect">Espereble ne <marker>malŝatos</marker> al vi.</example>
+          <example type="correct">Espereble malplaĉos al vi.</example>
+        </rule>
         <rule id="MI_EBLAS" name="mi eblas (mi povas)">
             <pattern>
                 <token postag="SENT_START|K" postag_regexp="yes"></token>
