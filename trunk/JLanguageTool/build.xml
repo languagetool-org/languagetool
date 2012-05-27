@@ -143,20 +143,10 @@
     </target>
     
     <target name="test-rules" description="Runs unit tests for the pattern rules only">
-        <antcall target="internal-xml-validate" />
-        <antcall target="internal-pattern-rules" />
-    </target>
-
-    <target name="internal-pattern-rules">
-        <property name="testcase" value="PatternRuleTest"/>
+        <property name="testcasePattern" value="**/ValidateXMLTest.java,**/PatternRuleTest.java"/>
         <antcall target="test"/>
     </target>
 
-    <target name="internal-xml-validate">
-        <property name="testcase" value="ValidateXMLTest"/>
-        <antcall target="test"/>
-    </target>
-    
 	<target name="test-internal" depends="clean,init,build,ooo-build" description="Runs unit tests">
 
 		<mkdir dir="${junit.classes.dir}" />
@@ -185,12 +175,12 @@
 			<formatter type="brief" usefile="false" />
 			<classpath refid="test.classpath" />			
 
-			<batchtest fork="yes" todir="${dist.dir}/report/tests" unless="testcase" haltonfailure="${haltonfailure}">
+			<batchtest fork="yes" todir="${dist.dir}/report/tests" unless="testcasePattern" haltonfailure="${haltonfailure}">
 				<fileset dir="${src.test.dir}" includes="**/*Test.java" />
 			</batchtest>
-			<batchtest fork="yes" todir="${dist.dir}/report/tests" if="testcase" haltonfailure="${haltonfailure}">
-				<fileset dir="${src.test.dir}" includes="**/${testcase}.java" />
-			</batchtest>
+            <batchtest fork="yes" todir="${dist.dir}/report/tests" if="testcasePattern" haltonfailure="${haltonfailure}">
+   				<fileset dir="${src.test.dir}" includes="${testcasePattern}" />
+   			</batchtest>
 
 		</junit>
 
@@ -252,12 +242,12 @@
 			<formatter type="xml" />
 			<classpath refid="test.classpath" />
 
-			<batchtest fork="yes" todir="${dist.dir}/report/tests" unless="testcase" haltonfailure="no">
+			<batchtest fork="yes" todir="${dist.dir}/report/tests" unless="testcasePattern" haltonfailure="no">
 				<fileset dir="${src.test.dir}" includes="**/*Test.java" />
 			</batchtest>
-			<batchtest fork="yes" todir="${dist.dir}/report/tests" if="testcase" haltonfailure="yes">
-				<fileset dir="${src.test.dir}" includes="**/${testcase}.java" />
-			</batchtest>
+            <batchtest fork="yes" todir="${dist.dir}/report/tests" if="testcasePattern" haltonfailure="${haltonfailure}">
+   				<fileset dir="${src.test.dir}" includes="${testcasePattern}" />
+   			</batchtest>
 
 		</junit>
 
