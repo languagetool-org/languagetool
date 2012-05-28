@@ -5990,6 +5990,41 @@ Useful links:
       <example type="incorrect">Kelenner eo <marker>abaoe bloavezhioù zo</marker>.</example>
       <example type="correct">Kelenner eo abaoe bloavezhioù.</example>
     </rule>
+
+    <rulegroup id="PEGENT_PEGEN" name="pegent → pegen">
+      <rule>
+        <pattern>
+          <token postag="SENT_START"/>
+          <marker><token>pegent</token></marker>
+          <token postag_regexp="yes" postag="J|V ppa"/>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>pegen</suggestion>?</message>
+        <example type="incorrect"><marker>Pegent</marker> fentus eo.</example>
+        <example type="correct">Pegen fentus eo.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">na|ket</token>
+          <marker><token>pegent</token></marker>
+          <token postag_regexp="yes" postag="J|V ppa"/>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>pegen</suggestion>?</message>
+        <example type="incorrect">Na <marker>pegent</marker> brav!</example>
+        <example type="correct">Na <marker>pegen</marker> brav!</example>
+        <example type="incorrect">Ne zisonjfez ket <marker>pegent</marker> brav eo.</example>
+        <example type="correct">Ne zisonjfez ket pegen brav eo.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag="V .*" postag_regexp="yes"/>
+          <marker><token>pegent</token></marker>
+          <token postag_regexp="yes" postag="J|V ppa"/>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>pegen</suggestion>?</message>
+        <example type="incorrect">Peogwir e oar <marker>pegent</marker> nec'het eo ar re all gantañ.</example>
+        <example type="correct">Peogwir e oar pegen nec'het eo ar re all gantañ.</example>
+      </rule>
+    </rulegroup>
      
   </category>
   <!-- vim: foldmethod=marker foldmarker=<category,</category:
