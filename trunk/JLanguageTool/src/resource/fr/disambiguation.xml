@@ -114,7 +114,6 @@ RB => Règles Brutes
             <disambig postag="N m s"></disambig>
         </rule>
     </rulegroup>
-
     <rule name="quelque chose" id="QUELQUE_CHOSE">
         <pattern>
             <token>quelque</token>
@@ -1089,5 +1088,21 @@ RB => Règles Brutes
             </pattern>
             <disambig postag="A"></disambig>
         </rule>
+    </rulegroup>
+
+    <rulegroup id="NOS" name="nos">
+      <rule>
+        <pattern>
+          <marker><token>nos</token></marker>
+        </pattern>
+        <disambig postag="D e p"></disambig>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">[dl]es|plusieurs|nombreux</token>
+          <marker><token>nos</token></marker>
+        </pattern>
+        <disambig postag="N m p"></disambig>
+      </rule>
     </rulegroup>
 </rules>

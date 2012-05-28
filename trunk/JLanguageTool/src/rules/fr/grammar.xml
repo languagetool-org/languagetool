@@ -1922,6 +1922,73 @@ though, and has since been slightly modified)-->
             <example type="incorrect">La langue d’<marker>hoc</marker>.</example>
             <example type="correct">La langue d’<marker>oc</marker>.</example>
         </rule>
+        <rulegroup id="VOIE_VOIX" name="voie → voix">
+          <rule>
+            <pattern>
+              <token inflected="yes" regexp="yes" skip="2">écouter|entendre|parler</token>
+              <marker><token regexp="yes">voies?</token></marker>
+            </pattern>
+            <message>Voulez-vous écrire <suggestion>voix</suggestion> ?</message>
+            <example type="incorrect">Il a écouté la <marker>voie</marker> de la raison.</example>
+            <example type="correct">Il a écouté la <marker>voix</marker> de la raison.</example>
+            <example type="incorrect">Parlez à <marker>voie</marker> basse.</example>
+            <example type="correct">Parlez à voix basse.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <marker><token regexp="yes">voies?</token></marker>
+              <token regexp="yes" skip="2">aux|à</token>
+              <token regexp="yes">élections?</token>
+            </pattern>
+            <message>Voulez-vous écrire <suggestion>voix</suggestion> ?</message>
+            <example type="incorrect">La majorité des <marker>voies</marker> aux élections.</example>
+            <example type="correct">La majorité des <marker>voix</marker> aux élections.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token>dans</token>
+              <token regexp="yes">[mtsl]a|leurs?|[vn]os</token>
+              <marker><token regexp="yes">voies?</token></marker>
+            </pattern>
+            <message>Voulez-vous écrire <suggestion>voix</suggestion> ?</message>
+            <example type="incorrect">Il y avait un émotion dans sa <marker>voie</marker>.</example>
+            <example type="correct">Il y avait un émotion dans sa voix.</example>
+          </rule>
+        </rulegroup>
+        <rulegroup id="VOIX_VOIE" name="voix → voie">
+          <rule>
+            <pattern>
+              <marker><token>voix</token></marker>
+              <token regexp="yes">(carrossable|communale|privée|publique|interdite|piétonne|principale|prioritaire|souterraine|urbaine|déserte|romaine|appienne|flaminienne|ferrée|ferroviaire|lactée|aérienne|maritime|fluviale|terrestre|navigable|détournée|déviée|buccale|intramusculaire|intraveineuse|abdominale|anale|disgestive|urinaire|respiratoire|parallèle|administrative|diplomatique|gouvernementale|législative|hiérarchique|rectiligne|sinueuse)s?|express</token>
+            </pattern>
+            <message>Voulez-vous écrire <suggestion>voie</suggestion> ou <suggestion>voies</suggestion> ?</message>
+            <example type="incorrect">La <marker>voix</marker> piétonne est férmée.</example>
+            <example type="correct">La voie piétonne est férmée.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token>par</token>
+              <marker><token>voix</token></marker>
+              <token>de</token>
+              <token>conséquence</token>
+            </pattern>
+            <message>Voulez-vous écrire <suggestion>voie</suggestion> ?</message>
+            <example type="incorrect">Par <marker>voix</marker> de conséquence</example>
+            <example type="correct">Par voie de conséquence</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token>en</token>
+              <marker><token>voix</token></marker>
+              <token regexp="yes">de?</token>
+            </pattern>
+            <message>Voulez-vous écrire <suggestion>voie</suggestion> ?</message>
+            <example type="incorrect">Un animal en <marker>voix</marker> d’extinction.</example>
+            <example type="correct">Un animal en voie d’extinction.</example>
+            <example type="incorrect">Les pays en <marker>voix</marker> de dévelopment</example>
+            <example type="correct">Les pays en voie de dévelopment</example>
+          </rule>
+        </rulegroup>
     </category>
     <category name="Élision">
         <!-- I find conflicting information about élision, so this needs to be reviewed.
@@ -2360,6 +2427,7 @@ though, and has since been slightly modified)-->
                 <example type="correct">Son amie l’abandonne.</example>
                 <example type="incorrect"><marker>La Cameroun</marker></example>
                 <example type="correct">Le Cameroun</example>
+                <example type="correct">Toutes nos félicitations.</example>
             </rule>
             <rule name="nom féminin suivi du masculin">
                 <pattern>
@@ -9545,15 +9613,6 @@ though, and has since been slightly modified)-->
                 <example type="incorrect"><marker>bénéficier à</marker></example>
                 <example type="correct"><marker>profiter à</marker></example>
             </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">lui|me|te|se|nous|vous|leur</token>
-                    <token inflected="yes">bénéficier</token>
-                </pattern>
-                <message>« Bénéficier à » est un anglicisme (to benefit to). Employez <suggestion>profiter à</suggestion>.</message>
-                <example type="incorrect"><marker>leur bénéficier</marker></example>
-                <example type="correct"><marker>leur profiter</marker></example>
-            </rule>
         </rulegroup>
         <rulegroup id="ASSURANCE-SANTE" name="assurance-santé">
             <rule>
@@ -14921,7 +14980,7 @@ though, and has since been slightly modified)-->
             <example type="incorrect"><marker>feeling</marker></example>
             <example type="correct"><marker>impression</marker></example>
         </rule>
-        <rule id="FAX" name="fax">
+        <rule default="off" id="FAX" name="fax">
             <pattern>
                 <token regexp="yes">fax|faxs</token>
             </pattern>
