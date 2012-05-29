@@ -1344,7 +1344,7 @@ Ligiloj al la retejo Lernu.net kun permeso la la teamo de Lernu.
                 <token>men</token>
             </pattern>
             <message>«\1» estas neoficiala kaj malmulte konata vorto. Ĉu vi intencis diri <suggestion>malpli</suggestion> ?</message>
-            <url>http://bertilow.com/pmeg/gramatiko/neoficialaj_vortetoj.html#i-356></url>
+            <url>http://bertilow.com/pmeg/gramatiko/neoficialaj_vortetoj.html#i-356</url>
             <example type="incorrect"><marker>Men</marker> vinon, mi petas.</example>
             <example type="correct">Mapli da vino, mi petas.</example>
         </rule>
@@ -1353,7 +1353,7 @@ Ligiloj al la retejo Lernu.net kun permeso la la teamo de Lernu.
                 <token>graŭ</token>
             </pattern>
             <message>«\1» estas neoficiala kaj malmulte konata vorto. Uzu <suggestion>dank’ al</suggestion>.</message>
-            <url>http://bertilow.com/pmeg/gramatiko/neoficialaj_vortetoj.html#i-356></url>
+            <url>http://bertilow.com/pmeg/gramatiko/neoficialaj_vortetoj.html#i-356</url>
             <example type="incorrect">Mi sukcesis <marker>graŭ</marker> ŝia helpo.</example>
             <example type="correct">Mi sukcesis dank’ al ŝia helpo.</example>
         </rule>
@@ -1362,7 +1362,7 @@ Ligiloj al la retejo Lernu.net kun permeso la la teamo de Lernu.
                 <token>sor</token>
             </pattern>
             <message>«\1» estas neoficiala kaj malmulte konata vorto. Uzu <suggestion>supren</suggestion>.</message>
-            <url>http://bertilow.com/pmeg/gramatiko/neoficialaj_vortetoj.html#i-356></url>
+            <url>http://bertilow.com/pmeg/gramatiko/neoficialaj_vortetoj.html#i-356</url>
             <example type="incorrect">Mi iras <marker>sor</marker>.</example>
             <example type="correct">Mi iras supren.</example>
         </rule>
@@ -2840,15 +2840,61 @@ Ligiloj al la retejo Lernu.net kun permeso la la teamo de Lernu.
             <example type="correct">Mi ŝatas legi.</example>
             <example type="correct">Esperanto plaĉas al mi.</example>
         </rule>
-        <rule id="ŜATOS_AL" name="ŝati al → plaĉi al">
-          <pattern>
-            <marker><token inflected="yes" regexp="yes">(mal|ne)?ŝat(et|eg)?i</token></marker>
-            <token>al</token>
-          </pattern>
-          <message>La prepozicio «al» ne povas stari post la verbo «\1». Ĉu vi intencis uzi la verbon <suggestion><match no="1" regexp_match="ŝat" regexp_replace="plaĉ"/></suggestion>?</message>
-          <example type="incorrect">Espereble ne <marker>malŝatos</marker> al vi.</example>
-          <example type="correct">Espereble malplaĉos al vi.</example>
-        </rule>
+        <rulegroup id="SXATOS_AL" name="ŝati al → plaĉi al">
+          <rule>
+            <pattern>
+              <marker><token inflected="yes" regexp="yes">(mal|ne)?ŝat(et|eg)?i</token></marker>
+              <token>al</token>
+            </pattern>
+            <message>La prepozicio «al» ne povas stari post la verbo «\1». Ĉu vi intencis uzi la verbon <suggestion><match no="1" regexp_match="ŝat" regexp_replace="plaĉ"/></suggestion>?</message>
+            <example type="incorrect">Espereble ne <marker>malŝatos</marker> al vi.</example>
+            <example type="correct">Espereble malplaĉos al vi.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <marker>al</marker>
+              <token/>
+              <marker><token inflected="yes" regexp="yes">(mal|ne)?ŝat(et|eg)?i</token></marker>
+            </pattern>
+            <message>La prepozicio «al» ne povas stari kun la verbo «\3». Ĉu vi intencis uzi la verbon <suggestion><match no="3" regexp_match="ŝat" regexp_replace="plaĉ"/></suggestion>?</message>
+            <example type="incorrect">Al mi <marker>ŝatas</marker> sportumi.</example>
+            <example type="correct">Al mi <marker>plaĉas</marker> sportumi.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <marker>al</marker>
+              <token/>
+              <token>ne</token>
+              <marker><token inflected="yes" regexp="yes">(mal|ne)?ŝat(et|eg)?i</token></marker>
+            </pattern>
+            <message>La prepozicio «al» ne povas stari kun la verbo «\4». Ĉu vi intencis uzi la verbon <suggestion><match no="4" regexp_match="ŝat" regexp_replace="plaĉ"/></suggestion>?</message>
+            <example type="incorrect">Al mi ne <marker>ŝatas</marker> sportumi.</example>
+            <example type="correct">Al mi ne <marker>plaĉas</marker> sportumi.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <marker>al</marker>
+              <token/>
+              <token postag="E ..." postag_regexp="yes"/>
+              <marker><token inflected="yes" regexp="yes">(mal|ne)?ŝat(et|eg)?i</token></marker>
+            </pattern>
+            <message>La prepozicio «al» ne povas stari kun la verbo «\4». Ĉu vi intencis uzi la verbon <suggestion><match no="4" regexp_match="ŝat" regexp_replace="plaĉ"/></suggestion>?</message>
+            <example type="incorrect">Al mi ĉiam <marker>ŝatas</marker> sportumi.</example>
+            <example type="correct">Al mi ĉiam <marker>plaĉas</marker> sportumi.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <marker>al</marker>
+              <token/>
+              <token postag="E ..." postag_regexp="yes"/>
+              <token>ne</token>
+              <marker><token inflected="yes" regexp="yes">(mal|ne)?ŝat(et|eg)?i</token></marker>
+            </pattern>
+            <message>La prepozicio «al» ne povas stari kun la verbo «\5». Ĉu vi intencis uzi la verbon <suggestion><match no="5" regexp_match="ŝat" regexp_replace="plaĉ"/></suggestion>?</message>
+            <example type="incorrect">Al mi ĉiam ne <marker>malŝatas</marker> sportumi.</example>
+            <example type="correct">Al mi ĉiam ne <marker>malplaĉas</marker> sportumi.</example>
+          </rule>
+        </rulegroup>
         <rule id="MI_EBLAS" name="mi eblas (mi povas)">
             <pattern>
                 <token postag="SENT_START|K" postag_regexp="yes"></token>
