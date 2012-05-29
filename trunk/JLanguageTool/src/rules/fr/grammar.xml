@@ -3478,7 +3478,7 @@ though, and has since been slightly modified)-->
             <rule name="il/elle/on + 2 tokens + Verbe">
                 <pattern>
                     <token postag="R pers suj 3 .* s|R dem . s" postag_regexp="yes">
-                        <exception regexp="yes">ce|celle</exception>
+                        <exception regexp="yes">ça|cela|ceci|ce|celle</exception>
                         <exception scope="previous" postag="&lt;/DE&gt;"></exception>
                         <exception scope="previous" postag="P"></exception>
                         <exception scope="previous">comme</exception>
@@ -3491,9 +3491,20 @@ though, and has since been slightly modified)-->
                 <message>Vérifiez l’accord entre le pronom « \1 » et le verbe « \4 ».</message>
                 <example type="incorrect"><marker>Il ne me veux</marker> pas.</example>
                 <example type="correct"><marker>Il ne me veut</marker> pas.</example>
-                <example type="incorrect"><marker>Cela t’irais</marker> bien.</example>
-                <example type="correct"><marker>Cela t’irait</marker> bien.</example>
                 <example type="correct">Pour cela nous en parlons à notre mère.</example>
+            </rule>
+            <rule name="il/elle/on + 2 tokens + Verbe">
+                <pattern>
+                    <token regexp="yes">ça|cela|ceci|(celui|celle)-(ci|là)</token>
+                    <!-- Not all combinations of 2 tokens between il/elle/on and verb are actually possible -->
+                    <token regexp="yes">[lmnst]|[mnst]e|la|les?|[nv]ous|lui|leur</token>
+                    <token regexp="yes">[’´'‛′‘]|[mnst]e|la|les?|[vn]ous|en|y|lui|leur</token>
+                    <token postag="V .*" postag_regexp="yes"><exception postag="V .* 3 s|V.* inf" postag_regexp="yes"></exception></token>
+                </pattern>
+                <message>Vérifiez l’accord entre le pronom « \1 » et le verbe « \4 ».</message>
+                <example type="incorrect"><marker>Ça t’irais</marker> bien.</example>
+                <example type="correct"><marker>Ça t’irait</marker> bien.</example>
+                <example type="correct">Ne laisse pas ça t’arrêter.</example>
             </rule>
             <rule name="il/elle/on + 3 tokens + Verbe">
                 <pattern>
