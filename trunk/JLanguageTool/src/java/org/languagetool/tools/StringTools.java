@@ -358,6 +358,9 @@ public final class StringTools {
       xml.append(" context=\"" + StringTools.escapeXML(context) + "\"");
       xml.append(" contextoffset=\"" + contextOffset + "\"");
       xml.append(" errorlength=\"" + (match.getToPos() - match.getFromPos()) + "\"");
+      if (match.getRule().getUrl() != null) {
+    	  xml.append(" url=\"" + match.getRule().getUrl().toString() + "\"");
+      }
       xml.append("/>\n");
     }
     if (xmlMode == XmlPrintMode.END_XML || xmlMode == XmlPrintMode.NORMAL_XML) {

@@ -262,6 +262,32 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue(output.indexOf("<error fromy=\"0\" fromx=\"8\" toy=\"0\" tox=\"11\" ruleId=\"EN_A_VS_AN\" msg=\"Use 'a' instead of 'an' if the following word doesn't start with a vowel sound, e.g. 'a sentence', 'a university'\" replacements=\"a\" context=\"This is an test. \" contextoffset=\"8\" errorlength=\"2\"/>") != -1);
   }
   
+  public void testGermanFileIwithURL() throws URISyntaxException, IOException, ParserConfigurationException, SAXException {
+
+	    File input = createTempFile();
+	    // Populate the file with data.
+	    PrintWriter w = new PrintWriter(new OutputStreamWriter(new FileOutputStream(input), "UTF-8"));
+	    w.println("Ward ihr zufrieden damit?");
+	    w.close();
+
+	    String[] args = new String[] {"-l", "de", "--api", input.getAbsolutePath()};
+
+	    Main.main(args);
+	    String output = new String(this.out.toByteArray());
+	    assertTrue(output.indexOf("<?xml version=\"1.0\" encoding=\"UTF-8\"?>") == 0);
+	    assertTrue(output.indexOf("ruleId=\"WARD_VS_WART\" subId=\"1\"") != -1);
+	    //check URL part
+	    assertTrue(output.indexOf("url=\"http://www.korrekturen.de/beliebte_fehler/ward.shtml\"") != -1);
+	    
+	    //now check in normal mode and check for URL
+	    
+	    args = new String[] {"-l", "de", input.getAbsolutePath()};
+	    Main.main(args);
+	    output = new String(this.out.toByteArray());
+	    assertTrue(output.indexOf("More info: http://www.korrekturen.de/beliebte_fehler/ward.shtml") != -1);
+	  }
+ 
+  
   public void testPolishFileAPI() throws URISyntaxException, IOException, ParserConfigurationException, SAXException {
     File input = createTempFile();
 
