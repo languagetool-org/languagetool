@@ -3060,14 +3060,35 @@ Useful links:
   </category>
 
   <category name="Barrennig-stagañ">
-    <rule id="OCH_AN" name="diasoc’h diasañ → diasoc’h-diaesañ">
+    <rulegroup id="OCH_AN" name="diasoc’h diasañ → diasoc’h-diaesañ">
+      <rule>
+        <pattern>
+          <token postag="J cmp" regexp="yes">.*oc’h</token>
+          <token postag="J sup"><match no="1" regexp_match="oc’h$" regexp_replace="añ"></match></token>
+        </pattern>
+        <message>Implijit <suggestion>\1-\2</suggestion>.</message>
+        <example type="incorrect"><marker>Diaesoc’h diaesañ</marker> eo kavout labour.</example>
+        <example type="correct">Diaesoc’h-diaesañ eo kavout labour.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag="J cmp" regexp="yes">.*oc’h</token>
+          <token postag="J"><match no="1" regexp_match="oc’h$" regexp_replace=""></match></token>
+        </pattern>
+        <message>Implijit <suggestion>\1-\2</suggestion>.</message>
+        <example type="incorrect"><marker>Gwelloc’h gwell</marker></example>
+        <example type="correct">Gwelloc’h-gwell</example>
+      </rule>
+    </rulegroup>
+    <rule id="J_OUZH_J" name="gwazh ouzh gwazh → gwazh-ouzh-gwazh">
       <pattern>
-        <token postag="J cmp" regexp="yes">.*oc’h</token>
-        <token postag="J sup"><match no="1" regexp_match="(.*)oc’h" regexp_replace="$1añ"></match></token>
+        <token postag="J"/>
+        <token>ouzh</token>
+        <token><match no="0"/></token>
       </pattern>
-      <message>Implijit <suggestion>\1-\2</suggestion>.</message>
-      <example type="incorrect"><marker>Diaesoc’h diaesañ</marker> eo kavout labour.</example>
-      <example type="correct">Diaesoc’h-diaesañ eo kavout labour.</example>
+      <message>Implijit <suggestion>\1-\2-\3</suggestion>.</message>
+      <example type="incorrect"><marker>Gwazh ouzh gwazh</marker> ez a an avel.</example>
+      <example type="correct">Gwazh-ouzh-gwazh ez a an avel.</example>
     </rule>
     <rule id="MAN_SE_HONT" name="plac’h mañ → plac’h-mañ">
       <pattern>
@@ -5996,7 +6017,7 @@ Useful links:
         <pattern>
           <token postag="SENT_START"/>
           <marker><token>pegent</token></marker>
-          <token postag_regexp="yes" postag="J|V ppa"/>
+          <token postag_regexp="yes" postag="[AJ]|V ppa"/>
         </pattern>
         <message>Ha fellout a rae deoc’h skrivañ <suggestion>pegen</suggestion>?</message>
         <example type="incorrect"><marker>Pegent</marker> fentus eo.</example>
@@ -6006,7 +6027,7 @@ Useful links:
         <pattern>
           <token regexp="yes">na|ket</token>
           <marker><token>pegent</token></marker>
-          <token postag_regexp="yes" postag="J|V ppa"/>
+          <token postag_regexp="yes" postag="[AJ]|V ppa"/>
         </pattern>
         <message>Ha fellout a rae deoc’h skrivañ <suggestion>pegen</suggestion>?</message>
         <example type="incorrect">Na <marker>pegent</marker> brav!</example>
@@ -6018,7 +6039,7 @@ Useful links:
         <pattern>
           <token postag="V .*" postag_regexp="yes"/>
           <marker><token>pegent</token></marker>
-          <token postag_regexp="yes" postag="J|V ppa"/>
+          <token postag_regexp="yes" postag="[AJ]|V ppa"/>
         </pattern>
         <message>Ha fellout a rae deoc’h skrivañ <suggestion>pegen</suggestion>?</message>
         <example type="incorrect">Peogwir e oar <marker>pegent</marker> nec'het eo ar re all gantañ.</example>
