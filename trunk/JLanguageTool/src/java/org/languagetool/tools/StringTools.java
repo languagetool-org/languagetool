@@ -359,7 +359,9 @@ public final class StringTools {
       xml.append(" contextoffset=\"" + contextOffset + "\"");
       xml.append(" errorlength=\"" + (match.getToPos() - match.getFromPos()) + "\"");
       if (match.getRule().getUrl() != null) {
-    	  xml.append(" url=\"" + match.getRule().getUrl().toString() + "\"");
+          xml.append(" url=\""
+              + escapeXMLForAPIOutput(match.getRule().getUrl().toString())
+              + "\"");
       }
       xml.append("/>\n");
     }
