@@ -23,6 +23,8 @@ import org.languagetool.rules.en.AvsAnRule;
 import junit.framework.TestCase;
 
 import java.io.*;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -165,6 +167,31 @@ public class StringToolsTest extends TestCase {
         "<matches>\n" +
         "<error fromy=\"44\" fromx=\"98\" toy=\"45\" tox=\"99\" ruleId=\"EN_A_VS_AN\" msg=\"myMessage\" replacements=\"\" context=\"...s is an test...\" contextoffset=\"8\" errorlength=\"2\"/>\n" +
         "</matches>\n", xml);
+  }
+
+  public void testRuleMatchesWithUrlToXML() throws IOException {
+    final List<RuleMatch> matches = new ArrayList<RuleMatch>();
+    final String text = "This is an test sentence. Here's another sentence with more text.";
+    final RuleMatch match = new RuleMatch(new AvsAnRule(null) {
+      @Override
+      public URL getUrl() {
+        try {
+          return new URL("http://server.org?id=1&foo=bar");
+        } catch (MalformedURLException e) {
+          throw new RuntimeException(e);
+        }
+      }
+    }, 8, 10, "myMessage");
+    match.setColumn(99);
+    match.setEndColumn(100);
+    match.setLine(44);
+    match.setEndLine(45);
+    matches.add(match);
+    final String xml = StringTools.ruleMatchesToXML(matches, text, 5, StringTools.XmlPrintMode.NORMAL_XML);
+    assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+            "<matches>\n" +
+            "<error fromy=\"44\" fromx=\"98\" toy=\"45\" tox=\"99\" ruleId=\"EN_A_VS_AN\" msg=\"myMessage\" replacements=\"\" context=\"...s is an test...\" contextoffset=\"8\" errorlength=\"2\" url=\"http://server.org?id=1&amp;foo=bar\"/>\n" +
+            "</matches>\n", xml);
   }
 
   public void testRuleMatchesToXMLEscapeBug() throws IOException {
