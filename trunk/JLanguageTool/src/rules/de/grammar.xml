@@ -2065,6 +2065,7 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                 <token>42</token>
             </pattern>
             <message>Ersetzen durch <suggestion>die Antwort auf die Frage nach dem Leben, dem Universum und dem ganzen Rest</suggestion>?</message>
+            <url>http://de.wikipedia.org/wiki/42_(Antwort)</url>
             <example type="incorrect">Die Antwort lautet: <marker>42</marker>.</example>
             <example type="correct" correction="Die Antwort auf die Frage nach dem Leben, dem Universum und dem ganzen Rest"><marker>Die Antwort auf die Frage nach dem Leben, dem Universum und dem ganzen Rest</marker> ist bekannt. Nur die Frage nicht.</example>
             <example type="correct">Diese Regel ist nur <marker>ein Scherz</marker>.</example>
@@ -5023,6 +5024,23 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                 <example type="correct">Wir haben mehrere <marker>Jahre lang</marker> gesucht.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="SO_WOHL" name="Zusammen-/Getrenntschreibung: 'so wohl (sowohl) … als auch'">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>so</token>
+                        <token skip="-1">wohl</token>
+                    </marker>
+                    <token regexp="yes">als|wie</token>
+                    <token>auch</token>
+                </pattern>
+                <message>&getrennt;: Meinten Sie <suggestion>sowohl</suggestion>?</message>
+                <short>&getrennt;.</short>
+                <example type="incorrect" correction="sowohl">Er ist <marker>so wohl</marker> schlau als auch dumm.</example>
+                <example type="correct">Er ist <marker>sowohl</marker> schlau als auch dumm.</example>
+                <example type="correct">Ich fühle mich nicht <marker>so wohl</marker>.</example>
+            </rule>
+        </rulegroup> 
         <rulegroup id="ZEITLANG_ZEIT_LANG" name="Zusammen-/Getrenntschreibung: 'eine gewisse Zeitlang (Zeit lang)' u.ä.">
             <rule>
                 <pattern case_sensitive="no">
@@ -16981,8 +16999,8 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                         <token>Euros</token>
                     </marker>
                 </pattern>
-                <message>Bei der Angabe von Geldbeträgen steht die Währung im Singular: \1 <suggestion>Euro</suggestion></message>
-                <url>http://www.duden.de/rechtschreibung/Euro_Waehrung#block_7</url>
+                <message>Bei der Angabe von Geldbeträgen steht die Währung im Singular, sofern sie sich nicht auf einzelne Münzen beziehen: \1 <suggestion>Euro</suggestion></message>
+                <url>http://de.wiktionary.org/wiki/Euro</url>
                 <short>Bei der Angabe von Geldbeträgen steht die Währung im Singular</short>
                 <example type="correct">Das kostet 10 <marker>Euro</marker>.</example>
                 <example type="incorrect" correction="Euro">Das kostet 10 <marker>Euros</marker>.</example>
@@ -16994,8 +17012,8 @@ $Id: grammar.xml,v 1.47 2011-01-22 12:29:46 dnaber Exp $
                         <token>Euros</token>
                     </marker>
                 </pattern>
-                <message>Bei der Angabe von Geldbeträgen steht die Währung im Singular: \1 <suggestion>Euro</suggestion></message>
-                <url>http://www.duden.de/rechtschreibung/Euro_Waehrung#block_7</url>
+                <message>Bei der Angabe von Geldbeträgen steht die Währung im Singular, sofern sie sich nicht auf einzelne Münzen beziehen: \1 <suggestion>Euro</suggestion></message>
+                <url>http://de.wiktionary.org/wiki/Euro</url>
                 <short>Bei der Angabe von Geldbeträgen steht die Währung im Singular</short>
                 <example type="correct">Das kostet fünf <marker>Euro</marker></example>
                 <example type="incorrect" correction="Euro">Das kostet fünf <marker>Euros</marker></example>
