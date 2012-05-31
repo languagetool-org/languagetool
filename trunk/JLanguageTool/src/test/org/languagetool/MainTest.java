@@ -19,21 +19,9 @@
 
 package org.languagetool;
 
-import java.io.ByteArrayOutputStream;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-
-import java.io.PrintStream;
-import java.net.URISyntaxException;
+import java.io.*;
 import java.net.URI;
 import java.net.URL;
-
-import javax.xml.parsers.ParserConfigurationException;
-import org.xml.sax.SAXException;
 
 /**
  * Tests the basic features of the command-line interface.
@@ -69,32 +57,30 @@ public class MainTest extends AbstractSecurityTestCase {
     System.setErr(this.stderr);
   }
 
-  public void testUsageMessage() throws IOException, ParserConfigurationException, SAXException {
+  public void testUsageMessage() throws Exception {
     try {
       String[] args = new String[] {"-h"};
       Main.main(args);
       fail("LT should have exited with status 0!");
     } catch (ExitException e) {
       String output = new String(this.out.toByteArray());
-      assertTrue(output.indexOf("Usage: java -jar LanguageTool.jar") != -1);
+      assertTrue(output.contains("Usage: java -jar LanguageTool.jar"));
       assertEquals("Exit status", 1, e.status);
     }
   }
 
-  public void testEnglishFile() throws URISyntaxException, IOException, ParserConfigurationException, SAXException {
+  public void testEnglishFile() throws Exception {
     final URL url = this.getClass().getResource(ENGLISH_TEST_FILE);
-    //System.err.println("###"+url);
     final URI uri = new URI (url.toString());
     String[] args = new String[] {"-l", "en", uri.getPath()};
     
     Main.main(args);
     String output = new String(this.out.toByteArray());
-    //System.out.println("#>"+output);
     assertTrue(output.indexOf("Expected text language: English") == 0);
-    assertTrue(output.indexOf("1.) Line 1, column 9, Rule ID: EN_A_VS_AN") != -1);
+    assertTrue(output.contains("1.) Line 1, column 9, Rule ID: EN_A_VS_AN"));
   }
   
-  public void testEnglishFileAutoDetect() throws URISyntaxException, IOException, ParserConfigurationException, SAXException {
+  public void testEnglishFileAutoDetect() throws Exception {
 	  final URL url = this.getClass().getResource(ENGLISH_TEST_FILE);
 	  final URI uri = new URI (url.toString());
 	  String[] args = new String[] {"-adl", uri.getPath()};
@@ -102,23 +88,23 @@ public class MainTest extends AbstractSecurityTestCase {
 	  Main.main(args);
 	  String output = new String(this.out.toByteArray());
 	  assertTrue(output.indexOf("Using English for file") == 0);
-	  assertTrue(output.indexOf("1.) Line 1, column 9, Rule ID: EN_A_VS_AN") != -1);
+	  assertTrue(output.contains("1.) Line 1, column 9, Rule ID: EN_A_VS_AN"));
   }
   
-  public void testEnglishStdInAutoDetect() throws URISyntaxException, IOException, ParserConfigurationException, SAXException {
-      final String test = "This is an test.";
-      final byte[] b = test.getBytes();
-      System.setIn(new ByteArrayInputStream(b));
-      String[] args = new String[] {"-adl"};
+  public void testEnglishStdInAutoDetect() throws Exception {
+    final String test = "This is an test.";
+    final byte[] b = test.getBytes();
+    System.setIn(new ByteArrayInputStream(b));
+    String[] args = new String[] {"-adl"};
 
-      Main.main(args);
-      String output = new String(this.out.toByteArray());
-      assertTrue(output.indexOf("Working on STDIN...") == 0);
-      assertTrue(output.indexOf("Language used is: English") != -1);
-      assertTrue(output.indexOf("1.) Line 1, column 9, Rule ID: EN_A_VS_AN") != -1);
+    Main.main(args);
+    String output = new String(this.out.toByteArray());
+    assertTrue(output.indexOf("Working on STDIN...") == 0);
+    assertTrue(output.contains("Language used is: English"));
+    assertTrue(output.contains("1.) Line 1, column 9, Rule ID: EN_A_VS_AN"));
   }
   
-  public void testEnglishFileVerbose() throws URISyntaxException, IOException, ParserConfigurationException, SAXException {
+  public void testEnglishFileVerbose() throws Exception {
     final URL url = this.getClass().getResource(ENGLISH_TEST_FILE);
     final URI uri = new URI (url.toString());
     String[] args = new String[] {"-l", "en", "-v", uri.getPath()};
@@ -126,12 +112,12 @@ public class MainTest extends AbstractSecurityTestCase {
     Main.main(args);
     String output = new String(this.out.toByteArray());
     assertTrue(output.indexOf("Expected text language: English") == 0);
-    assertTrue(output.indexOf("1.) Line 1, column 9, Rule ID: EN_A_VS_AN") != -1);
+    assertTrue(output.contains("1.) Line 1, column 9, Rule ID: EN_A_VS_AN"));
     String tagText = new String(this.err.toByteArray());
-    assertTrue(tagText.indexOf("<S> This[this/DT]  is[be/VBZ]  an[a/DT]  test[test/NN].[./.,</S>]") != -1);
+    assertTrue(tagText.contains("<S> This[this/DT]  is[be/VBZ]  an[a/DT]  test[test/NN].[./.,</S>]"));
   }
   
-  public void testEnglishFileApplySuggestions() throws URISyntaxException, IOException, ParserConfigurationException, SAXException {
+  public void testEnglishFileApplySuggestions() throws Exception {
     final URL url = this.getClass().getResource(ENGLISH_TEST_FILE);
     final URI uri = new URI (url.toString());
     String[] args = new String[] {"-l", "en", "--apply", uri.getPath()};
@@ -142,7 +128,7 @@ public class MainTest extends AbstractSecurityTestCase {
   }
 
   
-  public void testEnglishStdIn1() throws IOException, ParserConfigurationException, SAXException {
+  public void testEnglishStdIn1() throws Exception {
     final String test = "This is an test.";
     final byte[] b = test.getBytes();
     System.setIn(new ByteArrayInputStream(b));
@@ -151,10 +137,10 @@ public class MainTest extends AbstractSecurityTestCase {
     Main.main(args);
     String output = new String(this.out.toByteArray());
     assertTrue(output.indexOf("Expected text language: English") == 0);
-    assertTrue(output.indexOf("1.) Line 1, column 9, Rule ID: EN_A_VS_AN") != -1);
+    assertTrue(output.contains("1.) Line 1, column 9, Rule ID: EN_A_VS_AN"));
   }
 
-  public void testEnglishStdIn2() throws IOException, ParserConfigurationException, SAXException {
+  public void testEnglishStdIn2() throws Exception {
     final String test = "This is an test.";
     final byte[] b = test.getBytes();
     System.setIn(new ByteArrayInputStream(b));
@@ -163,10 +149,10 @@ public class MainTest extends AbstractSecurityTestCase {
     Main.main(args);
     String output = new String(this.out.toByteArray());
     assertTrue(output.indexOf("Expected text language: English") == 0);
-    assertTrue(output.indexOf("1.) Line 1, column 9, Rule ID: EN_A_VS_AN") != -1);
+    assertTrue(output.contains("1.) Line 1, column 9, Rule ID: EN_A_VS_AN"));
   }
   
-  public void testEnglishStdIn3() throws IOException, ParserConfigurationException, SAXException {
+  public void testEnglishStdIn3() throws Exception {
     final String test = "This is an test.";
     final byte[] b = test.getBytes();
     System.setIn(new ByteArrayInputStream(b));
@@ -179,7 +165,7 @@ public class MainTest extends AbstractSecurityTestCase {
   
   //test line mode vs. para mode
   //first line mode
-  public void testEnglishLineMode() throws IOException, ParserConfigurationException, SAXException {    
+  public void testEnglishLineMode() throws Exception {
     final String test = "This is what I mean\nand you know it.";
     final byte[] b = test.getBytes();
     System.setIn(new ByteArrayInputStream(b));
@@ -191,7 +177,7 @@ public class MainTest extends AbstractSecurityTestCase {
   }
 
   //first line mode
-  public void testEnglishParaMode() throws IOException, ParserConfigurationException, SAXException {    
+  public void testEnglishParaMode() throws Exception {
     final String test = "This is what I mean\nand you know it.";
     final byte[] b = test.getBytes();
     System.setIn(new ByteArrayInputStream(b));
@@ -202,7 +188,7 @@ public class MainTest extends AbstractSecurityTestCase {
     assertEquals("This is what I mean\nand you know it.\n", output);
   }
   
-  public void testPolishStdInDefaultOff() throws IOException, ParserConfigurationException, SAXException {
+  public void testPolishStdInDefaultOff() throws Exception {
     final String test = "To jest test, który zrobiłem, który mi się podoba.";
     final byte[] b = test.getBytes();
     System.setIn(new ByteArrayInputStream(b));
@@ -211,11 +197,11 @@ public class MainTest extends AbstractSecurityTestCase {
     Main.main(args);
     String output = new String(this.out.toByteArray());
     assertTrue(output.indexOf("Expected text language: Polish") == 0);
-    assertTrue(output.indexOf("Working on STDIN...") != -1);
-    assertTrue(output.indexOf("1.) Line 1, column 31, Rule ID: PL_WORD_REPEAT") != -1);
+    assertTrue(output.contains("Working on STDIN..."));
+    assertTrue(output.contains("1.) Line 1, column 31, Rule ID: PL_WORD_REPEAT"));
   }
   
-  public void testPolishSpelling() throws IOException, ParserConfigurationException, SAXException {
+  public void testPolishSpelling() throws Exception {
 	    final String test = "Zwuasdac?";
 	    final byte[] b = test.getBytes();
 	    System.setIn(new ByteArrayInputStream(b));
@@ -224,12 +210,12 @@ public class MainTest extends AbstractSecurityTestCase {
 	    Main.main(args);
 	    String output = new String(this.out.toByteArray());
 	    assertTrue(output.indexOf("Expected text language: Polish") == 0);
-	    assertTrue(output.indexOf("Working on STDIN...") != -1);
-	    assertTrue(output.indexOf("1.) Line 1, column 1, Rule ID: HUNSPELL_RULE") != -1);
+	    assertTrue(output.contains("Working on STDIN..."));
+	    assertTrue(output.contains("1.) Line 1, column 1, Rule ID: HUNSPELL_RULE"));
 	  }
 
   
-  public void testEnglishFileRuleDisabled() throws URISyntaxException, IOException, ParserConfigurationException, SAXException {
+  public void testEnglishFileRuleDisabled() throws Exception {
     final URL url = this.getClass().getResource(ENGLISH_TEST_FILE);
     final URI uri = new URI (url.toString());
     String[] args = new String[] {"-l", "en", "-d", "EN_A_VS_AN", uri.getPath()};
@@ -237,10 +223,10 @@ public class MainTest extends AbstractSecurityTestCase {
     Main.main(args);
     String output = new String(this.out.toByteArray());
     assertTrue(output.indexOf("Expected text language: English") == 0);
-    assertTrue(output.indexOf("Rule ID: EN_A_VS_AN") == -1);
+    assertTrue(!output.contains("Rule ID: EN_A_VS_AN"));
   }
 
-  public void testEnglishFileRuleEnabled() throws URISyntaxException, IOException, ParserConfigurationException, SAXException {
+  public void testEnglishFileRuleEnabled() throws Exception {
     final URL url = this.getClass().getResource(ENGLISH_TEST_FILE);
     final URI uri = new URI (url.toString());
     String[] args = new String[] {"-l", "en", "-e", "EN_A_VS_AN", uri.getPath()};
@@ -248,10 +234,10 @@ public class MainTest extends AbstractSecurityTestCase {
     Main.main(args);
     String output = new String(this.out.toByteArray());
     assertTrue(output.indexOf("Expected text language: English") == 0);
-    assertTrue(output.indexOf("Rule ID: EN_A_VS_AN") != -1);
+    assertTrue(output.contains("Rule ID: EN_A_VS_AN"));
   }
   
-  public void testEnglishFileAPI() throws URISyntaxException, IOException, ParserConfigurationException, SAXException {
+  public void testEnglishFileAPI() throws Exception {
     final URL url = this.getClass().getResource(ENGLISH_TEST_FILE);
     final URI uri = new URI (url.toString());
     String[] args = new String[] {"-l", "en", "--api", uri.getPath()};
@@ -259,10 +245,12 @@ public class MainTest extends AbstractSecurityTestCase {
     Main.main(args);
     String output = new String(this.out.toByteArray());
     assertTrue(output.indexOf("<?xml version=\"1.0\" encoding=\"UTF-8\"?>") == 0);
-    assertTrue(output.indexOf("<error fromy=\"0\" fromx=\"8\" toy=\"0\" tox=\"11\" ruleId=\"EN_A_VS_AN\" msg=\"Use 'a' instead of 'an' if the following word doesn't start with a vowel sound, e.g. 'a sentence', 'a university'\" replacements=\"a\" context=\"This is an test. \" contextoffset=\"8\" errorlength=\"2\"/>") != -1);
+    assertTrue(output.contains("<error fromy=\"0\" fromx=\"8\" toy=\"0\" tox=\"11\" ruleId=\"EN_A_VS_AN\" " +
+            "msg=\"Use 'a' instead of 'an' if the following word doesn't start with a vowel sound, e.g. 'a sentence', " +
+            "'a university'\" replacements=\"a\" context=\"This is an test. \" contextoffset=\"8\" errorlength=\"2\"/>"));
   }
   
-  public void testGermanFileIwithURL() throws URISyntaxException, IOException, ParserConfigurationException, SAXException {
+  public void testGermanFileWithURL() throws Exception {
 
 	    File input = createTempFile();
 	    // Populate the file with data.
@@ -275,20 +263,19 @@ public class MainTest extends AbstractSecurityTestCase {
 	    Main.main(args);
 	    String output = new String(this.out.toByteArray());
 	    assertTrue(output.indexOf("<?xml version=\"1.0\" encoding=\"UTF-8\"?>") == 0);
-	    assertTrue(output.indexOf("ruleId=\"WARD_VS_WART\" subId=\"1\"") != -1);
+	    assertTrue(output.contains("ruleId=\"WARD_VS_WART\" subId=\"1\""));
 	    //check URL part
-	    assertTrue(output.indexOf("url=\"http://www.korrekturen.de/beliebte_fehler/ward.shtml\"") != -1);
+	    assertTrue(output.contains("url=\"http://www.korrekturen.de/beliebte_fehler/ward.shtml\""));
 	    
 	    //now check in normal mode and check for URL
-	    
 	    args = new String[] {"-l", "de", input.getAbsolutePath()};
 	    Main.main(args);
 	    output = new String(this.out.toByteArray());
-	    assertTrue(output.indexOf("More info: http://www.korrekturen.de/beliebte_fehler/ward.shtml") != -1);
+	    assertTrue(output.contains("More info: http://www.korrekturen.de/beliebte_fehler/ward.shtml"));
 	  }
  
   
-  public void testPolishFileAPI() throws URISyntaxException, IOException, ParserConfigurationException, SAXException {
+  public void testPolishFileAPI() throws Exception {
     File input = createTempFile();
 
     // Populate the file with data.
@@ -301,13 +288,13 @@ public class MainTest extends AbstractSecurityTestCase {
     Main.main(args);
     String output = new String(this.out.toByteArray(),"UTF-8");
     assertTrue(output.indexOf("<?xml version=\"1.0\" encoding=\"UTF-8\"?>") == 0);
-    assertTrue(output.indexOf("<error fromy=\"0\" fromx=\"8\" toy=\"0\" tox=\"21\" ruleId=\"BRAK_PRZECINKA_KTORY\" subId=\"5\"") != -1);
+    assertTrue(output.contains("<error fromy=\"0\" fromx=\"8\" toy=\"0\" tox=\"21\" ruleId=\"BRAK_PRZECINKA_KTORY\" subId=\"5\""));
     //This tests whether XML encoding is actually UTF-8:
-    assertTrue(output.indexOf("msg=\"Brak przecinka w tym fragmencie zdania. Przecinek prawdopodobnie należy postawić tak: 'świnia, która'.\" replacements=\"świnia, która\" ")  != -1);
-    assertTrue(output.indexOf("context=\"To jest świnia która się ślini. \" contextoffset=\"8\" errorlength=\"12\"/>") != -1);
+    assertTrue(output.contains("msg=\"Brak przecinka w tym fragmencie zdania. Przecinek prawdopodobnie należy postawić tak: 'świnia, która'.\" replacements=\"świnia, która\" "));
+    assertTrue(output.contains("context=\"To jest świnia która się ślini. \" contextoffset=\"8\" errorlength=\"12\"/>"));
   }
   
-  public void testPolishLineNumbers() throws URISyntaxException, IOException, ParserConfigurationException, SAXException {
+  public void testPolishLineNumbers() throws Exception {
     File input = createTempFile();
 
     // Populate the file with data.
@@ -327,7 +314,7 @@ public class MainTest extends AbstractSecurityTestCase {
     Main.main(args);
     String output = new String(this.out.toByteArray(),"UTF-8");
     assertTrue(output.indexOf("Expected text language: Polish") == 0);
-    assertTrue(output.indexOf("Line 8, column 1, Rule ID: BRAK_PRZECINKA_KTORY") != -1);
+    assertTrue(output.contains("Line 8, column 1, Rule ID: BRAK_PRZECINKA_KTORY"));
   }
 
   private File createTempFile() throws IOException {
@@ -336,17 +323,17 @@ public class MainTest extends AbstractSecurityTestCase {
     return input;
   }
 
-  public void testEnglishTagger()  throws URISyntaxException, IOException, ParserConfigurationException, SAXException {
+  public void testEnglishTagger() throws Exception {
     final URL url = this.getClass().getResource(ENGLISH_TEST_FILE);
     final URI uri = new URI (url.toString());
     String[] args = new String[] {"-l", "en", "--taggeronly", uri.getPath()};
     Main.main(args);
     String output = new String(this.out.toByteArray());
     assertTrue(output.indexOf("Expected text language: English") == 0);
-    assertTrue(output.indexOf("<S> This[this/DT]  is[be/VBZ]  an[a/DT]  test[test/NN].[./.,</S>]") != -1);
+    assertTrue(output.contains("<S> This[this/DT]  is[be/VBZ]  an[a/DT]  test[test/NN].[./.,</S>]"));
   }
 
-  public void testBitextMode()  throws URISyntaxException, IOException, ParserConfigurationException, SAXException {
+  public void testBitextMode() throws Exception {
     File input = createTempFile();
 
     // Populate the file with data.
@@ -360,13 +347,12 @@ public class MainTest extends AbstractSecurityTestCase {
     Main.main(args);
     String output = new String(this.out.toByteArray());
     assertTrue(output.indexOf("Expected text language: Polish") == 0);
-    assertTrue(output.indexOf(
-        "Message: Hint: \"aktualny\" (Polish) means \"current\", \"(the) latest\", \"up-to-date\" (English). Did you mean 'rzeczywisty'?") != -1);
-    assertTrue(output.indexOf("Line 1, column 32, Rule ID: ACTUAL") != -1);
-    assertTrue(output.indexOf("Line 3, column 4, Rule ID: TRANSLATION_LENGTH") != -1);
+    assertTrue(output.contains("Message: Hint: \"aktualny\" (Polish) means \"current\", \"(the) latest\", \"up-to-date\" (English). Did you mean 'rzeczywisty'?"));
+    assertTrue(output.contains("Line 1, column 32, Rule ID: ACTUAL"));
+    assertTrue(output.contains("Line 3, column 4, Rule ID: TRANSLATION_LENGTH"));
   }
   
-  public void testBitextModeWithDisabledRule()  throws URISyntaxException, IOException, ParserConfigurationException, SAXException {
+  public void testBitextModeWithDisabledRule() throws Exception {
     File input = createTempFile();
 
     // Populate the file with data.
@@ -380,13 +366,12 @@ public class MainTest extends AbstractSecurityTestCase {
     Main.main(args);
     String output = new String(this.out.toByteArray());
     assertTrue(output.indexOf("Expected text language: Polish") == 0);
-    assertTrue(output.indexOf(
-        "Message: Hint: \"aktualny\" (Polish) means \"current\", \"(the) latest\", \"up-to-date\" (English). Did you mean 'rzeczywisty'?") != -1);
-    assertTrue(output.indexOf("Line 1, column 32, Rule ID: ACTUAL") != -1);
-    assertTrue(output.indexOf("Rule ID: TRANSLATION_LENGTH") == -1);
+    assertTrue(output.contains("Message: Hint: \"aktualny\" (Polish) means \"current\", \"(the) latest\", \"up-to-date\" (English). Did you mean 'rzeczywisty'?"));
+    assertTrue(output.contains("Line 1, column 32, Rule ID: ACTUAL"));
+    assertFalse(output.contains("Rule ID: TRANSLATION_LENGTH"));
   }
   
-  public void testBitextModeWithEnabledRule()  throws URISyntaxException, IOException, ParserConfigurationException, SAXException {
+  public void testBitextModeWithEnabledRule() throws Exception {
     File input = createTempFile();
 
     // Populate the file with data.
@@ -400,13 +385,12 @@ public class MainTest extends AbstractSecurityTestCase {
     Main.main(args);
     String output = new String(this.out.toByteArray());
     assertTrue(output.indexOf("Expected text language: Polish") == 0);
-    assertTrue(output.indexOf(
-        "Message: Hint: \"aktualny\" (Polish) means \"current\", \"(the) latest\", \"up-to-date\" (English). Did you mean 'rzeczywisty'?") == -1);
-    assertTrue(output.indexOf("Line 1, column 32, Rule ID: ACTUAL") == -1);
-    assertTrue(output.indexOf("Rule ID: TRANSLATION_LENGTH") != -1);
+    assertFalse(output.contains("Message: Hint: \"aktualny\" (Polish) means \"current\", \"(the) latest\", \"up-to-date\" (English). Did you mean 'rzeczywisty'?"));
+    assertFalse(output.contains("Line 1, column 32, Rule ID: ACTUAL"));
+    assertTrue(output.contains("Rule ID: TRANSLATION_LENGTH"));
   }
   
-  public void testBitextModeApply()  throws URISyntaxException, IOException, ParserConfigurationException, SAXException {
+  public void testBitextModeApply() throws Exception {
     File input = createTempFile();
     // Populate the file with data.
     PrintWriter w = new PrintWriter(new OutputStreamWriter(new FileOutputStream(input), "UTF-8"));
@@ -419,37 +403,37 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue(output.startsWith("Istnieje psa."));
   }
   
-  public void testListUnknown()  throws URISyntaxException, IOException, ParserConfigurationException, SAXException {
+  public void testListUnknown() throws Exception {
     final URL url = this.getClass().getResource(ENGLISH_TEST_FILE);
     final URI uri = new URI (url.toString());
     String[] args = new String[] {"-l", "pl", "-u", uri.getPath()};
     Main.main(args);
     String output = new String(this.out.toByteArray());
     assertTrue(output.indexOf("Expected text language: Polish") == 0);
-    assertTrue(output.indexOf("Unknown words: [This, is]") != -1);
+    assertTrue(output.contains("Unknown words: [This, is]"));
   }
   
-  public void testNoListUnknown()  throws URISyntaxException, IOException, ParserConfigurationException, SAXException {
+  public void testNoListUnknown() throws Exception {
     final URL url = this.getClass().getResource(ENGLISH_TEST_FILE);
     final URI uri = new URI (url.toString());
     String[] args = new String[] {"-l", "pl", uri.getPath()};
     Main.main(args);
     String output = new String(this.out.toByteArray());
     assertTrue(output.indexOf("Expected text language: Polish") == 0);
-    assertTrue(output.indexOf("Unknown words: [This, is]") == -1);
+    assertTrue(!output.contains("Unknown words: [This, is]"));
   }
   
-  public void testLangWithCountryVariant() throws URISyntaxException, IOException, ParserConfigurationException, SAXException {
-	  	File input = createTempFile();
-	    // Populate the file with data.
-	    PrintWriter w = new PrintWriter(new OutputStreamWriter(new FileOutputStream(input), "UTF-8"));
-	    w.println("This is modelling.");    
-	    w.close();
-	    String[] args = new String[] {"-l", "en-US", input.getAbsolutePath()};
-	    Main.main(args);
-	    String output = new String(this.out.toByteArray());
-	    assertTrue(output.indexOf("Expected text language: American English") == 0);
-	    assertTrue(output.indexOf("HUNSPELL_RULE") != -1);
-	  } 
+  public void testLangWithCountryVariant() throws Exception {
+    File input = createTempFile();
+    // Populate the file with data.
+    PrintWriter w = new PrintWriter(new OutputStreamWriter(new FileOutputStream(input), "UTF-8"));
+    w.println("This is modelling.");
+    w.close();
+    String[] args = new String[] {"-l", "en-US", input.getAbsolutePath()};
+    Main.main(args);
+    String output = new String(this.out.toByteArray());
+    assertTrue(output.indexOf("Expected text language: American English") == 0);
+    assertTrue(output.contains("HUNSPELL_RULE"));
+  }
 
 }
