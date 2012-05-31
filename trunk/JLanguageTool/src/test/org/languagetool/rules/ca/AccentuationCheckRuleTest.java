@@ -79,8 +79,7 @@ public class AccentuationCheckRuleTest extends TestCase {
     assertIncorrect("Féu una magnifica digitació.");
     assertIncorrect("Els habitats de la comarca.");
     assertIncorrect("La magnifica conservació del palau.");
-    
-    
+
     final RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("Les circumstancies que ens envolten són circumstancies extraordinàries."));
     assertEquals(2, matches.length);
   }
@@ -95,18 +94,9 @@ public class AccentuationCheckRuleTest extends TestCase {
     assertEquals(1, matches.length);
   }
 
-  /*public void testSuggestions() throws IOException {
-    final AvsAnRule rule = new AvsAnRule(null);
-    assertEquals("a string", rule.suggestAorAn("string"));
-    assertEquals("a university", rule.suggestAorAn("university"));
-    assertEquals("an hour", rule.suggestAorAn("hour"));
-    assertEquals("an all-terrain", rule.suggestAorAn("all-terrain"));    
-    assertEquals("a UNESCO", rule.suggestAorAn("UNESCO"));
-  }*/
-
   public void testPositions() throws IOException {
     final AccentuationCheckRule rule = new AccentuationCheckRule(null);
-    RuleMatch[] matches;
+    final RuleMatch[] matches;
     final JLanguageTool langTool = new JLanguageTool(Language.CATALAN);
  
     matches = rule.match(langTool.getAnalyzedSentence("Són circumstancies extraordinàries."));

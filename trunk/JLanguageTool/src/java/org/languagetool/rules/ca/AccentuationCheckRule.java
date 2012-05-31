@@ -44,10 +44,8 @@ public class AccentuationCheckRule extends CatalanRule {
   private static final String FILE_NAME = "/ca/verb_senseaccent_nom_ambaccent.txt";
   private static final String FILE_NAME2 = "/ca/verb_senseaccent_adj_ambaccent.txt";
   private static final String FILE_ENCODING = "utf-8";
-  private final Map<String, AnalyzedTokenReadings> relevantWords;
-  private final Map<String, AnalyzedTokenReadings> relevantWords2;
-  
-   /**
+
+  /**
    * Patterns
    */
   private static final Pattern PREPOSICIO_DE = Pattern.compile("de|d'|del|dels");
@@ -76,13 +74,15 @@ public class AccentuationCheckRule extends CatalanRule {
   private static final Pattern BEFORE_ADJECTIVE_MP = Pattern.compile("SPS00|D[^R].[MC][PN].*|V.[^NGP].*|PX.*");
   private static final Pattern BEFORE_ADJECTIVE_FP = Pattern.compile("SPS00|D[^R].[FC][PN].*|V.[^NGP].*|PX.*");
       
-    
- public AccentuationCheckRule(ResourceBundle messages) throws IOException {
+  private final Map<String, AnalyzedTokenReadings> relevantWords;
+  private final Map<String, AnalyzedTokenReadings> relevantWords2;
+
+  public AccentuationCheckRule(ResourceBundle messages) throws IOException {
     if (messages != null) {
       super.setCategory(new Category(messages.getString("category_misc")));
     }
-    relevantWords = loadWords(JLanguageTool.getDataBroker().getFromRulesDirAsStream(FILE_NAME)); 
-    relevantWords2 = loadWords(JLanguageTool.getDataBroker().getFromRulesDirAsStream(FILE_NAME2)); 
+    relevantWords = loadWords(FILE_NAME);
+    relevantWords2 = loadWords(FILE_NAME2);
   }
   
   @Override
@@ -99,31 +99,29 @@ public class AccentuationCheckRule extends CatalanRule {
   public RuleMatch[] match(final AnalyzedSentence text) {
     final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
-    //ignoring token 0, i.e., SENT_START
-    for (int i = 1; i < tokens.length; i++) {
-      String token;
-      if (i==1) { 
+    for (int i = 1; i < tokens.length; i++) {   //ignoring token 0, i.e., SENT_START
+      final String token;
+      if (i == 1) {
         token=tokens[i].getToken().toLowerCase();
+      } else {
+        token = tokens[i].getToken();
       }
-      else {
-        token=tokens[i].getToken();
-      }
-      String prevToken = tokens[i-1].getToken();
+      final String prevToken = tokens[i-1].getToken();
       String prevPrevToken="";
-      if (i>2) {
+      if (i > 2) {
         prevPrevToken = tokens[i-2].getToken();
       }
       String nextToken="";
-      if (i<tokens.length-1) {
+      if (i < tokens.length-1) {
         nextToken = tokens[i+1].getToken();
       }
-      String nextNextToken="";
-      if (i<tokens.length-2) {
+      /*String nextNextToken="";
+      if (i < tokens.length-2) {
         nextNextToken = tokens[i+2].getToken();
-      }
+      }*/
       boolean isRelevantWord = false;
       boolean isRelevantWord2 = false;
-      if (StringTools.isEmpty(token)) {          
+      if (StringTools.isEmpty(token)) {
         continue;
       }
       if (relevantWords.containsKey(token)) {
@@ -133,87 +131,86 @@ public class AccentuationCheckRule extends CatalanRule {
         isRelevantWord2 = true;
       }
 
-      String msg = null;        
       String replacement = null;
       final Matcher mPreposicioDE = PREPOSICIO_DE.matcher(nextToken);
       final Matcher mArticleELMS = ARTICLE_EL_MS.matcher(prevToken);
       final Matcher mArticleELFS = ARTICLE_EL_FS.matcher(prevToken);
       final Matcher mArticleELMP = ARTICLE_EL_MP.matcher(prevToken);
       final Matcher mArticleELFP = ARTICLE_EL_FP.matcher(prevToken);
-      
+
       // verb without accent -> noun with accent   
       if (isRelevantWord)
-      { 
-      	//amb renuncies    	 
-        if (tokens[i-1].hasPosTag("SPS00") && !matchPostagRegexp(tokens[i],INFINITIU) ) 
+      {
+      	//amb renuncies
+        if (tokens[i-1].hasPosTag("SPS00") && !matchPostagRegexp(tokens[i],INFINITIU) )
       	{
       		replacement = relevantWords.get(token).getToken();
       	}
       	//aquestes renuncies
-      	else if ( 
+      	else if (
       	         ((matchPostagRegexp(tokens[i-1],DETERMINANT_MS) && matchPostagRegexp(relevantWords.get(token),NOM_MS)
       	           && !token.equals("cantar") )
-      	        ||(matchPostagRegexp(tokens[i-1],DETERMINANT_MP) && matchPostagRegexp(relevantWords.get(token),NOM_MP)) 
-      	        ||(matchPostagRegexp(tokens[i-1],DETERMINANT_FS) && matchPostagRegexp(relevantWords.get(token),NOM_FS) 
-      	           && !token.equals("venia") && !token.equals("tenia") && !token.equals("continua") && !token.equals("genera") ) 
-      	        ||(matchPostagRegexp(tokens[i-1],DETERMINANT_FP) && matchPostagRegexp(relevantWords.get(token),NOM_FP)) ) ) 
+      	        ||(matchPostagRegexp(tokens[i-1],DETERMINANT_MP) && matchPostagRegexp(relevantWords.get(token),NOM_MP))
+      	        ||(matchPostagRegexp(tokens[i-1],DETERMINANT_FS) && matchPostagRegexp(relevantWords.get(token),NOM_FS)
+      	           && !token.equals("venia") && !token.equals("tenia") && !token.equals("continua") && !token.equals("genera") )
+      	        ||(matchPostagRegexp(tokens[i-1],DETERMINANT_FP) && matchPostagRegexp(relevantWords.get(token),NOM_FP)) ) )
       	{
       		replacement = relevantWords.get(token).getToken();
       	}
       	//circumstancies d'un altre caire
-      	else if  ( !token.equals("venia") && !token.equals("venies") && !token.equals("tenia") && !token.equals("tenies") 
-      	           && !token.equals("continua") && !token.equals("continues") && !token.equals("cantar") 
-      	           && mPreposicioDE.matches() && !matchPostagRegexp(tokens[i-1],NOT_IN_PREV_TOKEN) 
-      	           && (i<tokens.length-2) && !matchPostagRegexp(tokens[i+2],INFINITIU) 
-      	           && !tokens[i-1].hasPosTag("RG") ) 
+      	else if  ( !token.equals("venia") && !token.equals("venies") && !token.equals("tenia") && !token.equals("tenies")
+      	           && !token.equals("continua") && !token.equals("continues") && !token.equals("cantar")
+      	           && mPreposicioDE.matches() && !matchPostagRegexp(tokens[i-1],NOT_IN_PREV_TOKEN)
+      	           && (i<tokens.length-2) && !matchPostagRegexp(tokens[i+2],INFINITIU)
+      	           && !tokens[i-1].hasPosTag("RG") )
       	{
       		replacement = relevantWords.get(token).getToken();
       	}
-      	//la renuncia del president. 
-      	else if ( !token.equals("venia") && !token.equals("venies") && !token.equals("tenia") && !token.equals("tenies") 
-      	           && !token.equals("continua") && !token.equals("continues") && !token.equals("cantar") 
+      	//la renuncia del president.
+      	else if ( !token.equals("venia") && !token.equals("venies") && !token.equals("tenia") && !token.equals("tenies")
+      	           && !token.equals("continua") && !token.equals("continues") && !token.equals("cantar")
       	           && !token.equals("diferencia") && !token.equals("diferencies") && !token.equals("distancia") && !token.equals("distancies")
       	         &&(  ( mArticleELMS.matches() && matchPostagRegexp(relevantWords.get(token),NOM_MS) )
       	           || ( mArticleELFS.matches() && matchPostagRegexp(relevantWords.get(token),NOM_FS) )
       	           || ( mArticleELMP.matches() && matchPostagRegexp(relevantWords.get(token),NOM_MP) )
-      	           || ( mArticleELFP.matches() && matchPostagRegexp(relevantWords.get(token),NOM_FP) ) )      	         
-      	         
-      	         && mPreposicioDE.matches() 
-      	         ) 
+      	           || ( mArticleELFP.matches() && matchPostagRegexp(relevantWords.get(token),NOM_FP) ) )
+
+      	         && mPreposicioDE.matches()
+      	         )
       	{
       		replacement = relevantWords.get(token).getToken();
-      	}   
-      	//circumstancies extraordinàries     
-      	else if ( !token.equals("pronuncia") && !token.equals("pronuncies") && !token.equals("venia") && !token.equals("venies") 
-      	          && !token.equals("tenia") && !token.equals("tenies") && !token.equals("continua") && !token.equals("continues") 
-      	          && (i<tokens.length-1) && 
+      	}
+      	//circumstancies extraordinàries
+      	else if ( !token.equals("pronuncia") && !token.equals("pronuncies") && !token.equals("venia") && !token.equals("venies")
+      	          && !token.equals("tenia") && !token.equals("tenies") && !token.equals("continua") && !token.equals("continues")
+      	          && (i<tokens.length-1) &&
       	          (
       	            (matchPostagRegexp(relevantWords.get(token),NOM_MS) && matchPostagRegexp(tokens[i+1],ADJECTIU_MS))
       	            || (matchPostagRegexp(relevantWords.get(token),NOM_FS) && matchPostagRegexp(tokens[i+1],ADJECTIU_FS))
       	            || (matchPostagRegexp(relevantWords.get(token),NOM_MP) && matchPostagRegexp(tokens[i+1],ADJECTIU_MP))
       	            || (matchPostagRegexp(relevantWords.get(token),NOM_FP) && matchPostagRegexp(tokens[i+1],ADJECTIU_FP))
       	          )
-      	            ) 
+      	            )
       	{
       		replacement = relevantWords.get(token).getToken();
       	}
       	// les circumstancies que ens envolten
-      	else if ( nextToken.equals("que") && 
+      	else if ( nextToken.equals("que") &&
       	           (  ( mArticleELMS.matches() && matchPostagRegexp(relevantWords.get(token),NOM_MS) )
       	           || ( mArticleELFS.matches() && matchPostagRegexp(relevantWords.get(token),NOM_FS) )
       	           || ( mArticleELMP.matches() && matchPostagRegexp(relevantWords.get(token),NOM_MP) )
-      	           || ( mArticleELFP.matches() && matchPostagRegexp(relevantWords.get(token),NOM_FP) ) )   
-      	         ) 
+      	           || ( mArticleELFP.matches() && matchPostagRegexp(relevantWords.get(token),NOM_FP) ) )
+      	         )
       	{
       		replacement = relevantWords.get(token).getToken();
       	}
       }
-      
+
       // verb without accent -> adjective with accent
       if (isRelevantWord2)
-      { 
-      	 // de manera obvia, circumstàncies extraordinaries. 
-         if (    (matchPostagRegexp(relevantWords2.get(token),ADJECTIU_MS) && matchPostagRegexp(tokens[i-1],NOM_MS) && !tokens[i-1].hasPosTag("_GN_FS") && matchPostagRegexp(tokens[i],VERB_CONJUGAT) ) 
+      {
+      	 // de manera obvia, circumstàncies extraordinaries.
+         if (    (matchPostagRegexp(relevantWords2.get(token),ADJECTIU_MS) && matchPostagRegexp(tokens[i-1],NOM_MS) && !tokens[i-1].hasPosTag("_GN_FS") && matchPostagRegexp(tokens[i],VERB_CONJUGAT) )
       	     || (matchPostagRegexp(relevantWords2.get(token),ADJECTIU_FS) && prevPrevToken.equalsIgnoreCase("de") && (prevToken.equals("manera")||prevToken.equals("forma")) )
       	     || (matchPostagRegexp(relevantWords2.get(token),ADJECTIU_MP) && matchPostagRegexp(tokens[i-1],NOM_MP))
       	     || (matchPostagRegexp(relevantWords2.get(token),ADJECTIU_FP) && matchPostagRegexp(tokens[i-1],NOM_FP))
@@ -222,30 +219,29 @@ public class AccentuationCheckRule extends CatalanRule {
       	 	  replacement = relevantWords2.get(token).getToken();
       	 }
       	 // de continua disputa
-      	 else if ( (i<tokens.length-1) && !prevToken.equals("que") && !matchPostagRegexp(tokens[i-1],NOT_IN_PREV_TOKEN)  &&  	 
-      	      ( (matchPostagRegexp(relevantWords2.get(token),ADJECTIU_MS) && matchPostagRegexp(tokens[i+1],NOM_MS) && matchPostagRegexp(tokens[i-1],BEFORE_ADJECTIVE_MS) ) 
+      	 else if ( (i < tokens.length-1) && !prevToken.equals("que") && !matchPostagRegexp(tokens[i-1],NOT_IN_PREV_TOKEN)  &&
+      	      ( (matchPostagRegexp(relevantWords2.get(token),ADJECTIU_MS) && matchPostagRegexp(tokens[i+1],NOM_MS) && matchPostagRegexp(tokens[i-1],BEFORE_ADJECTIVE_MS) )
       	     || (matchPostagRegexp(relevantWords2.get(token),ADJECTIU_FS) && matchPostagRegexp(tokens[i+1],NOM_FS) && matchPostagRegexp(tokens[i-1],BEFORE_ADJECTIVE_FS) )
       	     || (matchPostagRegexp(relevantWords2.get(token),ADJECTIU_MP) && matchPostagRegexp(tokens[i+1],NOM_MP) && matchPostagRegexp(tokens[i-1],BEFORE_ADJECTIVE_MP) )
       	     || (matchPostagRegexp(relevantWords2.get(token),ADJECTIU_FP) && matchPostagRegexp(tokens[i+1],NOM_FP) && matchPostagRegexp(tokens[i-1],BEFORE_ADJECTIVE_FP) ) )
       	    )
       	 {
       	 	  replacement = relevantWords2.get(token).getToken();
-      	 }    	
+      	 }
       	 // la magnifica conservació
-      	 else if ( (i<tokens.length-1) &&   	 
-      	      ( (matchPostagRegexp(relevantWords2.get(token),ADJECTIU_MS) && matchPostagRegexp(tokens[i+1],NOM_MS) && mArticleELMS.matches() ) 
+      	 else if ( (i < tokens.length-1) &&
+      	      ( (matchPostagRegexp(relevantWords2.get(token),ADJECTIU_MS) && matchPostagRegexp(tokens[i+1],NOM_MS) && mArticleELMS.matches() )
       	     || (matchPostagRegexp(relevantWords2.get(token),ADJECTIU_FS) && matchPostagRegexp(tokens[i+1],NOM_FS) && mArticleELFS.matches() )
       	     || (matchPostagRegexp(relevantWords2.get(token),ADJECTIU_MP) && matchPostagRegexp(tokens[i+1],NOM_MP) && mArticleELMP.matches() )
       	     || (matchPostagRegexp(relevantWords2.get(token),ADJECTIU_FP) && matchPostagRegexp(tokens[i+1],NOM_FP) && mArticleELFP.matches() ) )
       	    )
       	 {
       	 	  replacement = relevantWords2.get(token).getToken();
-      	 }    	
-      	 
-      }	
+      	 }
+
+      }
       if (replacement != null) {
-        msg = "Si \u00E9s un nom o un adjectiu, ha de portar accent: <suggestion>" +replacement+ "</suggestion>.";	
-      	
+        final String msg = "Si \u00E9s un nom o un adjectiu, ha de portar accent: <suggestion>" +replacement+ "</suggestion>.";
         final RuleMatch ruleMatch = new RuleMatch(this, tokens[i].getStartPos(), tokens[i].getStartPos()+token.length(), msg, "Falta un accent");
         ruleMatches.add(ruleMatch);
       }
@@ -253,34 +249,32 @@ public class AccentuationCheckRule extends CatalanRule {
     return toRuleMatchArray(ruleMatches);
   }
 
-   /**
-   * Match POS tag with regular expression 
+  /**
+   * Match POS tag with regular expression
    */
-
-   private boolean matchPostagRegexp(AnalyzedTokenReadings aToken, Pattern myPattern)
-   { 
-   	 boolean matches = false; 
-   	 final int readingsLen = aToken.getReadingsLength();
-     for (int k = 0; k < readingsLen; k++) {
-        final String posTag = aToken.getAnalyzedToken(k).getPOSTag();
-        if (posTag!=null)
-	      {
-	        final Matcher m = myPattern.matcher(posTag);
-	        if (m.matches()) {
-	            matches = true;
-	            break;
-	        }
-        }     
+  private boolean matchPostagRegexp(AnalyzedTokenReadings aToken, Pattern pattern) {
+    boolean matches = false;
+    final int readingsLen = aToken.getReadingsLength();
+    for (int i = 0; i < readingsLen; i++) {
+      final String posTag = aToken.getAnalyzedToken(i).getPOSTag();
+      if (posTag != null) {
+        final Matcher m = pattern.matcher(posTag);
+        if (m.matches()) {
+          matches = true;
+          break;
+        }
       }
-     return matches;	
-   }
+    }
+    return matches;
+  }
 
   /**
    * Load words.
    */
-   private Map<String, AnalyzedTokenReadings> loadWords(InputStream file) throws IOException {
+  private Map<String, AnalyzedTokenReadings> loadWords(String fileName) throws IOException {
     final Map<String, AnalyzedTokenReadings> map = new HashMap<String, AnalyzedTokenReadings>();
-    final Scanner scanner = new Scanner(file, FILE_ENCODING);
+    final InputStream inputStream = JLanguageTool.getDataBroker().getFromRulesDirAsStream(fileName);
+    final Scanner scanner = new Scanner(inputStream, FILE_ENCODING);
     try {
       while (scanner.hasNextLine()) {
         final String line = scanner.nextLine().trim();
@@ -292,10 +286,11 @@ public class AccentuationCheckRule extends CatalanRule {
         }
         final String[] parts = line.split(";");
         if (parts.length != 3) {
-          throw new IOException("Format error in file " + JLanguageTool.getDataBroker().getFromRulesDirAsUrl(FILE_NAME) + ", line: " + line);
+          throw new IOException("Format error in file " + fileName + ", line: " + line + ", " +
+                  "expected 3 semicolon-separated parts, got " + parts.length);
         }
-        map.put(parts[0], new AnalyzedTokenReadings( new AnalyzedToken(parts[1],parts[2],"lemma"),0));
-       // map.put(parts[1], parts[0]);
+        final AnalyzedToken analyzedToken = new AnalyzedToken(parts[1], parts[2], "lemma");
+        map.put(parts[0], new AnalyzedTokenReadings(analyzedToken, 0));
       }
     } finally {
       scanner.close();
@@ -307,4 +302,5 @@ public class AccentuationCheckRule extends CatalanRule {
   public void reset() {
     // nothing
   }
+
 }
