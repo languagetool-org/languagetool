@@ -289,7 +289,7 @@ public class AccentuationCheckRule extends CatalanRule {
           throw new IOException("Format error in file " + fileName + ", line: " + line + ", " +
                   "expected 3 semicolon-separated parts, got " + parts.length);
         }
-        final AnalyzedToken analyzedToken = new AnalyzedToken(parts[1], parts[2], "lemma");
+        final AnalyzedToken analyzedToken = new AnalyzedToken(parts[1], parts[2], null);
         map.put(parts[0], new AnalyzedTokenReadings(analyzedToken, 0));
       }
     } finally {
