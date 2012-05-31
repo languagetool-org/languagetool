@@ -45,7 +45,7 @@ class I18nLanguage implements Comparable<I18nLanguage> {
     if (language.isExternal()) {
       return language.getName() + Main.EXTERNAL_LANGUAGE_SUFFIX;
     } else {
-      return messages.getString(language.getShortName());
+      return language.getTranslatedName(messages);
     }
   }
 
