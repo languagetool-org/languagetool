@@ -408,7 +408,6 @@ public class MainTest extends AbstractSecurityTestCase {
   
   public void testBitextModeApply()  throws URISyntaxException, IOException, ParserConfigurationException, SAXException {
     File input = createTempFile();
-
     // Populate the file with data.
     PrintWriter w = new PrintWriter(new OutputStreamWriter(new FileOutputStream(input), "UTF-8"));
     w.println("There is a dog.\tNie ma psa.");    
@@ -439,5 +438,18 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue(output.indexOf("Expected text language: Polish") == 0);
     assertTrue(output.indexOf("Unknown words: [This, is]") == -1);
   }
+  
+  public void testLangWithCountryVariant() throws URISyntaxException, IOException, ParserConfigurationException, SAXException {
+	  	File input = createTempFile();
+	    // Populate the file with data.
+	    PrintWriter w = new PrintWriter(new OutputStreamWriter(new FileOutputStream(input), "UTF-8"));
+	    w.println("This is modelling.");    
+	    w.close();
+	    String[] args = new String[] {"-l", "en-US", input.getAbsolutePath()};
+	    Main.main(args);
+	    String output = new String(this.out.toByteArray());
+	    assertTrue(output.indexOf("Expected text language: American English") == 0);
+	    assertTrue(output.indexOf("HUNSPELL_RULE") != -1);
+	  } 
 
 }

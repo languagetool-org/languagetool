@@ -47,6 +47,8 @@ public abstract class Language {
   public static final Language DANISH = new Danish();
   public static final Language DUTCH = new Dutch();
   public static final Language ENGLISH = new English();
+  public static final Language AMERICAN_ENGLISH = new AmericanEnglish();
+  public static final Language BRITISH_ENGLISH = new BritishEnglish();
   public static final Language ESPERANTO = new Esperanto();
   public static final Language FRENCH = new French();
   public static final Language GERMAN = new German();
@@ -81,6 +83,7 @@ public abstract class Language {
     ENGLISH, GERMAN, POLISH, FRENCH, SPANISH, ITALIAN, KHMER, DUTCH, LITHUANIAN, UKRAINIAN, RUSSIAN,
     SLOVAK, SLOVENIAN, /*SWEDISH,*/ ROMANIAN, ICELANDIC, GALICIAN, CATALAN, DANISH,
     MALAYALAM, BELARUSIAN, ESPERANTO, CHINESE, ASTURIAN, TAGALOG, BRETON, GREEK,
+    AMERICAN_ENGLISH, BRITISH_ENGLISH,
     DEMO
   };
 
@@ -209,11 +212,22 @@ public abstract class Language {
    * if available. Otherwise, get the untranslated name.
    */
   public final String getTranslatedName(final ResourceBundle messages) {
-    try {
-      return messages.getString(getShortName());
-    } catch (final MissingResourceException e) {
-      return getName();
-    }
+
+	  String name = getShortName();
+
+	  if (getCountryVariants().length == 1) {
+		  name += "-" + getCountryVariants()[0];
+	  }
+
+	  try {
+		  return messages.getString(name);
+	  } catch (final MissingResourceException e) {
+		  try {
+			  return messages.getString(getShortName());
+		  } catch (final MissingResourceException e1) {
+			  return getName();
+		  }
+	  }
   }
 
   /**
@@ -264,9 +278,26 @@ public abstract class Language {
    */
   public static Language getLanguageForShortName(final String shortLanguageCode) {
     StringTools.assureSet(shortLanguageCode, "shortLanguageCode");
-    if (shortLanguageCode.length() != "xx".length() && shortLanguageCode.length() != "xxx".length()) {
+    	
+    if (shortLanguageCode.indexOf('-') != -1) {
+    	String[] l = shortLanguageCode.split("-");
+    	if (l.length != 2) {
+    		throw new IllegalArgumentException("'" + shortLanguageCode + "' isn't a valid language code"); 
+    	}
+    	for (Language element : Language.LANGUAGES) {
+    		if (l[0].equals(element.getShortName())
+    				&& element.getCountryVariants().length == 1    				
+    				&& l[1].equals(element.getCountryVariants()[0])) {
+    			return element;
+    		}
+    	}
+    	throw new IllegalArgumentException("'" + shortLanguageCode + "' isn't a valid language code");
+    }	  
+    if (shortLanguageCode.length() == "xx".length() && shortLanguageCode.length() == "xxx".length()) {    	
+    		        	  
       throw new IllegalArgumentException("'" + shortLanguageCode + "' isn't a two- or three-character code");
-    }
+      }
+        
     for (Language element : Language.LANGUAGES) {
       if (shortLanguageCode.equals(element.getShortName())) {
         return element;

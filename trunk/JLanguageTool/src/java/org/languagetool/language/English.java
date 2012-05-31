@@ -56,7 +56,7 @@ public class English extends Language {
   }
   
   @Override
-  public final String getName() {
+  public String getName() {
     return "English";
   }
 
@@ -66,8 +66,8 @@ public class English extends Language {
   }
 
   @Override
-  public final String[] getCountryVariants() {
-    return new String[]{"GB", "US", "AU", "CA", "NZ", "ZA"};
+  public String[] getCountryVariants() {
+    return new String[]{"AU", "CA", "NZ", "ZA"};
   }
   
   @Override
