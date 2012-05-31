@@ -817,7 +817,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <pattern>
             <token postag="V.*" postag_regexp="yes"></token>
             <marker>
-                <token postag="SP.*" postag_regexp="yes"></token>
+                <token postag="SPS00" postag_regexp="yes"></token>
             </marker>
         </pattern>
         <disambig action="filter" postag="SP.*"></disambig>
@@ -905,6 +905,18 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token postag="A.*|V.P.*" postag_regexp="yes"></token>
         </pattern>
         <disambig action="filter" postag="RG"></disambig>
+    </rule>
+    <rule id="adv_adj" name="adverbi + adjectiu/gerundi"> <!-- tan important -->
+        <pattern>
+            <token postag="RG"></token>
+            <marker>
+            	  <and>
+            	      <token postag="V.G.*" postag_regexp="yes"></token>
+                    <token postag="A.*" postag_regexp="yes"></token>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="A.*"></disambig>
     </rule>
     <rulegroup id="DNA" name="Det + Nom + Adj/Possessiu/participi">
         <!--Falla amb nom neutre?: Aquest art expressa
@@ -2536,6 +2548,31 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="P0.*|PP.*"></disambig>
     </rule>
+    
+     <rule id="ViAiN" name="verb i adjectiu i nom: verb">
+        <pattern>
+            <token postag="(D|P).*|V.[^NGP].*" negate_pos="yes" postag_regexp="yes"></token>
+            <marker>
+                <and>
+                    <token postag="A.*|V.P.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/></token>
+                    <token postag="V.[^NGP].*" postag_regexp="yes"></token>
+                    <token postag="N.*" postag_regexp="yes"></token>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="V.*"></disambig>
+    </rule>
+    <rule id="AiNiV2" name="verb i adjectiu i nom: adj i nom">
+        <pattern>
+            <and>
+                <token postag="V.[^NGP].*" postag_regexp="yes"></token>
+                <token postag="A.*|V.P.*" postag_regexp="yes"></token>
+                <token postag="N.*" postag_regexp="yes"></token>
+            </and>
+        </pattern>
+        <disambig action="filter" postag="N.*|A.*|V.P.*|_GN.*"></disambig>
+    </rule>
+    
     <rule id="ViN1" name="verb i nom: habitualment verb">
         <!-- el primer nomenat fou-->
         <pattern>
@@ -2631,18 +2668,19 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="V.[^NGP].*"></disambig>
     </rule>
+
     <rule id="ViA" name="verb i adjectiu: verb">
         <pattern>
             <token postag="D.*" negate_pos="yes" postag_regexp="yes"><exception postag="D.*" postag_regexp="yes"></exception></token>
             <marker>
                 <and>
-                    <token postag="A.*|V.P.*" postag_regexp="yes"></token>
+                    <token postag="A.*|V.P.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/></token>
                     <token postag="V.[^NGP].*" postag_regexp="yes"></token>
                 </and>
             </marker>
         </pattern>
         <disambig action="filter" postag="V.*"></disambig>
-        <!-- fer -->
+       <!-- fer -->
     </rule>
     <rule id="VerbAuxiliar" name="verb auxiliar i no auxiliar">
         <pattern>
@@ -2655,31 +2693,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="VM.*"></disambig>
     </rule>
-    <rule id="ViAiN" name="verb i adjectiu i nom: verb">
-        <pattern>
-            <token postag="(D|P).*|V.[^NGP].*" negate_pos="yes" postag_regexp="yes"></token>
-            <marker>
-                <and>
-                    <token postag="A.*|V.P.*" postag_regexp="yes"></token>
-                    <token postag="V.[^NGP].*" postag_regexp="yes"></token>
-                    <token postag="N.*" postag_regexp="yes"></token>
-                </and>
-            </marker>
-        </pattern>
-        <disambig action="filter" postag="V.*"></disambig>
-    </rule>
-    <rule id="AiNiV2" name="verb i adjectiu i nom: adj i nom">
-        <pattern>
-            <and>
-                <marker>
-                    <token postag="V.[^NGP].*" postag_regexp="yes"></token>
-                </marker>
-                <token postag="A.*|V.P.*" postag_regexp="yes"></token>
-                <token postag="N.*" postag_regexp="yes"></token>
-            </and>
-        </pattern>
-        <disambig action="filter" postag="N.*|A.*|V.P.*"></disambig>
-    </rule>
+   
     <!-- "se sentirà "sola": seria adj-->
     <!--
     <rule id="AiN" name="adjectiu i nom: nom">
@@ -2724,7 +2738,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </and>
             </marker>
         </pattern>
-        <disambig action="filter" postag="A.*"></disambig>
+        <disambig action="filter" postag="A.*|_GN.*"></disambig>
     </rule>
     <rule id="PrepAdv" name="prep + nom i adverbi">
         <!-- fins demà-->
