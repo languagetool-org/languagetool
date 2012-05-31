@@ -29,6 +29,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
+import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.Set;
 
@@ -216,7 +217,13 @@ public class Main extends WeakBase implements XJobExecutor,
       showError(t);
       return null;
     }
-    return Language.getLanguageForShortName(charLocale.Language);
+        
+    try {
+    	return Language.getLanguageForShortName(charLocale.Language + "-" + charLocale.Variant);    	
+    } catch (final Exception e) {
+    	return Language.getLanguageForShortName(charLocale.Language);
+  	}
+        
   }
 
   /**
@@ -258,7 +265,13 @@ public class Main extends WeakBase implements XJobExecutor,
 
     if (!StringTools.isEmpty(paraText) && hasLocale(locale)) {
         // caching the instance of LT
-        final Language langForShortName = Language.getLanguageForShortName(locale.Language);
+        Language langForShortName;
+        try {
+        	langForShortName = Language.getLanguageForShortName(locale.Language 
+        			+ "-" + locale.Variant);
+        } catch (Exception e) {
+        	langForShortName = Language.getLanguageForShortName(locale.Language);
+        }
         if (!langForShortName.equals(docLanguage) || langTool == null || recheck) {
           docLanguage = langForShortName;
           if (docLanguage == null) {
