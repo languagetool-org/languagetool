@@ -30,26 +30,83 @@
             <token postag="(P.|V.{3})[30].*" postag_regexp="yes"></token>
         </equivalence>
     </unification>
-    <category name="Concordances">
+    <category name="Concordances">    	
         <rulegroup id="Concordances_genere_nombre" name="Concordances en grups nominals">
             <rule>
                 <pattern>
                     <token postag="PD0NS000"></token>
-                    <token postag="A..F[SP].*|V.P..[SP]F|PX.F[SP].*|A..MP.*|V.P..PM|PX.MP.*" postag_regexp="yes"><exception postag="A..[MC][SN0].*|V.P..SM|PX.[MC][SN0].*" postag_regexp="yes"></exception></token>
+                    <marker>
+                        <token postag="A..F[SP].*|V.P..[SP]F|PX.F[SP].*|A..MP.*|V.P..PM|PX.MP.*" postag_regexp="yes"><exception postag="A..[MC][SN0].*|V.P..SM|PX.[MC][SN0].*" postag_regexp="yes"></exception></token>
+                    </marker>
                 </pattern>
-                <message>Falta de concordança de nombre entre «\1» i «\2».</message>
-                <short>Concordança de nombre dubtosa.</short>
-                <example type="incorrect"> <marker>Això vermells</marker>.</example>
+                <message>Error de concordança. Podria ser <suggestion><match no="2" postag="A..[MC][SN0].*" postag_regexp="yes"/></suggestion></message>                
+                <short>Error de concordança.</short>
+                <example type="incorrect">Això <marker>vermells</marker>.</example>
                 <example type="correct">Això vermell.</example>
             </rule>
             <!-- concordances determinant + adjectiu -->
             <rule>
                 <pattern>
+                    <token postag="D..MS.*" postag_regexp="yes"><exception postag="RG"></exception></token>
+                    <token postag="A..FP.*|V.P..PF" postag_regexp="yes"></token>
+                </pattern>
+                <message>Error de concordança. Podria ser 
+                	<suggestion><match no="1" postag="D..MS.*" postag_regexp="yes" /> <match no="2" postag="A..MS.*|V.P..SM" postag_regexp="yes" /></suggestion>,
+                	<suggestion><match no="1" postag="D..FP.*" postag_regexp="yes" /> <match no="2" postag="A..FP.*|V.P..PF" postag_regexp="yes" /></suggestion>.                	
+                </message>
+                <short>Error de concordança.</short>
+                <example type="incorrect">Porta <marker>el roges</marker>.</example>
+                <example type="correct">Porta els rojos.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="D..MP.*" postag_regexp="yes"><exception postag="RG"></exception></token>
+                    <token postag="A..FS.*|V.P..SF" postag_regexp="yes"></token>
+                </pattern>
+                <message>Error de concordança. Podria ser: 
+                	<suggestion><match no="1" postag="D..MP.*" postag_regexp="yes" /> <match no="2" postag="A..MP.*|V.P..PM" postag_regexp="yes" /></suggestion>,
+                	<suggestion><match no="1" postag="D..FS.*" postag_regexp="yes" /> <match no="2" postag="A..FS.*|V.P..SF" postag_regexp="yes" /></suggestion>,
+                </message>
+                <short>Error de concordança.</short>
+                <example type="incorrect">Porta <marker>els roja</marker>.</example>
+                <example type="correct">Porta els rojos.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="D..FS.*" postag_regexp="yes"><exception postag="RG"></exception></token>
+                    <token postag="A..MP.*|V.P..PM" postag_regexp="yes"></token>
+                </pattern>
+                <message>Error de concordança. Podria ser: 
+                	<suggestion><match no="1" postag="D..MP.*" postag_regexp="yes" /> <match no="2" postag="A..MP.*|V.P..PM" postag_regexp="yes" /></suggestion>,
+                	<suggestion><match no="1" postag="D..FS.*" postag_regexp="yes" /> <match no="2" postag="A..FS.*|V.P..SF" postag_regexp="yes" /></suggestion>,
+                </message>
+                <short>Error de concordança.</short>
+                <example type="incorrect">Porta <marker>la rojos</marker>.</example>
+                <example type="correct">Porta els rojos.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="D..FP.*" postag_regexp="yes"><exception postag="RG"></exception></token>
+                    <token postag="A..MS.*|V.P..SM" postag_regexp="yes"></token>
+                </pattern>
+                <message>Error de concordança. Podria ser: 
+                	<suggestion><match no="1" postag="D..MS.*" postag_regexp="yes" /> <match no="2" postag="A..MS.*|V.P..SM" postag_regexp="yes" /></suggestion>,
+                	<suggestion><match no="1" postag="D..FP.*" postag_regexp="yes" /> <match no="2" postag="A..FP.*|V.P..PF" postag_regexp="yes" /></suggestion>.                	
+                </message>
+                <short>Error de concordança.</short>
+                <example type="incorrect">Porta <marker>les roig</marker>.</example>
+                <example type="correct">Porta els rojos.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token postag="D..M.*" postag_regexp="yes"><exception postag="RG"></exception></token>
                     <token postag="A..F.*|V.P...F" postag_regexp="yes"><exception postag="N.[MC].*" postag_regexp="yes"></exception></token>
                 </pattern>
-                <message>Possible falta de concordança de gènere entre «\1» i «\2».</message>
-                <short>Concordança de gènere i nombre dubtosa.</short>
+                <message>Error de concordança. Podria ser: 
+                	  <suggestion><match no="1" postag="(D..)M(.*)" postag_regexp="yes" postag_replace="$1F$2" /> <match no="2"/></suggestion>
+                	  <suggestion><match no="1" /> <match no="2" postag="A..F(.).*|V.P..(.)F" postag_regexp="yes" postag_replace="A..M[$1$2].*|V.P..[$1$2]M" /></suggestion>
+                </message>
+                <short>Error de concordança.</short>
                 <example type="incorrect">Porta <marker>els roges</marker>.</example>
                 <example type="correct">Porta els rojos.</example>
                 <example type="correct">Els parts.</example>
@@ -59,8 +116,11 @@
                     <token postag="D..F.*" postag_regexp="yes"><exception postag="RG"></exception></token>
                     <token postag="A..M.*|V.P...M" postag_regexp="yes"><exception postag="N.[FC].*" postag_regexp="yes"></exception></token>
                 </pattern>
-                <message>Possible falta de concordança de gènere entre «\1» i «\2».</message>
-                <short>Concordança de gènere i nombre dubtosa.</short>
+                <message>Error de concordança. Podria ser: 
+                	  <suggestion><match no="1" postag="(D..)F(.*)" postag_regexp="yes" postag_replace="$1M$2" /> <match no="2"/></suggestion>
+                	  <suggestion><match no="1" /> <match no="2" postag="A..M(.).*|V.P..(.)M" postag_regexp="yes" postag_replace="A..F[$1$2].*|V.P..[$1$2]F" /></suggestion>
+                </message>
+                <short>Error de concordança.</short>
                 <example type="incorrect">Porta <marker>les rojos</marker>.</example>
                 <example type="correct">Porta les roges.</example>
                 <example type="correct">Les parts.</example>
@@ -70,8 +130,11 @@
                     <token postag="D[^R]..S.*" postag_regexp="yes"><exception postag="RG"></exception></token>
                     <token postag="A...P.*|V.P..P.*" postag_regexp="yes"><exception postag="N..[SN0].*" postag_regexp="yes"></exception><exception inflected="yes">numeral</exception></token>
                 </pattern>
-                <message>Falta de concordança de nombre entre «\1» i «\2».</message>
-                <short>Concordança de nombre dubtosa.</short>
+                <message>Error de concordança. Podria ser: 
+                	  <suggestion><match no="1" postag="(D...)S(.*)" postag_regexp="yes" postag_replace="$1P$2" /> <match no="2"/></suggestion>
+                	  <suggestion><match no="1" /> <match no="2" postag="A..(.)P.*|V.P..P(.)" postag_regexp="yes" postag_replace="A..[$1$2]S.*|V.P..S[$1$2]" /></suggestion>
+                </message>
+                <short>Error de concordança.</short>
                 <example type="incorrect">Porta <marker>el vermells</marker>.</example>
                 <example type="correct">Porta els vermells.</example>
             </rule>
@@ -81,8 +144,11 @@
                     <token postag="A...S.*|V.P..S.*" postag_regexp="yes"><exception postag="N..[PN0].*" postag_regexp="yes"></exception><exception inflected="yes">numeral</exception></token>
                     <!-- exception: les mans -->
                 </pattern>
-                <message>Falta de concordança de nombre entre «\1» i «\2».</message>
-                <short>Concordança de nombre dubtosa.</short>
+                <message>Error de concordança. Podria ser: 
+                	  <suggestion><match no="1" postag="(D...)P(.*)" postag_regexp="yes" postag_replace="$1S$2" /> <match no="2"/></suggestion>
+                	  <suggestion><match no="1" /> <match no="2" postag="A..(.)S.*|V.P..S(.)" postag_regexp="yes" postag_replace="A..[$1$2]P.*|V.P..P[$1$2]" /></suggestion>
+                </message>
+                <short>Error de concordança.</short>
                 <example type="incorrect">Porta <marker>els vermell</marker>.</example>
                 <example type="correct">Porta els vermells.</example>
             </rule>
@@ -92,8 +158,11 @@
                     <token postag="D[^R]..S.*" postag_regexp="yes"></token>
                     <token postag="N..P.*" postag_regexp="yes"><exception postag="N..[SN0].*" postag_regexp="yes"></exception><exception postag="V.*" postag_regexp="yes"></exception></token>
                 </pattern>
-                <message>Falta de concordança de nombre entre «\1» i «\2».</message>
-                <short>Concordança de gènere i nombre dubtosa.</short>
+                <message>Error de concordança. Podria ser: 
+                	  <suggestion><match no="1" postag="(D...)S(.*)" postag_regexp="yes" postag_replace="$1P$2" /> <match no="2"/></suggestion>
+                	  <suggestion><match no="1" /> <match no="2" postag="N.(.)P.*" postag_regexp="yes" postag_replace="N.$1S.*" /></suggestion>
+                </message>
+                <short>Error de concordança.</short>
                 <example type="incorrect">Porta <marker>el cotxes</marker>.</example>
                 <example type="correct">Porta el cotxe.</example>
                 <example type="correct">El pis.</example>
@@ -103,8 +172,11 @@
                     <token postag="D[^R]..P.*" postag_regexp="yes"></token>
                     <token postag="N..S.*" postag_regexp="yes"><exception postag="N..[PN0].*" postag_regexp="yes"></exception><exception postag="V.*" postag_regexp="yes"></exception><exception inflected="yes">numeral</exception></token>
                 </pattern>
-                <message>Falta de concordança de nombre entre «\1» i «\2».</message>
-                <short>Concordança de gènere i nombre dubtosa.</short>
+                <message>Error de concordança. Podria ser: 
+                	  <suggestion><match no="1" postag="(D...)P(.*)" postag_regexp="yes" postag_replace="$1S$2" /> <match no="2"/></suggestion>
+                	  <suggestion><match no="1" /> <match no="2" postag="N.(.)S.*" postag_regexp="yes" postag_replace="N.$1P.*" /></suggestion>
+                </message>
+                <short>Error de concordança.</short>
                 <example type="incorrect">Porta <marker>els cotxe</marker>.</example>
                 <example type="correct">Porta els cotxes.</example>
                 <example type="correct">Els pis.</example>
@@ -114,8 +186,10 @@
                     <token postag="D[^R].M.*" postag_regexp="yes"></token>
                     <token postag="N.F.*" postag_regexp="yes"><exception postag="N.[MC].*" postag_regexp="yes"></exception><exception postag="V.*" postag_regexp="yes"></exception></token>
                 </pattern>
-                <message>Falta de concordança de gènere entre «\1» i «\2».</message>
-                <short>Concordança de gènere i nombre dubtosa.</short>
+                <message>Error de concordança. Podria ser: 
+                	  <suggestion><match no="1" postag="(D..)M(.*)" postag_regexp="yes" postag_replace="$1F$2" /> <match no="2"/></suggestion>
+                </message>
+                <short>Error de concordança.</short>
                 <example type="incorrect">Porta <marker>el cadira</marker>.</example>
                 <example type="correct">Porta la cadira.</example>
                 <example type="correct">Els ordres.</example>
@@ -125,8 +199,10 @@
                     <token postag="D[^R].F.*" postag_regexp="yes"></token>
                     <token postag="N.M.*" postag_regexp="yes"><exception postag="N.[FC].*" postag_regexp="yes"></exception><exception inflected="yes">numeral</exception><exception postag="V.*" postag_regexp="yes"></exception></token>
                 </pattern>
-                <message>Falta de concordança de gènere entre «\1» i «\2».</message>
-                <short>Concordança de gènere i nombre dubtosa.</short>
+                <message>Error de concordança. Podria ser: 
+                	  <suggestion><match no="1" postag="(D..)F(.*)" postag_regexp="yes" postag_replace="$1M$2" /> <match no="2"/></suggestion>
+                </message>
+                <short>Error de concordança.</short>
                 <example type="incorrect"> <marker>La ganivet</marker>.</example>
                 <example type="correct">El ganivet.</example>
                 <example type="correct">Les ordres.</example>
@@ -191,7 +267,7 @@
                 <pattern>
                     <token inflected="yes" negate="yes" regexp="yes">ser|haver|heure</token>
                     <marker>
-                        <token postag="V.P..S.*" postag_regexp="yes"><exception inflected="yes" regexp="yes"> dir|anomenar|denominar</exception></token>
+                        <token postag="V.P..S.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">dir|anomenar|denominar</exception></token>
                         <token postag="N..P.*" postag_regexp="yes"><exception postag="N..[SN0].*" postag_regexp="yes"></exception></token>
                     </marker>
                 </pattern>
@@ -204,7 +280,7 @@
                 <pattern>
                     <token inflected="yes" negate="yes" regexp="yes">ser|haver|heure</token>
                     <marker>
-                        <token postag="V.P..P.*" postag_regexp="yes"><exception inflected="yes" regexp="yes"> dir|anomenar|denominar</exception></token>
+                        <token postag="V.P..P.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">dir|anomenar|denominar</exception></token>
                         <token postag="N..S.*" postag_regexp="yes"><exception postag="N..[PN0].*" postag_regexp="yes"></exception></token>
                     </marker>
                 </pattern>
@@ -217,7 +293,7 @@
                 <pattern>
                     <token inflected="yes" negate="yes" regexp="yes">ser|haver|heure</token>
                     <marker>
-                        <token postag="V.P...M" postag_regexp="yes"><exception inflected="yes" regexp="yes"> dir|anomenar|denominar</exception></token>
+                        <token postag="V.P...M" postag_regexp="yes"><exception inflected="yes" regexp="yes">dir|anomenar|denominar</exception></token>
                         <token postag="N.F.*" postag_regexp="yes"><exception postag="N.[MC].*" postag_regexp="yes"></exception></token>
                     </marker>
                 </pattern>
@@ -230,7 +306,7 @@
                 <pattern>
                     <token inflected="yes" negate="yes" regexp="yes">ser|haver|heure</token>
                     <marker>
-                        <token postag="V.P...F" postag_regexp="yes"><exception inflected="yes" regexp="yes"> dir|anomenar|denominar</exception></token>
+                        <token postag="V.P...F" postag_regexp="yes"><exception inflected="yes" regexp="yes">dir|anomenar|denominar</exception></token>
                         <token postag="N.M.*" postag_regexp="yes"><exception postag="N.[FC].*" postag_regexp="yes"></exception></token>
                     </marker>
                 </pattern>
@@ -262,7 +338,7 @@
             </rule>
             <rule>
                 <pattern>
-                    <token postag="N.F.*" postag_regexp="yes"><exception postag="N.[MC].*" postag_regexp="yes"></exception><exception postag="V.*" postag_regexp="yes"></exception><exception postag="_GN_M." postag_regexp="yes"></exception></token>  <!-- exexption GN_M: posterior rector -->
+                    <token postag="N.F.*" postag_regexp="yes"><exception postag="N.[MC].*" postag_regexp="yes"></exception><exception postag="V.*" postag_regexp="yes"></exception><exception postag="_GN_M." postag_regexp="yes"></exception></token><!-- exexption GN_M: posterior rector -->
                     <token postag="A..M.*|PX.M.*|V.P...M" postag_regexp="yes"><exception postag="V.[^P].*" postag_regexp="yes"></exception><exception postag="A..[FC].*" postag_regexp="yes"></exception></token>
                 </pattern>
                 <message>Falta de concordança de gènere entre «\1» i «\2».</message>
@@ -293,20 +369,6 @@
                 <example type="incorrect">La <marker>planta dues</marker>.</example>
                 <example type="correct">La planta dos.</example>
                 <example type="correct">El pis dos.</example>
-            </rule>
-            <!-- Alguns casos concrets-->
-            <rule>
-                <pattern>
-                    <token regexp="yes">per|d'</token>
-                    <marker>
-                        <token>altre</token>
-                    </marker>
-                    <token>part</token>
-                </pattern>
-                <message>Error de concordança de gènere.<suggestion>altra</suggestion></message>
-                <short>Error de concordança.</short>
-                <example type="incorrect">Per <marker>altre</marker> part.</example>
-                <example type="correct">Per altra part.</example>
             </rule>
             <!-- amb qualsevol combinació d'adverbis entremig -->
             <rule>
@@ -706,7 +768,7 @@
                     </and>
                     <token>,</token>
                     <token postag="A..M.*|V.P...M" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"></exception></token>
-                    <token><exception postag="SPS00"></exception><exception regexp="yes"> pel|pels|al|als|del|dels|que</exception></token>
+                    <token><exception postag="SPS00|D.*" postag_regexp="yes"></exception><exception regexp="yes">pel|pels|al|als|del|dels|que</exception></token>
                 </pattern>
                 <message>Falta de concordança de nombre entre «\1» i «\3».</message>
                 <short>Concordança de nombre dubtosa.</short>
@@ -721,7 +783,7 @@
                     </and>
                     <token>,</token>
                     <token postag="A..F.*|V.P...F" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"></exception></token>
-                    <token><exception postag="SPS00"></exception><exception regexp="yes"> pel|pels|al|als|del|dels|que</exception></token>
+                    <token><exception postag="SPS00|D.*" postag_regexp="yes"></exception><exception regexp="yes">pel|pels|al|als|del|dels|que</exception></token>
                 </pattern>
                 <message>Falta de concordança de nombre entre «\1» i «\3».</message>
                 <short>Concordança de nombre dubtosa.</short>
@@ -736,7 +798,7 @@
                     </and>
                     <token>,</token>
                     <token postag="A...P.*|V.P..P." postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"></exception></token>
-                    <token><exception postag="SPS00"></exception><exception regexp="yes"> pel|pels|al|als|del|dels|que</exception></token>
+                    <token><exception postag="SPS00|D.*" postag_regexp="yes"></exception><exception regexp="yes">pel|pels|al|als|del|dels|que</exception></token>
                 </pattern>
                 <message>Falta de concordança de nombre entre «\1» i «\3».</message>
                 <short>Concordança de nombre dubtosa.</short>
@@ -751,7 +813,7 @@
                     </and>
                     <token>,</token>
                     <token postag="A...S.*|V.P..S." postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"></exception></token>
-                    <token><exception postag="SPS00"></exception><exception regexp="yes"> pel|pels|al|als|del|dels|que</exception></token>
+                    <token><exception postag="SPS00|D.*" postag_regexp="yes"></exception><exception regexp="yes">pel|pels|al|als|del|dels|que</exception></token>
                 </pattern>
                 <message>Falta de concordança de nombre entre «\1» i «\3».</message>
                 <short>Concordança de nombre dubtosa.</short>
@@ -832,7 +894,7 @@
                         <feature id="nombre"></feature>
                         <feature id="genere"></feature>
                         <token postag="D.*" postag_regexp="yes" inflected="yes">tot</token>
-                        <token postag="D[DAN].*" postag_regexp="yes"><exception regexp="yes"> pel|pels|al|als|del|dels|que</exception></token>
+                        <token postag="D[DAN].*" postag_regexp="yes"><exception regexp="yes">pel|pels|al|als|del|dels|que</exception></token>
                     </unify>
                 </pattern>
                 <message>Possible falta de concordança.</message>
@@ -888,17 +950,6 @@
                 <example type="incorrect"> <marker>El tres homes</marker>.</example>
                 <example type="correct">Els tres homes.</example>
             </rule>
-            <!--  <rule>
-<pattern>
-<token postag="(DA|DD|PX)..P.*" postag_regexp="yes"></token>
-<token postag="DN.*" postag_regexp="yes"></token>
-<and><token postag="D.*" postag_regexp="yes" negate_pos="yes"/><token postag="_GN_.S" postag_regexp="yes"><exception postag="_GN_.P" postag_regexp="yes"/></token></and>
-</pattern>
-<message>Error de concordança.</message>
-<short>Error de concordança.</short>
-<example type="incorrect"><marker>els tres home</marker>.</example>
-<example type="correct">els tres homes.</example>
-</rule> -->
             <rule>
                 <pattern>
                     <token postag="DI.F.*" postag_regexp="yes" inflected="yes" regexp="yes">un|algun|altre|tot</token>
@@ -932,17 +983,6 @@
                 <example type="incorrect"> <marker>tot tres culleres</marker>.</example>
                 <example type="correct">totes tres culleres.</example>
             </rule>
-            <!-- <rule>
-<pattern>
-<token postag="DI..P.*" postag_regexp="yes" inflected="yes" regexp="yes">un|algun|altre|tot</token>
-<token postag="DN.*" postag_regexp="yes"></token>
-<and><token postag="D.*" postag_regexp="yes" negate_pos="yes"/><token postag="_GN_.S" postag_regexp="yes"><exception postag="_GN_.P" postag_regexp="yes"/></token></and>
-</pattern>
-<message>Error de concordança.</message>
-<short>Error de concordança.</short>
-<example type="incorrect"><marker>totes tres cullera</marker>.</example>
-<example type="correct">totes tres culleres.</example>
-</rule> -->
             <rule>
                 <pattern>
                     <token postag="(DA|DD|PX).F.*" postag_regexp="yes"></token>
@@ -997,7 +1037,7 @@
                 </pattern>
                 <message>Possible falta de concordança entre «\1» i «\2».</message>
                 <short>Concordança de nombre dubtosa.</short>
-                <example type="incorrect"> <marker>Els seu</marker> llibres.</example>
+                <example type="incorrect"><marker>Els seu</marker> llibres.</example>
                 <example type="correct">Els seus llibres.</example>
             </rule>
             <rule>
@@ -1048,7 +1088,7 @@
                 </pattern>
                 <message>Possible falta de concordança. Podria ser <suggestion><match no="1" postag="DI.F.*" postag_regexp="yes"></match></suggestion>.</message>
                 <short>Concordança de gènere o nombre dubtosa.</short>
-                <example type="incorrect"> <marker>Un</marker> de les seves cases.</example>
+                <example type="incorrect"><marker>Un</marker> de les seves cases.</example>
                 <example type="correct">Una de les seves cases.</example>
             </rule>
             <rule>
@@ -1061,7 +1101,7 @@
                 </pattern>
                 <message>Possible falta de concordança. Podria ser <suggestion><match no="1" postag="DI.M.*" postag_regexp="yes"></match></suggestion>.</message>
                 <short>Concordança de gènere o nombre dubtosa.</short>
-                <example type="incorrect"> <marker>Alguna</marker> d'aquests animals.</example>
+                <example type="incorrect"><marker>Alguna</marker> d'aquests animals.</example>
                 <example type="correct">Algun d'aquests animals.</example>
             </rule>
             <rule>
@@ -1073,7 +1113,7 @@
                 </pattern>
                 <message>Possible falta de concordança. Podria ser <suggestion><match no="1" postag="DI.M.*" postag_regexp="yes"></match></suggestion>.</message>
                 <short>Concordança de gènere o nombre dubtosa.</short>
-                <example type="incorrect"> <marker>Una</marker> dels grans.</example>
+                <example type="incorrect"><marker>Una</marker> dels grans.</example>
                 <example type="correct">Un dels grans.</example>
             </rule>
         </rulegroup>
@@ -1105,6 +1145,48 @@
                 <example type="correct">Entre una cosa i l'altra.</example>
             </rule>
         </rulegroup>
+        <!-- Alguns casos concrets-->
+        <rulegroup id="CONCORDANCES_CASOS_PARTICULARS" name="casos particulars de conconrdances">
+            <rule>
+                <pattern>
+                    <token regexp="yes">per|d'</token>
+                    <marker>
+                        <token>altre</token>
+                    </marker>
+                    <token>part</token>
+                </pattern>
+                <message>Error de concordança de gènere.<suggestion>altra</suggestion></message>
+                <short>Error de concordança.</short>
+                <example type="incorrect">Per <marker>altre</marker> part.</example>
+                <example type="correct">Per altra part.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="N.MS.*" postag_regexp="yes"><exception postag="_GN_FS"/></token>
+                    <marker>
+                        <token>esquerra</token>
+                    </marker>
+                </pattern>
+                <message>Error de concordança de gènere: <suggestion>esquerre</suggestion></message>
+                <short>Error de concordança.</short>
+                <example type="incorrect">El braç <marker>esquerra</marker>.</example>
+                <example type="correct">El braç esquerre.</example>
+                <example type="correct">En la part esquerra.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="N.FS.*" postag_regexp="yes"><exception postag="_GN_MS"/></token>
+                    <marker>
+                        <token>esquerre</token>
+                    </marker>
+                </pattern>
+                <message>Error de concordança de gènere: <suggestion>esquerra</suggestion>.</message>
+                <short>Error de concordança.</short>
+                <example type="incorrect">La cama <marker>esquerre</marker>.</example>
+                <example type="correct">La cama esquerra.</example>
+                <example type="correct">El llum esquerre.</example>
+            </rule>           
+        </rulegroup>       
     </category>
     <category name="Verbs">
         <!-- <rule id="concord_subj_verb" name="concordança subjecte verb" default="on">
@@ -1277,7 +1359,7 @@
 <example type="incorrect">Podeu caure<marker>-us</marker></example>
 <example type="correct">Podeu caure</example>
 </rule>
-</rulegroup> -->
+</rulegroup>-->
         <rulegroup id="verbs_no_transitius" name="verbs no transitius">
             <rule>
                 <pattern>
@@ -1437,10 +1519,9 @@
         <rulegroup id="verb_passat_compost" name="Comprova: passat perifràstic">
             <rule>
                 <pattern>
-                    <token regexp="yes"> vam|vau|vares|vàrem|vàreu|varen</token>
+                    <token regexp="yes">vam|vau|vares|vàrem|vàreu|varen</token>
                     <marker>
-                        <token postag="V.N.*" postag_regexp="yes" negate_pos="yes"><exception postag="V.N.*" postag_regexp="yes">
-                        </exception></token>
+                        <token postag="V.N.*" postag_regexp="yes" negate_pos="yes"><exception postag="V.N.*" postag_regexp="yes"></exception></token>
                     </marker>
                     <!-- fer també del v. ferir-->
                 </pattern>
@@ -1695,7 +1776,7 @@
                     <marker>
                         <token>fins</token>
                     </marker>
-                    <token postag="DA.*" postag_regexp="yes" inflected="yes"> el<exception regexp="yes">al|als</exception></token>
+                    <token postag="DA.*" postag_regexp="yes" inflected="yes">el<exception regexp="yes">al|als</exception></token>
                 </pattern>
                 <message>Només escrivim &quot;fins el&quot; quan vol dir &quot;fins i tot&quot;. <suggestion>fins a</suggestion>.</message>
                 <short>Error ortogràfic.</short>
@@ -1762,7 +1843,7 @@
                         <token>fins</token>
                         <token>a</token>
                     </marker>
-                    <token regexp="yes"> dilluns|dimarts|dimecres|dijous|divendres|dissabte|diumenge</token>
+                    <token regexp="yes">dilluns|dimarts|dimecres|dijous|divendres|dissabte|diumenge</token>
                 </pattern>
                 <message>Escrivim <suggestion>fins</suggestion>.</message>
                 <short>Expressió incorrecta.</short>
@@ -1770,6 +1851,21 @@
                 <example type="correct"> <marker>Fins</marker> diumenge.</example>
             </rule>
         </rulegroup>
+        <rule id="A_L_ENDEMA" name="a l'endemà">
+                <pattern>
+                	  <token negate="yes" regexp="yes">fins|per</token>
+                    <marker>
+                        <token>a</token>
+                        <token>l'</token>
+                        <token>endemà</token>
+                    </marker>
+                    
+                </pattern>
+                <message>Escrivim <suggestion>l'endemà</suggestion>.</message>
+                <short>Sobra la preposició 'a'.</short>
+                <example type="incorrect">Ho farem <marker>a l'endemà</marker>.</example>
+                <example type="correct">Ho farem <marker>l'endemà</marker>.</example>
+            </rule>
     </category>
     <category name="Numerals">
         <!-- Falta: guionets que sobren-->
@@ -1777,8 +1873,8 @@
             <!-- Falta controlar els espais: vint- i- u -->
             <rule>
                 <pattern>
-                    <token regexp="yes"> vint-i|trenta|quaranta|cinquanta|seixanta|setanta|vuitanta|huitanta|noranta</token>
-                    <token regexp="yes"> u|un|una|dos|dues|tres|quatre|cinc|sis|set|vuit|huit|nou</token>
+                    <token regexp="yes">vint-i|trenta|quaranta|cinquanta|seixanta|setanta|vuitanta|huitanta|noranta</token>
+                    <token regexp="yes">u|un|una|dos|dues|tres|quatre|cinc|sis|set|vuit|huit|nou</token>
                     <!-- als anys cinquanta una especial dedicació -->
                 </pattern>
                 <message>111Falta un guionet: <suggestion><match no="1"></match>-<match no="2"></match></suggestion>.</message>
@@ -1789,7 +1885,7 @@
             <rule>
                 <pattern>
                     <token>vint</token>
-                    <token regexp="yes"> i-u|i-un|i-una|i-dos|i-dues|i-tres|i-quatre|i-cinc|i-sis|i-set|i-vuit|i-huit|i-nou</token>
+                    <token regexp="yes">i-u|i-un|i-una|i-dos|i-dues|i-tres|i-quatre|i-cinc|i-sis|i-set|i-vuit|i-huit|i-nou</token>
                 </pattern>
                 <message>Falta un guionet: <suggestion><match no="1"></match>-<match no="2"></match></suggestion>.</message>
                 <short>Falta un guionet.</short>
@@ -1800,7 +1896,7 @@
                 <pattern>
                     <token>vint</token>
                     <token>i</token>
-                    <token regexp="yes"> u|un|una|dos|dues|tres|quatre|cinc|sis|set|vuit|huit|nou</token>
+                    <token regexp="yes">u|un|una|dos|dues|tres|quatre|cinc|sis|set|vuit|huit|nou</token>
                 </pattern>
                 <message>Falten els guionets: <suggestion><match no="1"></match>-<match no="2"></match>-<match no="3"></match></suggestion>.</message>
                 <short>Falta un guionet.</short>
@@ -1809,7 +1905,7 @@
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes"> dues|dos|tres|quatre|cinc|sis|set|vuit|huit|nou</token>
+                    <token regexp="yes">dues|dos|tres|quatre|cinc|sis|set|vuit|huit|nou</token>
                     <token regexp="yes">cents|centes</token>
                 </pattern>
                 <message>Falta un guionet: <suggestion><match no="1"></match>-<match no="2"></match></suggestion>.</message>
@@ -1845,10 +1941,25 @@
 <short>Sobra un espai.</short>
 <example type="incorrect"><marker>Dues- centes</marker>.</example>
 <example type="correct">Dues-centes.</example>
-</rule> -->
+</rule>-->
         </rulegroup>
     </category>
     <category name="Confusions">
+    	  <rulegroup id="NOM_VERB_ACCENT" name="nom amb accent/verb sense accent (renúncia/renuncia)">           
+            <rule>
+		            <pattern>
+		                <token>la</token>
+		                <marker>
+		                    <token>renuncia</token>
+		                </marker>
+		                <token regexp="yes">a|al|als</token>
+		            </pattern>
+		            <message>Cal accentuar: <suggestion>renúncia</suggestion>.</message>
+		            <short>Cal accentuar.</short>
+		            <example type="incorrect">La <marker>renuncia</marker> a la corona.</example>
+		            <example type="correct">La renúncia a la corona.</example>
+            </rule>                  
+        </rulegroup>
         <rule id="DALT" name="d'alt/dalt">
             <pattern>
                 <token regexp="yes">a|fins|de</token>
@@ -1933,7 +2044,7 @@
                     <marker>
                         <token skip="3">apenes<exception postag="PP.*|P0.*|V.*|SENT_END" scope="next" postag_regexp="yes" negate_pos="yes"></exception></token>
                     </marker>
-                    <token postag="V.*" postag_regexp="yes"></token>  <!-- es podrien afegir pronoms abans del verb-->
+                    <token postag="V.*" postag_regexp="yes"></token><!-- es podrien afegir pronoms abans del verb-->
                 </pattern>
                 <message>Caldria escriure <suggestion>a penes</suggestion>.</message>
                 <short>Revisa si és &quot;a penes&quot;.</short>
@@ -1965,6 +2076,18 @@
             <short>Revisa si és &quot;fins a&quot;.</short>
             <example type="incorrect"><marker>Con</marker> a resultat.</example>
             <example type="correct">Com a resultat.</example>
+        </rule>
+        <rule id="PAR_PART" name="par / part">
+            <pattern>
+                <marker>
+                    <token>par</token>
+                </marker>
+                <token regexp="yes">d'|de|del|dels|que</token>
+            </pattern>
+            <message>Revisa si és: <suggestion>part</suggestion>.</message>
+            <short>Confusió.</short>
+            <example type="incorrect">A <marker>par</marker> d'això.</example>
+            <example type="correct">A part d'això.</example>
         </rule>
         <rule id="FINS_DINS_A" name="dins a/fins a">
             <pattern>
@@ -2056,7 +2179,7 @@
                 </pattern>
                 <message><suggestion>aquest</suggestion>.</message>
                 <short>Aquest.</short>
-                <example type="incorrect"> <marker>Aquet</marker> home.</example>
+                <example type="incorrect"><marker>Aquet</marker> home.</example>
                 <example type="correct">Aquest home.</example>
             </rule>
             <rule>
@@ -2101,7 +2224,7 @@
                 <pattern>
                     <marker>
                         <token skip="2">sinó
-                            <exception scope="next" regexp="yes"> que|també</exception></token>
+                            <exception scope="next" regexp="yes">que|també</exception></token>
                     </marker>
                     <token postag="V.[^NGP].*" postag_regexp="yes"></token>
                 </pattern>
@@ -2224,8 +2347,8 @@
             </pattern>
             <message>Cal dir <suggestion>a què</suggestion> o <suggestion>que</suggestion>.</message>
             <short>Expressió incorrecta</short>
-            <example type="incorrect">La qÃ¼estió <marker>a que</marker> es referia ell.</example>
-            <example type="correct">La qÃ¼estió <marker>a què</marker> es referia ell.</example>
+            <example type="incorrect">La qüestió <marker>a que</marker> es referia ell.</example>
+            <example type="correct">La qüestió <marker>a què</marker> es referia ell.</example>
         </rule>
         <rule id="PER_QUE" name="per que">
             <pattern>
@@ -2283,7 +2406,7 @@
                     <token negate_pos="yes" postag="SENT_START" regexp="yes"><exception>i</exception>\p{L}+</token>
                     <token regexp="yes"><exception>i</exception>\p{L}+</token>
                     <token><match no="0"></match></token>
-                    <token><match no="1"></match></token>
+                    <token><match no="1"></match><exception postag="&lt;/LOC_ADV&gt;" >poc</exception></token>
                 </pattern>
                 <message>Aquesta frase és duplicada. Probablement hauria de ser <suggestion>\1 \2</suggestion>.</message>
                 <short>Frase duplicada</short>
@@ -2349,8 +2472,8 @@
                 </pattern>
                 <message>Cal dir <suggestion>del</suggestion>.</message>
                 <short>Error gramatical</short>
-                <example type="incorrect"> <marker>de el</marker> camí</example>
-                <example type="correct"> <marker>del</marker> camí</example>
+                <example type="incorrect"><marker>de el</marker> camí</example>
+                <example type="correct"><marker>del</marker> camí</example>
             </rule>
             <rule>
                 <pattern>
@@ -2407,8 +2530,7 @@
             <rule>
                 <pattern>
                     <token>de</token>
-                    <token regexp="yes"> h?[aeiouàèéíòóú].*
-                        <exception regexp="yes"> h?[ui][aeioàèéóò].*|el|els</exception></token>
+                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóò].*|el|els</exception></token>
                 </pattern>
                 <message>Cal dir <suggestion>d'<match no="2"></match></suggestion>.</message>
                 <short>Error ortogràfic</short>
@@ -2422,7 +2544,7 @@
             <rule>
                 <pattern>
                     <token>el</token>
-                    <token regexp="yes"> h?[aeiouàèéíòóú].*<exception regexp="yes"> h?[ui][aeioàèéóò].+</exception></token>
+                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóò].+</exception></token>
                 </pattern>
                 <message>Cal dir <suggestion>l'<match no="2"></match></suggestion>.</message>
                 <short>Error ortogràfic</short>
@@ -2436,7 +2558,7 @@
             <rule>
                 <pattern>
                     <token>del</token>
-                    <token regexp="yes"> h?[aeiouàèéíòóú].*<exception regexp="yes"> h?[ui][aeioàèéóò].+</exception></token>
+                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóò].+</exception></token>
                 </pattern>
                 <message>Cal dir <suggestion>de l'<match no="2"></match></suggestion>.</message>
                 <short>Error ortogràfic</short>
@@ -2450,7 +2572,7 @@
             <rule>
                 <pattern>
                     <token>al</token>
-                    <token regexp="yes"> h?[aeiouàèéíòóú].*<exception regexp="yes"> h?[ui][aeioàèéóò].+</exception></token>
+                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóò].+</exception></token>
                 </pattern>
                 <message>Cal dir <suggestion>a l'<match no="2"></match></suggestion>.</message>
                 <short>Error ortogràfic</short>
@@ -2464,7 +2586,7 @@
             <rule>
                 <pattern>
                     <token>pel</token>
-                    <token regexp="yes"> h?[aeiouàèéíòóú].*<exception regexp="yes"> h?[ui][aeioàèéóò].+</exception></token>
+                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóò].+</exception></token>
                 </pattern>
                 <message>Cal dir <suggestion>per l'<match no="2"></match></suggestion>.</message>
                 <short>Error ortogràfic</short>
@@ -2478,7 +2600,7 @@
             <rule>
                 <pattern>
                     <token>d'</token>
-                    <token regexp="yes"> h?[ui][aeoiàèéóò].*<exception regexp="yes"> ió|ions</exception></token>
+                    <token regexp="yes">h?[ui][aeoiàèéóò].*<exception regexp="yes">ió|ions</exception></token>
                 </pattern>
                 <message>Cal dir <suggestion>de <match no="2"></match></suggestion>.</message>
                 <short>Error ortogràfic</short>
@@ -2492,7 +2614,7 @@
             <rule>
                 <pattern>
                     <token>l'</token>
-                    <token postag="N.M.*|A..M.*" postag_regexp="yes" regexp="yes"> h?[ui][aeoiàèéóò].*<exception>ió</exception></token>
+                    <token postag="N.M.*|A..M.*" postag_regexp="yes" regexp="yes">h?[ui][aeoiàèéóò].*<exception>ió</exception></token>
                 </pattern>
                 <message>Cal dir <suggestion>el <match no="2"></match></suggestion>.</message>
                 <short>Error ortogràfic</short>
@@ -2506,7 +2628,7 @@
             <rule>
                 <pattern>
                     <token>l'</token>
-                    <token postag="N.F.*|A..F.*|_GN_F." postag_regexp="yes" regexp="yes">h?[ui].+|host<exception regexp="yes"> hidra|hifa|hulla|ulna|umbra|una|ungla|unça|upa|urbs|urna|urpa|idus|illa|inca|iva</exception></token>
+                    <token postag="N.F.*|A..F.*|_GN_F." postag_regexp="yes" regexp="yes">h?[ui].+|host<exception regexp="yes">hidra|hifa|hulla|ulna|umbra|una|ungla|unça|upa|urbs|urna|urpa|idus|illa|inca|iva</exception></token>
                 </pattern>
                 <message>Cal dir <suggestion>la <match no="2"></match></suggestion>.</message>
                 <short>Error ortogràfic</short>
@@ -2516,17 +2638,12 @@
             <rule>
                 <pattern>
                     <token>la</token>
-                    <token regexp="yes"> h?[aeoàèéíòóú].*|h?[ui][^aeiouàèéíòóúÃ¯Ã¼]+[aeiou][ns]?|urbs
-                        <exception regexp="yes">host|ira|inxa</exception></token>
+                    <token regexp="yes">h?[aeoàèéíòóú].*|h?[ui][^aeiouàèéíòóúüï]+[aeiou][ns]?|urbs<exception regexp="yes">host|ira|inxa</exception></token>
                 </pattern>
                 <message>Cal dir <suggestion>l'<match no="2"></match></suggestion>.</message>
                 <short>Error ortogràfic</short>
-                <example type="incorrect">
-                    <marker>la ombra</marker>
-                </example>
-                <example type="correct">
-                    <marker>l'ombra</marker>
-                </example>
+                <example type="incorrect"><marker>la ombra</marker></example>
+                <example type="correct"><marker>l'ombra</marker></example>
             </rule>
         </rulegroup>
     </category>
@@ -2579,6 +2696,32 @@
                 <example type="incorrect">Necessita <marker>mes</marker> temps.</example>
                 <example type="correct">Necessita <marker>més</marker> temps.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>mes</token>
+                    </marker>
+                    <token>de</token>
+                    <token inflected="yes">numeral</token>
+                </pattern>
+                <message>S'accentua quan és adjectiu o adverbi: <suggestion>més</suggestion>.</message>
+                <short>Error gramatical.</short>
+                <example type="incorrect">Necessita <marker>mes</marker> de 4 hores.</example>
+                <example type="correct">Necessita <marker>més</marker> de 4 hores.</example>
+            </rule>     
+            <rule>
+                <pattern>
+                    <token inflected="yes">numeral</token>                	
+                    <token></token>                    
+                    <marker>
+                        <token>mes</token>
+                    </marker>
+                </pattern>
+                <message>S'accentua quan és adjectiu o adverbi: <suggestion>més</suggestion>.</message>
+                <short>Error gramatical.</short>
+                <example type="incorrect">Necessito tres coses <marker>mes</marker>.</example>
+                <example type="correct">Necessito tres coses <marker>més</marker>.</example>
+            </rule>                           
             <rule>
                 <pattern>
                     <token postag="D..MS.*|PX.MS.*" postag_regexp="yes" negate_pos="yes"></token>
@@ -2798,7 +2941,7 @@
             </rule>
             <rule>
                 <pattern>
-                    <token postag="D.*" postag_regexp="yes"></token>
+                    <token postag="D[^R].*" postag_regexp="yes"></token>
                     <marker>
                         <token>sóc</token>
                     </marker>
@@ -2811,7 +2954,7 @@
             </rule>
             <rule>
                 <pattern>
-                    <token postag="D.*" postag_regexp="yes"></token>
+                    <token postag="D[^R].*" postag_regexp="yes"></token>
                     <marker>
                         <token>sóc</token>
                     </marker>
@@ -2825,7 +2968,7 @@
             </rule>
             <rule>
                 <pattern>
-                    <token postag="D.*" postag_regexp="yes"></token>
+                    <token postag="D[^R].*" postag_regexp="yes"></token>
                     <marker>
                         <token>sóc</token>
                     </marker>
@@ -2842,8 +2985,7 @@
                 <pattern>
                     <token postag="SENT_START" skip="-1"><exception scope="next" postag="V.[^NPG].*" postag_regexp="yes"></exception></token>
                     <marker>
-                        <token skip="-1">te
-                            <exception scope="next" postag="V.[^NPG].*" postag_regexp="yes"></exception></token>
+                        <token skip="-1">te<exception scope="next" postag="V.[^NPG].*" postag_regexp="yes"></exception></token>
                     </marker>
                     <token postag="SENT_END"></token>
                 </pattern>
@@ -2990,7 +3132,7 @@
                     <token postag="P0.*|PP.*" postag_regexp="yes"><exception regexp="yes">jo|tu|ella?|nosaltres|vosaltres|elle?s|vostès?|vós</exception></token>
                     <token postag="P0.*|PP.*" postag_regexp="yes"><exception regexp="yes">jo|tu|ella?|nosaltres|vosaltres|elle?s|vostès?|vós</exception></token>
                     <token postag="P0.*|PP.*" postag_regexp="yes"><exception regexp="yes">jo|tu|ella?|nosaltres|vosaltres|elle?s|vostès?|vós</exception></token>
-                    <token postag="P0.*|PP.*" postag_regexp="yes"><exception postag="PP3CN000" inflected="yes"> hi</exception></token>
+                    <token postag="P0.*|PP.*" postag_regexp="yes"><exception postag="PP3CN000" inflected="yes">hi</exception></token>
                 </pattern>
                 <message>Combinació incorrecta de pronoms febles.</message>
                 <short>Error gramatical.</short>
@@ -3061,10 +3203,10 @@
                 <pattern>
                     <token postag="V.[MGN].*|P[P0].*" postag_regexp="yes" negate_pos="yes"></token>
                     <marker>
-                        <token postag="P.*" postag_regexp="yes" regexp="yes"> el|se|es|te|et|me|em|en|ne|'(l|t|s|n|m)</token>
+                        <token postag="P.*" postag_regexp="yes" regexp="yes">el|se|es|te|et|me|em|en|ne|'(l|t|s|n|m)</token>
                     </marker>
-                    <token postag="V.[^NGP].*|P[P0].*" postag_regexp="yes" regexp="yes"> h?[aeiouàèéíòóú].*
-                        <exception regexp="yes">io[dt].*</exception><exception regexp="yes"> us|el|els|et|en|em</exception></token>
+                    <token postag="V.[^NGP].*|P[P0].*" postag_regexp="yes" regexp="yes">h?[aeiouàèéíòóú].*
+                        <exception regexp="yes">io[dt].*</exception><exception regexp="yes">us|el|els|et|en|em</exception></token>
                 </pattern>
                 <message>Cal apostrofar: <suggestion><match no="2" regexp_match="[Ee]?(.)[e]?" regexp_replace="$1'"></match></suggestion>.</message>
                 <short>Error ortogràfic</short>
@@ -3083,7 +3225,7 @@
 </rule> -->
             <rule>
                 <pattern>
-                    <token postag="P.*" postag_regexp="yes" regexp="yes"> se|es|te|et|me|em</token>
+                    <token postag="P.*" postag_regexp="yes" regexp="yes">se|es|te|et|me|em</token>
                     <token>els</token>
                 </pattern>
                 <message>Cal apostrofar: <suggestion><match no="1" regexp_match="[Ee]?([^e])e?" regexp_replace="$1e"></match><match no="2" regexp_match="e?([^e]{1,2})e?" regexp_replace="'$1"></match></suggestion>.</message>
@@ -3094,10 +3236,10 @@
             <rule>
                 <pattern>
                     <marker>
-                        <token postag="P.*" postag_regexp="yes" regexp="yes"> se|es|te|et|me|em</token>
-                        <token postag="P.*" postag_regexp="yes" regexp="yes"> el|te|et|me|em|en|ne</token>
+                        <token postag="P.*" postag_regexp="yes" regexp="yes">se|es|te|et|me|em</token>
+                        <token postag="P.*" postag_regexp="yes" regexp="yes">el|te|et|me|em|en|ne</token>
                     </marker>
-                    <token postag="V.*" postag_regexp="yes"><exception regexp="yes"> h?[aeiouàèéíòóú].*</exception></token>
+                    <token postag="V.*" postag_regexp="yes"><exception regexp="yes">h?[aeiouàèéíòóú].*</exception></token>
                 </pattern>
                 <message>Cal apostrofar: <suggestion><match no="1" regexp_match="[Ee]?([^e])e?" regexp_replace="$1e"></match><match no="2" regexp_match="e?([^e]{1,2})e?" regexp_replace="'$1"></match></suggestion>.</message>
                 <short>Error ortogràfic</short>
@@ -3108,7 +3250,7 @@
                 <pattern>
                     <token postag="V.*|P[P0].*" postag_regexp="yes" negate_pos="yes"><exception regexp="yes">jo|tu|ella?|nosaltres|vosaltres|elle?s|vostès?|vós</exception></token>
                     <marker>
-                        <token postag="P.*" postag_regexp="yes" regexp="yes"> es|et|em</token>
+                        <token postag="P.*" postag_regexp="yes" regexp="yes">es|et|em</token>
                     </marker>
                     <token postag="P.*" postag_regexp="yes"></token>
                 </pattern>
@@ -3121,9 +3263,9 @@
                 <pattern>
                     <token postag="V.*|P[P0].*" postag_regexp="yes" negate_pos="yes"><exception regexp="yes">jo|tu|ella?|nosaltres|vosaltres|elle?s|vostès?|vós</exception></token>
                     <marker>
-                        <token postag="P.*" postag_regexp="yes" regexp="yes"> (s|t|m|n)['e]</token>
+                        <token postag="P.*" postag_regexp="yes" regexp="yes">(s|t|m|n)['e]</token>
                     </marker>
-                    <token postag="V.*" postag_regexp="yes"><exception regexp="yes"> h?[aeiouàèéíòóú].*</exception><exception regexp="yes">s.*|c[ei].*</exception></token>
+                    <token postag="V.*" postag_regexp="yes"><exception regexp="yes">h?[aeiouàèéíòóú].*</exception><exception regexp="yes">s.*|c[ei].*</exception></token>
                 </pattern>
                 <message>Cal usar la forma reforçada: <suggestion><match no="2" regexp_match="(.)." regexp_replace="e$1">
                 </match></suggestion>.</message>
@@ -3136,7 +3278,7 @@
                     <marker>
                         <token postag="P.*" postag_regexp="yes">es</token>
                     </marker>
-                    <token postag="V.*" postag_regexp="yes" regexp="yes"> s.*|c[ei].*</token>
+                    <token postag="V.*" postag_regexp="yes" regexp="yes">s.*|c[ei].*</token>
                 </pattern>
                 <message>Cal usar la forma plena: <suggestion>se</suggestion>.</message>
                 <short>Error ortogràfic</short>
@@ -3147,9 +3289,9 @@
                 <pattern>
                     <token postag="V.*|P[P0].*" postag_regexp="yes" negate_pos="yes"><exception regexp="yes">jo|tu|ella?|nosaltres|vosaltres|elle?s|vostès?|vós</exception></token>
                     <marker>
-                        <token postag="P.*" postag_regexp="yes" regexp="yes"> (s|t|m|n)['â€™e]</token>
+                        <token postag="P.*" postag_regexp="yes" regexp="yes">(s|t|m|n)['â€™e]</token>
                     </marker>
-                    <token postag="V.*" postag_regexp="yes" regexp="yes"> io[dt].*</token>
+                    <token postag="V.*" postag_regexp="yes" regexp="yes">io[dt].*</token>
                 </pattern>
                 <message>Cal usar la forma reforçada: <suggestion><match no="2" regexp_match="(.)." regexp_replace="e$1"></match></suggestion>.</message>
                 <short>Error ortogràfic</short>
@@ -3275,7 +3417,7 @@
                     <marker>
                         <token postag="P0.*|PP.*" postag_regexp="yes" regexp="yes">-(se|te|me)</token>
                     </marker>
-                    <token postag="P.*" postag_regexp="yes" regexp="yes"> -(el|els|te|et|me|em|en|ne)</token>
+                    <token postag="P.*" postag_regexp="yes" regexp="yes">-(el|els|te|et|me|em|en|ne)</token>
                     <token postag="V.[^NGP].*|P0.*|PP.*" postag_regexp="yes" negate_pos="yes"></token>
                 </pattern>
                 <message>Cal apostrofar: <suggestion><match no="2" regexp_match="-[e]?([^e])e?" regexp_replace="-$1e"></match><match no="3" regexp_match="-e?([^e]{1,2})e?" regexp_replace="'$1"></match></suggestion>.</message>
@@ -3288,7 +3430,7 @@
                     <token postag="V.[MNG].*" postag_regexp="yes"></token>
                     <token postag="P0.*|PP.*" postag_regexp="yes"><exception regexp="yes">jo|tu|ella?|nosaltres|vosaltres|elle?s|vostès?|vós</exception></token>
                     <marker>
-                        <token postag="P.*" postag_regexp="yes" regexp="yes"> -(lo|los)</token>
+                        <token postag="P.*" postag_regexp="yes" regexp="yes">-(lo|los)</token>
                     </marker>
                     <token postag="V.[^NGP].*|P0.*|PP.*" postag_regexp="yes" negate_pos="yes"></token>
                 </pattern>
@@ -3377,8 +3519,8 @@
         <rulegroup id="NO_VALENCIA" name="Detecta formes no valencianes">
             <rule>
                 <pattern>
-                    <token regexp="yes"> .+è|.+ès|.+èn
-                        <exception regexp="yes"> perquè|què|Novetlè</exception></token>
+                    <token regexp="yes">.+è|.+ès|.+èn
+                        <exception regexp="yes">perquè|què|Novetlè</exception></token>
                 </pattern>
                 <message>Forma ortogràfica no pròpia del valencià. Substitueix per: <suggestion><match no="1" regexp_match="^(.+)è(s|n)?" regexp_replace="$1é$2"></match></suggestion></message>
                 <short>Forma no valenciana.</short>
@@ -3388,9 +3530,7 @@
             </rule>
             <rule>
                 <pattern>
-                    <token postag="V.*" postag_regexp="yes" regexp="yes"> .+o|.+i|.+in|.+ssim|.+ssiu
-                        <exception postag="N.*" postag_regexp="yes">
-                        </exception></token>
+                    <token postag="V.*" postag_regexp="yes" regexp="yes">.+o|.+i|.+in|.+ssim|.+ssiu<exception postag="N.*" postag_regexp="yes"></exception></token>
                     <!-- no controla el "pens" balear. Excepcions que creen ambigüitats: obri, obrin -->
                 </pattern>
                 <message>Forma verbal no pròpia del valencià.</message>
@@ -3414,6 +3554,15 @@
     <example type="correct">Ha <marker>estat</marker>.</example>
     </rule>
 </rulegroup>-->
+        <rule id="DEPENDENT_DEPENENT" name="dependent / depenent">
+    	  	  <pattern>
+		            <token>depenent</token>
+		        </pattern>
+		        <message>Revisa si cal escriure <suggestion>dependent</suggestion>.</message>
+		        <short>Revisa.</short>
+		        <example type="incorrect">Un servei <marker>depenent</marker> de la conselleria.</example>
+		        <example type="correct">Un servei dependent de la conselleria.</example>
+    	  </rule>
         <rulegroup id="TANT_TAN" name="«Tant/tan/poc/molt» davant de noms que alhora són adjectius">
             <rule>
                 <pattern>
@@ -3537,8 +3686,7 @@
         <rule id="APOSTROFACIO_OPCIONAL" name="Revisa les apostrofacions dubtoses: «l'ignorant/la ignorant»">
             <pattern>
                 <token>l'</token>
-                <token postag="N.F.*|A..F.*" postag_regexp="yes" regexp="yes" negate_pos="yes">h?[ui].+
-                    <exception regexp="yes"> h?[ui][^aeiou]+[aeiou][^aeiou]*</exception></token>
+                <token postag="N.F.*|A..F.*" postag_regexp="yes" regexp="yes" negate_pos="yes">h?[ui].+<exception regexp="yes">h?[ui][^aeiou]+[aeiou][^aeiou]*</exception></token>
             </pattern>
             <message>No s'ha d'apostrofar si és femení. Potser és <suggestion>la
                 <match no="2"></match></suggestion>.</message>
@@ -3561,7 +3709,7 @@
         </rule>
         <rule id="DONA" name="Revisa totes les aparicions de «dona/dóna/dones/dónes»">
             <pattern>
-                <token regexp="yes"> dona|dóna|dones|dónes</token>
+                <token regexp="yes">dona|dóna|dones|dónes</token>
             </pattern>
             <message>Revisa.</message>
             <short>Error ortogràfic</short>
@@ -3570,7 +3718,7 @@
         </rule>
         <rule id="TOTS_ELS_DIACRITICS" name="Revisa tots els mots amb diacrítics">
             <pattern>
-                <token regexp="yes"> be|bé|bota|bóta|coc|cóc|coll|Cóll|com|cóm|cop|cóp|cos|cós|deu|deus|déu|dona|dones|dóna|dónes|es|és|feu|féu|fora|fóra|joc|jocs|jóc|jócs|les|Lés|ma|mà|mes|més|meu|mèu|molt|molta|mòlt|mòlta|mon|món|mora|móra:|Móra|net|nét|nos|nós|os|ossos|ossa|osses|ós|óssos|óssa|ósses|pel|pels|pèl|porca|pórca|que|què|res|rés|rossa|ròssa|se|sé|sec|séc|segle|sègle|seu|sèu|si|sí|soc|sóc|sol|sols|sòl|son|són|te|té|tot|tòt|us|ús|vens|venen|véns|vénen|ves|vés|veu|véu|vos|vós</token>
+                <token regexp="yes">be|bé|bota|bóta|coc|cóc|coll|Cóll|com|cóm|cop|cóp|cos|cós|deu|deus|déu|dona|dones|dóna|dónes|es|és|feu|féu|fora|fóra|joc|jocs|jóc|jócs|les|Lés|ma|mà|mes|més|meu|mèu|molt|molta|mòlt|mòlta|mon|món|mora|móra:|Móra|net|nét|nos|nós|os|ossos|ossa|osses|ós|óssos|óssa|ósses|pel|pels|pèl|porca|pórca|que|què|res|rés|rossa|ròssa|se|sé|sec|séc|segle|sègle|seu|sèu|si|sí|soc|sóc|sol|sols|sòl|son|són|te|té|tot|tòt|us|ús|vens|venen|véns|vénen|ves|vés|veu|véu|vos|vós</token>
             </pattern>
             <message>Revisa si porta accent o no.</message>
             <short>Revisa si porta accent o no</short>
@@ -3640,8 +3788,7 @@
         <rule id="CAL_APOSTROFAT" name="Revisa l'apostrofació en «cal/ca l'»">
             <pattern>
                 <token>cal</token>
-                <token postag="N.[MC].*|A..[MC].*" postag_regexp="yes" regexp="yes"> h?[aeiouàèéíòóú].*
-                    <exception regexp="yes"> h?[ui][aeioàèéóò].+</exception></token>
+                <token postag="N.[MC].*|A..[MC].*" postag_regexp="yes" regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóò].+</exception></token>
             </pattern>
             <message>Cal dir <suggestion>ca l'
                 <match no="2"></match></suggestion>.</message>
@@ -3708,14 +3855,84 @@
                 <example type="correct">L'home</example>
             </rule>
         </rulegroup>
+        <rulegroup id="ESPAIS_SOBRANTS" name="espais sobrants">
+            <rule>
+                <pattern>
+                    <token regexp="yes">[ldmnst]</token>
+                    <token>'</token>
+                    <token spacebefore="yes"></token>
+                </pattern>
+                <message>Sobra un espai: <suggestion><match no="1" /><match no="2" /><match no="3" /></suggestion>.</message>
+                <short>Sobra un espai</short>
+                <example type="incorrect"><marker>L' home</marker>.</example>
+                <example type="correct"><marker>L'home</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">[ldmnst]</token>
+                    <token spacebefore="yes">'</token>
+                    <token></token>
+                </pattern>
+                <message>Sobra un espai: <suggestion><match no="1" /><match no="2" /><match no="3" /></suggestion>.</message>
+                <short>Sobra un espai</short>
+                <example type="incorrect"><marker>L 'home</marker>.</example>
+                <example type="correct"><marker>L'home</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                	  <marker>
+		                    <token></token>
+		                    <token spacebefore="yes">'</token>
+		                    <token regexp="yes">([lmnst]|ns)</token>  
+                    </marker>             
+                    <token negate="yes">'</token>
+                    <token negate="yes" regexp="yes">[haeiouàéèíóòú].+</token>
+                </pattern>
+                <message>Sobra un espai: <suggestion><match no="1" /><match no="2" /><match no="3" /></suggestion>.</message>
+                <short>Sobra un espai</short>
+                <example type="incorrect"><marker>veure 's</marker> així.</example>
+                <example type="correct"><marker>veure's</marker> així.</example>
+            </rule>
+            <rule>
+                <pattern>
+                	  <marker>
+		                    <token></token>
+		                    <token>'</token>
+		                    <token spacebefore="yes" regexp="yes">([lmnst]|ns)</token>  
+                    </marker>             
+                    <token negate="yes">'</token>
+                    <token negate="yes" regexp="yes">[haeiouàéèíóòú].+</token>
+                </pattern>
+                <message>Sobra un espai: <suggestion><match no="1" /><match no="2" /><match no="3" /></suggestion>.</message>
+                <short>Sobra un espai</short>
+                <example type="incorrect"><marker>veure' s</marker> així.</example>
+                <example type="correct"><marker>veure's</marker> així.</example>
+            </rule>         
+        </rulegroup>
     </category>
+    <category name="majúscules i minúsucles">
+        <rule id="MESOS_ANY" name="mesos de l'any">
+            <pattern case_sensitive="yes">
+            	  <token postag="SENT_START" negate_pos="yes"/>
+            	  <marker>
+                    <token regexp="yes">Gener|Febrer|Març|Abril|Maig|Juny|Juliol|Agost|Setembre|Octubre|Novembre|Desembre</token>
+                </marker>
+            </pattern>
+            <message>Els mesos de l'any s'escriuen en minúsucula: <suggestion><match no="2" case_conversion="alllower" /></suggestion>.</message>
+            <short>Majúscula incorrecta.</short>
+            <example type="incorrect">El mes de <marker>Juliol</marker>.</example>
+            <example type="correct">El mes de juliol.</example>
+            <example type="correct">Abril de 1965.</example>
+        </rule>
+    </category>
+    
     <category name="expressions">
         <rule id="DABRIC" name="d'abric / d'abrigar">
             <pattern>
                 <token>d'</token>
                 <token>abric</token>
             </pattern>
-            <message>Inocrrecte si vol dir <suggestion>d'abrigar</suggestion>.</message>
+            <message>Incorrecte si vol dir <suggestion>d'abrigar</suggestion>.</message>
             <short>Expressió incorrecta.</short>
             <example type="incorrect">Roba <marker>d'abric</marker>.</example>
             <example type="correct">Roba d'abrigar.</example>
@@ -3727,7 +3944,7 @@
                 </marker>
                 <token>,</token>
             </pattern>
-            <message>Inocrrecte si vol dir <suggestion>mentrestant</suggestion>.</message>
+            <message>Incorrecte si vol dir <suggestion>mentrestant</suggestion>.</message>
             <short>Expressió incorrecta.</short>
             <example type="incorrect"><marker>Mentre</marker>, ell esperava.</example>
             <example type="correct">Mentrestant, ell esperava.</example>
@@ -3833,6 +4050,17 @@
             <short>Expressió incorrecta</short>
             <example type="incorrect"><marker>a l'igual que</marker> tu ho fas, ho faré jo també</example>
             <example type="correct"><marker>igual que</marker> tu ho fas, ho faré jo també</example>
+        </rule>
+        <rule id="AL_FRONT_DE" name="al front de">
+            <pattern>
+                <token>al</token>
+                <token>front</token>
+                <token regexp="yes">d'|de|del|dels</token>
+            </pattern>
+            <message>Cal dir <suggestion>al davant <match no="3"/></suggestion> o <suggestion>al capdavant <match no="3"/></suggestion>.</message>
+            <short>Expressió incorrecta</short>
+            <example type="incorrect"><marker>Al front de</marker> l'orquestra.</example>
+            <example type="correct"><marker>Al capdavant de</marker> l'orquestra.</example>
         </rule>
         <rule id="ACTE_SEGUIT" name="acte seguit">
             <pattern>
@@ -4062,7 +4290,7 @@
         <rulegroup id="DE_PEU" name="de peu">
             <rule>
                 <pattern>
-                    <token regexp="yes" inflected="yes" skip="5"> posar|estar|romandre</token>
+                    <token regexp="yes" inflected="yes" skip="5">posar|estar|romandre</token>
                     <marker>
                         <token>de</token>
                         <token>peu</token>
@@ -4075,7 +4303,7 @@
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes" inflected="yes" skip="5"> posar|estar|romandre</token>
+                    <token regexp="yes" inflected="yes" skip="5">posar|estar|romandre</token>
                     <token skip="5">de</token>
                     <marker>
                         <token>de</token>
@@ -4149,8 +4377,7 @@
                 <token>vistes</token>
                 <token regexp="yes">a|al|als</token>
             </pattern>
-            <message>Cal dir <suggestion>amb vista
-                <match no="3"></match></suggestion>.</message>
+            <message>Cal dir <suggestion>amb vista<match no="3"></match></suggestion>.</message>
             <short>Expressió incorrecta.</short>
             <example type="incorrect"><marker>amb vistes als</marker> exàmens</example>
             <example type="correct"><marker>amb vista als</marker> exàmens</example>
@@ -4185,7 +4412,7 @@
                     <token>en</token>
                     <token>comparació</token>
                     <token>amb</token>
-                    <token regexp="yes"> [aeiouàéèíóòúh].*</token>
+                    <token regexp="yes">[aeiouàéèíóòúh].*</token>
                 </pattern>
                 <message>Cal dir <suggestion>en comparació d'<match no="4"></match></suggestion>.</message>
                 <short>Expressió incorrecta</short>
@@ -4197,7 +4424,7 @@
                     <token>en</token>
                     <token>comparació</token>
                     <token>amb</token>
-                    <token regexp="yes"> [^aeiouàéèíóòúh].*</token>
+                    <token regexp="yes">[^aeiouàéèíóòúh].*</token>
                 </pattern>
                 <message>Cal dir <suggestion>en comparació de <match no="4"></match></suggestion>.</message>
                 <short>Expressió incorrecta</short>
@@ -4233,7 +4460,7 @@
                     <token>en</token>
                     <token>comparació</token>
                     <token>a</token>
-                    <token regexp="yes"> [aeiouàéèíóòúh].*</token>
+                    <token regexp="yes">[aeiouàéèíóòúh].*</token>
                 </pattern>
                 <message>Cal dir <suggestion>en comparació d'<match no="4"></match></suggestion>.</message>
                 <short>Expressió incorrecta</short>
@@ -4245,7 +4472,7 @@
                     <token>en</token>
                     <token>comparació</token>
                     <token>a</token>
-                    <token regexp="yes"> [^aeiouàéèíóòúh].*</token>
+                    <token regexp="yes">[^aeiouàéèíóòúh].*</token>
                 </pattern>
                 <message>Cal dir <suggestion>en comparació de <match no="4"></match></suggestion>.</message>
                 <short>Expressió incorrecta</short>
@@ -4253,7 +4480,7 @@
                 <example type="correct"> <marker>en comparació de l'</marker>altre, el meu és més bonic</example>
             </rule>
         </rulegroup>
-        <rule id="EN_MOTIU_DE" name="en motiu de">  <!-- excepte: convertir-se en motiu de-->
+        <rule id="EN_MOTIU_DE" name="en motiu de"><!-- excepte: convertir-se en motiu de-->
             <pattern>
                 <token>en</token>
                 <token>motiu</token>
@@ -4504,6 +4731,17 @@
                 <example type="correct">està fet d'unes <marker>matèries primeres</marker> de qualitat</example>
             </rule>
         </rulegroup>
+        <rule id="NO_CAL_OBLIDAR" name="no cal oblidat/cal no oblidar">
+            <pattern>
+                <token>no</token>
+                <token>cal</token>
+                <token>oblidar</token>
+            </pattern>
+            <message>Potser volíeu dir <suggestion>cal no oblidar</suggestion>.</message>
+            <short>Suggeriment</short>
+            <example type="incorrect"><marker>No cal oblidar</marker> que les coses són així.</example>
+            <example type="correct"><marker>Cal no oblidar</marker> que les coses són així.</example>
+        </rule>        
         <rule id="PAPER_SECANT" name="paper secant">
             <pattern>
                 <token>paper</token>
@@ -4535,6 +4773,26 @@
             <short>Expressió incorrecta</short>
             <example type="incorrect"><marker>pel contrari</marker>, aquesta llei no resulta aplicable</example>
             <example type="correct"><marker>al contrari</marker>, aquesta llei no resulta aplicable</example>
+        </rule>
+        <rule id="PEL_TERRA" name="pel terra">
+            <pattern>
+                <token>pel</token>
+                <token>terra</token>
+            </pattern>
+            <message>Cal dir <suggestion>per terra</suggestion>.</message>
+            <short>Expressió incorrecta</short>
+            <example type="incorrect">Hi ha coses <marker>pel terra</marker>.</example>
+            <example type="correct">Hi ha coses <marker>per terra </marker>.</example>
+        </rule>
+        <rule id="AL_TERRA" name="al terra">
+            <pattern>
+                <token>al</token>
+                <token>terra</token>
+            </pattern>
+            <message>Cal dir <suggestion>a terra</suggestion>.</message>
+            <short>Expressió incorrecta</short>
+            <example type="incorrect">Hi ha coses <marker>al terra</marker>.</example>
+            <example type="correct">Hi ha coses <marker>a terra </marker>.</example>
         </rule>
         <rulegroup id="PER_TEMPS" name="per + temps">
             <rule>
@@ -4594,6 +4852,19 @@
             <example type="incorrect"><marker>poc a poc</marker> remuntarem el riu</example>
             <example type="correct"><marker>a poc a poc</marker> remuntarem el riu</example>
         </rule>
+        <rule id="QUAN_NO" name="quan no">
+            <pattern>
+            	  <marker>
+            	  	 <token>quan</token>
+                   <token>no</token>
+                </marker>
+                <token postag="A.*|V.P.*" postag_regexp="yes"></token>
+            </pattern>
+            <message>Cal dir <suggestion>si no</suggestion> o <suggestion>més encara,</suggestion>.</message>
+            <short>Expressió incorrecta</short>
+            <example type="incorrect">un eco social molt tebi, <marker>quan no</marker> refractari</example>
+            <example type="correct">un eco social molt tebi, <marker>si no</marker> refractari</example>
+        </rule>       
         <rule id="QUANT_ABANS_MILLOR" name="quant abans millor">
             <pattern>
                 <token regexp="yes">quant?</token>
@@ -4628,7 +4899,7 @@
         <rule id="SEMBLA_SER" name="sembla ser">
             <pattern>
                 <marker>
-                    <token inflected="yes" regexp="yes"> semblar|parèixer</token>
+                    <token inflected="yes" regexp="yes">semblar|parèixer</token>
                     <token>ser</token>
                 </marker>
                 <token>que</token>
@@ -4720,997 +4991,4 @@
         </rule>
 
     </category>
-</rules><!-- <rule>
-<pattern>
-<token postag="D..F.*" postag_regexp="yes"></token>
-<token postag="(A.|DI|DD|DP).C.*" postag_regexp="yes"></token>
-<token postag="N.M.*" postag_regexp="yes"><exception postag="N.[FC].*" postag_regexp="yes"/></token>
-</pattern>
-<message>Possible falta de concordança entre «\1», «\2» i «\3».
-</message>
-<short>Concordança de gènere i nombre dubtosa.</short>
-<example type="incorrect"><marker>Uns importants consideracions</marker>.</example>
-<example type="correct">Unes importants consideracions.</example>
-</rule>
-<rule>
-<pattern>
-<token postag="D..M.*" postag_regexp="yes"></token>
-<token postag="(A.|DI|DD|DP).C.*" postag_regexp="yes"></token>
-<token postag="N.F.*" postag_regexp="yes"><exception postag="N.[MC].*" postag_regexp="yes"/></token>
-</pattern>
-<message>Possible falta de concordança entre «\1», «\2» i «\3».
-</message>
-<short>Concordança de gènere i nombre dubtosa.</short>
-<example type="incorrect"><marker>Unes importants resultats</marker>.</example>
-<example type="correct">Uns importants resultats.</example>
-</rule>
-<rule>
-<pattern>
-<token postag="D...S.*" postag_regexp="yes"></token>
-<token postag="(A.|DI|DD|DP)..[N0].*" postag_regexp="yes"></token>
-<token postag="N..P.*" postag_regexp="yes"><exception postag="N..[SN0].*" postag_regexp="yes"/></token>
-</pattern>
-<message>Possible falta de concordança entre «\1», «\2» i «\3». Podria ser:
-</message>
-<short>Concordança de gènere i nombre dubtosa.</short>
-<example type="incorrect"><marker>Uns importants consideracions</marker>.</example>
-<example type="correct">Unes importants consideracions.</example>
-</rule>
-<rule>
-<pattern>
-<token postag="D...P.*" postag_regexp="yes"></token>
-<token postag="(A.|DI|DD|DP)..[N0].*" postag_regexp="yes"></token>
-<token postag="N..S.*" postag_regexp="yes"><exception postag="N..[PN0].*" postag_regexp="yes"/></token>
-</pattern>
-<message>Possible falta de concordança entre «\1», «\2» i «\3». Podria ser:
-</message>
-<short>Concordança de gènere i nombre dubtosa.</short>
-<example type="incorrect"><marker>Uns importants consideracions</marker>.</example>
-<example type="correct">Unes importants consideracions.</example>
-</rule> --><!-- una combinació estranya però possible: els seus pes--><!--  <rule>
-<pattern>
-<token postag="D..MP.*" postag_regexp="yes"></token>
-<token postag="A...P.*|V.P..P.*|PX..P.*" postag_regexp="yes"></token>
-<token postag="N.FP.*" postag_regexp="yes"><exception postag="N.[MC]P.*" postag_regexp="yes"/></token>
-</pattern>
-<message>Possible falta de concordança entre «\1», «\2» i «\3». Podria ser:
-</message>
-<short>Concordança de gènere i nombre dubtosa.</short>
-<example type="incorrect"><marker>Els seus pes.</marker>.</example>
-<example type="correct">El seu pes.</example>
-</rule> --><!-- determinant, nom neutre, adjectiu. No serveix per a els/les alumnes valents/valentes--><!-- <rule>
-<pattern>
-<token postag="D..F.*" postag_regexp="yes"></token>
-<token postag="N.C.*" postag_regexp="yes"></token>
-<token postag="A..M.*|V.P...M" postag_regexp="yes"></token>
-</pattern>
-<message>Possible falta de concordança entre «\1», «\2» i «\3».
-</message>
-<short>Concordança de gènere i nombre dubtosa.</short>
-<example type="incorrect"><marker>Uns importants consideracions</marker>.</example>
-<example type="correct">Unes importants consideracions.</example>
-</rule>
-<rule>
-<pattern>
-<token postag="D..M.*" postag_regexp="yes"></token>
-<token postag="N.C.*" postag_regexp="yes"></token>
-<token postag="A..F.*|V.P...F" postag_regexp="yes"></token>
-</pattern>
-<message>Possible falta de concordança entre «\1», «\2» i «\3».
-</message>
-<short>Concordança de gènere i nombre dubtosa.</short>
-<example type="incorrect"><marker>Unes importants resultats</marker>.</example>
-<example type="correct">Uns importants resultats.</example>
-</rule>
-<rule>
-<pattern>
-<token postag="D..F.*" postag_regexp="yes"></token>
-<and>
-<token postag="N.M.*" postag_regexp="yes"></token>
-<token postag="N.F.*" postag_regexp="yes"></token>
-</and>
-<token postag="A..M.*|V.P...M" postag_regexp="yes"></token>
-</pattern>
-<message>Possible falta de concordança entre «\1», «\2» i «\3».
-</message>
-<short>Concordança de gènere i nombre dubtosa.</short>
-<example type="incorrect"><marker>Uns importants consideracions</marker>.</example>
-<example type="correct">Unes importants consideracions.</example>
-</rule>
-<rule>
-<pattern>
-<token postag="D..M.*" postag_regexp="yes"></token>
-<and>
-<token postag="N.M.*" postag_regexp="yes"></token>
-<token postag="N.F.*" postag_regexp="yes"></token>
-</and>
-<token postag="A..F.*|V.P...F" postag_regexp="yes"></token>
-</pattern>
-<message>Possible falta de concordança entre «\1», «\2» i «\3».
-</message>
-<short>Concordança de gènere i nombre dubtosa.</short>
-<example type="incorrect"><marker>Unes importants resultats</marker>.</example>
-<example type="correct">Uns importants resultats.</example>
-</rule>
-<rule>
-<pattern>
-<token postag="D...S.*" postag_regexp="yes"></token>
-<token postag="N..[N0].*" postag_regexp="yes"></token>
-<token postag="A...P.*|V.P..P.*" postag_regexp="yes"></token>
-</pattern>
-<message>Possible falta de concordança entre «\1», «\2» i «\3». Podria ser:
-</message>
-<short>Concordança de gènere i nombre dubtosa.</short>
-<example type="incorrect"><marker>Uns importants consideracions</marker>.</example>
-<example type="correct">Unes importants consideracions.</example>
-</rule>
-<rule>
-<pattern>
-<token postag="D...P.*" postag_regexp="yes"></token>
-<token postag="N..[N0].*" postag_regexp="yes"></token>
-<token postag="A...S.*|V.P..S.*" postag_regexp="yes"></token>
-</pattern>
-<message>Possible falta de concordança entre «\1», «\2» i «\3». Podria ser:
-</message>
-<short>Concordança de gènere i nombre dubtosa.</short>
-<example type="incorrect"><marker>Uns importants consideracions</marker>.</example>
-<example type="correct">Unes importants consideracions.</example>
-</rule> --><!-- <rule>
-<pattern>
-<and><token postag="A.*" postag_regexp="yes"></token><token postag="_GN_.S" postag_regexp="yes"></token></and>
-<token postag="N..P.*|A...P.*" postag_regexp="yes"><exception postag="N..[SN0].*" postag_regexp="yes"/></token>
-</pattern>
-<message>Falta de concordança de nombre entre «\1» i «\2».</message>
-<short>Concordança de nombre dubtosa.</short>
-<example type="incorrect">Pensa <marker>gran coses</marker>.</example>
-<example type="correct">Pensa grans coses.</example>
-</rule>
-<rule>
-<pattern>
-<and><token postag="A.*" postag_regexp="yes"></token><token postag="_GN_.P" postag_regexp="yes"></token></and>
-<token postag="N..S.*|A...S.*" postag_regexp="yes"><exception postag="N..[PN0].*" postag_regexp="yes"/></token>
-</pattern>
-<message>Falta de concordança de nombre entre «\1» i «\2».</message>
-<short>Concordança de nombre dubtosa.</short>
-<example type="incorrect">Pensa <marker>gran coses</marker>.</example>
-<example type="correct">Pensa grans coses.</example>
-</rule>
-<rule>
-<pattern>
-<and><token postag="A.*" postag_regexp="yes"></token><token postag="_GN_M." postag_regexp="yes"></token></and>
-<token postag="N.F.*|A..F.*" postag_regexp="yes"><exception postag="N.[MC].*" postag_regexp="yes"/></token>
-</pattern>
-<message>Falta de concordança de gènere entre «\1» i «\2».</message>
-<short>Concordança de gènere i nombre dubtosa.</short>
-<example type="incorrect">El <marker>seu cosa</marker>.</example>
-<example type="correct">La seva cosa.</example>
-<example type="correct">Els seus ordres.</example>
-</rule>
-<rule>
-<pattern>
-<and><token postag="A.*" postag_regexp="yes"></token><token postag="_GN_F." postag_regexp="yes"></token></and>
-<token postag="N.M.*|A..M.*" postag_regexp="yes"><exception postag="N.[FC].*" postag_regexp="yes"/></token>
-</pattern>
-<message>Falta de concordança de gènere entre «\1» i «\2».</message>
-<short>Concordança de gènere i nombre dubtosa.</short>
-<example type="incorrect">La <marker>seva cotxe</marker>.</example>
-<example type="correct">El seu cotxe.</example>
-<example type="correct">Les seves ordres.</example>
-</rule> --><!-- Concordança masculí singular en «al/del» + nom"--><!--
-<rule>
-<pattern>
-<token regexp="yes">pel|del|al</token>
-<token postag="N..P.*|N.F.*|[AP]...P.*|[AP]..F.*|DP.F.*|DP..P.*" postag_regexp="yes"><exception postag="N.M[^P].*" postag_regexp="yes"/></token>
-</pattern>
-<message>Possible falta de concordança entre «\1» i «\2».</message>
-<short>Concordança de gènere o nombre dubtosa.</short>
-<example type="incorrect">Ha tornat <marker>del parcs</marker> aviat.</example>
-<example type="correct">Ha tornat del parc aviat.</example>
-</rule>
-<rule>
-<pattern>
-<token regexp="yes">pel|del|al</token>
-<token postag="(A.|DI|DD).C.*" postag_regexp="yes"></token>
-<token postag="N.F.*" postag_regexp="yes"><exception postag="N.M.*" postag_regexp="yes"/></token>
-</pattern>
-<message>Possible falta de concordança entre «\1», «\2» i «\3».
-</message>
-<short>Concordança de gènere i nombre dubtosa.</short>
-<example type="incorrect"><marker>Pel gran ànima.</marker>.</example>
-<example type="correct">Per la gran ànima.</example>
-</rule> --><!-- Concordança masculí plural «als/dels» + nom"--><!--<rule>
-<pattern>
-<token regexp="yes">pels|cals|dels|als</token>
-<token postag="N..S.*|N.F.*|A...S.*|A..F.*|PX..S.*|PX.F.*|DP.F.*|DP..S.*" postag_regexp="yes"><exception postag="N.[MC][^S].*" postag_regexp="yes"/></token>
-</pattern>
-<message>Possible falta de concordança entre «\1» i «\2».</message>
-<short>Concordança de gènere o nombre dubtosa.</short>
-<example type="incorrect">Ha tornat <marker>dels parc</marker> aviat.</example>
-<example type="correct">Ha tornat del parc aviat.</example>
-</rule>
-<rule>
-<pattern>
-<token regexp="yes">pels|cals|dels|als</token>
-<token postag="(A.|DI|DD|DP).C.*" postag_regexp="yes"></token>
-<token postag="N.F.*" postag_regexp="yes"><exception postag="N.[MC][^S].*" postag_regexp="yes"/></token>
-</pattern>
-<message>Possible falta de concordança entre «\1», «\2» i «\3».
-</message>
-<short>Concordança de gènere i nombre dubtosa.</short>
-<example type="incorrect"><marker>Pels grans ànimes.</marker>.</example>
-<example type="correct">Per les grans ànimes.</example>
-</rule> --><!-- amb adverbi entremig --><!--<rule>
-<pattern>
-<token postag="PD0NS000"></token>
-<token postag="RG"></token>
-<token postag="A..[MC][SN0].*|V.P..[S][M]|PX.[MC][SN0].*" postag_regexp="yes" negate_pos="yes"><exception postag="A.*|V.P.*|PX.*" postag_regexp="yes" negate_pos="yes"/></token>
-</pattern>
-<message>Falta de concordança de nombre entre «\1» i «\3».
-</message>
-<short>Concordança de nombre dubtosa.</short>
-<example type="incorrect"><marker>Això tan vermells</marker>.</example>
-<example type="correct">Això tan vermell.</example>
-</rule>
-<rule>
-<pattern>
-<token postag="D..M.*" postag_regexp="yes"></token>
-<token postag="RG"></token>
-<token postag="A..F.*|V.P...F" postag_regexp="yes"></token>
-</pattern>
-<message>Possible falta de concordança de gènere entre «\1» i «\3».
-</message>
-<short>Concordança de gènere i nombre dubtosa.</short>
-<example type="incorrect">Porta <marker>els més roges</marker>.</example>
-<example type="correct">Porta els més rojos.</example>
-</rule>
-<rule>
-<pattern>
-<token postag="D..F.*" postag_regexp="yes"></token>
-<token postag="RG"></token>
-<token postag="A..M.*|V.P...M" postag_regexp="yes"></token>
-</pattern>
-<message>Possible falta de concordança de gènere entre «\1» i «\3».
-</message>
-<short>Concordança de gènere i nombre dubtosa.</short>
-<example type="incorrect">Porta <marker>les més rojos</marker>.</example>
-<example type="correct">Porta les més roges.</example>
-</rule>
-<rule>
-<pattern>
-<token postag="D...P.*" postag_regexp="yes"></token>
-<token postag="RG"></token>
-<token postag="A...S.|V.P..S." postag_regexp="yes"></token>
-</pattern>
-<message>Possible falta de concordança de gènere entre «\1» i «\3».
-</message>
-<short>Concordança de gènere i nombre dubtosa.</short>
-<example type="incorrect">Porta <marker>les més roig</marker>.</example>
-<example type="correct">Porta les més roges.</example>
-</rule>
-<rule>
-<pattern>
-<token postag="D...S.*" postag_regexp="yes"></token>
-<token postag="RG"></token>
-<token postag="A...P.|V.P..P." postag_regexp="yes"></token>
-</pattern>
-<message>Possible falta de concordança de gènere entre «\1» i «\3».
-</message>
-<short>Concordança de gènere i nombre dubtosa.</short>
-<example type="incorrect">Porta <marker>el més rojos</marker>.</example>
-<example type="correct">Porta els més rojos.</example>
-</rule>
-<rule>
-<pattern>
-<token postag="N..P.*" postag_regexp="yes"><exception postag="N..[SN0].*" postag_regexp="yes"/></token>
-<token postag="RG"></token>
-<token postag="A...S.*|V.P..S.*|PX..S.*" postag_regexp="yes"><exception postag="V.[^P].*" postag_regexp="yes"/></token>
-</pattern>
-<message>Falta de concordança de nombre entre «\1» i «\2».</message>
-<short>Concordança de nombre dubtosa.</short>
-<example type="incorrect">Pensa <marker>coses més gran</marker>.</example>
-<example type="correct">Pensa coses més grans.</example>
-</rule>
-<rule>
-<pattern>
-<token postag="N..S.*" postag_regexp="yes"><exception postag="N..[PN0].*" postag_regexp="yes"/></token>
-<token postag="RG"></token>
-<token postag="A...P.*|V.P..P.*|PX..P.*" postag_regexp="yes"><exception postag="V.[^P].*" postag_regexp="yes"/></token>
-</pattern>
-<message>Falta de concordança de nombre entre «\1» i «\2».</message>
-<short>Concordança de nombre dubtosa.</short>
-<example type="incorrect">Pensa una <marker>cosa més grans</marker>.</example>
-<example type="correct">Pensa una cosa més gran.</example>
-</rule>
-<rule>
-<pattern>
-<token postag="N.F.*" postag_regexp="yes"><exception postag="N.[MC].*" postag_regexp="yes"/></token>
-<token postag="RG"></token>
-<token postag="A..M.*|PX.M.*|V.P...M" postag_regexp="yes"><exception postag="V.[^P].*" postag_regexp="yes"/></token>
-</pattern>
-<message>Falta de concordança de gènere entre «\1» i «\2».</message>
-<short>Concordança de gènere i nombre dubtosa.</short>
-<example type="incorrect">Una <marker>cosa més bonic</marker>.</example>
-<example type="correct">Una cosa més bonica.</example>
-</rule>
-<rule>
-<pattern>
-<token postag="N.M.*" postag_regexp="yes"><exception postag="N.[FC].*" postag_regexp="yes"/></token>
-<token postag="RG"></token>
-<token postag="A..F.*|PX.F.*|V.P...F" postag_regexp="yes"><exception postag="V.[^P].*" postag_regexp="yes"/></token>
-</pattern>
-<message>Falta de concordança de gènere entre «\1» i «\2».</message>
-<short>Concordança de gènere i nombre dubtosa.</short>
-<example type="incorrect">El <marker>fet més bonica</marker>.</example>
-<example type="correct">El fet més bonic.</example>
-</rule> --><!-- amb dos adverbis entremig --><!-- <rule>
-<pattern>
-<token postag="PD0NS000"></token>
-<token postag="RG"></token>
-<token postag="RG"></token>
-<token postag="A..[MC][SN0].*|V.P..[S][M]|PX.[MC][SN0].*" postag_regexp="yes" negate_pos="yes"><exception postag="A.*|V.P.*|PX.*" postag_regexp="yes" negate_pos="yes"/></token>
-</pattern>
-<message>Falta de concordança de nombre entre «\1» i «\3».
-</message>
-<short>Concordança de nombre dubtosa.</short>
-<example type="incorrect"><marker>Això molt més vermells</marker>.</example>
-<example type="correct">Això molt més vermell.</example>
-</rule>
-<rule>
-<pattern>
-<token postag="D..M.*" postag_regexp="yes"></token>
-<token postag="RG"></token>
-<token postag="RG"></token>
-<token postag="A..F.*|V.P...F" postag_regexp="yes"><exception postag="N.[MC].*" postag_regexp="yes"/></token>
-</pattern>
-<message>Possible falta de concordança de gènere entre «\1» i «\3».
-</message>
-<short>Concordança de gènere i nombre dubtosa.</short>
-<example type="incorrect">Porta <marker>els molt més roges</marker>.</example>
-<example type="correct">Porta els molt més rojos.</example>
-</rule>
-<rule>
-<pattern>
-<token postag="D..F.*" postag_regexp="yes"></token>
-<token postag="RG"></token>
-<token postag="RG"></token>
-<token postag="A..M.*|V.P...M" postag_regexp="yes"><exception postag="N.[FC].*" postag_regexp="yes"/></token>
-</pattern>
-<message>Possible falta de concordança de gènere entre «\1» i «\3».
-</message>
-<short>Concordança de gènere i nombre dubtosa.</short>
-<example type="incorrect">Porta <marker>les molt més rojos</marker>.</example>
-<example type="correct">Porta les molt més roges.</example>
-</rule>
-<rule>
-<pattern>
-<token postag="D...P.*" postag_regexp="yes"></token>
-<token postag="RG"></token>
-<token postag="RG"></token>
-<token postag="A...S.*|V.P..S." postag_regexp="yes"><exception postag="N..[PN0].*" postag_regexp="yes"/></token>
-</pattern>
-<message>Possible falta de concordança de gènere entre «\1» i «\3».
-</message>
-<short>Concordança de gènere i nombre dubtosa.</short>
-<example type="incorrect">Porta <marker>les molt més roja</marker>.</example>
-<example type="correct">Porta les molt més roges.</example>
-</rule>
-<rule>
-<pattern>
-<token postag="D...S.*" postag_regexp="yes"></token>
-<token postag="RG"></token>
-<token postag="RG"></token>
-<token postag="A...P.*|V.P..P." postag_regexp="yes"><exception postag="N..[SN0].*" postag_regexp="yes"/></token>
-</pattern>
-<message>Possible falta de concordança de gènere entre «\1» i «\3».
-</message>
-<short>Concordança de gènere i nombre dubtosa.</short>
-<example type="incorrect">Porta <marker>la molt més roges</marker>.</example>
-<example type="correct">Porta les molt més roges.</example>
-</rule>
-<rule>
-<pattern>
-<token postag="N..P.*" postag_regexp="yes"><exception postag="N..[SN0].*" postag_regexp="yes"/></token>
-<token postag="RG"></token>
-<token postag="RG"></token>
-<token postag="A...S.*|V.P..S.*|PX..S.*" postag_regexp="yes"><exception postag="V.[^P].*" postag_regexp="yes"/></token>
-</pattern>
-<message>Falta de concordança de nombre entre «\1» i «\2».</message>
-<short>Concordança de nombre dubtosa.</short>
-<example type="incorrect">Pensa <marker>coses molt més gran</marker>.</example>
-<example type="correct">Pensa coses molt més grans.</example>
-</rule>
-<rule>
-<pattern>
-<token postag="N..S.*" postag_regexp="yes"><exception postag="N..[PN0].*" postag_regexp="yes"/></token>
-<token postag="RG"></token>
-<token postag="RG"></token>
-<token postag="A...P.*|V.P..P.*|PX..P.*" postag_regexp="yes"><exception postag="V.[^P].*" postag_regexp="yes"/></token>
-</pattern>
-<message>Falta de concordança de nombre entre «\1» i «\2».</message>
-<short>Concordança de nombre dubtosa.</short>
-<example type="incorrect">Pensa <marker>cosa molt més grans</marker>.</example>
-<example type="correct">Pensa coses molt més grans.</example>
-</rule>
-<rule>
-<pattern>
-<token postag="N.F.*" postag_regexp="yes"><exception postag="N.[MC].*" postag_regexp="yes"/></token>
-<token postag="RG"></token>
-<token postag="RG"></token>
-<token postag="A..M.*|PX.M.*|V.P...M" postag_regexp="yes"><exception postag="V.[^P].*" postag_regexp="yes"/></token>
-</pattern>
-<message>Falta de concordança de gènere entre «\1» i «\2».</message>
-<short>Concordança de gènere i nombre dubtosa.</short>
-<example type="incorrect">Pensa <marker>coses molt més bonics</marker>.</example>
-<example type="correct">Pensa coses molt més boniques.</example>
-</rule>
-<rule>
-<pattern>
-<token postag="N.M.*" postag_regexp="yes"><exception postag="N.[FC].*" postag_regexp="yes"/></token>
-<token postag="RG"></token>
-<token postag="RG"></token>
-<token postag="A..F.*|PX.F.*|V.P...F" postag_regexp="yes"><exception postag="V.[^P].*" postag_regexp="yes"/></token>
-</pattern>
-<message>Falta de concordança de gènere entre «\1» i «\2».</message>
-<short>Concordança de gènere i nombre dubtosa.</short>
-<example type="incorrect">Pensa un <marker>fet molt més bonica</marker>.</example>
-<example type="correct">Pensa un fet molt més bonic.</example>
-</rule>  --><!-- amb locució adverbial entremig --><!--  <rule>
-<pattern>
-<token postag="PD0NS000"></token>
-<token postag="&lt;LOC_ADV&gt;" skip="-1"></token>
-<token postag="&lt;/LOC_ADV&gt;"></token>
-<token postag="A..[MC][SN0].*|V.P..[S][M]|PX.[MC][SN0].*" postag_regexp="yes" negate_pos="yes"><exception postag="A.*|V.P.*|PX.*" postag_regexp="yes" negate_pos="yes"/></token>
-</pattern>
-<message>Falta de concordança de nombre.
-</message>
-<short>Concordança de nombre dubtosa.</short>
-<example type="incorrect"><marker>Això a voltes malaltissa</marker>.</example>
-<example type="correct">Això a voltes malaltís.</example>
-</rule>
-<rule>
-<pattern>
-<token postag="D..M.*" postag_regexp="yes"></token>
-<token postag="&lt;LOC_ADV&gt;" skip="-1"></token>
-<token postag="&lt;/LOC_ADV&gt;"></token>
-<token postag="A..F.*|V.P...F" postag_regexp="yes"><exception postag="N.[MC].*" postag_regexp="yes"/></token>
-</pattern>
-<message>Possible falta de concordança de gènere.
-</message>
-<short>Concordança de gènere i nombre dubtosa.</short>
-<example type="incorrect">Porta <marker>els roges</marker>.</example>
-<example type="correct">Porta els rojos.</example>
-<example type="correct">Els parts.</example>
-</rule>
-<rule>
-<pattern>
-<token postag="D..F.*" postag_regexp="yes"></token>
-<token postag="&lt;LOC_ADV&gt;" skip="-1"></token>
-<token postag="&lt;/LOC_ADV&gt;"></token>
-<token postag="A..M.*|V.P...M" postag_regexp="yes"><exception postag="N.[FC].*" postag_regexp="yes"/></token>
-</pattern>
-<message>Possible falta de concordança de gènere.
-</message>
-<short>Concordança de gènere i nombre dubtosa.</short>
-<example type="incorrect">Porta <marker>les rojos</marker>.</example>
-<example type="correct">Porta les roges.</example>
-<example type="correct">Les parts.</example>
-</rule>
-<rule>
-<pattern>
-<token postag="D.P.*" postag_regexp="yes"></token>
-<token postag="&lt;LOC_ADV&gt;" skip="-1"></token>
-<token postag="&lt;/LOC_ADV&gt;"></token>
-<token postag="A.S.*|V.P..S." postag_regexp="yes"><exception postag="N..[PN0].*" postag_regexp="yes"/></token>
-</pattern>
-<message>Possible falta de concordança de gènere.
-</message>
-<short>Concordança de gènere i nombre dubtosa.</short>
-<example type="incorrect">Porta <marker>les rojos</marker>.</example>
-<example type="correct">Porta les roges.</example>
-<example type="correct">Les parts.</example>
-</rule>
-<rule>
-<pattern>
-<token postag="D.S.*" postag_regexp="yes"></token>
-<token postag="&lt;LOC_ADV&gt;" skip="-1"></token>
-<token postag="&lt;/LOC_ADV&gt;"></token>
-<token postag="A.P.*|V.P..P." postag_regexp="yes"><exception postag="N..[SN0].*" postag_regexp="yes"/></token>
-</pattern>
-<message>Possible falta de concordança de nombre.
-</message>
-<short>Concordança de gènere i nombre dubtosa.</short>
-<example type="incorrect">Porta <marker>les rojos</marker>.</example>
-<example type="correct">Porta les roges.</example>
-<example type="correct">Les parts.</example>
-</rule>
-<rule>
-<pattern>
-<token postag="N..P.*" postag_regexp="yes"><exception postag="N..[SN0].*" postag_regexp="yes"/></token>
-<token postag="&lt;LOC_ADV&gt;" skip="-1"></token>
-<token postag="&lt;/LOC_ADV&gt;"></token>
-<token postag="A...S.*|V.P..S.*|PX..S.*" postag_regexp="yes"><exception postag="V.[^P].*" postag_regexp="yes"/></token>
-</pattern>
-<message>Falta de concordança de nombre.</message>
-<short>Concordança de nombre dubtosa.</short>
-<example type="incorrect">Pensa <marker>gran coses</marker>.</example>
-<example type="correct">Pensa grans coses.</example>
-</rule>
-<rule>
-<pattern>
-<token postag="N..S.*" postag_regexp="yes"><exception postag="N..[PN0].*" postag_regexp="yes"/></token>
-<token postag="&lt;LOC_ADV&gt;" skip="-1"></token>
-<token postag="&lt;/LOC_ADV&gt;"></token>
-<token postag="A...P.*|V.P..P.*|PX..P.*" postag_regexp="yes"><exception postag="V.[^P].*" postag_regexp="yes"/></token>
-</pattern>
-<message>Falta de concordança de nombre.</message>
-<short>Concordança de nombre dubtosa.</short>
-<example type="incorrect">Pensa <marker>gran coses</marker>.</example>
-<example type="correct">Pensa grans coses.</example>
-</rule>
-<rule>
-<pattern>
-<token postag="N.F.*" postag_regexp="yes"><exception postag="N.[MC].*" postag_regexp="yes"/></token>
-<token postag="&lt;LOC_ADV&gt;" skip="-1"></token>
-<token postag="&lt;/LOC_ADV&gt;"></token>
-<token postag="A..M.*|PX.M.*|V.P...M" postag_regexp="yes"><exception postag="V.[^P].*" postag_regexp="yes"/></token>
-</pattern>
-<message>Falta de concordança de gènere.</message>
-<short>Concordança de gènere i nombre dubtosa.</short>
-<example type="incorrect">El <marker>cosa seu</marker>.</example>
-<example type="correct">La cosa seva.</example>
-<example type="correct">Els ordres seus.</example>
-</rule>
-<rule>
-<pattern>
-<token postag="N.M.*" postag_regexp="yes"><exception postag="N.[FC].*" postag_regexp="yes"/></token>
-<token postag="&lt;LOC_ADV&gt;" skip="-1"></token>
-<token postag="&lt;/LOC_ADV&gt;"></token>
-<token postag="A..F.*|PX.F.*|V.P...F" postag_regexp="yes"><exception postag="V.[^P].*" postag_regexp="yes"/></token>
-</pattern>
-<message>Falta de concordança de gènere.</message>
-<short>Concordança de gènere i nombre dubtosa.</short>
-<example type="incorrect">La <marker>cotxe seva</marker>.</example>
-<example type="correct">El cotxe seu.</example>
-<example type="correct">Les ordres seves.</example>
-</rule> --><!-- <rule>
-<pattern>
-<token postag="_GN_.S" postag_regexp="yes"><exception postag="_GN_.P" postag_regexp="yes"/></token>
-<and><token postag="_GN_.S" postag_regexp="yes"/><token postag="_GN_.P" postag_regexp="yes"/></and>
-<and><token postag="_GN_.S" postag_regexp="yes"/><token postag="_GN_.P" postag_regexp="yes"/></and>
-<token postag="_GN_.P" postag_regexp="yes"><exception postag="_GN_.S" postag_regexp="yes"/><exception postag="D.*" postag_regexp="yes"/></token>
-</pattern>
-<message>Error de concordança.</message>
-<short>Error de concordança.</short>
-<example type="incorrect">Porta <marker>el vermells</marker>.</example>
-<example type="correct">Porta els vermells.</example>
-</rule>
-<rule>
-<pattern>
-<token postag="_GN_.P" postag_regexp="yes"><exception postag="_GN_.S" postag_regexp="yes"/></token>
-<and><token postag="_GN_.S" postag_regexp="yes"/><token postag="_GN_.P" postag_regexp="yes"/></and>
-<and><token postag="_GN_.S" postag_regexp="yes"/><token postag="_GN_.P" postag_regexp="yes"/></and>
-<token postag="_GN_.S" postag_regexp="yes"><exception postag="_GN_.P" postag_regexp="yes"/><exception postag="D.*" postag_regexp="yes"/></token>
-</pattern>
-<message>Error de concordança.</message>
-<short>Error de concordança.</short>
-<example type="incorrect">Porta <marker>el vermells</marker>.</example>
-<example type="correct">Porta els vermells.</example>
-</rule> --><!-- amb dos adverbis entremig, amb etiquetes GN --><!-- <rule>
-<pattern>
-<token postag="D..M.*" postag_regexp="yes"></token>
-<token postag="RG"></token>
-<token postag="RG"></token>
-<and><token postag="A.*|V.P.*" postag_regexp="yes"></token><token postag="_GN_F." postag_regexp="yes"></token></and>
-</pattern>
-<message>Possible falta de concordança de gènere entre «\1» i «\3».
-</message>
-<short>Concordança de gènere i nombre dubtosa.</short>
-<example type="incorrect">Porta <marker>els roges</marker>.</example>
-<example type="correct">Porta els rojos.</example>
-<example type="correct">Els parts.</example>
-</rule>
-<rule>
-<pattern>
-<token postag="D..F.*" postag_regexp="yes"></token>
-<token postag="RG"></token>
-<token postag="RG"></token>
-<and><token postag="A.*|V.P.*" postag_regexp="yes"></token><token postag="_GN_M." postag_regexp="yes"></token></and>
-</pattern>
-<message>Possible falta de concordança de gènere entre «\1» i «\3».
-</message>
-<short>Concordança de gènere i nombre dubtosa.</short>
-<example type="incorrect">Porta <marker>les rojos</marker>.</example>
-<example type="correct">Porta les roges.</example>
-<example type="correct">Les parts.</example>
-</rule>
-<rule>
-<pattern>
-<token postag="D.P.*" postag_regexp="yes"></token>
-<token postag="RG"></token>
-<token postag="RG"></token>
-<and><token postag="A.*|V.P.*" postag_regexp="yes"></token><token postag="_GN_.S" postag_regexp="yes"></token></and>
-</pattern>
-<message>Possible falta de concordança de gènere entre «\1» i «\3».
-</message>
-<short>Concordança de gènere i nombre dubtosa.</short>
-<example type="incorrect">Porta <marker>les rojos</marker>.</example>
-<example type="correct">Porta les roges.</example>
-<example type="correct">Les parts.</example>
-</rule>
-<rule>
-<pattern>
-<token postag="D.S.*" postag_regexp="yes"></token>
-<token postag="RG"></token>
-<token postag="RG"></token>
-<and><token postag="A.*|V.P.*" postag_regexp="yes"></token><token postag="_GN_.P" postag_regexp="yes"></token></and>
-</pattern>
-<message>Possible falta de concordança de gènere entre «\1» i «\3».
-</message>
-<short>Concordança de gènere i nombre dubtosa.</short>
-<example type="incorrect">Porta <marker>les rojos</marker>.</example>
-<example type="correct">Porta les roges.</example>
-<example type="correct">Les parts.</example>
-</rule>
-<rule>
-<pattern>
-<token postag="N..P.*" postag_regexp="yes"><exception postag="N..[SN0].*" postag_regexp="yes"/></token>
-<token postag="RG"></token>
-<token postag="RG"></token>
-<and><token postag="A.*|V.P.*" postag_regexp="yes"></token><token postag="_GN_.S" postag_regexp="yes"></token></and>
-</pattern>
-<message>Falta de concordança de nombre entre «\1» i «\2».</message>
-<short>Concordança de nombre dubtosa.</short>
-<example type="incorrect">Pensa <marker>gran coses</marker>.</example>
-<example type="correct">Pensa grans coses.</example>
-</rule>
-<rule>
-<pattern>
-<token postag="N..S.*" postag_regexp="yes"><exception postag="N..[PN0].*" postag_regexp="yes"/></token>
-<token postag="RG"></token>
-<token postag="RG"></token>
-<and><token postag="A.*|V.P.*" postag_regexp="yes"></token><token postag="_GN_.P" postag_regexp="yes"></token></and>
-</pattern>
-<message>Falta de concordança de nombre entre «\1» i «\2».</message>
-<short>Concordança de nombre dubtosa.</short>
-<example type="incorrect">Pensa <marker>gran coses</marker>.</example>
-<example type="correct">Pensa grans coses.</example>
-</rule>
-<rule>
-<pattern>
-<token postag="N.F.*" postag_regexp="yes"><exception postag="N.[MC].*" postag_regexp="yes"/></token>
-<token postag="RG"></token>
-<token postag="RG"></token>
-<and><token postag="A.*|V.P.*" postag_regexp="yes"></token><token postag="_GN_M." postag_regexp="yes"></token></and>
-</pattern>
-<message>Falta de concordança de gènere entre «\1» i «\2».</message>
-<short>Concordança de gènere i nombre dubtosa.</short>
-<example type="incorrect">El <marker>cosa seu</marker>.</example>
-<example type="correct">La cosa seva.</example>
-<example type="correct">Els ordres seus.</example>
-</rule>
-<rule>
-<pattern>
-<token postag="N.M.*" postag_regexp="yes"><exception postag="N.[FC].*" postag_regexp="yes"/></token>
-<token postag="RG"></token>
-<token postag="RG"></token>
-<and><token postag="A.*|V.P.*" postag_regexp="yes"></token><token postag="_GN_F." postag_regexp="yes"></token></and>
-</pattern>
-<message>Falta de concordança de gènere entre «\1» i «\2».</message>
-<short>Concordança de gènere i nombre dubtosa.</short>
-<example type="incorrect">La <marker>cotxe seva</marker>.</example>
-<example type="correct">El cotxe seu.</example>
-<example type="correct">Les ordres seves.</example>
-</rule>   --><!-- amb locució adverbial entremig, etiqueta GN--><!-- <rule>
-<pattern>
-<token postag="D..M.*" postag_regexp="yes"></token>
-<token postag="&lt;LOC_ADV&gt;" skip="-1"></token>
-<token postag="&lt;/LOC_ADV&gt;"></token>
-<and><token postag="A.*|V.P.*" postag_regexp="yes"></token><token postag="_GN_F." postag_regexp="yes"></token></and>
-</pattern>
-<message>Possible falta de concordança de gènere.
-</message>
-<short>Concordança de gènere i nombre dubtosa.</short>
-<example type="incorrect">Porta <marker>els roges</marker>.</example>
-<example type="correct">Porta els rojos.</example>
-<example type="correct">Els parts.</example>
-</rule>
-<rule>
-<pattern>
-<token postag="D..F.*" postag_regexp="yes"></token>
-<token postag="&lt;LOC_ADV&gt;" skip="-1"></token>
-<token postag="&lt;/LOC_ADV&gt;"></token>
-<and><token postag="A.*|V.P.*" postag_regexp="yes"></token><token postag="_GN_M." postag_regexp="yes"></token></and>
-</pattern>
-<message>Possible falta de concordança de gènere.
-</message>
-<short>Concordança de gènere i nombre dubtosa.</short>
-<example type="incorrect">Porta <marker>les rojos</marker>.</example>
-<example type="correct">Porta les roges.</example>
-<example type="correct">Les parts.</example>
-</rule>
-<rule>
-<pattern>
-<token postag="D.P.*" postag_regexp="yes"></token>
-<token postag="&lt;LOC_ADV&gt;" skip="-1"></token>
-<token postag="&lt;/LOC_ADV&gt;"></token>
-<and><token postag="A.*|V.P.*" postag_regexp="yes"></token><token postag="_GN_.S" postag_regexp="yes"></token></and>
-</pattern>
-<message>Possible falta de concordança de gènere.
-</message>
-<short>Concordança de gènere i nombre dubtosa.</short>
-<example type="incorrect">Porta <marker>les rojos</marker>.</example>
-<example type="correct">Porta les roges.</example>
-<example type="correct">Les parts.</example>
-</rule>
-<rule>
-<pattern>
-<token postag="D.S.*" postag_regexp="yes"></token>
-<token postag="&lt;LOC_ADV&gt;" skip="-1"></token>
-<token postag="&lt;/LOC_ADV&gt;"></token>
-<and><token postag="A.*|V.P.*" postag_regexp="yes"></token><token postag="_GN_.P" postag_regexp="yes"></token></and>
-</pattern>
-<message>Possible falta de concordança de nombre.
-</message>
-<short>Concordança de gènere i nombre dubtosa.</short>
-<example type="incorrect">Porta <marker>les rojos</marker>.</example>
-<example type="correct">Porta les roges.</example>
-<example type="correct">Les parts.</example>
-</rule>
-<rule>
-<pattern>
-<token postag="N..P.*" postag_regexp="yes"><exception postag="N..[SN0].*" postag_regexp="yes"/></token>
-<token postag="&lt;LOC_ADV&gt;" skip="-1"></token>
-<token postag="&lt;/LOC_ADV&gt;"></token>
-<and><token postag="A.*|V.P.*|PX.*" postag_regexp="yes"></token><token postag="_GN_.S" postag_regexp="yes"></token></and>
-</pattern>
-<message>Falta de concordança de nombre.</message>
-<short>Concordança de nombre dubtosa.</short>
-<example type="incorrect">Pensa <marker>gran coses</marker>.</example>
-<example type="correct">Pensa grans coses.</example>
-</rule>
-<rule>
-<pattern>
-<token postag="N..S.*" postag_regexp="yes"><exception postag="N..[PN0].*" postag_regexp="yes"/></token>
-<token postag="&lt;LOC_ADV&gt;" skip="-1"></token>
-<token postag="&lt;/LOC_ADV&gt;"></token>
-<and><token postag="A.*|V.P.*|PX.*" postag_regexp="yes"></token><token postag="_GN_.P" postag_regexp="yes"></token></and>
-</pattern>
-<message>Falta de concordança de nombre.</message>
-<short>Concordança de nombre dubtosa.</short>
-<example type="incorrect">Pensa <marker>gran coses</marker>.</example>
-<example type="correct">Pensa grans coses.</example>
-</rule>
-<rule>
-<pattern>
-<token postag="N.F.*" postag_regexp="yes"><exception postag="N.[MC].*" postag_regexp="yes"/></token>
-<token postag="&lt;LOC_ADV&gt;" skip="-1"></token>
-<token postag="&lt;/LOC_ADV&gt;"></token>
-<and><token postag="A.*|V.P.*|PX.*" postag_regexp="yes"></token><token postag="_GNMF." postag_regexp="yes"></token></and>
-</pattern>
-<message>Falta de concordança de gènere.</message>
-<short>Concordança de gènere i nombre dubtosa.</short>
-<example type="incorrect">El <marker>cosa seu</marker>.</example>
-<example type="correct">La cosa seva.</example>
-<example type="correct">Els ordres seus.</example>
-</rule>
-<rule>
-<pattern>
-<token postag="N.M.*" postag_regexp="yes"><exception postag="N.[FC].*" postag_regexp="yes"/></token>
-<token postag="&lt;LOC_ADV&gt;" skip="-1"></token>
-<token postag="&lt;/LOC_ADV&gt;"></token>
-<and><token postag="A.*|V.P.*|PX.*" postag_regexp="yes"></token><token postag="_GN_F." postag_regexp="yes"></token></and>
-</pattern>
-<message>Falta de concordança de gènere.</message>
-<short>Concordança de gènere i nombre dubtosa.</short>
-<example type="incorrect">La <marker>cotxe seva</marker>.</example>
-<example type="correct">El cotxe seu.</example>
-<example type="correct">Les ordres seves.</example>
-</rule> --><!-- concordances en "Aquestes són..." --><!-- <rulegroup id="concordances_subj_obj_copulatius" name="concordança entre subjecte i objecte en frases copulatives">
-<rule>
-<pattern>
-<token postag="P...S.*" postag_regexp="yes"></token>
-<token inflected="yes" regexp="yes">ser|semblar|parèixer</token>
-<token postag="_GN_.P" postag_regexp="yes"><exception postag="_GN_.S" postag_regexp="yes"/></token>
-</pattern>
-<message>Error de concordança.</message>
-<short>Error de concordança.</short>
-<example type="incorrect"><marker>Aquest són els</marker> valors importants.</example>
-<example type="correct">Aquests són els valors importants.</example>
-</rule>
-<rule>
-<pattern>
-<token postag="P...P.*" postag_regexp="yes"></token>
-<token inflected="yes" regexp="yes">ser|semblar|parèixer</token>
-<token postag="_GN_.S" postag_regexp="yes"><exception postag="_GN_.P" postag_regexp="yes"/></token>
-</pattern>
-<message>Error de concordança.</message>
-<short>Error de concordança.</short>
-<example type="incorrect"><marker>Aquests és el</marker> valor important.</example>
-<example type="correct">Aquest és el valor important.</example>
-</rule>
-<rule>
-<pattern>
-<token postag="P..M.*" postag_regexp="yes"></token>
-<token inflected="yes" regexp="yes">ser|semblar|parèixer</token>
-<token postag="_GN_F." postag_regexp="yes"><exception postag="_GN_M." postag_regexp="yes"/></token>
-</pattern>
-<message>Error de concordança.</message>
-<short>Error de concordança.</short>
-<example type="incorrect"><marker>Aquests són les</marker> coses importants.</example>
-<example type="correct">Aquestes són les coses importants.</example> 
-</rule>
-<rule>
-<pattern>
-<token postag="P..F.*" postag_regexp="yes"></token>
-<token inflected="yes" regexp="yes">ser|semblar|parèixer</token>
-<token postag="_GN_M." postag_regexp="yes"><exception postag="_GN_F." postag_regexp="yes"/></token>
-</pattern>
-<message>Error de concordança.</message>
-<short>Error de concordança.</short>
-<example type="incorrect"><marker>Aquestes són els</marker> valors importants.</example>
-<example type="correct">Aquests són els valors importants.</example>
-</rule>  
-<rule>
-<pattern>
-<token postag="P...S.*" postag_regexp="yes"></token>
-<token postag="V.[^MNGP].*" postag_regexp="yes" inflected="yes" regexp="yes">haver|anar</token>
-<token postag="V.[NPG].*" postag_regexp="yes" inflected="yes" regexp="yes">ser|semblar|parèixer</token>
-<token postag="_GN_.P" postag_regexp="yes"><exception postag="_GN_.S" postag_regexp="yes"/></token>
-</pattern>
-<message>Error de concordança.</message>
-<short>Error de concordança.</short>
-<example type="incorrect"><marker>Aquest han estat els</marker> valors importants.</example>
-<example type="correct">Aquests han estat els valors importants.</example>
-</rule>
-<rule>
-<pattern>
-<token postag="P...P.*" postag_regexp="yes"></token>
-<token postag="V.[^MNGP].*" postag_regexp="yes" inflected="yes" regexp="yes">haver|anar</token>
-<token postag="V.[NPG].*" postag_regexp="yes" inflected="yes" regexp="yes">ser|semblar|parèixer</token>
-<token postag="_GN_.S" postag_regexp="yes"><exception postag="_GN_.P" postag_regexp="yes"/></token>
-</pattern>
-<message>Error de concordança.</message>
-<short>Error de concordança.</short>
-<example type="incorrect"><marker>Aquests han estat el</marker> valor important.</example>
-<example type="correct">Aquest ha estat el valor important.</example>
-</rule>
-<rule>
-<pattern>
-<token postag="P..M.*" postag_regexp="yes"></token>
-<token postag="V.[^MNGP].*" postag_regexp="yes" inflected="yes" regexp="yes">haver|anar</token>
-<token postag="V.[NPG].*" postag_regexp="yes" inflected="yes" regexp="yes">ser|semblar|parèixer</token>
-<token postag="_GN_F." postag_regexp="yes"><exception postag="_GN_M." postag_regexp="yes"/></token>
-</pattern>
-<message>Error de concordança.</message>
-<short>Error de concordança.</short>
-<example type="incorrect"><marker>Aquests han estat les</marker> coses importants.</example>
-<example type="correct">Aquestes han estat les coses importants.</example> 
-</rule>
-<rule>
-<pattern>
-<token postag="P..F.*" postag_regexp="yes"></token>
-<token postag="V.[^MNGP].*" postag_regexp="yes" inflected="yes" regexp="yes">haver|anar</token>
-<token postag="V.[NPG].*" postag_regexp="yes" inflected="yes" regexp="yes">ser|semblar|parèixer</token>
-<token postag="_GN_M." postag_regexp="yes"><exception postag="_GN_F." postag_regexp="yes"/></token>
-</pattern>
-<message>Error de concordança.</message>
-<short>Error de concordança.</short>
-<example type="incorrect"><marker>Aquestes han estat els</marker> valors importants.</example>
-<example type="correct">Aquests han estat els valors importants.</example>
-</rule>
-</rulegroup> --><!--<rule>
-    <pattern>
-     <unify negate="yes">
-      <feature id="nombre" />
-      <feature id="genere" />
-      <token postag="D[DTEAN].*|PX.*" postag_regexp="yes"></token>
-      <token postag="D.*" postag_regexp="yes" inflected="yes">altre</token>
-     </unify>
-    </pattern>
-    <message>Possible falta de concordança.</message>
-    <short>Concordança de gènere i nombre dubtosa.</short>
-    <example type="incorrect"> <marker>Aquest altra</marker>.</example>
-    <example type="correct">Aquesta altra.</example>
-   </rule>
-   <rule>
-    <pattern>
-     <unify negate="yes">
-      <feature id="nombre" />
-      <feature id="genere" />
-      <token postag="D.*" postag_regexp="yes" inflected="yes" regexp="yes">algun|un|molt|poc|tal</token>
-      <token postag="D.*" postag_regexp="yes" inflected="yes">altre</token>
-     </unify>
-    </pattern>
-    <message>Possible falta de concordança.</message>
-    <short>Concordança de gènere i nombre dubtosa.</short>
-    <example type="incorrect"> <marker>Un altra</marker>.</example>
-    <example type="correct">Una altra.</example>
-   </rule>
---><!--<rule>
-<pattern>
-<token postag="D[^P].M.*" postag_regexp="yes"></token>
-<token postag="D[AINPR].F.*" postag_regexp="yes"><exception postag="V.*" postag_regexp="yes"/><exception regexp="yes">als?|dels?|pels?|cals</exception></token>
-</pattern>
-<message>Possible falta de concordança entre «\1» i «\2».
-</message>
-<short>Concordança de gènere i nombre dubtosa.</short>
-<example type="incorrect">Porta'n <marker>un altra</marker>.</example>
-<example type="correct">Porta'n una altra.</example>
-</rule>
-<rule>
-<pattern>
-<token postag="D[^P].F.*" postag_regexp="yes"></token>
-<token postag="D[AINPR].M.*" postag_regexp="yes"><exception inflected="yes">numeral</exception><exception postag="V.*" postag_regexp="yes"/><exception regexp="yes">als?|dels?|pels?|cals</exception></token>
-</pattern>
-<message>Possible falta de concordança entre «\1» i «\2».
-</message>
-<short>Concordança de gènere i nombre dubtosa.</short>
-<example type="incorrect">Porta'n <marker>una altre</marker>.</example>
-<example type="correct">Porta'n una altra.</example>
-<example type="correct">La dos.</example>
-</rule>
-<rule>
-<pattern>
-<token postag="D[^P].FP.*" postag_regexp="yes"></token>
-<token postag="D..M.*" postag_regexp="yes" inflected="yes">numeral</token>
-</pattern>
-<message>Possible falta de concordança entre «\1» i «\2».
-</message>
-<short>Concordança de gènere i nombre dubtosa.</short>
-<example type="incorrect"><marker>Les trenta-dos</marker>.</example>
-<example type="correct">Les trenta-dues</example>
-</rule>
-<rule>
-<pattern>
-<unify negate="yes">
-<feature id="nombre"/>
-<token postag="D[IDA].*" postag_regexp="yes"></token>
-<token postag="D[APDINR].*" postag_regexp="yes"><exception postag="N.*" postag_regexp="yes" inflected="yes">numeral</exception><exception postag="V.*" postag_regexp="yes"/><exception regexp="yes">als?|dels?|pels?|cals</exception></token>
-</unify>
-</pattern>
-<message>Possible falta de concordança entre «\1» i «\2».
-</message>
-<short>Concordança de gènere i nombre dubtosa.</short>
-<example type="incorrect">Porta'n <marker>un altra</marker>.</example>
-<example type="correct">Porta'n una altra.</example>
-</rule> 
-<rule>
-<pattern>
-<token postag="D..F.*" postag_regexp="yes"></token>
-<and><token postag="(DI|DD|DP|DN).*" postag_regexp="yes"></token><token postag="_GN_M." postag_regexp="yes"/></and>
-</pattern>
-<message>Error de concordança.</message>
-<short>Error de concordança.</short>
-<example type="incorrect"><marker>Uns importants consideracions</marker>.</example>
-<example type="correct">Unes importants consideracions.</example>
-</rule>
-<rule>
-<pattern>
-<token postag="D..M.*" postag_regexp="yes"></token>
-<and><token postag="(DI|DD|DP|DN).*" postag_regexp="yes"></token><token postag="_GN_F." postag_regexp="yes"/></and>
-</pattern>
-<message>Error de concordança.</message>
-<short>Error de concordança.</short>
-<example type="incorrect"><marker>Uns importants consideracions</marker>.</example>
-<example type="correct">Unes importants consideracions.</example>
-</rule>
-<rule>
-<pattern>
-<token postag="D...S.*" postag_regexp="yes"></token>
-<and><token postag="(DI|DD|DP|DN).*" postag_regexp="yes"></token><token postag="_GN_.P" postag_regexp="yes"/></and>
-</pattern>
-<message>Error de concordança.</message>
-<short>Error de concordança.</short>
-<example type="incorrect"><marker>Uns importants consideracions</marker>.</example>
-<example type="correct">Unes importants consideracions.</example>
-</rule>
-<rule>
-<pattern>
-<token postag="D...P.*" postag_regexp="yes"></token>
-<and><token postag="(DI|DD|DP|DN).*" postag_regexp="yes"></token><token postag="_GN_.S" postag_regexp="yes"/></and>
-</pattern>
-<message>Error de concordança.</message>
-<short>Error de concordança.</short>
-<example type="incorrect"><marker>Uns importants consideracions</marker>.</example>
-<example type="correct">Unes importants consideracions.</example>
-</rule> -->
+</rules>
