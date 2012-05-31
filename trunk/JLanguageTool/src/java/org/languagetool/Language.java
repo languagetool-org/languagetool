@@ -280,23 +280,22 @@ public abstract class Language {
     StringTools.assureSet(shortLanguageCode, "shortLanguageCode");
     	
     if (shortLanguageCode.indexOf('-') != -1) {
-    	String[] l = shortLanguageCode.split("-");
-    	if (l.length != 2) {
+    	final String[] parts = shortLanguageCode.split("-");
+    	if (parts.length != 2) {
     		throw new IllegalArgumentException("'" + shortLanguageCode + "' isn't a valid language code"); 
     	}
     	for (Language element : Language.LANGUAGES) {
-    		if (l[0].equals(element.getShortName())
+    		if (parts[0].equals(element.getShortName())
     				&& element.getCountryVariants().length == 1    				
-    				&& l[1].equals(element.getCountryVariants()[0])) {
+    				&& parts[1].equals(element.getCountryVariants()[0])) {
     			return element;
     		}
     	}
     	throw new IllegalArgumentException("'" + shortLanguageCode + "' isn't a valid language code");
     }	  
-    if (shortLanguageCode.length() == "xx".length() && shortLanguageCode.length() == "xxx".length()) {    	
-    		        	  
+    if (shortLanguageCode.length() != "xx".length() && shortLanguageCode.length() != "xxx".length()) {
       throw new IllegalArgumentException("'" + shortLanguageCode + "' isn't a two- or three-character code");
-      }
+    }
         
     for (Language element : Language.LANGUAGES) {
       if (shortLanguageCode.equals(element.getShortName())) {
