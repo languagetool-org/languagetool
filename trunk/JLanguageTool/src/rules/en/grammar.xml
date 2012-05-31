@@ -73,6 +73,34 @@ $Id: grammar.xml,v 1.129 2010-11-13 23:24:21 dnaber Exp $
             <example correction="de jure" type="incorrect">There is no <marker>de juro</marker> segregation allowed by law anywhere in the United States.</example>
             <example type="correct">There is no de jure segregation allowed by law anywhere in the United States.</example>
         </rule>
+        <rule id="MASSAGE_MESSAGE" name="error massage (message)">
+            <pattern>
+                <token skip="1" regexp="yes" inflected="yes">diagnostic|deliver|email|error|new|radio|send|text</token>
+                <marker>
+                  <token inflected="yes">massage</token>
+                </marker>
+                <token negate="yes" regexp="yes" inflected="yes">instruction|method|salon|stroke|studio</token>
+            </pattern>
+            <message>Did you mean <suggestion><match no="2" regexp_match="massag" regexp_replace="messag"/></suggestion>?</message>
+            <short>Possible typo</short>
+            <example type="correct">There is an error <marker>message</marker>.</example>
+            <example type="correct">That is a new <marker>massage</marker> method.</example>
+            <example correction="message" type="incorrect">There is an error <marker>massage</marker>.</example>
+            <example correction="messages" type="incorrect">I sent different <marker>massages</marker>.</example>
+        </rule>
+        <rule id="CHANCE_CHANGE" name="chance (change) a setting">
+            <pattern>
+                <marker>
+                  <token inflected="yes" skip="3">chance <exception scope="next">change</exception></token>
+                </marker>
+                <token regexp="yes" inflected="yes">behaviou?r|mode|setting</token>
+            </pattern>
+            <message>Did you mean <suggestion><match no="1" regexp_match="chanc" regexp_replace="chang"/></suggestion>?</message>
+            <short>Possible typo</short>
+            <example type="correct">Do not <marker>change</marker> these settings!</example>
+            <example correction="change" type="incorrect">Do not <marker>chance</marker> these settings!</example>
+            <example correction="changes" type="incorrect">He always <marker>chances</marker> the behaviour of the application.</example>
+        </rule>
         <rule id="I_THIN" name="I thin (think)">
             <pattern>
                 <token negate="yes" regexp="yes">am|do|can|will</token>
