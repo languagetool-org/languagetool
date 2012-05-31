@@ -291,7 +291,7 @@ public abstract class Language {
     			return element;
     		}
     	}
-    	throw new IllegalArgumentException("'" + shortLanguageCode + "' isn't a valid language code");
+    	throw new IllegalArgumentException("'" + shortLanguageCode + "' is not a language code known to LanguageTool");
     }	  
     if (shortLanguageCode.length() != "xx".length() && shortLanguageCode.length() != "xxx".length()) {
       throw new IllegalArgumentException("'" + shortLanguageCode + "' isn't a two- or three-character code");
