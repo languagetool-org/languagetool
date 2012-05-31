@@ -206,8 +206,7 @@ private JCheckBox serverSettingsCheckbox;
       if (motherTongue == Language.DEMO) {
         motherTongueBox.setSelectedItem(NO_MOTHER_TONGUE);
       } else {
-        motherTongueBox.setSelectedItem(messages.getString(motherTongue
-            .getShortName()));
+        motherTongueBox.setSelectedItem(motherTongue.getTranslatedName(messages));
       }
     }
     motherTonguePanel.add(motherTongueBox, cons);
@@ -361,7 +360,7 @@ private JCheckBox serverSettingsCheckbox;
     motherTongues.add(NO_MOTHER_TONGUE);
     for (final Language lang : Language.LANGUAGES) {
       if (lang != Language.DEMO) {
-        motherTongues.add(messages.getString(lang.getShortName()));
+        motherTongues.add(lang.getTranslatedName(messages));
       }
     }
     return motherTongues.toArray();
@@ -465,7 +464,7 @@ private JCheckBox serverSettingsCheckbox;
       if (NO_MOTHER_TONGUE.equals(languageName)) {
         return Language.DEMO;
       }
-      if (languageName.equals(messages.getString(element.getShortName()))) {
+      if (languageName.equals(element.getTranslatedName(messages))) {
         return element;
       }
     }
