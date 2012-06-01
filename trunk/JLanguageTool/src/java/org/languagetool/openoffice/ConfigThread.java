@@ -67,7 +67,7 @@ class ConfigThread extends Thread {
       config.setEnabledRuleIds(cfgDialog.getEnabledRuleIds());
       config.setDisabledCategoryNames(cfgDialog.getDisabledCategoryNames());
       config.setMotherTongue(cfgDialog.getMotherTongue());
-      config.saveConfiguration();
+      config.saveConfiguration(docLanguage);
       if (mainThread != null) {
         mainThread.resetDocument();
       }

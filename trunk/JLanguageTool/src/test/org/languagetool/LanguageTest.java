@@ -29,6 +29,12 @@ public class LanguageTest {
 		assertEquals(Language.AMERICAN_ENGLISH, Language.getLanguageForShortName("en-US"));
 		assertEquals(Language.GERMAN, Language.getLanguageForShortName("de"));
 	}
+	
+	@Test
+	public void testGetShortNameWithVariant() {
+		assertEquals("en-US", Language.AMERICAN_ENGLISH.getShortNameWithVariant());
+		assertEquals("de", Language.GERMAN.getShortNameWithVariant());
+	}
 
   @Test(expected=IllegalArgumentException.class)
  	public void testInvalidShortName1() {

@@ -30,7 +30,7 @@ class LanguageToolHttpHandler implements HttpHandler {
   private final boolean verbose;
   private final boolean internalServer;
   
-  private final Configuration config;
+  private Configuration config;
   
   private boolean useQuerySettings;
   
@@ -42,7 +42,7 @@ class LanguageToolHttpHandler implements HttpHandler {
     this.verbose = verbose;
     this.allowedIps = allowedIps;
     this.internalServer = internal;
-    config = new Configuration();
+    config = new Configuration(null);
   }
 
   @Override
@@ -216,6 +216,7 @@ class LanguageToolHttpHandler implements HttpHandler {
     final JLanguageTool newLanguageTool = new JLanguageTool(lang, motherTongue);
     newLanguageTool.activateDefaultPatternRules();
     newLanguageTool.activateDefaultFalseFriendRules();
+    config = new Configuration(lang);
     if (!useQuerySettings && internalServer && config.getUseGUIConfig()) { // use the GUI config values
     	configureGUI(lang, newLanguageTool);
     }

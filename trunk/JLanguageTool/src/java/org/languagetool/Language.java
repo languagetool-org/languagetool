@@ -212,15 +212,8 @@ public abstract class Language {
    * if available. Otherwise, get the untranslated name.
    */
   public final String getTranslatedName(final ResourceBundle messages) {
-
-	  String name = getShortName();
-
-	  if (getCountryVariants().length == 1) {
-		  name += "-" + getCountryVariants()[0];
-	  }
-
 	  try {
-		  return messages.getString(name);
+		  return messages.getString(getShortNameWithVariant());
 	  } catch (final MissingResourceException e) {
 		  try {
 			  return messages.getString(getShortName());
@@ -229,7 +222,21 @@ public abstract class Language {
 		  }
 	  }
   }
-
+  
+  /**
+   * Get the short name of the language with a country variant, if it is
+   * a single-variant language. For generic language classes, get only a two- or
+   * three-character code.
+   */
+  public final String getShortNameWithVariant() {
+	  String name = getShortName();
+	  if (getCountryVariants().length == 1) {
+		  name += "-" + getCountryVariants()[0];
+	  }
+	  return name;
+  }
+  
+  
   /**
    * Start symbols used by {@link org.languagetool.rules.GenericUnpairedBracketsRule}.
    * Note that the array must be of equal length as {@link #getUnpairedRuleEndSymbols()} and the sequence of
@@ -268,6 +275,19 @@ public abstract class Language {
    */
   public static List<Language> getExternalLanguages() {
     return externalLanguages;
+  }
+  
+  /**
+   * Return all languages supported by LanguageTool.
+   * @return A list of all languages, including external ones.
+   */
+  public static List<Language> getAllLanguages() {
+	  List<Language> langList = new ArrayList<Language>();
+	  for (Language lang : LANGUAGES) {
+		  langList.add(lang);
+	  }
+	  langList.addAll(externalLanguages);
+	  return langList;
   }
   
   /**

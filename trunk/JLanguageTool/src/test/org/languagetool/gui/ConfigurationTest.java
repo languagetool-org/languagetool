@@ -25,13 +25,15 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.languagetool.Language;
+
 public class ConfigurationTest extends TestCase {
 
   public void testSaveAndLoadConfiguration() throws Exception {
     final File tempFile = File.createTempFile(ConfigurationTest.class.getSimpleName(), ".cfg");
-    createConfiguration(tempFile);
+    createConfiguration(tempFile, null);
     try {
-      final Configuration conf = new Configuration(tempFile.getParentFile(), tempFile.getName());
+      final Configuration conf = new Configuration(tempFile.getParentFile(), tempFile.getName(), null);
       final Set<String> disabledRuleIds = conf.getDisabledRuleIds();
       assertTrue(disabledRuleIds.contains("FOO1"));
       assertTrue(disabledRuleIds.contains("Foo2"));
@@ -44,11 +46,54 @@ public class ConfigurationTest extends TestCase {
     }
   }
   
-  private void createConfiguration(File configFile) throws Exception {
-    final Configuration conf = new Configuration(configFile.getParentFile(), configFile.getName());
+  private void createConfiguration(File configFile, Language lang) throws Exception {
+    final Configuration conf = new Configuration(configFile.getParentFile(), configFile.getName(), lang);
     conf.setDisabledRuleIds(new HashSet<String>(Arrays.asList("FOO1", "Foo2")));
     conf.setEnabledRuleIds(new HashSet<String>(Arrays.asList("enabledRule")));
-    conf.saveConfiguration();
+    conf.saveConfiguration(lang);
   }
 
+  public void testSaveAndLoadConfigurationForManyLanguages() throws Exception {
+	    final File tempFile = File.createTempFile(ConfigurationTest.class.getSimpleName(), ".cfg");
+	    createConfiguration(tempFile, Language.AMERICAN_ENGLISH);
+	    try {
+	      Configuration conf = new Configuration(tempFile.getParentFile(), tempFile.getName(), 
+	    		  Language.AMERICAN_ENGLISH);
+	      Set<String> disabledRuleIds = conf.getDisabledRuleIds();
+	      assertTrue(disabledRuleIds.contains("FOO1"));
+	      assertTrue(disabledRuleIds.contains("Foo2"));
+	      assertEquals(2, disabledRuleIds.size());
+	      Set<String> enabledRuleIds = conf.getEnabledRuleIds();
+	      assertTrue(enabledRuleIds.contains("enabledRule"));
+	      assertEquals(1, enabledRuleIds.size());
+	      
+	      //now change language
+	      
+	      conf = new Configuration(tempFile.getParentFile(), tempFile.getName(), 
+	    		  Language.BELARUSIAN);
+	      disabledRuleIds = conf.getDisabledRuleIds();
+	      assertTrue(disabledRuleIds.isEmpty());	      
+	      enabledRuleIds = conf.getEnabledRuleIds();
+	      assertTrue(enabledRuleIds.isEmpty());
+	      
+	      conf.setEnabledRuleIds(new HashSet<String>(Arrays.asList("enabledBYRule")));
+	      conf.saveConfiguration(Language.BELARUSIAN);
+	      
+	      //and back...
+	      conf = new Configuration(tempFile.getParentFile(), tempFile.getName(), 
+	    		  Language.AMERICAN_ENGLISH);
+	      disabledRuleIds = conf.getDisabledRuleIds();
+	      assertTrue(disabledRuleIds.contains("FOO1"));
+	      assertTrue(disabledRuleIds.contains("Foo2"));
+	      assertEquals(2, disabledRuleIds.size());      
+	      enabledRuleIds = conf.getEnabledRuleIds();
+	      assertTrue(enabledRuleIds.contains("enabledRule"));
+	      assertEquals(1, enabledRuleIds.size());     	     	      	      
+	      
+	      
+	    } finally {
+	       tempFile.delete();
+	    }
+	  }
+  
 }

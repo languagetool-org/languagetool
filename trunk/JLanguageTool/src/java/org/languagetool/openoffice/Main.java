@@ -119,20 +119,23 @@ public class Main extends WeakBase implements XJobExecutor,
 
   private XComponentContext xContext;
 
-  public Main(final XComponentContext xCompContext) {
-    try {
-      changeContext(xCompContext);
-      final File homeDir = getHomeDir();
-      config = new Configuration(homeDir, CONFIG_FILE);
-      disabledRules = config.getDisabledRuleIds();
-      if (disabledRules == null) {
-        disabledRules = new HashSet<String>();
-      }
-      disabledRulesUI = new HashSet<String>(disabledRules);
-      xEventListeners = new ArrayList<XLinguServiceEventListener>();
-    } catch (final Throwable t) {
-      showError(t);
-    }
+  public Main(final XComponentContext xCompContext) {    
+      changeContext(xCompContext);            
+      xEventListeners = new ArrayList<XLinguServiceEventListener>();    
+  }
+
+  private void prepareConfig(final Language lang) {
+	  try {
+		  final File homeDir = getHomeDir();
+		  config = new Configuration(homeDir, CONFIG_FILE, lang);
+		  disabledRules = config.getDisabledRuleIds();
+		  if (disabledRules == null) {
+			  disabledRules = new HashSet<String>();
+		  }
+		  disabledRulesUI = new HashSet<String>(disabledRules);
+	  } catch (final Throwable t) {
+		  showError(t);
+	  }
   }
 
   public final void changeContext(final XComponentContext xCompContext) {
@@ -277,6 +280,7 @@ public class Main extends WeakBase implements XJobExecutor,
             return paRes;
           }
           try {
+        	prepareConfig(docLanguage);        	          	  
             langTool = new JLanguageTool(docLanguage, config.getMotherTongue());
             langTool.activateDefaultPatternRules();
             langTool.activateDefaultFalseFriendRules();
@@ -742,7 +746,7 @@ public class Main extends WeakBase implements XJobExecutor,
     disabledRulesUI.add(ruleId);
     config.setDisabledRuleIds(disabledRulesUI);
     try {
-      config.saveConfiguration();
+      config.saveConfiguration(langTool.getLanguage());
     } catch (final Throwable t) {
       showError(t);
     }
@@ -759,7 +763,7 @@ public class Main extends WeakBase implements XJobExecutor,
   public void resetIgnoreRules() {
     config.setDisabledRuleIds(disabledRules);
     try {
-      config.saveConfiguration();
+      config.saveConfiguration(langTool.getLanguage());
     } catch (final Throwable t) {
       showError(t);
     }

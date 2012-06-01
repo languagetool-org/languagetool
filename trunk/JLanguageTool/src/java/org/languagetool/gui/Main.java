@@ -70,7 +70,7 @@ public final class Main implements ActionListener {
 
   private final ResourceBundle messages;
 
-  private final Configuration config;
+  private Configuration config;
 
   private JFrame frame;
   private JTextArea textArea;
@@ -88,7 +88,7 @@ public final class Main implements ActionListener {
 
   private Main() throws IOException {
     LanguageIdentifierTools.addLtProfiles();  
-    config = new Configuration(new File(System.getProperty("user.home")), CONFIG_FILE);
+    config = new Configuration(new File(System.getProperty("user.home")), CONFIG_FILE, null);
     messages = JLanguageTool.getMessageBundle();
     maybeStartServer();
   }
@@ -299,7 +299,7 @@ public final class Main implements ActionListener {
     config.setUseGUIConfig(configDialog.getUseGUIConfig());
     config.setServerPort(configDialog.getServerPort());
     try { //save config - needed for the server
-        config.saveConfiguration();
+        config.saveConfiguration(langTool.getLanguage());
       } catch (final IOException e) {
         Tools.showError(e);
       }
@@ -369,7 +369,7 @@ public final class Main implements ActionListener {
   void quit() {
     stopServer();
     try {
-      config.saveConfiguration();
+      config.saveConfiguration(getCurrentLanguageTool().getLanguage());
     } catch (final IOException e) {
       Tools.showError(e);
     }
@@ -442,6 +442,7 @@ public final class Main implements ActionListener {
       final ConfigurationDialog configDialog = getCurrentConfigDialog();
       langTool = new JLanguageTool(getCurrentLanguage(), configDialog
           .getMotherTongue());
+      config = new Configuration(new File(System.getProperty("user.home")), CONFIG_FILE, getCurrentLanguage());
       langTool.activateDefaultPatternRules();
       langTool.activateDefaultFalseFriendRules();
       final Set<String> disabledRules = configDialog.getDisabledRuleIds();
@@ -471,7 +472,7 @@ public final class Main implements ActionListener {
   }
 
   private void checkTextAndDisplayResults() {
-    final Language lang = getCurrentLanguage();
+    final Language lang = getCurrentLanguage();    
     if (StringTools.isEmpty(textArea.getText().trim())) {
       textArea.setText(messages.getString("enterText2"));
     } else {
@@ -556,6 +557,7 @@ public final class Main implements ActionListener {
   private int checkText(final JLanguageTool langTool, final String text,
       final StringBuilder sb) throws IOException {
     final long startTime = System.currentTimeMillis();
+    
     final List<RuleMatch> ruleMatches = langTool.check(text);
     final long startTimeMatching = System.currentTimeMillis();
     int i = 0;
