@@ -471,45 +471,48 @@ public final class Main implements ActionListener {
   }
 
   private void checkTextAndDisplayResults() {
-    setWaitCursor();
-    try {
-      final JLanguageTool langTool = getCurrentLanguageTool();
-      final Language lang = getCurrentLanguage();
-      if (StringTools.isEmpty(textArea.getText().trim())) {
-        textArea.setText(messages.getString("enterText2"));
+    final Language lang = getCurrentLanguage();
+    if (StringTools.isEmpty(textArea.getText().trim())) {
+      textArea.setText(messages.getString("enterText2"));
+    } else {
+      final String langName;
+      if (lang.isExternal()) {
+        langName = lang.getTranslatedName(messages) + EXTERNAL_LANGUAGE_SUFFIX;
       } else {
-        final StringBuilder sb = new StringBuilder();
-        final String langName;
-        if (lang.isExternal()) {
-          langName = lang.getTranslatedName(messages) + EXTERNAL_LANGUAGE_SUFFIX;
-        } else {
-          langName = lang.getTranslatedName(messages);
-        }
-        final String startCheckText = HTML_GREY_FONT_START + Tools.makeTexti18n(messages,
-            "startChecking", new Object[] { langName }) + HTML_FONT_END;
-        resultArea.setText(startCheckText);
-        resultArea.repaint(); // FIXME: why doesn't this work?
-        sb.append(startCheckText);
-        sb.append("...<br>\n");
-        int matches = 0;
-        try {
-          matches = checkText(langTool, textArea.getText(), sb);
-        } catch (final Exception e) {
-          sb.append("<br><br><b><font color=\"red\">");
-          sb.append(org.languagetool.tools.Tools.getFullStackTrace(e).replace("\n", "<br/>"));
-          sb.append("</font></b><br>");
-        }
-        final String checkDone = Tools.makeTexti18n(messages, "checkDone",
-            new Object[] {matches});
-        sb.append(HTML_GREY_FONT_START);
-        sb.append(checkDone);
-        sb.append(HTML_FONT_END);
-        sb.append("<br>\n");
-        resultArea.setText(HTML_FONT_START + sb.toString() + HTML_FONT_END);
-        resultArea.setCaretPosition(0);
+        langName = lang.getTranslatedName(messages);
       }
-    } finally {
-      unsetWaitCursor();
+      new Thread() {
+        public void run() {
+          setWaitCursor();
+          try {
+            final String startCheckText = HTML_GREY_FONT_START +
+                    Tools.makeTexti18n(messages, "startChecking", new Object[]{langName}) + "..." + HTML_FONT_END;
+            resultArea.setText(startCheckText);
+            resultArea.repaint();
+            final StringBuilder sb = new StringBuilder();
+            sb.append(startCheckText);
+            sb.append("<br>\n");
+            int matches = 0;
+            try {
+              final JLanguageTool langTool = getCurrentLanguageTool();
+              matches = checkText(langTool, textArea.getText(), sb);
+            } catch (final Exception e) {
+              sb.append("<br><br><b><font color=\"red\">");
+              sb.append(org.languagetool.tools.Tools.getFullStackTrace(e).replace("\n", "<br/>"));
+              sb.append("</font></b><br>");
+            }
+            final String checkDone = Tools.makeTexti18n(messages, "checkDone", new Object[] {matches});
+            sb.append(HTML_GREY_FONT_START);
+            sb.append(checkDone);
+            sb.append(HTML_FONT_END);
+            sb.append("<br>\n");
+            resultArea.setText(HTML_FONT_START + sb.toString() + HTML_FONT_END);
+            resultArea.setCaretPosition(0);
+          } finally {
+            unsetWaitCursor();
+          }
+        }
+      }.start();
     }
   }
 
