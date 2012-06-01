@@ -18,6 +18,7 @@
  */
 package org.languagetool.gui;
 
+import org.apache.commons.lang.StringUtils;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.language.RuleFilenameException;
@@ -32,6 +33,8 @@ import org.languagetool.AnalyzedSentence;
 import org.apache.tika.language.*;
 
 import javax.swing.*;
+import javax.swing.event.HyperlinkEvent;
+import javax.swing.event.HyperlinkListener;
 import javax.swing.filechooser.FileFilter;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
@@ -109,6 +112,7 @@ public final class Main implements ActionListener {
     resultArea.setContentType("text/html");
     resultArea.setText(HTML_GREY_FONT_START + messages.getString("resultAreaText") + HTML_FONT_END);
     resultArea.setEditable(false);
+    resultArea.addHyperlinkListener(new MyHyperlinkListener());
     final JButton button = new JButton(StringTools.getLabel(messages.getString("checkText")));
     button.setMnemonic(StringTools.getMnemonic(messages.getString("checkText")));
     button.addActionListener(this);
@@ -556,15 +560,13 @@ public final class Main implements ActionListener {
           .getToPos(), text);
       sb.append("<b>" + messages.getString("errorContext") + "</b> " + context);
       sb.append("<br>\n");
-            
-      /* too much hassle getting hyperlinks work in JTextPane
-       * especially when we want to replace it soon with sth nicer... 
-      if (match.getRule().getUrl() != null) {
-    	  sb.append("<a href=\"");
-    	  sb.append(match.getRule().getUrl().toString());
-    	  sb.append("\">More info...</a><br>\n");
+      if (match.getRule().getUrl() != null && Desktop.isDesktopSupported()) {
+    	  sb.append("<b>More info:</b> <a href=\"");
+        final String url = match.getRule().getUrl().toString();
+        sb.append(url);
+        final String shortUrl = StringUtils.abbreviate(url, 60);
+    	  sb.append("\">" + shortUrl +"</a><br>\n");
       }
-      */
       i++;
     }
     final long endTime = System.currentTimeMillis();
@@ -619,6 +621,20 @@ public final class Main implements ActionListener {
       }
     } catch (final Exception e) {
       Tools.showError(e);
+    }
+  }
+
+  private class MyHyperlinkListener implements HyperlinkListener {
+    @Override
+    public void hyperlinkUpdate(HyperlinkEvent e) {
+      if (Desktop.isDesktopSupported() && e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
+        final Desktop desktop = java.awt.Desktop.getDesktop();
+        try {
+          desktop.browse(e.getURL().toURI());
+        } catch (Exception ex) {
+          throw new RuntimeException("Could not open URL: " + e.getURL(), ex);
+        }
+      }
     }
   }
 
