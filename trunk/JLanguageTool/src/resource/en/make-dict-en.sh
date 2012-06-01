@@ -16,7 +16,7 @@ gawk -f get_unc.awk $TMP_FINAL |sort -u > $TMP_OUTPUT
 #test
 gawk -f test_dict.awk $TMP_OUTPUT
 #create normal dictionary
-cp $TMP_OUTPUT 
+#cp $TMP_OUTPUT 
 gawk -f morph_data.awk $TMP_OUTPUT | fsa_ubuild -O -o $OUTPUT
 echo "Output written to $OUTPUT"
 #create synthesis dictionary

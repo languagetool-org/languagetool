@@ -111,9 +111,10 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             <marker>
                 <token>are</token>
             </marker>
-            <token postag="JJ.*|VBG|IN" postag_regexp="yes"></token>
+            <token postag="JJ.*|VBG|IN|DT" postag_regexp="yes"></token>
         </pattern>
         <disambig><match no="1" postag="VBP" postag_regexp="yes"></match></disambig>
+        <example type="ambiguous" inputform="are[are/NN,be/VBP]" outputform="are[be/VBP]">What follows <marker>are</marker> the terms used by the Aikikai Foundation</example>
     </rule>
     <rule name="NNS|EX + are (noun/verb) -&gt; are (verb)" id="NNS_ARE">
         <pattern>
@@ -132,6 +133,15 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             <token regexp="yes">you|we|they</token>
         </pattern>
         <disambig postag="VBP"></disambig>
+    </rule>
+    <rule name="are + : + NNS" id="are_NNS">
+    	<pattern>
+    		<marker><token>are</token></marker>
+    		<token>:</token>
+    		<token postag='NNS'/>
+    	</pattern>
+    	<disambig postag="VBP"/>
+    	<example type="ambiguous" inputform="are[are/NN,be/VBP]" outputform="are[be/VBP]">Among the things that AI needs to represent <marker>are</marker>: objects, properties, categories and relations.</example>
     </rule>
     <rule name="his (noun/prep) + noun -&gt; his (prep)" id="HIS_NN_PRP">
         <pattern>
@@ -259,6 +269,17 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             </pattern>
             <disambig postag="PRP"></disambig>
         </rule>
+        <rule>
+            <pattern>
+                <token>let</token>
+                <token regexp="yes">['’]</token>
+                <token>s</token>
+                <marker>
+                	<token postag='VBP'></token>
+                </marker>
+            </pattern>
+            <disambig postag="VB"></disambig>
+        </rule>
     </rulegroup>
     <rule name="determiner + verb/NN -&gt; NN" id="DT_VB_NN">
         <pattern>
@@ -292,12 +313,21 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             <token>Qur</token>
             <token regexp="yes">['’]</token>
             <marker>
-                <token>an</token>
+                <token spacebefore="no">an</token>
             </marker>
         </pattern>
         <disambig postag="NNP"></disambig>
     </rule>
-
+    
+    <rule id="CD" name="Tag numbers">
+    	<pattern>
+    		<token regexp="yes">\d+</token>
+    	</pattern>
+    	<disambig postag="CD"/>
+    	<example type="untouched">Ten dollars</example>
+    	<example type='ambiguous' inputform="10[10]" outputform="10[10/CD]"><marker>10</marker> dollars</example>
+    </rule>
+    
     <!-- A is not a determiner but a variable in this context -->
     <rule name="a and be" id="A_AND_B">
         <pattern>
@@ -840,7 +870,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             <token postag_regexp="yes" postag="WP|PRP"></token>
             <token regexp="yes">['’]</token>
             <marker>
-                <token>s</token>
+                <token spacebefore="no">s</token>
             </marker>
         </pattern>
         <disambig action="add"><wd pos="VBZ" lemma="be"></wd></disambig>
@@ -1155,22 +1185,24 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
     <rulegroup name="Add possessive ending" id="POS_ADD">
         <rule>  <!--	probably verb "is": now add to some -->
             <pattern>
-                <token><exception postag_regexp="yes" postag="NN.*"></exception></token>
+                <token><exception postag_regexp="yes" postag="NN.*|VBP"></exception></token>
                 <token spacebefore="no" regexp="yes">['’]</token>
                 <marker>
                     <token spacebefore="no">s</token>
                 </marker>
+                <token><exception postag="SENT_END"/><exception regexp="yes">[,:;]</exception></token>
             </pattern>
             <disambig action="add"><wd lemma="be" pos="VBZ">s</wd></disambig>
             <example type="untouched">This is Bill's house.</example>
             <example type="untouched">Let's go!</example>
+            <example type="untouched">Let's see!</example>
             <example type="ambiguous" inputform="s[s/POS]" outputform="s[be/VBZ,s/POS]">Where'<marker>s</marker> Bill?</example>
         </rule>
         <!--  remove POS where it doesn't occur after the noun-->
         <rule name="Remove possessive ending" id="POS_REMOVE">
             <!--  probably verb "is":remove -->
             <pattern>
-                <token><exception postag_regexp="yes" postag="NN.*"></exception></token>
+                <token><exception postag_regexp="yes" postag="NN.*|PRP\$"/></token>
                 <token spacebefore="no" regexp="yes">['’]</token>
                 <marker>
                     <token spacebefore="no" postag="POS">s</token>
@@ -1178,6 +1210,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             </pattern>
             <disambig action="remove"><wd lemma="s" pos="POS">s</wd></disambig>
             <example type="untouched">This is Bill's house.</example>
+            <example type="untouched">This is your's.</example>
             <example type="ambiguous" inputform="s[be/VBZ,s/POS]" outputform="s[be/VBZ]">Where'<marker>s</marker> Bill?</example>
         </rule>
         <rule> <!--  add to Bill's -->
@@ -1303,4 +1336,82 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         </pattern>
         <disambig action="immunize"></disambig>
     </rule>
+    
+    <!--  some more disambiguation -->
+    <rule id="PRP_VB_VBP" name="vb->vbp">
+		<pattern>
+			<token postag="PRP"/>
+			<marker>
+				<and>
+				<token postag="VB"><exception negate_pos="yes" postag_regexp="yes" postag="VBP|VB"/></token>
+				<token postag='VBP'/>
+				</and>
+			</marker>
+		</pattern>
+		<disambig postag="VBP"/>
+		<example type="untouched">Pigs know that.</example>
+		<example type="ambiguous" inputform="know[know/VB,know/VBP]" outputform="know[know/VBP]">We <marker>know</marker> that.</example>     
+    </rule>
+    <rule id="VBP_VBZ_NNS" name="VBZ/NN->VBZ">
+    	<pattern>
+    		<token postag="VBP"/>
+    		<marker>
+    		<and>
+    			<token postag="VBZ"/>
+    			<token postag="NN"/>
+    		</and>
+    		</marker>
+    	</pattern>
+    	<disambig postag="VBZ"/>
+    	<example type="untouched">He comes from another city.</example>
+    	<example type="ambiguous" inputform="comes[come/VBZ,comes/NN]" outputform="comes[come/VBZ]">What we know <marker>comes</marker> from a book.</example>
+    </rule>
+        
+    <!--  This is a special cascade, do not change the order of these rules! -->
+    <rulegroup id="POS" name="Else's -> POS">
+    <rule>
+    	<pattern>
+    		<token regexp="yes">else|\d+</token>
+    		<token>'</token>
+    		<marker>
+    		<token>s</token>
+    		</marker>
+    		<token postag="NN.*" postag_regexp="yes"/>
+    	</pattern>
+		<disambig action="add"><wd pos="POS" lemma="s"></wd></disambig>
+    	<example type="untouched">His books are nice.</example>
+    	<example type="ambiguous" inputform="s[be/VBZ]" outputform="s[be/VBZ,s/POS]" >Somebody else'<marker>s</marker> hypothesis needs to be tested.</example>    	
+    </rule>
+    <rule>
+    	<pattern>
+    		<token postag="UNKNOWN" regexp="yes">\p{Lu}.+</token>
+    		<token>'</token>
+    		<marker>
+    		<token>s</token>
+    		</marker>
+    		<token postag="NN.*" postag_regexp="yes"/>
+    	</pattern>
+		<disambig action="add"><wd pos="POS" lemma="s"></wd></disambig>
+    	<example type="untouched">His books are nice.</example>
+    	<example type="ambiguous" inputform="s[be/VBZ]" outputform="s[be/VBZ,s/POS]" >WD-2'<marker>s</marker> hypothesis needs to be tested.</example>    	
+    </rule>
+    <rule id="ONES_POS" name="One's -> POS">
+    	<pattern>
+    		<token postag_regexp="yes" postag="NN|JJ|CD|UNKNOWN"/>
+    		<token>'</token>
+    		<marker>
+    		<token>s</token>
+    		</marker>
+    		<token postag="NN.*" postag_regexp="yes"/>
+    	</pattern>
+    	<disambig postag="POS"/>
+    	<example type="untouched">His books are nice.</example>
+    	<example type="ambiguous" inputform="s[be/VBZ,s/POS]" outputform="s[s/POS]" >One'<marker>s</marker> hypothesis needs to be tested.</example>    	
+    	<example type="ambiguous" inputform="s[be/VBZ,s/POS]" outputform="s[s/POS]" >Somebody else'<marker>s</marker> hypothesis needs to be tested.</example>    	
+    	<example type="ambiguous" inputform="s[be/VBZ,s/POS]" outputform="s[s/POS]" >Apollo 11'<marker>s</marker> flight needs to be tested.</example>
+    	<example type="ambiguous" inputform="s[be/VBZ,s/POS]" outputform="s[s/POS]" >WD-2'<marker>s</marker> hypothesis needs to be tested.</example>
+    </rule>
+    </rulegroup>
+    
+    
 </rules>
