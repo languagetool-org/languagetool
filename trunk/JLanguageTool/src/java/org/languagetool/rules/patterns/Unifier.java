@@ -230,7 +230,9 @@ public class Unifier {
         if (tokSequence.size() == readingsCounter) {
           tokSequence.add(new AnalyzedTokenReadings(aToken, 0));
         } else {
-          tokSequence.get(readingsCounter).addReading(aToken);
+        	 if (readingsCounter<tokSequence.size()) {
+                 tokSequence.get(readingsCounter).addReading(aToken);
+               }   /* else? */        	
         }
         tmpFeaturesFound = tokenFeaturesFound;
       }
