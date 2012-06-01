@@ -58,6 +58,8 @@ public class AvsAnRuleTest extends TestCase {
     //fixed false alarms:
     assertCorrect("Here, a and b are supplementary angles.");
     assertCorrect("The Qur'an was translated into Polish.");
+    assertCorrect("See an:Grammatica");
+    assertCorrect("See http://www.an.com");
 
     // errors:
     assertIncorrect("It was a hour ago.");
