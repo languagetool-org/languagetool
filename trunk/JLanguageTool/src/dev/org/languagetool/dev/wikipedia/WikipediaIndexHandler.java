@@ -153,7 +153,7 @@ public class WikipediaIndexHandler extends DefaultHandler {
     }
     final long end = System.currentTimeMillis();
     final float minutes = (end - start) / (float)(1000 * 60);
-    System.out.printf("Indexing took %.2f minutes", minutes);
+    System.out.printf("Indexing took %.2f minutes\n", minutes);
   }
 
   private class DocumentLimitReachedException extends RuntimeException {
