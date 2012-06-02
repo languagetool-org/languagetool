@@ -561,7 +561,8 @@ public final class JLanguageTool {
         continue;
       }
 
-      if (disabledCategories.contains(rule.getCategory().getName())) {
+      final Category category = rule.getCategory();
+      if (category != null && disabledCategories.contains(category.getName())) {
         continue;
       }
       
