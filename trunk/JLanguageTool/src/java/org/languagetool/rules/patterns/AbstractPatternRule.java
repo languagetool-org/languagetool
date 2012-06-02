@@ -38,34 +38,24 @@ import org.languagetool.rules.RuleMatch;
  * 
  * @author Marcin Miłkowski
  */
-
 public abstract class AbstractPatternRule extends Rule {
 
-  private final String id;
-
-  private final String description;
-
+  protected final Language language;
   protected final List<Element> patternElements;
+  protected final boolean testUnification;
+  protected final boolean sentStart;
 
   protected Unifier unifier;
-
-  protected final Language language;
-
+  protected AnalyzedTokenReadings[] unifiedTokens;
   protected int startPositionCorrection;
-
   protected int endPositionCorrection;
-
   protected boolean prevMatched;
 
-  protected final boolean testUnification;
-
+  private final String id;
+  private final String description;
   private final boolean getUnified;
 
   private boolean groupsOrUnification;
-
-  protected AnalyzedTokenReadings[] unifiedTokens;  
-
-  protected final boolean sentStart;
 
   public AbstractPatternRule(final String id, 
       final String description,
@@ -118,13 +108,11 @@ public abstract class AbstractPatternRule extends Rule {
 
   @Override
   public RuleMatch[] match(AnalyzedSentence text) throws IOException {
-    // TODO Auto-generated method stub
     return null;
   }
 
   @Override
   public void reset() {
-    // TODO Auto-generated method stub
   }
 
   public final void setStartPositionCorrection(final int startPositionCorrection) {
