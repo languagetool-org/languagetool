@@ -1450,5 +1450,17 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
 		</pattern>
 		<disambig postag="VB"/>
 		<example type="ambiguous" inputform="train[train/NN,train/VB,train/VBP]" outputform="train[train/VB]">Our army helped <marker>train</marker> the Armenian soldiers.</example>
+	</rule>
+	
+	<rule id="CD_AD" name="24 AD">
+		<pattern case_sensitive="yes">
+			<token postag="CD"/>
+			<marker>
+				<token>AD</token>
+			</marker>
+		</pattern>
+		<disambig postag="NNP"/>
+		<example type="untouched">1 ad for you</example>
+		<example type="ambiguous" inputform="AD[AD/NNP,ad/NN]" outputform="AD[AD/NNP]">24 <marker>AD</marker> is a memorable date.</example>
 	</rule>           
 </rules>
