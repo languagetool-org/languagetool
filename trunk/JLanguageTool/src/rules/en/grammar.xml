@@ -7790,10 +7790,11 @@ $Id$
         <rule id="CD_NN" name="Possible agreement error: numeral + singular countable noun">
             <pattern>
                 <marker>
-                    <token postag="CD"><exception regexp="yes">one|thou|zero|1</exception><exception scope="previous" postag="DT|PRP\$" postag_regexp="yes"/></token>
-                    <token postag="NN:UN|NN" postag_regexp="yes"><exception postag="NN:U|NNS|NNPS|JJ.*|IN" postag_regexp="yes"></exception><exception>will</exception></token>
-                </marker>
-                <token><exception postag="NN.*" postag_regexp="yes"></exception><exception>'</exception></token>
+                    <token spacebefore="yes" postag="CD"><exception regexp="yes">one|thou|zero|1</exception><exception scope="previous" postag="DT|PRP\$|POS" postag_regexp="yes"/><exception regexp="yes" scope="previous">January|February|March|April|May|June|July|August|September|October|November|December|size|\$\d+</exception><exception spacebefore="no" scope="previous">.</exception></token>
+                    <token postag="NN:UN|NN" postag_regexp="yes"><exception postag="NN:U|NNS|NNPS|JJ.*|IN" postag_regexp="yes"></exception><exception>will</exception>
+                    <exception regexp="yes">mm|lb|yd|ft|Msec|km|cm|mg|kg|gm|cc|stat|kc|hr</exception></token>
+                </marker>                
+                <token><exception postag="NN.*" postag_regexp="yes"></exception><exception>'</exception></token>                
             </pattern>
             <message>Possible agreement error. The noun <match no="2"></match> seems to be countable, so probably you should use: <suggestion><match no="1"></match> <match no="2" postag="NNS|NNPS" postag_regexp="yes"></match></suggestion>.</message>
             <short>Grammatical problem</short>
@@ -7804,6 +7805,11 @@ $Id$
             <example type="correct">I have two book readers in my palmtop.</example>
             <example type="correct">At its 1864 convention, the Republican Party selected Andrew Johnson.</example>
             <example type="correct">The 2007 ceremony was watched by more than 40 million Americans.</example>
+            <example type="correct">The $6,100,000,000 measure, which was passed last Monday by the Senate...</example>
+            <example type="correct">Friday's letters asked for a Nov. 15 meeting.</example>
+            <example type="correct">It takes about 16 Msec. to traverse 25 mm. of tissue.</example>
+            <example type="correct">$800 billion economy was envisioned for the 1970s</example>
+            <example type="correct">Middle East peace after Israel's 1956 invasion of Egypt</example>
         </rule>
         <rule id="MANY_NN" name="Possible agreement error: 'many/several/few' + singular countable noun">
             <pattern>

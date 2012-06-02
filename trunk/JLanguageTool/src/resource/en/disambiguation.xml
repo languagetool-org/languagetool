@@ -111,7 +111,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             <marker>
                 <token>are</token>
             </marker>
-            <token postag="JJ.*|VBG|IN|DT" postag_regexp="yes"></token>
+            <token postag="JJ.*|VBG|IN|DT|RB" postag_regexp="yes"></token>
         </pattern>
         <disambig><match no="1" postag="VBP" postag_regexp="yes"></match></disambig>
         <example type="ambiguous" inputform="are[are/NN,be/VBP]" outputform="are[be/VBP]">What follows <marker>are</marker> the terms used by the Aikikai Foundation</example>
@@ -1389,7 +1389,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
     	<disambig postag="VBZ"/>
     	<example type="untouched">He comes from another city.</example>
     	<example type="ambiguous" inputform="comes[come/VBZ,comes/NN]" outputform="comes[come/VBZ]">What we know <marker>comes</marker> from a book.</example>
-    </rule>
+    </rule>	
         
     <!--  This is a special cascade, do not change the order of these rules! -->
     <rulegroup id="POS" name="Else's -> POS">
@@ -1462,5 +1462,22 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
 		<disambig postag="NNP"/>
 		<example type="untouched">1 ad for you</example>
 		<example type="ambiguous" inputform="AD[AD/NNP,ad/NN]" outputform="AD[AD/NNP]">24 <marker>AD</marker> is a memorable date.</example>
-	</rule>           
+	</rule>
+	
+	<rule id="CAME_FROM" name="came -> vbd">
+		<pattern>
+		<marker><token>came</token></marker>
+		<token>from</token>
+		</pattern>
+		<disambig postag="VBD" />
+	</rule>       
+	
+	<rule id="SAW_PRP" name='saw him'>
+		<pattern>
+			<marker><token>saw</token></marker>
+			<token postag="PRP"/>
+		</pattern>
+		<disambig postag="VBD"/>
+		<example type="ambiguous" inputform="saw[saw/NN,saw/VB,saw/VBP,see/VBD]" outputform="saw[see/VBD]">The years 1812 and 1813 <marker>saw</marker> him in Germany and France again</example>
+	</rule>    
 </rules>
