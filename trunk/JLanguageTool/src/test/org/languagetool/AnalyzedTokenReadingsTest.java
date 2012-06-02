@@ -40,7 +40,7 @@ public class AnalyzedTokenReadingsTest extends TestCase {
     assertEquals(false, tokenReadings.isParaEnd());
     tokenReadings.addReading(new AnalyzedToken("word", "PARA_END", null));
     assertEquals(true, tokenReadings.isParaEnd());
-    assertEquals(false, tokenReadings.isSentStart());
+    assertEquals(false, tokenReadings.isSentStart());            
     //but you can't add SENT_START to a non-empty token
     //and get isSentStart == true
     tokenReadings.addReading(new AnalyzedToken("word", "SENT_START", null));
@@ -54,6 +54,15 @@ public class AnalyzedTokenReadingsTest extends TestCase {
     AnalyzedToken aTok3 = new AnalyzedToken("word", "POS", "lemma");
     aTok3.setWhitespaceBefore(true);
     assertEquals(aTok3, tokenReadings.getAnalyzedToken(0));
+    final AnalyzedTokenReadings testReadings = new AnalyzedTokenReadings(aTok3);
+    testReadings.removeReading(aTok3);
+    assertTrue(testReadings.getReadingsLength()==1);
+    assertEquals(testReadings.getToken(), "word");
+    assertTrue(!testReadings.hasPosTag("POS"));
+    //now what about removing something that does not belong to testReadings?
+    testReadings.leaveReading(aTok2);
+    assertEquals(testReadings.getToken(), "word");
+    assertTrue(!testReadings.hasPosTag("POS"));
   }
 
   public void testHasPosTag() {

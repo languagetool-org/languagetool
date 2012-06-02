@@ -97,13 +97,13 @@ public class AnalyzedToken {
     }
     boolean found = true;
     if (!"".equals(an.getToken())) { //token cannot be null
-      found &= this.token.equals(an.getToken());      
+      found &= an.getToken().equals(this.token);      
     }
     if (an.getLemma() != null) {
-      found &= this.lemma.equals(an.getLemma());             
+      found &= an.getLemma().equals(this.lemma);             
     }
     if (an.getPOSTag() != null) {
-      found &= this.posTag.equals(an.getPOSTag());      
+      found &= an.getPOSTag().equals(this.posTag);      
     }
     return found;
   }
