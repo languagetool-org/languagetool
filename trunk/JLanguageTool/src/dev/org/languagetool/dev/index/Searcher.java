@@ -63,7 +63,7 @@ public class Searcher {
     this.maxHits = maxHits;
   }
 
-  public List<MatchingSentence> findRuleMatchesOnIndex(PatternRule rule, Language language, File indexDir) throws IOException {
+  public SearcherResult findRuleMatchesOnIndex(PatternRule rule, Language language, File indexDir) throws IOException {
     final IndexSearcher indexSearcher = new IndexSearcher(FSDirectory.open(indexDir));
     try {
       return findRuleMatchesOnIndex(rule, language, indexSearcher);
@@ -72,12 +72,13 @@ public class Searcher {
     }
   }
 
-  public List<MatchingSentence> findRuleMatchesOnIndex(PatternRule rule, Language language, IndexSearcher indexSearcher) throws IOException {
-    final Query query = createQuery(rule);
-    final TopDocs topDocs = indexSearcher.search(query, maxHits);
+  public SearcherResult findRuleMatchesOnIndex(PatternRule rule, Language language, IndexSearcher indexSearcher) throws IOException {
+    final PossiblyRelaxedQuery query = createQuery(rule);
+    final TopDocs topDocs = indexSearcher.search(query.query, maxHits);
     final JLanguageTool languageTool = getLanguageToolWithOneRule(language, rule);
     final List<MatchingSentence> matchingSentences = findMatchingSentences(indexSearcher, topDocs, languageTool);
-    return matchingSentences;
+    final int sentencesChecked = getSentenceCheckCount(query, topDocs, indexSearcher);
+    return new SearcherResult(matchingSentences, sentencesChecked);
   }
 
   PatternRule getRuleById(String ruleId, File xmlRuleFile) throws IOException {
@@ -89,6 +90,20 @@ public class Searcher {
       }
     }
     throw new PatternRuleNotFoundException(ruleId, xmlRuleFile);
+  }
+
+  private int getSentenceCheckCount(PossiblyRelaxedQuery query, TopDocs topDocs, IndexSearcher indexSearcher) {
+    final int sentencesChecked;
+    final int indexSize = indexSearcher.getIndexReader().numDocs();
+    if (query.isRelaxed) {
+      // unsupported rules: the number of documents we really ran LT on:
+      sentencesChecked = Math.min(maxHits, topDocs.totalHits);
+    } else {
+      // supported rules: no need to run LT (other than getting the exact match position), so we can claim
+      // that we really have checked all the sentences in the index:
+      sentencesChecked = indexSize;
+    }
+    return sentencesChecked;
   }
 
   private List<MatchingSentence> findMatchingSentences(IndexSearcher indexSearcher, TopDocs topDocs, JLanguageTool languageTool) throws IOException {
@@ -105,15 +120,18 @@ public class Searcher {
     return matchingSentences;
   }
 
-  private Query createQuery(PatternRule rule) {
+  private PossiblyRelaxedQuery createQuery(PatternRule rule) {
     final PatternRuleQueryBuilder patternRuleQueryBuilder = new PatternRuleQueryBuilder();
     Query query;
+    boolean relaxed;
     try {
       query = patternRuleQueryBuilder.buildQuery(rule);
+      relaxed = false;
     } catch (UnsupportedPatternRuleException e) {
       query = patternRuleQueryBuilder.buildPossiblyRelaxedQuery(rule);
+      relaxed = true;
     }
-    return query;
+    return new PossiblyRelaxedQuery(query, relaxed);
   }
 
   private JLanguageTool getLanguageToolWithOneRule(Language lang, PatternRule patternRule) throws IOException {
@@ -123,6 +141,17 @@ public class Searcher {
     }
     langTool.addRule(patternRule);
     return langTool;
+  }
+
+  class PossiblyRelaxedQuery {
+
+    Query query;
+    boolean isRelaxed;
+
+    PossiblyRelaxedQuery(Query query, boolean relaxed) {
+      this.query = query;
+      isRelaxed = relaxed;
+    }
   }
 
   private static void ensureCorrectUsageOrExit(String[] args) {
@@ -148,9 +177,9 @@ public class Searcher {
     }
     final File indexDir = new File(args[3]);
     final PatternRule rule = searcher.getRuleById(ruleId, ruleFile);
-    final List<MatchingSentence> ruleMatchesOnIndex = searcher.findRuleMatchesOnIndex(rule, language, indexDir);
+    final SearcherResult searcherResult = searcher.findRuleMatchesOnIndex(rule, language, indexDir);
     int i = 1;
-    for (MatchingSentence ruleMatch : ruleMatchesOnIndex) {
+    for (MatchingSentence ruleMatch : searcherResult.getMatchingSentences()) {
       System.out.println(i + ": " + ruleMatch.getSentence());
       i++;
     }
