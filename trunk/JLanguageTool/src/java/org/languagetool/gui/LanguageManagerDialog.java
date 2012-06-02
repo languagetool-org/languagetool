@@ -66,7 +66,9 @@ public class LanguageManagerDialog implements ActionListener {
   public LanguageManagerDialog(Frame owner, List<Language> languages) {
     this.owner = owner;
     for (Language lang : languages) {
-      ruleFiles.add(new File(lang.getRuleFileName()));
+        for (final String ruleFile : lang.getRuleFileName()) {
+            ruleFiles.add(new File(ruleFile));
+        }
     }
     //messages = JLanguageTool.getMessageBundle();
   }

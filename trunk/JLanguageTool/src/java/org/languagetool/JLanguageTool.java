@@ -348,9 +348,11 @@ public final class JLanguageTool {
    * @throws SAXException
    * @throws IOException
    */
-  public void activateDefaultPatternRules() throws IOException {
-    final String defaultPatternFilename = language.getRuleFileName();
-    final List<PatternRule> patternRules = loadPatternRules(defaultPatternFilename);
+  public void activateDefaultPatternRules() throws IOException {    
+    final List<PatternRule> patternRules = new ArrayList<PatternRule>();    
+    for (String patternRuleFileName : language.getRuleFileName()) {
+        patternRules.addAll(loadPatternRules(patternRuleFileName));
+    }    
     userRules.addAll(patternRules);
   }
 

@@ -151,8 +151,20 @@ public abstract class Language {
   /**
    * Get the location of the rule file.
    */
-  public String getRuleFileName() {
-    return JLanguageTool.getDataBroker().getRulesDir() + "/" + getShortName() + "/" + JLanguageTool.PATTERN_FILE;
+  public List<String> getRuleFileName() {
+      List<String> ruleFiles = new ArrayList<String>();
+      ruleFiles.add(JLanguageTool.getDataBroker().getRulesDir() + 
+              "/" + getShortName() + "/" + JLanguageTool.PATTERN_FILE);
+      if (getShortNameWithVariant().length() > 2) {
+          final String fileName = getShortName() + "/" +
+                  getShortNameWithVariant() + 
+                  "/" + JLanguageTool.PATTERN_FILE;
+          if (JLanguageTool.getDataBroker().ruleFileExists(fileName)) {
+              ruleFiles.add(JLanguageTool.getDataBroker().getRulesDir() + 
+                      "/" + fileName);
+          }
+      }
+      return ruleFiles;
   }
 
   /**

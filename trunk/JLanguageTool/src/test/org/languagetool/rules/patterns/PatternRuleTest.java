@@ -68,13 +68,13 @@ public class PatternRuleTest extends TestCase {
         continue;
       }
       System.out.println("Running tests for " + lang.getName() + "...");
-      final PatternRuleLoader ruleLoader = new PatternRuleLoader();
       final JLanguageTool languageTool = new JLanguageTool(lang);
       final JLanguageTool allRulesLanguageTool = new JLanguageTool(lang);
       allRulesLanguageTool.activateDefaultPatternRules();
-      final String name = "/" + lang.getShortName() + "/grammar.xml";
-      final List<PatternRule> rules = ruleLoader.getRules(JLanguageTool.getDataBroker().
-              getFromRulesDirAsStream(name), name);
+      final List<PatternRule> rules = new ArrayList<PatternRule>();
+      for (String patternRuleFileName : lang.getRuleFileName()) {
+          rules.addAll(languageTool.loadPatternRules(patternRuleFileName));
+      }
       warnIfRegexpSyntaxNotKosher(rules, lang);
       testGrammarRulesFromXML(rules, languageTool, allRulesLanguageTool, lang);
     }

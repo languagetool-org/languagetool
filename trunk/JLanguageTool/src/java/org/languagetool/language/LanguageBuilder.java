@@ -19,6 +19,7 @@
 package org.languagetool.language;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -85,8 +86,10 @@ public class LanguageBuilder {
         return Collections.emptyList();
       }
       @Override
-      public String getRuleFileName() {
-        return file.getAbsolutePath();
+      public List<String> getRuleFileName() {
+          List<String> ruleFiles = new ArrayList<String>();
+          ruleFiles.add(file.getAbsolutePath());
+          return ruleFiles;
       }
       @Override
       public boolean isExternal() {

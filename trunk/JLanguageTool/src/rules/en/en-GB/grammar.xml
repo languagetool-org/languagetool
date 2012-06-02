@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../print.xsl" ?>
+<?xml-stylesheet type="text/css" href="../rules.css"
+title="Easy editing stylesheet" ?>
+<!--
+British English Grammar and Typo Rules for LanguageTool
+See tagset.txt for the meaning of the POS tags
+Copyright (C) 2012 Marcin Miłkowski (http://www.languagetool.org)
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+USA
+
+$Id: grammar.xml 7145 2012-06-01 10:52:39Z milek_pl $
+-->
+<!--suppress CheckTagEmptyBody -->
+<rules lang="en" xsi:noNamespaceSchemaLocation="../rules.xsd"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<!-- ====================================================================== -->
+	<!-- Possible typos -->
+	<!-- ====================================================================== -->
+	<category name="American English phrases">
+		<rule id="ZIP_CODE_POSTCODE" name="zip code/postcode">
+			<pattern>
+				<token>zip</token>
+				<token>code</token>
+			</pattern>
+			<message>
+				This expression is common for American English. Did you mean <suggestion>postcode</suggestion>?
+			</message>
+			<url>http://www.learnenglish.de/mistakes/USvsBrEnglish.html</url>
+			<example type="incorrect">Please enter your <marker>zip code</marker>.</example>
+			<example type="correct">Please enter your postcode.</example>
+		</rule>
+		<rule id="APARTMENT-FLAT" name="apartment/flat">
+			<pattern>
+				<token>apartment</token>				
+			</pattern>
+			<message>
+				This word is common for American English. Did you mean <suggestion>flat</suggestion>?
+			</message>
+			<url>http://www.learnenglish.de/mistakes/USvsBrEnglish.html</url>
+			<example type="incorrect">I just bought an <marker>apartment</marker>?</example>
+			<example type="correct">Where's your flat?</example>
+		</rule>
+		<rule id="BAND-AID_PLASTER" name="band-aid/plaster">
+			<pattern>
+				<token>band-aid</token>				
+			</pattern>
+			<message>
+				This word is common for American English. Did you mean <suggestion>plaster</suggestion>?
+			</message>
+			<url>http://www.learnenglish.de/mistakes/USvsBrEnglish.html</url>
+			<example type="incorrect">Where's the <marker>band-aid</marker>?</example>
+			<example type="correct">Where's the plaster?</example>
+		</rule>
+	</category>
+</rules>
