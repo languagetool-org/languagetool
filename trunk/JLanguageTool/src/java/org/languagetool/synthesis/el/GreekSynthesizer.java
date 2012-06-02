@@ -18,11 +18,8 @@
  */
 package org.languagetool.synthesis.el;
 
-import org.languagetool.AnalyzedToken;
 import org.languagetool.JLanguageTool;
 import org.languagetool.synthesis.BaseSynthesizer;
-
-import java.io.IOException;
 
 /**
  *
@@ -36,24 +33,5 @@ public class GreekSynthesizer extends BaseSynthesizer {
     public GreekSynthesizer() {
         super(JLanguageTool.getDataBroker().getResourceDir() + RESOURCE_FILENAME,
                 JLanguageTool.getDataBroker().getResourceDir() + TAGS_FILE_NAME);
-    }
-
-    @Override
-    public String[] synthesize(final AnalyzedToken token, final String posTag) throws IOException {
-        //System.out.println(token + "\t" + posTag);
-        for (String s : super.synthesize(token, posTag)) {
-            //System.out.println(s);
-        }
-        return super.synthesize(token, posTag);
-    }
-
-    @Override
-    public String[] synthesize(final AnalyzedToken token, final String posTag,
-            final boolean posTagRegExp) throws IOException {
-        //System.out.println(token + "\t" + posTag + "\t" + posTagRegExp);
-        for (String s : super.synthesize(token, posTag, posTagRegExp)) {
-            //System.out.println(s);
-        }
-        return super.synthesize(token, posTag, posTagRegExp);
     }
 }
