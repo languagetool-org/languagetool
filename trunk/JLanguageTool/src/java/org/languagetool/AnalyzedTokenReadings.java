@@ -183,7 +183,7 @@ public class AnalyzedTokenReadings {
   }
 
   /** 
-   * Removes all the readings but the one that match the token token.
+   * Removes all the readings but the one that match the token given.
    * @since 1.5
    * @param token Token to be matched
    */
@@ -196,6 +196,9 @@ public class AnalyzedTokenReadings {
       if (anTokReading.matches(tmpTok)) {
         l.add(anTokReading);
       }
+    }
+    if (l.isEmpty()) {
+        l.add(new AnalyzedToken(token.getToken(), null, null));
     }
     anTokReadings = l.toArray(new AnalyzedToken[l.size()]);
     setNoRealPOStag();
