@@ -5414,6 +5414,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example type="correct">Un abadenn blijus evel boaz.</example>
     </rule>
 
+    <rulegroup id="EVEL_EGET" name="evel → eget">
+      <rule>
+        <pattern>
+          <token postag="J cmp" skip="3"/>
+          <marker>
+            <token>evel<exception inflected="yes">eget</exception></token>
+          </marker>
+        </pattern>
+        <message>Ret eo implijout ar stagell <suggestion>eget</suggestion>.</message>
+        <example type="incorrect">Brasoc’h eo <marker>evel</marker> ma breur.</example>
+        <example type="correct">Brasoc’h eo evel ma breur.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag="J cmp" skip="3"/>
+          <marker>
+            <token inflected="yes">evel
+              <exception>evel</exception>
+              <exception inflected="yes">eget</exception>
+            </token>
+          </marker>
+        </pattern>
+        <message>Ret eo implijout ar stagell <suggestion><match no="2" regexp_match="evel" regexp_replace="ege"/></suggestion>.</message>
+        <example type="incorrect">Brasoc’h eo <marker>eveldout</marker>.</example>
+        <example type="correct">Brasoc’h eo egedout.</example>
+      </rule>
+    </rulegroup>
+
     <rule id="RENK_RANK" name="a renk bezañ → a rank bezañ">
       <pattern>
         <token>a</token>
