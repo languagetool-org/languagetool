@@ -248,6 +248,16 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <example type="untouched">I cannot do it.</example>
         <example type="ambiguous" inputform="t[t]" outputform="t[not/RB]">I can'<marker>t</marker> do it.</example>
     </rule>
+    <rule name="don't they" id='dont'>
+    	<pattern>
+    		<marker>
+    		<token>don</token>
+    		</marker>
+    		<token regexp="yes">['’]</token>
+    		<token>t</token>
+    	</pattern>
+    	<disambig postag="VBP"/>
+    </rule>
     <rulegroup name="let's" id="LETS1">
         <rule>
             <pattern>
