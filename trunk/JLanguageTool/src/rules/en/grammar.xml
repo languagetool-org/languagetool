@@ -7790,7 +7790,7 @@ $Id$
         <rule id="CD_NN" name="Possible agreement error: numeral + singular countable noun">
             <pattern>
                 <marker>
-                    <token postag="CD"><exception regexp="yes">one|thou|zero</exception></token>
+                    <token postag="CD"><exception regexp="yes">one|thou|zero|1</exception></token>
                     <token postag="NN:UN|NN" postag_regexp="yes"><exception postag="NN:U|NNS|NNPS|JJ.*|IN" postag_regexp="yes"></exception><exception>will</exception></token>
                 </marker>
                 <token><exception postag="NN.*" postag_regexp="yes"></exception><exception>'</exception></token>
@@ -7800,6 +7800,7 @@ $Id$
             <example correction="five books" type="incorrect">I have <marker>five book</marker>.</example>
             <example type="correct">I have <marker>ten books</marker>.</example>
             <example type="correct">I have <marker>one bottle</marker> of wine.</example>
+            <example type="correct">Exactly 1 hour!</example>
             <example type="correct">I have two book readers in my palmtop.</example>
         </rule>
         <rule id="MANY_NN" name="Possible agreement error: 'many/several/few' + singular countable noun">
