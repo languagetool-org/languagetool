@@ -791,7 +791,7 @@ public class Element {
 
   public final void setExceptionSpaceBefore(final boolean isWhite) {
     if (exceptionList != null) {
-      exceptionList.get(exceptionList.size()).setWhitespaceBefore(isWhite);
+      exceptionList.get(exceptionList.size() - 1).setWhitespaceBefore(isWhite);
     }
   }
 
