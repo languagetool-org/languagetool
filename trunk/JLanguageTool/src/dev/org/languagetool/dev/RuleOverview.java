@@ -90,6 +90,7 @@ public final class RuleOverview {
       } else {
         System.out.print("<td valign=\"top\">" + lang.getName() + "</td>");
       }
+      //FIXME: this does not work for en-GB and en-US
       final String xmlFile = JLanguageTool.getDataBroker().getRulesDir() + File.separator + lang.getShortName() + File.separator + "grammar.xml";
       final URL url = this.getClass().getResource(xmlFile);    
       if (url == null) {
