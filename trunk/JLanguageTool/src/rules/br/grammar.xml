@@ -256,9 +256,9 @@ Useful links:
           </token>
           <marker>
             <and>
-              <token regexp="yes" inflected="yes">t.*</token>
+              <token regexp="yes" inflected="yes">t.*|den</token>
               <token regexp="yes">[tz].*
-                <exception regexp="yes" inflected="yes">d.*</exception>
+                <exception regexp="yes" inflected="yes">(?!den$)d.*</exception>
                 <exception regexp="yes">te|zo</exception>
                 <exception regexp="yes" inflected="yes">z.*</exception>
               </token>
@@ -276,6 +276,9 @@ Useful links:
         <example type="correct">Petra a zo c’hoarvezet?</example>
         <example type="correct">Da dour</example>
         <example type="correct">Daou zoo</example>
+        <example type="incorrect">Kalz a <marker>tud</marker></example>
+        <example type="incorrect">Kalz a <marker>zud</marker></example>
+        <example type="correct">Kalz a dud</example>
       </rule>
       <rule>
         <pattern>
