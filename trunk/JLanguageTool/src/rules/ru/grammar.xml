@@ -1,13 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../print.xsl"
-        title="Pretty print" ?>
+title="Pretty print" ?>
 <?xml-stylesheet type="text/css" href="../rules.css"
-        title="Easy editing stylesheet" ?>
+title="Easy editing stylesheet" ?>
 <!--
-LanguageTool. Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+Russian grammar and typo rules for LanguageTool.
+See resource/ru/russian_tags.txt for the meaning of the POS tags.
 
-A Russian grammar rule file for LanguageTool (http://www.languagetool.org)
-Copyright (C) 2008-2012 Yakov Reztsov
+Copyright © 2008-2012 Yakov Reztsov
+http://www.languagetool.org
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA        
+                
 $Id$
 #     REVISION:  $Id$
 -->
@@ -94,8 +110,8 @@ $Id$
                 <example type="correct"><marker>Мы, как правило, ходим</marker> ходим в походы летом.</example>
                 <example type="incorrect" correction="Мы, как правило, ходим"><marker>Мы как правило ходим</marker> в походы летом.</example>
             </rule>
-
-
+            
+            
             <rule>
                 <pattern case_sensitive="yes">
                     <token negate="yes" regexp="yes">[\p{Punct}]|-|—|так<exception postag="SENT_START"></exception></token>
@@ -109,7 +125,7 @@ $Id$
                 <example type="correct"><marker>Мы, как правило,</marker> ходим в походы летом.</example>
                 <example type="incorrect" correction="Мы, как правило,"><marker>Мы как правило,</marker> ходим в походы летом.</example>
             </rule>
-
+            
             <rule>
                 <pattern case_sensitive="yes">
                     <token>,<exception postag="SENT_START"></exception><exception scope="previous">так</exception></token>
@@ -125,7 +141,7 @@ $Id$
                 <example type="correct">Мы, <marker>как правило,</marker> ходим в походы летом.</example>
                 <example type="incorrect">Мы, <marker>как правило</marker> ходим в походы летом.</example>
             </rule>
-
+            
             <rule>
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START"></token>
@@ -157,7 +173,7 @@ $Id$
                 <example type="correct">Они подготовили реферат <marker>как и</marker> на бумажном носителе, так и в электронном виде.</example>
                 <example type="incorrect"><marker>Мы как и</marker> наши товарищи любим заниматься спортом.</example>
             </rule>
-
+            
         </rulegroup>
         <rulegroup default="on" id="A_NO_DA" name="Союзы “а”, “но”">
             <rule>
@@ -191,7 +207,7 @@ $Id$
                 <pattern case_sensitive="yes">
                     <token negate="yes" regexp="yes">[\p{Punct}]|-|—|как|который|которого|которому|
                         котором|которая|которой|которую|которые|которых|
-                        которыми|которое|которым<exception postag="SENT_START"></exception></token>
+                    которыми|которое|которым<exception postag="SENT_START"></exception></token>
                     <token regexp="yes">по-видимому|по-моему|по-твоему|впрочем</token>
                     <token negate="yes">,</token>
                 </pattern>
@@ -201,12 +217,12 @@ $Id$
                 <example type="correct">Это показалось ему, по-видимому, странным.</example>
                 <example type="incorrect" correction="ему, по-видимому, странным">Это показалось <marker>ему по-видимому странным</marker>.</example>
             </rule>
-
+            
             <rule>
                 <pattern case_sensitive="yes">
                     <token negate="yes" regexp="yes">[\p{Punct}]|-|—|как|который|которого|которому|
                         котором|которая|которой|которую|которые|которых|
-                        которыми|которое|которым<exception postag="SENT_START"></exception></token>
+                    которыми|которое|которым<exception postag="SENT_START"></exception></token>
                     <token regexp="yes">по-видимому|по-моему|по-твоему|впрочем</token>
                     <token>,</token>
                 </pattern>
@@ -279,7 +295,7 @@ $Id$
                     <token negate="yes" regexp="yes">[\p{Punct}]|-|—</token>
                 </pattern>
                 <message>Запятая пропущена здесь:<suggestion>\2,</suggestion>.</message>
-
+                
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
                 <short>Нет запятой.</short>
                 <example type="correct">Эта работа, <marker>во-первых,</marker> представляет огромную научную ценность.</example>
@@ -292,7 +308,7 @@ $Id$
                     <token negate="yes" regexp="yes">[\p{Punct}]</token>
                 </pattern>
                 <message>Запятая пропущена здесь:<suggestion>\2, \3</suggestion>.</message>
-
+                
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
                 <short>Нет запятой.</short>
                 <example type="correct">Во-первых, эта работа представляет огромную научную ценность.</example>
@@ -309,11 +325,11 @@ $Id$
                 <message>Запятая пропущена здесь:<suggestion>\1, \2 \3, \4</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
                 <short>Нет запятой.</short>
-
+                
                 <example type="correct">Эта работа, видишь ли, представляет огромную научную ценность.</example>
                 <example type="incorrect" correction="работа, видишь ли, представляет">Эта <marker>работа видишь ли представляет</marker> огромную научную ценность.</example>
             </rule>
-
+            
             <rule>
                 <!-- Вводные слова:   видишь (ли), понимаешь (ли), ...-->
                 <pattern case_sensitive="yes">
@@ -372,7 +388,7 @@ $Id$
                 <example type="correct">Мы, к сожалению, не успели на поезд.</example>
                 <example type="incorrect" correction="Мы, к сожалению,"><marker>Мы к сожалению не</marker> успели на поезд.</example>
             </rule>
-
+            
             <rule>
                 <!--Вводные слова: к счастью, к несчастью, к радости, к ужасу, к сожалению, ...-->
                 <pattern case_sensitive="yes">
@@ -415,7 +431,7 @@ $Id$
                 <example type="correct">К сожалению, мы не успели на поезд.</example>
                 <example type="incorrect" correction="К сожалению, мы"><marker>К сожалению мы</marker> не успели на поезд.</example>
             </rule>
-
+            
             <rule>
                 <!-- Вводные слова: конечно, несомненно, вероятно, может быть, кажется, однако ...-->
                 <pattern case_sensitive="yes">
@@ -525,8 +541,8 @@ $Id$
                 <example type="incorrect" correction="Одним словом, эта"><marker>Одним словом эта</marker> работа представляет огромную научную ценность.</example>
             </rule>
         </rulegroup>
-
-
+        
+        
         <rulegroup default="on" id="Oborot_ne_kto_inoj_kak" name="Запятая в сравнительных оборотах">
             <!--   Запятая ставится перед как в сравнительных оборотах "не кто иной, как" и "не что иное, как"
             -->
@@ -544,10 +560,10 @@ $Id$
                 <example type="incorrect">Был это <marker>не кто иной как</marker> наш мастер.</example>
             </rule>
         </rulegroup>
-
-
-
-
+        
+        
+        
+        
         <rulegroup default="off" id="PREDLOGI_KROME" name="Дополнения, вводимые предлогами: “кроме”, ...">
             <!--Дополнения, вводимые предлогами: кроме, помимо, вместо, сверх, за исключением
             -->
@@ -586,7 +602,7 @@ $Id$
             <example type="correct">В тайге ещё сохранились редкие хищники, в том числе дальневосточный леопард.</example>
             <example type="incorrect">В тайге ещё сохранились редкие <marker>хищники в том числе</marker> дальневосточный леопард.</example>
         </rule>
-
+        
         <rule default="on" id="DEFIS_COMMA" name="Дефис и запятая">
             <pattern>
                 <token regexp="yes">-|—|–</token>
@@ -597,7 +613,7 @@ $Id$
             <example type="correct">Здорово живешь, соседка, - поздоровался Иван.</example>
             <example type="incorrect">Здорово живешь, соседка<marker> -,</marker> поздоровался Иван.</example>
         </rule>
-
+        
         <rulegroup default="on" id="Hyphen_and_spaces" name="Пробелы перед/после дефиса.">
             <rule>
                 <pattern case_sensitive="yes">
@@ -610,7 +626,7 @@ $Id$
                 <example type="correct">Кое-кто пошёл в магазин.</example>
                 <example type="incorrect"><marker>Кое -кто</marker> пошёл в магазин.</example>
             </rule>
-
+            
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">.*[а-я]-</token>
@@ -622,8 +638,8 @@ $Id$
                 <example type="incorrect"><marker>Кое- кто</marker> пошёл в магазин.</example>
             </rule>
         </rulegroup>
-
-
+        
+        
         <rulegroup default="on" id="NO_KAK_POPALO" name="“Что угодно”, “как попало”">
             <!--Что угодно, как попало  не выделяются запятыми.
             -->
@@ -658,7 +674,7 @@ $Id$
                 <example type="incorrect">Вокалисты неритмично поют,и<marker>, вдобавок,</marker>не те ноты.</example>
             </rule>
         </rulegroup>
-
+        
         <rulegroup default="on" id="NO_NE_KAK" name="“Почти как”, “не как”, ...">
             <!--Перед сравнительным оборотом стоит "не" или слова: совсем, совершенно, почти, именно  ->> запятая не ставится.
             -->
@@ -701,7 +717,7 @@ $Id$
                 <example type="correct">Работа была сделана не так чтобы полностью.</example>
                 <example type="incorrect">Работа была сделана <marker>не так, чтобы</marker> полностью.</example>
             </rule>
-
+            
         </rulegroup>
         <rulegroup default="on" id="I_TO_I_SE" name="Цельные выражения: “ни рыба ни мясо”, ...">
             <!-- Запятая не ставится в цельных выражениях:
@@ -726,7 +742,7 @@ $Id$
                 <example type="correct">И то и сё.</example>
                 <example type="incorrect"><marker>И то, и сё</marker>.</example>
             </rule>
-
+            
             <rule>
                 <pattern>
                     <token>ни</token>
@@ -753,7 +769,7 @@ $Id$
                 <example type="correct">И так и сяк.</example>
                 <example type="incorrect"><marker>И так, и сяк</marker>.</example>
             </rule>
-
+            
         </rulegroup>
     </category>
     <category name="Типографика">
@@ -777,7 +793,7 @@ $Id$
             <example type="correct">Продолжение следует…</example>
             <example type="incorrect">Продолжение следует<marker>...</marker></example>
         </rule>
-
+        
         <rule default="on" id="PUNKT_KAVITCHKI" name="Кавычки и знаки препинания">
             <pattern>
                 <token spacebefore="no" regexp="yes"><exception scope="previous" regexp="yes">;|:</exception>;|:|-|—</token>
@@ -789,7 +805,7 @@ $Id$
             <example type="correct">У нас опубликована сенсационная ;) статья.</example>
             <example type="incorrect">Газета «Правда<marker>:»</marker> &quot;У нас опубликована сенсационная статья&quot;!</example>
         </rule>
-
+        
         <rulegroup default="on" id="Digit_defis_letter" name="Окончания порядковых числительных">
             <rule>
                 <pattern>
@@ -814,11 +830,11 @@ $Id$
                 <example type="incorrect">План должен быть выполнен к <marker>6 му</marker> сентября.</example>
             </rule>
         </rulegroup>
-
-
+        
+        
     </category>
     <category name="Грамматика">
-
+        
         <rulegroup default="on" id="SoglasovanieP" name="Согласование падежей">
             <rule>
                 <pattern>
@@ -840,7 +856,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-
+                    
                     <!--           ADJ:.*:R   NN:.*:.*:R    -->
                     <token postag="SENT_START" skip="-1"><exception scope="next" postag_regexp="yes" postag="NN:.*:.*:R"></exception></token>
                     <marker>
@@ -849,7 +865,7 @@ $Id$
                     </marker>
                     <token regexp="yes">.|;</token>
                 </pattern>
-
+                
                 <message>Прилагательное не согласуется с существительным по падежу.
                     <suggestion><match no="2" postag="ADJ:(.*):.*" postag_regexp="yes" postag_replace="ADJ:$1:R"></match> <match no="3"></match></suggestion>
                 </message>
@@ -858,7 +874,7 @@ $Id$
                 <example type="correct">Нет крепкого сна.</example>
                 <example type="incorrect">Нет <marker>крепкому сна</marker>.</example>
             </rule>
-
+            
             <rule>
                 <pattern>
                     <!--           ADJ:.*:D   NN:.*:.*:D    -->
@@ -869,7 +885,7 @@ $Id$
                     </marker>
                     <token regexp="yes">.|;</token>
                 </pattern>
-
+                
                 <message>Прилагательное не согласуется с существительным по падежу.
                     <suggestion><match no="2" postag="ADJ:(.*):.*" postag_regexp="yes" postag_replace="ADJ:$1:D"></match> <match no="3"></match></suggestion>
                 </message>
@@ -878,7 +894,7 @@ $Id$
                 <example type="correct">Вода стекала по мягкому жёлобу.</example>
                 <example type="incorrect">Вода стекала по <marker>мягкого жёлобу</marker>.</example>
             </rule>
-
+            
             <rule>
                 <pattern>
                     <!--           ADJ:.*:V   NN:.*:.*:V    -->
@@ -889,7 +905,7 @@ $Id$
                     </marker>
                     <token regexp="yes">.|;</token>
                 </pattern>
-
+                
                 <message>Прилагательное не согласуется с существительным по падежу.
                     <suggestion><match no="2" postag="ADJ:(.*):.*" postag_regexp="yes" postag_replace="ADJ:$1:V"></match> <match no="3"></match></suggestion>
                 </message>
@@ -908,7 +924,7 @@ $Id$
                     </marker>
                     <token regexp="yes">.|;</token>
                 </pattern>
-
+                
                 <message>Прилагательное не согласуется с существительным по падежу.
                     <suggestion><match no="2" postag="ADJ:(.*):.*" postag_regexp="yes" postag_replace="ADJ:$1:T"></match> <match no="3"></match></suggestion>
                 </message>
@@ -927,7 +943,7 @@ $Id$
                     </marker>
                     <token regexp="yes">.|;</token>
                 </pattern>
-
+                
                 <message>Прилагательное не согласуется с существительным по падежу.
                     <suggestion><match no="2" postag="ADJ:(.*):.*" postag_regexp="yes" postag_replace="ADJ:$1:P"></match> <match no="3"></match></suggestion>
                 </message>
@@ -939,7 +955,7 @@ $Id$
         </rulegroup>
         <rulegroup default="on" id="SoglasovanieG" name="Согласование существительного с прилагательным по роду/числу">
             <rule>
-
+                
                 <pattern>
                     <!--           ADJ:Masc   NN:Masc    -->
                     <token postag="SENT_START" skip="-1"><exception scope="next" postag_regexp="yes" postag="NN:Masc:Sin:.*"></exception></token>
@@ -949,7 +965,7 @@ $Id$
                     </marker>
                     <token regexp="yes">.|;</token>
                 </pattern>
-
+                
                 <message>Прилагательное не согласуется с существительным по роду.
                     <suggestion><match no="2" postag="ADJ:.*:(.*)" postag_regexp="yes" postag_replace="ADJ:Masc:$1"></match> <match no="3"></match></suggestion>
                 </message>
@@ -968,7 +984,7 @@ $Id$
                     </marker>
                     <token regexp="yes">.|;</token>
                 </pattern>
-
+                
                 <message>Прилагательное не согласуется с существительным по роду.
                     <suggestion><match no="2" postag="ADJ:.*:(.*)" postag_regexp="yes" postag_replace="ADJ:Fem:$1"></match> <match no="3"></match></suggestion>
                 </message>
@@ -987,7 +1003,7 @@ $Id$
                     </marker>
                     <token regexp="yes">.|;</token>
                 </pattern>
-
+                
                 <message>Прилагательное не согласуется с существительным по роду.
                     <suggestion><match no="2" postag="ADJ:.*:(.*)" postag_regexp="yes" postag_replace="ADJ:Neut:$1"></match> <match no="3"></match></suggestion>
                 </message>
@@ -996,7 +1012,7 @@ $Id$
                 <example type="correct">Вдали виднелось синее небо.</example>
                 <example type="incorrect">Вдали виднелось <marker>синий небо</marker>.</example>
             </rule>
-
+            
             <rule>
                 <pattern>
                     <!--           ADJ:PL   NN:.*:PL    -->
@@ -1008,7 +1024,7 @@ $Id$
                     </marker>
                     <token regexp="yes">.|;</token>
                 </pattern>
-
+                
                 <message>Прилагательное не согласуется с существительным по числу.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%98%D0%BC%D1%8F_%D0%BF%D1%80%D0%B8%D0%BB%D0%B0%D0%B3%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5_%D0%B2_%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%BE%D0%BC_%D1%8F%D0%B7%D1%8B%D0%BA%D0%B5</url>
                 <short>Грамматическая ошибка в согласовании по числу.</short>
@@ -1025,7 +1041,7 @@ $Id$
                     </marker>
                     <token regexp="yes">.|;</token>
                 </pattern>
-
+                
                 <message>Прилагательное не согласуется с существительным по числу.
                     <suggestion><match no="2" postag="ADJ:.*:(.*)" postag_regexp="yes" postag_replace="ADJ:PL:$1"></match> <match no="3"></match></suggestion>
                 </message>
@@ -1034,20 +1050,20 @@ $Id$
                 <example type="correct">Мебель сделана из красивой сосны.</example>
                 <example type="incorrect">Столы сделаны из <marker>красивой сосен</marker>.</example>
             </rule>
-
-
-
+            
+            
+            
         </rulegroup>
-
+        
         <rulegroup default="on" id="SoglasovaniePNN_Verb" name="Согласование подлежащего (местоимения) со сказуемым">
             <rule>
-
+                
                 <pattern>
                     <!--           Он (PNN:Masc)   VB:Past:Masc   -->
                     <token>он</token>
                     <token postag="VB:Past:.*" postag_regexp="yes"><exception postag="VB:Past:Masc"></exception><exception negate_pos="yes" postag_regexp="yes" postag="VB:Past:.*"></exception></token>
                 </pattern>
-
+                
                 <message>Местоимение не согласуется с глаголом по роду.
                     <suggestion><match no="1"></match> <match no="2" postag="VB:Past:.*" postag_regexp="yes" postag_replace="VB:Past:Masc"></match></suggestion>
                 </message>
@@ -1056,16 +1072,16 @@ $Id$
                 <example type="correct">Во дворе он грелся на солнышке.</example>
                 <example type="incorrect">Во дворе <marker>он грелась</marker> на солнышке.</example>
             </rule>
-
-
+            
+            
             <rule>
-
+                
                 <pattern>
                     <!--          она (PNN:Fem)   VB:Past:Fem    -->
                     <token>она</token>
                     <token postag="VB:Past:.*" postag_regexp="yes"><exception postag="VB:Past:Fem"></exception><exception negate_pos="yes" postag_regexp="yes" postag="VB:Past:.*"></exception></token>
                 </pattern>
-
+                
                 <message>Местоимение не согласуется с глаголом по роду.
                     <suggestion><match no="1"></match> <match no="2" postag="VB:Past:.*" postag_regexp="yes" postag_replace="VB:Past:Fem"></match></suggestion>
                 </message>
@@ -1074,15 +1090,15 @@ $Id$
                 <example type="correct">Она грелась на солнышке.</example>
                 <example type="incorrect"><marker>Она грелся</marker> на солнышке.</example>
             </rule>
-
+            
             <rule>
-
+                
                 <pattern>
                     <!--        оно   (PNN:Neut)   VB:Past:Neut    -->
                     <token>оно</token>
                     <token postag="VB:Past:.*" postag_regexp="yes"><exception postag="VB:Past:Neut"></exception><exception negate_pos="yes" postag_regexp="yes" postag="VB:Past:.*"></exception></token>
                 </pattern>
-
+                
                 <message>Местоимение не согласуется с глаголом по роду.
                     <suggestion><match no="1"></match> <match no="2" postag="VB:Past:.*" postag_regexp="yes" postag_replace="VB:Past:Neut"></match></suggestion>
                 </message>
@@ -1091,15 +1107,15 @@ $Id$
                 <example type="correct">Оно готовилось на сковородке.</example>
                 <example type="incorrect"><marker>Оно готовился</marker> на сковородке.</example>
             </rule>
-
+            
             <rule>
-
+                
                 <pattern>
                     <!--        оно   (PNN:PL)   VB:Past:PL    -->
                     <token>они</token>
                     <token postag="VB:Past:.*" postag_regexp="yes"><exception postag="VB:Past:PL"></exception><exception negate_pos="yes" postag_regexp="yes" postag="VB:Past:.*"></exception></token>
                 </pattern>
-
+                
                 <message>Местоимение не согласуется с глаголом по числу.
                     <suggestion><match no="1"></match> <match no="2" postag="VB:Past:.*" postag_regexp="yes" postag_replace="VB:Past:PL"></match></suggestion>
                 </message>
@@ -1108,9 +1124,9 @@ $Id$
                 <example type="correct">Они готовились на сковородке.</example>
                 <example type="incorrect"><marker>Они готовился</marker> на сковородке.</example>
             </rule>
-
+            
         </rulegroup>
-
+        
         <rulegroup default="on" id="SoglasovanieNN_Verb" name="Согласование подлежащего (существительного) со сказуемым">
             <rule>
                 <pattern>
@@ -1122,7 +1138,7 @@ $Id$
                     </marker>
                     <token regexp="yes">.|;</token>
                 </pattern>
-
+                
                 <message>Существительное не согласуется с глаголом по роду.
                     <suggestion><match no="2"></match> <match no="3" postag="VB:Past:.*" postag_regexp="yes" postag_replace="VB:Past:Masc"></match></suggestion>
                 </message>
@@ -1131,9 +1147,9 @@ $Id$
                 <example type="correct">Во дворе кот грелся на солнышке.</example>
                 <example type="incorrect">Во дворе <marker>кот грелась</marker> на солнышке.</example>
             </rule>
-
+            
             <rule>
-
+                
                 <pattern>
                     <!--           NN:Fem:Sin:Nom   VB:Past:Fem    -->
                     <token postag="SENT_START" skip="-1"><exception scope="next" postag="NN:Masc:Sin:Nom"></exception><exception scope="next" postag="NN:Neut:Sin:Nom"></exception><exception scope="next" postag_regexp="yes" postag="PNN:.*"></exception></token>
@@ -1143,7 +1159,7 @@ $Id$
                     </marker>
                     <token regexp="yes">.|;</token>
                 </pattern>
-
+                
                 <message>Существительное не согласуется с глаголом по роду.
                     <suggestion><match no="2"></match> <match no="3" postag="VB:Past:.*" postag_regexp="yes" postag_replace="VB:Past:Fem"></match></suggestion>
                 </message>
@@ -1152,9 +1168,9 @@ $Id$
                 <example type="correct">Кошка грелась на солнышке.</example>
                 <example type="incorrect"><marker>Кошка грелся</marker> на солнышке.</example>
             </rule>
-
+            
             <rule>
-
+                
                 <pattern>
                     <!--           NN:Neut:Sin:Nom   VB:Past:Neut    -->
                     <token postag="SENT_START" skip="-1"><exception scope="next" postag="NN:Masc:Sin:Nom"></exception><exception scope="next" postag="NN:Fem:Sin:Nom"></exception><exception scope="next" postag_regexp="yes" postag="PNN:.*"></exception></token>
@@ -1164,7 +1180,7 @@ $Id$
                     </marker>
                     <token regexp="yes">.|;</token>
                 </pattern>
-
+                
                 <message>Существительное не согласуется с глаголом по роду.
                     <suggestion><match no="2"></match> <match no="3" postag="VB:Past:.*" postag_regexp="yes" postag_replace="VB:Past:Neut"></match></suggestion>
                 </message>
@@ -1173,7 +1189,7 @@ $Id$
                 <example type="correct">Блюдо готовилось на сковородке.</example>
                 <example type="incorrect"><marker>Блюдо готовился</marker> на сковородке.</example>
             </rule>
-
+            
             <!--           NN:.*:PL:Nom   VB:Past:PL  !!!!!!!!!!!!!!!!  -->
             <!--
            <rule>                  
@@ -1192,7 +1208,7 @@ $Id$
             </rule>
 -->
             <rule>
-
+                
                 <pattern>
                     <!--           NN:Masc:Sin:Nom   VB:Past:!PL   -->
                     <token postag="SENT_START" skip="-1"><exception scope="next" postag_regexp="yes" postag="NN:.*:PL:Nom"></exception><exception scope="next" postag_regexp="yes" postag="PNN:.*"></exception><exception scope="next">и</exception></token>
@@ -1202,7 +1218,7 @@ $Id$
                     </marker>
                     <token regexp="yes">.|;</token>
                 </pattern>
-
+                
                 <message>Существительное не согласуется с глаголом по числу.
                     <suggestion><match no="2"></match> <match no="3" postag="VB:Past:PL" postag_regexp="yes" postag_replace="VB:Past:Masc"></match></suggestion>
                 </message>
@@ -1212,7 +1228,7 @@ $Id$
                 <example type="incorrect"><marker>Кот грелись</marker> на солнышке.</example>
             </rule>
             <rule>
-
+                
                 <pattern>
                     <!--           NN:Masc:Fem:Nom   VB:Past:!PL   -->
                     <token postag="SENT_START" skip="-1"><exception scope="next" postag_regexp="yes" postag="NN:.*:PL:Nom"></exception><exception scope="next" postag_regexp="yes" postag="PNN:.*"></exception><exception scope="next">и</exception></token>
@@ -1222,7 +1238,7 @@ $Id$
                     </marker>
                     <token regexp="yes">.|;</token>
                 </pattern>
-
+                
                 <message>Существительное не согласуется с глаголом по числу.
                     <suggestion><match no="2"></match> <match no="3" postag="VB:Past:PL" postag_regexp="yes" postag_replace="VB:Past:Fem"></match></suggestion>
                 </message>
@@ -1232,7 +1248,7 @@ $Id$
                 <example type="incorrect"><marker>Кошка грелись</marker> на солнышке.</example>
             </rule>
             <rule>
-
+                
                 <pattern>
                     <!--           NN:Masc:Neut:.*   VB:Past:!PL   -->
                     <token postag="SENT_START" skip="-1"><exception scope="next" postag_regexp="yes" postag="NN:.*:PL:Nom"></exception><exception scope="next" postag_regexp="yes" postag="PNN:.*"></exception><exception scope="next">и</exception></token>
@@ -1242,7 +1258,7 @@ $Id$
                     </marker>
                     <token regexp="yes">.|;</token>
                 </pattern>
-
+                
                 <message>Существительное не согласуется с глаголом по числу.
                     <suggestion><match no="2"></match> <match no="3" postag="VB:Past:PL" postag_regexp="yes" postag_replace="VB:Past:Neut"></match></suggestion>
                 </message>
@@ -1252,14 +1268,14 @@ $Id$
                 <example type="incorrect"><marker>Блюдо готовились</marker> на сковородке.</example>
             </rule>
         </rulegroup>
-
+        
         <rulegroup default="on" id="Obobchajuchee_slovo" name="Согласование с обобщающим словом">
-
+            
             <!--TO DO: добавить остальные падежи       -->
 
             <rule>
                 <pattern>
-
+                    
                     <!--           [NN:.*:.*:D]:  [NN:.*:.*:D] , [NN:.*:.*:D]      -->
                     <token postag="NN:.*:.*:D" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*:.*:D" postag_regexp="yes"></exception></token>
                     <token>:</token>
@@ -1277,10 +1293,10 @@ $Id$
                 <example type="correct">На конференции работали советы по секциям: физике, математике.</example>
                 <example type="incorrect">На конференции работали  советы по секциям: <marker>химия, история</marker>.</example>
             </rule>
-
+            
             <rule>
                 <pattern>
-
+                    
                     <!--           [NN:.*:.*:D]:  [NN:.*:.*:D] и [NN:.*:.*:D]      -->
                     <token postag="NN:.*:.*:D" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*:.*:D" postag_regexp="yes"></exception></token>
                     <token>:</token>
@@ -1289,7 +1305,7 @@ $Id$
                         <token>и</token>
                         <token postag="NN:.*:.*:.*" postag_regexp="yes"><exception postag="NN:.*:.*:D" postag_regexp="yes"></exception></token>
                     </marker>
-
+                    
                 </pattern>
                 <message>Однородные члены не согласуется с обобщающим существительным по падежу.
                     <suggestion><match no="3" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:D"></match> <match no="4"></match> <match no="5" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:D"></match></suggestion>
@@ -1299,9 +1315,9 @@ $Id$
                 <example type="correct">На конференции работали советы по секциям: физике и математике.</example>
                 <example type="incorrect">На конференции работали  советы по секциям: <marker>химия и история</marker>.</example>
             </rule>
-
+            
         </rulegroup>
-
+        
         <rulegroup default="on" id="O_P_padeg" name="Предлоги и предложный падеж">
             <rule>
                 <pattern case_sensitive="yes">
@@ -1330,7 +1346,7 @@ $Id$
                 <example type="incorrect"><marker>Доме</marker> они думали.</example>
             </rule>
         </rulegroup>
-
+        
         <rulegroup default="on" id="Com_Num" name="Собирательные числительные">
             <rule>
                 <pattern>
@@ -1386,7 +1402,7 @@ $Id$
                 <example type="incorrect">Здесь были <marker>четверо подруг</marker>.</example>
             </rule>
         </rulegroup>
-
+        
         <rulegroup default="on" id="Oba_obe" name="Числительные оба/обе">
             <rule>
                 <pattern>
@@ -1399,7 +1415,7 @@ $Id$
                 <example type="correct">По обеим сторонам.</example>
                 <example type="incorrect">По <marker>обоим сторонам</marker>.</example>
             </rule>
-
+            
             <rule>
                 <pattern>
                     <token regexp="yes">обе|обеих|обеим|обеими</token>
@@ -1412,9 +1428,9 @@ $Id$
                 <example type="incorrect">На <marker>обеих столах</marker>.</example>
             </rule>
         </rulegroup>
-
+        
         <rulegroup default="on" id="Pnn_compose_error" name="Ошибки в образовании местоимений">
-
+            
             <rule>
                 <pattern>
                     <token regexp="yes">ихний|ихняя|ихнее|ихнего|ихнему|ихним|ихнем|ихней|ихнюю</token>
@@ -1425,10 +1441,10 @@ $Id$
                 <example type="correct">Там находится их дом.</example>
                 <example type="incorrect">Там находится <marker>ихний</marker> дом.</example>
             </rule>
-
+            
         </rulegroup>
-
-
+        
+        
         <rulegroup default="on" id="Ne_pril_prich" name="Не с прилагательными/причастиями">
             <rule>
                 <pattern>
@@ -1456,7 +1472,7 @@ $Id$
                 <example type="correct">Это совсем непродуманное решение.</example>
                 <example type="incorrect">Это совсем <marker>не продуманное</marker> решение.</example>
             </rule>
-
+            
             <rule>
                 <!-- раздельное написание частицы не:
                 если "не" входит в состав усилительных отрицаний: далеко не, отнюдь не, вовсе не, ничуть не, нисколько не и т. п., предшествующих существительному, прилагательному или наречию.
@@ -1488,8 +1504,8 @@ $Id$
                 <example type="correct">На полке лежит никому не нужная коробка.</example>
                 <example type="incorrect">На полке лежит никому <marker>ненужная</marker> коробка.</example>
             </rule>
-
-
+            
+            
         </rulegroup>
         <rulegroup default="on" id="Kak_budto" name="Сложный союз (частица) “как будто”">
             <rule>
@@ -1524,7 +1540,7 @@ $Id$
                 <example type="correct">Это событие произошло <marker>накануне</marker> дня рождения.</example>
                 <example type="incorrect">Это событие произошло <marker>на кануне</marker> дня рождения.</example>
             </rule>
-
+            
             <rule>
                 <!-- внизу, снизу, наверху, вверху, сверху                
   -->
@@ -1537,8 +1553,8 @@ $Id$
                 <example type="correct">Он будет <marker>наверху</marker>.</example>
                 <example type="incorrect">Он будет <marker>на верху</marker>.</example>
             </rule>
-
-
+            
+            
             <rule>
                 <!-- сверх, свыше, согласно               
   -->
@@ -1551,7 +1567,7 @@ $Id$
                 <example type="correct">Склад заполнен <marker>сверх</marker> меры.</example>
                 <example type="incorrect">Склад заполнен <marker>с верх</marker> меры.</example>
             </rule>
-
+            
             <rule>
                 <!-- вглубь, вдоль, взамен               
   -->
@@ -1564,8 +1580,8 @@ $Id$
                 <example type="correct">Его путь пролегал <marker>вдоль</marker> лесополосы.</example>
                 <example type="incorrect">Его путь пролегал <marker>в доль</marker> лесополосы.</example>
             </rule>
-
-
+            
+            
             <rule>
                 <!-- ввиду (но: иметь в виду)
         
@@ -1583,7 +1599,7 @@ $Id$
                 <example type="correct">Он имел <marker>в виду</marker> совсем другое событие.</example>
                 <example type="incorrect">Много оборудования не использовалось в учреждении <marker>в виду</marker> отсутствия расходных материалов.</example>
             </rule>
-
+            
             <rule>
                 <!--  иметь в виду (но: ввиду)
         
@@ -1597,9 +1613,9 @@ $Id$
                 <example type="correct">Он <marker>имел в виду</marker> совсем другое событие.</example>
                 <example type="incorrect">Он <marker>имел ввиду</marker> совсем другое событие.</example>
             </rule>
-
-
-
+            
+            
+            
             <rule>
                 <!-- поверх, подо, помимо              
   -->
@@ -1654,9 +1670,9 @@ $Id$
                 <example type="correct">Мы должны попасть домой <marker>во что бы то ни стало</marker>.</example>
                 <example type="incorrect">Мы должны попасть домой <marker>во что бы то не стало</marker>.</example>
             </rule>
-
+            
         </rulegroup>
-
+        
         <rulegroup default="on" id="Tak_je_kak_i" name="Сложный союз “так же как и”">
             <rule>
                 <pattern case_sensitive="no">
@@ -1670,7 +1686,7 @@ $Id$
                 <example type="incorrect">Мы, <marker>также как и</marker> наши товарищи, любим заниматься спортом.</example>
             </rule>
         </rulegroup>
-
+        
         <rulegroup default="on" id="Ni_to_ni_drugoe" name="Сложный союз “ни то, ни другое”">
             <rule>
                 <pattern case_sensitive="no">
@@ -1698,8 +1714,8 @@ $Id$
                 <example type="incorrect">А может, <marker>не то, не другое</marker>, а что-то новое?</example>
             </rule>
         </rulegroup>
-
-
+        
+        
         <rulegroup default="on" id="Oborot_nikto_inoj_ne" name="Обороты “не кто иной, как” и “никто иной не”">
             <!--  Обороты не кто иной, как..., не что иное, как...      и     никто иной не...; ничто иное не...,
             например: это был не кто иной, как твоя родная сестра, но: никто иной не мог этого сделать;
@@ -1755,7 +1771,7 @@ $Id$
                 <example type="incorrect"><marker>Нечто иное не</marker> могло бы его испугать.</example>
             </rule>
         </rulegroup>
-
+        
         <rulegroup default="on" id="V_K_S" name="Беглая гласная в предлогах: “в”, “к”, “с”, “без”, “из” ...">
             <rule>
                 <pattern>
@@ -1864,7 +1880,7 @@ $Id$
                 <example type="incorrect"><marker>Об всём</marker>.</example>
             </rule>
         </rulegroup>
-
+        
         <rule default="on" id="Verb_and_Verb" name="Глагол и глагол">
             <pattern case_sensitive="yes">
                 <!--     VB:.*  VB:.* (VB:INF)            -->
@@ -1872,21 +1888,21 @@ $Id$
                 <token postag="VB:.*" postag_regexp="yes"><exception postag="VB:INF"></exception><exception postag_regexp="yes" negate_pos="yes" postag="VB:.*"></exception><exception>трём</exception></token>
             </pattern>
             <message>Два глагола в личной форме подряд. Второй глагол должен быть в неопределённой форме:
-                <suggestion><match no="1"></match> <match no="2" postag="VB:.*" postag_regexp="yes" postag_replace="VB:INF"></match></suggestion></message>
+            <suggestion><match no="1"></match> <match no="2" postag="VB:.*" postag_regexp="yes" postag_replace="VB:INF"></match></suggestion></message>
             <url>http://ru.wikipedia.org/wiki/%D0%A1%D0%BA%D0%B0%D0%B7%D1%83%D0%B5%D0%BC%D0%BE%D0%B5#.D0.A1.D0.BE.D1.81.D1.82.D0.B0.D0.B2.D0.BD.D0.BE.D0.B5_.D0.B3.D0.BB.D0.B0.D0.B3.D0.BE.D0.BB.D1.8C.D0.BD.D0.BE.D0.B5_.D1.81.D0.BA.D0.B0.D0.B7.D1.83.D0.B5.D0.BC.D0.BE.D0.B5</url>
             <short>Ошибка в примыкани.</short>
             <example type="correct">Здесь будет строиться всё больше жилья.</example>
             <example type="incorrect">Здесь <marker>будет строится</marker> всё больше жилья.</example>
         </rule>
-
-
-
+        
+        
+        
         <rule default="on" id="Verb_and_PREP" name="Глагол и предлог">
             <pattern case_sensitive="yes">
                 <!--              PREP VB:.*    -->
                 <token postag="PREP"><exception negate_pos="yes" postag="PREP"></exception><exception regexp="yes">спустя|ради|[А-Я][А-Я]*</exception></token>
                 <token postag="VB:.*" postag_regexp="yes"><exception negate_pos="yes" postag="VB:.*" postag_regexp="yes"></exception><exception>трём</exception></token>
-
+                
             </pattern>
             <message>Предлог перед глаголом не употребляется. Должно быть: <suggestion>\2</suggestion> или <suggestion>\2 \1</suggestion>.</message>
             <url>http://ru.wikipedia.org/wiki/%D0%9F%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B3</url>
@@ -1894,409 +1910,409 @@ $Id$
             <example type="correct">Он пошёл в лес.</example>
             <example type="incorrect">Он <marker>в пошёл</marker> лес.</example>
         </rule>
-
+        
         <rule default="on" id="PREP_and_PNN" name="Предлог и местоимения">
-
+            
             <pattern>
-            <!--              PREP (его, ему, ей... ) -> PREP (него, нему, ней... )   -->
-            <marker>
-                <token postag="PREP"><exception negate_pos="yes" postag="PREP"></exception><exception regexp="yes">по|в|благодаря|наперекор|вопреки|согласно|навстречу</exception></token>
-                <and>
-                    <token postag="PNN:.*:P3" postag_regexp="yes"><exception postag="PNN:.*:Nom:P3" postag_regexp="yes"></exception></token>
-                    <token regexp="yes" negate="yes">[н].*</token>
-                </and>
-            </marker>
-            <token postag="SENT_END"></token>
-        </pattern>
-        <message>У местоимений 3 лица в косвенных падежах пишется начальная н, если эти местоимения употребляются после предлогов: <suggestion>\1 н\2</suggestion>.</message>
-        <url>http://ru.wikipedia.org/wiki/%D0%9B%D0%B8%D1%87%D0%BD%D1%8B%D0%B5_%D0%BC%D0%B5%D1%81%D1%82%D0%BE%D0%B8%D0%BC%D0%B5%D0%BD%D0%B8%D1%8F</url>
-        <short>Пропущена начальная буква “н”</short>
-        <example type="correct">Он пошёл к нему.</example>
-        <example type="correct">Дело удалось благодаря его усилиям.</example>
-        <example type="incorrect">Он подошёл <marker>к ему</marker>.</example>
-    </rule>
-    <rule default="on" id="PREP_K_and_Noun" name="Предлог “к” и существительное">
-        <pattern case_sensitive="yes">
-            <!--              PREP к, ко -> NN:.*:D   -->
-            <token regexp="yes">к|ко</token>
-            <token postag="NN:.*:.*:.*" postag_regexp="yes" regexp="yes">[а-я].*<exception postag="NN:.*:.*:D" postag_regexp="yes"></exception><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token>
-        </pattern>
-        <message>Предлог “к” предполагает употребление существительного в дательном падеже:
+                <!--              PREP (его, ему, ей... ) -> PREP (него, нему, ней... )   -->
+                <marker>
+                    <token postag="PREP"><exception negate_pos="yes" postag="PREP"></exception><exception regexp="yes">по|в|благодаря|наперекор|вопреки|согласно|навстречу</exception></token>
+                    <and>
+                        <token postag="PNN:.*:P3" postag_regexp="yes"><exception postag="PNN:.*:Nom:P3" postag_regexp="yes"></exception></token>
+                        <token regexp="yes" negate="yes">[н].*</token>
+                    </and>
+                </marker>
+                <token postag="SENT_END"></token>
+            </pattern>
+            <message>У местоимений 3 лица в косвенных падежах пишется начальная н, если эти местоимения употребляются после предлогов: <suggestion>\1 н\2</suggestion>.</message>
+            <url>http://ru.wikipedia.org/wiki/%D0%9B%D0%B8%D1%87%D0%BD%D1%8B%D0%B5_%D0%BC%D0%B5%D1%81%D1%82%D0%BE%D0%B8%D0%BC%D0%B5%D0%BD%D0%B8%D1%8F</url>
+            <short>Пропущена начальная буква “н”</short>
+            <example type="correct">Он пошёл к нему.</example>
+            <example type="correct">Дело удалось благодаря его усилиям.</example>
+            <example type="incorrect">Он подошёл <marker>к ему</marker>.</example>
+        </rule>
+        <rule default="on" id="PREP_K_and_Noun" name="Предлог “к” и существительное">
+            <pattern case_sensitive="yes">
+                <!--              PREP к, ко -> NN:.*:D   -->
+                <token regexp="yes">к|ко</token>
+                <token postag="NN:.*:.*:.*" postag_regexp="yes" regexp="yes">[а-я].*<exception postag="NN:.*:.*:D" postag_regexp="yes"></exception><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token>
+            </pattern>
+            <message>Предлог “к” предполагает употребление существительного в дательном падеже:
             <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:D"></match></suggestion> или <suggestion><match no="2"></match></suggestion></message>
-        <short>Требуется дательный падеж.</short>
-        <example type="correct">Он подошёл к дому.</example>
-        <example type="incorrect">Он подошёл <marker>к дом</marker>.</example>
-    </rule>
-    <rule default="on" id="PREP_K_and_ADJ" name="Предлог “к” и прилагательное">
-        <pattern>
-            <!--              PREP к, ко -> ADJ:.*:D   -->
-            <token regexp="yes">к|ко</token>
-            <token postag="ADJ:.*:.*" postag_regexp="yes"><exception postag="ADJ:.*:D" postag_regexp="yes"></exception><exception postag="ADJ:.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token>
-        </pattern>
-        <message>Предлог “к” предполагает употребление прилагательного в дательном падеже:
+            <short>Требуется дательный падеж.</short>
+            <example type="correct">Он подошёл к дому.</example>
+            <example type="incorrect">Он подошёл <marker>к дом</marker>.</example>
+        </rule>
+        <rule default="on" id="PREP_K_and_ADJ" name="Предлог “к” и прилагательное">
+            <pattern>
+                <!--              PREP к, ко -> ADJ:.*:D   -->
+                <token regexp="yes">к|ко</token>
+                <token postag="ADJ:.*:.*" postag_regexp="yes"><exception postag="ADJ:.*:D" postag_regexp="yes"></exception><exception postag="ADJ:.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token>
+            </pattern>
+            <message>Предлог “к” предполагает употребление прилагательного в дательном падеже:
             <suggestion><match no="1"></match> <match no="2" postag="ADJ:(.*):.*" postag_regexp="yes" postag_replace="ADJ:$1:D"></match></suggestion> или <suggestion><match no="2"></match></suggestion></message>
-        <short>Требуется дательный падеж.</short>
-        <example type="correct">Он подошёл к зелёному дому.</example>
-        <example type="incorrect">Он подошёл <marker>к зелёный</marker> дому.</example>
-    </rule>
-
-    <rule default="on" id="PREP_Nad_and_Noun" name="Предлоги “над”, “перед”  и существительное">
-        <pattern>
-            <!--              PREP над, перед -> NN:.*:T   -->
-            <token regexp="yes">над|перед</token>
-            <token postag="NN:.*:.*:.*" postag_regexp="yes"><exception postag="NN:.*:.*:T" postag_regexp="yes"></exception><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token>
-        </pattern>
-        <message>Предлоги “над” и “перед” предполагают употребление существительного в творительном падеже:
+            <short>Требуется дательный падеж.</short>
+            <example type="correct">Он подошёл к зелёному дому.</example>
+            <example type="incorrect">Он подошёл <marker>к зелёный</marker> дому.</example>
+        </rule>
+        
+        <rule default="on" id="PREP_Nad_and_Noun" name="Предлоги “над”, “перед”  и существительное">
+            <pattern>
+                <!--              PREP над, перед -> NN:.*:T   -->
+                <token regexp="yes">над|перед</token>
+                <token postag="NN:.*:.*:.*" postag_regexp="yes"><exception postag="NN:.*:.*:T" postag_regexp="yes"></exception><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token>
+            </pattern>
+            <message>Предлоги “над” и “перед” предполагают употребление существительного в творительном падеже:
             <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:T"></match></suggestion> или <suggestion><match no="2"></match></suggestion></message>
-        <short>Требуется творительный падеж.</short>
-        <example type="correct">Перед закатом.</example>
-        <example type="incorrect"><marker>Перед закат</marker>.</example>
-    </rule>
-    <rule default="on" id="PREP_Nad_and_ADJ" name="Предлоги “над”, “перед” и прилагательное">
-        <pattern>
-            <!--               PREP над, перед -> ADJ:.*:T   -->
-            <token regexp="yes">над|перед</token>
-            <token postag="ADJ:.*:.*" postag_regexp="yes"><exception postag="ADJ:.*:T" postag_regexp="yes"></exception><exception postag="ADJ:.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token>
-        </pattern>
-        <message>Предлоги “над” и “перед” предполагают употребление прилагательного  в творительном падеже:
+            <short>Требуется творительный падеж.</short>
+            <example type="correct">Перед закатом.</example>
+            <example type="incorrect"><marker>Перед закат</marker>.</example>
+        </rule>
+        <rule default="on" id="PREP_Nad_and_ADJ" name="Предлоги “над”, “перед” и прилагательное">
+            <pattern>
+                <!--               PREP над, перед -> ADJ:.*:T   -->
+                <token regexp="yes">над|перед</token>
+                <token postag="ADJ:.*:.*" postag_regexp="yes"><exception postag="ADJ:.*:T" postag_regexp="yes"></exception><exception postag="ADJ:.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token>
+            </pattern>
+            <message>Предлоги “над” и “перед” предполагают употребление прилагательного  в творительном падеже:
             <suggestion><match no="1"></match> <match no="2" postag="ADJ:(.*):.*" postag_regexp="yes" postag_replace="ADJ:$1:T"></match></suggestion> или <suggestion><match no="2"></match></suggestion></message>
-        <short>Требуется творительный падеж.</short>
-        <example type="correct">Перед багровым закатом.</example>
-        <example type="incorrect"><marker>Перед багровый</marker> закатом.</example>
-    </rule>
-
-
-    <rule default="on" id="PREP_cherez_and_Noun" name="Предлоги “сквозь”, “через” и существительное">
-        <pattern case_sensitive="yes">
-            <!--              PREP сквозь, через -> NN:.*:V   -->
-            <token regexp="yes">сквозь|через</token>
-            <token postag="NN:.*:.*:.*" postag_regexp="yes" regexp="yes">[а-я].*<exception postag="NN:.*:.*:V" postag_regexp="yes"></exception><exception postag="NN:.*:.*:Nom" postag_regexp="yes"></exception><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token>
-        </pattern>
-        <message>Предлоги “сквозь” и “через” предполагают употребление существительного в винительном падеже:
+            <short>Требуется творительный падеж.</short>
+            <example type="correct">Перед багровым закатом.</example>
+            <example type="incorrect"><marker>Перед багровый</marker> закатом.</example>
+        </rule>
+        
+        
+        <rule default="on" id="PREP_cherez_and_Noun" name="Предлоги “сквозь”, “через” и существительное">
+            <pattern case_sensitive="yes">
+                <!--              PREP сквозь, через -> NN:.*:V   -->
+                <token regexp="yes">сквозь|через</token>
+                <token postag="NN:.*:.*:.*" postag_regexp="yes" regexp="yes">[а-я].*<exception postag="NN:.*:.*:V" postag_regexp="yes"></exception><exception postag="NN:.*:.*:Nom" postag_regexp="yes"></exception><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token>
+            </pattern>
+            <message>Предлоги “сквозь” и “через” предполагают употребление существительного в винительном падеже:
             <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:V"></match></suggestion> или <suggestion><match no="2"></match></suggestion></message>
-        <short>Требуется винительный падеж.</short>
-        <example type="correct">Луч света попал сквозь окно в комнату.</example>
-        <example type="incorrect">Луч света попал <marker>сквозь окном</marker> в комнату.</example>
-    </rule>
-    <rule default="on" id="PREP_cherez_and_ADJ" name="Предлоги “сквозь”, “через” и прилагательное">
-        <pattern>
-            <!--               PREP сквозь, через -> ADJ:.*:V   -->
-            <token regexp="yes">сквозь|через</token>
-            <token postag="ADJ:.*:.*" postag_regexp="yes"><exception postag="ADJ:.*:V" postag_regexp="yes"></exception><exception postag="ADJ:.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token>
-        </pattern>
-        <message>Предлоги “сквозь” и “через” предполагают употребление прилагательного в винительном падеже:
+            <short>Требуется винительный падеж.</short>
+            <example type="correct">Луч света попал сквозь окно в комнату.</example>
+            <example type="incorrect">Луч света попал <marker>сквозь окном</marker> в комнату.</example>
+        </rule>
+        <rule default="on" id="PREP_cherez_and_ADJ" name="Предлоги “сквозь”, “через” и прилагательное">
+            <pattern>
+                <!--               PREP сквозь, через -> ADJ:.*:V   -->
+                <token regexp="yes">сквозь|через</token>
+                <token postag="ADJ:.*:.*" postag_regexp="yes"><exception postag="ADJ:.*:V" postag_regexp="yes"></exception><exception postag="ADJ:.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token>
+            </pattern>
+            <message>Предлоги “сквозь” и “через” предполагают употребление прилагательного в винительном падеже:
             <suggestion><match no="1"></match> <match no="2" postag="ADJ:(.*):.*" postag_regexp="yes" postag_replace="ADJ:$1:V"></match></suggestion> или <suggestion><match no="2"></match></suggestion></message>
-        <short>Требуется винительный падеж.</short>
-        <example type="correct">Луч света попал сквозь стеклянное окно в комнату.</example>
-        <example type="incorrect">Луч света попал <marker>сквозь стеклянному</marker> окно в комнату.</example>
-    </rule>
-
-    <rule default="on" id="PREP_Pri_and_Noun" name="Предлог “при” и существительное">
-        <pattern>
-            <!--              PREP при -> NN:.*:P   -->
-            <token>при</token>
-            <token postag="NN:.*:.*:.*" postag_regexp="yes"><exception postag="NN:.*:.*:P" postag_regexp="yes"></exception><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token>
-        </pattern>
-        <message>Предлог “при” предполагает употребление существительного в предложном падеже:
+            <short>Требуется винительный падеж.</short>
+            <example type="correct">Луч света попал сквозь стеклянное окно в комнату.</example>
+            <example type="incorrect">Луч света попал <marker>сквозь стеклянному</marker> окно в комнату.</example>
+        </rule>
+        
+        <rule default="on" id="PREP_Pri_and_Noun" name="Предлог “при” и существительное">
+            <pattern>
+                <!--              PREP при -> NN:.*:P   -->
+                <token>при</token>
+                <token postag="NN:.*:.*:.*" postag_regexp="yes"><exception postag="NN:.*:.*:P" postag_regexp="yes"></exception><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token>
+            </pattern>
+            <message>Предлог “при” предполагает употребление существительного в предложном падеже:
             <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:P"></match></suggestion> или <suggestion><match no="2"></match></suggestion></message>
-        <short>Требуется предложный падеж.</short>
-        <example type="correct">Лаборатория была создана при центре.</example>
-        <example type="incorrect">Лаборатория была создана <marker>при центр</marker>.</example>
-    </rule>
-    <rule default="on" id="PREP_Pri_and_ADJ" name="Предлог “при” и прилагательное">
-        <pattern>
-            <!--              PREP при -> ADJ:.*:P   -->
-            <token>при</token>
-            <token postag="ADJ:.*:.*" postag_regexp="yes"><exception postag="ADJ:.*:P" postag_regexp="yes"></exception><exception postag="ADJ:.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token>
-        </pattern>
-        <message>Предлог “при” предполагает употребление прилагательного в предложном падеже:
+            <short>Требуется предложный падеж.</short>
+            <example type="correct">Лаборатория была создана при центре.</example>
+            <example type="incorrect">Лаборатория была создана <marker>при центр</marker>.</example>
+        </rule>
+        <rule default="on" id="PREP_Pri_and_ADJ" name="Предлог “при” и прилагательное">
+            <pattern>
+                <!--              PREP при -> ADJ:.*:P   -->
+                <token>при</token>
+                <token postag="ADJ:.*:.*" postag_regexp="yes"><exception postag="ADJ:.*:P" postag_regexp="yes"></exception><exception postag="ADJ:.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token>
+            </pattern>
+            <message>Предлог “при” предполагает употребление прилагательного в предложном падеже:
             <suggestion><match no="1"></match> <match no="2" postag="ADJ:(.*):.*" postag_regexp="yes" postag_replace="ADJ:$1:P"></match></suggestion> или <suggestion><match no="2"></match></suggestion></message>
-        <short>Требуется предложный падеж.</short>
-        <example type="correct">Лаборатория была создана при исследовательском центре.</example>
-        <example type="incorrect">Лаборатория была создана <marker>при исследовательский</marker> центре.</example>
-    </rule>
-
-    <rule default="on" id="PREP_U_and_Noun" name="Предлоги “у”, “без”,...  и существительное">
-        <pattern case_sensitive="yes">
-            <!--  PREP у, без, вместо, для, до, из (изо), из-за, из-под, кроме, около, от, против, среди-> NN:.*:R   -->
-            <token regexp="yes">у|без|вместо|для|до|из|изо|из-за|из-под|кроме|около|от|против|среди</token>
-            <token postag="NN:.*:.*:.*" postag_regexp="yes" regexp="yes">[а-я].*<exception postag="NN:.*:.*:R" postag_regexp="yes"></exception><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception><exception regexp="yes">нее|варяг|грек</exception></token>
-        </pattern>
-        <message>Предлог \1 предполагает употребление существительного в родительном падеже:
+            <short>Требуется предложный падеж.</short>
+            <example type="correct">Лаборатория была создана при исследовательском центре.</example>
+            <example type="incorrect">Лаборатория была создана <marker>при исследовательский</marker> центре.</example>
+        </rule>
+        
+        <rule default="on" id="PREP_U_and_Noun" name="Предлоги “у”, “без”,...  и существительное">
+            <pattern case_sensitive="yes">
+                <!--  PREP у, без, вместо, для, до, из (изо), из-за, из-под, кроме, около, от, против, среди-> NN:.*:R   -->
+                <token regexp="yes">у|без|вместо|для|до|из|изо|из-за|из-под|кроме|около|от|против|среди</token>
+                <token postag="NN:.*:.*:.*" postag_regexp="yes" regexp="yes">[а-я].*<exception postag="NN:.*:.*:R" postag_regexp="yes"></exception><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception><exception regexp="yes">нее|варяг|грек</exception></token>
+            </pattern>
+            <message>Предлог \1 предполагает употребление существительного в родительном падеже:
             <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:R"></match></suggestion> или <suggestion><match no="2"></match></suggestion></message>
-        <short>Требуется родительный падеж.</short>
-        <example type="correct">Заросший пруд у опушки леса.</example>
-        <example type="incorrect">Заросший пруд <marker>у опушка</marker> леса.</example>
-    </rule>
-    <rule default="on" id="PREP_U_and_ADJ" name="Предлоги “у”, “без”,... и прилагательное">
-        <pattern>
-            <!--   PREP у, без вместо для, до, из (изо), из-за, из-под, кроме, около, от, против, среди- -> ADJ:.*:R   -->
-            <token regexp="yes">у|без|вместо|для|до|из|изо|из-за|из-под|кроме|около|от|против|среди</token>
-            <token postag="ADJ:.*:.*" postag_regexp="yes"><exception postag="ADJ:.*:R" postag_regexp="yes"></exception><exception postag="ADJ:.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token>
-        </pattern>
-        <message>Предлог \1 предполагает употребление прилагательного  в родительном падеже:
+            <short>Требуется родительный падеж.</short>
+            <example type="correct">Заросший пруд у опушки леса.</example>
+            <example type="incorrect">Заросший пруд <marker>у опушка</marker> леса.</example>
+        </rule>
+        <rule default="on" id="PREP_U_and_ADJ" name="Предлоги “у”, “без”,... и прилагательное">
+            <pattern>
+                <!--   PREP у, без вместо для, до, из (изо), из-за, из-под, кроме, около, от, против, среди- -> ADJ:.*:R   -->
+                <token regexp="yes">у|без|вместо|для|до|из|изо|из-за|из-под|кроме|около|от|против|среди</token>
+                <token postag="ADJ:.*:.*" postag_regexp="yes"><exception postag="ADJ:.*:R" postag_regexp="yes"></exception><exception postag="ADJ:.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token>
+            </pattern>
+            <message>Предлог \1 предполагает употребление прилагательного  в родительном падеже:
             <suggestion><match no="1"></match> <match no="2" postag="ADJ:(.*):.*" postag_regexp="yes" postag_replace="ADJ:$1:R"></match></suggestion> или <suggestion><match no="2"></match></suggestion></message>
-        <short>Требуется родительный падеж.</short>
-        <example type="correct">Заросший пруд у лесной опушки.</example>
-        <example type="incorrect">Заросший пруд <marker>у лесную</marker> опушки.</example>
-    </rule>
-
-
-    <rule default="on" id="upravlauchij_NN" name="Словосочетания “управляющий”, ... + существительное">
-        <pattern case_sensitive="no">
-            <!--    Управляющий предприятием    NN:.*:.*:T       -->
-            <token regexp="yes" inflected="yes">управляющий|командующий|заведующий</token>
-            <token postag="NN:.*:.*:R" postag_regexp="yes"><exception postag="NN:.*:.*:T" postag_regexp="yes"></exception><exception inflected="yes" regexp="yes">символ|команда|компания|инструкция</exception></token>
-        </pattern>
-        <message>Существительное \1 предполагает употребление зависимого слова в творительном падеже:
+            <short>Требуется родительный падеж.</short>
+            <example type="correct">Заросший пруд у лесной опушки.</example>
+            <example type="incorrect">Заросший пруд <marker>у лесную</marker> опушки.</example>
+        </rule>
+        
+        
+        <rule default="on" id="upravlauchij_NN" name="Словосочетания “управляющий”, ... + существительное">
+            <pattern case_sensitive="no">
+                <!--    Управляющий предприятием    NN:.*:.*:T       -->
+                <token regexp="yes" inflected="yes">управляющий|командующий|заведующий</token>
+                <token postag="NN:.*:.*:R" postag_regexp="yes"><exception postag="NN:.*:.*:T" postag_regexp="yes"></exception><exception inflected="yes" regexp="yes">символ|команда|компания|инструкция</exception></token>
+            </pattern>
+            <message>Существительное \1 предполагает употребление зависимого слова в творительном падеже:
             <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:T"></match></suggestion></message>
-        <short>Требуется творительный падеж.</short>
-        <example type="correct"><marker>Управляющий предприятием</marker> общественного питания.</example>
-        <example type="incorrect"><marker>Управляющий предприятия</marker> общественного питания.</example>
-    </rule>
-
-    <rule default="on" id="vopreki_NN" name="Предлог “вопреки” + существительное">
-        <pattern case_sensitive="no">
-            <!--     вопреки предположениям    NN:.*:.*:D       -->
-            <token>вопреки</token>
-            <token postag="NN:.*:.*:.*" postag_regexp="yes"><exception postag="NN:.*:.*:D" postag_regexp="yes"></exception><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token>
-        </pattern>
-        <message> \1 предполагает употребление зависимого слова в творительном падеже:
+            <short>Требуется творительный падеж.</short>
+            <example type="correct"><marker>Управляющий предприятием</marker> общественного питания.</example>
+            <example type="incorrect"><marker>Управляющий предприятия</marker> общественного питания.</example>
+        </rule>
+        
+        <rule default="on" id="vopreki_NN" name="Предлог “вопреки” + существительное">
+            <pattern case_sensitive="no">
+                <!--     вопреки предположениям    NN:.*:.*:D       -->
+                <token>вопреки</token>
+                <token postag="NN:.*:.*:.*" postag_regexp="yes"><exception postag="NN:.*:.*:D" postag_regexp="yes"></exception><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token>
+            </pattern>
+            <message> \1 предполагает употребление зависимого слова в творительном падеже:
             <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:D"></match></suggestion></message>
-        <short>Требуется дательный падеж.</short>
-        <example type="correct"><marker>Вопреки предположениям</marker> о том, что изменения ожидаются довольно скоро, объявлены более отдалённые сроки их вступления в силу.</example>
-        <example type="incorrect"><marker>Вопреки предположений</marker> о том, что изменения ожидаются довольно скоро, объявлены более отдалённые сроки их вступления в силу.</example>
-    </rule>
-
-    <rule default="on" id="zaslujivat_NN" name="Словосочетание: “заслуживать”+ существительное">
-        <pattern case_sensitive="no">
-            <!--    заслуживать доверия    NN:.*:.*:R       -->
-            <token>заслуживать</token>
-            <token postag="NN:.*:.*:.*" postag_regexp="yes"><exception postag="NN:.*:.*:R" postag_regexp="yes"></exception><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token>
-        </pattern>
-        <message> \1 предполагает употребление зависимого слова в родительном падеже:
+            <short>Требуется дательный падеж.</short>
+            <example type="correct"><marker>Вопреки предположениям</marker> о том, что изменения ожидаются довольно скоро, объявлены более отдалённые сроки их вступления в силу.</example>
+            <example type="incorrect"><marker>Вопреки предположений</marker> о том, что изменения ожидаются довольно скоро, объявлены более отдалённые сроки их вступления в силу.</example>
+        </rule>
+        
+        <rule default="on" id="zaslujivat_NN" name="Словосочетание: “заслуживать”+ существительное">
+            <pattern case_sensitive="no">
+                <!--    заслуживать доверия    NN:.*:.*:R       -->
+                <token>заслуживать</token>
+                <token postag="NN:.*:.*:.*" postag_regexp="yes"><exception postag="NN:.*:.*:R" postag_regexp="yes"></exception><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token>
+            </pattern>
+            <message> \1 предполагает употребление зависимого слова в родительном падеже:
             <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:R"></match></suggestion></message>
-        <short>Требуется родительный падеж.</short>
-        <example type="correct">Кто может <marker>заслуживать доверия</marker> в этом вопросе?</example>
-        <example type="incorrect">Кто может <marker>заслуживать доверие</marker> в этом вопросе?</example>
-    </rule>
-    <rule default="on" id="zaslujit_NN" name="Словосочетание: “заслужить” + существительное">
-        <pattern case_sensitive="no">
-            <!--    заслужить доверие    NN:.*:.*:V       -->
-            <token>заслужить</token>
-            <token postag="NN:.*:.*:.*" postag_regexp="yes"><exception postag="NN:.*:.*:V" postag_regexp="yes"></exception><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token>
-        </pattern>
-        <message> \1 предполагает употребление зависимого слова в винительном падеже:
+            <short>Требуется родительный падеж.</short>
+            <example type="correct">Кто может <marker>заслуживать доверия</marker> в этом вопросе?</example>
+            <example type="incorrect">Кто может <marker>заслуживать доверие</marker> в этом вопросе?</example>
+        </rule>
+        <rule default="on" id="zaslujit_NN" name="Словосочетание: “заслужить” + существительное">
+            <pattern case_sensitive="no">
+                <!--    заслужить доверие    NN:.*:.*:V       -->
+                <token>заслужить</token>
+                <token postag="NN:.*:.*:.*" postag_regexp="yes"><exception postag="NN:.*:.*:V" postag_regexp="yes"></exception><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token>
+            </pattern>
+            <message> \1 предполагает употребление зависимого слова в винительном падеже:
             <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:V"></match></suggestion></message>
-        <short>Требуется винительный падеж.</short>
-        <example type="correct">Кто может <marker>заслужить доверие</marker> в этом вопросе?</example>
-        <example type="incorrect">Кто может <marker>заслужить доверию</marker> в этом вопросе?</example>
-    </rule>
-
-
-    <rule default="on" id="drug_s_drugom" name="Словосочетание “равноправны друг c другом”">
-        <pattern case_sensitive="no">
-            <!--   Равноправны друг c другом      -->
-            <token>равноправны</token>
-            <token>друг</token>
-            <token>другу</token>
-        </pattern>
-        <message>   <suggestion>\1 \2 с другом</suggestion></message>
-        <short>Равноправны друг c другом</short>
-        <example type="correct">Равноправны друг c другом.</example>
-        <example type="incorrect">Они <marker>равноправны друг другу</marker>.</example>
-    </rule>
-
-
-</category>
-<category name="Стиль">
-
-<rulegroup default="on" id="talk" name="Разговорные слова">
-    <rule>
-        <pattern>
-            <token postag=".*:Talk" postag_regexp="yes"><exception negate_pos="yes" postag=".*:Talk" postag_regexp="yes"></exception></token>
-        </pattern>
-        <message>Разговорная форма слова.</message>
-        <url>http://ru.wikipedia.org/wiki/%D0%A0%D0%B0%D0%B7%D0%B3%D0%BE%D0%B2%D0%BE%D1%80%D0%BD%D1%8B%D0%B9_%D1%81%D1%82%D0%B8%D0%BB%D1%8C</url>
-        <short>Разговорная форма слова.</short>
-        <example type="correct">Иван Иванович</example>
-        <example type="incorrect">Иван <marker>Иваныч</marker>.</example>
-    </rule>
-</rulegroup>
-
-<rulegroup default="on" id="Prep_Soglasno" name="Предлог “согласно”">
-    <rule>
-        <pattern>
-            <token>согласно</token>
-            <token postag="NN:.*:.*:R" postag_regexp="yes"><exception postag="NN:.*:.*:D" postag_regexp="yes"></exception></token>
-        </pattern>
-        <message>Предлог “согласно” должен употребляться с дательным падежом (согласно чему), а не с родительным (согласно чего):
-            <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):R" postag_regexp="yes" postag_replace="NN:$1:$2:D"></match></suggestion>
-        </message>
-        <short>Требуется дательный падеж.</short>
-        <example type="correct">Отправление поезда согласно расписанию.</example>
-        <example type="incorrect">Отправление поезда <marker>согласно расписания</marker>.</example>
-    </rule>
-</rulegroup>
-<rulegroup default="on" id="Use_prep_O" name="Предлог “о”">
-    <rule>
-        <pattern>
-            <token inflected="yes" regexp="yes">понимать|изучать|выяснять|описывать|объяснить|излагать|подчеркнуть|утверждать|обсудить|подозревать</token>
-            <token regexp="yes">о|об</token>
-        </pattern>
-        <message>Глагол \1 с предлогом “о” не употребляется.</message>
-        <short>С предлогом “о” не употребляется.</short>
-        <example type="correct">Выяснять про событие.</example>
-        <example type="incorrect"><marker>Выяснять о</marker> событии.</example>
-        <example type="incorrect">Он <marker>выясняет о</marker> событии.</example>
-    </rule>
-    <rule>
-        <pattern>
-            <token inflected="yes" regexp="yes">обсуждать|доказывать|отмечать|показать</token>
-            <token regexp="yes">о|об</token>
-        </pattern>
-        <message>Глагол \1 не употребляется с предлогами.</message>
-        <short>Предлог не нужен.</short>
-        <example type="correct">Отмечать событие.</example>
-        <example type="incorrect"><marker>Доказывать об</marker> этом событии.</example>
-    </rule>
-    <rule>
-        <pattern>
-            <token inflected="yes" regexp="yes">сомневаться|упрекнуть</token>
-            <token regexp="yes">о|об</token>
-        </pattern>
-        <message>Глагол \1 с предлогом “о” не употребляется. Возможная замена: <suggestion>\1 в</suggestion></message>
-        <short>С предлогом “о” не употребляется.</short>
-        <example type="correct">Сомневаться в доказательстве.</example>
-        <example type="incorrect"><marker>Сомневаться об</marker> этом выводе.</example>
-    </rule>
-    <rule>
-        <pattern>
-            <token inflected="yes" regexp="yes">указывать|указать</token>
-            <token regexp="yes">о|об</token>
-            <token postag="NN:.*:.*:.*" postag_regexp="yes"></token>
-        </pattern>
-        <message>Глагол \1 с предлогом “о” не употребляется. Возможная замена:
-            <suggestion><match no="1"></match> на <match no="3" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:V"></match></suggestion></message>
-        <short>С предлогом “о” не употребляется.</short>
-        <example type="correct">Указать на ошибку.</example>
-        <example type="incorrect"><marker>Указать об ошибке</marker>.</example>
-    </rule>
-</rulegroup>
-
-<rulegroup default="on" id="strong_m" name="Пропуск обязательных зависимых слов">
-    <rule>
-        <pattern>
-            <token inflected="yes">содействовать</token>
-            <token><exception postag=".*:D" postag_regexp="yes"></exception><exception postag="PNN:.*" postag_regexp="yes"></exception><exception regexp="yes">также|тоже</exception></token>
-        </pattern>
-        <message>Не найдены обязательные зависимые слова: содействовать чему?</message>
-        <short>содействовать чему?</short>
-        <example type="correct">Содействовать выполнению задания.</example>
-        <example type="incorrect"><marker>Содействовать и</marker> помогать.</example>
-        <example type="incorrect"><marker>Содействовали и</marker> помогали.</example>
-    </rule>
-    <rule>
-        <pattern>
-            <token postag="SENT_START" skip="-1"><exception scope="next" postag=".*:R" postag_regexp="yes"></exception><exception scope="next" postag="PNN:.*:R.*" postag_regexp="yes"></exception></token>   <!--   -->
-            <marker>
-                <token inflected="yes">интересовать</token>
-                <token><exception postag=".*:R" postag_regexp="yes"></exception><exception postag="PNN:.*" postag_regexp="yes"></exception></token>
-            </marker>
-        </pattern>
-        <message>Не найдены обязательные зависимые слова: интересовать кого?</message>
-        <short>интересовать кого?</short>
-        <example type="correct">Через несколько минут мы ответим на интересующие слушателей вопросы.</example>
-        <example type="incorrect">Мы ответим на <marker>интересующие вопросы</marker>.</example>
-    </rule>
-    <rule>
-        <pattern>
-            <token inflected="yes">нарушать</token>
-            <token><exception postag=".*:V" postag_regexp="yes"></exception><exception postag=".*:R" postag_regexp="yes"></exception><exception postag="PNN:.*" postag_regexp="yes"></exception></token>
-        </pattern>
-        <message>Не найдены обязательные зависимые слова: нарушать что (чего)? </message>
-        <short>нарушать что?</short>
-        <example type="correct">Вы нарушаете правила.</example>
-        <example type="incorrect">Вы <marker>нарушаете!</marker></example>
-    </rule>
-
-</rulegroup>
-
-
-<rule default="on" id="OPREDELENIA" name="Избыточные придаточные определения">
-    <pattern>
-        <token skip="-1" regexp="yes">который|которого|которому|
-            котором|которая|которой|которую|которые|которых|
-            которыми|которое|которым|чей|чьего|чьему|
-            чьим|чья|чьей|чью|чье|чьё|чьем|чьём|чьи</token>
-        <token regexp="yes">который|которого|которому|
-            котором|которая|которой|которую|которые|которых|которыми|которое|
-            которым|чей|чьего|чьему|чьим|чья|чьей|
-            чью|чье|чьё|чьем|чьём|чьи</token>
-    </pattern>
-    <message>Избыточные определения. В правильно составленном предложении не должно быть больше одного придаточного определения.</message>
-    <short>Избыточные определения.</short>
-    <example type="correct">Они пошли к реке, по которой плавала лодка.</example>
-    <example type="incorrect">Они пошли к реке, по <marker>которой плавала лодка, которая</marker> была окрашена в белый цвет.</example>
-</rule>
-<rulegroup default="off" name="Благозвучность" id="BLAGOZVUCHNOST">
-    <rule>
-        <pattern>
-            <token regexp="yes">.*[йцкнгшщзхфвпрлджчсмтб][йцкнгшщзхфвпрлджчсмтб]</token>
-            <token regexp="yes">[йцкнгшщзхфвпрлджчсмтб][йцкнгшщзхфвпрлджчсмтб].*</token>
-        </pattern>
-        <message>Сложно произнести подряд 4 согласных звука.</message>
-        <short>4 согласных подряд.</short>
-        <example type="correct">Гимнаст активно тренировался.</example>
-        <example type="incorrect"><marker>Гимнаст тренировался</marker>.</example>
-    </rule>
-</rulegroup>
-</category>
-
-<category name="Опечатка">
-
-<rulegroup default="off" id="Unknown_words" name="Поиск неизвестных слов">
-    <rule>
-        <pattern>
-            <marker>
-                <token postag="UNKNOWN" regexp="yes">[а-я]([а-я].*)</token>
-            </marker>
-            <token></token>
-        </pattern>
-        <message>Слова нет в словаре LanguageTool.</message>
-        <url>http://www.aot.ru/demo/morph.html</url>
-        <short>Нет в словаре.</short>
-        <example type="correct">Проверка текста.</example>
-        <example type="correct">Проверка текста и т.п.</example>
-        <example type="incorrect">Это только <marker>теест</marker> проверка.</example>
-    </rule>
-</rulegroup>
-</category>
-
-<category name="Заглавные буквы">
-
-<rule default="on" id="Cap_Letters_Name" name="Имя">
-    <pattern case_sensitive="yes">
-        <token postag="NNN:.*" postag_regexp="yes"><exception regexp="yes">\p{Lu}.*</exception><exception regexp="yes">е|мадам|леди|пани|ежи|шоу|обл</exception><exception negate_pos="yes" postag="NNN:.*" postag_regexp="yes"></exception></token>
-    </pattern>
-    <message>Имя пишется с большой буквы: <suggestion><match no="1" case_conversion="startupper"></match></suggestion></message>
-    <url>http://ru.wikipedia.org/wiki/%D0%97%D0%B0%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F_%D0%B1%D1%83%D0%BA%D0%B2%D0%B0</url>
-    <short>Заглавные буквы.</short>
-    <example type="correct">Он - <marker>Иван</marker>.</example>
-    <example type="incorrect">Он - <marker>иван</marker>.</example>
-</rule>
-
-<rule default="on" id="Cap_Letters_SName" name="Отчество">
-    <pattern case_sensitive="yes">
-        <token postag="NNP:.*" postag_regexp="yes"><exception regexp="yes">\p{Lu}.*</exception><exception>e</exception><exception negate_pos="yes" postag="NNP:.*" postag_regexp="yes"></exception></token>
-    </pattern>
-    <message>Отчество пишется с большой буквы: <suggestion><match no="1" case_conversion="startupper"></match></suggestion></message>
-    <url>http://ru.wikipedia.org/wiki/%D0%97%D0%B0%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F_%D0%B1%D1%83%D0%BA%D0%B2%D0%B0</url>
-    <short>Заглавные буквы.</short>
-    <example type="correct">Он - <marker>Иванович</marker>.</example>
-    <example type="incorrect">Он - <marker>иванович</marker>.</example>
-</rule>
-
-</category>
-
-        </rules>
+            <short>Требуется винительный падеж.</short>
+            <example type="correct">Кто может <marker>заслужить доверие</marker> в этом вопросе?</example>
+            <example type="incorrect">Кто может <marker>заслужить доверию</marker> в этом вопросе?</example>
+        </rule>
+        
+        
+        <rule default="on" id="drug_s_drugom" name="Словосочетание “равноправны друг c другом”">
+            <pattern case_sensitive="no">
+                <!--   Равноправны друг c другом      -->
+                <token>равноправны</token>
+                <token>друг</token>
+                <token>другу</token>
+            </pattern>
+            <message>   <suggestion>\1 \2 с другом</suggestion></message>
+            <short>Равноправны друг c другом</short>
+            <example type="correct">Равноправны друг c другом.</example>
+            <example type="incorrect">Они <marker>равноправны друг другу</marker>.</example>
+        </rule>
+        
+        
+    </category>
+    <category name="Стиль">
+        
+        <rulegroup default="on" id="talk" name="Разговорные слова">
+            <rule>
+                <pattern>
+                    <token postag=".*:Talk" postag_regexp="yes"><exception negate_pos="yes" postag=".*:Talk" postag_regexp="yes"></exception></token>
+                </pattern>
+                <message>Разговорная форма слова.</message>
+                <url>http://ru.wikipedia.org/wiki/%D0%A0%D0%B0%D0%B7%D0%B3%D0%BE%D0%B2%D0%BE%D1%80%D0%BD%D1%8B%D0%B9_%D1%81%D1%82%D0%B8%D0%BB%D1%8C</url>
+                <short>Разговорная форма слова.</short>
+                <example type="correct">Иван Иванович</example>
+                <example type="incorrect">Иван <marker>Иваныч</marker>.</example>
+            </rule>
+        </rulegroup>
+        
+        <rulegroup default="on" id="Prep_Soglasno" name="Предлог “согласно”">
+            <rule>
+                <pattern>
+                    <token>согласно</token>
+                    <token postag="NN:.*:.*:R" postag_regexp="yes"><exception postag="NN:.*:.*:D" postag_regexp="yes"></exception></token>
+                </pattern>
+                <message>Предлог “согласно” должен употребляться с дательным падежом (согласно чему), а не с родительным (согласно чего):
+                    <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):R" postag_regexp="yes" postag_replace="NN:$1:$2:D"></match></suggestion>
+                </message>
+                <short>Требуется дательный падеж.</short>
+                <example type="correct">Отправление поезда согласно расписанию.</example>
+                <example type="incorrect">Отправление поезда <marker>согласно расписания</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup default="on" id="Use_prep_O" name="Предлог “о”">
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">понимать|изучать|выяснять|описывать|объяснить|излагать|подчеркнуть|утверждать|обсудить|подозревать</token>
+                    <token regexp="yes">о|об</token>
+                </pattern>
+                <message>Глагол \1 с предлогом “о” не употребляется.</message>
+                <short>С предлогом “о” не употребляется.</short>
+                <example type="correct">Выяснять про событие.</example>
+                <example type="incorrect"><marker>Выяснять о</marker> событии.</example>
+                <example type="incorrect">Он <marker>выясняет о</marker> событии.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">обсуждать|доказывать|отмечать|показать</token>
+                    <token regexp="yes">о|об</token>
+                </pattern>
+                <message>Глагол \1 не употребляется с предлогами.</message>
+                <short>Предлог не нужен.</short>
+                <example type="correct">Отмечать событие.</example>
+                <example type="incorrect"><marker>Доказывать об</marker> этом событии.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">сомневаться|упрекнуть</token>
+                    <token regexp="yes">о|об</token>
+                </pattern>
+                <message>Глагол \1 с предлогом “о” не употребляется. Возможная замена: <suggestion>\1 в</suggestion></message>
+                <short>С предлогом “о” не употребляется.</short>
+                <example type="correct">Сомневаться в доказательстве.</example>
+                <example type="incorrect"><marker>Сомневаться об</marker> этом выводе.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">указывать|указать</token>
+                    <token regexp="yes">о|об</token>
+                    <token postag="NN:.*:.*:.*" postag_regexp="yes"></token>
+                </pattern>
+                <message>Глагол \1 с предлогом “о” не употребляется. Возможная замена:
+                <suggestion><match no="1"></match> на <match no="3" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:V"></match></suggestion></message>
+                <short>С предлогом “о” не употребляется.</short>
+                <example type="correct">Указать на ошибку.</example>
+                <example type="incorrect"><marker>Указать об ошибке</marker>.</example>
+            </rule>
+        </rulegroup>
+        
+        <rulegroup default="on" id="strong_m" name="Пропуск обязательных зависимых слов">
+            <rule>
+                <pattern>
+                    <token inflected="yes">содействовать</token>
+                    <token><exception postag=".*:D" postag_regexp="yes"></exception><exception postag="PNN:.*" postag_regexp="yes"></exception><exception regexp="yes">также|тоже</exception></token>
+                </pattern>
+                <message>Не найдены обязательные зависимые слова: содействовать чему?</message>
+                <short>содействовать чему?</short>
+                <example type="correct">Содействовать выполнению задания.</example>
+                <example type="incorrect"><marker>Содействовать и</marker> помогать.</example>
+                <example type="incorrect"><marker>Содействовали и</marker> помогали.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START" skip="-1"><exception scope="next" postag=".*:R" postag_regexp="yes"></exception><exception scope="next" postag="PNN:.*:R.*" postag_regexp="yes"></exception></token>   <!--   -->
+                    <marker>
+                        <token inflected="yes">интересовать</token>
+                        <token><exception postag=".*:R" postag_regexp="yes"></exception><exception postag="PNN:.*" postag_regexp="yes"></exception></token>
+                    </marker>
+                </pattern>
+                <message>Не найдены обязательные зависимые слова: интересовать кого?</message>
+                <short>интересовать кого?</short>
+                <example type="correct">Через несколько минут мы ответим на интересующие слушателей вопросы.</example>
+                <example type="incorrect">Мы ответим на <marker>интересующие вопросы</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">нарушать</token>
+                    <token><exception postag=".*:V" postag_regexp="yes"></exception><exception postag=".*:R" postag_regexp="yes"></exception><exception postag="PNN:.*" postag_regexp="yes"></exception></token>
+                </pattern>
+                <message>Не найдены обязательные зависимые слова: нарушать что (чего)? </message>
+                <short>нарушать что?</short>
+                <example type="correct">Вы нарушаете правила.</example>
+                <example type="incorrect">Вы <marker>нарушаете!</marker></example>
+            </rule>
+            
+        </rulegroup>
+        
+        
+        <rule default="on" id="OPREDELENIA" name="Избыточные придаточные определения">
+            <pattern>
+                <token skip="-1" regexp="yes">который|которого|которому|
+                    котором|которая|которой|которую|которые|которых|
+                    которыми|которое|которым|чей|чьего|чьему|
+                чьим|чья|чьей|чью|чье|чьё|чьем|чьём|чьи</token>
+                <token regexp="yes">который|которого|которому|
+                    котором|которая|которой|которую|которые|которых|которыми|которое|
+                    которым|чей|чьего|чьему|чьим|чья|чьей|
+                чью|чье|чьё|чьем|чьём|чьи</token>
+            </pattern>
+            <message>Избыточные определения. В правильно составленном предложении не должно быть больше одного придаточного определения.</message>
+            <short>Избыточные определения.</short>
+            <example type="correct">Они пошли к реке, по которой плавала лодка.</example>
+            <example type="incorrect">Они пошли к реке, по <marker>которой плавала лодка, которая</marker> была окрашена в белый цвет.</example>
+        </rule>
+        <rulegroup default="off" name="Благозвучность" id="BLAGOZVUCHNOST">
+            <rule>
+                <pattern>
+                    <token regexp="yes">.*[йцкнгшщзхфвпрлджчсмтб][йцкнгшщзхфвпрлджчсмтб]</token>
+                    <token regexp="yes">[йцкнгшщзхфвпрлджчсмтб][йцкнгшщзхфвпрлджчсмтб].*</token>
+                </pattern>
+                <message>Сложно произнести подряд 4 согласных звука.</message>
+                <short>4 согласных подряд.</short>
+                <example type="correct">Гимнаст активно тренировался.</example>
+                <example type="incorrect"><marker>Гимнаст тренировался</marker>.</example>
+            </rule>
+        </rulegroup>
+    </category>
+    
+    <category name="Опечатка">
+        
+        <rulegroup default="off" id="Unknown_words" name="Поиск неизвестных слов (без вариантов замены)">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="UNKNOWN" regexp="yes">[а-я]([а-я].*)</token>
+                    </marker>
+                    <token></token>
+                </pattern>
+                <message>Слова нет в словаре LanguageTool.</message>
+                <url>http://www.aot.ru/demo/morph.html</url>
+                <short>Нет в словаре.</short>
+                <example type="correct">Проверка текста.</example>
+                <example type="correct">Проверка текста и т.п.</example>
+                <example type="incorrect">Это только <marker>теест</marker> проверка.</example>
+            </rule>
+        </rulegroup>
+    </category>
+    
+    <category name="Заглавные буквы">
+        
+        <rule default="on" id="Cap_Letters_Name" name="Имя">
+            <pattern case_sensitive="yes">
+                <token postag="NNN:.*" postag_regexp="yes"><exception regexp="yes">\p{Lu}.*</exception><exception regexp="yes">е|мадам|леди|пани|ежи|шоу|обл</exception><exception negate_pos="yes" postag="NNN:.*" postag_regexp="yes"></exception></token>
+            </pattern>
+            <message>Имя пишется с большой буквы: <suggestion><match no="1" case_conversion="startupper"></match></suggestion></message>
+            <url>http://ru.wikipedia.org/wiki/%D0%97%D0%B0%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F_%D0%B1%D1%83%D0%BA%D0%B2%D0%B0</url>
+            <short>Заглавные буквы.</short>
+            <example type="correct">Он - <marker>Иван</marker>.</example>
+            <example type="incorrect">Он - <marker>иван</marker>.</example>
+        </rule>
+        
+        <rule default="on" id="Cap_Letters_SName" name="Отчество">
+            <pattern case_sensitive="yes">
+                <token postag="NNP:.*" postag_regexp="yes"><exception regexp="yes">\p{Lu}.*</exception><exception>e</exception><exception negate_pos="yes" postag="NNP:.*" postag_regexp="yes"></exception></token>
+            </pattern>
+            <message>Отчество пишется с большой буквы: <suggestion><match no="1" case_conversion="startupper"></match></suggestion></message>
+            <url>http://ru.wikipedia.org/wiki/%D0%97%D0%B0%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F_%D0%B1%D1%83%D0%BA%D0%B2%D0%B0</url>
+            <short>Заглавные буквы.</short>
+            <example type="correct">Он - <marker>Иванович</marker>.</example>
+            <example type="incorrect">Он - <marker>иванович</marker>.</example>
+        </rule>
+        
+    </category>
+    
+</rules>
