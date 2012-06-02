@@ -159,6 +159,12 @@ public class AnalyzedTokenReadings {
     setNoRealPOStag();
   }   
 
+  /**
+   * Removes a reading from the list of readings. Note: if the token
+   * has only one reading, then a new reading with an empty POS tag
+   * and an empty lemma is created.
+   * @param token - reading to be removed.
+   */
   public final void removeReading(final AnalyzedToken token) {
     final ArrayList<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
     final AnalyzedToken tmpTok = new AnalyzedToken(token.getToken(), token
@@ -168,6 +174,9 @@ public class AnalyzedTokenReadings {
       if (!anTokReading.matches(tmpTok)) {
         l.add(anTokReading);
       }
+    }
+    if (l.isEmpty()) {
+        l.add(new AnalyzedToken(token.getToken(), null, null));
     }
     anTokReadings = l.toArray(new AnalyzedToken[l.size()]);
     setNoRealPOStag();
