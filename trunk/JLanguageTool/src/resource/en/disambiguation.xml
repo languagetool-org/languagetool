@@ -116,6 +116,15 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <disambig><match no="1" postag="VBP" postag_regexp="yes"></match></disambig>
         <example type="ambiguous" inputform="are[are/NN,be/VBP]" outputform="are[be/VBP]">What follows <marker>are</marker> the terms used by the Aikikai Foundation</example>
     </rule>
+    <rule name="Are...?" id="SENT_START_ARE">
+    	<pattern>
+    	<token postag="SENT_START"/>
+    	<marker><token>are</token></marker>
+    	</pattern>
+    	<disambig postag="VBP"/>
+    	<example type="untouched">One are of land.</example>
+    	<example type="ambiguous" inputform="Are[are/NN,be/VBP]" outputform="Are[be/VBP]"><marker>Are</marker> people happy?</example>
+    </rule>
     <rule name="NNS|EX + are (noun/verb) -&gt; are (verb)" id="NNS_ARE">
         <pattern>
             <token postag_regexp="yes" postag="EX|NNS"></token>
