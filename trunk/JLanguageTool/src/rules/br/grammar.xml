@@ -18,6 +18,7 @@ Some grammatical resources used:
 
 Useful links:
 * http://br.wikipedia.org/wiki/Wikipedia:Fazio%C3%B9_stanka%C3%B1
+* http://www.kervarker.org/tmp/NEVEZVREZHONEGERIEN.htm
 -->
 <rules lang="br" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -4068,7 +4069,7 @@ Useful links:
       <rule>
         <pattern>
           <token regexp="yes">lavaret|pellgomzet|poket|telefonet|skrivet</token>
-          <token regexp="yes">e[mn]|ez|ac’h|hon?|hoc’h|o</token>
+          <token regexp="yes">e[mn]|ez|he|ac’h|hon?|hoc’h|o</token>
           <token regexp="yes">[dp]eus|[bpd]oa</token>
           <marker>
             <token regexp="yes">ac’han(on|out|omp|oc’h)|anezh(añ|[ioe])</token>
@@ -6051,7 +6052,81 @@ Useful links:
         <example type="correct">Peogwir e oar pegen nec'het eo ar re all gantañ.</example>
       </rule>
     </rulegroup>
-     
+
+    <rulegroup id="KROG" name="kroget em eus → krog on">
+      <rule>
+        <pattern>
+          <token>kroget</token>
+          <marker>
+            <token regexp="yes">[ae]m</token>
+            <token>eus</token>
+          </marker>
+        </pattern>
+        <message>Ret eo skrivañ <suggestion>krog on</suggestion> pe <suggestion>krog e oan</suggestion></message>
+        <example type="incorrect">Kroget <marker>em eus</marker> da deskiñ brezhoneg.</example>
+        <example type="correct">Krog on da deskiñ brezhoneg.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>kroget</token>
+          <marker>
+            <token regexp="yes">[ae]z|[ae]c’h</token>
+            <token regexp="yes">p?eus</token>
+          </marker>
+        </pattern>
+        <message>Ret eo skrivañ <suggestion>krog out</suggestion> pe <suggestion>krog e oas</suggestion></message>
+        <example type="incorrect">Kroget <marker>ez peus</marker> da zeskiñ brezhoneg?</example>
+        <example type="correct">Krog out da zeskiñ brezhoneg?</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>kroget</token>
+          <marker>
+            <token regexp="yes">en|he</token>
+            <token regexp="yes">deus</token>
+          </marker>
+        </pattern>
+        <message>Ret eo skrivañ <suggestion>krog eo</suggestion> pe <suggestion>krog e oa</suggestion></message>
+        <example type="incorrect">Kroget <marker>en deus</marker> da zeskiñ brezhoneg.</example>
+        <example type="correct">Krog eo da zeskiñ brezhoneg.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>kroget</token>
+          <marker>
+            <token regexp="yes">hon</token>
+            <token regexp="yes">eus</token>
+          </marker>
+        </pattern>
+        <message>Ret eo skrivañ <suggestion>krog omp</suggestion> pe <suggestion>krog e oamp</suggestion></message>
+        <example type="incorrect">Kroget <marker>hon eus</marker> da zeskiñ brezhoneg.</example>
+        <example type="correct">Krog omp da zeskiñ brezhoneg.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>kroget</token>
+          <marker>
+            <token regexp="yes">hoc’h</token>
+            <token regexp="yes">eus</token>
+          </marker>
+        </pattern>
+        <message>Ret eo skrivañ <suggestion>krog oc’h</suggestion> pe <suggestion>krog e oac’h</suggestion></message>
+        <example type="incorrect">Kroget <marker>hoc’h eus</marker> da zeskiñ brezhoneg.</example>
+        <example type="correct">Krog oc’h da zeskiñ brezhoneg.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>kroget</token>
+          <marker>
+            <token regexp="yes">o</token>
+            <token regexp="yes">deus</token>
+          </marker>
+        </pattern>
+        <message>Ret eo skrivañ <suggestion>krog int</suggestion> pe <suggestion>krog e oant</suggestion></message>
+        <example type="incorrect">Kroget <marker>o deus</marker> da zeskiñ brezhoneg.</example>
+        <example type="correct">Krog int da zeskiñ brezhoneg.</example>
+      </rule>
+    </rulegroup>
   </category>
   <!-- vim: foldmethod=marker foldmarker=<category,</category:
   -->
