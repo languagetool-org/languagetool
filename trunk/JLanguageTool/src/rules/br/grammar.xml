@@ -1936,7 +1936,7 @@ Useful links:
     <rulegroup id="GER_KEMM" name="kemmadur ebet goude gerioù">
       <rule>
         <pattern>
-          <token regexp="yes">abaoe|a-benn|ahont|amañ|a-wechoù|arabat|a-raok|aze|daoust|eget|ent|eus|[e’]vel(-se)?|e-giz|[e’]vit|goude|hag?|hep|hevelep|kalz|kement|ke[nt]|krenn|lies|mard?|met|nemet|memes|nebeu(dig)?|nep|ouzhpenn|pas|pep|pebezh|pegen|pere|petvet|peseurt|petore|rak|setu|seurt</token>
+          <token regexp="yes">abaoe|a-benn|ahont|amañ|a-wechoù|a-wazhioù|arabat|a-raok|aze|daoust|eget|ent|eus|[e’]vel(-se)?|e-giz|[e’]vit|goude|hag?|hep|hevelep|kalz(ig)?|kement|ke[nt]|krenn|lies|mard?|met|nemet|memes|nebeud(ig)?|nep|ouzhpenn|pas|pep|pebezh|pegen|pere|petvet|peseurt|petore|rak|setu|seurt</token>
           <marker>
             <token postag="[^M]*M:.*" postag_regexp="yes">
               <exception negate_pos="yes" postag="[^M]*M:.*" postag_regexp="yes"></exception>
@@ -3061,6 +3061,68 @@ Useful links:
         <message>Stumm boas ur droienn a verk ur prantad amzer a zistro ingal. A fellout a rae deoc’h skrivañ <suggestion>e veze</suggestion>?</message>
         <example type="incorrect">Bep sizhun e <marker>oa</marker> atalieroù komz.</example>
         <example type="correct">Bep sizhun e <marker>veze</marker> atalieroù komz.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="AM_EUS_AM_BEZ" name="am eus → am bez">
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes">[ae]m|hon</token>
+            <token postag="X KAOUT2">eus</token>
+          </marker>
+          <token regexp="yes">alies|atav|a-wechoù|a-wezhioù|bepred|bemdez|bemnoz</token>
+        </pattern>
+        <message>Ret eo skrivañ <suggestion>\1 bez</suggestion> gant ar ger «\3».</message>
+        <example type="incorrect">Sec’hed <marker>am eus</marker> atav.</example>
+        <example type="correct">Sec’hed am bez atav.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes">[ae](z|c‘h)</token>
+            <token postag="X KAOUT2" regexp="yes">p?eus</token>
+          </marker>
+          <token regexp="yes">alies|atav|a-wechoù|a-wezhioù|bepred|bemdez|bemnoz</token>
+        </pattern>
+        <message>Ret eo skrivañ <suggestion><match no="1" regexp_match="(.).*" regexp_replace="$1z"/> pez</suggestion> gant ar ger «\3».</message>
+        <example type="incorrect">Sec’hed <marker>az peus</marker> atav.</example>
+        <example type="correct">Sec’hed az pez atav.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes">en|he|o</token>
+            <token postag="X KAOUT2">deus</token>
+          </marker>
+          <token regexp="yes">alies|atav|a-wechoù|a-wezhioù|bepred|bemdez|bemnoz</token>
+        </pattern>
+        <message>Ret eo skrivañ <suggestion>\1 devez</suggestion> gant ar ger «\3».</message>
+        <example type="incorrect">Sec’hed <marker>o deus</marker> atav.</example>
+        <example type="correct">Sec’hed o devez atav.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token>hoc’h</token>
+            <token postag="X KAOUT2">peus</token>
+          </marker>
+          <token regexp="yes">alies|atav|a-wechoù|a-wezhioù|bepred|bemdez|bemnoz</token>
+        </pattern>
+        <message>Ret eo skrivañ <suggestion>ho pez</suggestion> gant ar ger «\3».</message>
+        <example type="incorrect">Sec’hed <marker>hoc’h peus</marker> atav.</example>
+        <example type="correct">Sec’hed ho pez atav.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes">[ae][mz]|[ae]c’h|en|he|hon|hoc’h|o</token>
+            <token postag="X KAOUT2" regexp="yes">[bdp]oa</token>
+          </marker>
+          <token regexp="yes">alies|atav|a-wechoù|a-wezhioù|bepred|bemdez|bemnoz</token>
+        </pattern>
+        <message>Ret eo skrivañ <suggestion>\1 <match no="2" regexp_match="(.).*" regexp_replace="$1eze"/></suggestion> gant ar ger «\3».</message>
+        <example type="incorrect">Sec’hed <marker>am boa</marker> atav.</example>
+        <example type="correct">Sec’hed am beze atav.</example>
       </rule>
     </rulegroup>
   </category>
@@ -6083,7 +6145,7 @@ Useful links:
           <token>kroget</token>
           <marker>
             <token regexp="yes">en|he</token>
-            <token regexp="yes">deus</token>
+            <token>deus</token>
           </marker>
         </pattern>
         <message>Ret eo skrivañ <suggestion>krog eo</suggestion> pe <suggestion>krog e oa</suggestion></message>
@@ -6094,8 +6156,8 @@ Useful links:
         <pattern>
           <token>kroget</token>
           <marker>
-            <token regexp="yes">hon</token>
-            <token regexp="yes">eus</token>
+            <token>hon</token>
+            <token>eus</token>
           </marker>
         </pattern>
         <message>Ret eo skrivañ <suggestion>krog omp</suggestion> pe <suggestion>krog e oamp</suggestion></message>
@@ -6106,8 +6168,8 @@ Useful links:
         <pattern>
           <token>kroget</token>
           <marker>
-            <token regexp="yes">hoc’h</token>
-            <token regexp="yes">eus</token>
+            <token>hoc’h</token>
+            <token>eus</token>
           </marker>
         </pattern>
         <message>Ret eo skrivañ <suggestion>krog oc’h</suggestion> pe <suggestion>krog e oac’h</suggestion></message>
@@ -6118,8 +6180,8 @@ Useful links:
         <pattern>
           <token>kroget</token>
           <marker>
-            <token regexp="yes">o</token>
-            <token regexp="yes">deus</token>
+            <token>o</token>
+            <token>deus</token>
           </marker>
         </pattern>
         <message>Ret eo skrivañ <suggestion>krog int</suggestion> pe <suggestion>krog e oant</suggestion></message>
