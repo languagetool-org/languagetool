@@ -18,60 +18,59 @@
  */
 package org.languagetool.dev.index;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
-
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.util.LuceneTestCase;
-
 import org.languagetool.Language;
+import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.patterns.Element;
+import org.languagetool.rules.patterns.PatternRule;
+
+import java.io.File;
+import java.util.Arrays;
+import java.util.List;
 
 public class IndexerSearcherTest extends LuceneTestCase {
-  private IndexSearcher searcher;
 
+  private IndexSearcher searcher;
   private Directory directory;
 
   @Override
   public void setUp() throws Exception {
     super.setUp();
     directory = newDirectory();
-
   }
 
   @Override
   public void tearDown() throws Exception {
-    searcher.close();
+    if (searcher != null) {
+      searcher.close();
+    }
     directory.close();
     super.tearDown();
   }
 
   public void testIndexerSearcher() throws Exception {
     // Note that the second sentence ends with "lid" instead of "lids" (the inflated one)
-    String content = "How to move back and fourth from linux to xmb? Calcium deposits on eye lid.";
+    final String content = "How to move back and fourth from linux to xmb? Calcium deposits on eye lid.";
 
     Indexer.run(content, directory, Language.ENGLISH, false);
 
     searcher = new IndexSearcher(directory);
-    Searcher errorSearcher = new Searcher();
-    File ruleFile = new File("src/rules/en/grammar.xml");
-    List<TopDocs> topDocs = errorSearcher.run("BACK_AND_FOURTH", ruleFile, searcher, true);
-    assertEquals(1, topDocs.size());
-    assertEquals(1, topDocs.get(0).totalHits);
-    
+    final Searcher errorSearcher = new Searcher();
+    final File ruleFile = new File("src/rules/en/grammar.xml");
+    TopDocs topDocs = errorSearcher.run("BACK_AND_FOURTH", ruleFile, searcher, true);
+    assertEquals(1, topDocs.totalHits);
+
     topDocs = errorSearcher.run("BACK_AND_FOURTH", ruleFile, searcher, false);
-    assertEquals(1, topDocs.size());
-    assertEquals(1, topDocs.get(0).totalHits);
+    assertEquals(1, topDocs.totalHits);
 
     topDocs = errorSearcher.run("ALL_OVER_THE_WORD", ruleFile, searcher, true);
-    assertEquals(1, topDocs.size());
-    assertEquals(0, topDocs.get(0).totalHits);
+    assertEquals(0, topDocs.totalHits);
 
     topDocs = errorSearcher.run("ALL_OVER_THE_WORD", ruleFile, searcher, false);
-    assertEquals(1, topDocs.size());
-    assertEquals(0, topDocs.get(0).totalHits);
+    assertEquals(0, topDocs.totalHits);
 
     try {
       errorSearcher.run("Invalid Rule Id", ruleFile, searcher, true);
@@ -86,12 +85,11 @@ public class IndexerSearcherTest extends LuceneTestCase {
     try {
       errorSearcher.run("EYE_BROW", ruleFile, searcher, true);
       fail("Exception should be thrown for unsupported PatternRule");
-    } catch (IOException e) {
-      assertTrue(e instanceof UnsupportedPatternRuleException);
-      topDocs = errorSearcher.run("EYE_BROW", ruleFile, searcher, false);
-      assertEquals(1, topDocs.size());
-      assertEquals(1, topDocs.get(0).totalHits);
-    }
+    } catch (UnsupportedPatternRuleException expected) {}
+
+    topDocs = errorSearcher.run("EYE_BROW", ruleFile, searcher, false);
+    assertEquals(1, topDocs.totalHits);
+
 
     try {
       errorSearcher.run("ALL_FOR_NOT", ruleFile, searcher, true);
@@ -99,8 +97,29 @@ public class IndexerSearcherTest extends LuceneTestCase {
     } catch (UnsupportedPatternRuleException expected) {
       topDocs = errorSearcher
           .run("ALL_FOR_NOT", ruleFile, searcher, false);
-      assertEquals(1, topDocs.size());
-      assertEquals(0, topDocs.get(0).totalHits);
+      assertEquals(0, topDocs.totalHits);
     }
   }
+
+  public void testIndexerSearcher2() throws Exception {
+    final String content = "How to move back and fourth from linux to xmb?";
+
+    Indexer.run(content, directory, Language.ENGLISH, false);
+
+    final Searcher errorSearcher = new Searcher();
+    final List<Element> elements = Arrays.asList(
+            new Element("move", false, false, false),
+            new Element("back", false, false, false)
+    );
+    final PatternRule rule1 = new PatternRule("RULE1", Language.ENGLISH, elements, "desc", "msg", "shortMsg");
+    final IndexSearcher indexSearcher = new IndexSearcher(directory);
+    try {
+      final List<RuleMatch> matches = errorSearcher.findRuleMatchesOnIndex(rule1, Language.ENGLISH, indexSearcher);
+      assertEquals(1, matches.size());
+      assertEquals("RULE1", matches.get(0).getRule().getId());
+    } finally {
+      indexSearcher.close();
+    }
+  }
+
 }

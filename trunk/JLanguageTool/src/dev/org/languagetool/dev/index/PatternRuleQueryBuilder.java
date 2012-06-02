@@ -41,13 +41,21 @@ public class PatternRuleQueryBuilder {
 
   private static final int MAX_SKIP = 1000;
 
-  public Query buildQuery(PatternRule rule, boolean checkUnsupportedRule)
+  public Query buildQuery(PatternRule rule)
       throws UnsupportedPatternRuleException {
-    return next(rule.getElements().iterator(), checkUnsupportedRule);
+    return next(rule.getElements().iterator(), true);
+  }
+
+  public Query buildPossiblyRelaxedQuery(PatternRule rule) {
+    try {
+      return next(rule.getElements().iterator(), false);
+    } catch (UnsupportedPatternRuleException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   // create the next SpanQuery from the top Element in the Iterator.
-  private SpanQuery next(Iterator<Element> it, boolean checkUnsupportedRule)
+  private SpanQuery next(Iterator<Element> it, boolean throwExceptionOnUnsupportedRule)
       throws UnsupportedPatternRuleException {
 
     // no more Element
@@ -70,7 +78,7 @@ public class PatternRuleQueryBuilder {
           patternElement.isPOStagRegularExpression());
 
     } catch (UnsupportedPatternRuleException e) {
-      if (checkUnsupportedRule) {
+      if (throwExceptionOnUnsupportedRule) {
         throw e;
       } else {
         // create an empty token for the unsupported token, so that it can match any term with any
@@ -101,7 +109,7 @@ public class PatternRuleQueryBuilder {
     }
 
     // recursion invoke
-    final SpanQuery next = next(it, checkUnsupportedRule);
+    final SpanQuery next = next(it, throwExceptionOnUnsupportedRule);
 
     if (next != null) {
       list.add(next);

@@ -18,9 +18,7 @@
  */
 package org.languagetool.dev.index;
 
-import java.io.IOException;
-
-public class UnsupportedPatternRuleException extends IOException {
+public class UnsupportedPatternRuleException extends Exception {
 
   private static final long serialVersionUID = -2346750825068970240L;
 

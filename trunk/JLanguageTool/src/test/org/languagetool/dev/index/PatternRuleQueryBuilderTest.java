@@ -89,8 +89,8 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
     final List<PatternRule> rules = ruleLoader.getRules(input, "test.xml");
 
     final PatternRuleQueryBuilder patternRuleQueryBuilder = new PatternRuleQueryBuilder();
-    final Query query1 = patternRuleQueryBuilder.buildQuery(rules.get(0), true);
-    final Query query2 = patternRuleQueryBuilder.buildQuery(rules.get(0), false);
+    final Query query1 = patternRuleQueryBuilder.buildQuery(rules.get(0));
+    final Query query2 = patternRuleQueryBuilder.buildPossiblyRelaxedQuery(rules.get(0));
     assertEquals(query1, query2);
     assertEquals(1, searcher.search(query1, null, 1000).totalHits);
     assertEquals(1, searcher.search(query2, null, 1000).totalHits);
@@ -125,16 +125,16 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
     final List<PatternRule> rules = ruleLoader.getRules(input, "test.xml");
 
     final PatternRuleQueryBuilder patternRuleQueryBuilder = new PatternRuleQueryBuilder();
-    Query query = patternRuleQueryBuilder.buildQuery(rules.get(0), true);
+    Query query = patternRuleQueryBuilder.buildQuery(rules.get(0));
     assertEquals(1, searcher.search(query, null, 1000).totalHits);
 
-    query = patternRuleQueryBuilder.buildQuery(rules.get(1), true);
+    query = patternRuleQueryBuilder.buildQuery(rules.get(1));
     assertEquals(0, searcher.search(query, null, 1000).totalHits);
 
-    query = patternRuleQueryBuilder.buildQuery(rules.get(2), true);
+    query = patternRuleQueryBuilder.buildQuery(rules.get(2));
     assertEquals(1, searcher.search(query, null, 1000).totalHits);
 
-    query = patternRuleQueryBuilder.buildQuery(rules.get(3), true);
+    query = patternRuleQueryBuilder.buildQuery(rules.get(3));
     assertEquals(1, searcher.search(query, null, 1000).totalHits);
   }
 
@@ -153,14 +153,11 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
     final PatternRuleQueryBuilder patternRuleQueryBuilder = new PatternRuleQueryBuilder();
     List<PatternRule> rules = ruleLoader.getRules(input, "test.xml");
     try {
-      patternRuleQueryBuilder.buildQuery(rules.get(0), true);
+      patternRuleQueryBuilder.buildQuery(rules.get(0));
       fail("Exception should be thrown for unsupported PatternRule");
     } catch (UnsupportedPatternRuleException expected) {}
-    try {
-      patternRuleQueryBuilder.buildQuery(rules.get(0), false);
-    } catch (UnsupportedPatternRuleException e) {
-      fail("Exception should not be thrown, if not checkUnsupportedRule");
-    }
+
+    patternRuleQueryBuilder.buildPossiblyRelaxedQuery(rules.get(0));
 
     sb = new StringBuilder();
 
@@ -172,49 +169,11 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
 
     rules = ruleLoader.getRules(input, "test.xml");
     try {
-      patternRuleQueryBuilder.buildQuery(rules.get(0), true);
+      patternRuleQueryBuilder.buildQuery(rules.get(0));
       fail("Exception should be thrown for unsupported PatternRule");
     } catch (UnsupportedPatternRuleException expected) {}
 
-    try {
-      patternRuleQueryBuilder.buildQuery(rules.get(0), false);
-    } catch (UnsupportedPatternRuleException e) {
-      fail("Exception should not be thrown, if not checkUnsupportedRule");
-    }
-
+    patternRuleQueryBuilder.buildPossiblyRelaxedQuery(rules.get(0));
   }
 
-  /*
-   * public void testAllPatternRules() throws IOException {
-   * System.out.println("\nStatistics information for supported rule ratio of each language:"); int
-   * successAll = 0; int failAll = 0; HashMap<String, Integer> messagesAll = new HashMap<String,
-   * Integer>();
-   * 
-   * for (Language language : Language.LANGUAGES) { final PatternRuleLoader ruleLoader = new
-   * PatternRuleLoader(); final String name = "/" + language.getShortName() + "/grammar.xml"; final
-   * List<PatternRule> rules = ruleLoader.getRules(JLanguageTool.getDataBroker()
-   * .getFromRulesDirAsStream(name), name); int success = 0; int fail = 0; HashMap<String, Integer>
-   * messages = new HashMap<String, Integer>();
-   * 
-   * for (PatternRule rule : rules) {
-   * 
-   * try { PatternRuleQueryBuilder.buildQuery((PatternRule) rule, true); success++; } catch
-   * (UnsupportedPatternRuleException e) { if (messages.get(e.getMessage()) == null) {
-   * messages.put(e.getMessage(), 0); } messages.put(e.getMessage(), messages.get(e.getMessage()) +
-   * 1);
-   * 
-   * fail++; }
-   * 
-   * } System.out.println("\t" + language.getName() + " ratio: " + (float) success / (success +
-   * fail) + " (failure:" + fail + ")"); for (Entry<String, Integer> entry : messages.entrySet()) {
-   * System.out.println("\t\t" + entry.getKey() + ": " + entry.getValue()); }
-   * 
-   * successAll += success; failAll += fail; } System.out.println("All languages ratio: " + (float)
-   * successAll / (successAll + failAll) + " (failure:" + failAll + ")");
-   * 
-   * for (Entry<String, Integer> entry : messagesAll.entrySet()) { System.out.println("\t" +
-   * entry.getKey() + ": " + entry.getValue()); }
-   * 
-   * }
-   */
 }

@@ -96,10 +96,13 @@ public class Indexer {
     run(br, new Indexer(dir, language), isSentence);
   }
 
-  public static void run(BufferedReader reader, Indexer indexer, boolean isSentence)
-      throws IOException {
-    indexer.index(reader, isSentence, -1);
-    indexer.close();
+  public static void run(BufferedReader reader, Indexer indexer, boolean isSentence) throws IOException {
+    try {
+      indexer.index(reader, isSentence, -1);
+    } finally {
+      // TODO: let caller close indexer
+      indexer.close();
+    }
   }
 
   public void index(String content, boolean isSentence, int docCount) throws IOException {
