@@ -30,7 +30,7 @@ import org.languagetool.server.HTTPServer;
 import org.languagetool.tools.StringTools;
 
 /**
- * Configuration -- currently this is mostly a list of disabled rule IDs.
+ * Configuration like list of disabled rule IDs, server mode etc.
  * Configuration is loaded from and stored to a properties file.
  * 
  * @author Daniel Naber
@@ -48,7 +48,8 @@ public class Configuration {
   private static final String USE_GUI_CONFIG_KEY = "useGUIConfig";
   private static final String DELIMITER = ",";
 
-  private File configFile;
+  private final File configFile;
+
   private Set<String> disabledRuleIds = new HashSet<String>();
   private Set<String> enabledRuleIds = new HashSet<String>();
   private Set<String> disabledCategoryNames = new HashSet<String>();
@@ -137,8 +138,8 @@ public class Configuration {
     return serverPort;
   }
 
-  public void setUseGUIConfig(final boolean useGUIConfg) {
-	    this.guiConfig = useGUIConfg;
+  public void setUseGUIConfig(final boolean useGUIConfig) {
+	    this.guiConfig = useGUIConfig;
 	  }
 
  public boolean getUseGUIConfig() {
@@ -172,9 +173,9 @@ public class Configuration {
         motherTongue = Language.getLanguageForShortName(motherTongueStr);
       }
             
-      autoDetect = "true".equals((String) props.get(AUTO_DETECT_CONFIG_KEY));            
-      guiConfig = "true".equals((String) props.get(USE_GUI_CONFIG_KEY));
-      runServer = "true".equals((String) props.get(SERVER_RUN_CONFIG_KEY));
+      autoDetect = "true".equals(props.get(AUTO_DETECT_CONFIG_KEY));
+      guiConfig = "true".equals(props.get(USE_GUI_CONFIG_KEY));
+      runServer = "true".equals(props.get(SERVER_RUN_CONFIG_KEY));
 
       final String serverPortString = (String) props.get(SERVER_PORT_CONFIG_KEY);
       if (serverPortString != null) {
@@ -182,7 +183,7 @@ public class Configuration {
       }
       
       //store config for other languages
-      loadconfigForOtherLangs(lang, props);
+      loadConfigForOtherLanguages(lang, props);
       
     } catch (final FileNotFoundException e) {
       // file not found: okay, leave disabledRuleIds empty
@@ -193,26 +194,20 @@ public class Configuration {
     }
   }
   
-  private void loadconfigForOtherLangs(final Language lang, final Properties prop) {
+  private void loadConfigForOtherLanguages(final Language lang, final Properties prop) {
 	  for (Language otherLang : Language.getAllLanguages()) {
-		  if (!otherLang.equals(lang)) {			 
-			  storeConfigKeyFromProp(prop, DISABLED_RULES_CONFIG_KEY
-					  + "." + otherLang.getShortNameWithVariant());
-			  
-			  storeConfigKeyFromProp(prop, ENABLED_RULES_CONFIG_KEY
-					  + "." + otherLang.getShortNameWithVariant());			  
-			  
-			  storeConfigKeyFromProp(prop, DISABLED_CATEGORIES_CONFIG_KEY
-					  + "." + otherLang.getShortNameWithVariant());			  
+		  if (!otherLang.equals(lang)) {
+        final String languageSuffix = "." + otherLang.getShortNameWithVariant();
+        storeConfigKeyFromProp(prop, DISABLED_RULES_CONFIG_KEY + languageSuffix);
+			  storeConfigKeyFromProp(prop, ENABLED_RULES_CONFIG_KEY + languageSuffix);
+			  storeConfigKeyFromProp(prop, DISABLED_CATEGORIES_CONFIG_KEY + languageSuffix);
 		  }
 	  }
   }
-
    
   private void storeConfigKeyFromProp(final Properties prop, final String key) {
 	  if (prop.containsKey(key)) {
-		  configForOtherLangs.put(key, 
-				  prop.getProperty(key));
+		  configForOtherLangs.put(key, prop.getProperty(key));
 	  }
   }
   
@@ -227,7 +222,7 @@ public class Configuration {
     return list;
   }
 
-  private final String getQualifier(Language lang) {
+  private String getQualifier(Language lang) {
 	    String qualifier = "";
 	    if (lang != null) {
 	    	qualifier = "." + lang.getShortNameWithVariant();
