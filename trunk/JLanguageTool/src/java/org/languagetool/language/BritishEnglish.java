@@ -29,6 +29,7 @@ import org.languagetool.rules.Rule;
 import org.languagetool.rules.UppercaseSentenceStartRule;
 import org.languagetool.rules.WhitespaceRule;
 import org.languagetool.rules.en.AvsAnRule;
+import org.languagetool.rules.en.BritishReplaceRule;
 import org.languagetool.rules.en.CompoundRule;
 import org.languagetool.rules.en.EnglishUnpairedBracketsRule;
 import org.languagetool.rules.en.EnglishWordRepeatBeginningRule;
@@ -60,7 +61,9 @@ public class BritishEnglish extends English {
 		            // specific to English:
 		            AvsAnRule.class,
 		            EnglishWordRepeatBeginningRule.class,
-		            CompoundRule.class
+		            CompoundRule.class,
+		            // specific to British English:
+		            BritishReplaceRule.class
 		    );
 	  }
 }
