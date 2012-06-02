@@ -189,7 +189,7 @@ public class RuleCoverage {
     
     /**
      * Generates an error string that matches the given PatternRule object 
-     * @param pattern
+     * @param patternrule
      * @return
      */
     public String generateIncorrectExample(PatternRule patternrule) {
@@ -469,7 +469,6 @@ public class RuleCoverage {
      * Faster version of inExceptionList, because we don't have to re-compile the Patterns for the exception elements
      * @param word
      * @param exceptionAttributes
-     * @param numExceptions
      * @return
      */
     @SuppressWarnings("unchecked")
@@ -497,10 +496,6 @@ public class RuleCoverage {
      * @param word
      * @param tokenPattern
      * @param posPattern
-     * @param isTokenEmpty
-     * @param hasPosTag
-     * @param negate
-     * @param postagNegate
      * @return
      */
     public boolean isExampleOf(String word, Pattern tokenPattern, Pattern posPattern, Element e) {
@@ -824,10 +819,11 @@ public class RuleCoverage {
       final PatternRuleLoader ruleLoader = new PatternRuleLoader();
       InputStream is = this.getClass().getResourceAsStream(filename);
       if (is == null) {
-          // happens for external rules plugged in as an XML file:
-          is = new FileInputStream(filename);
+        // happens for external rules plugged in as an XML file:
+        return ruleLoader.getRules(new File(filename));
+      } else {
+        return ruleLoader.getRules(is, filename);
       }
-      return ruleLoader.getRules(is, filename);
     }
     
     public List<PatternRule> parsePatternRule(final String ruleString) {
@@ -835,7 +831,7 @@ public class RuleCoverage {
     	String ruleFileString = ruleFileHeader + categoriesString + ruleString + endCategoriesString + endRulesString;
     	InputStream is = new ByteArrayInputStream(ruleFileString.getBytes());
     	try {
-    		return ruleLoader.getRules(is,null);
+    		return ruleLoader.getRules(is, null);
     	} catch (IOException e) {
     		return new ArrayList<PatternRule>();
     	}
@@ -849,7 +845,7 @@ public class RuleCoverage {
     	String ruleFileString = ruleFileHeader + categoriesString + rs + endCategoriesString + endRulesString;
     	InputStream is = new ByteArrayInputStream(ruleFileString.getBytes());
     	try {
-    		return ruleLoader.getRules(is,null);
+    		return ruleLoader.getRules(is, null);
     	} catch (IOException e) {
     		return new ArrayList<PatternRule>();
     	}

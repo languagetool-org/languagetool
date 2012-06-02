@@ -19,19 +19,23 @@
 package org.languagetool.dev.index;
 
 import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.util.LuceneTestCase;
 import org.languagetool.Language;
+import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.Element;
 import org.languagetool.rules.patterns.PatternRule;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
 public class IndexerSearcherTest extends LuceneTestCase {
+
+  private final File ruleFile = new File("src/rules/en/grammar.xml");
+  private final Searcher errorSearcher = new Searcher();
 
   private IndexSearcher searcher;
   private Directory directory;
@@ -40,6 +44,10 @@ public class IndexerSearcherTest extends LuceneTestCase {
   public void setUp() throws Exception {
     super.setUp();
     directory = newDirectory();
+    // Note that the second sentence ends with "lid" instead of "lids" (the inflated one)
+    final String content = "How to move back and fourth from linux to xmb? Calcium deposits on eye lid.";
+    Indexer.run(content, directory, Language.ENGLISH, false);
+    searcher = new IndexSearcher(directory);
   }
 
   @Override
@@ -52,60 +60,27 @@ public class IndexerSearcherTest extends LuceneTestCase {
   }
 
   public void testIndexerSearcher() throws Exception {
-    // Note that the second sentence ends with "lid" instead of "lids" (the inflated one)
-    final String content = "How to move back and fourth from linux to xmb? Calcium deposits on eye lid.";
+    List<MatchingSentence> matchingSentences =
+            errorSearcher.findRuleMatchesOnIndex(getRule("BACK_AND_FOURTH"), Language.ENGLISH, searcher);
+    assertEquals(1, matchingSentences.size());
 
-    Indexer.run(content, directory, Language.ENGLISH, false);
+    matchingSentences = errorSearcher.findRuleMatchesOnIndex(getRule("EYE_BROW"), Language.ENGLISH, searcher);
+    assertEquals(1, matchingSentences.size());
 
-    searcher = new IndexSearcher(directory);
-    final Searcher errorSearcher = new Searcher();
-    final File ruleFile = new File("src/rules/en/grammar.xml");
-    TopDocs topDocs = errorSearcher.run("BACK_AND_FOURTH", ruleFile, searcher, true);
-    assertEquals(1, topDocs.totalHits);
-
-    topDocs = errorSearcher.run("BACK_AND_FOURTH", ruleFile, searcher, false);
-    assertEquals(1, topDocs.totalHits);
-
-    topDocs = errorSearcher.run("ALL_OVER_THE_WORD", ruleFile, searcher, true);
-    assertEquals(0, topDocs.totalHits);
-
-    topDocs = errorSearcher.run("ALL_OVER_THE_WORD", ruleFile, searcher, false);
-    assertEquals(0, topDocs.totalHits);
+    matchingSentences = errorSearcher.findRuleMatchesOnIndex(getRule("ALL_OVER_THE_WORD"), Language.ENGLISH, searcher);
+    assertEquals(0, matchingSentences.size());
 
     try {
-      errorSearcher.run("Invalid Rule Id", ruleFile, searcher, true);
+      errorSearcher.findRuleMatchesOnIndex(getRule("Invalid Rule Id"), Language.ENGLISH, searcher);
       fail("Exception should be thrown for invalid rule id.");
-    } catch (PatternRuleNotFoundException expected) {
-      try {
-        errorSearcher.run("Invalid Rule Id", ruleFile, searcher, false);
-        fail("Exception should be thrown for invalid rule id.");
-      } catch (PatternRuleNotFoundException expected2) {}
-    }
-
-    try {
-      errorSearcher.run("EYE_BROW", ruleFile, searcher, true);
-      fail("Exception should be thrown for unsupported PatternRule");
-    } catch (UnsupportedPatternRuleException expected) {}
-
-    topDocs = errorSearcher.run("EYE_BROW", ruleFile, searcher, false);
-    assertEquals(1, topDocs.totalHits);
-
-
-    try {
-      errorSearcher.run("ALL_FOR_NOT", ruleFile, searcher, true);
-      fail("Exception should be thrown for unsupported PatternRule");
-    } catch (UnsupportedPatternRuleException expected) {
-      topDocs = errorSearcher
-          .run("ALL_FOR_NOT", ruleFile, searcher, false);
-      assertEquals(0, topDocs.totalHits);
-    }
+    } catch (PatternRuleNotFoundException expected) {}
   }
 
-  public void testIndexerSearcher2() throws Exception {
-    final String content = "How to move back and fourth from linux to xmb?";
+  private PatternRule getRule(String ruleId) throws IOException {
+    return errorSearcher.getRuleById(ruleId, ruleFile);
+  }
 
-    Indexer.run(content, directory, Language.ENGLISH, false);
-
+  public void testIndexerSearcherWithNewRule() throws Exception {
     final Searcher errorSearcher = new Searcher();
     final List<Element> elements = Arrays.asList(
             new Element("move", false, false, false),
@@ -114,9 +89,12 @@ public class IndexerSearcherTest extends LuceneTestCase {
     final PatternRule rule1 = new PatternRule("RULE1", Language.ENGLISH, elements, "desc", "msg", "shortMsg");
     final IndexSearcher indexSearcher = new IndexSearcher(directory);
     try {
-      final List<RuleMatch> matches = errorSearcher.findRuleMatchesOnIndex(rule1, Language.ENGLISH, indexSearcher);
-      assertEquals(1, matches.size());
-      assertEquals("RULE1", matches.get(0).getRule().getId());
+      final List<MatchingSentence> matchingSentences = errorSearcher.findRuleMatchesOnIndex(rule1, Language.ENGLISH, indexSearcher);
+      assertEquals(1, matchingSentences.size());
+      final List<RuleMatch> ruleMatches = matchingSentences.get(0).getRuleMatches();
+      assertEquals(1, ruleMatches.size());
+      final Rule rule = ruleMatches.get(0).getRule();
+      assertEquals("RULE1", rule.getId());
     } finally {
       indexSearcher.close();
     }

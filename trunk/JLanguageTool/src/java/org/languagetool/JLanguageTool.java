@@ -311,12 +311,13 @@ public final class JLanguageTool {
   public List<PatternRule> loadPatternRules(final String filename)
       throws IOException {
     final PatternRuleLoader ruleLoader = new PatternRuleLoader();
-    InputStream is = this.getClass().getResourceAsStream(filename);
+    final InputStream is = this.getClass().getResourceAsStream(filename);
     if (is == null) {
       // happens for external rules plugged in as an XML file:
-      is = new FileInputStream(filename);
+      return ruleLoader.getRules(new File(filename));
+    } else {
+      return ruleLoader.getRules(is, filename);
     }
-    return ruleLoader.getRules(is, filename);
   }
 
   /**

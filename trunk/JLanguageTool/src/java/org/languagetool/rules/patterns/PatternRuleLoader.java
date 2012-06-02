@@ -18,6 +18,8 @@
  */
 package org.languagetool.rules.patterns;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -27,8 +29,6 @@ import javax.xml.parsers.SAXParserFactory;
 
 import org.xml.sax.helpers.DefaultHandler;
 
-import org.languagetool.JLanguageTool;
-
 /**
  * Loads {@link PatternRule}s from an XML file.
  * 
@@ -37,11 +37,23 @@ import org.languagetool.JLanguageTool;
 public class PatternRuleLoader extends DefaultHandler {
 
   /**
-   * @param is stream with the XML rules
-   * @param filename used only for verbose exception message
+   * @param file XML file with pattern rules
    */
-  public final List<PatternRule> getRules(final InputStream is,
-      final String filename) throws IOException {
+  public final List<PatternRule> getRules(final File file) throws IOException {
+    final InputStream inputStream = new FileInputStream(file);
+    try {
+      final PatternRuleLoader ruleLoader = new PatternRuleLoader();
+      return ruleLoader.getRules(inputStream, file.getAbsolutePath());
+    } finally {
+      inputStream.close();
+    }
+  }
+
+  /**
+   * @param is stream with the XML rules
+   * @param filename used only for verbose exception message - should refer to where the stream comes from
+   */
+  public final List<PatternRule> getRules(final InputStream is, final String filename) throws IOException {
     try {
       final PatternRuleHandler handler = new PatternRuleHandler();
       final SAXParserFactory factory = SAXParserFactory.newInstance();
@@ -50,16 +62,8 @@ public class PatternRuleLoader extends DefaultHandler {
       saxParser.parse(is, handler);
       return handler.getRules();
     } catch (final Exception e) {
-      throw new IOException("Cannot load or parse '" + filename + "'", e);
+      throw new IOException("Cannot load or parse input stream of '" + filename + "'", e);
     }
-  }
-
-  /** Testing only. */
-  public final void main(final String[] args) throws IOException {
-    final PatternRuleLoader prg = new PatternRuleLoader();
-    final String name = "/de/grammar.xml";
-    final List<PatternRule> l = prg.getRules(JLanguageTool.getDataBroker().getFromRulesDirAsStream(name), name);
-    System.out.println(l);
   }
 
 }
