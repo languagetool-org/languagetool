@@ -990,15 +990,29 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         </pattern>
         <disambig postag="NN:UN"></disambig>
     </rule>
-    <rule name="Figure|Table|Appendix 1 -&gt; NNP" id="figure_1_NNP">
+    <rulegroup name="Figure|Table|Appendix 1 -&gt; NNP" id="figure_1_NNP">
+    <rule>
         <pattern>
             <marker>
-                <token regexp="yes">figure|table|appendix|chapter|part|fig|section|picture|lemma|column|row|fraction</token>
-            </marker>
+                <token regexp="yes">figure|table|appendix|chapter|part|section|picture|lemma|column|row|fraction</token>
+            </marker>       
             <token regexp="yes">\d+([\.\-]\d+)*|[A-Z]</token>
         </pattern>
         <disambig postag="NNP"></disambig>
     </rule>
+    	<rule>
+    		<pattern>
+    			<marker>
+				<token regexp="yes">fig|chap</token>
+				</marker>
+				<token>.</token>
+				<token regexp="yes">[\d+\p{Lu}]</token>    		
+    		</pattern>
+    		<disambig postag="NNP"/>
+    		<example type="untouched">This is Figure 1.</example>
+    		<example type="ambiguous" inputform="Fig[fig/NN]" outputform="Fig[fig/NNP]">This is <marker>Fig</marker>. 1.</example>
+    	</rule>
+    </rulegroup>   
     <rule name="worth + VBG/NN -&gt; VBG" id="WORTH_VBG_NN">
         <pattern>
             <token>worth</token>
@@ -1436,6 +1450,5 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
 		</pattern>
 		<disambig postag="VB"/>
 		<example type="ambiguous" inputform="train[train/NN,train/VB,train/VBP]" outputform="train[train/VB]">Our army helped <marker>train</marker> the Armenian soldiers.</example>
-	</rule>    
-    
+	</rule>           
 </rules>
