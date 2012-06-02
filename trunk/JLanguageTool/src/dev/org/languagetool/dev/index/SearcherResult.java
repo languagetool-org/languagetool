@@ -27,10 +27,12 @@ public class SearcherResult {
 
   private final List<MatchingSentence> matchingSentences;
   private final int checkedSentences;
+  private final boolean relaxedQuery;
 
-  public SearcherResult(List<MatchingSentence> matchingSentences, int checkedSentences) {
+  public SearcherResult(List<MatchingSentence> matchingSentences, int checkedSentences, boolean relaxedQuery) {
     this.matchingSentences = matchingSentences;
     this.checkedSentences = checkedSentences;
+    this.relaxedQuery = relaxedQuery;
   }
 
   public List<MatchingSentence> getMatchingSentences() {
@@ -39,5 +41,9 @@ public class SearcherResult {
 
   public int getCheckedSentences() {
     return checkedSentences;
+  }
+
+  public boolean isRelaxedQuery() {
+    return relaxedQuery;
   }
 }

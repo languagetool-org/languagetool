@@ -61,14 +61,17 @@ public class IndexerSearcherTest extends LuceneTestCase {
             errorSearcher.findRuleMatchesOnIndex(getRule("BACK_AND_FOURTH"), Language.ENGLISH, searcher);
     assertEquals(2, searcherResult.getCheckedSentences());
     assertEquals(1, searcherResult.getMatchingSentences().size());
+    assertEquals(false, searcherResult.isRelaxedQuery());
 
     searcherResult = errorSearcher.findRuleMatchesOnIndex(getRule("EYE_BROW"), Language.ENGLISH, searcher);
     assertEquals(1, searcherResult.getCheckedSentences());
     assertEquals(1, searcherResult.getMatchingSentences().size());
+    assertEquals(true, searcherResult.isRelaxedQuery());
 
     searcherResult = errorSearcher.findRuleMatchesOnIndex(getRule("ALL_OVER_THE_WORD"), Language.ENGLISH, searcher);
     assertEquals(2, searcherResult.getCheckedSentences());
     assertEquals(0, searcherResult.getMatchingSentences().size());
+    assertEquals(false, searcherResult.isRelaxedQuery());
 
     try {
       errorSearcher.findRuleMatchesOnIndex(getRule("Invalid Rule Id"), Language.ENGLISH, searcher);
@@ -93,6 +96,30 @@ public class IndexerSearcherTest extends LuceneTestCase {
       final SearcherResult searcherResult = errorSearcher.findRuleMatchesOnIndex(rule1, Language.ENGLISH, indexSearcher);
       assertEquals(1, searcherResult.getCheckedSentences());
       assertEquals(1, searcherResult.getMatchingSentences().size());
+      assertEquals(false, searcherResult.isRelaxedQuery());
+      final List<RuleMatch> ruleMatches = searcherResult.getMatchingSentences().get(0).getRuleMatches();
+      assertEquals(1, ruleMatches.size());
+      final Rule rule = ruleMatches.get(0).getRule();
+      assertEquals("RULE1", rule.getId());
+    } finally {
+      indexSearcher.close();
+    }
+  }
+
+  public void testIndexerSearcherWithRegexRule() throws Exception {
+    createIndex("How to move back and fourth from linux to xmb?");
+    final Searcher errorSearcher = new Searcher();
+    final List<Element> elements = Arrays.asList(
+            new Element("move", false, false, false),
+            new Element("forth|back", false, true, false)
+    );
+    final PatternRule rule1 = new PatternRule("RULE1", Language.ENGLISH, elements, "desc", "msg", "shortMsg");
+    final IndexSearcher indexSearcher = new IndexSearcher(directory);
+    try {
+      final SearcherResult searcherResult = errorSearcher.findRuleMatchesOnIndex(rule1, Language.ENGLISH, indexSearcher);
+      assertEquals(1, searcherResult.getCheckedSentences());
+      assertEquals(1, searcherResult.getMatchingSentences().size());
+      assertEquals(false, searcherResult.isRelaxedQuery());
       final List<RuleMatch> ruleMatches = searcherResult.getMatchingSentences().get(0).getRuleMatches();
       assertEquals(1, ruleMatches.size());
       final Rule rule = ruleMatches.get(0).getRule();

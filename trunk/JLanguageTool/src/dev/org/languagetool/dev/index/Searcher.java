@@ -23,15 +23,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.lucene.search.*;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.Query;
-import org.apache.lucene.search.ScoreDoc;
-import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.FSDirectory;
 
 import org.languagetool.rules.patterns.PatternRule;
@@ -74,11 +71,12 @@ public class Searcher {
 
   public SearcherResult findRuleMatchesOnIndex(PatternRule rule, Language language, IndexSearcher indexSearcher) throws IOException {
     final PossiblyRelaxedQuery query = createQuery(rule);
-    final TopDocs topDocs = indexSearcher.search(query.query, maxHits);
+    final Sort sort = new Sort(new SortField("docCount", SortField.INT));  // do not sort by relevance as this will move the shortest documents to the top
+    final TopDocs topDocs = indexSearcher.search(query.query, maxHits, sort);
     final JLanguageTool languageTool = getLanguageToolWithOneRule(language, rule);
     final List<MatchingSentence> matchingSentences = findMatchingSentences(indexSearcher, topDocs, languageTool);
     final int sentencesChecked = getSentenceCheckCount(query, topDocs, indexSearcher);
-    return new SearcherResult(matchingSentences, sentencesChecked);
+    return new SearcherResult(matchingSentences, sentencesChecked, query.isRelaxed);
   }
 
   PatternRule getRuleById(String ruleId, File xmlRuleFile) throws IOException {
