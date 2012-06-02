@@ -1212,7 +1212,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <rule name="Remove possessive ending" id="POS_REMOVE">
             <!--  probably verb "is":remove -->
             <pattern>
-                <token><exception postag_regexp="yes" postag="NN.*|PRP\$"/></token>
+                <token><exception postag_regexp="yes" postag="NN.*|PRP\$|DT"/></token>
                 <token spacebefore="no" regexp="yes">['’]</token>
                 <marker>
                     <token spacebefore="no" postag="POS">s</token>
@@ -1248,7 +1248,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             <example type="untouched">This is how 'unconscious' knowledge is posited.</example>
             <example type="untouched">Let's go!</example>
             <example type="ambiguous" inputform="'[']" outputform="'['/POS]">I hate Texas<marker>'</marker> big cities!</example>
-        </rule>
+        </rule>        
     </rulegroup>
     <rule name="Goin'" id="VBG_IN">
         <pattern>
@@ -1422,6 +1422,20 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
     	<example type="ambiguous" inputform="s[be/VBZ,s/POS]" outputform="s[s/POS]" >WD-2'<marker>s</marker> hypothesis needs to be tested.</example>
     </rule>
     </rulegroup>
-    
+
+	<rule id="HELP-VB-DT" name="help + verb/noun + determiner">
+		<pattern>
+		<token inflected="yes">help</token>
+		<marker>
+		<and>		
+			<token postag="VB"/>
+			<token postag="NN"/>
+		</and>
+		</marker>
+		<token postag="DT"/>
+		</pattern>
+		<disambig postag="VB"/>
+		<example type="ambiguous" inputform="train[train/NN,train/VB,train/VBP]" outputform="train[train/VB]">Our army helped <marker>train</marker> the Armenian soldiers.</example>
+	</rule>    
     
 </rules>
