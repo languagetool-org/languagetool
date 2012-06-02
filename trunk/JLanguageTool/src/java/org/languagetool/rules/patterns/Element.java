@@ -789,10 +789,23 @@ public class Element {
     testWhitespace = true;
   }
 
-  public final void setExceptionSpaceBefore(final boolean isWhite) {
-    if (exceptionList != null) {
-      exceptionList.get(exceptionList.size() - 1).setWhitespaceBefore(isWhite);
-    }
+  /**
+   * Sets the attribute on the exception that determines matching of patterns
+   * that depends on whether there was a space before the token matching the exception
+   * or not.
+   * 
+   * The same procedure is used for tokens that are valid for previous or current tokens.
+   * 
+   * @param isWhite If true, the space before exception is required.
+   */
+  public final void setExceptionSpaceBefore(final boolean isWhite) {    
+      if (previousExceptionList != null && exceptionValidPrevious) {
+          previousExceptionList.get(previousExceptionList.size() - 1).setWhitespaceBefore(isWhite);
+      } else {
+          if (exceptionList != null) {
+              exceptionList.get(exceptionList.size() - 1).setWhitespaceBefore(isWhite);
+          }
+      }
   }
 
   public final boolean isWhitespaceBefore(final AnalyzedToken token) {
