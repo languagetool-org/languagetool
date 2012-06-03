@@ -24,6 +24,7 @@ import java.util.Locale;
 import org.languagetool.Language;
 import org.languagetool.rules.*;
 import org.languagetool.rules.el.GreekUnpairedBracketsRule;
+import org.languagetool.rules.spelling.hunspell.HunspellRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.el.GreekSynthesizer;
 import org.languagetool.tagging.Tagger;
@@ -81,6 +82,7 @@ public class Greek extends Language {
                 DoublePunctuationRule.class,
                 GreekUnpairedBracketsRule.class,
                 LongSentenceRule.class,
+                HunspellRule.class,
                 UppercaseSentenceStartRule.class,
                 WhitespaceRule.class,
                 WordRepeatBeginningRule.class,

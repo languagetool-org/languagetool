@@ -21,6 +21,7 @@ package org.languagetool.language;
 
 import org.languagetool.Language;
 import org.languagetool.rules.*;
+import org.languagetool.rules.spelling.hunspell.HunspellRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.tl.TagalogTagger;
 
@@ -52,7 +53,7 @@ public class Tagalog extends Language {
 
   @Override
   public String[] getCountryVariants() {
-    return new String[] {"TL"};
+    return new String[] {"PH"};
   }
   
   @Override
@@ -78,6 +79,7 @@ public class Tagalog extends Language {
             CommaWhitespaceRule.class,
             DoublePunctuationRule.class,
             GenericUnpairedBracketsRule.class,
+            HunspellRule.class,
             UppercaseSentenceStartRule.class,
             WhitespaceRule.class
     );

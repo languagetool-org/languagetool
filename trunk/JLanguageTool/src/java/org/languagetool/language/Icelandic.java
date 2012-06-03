@@ -23,6 +23,7 @@ import java.util.*;
 
 import org.languagetool.Language;
 import org.languagetool.rules.*;
+import org.languagetool.rules.spelling.hunspell.HunspellRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.xx.DemoTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
@@ -83,6 +84,7 @@ public class Icelandic extends Language {
             CommaWhitespaceRule.class,
             DoublePunctuationRule.class,
             GenericUnpairedBracketsRule.class,
+            HunspellRule.class,
             UppercaseSentenceStartRule.class,
             WordRepeatRule.class,
             WhitespaceRule.class

@@ -75,8 +75,8 @@ public class JLanguageToolTest extends TestCase {
     assertEquals(1, tool.check("Ein Test Test, der Fehler geben sollte.").size());
     tool.activateDefaultPatternRules();
     tool.setListUnknownWords(true);
-    // German rule has no effect with English error:
-    assertEquals(0, tool.check("I can give you more a detailed description").size());
+    // German rule has no effect with English error, but they are spelling mistakes:
+    assertEquals(6, tool.check("I can give you more a detailed description").size());
     //test unknown words listing
     assertEquals("[I, can, detailed, give, more, you]", tool.getUnknownWords().toString());    
   }
@@ -104,8 +104,8 @@ public class JLanguageToolTest extends TestCase {
     assertEquals(1, matches.size());   
     assertEquals("Als Afdeling geen deel uitmaakt van de naam, dan is juist:<suggestion>afdeling</suggestion>", matches.get(0).getMessage());
      */
-    // Dutch rule has no effect with English error:
-    assertEquals(0, tool.check("I can give you more a detailed description.").size());
+    // Dutch rule has no effect with English error but they are spelling mistakes:
+    assertEquals(5, tool.check("I can give you more a detailed description.").size());
   }
   
   public void testPolish() throws IOException {
@@ -155,7 +155,7 @@ public class JLanguageToolTest extends TestCase {
   
   public void testSlovenian() throws IOException {
     final JLanguageTool tool = new JLanguageTool(Language.SLOVENIAN);
-    assertEquals(0, tool.check("Kupil je npr. jajca, moko in mleko.").size());
+    assertEquals(1, tool.check("Kupil je npr. jajca, moko in mleko.").size());
   }
   
   public void testCountLines() {

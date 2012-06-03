@@ -24,6 +24,7 @@ import org.languagetool.Language;
 import org.languagetool.rules.*;
 import org.languagetool.rules.sk.CompoundRule;
 import org.languagetool.rules.sk.SlovakVesRule;
+import org.languagetool.rules.spelling.hunspell.HunspellRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.sk.SlovakTagger;
@@ -104,6 +105,7 @@ public class Slovak extends Language {
             CommaWhitespaceRule.class,
             DoublePunctuationRule.class,
             GenericUnpairedBracketsRule.class,
+            HunspellRule.class,
             UppercaseSentenceStartRule.class,
             WordRepeatRule.class,
             WhitespaceRule.class,

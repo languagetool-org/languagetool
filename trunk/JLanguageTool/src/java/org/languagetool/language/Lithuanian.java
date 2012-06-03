@@ -22,6 +22,7 @@ import java.util.*;
 
 import org.languagetool.Language;
 import org.languagetool.rules.*;
+import org.languagetool.rules.spelling.hunspell.HunspellRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.xx.DemoTagger;
 
@@ -68,6 +69,7 @@ public class Lithuanian extends Language {
             CommaWhitespaceRule.class,
             DoublePunctuationRule.class,
             GenericUnpairedBracketsRule.class,
+            HunspellRule.class,
             UppercaseSentenceStartRule.class,
             WhitespaceRule.class
     );

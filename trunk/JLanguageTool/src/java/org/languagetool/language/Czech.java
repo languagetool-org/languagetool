@@ -24,6 +24,7 @@ import org.languagetool.Language;
 import org.languagetool.rules.CommaWhitespaceRule;
 import org.languagetool.rules.DoublePunctuationRule;
 import org.languagetool.rules.Rule;
+import org.languagetool.rules.spelling.hunspell.HunspellRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.cs.CzechTagger;
 import org.languagetool.tokenizers.SentenceTokenizer;
@@ -79,7 +80,8 @@ public class Czech extends Language {
   public List<Class<? extends Rule>> getRelevantRules() {
     return Arrays.asList(
             CommaWhitespaceRule.class,
-            DoublePunctuationRule.class
+            DoublePunctuationRule.class,
+            HunspellRule.class
     );
   }
   

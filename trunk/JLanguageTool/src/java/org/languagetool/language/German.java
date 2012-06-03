@@ -23,6 +23,7 @@ import java.util.*;
 import org.languagetool.Language;
 import org.languagetool.rules.*;
 import org.languagetool.rules.de.*;
+import org.languagetool.rules.spelling.hunspell.HunspellRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.de.GermanTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
@@ -94,6 +95,7 @@ public class German extends Language {
             CommaWhitespaceRule.class,
             GermanDoublePunctuationRule.class,
             GenericUnpairedBracketsRule.class,
+            HunspellRule.class,
             UppercaseSentenceStartRule.class,
             WhitespaceRule.class,
             // specific to German:

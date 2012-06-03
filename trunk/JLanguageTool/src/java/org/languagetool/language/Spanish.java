@@ -23,6 +23,7 @@ import java.util.*;
 import org.languagetool.Language;
 import org.languagetool.rules.*;
 import org.languagetool.rules.patterns.Unifier;
+import org.languagetool.rules.spelling.hunspell.HunspellRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.es.SpanishSynthesizer;
 import org.languagetool.tagging.Tagger;
@@ -147,6 +148,7 @@ public class Spanish extends Language {
             CommaWhitespaceRule.class,
             DoublePunctuationRule.class,
             GenericUnpairedBracketsRule.class,
+            HunspellRule.class,
             UppercaseSentenceStartRule.class,
             WordRepeatRule.class,
             WhitespaceRule.class

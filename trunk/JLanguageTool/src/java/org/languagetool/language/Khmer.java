@@ -33,6 +33,7 @@ import org.languagetool.tagging.disambiguation.rules.km.KhmerRuleDisambiguator;
 import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tokenizers.km.KhmerWordTokenizer;
 import org.languagetool.rules.km.KhmerUnpairedBracketsRule;
+import org.languagetool.rules.spelling.hunspell.HunspellRule;
 
 public class Khmer extends Language {
 
@@ -101,6 +102,7 @@ public class Khmer extends Language {
   @Override
   public List<Class<? extends Rule>> getRelevantRules() {
     return Arrays.asList(
+      HunspellRule.class,
       // specific to Khmer:
       KhmerSimpleReplaceRule.class,
       KhmerWordRepeatRule.class,

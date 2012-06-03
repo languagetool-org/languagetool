@@ -40,7 +40,7 @@ public class UppercaseSentenceStartRuleTest extends TestCase {
     matches = langTool.check("Dies ist ein Satz. Ätsch, noch einer mit Umlaut.");
     assertEquals(0, matches.size());
     matches = langTool.check("Dieser Satz ist bspw. okay so.");
-    assertEquals(0, matches.size());
+    assertEquals(1, matches.size());
     matches = langTool.check("Dieser Satz ist z.B. okay so.");
     assertEquals(0, matches.size());
     matches = langTool.check("Dies ist ein Satz. \"Aber der hier auch!\".");
@@ -74,16 +74,16 @@ public class UppercaseSentenceStartRuleTest extends TestCase {
     List<RuleMatch> matches;
     
     matches = langTool.check("A sentence.");
-    assertEquals(0, matches.size());
+    assertEquals(1, matches.size());
     matches = langTool.check("'s Morgens...");
     assertEquals(0, matches.size());
 
     matches = langTool.check("a sentence.");
-    assertEquals(1, matches.size());
+    assertEquals(2, matches.size());
     matches = langTool.check("'s morgens...");
     assertEquals(1, matches.size());
     matches = langTool.check("s sentence.");
-    assertEquals(1, matches.size());
+    assertEquals(2, matches.size());
   }
   
   public void testPolishSpecialCases() throws IOException {

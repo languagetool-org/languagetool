@@ -1,0 +1,1 @@
+"Licensed under LGPL" 

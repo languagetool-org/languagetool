@@ -1,0 +1,1953 @@
+# Este ficheiro contén as regras para a formación das
+# palabras galegas cuxos lemas están incluídos no gl_ES.dic. 
+# Baséase nas Normas ortográficas e morfolóxicas do idioma galego
+# aprobadas pola Real Academia da Língua Galega no 2003.
+# Creado por Mar Castro Pereiro (mancomun@mancomun.org)
+# Data da última revisión: Novembro de 2007
+# Baseado na versión desenvolvida por Imaxín Software no 2006
+
+
+SET ISO8859-1
+TRY aáâàeéêiíoóôõuúübcçdfghklmnpqrstvxzABCDEFGHIKLMNÑOPQRSTUVWXZÁÉÍÓÚÀÈÌÒÙÜÇ-
+
+FLAG num
+
+NEEDAFFIX 666
+
+NOSPLITSUGS
+
+REP 15
+REP cio zo
+REP zo cio
+REP cia za
+REP za cia
+REP cios zos
+REP zos cios
+REP cias zas
+REP zas cias
+REP ción zón
+REP zón ción
+REP les is
+REP is les
+REP np mp
+REP x ll
+REP ll x
+
+MAP 5
+MAP aá
+MAP eé
+MAP ií
+MAP oó
+MAP uú
+
+
+PFX 50  Y    1
+PFX 50  0    equi    .
+
+# -------------------- REGRAS DE PLURAL --------------------------
+
+# Regra xeral de formación do PLURAL.
+#   1. Palabras rematadas noutras consoantes que non sexan r,l ou s.  Ex. robot - robots
+#      Palabras rematadas en vogal ou n engaden s Ex. camión - camións
+#   2. Palabras rematadas en r ou l engaden s Ex. mar - mares
+#   3. Palabras rematadas en s que non sexa ás,és,...,ús engaden es Ex: adeus - adeuses
+# 4-8. Palabras rematadas ás,és,...,ús fan o plural como ases, eses, ..., uses Ex: compás - compases
+#   9. Palabras rematadas en z fan o plural en ces. Ex. luz, luces
+SFX	10	Y	9	#Regla xeral da formación do plural
+SFX	10	0	s	[^rlsz]
+SFX	10	0	es	[rl]
+SFX	10	0	es	[^áéíóú]s
+SFX	10	ás	ases	ás
+SFX	10	és	eses	és
+SFX	10	ís	ises	ís
+SFX	10	ós	oses	ós
+SFX	10	ús	uses	ús
+SFX	10	z	ces	z	
+
+				
+# Regra de formación do plural de estranxeirismos que admiten dous plurais
+# Ex: escáner-escáners-escáneres
+# Ex: hippy-hippys-hippies
+SFX	11	Y	3	#Palabras con dous plurais
+SFX	11	0	es	r
+SFX	11	y	ies	y
+SFX	11	0	s	.
+
+			
+# Regra de formación do plural dos rematados en -l non monosílabos	
+# 1. Palabras rematadas en l cambian o -l por -is. Ex: animal - animais
+# 2. Palabras rematadas en il cambian o -il por -ís. Ex: funil - funís
+# 3. Palabras rematadas en íl cambian o -il por -ís -is. Ex: raíl - raís
+SFX	12	Y	3	#Plural polisílabos en -l
+SFX	12	l	is	l
+SFX	12	il	ís	il
+SFX	12	íl	ís	íl
+
+# ---------------- REGRAS DE FEMININO SINGULAR e PLURAL -------------------
+
+# Regra xeral da formación do feminino 
+# Palabras rematadas en consoante e vogal tónica engaden unha -a á forma masculina
+SFX	13	Y	2
+SFX	13	0	a	. 
+SFX	13	0	as	.
+
+# Regra de formación do feminino singular e plural.
+#   1,2,3. Palabras rematadas en vogal átona cambian a vogal pola -a
+#       4. Palabras rematadas en vogal tónica -ó fan o feminino con -oa
+# 5,6,7,8. Palabras rematadas en -n fan o plural con formas especiais
+#       9. Xentilicios rematados en -és fan o feminino en -esa
+SFX 14 Y 18
+SFX 14   o   a    o
+SFX 14   e   a    e
+SFX 14   u   úa   u
+SFX 14   ó   oa   ó 
+SFX 14   án  á    án
+SFX 14   ón  oa   ón
+SFX 14   ún  ua   ún
+SFX 14   ín  ina  ín
+SFX 14   és  esa  és
+SFX 14   o   as    o
+SFX 14   e   as    e
+SFX 14   u   úas   u
+SFX 14   ó   oas   ó 
+SFX 14   án  ás   án
+SFX 14   ón  oas   ón
+SFX 14   ún  uas   ún
+SFX 14   ín  inas  ín
+SFX 14   és  esas  és
+
+# Regra do feminino para as palabras pexorativas rematadas en -án ou -ón
+# Ex. folgazán-folgazana, abusón-abusona
+SFX 15 Y 4
+SFX 15   án  ana  án
+SFX 15   ón  ona  ón
+SFX 15   án  anas  án
+SFX 15   ón  onas  ón
+
+#-------- REGRAS PARA ENGADIR OS PRONOMES ENCLÍTICOS ÁS FORMAS VERBAIS ------------
+
+# Regra co pronome do acusativo de 3ª persoa. 
+# Variantes -o e -lo e os seus correspondentes femininos e plurais
+SFX 100  Y    12    #PRON
+SFX 100  0    a    [^sr]
+SFX 100  0    as    [^sr]
+SFX 100  0    o    [^sr]
+SFX 100  0    os    [^sr]
+SFX 100  r    la    r
+SFX 100  r    las    r
+SFX 100  r    lo    r
+SFX 100  r    los    r
+SFX 100  s    la    s
+SFX 100  s    las    s
+SFX 100  s    lo    s
+SFX 100  s    los    s
+
+# Regra co pronome do acusativo de 3ª persoa. 
+# Variante -no e os seus correspondentes femininos e plurais.
+# Emprégase tras as formas verbais rematadas en ditongo.
+SFX 102  Y    4    #PRON
+SFX 102  0    na    .
+SFX 102  0    nas    .
+SFX 102  0    no     .
+SFX 102  0    nos    .
+
+# Regra para os outros pronomes
+#     1. Reflexivo -se
+#   2-7. Acusativo: 1ª e 2ª persoas singular e plural
+#  8-10. Dativo: 2ª persoa singular e 3ª persoa singular e plural
+# 11-22. Concorrencia dos pronomes de dativo singular e a 3ª persoa de acusativo 
+#        (me, che, lle) + (o, a, os, as )
+SFX 103  Y    22    #PRON
+SFX 103  0    se    .
+SFX 103  0    me    .
+SFX 103  0    te    .
+SFX 103  s    nos    mos
+SFX 103  0    nos    [^o]s
+SFX 103  0    nos    [^s]
+SFX 103  0    vos    .
+SFX 103  0    che    .
+SFX 103  0    lle    .
+SFX 103  0    lles    .
+SFX 103  0    ma    .
+SFX 103  0    mas    .
+SFX 103  0    mo    .
+SFX 103  0    mos    .
+SFX 103  0    cha    .
+SFX 103  0    chas    .
+SFX 103  0    cho    .
+SFX 103  0    chos    .
+SFX 103  0    lla    .
+SFX 103  0    llas    .
+SFX 103  0    llo    .
+SFX 103  0    llos    .
+
+# Regra para concorrencias de pronomes
+# Estes pronomes van nunha regra aparte porque converten a palabra en 
+# esdrúxula polo que pasa a levar acento que na maior parte das 
+# veces non leva a palabra orixinal. Ex. mandou - mandóunola
+#   1-6. Reflesivo máis dativo: se + (me, che, lle, nos, vos, lles)
+#  7-11. Pron. solidariedade máis dativo: che + (me, lle, nos, vos, lles) 
+# 12-31. Dativo plural máis 3ª persoa de acusativo: (nos, vos, lles) + (o, a, os, as)
+SFX 104  Y    31    #PRON
+SFX 104  0    seme	.
+SFX 104  0    seche	.
+SFX 104  0    selle	.
+SFX 104  0    senos	.
+SFX 104  0    sevos	.
+SFX 104  0    selles	.
+SFX 104  0    cheme	.
+SFX 104  0    chelle	.
+SFX 104  0    chenos	.
+SFX 104  0    chevos	.
+SFX 104  0    chelles	.
+SFX 104  0    llela	.
+SFX 104  0    llelas	.
+SFX 104  0    llelo	.
+SFX 104  0    llelos	.
+SFX 104  s    nola	mos
+SFX 104  s    nolas	mos
+SFX 104  s    nolo	mos
+SFX 104  s    nolos	mos
+SFX 104  0    nola	[^o]s
+SFX 104  0    nolas	[^o]s
+SFX 104  0    nolo	[^o]s
+SFX 104  0    nolos	[^o]s
+SFX 104  0    nola	[^s]
+SFX 104  0    nolas	[^s]
+SFX 104  0    nolo	[^s]
+SFX 104  0    nolos	[^s]
+SFX 104  0    vola	.
+SFX 104  0    volas	.
+SFX 104  0    volo	.
+SFX 104  0    volos	.
+
+# ---------------- REGRAS VERBOS DA PRIMEIRA CONXUGACIÓN -------------------
+
+# No .dic inclúense dous lemas. O segundo lema e para a formación das formas
+# verbais que levan un acento que non existe na raíz orixinal do verbo.
+# Paradigma dalgúns verbos rematados en -uar e -iar (acentuar e afiar)
+#       acentuar/201 e acentúar/666,200,202 
+# Paradigma dos demáis verbos en -ar
+#      andar/200,201 e ándar/666,202
+
+SFX 200  Y    22    #Primeira_conxugación_regular
+SFX 200  ar    o    ar
+SFX 200  r    s    ar
+SFX 200  ar    a    ar
+SFX 200  r    n    ar
+SFX 200  ar    e    [^cgzu]ar
+SFX 200  car    que    car
+SFX 200  ar    ue    gar
+SFX 200  zar    ce    zar
+SFX 200  uar    üe    guar
+SFX 200  ar    e    [^g]uar
+SFX 200  ar    es    [^cgzu]ar
+SFX 200  car    ques    car
+SFX 200  ar    ues    gar
+SFX 200  zar    ces    zar
+SFX 200  uar    ües    guar
+SFX 200  ar    es    [^g]uar
+SFX 200  ar    en    [^cgzu]ar
+SFX 200  car    quen    car
+SFX 200  ar    uen    gar
+SFX 200  zar    cen    zar
+SFX 200  uar    üen    guar
+SFX 200  ar    en    [^g]uar
+
+
+SFX 201  Y    110    #Primeira_conxugación_regular
+SFX 201  r    ndo    ar
+SFX 201  ar    ándo/666,100,103,104    ar
+SFX 201  r    do/10,14    ar
+SFX 201  r    r/100,103    ar
+SFX 201  ar    ár/104    ar
+SFX 201  r    mos    ar
+SFX 201  ar    ámos/666,100,103,104    ar
+SFX 201  r    des    ar
+SFX 201  ar    ádes/666,100,103,104    ar
+SFX 201  r    ba    ar
+SFX 201  ar    ába/666,100,103,104    ar
+SFX 201  r    bas    ar
+SFX 201  ar    ábas/666,100,103,104    ar
+SFX 201  r    bamos    ar
+SFX 201  r    bámos/666,100,103,104    ar
+SFX 201  r    bades    ar
+SFX 201  r    bádes/666,100,103,104    ar
+SFX 201  r    ban    ar
+SFX 201  ar    ában/666,100,103,104    ar
+SFX 201  ar    ei/102,103    [^cgzu]ar
+SFX 201  ar    éi/666,104    [^cgzu]ar
+SFX 201  car    quei/102,103    car
+SFX 201  car    quéi/666,104    car
+SFX 201  ar    uei/102,103    gar
+SFX 201  ar    uéi/666,104    gar
+SFX 201  zar    cei/102,103    zar
+SFX 201  zar    céi/666,104    zar
+SFX 201  uar    üei/102,103    guar
+SFX 201  uar    üéi/666,104    guar
+SFX 201  r    ches    ar
+SFX 201  ar    áches/666,100,103,104    ar
+SFX 201  ar    ou/102,103    ar
+SFX 201  ar    óu/666,104    ar
+SFX 201  r    mos    ar
+SFX 201  ar    ámos/666,100,103,104    ar
+SFX 201  r    stes    ar
+SFX 201  ar    ástes/666,100,103,104    ar
+SFX 201  0    on    ar
+SFX 201  ar    áron/666,100,103,104    ar
+SFX 201  0    a    ar
+SFX 201  ar    ára/666,100,103,104    ar
+SFX 201  0    as    ar
+SFX 201  ar    áras/666,100,103,104    ar
+SFX 201  0    amos    ar
+SFX 201  0    ámos/666,100,103,104    ar
+SFX 201  0    ades    ar
+SFX 201  0    ádes/666,100,103,104    ar
+SFX 201  0    an    ar
+SFX 201  ar    áran/666,100,103,104    ar
+SFX 201  0    ei/102,103    ar
+SFX 201  0    éi/666,104    ar
+SFX 201  0    as/666,100,103    ar
+SFX 201  0    ás/104    ar
+SFX 201  0    a/666,100,103    ar
+SFX 201  0    á/104    ar
+SFX 201  0    emos    ar
+SFX 201  0    émos/666,100,103,104    ar
+SFX 201  0    edes    ar
+SFX 201  0    édes/666,100,103,104    ar
+SFX 201  0    an/666,100,103    ar
+SFX 201  0    án/104    ar
+SFX 201  0    ía/100,103,104    ar
+SFX 201  0    ías/100,103,104    ar
+SFX 201  0    iamos    ar
+SFX 201  0    iámos/666,100,103,104    ar
+SFX 201  0    iades    ar
+SFX 201  0    iádes/666,100,103,104    ar
+SFX 201  0    ían/100,103,104    ar
+SFX 201  ar    emos    [^cgzu]ar
+SFX 201  ar    émos/666,100,103,104    [^cgzu]ar
+SFX 201  car    quemos    car
+SFX 201  car    quémos/666,100,103,104    car
+SFX 201  ar    uemos    gar
+SFX 201  ar    uémos/666,100,103,104    gar
+SFX 201  zar    cemos    zar
+SFX 201  zar    cémos/666,100,103,104    zar
+SFX 201  uar    üemos    guar
+SFX 201  uar    üémos/666,100,103,104    guar
+SFX 201  ar    emos    [^g]uar
+SFX 201  ar    émos/666,100,103,104    [^g]uar
+SFX 201  ar    edes    [^cgzu]ar
+SFX 201  ar    édes/666,100,103,104    [^cgzu]ar
+SFX 201  car    quedes    car
+SFX 201  car    quédes/666,100,103,104    car
+SFX 201  ar    uedes    gar
+SFX 201  ar    uédes/666,100,103,104    gar
+SFX 201  zar    cedes    zar
+SFX 201  zar    cédes/666,100,103,104    zar
+SFX 201  uar    üedes    guar
+SFX 201  uar    üédes/666,100,103,104    guar
+SFX 201  ar    edes    [^g]uar
+SFX 201  ar    édes/666,100,103,104    [^g]uar
+SFX 201  r    se    ar
+SFX 201  ar    áse/666,100,103,104    ar
+SFX 201  r    ses    ar
+SFX 201  ar    áses/666,100,103,104    ar
+SFX 201  ar    ásemos/100,103,104    ar
+SFX 201  ar    ásedes/100,103,104    ar
+SFX 201  r    sen    ar
+SFX 201  ar    ásen/666,100,103,104    ar
+SFX 201  0    es    ar
+SFX 201  ar    áres/666,100,103,104    ar
+SFX 201  0    mos    ar
+SFX 201  ar    ármos/666,100,103,104    ar
+SFX 201  0    des    ar
+SFX 201  ar    árdes/666,100,103,104    ar
+SFX 201  0    en    ar
+SFX 201  ar    áren/666,100,103,104    ar
+SFX 201  r    de    ar
+SFX 201  ar    áde/666,100,103,104    ar
+
+
+SFX 202  Y    22    #C1_con_cambio_de_acento_na_raíz
+SFX 202  ar    o/666,100,103,104    ar
+SFX 202  r    s/666,100,103,104    ar
+SFX 202  ar    a/666,100,103,104    ar
+SFX 202  ar    an/666,100,103,104    ar
+SFX 202  ar    e/666,100,103,104    [^cgzu]ar
+SFX 202  car    que/666,100,103,104    car
+SFX 202  ar    ue/666,100,103,104    gar
+SFX 202  zar    ce/666,100,103,104    zar
+SFX 202  uar    üe/666,100,103,104    guar
+SFX 202  ar    e/666,100,103,104    [^g]uar
+SFX 202  ar    es/666,100,103,104    [^cgzu]ar
+SFX 202  car    ques/666,100,103,104    car
+SFX 202  ar    ues/666,100,103,104    gar
+SFX 202  zar    ces/666,100,103,104    zar
+SFX 202  uar    ües/666,100,103,104    guar
+SFX 202  ar    es/666,100,103,104    [^g]uar
+SFX 202  ar    en/666,100,103,104    [^cgzu]ar
+SFX 202  car    quen/666,100,103,104    car
+SFX 202  ar    uen/666,100,103,104    gar
+SFX 202  zar    cen/666,100,103,104    zar
+SFX 202  uar    üen/666,100,103,104    guar
+SFX 202  ar    en/666,100,103,104    [^g]uar
+
+
+SFX 205  Y    135    #Conxugación do verbo estar
+SFX 205  r    r/100,103,104    ar
+SFX 205  r    ndo    ar
+SFX 205  ar    ándo/666,100,103,104    ar
+SFX 205  r    do/10    ar
+SFX 205  ar    ou/102,103    ar
+SFX 205  ar    óu/666,104    ar
+SFX 205  ar    ás/100,103,104    ar
+SFX 205  ar    á/100,103,104    ar
+SFX 205  r    mos    ar
+SFX 205  ar    ámos/666,100,103,104    ar
+SFX 205  r    des    ar
+SFX 205  ar    ádes/666,100,103,104    ar
+SFX 205  r    n    dar
+SFX 205  ar    án/666,100,103,104    dar
+SFX 205  ar    án    tar
+SFX 205  r    n/666,100,103,104    tar
+SFX 205  r    ba    ar
+SFX 205  ar    ába/666,100,103,104    ar
+SFX 205  r    bas    ar
+SFX 205  ar    ábas/666,100,103,104    ar
+SFX 205  r    bamos    ar
+SFX 205  r    bámos/666,100,103,104    ar
+SFX 205  r    bades    ar
+SFX 205  r    bádes/666,100,103,104    ar
+SFX 205  r    ban    ar
+SFX 205  ar    ában/666,100,103,104    ar
+SFX 205  ar    iven    tar
+SFX 205  ar    íven/666,100,103,104    tar
+SFX 205  ar    ei/102,103    dar
+SFX 205  ar    éi/666,104    dar
+SFX 205  ar    iveches    tar
+SFX 205  ar    ivéches/666,100,103,104    tar
+SFX 205  ar    eches    dar
+SFX 205  ar    éches/666,100,103,104    dar
+SFX 205  ar    ivo    tar
+SFX 205  ar    ívo/666,100,103,104    tar
+SFX 205  ar    eu/102,103    dar
+SFX 205  ar    éu/666,104    dar
+SFX 205  ar    ivemos    tar
+SFX 205  ar    ivémos/666,100,103,104    tar
+SFX 205  ar    emos    dar
+SFX 205  ar    émos/666,100,103,104    dar
+SFX 205  ar    ivestes    tar
+SFX 205  ar    ivéstes/666,100,103,104    tar
+SFX 205  ar    estes    dar
+SFX 205  ar    éstes/666,100,103,104    dar
+SFX 205  ar    iveron    tar
+SFX 205  ar    ivéron/666,100,103,104    tar
+SFX 205  ar    eron    dar
+SFX 205  ar    éron/666,100,103,104    dar
+SFX 205  ar    ivera    tar
+SFX 205  ar    ivéra/666,100,103,104    tar
+SFX 205  ar    era    dar
+SFX 205  ar    éra/666,100,103,104    dar
+SFX 205  ar    iveras    tar
+SFX 205  ar    ivéras/666,100,103,104    tar
+SFX 205  ar    eras    dar
+SFX 205  ar    éras/666,100,103,104    dar
+SFX 205  ar    iveramos    tar
+SFX 205  ar    iverámos/666,100,103,104    tar
+SFX 205  ar    eramos    dar
+SFX 205  ar    erámos/666,100,103,104    dar
+SFX 205  ar    iverades    tar
+SFX 205  ar    iverádes/666,100,103,104    tar
+SFX 205  ar    erades    dar
+SFX 205  ar    erádes/666,100,103,104    dar
+SFX 205  ar    iveran    tar
+SFX 205  ar    ivéran/666,100,103,104    tar
+SFX 205  ar    eran    dar
+SFX 205  ar    éran/666,100,103,104    dar
+SFX 205  0    ei/102,103    ar
+SFX 205  0    éi/666,104    ar
+SFX 205  0    ás/104    ar
+SFX 205  0    as/666,100,103    ar
+SFX 205  0    á/104    ar
+SFX 205  0    a/666,100,103    ar
+SFX 205  0    emos    ar
+SFX 205  0    émos/666,100,103,104    ar
+SFX 205  0    edes    ar
+SFX 205  0    édes/666,100,103,104    ar
+SFX 205  0    án/104    ar
+SFX 205  0    an/666,100,103    ar
+SFX 205  0    ía/100,103,104    ar
+SFX 205  0    ías/100,103,104    ar
+SFX 205  0    iamos    ar
+SFX 205  0    iámos/666,100,103,104    ar
+SFX 205  0    iades    ar
+SFX 205  0    iádes/666,100,103,104    ar
+SFX 205  0    ían/100,103,104    ar
+SFX 205  ar    ea    ar
+SFX 205  ar    éa/666,100,103,104    ar
+SFX 205  ar    eas    ar
+SFX 205  ar    éas/666,100,103,104    ar
+SFX 205  ar    eamos    ar
+SFX 205  ar    eámos/666,100,103,104    ar
+SFX 205  ar    eades    ar
+SFX 205  ar    eádes/666,100,103,104    ar
+SFX 205  ar    ean    ar
+SFX 205  ar    éan/666,100,103,104    ar
+SFX 205  ar    ivese    tar
+SFX 205  ar    ivése/666,100,103,104    tar
+SFX 205  ar    ese    dar
+SFX 205  ar    ése/666,100,103,104    dar
+SFX 205  ar    iveses    tar
+SFX 205  ar    ivéses/666,100,103,104    tar
+SFX 205  ar    eses    dar
+SFX 205  ar    éses/666,100,103,104    dar
+SFX 205  ar    ivésemos/100,103,104    tar
+SFX 205  ar    ivésedes/100,103,104    tar
+SFX 205  ar    ésemos/100,103,104    dar
+SFX 205  ar    ésedes/100,103,104    dar
+SFX 205  ar    ivesen    tar
+SFX 205  ar    ivésen/666,100,103,104    tar
+SFX 205  ar    esen    dar
+SFX 205  ar    ésen/666,100,103,104    dar
+SFX 205  ar    iver    tar
+SFX 205  ar    er    dar
+SFX 205  ar    iveres    tar
+SFX 205  ar    eres    dar
+SFX 205  ar    ivermos    tar
+SFX 205  ar    ermos    dar
+SFX 205  ar    iverdes    tar
+SFX 205  ar    erdes    dar
+SFX 205  ar    iveren    tar
+SFX 205  ar    eren    dar
+SFX 205  0    es    ar
+SFX 205  ar    áres/666,100,103,104    ar
+SFX 205  0    mos    ar
+SFX 205  ar    ármos/666,100,103,104    ar
+SFX 205  0    des    ar
+SFX 205  ar    árdes/666,100,103,104    ar
+SFX 205  0    en    ar
+SFX 205  ar    áren/666,100,103,104    ar
+SFX 205  r    de    ar
+SFX 205  ar    áde/666,100,103,104    ar
+
+
+# ---------------- REGRAS VERBOS DA SEGUNDA CONXUGACIÓN -------------------
+
+# No .dic inclúense dous lemas. O segundo lema e para a formación das formas
+# verbais que levan un acento que non existe na raíz orixinal do verbo.
+# Paradigma dos verbos regulares
+#       varrer/210,211,212 e várrer/666,215
+# Os verbos ler e crer son parcialmente irregulares na 1ª, 2ª e 3ª PS 
+# e 3ª PP do Presente de Indicativo e na 1ª PS do Pretérito de Indicativo
+# Os compostos de ler e crer e o sobreser presentan a mesma iregularidade
+# aínda que varía a acentuación por ser os primeiros monosílabos.
+#       ler/210,211,213 e lér/666,215
+#       reler/210,211,214 e relér/666,215
+
+SFX 210  Y    76     #Segunda conxugación regular
+SFX 210  r    r/100,103    er
+SFX 210  er    ér/666,104    er
+SFX 210  r    ndo    er
+SFX 210  er    éndo/666,100,103,104    er
+SFX 210  er    ido/10,14    er
+SFX 210  r    mos    er
+SFX 210  er    émos/666,100,103,104    er
+SFX 210  r    des    er
+SFX 210  er    édes/666,100,103,104    er
+SFX 210  er    ía/100,103,104    er
+SFX 210  er    ías/100,103,104    er
+SFX 210  er    iamos    [^ao]er
+SFX 210  er    ïamos    [ao]er
+SFX 210  er    iámos/666,100,103,104    [^ao]er
+SFX 210  er    ïámos/666,100,103,104    [ao]er
+SFX 210  er    iades    [^ao]er
+SFX 210  er    ïades    [ao]er
+SFX 210  er    iádes/666,100,103,104    [^ao]er
+SFX 210  er    ïádes/666,100,103,104    [ao]er
+SFX 210  er    ían/100,103,104    er
+SFX 210  0    ei/102,103    er
+SFX 210  0    éi/666,104    er
+SFX 210  0    as/666,100,103    er
+SFX 210  0    ás/104    er
+SFX 210  0    a/666,100,103    er
+SFX 210  0    á/104    er
+SFX 210  0    emos    er
+SFX 210  0    émos/666,100,103,104    er
+SFX 210  0    edes    er
+SFX 210  0    édes/666,100,103,104    er
+SFX 210  0    an/666,100,103    er
+SFX 210  0    án/104    er
+SFX 210  0    ía/100,103,104    er
+SFX 210  0    ías/100,103,104    er
+SFX 210  0    iamos    er
+SFX 210  0    iámos/666,100,103,104    er
+SFX 210  0    iades    er
+SFX 210  0    iádes/666,100,103,104    er
+SFX 210  0    ían/100,103,104    er
+SFX 210  er    a    [^cuao]er
+SFX 210  cer    za    cer
+SFX 210  guer    ga    guer
+SFX 210  quer    ca    quer
+SFX 210  er    ia     [ao]er
+SFX 210  er    as    [^cuao]er
+SFX 210  cer    zas    cer
+SFX 210  guer    gas    guer
+SFX 210  quer    cas    quer
+SFX 210  er    ias    [ao]er
+SFX 210  er    amos    [^cuao]er
+SFX 210  er    ámos/666,100,103,104    [^cuao]er
+SFX 210  cer    zamos    cer
+SFX 210  cer    zámos/666,100,103,104    cer
+SFX 210  guer    gamos    guer
+SFX 210  guer    gámos/666,100,103,104    guer
+SFX 210  quer    camos    quer
+SFX 210  quer    cámos/666,100,103,104    quer
+SFX 210  er    iamos    [ao]er
+SFX 210  er    iámos/666,100,103,104    [ao]er
+SFX 210  er    ades    [^cuao]er
+SFX 210  er    ádes/666,100,103,104    [^cuao]er
+SFX 210  cer    zades    cer
+SFX 210  cer    zádes/666,100,103,104    cer
+SFX 210  guer    gades    guer
+SFX 210  guer    gádes/666,100,103,104    guer
+SFX 210  quer    cades    quer
+SFX 210  quer    cádes/666,100,103,104    quer
+SFX 210  er    iades    [ao]er
+SFX 210  er    iádes/666,100,103,104    [ao]er
+SFX 210  er    an    [^cuao]er
+SFX 210  cer    zan    cer
+SFX 210  er    gan    guer
+SFX 210  er    can    quer
+SFX 210  er    ian    [ao]er
+SFX 210  r    de    er
+SFX 210  er    éde/666,100,103,104    er
+
+SFX 211  Y    10     #C2 regular
+SFX 211  er    o    [^cuao]er
+SFX 211  cer    zo    cer
+SFX 211  guer    go    guer
+SFX 211  quer    co    quer
+SFX 211  er    io    [ao]er
+SFX 211  r    s    er
+SFX 211  er    e    er
+SFX 211  r    n    er
+SFX 211  er    ín/104    er
+SFX 211  er    in/666,100,103    er
+
+SFX 212  Y    37     #Segunda conxugación regular
+SFX 212  er    iches    [^ao]er
+SFX 212  er    íches    [ao]er
+SFX 212  er    íches/666,100,103,104    er
+SFX 212  er    eu/102,103    er
+SFX 212  er    éu/666,104    er
+SFX 212  r    mos    er
+SFX 212  er    émos/666,100,103,104    er
+SFX 212  r    stes    er
+SFX 212  er    éstes/666,100,103,104    er
+SFX 212  0    on    er
+SFX 212  er    éron/666,100,103,104    er
+SFX 212  0    a    er
+SFX 212  er    éra/666,100,103,104    er
+SFX 212  0    as    er
+SFX 212  er    éras/666,100,103,104    er
+SFX 212  0    amos    er
+SFX 212  0    ámos/666,100,103,104    er
+SFX 212  0    ades    er
+SFX 212  0    ádes/666,100,103,104    er
+SFX 212  0    an    er
+SFX 212  er    éran/666,100,103,104    er
+SFX 212  r    se    er
+SFX 212  er    ése/666,100,103,104    er
+SFX 212  r    ses    er
+SFX 212  er    éses/666,100,103,104    er
+SFX 212  er    ésemos/100,103,104    er
+SFX 212  er    ésedes/100,103,104    er
+SFX 212  r    sen    er
+SFX 212  er    ésen/666,100,103,104    er
+SFX 212  0    es    er
+SFX 212  er    éres/666,100,103,104    er
+SFX 212  0    mos    er
+SFX 212  er    érmos/666,100,103,104    er
+SFX 212  0    des    er
+SFX 212  er    érdes/666,100,103,104    er
+SFX 212  0    en    er
+SFX 212  er    éren/666,100,103,104    er
+
+SFX 213  Y    10     #Verbo ler ou crer
+SFX 213  r    o    er
+SFX 213  er    éo/666,100,103,104    er
+SFX 213  r    s/100,103    er
+SFX 213  er    és/666,104    er
+SFX 213  er    e/100,103    er
+SFX 213  er    é/666,104    er
+SFX 213  r    n/100,103    er
+SFX 213  er    én/666,104    er
+SFX 213  er    in/100,103    er
+SFX 213  er    ín/666,104    er
+
+SFX 214  Y    10     #Reler, trasler e descrer
+SFX 214  r    o    er
+SFX 214  er    éo/666,100,103,104    er
+SFX 214  er    és/104    er
+SFX 214  er    es/666,100,103    er
+SFX 214  er    é/104    er
+SFX 214  er    e/666,100,103,104    er
+SFX 214  er    én/104    er
+SFX 214  er    en/666,100,103    er
+SFX 214  er    ín/104    er
+SFX 214  er    in/666,100,103    er
+
+SFX 215  Y    23     #C2 con cambio de acento na raíz 
+SFX 215  er    o/666,100,103,104    [^cuao]er
+SFX 215  cer    zo/666,100,103,104    cer
+SFX 215  guer    go/666,100,103,104    guer
+SFX 215  quer    co/666,100,103,104    quer
+SFX 215  er    io/666,100,103,104    [ao]er
+SFX 215  r    s/666,100,103,104    er
+SFX 215  er    e/666,100,103,104    er
+SFX 215  r    n/666,100,103,104    er
+SFX 215  er    a/666,100,103,104    [^cuao]er
+SFX 215  cer    za/666,100,103,104    cer
+SFX 215 guer    ga/666,100,103,104    guer
+SFX 215  quer    ca/666,100,103,104    quer
+SFX 215  er    ia/666,100,103,104    [ao]er
+SFX 215  er    as/666,100,103,104    [^cuao]er
+SFX 215  cer    zas/666,100,103,104    cer
+SFX 215  guer    gas/666,100,103,104    guer
+SFX 215  quer    cas/666,100,103,104    quer
+SFX 215  er    ias/666,100,103,104    [ao]er
+SFX 215  er    an/666,100,103,104    [^cuao]er
+SFX 215  cer    zan/666,100,103,104    cer
+SFX 215  guer    gan/666,100,103,104    guer
+SFX 215  quer    can/666,100,103,104    quer
+SFX 215  er    ian/666,100,103,104    [ao]er
+
+
+# ---------------- VERBOS IRREGULARES DA SEGUNDA CONXUGACIÓN ----------------
+
+# No .dic inclúense varios lemas para cubrir as ditintas raíces dos verbos 
+# irregulares así como as variacións de acentuación para cada unha delas.
+# caber, saber, haber, poder, querer, facer, ter, poñer, pracer, traer,
+# valer, ver e ser
+# prover e un verbo especial que nos tempos de perfecto é regular e 
+# nos demáis irregular como ver
+
+
+SFX 220  Y    11     #Formas Nominais 2C irregular
+SFX 220  r    r/100,103    er
+SFX 220  er    ér/666,104    er
+SFX 220  r    ndo    er
+SFX 220  er    éndo/666,100,103,104    er
+SFX 220  er    ido/10,14    [^cñavs]er
+SFX 220  acer    eito/10,14    facer
+SFX 220  er    ido/10,14    [^f]acer
+SFX 220  oñer    osto/10,14    poñer
+SFX 220  er    ído/10,14    aer
+SFX 220  er    isto/10,14    ver
+SFX 220  er    ido/10,14    ser
+
+
+SFX 221  Y    25     #2C irregular
+SFX 221  er    o    [^abclvts]er
+SFX 221  er    on/100,103    ser
+SFX 221  er    ón/666,104    ser
+SFX 221  er    eño    ter
+SFX 221  er    éño/666,100,103,104    ter
+SFX 221  er    exo    ver
+SFX 221  er    éxo/666,100,103,104    ver
+SFX 221  er    lo    valer
+SFX 221  cer    go    facer
+SFX 221  cer    zo    [^f]acer
+SFX 221  aber    aibo    caber
+SFX 221  aber    ei/102,103    [hs]aber
+SFX 221  er    io    [a]er
+SFX 221  r    mos    [^s]er
+SFX 221  er    émos/666,100,103,104    [^s]er
+SFX 221  er    omos    ser
+SFX 221  er    ómos/666,100,103,104    ser
+SFX 221  r    des    [^st]er
+SFX 221  er    édes/666,100,103,104    [^st]er
+SFX 221  er    odes    ser
+SFX 221  er    ódes/666,100,103,104    ser
+SFX 221  er    endes    ter
+SFX 221  er    éndes/666,100,103,104    ter
+SFX 221  er    edes    ter
+SFX 221  er    édes/666,100,103,104    ter
+
+SFX 222  Y    35     #2C irregular
+SFX 222  r    s    [^ñbcvts]er
+SFX 222  ser    es    ser
+SFX 222  ser    és/666,100,103,104    ser
+SFX 222  r    s/100,103    ter
+SFX 222  er    és/666,104    ter
+SFX 222  r    s/100,103    ver
+SFX 222  er    és/666,104    ver
+SFX 222  cer    s/100,103    facer
+SFX 222  r    s    [^f]acer
+SFX 222  ber    s/100,103    haber
+SFX 222  r    s    [^h]aber
+SFX 222  ñer    s/100,103    poñer
+SFX 222  er    e    [^ñbcvts]er
+SFX 222  ser    é/100,103,104    ser
+SFX 222  er    en/100,103    ter
+SFX 222  er    én/666,104    ter
+SFX 222  er    e/100,103    ver
+SFX 222  er    é/666,104    ver
+SFX 222  cer    i/100,103    facer
+SFX 222  er    e    [^f]acer
+SFX 222  aber    a/100,103    haber
+SFX 222  ber    i/100,103    haber
+SFX 222  er    e    [^h]aber
+SFX 222  oñer    on/100,103    poñer
+SFX 222  r    n    [^bcvts]er
+SFX 222  er    on/100,103    ser
+SFX 222  er    ón/666,104    ser
+SFX 222  er    eñen    ter
+SFX 222  er    éñen/666,100,103,104    ter
+SFX 222  er    en/100,103    ver
+SFX 222  er    én/666,104    ver
+SFX 222  cer    n/100,103    facer
+SFX 222  r    n    [^f]acer
+SFX 222  ber    n/100,103    haber
+SFX 222  r    n    [^h]aber
+
+SFX 223  Y    15     #2C irregular
+SFX 223  r    r/100,103    r
+SFX 223  er    ér/666,104    er
+SFX 223  ir    ír/666,104    ir
+SFX 223  0    es    r
+SFX 223  er    éres/666,100,103,104    er
+SFX 223  ir    íres/666,100,103,104    ir
+SFX 223  0    mos    r
+SFX 223  er    érmos/666,100,103,104    er
+SFX 223  ir    írmos/666,100,103,104    ir
+SFX 223  0    des    r
+SFX 223  er    érdes/666,100,103,104    er
+SFX 223  ir    írdes/666,100,103,104    ir
+SFX 223  0    en    r
+SFX 223  er    éren/666,100,103,104    er
+SFX 223  ir    íren/666,100,103,104    ir
+
+SFX 224  Y    62     #2C irregular
+SFX 224  r    ches    [^l]er
+SFX 224  er    éches/666,100,103,104    [^l]er
+SFX 224  er    iches    valer
+SFX 224  er    íches/666,100,103,104    valer
+SFX 224  ir    iches    vir
+SFX 224  ir    íches/666,100,103,104    vir
+SFX 224  or    uches    for
+SFX 224  or    úches/666,100,103,104    for
+SFX 224  er    o    [^lu]er
+SFX 224  guer    go    guer
+SFX 224  er    eu/102,103    valer
+SFX 224  er    éu/666,104    valer
+SFX 224  ir    iu/102,103    vir
+SFX 224  ir    íu/666,104    vir
+SFX 224  r    i/100,103    for
+SFX 224  or    ói/666,104    for
+SFX 224  r    mos    r
+SFX 224  or    ómos/666,100,103,104    or
+SFX 224  er    émos/666,100,103,104    er
+SFX 224  ir    ímos/666,100,103,104    ir
+SFX 224  r    stes    r
+SFX 224  or    óstes/666,100,103,104    or
+SFX 224  er    éstes/666,100,103,104    er
+SFX 224  ir    ístes/666,100,103,104    ir
+SFX 224  0    on    r
+SFX 224  or    óron/666,100,103,104    or
+SFX 224  er    éron/666,100,103,104    er
+SFX 224  ir    íron/666,100,103,104    ir
+SFX 224  0    a    r
+SFX 224  or    óra/666,100,103,104    or
+SFX 224  er    éra/666,100,103,104    er
+SFX 224  ir    íra/666,100,103,104    ir
+SFX 224  0    as    r
+SFX 224  or    óras/666,100,103,104    or
+SFX 224  er    éras/666,100,103,104    er
+SFX 224  ir    íras/666,100,103,104    ir
+SFX 224  0    amos    r
+SFX 224  0    ámos/666,100,103,104    r
+SFX 224  0    ades    r
+SFX 224  0    ádes/666,100,103,104    r
+SFX 224  0    an    r
+SFX 224  or    óran/666,100,103,104    or
+SFX 224  er    éran/666,100,103,104    er
+SFX 224  ir    íran/666,100,103,104    ir
+SFX 224  r    se    r
+SFX 224  er    ése/666,100,103,104    er
+SFX 224  or    óse/666,100,103,104    or
+SFX 224  ir    íse/666,100,103,104    ir
+SFX 224  r    ses    r
+SFX 224  or    óses/666,100,103,104    or
+SFX 224  er    éses/666,100,103,104    er
+SFX 224  ir    íses/666,100,103,104    ir
+SFX 224  er    ésemos/100,103,104    er
+SFX 224  ir    ísemos/100,103,104    ir
+SFX 224  or    ósemos/100,103,104    or
+SFX 224  er    ésedes/100,103,104    er
+SFX 224  ir    ísedes/100,103,104    ir
+SFX 224  or    ósedes/100,103,104    or
+SFX 224  r    sen    r
+SFX 224  er    ésen/666,100,103,104    er
+SFX 224  ir    ísen/666,100,103,104    ir
+SFX 224  or    ósen/666,100,103,104    or
+
+SFX 225  Y    7     #S2C irregular
+SFX 225  r    n    [^l]er
+SFX 225  aler    alin/666,100,103    valer
+SFX 225  aler    alín/104    valer
+SFX 225  ir    in/100,103    vir
+SFX 225  ir    ín/666,104    vir
+SFX 225  or    un/100,103    for
+SFX 225  or    ún/666,104    for
+
+
+SFX 226  Y    21     #2C irregular
+SFX 226  er    a    [^cao]er
+SFX 226  cer    za    cer
+SFX 226  er    ia     [ao]er
+SFX 226  er    as    [^cao]er
+SFX 226  er    zas    cer
+SFX 226  er    ias    [ao]er
+SFX 226  er    amos    [^cao]er
+SFX 226  er    ámos/666,100,103,104    [^cao]er
+SFX 226  cer    zamos    cer
+SFX 226  cer    zámos/666,100,103,104    cer
+SFX 226  er    iamos    [ao]er
+SFX 226  er    iámos/666,100,103,104    [ao]er
+SFX 226  er    ades    [^cao]er
+SFX 226  er    ádes/666,100,103,104    [^cao]er
+SFX 226  cer    zades    cer
+SFX 226  cer    zádes/666,100,103,104    cer
+SFX 226  er    iades    [ao]er
+SFX 226  er    iádes/666,100,103,104    [ao]er
+SFX 226  er    an    [^cao]er
+SFX 226  cer    zan    cer
+SFX 226  er    ian    [ao]er
+
+SFX 227  Y    20     #2C irregular
+SFX 227  0    ei/102,103    r
+SFX 227  0    éi/666,104    r
+SFX 227  0    as/666,100,103    r
+SFX 227  0    ás/104    r
+SFX 227  0    a/666,100,103    r
+SFX 227  0    á/104    r
+SFX 227  0    emos    r
+SFX 227  0    émos/666,100,103,104    r
+SFX 227  0    edes    r
+SFX 227  0    édes/666,100,103,104    r
+SFX 227  0    an/666,100,103    r
+SFX 227  0    án/104    r
+SFX 227  0    ía/100,103,104    r
+SFX 227  0    ías/100,103,104    r
+SFX 227  0    iamos    r
+SFX 227  0    iámos/666,100,103,104    r
+SFX 227  0    iades    r
+SFX 227  0    iádes/666,100,103,104    r
+SFX 227  0    ían    r
+SFX 227  0    ían/100,103,104    r
+
+
+SFX 228  Y    14     #Segunda conxugación irregular
+SFX 228  er    ía    [^s]er
+SFX 228  er    ía/666,100,103,104    [^s]er
+SFX 228  er    ías    [^s]er
+SFX 228  er    ías/666,100,103,104    [^s]er
+SFX 228  er    iamos    [^sao]er
+SFX 228  er    iámos/666,100,103,104    [^sao]er
+SFX 228  er    ïamos    [ao]er
+SFX 228  er    ïámos/666,100,103,104    [ao]er
+SFX 228  er    iades    [^sao]er
+SFX 228  er    iádes/666,100,103,104    [^sao]er
+SFX 228  er    ïades    [ao]er
+SFX 228  er    ïádes/666,100,103,104    [ao]er
+SFX 228  er    ían    [^s]er
+SFX 228  er    ían/666,100,103,104    [^s]er
+
+
+SFX 229  Y    10     #2C irregular
+SFX 229  er    e/666,100,103    ser
+SFX 229  er    é/104    ser
+SFX 229  r    de    [^bt]er
+SFX 229  er    éde/666,100,103,104    [^bt]er
+SFX 229  r    de    [^h]aber
+SFX 229  er    éde/666,100,103,104    [^h]aber
+SFX 229  r    nde    ter
+SFX 229  er    énde/666,100,103,104    ter
+SFX 229  r    de    ter
+SFX 229  er    éde/666,100,103,104    ter
+
+SFX 232  Y    23     #Compostos de facer, poñer, ter e ver
+SFX 232  acer    ás/104    facer
+SFX 232  cer    s/666,100,103    facer
+SFX 232  oñer    ós/104    poñer
+SFX 232  ñer    s/666,100,103    poñer
+SFX 232  er    és/104    ter
+SFX 232  er    és/100,103,104    ver
+SFX 232  er    s/666,100,103    [tv]er
+SFX 232  cer    i/100,103    facer
+SFX 232  acer    ái/666,104    facer
+SFX 232  oñer    ón/104    poñer
+SFX 232  ñer    n/666,100,103    poñer
+SFX 232  er    én/104    ter
+SFX 232  r    n/666,100,103    ter
+SFX 232  er    é/104    ver
+SFX 232  er    e/666,100,103    ver
+SFX 232  acer    án/104    facer
+SFX 232  cer    n/666,100,103    facer
+SFX 232  er    en    poñer
+SFX 232  oñer    óñen/666,100,103,104    poñer
+SFX 232  er    eñen    ter
+SFX 232  er    éñen/666,100,103,104    ter
+SFX 232  er    én/104    ver
+SFX 232  er    en/666,100,103    ver
+
+
+SFX 235  Y    2     #Compostos de  ver
+SFX 235  ir    ín/104    vir
+SFX 235  ir    in/666,100,103    vir
+
+SFX 240  Y    25     #2C irregular con cambio de acento na raíz
+SFX 240  er    o/666,100,103,104    [^ábcl]er
+SFX 240  ler    llo/666,100,103,104    váler
+SFX 240  cer    go/666,100,103,104    fácer
+SFX 240  cer    zo/666,100,103,104    [^f]ácer
+SFX 240  ber    ibo/666,100,103,104    cáber
+SFX 240  áber    éi/666,104    [hs]áber
+SFX 240  er    io/666,100,103,104    [á]er
+SFX 240  r    s/666,100,103,104    [^bcñ]er
+SFX 240  cer    s/666,104    fácer
+SFX 240  r    s/666,100,103,104    [^f]ácer
+SFX 240  ber    s/666,104    háber
+SFX 240  r    s/666,100,103,104    [^h]áber
+SFX 240  ñer    s/666,104    póñer
+SFX 240  er    e/666,100,103,104    [^bcñts]er
+SFX 240  cer    i/666,104    fácer
+SFX 240  er    e/666,100,103,104    [^f]acer
+SFX 240  áber    á/666,104    háber
+SFX 240  ber    i/666,104    háber
+SFX 240  er    e/666,100,103,104    [^h]áber
+SFX 240  ñer    n/666,104    póñer
+SFX 240  r    n/666,100,103,104    [^bcts]er
+SFX 240  ber    án/666,104    háber
+SFX 240  r    n/666,100,103,104    [^h]áber
+SFX 240  cer    n/666,104    fácer
+SFX 240  r    n/666,100,103,104    [^f]ácer
+
+SFX 241  Y    2     #2C irregular con cambio de acento na raíz
+SFX 241  r    n/666,100,103,104    [^l]er
+SFX 241  er    o/666,100,103,104    [^l]er
+
+SFX 242  Y    6     #2C irregular con cambio de acento na raíz
+SFX 242  er    a/666,100,103,104    [^cao]er
+SFX 242  cer    za/666,100,103,104    cer
+SFX 242  er    ia/666,100,103,104    [ao]er
+SFX 242  er    as/666,100,103,104    [^cao]er
+SFX 242  er    zas/666,100,103,104    cer
+SFX 242  er    ias/666,100,103,104    [ao]er
+
+# ---------------- REGRAS VERBOS DA TERCEIRA CONXUGACIÓN -------------------
+
+# No .dic inclúense dous lemas. O segundo lema e para a formación das formas
+# verbais que levan un acento que non existe na raíz orixinal do verbo.
+# Paradigma dos verbos regulares
+#       partir/300,301 e pártir/666,302
+#       ouvir/300,306 e óuvir/666,307
+#       parir/300,308 e párir/666,309
+#       rir/300,303 sorrir/300,304 reunir/300,305
+# Os verbos rematados en -aír, -oír e -uír teñen unha soa raíz
+#       saír/313
+# Verbos con alternancia vocálica u-o FUXIR
+#       fuxir/300,314, fúxir/666,315, 
+#       foxir/666,316, fóxir/666,317
+# Verbos con alternancia vocálica e-i SENTIR
+#       sentir/300,320,321, séntir/666,322
+#       sintir/666,323,     síntir/666,324
+# Verbo IR
+#       ir/330,331 for/666,331,332 vair/666,333
+# Verbo DICIR
+#       dicir/334,336,337,338
+#       dixer/666,338,339
+# Verbo VIR
+#       vir/340,341
+#       viñer/666,341,342,344
+
+# e 3ª PP do Presente de Indicativo e na 1ª PS do Pretérito de Indicativo
+# Os compostos de ler e crer e o sobreser presentan a mesma iregularidade
+# aínda que varía a acentuación por ser os primeiros monosílabos.
+#       ler/210,211,213 e lér/666,215
+#       reler/210,211,214 e relér/666,215
+
+
+SFX 300  Y    69     #Terceira conxugación regular
+SFX 300  r    r/100,103    ir
+SFX 300  ir    ír/666,104    ir
+SFX 300  r    ndo    ir
+SFX 300  ir    índo/666,100,103,104    ir
+SFX 300  ir    ido/10,14    ir
+SFX 300  ir    ía/100,103,104    ir
+SFX 300  ir    ías/100,103,104    ir
+SFX 300  ir    iamos    ir
+SFX 300  ir    iámos/666,100,103,104    ir
+SFX 300  ir    iades    ir
+SFX 300  ir    iádes/666,100,103,104    ir
+SFX 300  ir    ían/100,103,104    ir
+SFX 300  ir    iches    ir
+SFX 300  ir    íches/666,100,103,104    ir
+SFX 300  ir    iu/102,103    ir
+SFX 300  ir    íu/666,104    ir
+SFX 300  r    mos    ir
+SFX 300  ir    ímos/666,100,103,104    ir
+SFX 300  r    stes    ir
+SFX 300  ir    ístes/666,100,103,104    ir
+SFX 300  0    on    ir
+SFX 300  ir    íron/666,100,103,104    ir
+SFX 300  0    a    ir
+SFX 300  ir    íra/666,100,103,104    ir
+SFX 300  0    as    ir
+SFX 300  ir    íras/666,100,103,104    ir
+SFX 300  0    amos    ir
+SFX 300  0    ámos/666,100,103,104    ir
+SFX 300  0    ades    ir
+SFX 300  0    ádes/666,100,103,104    ir
+SFX 300  0    an    ir
+SFX 300  ir    íran/666,100,103,104    ir
+SFX 300  0    ei/102,103    ir
+SFX 300  0    éi/666,104    ir
+SFX 300  0    as/666,100,103    ir
+SFX 300  0    ás/104    ir
+SFX 300  0    a/666,100,103    ir
+SFX 300  0    á/104    ir
+SFX 300  0    emos    ir
+SFX 300  0    émos/666,100,103,104    ir
+SFX 300  0    edes    ir
+SFX 300  0    édes/666,100,103,104    ir
+SFX 300  0    an/666,100,103    ir
+SFX 300  0    án/104    ir
+SFX 300  0    ía/100,103,104    ir
+SFX 300  0    ías/100,103,104    ir
+SFX 300  0    iamos    ir
+SFX 300  0    iámos/666,100,103,104    ir
+SFX 300  0    iades    ir
+SFX 300  0    iádes/666,100,103,104    ir
+SFX 300  0    ían/100,103,104    ir
+SFX 300  r    se    ir
+SFX 300  ir    íse/666,100,103,104    ir
+SFX 300  r    ses    ir
+SFX 300  ir    íses/666,100,103,104    ir
+SFX 300  ir    ísemos/100,103,104    ir
+SFX 300  ir    ísedes/100,103,104    ir
+SFX 300  r    sen    ir
+SFX 300  ir    ísen/666,100,103,104    ir
+SFX 300  0    es    ir
+SFX 300  ir    íres/666,100,103,104    ir
+SFX 300  0    mos    ir
+SFX 300  ir    írmos/666,100,103,104    ir
+SFX 300  0    des    ir
+SFX 300  ir    írdes/666,100,103,104    ir
+SFX 300  0    en    ir
+SFX 300  ir    íren/666,100,103,104    ir
+SFX 300  r    de    ir
+SFX 300  ir    íde/666,100,103,104    ir
+
+SFX 301  Y    41     #C3 regular
+SFX 301  ir    o    [^cu]ir
+SFX 301  cir    zo    cir
+SFX 301  guir    go    guir
+SFX 301  quir    co    quir
+SFX 301  ir    es    ir
+SFX 301  ir    e    ir
+SFX 301  r    mos    ir
+SFX 301  ir    ímos/666,100,103,104    ir
+SFX 301  r    des    ir
+SFX 301  ir    ídes/666,100,103,104    ir
+SFX 301  ir    en    ir
+SFX 301  ir    ín/104    ir
+SFX 301  ir    in/666,100,103    ir
+SFX 301  ir    a    [^cu]ir
+SFX 301  cir    za    cir
+SFX 301  guir    ga    guir
+SFX 301  quir    ca    quir
+SFX 301  ir    as    [^cu]ir
+SFX 301  cir    zas    cir
+SFX 301  guir    gas    guir
+SFX 301  quir    cas    quir
+SFX 301  ir    amos    [^cu]ir
+SFX 301  ir    ámos/666,100,103,104    [^cu]ir
+SFX 301  cir    zamos    cir
+SFX 301  cir    zámos/666,100,103,104    cir
+SFX 301  guir    gamos    guir
+SFX 301  guir    gámos/666,100,103,104    guir
+SFX 301  quir    camos    quir
+SFX 301  quir    cámos/666,100,103,104    quir
+SFX 301  ir    ades    [^cu]ir
+SFX 301  ir    ádes/666,100,103,104    [^cu]ir
+SFX 301  cir    zades    cir
+SFX 301  cir    zádes/666,100,103,104    cir
+SFX 301  guir    gades    guir
+SFX 301  guir    gádes/666,100,103,104    guir
+SFX 301  quir    cades    quir
+SFX 301  quir    cádes/666,100,103,104    quir
+SFX 301  ir    an    [^cuao]ir
+SFX 301  cir    zan    cir
+SFX 301  guir    gan    guir
+SFX 301  quir    can    quir
+
+SFX 302  Y    19     #C3 rregular con cambio de acento na raíz
+SFX 302  ir    o/666,100,103,104    [^cu]ir
+SFX 302  cir    zo/666,100,103,104    cir
+SFX 302  guir    go/666,100,103,104    guir
+SFX 302  quir    co/666,100,103,104    quir
+SFX 302  ir    es/666,100,103,104    ir
+SFX 302  ir    e/666,100,103,104    ir
+SFX 302  ir    en/666,100,103,104    ir
+SFX 302  ir    a/666,100,103,104    [^cu]ir
+SFX 302  cir    za/666,100,103,104    cir
+SFX 302  guir    ga/666,100,103,104    guir
+SFX 302  quir    ca/666,100,103,104    quir
+SFX 302  ir    as/666,100,103,104    [^cu]ir
+SFX 302  cir    zas/666,100,103,104    cir
+SFX 302  guir    gas/666,100,103,104    guir
+SFX 302  quir    cas/666,100,103,104    quir
+SFX 302  ir    an/666,100,103,104    [^cu]ir
+SFX 302  cir    zan/666,100,103,104    cir
+SFX 302  guir    gan/666,100,103,104    guir
+SFX 302  quir    can/666,100,103,104    quir
+
+
+SFX 303  Y    18     #Verbo rir
+SFX 303  ir    ío/100,103,104    rir
+SFX 303  ir    is/100,103    rir
+SFX 303  ir    ís/666,104    rir
+SFX 303  ir    i/100,103    rir
+SFX 303  ir    í/666,104    rir
+SFX 303  ir    imos    ir
+SFX 303  ir    ímos/666,100,103,104    rir
+SFX 303  ir    ides    ir
+SFX 303  ir    ídes/666,100,103,104    ir
+SFX 303  ir    in/100,103    rir
+SFX 303  ir    ín/666,104    rir
+SFX 303  ir    ía/100,103,104    rir
+SFX 303  ir    ías/100,103,104    rir
+SFX 303  ir    iamos    rir
+SFX 303  ir    iámos/666,100,103,104    rir
+SFX 303  ir    iades    rir
+SFX 303  ir    iádes/666,100,103,104    rir
+SFX 303  ir    ían/100,103,104    rir
+
+
+SFX 304  Y    16     #Verbo sorrir
+SFX 304  ir    ío/100,103,104    rir
+SFX 304  ir    ís/100,103,104    rir
+SFX 304  ir    í/100,103,104    rir
+SFX 304  ir    imos    ir
+SFX 304  ir    ímos/666,100,103,104    rir
+SFX 304  ir    ides    ir
+SFX 304  ir    ídes/666,100,103,104    ir
+SFX 304  ir    ín/104    rir
+SFX 304  ir    in/666,100,103    rir
+SFX 304  ir    ía/100,103,104    rir
+SFX 304  ir    ías/100,103,104    rir
+SFX 304  ir    iamos    rir
+SFX 304  ir    iámos/666,100,103,104    rir
+SFX 304  ir    iades    rir
+SFX 304  ir    iádes/666,100,103,104    rir
+SFX 304  ir    ían/100,103,104    rir
+
+
+SFX 305  Y    17     #Verbo reunir 
+SFX 305  unir    úno/100,103,104    unir
+SFX 305  unir    únes/100,103,104    unir
+SFX 305  unir    úne/100,103,104    unir
+SFX 305  ir    imos    unir
+SFX 305  ir    ímos/666,100,103,104    unir
+SFX 305  ir    ides    unir
+SFX 305  ir    ídes/666,100,103,104    unir
+SFX 305  unir    únen/100,103,104    unir
+SFX 305  ir    ín/104    unir
+SFX 305  ir    in/666,100,103    unir
+SFX 305  unir    úna/100,103,104    unir
+SFX 305  unir    únas/100,103,104    unir
+SFX 305  ir    amos    unir
+SFX 305  ir    ámos/666,100,103,104    unir
+SFX 305  ir    ades    unir
+SFX 305  ir    ádes/666,100,103,104    unir
+SFX 305  unir    únan/100,103,104    unir
+
+
+SFX 306  Y    17     #Verbo ouvir 
+SFX 306  vir    zo    ir
+SFX 306  ir    es    ir
+SFX 306  ir    e    ir
+SFX 306  r    mos    ir
+SFX 306  ir    ímos/666,100,103,104    ir
+SFX 306  r    des    ir
+SFX 306  ir    ídes/666,100,103,104    ir
+SFX 306  ir    en    ir
+SFX 306  ir    ín/104    ir
+SFX 306  ir    in/666,100,103    ir
+SFX 306  vir    za    ir
+SFX 306  vir    zas    ir
+SFX 306  vir    zamos    ir
+SFX 306  vir    zámos/666,100,103,104    ir
+SFX 306  vir    zades    ir
+SFX 306  vir    zádes/666,100,103,104    ir
+SFX 306  vir    zan    ir
+
+SFX 307  Y    7     #Verbo ouvir con cambio de acento na raiz
+SFX 307  vir    zo/666,100,103,104    ir
+SFX 307  ir    es/666,100,103,104    ir
+SFX 307  ir    e/666,100,103,104    ir
+SFX 307  ir    en/666,100,103,104    ir
+SFX 307  vir    za/666,100,103,104    ir
+SFX 307  vir    zas/666,100,103,104    ir
+SFX 307  vir    zan/666,100,103,104    ir
+
+
+SFX 308  Y    17     #Verbo parir 
+SFX 308  rir    iro    ir
+SFX 308  ir    es    ir
+SFX 308  ir    e    ir
+SFX 308  r    mos    ir
+SFX 308  ir    ímos/666,100,103,104    ir
+SFX 308  r    des    ir
+SFX 308  ir    ídes/666,100,103,104    ir
+SFX 308  ir    en    ir
+SFX 308  ir    ín/104    ir
+SFX 308  ir    in/666,100,103    ir
+SFX 308  rir    ira    ir
+SFX 308  rir    iras    ir
+SFX 308  rir    iramos    ir
+SFX 308  rir    irámos/666,100,103,104    ir
+SFX 308  rir    irades    ir
+SFX 308  rir    irádes/666,100,103,104    ir
+SFX 308  rir    iran    ir
+
+SFX 309  Y    7     #Verbo parir con cambio de acento na raiz
+SFX 309  rir    iro/666,100,103,104    ir
+SFX 309  ir    es/666,100,103,104    ir
+SFX 309  ir    e/666,100,103,104    ir
+SFX 309  ir    en/666,100,103,104    ir
+SFX 309  rir    ira/666,100,103,104    ir
+SFX 309  rir    iras/666,100,103,104    ir
+SFX 309  rir    iran/666,100,103,104    ir
+
+
+SFX 313  Y    90     #3C -aír -oír -uír Como saír, oír ou fluír
+SFX 313  r    r/100,103,104    ír #Infinitivo
+SFX 313  r    ndo/100,103,104    ír
+SFX 313  r    do/10,14    ír
+SFX 313  ír    io    [ao]ír
+SFX 313  uír    úo/100,103,104    uír
+SFX 313  aír    áio/666,100,103,104    aír
+SFX 313  oír    óio/666,100,103,104    oír
+SFX 313  ír    es    [ao]ír
+SFX 313  uír    úes/100,103,104    uír
+SFX 313  aír    áes/666,100,103,104    aír
+SFX 313  oír    óes/666,100,103,104    oír
+SFX 313  ír    e    [ao]ír
+SFX 313  uír    úe/100,103,104    uír
+SFX 313  aír    áe/666,100,103,104    aír
+SFX 313  oír    óe/666,100,103,104    oír
+SFX 313  r    mos/100,103,104    ír
+SFX 313  r    des/100,103,104    ír
+SFX 313  ír    en    [ao]ír
+SFX 313  uír    úen/100,103,104    uír
+SFX 313  aír    áen/666,100,103,104    aír
+SFX 313  oír    óen/666,100,103,104    oír
+SFX 313  ír    ía/100,103,104    ír
+SFX 313  ír    ías/100,103,104    ír
+SFX 313  ír    ïamos    ír
+SFX 313  ír    ïámos/666,100,103,104    ír
+SFX 313  ír    ïades    ír
+SFX 313  ír    ïádes/666,100,103,104    ír
+SFX 313  ír    ían/100,103,104    ír
+SFX 313  ír    ín/100,103,104    ír
+SFX 313  ír    íches/100,103,104    ír
+SFX 313  ír    íu/102,103,104    ír
+SFX 313  ír    ímos/100,103,104    ír
+SFX 313  ír    ístes/100,103,104    ír
+SFX 313  ír    íron/100,103,104    ír
+SFX 313  0    a/100,103,104    ír
+SFX 313  0    as/100,103,104    ír
+SFX 313  ír    iramos    ír
+SFX 313  ír    irámos/666,100,103,104    ír
+SFX 313  ír    irades    ír
+SFX 313  ír    irádes/666,100,103,104    ír
+SFX 313  0    an/100,103,104    ír
+SFX 313  ír    irei/102,103    ír
+SFX 313  ír    iréi/666,104    ír
+SFX 313  ír    irás/104    ír
+SFX 313  ír    iras/666,100,103    ír
+SFX 313  ír    irá/104    ír
+SFX 313  ír    ira/666,100,103    ír
+SFX 313  ír    iremos    ír
+SFX 313  ír    irémos/666,100,103,104    ír
+SFX 313  ír    iredes    ír
+SFX 313  ír    irédes/666,100,103,104    ír
+SFX 313  ír    irán/104    ír
+SFX 313  ír    iran/666,100,103    ír
+SFX 313  ír    iría/100,103,104    ír
+SFX 313  ír    irías/100,103,104    ír
+SFX 313  ír    iriamos    ír
+SFX 313  ír    iriámos/666,100,103,104    ír
+SFX 313  ír    iriades    ír
+SFX 313  ír    iriádes/666,100,103,104    ír
+SFX 313  ír    irían/100,103,104    ír
+SFX 313  ír    ia     [ao]ír
+SFX 313  uír    úa/100,103,104    uír
+SFX 313  aír    áia/666,100,103,104    aír
+SFX 313  oír    óia/666,100,103,104    oír
+SFX 313  ír    ias    [ao]ír
+SFX 313  uír    úas/100,103,104    uír
+SFX 313  aír    áias/666,100,103,104    aír
+SFX 313  oír    óias/666,100,103,104    oír
+SFX 313  ír    iamos    [ao]ír
+SFX 313  ír    iámos/666,100,103,104    [ao]ír
+SFX 313  ír    amos    uír
+SFX 313  ír    ámos/666,100,103,104    uír
+SFX 313  ír    iades    [ao]ír
+SFX 313  ír    iádes/666,100,103,104    [ao]ír
+SFX 313  ír    ades    uír
+SFX 313  ír    ádes/666,100,103,104    uír
+SFX 313  ír    ian    [ao]ír
+SFX 313  uír    úan/100,103,104    uír
+SFX 313  aír    áian/666,100,103,104    aír
+SFX 313  oír    óian/666,100,103,104    oír
+SFX 313  r    se/100,103,104    ír
+SFX 313  r    ses/100,103,104    ír
+SFX 313  r    semos/100,103,104    ír
+SFX 313  r    sedes/100,103,104    ír
+SFX 313  r    sen/100,103,104    ír
+SFX 313  0    es/100,103,104    ír
+SFX 313  0    mos/100,103,104    ír
+SFX 313  0    des/100,103,104    ír
+SFX 313  0    en/100,103,104    ír
+SFX 313  r    de/100,103,104    ír
+
+
+SFX 314  Y    38     #C3 alternancia vocálica u-o 
+SFX 314  ir    o    [^cu]ir
+SFX 314  ir    o    [^g]uir
+SFX 314  cir    zo    cir
+SFX 314  guir    go    guir
+SFX 314  r    mos    ir
+SFX 314  ir    ímos/666,100,103,104    ir
+SFX 314  r    des    ir
+SFX 314  ir    ídes/666,100,103,104    ir
+SFX 314  ir    ín/104    ir
+SFX 314  ir    in/666,100,103    ir
+SFX 314  ir    a    [^cu]ir
+SFX 314  ir    a    [^g]uir
+SFX 314  cir    za    cir
+SFX 314  guir    ga    guir
+SFX 314  ir    as    [^cu]ir
+SFX 314  cir    zas    cir
+SFX 314  guir    gas    guir
+SFX 314  quir    cas    quir
+SFX 314  ir    amos    [^cu]ir
+SFX 314  ir    ámos/666,100,103,104    [^cu]ir
+SFX 314  ir    amos    [^g]uir
+SFX 314  ir    ámos/666,100,103,104    [^g]uir
+SFX 314  cir    zamos    cir
+SFX 314  cir    zámos/666,100,103,104    cir
+SFX 314  guir    gamos    guir
+SFX 314  guir    gámos/666,100,103,104    guir
+SFX 314  ir    ades    [^cu]ir
+SFX 314  ir    ádes/666,100,103,104    [^cu]ir
+SFX 314  ir    ades    [^g]uir
+SFX 314  ir    ádes/666,100,103,104    [^g]uir
+SFX 314  cir    zades    cir
+SFX 314  cir    zádes/666,100,103,104    cir
+SFX 314  guir    gades    guir
+SFX 314  guir    gádes/666,100,103,104    guir
+SFX 314  ir    an    [^cu]ir
+SFX 314  ir    an    [^g]uir
+SFX 314  cir    zan    cir
+SFX 314  guir    gan    guir
+
+SFX 315  Y    17     #C3 alternancia vocálica u-o Fúxir con cambio de acento na raiz
+SFX 315  ir    o/666,100,103,104    [^cu]ir
+SFX 315  ir    o/666,100,103,104    [^g]uir
+SFX 315  cir    zo/666,100,103,104    cir
+SFX 315  guir    go/666,100,103,104    guir
+SFX 315  ir    a/666,100,103,104    [^cu]ir
+SFX 315  ir    a/666,100,103,104    [^g]uir
+SFX 315  cir    za/666,100,103,104    cir
+SFX 315  guir    ga/666,100,103,104    guir
+SFX 315  ir    as/666,100,103,104    [^cu]ir
+SFX 315  ir    as/666,100,103,104    [^g]uir
+SFX 315  cir    zas/666,100,103,104    cir
+SFX 315  guir    gas/666,100,103,104    guir
+SFX 315  ir    an/666,100,103,104    [^cu]ir
+SFX 315  ir    an/666,100,103,104    [^g]uir
+SFX 315  cir    zan/666,100,103,104    cir
+SFX 315  guir    gan/666,100,103,104    guir
+SFX 315  ir    e/666,100,103,104    ir
+
+SFX 316  Y    3     #C3 alternancia vocálica u-o Foxir
+SFX 316  ir    es    ir
+SFX 316  ir    e    ir
+SFX 316  ir    en    ir
+
+SFX 317  Y    3     #C3 alternancia vocálica u-o Fóxir con cambio de acento na raiz
+SFX 317  ir    es/666,100,103,104    ir
+SFX 317  ir    e/666,100,103,104    ir
+SFX 317  ir    en/666,100,103,104    ir
+
+SFX 320  Y    6     #C3 alternancia vocálica i-e
+SFX 320  r    mos    ir
+SFX 320  ir    ímos/666,100,103,104    ir
+SFX 320  r    des    ir
+SFX 320  ir    ídes/666,100,103,104    ir
+SFX 320  ir    ín/104    ir
+SFX 320  ir    in/666,100,103    ir
+
+
+SFX 321  Y    3     #C3 alternancia vocálica i-e
+SFX 321  ir    es    ir
+SFX 321  ir    e    ir
+SFX 321  ir    en    ir
+
+
+SFX 322  Y    3     #C3 alternancia vocálica i-e. cambio de acento na raiz
+SFX 322  ir    es/666,100,103,104    ir
+SFX 322  ir    e/666,100,103,104    ir
+SFX 322  ir    en/666,100,103,104    ir
+
+SFX 323  Y    24     #C3 alternancia vocálica i-e. Sirvir
+SFX 323  ir    o    [^cu]ir
+SFX 323  ir    o    [^g]uir
+SFX 323  guir    go    guir
+SFX 323  ir    a    [^cu]ir
+SFX 323  ir    a    [^g]uir
+SFX 323  guir    ga    guir
+SFX 323  ir    as    [^cu]ir
+SFX 323  guir    gas    guir
+SFX 323  quir    cas    quir
+SFX 323  ir    amos    [^cu]ir
+SFX 323  ir    ámos/666,100,103,104    [^cu]ir
+SFX 323  ir    amos    [^g]uir
+SFX 323  ir    ámos/666,100,103,104    [^g]uir
+SFX 323  guir    gamos    guir
+SFX 323  guir    gámos/666,100,103,104    guir
+SFX 323  ir    ades    [^cu]ir
+SFX 323  ir    ádes/666,100,103,104    [^cu]ir
+SFX 323  ir    ades    [^g]uir
+SFX 323  ir    ádes/666,100,103,104    [^g]uir
+SFX 323  guir    gades    guir
+SFX 323  guir    gádes/666,100,103,104    guir
+SFX 323  ir    an    [^cu]ir
+SFX 323  ir    an    [^g]uir
+SFX 323  guir    gan    guir
+
+
+SFX 324  Y    12     #C3 alternancia vocálica i-e. Sírvir
+SFX 324  ir    o/666,100,103,104    [^cu]ir
+SFX 324  ir    o/666,100,103,104    [^g]uir
+SFX 324  guir    go/666,100,103,104    guir
+SFX 324  ir    a/666,100,103,104    [^cu]ir
+SFX 324  ir    a/666,100,103,104    [^g]uir
+SFX 324  guir    ga/666,100,103,104    guir
+SFX 324  ir    as/666,100,103,104    [^cu]ir
+SFX 324  ir    as/666,100,103,104    [^g]uir
+SFX 324  guir    gas/666,100,103,104    guir
+SFX 324  ir    an/666,100,103,104    [^cu]ir
+SFX 324  ir    an/666,100,103,104    [^g]uir
+SFX 324  guir    gan/666,100,103,104    guir
+
+
+
+SFX 330  Y    37     #Verbo ir
+SFX 330  r    ndo    ir
+SFX 330  ir    índo/666,100,103,104    ir
+SFX 330  ir    ido/10,14    ir
+SFX 330  r    mos    ir
+SFX 330  ir    ímos/666,100,103,104    ir
+SFX 330  r    des    ir
+SFX 330  ir    ídes/666,100,103,104    ir
+SFX 330  ir    ía    ir
+SFX 330  ir    ía/666,100,103,104    ir
+SFX 330  ir    ías    ir
+SFX 330  ir    ías/666,100,103,104    ir
+SFX 330  ir    iamos    ir
+SFX 330  ir    iámos/666,100,103,104    ir
+SFX 330  ir    iades    ir
+SFX 330  ir    iádes/666,100,103,104    ir
+SFX 330  ir    ían    ir
+SFX 330  ir    ían/666,100,103,104    ir
+SFX 330  0    ei/102,103    r
+SFX 330  0    éi/666,104    r
+SFX 330  0    as/666,100,103    r
+SFX 330  0    ás/104    r
+SFX 330  0    a/666,100,103    r
+SFX 330  0    á/104    r
+SFX 330  0    emos    r
+SFX 330  0    émos/666,100,103,104    r
+SFX 330  0    edes    r
+SFX 330  0    édes/666,100,103,104    r
+SFX 330  0    an/666,100,103    r
+SFX 330  0    án/104    r
+SFX 330  0    ía/100,103,104    r
+SFX 330  0    ías/100,103,104    r
+SFX 330  0    iamos    r
+SFX 330  0    iámos/666,100,103,104    r
+SFX 330  0    iades    r
+SFX 330  0    iádes/666,100,103,104    r
+SFX 330  0    ían    r
+SFX 330  0    ían/100,103,104    r
+
+
+SFX 331  Y    10     #Verbo ir (Raíz ir e for)
+SFX 331  r    r/100,103    r
+SFX 331  ir    ír/666,104    ir
+SFX 331  0    es    r
+SFX 331  ir    íres/666,100,103,104    ir
+SFX 331  0    mos    r
+SFX 331  ir    írmos/666,100,103,104    ir
+SFX 331  0    des    r
+SFX 331  ir    írdes/666,100,103,104    ir
+SFX 331  0    en    r
+SFX 331  ir    íren/666,100,103,104    ir
+
+
+SFX 332  Y    30     #Verbo ir (Raíz for)
+SFX 332  or    un/100,103    r
+SFX 332  or    ún/666,104    r
+SFX 332  or    uches    r
+SFX 332  or    úches/666,100,103,104    r
+SFX 332  r    i/102,103    r
+SFX 332  or    ói/666,104    r
+SFX 332  r    mos    r
+SFX 332  or    ómos/666,100,103,104    r
+SFX 332  r    stes    r
+SFX 332  or    óstes/666,100,103,104    r
+SFX 332  0    on    r
+SFX 332  or    óron/666,100,103,104    r
+SFX 332  0    a    r
+SFX 332  or    óra/666,100,103,104    r
+SFX 332  0    as    r
+SFX 332  or    óras/666,100,103,104    r
+SFX 332  0    amos    r
+SFX 332  0    ámos/666,100,103,104    r
+SFX 332  0    ades    r
+SFX 332  0    ádes/666,100,103,104    r
+SFX 332  0    an    r
+SFX 332  or    óran/666,100,103,104    r
+SFX 332  r    se    r
+SFX 332  or    óse/666,100,103,104    r
+SFX 332  r    ses    r
+SFX 332  or    óses/666,100,103,104    r
+SFX 332  or    ósemos/100,103,104    r
+SFX 332  or    ósedes/100,103,104    r
+SFX 332  r    sen    r
+SFX 332  or    ósen/666,100,103,104    r
+
+
+SFX 333  Y    20     #Verbo ir (Raíz vair)
+SFX 333  r    a    ir
+SFX 333  r    a/666,100,103,104    ir
+SFX 333  r    as    ir
+SFX 333  r    as/666,100,103,104    ir
+SFX 333  r    amos    ir
+SFX 333  r    ámos/666,100,103,104    ir
+SFX 333  r    ades    ir
+SFX 333  r    ádes/666,100,103,104    ir
+SFX 333  r    an    ir
+SFX 333  r    an/666,100,103,104    ir
+SFX 333  air    ou/102,103    ir
+SFX 333  air    óu/666,104    ir
+SFX 333  ir    s/100,103    ir
+SFX 333  air    ás/666,104    ir
+SFX 333  ir    i/102,103    ir
+SFX 333  air    ái/666,104    ir
+SFX 333  ir    n/100,103    ir
+SFX 333  air    án/666,104    ir
+SFX 333  ir    mos    ir
+SFX 333  air    ámos/666,100,103,104    ir
+
+SFX 334  Y    6     #Verbo dicir
+SFX 334  cir    s/100,103    cir
+SFX 334  icir    ís/666,104    cir
+SFX 334  icir    i/100,103    cir
+SFX 334  icir    í/666,104    cir
+SFX 334  cir    n/100,103    cir
+SFX 334  icir    ín/666,104    cir
+
+SFX 335  Y    3     #Verbos compostos de dicir
+SFX 335  cir    ís/100,103,104    cir
+SFX 335  icir    í/100,103,104    cir
+SFX 335  cir    ín/100,103,104    cir
+
+SFX 336  Y    16     #Verbo dicir
+SFX 336  cir    go    cir
+SFX 336  icir    ígo/666,100,103,104    cir
+SFX 336  r    mos    ir
+SFX 336  ir    ímos/666,100,103,104    ir
+SFX 336  r    des    ir
+SFX 336  ir    ídes/666,100,103,104    ir
+SFX 336  cir    ga    cir
+SFX 336  icir    íga/666,100,103,104    cir
+SFX 336  cir    gas    cir
+SFX 336  icir    ígas/666,100,103,104    cir
+SFX 336  cir    gamos    cir
+SFX 336  icir    ígamos/666,100,103,104    cir
+SFX 336  cir    gades    cir
+SFX 336  icir    ígades/666,100,103,104    cir
+SFX 336  cir    gan    cir
+SFX 336  icir    ígan/666,100,103,104    cir
+
+
+SFX 337  Y    31     #Verbo dicir
+SFX 337  r    ndo    ir
+SFX 337  ir    índo/666,100,103,104    ir
+SFX 337  icir    ito/10,14    cir
+SFX 337  ir    ía/100,103,104    ir
+SFX 337  ir    ías/100,103,104    ir
+SFX 337  ir    iamos    ir
+SFX 337  ir    iámos/666,100,103,104    ir
+SFX 337  ir    iades    ir
+SFX 337  ir    iádes/666,100,103,104    ir
+SFX 337  ir    ían/100,103,104    ir
+SFX 337  cir    rei/102,103    cir
+SFX 337  cir    réi/666,104    cir
+SFX 337  cir    ras/666,100,103    cir
+SFX 337  cir    rás/104    cir
+SFX 337  cir    ra/666,100,103    cir
+SFX 337  cir    rá/104    cir
+SFX 337  cir    remos    cir
+SFX 337  cir    rémos/666,100,103,104    cir
+SFX 337  cir    redes    cir
+SFX 337  cir    rédes/666,100,103,104    cir
+SFX 337  cir    ran/666,100,103    cir
+SFX 337  cir    rán/104    cir
+SFX 337  cir    ría/100,103,104    cir
+SFX 337  cir    rías/100,103,104    cir
+SFX 337  cir    riamos    cir
+SFX 337  cir    riámos/666,100,103,104    cir
+SFX 337  cir    riades    cir
+SFX 337  cir    riádes/666,100,103,104    cir
+SFX 337  cir    rían/100,103,104    cir
+SFX 337  r    de    ir
+SFX 337  ir    íde/666,100,103,104    ir
+
+
+SFX 338  Y    15     #Verbo dicir (dicir e dixer)
+SFX 338  r    r/100,103    r
+SFX 338  ir    ír/666,104    ir
+SFX 338  er    ér/666,104    er
+SFX 338  0    es    r
+SFX 338  ir    íres/666,100,103,104    ir
+SFX 338  er    éres/666,100,103,104    er
+SFX 338  0    mos    r
+SFX 338  ir    írmos/666,100,103,104    ir
+SFX 338  er    érmos/666,100,103,104    er
+SFX 338  0    des    r
+SFX 338  ir    írdes/666,100,103,104    ir
+SFX 338  er    érdes/666,100,103,104    er
+SFX 338  0    en    r
+SFX 338  ir    íren/666,100,103,104    ir
+SFX 338  er    éren/666,100,103,104    er
+
+
+SFX 339  Y    30     #Verbo dicir (Raíz dixer)
+SFX 339  r    n    r
+SFX 339  ixer    íxen/666,100,103,104    r
+SFX 339  r    ches    r
+SFX 339  er    éches/666,100,103,104    r
+SFX 339  er    o    r
+SFX 339  ixer    íxo/666,100,103,104    r
+SFX 339  r    mos    r
+SFX 339  er    émos/666,100,103,104    r
+SFX 339  r    stes    r
+SFX 339  er    éstes/666,100,103,104    r
+SFX 339  0    on    r
+SFX 339  er    éron/666,100,103,104    r
+SFX 339  0    a    r
+SFX 339  er    éra/666,100,103,104    r
+SFX 339  0    as    r
+SFX 339  er    éras/666,100,103,104    r
+SFX 339  0    amos    r
+SFX 339  0    ámos/666,100,103,104    r
+SFX 339  0    ades    r
+SFX 339  0    ádes/666,100,103,104    r
+SFX 339  0    an    r
+SFX 339  er    éran/666,100,103,104    r
+SFX 339  r    se    r
+SFX 339  er    ése/666,100,103,104    r
+SFX 339  r    ses    r
+SFX 339  er    éses/666,100,103,104    r
+SFX 339  er    ésemos/100,103,104    r
+SFX 339  er    ésedes/100,103,104    r
+SFX 339  r    sen    r
+SFX 339  er    ésen/666,100,103,104    r
+
+SFX 340  Y    58     #Verbo vir
+SFX 340  r    ndo    ir
+SFX 340  ir    índo/666,100,103,104    ir
+SFX 340  ir    ido/10,14    ir
+SFX 340  ir    eño    ir
+SFX 340  ir    éño/666,100,103,104    ir
+SFX 340  ir    és/100,103,104    ir
+SFX 340  ir    én/100,103,104    ir
+SFX 340  r    mos    ir
+SFX 340  ir    ímos/666,100,103,104    ir
+SFX 340  r    des    ir
+SFX 340  ir    ídes/666,100,103,104    ir
+SFX 340  r    ndes    ir
+SFX 340  ir    índes/666,100,103,104    ir
+SFX 340  ir    eñen    ir
+SFX 340  ir    éñen/666,100,103,104    ir
+SFX 340  r    ña    ir
+SFX 340  ir    íña/666,100,103,104    ir
+SFX 340  r    ñas    ir
+SFX 340  ir    íñas/666,100,103,104    ir
+SFX 340  r    ñamos    ir
+SFX 340  ir    ñámos/666,100,103,104    ir
+SFX 340  r    ñades    ir
+SFX 340  ir    ñádes/666,100,103,104    ir
+SFX 340  r    ñan    ir
+SFX 340  ir    íñan/666,100,103,104    ir
+SFX 340  r    rei/102,103    ir
+SFX 340  r    réi/666,104    ir
+SFX 340  r    ras/666,100,103    ir
+SFX 340  r    rás/104    ir
+SFX 340  r    ra/666,100,103    ir
+SFX 340  r    rá/104    ir
+SFX 340  r    remos    ir
+SFX 340  r    rémos/666,100,103,104    ir
+SFX 340  r    redes    ir
+SFX 340  r    rédes/666,100,103,104    ir
+SFX 340  r    ran/666,100,103    ir
+SFX 340  r    rán/104    ir
+SFX 340  r    ría/100,103,104    ir
+SFX 340  r    rías/100,103,104    ir
+SFX 340  r    riamos    ir
+SFX 340  r    riámos/666,100,103,104    ir
+SFX 340  r    riades    ir
+SFX 340  r    riádes/666,100,103,104    ir
+SFX 340  r    rían/100,103,104    ir
+SFX 340  r    de    ir
+SFX 340  ir    íde/666,100,103,104    ir
+SFX 340  r    nde    ir
+SFX 340  ir    índe/666,100,103,104    ir
+SFX 340  ir    eña    ir
+SFX 340  ir    éña/666,100,103,104    ir
+SFX 340  ir    eñas    ir
+SFX 340  ir    éñas/666,100,103,104    ir
+SFX 340  ir    eñamos    ir
+SFX 340  ir    eñámos/666,100,103,104    ir
+SFX 340  ir    eñades    ir
+SFX 340  ir    eñádes/666,100,103,104    ir
+SFX 340  ir    eñan    ir
+SFX 340  ir    éñan/666,100,103,104    ir
+
+
+SFX 341  Y    15     #Verbo vir (vir e viñer)
+SFX 341  r    r/100,103    r
+SFX 341  ir    ír/666,104    ir
+SFX 341  er    ér/666,104    er
+SFX 341  0    es    r
+SFX 341  ir    íres/666,100,103,104    ir
+SFX 341  er    éres/666,100,103,104    er
+SFX 341  0    mos    r
+SFX 341  ir    írmos/666,100,103,104    ir
+SFX 341  er    érmos/666,100,103,104    er
+SFX 341  0    des    r
+SFX 341  ir    írdes/666,100,103,104    ir
+SFX 341  er    érdes/666,100,103,104    er
+SFX 341  0    en    r
+SFX 341  ir    íren/666,100,103,104    ir
+SFX 341  er    éren/666,100,103,104    er
+
+
+SFX 343  Y    1     #Verbos compostos vir (Raíz viñer)
+SFX 343  iñer    ín/100,103,104    r
+
+SFX 342  Y    2     #Verbo vir (Raíz viñer)
+SFX 342  ñer    n/100,103    r
+SFX 342  iñer    ín/666,104    r
+
+SFX 344  Y    28     #Verbo vir (Raíz viñer)
+SFX 344  r    ches    r
+SFX 344  er    éches/666,100,103,104    r
+SFX 344  iñer    eu/102,103    r
+SFX 344  iñer    éu/666,104    r
+SFX 344  r    mos    r
+SFX 344  er    émos/666,100,103,104    r
+SFX 344  r    stes    r
+SFX 344  er    éstes/666,100,103,104    r
+SFX 344  0    on    r
+SFX 344  er    éron/666,100,103,104    r
+SFX 344  0    a    r
+SFX 344  er    éra/666,100,103,104    r
+SFX 344  0    as    r
+SFX 344  er    éras/666,100,103,104    r
+SFX 344  0    amos    r
+SFX 344  0    ámos/666,100,103,104    r
+SFX 344  0    ades    r
+SFX 344  0    ádes/666,100,103,104    r
+SFX 344  0    an    r
+SFX 344  er    éran/666,100,103,104    r
+SFX 344  r    se    r
+SFX 344  er    ése/666,100,103,104    r
+SFX 344  r    ses    r
+SFX 344  er    éses/666,100,103,104    r
+SFX 344  er    ésemos/100,103,104    r
+SFX 344  er    ésedes/100,103,104    r
+SFX 344  r    sen    r
+SFX 344  er    ésen/666,100,103,104    r
+
+# ------------ REGRAS VERBOS PÓR E COMPOSTOS----------------
+# pór/350 e por/351
+# compostos de pór: pospor/350,351
+
+SFX 350  Y    1     #Verbo pór e compostos
+SFX 350  r    r/100,103,104    r
+
+SFX 351  Y    45     #Verbo pór e compostos
+SFX 351  r    ndo    or
+SFX 351  or    óndo/666,100,103,104    or
+SFX 351  r    mos    or
+SFX 351  or    ómos/666,100,103,104    or
+SFX 351  r    ndes    or
+SFX 351  or    óndes/666,100,103,104    or
+SFX 351  or    uña    or
+SFX 351  or    úña/666,100,103,104    or
+SFX 351  or    uñas    or
+SFX 351  or    úñas/666,100,103,104    or
+SFX 351  or    uñamos    or
+SFX 351  or    uñámos/666,100,103,104    or
+SFX 351  or    uñades    or
+SFX 351  or    uñádes/666,100,103,104    or
+SFX 351  or    uñan    or
+SFX 351  or    úñan/666,100,103,104    or
+SFX 351  0    ei/102,103    or
+SFX 351  0    éi/666,104    or
+SFX 351  0    ás/104    or
+SFX 351  0    as/666,100,103    or
+SFX 351  0    á/104    or
+SFX 351  0    a/666,100,103    or
+SFX 351  0    emos    or
+SFX 351  0    émos/666,100,103,104    or
+SFX 351  0    edes    or
+SFX 351  0    édes/666,100,103,104    or
+SFX 351  0    án/104    or
+SFX 351  0    an/666,100,103    or
+SFX 351  0    ía/100,103,104    or
+SFX 351  0    ías/100,103,104    or
+SFX 351  0    iamos    or
+SFX 351  0    iámos/666,100,103,104    or
+SFX 351  0    iades    or
+SFX 351  0    iádes/666,100,103,104    or
+SFX 351  0    ían/100,103,104    or
+SFX 351  0    es    or
+SFX 351  0    óres/666,100,103,104    or
+SFX 351  0    mos    or
+SFX 351  0    órmos/666,100,103,104    or
+SFX 351  0    des    or
+SFX 351  0    órdes/666,100,103,104    or
+SFX 351  0    en    or
+SFX 351  0    óren/666,100,103,104    or
+SFX 351  r    nde    or
+SFX 351  r    ónde/666,100,103,104    or

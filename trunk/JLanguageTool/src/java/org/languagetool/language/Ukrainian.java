@@ -22,6 +22,7 @@ import java.util.*;
 
 import org.languagetool.Language;
 import org.languagetool.rules.*;
+import org.languagetool.rules.spelling.hunspell.HunspellRule;
 import org.languagetool.rules.uk.SimpleReplaceRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.uk.UkrainianTagger;
@@ -92,6 +93,7 @@ public class Ukrainian extends Language {
     return Arrays.asList(
             CommaWhitespaceRule.class,
             DoublePunctuationRule.class,
+            HunspellRule.class,
             UppercaseSentenceStartRule.class,
             WhitespaceRule.class,
             // specific to Ukrainian:

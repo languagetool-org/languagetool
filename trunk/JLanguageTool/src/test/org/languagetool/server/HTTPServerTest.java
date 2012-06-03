@@ -175,7 +175,7 @@ public class HTTPServerTest extends TestCase {
   
   private String check(Language lang, Language motherTongue, String text) throws IOException {
     String urlOptions = "/?language=" + lang.getShortName();
-    urlOptions += "&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like polish, romanian, etc
+    urlOptions += "&disabled=HUNSPELL_RULE&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like polish, romanian, etc
     if (null != motherTongue) {
     	urlOptions += "&motherTongue=" + motherTongue.getShortName();
     }

@@ -22,6 +22,7 @@ import java.util.*;
 
 import org.languagetool.Language;
 import org.languagetool.rules.*;
+import org.languagetool.rules.spelling.hunspell.HunspellRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.nl.DutchSynthesizer;
 import org.languagetool.tagging.Tagger;
@@ -125,6 +126,7 @@ public class Dutch extends Language {
             DoublePunctuationRule.class,
             GenericUnpairedBracketsRule.class,
             UppercaseSentenceStartRule.class,
+            HunspellRule.class,
             WhitespaceRule.class
     );
   }

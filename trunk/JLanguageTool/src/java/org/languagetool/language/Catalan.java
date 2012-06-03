@@ -23,6 +23,7 @@ import java.util.*;
 import org.languagetool.Language;
 import org.languagetool.rules.*;
 import org.languagetool.rules.patterns.Unifier;
+import org.languagetool.rules.spelling.hunspell.HunspellRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.ca.CatalanSynthesizer;
 import org.languagetool.tagging.Tagger;
@@ -94,6 +95,7 @@ public class Catalan extends Language {
             WhitespaceRule.class,
             WordRepeatRule.class,            
             LongSentenceRule.class,
+            HunspellRule.class,
             // specific to Catalan:
             CatalanUnpairedQuestionMarksRule.class,
             CatalanUnpairedExclamationMarksRule.class,

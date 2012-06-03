@@ -22,6 +22,7 @@ import java.util.*;
 
 import org.languagetool.Language;
 import org.languagetool.rules.*;
+import org.languagetool.rules.spelling.hunspell.HunspellRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.be.BelarusianTagger;
 import org.languagetool.tokenizers.SentenceTokenizer;
@@ -85,6 +86,7 @@ public class Belarusian extends Language {
       return Arrays.asList(
               CommaWhitespaceRule.class,
               DoublePunctuationRule.class,
+              HunspellRule.class,
               UppercaseSentenceStartRule.class,
               WhitespaceRule.class
       );
