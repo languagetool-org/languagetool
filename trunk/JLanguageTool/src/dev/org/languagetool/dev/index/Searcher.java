@@ -72,6 +72,9 @@ public class Searcher {
   public SearcherResult findRuleMatchesOnIndex(PatternRule rule, Language language, IndexSearcher indexSearcher) throws IOException {
     final PossiblyRelaxedQuery query = createQuery(rule);
     final Sort sort = new Sort(new SortField("docCount", SortField.INT));  // do not sort by relevance as this will move the shortest documents to the top
+    if (query.query == null) {
+      throw new NullPointerException("Cannot search on null query for rule: " + rule);
+    }
     final TopDocs topDocs = indexSearcher.search(query.query, maxHits, sort);
     final JLanguageTool languageTool = getLanguageToolWithOneRule(language, rule);
     final List<MatchingSentence> matchingSentences = findMatchingSentences(indexSearcher, topDocs, languageTool);
