@@ -34,20 +34,19 @@ import java.util.regex.Pattern;
  * 
  * There is a special addition:
  * "add_DT" tag adds "el, la, l', els, les" according to the gender  
- * and the numer of the word and the Catalan rules for apostrophation (l').
+ * and the number of the word and the Catalan rules for apostrophation (l').
  *
  * @author Jaume Ortolà i Font
  */
 public class CatalanSynthesizer extends BaseSynthesizer {
 
   private static final String RESOURCE_FILENAME = "/ca/catalan_synth.dict";
-
   private static final String TAGS_FILE_NAME = "/ca/catalan_tags.txt";
 
   /** A special tag to add determiner (el, la, l', els, les). **/
   private static final String ADD_DETERMINER = "+DT";
   
-  /** Patterns for numer and gender **/
+  /** Patterns for number and gender **/
   private static final Pattern pMS = Pattern.compile("(N|A.).[MC][SN].*|V.P.*[SN][MC]");
   private static final Pattern pFS = Pattern.compile("(N|A.).[FC][SN].*|V.P.*[SN][FC]");
   private static final Pattern pMP = Pattern.compile("(N|A.).[MC][PN].*|V.P.*[PN][MC]");
@@ -103,10 +102,10 @@ public class CatalanSynthesizer extends BaseSynthesizer {
     final Matcher mMP = pMP.matcher(posTag);
     final Matcher mFP = pFP.matcher(posTag);
     for (WordData wd : wordForms) {
-    	final String word = wd.getStem().toString();
+      final String word = wd.getStem().toString();
     	if (mMS.matches()) {
-    		final Matcher mMascYes = pMascYes.matcher(wd.getStem().toString());
-    		final Matcher mMascNo = pMascNo.matcher(wd.getStem().toString());
+    		final Matcher mMascYes = pMascYes.matcher(word);
+    		final Matcher mMascNo = pMascNo.matcher(word);
     		if (mMascYes.matches() && !mMascNo.matches()) {
     			results.add("l'" + word);
     		}	else {
@@ -114,8 +113,8 @@ public class CatalanSynthesizer extends BaseSynthesizer {
     		}
     	}
     	if (mFS.matches()) {
-    		final Matcher mFemYes = pFemYes.matcher(wd.getStem().toString());
-    		final Matcher mFemNo = pFemNo.matcher(wd.getStem().toString());
+    		final Matcher mFemYes = pFemYes.matcher(word);
+    		final Matcher mFemNo = pFemNo.matcher(word);
     		if (mFemYes.matches() && !mFemNo.matches()) {
     			results.add("l'" + word);
     		}	else {

@@ -27,20 +27,34 @@ import org.languagetool.AnalyzedToken;
 
 public class CatalanSynthesizerTest extends TestCase {
 
-  public final void testSynthesizeStringString() throws IOException {
-    final CatalanSynthesizer synth = new CatalanSynthesizer();
-    assertEquals(synth.synthesize(dummyToken("blablabla"),
-        "blablabla").length, 0);
+  private final CatalanSynthesizer synth = new CatalanSynthesizer();
 
-    assertEquals("[nostres]", Arrays.toString(synth.synthesize(dummyToken("nostre"), "PX1CP0P0")));
-    assertEquals("[presidents]", Arrays.toString(synth.synthesize(dummyToken("president"), "NCMP000")));
-    assertEquals("[comprovat]", Arrays.toString(synth.synthesize(dummyToken("comprovar"), "VMP00SM")));
-    //with regular expressions
-    assertEquals("[comprovades, comprovats, comprovada, comprovat]", Arrays.toString(synth.synthesize(dummyToken("comprovar"), "V.P.*", true)));
-    assertEquals("[contestant, contestar]", Arrays.toString(synth.synthesize(dummyToken("contestar"), "VM[GN]0000", true)));
-    //with special definite article
-    assertEquals("[les universitats, la universitat]", Arrays.toString(synth.synthesize(dummyToken("universitat"), "+DT", false)));
-    assertEquals("[les úniques, l'única, els únics, l'únic]", Arrays.toString(synth.synthesize(dummyToken("únic"), "+DT", false)));
+  public final void testSynthesizeStringString() throws IOException {
+    assertEquals(0, synth.synthesize(dummyToken("blablabla"), "blablabla").length);
+
+    assertEquals("[nostres]", synth("nostre", "PX1CP0P0"));
+    assertEquals("[presidents]", synth("president", "NCMP000"));
+    assertEquals("[comprovat]", synth("comprovar", "VMP00SM"));
+
+    //with regular expressions:
+    assertEquals("[comprovades, comprovats, comprovada, comprovat]", synthRegex("comprovar", "V.P.*"));
+    assertEquals("[contestant, contestar]", synthRegex("contestar", "VM[GN]0000"));
+
+    //with special definite article:
+    assertEquals("[les universitats, la universitat]", synthNonRegex("universitat", "+DT"));
+    assertEquals("[les úniques, l'única, els únics, l'únic]", synthNonRegex("únic", "+DT"));
+  }
+
+  private String synth(String word, String pos) throws IOException {
+    return Arrays.toString(synth.synthesize(dummyToken(word), pos));
+  }
+
+  private String synthRegex(String word, String pos) throws IOException {
+    return Arrays.toString(synth.synthesize(dummyToken(word), pos, true));
+  }
+
+  private String synthNonRegex(String word, String pos) throws IOException {
+    return Arrays.toString(synth.synthesize(dummyToken(word), pos, false));
   }
 
   private AnalyzedToken dummyToken(String tokenStr) {
