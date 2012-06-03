@@ -83,7 +83,7 @@ public class IndexerSearcherTest extends LuceneTestCase {
     return errorSearcher.getRuleById(ruleId, ruleFile);
   }
 
-  public void testIndexerSearcherWithNewRule() throws Exception {
+  public void testWithNewRule() throws Exception {
     createIndex("How to move back and fourth from linux to xmb?");
     final Searcher errorSearcher = new Searcher();
     final List<Element> elements = Arrays.asList(
@@ -106,7 +106,7 @@ public class IndexerSearcherTest extends LuceneTestCase {
     }
   }
 
-  public void testIndexerSearcherWithRegexRule() throws Exception {
+  public void testWithRegexRule() throws Exception {
     createIndex("How to move back and fourth from linux to xmb?");
     final Searcher errorSearcher = new Searcher();
     final List<Element> elements = Arrays.asList(
@@ -162,13 +162,37 @@ public class IndexerSearcherTest extends LuceneTestCase {
     }
   }
 
-  public void testIndexerSearcherWithException() throws Exception {
+  public void testWithException() throws Exception {
     createIndex("How to move back and fourth from linux to xmb?");
     final Searcher errorSearcher = new Searcher();
     final Element exceptionElem = new Element("forth|back", false, true, false);
     exceptionElem.setStringPosException("exception", false, false, false, false, false, "POS", false, false);
     final List<Element> elements = Arrays.asList(
             new Element("move", false, false, false),
+            exceptionElem
+    );
+    final PatternRule rule1 = new PatternRule("RULE1", Language.ENGLISH, elements, "desc", "msg", "shortMsg");
+    final IndexSearcher indexSearcher = new IndexSearcher(directory);
+    try {
+      final SearcherResult searcherResult = errorSearcher.findRuleMatchesOnIndex(rule1, Language.ENGLISH, indexSearcher);
+      assertEquals(1, searcherResult.getCheckedSentences());
+      assertEquals(1, searcherResult.getMatchingSentences().size());
+      assertEquals(true, searcherResult.isRelaxedQuery());
+      final List<RuleMatch> ruleMatches = searcherResult.getMatchingSentences().get(0).getRuleMatches();
+      assertEquals(1, ruleMatches.size());
+      final Rule rule = ruleMatches.get(0).getRule();
+      assertEquals("RULE1", rule.getId());
+    } finally {
+      indexSearcher.close();
+    }
+  }
+
+  public void testWithOneElementWithException() throws Exception {
+    createIndex("How to move back and fourth from linux to xmb?");
+    final Searcher errorSearcher = new Searcher();
+    final Element exceptionElem = new Element("forth|back", false, true, false);
+    exceptionElem.setStringPosException("exception", false, false, false, false, false, "POS", false, false);
+    final List<Element> elements = Arrays.asList(
             exceptionElem
     );
     final PatternRule rule1 = new PatternRule("RULE1", Language.ENGLISH, elements, "desc", "msg", "shortMsg");
