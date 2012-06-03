@@ -2,6 +2,7 @@ package org.languagetool.rules.patterns;
 
 import junit.framework.TestCase;
 import org.languagetool.JLanguageTool;
+import org.languagetool.rules.IncorrectExample;
 import org.languagetool.rules.Rule;
 
 import java.util.List;
@@ -15,6 +16,10 @@ public class PatternRuleLoaderTest extends TestCase {
     assertTrue(rules.size() >= 30);
     final Rule demoRule1 = getRuleById("DEMO_RULE", rules);
     assertEquals("http://fake-server.org/foo-bar-error-explained", demoRule1.getUrl().toString());
+    assertEquals("[This is <marker>fuu bah</marker>.]", demoRule1.getCorrectExamples().toString());
+    final List<IncorrectExample> incorrectExamples = demoRule1.getIncorrectExamples();
+    assertEquals(1, incorrectExamples.size());
+    assertEquals("This is <marker>foo bar</marker>.", incorrectExamples.get(0).getExample());
     final Rule demoRule2 = getRuleById("API_OUTPUT_TEST_RULE", rules);
     assertNull(demoRule2.getUrl());
   }
