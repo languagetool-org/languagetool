@@ -930,10 +930,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <marker>
             <and>
               <token regexp="yes" inflected="yes">k.*
-                <exception>dije</exception>
                 <exception inflected="yes" regexp="yes" postag="N[^M]*" postag_regexp="yes">g.*</exception>
               </token>
               <token regexp="yes" negate="yes">c’h.*</token>
+              <token regexp="yes">[gk].*</token>
             </and>
           </marker>
         </pattern>
@@ -944,6 +944,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example type="correct">En em gompren a ran.</example>
         <example type="correct">He dije</example>
         <example type="correct">He ger</example>
+        <example type="correct">He chas</example>
       </rule>
       <rule>
         <pattern>
@@ -1543,7 +1544,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <marker>
             <and>
               <token regexp="yes" inflected="yes">t.*</token>
-              <token regexp="yes">[dz].*</token>
+              <token regexp="yes">[dz].*<exception>zo</exception></token>
             </and>
           </marker>
         </pattern>
@@ -3039,6 +3040,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
+    <rulegroup id="V_PPA_EZ_EUS_BET_AR" name="digoret ez eus bet ar → digoret eo bet ar">
+      <rule>
+        <pattern>
+          <token postag="V ppa"></token>
+          <marker>
+            <token>ez</token>
+            <token>eus</token>
+          </marker>
+          <token>bet</token>
+          <token regexp="yes">a[nrl]</token>
+        </pattern>
+        <message>Ret eo implijout <suggestion>eo</suggestion>.</message>
+      <example type="incorrect">Digoret <marker>ez eus</marker> bet ar skol nevez.</example>
+      <example type="correct">Digoret eo bet ar skol nevez.</example>
+      </rule>
+    </rulegroup>
+
     <rule id="HOCH_EUS" name="oc’h eus → hoc’h eus">
       <pattern>
         <token>oc’h<exception scope="previous">distroet</exception></token>
@@ -3085,7 +3103,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <token regexp="yes">[ae]m|hon</token>
             <token postag="X KAOUT2">eus</token>
           </marker>
-          <token regexp="yes">alies|atav|a-wechoù|a-wezhioù|bepred|bemdez|bemnoz</token>
+          <token regexp="yes">alies|atav|a-wechoù|a-wezhioù|bepred|bemdez|bemnoz|dalc‘hmat</token>
         </pattern>
         <message>Ret eo skrivañ <suggestion>\1 bez</suggestion> gant ar ger «\3».</message>
         <example type="incorrect">Sec’hed <marker>am eus</marker> atav.</example>
@@ -3097,7 +3115,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <token regexp="yes">[ae](z|c‘h)</token>
             <token postag="X KAOUT2" regexp="yes">p?eus</token>
           </marker>
-          <token regexp="yes">alies|atav|a-wechoù|a-wezhioù|bepred|bemdez|bemnoz</token>
+          <token regexp="yes">alies|atav|a-wechoù|a-wezhioù|bepred|bemdez|bemnoz|dalc‘hmat</token>
         </pattern>
         <message>Ret eo skrivañ <suggestion><match no="1" regexp_match="(.).*" regexp_replace="$1z"/> pez</suggestion> gant ar ger «\3».</message>
         <example type="incorrect">Sec’hed <marker>az peus</marker> atav.</example>
@@ -4353,7 +4371,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <marker>
           <token>evit</token>
         </marker>
-        <token regexp="yes">dilun|dimeurzh|dimerc’her|diriaou|digwener|disadorn|disul|w?arc’hoazh|pegoulz|pedavare|pavare</token>
+        <token regexp="yes">dilun|dimeurzh|dimerc’her|diriaou|digwener|disadorn|disul|w?arc’hoazh|pegoulz|pedavare|pavare|peur</token>
       </pattern>
       <message>Ne vez ket implijet an araogenn «evit» a-raok ar ger «\2». Ha fellout a rae deoc’h skrivañ <suggestion>a-benn</suggestion>?</message>
       <example type="incorrect">Prest e vo <marker>evit</marker> dilun.</example>
@@ -6245,6 +6263,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example type="correct">Krog int da zeskiñ brezhoneg.</example>
       </rule>
     </rulegroup>
+
+    <rule id = "DIWALL" name="ober diwall → diwall">
+      <pattern>
+        <token inflected="yes">ober</token>
+        <token>diwall</token>
+      </pattern>
+      <message>Ne vez ket implijet ar ger «\2» gant ar verb «\1».</message>
+      <example type="incorrect">Ret eo <marker>ober diwall</marker>.</example>
+      <example type="correct">Ret eo diwall.</example>
+    </rule>
   </category>
   <!-- vim: foldmethod=marker foldmarker=<category,</category:
   -->
