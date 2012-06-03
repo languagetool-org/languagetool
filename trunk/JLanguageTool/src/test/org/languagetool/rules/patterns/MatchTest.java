@@ -121,7 +121,7 @@ public class MatchTest extends TestCase {
 	public void testStartUpper() throws Exception {
 		Match match = getMatch("POS1", "POS2", Match.CaseConversion.STARTUPPER);
 		match.setToken(getAnalyzedTokenReadings("inflectedform11", "POS1", "Lemma1"));
-		assertEquals("[Inflectedform121, Inflectedform122]", Arrays.toString( match.toFinalString(null)));
+		assertEquals("[Inflectedform121, Inflectedform122]", Arrays.toString(match.toFinalString(null)));
 	}
 
 	public void testStartLower() throws Exception {
@@ -248,30 +248,30 @@ public class MatchTest extends TestCase {
         match.setSynthesizer(Language.POLISH.getSynthesizer());
         match.setToken(getAnalyzedTokenReadings("inflectedform11", "POS1", "Lemma1"));
         //getting empty strings, which is what we want
-        assertEquals("[]", Arrays.toString( match.toFinalString(Language.POLISH)));
+        assertEquals("[]", Arrays.toString(match.toFinalString(Language.POLISH)));
         
         // contrast with a speller = false!
         match = getMatch("POS1", "POS2", false);
         match.setSynthesizer(Language.POLISH.getSynthesizer());
         match.setToken(getAnalyzedTokenReadings("inflectedform11", "POS1", "Lemma1"));        
-        assertEquals("[(inflectedform11)]", Arrays.toString( match.toFinalString(Language.POLISH)));
+        assertEquals("[(inflectedform11)]", Arrays.toString(match.toFinalString(Language.POLISH)));
         
         //and now a real word - we should get something
         match = getMatch("subst:sg:acc.nom:m3", "subst:sg:gen:m3", true);
         match.setSynthesizer(Language.POLISH.getSynthesizer());
         match.setToken(getAnalyzedTokenReadings("AON", "subst:sg:acc.nom:m3", "AON"));
-        assertEquals("[AON-u]", Arrays.toString( match.toFinalString(Language.POLISH)));
+        assertEquals("[AON-u]", Arrays.toString(match.toFinalString(Language.POLISH)));
         
         //and now pure text changes        
         match = getTextMatch("^(.*)$", "$0-u", true);
         match.setSynthesizer(Language.POLISH.getSynthesizer());
         match.setLemmaString("AON");
-        assertEquals("[AON-u]", Arrays.toString( match.toFinalString(Language.POLISH)));
+        assertEquals("[AON-u]", Arrays.toString(match.toFinalString(Language.POLISH)));
         match.setLemmaString("batalion");
         //should be empty
-        assertEquals("[]", Arrays.toString( match.toFinalString(Language.POLISH)));
+        assertEquals("[]", Arrays.toString(match.toFinalString(Language.POLISH)));
         match.setLemmaString("ASEAN");
         //and this one not
-        assertEquals("[ASEAN-u]", Arrays.toString( match.toFinalString(Language.POLISH)));
+        assertEquals("[ASEAN-u]", Arrays.toString(match.toFinalString(Language.POLISH)));
     }
 }

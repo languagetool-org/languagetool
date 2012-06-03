@@ -143,7 +143,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
       subId = 0;
     } else if ("suggestion".equals(qName) && inMessage) {      
       if (YES.equals(attrs.getValue("suppress_misspelled"))) {
-          message.append("<pleasespellme/>");
+        message.append("<pleasespellme/>");
       }
       message.append("<suggestion>");
       inSuggestion = true;

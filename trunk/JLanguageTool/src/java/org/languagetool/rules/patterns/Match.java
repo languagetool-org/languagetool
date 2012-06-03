@@ -342,22 +342,17 @@ public class Match {
         }
         helper[i] = formattedString[i] + skippedTokens;  
       }
-      
-          formattedString = helper;      
-    
+      formattedString = helper;
     }
     if (this.suppressMisspelled && lang != null) {
-      List<String> formattedStringElements = new ArrayList<String>(formattedString.length);
-      for (final String str : formattedString) {
-          formattedStringElements.add(str);
-      }
+      final List<String> formattedStringElements = Arrays.asList(formattedString);
       //tagger-based speller
-      List<AnalyzedTokenReadings> analyzed = lang.getTagger().tag(formattedStringElements);      
+      final List<AnalyzedTokenReadings> analyzed = lang.getTagger().tag(formattedStringElements);
       for (int i = 0; i < formattedString.length; i++) {
-          if (analyzed.get(i).getAnalyzedToken(0).getLemma() == null
-                  && analyzed.get(i).getAnalyzedToken(0).hasNoTag()) {
-              formattedString[i] = "";
-          }
+        final AnalyzedToken analyzedToken = analyzed.get(i).getAnalyzedToken(0);
+        if (analyzedToken.getLemma() == null && analyzedToken.hasNoTag()) {
+          formattedString[i] = "";
+        }
       }
     }
     return formattedString;
