@@ -40,14 +40,19 @@ mkdir $folder
 
 if [ $# -eq 2 ]; then
   langs=`ls -d ../../../rules/*/ -l | awk -F / '{print $(NF-1)}'`
+  langs=$langs" "`ls -d ../../../rules/*/*/ -l | awk -F / '{print $(NF-2)"/"$(NF-1)}'` # country variants
+  langs=`echo "$langs" | tr " " "\n" | sort |tr "\n" " "` # sort
 else
   langs=$3
 fi
 
 for l in $langs
 do
+  l_base=`echo $l | sed "s/\/.*//g"`
+  l_variant=`echo $l | sed "s/.*\///g"`
+  
   echo $(tput setaf 2)------------------
-  echo $l
+  echo $l \($l_base / $l_variant\)
   echo ------------------$(tput sgr0)
   
   wget $path_old/$l/grammar.xml -O old
@@ -59,12 +64,14 @@ do
   mv old~ old
   mv new~ new
   
-  java VersionDiffGenerator $l
+  java VersionDiffGenerator $l_variant
   
   # read translated strings
   i=1
   if [ -f $l.txt ]; then
     tf=$l.txt
+  elif [ -f $l_base.txt ]; then
+    tf=$l_base.txt
   else
     tf=gen.txt
   fi
@@ -75,14 +82,14 @@ do
     i=$((i+1));
   done<$tf
   
-  new_count=`grep "4NEWRULE" changes_$l.html | wc -l`
-  removed_count=`grep "5REMOVEDRULE" changes_$l.html | wc -l`
-  improved_count=`grep "6IMPROVEDRULE" changes_$l.html | wc -l`
+  new_count=`grep "4NEWRULE" changes_$l_variant.html | wc -l`
+  removed_count=`grep "5REMOVEDRULE" changes_$l_variant.html | wc -l`
+  improved_count=`grep "6IMPROVEDRULE" changes_$l_variant.html | wc -l`
   
-  mv changes_$l.html changes_$l.html~
-  cat changes_a.html | sed "s/1title/${string[1]}/g" | sed "s/2intro/${string[2]}/g" | sed "s/3nothing/${string[3]}/g" | sed "s/0VERSION/$newv/g" > changes_$l.html
-  cat changes_$l.html~ | sed "s/4NEWRULE/${string[4]}/g" | sed "s/5REMOVEDRULE/${string[5]}/g" | sed "s/6IMPROVEDRULE/${string[6]}/g" | sed "s/7FINDERR/${string[7]}/g" | sed "s/8FINDNOTERR/${string[8]}/g" >> changes_$l.html
-  cat changes_b.html >> changes_$l.html
+  mv changes_$l_variant.html changes_$l_variant.html~
+  cat changes_a.html | sed "s/1title/${string[1]}/g" | sed "s/2intro/${string[2]}/g" | sed "s/3nothing/${string[3]}/g" | sed "s/0VERSION/$newv/g" > changes_$l_variant.html
+  cat changes_$l_variant.html~ | sed "s/4NEWRULE/${string[4]}/g" | sed "s/5REMOVEDRULE/${string[5]}/g" | sed "s/6IMPROVEDRULE/${string[6]}/g" | sed "s/7FINDERR/${string[7]}/g" | sed "s/8FINDNOTERR/${string[8]}/g" >> changes_$l_variant.html
+  cat changes_b.html >> changes_$l_variant.html
   
   if [ ! $new_count -eq 0 ]; then
     new_count="<b>$new_count</b>"
@@ -93,13 +100,13 @@ do
   if [ ! $improved_count -eq 0 ]; then
     improved_count="<b>$improved_count</b>"
   fi
-  echo "<tr class=\"lang\"><td><a href=\"changes_$l.html\">$l</a></td><td>$new_count new, $improved_count improved, $removed_count removed</td></tr>" >> changes.html
+  echo "<tr class=\"lang\"><td><a href=\"changes_$l_variant.html\">$l_variant</a></td><td>$new_count new, $improved_count improved, $removed_count removed</td></tr>" >> changes.html
   
-  rm changes_$l.html~
+  rm changes_$l_variant.html~
   rm old
   rm new
   
-  mv changes_$l.html $folder
+  mv changes_$l_variant.html $folder
 done
 
 cat changes_b.html | sed "s\</div>\</div><div class=\"gray\">new: The rule did not exist in version $oldv, but does in version $newv. Examples of errors which the new rule can detect are shown while hovering over its name.<br/>improved: The rule in version $newv has more examples than the rule in version $oldv. The new examples are shown while hovering over the name of the rule.<br>removed: The rule did exist in version $oldv, but does not exist in version $newv. Usually this means that the error is now detected by a more general rule.</div>\g" >> changes.html

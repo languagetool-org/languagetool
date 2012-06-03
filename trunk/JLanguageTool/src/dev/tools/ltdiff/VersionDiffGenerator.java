@@ -1,4 +1,3 @@
-package tools.ltdiff;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -55,7 +54,7 @@ class VersionDiffGenerator {
           
           r.id = r.id.replaceAll(".*id=\"","").replaceAll("\".*","");
           r.name = r.name.replaceAll(".*name=\"","").replaceAll("\".*","");
-
+          
           for (Rule rule : rules) { // ensure that the name is unique
             if (r.name.equals(rule.name)) {
               r.name += " ";
@@ -162,7 +161,7 @@ class VersionDiffGenerator {
           found = true;
         }
       }
-      if (!found) {
+      if (!found && !oldRule.name.contains("<")) {
         out.write("<tr class=\"removed\"><td>5REMOVEDRULE</td><td>" + oldRule.name + "</td></tr>\n");
       }
     }
