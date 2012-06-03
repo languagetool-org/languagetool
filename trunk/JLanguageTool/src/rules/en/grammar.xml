@@ -7792,9 +7792,9 @@ $Id$
         <rule id="CD_NN" name="Possible agreement error: numeral + singular countable noun">
             <pattern>
                 <marker>
-                    <token spacebefore="yes" postag="CD"><exception regexp="yes">one|thou|zero|1</exception><exception scope="previous" postag="DT|PRP\$|POS" postag_regexp="yes"/><exception regexp="yes" scope="previous">January|February|March|April|May|June|July|August|September|October|November|December|size|\$\d+</exception><exception spacebefore="no" scope="previous">.</exception></token>
+                    <token spacebefore="yes" postag="CD"><exception regexp="yes">one|thou|zero|1</exception><exception postag="NNP"/><exception scope="previous" postag="DT|PRP\$|POS" postag_regexp="yes"/><exception regexp="yes" scope="previous">January|February|March|April|May|June|July|August|September|October|November|December|size|\$\d+</exception><exception spacebefore="no" scope="previous">.</exception></token>
                     <token postag="NN:UN|NN" postag_regexp="yes"><exception postag="NN:U|NNS|NNPS|JJ.*|IN" postag_regexp="yes"></exception><exception>will</exception>
-                    <exception regexp="yes">mm|lb|yd|ft|Msec|km|cm|mg|kg|gm|cc|stat|kc|hr</exception></token>
+                    <exception regexp="yes">mm|lb|yd|ft|Msec|km|cm|mg|kg|gm|cc|stat|kc|hr|min|m3|mcg|cpu|KB|MB</exception></token>
                 </marker>                
                 <token><exception postag="NN.*" postag_regexp="yes"></exception><exception>'</exception></token>                
             </pattern>
@@ -7812,6 +7812,7 @@ $Id$
             <example type="correct">It takes about 16 Msec. to traverse 25 mm. of tissue.</example>
             <example type="correct">$800 billion economy was envisioned for the 1970s</example>
             <example type="correct">Middle East peace after Israel's 1956 invasion of Egypt</example>
+            <example type="correct">The Apollo 8 mission was well covered in the British documentary.</example>
         </rule>
         <rule id="MANY_NN" name="Possible agreement error: 'many/several/few' + singular countable noun">
             <pattern>

@@ -111,7 +111,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             <marker>
                 <token>are</token>
             </marker>
-            <token postag="JJ.*|VBG|IN|DT|RB" postag_regexp="yes"></token>
+            <token postag="JJ.*|VB[GN]|IN|DT|RB" postag_regexp="yes"></token>
         </pattern>
         <disambig><match no="1" postag="VBP" postag_regexp="yes"></match></disambig>
         <example type="ambiguous" inputform="are[are/NN,be/VBP]" outputform="are[be/VBP]">What follows <marker>are</marker> the terms used by the Aikikai Foundation</example>
@@ -1489,6 +1489,39 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
 		<disambig postag="VBD"/>
 		<example type="ambiguous" inputform="saw[saw/NN,saw/VB,saw/VBP,see/VBD]" outputform="saw[see/VBD]">The years 1812 and 1813 <marker>saw</marker> him in Germany and France again</example>
 	</rule>
-	
 
+	<!--  poor man's entity recognizer to recognize numbers contained in proper names -->
+	
+	<rule id="NNP_CD" name="Apollo 11">
+		<pattern>
+			<token postag="NNP"/>
+			<marker><token postag="CD"/></marker>
+		</pattern>
+		<disambig action="add"><wd pos="NNP"></wd></disambig>
+		<example type="untouched">Apollo is beautiful.</example>
+		<example type="ambiguous" inputform="12[12/CD]" outputform="12[12/CD,12/NNP]">Apollo <marker>12</marker> was beatiful.</example>
+	</rule>
+	
+	<rulegroup id="CAN_MD" name="can as a modal verb">
+	<rule>
+		<pattern>
+			<marker><token>can</token></marker>
+			<token postag="VB"/>			
+		</pattern>
+		<disambig postag="MD"/>
+		<example type="untouched">It is a can of soup.</example>
+		<example type="ambiguous" inputform="can[can/MD,can/NN]" outputform="can[can/MD]">This <marker>can</marker> be eliminated.</example>
+	</rule>
+	<rule>
+		<pattern>
+			<marker><token>can</token></marker>
+			<token postag="RB"/>
+			<token postag="VB"/>			
+		</pattern>
+		<disambig postag="MD"/>
+		<example type="untouched">It is a can of soup.</example>
+		<example type="ambiguous" inputform="can[can/MD,can/NN]" outputform="can[can/MD]">This <marker>can</marker> only be eliminated.</example>
+	</rule>
+		
+	</rulegroup>
 </rules>
