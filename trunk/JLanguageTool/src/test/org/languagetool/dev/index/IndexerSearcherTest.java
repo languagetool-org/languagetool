@@ -129,18 +129,55 @@ public class IndexerSearcherTest extends LuceneTestCase {
     }
   }
 
-  /*public void testFoo() throws Exception {
+  public void testApostropheElement() throws Exception {
     createIndex("Daily Bleed's Anarchist Encyclopedia");
-    final List<Element> elements = Arrays.asList(
+    final List<Element> elements1 = Arrays.asList(
             new Element("Bleed", false, false, false),
             new Element("'", false, false, false),
             new Element("s", false, false, false)
+    );
+    final PatternRule rule1 = new PatternRule("RULE1", Language.ENGLISH, elements1, "desc", "msg", "shortMsg");
+
+    final List<Element> elements2 = Arrays.asList(
+            new Element("Bleed", false, false, false),
+            new Element("'", false, false, false),
+            new Element("x", false, false, false)
+    );
+    final PatternRule rule2 = new PatternRule("RULE", Language.ENGLISH, elements2, "desc", "msg", "shortMsg");
+
+    final IndexSearcher indexSearcher = new IndexSearcher(directory);
+    try {
+      final SearcherResult searcherResult1 = errorSearcher.findRuleMatchesOnIndex(rule1, Language.ENGLISH, indexSearcher);
+      assertEquals(1, searcherResult1.getMatchingSentences().size());
+      final List<RuleMatch> ruleMatches = searcherResult1.getMatchingSentences().get(0).getRuleMatches();
+      assertEquals(1, ruleMatches.size());
+      final Rule rule = ruleMatches.get(0).getRule();
+      assertEquals("RULE1", rule.getId());
+
+      final SearcherResult searcherResult2 = errorSearcher.findRuleMatchesOnIndex(rule2, Language.ENGLISH, indexSearcher);
+      assertEquals(0, searcherResult2.getMatchingSentences().size());
+
+    } finally {
+      indexSearcher.close();
+    }
+  }
+
+  public void testIndexerSearcherWithException() throws Exception {
+    createIndex("How to move back and fourth from linux to xmb?");
+    final Searcher errorSearcher = new Searcher();
+    final Element exceptionElem = new Element("forth|back", false, true, false);
+    exceptionElem.setStringPosException("exception", false, false, false, false, false, "POS", false, false);
+    final List<Element> elements = Arrays.asList(
+            new Element("move", false, false, false),
+            exceptionElem
     );
     final PatternRule rule1 = new PatternRule("RULE1", Language.ENGLISH, elements, "desc", "msg", "shortMsg");
     final IndexSearcher indexSearcher = new IndexSearcher(directory);
     try {
       final SearcherResult searcherResult = errorSearcher.findRuleMatchesOnIndex(rule1, Language.ENGLISH, indexSearcher);
+      assertEquals(1, searcherResult.getCheckedSentences());
       assertEquals(1, searcherResult.getMatchingSentences().size());
+      assertEquals(true, searcherResult.isRelaxedQuery());
       final List<RuleMatch> ruleMatches = searcherResult.getMatchingSentences().get(0).getRuleMatches();
       assertEquals(1, ruleMatches.size());
       final Rule rule = ruleMatches.get(0).getRule();
@@ -148,7 +185,7 @@ public class IndexerSearcherTest extends LuceneTestCase {
     } finally {
       indexSearcher.close();
     }
-  }*/
+  }
 
   private void createIndex(String content) throws IOException {
     directory = newDirectory();
