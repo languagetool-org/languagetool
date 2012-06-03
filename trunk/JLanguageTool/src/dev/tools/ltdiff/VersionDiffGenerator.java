@@ -1,3 +1,5 @@
+package tools.ltdiff;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
