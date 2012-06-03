@@ -173,6 +173,7 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
           .equals(attrs.getValue(POSTAG_REGEXP)), attrs
           .getValue("regexp_match"), attrs.getValue("regexp_replace"),
           caseConversion, YES.equals(attrs.getValue("setpos")),
+          YES.equals(attrs.getValue("supress_mispelled")),
           includeRange);
       if (inDisambiguation) {
         if (attrs.getValue(NO) != null) {

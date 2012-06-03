@@ -28,6 +28,7 @@ import java.util.regex.Pattern;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tools.StringTools;
 
@@ -80,6 +81,7 @@ public class Match {
 
   private final String posTag;
   private boolean postagRegexp;
+  private final boolean suppressMisspelled;
   private final String regexReplace;
   private final String posTagReplace;
   private final CaseConversion caseConversionType;
@@ -121,6 +123,7 @@ public class Match {
       final boolean postagRegexp, final String regexMatch,
       final String regexReplace, final CaseConversion caseConversionType,
       final boolean setPOS,
+      final boolean suppressMisspelled,
       final IncludeRange includeSkipped) {
     this.posTag = posTag;
     this.postagRegexp = postagRegexp;
@@ -137,6 +140,7 @@ public class Match {
     this.posTagReplace = posTagReplace;
     this.setPos = setPOS;
     this.includeSkipped = includeSkipped;
+    this.suppressMisspelled = suppressMisspelled;
   }
 
   /**
@@ -234,14 +238,24 @@ public class Match {
     synthesizer = synth;
   }
 
+  
+  /**
+   * Used to tell whether the Match class will spell-check the result.
+   * @return True if this is so.
+   */
+  public final boolean checksSpelling() {
+      return suppressMisspelled;
+  }
+  
   /**
    * Gets all strings formatted using the match element.
+ * @param lang TODO
    * 
    * @return array of strings
    * @throws IOException
    *           in case of synthesizer-related disk problems.
    */
-  public final String[] toFinalString() throws IOException {
+  public final String[] toFinalString(Language lang) throws IOException {
     String[] formattedString = new String[1];
     if (formattedToken != null) {
       final int readingCount = formattedToken.getReadingsLength();
@@ -287,8 +301,12 @@ public class Match {
               }
             }
           }
-          if (wordForms.isEmpty()) {
-            formattedString[0] = "(" + formattedToken.getToken() + ")";
+          if (wordForms.isEmpty()) {            
+              if (this.suppressMisspelled) {
+                  formattedString[0] = "";
+              } else {
+                  formattedString[0] = "(" + formattedToken.getToken() + ")";
+              }
           } else {
             formattedString = wordForms.toArray(new String[wordForms.size()]);
           }
@@ -324,7 +342,23 @@ public class Match {
         }
         helper[i] = formattedString[i] + skippedTokens;  
       }
-      formattedString = helper;
+      
+          formattedString = helper;      
+    
+    }
+    if (this.suppressMisspelled && lang != null) {
+      List<String> formattedStringElements = new ArrayList<String>(formattedString.length);
+      for (final String str : formattedString) {
+          formattedStringElements.add(str);
+      }
+      //tagger-based speller
+      List<AnalyzedTokenReadings> analyzed = lang.getTagger().tag(formattedStringElements);      
+      for (int i = 0; i < formattedString.length; i++) {
+          if (analyzed.get(i).getAnalyzedToken(0).getLemma() == null
+                  && analyzed.get(i).getAnalyzedToken(0).hasNoTag()) {
+              formattedString[i] = "";
+          }
+      }
     }
     return formattedString;
   }
@@ -393,7 +427,7 @@ public class Match {
    */
   public final String toTokenString() throws IOException {
     final StringBuilder output = new StringBuilder();
-    final String[] stringToFormat = toFinalString();
+    final String[] stringToFormat = toFinalString(null);
     for (int i = 0; i < stringToFormat.length; i++) {
       output.append(stringToFormat[i]);
       if (i + 1 < stringToFormat.length) {

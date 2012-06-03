@@ -141,7 +141,10 @@ public class PatternRuleHandler extends XMLRuleHandler {
       defaultOn = "on".equals(attrs.getValue(DEFAULT));
       inRuleGroup = true;
       subId = 0;
-    } else if ("suggestion".equals(qName) && inMessage) {
+    } else if ("suggestion".equals(qName) && inMessage) {      
+      if (YES.equals(attrs.getValue("suppress_misspelled"))) {
+          message.append("<pleasespellme/>");
+      }
       message.append("<suggestion>");
       inSuggestion = true;
     } else if (MATCH.equals(qName)) {
@@ -250,7 +253,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
     } else if (RULEGROUP.equals(qName)) {
       inRuleGroup = false;
     } else if ("suggestion".equals(qName) && inMessage) {
-      message.append("</suggestion>");
+      message.append("</suggestion>");      
       inSuggestion = false;
     } else if (MARKER.equals(qName) && inCorrectExample) {
       correctExample.append("</marker>");

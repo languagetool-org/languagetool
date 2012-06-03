@@ -78,7 +78,14 @@ LanguageTool Change Log
 
  -The XML format for rules has been changed to use <marker>...</marker> tags instead
   of mark_from and mark_to attributes
-
+  
+ -Now it is possible to suppress misspelled suggestions altogether in XML rules by applying 
+  an attribute suppress_misspelled="yes" on the <suggestion> element, AND on the <match>
+  element. If only <match> element has this attribute set to "yes", then the suggestion is
+  displayed, but no content of <match> is contained within (this might be a conditional part
+  of the suggestion). Note: for this to work, the tagger dictionary needs to be fairly complete;
+  words without lemmas and POS tags are considered to be misspelled.   
+  
  -GUI: made the result of "Tag Text" more readable
 
  -Improved startup speed (Jarek Lipski)
@@ -88,8 +95,9 @@ LanguageTool Change Log
  -In the profiling rules' mode on the command-line, you can now enable 
   and disable rules.
   
- -Some internal bug fixing in disambiguation and pattern rules.  
-
+ -Some internal bug fixing in disambiguation and pattern rules.
+ 
+ 
 
 1.7 (2012-03-25)
 

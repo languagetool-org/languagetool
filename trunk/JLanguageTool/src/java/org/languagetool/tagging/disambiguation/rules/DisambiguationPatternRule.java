@@ -280,7 +280,7 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
       if (matchElement == null) { // same as REPLACE if using <match>
         final Match tmpMatchToken = new Match(disambiguatedPOS, null, true,
             disambiguatedPOS, null, Match.CaseConversion.NONE, 
-            false, Match.IncludeRange.NONE);
+            false, false, Match.IncludeRange.NONE);
         tmpMatchToken.setToken(whTokens[fromPos]);        
         whTokens[fromPos] = tmpMatchToken.filterReadings();        
         filtered = true;

@@ -325,6 +325,7 @@ public class XMLRuleHandler extends DefaultHandler {
         .equals(attrs.getValue(POSTAG_REGEXP)), attrs
         .getValue("regexp_match"), attrs.getValue("regexp_replace"),
         caseConversion, YES.equals(attrs.getValue("setpos")),
+        YES.equals(attrs.getValue("suppress_misspelled")),
         includeRange);
     mWorker.setInMessageOnly(!inSuggestion);
     if (inMessage) {
@@ -460,7 +461,7 @@ public class XMLRuleHandler extends DefaultHandler {
         if (Character.isDigit(messageStr.charAt(pos + 1))) {
           if (pos == 1 || messageStr.charAt(pos - 1) != '\u0001') {
             final Match mWorker = new Match(null, null, false, null, 
-                null, Match.CaseConversion.NONE, false, Match.IncludeRange.NONE);
+                null, Match.CaseConversion.NONE, false, false, Match.IncludeRange.NONE);
             mWorker.setInMessageOnly(true);
             sugMatch.add(mWorker);
           } else if (messageStr.charAt(pos - 1) == '\u0001') { // real suggestion marker

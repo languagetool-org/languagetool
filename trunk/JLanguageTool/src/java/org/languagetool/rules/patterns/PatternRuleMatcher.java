@@ -155,8 +155,16 @@ class PatternRuleMatcher {
       + tokens[lastMatchToken + correctedEndPos].getToken().length();
       if (fromPos < toPos) { // this can happen with some skip="-1" when the last
         // token is not matched
+
+         //now do some spell-checking:
+        if (!(errMessage.contains("<pleasespellme/>") && 
+                errMessage.contains("<mistake/>"))) {
+            //remove stupid markers
+        errMessage.replace("<pleasespellme/>", "");
+        errMessage.replace("<mistake/>","");
         return new RuleMatch(rule, fromPos, toPos,
             errMessage, rule.getShortMessage(), startsWithUppercase);
+        }
       } // failed to create any rule match...
       return null;
     }
@@ -360,7 +368,14 @@ class PatternRuleMatcher {
         final int skippedTokens = nextTokenPos - tokenIndex;
         suggestionMatches.get(start).setToken(tokens, tokenIndex - 1, skippedTokens);
         suggestionMatches.get(start).setSynthesizer(language.getSynthesizer());
-        finalMatch = suggestionMatches.get(start).toFinalString();
+        finalMatch = suggestionMatches.get(start).toFinalString(language);
+        if (suggestionMatches.get(start).checksSpelling()
+                && finalMatch.length == 1
+                && "".equals(finalMatch[0])) {
+            finalMatch = new String[1];
+            finalMatch[0] = "<mistake/>";
+        }
+                
       } else {
         final List<String[]> matchList = new ArrayList<String[]>();
         for (int i = 0; i < len; i++) {
@@ -368,7 +383,7 @@ class PatternRuleMatcher {
           suggestionMatches.get(start).setToken(tokens, tokenIndex - 1 + i, skippedTokens);
           suggestionMatches.get(start)
                   .setSynthesizer(language.getSynthesizer());
-          matchList.add(suggestionMatches.get(start).toFinalString());
+          matchList.add(suggestionMatches.get(start).toFinalString(language));
         }
         return combineLists(matchList.toArray(new String[matchList.size()][]),
             new String[matchList.size()], 0, language);
@@ -407,25 +422,26 @@ class PatternRuleMatcher {
    * @return Combined array of @String.
    */
   private static String[] combineLists(final String[][] input,
-      final String[] output, final int r, final Language lang) {
-    final List<String> outputList = new ArrayList<String>();
-    if (r == input.length) {
-      final StringBuilder sb = new StringBuilder();
-      for (int k = 0; k < output.length; k++) {
-        sb.append(output[k]);
-        if (k < output.length - 1) {
-          sb.append(StringTools.addSpace(output[k + 1], lang));
-        }
+          final String[] output, final int r, final Language lang) {
+      final List<String> outputList = new ArrayList<String>();
+      if (r == input.length) {
+          final StringBuilder sb = new StringBuilder();
+          for (int k = 0; k < output.length; k++) {
+              sb.append(output[k]);
+              if (k < output.length - 1) {
+                  sb.append(StringTools.addSpace(output[k + 1], lang));
+              }
+
+          }
+          outputList.add(sb.toString());
+      } else {
+          for (int c = 0; c < input[r].length; c++) {
+              output[r] = input[r][c];
+              final String[] sList = combineLists(input, output, r + 1, lang);
+              outputList.addAll(Arrays.asList(sList));              
+          }
       }
-      outputList.add(sb.toString());
-    } else {
-      for (int c = 0; c < input[r].length; c++) {
-        output[r] = input[r][c];
-        final String[] sList = combineLists(input, output, r + 1, lang);
-        outputList.addAll(Arrays.asList(sList));
-      }
-    }
-    return outputList.toArray(new String[outputList.size()]);
+      return outputList.toArray(new String[outputList.size()]);
   }
 
 }

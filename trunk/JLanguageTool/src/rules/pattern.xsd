@@ -105,34 +105,36 @@
 		<xs:documentation xml:lang="en">Reference to the pattern element.
 		Might be used in a suggestion or in the pattern.</xs:documentation>
 	</xs:annotation>
-	<xs:element name="match">	
+	<xs:element name="match">
 	<xs:complexType mixed="true">
-			<xs:attribute name="regexp_match" type="xs:string" use="optional" />
-			<xs:attribute name="postag_regexp" type="binaryYesNo"
-				use="optional" default="no" />
-			<xs:attribute name="setpos" type="binaryYesNo" use="optional"
-				default="no" />
-			<xs:attribute name="case_conversion" use="optional">
-				<xs:simpleType>
-					<xs:restriction base="xs:NMTOKEN">
-						<xs:enumeration value="startlower" />
-						<xs:enumeration value="startupper" />
-						<xs:enumeration value="allupper" />
-						<xs:enumeration value="alllower" />
-						<xs:enumeration value="preserve" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:attribute>
-			<xs:attribute name="regexp_replace" type="xs:string"
-				use="optional" />
-			<xs:attribute name="postag_replace" type="xs:string"
-				use="optional" />
-			<xs:attribute name="postag" type="xs:string" use="optional" />
-			<xs:attribute name="no" type="xs:nonNegativeInteger"
-				use="required" />
-			<xs:attribute name="include_skipped" type="includeSelector" use="optional"
-				default="none"/> 
-		</xs:complexType>
+		<xs:attribute name="regexp_match" type="xs:string"
+			use="optional" />
+		<xs:attribute name="postag_regexp" type="binaryYesNo"
+			use="optional" default="no" />
+		<xs:attribute name="setpos" type="binaryYesNo" use="optional"
+			default="no" />
+		<xs:attribute name="case_conversion" use="optional">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="startlower" />
+					<xs:enumeration value="startupper" />
+					<xs:enumeration value="allupper" />
+					<xs:enumeration value="alllower" />
+					<xs:enumeration value="preserve" />
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="suppress_misspelled" type="binaryYesNo" use="optional"/>
+		<xs:attribute name="regexp_replace" type="xs:string"
+			use="optional" />
+		<xs:attribute name="postag_replace" type="xs:string"
+			use="optional" />
+		<xs:attribute name="postag" type="xs:string" use="optional" />
+		<xs:attribute name="no" type="xs:nonNegativeInteger"
+			use="required" />
+		<xs:attribute name="include_skipped" type="includeSelector"
+			use="optional" default="none" />
+	</xs:complexType>
 	</xs:element>
 
 	<xs:element name="token">		
