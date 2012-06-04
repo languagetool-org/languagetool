@@ -64,7 +64,12 @@ do
   mv old~ old
   mv new~ new
   
-  java VersionDiffGenerator $l_variant
+  cd ../..
+  
+  java tools.ltdiff.VersionDiffGenerator $l_variant
+  
+  mv changes_$l_variant.html tools/ltdiff/
+  cd tools/ltdiff
   
   # read translated strings
   i=1
