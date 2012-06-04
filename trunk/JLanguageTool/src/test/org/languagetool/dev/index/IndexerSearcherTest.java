@@ -64,7 +64,7 @@ public class IndexerSearcherTest extends LuceneTestCase {
     assertEquals(false, searcherResult.isRelaxedQuery());
 
     searcherResult = errorSearcher.findRuleMatchesOnIndex(getRule("EYE_BROW"), Language.ENGLISH, searcher);
-    assertEquals(1, searcherResult.getCheckedSentences());
+    assertEquals(2, searcherResult.getCheckedSentences());
     assertEquals(1, searcherResult.getMatchingSentences().size());
     assertEquals(true, searcherResult.isRelaxedQuery());
 
@@ -217,5 +217,13 @@ public class IndexerSearcherTest extends LuceneTestCase {
     Indexer.run(content, directory, Language.ENGLISH, false);
     searcher = new IndexSearcher(directory);
   }
+
+  /*public void testForManualDebug() throws Exception {
+    createIndex("How to move back and fourth from linux to xmb?");
+    final Searcher errorSearcher = new Searcher();
+    SearcherResult searcherResult = errorSearcher.findRuleMatchesOnIndex(getRule("IS_EVEN_WORST"), Language.ENGLISH, searcher);
+    System.out.println(searcherResult.getCheckedSentences());
+    System.out.println(searcherResult.isRelaxedQuery());
+  }*/
 
 }

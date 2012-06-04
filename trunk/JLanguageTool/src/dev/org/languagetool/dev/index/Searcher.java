@@ -97,8 +97,8 @@ public class Searcher {
     final int sentencesChecked;
     final int indexSize = indexSearcher.getIndexReader().numDocs();
     if (query.isRelaxed) {
-      // unsupported rules: the number of documents we really ran LT on:
-      sentencesChecked = Math.min(maxHits, topDocs.totalHits);
+      // unsupported rules: we actually check up to maxHits sentences:
+      sentencesChecked = Math.min(maxHits, indexSize);
     } else {
       // supported rules: no need to run LT (other than getting the exact match position), so we can claim
       // that we really have checked all the sentences in the index:
@@ -109,6 +109,7 @@ public class Searcher {
 
   private List<MatchingSentence> findMatchingSentences(IndexSearcher indexSearcher, TopDocs topDocs, JLanguageTool languageTool) throws IOException {
     final List<MatchingSentence> matchingSentences = new ArrayList<MatchingSentence>();
+    //long t = System.currentTimeMillis();
     for (ScoreDoc match : topDocs.scoreDocs) {
       final Document doc = indexSearcher.doc(match.doc);
       final String sentence = doc.get(PatternRuleQueryBuilder.FIELD_NAME);
@@ -118,6 +119,7 @@ public class Searcher {
         matchingSentences.add(matchingSentence);
       }
     }
+    //System.out.println(">>>" + (System.currentTimeMillis() - t) + "ms for " + topDocs.scoreDocs.length + " docs");
     return matchingSentences;
   }
 
