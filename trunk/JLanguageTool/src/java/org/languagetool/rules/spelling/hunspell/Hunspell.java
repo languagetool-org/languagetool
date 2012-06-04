@@ -6,9 +6,17 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
+import java.nio.charset.Charset;
+import java.nio.charset.CharsetDecoder;
+import java.nio.charset.CharsetEncoder;
+import java.nio.charset.CodingErrorAction;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import morfologik.util.BufferUtils;
 
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
@@ -245,6 +253,18 @@ public class Hunspell {
 		private String encoding;
 	
 
+		private final CharsetEncoder encoder;
+
+		/**
+		* Charset decoder for hunspell.
+		*/
+		 private final CharsetDecoder decoder;
+
+		 
+		 ByteBuffer bytes = ByteBuffer.allocate(0);
+		 
+		 CharBuffer charBuffer = CharBuffer.allocate(0);
+		
 		/**
 		 * Creates an instance of the dictionary.
 		 * @param baseFileName the base name of the dictionary, 
@@ -262,6 +282,13 @@ public class Hunspell {
 	    
 			hunspellDict = hsl.Hunspell_create(aff.toString(), dic.toString());
 			encoding = hsl.Hunspell_get_dic_encoding(hunspellDict);
+			
+			Charset charset = Charset.forName(encoding);
+			
+			encoder = charset.newEncoder();
+	        decoder = charset.newDecoder()
+	                    .onMalformedInput(CodingErrorAction.REPORT)
+	                    .onUnmappableCharacter(CodingErrorAction.REPORT);
 
 			// This will blow up if the encoding doesn't exist
 			stringToBytes("test"); 
@@ -284,7 +311,16 @@ public class Hunspell {
 		 */
 		public boolean misspelled(String word) {
 			try {
-				return hsl.Hunspell_spell(hunspellDict, stringToBytes(word)) == 0;
+			    if (hsl.Hunspell_spell(hunspellDict, stringToBytes(word)) == 0) {
+			    byte[] arr = stringToBytes(word);
+			    for (int i = 0; i < arr.length; i++) {
+			        System.err.print(arr[i]);
+			        System.err.print(' ');
+			    } System.err.println();
+			    
+				return true;
+			    }
+			    return false;
 			} catch (UnsupportedEncodingException e) {
 				return true; // this should probably never happen.
 			}
@@ -296,7 +332,40 @@ public class Hunspell {
 		 */
 		protected byte[] stringToBytes(String str)
 			throws UnsupportedEncodingException {
-			return (str+"\u0000").getBytes(encoding);
+			return (str+"\u0000").getBytes(encoding); 
+			
+		    /*
+		    bytes.clear();		     
+		    charBuffer.clear();
+	        
+	        if ("UTF-8".equals(encoding)) {
+	            charBuffer = BufferUtils.ensureCapacity(charBuffer, str.length() + 4);
+	            charBuffer.put((char)0xEF);
+	            charBuffer.put((char)0xBB);
+	            charBuffer.put((char)0xBF);
+	            
+	        } else {
+	        charBuffer = BufferUtils.ensureCapacity(charBuffer, str.length() + 1);	        
+	        }
+	        for (int i = 0; i < str.length(); i++) {
+                char chr = str.charAt(i);
+                charBuffer.put(chr);
+	        }
+	        charBuffer.put('\u0000');
+	        charBuffer.flip();
+	        final int maxCapacity = (int) (charBuffer.remaining() * encoder
+	                .maxBytesPerChar());
+	        if (bytes.capacity() <= maxCapacity) {
+	            bytes = ByteBuffer.allocate(maxCapacity);
+	        }
+
+	        charBuffer.mark();
+	        encoder.reset();
+	        encoder.encode(charBuffer, bytes, true);
+	        bytes.flip();
+	        charBuffer.reset();
+	        return bytes.array();
+	        */
 		}
 
 		/**

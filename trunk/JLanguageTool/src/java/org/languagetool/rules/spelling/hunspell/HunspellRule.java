@@ -41,6 +41,9 @@ import org.languagetool.tools.StringTools;
 /**
  * A hunspell-based spellchecking-rule.
  * 
+ * The default dictionary is set to the first country variant on the list - so the order
+   in the Language class declaration is important!
+ * 
  * @author Marcin Miłkowski
  * 
  */
@@ -55,11 +58,6 @@ public class HunspellRule extends SpellingCheckRule {
 			throws UnsatisfiedLinkError, UnsupportedOperationException, IOException {
 		super(messages, language);
 		super.setCategory(new Category(messages.getString("category_typo")));
-
-		// TODO: currently, the default dictionary is now
-		// set to the first country variant on the list - so the order
-		// in the Language class declaration is important!
-		// we might support country variants in the near future
 
 		final String langCountry = language.getShortName()
 				+ "_" 
