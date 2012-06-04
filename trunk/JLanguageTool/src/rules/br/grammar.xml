@@ -249,7 +249,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </token>
           <marker>
             <and>
-              <token regexp="yes" inflected="yes">k.*
+              <token regexp="yes" inflected="yes">k.*|marc’h
                 <exception regexp="yes">k[gm]|kPa|kHz</exception>
               </token>
               <token regexp="yes">k.*<exception>kant</exception></token>
@@ -262,6 +262,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example type="correct">N’a ket mat en-dro an urzhiataer.</example>
         <example type="correct">Daou km</example>
         <example type="correct">Daou kg</example>
+        <example type="incorrect">Da <marker>kezeg</marker></example>
+        <example type="correct">Da gezeg</example>
       </rule>
       <rule>
         <pattern>
@@ -509,7 +511,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <exception inflected="yes" regexp="yes">(g|c’h).*</exception>
                 <exception>c’hant</exception>
               </token>
-              <token regexp="yes" inflected="yes">k.*</token>
+              <token regexp="yes" inflected="yes">k.*|marc’h</token>
             </and>
           </marker>
         </pattern>
@@ -520,6 +522,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example type="correct">Ne c’hell ket bezañ.</example>
         <example type="correct">Ne c’hall ket bezañ.</example>
         <example type="correct">Daou c’hant</example>
+        <example type="incorrect">Da <marker>c’hezeg</marker></example>
+        <example type="correct">Da <marker>gezeg</marker></example>
       </rule>
       <rule>
         <pattern>
@@ -769,7 +773,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token regexp="yes">ho|ez|az</token>
           <marker>
             <and>
-              <token regexp="yes" inflected="yes">k.*</token>
+              <token regexp="yes" inflected="yes">k.*|marc’h</token>
               <token regexp="yes">(g|c’h).*
                 <exception postag="[^M]*" postag_regexp="yes" regexp="yes" inflected="yes">c’h.*</exception>
               </token>
@@ -781,6 +785,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example type="incorrect">Ho <marker>garr</marker>.</example>
         <example type="correct">Ho <marker>karr</marker>.</example>
         <example type="correct">Ho <marker>c’hoant</marker>.</example>
+        <example type="incorrect">Ho <marker>c’hezeg</marker>.</example>
+        <example type="incorrect">Ho <marker>gezeg</marker>.</example>
+        <example type="correct">Ho kezeg.</example>
       </rule>
       <rule>
         <pattern>
@@ -929,7 +936,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </token>
           <marker>
             <and>
-              <token regexp="yes" inflected="yes">k.*
+              <token regexp="yes" inflected="yes">k.*|marc’h
                 <exception inflected="yes" regexp="yes" postag="N[^M]*" postag_regexp="yes">g.*</exception>
               </token>
               <token regexp="yes" negate="yes">c’h.*</token>
@@ -945,6 +952,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example type="correct">He dije</example>
         <example type="correct">He ger</example>
         <example type="correct">He chas</example>
+        <example type="incorrect">Va <marker>kezeg</marker></example>
+        <example type="incorrect">Va <marker>gezeg</marker></example>
+        <example type="correct">Va c’hezeg</example>
       </rule>
       <rule>
         <pattern>
@@ -1113,7 +1123,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token>m</token>
           <marker>
             <and>
-              <token regexp="yes" inflected="yes">k.*</token>
+              <token regexp="yes" inflected="yes">k.*|marc’h</token>
               <token regexp="yes" negate="yes">c’h.*</token>
             </and>
           </marker>
@@ -1171,7 +1181,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <pattern>
           <token>hor</token>
           <marker>
-            <token inflected="yes" regexp="yes">k.*<exception regexp="yes">c’h.*</exception></token>
+            <token inflected="yes" regexp="yes">k.*|marc’h<exception regexp="yes">c’h.*</exception></token>
           </marker>
         </pattern>
         <message>Kemmadur direizh. Goude ar ger «\1» e tro «\2» da <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="c’h$1"/></suggestion>.</message>
@@ -1180,6 +1190,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example type="incorrect">Hor <marker>gadorioù</marker></example>
         <example type="incorrect">Hor <marker>kadorioù</marker></example>
         <example type="correct">Hor c’hadorioù</example>
+        <example type="incorrect">Hor <marker>kezeg</marker>.</example>
+        <example type="incorrect">Hor <marker>gezeg</marker>.</example>
+        <example type="correct">Hor c’hezeg.</example>
       </rule>
       <rule>
         <pattern>
@@ -3103,7 +3116,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <token regexp="yes">[ae]m|hon</token>
             <token postag="X KAOUT2">eus</token>
           </marker>
-          <token regexp="yes">alies|atav|a-wechoù|a-wezhioù|bepred|bemdez|bemnoz|dalc‘hmat</token>
+          <token regexp="yes">alies|atav|a-wechoù|a-wezhioù|bepred|bemdez|bemnoz|dalc’hmat</token>
         </pattern>
         <message>Ret eo skrivañ <suggestion>\1 bez</suggestion> gant ar ger «\3».</message>
         <example type="incorrect">Sec’hed <marker>am eus</marker> atav.</example>
@@ -3112,10 +3125,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <rule>
         <pattern>
           <marker>
-            <token regexp="yes">[ae](z|c‘h)</token>
+            <token regexp="yes">[ae](z|c’h)</token>
             <token postag="X KAOUT2" regexp="yes">p?eus</token>
           </marker>
-          <token regexp="yes">alies|atav|a-wechoù|a-wezhioù|bepred|bemdez|bemnoz|dalc‘hmat</token>
+          <token regexp="yes">alies|atav|a-wechoù|a-wezhioù|bepred|bemdez|bemnoz|dalc’hmat</token>
         </pattern>
         <message>Ret eo skrivañ <suggestion><match no="1" regexp_match="(.).*" regexp_replace="$1z"/> pez</suggestion> gant ar ger «\3».</message>
         <example type="incorrect">Sec’hed <marker>az peus</marker> atav.</example>
@@ -6023,7 +6036,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <marker>
             <token>biskoazh</token>
           </marker>
-          <token regexp="yes">n[e‘]</token>
+          <token regexp="yes">n[e’]</token>
           <token postag="V futu.*" postag_regexp="yes"/>
         </pattern>
         <message>«Biskoazh» a zo evit an amzer dremenet hepken. A fellout a rae deoc’h skrivañ <suggestion>biken</suggestion>?</message>
@@ -6049,7 +6062,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <marker>
             <token>biken</token>
           </marker>
-          <token regexp="yes">n[e‘]</token>
+          <token regexp="yes">n[e’]</token>
           <token postag="V (impa|pass).*" postag_regexp="yes"/>
         </pattern>
         <message>«Biken» a zo evit an amzer da zont hepken. A fellout a rae deoc’h skrivañ <suggestion>biskoazh</suggestion>?</message>
