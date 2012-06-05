@@ -33,27 +33,27 @@ import org.languagetool.rules.RuleMatch;
  * you should simply create a subclass of this class. 
  * 
  * @author Marcin Miłkowski
- *
  */
 public abstract class SpellingCheckRule extends Rule {
 
+  protected final Language language;
+
 	@Override
-	  public abstract String getId();
-	
-	
+	public abstract String getId();
+
 	public SpellingCheckRule(final ResourceBundle messages, final Language language) {
-	    super(messages);
+    super(messages);
+    this.language = language;
 	}
-	
 	
 	@Override
 	public abstract String getDescription();
 
+  @Override
 	public abstract RuleMatch[] match(AnalyzedSentence text) throws IOException;
 
 	@Override
 	public void reset() {
-
 	}
 
 }

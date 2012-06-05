@@ -48,86 +48,19 @@ import org.languagetool.tools.StringTools;
  */
 public class HunspellRule extends SpellingCheckRule {
 
-	private final Pattern nonWord;
-	private final static String NON_ALPHABETIC = "[^\\p{L}]";
+  private final static String NON_ALPHABETIC = "[^\\p{L}]";
 
-  /**
- 	 * The dictionary file
- 	 */
+  /** The dictionary file */
  	private Hunspell.Dictionary dictionary = null;
+  private Pattern nonWordPattern;
+  private boolean needsInit = true;
 
 	public HunspellRule(final ResourceBundle messages, final Language language)
 			throws UnsatisfiedLinkError, UnsupportedOperationException, IOException {
 		super(messages, language);
 		super.setCategory(new Category(messages.getString("category_typo")));
+	}
 
-		final String langCountry = language.getShortName()
-				+ "_" 
-				+ language.getCountryVariants()[0]; 
-		
-		final String shortDicPath = "/"
-				+ language.getShortName()
-				+ "/hunspell/"
-				+ langCountry
-				+ ".dic";
-
-		String wordChars = "";
-		//set dictionary only if there are dictionary files
-		if (JLanguageTool.getDataBroker().resourceExists(shortDicPath)) {
-			dictionary = Hunspell.getInstance().
-					getDictionary(getDictionaryPath(langCountry, shortDicPath));
-			
-			if (!"".equals(dictionary.getWordChars())) {
-			    wordChars = "(?![" + dictionary.getWordChars().replace("-", "\\-") + "])";
-			}
-		}		
-		
-		nonWord = Pattern.compile(wordChars + NON_ALPHABETIC);
-	}
-	
-	private String getDictionaryPath(final String dicName,
-			final String originalPath) throws IOException {
-		
-		final URL dictURL = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(
-				originalPath); 
-		
-		String dictionaryPath = dictURL.getPath();
-		
-		//in the webstart version, we need to copy the files outside the jar
-		//to the local temporary directory
-		if ("jar".equals(dictURL.getProtocol())) {
-			final File tempDir = new File(System.getProperty("java.io.tmpdir"));
-			File temporaryFile = new File(tempDir, dicName + ".dic");
-			JLanguageTool.addTemporaryFile(temporaryFile);
-			fileCopy(JLanguageTool.getDataBroker().
-					getFromResourceDirAsStream(originalPath), temporaryFile);
-			temporaryFile = new File(tempDir, dicName + ".aff");
-			JLanguageTool.addTemporaryFile(temporaryFile);
-			fileCopy(JLanguageTool.getDataBroker().
-					getFromResourceDirAsStream(originalPath.
-							replaceFirst(".dic$", ".aff")), temporaryFile);					 			  			
-			
-			dictionaryPath = tempDir.getAbsolutePath() + "/" + dicName;
-		} else {		
-			dictionaryPath = dictionaryPath.substring(0, dictionaryPath.length() - 4);
-		}		
-		return dictionaryPath;
-	}
-	
-	private void fileCopy(final InputStream in, final File targetFile) throws IOException {
-		final OutputStream out = new FileOutputStream(targetFile);
-    try {
-      final byte[] buf = new byte[1024];
-      int len;
-      while ((len = in.read(buf)) > 0) {
-        out.write(buf, 0, len);
-      }
-      in.close();
-    } finally {
-      out.close();
-    }
-	}
-	
 	@Override
 	public String getId() {
 		return "HUNSPELL_RULE";
@@ -140,16 +73,18 @@ public class HunspellRule extends SpellingCheckRule {
 
 	@Override
 	public RuleMatch[] match(AnalyzedSentence text) throws IOException {
-		final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
-		final String[] tokens = tokenizeText(getSentenceText(text));
-
-		// some languages might not have a dictionary, be silent about it
+    final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
+    if (needsInit) {
+      init();
+    }
 		if (dictionary == null) {
+  		// some languages might not have a dictionary, be silent about it
 			return toRuleMatchArray(ruleMatches);
     }
-		int len = text.getTokens()[1].getStartPos();
-		
+		final String[] tokens = tokenizeText(getSentenceText(text));
+
 		// starting with the first token to skip the zero-length START_SENT
+    int len = text.getTokens()[1].getStartPos();
     for (final String word : tokens) {
       boolean isAlphabetic = true;
       if (word.length() == 1) { // hunspell dictionaries usually do not contain punctuation
@@ -171,17 +106,82 @@ public class HunspellRule extends SpellingCheckRule {
 
 		return toRuleMatchArray(ruleMatches);
 	}
-	
-	private String getSentenceText(final AnalyzedSentence sentence) {
-	    final StringBuilder sb = new StringBuilder();
-	    for (int i = 1; i < sentence.getTokens().length; i++) {
-	        sb.append(sentence.getTokens()[i].getToken());
-	    }
-	    return sb.toString();
-	}
-	
-	private String[] tokenizeText(final String sentence) {
-	    return nonWord.split(sentence);
-	}
+
+  private String[] tokenizeText(final String sentence) throws IOException {
+    return nonWordPattern.split(sentence);
+  }
+
+  private String getSentenceText(final AnalyzedSentence sentence) {
+    final StringBuilder sb = new StringBuilder();
+    for (int i = 1; i < sentence.getTokens().length; i++) {
+      sb.append(sentence.getTokens()[i].getToken());
+    }
+    return sb.toString();
+  }
+
+  private void init() throws IOException {
+    final String langCountry = language.getShortName()
+            + "_"
+            + language.getCountryVariants()[0];
+    final String shortDicPath = "/"
+            + language.getShortName()
+            + "/hunspell/"
+            + langCountry
+            + ".dic";
+    String wordChars = "";
+    // set dictionary only if there are dictionary files:
+    if (JLanguageTool.getDataBroker().resourceExists(shortDicPath)) {
+      dictionary = Hunspell.getInstance().
+              getDictionary(getDictionaryPath(langCountry, shortDicPath));
+
+      if (!"".equals(dictionary.getWordChars())) {
+        wordChars = "(?![" + dictionary.getWordChars().replace("-", "\\-") + "])";
+      }
+    }
+    nonWordPattern = Pattern.compile(wordChars + NON_ALPHABETIC);
+    needsInit = false;
+  }
+
+  private String getDictionaryPath(final String dicName,
+                                   final String originalPath) throws IOException {
+
+    final URL dictURL = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(originalPath);
+    String dictionaryPath = dictURL.getPath();
+
+    //in the webstart version, we need to copy the files outside the jar
+    //to the local temporary directory
+    if ("jar".equals(dictURL.getProtocol())) {
+      final File tempDir = new File(System.getProperty("java.io.tmpdir"));
+      File temporaryFile = new File(tempDir, dicName + ".dic");
+      JLanguageTool.addTemporaryFile(temporaryFile);
+      fileCopy(JLanguageTool.getDataBroker().
+              getFromResourceDirAsStream(originalPath), temporaryFile);
+      temporaryFile = new File(tempDir, dicName + ".aff");
+      JLanguageTool.addTemporaryFile(temporaryFile);
+      fileCopy(JLanguageTool.getDataBroker().
+              getFromResourceDirAsStream(originalPath.
+                      replaceFirst(".dic$", ".aff")), temporaryFile);
+
+      dictionaryPath = tempDir.getAbsolutePath() + "/" + dicName;
+    } else {
+      final int suffixLength = ".dic".length();
+      dictionaryPath = dictionaryPath.substring(0, dictionaryPath.length() - suffixLength);
+    }
+    return dictionaryPath;
+  }
+
+  private void fileCopy(final InputStream in, final File targetFile) throws IOException {
+    final OutputStream out = new FileOutputStream(targetFile);
+    try {
+      final byte[] buf = new byte[1024];
+      int len;
+      while ((len = in.read(buf)) > 0) {
+        out.write(buf, 0, len);
+      }
+      in.close();
+    } finally {
+      out.close();
+    }
+  }
 
 }
