@@ -101,6 +101,7 @@ public class German extends Language {
             // specific to German:
             GermanWordRepeatRule.class,
             GermanWordRepeatBeginningRule.class,
+            GermanWrongWordInContextRule.class,
             AgreementRule.class,
             CaseRule.class,
             CompoundRule.class,

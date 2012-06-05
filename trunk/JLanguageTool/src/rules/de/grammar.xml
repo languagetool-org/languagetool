@@ -69,12 +69,8 @@ $Id$
     <!ENTITY sprachadj1 "afrikanisch|altarabisch|altchinesisch|altgriechisch|altpersisch|amerikanisch|arabisch|chinesisch|dänisch|deutsch|englisch|finnisch|französisch|frühneuhochdeutsch|germanisch|griechisch|hocharabisch|hochchinesisch|hochdeutsch|holländisch|italienisch|japanisch|jiddisch|jugoslawisch|koreanisch|kroatisch|lateinisch|luxemburgisch|mittelhochdeutsch|neuhochdeutsch|niederländisch|norwegisch|persisch|polnisch|portugiesisch|russisch|schwedisch|schweizerisch|semitisch|serbisch|serbokroatisch|slawisch|spanisch|tschechisch|türkisch|ukrainisch|ungarisch|weißrussisch">
     <!ENTITY sprachadj2 "agglutinierend|algorithmisch|asiatisch|ausgestorben|bilderreich|bildlich|deutlich|dichterisch|europäisch|extensional|flektierend|formal|gesprochen|indogermanisch|intensional|klangvoll|konsonantenreich|maschinenorientiert|metaphorisch|poetisch|prosaisch|romanisch|schön|selten|vokalreich|wunderschön">
     <!ENTITY bundesstaaten "Alabama|Alaska|Arizona|Arkansas|Colorado|Connecticut|Delaware|Florida|Georgia|Hawaii|Idaho|Illinois|Indiana|Iowa|Kalifornien|Kansas|Kentucky|Louisiana|Maine|Maryland|Massachusetts|Michigan|Minnesota|Mississippi|Missouri|Montana|Nebraska|Nevada|New|North|Ohio|Oklahoma|Oregon|Pennsylvania|Rhode|South|Tennessee|Texas|Utah|Vermont|Virginia|Washington|West|Wisconsin|Wyoming">
-    <!ENTITY mahlennomen "Zahn|Mühle|Korn|Weizen|Roggen|Hafer|Dinkel|Getreide|.*Mehl|Müller">
-    <!ENTITY malennomen ".*Farbe|.*Bild|.*Porträt|Kunst.*|Malern?">
     <!ENTITY seitewoerter ".*Buch|.*Lektüre|umblätter\w\w?|umgeblättert|umzublättern|(ge)?lesen|las(en)?|geschrieben|schreiben?">
-    <!ENTITY saitewoerter "aufziehen|.*Bass(es)?|.*Bratsche|.*Cellos?|.*Harfen?|.*Geigen?|.*Gitarren?|.*Violas?|.*Violinen?|Klavier">
-    <!ENTITY lidwoerter "Auge.*|entzünde.*|.*röt(e|lich).*|.*zuck.*|.*geschlossen.*|gesenkt.*|zusammengekniffen.*|zusammenkneif.+">
-    <!ENTITY liedwoerter "Melodie.*|Note.*|sing.*|sang.*|gesungen.*|komponi.+|Musik|Strophen?|Balladen?|Gesang.*|Gesängen?|Arien?|Opern?">
+    <!ENTITY saitewoerter "aufziehen|.*ontrabass(es)?|.*Bratsche|.*Cellos?|.*Harfen?|.*Geigen?|.*Gitarren?|.*Violas?|.*Violinen?|Klavier">
     <!ENTITY leidwoerter "Angst|Armut|Bevölkerung|Blut(vergießens?)?|Einsamkeit|Elend|Entbehrung|Entsagung|Flüchtlinge?n?|Gewalt|Krankheit|Mitleid|Not|Ohnmacht|Qual|Schaden|Schrecken|Unterdrückung|Vertreibung|Verzweiflung|Zerstörung|Zivilbevölkerung|bitteres|endloses|ertragen|geschieht|geteiltes|psychisches|unendliches|unermessliches|unerträgliches|ungeheures|unsagbares|unsägliches|unvorstellbares|vermeidbares|verursacht|zugefügt">
     <!ENTITY anfauf "„|&quot;|»|›|‚|'">
     <!ENTITY anfzu "‘|“|‹|«|&quot;|'">
@@ -3431,31 +3427,6 @@ $Id$
         <rulegroup id="MIENE" name="Mögliche Wortverwechslung: Mine/Miene">
             <rule>
                 <pattern>
-                    <!--<token regexp="yes" inflected="yes" skip="1">verziehen|aufsetzen|gekränkt|unbewegt|setzen</token>--><!-- TODO that doesn't work -->
-                    <token regexp="yes" skip="2">verzieh(en|t)|auf(zu)?setzen|setzen|setzt|gekränkt.*|unbewegt.*</token>
-                    <marker>
-                        <token regexp="yes">Mine(n)?</token>
-                    </marker>
-                </pattern>
-                <message>&verw;Meinten Sie <suggestion><match no="3" regexp_match="Mine" regexp_replace="Miene"/></suggestion>? (Mine = unterirdischer Gang, Sprengkörper, Kugelschreibermine)</message>
-                <example type="incorrect" correction="Miene">Er verzieht keine <marker>Mine</marker>.</example>
-                <example type="incorrect" correction="Miene">Er setzt eine kalte <marker>Mine</marker> auf.</example>
-                <example type="incorrect" correction="Miene">Mit unbewegter <marker>Mine</marker>.</example>
-                <example type="correct">Er verzieht keine <marker>Miene</marker>.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token regexp="yes" skip="1">Mine(n)?</token>
-                    </marker>
-                    <token regexp="yes" inflected="yes">verzieh(en|t)|auf(zu)?setzen|setzen|setzt|gekränkt.*|unbewegt.*</token>
-                </pattern>
-                <message>&verw;Meinten Sie <suggestion><match no="1" regexp_match="Mine" regexp_replace="Miene"/></suggestion>? (Mine = unterirdischer Gang, Sprengkörper, Kugelschreibermine)</message>
-                <example type="incorrect" correction="Miene">Er versucht, keine <marker>Mine</marker> zu verziehen.</example>
-                <example type="correct">Er versucht, keine <marker>Miene</marker> zu verziehen.</example>
-            </rule>
-            <rule>
-                <pattern>
                     <token>gute</token>
                     <marker>
                         <token>Mine</token>
@@ -3468,99 +3439,11 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes" inflected="yes" skip="5">(explodieren|unterirdisch.*|Kugelschreiber|.*stift|Explosion|.*stürzen|.*spreng.*|.*gestürzt)<exception scope="next">,</exception></token>
-                    <marker>
-                        <token regexp="yes">Miene(n)?</token>
-                    </marker>
-                </pattern>
-                <message>&verw;Meinten Sie <suggestion><match no="2" regexp_match="Miene" regexp_replace="Mine"/></suggestion>? (Miene = Gesichtsausdruck)</message>
-                <example type="incorrect" correction="Minen">Explodieren die <marker>Mienen</marker>?</example>
-                <example type="incorrect" correction="Mine">Er sagt, die unterirdische <marker>Miene</marker> sei zusammengestürzt.</example>
-                <example type="incorrect" correction="Mine">Der Bleistift hat eine <marker>Miene</marker>.</example>
-                <example type="incorrect" correction="Minen">Die Sprengung mit <marker>Mienen</marker></example>
-                <example type="correct">Die Explosion der <marker>Mine</marker>.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token regexp="yes" skip="5">Miene(n)?<exception scope="next">,</exception></token>
-                    </marker>
-                    <token regexp="yes" inflected="yes">(explodieren|unterirdisch|Kugelschreiber|.*stift|Explosion|einstürzen|.*spreng.*)</token>
-                </pattern>
-                <message>&verw;Meinten Sie <suggestion><match no="1" regexp_match="Miene" regexp_replace="Mine"/></suggestion>? (Miene = Gesichtsausdruck)</message>
-                <example type="incorrect" correction="Minen">Die <marker>Mienen</marker> sind gestern Abend explodiert.</example>
-                <example type="incorrect" correction="Mine">Die <marker>Miene</marker> ist eingestürzt.</example>
-                <example type="incorrect" correction="Mine">Die <marker>Miene</marker> des Kugelschreibers ist leer.</example>
-                <example type="incorrect" correction="Minen">Er hat das mit den <marker>Mienen</marker> weggesprengt.</example>
-                <example type="correct">Die <marker>Mine</marker> ist explodiert.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">(Kugelschreiber|Bleistift)miene(n)?</token>
+                    <token regexp="yes">(Kugelschreiber|Bleistift)mienen?</token>
                 </pattern>
                 <message>&verw;Meinten Sie <suggestion><match no="1" regexp_match="miene" regexp_replace="mine"/></suggestion>? (Miene = Gesichtsausdruck)</message>
                 <example type="incorrect" correction="Kugelschreibermine">Die <marker>Kugelschreibermiene</marker></example>
                 <example type="correct">Die <marker>Bleistiftmine</marker></example>
-            </rule>
-        </rulegroup>
-        <rulegroup id="MAHLEN" name="Mögliche Wortverwechslung: malen/mahlen">
-            <rule>
-                <pattern>
-                    <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">&malennomen;</exception></token>
-                    <token regexp="yes" inflected="yes" skip="5">&mahlennomen;<exception scope="next" regexp="yes" inflected="yes">&malennomen;</exception></token>
-                    <marker>
-                        <token inflected="yes" regexp="yes" skip="-1">(aus|ge)?mal(ene?n?|t?)<exception scope="next" regexp="yes" inflected="yes">&malennomen;</exception></token>
-                    </marker>
-                    <token postag="SENT_END"></token>
-                </pattern>
-                <message>&verw;Meinten Sie <suggestion><match no="3" regexp_match="al" regexp_replace="ahl"/></suggestion>? (malen = mit Farbe ein Bild erstellen)</message>
-                <example type="incorrect" correction="ausmahlen">Weizen <marker>ausmalen</marker>.</example>
-                <example type="incorrect" correction="gemahlen">Das Korn wird in den Mühlen <marker>gemalen</marker>.</example>
-                <example type="incorrect" correction="Mahlen">Eine Mühle wird zum <marker>Malen</marker> verwendet.</example>
-                <example type="correct">Ich soll Bilder einer Mühle <marker>malen</marker>.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">&malennomen;</exception></token>
-                    <marker>
-                        <token inflected="yes" regexp="yes" skip="5">(aus|ge)?mal(ene?n?|t?)<exception scope="next" regexp="yes" inflected="yes">&malennomen;</exception></token>
-                    </marker>
-                    <token regexp="yes" inflected="yes" skip="-1">&mahlennomen;<exception scope="next" regexp="yes" inflected="yes">&malennomen;</exception></token>
-                    <token postag="SENT_END"></token>
-                </pattern>
-                <message>&verw;Meinten Sie <suggestion><match no="2" regexp_match="al" regexp_replace="ahl"/></suggestion>? (malen = mit Farbe ein Bild erstellen)</message>
-                <example type="incorrect" correction="gemahlene">das <marker>gemalene</marker> Korn aus der Mühle</example>
-                <example type="incorrect" correction="Mahlen">Zum <marker>Malen</marker> verwendet man eine Mühle.</example>
-                <example type="correct">Ich male ein Bild einer Mühle.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">&mahlennomen;</exception></token>
-                    <token regexp="yes" inflected="yes" skip="5">&malennomen;<exception scope="next" regexp="yes" inflected="yes">&mahlennomen;</exception></token>
-                    <marker>
-                        <token inflected="yes" regexp="yes" skip="-1">(aus|ge)?mahl(ene?n?|t?)<exception scope="next" regexp="yes" inflected="yes">&mahlennomen;</exception></token>
-                    </marker>
-                    <token postag="SENT_END"></token>
-                </pattern>
-                <message>&verw;Meinten Sie <suggestion><match no="3" regexp_match="ahl" regexp_replace="al"/></suggestion>? (mahlen = in einer Mühle zerkleinern)</message>
-                <example type="incorrect" correction="ausmalen">Du musst das Bild <marker>ausmahlen</marker>.</example>
-                <example type="incorrect" correction="gemalt">Wir haben das im Kunstunterricht <marker>gemahlt</marker>.</example>
-                <example type="incorrect" correction="gemalt">Er hat ein schönes Selbstporträt <marker>gemahlt</marker>.</example>
-                <example type="correct">Das Bild zeigt eine <marker>mahlende</marker> Mühle.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">&mahlennomen;</exception></token>
-                    <marker>
-                        <token inflected="yes" regexp="yes" skip="5">(aus|ge)?mahl(ene?n?|t?)<exception scope="next" regexp="yes" inflected="yes">&mahlennomen;</exception></token>
-                    </marker>
-                    <token regexp="yes" inflected="yes" skip="-1">&malennomen;<exception scope="next" regexp="yes" inflected="yes">&mahlennomen;</exception></token>
-                    <token postag="SENT_END"></token>
-                </pattern>
-                <message>&verw;Meinten Sie <suggestion><match no="2" regexp_match="ahl" regexp_replace="al"/></suggestion>? (mahlen = in einer Mühle zerkleinern)</message>
-                <example type="incorrect" correction="male">Ich <marker>mahle</marker> das Bild aus.</example>
-                <example type="incorrect" correction="malten">Wir <marker>mahlten</marker> im Kunstunterricht.</example>
-                <example type="correct">Eine <marker>mahlende</marker> Mühle zeigt das Bild.</example>
             </rule>
         </rulegroup>
         <!-- TODO many false alarms because of not recognizing a neuter noun and when 'das' is used as pronoun (Er sagt, das sei in Ordnung) -->
@@ -3683,48 +3566,6 @@ $Id$
         </rulegroup>
         <rulegroup id="SEITE_SAITE" name="Mögliche Wortverwechslung: Seite/Saite">
             <rule>
-                <pattern case_sensitive="yes">
-                    <token>andere</token>
-                    <marker>
-                        <token>Seiten</token>
-                    </marker>
-                    <token regexp="yes">aufziehen|aufgezogen|aufziehst|aufziehe|aufzieht</token>
-                </pattern>
-                <message>Die Redewendung lautet: andere <suggestion>Saiten</suggestion> aufziehen (= strenger werden)</message>
-                <example type="correct">Die UNO muss andere <marker>Saiten</marker> aufziehen.</example>
-                <example type="correct">Bei der UNO müssen andere <marker>Saiten</marker> aufgezogen werden.</example>
-                <example type="incorrect">Die UNO muss andere <marker>Seiten</marker> aufziehen.</example>
-                <example type="incorrect">Bei der UNO müssen andere <marker>Seiten</marker> aufgezogen werden.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">&seitewoerter;</exception></token>
-                    <token regexp="yes" inflected="yes" skip="5">&saitewoerter;<exception scope="next" regexp="yes" inflected="yes">&seitewoerter;</exception></token>
-                    <marker>
-                        <token inflected="yes" skip="-1">Seite<exception scope="next" regexp="yes" inflected="yes">&seitewoerter;</exception></token>
-                    </marker>
-                    <token postag="SENT_END"></token>
-                </pattern>
-                <message>Meinten Sie <suggestion><match no="3" regexp_match="ei" regexp_replace="ai"/></suggestion>? (Seite = Buchseite)</message>
-                <example type="incorrect" correction="Saite">Die E-Gitarre hat eine sechste <marker>Seite</marker>.</example>
-                <example type="correct">Dieses Buch über die Gitarre hat nur sechs <marker>Seiten</marker>.</example>
-                <example type="correct">Diese Gitarre hat sechs <marker>Saiten</marker>.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">&seitewoerter;</exception></token>
-                    <marker>
-                        <token inflected="yes" skip="5">Seite<exception scope="next" regexp="yes" inflected="yes">&seitewoerter;</exception></token>
-                    </marker>
-                    <token regexp="yes" inflected="yes" skip="-1">&saitewoerter;<exception scope="next" regexp="yes" inflected="yes">&seitewoerter;</exception></token>
-                    <token postag="SENT_END"></token>
-                </pattern>
-                <message>Meinten Sie <suggestion><match no="2" regexp_match="ei" regexp_replace="ai"/></suggestion>? (Seite = Buchseite)</message>
-                <example type="incorrect" correction="Saiten">Die <marker>Seiten</marker> des Violoncellos sind kurz.</example>
-                <example type="incorrect" correction="Saiten">Die <marker>Seiten</marker> des Kontrabasses sind gerissen.</example>
-                <example type="correct">Die <marker>Saiten</marker> des Violoncellos sind kurz.</example>
-            </rule>
-            <rule>
                 <pattern>
                     <token regexp="yes">(&saitewoerter;)seite</token>
                 </pattern>
@@ -3734,84 +3575,14 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">&saitewoerter;</exception></token>
-                    <token regexp="yes" inflected="yes" skip="5">&seitewoerter;<exception scope="next" regexp="yes" inflected="yes">&saitewoerter;</exception></token>
-                    <marker>
-                        <token inflected="yes" skip="-1">Saite<exception scope="next" regexp="yes" inflected="yes">&saitewoerter;</exception></token>
-                    </marker>
-                    <token postag="SENT_END"></token>
-                </pattern>
-                <message>Meinten Sie <suggestion><match no="3" regexp_match="ai" regexp_replace="ei"/></suggestion>? (Saite = Saite eines Musikinstruments)</message>
-                <example type="incorrect" correction="Seiten">Dieses Buch hat sechs <marker>Saiten</marker>.</example>
-                <example type="correct">Dieses Buch über die Gitarre hat nur sechs <marker>Seiten</marker>.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">&saitewoerter;</exception></token>
-                    <marker>
-                        <token inflected="yes" skip="5">Saite<exception scope="next" regexp="yes" inflected="yes">&saitewoerter;</exception></token>
-                    </marker>
-                    <token regexp="yes" inflected="yes" skip="-1">&seitewoerter;<exception scope="next" regexp="yes" inflected="yes">&saitewoerter;</exception></token>
-                    <token postag="SENT_END"></token>
+                    <token regexp="yes">(&seitewoerter;)saite</token>
                 </pattern>
                 <message>Meinten Sie <suggestion><match no="2" regexp_match="ai" regexp_replace="ei"/></suggestion>? (Saite = Saite eines Musikinstruments)</message>
-                <example type="incorrect" correction="Seiten">Die <marker>Saiten</marker> des Buches sind beschrieben.</example>
-                <example type="correct">Die <marker>Seiten</marker> des Buches sind beschrieben.</example>
+                <example type="incorrect" correction="Buchseite">Die <marker>Buchsaite</marker> ist schön.</example>
+                <example type="correct">Die <marker>Buchseite</marker> ist schön.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="LID_LIED" name="Mögliche Wortverwechslung: Lid/Lied">
-            <rule>
-                <pattern>
-                    <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">&liedwoerter;</exception></token>
-                    <token regexp="yes" inflected="yes" skip="5">&lidwoerter;<exception scope="next" regexp="yes" inflected="yes">&liedwoerter;</exception></token>
-                    <marker>
-                        <token inflected="yes" skip="-1">Lied<exception scope="next" regexp="yes" inflected="yes">&liedwoerter;</exception></token>
-                    </marker>
-                    <token postag="SENT_END"></token>
-                </pattern>
-                <message>Meinten Sie <suggestion><match no="3" regexp_match="ied" regexp_replace="id"/></suggestion>? (Lied = gesungenes Musikstück)</message>
-                <example type="incorrect" correction="Lider">Er hat entzündete <marker>Lieder</marker>.</example>
-                <example type="correct">Er hat entzündete <marker>Lider</marker>.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">&liedwoerter;</exception></token>
-                    <marker>
-                        <token inflected="yes" skip="5">Lied<exception scope="next" regexp="yes" inflected="yes">&liedwoerter;</exception></token>
-                    </marker>
-                    <token regexp="yes" inflected="yes" skip="-1">&lidwoerter;<exception scope="next" regexp="yes" inflected="yes">&liedwoerter;</exception></token>
-                    <token postag="SENT_END"></token>
-                </pattern>
-                <message>Meinten Sie <suggestion><match no="2" regexp_match="ied" regexp_replace="id"/></suggestion>? (Lied = gesungenes Musikstück)</message>
-                <example type="incorrect" correction="Lider">Ihre <marker>Lieder</marker> sind entzündet.</example>
-                <example type="correct">hre <marker>Lider</marker> sind entzündet.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">&lidwoerter;</exception></token>
-                    <token regexp="yes" inflected="yes" skip="5">&liedwoerter;<exception scope="next" regexp="yes" inflected="yes">&lidwoerter;</exception></token>
-                    <marker>
-                        <token inflected="yes" skip="-1">Lid<exception scope="next" regexp="yes" inflected="yes">&lidwoerter;</exception></token>
-                    </marker>
-                    <token postag="SENT_END"></token>
-                </pattern>
-                <message>Meinten Sie <suggestion><match no="3" regexp_match="id" regexp_replace="ied"/></suggestion>? (Lid = Augenlid)</message>
-                <example type="incorrect" correction="Lieder">Wir singen gemeinsam <marker>Lider</marker>.</example>
-                <example type="correct">Wir singen gemeinsam <marker>Lieder</marker>.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">&lidwoerter;</exception></token>
-                    <marker>
-                        <token inflected="yes" skip="5">Lid<exception scope="next" regexp="yes" inflected="yes">&lidwoerter;</exception></token>
-                    </marker>
-                    <token regexp="yes" inflected="yes" skip="-1">&liedwoerter;<exception scope="next" regexp="yes" inflected="yes">&lidwoerter;</exception></token>
-                    <token postag="SENT_END"></token>
-                </pattern>
-                <message>Meinten Sie <suggestion><match no="2" regexp_match="id" regexp_replace="ied"/></suggestion>? (Lid = Augenlid)</message>
-                <example type="incorrect" correction="Lieder"><marker>Lider</marker> singen wir.</example>
-                <example type="correct"><marker>Lieder</marker> singen wir.</example>
-            </rule>
+        <rulegroup id="LID_LIED" name="Mögliche Wortverwechslung: Ende vom Lid (Lied)">
             <rule>
                 <pattern case_sensitive="yes">
                     <token>Ende</token>
