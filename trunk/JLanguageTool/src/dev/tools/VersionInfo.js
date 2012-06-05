@@ -28,8 +28,10 @@ var fso = WScript.CreateObject("Scripting.FileSystemObject");
 var version1 = fso.GetFileVersion("../../../libs/native-lib/hunspell-win-x86-64.dll");
 var version2 = fso.GetFileVersion("../../../libs/native-lib/hunspell-win-x86-32.dll");
 
+//TODO: check for minimal version number (1.3.1.0?)
+
 if (version1 != version2) {
-	WScript.Echo("Error: version mismatch: " + version1 + " != " + version2);
+	WScript.Echo("Error: Hunspell Windows DLLs have different version numbers! \r\n 64-bit library has number: " + version1 + " 32-bit library has number: " + version2);
 	WScript.Quit(-1);
 }
 

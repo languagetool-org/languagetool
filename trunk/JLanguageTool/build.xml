@@ -149,11 +149,13 @@
 
 	<target name="test-hunspell-libs">
 		<echo>Testing versions of hunspell libraries...</echo>
-			<exec failonerror="false" resultproperty="return.code" os="Windows XP Windows Vista Windows 7" dir="${src.java.dev.dir}/tools" executable="cscript">
+			<exec failonerror="false" resultproperty="return.code" os="Windows XP Windows Vista Windows 7" dir="${src.java.dev.dir}/tools" 
+				outputproperty="return.message"
+				executable="cscript">
 					<arg value="/nologo"/>
 					<arg value="VersionInfo.js"/>
 			</exec>
-		 <fail message="The version numbers of two Windows DLLs are different!">
+		 <fail message="${return.message}">		 	
 		     <condition>
 		       <equals arg1="-1" arg2="${return.code}"/>
 		     </condition>
