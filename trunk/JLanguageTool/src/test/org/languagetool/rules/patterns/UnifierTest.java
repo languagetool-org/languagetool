@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import junit.framework.TestCase;
 import org.languagetool.AnalyzedToken;
 
-public class TestUnifier extends TestCase {
+public class UnifierTest extends TestCase {
 
   // trivial unification = test if the character case is the same
   public void testUnificationCase() {
