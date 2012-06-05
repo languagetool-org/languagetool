@@ -774,5 +774,16 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         </pattern>
         <disambig action="immunize"/>
     </rule>
+    
+    <rule name="m.in." id="M_IN">
+    	<pattern case_sensitive="yes">
+    		<marker><token>m</token></marker>    	
+    	<token>.</token>
+    	<token regexp="yes">i[mn]</token>
+    	<token>.</token>
+    	</pattern>
+    	<disambig action="replace"><match no="1" postag_regexp="yes" postag="brev:npun" postag_replace="brev:pun"/></disambig>
+    	<example type="ambiguous" inputform="m[metr/brev:npun]" outputform="m[metr/brev:pun]">Jest to <marker>m</marker>.in. kretyn.</example>
+    </rule>
 
 </rules>
