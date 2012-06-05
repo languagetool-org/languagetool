@@ -56,5 +56,5 @@ public interface HunspellLibrary extends Library {
      * @param word The word to offer suggestions for.
      */
     public int Hunspell_suggest(Pointer pHunspell, PointerByReference slst, byte[] word);
-
+            
 }

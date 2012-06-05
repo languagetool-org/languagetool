@@ -40,7 +40,7 @@ public class UppercaseSentenceStartRuleTest extends TestCase {
     matches = langTool.check("Dies ist ein Satz. Ätsch, noch einer mit Umlaut.");
     assertEquals(0, matches.size());
     matches = langTool.check("Dieser Satz ist bspw. okay so.");
-    assertEquals(1, matches.size());
+    assertEquals(0, matches.size());
     matches = langTool.check("Dieser Satz ist z.B. okay so.");
     assertEquals(0, matches.size());
     matches = langTool.check("Dies ist ein Satz. \"Aber der hier auch!\".");

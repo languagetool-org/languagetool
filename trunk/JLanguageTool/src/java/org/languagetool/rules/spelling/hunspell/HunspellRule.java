@@ -28,9 +28,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
 import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.rules.Category;
@@ -54,6 +54,10 @@ public class HunspellRule extends SpellingCheckRule {
 	 */
 	private Hunspell.Dictionary dictionary = null;
 
+	private Pattern nonWord;
+	
+	private final static String NON_ALPHABETIC = "[^\\p{L}]";
+	
 	public HunspellRule(final ResourceBundle messages, final Language language)
 			throws UnsatisfiedLinkError, UnsupportedOperationException, IOException {
 		super(messages, language);
@@ -69,13 +73,18 @@ public class HunspellRule extends SpellingCheckRule {
 				+ langCountry
 				+ ".dic";
 
+		String wordchars = "";
 		//set dictionary only if there are dictionary files
 		if (JLanguageTool.getDataBroker().resourceExists(shortDicPath)) {
-
 			dictionary = Hunspell.getInstance().
 					getDictionary(getDictionaryPath(langCountry, shortDicPath));
 			
-		}
+			if (!"".equals(dictionary.getWordChars())) {
+			    wordchars = "(?![" + dictionary.getWordChars().replace("-", "\\-") + "])";
+			}
+		}		
+		
+		nonWord = Pattern.compile(wordchars + NON_ALPHABETIC);
 	}
 	
 	private String getDictionaryPath(final String dicName,
@@ -131,17 +140,17 @@ public class HunspellRule extends SpellingCheckRule {
 	@Override
 	public RuleMatch[] match(AnalyzedSentence text) throws IOException {
 		final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
-		final AnalyzedTokenReadings[] tokens = text
-				.getTokensWithoutWhitespace();
+		final String[] tokens = tokenizeText(getSentenceText(text));
 
 		// some languages might not have a dictionary, be silent about it
 		if (dictionary == null) {
 			return toRuleMatchArray(ruleMatches);
     }
-
+		int len = text.getTokens()[1].getStartPos();
+		
 		// starting with the first token to skip the zero-length START_SENT
-		for (int i = 1; i < tokens.length; i++) {
-			final String word = tokens[i].getToken();
+		for (int i = 0; i < tokens.length; i++) {
+			final String word = tokens[i];
 			boolean isAlphabetic = true;
 			if (word.length() == 1) { // hunspell dicts usually do not contain punctuation
 				isAlphabetic =
@@ -149,7 +158,7 @@ public class HunspellRule extends SpellingCheckRule {
 			}
 			if (isAlphabetic && dictionary.misspelled(word)) {				
 				final RuleMatch ruleMatch = new RuleMatch(this,
-						tokens[i].getStartPos(), tokens[i].getStartPos() + word.length(),
+						len, len + word.length(),
 						messages.getString("spelling"),
 						messages.getString("desc_spelling_short"));
 				final List<String> suggestions = dictionary.suggest(word);
@@ -158,9 +167,22 @@ public class HunspellRule extends SpellingCheckRule {
 				}
 				ruleMatches.add(ruleMatch);
 			}
+			len += word.length() + 1;
 		}
 
 		return toRuleMatchArray(ruleMatches);
+	}
+	
+	private String getSentenceText(final AnalyzedSentence sentence) {
+	    StringBuffer sb = new StringBuffer();	    
+	    for (int i = 1; i < sentence.getTokens().length; i++) {
+	        sb.append(sentence.getTokens()[i].getToken());
+	    }
+	    return sb.toString();
+	}
+	
+	private String[] tokenizeText(final String sentence) {
+	    return nonWord.split(sentence);
 	}
 
 }
