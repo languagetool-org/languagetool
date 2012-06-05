@@ -19,51 +19,31 @@
 
 package org.languagetool.language;
 
-import java.util.Arrays;
-import java.util.List;
-
-import org.languagetool.rules.CommaWhitespaceRule;
-import org.languagetool.rules.DoublePunctuationRule;
-import org.languagetool.rules.LongSentenceRule;
 import org.languagetool.rules.Rule;
-import org.languagetool.rules.UppercaseSentenceStartRule;
-import org.languagetool.rules.WhitespaceRule;
-import org.languagetool.rules.en.AvsAnRule;
 import org.languagetool.rules.en.BritishReplaceRule;
-import org.languagetool.rules.en.CompoundRule;
-import org.languagetool.rules.en.EnglishUnpairedBracketsRule;
-import org.languagetool.rules.en.EnglishWordRepeatBeginningRule;
-import org.languagetool.rules.en.EnglishWordRepeatRule;
 import org.languagetool.rules.spelling.hunspell.HunspellRule;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BritishEnglish extends English {
-	
-	@Override
-	  public final String[] getCountryVariants() {
-	    return new String[]{"GB"};
-	  }
-	
-	@Override
-	  public String getName() {
-	    return "British English";
-	  }
-	
-	public List<Class<? extends Rule>> getRelevantRules() {
-		  return Arrays.asList(
-		            CommaWhitespaceRule.class,
-		            DoublePunctuationRule.class,
-		            EnglishUnpairedBracketsRule.class,
-		            UppercaseSentenceStartRule.class,
-		            WhitespaceRule.class,
-		            EnglishWordRepeatRule.class,
-		            LongSentenceRule.class,
-		            HunspellRule.class,
-		            // specific to English:
-		            AvsAnRule.class,
-		            EnglishWordRepeatBeginningRule.class,
-		            CompoundRule.class,
-		            // specific to British English:
-		            BritishReplaceRule.class
-		    );
-	  }
+
+  @Override
+  public final String[] getCountryVariants() {
+    return new String[]{"GB"};
+  }
+
+  @Override
+  public String getName() {
+    return "British English";
+  }
+
+  public List<Class<? extends Rule>> getRelevantRules() {
+    final List<Class<? extends Rule>> rules = new ArrayList<Class<? extends Rule>>();
+    rules.addAll(super.getRelevantRules());
+    rules.add(HunspellRule.class);
+    // specific to British English:
+    rules.add(BritishReplaceRule.class);
+    return rules;
+  }
 }

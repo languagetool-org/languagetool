@@ -19,50 +19,30 @@
 
 package org.languagetool.language;
 
-import java.util.Arrays;
-import java.util.List;
-
-import org.languagetool.rules.CommaWhitespaceRule;
-import org.languagetool.rules.DoublePunctuationRule;
-import org.languagetool.rules.LongSentenceRule;
 import org.languagetool.rules.Rule;
-import org.languagetool.rules.UppercaseSentenceStartRule;
-import org.languagetool.rules.WhitespaceRule;
-import org.languagetool.rules.en.AvsAnRule;
-import org.languagetool.rules.en.CompoundRule;
-import org.languagetool.rules.en.EnglishUnpairedBracketsRule;
-import org.languagetool.rules.en.EnglishWordRepeatBeginningRule;
-import org.languagetool.rules.en.EnglishWordRepeatRule;
 import org.languagetool.rules.spelling.hunspell.HunspellRule;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AmericanEnglish extends English {
 
-	
-	@Override
-	  public final String[] getCountryVariants() {
-	    return new String[]{"US"};
-	  }
-	
-	  @Override
-	  public final String getName() {
-	    return "American English";
-	  }
-	  
-	  public List<Class<? extends Rule>> getRelevantRules() {
-		  return Arrays.asList(
-		            CommaWhitespaceRule.class,
-		            DoublePunctuationRule.class,
-		            EnglishUnpairedBracketsRule.class,
-		            UppercaseSentenceStartRule.class,
-		            WhitespaceRule.class,
-		            EnglishWordRepeatRule.class,
-		            LongSentenceRule.class,
-		            HunspellRule.class,
-		            // specific to English:
-		            AvsAnRule.class,
-		            EnglishWordRepeatBeginningRule.class,
-		            CompoundRule.class
-		    );
-	  }
-	  
+  @Override
+  public final String[] getCountryVariants() {
+    return new String[]{"US"};
+  }
+
+  @Override
+  public final String getName() {
+    return "American English";
+  }
+
+  public List<Class<? extends Rule>> getRelevantRules() {
+    final List<Class<? extends Rule>> rules = new ArrayList<Class<? extends Rule>>();
+    rules.addAll(super.getRelevantRules());
+    rules.add(HunspellRule.class);
+    // nothing specific to American English yet...
+    return rules;
+  }
+
 }
