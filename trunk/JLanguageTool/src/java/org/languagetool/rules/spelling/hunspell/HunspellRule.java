@@ -137,6 +137,8 @@ public class HunspellRule extends SpellingCheckRule {
       if (!"".equals(dictionary.getWordChars())) {
         wordChars = "(?![" + dictionary.getWordChars().replace("-", "\\-") + "])";
       }
+      
+      dictionary.addWord("LanguageTool"); // to make demo text check 4 times faster...
     }
     nonWordPattern = Pattern.compile(wordChars + NON_ALPHABETIC);
     needsInit = false;

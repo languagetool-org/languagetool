@@ -56,5 +56,12 @@ public interface HunspellLibrary extends Library {
      * @param word The word to offer suggestions for.
      */
     public int Hunspell_suggest(Pointer pHunspell, PointerByReference slst, byte[] word);
+    
+    /**
+     * Add a word to the run-time dictionary.
+     * @param pHunspell The Hunspell object returned by Hunspell_create
+     * @param word The word added to the runtime dictionary.
+     */
+    public int Hunspell_add(Pointer pHunspell, byte[] word);
             
 }

@@ -427,6 +427,15 @@ public class Hunspell {
             }
             return affixWordChars;
           }
+        
+        /**
+         * Adds a word to the runtime dictionary.
+         * @param word Word to be added.
+         * @throws UnsupportedEncodingException
+         */
+        public void addWord(final String word) throws UnsupportedEncodingException {
+            hsl.Hunspell_add(hunspellDict, stringToBytes(word));
+        }
 
     }
 }
