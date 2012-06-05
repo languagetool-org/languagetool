@@ -45,19 +45,17 @@ import org.languagetool.tools.StringTools;
    in the Language class declaration is important!
  * 
  * @author Marcin Miłkowski
- * 
  */
 public class HunspellRule extends SpellingCheckRule {
 
-	/**
-	 * The dictionary file
-	 */
-	private Hunspell.Dictionary dictionary = null;
-
-	private Pattern nonWord;
-	
+	private final Pattern nonWord;
 	private final static String NON_ALPHABETIC = "[^\\p{L}]";
-	
+
+  /**
+ 	 * The dictionary file
+ 	 */
+ 	private Hunspell.Dictionary dictionary = null;
+
 	public HunspellRule(final ResourceBundle messages, final Language language)
 			throws UnsatisfiedLinkError, UnsupportedOperationException, IOException {
 		super(messages, language);
@@ -73,18 +71,18 @@ public class HunspellRule extends SpellingCheckRule {
 				+ langCountry
 				+ ".dic";
 
-		String wordchars = "";
+		String wordChars = "";
 		//set dictionary only if there are dictionary files
 		if (JLanguageTool.getDataBroker().resourceExists(shortDicPath)) {
 			dictionary = Hunspell.getInstance().
 					getDictionary(getDictionaryPath(langCountry, shortDicPath));
 			
 			if (!"".equals(dictionary.getWordChars())) {
-			    wordchars = "(?![" + dictionary.getWordChars().replace("-", "\\-") + "])";
+			    wordChars = "(?![" + dictionary.getWordChars().replace("-", "\\-") + "])";
 			}
 		}		
 		
-		nonWord = Pattern.compile(wordchars + NON_ALPHABETIC);
+		nonWord = Pattern.compile(wordChars + NON_ALPHABETIC);
 	}
 	
 	private String getDictionaryPath(final String dicName,
@@ -118,13 +116,16 @@ public class HunspellRule extends SpellingCheckRule {
 	
 	private void fileCopy(final InputStream in, final File targetFile) throws IOException {
 		final OutputStream out = new FileOutputStream(targetFile);
-		final byte[] buf = new byte[1024];
-		  int len;
-		  while ((len = in.read(buf)) > 0) {
-			  out.write(buf, 0, len);
-		  }
-		  in.close();
-		  out.close();
+    try {
+      final byte[] buf = new byte[1024];
+      int len;
+      while ((len = in.read(buf)) > 0) {
+        out.write(buf, 0, len);
+      }
+      in.close();
+    } finally {
+      out.close();
+    }
 	}
 	
 	@Override
@@ -149,32 +150,30 @@ public class HunspellRule extends SpellingCheckRule {
 		int len = text.getTokens()[1].getStartPos();
 		
 		// starting with the first token to skip the zero-length START_SENT
-		for (int i = 0; i < tokens.length; i++) {
-			final String word = tokens[i];
-			boolean isAlphabetic = true;
-			if (word.length() == 1) { // hunspell dicts usually do not contain punctuation
-				isAlphabetic =
-						StringTools.isAlphabetic(word.charAt(0));
-			}
-			if (isAlphabetic && dictionary.misspelled(word)) {				
-				final RuleMatch ruleMatch = new RuleMatch(this,
-						len, len + word.length(),
-						messages.getString("spelling"),
-						messages.getString("desc_spelling_short"));
-				final List<String> suggestions = dictionary.suggest(word);
-				if (suggestions != null) {
-					ruleMatch.setSuggestedReplacements(suggestions);
-				}
-				ruleMatches.add(ruleMatch);
-			}
-			len += word.length() + 1;
-		}
+    for (final String word : tokens) {
+      boolean isAlphabetic = true;
+      if (word.length() == 1) { // hunspell dictionaries usually do not contain punctuation
+        isAlphabetic = StringTools.isAlphabetic(word.charAt(0));
+      }
+      if (isAlphabetic && dictionary.misspelled(word)) {
+        final RuleMatch ruleMatch = new RuleMatch(this,
+                len, len + word.length(),
+                messages.getString("spelling"),
+                messages.getString("desc_spelling_short"));
+        final List<String> suggestions = dictionary.suggest(word);
+        if (suggestions != null) {
+          ruleMatch.setSuggestedReplacements(suggestions);
+        }
+        ruleMatches.add(ruleMatch);
+      }
+      len += word.length() + 1;
+    }
 
 		return toRuleMatchArray(ruleMatches);
 	}
 	
 	private String getSentenceText(final AnalyzedSentence sentence) {
-	    StringBuffer sb = new StringBuffer();	    
+	    final StringBuilder sb = new StringBuilder();
 	    for (int i = 1; i < sentence.getTokens().length; i++) {
 	        sb.append(sentence.getTokens()[i].getToken());
 	    }
