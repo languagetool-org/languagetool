@@ -103,7 +103,7 @@ public class Esperanto extends Language {
             CommaWhitespaceRule.class,
             DoublePunctuationRule.class,
             GenericUnpairedBracketsRule.class,
-            //HunspellRule.class,
+            //HunspellRule.class,   // commented out because of its bad coverage
             UppercaseSentenceStartRule.class,
             WordRepeatRule.class,
             WhitespaceRule.class
