@@ -51,7 +51,7 @@ public class German extends Language {
 
   @Override
   public String[] getCountryVariants() {
-    return new String[]{"DE", "CH", "AT", "LU", "LI", "BE"};
+    return new String[]{"DE", "LU", "LI", "BE"};
   }
 
   @Override

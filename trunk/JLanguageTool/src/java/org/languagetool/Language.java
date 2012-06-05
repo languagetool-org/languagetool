@@ -52,6 +52,8 @@ public abstract class Language {
   public static final Language ESPERANTO = new Esperanto();
   public static final Language FRENCH = new French();
   public static final Language GERMAN = new German();
+  public static final Language AUSTRIAN_GERMAN = new AustrianGerman();
+  public static final Language SWISS_GERMAN = new SwissGerman();
   public static final Language ITALIAN = new Italian();
   public static final Language KHMER = new Khmer();
   public static final Language LITHUANIAN = new Lithuanian();
@@ -83,7 +85,7 @@ public abstract class Language {
     ENGLISH, GERMAN, POLISH, FRENCH, SPANISH, ITALIAN, KHMER, DUTCH, LITHUANIAN, UKRAINIAN, RUSSIAN,
     SLOVAK, SLOVENIAN, /*SWEDISH,*/ ROMANIAN, ICELANDIC, GALICIAN, CATALAN, DANISH,
     MALAYALAM, BELARUSIAN, ESPERANTO, CHINESE, ASTURIAN, TAGALOG, BRETON, GREEK,
-    AMERICAN_ENGLISH, BRITISH_ENGLISH,
+    AMERICAN_ENGLISH, BRITISH_ENGLISH, AUSTRIAN_GERMAN, SWISS_GERMAN,
     DEMO
   };
 
