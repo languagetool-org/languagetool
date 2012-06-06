@@ -16881,6 +16881,42 @@ $Id$
                 -->
             </rule>
         </rulegroup>
+        <rulegroup id="MEIN_KLEIN_HAUS" name="Grammatik: Unflektiertes Adjektiv statt flektierter Form (unvollständig!), z.B. 'mein klein (kleines) Haus' ">
+            <!-- TODO ergaenzen -->
+            <rule>
+                <pattern>
+                    <token postag="(ART:(IND|DEF)|PRO:POS):NOM:SIN:MAS.*" postag_regexp="yes"/>
+                    <token postag="ADJ:PRD:GRU"><exception postag="ADJ:NOM:SIN:MAS.*" postag_regexp="yes"/></token>
+                    <token postag="SUB:NOM:SIN:MAS"/>
+                </pattern>
+                <message>Möglicherweise fehlende grammatische Übereinstimmung zwischen Artikel, Adjektiv und Nomen bezüglich Kasus, Numerus oder Genus. Beispiel: 'mein klein Haus' statt 'mein kleines Haus'</message>
+                <example type="incorrect"><marker>Ein nett Mann</marker> ist gekommen.</example>
+                <example type="correct"><marker>Ein netter Mann</marker> ist gekommen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="(ART:(IND|DEF)|PRO:POS):NOM:SIN:FEM.*" postag_regexp="yes"/>
+                    <token postag="ADJ:PRD:GRU"><exception postag="ADJ:NOM:SIN:FEM.*" postag_regexp="yes"/></token>
+                    <token postag="SUB:NOM:SIN:FEM"/>
+                </pattern>
+                <message>Möglicherweise fehlende grammatische Übereinstimmung zwischen Artikel, Adjektiv und Nomen bezüglich Kasus, Numerus oder Genus. Beispiel: 'mein klein Haus' statt 'mein kleines Haus'</message>
+                <example type="incorrect"><marker>Eine blau Markierung</marker> wird verwendet, um Grammatikfehler zu kennzeichnen.</example>
+                <example type="incorrect"><marker>Die blau Markierung</marker> wird verwendet, um Grammatikfehler zu kennzeichnen.</example>
+                <example type="incorrect"><marker>Meine schön Frau</marker> ist nett.</example>
+                <example type="correct"><marker>Eine blaue Markierung</marker> wird verwendet, um Grammatikfehler zu kennzeichnen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="(ART:(IND|DEF)|PRO:POS):NOM:SIN:NEU.*" postag_regexp="yes"/>
+                    <token postag="ADJ:PRD:GRU"><exception postag="ADJ:NOM:SIN:NEU.*" postag_regexp="yes"/></token>
+                    <token postag="SUB:NOM:SIN:NEU"/>
+                </pattern>
+                <message>Möglicherweise fehlende grammatische Übereinstimmung zwischen Artikel, Adjektiv und Nomen bezüglich Kasus, Numerus oder Genus. Beispiel: 'mein klein Haus' statt 'mein kleines Haus'</message>
+                <example type="incorrect"><marker>Mein klein Haus</marker> ist zu klein.</example>
+                <example type="correct"><marker>Mein kleines Haus</marker> ist zu klein.</example>
+                <example type="correct"><marker>Das bundlose Griffbrett</marker> ist schön.</example>
+            </rule>
+        </rulegroup>
         <rule id="GEMAESS_DES" name="Grammatik: Präposition/Kasus – 'gemäß des (dem)'">
             <!-- TODO allgemeiner, idealerweise folgendes Substantiv auch in den Dativ setzen -->
             <pattern>
