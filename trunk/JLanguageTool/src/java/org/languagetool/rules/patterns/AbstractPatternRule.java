@@ -197,8 +197,13 @@ public abstract class AbstractPatternRule extends Rule {
     boolean thisMatched = matched;
     if (testUnification) {
       if (matched && elem.isUnified()) {
+    	if (elem.isUniNegated()) {
+    		thisMatched = !(thisMatched && unifier.isUnified(matchToken, elem.getUniFeatures(), 
+    	            lastReading));
+    	} else {
         thisMatched = thisMatched && unifier.isUnified(matchToken, elem.getUniFeatures(), 
-            elem.isUniNegated(), lastReading);
+            lastReading);
+    	}
       }
       if (thisMatched && getUnified) {
         unifiedTokens = unifier.getFinalUnified();

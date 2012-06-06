@@ -513,9 +513,6 @@ public class XMLRuleHandler extends DefaultHandler {
 
     if (inUnification) {
       tokenElement.setUnification(equivalenceFeatures);
-      if (uniNegation) {
-        tokenElement.setUniNegation();
-      }
     }
 
     if (inUnificationDef) {

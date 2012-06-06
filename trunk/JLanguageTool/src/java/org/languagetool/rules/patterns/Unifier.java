@@ -194,7 +194,7 @@ public class Unifier {
         }
       }
     }
-    return unified ^ negation;
+    return unified;
   }
 
   private boolean checkNext(final AnalyzedToken aToken,
@@ -333,16 +333,13 @@ public class Unifier {
    * 
    * @param matchToken
    *          AnalyzedToken token to unify
-   * @param isUniNegated
-   *          if true, then return negated result
-   * @param lastReading
+ * @param lastReading
    *          true when the matchToken is the last reading in the
    *          AnalyzedReadings
    * @return True if the tokens in the sequence are unified.
    */
   public final boolean isUnified(final AnalyzedToken matchToken,
-      final Map<String, List<String>> uFeatures, final boolean isUniNegated,
-      final boolean lastReading) {
+      final Map<String, List<String>> uFeatures, final boolean lastReading) {
     if (inUnification) {      
       uniMatched |= isSatisfied(matchToken, uFeatures);
       uniAllMatched = uniMatched;
@@ -352,9 +349,6 @@ public class Unifier {
         uniMatched = false;
       }
       return uniAllMatched;
-    }
-    if (isUniNegated) {
-      setNegation(true);
     }
     isSatisfied(matchToken, uFeatures);
     if (lastReading) {
@@ -367,7 +361,7 @@ public class Unifier {
 
   /**
    * Used for getting a unified sequence in case when simple test method
-   * {@link #isUnified(org.languagetool.AnalyzedToken, java.util.Map, boolean, boolean)}} was used.
+   * {@link #isUnified(org.languagetool.AnalyzedToken, java.util.Map, boolean)}} was used.
    * 
    * @return An array of {@link AnalyzedTokenReadings}
    */

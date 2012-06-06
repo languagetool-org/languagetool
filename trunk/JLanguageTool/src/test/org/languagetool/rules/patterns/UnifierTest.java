@@ -247,11 +247,11 @@ public class UnifierTest extends TestCase {
 
     //now test the simplified interface
     satisfied = true; //this must be true to start with...
-    satisfied &= uni.isUnified(sing1, equiv, false, false);
-    satisfied &= uni.isUnified(sing1a, equiv, false, false);
-    satisfied &= uni.isUnified(sing1b, equiv, false, true);
-    satisfied &= uni.isUnified(sing2, equiv, false, true);
-    satisfied &= uni.isUnified(sing3, equiv, false, true);
+    satisfied &= uni.isUnified(sing1, equiv, false);
+    satisfied &= uni.isUnified(sing1a, equiv, false);
+    satisfied &= uni.isUnified(sing1b, equiv, true);
+    satisfied &= uni.isUnified(sing2, equiv, true);
+    satisfied &= uni.isUnified(sing3, equiv, true);
     assertEquals(false, satisfied);
     uni.reset();
 
@@ -260,9 +260,9 @@ public class UnifierTest extends TestCase {
     sing2 = new AnalyzedToken("godło", "subst:sg:nom.acc.voc:n", "godło");
 
     satisfied = true;
-    satisfied &= uni.isUnified(sing1a, equiv, false, false);
-    satisfied &= uni.isUnified(sing1b, equiv, false, true);
-    satisfied &= uni.isUnified(sing2, equiv, false, true);
+    satisfied &= uni.isUnified(sing1a, equiv, false);
+    satisfied &= uni.isUnified(sing1b, equiv, true);
+    satisfied &= uni.isUnified(sing2, equiv, true);
     assertEquals(true, satisfied);
     assertEquals("[osobisty/adj:sg:nom.acc.voc:n:pos:aff, godło/subst:sg:nom.acc.voc:n]", Arrays.toString(uni.getFinalUnified()));
     uni.reset();
@@ -275,10 +275,10 @@ public class UnifierTest extends TestCase {
     final AnalyzedToken sing2b = new AnalyzedToken("godło", "indecl", "godło");
 
     satisfied = true;
-    satisfied &= uni.isUnified(sing1a, equiv, false, false);
-    satisfied &= uni.isUnified(sing1b, equiv, false, true);
-    satisfied &= uni.isUnified(sing2a, equiv, false, false);
-    satisfied &= uni.isUnified(sing2b, equiv, false, true);
+    satisfied &= uni.isUnified(sing1a, equiv, false);
+    satisfied &= uni.isUnified(sing1b, equiv, true);
+    satisfied &= uni.isUnified(sing2a, equiv, false);
+    satisfied &= uni.isUnified(sing2b, equiv, true);
     assertEquals(true, satisfied);
     assertEquals("[osobisty/adj:sg:nom.acc.voc:n:pos:aff, godło/subst:sg:nom.acc.voc:n]", Arrays.toString(uni.getFinalUnified()));
     uni.reset();
@@ -335,9 +335,9 @@ public class UnifierTest extends TestCase {
 
       //now test the simplified interface
       satisfied = true; //this must be true to start with...
-      satisfied &= uni.isUnified(det_sing_masc, equiv, false, true);
-      satisfied &= uni.isUnified(sing_masc, equiv, false, true);
-      satisfied &= uni.isUnified(subst_sing_masc, equiv, false, true);
+      satisfied &= uni.isUnified(det_sing_masc, equiv, true);
+      satisfied &= uni.isUnified(sing_masc, equiv, true);
+      satisfied &= uni.isUnified(subst_sing_masc, equiv, true);
       assertEquals(true, satisfied);
       uni.reset();
       
@@ -351,42 +351,65 @@ public class UnifierTest extends TestCase {
       uni.startNextToken();
       satisfied &= uni.isSatisfied(subst_sing_masc, equiv);
       uni.startNextToken();
-      assertEquals(false, satisfied);
+      assertEquals(false, !satisfied);
       uni.reset();
 
       //now test the simplified interface
       satisfied = true; //this must be true to start with...
-      satisfied &= uni.isUnified(det_sing_masc, equiv, true, true);
-      satisfied &= uni.isUnified(sing_masc, equiv, true, true);
-      satisfied &= uni.isUnified(subst_sing_masc, equiv, true, true);
-      assertEquals(false, satisfied);
+      satisfied &= uni.isUnified(det_sing_masc, equiv, true);
+      satisfied &= uni.isUnified(sing_masc, equiv, true);
+      satisfied &= uni.isUnified(subst_sing_masc, equiv, true);
+      assertEquals(false, !satisfied);
       uni.reset();
       
       //OK, so let's test it with something that is not correct
       satisfied = true; //this must be true to start with...
-      satisfied &= uni.isUnified(det_sing_fem, equiv, true, true);
-      satisfied &= uni.isUnified(sing_masc, equiv, true, true); //mismatch: hence satisfied == "true"
-      satisfied &= uni.isUnified(subst_sing_masc, equiv, true, true);
-      assertEquals(true, satisfied);
+      satisfied &= uni.isUnified(det_sing_fem, equiv, true);
+      satisfied &= uni.isUnified(sing_masc, equiv, true);
+      satisfied &= uni.isUnified(subst_sing_masc, equiv, true);
+      assertEquals(true, !satisfied);
       uni.reset();
 
       //OK, so let's test it with something that is not correct
       satisfied = true; //this must be true to start with...
-      satisfied &= uni.isUnified(det_sing_masc, equiv, true, true);
-      satisfied &= uni.isUnified(sing_fem, equiv, true, true); //mismatch: hence satisfied == "true" 
-      satisfied &= uni.isUnified(subst_sing_masc, equiv, true, true);
-      assertEquals(true, satisfied);
+      satisfied &= uni.isUnified(det_sing_masc, equiv, true);
+      satisfied &= uni.isUnified(sing_fem, equiv, true);  
+      satisfied &= uni.isUnified(subst_sing_masc, equiv, true);
+      assertEquals(true, !satisfied);
       uni.reset();
 
-      //OK, so let's test it with something that is not correct
-      /* I think there's an error here -- the negation is applied too soon...
+      //OK, second token does not match
       satisfied = true; //this must be true to start with...
-      satisfied &= uni.isUnified(det_sing_masc, equiv, true, true);
-      satisfied &= uni.isUnified(sing_masc, equiv, true, true); //match: hence satisfied == "false"...
-      satisfied &= uni.isUnified(subst_sing_fem, equiv, true, true);
-      assertEquals(true, satisfied);
+      satisfied &= uni.isUnified(det_sing_masc, equiv, true);
+      satisfied &= uni.isUnified(sing_masc, equiv, true); 
+      satisfied &= uni.isUnified(subst_sing_fem, equiv, true);
+      assertEquals(true, !satisfied);
       uni.reset();
-      */
+
+      //OK, second token does not match
+      satisfied = true; //this must be true to start with...
+      satisfied &= uni.isUnified(det_sing_masc, equiv, true);
+      satisfied &= uni.isUnified(plur_masc, equiv, true); 
+      satisfied &= uni.isUnified(subst_sing_fem, equiv, true);
+      assertEquals(true, !satisfied);
+      uni.reset();
+
+      //OK, second token does not match
+      satisfied = true; //this must be true to start with...
+      satisfied &= uni.isUnified(det_sing_masc, equiv, true);
+      satisfied &= uni.isUnified(plur_fem, equiv, true); 
+      satisfied &= uni.isUnified(subst_sing_fem, equiv, true);
+      assertEquals(true, !satisfied);
+      uni.reset();
+
+      //and another one
+      satisfied = true; //this must be true to start with...
+      satisfied &= uni.isUnified(det_plur_fem, equiv, true);
+      satisfied &= uni.isUnified(plur_fem, equiv, true); 
+      satisfied &= uni.isUnified(subst_sing_fem, equiv, true);
+      assertEquals(true, !satisfied);
+      uni.reset();
+      
   }
   
 }

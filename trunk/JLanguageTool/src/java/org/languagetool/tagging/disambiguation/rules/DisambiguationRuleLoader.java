@@ -340,10 +340,7 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
         andGroupCounter++;
       }
       if (inUnification) {
-        tokenElement.setUnification(equivalenceFeatures);
-        if (uniNegation) {
-          tokenElement.setUniNegation();
-        }
+        tokenElement.setUnification(equivalenceFeatures);        
         uniCounter++;
       }
       if (inUnificationDef) {
@@ -377,6 +374,10 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
     } else if (qName.equals(UNIFY)) {
       inUnification = false;
       equivalenceFeatures = new HashMap<String, List<String>>();
+      //set negation on the last token only!
+      if (uniNegation) {          
+    	  elementList.get(elementList.size() - 1).setUniNegation();
+      }
     } else if (qName.equals(WD)) {
       addNewWord(wd.toString(), wdLemma, wdPos);
       inWord = false;
