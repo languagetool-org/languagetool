@@ -164,7 +164,7 @@ public class UnifierTest extends TestCase {
     uni.reset();
   }
 
-  //slightly non-trivial unification = test if the grammatical number is the same
+  //slightly non-trivial unification = test if the grammatical number & gender is the same
   public void testUnificationNumberGender() {
     final Unifier uni = new Unifier();
     final Element sgElement = new Element("", false, false, false);
