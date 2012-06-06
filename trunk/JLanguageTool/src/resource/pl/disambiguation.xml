@@ -824,4 +824,24 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     	<example type="untouched">R. 2012</example>
     	<example type="ambiguous" inputform="R[rok/brev:pun]" outputform="R[R]">Enancjomer <marker>R</marker> jest ważny.</example>
     </rule>
+    <rule name="in w wyrażeniach łacińskich" id="in">
+    	<pattern>
+    		<marker><token>in</token></marker>
+    		<token regexp="yes">absentia|abstracto|aeternum|aqua|blanco|crudo|dubio|effectu|effigie|extenso|extremis|fidem|flagranti|genere|gratiam|gremio|margine|medias|memoriam|minus|octavo|persona|plus|praxi|puncto|saecula|spe|statu|triplo|vitro|vivo|rebus|bello</token>
+    	</pattern>
+    	<disambig postag="ign"/>
+    	<example type="ambiguous" inputform="in[inaczej/brev:pun]" outputform="in[inaczej/ign]">Zapłodnienie <marker>in</marker> vitro</example>
+    	<example type="untouched">M.in. dwóch ministrów</example>
+    </rule>
+    <rule name="em" id="em">
+    	<pattern>
+    		<token regexp="yes">[']</token>
+    		<marker>
+    		<token spacebefore="no">em</token>
+    		</marker>
+    	</pattern>
+    	<disambig action="remove"><wd lemma="emerytowany"/></disambig>
+    	<example type="untouched">Był to em. płk James Bond</example>
+    	<example type="ambiguous" inputform="em[emerytowany/brev:pun]" outputform="em[em]">Maximilienem de Robespierre'<marker>em</marker> (Wojciech Pszoniak)</example>
+    </rule>
 </rules>
