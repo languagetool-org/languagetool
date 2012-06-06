@@ -1,5 +1,5 @@
 /* LanguageTool, a natural language style checker 
- * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+ * Copyright (C) 2012 Markus Brenneis
  * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -18,7 +18,6 @@
  */
 package org.languagetool.rules.de;
 
-import org.languagetool.Language;
 import org.languagetool.rules.WrongWordInContextRule;
 
 import java.io.IOException;
@@ -47,7 +46,7 @@ public class GermanWrongWordInContextRule extends WrongWordInContextRule {
   
   @Override
   protected String getFilename() {
-    return "/de/WrongWordInContext.txt";
+    return "/de/wrongWordInContext.txt";
   }
   
   @Override

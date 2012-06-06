@@ -1,5 +1,5 @@
 /* LanguageTool, a natural language style checker 
- * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+ * Copyright (C) 2012 Markus Brenneis
  * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -39,20 +39,18 @@ import org.languagetool.tools.StringTools;
  */
 public abstract class WrongWordInContextRule extends Rule {
 
-  private final String filename;
-  
   private final List<ContextWords> contextWordsSet;
-  
+
   public WrongWordInContextRule(final ResourceBundle messages) throws IOException {
     if (messages != null) {
       super.setCategory(new Category(getCategoryString()));
     }
-    filename = getFilename();
+    final String filename = getFilename();
     contextWordsSet = loadContextWords(JLanguageTool.getDataBroker().getFromRulesDirAsStream(filename));
   }
-  
+
   protected abstract String getFilename();
-  
+
   protected String getCategoryString() {
     return messages.getString("category_misc");
   }
@@ -72,8 +70,8 @@ public abstract class WrongWordInContextRule extends Rule {
     final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
     for (ContextWords contextWords: contextWordsSet) {
-      boolean matchedWord[] = {false, false};
-      Matcher matchers[] = {null, null};
+      final boolean[] matchedWord = {false, false};
+      final Matcher[] matchers = {null, null};
       matchers[0] = contextWords.words[0].matcher("");
       matchers[1] = contextWords.words[1].matcher("");
       //start searching for words
@@ -114,7 +112,7 @@ public abstract class WrongWordInContextRule extends Rule {
       }
       
       if(foundWord != -1) {
-        boolean matchedContext[] = {false, false};
+        final boolean[] matchedContext = {false, false};
         matchers[foundWord] = contextWords.contexts[foundWord].matcher("");
         matchers[notFoundWord] = contextWords.contexts[notFoundWord].matcher("");
         //start searching for context words
@@ -129,8 +127,9 @@ public abstract class WrongWordInContextRule extends Rule {
           matchedContext[notFoundWord] = matchers[notFoundWord].reset(token).find();
         }
         if(matchedContext[notFoundWord] && !matchedContext[foundWord]) {
-          String msg = getMessage(matchedToken, matchedToken.replaceFirst(contextWords.matches[foundWord],contextWords.matches[notFoundWord]), contextWords.explanations[notFoundWord], contextWords.explanations[foundWord]);
-          String shortMsg = getShortMessage(matchedToken.replaceFirst(contextWords.matches[foundWord],contextWords.matches[notFoundWord]));
+          final String msg = getMessage(matchedToken, matchedToken.replaceFirst(contextWords.matches[foundWord],contextWords.matches[notFoundWord]),
+                  contextWords.explanations[notFoundWord], contextWords.explanations[foundWord]);
+          final String shortMsg = getShortMessage(matchedToken.replaceFirst(contextWords.matches[foundWord],contextWords.matches[notFoundWord]));
           final RuleMatch ruleMatch = new RuleMatch(this, startPos, endPos, msg, shortMsg);
           ruleMatches.add(ruleMatch);
         }
@@ -150,7 +149,8 @@ public abstract class WrongWordInContextRule extends Rule {
   protected abstract String getShortMessageString();
   
   /**
-   * @return a string like "Possible confusion of words: Did you mean <suggestion>$SUGGESTION</suggestion> (= $EXPLANATION_SUGGESTION) instead of '$WRONGWORD' (= $EXPLANATION_WRONGWORD)?"
+   * @return a string like "Possible confusion of words: Did you mean <suggestion>$SUGGESTION</suggestion>
+   * (= $EXPLANATION_SUGGESTION) instead of '$WRONGWORD' (= $EXPLANATION_WRONGWORD)?"
    */
   protected abstract String getLongMessageString();
   
@@ -158,7 +158,8 @@ public abstract class WrongWordInContextRule extends Rule {
     if (explanationSuggestion.equals("") || explanationWrongWord.equals("")) {
       return getMessageString().replaceFirst("\\$SUGGESTION", suggestion).replaceFirst("\\$WRONGWORD", wrongWord);
     } else {
-      return getLongMessageString().replaceFirst("\\$SUGGESTION", suggestion).replaceFirst("\\$WRONGWORD", wrongWord).replaceFirst("\\$EXPLANATION_SUGGESTION", explanationSuggestion).replaceFirst("\\$EXPLANATION_WRONGWORD", explanationWrongWord);
+      return getLongMessageString().replaceFirst("\\$SUGGESTION", suggestion).replaceFirst("\\$WRONGWORD", wrongWord)
+              .replaceFirst("\\$EXPLANATION_SUGGESTION", explanationSuggestion).replaceFirst("\\$EXPLANATION_WRONGWORD", explanationWrongWord);
     }
   }
   
@@ -178,9 +179,9 @@ public abstract class WrongWordInContextRule extends Rule {
         if (line.charAt(0) == '#') {
           continue;
         }
-        String[] column = line.split("\t");
+        final String[] column = line.split("\t");
         if (column.length >= 6) {
-          ContextWords contextWords = new ContextWords();
+          final ContextWords contextWords = new ContextWords();
           contextWords.setWord(0, column[0]);
           contextWords.setWord(1, column[1]);
           contextWords.matches[0] = column[2];

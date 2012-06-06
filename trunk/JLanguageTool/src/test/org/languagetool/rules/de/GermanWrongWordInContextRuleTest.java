@@ -1,5 +1,5 @@
 /* LanguageTool, a natural language style checker 
- * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+ * Copyright (C) 2012 Markus Brenneis
  * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -41,6 +41,7 @@ public class GermanWrongWordInContextRuleTest extends TestCase {
     assertEquals(11, rule.match(langTool.getAnalyzedSentence("Ihre Lieder sind entzündet."))[0].getToPos());
     assertEquals("Lider", rule.match(langTool.getAnalyzedSentence("Er hat entzündete Lieder."))[0].getSuggestedReplacements().get(0));
     assertEquals("Lieder", rule.match(langTool.getAnalyzedSentence("Wir singen gemeinsam Lider."))[0].getSuggestedReplacements().get(0));
+
     // malen/mahlen
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Ich soll Bilder einer Mühle malen.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Ich male ein Bild einer Mühle.")).length);
@@ -56,6 +57,7 @@ public class GermanWrongWordInContextRuleTest extends TestCase {
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Er hat ein schönes Selbstporträt gemahlt.")).length);
     assertEquals("gemahlen", rule.match(langTool.getAnalyzedSentence("Das Korn wird in den Mühlen gemalen."))[0].getSuggestedReplacements().get(0));
     assertEquals("malten", rule.match(langTool.getAnalyzedSentence("Wir mahlten im Kunstunterricht."))[0].getSuggestedReplacements().get(0));
+
     // Mine/Miene
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Er verzieht keine Miene.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Die Explosion der Mine.")).length);
@@ -72,6 +74,7 @@ public class GermanWrongWordInContextRuleTest extends TestCase {
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Die Miene des Kugelschreibers ist leer.")).length);
     assertEquals("Minen", rule.match(langTool.getAnalyzedSentence("Er hat das mit den Mienen weggesprengt."))[0].getSuggestedReplacements().get(0));
     assertEquals("Miene", rule.match(langTool.getAnalyzedSentence("Er versucht, keine Mine zu verziehen."))[0].getSuggestedReplacements().get(0));
+
     // Saite/Seite
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Die Seiten des Buches sind beschrieben.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Dieses Buch über die Gitarre hat nur sechs Seiten.")).length);
