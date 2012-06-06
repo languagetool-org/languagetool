@@ -192,31 +192,37 @@ public abstract class AbstractPatternRule extends Rule {
   }
 
   protected boolean testUnificationAndGroups(final boolean matched,
-      final boolean lastReading, final AnalyzedToken matchToken,
-      final Element elem) {
-    boolean thisMatched = matched;
-    if (testUnification) {
-      if (matched && elem.isUnified()) {
-    	if (elem.isUniNegated()) {
-    		thisMatched = !(thisMatched && unifier.isUnified(matchToken, elem.getUniFeatures(), 
-    	            lastReading));
-    	} else {
-        thisMatched = thisMatched && unifier.isUnified(matchToken, elem.getUniFeatures(), 
-            lastReading);
-    	}
-      }
-      if (thisMatched && getUnified) {
-        unifiedTokens = unifier.getFinalUnified();
-      }
-      if (!elem.isUnified()) {
-        unifier.reset();
-      }
-    }    
-    elem.addMemberAndGroup(matchToken);
-    if (lastReading) {
-      thisMatched &= elem.checkAndGroup(thisMatched);
-    }        
-    return thisMatched;
+          final boolean lastReading, final AnalyzedToken matchToken,
+          final Element elem) {
+      boolean thisMatched = matched;
+      if (testUnification) {
+          if (matched && elem.isUnified()) {
+              if (elem.isUniNegated()) {
+                  thisMatched = !(thisMatched && unifier.isUnified(matchToken, elem.getUniFeatures(), 
+                          lastReading));
+              } else {
+                  if (elem.isLastInUnification()) {
+                      thisMatched = thisMatched && unifier.isUnified(matchToken, elem.getUniFeatures(), 
+                              lastReading);
+                  } else { //we don't care about the truth value, let it run    	        
+                      unifier.isUnified(matchToken, elem.getUniFeatures(), 
+                              lastReading);
+                  }
+
+              }
+          }
+          if (thisMatched && getUnified) {
+              unifiedTokens = unifier.getFinalUnified();
+          }
+          if (!elem.isUnified()) {
+              unifier.reset();
+          }
+      }    
+      elem.addMemberAndGroup(matchToken);
+      if (lastReading) {
+          thisMatched &= elem.checkAndGroup(thisMatched);
+      }        
+      return thisMatched;
   }
 
 

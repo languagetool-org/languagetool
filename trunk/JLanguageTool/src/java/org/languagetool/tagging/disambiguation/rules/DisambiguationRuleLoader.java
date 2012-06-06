@@ -375,8 +375,10 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
       inUnification = false;
       equivalenceFeatures = new HashMap<String, List<String>>();
       //set negation on the last token only!
-      if (uniNegation) {          
-    	  elementList.get(elementList.size() - 1).setUniNegation();
+      final int lastElement = elementList.size() - 1;
+      elementList.get(lastElement).setLastInUnification();
+      if (uniNegation) {            
+          elementList.get(lastElement).setUniNegation();
       }
     } else if (qName.equals(WD)) {
       addNewWord(wd.toString(), wdLemma, wdPos);

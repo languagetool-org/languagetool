@@ -140,6 +140,12 @@ public class Element {
   
   private boolean posUnknown;
 
+  
+  /**
+   * Set to true on tokens that close the unification block. 
+   */
+  private boolean isLastUnified;
+
   /**
    * Creates Element that is used to match tokens in the text.
    * 
@@ -784,6 +790,14 @@ public class Element {
     return uniNegation;
   }
 
+  public final boolean isLastInUnification() {
+    return isLastUnified;
+  }
+
+  public final void setLastInUnification() {
+    isLastUnified = true;
+  }
+  
   public final void setWhitespaceBefore(final boolean isWhite) {
     whitespaceBefore = isWhite;
     testWhitespace = true;

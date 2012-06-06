@@ -16,6 +16,22 @@ $Id$
       <token regexp="yes">\p{Ll}+</token>
     </equivalence>
   </unification>
+  <unification feature="gender">
+    <equivalence type="masc">
+      <token regexp="yes">.*_masc</token>
+    </equivalence>
+    <equivalence type="fem">
+      <token regexp="yes">.*_fem</token>
+    </equivalence>  
+  </unification>
+  <unification feature="number">
+    <equivalence type="plur">
+      <token regexp="yes">.*_plur_.*</token>
+    </equivalence>
+    <equivalence type="sing">
+      <token regexp="yes">.*_sing_.*</token>
+    </equivalence>
+  </unification>
   <phrases>
     <phrase id="UNIFICATION_PHRASE">
       <unify>
@@ -340,5 +356,24 @@ $Id$
     	<example type="incorrect">Dogs <marker>blah blah</marker></example>
     </rule>
     </rulegroup>
+    <rulegroup id="test_unification_with_negation" name="Test unification with negation">
+    	<rule>
+    		<pattern>
+    			<unify negate="yes">
+    				<feature id="gender"/>
+    				<feature id="number"/>
+    				<token><exception postag="SENT_START"/></token>
+    				<token/>
+    				<token/>
+    			</unify>
+    		</pattern>
+    		<message>blabla</message>
+    		<example type="correct">det_sing_masc</example>
+    		<example type="incorrect"><marker>det_sing_masc adj_sing_masc subst_plur_fem</marker></example>
+    		<example type="incorrect"><marker>det_sing_fem adj_sing_masc subst_plur_fem</marker></example>
+    		<example type="incorrect"><marker>det_sing_fem adj_sing_fem subst_plur_fem</marker></example>
+    		<example type="incorrect"><marker>det_plur_fem adj_sing_fem subst_plur_fem</marker></example>
+    	</rule>
+    </rulegroup>    
   </category>
 </rules>

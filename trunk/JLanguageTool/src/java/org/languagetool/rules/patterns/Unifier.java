@@ -36,12 +36,6 @@ import org.languagetool.AnalyzedTokenReadings;
  */
 public class Unifier {
 
-  //TODO: add a possibility to negate some features but not all
-  /**
-   * Negates the meaning of unification just like negation in Element tokens.
-   */  
-  private boolean negation;
-
   private boolean allFeatsIn;
 
   private int tokCnt;
@@ -261,14 +255,6 @@ public class Unifier {
     } 
     tmpFeaturesFound = new ArrayList<Boolean>(featuresFound);
   }
-
-  public final void setNegation(final boolean neg) {
-    negation = neg;
-  }
-
-  public final boolean getNegation() {
-    return negation;
-  }
   
   /**
    * Resets after use of unification. Required.
@@ -276,7 +262,6 @@ public class Unifier {
   public final void reset() {
     equivalencesMatched.clear();
     allFeatsIn = false;
-    negation = false;
     tokCnt = -1;
     featuresFound.clear();
     tmpFeaturesFound.clear();

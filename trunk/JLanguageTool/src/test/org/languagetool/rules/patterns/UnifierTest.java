@@ -342,7 +342,6 @@ public class UnifierTest extends TestCase {
       //now let's negate this
                   
       //traditional way
-      uni.setNegation(true);
       satisfied = uni.isSatisfied(det_sing_masc, equiv);      
       uni.startUnify();
       satisfied &= uni.isSatisfied(sing_masc, equiv);
