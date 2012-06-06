@@ -63,6 +63,11 @@ public class AnalyzedTokenReadingsTest extends TestCase {
     testReadings.leaveReading(aTok2);
     assertEquals(testReadings.getToken(), "word");
     assertTrue(!testReadings.hasPosTag("POS"));
+    
+    testReadings.removeReading(aTok2);
+    assertEquals(testReadings.getToken(), "word");
+    assertTrue(!testReadings.hasPosTag("POS"));
+    
   }
 
   public void testHasPosTag() {

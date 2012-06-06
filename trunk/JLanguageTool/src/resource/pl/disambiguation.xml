@@ -94,7 +94,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         </pattern>
         <disambig action="remove"><wd lemma="przejść"></wd></disambig>
         <example type="untouched">Przeszło trzydziestu panów pije wódkę.</example>
-        <example type="ambiguous" inputform="Przeszło[przejść/verb:praet:sg:ter:n:perf]" outputform="Przeszło[]"><marker>Przeszło</marker> 30 panów pije wódkę.</example>
+        <example type="ambiguous" inputform="Przeszło[przejść/verb:praet:sg:ter:n:perf]" outputform="Przeszło[Przeszło]"><marker>Przeszło</marker> 30 panów pije wódkę.</example>
     </rule>
     <rule name="prawie/subst -> kublik" id="prawie">
         <pattern>
@@ -785,5 +785,43 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     	<disambig action="replace"><match no="1" postag_regexp="yes" postag="brev:npun" postag_replace="brev:pun"/></disambig>
     	<example type="ambiguous" inputform="m[metr/brev:npun]" outputform="m[metr/brev:pun]">Jest to <marker>m</marker>.in. kretyn.</example>
     </rule>
-
+    
+    <rule name=".pl" id="PL_DOMAIN_NAME">
+    	<pattern>
+    		<token>.</token>
+    		<marker>
+    		<token spacebefore="no">pl</token>
+    		</marker>
+    	</pattern>
+    	<disambig action="remove"><wd lemma="plac"/></disambig>
+    	<example type="ambiguous" inputform="pl[plac/brev:pun]" outputform="pl[pl]">Alergie.mp.<marker>pl</marker> - serwis</example>
+    	<example type="untouched">Adres: pl. Zbawiciela 122</example>
+    </rule>
+	<rule name=".jp" id="JP_DOMAIN_NAME">
+    	<pattern>
+    		<token>.</token>
+    		<marker>
+    		<token spacebefore="no">jp</token>
+    		</marker>
+    	</pattern>
+    	<disambig action="remove"><wd lemma="jak poprzednio"/></disambig>
+    	<example type="ambiguous" inputform="jp[jak poprzednio/brev:pun]" outputform="jp[jp]">Alergie.mp.<marker>jp</marker> - serwis</example>
+    	<example type="untouched">Skrót - jp.</example>
+    </rule>
+    <rule name="KC" id="KC">
+    	<pattern case_sensitive="yes">
+    		<marker><token>KC</token></marker>
+    		<token regexp="yes">KPZR|PZPR</token>
+    	</pattern>
+    	<disambig action="remove"><wd lemma="kodeks cywilny"/></disambig>
+    	<example type="ambiguous" inputform="KC[kodeks cywilny/brev:pun]" outputform="KC[KC]"><marker>KC</marker> KPZR</example>
+    </rule>
+    <rule name="R - nie rok" id="NON_START_POS_R">
+    	<pattern case_sensitive="yes">
+    		<marker><token>R<exception scope="previous" postag="SENT_START"></exception></token></marker>
+    	</pattern>
+    	<disambig action="remove"><wd lemma="rok"/></disambig>
+    	<example type="untouched">R. 2012</example>
+    	<example type="ambiguous" inputform="R[rok/brev:pun]" outputform="R[R]">Enancjomer <marker>R</marker> jest ważny.</example>
+    </rule>
 </rules>
