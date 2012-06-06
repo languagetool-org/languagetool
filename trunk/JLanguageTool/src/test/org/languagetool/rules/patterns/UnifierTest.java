@@ -26,6 +26,8 @@ import java.util.List;
 import java.util.ArrayList;
 
 import junit.framework.TestCase;
+
+import org.junit.Test;
 import org.languagetool.AnalyzedToken;
 
 public class UnifierTest extends TestCase {
@@ -183,8 +185,8 @@ public class UnifierTest extends TestCase {
     uni.setEquivalence("gender", "masculine", mascElement);
 
     final AnalyzedToken sing1 = new AnalyzedToken("mały", "adj:sg:blahblah:m", "mały");
-    final AnalyzedToken sing1a = new AnalyzedToken("mały", "adj:sg:blahblah:f", "mały");
-    final AnalyzedToken sing1b = new AnalyzedToken("mały", "adj:pl:blahblah:m", "mały");
+    final AnalyzedToken sing1a = new AnalyzedToken("mała", "adj:sg:blahblah:f", "mały");
+    final AnalyzedToken sing1b = new AnalyzedToken("małe", "adj:pl:blahblah:m", "mały");
     final AnalyzedToken sing2 = new AnalyzedToken("człowiek", "subst:sg:blahblah:m", "człowiek");
 
     final Map<String, List<String>> equiv = new HashMap<String, List<String>>();
@@ -203,6 +205,7 @@ public class UnifierTest extends TestCase {
   }
 
   // checks if all tokens share the same set of features to be unified
+  @Test
   public void testMultipleFeats() {
     final Unifier uni = new Unifier();
     final Element sgElement = new Element("", false, false, false);
@@ -281,4 +284,109 @@ public class UnifierTest extends TestCase {
     uni.reset();
   }
 
+  @Test
+  public void testNegation() {
+      final Unifier uni = new Unifier();
+      final Element sgElement = new Element("", false, false, false);
+      sgElement.setPosElement(".*[\\.:]sg:.*", true, false);
+      uni.setEquivalence("number", "singular", sgElement);
+      final Element plElement = new Element("", false, false, false);
+      plElement.setPosElement(".*[\\.:]pl:.*", true, false);
+      uni.setEquivalence("number", "plural", plElement);
+      final Element femElement = new Element("", false, false, false);
+      femElement.setPosElement(".*:f", true, false);
+      uni.setEquivalence("gender", "feminine", femElement);
+      final Element mascElement = new Element("", false, false, false);
+      mascElement.setPosElement(".*:m", true, false);
+      uni.setEquivalence("gender", "masculine", mascElement);
+
+      //Latin adjectives
+      final AnalyzedToken sing_masc = new AnalyzedToken("parvus", "adj:sg:blahblah:m", "parvus");
+      final AnalyzedToken plur_masc = new AnalyzedToken("parvi", "adj:sg:blahblah:m", "parvus");
+      final AnalyzedToken plur_fem = new AnalyzedToken("parvae", "adj:pl:blahblah:f", "parvus");
+      final AnalyzedToken sing_fem = new AnalyzedToken("parva", "adj:sg:blahblah:f", "parvus");
+      
+      //Let's pretend Latin has determiners
+      final AnalyzedToken det_sing_fem = new AnalyzedToken("una", "det:sg:blahblah:f", "unus");
+      final AnalyzedToken det_plur_fem = new AnalyzedToken("unae", "det:sg:blahblah:f", "unus");
+      final AnalyzedToken det_sing_masc = new AnalyzedToken("unus", "det:sg:blahblah:m", "unus");
+      final AnalyzedToken det_plur_masc = new AnalyzedToken("uni", "det:sg:blahblah:m", "unus");
+      
+      //and nouns
+      final AnalyzedToken subst_sing_fem = new AnalyzedToken("discrepatio", "subst:sg:blahblah:f", "discrepatio");
+      final AnalyzedToken subst_plur_fem = new AnalyzedToken("discrepationes", "subst:sg:blahblah:f", "discrepatio");
+      final AnalyzedToken subst_sing_masc = new AnalyzedToken("homo", "sg:sg:blahblah:m", "homo");
+      final AnalyzedToken subst_plur_masc = new AnalyzedToken("homines", "sg:sg:blahblah:m", "homo");
+      
+      //now we should have 4x4x4 combinations...
+      
+      final Map<String, List<String>> equiv = new HashMap<String, List<String>>();
+      equiv.put("number", null);
+      equiv.put("gender", null);
+
+      boolean satisfied = uni.isSatisfied(det_sing_masc, equiv);      
+      uni.startUnify();
+      satisfied &= uni.isSatisfied(sing_masc, equiv);
+      uni.startNextToken();
+      satisfied &= uni.isSatisfied(subst_sing_masc, equiv);
+      uni.startNextToken();
+      assertEquals(true, satisfied);
+      uni.reset();
+
+      //now test the simplified interface
+      satisfied = true; //this must be true to start with...
+      satisfied &= uni.isUnified(det_sing_masc, equiv, false, true);
+      satisfied &= uni.isUnified(sing_masc, equiv, false, true);
+      satisfied &= uni.isUnified(subst_sing_masc, equiv, false, true);
+      assertEquals(true, satisfied);
+      uni.reset();
+      
+      //now let's negate this
+                  
+      //traditional way
+      uni.setNegation(true);
+      satisfied = uni.isSatisfied(det_sing_masc, equiv);      
+      uni.startUnify();
+      satisfied &= uni.isSatisfied(sing_masc, equiv);
+      uni.startNextToken();
+      satisfied &= uni.isSatisfied(subst_sing_masc, equiv);
+      uni.startNextToken();
+      assertEquals(false, satisfied);
+      uni.reset();
+
+      //now test the simplified interface
+      satisfied = true; //this must be true to start with...
+      satisfied &= uni.isUnified(det_sing_masc, equiv, true, true);
+      satisfied &= uni.isUnified(sing_masc, equiv, true, true);
+      satisfied &= uni.isUnified(subst_sing_masc, equiv, true, true);
+      assertEquals(false, satisfied);
+      uni.reset();
+      
+      //OK, so let's test it with something that is not correct
+      satisfied = true; //this must be true to start with...
+      satisfied &= uni.isUnified(det_sing_fem, equiv, true, true);
+      satisfied &= uni.isUnified(sing_masc, equiv, true, true);
+      satisfied &= uni.isUnified(subst_sing_masc, equiv, true, true);
+      assertEquals(true, satisfied);
+      uni.reset();
+
+      //OK, so let's test it with something that is not correct
+      satisfied = true; //this must be true to start with...
+      satisfied &= uni.isUnified(det_sing_masc, equiv, true, true);
+      satisfied &= uni.isUnified(sing_fem, equiv, true, true);
+      satisfied &= uni.isUnified(subst_sing_masc, equiv, true, true);
+      assertEquals(true, satisfied);
+      uni.reset();
+
+      //OK, so let's test it with something that is not correct
+      /* I think there's an error here -- the negation is applied too soon...
+      satisfied = true; //this must be true to start with...
+      satisfied &= uni.isUnified(det_sing_masc, equiv, true, true);
+      satisfied &= uni.isUnified(sing_masc, equiv, true, true);
+      satisfied &= uni.isUnified(subst_sing_fem, equiv, true, true);
+      assertEquals(true, satisfied);
+      uni.reset();
+      */
+  }
+  
 }

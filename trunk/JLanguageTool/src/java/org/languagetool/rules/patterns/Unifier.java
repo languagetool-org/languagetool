@@ -232,7 +232,10 @@ public class Unifier {
         } else {
         	 if (readingsCounter<tokSequence.size()) {
                  tokSequence.get(readingsCounter).addReading(aToken);
-               }   /* else? */        	
+               } else {
+                   unifiedNext = false;
+               }        	 
+                   /* else? */        	
         }
         tmpFeaturesFound = tokenFeaturesFound;
       }
