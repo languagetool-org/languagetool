@@ -408,6 +408,31 @@ public class UnifierTest extends TestCase {
       assertEquals(true, !satisfied);
       uni.reset();
       
+    //and another one
+      satisfied = true; //this must be true to start with...
+      satisfied &= uni.isUnified(det_sing_fem, equiv, true);
+      satisfied &= uni.isUnified(plur_fem, equiv, true); 
+      satisfied &= uni.isUnified(subst_plur_fem, equiv, true);
+      assertEquals(true, !satisfied);
+      uni.reset();
+
+      //and another one
+      satisfied = true; //this must be true to start with...
+      satisfied &= uni.isUnified(det_sing_fem, equiv, true);
+      satisfied &= uni.isUnified(plur_fem, equiv, true); 
+      satisfied &= uni.isUnified(subst_plur_masc, equiv, true);
+      assertEquals(true, !satisfied);
+      uni.reset();
+      
+    //and another one
+      satisfied = true; //this must be true to start with...
+      satisfied &= uni.isUnified(det_plur_masc, equiv, true);
+      satisfied &= uni.isUnified(plur_fem, equiv, true); 
+      satisfied &= uni.isUnified(subst_plur_masc, equiv, true);
+      assertEquals(true, !satisfied);
+      uni.reset();
+      
+      
   }
   
 }
