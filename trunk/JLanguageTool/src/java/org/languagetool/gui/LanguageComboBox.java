@@ -53,8 +53,7 @@ public class LanguageComboBox extends JComboBox {
   }
 
   private void preselectDefaultLanguage(List<I18nLanguage> i18nLanguages) {
-    final String defaultLocale = Locale.getDefault().getLanguage();
-    final String defaultGuiLocale = getDefaultGuiLanguage(defaultLocale);
+    final String defaultGuiLocale = getDefaultGuiLanguage(Locale.getDefault());
     for (final I18nLanguage i18nLanguage : i18nLanguages) {
       addItem(i18nLanguage);
       if (i18nLanguage.toString().equals(defaultGuiLocale)) {
@@ -63,12 +62,17 @@ public class LanguageComboBox extends JComboBox {
     }
   }
 
-  private String getDefaultGuiLanguage(String defaultLocale) {
+  private String getDefaultGuiLanguage(Locale defaultLocale) {
     String defaultGuiLocale = null;
     try {
-      defaultGuiLocale = messages.getString(defaultLocale);
+      defaultGuiLocale = messages.getString(defaultLocale.getLanguage() + "-" + defaultLocale.getCountry());
     } catch (final MissingResourceException e) {
-      // language not supported, so don't select a default
+      // this specific language/variant combination is not supported
+      try {
+        defaultGuiLocale = messages.getString(defaultLocale.getLanguage());
+      } catch (final MissingResourceException e2) {
+        // language not supported, so don't select a default
+      }
     }
     return defaultGuiLocale;
   }
