@@ -45,19 +45,10 @@ import org.languagetool.rules.patterns.PatternRuleLoader;
  */
 public class Searcher {
 
-  private static final int DEFAULT_MAX_HITS = 1000;
-
-  private int maxHits = DEFAULT_MAX_HITS;
+  private int maxHits = 1000;
+  private int maxSearchTimeMillis = 5000;
 
   public Searcher() {
-  }
-
-  public int getMaxHits() {
-    return maxHits;
-  }
-
-  public void setMaxHits(int maxHits) {
-    this.maxHits = maxHits;
   }
 
   public SearcherResult findRuleMatchesOnIndex(PatternRule rule, Language language, File indexDir) throws IOException {
@@ -69,17 +60,47 @@ public class Searcher {
     }
   }
 
+  public int getMaxHits() {
+    return maxHits;
+  }
+
+  public void setMaxHits(int maxHits) {
+    this.maxHits = maxHits;
+  }
+
+  public int getMaxSearchTimeMillis() {
+    return maxSearchTimeMillis;
+  }
+
+  public void setMaxSearchTimeMillis(int maxSearchTimeMillis) {
+    this.maxSearchTimeMillis = maxSearchTimeMillis;
+  }
+
   public SearcherResult findRuleMatchesOnIndex(PatternRule rule, Language language, IndexSearcher indexSearcher) throws IOException {
     final PossiblyRelaxedQuery query = createQuery(rule);
     final Sort sort = new Sort(new SortField("docCount", SortField.INT));  // do not sort by relevance as this will move the shortest documents to the top
     if (query.query == null) {
       throw new NullPointerException("Cannot search on null query for rule: " + rule);
     }
-    final TopDocs topDocs = indexSearcher.search(query.query, maxHits, sort);
+    final PossiblyLimitedTopDocs limitedTopDocs = getTopDocs(indexSearcher, query, sort);
     final JLanguageTool languageTool = getLanguageToolWithOneRule(language, rule);
-    final List<MatchingSentence> matchingSentences = findMatchingSentences(indexSearcher, topDocs, languageTool);
-    final int sentencesChecked = getSentenceCheckCount(query, topDocs, indexSearcher);
-    return new SearcherResult(matchingSentences, sentencesChecked, query.isRelaxed);
+    final List<MatchingSentence> matchingSentences = findMatchingSentences(indexSearcher, limitedTopDocs.topDocs, languageTool);
+    final int sentencesChecked = getSentenceCheckCount(query, limitedTopDocs.topDocs, indexSearcher);
+    final SearcherResult searcherResult = new SearcherResult(matchingSentences, sentencesChecked, query.isRelaxed);
+    searcherResult.setResultIsTimeLimited(limitedTopDocs.resultIsTimeLimited);
+    return searcherResult;
+  }
+
+  private PossiblyLimitedTopDocs getTopDocs(IndexSearcher indexSearcher, PossiblyRelaxedQuery query, Sort sort) throws IOException {
+    final TopFieldCollector topCollector = TopFieldCollector.create(sort, maxHits, true, false, false, false);
+    final TimeLimitingCollector collector = new TimeLimitingCollector(topCollector, maxSearchTimeMillis);
+    boolean timeLimitActivated = false;
+    try {
+      indexSearcher.search(query.query, collector);
+    } catch (TimeLimitingCollector.TimeExceededException e) {
+      timeLimitActivated = true;
+    }
+    return new PossiblyLimitedTopDocs(topCollector.topDocs(), timeLimitActivated);
   }
 
   PatternRule getRuleById(String ruleId, File xmlRuleFile) throws IOException {
@@ -144,6 +165,16 @@ public class Searcher {
     }
     langTool.addRule(patternRule);
     return langTool;
+  }
+
+  class PossiblyLimitedTopDocs {
+    TopDocs topDocs;
+    boolean resultIsTimeLimited;
+
+    PossiblyLimitedTopDocs(TopDocs topDocs, boolean resultIsTimeLimited) {
+      this.topDocs = topDocs;
+      this.resultIsTimeLimited = resultIsTimeLimited;
+    }
   }
 
   class PossiblyRelaxedQuery {

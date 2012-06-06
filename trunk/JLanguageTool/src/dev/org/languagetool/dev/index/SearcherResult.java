@@ -29,6 +29,8 @@ public class SearcherResult {
   private final int checkedSentences;
   private final boolean relaxedQuery;
 
+  private boolean resultIsTimeLimited;
+
   public SearcherResult(List<MatchingSentence> matchingSentences, int checkedSentences, boolean relaxedQuery) {
     this.matchingSentences = matchingSentences;
     this.checkedSentences = checkedSentences;
@@ -45,5 +47,13 @@ public class SearcherResult {
 
   public boolean isRelaxedQuery() {
     return relaxedQuery;
+  }
+
+  public boolean isResultIsTimeLimited() {
+    return resultIsTimeLimited;
+  }
+
+  public void setResultIsTimeLimited(boolean resultIsTimeLimited) {
+    this.resultIsTimeLimited = resultIsTimeLimited;
   }
 }
