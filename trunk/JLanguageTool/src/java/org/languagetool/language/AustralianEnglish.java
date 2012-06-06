@@ -41,7 +41,7 @@ public class AustralianEnglish extends English {
     final List<Class<? extends Rule>> rules = new ArrayList<Class<? extends Rule>>();
     rules.addAll(super.getRelevantRules());
     rules.add(HunspellRule.class);
-    // nothing specific to Canadian English yet...
+    // nothing specific to Australian English yet...
     return rules;
   }
 
