@@ -205,7 +205,6 @@ public class UnifierTest extends TestCase {
   }
 
   // checks if all tokens share the same set of features to be unified
-  @Test
   public void testMultipleFeats() {
     final Unifier uni = new Unifier();
     final Element sgElement = new Element("", false, false, false);
@@ -284,7 +283,6 @@ public class UnifierTest extends TestCase {
     uni.reset();
   }
 
-  @Test
   public void testNegation() {
       final Unifier uni = new Unifier();
       final Element sgElement = new Element("", false, false, false);
