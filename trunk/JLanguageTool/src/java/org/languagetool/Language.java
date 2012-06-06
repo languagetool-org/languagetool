@@ -48,7 +48,11 @@ public abstract class Language {
   public static final Language DUTCH = new Dutch();
   public static final Language ENGLISH = new English();
   public static final Language AMERICAN_ENGLISH = new AmericanEnglish();
+  public static final Language AUSTRALIAN_ENGLISH = new AustralianEnglish();
   public static final Language BRITISH_ENGLISH = new BritishEnglish();
+  public static final Language CANADIAN_ENGLISH = new CanadianEnglish();
+  public static final Language NEW_ZEALAND_ENGLISH = new NewZealandEnglish();
+  public static final Language SOUTH_AFRICAN_ENGLISH = new SouthAfricanEnglish();  
   public static final Language ESPERANTO = new Esperanto();
   public static final Language FRENCH = new French();
   public static final Language GERMAN = new German();
@@ -86,6 +90,7 @@ public abstract class Language {
     SLOVAK, SLOVENIAN, /*SWEDISH,*/ ROMANIAN, ICELANDIC, GALICIAN, CATALAN, DANISH,
     MALAYALAM, BELARUSIAN, ESPERANTO, CHINESE, ASTURIAN, TAGALOG, BRETON, GREEK,
     AMERICAN_ENGLISH, BRITISH_ENGLISH, AUSTRIAN_GERMAN, SWISS_GERMAN,
+    CANADIAN_ENGLISH, SOUTH_AFRICAN_ENGLISH, NEW_ZEALAND_ENGLISH, AUSTRALIAN_ENGLISH,
     DEMO
   };
 

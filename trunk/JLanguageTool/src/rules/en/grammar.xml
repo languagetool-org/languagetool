@@ -8231,7 +8231,7 @@ $Id$
                     <marker>
                         <token>e</token>
                         <token>.</token>
-                        <token>g</token>
+                        <token spacebefore="no">g</token>
                         <token>.</token>
                     </marker>
                     <token negate="yes">,</token>
@@ -8273,7 +8273,7 @@ $Id$
                     <marker>
                         <token>i</token>
                         <token>.</token>
-                        <token>e</token>
+                        <token spacebefore="no">e</token>
                         <token>.</token>
                     </marker>
                     <token negate="yes">,</token>
@@ -8308,7 +8308,38 @@ $Id$
                 <example type="correct">Who's responsible for providing public facilities, <marker>i.e.,</marker> a post office, library, etc. for the Northwest?</example>
                 <example type="incorrect">Who's responsible for providing public facilities, <marker>ie.</marker> a post office, library, etc. for the Northwest?</example>
             </rule>
-        </rulegroup>
+            </rulegroup>
+            <rulegroup name="abbreviations with spaces in between (e. g.)" id="EG_SPACE">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>e</token>
+                        <token>.</token>
+                        <token spacebefore="yes">g</token>
+                        <token>.</token>
+                    </marker>                
+                </pattern>
+                <message>There should be no space here: <suggestion>e.g.</suggestion>.</message>
+                <short>Punctuation error</short>
+                <example type="correct">The are several grammar checkers for English, e.g., LanguageTool.</example>
+                <example type="incorrect">The are several grammar checkers for English, <marker>e. g.</marker> LanguageTool.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>i</token>
+                        <token>.</token>
+                        <token spacebefore="yes">e</token>
+                        <token>.</token>
+                    </marker>                    
+                </pattern>
+                <message>There should be no space here: <suggestion>i.e.</suggestion>.</message>
+                <short>Punctuation error</short>
+                <example type="correct">Who's responsible for providing public facilities, <marker>i.e.,</marker> a post office, library, etc. for the Northwest?</example>
+                <example type="incorrect">Who's responsible for providing public facilities, <marker>i. e.</marker>, a post office, library, etc. for the Northwest?</example>
+            </rule>            
+            </rulegroup>
+        
         <!--  not sure...
     &lt;rulegroup name=&quot;'i.e.' without a comma&quot; id=&quot;ENUMERATION_NO_COMMA&quot;&gt;
       &lt;rule&gt;

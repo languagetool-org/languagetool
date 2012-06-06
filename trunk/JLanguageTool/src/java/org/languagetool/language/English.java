@@ -67,7 +67,7 @@ public class English extends Language {
 
   @Override
   public String[] getCountryVariants() {
-    return new String[]{"AU", "CA", "NZ", "ZA"};
+    return new String[]{"ANY"}; //?
   }
   
   @Override
