@@ -365,7 +365,7 @@ public class UnifierTest extends TestCase {
       //OK, so let's test it with something that is not correct
       satisfied = true; //this must be true to start with...
       satisfied &= uni.isUnified(det_sing_fem, equiv, true, true);
-      satisfied &= uni.isUnified(sing_masc, equiv, true, true);
+      satisfied &= uni.isUnified(sing_masc, equiv, true, true); //mismatch: hence satisfied == "true"
       satisfied &= uni.isUnified(subst_sing_masc, equiv, true, true);
       assertEquals(true, satisfied);
       uni.reset();
@@ -373,7 +373,7 @@ public class UnifierTest extends TestCase {
       //OK, so let's test it with something that is not correct
       satisfied = true; //this must be true to start with...
       satisfied &= uni.isUnified(det_sing_masc, equiv, true, true);
-      satisfied &= uni.isUnified(sing_fem, equiv, true, true);
+      satisfied &= uni.isUnified(sing_fem, equiv, true, true); //mismatch: hence satisfied == "true" 
       satisfied &= uni.isUnified(subst_sing_masc, equiv, true, true);
       assertEquals(true, satisfied);
       uni.reset();
@@ -382,7 +382,7 @@ public class UnifierTest extends TestCase {
       /* I think there's an error here -- the negation is applied too soon...
       satisfied = true; //this must be true to start with...
       satisfied &= uni.isUnified(det_sing_masc, equiv, true, true);
-      satisfied &= uni.isUnified(sing_masc, equiv, true, true);
+      satisfied &= uni.isUnified(sing_masc, equiv, true, true); //match: hence satisfied == "false"...
       satisfied &= uni.isUnified(subst_sing_fem, equiv, true, true);
       assertEquals(true, satisfied);
       uni.reset();
