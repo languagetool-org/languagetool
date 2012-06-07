@@ -365,7 +365,7 @@ public abstract class Language {
   }
   
   /**
-   * Get sorted info about all maintainers to be used in the About dialog.
+   * Get sorted info about all maintainers (without language variants) to be used in the About dialog.
    * @since 0.9.9
    * @param messages
    *        {{@link ResourceBundle} language bundle to translate
@@ -377,7 +377,7 @@ public abstract class Language {
     final StringBuilder maintainersInfo = new StringBuilder();
     final List<String> toSort = new ArrayList<String>();
     for (final Language lang : Language.LANGUAGES) {
-      if (lang != Language.DEMO) {
+      if (lang != Language.DEMO && !lang.isVariant()) {
         if (lang.getMaintainers() != null) {
           final List<String> names = new ArrayList<String>();
           for (Contributor contributor : lang.getMaintainers()) {
@@ -394,6 +394,16 @@ public abstract class Language {
       maintainersInfo.append('\n');
     }
     return maintainersInfo.toString();
+  }
+
+  public boolean isVariant() {
+    for (Language language : LANGUAGES) {
+      final boolean skip = language.getShortNameWithVariant().equals(getShortNameWithVariant());
+      if (!skip && language.getClass().isAssignableFrom(getClass())) {
+        return true;
+      }
+    }
+    return false;
   }
 
   public boolean isExternal() {

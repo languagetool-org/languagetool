@@ -56,5 +56,13 @@ public class LanguageTest {
 		assertEquals(Language.AMERICAN_ENGLISH, Language.getLanguageForName("American English"));
 		assertEquals(Language.GERMAN, Language.getLanguageForName("German"));
 	}
-	
+
+  @Test
+ 	public void testIsVariant() {
+ 		assertTrue(Language.getLanguageForShortName("en-US").isVariant());
+ 		assertFalse(Language.getLanguageForShortName("en").isVariant());
+    assertTrue(Language.getLanguageForShortName("de-CH").isVariant());
+    assertFalse(Language.getLanguageForShortName("de").isVariant());
+ 	}
+
 }
