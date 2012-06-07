@@ -338,7 +338,11 @@ public class Hunspell {
          */
         public boolean misspelled(String word) {
             try {
-                return (hsl.Hunspell_spell(hunspellDict, stringToBytes(word)) == 0);
+                final byte[] wordAsBytes = stringToBytes(word);
+                if (wordAsBytes.length == 0 && word.length() > 0) {
+                    return true;
+                }
+                return (hsl.Hunspell_spell(hunspellDict, wordAsBytes) == 0);
             } catch (UnsupportedEncodingException e) {
                 return true;
             }
@@ -368,10 +372,17 @@ public class Hunspell {
 
             charBuffer.mark();
             encoder.reset();
-            encoder.encode(charBuffer, bytes, true);
+            if (encoder.encode(charBuffer, bytes, true).
+                    isError()) { //remove words that cannot be encoded, 
+                                //they are not in the dictionary anyway
+                bytes.clear();
+            }
             bytes.flip();
             charBuffer.reset();
-            return bytes.array();	        
+            if (bytes.hasRemaining()) {
+                return bytes.array();	   
+            }
+            return new byte[0];
         }
 
         /**
@@ -385,6 +396,10 @@ public class Hunspell {
             try {		
                 int suggestionsCount = 0;
                 PointerByReference suggestions = new PointerByReference();
+                final byte[] wordAsBytes = stringToBytes(word);
+                if (wordAsBytes.length == 0 && word.length() > 0) {
+                    return res;
+                }
                 suggestionsCount = hsl.Hunspell_suggest(
                         hunspellDict, suggestions, stringToBytes(word));
                 if (suggestionsCount == 0) {
