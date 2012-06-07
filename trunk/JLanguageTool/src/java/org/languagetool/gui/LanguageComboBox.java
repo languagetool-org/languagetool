@@ -44,7 +44,8 @@ public class LanguageComboBox extends JComboBox {
   private List<I18nLanguage> getAllLanguages() {
     final List<I18nLanguage> i18nLanguages = new ArrayList<I18nLanguage>();
     for (Language language : Language.LANGUAGES) {
-      if (language != Language.DEMO) {
+      final boolean skip = (language == Language.DEMO) || language.hasVariant();
+      if (!skip) {
         i18nLanguages.add(new I18nLanguage(language, messages));
       }
     }

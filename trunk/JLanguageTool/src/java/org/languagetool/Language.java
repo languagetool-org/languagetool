@@ -301,10 +301,8 @@ public abstract class Language {
    * @return A list of all languages, including external ones.
    */
   public static List<Language> getAllLanguages() {
-	  List<Language> langList = new ArrayList<Language>();
-	  for (Language lang : LANGUAGES) {
-		  langList.add(lang);
-	  }
+	  final List<Language> langList = new ArrayList<Language>();
+    Collections.addAll(langList, LANGUAGES);
 	  langList.addAll(externalLanguages);
 	  return langList;
   }
@@ -396,10 +394,27 @@ public abstract class Language {
     return maintainersInfo.toString();
   }
 
-  public boolean isVariant() {
+  /**
+   * Whether this is a variant of another language, i.e. whether it doesn't
+   * directly extend {@link Language}, but a subclass of {@link Language}.
+   */
+  public final boolean isVariant() {
     for (Language language : LANGUAGES) {
       final boolean skip = language.getShortNameWithVariant().equals(getShortNameWithVariant());
       if (!skip && language.getClass().isAssignableFrom(getClass())) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Whether this class has at least one subclass that implements variants of this language.
+   */
+  public final boolean hasVariant() {
+    for (Language language : LANGUAGES) {
+      final boolean skip = language.getShortNameWithVariant().equals(getShortNameWithVariant());
+      if (!skip && getClass().isAssignableFrom(language.getClass())) {
         return true;
       }
     }

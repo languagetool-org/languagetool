@@ -60,9 +60,21 @@ public class LanguageTest {
   @Test
  	public void testIsVariant() {
  		assertTrue(Language.getLanguageForShortName("en-US").isVariant());
- 		assertFalse(Language.getLanguageForShortName("en").isVariant());
     assertTrue(Language.getLanguageForShortName("de-CH").isVariant());
+
+ 		assertFalse(Language.getLanguageForShortName("en").isVariant());
     assertFalse(Language.getLanguageForShortName("de").isVariant());
+ 	}
+
+  @Test
+ 	public void testHasVariant() {
+ 		assertTrue(Language.getLanguageForShortName("en").hasVariant());
+    assertTrue(Language.getLanguageForShortName("de").hasVariant());
+
+    assertFalse(Language.getLanguageForShortName("en-US").hasVariant());
+    assertFalse(Language.getLanguageForShortName("de-CH").hasVariant());
+    assertFalse(Language.getLanguageForShortName("ast").hasVariant());
+    assertFalse(Language.getLanguageForShortName("pl").hasVariant());
  	}
 
 }
