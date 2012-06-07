@@ -176,7 +176,7 @@ public class AnalyzedTokenReadings {
       }
     }
     if (l.isEmpty()) {
-        l.add(new AnalyzedToken(anTokReadings[0].getToken(), null, null));
+        l.add(new AnalyzedToken(this.token, null, null));
     }
     anTokReadings = l.toArray(new AnalyzedToken[l.size()]);
     setNoRealPOStag();
@@ -198,7 +198,7 @@ public class AnalyzedTokenReadings {
       }
     }
     if (l.isEmpty()) {
-        l.add(new AnalyzedToken(anTokReadings[0].getToken(), null, null));
+        l.add(new AnalyzedToken(this.token, null, null));
     }
     anTokReadings = l.toArray(new AnalyzedToken[l.size()]);
     setNoRealPOStag();
