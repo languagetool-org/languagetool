@@ -5443,19 +5443,49 @@ $Id$
             <example type="correct">Mein Gesicht war ein einziges <marker>Fragezeichen</marker>.</example>
             <example type="incorrect" correction="Fragezeichen">Mein Gesicht war ein einziges <marker>Frage Zeichen</marker>.</example>
         </rule>
-        <rule id="HIN_WEISEN" name="Zusammen-/Getrenntschreibung: 'darauf hin weisen (hinweisen)'">
-            <pattern case_sensitive="no">
-                <token regexp="yes">da?rauf</token>
-                <marker>
-                    <token>hin</token>
-                    <token regexp="yes">weisen?|weist|wies|wiesen|gewiesen</token>
-                </marker>
-            </pattern>
-            <message>Meinten Sie <suggestion>\2\3</suggestion>? Das Verb 'hinweisen' wird zusammengeschrieben.</message>
-            <short>Das Verb 'hinweisen' wird zusammengeschrieben.</short>
-            <example type="correct">Ich wollte nur darauf <marker>hinweisen</marker>.</example>
-            <example type="incorrect">Ich wollte nur darauf <marker>hin weisen</marker>.</example>
-        </rule>
+        <rulegroup id="HIN_WEISEN" name="Zusammen-/Getrenntschreibung: 'darauf hin weisen (hinweisen)'">
+            <rule>
+                <pattern case_sensitive="no">
+                    <token regexp="yes">da?rauf</token>
+                    <marker>
+                        <token>hin</token>
+                        <token regexp="yes">weisen?|weist|wies|wiesen|gewiesen</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion>\2\3</suggestion>? Das Verb 'hinweisen' wird zusammengeschrieben.</message>
+                <short>Das Verb 'hinweisen' wird zusammengeschrieben.</short>
+                <example type="correct">Ich wollte nur darauf <marker>hinweisen</marker>.</example>
+                <example type="incorrect" correction="hinweisen">Ich wollte nur darauf <marker>hin weisen</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="no">
+                    <token regexp="yes" skip="1">weisen?|weist|wies|wiesen</token>
+                    <marker>
+                        <token>daraufhin</token>
+                    </marker>
+                    <token>,</token>
+                    <token>dass</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>darauf hin</suggestion>?</message>
+                <short>"Darauf hin" muss hier in zwei Worten geschrieben werden.</short>
+                <example type="correct">Ich weise <marker>darauf hin</marker>, dass das schwierig wird.</example>
+                <example type="incorrect" correction="darauf hin">Ich weise <marker>daraufhin</marker>, dass das schwierig wird.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="no">
+                    <marker>
+                        <token>daraufhin</token>
+                        <token regexp="yes">weisen?|weist|wies|(ge)?wiesen</token>
+                    </marker>
+                    <token>,</token>
+                    <token>dass</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>darauf hin\2</suggestion>?</message>
+                <short>Das Verb 'hinweisen' wird zusammengeschrieben.</short>
+                <example type="correct">Ich wollte nur <marker>darauf hinweisen</marker>.</example>
+                <example type="incorrect" correction="darauf hinweisen">Ich wollte nur <marker>daraufhin weisen</marker>, dass das schwierig wird.</example>
+            </rule>
+        </rulegroup>
         <rule id="ZWEIT_BESTER" name="Zusammen-/Getrenntschreibung: 'zweit bester (zweitbester)' etc.">
             <pattern>
                 <token negate="yes">zu</token>
