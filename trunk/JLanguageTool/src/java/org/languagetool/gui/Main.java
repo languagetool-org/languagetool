@@ -30,8 +30,6 @@ import org.languagetool.tools.StringTools;
 import org.languagetool.tools.LanguageIdentifierTools;
 import org.languagetool.AnalyzedSentence;
 
-import org.apache.tika.language.*;
-
 import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
@@ -280,9 +278,10 @@ public final class Main implements ActionListener {
   }
 
   void showOptions() {
-    final JLanguageTool langTool = getCurrentLanguageTool();
+    final Language currentLanguage = getCurrentLanguage();
+    final JLanguageTool langTool = getCurrentLanguageTool(currentLanguage);
     final List<Rule> rules = langTool.getAllRules();
-    final ConfigurationDialog configDialog = getCurrentConfigDialog();
+    final ConfigurationDialog configDialog = getCurrentConfigDialog(currentLanguage);
     configDialog.show(rules); // this blocks until OK/Cancel is clicked in the dialog
     config.setDisabledRuleIds(configDialog.getDisabledRuleIds());
     config.setEnabledRuleIds(configDialog.getEnabledRuleIds());
@@ -347,7 +346,8 @@ public final class Main implements ActionListener {
   }
   
   void tagText() {
-    final JLanguageTool langTool = getCurrentLanguageTool();
+    final Language currentLanguage = getCurrentLanguage();
+    final JLanguageTool langTool = getCurrentLanguageTool(currentLanguage);
     tagTextAndDisplayResults(langTool);
   }
 
@@ -362,7 +362,8 @@ public final class Main implements ActionListener {
   void quit() {
     stopServer();
     try {
-      config.saveConfiguration(getCurrentLanguageTool().getLanguage());
+      final Language currentLanguage = getCurrentLanguage();
+      config.saveConfiguration(getCurrentLanguageTool(currentLanguage).getLanguage());
     } catch (final IOException e) {
       Tools.showError(e);
     }
@@ -399,8 +400,7 @@ public final class Main implements ActionListener {
     }
   }
 
-  private ConfigurationDialog getCurrentConfigDialog() {
-    final Language language = getCurrentLanguage();
+  private ConfigurationDialog getCurrentConfigDialog(Language language) {
     final ConfigurationDialog configDialog;
     if (configDialogs.containsKey(language)) {
       configDialog = configDialogs.get(language);
@@ -418,13 +418,12 @@ public final class Main implements ActionListener {
     return configDialog;
   }
 
-  private JLanguageTool getCurrentLanguageTool() {
+  private JLanguageTool getCurrentLanguageTool(Language currentLanguage) {
     final JLanguageTool langTool;
     try {
-      final ConfigurationDialog configDialog = getCurrentConfigDialog();
-      langTool = new JLanguageTool(getCurrentLanguage(), configDialog
-          .getMotherTongue());
-      config = new Configuration(new File(System.getProperty("user.home")), CONFIG_FILE, getCurrentLanguage());
+      final ConfigurationDialog configDialog = getCurrentConfigDialog(currentLanguage);
+      langTool = new JLanguageTool(currentLanguage, configDialog.getMotherTongue());
+      config = new Configuration(new File(System.getProperty("user.home")), CONFIG_FILE, currentLanguage);
       langTool.activateDefaultPatternRules();
       langTool.activateDefaultFalseFriendRules();
       final Set<String> disabledRules = configDialog.getDisabledRuleIds();
@@ -478,7 +477,7 @@ public final class Main implements ActionListener {
             sb.append("<br>\n");
             int matches = 0;
             try {
-              final JLanguageTool langTool = getCurrentLanguageTool();
+              final JLanguageTool langTool = getCurrentLanguageTool(lang);
               matches = checkText(langTool, textArea.getText(), sb);
             } catch (final Exception e) {
               sb.append("<br><br><b><font color=\"red\">");
