@@ -49,6 +49,8 @@ import org.languagetool.tools.StringTools;
  */
 public class HunspellRule extends SpellingCheckRule {
 
+  public static final String RULE_ID = "HUNSPELL_RULE";
+
   private final static String NON_ALPHABETIC = "[^\\p{L}]";
 
   /** The dictionary file */
@@ -64,7 +66,7 @@ public class HunspellRule extends SpellingCheckRule {
 
 	@Override
 	public String getId() {
-		return "HUNSPELL_RULE";
+		return RULE_ID;
 	}
 
 	@Override

@@ -24,6 +24,7 @@ import org.languagetool.Language;
 import org.languagetool.language.RuleFilenameException;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.spelling.hunspell.HunspellRule;
 import org.languagetool.server.HTTPServer;
 import org.languagetool.server.PortBindingException;
 import org.languagetool.tools.StringTools;
@@ -57,6 +58,9 @@ public final class Main implements ActionListener {
   
   private static final String HTML_FONT_START = "<font face='Arial,Helvetica'>";
   private static final String HTML_GREY_FONT_START = "<font face='Arial,Helvetica' color='#666666'>";
+
+  private static final String LT_ERROR_MARKER_START = "<b><font bgcolor=\"#ff8b8b\">";
+  private static final String HUNSPELL_ERROR_MARKER_START = "<b><font bgcolor=\"#ffc556\">";
 
   private static final String HTML_FONT_END = "</font>";
   private static final String SYSTEM_TRAY_ICON_NAME = "/TrayIcon.png";
@@ -558,6 +562,11 @@ public final class Main implements ActionListener {
       if (match.getSuggestedReplacements().size() > 0) {
         final String repl = StringTools.listToString(match.getSuggestedReplacements(), "; ");
         sb.append("<b>" + messages.getString("correctionMessage") + "</b> " + repl + "<br>\n");
+      }
+      if (match.getRule().getId().equals(HunspellRule.RULE_ID)) {
+        contextTools.setErrorMarkerStart(HUNSPELL_ERROR_MARKER_START);
+      } else {
+        contextTools.setErrorMarkerStart(LT_ERROR_MARKER_START);
       }
       final String context = contextTools.getContext(match.getFromPos(), match.getToPos(), text);
       sb.append("<b>" + messages.getString("errorContext") + "</b> " + context);
