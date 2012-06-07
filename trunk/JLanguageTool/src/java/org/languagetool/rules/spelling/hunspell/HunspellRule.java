@@ -24,6 +24,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -120,28 +121,33 @@ public class HunspellRule extends SpellingCheckRule {
   }
 
   private void init() throws IOException {
-    final String langCountry = language.getShortName()
-            + "_"
-            + language.getCountryVariants()[0];
-    final String shortDicPath = "/"
-            + language.getShortName()
-            + "/hunspell/"
-            + langCountry
-            + ".dic";
-    String wordChars = "";
-    // set dictionary only if there are dictionary files:
-    if (JLanguageTool.getDataBroker().resourceExists(shortDicPath)) {
-      dictionary = Hunspell.getInstance().
-              getDictionary(getDictionaryPath(langCountry, shortDicPath));
+      final String langCountry = language.getShortName()
+              + "_"
+              + language.getCountryVariants()[0];
+      final String shortDicPath = "/"
+              + language.getShortName()
+              + "/hunspell/"
+              + langCountry
+              + ".dic";
+      String wordChars = "";
+      // set dictionary only if there are dictionary files:
+      if (JLanguageTool.getDataBroker().resourceExists(shortDicPath)) {
+          final String path = getDictionaryPath(langCountry, shortDicPath);
+          if ("".equals(path)) {
+              dictionary = null;
+          } else {
+              dictionary = Hunspell.getInstance().
+                      getDictionary(path);
 
-      if (!"".equals(dictionary.getWordChars())) {
-        wordChars = "(?![" + dictionary.getWordChars().replace("-", "\\-") + "])";
+              if (!"".equals(dictionary.getWordChars())) {
+                  wordChars = "(?![" + dictionary.getWordChars().replace("-", "\\-") + "])";
+              }
+
+              dictionary.addWord("LanguageTool"); // to make demo text check 4 times faster...
+          }
       }
-      
-      dictionary.addWord("LanguageTool"); // to make demo text check 4 times faster...
-    }
-    nonWordPattern = Pattern.compile(wordChars + NON_ALPHABETIC);
-    needsInit = false;
+      nonWordPattern = Pattern.compile(wordChars + NON_ALPHABETIC);
+      needsInit = false;
   }
 
   private String getDictionaryPath(final String dicName,
@@ -167,7 +173,12 @@ public class HunspellRule extends SpellingCheckRule {
       dictionaryPath = tempDir.getAbsolutePath() + "/" + dicName;
     } else {
       final int suffixLength = ".dic".length();
-      dictionaryPath = dictionaryPath.substring(0, dictionaryPath.length() - suffixLength);
+      try {
+        dictionaryPath = new File(dictURL.toURI()).getAbsolutePath();
+        dictionaryPath = dictionaryPath.substring(0, dictionaryPath.length() - suffixLength);
+    } catch (URISyntaxException e) {
+       return "";
+    }
     }
     return dictionaryPath;
   }
