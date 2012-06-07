@@ -77,6 +77,12 @@ public class LanguageTest {
     assertFalse(Language.getLanguageForShortName("de-CH").hasVariant());
     assertFalse(Language.getLanguageForShortName("ast").hasVariant());
     assertFalse(Language.getLanguageForShortName("pl").hasVariant());
+
+    for (Language language : Language.LANGUAGES) {
+      if (language.hasVariant()) {
+        assertNotNull("Language " + language + " needs a default variant", language.getDefaultVariant());
+      }
+    }
  	}
 
   @Test
