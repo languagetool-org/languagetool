@@ -22,6 +22,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import java.util.Locale;
+
 public class LanguageTest {
 
 	@Test
@@ -76,5 +78,19 @@ public class LanguageTest {
     assertFalse(Language.getLanguageForShortName("ast").hasVariant());
     assertFalse(Language.getLanguageForShortName("pl").hasVariant());
  	}
+
+  @Test
+ 	public void testGetLanguageForLocale() {
+    assertEquals(Language.GERMANY_GERMAN, Language.getLanguageForLocale(new Locale("de", "DE")));
+    assertEquals(Language.AUSTRIAN_GERMAN, Language.getLanguageForLocale(new Locale("de", "AT")));
+    assertEquals(Language.AMERICAN_ENGLISH, Language.getLanguageForLocale(new Locale("en", "US")));
+    assertEquals(Language.BRITISH_ENGLISH, Language.getLanguageForLocale(new Locale("en", "GB")));
+    // fallback to the language's default variant if not specified:
+    assertEquals(Language.AMERICAN_ENGLISH, Language.getLanguageForLocale(new Locale("en")));
+    assertEquals(Language.GERMANY_GERMAN, Language.getLanguageForLocale(new Locale("de")));
+    // final fallback is everything else fails:
+    assertEquals(Language.AMERICAN_ENGLISH, Language.getLanguageForLocale(Locale.JAPANESE));
+    assertEquals(Language.AMERICAN_ENGLISH, Language.getLanguageForLocale(new Locale("zz")));
+  }
 
 }

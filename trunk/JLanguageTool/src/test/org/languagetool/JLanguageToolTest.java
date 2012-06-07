@@ -75,10 +75,22 @@ public class JLanguageToolTest extends TestCase {
     assertEquals(1, tool.check("Ein Test Test, der Fehler geben sollte.").size());
     tool.activateDefaultPatternRules();
     tool.setListUnknownWords(true);
+    // no spelling mistakes as we have not created a variant:
+    assertEquals(0, tool.check("I can give you more a detailed description").size());
+    //test unknown words listing
+    assertEquals("[I, can, detailed, give, more, you]", tool.getUnknownWords().toString());    
+  }
+
+  public void testGermanyGerman() throws IOException {
+    final JLanguageTool tool = new JLanguageTool(Language.GERMANY_GERMAN);
+    assertEquals(0, tool.check("Ein Test, der keine Fehler geben sollte.").size());
+    assertEquals(1, tool.check("Ein Test Test, der Fehler geben sollte.").size());
+    tool.activateDefaultPatternRules();
+    tool.setListUnknownWords(true);
     // German rule has no effect with English error, but they are spelling mistakes:
     assertEquals(6, tool.check("I can give you more a detailed description").size());
     //test unknown words listing
-    assertEquals("[I, can, detailed, give, more, you]", tool.getUnknownWords().toString());    
+    assertEquals("[I, can, detailed, give, more, you]", tool.getUnknownWords().toString());
   }
 
   public void testPositionsWithGerman() throws IOException {

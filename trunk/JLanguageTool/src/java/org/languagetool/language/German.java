@@ -33,10 +33,15 @@ public class German extends Language {
 
   private Tagger tagger;
   private SentenceTokenizer sentenceTokenizer;
-  
+
   @Override
   public Locale getLocale() {
     return new Locale(getShortName());
+  }
+
+  @Override
+  public Language getDefaultVariant() {
+    return GERMANY_GERMAN;
   }
 
   @Override
@@ -51,7 +56,7 @@ public class German extends Language {
 
   @Override
   public String[] getCountryVariants() {
-    return new String[]{"DE", "LU", "LI", "BE"};
+    return new String[]{"LU", "LI", "BE"};
   }
 
   @Override

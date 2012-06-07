@@ -48,13 +48,18 @@ public class English extends Language {
   }
 
   @Override
+  public Language getDefaultVariant() {
+    return AMERICAN_ENGLISH;
+  }
+
+  @Override
   public final SentenceTokenizer getSentenceTokenizer() {
     if (sentenceTokenizer == null) {
       sentenceTokenizer = new SRXSentenceTokenizer(getShortName());
     }
     return sentenceTokenizer;
   }
-  
+
   @Override
   public String getName() {
     return "English";

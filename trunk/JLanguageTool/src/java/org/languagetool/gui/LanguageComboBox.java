@@ -29,6 +29,7 @@ import java.util.*;
 public class LanguageComboBox extends JComboBox {
 
   private final ResourceBundle messages;
+  private final List<I18nLanguage> i18nLanguages = new ArrayList<I18nLanguage>();
 
   public LanguageComboBox(ResourceBundle messages) {
     this.messages = messages;
@@ -37,12 +38,21 @@ public class LanguageComboBox extends JComboBox {
 
   void populateLanguageBox() {
     removeAllItems();
-    final List<I18nLanguage> i18nLanguages = getAllLanguages();
-    preselectDefaultLanguage(i18nLanguages);
+    initAllLanguages();
+    preselectDefaultLanguage();
   }
 
-  private List<I18nLanguage> getAllLanguages() {
-    final List<I18nLanguage> i18nLanguages = new ArrayList<I18nLanguage>();
+  void selectLanguage(Language language) {
+    final String translatedName = language.getTranslatedName(messages);
+    for (final I18nLanguage i18nLanguage : i18nLanguages) {
+      if (i18nLanguage.toString().equals(translatedName)) {
+        setSelectedItem(i18nLanguage);
+      }
+    }
+  }
+
+  private void initAllLanguages() {
+    i18nLanguages.clear();
     for (Language language : Language.LANGUAGES) {
       final boolean skip = (language == Language.DEMO) || language.hasVariant();
       if (!skip) {
@@ -50,32 +60,14 @@ public class LanguageComboBox extends JComboBox {
       }
     }
     Collections.sort(i18nLanguages);
-    return i18nLanguages;
-  }
-
-  private void preselectDefaultLanguage(List<I18nLanguage> i18nLanguages) {
-    final String defaultGuiLocale = getDefaultGuiLanguage(Locale.getDefault());
     for (final I18nLanguage i18nLanguage : i18nLanguages) {
       addItem(i18nLanguage);
-      if (i18nLanguage.toString().equals(defaultGuiLocale)) {
-        setSelectedItem(i18nLanguage);
-      }
     }
   }
 
-  private String getDefaultGuiLanguage(Locale defaultLocale) {
-    String defaultGuiLocale = null;
-    try {
-      defaultGuiLocale = messages.getString(defaultLocale.getLanguage() + "-" + defaultLocale.getCountry());
-    } catch (final MissingResourceException e) {
-      // this specific language/variant combination is not supported
-      try {
-        defaultGuiLocale = messages.getString(defaultLocale.getLanguage());
-      } catch (final MissingResourceException e2) {
-        // language not supported, so don't select a default
-      }
-    }
-    return defaultGuiLocale;
+  private void preselectDefaultLanguage() {
+    final Language defaultLanguage = Language.getLanguageForLocale(Locale.getDefault());
+    selectLanguage(defaultLanguage);
   }
 
 }

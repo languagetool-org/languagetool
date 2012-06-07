@@ -28,7 +28,6 @@ import java.util.ResourceBundle;
 
 class LanguageDetectionCheckbox extends JCheckBox {
 
-  private final ResourceBundle messages;
   private final LanguageComboBox languageBox;
 
   LanguageDetectionCheckbox(final ResourceBundle messages, final LanguageComboBox languageBox, final Configuration config) {
@@ -41,7 +40,6 @@ class LanguageDetectionCheckbox extends JCheckBox {
       }
     });
     setSelected(config.getAutoDetect());
-    this.messages = messages;
     this.languageBox = languageBox;
   }
 
@@ -49,14 +47,13 @@ class LanguageDetectionCheckbox extends JCheckBox {
     final LanguageIdentifier langIdentifier = new LanguageIdentifier(text);
     Language lang = Language.getLanguageForShortName(langIdentifier.getLanguage());
     if (lang == null) {
-      lang = Language.ENGLISH;
+      lang = Language.AMERICAN_ENGLISH;
     }
-    for (int i = 0; i < languageBox.getItemCount(); i++) {
-      final I18nLanguage boxLanguage = (I18nLanguage) languageBox.getItemAt(i);
-      if (boxLanguage.toString().equals(lang.getTranslatedName(messages))) {
-        languageBox.setSelectedIndex(i);
-      }
+    if (lang.hasVariant()) {
+      // UI only shows variants like "English (American)", not just "English", so use that:
+      lang = lang.getDefaultVariant();
     }
+    languageBox.selectLanguage(lang);
     return lang;
   }
 

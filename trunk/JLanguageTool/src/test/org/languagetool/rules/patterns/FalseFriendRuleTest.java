@@ -52,7 +52,7 @@ public class FalseFriendRuleTest extends TestCase {
     langTool.activateDefaultFalseFriendRules();
     assertErrors(1, "Man sollte ihn nicht so beraten.", langTool);
     assertErrors(0, "Man sollte ihn nicht so beschimpfen.", langTool);
-    assertErrors(2, "Ich gehe in Blubbstadt zur Hochschule.", langTool);
+    assertErrors(1, "Ich gehe in Blubbstadt zur Hochschule.", langTool);
   }
 
   public void testHintsForPolishSpeakers() throws IOException, ParserConfigurationException, SAXException {

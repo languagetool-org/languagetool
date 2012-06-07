@@ -56,6 +56,7 @@ public abstract class Language {
   public static final Language ESPERANTO = new Esperanto();
   public static final Language FRENCH = new French();
   public static final Language GERMAN = new German();
+  public static final Language GERMANY_GERMAN = new GermanyGerman();
   public static final Language AUSTRIAN_GERMAN = new AustrianGerman();
   public static final Language SWISS_GERMAN = new SwissGerman();
   public static final Language ITALIAN = new Italian();
@@ -89,8 +90,8 @@ public abstract class Language {
     ENGLISH, GERMAN, POLISH, FRENCH, SPANISH, ITALIAN, KHMER, DUTCH, LITHUANIAN, UKRAINIAN, RUSSIAN,
     SLOVAK, SLOVENIAN, /*SWEDISH,*/ ROMANIAN, ICELANDIC, GALICIAN, CATALAN, DANISH,
     MALAYALAM, BELARUSIAN, ESPERANTO, CHINESE, ASTURIAN, TAGALOG, BRETON, GREEK,
-    AMERICAN_ENGLISH, BRITISH_ENGLISH, AUSTRIAN_GERMAN, SWISS_GERMAN,
-    CANADIAN_ENGLISH, SOUTH_AFRICAN_ENGLISH, NEW_ZEALAND_ENGLISH, AUSTRALIAN_ENGLISH,
+    AMERICAN_ENGLISH, BRITISH_ENGLISH, CANADIAN_ENGLISH, SOUTH_AFRICAN_ENGLISH, NEW_ZEALAND_ENGLISH, AUSTRALIAN_ENGLISH,
+    GERMANY_GERMAN, AUSTRIAN_GERMAN, SWISS_GERMAN,
     DEMO
   };
 
@@ -136,7 +137,7 @@ public abstract class Language {
    * @return String[] - array of country variants for the language.
    */
   public abstract String[] getCountryVariants();
-  
+
   /**
    * Get this language's Java locale.
    */
@@ -172,6 +173,13 @@ public abstract class Language {
           }
       }
       return ruleFiles;
+  }
+
+  /**
+   * Languages that have variants need to overwrite this to select their most common variant.
+   */
+  public Language getDefaultVariant() {
+    return null;
   }
 
   /**
@@ -337,6 +345,45 @@ public abstract class Language {
     for (Language element : Language.LANGUAGES) {
       if (shortLanguageCode.equals(element.getShortName())) {
         return element;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Get the best match for a locale, using American English as the final fallback if nothing
+   * else fits. The returned language will be a variant language (e.g. British English, not just English)
+   * if available.
+   */
+  public static Language getLanguageForLocale(final Locale locale) {
+    Language language = getLanguageForLanguageNameAndCountry(locale);
+    if (language != null) {
+      return language;
+    } else {
+      language = getLanguageForLanguageNameOnly(locale);
+      if (language != null) {
+        return language;
+      }
+    }
+    return Language.AMERICAN_ENGLISH;  // final fallback
+  }
+
+  private static Language getLanguageForLanguageNameAndCountry(Locale locale) {
+    for (Language language : Language.REAL_LANGUAGES) {
+      if (language.getShortName().equals(locale.getLanguage())) {
+        final List<String> countryVariants = Arrays.asList(language.getCountryVariants());
+        if (countryVariants.contains(locale.getCountry())) {
+          return language;
+        }
+      }
+    }
+    return null;
+  }
+
+  private static Language getLanguageForLanguageNameOnly(Locale locale) {
+    for (Language language : Language.REAL_LANGUAGES) {
+      if (language.getShortName().equals(locale.getLanguage()) && !language.hasVariant()) {
+        return language;
       }
     }
     return null;
