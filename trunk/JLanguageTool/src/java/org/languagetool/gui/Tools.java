@@ -18,16 +18,12 @@
  */
 package org.languagetool.gui;
 
-import java.awt.Frame;
+import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
+import java.awt.*;
 import java.io.File;
 import java.text.MessageFormat;
 import java.util.ResourceBundle;
-
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.swing.filechooser.FileFilter;
-
-import org.languagetool.tools.StringTools;
 
 /**
  * GUI-related tools.
@@ -54,6 +50,7 @@ public class Tools {
   /**
    * Get the default context (40 characters) of the given text range,
    * highlighting the range with HTML.
+   * @deprecated use {@link ContextTools}
    */
   public static String getContext(final int fromPos, final int toPos, final String text) {
     return getContext(fromPos, toPos, text, DEFAULT_CONTEXT_SIZE);
@@ -62,6 +59,7 @@ public class Tools {
   /**
    * Get the context (<code>contextSize</code> characters) of the given text
    * range, highlighting the range with HTML code.
+   * @deprecated use {@link ContextTools}
    */
   public static String getContext(final int fromPos, final int toPos, final String fileContents,
       int contextSize) {
@@ -73,6 +71,7 @@ public class Tools {
    * Get the context (<code>contextSize</code> characters) of the given text
    * range, highlighting the range with the given marker strings, not escaping
    * HTML.
+   * @deprecated use {@link ContextTools}
    */
   public static String getContext(final int fromPos, final int toPos,
       final String fileContents, final int contextSize,
@@ -98,58 +97,17 @@ public class Tools {
    *          the string used to mark the end of the error
    * @param escapeHTML
    *          whether HTML/XML characters should be escaped
+   * @deprecated use {@link ContextTools}
    */
   public static String getContext(final int fromPos, final int toPos,
       String text, final int contextSize, final String markerStart,
       final String markerEnd, final boolean escapeHTML) {
-    text = text.replace('\n', ' ');
-    // calculate context region:
-    int startContent = fromPos - contextSize;
-    String prefix = "...";
-    String postfix = "...";
-    String markerPrefix = "   ";
-    if (startContent < 0) {
-      prefix = "";
-      markerPrefix = "";
-      startContent = 0;
-    }
-    int endContent = toPos + contextSize;
-    final int fileLen = text.length();
-    if (endContent > fileLen) {
-      postfix = "";
-      endContent = fileLen;
-    }
-    // make "^" marker. inefficient but robust implementation:
-    final StringBuilder marker = new StringBuilder();
-    final int totalLen = fileLen + prefix.length();
-    for (int i = 0; i < totalLen; i++) {
-      if (i >= fromPos && i < toPos) {
-        marker.append('^');
-      } else {
-        marker.append(' ');
-      }
-    }
-    // now build context string plus marker:
-    final StringBuilder sb = new StringBuilder();
-    sb.append(prefix);
-    sb.append(text.substring(startContent, endContent));
-    final String markerStr = markerPrefix
-        + marker.substring(startContent, endContent);
-    sb.append(postfix);
-    final int startMark = markerStr.indexOf('^');
-    final int endMark = markerStr.lastIndexOf('^');
-    String result = sb.toString();
-    if (escapeHTML) {
-      result = StringTools.escapeHTML(result.substring(0, startMark))
-          + markerStart
-          + StringTools.escapeHTML(result.substring(startMark, endMark + 1))
-          + markerEnd + StringTools.escapeHTML(result.substring(endMark + 1));
-    } else {
-      result = result.substring(0, startMark) + markerStart
-          + result.substring(startMark, endMark + 1) + markerEnd
-          + result.substring(endMark + 1);
-    }
-    return result;
+    final ContextTools contextTools = new ContextTools();
+    contextTools.setContextSize(contextSize);
+    contextTools.setEscapeHtml(escapeHTML);
+    contextTools.setErrorMarkerStart(markerStart);
+    contextTools.setErrorMarkerEnd(markerEnd);
+    return contextTools.getContext(fromPos, toPos, text);
   }
 
   /**
@@ -171,10 +129,8 @@ public class Tools {
    * Show the exception (with stacktrace) in a dialog and print it to STDERR.
    */
   static void showError(final Exception e) {
-    final String msg = org.languagetool.tools.Tools
-        .getFullStackTrace(e);
-    JOptionPane
-        .showMessageDialog(null, msg, "Error", JOptionPane.ERROR_MESSAGE);
+    final String msg = org.languagetool.tools.Tools.getFullStackTrace(e);
+    JOptionPane.showMessageDialog(null, msg, "Error", JOptionPane.ERROR_MESSAGE);
     e.printStackTrace();
   }
 
@@ -184,8 +140,7 @@ public class Tools {
    */
   static void showErrorMessage(final Exception e) {
     final String msg = e.getMessage();
-    JOptionPane
-        .showMessageDialog(null, msg, "Error", JOptionPane.ERROR_MESSAGE);
+    JOptionPane.showMessageDialog(null, msg, "Error", JOptionPane.ERROR_MESSAGE);
     e.printStackTrace();
   }
 

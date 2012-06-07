@@ -560,6 +560,7 @@ public final class Main implements ActionListener {
     
     final List<RuleMatch> ruleMatches = langTool.check(text);
     final long startTimeMatching = System.currentTimeMillis();
+    final ContextTools contextTools = new ContextTools();
     int i = 0;
     for (final RuleMatch match : ruleMatches) {
       final String output = Tools.makeTexti18n(messages, "result1",
@@ -579,8 +580,7 @@ public final class Main implements ActionListener {
         sb.append("<b>" + messages.getString("correctionMessage") + "</b> "
             + repl + "<br>\n");
       }
-      final String context = Tools.getContext(match.getFromPos(), match
-          .getToPos(), text);
+      final String context = contextTools.getContext(match.getFromPos(), match.getToPos(), text);
       sb.append("<b>" + messages.getString("errorContext") + "</b> " + context);
       sb.append("<br>\n");
       if (match.getRule().getUrl() != null && Desktop.isDesktopSupported()) {

@@ -29,7 +29,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.languagetool.Language;
-import org.languagetool.gui.Tools;
+import org.languagetool.gui.ContextTools;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.PatternRule;
 
@@ -330,6 +330,13 @@ public final class StringTools {
       xml.append("<matches>\n");
     }
 
+    final ContextTools contextTools = new ContextTools();
+    contextTools.setEscapeHtml(false);
+    contextTools.setContextSize(contextSize);
+    final String START_MARKER = "__languagetool_start_marker";
+    contextTools.setErrorMarkerStart(START_MARKER);
+    contextTools.setErrorMarkerEnd("");
+
     for (final RuleMatch match : ruleMatches) {
       String subId = "";
       if (match.getRule() instanceof PatternRule) {
@@ -345,9 +352,7 @@ public final class StringTools {
       final String msg = match.getMessage().replaceAll("</?suggestion>", "'");
       xml.append(subId);
       xml.append(" msg=\"" + escapeXMLForAPIOutput(msg) + "\"");
-      final String START_MARKER = "__languagetool_start_marker";
-      String context = Tools.getContext(match.getFromPos(), match.getToPos(),
-          text, contextSize, START_MARKER, "", false);
+      String context = contextTools.getContext(match.getFromPos(), match.getToPos(), text);
       xml.append(" replacements=\""
           + escapeXMLForAPIOutput(listToString(
               match.getSuggestedReplacements(), "#")) + "\"");
