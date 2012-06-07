@@ -18,8 +18,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
-import morfologik.util.BufferUtils;
-
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
 import com.sun.jna.ptr.PointerByReference;
@@ -206,6 +204,14 @@ public class Hunspell {
      */
     private HashMap<String, Dictionary> map = new HashMap<String, Dictionary>();
 
+    
+    private static CharBuffer ensureCapacity(CharBuffer buffer, int capacity) {
+        if (buffer == null || buffer.capacity() < capacity) {
+            buffer = CharBuffer.allocate(capacity);
+        }
+        return buffer;
+    }
+    
     /**
      * Gets an instance of the dictionary. 
      *
@@ -347,7 +353,7 @@ public class Hunspell {
             bytes.clear();		     
             charBuffer.clear();
 
-            charBuffer = BufferUtils.ensureCapacity(charBuffer, str.length() + 1);	        	        
+            charBuffer = ensureCapacity(charBuffer, str.length() + 1);	        	        
             for (int i = 0; i < str.length(); i++) {
                 char chr = str.charAt(i);
                 charBuffer.put(chr);
@@ -436,6 +442,7 @@ public class Hunspell {
         public void addWord(final String word) throws UnsupportedEncodingException {
             hsl.Hunspell_add(hunspellDict, stringToBytes(word));
         }
-
+                
     }
+    
 }
