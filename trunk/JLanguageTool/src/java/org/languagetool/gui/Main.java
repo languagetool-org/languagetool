@@ -564,9 +564,7 @@ public final class Main implements ActionListener {
     int i = 0;
     for (final RuleMatch match : ruleMatches) {
       final String output = Tools.makeTexti18n(messages, "result1",
-          new Object[] {i + 1,
-                  match.getLine() + 1,
-                  match.getColumn()});
+          new Object[] {i + 1, match.getLine() + 1, match.getColumn()});
       sb.append(output);
       String msg = match.getMessage();
       msg = msg.replaceAll("<suggestion>", "<b>");
@@ -575,16 +573,14 @@ public final class Main implements ActionListener {
       msg = msg.replaceAll("</old>", "</b>");
       sb.append("<b>" + messages.getString("errorMessage") + "</b> " + msg + "<br>\n");
       if (match.getSuggestedReplacements().size() > 0) {
-        final String repl = StringTools.listToString(match
-            .getSuggestedReplacements(), "; ");
-        sb.append("<b>" + messages.getString("correctionMessage") + "</b> "
-            + repl + "<br>\n");
+        final String repl = StringTools.listToString(match.getSuggestedReplacements(), "; ");
+        sb.append("<b>" + messages.getString("correctionMessage") + "</b> " + repl + "<br>\n");
       }
       final String context = contextTools.getContext(match.getFromPos(), match.getToPos(), text);
       sb.append("<b>" + messages.getString("errorContext") + "</b> " + context);
       sb.append("<br>\n");
       if (match.getRule().getUrl() != null && Desktop.isDesktopSupported()) {
-    	  sb.append("<b>More info:</b> <a href=\"");
+    	  sb.append("<b>" + messages.getString("moreInfo") + "</b> <a href=\"");
         final String url = match.getRule().getUrl().toString();
         sb.append(url);
         final String shortUrl = StringUtils.abbreviate(url, 60);
