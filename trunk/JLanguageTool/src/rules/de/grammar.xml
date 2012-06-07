@@ -5929,14 +5929,16 @@ $Id$
             <rule>
                 <pattern>
                     <token>im</token>
-                    <token>vor</token>
+                    <token regexp="yes">vor|nach</token>
                     <token>hinein</token>
                 </pattern>
-                <message>&getrennt;: &inwend;<suggestion>im Vorhinein</suggestion> wird 'Vorhinein' groß und zusammen geschrieben.</message>
+                <message>&getrennt;: &inwend;<suggestion>im <match no="2" case_conversion="startupper"/>hinein</suggestion> wird '<match no="2" case_conversion="startupper"/>hinein' groß und zusammen geschrieben.</message>
                 <url>http://www.duden.de/rechtschreibung/Vorhinein</url>
                 <short>&getrennt;.</short>
                 <example type="correct">Das habe ich <marker>im Vorhinein</marker> geahnt.</example>
+                <example type="correct">Das habe ich erst <marker>im Nachhinein</marker> erfahren.</example>
                 <example type="incorrect" correction="im Vorhinein">Das habe ich <marker>im vor hinein</marker> geahnt.</example>
+                <example type="incorrect" correction="im Nachhinein">Das habe ich erst <marker>im nach hinein</marker> erfahren.</example>
             </rule>
         </rulegroup>
         <rulegroup id="HOERENSAGEN" name="Zusammen-/Getrenntschreibung: 'vom Hören sagen (Hörensagen)'">
