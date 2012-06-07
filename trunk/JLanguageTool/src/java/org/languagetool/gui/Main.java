@@ -75,6 +75,7 @@ public final class Main implements ActionListener {
   private JFrame frame;
   private JTextArea textArea;
   private JTextPane resultArea;
+  private JButton checkTextButton;
   private LanguageComboBox languageBox;
   private JCheckBox autoDetectBox;
   private Cursor prevCursor;
@@ -114,9 +115,9 @@ public final class Main implements ActionListener {
     resultArea.setText(HTML_GREY_FONT_START + messages.getString("resultAreaText") + HTML_FONT_END);
     resultArea.setEditable(false);
     resultArea.addHyperlinkListener(new MyHyperlinkListener());
-    final JButton button = new JButton(StringTools.getLabel(messages.getString("checkText")));
-    button.setMnemonic(StringTools.getMnemonic(messages.getString("checkText")));
-    button.addActionListener(this);
+    checkTextButton = new JButton(StringTools.getLabel(messages.getString("checkText")));
+    checkTextButton.setMnemonic(StringTools.getMnemonic(messages.getString("checkText")));
+    checkTextButton.addActionListener(this);
 
     final JPanel panel = new JPanel();
     panel.setOpaque(false);    // to get rid of the gray background
@@ -138,7 +139,7 @@ public final class Main implements ActionListener {
     panel.add(insidePanel);
     buttonCons.gridx = 2;
     buttonCons.gridy = 0;
-    insidePanel.add(button, buttonCons);
+    insidePanel.add(checkTextButton, buttonCons);
       
     autoDetectBox = new JCheckBox(messages.getString("atd"));
     autoDetectBox.addActionListener( new ActionListener() {
@@ -485,6 +486,7 @@ public final class Main implements ActionListener {
       new Thread() {
         public void run() {
           setWaitCursor();
+          checkTextButton.setEnabled(false);
           try {
             final String startCheckText = HTML_GREY_FONT_START +
                     Tools.makeTexti18n(messages, "startChecking", new Object[]{langName}) + "..." + HTML_FONT_END;
@@ -510,6 +512,7 @@ public final class Main implements ActionListener {
             resultArea.setText(HTML_FONT_START + sb.toString() + HTML_FONT_END);
             resultArea.setCaretPosition(0);
           } finally {
+            checkTextButton.setEnabled(true);
             unsetWaitCursor();
           }
         }
