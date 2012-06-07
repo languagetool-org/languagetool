@@ -77,7 +77,7 @@ public final class Main implements ActionListener {
   private JTextPane resultArea;
   private JButton checkTextButton;
   private LanguageComboBox languageBox;
-  private JCheckBox autoDetectBox;
+  private LanguageDetectionCheckbox autoDetectBox;
   private Cursor prevCursor;
 
   private HTTPServer httpServer;
@@ -140,16 +140,8 @@ public final class Main implements ActionListener {
     buttonCons.gridx = 2;
     buttonCons.gridy = 0;
     insidePanel.add(checkTextButton, buttonCons);
-      
-    autoDetectBox = new JCheckBox(messages.getString("atd"));
-    autoDetectBox.addActionListener( new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            languageBox.setEnabled(!autoDetectBox.isSelected());
-            config.setAutoDetect(autoDetectBox.isSelected());
-        }
-    });
-    autoDetectBox.setSelected(config.getAutoDetect());
+
+    autoDetectBox = new LanguageDetectionCheckbox(messages, languageBox, config);
     languageBox.setEnabled(!autoDetectBox.isSelected());
     
     buttonCons.gridx = 1;
@@ -401,18 +393,7 @@ public final class Main implements ActionListener {
   // method modified to add automatic language detection
   private Language getCurrentLanguage() {
     if (autoDetectBox.isSelected()) {
-      final LanguageIdentifier langIdentifier = new LanguageIdentifier(textArea.getText());
-      Language lang = Language.getLanguageForShortName(langIdentifier.getLanguage());
-      if (lang == null) {
-        lang = Language.ENGLISH;
-      }
-      for (int i = 0; i < languageBox.getItemCount(); i++) {
-        final I18nLanguage boxLanguage = (I18nLanguage) languageBox.getItemAt(i);
-        if (boxLanguage.toString().equals(lang.getTranslatedName(messages))) {
-          languageBox.setSelectedIndex(i);
-        }
-      }
-      return lang;
+      return autoDetectBox.autoDetectLanguage(textArea.getText());
     } else {
       return ((I18nLanguage) languageBox.getSelectedItem()).getLanguage();
     }
