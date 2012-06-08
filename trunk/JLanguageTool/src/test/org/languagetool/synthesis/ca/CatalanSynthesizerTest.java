@@ -41,8 +41,9 @@ public class CatalanSynthesizerTest extends TestCase {
     assertEquals("[contestant, contestar]", synthRegex("contestar", "VM[GN]0000"));
 
     //with special definite article:
-    assertEquals("[les universitats, la universitat]", synthNonRegex("universitat", "+DT"));
-    assertEquals("[les úniques, l'única, els únics, l'únic]", synthNonRegex("únic", "+DT"));
+    assertEquals("[les universitats, la universitat]", synthNonRegex("universitat", "DT"));
+    assertEquals("[les úniques, l'única, els únics, l'únic]", synthNonRegex("únic", "DT"));
+    assertEquals("[per les úniques, per l'única, pels únics, per l'únic]", synthNonRegex("únic", "DTper"));
   }
 
   private String synth(String word, String pos) throws IOException {
