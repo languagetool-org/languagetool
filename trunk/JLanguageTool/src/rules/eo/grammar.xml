@@ -28,10 +28,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <rules xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" lang="eo" xsi:noNamespaceSchemaLocation="../rules.xsd">
   <category name="Konfuzoj">
     <rule id="ESPERANTO" name="esperanto (Esperanto)">
-      <pattern case_sensitive="yes">
+      <pattern>
         <token inflected="yes" regexp="yes" skip="1">.*(legi|skribi|paroli|scipovi|lerni|studi|instrui|verki|lingvo|kurso|leciono|libro)</token>
         <marker>
-          <token regexp="yes">esperanton?</token>
+          <token regexp="yes">(?-i)esperanton?</token>
         </marker>
       </pattern>
       <message>Laŭ la kunteksto, ŝajnas, ke «\2» temas pri la lingvo Esperanto, ĝi do bezonas komencan majusklon.</message>
@@ -47,6 +47,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <token>de</token>
       </pattern>
       <message>Ĉu vi intencis skribi <suggestion>ekde</suggestion>?</message>
+      <url>http://bertilow.com/pmeg/gramatiko/propraj_nomoj/majuskloj.html</url>
       <example type="incorrect">Mi lernas Esperanton <marker>ek de</marker> la jaro 2005.</example>
       <example type="correct">Mi lernas Esperanton <marker>ekde</marker> la jaro 2005</example>
     </rule>
@@ -59,6 +60,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </marker>
         </pattern>
         <message>Laŭ la kunteksto ŝajnas, ke vi intencis skribi <suggestion>ĉu</suggestion>.</message>
+        <url>http://bertilow.com/pmeg/gramatiko/subfrazoj/demandaj.html#i-e23</url>
         <example type="incorrect">Mi ne scias <marker>se</marker> li venos.</example>
         <example type="correct">Mi ne scias ĉu li venos.</example>
       </rule>
@@ -71,6 +73,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </marker>
         </pattern>
         <message>Laŭ la kunteksto ŝajnas, ke vi intencis skribi <suggestion>ĉu</suggestion>.</message>
+        <url>http://bertilow.com/pmeg/gramatiko/subfrazoj/demandaj.html#i-e23</url>
         <example type="incorrect">Mi ne scias, <marker>se</marker> li venos.</example>
         <example type="correct">Mi ne scias, ĉu li venos.</example>
       </rule>
@@ -1550,11 +1553,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rulegroup>
     <rulegroup id="PREP_AKU" name="prepozicio + akuzativo">
       <rule>
-        <pattern case_sensitive="yes">
+        <pattern>
           <token postag="P sak"/>
           <marker>
             <token postag=". akz.*" postag_regexp="yes">
-              <exception regexp="yes">[A-ZĈĜĤĴŜ].*</exception>
+              <exception regexp="yes">(?-i)[A-ZĈĜĤĴŜ].*</exception>
             </token>
           </marker>
           <token>
@@ -1697,7 +1700,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
     <rule id="NAK_VTR_NAK" name="mankanta akuzativo">
-      <pattern case_sensitive="yes">
+      <pattern>
         <token postag="[ROA] nak.*|T nak .. . [ou]" postag_regexp="yes" skip="1">
           <exception postag="X ndo"/>
           <exception scope="next" postag="[ROAT] akz.*" postag_regexp="yes"/>
@@ -1712,7 +1715,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <marker>
           <token postag="[ROAT] nak.*" postag_regexp="yes">
             <exception postag="T .*e" postag_regexp="yes"/>
-            <exception regexp="yes">[A-ZĈĜĤĴŜ].*</exception>
+            <exception regexp="yes">(?-i)[A-ZĈĜĤĴŜ].*</exception>
           </token>
         </marker>
       </pattern>
@@ -2245,12 +2248,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example type="correct">Mi estas tiel forta, kiel vi.</example>
     </rule>
     <rule id="LA_URBO_DE" name="La urbo de (La urbo)">
-      <pattern case_sensitive="yes">
-        <token regexp="yes">[Ll]a</token>
+      <pattern>
+        <token>la</token>
         <marker>
           <token regexp="yes">(urbo|ŝtato|lando)n?</token>
           <token>de</token>
-          <token regexp="yes">[A-ZĈĜĴĤŜ].*</token>
+          <token regexp="yes">(?-i)[A-ZĈĜĴĤŜ].*</token>
         </marker>
       </pattern>
       <message>Ne uzu «de» antaŭ identiga priskribo. Ĉu vi intencis <suggestion>\1 \2 \4</suggestion>?</message>
@@ -2412,12 +2415,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example type="correct">Kvankam li falis, li batalis.</example>
     </rule>
     <rule id="LA_TITOLO" name="la + titolo">
-      <pattern case_sensitive="yes">
+      <pattern>
         <marker>
-          <token regexp="yes">[Ll]a</token>
+          <token>la</token>
         </marker>
-        <token regexp="yes">([Ff]raŭl|[Dd]oktor|[Ss]injor|[Pp]rofesor|[Bb]aron)(in)?o</token>
-        <token regexp="yes">[A-ZĈĜĴĤŜ].*</token>
+        <token regexp="yes">(fraŭl|doktor|sinjor|s-r|profesor|baron)(in)?o</token>
+        <token regexp="yes">(?-i)[A-ZĈĜĴĤŜ].*</token>
       </pattern>
       <message>Oni ne uzas «\1» antaŭ titolo sekvita de propra nomo, uzu <suggestion>\2 \3</suggestion>.</message>
       <url>http://bertilow.com/pmeg/gramatiko/difiniloj/la/propraj_nomoj.html#i-22j</url>
@@ -2615,8 +2618,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <exception scope="next" postag="[ROAT] akz.*" postag_regexp="yes"/>
           </token>
           <marker>
-            <token regexp="yes" skip="-1">(mal|ne|re|mis|fi)?(balanc|ban|bukl|etend|fleks|klin|kolekt|interes|komunik|mov|nask|paŝt|renkont|renvers|romp|rul|sku|streĉ|sufok|sving|ŝanĝ|ŝiri|ŝut|ted|tren|turn|vek|vend|venĝ|verŝ|vind|uz)(ad|aĉ|et|eg)?([ui]|[aiuo]s)<exception scope="next" regexp="yes">.*n|da|nek</exception><exception scope="next" postag="V.* i" postag_regexp="yes"/>
-                        </token>
+            <token regexp="yes" skip="-1">(mal|ne|re|mis|fi)?(balanc|ban|bukl|etend|fleks|klin|kolekt|interes|komunik|mov|nask|paŝt|renkont|renvers|romp|rul|sku|streĉ|sufok|sving|ŝanĝ|ŝiri|ŝut|ted|tren|turn|vek|vend|venĝ|verŝ|vind|uz)(ad|aĉ|et|eg)?([ui]|[aiuo]s)<exception scope="next" regexp="yes">.*n|da|nek</exception><exception scope="next" postag="V.* i" postag_regexp="yes"/></token>
           </marker>
           <token postag="SENT_END|T.* k .*" postag_regexp="yes"/>
         </pattern>
@@ -2948,13 +2950,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
     <rule id="LA_VORTO" name="Netaŭga vorto post 'la'">
-      <pattern case_sensitive="yes">
-        <token regexp="yes">[lL]a</token>
+      <pattern>
+        <token>la</token>
         <and>
           <token postag_regexp="yes" postag="[KMPRV].*">
             <exception regexp="yes">ĝis|ĉirkaŭ</exception>
           </token>
-          <token regexp="yes">[a-zĉĝĵĥŝ].*</token>
+          <token regexp="yes">(?-i)[a-zĉĝĵĥŝ].*</token>
         </and>
       </pattern>
       <message>La vorto «\1» ne povas esti antaŭ la vorto «\2».</message>
