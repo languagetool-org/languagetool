@@ -114,7 +114,7 @@ public class DisambiguationRuleTest extends TestCase {
           assertTrue(goodSentence.trim().length() > 0);
           final AnalyzedSentence sent = disambiguateUntil(rules, id,
               languageTool.getRawAnalyzedSentence(goodSentence));
-          assertTrue("The untouched example for rule " + id + "was touched!",
+          assertTrue("The untouched example (" + goodSentence + ") for rule " + id + "was touched!",
               sent.equals(rule.replace(sent)));
         }
       }
@@ -155,6 +155,7 @@ public class DisambiguationRuleTest extends TestCase {
               "Disambiguated sentence is equal to the input sentence for rule :"
                   + id, !sent.equals(disambiguatedSent));
           String reading = "";
+          String annotations = "";
           for (final AnalyzedTokenReadings readings : sent.getTokens()) {
             if (readings.isSentStart() && inputForms.indexOf("<S>") == -1) {
               continue;
@@ -162,6 +163,7 @@ public class DisambiguationRuleTest extends TestCase {
             if (readings.getStartPos() == expectedMatchStart) {
               final AnalyzedTokenReadings r[] = { readings };
               reading = new AnalyzedSentence(r).toString();
+              annotations = readings.getHistoricalAnnotations();
               assertTrue(
                   "Wrong marker position in the example for the rule " + id,
                   readings.getStartPos() == expectedMatchStart
@@ -171,8 +173,8 @@ public class DisambiguationRuleTest extends TestCase {
           }
           assertTrue("The input form for the rule " + id + " in the example: "
               + example.toString() + " is different than expected (expected "
-              + inputForms + " but got " + sortForms(reading) + ").", sortForms(reading)
-              .equals(inputForms));
+              + inputForms + " but got " + sortForms(reading) + "). The token has been changed by the disambiguator: " + annotations, 
+              sortForms(reading).equals(inputForms));
           for (final AnalyzedTokenReadings readings : disambiguatedSent
               .getTokens()) {
             if (readings.isSentStart() && outputForms.indexOf("<S>") == -1) {
@@ -188,8 +190,8 @@ public class DisambiguationRuleTest extends TestCase {
           }
           assertTrue("The output form for the rule " + id + " in the example: "
               + example.toString() + " is different than expected (expected "
-              + outputForms + " but got " + sortForms(reading) + ").", sortForms(reading)
-              .equals(outputForms));
+              + outputForms + " but got " + sortForms(reading) + "). The token has been changed by the disambiguator: " + annotations,
+              sortForms(reading).equals(outputForms));
         }
       }
     }

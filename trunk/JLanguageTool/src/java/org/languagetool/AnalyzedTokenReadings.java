@@ -53,6 +53,11 @@ public class AnalyzedTokenReadings {
    */
   private boolean isImmunized;
   
+  /**
+   * Used to hold the string representation of the disambiguator actions on a token.
+   */
+  private String historicalAnnotations = "";
+   
   
   public AnalyzedTokenReadings(final AnalyzedToken[] token, final int startPos) {
     anTokReadings = token.clone();
@@ -321,9 +326,14 @@ public class AnalyzedTokenReadings {
   @Override
   public String toString() {
     final StringBuilder sb = new StringBuilder();
+    sb.append(token);
+    sb.append("[");
     for (final AnalyzedToken element : anTokReadings) {
       sb.append(element);
+      sb.append(",");
     }
+    sb.delete(sb.length() - 1, sb.length());
+    sb.append("]");
     return sb.toString();
   }
 
@@ -377,5 +387,21 @@ public class AnalyzedTokenReadings {
       return false;
     return true;
   }
+
+/**
+ * Used to track disambiguator actions.
+ * @return the historicalAnnotations
+ */
+public String getHistoricalAnnotations() {
+    return historicalAnnotations;
+}
+
+/**
+ * Used to track disambiguator actions.
+ * @param historicalAnnotations the historicalAnnotations to set
+ */
+public void setHistoricalAnnotations(String historicalAnnotations) {
+    this.historicalAnnotations = this.historicalAnnotations + "\n" + historicalAnnotations;
+}
   
 }

@@ -200,7 +200,7 @@ public class UnifierTest extends TestCase {
     satisfied &= uni.isSatisfied(sing2, equiv);
     uni.startNextToken();
     assertEquals(true, satisfied);
-    assertEquals("[mały/adj:sg:blahblah:m, człowiek/subst:sg:blahblah:m]", Arrays.toString(uni.getUnifiedTokens()));
+    assertEquals("[mały[mały/adj:sg:blahblah:m], człowiek[człowiek/subst:sg:blahblah:m]]", Arrays.toString(uni.getUnifiedTokens()));
     uni.reset();
   }
 
@@ -259,7 +259,7 @@ public class UnifierTest extends TestCase {
     uni.isUnified(sing1a, equiv, false);
     uni.isUnified(sing1b, equiv, true);    
     assertEquals(true, uni.isUnified(sing2, equiv, true));
-    assertEquals("[osobisty/adj:sg:nom.acc.voc:n:pos:aff, godło/subst:sg:nom.acc.voc:n]", Arrays.toString(uni.getFinalUnified()));
+    assertEquals("[osobiste[osobisty/adj:sg:nom.acc.voc:n:pos:aff], godło[godło/subst:sg:nom.acc.voc:n]]", Arrays.toString(uni.getFinalUnified()));
     uni.reset();
 
     //now test a case when the last reading doesn't match at all
@@ -273,7 +273,7 @@ public class UnifierTest extends TestCase {
     uni.isUnified(sing1b, equiv, true);
     uni.isUnified(sing2a, equiv, false);
     assertEquals(true, uni.isUnified(sing2b, equiv, true));
-    assertEquals("[osobisty/adj:sg:nom.acc.voc:n:pos:aff, godło/subst:sg:nom.acc.voc:n]", Arrays.toString(uni.getFinalUnified()));
+    assertEquals("[osobiste[osobisty/adj:sg:nom.acc.voc:n:pos:aff], godło[godło/subst:sg:nom.acc.voc:n]]", Arrays.toString(uni.getFinalUnified()));
     uni.reset();
   }
 
