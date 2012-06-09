@@ -2753,6 +2753,14 @@ $Id$
             <example type="correct">Ich <marker>verwalte</marker> auf diese Weise so 100 E-Mail-Adressen.</example>
             <example type="incorrect">Ich <marker>veralte</marker> auf diese Weise so 100 E-Mail-Adressen.</example>
         </rule>
+        <rule id="MITTELOHRENZUENDUNG" name="Möglicher Tippfehler: 'Mittelohrenzündung (Mittelohrentzündung)'">
+            <pattern>
+                <token regexp="yes">Mittelohrenzündung(en)?</token>
+            </pattern>
+            <message>Meinten Sie <suggestion><match no="1" regexp_match="enz" regexp_replace="entz"/></suggestion>?</message>
+            <example type="correct">Sie haben <marker>Mittelohrentzündungen</marker>.</example>
+            <example type="incorrect" correction="Mittelohrentzündungen">Sie haben <marker>Mittelohrenzündungen</marker>.</example>
+        </rule>
         <rule id="VON_WIEDER_VON" name="Möglicher Tippfehler: 'von (schon) wieder von'">
             <pattern>
                 <marker>
@@ -4088,6 +4096,17 @@ $Id$
                 <example type="incorrect" correction="iPod">Ich habe jetzt einen <marker>i-Pod</marker>.</example>
             </rule>
         </rulegroup>
+        <rule id="UNITY_MEDIA" name="Eigenname: 'Unity Media (Unitymedia)'">
+            <pattern>
+                <token regexp="yes">j?Unit(y|ie?)</token>
+                <token>Media</token>
+            </pattern>
+            <message>Meinten Sie den deutschen Kabelnetzbetreiber <suggestion>Unitymedia</suggestion>?</message>
+            <short>&eigenname;</short>
+            <example type="correct">Ich habe einen Kabelanschluss von <marker>Unitymedia</marker>.</example>
+            <example type="incorrect" correction="Unitymedia">Ich habe einen Kabelanschluss von <marker>Unity Media</marker>.</example>
+            <example type="incorrect" correction="Unitymedia">Ich habe einen Kabelanschluss von <marker>Juniti Media</marker>.</example>
+        </rule>
         <!-- Prominente -->
         <rule id="ALEXIUS_MEINONG" name="Eigenname: 'Alexius Meinung (Meinong)'">
             <pattern case_sensitive="yes">
@@ -16580,6 +16599,25 @@ $Id$
                 <short>&prgk;.</short>
                 <example type="correct">Das war <marker>ein bisschen</marker> komisch.</example>
                 <example type="incorrect">Das war <marker>ein Bisschen</marker> komisch.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="IM_ALLGEMEINEN" name="Groß-/Kleinschreibung: 'im allgemeinen (Allgemeinen)'">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[iI]m</token>
+                    <marker>
+                        <token regexp="yes">allgemeinen?</token>
+                    </marker>
+                    <token><exception postag_regexp="yes" postag="SUB:.*|UNKNOWN"/><exception regexp="yes">,|oder|und</exception></token>
+                </pattern>
+                <message>&subanfang;<suggestion>Allgemeinen</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="Allgemeinen">Daneben stellen Geschwister im <marker>allgemeine</marker> auch ein „Problem“ dar.</example>
+                <example type="incorrect" correction="Allgemeinen">Im <marker>allgemeinen</marker> stimme ich dir zu.</example>
+                <example type="correct">Daneben stellen Geschwister im <marker>Allgemeinen</marker> auch ein „Problem“ dar.</example>
+                <example type="correct">Im <marker>allgemeinen</marker> Sprachgebrauch ist das anders.</example>
+                <example type="correct">Im <marker>allgemeinen</marker>, umgangssprachlichen Sprachgebrauch ist das anders.</example>
+                <example type="correct">Im <marker>allgemeinen</marker> und umgangssprachlichen Sprachgebrauch ist das anders.</example>
             </rule>
         </rulegroup>
         <rulegroup id="LEID_TUN" name="Groß-/Kleinschreibung: 'tut mir Leid (leid)'">
