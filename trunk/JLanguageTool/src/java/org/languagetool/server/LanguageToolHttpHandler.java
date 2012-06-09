@@ -111,6 +111,7 @@ class LanguageToolHttpHandler implements HttpHandler {
 
   private void printListOfLanguages(HttpExchange httpExchange) throws IOException {
     httpExchange.getResponseHeaders().set("Content-Type", CONTENT_TYPE_VALUE);
+    //httpExchange.getResponseHeaders().set("Access-Control-Allow-Origin", "*");
     final String response = getSupportedLanguagesAsXML();
     httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes(ENCODING).length);
     httpExchange.getResponseBody().write(response.getBytes(ENCODING));
@@ -165,6 +166,7 @@ class LanguageToolHttpHandler implements HttpHandler {
       matches = Tools.checkBitext(sourceText, text, sourceLt, targetLt, bRules);
     }
     httpExchange.getResponseHeaders().set("Content-Type", CONTENT_TYPE_VALUE);
+    //httpExchange.getResponseHeaders().set("Access-Control-Allow-Origin", "*");
     final String response = StringTools.ruleMatchesToXML(matches, text,
             CONTEXT_SIZE, StringTools.XmlPrintMode.NORMAL_XML);
     httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes(ENCODING).length);
@@ -218,7 +220,7 @@ class LanguageToolHttpHandler implements HttpHandler {
     newLanguageTool.activateDefaultFalseFriendRules();
     config = new Configuration(lang);
     if (!useQuerySettings && internalServer && config.getUseGUIConfig()) { // use the GUI config values
-    	configureGUI(lang, newLanguageTool);
+    	configureGUI(newLanguageTool);
     }
     
     if (useQuerySettings) {
@@ -227,31 +229,31 @@ class LanguageToolHttpHandler implements HttpHandler {
     
     return newLanguageTool;
   }
-      
-  private void configureGUI(Language language, JLanguageTool langTool) {	  
-	  print("Using options configured in the GUI");
-	  //TODO: add a parameter to config to set language
-	    final Set<String> disabledRules = config.getDisabledRuleIds();
-	    if (disabledRules != null) {
-	      for (final String ruleId : disabledRules) {
-	        langTool.disableRule(ruleId);
-	      }
-	    }
-	    final Set<String> disabledCategories = config.
-	    		getDisabledCategoryNames();
-	    if (disabledCategories != null) {
-	      for (final String categoryName : disabledCategories) {
-	        langTool.disableCategory(categoryName);
-	      }
-	    }
-	    final Set<String> enabledRules = config.getEnabledRuleIds();
-	    if (enabledRules != null) {
-	      for (String ruleName : enabledRules) {
-	        langTool.enableDefaultOffRule(ruleName);
-	        langTool.enableRule(ruleName);
-	      }
-	    }	    
-	  }
+
+  private void configureGUI(JLanguageTool langTool) {
+    print("Using options configured in the GUI");
+    //TODO: add a parameter to config to set language
+    final Set<String> disabledRules = config.getDisabledRuleIds();
+    if (disabledRules != null) {
+      for (final String ruleId : disabledRules) {
+        langTool.disableRule(ruleId);
+      }
+    }
+    final Set<String> disabledCategories = config.
+            getDisabledCategoryNames();
+    if (disabledCategories != null) {
+      for (final String categoryName : disabledCategories) {
+        langTool.disableCategory(categoryName);
+      }
+    }
+    final Set<String> enabledRules = config.getEnabledRuleIds();
+    if (enabledRules != null) {
+      for (String ruleName : enabledRules) {
+        langTool.enableDefaultOffRule(ruleName);
+        langTool.enableRule(ruleName);
+      }
+    }
+  }
  
 
   /**
