@@ -4048,6 +4048,25 @@ $Id$
                 <example type="incorrect" correction="LibreOffice"><marker>Libre Office</marker> ist freie Software.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="BLUE_RAY" name="Produktname: 'Blue Ray (Blu-ray)'">
+            <rule>
+                <pattern>
+                    <token>Blue</token>
+                    <token regexp="yes">Ray|Rai|Rei</token>
+                </pattern>
+                <message>Meinten Sie das digitale optische Speichermedium <suggestion>Blu-ray</suggestion> Disc?</message>
+                <example type="correct">Das ist eine <marker>Blu ray</marker> Disc.</example>
+                <example type="incorrect" correction="Blu-ray">Das ist eine <marker>Blue ray</marker> Disc.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">Blue\-?(Ray|Rai|Rei)</token>
+                </pattern>
+                <message>Meinten Sie das digitale optische Speichermedium <suggestion>Blu-ray</suggestion> Disc?</message>
+                <example type="correct">Das ist eine <marker>Blu-ray</marker> Disc.</example>
+                <example type="incorrect" correction="Blu-ray">Das ist eine <marker>Blue-ray</marker> Disc.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="IPHONE" name="Produktname: 'I-Phone (iPhone)' etc.">
             <rule>
                 <pattern>
@@ -16926,6 +16945,18 @@ $Id$
             </rule>
         </rulegroup>
         <rulegroup id="MEIN_KLEIN_HAUS" name="Grammatik: Unflektiertes Adjektiv statt flektierter Form (unvollständig!), z.B. 'mein klein (kleines) Haus' ">
+            <rule>
+                <pattern>
+                    <token postag="PRP:.*" postag_regexp="yes"/>
+                    <token postag="ADJ:PRD:GRU"><exception postag=".*(IND|SOL)" postag_regexp="yes"/></token>
+                    <token postag="SUB:.*" postag_regexp="yes"><exception postag="SUB:.*" postag_regexp="yes" negate_pos="yes"/></token>
+                </pattern>
+                <message>Möglicherweise fehlende grammatische Übereinstimmung zwischen Adjektiv und Nomen bezüglich Kasus, Numerus oder Genus. Beispiel: 'mit groß Mühe' statt 'mit großer Mühe'</message>
+                <short>Möglicherweise fehlende grammatische Übereinstimmung zwischen Adjektiv und Nomen.</short>
+                <example type="incorrect">Der Effekt kann <marker>durch fest Regeln</marker> erreicht werden.</example>
+                <example type="incorrect">Er hat das nur <marker>mit groß Mühe</marker> geschafft.</example>
+                <example type="correct">Der Effekt kann <marker>durch feste Regeln</marker> erreicht werden.</example>
+            </rule>
             <!-- TODO ergaenzen -->
             <rule>
                 <pattern>
@@ -16934,6 +16965,7 @@ $Id$
                     <token postag="SUB:NOM:SIN:MAS"/>
                 </pattern>
                 <message>Möglicherweise fehlende grammatische Übereinstimmung zwischen Artikel, Adjektiv und Nomen bezüglich Kasus, Numerus oder Genus. Beispiel: 'mein klein Haus' statt 'mein kleines Haus'</message>
+                <short>Möglicherweise fehlende grammatische Übereinstimmung zwischen Artikel, Adjektiv und Nomen.</short>
                 <example type="incorrect"><marker>Ein nett Mann</marker> ist gekommen.</example>
                 <example type="correct"><marker>Ein netter Mann</marker> ist gekommen.</example>
             </rule>
@@ -16944,6 +16976,7 @@ $Id$
                     <token postag="SUB:NOM:SIN:FEM"/>
                 </pattern>
                 <message>Möglicherweise fehlende grammatische Übereinstimmung zwischen Artikel, Adjektiv und Nomen bezüglich Kasus, Numerus oder Genus. Beispiel: 'mein klein Haus' statt 'mein kleines Haus'</message>
+                <short>Möglicherweise fehlende grammatische Übereinstimmung zwischen Artikel, Adjektiv und Nomen.</short>
                 <example type="incorrect"><marker>Eine blau Markierung</marker> wird verwendet, um Grammatikfehler zu kennzeichnen.</example>
                 <example type="incorrect"><marker>Die blau Markierung</marker> wird verwendet, um Grammatikfehler zu kennzeichnen.</example>
                 <example type="incorrect"><marker>Meine schön Frau</marker> ist nett.</example>
@@ -16956,6 +16989,7 @@ $Id$
                     <token postag="SUB:NOM:SIN:NEU"/>
                 </pattern>
                 <message>Möglicherweise fehlende grammatische Übereinstimmung zwischen Artikel, Adjektiv und Nomen bezüglich Kasus, Numerus oder Genus. Beispiel: 'mein klein Haus' statt 'mein kleines Haus'</message>
+                <short>Möglicherweise fehlende grammatische Übereinstimmung zwischen Artikel, Adjektiv und Nomen.</short>
                 <example type="incorrect"><marker>Mein klein Haus</marker> ist zu klein.</example>
                 <example type="correct"><marker>Mein kleines Haus</marker> ist zu klein.</example>
                 <example type="correct"><marker>Das bundlose Griffbrett</marker> ist schön.</example>
