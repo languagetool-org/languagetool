@@ -410,7 +410,7 @@ public class MainTest extends AbstractSecurityTestCase {
     Main.main(args);
     String output = new String(this.out.toByteArray());
     assertTrue(output.indexOf("Expected text language: Polish") == 0);
-    assertTrue(output.contains("Unknown words: [This, is]"));
+    assertTrue(output.contains("Unknown words: [This, an, is]"));
   }
   
   public void testNoListUnknown() throws Exception {
@@ -420,7 +420,7 @@ public class MainTest extends AbstractSecurityTestCase {
     Main.main(args);
     String output = new String(this.out.toByteArray());
     assertTrue(output.indexOf("Expected text language: Polish") == 0);
-    assertTrue(!output.contains("Unknown words: [This, is]"));
+    assertTrue(!output.contains("Unknown words: [This, an, is]"));
   }
   
   public void testLangWithCountryVariant() throws Exception {

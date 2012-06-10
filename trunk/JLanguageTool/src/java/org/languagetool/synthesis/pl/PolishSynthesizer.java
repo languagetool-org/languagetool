@@ -21,6 +21,7 @@ package org.languagetool.synthesis.pl;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -48,7 +49,7 @@ public class PolishSynthesizer implements Synthesizer {
 
   private static final String POTENTIAL_NEGATION_TAG = ":aff";
   private static final String NEGATION_TAG = ":neg";
-  private static final String COMP_TAG = "comp";
+  private static final String COMP_TAG = "com";
   private static final String SUP_TAG = "sup";
 
   private IStemmer synthesizer;
@@ -108,9 +109,12 @@ public class PolishSynthesizer implements Synthesizer {
         posTag = posTag.replaceAll(NEGATION_TAG, POTENTIAL_NEGATION_TAG + "?");
       }
 
-      final Pattern p = Pattern.compile(posTag.replace('+', '|').replaceAll(
+  
+      final Pattern p = Pattern.compile(posTag.replace('+', '|'));
+              /*
+              .replaceAll(
           "m[1-3]", "m[1-3]?"));
-
+*/
       for (final String tag : possibleTags) {
         final Matcher m = p.matcher(tag);
         if (m.matches()) {
@@ -120,6 +124,12 @@ public class PolishSynthesizer implements Synthesizer {
           }
         }
       }
+      //remove duplicates
+      HashSet<String> hs = new HashSet<String>();
+      hs.addAll(results);
+      results.clear();
+      results.addAll(hs);     
+      
       return results.toArray(new String[results.size()]);
     }
     return synthesize(token, posTag);
@@ -168,6 +178,7 @@ public class PolishSynthesizer implements Synthesizer {
         forms.add(wd.getStem().toString());
       }      
     }
+    
     return forms;
   }
 

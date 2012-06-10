@@ -227,26 +227,31 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
                 + unifiedTokens.length - 1)].isSentEnd()) {
             unifiedTokens[unifiedTokens.length - 1].setSentEnd();
           }
-          for (int i = 0; i < unifiedTokens.length; i++) {
-            unifiedTokens[i].setStartPos(whTokens[text.getOriginalPosition(firstMatchToken + correctedStPos
-                + i)].getStartPos());
-            whTokens[text.getOriginalPosition(firstMatchToken + correctedStPos
-                + i)] = unifiedTokens[i];            
+          for (int i = 0; i < unifiedTokens.length; i++) {              
+            final int position = text.getOriginalPosition(firstMatchToken + correctedStPos
+                    + i);            
+            unifiedTokens[i].setStartPos(whTokens[position].getStartPos());
+            final String prevValue = whTokens[position].toString(); 
+            whTokens[position] = unifiedTokens[i];
+            annotateChange(whTokens[position], prevValue);
           }          
         }
       }
       break;
     case REMOVE:
-      if (newTokenReadings != null) {
-        if (newTokenReadings.length == matchingTokens - startPositionCorrection
-            + endPositionCorrection) {
-          for (int i = 0; i < newTokenReadings.length; i++) {
-            whTokens[text.getOriginalPosition(firstMatchToken + correctedStPos
-                + i)].removeReading(newTokenReadings[i]);
-          }
+        if (newTokenReadings != null) {
+            if (newTokenReadings.length == matchingTokens - startPositionCorrection
+                    + endPositionCorrection) {            
+                for (int i = 0; i < newTokenReadings.length; i++) {
+                    final int position = text.getOriginalPosition(firstMatchToken + correctedStPos
+                            + i);
+                    final String prevValue = whTokens[position].toString();
+                    whTokens[position].removeReading(newTokenReadings[i]);
+                    annotateChange(whTokens[position], prevValue);            
+                }
+            }
         }
-      }
-      break;
+        break;
     case ADD:
       if (newTokenReadings != null) {
         if (newTokenReadings.length == matchingTokens - startPositionCorrection
@@ -266,8 +271,11 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
               lemma = newTokenReadings[i].getLemma();
             }
             final AnalyzedToken newTok = new AnalyzedToken(token, newTokenReadings[i].getPOSTag(), lemma);
-            whTokens[text.getOriginalPosition(firstMatchToken + correctedStPos
-                + i)].addReading(newTok);
+            final int position = text.getOriginalPosition(firstMatchToken + correctedStPos
+                    + i);
+            final String prevValue = whTokens[position].toString();
+            whTokens[position].addReading(newTok);
+            annotateChange(whTokens[position], prevValue);
           }
         }
       }
@@ -281,8 +289,10 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
         final Match tmpMatchToken = new Match(disambiguatedPOS, null, true,
             disambiguatedPOS, null, Match.CaseConversion.NONE, 
             false, false, Match.IncludeRange.NONE);
-        tmpMatchToken.setToken(whTokens[fromPos]);        
-        whTokens[fromPos] = tmpMatchToken.filterReadings();        
+        tmpMatchToken.setToken(whTokens[fromPos]);
+        final String prevValue = whTokens[fromPos].toString();
+        whTokens[fromPos] = tmpMatchToken.filterReadings();    
+        annotateChange(whTokens[fromPos], prevValue);
         filtered = true;
       }
     case REPLACE:
@@ -307,6 +317,7 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
                   lemma), whTokens[fromPos].getStartPos());
           final boolean isSentEnd = whTokens[fromPos].isSentEnd();
           final boolean isParaEnd = whTokens[fromPos].isParaEnd();
+          final String prevValue = whTokens[fromPos].toString();
           whTokens[fromPos] = toReplace;
           if (isSentEnd) {
             whTokens[fromPos].setSentEnd();            
@@ -315,17 +326,24 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
             whTokens[fromPos].setParaEnd();
           }
           whTokens[fromPos].setWhitespaceBefore(spaceBefore);
+          annotateChange(whTokens[fromPos], prevValue);
         } else {
           // using the match element
           matchElement.setToken(whTokens[fromPos]);
+          final String prevValue = whTokens[fromPos].toString();
           whTokens[fromPos] = matchElement.filterReadings();
           whTokens[fromPos].setWhitespaceBefore(spaceBefore);
+          annotateChange(whTokens[fromPos], prevValue);
         }
       }
     }
     return whTokens;
   }
 
+  private void annotateChange(AnalyzedTokenReadings atr, final String prevValue) {      
+      atr.setHistoricalAnnotations(this.getId() + ": " + prevValue + " -> " + atr.toString());
+  }
+  
   /**
    * @param examples
    *          the examples to set

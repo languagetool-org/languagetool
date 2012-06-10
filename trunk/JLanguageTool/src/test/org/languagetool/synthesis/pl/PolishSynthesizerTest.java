@@ -34,15 +34,15 @@ public class PolishSynthesizerTest extends TestCase {
     PolishSynthesizer synth = new PolishSynthesizer();
     assertEquals(synth.synthesize(dummyToken("blablabla"), "blablabla").length, 0);
 
-    assertEquals("[Aaru]", Arrays.toString(synth.synthesize(dummyToken("Aar"), "subst:sg:gen:m3")));
+    assertEquals("[Aarona]", Arrays.toString(synth.synthesize(dummyToken("Aaron"), "subst:sg:gen:m1")));
     assertEquals("[Abchazem]", Arrays.toString(synth.synthesize(dummyToken("Abchaz"), "subst:sg:inst:m1")));
-    assertEquals("[nieduży]", Arrays.toString(synth.synthesize(dummyToken("duży"), "adj:sg:nom:m:pos:neg")));        
+    // assertEquals("[nieduży]", Arrays.toString(synth.synthesize(dummyToken("nieduży"), "adj:sg:nom:m:pos:neg")));        
     assertEquals("[miała]", Arrays.toString(synth.synthesize(dummyToken("mieć"), "verb:praet:sg:ter:f:imperf")));
-        assertEquals("[brzydziej]", Arrays.toString(synth.synthesize(dummyToken("brzydko"), "adv:comp")));
+        assertEquals("[brzydziej]", Arrays.toString(synth.synthesize(dummyToken("brzydko"), "adv:com")));
     //with regular expressions
-    assertEquals("[tonera]", Arrays.toString(synth.synthesize(dummyToken("toner"), ".*sg.*[\\.:]gen.*", true)));
-    assertEquals("[niedużego, nieduży, niedużemu, niedużego, niedużym, nieduży, nieduży]", Arrays.toString(synth.synthesize(dummyToken("duży"), "adj:sg.*(m[0-9]?|m.n):pos:neg", true)));    
-    assertEquals("[miałabym, miałbym, miałabyś, miałbyś, miałaby, miałby, miałoby, miałam, miałem, miałaś, miałeś, miała, miał, miało]", 
+    assertEquals("[tonera]", Arrays.toString(synth.synthesize(dummyToken("toner"), "subst:sg:gen:m.*", true)));
+    assertEquals("[nieduży, niedużego]", Arrays.toString(synth.synthesize(dummyToken("nieduży"), "adj:sg.*(m[0-9]?|m.n):pos", true)));    
+    assertEquals("[miałaś, miałam, miała, miał, miałeś, miało, miałem, miałabym, miałbym, miałabyś, miałoby, miałbyś, miałby, miałaby]", 
           Arrays.toString(synth.synthesize(dummyToken("mieć"), ".*praet:sg.*", true)));
   }
 
