@@ -78,7 +78,8 @@ public abstract class Language {
   public static final Language ASTURIAN = new Asturian();
   public static final Language TAGALOG = new Tagalog();
   public static final Language GREEK = new Greek();
-
+  public static final Language PORTUGUESE = new Portuguese();
+  
   public static final Language DEMO = new Demo();
   
   private static List<Language> externalLanguages = new ArrayList<Language>();
@@ -91,7 +92,7 @@ public abstract class Language {
     SLOVAK, SLOVENIAN, /*SWEDISH,*/ ROMANIAN, ICELANDIC, GALICIAN, CATALAN, DANISH,
     MALAYALAM, BELARUSIAN, ESPERANTO, CHINESE, ASTURIAN, TAGALOG, BRETON, GREEK,
     AMERICAN_ENGLISH, BRITISH_ENGLISH, CANADIAN_ENGLISH, SOUTH_AFRICAN_ENGLISH, NEW_ZEALAND_ENGLISH, AUSTRALIAN_ENGLISH,
-    GERMANY_GERMAN, AUSTRIAN_GERMAN, SWISS_GERMAN,
+    GERMANY_GERMAN, AUSTRIAN_GERMAN, SWISS_GERMAN, PORTUGUESE,
     DEMO
   };
 

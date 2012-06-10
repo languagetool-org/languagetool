@@ -1,0 +1,1216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../print.xsl" 
+title="Pretty print" ?>
+<?xml-stylesheet type="text/css" href="../rules.css" 
+title="Easy editing stylesheet" ?>
+<!--
+Portuguese (Portugal - pre-reform) - Grammar and Typo Rules for LanguageTool
+Copyright (C) 2012 Marco A.G.Pinto (www.marcoagpinto.com) and Juan Martorell who mentored the project
+$Id: grammar.xml,v 1.016 2012-06-08 16:30:00 marcoagpinto Exp $
+-->
+<rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+
+<!--
+************************************
+           MISCELÂNEA
+************************************
+-->
+
+<category name="Miscelânea">
+
+
+    <!-- ABORDO DA a bordo da -->
+    <rule id="ABORDO_DA" name="a bordo da">
+      <pattern>
+        <token>abordo</token>
+        <token>da</token>
+      </pattern>
+      <message>Substituir «abordo da» por <suggestion>a bordo da</suggestion>.</message>
+      <short>"Miscelânea".</short>
+      <example type="incorrect">Vai uma pessoa importante <marker>abordo da</marker> fragata.</example>
+      <example type="correct">Vai uma pessoa importante <marker>a bordo da</marker> fragata.</example>
+    </rule>
+
+
+
+    <!-- ABORDO DO a bordo do -->
+    <rule id="ABORDO_DO" name="a bordo do">
+      <pattern>
+        <token>abordo</token>
+        <token>do</token>
+      </pattern>
+      <message>Substituir «abordo do» por <suggestion>a bordo do</suggestion>.</message>
+      <short>"Miscelânea".</short>
+      <example type="incorrect">Vai uma pessoa importante <marker>abordo do</marker> avião.</example>
+      <example type="correct">Vai uma pessoa importante <marker>a bordo do</marker> avião.</example>
+    </rule>
+
+
+
+    <!-- A BRACELETE o bracelete -->
+    <rule id="A_BRACELETE" name="o bracelete">
+      <pattern>
+        <token>a</token>
+        <token>bracelete</token>
+      </pattern>
+      <message>Substituir «a bracelete» por <suggestion>o bracelete</suggestion>.</message>
+      <short>"Miscelânea".</short>
+      <example type="incorrect">Coloca <marker>a bracelete</marker>.</example>
+      <example type="correct">Coloca <marker>o bracelete</marker>.</example>
+    </rule>
+
+
+
+    <!-- À MAIS há mais -->
+    <rule id="À_MAIS" name="há mais">
+      <pattern>
+        <token>à</token>
+        <token>mais</token>
+      </pattern>
+      <message>Substituir «à mais» por <suggestion>há mais</suggestion>.</message>
+      <short>"Miscelânea".</short>
+      <example type="incorrect">Amanhã <marker>à mais</marker> em jogo.</example>
+      <example type="correct">Amanhã <marker>há mais</marker> em jogo.</example>
+    </rule>
+
+
+
+    <!-- ANTI VÍRUS antivírus -->
+    <rule id="ANTI_VÍRUS" name="antivírus">
+      <pattern>
+        <token>anti</token>
+        <token>vírus</token>
+      </pattern>
+      <message>Substituir «anti vírus» por <suggestion>antivírus</suggestion>.</message>
+      <short>"Miscelânea".</short>
+      <example type="incorrect">Actualiza sempre o <marker>anti vírus</marker>.</example>
+      <example type="correct">Actualiza sempre o <marker>antivírus</marker>.</example>
+    </rule>
+
+
+
+    <!-- AS BRACELETES os braceletes -->
+    <rule id="AS_BRACELETES" name="os braceletes">
+      <pattern>
+        <token>as</token>
+        <token>braceletes</token>
+      </pattern>
+      <message>Substituir «as braceletes» por <suggestion>os braceletes</suggestion>.</message>
+      <short>"Miscelânea".</short>
+      <example type="incorrect">Coloca <marker>as braceletes</marker>.</example>
+      <example type="correct">Coloca <marker>os braceletes</marker>.</example>
+    </rule>
+ 
+
+
+    <!-- A UM CONSERTO a um concerto -->
+    <rule id="A_UM_CONSERTO" name="a um concerto">
+      <pattern>
+        <token>a</token>
+        <token>um</token>
+        <token>conserto</token>
+      </pattern>
+      <message>Substituir «a um conserto» por <suggestion>a um concerto</suggestion>.</message>
+      <short>"Miscelânea".</short>
+      <example type="incorrect">Vou <marker>a um conserto</marker>.</example>
+      <example type="correct">Vou <marker>a um concerto</marker>.</example>
+    </rule>
+
+
+
+    <!-- ANTES DE QUE antes que -->
+    <rule id="ANTES_DE_QUE" name="antes que">
+      <pattern>
+        <token>antes</token>
+        <token>de</token>
+        <token>que</token>
+      </pattern>
+      <message>Substituir «antes de que» por <suggestion>antes que</suggestion>.</message>
+      <short>"Miscelânea".</short>
+      <example type="incorrect">Tratar de algo <marker>antes de que</marker> seja tarde.</example>
+      <example type="correct">Tratar de algo <marker>antes que</marker> seja tarde.</example>
+    </rule>
+
+
+
+    <!-- A QUANDO aquando -->
+    <rule id="A_QUANDO" name="aquando">
+      <pattern>
+        <token>a</token>
+        <token>quando</token>
+      </pattern>
+      <message>Substituir «a quando» por <suggestion>aquando</suggestion>.</message>
+      <short>"Miscelânea".</short>
+      <example type="incorrect">Vamos tratar disso <marker>a quando</marker> da ida do Rui.</example>
+      <example type="correct">Vamos tratar disso <marker>aquando</marker> da ida do Rui.</example>
+    </rule>
+
+
+
+    <!-- AO SEREM USADO ao serem usados -->
+    <rule id="AO_SEREM_USADO" name="ao serem usados">
+      <pattern>
+        <token>ao</token>
+        <token>serem</token>
+        <token>usado</token>
+      </pattern>
+      <message>Substituir «ao serem usado» por <suggestion>ao serem usados</suggestion>.</message>
+      <short>"Miscelânea".</short>
+      <example type="incorrect">Há produtos que <marker>ao serem usado</marker> fazem-nos sentir bem.</example>
+      <example type="correct">Há produtos que <marker>ao serem usados</marker> fazem-nos sentir bem.</example>
+    </rule>
+
+
+
+    <!-- AS MILHARES os milhares -->
+    <rule id="AS_MILHARES" name="os milhares">
+      <pattern>
+        <token>as</token>
+        <token>milhares</token>
+      </pattern>
+      <message>Substituir «as milhares» por <suggestion>os milhares</suggestion>.</message>
+      <short>"Miscelânea".</short>
+      <example type="incorrect">Vejam <marker>as milhares</marker> de mulheres.</example>
+      <example type="correct">Vejam <marker>os milhares</marker> de mulheres.</example>
+    </rule>
+
+
+
+    <!-- ATÉ MANHÃ até amanhã -->
+    <rule id="ATÉ_MANHÃ" name="até amanhã">
+      <pattern>
+        <token>até</token>
+        <token>manhã</token>
+      </pattern>
+      <message>Substituir «até manhã» por <suggestion>até amanhã</suggestion>.</message>
+      <short>"Miscelânea".</short>
+      <example type="incorrect">Boa noite e <marker>até manhã</marker> cedo.</example>
+      <example type="correct">Boa noite e <marker>até amanhã</marker> cedo.</example>
+    </rule>
+
+
+
+    <!-- BEM VINDO bem-vindo -->
+    <rule id="BEM_VINDO" name="bem-vindo">
+      <pattern>
+        <token>bem</token>
+        <token>vindo</token>
+      </pattern>
+      <message>Substituir «bem vindo» por <suggestion>bem-vindo</suggestion>.</message>
+      <short>"Miscelânea".</short>
+      <example type="incorrect">O Miguel é sempre <marker>bem vindo</marker>.</example>
+      <example type="correct">O Miguel é sempre <marker>bem-vindo</marker>.</example>
+    </rule>
+
+
+
+    <!-- CENTENAS DE MILHAR centenas de milhares -->
+    <rule id="CENTENAS_DE_MILHAR" name="centenas de milhares">
+      <pattern>
+        <token>centenas</token>
+        <token>de</token>
+        <token>milhar</token>
+      </pattern>
+      <message>Substituir «centenas de milhar» por <suggestion>centenas de milhares</suggestion>.</message>
+      <short>"Miscelânea".</short>
+      <example type="incorrect">Existem várias <marker>centenas de milhar</marker> de militantes.</example>
+      <example type="correct">Existem várias <marker>centenas de milhares</marker> de militantes.</example>
+    </rule>
+
+
+
+    <!-- COMER O ALMOÇO almoçar -->
+    <rule id="COMER_O_ALMOÇO" name="almoçar">
+      <pattern>
+        <token>comer</token>
+        <token>o</token>
+        <token>almoço</token>
+      </pattern>
+      <message>Substituir «comer o almoço» por <suggestion>almoçar</suggestion>.</message>
+      <short>"Miscelânea".</short>
+      <example type="incorrect">Vou <marker>comer o almoço</marker> daqui a pouco.</example>
+      <example type="correct">Vou <marker>almoçar</marker> daqui a pouco.</example>
+    </rule>
+
+
+
+    <!-- DAR OS BONS DIAS dar os bons-dias -->
+    <rule id="DAR_OS_BONS_DIAS" name="dar os bons-dias">
+      <pattern>
+        <token>dar</token>
+        <token>os</token>
+        <token>bons</token>
+        <token>dias</token>
+      </pattern>
+      <message>Substituir «dar os bons dias» por <suggestion>dar os bons-dias</suggestion>.</message>
+      <short>"Miscelânea".</short>
+      <example type="incorrect">Vou <marker>dar os bons dias</marker> ao Miguel.</example>
+      <example type="correct">Vou <marker>dar os bons-dias</marker> ao Miguel.</example>
+    </rule>
+
+
+
+    <!-- DE FORMA A QUE de forma a que -->
+    <rule id="DE_FORMA_A_QUE" name="para que">
+      <pattern>
+        <token>de</token>
+        <token>forma</token>
+        <token>a</token>
+        <token>que</token>
+      </pattern>
+      <message>Substituir «de forma a que» por <suggestion>para que</suggestion>.</message>
+      <short>"Miscelânea".</short>
+      <example type="incorrect">Isto é feito <marker>de forma a que</marker> os cidadãos possam ser livres.</example>
+      <example type="correct">Isto é feito <marker>para que</marker> os cidadãos possam ser livres.</example>
+    </rule>
+
+ 
+
+    <!-- DE VÊS EM QUANDO de vez em quando -->
+    <rule id="DE_VÊS_EM_QUANDO" name="de vez em quando">
+      <pattern>
+        <token>de</token>
+        <token>vês</token>
+        <token>em</token>
+        <token>quando</token>
+      </pattern>
+      <message>Substituir «de vês em quando» por <suggestion>de vez em quando</suggestion>.</message>
+      <short>"Miscelânea".</short>
+      <example type="incorrect">Ela aparece <marker>de vês em quando</marker>.</example>
+      <example type="correct">Ela aparece <marker>de vez em quando</marker>.</example>
+    </rule>
+
+
+
+    <!-- DIGO TE digo-te -->
+    <rule id="DIGO_TE" name="digo-te">
+      <pattern>
+        <token>digo</token>
+        <token>te</token>
+      </pattern>
+      <message>Substituir «digo te» por <suggestion>digo-te</suggestion>.</message>
+      <short>"Miscelânea".</short>
+      <example type="incorrect">Amanhã <marker>digo te</marker> o segredo.</example>
+      <example type="correct">Amanhã <marker>digo-te</marker> o segredo.</example>
+    </rule>
+
+
+
+     <!-- DIVERTI ME diverti-me -->
+    <rule id="DIVERTI_ME" name="diverti-me">
+      <pattern>
+        <token>diverti</token>
+        <token>me</token>
+      </pattern>
+      <message>Substituir «diverti me» por <suggestion>diverti-me</suggestion>.</message>
+      <short>"Miscelânea".</short>
+      <example type="incorrect">Hoje <marker>diverti me</marker> imenso.</example>
+      <example type="correct">Hoje <marker>diverti-me</marker> imenso.</example>
+    </rule>
+
+
+
+    <!-- DUM de um -->
+    <rule id="DUM" name="de um">
+      <pattern>
+        <token>dum</token>
+      </pattern>
+      <message>Substituir «dum» por <suggestion>de um</suggestion>.</message>
+      <short>"Miscelânea".</short>
+      <example type="incorrect">A venda <marker>dum</marker> apartamento.</example>
+      <example type="correct">A venda <marker>de um</marker> apartamento.</example>
+    </rule>
+
+
+
+    <!-- DUMA de uma -->
+    <rule id="DUMA" name="de uma">
+      <pattern>
+        <token>duma</token>
+      </pattern>
+      <message>Substituir «duma» por <suggestion>de uma</suggestion>.</message>
+      <short>"Miscelânea".</short>
+      <example type="incorrect">A venda <marker>duma</marker> casa.</example>
+      <example type="correct">A venda <marker>de uma</marker> casa.</example>
+    </rule>
+
+
+
+    <!-- EM UM num -->
+    <rule id="EM_UM" name="num">
+      <pattern>
+        <token>em</token>
+        <token>um</token>
+      </pattern>
+      <message>Substituir «em um» por <suggestion>num</suggestion>.</message>
+      <short>"Miscelânea".</short>
+      <example type="incorrect">Está <marker>em um</marker> armário.</example>
+      <example type="correct">Está <marker>num</marker> armário.</example>
+    </rule>
+
+
+
+    <!-- EM UMA numa -->
+    <rule id="EM_UMA" name="numa">
+      <pattern>
+        <token>em</token>
+        <token>uma</token>
+      </pattern>
+      <message>Substituir «em uma» por <suggestion>numa</suggestion>.</message>
+      <short>"Miscelânea".</short>
+      <example type="incorrect">Está <marker>em uma</marker> gaveta.</example>
+      <example type="correct">Está <marker>numa</marker> gaveta.</example>
+    </rule>
+
+
+
+    <!-- ESTA MELHOR está melhor -->
+    <rule id="ESTA_MELHOR" name="está melhor">
+      <pattern>
+        <token>esta</token>
+        <token>melhor</token>
+      </pattern>
+      <message>Substituir «esta melhor» por <suggestion>está melhor</suggestion>.</message>
+      <short>"Miscelânea".</short>
+      <example type="incorrect">Assim <marker>esta melhor</marker> que no passado.</example>
+      <example type="correct">Assim <marker>está melhor</marker> que no passado.</example>
+    </rule>
+
+
+
+    <!-- ESTAS MELHOR estás melhor -->
+    <rule id="ESTAS_MELHOR" name="estás melhor">
+      <pattern>
+        <token>estas</token>
+        <token>melhor</token>
+      </pattern>
+      <message>Substituir «estas melhor» por <suggestion>estás melhor</suggestion>.</message>
+      <short>"Miscelânea".</short>
+      <example type="incorrect">Assim <marker>estas melhor</marker>.</example>
+      <example type="correct">Assim <marker>estás melhor</marker>.</example>
+    </rule>
+
+
+
+    <!-- IR NA PRAIA ir à praia -->
+    <rule id="IR_NA_PRAIA" name="ir à praia">
+      <pattern>
+        <token>ir</token>
+        <token>na</token>
+        <token>praia</token>
+      </pattern>
+      <message>Substituir «na» por <suggestion>à</suggestion>.</message>
+      <short>"Miscelânea".</short>
+      <example type="incorrect">Tenho de <marker>ir na praia</marker>.</example>
+      <example type="correct">Tenho de <marker>ir à praia</marker>.</example>
+    </rule>
+
+
+
+    <!-- IR NO GINÁSIO ir ao ginásio -->
+    <rule id="IR_NO_GINÁSIO" name="ir ao ginásio">
+      <pattern>
+        <token>ir</token>
+        <token>no</token>
+        <token>ginásio</token>
+      </pattern>
+      <message>Substituir «no» por <suggestion>ao</suggestion>.</message>
+      <short>"Miscelânea".</short>
+      <example type="incorrect">Tenho de <marker>ir no ginásio</marker>.</example>
+      <example type="correct">Tenho de <marker>ir ao ginásio</marker>.</example>
+    </rule>
+
+
+
+    <!-- MAIS GRANDE maior -->
+    <rule id="MAIS_GRANDE" name="maior">
+      <pattern>
+        <token>mais</token>
+        <token>grande</token>
+      </pattern>
+      <message>Substituir «mais grande» por <suggestion>maior</suggestion>.</message>
+      <short>"Miscelânea".</short>
+      <example type="incorrect">Aquele artigo é <marker>mais grande</marker> que o outro.</example>
+      <example type="correct">Aquele artigo é <marker>maior</marker> que o outro.</example>
+    </rule>
+
+
+
+    <!-- MATÉRIA PRIMA matéria-prima -->
+    <rule id="MATÉRIA_PRIMA" name="matéria-prima">
+      <pattern>
+        <token>matéria</token>
+        <token>prima</token>
+      </pattern>
+      <message>Substituir «matéria prima» por <suggestion>matéria-prima</suggestion>.</message>
+      <short>"Miscelânea".</short>
+      <example type="incorrect">Os dados são a <marker>matéria prima</marker> da Informação.</example>
+      <example type="correct">Os dados são a <marker>matéria-prima</marker> da Informação.</example>
+    </rule>
+
+
+
+    <!-- MEIO AMBIENTE meio-ambiente -->
+    <rule id="MEIO_AMBIENTE" name="meio-ambiente">
+      <pattern>
+        <token>meio</token>
+        <token>ambiente</token>
+      </pattern>
+      <message>Substituir «meio ambiente» por <suggestion>meio-ambiente</suggestion>.</message>
+      <short>"Miscelânea".</short>
+      <example type="incorrect">Preservar o <marker>meio ambiente</marker> é importante.</example>
+      <example type="correct">Preservar o <marker>meio-ambiente</marker> é importante.</example>
+    </rule>
+
+
+
+    <!-- MUITO PELO É muito pêlo é -->
+    <rule id="MUITO_PELO_É" name="muito pêlo é">
+      <pattern>
+        <token>muito</token>
+        <token>pelo</token>
+        <token>é</token>
+      </pattern>
+      <message>Substituir «muito pelo é» por <suggestion>muito pêlo é</suggestion>.</message>
+      <short>"Miscelânea".</short>
+      <example type="incorrect">Para quem tem animais com <marker>muito pelo é</marker> bom.</example>
+      <example type="correct">Para quem tem animais com <marker>muito pêlo é</marker> bom.</example>
+    </rule>
+
+
+
+    <!-- NO FAZ FALTA não faz falta -->
+    <rule id="NO_FAZ_FALTA" name="não faz falta">
+      <pattern>
+        <token>no</token>
+        <token>faz</token>
+        <token>falta</token>
+      </pattern>
+      <message>Substituir «no faz falta» por <suggestion>não faz falta</suggestion>.</message>
+      <short>"Miscelânea".</short>
+      <example type="incorrect">Isso <marker>no faz falta</marker> às pessoas.</example>
+      <example type="correct">Isso <marker>não faz falta</marker> às pessoas.</example>
+    </rule>
+
+
+
+    <!-- NUM SEI não sei -->
+    <rule id="NUM_SEI" name="não sei">
+      <pattern>
+        <token>num</token>
+        <token>sei</token>
+      </pattern>
+      <message>Substituir «num sei» por <suggestion>não sei</suggestion>.</message>
+      <short>"Miscelânea".</short>
+      <example type="incorrect">Como podes ver, <marker>num sei</marker> a resposta.</example>
+      <example type="correct">Como podes ver, <marker>não sei</marker> a resposta.</example>
+    </rule>
+
+
+
+    <!-- PEDIR UM CONCELHO pedir um conselho -->
+    <rule id="PEDIR_UM_CONCELHO" name="pedir um conselho">
+      <pattern>
+        <token>pedir</token>
+        <token>um</token>
+        <token>concelho</token>
+      </pattern>
+      <message>Substituir «pedir um concelho» por <suggestion>pedir um conselho</suggestion>.</message>
+      <short>"Miscelânea".</short>
+      <example type="incorrect">Devemos <marker>pedir um concelho</marker> ao padre.</example>
+      <example type="correct">Devemos <marker>pedir um conselho</marker> ao padre.</example>
+    </rule>
+
+
+
+    <!-- POR DINHEIRO E PUDER por dinheiro e poder -->
+    <rule id="POR_DINHEIRO_E_PUDER" name="por dinheiro e poder">
+      <pattern>
+        <token>por</token>
+        <token>dinheiro</token>
+        <token>e</token>
+        <token>puder</token>
+      </pattern>
+      <message>Substituir «por dinheiro e puder» por <suggestion>por dinheiro e poder</suggestion>.</message>
+      <short>"Miscelânea".</short>
+      <example type="incorrect">Eles fazem tudo <marker>por dinheiro e puder</marker>.</example>
+      <example type="correct">Eles fazem tudo <marker>por dinheiro e poder</marker>.</example>
+    </rule>
+
+
+
+    <!-- QUANDO PODER quando puder -->
+    <rule id="QUANDO_PODER" name="quando puder">
+      <pattern>
+        <token>quando</token>
+        <token>poder</token>
+      </pattern>
+      <message>Substituir «quando poder» por <suggestion>quando puder</suggestion>.</message>
+      <short>"Miscelânea".</short>
+      <example type="incorrect">Irei lanchar <marker>quando poder</marker>.</example>
+      <example type="correct">Irei lanchar <marker>quando puder</marker>.</example>
+    </rule>
+
+
+
+    <!-- TAL VEZ talvez -->
+    <rule id="TAL_VEZ" name="talvez">
+      <pattern>
+        <token>tal</token>
+        <token>vez</token>
+      </pattern>
+      <message>Substituir «tal vez» por <suggestion>talvez</suggestion>.</message>
+      <short>"Miscelânea".</short>
+      <example type="incorrect">Amanhã <marker>tal vez</marker> seja possível.</example>
+      <example type="correct">Amanhã <marker>talvez</marker> seja possível.</example>
+    </rule>
+
+
+
+    <!-- ULTRA SECRETA ultra-secreta -->
+    <rule id="ULTRA_SECRETA" name="ultra-secreta">
+      <pattern>
+        <token>ultra</token>
+        <token>secreta</token>
+      </pattern>
+      <message>Substituir «ultra secreta» por <suggestion>ultra-secreta</suggestion>.</message>
+      <short>"Miscelânea".</short>
+      <example type="incorrect">Aquela arma <marker>ultra secreta</marker> é perigosa.</example>
+      <example type="correct">Aquela arma <marker>ultra-secreta</marker> é perigosa.</example>
+    </rule>
+
+
+
+    <!-- ULTRA SECRETO ultra-secreto -->
+    <rule id="ULTRA_SECRETO" name="ultra-secreto">
+      <pattern>
+        <token>ultra</token>
+        <token>secreto</token>
+      </pattern>
+      <message>Substituir «ultra secreto» por <suggestion>ultra-secreto</suggestion>.</message>
+      <short>"Miscelânea".</short>
+      <example type="incorrect">Aquele armamento <marker>ultra secreto</marker> é perigoso.</example>
+      <example type="correct">Aquele armamento <marker>ultra-secreto</marker> é perigoso.</example>
+    </rule>
+
+
+
+    <!-- UM BAIXO-ASSINADO um abaixo-assinado -->
+    <rule id="UM_BAIXO-ASSINADO" name="um abaixo-assinado">
+      <pattern>
+        <token>um</token>
+        <token>baixo-assinado</token>
+      </pattern>
+      <message>Substituir «um baixo-assinado» por <suggestion>um abaixo-assinado</suggestion>.</message>
+      <short>"Miscelânea".</short>
+      <example type="incorrect">As pessoas fizeram <marker>um baixo-assinado</marker>.</example>
+      <example type="correct">As pessoas fizeram <marker>um abaixo-assinado</marker>.</example>
+    </rule>
+
+
+
+    <!-- UM TERRÍVEL DOR uma terrível dor -->
+    <rule id="UM_TERRÍVEL_DOR" name="uma terrível dor">
+      <pattern>
+        <token>um</token>
+        <token>terrível</token>
+        <token>dor</token>
+      </pattern>
+      <message>Substituir «um terrível dor» por <suggestion>uma terrível dor</suggestion>.</message>
+      <short>"Miscelânea".</short>
+      <example type="incorrect">Tenho <marker>um terrível dor</marker> de cabeça.</example>
+      <example type="correct">Tenho <marker>uma terrível dor</marker> de cabeça.</example>
+    </rule>
+
+
+
+    <!-- VIR ME VER vir-me ver -->
+    <rule id="VIR_ME_VER" name="vir-me ver">
+      <pattern>
+        <token>vir</token>
+        <token>me</token>
+        <token>ver</token>
+      </pattern>
+      <message>Substituir «vir me ver» por <suggestion>vir-me ver</suggestion>.</message>
+      <short>"Miscelânea".</short>
+      <example type="incorrect">Quando puderes <marker>vir me ver</marker> ficarei contente.</example>
+      <example type="correct">Quando puderes <marker>vir-me ver</marker> ficarei contente.</example>
+    </rule>
+
+
+
+</category>
+
+
+
+
+<!--
+************************************
+           ERROS ORTOGRÁFICOS
+************************************
+-->
+
+ 
+<category name="Erros ortográficos">
+    <!-- A A a -->
+    <rule id="A_A" name="a">
+      <pattern>
+        <token>a</token>
+        <token>a</token>
+      </pattern>
+      <message>Substituir «a a» por <suggestion>a</suggestion>.</message>
+      <short>"Repetição de palavra".</short>
+      <example type="incorrect">Tenho <marker>a a</marker> data marcada.</example>
+      <example type="correct">Tenho <marker>a</marker> data marcada.</example>
+    </rule>
+
+
+
+    <!-- À BOCADO há bocado -->
+    <rule id="À_BOCADO" name="há bocado">
+      <pattern>
+        <token>à</token>
+        <token>bocado</token>
+      </pattern>
+      <message>Substituir «à bocado» por <suggestion>há bocado</suggestion>.</message>
+      <short>"Erro ortográfico".</short>
+      <example type="incorrect">Cheguei <marker>à bocado</marker> do Algarve.</example>
+      <example type="correct">Cheguei <marker>há bocado</marker> do Algarve.</example>
+    </rule>
+
+
+
+    <!-- À QUE há que -->
+    <rule id="À_QUE" name="há que">
+      <pattern>
+        <token>à</token>
+        <token>que</token>
+      </pattern>
+      <message>Substituir «à que» por <suggestion>há que</suggestion>.</message>
+      <short>"Erro ortográfico".</short>
+      <example type="incorrect">Mas <marker>à que</marker> saber estudar.</example>
+      <example type="correct">Mas <marker>há que</marker> saber estudar.</example>
+    </rule>
+  
+  
+
+    <!-- ALÉM FRONTEIRAS além-fronteiras -->
+    <rule id="ALÉM_FRONTEIRAS" name="além-fronteiras">
+      <pattern>
+        <token>além</token>
+        <token>fronteiras</token>
+      </pattern>
+      <message>Substituir «além fronteiras» por <suggestion>além-fronteiras</suggestion>.</message>
+      <short>"Erro ortográfico".</short>
+      <example type="incorrect">O perigo encontra-se <marker>além fronteiras</marker>.</example>
+      <example type="correct">O perigo encontra-se <marker>além-fronteiras</marker>.</example>
+    </rule>
+
+
+
+    <!-- ESTÁ TÉCNICA esta técnica -->
+    <rule id="ESTÁ_TÉCNICA" name="esta técnica">
+      <pattern>
+        <token>está</token>
+        <token>técnica</token>
+      </pattern>
+      <message>Substituir «está técnica» por <suggestion>esta técnica</suggestion>.</message>
+      <short>"Erro ortográfico".</short>
+      <example type="incorrect">Os primeiros a usar <marker>está técnica</marker> foram eles.</example>
+      <example type="correct">Os primeiros a usar <marker>esta técnica</marker> foram eles.</example>
+    </rule>
+
+
+ 
+ 
+    <!-- HÁS VEZES às vezes -->
+    <rule id="HÁS_VEZES" name="às vezes">
+      <pattern>
+        <token>hás</token>
+        <token>vezes</token>
+      </pattern>
+      <message>Substituir «hás vezes» por <suggestion>às vezes</suggestion>.</message>
+      <short>"Erro ortográfico".</short>
+      <example type="incorrect">É que <marker>hás vezes</marker> temos de tomar decisões.</example>
+      <example type="correct">É que <marker>às vezes</marker> temos de tomar decisões.</example>
+    </rule>
+
+
+
+    <!-- O O -->
+    <rule id="O_O" name="o">
+      <pattern>
+        <token>o</token>
+        <token>o</token>
+      </pattern>
+      <message>Substituir «o o» por <suggestion>o</suggestion>.</message>
+      <short>"Repetição de palavra".</short>
+      <example type="incorrect">Tenho <marker>o o</marker> encontro marcado.</example>
+      <example type="correct">Tenho <marker>o</marker> encontro marcado.</example>
+    </rule>
+
+
+
+    <!-- PODERIAM-SE poder-se-iam -->
+    <rule id="PODERIAM-SE" name="poder-se-iam">
+      <pattern>
+        <token>poderiam-se</token>
+      </pattern>
+      <message>Substituir «poderiam-se» por <suggestion>poder-se-iam</suggestion>.</message>
+      <short>"Erro ortográfico".</short>
+      <example type="incorrect">Assim <marker>poderiam-se</marker> escrever livros sobre o assunto.</example>
+      <example type="correct">Assim <marker>poder-se-iam</marker> escrever livros sobre o assunto.</example>
+    </rule>
+
+
+
+</category>
+
+
+
+<!--
+  <category name="Estrangeirismos e latinismos">
+    <rule id="BANNER" name="banner">
+      <pattern>
+        <token>banner</token>
+      </pattern>
+      <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
+      <short>Estrangeirismos e latinismos.</short>
+      <example type="incorrect">O <marker>banner</marker> é bonito.</example>
+      <example type="correct">O <marker>banner</marker> é bonito.</example>
+    </rule>
+  </category>
+
+
+  <category name="Estrangeirismos e latinismos">
+    <rule id="BANNERS" name="banners">
+      <pattern>
+        <token>banners</token>
+      </pattern>
+      <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
+      <short>Estrangeirismos e latinismos.</short>
+      <example type="incorrect">Os <marker>banners</marker> são bonitos.</example>
+      <example type="correct">Os <marker>banners</marker> são bonitos.</example>
+    </rule>
+  </category>
+
+
+  <category name="Estrangeirismos e latinismos">
+    <rule id="DESIGN" name="design">
+      <pattern>
+        <token>design</token>
+      </pattern>
+      <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
+      <short>Estrangeirismos e latinismos.</short>
+      <example type="incorrect">O <marker>design</marker> está bonito.</example>
+      <example type="correct">O <marker>design</marker> está bonito.</example>
+    </rule>
+  </category>
+
+
+  <category name="Estrangeirismos e latinismos">
+    <rule id="DOWNLOAD" name="download">
+      <pattern>
+        <token>download</token>
+      </pattern>
+      <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
+      <short>Estrangeirismos e latinismos.</short>
+      <example type="incorrect">Vou fazer <marker>download</marker> de um ficheiro.</example>
+      <example type="correct">Vou fazer <marker>download</marker> de um ficheiro.</example>
+    </rule>
+  </category>
+     
+
+  <category name="Estrangeirismos e latinismos">
+    <rule id="E-MAIL" name="e-mail">
+      <pattern>
+        <token>e-mail</token>
+      </pattern>
+      <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
+      <short>Estrangeirismos e latinismos.</short>
+      <example type="incorrect">O <marker>e-mail</marker> vai ser enviado.</example>
+      <example type="correct">O <marker>e-mail</marker> vai ser enviado.</example>
+    </rule>
+  </category>
+
+
+   <category name="Estrangeirismos e latinismos">
+    <rule id="E-MAILS" name="e-mails">
+      <pattern>
+        <token>e-mails</token>
+      </pattern>
+      <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
+      <short>Estrangeirismos e latinismos.</short>
+      <example type="incorrect">Os <marker>e-mails</marker> vão ser enviados.</example>
+      <example type="correct">Os <marker>e-mails</marker> vão ser enviados.</example>
+    </rule>
+  </category>
+
+
+   <category name="Estrangeirismos e latinismos">
+    <rule id="FEEDBACK" name="feedback">
+      <pattern>
+        <token>feedback</token>
+      </pattern>
+      <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
+      <short>Estrangeirismos e latinismos.</short>
+      <example type="incorrect">Espero o <marker>feedback</marker> do Professor.</example>
+      <example type="correct">Espero o <marker>feedback</marker> do Professor.</example>
+    </rule>
+  </category>
+
+
+   <category name="Estrangeirismos e latinismos">
+    <rule id="FIREWALL" name="firewall">
+      <pattern>
+        <token>firewall</token>
+      </pattern>
+      <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
+      <short>Estrangeirismos e latinismos.</short>
+      <example type="incorrect">A <marker>firewall</marker> está bem configurada.</example>
+      <example type="correct">A <marker>firewall</marker> está bem configurada.</example>     
+    </rule>
+  </category>
+
+
+   <category name="Estrangeirismos e latinismos">
+    <rule id="FIREWALLS" name="firewalls">
+      <pattern>
+        <token>firewalls</token>
+      </pattern>
+      <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
+      <short>Estrangeirismos e latinismos.</short>
+      <example type="incorrect">As <marker>firewalls</marker> estão bem configuradas.</example>
+      <example type="correct">As <marker>firewalls</marker> estão bem configuradas.</example>
+    </rule>
+  </category>
+
+
+   <category name="Estrangeirismos e latinismos">
+    <rule id="FIRMWARE" name="firmware">
+      <pattern>
+        <token>firmware</token>
+      </pattern>
+      <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
+      <short>Estrangeirismos e latinismos.</short>
+      <example type="incorrect">O <marker>firmware</marker> é o mais recente.</example>
+      <example type="correct">O <marker>firmware</marker> é o mais recente.</example>     
+    </rule>
+  </category>
+
+
+   <category name="Estrangeirismos e latinismos">
+    <rule id="FRANCHISING" name="franchising">
+      <pattern>
+        <token>franchising</token>
+      </pattern>
+      <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
+      <short>Estrangeirismos e latinismos.</short>
+      <example type="incorrect">O <marker>franchising</marker> é um bom negócio.</example>
+      <example type="correct">O <marker>franchising</marker> é um bom negócio.</example>
+    </rule>
+  </category>
+
+
+   <category name="Estrangeirismos e latinismos">
+    <rule id="FRANCHISINGS" name="franchisings">
+      <pattern>
+        <token>franchisings</token>
+      </pattern>
+      <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
+      <short>Estrangeirismos e latinismos.</short>
+      <example type="incorrect">Os <marker>franchisings</marker> são bons negócios.</example>
+      <example type="correct">Os <marker>franchisings</marker> são bons negócios.</example>
+    </rule>
+  </category>
+
+
+   <category name="Estrangeirismos e latinismos">
+    <rule id="HACKER" name="hacker">
+      <pattern>
+        <token>hacker</token>
+      </pattern>
+      <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
+      <short>Estrangeirismos e latinismos.</short>
+      <example type="incorrect">Aquele <marker>hacker</marker> é perigoso.</example>
+      <example type="correct">Aquele <marker>hacker</marker> é perigoso.</example>    
+    </rule>
+  </category>
+
+
+   <category name="Estrangeirismos e latinismos">
+    <rule id="HACKERS" name="hackers">
+      <pattern>
+        <token>hackers</token>
+      </pattern>
+      <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
+      <short>Estrangeirismos e latinismos.</short>
+      <example type="incorrect">Aqueles <marker>hackers</marker> são perigosos.</example>
+      <example type="correct">Aqueles <marker>hackers</marker> são perigosos.</example>
+    </rule>
+  </category>
+
+
+   <category name="Estrangeirismos e latinismos">
+    <rule id="HOBBY" name="hobby">
+      <pattern>
+        <token>hobby</token>
+      </pattern>
+      <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
+      <short>Estrangeirismos e latinismos.</short>
+      <example type="incorrect">Aquele <marker>hobby</marker> é engraçado.</example>
+      <example type="correct">Aquele <marker>hobby</marker> é engraçado.</example>    
+    </rule>
+  </category>
+
+
+   <category name="Estrangeirismos e latinismos">
+    <rule id="KNOW-HOW" name="know-how">
+      <pattern>
+        <token>know-how</token>
+      </pattern>
+      <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
+      <short>Estrangeirismos e latinismos.</short>
+      <example type="incorrect">O <marker>know-how</marker> empresarial deve ser partilhado.</example>
+      <example type="correct">O <marker>know-how</marker> empresarial deve ser partilhado.</example>   
+    </rule>
+  </category>
+
+
+   <category name="Estrangeirismos e latinismos">
+    <rule id="LINK" name="link">
+      <pattern>
+        <token>link</token>
+      </pattern>
+      <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
+      <short>Estrangeirismos e latinismos.</short>
+      <example type="incorrect">Tenho um <marker>link</marker> engraçado.</example>
+      <example type="correct">Tenho um <marker>link</marker> engraçado.</example> 
+    </rule>
+  </category>
+
+
+   <category name="Estrangeirismos e latinismos">
+    <rule id="LINKS" name="links">
+      <pattern>
+        <token>links</token>
+      </pattern>
+      <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
+      <short>Estrangeirismos e latinismos.</short>
+      <example type="incorrect">Tenho <marker>links</marker> engraçados.</example>
+      <example type="correct">Tenho <marker>links</marker> engraçados.</example>
+    </rule>
+  </category>
+
+
+   <category name="Estrangeirismos e latinismos">
+    <rule id="MACROS" name="macros">
+      <pattern>
+        <token>macros</token>
+      </pattern>
+      <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
+      <short>Estrangeirismos e latinismos.</short>
+      <example type="incorrect">Existem <marker>macros</marker> no documento.</example>
+      <example type="correct">Existem <marker>macros</marker> no documento.</example>   
+    </rule>
+  </category>
+
+
+   <category name="Estrangeirismos e latinismos">
+    <rule id="MALWARE" name="malware">
+      <pattern>
+        <token>malware</token>
+      </pattern>
+      <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
+      <short>Estrangeirismos e latinismos.</short>
+      <example type="incorrect">O <marker>malware</marker> é perigoso.</example>
+      <example type="correct">O <marker>malware</marker> é perigoso.</example>
+    </rule>
+  </category>
+
+
+   <category name="Estrangeirismos e latinismos">
+    <rule id="MOTHERBOARD" name="motherboard">
+      <pattern>
+        <token>motherboard</token>
+      </pattern>
+      <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
+      <short>Estrangeirismos e latinismos.</short>
+      <example type="incorrect">A <marker>motherboard</marker> está avariada.</example>
+      <example type="correct">A <marker>motherboard</marker> está avariada.</example>
+    </rule>
+  </category>
+
+
+   <category name="Estrangeirismos e latinismos">
+    <rule id="ON-LINE" name="on-line">
+      <pattern>
+        <token>on-line</token>
+      </pattern>
+      <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
+      <short>Estrangeirismos e latinismos.</short>
+      <example type="incorrect">A página está <marker>on-line</marker>.</example>
+      <example type="correct">A página está <marker>on-line</marker>.</example>
+    </rule>
+  </category>
+
+
+   <category name="Estrangeirismos e latinismos">
+    <rule id="PHISHING" name="phishing">
+      <pattern>
+        <token>phishing</token>
+      </pattern>
+      <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
+      <short>Estrangeirismos e latinismos.</short>
+      <example type="incorrect">O <marker>phishing</marker> é um perigo.</example>
+      <example type="correct">O <marker>phishing</marker> é um perigo.</example>
+    </rule>
+  </category>
+
+
+   <category name="Estrangeirismos e latinismos">
+    <rule id="SCRIPTS" name="scripts">
+      <pattern>
+        <token>scripts</token>
+      </pattern>
+      <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
+      <short>Estrangeirismos e latinismos.</short>
+      <example type="incorrect">Existem <marker>scripts</marker> nos documentos.</example>
+      <example type="correct">Existem <marker>scripts</marker> nos documentos.</example>   
+    </rule>
+  </category>
+
+
+   <category name="Estrangeirismos e latinismos">
+    <rule id="SOFTWARE" name="software">
+      <pattern>
+        <token>software</token>
+      </pattern>
+      <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
+      <short>Estrangeirismos e latinismos.</short>
+      <example type="incorrect">O <marker>software</marker> é excelente.</example>
+      <example type="correct">O <marker>software</marker> é excelente.</example>  
+    </rule>
+  </category>
+
+
+   <category name="Estrangeirismos e latinismos">
+    <rule id="SPYWARE" name="spyware">
+      <pattern>
+        <token>spyware</token>
+      </pattern>
+      <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
+      <short>Estrangeirismos e latinismos.</short>
+      <example type="incorrect">O <marker>spyware</marker> é um perigo.</example>
+      <example type="correct">O <marker>spyware</marker> é um perigo.</example>
+    </rule>
+  </category>
+
+
+   <category name="Estrangeirismos e latinismos">
+    <rule id="STANDARD" name="standard">
+      <pattern>
+        <token>standard</token>
+      </pattern>
+      <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
+      <short>Estrangeirismos e latinismos.</short>
+      <example type="incorrect">O novo <marker>standard</marker> é o ideal.</example>
+      <example type="correct">O novo <marker>standard</marker> é o ideal.</example>
+    </rule>
+  </category>
+
+
+   <category name="Estrangeirismos e latinismos">
+    <rule id="STRESS" name="stress">
+      <pattern>
+        <token>stress</token>
+      </pattern>
+      <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
+      <short>Estrangeirismos e latinismos.</short>
+      <example type="incorrect">O <marker>stress</marker> é imenso.</example>
+      <example type="correct">O <marker>stress</marker> é imenso.</example>     
+    </rule>
+  </category>
+
+
+   <category name="Estrangeirismos e latinismos">
+    <rule id="TROJAN" name="trojan">
+      <pattern>
+        <token>trojan</token>
+      </pattern>
+      <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
+      <short>Estrangeirismos e latinismos.</short>
+      <example type="incorrect">Aquele <marker>trojan</marker> é um perigo.</example>
+      <example type="correct">Aquele <marker>trojan</marker> é um perigo.</example>
+    </rule>
+  </category>
+
+
+   <category name="Estrangeirismos e latinismos">
+    <rule id="TROJANS" name="trojans">
+      <pattern>
+        <token>trojans</token>
+      </pattern>
+      <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
+      <short>Estrangeirismos e latinismos.</short>
+      <example type="incorrect">Aqueles <marker>trojans</marker> são um perigo.</example>
+      <example type="correct">Aqueles <marker>trojans</marker> são um perigo.</example>
+    </rule>
+  </category>
+
+
+   <category name="Estrangeirismos e latinismos">
+    <rule id="UPLOAD" name="upload">
+      <pattern>
+        <token>upload</token>
+      </pattern>
+      <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
+      <short>Estrangeirismos e latinismos.</short>
+      <example type="incorrect">Vou fazer <marker>upload</marker> de um ficheiro.</example>
+      <example type="correct">Vou fazer <marker>upload</marker> de um ficheiro.</example> 
+    </rule>
+  </category>
+
+
+   <category name="Estrangeirismos e latinismos">
+    <rule id="WEBSITE" name="Website">
+      <pattern>
+        <token>Website</token>
+      </pattern>
+      <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
+      <short>Estrangeirismos e latinismos.</short>
+      <example type="incorrect">Vou visitar o <marker>Website</marker> do Marco.</example>
+      <example type="correct">Vou visitar o <marker>Website</marker> do Marco.</example> 
+    </rule>
+  </category>
+
+
+   <category name="Estrangeirismos e latinismos">
+    <rule id="WEBSITES" name="Websites">
+      <pattern>
+        <token>Websites</token>
+      </pattern>
+      <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
+      <short>Estrangeirismos e latinismos.</short>
+      <example type="incorrect">Vou visitar os <marker>Websites</marker> do Marco.</example>
+      <example type="correct">Vou visitar os <marker>Websites</marker> do Marco.</example>
+    </rule>
+  </category>
+
+
+   <category name="Estrangeirismos e latinismos">
+    <rule id="WORM" name="worm">
+      <pattern>
+        <token>worm</token>
+      </pattern>
+      <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
+      <short>Estrangeirismos e latinismos.</short>
+      <example type="incorrect">Aquele <marker>worm</marker> é um perigo.</example>
+      <example type="correct">Aquele <marker>worm</marker> é um perigo.</example>
+    </rule>
+  </category>
+-->
+
+
+</rules>
