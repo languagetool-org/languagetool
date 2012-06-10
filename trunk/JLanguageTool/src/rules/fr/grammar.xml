@@ -21486,9 +21486,9 @@ though, and has since been slightly modified)-->
     </category>
     <category name="Majuscules">
         <rule id="MON_DIEU" name="mon dieu">
-            <pattern case_sensitive="yes">
-                <token regexp="yes">[Mm]on</token>
-                <token>dieu</token>
+            <pattern>
+                <token>mon</token>
+                <token regexp="yes">(?-i)dieu</token>
             </pattern>
             <message>« Mon dieu » est une expression fautive. Employez <suggestion>mon Dieu</suggestion>.</message>
             <example type="incorrect"><marker>Mon dieu</marker> !</example>
@@ -21517,10 +21517,10 @@ though, and has since been slightly modified)-->
                 <example type="correct">Février est le mois le plus froid.</example>
             </rule>
             <rule>
-                <pattern case_sensitive="yes">
+                <pattern>
                     <token regexp="yes">en|[1-9][0-9]*</token>
                     <marker>
-                        <token>Mars</token>
+                        <token regexp="yes">(?-i)Mars</token>
                     </marker>
                 </pattern>
                 <message>Les mois de l’année n’ont pas de majuscule.</message>
@@ -21544,10 +21544,10 @@ though, and has since been slightly modified)-->
         </rule>
         <rulegroup id="LANGUES" name="langues">
             <rule>
-                <pattern case_sensitive="yes">
+                <pattern>
                     <token inflected="yes" regexp="yes" skip="8">parler|cours|leçon|apprendre|étudier|traduire|enseigner|professeur|enseignant|dictionnaire|méthode</token>
                     <marker>
-                        <token regexp="yes">Afrikaans|Albanais|Allemand|Alsacien|Anglais|Arabe|Aragonais|Aroumain|Arménien|Asturien|Awadhi|Basque|Bengali|Biélorusse|Birman|Bhojpuri|Bosniaque|Breton|Bulgare|Cantonais|Catalan|Chamorro|Cherokee|Chinois|Corse|Cornique|Coréen|Croate|Danois|Divehi|Écossais|Espagnol|Espéranto|Estonien|Féroïen|Farsi|[FP]ilipino|Finnois|Flamand|Français|Frison|Galicien|Gallois|Gaulois|Géorgien|Grec|Gujarati|Hakka|Haoussa|Hawaïen|Hébreu|Hindi|Hmong|Hollandais|Hongrois|Javanais|Ido|Indonésien|Interlingua|Islandais|Italien|Irlandais|Japonais|Jinyu|Kanna[dr]a|Kazakh|Kikongo|Klingon|Khmer|Kurde|Ladino|Laotien|Latin|Ligurien|Limbourgeois|Lituanien|Lojban|Lombard|Luxembourgeois|Macédonien|Maithili|Malais|Malayalam|Maldivien|Malgache|Maltais|Mandarin|Mannois|Maori|Marathi|Marwari|Moldave|Mongol|Mooré|Napolitain|Néerlandais|Norvégien|Occitan|Oriya|Ourdou|Ouzbek|Persan|Peul|Piémontais|Polonais|Portugais|Provençal|Quechua|Romanche|Roumain|Russe|Sans[ck]rit|Sarde|Serbe|Sicilien|Sindhi|Slovaque|Slovène|Soundanais|Sorabe|Suédois|Swahili|Tagalog|Tahitien|Tamoul|Tatar|Tchèque|Télogou|Thaï|Turc|Ukrainien|Vénitien|Vietnamien|Volapük|Wallon|Wo?u|Yiddish|Xhosa|Xiang|Zoulou<exception scope="previous" inflected="yes">être</exception><exception scope="previous" regexp="yes">en|[dl]es|une?</exception>
+                        <token regexp="yes">(?-i)Afrikaans|Albanais|Allemand|Alsacien|Anglais|Arabe|Aragonais|Aroumain|Arménien|Asturien|Awadhi|Basque|Bengali|Biélorusse|Birman|Bhojpuri|Bosniaque|Breton|Bulgare|Cantonais|Catalan|Chamorro|Cherokee|Chinois|Corse|Cornique|Coréen|Croate|Danois|Divehi|Écossais|Espagnol|Espéranto|Estonien|Féroïen|Farsi|[FP]ilipino|Finnois|Flamand|Français|Frison|Galicien|Gallois|Gaulois|Géorgien|Grec|Gujarati|Hakka|Haoussa|Hawaïen|Hébreu|Hindi|Hmong|Hollandais|Hongrois|Javanais|Ido|Indonésien|Interlingua|Islandais|Italien|Irlandais|Japonais|Jinyu|Kanna[dr]a|Kazakh|Kikongo|Klingon|Khmer|Kurde|Ladino|Laotien|Latin|Ligurien|Limbourgeois|Lituanien|Lojban|Lombard|Luxembourgeois|Macédonien|Maithili|Malais|Malayalam|Maldivien|Malgache|Maltais|Mandarin|Mannois|Maori|Marathi|Marwari|Moldave|Mongol|Mooré|Napolitain|Néerlandais|Norvégien|Occitan|Oriya|Ourdou|Ouzbek|Persan|Peul|Piémontais|Polonais|Portugais|Provençal|Quechua|Romanche|Roumain|Russe|Sans[ck]rit|Sarde|Serbe|Sicilien|Sindhi|Slovaque|Slovène|Soundanais|Sorabe|Suédois|Swahili|Tagalog|Tahitien|Tamoul|Tatar|Tchèque|Télogou|Thaï|Turc|Ukrainien|Vénitien|Vietnamien|Volapük|Wallon|Wo?u|Yiddish|Xhosa|Xiang|Zoulou<exception scope="previous" inflected="yes">être</exception><exception scope="previous" regexp="yes">en|[dl]es|une?</exception>
                         </token>
                     </marker>
                 </pattern>
@@ -21556,10 +21556,10 @@ though, and has since been slightly modified)-->
                 <example type="correct">Mon professeur d’anglais est Irlandais.</example>
             </rule>
             <rule>
-                <pattern case_sensitive="yes">
-                    <token regexp="yes">[eE]n<exception scope="previous" inflected="yes" regexp="yes">aller|naitre</exception></token>
+                <pattern>
+                    <token>en<exception scope="previous" inflected="yes" regexp="yes">aller|naitre</exception></token>
                     <marker>
-                        <token regexp="yes">Afrikaans|Albanais|Allemand|Alsacien|Anglais|Arabe|Aragonais|Aroumain|Arménien|Asturien|Awadhi|Basque|Bengali|Biélorusse|Birman|Bhojpuri|Bosniaque|Breton|Bulgare|Cantonais|Catalan|Chamorro|Cherokee|Chinois|Cornique|Coréen|Croate|Danois|Divehi|Écossais|Espagnol|Espéranto|Estonien|Féroïen|Farsi|[FP]ilipino|Finnois|Flamand|Français|Frison|Galicien|Gallois|Gaulois|Géorgien|Grec|Gujarati|Hakka|Haoussa|Hawaïen|Hébreu|Hindi|Hmong|Hollandais|Hongrois|Javanais|Ido|Indonésien|Interlingua|Islandais|Italien|Irlandais|Japonais|Jinyu|Kanna[dr]a|Kazakh|Kigongo|Klingon|Khmer|Kurde|Ladino|Laotien|Latin|Ligurien|Limbourgeois|Lituanien|Lojban|Lombard|Luxembourgeois|Macédonien|Maithili|Malais|Malayalam|Maldivien|Malgache|Maltais|Mandarin|Mannois|Maori|Marathi|Marwari|Moldave|Mongol|Mooré|Napolitain|Néerlandais|Norvégien|Occitan|Oriya|Ourdou|Ouzbek|Persan|Peul|Piémontais|Polonais|Portugais|Provençal|Quechua|Romanche|Roumain|Russe|Sans[ck]rit|Sarde|Serbe|Sicilien|Sindhi|Slovaque|Slovène|Soundanais|Sorabe|Suédois|Swahili|Tagalog|Tahitien|Tamoul|Tatar|Tchèque|Télogou|Thaï|Turc|Ukrainien|Vénitien|Vietnamien|Volapük|Wallon|Wo?u|Yiddish|Xhosa|Xiang|Zoulou</token>
+                        <token regexp="yes">(?-i)Afrikaans|Albanais|Allemand|Alsacien|Anglais|Arabe|Aragonais|Aroumain|Arménien|Asturien|Awadhi|Basque|Bengali|Biélorusse|Birman|Bhojpuri|Bosniaque|Breton|Bulgare|Cantonais|Catalan|Chamorro|Cherokee|Chinois|Cornique|Coréen|Croate|Danois|Divehi|Écossais|Espagnol|Espéranto|Estonien|Féroïen|Farsi|[FP]ilipino|Finnois|Flamand|Français|Frison|Galicien|Gallois|Gaulois|Géorgien|Grec|Gujarati|Hakka|Haoussa|Hawaïen|Hébreu|Hindi|Hmong|Hollandais|Hongrois|Javanais|Ido|Indonésien|Interlingua|Islandais|Italien|Irlandais|Japonais|Jinyu|Kanna[dr]a|Kazakh|Kigongo|Klingon|Khmer|Kurde|Ladino|Laotien|Latin|Ligurien|Limbourgeois|Lituanien|Lojban|Lombard|Luxembourgeois|Macédonien|Maithili|Malais|Malayalam|Maldivien|Malgache|Maltais|Mandarin|Mannois|Maori|Marathi|Marwari|Moldave|Mongol|Mooré|Napolitain|Néerlandais|Norvégien|Occitan|Oriya|Ourdou|Ouzbek|Persan|Peul|Piémontais|Polonais|Portugais|Provençal|Quechua|Romanche|Roumain|Russe|Sans[ck]rit|Sarde|Serbe|Sicilien|Sindhi|Slovaque|Slovène|Soundanais|Sorabe|Suédois|Swahili|Tagalog|Tahitien|Tamoul|Tatar|Tchèque|Télogou|Thaï|Turc|Ukrainien|Vénitien|Vietnamien|Volapük|Wallon|Wo?u|Yiddish|Xhosa|Xiang|Zoulou</token>
                     </marker>
                 </pattern>
                 <message>Les noms de langues n’ont pas de majuscule en français.</message>
