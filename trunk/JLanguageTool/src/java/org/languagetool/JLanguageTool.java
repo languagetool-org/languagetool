@@ -511,6 +511,7 @@ public final class JLanguageTool {
       }
       
       printIfVerbose(analyzedText.toString());
+      printIfVerbose(analyzedText.getAnnotations());
       final List<RuleMatch> sentenceMatches = 
       checkAnalyzedSentence(paraMode, allRules, charCount, lineCount,
           columnCount, sentence, analyzedText);

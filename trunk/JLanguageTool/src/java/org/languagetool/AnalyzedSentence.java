@@ -178,6 +178,23 @@ public class AnalyzedSentence {
   }
 
   /**
+   * Used to display disambiguator actions log.
+   * @return
+   */
+  public final String getAnnotations() {
+      final StringBuilder sb = new StringBuilder();
+      sb.append("Disambiguator log: \n");
+      for (final AnalyzedTokenReadings element : tokens) {
+          if (!element.isWhitespace() && 
+                  !"".equals(element.getHistoricalAnnotations())) {              
+              sb.append(element.getHistoricalAnnotations());
+              sb.append("\n");
+          }
+      }
+      return sb.toString();
+  }
+  
+  /**
    * @param whPositions the whPositions to set
    */
   public void setWhPositions(int[] whPositions) {
