@@ -131,11 +131,17 @@ public class MultiWordChunker implements Disambiguator {
             if (mFull.containsKey(tokens.toString())) {
               final AnalyzedToken tokenStart = new AnalyzedToken(tok, "<"
                       + mFull.get(tokens.toString()) + ">", tokens.toString());
+              String oldReading = output[i].toString();
               output[i].addReading(tokenStart);
+              output[i].setHistoricalAnnotations("MULTIWORD_CHUNKER" 
+                      + ": " + oldReading + " -> " + output[i].toString());
               final AnalyzedToken tokenEnd = new AnalyzedToken(
                       anTokens[finalLen].getToken(), "</"
                               + mFull.get(tokens.toString()) + ">", tokens.toString());
+              oldReading = output[finalLen].toString();
               output[finalLen].addReading(tokenEnd);
+              output[finalLen].setHistoricalAnnotations("MULTIWORD_CHUNKER" 
+                      + ": " + oldReading + " -> " + output[i].toString());
             }
             lenCounter++;
             if (lenCounter == len) {
@@ -156,12 +162,18 @@ public class MultiWordChunker implements Disambiguator {
             if (mFull.containsKey(tokens.toString())) {
               final AnalyzedToken tokenStart = new AnalyzedToken(tok, "<"
                       + mFull.get(tokens.toString()) + ">", tokens.toString());
+              String oldReading = output[i].toString();
               output[i].addReading(tokenStart);
+              output[i].setHistoricalAnnotations("MULTIWORD_CHUNKER" 
+                      + ": " + oldReading + " -> " + output[i].toString());
               final AnalyzedToken tokenEnd = new AnalyzedToken(anTokens
                       [i + len - 1].getToken(),
                       "</" + mFull.get(tokens.toString()) + ">",
                       tokens.toString());
+              oldReading = output[i + len - 1].toString();
               output[i + len - 1].addReading(tokenEnd);
+              output[i + len - 1].setHistoricalAnnotations("MULTIWORD_CHUNKER" 
+                      + ": " + oldReading + " -> " + output[i].toString());
             }
           }
         }
