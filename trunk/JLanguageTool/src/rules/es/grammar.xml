@@ -41,7 +41,7 @@ $Id$
 
             <rule id="A_PARTICIPIO" name="a + participio">
                 <pattern>
-                    <token postag=".*" postag_regexp="yes"><exception inflected="yes" regexp="yes">oler|saber|gustar</exception></token>
+                    <token><exception inflected="yes" regexp="yes">oler|saber|gustar</exception></token>
 
                     <marker>
                         <token>a</token>
@@ -1101,7 +1101,7 @@ $Id$
 
             <rule id="NOM_ADJ_FEM" name="Concordancia femenino Nombre + adjetivo">
                 <pattern case_sensitive="yes">
-                    <token postag=".*" postag_regexp="yes"></token>
+                    <token/>
 
                     <marker>
                         <token postag="N.{1}F.*|PD0F.*" postag_regexp="yes" skip="1"><exception postag="SP.*|C." postag_regexp="yes" scope="previous"></exception><!--Previously excluded C.*|SP.*|R.* without negated POS--><exception negate_pos="yes" postag="N.{1}F.*|PD0F.*" postag_regexp="yes"></exception><exception regexp="yes">\p{Lu}\p{L}*|\w</exception><exception inflected="yes" regexp="yes">mayoría|minoría|mitad|parte|vez|era|eres</exception><exception postag="[NVRCD].*|SP.*|PR.*" postag_regexp="yes" scope="next"></exception><exception regexp="yes" scope="next">\W*</exception><exception regexp="yes" scope="next">del|al</exception></token>
