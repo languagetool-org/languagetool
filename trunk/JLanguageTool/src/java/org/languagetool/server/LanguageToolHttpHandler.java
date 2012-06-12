@@ -267,7 +267,8 @@ class LanguageToolHttpHandler implements HttpHandler {
    * @return an xml string containing all supported languages.
    */
   public static String getSupportedLanguagesAsXML() {
-    final List<Language> languages = Arrays.asList(Language.REAL_LANGUAGES);
+    Language[] languageCopy = Language.REAL_LANGUAGES.clone();
+    final List<Language> languages = Arrays.asList(languageCopy);
     Collections.sort(languages, new Comparator<Language>() {
       @Override
       public int compare(Language o1, Language o2) {
