@@ -30,7 +30,7 @@ import org.apache.lucene.util.Version;
  * @author Tao Lin
  * 
  */
-public class AnyCharTokenizer extends CharTokenizer {
+public final class AnyCharTokenizer extends CharTokenizer {
 
   /**
    * Construct a new AnyCharTokenizer.

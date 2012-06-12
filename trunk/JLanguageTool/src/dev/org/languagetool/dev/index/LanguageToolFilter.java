@@ -42,7 +42,7 @@ import org.languagetool.JLanguageTool;
  * 
  * @author Tao Lin
  */
-public class LanguageToolFilter extends TokenFilter {
+public final class LanguageToolFilter extends TokenFilter {
 
   private final JLanguageTool languageTool;
 

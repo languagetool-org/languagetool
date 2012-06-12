@@ -32,7 +32,7 @@ import org.languagetool.JLanguageTool;
  * 
  * @author Tao Lin
  */
-public class LanguageToolAnalyzer extends Analyzer {
+public final class LanguageToolAnalyzer extends Analyzer {
 
   private final JLanguageTool languageTool;
 
