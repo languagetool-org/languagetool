@@ -381,8 +381,17 @@ public abstract class Language {
     return null;
   }
 
-  //FIXME: if the list of languages ever gets sorted, we might get unexpected results! 
   private static Language getLanguageForLanguageNameOnly(Locale locale) {
+    // use default variant if available:
+    for (Language language : Language.REAL_LANGUAGES) {
+      if (language.getShortName().equals(locale.getLanguage()) && language.hasVariant()) {
+        final Language defaultVariant = language.getDefaultVariant();
+        if (defaultVariant != null) {
+          return defaultVariant;
+        }
+      }
+    }
+    // use the first match otherwise (which should be the only match):
     for (Language language : Language.REAL_LANGUAGES) {
       if (language.getShortName().equals(locale.getLanguage()) && !language.hasVariant()) {
         return language;

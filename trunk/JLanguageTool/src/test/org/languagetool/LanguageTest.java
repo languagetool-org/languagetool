@@ -94,6 +94,7 @@ public class LanguageTest {
         // fallback to the language's default variant if not specified:
         assertEquals(Language.AMERICAN_ENGLISH, Language.getLanguageForLocale(new Locale("en")));
         assertEquals(Language.GERMANY_GERMAN, Language.getLanguageForLocale(new Locale("de")));
+        assertEquals(Language.POLISH, Language.getLanguageForLocale(new Locale("pl")));
         // final fallback is everything else fails:
         assertEquals(Language.AMERICAN_ENGLISH, Language.getLanguageForLocale(Locale.JAPANESE));
         assertEquals(Language.AMERICAN_ENGLISH, Language.getLanguageForLocale(new Locale("zz")));
