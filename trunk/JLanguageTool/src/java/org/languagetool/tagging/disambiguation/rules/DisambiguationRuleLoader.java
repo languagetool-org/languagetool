@@ -129,6 +129,9 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
     } else if (qName.equals(AND)) {
       inAndGroup = true;
       tokenCountForMarker++;
+      if (inUnification) {
+          uniCounter++;
+      }
     } else if (qName.equals(UNIFY)) {
       inUnification = true;           
       uniNegation = YES.equals(attrs.getValue(NEGATE));
@@ -337,11 +340,13 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
         elementList.add(tokenElement);
       }
       if (inAndGroup) {
-        andGroupCounter++;
+        andGroupCounter++;        
       }
       if (inUnification) {
-        tokenElement.setUnification(equivalenceFeatures);        
-        uniCounter++;
+        tokenElement.setUnification(equivalenceFeatures);
+        if (!inAndGroup) {
+            uniCounter++;
+        }
       }
       if (inUnificationDef) {
         language.getDisambiguationUnifier().setEquivalence(uFeature, uType, tokenElement);
