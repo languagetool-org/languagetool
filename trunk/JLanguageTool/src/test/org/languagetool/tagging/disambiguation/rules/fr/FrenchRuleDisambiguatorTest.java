@@ -22,6 +22,10 @@ package org.languagetool.tagging.disambiguation.rules.fr;
 import java.io.IOException;
 
 import junit.framework.TestCase;
+
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.Language;
+import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.tagging.disambiguation.xx.DemoDisambiguator;
 import org.languagetool.tagging.fr.FrenchTagger;
@@ -34,13 +38,19 @@ public class FrenchRuleDisambiguatorTest extends TestCase {
   private SentenceTokenizer sentenceTokenizer;
   private FrenchRuleDisambiguator disambiguator;
   private DemoDisambiguator disamb2;
+  private JLanguageTool lt; 
   
   public void setUp() {
     tagger = new FrenchTagger();
     tokenizer = new WordTokenizer();
     sentenceTokenizer = new SentenceTokenizer();
     disambiguator = new FrenchRuleDisambiguator();
-    disamb2 = new DemoDisambiguator(); 
+    disamb2 = new DemoDisambiguator();    
+    try {
+        lt = new JLanguageTool(Language.FRENCH);
+    } catch (IOException e) {
+        fail(e.getMessage());
+    }
   }
 
   public void testChunker() throws IOException {
@@ -74,6 +84,14 @@ public class FrenchRuleDisambiguatorTest extends TestCase {
     TestTools.myAssert("Je suis petite.",
         "/[null]SENT_START Je/[je]R pers suj 1 s  /[null]null suis/[suivre]V imp pres 2 s|suis/[suivre]V ind pres 1 s|suis/[suivre]V ind pres 2 s|suis/[être]V etre ind pres 1 s  /[null]null petite/[petit]J f s|petite/[petit]N f s ./[null]null", 
         tokenizer, sentenceTokenizer, tagger, disamb2);
+  }
+
+  public void testAnnotations() throws IOException {
+     AnalyzedSentence sent = lt.getAnalyzedSentence("Les avions");
+     assertEquals(sent.getAnnotations(), "Disambiguator log: \n\n" +
+     		"RP-D_N_AMBIG: Les[le/D e p,les/R pers obj 3 p] -> Les[le/D e p]"+
+             "\nRB-LE_LA_LES: Les[le/D e p] -> Les[le/D e p]" +
+     		"\n\nRP-D_N_AMBIG: avions[avoir/V avoir ind impa 1 p,avion/N m p,avoir/SENT_END] -> avions[avion/N m p,avion/SENT_END]\n");
   }
   
 }

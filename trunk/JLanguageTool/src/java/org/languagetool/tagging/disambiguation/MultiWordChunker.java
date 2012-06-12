@@ -139,8 +139,9 @@ public class MultiWordChunker implements Disambiguator {
                       anTokens[finalLen].getToken(), "</"
                               + mFull.get(tokens.toString()) + ">", tokens.toString());
               oldReading = output[finalLen].toString();
+              final String prevAnot = output[finalLen].getHistoricalAnnotations();
               output[finalLen].addReading(tokenEnd);
-              output[finalLen].setHistoricalAnnotations("MULTIWORD_CHUNKER" 
+              output[finalLen].setHistoricalAnnotations(prevAnot + "\nMULTIWORD_CHUNKER" 
                       + ": " + oldReading + " -> " + output[i].toString());
             }
             lenCounter++;
@@ -171,8 +172,9 @@ public class MultiWordChunker implements Disambiguator {
                       "</" + mFull.get(tokens.toString()) + ">",
                       tokens.toString());
               oldReading = output[i + len - 1].toString();
+              final String prevAnot = output[i + len - 1].getHistoricalAnnotations();
               output[i + len - 1].addReading(tokenEnd);
-              output[i + len - 1].setHistoricalAnnotations("MULTIWORD_CHUNKER" 
+              output[i + len - 1].setHistoricalAnnotations(prevAnot + "\nMULTIWORD_CHUNKER" 
                       + ": " + oldReading + " -> " + output[i].toString());
             }
           }

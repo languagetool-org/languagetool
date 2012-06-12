@@ -205,15 +205,7 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
         correctedStPos += tokenPositions[l];
       }
       correctedStPos--;
-    }
-    int correctedEndPos = 0;
-    if (endPositionCorrection < 0) {
-      int l = 0;
-      while (l > endPositionCorrection) {
-        correctedEndPos -= tokenPositions[matchingTokens + l - 1];
-        l--;
-      }
-    }
+    }    
     final int fromPos = text.getOriginalPosition(firstMatchToken + correctedStPos);
     final int numRead = whTokens[fromPos].getReadingsLength();   
     final boolean spaceBefore = whTokens[fromPos].isWhitespaceBefore();
@@ -232,8 +224,9 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
                     + i);            
             unifiedTokens[i].setStartPos(whTokens[position].getStartPos());
             final String prevValue = whTokens[position].toString(); 
+            final String prevAnot = whTokens[position].getHistoricalAnnotations();
             whTokens[position] = unifiedTokens[i];
-            annotateChange(whTokens[position], prevValue);
+            annotateChange(whTokens[position], prevValue, prevAnot);
           }          
         }
       }
@@ -246,8 +239,9 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
                     final int position = text.getOriginalPosition(firstMatchToken + correctedStPos
                             + i);
                     final String prevValue = whTokens[position].toString();
+                    final String prevAnot = whTokens[position].getHistoricalAnnotations();
                     whTokens[position].removeReading(newTokenReadings[i]);
-                    annotateChange(whTokens[position], prevValue);            
+                    annotateChange(whTokens[position], prevValue, prevAnot);            
                 }
             }
         }
@@ -274,8 +268,9 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
             final int position = text.getOriginalPosition(firstMatchToken + correctedStPos
                     + i);
             final String prevValue = whTokens[position].toString();
+            final String prevAnot = whTokens[position].getHistoricalAnnotations();
             whTokens[position].addReading(newTok);
-            annotateChange(whTokens[position], prevValue);
+            annotateChange(whTokens[position], prevValue, prevAnot);
           }
         }
       }
@@ -291,8 +286,9 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
             false, false, Match.IncludeRange.NONE);
         tmpMatchToken.setToken(whTokens[fromPos]);
         final String prevValue = whTokens[fromPos].toString();
+        final String prevAnot = whTokens[fromPos].getHistoricalAnnotations();
         whTokens[fromPos] = tmpMatchToken.filterReadings();    
-        annotateChange(whTokens[fromPos], prevValue);
+        annotateChange(whTokens[fromPos], prevValue, prevAnot);
         filtered = true;
       }
     case REPLACE:
@@ -326,22 +322,25 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
             whTokens[fromPos].setParaEnd();
           }
           whTokens[fromPos].setWhitespaceBefore(spaceBefore);
-          annotateChange(whTokens[fromPos], prevValue);
+          final String prevAnot = whTokens[fromPos].getHistoricalAnnotations();
+          annotateChange(whTokens[fromPos], prevValue, prevAnot);
         } else {
           // using the match element
           matchElement.setToken(whTokens[fromPos]);
           final String prevValue = whTokens[fromPos].toString();
+          final String prevAnot = whTokens[fromPos].getHistoricalAnnotations();
           whTokens[fromPos] = matchElement.filterReadings();
           whTokens[fromPos].setWhitespaceBefore(spaceBefore);
-          annotateChange(whTokens[fromPos], prevValue);
+          annotateChange(whTokens[fromPos], prevValue, prevAnot);
         }
       }
     }
     return whTokens;
   }
 
-  private void annotateChange(AnalyzedTokenReadings atr, final String prevValue) {      
-      atr.setHistoricalAnnotations(this.getId() + ": " + prevValue + " -> " + atr.toString());
+  private void annotateChange(AnalyzedTokenReadings atr, final String prevValue, String prevAnot) {      
+      atr.setHistoricalAnnotations(prevAnot + "\n" +
+              this.getId() + ": " + prevValue + " -> " + atr.toString());
   }
   
   /**

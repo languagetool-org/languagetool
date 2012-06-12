@@ -401,7 +401,7 @@ public String getHistoricalAnnotations() {
  * @param historicalAnnotations the historicalAnnotations to set
  */
 public void setHistoricalAnnotations(String historicalAnnotations) {
-    this.historicalAnnotations = this.historicalAnnotations + "\n" + historicalAnnotations;
+    this.historicalAnnotations = historicalAnnotations;
 }
   
 }
