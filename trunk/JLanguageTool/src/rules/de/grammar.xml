@@ -4107,6 +4107,21 @@ $Id$
             <example type="incorrect" correction="Unitymedia">Ich habe einen Kabelanschluss von <marker>Unity Media</marker>.</example>
             <example type="incorrect" correction="Unitymedia">Ich habe einen Kabelanschluss von <marker>Juniti Media</marker>.</example>
         </rule>
+        <rulegroup id="GIRLS_DAY" name="Eigenname: 'Girl's (Girls’) Day'">
+            <rule>
+                <pattern>
+                    <token regexp="yes">girl|boy</token>
+                    <token regexp="yes">'|’|`</token>
+                    <token>s</token>
+                    <token>day</token>
+                </pattern>
+                <message>Meinten Sie den Aktionstag <suggestion>\1s’ Day</suggestion>?</message>
+                <short>&eigenname;</short>
+                <example type="correct">Der <marker>Girls’ Day</marker> findet einmal im Jahr statt.</example>
+                <example type="incorrect" correction="Girls’ Day">Der <marker>Girl's Day</marker> findet einmal im Jahr statt.</example>
+                <example type="incorrect" correction="Boys’ Day">Der <marker>Boy`s Day</marker> ist ein Aktionstag.</example>
+            </rule>
+        </rulegroup>
         <!-- Prominente -->
         <rule id="ALEXIUS_MEINONG" name="Eigenname: 'Alexius Meinung (Meinong)'">
             <pattern case_sensitive="yes">
