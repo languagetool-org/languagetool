@@ -252,6 +252,18 @@ $Id$
                 <example type="correct">Man sollte es vermeiden, die Aufgaben <marker>komplexer</marker> aufzubauen.</example>
             </rule>
         </rulegroup>
+        <rule id="SEHER_GEEHRTE" name="Möglicher Tippfehler: 'Seher (Sehr) geehrte' etc.">
+            <pattern>
+                <marker>
+                    <token>Seher</token>
+                </marker>
+                <token regexp="yes">geehrter?</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>Sehr</suggestion>?</message>
+            <short>Möglicher Tippfehler</short>
+            <example type="incorrect" correction="Sehr"><marker>Seher</marker> geehrte Frau Mustermann!</example>
+            <example type="correct"><marker>Sehr</marker> geehrte Frau Mustermann!</example>
+        </rule>
         <rule id="WIR_WIE" name="Möglicher Tippfehler: 'im selben Stall wir (wie)' etc.">
             <pattern>
                 <token regexp="yes">gleich.*|.*selbe.*</token>
@@ -639,6 +651,7 @@ $Id$
             <example type="correct"><marker>Auftrieb brachten</marker> die Erfindungen.</example>
             <example type="correct">Das, was <marker>erblich blieb</marker>, ist schlecht.</example>
         </rule>
+        <!-- TODO merge with ADJ_PRAEDIKATIV? -->
         <rule id="FLEKTIERTES_ADJEKTIV_AM_SATZENDE" name="Möglicher Tippfehler: 'Er ist schnelle (schnell).' etc.">
             <pattern>
                 <token regexp="yes">ist|sind|war(st|t|en)?|bin|bist|seid</token>
@@ -17151,6 +17164,23 @@ $Id$
                 <example type="correct">In <marker>dem heißen</marker> Ofen ist heiße Luft.</example>
                 <example type="correct">Die Sachen, <marker>die menschlichem</marker> Handeln entsprechen.</example>
                 <!-- <example type="correct">Die Fragen <marker>der unterschiedlichem</marker> Glauben angehörigen Menschen sind schwer.</example> TODO -->
+            </rule>
+        </rulegroup>
+        <rulegroup id="ADJ_PRAEDIKATIV" name="Grammatik: Starke, schwache oder gemischte Adjektiv-Flektion statt prädikativer, z.B. 'sich normale (normal) entwickeln'">
+            <rule>
+                <pattern>
+                    <token regexp="yes">[mds]ich</token>
+                    <marker>
+                        <token postag="ADJ:.*:(SOL|DEF|IND)" postag_regexp="yes"><exception postag="ADJ:PRD:.*" postag_regexp="yes"/><exception postag="ADJ:.*" negate_pos="yes" postag_regexp="yes"/><exception regexp="yes">einig.*</exception></token>
+                    </marker>
+                    <token postag="VER:[123]:.*" postag_regexp="yes"/>
+                </pattern>
+                <message>&subanfang;das Adjektiv hier prädikativ flektiert werden muss. (Beispiel: 'sich normale entwickeln' statt 'sich normal entwickeln').</message>
+                <example type="incorrect">Ein Kind, das sich <marker>normale</marker> entwickelt, ist gesund.</example>
+                <example type="incorrect">Was passiert, wenn ich mich <marker>schlechtere</marker> verhalte?</example>
+                <example type="correct">Ein Kind, das sich <marker>normal</marker> entwickelt, ist gesund.</example>
+                <example type="correct">Dieser Fehler lässt sich <marker>einige</marker> male reproduzieren.</example>
+                <example type="correct">Was passiert, wenn ich mich <marker>schlechter</marker> verhalte?</example>
             </rule>
         </rulegroup>
         <rule id="SATZ_OHNE_PRAED" name="Grammatik: Satz ohne Prädikat" default="off">
