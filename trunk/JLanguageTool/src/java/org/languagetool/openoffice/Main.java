@@ -67,6 +67,7 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.gui.Configuration;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.spelling.hunspell.HunspellRule;
 import org.languagetool.tools.StringTools;
 import org.languagetool.tools.Tools;
 
@@ -284,6 +285,7 @@ public class Main extends WeakBase implements XJobExecutor,
             langTool = new JLanguageTool(docLanguage, config.getMotherTongue());
             langTool.activateDefaultPatternRules();
             langTool.activateDefaultFalseFriendRules();
+            langTool.disableRule(HunspellRule.RULE_ID);
             recheck = false;
           } catch (final Throwable t) {
             showError(t);
