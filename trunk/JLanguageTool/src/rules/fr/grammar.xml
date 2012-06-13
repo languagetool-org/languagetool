@@ -5740,6 +5740,26 @@ though, and has since been slightly modified)-->
             <example type="correct">Les années sont passées vite.</example>
           </rule>
         </rulegroup>
+        <rule id="MI_A" name="mi à jour → mis à jour">
+          <pattern>
+            <marker><token regexp="yes">mie?</token></marker>
+            <token regexp="yes">[àa]|en</token>
+            <token regexp="yes">jours?|pied|disposition|part|mal|nue?|contribution|rude|mort</token>
+          </pattern>
+          <message>Employez <suggestion>mis</suggestion>, <suggestion>mise</suggestion> ou <suggestion>mises</suggestion> selon le contexte.</message>
+          <example type="incorrect">Le serveur a été <marker>mi</marker> à jour.</example>
+          <example type="correct">Le serveur a été mis à jour.</example>
+        </rule>
+        <rule id="MI_EN" name="mi en service → mis en service">
+          <pattern>
+            <marker><token regexp="yes">mie?</token></marker>
+            <token>en</token>
+            <token regexp="yes">service|mémoire|scène|bouteilles?|place|images?|musique|valeur|abyme|futs?|tonneaux?|demeure|paiement|liquidation|pièces?|examen|cause|évidence|œuvres?|oeuvres?|quarantaine</token>
+          </pattern>
+          <message>Employez <suggestion>mis</suggestion>, <suggestion>mise</suggestion> ou <suggestion>mises</suggestion> selon le contexte.</message>
+          <example type="incorrect">Le serveur a été <marker>mi</marker> en place.</example>
+          <example type="correct">Le serveur a été <marker>mis</marker> en place.</example>
+        </rule>
     </category>
     <category default="off" name="Régionalismes">
         <!--The following rules were created by Hugo Voisard-->
@@ -12036,13 +12056,14 @@ though, and has since been slightly modified)-->
         </rule>
         <rule id="AU_MONTANT_DE" name="au montant de">
             <pattern>
-                <token regexp="yes">aux?</token>
+                <token regexp="yes">aux?<exception scope="previous">face</exception></token>
                 <token regexp="yes">montants?</token>
                 <token>de</token>
             </pattern>
             <message>« Au montant de » est un anglicisme (to the amount of). Employez <suggestion>de</suggestion>, <suggestion>d’une somme de</suggestion>.</message>
             <example type="incorrect"><marker>au montant de</marker></example>
             <example type="correct"><marker>de</marker></example>
+            <example type="correct">Ils hésitent face aux montants de la dette.</example>
         </rule>
         <rule id="PRIME_DE_SERVICE" name="prime de service">
             <pattern>
