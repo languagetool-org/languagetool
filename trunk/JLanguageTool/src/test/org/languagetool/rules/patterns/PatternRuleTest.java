@@ -41,7 +41,7 @@ public class PatternRuleTest extends TestCase {
   // regexp if and only if it is not enclosed on both sides by those characters.
   // This is to cope with Polish POS tags which contain dots without being
   // a regexp.
-  private static final Pattern PROBABLE_PATTERN = Pattern.compile("(.+[+?^{}|\\[\\]].*)|(.*[+?^{}|\\[\\]].+)|(\\(.*\\))|(\\\\[^0-9].*)|[^cfmnt123]\\.|\\.[^mvngl]|(.+\\.$)");
+  private static final Pattern PROBABLE_PATTERN = Pattern.compile("(.+[+?^{}|\\[\\]].*)|(.*[+?^{}|\\[\\]].+)|(\\(.*\\))|(\\\\[^0-9].*)|[^cfmnt123]\\.|\\.[^ampvngl]|(.+\\.$)");
   private static final Pattern CASE_PATTERN = Pattern.compile("\\[(.)(.)\\]");
   private static final Pattern EMPTY_DISJUNCTION = Pattern.compile("^[|]|[|][|]|[|]$");
 
