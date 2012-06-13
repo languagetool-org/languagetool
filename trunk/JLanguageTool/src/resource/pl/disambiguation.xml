@@ -152,7 +152,13 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         </rule>
     </rulegroup>
     
-
+    <rule name="MIMO to nie wołacz" id="MIMO_NIE_VOC">
+    	<pattern>
+    		<token>mimo</token>
+    	</pattern>
+    	<disambig postag="prep:gen"/>    	
+    </rule>
+        
     <rulegroup name="prep + czasownik -> ~ czasownik" id="prep_verb">
         <!--  przyimki zawsze z tym samym przypadkiem -->
         <rule>
@@ -877,6 +883,16 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     	<disambig action="remove"><wd lemma="lut"></wd></disambig>
     	<example type="untouched">To są zimne luty, przelutuj je.</example>
     	<example type="ambiguous" inputform="luty[lut/subst:pl:acc:m3,lut/subst:pl:nom:m3,lut/subst:pl:voc:m3,luty/adj:sg:acc:m3:pos,luty/adj:sg:nom.voc:m1.m2.m3:pos,luty/subst:sg:acc:m3,luty/subst:sg:nom:m3,luty/subst:sg:voc:m3]" outputform="luty[luty/adj:sg:acc:m3:pos,luty/adj:sg:nom.voc:m1.m2.m3:pos,luty/subst:sg:acc:m3,luty/subst:sg:nom:m3,luty/subst:sg:voc:m3]">25 <marker>luty</marker> to data.</example>
+    </rule>
+    
+    <rule name="no, halo - interj" id="no_halo_interj">
+    	<pattern>
+    		<token postag="SENT_START"/>
+    		<marker>
+    		<token regexp="yes">no|halo|cóż</token>
+    		</marker>
+    	</pattern>
+    	<disambig postag="interj"></disambig>
     </rule>
     
 </rules>
