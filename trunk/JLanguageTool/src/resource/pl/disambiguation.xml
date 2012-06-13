@@ -17,11 +17,23 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <equivalence type="f">
             <token postag=".*[\.:]f([\.:].*)?" postag_regexp="yes"/>
         </equivalence>
-        <equivalence type="m">
-            <token postag=".*[\.:]m[1-4]?([\.:].*)?" postag_regexp="yes"/>
+        <equivalence type="m1">
+            <token postag=".*[\.:]m1([\.:].*)?" postag_regexp="yes"/>
         </equivalence>
-        <equivalence type="n">
-            <token postag=".*[\.:]n[1-2]?([\.:].*)?" postag_regexp="yes"/>
+        <equivalence type="m2">
+            <token postag=".*[\.:]m2([\.:].*)?" postag_regexp="yes"/>
+        </equivalence>
+        <equivalence type="m3">
+            <token postag=".*[\.:]m3([\.:].*)?" postag_regexp="yes"/>
+        </equivalence>
+        <equivalence type="n1">
+            <token postag=".*[\.:]n1([\.:].*)?" postag_regexp="yes"></token>
+        </equivalence>
+        <equivalence type="n2">
+            <token postag=".*[\.:]n2([\.:].*)?" postag_regexp="yes"></token>
+        </equivalence>
+        <equivalence type="p">
+            <token postag=".*[\.:]p[123]([\.:].*)?" postag_regexp="yes"></token>
         </equivalence>
     </unification>
     <unification feature="case">
@@ -119,7 +131,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <marker>
                 <unify> <feature id="number"/><feature id="gender"/> <feature id="case"/>
                     <token>tym</token>
-                    <token postag_regexp="yes" postag="subst:sg.*"/>
+                    <token postag_regexp="yes" postag="(subst|ger):*"/>
                 </unify>
             </marker>
         </pattern>
@@ -152,13 +164,98 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         </rule>
     </rulegroup>
     
+    <rulegroup name="bez czarny" id="bez_czarny">
+    	<rule>
+    		<pattern>
+    		<marker>
+    			<token>bez</token>
+    		</marker>
+    			<token>czarny</token>
+    		</pattern>
+    		<disambig action="filter" postag="subst:sg:(acc|nom):m3"></disambig>
+    		<example type="untouched">Proszę kremówkę bez kremu.</example>
+    		<example type="ambiguous" inputform="bez[bez/prep:gen,bez/subst:sg:acc:m3,bez/subst:sg:nom:m3,beza/subst:pl:gen:f]" outputform="bez[bez/subst:sg:acc:m3,bez/subst:sg:nom:m3]">Jaki piękny jest <marker>bez</marker> czarny.</example>
+    	</rule>
+    	<rule>
+    		<pattern>
+    		<token>dziki</token>
+    		<marker>
+    			<token>bez</token>
+    		</marker>
+    		<token><exception postag_regexp="yes" postag=".*gen.*"></exception></token>    			
+    		</pattern>
+    		<disambig action="filter" postag="subst:sg:(acc|nom):m3"></disambig>
+    		<example type="untouched">Proszę kremówkę bez kremu.</example>
+    		<example type="ambiguous" inputform="bez[bez/prep:gen,bez/subst:sg:acc:m3,bez/subst:sg:nom:m3,beza/subst:pl:gen:f]" outputform="bez[bez/subst:sg:acc:m3,bez/subst:sg:nom:m3]">Jaki piękny jest dziki <marker>bez</marker>.</example>
+    	</rule>
+    	<rule>
+    		<pattern>
+    		<marker>
+    			<token>bez</token>
+    		</marker>
+    		<token postag_regexp="yes" postag=".*gen.*"></token>    		
+    		</pattern>    		
+    		<disambig postag="prep:gen"></disambig>
+    		<example type="ambiguous" inputform="bez[bez/prep:gen,bez/subst:sg:acc:m3,bez/subst:sg:nom:m3,beza/subst:pl:gen:f]" outputform="bez[bez/prep:gen]">Proszę kremówkę <marker>bez</marker> kremu.</example>
+    		<example type="untouched">Jaki piękny jest dziki <marker>bez</marker>.</example>
+    	</rule>
+    </rulegroup>
+    
+    <rule name="od to nie oda" id="OD_PREP_GEN">
+    <pattern>    		
+    		<marker>
+    			<token>od</token>
+    		</marker>
+    		<token postag_regexp="yes" postag=".*gen.*"></token>    		
+    		</pattern>    		
+    		<disambig postag="prep:gen"></disambig>    
+    	<example type="untouched">Od rok 2000 jestem nieruchawy.</example>
+    	<example type="ambiguous" inputform="Od[Oda/subst:pl:gen:f,od/prep:gen,oda/subst:pl:gen:f]" outputform="Od[od/prep:gen]"><marker>Od</marker> roku 2000 jestem nieruchawy.</example>
+    </rule>
+    
+    <rule name="dzięki czemu" id="dzieki_prep_dat">
+    <pattern>    		
+    		<marker>
+    			<token>dzięki</token>
+    		</marker>
+    		<token postag_regexp="yes" postag=".*dat.*"></token>    		
+    		</pattern>    		
+    <disambig postag="prep:dat"></disambig>    
+    <example type="untouched">Dzięki, mała!</example>
+    <example type="ambiguous" inputform="dzięki[dzięk/subst:pl:acc:m3,dzięk/subst:pl:nom:m3,dzięk/subst:pl:voc:m3,dzięka/subst:pl:acc:f,dzięka/subst:pl:nom:f,dzięka/subst:pl:voc:f,dzięka/subst:sg:gen:f,dzięki/prep:dat,dzięki/subst:pl:acc:p3,dzięki/subst:pl:nom:p3,dzięki/subst:pl:voc:p3]" outputform="dzięki[dzięki/prep:dat]">To wszystko <marker>dzięki</marker> pomocy europejskiej.</example>	
+    </rule>
+    
     <rule name="MIMO to nie wołacz" id="MIMO_NIE_VOC">
     	<pattern>
     		<token>mimo</token>
     	</pattern>
     	<disambig postag="prep:gen"/>    	
     </rule>
-        
+    
+    <rule name="ku to nie subst" id="KU_NIE_SUBST">
+    	<pattern>
+    		<token>ku</token>
+    	</pattern>
+    	<disambig postag="prep:dat"/>
+    </rule>
+    
+    <rulegroup name="do - prep lub subst" id="DO_PREP_SUBST">
+    <rule>
+    	<pattern>
+			<marker><token>do</token></marker>
+			<token>re</token>    	
+    	</pattern>
+    	<disambig action="filter" postag="subst.*"/>
+    </rule>
+    <rule>
+    	<pattern>
+			<marker><token>do</token></marker>
+			<token><exception>re</exception></token>    	
+    	</pattern>
+    	<disambig postag="prep:gen"/>    
+    </rule>
+    </rulegroup>    
+            
     <rulegroup name="prep + czasownik -> ~ czasownik" id="prep_verb">
         <!--  przyimki zawsze z tym samym przypadkiem -->
         <rule>
@@ -218,6 +315,25 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
 		</pattern>
 		<disambig postag="prep:gen"/>		
 	</rule>
+		
+	<rule name="W wiek" id="w_wiek">
+			<pattern>
+			<token regexp="yes">M*(D?C{0,3}|C[DM])(L?X{0,3}|X[LC])(V?I{0,3}|I[VX])|\d+</token>
+			<marker><token>w</token></marker>
+			<token>.</token>
+			</pattern>
+			<disambig postag="brev:pun"/>
+			<example type="ambiguous" inputform="w[w/prep:acc.loc,wiek/brev:pun]" outputform="w[wiek/brev:pun]">Dziwny był ten XX <marker>w</marker>.</example>
+			<example type="untouched">Mam to w szufladzie.</example>
+	</rule>
+	<rule name="W prep" id="w_prep">
+			<pattern>
+				<token postag="prep:acc.loc">w</token>
+			</pattern>
+			<disambig postag="prep:acc.loc"/>
+			<example type="ambiguous" inputform="w[w/prep:acc.loc,wiek/brev:pun]" outputform="w[w/prep:acc.loc]">Mam to <marker>w</marker> szufladzie.</example>
+			<example type="untouched">Dziwny XIX w.</example>
+	</rule>
 
     <rule name="Przyimek z rzeczownikiem" id="PREP_SUBST">
         <pattern>
@@ -229,7 +345,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig action="unify"></disambig>
         <example type="untouched">Tu mamy piękny przykład.</example>
         <example type="untouched">Łaciny używamy na co dzień.</example>        
-        <example type="ambiguous" inputform="mamy[mama/subst:pl:acc:f,mama/subst:pl:nom:f,mama/subst:pl:voc:f,mama/subst:sg:gen:f]" outputform="mamy[mama/subst:sg:gen:f]">Idę do <marker>mamy</marker>.</example>
+        <!-- example type="ambiguous" inputform="mamy[mama/subst:pl:acc:f,mama/subst:pl:nom:f,mama/subst:pl:voc:f,mama/subst:sg:gen:f]" outputform="mamy[mama/subst:sg:gen:f]">Idę do <marker>mamy</marker>.</example>  -->
     </rule>
 
 
@@ -894,5 +1010,16 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     	</pattern>
     	<disambig postag="interj"></disambig>
     </rule>
+    
+    <rule name="Tel Awiw" id="TEL_AWIW">
+    	<pattern case_sensitive="yes">
+    		<marker>
+    			<token>Tel</token>
+    		</marker>
+    		<token inflected="yes">Awiw</token>
+    	</pattern>
+    	<disambig action="replace"><match no="2" postag_regexp="yes" postag="subst.*">Tel</match></disambig>
+    </rule>
+    
     
 </rules>

@@ -3659,7 +3659,7 @@ $Id$
                 <pattern>
                     <token postag="prep:gen"><exception regexp="yes">doń|zamiast</exception></token>
                     <marker>
-                        <token postag="subst:.*" postag_regexp="yes"><exception postag=".*gen.*|.*irreg.*|conj|adv.*" postag_regexp="yes"></exception><exception regexp="yes">.*um</exception><exception postag="&lt;/?ADV&gt;" postag_regexp="yes"></exception></token>
+                        <token postag="subst:.*" postag_regexp="yes"><exception postag=".*gen.*|.*irreg.*|conj|adv.*" postag_regexp="yes"></exception><exception regexp="yes">.*um|minus|plus</exception><exception postag="&lt;/?ADV&gt;" postag_regexp="yes"></exception></token>
                     </marker>
                 </pattern>
                 <message>Przyimek „\1” jest używany z dopełniaczem.</message>
@@ -3669,6 +3669,9 @@ $Id$
                 <example type="incorrect">Język jest dla <marker>filozofem</marker> tylko topornym narzędziem.</example>
                 <example type="correct">Tu jest obok chałupa.</example>
                 <example type="incorrect">Przyszedł wreszcie sam do <marker>kierowniczka</marker>.</example>
+                <example type="correct">Dziki bez czarny jest to krzew wysoki trzy do sześciu metrów.</example>
+                <example type="correct">To dyskusje bez reszty akademickie, by nie rzec bezprzedmiotowe.</example>
+                <example type='correct'>Niezależnie od pomocy państwowej polska klasa robotnicza miewa się dobrze.</example>
             </rule>
             <rule>
                 <pattern>
@@ -3681,10 +3684,11 @@ $Id$
                 <short>Przyimek wymaga celownika</short>
                 <example type="correct">Dzięki tym wysiłkom wszystko się udało.</example>
                 <example type="incorrect">Dzięki <marker>wysiłki</marker> wszystko się udało.</example>
+                <example type="correct">Akademia ku czci pięćdziesiątej rocznicy</example>
             </rule>
             <rule>
                 <pattern>
-                    <token postag="prep:nom"></token>
+                    <token postag="prep:nom"><exception>niby</exception></token>
                     <marker>
                         <token postag="subst:.*" postag_regexp="yes"><exception postag=".*nom.*|.*irreg.*|conj|adv.*" postag_regexp="yes"></exception><exception regexp="yes">.*um</exception><exception postag="&lt;/ADV&gt;"></exception></token>
                     </marker>
@@ -3693,6 +3697,7 @@ $Id$
                 <short>Przyimek wymaga mianownika</short>
                 <example type="correct">Czekamy na pojedynek premier kontra wicepremier.</example>
                 <example type="incorrect">Czekamy na pojedynek premier kontra <marker>wicepremierowi</marker>.</example>
+                <example type="correct">Niby mieszka za nami i nie mieszka.</example>
             </rule>
             <rule>
                 <pattern>
@@ -6818,18 +6823,19 @@ $Id$
             <rule>
                 <pattern>
                     <token>z</token>
-                    <token regexp="yes">s[wftśsrłndwpgklcbmżń].+|[zśźż][wftśsrłndwpgklzcbmżń].+|[rs]z[wftśsrłndwpgklzcbmżń].+|[wf][wftśwpgzcbmżń].+|wk[^ł].+|f[dsk].+|wd[^zię].+|ws[^ze].+|Lwowa|mną|mnie|snu<exception regexp="yes">[\&quot;„]</exception><exception postag="UNKNOWN"></exception></token>
+                    <token regexp="yes">s[wftśsrłndwpgklcbmżń].+|[zśźż][wftśsrłndwpgklzcbmżń].+|[rs]z[wftśsrłndwpgklzcbmżń].+|[wf][wftśwpgzcbmżń].+|wk[^ł].+|f[dsk].+|wd[^zię].+|ws[^ze].+|Lwowa|mną|mnie|snu<exception regexp="yes">[\&quot;„]|ZSRR</exception><exception postag="UNKNOWN"/></token>                    
                 </pattern>
                 <message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>\1e \2</suggestion>.</message>
                 <short>Błąd fonetyczny</short>
                 <example type="correct">Ludwik ma kochankę ze Świecia</example>
+                <example type="correct">To przedni wyrób z ZSRR.</example>
                 <example correction="ze Świecia" type="incorrect">Ludwik ma kochankę <marker>z Świecia</marker>.</example>
             </rule>
             <rule>
                 <pattern>
                     <token>z</token>
                     <token regexp="yes">[\&quot;„]</token>
-                    <token regexp="yes">s[wftśsrłndwpgklcbmżń].+|[zśźż][wftśsrłndwpgklzcbmżń].+|[rs]z[wftśsrłndwpgklzcbmżń].+|[wf][wftśwpgzcbmżń].+|wk[^ł].+|f[dsk].+|wd[^zię].+|ws[^ze].+|Lwowa|mną|mnie|snu<exception regexp="yes">[\&quot;„]</exception><exception postag="UNKNOWN"></exception></token>
+                    <token regexp="yes">s[wftśsrłndwpgklcbmżń].+|[zśźż][wftśsrłndwpgklzcbmżń].+|[rs]z[wftśsrłndwpgklzcbmżń].+|[wf][wftśwpgzcbmżń].+|wk[^ł].+|f[dsk].+|wd[^zię].+|ws[^ze].+|Lwowa|mną|mnie|snu<exception regexp="yes">[\&quot;„]|ZSRR</exception><exception postag="UNKNOWN"/></token>
                 </pattern>
                 <message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>ze \2\3</suggestion>.</message>
                 <short>Błąd fonetyczny</short>
@@ -6841,7 +6847,7 @@ $Id$
             <rule>
                 <pattern>
                     <token>ze</token>
-                    <token negate="yes" regexp="yes">[wszśźżWSZŚŹŻ].+|[SRrr]z[wftśsrłndwpgklzcbmżń].+|trz.+|dw.+|Lwowa|mną|mnie|snu|łzami|czter.+<exception regexp="yes">[\&quot;„]</exception><exception postag="UNKNOWN"></exception></token>
+                    <token negate="yes" regexp="yes">[wszśźżWSZŚŹŻ].+|[SRrr]z[wftśsrłndwpgklzcbmżń].+|trz.+|dw.+|Lwowa|mną|mnie|snu|łzami|czter.+|ZSRR<exception regexp="yes">[\&quot;„]</exception><exception postag="UNKNOWN"></exception></token>
                 </pattern>
                 <message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>z \2</suggestion>.</message>
                 <short>Błąd fonetyczny</short>
@@ -7543,9 +7549,7 @@ $Id$
                 <token><exception postag="SENT_START"></exception></token>
                 <marker>
                     <and>
-
-                        <token inflected="yes" regexp="yes">(?iu)jezuita|benedyktyn|dominikanin|franciszkanin|cysters|albertyn|bazylianin|kameduła|karmelita|marianin|michalita|minimita|norbertanin|pasjonista|paulin|pijar|redemptorysta|salezjanin|bonifrater|trapista|werbista|dolorysta|barnabita|bartolomita|kamilianin|salwatorianin</token>
-
+                        <token inflected="yes" regexp="yes">(?iu)jezuita|benedyktyn|dominikanin|franciszkanin|cysters|albertyn|bazylianin|kameduła|karmelita|marianin|michalita|minimita|norbertanin|pasjonista|paulin|pijar|redemptorysta|salezjanin|bonifrater|trapista|werbista|dolorysta|barnabita|bartolomita|kamilianin|salwatorianin<exception regexp="yes">Marian|Dominikany</exception></token>
                         <token regexp="yes">[A-Z][\p{Ll}]+</token>
                     </and>
                 </marker>
@@ -7554,6 +7558,7 @@ $Id$
             <short>Błędna pisownia wielką literą</short>
             <example correction="redemptoryści" type="incorrect">W Toruniu ogromne interesy prowadzą <marker>Redemptoryści</marker>.</example>
             <example type="correct">W Toruniu potęgą są jezuici.</example>
+            <example type="correct">Po zabójstwie Marian Płoński zaalarmował milicję.</example>
         </rule>
         <rule id="JEZYK_POLSKI" name="Pisownia nazw języków wielką literą">
             <pattern case_sensitive="yes">
