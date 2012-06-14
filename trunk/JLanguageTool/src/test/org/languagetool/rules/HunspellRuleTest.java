@@ -80,4 +80,24 @@ public class HunspellRuleTest {
     assertEquals("Pera", matches[0].getSuggestedReplacements().get(0));
   }
 
+  @Test
+  public void testRuleWithGerman() throws UnsatisfiedLinkError, UnsupportedOperationException, IOException {
+    final HunspellRule rule = new HunspellRule(TestTools.getMessages("German"), Language.GERMANY_GERMAN);
+    final JLanguageTool langTool = new JLanguageTool(Language.GERMAN);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Der Waschmaschinentestversuch")).length);  // compound
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Der äußere Übeltäter.")).length);  // umlauts
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Der äussere Übeltäter.")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Der Waschmaschinentestversuch orkt")).length);
+  }
+
+  @Test
+  public void testRuleWithSwissGerman() throws UnsatisfiedLinkError, UnsupportedOperationException, IOException {
+    final HunspellRule rule = new HunspellRule(TestTools.getMessages("German"), Language.SWISS_GERMAN);
+    final JLanguageTool langTool = new JLanguageTool(Language.GERMAN);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Der Waschmaschinentestversuch")).length);  // compound
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Der äußere Übeltäter.")).length);  // ß not allowed in Swiss
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Der äussere Übeltäter.")).length);  // ss is used instead of ß
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Der Waschmaschinentestversuch orkt")).length);
+  }
+
 }
