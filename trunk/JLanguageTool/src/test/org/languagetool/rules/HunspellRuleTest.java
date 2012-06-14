@@ -33,7 +33,7 @@ import org.languagetool.rules.spelling.hunspell.*;
 public class HunspellRuleTest {
 
   @Test
-  public void testRule() throws UnsatisfiedLinkError, UnsupportedOperationException, IOException {
+  public void testRule() throws Exception {
 
     HunspellRule rule =
             new HunspellRule(TestTools.getMessages("Polish"), Language.POLISH);
@@ -81,23 +81,42 @@ public class HunspellRuleTest {
   }
 
   @Test
-  public void testRuleWithGerman() throws UnsatisfiedLinkError, UnsupportedOperationException, IOException {
+  public void testRuleWithGerman() throws Exception {
     final HunspellRule rule = new HunspellRule(TestTools.getMessages("German"), Language.GERMANY_GERMAN);
     final JLanguageTool langTool = new JLanguageTool(Language.GERMAN);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Der Waschmaschinentestversuch")).length);  // compound
+    commonGermanAsserts(rule, langTool);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Der äußere Übeltäter.")).length);  // umlauts
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Der äussere Übeltäter.")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Der Waschmaschinentestversuch orkt")).length);
   }
 
   @Test
-  public void testRuleWithSwissGerman() throws UnsatisfiedLinkError, UnsupportedOperationException, IOException {
+  public void testRuleWithAustrianGerman() throws Exception {
+    final HunspellRule rule = new HunspellRule(TestTools.getMessages("German"), Language.AUSTRIAN_GERMAN);
+    final JLanguageTool langTool = new JLanguageTool(Language.GERMAN);
+    commonGermanAsserts(rule, langTool);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Der äußere Übeltäter.")).length);  // umlauts
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Der äussere Übeltäter.")).length);
+  }
+
+  @Test
+  public void testRuleWithSwissGerman() throws Exception {
     final HunspellRule rule = new HunspellRule(TestTools.getMessages("German"), Language.SWISS_GERMAN);
     final JLanguageTool langTool = new JLanguageTool(Language.GERMAN);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Der Waschmaschinentestversuch")).length);  // compound
+    commonGermanAsserts(rule, langTool);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Der äußere Übeltäter.")).length);  // ß not allowed in Swiss
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Der äussere Übeltäter.")).length);  // ss is used instead of ß
+  }
+
+  private void commonGermanAsserts(HunspellRule rule, JLanguageTool langTool) throws IOException {
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Der Waschmaschinentestversuch")).length);  // compound
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Der Waschmaschinentest-Versuch")).length);  // compound
+
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Der Waschmaschinentest-Dftgedgs")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Der Dftgedgs-Waschmaschinentest")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Der Waschmaschinentestdftgedgs")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Der Waschmaschinentestversuch orkt")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Der Arbeitsnehmer")).length);  // wrong infix
+    assertEquals(2, rule.match(langTool.getAnalyzedSentence("Der asdegfue orkt")).length);
   }
 
 }
