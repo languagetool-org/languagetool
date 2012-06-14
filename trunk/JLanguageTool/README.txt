@@ -139,7 +139,7 @@ License:
 
  Polish:
  The Polish data for part-of-speech tagging is from Morfologik project,
- licensed on LGPL or BSD (see http://morfologik.blogspot.com).
+ licensed on BSD (see http://morfologik.blogspot.com).
 
  Romanian:
  The Romanian data for part-of-speech tagging is developed by Ionuț Păduraru
