@@ -61,13 +61,14 @@ public class HunspellRuleTest {
 
     // Catalan
     HunspellRule catRule =
-            new HunspellRule(TestTools.getMessages("Catalan"), Language.CATALAN);
+    		new HunspellRule(TestTools.getMessages("Catalan"), Language.CATALAN);
     JLanguageTool catTool = new JLanguageTool(Language.CATALAN);
 
     // correct sentences:
     assertEquals(0, catRule.match(catTool.getAnalyzedSentence("Allò que més l'interessa.")).length);
-    // checks that "WORDCHARS '" is added to Hunspell .aff file
-    assertEquals(0, catRule.match(catTool.getAnalyzedSentence("Porta'n quatre.")).length);
+    // checks that "WORDCHARS ·-'" is added to Hunspell .aff file
+    assertEquals(0, catRule.match(catTool.getAnalyzedSentence("Porta'n quatre al col·legi.")).length);
+    assertEquals(0, catRule.match(catTool.getAnalyzedSentence("Has de portar-me'n moltes.")).length);
     assertEquals(0, catRule.match(catTool.getAnalyzedSentence(",")).length);
 
     //incorrect sentences:

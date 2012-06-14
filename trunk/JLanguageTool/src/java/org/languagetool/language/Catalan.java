@@ -38,6 +38,7 @@ import org.languagetool.tokenizers.ca.CatalanWordTokenizer;
 import org.languagetool.rules.ca.CatalanUnpairedQuestionMarksRule;
 import org.languagetool.rules.ca.CatalanUnpairedExclamationMarksRule;
 import org.languagetool.rules.ca.AccentuationCheckRule;
+import org.languagetool.rules.ca.ComplexAdjectiveConcordanceRule;
 //import org.languagetool.rules.ca.CastellanismesReplaceRule;
 //import org.languagetool.rules.ca.AccentuacioReplaceRule;
 
@@ -99,7 +100,8 @@ public class Catalan extends Language {
             // specific to Catalan:
             CatalanUnpairedQuestionMarksRule.class,
             CatalanUnpairedExclamationMarksRule.class,
-            AccentuationCheckRule.class
+            AccentuationCheckRule.class,
+            ComplexAdjectiveConcordanceRule.class
             //CastellanismesReplaceRule.class,
             //AccentuacioReplaceRule.class
     );
