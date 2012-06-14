@@ -55,7 +55,7 @@ public class LanguageTest {
 
     @Test
     public void testGetLanguageForName() {
-        assertEquals(Language.AMERICAN_ENGLISH, Language.getLanguageForName("American English"));
+        assertEquals(Language.AMERICAN_ENGLISH, Language.getLanguageForName("English (US)"));
         assertEquals(Language.GERMAN, Language.getLanguageForName("German"));
     }
 

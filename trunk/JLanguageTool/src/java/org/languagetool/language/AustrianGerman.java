@@ -27,7 +27,7 @@ public class AustrianGerman extends German {
 
   @Override
   public final String getName() {
-    return "Austrian German";
+    return "German (Austria)";
   }
 
 }

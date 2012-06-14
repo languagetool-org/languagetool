@@ -432,7 +432,7 @@ public class MainTest extends AbstractSecurityTestCase {
     String[] args = new String[] {"-l", "en-US", input.getAbsolutePath()};
     Main.main(args);
     String output = new String(this.out.toByteArray());
-    assertTrue(output.indexOf("Expected text language: American English") == 0);
+    assertTrue(output.indexOf("Expected text language: English (US)") == 0);
     assertTrue(output.contains("HUNSPELL_RULE"));
   }
 

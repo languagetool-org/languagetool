@@ -35,7 +35,7 @@ public class BritishEnglish extends English {
 
   @Override
   public String getName() {
-    return "British English";
+    return "English (GB)";
   }
 
   public List<Class<? extends Rule>> getRelevantRules() {

@@ -27,7 +27,7 @@ public class SwissGerman extends German {
 
   @Override
   public final String getName() {
-    return "Swiss German";
+    return "German (Swiss)";
   }
 
 }
