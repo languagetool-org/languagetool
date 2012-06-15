@@ -25,6 +25,7 @@ import org.languagetool.language.RuleFilenameException;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.spelling.hunspell.HunspellRule;
+import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 import org.languagetool.server.HTTPServer;
 import org.languagetool.server.PortBindingException;
 import org.languagetool.tools.StringTools;
@@ -563,7 +564,8 @@ public final class Main implements ActionListener {
         final String repl = StringTools.listToString(match.getSuggestedReplacements(), "; ");
         sb.append("<b>" + messages.getString("correctionMessage") + "</b> " + repl + "<br>\n");
       }
-      if (match.getRule().getId().equals(HunspellRule.RULE_ID)) {
+      if (match.getRule().getId().equals(HunspellRule.RULE_ID)
+              || match.getRule().getId().equals(MorfologikSpellerRule.RULE_ID)) {
         contextTools.setErrorMarkerStart(HUNSPELL_ERROR_MARKER_START);
       } else {
         contextTools.setErrorMarkerStart(LT_ERROR_MARKER_START);

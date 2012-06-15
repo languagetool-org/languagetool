@@ -141,7 +141,7 @@ public class JLanguageToolTest extends TestCase {
     assertEquals(6, matches.size());
     tool.setListUnknownWords(true);
     matches = tool.check("This is not a Polish text.");
-    assertEquals(3, matches.size());
+    assertEquals(4, matches.size());
     assertEquals("[Polish, This, is, text]", tool.getUnknownWords().toString());
     //check positions relative to sentence ends    
     matches = tool.check("To jest tekst.\nTest 1. To jest linia w której nie ma przecinka.");

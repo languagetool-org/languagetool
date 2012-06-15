@@ -68,6 +68,7 @@ import org.languagetool.Language;
 import org.languagetool.gui.Configuration;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.spelling.hunspell.HunspellRule;
+import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 import org.languagetool.tools.StringTools;
 import org.languagetool.tools.Tools;
 
@@ -286,6 +287,7 @@ public class Main extends WeakBase implements XJobExecutor,
             langTool.activateDefaultPatternRules();
             langTool.activateDefaultFalseFriendRules();
             langTool.disableRule(HunspellRule.RULE_ID);
+            langTool.disableRule(MorfologikSpellerRule.RULE_ID);
             recheck = false;
           } catch (final Throwable t) {
             showError(t);
@@ -507,6 +509,7 @@ public class Main extends WeakBase implements XJobExecutor,
     if (lang == null) {
       return;
     }
+    prepareConfig(lang);
     final ConfigThread configThread = new ConfigThread(lang, config, this);
     configThread.start();
   }

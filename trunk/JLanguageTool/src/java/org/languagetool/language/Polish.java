@@ -37,6 +37,8 @@ import org.languagetool.tagging.pl.PolishTagger;
 import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 
+import org.languagetool.rules.spelling.morfologik.pl.*;
+
 public class Polish extends Language {
 
   private static final Unifier POLISH_UNIFIER = new Unifier();
@@ -119,12 +121,14 @@ public class Polish extends Language {
     return Arrays.asList(
             CommaWhitespaceRule.class,
             DoublePunctuationRule.class,
-            HunspellRule.class,
+            // the slowest hunspell dictionary...
+            // HunspellRule.class, 
             UppercaseSentenceStartRule.class,
             WordRepeatRule.class,
             WhitespaceRule.class,
             // specific to Polish:
             PolishUnpairedBracketsRule.class,
+            MorfologikPolishSpellerRule.class,
             PolishWordRepeatRule.class,
             CompoundRule.class,
             SimpleReplaceRule.class            

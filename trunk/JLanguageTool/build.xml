@@ -15,6 +15,7 @@
 	<path id="common.classpath">
 		<pathelement location="${ext.morfologik.fsa.lib}" />
 		<pathelement location="${ext.morfologik.stemming.lib}" />
+		<pathelement location="${ext.morfologik.speller.lib}" />
 		<pathelement location="${ext.jwordsplitter.lib}" />
         <pathelement location="${ext.logging.lib}" />
         <pathelement location="${ext.commons.lang.lib}" />
@@ -334,7 +335,7 @@
 		<jar jarfile="${dist.dir}/${final.name}.jar" basedir="${build.classes}" excludes="**/*.java">
 			<manifest>
 				<attribute name="Main-Class" value="org.languagetool.Main" />
-				<attribute name="Class-Path" value="./ ./rules ./resource ./${morfologik.fsa.lib} ./${morfologik.stemming.lib} ./jWordSplitter.jar ./${segment.lib} ./${logging.lib} ./${tika.lib} ./${ictclas4j.lib} ./${CJFtransform.lib} ./${commons-validator.lib} ./${commons.lang.lib} ./${jna.lib}" />
+				<attribute name="Class-Path" value="./ ./rules ./resource ./${morfologik.fsa.lib} ./${morfologik.stemming.lib} ./${morfologik.speller.lib} ./jWordSplitter.jar ./${segment.lib} ./${logging.lib} ./${tika.lib} ./${ictclas4j.lib} ./${CJFtransform.lib} ./${commons-validator.lib} ./${commons.lang.lib} ./${jna.lib}" />
 				<attribute name="Implementation-Version" value="${version}" />
 				<attribute name="Implementation-Date" value="${date}" />
 			</manifest>
@@ -343,7 +344,7 @@
 		<jar jarfile="${dist.dir}/${final.name.gui}.jar" basedir="${build.classes}" includes="org/languagetool/gui/*.class">
 			<manifest>
 				<attribute name="Main-Class" value="org.languagetool.gui.Main" />
-				<attribute name="Class-Path" value="./LanguageTool.jar ./ ./resource ./rules ./${morfologik.fsa.lib} ./${morfologik.stemming.lib} ./jWordSplitter.jar ./${segment.lib} ./${logging.lib} ./${tika.lib} ./${ictclas4j.lib} ./${CJFtransform.lib} ./${commons-validator.lib} ./${commons.lang.lib} ./${jna.lib}" />
+				<attribute name="Class-Path" value="./LanguageTool.jar ./ ./resource ./rules ./${morfologik.fsa.lib} ./${morfologik.stemming.lib} ./${morfologik.speller.lib} ./jWordSplitter.jar ./${segment.lib} ./${logging.lib} ./${tika.lib} ./${ictclas4j.lib} ./${CJFtransform.lib} ./${commons-validator.lib} ./${commons.lang.lib} ./${jna.lib}" />
 				<attribute name="Implementation-Version" value="${version}" />
 				<attribute name="Implementation-Date" value="${date}" />
 			</manifest>
@@ -501,6 +502,7 @@
 
 	<copy file="${ext.morfologik.fsa.lib}" todir="${dist.dir}" />
 	<copy file="${ext.morfologik.stemming.lib}" todir="${dist.dir}" />
+	<copy file="${ext.morfologik.speller.lib}" todir="${dist.dir}" />
 	<copy file="${ext.jwordsplitter.lib}" todir="${dist.dir}" />
 	<copy file="${ext.segment.lib}" todir="${dist.dir}" />
 	<copy file="${ext.logging.lib}" todir="${dist.dir}" />
@@ -596,7 +598,8 @@
 
 	<copy file="${resource.dir}/pl/polish.dict" todir="${dist.dir}/resource/pl" />
 	<copy file="${resource.dir}/pl/polish.info" todir="${dist.dir}/resource/pl" />
-	<copy file="${resource.dir}/pl/polish_synth.dict" todir="${dist.dir}/resource/pl" />
+
+	<copy file="${resource.dir}/pl/polish_synth.dict" todir="${dist.dir}/resource/pl" />	
 	<copy file="${resource.dir}/pl/polish_synth.info" todir="${dist.dir}/resource/pl" />
 	<copy file="${resource.dir}/pl/polish_tags.txt" todir="${dist.dir}/resource/pl" />
 	<copy file="${resource.dir}/pl/compounds.txt" todir="${dist.dir}/resource/pl" />
