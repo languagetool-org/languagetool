@@ -83,7 +83,7 @@ public class Catalan extends Language {
 
   @Override
   public Contributor[] getMaintainers() {
-    return new Contributor[] {new Contributor("Ricard Roca")};
+    return new Contributor[] {new Contributor("Ricard Roca"), new Contributor("Jaume Ortolà") };
   }
 
   @Override
