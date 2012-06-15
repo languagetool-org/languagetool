@@ -22,7 +22,6 @@ import java.util.*;
 
 import org.languagetool.Language;
 import org.languagetool.rules.*;
-import org.languagetool.rules.spelling.hunspell.HunspellRule;
 import org.languagetool.rules.patterns.Unifier;
 import org.languagetool.rules.pl.CompoundRule;
 import org.languagetool.rules.pl.PolishUnpairedBracketsRule;
