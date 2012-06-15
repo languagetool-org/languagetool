@@ -50,7 +50,12 @@ public class Portuguese extends Language {
 
 	  @Override
 	  public String[] getCountryVariants() {
-	    return new String[]{"PT"};
+	    return new String[]{"AO", "MZ"};
+	  }
+	  
+	  @Override
+	  public Language getDefaultVariant() {
+	    return PORTUGUESE_PORTUGAL;
 	  }
 
 	  @Override
@@ -60,7 +65,7 @@ public class Portuguese extends Language {
 
 	  @Override
 	  public Contributor[] getMaintainers() {
-		  final Contributor contributor = new Contributor("Marco A.G.Pinto");
+		  final Contributor contributor = new Contributor("Marco A.G. Pinto");
 		    contributor.setUrl("http://www.marcoagpinto.com/");
 		    return new Contributor[] { contributor };
 	  }
