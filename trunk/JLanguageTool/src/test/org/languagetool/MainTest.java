@@ -236,6 +236,19 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue(output.indexOf("Expected text language: English") == 0);
     assertTrue(output.contains("Rule ID: EN_A_VS_AN"));
   }
+
+  public void testEnglishFileFakeRuleEnabled() throws Exception {
+    final String test = "Zwuasdac?";
+    final byte[] b = test.getBytes();
+    System.setIn(new ByteArrayInputStream(b));
+    String[] args = new String[] {"-l", "en", "-e", "FOO_BAR_BLABLA", "-"};
+
+    Main.main(args);
+    String output = new String(this.out.toByteArray());
+    assertTrue(output.indexOf("Expected text language: English") == 0);
+  }
+
+  
   
   public void testEnglishFileAPI() throws Exception {
     final URL url = this.getClass().getResource(ENGLISH_TEST_FILE);

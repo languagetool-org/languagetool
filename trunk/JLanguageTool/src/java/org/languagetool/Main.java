@@ -218,7 +218,7 @@ class Main {
     int tmpLineOffset = 0;
     final List<String> unknownWords = new ArrayList<String>();
     StringBuilder sb = new StringBuilder();
-    for (int ruleIndex = 0; ruleIndex < runCount; ruleIndex++) {
+    for (int ruleIndex = 0; !rules.isEmpty() && ruleIndex < runCount; ruleIndex++) {
       currentRule = rules.get(ruleIndex);
       int matches = 0;
       long sentences = 0;
