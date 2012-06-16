@@ -27,7 +27,7 @@ import java.util.List;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.TextFilter;
-import org.languagetool.tokenizers.SentenceTokenizer;
+import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tools.StringTools;
 import org.languagetool.tools.Tools;
 
@@ -75,8 +75,8 @@ public final class CheckBNC {
       String text = StringTools.readFile(new FileInputStream(file.getAbsolutePath()));
       text = textFilter.filter(text);
       if (CHECK_BY_SENTENCE) {
-        final SentenceTokenizer st = new SentenceTokenizer();
-        final List<String> sentences = st.tokenize(text);
+        final Tokenizer sentenceTokenizer = langTool.getLanguage().getSentenceTokenizer();
+        final List<String> sentences = sentenceTokenizer.tokenize(text);
         for (String sentence : sentences) {
           Tools.checkText(sentence, langTool, false, 1000);
         }
