@@ -105,8 +105,7 @@ public final class StringTools {
    *         <code>\n</code>
    * @throws IOException
    */
-  public static String readFile(final InputStream file, final String encoding)
-  throws IOException {
+  public static String readFile(final InputStream file, final String encoding) throws IOException {
     InputStreamReader isr = null;
     BufferedReader br = null;
     final StringBuilder sb = new StringBuilder();
@@ -238,6 +237,9 @@ public final class StringTools {
     return sb.toString();
   }
 
+  /**
+   * @deprecated use {@link #streamToString(java.io.InputStream, String)} instead (deprecated since 1.8)
+   */
   public static String streamToString(final InputStream is) throws IOException {
     final InputStreamReader isr = new InputStreamReader(is);
     try {
@@ -264,7 +266,7 @@ public final class StringTools {
   }
 
   /**
-   * Escapes these characters: less than, bigger than, quote, ampersand.
+   * Escapes these characters: less than, greater than, quote, ampersand.
    */
   public static String escapeHTML(final String s) {
     // this version is much faster than using s.replaceAll
