@@ -86,23 +86,32 @@ public class Indexer {
     }
     final BufferedReader reader = new BufferedReader(new FileReader(file));
     System.out.println("Indexing to directory '" + indexDir + "'...");
-    run(reader, new Indexer(FSDirectory.open(new File(indexDir)), Language.ENGLISH), false);
+    final FSDirectory directory = FSDirectory.open(new File(indexDir));
+    try {
+      final Indexer indexer = new Indexer(directory, Language.ENGLISH);
+      try {
+        run(reader, indexer, false);
+      } finally {
+        indexer.close();
+      }
+    } finally {
+      directory.close();
+    }
     System.out.println("Index complete!");
   }
 
-  public static void run(String content, Directory dir, Language language, boolean isSentence)
-      throws IOException {
+  public static void run(String content, Directory dir, Language language, boolean isSentence) throws IOException {
     final BufferedReader br = new BufferedReader(new StringReader(content));
-    run(br, new Indexer(dir, language), isSentence);
+      final Indexer indexer = new Indexer(dir, language);
+      try {
+        run(br, indexer, isSentence);
+      } finally {
+        indexer.close();
+      }
   }
 
   public static void run(BufferedReader reader, Indexer indexer, boolean isSentence) throws IOException {
-    try {
-      indexer.index(reader, isSentence, -1);
-    } finally {
-      // TODO: let caller close indexer
-      indexer.close();
-    }
+    indexer.index(reader, isSentence, -1);
   }
 
   public void index(String content, boolean isSentence, int docCount) throws IOException {
@@ -112,25 +121,21 @@ public class Indexer {
 
   public void index(BufferedReader reader, boolean isSentence, int docCount) throws IOException {
     String line = "";
-    int lineNo = 1;
     while ((line = reader.readLine()) != null) {
       if (isSentence) {
-        add(lineNo, -1, line);
+        add(-1, line);
       } else {
         final List<String> sentences = sentenceTokenizer.tokenize(line);
         for (String sentence : sentences) {
-          add(lineNo, docCount, sentence);
-          // System.out.println(sentence);
+          add(docCount, sentence);
         }
       }
-      lineNo++;
     }
   }
 
-  private void add(int lineNo, int docCount, String sentence) throws IOException {
+  private void add(int docCount, String sentence) throws IOException {
     final Document doc = new Document();
     doc.add(new Field(PatternRuleQueryBuilder.FIELD_NAME, sentence, Store.YES, Index.ANALYZED));
-    // doc.add(new Field(FIELD_LINE, lineNo + "", Store.YES, Index.NO));
     if (docCount != -1) {
       doc.add(new Field("docCount", docCount + "", Store.YES, Index.NO));
     }
