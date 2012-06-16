@@ -19,6 +19,7 @@
 package org.languagetool.tokenizers;
 
 import junit.framework.TestCase;
+import org.languagetool.Language;
 import org.languagetool.TestTools;
 
 /**
@@ -30,7 +31,7 @@ public class SRXSentenceTokenizerTest extends TestCase {
   private SentenceTokenizer stokenizer = new SRXSentenceTokenizer("en");
   // accept only \n\n as paragraph:
   private SentenceTokenizer stokenizer2 = new SRXSentenceTokenizer("en");
-  
+
   public void setUp() {
     stokenizer.setSingleLineBreaksMarksParagraph(true);  
     stokenizer2.setSingleLineBreaksMarksParagraph(false);  
@@ -99,6 +100,24 @@ public class SRXSentenceTokenizerTest extends TestCase {
     testSplit(new String[] { "It works [really!]. ", "No doubt." });
     testSplit(new String[] { "It really(!) works well." });
     testSplit(new String[] { "It really[!] works well." });
+
+    testSplit(new String[] { "This is a sentence.\u0002 ", "And this is another one." });  // footnotes in LibOO/OOo look like this
+  }
+
+  public void testOfficeFootnoteTokenize() {
+    for (Language language : Language.REAL_LANGUAGES) {
+      if (language.getSentenceTokenizer().getClass() != SRXSentenceTokenizer.class) {
+        continue;
+      }
+      if (language == Language.KHMER || language == Language.MALAYALAM || language.getShortName().equals("pt")) {
+        // TODO: I don't know about these...
+        continue;
+      }
+      final String input = "A sentence.\u0002 And another one.";
+      final SentenceTokenizer tokenizer = new SRXSentenceTokenizer(language.getShortName());
+      assertEquals("Sentence not split correctly for " + language + ": '" + input + "'",
+              "[A sentence.\u0002 , And another one.]", tokenizer.tokenize(input).toString());
+    }
   }
 
   private void testSplit(String[] sentences) {
