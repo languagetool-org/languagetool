@@ -126,6 +126,24 @@ public class AnalyzedTokenReadings {
   }
 
   /**
+   * Checks if one of the token's readings has a particular lemma.
+   *
+   * @param lemma lemma POS tag to look for
+   */
+  public final boolean hasLemma(final String lemma) {
+    boolean found = false;
+    for (final AnalyzedToken reading : anTokReadings) {
+      if (reading.getLemma() != null) {
+        found = lemma.equals(reading.getLemma());
+        if (found) {
+          break;
+        }
+      }
+    }
+    return found;
+  }
+
+  /**
    * Checks if the token has a particular POS tag, whereas a part of the given POS tag needs to match.
    *
    * @param posTag POS tag substring to look for

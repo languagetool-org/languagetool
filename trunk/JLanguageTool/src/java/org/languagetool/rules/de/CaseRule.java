@@ -391,7 +391,7 @@ public class CaseRule extends GermanRule {
     
     boolean prevTokenIsDas = false;
     for (int i = 0; i < tokens.length; i++) {
-      //FIXME: defaulting to the first analysis don't know if it's safe
+      //Note: defaulting to the first analysis is only save if we only query for sentence start
       final String posToken = tokens[i].getAnalyzedToken(0).getPOSTag();
       if (posToken != null && posToken.equals(JLanguageTool.SENTENCE_START_TAGNAME)) {
         continue;
@@ -411,7 +411,7 @@ public class CaseRule extends GermanRule {
       AnalyzedGermanTokenReadings analyzedGermanToken2;
       
       boolean isBaseform = false;
-      if (analyzedToken.getReadingsLength() >= 1 && token.equals(analyzedToken.getAnalyzedToken(0).getLemma())) {
+      if (analyzedToken.getReadingsLength() >= 1 && analyzedToken.hasLemma(token)) {
         isBaseform = true;
       }
       if ((readings == null || analyzedToken.getAnalyzedToken(0).getPOSTag() == null || analyzedToken.hasReadingOfType(GermanToken.POSType.VERB))
