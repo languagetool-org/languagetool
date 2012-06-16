@@ -268,11 +268,9 @@ public class Main extends WeakBase implements XJobExecutor,
       final String paraText, final Locale locale, final ProofreadingResult paRes) {
 
     if (!StringTools.isEmpty(paraText) && hasLocale(locale)) {
-        // caching the instance of LT
         Language langForShortName;
         try {
-        	langForShortName = Language.getLanguageForShortName(locale.Language 
-        			+ "-" + locale.Variant);
+        	langForShortName = Language.getLanguageForShortName(locale.Language + "-" + locale.Variant);
         } catch (Exception e) {
         	langForShortName = Language.getLanguageForShortName(locale.Language);
         }
@@ -281,17 +279,7 @@ public class Main extends WeakBase implements XJobExecutor,
           if (docLanguage == null) {
             return paRes;
           }
-          try {
-        	prepareConfig(docLanguage);        	          	  
-            langTool = new JLanguageTool(docLanguage, config.getMotherTongue());
-            langTool.activateDefaultPatternRules();
-            langTool.activateDefaultFalseFriendRules();
-            langTool.disableRule(HunspellRule.RULE_ID);
-            langTool.disableRule(MorfologikSpellerRule.RULE_ID);
-            recheck = false;
-          } catch (final Throwable t) {
-            showError(t);
-          }
+          initLanguageTool();
         }
 
         if (config.getDisabledRuleIds() != null) {
@@ -362,6 +350,20 @@ public class Main extends WeakBase implements XJobExecutor,
        }      
     }
     return paRes;
+  }
+
+  private void initLanguageTool() {
+    try {
+      prepareConfig(docLanguage);
+      langTool = new JLanguageTool(docLanguage, config.getMotherTongue());
+      langTool.activateDefaultPatternRules();
+      langTool.activateDefaultFalseFriendRules();
+      langTool.disableRule(HunspellRule.RULE_ID);
+      langTool.disableRule(MorfologikSpellerRule.RULE_ID);
+      recheck = false;
+    } catch (final Throwable t) {
+      showError(t);
+    }
   }
 
   private synchronized String getSentence(final String paraText,
@@ -791,28 +793,25 @@ class ErrorPositionComparator implements Comparator<SingleProofreadingError> {
   @Override
   public int compare(final SingleProofreadingError match1,
       final SingleProofreadingError match2) {
-    if (match1.aSuggestions.length == 0 
-        && match2.aSuggestions.length > 0) {
+    if (match1.aSuggestions.length == 0 && match2.aSuggestions.length > 0) {
       return 1;
     }
-    if (match2.aSuggestions.length == 0 
-        && match1.aSuggestions.length > 0) {
+    if (match2.aSuggestions.length == 0 && match1.aSuggestions.length > 0) {
       return -1;
     }    
     final int error1pos = match1.nErrorStart;
     final int error2pos = match2.nErrorStart;
-    if (error1pos > error2pos)
+    if (error1pos > error2pos) {
       return 1;
-    else if (error1pos < error2pos)
+    } else if (error1pos < error2pos) {
       return -1;
-    else
+    } else {
       if (match1.aSuggestions.length != 0
           && match2.aSuggestions.length != 0
-          && match1.aSuggestions.length 
-          != match2.aSuggestions.length) {
-      return ((Integer) (match1.aSuggestions.length))
-          .compareTo(match2.aSuggestions.length);
+          && match1.aSuggestions.length != match2.aSuggestions.length) {
+        return ((Integer) (match1.aSuggestions.length)).compareTo(match2.aSuggestions.length);
       }
+    }
     return match1.aRuleIdentifier.compareTo(match2.aRuleIdentifier);
   }
 }
