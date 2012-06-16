@@ -33,16 +33,14 @@ public class ManualTaggerTest extends TestCase {
   private static final String MANUAL_DICT_FILENAME = "/de/added.txt";
 
   public void testManualTagger() throws IOException {
-    ManualTagger mt = new ManualTagger(JLanguageTool.getDataBroker().getFromResourceDirAsStream(MANUAL_DICT_FILENAME));
-    assertNull(mt.lookup(""));
-    assertNull(mt.lookup("gibtsnicht"));
+    final ManualTagger tagger = new ManualTagger(JLanguageTool.getDataBroker().getFromResourceDirAsStream(MANUAL_DICT_FILENAME));
+    assertNull(tagger.lookup(""));
+    assertNull(tagger.lookup("gibtsnicht"));
     
-    assertEquals("[Trotz, SUB:NOM:SIN:MAS]", Arrays.toString(mt.lookup("Trotz")));
+    assertEquals("[Ableitung, SUB:NOM:PLU:FEM, Ableitung, SUB:GEN:PLU:FEM, Ableitung, SUB:DAT:PLU:FEM, Ableitung, SUB:AKK:PLU:FEM]",
+            Arrays.toString(tagger.lookup("Ableitungen")));
     // lookup is case sensitive:
-    assertNull(mt.lookup("trotz"));
-
-    assertEquals("[Interesse, SUB:NOM:PLU:NEU, Interesse, SUB:AKK:PLU:NEU, Interesse, SUB:GEN:PLU:NEU]",
-        Arrays.toString(mt.lookup("Interessen")));
+    assertNull(tagger.lookup("ableitungen"));
   }
   
 }
