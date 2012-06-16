@@ -399,7 +399,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <and>
               <token regexp="yes" inflected="yes" postag="UNKNOWN" negate_pos="yes">d.*
                 <exception inflected="yes">da</exception>
-                <exception regexp="yes" inflected="yes">t.*</exception>
+                <exception regexp="yes" inflected="yes">t.*|dirak|dindan</exception>
                 <exception regexp="yes">[dt]ud(-(mañ|se|hont))?</exception>
               </token>
               <!-- La mutation est faculative dans le verbe dleout d’après
@@ -420,6 +420,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example type="correct">An ti a <marker>zle</marker> bezañ amañ.</example>
         <example type="incorrect">Pe <marker>deiz</marker> e teuy?</example>
         <example type="correct">Pe zeiz e teuy?</example>
+        <example type="correct">Adsavit ar frazennoù-mañ en ur lakaat re <marker>dirak</marker> an anvioù-gwan.</example>
       </rule>
       <rule>
         <pattern>
@@ -1054,7 +1055,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </token>
           <marker>
             <and>
-              <token regexp="yes" inflected="yes">d.*</token>
+              <token regexp="yes" inflected="yes">d.*
+                <exception regexp="yes" inflected="yes">[zt].*</exception>
+              </token>
               <token regexp="yes">[tz].*<exception regexp="yes">[tz]ud</exception></token>
             </and>
           </marker>
@@ -1064,6 +1067,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example type="incorrect">Teir <marker>zimezell</marker></example>
         <example type="correct">Teir <marker>dimezell</marker></example>
         <example type="correct">Gant o zud</example>
+        <example type="correct">Tri zu</example>
       </rule>
       <rule>
         <pattern>
@@ -1949,7 +1953,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <marker>
           <token postag="[^M]*M:.*" postag_regexp="yes">
             <exception negate_pos="yes" postag="[^M]*M:.*|SENT_END" postag_regexp="yes"/>
-            <exception>vat</exception>
+            <exception regexp="yes">va[dt]</exception>
           </token>
         </marker>
       </pattern>
