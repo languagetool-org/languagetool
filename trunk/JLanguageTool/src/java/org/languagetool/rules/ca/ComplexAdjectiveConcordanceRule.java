@@ -68,14 +68,17 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
 	private static final Pattern ADJECTIU_M = Pattern.compile("A..[MC].*|V.P...M|PX.M.*");
 	private static final Pattern ADJECTIU_F = Pattern.compile("A..[FC].*|V.P...F|PX.F.*");
 	private static final Pattern ADJECTIU_S = Pattern.compile("A...[SN].*|V.P..S.|PX..S.*");
-	//private static final Pattern ADJECTIU_P = Pattern.compile("A...[PN].*|V.P..P.|PX..P.*");
+	private static final Pattern ADJECTIU_P = Pattern.compile("A...[PN].*|V.P..P.|PX..P.*");
 	private static final Pattern CONCORDA = Pattern.compile("_GN_.*");
 	private static final Pattern UPPERCASE = Pattern.compile("\\p{Lu}[\\p{Ll}\u00B7]*");
 	private static final Pattern COORDINACIO = Pattern.compile(",|i|o");
 	private static final Pattern COORDINACIO_IONI = Pattern.compile("i|o|ni");
-	private static final Pattern KEEP_COUNT = Pattern.compile("AQ.*|N.*|D[AID].*|SPS.*");
-	private static final Pattern KEEP_COUNT2 = Pattern.compile(",|i|o|ni|de|d'|en");
-	private static final Pattern PREPOSICIONS = Pattern.compile("de|d'|en");
+	private static final Pattern KEEP_COUNT = Pattern.compile("AQ.*|N.*|D[AID].*|SPS.*|R.*");
+	private static final Pattern KEEP_COUNT2 = Pattern.compile(",|i|o|ni");
+	private static final Pattern PREPOSICIONS = Pattern.compile("SPS.*");
+	private static final Pattern VERB_AUXILIAR = Pattern.compile("V[AS].*");
+	private static final Pattern EXCEPCIONS_PARTICIPI = Pattern.compile("atès|atés|atesa|atesos|ateses|donat|donats|donada|donades");
+
 
 	private static final int maxTotalPrevWords=15;
 
@@ -119,6 +122,7 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
 				boolean isPlural = true;
 				boolean isPrevNoun = false;
 				Pattern substPattern = null;
+				Pattern adjPattern = null;
 				Matcher isUpperCase = UPPERCASE.matcher(token);
 
 				//Counts nouns and determiners before the adjective (-maxLocalWords ). 
@@ -154,7 +158,7 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
 					if (matchPostagRegexp(tokens[i-j],DET_MP)) {cDMP[level]++;}
 					if (matchPostagRegexp(tokens[i-j],DET_FP)) {cDFP[level]++;}	    		  
 					if (i-j>0) {
-						if (matchRegexp(tokens[i-j].getToken(),PREPOSICIONS) && !matchRegexp(tokens[i-j-1].getToken(),COORDINACIO_IONI )) {
+						if (matchPostagRegexp(tokens[i-j],PREPOSICIONS) && !matchRegexp(tokens[i-j-1].getToken(),COORDINACIO_IONI )) {
 							level++;
 						}
 					}
@@ -163,7 +167,7 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
 						while (k<4 && i-j-k>0 
 								&& (matchPostagRegexp(tokens[i-j-k],KEEP_COUNT) 
 										|| matchRegexp(tokens[i-j-k].getToken(),KEEP_COUNT2) ) ) {
-							if (matchRegexp(tokens[i-j-k].getToken(),PREPOSICIONS)) {
+							if (matchPostagRegexp(tokens[i-j-k],PREPOSICIONS)) {
 								j=j+k;
 								break;
 							}
@@ -197,18 +201,21 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
 						break;
 					}
 					//Adjective can't be singular
-					if (cN[j]+cD[j]>0) {
+					if (cN[j]+cD[j]>0) { //&& level>1
 						isPlural=isPlural && cD[j]>1; //cN[j]>1
 					}
+//					else {
+//						isPlural=false;
+//					}
 					j++;
 				}
 
-				//exception: noun plural + two or more adjectives	
+				//exception: noun (or adj) plural + two or more adjectives	
 				if (!isException && i < tokens.length-2){
 					Matcher pCoordina = COORDINACIO.matcher(nextToken);
 					if (pCoordina.matches()) {
-						if (   (matchPostagRegexp(tokens[i-1],NOM_MP) && matchPostagRegexp(tokens[i],ADJECTIU_M) && matchPostagRegexp(tokens[i+2],ADJECTIU_M))
-								|| (matchPostagRegexp(tokens[i-1],NOM_FP) && matchPostagRegexp(tokens[i],ADJECTIU_F) && matchPostagRegexp(tokens[i+2],ADJECTIU_F)) )
+						if (   ((matchPostagRegexp(tokens[i-1],NOM_MP) || matchPostagRegexp(tokens[i-1],ADJECTIU_MP)) && matchPostagRegexp(tokens[i],ADJECTIU_M) && matchPostagRegexp(tokens[i+2],ADJECTIU_M))
+								|| ((matchPostagRegexp(tokens[i-1],NOM_FP) || matchPostagRegexp(tokens[i-1],ADJECTIU_FP)) && matchPostagRegexp(tokens[i],ADJECTIU_F) && matchPostagRegexp(tokens[i+2],ADJECTIU_F)) )
 						{
 							isException=true;} 
 					}	
@@ -222,10 +229,15 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
 					isException=true;}
 
 				//exceptions: llevat de, tret de, majúsucula inicial
-				if ( !isException && token.equals("tret") || token.equals("llevat") || token.equals("primer") || token.equals("junts") 
+				if ( !isException && ( ((token.equals("tret") || token.equals("llevat") ) && nextToken.equals("de")) 
+						|| token.equals("primer") || token.equals("junts") 
 						|| prevToken.equals("terme") || prevToken.equals("paraula") || prevToken.equals("mot") 
 						|| prevToken.equals("termes") || prevToken.equals("paraules") || prevToken.equals("mots") 
-						|| isUpperCase.matches()) {
+						|| isUpperCase.matches() ) ) {
+					isException=true;}
+				
+				//exceptions: atès, atesos..., donat, donats... 
+				if ( !isException && matchPostagRegexp(tokens[i],EXCEPCIONS_PARTICIPI) ) {
 					isException=true;}
 
 				//exceptions: segur que
@@ -237,15 +249,18 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
 				//look into 15 previous words
 				if (!isException)
 				{ 
-					if (matchPostagRegexp(tokens[i],ADJECTIU_CS)) { substPattern=GN_CS; }
-					else if (matchPostagRegexp(tokens[i],ADJECTIU_CP)) { substPattern=GN_CP; }
-					else if (matchPostagRegexp(tokens[i],ADJECTIU_MS)) { substPattern=GN_MS; }
-					else if (matchPostagRegexp(tokens[i],ADJECTIU_FS)) { substPattern=GN_FS; }
-					else if (matchPostagRegexp(tokens[i],ADJECTIU_MP)) { substPattern=GN_MP; }
-					else if (matchPostagRegexp(tokens[i],ADJECTIU_FP)) { substPattern=GN_FP; }
+					if (matchPostagRegexp(tokens[i],ADJECTIU_CS)) { substPattern=GN_CS; adjPattern=ADJECTIU_S; }
+					else if (matchPostagRegexp(tokens[i],ADJECTIU_CP)) { substPattern=GN_CP; adjPattern=ADJECTIU_P; }
+					else if (matchPostagRegexp(tokens[i],ADJECTIU_MS)) { substPattern=GN_MS; adjPattern=ADJECTIU_MS;}
+					else if (matchPostagRegexp(tokens[i],ADJECTIU_FS)) { substPattern=GN_FS; adjPattern=ADJECTIU_FS;}
+					else if (matchPostagRegexp(tokens[i],ADJECTIU_MP)) { substPattern=GN_MP; adjPattern=ADJECTIU_MP;}
+					else if (matchPostagRegexp(tokens[i],ADJECTIU_FP)) { substPattern=GN_FP; adjPattern=ADJECTIU_FP;}
 
 					if (substPattern!=null) {
-						if (matchPostagRegexp(tokens[i-1],NOM) && !matchPostagRegexp(tokens[i-1],substPattern) ) {  //previous token is a non-agreeing noun
+						//previous token is a non-agreeing noun or adjective
+						if ( (matchPostagRegexp(tokens[i-1],NOM) && !matchPostagRegexp(tokens[i-1],substPattern)) ||
+								(i>3 /*&& !matchPostagRegexp(tokens[i],NOM)*/ && matchPostagRegexp(tokens[i-1],ADJECTIU) && !matchPostagRegexp(tokens[i-1],adjPattern) 
+										&& !matchPostagRegexp(tokens[i-2],VERB_AUXILIAR) && !matchPostagRegexp(tokens[i-3],VERB_AUXILIAR))) {  
 							j=i-maxTotalPrevWords; //look into the 15 previous words
 							if (j<0) {
 								j=0;
@@ -267,7 +282,7 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
 				}
 				if (theRuleMaches) {
 					final String msg = "L'adjectiu \u00AB"+token+"\u00BB no concorda apropiadament.";
-					final RuleMatch ruleMatch = new RuleMatch(this, tokens[i].getStartPos(), tokens[i].getStartPos()+token.length(), msg, "Falta de concordanÃ§a.");
+					final RuleMatch ruleMatch = new RuleMatch(this, tokens[i].getStartPos(), tokens[i].getStartPos()+token.length(), msg, "Falta de concordança.");
 					ruleMatches.add(ruleMatch);
 				}
 			}

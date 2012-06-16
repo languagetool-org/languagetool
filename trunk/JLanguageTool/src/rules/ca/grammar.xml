@@ -19,33 +19,33 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 -->
 <rules lang="ca" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../rules.xsd">
-    <unification feature="nombre">
-        <equivalence type="S">
-            <token postag="(PX..|N.{2}|[ADP].{3}|V.{4})[SN0].*|_GN_.S" postag_regexp="yes"></token>
-        </equivalence>
-        <equivalence type="P">
-            <token postag="(PX..|N.{2}|[ADP].{3}|V.{4})[PN0].*|_GN_.P" postag_regexp="yes"></token>
-        </equivalence>
-    </unification>
-    <unification feature="genere">
-        <equivalence type="M">
-            <token postag="(PX.|N.|[ADP].{2}|V.{5})[MC].*|_GN_M." postag_regexp="yes"></token>
-        </equivalence>
-        <equivalence type="F">
-            <token postag="(PX.|N.|[ADP].{2}|V.{5})[FC].*|_GN_F." postag_regexp="yes"></token>
-        </equivalence>
-    </unification>
-    <unification feature="persona">
-        <equivalence type="primera">
-            <token postag="(P.|V.{3})[10].*" postag_regexp="yes"></token>
-        </equivalence>
-        <equivalence type="segona">
-            <token postag="(P.|V.{3})[20].*" postag_regexp="yes"></token>
-        </equivalence>
-        <equivalence type="tercera">
-            <token postag="(P.|V.{3})[30].*" postag_regexp="yes"></token>
-        </equivalence>
-    </unification>
+	<unification feature="nombre">
+		<equivalence type="S">
+			<token postag="(PX..|N.{2}|[ADP].{3}|V.{4})[SN0].*|_GN_.S" postag_regexp="yes"></token>
+		</equivalence>
+		<equivalence type="P">
+			<token postag="(PX..|N.{2}|[ADP].{3}|V.{4})[PN0].*|_GN_.P" postag_regexp="yes"></token>
+		</equivalence>
+	</unification>
+	<unification feature="genere">
+		<equivalence type="M">
+			<token postag="(PX.|N.|[ADP].{2}|V.{5})[MC].*|_GN_M." postag_regexp="yes"></token>
+		</equivalence>
+		<equivalence type="F">
+			<token postag="(PX.|N.|[ADP].{2}|V.{5})[FC].*|_GN_F." postag_regexp="yes"></token>
+		</equivalence>
+	</unification>
+	<unification feature="persona">
+		<equivalence type="primera">
+			<token postag="(P.|V.{3})[10].*" postag_regexp="yes"></token>
+		</equivalence>
+		<equivalence type="segona">
+			<token postag="(P.|V.{3})[20].*" postag_regexp="yes"></token>
+		</equivalence>
+		<equivalence type="tercera">
+			<token postag="(P.|V.{3})[30].*" postag_regexp="yes"></token>
+		</equivalence>
+	</unification>
 
     <category name="Concordances en grups nominals">
             <rulegroup id="CONCORDANCES_NUMERALS" name="concordances en numerals">
@@ -466,7 +466,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Error de concordança. Podria ser: <suggestion><match no="2" postag="DT" /></suggestion>.</message>
                 <short>Error de concordança.</short>
                 <example type="incorrect">Porta <marker>el camions</marker>.</example>
-                <example type="incorrect"><marker>Els pis</marker>.</example>
+                <example type="incorrect"><marker>Els pis</marker> del meu amic.</example>
                 <example type="correct">Els pisos.</example>
                 <example type="correct">Els pins.</example>
                 <example type="correct">Porta els camions.</example>
@@ -526,7 +526,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <feature id="nombre"/>
                         <feature id="genere"/>
                     <token postag="A.*|PX.*" postag_regexp="yes"></token>
-                    <token postag="N.M.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/></token>
+                    <token postag="N.M.*" postag_regexp="yes"><exception postag="_GN_.*|A.*" postag_regexp="yes"/></token>
                   </unify>
                 </pattern>
                 <message>Error de concordança. Podria ser:
@@ -545,7 +545,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <feature id="nombre"/>
                         <feature id="genere"/>
                     <token postag="A.*|PX.*" postag_regexp="yes"></token>
-                    <token postag="N.F.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/></token>
+                    <token postag="N.F.*" postag_regexp="yes"><exception postag="_GN_.*|A.*" postag_regexp="yes"/></token>
                   </unify>
                 </pattern>
                 <message>Error de concordança. Podria ser:
@@ -778,10 +778,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag="PD0NS000"></token>
                     <token postag="RG|.*LOC_ADV.*" postag_regexp="yes" skip="3"><exception postag="RG|.*LOC_ADV.*|A.*|V.P.*|SENT_END" scope="next" postag_regexp="yes" negate_pos="yes"></exception></token>
-                    <token postag="A..F[SP].*|V.P..[SP]F|PX.F[SP].*|A..MP.*|V.P..PMPX.MP.*" postag_regexp="yes"><exception postag="A..[MC][SN0].*|V.P..SM|PX.[MC][SN0].*" postag_regexp="yes"></exception></token>
+                    <token postag="A..F[SP].*|V.P..[SP]F|PX.F[SP].*|A..MP.*|V.P..PM|PX.MP.*" postag_regexp="yes"><exception postag="A..[MC][SN0].*|V.P..SM|PX.[MC][SN0].*" postag_regexp="yes"></exception></token>
                 </pattern>
-                <message>Falta de concordança de nombre entre «\1» i «\3».</message>
-                <short>Concordança de nombre dubtosa.</short>
+                <message>Falta de concordança entre «\1» i «\3».</message>
+                <short>Concordança dubtosa.</short>
                 <example type="incorrect"><marker>Això tan vermelles</marker>.</example>
                 <example type="correct">Això tan vermell.</example>
             </rule>
@@ -988,14 +988,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
 
-        <rulegroup id="CONCORDANCES_ADJ_ADJ" name="Concordances adjectiu + adjectiu">
-               <!-- adjectiu + adjectiu ?? -->
-             <rule>
+ <!--       <rulegroup id="CONCORDANCES_ADJ_ADJ" name="Concordances adjectiu + adjectiu">
+-->               <!-- adjectiu + adjectiu ?? -->
+ <!--            <rule>   
                 <pattern>
                     <unify negate="yes">
                         <feature id="nombre"/>
                         <feature id="genere"/>
-                    <token postag="A.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/></token>
+                    <token postag="A.*" postag_regexp="yes"><exception postag="_GN_.*|N.*" postag_regexp="yes"/></token>
                     <token postag="A.*|V.P.*|PX.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/></token>
                   </unify>
                 </pattern>
@@ -1011,14 +1011,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="correct">magnífica esplendorosa.</example>
                 <example type="incorrect"><marker>magnífics seves</marker>.</example>
             </rule>
-            <rule>
+-->           <!-- <rule>
                 <pattern>
                     <and>
-                        <token postag="A.*|V.P.*" postag_regexp="yes"></token>
+                        <token postag="AQ.*|V.P.*" postag_regexp="yes"></token>
                         <token postag="_GN_F." postag_regexp="yes"><exception postag="_GN_M." postag_regexp="yes"></exception></token>
                     </and>
                     <token regexp="yes">i|o|ni|però</token>
-                    <token postag="A..M.*|V.P...M" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"></exception></token>
+                    <token postag="AQ.M.*|V.P...M" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"></exception></token>
                 </pattern>
                 <message>Falta de concordança de nombre entre «\1» i «\3».</message>
                 <short>Concordança de nombre dubtosa.</short>
@@ -1028,11 +1028,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <and>
-                        <token postag="A.*|V.P.*" postag_regexp="yes"></token>
+                        <token postag="AQ.*|V.P.*" postag_regexp="yes"></token>
                         <token postag="_GN_M." postag_regexp="yes"><exception postag="_GN_F." postag_regexp="yes"></exception></token>
                     </and>
                     <token regexp="yes">i|o|ni|però</token>
-                    <token postag="A..F.*|V.P...F" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"></exception></token>
+                    <token postag="AQ.F.*|V.P...F" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"></exception></token>
                 </pattern>
                 <message>Falta de concordança de nombre entre «\1» i «\3».</message>
                 <short>Concordança de nombre dubtosa.</short>
@@ -1042,11 +1042,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <and>
-                        <token postag="A.*|V.P.*" postag_regexp="yes"></token>
+                        <token postag="AQ.*|V.P.*" postag_regexp="yes"></token>
                         <token postag="_GN_.S" postag_regexp="yes"><exception postag="_GN_.P" postag_regexp="yes"></exception></token>
                     </and>
                     <token regexp="yes">i|o|ni|però</token>
-                    <token postag="A...P.*|V.P..P." postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"></exception></token>
+                    <token postag="AQ..P.*|V.P..P." postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"></exception></token>
                 </pattern>
                 <message>Falta de concordança de nombre entre «\1» i «\3».</message>
                 <short>Concordança de nombre dubtosa.</short>
@@ -1056,11 +1056,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <and>
-                        <token postag="A.*|V.P.*" postag_regexp="yes"></token>
+                        <token postag="AQ.*|V.P.*" postag_regexp="yes"></token>
                         <token postag="_GN_.P" postag_regexp="yes"><exception postag="_GN_.S" postag_regexp="yes"></exception></token>
                     </and>
                     <token regexp="yes">i|o|ni|però</token>
-                    <token postag="A...S.*|V.P..S." postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"></exception></token>
+                    <token postag="AQ..S.*|V.P..S." postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"></exception></token>
                 </pattern>
                 <message>Falta de concordança de nombre entre «\1» i «\3».</message>
                 <short>Concordança de nombre dubtosa.</short>
@@ -1070,11 +1070,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <and>
-                        <token postag="A.*|V.P.*" postag_regexp="yes"></token>
+                        <token postag="AQ.*|V.P.*" postag_regexp="yes"></token>
                         <token postag="_GN_F." postag_regexp="yes"><exception postag="_GN_M." postag_regexp="yes"></exception></token>
                     </and>
                     <token>,</token>
-                    <token postag="A..M.*|V.P...M" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"></exception></token>
+                    <token postag="AQ.M.*|V.P...M" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"></exception></token>
                     <token><exception postag="SPS00|D.*" postag_regexp="yes"></exception><exception>que</exception></token>
                 </pattern>
                 <message>Falta de concordança de nombre entre «\1» i «\3».</message>
@@ -1085,11 +1085,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <and>
-                        <token postag="A.*|V.P.*" postag_regexp="yes"></token>
+                        <token postag="AQ.*|V.P.*" postag_regexp="yes"></token>
                         <token postag="_GN_M." postag_regexp="yes"><exception postag="_GN_F." postag_regexp="yes"></exception></token>
                     </and>
                     <token>,</token>
-                    <token postag="A..F.*|V.P...F" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"></exception></token>
+                    <token postag="AQ.F.*|V.P...F" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"></exception></token>
                     <token><exception postag="SPS00|D.*" postag_regexp="yes"></exception><exception>que</exception></token>
                 </pattern>
                 <message>Falta de concordança de nombre entre «\1» i «\3».</message>
@@ -1097,14 +1097,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="incorrect">Uns fets <marker>clars, determinades.</marker></example>
                 <example type="correct">Uns fets clars, determinats.</example>
             </rule>
-            <rule>
+-->            <!--AMB COMA: passar-ho a la regla Java-->
+            
+           <!-- <rule>
                 <pattern>
                     <and>
-                        <token postag="A.*|V.P.*" postag_regexp="yes"></token>
+                        <token postag="AQ.*|V.P.*" postag_regexp="yes"></token>
                         <token postag="_GN_.S" postag_regexp="yes"><exception postag="_GN_.P" postag_regexp="yes"></exception></token>
                     </and>
                     <token>,</token>
-                    <token postag="A...P.*|V.P..P." postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"></exception></token>
+                    <token postag="AQ..P.*|V.P..P." postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"></exception></token>
                     <token><exception postag="SPS00|D.*" postag_regexp="yes"></exception><exception>que</exception></token>
                 </pattern>
                 <message>Falta de concordança de nombre entre «\1» i «\3».</message>
@@ -1115,11 +1117,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <and>
-                        <token postag="A.*|V.P.*" postag_regexp="yes"></token>
+                        <token postag="AQ.*|V.P.*" postag_regexp="yes"></token>
                         <token postag="_GN_.P" postag_regexp="yes"><exception postag="_GN_.S" postag_regexp="yes"></exception></token>
                     </and>
                     <token>,</token>
-                    <token postag="A...S.*|V.P..S." postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"></exception></token>
+                    <token postag="AQ..S.*|V.P..S." postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"></exception></token>
                     <token><exception postag="SPS00|D.*" postag_regexp="yes"></exception><exception>que</exception></token>
                 </pattern>
                 <message>Falta de concordança de nombre entre «\1» i «\3».</message>
@@ -1127,7 +1129,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="incorrect">Unes coses <marker>vermelles, verda.</marker></example>
                 <example type="correct">Unes coses vermelles, verdes.</example>
             </rule>
-            <rule>
+--> <!--           <rule>
                 <pattern>
                     <and>
                         <token postag="A.*|V.P.*" postag_regexp="yes"><exception postag="N.*" postag_regexp="yes"/></token>
@@ -1179,8 +1181,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="incorrect">Unes coses <marker>vermelles verda</marker>.</example>
                 <example type="correct">Unes coses vermelles verdes.</example>
             </rule>
-        </rulegroup>
-        <rulegroup id="CONCORDANCES_DET_DET" name="Concordances determinant + determinant">
+-->   <!--     </rulegroup>
+-->        <rulegroup id="CONCORDANCES_DET_DET" name="Concordances determinant + determinant">
             <rule>
                 <pattern>
                     <unify negate="yes">
@@ -1723,7 +1725,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token postag="V.N.*" postag_regexp="yes"></token>
                 </pattern>
-                <message>Incorrecte quan vol dir <suggestion><match no="2" postag="..(.{5})" postag_regexp="yes" postag_replace="VM$1">caldre</match></suggestion> o <suggestion>s'<match no="2"></match>de</suggestion>.</message>
+                <message>Incorrecte quan vol dir <suggestion><match no="2" postag="..(.{5})" postag_regexp="yes" postag_replace="VM$1">caldre</match></suggestion> o <suggestion>s'<match no="2"></match> de</suggestion>.</message>
                 <short>Incorrecte quan vol dir «cal»</short>
                 <example type="incorrect">No <marker>hi ha que</marker> fer res</example>
                 <example type="correct">No <marker>cal</marker> fer res</example>
@@ -2139,13 +2141,41 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category name="Preposicions">
+    	<rulegroup id="MALGRAT" name="malgrat (que)">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>malgrat</token>
+                    </marker>
+                    <token postag="V.[^N].*" postag_regexp="yes"></token>
+                </pattern>
+                <message>Potser és <suggestion>malgrat que</suggestion>.</message>
+                <short>Expressió incorrecta.</short>
+                <example type="incorrect"><marker>Malgrat</marker> és el millor.</example>
+                <example type="correct">Malgrat que és el millor.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>malgrat</token>
+                    </marker>
+                    <token>no</token>
+                    <token postag="V.[^N].*" postag_regexp="yes"></token>
+                </pattern>
+                <message>Potser és <suggestion>malgrat que</suggestion>.</message>
+                <short>Expressió incorrecta.</short>
+                <example type="incorrect"><marker>Malgrat</marker> no és el millor.</example>
+                <example type="correct">Malgrat que no és el millor.</example>
+            </rule>
+
+        </rulegroup>
         <rulegroup id="FINS_A" name="Revisa: «fins/fins a» «cap/cap a»">
             <rule>
                 <pattern>
                     <marker>
                         <token>fins</token>
                     </marker>
-                    <token postag="DA.*" postag_regexp="yes" inflected="yes">el<exception regexp="yes">al|als</exception></token>
+                    <token postag="DA.*" postag_regexp="yes" inflected="yes">el</token>
                 </pattern>
                 <message>Només escrivim &quot;fins el&quot; quan vol dir &quot;fins i tot&quot;. <suggestion>fins a</suggestion>.</message>
                 <short>Error ortogràfic.</short>
@@ -2737,7 +2767,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>que</token>
                 </marker>
             </pattern>
-            <message>Cal dir <suggestion>que</suggestion> o <suggestion>de què</suggestion>.</message>
+            <message>Cal dir <suggestion>que</suggestion>, <suggestion>de què</suggestion> o <suggestion>del fet que</suggestion>.</message>
             <short>Expressió incorrecta</short>
             <example type="incorrect">La possibilitat <marker>de que</marker> ho facis</example>
             <example type="correct">La possibilitat <marker>que</marker> ho facis</example>
@@ -2839,7 +2869,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token negate_pos="yes" postag="SENT_START" regexp="yes"><exception>i</exception>\p{L}+</token>
                     <token regexp="yes"><exception>i</exception>\p{L}+</token>
-                    <token><match no="0"></match></token>
+                    <token><match no="0"></match><exception postag="&lt;/LOC_ADV&gt;" regexp="yes">poc|més</exception></token>
                     <token><match no="1"></match><exception postag="&lt;/LOC_ADV&gt;" regexp="yes">poc|més</exception></token>
                 </pattern>
                 <message>Aquesta frase és duplicada. Probablement hauria de ser <suggestion>\1 \2</suggestion>.</message>
@@ -2854,13 +2884,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token postag="N.*" postag_regexp="yes"><exception postag="A.*" postag_regexp="yes"></exception><exception inflected="yes">numeral</exception><exception regexp="yes" inflected="yes">mot|paraula|terme</exception></token>
-                    <token postag="N.*" postag_regexp="yes"><exception regexp="yes">\p{Lu}\p{Ll}*</exception><exception postag="A.*" postag_regexp="yes"></exception><exception inflected="yes">numeral</exception></token>
+                    <token postag="N.*" postag_regexp="yes"><exception regexp="yes">\p{Lu}\p{Ll}*</exception>
+                        <exception postag="A.*|V.P.*" postag_regexp="yes"></exception><exception inflected="yes">numeral</exception>
+                        <exception>web</exception></token>
                 </pattern>
                 <message>Revisa: noms junts.</message>
                 <short>Revisa: noms junts.</short>
                 <example type="incorrect"><marker>Cotxe autobús</marker>.</example>
                 <example type="correct">Cotxe i autobús.</example>
                 <example type="correct">La planta dos.</example>
+                <example type="correct">Un lloc web.</example>
             </rule>
         </rulegroup>
         <rulegroup id="paraula_repetida" name="Revisa: paraula repetida." default="off">
@@ -2889,6 +2922,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>No apareix en el diccionari Freeling.</short>
             <example type="incorrect"><marker>asdgadfgafg</marker>.</example>
             <example type="correct"><marker>estat</marker>.</example>
+        </rule>
+        <rule id="Accents_Canviats" name="Accentuacions abandonades (sènia, sèquia)" >
+            <pattern>
+                <token regexp="yes">sè(n|qu)i(a|es)</token>
+            </pattern>
+            <message>Accentuació abandonada per <suggestion><match no="1" regexp_match="^(.+)è()" regexp_replace="$1é$2"></match></suggestion>.</message>
+            <short>Accentuació abandonada.</short>
+            <example type="incorrect"><marker>sènia</marker>.</example>
+            <example type="correct"><marker>sénia</marker>.</example>
         </rule>
         <rulegroup id="CONTRACCIONS" name="contraccions">
             <rule>
@@ -4117,66 +4159,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
 
     </category>
-    <category name="A2) Exigeix variants valencianes" default="off">
-          <!-- Exigeix formes valencianes -->
-            <rulegroup id="accentuacio_valenciana" name="Exigeix accentuació valenciana (café, sotmés)">
-                  <rule>
-                    <pattern>
-                        <token regexp="yes">.+è|.+ès|.+èn<exception regexp="yes">perquè|què|Novetlè</exception></token>
-                    </pattern>
-                    <message>Accentuació no valenciana. Substituïu per: <suggestion><match no="1" regexp_match="^(.+)è(s|n)?" regexp_replace="$1é$2"></match></suggestion></message>
-                    <short>Accentuació no valenciana.</short>
-                    <example type="incorrect">El <marker>cafè</marker>.</example>
-                    <example type="correct">El <marker>café</marker>.</example>
-                    <example type="correct">Perquè m'agrada.</example>
-                </rule>
-                <rule>
-                    <pattern>
-                        <token regexp="yes">.+èixer</token>
-                    </pattern>
-                    <message>Accentuació no valenciana. Substituïu per: <suggestion><match no="1" regexp_match="^(.+)èixer" regexp_replace="$1éixer"></match></suggestion></message>
-                    <short>Accentuació no valenciana.</short>
-                    <example type="incorrect">Ell el va <marker>conèixer</marker>.</example>
-                    <example type="correct">Ell el va <marker>conéixer</marker>.</example>
-                </rule>
-                <rule>
-                    <pattern>
-                        <token regexp="yes">.+èie(m|u)</token>
-                    </pattern>
-                    <message>Accentuació no valenciana. Substituïu per: <suggestion><match no="1" regexp_match="^(.+)èie(m|u)" regexp_replace="$1éie$2"></match></suggestion></message>
-                    <short>Accentuació no valenciana.</short>
-                    <example type="incorrect">Voslatres <marker>fèieu</marker>.</example>
-                    <example type="correct">Voslatres <marker>féieu</marker>.</example>
-                </rule>
-            </rulegroup>
-
-            <rule id="verbs_valencians" name="Exigeix verbs valencians (diga, pense)">
-                <pattern>
-                    <token postag="V.*" postag_regexp="yes" regexp="yes">.+o|.+i|.+in|.+ssim|.+ssiu<exception postag="N.*" postag_regexp="yes"></exception></token>
-                    <!-- no controla el "pens" balear. Excepcions que creen ambigüitats: obri, obrin (patrocini) -->
-                </pattern>
-                <message>Forma verbal no pròpia del valencià.</message>
-                <!-- per a fer suggeriments cal mirar les conjugacions-->
-                <short>Forma no valenciana.</short>
-                <example type="incorrect">Si <marker>tinguéssim</marker> sort.</example>
-                <example type="correct">Si <marker>tinguérem</marker> sort.</example>
-            </rule>
-            <rule id="possessius_valencians" name="Exigeix possessius valencians (meua, teua,...)">
-                <pattern>
-                    <token regexp="yes">(me|te|se)v(a|es)</token>
-                </pattern>
-                <message>Forma no pròpia del valencià. <suggestion><match no="1" regexp_match="(me|te|se)v(a|es)" regexp_replace="$1u$2"></match></suggestion></message>
-                <short>Forma no valenciana.</short>
-                <example type="incorrect">La <marker>meva</marker> amiga.</example>
-                <example type="correct">La <marker>meua</marker> amiga.</example>
-            </rule>
-            <!-- falta: combinacions l'hi, la hi, etc.
-                Terminacions -ara/-às/-és -->
-
-    </category>
-    <category name="A1) Evita les variants valencianes" default="on">
+     <category name="A1) Exigeix formes del català central" default="on">
             <!-- Evita formes no valencianes -->
-           <rulegroup id="accentuacio_general" name="Exigeix accentuació general (cafè, sotmès)">
+            <rulegroup id="accentuacio_general" name="Evita l'accentuació valenciana no general (café, sotmés, conéixer, térbol)">
                <rule>
                     <pattern>
                         <token postag="A.*" postag_regexp="yes" regexp="yes">.+és?<exception regexp="yes">faisandés|fulés|faisandé|fulé|buthanés|confés|exprés|inconfés|obsés|profés|revés</exception></token>
@@ -4224,9 +4209,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </rule>
                 <rule>
                     <pattern>
-                        <token regexp="yes">.+éixer<exception regexp="yes">(cr|acr|decr|n|p|recr|ren|sobrecr|sobren)éixer</exception></token>
+                        <token postag="VMN0000" regexp="yes">.+é(ixer|nyer|ncer)<exception regexp="yes">(cr|acr|decr|n|p|recr|ren|sobrecr|sobren)éixer</exception></token>
                     </pattern>
-                    <message>Accentuació valenciana. Substituïu per: <suggestion><match no="1" regexp_match="^(.+)éixer" regexp_replace="$1èixer"></match></suggestion></message>
+                    <message>Accentuació valenciana. Substituïu per: <suggestion><match no="1" regexp_match="^(.+)é(ixer|nyer|ncer)" regexp_replace="$1è$2"></match></suggestion></message>
                     <short>Accentuació valenciana.</short>
                     <example type="incorrect">Ell el va <marker>conéixer</marker>.</example>
                     <example type="correct">Ell el va <marker>conèixer</marker>.</example>
@@ -4237,14 +4222,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </pattern>
                     <message>Accentuació valenciana. Substituïu per: <suggestion><match no="1" regexp_match="^(.+)éie(m|u)" regexp_replace="$1èie$2"></match></suggestion></message>
                     <short>Accentuació valenciana.</short>
-                    <example type="incorrect">Voslatres <marker>féieu</marker>.</example>
-                    <example type="correct">Voslatres <marker>fèieu</marker>.</example>
+                    <example type="incorrect">Vosaltres <marker>féieu</marker>.</example>
+                    <example type="correct">Vosaltres <marker>fèieu</marker>.</example>
                 </rule>
-
-
+                <rule>
+                    <pattern>
+                        <token regexp="yes">(terratrémol|ségol|pésol|trévol|cércol)s?|(térbol|grévol)(s|a|es)?</token>
+                    </pattern>
+                    <message>Accentuació valenciana. Substituïu per: <suggestion><match no="1" regexp_match="^(.+)é(.+)" regexp_replace="$1è$2"></match></suggestion></message>
+                    <short>Accentuació valenciana.</short>
+                    <example type="incorrect">El <marker>terratrémol</marker>.</example>
+                    <example type="correct">El <marker>terratrèmol</marker>.</example>
+                </rule>                   
             </rulegroup>
-
-            <rulegroup id="verbs_no_valencians" name="Evita verbs valencians (diga, pense)">
+            <rulegroup id="verbs_no_valencians" name="Evita verbs valencians (pense, diga, patisca, patesca, patix, cantara)">
                 <rule>
                 <pattern>
                     <token postag="V.[^N]*" postag_regexp="yes" regexp="yes">.+e<exception postag="N.*" postag_regexp="yes"></exception><exception regexp="yes">respecte|he</exception></token>
@@ -4282,8 +4273,128 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="incorrect"><marker>Diga</marker>'n tres.</example>
                 <example type="correct"><marker>Digui</marker>'n tres.</example>
               </rule>
+              <rule>
+                <pattern>
+                    <token postag="VMS.*" postag_regexp="yes" regexp="yes">.+(ara|era|ira)</token>
+                </pattern>
+                <message>Forma verbal pròpia del valencià.</message>
+                <short>Forma valenciana.</short>
+                <example type="incorrect">Si ell <marker>cantara</marker>.</example>
+                <example type="correct">Si ell <marker>cantés</marker>.</example>
+                <example type="correct">Ell <marker>haguera</marker> vingut, si li ho haguessis dit.</example>
+              </rule>
+              <rule>
+                <pattern>
+                    <token postag="V.SI.*" postag_regexp="yes" regexp="yes">.+(asses|àssem|àsseu|assen|esses|éssem|ésseu|essen)</token>
+                </pattern>
+                <message>Forma verbal pròpia del valencià.</message>
+                <short>Forma valenciana.</short>
+                <example type="incorrect">Si ells <marker>cantassen</marker>.</example>
+                <example type="incorrect">Si ells <marker>cantessen</marker>.</example>
+                <example type="correct">Si ells <marker>cantessin</marker>.</example>
+              </rule>
+              <rule>
+                <pattern>
+                    <token postag="V.*" postag_regexp="yes" regexp="yes">.*[iï](sc|sca|sques|squem|squeu|squen)|.+e(sca|sques|squen)</token>
+                </pattern>
+                <message>Forma verbal pròpia del valencià.</message>
+                <short>Forma valenciana.</short>
+                <example type="incorrect">Que no <marker>patisca</marker>.</example>
+                <example type="correct">Que no <marker>pateixi</marker>.</example>
+                <example type="correct">Jo <marker>patesc</marker>.</example>
+              </rule>
+              <rule>
+                <pattern> 
+                    <token postag="V.*" postag_regexp="yes" regexp="yes">.+([^e]i|ï)(xo|x|xes|xen)<exception inflected="yes" regexp="yes">.+eixir|.+uixir|.+uixar</exception></token>
+                </pattern>
+                <message>Incoatiu en -ix. Substitueix per <suggestion><match no="1" regexp_match="^(.+)(i|ï)(x|xes|xen)" regexp_replace="$1ei$3"></match></suggestion></message>
+                <short>Incoatiu en -ix.</short>
+                <example type="incorrect">Ell <marker>patix</marker>.</example>
+                <example type="correct">Ell <marker>pateix</marker>.</example>
+                <example type="correct">Ell <marker>reïx</marker>.</example>
+                <example type="correct"><marker>sobreïxen</marker>.</example>
+                <example type="correct">Els cotxes <marker>ixen</marker>.</example>
+              </rule>
+            </rulegroup>                       
+            <rulegroup id="verbs_no_balears" name="Evita verbs balears (pens, patesqui, cantàssim, cantau)">
+            	<rule>
+                <pattern>
+                    <token postag="V.*" postag_regexp="yes" regexp="yes">.+(esqui|esquis|esquin)</token>
+                </pattern>
+                <message>Forma verbal pròpia del balear.</message>
+                <short>Forma balear.</short>
+                <example type="incorrect">Que no <marker>patesqui</marker>.</example>
+                <example type="correct">Que no <marker>pateixi</marker>.</example>
+              </rule>
+              <rule>
+                <pattern>
+                    <token postag="V.*" postag_regexp="yes" regexp="yes">.*(assis|àssim|àssiu|assin)</token>
+                </pattern>
+                <message>Forma verbal pròpia del balear.</message>
+                <short>Forma balear.</short>
+                <example type="incorrect">Que no <marker>cantàssim</marker>.</example>
+                <example type="correct">Que no <marker>cantéssim</marker>.</example>
+              </rule>
+              <rule>
+                <pattern>
+                    <token postag="VMIP1S0"><exception regexp="yes">.+[eo]|.+scric|.*tr[ea]c|.*faig|.*[vt]inc</exception>
+                        <exception regexp="yes">absolc|adic|aparec|aprehenc|aprenc|assec|bec|benveig|caic|calc|carvenc|cloc|coc|colc|commoc|comparec|complac|componc|comprenc|concloc|condolc|conec|confonc|contradic|convisc|corfonc|corprenc|corresponc|crec|dec|decaic|defenc|depenc|desaparec|desaprenc|desatenc|descloc|descomplac|descomponc|desconec|descrec|desdic|desentenc|despenc|desplac|desponc|desprenc|desvisc|dic|difonc|dissolc|distenc|dolc|duc|embec|emprenc|encenc|encloc|enduc|enfonc|entenc|entredic|entreploc|entreveig|equivalc|escaic|estenc|estic|excloc|expenc|exsolc|fonc|incloc|infonc|interdic|llec|maldic|malentenc|malprenc|malveig|malvenc|malvisc|malvull|mamprenc|marfonc|menyscrec|moc|molc|noc|ofenc|olc|parec|pervisc|plac|ploc|ponc|predic|prenc|pretenc|prevalc|preveig|promoc|puc|rac|reabsolc|reaparec|rebec|recaic|recloc|recoc|recomponc|reconec|redic|refonc|remoc|remolc|reprenc|resolc|responc|retonc|retrovenc|reveig|revisc|ric|romanc|salprenc|sec|sobreentenc|sobreprenc|sobresec|sobrevalc|sobrevisc|solc|somoc|somric|sorprenc|suspenc|sé|tolc|tonc|transfonc|ullprenc|vaig|valc|veig|venc|visc|vull|ajac|ajec|hac|hec|jac|jec</exception>
+                        <exception postag="V...[^1].*|N.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Forma verbal pròpia del balear.</message>
+                <short>Forma balear.</short>
+                <example type="incorrect">Jo <marker>pens</marker>.</example>
+                <example type="correct">Jo penso, dic i faig.</example>
+              </rule>
+              <rule>
+                <pattern>
+                    <token postag="VMIP1S0" regexp="yes">desatrac|entreobr|reompl|tenc|ompl|obr|vénc|abstenc|advenc|atenc|avenc|captenc|cartenc|contenc|contrafaç|contravenc|convenc|desavenc|desconvenc|desfaç|detenc|entretenc|entrevenc|esdevenc|estrafaç|intervenc|mantenc|menystenc|obtenc|obvenc|perfaç|pervenc|prevenc|provenc|rarefaç|reconvenc|refaç|retenc|revenc|satisfaç|sobrevenc|sostenc|subvenc|viltenc|faç</token>
+                </pattern>
+                <message>Forma verbal pròpia del balear.</message>
+                <short>Forma balear.</short>
+                <example type="incorrect">Jo <marker>desatrac</marker>.</example>
+                <example type="correct">Jo desatraco.</example>
+              </rule>
+              <rule>
+                <pattern>
+                    <token postag="V.[MI].*" postag_regexp="yes" regexp="yes">.+a[um]<exception>cau</exception></token>
+                </pattern>
+                <message>Forma verbal pròpia del balear.</message>
+                <short>Forma balear.</short>
+                <example type="incorrect">Vosaltres <marker>cantau</marker>.</example>
+                <example type="correct">Vosaltres canteu.</example>
+              </rule>
             </rulegroup>
-            <rule id="possessius_no_valencians" name="Exigeix possessius amb v (meva, teva,...)">
+            <rulegroup id="verbs_no_balears_no_valencians" name="Evita verbs balears i valencians (pensàs, patesc, meresc)">
+            	<rule>
+                <pattern>
+                    <token postag="V.I.*" postag_regexp="yes" regexp="yes">.+esc</token>
+                </pattern>
+                <message>Forma verbal pròpia del balear o del valencià.</message>
+                <short>Forma balear o valenciana.</short>
+                <example type="incorrect">Jo <marker>patesc</marker>.</example>
+                <example type="correct">Jo no <marker>pateixo</marker>.</example>
+              </rule>
+              <rule>
+                <pattern>
+                    <token postag="V.S.*" postag_regexp="yes" regexp="yes">.+às</token>
+                </pattern>
+                <message>Forma verbal pròpia del balear o del valencià.</message>
+                <short>Forma balear o valenciana.</short>
+                <example type="incorrect">Que no <marker>pensàs</marker>.</example>
+                <example type="correct">Que no <marker>pensés</marker>.</example>
+              </rule>
+              <rule>
+                <pattern>
+                    <token regexp="yes">complanc|cresc|decresc|desisc|desmeresc|isc|iresc|meresc|pertanc|planc|recresc|reïsc|sobrecresc|sobreïsc</token>
+                </pattern>
+                <message>Forma verbal pròpia del balear o del valencià.</message>
+                <short>Forma balear o valenciana.</short>
+                <example type="incorrect">Que jo no <marker>meresc</marker>.</example>
+                <example type="correct">Que jo no <marker>mereixo</marker>.</example>
+              </rule>		
+            </rulegroup>
+            <rule id="possessius_no_valencians" name="Evita possessius amb u (meua, teua,...)">
                 <pattern>
                     <token regexp="yes">(me|te|se)u(a|es)</token>
                 </pattern>
@@ -4293,7 +4404,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="correct">La <marker>meva</marker> amiga.</example>
             </rule>
             <rulegroup id="pronoms_no_valencians" name="Evita combinacions de pronoms valencianes (li'l, li'ls, li la, li les)">
-                <!-- falta posició enclítica -->
                 <rule>
                 <pattern>
                     <token>li</token>
@@ -4319,7 +4429,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>li</token>
                     <token>la</token>
                 </pattern>
-                <message>Forma pròpia del valencià. Canvia per <suggestion>l'hi</suggestion></message>
+                <message>Forma pròpia del valencià. Canvia per <suggestion>la hi</suggestion></message>
                 <short>Forma valenciana.</short>
                 <example type="incorrect"><marker>Li la</marker> done.</example>
                 <example type="correct"><marker>La hi</marker> dono.</example>
@@ -4344,7 +4454,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="incorrect"><marker>Li les</marker> done.</example>
                 <example type="correct"><marker>Les hi</marker> dono.</example>
               </rule>
-                            <rule>
+              <rule>
                 <pattern>
                     <token>-li</token>
                     <token>'l</token>
@@ -4366,13 +4476,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
               </rule>
               <rule>
                 <pattern>
-                    <token>-li</token>
-                    <token>'ls</token>
+                	  <token regexp="yes">.+[aei]</token>
+                	  <marker>
+                        <token>-li</token>
+                        <token>'ls</token>
+                    </marker>
                 </pattern>
-                <message>Forma pròpia del valencià. Canvia per: <suggestion>'ls-hi</suggestion> o <suggestion>-los-hi</suggestion></message>
+                <message>Forma pròpia del valencià. Canvia per: <suggestion>'ls-hi</suggestion></message>
                 <short>Forma valenciana.</short>
                 <example type="incorrect">Dóna<marker>-li'ls</marker>.</example>
                 <example type="correct">Dóna'ls-hi.</example>
+              </rule>
+              <rule>
+                <pattern>
+                	  <token regexp="yes">.+[^aei]</token>
+                	  <marker>
+                        <token>-li</token>
+                        <token>'ls</token>
+                    </marker>
+                </pattern>
+                <message>Forma pròpia del valencià. Canvia per: <suggestion>-los-hi</suggestion>.</message>
+                <short>Forma valenciana.</short>
+                <example type="incorrect">Donar<marker>-li'ls</marker>.</example>
+                <example type="correct">Donar-los-hi.</example>
               </rule>
               <rule>
                 <pattern>
@@ -4384,9 +4510,456 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="incorrect">Dóna<marker>-li-les</marker>.</example>
                 <example type="correct">Dóna-les-hi.</example>
               </rule>
-        </rulegroup>
-
+            </rulegroup>
     </category>
+    <category name="A2) Exigeix formes valencianes" default="off">
+          <!-- Exigeix formes valencianes -->
+            <rulegroup id="accentuacio_valenciana" name="Evita l'accentuació general no valenciana (cafè, sotmès, conèixer)">
+                  <rule>
+                    <pattern>
+                        <token regexp="yes">.+è|.+ès|.+èn<exception regexp="yes">perquè|què|Novetlè</exception></token>
+                    </pattern>
+                    <message>Accentuació no valenciana. Substituïu per: <suggestion><match no="1" regexp_match="^(.+)è(s|n)?" regexp_replace="$1é$2"></match></suggestion></message>
+                    <short>Accentuació no valenciana.</short>
+                    <example type="incorrect">El <marker>cafè</marker>.</example>
+                    <example type="correct">El <marker>café</marker>.</example>
+                    <example type="correct">Perquè m'agrada.</example>
+                </rule>
+                <rule>
+                    <pattern>
+                        <token postag="VMN0000" regexp="yes">.+è(ixer|nyer|ncer)</token>
+                    </pattern>
+                    <message>Accentuació no valenciana. Substituïu per: <suggestion><match no="1" regexp_match="^(.+)è(ixer|nyer|ncer)" regexp_replace="$1é$2"></match></suggestion></message>
+                    <short>Accentuació no valenciana.</short>
+                    <example type="incorrect">Ell el va <marker>conèixer</marker>.</example>
+                    <example type="correct">Ell el va <marker>conéixer</marker>.</example>
+                </rule>
+                <rule>
+                    <pattern>
+                        <token regexp="yes">.+èie(m|u)</token>
+                    </pattern>
+                    <message>Accentuació no valenciana. Substituïu per: <suggestion><match no="1" regexp_match="^(.+)èie(m|u)" regexp_replace="$1éie$2"></match></suggestion></message>
+                    <short>Accentuació no valenciana.</short>
+                    <example type="incorrect">Vosaltres <marker>fèieu</marker>.</example>
+                    <example type="correct">Vosaltres <marker>féieu</marker>.</example>
+                </rule>
+                <rule>
+                    <pattern>
+                        <token regexp="yes">(terratrèmol|sègol|pèsol|trèvol|cèrcol)s?|(tèrbol|grèvol)(s|a|es)?</token>
+                    </pattern>
+                    <message>Accentuació valenciana. Substituïu per: <suggestion><match no="1" regexp_match="^(.+)è(.+)" regexp_replace="$1é$2"></match></suggestion></message>
+                    <short>Accentuació valenciana.</short>
+                    <example type="incorrect">El <marker>terratrèmol</marker>.</example>
+                    <example type="correct">El <marker>terratrémol</marker>.</example>
+                </rule> 
+            </rulegroup>
+            <rule id="verbs_valencians" name="Evita verbs del català central o balear (penso, digui, facin, penséssiu)">
+                <pattern>
+                    <token postag="V.*" postag_regexp="yes" regexp="yes">.+o|.+i|.+in|.+ssim|.+ssiu<exception postag="N.*" postag_regexp="yes"></exception></token>
+                    <!-- no controla el "pens" balear. Excepcions que creen ambigüitats: obri, obrin (patrocini) -->
+                </pattern>
+                <message>Forma verbal no pròpia del valencià.</message>
+                <!-- per a fer suggeriments cal mirar les conjugacions-->
+                <short>Forma no valenciana.</short>
+                <example type="incorrect">Si <marker>tinguéssim</marker> sort.</example>
+                <example type="correct">Si <marker>tinguérem</marker> sort.</example>
+            </rule>
+            <rule id="possessius_valencians" name="Evita els possessius amb v (meva, teva,...)">
+                <pattern>
+                    <token regexp="yes">(me|te|se)v(a|es)</token>
+                </pattern>
+                <message>Forma no pròpia del valencià. <suggestion><match no="1" regexp_match="(me|te|se)v(a|es)" regexp_replace="$1u$2"></match></suggestion></message>
+                <short>Forma no valenciana.</short>
+                <example type="incorrect">La <marker>meva</marker> amiga.</example>
+                <example type="correct">La <marker>meua</marker> amiga.</example>
+            </rule>
+            <rulegroup id="verbs_no_balears_bis" name="Evita verbs balears (pens, patesqui, cantàssim, cantau)">
+            	<rule>
+                <pattern>
+                    <token postag="V.*" postag_regexp="yes" regexp="yes">.+(esqui|esquis|esquin)</token>
+                </pattern>
+                <message>Forma verbal pròpia del balear.</message>
+                <short>Forma balear.</short>
+                <example type="incorrect">Que no <marker>patesqui</marker>.</example>
+                <example type="correct">Que no <marker>pateixi</marker>.</example>
+              </rule>
+              <rule>
+                <pattern>
+                    <token postag="V.*" postag_regexp="yes" regexp="yes">.*(assis|àssim|àssiu|assin)</token>
+                </pattern>
+                <message>Forma verbal pròpia del balear.</message>
+                <short>Forma balear.</short>
+                <example type="incorrect">Que no <marker>cantàssim</marker>.</example>
+                <example type="correct">Que no <marker>cantéssim</marker>.</example>
+              </rule>
+              <rule>
+                <pattern>
+                    <token postag="VMIP1S0"><exception regexp="yes">.+[eo]|.+scric|.*tr[ea]c|.*faig|.*[vt]inc</exception>
+                        <exception regexp="yes">absolc|adic|aparec|aprehenc|aprenc|assec|bec|benveig|caic|calc|carvenc|cloc|coc|colc|commoc|comparec|complac|componc|comprenc|concloc|condolc|conec|confonc|contradic|convisc|corfonc|corprenc|corresponc|crec|dec|decaic|defenc|depenc|desaparec|desaprenc|desatenc|descloc|descomplac|descomponc|desconec|descrec|desdic|desentenc|despenc|desplac|desponc|desprenc|desvisc|dic|difonc|dissolc|distenc|dolc|duc|embec|emprenc|encenc|encloc|enduc|enfonc|entenc|entredic|entreploc|entreveig|equivalc|escaic|estenc|estic|excloc|expenc|exsolc|fonc|incloc|infonc|interdic|llec|maldic|malentenc|malprenc|malveig|malvenc|malvisc|malvull|mamprenc|marfonc|menyscrec|moc|molc|noc|ofenc|olc|parec|pervisc|plac|ploc|ponc|predic|prenc|pretenc|prevalc|preveig|promoc|puc|rac|reabsolc|reaparec|rebec|recaic|recloc|recoc|recomponc|reconec|redic|refonc|remoc|remolc|reprenc|resolc|responc|retonc|retrovenc|reveig|revisc|ric|romanc|salprenc|sec|sobreentenc|sobreprenc|sobresec|sobrevalc|sobrevisc|solc|somoc|somric|sorprenc|suspenc|sé|tolc|tonc|transfonc|ullprenc|vaig|valc|veig|venc|visc|vull|ajac|ajec|hac|hec|jac|jec</exception>
+                        <exception postag="V...[^1].*|N.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Forma verbal pròpia del balear.</message>
+                <short>Forma balear.</short>
+                <example type="incorrect">Jo <marker>pens</marker>.</example>
+                <example type="correct">Jo penso, dic i faig.</example>
+              </rule>
+              <rule>
+                <pattern>
+                    <token postag="VMIP1S0" regexp="yes">desatrac|entreobr|reompl|tenc|ompl|obr|vénc|abstenc|advenc|atenc|avenc|captenc|cartenc|contenc|contrafaç|contravenc|convenc|desavenc|desconvenc|desfaç|detenc|entretenc|entrevenc|esdevenc|estrafaç|intervenc|mantenc|menystenc|obtenc|obvenc|perfaç|pervenc|prevenc|provenc|rarefaç|reconvenc|refaç|retenc|revenc|satisfaç|sobrevenc|sostenc|subvenc|viltenc|faç</token>
+                </pattern>
+                <message>Forma verbal pròpia del balear.</message>
+                <short>Forma balear.</short>
+                <example type="incorrect">Jo <marker>desatrac</marker>.</example>
+                <example type="correct">Jo desatraco.</example>
+              </rule>
+              <rule>
+                <pattern>
+                    <token postag="V.[MI].*" postag_regexp="yes" regexp="yes">.+a[um]<exception>cau</exception></token>
+                </pattern>
+                <message>Forma verbal pròpia del balear.</message>
+                <short>Forma balear.</short>
+                <example type="incorrect">Vosaltres <marker>cantau</marker>.</example>
+                <example type="correct">Vosaltres canteu.</example>
+              </rule>
+            </rulegroup>
+            <rule id="no_incoatius_ix" name="Evita els verbs incoatius amb -ix" default="on">
+                <pattern>
+                    <token postag="V.*" postag_regexp="yes" regexp="yes">.+([^e]i|ï)(xo|x|xes|xen)<exception inflected="yes" regexp="yes">.+eixir|.+uixir|.+uixar</exception></token>
+                </pattern>
+                <message>Incoatiu en -ix. Substitueix per <suggestion><match no="1" regexp_match="^(.+)(i|ï)(x|xes|xen)" regexp_replace="$1ei$3"></match></suggestion></message>
+                <short>Incoatiu en -ix.</short>
+                <example type="incorrect">Ell <marker>patix</marker>.</example>
+                <example type="correct">Ell <marker>pateix</marker>.</example>
+                <example type="correct">Ell <marker>reïx</marker>.</example>
+                <example type="correct"><marker>sobreïxen</marker>.</example>
+                <example type="correct">Els cotxes <marker>ixen</marker>.</example>
+            </rule>
+    </category>
+   
+    <category name="A3) Exigeix formes balears" default="off">
+        <rulegroup id="verbs_no_central" name="Evita verbs del català central (cantés, cantessis, penso)" >
+          	<rule>
+                <pattern>
+                    <token postag="VMS.*" postag_regexp="yes" regexp="yes">.*(és|essis|éssim|éssiu|essin)<exception inflected="yes" regexp="yes">.+(er|re)</exception></token>
+                </pattern>
+                <message>Forma verbal pròpia del català central.</message>
+                <short>Forma del català central.</short>
+                <example type="incorrect">Que no <marker>cantés</marker>.</example>
+                <example type="incorrect">Que no <marker>portessin</marker>.</example>
+                <example type="correct">Que no <marker>cantàs</marker>.</example>
+                <example type="correct">Que no <marker>portassin</marker>.</example>
+                <example type="correct">Que no ho <marker>permetessin</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="V.*" postag_regexp="yes" regexp="yes">.+o<exception regexp="yes">.+[qg]uo</exception></token>
+                </pattern>
+                <message>Forma verbal pròpia del català central.</message>
+                <short>Forma del català central.</short>
+                <example type="incorrect">Jo no <marker>penso</marker>.</example>
+                <example type="correct">Jo no <marker>pens</marker>.</example>
+                <example type="correct">Jo <marker>adequo</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="verbs_no_central_valencia" name="Evita verbs del català central o del valencià (canteu-li, previnc)" >
+        	<rule>
+                <pattern>
+                    <token postag="V.M.*" postag_regexp="yes" regexp="yes">.+eu<exception regexp="yes" inflected="yes">.+(er|re)</exception><exception postag="V.I.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Forma impròpia del balear.</message>
+                <short>Forma del balear.</short>
+                <example type="incorrect"><marker>Canteu</marker>-li.</example>
+                <example type="incorrect"><marker>Digueu</marker>-li.</example>
+                <example type="correct"><marker>Cantau</marker>-li.</example>
+                <example type="correct"><marker>Digau</marker>-li.</example>
+                <example type="correct"><marker>Remeteu</marker>-li.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="V.I.*" postag_regexp="yes" regexp="yes">.*[vt]inc</token>
+                </pattern>
+                <message>Forma impròpia del balear.</message>
+                <short>Forma del balear.</short>
+                <example type="incorrect"><marker>Tinc</marker> una pregunta.</example>
+                <example type="correct">Jo <marker>tenc</marker> una pregunta.</example>
+            </rule>
+
+        </rulegroup>	
+            <rulegroup id="accentuacio_general_bis" name="Evita l'accentuació valenciana no general (café, sotmés, conéixer, térbol)">
+               <rule>
+                    <pattern>
+                        <token postag="A.*" postag_regexp="yes" regexp="yes">.+és?<exception regexp="yes">faisandés|fulés|faisandé|fulé|buthanés|confés|exprés|inconfés|obsés|profés|revés</exception></token>
+                    </pattern>
+                    <message>Accentuació valenciana. Substituïu per: <suggestion><match no="1" regexp_match="^(.+)é(s)?" regexp_replace="$1è$2"></match></suggestion></message>
+                    <short>Accentuació valenciana.</short>
+                    <example type="incorrect">El <marker>quaranta-quatré</marker>.</example>
+                    <example type="correct">El <marker>quaranta-quatrè</marker>.</example>
+                </rule>
+                <rule>
+                    <pattern>
+                        <token postag="N.*" postag_regexp="yes" regexp="yes">.+é(n|s)?<exception regexp="yes">melés|catipén|koiné|melé|més|abecés|abonarés|balancés|brillantés|cabriolés|calés|canalés|cartonés|clixés|consomés|dublés|elapés|fricassés|frivolités|giroflés|glacés|jaqués|karités|macramés|matinés|moarés|negligés|pagarés|patés|peronés|purés|quinqués|relés|sargés|suflés|ximpanzés|xinés|abecé|abonaré|abscés|accés|aiguavés|aprés|avés|azobé|balancé|brillanté|bé|cabriolé|calcés|calé|canalé|cartoné|carés|claqué|clixé|combés|confés|congrés|consomé|decés|dublé|elapé|excés|exprés|fricassé|frivolité|galzés|giroflé|glacé|granité|ingrés|inrevés|insuccés|jaqué|karité|macoré|macramé|matiné|moaré|negligé|obsés|ocumé|pagaré|paté|patén|peroné|piqué|plaqué|possés|praliné|procés|profés|progrés|puré|quinqué|recés|regrés|reingrés|relé|retrocés|revés|rés|sargé|succés|suflé|tacaé|teleprocés|través|vaivé|ximpanzé|xiné|Salomés|Salomé|Mamés|Efrén|Rubén|Senén</exception></token>
+                    </pattern>
+                    <message>Accentuació valenciana. Substituïu per: <suggestion><match no="1" regexp_match="^(.+)é(n|s)?" regexp_replace="$1è$2"></match></suggestion></message>
+                    <short>Accentuació valenciana.</short>
+                    <example type="incorrect">El <marker>café</marker>.</example>
+                    <example type="correct">El <marker>cafè</marker>.</example>
+                </rule>
+                <rule>
+                    <pattern>
+                        <token regexp="yes">vostés?|allén</token>
+                    </pattern>
+                    <message>Accentuació valenciana. Substituïu per: <suggestion><match no="1" regexp_match="^(.+)é(n|s)?" regexp_replace="$1è$2"></match></suggestion></message>
+                    <short>Accentuació valenciana.</short>
+                    <example type="incorrect"><marker>vostés</marker>.</example>
+                    <example type="correct"><marker>vostès</marker>.</example>
+                </rule>
+                <rule>
+                    <pattern>
+                        <token regexp="yes">(apreh|apr|carv|compr|corpr|def|dep|desapr|desp|despr|empr|exp|malpr|malv|mampr|of|repr|retrov|rev|salpr|sobrepr|sorpr|susp|ullpr)én</token>
+                    </pattern>
+                    <message>Accentuació valenciana. Substituïu per: <suggestion><match no="1" regexp_match="^(.+)én" regexp_replace="$1èn"></match></suggestion></message>
+                    <short>Accentuació valenciana.</short>
+                    <example type="incorrect">Ell <marker>aprén</marker>.</example>
+                    <example type="correct">Ell <marker>aprèn</marker>.</example>
+                </rule>
+                <rule>
+                    <pattern>
+                        <token postag="VMP00SM" regexp="yes">.+és</token>
+                    </pattern>
+                    <message>Accentuació valenciana. Substituïu per: <suggestion><match no="1" regexp_match="^(.+)és" regexp_replace="$1ès"></match></suggestion></message>
+                    <short>Accentuació valenciana.</short>
+                    <example type="incorrect">Ell ho ha <marker>admés</marker>.</example>
+                    <example type="correct">El ho ha <marker>admès</marker>.</example>
+                </rule>
+                <rule>
+                    <pattern>
+                        <token postag="VMN0000" regexp="yes">.+é(ixer|nyer|ncer)<exception regexp="yes">(cr|acr|decr|n|p|recr|ren|sobrecr|sobren)éixer</exception></token>
+                    </pattern>
+                    <message>Accentuació valenciana. Substituïu per: <suggestion><match no="1" regexp_match="^(.+)é(ixer|nyer|ncer)" regexp_replace="$1è$2"></match></suggestion></message>
+                    <short>Accentuació valenciana.</short>
+                    <example type="incorrect">Ell el va <marker>conéixer</marker>.</example>
+                    <example type="correct">Ell el va <marker>conèixer</marker>.</example>
+                </rule>
+                <rule>
+                    <pattern>
+                        <token regexp="yes">.+éie(m|u)</token>
+                    </pattern>
+                    <message>Accentuació valenciana. Substituïu per: <suggestion><match no="1" regexp_match="^(.+)éie(m|u)" regexp_replace="$1èie$2"></match></suggestion></message>
+                    <short>Accentuació valenciana.</short>
+                    <example type="incorrect">Vosaltres <marker>féieu</marker>.</example>
+                    <example type="correct">Vosaltres <marker>fèieu</marker>.</example>
+                </rule>
+                <rule>
+                    <pattern>
+                        <token regexp="yes">(terratrémol|ségol|pésol|trévol|cércol)s?|(térbol|grévol)(s|a|es)?</token>
+                    </pattern>
+                    <message>Accentuació valenciana. Substituïu per: <suggestion><match no="1" regexp_match="^(.+)é(.+)" regexp_replace="$1è$2"></match></suggestion></message>
+                    <short>Accentuació valenciana.</short>
+                    <example type="incorrect">El <marker>terratrémol</marker>.</example>
+                    <example type="correct">El <marker>terratrèmol</marker>.</example>
+                </rule>                   
+            </rulegroup>
+            <rulegroup id="verbs_no_valencians_bis" name="Evita verbs valencians (pense, diga, patisca, patesca, patix, cantara)">
+                <rule>
+                <pattern>
+                    <token postag="V.[^N]*" postag_regexp="yes" regexp="yes">.+e<exception postag="N.*" postag_regexp="yes"></exception><exception regexp="yes">respecte|he</exception></token>
+                </pattern>
+                <message>Forma verbal pròpia del valencià.</message>
+                <!-- per a fer suggeriments cal mirar les conjugacions-->
+                <short>Forma valenciana.</short>
+                <example type="incorrect">Jo ho <marker>pense</marker>.</example>
+                <example type="correct">Jo ho <marker>penso</marker>.</example>
+              </rule>
+              <rule>
+                <pattern>
+                    <token postag="V.S.*" postag_regexp="yes" regexp="yes">.+(a|en?)<exception postag="N.*|V.I.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Forma verbal pròpia del valencià.</message>
+                <short>Forma valenciana.</short>
+                <example type="incorrect">Que ells ho <marker>diguen</marker>.</example>
+                <example type="correct">Que elsl ho <marker>diguin</marker>.</example>
+              </rule>
+              <rule>
+                <pattern>
+                    <token postag="V.M.*" postag_regexp="yes" regexp="yes">.+en?<exception postag="N.*|V.I.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Forma verbal pròpia del valencià.</message>
+                <short>Forma valenciana.</short>
+                <example type="incorrect"><marker>Porte</marker>'n tres.</example>
+                <example type="correct"><marker>Porti</marker>'n tres.</example>
+              </rule>
+              <rule>
+                <pattern>
+                    <token postag="V.M03S0" postag_regexp="yes" regexp="yes">.+a<exception postag="N.*|V.I.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Forma verbal pròpia del valencià.</message>
+                <short>Forma valenciana.</short>
+                <example type="incorrect"><marker>Diga</marker>'n tres.</example>
+                <example type="correct"><marker>Digui</marker>'n tres.</example>
+              </rule>
+              <rule>
+                <pattern>
+                    <token postag="VMS.*" postag_regexp="yes" regexp="yes">.+(ara|era|ira)</token>
+                </pattern>
+                <message>Forma verbal pròpia del valencià.</message>
+                <short>Forma valenciana.</short>
+                <example type="incorrect">Si ell <marker>cantara</marker>.</example>
+                <example type="correct">Si ell <marker>cantés</marker>.</example>
+                <example type="correct">Ell <marker>haguera</marker> vingut, si li ho haguessis dit.</example>
+              </rule>
+              <rule>
+                <pattern>
+                    <token postag="V.S.*" postag_regexp="yes" regexp="yes">.+(asses|àssem|àsseu|assen|esses|éssem|ésseu|essen)</token>
+                </pattern>
+                <message>Forma verbal pròpia del valencià.</message>
+                <short>Forma valenciana.</short>
+                <example type="incorrect">Si ells <marker>cantassen</marker>.</example>
+                <example type="incorrect">Si ells <marker>cantessen</marker>.</example>
+                <example type="correct">Si ells <marker>cantassin</marker>.</example>
+              </rule>
+
+              <rule>
+                <pattern>
+                    <token postag="V.*" postag_regexp="yes" regexp="yes">.*[iï](sc|sca|sques|squem|squeu|squen)|.+e(sca|sques|squen)</token>
+                </pattern>
+                <message>Forma verbal pròpia del valencià.</message>
+                <short>Forma valenciana.</short>
+                <example type="incorrect">Que no <marker>patisca</marker>.</example>
+                <example type="correct">Que no <marker>pateixi</marker>.</example>
+                <example type="correct">Jo <marker>patesc</marker>.</example>
+              </rule>
+              <rule>
+                <pattern>
+                    <token postag="V.*" postag_regexp="yes" regexp="yes">.+([^e]i|ï)(xo|x|xes|xen)<exception inflected="yes" regexp="yes">.+eixir</exception></token>
+                </pattern>
+                <message>Incoatiu en -ix. Substitueix per <suggestion><match no="1" regexp_match="^(.+)(i|ï)(x|xes|xen)" regexp_replace="$1ei$3"></match></suggestion></message>
+                <short>Incoatiu en -ix.</short>
+                <example type="incorrect">Ell <marker>patix</marker>.</example>
+                <example type="correct">Ell <marker>pateix</marker>.</example>
+                <example type="correct">Ell <marker>reïx</marker>.</example>
+                <example type="correct"><marker>sobreïxen</marker>.</example>
+                <example type="correct">Els cotxes <marker>ixen</marker>.</example>
+              </rule>
+            </rulegroup>                       
+            <rule id="possessius_no_valencians_bis" name="Evita possessius amb u (meua, teua,...)">
+                <pattern>
+                    <token regexp="yes">(me|te|se)u(a|es)</token>
+                </pattern>
+                <message>Forma pròpia del valencià. Canvia per <suggestion><match no="1" regexp_match="(me|te|se)u(a|es)" regexp_replace="$1v$2"></match></suggestion></message>
+                <short>Forma valenciana.</short>
+                <example type="incorrect">La <marker>meua</marker> amiga.</example>
+                <example type="correct">La <marker>meva</marker> amiga.</example>
+            </rule>
+            <rulegroup id="pronoms_no_valencians_bis" name="Evita combinacions de pronoms valencianes (li'l, li'ls, li la, li les)">
+                <rule>
+                <pattern>
+                    <token>li</token>
+                    <token>'l</token>
+                </pattern>
+                <message>Forma pròpia del valencià. Canvia per <suggestion>l'hi</suggestion></message>
+                <short>Forma valenciana.</short>
+                <example type="incorrect"><marker>Li'l</marker> done.</example>
+                <example type="correct"><marker>L'hi</marker> dono.</example>
+              </rule>
+              <rule>
+                <pattern>
+                    <token>li</token>
+                    <token>l'</token>
+                </pattern>
+                <message>Forma pròpia del valencià. Canvia per <suggestion>l'hi </suggestion></message>
+                <short>Forma valenciana.</short>
+                <example type="incorrect"><marker>Li l'</marker>escric.</example>
+                <example type="correct"><marker>L'hi</marker> escric.</example>
+              </rule>
+              <rule>
+                <pattern>
+                    <token>li</token>
+                    <token>la</token>
+                </pattern>
+                <message>Forma pròpia del valencià. Canvia per <suggestion>la hi</suggestion></message>
+                <short>Forma valenciana.</short>
+                <example type="incorrect"><marker>Li la</marker> done.</example>
+                <example type="correct"><marker>La hi</marker> dono.</example>
+              </rule>
+              <rule>
+                <pattern>
+                    <token>li</token>
+                    <token>'ls</token>
+                </pattern>
+                <message>Forma pròpia del valencià. Canvia per: <suggestion>els hi</suggestion></message>
+                <short>Forma valenciana.</short>
+                <example type="incorrect"><marker>Li'ls</marker> done.</example>
+                <example type="correct"><marker>Els hi</marker> dono.</example>
+              </rule>
+              <rule>
+                <pattern>
+                    <token>li</token>
+                    <token>les</token>
+                </pattern>
+                <message>Forma pròpia del valencià. Canvia per <suggestion>les hi</suggestion></message>
+                <short>Forma valenciana.</short>
+                <example type="incorrect"><marker>Li les</marker> done.</example>
+                <example type="correct"><marker>Les hi</marker> dono.</example>
+              </rule>
+              <rule>
+                <pattern>
+                    <token>-li</token>
+                    <token>'l</token>
+                </pattern>
+                <message>Forma pròpia del valencià. Canvia per <suggestion>-l'hi</suggestion></message>
+                <short>Forma valenciana.</short>
+                <example type="incorrect">Dóna<marker>-li'l</marker>.</example>
+                <example type="correct">Dóna-l'hi.</example>
+              </rule>
+              <rule>
+                <pattern>
+                    <token>-li</token>
+                    <token>-la</token>
+                </pattern>
+                <message>Forma pròpia del valencià. Canvia per <suggestion>-la-hi</suggestion></message>
+                <short>Forma valenciana.</short>
+                <example type="incorrect">Dóna<marker>-li-la</marker>.</example>
+                <example type="correct">Dóna-la-hi.</example>
+              </rule>
+              <rule>
+                <pattern>
+                	  <token regexp="yes">.+[aei]</token>
+                	  <marker>
+                        <token>-li</token>
+                        <token>'ls</token>
+                    </marker>
+                </pattern>
+                <message>Forma pròpia del valencià. Canvia per: <suggestion>'ls-hi</suggestion></message>
+                <short>Forma valenciana.</short>
+                <example type="incorrect">Dóna<marker>-li'ls</marker>.</example>
+                <example type="correct">Dóna'ls-hi.</example>
+              </rule>
+              <rule>
+                <pattern>
+                	  <token regexp="yes">.+[^aei]</token>
+                	  <marker>
+                        <token>-li</token>
+                        <token>'ls</token>
+                    </marker>
+                </pattern>
+                <message>Forma pròpia del valencià. Canvia per: <suggestion>-los-hi</suggestion>.</message>
+                <short>Forma valenciana.</short>
+                <example type="incorrect">Donar<marker>-li'ls</marker>.</example>
+                <example type="correct">Donar-los-hi.</example>
+              </rule>
+              <rule>
+                <pattern>
+                    <token>-li</token>
+                    <token>-les</token>
+                </pattern>
+                <message>Forma pròpia del valencià. Canvia per <suggestion>-les-hi</suggestion></message>
+                <short>Forma valenciana.</short>
+                <example type="incorrect">Dóna<marker>-li-les</marker>.</example>
+                <example type="correct">Dóna-les-hi.</example>
+              </rule>
+            </rulegroup>       
+    </category>
+    
     <category name="Comprovacions estrictes" default="off">
         <!--<rulegroup id="no_freeling" name="Paraules que no apareixen en el diccionari FreeLing">
     <rule>
@@ -4648,7 +5221,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="guionet_solt" name="Guionet solt">
             <rule>
                 <pattern>
-                    <token spacebefore="yes" regexp="yes">\-[^-]+<exception inflected="yes">numeral</exception></token>
+                    <token spacebefore="yes" regexp="yes">-[^-]+<exception inflected="yes">numeral</exception></token>
                 </pattern>
                 <message>Cal substituir el guionet. <suggestion><match no="1" regexp_match=".(.+)" regexp_replace="—$1"></match></suggestion>.</message>
                 <short>Cal substituir el guionet</short>
@@ -4658,16 +5231,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes">[^-]+\-</token>
+                        <token regexp="yes">[^-]+-</token>
                     </marker>
-                    <token spacebefore="yes"></token>
+                    <token spacebefore="yes"/>
                 </pattern>
                 <message>Cal substituir el guionet. <suggestion><match no="1" regexp_match="(.+)." regexp_replace="$1—"></match></suggestion>.</message>
                 <short>Cal substituir el guionet</short>
                 <example type="incorrect"><marker>digué-</marker> vine.</example>
                 <example type="correct"><marker> digué—</marker> vine</example>
             </rule>
-                        <rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[^-]+-</token>
+                    </marker>
+                    <token regexp="yes">;|,|\.</token>
+                </pattern>
+                <message>Cal substituir el guionet. <suggestion><match no="1" regexp_match="(.+)." regexp_replace="$1—"></match></suggestion>.</message>
+                <short>Cal substituir el guionet</short>
+                <example type="incorrect"><marker>digué-</marker>, vine.</example>
+                <example type="correct"><marker> digué—</marker>, vine</example>
+            </rule>
+            <rule>
                 <pattern>
                     <marker>
                         <token regexp="yes">[-]+</token>
@@ -4767,7 +5352,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category name="Majúscules i minúscules">
-        <rule id="MESOS_ANY" name="mesos de l'any">
+        <rule id="MESOS_ANY" name="mesos de l'any en minúscula">
             <pattern case_sensitive="yes">
                   <token postag="SENT_START" negate_pos="yes"/>
                   <marker>
@@ -5006,10 +5591,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="ARREL_DE" name="arrel de">
             <pattern>
                 <token>arrel</token>
-                <token regexp="yes">de|d'</token>
+                <token inflected="yes">de</token>
             </pattern>
-            <message>Expressió incorrecta quan equival a <suggestion>arran
-                <match no="2"></match></suggestion>.</message>
+            <message>Expressió incorrecta quan equival a <suggestion>arran <match no="2"></match></suggestion>.</message>
             <short>Expressió incorrecta quan equival a &quot;arran de&quot;</short>
             <example type="incorrect"><marker>arrel de</marker> la situació, ja no es parlen</example>
             <example type="correct"><marker>arran de</marker> la situació, ja no es parlen</example>
@@ -5678,10 +6262,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="NO_CAL_OBLIDAR" name="no cal oblidat/cal no oblidar">
             <pattern>
                 <token>no</token>
-                <token>cal</token>
+                <token inflected="yes">caldre</token>
                 <token>oblidar</token>
             </pattern>
-            <message>Potser volíeu dir <suggestion>cal no oblidar</suggestion>.</message>
+            <message>Potser volíeu dir <suggestion><match no="2"/> <match no="1" case_conversion="alllower"/> <match no="3"/></suggestion>.</message>
             <short>Suggeriment</short>
             <example type="incorrect"><marker>No cal oblidar</marker> que les coses són així.</example>
             <example type="correct"><marker>Cal no oblidar</marker> que les coses són així.</example>
