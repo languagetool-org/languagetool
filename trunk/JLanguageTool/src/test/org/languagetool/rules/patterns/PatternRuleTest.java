@@ -141,7 +141,6 @@ public class PatternRuleTest extends TestCase {
               System.err.println("The " + lang.toString() + " rule: "
                   + rule.getId() + ":" + rule.getSubId()
                   + " (exception in token [" + i + "])"
-                  + " in token [" + i + "]"
                   + " has no skip=\"...\" and yet contains scope=\"next\""
                   + " so the exception never applies. "
                   + " Did you forget skip=\"...\"?");
