@@ -32,6 +32,7 @@ import java.util.regex.Pattern;
  * but considering exceptions (e.g. abbreviations).
  *
  * @author Daniel Naber
+ * @deprecated use {@link SRXSentenceTokenizer} instead (deprecated since LT 1.8)
  */
 public class SentenceTokenizer implements Tokenizer {
 
