@@ -28,6 +28,11 @@ USA
 
 $Id$
 -->
+
+<!-- Online sources of spelling/grammar errors:
+http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc
+-->
+
 <!--suppress CheckTagEmptyBody -->
 <rules lang="en" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <!-- ====================================================================== -->
@@ -1274,32 +1279,18 @@ $Id$
         <rulegroup id="TO_TOO" name="to/two (too) late/soon/much">
             <rule>
                 <pattern>
-                    <token regexp="yes">much|is|was|be|were|are|been|s|re</token>
-                    <marker>
-                        <token regexp="yes">to|two</token>
-                    </marker>
-                    <token regexp="yes">late|easy</token>
-                </pattern>
-                <message>Did you mean <suggestion>too</suggestion>?</message>
-                <short>Possible typo</short>
-                <example type="correct">It was <marker>too</marker> late.</example>
-                <example type="correct">It was much <marker>too</marker> late.</example>
-                <example type="incorrect">It was <marker>to</marker> late.</example>
-                <example type="incorrect">It was much <marker>to</marker> late.</example>
-            </rule>
-            <rule>
-                <pattern>
                     <token regexp="yes">comes|came|much|is|was|were|are|been|s|re</token>
                     <marker>
                         <token regexp="yes">to|two</token>
                     </marker>
-                    <token>soon</token>
-                    <token><exception postag="VB"></exception></token>
-                    <!-- token postag=&quot;VBP&quot; negate_pos=&quot;yes&quot;/ -->
-                </pattern>
+                    <token regexp="yes">soon|late|easy|early|hard|fast|slow|cold|hot|high|low|narrow|wide|tall|short</token>
+                    <token><exception postag="VB|NN.*" postag_regexp="yes"></exception></token>
+                    <!-- token postag=&quot;VBP&quot; negate_pos=&quot;yes&quot;/ -->                </pattern>
                 <message>Did you mean <suggestion>too</suggestion>?</message>
                 <short>Possible typo</short>
+                <example type="correct">Items X and Y were <marker>two</marker> items that revolutionized the field.</example>
                 <example type="correct">The plan is <marker>to</marker> soon launch a new plane.</example>
+                <example type="correct">The weather was <marker>too</marker> cold to go swimming.</example>
                 <example type="correct">His idea came much <marker>too</marker> soon to be successful.</example>
                 <example type="correct">It is <marker>too</marker> soon to move the entire industry.</example>
                 <example type="incorrect">His idea came much <marker>to</marker> soon to be successful.</example>
@@ -1352,13 +1343,14 @@ $Id$
                         <token>to</token>
                     </marker>
                     <token postag="JJ?" postag_regexp="yes"></token>
-                    <token>to</token>
+                    <token regexp="yes">to|for</token>
                     <token postag="VB"></token>
                 </pattern>
                 <message>Did you mean <suggestion>too</suggestion>?</message>
                 <short>Possible typo</short>
                 <example correction="too" type="incorrect">It's <marker>to</marker> good to be true.</example>
                 <example type="correct">It's too good to be true.</example>
+                <example type="correct">It's too large for the box.</example>
             </rule>
         </rulegroup>
         <rule id="THINK_YOU_A" name="think you a/an (are)">
@@ -1901,6 +1893,16 @@ $Id$
             <example type="correct">You <marker>cannot</marker> use the keyboard to select an item.</example>
             <example type="incorrect">You <marker>can not</marker> use the keyboard to select an item.</example>
         </rule>
+        <rule id="CAN_BEEN" name="can been (can be)">
+            <pattern>
+                <token>can</token>
+                <token>been</token>
+            </pattern>
+            <message>Did you mean <suggestion>can be</suggestion> or <suggestion>has been</suggestion>?</message>
+            <short>Possible typo</short>
+            <example correction="can be|has been" type="incorrect">It <marker>can been</marker> seen at night.</example>
+            <example type="correct">It has been seen at night.</example>
+        </rule>
         <rule id="CANT" name="cant (can't)">
             <pattern>
                 <token>cant</token>
@@ -2189,9 +2191,136 @@ $Id$
                 <example type="incorrect"><marker>No</marker> is the right time.</example>
             </rule>
         </rulegroup>
+
+        <rule id="TURNED_OFF" name="turned of (turned off)">
+            <pattern>
+                <token regexp="yes">turned|switched</token>
+		<marker>
+                    <token>of</token>
+		</marker>    
+            </pattern>
+            <message>Did you mean <suggestion>off</suggestion>?</message>
+            <short>Possible typo</short>
+            <example type="incorrect">The light was switched <marker>of</marker></example>
+            <example type="correct">The light was switched <marker>off</marker></example>
+            <example type="correct">The light was turned <marker>off</marker></example>
+        </rule>
+        <rule id="FEMALE_ACTOR" name="female actor (actress)">
+            <pattern>
+                <token regexp="yes">female|woman|women</token>
+                <token regexp="yes">actor|actress</token>
+            </pattern>
+            <message>Did you mean <suggestion>actress</suggestion>?</message>
+            <short>Redundant phrase</short>
+            <example type="incorrect">She was the first <marker>female actor</marker>.</example>
+            <example type="correct">She was the first <marker>actress</marker>.</example>
+        </rule>
+        <rule id="FEMALE_WAITER" name="female waiter (waitress)">
+            <pattern>
+                <token regexp="yes">female|woman|women</token>
+                <token regexp="yes">waiter|waitress</token>
+            </pattern>
+            <message>Did you mean <suggestion>waitress</suggestion>?</message>
+            <short>Redundant phrase</short>
+            <example type="incorrect">She was the first <marker>female waiter</marker>.</example>
+            <example type="correct">She was the first <marker>waitress</marker>.</example>
+        </rule>
+        <rule id="FIRST_WOMAN_NOUN" name="first woman president (first female president)">
+            <pattern>
+                <token regexp="yes">first|second|third</token>
+		<marker>
+                    <token regexp="yes">woman|women</token>
+		</marker>
+                <token regexp="yes">officer|commander|minister|player|graduate|engineer|doctor|dentist|teacher|professor|speaker|president|senator|representative|employee|athlete|instructor|nominee|judge</token>
+            </pattern>
+            <message>We wouldn't say "\1 man \3". Use <suggestion>female</suggestion>.</message>
+            <short>Incorrect phrase</short>
+            <example type="incorrect">She was the first <marker>woman</marker> president.</example>
+            <example type="correct">She was the first <marker>female</marker> president.</example>
+        </rule>
+        <rule id="FIRST_MAN_NOUN" name="first man president (first male president)">
+            <pattern>
+                <token regexp="yes">first|second|third</token>
+		<marker>
+                    <token>man</token>
+		</marker>
+                <token regexp="yes">officer|commander|minister|player|graduate|engineer|doctor|dentist|teacher|professorspeaker|president|senator|representative|employee|athlete|instructor|nominee|judge</token>
+            </pattern>
+            <message>Use <suggestion>male</suggestion>.</message>
+            <short>Incorrect phrase</short>
+            <example type="incorrect">He was the first <marker>man</marker> employee of the company.</example>
+            <example type="correct">He was the first male employee of the company.</example>
+            <example type="correct">He was the first man Sarah ever kissed.</example>
+        </rule>
+        <rule id="LITTLE_BIT" name="little bit">
+            <pattern>
+	      <marker>
+                <token>little</token>
+                <token>bit</token>
+	      </marker>
+            </pattern>
+            <message>Reduce redundancy by using <suggestion>little</suggestion> or <suggestion>bit</suggestion>.</message>
+            <short>Redundant phrase</short>
+            <example correction="little|bit" type="incorrect">He was a <marker>little bit</marker> late.</example>
+            <example type="correct">He was a little late.</example>
+        </rule>
+        <rulegroup id="SCENT_SENT" name="seen or scene">
+            <rule>
+                <pattern>
+                    <token regexp="yes">a|the|his|her|their</token>
+		    <marker>
+                        <token>sent</token>
+		    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>scent</suggestion>?</message>
+                <short>Possible typo</short>
+                <example correction="scent" type="incorrect">His <marker>sent</marker> was strong.</example>
+                <example type="correct">His <marker>scent</marker> was strong.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">we|were|was|he|she|I</token>
+		    <marker>
+                        <token>scent</token>
+		    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>sent</suggestion>?</message>
+                <short>Possible typo</short>
+                <example correction="sent" type="incorrect">He <marker>scent</marker> the package.</example>
+                <example type="correct">He <marker>sent</marker> the package.</example>
+            </rule>
+        </rulegroup>
+
+
+        <rulegroup id="SCENE_SEEN" name="seen or scene">
+            <rule>
+                <pattern>
+                    <token regexp="yes">this|another|opening|final|music</token>
+		    <marker>
+                        <token>seen</token>
+		    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>scene</suggestion>?</message>
+                <short>Possible typo</short>
+                <example type="incorrect">We watched the opening <marker>seen</marker> of the play.</example>
+                <example type="correct">We watched the opening <marker>scene</marker> of the play.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">those|both|be|not|was|has|never|generally|rarely|often|always</token>
+		    <marker>
+                        <token>scene</token>
+		    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>seen</suggestion>?</message>
+                <short>Possible typo</short>
+                <example type="incorrect">Similar to those <marker>scene</marker> in the park...</example>
+                <example type="correct">Similar to those <marker>seen</marker> in the park.</example>
+            </rule>
+        </rulegroup>
         <rule id="MANGER_MANAGER" name="manger (manager)">
             <pattern>
-                <token regexp="yes">lifespan|bank|team|project|marketing|development|area|group|line|business|branch|production|lan|stage|fund|module|office|system|store|football|presentation|file|product|farm|training|package|program|centre|quality|shop|administration|window|city|care|district|player|transport|campaign|caretaker|deputy|hotel|service|station|unit|forest|section|restaurant|club|database|company|case|desktop|investment|catering|site|account|tour|type|beverage|credit|lead|cricket|practice|programme|publicity|test|trainee|colliery|department|engineering|night|plant|floor|theatre|dealing|duty|house|cinema|estate|brand|insurance|nurse|palace|producer/editorial|safety|storage|technology|town|copy|depot|distribution|mill|county|print|bureau|factory|hospital|library|network|research</token>
+                <token regexp="yes">lifespan|bank|team|project|marketing|development|area|group|line|business|branch|production|lan|stage|fund|module|office|system|store|football|presentation|file|product|farm|training|package|program|centre|quality|shop|administration|window|city|care|district|player|transport|campaign|caretaker|deputy|hotel|service|station|unit|forest|section|restaurant|club|database|company|case|desktop|investment|catering|site|account|tour|type|beverage|credit|lead|cricket|practice|programme|publicity|test|trainee|colliery|department|engineering|night|plant|floor|theatre|theater|dealing|duty|house|cinema|estate|brand|insurance|nurse|palace|producer/editorial|safety|storage|technology|town|copy|depot|distribution|mill|county|print|bureau|factory|hospital|library|network|research</token>
                 <token>manger</token>
             </pattern>
             <message>Did you mean <suggestion>\1 manager</suggestion>?</message>
@@ -2200,21 +2329,41 @@ $Id$
             <example type="correct">Jesus lies in the manger.</example>
             <example type="correct">He's our new project manager.</example>
         </rule>
-        <rule id="MODAL_OF" name="could of (could have)">
+        <rulegroup id="MODAL_OF" name="could of (could have)">
+	  <rule>
             <pattern>
                 <marker>
-                    <token regexp="yes">could|would|should|might|may|must|will</token>
+                    <token regexp="yes">could|would|should|might|may|must</token>
                     <token>of</token>
                 </marker>
-                <token postag="VBN"></token>
+                <token postag="VBN|JJ" postag_regexp="yes"><exception>course</exception></token>
             </pattern>
             <message>It's never correct to use &quot;of&quot; after a modal verb. Use <suggestion>\1 have</suggestion>, or, in informal register, <suggestion>\1've</suggestion>.</message>
             <short>Possible typo</short>
+            <example correction="should have|should've" type="incorrect">It <marker>should of</marker> been found last night.</example>
+            <example type="correct">It was the will of world citizens to fix the problem.</example>
             <example type="correct">I could have bought this house!</example>
             <example type="correct">I must of course have something of my own before many more years have passed over my head.</example>
             <example type="incorrect">Something terrible <marker>must of</marker> happened here.</example>
             <example type="incorrect">It <marker>could of</marker> been you, the one that I was givin' my love to.</example>
         </rule>
+	<rule>
+            <pattern>
+		<token><exception>the</exception></token>
+                <marker>
+                    <token>will</token>
+                    <token>of</token>
+                </marker>
+                <token postag="VBN|JJ" postag_regexp="yes"><exception>course</exception></token>
+            </pattern>
+            <message>It's never correct to use &quot;of&quot; after a modal verb. Use <suggestion>\2 have</suggestion>.</message>
+            <short>Possible typo</short>
+            <example correction="will have" type="incorrect">It <marker>will of</marker> been discovered by tomorrow.</example>
+            <example type="correct">It was the will of world citizens to fix the problem.</example>
+            <example type="correct">I will have that dress!</example>
+            <example type="correct">I will of course have something of my own before many more years have passed over my head.</example>
+	</rule>
+      </rulegroup>
         <rule id="HAD_OF" name="had of (had)">
             <pattern>
                 <marker>
@@ -2295,7 +2444,7 @@ $Id$
                     </marker>
                     <token postag="VBD|VBP" postag_regexp="yes"><exception postag="NN.*|JJ.*" postag_regexp="yes"></exception><exception>got</exception></token>
                 </pattern>
-                <message>Probably you need to use a plural form here: <suggestion>\2\4</suggestion>.</message>
+                <message>Consider using the plural form here: <suggestion>\2\4</suggestion>.</message>
                 <short>Possible typo</short>
                 <example type="correct">7 reasons why <marker>teachers</marker> found us top class</example>
                 <example type="correct">And how funny it'll seem, sending presents to one's own feet!</example>
@@ -2310,7 +2459,7 @@ $Id$
                     </marker>
                     <token postag="WRB"></token>
                 </pattern>
-                <message>Probably you need to use a plural form here: <suggestion>\1\3</suggestion>.</message>
+                <message>Consider using the plural form here: <suggestion>\1\3</suggestion>.</message>
                 <short>Possible typo</short>
                 <example type="correct">7 reasons why</example>
                 <example type="correct">Here's how the scheme works.</example>
@@ -2812,8 +2961,11 @@ $Id$
         <!-- world wide::word=worldwide -->
         <rule id="WORLD_WIDE" name="world wide (worldwide)">
             <pattern>
-                <token>world</token>
-                <token>wide</token>
+		<marker>
+                    <token>world</token>
+                    <token>wide</token>
+		</marker>
+		<token><exception>web</exception></token> <!-- Don't suggest change for "World Wide Web" -->
             </pattern>
             <message> Did you mean <suggestion>worldwide</suggestion>?</message>
             <example type="incorrect">There was a <marker>world wide</marker> epidemic.</example>
@@ -2983,7 +3135,7 @@ $Id$
         <rule id="WEB_SITE" name="web site (website)">
             <pattern>
                 <token>web</token>
-                <token>site</token>
+                <token regexp="yes">site|sight</token>
             </pattern>
             <message> Did you mean <suggestion>website</suggestion>?</message>
             <example type="incorrect">The <marker>web site</marker> was down.</example>
@@ -3159,89 +3311,12 @@ $Id$
         <rule id="COMPRISED_CHIEFLY_OF" name="comprised chiefly of">
             <pattern>
                 <token>comprised</token>
-                <token>chiefly</token>
+                <token regexp="yes">chiefly|entirely|exclusively|generally|largely|mainly|mostly|only|primarily|principally|wholly</token>
                 <token>of</token>
             </pattern>
-            <message> Did you mean <suggestion>composed chiefly of</suggestion> or <suggestion> comprised chiefly</suggestion> or <suggestion> consisted chiefly of</suggestion>?</message>
+            <message>Did you mean <suggestion>composed \2 \3</suggestion> or <suggestion>comprised \2</suggestion> or <suggestion>consisted \2 \3</suggestion>?</message>
             <example type="incorrect">The song was <marker>comprised chiefly of</marker> B chords.</example>
             <example type="correct">The song was composed chiefly of B chords.</example>
-        </rule>
-        <!-- comprised entirely of::word=composed entirely of, comprised entirely, consisted entirely of::options=comprised,composed,consisted -->
-        <rule id="COMPRISED_ENTIRELY_OF" name="comprised entirely of">
-            <pattern>
-                <token>comprised</token>
-                <token>entirely</token>
-                <token>of</token>
-            </pattern>
-            <message> Did you mean <suggestion>composed entirely of</suggestion> or <suggestion> comprised entirely</suggestion> or <suggestion> consisted entirely of</suggestion>?</message>
-            <example type="incorrect">The song was <marker>comprised entirely of</marker> B chords.</example>
-            <example type="correct">The song was composed entirely of B chords.</example>
-        </rule>
-        <!-- comprised generally of::word=composed generally of, comprised generally, consisted generally of::options=comprised,composed,consisted -->
-        <rule id="COMPRISED_GENERALLY_OF" name="comprised generally of">
-            <pattern>
-                <token>comprised</token>
-                <token>generally</token>
-                <token>of</token>
-            </pattern>
-            <message> Did you mean <suggestion>composed generally of</suggestion> or <suggestion> comprised generally</suggestion> or <suggestion> consisted generally of</suggestion>?</message>
-            <example type="incorrect">The song was <marker>comprised generally of</marker> B chords.</example>
-            <example type="correct">The song was composed generally of B chords.</example>
-        </rule>
-        <!-- comprised largely of::word=composed largely of, comprised largely, consisted largely of::options=comprised,composed,consisted -->
-        <rule id="COMPRISED_LARGELY_OF" name="comprised largely of">
-            <pattern>
-                <token>comprised</token>
-                <token>largely</token>
-                <token>of</token>
-            </pattern>
-            <message> Did you mean <suggestion>composed largely of</suggestion> or <suggestion> comprised largely</suggestion> or <suggestion> consisted largely of</suggestion>?</message>
-            <example type="incorrect">The song was <marker>comprised largely of</marker> B chords.</example>
-            <example type="correct">The song was composed largely of B chords.</example>
-        </rule>
-        <!-- comprised mainly of::word=composed mainly of, comprised mainly, consisted mainly of::options=comprised,composed,consisted -->
-        <rule id="COMPRISED_MAINLY_OF" name="comprised mainly of">
-            <pattern>
-                <token>comprised</token>
-                <token>mainly</token>
-                <token>of</token>
-            </pattern>
-            <message> Did you mean <suggestion>composed mainly of</suggestion> or <suggestion> comprised mainly</suggestion> or <suggestion> consisted mainly of</suggestion>?</message>
-            <example type="incorrect">The song was <marker>comprised mainly of</marker> B chords.</example>
-            <example type="correct">The song consisted mainly of B chords.</example>
-        </rule>
-        <!-- comprised mostly of::word=composed mostly of, comprised mostly, consisted mostly of::options=comprised,composed,consisted -->
-        <rule id="COMPRISED_MOSTLY_OF" name="comprised mostly of">
-            <pattern>
-                <token>comprised</token>
-                <token>mostly</token>
-                <token>of</token>
-            </pattern>
-            <message> Did you mean <suggestion>composed mostly of</suggestion> or <suggestion> comprised mostly</suggestion> or <suggestion> consisted mostly of</suggestion>?</message>
-            <example type="incorrect">The song was <marker>comprised mostly of</marker> B chords.</example>
-            <example type="correct">The song consisted mostly of B chords.</example>
-        </rule>
-        <!-- comprised only of::word=composed only of, comprised only, consisted only of::options=comprised,composed,consisted -->
-        <rule id="COMPRISED_ONLY_OF" name="comprised only of">
-            <pattern>
-                <token>comprised</token>
-                <token>only</token>
-                <token>of</token>
-            </pattern>
-            <message> Did you mean <suggestion>composed only of</suggestion> or <suggestion> comprised only</suggestion> or <suggestion> consisted only of</suggestion>?</message>
-            <example type="incorrect">The song was <marker>comprised only of</marker> B chords.</example>
-            <example type="correct">The song was composed only of B chords.</example>
-        </rule>
-        <!-- comprised wholly of::word=composed wholly of, comprised wholly, consisted wholly of::options=comprised,composed,consisted -->
-        <rule id="COMPRISED_WHOLLY_OF" name="comprised wholly of">
-            <pattern>
-                <token>comprised</token>
-                <token>wholly</token>
-                <token>of</token>
-            </pattern>
-            <message> Did you mean <suggestion>composed wholly of</suggestion> or <suggestion> comprised wholly</suggestion> or <suggestion> consisted wholly of</suggestion>?</message>
-            <example type="incorrect">The song was <marker>comprised wholly of</marker> A chords.</example>
-            <example type="correct">The song consisted wholly of A chords.</example>
         </rule>
         <!-- comprises of::word=comprises, consists of::options=comprises,consists -->
         <rule id="COMPRISES_OF" name="comprises of">
@@ -3249,20 +3324,9 @@ $Id$
                 <token>comprises</token>
                 <token>of</token>
             </pattern>
-            <message> Did you mean <suggestion>comprises</suggestion> or <suggestion> consists of</suggestion>?</message>
+            <message>Did you mean <suggestion>comprises</suggestion> or <suggestion>consists of</suggestion>?</message>
             <example type="incorrect">The part <marker>comprises of</marker> the whole.</example>
             <example type="correct">The part comprises the whole.</example>
-        </rule>
-        <!-- comprises mostly of::word=comprises mostly, consists mostly of::options=comprises,consists -->
-        <rule id="COMPRISES_MOSTLY_OF" name="comprises mostly of">
-            <pattern>
-                <token>comprises</token>
-                <token>mostly</token>
-                <token>of</token>
-            </pattern>
-            <message> Did you mean <suggestion>comprises mostly</suggestion> or <suggestion> consists mostly of</suggestion>?</message>
-            <example type="incorrect">The album <marker>comprises mostly of</marker> bad songs.</example>
-            <example type="correct">The album consists mostly of good songs.</example>
         </rule>
         <!-- comprising of::word=comprising, consisting of::options=comprising,consisting -->
         <rule id="COMPRISING_OF" name="comprising of">
@@ -3425,71 +3489,6 @@ $Id$
             <example type="incorrect">There was no one <marker>other then</marker> us at the campsite.</example>
             <example type="correct">There was no one other than us at the campsite.</example>
         </rule>
-        <!-- might|may|could|would|will|did effect::word=\0 affect::pivots=effect,affect -->
-        <rule id="MIGHTMAYCOULD_EFFECT" name="MD effect (affect)">
-            <pattern>
-                <token regexp="yes">might|may|could|would|will|did</token>
-                <token>effect</token>
-            </pattern>
-            <message> Did you mean <suggestion><match no="1"></match> affect</suggestion>?</message>
-            <example type="incorrect">That <marker>might effect</marker> the bottom line.</example>
-            <example type="correct">That might affect the bottom line.</example>
-        </rule>
-        <!-- cause and affect::word=cause and effect::pivots=affect,effect -->
-        <rule id="CAUSE_AND_AFFECT" name="cause and affect (cause and effect)">
-            <pattern>
-                <token>cause</token>
-                <token>and</token>
-                <token>affect</token>
-            </pattern>
-            <message> Did you mean <suggestion>cause and effect</suggestion>?</message>
-            <example type="incorrect">The experiment didn't obey the laws of <marker>cause and affect</marker>.</example>
-            <example type="correct">The experiment didn't obey the laws of cause and effect.</example>
-        </rule>
-        <!-- an|into|the|no|take|with immediate|initial|event|overall|total affect::word=\0 \1 effect::pivots=affect,effect -->
-        <rule id="ANINTOTHE_IMMEDIATEINITIALEVENT_AFFECT" name="the immediate affect (effect)">
-            <pattern>
-                <token regexp="yes">an|into|the|no|take|with</token>
-                <token regexp="yes">immediate|initial|event|overall|total</token>
-                <token>affect</token>
-            </pattern>
-            <message> Did you mean <suggestion><match no="1"></match> <match no="2"></match> effect</suggestion>?</message>
-            <example type="incorrect">The laws had <marker>an immediate affect</marker>.</example>
-            <example type="correct">The laws had an immediate effect.</example>
-        </rule>
-        <!-- an|into|the|no|take|with immediate|initial|event|overall|total affects::word=\0 \1 effects::pivots=affects,effects -->
-        <rule id="ANINTOTHE_IMMEDIATEINITIALEVENT_AFFECTS" name="the immediate affects (effects)">
-            <pattern>
-                <token regexp="yes">an|into|the|no|take|with</token>
-                <token regexp="yes">immediate|initial|event|overall|total</token>
-                <token>affects</token>
-            </pattern>
-            <message> Did you mean <suggestion><match no="1"></match> <match no="2"></match> effects</suggestion>?</message>
-            <example type="incorrect">There was a law <marker>with immediate affects</marker>.</example>
-            <example type="correct">There was a law with immediate effects.</example>
-        </rule>
-        <!-- took|take|into affect::word=\0 effect::pivots=affect,effect::options=affect,effect -->
-        <rule id="TOOKTAKEINTO_AFFECT" name="took affect (effect)">
-            <pattern>
-                <token regexp="yes">took|take|into</token>
-                <token>affect</token>
-            </pattern>
-            <message> Did you mean <suggestion><match no="1"></match> effect</suggestion>?</message>
-            <example type="incorrect">The ban <marker>took affect</marker> at midnight.</example>
-            <example type="correct">The ban took effect at midnight.</example>
-        </rule>
-        <!-- shouldn't|wouldn't|didn't|won't|can't effect::word=\0 affect::pivots=effect,affect -->
-        <rule id="SHOULDNTWOULDNTDIDNT_EFFECT" name="didnt effect (affect)">
-            <pattern>
-                <token regexp="yes">shouldn|wouldn|didn|won|can</token>
-                <token spacebefore="no" regexp="yes">['’]</token>
-                <token>t</token>
-                <token>effect</token>
-            </pattern>
-            <message> Did you mean <suggestion><match no="1"></match><match no="2"></match><match no="3"></match> affect</suggestion>?</message>
-            <example type="incorrect">The medicine <marker>shouldn't effect</marker> the baby.</example>
-            <example type="correct">The medicine shouldn't affect the baby.</example>
-        </rule>
         <!-- was aloud::word=was allowed::pivots=aloud,allowed::options=aloud,allowed -->
         <rule id="WAS_ALOUD" name="was aloud (allowed)">
             <pattern>
@@ -3510,6 +3509,29 @@ $Id$
             <example type="incorrect">He <marker>eluded to</marker> to engagement at the party.</example>
             <example type="correct">He alluded to the engagement at the party.</example>
         </rule>
+	<rulegroup id="CANT_BREATHE" name="can't breath (breathe)">
+        <rule>
+            <pattern>
+                <token>can</token>
+		<token>'</token>
+		<token>t</token>
+                <token>breath</token>
+            </pattern>
+            <message>Did you mean <suggestion>can't breathe</suggestion>?</message>
+            <example correction="can't breathe" type="incorrect">We <marker>can't breath</marker> under water.</example>
+            <example type="correct">We can't breathe under water.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token>can</token>
+		<token>not</token>
+                <token>breath</token>
+            </pattern>
+            <message>Did you mean <suggestion>can not breathe</suggestion>?</message>
+            <example correction="can not breathe" type="incorrect">We <marker>can not breath</marker> under water.</example>
+            <example type="correct">We can not breathe under water.</example>
+        </rule>
+	</rulegroup>
         <!-- baited breath::word=bated breath::pivots=baited,bated::options=baited,bated -->
         <rule id="BAITED_BREATH" name="baited (bated) breath">
             <pattern>
@@ -3609,7 +3631,7 @@ $Id$
         <rule id="FAIRED_BADLY" name="faired (fared) badly">
             <pattern>
                 <token>faired</token>
-                <token regexp="yes">badly|better|much|poorly|quite|rather|well|worse</token>
+                <token regexp="yes">badly|better|far|less|little|much|poorly|quite|rather|slightly|somewhat|well|worse</token>
             </pattern>
             <message> Did you mean <suggestion>fared <match no="2"></match></suggestion>?</message>
             <example type="incorrect">It was a pity that the Jets <marker>faired badly</marker>.</example>
@@ -3622,8 +3644,8 @@ $Id$
                 <token>so</token>
                 <token>fourth</token>
             </pattern>
-            <message> Did you mean <suggestion>and so forth</suggestion>?</message>
-            <example type="incorrect">And so on <marker>and so fourth</marker>.</example>
+            <message>Did you mean <suggestion>and so forth</suggestion>?</message>
+            <example correction="and so forth" type="incorrect">And so on <marker>and so fourth</marker>.</example>
             <example type="correct">And so on and so forth.</example>
         </rule>
         <!-- put fourth the|a|an::word=put forth \2::pivots=fourth,forth::options=fourth,forth -->
@@ -3633,7 +3655,7 @@ $Id$
                 <token>fourth</token>
                 <token regexp="yes">the|a|an</token>
             </pattern>
-            <message> Did you mean <suggestion>put forth <match no="3"></match></suggestion>?</message>
+            <message>Did you mean <suggestion>put forth <match no="3"></match></suggestion>?</message>
             <example type="incorrect">He <marker>put fourth the</marker> proposal.</example>
             <example type="correct">He put forth the proposal.</example>
         </rule>
@@ -3643,7 +3665,7 @@ $Id$
                 <token>forth</token>
                 <token>place</token>
             </pattern>
-            <message> Did you mean <suggestion>fourth place</suggestion>?</message>
+            <message>Did you mean <suggestion>fourth place</suggestion>?</message>
             <example type="incorrect">The runner finished in <marker>forth place</marker>.</example>
             <example type="correct">The runner finished in fourth place.</example>
         </rule>
@@ -3712,41 +3734,21 @@ $Id$
         <rule id="PEAK_HIS_INTEREST" name="peak (pique) his interest">
             <pattern>
                 <token>peak</token>
-                <token>his</token>
-                <token>interest</token>
+                <token regexp="yes">his|her</token>
+                <token regexp="yes">interest|interests</token>
             </pattern>
-            <message> Did you mean <suggestion>pique his interest</suggestion>?</message>
-            <example type="incorrect">The mere mention of Luxembourg was enough to <marker>peak his interest</marker>.</example>
+            <message> Did you mean <suggestion>pique \2 \3</suggestion>?</message>
+            <example correction="pique his interest" type="incorrect">The mere mention of Luxembourg was enough to <marker>peak his interest</marker>.</example>
             <example type="correct">The dance music failed to pique his interest.</example>
-        </rule>
-        <!-- principal activity|source|use::word=principle \1::pivots=principal,principle::options=principal,principle -->
-        <rule id="PRINCIPAL_ACTIVITYSOURCEUSE" name="principal (principle) activity">
-            <pattern>
-                <token>principal</token>
-                <token regexp="yes">activity|source|use</token>
-            </pattern>
-            <message> Did you mean <suggestion>principle <match no="2"></match></suggestion>?</message>
-            <example type="incorrect">Laundering money was the mob's <marker>principal activity</marker>.</example>
-            <example type="correct">Laundering money was the mob's principle activity.</example>
-        </rule>
-        <!-- principle engineer|investigator|action|source|town::word=principal \1::pivots=principle,principal::options=principal,principle -->
-        <rule id="PRINCIPLE_ENGINEERINVESTIGATORACTION" name="principle (principal) investigator">
-            <pattern>
-                <token>principle</token>
-                <token regexp="yes">engineer|investigator|action|source|town</token>
-            </pattern>
-            <message> Did you mean <suggestion>principal <match no="2"></match></suggestion>?</message>
-            <example type="incorrect">Dr. Baumrind was listed as the grant's <marker>principle investigator</marker>.</example>
-            <example type="correct">Dr. Baumrind was listed as the grant's principal investigator.</example>
         </rule>
         <!-- most populace::word=most populous::pivots=populace,populous::options=populace,populous -->
         <rule id="MOST_POPULACE" name="most populace (populous)">
             <pattern>
-                <token>most</token>
+                <token regexp="yes">most|least</token>
                 <token>populace</token>
             </pattern>
-            <message> Did you mean <suggestion>most populous</suggestion>?</message>
-            <example type="incorrect">Chicago was the <marker>most populace</marker> city.</example>
+            <message> Did you mean <suggestion><match no="1"></match> populous</suggestion>?</message>
+            <example correction="most populous" type="incorrect">Chicago was the <marker>most populace</marker> city.</example>
             <example type="correct">California is the most populous state.</example>
         </rule>
         <!-- at the reigns::word=at the reins::pivots=reigns,reins::options=reigns,reins -->
@@ -3805,7 +3807,7 @@ $Id$
         <!-- lead roll::word=lead role::pivots=roll,role::options=roll,role -->
         <rule id="LEAD_ROLL" name="lead roll (role)">
             <pattern>
-                <token regexp="yes">lead|leading|major|minor|starring</token>
+                <token regexp="yes">lead|leading|major|minor|starring|significant|large|small</token>
                 <token>roll</token>
             </pattern>
             <message> Did you mean <suggestion>\1 role</suggestion>?</message>
@@ -4235,7 +4237,7 @@ $Id$
                 <token>s</token>
                 <token postag="JJ|NN|NN:UN?|NNS" postag_regexp="yes"><exception postag="JJ|NN|NN:UN?|NNS" postag_regexp="yes" negate_pos="yes"></exception></token>
             </pattern>
-            <message> Did you mean <suggestion>for its</suggestion>?</message>
+            <message>Did you mean <suggestion>for its \5</suggestion>?</message>
             <example type="incorrect">No one had any remedies <marker>for it's crazy</marker> rantings.</example>
             <example type="correct">No one had any rememdies for its crazy rantings.</example>
         </rule>
@@ -4248,7 +4250,7 @@ $Id$
                 <token>s</token>
                 <token postag="JJ|NN|NN:UN?|NNS" postag_regexp="yes"><exception postag="JJ|NN|NN:UN?|NNS" postag_regexp="yes" negate_pos="yes"></exception></token>
             </pattern>
-            <message> Did you mean <suggestion><match no="1"></match> its <match no="3"></match></suggestion>?</message>
+            <message> Did you mean <suggestion><match no="1"></match> its <match no="5"></match></suggestion>?</message>
             <example type="incorrect">The frog told a story <marker>about it's happy</marker> childhood in the river.</example>
             <example type="correct">The frog told a story about its happy childhood in the river.</example>
         </rule>
@@ -4820,7 +4822,7 @@ $Id$
         <!-- hay day::word=heyday::filter=none -->
         <rule id="HAY_DAY" name="hay day (heyday)">
             <pattern>
-                <token>hay</token>
+                <token regexp="yes">hay|hey</token>
                 <token>day</token>
             </pattern>
             <message> Did you mean <suggestion>heyday</suggestion>?</message>
@@ -5481,7 +5483,7 @@ $Id$
             <example type="correct">The couple made the first down payment on their new house.</example>
         </rule>
         <!-- smartphone::word=smart phone -->
-        <rule id="SMARTPHONE" name="smartphone (smart phone)">
+        <rule default="off" id="SMARTPHONE" name="smartphone (smart phone)">
             <pattern>
                 <token>smartphone</token>
             </pattern>
@@ -5640,6 +5642,56 @@ $Id$
                 <example type="correct">They <marker>want them to</marker> send him an email.</example>
             </rule>
         </rulegroup>
+        <rule id="THE_SENT_END" name="Sentance ending with 'the.' or 'a.'">
+            <pattern case_sensitive="yes">
+	      <token><exception regexp="yes">’|'|\.</exception><exception postag="SENT_START"></exception></token>
+	     <marker>
+                <token regexp="yes">the|The|an|An|a</token>
+		<token postag="SENT_END" regexp="yes">\.|\?|!</token>
+	     </marker>
+            </pattern>
+	    <message>Did you forget something after '\2'?</message>
+            <example type="correct">I am going to the store.</example>
+            <example type="correct">I got a .2TB hard drive.</example>
+            <example type="correct">I met Robert (a.k.a. Bob) at the store.</example>
+            <example type="correct">a. The first item in the list.</example>
+            <example type="correct">I am in Concourse A.</example>
+            <example type="correct">I read the Qur'an.</example>
+	    <example type="correct">He was taken to Chang’an.</example>
+            <example type="correct">I got up at 3 a.m.</example>
+            <example type="incorrect">I am going to <marker>an.</marker></example>
+            <example type="incorrect">I am going to <marker>the.</marker></example>
+	</rule>
+        <rule id="PRP_RB_NO_VB" name="Verb missing after personal pronoun and adverb at beginning of sentence.">
+            <pattern>
+	      <token postag="SENT_START"></token>
+	      <token postag="PRP"></token>
+              <marker>
+                     <token postag="RB.*" postag_regexp="yes"><exception postag="IN|JJ" postag_regexp="yes"></exception><exception regexp="yes">too|also|way</exception></token>
+                    <token><exception postag="VB.*|,|.|CC|IN|JJ|WP|MD|RB" postag_regexp="yes" /><exception regexp="yes">\(|\)|\[|\"</exception></token>
+                </marker>
+            </pattern>
+            <message>Are you missing a verb?</message>
+            <short>Grammatical problem</short>
+            <example type="incorrect">I <marker>accidentally the</marker> flashlight.</example>
+            <example type="correct">I accidentally dropped the flashlight.</example>
+            <example type="incorrect">I <marker>rarely the</marker> the flashlight.</example>
+            <example type="incorrect">I <marker>quickly the</marker> the flashlight.</example>
+            <example type="incorrect">We <marker>quickly the</marker> the flashlight.</example>
+	    <example type="correct">We wanted it no matter how rarely the item was found.</example>
+            <example type="correct">He stabbed me intentionally.</example>
+            <example type="correct">They too might be in danger.</example>
+	    <example type="correct">He also described the disaster.</example>
+	    <example type="correct">One way this can occur is through fear.</example>
+            <example type="correct">She went to the store frequently and bought cookies.</example>
+            <example type="correct">He found himself frequently at odds with reality.</example>
+            <example type="correct">He regularly performed dressed all in black.</example>
+            <example type="correct">He possibly could go to school.</example>
+            <example type="correct">He applied himself fairly seriously to his work.</example>
+	    <example type="correct">He joined them there a few days later.</example>
+        </rule>
+
+
         <rule id="DONT_WILL" name="don't will (won't)">
             <pattern>
                 <token negate="yes">who</token>
@@ -5841,21 +5893,133 @@ $Id$
                 <example correction="were" type="incorrect">The dogs of war <marker>was</marker> released.</example>
             </rule>
         </rulegroup>
+	<rule id="A_HUNDREDS" name="a hundreds (hundred)">
+	  <pattern>
+	    <marker>
+	      <token postag="CD|DT" postag_regexp="yes"><exception regexp="yes">many|either|some|the|these</exception></token>
+	      <token regexp="yes">hundreds|thousands|millions|billions|trillions|quadrillions</token>
+	    </marker>
+	  </pattern>
+	  <message>Possible agreement error. Consider using: <suggestion><match no="1"></match> <match no="2" regexp_match="(.*)s" regexp_replace="$1"></match></suggestion></message>
+          <short>Possible agreement error</short>
+	  <example type="incorrect" correction="A hundred"><marker>A hundreds</marker> people were in the store.</example>
+	  <example type="incorrect" correction="One million"><marker>One millions</marker> ants were on the ground.</example>
+	  <example type="correct"><marker>A hundred</marker> people were in the store.</example>
+	  <example type="correct">The dinosaurs began dying <marker>either thousands</marker> or millions of years ago.</example>
+	  <example type="correct"><marker>The thousands</marker> of students on campus when protesting.</example>
+
+	</rule>
         <rule id="A_PLURAL" name="Agreement: 'a' + plural word">
             <pattern>
+		<token><exception regexp="yes">’|'|division|class|category|zone|formula|type|influenza|hepatitis|series</exception><exception postag="CD"></exception></token>
                 <marker>
                     <token regexp="yes">a|an</token>
-                    <token postag="NNS|NNPS" postag_regexp="yes"><exception postag="NN:.*|NN|VBZ|NNP" postag_regexp="yes"></exception></token>
+                    <token postag="NNS|NNPS" postag_regexp="yes"><exception postag="NN:.*|NN|VBZ|NNP|CC|CD" postag_regexp="yes"></exception></token>
                 </marker>
                 <token><exception postag="NN.*" postag_regexp="yes"></exception><exception regexp="yes">['’]</exception></token>
             </pattern>
-            <message>Don't use indefinite articles with plural words. Did you mean <suggestion><match no="1"></match> <match no="2" postag="NN|NN:.*" postag_regexp="yes"></match></suggestion> or simply <suggestion><match no="2"></match></suggestion>?</message>
+            <message>Don't use indefinite articles with plural words. Did you mean <suggestion><match no="2"></match> <match no="3" postag="NN" postag_regexp="yes"></match></suggestion> or simply <suggestion><match no="3"></match></suggestion>?</message>
             <short>Possible agreement error</short>
             <example correction="a criterion|criteria" type="incorrect">I needed to use a text line as <marker>a criteria</marker> to select users for a list.</example>
             <example type="correct">It is a criteria list that we prepared last night.</example>
             <example type="correct">He was employed for a time by a Mrs. Reed.</example>
             <example type="correct">There was a children's party at the Joneses yesterday.</example>
+            <example type="correct">A men's retailer opened in Florida.</example>
+            <example type="correct">Shi'a Muslims are nice.</example>
+            <example type="correct">The league created two A divisions.</example>
+            <example type="correct">Division A teams are the best.</example>
         </rule>
+     <rule id="ONE_PLURAL" name="Agreement: 'one' + plural word">
+	 <!-- Similar to A_PLURAL except that we deal with other situations:
+	      "one hundred and one items" and "fifty one items" -->
+            <pattern>
+		<token><exception regexp="yes">'|division|class|category|formula|number|type|series|and</exception><exception postag="CD"></exception></token>
+                <marker>
+                    <token>one</token>
+                    <token postag="NNS|NNPS" postag_regexp="yes">
+			<exception postag="NN:.*|NN|VBZ|NNP" postag_regexp="yes"></exception>
+			<exception>half-century</exception>
+		    </token>
+                </marker>
+                <token><exception postag="NN.*" postag_regexp="yes"></exception><exception>'</exception></token>
+            </pattern>
+            <message>Don't use indefinite articles with plural words. Did you mean <suggestion><match no="2"></match> <match no="3" postag="NN|NN:.*" postag_regexp="yes"></match></suggestion>, <suggestion>a <match no="3" postag="NN|NN:.*" postag_regexp="yes"></match></suggestion>, or simply <suggestion><match no="3"></match></suggestion>?</message>
+            <short>Possible agreement error</short>
+            <example correction="one hexagon|a hexagon|hexagons" type="incorrect">I drew <marker>one hexagons</marker> on my paper.</example>
+	    <!-- TODO: This rule doesn't detect the following errors:
+		 I had one shoes on my feet.
+		 The ruler was one feet long.
+	    -->
+	    <example correction="one hour|a hour|hours" type="incorrect">I worked for <marker>one hours</marker>.</example>
+            <example type="correct">The paper is ruined when one <marker>pencils</marker> in their name.</example>
+            <example type="correct">It is a criteria list that we prepared last night.</example>
+            <example type="correct">He was employed for a time by a Mrs. Reed.</example>
+            <example type="correct">There was a children's party at the Joneses yesterday.</example>
+            <example type="correct">A men's retailer opened in Florida.</example>
+            <example type="correct">I have one hundred and one dollars.</example>
+            <example type="correct">I have fifty one dollars.</example>
+            <example type="correct">I throw the balls one by one afI have fifty one dollars.</example>
+            <example type="correct">Formula One teams are the best.</example>
+            <example type="correct">He was the first person in a half-century to succeed.</example>
+        </rule>
+	<rule id="DIE_DICE" name="one die, two dice">
+	    <!-- Not currently handled by ONE_PLURAL or A_PLURAL -->
+	    <pattern>
+		<token><exception regexp="yes">'|division|class|category|formula|number|type|series|and</exception><exception postag="CD"></exception></token>
+		<token regexp="yes">a|one</token>
+		<marker>
+		    <token>dice</token>
+		</marker>
+	    </pattern>
+            <message>'die' is the singular form of 'dice'. Consider using <suggestion>die</suggestion>?</message>
+            <short>Possible typo</short>
+            <example correction="die" type="incorrect">I had a <marker>dice</marker> in my hand.</example>
+            <example type="correct">I had a <marker>die</marker> in my hand.</example>
+	</rule>
+	<rule id="FOOT_FEET" name="one foot, two feet">
+	    <!-- Not currently handled by ONE_PLURAL or A_PLURAL -->
+	    <pattern>
+		<token><exception regexp="yes">'|division|class|category|formula|number|type|series|and</exception><exception postag="CD"></exception></token>
+		<token regexp="yes">a|one</token>
+		<marker>
+		    <token>feet</token>
+		</marker>
+	    </pattern>
+            <message>'foot' is the singular form of 'feet'. Consider using <suggestion>foot</suggestion>?</message>
+            <short>Possible typo</short>
+            <example correction="foot" type="incorrect">I had a shoe on one <marker>feet</marker>.</example>
+            <example type="correct">I had a show on one foot.</example>
+	</rule>
+	<rule id="MAN_MEN" name="one man, two men">
+	    <!-- Not currently handled by ONE_PLURAL or A_PLURAL -->
+	    <pattern>
+		<token><exception regexp="yes">'|division|class|category|formula|number|type|series|and</exception><exception postag="CD"></exception></token>
+		<token regexp="yes">a|one</token>
+		<marker>
+		    <token>men</token>
+		</marker>
+		<token><exception>'</exception></token>
+	    </pattern>
+            <message>'man' is the singular form of 'men'. Consider using <suggestion>man</suggestion>?</message>
+            <short>Possible typo</short>
+            <example correction="man" type="incorrect">A <marker>men</marker> walked in to the room.</example>
+            <example type="correct">A <marker>man</marker> walked into the room.</example>
+	</rule>
+	<rule id="WOMAN_WOMEN" name="one woman, two women">
+	    <!-- Not currently handled by ONE_PLURAL or A_PLURAL -->
+	    <pattern>
+		<token><exception regexp="yes">'|division|class|category|formula|number|type|series|and</exception><exception postag="CD"></exception></token>
+		<token regexp="yes">a|one</token>
+		<marker>
+		    <token>women</token>
+		</marker>
+		<token><exception>'</exception></token>
+	    </pattern>
+            <message>'woman' is the singular form of 'women'. Consider using <suggestion>woman</suggestion>?</message>
+            <short>Possible typo</short>
+            <example correction="woman" type="incorrect">A <marker>women</marker> walked in to the room.</example>
+            <example type="correct">A <marker>woman</marker> walked into the room.</example>
+	</rule>
         <rulegroup id="HAVE_PART_AGREEMENT" name="Agreement: have + past/present tense">
             <rule>
                 <pattern>
@@ -5984,7 +6148,7 @@ $Id$
                     </marker>
                     <token><exception>'</exception></token>
                 </pattern>
-                <message>Probably you should use a past participle here: <suggestion><match no="2" postag="VBN"></match></suggestion>.</message>
+                <message>Consider using a past participle here: <suggestion><match no="2" postag="VBN"></match></suggestion>.</message>
                 <short>Possible agreement error</short>
                 <example correction="introduced" type="incorrect">The software was <marker>introduce</marker> yesterday.</example>
                 <example correction="introduced" type="incorrect">The program has been <marker>introduce</marker>.</example>
@@ -6003,7 +6167,7 @@ $Id$
                     </marker>
                     <token><exception>'</exception></token>
                 </pattern>
-                <message>Probably you should use a past participle here: <suggestion><match no="3" postag="VBN"></match></suggestion>.</message>
+                <message>Consider using a past participle here: <suggestion><match no="3" postag="VBN"></match></suggestion>.</message>
                 <short>Possible agreement error</short>
                 <example type="correct">It has always been hated.</example>
                 <example correction="written" type="incorrect">I must have been always <marker>wrote</marker> that.</example>
@@ -6021,7 +6185,7 @@ $Id$
                     </marker>
                     <token postag="DT|JJ" postag_regexp="yes"><exception postag="VB.*" postag_regexp="yes"></exception></token>
                 </pattern>
-                <message>Probably you should use third-person verb forms for singular and mass nouns: <suggestion><match no="3" postag="VBZ"></match></suggestion>.</message>
+                <message>Consider using third-person verb forms for singular and mass nouns: <suggestion><match no="3" postag="VBZ"></match></suggestion>.</message>
                 <short>Possible agreement error</short>
                 <example type="incorrect">Marketing <marker>are</marker> bad for you.</example>
                 <example correction="means" type="incorrect">Marketing <marker>mean</marker> a lot of trouble.</example>
@@ -7055,7 +7219,6 @@ $Id$
         </rule>
         <!-- TODO: support rulegroups?
    &lt;rulegroup id=&quot;WILL_MIGHT_BASE&quot; name=&quot;Infinitive verb after auxiliary verb&quot;&gt;
-   &lt;rulegroup id=&quot;IS_PASSIVE&quot; name=&quot;Passive after 'is' and 'was'&quot;&gt;
    -->
         <rule id="AS_ADJ_AS" name="Comparison with 'as'">
             <pattern>
@@ -7264,6 +7427,7 @@ $Id$
                 <example correction="enters" type="incorrect">Somebody <marker>enter</marker> the building.</example>
                 <example type="correct">His medics insist he rest for several more months.</example>
                 <example type="correct">He <marker>walked</marker> to the building.</example>
+		<!-- TODO: False-positive: Nobody move! -->
             </rule>
             <rule>
                 <pattern>
@@ -7296,6 +7460,7 @@ $Id$
                 <example correction="walks" type="incorrect">Someone else <marker>walk</marker> to the building.</example>
                 <example correction="enters" type="incorrect">Somebody else <marker>enter</marker> the building.</example>
                 <example type="correct">Nobody <marker>walked</marker> to the building.</example>
+		<!-- TODO: False-positive: They did not meet with anyone else while in Germany. -->
             </rule>
             <rule>
                 <pattern>
@@ -7365,6 +7530,7 @@ $Id$
                 <example type="correct">Boys are at higher risk for autism than girls.</example>
                 <example type="correct">In reply, he said he was too old for this.</example>
                 <example type="correct">I can see Bill looking through the window.</example>
+                <!-- TODO: Fix false-positive: The library and Medical Center are to the north.-->
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -7531,7 +7697,7 @@ $Id$
                 <token>of</token>
                 <token regexp="yes">I|he|she|we|they</token>
             </pattern>
-            <message>Probably usage error. Use <suggestion>\1 \3</suggestion> instead.</message>
+            <message>Probable usage error. Use <suggestion>\1 \3</suggestion> instead.</message>
             <short>Grammatical problem</short>
             <example correction="Because we" type="incorrect"><marker>Because of we</marker> didn't want a big train, but we want a fast train.</example>
             <example type="correct"><marker>Because we</marker> didn't want a big train, but we want a fast train.</example>
@@ -7545,7 +7711,7 @@ $Id$
                     <token>as</token>
                 </marker>
             </pattern>
-            <message>Probably usage error. Use <suggestion>and</suggestion> after 'both'.</message>
+            <message>Probable usage error. Use <suggestion>and</suggestion> after 'both'.</message>
             <short>Grammatical problem</short>
             <example type="correct">He is both rich and handsome.</example>
             <example correction="and" type="incorrect">He is both very rich <marker>as well as</marker> handsome.</example>
@@ -7768,7 +7934,7 @@ $Id$
                 </marker>
                 <token><exception postag="NNS|NNPS" postag_regexp="yes"></exception><exception>'</exception></token>
             </pattern>
-            <message>Possible agreement error. The noun <match no="4"></match> seems to be countable, so probably you should use: <suggestion>a <match no="2"></match> of <match no="4" postag="NNS|NNPS" postag_regexp="yes"></match></suggestion>.</message>
+            <message>Possible agreement error. The noun <match no="4"></match> seems to be countable; consider using: <suggestion>a <match no="2"></match> of <match no="4" postag="NNS|NNPS" postag_regexp="yes"></match></suggestion>.</message>
             <short>Grammatical problem</short>
             <example correction="a lot of cars" type="incorrect">I have <marker>a lot of car</marker>.</example>
             <example type="correct">I have <marker>a lot of cars</marker>.</example>
@@ -7783,7 +7949,7 @@ $Id$
                 </marker>
                 <token><exception postag="NNS|NNPS" postag_regexp="yes"></exception><exception>'</exception></token>
             </pattern>
-            <message>Possible agreement error. The noun <match no="3"></match> seems to be countable, so probably you should use: <suggestion><match no="1"></match> of <match no="3" postag="NNS|NNPS" postag_regexp="yes"></match></suggestion>.</message>
+            <message>Possible agreement error. The noun <match no="3"></match> seems to be countable; consider using: <suggestion><match no="1"></match> of <match no="3" postag="NNS|NNPS" postag_regexp="yes"></match></suggestion>.</message>
             <short>Grammatical problem</short>
             <example correction="lots of books" type="incorrect">I have got <marker>lots of book</marker>.</example>
             <example type="correct">I have got <marker>lots of books</marker>.</example>
@@ -7798,7 +7964,7 @@ $Id$
                 </marker>                
                 <token><exception postag="NN.*" postag_regexp="yes"></exception><exception>'</exception></token>                
             </pattern>
-            <message>Possible agreement error. The noun <match no="2"></match> seems to be countable, so probably you should use: <suggestion suppress_misspelled="yes" ><match no="1"></match> <match no="2" suppress_misspelled="yes" postag="NNS|NNPS" postag_regexp="yes"></match></suggestion>.</message>
+            <message>Possible agreement error. The noun <match no="2"></match> seems to be countable, so consider using: <suggestion suppress_misspelled="yes" ><match no="1"></match> <match no="2" suppress_misspelled="yes" postag="NNS|NNPS" postag_regexp="yes"></match></suggestion>.</message>
             <short>Grammatical problem</short>
             <example correction="five books" type="incorrect">I have <marker>five book</marker>.</example>
             <example type="correct">I have <marker>ten books</marker>.</example>
@@ -7823,7 +7989,7 @@ $Id$
                 </marker>
                 <token><exception postag="NN.*" postag_regexp="yes"></exception><exception>'</exception></token>
             </pattern>
-            <message>Possible agreement error. The noun <match no="2"></match> seems to be countable, so probably you should use: <suggestion><match no="1"></match> <match no="2" postag="NNS|NNPS" postag_regexp="yes"></match></suggestion>.</message>
+            <message>Possible agreement error. The noun <match no="2"></match> seems to be countable; consider using: <suggestion><match no="1"></match> <match no="2" postag="NNS|NNPS" postag_regexp="yes"></match></suggestion>.</message>
             <short>Grammatical problem</short>
             <example correction="several books" type="incorrect">I have <marker>several book</marker>.</example>
             <example type="correct">I have <marker>many books</marker>.</example>
@@ -7865,7 +8031,7 @@ $Id$
                     </marker>
                     <token><exception postag="NNS|NNPS|CC" postag_regexp="yes"></exception><exception>'</exception></token>
                 </pattern>
-                <message>Possible agreement error. The noun <match no="2"></match> seems to be uncountable, so probably you should use: <suggestion>much <match no="2"></match></suggestion>, <suggestion>a good deal of <match no="2"></match></suggestion>.</message>
+                <message>Possible agreement error. The noun <match no="2"></match> seems to be uncountable; consider using: <suggestion>much <match no="2"></match></suggestion>, <suggestion>a good deal of <match no="2"></match></suggestion>.</message>
                 <short>Grammatical problem</short>
                 <example correction="much wine|a good deal of wine" type="incorrect">I have <marker>many wine</marker>.</example>
                 <example type="correct">I have <marker>much wine</marker>.</example>
@@ -7881,7 +8047,7 @@ $Id$
                     <token><exception postag="NNS|NNPS" postag_regexp="yes"></exception></token>
                     <token><exception postag="NNS|NNPS" postag_regexp="yes"></exception></token>
                 </pattern>
-                <message>Possible agreement error. The noun <match no="2"></match> seems to be uncountable, so probably you should use: <suggestion>much <match no="2"></match></suggestion>, <suggestion>a good deal of <match no="2"></match></suggestion>.</message>
+                <message>Possible agreement error. The noun <match no="2"></match> seems to be uncountable; consider using: <suggestion>much <match no="2"></match></suggestion>, <suggestion>a good deal of <match no="2"></match></suggestion>.</message>
                 <short>Grammatical problem</short>
                 <example correction="much wine|a good deal of wine" type="incorrect">There are <marker>many wine</marker> and a lot is happening this spring.</example>
                 <example type="correct">There are many wine and food festivals this spring.</example>
@@ -7894,7 +8060,7 @@ $Id$
                     </marker>
                     <token><exception postag="NNS|NNPS" postag_regexp="yes"></exception><exception>'</exception></token>
                 </pattern>
-                <message>Possible agreement error. The noun <match no="2"></match> seems to be uncountable, so probably you should use: <suggestion>little <match no="2"></match></suggestion>.</message>
+                <message>Possible agreement error. The noun <match no="2"></match> seems to be uncountable; consider using: <suggestion>little <match no="2"></match></suggestion>.</message>
                 <short>Grammatical problem</short>
                 <example correction="little wine" type="incorrect">I have a <marker>few wine</marker>.</example>
                 <example type="correct">I have <marker>little wine</marker>.</example>
@@ -7909,7 +8075,7 @@ $Id$
                     <token><exception postag="NNS|NNPS" postag_regexp="yes"></exception></token>
                     <token><exception postag="NNS|NNPS" postag_regexp="yes"></exception><exception>'</exception></token>
                 </pattern>
-                <message>Possible agreement error. The noun <match no="2"></match> seems to be uncountable, so probably you should use: <suggestion>little <match no="2"></match></suggestion>.</message>
+                <message>Possible agreement error. The noun <match no="2"></match> seems to be uncountable; consider using: <suggestion>little <match no="2"></match></suggestion>.</message>
                 <short>Grammatical problem</short>
                 <example correction="little wine" type="incorrect">There is <marker>few wine</marker> and a lot is happening this spring.</example>
                 <example type="correct">There are few wine and food festivals this spring.</example>
@@ -7922,7 +8088,7 @@ $Id$
                     </marker>
                     <token><exception postag="NNS|NNPS" postag_regexp="yes"></exception><exception>'</exception></token>
                 </pattern>
-                <message>Possible agreement error. The noun <match no="2"></match> seems to be uncountable, so probably you should use: <suggestion>some <match no="2"></match></suggestion>.</message>
+                <message>Possible agreement error. The noun <match no="2"></match> seems to be uncountable; consider using: <suggestion>some <match no="2"></match></suggestion>.</message>
                 <short>Grammatical problem</short>
                 <example correction="some wine" type="incorrect">I have <marker>several wine</marker>.</example>
                 <example type="correct">I have <marker>some wine</marker>.</example>
@@ -7937,7 +8103,7 @@ $Id$
                     <token><exception postag="NNS|NNPS" postag_regexp="yes"></exception></token>
                     <token><exception postag="NNS|NNPS" postag_regexp="yes"></exception><exception>'</exception></token>
                 </pattern>
-                <message>Possible agreement error. The noun <match no="2"></match> seems to be uncountable, so probably you should use: <suggestion>some <match no="2"></match></suggestion>.</message>
+                <message>Possible agreement error. The noun <match no="2"></match> seems to be uncountable; consider using: <suggestion>some <match no="2"></match></suggestion>.</message>
                 <short>Grammatical problem</short>
                 <example correction="some wine" type="incorrect">There is <marker>several wine</marker> and a lot is happening this spring.</example>
                 <example type="correct">There are several wine and food festivals this spring.</example>
@@ -8109,6 +8275,181 @@ $Id$
             <example type="correct">You will also buy some eggs.</example>
             <example correction="as well" type="incorrect">You will buy some eggs <marker>also</marker>.</example>
         </rule>
+        <rule id="NOUN_AROUND_IT" name="the noun around it (surrounding noun)">
+            <pattern>
+              <marker>
+                <token>the</token>
+                <!-- See WORLD_AROUND_IT rule -->
+                <token postag="NN.*" postag_regexp="yes"><exception>world</exception></token>
+                <token>around</token>
+                <token postag="PRP"></token>
+              </marker>
+                <token><exception postag="NN.*|CC" postag_regexp="yes"></exception></token>
+            </pattern>
+            <message>Consider using <suggestion>the surrounding \2</suggestion>?</message>
+            <short>Redundant phrase</short>
+            <example type="correct">He didn't like the surrounding protesters.</example>
+            <example correction="the surrounding protesters" type="incorrect">He didn't like <marker>the protesters around him</marker>.</example>
+        </rule>
+        <rule id="SEND_AN_EMAIL" name="send an email (email)">
+            <pattern>
+              <marker>
+                <token>send</token>
+                <token regexp="yes">an|a</token>
+                <token>email</token>
+              </marker>
+            </pattern>
+            <message>Consider using <suggestion>email</suggestion>.</message>
+            <short>Redundant phrase</short>
+            <example type="correct">He was going to email her.</example>
+            <example correction="email" type="incorrect">He was going to <marker>send an email</marker> to her.</example>
+        </rule>
+        <rule id="SENT_AN_EMAIL" name="sent an email (email)">
+            <pattern>
+              <marker>
+                <token>sent</token>
+                <token regexp="yes">an|a</token>
+                <token>email</token>
+              </marker>
+            </pattern>
+            <message>Consider using <suggestion>emailed</suggestion>.</message>
+            <short>Redundant phrase</short>
+            <example correction="emailed" type="incorrect">He <marker>sent an email</marker> to her.</example>
+            <example type="correct">He emailed her.</example>
+        </rule>
+        <rule default="off" id="WORLD_AROUND_IT" name="the world around it (the world)">
+            <pattern>
+              <marker>
+                <token>the</token>
+                <token>world</token>
+                <token>around</token>
+                <token postag="PRP"></token>
+              </marker>
+              <token><exception postag="NN.*|CC" postag_regexp="yes"></exception></token>
+            </pattern>
+            <message>Consider using <suggestion>the world</suggestion>?</message>
+            <short>Redundant phrase</short>
+            <example correction="the world" type="incorrect">He didn't like <marker>the world around him</marker>.</example>
+            <example type="correct">He didn't like the world.</example>
+        </rule>
+	<rulegroup default="off" id="PASSIVE_VOICE" name="Flag passive voice">
+          <rule> <!-- Passive infinitive (1/2) -->
+            <pattern>
+              <marker>
+                <token>it</token>
+                <token skip="1" inflected="yes">be</token>
+		<!-- skip=1 to handle: it is not possible, it is also possible, etc. -->
+                <token postag="VBN|JJ" postag_regexp="yes"></token> <!--said|thought|believed|possible|necessary|impossible|known|argued -->
+                <token>that</token>
+              </marker>
+            </pattern>
+            <message>Change from passive to active voice? Example: "It is possible that the sky is blue." can be changed to "The sky might be blue".</message>
+            <short>Passive voice</short>
+            <example type="incorrect"><marker>It is possible that</marker> the sky is blue.</example>
+            <example type="incorrect"><marker>It is also possible that</marker> the sky is blue.</example>
+            <example type="correct">The sky might be blue.</example>
+        </rule>
+          <rule> <!-- Passive infinitive (2/2) -->
+            <pattern>
+              <marker>
+                <token skip="1" inflected="yes">be</token>
+		<!-- skip to allow for: not, also, etc -->
+                <token postag="VBN"></token> <!-- said, known, believed, thought, etc. -->
+                <token>to</token>
+		<token skip="1">have</token>
+		<!-- skip to allow for: not, also, etc -->
+                <token>been</token>
+              </marker>
+            </pattern>
+            <message>Change from passive to active voice? Example: "He is said to have been happy."  can be changed to "The people said that he was happy." if you can define who/what performed the action.</message>
+            <short>Passive voice</short>
+            <example type="incorrect">He <marker>is said to have been</marker> happy.</example>
+            <example type="incorrect">He <marker>is said to have not been</marker> happy.</example>
+            <example type="correct">The people said that he was happy.</example>
+            <example type="incorrect">He <marker>is not thought to have been</marker> happy.</example>
+            <example type="incorrect">He <marker>was not thought to have been</marker> happy.</example>
+          </rule>
+          <rule> <!-- Passive infinitive (2/2) -->
+            <pattern>
+              <marker>
+                <token skip="1" inflected="yes">be</token>
+		<!-- skip to allow for: not, also, etc -->
+                <token postag="VBN"></token> <!-- said, known, believed, thought, etc. -->
+                <token>to</token>
+                <token>be</token>
+              </marker>
+            </pattern>
+            <message>Change from passive to active voice? Example: "He is said to be happy." could be changed to "The people said that he was happy." if you can define who/what performed the action.</message>
+            <short>Passive voice</short>
+            <example type="incorrect">He <marker>is said to be</marker> happy.</example>
+            <example type="correct">People say that he is happy.</example>
+          </rule>
+          <rule>
+            <pattern>
+		<token skip="-1" regexp="yes" inflected="yes">advise|insist|propose|recommend|suggest</token>
+		<marker>
+                <token postag="NN.*" postag_regexp="yes" skip="1"></token>
+		  <!-- skip must/could/should/etc -->
+                <token>be</token>
+		<token postag="VBN"></token>
+		</marker>
+            </pattern>
+            <message>Change from passive to active voice? Example: "He insisted that red should be used." can be changed to "He insisted on using red."</message>
+            <short>Passive voice</short>
+            <example type="incorrect">He insisted that <marker>red should be used</marker>.</example>
+            <example type="incorrect">He insisted that <marker>red be used</marker>.</example>
+            <example type="correct">He insisted on using red.</example>
+          </rule>
+          <rule>
+            <pattern> <!-- future perfect tense -->
+		<token skip="1" regexp="yes">will|shall</token>
+		<!-- skip to allow for "not", "also", etc. -->
+		<token>have</token>
+		<token>been</token>
+		<token postag="VBN"></token>
+            </pattern>
+            <message>Change from passive to active voice? Example: "Her work will have been finished by tonight." can be changed to "She will have her work finished by tonight."</message>
+            <short>Passive voice</short>
+            <example type="incorrect">Her work <marker>will have been finished</marker> by tonight.</example>
+            <example type="incorrect">Her work <marker>will not have been finished</marker> by tonight.</example>
+	    <example type="correct">She will have her work finished by tonight.</example>
+          </rule>
+          <rule>
+            <pattern>
+		<token postag="NN.*" postag_regexp="yes"></token>
+		<token skip="1" inflected="yes">be</token>
+		<!-- skip to allow for "not", "also", etc. -->
+		<token>being</token>
+		<token postag="VBN"></token>
+            </pattern>
+            <message>Change from passive to active voice? Example: "A cake is being baked by him." can be changed to "He is baking a cake."</message>
+            <short>Passive voice</short>
+            <example type="incorrect">A <marker>cake is being baked</marker> by him by tonight.</example>
+	    <example type="correct">He is baking a cake.</example>
+            <example type="incorrect">A <marker>cake is also being baked</marker> by him by tonight.</example>
+            <example type="incorrect">A <marker>cake was also being baked</marker> by him by tonight.</example>
+            <example type="incorrect">A dozen <marker>cookies were also being baked</marker> by him by tonight.</example>
+          </rule>
+          <rule>
+            <pattern>
+		<token postag="NN.*" postag_regexp="yes"></token>
+		<token skip="1" inflected="yes">be</token>
+		<!-- skip to allow for "not", "also", etc. -->
+		<token skip="2" postag="VBN"></token>
+		<!-- skip to allow for "a noun" or "a adjective noun", etc. -->
+		<token>by</token>
+            </pattern>
+            <message>Change from passive to active voice? Example: "Instruments are played by her." can be changed to "She plays instruments."</message>
+            <short>Passive voice</short>
+            <example type="incorrect"><marker>Instruments are played by</marker> her.</example>
+            <example type="incorrect"><marker>Instruments were played by</marker> her.</example>
+            <example type="incorrect"><marker>Instruments are not played by</marker> her.</example>
+            <example type="incorrect"><marker>John was given a book by</marker> her.</example>
+	    <example type="correct">She plays instruments.</example>
+          </rule>
+
+	</rulegroup> <!-- end passive voice rule -->
+
         <rule id="THE_EXACTLY_THE" name="Duplicated 'the' surrounding an adverb">
             <pattern>
                 <token>the</token>
@@ -8340,21 +8681,45 @@ $Id$
             </rule>            
             </rulegroup>
         
-        <!--  not sure...
-    &lt;rulegroup name=&quot;'i.e.' without a comma&quot; id=&quot;ENUMERATION_NO_COMMA&quot;&gt;
-      &lt;rule&gt;
-        &lt;pattern mark_from=&quot;2&quot; mark_to=&quot;0&quot;&gt;
-          &lt;token regexp=&quot;yes&quot;&gt;.*&lt;/token&gt;
-          &lt;token&gt;,&lt;/token&gt;
-          &lt;token regexp=&quot;yes&quot;&gt;.*&lt;/token&gt;
-          &lt;token regexp=&quot;yes&quot;&gt;and|or&lt;/token&gt;
-        &lt;/pattern&gt;
-        &lt;message&gt;The last word before 'and' in an enumeration usually ends with a comma: &lt;suggestion&gt;\3, \4&lt;/suggestion&gt;.&lt;/message&gt;
-        &lt;example type=&quot;correct&quot;&gt;It supports German, &lt;marker&gt;Polish, and&lt;/marker&gt; other languages.&lt;/example&gt;
-        &lt;example type=&quot;incorrect&quot;&gt;It supports German, &lt;marker&gt;Polish and&lt;/marker&gt; other languages.&lt;/example&gt;
-      &lt;/rule&gt;
-    &lt;/rulegroup&gt;
-     -->
+        <rulegroup default="off" name="Warn when the serial comma is not used (incomplete)" id="SERIAL_COMMA_ON">
+            <rule>
+	      <!-- This rule detects the simplest case:
+		   Noun, Noun and Noun -->
+                <pattern>
+                    <token postag_regexp="yes" postag="NN.*"></token>
+                    <token>,</token>
+		    <marker>
+                        <token postag_regexp="yes" postag="NN.*"></token>
+			<token regexp="yes">and|or</token>
+		    </marker>
+		    <token postag_regexp="yes" postag="NN.*"></token>
+                </pattern>
+                <message>The serial comma is missing: <suggestion>\3, \4</suggestion>.</message>
+                <example type="correct">The pen, <marker>pencil, and</marker> book are on the desk.</example>
+                <example correction="pencil, and" type="incorrect">The pen, <marker>pencil and</marker> book are on the desk.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup default="off" name="Warn when the serial comma is used (incomplete)" id="SERIAL_COMMA_OFF">
+            <rule>
+	      <!-- This rule detects the simplest case:
+		   Noun, Noun, and Noun -->
+                <pattern>
+                    <token postag_regexp="yes" postag="NN.*"></token>
+                    <token>,</token>
+		    <marker>
+                        <token postag_regexp="yes" postag="NN.*"></token>
+			<token>,</token>
+			<token regexp="yes">and|or</token>
+		    </marker>
+		    <token postag_regexp="yes" postag="NN.*"></token>
+                </pattern>
+                <message>Remove the serial comma: <suggestion>\3 \5</suggestion>.</message>
+                <example type="correct">The pen, <marker>pencil and</marker> book are on the desk.</example>
+                <example correction="pencil and" type="incorrect">The pen, <marker>pencil, and</marker> book are on the desk.</example>
+            </rule>
+        </rulegroup>
+
+
     </category>
     <category name="Commonly Confused Words">
         <rulegroup id="IT_SEAMS" name="it seams (seems)">
@@ -8535,8 +8900,8 @@ $Id$
                 <example type="correct">This is done except for the fact that we still have JBossws 2.0.0 binaries.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="AFFECT_EFFECT" name="affect (effect)">
-            <rule>
+        <rulegroup id="AFFECT_EFFECT" name="affect vs effect">
+            <rule> <!-- to no affect, to the affect -->
                 <pattern>
                     <token>to</token>
                     <token regexp="yes">no|the</token>
@@ -8547,22 +8912,22 @@ $Id$
                 <message>Did you mean <suggestion>effect</suggestion>?</message>
                 <short>Commonly confused word</short>
                 <example correction="effect" type="incorrect">We tried appeasing the rain gods, but to no <marker>affect</marker>.</example>
-                <example type="correct">We tried appeasing the rain gods, but to no effect.</example>
+                <example correction="effect" type="correct">We tried appeasing the rain gods, but to no <marker>effect</marker>.</example>
             </rule>
-            <rule>
-                <pattern>
-                    <token>an</token>
-                    <marker>
-                        <token>affect</token>
-                    </marker>
-                    <token>on</token>
-                </pattern>
-                <message>Did you mean <suggestion>effect</suggestion> (=influence)?</message>
-                <short>Commonly confused word</short>
-                <example correction="effect" type="incorrect">Regional factors have an <marker>affect</marker> on hotel guest satisfaction.</example>
-                <example type="correct">Regional factors have an effect on hotel guest satisfaction.</example>
-            </rule>
-            <rule>
+	    <rule> <!-- an affect on -->
+	      <pattern>
+		<token>an</token>
+		<marker>
+		  <token>affect</token>
+		</marker>
+		<token>on</token>
+	      </pattern>
+	      <message>Did you mean <suggestion>effect</suggestion> (=influence)?</message>
+	      <short>Commonly confused word</short>
+	      <example correction="effect" type="incorrect">Regional factors have an <marker>affect</marker> on hotel guest satisfaction.</example>
+	      <example type="correct">Regional factors have an effect on hotel guest satisfaction.</example>
+	    </rule>
+            <rule> <!-- in affect -->
                 <pattern>
                     <token>in</token>
                     <token>affect</token>
@@ -8572,6 +8937,80 @@ $Id$
                 <example correction="in effect" type="incorrect">Parking Fees are <marker>in affect</marker> in this park.</example>
                 <example type="correct">Parking Fees are in effect in this park</example>
             </rule>
+	    <rule> <!-- take affect, took affect, into affect -->
+	      <pattern>
+		<token regexp="yes">took|take|into</token>
+		<marker>
+	          <token>affect</token>
+		</marker>
+	      </pattern>
+	      <message> Did you mean <suggestion>effect</suggestion>?</message>
+	      <example correction="effect" type="incorrect">The ban took <marker>affect</marker> at midnight.</example>
+              <example type="correct">The ban took effect at midnight.</example>
+            </rule>
+
+            <rule> <!-- may effect, might effect, would effect, etc -->
+                <pattern>
+                    <token regexp="yes">might|may|often|could|would|will|did|does|not|typically</token>
+                    <marker>
+                        <token>effect</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>affect</suggestion>?</message>
+                <short>Commonly confused word</short>
+		<example correction="affect" type="incorrect">That might <marker>effect</marker> the bottom line.</example>
+		<example type="correct">That might affect the bottom line.</example>
+            </rule>
+        <rule> <!-- couldn't effect, shouldn't effect, didn't effect, etc. -->
+            <pattern>
+                <token regexp="yes">couldn|shouldn|wouldn|didn|won|can</token>
+                <token>'</token>
+                <token>t</token>
+		<marker>
+                  <token>effect</token>
+		</marker>
+            </pattern>
+            <message> Did you mean <suggestion>affect</suggestion>?</message>
+            <example correction="affect" type="incorrect">The medicine shouldn't <marker>effect</marker> the baby.</example>
+            <example type="correct">The medicine shouldn't affect the baby.</example>
+        </rule>
+        <rule> <!-- could've effected, should've effected, etc. -->
+            <pattern>
+                <token regexp="yes">could|should|would</token>
+                <token>'</token>
+                <token>ve</token>
+		<marker>
+                  <token>effected</token>
+		</marker>
+            </pattern>
+            <message> Did you mean <suggestion>affected</suggestion>?</message>
+            <example correction="affected" type="incorrect">The medicine would've <marker>effected</marker> the baby.</example>
+            <example type="correct">The medicine would've affected the baby.</example>
+        </rule>
+        <rule> <!-- an immediate affect, no overall affect, with immediate affect, etc. -->
+            <pattern>
+                <token regexp="yes">an|into|the|no|take|with</token>
+                <token regexp="yes">immediate|initial|event|overall|total</token>
+		<marker>
+                  <token>affect</token>
+		</marker>
+            </pattern>
+            <message> Did you mean <suggestion>effect</suggestion>?</message>
+            <example correction="effect" type="incorrect">The laws had an immediate <marker>affect</marker>.</example>
+            <example type="correct">The laws had an immediate effect.</example>
+        </rule>
+        <rule> <!-- two immediate affects, no overall affects, the immediate affects, etc. -->
+            <pattern>
+                <token regexp="yes">two|three|four|five|into|the|no|take|with</token>
+                <token regexp="yes">immediate|initial|event|overall|total</token>
+		<marker>
+                  <token>affects</token>
+		</marker>
+            </pattern>
+            <message> Did you mean <suggestion>effects</suggestion>?</message>
+            <example type="incorrect">There was a law with immediate <marker>affects</marker>.</example>
+            <example type="correct">There was a law with immediate effects.</example>
+        </rule>
             <rule>
                 <pattern>
                     <token>side</token>
@@ -8582,6 +9021,36 @@ $Id$
                 <example correction="side effect" type="incorrect">A <marker>side affect</marker> of global warming</example>
                 <example type="correct">A side effect of global warming</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token>side</token>
+                    <token>affects</token>
+                </pattern>
+                <message>Did you mean <suggestion>side effects</suggestion> (=adverse effect, unintended consequence)?</message>
+                <short>Commonly confused word</short>
+                <example correction="side effects" type="incorrect">The <marker>side affects</marker> of global warming</example>
+                <example type="correct">The side effects of global warming</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">side-effect|side-affect</token>
+                </pattern>
+                <message>Did you mean <suggestion>side effect</suggestion> (=adverse effect, unintended consequence)? Open compound are not hyphenated.</message>
+                <short>Commonly confused word</short>
+                <example correction="side effect" type="incorrect">A <marker>side-affect</marker> of global warming</example>
+                <example type="correct">A side effect of global warming</example>
+            </rule>
+        <!-- cause and affect::word=cause and effect::pivots=affect,effect -->
+        <rule>
+            <pattern>
+                <token>cause</token>
+                <token>and</token>
+                <token>affect</token>
+            </pattern>
+            <message>Did you mean <suggestion>cause and effect</suggestion>?</message>
+            <example type="incorrect">The experiment didn't obey the laws of <marker>cause and affect</marker>.</example>
+            <example type="correct">The experiment didn't obey the laws of cause and effect.</example>
+        </rule>
         </rulegroup>
         <rule id="ECONOMICAL_ECONOMIC" name="'econonomical growth' etc. (economic)">
             <pattern>
@@ -8614,12 +9083,18 @@ $Id$
                     <marker>
                         <token>principle</token>
                     </marker>
-                    <token regexp="yes">activity|source|use</token>
+                    <token regexp="yes">activity|use|engineer|investigator|action|source|town|effect|actor|advantage|agent|aim|area|artist|assistant|attraction|author|branch|cast|caste|cause|character|church|city|component|composer|goal|group|method|office|officer|owner</token>
                 </pattern>
                 <message>Did you mean <suggestion>principal</suggestion> (=main)?</message>
                 <short>Commonly confused word</short>
                 <example correction="principal" type="incorrect">The <marker>principle</marker> activity of the Foundation is centred on humanitarian aid and charity, especially with regards to children.</example>
                 <example type="correct">The principal activity of the Foundation is focused on humanitarian aid and charity.</example>
+            <example type="incorrect">Dr. Baumrind was listed as the grant's <marker>principle</marker> investigator.</example>
+            <example type="correct">Dr. Baumrind was listed as the grant's principal investigator.</example>
+            <example type="incorrect">Laundering money was the mob's <marker>principle</marker> activity.</example>
+            <example type="correct">Laundering money was the mob's principal activity.</example>
+
+
             </rule>
             <rule>
                 <pattern>
@@ -8741,11 +9216,13 @@ $Id$
                 <marker>
                     <token>since</token>
                 </marker>
+		<token><exception postag="NN.*|DT|CD" postag_regexp="yes"></exception></token>
             </pattern>
             <message>Did you mean <suggestion>sense</suggestion>?</message>
             <short>Nonstandard phrase</short>
             <example type="incorrect">Something like 90 most likely never makes <marker>since</marker>.</example>
             <example type="correct">Something like 90 most likely never makes <marker>sense</marker>.</example>
+            <example type="correct">There have been three made <marker>since</marker> the launch.</example>
         </rule>
         <rule id="ALL_AND_ALL" name="all and all (all in all)">
             <pattern>
@@ -9164,19 +9641,6 @@ $Id$
             <example correction="Gunmen" type="incorrect"><marker>Armed gunmen</marker> entered the room to kill Bill.</example>
             <example type="correct">Gunmen are very dangerous in this city.</example>
         </rule>
-        <rule id="ASSEMBLE_ATTACH_TOGETHER" name="attach/assemble together (attach/assemble)">
-            <pattern>
-                <marker>
-                    <token inflected="yes" regexp="yes">attach|assemble</token>
-                    <token>together</token>
-                </marker>
-                <token><exception>with</exception></token>
-            </pattern>
-            <message>This phrase might be redundant. Use simply <suggestion>\1</suggestion> instead.</message>
-            <short>Redundant phrase</short>
-            <example correction="assemble" type="incorrect">Reelin molecules <marker>assemble together</marker> to form a large protein complex.</example>
-            <example type="correct">Reelin molecules assemble to form a large protein complex</example>
-        </rule>
         <rule id="AUTOBIOGRAPHY_OF_A_LIFE" name="autobiography of a life (autobiography)">
             <pattern>
                 <token>autobiography</token>
@@ -9251,7 +9715,7 @@ $Id$
         </rule>
         <rule default="off" id="BLEND_TOGETHER" name="blend together (blend)">
             <pattern>
-                <token inflected="yes" regexp="yes">assemble|blend|combine|collaborate|confer|congregate|gather|join|meet|merge|mesh|mix|share</token>
+                <token inflected="yes" regexp="yes">attach|assemble|blend|combine|collaborate|confer|congregate|gather|join|meet|merge|mesh|mix|share</token>
                 <token>together</token>
             </pattern>
             <message>This phrase might be redundant. Use simply <suggestion>\1</suggestion>.</message>
@@ -9323,16 +9787,71 @@ $Id$
             <example correction="but" type="incorrect">I should not have, <marker>but nevertheless</marker> I did.</example>
             <example type="correct">I should not have, but I did.</example>
         </rule>
-        <rule id="CD_DISC" name="CD disc (disc)">
-            <pattern>
-                <token>CD</token>
+        <rule id="CD_DISC" name="CD disc (CD)">
+            <pattern case_sensitive="yes">
+                <token regexp="yes">CD|DVD</token>
                 <token regexp="yes">disk|disc</token>
             </pattern>
             <message>Use simply <suggestion>\1</suggestion>.</message>
             <short>Redundant phrase</short>
             <example correction="CD" type="incorrect">I ordered a <marker>CD disk</marker> with their software.</example>
-            <example type="correct">I ordered a <marker>CD </marker>with their software.</example>
+            <example type="correct">I ordered a <marker>CD</marker>with their software.</example>
+            <example type="correct">I ordered a <marker>DVD</marker>with their software.</example>
         </rule>
+        <rule id="CDROM" name="CD disc (CD)">
+            <pattern case_sensitive="yes">
+                <token regexp="yes">CDROM|CDRom|Cdrom</token>
+            </pattern>
+            <message>Use <suggestion>CD-ROM</suggestion>.</message>
+            <short>Possible typo</short>
+            <example correction="CD-ROM" type="incorrect">I ordered a <marker>Cdrom</marker> with their software.</example>
+            <example type="correct">I ordered a <marker>CD-ROM</marker>with their software.</example>
+        </rule>
+        <rulegroup id="BLU_RAY" name="Blue-ray (Blu-ray)">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">Blueray|blueray|BlueRay|Blue-ray|blue-ray|Blue-Ray|Blu-Ray|blu-ray</token>
+                </pattern>
+                <message>Did you mean <suggestion>Blu-ray</suggestion>?</message>
+                <short>Possible typo</short>
+                <example correction="Blu-ray" type="incorrect">I ordered a <marker>Blueray</marker> disk with their software.</example>
+                <example type="correct">I ordered a <marker>Blu-ray</marker> with their software.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">Blue|blue|Blu|blu</token>
+                    <token regexp="yes">Ray|ray</token>
+                    <token regexp="yes">disc|disk</token>
+                </pattern>
+                <message>Did you mean <suggestion>Blu-ray disc</suggestion>?</message>
+                <short>Possible typo</short>
+                <example correction="Blu-ray disc" type="incorrect">I ordered a <marker>Blu ray disk</marker> with their software.</example>
+                <example type="correct">I ordered a <marker>Blu-ray disc</marker> with their software.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>Blu-ray</token>
+		    <marker>
+                        <token>disk</token>
+		    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>disc</suggestion>?</message>
+                <short>Possible typo</short>
+                <example correction="disc" type="incorrect">I ordered a Blu-ray <marker>disk</marker> with their software.</example>
+                <example type="correct">I ordered a Blu-ray <marker>disc</marker> with their software.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">Blu|blu</token>
+                    <token regexp="yes">Ray|ray</token>
+                </pattern>
+                <message>Did you mean <suggestion>Blu-ray</suggestion>?</message>
+                <short>Possible typo</short>
+                <example correction="Blu-ray" type="incorrect">I ordered a <marker>Blu ray</marker> with their software.</example>
+                <example type="correct">I ordered a <marker>Blu-ray</marker> with their software.</example>
+            </rule>
+        </rulegroup>
+
         <rule id="CLOSE_SCRUTINY" name="close scrutiny/proximity (scrutiny/proximity)">
             <pattern>
                 <token>close</token>
@@ -9427,10 +9946,270 @@ $Id$
                 <token>every</token>
                 <token>one</token>
             </pattern>
-            <message>Use simply <suggestion>\1 \4</suggestion>.</message>
+            <message>Consider using <suggestion>\1 \4</suggestion>.</message>
             <short>Redundant phrase</short>
             <example correction="each one" type="incorrect">God bless <marker>each and every one</marker> of you!</example>
             <example type="correct">God bless each one of you!</example>
+        </rule>
+	<rulegroup default="off" id="NEGATE_MEANING" name="Suggest shorter ways to negate words (not common vs uncommon)">
+            <rule>
+		<!-- not correct (incorrect) -->
+		<pattern>
+                    <token regexp="yes">is|was</token>
+		    <marker>
+			<token>not</token>
+			<token regexp="yes">efficient|correct|convienent|complete|secure|secured|sufficient|significant|visible|tolerable</token>
+		    </marker>
+		</pattern>
+		<message>Consider using <suggestion>in\3</suggestion>.</message>
+		<short>Redundant phrase</short>
+		<example correction="incomplete" type="incorrect">The list is <marker>not complete</marker>.</example>
+		<example type="correct">The list is incomplete.</example>
+            </rule>
+            <rule>
+		<!-- not healthy (unhealthy) -->
+		<pattern>
+                    <token regexp="yes">is|was|were</token>
+		    <marker>
+			<token>not</token>
+			<token regexp="yes">able|affordable|believeable|contaminated|deserved|fashionable|acceptable|accompanied|altered|climbable|covered|drinkable|dressed|deniable|cluttered|expected|forgetable|desirable|fastened|happy|lucky|helpful|kind|natural|qualified|noticed|safe|suited|sweetened|skilled|thinkable|usable|zipped|willing|ripe|wanted|real|grateful|certain|healthy|common|controllable|comfortable|conscious|favorable|imaginable|important|pleasant|suitable|related|likely|usual|steady|sustainable|reliable|popular|necessary|fortunate|believable|beatable|aware|answered|breakable|productive|satisfied</token>
+		    </marker>
+		</pattern>
+		<message>Consider using <suggestion>un\3</suggestion>.</message>
+		<short>Redundant phrase</short>
+		<example correction="unsteady" type="incorrect">The rock is <marker>not steady</marker>.</example>
+		<example type="correct">The rock is unsteady.</example>
+            </rule>
+            <rule>
+		<!-- not perfect (imperfect) -->
+		<pattern>
+                    <token regexp="yes">is|was|were</token>
+		    <marker>
+			<token>not</token>
+			<token regexp="yes">perfect|mature|movable|practical|possible|pure</token>
+		    </marker>
+		</pattern>
+		<message>Consider using <suggestion>im\3</suggestion>.</message>
+		<short>Redundant phrase</short>
+		<example correction="imperfect" type="incorrect">The paragraph is <marker>not perfect</marker>.</example>
+		<example type="correct">The paragraph is imperfect.</example>
+            </rule>
+	    <rule>
+	    <!-- not rational (irrational) -->
+		<pattern>
+                    <token regexp="yes">is|was|were</token>
+		    <marker>
+			<token>not</token>
+			<token regexp="yes">rational|relevant</token>
+		    </marker>
+		</pattern>
+		<message>Consider using <suggestion>ir\3</suggestion>.</message>
+		<short>Redundant phrase</short>
+		<example correction="irrational" type="incorrect">The student was <marker>not rational</marker>.</example>
+		<example type="correct">The student was irrational.</example>
+            </rule>
+            <rule>
+		<!-- not fast enough (too slow) -->
+		<pattern>
+                    <token regexp="yes">is|was|were</token>
+		    <marker>
+			<token>not</token>
+			<token>fast</token>
+			<token>enough</token>
+		    </marker>
+		</pattern>
+		<message>Consider using <suggestion>too slow</suggestion>.</message>
+		<short>Redundant phrase</short>
+		<example correction="too slow" type="incorrect">The car was <marker>not fast enough</marker> to win the race.</example>
+		<example type="correct">The car was too slow to win the race.</example>
+            </rule>
+            <rule>
+		<!-- not large enough (too small) -->
+		<pattern>
+                    <token regexp="yes">is|was|were</token>
+		    <marker>
+			<token>not</token>
+			<token regexp="yes">large|big</token>
+			<token>enough</token>
+		    </marker>
+		</pattern>
+		<message>Consider using <suggestion>too small</suggestion>.</message>
+		<short>Redundant phrase</short>
+		<example correction="too small" type="incorrect">The car was <marker>not large enough</marker> for the tall man.</example>
+		<example type="correct">The car was <marker>too small</marker> for the large man.</example>
+            </rule>
+            <rule>
+		<!-- not small enough (too large) -->
+		<pattern>
+                    <token regexp="yes">is|was|were</token>
+		    <marker>
+			<token>not</token>
+			<token>small</token>
+			<token>enough</token>
+		    </marker>
+		</pattern>
+		<message>Consider using <suggestion>too large</suggestion>.</message>
+		<short>Redundant phrase</short>
+		<example correction="too large" type="incorrect">The car was <marker>not small enough</marker> to fit through the tunnel.</example>
+		<example type="correct">The car was <marker>too large</marker> to fit through the tunnel.</example>
+            </rule>
+	</rulegroup>
+	<rule id="SOME_FACULTY" name="some faculty...  (some faculty members...)">
+	    <pattern>
+                <token regexp="yes">some|many|most|two|three|four|five|six|seven|eight|nine|ten</token>
+		<marker>
+		    <token regexp="yes">faculty|committee|staff"</token>
+		</marker>
+                <token negate="yes">members</token>
+	    </pattern>
+	    <message>Use <suggestion><match no="2"></match> members</suggestion>.</message>
+	    <short>Grammatical problem</short>
+	    <example correction="faculty members" type="incorrect">Three <marker>faculty</marker> support the change.</example>
+	    <example type="correct">Three committee members were present.</example>
+        </rule>
+        <rule id="ALL_OF_THE" name="all of the (all the)">
+            <pattern>
+                <token negate="yes">or</token>
+		<marker>
+                    <token>all</token>
+                    <token>of</token>
+                    <token>the</token>
+		</marker>
+                <token negate="yes">sudden</token> <!-- See ALL_OF_THE_SUDDEN rule -->
+            </pattern>
+            <message>Simply use <suggestion>all the</suggestion>.</message>
+            <short>Redundant phrase</short>
+            <example correction="all the" type="incorrect">She is going to <marker>all of the</marker> parks.</example>
+            <example type="correct">She is going to all the parks.</example>
+            <example type="correct">She is going some or all of the parks.</example>
+        </rule>
+        <rule id="TRY_AND" name="try and (try to)">
+            <pattern>
+                <token>try</token>
+                <token>and</token>
+            </pattern>
+            <message>"Try and" is common in colloquial speech, but "<suggestion>try to</suggestion>" is recommended for writing.</message>
+            <short>Bad style</short>
+            <example correction="try to" type="incorrect">She is going to <marker>try and</marker> go to the store.</example>
+            <example type="correct">She is going to try to go to the store.</example>
+        </rule>
+        <rule id="SO_AS_TO" name="so as to (to)">
+            <pattern>
+                <token>so</token>
+                <token>as</token>
+                <token>to</token>
+            </pattern>
+            <message>Use simply <suggestion>to</suggestion></message>
+            <short>Redundant phrase</short>
+            <example correction="to" type="incorrect">The band practiced <marker>so as to</marker> increase their chances of success.</example>
+            <example type="correct">The band practiced to increase their chances of success.</example>
+        </rule>
+        <rule id="FEW_OCCASIONS" name="on a few occasions (occasionally)">
+            <pattern>
+                <token>on</token>
+                <token>a</token>
+                <token>few</token>
+                <token>occasions</token>
+            </pattern>
+            <message>Use simply <suggestion>occasionally</suggestion></message>
+            <short>Redundant phrase</short>
+            <example correction="occasionally" type="incorrect">The man drank <marker>on a few occasions</marker>.</example>
+            <example type="correct">The man drank occasionally.</example>
+        </rule>
+        <rule id="ALSO_OTHER" name="there are also other (also)">
+            <pattern>
+                <token>there</token>
+                <token>are</token>
+                <token>also</token>
+                <token>other</token>
+            </pattern>
+            <message>Use simply <suggestion>there are other</suggestion> or <suggestion>there are also</suggestion></message>
+            <short>Redundant phrase</short>
+            <example correction="there are other|there are also" type="incorrect">However, <marker>there are also other</marker> marbles in the jar.</example>
+            <example type="correct">There are other marbles in the jar.</example>
+        </rule>
+        <rule id="LARGE_NUMBER_OF" name="a large number of (many)">
+            <pattern>
+                <token>a</token>
+                <token>large</token>
+                <token>number</token>
+                <token>of</token>
+            </pattern>
+            <message>Specify a number, remove phrase, or simply use <suggestion>many</suggestion> or <suggestion>numerous</suggestion></message>
+            <short>Redundant phrase</short>
+            <example correction="Many|Numerous" type="incorrect"><marker>A large number of</marker> people were in the parade.</example>
+            <example type="correct">Many people were in the parade.</example>
+        </rule>
+        <rule id="SMALL_NUMBER_OF" name="a small number of (a few)">
+            <pattern>
+                <token>a</token>
+                <token>small</token>
+                <token>number</token>
+                <token>of</token>
+            </pattern>
+            <message>Specify a number, remove phrase, use <suggestion>a few</suggestion>, or use <suggestion>some</suggestion></message>
+            <short>Redundant phrase</short>
+            <example correction="A few|Some" type="incorrect"><marker>A small number of</marker> people were in the store.</example>
+            <example type="correct">Few people were in the store.</example>
+        </rule>
+        <rule id="SUBSEQUENT_TO" name="subsequent to (after)">
+            <pattern>
+                <token>subsequent</token>
+                <token>to</token>
+            </pattern>
+            <message>Use simply <suggestion>after</suggestion></message>
+            <short>Redundant phrase</short>
+            <example correction="after" type="incorrect">The roads needed repairs <marker>subsequent to</marker> the storm.</example>
+            <example type="correct">The roads needed repairs after the storm.</example>
+        </rule>
+	<rule id="NEITHER_NOR" name="neither X or Y (neither X or Y)">
+	      <!-- This rule only catches some cases where "or" needs to be change to "nor" -->
+	      <!-- It is possible correctly use "nor" without "neither":
+		   http://english.stackexchange.com/questions/53728/using-nor-in-a-list-without-neither -->
+            <pattern>
+                <token skip="2">neither</token>
+		<marker>
+                    <token>or</token>
+		</marker>
+                <token></token>
+            </pattern>
+            <message>Use <suggestion>nor</suggestion> with neither.</message>
+            <short>Grammatical problem or typo</short>
+            <example correction="nor" type="incorrect">Neither the teachers <marker>or</marker> the students won.</example>
+            <example type="correct">Neither the teachers nor the students won.</example>
+            <example correction="nor" type="incorrect">They were neither helping <marker>or</marker> hurting the plan.</example>
+        </rule>
+        <rule id="HOLLOW_TUBE" name="hollow tube (tube)">
+            <pattern>
+                <token>hollow</token>
+                <token>tube</token>
+            </pattern>
+            <message>Use simply <suggestion>tube</suggestion></message>
+            <short>Redundant phrase</short>
+            <example correction="tube" type="incorrect">We fixed the <marker>hollow tube</marker>.</example>
+            <example type="correct">We fixed the tube.</example>
+        </rule>
+        <rule id="EXACT_REPLICA" name="exact replica (replica)">
+            <pattern>
+                <token>exact</token>
+                <token>replica</token>
+            </pattern>
+            <message>Use simply <suggestion>replica</suggestion></message>
+            <short>Redundant phrase</short>
+            <example correction="replica" type="incorrect">We created an <marker>exact replica</marker> of the building.</example>
+            <example type="correct">We created a replica of the building.</example>
+        </rule>
+        <rule id="WITH_THE_EXCEPTION_OF" name="with the exception of (except)">
+            <pattern>
+                <token>with</token>
+                <token>the</token>
+                <token>exception</token>
+                <token>of</token>
+            </pattern>
+            <message>Use simply <suggestion>except</suggestion> or <suggestion>except for</suggestion></message>
+            <short>Redundant phrase</short>
+            <example correction="Except|Except for" type="incorrect"><marker>With the exception of</marker> Bob, all of the children went running.</example>
+            <example type="correct">Except for Bob, all of the children went running.</example>
         </rule>
         <rule id="EVERY_NOW_AND_THEN" name="every now and then (now and then)">
             <pattern>
@@ -9455,7 +10234,18 @@ $Id$
             <example correction="a fact" type="incorrect">This is <marker>an established fact</marker>.</example>
             <example type="correct">This is a fact.</example>
         </rule>
-        <rule default="off" id="EXACTLY_THE_SAME" name="exactly the same/identical (the same/identical)">
+        <rulegroup default="off" id="EXACT_SAME" name="exact same/identical (same/identical)">
+	  <rule>
+            <pattern>
+                <token regexp="yes">exact|precise</token>
+                <token regexp="yes">same|identical</token>
+            </pattern>
+            <message>Use simply <suggestion>\2</suggestion>.</message>
+            <short>Redundant phrase</short>
+            <example correction="same" type="incorrect">This is the <marker>exact same</marker> situation.</example>
+            <example type="correct">This is the same situation.</example>
+        </rule>
+        <rule>
             <pattern>
                 <token regexp="yes">exactly|precisely</token>
                 <token>the</token>
@@ -9466,20 +10256,32 @@ $Id$
             <example correction="the same" type="incorrect">This shoe is <marker>exactly the same</marker>.</example>
             <example type="correct">This shoe is the same.</example>
         </rule>
-        <rule default="off" id="EXACT_SAME" name="exact same/identical (same/identical)">
+	</rulegroup>
+	<rulegroup id="SUMMER_TIME" name="summertime (summer)">
+        <rule>
             <pattern>
-                <token regexp="yes">exact|precise</token>
-                <token regexp="yes">same|identical</token>
+                <token regexp="yes">summertime|summer-time</token>
             </pattern>
-            <message>Use simply <suggestion>\2</suggestion>.</message>
+            <message>Use simply <suggestion>summer</suggestion>.</message>
             <short>Redundant phrase</short>
-            <example correction="same" type="incorrect">This is the <marker>exact same</marker> situation.</example>
-            <example type="correct">This is the same situation.</example>
+            <example correction="summer" type="incorrect">It is warm during the <marker>summertime</marker>.</example>
+            <example type="correct">It is warm during the summer.</example>
         </rule>
+        <rule>
+            <pattern>
+                <token>summer</token>
+                <token>time</token>
+            </pattern>
+            <message>Use simply <suggestion>summer</suggestion>.</message>
+            <short>Redundant phrase</short>
+            <example correction="summer" type="incorrect">It is warm during the <marker>summer time</marker>.</example>
+            <example type="correct">It is warm during the summer.</example>
+        </rule>
+	</rulegroup>
         <rule id="THE_FALL_SEASON" name="fall season (fall)">
             <pattern>
                 <token>the</token>
-                <token>fall</token>
+                <token regexp="yes">fall|winter|spring|summer</token>
                 <token>season</token>
             </pattern>
             <message>Use simply <suggestion>\2</suggestion>.</message>
@@ -9497,10 +10299,207 @@ $Id$
             <example correction="celebrity" type="incorrect">I'm told that he's a <marker>famous celebrity</marker> now.</example>
             <example type="correct">I'm told that he's a celebrity now.</example>
         </rule>
+        <rule id="SALSA_SAUCE" name="salsa sauce (salsa)">
+            <pattern>
+                <token>salsa</token>
+                <token>sauce</token>
+            </pattern>
+            <message>Use simply <suggestion>\1</suggestion>.</message>
+            <short>Redundant phrase</short>
+            <example correction="salsa" type="incorrect">I enjoy eating <marker>salsa sauce</marker>.</example>
+            <example type="correct">I enjoy eating salsa.</example>
+        </rule>
+        <rule id="GENERAL_XX" name="general public (public)">
+            <pattern>
+                <token>general</token>
+                <token regexp="yes">public|consensus</token>
+            </pattern>
+            <message>Use simply <suggestion>\2</suggestion>.</message>
+            <short>Redundant phrase</short>
+            <example correction="public" type="incorrect">We should show this to the <marker>general public</marker>.</example>
+            <example type="correct">We should show this to the public.</example>
+        </rule>
+        <rule id="NEW_XX" name="new innovation (innvoation)">
+            <pattern>
+                <token>new</token>
+                <token regexp="yes">innovation|innovative|invention|record|recruit</token>
+            </pattern>
+            <message>Use simply <suggestion>\2</suggestion>.</message>
+            <short>Redundant phrase</short>
+            <example correction="recruit" type="incorrect">He was a <marker>new recruit</marker>.</example>
+            <example type="correct">He was a recruit.</example>
+        </rule>
+        <rule id="ORIGINALLY_DISCOVERED" name="originally discovered (discovered)">
+            <pattern>
+                <token>originally</token>
+                <token>discovered</token>
+            </pattern>
+            <message>Use simply <suggestion>\2</suggestion>.</message>
+            <short>Redundant phrase</short>
+            <example correction="discovered" type="incorrect">He <marker>originally discovered</marker> gold.</example>
+            <example type="correct">He discovered gold.</example>
+        </rule>
+
+        <rule id="FORMER_GRADUATE" name="former graduate (graduate)">
+            <pattern>
+                <token>former</token>
+                <token>graduate</token>
+            </pattern>
+            <message>Use simply <suggestion>\2</suggestion>.</message>
+            <short>Redundant phrase</short>
+            <example correction="graduate" type="incorrect">I am a <marker>former graduate</marker> of the school.</example>
+            <example type="correct">I am a graduate of the school.</example>
+        </rule>
+        <rulegroup id="OVER_EXAGGERATED" name="over exaggerated (exaggerrated)">
+	    <rule>
+		<pattern>
+                    <token>over</token>
+                    <token inflected="yes">exaggerate</token>
+		</pattern>
+		<message>Use simply <suggestion>\2</suggestion>.</message>
+		<short>Redundant phrase</short>
+		<example correction="exaggerating" type="incorrect">I enjoy <marker>over exaggerating</marker>.</example>
+		<example type="correct">I enjoy exaggerating.</example>
+            </rule>
+	    <rule>
+		<pattern>
+                    <token regexp="yes">over-exaggerate|over-exaggerating|over-exaggerated</token>
+		</pattern>
+		<message>Use simply <suggestion><match no="1" regexp_match="over-(.*)" regexp_replace="$1"></match></suggestion>.</message>
+		<short>Redundant phrase</short>
+		<example correction="exaggerating" type="incorrect">I enjoy <marker>over-exaggerating</marker>.</example>
+		<example type="correct">I enjoy exaggerating.</example>
+            </rule>
+	</rulegroup>
+        <rule id="X_IN_COLOR" name="black in color (black)">
+            <pattern>
+                <token regexp="yes">green|blue|red|yellow|grey|gray|orange|white|black|purple|teal|beige|tan|violet|pink</token>
+                <token>in</token>
+		<token>color</token>
+            </pattern>
+            <message>Use simply <suggestion>\1</suggestion>.</message>
+            <short>Redundant phrase</short>
+            <example correction="pink" type="incorrect">My shirt is <marker>pink in color</marker>.</example>
+            <example type="correct">My shirt is pink.</example>
+        </rule>
+        <rule id="ORIGINALLY_BORN_IN" name="originally born in (born in)">
+            <pattern>
+                <token>originally</token>
+                <token>born</token>
+		<token>in</token>
+            </pattern>
+            <message>Use simply <suggestion>\2 \3</suggestion>.</message>
+            <short>Redundant phrase</short>
+            <example correction="born in" type="incorrect">I was <marker>originally born in</marker> Texas.</example>
+            <example type="correct">I was born in Texas.</example>
+        </rule>
+        <rule id="RETURN_BACK" name="return back (return)">
+            <pattern>
+                <token inflected="yes">return</token>
+                <token>back</token>
+            </pattern>
+            <message>Use simply <suggestion>\1</suggestion>.</message>
+            <short>Redundant phrase</short>
+            <example correction="returned" type="incorrect">We <marker>returned back</marker> home.</example>
+            <example type="correct">We returned home.</example>
+        </rule>
+        <rule id="REPEAT_AGAIN" name="repeat again (repeat)">
+            <pattern>
+                <token inflected="yes">repeat</token>
+                <token>again</token>
+            </pattern>
+            <message>Use simply <suggestion>\1</suggestion>.</message>
+            <short>Redundant phrase</short>
+            <example correction="repeat" type="incorrect">We made the song <marker>repeat again</marker>.</example>
+            <example type="correct">We made the song repeat.</example>
+        </rule>
+        <rule id="MIGHT_PERHAPS" name="might perhaps (might)">
+            <pattern>
+                <token inflected="yes" regexp="yes">may|might</token>
+                <token regexp="yes">perhaps|possibly</token>
+            </pattern>
+            <message>Use simply <suggestion>\1</suggestion>, <suggestion>\2</suggestion>.</message>
+            <short>Redundant phrase</short>
+            <example correction="might|possibly" type="incorrect">We <marker>might possibly</marker> go fishing.</example>
+            <example type="correct">We might go fishing.</example>
+        </rule>
+	<rulegroup id="AGREE_WITH_THE_FACT" name="disagree with the fact that (disagree that)">
+        <rule>
+            <pattern>
+                <token regexp="yes">disagree|agree</token>
+                <token>with</token>
+                <token>the</token>
+                <token>fact</token>
+                <token>that</token>
+            </pattern>
+            <message>Use simply <suggestion>\1 that</suggestion>.</message>
+            <short>Redundant phrase</short>
+            <example correction="agree that" type="incorrect">I <marker>agree with the fact that</marker> the sky is blue.</example>
+            <example type="correct">I agree that the sky is blue.</example>
+        </rule>
+        <rule>
+            <pattern>
+		<token inflected="yes">do</token>
+		<token>not</token>
+                <token regexp="yes">disagree|agree</token>
+                <token>with</token>
+                <token>the</token>
+                <token>fact</token>
+                <token>that</token>
+            </pattern>
+            <message>Consider using <suggestion>\1 disagree that</suggestion> or <suggestion>\1 agree that</suggestion>.</message>
+	    <!-- TODO: Improve suggestion! -->
+            <short>Redundant phrase</short>
+            <example correction="did disagree that|did agree that" type="incorrect">We <marker>did not disagree with the fact that</marker> the sky is blue.</example>
+            <example type="correct">We did agree that the sky is blue.</example>
+        </rule>
+	</rulegroup>
+        <rule id="WILL_IN_THE_FUTURE" name="will in the future (will)">
+            <pattern>
+		<token>will</token>
+		<token>in</token>
+		<token>the</token>
+		<token>future</token>
+            </pattern>
+            <message>Use simply <suggestion>will</suggestion>.</message>
+            <short>Redundant phrase</short>
+            <example correction="will" type="incorrect">I <marker>will in the future</marker> work hard.</example>
+            <example type="correct">I will work hard.</example>
+        </rule>
+        <rule id="WORK_COLLEAGUE" name="work colleague (colleague)">
+            <pattern>
+		<token>work</token>
+		<token>colleague</token>
+            </pattern>
+            <message>Use simply <suggestion>\2</suggestion>.</message>
+            <short>Redundant phrase</short>
+            <example correction="colleague" type="incorrect">I will talk to a <marker>work colleague</marker>.</example>
+            <example type="correct">I will talk to a colleague.</example>
+        </rule>
+        <rule id="NUMEROUS_DIFFERENT" name="numerous different (numerous)">
+            <pattern>
+		<token regexp="yes">numerous|several|many</token>
+		<token regexp="yes">different|seperate</token>
+            </pattern>
+            <message>Use simply <suggestion>\1</suggestion>.</message>
+            <short>Redundant phrase</short>
+            <example correction="many" type="incorrect">I will read <marker>many different</marker> books</example>
+            <example type="correct">I will read many books.</example>
+        </rule>
+        <rule id="WHOLE_LOT" name="whole lot (lot)">
+            <pattern>
+		<token>whole</token>
+		<token regexp="yes">lot|bunch</token>
+            </pattern>
+            <message>Use simply <suggestion>\2</suggestion>.</message>
+            <short>Redundant phrase</short>
+            <example correction="lot" type="incorrect">I will read a <marker>whole lot</marker> of books</example>
+            <example type="correct">I will read a lot of books.</example>
+        </rule>
         <rule id="FELLOW_CLASSMATE" name="fellow classmates/co-workers/comrades (classmates/co-workers/comrades)">
             <pattern>
                 <token>fellow</token>
-                <token inflected="yes" regexp="yes">classmate|co-worker|coworker|comrade</token>
+                <token inflected="yes" regexp="yes">classmate|co-worker|coworker|comrade|colleague</token>
             </pattern>
             <message>Use simply <suggestion>\2</suggestion>.</message>
             <short>Redundant phrase</short>
@@ -9796,16 +10795,6 @@ $Id$
             <short>Redundant phrase</short>
             <example correction="haven" type="incorrect">They ran for the forest, searching for a <marker>safe haven</marker>.</example>
             <example type="correct">They ran for the forest, searching for a haven.</example>
-        </rule>
-        <rule id="SAME_IDENTICAL" name="same identical (same)">
-            <pattern>
-                <token>same</token>
-                <token>identical</token>
-            </pattern>
-            <message>Use simply <suggestion>\1</suggestion>.</message>
-            <short>Redundant phrase</short>
-            <example correction="same" type="incorrect">They wore the <marker>same identical</marker> dress.</example>
-            <example type="correct">They wore the same dress.</example>
         </rule>
         <rule id="USUAL_CUSTOM" name="usual custom (custom)">
             <pattern>
