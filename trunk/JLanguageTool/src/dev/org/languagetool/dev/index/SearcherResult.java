@@ -27,14 +27,14 @@ public class SearcherResult {
 
   private final List<MatchingSentence> matchingSentences;
   private final int checkedSentences;
-  private final boolean relaxedQuery;
+  private final Searcher.PossiblyRelaxedQuery possiblyRelaxedQuery;
 
   private boolean resultIsTimeLimited;
 
-  public SearcherResult(List<MatchingSentence> matchingSentences, int checkedSentences, boolean relaxedQuery) {
+  public SearcherResult(List<MatchingSentence> matchingSentences, int checkedSentences, Searcher.PossiblyRelaxedQuery relaxedQuery) {
     this.matchingSentences = matchingSentences;
     this.checkedSentences = checkedSentences;
-    this.relaxedQuery = relaxedQuery;
+    this.possiblyRelaxedQuery = relaxedQuery;
   }
 
   public List<MatchingSentence> getMatchingSentences() {
@@ -45,8 +45,12 @@ public class SearcherResult {
     return checkedSentences;
   }
 
+  public Searcher.PossiblyRelaxedQuery getPossiblyRelaxedQuery() {
+    return possiblyRelaxedQuery;
+  }
+
   public boolean isRelaxedQuery() {
-    return relaxedQuery;
+    return possiblyRelaxedQuery.isRelaxed;
   }
 
   public boolean isResultIsTimeLimited() {

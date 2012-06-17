@@ -83,7 +83,7 @@ public class PatternRuleQueryBuilder {
       } else {
         // create an empty token for the unsupported token, so that it can match any term with any
         // POS tag.
-        if (patternElement.hasExceptionList() && !patternElement.getString().isEmpty()) {
+        if (patternElement.hasExceptionList() && !patternElement.isInflected() && !patternElement.getString().isEmpty()) {
           // having an exception causes the rule not to be supported but we can ignore it
           // and search for the token to get a super set of matches:
           tokenQuery = createTokenQuery(patternElement.getString(), patternElement.getNegation(),
@@ -155,6 +155,7 @@ public class PatternRuleQueryBuilder {
       throw new UnsupportedPatternRuleException(
           "Pattern rules with inflected tokens are not supported.");
     }
+    // TODO: exception for <match no="0"/> etc. (patternElement.getMatch()?)
   }
 
   private SpanQuery createTokenQuery(String token, boolean isNegation,

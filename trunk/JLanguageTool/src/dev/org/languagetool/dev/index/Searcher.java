@@ -86,7 +86,7 @@ public class Searcher {
     final JLanguageTool languageTool = getLanguageToolWithOneRule(language, rule);
     final List<MatchingSentence> matchingSentences = findMatchingSentences(indexSearcher, limitedTopDocs.topDocs, languageTool);
     final int sentencesChecked = getSentenceCheckCount(query, limitedTopDocs.topDocs, indexSearcher);
-    final SearcherResult searcherResult = new SearcherResult(matchingSentences, sentencesChecked, query.isRelaxed);
+    final SearcherResult searcherResult = new SearcherResult(matchingSentences, sentencesChecked, query);
     searcherResult.setResultIsTimeLimited(limitedTopDocs.resultIsTimeLimited);
     return searcherResult;
   }
@@ -185,6 +185,11 @@ public class Searcher {
     PossiblyRelaxedQuery(Query query, boolean relaxed) {
       this.query = query;
       isRelaxed = relaxed;
+    }
+
+    @Override
+    public String toString() {
+      return query.toString() + "[relaxed=" + isRelaxed + "]";
     }
   }
 

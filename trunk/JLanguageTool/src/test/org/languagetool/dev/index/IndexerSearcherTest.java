@@ -73,6 +73,7 @@ public class IndexerSearcherTest extends LuceneTestCase {
 
     int ruleCounter = 0;
     int ruleProblems = 0;
+    int relaxedQueryCount = 0;
     searcher = new IndexSearcher(directory);
     final List<Rule> rules = lt.getAllActiveRules();
     for (Rule rule : rules) {
@@ -81,18 +82,26 @@ public class IndexerSearcherTest extends LuceneTestCase {
         try {
           ruleCounter++;
           final SearcherResult searcherResult = errorSearcher.findRuleMatchesOnIndex(patternRule, language, searcher);
+          if (searcherResult.isRelaxedQuery()) {
+            relaxedQueryCount++;
+          }
           final List<MatchingSentence> matchingSentences = searcherResult.getMatchingSentences();
           boolean foundExpectedMatch = false;
           for (MatchingSentence matchingSentence : matchingSentences) {
             final List<RuleMatch> ruleMatches = matchingSentence.getRuleMatches();
             final List<String> ruleMatchIds = getRuleMatchIds(ruleMatches);
             if (ruleMatchIds.contains(getFullId(patternRule))) {
+              // TODO: there can be more than one expected match, can't it?
               foundExpectedMatch = true;
               break;
             }
           }
           if (!foundExpectedMatch) {
             System.out.println("Error: No match found for " + patternRule);
+            System.out.println("Query   : " + searcherResult.getPossiblyRelaxedQuery());
+            System.out.println("Matches : " + matchingSentences);
+            System.out.println("Examples: " + rule.getIncorrectExamples());
+            System.out.println();
             ruleProblems++;
           }
         } catch (NullPointerException e) {
@@ -103,6 +112,7 @@ public class IndexerSearcherTest extends LuceneTestCase {
       }
     }
     System.out.println(language + ": problems: " + ruleProblems + ", total rules: " + ruleCounter);
+    System.out.println(language + ": relaxedQueryCount: " + relaxedQueryCount);
 
   }
 
@@ -144,18 +154,15 @@ public class IndexerSearcherTest extends LuceneTestCase {
     }
   }
 
-  /* for debugging
-  public void testForDebugging() throws Exception {
+  /** for manual debugging only */
+  public void IGNOREtestForDebugging() throws Exception {
     // Note that the second sentence ends with "lid" instead of "lids" (the inflated one)
-    createIndex("I thin that's true.");
-    SearcherResult searcherResult =
-            errorSearcher.findRuleMatchesOnIndex(getRule("I_THIN"), Language.ENGLISH, searcher);
-    System.out.println("matches: " + searcherResult.getMatchingSentences());
-    assertEquals(false, searcherResult.isResultIsTimeLimited());
+    createIndex("Das machen Sinn");
+    final PatternRule rule = getRule("SINN_MACHEN", new File("src/rules/de/grammar.xml"));
+    final SearcherResult searcherResult = errorSearcher.findRuleMatchesOnIndex(rule, Language.GERMAN, searcher);
+    System.out.println("Matches: " + searcherResult.getMatchingSentences());
     assertEquals(1, searcherResult.getMatchingSentences().size());
-    //assertEquals(false, searcherResult.isRelaxedQuery());
   }
-  */
 
   public void testIndexerSearcherWithEnglish() throws Exception {
     // Note that the second sentence ends with "lid" instead of "lids" (the inflated one)
@@ -187,6 +194,10 @@ public class IndexerSearcherTest extends LuceneTestCase {
 
   private PatternRule getRule(String ruleId) throws IOException {
     return errorSearcher.getRuleById(ruleId, ruleFile);
+  }
+
+  private PatternRule getRule(String ruleId, File grammarFile) throws IOException {
+    return errorSearcher.getRuleById(ruleId, grammarFile);
   }
 
   public void testWithNewRule() throws Exception {
