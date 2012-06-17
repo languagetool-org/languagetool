@@ -17,11 +17,13 @@
  * USA
  */
 
-package org.languagetool.tokenizers;
+package org.languagetool.tokenizers.ru;
 
 import junit.framework.TestCase;
 import org.languagetool.Language;
 import org.languagetool.TestTools;
+import org.languagetool.tokenizers.SRXSentenceTokenizer;
+import org.languagetool.tokenizers.SentenceTokenizer;
 
 /*
  * Russian SRX Sentence Tokenizer Test
