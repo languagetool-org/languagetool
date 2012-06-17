@@ -28,12 +28,7 @@ import org.languagetool.tokenizers.SRXSentenceTokenizer;
  */
 public class DanishSRXSentenceTokenizerTest extends TestCase {
 
-  // accept \n as paragraph:
   private final SRXSentenceTokenizer stokenizer = new SRXSentenceTokenizer(Language.DANISH);
-
-  public void setUp() {
-    stokenizer.setSingleLineBreaksMarksParagraph(true);
-  }
 
   public void testTokenize() {
     // NOTE: sentences here need to end with a space character so they

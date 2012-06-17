@@ -27,9 +27,9 @@ import org.languagetool.TestTools;
 public class SentenceTokenizerTest extends TestCase {
 
   // accept \n as paragraph:
-  private SentenceTokenizer stokenizer = new SentenceTokenizer();
+  private final SentenceTokenizer stokenizer = new SentenceTokenizer();
   // accept only \n\n as paragraph:
-  private SentenceTokenizer stokenizer2 = new SentenceTokenizer();
+  private final SentenceTokenizer stokenizer2 = new SentenceTokenizer();
   
   public void setUp() {
     stokenizer.setSingleLineBreaksMarksParagraph(true);  

@@ -166,7 +166,7 @@ public class RomanianSentenceTokenizerTest extends TestCase {
 	    testSplit(new String[] { "Aici este o frază [...] mult prescurtată." });
 	  }
 
-	  private final void testSplit(final String[] sentences) {
+	  private void testSplit(final String[] sentences) {
 	    TestTools.testSplit(sentences, stokenizer2);
 	  }
   

@@ -28,15 +28,7 @@ import org.languagetool.tokenizers.SRXSentenceTokenizer;
  */
 public class GermanSRXSentenceTokenizerTest extends TestCase {
 
-  // accept \n as paragraph:
   private final SRXSentenceTokenizer stokenizer = new SRXSentenceTokenizer(Language.GERMAN);
-  // accept only \n\n as paragraph:
-  private final SRXSentenceTokenizer stokenizer2 = new SRXSentenceTokenizer(Language.GERMAN);
-  
-  public void setUp() {
-    stokenizer.setSingleLineBreaksMarksParagraph(true);  
-    stokenizer2.setSingleLineBreaksMarksParagraph(false);  
-  }
 
   public void testTokenize() {
     // NOTE: sentences here need to end with a space character so they

@@ -26,11 +26,11 @@ import java.util.List;
 public class WordTokenizerTest extends TestCase {
 
   public void testTokenize() {
-    WordTokenizer w = new WordTokenizer();
-    List <String> testList = w.tokenize("This is\u00A0a test");
+    WordTokenizer wordTokenizer = new WordTokenizer();
+    List <String> testList = wordTokenizer.tokenize("This is\u00A0a test");
     assertEquals(testList.size(), 7);
     assertEquals("[This,  , is, \u00A0, a,  , test]", testList.toString());
-    testList = w.tokenize("This\rbreaks");
+    testList = wordTokenizer.tokenize("This\rbreaks");
     assertEquals(3, testList.size());
     assertEquals("[This, \r, breaks]", testList.toString());
   }

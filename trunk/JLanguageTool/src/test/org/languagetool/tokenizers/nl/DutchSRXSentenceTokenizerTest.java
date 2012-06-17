@@ -31,10 +31,6 @@ public class DutchSRXSentenceTokenizerTest extends TestCase {
 
   private final SRXSentenceTokenizer stokenizer = new SRXSentenceTokenizer(Language.DUTCH);
 
-  public void setUp() {
-    stokenizer.setSingleLineBreaksMarksParagraph(true);  
-  }
-
   public void testTokenize() {
     // NOTE: sentences here need to end with a space character so they
     // have correct whitespace when appended:

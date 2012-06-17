@@ -16,7 +16,7 @@ import org.languagetool.tagging.Tagger;
  */
 public class ManualTaggerAdapter implements Tagger {
 
-	private ManualTagger manualTagger;
+	private final ManualTagger manualTagger;
 
 	public ManualTaggerAdapter(ManualTagger manualTagger) {
 		this.manualTagger = manualTagger;

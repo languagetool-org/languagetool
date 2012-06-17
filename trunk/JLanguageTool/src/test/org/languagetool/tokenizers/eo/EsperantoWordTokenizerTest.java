@@ -26,11 +26,11 @@ import java.util.List;
 public class EsperantoWordTokenizerTest extends TestCase {
 
   public void testTokenize() {
-    EsperantoWordTokenizer w = new EsperantoWordTokenizer();
-    List<String> testList = w.tokenize("Tio estas\u00A0testo");
+    EsperantoWordTokenizer wordTokenizer = new EsperantoWordTokenizer();
+    List<String> testList = wordTokenizer.tokenize("Tio estas\u00A0testo");
     assertEquals(testList.size(), 5);
     assertEquals("[Tio,  , estas, \u00A0, testo]", testList.toString());
-    testList = w.tokenize("dank' al 'tio'");
+    testList = wordTokenizer.tokenize("dank' al 'tio'");
     assertEquals(testList.size(), 7);
     assertEquals("[dank',  , al,  , ', tio, ']", testList.toString());
   }
