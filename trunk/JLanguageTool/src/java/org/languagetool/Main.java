@@ -483,12 +483,12 @@ class Main {
 
   // for language auto detect
   // TODO: alter tika's language profiles so they are in line with LT's supported languages
-  private static Language detectLanguageOfFile(String filename, String encoding) throws IOException {
+  private static Language detectLanguageOfFile(final String filename, final String encoding) throws IOException {
     final String text = StringTools.readFile(new FileInputStream(filename), encoding);
     return detectLanguageOfString(text);
   }
 
-  private static Language detectLanguageOfString(String text) {
+  private static Language detectLanguageOfString(final String text) {
     final LanguageIdentifier identifier = new LanguageIdentifier(text);
     final Language lang = Language.getLanguageForShortName(identifier.getLanguage());
     return lang;
