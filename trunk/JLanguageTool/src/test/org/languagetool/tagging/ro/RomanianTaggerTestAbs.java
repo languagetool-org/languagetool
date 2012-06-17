@@ -18,18 +18,16 @@
  */
 package org.languagetool.tagging.ro;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-
-import morfologik.stemming.Dictionary;
-import morfologik.stemming.DictionaryLookup;
-import morfologik.stemming.WordData;
-
 import junit.framework.TestCase;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.Language;
+import org.languagetool.TestTools;
 import org.languagetool.tokenizers.WordTokenizer;
+
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * <p>
@@ -60,14 +58,7 @@ public abstract class RomanianTaggerTestAbs extends TestCase {
 	}
 
 	public void testDictionary() throws IOException {
-    final Dictionary dictionary = Dictionary.read(
-        this.getClass().getResource(tagger.getFileName()));
-    final DictionaryLookup dl = new DictionaryLookup(dictionary);
-    for (WordData wd : dl) {
-      if (wd.getTag() == null || wd.getTag().length() == 0) {
-        System.err.println("**** Warning: the word " + wd.getWord() + "/" + wd.getStem() +" lacks a POS tag in the dictionary.");
-      }
-    }    
+    TestTools.testDictionary(tagger, Language.ROMANIAN);
   }
 	
 	/**
@@ -77,7 +68,7 @@ public abstract class RomanianTaggerTestAbs extends TestCase {
 	 * @return
 	 */
 	protected RomanianTagger createTagger() {
-		// override this if you need need another dictionary (a disctionary
+		// override this if you need need another dictionary (a dictionary
 		// based on another file)
 		return new RomanianTagger();
 	}

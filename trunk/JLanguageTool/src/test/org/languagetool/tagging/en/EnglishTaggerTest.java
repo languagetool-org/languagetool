@@ -18,17 +18,15 @@
  */
 package org.languagetool.tagging.en;
 
+import junit.framework.TestCase;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.Language;
+import org.languagetool.TestTools;
+import org.languagetool.tokenizers.WordTokenizer;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import junit.framework.TestCase;
-import morfologik.stemming.Dictionary;
-import morfologik.stemming.DictionaryLookup;
-import morfologik.stemming.WordData;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.TestTools;
-import org.languagetool.tokenizers.WordTokenizer;
 
 /**
  * @author Daniel Naber
@@ -44,12 +42,7 @@ public class EnglishTaggerTest extends TestCase {
   }
   
   public void testDictionary() throws IOException {
-    final Dictionary dictionary = Dictionary.read(
-        this.getClass().getResource(tagger.getFileName()));
-    final DictionaryLookup dl = new DictionaryLookup(dictionary);
-    for (WordData wd : dl) {
-      assertFalse(wd.getTag() == null);
-    }    
+    TestTools.testDictionary(tagger, Language.ENGLISH);
   }
 
   public void testTagger() throws IOException {

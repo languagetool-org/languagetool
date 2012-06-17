@@ -24,6 +24,9 @@ import java.lang.reflect.Method;
 import java.util.*;
 
 import junit.framework.Assert;
+import morfologik.stemming.*;
+import morfologik.stemming.Dictionary;
+import org.languagetool.tagging.BaseTagger;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tokenizers.SentenceTokenizer;
@@ -204,6 +207,16 @@ public final class TestTools {
     final Method method = targetClass.getDeclaredMethod(methodName, argClasses);
     method.setAccessible(true);
     return (String) method.invoke(null, argObjects);
+  }
+
+  public static void testDictionary(BaseTagger tagger, Language language) throws IOException {
+    final Dictionary dictionary = Dictionary.read(tagger.getClass().getResource(tagger.getFileName()));
+    final DictionaryLookup lookup = new DictionaryLookup(dictionary);
+    for (WordData wordData : lookup) {
+      if (wordData.getTag() == null || wordData.getTag().length() == 0) {
+        System.err.println("**** Warning: " + language + ": the word " + wordData.getWord() + "/" + wordData.getStem() + " lacks a POS tag in the dictionary.");
+      }
+    }
   }
 
 }

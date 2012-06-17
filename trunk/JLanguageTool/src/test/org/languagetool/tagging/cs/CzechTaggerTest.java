@@ -34,17 +34,6 @@ public class CzechTaggerTest extends TestCase {
 	  tokenizer = new WordTokenizer();
 	}
 	
-/*  public void testDictionary() throws IOException {
-    final Dictionary dictionary = Dictionary.read(
-        this.getClass().getResource(tagger.getFileName()));
-    final DictionaryLookup dl = new DictionaryLookup(dictionary);
-    for (WordData wd : dl) {
-      if (wd.getTag() == null || wd.getTag().length() == 0) {
-        System.err.println("**** Warning: the word " + wd.getWord() + "/" + wd.getStem() +" lacks a POS tag in the dictionary.");
-      }
-    }    
-  }*/
-
 	public void testTagger() throws IOException {
 	  //TestTools.myAssert("Ukončuje větu rozkazovací či zvolací.", "Ukončuje/[ukončovat]k5eAaImIp3nS větu/[věta]k1gFnSc4 rozkazovací/[rozkazovací]k2eAgFnPc1d1 či/[či]k8 zvolací/[zvolací]k2eAgFnPc1d1", tokenizer, tagger);
     //TestTools.myAssert("Nahrazuje vynechané písmeno, používá se pro zkracování letopočtů.", "Nahrazuje/[nahrazovat]k5eAaImIp3nS vynechané/[vynechaný]k2eAgFnPc1d1 písmeno/[písmeno]k1gNnSc1|písmeno/[písmena]k1gFnSc5 používá/[používat]k5eAaImIp3nS se/[se]k3c4 pro/[pro]k7 zkracování/[zkracování]k1gNnPc1 letopočtů/[letopočet]k1gInPc2", tokenizer, tagger);

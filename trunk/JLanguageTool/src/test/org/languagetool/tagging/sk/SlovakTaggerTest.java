@@ -18,15 +18,12 @@
  */
 package org.languagetool.tagging.sk;
 
-import java.io.IOException;
-
-import morfologik.stemming.Dictionary;
-import morfologik.stemming.DictionaryLookup;
-import morfologik.stemming.WordData;
-
 import junit.framework.TestCase;
+import org.languagetool.Language;
 import org.languagetool.TestTools;
 import org.languagetool.tokenizers.WordTokenizer;
+
+import java.io.IOException;
 
 public class SlovakTaggerTest extends TestCase {
     
@@ -39,14 +36,7 @@ public class SlovakTaggerTest extends TestCase {
   }
   
   public void testDictionary() throws IOException {
-    final Dictionary dictionary = Dictionary.read(
-        this.getClass().getResource(tagger.getFileName()));
-    final DictionaryLookup dl = new DictionaryLookup(dictionary);
-    for (WordData wd : dl) {
-      if (wd.getTag() == null || wd.getTag().length() == 0) {
-        System.err.println("**** Warning: the word " + wd.getWord() + "/" + wd.getStem() +" lacks a POS tag in the dictionary.");
-      }
-    }    
+    TestTools.testDictionary(tagger, Language.SLOVAK);
   }
 
   public void testTagger() throws IOException {
