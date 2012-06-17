@@ -317,34 +317,49 @@ public abstract class Language {
 	  langList.addAll(externalLanguages);
 	  return langList;
   }
-  
+
+  /**
+   * Get the Language object for the given language name.
+   *
+   * @param languageName e.g. <code>English</code> or <code>German</code> (case is significant)
+   * @return a Language object or <code>null</code>
+   */
+  public static Language getLanguageForName(final String languageName) {
+    for (Language element : Language.LANGUAGES) {
+      if (languageName.equals(element.getName())) {
+        return element;
+      }
+    }
+    return null;
+  }
+
   /**
    * Get the Language object for the given short language name.
-   * 
+   *
    * @param shortLanguageCode e.g. <code>en</code> or <code>de</code>
    * @return a Language object or <code>null</code>
    */
   public static Language getLanguageForShortName(final String shortLanguageCode) {
     StringTools.assureSet(shortLanguageCode, "shortLanguageCode");
-    	
+
     if (shortLanguageCode.indexOf('-') != -1) {
     	final String[] parts = shortLanguageCode.split("-");
     	if (parts.length != 2) {
-    		throw new IllegalArgumentException("'" + shortLanguageCode + "' isn't a valid language code"); 
+    		throw new IllegalArgumentException("'" + shortLanguageCode + "' isn't a valid language code");
     	}
     	for (Language element : Language.LANGUAGES) {
     		if (parts[0].equals(element.getShortName())
-    				&& element.getCountryVariants().length == 1    				
+    				&& element.getCountryVariants().length == 1
     				&& parts[1].equals(element.getCountryVariants()[0])) {
     			return element;
     		}
     	}
     	throw new IllegalArgumentException("'" + shortLanguageCode + "' is not a language code known to LanguageTool");
-    }	  
+    }
     if (shortLanguageCode.length() != "xx".length() && shortLanguageCode.length() != "xxx".length()) {
       throw new IllegalArgumentException("'" + shortLanguageCode + "' isn't a two- or three-character code");
     }
-        
+
     for (Language element : Language.LANGUAGES) {
       if (shortLanguageCode.equals(element.getShortName())) {
         return element;
@@ -402,21 +417,6 @@ public abstract class Language {
     return null;
   }
 
-  /**
-   * Get the Language object for the given language name.
-   * 
-   * @param languageName e.g. <code>English</code> or <code>German</code> (case is significant)
-   * @return a Language object or <code>null</code>
-   */
-  public static Language getLanguageForName(final String languageName) {
-    for (Language element : Language.LANGUAGES) {
-      if (languageName.equals(element.getName())) {
-        return element;
-      }
-    }
-    return null;
-  }  
-  
   @Override
   public final String toString() {
     return getName();

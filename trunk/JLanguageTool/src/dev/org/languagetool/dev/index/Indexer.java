@@ -102,12 +102,12 @@ public class Indexer {
 
   public static void run(String content, Directory dir, Language language, boolean isSentence) throws IOException {
     final BufferedReader br = new BufferedReader(new StringReader(content));
-      final Indexer indexer = new Indexer(dir, language);
-      try {
-        run(br, indexer, isSentence);
-      } finally {
-        indexer.close();
-      }
+    final Indexer indexer = new Indexer(dir, language);
+    try {
+      run(br, indexer, isSentence);
+    } finally {
+      indexer.close();
+    }
   }
 
   public static void run(BufferedReader reader, Indexer indexer, boolean isSentence) throws IOException {
