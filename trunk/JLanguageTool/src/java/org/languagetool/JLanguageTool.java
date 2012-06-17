@@ -637,7 +637,7 @@ public final class JLanguageTool {
     if (lastLineBreakPosInError == -1) {
       endColumn = sentencePartToEndOfError.length() + columnCount + 1;
     } else {
-      endColumn = sentencePartToEndOfError.length() - lastLineBreakPos;
+      endColumn = sentencePartToEndOfError.length() - lastLineBreakPosInError;
     }
     final int lineBreaksToError = countLineBreaks(sentencePartToError);
     final int lineBreaksToEndOfError = countLineBreaks(sentencePartToEndOfError);
