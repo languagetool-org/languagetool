@@ -83,13 +83,13 @@ public class PatternRuleQueryBuilder {
       } else {
         // create an empty token for the unsupported token, so that it can match any term with any
         // POS tag.
-        if (patternElement.hasExceptionList()) {
+        if (patternElement.hasExceptionList() && !patternElement.getString().isEmpty()) {
           // having an exception causes the rule not to be supported but we can ignore it
           // and search for the token to get a super set of matches:
           tokenQuery = createTokenQuery(patternElement.getString(), patternElement.getNegation(),
                   patternElement.isRegularExpression(), patternElement.getCaseSensitive());
         } else {
-          tokenQuery = createTokenQuery("", false, false, false);
+          tokenQuery = new POSAwaredSpanRegexQuery(new Term(FIELD_NAME, ".*"), false);
         }
       }
 

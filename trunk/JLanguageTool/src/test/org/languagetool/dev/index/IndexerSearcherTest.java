@@ -18,10 +18,14 @@
  */
 package org.languagetool.dev.index;
 
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.util.LuceneTestCase;
+import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.rules.IncorrectExample;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.Element;
@@ -29,6 +33,7 @@ import org.languagetool.rules.patterns.PatternRule;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -54,7 +59,105 @@ public class IndexerSearcherTest extends LuceneTestCase {
     super.tearDown();
   }
 
-  public void testIndexerSearcher() throws Exception {
+  // TODO: ignored as long as it doesn't work 100%
+  public void IGNOREtestAllRules() throws Exception {
+    directory = newDirectory();
+    //directory = FSDirectory.open(new File("/tmp/lucenetest"));
+    // TODO: make this work for all languages
+    final Language language = Language.ENGLISH;
+    final JLanguageTool lt = new JLanguageTool(language);
+    lt.activateDefaultPatternRules();
+    System.out.println("Creating index...");
+    createIndex(language, lt);
+    System.out.println("Done.");
+
+    int ruleCounter = 0;
+    int ruleProblems = 0;
+    searcher = new IndexSearcher(directory);
+    final List<Rule> rules = lt.getAllActiveRules();
+    for (Rule rule : rules) {
+      if (rule instanceof PatternRule && !rule.isDefaultOff()) {
+        final PatternRule patternRule = (PatternRule) rule;
+        try {
+          ruleCounter++;
+          final SearcherResult searcherResult = errorSearcher.findRuleMatchesOnIndex(patternRule, language, searcher);
+          final List<MatchingSentence> matchingSentences = searcherResult.getMatchingSentences();
+          boolean foundExpectedMatch = false;
+          for (MatchingSentence matchingSentence : matchingSentences) {
+            final List<RuleMatch> ruleMatches = matchingSentence.getRuleMatches();
+            final List<String> ruleMatchIds = getRuleMatchIds(ruleMatches);
+            if (ruleMatchIds.contains(getFullId(patternRule))) {
+              foundExpectedMatch = true;
+              break;
+            }
+          }
+          if (!foundExpectedMatch) {
+            System.out.println("Error: No match found for " + patternRule);
+            ruleProblems++;
+          }
+        } catch (NullPointerException e) {
+          // happens when a rule has only inflected tokens or only tokens with exceptions
+          System.out.println("NullPointerException searching for rule " + getFullId(patternRule));
+          ruleProblems++;
+        }
+      }
+    }
+    System.out.println(language + ": problems: " + ruleProblems + ", total rules: " + ruleCounter);
+
+  }
+
+  private String getFullId(PatternRule patternRule) {
+    return patternRule.getId() + "[" + patternRule.getSubId() + "]";
+  }
+
+  private List<String> getRuleMatchIds(List<RuleMatch> ruleMatches) {
+    final List<String> ids = new ArrayList<String>();
+    for (RuleMatch ruleMatch : ruleMatches) {
+      if (ruleMatch.getRule() instanceof PatternRule) {
+        final PatternRule patternRule = (PatternRule) ruleMatch.getRule();
+        ids.add(getFullId(patternRule));
+      }
+    }
+    return ids;
+  }
+
+  private void createIndex(Language language, JLanguageTool lt) throws IOException {
+    final Indexer indexer = new Indexer(directory, language);
+    try {
+      final List<Rule> rules = lt.getAllActiveRules();
+      for (Rule rule : rules) {
+        if (rule instanceof PatternRule && !rule.isDefaultOff()) {
+          final PatternRule patternRule = (PatternRule) rule;
+          //final List<String> correctExamples = rule.getCorrectExamples();   // TODO: also check non-match for correct sentences
+          final List<IncorrectExample> incorrectExamples = rule.getIncorrectExamples();
+          final Document doc = new Document();
+          doc.add(new Field("ruleId", getFullId(patternRule), Field.Store.YES, Field.Index.NOT_ANALYZED));
+          for (IncorrectExample incorrectExample : incorrectExamples) {
+            final String example = incorrectExample.getExample().replaceAll("</?marker>", "");
+            doc.add(new Field(PatternRuleQueryBuilder.FIELD_NAME, example, Field.Store.YES, Field.Index.ANALYZED));
+          }
+          indexer.add(doc);
+        }
+      }
+    } finally {
+      indexer.close();
+    }
+  }
+
+  /* for debugging
+  public void testForDebugging() throws Exception {
+    // Note that the second sentence ends with "lid" instead of "lids" (the inflated one)
+    createIndex("I thin that's true.");
+    SearcherResult searcherResult =
+            errorSearcher.findRuleMatchesOnIndex(getRule("I_THIN"), Language.ENGLISH, searcher);
+    System.out.println("matches: " + searcherResult.getMatchingSentences());
+    assertEquals(false, searcherResult.isResultIsTimeLimited());
+    assertEquals(1, searcherResult.getMatchingSentences().size());
+    //assertEquals(false, searcherResult.isRelaxedQuery());
+  }
+  */
+
+  public void testIndexerSearcherWithEnglish() throws Exception {
     // Note that the second sentence ends with "lid" instead of "lids" (the inflated one)
     createIndex("How to move back and fourth from linux to xmb? Calcium deposits on eye lid.");
     SearcherResult searcherResult =
@@ -181,6 +284,32 @@ public class IndexerSearcherTest extends LuceneTestCase {
       assertEquals(1, searcherResult.getCheckedSentences());
       assertEquals(1, searcherResult.getMatchingSentences().size());
       assertEquals(true, searcherResult.isRelaxedQuery());
+      final List<RuleMatch> ruleMatches = searcherResult.getMatchingSentences().get(0).getRuleMatches();
+      assertEquals(1, ruleMatches.size());
+      final Rule rule = ruleMatches.get(0).getRule();
+      assertEquals("RULE1", rule.getId());
+    } finally {
+      indexSearcher.close();
+    }
+  }
+
+  // TODO: known to fail, see TODO in LanguageToolFilter
+  public void IGNOREtestNegatedMatchAtSentenceStart() throws Exception {
+    createIndex("How to move?");
+    final Searcher errorSearcher = new Searcher();
+    final Element negatedElement = new Element("Negated", false, false, false);
+    negatedElement.setNegation(true);
+    final List<Element> elements = Arrays.asList(
+            negatedElement,
+            new Element("How", false, false, false)
+    );
+    final PatternRule rule1 = new PatternRule("RULE1", Language.ENGLISH, elements, "desc", "msg", "shortMsg");
+    final IndexSearcher indexSearcher = new IndexSearcher(directory);
+    try {
+      final SearcherResult searcherResult = errorSearcher.findRuleMatchesOnIndex(rule1, Language.ENGLISH, indexSearcher);
+      assertEquals(1, searcherResult.getCheckedSentences());
+      assertEquals(1, searcherResult.getMatchingSentences().size());
+      assertEquals(false, searcherResult.isRelaxedQuery());
       final List<RuleMatch> ruleMatches = searcherResult.getMatchingSentences().get(0).getRuleMatches();
       assertEquals(1, ruleMatches.size());
       final Rule rule = ruleMatches.get(0).getRule();

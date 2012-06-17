@@ -44,24 +44,17 @@ import org.languagetool.JLanguageTool;
  */
 public final class LanguageToolFilter extends TokenFilter {
 
+  static final String POS_PREFIX = "_POS_";
+
   private final JLanguageTool languageTool;
-
-  private Iterator<AnalyzedTokenReadings> tokenIter;
-
-  // stack for POS
   private final Stack<String> posStack;
-
   private final CharTermAttribute termAtt;
-
   private final OffsetAttribute offsetAtt;
-
   private final PositionIncrementAttribute posIncrAtt;
-
   private final TypeAttribute typeAtt;
 
   private AttributeSource.State current;
-
-  public static final String POS_PREFIX = "_POS_";
+  private Iterator<AnalyzedTokenReadings> tokenIter;
 
   protected LanguageToolFilter(TokenStream input, JLanguageTool languageTool) {
     super(input);
@@ -112,6 +105,9 @@ public final class LanguageToolFilter extends TokenFilter {
 
     // add POS tag for sentence start.
     if (tr.isSentStart()) {
+      // TODO: would be needed so negated tokens can match on something (see testNegatedMatchAtSentenceStart())
+      // but breaks other cases:
+      //termAtt.append("SENT_START");
       typeAtt.setType("pos");
       termAtt.append(POS_PREFIX + tr.getAnalyzedToken(0).getPOSTag());
       return true;

@@ -133,6 +133,10 @@ public class Indexer {
     }
   }
 
+  public void add(Document doc) throws IOException {
+    writer.addDocument(doc);
+  }
+
   private void add(int docCount, String sentence) throws IOException {
     final Document doc = new Document();
     doc.add(new Field(PatternRuleQueryBuilder.FIELD_NAME, sentence, Store.YES, Index.ANALYZED));
