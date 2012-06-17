@@ -19,6 +19,7 @@
 package org.languagetool.tokenizers.ro;
 
 import junit.framework.TestCase;
+import org.languagetool.Language;
 import org.languagetool.TestTools;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
@@ -32,9 +33,9 @@ import org.languagetool.tokenizers.SentenceTokenizer;
 public class RomanianSentenceTokenizerTest extends TestCase {
 
 	  // accept \n as paragraph:
-	  private SentenceTokenizer stokenizer = new SRXSentenceTokenizer("ro");
+	  private final SentenceTokenizer stokenizer = new SRXSentenceTokenizer(Language.ROMANIAN);
 	  // accept only \n\n as paragraph:
-	  private SentenceTokenizer stokenizer2 = new SRXSentenceTokenizer("ro");
+	  private final SentenceTokenizer stokenizer2 = new SRXSentenceTokenizer(Language.ROMANIAN);
 
 	  public final void setUp() {
 	    stokenizer.setSingleLineBreaksMarksParagraph(true);

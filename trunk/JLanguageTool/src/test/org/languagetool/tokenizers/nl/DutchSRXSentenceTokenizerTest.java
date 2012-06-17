@@ -19,6 +19,7 @@
 package org.languagetool.tokenizers.nl;
 
 import junit.framework.TestCase;
+import org.languagetool.Language;
 import org.languagetool.TestTools;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 
@@ -28,7 +29,7 @@ import org.languagetool.tokenizers.SRXSentenceTokenizer;
  */
 public class DutchSRXSentenceTokenizerTest extends TestCase {
 
-  private SRXSentenceTokenizer stokenizer = new SRXSentenceTokenizer("nl");
+  private final SRXSentenceTokenizer stokenizer = new SRXSentenceTokenizer(Language.DUTCH);
 
   public void setUp() {
     stokenizer.setSingleLineBreaksMarksParagraph(true);  

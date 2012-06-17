@@ -20,6 +20,7 @@
 package org.languagetool.tokenizers.sk;
 
 import junit.framework.TestCase;
+import org.languagetool.Language;
 import org.languagetool.TestTools;
 import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
@@ -27,9 +28,9 @@ import org.languagetool.tokenizers.SRXSentenceTokenizer;
 public class SlovakSentenceTokenizerTest extends TestCase {
 
   // accept \n as paragraph:
-  private SentenceTokenizer stokenizer = new SRXSentenceTokenizer("sk");
+  private final SentenceTokenizer stokenizer = new SRXSentenceTokenizer(Language.SLOVAK);
   // accept only \n\n as paragraph:
-  private SentenceTokenizer stokenizer2 = new SRXSentenceTokenizer("sk");
+  private final SentenceTokenizer stokenizer2 = new SRXSentenceTokenizer(Language.SLOVAK);
 
   public final void setUp() {
     stokenizer.setSingleLineBreaksMarksParagraph(true);
@@ -136,7 +137,7 @@ public class SlovakSentenceTokenizerTest extends TestCase {
         "He lives in Spain now." });
   }
 
-  private final void testSplit(final String[] sentences) {
+  private void testSplit(final String[] sentences) {
     TestTools.testSplit(sentences, stokenizer2);
   }
 

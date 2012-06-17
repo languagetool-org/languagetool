@@ -91,7 +91,7 @@ public class Dutch extends Language {
   @Override
   public final SentenceTokenizer getSentenceTokenizer() {
     if (sentenceTokenizer == null) {
-      sentenceTokenizer = new SRXSentenceTokenizer(getShortName());
+      sentenceTokenizer = new SRXSentenceTokenizer(this);
     }
     return sentenceTokenizer;
   }

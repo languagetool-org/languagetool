@@ -19,6 +19,7 @@
 package org.languagetool.tokenizers.de;
 
 import junit.framework.TestCase;
+import org.languagetool.Language;
 import org.languagetool.TestTools;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 
@@ -28,9 +29,9 @@ import org.languagetool.tokenizers.SRXSentenceTokenizer;
 public class GermanSRXSentenceTokenizerTest extends TestCase {
 
   // accept \n as paragraph:
-  private SRXSentenceTokenizer stokenizer = new SRXSentenceTokenizer("de");
+  private final SRXSentenceTokenizer stokenizer = new SRXSentenceTokenizer(Language.GERMAN);
   // accept only \n\n as paragraph:
-  private SRXSentenceTokenizer stokenizer2 = new SRXSentenceTokenizer("de");
+  private final SRXSentenceTokenizer stokenizer2 = new SRXSentenceTokenizer(Language.GERMAN);
   
   public void setUp() {
     stokenizer.setSingleLineBreaksMarksParagraph(true);  

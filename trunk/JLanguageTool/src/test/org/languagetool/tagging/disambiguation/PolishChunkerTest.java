@@ -22,6 +22,7 @@ package org.languagetool.tagging.disambiguation;
 import java.io.IOException;
 
 import junit.framework.TestCase;
+import org.languagetool.Language;
 import org.languagetool.TestTools;
 import org.languagetool.tagging.pl.PolishTagger;
 import org.languagetool.tokenizers.SentenceTokenizer;
@@ -38,7 +39,7 @@ public class PolishChunkerTest extends TestCase {
     public void setUp() {
       tagger = new PolishTagger();
       tokenizer = new WordTokenizer();
-      sentenceTokenizer = new SRXSentenceTokenizer("pl"); 
+      sentenceTokenizer = new SRXSentenceTokenizer(Language.POLISH);
       disambiguator = new MultiWordChunker("/pl/multiwords.txt");      
     }
 

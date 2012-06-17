@@ -28,9 +28,9 @@ import org.languagetool.TestTools;
 public class SRXSentenceTokenizerTest extends TestCase {
 
   // accept \n as paragraph:
-  private SentenceTokenizer stokenizer = new SRXSentenceTokenizer("en");
+  private final SentenceTokenizer stokenizer = new SRXSentenceTokenizer(Language.ENGLISH);
   // accept only \n\n as paragraph:
-  private SentenceTokenizer stokenizer2 = new SRXSentenceTokenizer("en");
+  private final SentenceTokenizer stokenizer2 = new SRXSentenceTokenizer(Language.ENGLISH);
 
   public void setUp() {
     stokenizer.setSingleLineBreaksMarksParagraph(true);  
@@ -114,7 +114,7 @@ public class SRXSentenceTokenizerTest extends TestCase {
         continue;
       }
       final String input = "A sentence.\u0002 And another one.";
-      final SentenceTokenizer tokenizer = new SRXSentenceTokenizer(language.getShortName());
+      final SentenceTokenizer tokenizer = new SRXSentenceTokenizer(language);
       assertEquals("Sentence not split correctly for " + language + ": '" + input + "'",
               "[A sentence.\u0002 , And another one.]", tokenizer.tokenize(input).toString());
     }

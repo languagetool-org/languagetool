@@ -81,7 +81,7 @@ public class Portuguese extends Language {
 	  @Override
 	  public SentenceTokenizer getSentenceTokenizer() {
 	    if (sentenceTokenizer == null) {
-	      sentenceTokenizer = new SRXSentenceTokenizer(getShortName());
+	      sentenceTokenizer = new SRXSentenceTokenizer(this);
 	    }
 	    return sentenceTokenizer;
 	  }

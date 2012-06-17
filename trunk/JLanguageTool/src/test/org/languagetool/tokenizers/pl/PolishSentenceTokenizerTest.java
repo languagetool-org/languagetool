@@ -20,6 +20,7 @@
 package org.languagetool.tokenizers.pl;
 
 import junit.framework.TestCase;
+import org.languagetool.Language;
 import org.languagetool.TestTools;
 import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
@@ -27,9 +28,9 @@ import org.languagetool.tokenizers.SRXSentenceTokenizer;
 public class PolishSentenceTokenizerTest extends TestCase {
 
   // accept \n as paragraph:
-  private SentenceTokenizer stokenizer = new SRXSentenceTokenizer("pl");
+  private final SentenceTokenizer stokenizer = new SRXSentenceTokenizer(Language.POLISH);
   // accept only \n\n as paragraph:
-  private SentenceTokenizer stokenizer2 = new SRXSentenceTokenizer("pl");
+  private final SentenceTokenizer stokenizer2 = new SRXSentenceTokenizer(Language.POLISH);
 
   public final void setUp() {
     stokenizer.setSingleLineBreaksMarksParagraph(true);
@@ -145,7 +146,7 @@ public class PolishSentenceTokenizerTest extends TestCase {
     testSplit(new String[] { "Mam w magazynie dwie skrzynie LMD20. ", "Jestem żołnierzem i wiem, jak można ich użyć"});
   }
 
-  private final void testSplit(final String[] sentences) {
+  private void testSplit(final String[] sentences) {
     TestTools.testSplit(sentences, stokenizer2);
   }
 

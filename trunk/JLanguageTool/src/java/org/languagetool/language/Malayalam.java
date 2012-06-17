@@ -44,7 +44,7 @@ public class Malayalam extends Language {
   @Override
   public final SentenceTokenizer getSentenceTokenizer() {
     if (sentenceTokenizer == null) {
-      sentenceTokenizer = new SRXSentenceTokenizer("en");
+      sentenceTokenizer = new SRXSentenceTokenizer(Language.ENGLISH);
     }
     return sentenceTokenizer;
   }

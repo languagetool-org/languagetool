@@ -24,6 +24,7 @@ import net.sourceforge.segment.srx.SrxParser;
 import net.sourceforge.segment.srx.SrxTextIterator;
 import net.sourceforge.segment.srx.io.Srx2SaxParser;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -44,7 +45,7 @@ public class SRXSentenceTokenizer extends SentenceTokenizer {
   private static final String RULES = "/segment.srx";
   private static final SrxDocument document = createSrxDocument();
 
-  private final String language;
+  private final String languageCode;
 
   private String parCode;
 
@@ -77,15 +78,15 @@ public class SRXSentenceTokenizer extends SentenceTokenizer {
     }
   }
 
-  public SRXSentenceTokenizer(final String language) {
-    this.language = language;
+  public SRXSentenceTokenizer(final Language language) {
+    this.languageCode = language.getShortName();
     setSingleLineBreaksMarksParagraph(false);
   }
 
   @Override
   public final List<String> tokenize(final String text) {
     final List<String> segments = new ArrayList<String>();
-    final TextIterator textIterator = new SrxTextIterator(document, language + parCode, text);
+    final TextIterator textIterator = new SrxTextIterator(document, languageCode + parCode, text);
     while (textIterator.hasNext()) {
       segments.add(textIterator.next());
     }

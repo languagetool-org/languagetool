@@ -20,6 +20,7 @@
 package org.languagetool.tokenizers;
 
 import junit.framework.TestCase;
+import org.languagetool.Language;
 import org.languagetool.TestTools;
 
 /*
@@ -31,9 +32,9 @@ import org.languagetool.TestTools;
 public class RussianSRXSentenceTokenizerTest extends TestCase {
 
   // accept \n as paragraph:
-  private SentenceTokenizer stokenizer = new SRXSentenceTokenizer("ru");
+  private final SentenceTokenizer stokenizer = new SRXSentenceTokenizer(Language.RUSSIAN);
   // accept only \n\n as paragraph:
-  private SentenceTokenizer stokenizer2 = new SRXSentenceTokenizer("ru");
+  private final SentenceTokenizer stokenizer2 = new SRXSentenceTokenizer(Language.RUSSIAN);
   
   
   public final void setUp() {

@@ -19,6 +19,7 @@
 package org.languagetool.tokenizers.da;
 
 import junit.framework.TestCase;
+import org.languagetool.Language;
 import org.languagetool.TestTools;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 
@@ -28,7 +29,7 @@ import org.languagetool.tokenizers.SRXSentenceTokenizer;
 public class DanishSRXSentenceTokenizerTest extends TestCase {
 
   // accept \n as paragraph:
-  private final SRXSentenceTokenizer stokenizer = new SRXSentenceTokenizer("da");
+  private final SRXSentenceTokenizer stokenizer = new SRXSentenceTokenizer(Language.DANISH);
 
   public void setUp() {
     stokenizer.setSingleLineBreaksMarksParagraph(true);
