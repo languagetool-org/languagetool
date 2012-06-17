@@ -19,7 +19,7 @@ LanguageTool Change Log
     also see http://www.merriam-webster.com/dictionary/a%5B2%5D
    -fixes in the tagger dictionary and disambiguation rules to reduce false alarms
    -added British and American English spelling dictionaries
-   -added some rules to detect typical American expressions in British English 
+   -added some rules to detect typical American expressions in British English
 
  -Catalan:
    -major update, including many new rules and new tokenization (Jaume Ortolà i Font)
@@ -30,7 +30,7 @@ LanguageTool Change Log
  -Russian:
    -fixed a few false alarms
    -added URL element for some rules with URL with more information about this rule
-   -added spellcheck dictionary for standalone version.    
+   -added spellcheck dictionary for standalone version.
 
  -Italian:
    -several new rules (Riccardo Murri and Agnese Dal Borgo)
@@ -42,13 +42,16 @@ LanguageTool Change Log
    -added spelling check dictionary for the standalone version
 
  -Breton
+   -updated dictionary to use Apertium svn r38896.
    -several new rules and fixed false alarms
+   -added some references to the Breton grammar:
+    "La grammaire bretonne pour tous (Eugène CHALM)".
    -added spelling check dictionary for the standalone version
-   
+
  -Polish
    -added spelling check dictionary for the standalone version
    -major update of the tagger dictionary
-   
+
  -Portuguese
   -initial support by Marco A.G. Pinto
 
@@ -57,7 +60,7 @@ LanguageTool Change Log
    -added <url> for further information about errors with links to
     PMEG (Plena Manlibro de Esperanto) with permission of its
     author Bertilo Wennergren, and to Lernu.net also with
-    permission of the lernu team.    
+    permission of the lernu team.
 
  -If a LanguageTool rule has an URL with more information, the
   grammar checking dialog in LibreOffice will now offer a "More..." link
@@ -71,59 +74,59 @@ LanguageTool Change Log
 
  -LibreOffice / OpenOffice integration: Fixed false alarm about word being
   uppercase when the previous sentence ended with a footnote - Sourceforge bug #3534637
-  
+
  -LanguageTool supports now separate rules for different local variants of a language,
-  for example American English and British English. To use them from the command line, 
+  for example American English and British English. To use them from the command line,
   simply use "en-US" or "en-GB" as the language code. This implements sf.net feature
   suggestion #3287388.
-  
+
  -In verbose mode, the log of the rule-based disambiguator actions is displayed.
-  
+
  -LanguageTool in the standalone version supports now spell-checking via hunspell.
-  There are two distribution files: a .zip file for standalone use, 
-  and an .oxt extension for LibreOffice/ApacheOpenOffice. All languages supported by 
+  There are two distribution files: a .zip file for standalone use,
+  and an .oxt extension for LibreOffice/ApacheOpenOffice. All languages supported by
   LanguageTool, except for Chinese, have spelling dictionaries bundled with the standalone
   version. Spell-checking errors appear in red in the LanguageTool standalone
   version, other errors appear in blue.
-  
- -If you start the HTTP Server from the GUI, it now reads the configuration files 
-  that are configured in the GUI (if the appropriate checkbox is set). 
+
+ -If you start the HTTP Server from the GUI, it now reads the configuration files
+  that are configured in the GUI (if the appropriate checkbox is set).
   This way the user can control the behavior of the server easily.
-  
+
  -The configuration file now stores settings individually for all languages. This means
-  that you can enable spellcheck for American English, disable it for Polish, and British 
+  that you can enable spellcheck for American English, disable it for Polish, and British
   English, and all this settings will be saved separately.
-  
- -Two new options for the HTTP Server added: "disabled" and "enabled", which is used 
-  to disable or enable rules in the same way as on the command-line. 
+
+ -Two new options for the HTTP Server added: "disabled" and "enabled", which is used
+  to disable or enable rules in the same way as on the command-line.
 
  -The XML format for rules has been changed to use <marker>...</marker> tags instead
   of mark_from and mark_to attributes
-  
- -Now it is possible to suppress misspelled suggestions altogether in XML rules by applying 
+
+ -Now it is possible to suppress misspelled suggestions altogether in XML rules by applying
   an attribute suppress_misspelled="yes" on the <suggestion> element, AND on the <match>
   element. If only <match> element has this attribute set to "yes", then the suggestion is
   displayed, but no content of <match> is contained within (this might be a conditional part
   of the suggestion). Note: for this to work, the tagger dictionary needs to be fairly complete;
-  words without lemmas and POS tags are considered to be misspelled.   
-  
+  words without lemmas and POS tags are considered to be misspelled.
+
  -GUI: made the result of "Tag Text" more readable
 
  -Improved startup speed (Jarek Lipski)
 
  -Overlapping rule matches are filtered now so that only the first match per <rulegroup> is kept
- 
- -In the profiling rules' mode on the command-line, you can now enable 
+
+ -In the profiling rules' mode on the command-line, you can now enable
   and disable rules.
-  
- -Some internal bug fixing in disambiguation and pattern rules, including problems 
+
+ -Some internal bug fixing in disambiguation and pattern rules, including problems
   with unification.
- 
+
  -Update of morfologik-stemming library to 1.5.3 (bug-fix release).
 
  -API: Deprecated some methods and the SentenceTokenizer class (SRXSentenceTokenizer should be
   used instead)
- 
+
 
 1.7 (2012-03-25)
 
