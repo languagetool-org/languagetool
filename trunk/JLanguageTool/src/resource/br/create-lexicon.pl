@@ -15,10 +15,14 @@
 #
 # 1) Download the Apertium Breton dictionary:
 #    $ svn co https://apertium.svn.sourceforge.net/svnroot/apertium/trunk/apertium-br-fr
+#    $ cd apertium-br-fr/
 # 2) Install Apertium tools:
 #    $ sudo apt-get install lttoolbox
+# 3) Download morfologik-stemming-1.4.0.zip from
+#    http://sourceforge.net/projects/morfologik/files/morfologik-stemming/1.4.0/
+#    $ unzip morfologik-stemming-1.4.0.zip
+#    This creates morfologik-stemming-nodict-1.4.0.jar
 # 3) Run the script:
-#    $ cd apertium-br-fr/
 #    $ ./create-lexicon.pl
 #
 # Author: Dominique Pelle <dominique.pelle@gmail.com>
@@ -50,6 +54,7 @@ my @anv_lies_tud = (
   "Alamaned",
   "Amerikaned",
   "Angled",
+  "Barbared",           "Varbared",       "Parbared",
   "Bretoned",           "Vretoned",       "Pretoned",
   "Brezhoned",          "Vrezhoned",      "Prezhoned",
   "Eskimoed",
@@ -224,6 +229,8 @@ my @anv_lies_tud = (
   "deuñvien",           "zeuñvien",       "teuñvien",
   "dezvarnourien",      "zezvarnourien",  "tezvarnourien",
   "diazezerien",        "ziazezerien",    "tiazezerien",
+  "diazezourien",       "ziazezourien",   "tiazezourien",
+  "diazezourion",       "ziazezourion",   "tiazezourion",
   "dibaberien",         "zibaberien",     "tibaberien",
   "dibennerien",        "zibennerien",    "tibennerien",
   "dibunerien",         "zibunerien",     "tibunerien",
@@ -297,9 +304,11 @@ my @anv_lies_tud = (
   "gouerien",           "c’houerien",     "kouerien",
   "gouizieien",         "c’houizieien",   "kouizieien",
   "gourdonerien",       "c’hourdonerien", "kourdonerien",
+  "gourenerien",        "c’hourenerien",  "kourenerien",
   "goved",              "c’hoved",        "koved",
   "gwazed",             "wazed",          "kwazed",
   "gwenanerien",        "wenanerien",     "kwenanerien",
+  "gwarded",            "warded",         "kwarded",
   "gwerzherien",        "werzherien",     "kwerzherien",
   "gwiaderien",         "wiaderien",      "kwiaderien",
   "gwiaderion",         "wiaderion",      "kwiaderion",
@@ -489,6 +498,8 @@ my @anv_lies_tud = (
   "mistri-skol",        "vistri-skol",
   "mistri-vicherour",   "vistri-vicherour",
   "monitourien",        "vonitourien",
+  "moraerien",          "voraerien",
+  "moraerion",          "voraerion",
   "morlaeron",          "vorlaeron",
   "moruteaerien",       "voruteaerien",
   "mouezhierien",       "vouezhierien",
@@ -909,7 +920,9 @@ while (<LT_EXPAND>) {
     }
 
     my ($first_letter_lemma) = $lemma =~ /^(gw|[ktpgdbm]).*/i;
-    my ($first_letter_word)  = $word  =~ /^([kg]w|c’h|[gdbzfktvpw]).*/i;
+    $first_letter_lemma = "" unless (defined $first_letter_lemma);
+    my ($first_letter_word) = $word  =~ /^([kg]w|c’h|[gdbzfktvpw]).*/i;
+    $first_letter_word = "" unless (defined $first_letter_word);
     $first_letter_lemma = lc $first_letter_lemma;
     $first_letter_word  = lc $first_letter_word;
 
@@ -980,6 +993,14 @@ while (<LT_EXPAND>) {
   }
 }
 print "handled [$out_count] words, unhandled [$err_count] words\n";
+
+# Adding missing words in dictionary.
+# kiz exists only in expressions in Apertium (which is OK) but
+# for LanguageTool, it's easier to make it a normal word so we
+# don't give false positive on "war ho c'hiz", etc.
+print OUT "kiz\tkiz\tN f s\n";
+print OUT "c’hiz\tkiz\tN f s M:0a:2:\n";
+print OUT "giz\tkiz\tN f s M:1:1a:\n";
 
 print "Lemma words missing from dictionary:\n";
 foreach (sort keys %all_lemmas) { print "$_\n" unless (exists $all_words{$_}); }
