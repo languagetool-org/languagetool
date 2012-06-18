@@ -40,7 +40,7 @@ import morfologik.stemming.Dictionary;
 
 public abstract class MorfologikSpellerRule extends SpellingCheckRule {
 
-    protected Speller speller;
+    private Speller speller;
     
     private Locale conversionLocale = Locale.getDefault();
     
