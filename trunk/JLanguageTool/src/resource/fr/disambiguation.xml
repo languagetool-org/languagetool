@@ -637,6 +637,18 @@ RB => Règles Brutes
         <example type="ambiguous" inputform="livre[livre/N e s,livrer/V imp pres 2 s,livrer/V ind pres 1 s,livrer/V ind pres 3 s,livrer/V sub pres 1 s,livrer/V sub pres 3 s]" outputform="livre[livre/N e s]">Il a enfin publié son <marker>livre</marker>.</example>
     </rule>
 
+    <!-- This is to catch frequent errors such as "J'ai manger" which would not
+         be caught without disambiguation as "manger" can also be a noun -->
+    <rule name="Etre/Avoir + verb" id="ETRE_AVOIR_V_ER">
+        <pattern>
+            <token postag="V avoir .*" postag_regexp="yes"></token>
+            <marker>
+                <token regexp="yes" postag="V inf">.*er</token>
+            </marker>
+        </pattern>
+        <disambig postag="V inf"/>
+    </rule>
+
     <rulegroup name="RP : Etre/avoir + participe passé ambigu" id="RP-ÊTRE_AVOIR_VPPA_AMBIG">
         <rule name="ppa masc sing">
             <pattern>
