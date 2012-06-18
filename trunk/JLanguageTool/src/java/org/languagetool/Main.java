@@ -284,6 +284,9 @@ class Main {
           if (profileRules) {
             sentences += lt.sentenceTokenize(sb.toString()).size();
           }
+          if (apiFormat && !taggerOnly && !applySuggestions) {
+              System.out.println("</matches>");
+          }
           if (listUnknownWords && !taggerOnly) {
             for (String word : lt.getUnknownWords()) {
               if (!unknownWords.contains(word)) {

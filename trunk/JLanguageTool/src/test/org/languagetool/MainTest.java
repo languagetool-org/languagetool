@@ -124,7 +124,9 @@ public class MainTest extends AbstractSecurityTestCase {
 
     Main.main(args);
     String output = new String(this.out.toByteArray());
-    assertEquals("This is a test.\n", output);
+    assertEquals("This is a test.\n\n" +
+    "This is a test of language tool.\n\n" +
+    "This is a test of language tool.\n", output);
   }
 
   
@@ -162,6 +164,18 @@ public class MainTest extends AbstractSecurityTestCase {
     String output = new String(this.out.toByteArray());
     assertEquals("This is a test.\n", output);
   }
+  
+  public void testEnglishStdIn4() throws Exception {      
+      System.setIn(this.getClass().getResourceAsStream(ENGLISH_TEST_FILE));
+      String[] args = new String[] {"-l", "en", "--api", "-"};
+
+      Main.main(args);
+      String output = new String(this.out.toByteArray());
+      assertTrue(output.contains("<error fromy=\"4\" fromx=\"5\" toy=\"4\" tox=\"10\" ruleId=\"ENGLISH_WORD_REPEAT_RULE\" msg=\"Possible typo: you repeated a word\" replacements=\"is\" context=\"This is is a test of language tool. \" contextoffset=\"5\" errorlength=\"5\"/>"));
+    
+  }
+    
+      
   
   //test line mode vs. para mode
   //first line mode
@@ -258,9 +272,9 @@ public class MainTest extends AbstractSecurityTestCase {
     Main.main(args);
     String output = new String(this.out.toByteArray());
     assertTrue(output.indexOf("<?xml version=\"1.0\" encoding=\"UTF-8\"?>") == 0);
-    assertTrue(output.contains("<error fromy=\"0\" fromx=\"8\" toy=\"0\" tox=\"11\" ruleId=\"EN_A_VS_AN\" " +
+    assertTrue(output.contains("<error fromy=\"0\" fromx=\"8\" toy=\"0\" tox=\"10\" ruleId=\"EN_A_VS_AN\" " +
             "msg=\"Use 'a' instead of 'an' if the following word doesn't start with a vowel sound, e.g. 'a sentence', " +
-            "'a university'\" replacements=\"a\" context=\"This is an test. \" contextoffset=\"8\" errorlength=\"2\"/>"));
+            "'a university'\" replacements=\"a\" context=\"This is an test.  This is a test of of language tool.  ...\" contextoffset=\"8\" errorlength=\"2\"/>"));
   }
   
   public void testGermanFileWithURL() throws Exception {
@@ -301,7 +315,7 @@ public class MainTest extends AbstractSecurityTestCase {
     Main.main(args);
     String output = new String(this.out.toByteArray(),"UTF-8");
     assertTrue(output.indexOf("<?xml version=\"1.0\" encoding=\"UTF-8\"?>") == 0);
-    assertTrue(output.contains("<error fromy=\"0\" fromx=\"8\" toy=\"0\" tox=\"21\" ruleId=\"BRAK_PRZECINKA_KTORY\" subId=\"5\""));
+    assertTrue(output.contains("<error fromy=\"0\" fromx=\"8\" toy=\"0\" tox=\"20\" ruleId=\"BRAK_PRZECINKA_KTORY\" subId=\"5\""));
     //This tests whether XML encoding is actually UTF-8:
     assertTrue(output.contains("msg=\"Brak przecinka w tym fragmencie zdania. Przecinek prawdopodobnie należy postawić tak: 'świnia, która'.\" replacements=\"świnia, która\" "));
     assertTrue(output.contains("context=\"To jest świnia która się ślini. \" contextoffset=\"8\" errorlength=\"12\"/>"));
@@ -423,7 +437,7 @@ public class MainTest extends AbstractSecurityTestCase {
     Main.main(args);
     String output = new String(this.out.toByteArray());
     assertTrue(output.indexOf("Expected text language: Polish") == 0);
-    assertTrue(output.contains("Unknown words: [This, an, is]"));
+    assertTrue(output.contains("Unknown words: [This, an, is, language, of, tool]"));
   }
   
   public void testNoListUnknown() throws Exception {
