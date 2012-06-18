@@ -117,7 +117,7 @@ public class Russian extends Language {
             DoublePunctuationRule.class,
             UppercaseSentenceStartRule.class,
             HunspellRule.class,
-//            WordRepeatRule.class,
+            WordRepeatRule.class,
             WhitespaceRule.class,
             // specific to Russian :
             RussianUnpairedBracketsRule.class,
