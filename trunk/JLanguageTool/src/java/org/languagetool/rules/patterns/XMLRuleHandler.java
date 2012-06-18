@@ -457,9 +457,9 @@ public class XMLRuleHandler extends DefaultHandler {
     int matchCounter = 0;
     while (pos != -1) {
       pos = messageStr.indexOf('\\', ind + 1);
-      if (pos != -1 && messageStr.length() > pos) {
+      if (pos != -1 && messageStr.length() > pos)              {
         if (Character.isDigit(messageStr.charAt(pos + 1))) {
-          if (pos == 1 || messageStr.charAt(pos - 1) != '\u0001') {
+          if (pos == 0 || messageStr.charAt(pos - 1) != '\u0001') {
             final Match mWorker = new Match(null, null, false, null, 
                 null, Match.CaseConversion.NONE, false, false, Match.IncludeRange.NONE);
             mWorker.setInMessageOnly(true);
@@ -473,6 +473,7 @@ public class XMLRuleHandler extends DefaultHandler {
       }
       ind = pos;
     }
+            
     if (sugMatch.isEmpty()) {
       return suggestionMatches;
     }
