@@ -61,7 +61,7 @@ public class RussianWordRepeatRule extends RussianRule {
     if (messages != null) {
       super.setCategory(new Category(messages.getString("category_misc")));
     }
-//    setDefaultOff();
+    setDefaultOff();   // set default off
   }
 
   /*
@@ -83,7 +83,7 @@ public class RussianWordRepeatRule extends RussianRule {
   public final String getDescription() {
     return "Повтор слов в предложении";
   }
-
+  
   /*
    * Tests if any word form is repeated in the sentence.
    */
@@ -175,6 +175,11 @@ public class RussianWordRepeatRule extends RussianRule {
         final int pos = tokens[i].getStartPos();
         final RuleMatch ruleMatch = new RuleMatch(this, pos, pos
             + token.length(), msg, "Повтор слов в предложении");        
+  //////////
+  //       ruleMatch.setSuggestedReplacement(tokens[i].getAnalyzedToken(0).getLemma());
+  //       example how to correct word
+  //////////
+        
         ruleMatches.add(ruleMatch);
         repetition = false;
       }
