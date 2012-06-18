@@ -89,9 +89,11 @@ public final class Main implements ActionListener {
 
   private boolean closeHidesToTray;
   private boolean isInTray;
+  
+  private boolean isAlreadyChecking;
 
   private Main() throws IOException {
-    LanguageIdentifierTools.addLtProfiles();  
+    LanguageIdentifierTools.addLtProfiles();
     config = new Configuration(new File(System.getProperty("user.home")), CONFIG_FILE, null);
     messages = JLanguageTool.getMessageBundle();
     maybeStartServer();
@@ -301,7 +303,7 @@ public final class Main implements ActionListener {
         Tools.showError(e);
       }
     // Stop server, start new server if requested:
-    stopServer();        
+    stopServer();
     maybeStartServer();
   }
 
@@ -310,7 +312,7 @@ public final class Main implements ActionListener {
   }
 
   // show GUI and check the text from clipboard/selection:
-  private void restoreFromTrayAndCheck() {
+  private void restoreFromTrayAndCheck() {        
     final String s = getClipboardText();
     restoreFromTray();
     textArea.setText(s);
@@ -381,7 +383,7 @@ public final class Main implements ActionListener {
     if (config.getRunServer()) {
       httpServer = new HTTPServer(config.getServerPort(), false, true);
       try {
-    	httpServer.run();        
+    	httpServer.run();
       } catch (final PortBindingException e) {
         final String message = e.getMessage() + "\n\n" + org.languagetool.tools.Tools.getFullStackTrace(e);
         JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
@@ -458,51 +460,55 @@ public final class Main implements ActionListener {
   }
 
   private void checkTextAndDisplayResults() {
-    final Language lang = getCurrentLanguage();    
-    if (StringTools.isEmpty(textArea.getText().trim())) {
-      textArea.setText(messages.getString("enterText2"));
-    } else {
-      final String langName;
-      if (lang.isExternal()) {
-        langName = lang.getTranslatedName(messages) + EXTERNAL_LANGUAGE_SUFFIX;
+      final Language lang = getCurrentLanguage();
+      if (StringTools.isEmpty(textArea.getText().trim())) {
+          textArea.setText(messages.getString("enterText2"));
       } else {
-        langName = lang.getTranslatedName(messages);
-      }
-      new Thread() {
-        public void run() {
-          setWaitCursor();
-          checkTextButton.setEnabled(false);
-          try {
-            final String startCheckText = HTML_GREY_FONT_START +
-                    Tools.makeTexti18n(messages, "startChecking", new Object[]{langName}) + "..." + HTML_FONT_END;
-            resultArea.setText(startCheckText);
-            resultArea.repaint();
-            final StringBuilder sb = new StringBuilder();
-            sb.append(startCheckText);
-            sb.append("<br>\n");
-            int matches = 0;
-            try {
-              final JLanguageTool langTool = getCurrentLanguageTool(lang);
-              matches = checkText(langTool, textArea.getText(), sb);
-            } catch (final Exception e) {
-              sb.append("<br><br><b><font color=\"red\">");
-              sb.append(org.languagetool.tools.Tools.getFullStackTrace(e).replace("\n", "<br/>"));
-              sb.append("</font></b><br>");
-            }
-            final String checkDone = Tools.makeTexti18n(messages, "checkDone", new Object[] {matches});
-            sb.append(HTML_GREY_FONT_START);
-            sb.append(checkDone);
-            sb.append(HTML_FONT_END);
-            sb.append("<br>\n");
-            resultArea.setText(HTML_FONT_START + sb.toString() + HTML_FONT_END);
-            resultArea.setCaretPosition(0);
-          } finally {
-            checkTextButton.setEnabled(true);
-            unsetWaitCursor();
+          final String langName;
+          if (lang.isExternal()) {
+              langName = lang.getTranslatedName(messages) + EXTERNAL_LANGUAGE_SUFFIX;
+          } else {
+              langName = lang.getTranslatedName(messages);
           }
-        }
-      }.start();
-    }
+          new Thread() {
+              public void run() {
+                  if (!isAlreadyChecking) {              
+                      isAlreadyChecking = true;
+                      setWaitCursor();
+                      checkTextButton.setEnabled(false);
+                      try {
+                          final String startCheckText = HTML_GREY_FONT_START +
+                                  Tools.makeTexti18n(messages, "startChecking", new Object[]{langName}) + "..." + HTML_FONT_END;
+                          resultArea.setText(startCheckText);
+                          resultArea.repaint();
+                          final StringBuilder sb = new StringBuilder();
+                          sb.append(startCheckText);
+                          sb.append("<br>\n");
+                          int matches = 0;
+                          try {
+                              final JLanguageTool langTool = getCurrentLanguageTool(lang);
+                              matches = checkText(langTool, textArea.getText(), sb);
+                          } catch (final Exception e) {
+                              sb.append("<br><br><b><font color=\"red\">");
+                              sb.append(org.languagetool.tools.Tools.getFullStackTrace(e).replace("\n", "<br/>"));
+                              sb.append("</font></b><br>");
+                          }
+                          final String checkDone = Tools.makeTexti18n(messages, "checkDone", new Object[] {matches});
+                          sb.append(HTML_GREY_FONT_START);
+                          sb.append(checkDone);
+                          sb.append(HTML_FONT_END);
+                          sb.append("<br>\n");
+                          resultArea.setText(HTML_FONT_START + sb.toString() + HTML_FONT_END);
+                          resultArea.setCaretPosition(0);
+                      } finally {
+                          checkTextButton.setEnabled(true);
+                          unsetWaitCursor();
+                          isAlreadyChecking = false;
+                      }
+                  }
+              }
+          }.start();
+      }
   }
 
   private void setWaitCursor() {
@@ -706,7 +712,7 @@ public final class Main implements ActionListener {
       } else if (frame.isVisible() && !frame.isActive()) {
         frame.toFront();
         restoreFromTrayAndCheck();
-      } else {
+      } else {        
         restoreFromTrayAndCheck();
       }
     }
