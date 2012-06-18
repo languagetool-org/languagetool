@@ -53,7 +53,7 @@ public class AccentuationCheckRule extends CatalanRule {
   private static final Pattern ARTICLE_EL_FS = Pattern.compile("la|l'|La|L'");
   private static final Pattern ARTICLE_EL_MP = Pattern.compile("els|Els");
   private static final Pattern ARTICLE_EL_FP = Pattern.compile("les|Les");
-  private static final Pattern DETERMINANT = Pattern.compile("D[^R].*");
+//  private static final Pattern DETERMINANT = Pattern.compile("D[^R].*");
   private static final Pattern DETERMINANT_MS = Pattern.compile("D[^R].[MC][SN].*");
   private static final Pattern DETERMINANT_FS = Pattern.compile("D[^R].[FC][SN].*");
   private static final Pattern DETERMINANT_MP = Pattern.compile("D[^R].[MC][PN].*");

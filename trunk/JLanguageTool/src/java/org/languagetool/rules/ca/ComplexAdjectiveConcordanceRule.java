@@ -30,7 +30,7 @@ import java.util.regex.Pattern;
 
 /**
  * This rule checks if an adjective doesn't agree with the previous noun and 
- * at the same time it doesn't agree with any of the 15 previous words.
+ * at the same time it doesn't agree with any of the previous words.
  * Takes care of some exceptions. 
  *   
  * @author Jaume Ortolà i Font
@@ -46,12 +46,13 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
 	private static final Pattern NOM_FS = Pattern.compile("N.[FC][SN].*");
 	private static final Pattern NOM_MP = Pattern.compile("N.[MC][PN].*");
 	private static final Pattern NOM_FP = Pattern.compile("N.[FC][PN].*");
-	private static final Pattern DET_MS = Pattern.compile("D[DA0I]0MS0*"); //no comptem "l'" com a masculí
-	private static final Pattern DET_FS = Pattern.compile("D[DA0I]0[FC]S0");
+	private static final Pattern DET_CS = Pattern.compile("D[DA0I]0CS0");
+	private static final Pattern DET_MS = Pattern.compile("D[DA0I]0MS0"); 
+	private static final Pattern DET_FS = Pattern.compile("D[DA0I]0FS0");
 	private static final Pattern DET_MP = Pattern.compile("D[DA0I]0MP0");
 	private static final Pattern DET_FP = Pattern.compile("D[DA0I]0FP0");
-	private static final Pattern GN_MS = Pattern.compile("N.[MC][SN].*|D[DA0I]0[MC]S0");
-	private static final Pattern GN_FS = Pattern.compile("N.[FC][SN].*|D[DA0I]0[FC]S0");
+	private static final Pattern GN_MS = Pattern.compile("N.[MC][SN].*|D[DA0I]0MS0");
+	private static final Pattern GN_FS = Pattern.compile("N.[FC][SN].*|D[DA0I]0FS0");
 	private static final Pattern GN_MP = Pattern.compile("N.[MC][PN].*|D[DA0I]0MP0");
 	private static final Pattern GN_FP = Pattern.compile("N.[FC][PN].*|D[DA0I]0FP0");
 	private static final Pattern GN_CP = Pattern.compile("N.[FMC][PN].*|D[DA0I]0[FM]P0");
@@ -79,8 +80,6 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
 	private static final Pattern VERB_AUXILIAR = Pattern.compile("V[AS].*");
 	private static final Pattern EXCEPCIONS_PARTICIPI = Pattern.compile("atès|atés|atesa|atesos|ateses|donat|donats|donada|donades");
 
-
-	private static final int maxTotalPrevWords=15;
 
 	public ComplexAdjectiveConcordanceRule(ResourceBundle messages) throws IOException {
 		if (messages != null) {
@@ -153,6 +152,10 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
 						if (matchPostagRegexp(tokens[i-j],NOM_FP)) {cNFP[level]++;}
 					}
 					if (matchPostagRegexp(tokens[i-j],NOM)) {cNt[level]++; isPrevNoun=true;} else {isPrevNoun=false;}; //avoid two consecutive nouns
+					if (matchPostagRegexp(tokens[i-j],DET_CS)) {
+						if (matchPostagRegexp(tokens[i-j+1],NOM_MS)) {cDMS[level]++;}
+						if (matchPostagRegexp(tokens[i-j+1],NOM_FS)) {cDFS[level]++;}
+					}
 					if (matchPostagRegexp(tokens[i-j],DET_MS)) {cDMS[level]++;}
 					if (matchPostagRegexp(tokens[i-j],DET_FS)) {cDFS[level]++;}
 					if (matchPostagRegexp(tokens[i-j],DET_MP)) {cDMP[level]++;}
@@ -261,16 +264,15 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
 						if ( (matchPostagRegexp(tokens[i-1],NOM) && !matchPostagRegexp(tokens[i-1],substPattern)) ||
 								(i>3 /*&& !matchPostagRegexp(tokens[i],NOM)*/ && matchPostagRegexp(tokens[i-1],ADJECTIU) && !matchPostagRegexp(tokens[i-1],adjPattern) 
 										&& !matchPostagRegexp(tokens[i-2],VERB_AUXILIAR) && !matchPostagRegexp(tokens[i-3],VERB_AUXILIAR))) {  
-							j=i-maxTotalPrevWords; //look into the 15 previous words
-							if (j<0) {
-								j=0;
-							}
-							while (j<i-1 && !adjectiveAgrees)
+							j=1;
+							keepCounting=true;
+							while (i-j>0 && !adjectiveAgrees && keepCounting)
 							{
-								if (matchPostagRegexp(tokens[j],substPattern)) {
+								if (matchPostagRegexp(tokens[i-j],substPattern)) {
 									adjectiveAgrees=true; // there is a previous agreeing noun
 								}
 								j++;
+								keepCounting=matchPostagRegexp(tokens[i-j],KEEP_COUNT) || matchRegexp(tokens[i-j].getToken(),KEEP_COUNT2);
 							}
 							theRuleMaches=!adjectiveAgrees;
 							//Adjective can't be singular

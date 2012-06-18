@@ -48,7 +48,7 @@ public class CatalanSynthesizer extends BaseSynthesizer {
 	private static final String TAGS_FILE_NAME = "/ca/catalan_tags.txt";
 
 	/** A special tag to add determiner (el, la, l', els, les). **/
-	private static final String ADD_DETERMINER = "DT";
+//	private static final String ADD_DETERMINER = "DT";
 
 	/** Patterns for number and gender **/
 	private static final Pattern pMS = Pattern.compile("(N|A.).[MC][SN].*|V.P.*SM");

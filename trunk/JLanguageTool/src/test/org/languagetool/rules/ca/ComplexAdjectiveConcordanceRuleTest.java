@@ -42,6 +42,8 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
 	public void testRule() throws IOException { 
 
 		// correct sentences:
+		assertCorrect("El rei ha trobat l'excusa i l'explicació adequades.");
+		assertCorrect("El rei ha trobat l'excusa i l'explicació adequada.");
 		assertCorrect("Copa del món femenina.");   
 		assertCorrect("Batalla entre asteques i espanyols coneguda com la Nit Trista.");
 		assertCorrect("És un informe sobre la cultura japonesa realitzat per encàrrec de l'exèrcit d'Estats Units.");
@@ -67,6 +69,9 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
 		assertCorrect("La massa, el radi i la lluminositat llistada per ell.");
 
 		// errors:
+		assertIncorrect("El rei ha trobat l'excusa perfecte.");
+		assertIncorrect("El rei ha trobat l'excusa i l'explicació adequats.");
+		assertIncorrect("El rei ha trobat l'excusa i l'explicació adequat.");
 		assertIncorrect("Les perspectives de futur immediata.");
 		assertIncorrect("Les perspectives de futur immediats.");
 		assertIncorrect("la llengua i la cultura catalans.");
