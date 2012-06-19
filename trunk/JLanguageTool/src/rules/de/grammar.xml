@@ -18879,6 +18879,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
+                    <!--TODO Warum diese Ausnahmen? Quelle?-->
                     <token regexp="yes" negate="yes">Breiten?|[A-ZÄÖÜ].+breiten?|innerhalb|Verzögerung(en)?|Gewicht(e)?(s)?|[A-ZÄÖÜ].+gewicht(e)?(s)?|Dauer|Umfang(e)?(s)?|Größe(n)?|Länge(n)?|Durchmesser([ns])?|(R|.+r)adius|Masse|(T|.+t)emperatur(en)?|(D|.+d)ruck(e?s)?|Anzahl(en)?|Alters?|Tagesdosis|Dosis|Bereichs?|[A-ZÄÖÜ].+wert(en?)?|Wert(en?)?|(A|[A-ZÄÖÜ].+a)nteil(s|en?)?|(K|.+k)onzentration(en)?|(R|[A-ZÄÖÜ].+r)aten?|(B|[A-ZÄÖÜ].+b)estand(e?s)?|(G|[A-ZÄÖÜ].+g)eschwindigkeit(en)?|Tragfähigkeit</token>
                     <marker>
                         <token regexp="yes">[vV]o[nm]</token>
@@ -18895,6 +18896,56 @@ $Id$
                 <example type="correct">Ein Gewicht von <marker>90–100</marker> Tonnen.</example>
                 <example type="correct">Eine Breite von <marker>90–100</marker> Zentimetern.</example>
                 <example type="incorrect" correction="Von 9 bis 10"><marker>Von 9–10</marker> Uhr.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes" negate="yes">Breiten?|[A-ZÄÖÜ].+breiten?|innerhalb|Verzögerung(en)?|Gewicht(e)?(s)?|[A-ZÄÖÜ].+gewicht(e)?(s)?|Dauer|Umfang(e)?(s)?|Größe(n)?|Länge(n)?|Durchmesser([ns])?|(R|.+r)adius|Masse|(T|.+t)emperatur(en)?|(D|.+d)ruck(e?s)?|Anzahl(en)?|Alters?|Tagesdosis|Dosis|Bereichs?|[A-ZÄÖÜ].+wert(en?)?|Wert(en?)?|(A|[A-ZÄÖÜ].+a)nteil(s|en?)?|(K|.+k)onzentration(en)?|(R|[A-ZÄÖÜ].+r)aten?|(B|[A-ZÄÖÜ].+b)estand(e?s)?|(G|[A-ZÄÖÜ].+g)eschwindigkeit(en)?|Tragfähigkeit</token>
+                    <marker>
+                        <token regexp="yes">[vV]o[nm]</token>
+                        <token regexp="yes">[0-9]{1,5}</token>
+                        <token regexp="yes">\-|–</token>
+                        <token regexp="yes">[0-9]{1,5}</token>
+                    </marker>
+                </pattern>
+                <message>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus: <suggestion>\2 \3 bis \5</suggestion>.</message>
+                <url>http://de.wikipedia.org/wiki/Halbgeviertstrich#Bis-Strich</url>
+                <short>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus.</short>
+                <example type="correct"><marker>Von 9 bis 10</marker> Uhr.</example>
+                <example type="correct"><marker>9–10</marker> Stunden lang.</example>
+                <example type="correct">Temperaturen von <marker>9–10</marker> Grad.</example>
+                <example type="incorrect" correction="Von 9 bis 10"><marker>Von 9 – 10</marker> Uhr.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token regexp="yes">[vV]o[nm]</token>
+                        <token regexp="yes">Band|Blatt|Seite|Zeile</token>
+                        <token regexp="yes">([0-9]{1,5})(\-|–)([0-9]{1,5})</token>
+                    </marker>
+                </pattern>
+                <message>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus: <suggestion><match no="1"/> <match no="2"/> <match no="3" regexp_match="([0-9]{1,5})(\-|–)([0-9]{1,5})" regexp_replace="$1 bis $3"/></suggestion>.</message>
+                <url>http://de.wikipedia.org/wiki/Halbgeviertstrich#Bis-Strich</url>
+                <short>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus.</short>
+                <example type="correct"><marker>Von Zeile 7 bis 11</marker> wird geprüft, ob die Zahl eine Primzahl ist.</example>
+                <example type="incorrect" correction="Von Zeile 7 bis 11"><marker>Von Zeile 7-11</marker> wird geprüft, ob die Zahl eine Primzahl ist.</example>
+                <example type="incorrect" correction="Von Zeile 7 bis 11"><marker>Von Zeile 7–11</marker> wird geprüft, ob die Zahl eine Primzahl ist.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token regexp="yes">[vV]o[nm]</token>
+                        <token regexp="yes">Band|Bänden?|Blatt|Blättern?|Seiten?|Zeilen?</token>
+                        <token regexp="yes">[0-9]{1,5}</token>
+                        <token regexp="yes">\-|–</token>
+                        <token regexp="yes">[0-9]{1,5}</token>
+                    </marker>
+                </pattern>
+                <message>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus: <suggestion>\1 \2 \3 bis \5</suggestion>.</message>
+                <url>http://de.wikipedia.org/wiki/Halbgeviertstrich#Bis-Strich</url>
+                <short>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus.</short>
+                <example type="correct"><marker>Von Zeile 7 bis 11</marker> wird geprüft, ob die Zahl eine Primzahl ist.</example>
+                <example type="incorrect" correction="Von Zeile 7 bis 11"><marker>Von Zeile 7 - 11</marker> wird geprüft, ob die Zahl eine Primzahl ist.</example>
+                <example type="incorrect" correction="Von Zeile 7 bis 11"><marker>Von Zeile 7 – 11</marker> wird geprüft, ob die Zahl eine Primzahl ist.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
