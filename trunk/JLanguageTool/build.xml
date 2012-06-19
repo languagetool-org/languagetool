@@ -467,13 +467,15 @@
 <!-- ================================================================== -->
 
 <target name="dist" depends="ooo-internal" description="Builds LibreOffice/ApacheOpenOffice extension">
-<zip compress="yes" destfile="${dist.dir}/LanguageTool-${version}.oxt" basedir="${dist.dir}" includes="**" 
-	excludes="deploy.sh,undeploy.sh,turn.sh,printlocales.jar,**/hunspell/**,${bliki.lib},junit.jar,Rule*.jar,
-	lucene*.jar,testwikipedia.*,LanguageTool.jar,LanguageToolGUI.jar,*.xsl,${jna.lib},hunspell-*.jnilib,hunspell-*.dll,libhunspell-*.so" />
+    <zip compress="yes" destfile="${dist.dir}/LanguageTool-${version}.oxt" basedir="${dist.dir}" includes="**"
+        excludes="deploy.sh,undeploy.sh,turn.sh,printlocales.jar,**/hunspell/**,${bliki.lib},junit.jar,Rule*.jar,
+        lucene*.jar,testwikipedia.*,LanguageTool.jar,LanguageToolGUI.jar,*.xsl,${jna.lib},hunspell-*.jnilib,hunspell-*.dll,libhunspell-*.so" />
 </target>
 
 <target name="fast" depends="ooo-internal" description="like dist, but without ZIP compression (for development only)">
-<zip compress="no" destfile="${dist.dir}/LanguageTool-${version}.oxt" basedir="${dist.dir}" includes="**" excludes="deploy.sh,undeploy.sh,turn.sh,printlocales.jar" />
+    <zip compress="no" destfile="${dist.dir}/LanguageTool-${version}.oxt" basedir="${dist.dir}" includes="**" excludes="deploy.sh,
+        undeploy.sh,turn.sh,printlocales.jar,**/hunspell/**,${bliki.lib},junit.jar,Rule*.jar,lucene*.jar,testwikipedia.*,
+        LanguageTool.jar,LanguageToolGUI.jar,*.xsl,${jna.lib},hunspell-*.jnilib,hunspell-*.dll,libhunspell-*.so" />
 </target>
 
 <target name="common" depends="clean,init,build">
