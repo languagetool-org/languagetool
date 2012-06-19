@@ -14,7 +14,6 @@ import morfologik.stemming.WordData;
 
 import org.languagetool.AnalyzedToken;
 import org.languagetool.JLanguageTool;
-import org.languagetool.tools.Tools;
 
 public class BaseSynthesizer implements Synthesizer {
  
