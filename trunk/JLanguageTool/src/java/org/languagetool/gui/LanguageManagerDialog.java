@@ -192,7 +192,7 @@ public class LanguageManagerDialog implements ActionListener {
     }
     @Override
     public String getDescription() {
-      return "*.xml"; //$NON-NLS-1$
+      return "rules*.xml"; //$NON-NLS-1$
     }
   }
 
