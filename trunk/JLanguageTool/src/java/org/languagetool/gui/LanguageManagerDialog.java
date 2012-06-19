@@ -36,6 +36,7 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRootPane;
 import javax.swing.JScrollPane;
@@ -146,9 +147,14 @@ public class LanguageManagerDialog implements ActionListener {
   public void actionPerformed(ActionEvent e) {
     if (e.getSource() == addButton) {
       final File ruleFile = Tools.openFileDialog(null, new XMLFileFilter());
-      // TODO: avoid duplicate files!
-      ruleFiles.add(ruleFile);
-      list.setListData(ruleFiles.toArray(new File[]{}));
+      if (!isOnList(ruleFile)) {
+          ruleFiles.add(ruleFile);      
+          list.setListData(ruleFiles.toArray(new File[]{}));
+      } else {
+         JOptionPane jop = new JOptionPane();         
+          JOptionPane.showMessageDialog(jop, Messages.getString("guiDuplicate"), 
+                  Messages.getString("guiWarning"), JOptionPane.WARNING_MESSAGE);          
+      }
     } else if (e.getSource() == removeButton) {
       if (list.getSelectedIndex() != -1) {
         ruleFiles.remove(list.getSelectedIndex());
@@ -159,6 +165,15 @@ public class LanguageManagerDialog implements ActionListener {
     } else {
       throw new IllegalArgumentException("Don't know how to handle " + e); //$NON-NLS-1$
     }
+  }
+  
+  private boolean isOnList(final File file) {
+      for (File f : ruleFiles) {
+          if (f.equals(file)) {
+              return true;
+          }
+      }
+      return false;
   }
   
   /**

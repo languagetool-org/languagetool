@@ -53,12 +53,16 @@ public class LanguageBuilder {
     if (!file.getName().endsWith(".xml")) {
       throw new RuleFilenameException(file);
     }
-    final String[] parts = file.getName().split("-");
+    final String[] parts = file.getName().split("-");    
     final boolean startsWithRules = parts[0].equals("rules");
-    final boolean secondPartHasCorrectLength = parts[1].length() == 2 || parts[1].length() == 3;
+    final boolean secondPartHasCorrectLength = 
+            (parts[1].length() == 2 || parts[1].length() == 5) || parts[1].length() == 3;
     if (parts.length != 3 || !startsWithRules || !secondPartHasCorrectLength) {
       throw new RuleFilenameException(file);
     }
+    //TODO: when the Language already exists, and the XML file is mergeable with
+    // other rules (need to add a parameter for this?), subclass the existing language,
+    //and adjust the settings if any are set in the rule file default configuration set
     
     final Language newLanguage = new Language() {
       @Override
@@ -71,11 +75,15 @@ public class LanguageBuilder {
       }
       @Override
       public String getShortName() {
-        return parts[1];
+        if (parts[1].length() == 2)
+            return parts[1];
+        return  parts[1].split("_")[0]; //en as in en_US
       }
       @Override
       public String[] getCountryVariants() {
-        return new String[] {""};
+        if (parts[1].length() == 2)
+            return new String[] {""};
+        return new String[] {parts[1].split("_")[1]}; //US as in en_US
       }
       @Override
       public String getName() {
