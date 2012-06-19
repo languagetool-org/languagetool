@@ -18,7 +18,6 @@
  */
 package org.languagetool.synthesis.el;
 
-import org.languagetool.JLanguageTool;
 import org.languagetool.synthesis.BaseSynthesizer;
 
 /**
@@ -31,7 +30,6 @@ public class GreekSynthesizer extends BaseSynthesizer {
     private static final String TAGS_FILE_NAME = "/el/el_tags.txt";
 
     public GreekSynthesizer() {
-        super(JLanguageTool.getDataBroker().getResourceDir() + RESOURCE_FILENAME,
-                JLanguageTool.getDataBroker().getResourceDir() + TAGS_FILE_NAME);
+        super(RESOURCE_FILENAME, TAGS_FILE_NAME);
     }
 }

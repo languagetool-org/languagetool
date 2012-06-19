@@ -20,7 +20,6 @@ package org.languagetool.tagging.ru;
 
 import java.util.Locale;
 
-import org.languagetool.JLanguageTool;
 import org.languagetool.tagging.BaseTagger;
 
 /**  Part-of-speech tagger.
@@ -33,7 +32,7 @@ public class RussianTagger extends BaseTagger {
 
   @Override
   public final String getFileName() {
-    return JLanguageTool.getDataBroker().getResourceDir() + "/ru/russian.dict";    
+    return "/ru/russian.dict";    
   }
   
   public RussianTagger() {

@@ -20,7 +20,6 @@ package org.languagetool.tagging.gl;
 
 import java.util.Locale;
 
-import org.languagetool.JLanguageTool;
 import org.languagetool.tagging.BaseTagger;
 
 /** Galician Part-of-speech tagger.
@@ -34,7 +33,7 @@ public class GalicianTagger extends BaseTagger {
 
   @Override
   public final String getFileName() {
-    return JLanguageTool.getDataBroker().getResourceDir() + "/gl/galician.dict";    
+    return "/gl/galician.dict";    
   }
   
   public GalicianTagger() {

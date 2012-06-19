@@ -20,7 +20,6 @@ package org.languagetool.tagging.fr;
 
 import java.util.Locale;
 
-import org.languagetool.JLanguageTool;
 import org.languagetool.tagging.BaseTagger;
 
 /** French Tagger
@@ -33,7 +32,7 @@ public class FrenchTagger extends BaseTagger {
 
   @Override
   public final String getFileName() {
-    return JLanguageTool.getDataBroker().getResourceDir() + "/fr/french.dict";    
+    return "/fr/french.dict";    
   }
   
   public FrenchTagger() {

@@ -20,7 +20,6 @@ package org.languagetool.tagging.it;
 
 import java.util.Locale;
 
-import org.languagetool.JLanguageTool;
 import org.languagetool.tagging.BaseTagger;
 
 /**
@@ -36,7 +35,7 @@ public class ItalianTagger extends BaseTagger {
 
   @Override
   public final String getFileName() {
-    return JLanguageTool.getDataBroker().getResourceDir() + "/it/italian.dict";    
+    return "/it/italian.dict";    
   }
 
   public ItalianTagger() {

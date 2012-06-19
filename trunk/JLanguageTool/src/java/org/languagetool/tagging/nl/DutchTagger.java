@@ -20,7 +20,6 @@ package org.languagetool.tagging.nl;
 
 import java.util.Locale;
 
-import org.languagetool.JLanguageTool;
 import org.languagetool.tagging.BaseTagger;
 
 /**
@@ -32,7 +31,7 @@ public class DutchTagger extends BaseTagger {
 
   @Override
   public final String getFileName() {
-    return JLanguageTool.getDataBroker().getResourceDir() + "/nl/dutch.dict";    
+    return "/nl/dutch.dict";    
   }
   
   public DutchTagger() {

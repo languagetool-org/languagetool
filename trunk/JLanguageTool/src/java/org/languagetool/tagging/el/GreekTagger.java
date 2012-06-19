@@ -19,7 +19,6 @@
 package org.languagetool.tagging.el;
 
 import java.util.Locale;
-import org.languagetool.JLanguageTool;
 import org.languagetool.tagging.BaseTagger;
 
 /**
@@ -30,7 +29,7 @@ public class GreekTagger extends BaseTagger {
 
     @Override
     public final String getFileName() {
-        return JLanguageTool.getDataBroker().getResourceDir() + "/el/el.dict";
+        return "/el/el.dict";
     }
 
     public GreekTagger() {

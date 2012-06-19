@@ -29,10 +29,10 @@ import java.util.regex.Pattern;
 import morfologik.stemming.Dictionary;
 import morfologik.stemming.DictionaryLookup;
 import morfologik.stemming.IStemmer;
-import org.languagetool.JLanguageTool;
 import org.languagetool.tagging.BaseTagger;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
 import org.languagetool.tools.StringTools;
 
 /** Breton Tagger.
@@ -59,7 +59,7 @@ public class BretonTagger extends BaseTagger {
 
   @Override
   public final String getFileName() {
-    return JLanguageTool.getDataBroker().getResourceDir() + "/br/breton.dict";
+    return "/br/breton.dict";
   }
 
   public BretonTagger() {
@@ -81,7 +81,7 @@ public class BretonTagger extends BaseTagger {
     int pos = 0;
     // caching IStemmer instance - lazy init
     if (dictLookup == null) {
-      final URL url = this.getClass().getResource(getFileName());
+      final URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(getFileName());
       dictLookup = new DictionaryLookup(Dictionary.read(url));
     }
 

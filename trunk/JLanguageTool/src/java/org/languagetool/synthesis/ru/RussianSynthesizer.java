@@ -18,16 +18,14 @@
  */
 package org.languagetool.synthesis.ru;
 
-import org.languagetool.JLanguageTool;
 import org.languagetool.synthesis.BaseSynthesizer;
 
 /**
  * Russian word form synthesizer. <br/>
  * @author Yakov Reztsov	 
  *
- * Based on Dutch word from synthesizer
- *
- * @author Marcin Miłkowski
+ * Based on Dutch word form synthesizer
+ * 
  */
 
 public class RussianSynthesizer extends BaseSynthesizer {
@@ -37,8 +35,7 @@ public class RussianSynthesizer extends BaseSynthesizer {
   private static final String TAGS_FILE_NAME = "/ru/tags_russian.txt";
 
   public RussianSynthesizer() {
-    super(JLanguageTool.getDataBroker().getResourceDir() + RESOURCE_FILENAME, 
-    		JLanguageTool.getDataBroker().getResourceDir() + TAGS_FILE_NAME);
+    super(RESOURCE_FILENAME, TAGS_FILE_NAME);
   }
   
 }

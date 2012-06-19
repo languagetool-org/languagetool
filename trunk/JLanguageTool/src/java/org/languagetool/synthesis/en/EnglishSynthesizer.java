@@ -59,8 +59,7 @@ public class EnglishSynthesizer extends BaseSynthesizer {
   private static final String ADD_IND_DETERMINER = "+INDT";
   
   public EnglishSynthesizer() {
-    super(JLanguageTool.getDataBroker().getResourceDir() + RESOURCE_FILENAME, 
-    		JLanguageTool.getDataBroker().getResourceDir() + TAGS_FILE_NAME);
+    super(RESOURCE_FILENAME, TAGS_FILE_NAME);
   }
 
   /**

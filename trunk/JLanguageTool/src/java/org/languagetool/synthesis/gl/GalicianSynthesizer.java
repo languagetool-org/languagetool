@@ -18,7 +18,6 @@
  */
 package org.languagetool.synthesis.gl;
 
-import org.languagetool.JLanguageTool;
 import org.languagetool.synthesis.BaseSynthesizer;
 
 /**
@@ -36,7 +35,6 @@ public class GalicianSynthesizer extends BaseSynthesizer {
   private static final String TAGS_FILE_NAME = "/gl/galician_tags.txt";
 
   public GalicianSynthesizer() {
-    super(JLanguageTool.getDataBroker().getResourceDir() + RESOURCE_FILENAME, 
-    		JLanguageTool.getDataBroker().getResourceDir() + TAGS_FILE_NAME);
+    super(RESOURCE_FILENAME, TAGS_FILE_NAME);
   }
 }

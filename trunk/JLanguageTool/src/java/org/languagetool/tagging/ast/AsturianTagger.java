@@ -20,7 +20,6 @@ package org.languagetool.tagging.ast;
 
 import java.util.Locale;
 
-import org.languagetool.JLanguageTool;
 import org.languagetool.tagging.BaseTagger;
 
 /** Asturian Part-of-speech tagger.
@@ -32,7 +31,7 @@ public class AsturianTagger extends BaseTagger {
 
   @Override
   public final String getFileName() {
-    return JLanguageTool.getDataBroker().getResourceDir() + "/ast/asturian.dict";    
+    return "/ast/asturian.dict";    
   }
   
   public AsturianTagger() {

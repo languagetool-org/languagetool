@@ -21,7 +21,6 @@ package org.languagetool.tagging.ml;
 
 import java.util.Locale;
 
-import org.languagetool.JLanguageTool;
 import org.languagetool.tagging.BaseTagger;
 
 /** Malayalam Part-of-speech tagger.
@@ -32,7 +31,7 @@ public class MalayalamTagger extends BaseTagger {
 
   @Override
   public final String getFileName() {
-    return JLanguageTool.getDataBroker().getResourceDir() + "/ml/malayalam.dict";    
+    return "/ml/malayalam.dict";    
   }
 
   public MalayalamTagger() {

@@ -18,7 +18,6 @@
  */
 package org.languagetool.synthesis.es;
 
-import org.languagetool.JLanguageTool;
 import org.languagetool.synthesis.BaseSynthesizer;
 
 /**
@@ -36,8 +35,7 @@ public class SpanishSynthesizer extends BaseSynthesizer {
   private static final String TAGS_FILE_NAME = "/es/spanish_tags.txt";
 
   public SpanishSynthesizer() {
-    super(JLanguageTool.getDataBroker().getResourceDir() + RESOURCE_FILENAME, 
-    		JLanguageTool.getDataBroker().getResourceDir() + TAGS_FILE_NAME);
+    super(RESOURCE_FILENAME, TAGS_FILE_NAME);
   }
   
   

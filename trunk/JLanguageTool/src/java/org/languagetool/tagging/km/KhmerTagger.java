@@ -20,7 +20,6 @@ package org.languagetool.tagging.km;
 
 import java.util.Locale;
 
-import org.languagetool.JLanguageTool;
 import org.languagetool.tagging.BaseTagger;
 
 /** Khmer Part-of-speech tagger.
@@ -34,7 +33,7 @@ public class KhmerTagger extends BaseTagger {
 
   @Override
   public final String getFileName() {
-    return JLanguageTool.getDataBroker().getResourceDir() + "/km/khmer.dict";    
+    return "/km/khmer.dict";    
   }
   
   public KhmerTagger() {

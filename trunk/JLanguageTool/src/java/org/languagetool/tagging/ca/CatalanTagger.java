@@ -20,7 +20,6 @@ package org.languagetool.tagging.ca;
 
 import java.util.Locale;
 
-import org.languagetool.JLanguageTool;
 import org.languagetool.tagging.BaseTagger;
 
 /** Catalan Tagger
@@ -33,7 +32,7 @@ public class CatalanTagger extends BaseTagger {
 
   @Override
   public final String getFileName() {
-    return JLanguageTool.getDataBroker().getResourceDir() + "/ca/catalan.dict";
+    return "/ca/catalan.dict";
   }
   
   public CatalanTagger() {

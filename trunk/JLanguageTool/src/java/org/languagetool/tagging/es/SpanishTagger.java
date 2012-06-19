@@ -20,7 +20,6 @@ package org.languagetool.tagging.es;
 
 import java.util.Locale;
 
-import org.languagetool.JLanguageTool;
 import org.languagetool.tagging.BaseTagger;
 
 /** Spanish Tagger
@@ -34,7 +33,7 @@ public class SpanishTagger extends BaseTagger {
 
   @Override
   public final String getFileName() {
-    return JLanguageTool.getDataBroker().getResourceDir() + "/es/spanish.dict";    
+    return "/es/spanish.dict";    
   }
   
   public SpanishTagger() {

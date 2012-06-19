@@ -18,7 +18,6 @@
  */
 package org.languagetool.synthesis.sk;
 
-import org.languagetool.JLanguageTool;
 import org.languagetool.synthesis.BaseSynthesizer;
 
 /**
@@ -34,7 +33,6 @@ public class SlovakSynthesizer extends BaseSynthesizer {
   private static final String TAGS_FILE_NAME = "/sk/slovak_tags.txt";
 
   public SlovakSynthesizer() {
-    super(JLanguageTool.getDataBroker().getResourceDir() + RESOURCE_FILENAME, 
-    		JLanguageTool.getDataBroker().getResourceDir() + TAGS_FILE_NAME);
+    super(RESOURCE_FILENAME, TAGS_FILE_NAME);
   }
 }

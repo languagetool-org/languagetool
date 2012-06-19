@@ -30,6 +30,7 @@ import morfologik.stemming.IStemmer;
 import morfologik.stemming.WordData;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
 import org.languagetool.tools.StringTools;
 
 /**
@@ -61,7 +62,7 @@ public abstract class BaseTagger implements Tagger {
     int pos = 0;
     // caching IStemmer instance - lazy init
     if (dictLookup == null) {
-      final URL url = this.getClass().getResource(getFileName());
+      final URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(getFileName());
       dictLookup = new DictionaryLookup(Dictionary.read(url));
     }
 

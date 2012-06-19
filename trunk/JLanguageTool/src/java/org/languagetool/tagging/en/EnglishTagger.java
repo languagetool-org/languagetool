@@ -20,7 +20,6 @@ package org.languagetool.tagging.en;
 
 import java.util.Locale;
 
-import org.languagetool.JLanguageTool;
 import org.languagetool.tagging.BaseTagger;
 
 /** English Part-of-speech tagger.
@@ -34,7 +33,7 @@ public class EnglishTagger extends BaseTagger {
 
   @Override
   public final String getFileName() {
-    return JLanguageTool.getDataBroker().getResourceDir() + "/en/english.dict";    
+    return "/en/english.dict";    
   }
   
   public EnglishTagger() {

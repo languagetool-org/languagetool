@@ -47,7 +47,7 @@ public class PolishTagger extends BaseTagger {
 
   @Override
   public final String getFileName() {
-    return JLanguageTool.getDataBroker().getResourceDir() + RESOURCE_FILENAME;
+    return RESOURCE_FILENAME;
   }
 
   @Override
@@ -60,7 +60,7 @@ public class PolishTagger extends BaseTagger {
     int pos = 0;
     // caching Lametyzator instance - lazy init
     if (morfologik == null) {      
-      final URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(RESOURCE_FILENAME);
+      final URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(getFileName());
       morfologik = new DictionaryLookup(Dictionary.read(url));
     }
 

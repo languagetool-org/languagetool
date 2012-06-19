@@ -20,7 +20,6 @@ package org.languagetool.synthesis.ca;
 
 import morfologik.stemming.WordData;
 import org.languagetool.AnalyzedToken;
-import org.languagetool.JLanguageTool;
 import org.languagetool.synthesis.BaseSynthesizer;
 
 import java.io.IOException;
@@ -66,8 +65,7 @@ public class CatalanSynthesizer extends BaseSynthesizer {
 	private static final Pattern pFemNo = Pattern.compile("host|ira|inxa");
 
 	public CatalanSynthesizer() {
-		super(JLanguageTool.getDataBroker().getResourceDir() + RESOURCE_FILENAME, 
-				JLanguageTool.getDataBroker().getResourceDir() + TAGS_FILE_NAME);
+		super(RESOURCE_FILENAME, TAGS_FILE_NAME);
 	}
 
 	@Override

@@ -20,7 +20,6 @@ package org.languagetool.tagging.tl;
 
 import java.util.Locale;
 
-import org.languagetool.JLanguageTool;
 import org.languagetool.tagging.BaseTagger;
 
 /** 
@@ -32,7 +31,7 @@ public class TagalogTagger extends BaseTagger {
 
   @Override
   public final String getFileName() {
-    return JLanguageTool.getDataBroker().getResourceDir() + "/tl/tagalog.dict";
+    return "/tl/tagalog.dict";
   }
   
   public TagalogTagger() {

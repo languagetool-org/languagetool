@@ -51,7 +51,7 @@ public class RomanianTagger extends BaseTagger {
 
   @Override
   public final String getFileName() {
-    return JLanguageTool.getDataBroker().getResourceDir() + RESOURCE_FILENAME;
+    return RESOURCE_FILENAME;
   }
 
   public RomanianTagger() {

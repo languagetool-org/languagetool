@@ -13,6 +13,7 @@ import morfologik.stemming.IStemmer;
 import morfologik.stemming.WordData;
 
 import org.languagetool.AnalyzedToken;
+import org.languagetool.JLanguageTool;
 import org.languagetool.tools.Tools;
 
 public class BaseSynthesizer implements Synthesizer {
@@ -80,13 +81,13 @@ public class BaseSynthesizer implements Synthesizer {
 
   protected void initPossibleTags() throws IOException {
     if (possibleTags == null) {
-      possibleTags = SynthesizerTools.loadWords(Tools.getStream(tagFileName));
+      possibleTags = SynthesizerTools.loadWords(JLanguageTool.getDataBroker().getFromResourceDirAsStream(tagFileName));
     }
   }
 
   protected void initSynthesizer() throws IOException {
     if (synthesizer == null) {
-      final URL url = this.getClass().getResource(resourceFileName);
+      final URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(resourceFileName);
       synthesizer = new DictionaryLookup(Dictionary.read(url));
     }
   }
