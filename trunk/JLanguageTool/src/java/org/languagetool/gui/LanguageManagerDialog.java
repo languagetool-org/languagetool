@@ -75,7 +75,7 @@ public class LanguageManagerDialog implements ActionListener {
   
   public void show() {
     dialog = new JDialog(owner, true);
-    dialog.setTitle(Messages.getString("guiLanguageManagerDialog"));   // FIXME: i18n //$NON-NLS-1$
+    dialog.setTitle(Messages.getString("guiLanguageManagerDialog"));
     
     // close dialog when user presses Escape key:
     // TODO: taken from ConfigurationDialog, avoid duplication:
@@ -178,7 +178,8 @@ public class LanguageManagerDialog implements ActionListener {
   static class XMLFileFilter extends FileFilter {
     @Override
     public boolean accept(final File f) {
-      if (f.getName().toLowerCase().endsWith(".xml") || f.isDirectory()) { //$NON-NLS-1$
+      if (f.getName().startsWith("rules") && f.getName().toLowerCase().endsWith(".xml") 
+              || f.isDirectory()) { //$NON-NLS-1$
         return true;
       }
       return false;
