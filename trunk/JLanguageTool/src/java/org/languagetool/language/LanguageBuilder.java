@@ -55,9 +55,9 @@ public class LanguageBuilder {
     }
     final String[] parts = file.getName().split("-");    
     final boolean startsWithRules = parts[0].equals("rules");
-    final boolean secondPartHasCorrectLength = 
-            (parts[1].length() == 2 || parts[1].length() == 5) || parts[1].length() == 3;
-    if (parts.length != 3 || !startsWithRules || !secondPartHasCorrectLength) {
+    final boolean secondPartHasCorrectLength = parts.length == 3 &&
+            (parts[1].length() == "en".length() || parts[1].length() == "ast".length() || parts[1].length() == "en_US".length());
+    if (!startsWithRules || !secondPartHasCorrectLength) {
       throw new RuleFilenameException(file);
     }
     //TODO: when the Language already exists, and the XML file is mergeable with
