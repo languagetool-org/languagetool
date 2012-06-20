@@ -1694,52 +1694,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="SP.*"></disambig>
     </rule>
-    <!-- ser + participi-->
-    <rulegroup id="ser_participi" name="ser + participi">
-        <rule>
-            <pattern> 
-                <token inflected="yes" regexp="yes">ser|estar|quedar|restar</token> 
-                <!-- exc.: les restes fossilitzades, però fou desmantellat. Cal comprovar la concordança abans -->
-                <marker>
-                    <token postag="V.P.*" postag_regexp="yes"></token>
-                </marker>
-            </pattern>
-            <disambig>
-                <match no="2" postag_regexp="yes" postag="V.P.*"></match>
-            </disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
-                    <token inflected="yes" regexp="yes">ser|estar|quedar|restar</token>
-                </marker>
-                <token postag="V.P.*" postag_regexp="yes"></token>
-            </pattern>
-            <disambig>
-                <match no="1" postag_regexp="yes" postag="V.*"></match>
-            </disambig>
-        </rule>
-<!--         <rule>
-            <pattern>
-                <token inflected="yes" regexp="yes">ser|estar|quedar|restar</token>
-                <marker>
-                    <token postag="V.P.*" postag_regexp="yes"></token>
-                </marker>
-            </pattern>
-            <disambig action="add"><wd pos="_GV_"></wd>
-            </disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
-                    <token inflected="yes" regexp="yes">ser|estar|quedar|restar</token>
-                </marker>
-                <token postag="V.P.*" postag_regexp="yes"></token>
-            </pattern>
-            <disambig action="add"><wd pos="_GV_"></wd>
-            </disambig>
-        </rule> -->
-    </rulegroup>
+ 
     <!-- hi haver + nom/verb   Hi ha alzines-->
     <rule id="haver_nom" name="haver + nom">
         <pattern>
@@ -2952,6 +2907,33 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="V.P.*|AQ.*"></disambig>
     </rule>
+    <!-- ser + participi-->
+    <rulegroup id="ser_participi" name="ser + participi">
+        <rule>
+            <pattern>
+                <unify>
+                <feature id="nombre"/>
+                    <token postag="V.[ISM].*" postag_regexp="yes" inflected="yes" regexp="yes">ser|estar|quedar|restar</token>
+                    <marker>
+                        <token postag="V.P.*" postag_regexp="yes"></token>
+                    </marker>
+                </unify>    
+            </pattern>
+            <disambig action="filter" postag="V.P.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <unify>
+                <feature id="nombre"/>
+                    <marker>
+                        <token postag="V.[ISM].*" postag_regexp="yes" inflected="yes" regexp="yes">ser|estar|quedar|restar</token>
+                    </marker>
+                    <token postag="V.P.*" postag_regexp="yes"></token>
+                </unify>
+            </pattern>
+            <disambig action="filter" postag="V.[ISM].*"/>
+        </rule>
+    </rulegroup>
     <rulegroup id="NUMERALS_ENCADENATS" name="numerals encadenats">
         <rule>
             <pattern>
