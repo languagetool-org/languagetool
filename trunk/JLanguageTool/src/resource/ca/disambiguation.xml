@@ -31,8 +31,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </marker>
                 <token regexp="yes">de|del|dels|d'</token>
             </pattern>
-            <disambig action="add"><wd lemma="enmig de" pos="&lt;LOC_PREP&gt;"></wd>
-            </disambig>
+            <disambig action="add"><wd lemma="enmig de" pos="&lt;LOC_PREP&gt;"></wd></disambig>
         </rule>
         <rule id="enmig2" name="locució prep">
             <pattern>
@@ -4699,4 +4698,28 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <disambig action="filter" postag="[^_].*"></disambig>
     </rule>
 -->
+<!-- Útils per a algunes regles  -->
+    <rulegroup id="diferent_del_del" name="diferent del del">
+        <rule>
+            <pattern>
+                <token regexp="yes">diferents?</token>
+                <marker>
+                    <token>de</token>
+                </marker>
+                <token postag="DA.*" postag_regexp="yes"/>        
+            </pattern>
+            <disambig action="add"><wd pos="allow_repetition"></wd></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>a</token>
+                <token>diferència</token>
+                <marker>
+                    <token>de</token>
+                </marker>
+                <token postag="DA.*" postag_regexp="yes"/>        
+            </pattern>
+            <disambig action="add"><wd pos="allow_repetition"></wd></disambig>
+        </rule>
+    </rulegroup>
 </rules>

@@ -2825,19 +2825,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!--  made more general-->
             <rule>
                 <pattern>
-                    <token negate_pos="yes" postag="SENT_START" regexp="yes"><exception>i</exception>\p{L}+</token>
-                    <token regexp="yes"><exception>i</exception>\p{L}+</token>
-                    <token>
-                        <match no="0"></match><exception postag="&lt;/LOC_ADV&gt;" regexp="yes">poc|més</exception></token>
-                    <token>
-                        <match no="1"></match><exception postag="&lt;/LOC_ADV&gt;" regexp="yes">poc|més</exception></token>
+                    <token negate_pos="yes" postag="SENT_START" regexp="yes"><exception>i</exception><exception postag="allow_repetition">de</exception>[\p{L}·'-]+</token>
+                    <token regexp="yes"><exception>i</exception>[\p{L}·'-]+</token>
+                    <marker>
+                        <token><match no="0"></match><exception postag="&lt;/LOC_ADV&gt;" regexp="yes">poc|més</exception></token>
+                        <token><match no="1"></match><exception postag="&lt;/LOC_ADV&gt;" regexp="yes">poc|més</exception></token>
+                    </marker>
                 </pattern>
-                <message>Aquesta frase és duplicada. Probablement hauria de ser <suggestion>\1 \2</suggestion>.</message>
+                <message>Elimina la duplicació. <suggestion></suggestion></message>
                 <short>Frase duplicada</short>
-                <example correction="a casa" type="incorrect">Benvinguts <marker>a casa a casa</marker> meva.</example>
-                <example type="correct">Benviguts <marker>a casa</marker> meva.</example>
+                <example correction="" type="incorrect">Benvinguts a casa <marker>a casa</marker> meva.</example>
+                <example correction="" type="incorrect">És l'americà <marker>l'americà</marker>.</example>
                 <example type="correct">No volia res més que mirar i mirar i mirar.</example>
                 <example type="correct">A més a més, ho va fer a poc a poc.</example>
+                <example type="correct">A diferència dels dels ocells.</example>
             </rule>
         </rulegroup>
         <rulegroup id="substantius_junts" name="Dos noms comuns junts">
