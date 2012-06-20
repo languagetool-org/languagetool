@@ -44,7 +44,7 @@ public class LanguageToolFilterTest extends BaseTokenStreamTestCase {
     filter = new LanguageToolFilter(stream, new JLanguageTool(Language.ENGLISH));
 
     assertTokenStreamContents(filter, new String[] { "_POS_SENT_START", "How", "_POS_WRB", "do",
-        "_POS_VBP", "_POS_VB", "you", "_POS_PRP", "thin", "_POS_JJ", "_POS_VBP", "_POS_VB", "?",
+        "_POS_VBP", "_POS_VB", "you", "_POS_PRP", "thin", "_POS_VBP", "_POS_VB", "_POS_JJ", "?",
         "_POS_SENT_END" }, new int[] { 0, 0, 0, 4, 4, 4, 7, 7, 11, 11, 11, 11, 15, 15 }, new int[] {
         0, 3, 3, 6, 6, 6, 10, 10, 15, 15, 15, 15, 16, 16 }, new String[] { "pos", "word", "pos",
         "word", "pos", "pos", "word", "pos", "word", "pos", "pos", "pos", "word", "pos" },

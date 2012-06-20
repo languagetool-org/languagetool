@@ -149,8 +149,8 @@ public class GermanTaggerTest extends TestCase {
     upperCaseWord.add("Das");
 
     List<AnalyzedTokenReadings> readings = tagger.tag(upperCaseWord);
-    assertEquals("[Das[der/PRO:PER:NOM:SIN:NEU, der/PRO:PER:AKK:SIN:NEU, der/PRO:DEM:NOM:SIN:NEU, " +
-            "der/PRO:DEM:AKK:SIN:NEU, der/ART:DEF:NOM:SIN:NEU, der/ART:DEF:AKK:SIN:NEU]]", readings.toString());
+    assertEquals("[Das[der/ART:DEF:AKK:SIN:NEU, der/ART:DEF:NOM:SIN:NEU, " +
+    		"der/PRO:DEM:AKK:SIN:NEU, der/PRO:DEM:NOM:SIN:NEU, der/PRO:PER:AKK:SIN:NEU, der/PRO:PER:NOM:SIN:NEU]]", readings.toString());
     
     readings = tagger.tag(upperCaseWord, false);
     assertEquals("[Das[null/null]]", readings.toString());
@@ -160,8 +160,8 @@ public class GermanTaggerTest extends TestCase {
     // words not originally in Morphy but added in LT 1.8 (moved from added.txt to german.dict)
     final GermanTagger tagger = new GermanTagger();
     final List<AnalyzedTokenReadings> readings = tagger.tag(Collections.singletonList("Wichtigtuerinnen"));
-    assertEquals("[Wichtigtuerinnen[Wichtigtuerin/SUB:NOM:PLU:FEM, Wichtigtuerin/SUB:GEN:PLU:FEM, " +
-            "Wichtigtuerin/SUB:DAT:PLU:FEM, Wichtigtuerin/SUB:AKK:PLU:FEM]]", readings.toString());
+    assertEquals("[Wichtigtuerinnen[Wichtigtuerin/SUB:AKK:PLU:FEM, " +
+    		"Wichtigtuerin/SUB:DAT:PLU:FEM, Wichtigtuerin/SUB:GEN:PLU:FEM, Wichtigtuerin/SUB:NOM:PLU:FEM]]", readings.toString());
   }
 
   public void testDictionary() throws IOException {
