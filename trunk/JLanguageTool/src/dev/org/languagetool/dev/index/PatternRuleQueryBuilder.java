@@ -54,8 +54,13 @@ public class PatternRuleQueryBuilder {
     }
   }
 
-  // create the next SpanQuery from the top Element in the Iterator.
   private SpanQuery next(Iterator<Element> it, boolean throwExceptionOnUnsupportedRule)
+          throws UnsupportedPatternRuleException {
+    return next(it, throwExceptionOnUnsupportedRule, 0);
+  }
+
+  // create the next SpanQuery from the top Element in the Iterator.
+  private SpanQuery next(Iterator<Element> it, boolean throwExceptionOnUnsupportedRule, int position)
       throws UnsupportedPatternRuleException {
 
     // no more Element
@@ -68,7 +73,7 @@ public class PatternRuleQueryBuilder {
     SpanQuery tokenQuery;
     SpanQuery posQuery = null;
     try {
-      checkUnsupportedRule(patternElement);
+      checkUnsupportedRule(patternElement, position);
       final boolean caseSensitive = patternElement.getCaseSensitive();
 
       tokenQuery = createTokenQuery(patternElement.getString(), patternElement.getNegation(),
@@ -89,7 +94,11 @@ public class PatternRuleQueryBuilder {
           tokenQuery = createTokenQuery(patternElement.getString(), patternElement.getNegation(),
                   patternElement.isRegularExpression(), patternElement.getCaseSensitive());
         } else {
-          tokenQuery = new POSAwaredSpanRegexQuery(new Term(FIELD_NAME, ".*"), false);
+          if (position == 0 && patternElement.getNegation()) {
+            tokenQuery = null;
+          } else {
+            tokenQuery = new POSAwaredSpanRegexQuery(new Term(FIELD_NAME, ".*"), false);
+          }
         }
       }
 
@@ -116,7 +125,7 @@ public class PatternRuleQueryBuilder {
     }
 
     // recursion invoke
-    final SpanQuery next = next(it, throwExceptionOnUnsupportedRule);
+    final SpanQuery next = next(it, throwExceptionOnUnsupportedRule, position + 1);
 
     if (next != null) {
       list.add(next);
@@ -129,31 +138,28 @@ public class PatternRuleQueryBuilder {
 
   }
 
-  private void checkUnsupportedRule(Element patternElement)
+  private void checkUnsupportedRule(Element patternElement, int position)
       throws UnsupportedPatternRuleException {
-    // we need Element to expose its features of exception and whitespace testing support.
+    if (position == 0 && patternElement.getNegation()) {
+      throw new UnsupportedPatternRuleException("Pattern rules with negation in first element are not supported.");
+    }
     if (patternElement.hasExceptionList()) {
-      throw new UnsupportedPatternRuleException(
-          "Pattern rules with token exceptions are not supported.");
+      throw new UnsupportedPatternRuleException("Pattern rules with token exceptions are not supported.");
     }
     if (patternElement.testWhitespace()) {
-      throw new UnsupportedPatternRuleException(
-          "Pattern rules with tokens testing \"Whitespace before\" are not supported.");
+      throw new UnsupportedPatternRuleException("Pattern rules with tokens testing \"Whitespace before\" are not supported.");
     }
     if (patternElement.hasAndGroup()) {
-      throw new UnsupportedPatternRuleException(
-          "Pattern rules with tokens in \"And Group\" are not supported.");
+      throw new UnsupportedPatternRuleException("Pattern rules with tokens in \"And Group\" are not supported.");
     }
     if (patternElement.isPartOfPhrase()) {
       throw new UnsupportedPatternRuleException("Pattern rules with phrases are not supported.");
     }
     if (patternElement.isUnified()) {
-      throw new UnsupportedPatternRuleException(
-          "Pattern rules with unified tokens are not supported.");
+      throw new UnsupportedPatternRuleException("Pattern rules with unified tokens are not supported.");
     }
     if (patternElement.isInflected()) {
-      throw new UnsupportedPatternRuleException(
-          "Pattern rules with inflected tokens are not supported.");
+      throw new UnsupportedPatternRuleException("Pattern rules with inflected tokens are not supported.");
     }
     // TODO: exception for <match no="0"/> etc. (patternElement.getMatch()?)
   }
