@@ -32,6 +32,7 @@ public class CatalanUnpairedQuestionMarksRule extends GenericUnpairedBracketsRul
   public CatalanUnpairedQuestionMarksRule(final ResourceBundle messages,
       final Language language) {
     super(messages, language);
+    setDefaultOff();
     startSymbols = CA_START_SYMBOLS;
     endSymbols = CA_END_SYMBOLS;
     uniqueMapInit();
