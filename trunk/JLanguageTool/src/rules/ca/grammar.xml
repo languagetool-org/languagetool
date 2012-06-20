@@ -3557,7 +3557,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag="P0.*|PP.*|V.[MNG].*" postag_regexp="yes" negate_pos="yes"><exception postag="V.[MNG].*" postag_regexp="yes"></exception></token>
                     <marker>
-                        <token postag="P0.*|PP.*" postag_regexp="yes"><exception regexp="yes">jo|tu|ella?|nosaltres|vosaltres|elle?s|vost[èé]s?|vós</exception></token>
+                        <token postag="P0.*|PP.*" postag_regexp="yes"><exception regexp="yes">jo|tu|ella?|nosaltres|vosaltres|elle?s|vost[èé]s?|vós</exception><exception postag="allow_saxon_genitive">'s</exception></token>
                     </marker>
                     <token postag="P0.*|PP.*|V.[^NGP].*" postag_regexp="yes" negate_pos="yes"><exception postag="P0.*|PP.*|V.[^NGP].*" postag_regexp="yes"></exception></token>
                 </pattern>
@@ -3565,6 +3565,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Pronom feble solt.</short>
                 <example type="incorrect">Aquí <marker>et</marker> no pots quedar.</example>
                 <example type="correct">Aquí no et pots quedar.</example>
+                <example type="correct">Les famoses Christie's i Sotheby's britàniques</example>
             </rule>
             <rule>
                 <pattern>
