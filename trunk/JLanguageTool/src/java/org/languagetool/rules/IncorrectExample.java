@@ -19,6 +19,7 @@
 package org.languagetool.rules;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -29,15 +30,16 @@ import java.util.List;
  */
 public class IncorrectExample {
 
-  private String example;
-  private List<String> corrections;
+  private final String example;
+  private final List<String> corrections;
 
   public IncorrectExample(final String example) {
     this.example = example;
+    this.corrections = Collections.emptyList();
   }
 
   public IncorrectExample(final String example, final String[] corrections) {
-    this(example);
+    this.example = example;
     this.corrections = Arrays.asList(corrections);
   }
   
