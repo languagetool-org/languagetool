@@ -213,12 +213,21 @@ public abstract class WrongWordInContextRule extends Rule {
       contexts = new Pattern[2];
     }
     
+    private String addBoundaries(String str) {
+      String ignore_case="";
+      if (str.startsWith("(?i)")) {
+        str = str.substring(4);
+        ignore_case = "(?i)";
+      }
+      return ignore_case + "\\b(" + str + ")\\b";
+    }
+    
     public void setWord(int i, String word) {
-      words[i] = Pattern.compile(word);
+      words[i] = Pattern.compile(addBoundaries(word));
     }
     
     public void setContext(int i, String context) {
-      contexts[i] = Pattern.compile(context);
+      contexts[i] = Pattern.compile(addBoundaries(context));
     }
     
   }

@@ -63,6 +63,8 @@ public class GermanWrongWordInContextRuleTest extends TestCase {
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Die Explosion der Mine.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Die Mine ist explodiert.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Er versucht, keine Miene zu verziehen.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Sie sollen weiter Minen eingesetzt haben.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Er verzieht sich nach Bekanntgabe der Mineralölsteuerverordnung.")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Er verzieht keine Mine.")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Mit unbewegter Mine.")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Er setzt eine kalte Mine auf.")).length);
