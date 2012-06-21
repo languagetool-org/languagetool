@@ -356,9 +356,9 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <marker>
-                    <token inflected="yes" skip="12">fer<exception scope="next" regexp="yes">,|que</exception></token>
+                    <token postag="V.[IS].*" inflected="yes" skip="12">fer<exception scope="next" regexp="yes">,|que</exception></token>
                 </marker>
-                <token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">segon|minut|hora|dia|setmana|mes|(tri|quadri)mestre|any|lustre|dècada|segle|mil·leni|moment|instant|temps</token>
+                <token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">segon|minut|hora|dia|setmana|mes|(tri|quadri|se)mestre|any|lustre|dècada|segle|mil·leni|moment|instant|temps</token>
             </pattern>
             <disambig action="filter" postag="&lt;/LOC_ADV&gt;"></disambig>
         </rule>
@@ -608,7 +608,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rulegroup id="sigles" name="sigles">
         <rule>
             <pattern>
-                <token regexp="yes">[1234567890]+</token>
+                <token regexp="yes">[1234567890]+|/</token>
                 <marker>
                     <token>ha</token>
                 </marker>
@@ -741,7 +741,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     </rule>
     <rule id="nom_vocals" name="el nom de les vocals">
         <pattern>
-            <token>la</token>
+            <token regexp="yes">la|una</token>
             <marker>
                 <token regexp="yes">a|e|i|o|u</token>
             </marker>
@@ -919,11 +919,11 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <marker>
                     <and>
                         <token postag="V.[IS].2S0" postag_regexp="yes" />
-                        <token postag="N.*" postag_regexp="yes" />
+                        <token postag="N.*|A.*|V.P.*" postag_regexp="yes" />
                     </and>
                 </marker>
             </pattern>
-            <disambig action="filter" postag="[^V].*" />
+            <disambig action="filter" postag="N.*|A.*|V.P.*" /> <!-- les ha vistes estenent la roba -->
         </rule>
     </rulegroup>
     <rule id="nAdverbi" name="no verb">
@@ -1056,6 +1056,28 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="add"><wd pos="_GV_"></wd></disambig>
         </rule>
+    </rulegroup>
+     <rulegroup id="haver_hi_auxiliar" name="haver-hi auxiliar">
+        <rule>
+            <pattern>
+                <token>hi</token>
+                <marker>
+                    <token inflected="yes">haver</token>
+                </marker>
+                
+            </pattern>
+            <disambig action="filter" postag="VA.*"></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token inflected="yes">haver</token>
+                </marker>
+                <token>-hi</token>
+            </pattern>
+            <disambig action="filter" postag="VA.*"></disambig>
+        </rule>
+        
     </rulegroup>    
     <rule id="DESPRES" name="després no participi">
         <pattern>
@@ -1683,16 +1705,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <match no="2" postag_regexp="yes" postag="V.[GP].*"></match>
         </disambig>
     </rule>
-    <rule id="VERB_PREPOSICIO" name="verb + preposició">
-        <!-- mogut per "haver acabat"; excepció: per tal d'aconseguir els seus fins-->
-        <pattern>
-            <token postag="V.*" postag_regexp="yes"><exception postag="N.*" postag_regexp="yes"/></token>
-            <marker>
-                <token postag="SPS00" postag_regexp="yes"></token>
-            </marker>
-        </pattern>
-        <disambig action="filter" postag="SP.*"></disambig>
-    </rule>
+
  
     <!-- hi haver + nom/verb   Hi ha alzines-->
     <rule id="haver_nom" name="haver + nom">
@@ -3009,7 +3022,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <marker>
-                    <token postag="R[GN].*" postag_regexp="yes"><exception regexp="yes">que|però|tant|poc|molt|tan</exception></token>
+                    <token postag="R[GN].*" postag_regexp="yes"><exception regexp="yes">fins|que|però|tant|poc|molt|tan</exception></token>
                 </marker>
                 <token postag="AQ.*|V.P.*" postag_regexp="yes"></token>
             </pattern>
@@ -3017,7 +3030,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token postag="R[GN].*" postag_regexp="yes"><exception regexp="yes">que|però|tant|poc|molt|tan</exception></token>
+                <token postag="R[GN].*" postag_regexp="yes"><exception regexp="yes">fins|que|però|tant|poc|molt|tan</exception></token>
                 <marker>
                     <token postag="AQ.*|V.P.*" postag_regexp="yes"></token>
                 </marker>
@@ -4071,6 +4084,17 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="V.P.*|AQ.*"></disambig>
     </rule>
+    <rule id="VERB_PREPOSICIO" name="verb + preposició">
+        <!-- mogut per "haver acabat"; excepció: per tal d'aconseguir els seus fins; per a aconseguir fins dignes d'aconseguir-se-->
+        <!-- mogut per "aconseguir fins dignes";-->
+        <pattern>
+            <token postag="V.*" postag_regexp="yes"><exception postag="N.*" postag_regexp="yes"/></token>
+            <marker>
+                <token postag="SPS00" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/></token>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="SP.*"></disambig>
+    </rule>
     <rulegroup id="PP_VERB" name="pronom personal seguit de verb">
         <!-- pronom personal + verb. Mogut per "en obres properes" -->
         <!-- estudiar concordances de persona i nombre!!!!!! <exception postag="D.*" postag_regexp="yes"/> -->
@@ -4445,7 +4469,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </and>
             </marker>
         </pattern>
-        <disambig action="filter" postag="N.*"></disambig>
+        <disambig action="filter" postag="N.*|A.*"></disambig>
     </rule>
     <rule id="PrepNom" name="prep + nom: prep. Ex: contra"> <!-- potser no és prep.: cap  -->
         <pattern>
