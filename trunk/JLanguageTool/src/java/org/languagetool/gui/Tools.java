@@ -43,7 +43,7 @@ public class Tools {
   public static String makeTexti18n(final ResourceBundle messages, final String key,
       final Object[] messageArguments) {
     final MessageFormat formatter = new MessageFormat("");
-    formatter.applyPattern(messages.getString(key));
+    formatter.applyPattern(messages.getString(key).replaceAll("'", "''"));
     return formatter.format(messageArguments);
   }
 
