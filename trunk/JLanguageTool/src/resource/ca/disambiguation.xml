@@ -356,7 +356,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <marker>
-                    <token postag="V.[IS].*" inflected="yes" skip="12">fer<exception scope="next" regexp="yes">,|que</exception></token>
+                    <token postag="V.[IS].*" postag_regexp="yes" inflected="yes" skip="12">fer<exception scope="next" regexp="yes">,|que</exception></token>
                 </marker>
                 <token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">segon|minut|hora|dia|setmana|mes|(tri|quadri|se)mestre|any|lustre|dècada|segle|mil·leni|moment|instant|temps</token>
             </pattern>
@@ -463,7 +463,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <token regexp="yes">efecte|tipus</token>
                 <marker>
-                    <token postag="NC.*" postag_regexp="yes"></token>
+                    <token postag="NC.*" postag_regexp="yes"><exception postag="NC.*" postag_regexp="yes" negate_pos="yes"/></token>
                 </marker>
             </pattern>
             <disambig action="filter" postag="AQ0MS0" />
@@ -1079,9 +1079,9 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         
     </rulegroup>    
-    <rule id="DESPRES" name="després no participi">
+    <rule id="DESPRES" name="després no participi"> <!-- cal una regla per a després/desprès -->
         <pattern>
-            <token postag="VA.*|N.MS.*|_GN_MS|RG" postag_regexp="yes" negate_pos="yes" />
+            <token postag="VA.*" postag_regexp="yes" negate_pos="yes" />
             <marker>
                 <token>després</token>
             </marker>
@@ -1249,7 +1249,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token>fer</token>
             </marker>
         </pattern>
-        <disambig action="filter" postag="V.N.*"></disambig>
+        <disambig action="filter" postag="V.N.*|complement"></disambig>
     </rule>
     <rule id="FER2" name="fer + pronom">
         <pattern>
@@ -1258,7 +1258,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </marker>
             <token postag="PP.*|P0.*" postag_regexp="yes"></token>
         </pattern>
-        <disambig action="filter" postag="V.N.*"></disambig>
+        <disambig action="filter" postag="V.N.*|complement"></disambig>
     </rule>
     <rule id="FER3" name="fer + infinitiu">
         <pattern>
@@ -3024,7 +3024,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <marker>
                     <token postag="R[GN].*" postag_regexp="yes"><exception regexp="yes">fins|que|però|tant|poc|molt|tan</exception></token>
                 </marker>
-                <token postag="AQ.*|V.P.*" postag_regexp="yes"></token>
+                <token postag="AQ.*|V.P.*" postag_regexp="yes"><exception postag="V.[MIS].*" postag_regexp="yes"/></token>
             </pattern>
             <disambig action="filter" postag="R.*"></disambig>
         </rule>
@@ -3032,7 +3032,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <token postag="R[GN].*" postag_regexp="yes"><exception regexp="yes">fins|que|però|tant|poc|molt|tan</exception></token>
                 <marker>
-                    <token postag="AQ.*|V.P.*" postag_regexp="yes"></token>
+                    <token postag="AQ.*|V.P.*" postag_regexp="yes"><exception postag="V.[MIS].*" postag_regexp="yes"/></token>
                 </marker>
             </pattern>
             <disambig action="filter" postag="A.*|V.P.*"></disambig>
@@ -3436,7 +3436,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </and>
             </marker>
         </pattern>
-        <disambig action="filter" postag="V.*"></disambig>
+        <disambig action="filter" postag="[^N].*"></disambig> <!-- sobre -->
     </rule>
     <rule id="nomverb_nom" name="nom + verb/nom">
         <pattern>
@@ -3458,7 +3458,8 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <token postag="N.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes" /></token>
                 </and>
             </marker>
-            <token postag="V.[MSI].*|PP.*|P0.*" postag_regexp="yes"><exception postag="V.[MSI].*|PP.*|P0.*|DA.*|_GV_" postag_regexp="yes" negate_pos="yes" /><exception regexp="yes">['-].+</exception><exception regexp="yes">jo|tu|ella?|nosaltres|vosaltres|elle?s|vost[èé]s?|vós</exception></token>
+            <!-- No està ben resolt?? -->
+            <token postag="V.[MSI].*|PP.*|P0.*" postag_regexp="yes"><exception postag="V.[MSI].*|PP.*|P0.*|_GV_" postag_regexp="yes" negate_pos="yes" /><exception regexp="yes">['-].+</exception><exception regexp="yes">jo|tu|ella?|nosaltres|vosaltres|elle?s|vost[èé]s?|vós</exception></token>
         </pattern>
         <disambig action="filter" postag="[^V].*"></disambig>
     </rule>
@@ -4257,6 +4258,17 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="V.*"></disambig>
     </rule>
+    <rule id="VerbNom" name="verb i nom que no ha concordat"> <!-- Això fou estrany -->
+        <pattern>
+            <marker>
+                <and>
+                    <token postag="NC.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes" /></token>
+                    <token postag="V.[SI].*" postag_regexp="yes"><exception postag="_GV_" /></token>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="V.*"></disambig>
+    </rule>
     <!-- verb + adj/verb  Havien estat ocultes. Mogut per: cap historiador reputat accepta aquesta teoria -->
     <rule id="verb_nom2" name="verb + adjectiu">
         <pattern>
@@ -4645,10 +4657,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <!-- paraules concretes-->
     <rule id="anys_despres" name="anys/dies/hores després">
         <pattern>
+            <token regexp="yes">hor(a|es)|hor(a|es)|di(a|es)|setman(a|es)|mes|mesos|anys?|minuts?|segons?|moments?</token>
             <marker>
-                <token regexp="yes">hores|dies|mesos|anys|minuts|segons|moments|setmanes</token>
+                <token>després</token>
             </marker>
-            <token>després</token>
         </pattern>
         <disambig action="filter" postag="RG"></disambig>
     </rule>
