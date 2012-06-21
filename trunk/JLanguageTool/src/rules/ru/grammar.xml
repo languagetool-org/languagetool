@@ -159,7 +159,7 @@ $Id$
         <rulegroup id="KAK_I" name="После союза “как” следует “и”">
             <!--TODO: Detect 2 comma.-->
             <rule>
-                <pattern case_sensitive="no">
+                <pattern case_sensitive="yes">
                     <marker>
                         <token negate="yes" regexp="yes">[\p{Punct}]|так|же|равно|также|время|-|—<exception postag="SENT_START"></exception></token>
                         <token>как</token>
@@ -1351,7 +1351,7 @@ $Id$
             <rule>
                 <pattern>
                     <token regexp="yes">пятеро|шестеро|семеро</token>
-                    <token postag="NN:Fem:.*" postag_regexp="yes"><exception>были</exception></token>
+                    <token postag="NN:Fem:.*" postag_regexp="yes"><exception regexp = "yes">были|стали</exception></token>
                 </pattern>
                 <message>Собирательные числительные (двое, трое, четверо, пятеро, шестеро, семеро) НЕЛЬЗЯ употреблять с существительными женского рода
                     <suggestion><match no="1" regexp_match="(пят|шест|сем)еро" regexp_replace="$1ь"></match> <match no="2"></match></suggestion>
@@ -1365,7 +1365,7 @@ $Id$
             <rule>
                 <pattern>
                     <token>двое</token>
-                    <token postag="NN:Fem:.*" postag_regexp="yes"><exception>были</exception></token>
+                    <token postag="NN:Fem:.*" postag_regexp="yes"><exception regexp = "yes">были|стали</exception></token>
                 </pattern>
                 <message>Собирательные числительные (двое, трое, четверо, пятеро, шестеро, семеро) НЕЛЬЗЯ употреблять с существительными женского рода
                     <suggestion>две <match no="2" postag="NN:Fem:PL:Nom"></match></suggestion>
@@ -1378,7 +1378,7 @@ $Id$
             <rule>
                 <pattern>
                     <token>трое</token>
-                    <token postag="NN:Fem:.*" postag_regexp="yes"><exception>были</exception></token>
+                    <token postag="NN:Fem:.*" postag_regexp="yes"><exception regexp = "yes">были|стали</exception></token>
                 </pattern>
                 <message>Собирательные числительные (двое, трое, четверо, пятеро, шестеро, семеро) НЕЛЬЗЯ употреблять с существительными женского рода
                     <suggestion>три <match no="2" postag="NN:Fem:PL:Nom"></match></suggestion>
@@ -1391,7 +1391,7 @@ $Id$
             <rule>
                 <pattern>
                     <token>четверо</token>
-                    <token postag="NN:Fem:.*" postag_regexp="yes"><exception>были</exception></token>
+                    <token postag="NN:Fem:.*" postag_regexp="yes"><exception regexp = "yes">были|стали</exception></token>
                 </pattern>
                 <message>Собирательные числительные (двое, трое, четверо, пятеро, шестеро, семеро) НЕЛЬЗЯ употреблять с существительными женского рода
                     <suggestion>четыре <match no="2" postag="NN:Fem:PL:Nom"></match></suggestion>
@@ -1730,7 +1730,7 @@ $Id$
                     <token>,</token>
                     <token>как</token>
                 </pattern>
-                <message>Оборот:<suggestion>не \2 \3 \4 \5</suggestion>.</message>
+                <message>Оборот:<suggestion>не \2 \3\4 \5</suggestion>.</message>
                 <short>Ошибка.</short>
                 <example type="correct">Был это не кто иной, как наш мастер.</example>
                 <example type="incorrect">Был это <marker>ни кто иной, как</marker> наш мастер.</example>
