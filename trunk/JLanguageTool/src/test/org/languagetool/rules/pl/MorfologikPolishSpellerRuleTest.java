@@ -26,6 +26,7 @@ public class MorfologikPolishSpellerRuleTest {
         assertEquals(0, rule.match(langTool.getAnalyzedSentence("To jest test bez jakiegokolwiek błędu.")).length);
         assertEquals(0, rule.match(langTool.getAnalyzedSentence("Żółw na starość wydziela dziwną woń.")).length);
         assertEquals(0, rule.match(langTool.getAnalyzedSentence(",")).length);
+        assertEquals(0, rule.match(langTool.getAnalyzedSentence("123454")).length);
 
         //incorrect sentences:
 

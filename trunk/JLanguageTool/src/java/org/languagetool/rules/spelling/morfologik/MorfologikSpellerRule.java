@@ -91,6 +91,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
                 isAlphabetic = StringTools.isAlphabetic(word.charAt(0));
               }              
             if (word.length() > 0 && isAlphabetic && !token.isImmunized()
+                    && !containsDigit(word)
                     && !speller.isInDictionary(word)
                     && !speller.isInDictionary(word.toLowerCase(conversionLocale))) {
                 final List<String> suggestions = new ArrayList<String>();                
@@ -110,6 +111,15 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
             }
         }
         return toRuleMatchArray(ruleMatches);
+    }
+    
+    private final boolean containsDigit(final String s) {        
+        for (int k = 0; k < s.length(); k++) {
+            if (Character.isDigit(s.charAt(k))) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }
