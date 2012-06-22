@@ -24,11 +24,11 @@ import java.util.ResourceBundle;
 import org.languagetool.Language;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 
-public final class MorfologikBritishSpellerRule extends MorfologikSpellerRule {
+public final class MorfologikAmericanSpellerRule extends MorfologikSpellerRule {
 
     private static final String RESOURCE_FILENAME = "/en/hunspell/en_US.dict";
     
-    public MorfologikBritishSpellerRule(ResourceBundle messages,
+    public MorfologikAmericanSpellerRule(ResourceBundle messages,
             Language language) {
         super(messages, language);
     }
@@ -39,7 +39,8 @@ public final class MorfologikBritishSpellerRule extends MorfologikSpellerRule {
     }
     
     public final String getId() {
-        return "MORFOLOGIK_RULE_EN_GB";
+        return "MORFOLOGIK_RULE_EN_US";
     }
+
 
 }

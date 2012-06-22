@@ -20,7 +20,7 @@
 package org.languagetool.language;
 
 import org.languagetool.rules.Rule;
-import org.languagetool.rules.spelling.hunspell.HunspellRule;
+import org.languagetool.rules.en.MorfologikAmericanSpellerRule;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,12 +36,16 @@ public class AmericanEnglish extends English {
   public final String getName() {
     return "English (US)";
   }
-
+  
+  public final String getId() {
+      return "MORFOLOGIK_RULE_EN_US";
+  }
+  
   public List<Class<? extends Rule>> getRelevantRules() {
     final List<Class<? extends Rule>> rules = new ArrayList<Class<? extends Rule>>();
-    rules.addAll(super.getRelevantRules());
-    rules.add(HunspellRule.class);
-    // nothing specific to American English yet...
+    rules.addAll(super.getRelevantRules());    
+    // American English speller...
+    rules.add(MorfologikAmericanSpellerRule.class);
     return rules;
   }
 

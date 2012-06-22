@@ -460,7 +460,7 @@ public class MainTest extends AbstractSecurityTestCase {
     Main.main(args);
     String output = new String(this.out.toByteArray());
     assertTrue(output.indexOf("Expected text language: English (US)") == 0);
-    assertTrue(output.contains("HUNSPELL_RULE"));
+    assertTrue(output.contains("MORFOLOGIK_RULE_EN_US"));
   }
 
 }
