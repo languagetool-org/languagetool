@@ -2229,13 +2229,14 @@ $Id$
         <rule id="KROPKA_W_NAWIASIE" name="Kropka w nawiasie">
             <pattern>
                 <token><exception>(</exception></token>
-                <token spacebefore="ignore"><exception regexp="yes">proc|r|itd|itp|cdn|jw|n.e|w|nn|n|br</exception><exception postag="brev:pun"/></token>
+                <token spacebefore="ignore"><exception regexp="yes">\d+</exception><exception postag="brev:pun"/></token>
                 <marker>
                     <token spacebefore="no"><exception postag="&lt;/ELLIPSIS&gt;"></exception>.</token>
                     <token postag="SENT_END" spacebefore="no">)</token>
                 </marker>
             </pattern>
             <message>Kropka kończąca zdanie powinna znajdować się za nawiasem (uwaga: dawniejsze reguły nakazywały stawiać kropkę przed nawiasem, jeśli w nawiasie znajdowało się całe zdanie; te reguły są dziś nieaktualne). Poprawnie: <suggestion>).</suggestion></message>
+            <url>http://so.pwn.pl/zasady.php?id=629865</url>
             <short>Błędne umiejscowienie kropki</short>
             <example correction=")." type="incorrect">(Całe zdanie jest w nawiasie<marker>.)</marker></example>
             <example type="correct">Jest na to wiele przykładów (herbata, mleko, woda...).</example>
@@ -2243,6 +2244,10 @@ $Id$
             <example type="correct">Po zakończeniu jego kadencji (pod koniec maja br.) zamierzam ubiegać się o wybór do zarządu.</example>
             <example type="correct">Sienkiewicz, Henryk (red.)</example>
             <example type="correct">To duża kwota (730 tys.)</example>
+            <example type="correct">To długo trwało (zwłaszcza w latach 50.) i do dziś trwa.</example>
+            <example type="correct">(Gnaeus Domitius Ahenobarbus, w 28 n.e.)</example>
+            <example type="correct">Zofia Staszczak (red. nauk.) Słownik etnologiczny.</example>
+            <example type="correct">Jezioro Bajkał (1637 m p.p.m.)</example>
         </rule>
         <rule id="KROPKA_W_CUDZYSLOWIE" name="Kropka w cudzysłowie">
             <pattern>

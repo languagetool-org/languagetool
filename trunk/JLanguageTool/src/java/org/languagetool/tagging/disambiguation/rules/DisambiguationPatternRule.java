@@ -104,7 +104,8 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
         && disambAction != DisambiguatorAction.UNIFY
         && disambAction != DisambiguatorAction.ADD
         && disambAction != DisambiguatorAction.REMOVE
-        && disambAction != DisambiguatorAction.IMMUNIZE) {
+        && disambAction != DisambiguatorAction.IMMUNIZE
+        && disambAction != DisambiguatorAction.REPLACE) {
       throw new NullPointerException("disambiguated POS cannot be null");
     }    
     this.disambiguatedPOS = disamb;
@@ -252,10 +253,11 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
             + endPositionCorrection) {
           String lemma = "";
           String token = "";
-          for (int i = 0; i < newTokenReadings.length; i++) {            
+          for (int i = 0; i < newTokenReadings.length; i++) {
+            final int position = text.getOriginalPosition(firstMatchToken + correctedStPos
+                      + i);
             if ("".equals(newTokenReadings[i].getToken())) { //empty token 
-              token = whTokens[text.getOriginalPosition(firstMatchToken + correctedStPos
-                  + i)].getToken();
+              token = whTokens[position].getToken();
             } else {
               token = newTokenReadings[i].getToken();
             }
@@ -265,8 +267,7 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
               lemma = newTokenReadings[i].getLemma();
             }
             final AnalyzedToken newTok = new AnalyzedToken(token, newTokenReadings[i].getPOSTag(), lemma);
-            final int position = text.getOriginalPosition(firstMatchToken + correctedStPos
-                    + i);
+            
             final String prevValue = whTokens[position].toString();
             final String prevAnot = whTokens[position].getHistoricalAnnotations();
             whTokens[position].addReading(newTok);
@@ -294,7 +295,31 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
     case REPLACE:
     default:
       if (!filtered) {
-        if (matchElement == null) {
+          if (newTokenReadings != null && newTokenReadings.length > 0) {
+              if (newTokenReadings.length == matchingTokens - startPositionCorrection
+                  + endPositionCorrection) {
+                String lemma = "";
+                String token = "";
+                for (int i = 0; i < newTokenReadings.length; i++) {
+                    final int position = text.getOriginalPosition(firstMatchToken + correctedStPos
+                            + i);
+                  if ("".equals(newTokenReadings[i].getToken())) { //empty token 
+                    token = whTokens[position].getToken();
+                  } else {
+                    token = newTokenReadings[i].getToken();
+                  }
+                  if (newTokenReadings[i].getLemma() == null) { //empty lemma
+                    lemma = token;
+                  } else {
+                    lemma = newTokenReadings[i].getLemma();
+                  }                                                                      
+                  final AnalyzedTokenReadings toReplace = new AnalyzedTokenReadings(
+                          new AnalyzedToken(token, newTokenReadings[i].getPOSTag(), lemma), 
+                                  whTokens[fromPos].getStartPos());
+                  whTokens[position] = replaceTokens(whTokens[position], toReplace);
+                }
+              }
+              } else if (matchElement == null) {                               
           String lemma = "";
           for (int l = 0; l < numRead; l++) {
             if (whTokens[fromPos].getAnalyzedToken(l).getPOSTag() != null
@@ -310,20 +335,8 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
 
           final AnalyzedTokenReadings toReplace = new AnalyzedTokenReadings(
               new AnalyzedToken(whTokens[fromPos].getToken(), disambiguatedPOS,
-                  lemma), whTokens[fromPos].getStartPos());
-          final boolean isSentEnd = whTokens[fromPos].isSentEnd();
-          final boolean isParaEnd = whTokens[fromPos].isParaEnd();
-          final String prevValue = whTokens[fromPos].toString();
-          whTokens[fromPos] = toReplace;
-          if (isSentEnd) {
-            whTokens[fromPos].setSentEnd();            
-          }
-          if (isParaEnd) {
-            whTokens[fromPos].setParaEnd();
-          }
-          whTokens[fromPos].setWhitespaceBefore(spaceBefore);
-          final String prevAnot = whTokens[fromPos].getHistoricalAnnotations();
-          annotateChange(whTokens[fromPos], prevValue, prevAnot);
+                  lemma), whTokens[fromPos].getStartPos());                    
+          whTokens[fromPos] = replaceTokens(whTokens[fromPos], toReplace);          
         } else {
           // using the match element
           matchElement.setToken(whTokens[fromPos]);
@@ -334,8 +347,27 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
           annotateChange(whTokens[fromPos], prevValue, prevAnot);
         }
       }
+    
     }
     return whTokens;
+  }
+  
+  private AnalyzedTokenReadings replaceTokens(AnalyzedTokenReadings oldAtr, final AnalyzedTokenReadings newAtr) {
+      final String prevValue = oldAtr.toString();
+      final String prevAnot = oldAtr.getHistoricalAnnotations();
+      final boolean isSentEnd = oldAtr.isSentEnd();
+      final boolean isParaEnd = oldAtr.isParaEnd();
+      final boolean spaceBefore = oldAtr.isWhitespaceBefore();
+      AnalyzedTokenReadings a = newAtr;      
+      if (isSentEnd) {
+          a.setSentEnd();            
+        }
+        if (isParaEnd) {
+            a.setParaEnd();
+        }
+      a.setWhitespaceBefore(spaceBefore);
+      annotateChange(a, prevValue, prevAnot);
+      return a;
   }
 
   private void annotateChange(AnalyzedTokenReadings atr, final String prevValue, String prevAnot) {      

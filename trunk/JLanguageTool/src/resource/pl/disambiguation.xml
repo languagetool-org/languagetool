@@ -1029,5 +1029,52 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     	<disambig action="replace"><match no="2" postag_regexp="yes" postag="subst.*">Tel</match></disambig>
     </rule>
     
+    <rule name="n.e." id="NE_BREV">
+    	<pattern>
+    		<token>n</token>
+    		<token>.</token>
+    		<marker>
+    		<token>e</token>
+    		</marker>
+    		<token>.</token>
+    	</pattern>
+    	<disambig action="add"><wd lemma="era" pos="brev:pun"/></disambig>
+    </rule>
+    
+    <rule name="nn" id="NN_BREV">
+    	<pattern>
+    		<token>nn</token>
+    		<token>.</token>
+    	</pattern>
+    	<disambig postag="brev:pun"/>
+    </rule>	
+    
+    <rule name="red. nauk." id="red_nauk_brev">
+    	<pattern>
+    	<token>red</token>
+    	<token>.</token>
+    	<marker>
+    	<token>nauk</token>
+    	</marker>
+    	<token>.</token>
+    	</pattern>
+    	<disambig action="add"><wd lemma="naukowy" pos="brev:pun"/></disambig>
+    </rule>
+    
+    <rule name="n.p.m." id="npm">
+    	<pattern>
+    		<token regexp="yes">[np]</token>
+    		<token>.</token>
+    		<token>p</token>
+    		<token>.</token>
+    		<marker>
+    			<token>m</token>
+    		</marker>
+    		<token>.</token>
+    	</pattern>
+    	<disambig action="replace"><wd lemma="morza" pos="brev:pun"/></disambig>
+    	<example type="untouched">Przebiegł 20 m.</example>
+    	<example type="ambiguous" inputform="m[metr/brev:npun]" outputform="m[morza/brev:pun]">Ta góra ma wysokość 20 m n. p. <marker>m</marker>.</example>
+    </rule>
     
 </rules>

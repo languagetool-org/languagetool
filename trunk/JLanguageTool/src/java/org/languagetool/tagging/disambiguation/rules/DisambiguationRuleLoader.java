@@ -264,8 +264,10 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
 
       final int matchedTokenCount = endPos - startPos;
       if (newWdList != null) {
-        if (disambigAction == DisambiguatorAction.ADD || disambigAction == DisambiguatorAction.REMOVE) {
-          if (newWdList.size() != matchedTokenCount) {
+        if (disambigAction == DisambiguatorAction.ADD || disambigAction == DisambiguatorAction.REMOVE
+                || disambigAction == DisambiguatorAction.REPLACE) {
+          if ((!newWdList.isEmpty() && disambigAction == DisambiguatorAction.REPLACE) 
+                  && newWdList.size() != matchedTokenCount) {
             throw new SAXException(
                 language.getName() + " rule error. The number of interpretations specified with wd: "
                     + newWdList.size()
