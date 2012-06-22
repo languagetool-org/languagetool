@@ -26,6 +26,8 @@ public class ContextToolsTest extends TestCase {
     final ContextTools contextTools = new ContextTools();
     final String context = contextTools.getContext(4, 8, "Hi, this is some nice text waiting for its error markers.");
     assertEquals("Hi, <b><font bgcolor=\"#ff8b8b\">this</font></b> is some nice text waiting for its error...", context);
+    final String context2 = contextTools.getContext(3, 5, "xxx\n \nyyy");
+    assertEquals("xxx<b><font bgcolor=\"#ff8b8b\">&nbsp;&nbsp;</font></b> yyy", context2);
   }
 
   public void testLargerContext() throws Exception {

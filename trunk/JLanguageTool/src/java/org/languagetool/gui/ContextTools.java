@@ -72,9 +72,11 @@ public class ContextTools {
     final int endMark = markerStr.lastIndexOf('^');
     String result = sb.toString();
     if (escapeHtml) {
+      final String escapedErrorPart = StringTools.escapeHTML(result.substring(startMark, endMark + 1))
+              .replace(" ", "&nbsp;");   // make sure whitespace errors are visible
       result = StringTools.escapeHTML(result.substring(0, startMark))
           + errorMarkerStart
-          + StringTools.escapeHTML(result.substring(startMark, endMark + 1))
+          + escapedErrorPart
           + errorMarkerEnd + StringTools.escapeHTML(result.substring(endMark + 1));
     } else {
       result = result.substring(0, startMark) + errorMarkerStart
