@@ -17,32 +17,29 @@
  * USA
  */
 
-package org.languagetool.language;
+package org.languagetool.rules.en;
 
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.en.MorfologikCanadianSpellerRule;
+import java.util.ResourceBundle;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.languagetool.Language;
+import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 
-public class CanadianEnglish extends English {
+public final class MorfologikCanadianSpellerRule extends MorfologikSpellerRule {
 
-  @Override
-  public final String[] getCountryVariants() {
-    return new String[]{"CA"};
-  }
+    private static final String RESOURCE_FILENAME = "/en/hunspell/en_US.dict";
+    
+    public MorfologikCanadianSpellerRule(ResourceBundle messages,
+            Language language) {
+        super(messages, language);
+    }
 
-  @Override
-  public final String getName() {
-    return "English (Canadian)";
-  }
-
-  public List<Class<? extends Rule>> getRelevantRules() {
-    final List<Class<? extends Rule>> rules = new ArrayList<Class<? extends Rule>>();
-    rules.addAll(super.getRelevantRules());    
-    // Canadian English speller...
-    rules.add(MorfologikCanadianSpellerRule.class);
-    return rules;
-  }
+    @Override
+    public String getFileName() {
+        return RESOURCE_FILENAME;
+    }
+    
+    public final String getId() {
+        return "MORFOLOGIK_RULE_EN_GB";
+    }
 
 }

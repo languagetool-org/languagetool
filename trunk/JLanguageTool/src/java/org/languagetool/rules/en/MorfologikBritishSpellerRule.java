@@ -26,7 +26,7 @@ import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 
 public final class MorfologikBritishSpellerRule extends MorfologikSpellerRule {
 
-    private static final String RESOURCE_FILENAME = "/en/hunspell/en_US.dict";
+    private static final String RESOURCE_FILENAME = "/en/hunspell/en_CA.dict";
     
     public MorfologikBritishSpellerRule(ResourceBundle messages,
             Language language) {
@@ -39,7 +39,7 @@ public final class MorfologikBritishSpellerRule extends MorfologikSpellerRule {
     }
     
     public final String getId() {
-        return "MORFOLOGIK_RULE_EN_GB";
+        return "MORFOLOGIK_RULE_EN_CA";
     }
 
 }

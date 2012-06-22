@@ -1,22 +1,3 @@
-Original version of the en_GB dictionary:
-http://www.openoffice.org/issues/show_bug.cgi/id=72145
-
-OpenOffice.org patch and morphological extension
-
-The morphological extension based on Wordlist POS and AGID data
-created by Kevin Atkinson and released on http://wordlist.sourceforge.net.
-
-Other fixes:
-
-OOo Issue 48060 - add numbers with affixes by COMPOUNDRULE (1st, 111th, 1990s etc.)
-OOo Issue 29112, 55498 - add NOSUGGEST flags to taboo words
-New REP items (better suggestions for accented words and a few mistakes)
-OOo Issue 63541 - remove *dessicated
-
-2008-12-18 nemeth AT OOo
-
-Original license:
-
 This dictionary was initially based on a subset of the 
 original English wordlist created by Kevin Atkinson for 
 Pspell and  Aspell and thus is covered by his original 
