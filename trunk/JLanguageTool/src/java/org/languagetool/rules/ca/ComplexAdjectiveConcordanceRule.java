@@ -74,7 +74,7 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
 	private static final Pattern UPPERCASE = Pattern.compile("\\p{Lu}[\\p{Ll}\u00B7]*");
 	private static final Pattern COORDINACIO = Pattern.compile(",|i|o");
 	private static final Pattern COORDINACIO_IONI = Pattern.compile("i|o|ni");
-	private static final Pattern KEEP_COUNT = Pattern.compile("AQ.*|N.*|D[AID].*|SPS.*|R.*");
+	private static final Pattern KEEP_COUNT = Pattern.compile("AQ.*|N.*|D[AID].*|SPS.*|R.*|V.P.*");
 	private static final Pattern KEEP_COUNT2 = Pattern.compile(",|i|o|ni");
 	private static final Pattern PREPOSICIONS = Pattern.compile("SPS.*");
 	private static final Pattern VERB_AUXILIAR = Pattern.compile("V[AS].*");

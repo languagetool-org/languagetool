@@ -42,6 +42,7 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
 	public void testRule() throws IOException { 
 
 		// correct sentences:
+		assertCorrect("instruments de càlcul basats en boles anomenats yupana.");
 		assertCorrect("El rei ha trobat l'excusa i l'explicació adequades.");
 		assertCorrect("El rei ha trobat l'excusa i l'explicació adequada.");
 		assertCorrect("Copa del món femenina.");   
@@ -61,7 +62,7 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
 		assertCorrect("Els períodes clàssic i medieval.");
 		assertCorrect("Els costats superior i laterals.");
 		assertCorrect("En una molècula de glucosa i una de fructosa unides.");
-		// Sholud be Incorrect, but it is impossible to detect
+		// Should be Incorrect, but it is impossible to detect
 		assertCorrect("Índex de desenvolupament humà i qualitat de vida elevat"); 
 		assertCorrect("Índex de desenvolupament humà i qualitat de vida elevats");
 		assertCorrect("Índex de desenvolupament humà i qualitat de vida elevada");
@@ -78,7 +79,7 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
 		assertIncorrect("En una molècula de glucosa i una de fructosa units.");
 		assertIncorrect("Un punt de densitat i gravetat infinits.");
 		assertIncorrect("Índex de desenvolupament humà i qualitat de vida elevades.");
-		// Sholud be Incorrect, but it is impossible to detect
+		// Should be Incorrect, but it is impossible to detect
 		// assertIncorrect("Índex de desenvolupament humà i qualitat de vida elevat");
 		assertIncorrect("La massa, el radi i la lluminositat llistat per ell.");
 		assertIncorrect("La massa, el radi i la lluminositat llistades per ell.");
