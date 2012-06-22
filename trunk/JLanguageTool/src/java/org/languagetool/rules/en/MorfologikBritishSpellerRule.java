@@ -17,33 +17,25 @@
  * USA
  */
 
-package org.languagetool.language;
+package org.languagetool.rules.en;
 
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.en.BritishReplaceRule;
-import org.languagetool.rules.en.MorfologikBritishSpellerRule;
+import java.util.ResourceBundle;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.languagetool.Language;
+import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 
-public class BritishEnglish extends English {
+public final class MorfologikBritishSpellerRule extends MorfologikSpellerRule {
 
-  @Override
-  public final String[] getCountryVariants() {
-    return new String[]{"GB"};
-  }
+    private static final String RESOURCE_FILENAME = "/en/hunspell/en_GB.dict";
+    
+    public MorfologikBritishSpellerRule(ResourceBundle messages,
+            Language language) {
+        super(messages, language);
+    }
 
-  @Override
-  public String getName() {
-    return "English (GB)";
-  }
+    @Override
+    public String getFileName() {
+        return RESOURCE_FILENAME;
+    }
 
-  public List<Class<? extends Rule>> getRelevantRules() {
-    final List<Class<? extends Rule>> rules = new ArrayList<Class<? extends Rule>>();
-    rules.addAll(super.getRelevantRules());    
-    // specific to British English:
-    rules.add(BritishReplaceRule.class);
-    rules.add(MorfologikBritishSpellerRule.class);
-    return rules;
-  }
 }
