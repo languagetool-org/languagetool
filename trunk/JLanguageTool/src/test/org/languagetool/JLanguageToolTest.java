@@ -88,7 +88,7 @@ public class JLanguageToolTest extends TestCase {
     tool.activateDefaultPatternRules();
     tool.setListUnknownWords(true);
     // German rule has no effect with English error, but they are spelling mistakes:
-    assertEquals(6, tool.check("I can give you more a detailed description").size());
+    assertEquals(8, tool.check("I can give you more a detailed description").size());
     //test unknown words listing
     assertEquals("[I, can, detailed, give, more, you]", tool.getUnknownWords().toString());
   }
