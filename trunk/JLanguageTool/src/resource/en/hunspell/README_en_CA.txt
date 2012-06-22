@@ -1,39 +1,3 @@
-Wordlist en_CA spelling and morphological dictionary for OpenOffice.org
-Version 2008-12-18
-
-Based on Wordlist Hunspell dictionaries version 2008-12-05
-and Wordlist POS and AGID data created by Kevin Atkinson
-and released on http://wordlist.sourceforge.net.
-
-Other fixes:
-
-OOo Issue 48060 - add numbers with affixes by COMPOUNDRULE (1st, 111th, 1990s etc.)
-New REP items (better suggestions for accented words and a few mistakes)
-OOo Issue 63541 - remove *dessicated, *dessication
-
-LÃ¡szlÃ³ NÃ©meth <nemeth at OO.o>
-
-Original license:
-
-2008-12-05 Release
-
-README file for en_US and en_CA Hunspell dictionaries
-
-These dictionaries are created using the speller/make-hunspell-dict
-dictionary in SCOWL, SVN revision 74.
-
-The NOSUGGEST flag was added to certain taboo words.  While I made an
-honest attempt to flag the strongest taboo words with the NOSUGGEST
-flag, I MAKE NO GUARANTEE THAT I FLAGGED EVERY POSSIBLE TABOO WORD.
-The list was originally derived from Németh László, however I removed
-some words which, while being considered taboo by some dictionaries,
-are not really considered swear words in today's society.
-
-You can find SCOWL and friend at http://wordlist.sourceforge.net/.
-Bug reports should go to the Issue Tracker found on the previously
-mentioned web site.  General discussion should go to the
-wordlist-devel at sourceforge net mailing list.
-
 COPYRIGHT, SOURCES, and CREDITS:
 
 The en_US and en_CA dictionaries come directly from SCOWL (up to level

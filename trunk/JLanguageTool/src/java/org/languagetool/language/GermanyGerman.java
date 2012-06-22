@@ -18,6 +18,26 @@
  */
 package org.languagetool.language;
 
+import java.util.Arrays;
+import java.util.List;
+
+import org.languagetool.rules.CommaWhitespaceRule;
+import org.languagetool.rules.GenericUnpairedBracketsRule;
+import org.languagetool.rules.Rule;
+import org.languagetool.rules.UppercaseSentenceStartRule;
+import org.languagetool.rules.WhitespaceRule;
+import org.languagetool.rules.de.AgreementRule;
+import org.languagetool.rules.de.CaseRule;
+import org.languagetool.rules.de.CompoundRule;
+import org.languagetool.rules.de.DashRule;
+import org.languagetool.rules.de.GermanDoublePunctuationRule;
+import org.languagetool.rules.de.GermanWordRepeatBeginningRule;
+import org.languagetool.rules.de.GermanWordRepeatRule;
+import org.languagetool.rules.de.GermanWrongWordInContextRule;
+import org.languagetool.rules.de.WiederVsWiderRule;
+import org.languagetool.rules.de.WordCoherencyRule;
+import org.languagetool.rules.de.MorfologikGermanyGermanSpellerRule;
+
 public class GermanyGerman extends German {
 
   @Override
@@ -30,4 +50,28 @@ public class GermanyGerman extends German {
     return "German (Germany)";
   }
 
+  @Override
+  public List<Class<? extends Rule>> getRelevantRules() {
+    return Arrays.asList(
+            CommaWhitespaceRule.class,
+            GermanDoublePunctuationRule.class,
+            GenericUnpairedBracketsRule.class,            
+            UppercaseSentenceStartRule.class,
+            WhitespaceRule.class,
+            // specific to German:
+            GermanWordRepeatRule.class,
+            GermanWordRepeatBeginningRule.class,
+            GermanWrongWordInContextRule.class,
+            AgreementRule.class,
+            CaseRule.class,
+            CompoundRule.class,
+            DashRule.class,
+            WordCoherencyRule.class,
+            WiederVsWiderRule.class,
+            //specific to Germany: speller
+            MorfologikGermanyGermanSpellerRule.class
+    );
+  }
+
+  
 }
