@@ -24,8 +24,7 @@ import org.languagetool.Language;
 import org.languagetool.language.RuleFilenameException;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.spelling.hunspell.HunspellRule;
-import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
+import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.server.HTTPServer;
 import org.languagetool.server.PortBindingException;
 import org.languagetool.tools.StringTools;
@@ -61,7 +60,7 @@ public final class Main implements ActionListener {
   private static final String HTML_GREY_FONT_START = "<font face='Arial,Helvetica' color='#666666'>";
 
   private static final String LT_ERROR_MARKER_START = "<b><font bgcolor=\"#d7d7ff\">";
-  private static final String HUNSPELL_ERROR_MARKER_START = "<b><font bgcolor=\"#ffd7d7\">";
+  private static final String SPELL_ERROR_MARKER_START = "<b><font bgcolor=\"#ffd7d7\">";
 
   private static final String HTML_FONT_END = "</font>";
   private static final String SYSTEM_TRAY_ICON_NAME = "/TrayIcon.png";
@@ -570,9 +569,8 @@ public final class Main implements ActionListener {
         final String repl = StringTools.listToString(match.getSuggestedReplacements(), "; ");
         sb.append("<b>" + messages.getString("correctionMessage") + "</b> " + repl + "<br>\n");
       }
-      if (match.getRule().getId().equals(HunspellRule.RULE_ID)
-              || match.getRule().getId().equals(MorfologikSpellerRule.RULE_ID)) {
-        contextTools.setErrorMarkerStart(HUNSPELL_ERROR_MARKER_START);
+      if (match.getRule() instanceof SpellingCheckRule) {
+        contextTools.setErrorMarkerStart(SPELL_ERROR_MARKER_START);
       } else {
         contextTools.setErrorMarkerStart(LT_ERROR_MARKER_START);
       }
