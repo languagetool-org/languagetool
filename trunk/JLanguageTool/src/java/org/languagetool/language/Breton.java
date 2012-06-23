@@ -27,7 +27,7 @@ import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tokenizers.br.BretonWordTokenizer;
 import org.languagetool.tagging.br.BretonTagger;
 import org.languagetool.rules.br.TopoReplaceRule;
-import org.languagetool.rules.spelling.hunspell.HunspellRule;
+import org.languagetool.rules.spelling.hunspell.HunspellNoSuggestionRule;
 
 import java.util.*;
 
@@ -97,7 +97,7 @@ public class Breton extends Language {
     return Arrays.asList(
             CommaWhitespaceRule.class,
             DoublePunctuationRule.class,
-            HunspellRule.class,
+            HunspellNoSuggestionRule.class,
             UppercaseSentenceStartRule.class,
             WhitespaceRule.class,
             TopoReplaceRule.class
