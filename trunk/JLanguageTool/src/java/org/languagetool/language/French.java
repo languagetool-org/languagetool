@@ -24,7 +24,7 @@ import org.languagetool.Language;
 import org.languagetool.rules.*;
 import org.languagetool.rules.fr.QuestionWhitespaceRule;
 import org.languagetool.rules.patterns.Unifier;
-import org.languagetool.rules.spelling.hunspell.HunspellRule;
+import org.languagetool.rules.spelling.hunspell.HunspellNoSuggestionRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.fr.FrenchHybridDisambiguator;
@@ -119,7 +119,7 @@ public class French extends Language {
             CommaWhitespaceRule.class,
             DoublePunctuationRule.class,
             GenericUnpairedBracketsRule.class,
-            HunspellRule.class,
+            HunspellNoSuggestionRule.class,
             UppercaseSentenceStartRule.class,
             WhitespaceRule.class,
             // specific to French:
