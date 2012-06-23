@@ -102,6 +102,15 @@ public abstract class Rule {
   }
 
   /**
+   * Whether this is a spelling rule. Used e.g. by the LanguageTool GUI to mark
+   * spelling errors with a different color.
+   * @since 1.8
+   */
+  public boolean isSpellingRule() {
+    return false;
+  }
+
+  /**
    * Set the examples that are correct and thus do not trigger the rule.
    */
   public final void setCorrectExamples(final List<String> correctExamples) {

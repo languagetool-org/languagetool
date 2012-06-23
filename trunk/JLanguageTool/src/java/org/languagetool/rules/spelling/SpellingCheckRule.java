@@ -53,6 +53,11 @@ public abstract class SpellingCheckRule extends Rule {
   public abstract RuleMatch[] match(AnalyzedSentence text) throws IOException;
 
   @Override
+  public boolean isSpellingRule() {
+    return true;
+  }
+
+  @Override
   public void reset() {
   }
 

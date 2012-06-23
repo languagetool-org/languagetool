@@ -66,10 +66,8 @@ import com.sun.star.uno.XComponentContext;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.gui.Configuration;
+import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.spelling.hunspell.HunspellNoSuggestionRule;
-import org.languagetool.rules.spelling.hunspell.HunspellRule;
-import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 import org.languagetool.tools.StringTools;
 import org.languagetool.tools.Tools;
 
@@ -359,9 +357,11 @@ public class Main extends WeakBase implements XJobExecutor,
       langTool = new JLanguageTool(docLanguage, config.getMotherTongue());
       langTool.activateDefaultPatternRules();
       langTool.activateDefaultFalseFriendRules();
-      langTool.disableRule(HunspellRule.RULE_ID);
-      langTool.disableRule(HunspellNoSuggestionRule.RULE_ID);
-      langTool.disableRule(MorfologikSpellerRule.RULE_ID);
+      for (Rule rule : langTool.getAllActiveRules()) {
+        if (rule.isSpellingRule()) {
+          langTool.disableRule(rule.getId());
+        }
+      }
       recheck = false;
     } catch (final Throwable t) {
       showError(t);
