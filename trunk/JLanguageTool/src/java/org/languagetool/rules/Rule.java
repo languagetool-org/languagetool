@@ -36,6 +36,8 @@ import org.languagetool.Language;
  */
 public abstract class Rule {
 
+  protected final ResourceBundle messages;
+
   private List<String> correctExamples;
   private List<IncorrectExample> incorrectExamples;
   private Category category;
@@ -48,12 +50,11 @@ public abstract class Rule {
   private List<RuleMatch> previousMatches;
   private List<RuleMatch> removedMatches;
 
-  protected ResourceBundle messages;
-
   /**
    * Called by language-dependent rules.
    */
   public Rule() {
+    this.messages = null;
   }
 
   /**
