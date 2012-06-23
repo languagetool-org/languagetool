@@ -98,9 +98,11 @@ public class HunspellRule extends SpellingCheckRule {
                 len, len + word.length(),
                 messages.getString("spelling"),
                 messages.getString("desc_spelling_short"));
-        final List<String> suggestions = dictionary.suggest(word);
-        if (suggestions != null) {
-          ruleMatch.setSuggestedReplacements(suggestions);
+        if (offerSuggestions()) {
+          final List<String> suggestions = dictionary.suggest(word);
+          if (suggestions != null) {
+            ruleMatch.setSuggestedReplacements(suggestions);
+          }
         }
         ruleMatches.add(ruleMatch);
       }
@@ -109,6 +111,10 @@ public class HunspellRule extends SpellingCheckRule {
 
 		return toRuleMatchArray(ruleMatches);
 	}
+
+  protected boolean offerSuggestions() {
+    return true;
+  }
 
   private String[] tokenizeText(final String sentence) throws IOException {
     return nonWordPattern.split(sentence);

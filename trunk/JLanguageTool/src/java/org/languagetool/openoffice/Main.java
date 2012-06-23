@@ -67,6 +67,7 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.gui.Configuration;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.spelling.hunspell.HunspellNoSuggestionRule;
 import org.languagetool.rules.spelling.hunspell.HunspellRule;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 import org.languagetool.tools.StringTools;
@@ -359,6 +360,7 @@ public class Main extends WeakBase implements XJobExecutor,
       langTool.activateDefaultPatternRules();
       langTool.activateDefaultFalseFriendRules();
       langTool.disableRule(HunspellRule.RULE_ID);
+      langTool.disableRule(HunspellNoSuggestionRule.RULE_ID);
       langTool.disableRule(MorfologikSpellerRule.RULE_ID);
       recheck = false;
     } catch (final Throwable t) {
