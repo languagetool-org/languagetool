@@ -613,13 +613,14 @@ though, and has since been slightly modified)-->
         <rule id="QUAND_QUANT" name="Quand au lien de quant">
             <pattern>
                 <marker>
-                    <token>quand</token>
+                    <token>quand<exception scope="previous">de</exception></token>
                 </marker>
                 <token regexp="yes">à|aux?</token>
             </pattern>
             <message>Voulez-vous écrire <suggestion>quant</suggestion> ?</message>
             <example type="incorrect"><marker>Quand</marker> à ma commande, elle n’est pas arrivée.</example>
             <example type="correct">Quant à ma commande, elle n’est pas arrivée.</example>
+            <example type="correct">De quand à quand tu travailles ?</example>
         </rule>
         <rule id="QUANT_QUAND" name="Quant au lien de quand">
             <pattern>
@@ -974,7 +975,7 @@ though, and has since been slightly modified)-->
                     <marker>
                         <token regexp="yes">d[eé]s</token>
                     </marker>
-                    <token regexp="yes">que?|[lmst]a|[mts]on|[lmst]es|le?|[nv]os|[nv]otre|leurs?|ce[ts]?|cette|lors|après|maintenant|à|toujours|midi|minuit|aujourd|hier|demain|une?|janvier|f[eé]vrier|mars|avril|mai|juin|juillet|a[uû]ot|septembre|octobre|novembre|d[eé]cembre|vendémiaire|brumaire|frimaire|nivôse|pluviôse|ventôse|germinal|floréal|prairial|messidor|thermidor|fructidor|lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche|P[âa]ques|No[ëe]l|[12]?\d\d\d</token>
+                    <token regexp="yes">que?|[lmst]a|[mts]on|[lmst]es|le?[nv]os|cette|lors|après|maintenant|à|toujours|midi|minuit|aujourd|hier|demain|une?|janvier|f[eé]vrier|mars|avril|mai|juin|juillet|a[uû]ot|septembre|octobre|novembre|d[eé]cembre|vendémiaire|brumaire|frimaire|nivôse|pluviôse|ventôse|germinal|floréal|prairial|messidor|thermidor|fructidor|lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche|P[âa]ques|No[ëe]l|[12]?\d\d\d</token>
                 </pattern>
                 <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="(.).." regexp_replace="$1ès"></match></suggestion> ?</message>
                 <example type="incorrect">Tu repars <marker>des</marker> qu’il arrive.</example>
@@ -982,6 +983,7 @@ though, and has since been slightly modified)-->
                 <example type="incorrect"><marker>Des</marker> à présent</example>
                 <example type="incorrect"><marker>Des</marker> 1980, le pays était en crise.</example>
                 <example type="correct"><marker>Dès</marker> 1980, le pays était en crise.</example>
+                <example type="correct">C’est un des leurs.</example>
             </rule>
             <rule>
                 <pattern>
