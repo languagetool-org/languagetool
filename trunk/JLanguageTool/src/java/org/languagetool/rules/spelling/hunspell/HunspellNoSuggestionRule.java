@@ -18,15 +18,15 @@ public class HunspellNoSuggestionRule extends HunspellRule {
   }
 
   @Override
- 	public String getId() {
- 		return RULE_ID;
- 	}
+  public String getId() {
+    return RULE_ID;
+  }
 
- 	@Override
- 	public String getDescription() {
-     // TODO: make i18n after LT 1.8? or will it only be used for German anyway?
- 		return "Möglicher Rechtschreibfehler (ohne Korrekturvorschlag)";
- 	}
+  @Override
+  public String getDescription() {
+    // TODO: make i18n after LT 1.8
+    return messages.getString("desc_spelling") + " (no suggestions)";
+  }
 
   @Override
   protected boolean offerSuggestions() {
