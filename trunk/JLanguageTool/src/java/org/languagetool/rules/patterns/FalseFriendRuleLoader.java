@@ -141,8 +141,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
 
   private boolean inTranslation;
 
-  public FalseFriendRuleHandler(final Language textLanguage,
-      final Language motherTongue) {
+  public FalseFriendRuleHandler(final Language textLanguage, final Language motherTongue) {
     messages = ResourceBundle.getBundle(
         "org.languagetool.MessagesBundle", motherTongue.getLocale());
     formatter = new MessageFormat("");
@@ -186,12 +185,12 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
       inTranslation = true;
       final String languageStr = attrs.getValue("lang");
       final Language tmpLang = Language.getLanguageForShortName(languageStr);
+      if (tmpLang == null) {
+        throw new SAXException("Unknown language '" + languageStr + "'");
+      }
       currentTranslationLanguage = tmpLang;
-      if (tmpLang == motherTongue) {
+      if (tmpLang.equalsConsiderVariantsIfSpecified(motherTongue)) {
         translationLanguage = tmpLang;
-        if (translationLanguage == null) {
-          throw new SAXException("Unknown language '" + languageStr + "'");
-        }
       }
     } else if (qName.equals(EXAMPLE)
         && attrs.getValue(TYPE).equals("correct")) {
@@ -215,8 +214,8 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
   public void endElement(final String namespaceURI, final String sName,
       final String qName) {
     if (qName.equals(RULE)) {
-      if (language == textLanguage && translationLanguage != null
-          && translationLanguage == motherTongue && language != motherTongue
+      if (language.equalsConsiderVariantsIfSpecified(textLanguage) && translationLanguage != null
+          && translationLanguage.equalsConsiderVariantsIfSpecified(motherTongue) && language != motherTongue
           && !translations.isEmpty()) {
         formatter.applyPattern(messages.getString("false_friend_hint"));
         final String tokensAsString = StringUtils.join(elementList, " ").replace('|', '/');
@@ -248,10 +247,11 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
     } else if (qName.equals(PATTERN)) {
       inPattern = false;
     } else if (qName.equals(TRANSLATION)) {
-      if (currentTranslationLanguage == motherTongue) {
+      if (currentTranslationLanguage.equalsConsiderVariantsIfSpecified(motherTongue)) {
         translations.add(translation);
       }
-      if (currentTranslationLanguage == textLanguage && language == motherTongue) {
+      if (currentTranslationLanguage.equalsConsiderVariantsIfSpecified(textLanguage)
+              && language.equalsConsiderVariantsIfSpecified(motherTongue)) {
         suggestions.add(translation.toString());
       }
       translation = new StringBuilder();
@@ -282,8 +282,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
 
   private String formatTranslations(final List<StringBuilder> translations) {
     final StringBuilder sb = new StringBuilder();
-    for (final Iterator<StringBuilder> iter = translations.iterator(); iter
-        .hasNext();) {
+    for (final Iterator<StringBuilder> iter = translations.iterator(); iter.hasNext();) {
       final StringBuilder trans = iter.next();
       sb.append('"');
       sb.append(trans.toString());

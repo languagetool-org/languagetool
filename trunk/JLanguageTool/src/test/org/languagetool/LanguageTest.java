@@ -100,4 +100,18 @@ public class LanguageTest {
         assertEquals(Language.AMERICAN_ENGLISH, Language.getLanguageForLocale(new Locale("zz")));
     }
 
+    @Test
+    public void testEqualsConsiderVariantIfSpecified() {
+        // every language equals itself:
+        assertTrue(Language.GERMAN.equalsConsiderVariantsIfSpecified(Language.GERMAN));
+        assertTrue(Language.GERMANY_GERMAN.equalsConsiderVariantsIfSpecified(Language.GERMANY_GERMAN));
+        assertTrue(Language.ENGLISH.equalsConsiderVariantsIfSpecified(Language.ENGLISH));
+        assertTrue(Language.AMERICAN_ENGLISH.equalsConsiderVariantsIfSpecified(Language.AMERICAN_ENGLISH));
+        // equal if variant is the same, but only if specified:
+        assertTrue(Language.AMERICAN_ENGLISH.equalsConsiderVariantsIfSpecified(Language.ENGLISH));
+        assertTrue(Language.ENGLISH.equalsConsiderVariantsIfSpecified(Language.AMERICAN_ENGLISH));
+
+        assertFalse(Language.AMERICAN_ENGLISH.equalsConsiderVariantsIfSpecified(Language.BRITISH_ENGLISH));
+        assertFalse(Language.ENGLISH.equalsConsiderVariantsIfSpecified(Language.GERMAN));
+    }
 }

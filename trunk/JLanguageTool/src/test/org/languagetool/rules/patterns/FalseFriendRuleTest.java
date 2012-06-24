@@ -25,15 +25,14 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import junit.framework.TestCase;
 
+import org.languagetool.rules.en.MorfologikAmericanSpellerRule;
+import org.languagetool.rules.en.MorfologikBritishSpellerRule;
 import org.xml.sax.SAXException;
 
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.rules.RuleMatch;
 
-/**
- * @author Daniel Naber
- */
 public class FalseFriendRuleTest extends TestCase {
 
   public void testHintsForGermanSpeakers() throws IOException, ParserConfigurationException, SAXException {
@@ -45,6 +44,36 @@ public class FalseFriendRuleTest extends TestCase {
     assertErrors(1, "I go to high school in Foocity.", langTool);
     final List<RuleMatch> matches2 = assertErrors(1, "The chef", langTool);
     assertEquals("[boss, chief]", matches2.get(0).getSuggestedReplacements().toString());
+  }
+
+  public void testHintsForGermanSpeakersWithVariant() throws IOException, ParserConfigurationException, SAXException {
+    JLanguageTool langTool = new JLanguageTool(Language.BRITISH_ENGLISH, Language.SWISS_GERMAN);
+    langTool.activateDefaultFalseFriendRules();
+    final List<RuleMatch> matches = assertErrors(1, "We will berate you.", langTool);
+    assertEquals(matches.get(0).getSuggestedReplacements().toString(), "[to provide advice, to give advice]");
+    assertErrors(0, "We will give you advice.", langTool);
+    assertErrors(1, "I go to high school in Berlin.", langTool);
+    final List<RuleMatch> matches2 = assertErrors(1, "The chef", langTool);
+    assertEquals("[boss, chief]", matches2.get(0).getSuggestedReplacements().toString());
+  }
+
+  public void testHintsForDemoLanguage() throws IOException, ParserConfigurationException, SAXException {
+    JLanguageTool langTool1 = new JLanguageTool(Language.BRITISH_ENGLISH, Language.GERMAN);
+    langTool1.disableRule(MorfologikBritishSpellerRule.RULE_ID);
+    langTool1.activateDefaultFalseFriendRules();
+    final List<RuleMatch> matches1 = assertErrors(1, "And forDemoOnly.", langTool1);
+    assertEquals("DEMO_ENTRY", matches1.get(0).getRule().getId());
+
+    JLanguageTool langTool2 = new JLanguageTool(Language.ENGLISH, Language.GERMAN);
+    langTool2.disableRule(MorfologikBritishSpellerRule.RULE_ID);
+    langTool2.activateDefaultFalseFriendRules();
+    final List<RuleMatch> matches2 = assertErrors(1, "And forDemoOnly.", langTool2);
+    assertEquals("DEMO_ENTRY", matches2.get(0).getRule().getId());
+
+    JLanguageTool langTool3 = new JLanguageTool(Language.AMERICAN_ENGLISH, Language.GERMAN);
+    langTool3.disableRule(MorfologikAmericanSpellerRule.RULE_ID);
+    langTool3.activateDefaultFalseFriendRules();
+    assertErrors(0, "And forDemoOnly.", langTool3);
   }
 
   public void testHintsForEnglishSpeakers() throws IOException, ParserConfigurationException, SAXException {
@@ -68,24 +97,24 @@ public class FalseFriendRuleTest extends TestCase {
   private List<RuleMatch> assertErrors(int errorCount, String s, JLanguageTool langTool) throws IOException {
     List<RuleMatch> matches = langTool.check(s);
     //System.err.println(matches);
-    assertEquals(errorCount, matches.size());
+    assertEquals("Matches found: " + matches, errorCount, matches.size());
     return matches;
   }
   
-  private void assertSuggestions(final int suggestionCount, final String s, final JLanguageTool langTool) throws IOException {
-    final List<RuleMatch> matches = langTool.check(s);
-    int suggFound = 0;
+  private void assertSuggestions(final int suggestionCount, final String text, final JLanguageTool langTool) throws IOException {
+    final List<RuleMatch> matches = langTool.check(text);
+    int suggestionsFound = 0;
     for (final RuleMatch match : matches) {
       int pos = 0;
       while (pos != -1) {
         pos = match.getMessage().indexOf("<suggestion>", pos + 1);
-        suggFound ++;
+        suggestionsFound ++;
       }       
     }
-    if (suggFound > 0) {
-      suggFound--;
+    if (suggestionsFound > 0) {
+      suggestionsFound--;
     }
-    assertEquals(suggestionCount, suggFound);
+    assertEquals(suggestionCount, suggestionsFound);
   }
   
 }

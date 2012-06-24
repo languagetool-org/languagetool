@@ -434,8 +434,8 @@ public abstract class Language {
   public static String getAllMaintainers(final ResourceBundle messages) {
     final StringBuilder maintainersInfo = new StringBuilder();
     final List<String> toSort = new ArrayList<String>();
-    for (final Language lang : Language.LANGUAGES) {
-      if (lang != Language.DEMO && !lang.isVariant()) {
+    for (final Language lang : Language.REAL_LANGUAGES) {
+      if (!lang.isVariant()) {
         if (lang.getMaintainers() != null) {
           final List<String> names = new ArrayList<String>();
           for (Contributor contributor : lang.getMaintainers()) {
@@ -483,6 +483,28 @@ public abstract class Language {
 
   public boolean isExternal() {
     return false;
+  }
+
+  /**
+   * Return true if this is the same language as the given one, considering
+   * variants only if set for both languages. For example: en = en, en = en-GB, en-GB = en-GB,
+   * but en-US != en-GB
+   */
+  public boolean equalsConsiderVariantsIfSpecified(Language otherLanguage) {
+    if (getShortName().equals(otherLanguage.getShortName())) {
+      final boolean thisHasVariant = hasCountryVariant();
+      final boolean otherHasVariant = otherLanguage.hasCountryVariant();
+      if (thisHasVariant && otherHasVariant) {
+        return getShortNameWithVariant().equals(otherLanguage.getShortNameWithVariant());
+      }
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  private boolean hasCountryVariant() {
+    return getCountryVariants().length == 1 && !(getCountryVariants().length == 1 && getCountryVariants()[0].equals("ANY"));
   }
 
   private static String listToStringWithLineBreaks(final Collection<String> l) {
