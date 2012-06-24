@@ -46,20 +46,19 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
 	private static final Pattern NOM_FS = Pattern.compile("N.[FC][SN].*");
 	private static final Pattern NOM_MP = Pattern.compile("N.[MC][PN].*");
 	private static final Pattern NOM_FP = Pattern.compile("N.[FC][PN].*");
-	private static final Pattern DET_CS = Pattern.compile("D[DA0I]0CS0");
-	private static final Pattern DET_MS = Pattern.compile("D[DA0I]0MS0"); 
-	private static final Pattern DET_FS = Pattern.compile("D[DA0I]0FS0");
-	private static final Pattern DET_MP = Pattern.compile("D[DA0I]0MP0");
-	private static final Pattern DET_FP = Pattern.compile("D[DA0I]0FP0");
-	private static final Pattern GN_MS = Pattern.compile("N.[MC][SN].*|D[DA0I]0MS0");
-	private static final Pattern GN_FS = Pattern.compile("N.[FC][SN].*|D[DA0I]0FS0");
-	private static final Pattern GN_MP = Pattern.compile("N.[MC][PN].*|D[DA0I]0MP0");
-	private static final Pattern GN_FP = Pattern.compile("N.[FC][PN].*|D[DA0I]0FP0");
-	private static final Pattern GN_CP = Pattern.compile("N.[FMC][PN].*|D[DA0I]0[FM]P0");
-	private static final Pattern GN_CS = Pattern.compile("N.[FMC][SN].*|D[DA0I]0[FM]S0");
+	private static final Pattern DET_CS = Pattern.compile("D[NDA0I]0CS0");
+	private static final Pattern DET_MS = Pattern.compile("D[NDA0I]0MS0"); 
+	private static final Pattern DET_FS = Pattern.compile("D[NDA0I]0FS0");
+	private static final Pattern DET_MP = Pattern.compile("D[NDA0I]0MP0");
+	private static final Pattern DET_FP = Pattern.compile("D[NDA0I]0FP0");
+	private static final Pattern GN_MS = Pattern.compile("N.[MC][SN].*|D[NDA0I]0MS0");
+	private static final Pattern GN_FS = Pattern.compile("N.[FC][SN].*|D[NDA0I]0FS0");
+	private static final Pattern GN_MP = Pattern.compile("N.[MC][PN].*|D[NDA0I]0MP0");
+	private static final Pattern GN_FP = Pattern.compile("N.[FC][PN].*|D[NDA0I]0FP0");
+	private static final Pattern GN_CP = Pattern.compile("N.[FMC][PN].*|D[NDA0I]0[FM]P0");
+	private static final Pattern GN_CS = Pattern.compile("N.[FMC][SN].*|D[NDA0I]0[FM]S0");
 
 	private static final Pattern ADJECTIU = Pattern.compile("AQ.*|V.P.*|PX.*");
-	private static final Pattern PARTICIPI = Pattern.compile("V.P.*");
 	private static final Pattern ADJECTIU_MS = Pattern.compile("A..[MC][SN].*|V.P..SM|PX.MS.*");
 	private static final Pattern ADJECTIU_FS = Pattern.compile("A..[FC][SN].*|V.P..SF|PX.FS.*");
 	private static final Pattern ADJECTIU_MP = Pattern.compile("A..[MC][PN].*|V.P..PM|PX.MP.*");
@@ -74,11 +73,12 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
 	private static final Pattern UPPERCASE = Pattern.compile("\\p{Lu}[\\p{Ll}\u00B7]*");
 	private static final Pattern COORDINACIO = Pattern.compile(",|i|o");
 	private static final Pattern COORDINACIO_IONI = Pattern.compile("i|o|ni");
-	private static final Pattern KEEP_COUNT = Pattern.compile("AQ.*|N.*|D[AID].*|SPS.*|R.*|V.P.*");
+	private static final Pattern KEEP_COUNT = Pattern.compile("A.*|N.*|D[NAID].*|SPS.*|R.*|V.P.*");
 	private static final Pattern KEEP_COUNT2 = Pattern.compile(",|i|o|ni");
 	private static final Pattern PREPOSICIONS = Pattern.compile("SPS.*");
 	private static final Pattern VERB_AUXILIAR = Pattern.compile("V[AS].*");
 	private static final Pattern EXCEPCIONS_PARTICIPI = Pattern.compile("atès|atés|atesa|atesos|ateses|donat|donats|donada|donades");
+	private static final Pattern EXCEPCIONS_PREVIA = Pattern.compile("volt(a|es)|vegad(a|es)|cops?|termes?|paraul(a|es)|mots?|vocables?");
 
 
 	public ComplexAdjectiveConcordanceRule(ResourceBundle messages) throws IOException {
@@ -89,7 +89,7 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
 
 	@Override
 	public String getId() {
-		return "COMPLEX_ADJECTIVE_CONCORDANCE";
+		return "CONCORDANCES_ADJECTIU_POSPOSAT";
 	}
 
 	@Override
@@ -106,10 +106,10 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
 			{
 				final String token=tokens[i].getToken();
 				final String prevToken=tokens[i-1].getToken();
-				String prevPrevToken="";
-				if (i > 2) {
-					prevPrevToken = tokens[i-2].getToken();
-				}
+//				String prevPrevToken="";
+//				if (i > 2) {
+//					prevPrevToken = tokens[i-2].getToken();
+//				}
 				String nextToken="";
 				if (i < tokens.length-1) {
 					nextToken = tokens[i+1].getToken();
@@ -124,7 +124,7 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
 				Pattern adjPattern = null;
 				Matcher isUpperCase = UPPERCASE.matcher(token);
 
-				//Counts nouns and determiners before the adjective (-maxLocalWords ). 
+				//Counts nouns and determiners before the adjectives. 
 				//Takes care of acceptable combinations. 
 				int maxLevels=4;
 				int[] cNt = new int[maxLevels];
@@ -224,23 +224,18 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
 					}	
 				}
 
-				//exception: una vegada + participi
-				if (!isException && matchPostagRegexp(tokens[i],PARTICIPI) &&
-						((prevPrevToken.equalsIgnoreCase("una")&&prevToken.equals("vegada"))
-								||(prevPrevToken.equalsIgnoreCase("una")&&prevToken.equals("volta"))
-								||(prevPrevToken.equalsIgnoreCase("un")&&prevToken.equals("cop")))) {
+				//exception: una vegada + participi, a vegades, etc.
+				if (!isException && matchRegexp(prevToken,EXCEPCIONS_PREVIA)) {
 					isException=true;}
 
 				//exceptions: llevat de, tret de, majúsucula inicial
 				if ( !isException && ( ((token.equals("tret") || token.equals("llevat") ) && nextToken.equals("de")) 
-						|| token.equals("primer") || token.equals("junts") 
-						|| prevToken.equals("terme") || prevToken.equals("paraula") || prevToken.equals("mot") 
-						|| prevToken.equals("termes") || prevToken.equals("paraules") || prevToken.equals("mots") 
+						|| token.equals("primer") || token.equals("junts")  
 						|| isUpperCase.matches() ) ) {
 					isException=true;}
 				
 				//exceptions: atès, atesos..., donat, donats... 
-				if ( !isException && matchPostagRegexp(tokens[i],EXCEPCIONS_PARTICIPI) ) {
+				if ( !isException && matchRegexp(token,EXCEPCIONS_PARTICIPI) ) {
 					isException=true;}
 
 				//exceptions: segur que

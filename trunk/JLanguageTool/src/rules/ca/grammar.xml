@@ -2,8 +2,8 @@
 <?xml-stylesheet type="text/xsl" href="../print.xsl" title="Pretty print" ?>
 <?xml-stylesheet type="text/css" href="../rules.css" title="Easy editing stylesheet" ?>
 <!--
-Catalan Grammar and Typo Rules for LanguageTool
-Copyright (C) 2012 Jaume Ortolà i Font
+Catalan Grammar and Typo Rules for LanguageTool Copyright 
+(C) 2012 Jaume Ortolà i Font
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -19,7 +19,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id$
+ $Id$
 -->
 <rules lang="ca" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../rules.xsd">
     <unification feature="nombre">
@@ -2032,7 +2032,7 @@ $Id$
             <!--alguna falsa alarma?-->
             <rule>
                 <pattern>
-                    <token>coma</token>
+                    <token>coma<exception postag="N.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Potser és: <suggestion>com a</suggestion>.</message>
                 <short>Confusió.</short>
@@ -3860,7 +3860,7 @@ $Id$
             </rule>
         </rulegroup>
     </category>
-    <category name="A1) Exigeix formes del català central" default="on">
+    <category name="A1) Exigeix formes del català central" default="off">
         <!-- Evita formes no valencianes -->
         <rulegroup id="EVITA_ACCENTUACIO_VALENCIANA" name="Evita l'accentuació valenciana no general (café, sotmés, conéixer, térbol)">
             <rule>
