@@ -18,11 +18,9 @@
  */
 package org.languagetool.language;
 
-import java.util.*;
-
 import org.languagetool.Language;
 import org.languagetool.rules.*;
-import org.languagetool.rules.spelling.hunspell.HunspellRule;
+import org.languagetool.rules.spelling.hunspell.HunspellNoSuggestionRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.nl.DutchSynthesizer;
 import org.languagetool.tagging.Tagger;
@@ -33,6 +31,10 @@ import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tokenizers.nl.DutchWordTokenizer;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
 
 public class Dutch extends Language {
 
@@ -126,7 +128,7 @@ public class Dutch extends Language {
             DoublePunctuationRule.class,
             GenericUnpairedBracketsRule.class,
             UppercaseSentenceStartRule.class,
-            HunspellRule.class,
+            HunspellNoSuggestionRule.class,
             WhitespaceRule.class
     );
   }

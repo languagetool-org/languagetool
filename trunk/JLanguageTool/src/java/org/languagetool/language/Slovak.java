@@ -18,19 +18,20 @@
  */
 package org.languagetool.language;
 
-import java.util.*;
-
 import org.languagetool.Language;
 import org.languagetool.rules.*;
 import org.languagetool.rules.sk.CompoundRule;
-import org.languagetool.rules.sk.SlovakVesRule;
-import org.languagetool.rules.spelling.hunspell.HunspellRule;
+import org.languagetool.rules.spelling.hunspell.HunspellNoSuggestionRule;
 import org.languagetool.synthesis.Synthesizer;
+import org.languagetool.synthesis.sk.SlovakSynthesizer;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.sk.SlovakTagger;
-import org.languagetool.synthesis.sk.SlovakSynthesizer;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
 
 public class Slovak extends Language {
 
@@ -105,7 +106,7 @@ public class Slovak extends Language {
             CommaWhitespaceRule.class,
             DoublePunctuationRule.class,
             GenericUnpairedBracketsRule.class,
-            HunspellRule.class,
+            HunspellNoSuggestionRule.class,
             UppercaseSentenceStartRule.class,
             WordRepeatRule.class,
             WhitespaceRule.class,

@@ -17,21 +17,18 @@
  * USA
  */
 package org.languagetool.language;
-import java.util.*;
 
 import org.languagetool.Language;
-import org.languagetool.rules.CommaWhitespaceRule;
-import org.languagetool.rules.DoublePunctuationRule;
-import org.languagetool.rules.GenericUnpairedBracketsRule;
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.UppercaseSentenceStartRule;
-import org.languagetool.rules.WhitespaceRule;
-import org.languagetool.rules.WordRepeatRule;
+import org.languagetool.rules.*;
+import org.languagetool.rules.spelling.hunspell.HunspellNoSuggestionRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.xx.DemoTagger;
-import org.languagetool.rules.spelling.hunspell.HunspellRule;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
 
 public class Portuguese extends Language {
 
@@ -92,7 +89,7 @@ public class Portuguese extends Language {
 	            CommaWhitespaceRule.class,
 	            DoublePunctuationRule.class,
 	            GenericUnpairedBracketsRule.class,
-	            HunspellRule.class,
+              HunspellNoSuggestionRule.class,
 	            UppercaseSentenceStartRule.class,
 	            WordRepeatRule.class,
 	            WhitespaceRule.class
