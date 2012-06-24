@@ -22,7 +22,9 @@ package org.languagetool.rules;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
+import java.util.List;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
@@ -95,6 +97,24 @@ public class HunspellRuleTest {
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Der Waschmaschinentestversuch orkt")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Der Arbeitsnehmer")).length);  // wrong infix
     assertEquals(2, rule.match(langTool.getAnalyzedSentence("Der asdegfue orkt")).length);
+  }
+
+  @Ignore("just for internal performance testing, thus ignored by default")
+  @Test
+  public void testPerformance() throws Exception {
+    final List<Language> allLanguages = Language.getAllLanguages();
+    for (Language language : allLanguages) {
+      final JLanguageTool langTool = new JLanguageTool(language);
+      //final HunspellRule rule = new HunspellRule(TestTools.getMessages("German"), language);
+      langTool.check("warmup");  // make sure everything is initialized when actually testing
+      langTool.check("anotherwarmup");
+      final long startTime = System.currentTimeMillis();
+      langTool.check("fdfds fdfdsa fdfdsb fdfdsc fdfdsd fdfdse fdfdsf fdfds fdfdsa fdfdsb fdfdsc fdfdsd fdfdse fdfdsf");
+      //final AnalyzedSentence analyzedSentence = langTool.getAnalyzedSentence("fdfds fdfdsa fdfdsb fdfdsc fdfdsd fdfdse fdfdsf");
+      //rule.match(analyzedSentence);
+      final long endTime = System.currentTimeMillis();
+      System.out.println((endTime-startTime) + "ms for " + language);
+    }
   }
 
 }
