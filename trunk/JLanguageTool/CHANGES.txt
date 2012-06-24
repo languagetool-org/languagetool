@@ -11,7 +11,7 @@ LanguageTool Change Log
     one by Franz Michael Baumann,
     see http://extensions.libreoffice.org/extension-center/german-de-de-frami-dictionaries
     LanguageTool can now detect spelling errors, but it does not offer suggestions
-    for performance reasons (German only)
+    for performance reasons
    -added variants for Austria, Germany, and Switzerland
    -added several thousand words to the internal dictionary for better
     error detection and less false alarms
@@ -28,7 +28,7 @@ LanguageTool Change Log
  -Catalan:
    -major update, including many new rules and new tokenization (Jaume Ortolà i Font)
    -new synthesizer (given a part-of-speech, this generates the inflected word
-   forms) (Jaume Ortolà i Font)
+    forms) (Jaume Ortolà i Font)
    -added spellcheck dictionary for the standalone version
 
  -Russian:
@@ -68,25 +68,35 @@ LanguageTool Change Log
     author Bertilo Wennergren, and to Lernu.net also with
     permission of the lernu team.
 
- -If a LanguageTool rule has an URL with more information, the
-  grammar checking dialog in LibreOffice will now offer a "More..." link
-  to that URL in LibreOffice, as well as on the command line and
-  user interface as "More info:", and as "url" attribute of the <error>
-  element in the XML API format. This makes possible to have external
-  documentation about rules.
 
- -LibreOffice / OpenOffice integration: SingletonFactory now implements
-  XServiceInfo (Stephan Bergmann) - Sourceforge bug #3526635
+ -LibreOffice / OpenOffice integration:
+   -If a LanguageTool rule has an URL with more information, the
+    grammar checking dialog in LibreOffice will now offer a "More..." link
+    to that URL in LibreOffice, as well as on the command line and
+    user interface as "More info:", and as "url" attribute of the <error>
+    element in the XML API format. This makes possible to have external
+    documentation about rules.
+   -bugfix #3526635: SingletonFactory now implements XServiceInfo (Stephan Bergmann)
+   -bugfix #3534637: Fixed false alarm about word being uppercase when the previous sentence ended with a footnote - Sourceforge
 
- -LibreOffice / OpenOffice integration: Fixed false alarm about word being
-  uppercase when the previous sentence ended with a footnote - Sourceforge bug #3534637
+ -GUI:
+   -made the result of "Tag Text" more readable
+   -Bugfix: when LT was hidden in the tray, two very fast mouse clicks could activate the check
+    twice, and that caused errors. Right now only one checking thread is active.
+
+ -Command line:
+   -In verbose mode, the log of the rule-based disambiguator actions is displayed.
+   -In the profiling rules' mode on the command-line, you can now enable
+    and disable rules.
+
+ -API:
+   -Deprecated some methods and the SentenceTokenizer class (SRXSentenceTokenizer should be
+    used instead)
 
  -LanguageTool supports now separate rules for different local variants of a language,
   for example American English and British English. To use them from the command line,
   simply use "en-US" or "en-GB" as the language code. This implements sf.net feature
   suggestion #3287388.
-
- -In verbose mode, the log of the rule-based disambiguator actions is displayed.
 
  -LanguageTool in the standalone version supports now spell-checking via hunspell.
   There are two distribution files: a .zip file for standalone use,
@@ -109,6 +119,8 @@ LanguageTool Change Log
  -The XML format for rules has been changed to use <marker>...</marker> tags instead
   of mark_from and mark_to attributes
 
+ -Overlapping rule matches are filtered now so that only the first match per <rulegroup> is kept
+
  -Now it is possible to suppress misspelled suggestions altogether in XML rules by applying
   an attribute suppress_misspelled="yes" on the <suggestion> element, AND on the <match>
   element. If only <match> element has this attribute set to "yes", then the suggestion is
@@ -116,14 +128,7 @@ LanguageTool Change Log
   of the suggestion). Note: for this to work, the tagger dictionary needs to be fairly complete;
   words without lemmas and POS tags are considered to be misspelled.
 
- -GUI: made the result of "Tag Text" more readable
-
  -Improved startup speed (Jarek Lipski)
-
- -Overlapping rule matches are filtered now so that only the first match per <rulegroup> is kept
-
- -In the profiling rules' mode on the command-line, you can now enable
-  and disable rules.
 
  -Some internal bug fixing in disambiguation and pattern rules, including problems
   with unification.
@@ -132,18 +137,13 @@ LanguageTool Change Log
  
  -Larger tagger dictionaries were encoded in cfsa2 binary format to save space. 
 
- -API: Deprecated some methods and the SentenceTokenizer class (SRXSentenceTokenizer should be
-  used instead)
-
  -Bugfix #3054895: fixed incorrect column reported by LanguageTool in command
   line mode or with --api option when error spanned new line.
-  
- -Bugfix: when LT was hidden in the tray, two very fast mouse clicks could activate the check 
-  twice, and that caused errors. Right now only one checking thread is active.
-  
+
  -Bugfix #3431788: When the message contained the reference to a previous token as the first
   character, the corrections generated via regular expression replacements on match elements
   were wrong.
+
 
 1.7 (2012-03-25)
 
