@@ -20,7 +20,7 @@
 package org.languagetool.language;
 
 import org.languagetool.rules.Rule;
-import org.languagetool.rules.spelling.hunspell.HunspellRule;
+import org.languagetool.rules.en.MorfologikNewZealandSpellerRule;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,9 +39,9 @@ public class NewZealandEnglish extends English {
 
   public List<Class<? extends Rule>> getRelevantRules() {
     final List<Class<? extends Rule>> rules = new ArrayList<Class<? extends Rule>>();
-    rules.addAll(super.getRelevantRules());
-    rules.add(HunspellRule.class);
-    // nothing specific to New Zealand English yet...
+    rules.addAll(super.getRelevantRules());    
+    // New Zealand English speller...
+    rules.add(MorfologikNewZealandSpellerRule.class);
     return rules;
   }
 
