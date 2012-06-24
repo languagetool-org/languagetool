@@ -1210,7 +1210,7 @@ $Id$
                 
                 <pattern>
                     <!--           NN:Masc:Sin:Nom   VB:Past:!PL   -->
-                    <token postag="SENT_START" skip="-1"><exception scope="next" postag_regexp="yes" postag="NN:.*:PL:Nom"></exception><exception scope="next" postag_regexp="yes" postag="PNN:.*"></exception><exception scope="next">и</exception></token>
+                    <token postag="SENT_START" skip="-1"><exception scope="next" postag_regexp="yes" postag="NN:.*:PL:Nom"></exception><exception scope="next" postag_regexp="yes" postag="PNN:.*"></exception><exception scope="next" regexp = "yes" >и|или</exception></token>
                     <marker>
                         <token postag="NN:Masc:Sin:Nom"><exception negate_pos="yes" postag="NN:Masc:Sin:Nom"></exception><exception scope="previous" regexp="yes">и|,</exception></token>
                         <token postag="VB:Past:PL" skip="-1"><exception negate_pos="yes" postag="VB:Past:PL"></exception><exception scope="next" postag_regexp="yes" postag="NN:.*:PL:Nom"></exception></token>
@@ -1230,7 +1230,7 @@ $Id$
                 
                 <pattern>
                     <!--           NN:Masc:Fem:Nom   VB:Past:!PL   -->
-                    <token postag="SENT_START" skip="-1"><exception scope="next" postag_regexp="yes" postag="NN:.*:PL:Nom"></exception><exception scope="next" postag_regexp="yes" postag="PNN:.*"></exception><exception scope="next">и</exception></token>
+                    <token postag="SENT_START" skip="-1"><exception scope="next" postag_regexp="yes" postag="NN:.*:PL:Nom"></exception><exception scope="next" postag_regexp="yes" postag="PNN:.*"></exception><exception scope="next" regexp = "yes" >и|или</exception></token>
                     <marker>
                         <token postag="NN:Fem:Sin:Nom"><exception negate_pos="yes" postag="NN:Fem:Sin:Nom"></exception><exception scope="previous" regexp="yes">и|,</exception></token>
                         <token postag="VB:Past:PL" skip="-1"><exception negate_pos="yes" postag="VB:Past:PL"></exception><exception scope="next" postag_regexp="yes" postag="NN:.*:PL:Nom"></exception></token>
@@ -1250,7 +1250,7 @@ $Id$
                 
                 <pattern>
                     <!--           NN:Masc:Neut:.*   VB:Past:!PL   -->
-                    <token postag="SENT_START" skip="-1"><exception scope="next" postag_regexp="yes" postag="NN:.*:PL:Nom"></exception><exception scope="next" postag_regexp="yes" postag="PNN:.*"></exception><exception scope="next">и</exception></token>
+                    <token postag="SENT_START" skip="-1"><exception scope="next" postag_regexp="yes" postag="NN:.*:PL:Nom"></exception><exception scope="next" postag_regexp="yes" postag="PNN:.*"></exception><exception scope="next" regexp = "yes" >и|или</exception></token>
                     <marker>
                         <token postag="NN:Neut:Sin:Nom"><exception negate_pos="yes" postag_regexp="yes" postag="NN:Neut:Sin:.*"></exception><exception scope="previous" regexp="yes">и|,</exception></token>
                         <token postag="VB:Past:PL" skip="-1"><exception negate_pos="yes" postag="VB:Past:PL"></exception><exception scope="next" postag_regexp="yes" postag="NN:.*:PL:Nom"></exception></token>
@@ -2022,7 +2022,7 @@ $Id$
             <pattern>
                 <!--              PREP при -> ADJ:.*:P   -->
                 <token>при</token>
-                <token postag="ADJ:.*:.*" postag_regexp="yes"><exception postag="ADJ:.*:P" postag_regexp="yes"></exception><exception postag="ADJ:.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token>
+                <token postag="ADJ:.*:.*" postag_regexp="yes"><exception postag="ADJ:.*:P" postag_regexp="yes"></exception><exception postag="ADJ:.*:.*" negate_pos="yes" postag_regexp="yes"></exception><exception>различного</exception></token>
             </pattern>
             <message>Предлог “при” предполагает употребление прилагательного в предложном падеже:
             <suggestion><match no="1"></match> <match no="2" postag="ADJ:(.*):.*" postag_regexp="yes" postag_replace="ADJ:$1:P"></match></suggestion> или <suggestion><match no="2"></match></suggestion></message>
