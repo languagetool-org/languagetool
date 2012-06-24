@@ -37,5 +37,9 @@ public final class MorfologikGreekSpellerRule extends MorfologikSpellerRule {
     public String getFileName() {
         return RESOURCE_FILENAME;
     }
+    
+    public String getId() {
+        return "MORFOLOGIK_RULE_EL_GR";
+    }
 
 }
