@@ -258,8 +258,14 @@ public class AnalyzedTokenReadings {
    */
   public void setParaEnd() {
     if (!isParaEnd()) {
-      final AnalyzedToken paragraphEnd = new AnalyzedToken(getToken(),
-          JLanguageTool.PARAGRAPH_END_TAGNAME, getAnalyzedToken(0).getLemma());
+      final AnalyzedToken paragraphEnd;
+      if (anTokReadings.length == 0) {
+        // workaround for ArraysOutOfBounds (bug #3537500) until the real reason is found:
+        paragraphEnd = new AnalyzedToken(getToken(), JLanguageTool.PARAGRAPH_END_TAGNAME, null);
+      } else {
+        paragraphEnd = new AnalyzedToken(getToken(),
+                JLanguageTool.PARAGRAPH_END_TAGNAME, getAnalyzedToken(0).getLemma());
+      }
       addReading(paragraphEnd);
     }
   }
