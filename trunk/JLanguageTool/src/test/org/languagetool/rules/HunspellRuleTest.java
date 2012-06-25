@@ -74,6 +74,42 @@ public class HunspellRuleTest {
     assertEquals(2, rule.match(langTool.getAnalyzedSentence("Der asdegfue orkt")).length);
   }
 
+  @Test
+  public void testRuleWithFrench() throws Exception {
+    final HunspellRule rule = new HunspellRule(TestTools.getMessages("French"), Language.FRENCH);
+    final JLanguageTool langTool = new JLanguageTool(Language.FRENCH);
+
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Un test simple.")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Un test simpple.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Le cœur, la sœur.")).length);
+
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("LanguageTool")).length);
+
+    // Tests with dash and apostrophes.
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Il arrive après-demain.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("L'Haÿ-les-Roses")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("L'Haÿ les Roses")).length);
+
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Aujourd'hui et jusqu'à demain.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Aujourd’hui et jusqu’à demain.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("L'Allemagne et l'Italie.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("L’Allemagne et l’Italie.")).length);
+    assertEquals(2, rule.match(langTool.getAnalyzedSentence("L’allemagne et l’italie.")).length);
+  }
+
+  @Test
+  public void testRuleWithBreton() throws Exception {
+    final HunspellRule rule = new HunspellRule(TestTools.getMessages("Breton"), Language.BRETON);
+    final JLanguageTool langTool = new JLanguageTool(Language.BRETON);
+
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Penaos emañ kont ganit?")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("C'hwerc'h merc'h gwerc'h war c'hwerc'h marc'h kalloc'h")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("C’hwerc’h merc’h gwerc‘h war c‘hwerc‘h marc'h kalloc‘h")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Evel-just")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Evel-juste")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Barrek-tre eo LanguageTool")).length);
+  }
+
   @Ignore("just for internal performance testing, thus ignored by default")
   @Test
   public void testPerformance() throws Exception {
