@@ -34,31 +34,6 @@ import org.languagetool.rules.spelling.hunspell.*;
 
 public class HunspellRuleTest {
 
-  @Test
-  public void testRule() throws Exception {
-
-    RuleMatch[] matches;
-      
-    // Catalan
-    HunspellRule catRule =
-    		new HunspellRule(TestTools.getMessages("Catalan"), Language.CATALAN);
-    JLanguageTool catTool = new JLanguageTool(Language.CATALAN);
-
-    // correct sentences:
-    assertEquals(0, catRule.match(catTool.getAnalyzedSentence("Allò que més l'interessa.")).length);
-    // checks that "WORDCHARS ·-'" is added to Hunspell .aff file
-    assertEquals(0, catRule.match(catTool.getAnalyzedSentence("Porta'n quatre al col·legi.")).length);
-    assertEquals(0, catRule.match(catTool.getAnalyzedSentence("Has de portar-me'n moltes.")).length);
-    assertEquals(0, catRule.match(catTool.getAnalyzedSentence(",")).length);
-
-    //incorrect sentences:
-    matches = catRule.match(catTool.getAnalyzedSentence("Pecra"));
-    // check match positions:
-    assertEquals(1, matches.length);
-    assertEquals(0, matches[0].getFromPos());
-    assertEquals(5, matches[0].getToPos());
-    assertEquals("Pera", matches[0].getSuggestedReplacements().get(0));
-  }
 
   @Test
   public void testRuleWithGerman() throws Exception {
