@@ -10,15 +10,15 @@ import org.languagetool.Language;
 import org.languagetool.TestTools;
 import org.languagetool.rules.RuleMatch;
 
-public class MorfologikCanadianSpellerRuleTest {
+public class MorfologikAustralianSpellerRuleTest {
 
     @Test
     public void testMorfologikSpeller() throws IOException {
-        MorfologikBritishSpellerRule rule =
-                new MorfologikBritishSpellerRule (TestTools.getMessages("English"), Language.CANADIAN_ENGLISH);
+        MorfologikAustralianSpellerRule rule =
+                new MorfologikAustralianSpellerRule (TestTools.getMessages("English"), Language.AUSTRALIAN_ENGLISH);
 
         RuleMatch[] matches;
-        JLanguageTool langTool = new JLanguageTool(Language.CANADIAN_ENGLISH);
+        JLanguageTool langTool = new JLanguageTool(Language.AUSTRALIAN_ENGLISH);
 
 
         // correct sentences:
@@ -29,14 +29,17 @@ public class MorfologikCanadianSpellerRuleTest {
         assertEquals(0, rule.match(langTool.getAnalyzedSentence(",")).length);
         assertEquals(0, rule.match(langTool.getAnalyzedSentence("123454")).length);
 
+        //Australian dict:
+        assertEquals(0, rule.match(langTool.getAnalyzedSentence("Agnathia")).length);        
+        
         //incorrect sentences:
 
-        matches = rule.match(langTool.getAnalyzedSentence("arbor"));
+        matches = rule.match(langTool.getAnalyzedSentence("behavior"));
         // check match positions:
         assertEquals(1, matches.length);
         assertEquals(0, matches[0].getFromPos());
-        assertEquals(5, matches[0].getToPos());
-        assertEquals("arbour", matches[0].getSuggestedReplacements().get(0));
+        assertEquals(8, matches[0].getToPos());
+        assertEquals("behaviour", matches[0].getSuggestedReplacements().get(0));
 
         assertEquals(1, rule.match(langTool.getAnalyzedSentence("aõh")).length);
         assertEquals(0, rule.match(langTool.getAnalyzedSentence("a")).length);
