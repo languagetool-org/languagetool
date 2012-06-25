@@ -137,7 +137,8 @@ public class AgreementRule extends GermanRule {
     "alle",
     "etwas",
     "was",
-    "wer"
+    "wer",
+    "jenen"      // "...und mit jenen anderer Arbeitsgruppen verwoben"
   ));
     
   public AgreementRule(final ResourceBundle messages) {
