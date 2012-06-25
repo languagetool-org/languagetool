@@ -44,6 +44,8 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     
     private Locale conversionLocale = Locale.getDefault();
     
+    private final static String LANGUAGETOOL = "LanguageTool";
+    
     /**
      * Get the filename, e.g., <tt>/resource/pl/spelling.dict</tt>.
      */
@@ -92,6 +94,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
               }              
             if (word.length() > 0 && isAlphabetic && !token.isImmunized()
                     && !containsDigit(word)
+                    && !LANGUAGETOOL.equals(word)
                     && !speller.isInDictionary(word)
                     && !speller.isInDictionary(word.toLowerCase(conversionLocale))) {
                 final List<String> suggestions = new ArrayList<String>();                
