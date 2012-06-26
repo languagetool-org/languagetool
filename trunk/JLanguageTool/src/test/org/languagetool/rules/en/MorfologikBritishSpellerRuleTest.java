@@ -44,6 +44,8 @@ public class MorfologikBritishSpellerRuleTest {
         assertEquals(0, rule.match(langTool.getAnalyzedSentence("Why don't we speak today.")).length);
         //with doesn't
         assertEquals(0, rule.match(langTool.getAnalyzedSentence("He doesn't know what to do.")).length);
+        //with an abbreviation:
+        assertEquals(0, rule.match(langTool.getAnalyzedSentence("This is my Ph.D. thesis.")).length);
         assertEquals(0, rule.match(langTool.getAnalyzedSentence(",")).length);
         assertEquals(0, rule.match(langTool.getAnalyzedSentence("123454")).length);
 
