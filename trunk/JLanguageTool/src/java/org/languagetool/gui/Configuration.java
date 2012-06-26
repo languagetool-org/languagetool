@@ -161,8 +161,9 @@ public class Configuration {
 
 	  final String qualifier = getQualifier(lang);
 	
-    final FileInputStream fis = new FileInputStream(configFile);
+    FileInputStream fis = null;
     try {
+      fis = new FileInputStream(configFile);
       final Properties props = new Properties();
       props.load(fis);
 
@@ -190,7 +191,9 @@ public class Configuration {
     } catch (final FileNotFoundException e) {
       // file not found: okay, leave disabledRuleIds empty
     } finally {
-      fis.close();
+      if (fis != null) {
+        fis.close();
+      }
     }
   }
 
