@@ -1145,9 +1145,8 @@ Copyright (C) 2012 Jaume Ortolà i Font
     </rulegroup>    
     <rule id="DESPRES" name="després no participi"> <!-- cal una regla per a després/desprès -->
         <pattern>
-            <token postag="VA.*" postag_regexp="yes" negate_pos="yes" />
             <marker>
-                <token>després</token>
+                <token>després<exception postag="_GV_"/></token>
             </marker>
         </pattern>
         <disambig action="filter" postag="RG"></disambig>
@@ -4822,12 +4821,12 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="RG"></disambig>
     </rule>
-    <rule id="PiAltres" name="pronom i altres: altres">
+    <rule id="PronomAltres" name="pronom i altres: altres"> <!-- en què, el gener --> 
         <pattern>
             <marker>
                 <and>
-                    <token postag="PP.*|P0.*" postag_regexp="yes" negate_pos="yes"><exception regexp="yes">jo|tu|ella?|nosaltres|vosaltres|elle?s|vostès?|vós</exception><exception postag="SENT_END"/></token>
                     <token postag="PP.*|P0.*" postag_regexp="yes"><exception postag="_GV_" /></token>
+                    <token postag="DA.*|SPS00" postag_regexp="yes"></token>
                 </and>
             </marker>
         </pattern>
