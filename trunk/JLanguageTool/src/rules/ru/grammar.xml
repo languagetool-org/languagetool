@@ -1167,11 +1167,11 @@ $Id$
                 <example type="correct">Кошка грелась на солнышке.</example>
                 <example type="incorrect"><marker>Кошка грелся</marker> на солнышке.</example>
             </rule>
-            
+                <!--           NN:Neut:Sin:Nom   VB:Past:Neut    -->
+                <!--
             <rule>
                 
-                <pattern>
-                    <!--           NN:Neut:Sin:Nom   VB:Past:Neut    -->
+                <pattern>                
                     <token postag="SENT_START" skip="-1"><exception scope="next" postag="NN:Masc:Sin:Nom"></exception><exception scope="next" postag="NN:Fem:Sin:Nom"></exception><exception scope="next" postag_regexp="yes" postag="PNN:.*"></exception></token>
                     <marker>
                         <token postag="NN:Neut:Sin:Nom"><exception negate_pos="yes" postag_regexp="yes" postag="NN:Neut:Sin:.*"></exception></token>
@@ -1188,6 +1188,8 @@ $Id$
                 <example type="correct">Блюдо готовилось на сковородке.</example>
                 <example type="incorrect"><marker>Блюдо готовился</marker> на сковородке.</example>
             </rule>
+            -->
+            
             
             <!--           NN:.*:PL:Nom   VB:Past:PL  !!!!!!!!!!!!!!!!  -->
             <!--
@@ -1229,7 +1231,7 @@ $Id$
             <rule>
                 
                 <pattern>
-                    <!--           NN:Masc:Fem:Nom   VB:Past:!PL   -->
+                    <!--           NN:Fem:Sin:Nom   VB:Past:!PL   -->
                     <token postag="SENT_START" skip="-1"><exception scope="next" postag_regexp="yes" postag="NN:.*:PL:Nom"></exception><exception scope="next" postag_regexp="yes" postag="PNN:.*"></exception><exception scope="next" regexp = "yes" >и|или</exception></token>
                     <marker>
                         <token postag="NN:Fem:Sin:Nom"><exception negate_pos="yes" postag="NN:Fem:Sin:Nom"></exception><exception scope="previous" regexp="yes">и|,</exception></token>
@@ -1246,11 +1248,13 @@ $Id$
                 <example type="correct">Кошка грелась на солнышке.</example>
                 <example type="incorrect"><marker>Кошка грелись</marker> на солнышке.</example>
             </rule>
-            <rule>
-                
-                <pattern>
-                    <!--           NN:Masc:Neut:.*   VB:Past:!PL   -->
-                    <token postag="SENT_START" skip="-1"><exception scope="next" postag_regexp="yes" postag="NN:.*:PL:Nom"></exception><exception scope="next" postag_regexp="yes" postag="PNN:.*"></exception><exception scope="next" regexp = "yes" >и|или</exception></token>
+            
+                    <!--           NN:Neut:Sin:.*   VB:Past:!PL   -->
+                    <!--           NN:Neut:Sin:Nom   VB:Past:!PL   -->
+                 <!--  
+                <rule>
+                <pattern>                          
+                <token postag="SENT_START" skip="-1"><exception scope="next" postag_regexp="yes" postag="NN:.*:PL:Nom"></exception><exception scope="next" postag_regexp="yes" postag="PNN:.*"></exception><exception scope="next" regexp = "yes" >и|или</exception></token>
                     <marker>
                         <token postag="NN:Neut:Sin:Nom"><exception negate_pos="yes" postag_regexp="yes" postag="NN:Neut:Sin:.*"></exception><exception scope="previous" regexp="yes">и|,</exception></token>
                         <token postag="VB:Past:PL" skip="-1"><exception negate_pos="yes" postag="VB:Past:PL"></exception><exception scope="next" postag_regexp="yes" postag="NN:.*:PL:Nom"></exception></token>
@@ -1266,6 +1270,7 @@ $Id$
                 <example type="correct">Блюдо готовилось на сковородке.</example>
                 <example type="incorrect"><marker>Блюдо готовились</marker> на сковородке.</example>
             </rule>
+            -->
         </rulegroup>
         
         <rulegroup default="on" id="Obobchajuchee_slovo" name="Согласование с обобщающим словом">
