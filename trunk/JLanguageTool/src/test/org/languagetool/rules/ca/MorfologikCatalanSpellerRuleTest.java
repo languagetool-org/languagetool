@@ -45,10 +45,10 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals(0, rule.match(langTool.getAnalyzedSentence("Abacallanada")).length);
         assertEquals(0, rule.match(langTool.getAnalyzedSentence("Abatre-les-en")).length);
         
-        //assertEquals(0, rule.match(langTool.getAnalyzedSentence("Allò que més l'interessa.")).length);
+        assertEquals(0, rule.match(langTool.getAnalyzedSentence("Allò que més l'interessa.")).length);
         // checks that "WORDCHARS ·-'" is added to Hunspell .aff file
-        // assertEquals(0, rule.match(langTool.getAnalyzedSentence("Porta'n quatre al col·legi.")).length);
-//        assertEquals(0, rule.match(langTool.getAnalyzedSentence("Has de portar-me'n moltes.")).length);
+        assertEquals(0, rule.match(langTool.getAnalyzedSentence("Porta'n quatre al col·legi.")).length);
+        assertEquals(0, rule.match(langTool.getAnalyzedSentence("Has de portar-me'n moltes.")).length);
         assertEquals(0, rule.match(langTool.getAnalyzedSentence(",")).length);
         
         
@@ -72,7 +72,7 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals(1, matches.length);
         assertEquals(0, matches[0].getFromPos());
         assertEquals(5, matches[0].getToPos());
-       // assertEquals("Pera", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("Pera", matches[0].getSuggestedReplacements().get(2));
         
         assertEquals(1, rule.match(langTool.getAnalyzedSentence("aõh")).length);
         assertEquals(0, rule.match(langTool.getAnalyzedSentence("a")).length);

@@ -859,4 +859,19 @@
 	
 </target>
 
+	<!-- ================================================================== -->
+	<!-- WordTokenizer - just a helper app -->
+	<!-- ================================================================== -->		
+		
+	<target name="wtokenizer" depends="common" description="Builds a word tokenizer">
+		
+	<jar jarfile="${dist.dir}/wordtokenizer.jar" basedir="${build.classes}" includes="org/languagetool/dev/**">
+		<manifest>
+			<attribute name="Main-Class" value="org.languagetool.dev.WordTokenizer" />
+			<attribute name="Class-Path" value="./ ./LanguageTool.jar ./${segment.lib} ./${logging.lib}" />
+		</manifest>
+	</jar>
+	
+	</target>
+	
 </project>
