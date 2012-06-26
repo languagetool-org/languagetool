@@ -1,8 +1,8 @@
 package org.languagetool.tools;
 
-import org.apache.tika.language.LanguageIdentifier;
-
 import junit.framework.TestCase;
+
+import org.apache.tika.language.LanguageIdentifier;
 
 public class LanguageIdentifierToolsTest extends TestCase {
 

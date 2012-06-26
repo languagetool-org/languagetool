@@ -24,6 +24,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import junit.framework.TestCase;
+
 import org.languagetool.JLanguageTool.ParagraphHandling;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.Rule;

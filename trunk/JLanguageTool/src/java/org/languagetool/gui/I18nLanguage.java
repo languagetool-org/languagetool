@@ -18,9 +18,9 @@
  */
 package org.languagetool.gui;
 
-import org.languagetool.Language;
-
 import java.util.ResourceBundle;
+
+import org.languagetool.Language;
 
 /**
  * An item in the language selection combo box.

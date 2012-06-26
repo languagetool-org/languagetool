@@ -18,11 +18,11 @@
  */
 package org.languagetool.commandline;
 
-import org.languagetool.Language;
-import org.languagetool.tools.LanguageIdentifierTools;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.languagetool.Language;
+import org.languagetool.tools.LanguageIdentifierTools;
 
 /**
  * Parser for the command line arguments.

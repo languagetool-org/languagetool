@@ -20,8 +20,8 @@
 package org.languagetool.tokenizers.br;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Iterator;
+import java.util.List;
 
 import org.languagetool.tokenizers.WordTokenizer;
 

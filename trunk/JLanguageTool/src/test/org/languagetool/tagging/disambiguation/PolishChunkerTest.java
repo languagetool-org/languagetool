@@ -22,11 +22,12 @@ package org.languagetool.tagging.disambiguation;
 import java.io.IOException;
 
 import junit.framework.TestCase;
+
 import org.languagetool.Language;
 import org.languagetool.TestTools;
 import org.languagetool.tagging.pl.PolishTagger;
-import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
+import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.WordTokenizer;
 
 public class PolishChunkerTest extends TestCase {

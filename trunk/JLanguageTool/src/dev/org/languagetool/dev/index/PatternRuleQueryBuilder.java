@@ -26,7 +26,6 @@ import org.apache.lucene.index.Term;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.regex.JavaUtilRegexCapabilities;
 import org.apache.lucene.search.spans.SpanQuery;
-
 import org.languagetool.rules.patterns.Element;
 import org.languagetool.rules.patterns.PatternRule;
 

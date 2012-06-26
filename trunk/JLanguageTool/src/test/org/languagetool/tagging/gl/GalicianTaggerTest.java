@@ -21,6 +21,7 @@ package org.languagetool.tagging.gl;
 import java.io.IOException;
 
 import junit.framework.TestCase;
+
 import org.languagetool.TestTools;
 import org.languagetool.tokenizers.WordTokenizer;
 

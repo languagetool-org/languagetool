@@ -18,12 +18,13 @@
  */
 package org.languagetool.tagging.sv;
 
+import java.io.IOException;
+
 import junit.framework.TestCase;
+
 import org.languagetool.Language;
 import org.languagetool.TestTools;
 import org.languagetool.tokenizers.WordTokenizer;
-
-import java.io.IOException;
 
 public class SwedishTaggerTest extends TestCase {
     

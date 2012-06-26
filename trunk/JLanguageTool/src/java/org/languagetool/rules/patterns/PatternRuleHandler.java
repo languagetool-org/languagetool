@@ -18,17 +18,17 @@
  */
 package org.languagetool.rules.patterns;
 
-import org.languagetool.Language;
-import org.languagetool.rules.Category;
-import org.languagetool.rules.IncorrectExample;
-import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import org.languagetool.Language;
+import org.languagetool.rules.Category;
+import org.languagetool.rules.IncorrectExample;
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
 
 public class PatternRuleHandler extends XMLRuleHandler {
 

@@ -18,15 +18,16 @@
  */
 package org.languagetool.openoffice;
 
+import java.util.ResourceBundle;
+
+import org.languagetool.gui.AboutDialog;
+import org.languagetool.tools.StringTools;
+
 import com.sun.star.awt.Rectangle;
 import com.sun.star.awt.XMessageBox;
 import com.sun.star.awt.XMessageBoxFactory;
 import com.sun.star.awt.XWindowPeer;
 import com.sun.star.uno.UnoRuntime;
-import org.languagetool.gui.AboutDialog;
-import org.languagetool.tools.StringTools;
-
-import java.util.ResourceBundle;
 
 /**
  * Dialog that display version and copyright information.

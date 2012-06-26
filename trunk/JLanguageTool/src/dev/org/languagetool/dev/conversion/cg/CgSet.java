@@ -1,11 +1,11 @@
 package org.languagetool.dev.conversion.cg;
 
-import java.util.HashSet;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Random;
 
-import org.languagetool.dev.conversion.cg.CgTag.TAGS;
 import org.languagetool.dev.conversion.CgRuleConverter;
+import org.languagetool.dev.conversion.cg.CgTag.TAGS;
 
 public class CgSet {
 

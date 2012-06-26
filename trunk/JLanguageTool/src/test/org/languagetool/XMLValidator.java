@@ -34,12 +34,11 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
+import org.languagetool.tools.StringTools;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
-
-import org.languagetool.tools.StringTools;
 
 /**
  * Validate XML files with a given DTD.

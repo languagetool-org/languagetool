@@ -20,10 +20,11 @@
 package org.languagetool.tokenizers.pl;
 
 import junit.framework.TestCase;
+
 import org.languagetool.Language;
 import org.languagetool.TestTools;
-import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
+import org.languagetool.tokenizers.SentenceTokenizer;
 
 public class PolishSentenceTokenizerTest extends TestCase {
 

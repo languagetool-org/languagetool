@@ -18,12 +18,16 @@
  */
 package org.languagetool.tagging;
 
-import org.languagetool.synthesis.ManualSynthesizer;
-import org.languagetool.tools.StringTools;
-
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+
+import org.languagetool.synthesis.ManualSynthesizer;
+import org.languagetool.tools.StringTools;
 
 /**
  * A tagger that reads the POS information from a plain (UTF-8) text file. This

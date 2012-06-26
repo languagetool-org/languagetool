@@ -18,16 +18,17 @@
  */
 package org.languagetool.tagging.ro;
 
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+
 import junit.framework.TestCase;
+
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
 import org.languagetool.TestTools;
 import org.languagetool.tokenizers.WordTokenizer;
-
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * <p>

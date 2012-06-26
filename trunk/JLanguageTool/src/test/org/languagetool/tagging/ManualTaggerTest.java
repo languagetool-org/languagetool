@@ -21,9 +21,9 @@ package org.languagetool.tagging;
 import java.io.IOException;
 import java.util.Arrays;
 
-import org.languagetool.JLanguageTool;
-
 import junit.framework.TestCase;
+
+import org.languagetool.JLanguageTool;
 
 /**
  * @author Daniel Naber

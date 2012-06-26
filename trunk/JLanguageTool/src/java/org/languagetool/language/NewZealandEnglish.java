@@ -19,11 +19,11 @@
 
 package org.languagetool.language;
 
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.en.MorfologikNewZealandSpellerRule;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.languagetool.rules.Rule;
+import org.languagetool.rules.en.MorfologikNewZealandSpellerRule;
 
 public class NewZealandEnglish extends English {
 

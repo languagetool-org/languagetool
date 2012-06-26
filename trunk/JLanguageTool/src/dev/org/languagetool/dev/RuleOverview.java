@@ -23,15 +23,21 @@ import java.io.FileFilter;
 import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
+import org.apache.tika.language.LanguageIdentifier;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.language.Contributor;
 import org.languagetool.tools.LanguageIdentifierTools;
 import org.languagetool.tools.StringTools;
 import org.languagetool.tools.Tools;
-import org.apache.tika.language.LanguageIdentifier;
 
 /**
  * Command line tool to list supported languages and their number of rules.

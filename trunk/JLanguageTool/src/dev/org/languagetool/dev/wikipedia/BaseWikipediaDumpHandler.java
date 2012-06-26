@@ -22,14 +22,13 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
-import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
-
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.TextFilter;
 import org.languagetool.rules.RuleMatch;
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
 
 /**
  * Read the Wikipedia XML dump, check texts with LanguageTool, and

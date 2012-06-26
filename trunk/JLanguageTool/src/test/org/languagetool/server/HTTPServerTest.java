@@ -26,14 +26,15 @@ import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.HashSet;
 
+import javax.xml.parsers.ParserConfigurationException;
+
 import junit.framework.TestCase;
+
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.XMLValidator;
 import org.languagetool.tools.StringTools;
 import org.xml.sax.SAXException;
-
-import javax.xml.parsers.ParserConfigurationException;
 
 public class HTTPServerTest extends TestCase {
 

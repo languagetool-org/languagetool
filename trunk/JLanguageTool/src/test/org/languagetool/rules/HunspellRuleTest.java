@@ -19,7 +19,7 @@
 
 package org.languagetool.rules;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 import java.util.List;
@@ -29,8 +29,7 @@ import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.TestTools;
-
-import org.languagetool.rules.spelling.hunspell.*;
+import org.languagetool.rules.spelling.hunspell.HunspellRule;
 
 public class HunspellRuleTest {
 

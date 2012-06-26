@@ -23,13 +23,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
-
 import junit.framework.TestCase;
 import morfologik.stemming.Dictionary;
 import morfologik.stemming.DictionaryLookup;
 import morfologik.stemming.WordData;
+
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
 
 /**
  * @author Daniel Naber

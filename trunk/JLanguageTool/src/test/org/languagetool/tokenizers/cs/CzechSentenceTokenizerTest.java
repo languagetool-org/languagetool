@@ -20,6 +20,7 @@
 package org.languagetool.tokenizers.cs;
 
 import junit.framework.TestCase;
+
 import org.languagetool.TestTools;
 import org.languagetool.tokenizers.SentenceTokenizer;
 

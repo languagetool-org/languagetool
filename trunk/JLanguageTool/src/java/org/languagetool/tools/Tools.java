@@ -18,6 +18,22 @@
  */
 package org.languagetool.tools;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.lang.reflect.Constructor;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
+import java.util.Set;
+
+import javax.xml.parsers.ParserConfigurationException;
+
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
@@ -31,11 +47,6 @@ import org.languagetool.rules.patterns.bitext.BitextPatternRuleLoader;
 import org.languagetool.rules.patterns.bitext.FalseFriendsAsBitextLoader;
 import org.languagetool.tools.StringTools.XmlPrintMode;
 import org.xml.sax.SAXException;
-
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.*;
-import java.lang.reflect.Constructor;
-import java.util.*;
 
 public final class Tools {
 

@@ -19,9 +19,19 @@
 package org.languagetool.rules.de;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.ResourceBundle;
+import java.util.Set;
 
-import org.languagetool.*;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tagging.de.AnalyzedGermanToken;

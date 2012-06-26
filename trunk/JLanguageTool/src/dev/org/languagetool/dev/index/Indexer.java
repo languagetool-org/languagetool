@@ -36,7 +36,6 @@ import org.apache.lucene.index.IndexWriterConfig.OpenMode;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
-
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.tokenizers.SentenceTokenizer;

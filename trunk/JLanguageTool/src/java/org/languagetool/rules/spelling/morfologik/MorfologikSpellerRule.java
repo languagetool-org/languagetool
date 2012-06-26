@@ -26,6 +26,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import morfologik.speller.Speller;
+import morfologik.stemming.Dictionary;
+
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
@@ -34,9 +37,6 @@ import org.languagetool.rules.Category;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.tools.StringTools;
-
-import morfologik.speller.Speller;
-import morfologik.stemming.Dictionary;
 
 public abstract class MorfologikSpellerRule extends SpellingCheckRule {
 

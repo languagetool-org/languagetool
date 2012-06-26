@@ -19,11 +19,11 @@
 
 package org.languagetool.language;
 
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.en.MorfologikCanadianSpellerRule;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.languagetool.rules.Rule;
+import org.languagetool.rules.en.MorfologikCanadianSpellerRule;
 
 public class CanadianEnglish extends English {
 

@@ -18,17 +18,19 @@
  */
 package org.languagetool.tools;
 
-import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.en.AvsAnRule;
-import junit.framework.TestCase;
-
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.StringReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import junit.framework.TestCase;
+
 import org.languagetool.Language;
+import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.en.AvsAnRule;
 
 /**
  * @author Daniel Naber

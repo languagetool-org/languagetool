@@ -18,12 +18,13 @@
  */
 package org.languagetool.rules.sk;
 
+import java.io.IOException;
+
+import junit.framework.TestCase;
+
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.rules.RuleMatch;
-import junit.framework.TestCase;
-
-import java.io.IOException;
 
 /**
  * @author Zdenko Podobný

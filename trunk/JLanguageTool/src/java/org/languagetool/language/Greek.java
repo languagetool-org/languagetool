@@ -21,8 +21,16 @@ package org.languagetool.language;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+
 import org.languagetool.Language;
-import org.languagetool.rules.*;
+import org.languagetool.rules.CommaWhitespaceRule;
+import org.languagetool.rules.DoublePunctuationRule;
+import org.languagetool.rules.LongSentenceRule;
+import org.languagetool.rules.Rule;
+import org.languagetool.rules.UppercaseSentenceStartRule;
+import org.languagetool.rules.WhitespaceRule;
+import org.languagetool.rules.WordRepeatBeginningRule;
+import org.languagetool.rules.WordRepeatRule;
 import org.languagetool.rules.el.GreekUnpairedBracketsRule;
 import org.languagetool.rules.el.MorfologikGreekSpellerRule;
 import org.languagetool.synthesis.Synthesizer;

@@ -21,6 +21,7 @@ package org.languagetool.rules.es;
 import java.io.IOException;
 
 import junit.framework.TestCase;
+
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.rules.RuleMatch;

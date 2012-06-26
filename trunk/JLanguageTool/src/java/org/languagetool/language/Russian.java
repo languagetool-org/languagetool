@@ -18,16 +18,23 @@
  */
 package org.languagetool.language;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
 
 import org.languagetool.Language;
-import org.languagetool.rules.*;
-import org.languagetool.rules.spelling.hunspell.HunspellRule;
+import org.languagetool.rules.CommaWhitespaceRule;
+import org.languagetool.rules.DoublePunctuationRule;
+import org.languagetool.rules.Rule;
+import org.languagetool.rules.UppercaseSentenceStartRule;
+import org.languagetool.rules.WhitespaceRule;
+import org.languagetool.rules.WordRepeatRule;
 import org.languagetool.rules.patterns.Unifier;
-import org.languagetool.rules.ru.RussianSimpleReplaceRule;
 import org.languagetool.rules.ru.RussianCompoundRule;
+import org.languagetool.rules.ru.RussianSimpleReplaceRule;
 import org.languagetool.rules.ru.RussianUnpairedBracketsRule;
 import org.languagetool.rules.ru.RussianWordRepeatRule;
+import org.languagetool.rules.spelling.hunspell.HunspellRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.ru.RussianSynthesizer;
 import org.languagetool.tagging.Tagger;

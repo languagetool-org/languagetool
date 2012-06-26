@@ -19,14 +19,12 @@
 package org.languagetool.rules.bitext;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 
 import junit.framework.TestCase;
-
-import org.xml.sax.SAXException;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
@@ -34,6 +32,7 @@ import org.languagetool.Language;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.bitext.BitextPatternRule;
 import org.languagetool.rules.patterns.bitext.FalseFriendsAsBitextLoader;
+import org.xml.sax.SAXException;
 
 /**
  * @author Marcin Miłkowski

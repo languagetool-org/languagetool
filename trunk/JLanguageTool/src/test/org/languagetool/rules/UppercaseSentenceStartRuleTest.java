@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.util.List;
 
 import junit.framework.TestCase;
+
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.TestTools;

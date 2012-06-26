@@ -18,13 +18,13 @@
  */
 package org.languagetool.rules.en;
 
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.Language;
-import org.languagetool.rules.WordRepeatBeginningRule;
-
 import java.util.HashSet;
 import java.util.ResourceBundle;
 import java.util.Set;
+
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.Language;
+import org.languagetool.rules.WordRepeatBeginningRule;
 
 /**
  * List of English adverbs for WordRepeatBeginningRule

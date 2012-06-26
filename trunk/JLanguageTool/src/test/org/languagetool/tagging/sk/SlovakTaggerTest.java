@@ -18,12 +18,13 @@
  */
 package org.languagetool.tagging.sk;
 
+import java.io.IOException;
+
 import junit.framework.TestCase;
+
 import org.languagetool.Language;
 import org.languagetool.TestTools;
 import org.languagetool.tokenizers.WordTokenizer;
-
-import java.io.IOException;
 
 public class SlovakTaggerTest extends TestCase {
     

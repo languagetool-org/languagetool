@@ -26,13 +26,12 @@ import javax.xml.parsers.SAXParserFactory;
 
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
-import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
-
 import org.languagetool.Language;
 import org.languagetool.TextFilter;
 import org.languagetool.dev.index.Indexer;
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
 
 /**
  * 

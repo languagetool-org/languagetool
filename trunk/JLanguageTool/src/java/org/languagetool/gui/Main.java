@@ -18,7 +18,56 @@
  */
 package org.languagetool.gui;
 
+import java.awt.AWTException;
+import java.awt.Container;
+import java.awt.Cursor;
+import java.awt.Desktop;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Image;
+import java.awt.Insets;
+import java.awt.MenuItem;
+import java.awt.PopupMenu;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.Reader;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.ResourceBundle;
+import java.util.Set;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextPane;
+import javax.swing.UIManager;
+import javax.swing.WindowConstants;
+import javax.swing.event.HyperlinkEvent;
+import javax.swing.event.HyperlinkListener;
+import javax.swing.filechooser.FileFilter;
+
 import org.apache.commons.lang.StringUtils;
+import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.language.RuleFilenameException;
@@ -27,25 +76,8 @@ import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.server.HTTPServer;
 import org.languagetool.server.PortBindingException;
-import org.languagetool.tools.StringTools;
 import org.languagetool.tools.LanguageIdentifierTools;
-import org.languagetool.AnalyzedSentence;
-
-import javax.swing.*;
-import javax.swing.event.HyperlinkEvent;
-import javax.swing.event.HyperlinkListener;
-import javax.swing.filechooser.FileFilter;
-import java.awt.*;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.Transferable;
-import java.awt.event.*;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.Reader;
-import java.util.*;
-import java.util.List;
+import org.languagetool.tools.StringTools;
 
 /**
  * A simple GUI to check texts with.

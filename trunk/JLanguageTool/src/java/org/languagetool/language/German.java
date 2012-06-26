@@ -18,11 +18,26 @@
  */
 package org.languagetool.language;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
 
 import org.languagetool.Language;
-import org.languagetool.rules.*;
-import org.languagetool.rules.de.*;
+import org.languagetool.rules.CommaWhitespaceRule;
+import org.languagetool.rules.GenericUnpairedBracketsRule;
+import org.languagetool.rules.Rule;
+import org.languagetool.rules.UppercaseSentenceStartRule;
+import org.languagetool.rules.WhitespaceRule;
+import org.languagetool.rules.de.AgreementRule;
+import org.languagetool.rules.de.CaseRule;
+import org.languagetool.rules.de.CompoundRule;
+import org.languagetool.rules.de.DashRule;
+import org.languagetool.rules.de.GermanDoublePunctuationRule;
+import org.languagetool.rules.de.GermanWordRepeatBeginningRule;
+import org.languagetool.rules.de.GermanWordRepeatRule;
+import org.languagetool.rules.de.GermanWrongWordInContextRule;
+import org.languagetool.rules.de.WiederVsWiderRule;
+import org.languagetool.rules.de.WordCoherencyRule;
 import org.languagetool.rules.spelling.hunspell.HunspellNoSuggestionRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.de.GermanTagger;

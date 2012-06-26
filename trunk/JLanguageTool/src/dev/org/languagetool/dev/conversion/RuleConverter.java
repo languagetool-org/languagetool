@@ -21,11 +21,11 @@ package org.languagetool.dev.conversion;
 
 import java.io.IOException;
 import java.io.InputStream;
-
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
-import java.util.regex.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.languagetool.JLanguageTool;
 

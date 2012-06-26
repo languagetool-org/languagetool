@@ -23,11 +23,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.ictclas4j.segment.SegTag;
+import org.languagetool.JLanguageTool;
+import org.languagetool.tokenizers.Tokenizer;
 
 import cn.com.cjf.CJFBeanFactory;
 import cn.com.cjf.ChineseJF;
-import org.languagetool.JLanguageTool;
-import org.languagetool.tokenizers.Tokenizer;
 
 public class ChineseWordTokenizer implements Tokenizer {
 

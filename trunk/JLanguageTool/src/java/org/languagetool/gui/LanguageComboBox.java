@@ -18,10 +18,15 @@
  */
 package org.languagetool.gui;
 
-import org.languagetool.Language;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
-import javax.swing.*;
-import java.util.*;
+import javax.swing.JComboBox;
+
+import org.languagetool.Language;
 
 /**
  * Combo box with list of available languages.

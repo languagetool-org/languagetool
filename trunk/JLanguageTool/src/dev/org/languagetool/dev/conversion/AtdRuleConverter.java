@@ -22,10 +22,8 @@ package org.languagetool.dev.conversion;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-
 import java.net.URISyntaxException;
 import java.net.URL;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -34,12 +32,12 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.languagetool.JLanguageTool;
-
 import morfologik.stemming.Dictionary;
 import morfologik.stemming.DictionaryLookup;
 import morfologik.stemming.IStemmer;
 import morfologik.stemming.WordData;
+
+import org.languagetool.JLanguageTool;
 
 public class AtdRuleConverter extends RuleConverter {
     

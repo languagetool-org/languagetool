@@ -19,9 +19,9 @@
 
 package org.languagetool.tokenizers;
 
-import junit.framework.TestCase;
-
 import java.util.List;
+
+import junit.framework.TestCase;
 
 public class WordTokenizerTest extends TestCase {
 

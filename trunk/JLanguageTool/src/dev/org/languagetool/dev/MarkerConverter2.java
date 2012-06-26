@@ -18,19 +18,23 @@
  */
 package org.languagetool.dev;
 
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.patterns.PatternRule;
-import org.languagetool.tools.StringTools;
-
-import javax.xml.stream.*;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamConstants;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
+
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.rules.Rule;
+import org.languagetool.rules.patterns.PatternRule;
+import org.languagetool.tools.StringTools;
 
 /**
  * Convert to the new marker format. Note: is buggy at least with "and" elements.

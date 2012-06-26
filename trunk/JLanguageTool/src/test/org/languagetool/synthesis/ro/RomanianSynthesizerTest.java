@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import junit.framework.TestCase;
+
 import org.languagetool.AnalyzedToken;
 
 public class RomanianSynthesizerTest extends TestCase {

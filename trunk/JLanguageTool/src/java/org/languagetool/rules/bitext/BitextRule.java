@@ -25,10 +25,10 @@ import java.util.List;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.Language;
 import org.languagetool.bitext.StringPair;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
-import org.languagetool.Language;
 
 /**
  * Abstract bitext rule class. A BitextRule describes a language error and 

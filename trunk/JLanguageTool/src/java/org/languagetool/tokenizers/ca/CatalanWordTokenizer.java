@@ -21,8 +21,8 @@ package org.languagetool.tokenizers.ca;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
-import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.languagetool.tokenizers.Tokenizer;
 

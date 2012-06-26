@@ -20,16 +20,17 @@ package org.languagetool.rules;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.*;
-import java.util.regex.Pattern;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
+import java.util.Scanner;
+import java.util.Vector;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
-import org.languagetool.rules.Category;
-import org.languagetool.rules.RuleMatch;
-import org.languagetool.tools.StringTools;
 
 /**
  * Check if there is a confusion of two words (which might have a similar spelling) depending on the context.

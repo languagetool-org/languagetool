@@ -18,10 +18,35 @@
  */
 package org.languagetool;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintStream;
+import java.lang.reflect.Constructor;
+import java.net.JarURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
+import java.util.Set;
+import java.util.jar.Manifest;
+
+import javax.xml.parsers.ParserConfigurationException;
+
 import org.languagetool.databroker.DefaultResourceDataBroker;
 import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.gui.ResourceBundleWithFallback;
-import org.languagetool.rules.*;
+import org.languagetool.rules.Category;
+import org.languagetool.rules.Rule;
+import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.RuleMatchFilter;
+import org.languagetool.rules.SameRuleGroupFilter;
 import org.languagetool.rules.patterns.FalseFriendRuleLoader;
 import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.rules.patterns.PatternRuleLoader;
@@ -29,19 +54,6 @@ import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tokenizers.Tokenizer;
 import org.xml.sax.SAXException;
-
-import javax.xml.parsers.ParserConfigurationException;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintStream;
-import java.lang.reflect.Constructor;
-import java.net.JarURLConnection;
-import java.net.URL;
-import java.util.*;
-import java.util.jar.Manifest;
 
 /**
  * The main class used for checking text against different rules:

@@ -28,9 +28,9 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
-import org.languagetool.tools.StringTools;
-
 import junit.framework.TestCase;
+
+import org.languagetool.tools.StringTools;
 
 /**
  * Check if the translations seem to be complete.

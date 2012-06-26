@@ -19,11 +19,11 @@
 
 package org.languagetool.language;
 
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.en.MorfologikAustralianSpellerRule;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.languagetool.rules.Rule;
+import org.languagetool.rules.en.MorfologikAustralianSpellerRule;
 
 public class AustralianEnglish extends English {
 

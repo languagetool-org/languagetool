@@ -18,13 +18,14 @@
  */
 package org.languagetool.gui;
 
-import org.apache.tika.language.LanguageIdentifier;
-import org.languagetool.Language;
-
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ResourceBundle;
+
+import javax.swing.JCheckBox;
+
+import org.apache.tika.language.LanguageIdentifier;
+import org.languagetool.Language;
 
 class LanguageDetectionCheckbox extends JCheckBox {
 

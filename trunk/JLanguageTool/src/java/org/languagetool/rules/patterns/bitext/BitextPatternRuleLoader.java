@@ -26,11 +26,6 @@ import java.util.List;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import org.languagetool.rules.patterns.PatternRuleHandler;
-import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
-
 import org.languagetool.Language;
 import org.languagetool.bitext.StringPair;
 import org.languagetool.rules.IncorrectExample;
@@ -38,6 +33,10 @@ import org.languagetool.rules.bitext.IncorrectBitextExample;
 import org.languagetool.rules.patterns.Element;
 import org.languagetool.rules.patterns.Match;
 import org.languagetool.rules.patterns.PatternRule;
+import org.languagetool.rules.patterns.PatternRuleHandler;
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
 
 /**
  * Loads {@link PatternRule}s from an XML file.

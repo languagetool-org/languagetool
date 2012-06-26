@@ -18,11 +18,11 @@
  */
 package org.languagetool.rules.sv;
 
+import java.io.IOException;
+
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.rules.CompoundRuleTestAbs;
-
-import java.io.IOException;
 
 /**
  * @author Daniel Naber

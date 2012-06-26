@@ -18,8 +18,14 @@
  */
 package org.languagetool;
 
-import java.io.*;
-
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -27,17 +33,15 @@ import java.util.Locale;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.tika.language.LanguageIdentifier;
+import org.languagetool.bitext.TabBitextReader;
 import org.languagetool.commandline.CommandLineOptions;
 import org.languagetool.commandline.CommandLineParser;
-import org.xml.sax.SAXException;
-
-import org.apache.tika.language.*;
-
-import org.languagetool.bitext.TabBitextReader;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.bitext.BitextRule;
 import org.languagetool.tools.StringTools;
 import org.languagetool.tools.Tools;
+import org.xml.sax.SAXException;
 
 /**
  * The command line tool to check plain text files.

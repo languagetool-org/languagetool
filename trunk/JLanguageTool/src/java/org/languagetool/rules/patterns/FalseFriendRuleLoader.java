@@ -33,14 +33,13 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.apache.commons.lang.StringUtils;
-import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
-
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.IncorrectExample;
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
 
 /**
  * Loads {@link PatternRule}s from a false friends XML file.

@@ -18,10 +18,10 @@
  */
 package org.languagetool.rules.de;
 
-import org.languagetool.rules.WrongWordInContextRule;
-
 import java.io.IOException;
 import java.util.ResourceBundle;
+
+import org.languagetool.rules.WrongWordInContextRule;
 
 public class GermanWrongWordInContextRule extends WrongWordInContextRule {
   

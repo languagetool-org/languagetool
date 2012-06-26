@@ -18,11 +18,11 @@
  */
 package org.languagetool.rules.en;
 
+import java.util.ResourceBundle;
+
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
 import org.languagetool.rules.WordRepeatRule;
-
-import java.util.ResourceBundle;
 
 /**
  * Avoid false alarms in the word repetition rule.

@@ -21,12 +21,11 @@ package org.languagetool.rules.patterns.bitext;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
-
 import org.languagetool.bitext.StringPair;
 import org.languagetool.rules.bitext.IncorrectBitextExample;
 import org.languagetool.rules.patterns.XMLRuleHandler;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 
 /**
  * XML rule handler that loads rules from XML and throws

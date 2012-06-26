@@ -18,9 +18,9 @@
  */
 package org.languagetool.rules.de;
 
-import org.languagetool.rules.DoublePunctuationRule;
-
 import java.util.ResourceBundle;
+
+import org.languagetool.rules.DoublePunctuationRule;
 
 /**
  * Double punctuation rule with German-specific error message.

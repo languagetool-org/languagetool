@@ -18,22 +18,24 @@
  */
 package org.languagetool.language;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
 
 import org.languagetool.Language;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.km.KhmerSimpleReplaceRule;
+import org.languagetool.rules.km.KhmerUnpairedBracketsRule;
 import org.languagetool.rules.km.KhmerWordRepeatRule;
+import org.languagetool.rules.spelling.hunspell.HunspellRule;
 import org.languagetool.tagging.Tagger;
+import org.languagetool.tagging.disambiguation.Disambiguator;
+import org.languagetool.tagging.disambiguation.rules.km.KhmerRuleDisambiguator;
 import org.languagetool.tagging.km.KhmerTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
-import org.languagetool.tagging.disambiguation.Disambiguator;
-import org.languagetool.tagging.disambiguation.rules.km.KhmerRuleDisambiguator;
 import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tokenizers.km.KhmerWordTokenizer;
-import org.languagetool.rules.km.KhmerUnpairedBracketsRule;
-import org.languagetool.rules.spelling.hunspell.HunspellRule;
 
 public class Khmer extends Language {
 

@@ -1,6 +1,7 @@
 package org.languagetool.rules.ro;
 
 import junit.framework.TestCase;
+
 import org.languagetool.rules.patterns.PatternRuleTest;
 
 /**

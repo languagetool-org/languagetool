@@ -24,8 +24,8 @@ import java.io.IOException;
 import junit.framework.TestCase;
 
 import org.languagetool.AnalyzedSentence;
-import org.languagetool.Language;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
 import org.languagetool.TestTools;
 import org.languagetool.tagging.disambiguation.xx.DemoDisambiguator;
 import org.languagetool.tagging.fr.FrenchTagger;

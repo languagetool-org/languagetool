@@ -18,16 +18,16 @@
  */
 package org.languagetool.rules.patterns;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tools.StringTools;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Matches a pattern rule against plain text.

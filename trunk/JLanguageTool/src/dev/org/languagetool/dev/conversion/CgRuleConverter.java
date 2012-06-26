@@ -5,24 +5,23 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Arrays;
 import java.util.Map;
 import java.util.TreeMap;
 
 import org.languagetool.dev.conversion.cg.CgCompositeTag;
 import org.languagetool.dev.conversion.cg.CgContextualTest;
+import org.languagetool.dev.conversion.cg.CgContextualTest.POS;
 import org.languagetool.dev.conversion.cg.CgGrammar;
+import org.languagetool.dev.conversion.cg.CgRule;
 import org.languagetool.dev.conversion.cg.CgSet;
 import org.languagetool.dev.conversion.cg.CgTag;
 import org.languagetool.dev.conversion.cg.CgTextualParser;
-import org.languagetool.dev.conversion.cg.CgRule;
-import org.languagetool.dev.conversion.cg.CgContextualTest.POS;
 
 public class CgRuleConverter extends RuleConverter {
 

@@ -18,10 +18,11 @@
  */
 package org.languagetool.language;
 
-import org.languagetool.Language;
+import java.io.File;
+
 import junit.framework.TestCase;
 
-import java.io.File;
+import org.languagetool.Language;
 
 public class LanguageBuilderTest extends TestCase {
   

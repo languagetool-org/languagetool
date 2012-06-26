@@ -18,25 +18,31 @@
  */
 package org.languagetool.language;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
 
 import org.languagetool.Language;
-import org.languagetool.rules.*;
+import org.languagetool.rules.CommaWhitespaceRule;
+import org.languagetool.rules.DoublePunctuationRule;
+import org.languagetool.rules.Rule;
+import org.languagetool.rules.UppercaseSentenceStartRule;
+import org.languagetool.rules.WhitespaceRule;
+import org.languagetool.rules.WordRepeatRule;
 import org.languagetool.rules.patterns.Unifier;
 import org.languagetool.rules.pl.CompoundRule;
 import org.languagetool.rules.pl.PolishUnpairedBracketsRule;
 import org.languagetool.rules.pl.PolishWordRepeatRule;
 import org.languagetool.rules.pl.SimpleReplaceRule;
+import org.languagetool.rules.spelling.morfologik.pl.MorfologikPolishSpellerRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.pl.PolishSynthesizer;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.pl.PolishHybridDisambiguator;
 import org.languagetool.tagging.pl.PolishTagger;
-import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
-
-import org.languagetool.rules.spelling.morfologik.pl.*;
+import org.languagetool.tokenizers.SentenceTokenizer;
 
 public class Polish extends Language {
 

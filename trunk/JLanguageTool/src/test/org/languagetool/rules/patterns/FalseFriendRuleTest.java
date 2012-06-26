@@ -25,13 +25,12 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import junit.framework.TestCase;
 
-import org.languagetool.rules.en.MorfologikAmericanSpellerRule;
-import org.languagetool.rules.en.MorfologikBritishSpellerRule;
-import org.xml.sax.SAXException;
-
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.en.MorfologikAmericanSpellerRule;
+import org.languagetool.rules.en.MorfologikBritishSpellerRule;
+import org.xml.sax.SAXException;
 
 public class FalseFriendRuleTest extends TestCase {
 

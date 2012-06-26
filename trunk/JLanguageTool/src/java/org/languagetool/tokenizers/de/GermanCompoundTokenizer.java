@@ -21,8 +21,9 @@ package org.languagetool.tokenizers.de;
 import java.io.IOException;
 import java.util.List;
 
-import de.abelssoft.wordtools.jwordsplitter.impl.GermanWordSplitter;
 import org.languagetool.tokenizers.Tokenizer;
+
+import de.abelssoft.wordtools.jwordsplitter.impl.GermanWordSplitter;
 
 /**
  * Split German nouns using the jWordSplitter library.

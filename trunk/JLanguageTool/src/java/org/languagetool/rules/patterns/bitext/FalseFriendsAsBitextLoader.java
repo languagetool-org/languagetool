@@ -26,12 +26,11 @@ import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.xml.sax.SAXException;
-
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.rules.patterns.FalseFriendRuleLoader;
 import org.languagetool.rules.patterns.PatternRule;
+import org.xml.sax.SAXException;
 
 /**
  * Loads the false friend rules as bitext pattern rules. Note that the resulting

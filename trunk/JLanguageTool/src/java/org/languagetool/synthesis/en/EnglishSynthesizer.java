@@ -26,6 +26,7 @@ import java.util.List;
 import morfologik.stemming.Dictionary;
 import morfologik.stemming.DictionaryLookup;
 import morfologik.stemming.WordData;
+
 import org.languagetool.AnalyzedToken;
 import org.languagetool.JLanguageTool;
 import org.languagetool.rules.en.AvsAnRule;

@@ -23,14 +23,20 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.lucene.search.*;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.Query;
+import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.Sort;
+import org.apache.lucene.search.SortField;
+import org.apache.lucene.search.TimeLimitingCollector;
+import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.search.TopFieldCollector;
+import org.apache.lucene.store.FSDirectory;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
-import org.apache.lucene.document.Document;
-import org.apache.lucene.store.FSDirectory;
-
 import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.rules.patterns.PatternRuleLoader;
 

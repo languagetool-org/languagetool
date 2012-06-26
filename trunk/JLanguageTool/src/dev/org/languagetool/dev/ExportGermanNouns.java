@@ -22,14 +22,17 @@
  */
 package org.languagetool.dev;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.nio.ByteBuffer;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.languagetool.JLanguageTool;
-
 import morfologik.fsa.FSA;
+
+import org.languagetool.JLanguageTool;
 
 /**
  * Export German nouns as a serialized Java HashSet, to be used

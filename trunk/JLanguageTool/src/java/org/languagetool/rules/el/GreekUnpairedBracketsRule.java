@@ -19,6 +19,7 @@
 package org.languagetool.rules.el;
 
 import java.util.ResourceBundle;
+
 import org.languagetool.Language;
 import org.languagetool.rules.GenericUnpairedBracketsRule;
 

@@ -18,9 +18,9 @@
  */
 package org.languagetool.dev.index;
 
-import org.languagetool.rules.RuleMatch;
-
 import java.util.List;
+
+import org.languagetool.rules.RuleMatch;
 
 /**
  * A sentence with rule matches.

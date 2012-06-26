@@ -18,9 +18,9 @@
  */
 package org.languagetool.dev.wikipedia;
 
-import org.languagetool.rules.RuleMatch;
-
 import java.util.List;
+
+import org.languagetool.rules.RuleMatch;
 
 public class WikipediaQuickCheckResult {
 

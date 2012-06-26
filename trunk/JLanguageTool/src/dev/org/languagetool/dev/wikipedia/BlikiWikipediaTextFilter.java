@@ -21,7 +21,6 @@ package org.languagetool.dev.wikipedia;
 import info.bliki.wiki.model.WikiModel;
 
 import org.apache.commons.lang.StringEscapeUtils;
-
 import org.languagetool.TextFilter;
 
 /**

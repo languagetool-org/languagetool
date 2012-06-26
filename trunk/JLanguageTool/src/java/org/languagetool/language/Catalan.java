@@ -18,29 +18,35 @@
  */
 package org.languagetool.language;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
 
 import org.languagetool.Language;
-import org.languagetool.rules.*;
-import org.languagetool.rules.patterns.Unifier;
+import org.languagetool.rules.CommaWhitespaceRule;
+import org.languagetool.rules.DoublePunctuationRule;
+import org.languagetool.rules.GenericUnpairedBracketsRule;
+import org.languagetool.rules.LongSentenceRule;
+import org.languagetool.rules.Rule;
+import org.languagetool.rules.UppercaseSentenceStartRule;
+import org.languagetool.rules.WhitespaceRule;
+import org.languagetool.rules.WordRepeatRule;
+import org.languagetool.rules.ca.AccentuationCheckRule;
+import org.languagetool.rules.ca.CatalanUnpairedExclamationMarksRule;
+import org.languagetool.rules.ca.CatalanUnpairedQuestionMarksRule;
+import org.languagetool.rules.ca.ComplexAdjectiveConcordanceRule;
 import org.languagetool.rules.ca.MorfologikCatalanSpellerRule;
+import org.languagetool.rules.patterns.Unifier;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.ca.CatalanSynthesizer;
 import org.languagetool.tagging.Tagger;
-import org.languagetool.tagging.disambiguation.Disambiguator;
-//import org.languagetool.tagging.disambiguation.rules.ca.CatalanRuleDisambiguator;
-import org.languagetool.tagging.disambiguation.ca.CatalanHybridDisambiguator;
 import org.languagetool.tagging.ca.CatalanTagger;
+import org.languagetool.tagging.disambiguation.Disambiguator;
+import org.languagetool.tagging.disambiguation.ca.CatalanHybridDisambiguator;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tokenizers.ca.CatalanWordTokenizer;
-import org.languagetool.rules.ca.CatalanUnpairedQuestionMarksRule;
-import org.languagetool.rules.ca.CatalanUnpairedExclamationMarksRule;
-import org.languagetool.rules.ca.AccentuationCheckRule;
-import org.languagetool.rules.ca.ComplexAdjectiveConcordanceRule;
-//import org.languagetool.rules.ca.CastellanismesReplaceRule;
-//import org.languagetool.rules.ca.AccentuacioReplaceRule;
 
 public class Catalan extends Language {
 

@@ -25,7 +25,22 @@ import org.sweble.wikitext.engine.utils.EntityReferences;
 import org.sweble.wikitext.engine.utils.SimpleWikiConfiguration;
 import org.sweble.wikitext.lazy.LinkTargetException;
 import org.sweble.wikitext.lazy.encval.IllegalCodePoint;
-import org.sweble.wikitext.lazy.parser.*;
+import org.sweble.wikitext.lazy.parser.Bold;
+import org.sweble.wikitext.lazy.parser.Enumeration;
+import org.sweble.wikitext.lazy.parser.EnumerationItem;
+import org.sweble.wikitext.lazy.parser.ExternalLink;
+import org.sweble.wikitext.lazy.parser.HorizontalRule;
+import org.sweble.wikitext.lazy.parser.ImageLink;
+import org.sweble.wikitext.lazy.parser.InternalLink;
+import org.sweble.wikitext.lazy.parser.Italics;
+import org.sweble.wikitext.lazy.parser.Itemization;
+import org.sweble.wikitext.lazy.parser.ItemizationItem;
+import org.sweble.wikitext.lazy.parser.MagicWord;
+import org.sweble.wikitext.lazy.parser.Paragraph;
+import org.sweble.wikitext.lazy.parser.Section;
+import org.sweble.wikitext.lazy.parser.Url;
+import org.sweble.wikitext.lazy.parser.Whitespace;
+import org.sweble.wikitext.lazy.parser.XmlElement;
 import org.sweble.wikitext.lazy.preprocessor.TagExtension;
 import org.sweble.wikitext.lazy.preprocessor.Template;
 import org.sweble.wikitext.lazy.preprocessor.TemplateArgument;
@@ -38,7 +53,6 @@ import de.fau.cs.osr.ptk.common.Visitor;
 import de.fau.cs.osr.ptk.common.ast.AstNode;
 import de.fau.cs.osr.ptk.common.ast.NodeList;
 import de.fau.cs.osr.ptk.common.ast.Text;
-//import de.fau.cs.osr.utils.StringUtils;
 
 /**
  * A visitor to convert an article AST into a pure text representation. To

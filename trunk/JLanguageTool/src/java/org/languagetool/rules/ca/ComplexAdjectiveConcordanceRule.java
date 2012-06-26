@@ -18,15 +18,17 @@
  */
 package org.languagetool.rules.ca;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.RuleMatch;
-
-import java.io.IOException;
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * This rule checks if an adjective doesn't agree with the previous noun and 

@@ -18,18 +18,24 @@
  */
 
 package org.languagetool.language;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+
 import org.languagetool.Language;
-import org.languagetool.rules.*;
+import org.languagetool.rules.CommaWhitespaceRule;
+import org.languagetool.rules.DoublePunctuationRule;
+import org.languagetool.rules.Rule;
+import org.languagetool.rules.UppercaseSentenceStartRule;
+import org.languagetool.rules.WhitespaceRule;
+import org.languagetool.rules.br.TopoReplaceRule;
+import org.languagetool.rules.spelling.hunspell.HunspellNoSuggestionRule;
 import org.languagetool.tagging.Tagger;
+import org.languagetool.tagging.br.BretonTagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.rules.br.BretonRuleDisambiguator;
 import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tokenizers.br.BretonWordTokenizer;
-import org.languagetool.tagging.br.BretonTagger;
-import org.languagetool.rules.br.TopoReplaceRule;
-import org.languagetool.rules.spelling.hunspell.HunspellNoSuggestionRule;
-
-import java.util.*;
 
 /** 
  * @author Dominique Pelle

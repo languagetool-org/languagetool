@@ -21,9 +21,9 @@ package org.languagetool.tagging.disambiguation.rules;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.languagetool.rules.patterns.XMLRuleHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
-import org.languagetool.rules.patterns.XMLRuleHandler;
 
 /**
  * XML rule handler that loads disambiguation rules from XML and throws

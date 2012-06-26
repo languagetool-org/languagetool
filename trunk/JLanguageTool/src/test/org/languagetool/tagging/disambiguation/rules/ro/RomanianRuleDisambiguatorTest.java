@@ -3,6 +3,7 @@ package org.languagetool.tagging.disambiguation.rules.ro;
 import java.io.IOException;
 
 import junit.framework.TestCase;
+
 import org.languagetool.TestTools;
 import org.languagetool.tagging.disambiguation.xx.DemoDisambiguator;
 import org.languagetool.tagging.ro.RomanianTagger;

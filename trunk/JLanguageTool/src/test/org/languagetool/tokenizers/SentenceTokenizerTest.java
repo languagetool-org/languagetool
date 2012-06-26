@@ -19,6 +19,7 @@
 package org.languagetool.tokenizers;
 
 import junit.framework.TestCase;
+
 import org.languagetool.TestTools;
 
 /**

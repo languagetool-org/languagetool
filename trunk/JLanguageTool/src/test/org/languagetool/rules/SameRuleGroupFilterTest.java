@@ -18,14 +18,15 @@
  */
 package org.languagetool.rules;
 
-import junit.framework.TestCase;
-import org.languagetool.Language;
-import org.languagetool.rules.patterns.Element;
-import org.languagetool.rules.patterns.PatternRule;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import junit.framework.TestCase;
+
+import org.languagetool.Language;
+import org.languagetool.rules.patterns.Element;
+import org.languagetool.rules.patterns.PatternRule;
 
 public class SameRuleGroupFilterTest extends TestCase {
 

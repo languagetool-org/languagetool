@@ -18,10 +18,10 @@
  */
 package org.languagetool.rules.sv;
 
-import org.languagetool.rules.AbstractCompoundRule;
-
 import java.io.IOException;
 import java.util.ResourceBundle;
+
+import org.languagetool.rules.AbstractCompoundRule;
 
 /**
  * Checks that compounds (if in the list) are not written as separate words.

@@ -19,6 +19,7 @@
 package org.languagetool.commandline;
 
 import junit.framework.TestCase;
+
 import org.languagetool.Language;
 
 public class CommandLineParserTest extends TestCase {

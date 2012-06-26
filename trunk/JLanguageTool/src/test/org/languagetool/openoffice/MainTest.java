@@ -2,9 +2,9 @@ package org.languagetool.openoffice;
 
 import junit.framework.TestCase;
 
+import com.sun.star.beans.PropertyValue;
 import com.sun.star.lang.Locale;
 import com.sun.star.linguistic2.ProofreadingResult;
-import com.sun.star.beans.PropertyValue;
 
 public class MainTest extends TestCase {
   

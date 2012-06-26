@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import org.languagetool.dev.conversion.cg.CgSet.ST;
 import org.languagetool.dev.conversion.cg.CgStrings.STRINGS;
 import org.languagetool.dev.conversion.cg.CgTag.TAGS;
-import org.languagetool.dev.conversion.cg.CgSet.ST;
 
 public class CgGrammar {
     

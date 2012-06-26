@@ -8,12 +8,12 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import org.languagetool.dev.conversion.cg.CgContextualTest.POS;
+import org.languagetool.dev.conversion.cg.CgRule.RFLAGS;
 import org.languagetool.dev.conversion.cg.CgSet.ST;
 import org.languagetool.dev.conversion.cg.CgStrings.KEYWORDS;
-import org.languagetool.dev.conversion.cg.CgStrings.STRINGS;
-import org.languagetool.dev.conversion.cg.CgContextualTest.POS;
 import org.languagetool.dev.conversion.cg.CgStrings.SFLAGS;
-import org.languagetool.dev.conversion.cg.CgRule.RFLAGS;
+import org.languagetool.dev.conversion.cg.CgStrings.STRINGS;
 
 public class CgTextualParser {
     

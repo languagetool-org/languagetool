@@ -1,11 +1,12 @@
 package org.languagetool.rules.patterns;
 
+import java.util.List;
+
 import junit.framework.TestCase;
+
 import org.languagetool.JLanguageTool;
 import org.languagetool.rules.IncorrectExample;
 import org.languagetool.rules.Rule;
-
-import java.util.List;
 
 public class PatternRuleLoaderTest extends TestCase {
 

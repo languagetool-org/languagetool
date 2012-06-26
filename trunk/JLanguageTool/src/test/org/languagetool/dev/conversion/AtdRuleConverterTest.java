@@ -1,8 +1,8 @@
 package org.languagetool.dev.conversion;
 
-import junit.framework.TestCase;
-
 import java.util.HashMap;
+
+import junit.framework.TestCase;
 
 public class AtdRuleConverterTest extends TestCase {
 

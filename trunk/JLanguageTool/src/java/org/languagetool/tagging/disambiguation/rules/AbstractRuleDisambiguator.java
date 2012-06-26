@@ -24,13 +24,12 @@ import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
-import org.xml.sax.SAXException;
-
-import org.languagetool.AnalyzedSentence;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tools.Tools;
+import org.xml.sax.SAXException;
 
 /**
  * Rule-based disambiguator.

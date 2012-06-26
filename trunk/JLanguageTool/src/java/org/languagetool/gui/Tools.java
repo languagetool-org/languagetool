@@ -18,12 +18,14 @@
  */
 package org.languagetool.gui;
 
-import javax.swing.*;
-import javax.swing.filechooser.FileFilter;
-import java.awt.*;
+import java.awt.Frame;
 import java.io.File;
 import java.text.MessageFormat;
 import java.util.ResourceBundle;
+
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileFilter;
 
 /**
  * GUI-related tools.

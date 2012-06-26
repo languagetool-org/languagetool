@@ -1,10 +1,11 @@
 package org.languagetool.rules.patterns;
 
-import junit.framework.TestCase;
-import org.languagetool.Language;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import junit.framework.TestCase;
+
+import org.languagetool.Language;
 
 public class PatternRuleXmlCreatorTest extends TestCase {
 

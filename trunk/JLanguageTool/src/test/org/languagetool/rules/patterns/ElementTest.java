@@ -19,9 +19,10 @@
 
 package org.languagetool.rules.patterns;
 
+import junit.framework.TestCase;
+
 import org.languagetool.AnalyzedToken;
 import org.languagetool.JLanguageTool;
-import junit.framework.TestCase;
 
 public class ElementTest extends TestCase {
 

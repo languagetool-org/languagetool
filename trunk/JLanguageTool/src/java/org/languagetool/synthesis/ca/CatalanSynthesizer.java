@@ -18,15 +18,16 @@
  */
 package org.languagetool.synthesis.ca;
 
-import morfologik.stemming.WordData;
-import org.languagetool.AnalyzedToken;
-import org.languagetool.synthesis.BaseSynthesizer;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import morfologik.stemming.WordData;
+
+import org.languagetool.AnalyzedToken;
+import org.languagetool.synthesis.BaseSynthesizer;
 
 /**
  * Catalan word form synthesizer.

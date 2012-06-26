@@ -19,6 +19,7 @@
 package org.languagetool.tokenizers.da;
 
 import junit.framework.TestCase;
+
 import org.languagetool.Language;
 import org.languagetool.TestTools;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;

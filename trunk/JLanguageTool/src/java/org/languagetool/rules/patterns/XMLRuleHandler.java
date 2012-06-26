@@ -23,15 +23,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.languagetool.Language;
+import org.languagetool.rules.IncorrectExample;
+import org.languagetool.tools.StringTools;
 import org.xml.sax.Attributes;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
-
-import org.languagetool.Language;
-import org.languagetool.rules.IncorrectExample;
-import org.languagetool.tools.StringTools;
 
 /**
  * XML rule handler that loads rules from XML and throws

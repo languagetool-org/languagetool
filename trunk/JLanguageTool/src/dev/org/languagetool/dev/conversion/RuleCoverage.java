@@ -21,7 +21,6 @@ package org.languagetool.dev.conversion;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,9 +29,9 @@ import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.Random;
 
 import morfologik.stemming.Dictionary;
 import morfologik.stemming.DictionaryIterator;

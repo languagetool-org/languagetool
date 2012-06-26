@@ -18,11 +18,12 @@
  */
 package org.languagetool.tagging.disambiguation;
 
+import junit.framework.TestCase;
+
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
-import junit.framework.TestCase;
 
 public class MultiWordChunkerTest extends TestCase {
     

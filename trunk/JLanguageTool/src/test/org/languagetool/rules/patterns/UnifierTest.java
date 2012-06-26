@@ -19,15 +19,14 @@
 
 package org.languagetool.rules.patterns;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.List;
-import java.util.ArrayList;
+import java.util.Map;
 
 import junit.framework.TestCase;
 
-import org.junit.Test;
 import org.languagetool.AnalyzedToken;
 
 public class UnifierTest extends TestCase {

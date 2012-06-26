@@ -7,12 +7,12 @@ import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.xml.sax.SAXException;
-
 import junit.framework.TestCase;
+
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.rules.bitext.BitextRule;
+import org.xml.sax.SAXException;
 
 public class ToolsTest extends TestCase {
 

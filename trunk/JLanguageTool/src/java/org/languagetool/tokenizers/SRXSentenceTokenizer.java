@@ -18,14 +18,6 @@
  */
 package org.languagetool.tokenizers;
 
-import net.sourceforge.segment.TextIterator;
-import net.sourceforge.segment.srx.SrxDocument;
-import net.sourceforge.segment.srx.SrxParser;
-import net.sourceforge.segment.srx.SrxTextIterator;
-import net.sourceforge.segment.srx.io.Srx2SaxParser;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -33,6 +25,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import net.sourceforge.segment.TextIterator;
+import net.sourceforge.segment.srx.SrxDocument;
+import net.sourceforge.segment.srx.SrxParser;
+import net.sourceforge.segment.srx.SrxTextIterator;
+import net.sourceforge.segment.srx.io.Srx2SaxParser;
+
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
 
 /**
  * Class to tokenize sentences using an SRX file.

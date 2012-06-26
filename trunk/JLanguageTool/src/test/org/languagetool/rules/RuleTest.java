@@ -18,14 +18,15 @@
  */
 package org.languagetool.rules;
 
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import junit.framework.TestCase;
-
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import junit.framework.TestCase;
+
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
 
 public class RuleTest extends TestCase {
 

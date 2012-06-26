@@ -19,8 +19,11 @@
 
 package org.languagetool.dev.conversion;
 
-import java.io.*;
-import java.util.*;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.util.List;
 
 import org.languagetool.Language;
 

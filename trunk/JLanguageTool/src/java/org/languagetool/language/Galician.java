@@ -18,20 +18,27 @@
  */
 package org.languagetool.language;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
 
 import org.languagetool.Language;
-import org.languagetool.rules.*;
-import org.languagetool.rules.patterns.Unifier;
-import org.languagetool.rules.spelling.hunspell.HunspellRule;
+import org.languagetool.rules.CommaWhitespaceRule;
+import org.languagetool.rules.DoublePunctuationRule;
+import org.languagetool.rules.GenericUnpairedBracketsRule;
+import org.languagetool.rules.Rule;
+import org.languagetool.rules.UppercaseSentenceStartRule;
+import org.languagetool.rules.WhitespaceRule;
 import org.languagetool.rules.gl.CastWordsRule;
 import org.languagetool.rules.gl.SimpleReplaceRule;
+import org.languagetool.rules.patterns.Unifier;
+import org.languagetool.rules.spelling.hunspell.HunspellRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.gl.GalicianSynthesizer;
 import org.languagetool.tagging.Tagger;
-import org.languagetool.tagging.gl.GalicianTagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.rules.gl.GalicianRuleDisambiguator;
+import org.languagetool.tagging.gl.GalicianTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.Tokenizer;

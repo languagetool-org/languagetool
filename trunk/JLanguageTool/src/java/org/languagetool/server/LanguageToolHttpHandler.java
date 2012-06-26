@@ -1,15 +1,5 @@
 package org.languagetool.server;
 
-import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.gui.Configuration;
-import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.bitext.BitextRule;
-import org.languagetool.tools.StringTools;
-import org.languagetool.tools.Tools;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -18,7 +8,25 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.gui.Configuration;
+import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.bitext.BitextRule;
+import org.languagetool.tools.StringTools;
+import org.languagetool.tools.Tools;
+
+import com.sun.net.httpserver.HttpExchange;
+import com.sun.net.httpserver.HttpHandler;
 
 class LanguageToolHttpHandler implements HttpHandler {
 

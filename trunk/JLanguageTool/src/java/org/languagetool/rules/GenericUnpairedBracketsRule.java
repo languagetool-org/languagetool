@@ -20,17 +20,17 @@
 package org.languagetool.rules;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
-import org.languagetool.tools.UnsyncStack;
 import org.languagetool.tools.SymbolLocator;
+import org.languagetool.tools.UnsyncStack;
 
 /**
  * Rule that finds unpaired quotes, brackets etc.

@@ -18,13 +18,13 @@
  */
 package org.languagetool.server;
 
-import com.sun.net.httpserver.HttpServer;
-
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+
+import com.sun.net.httpserver.HttpServer;
 
 /**
  * A small embedded HTTP server that checks text. Returns XML, prints debugging

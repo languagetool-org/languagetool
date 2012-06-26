@@ -28,17 +28,20 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Properties;
+import java.util.Set;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import org.languagetool.rules.Rule;
-import org.xml.sax.SAXException;
-
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.rules.Rule;
+import org.xml.sax.SAXException;
 
 /**
  * Command-line tool that checks texts from Wikipedia (download "pages-articles.xml.bz2" from

@@ -26,9 +26,9 @@ import java.util.TreeSet;
 
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
 import org.languagetool.tagging.de.GermanToken.POSType;
 import org.languagetool.tools.StringTools;
-import org.languagetool.JLanguageTool;
 
 /**
  * All possible readings of an analyzed German word.

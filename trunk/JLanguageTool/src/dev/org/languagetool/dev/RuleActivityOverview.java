@@ -18,15 +18,21 @@
  */
 package org.languagetool.dev;
 
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.tools.StringTools;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.Scanner;
+
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.tools.StringTools;
 
 /**
  * Command line tool to list activity for grammar files. Requires a typical developer setup,

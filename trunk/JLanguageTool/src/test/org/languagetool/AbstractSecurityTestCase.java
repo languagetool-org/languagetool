@@ -20,8 +20,9 @@
 
 package org.languagetool;
 
-import junit.framework.TestCase;
 import java.security.Permission;
+
+import junit.framework.TestCase;
 
 /**
  * @author Charlie Collins (Maven Test Example from

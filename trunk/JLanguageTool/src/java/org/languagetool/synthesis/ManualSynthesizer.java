@@ -18,12 +18,19 @@
  */
 package org.languagetool.synthesis;
 
-import org.languagetool.tagging.ManualTagger;
-import org.languagetool.tools.StringTools;
-
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.Set;
+
+import org.languagetool.tagging.ManualTagger;
+import org.languagetool.tools.StringTools;
 
 /**
  * A synthesizer that reads the inflected form and POS information from a plain (UTF-8) text file. <br/>

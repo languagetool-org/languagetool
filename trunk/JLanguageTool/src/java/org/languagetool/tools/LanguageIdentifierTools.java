@@ -23,8 +23,8 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import org.apache.tika.language.*;
-
+import org.apache.tika.language.LanguageIdentifier;
+import org.apache.tika.language.LanguageProfile;
 import org.languagetool.JLanguageTool;
 
 public class LanguageIdentifierTools {

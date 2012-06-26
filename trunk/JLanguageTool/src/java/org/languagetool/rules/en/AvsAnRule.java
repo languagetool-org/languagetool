@@ -20,7 +20,12 @@ package org.languagetool.rules.en;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
+import java.util.Scanner;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;

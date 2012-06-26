@@ -19,6 +19,7 @@
 package org.languagetool.tagging.el;
 
 import java.util.Locale;
+
 import org.languagetool.tagging.BaseTagger;
 
 /**

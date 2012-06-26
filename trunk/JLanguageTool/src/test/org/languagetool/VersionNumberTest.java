@@ -18,13 +18,14 @@
  */
 package org.languagetool;
 
-import junit.framework.TestCase;
-import org.languagetool.tools.StringTools;
-
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import junit.framework.TestCase;
+
+import org.languagetool.tools.StringTools;
 
 public class VersionNumberTest extends TestCase {
 

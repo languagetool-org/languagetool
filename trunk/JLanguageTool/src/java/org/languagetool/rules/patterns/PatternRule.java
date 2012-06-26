@@ -18,14 +18,14 @@
  */
 package org.languagetool.rules.patterns;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.Language;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tools.StringTools;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A Rule that describes a language error as a simple pattern of words or of

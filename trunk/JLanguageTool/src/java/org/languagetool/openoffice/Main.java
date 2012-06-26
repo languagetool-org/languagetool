@@ -35,6 +35,14 @@ import java.util.Set;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.gui.Configuration;
+import org.languagetool.rules.Rule;
+import org.languagetool.rules.RuleMatch;
+import org.languagetool.tools.StringTools;
+import org.languagetool.tools.Tools;
+
 import com.sun.star.awt.XWindow;
 import com.sun.star.awt.XWindowPeer;
 import com.sun.star.beans.PropertyState;
@@ -62,14 +70,6 @@ import com.sun.star.text.XTextViewCursor;
 import com.sun.star.text.XTextViewCursorSupplier;
 import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
-
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.gui.Configuration;
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.RuleMatch;
-import org.languagetool.tools.StringTools;
-import org.languagetool.tools.Tools;
 
 public class Main extends WeakBase implements XJobExecutor,
     XServiceDisplayName, XServiceInfo, XProofreader,

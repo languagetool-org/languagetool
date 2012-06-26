@@ -2,10 +2,10 @@
 
 package org.languagetool.rules.km;
 
+import java.util.ResourceBundle;
+
 import org.languagetool.Language;
 import org.languagetool.rules.GenericUnpairedBracketsRule;
-
-import java.util.ResourceBundle;
 
 public class KhmerUnpairedBracketsRule extends GenericUnpairedBracketsRule {
   

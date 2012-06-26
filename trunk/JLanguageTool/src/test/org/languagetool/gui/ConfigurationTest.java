@@ -18,12 +18,12 @@
  */
 package org.languagetool.gui;
 
-import junit.framework.TestCase;
-
 import java.io.File;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+
+import junit.framework.TestCase;
 
 import org.languagetool.Language;
 

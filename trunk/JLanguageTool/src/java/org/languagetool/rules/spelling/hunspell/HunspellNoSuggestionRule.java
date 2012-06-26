@@ -1,9 +1,9 @@
 package org.languagetool.rules.spelling.hunspell;
 
-import org.languagetool.Language;
-
 import java.io.IOException;
 import java.util.ResourceBundle;
+
+import org.languagetool.Language;
 
 /**
  * Like {@link HunspellRule}, but does not offer suggestions for incorrect words

@@ -25,9 +25,9 @@ import java.util.ResourceBundle;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
+import org.languagetool.rules.Category;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.Category;
 
 /**
  * Check if a word is repeated twice in Khmer, e.g. the equivalent of "the the".

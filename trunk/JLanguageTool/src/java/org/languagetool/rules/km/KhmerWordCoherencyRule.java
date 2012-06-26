@@ -20,14 +20,20 @@ package org.languagetool.rules.km;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.ResourceBundle;
+import java.util.Scanner;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
-import org.languagetool.tools.StringTools;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.tools.StringTools;
 
 /**
  * A Khmer rule that matches words or phrases which should not be used and suggests

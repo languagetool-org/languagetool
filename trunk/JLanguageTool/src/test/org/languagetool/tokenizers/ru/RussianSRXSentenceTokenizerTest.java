@@ -20,6 +20,7 @@
 package org.languagetool.tokenizers.ru;
 
 import junit.framework.TestCase;
+
 import org.languagetool.Language;
 import org.languagetool.TestTools;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;

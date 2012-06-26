@@ -28,15 +28,14 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
-
 import org.languagetool.AnalyzedToken;
 import org.languagetool.Language;
 import org.languagetool.rules.patterns.Element;
 import org.languagetool.rules.patterns.Match;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule.DisambiguatorAction;
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
 
 /**
  * Loads {@link DisambiguationPatternRule}s from a disambiguation rules XML
