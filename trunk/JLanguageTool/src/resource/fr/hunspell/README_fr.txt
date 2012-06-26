@@ -1,6 +1,6 @@
 _______________________________________________________________________________
 
-   DICTIONNAIRE ORTHOGRAPHIQUE FRANÇAIS «MODERNE»
+   DICTIONNAIRE ORTHOGRAPHIQUE FRANÇAIS «CLASSIQUE & RÉFORME 1990»
    version 4.5
 
    Olivier R. - dicollecte<at>free<dot>fr
