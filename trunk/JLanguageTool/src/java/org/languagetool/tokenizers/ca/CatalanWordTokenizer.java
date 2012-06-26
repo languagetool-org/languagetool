@@ -38,8 +38,43 @@ public class CatalanWordTokenizer implements Tokenizer {
 	//all possible forms of "pronoms febles" after a verb.
 	private static final String PF = "('en|'hi|'ho|'l|'ls|'m|'n|'ns|'s|'t|-el|-els|-em|-en|-ens|-hi|-ho|-l|-la|-les|-li|-lo|-los|-m|-me|-n|-ne|-nos|-s|-se|-t|-te|-us|-vos)";
 
+    private int maxPatterns = 11;
+    private Pattern[] patterns = new Pattern[maxPatterns];
 
 	public CatalanWordTokenizer() {
+
+        // Apostrophe at the beginning of a word. Ex.: l'home, s'estima, n'omple, hivern, etc.
+        // It creates 2 tokens: <token>l'</token><token>home</token>
+        patterns[0] = Pattern.compile("^([lnmtsd]')([^'\\-]*)$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+
+        // Exceptions to (Match verb+1 pronom feble)
+        // It creates 1 token: <token>qui-sap-lo</token>
+        patterns[1] = Pattern.compile("^(qui-sap-lo|qui-sap-la|qui-sap-los|qui-sap-les)$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+
+        // Match verb+3 pronoms febles (rare but possible!). Ex: Emporta-te'ls-hi.
+        // It creates 4 tokens: <token>Emporta</token><token>-te</token><token>'ls</token><token>-hi</token>
+        patterns[2] = Pattern.compile("^([lnmtsd]')(.*)"+PF+PF+PF+"$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+        patterns[3] = Pattern.compile("^(.*)"+PF+PF+PF+"$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+
+        // Match verb+2 pronoms febles. Ex: Emporta-te'ls. 
+        // It creates 3 tokens: <token>Emporta</token><token>-te</token><token>'ls</token>
+        patterns[4] = Pattern.compile("^([lnmtsd]')(.*)"+PF+PF+"$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+        patterns[5] = Pattern.compile("^(.*)"+PF+PF+"$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+
+        // match verb+1 pronom feble. Ex: Emporta't, vés-hi, porta'm.
+        // It creates 2 tokens: <token>Emporta</token><token>'t</token>
+        patterns[6] = Pattern.compile("^([lnmtsd]')(.*)"+PF+"$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+        patterns[7] = Pattern.compile("^(.*)"+PF+"$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+
+        // d'emportar
+        patterns[8] = Pattern.compile("^([lnmtsd]')(.*)$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+
+        //contractions: al, als, pel, pels, del, dels, cal (!), cals (!) 
+        patterns[9] = Pattern.compile("^(a|de|pe)(ls?)$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+
+        //contraction: can
+        patterns[10] = Pattern.compile("^(ca)(n)$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+
 	}
 
 	/**
@@ -62,42 +97,7 @@ public class CatalanWordTokenizer implements Tokenizer {
 						+ ",.;()[]{}<>!?:/\\\"'«»„”“‘’`´…¿¡\t\n\r", true);
 		String s;
 		String groupStr;
-
-		int maxPatterns = 11;
-		Pattern[] patterns = new Pattern[maxPatterns];
-
-		// Apostrophe at the beginning of a word. Ex.: l'home, s'estima, n'omple, hivern, etc.
-		// It creates 2 tokens: <token>l'</token><token>home</token>
-		patterns[0] = Pattern.compile("^([lnmtsd]')([^'\\-]*)$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-
-		// Exceptions to (Match verb+1 pronom feble)
-		// It creates 1 token: <token>qui-sap-lo</token>
-		patterns[1] = Pattern.compile("^(qui-sap-lo|qui-sap-la|qui-sap-los|qui-sap-les)$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-
-		// Match verb+3 pronoms febles (rare but possible!). Ex: Emporta-te'ls-hi.
-		// It creates 4 tokens: <token>Emporta</token><token>-te</token><token>'ls</token><token>-hi</token>
-		patterns[2] = Pattern.compile("^([lnmtsd]')(.*)"+PF+PF+PF+"$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-		patterns[3] = Pattern.compile("^(.*)"+PF+PF+PF+"$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-
-		// Match verb+2 pronoms febles. Ex: Emporta-te'ls. 
-		// It creates 3 tokens: <token>Emporta</token><token>-te</token><token>'ls</token>
-		patterns[4] = Pattern.compile("^([lnmtsd]')(.*)"+PF+PF+"$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-		patterns[5] = Pattern.compile("^(.*)"+PF+PF+"$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-
-		// match verb+1 pronom feble. Ex: Emporta't, vés-hi, porta'm.
-		// It creates 2 tokens: <token>Emporta</token><token>'t</token>
-		patterns[6] = Pattern.compile("^([lnmtsd]')(.*)"+PF+"$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-		patterns[7] = Pattern.compile("^(.*)"+PF+"$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-
-		// d'emportar
-		patterns[8] = Pattern.compile("^([lnmtsd]')(.*)$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-
-		//contractions: al, als, pel, pels, del, dels, cal (!), cals (!) 
-		patterns[9] = Pattern.compile("^(a|de|pe)(ls?)$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-
-		//contraction: can
-		patterns[10] = Pattern.compile("^(ca)(n)$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-
+		
 		while (st.hasMoreElements()) {
 			s=st.nextToken().replace("##CA_APOS##", "'");
 			Matcher matcher=null;
