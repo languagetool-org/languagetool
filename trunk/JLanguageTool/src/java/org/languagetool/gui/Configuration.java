@@ -56,6 +56,7 @@ public class Configuration {
   private static final String DELIMITER = ",";
 
   private final File configFile;
+  private final HashMap<String, String> configForOtherLangs;
 
   private Set<String> disabledRuleIds = new HashSet<String>();
   private Set<String> enabledRuleIds = new HashSet<String>();
@@ -66,8 +67,6 @@ public class Configuration {
   private boolean guiConfig;
   private int serverPort = HTTPServer.DEFAULT_PORT;
 
-  private final HashMap<String, String> configForOtherLangs;
-  
   /**
    * Uses the configuration file from the default location.
    * @param lang The language for the configuration, used to distinguish 
@@ -75,11 +74,11 @@ public class Configuration {
    *  
    * @throws IOException
    */
-  public Configuration(Language lang) throws IOException {
+  public Configuration(final Language lang) throws IOException {
 	  this(new File(System.getProperty("user.home")), CONFIG_FILE, lang);
   }
   
-  public Configuration(final File baseDir, final String filename, Language lang)
+  public Configuration(final File baseDir, final String filename, final Language lang)
       throws IOException {
     if (!baseDir.isDirectory()) {
       throw new IllegalArgumentException("Not a directory: " + baseDir);
@@ -89,7 +88,7 @@ public class Configuration {
     loadConfiguration(lang);
   }
 
-  public Configuration(final File baseDir, Language lang) throws IOException {
+  public Configuration(final File baseDir, final Language lang) throws IOException {
     this(baseDir, CONFIG_FILE, lang);
   }
 
@@ -158,22 +157,18 @@ public class Configuration {
     this.serverPort = serverPort;
   }
 
-  private void loadConfiguration(Language lang) throws IOException {
+  private void loadConfiguration(final Language lang) throws IOException {
 
-	final String qualifier = getQualifier(lang);
+	  final String qualifier = getQualifier(lang);
 	
-    FileInputStream fis = null;
+    final FileInputStream fis = new FileInputStream(configFile);
     try {
-      fis = new FileInputStream(configFile);
       final Properties props = new Properties();
       props.load(fis);
 
-      disabledRuleIds.addAll(getListFromProperties(props, DISABLED_RULES_CONFIG_KEY
-    		  + qualifier));
-      enabledRuleIds.addAll(getListFromProperties(props, ENABLED_RULES_CONFIG_KEY
-    		  + qualifier));
-      disabledCategoryNames.addAll(getListFromProperties(props, DISABLED_CATEGORIES_CONFIG_KEY
-    		  + qualifier));
+      disabledRuleIds.addAll(getListFromProperties(props, DISABLED_RULES_CONFIG_KEY + qualifier));
+      enabledRuleIds.addAll(getListFromProperties(props, ENABLED_RULES_CONFIG_KEY + qualifier));
+      disabledCategoryNames.addAll(getListFromProperties(props, DISABLED_CATEGORIES_CONFIG_KEY + qualifier));
       
       final String motherTongueStr = (String) props.get(MOTHER_TONGUE_CONFIG_KEY);
       if (motherTongueStr != null) {
@@ -195,12 +190,18 @@ public class Configuration {
     } catch (final FileNotFoundException e) {
       // file not found: okay, leave disabledRuleIds empty
     } finally {
-      if (fis != null) {
-        fis.close();
-      }
+      fis.close();
     }
   }
-  
+
+  private String getQualifier(final Language lang) {
+    String qualifier = "";
+    if (lang != null) {
+      qualifier = "." + lang.getShortNameWithVariant();
+    }
+    return qualifier;
+  }
+
   private void loadConfigForOtherLanguages(final Language lang, final Properties prop) {
 	  for (Language otherLang : Language.getAllLanguages()) {
 		  if (!otherLang.equals(lang)) {
@@ -211,15 +212,14 @@ public class Configuration {
 		  }
 	  }
   }
-   
+
   private void storeConfigKeyFromProp(final Properties prop, final String key) {
 	  if (prop.containsKey(key)) {
 		  configForOtherLangs.put(key, prop.getProperty(key));
 	  }
   }
-  
 
-  private Collection<? extends String> getListFromProperties(Properties props, String key) {
+  private Collection<? extends String> getListFromProperties(final Properties props, final String key) {
     final String value = (String) props.get(key);
     final List<String> list = new ArrayList<String>();
     if (value != null) {
@@ -229,25 +229,14 @@ public class Configuration {
     return list;
   }
 
-  private String getQualifier(Language lang) {
-	    String qualifier = "";
-	    if (lang != null) {
-	    	qualifier = "." + lang.getShortNameWithVariant();
-	    }
-	    return qualifier;	  
-  }
-  
-  public void saveConfiguration(Language lang) throws IOException {
+  public void saveConfiguration(final Language lang) throws IOException {
     final Properties props = new Properties();
     
     final String qualifier = getQualifier(lang);
     
-    addListToProperties(props, 
-    		DISABLED_RULES_CONFIG_KEY + qualifier, disabledRuleIds);
-    addListToProperties(props, 
-    		ENABLED_RULES_CONFIG_KEY + qualifier, enabledRuleIds);
-    addListToProperties(props, 
-    		DISABLED_CATEGORIES_CONFIG_KEY + qualifier, disabledCategoryNames);
+    addListToProperties(props, DISABLED_RULES_CONFIG_KEY + qualifier, disabledRuleIds);
+    addListToProperties(props, ENABLED_RULES_CONFIG_KEY + qualifier, enabledRuleIds);
+    addListToProperties(props, DISABLED_CATEGORIES_CONFIG_KEY + qualifier, disabledCategoryNames);
     if (motherTongue != null) {
       props.setProperty(MOTHER_TONGUE_CONFIG_KEY, motherTongue.getShortName());
     }
@@ -255,11 +244,11 @@ public class Configuration {
     props.setProperty(USE_GUI_CONFIG_KEY, Boolean.valueOf(guiConfig).toString());
     props.setProperty(SERVER_RUN_CONFIG_KEY, Boolean.valueOf(runServer).toString());
     props.setProperty(SERVER_PORT_CONFIG_KEY, Integer.valueOf(serverPort).toString());
-    
+
     for (final String key : configForOtherLangs.keySet()) {
     	props.setProperty(key, configForOtherLangs.get(key));
     }
-    
+
     final FileOutputStream fos = new FileOutputStream(configFile);
     try {
       props.store(fos, "LanguageTool configuration");
@@ -268,7 +257,7 @@ public class Configuration {
     }
   }
 
-  private void addListToProperties(Properties props, String key, Set<String> list) {
+  private void addListToProperties(final Properties props, final String key, final Set<String> list) {
     if (list == null) {
       props.setProperty(key, "");
     } else {
