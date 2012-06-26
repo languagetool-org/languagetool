@@ -7395,7 +7395,11 @@ $Id$
                 <marker>
                     <token regexp="yes">voll|echt|scheiße</token>
                 </marker>
-                <token postag_regexp="yes" postag="(ADJ|VER):.*"><exception postag_regexp="yes" postag="SUB:.*"/><exception postag_regexp="yes" postag="VER:.*" inflected="yes">sein</exception><exception regexp="yes">ausführen|ausgearbeitet(e\w?)?|ausgebildet(e\w?)?|ausgelastet(e\w?)?|ausgereift(e\w?)?|auswirken|besetzt(e\w?)?|enthalten(e\w?)?|erhalten|erklärten|(funktions|einsatz)(fähig|tüchtig)(e\w?)?|golden(e\w)?|größer(e\w?)?|isoliert(e\w?)?|kleiner(e\w?)?|silbern(e\w?)|umfass(en?|te?n?)|umsetz(t|en?)|umgesetzt(e\w?)?|verwirklicht(e\w?)?</exception></token>
+                <token postag_regexp="yes" postag="(ADJ|VER):.*">
+                    <exception postag_regexp="yes" postag="SUB:.*"/>
+                    <exception postag_regexp="yes" postag="VER:.*" inflected="yes">sein</exception>
+                    <exception regexp="yes">ausgeschöpft(e\w?)?|entschädigt(e\w?)?|ausführen|ausgearbeitet(e\w?)?|ausgebildet(e\w?)?|ausgelastet(e\w?)?|ausgereift(e\w?)?|auswirken|besetzt(e\w?)?|enthalten(e\w?)?|erhalten|erklärten|(funktions|einsatz)(fähig|tüchtig)(e\w?)?|golden(e\w)?|größer(e\w?)?|isoliert(e\w?)?|kleiner(e\w?)?|silbern(e\w?)|umfass(en?|te?n?)|umsetz(t|en?)|umgesetzt(e\w?)?|verwirklicht(e\w?)?</exception>
+                </token>
             </pattern>
             <message>Die Verwendung von 'voll' und 'echt' als Adverb kann je nach Kontext sehr umgangssprachlich wirken. Möglicherweise möchten Sie je nach Anlass eine andere Formulierung in Betracht ziehen, z.B. <suggestion>sehr</suggestion> \2.</message>
             <short>&umgangsspr;</short>
@@ -17015,7 +17019,7 @@ $Id$
             <rule>
                 <pattern>
                     <token postag="PRP:.*" postag_regexp="yes"/>
-                    <token postag="ADJ:PRD:GRU"><exception postag=".*(IND|SOL)" postag_regexp="yes"/></token>
+                    <token postag="ADJ:PRD:GRU"><exception postag=".*(IND|SOL)" postag_regexp="yes"/><exception>wenig</exception></token>
                     <token postag="SUB:.*" postag_regexp="yes"><exception postag="SUB:.*" postag_regexp="yes" negate_pos="yes"/></token>
                 </pattern>
                 <message>Möglicherweise fehlende grammatische Übereinstimmung zwischen Adjektiv und Nomen bezüglich Kasus, Numerus oder Genus. Beispiel: 'mit groß Mühe' statt 'mit großer Mühe'</message>
@@ -17023,6 +17027,7 @@ $Id$
                 <example type="incorrect">Der Effekt kann <marker>durch fest Regeln</marker> erreicht werden.</example>
                 <example type="incorrect">Er hat das nur <marker>mit groß Mühe</marker> geschafft.</example>
                 <example type="correct">Der Effekt kann <marker>durch feste Regeln</marker> erreicht werden.</example>
+                <example type="correct">Er betrieb dies jedoch <marker>mit wenig Engagement</marker>.</example>
             </rule>
             <!-- TODO ergaenzen -->
             <rule>
