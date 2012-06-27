@@ -50,6 +50,8 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals(0, rule.match(langTool.getAnalyzedSentence("Porta'n quatre al col·legi.")).length);
         assertEquals(0, rule.match(langTool.getAnalyzedSentence("Has de portar-me'n moltes.")).length);
         assertEquals(0, rule.match(langTool.getAnalyzedSentence(",")).length);
+        // Spellcheck dictionary contains Valencian and general accentuation
+        assertEquals(0, rule.match(langTool.getAnalyzedSentence("Francès i francés.")).length);
         
         
         //test for "LanguageTool":

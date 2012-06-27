@@ -2442,7 +2442,7 @@ $Id$
             <example type="incorrect">La possibilitat <marker>de que</marker> ho facis</example>
             <example type="correct">La possibilitat <marker>que</marker> ho facis</example>
         </rule>
-        <rule id="des_de" name="des de/que">
+        <rule id="DES_DE" name="des de/que">
             <pattern>
                 <marker>
                     <token>des</token>
@@ -2517,6 +2517,17 @@ $Id$
             <short>Expressió incorrecta</short>
             <example type="incorrect"><marker>Des de que</marker> m'ho vas dir.</example>
             <example type="correct"><marker>Des que</marker> m'ho vas dir.</example>
+        </rule>
+        <rule id="EN_LA_QUE" name="*en la què">
+            <pattern>
+                <token postag="SPS00"/>
+                <token postag="DA.*" postag_regexp="yes"/>
+                <token>què</token>
+            </pattern>
+            <message>Cal dir <suggestion><match no="1"/> què</suggestion> o <suggestion><match no="1"/> <match no="2"/> <match no="2" postag="DA..(.)." postag_regexp="yes" postag_replace="PR0C$1000">qual</match></suggestion>.</message>
+            <short>Expressió incorrecta</short>
+            <example type="incorrect">El lloc <marker>en el què</marker> el van trobar</example>
+            <example type="correct">El lloc <marker>en què</marker> el van trobar</example>
         </rule>
     </category>
     <category name="Repeticions">
@@ -2908,7 +2919,8 @@ $Id$
                 <example type="incorrect"><marker>Si</marker> que vull.</example>
                 <example type="correct"><marker>Sí</marker> que vull.</example>
             </rule>
-            <rule>
+            <!-- Les regles de concordança fan millor la detecció -->
+            <!-- <rule>
                 <pattern>
                     <token>son<exception postag="_GN.*" postag_regexp="yes"></exception></token>
                 </pattern>
@@ -2916,7 +2928,7 @@ $Id$
                 <short>S'accentua si és del verb "ser".</short>
                 <example type="incorrect">Més del que <marker>son</marker>.</example>
                 <example type="correct">Més del que <marker>són</marker>.</example>
-            </rule>
+            </rule> -->
             <rule>
                 <pattern>
                     <token postag="V.*" postag_regexp="yes"></token>
