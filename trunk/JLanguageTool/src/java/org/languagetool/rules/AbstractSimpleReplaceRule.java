@@ -45,7 +45,7 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
   
   private static final String FILE_ENCODING = "utf-8";
 
-  private Map<String, String> wrongWords; // e.g. "вреѿті реѿт" -> "зреѿтою"
+  private final Map<String, String> wrongWords; // e.g. "вреѿті реѿт" -> "зреѿтою"
 
   public abstract String getFileName();
   
@@ -102,7 +102,7 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
       final String token = tokens[i].getToken();
 
       final String origToken = token;
-      final String replacement = isCaseSensitive()?wrongWords.get(token):wrongWords.get(token.toLowerCase(getLocale()));
+      final String replacement = isCaseSensitive() ? wrongWords.get(token) : wrongWords.get(token.toLowerCase(getLocale()));
       if (replacement != null) {
     	final String msg = token + getSuggestion() + replacement;
         final int pos = tokens[i].getStartPos();

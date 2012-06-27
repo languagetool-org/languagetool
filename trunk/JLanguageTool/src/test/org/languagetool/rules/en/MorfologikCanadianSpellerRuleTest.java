@@ -32,12 +32,10 @@ public class MorfologikCanadianSpellerRuleTest {
 
     @Test
     public void testMorfologikSpeller() throws IOException {
-        MorfologikBritishSpellerRule rule =
+        final MorfologikBritishSpellerRule rule =
                 new MorfologikBritishSpellerRule (TestTools.getMessages("English"), Language.CANADIAN_ENGLISH);
 
-        RuleMatch[] matches;
-        JLanguageTool langTool = new JLanguageTool(Language.CANADIAN_ENGLISH);
-
+        final JLanguageTool langTool = new JLanguageTool(Language.CANADIAN_ENGLISH);
 
         // correct sentences:
         assertEquals(0, rule.match(langTool.getAnalyzedSentence("This is an example: we get behaviour as a dictionary word.")).length);
@@ -49,7 +47,7 @@ public class MorfologikCanadianSpellerRuleTest {
 
         //incorrect sentences:
 
-        matches = rule.match(langTool.getAnalyzedSentence("arbor"));
+        final RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("arbor"));
         // check match positions:
         assertEquals(1, matches.length);
         assertEquals(0, matches[0].getFromPos());
@@ -58,7 +56,6 @@ public class MorfologikCanadianSpellerRuleTest {
 
         assertEquals(1, rule.match(langTool.getAnalyzedSentence("aõh")).length);
         assertEquals(0, rule.match(langTool.getAnalyzedSentence("a")).length);
-
     }
 
 }

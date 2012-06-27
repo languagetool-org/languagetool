@@ -28,9 +28,6 @@ import org.languagetool.rules.AbstractSimpleReplaceRule;
  * A rule that matches words or phrases which should not be used and suggests
  * correct ones instead.
  *
- * Polish implementations. Loads the list of words from
- * <code>rules/pl/replace.txt</code>.
- *
  * @author Marcin Miłkowski
  */
 public class BritishReplaceRule extends AbstractSimpleReplaceRule {

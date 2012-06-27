@@ -75,14 +75,16 @@ public class LanguageBuilder {
       }
       @Override
       public String getShortName() {
-        if (parts[1].length() == 2)
-            return parts[1];
+        if (parts[1].length() == 2) {
+          return parts[1];
+        }
         return  parts[1].split("_")[0]; //en as in en_US
       }
       @Override
       public String[] getCountryVariants() {
-        if (parts[1].length() == 2)
-            return new String[] {""};
+        if (parts[1].length() == 2) {
+          return new String[] {""};
+        }
         return new String[] {parts[1].split("_")[1]}; //US as in en_US
       }
       @Override
@@ -95,7 +97,7 @@ public class LanguageBuilder {
       }
       @Override
       public List<String> getRuleFileName() {
-          List<String> ruleFiles = new ArrayList<String>();
+          final List<String> ruleFiles = new ArrayList<String>();
           ruleFiles.add(file.getAbsolutePath());
           return ruleFiles;
       }

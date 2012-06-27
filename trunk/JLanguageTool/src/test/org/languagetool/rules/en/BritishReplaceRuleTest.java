@@ -28,12 +28,6 @@ import org.languagetool.Language;
 import org.languagetool.TestTools;
 import org.languagetool.rules.RuleMatch;
 
-/**
- * 
- * Simple tests for rules/pl/SimpleReplaceRule class
- * 
- * @author Ionuț Păduraru
- */
 public class BritishReplaceRuleTest extends TestCase {
 
 	private BritishReplaceRule rule;
@@ -60,17 +54,12 @@ public class BritishReplaceRuleTest extends TestCase {
 
 	/**
 	 * Check if a specific replace rule applies.
-	 * 
-	 * @param sentence
-	 *            the sentence containing the incorrect/misspeled word.
-	 * @param word
-	 *            the word that is correct (the suggested replacement).
+	 * @param sentence the sentence containing the incorrect/misspelled word.
+	 * @param word the word that is correct (the suggested replacement).
 	 * @throws IOException
 	 */
-	private void checkSimpleReplaceRule(String sentence, String word)
-			throws IOException {
-		RuleMatch[] matches;
-		matches = rule.match(langTool.getAnalyzedSentence(sentence));
+	private void checkSimpleReplaceRule(String sentence, String word) throws IOException {
+    final RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(sentence));
 		assertEquals("Invalid matches.length while checking sentence: "
 				+ sentence, 1, matches.length);
 		assertEquals("Invalid replacement count wile checking sentence: "
