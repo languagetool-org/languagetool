@@ -30,15 +30,40 @@ import org.junit.Test;
 public class LanguageTest {
 
     @Test
-    public void testGetLanguageForShortName() {
-        assertEquals(Language.AMERICAN_ENGLISH, Language.getLanguageForShortName("en-US"));
-        assertEquals(Language.GERMAN, Language.getLanguageForShortName("de"));
+    public void testGetAllLanguages() {
+        assertTrue(Language.getAllLanguages().size() > 35);
+    }
+
+    @Test
+    public void testRuleFileName() {
+        assertEquals("[/rules/en/grammar.xml, /rules/en/en-GB/grammar.xml]", Language.BRITISH_ENGLISH.getRuleFileName().toString());
+        assertEquals("[/rules/en/grammar.xml]", Language.AMERICAN_ENGLISH.getRuleFileName().toString());
+        assertEquals("[/rules/en/grammar.xml]", Language.ENGLISH.getRuleFileName().toString());
+        assertEquals("[/rules/de/grammar.xml]", Language.GERMAN.getRuleFileName().toString());
+    }
+
+    @Test
+    public void testGetTranslatedName() {
+        assertEquals("English", Language.ENGLISH.getTranslatedName(TestTools.getMessages("en")));
+        assertEquals("English (British)", Language.BRITISH_ENGLISH.getTranslatedName(TestTools.getMessages("en")));
+
+        assertEquals("Englisch", Language.ENGLISH.getTranslatedName(TestTools.getMessages("de")));
+        assertEquals("Englisch (Großbritannien)", Language.BRITISH_ENGLISH.getTranslatedName(TestTools.getMessages("de")));
+        assertEquals("Deutsch", Language.GERMAN.getTranslatedName(TestTools.getMessages("de")));
+        assertEquals("Deutsch (Schweiz)", Language.SWISS_GERMAN.getTranslatedName(TestTools.getMessages("de")));
     }
 
     @Test
     public void testGetShortNameWithVariant() {
         assertEquals("en-US", Language.AMERICAN_ENGLISH.getShortNameWithVariant());
         assertEquals("de", Language.GERMAN.getShortNameWithVariant());
+    }
+
+    @Test
+    public void testGetLanguageForShortName() {
+        assertEquals(Language.AMERICAN_ENGLISH, Language.getLanguageForShortName("en-US"));
+        assertEquals(Language.GERMAN, Language.getLanguageForShortName("de"));
+        assertEquals(null, Language.getLanguageForShortName("xy"));
     }
 
     @Test(expected=IllegalArgumentException.class)
@@ -60,6 +85,7 @@ public class LanguageTest {
     public void testGetLanguageForName() {
         assertEquals(Language.AMERICAN_ENGLISH, Language.getLanguageForName("English (US)"));
         assertEquals(Language.GERMAN, Language.getLanguageForName("German"));
+        assertEquals(null, Language.getLanguageForName("Foobar"));
     }
 
     @Test
@@ -116,5 +142,10 @@ public class LanguageTest {
 
         assertFalse(Language.AMERICAN_ENGLISH.equalsConsiderVariantsIfSpecified(Language.BRITISH_ENGLISH));
         assertFalse(Language.ENGLISH.equalsConsiderVariantsIfSpecified(Language.GERMAN));
+    }
+
+    @Test
+    public void testGetAllMaintainers() {
+        assertTrue(Language.getAllMaintainers(TestTools.getMessages("en")).length() > 100);
     }
 }

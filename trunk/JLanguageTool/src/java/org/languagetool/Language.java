@@ -28,6 +28,7 @@ import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
+import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.language.AmericanEnglish;
 import org.languagetool.language.Asturian;
 import org.languagetool.language.AustralianEnglish;
@@ -172,13 +173,14 @@ public abstract class Language {
 
   /**
    * Get this language's two character code, e.g. <code>en</code> for English.
-   * @return String - language code
+   * The variant ("US"), if any, is not returned.
+   * @return language code
    */
   public abstract String getShortName();
 
   /**
    * Get this language's name in English, e.g. <code>English</code> or <code>German</code>.
-   * @return String - language name
+   * @return language name
    */
   public abstract String getName();
   
@@ -208,26 +210,28 @@ public abstract class Language {
   // -------------------------------------------------------------------------
 
   /**
-   * Get the location of the rule file.
+   * Get the location of the rule file(s).
    */
   public List<String> getRuleFileName() {
-      List<String> ruleFiles = new ArrayList<String>();
-      ruleFiles.add(JLanguageTool.getDataBroker().getRulesDir() + 
-              "/" + getShortName() + "/" + JLanguageTool.PATTERN_FILE);
-      if (getShortNameWithVariant().length() > 2) {
-          final String fileName = getShortName() + "/" +
-                  getShortNameWithVariant() + 
-                  "/" + JLanguageTool.PATTERN_FILE;
-          if (JLanguageTool.getDataBroker().ruleFileExists(fileName)) {
-              ruleFiles.add(JLanguageTool.getDataBroker().getRulesDir() + 
-                      "/" + fileName);
-          }
+    final List<String> ruleFiles = new ArrayList<String>();
+    final ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
+    ruleFiles.add(dataBroker.getRulesDir()
+            + "/" + getShortName() + "/" + JLanguageTool.PATTERN_FILE);
+    if (getShortNameWithVariant().length() > 2) {
+      final String fileName = getShortName() + "/"
+              + getShortNameWithVariant()
+              + "/" + JLanguageTool.PATTERN_FILE;
+      if (dataBroker.ruleFileExists(fileName)) {
+        ruleFiles.add(dataBroker.getRulesDir() + "/" + fileName);
       }
-      return ruleFiles;
+    }
+    return ruleFiles;
   }
 
   /**
    * Languages that have variants need to overwrite this to select their most common variant.
+   * @return default variant or <code>null</code>
+   * @since 1.8
    */
   public Language getDefaultVariant() {
     return null;
@@ -305,6 +309,7 @@ public abstract class Language {
    * Get the short name of the language with a country variant, if it is
    * a single-variant language. For generic language classes, get only a two- or
    * three-character code.
+   * @since 1.8
    */
   public final String getShortNameWithVariant() {
 	  String name = getShortName();
@@ -357,7 +362,7 @@ public abstract class Language {
   
   /**
    * Return all languages supported by LanguageTool.
-   * @return A list of all languages, including external ones.
+   * @return A list of all languages, including external ones and variants (e.g. en-US)
    */
   public static List<Language> getAllLanguages() {
 	  final List<Language> langList = new ArrayList<Language>();
@@ -420,6 +425,7 @@ public abstract class Language {
    * Get the best match for a locale, using American English as the final fallback if nothing
    * else fits. The returned language will be a variant language (e.g. British English, not just English)
    * if available.
+   * @since 1.8
    */
   public static Language getLanguageForLocale(final Locale locale) {
     Language language = getLanguageForLanguageNameAndCountry(locale);
@@ -473,11 +479,8 @@ public abstract class Language {
   /**
    * Get sorted info about all maintainers (without language variants) to be used in the About dialog.
    * @since 0.9.9
-   * @param messages
-   *        {{@link ResourceBundle} language bundle to translate
-   *        the info
-   * @return
-   *        A sorted list of maintainers.
+   * @param messages {{@link ResourceBundle} language bundle to translate the info
+   * @return A list of maintainers, sorted by name of language.
    */
   public static String getAllMaintainers(final ResourceBundle messages) {
     final StringBuilder maintainersInfo = new StringBuilder();
@@ -505,6 +508,7 @@ public abstract class Language {
   /**
    * Whether this is a variant of another language, i.e. whether it doesn't
    * directly extend {@link Language}, but a subclass of {@link Language}.
+   * @since 1.8
    */
   public final boolean isVariant() {
     for (Language language : LANGUAGES) {
@@ -518,6 +522,7 @@ public abstract class Language {
 
   /**
    * Whether this class has at least one subclass that implements variants of this language.
+   * @since 1.8
    */
   public final boolean hasVariant() {
     for (Language language : LANGUAGES) {
@@ -537,6 +542,7 @@ public abstract class Language {
    * Return true if this is the same language as the given one, considering
    * variants only if set for both languages. For example: en = en, en = en-GB, en-GB = en-GB,
    * but en-US != en-GB
+   * @since 1.8
    */
   public boolean equalsConsiderVariantsIfSpecified(Language otherLanguage) {
     if (getShortName().equals(otherLanguage.getShortName())) {
