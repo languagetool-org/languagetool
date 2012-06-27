@@ -34,7 +34,8 @@ import org.languagetool.rules.ru.RussianCompoundRule;
 import org.languagetool.rules.ru.RussianSimpleReplaceRule;
 import org.languagetool.rules.ru.RussianUnpairedBracketsRule;
 import org.languagetool.rules.ru.RussianWordRepeatRule;
-import org.languagetool.rules.spelling.hunspell.HunspellNoSuggestionRule;
+//import org.languagetool.rules.spelling.hunspell.HunspellNoSuggestionRule;
+import org.languagetool.rules.ru.MorfologikRussianSpellerRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.ru.RussianSynthesizer;
 import org.languagetool.tagging.Tagger;
@@ -123,7 +124,8 @@ public class Russian extends Language {
             CommaWhitespaceRule.class,
             DoublePunctuationRule.class,
             UppercaseSentenceStartRule.class,
-            HunspellNoSuggestionRule.class,
+  //          HunspellNoSuggestionRule.class,
+            MorfologikRussianSpellerRule.class,
             WordRepeatRule.class,
             WhitespaceRule.class,
             // specific to Russian :
