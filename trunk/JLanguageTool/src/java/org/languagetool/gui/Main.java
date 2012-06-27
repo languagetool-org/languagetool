@@ -459,9 +459,9 @@ public final class Main implements ActionListener {
   private JLanguageTool getCurrentLanguageTool(Language currentLanguage) {
     final JLanguageTool langTool;
     try {
+      config = new Configuration(new File(System.getProperty("user.home")), CONFIG_FILE, currentLanguage);
       final ConfigurationDialog configDialog = getCurrentConfigDialog(currentLanguage);
       langTool = new JLanguageTool(currentLanguage, configDialog.getMotherTongue());
-      config = new Configuration(new File(System.getProperty("user.home")), CONFIG_FILE, currentLanguage);
       langTool.activateDefaultPatternRules();
       langTool.activateDefaultFalseFriendRules();
       final Set<String> disabledRules = configDialog.getDisabledRuleIds();
