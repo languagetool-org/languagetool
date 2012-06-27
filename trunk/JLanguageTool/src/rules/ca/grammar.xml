@@ -659,7 +659,7 @@ $Id$
                         </unify>
                     </marker>
                     <!-- excloure totes les expressions temporals. Falta: "els darrers vint anys, els caps de setmana... la major part, la majoria" -->
-                    <token regexp="yes" negate="yes">\d+<exception inflected="yes" regexp="yes">vegada|volta|cop|any|dia|mes|segle|setmana|gener|febrer|març|abril|maig|juny|juliol|agost|setembre|octubre|novembre|desembre</exception></token>
+                    <token regexp="yes" negate="yes">[\d-]+<exception inflected="yes" regexp="yes">vegada|volta|cop|any|dia|mes|segle|setmana|gener|febrer|març|abril|maig|juny|juliol|agost|setembre|octubre|novembre|desembre</exception></token>
                     <token><exception inflected="yes" regexp="yes">vegada|volta|cop|any|dia|mes|segle|setmana|gener|febrer|març|abril|maig|juny|juliol|agost|setembre|octubre|novembre|desembre</exception></token> <!-- excepcions: una altra vegada, els caps de setmana... -->
                     <token><exception inflected="yes" regexp="yes">vegada|volta|cop|any|dia|mes|segle|setmana|gener|febrer|març|abril|maig|juny|juliol|agost|setembre|octubre|novembre|desembre</exception></token>
                     <token><exception inflected="yes" regexp="yes">vegada|volta|cop|any|dia|mes|segle|setmana</exception></token>
@@ -680,8 +680,6 @@ $Id$
                             <token postag="D[DAI].*" postag_regexp="yes"><exception postag="RG|_GV_" postag_regexp="yes"/><exception regexp="yes">\p{Lu}[\p{Ll}·]*</exception></token>
                         </unify>
                     </marker>
-                    
-                    <token regexp="yes" negate="yes">\d+</token>
                 </pattern>
                 <message>Error de concordança.</message>
                 <short>Error de concordança.</short>
