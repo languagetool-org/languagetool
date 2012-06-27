@@ -147,8 +147,12 @@ private JCheckBox serverSettingsCheckbox;
           checkBox.setSelected(true);
         }
 
-        if (rule.isDefaultOff() && !enabledRuleIds.contains(rule.getId())) {
-          checkBox.setSelected(false);
+        if (rule.isDefaultOff()) {
+          if (enabledRuleIds.contains(rule.getId())) {
+            checkBox.setSelected(true);
+          } else {
+            checkBox.setSelected(false);
+          }
         }
 
         if (rule.isDefaultOff()) {
