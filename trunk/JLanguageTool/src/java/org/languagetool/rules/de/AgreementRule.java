@@ -186,8 +186,8 @@ public class AgreementRule extends GermanRule {
       if (i > 0) {
         final String prevToken = tokens[i-1].getToken().toLowerCase();
         if ((prevToken.equals("der") || prevToken.equals("die") || prevToken.equals("das"))
-            && tokens[i].getToken().equals("eine")) {
-          // TODO: "der eine Polizist" -> nicht ignorieren, sondern "der polizist" checken
+            && (tokens[i].getToken().equals("eine") || tokens[i].getToken().equals("einen"))) {
+          // TODO: "der eine Polizist" -> nicht ignorieren, sondern "der polizist" checken; "auf der einen Seite"
           ignore = true;
         }
       }
