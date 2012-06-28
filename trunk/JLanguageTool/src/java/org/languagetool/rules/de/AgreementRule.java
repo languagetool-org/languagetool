@@ -148,7 +148,8 @@ public class AgreementRule extends GermanRule {
     "etwas",
     "was",
     "wer",
-    "jenen"      // "...und mit jenen anderer Arbeitsgruppen verwoben"
+    "jenen",      // "...und mit jenen anderer Arbeitsgruppen verwoben"
+    "diejenigen"
   ));
     
   public AgreementRule(final ResourceBundle messages) {
