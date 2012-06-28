@@ -5038,28 +5038,36 @@ though, and has since been slightly modified)-->
             </rule>
             <rule>
                 <pattern>
+                  <marker>
                     <token postag="V .* 1 p" postag_regexp="yes">
                         <exception postag="R pers suj .*" postag_regexp="yes" scope="previous"></exception>
                     </token>
                     <token postag="R pers suj 1 p"></token>
+                  </marker>
+                  <token><exception regexp="yes">(re)?(asse?oir|laver)</exception></token>
                 </pattern>
                 <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
                 <example type="incorrect">Que <marker>mangeons nous</marker> ?</example>
                 <example type="correct">Que mangeons-nous ?</example>
+                <example type="correct">Allons nous asseoir ici.</example>
             </rule>
             <rule>
                 <pattern>
+                  <marker>
                     <token postag="V .* 2 p" postag_regexp="yes">
                         <exception postag="R pers suj .*" postag_regexp="yes" scope="previous"></exception>
                         <exception regexp="yes">veuillez|sachez</exception>
                     </token>
                     <token postag="R pers suj 2 p"></token>
+                  </marker>
+                  <token><exception regexp="yes">(re)?(asse?oir|laver)</exception></token>
                 </pattern>
                 <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
                 <example type="incorrect">Que <marker>mangez vous</marker> ?</example>
                 <example type="correct">Que mangez-vous ?</example>
                 <example type="correct">Veuillez vous rendre à l’accueil.</example>
                 <example type="correct">Sachez vous éloigner.</example>
+                <example type="correct">Vous pouvez vous asseoir.</example>
             </rule>
             <rule>
                 <pattern>
