@@ -226,13 +226,13 @@ public class MainTest extends AbstractSecurityTestCase {
 	    final String test = "Zwuasdac?";
 	    final byte[] b = test.getBytes();
 	    System.setIn(new ByteArrayInputStream(b));
-	    String[] args = new String[] {"-l", "pl", "-e", "MORFOLOGIK_RULE", "-"};
+	    String[] args = new String[] {"-l", "pl", "-e", "MORFOLOGIK_RULE_PL_PL", "-"};
 
 	    Main.main(args);
 	    String output = new String(this.out.toByteArray());
 	    assertTrue(output.indexOf("Expected text language: Polish") == 0);
 	    assertTrue(output.contains("Working on STDIN..."));
-	    assertTrue(output.contains("1.) Line 1, column 1, Rule ID: MORFOLOGIK_RULE"));
+	    assertTrue(output.contains("1.) Line 1, column 1, Rule ID: MORFOLOGIK_RULE_PL_PL"));
 	  }
 
   

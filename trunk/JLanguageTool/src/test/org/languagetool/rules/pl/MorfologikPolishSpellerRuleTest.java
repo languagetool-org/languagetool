@@ -9,7 +9,6 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.TestTools;
 import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.spelling.morfologik.pl.MorfologikPolishSpellerRule;
 
 public class MorfologikPolishSpellerRuleTest {
 

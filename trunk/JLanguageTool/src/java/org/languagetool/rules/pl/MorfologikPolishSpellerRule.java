@@ -17,7 +17,7 @@
  * USA
  */
 
-package org.languagetool.rules.spelling.morfologik.pl;
+package org.languagetool.rules.pl;
 
 import java.util.ResourceBundle;
 
@@ -36,6 +36,10 @@ public final class MorfologikPolishSpellerRule extends MorfologikSpellerRule {
     @Override
     public String getFileName() {
         return RESOURCE_FILENAME;
+    }
+    
+    public String getId() {
+        return "MORFOLOGIK_RULE_PL_PL";
     }
 
 }

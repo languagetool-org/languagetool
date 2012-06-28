@@ -49,9 +49,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     /**
      * Get the filename, e.g., <tt>/resource/pl/spelling.dict</tt>.
      */
-    public abstract String getFileName();
-    
-    public static final String RULE_ID = "MORFOLOGIK_RULE";
+    public abstract String getFileName();        
     
     public MorfologikSpellerRule(ResourceBundle messages, Language language) {
         super(messages, language);
@@ -59,9 +57,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     }
 
     @Override
-    public String getId() {
-        return RULE_ID;
-    }
+    public abstract String getId();
 
     @Override
     public String getDescription() {
