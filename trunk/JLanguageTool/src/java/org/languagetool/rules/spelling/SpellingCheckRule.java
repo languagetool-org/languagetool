@@ -29,22 +29,19 @@ import org.languagetool.rules.RuleMatch;
 /**
  * An abstract rule for spellchecking rules.
  *
- * If you want to have spellchecker which is not based on hunspell,
- * you should simply create a subclass of this class. 
- *
  * @author Marcin Miłkowski
  */
 public abstract class SpellingCheckRule extends Rule {
 
   protected final Language language;
 
-  @Override
-  public abstract String getId();
-
   public SpellingCheckRule(final ResourceBundle messages, final Language language) {
     super(messages);
     this.language = language;
   }
+
+  @Override
+  public abstract String getId();
 
   @Override
   public abstract String getDescription();
