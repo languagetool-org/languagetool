@@ -101,8 +101,13 @@ LanguageTool Change Log
   simply use "en-US" or "en-GB" as the language code. This implements sf.net feature
   suggestion #3287388.
 
- -LanguageTool in the standalone version supports now spell-checking via hunspell.
-  There are two distribution files: a .zip file for standalone use,
+ -The configuration file now stores settings individually for all languages. This means
+  that you can enable spellcheck for American English, disable it for Polish, and British
+  English, and all this settings will be saved separately.
+
+ -LanguageTool in the standalone version now supports spell-checking. Some of the languages
+  use hunspell (http://hunspell.sourceforge.net), some use LanguageTool-specific code.
+  There are now two distribution files: a .zip file for standalone use,
   and an .oxt extension for LibreOffice/ApacheOpenOffice. All languages supported by
   LanguageTool, except for Chinese, have spelling dictionaries bundled with the standalone
   version. Spell-checking errors appear in red in the LanguageTool standalone
@@ -112,10 +117,6 @@ LanguageTool Change Log
   that are configured in the GUI (if the appropriate checkbox is set).
   This way the user can control the behavior of the server easily.
 
- -The configuration file now stores settings individually for all languages. This means
-  that you can enable spellcheck for American English, disable it for Polish, and British
-  English, and all this settings will be saved separately.
-
  -Two new options for the HTTP Server added: "disabled" and "enabled", which is used
   to disable or enable rules in the same way as on the command-line.
 
@@ -124,7 +125,7 @@ LanguageTool Change Log
 
  -Overlapping rule matches are filtered now so that only the first match per <rulegroup> is kept
 
- -Now it is possible to suppress misspelled suggestions altogether in XML rules by applying
+ -It is now possible to suppress misspelled suggestions altogether in XML rules by applying
   an attribute suppress_misspelled="yes" on the <suggestion> element, AND on the <match>
   element. If only <match> element has this attribute set to "yes", then the suggestion is
   displayed, but no content of <match> is contained within (this might be a conditional part
