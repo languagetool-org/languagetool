@@ -7515,7 +7515,10 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
             </rule>
             <rule>
                 <pattern>
-                    <token><exception regexp="yes">(that|has|will|must|could|can|should|would|does|did|is|was|may|might|t|let)</exception><exception inflected="yes" regexp="yes">hear|see|prevent</exception><exception postag="CC|IN|DT|MD" postag_regexp="yes"></exception></token>
+                    <token>
+                        <exception regexp="yes">(that|has|will|must|could|can|should|would|does|did|is|was|may|might|t|let)</exception>
+                        <exception inflected="yes" regexp="yes">hear|see|prevent</exception>
+                        <exception postag="CC|IN|DT|MD" postag_regexp="yes"></exception></token>
                     <token postag="NNP" regexp="yes">.{2,}<exception postag="JJ|CC|RP|DT|PRP\$|NNPS|NNS|IN|RB|WRB" postag_regexp="yes"></exception></token>
                     <marker>
                         <token postag="VB|VBP" postag_regexp="yes" regexp="yes">\p{Lower}+<exception postag="VBN|VBD|JJ|IN|MD" postag_regexp="yes"></exception></token>
@@ -7524,8 +7527,8 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
                 </pattern>
                 <message>The proper name in singular (<match no="2"></match>) must be used with a third-person verb: <suggestion><match no="3" postag="VBZ"></match></suggestion>.</message>
                 <short>Grammatical problem</short>
-                <example type="correct">Bill <marker>walks</marker> to the building.</example>
                 <example correction="walks" type="incorrect">Ann <marker>walk</marker> to the building.</example>
+                <example type="correct">Bill <marker>walks</marker> to the building.</example>
                 <example type="correct">Guiness <marker>walked</marker> to the building.</example>
                 <example type="correct">Roosevelt and Hoover speak each other's lines.</example>
                 <example type="correct">Boys are at higher risk for autism than girls.</example>
