@@ -36,7 +36,7 @@ public class MorfologikPolishSpellerRuleTest {
         assertEquals(1, matches.length);
         assertEquals(0, matches[0].getFromPos());
         assertEquals(4, matches[0].getToPos());
-        assertEquals("Zolą", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("Zola", matches[0].getSuggestedReplacements().get(0));
 
         assertEquals(1, rule.match(langTool.getAnalyzedSentence("aõh")).length);
         assertEquals(0, rule.match(langTool.getAnalyzedSentence("a")).length);

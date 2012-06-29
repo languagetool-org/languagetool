@@ -1077,4 +1077,36 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     	<example type="ambiguous" inputform="m[metr/brev:npun]" outputform="m[morza/brev:pun]">Ta góra ma wysokość 20 m n. p. <marker>m</marker>.</example>
     </rule>
     
+    <rule name="co jako qub" id="co_qub">
+    	<pattern>
+    		<marker>
+    		<token>co</token>
+    		</marker>
+    		<unify><feature id="gender"/>
+    		<feature id="case"></feature>
+    		<feature id="number"></feature>
+    		<token postag="adj.*:com" postag_regexp="yes"/>
+    		<token postag="(subst|ger).*" postag_regexp="yes"/>
+    		</unify>
+    	</pattern>
+    	<disambig postag="qub"/>
+    	<example type="untouched">I, co ważniejsze, jest to dzisiaj rzadkość.</example>
+    	<example type="ambiguous" inputform="co[co/prep:acc.gen.nom,co/subst:sg:acc:n2,co/subst:sg:gen:n2,co/subst:sg:nom:n2]" outputform="co[co/qub]">Przy <marker>co</marker> trudniejszych fragmentach robił sobie notatki.</example>
+    </rule>
+    
+    <!-- TODO: remove both from Morfologik! -->
+    <rule name="C" id="C">
+    	<pattern>
+    	<token>C</token>
+    	</pattern>
+    	<disambig postag="qub"/>
+    </rule>
+    
+    <rule name="K" id="K">
+    	<pattern>
+    	<token>K</token>
+    	</pattern>
+    	<disambig postag="qub"/>
+    </rule>
+    
 </rules>

@@ -971,7 +971,7 @@ $Id$
                         <token negate="yes">,<exception regexp="yes">[\p{Punct}–—„«»…]+</exception><exception postag="conj|SENT_START" postag_regexp="yes"></exception></token>
                         <token postag="prep:.*" postag_regexp="yes"><exception postag="&lt;/?ADV&gt;|&lt;/?PREP.*&gt;" postag_regexp="yes"></exception><exception regexp="yes">za|o</exception></token>
                     </marker>
-                    <token inflected="yes">co<exception postag="&lt;/?ADV&gt;|&lt;/?PREP.*&gt;" postag_regexp="yes"></exception><exception postag="co_innego|czym_innym|co_drugi" postag_regexp="yes"></exception></token>
+                    <token inflected="yes">co<exception postag="&lt;/?ADV&gt;|&lt;/?PREP.*&gt;" postag_regexp="yes"></exception><exception postag="co_innego|czym_innym|co_drugi|qub" postag_regexp="yes"></exception></token>
                     <token><exception regexp="yes">[\p{Punct}–\-—…]+</exception><exception postag="SENT_END"></exception></token>
                 </pattern>
                 <message>Prawdopodobnie brak przecinka. Powinno być: <suggestion><match no="1"></match>, <match no="2"></match></suggestion>.</message>
@@ -983,6 +983,7 @@ $Id$
                 <example type="correct">Naprawdę nie masz za co dziękować.</example>
                 <example correction="Oto, do" type="incorrect"><marker>Oto do</marker> czego doprowadziły rządy ludzi niespełna rozumu.</example>
                 <example type="correct">Spotykamy się w co drugi piątek.</example>
+                <example type="correct">Ograniczyli ich użycie do minimum, np. pomagając sobie przy co trudniejszych animacjach.</example>
             </rule>            
             <rule>
                 <pattern>
@@ -12726,6 +12727,16 @@ $Id$
                 <example type="correct">W tym roku Fundusz ze względu na zmienioną ustawę, która weszła w życie pierwszego października, robi dwa bilanse.</example>
             </rule>
         </rulegroup>
+        <rule id="COD_ZIEN" name="„cod zień” (co dzień)">
+        	<pattern>
+        		<token>cod</token>
+        		<token>zień</token>
+        	</pattern>
+        	<message>Prawdopodobna literówka. Czy chodziło o <suggestion>co dzień</suggestion>?</message>
+        	<short>Prawdopodobna literówka</short>
+        	<example type="correct">Chodzę w tunikach na co dzień.</example>
+        	<example type="incorrect">Chodzę w tunikach na <marker>cod zień</marker>.</example>
+        </rule>
     </category>
     <category name="Błędy frazeologiczne">
         <rule id="KROPLA_DZIEGCIU" name="„kropla dziegciu” (łyżka dziegciu)">
