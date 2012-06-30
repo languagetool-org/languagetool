@@ -88,6 +88,9 @@ public final class RuleOverview {
     int langSpecificWebsiteCount = 0;
     for (final String langName : sortedLanguages) {
       final Language lang = Language.getLanguageForName(langName);
+      if (lang.isVariant()) {
+        continue;
+      }
       System.out.print("<tr>");
       final File langSpecificWebsite = new File(webRoot, lang.getShortName());
       if (langSpecificWebsite.isDirectory()) {
